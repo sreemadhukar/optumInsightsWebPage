@@ -1,7 +1,6 @@
 #!/usr/bin/env groovy
 
-
-@Library("com.optum.jenkins.pipeline.library@v0.1.23") _
+@Library("com.optum.jenkins.pipeline.library@v0.1.24") _
 
 String dockerHost = 'docker.optum.com'
 String namespace = 'fspeddeply'
