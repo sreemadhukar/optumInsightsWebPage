@@ -3,6 +3,8 @@
   "rules": {
     "adjacent-overload-signatures": true,
     "no-namespace": [true, "allow-declarations"],
+    "strict-type-predicates": true,
+    "static-this": true,
     "arrow-return-shorthand": true,
     "callable-types": true,
     "class-name": true,
