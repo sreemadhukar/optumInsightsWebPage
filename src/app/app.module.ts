@@ -9,11 +9,11 @@ import { SharedModule } from './shared/shared.module';
 import { CommonUtilsModule } from './common-utils/common-utils.module';
 import { RestModule } from './rest/rest.module';
 import { PipesModule } from './pipes/pipes.module';
-import { DonutChartComponent } from './components/d3-objects/donut-chart/donut-chart.component';
-import { BarChartComponent } from './components/d3-objects/bar-chart/bar-chart.component';
+// import { DonutChartComponent } from './components/d3-objects/donut-chart/donut-chart.component';
+import { BarChartComponent } from './common-utils/d3-objects/bar-chart/bar-chart.component';
 
 @NgModule({
-  declarations: [AppComponent, DonutChartComponent, BarChartComponent],
+  declarations: [AppComponent, BarChartComponent],
   imports: [
     BrowserModule,
     CommonModule,
