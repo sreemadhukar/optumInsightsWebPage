@@ -1,5 +1,11 @@
 <div class="overview-body">
   <div class="overview-content">
+    <div class="page-title">
+      {{ pageTitle }}
+    </div>
+    <div class="page-subtitle">
+      {{ pagesubTitle }}
+    </div>
     <app-card *ngFor="let item of items; let i = index" class="cards" [card]="item"> </app-card>
   </div>
 </div>
