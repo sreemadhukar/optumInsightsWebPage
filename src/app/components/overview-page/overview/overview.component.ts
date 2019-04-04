@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { OverviewService } from '../../../rest/overview/overview.service';
+import { OverviewSharedService } from '../../../shared/overview/overview-shared.service';
 @Component({
   selector: 'app-overview',
   templateUrl: './overview.component.html',
@@ -9,10 +9,10 @@ export class OverviewComponent implements OnInit {
   items: Array<Object> = [{}];
   private pageTitle: String = '';
   private pagesubTitle: String = '';
-
-  constructor(private overviewsrc: OverviewService) {}
+  constructor(private overviewsrc: OverviewSharedService) {}
   ngOnInit() {
-    this.overviewsrc.getOverviewData().subscribe(mockUp => {});
+    this.overviewsrc.getOverviewData();
+
     this.items = [
       {
         category: 'donutWithTrend',
@@ -112,120 +112,6 @@ export class OverviewComponent implements OnInit {
       {
         category: 'donutWithTrend',
         titleCard: 'Total Calls',
-        timePeriod: 'TimePeriod - TimePeriod',
-        donutColor: [],
-        donutText: [
-          {
-            value: '38.3%'
-          }
-        ],
-        chartData: [],
-        generalData: [],
-        trend: [
-          {
-            trendNature: 'up',
-            value: 28
-          }
-        ]
-      },
-      {
-        category: 'donutWithTrend',
-        titleCard: 'Claims Paid',
-        timePeriod: [],
-        donutColor: [],
-        donutText: [
-          {
-            value: '38.3%'
-          }
-        ],
-        chartData: [],
-        generalData: [],
-        trend: [
-          {
-            trendNature: 'up',
-            value: 28
-          }
-        ]
-      },
-      {
-        category: 'donutWithTrend',
-        titleCard: 'Prior Authorization Approval',
-        timePeriod: 'TimePeriod - TimePeriod',
-        donutColor: [],
-        donutText: [
-          {
-            value: '38.3%'
-          }
-        ],
-        chartData: [],
-        generalData: [],
-        trend: [
-          {
-            trendNature: 'up',
-            value: 28
-          }
-        ]
-      },
-      {
-        category: 'donutWithTrend',
-        titleCard: 'Claims Paid',
-        timePeriod: [],
-        donutColor: [],
-        donutText: [
-          {
-            value: '38.3%'
-          }
-        ],
-        chartData: [],
-        generalData: [],
-        trend: [
-          {
-            trendNature: 'up',
-            value: 28
-          }
-        ]
-      },
-      {
-        category: 'donutWithTrend',
-        titleCard: 'Prior Authorization Approval',
-        timePeriod: 'TimePeriod - TimePeriod',
-        donutColor: [],
-        donutText: [
-          {
-            value: '38.3%'
-          }
-        ],
-        chartData: [],
-        generalData: [],
-        trend: [
-          {
-            trendNature: 'up',
-            value: 28
-          }
-        ]
-      },
-      {
-        category: 'donutWithTrend',
-        titleCard: 'Claims Paid',
-        timePeriod: [],
-        donutColor: [],
-        donutText: [
-          {
-            value: '38.3%'
-          }
-        ],
-        chartData: [],
-        generalData: [],
-        trend: [
-          {
-            trendNature: 'up',
-            value: 28
-          }
-        ]
-      },
-      {
-        category: 'donutWithTrend',
-        titleCard: 'Prior Authorization Approval',
         timePeriod: 'TimePeriod - TimePeriod',
         donutColor: [],
         donutText: [
