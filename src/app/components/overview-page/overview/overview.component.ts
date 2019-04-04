@@ -3,7 +3,7 @@ import { OverviewSharedService } from '../../../shared/overview/overview-shared.
 @Component({
   selector: 'app-overview',
   templateUrl: './overview.component.html',
-  styleUrls: ['./overview.component.less']
+  styleUrls: ['./overview.component.scss']
 })
 export class OverviewComponent implements OnInit {
   items: Array<Object> = [{}];
