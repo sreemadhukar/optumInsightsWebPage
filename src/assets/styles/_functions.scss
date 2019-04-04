@@ -1,0 +1,57 @@
+/**------------------------- **\
+            Functions
+\**------------------------- **/
+
+/*Retrieve color Sass maps*/
+@function color($key: 'blue') {
+  @return map-get($colors, $key);
+}
+
+@function theme-color($key: 'primary') {
+  @return map-get($theme-colors, $key);
+}
+
+@function gray($key: '100') {
+  @return map-get($grays, $key);
+}
+
+/*Request a theme color level*/
+@function theme-color-level($color-name: 'primary', $level: 0) {
+  $color: theme-color($color-name);
+  $color-base: if($level > 0, #000, #fff);
+  $level: abs($level);
+
+  @return mix($color-base, $color, $level * $theme-color-interval);
+}
+
+/*Function to access UI Neutral Colors*/
+$UIN-colors-list: #2d2d39 #757588 #b3babc #e0e0e0 #f1f4f7;
+$text-color: #ffffff;
+@each $current-color in $UIN-colors-list {
+  $i: index($UIN-colors-list, $current-color);
+  .neutral-#{$i} {
+    background-color: $current-color;
+    color: $text-color;
+  }
+}
+/*To access Secondary Marketing Colors values*/
+//   @function color($color,$tone){
+
+//         @warn map-get($SMCpalette,$color);
+
+//         @if map-has-key($SMCpalette,$color){
+//             $color: map-get($SMCpalette,$color);
+
+//                 @if map-has-key($color,$tone){
+//                     $tone: map-get($color,$tone);
+//                     @return $tone;
+//                 }
+
+//                 @warn "unknown tone `#{$tone}` in color";
+//                 @return null;
+//         }
+
+//         @warn "unknown color `#{$color}` in palette";
+//         @return null;
+
+//     }
