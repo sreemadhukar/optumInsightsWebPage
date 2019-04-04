@@ -7,7 +7,10 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class CommonFooterComponent implements OnInit {
   @Input() timePeriod: String;
+  timePeriodFooter: String = null;
   constructor() {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.timePeriodFooter = this.timePeriod;
+  }
 }
