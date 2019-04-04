@@ -3,10 +3,10 @@ import { CommonModule } from '@angular/common';
 
 import { OverviewPageRoutingModule } from './overview-page-routing.module';
 import { OverviewComponent } from './overview/overview.component';
-import { CommonUtilsModule } from './../../common-utils/common-utils.module';
-
+import { OverviewService } from '../../rest/overview/overview.service';
 @NgModule({
-  imports: [CommonModule, OverviewPageRoutingModule, CommonUtilsModule],
+  imports: [CommonModule, OverviewPageRoutingModule],
+  providers: [OverviewService],
   declarations: [OverviewComponent]
 })
 export class OverviewPageModule {}

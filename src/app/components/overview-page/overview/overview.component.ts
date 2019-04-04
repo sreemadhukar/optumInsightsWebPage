@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-
+import { OverviewService } from '../../../rest/overview/overview.service';
 @Component({
   selector: 'app-overview',
   templateUrl: './overview.component.html',
@@ -10,12 +10,9 @@ export class OverviewComponent implements OnInit {
   private pageTitle: String = '';
   private pagesubTitle: String = '';
 
-  constructor() {
-    this.pageTitle = 'Hello, Anne.';
-    this.pagesubTitle = 'Your Insights at a glance.';
-  }
-
+  constructor(private overviewsrc: OverviewService) {}
   ngOnInit() {
+    this.overviewsrc.getOverviewData().subscribe(mockUp => {});
     this.items = [
       {
         category: 'donutWithTrend',
