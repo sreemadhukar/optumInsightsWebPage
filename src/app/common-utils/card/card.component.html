@@ -1,10 +1,10 @@
-<div class="card-structure">
-  <div *ngIf="card.category == 'donutWithTrend'">
-    <app-common-header [title]="card.titleCard"></app-common-header>
+<div *ngIf="data != null" class="card-structure">
+  <div *ngIf="data.category == 'donutWithTrend'">
+    <app-common-header [title]="data.titleCard"></app-common-header>
     <div>
       card works!
     </div>
 
-    <app-common-footer [timePeriod]="card.timePeriod"></app-common-footer>
+    <app-common-footer [timePeriod]="data.timePeriod"></app-common-footer>
   </div>
 </div>
