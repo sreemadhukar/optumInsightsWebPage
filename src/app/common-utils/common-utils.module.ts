@@ -7,7 +7,7 @@ import { CommonFooterComponent } from './common-footer/common-footer.component';
 
 @NgModule({
   imports: [CommonModule],
-  exports: [MiniTileComponent],
+  exports: [MiniTileComponent, CardComponent, CommonFooterComponent, CommonHeaderComponent],
   declarations: [MiniTileComponent, CardComponent, CommonHeaderComponent, CommonFooterComponent]
 })
 export class CommonUtilsModule {}
