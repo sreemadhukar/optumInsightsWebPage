@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { OverviewService } from '../../../rest/overview/overview.service';
+import { OverviewSharedService } from '../../../shared/overview/overview-shared.service';
 @Component({
   selector: 'app-overview',
   templateUrl: './overview.component.html',
   styleUrls: ['./overview.component.less']
 })
 export class OverviewComponent implements OnInit {
-  constructor(private overviewsrc: OverviewService) {}
+  constructor(private overviewsrc: OverviewSharedService) {}
 
   ngOnInit() {
-    this.overviewsrc.getOverviewData().subscribe(mockUp => {});
+    this.overviewsrc.getOverviewData();
   }
 }
