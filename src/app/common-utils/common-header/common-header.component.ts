@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-common-header',
@@ -6,6 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./common-header.component.less']
 })
 export class CommonHeaderComponent implements OnInit {
+  @Input() title: String;
   constructor() {}
 
   ngOnInit() {}

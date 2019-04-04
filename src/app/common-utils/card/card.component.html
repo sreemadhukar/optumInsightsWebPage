@@ -1,7 +1,8 @@
 <div class="card-structure">
-  <app-common-header></app-common-header>
+  <div *ngIf="card.category == 'donutWithTrend'"></div>
+  <app-common-header [title]="card.titleCard"></app-common-header>
   <div>
     card works!
   </div>
-  <app-common-footer></app-common-footer>
+  <app-common-footer [timePeriod]="card.timePeriod"></app-common-footer>
 </div>

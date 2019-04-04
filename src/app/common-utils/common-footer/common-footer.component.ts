@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-common-footer',
@@ -6,6 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./common-footer.component.less']
 })
 export class CommonFooterComponent implements OnInit {
+  @Input() timePeriod: String;
   constructor() {}
 
   ngOnInit() {}
