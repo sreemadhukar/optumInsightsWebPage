@@ -1,0 +1,57 @@
+/**------------------------- **\
+            @FONTS
+\**------------------------- **/
+/*
+	 UHC Sans
+*/
+
+/*  UHC Sans Regular */
+@font-face {
+  font-family: 'UHCSans-Regular';
+  src: url('fonts/UHCSans-Regular.eot');
+  src: url('fonts/UHCSans-Regular.eot?#iefix') format('embedded-opentype'),
+    url('fonts/UHCSans-Regular.woff') format('woff'), url('fonts/UHCSans-Regular.otf') format('opentype'),
+    url('fonts/UHCSans-Regular.svg#UHCSans-Regular') format('svg');
+}
+
+/*  UHC Sans Bold */
+@font-face {
+  font-family: 'UHCSans-Bold';
+  src: url('fonts/UHCSans-Bold.eot');
+  src: url('fonts/UHCSans-Bold.eot?#iefix') format('embedded-opentype'), url('fonts/UHCSans-Bold.woff') format('woff'),
+    url('fonts/UHCSans-Bold.otf') format('opentype'), url('fonts/UHCSans-Bold.svg#UHCSans-Bold') format('svg');
+}
+
+/*  UHC Sans Bold & Italic */
+@font-face {
+  font-family: 'UHCSans-BoldItalic';
+  src: url('fonts/UHCSans-BoldItalic.eot');
+  src: url('fonts/UHCSans-BoldItalic.eot?#iefix') format('embedded-opentype'),
+    url('fonts/UHCSans-BoldItalic.woff') format('woff'), url('fonts/UHCSans-BoldItalic.otf') format('opentype'),
+    url('fonts/UHCSans-BoldItalic.svg#UHCSans-BoldItalic') format('svg');
+}
+
+/*  UHC Sans  Italic */
+@font-face {
+  font-family: 'UHCSans-Italic';
+  src: url('fonts/UHCSans-Italic.eot');
+  src: url('fonts/UHCSans-Italic.eot?#iefix') format('embedded-opentype'),
+    url('fonts/UHCSans-Italic.woff') format('woff'), url('fonts/UHCSans-Italic.otf') format('opentype'),
+    url('fonts/UHCSans-Italic.svg#UHCSans-Italic') format('svg');
+}
+/*  UHC Sans  Semi Bold */
+@font-face {
+  font-family: 'UHCSans-SemiBold';
+  src: url('fonts/UHCSans-SemiBold.eot');
+  src: url('fonts/UHCSans-SemiBold.eot?#iefix') format('embedded-opentype'),
+    url('fonts/UHCSans-SemiBold.woff') format('woff'), url('fonts/UHCSans-SemiBold.otf') format('opentype'),
+    url('fonts/UHCSans-SemiBold.svg#UHCSans-SemiBold') format('svg');
+}
+/*  UHC Sans  Semi Bold Italic */
+@font-face {
+  font-family: 'UHCSans-SemiBoldItalic';
+  src: url('fonts/UHCSans-SemiBoldItalic.eot');
+  src: url('fonts/UHCSans-SemiBoldItalic.eot?#iefix') format('embedded-opentype'),
+    url('fonts/UHCSans-SemiBoldItalic.woff') format('woff'), url('fonts/UHCSans-SemiBoldItalic.otf') format('opentype'),
+    url('fonts/UHCSans-SemiBoldItalic.svg#UHCSans-SemiBoldItalic') format('svg');
+}

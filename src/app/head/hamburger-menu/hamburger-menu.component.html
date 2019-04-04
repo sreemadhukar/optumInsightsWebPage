@@ -2,26 +2,25 @@
   <mat-toolbar color="primary" class="example-toolbar">
     <button mat-icon-button *ngIf="mobileQuery" (click)="snav.toggle()"><mat-icon>menu</mat-icon></button>
     <button mat-icon-button (click)="srnav.toggle()"><mat-icon>filter</mat-icon></button>
+
     <app-header [button]="mobileQuery"></app-header>
   </mat-toolbar>
 
-  <mat-sidenav-container class="example-sidenav-container">
+  <mat-sidenav-container class="example-sidenav-container" color="primary">
+    <mat-sidenav #snav [mode]="'side'" [fixedInViewport]="true" [opened]="!mobileQuery" fixedTopGap="56">
+      <mat-nav-list>
+        <a style="width: 200px;" mat-list-item routerLink="." *ngFor="let nav of fillerNav">{{ nav }}</a>
+      </mat-nav-list>
+    </mat-sidenav>
 
-      <mat-sidenav #snav [mode]="'side'" [fixedInViewport]="true" [opened]="!mobileQuery" fixedTopGap="56">
-        <mat-nav-list>
-          <a style="width: 200px;" mat-list-item routerLink="." *ngFor="let nav of fillerNav">{{nav}}</a>
-        </mat-nav-list>
-      </mat-sidenav>
+    <mat-sidenav #srnav [mode]="'side'" position="end" [fixedInViewport]="true">
+      <mat-nav-list>
+        <a style="width: 360px;" mat-list-item routerLink="." *ngFor="let nav of fillerNav">{{ nav }}</a>
+      </mat-nav-list>
+    </mat-sidenav>
 
-      <mat-sidenav #srnav [mode]="'side'" position="end" [fixedInViewport]="true">
-        <mat-nav-list>
-          <a style="width: 360px;" mat-list-item routerLink="." *ngFor="let nav of fillerNav">{{nav}}</a>
-        </mat-nav-list>
-      </mat-sidenav>
-
-      <mat-sidenav-content>
-       <router-outlet></router-outlet>
-      </mat-sidenav-content>
-
+    <mat-sidenav-content>
+      <router-outlet></router-outlet>
+    </mat-sidenav-content>
   </mat-sidenav-container>
 </div>

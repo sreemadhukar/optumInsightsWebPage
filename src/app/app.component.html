@@ -1,3 +1,7 @@
-<main>
-<app-body></app-body>
-</main>
+<div [ngClass]="{ 'dark-theme': isDarkTheme | async }">
+  <div class="mat-app-background">
+    <main>
+      <app-body></app-body>
+    </main>
+  </div>
+</div>

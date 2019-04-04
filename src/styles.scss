@@ -1,0 +1,11 @@
+/* You can add global styles to this file, and also import other style files */
+
+@import '~@angular/material/theming';
+@import './assets/material-theme/material-theme';
+
+@import './scss/variables';
+@import './scss/functions';
+@import './scss/theme';
+
+// If you want to add something do it here
+// @import "./assets/scss/custom";

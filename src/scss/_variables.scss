@@ -1,0 +1,48 @@
+/**------------------------- **\
+            @Variables
+\**------------------------- **/
+
+$white: #fff !default;
+$aqua: #f1f4f7 !default;
+$blue: #196ecf !default;
+$indigo: #6610f2 !default;
+$purple: #6f42c1 !default;
+$pink: #e83e8c !default;
+$red: #dc3545 !default;
+$orange: #fd7e14 !default;
+$yellow: #ffc107 !default;
+$green: #0d880b !default;
+$teal: #20c997 !default;
+$cyan: #17a2b8 !default;
+$black: #000 !default;
+
+$colors: () !default;
+
+$colors: map-merge(
+  (
+    'aqua': $aqua,
+    'blue': $blue,
+    'indigo': $indigo,
+    'purple': $purple,
+    'pink': $pink,
+    'red': $red,
+    'orange': $orange,
+    'yellow': $yellow,
+    'green': $green,
+    'teal': $teal,
+    'cyan': $cyan,
+    'white': $white
+  ),
+  $colors
+);
+
+$primary: $aqua !default;
+//   $secondary:     $gray-600 !default;
+$success: $green !default;
+$info: $cyan !default;
+$warning: $yellow !default;
+$danger: $red !default;
+//   $light:         $gray-100 !default;
+//   $dark:          $gray-800 !default;
+
+$theme-colors: () !default;

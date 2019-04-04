@@ -1,3 +1,6 @@
-<div [@scrollAnimation]="state">
+<div [@scrollAnimation]="state" color="primary">
   <!--<button mat-icon-button *ngIf="button"><mat-icon>menu</mat-icon></button>-->
+  <mat-slide-toggle [checked]="isDarkTheme | async" labelPosition="before" (change)="toggleDarkTheme($event.checked)"
+    >Dark theme</mat-slide-toggle
+  >
 </div>
