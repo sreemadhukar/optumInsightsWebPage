@@ -13,6 +13,14 @@ export class OverviewService {
   private SERVICE_PATH: string;
   constructor(private http: HttpClient) {}
 
+  public getOverviewDataJson() {
+    const apiUrl = './assets/mock-data/providersystems.json';
+    return this.http.get(apiUrl).pipe(
+      map(response => {
+        return response;
+      })
+    );
+  }
   public getOverviewData() {
     // this.currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
     // this.authBearer = this.currentUser[0].PedAccessToken;
@@ -28,7 +36,6 @@ export class OverviewService {
 
     return this.http.post(url, params, { headers: myHeader }).pipe(
       map(OverviewData => {
-        console.log(OverviewData);
         return OverviewData;
       })
     );
