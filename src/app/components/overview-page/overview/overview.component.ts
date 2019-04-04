@@ -9,10 +9,7 @@ export class OverviewComponent implements OnInit {
   items: Array<Object> = [{}];
   private pageTitle: String = '';
   private pagesubTitle: String = '';
-  constructor(private overviewsrc: OverviewSharedService) {}
-  ngOnInit() {
-    this.overviewsrc.getOverviewData();
-
+  constructor(private overviewsrc: OverviewSharedService) {
     this.items = [
       {
         category: 'donutWithTrend',
@@ -129,5 +126,8 @@ export class OverviewComponent implements OnInit {
         ]
       }
     ];
+  }
+  ngOnInit() {
+    this.overviewsrc.getOverviewData();
   }
 }
