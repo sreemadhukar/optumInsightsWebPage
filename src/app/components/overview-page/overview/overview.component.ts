@@ -17,7 +17,7 @@ export class OverviewComponent implements OnInit {
       {
         category: 'donutWithTrend',
         titleCard: 'Claims Paid',
-        timePeriod: [],
+        timePeriod: 'TimePeriod - TimePeriod',
         donutColor: [],
         donutText: [
           {
@@ -55,7 +55,7 @@ export class OverviewComponent implements OnInit {
       {
         category: 'donutWithTrend',
         titleCard: 'Self Service Adoption Rate',
-        timePeriod: [],
+        timePeriod: 'TimePeriod - TimePeriod',
         donutColor: [],
         donutText: [
           {
@@ -93,7 +93,7 @@ export class OverviewComponent implements OnInit {
       {
         category: 'donutWithTrend',
         titleCard: 'Medicare Star Rating',
-        timePeriod: [],
+        timePeriod: 'TimePeriod - TimePeriod',
         donutColor: [],
         donutText: [
           {
