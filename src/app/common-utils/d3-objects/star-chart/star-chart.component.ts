@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, Input, ViewEncapsulation, HostListener } from '@angular/core';
 import * as d3 from 'd3';
 
 @Component({
@@ -23,7 +23,7 @@ export class StarChartComponent implements OnInit {
   onSystemChange() {
     this.doStarComponent(this.chartOptions.chartData, this.chartOptions.generalData);
   }
-
+  @HostListener('window:resize', ['$event'])
   onResize(event) {
     this.doStarComponent(this.chartOptions.chartData, this.chartOptions.generalData);
   }

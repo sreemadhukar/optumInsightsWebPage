@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-
+import { OverviewSharedService } from '../../../shared/overview/overview-shared.service';
 @Component({
   selector: 'app-overview',
   templateUrl: './overview.component.html',
@@ -7,9 +7,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class OverviewComponent implements OnInit {
   public sampleDonut: any = {};
-  constructor() {}
+  constructor(private overviewsrc: OverviewSharedService) {}
 
   ngOnInit() {
+    this.overviewsrc.getOverviewData();
+
     this.sampleDonut.chartId = 'sampleDonutChart';
     this.sampleDonut.chartData = [
       { name: 'Commercial', value: 5 },
