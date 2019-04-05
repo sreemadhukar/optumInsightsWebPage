@@ -7,6 +7,7 @@ import { OverviewSharedService } from '../../../shared/overview/overview-shared.
 })
 export class OverviewComponent implements OnInit {
   public sampleDonut: any = {};
+  public sampleStar: any = {};
   constructor(private overviewsrc: OverviewSharedService) {}
 
   ngOnInit() {
@@ -26,6 +27,14 @@ export class OverviewComponent implements OnInit {
         color3: 'red',
         type: 'arc-padding',
         amount: '$1500'
+      }
+    ];
+
+    this.sampleStar.chartId = 'sampleStarChart';
+    this.sampleStar.chartData = [{ name: 'Commercial', number: 5 }];
+    this.sampleStar.generalData = [
+      {
+        parentDiv: 'sampleStarChart'
       }
     ];
   }

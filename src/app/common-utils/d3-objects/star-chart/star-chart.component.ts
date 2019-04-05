@@ -29,7 +29,7 @@ export class StarChartComponent implements OnInit {
   }
 
   doStarComponent(chartData: any, generalData: any) {
-    const preWidth = document.getElementsByClassName(generalData[0].parentDiv)[0].clientWidth;
+    const preWidth = document.getElementById(generalData[0].parentDiv).clientWidth;
     d3.select(this.renderChart)
       .selectAll('*')
       .remove();
@@ -55,7 +55,7 @@ export class StarChartComponent implements OnInit {
       .attr('y', 20)
       .attr('width', 160)
       .attr('height', 168)
-      .attr('xlink:href', 'assets/images/star.png');
+      .attr('xlink:href', 'assets/star.png');
 
     svg
       .append('text')
