@@ -1,10 +1,11 @@
-import { Component, AfterViewInit, HostListener } from '@angular/core';
+import { Component, AfterViewInit, HostListener, ViewEncapsulation } from '@angular/core';
 import { BreakpointObserver } from '@angular/cdk/layout';
 
 @Component({
   selector: 'app-hamburger-menu',
   templateUrl: './hamburger-menu.component.html',
-  styleUrls: ['./hamburger-menu.component.less']
+  styleUrls: ['./hamburger-menu.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class HamburgerMenuComponent {
   public mobileQuery: boolean;

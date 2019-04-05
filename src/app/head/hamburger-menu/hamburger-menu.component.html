@@ -1,8 +1,9 @@
 <div class="example-container" [class.example-is-mobile]="!mobileQuery">
   <mat-toolbar color="primary" class="example-toolbar">
     <button mat-icon-button *ngIf="mobileQuery" (click)="snav.toggle()"><mat-icon>menu</mat-icon></button>
-    <button mat-icon-button (click)="srnav.toggle()"><mat-icon>filter</mat-icon></button>
+
     <app-header [button]="mobileQuery"></app-header>
+    <button mat-icon-button (click)="srnav.toggle()"><mat-icon>filter</mat-icon></button>
   </mat-toolbar>
 
   <mat-sidenav-container class="example-sidenav-container">

@@ -1,0 +1,4 @@
+@mixin link-hover-color($text-color) {
+  // take a color as a parameter
+  link-color: $text-color;
+}
