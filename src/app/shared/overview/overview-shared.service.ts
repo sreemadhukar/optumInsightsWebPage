@@ -10,12 +10,12 @@ export class OverviewSharedService {
   private overviewPageData: ArrayType;
   constructor(private overviewService: OverviewService) {}
   public getOverviewData() {
-    let tempArray: ArrayType;
+    const tempArray: ArrayType;
     let cPriorAuth;
-    let cSelfService;
-    let cPcor;
-    let cIR;
-    let ssoppurtunities;
+    // let cSelfService;
+    // let cPcor;
+    // let cIR;
+    // let ssoppurtunities;
     this.overviewService.getOverviewDataJson().subscribe(data => {
       if (
         data[0].hasOwnProperty('PriorAuth') &&
@@ -26,12 +26,12 @@ export class OverviewSharedService {
         data[0].PriorAuth.LineOfBusiness.All.hasOwnProperty('PriorAuthPendingCount') &&
         data[0].PriorAuth.LineOfBusiness.All.hasOwnProperty('PriorAuthCancelledCount')
       ) {
-        let priorAuthRequested =
+        const priorAuthRequested =
           data[0].PriorAuth.LineOfBusiness.All.PriorAuthApprovedCount +
           data[0].PriorAuth.LineOfBusiness.All.PriorAuthNotApprovedCount +
           data[0].PriorAuth.LineOfBusiness.All.PriorAuthPendingCount +
           data[0].PriorAuth.LineOfBusiness.All.PriorAuthCancelledCount;
-        let approvedRate = data[0].PriorAuth.LineOfBusiness.All.PriorAuthApprovedCount / priorAuthRequested;
+        const approvedRate = data[0].PriorAuth.LineOfBusiness.All.PriorAuthApprovedCount / priorAuthRequested;
 
         cPriorAuth = [
           {
