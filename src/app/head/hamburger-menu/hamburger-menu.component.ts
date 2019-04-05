@@ -9,7 +9,7 @@ import { BreakpointObserver } from '@angular/cdk/layout';
 })
 export class HamburgerMenuComponent {
   public mobileQuery: boolean;
-  fillerNav = Array.from({ length: 50 }, (_, i) => `Nav Item ${i + 1}`);
+  fillerNav = Array.from({ length: 6 }, (_, i) => `Nav Item ${i + 1}`);
 
   constructor(private breakpointObserver: BreakpointObserver) {
     this.mobileQuery = this.breakpointObserver.isMatched('(max-width: 1024px)');
