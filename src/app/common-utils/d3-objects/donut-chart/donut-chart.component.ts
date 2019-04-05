@@ -46,16 +46,17 @@ export class DonutChartComponent implements OnInit {
 
     const radius = Math.min(width, height) / 2;
 
+    let color;
     if (generalData[0].color4) {
-      const color = d3
+      color = d3
         .scaleOrdinal()
         .range([generalData[0].color1, generalData[0].color2, generalData[0].color3, generalData[0].color4]);
     } else if (generalData[0].color3) {
-      const color = d3.scaleOrdinal().range([generalData[0].color1, generalData[0].color2, generalData[0].color3]);
+      color = d3.scaleOrdinal().range([generalData[0].color1, generalData[0].color2, generalData[0].color3]);
     } else if (generalData[0].color2) {
-      const color = d3.scaleOrdinal().range([generalData[0].color1, generalData[0].color2]);
+      color = d3.scaleOrdinal().range([generalData[0].color1, generalData[0].color2]);
     } else {
-      const color = d3.scaleOrdinal().range([generalData[0].color1]);
+      color = d3.scaleOrdinal().range([generalData[0].color1]);
     }
 
     let circleThickness = 20;
@@ -68,8 +69,9 @@ export class DonutChartComponent implements OnInit {
       .outerRadius(radius)
       .innerRadius(radius - circleThickness);
 
+    let pie;
     if (generalData[0].type === 'arc-padding') {
-      const pie = d3
+      pie = d3
         .pie()
         .sort(null)
         .startAngle(0)
@@ -79,7 +81,7 @@ export class DonutChartComponent implements OnInit {
           return d.value;
         });
     } else {
-      const pie = d3
+      pie = d3
         .pie()
         .sort(null)
         .startAngle(0)
