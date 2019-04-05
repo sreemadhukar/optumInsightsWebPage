@@ -58,16 +58,17 @@ export class HamburgerMenuComponent implements AfterViewInit {
     const listItems = this.elementRef.nativeElement.querySelectorAll('.mat-list-item') as HTMLElement[];
     const listItemContents = this.elementRef.nativeElement.querySelectorAll('.mat-list-item-content') as HTMLElement[];
     const listItemBody = this.elementRef.nativeElement.querySelectorAll('.mat-expansion-panel-body') as HTMLElement[];
-    listItemContents.forEach(listItem => {
+    console.log(listItemBody);
+    Array.from(listItemContents).forEach(listItem => {
       this.renderer.setStyle(listItem, 'padding', '0px');
       this.renderer.setStyle(listItem, 'height', 'auto');
     });
-    listItems.forEach(listItem => {
+    Array.from(listItems).forEach(listItem => {
       this.renderer.setStyle(listItem, 'height', 'auto');
       this.renderer.setStyle(listItem, 'padding', '8px 12px 8px 65px');
       this.renderer.setStyle(listItem, 'width', 'auto');
     });
-    listItemBody.forEach(listItem => {
+    Array.from(listItemBody).forEach(listItem => {
       this.renderer.setStyle(listItem, 'padding', '0px');
     });
   }

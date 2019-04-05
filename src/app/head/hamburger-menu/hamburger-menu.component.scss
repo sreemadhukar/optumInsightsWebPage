@@ -100,7 +100,7 @@ app-header {
 }
 
 .signout-block {
-  padding: 24px 0px 0px 40px;
+  padding: 24px 0px 0px 32px;
 }
 
 .signout-label {
@@ -180,6 +180,12 @@ app-header {
 .mat-expansion-panel-header:hover,
 .mat-expanded {
   color: #196ecf;
+}
+.uhc-logo {
+  width: 175px;
+  height: 36px;
+  margin-top: 24px;
+  margin-left: 32px;
 }
 
 /************ ABOVE IS THE CSS RELATED TO ONLY LEFT HAMBURGER MENU *************/
