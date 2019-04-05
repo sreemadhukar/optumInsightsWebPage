@@ -48,7 +48,7 @@ export class OverviewSharedService {
           const approvedRate = data.PriorAuth.LineOfBusiness.All.PriorAuthApprovedCount / priorAuthRequested;
 
           cPriorAuth = {
-            category: 'card',
+            category: 'small-cards',
             type: 'donut',
             title: 'Prior Authorization Approval',
             data: {
@@ -64,7 +64,14 @@ export class OverviewSharedService {
             timeperiod: 'Timeperiod - Rolling 12 Months'
           };
         } else {
-          cPriorAuth = { category: 'card', type: 'donut', title: null, data: null, sdata: null, timeperiod: null };
+          cPriorAuth = {
+            category: 'small-cards',
+            type: 'donut',
+            title: null,
+            data: null,
+            sdata: null,
+            timeperiod: null
+          };
         }
         if (
           data.hasOwnProperty('SelfServiceInquiries') &&
@@ -73,7 +80,7 @@ export class OverviewSharedService {
           data.SelfServiceInquiries.All.Utilizations.hasOwnProperty('OverallLinkAdoptionRate')
         ) {
           cSelfService = {
-            category: 'card',
+            category: 'small-cards',
             type: 'donut',
             title: 'Self Service Adoption Rate',
             data: {
@@ -89,7 +96,14 @@ export class OverviewSharedService {
             timeperiod: 'Timeperiod - Rolling 12 Months'
           };
         } else {
-          cSelfService = { category: 'card', type: 'donut', title: null, data: null, sdata: null, timeperiod: null };
+          cSelfService = {
+            category: 'small-cards',
+            type: 'donut',
+            title: null,
+            data: null,
+            sdata: null,
+            timeperiod: null
+          };
         }
         if (
           data.hasOwnProperty('PatientCareOpportunity') &&
@@ -98,7 +112,7 @@ export class OverviewSharedService {
           data.PatientCareOpportunity.LineOfBusiness.MedicareAndRetirement.hasOwnProperty('AverageStarRating')
         ) {
           cPcor = {
-            category: 'card',
+            category: 'small-cards',
             type: 'star',
             title: 'Medicare Star Rating',
             data: {
@@ -111,7 +125,7 @@ export class OverviewSharedService {
             timeperiod: 'Timeperiod - Rolling 12 Months'
           };
         } else {
-          cPcor = { category: 'card', type: 'star', title: null, data: null, sdata: null, timeperiod: null };
+          cPcor = { category: 'small-cards', type: 'star', title: null, data: null, sdata: null, timeperiod: null };
         }
         if (
           data.hasOwnProperty('ResolvingIssues') &&
@@ -124,7 +138,7 @@ export class OverviewSharedService {
           data.ResolvingIssues.Calls.CallVolByQuesType.hasOwnProperty('Others')
         ) {
           cIR = {
-            category: 'card',
+            category: 'small-cards',
             type: 'donut',
             title: 'Total Calls',
             data: {
@@ -142,7 +156,7 @@ export class OverviewSharedService {
             timeperiod: 'Timeperiod - Rolling 12 Months'
           };
         } else {
-          cIR = { category: 'card', type: 'donut', title: null, data: null, sdata: null, timeperiod: null };
+          cIR = { category: 'small-cards', type: 'donut', title: null, data: null, sdata: null, timeperiod: null };
         }
 
         if (
@@ -160,7 +174,7 @@ export class OverviewSharedService {
           data1.Mr.ClaimsLobSummary[0].hasOwnProperty('AmountUHCPaid')
         ) {
           claimsPaid = {
-            category: 'card',
+            category: 'small-cards',
             type: 'donut',
             title: 'Claims Paid',
             data: {
@@ -180,7 +194,14 @@ export class OverviewSharedService {
             timeperiod: 'Timeperiod - Rolling 12 Months'
           };
         } else {
-          claimsPaid = { category: 'card', type: 'donut', title: null, data: null, sdata: null, timeperiod: null };
+          claimsPaid = {
+            category: 'small-cards',
+            type: 'donut',
+            title: null,
+            data: null,
+            sdata: null,
+            timeperiod: null
+          };
         }
         if (
           data1.hasOwnProperty('All') &&
@@ -192,7 +213,7 @@ export class OverviewSharedService {
           const expectedAllowed = parseFloat(data1.All.ClaimsLobSummary[0].AmountExpectedAllowed);
           const claimYieldDonut = (actualAllowed / expectedAllowed) * 100;
           claimsYield = {
-            category: 'card',
+            category: 'small-cards',
             type: 'donut',
             title: 'Claims Yield',
             data: {
@@ -208,7 +229,14 @@ export class OverviewSharedService {
             timeperiod: 'Timeperiod - Rolling 12 Months'
           };
         } else {
-          claimsYield = { category: 'card', type: 'donut', title: null, data: null, sdata: null, timeperiod: null };
+          claimsYield = {
+            category: 'small-cards',
+            type: 'donut',
+            title: null,
+            data: null,
+            sdata: null,
+            timeperiod: null
+          };
         }
         this.overviewPageData.push(claimsPaid, cPriorAuth, cSelfService, claimsYield, cPcor, cIR);
         if (this.overviewPageData.length) {
