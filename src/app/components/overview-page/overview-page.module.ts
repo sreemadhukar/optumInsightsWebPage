@@ -7,9 +7,10 @@ import { OverviewService } from '../../rest/overview/overview.service';
 import { OverviewSharedService } from '../../shared/overview/overview-shared.service';
 import { DonutChartComponent } from '../../common-utils/d3-objects/donut-chart/donut-chart.component';
 import { StarChartComponent } from '../../common-utils/d3-objects/star-chart/star-chart.component';
+import { CommonUtilsModule } from './../../common-utils/common-utils.module';
 
 @NgModule({
-  imports: [CommonModule, OverviewPageRoutingModule],
+  imports: [CommonModule, OverviewPageRoutingModule, CommonUtilsModule],
   providers: [OverviewService, OverviewSharedService],
   declarations: [OverviewComponent, DonutChartComponent, StarChartComponent]
 })

@@ -12,6 +12,7 @@ import { RestModule } from './rest/rest.module';
 import { PipesModule } from './pipes/pipes.module';
 // import { DonutChartComponent } from './components/d3-objects/donut-chart/donut-chart.component';
 import { BarChartComponent } from './common-utils/d3-objects/bar-chart/bar-chart.component';
+import { MatExpansionModule } from '@angular/material';
 
 @NgModule({
   declarations: [AppComponent, BarChartComponent],
@@ -24,7 +25,8 @@ import { BarChartComponent } from './common-utils/d3-objects/bar-chart/bar-chart
     SharedModule,
     CommonUtilsModule,
     RestModule,
-    PipesModule
+    PipesModule,
+    MatExpansionModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,0 +1,185 @@
+@import '~src/assets/styles/variables.scss';
+.example-container {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  max-width: 1648px;
+  min-width: 1024px;
+}
+
+.example-is-mobile .example-toolbar {
+  position: fixed;
+  /* Make sure the toolbar will stay on top of the content as it scrolls past. */
+  z-index: 2;
+  padding: 0 !important;
+}
+
+.mat-toolbar-single-row {
+  padding: 0 !important;
+}
+
+h1.example-app-name {
+  margin-left: 8px;
+}
+
+.example-sidenav-container {
+  /* When the sidenav is not fixed, stretch the sidenav container to fill the available space. This
+     causes `<mat-sidenav-content>` to act as our scrolling element for desktop layouts. */
+  margin-top: 65px;
+  flex: 1;
+}
+
+.example-is-mobile .example-sidenav-container {
+  /* When the sidenav is fixed, don't constrain the height of the sidenav container. This allows the
+     `<body>` to be our scrolling element for mobile layouts. */
+  flex: 1 0 auto;
+}
+
+app-header {
+  width: 100%;
+}
+.font-check {
+  font-family: 'UHCSans-Regular';
+  font-size: 14px;
+  color: $hover-blue;
+}
+.footer-block {
+  z-index: 9;
+}
+
+/************ CSS RELATED TO ONLY LEFT HAMBURGER MENU *************/
+
+.side-navigation {
+  width: 256px;
+  background-color: #ffffff;
+}
+
+.health-system-representation-block {
+  padding: 16px 12px 0px 32px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.representing-label {
+  color: #2d2d39;
+  font-family: 'UHC Sans';
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.2px;
+  line-height: 18px;
+  margin: 0;
+}
+
+.health-system-name {
+  color: #2d2d39;
+  font-family: 'UHC Sans';
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+  line-height: 22px;
+  margin: 0px 0px 15px 0px;
+}
+
+.mat-list-base {
+  padding: 0px !important;
+  margin: 0px !important;
+}
+
+.mat-expansion-panel-header {
+  height: 25px !important;
+  padding: 8px 12px 8px 32px !important;
+  font-family: 'UHC Sans';
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+  line-height: 22px;
+  /*background: #E3F0FD;*/
+}
+
+.signout-block {
+  padding: 24px 0px 0px 40px;
+}
+
+.signout-label {
+  color: #757588;
+  font-family: 'UHC Sans';
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+  line-height: 22px;
+  margin: 0px;
+}
+
+.firstNavCategory {
+  margin-top: 15px !important;
+  color: #757588;
+  font-family: 'UHC Sans';
+  font-size: 16px !important;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+  line-height: 18px;
+  /*padding-left: 32px !important;*/
+}
+
+.lastNavCategory {
+  /*padding-left: 32px !important;*/
+}
+
+.navCategoryItem {
+  /*padding-left: 32px !important;*/
+  color: #757588;
+  font-family: 'UHC Sans';
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+  margin-top: 18px !important;
+  line-height: 18px;
+}
+
+.active-link {
+  background: #e3f0fd;
+  color: #196ecf !important;
+}
+
+.mat-expansion-panel-body {
+  padding: 0px !important;
+}
+
+.nav-mat-list-items {
+  padding-bottom: 46px !important;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.nav-menu-icons {
+  margin: 0px 8px;
+  vertical-align: middle;
+  margin-left: 0px;
+}
+
+.mat-expansion-indicator::after {
+  vertical-align: super;
+}
+
+.nav-no-child-category {
+  padding: 8px 12px 8px 32px !important;
+}
+
+.nav-sub-category-items {
+  color: #757588 !important;
+}
+
+.nav-sub-category-items:hover {
+  background: #e3f0fd;
+  color: #196ecf !important;
+}
+
+.nav-no-child-category:hover,
+.mat-expansion-panel-header:hover,
+.mat-expanded {
+  color: #196ecf;
+}
+
+/************ ABOVE IS THE CSS RELATED TO ONLY LEFT HAMBURGER MENU *************/

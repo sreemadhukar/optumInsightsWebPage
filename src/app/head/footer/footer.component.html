@@ -1,191 +1,21 @@
-<p>
-  A TDD Journey: 1-Trials and Tribulations
-  Test-Driven Development (TDD) has a misleading name, because the objective is to design and specify that the system you are developing behaves in the ways that the customer expects, and to prove that it does so for the lifetime of the system. It isn't an intuitive way of coding but by automating the specifications of a system, we end up with tests and documentation as a by-product. Michael Sorens starts an introduction to TDD that is more of a journey in six parts:
-
-  Part 1: Trials and Tribulations of TDD
-  Part 2: Naming Tests; Mocking Frameworks; Dependency Injection
-  Part 3: Mocks vs. Stubs; Test Frameworks; Assertions; ReSharper Accelerators
-  Part 4: Tests as Documentation; False Positive Results; Component Isolation
-  Part 5: Tests vs. Code; Refactor Friendliness; Test Parameterization
-  Part 6: Mini-Factory Pattern; Don’t Care Terms
-  Introduction
-  Ask someone experienced in Test Driven Development (TDD)-someone who has used it successfully-to show you how to practice it, and he/she will show you the correct way to do it, and you will be off and running. But… if you then ask someone else experienced in TDD you will learn a different, yet also correct, way to do it. In fact, everyone will develop their own unique style for practicing TDD. So what you are about to read is how I approach TDD. It is not “the” way to practice TDD but “a” way. Of course I am biased when I say that along the spectrum of good and bad TDD styles, it is a pretty good way to do TDD. But I will back that up by saying that (a) it is not really “mine” in isolation but rather it is my personal slant on a style mutually developed by the project team I work with, and (b) it evolved and was used on a reasonably complex, enterprise application over the course of more than a year and it worked (nay, continues to work) very well.
-
-  A Never-Before Attempted Feat of Derring-Do
-  Your average article aspiring to teach TDD provides a lot of theory then suggests you find some TDD katas and dive right in. Don’t get me wrong, code katas are great. They are powerful learning tools. But if you do not know how to drive a car and someone tells you to just get in, start the car, and go, then yes, you might be able to move the car from point A to point B but you might not do it as safely as you should be (letting a light bump of the car in front of you be your guide as to when to stop at a traffic light) or you might be putting a lot more wear and tear on the car than you should be (leaving the parking brake engaged will not hinder your driving much, but you will have to have the brake serviced a lot sooner!), etc.
-
-  I think there is a better way. If you are inclined to join me on this TDD journey-in-six-parts, we will start with a blank slate (well, an empty file in Visual Studio) and create one component-using TDD, of course-that is part of a large enterprise application. As simple as it will seem when finished, it really will be a component (a class) that could be part of an enterprise application, not just some toy class. Really. It is, in fact, a component I recently built and included in an enterprise application.
-
-  “The story you are about to hear is true. Only the names have been changed to protect the innocent.”
-  TDD == Trepidation?
-  Unless you have severe centophobia (fear of novelty) or sophophobia (fear of learning) or perhaps even symmetrophobia (fear or symmetry), you should not fear TDD. Remember when you did not have a clue how to do this?
-
-  2019-1-e5237fac-031c-4174-9dbe-4398ee82e
-
-  (If WinForms is not your cup of tea, mentally substitute web page or widget or any other GUI platform you like.)You looked at this and thought this is hard. You look at it now and think this is easy!
-
-  Well, here you are again at the same point. TDD is hard. Well, it is more that TDD takes some getting used to-along with a whole slew of myriad minutiae-which make it seem hard. This series of articles, if successful, will guide you through the muck and mire to dramatically reduce the slope of your learning curve, to help you achieve what Stuart Firestein, neuroscientist and chair of Biological Sciences at Columbia calls a higher quality of ignorance (see his TED talk The Pursuit of Ignorance). His context was actually the pursuit of knowledge in pure science, where answers are not known, but I think his ideas apply equally well to learning even when the answers are already known… just not by you. “Ignorance” in this context does not refer to stupidity or refusing to accept common truths, but rather it has a strictly positive connotation: referring to gaps in knowledge of an intelligent person.
-
-  2019-1-317c2661-1a08-4295-8597-dd6a61af9
-
-  When you start off knowing little about something-like practicing TDD-you have rather low quality ignorance. Your knowledge is small; your ignorance vast. As you learn more, your ignorance-that is, your questions on the subject-become more refined, more focused, more specific. In short, higher in quality. So my goal here is to convert some of that low quality ignorance to high quality ignorance.
-
-  TDD, for those who have not done it, is rather different. Per Grant Lammi, in Dr. Dobb’s Journal:
-
-  [TDD is] akin to signing your name with the “wrong” hand: it takes more time and concentration, and just feels… unnatural.
-  Writing test code is strange enough… writing it before the application code is…well… downright peculiar.
-  You just don’t start out with a good comfort level due to unfamiliarity. But consider the potential benefits. TDD:
-
-  Promotes better design
-  Supports validating early and often
-  Reduces debugging time
-  Provides documentation as a byproduct
-  Provides tests as a byproduct
-  That last one should sound intriguing… consider it a teaser that we will get back to shortly.
-
-  Theory and Practice in 5 Minutes
-  TDD Theory can be boiled down to two things: the Three Laws and the Red-Green-Refactor technique. These are in essence two perspectives on the same thing with a slightly different focus. I like the Three Laws for their specificity on what you should strive to do at any instant, and I like the Red-Green-Refactor technique for forcing you to be conscious about keeping things tidy all the time.
-
-  Uncle Bob’s Three Laws:
-
-  You are not allowed to write any production code unless it is to make a failing unit test pass.
-  You are not allowed to write any more of a unit test than is sufficient to fail; and compilation failures are failures.
-  You are not allowed to write any more production code than is sufficient to pass the one failing unit test.
-  James Shore’s Red-Green-Refactor:
-
-  Red: Write a very small amount of test code that fails; most test runners show this with a red mark of some sort.
-  Green: Write a very small amount of production code that makes the failing test pass; most test runners will show this with a green mark.
-  Refactor: Try to improve what you’ve got, not just for that one test but step back a bit typically to look at all the tests in the test class, or the code in the class under test, or occasionally even broader, depending on what code smells you detect.
-  The critical implicit directive in the refactor step is that you want to cleanup, streamline, and otherwise improve your production code while not changing its behavior in any way. Using TDD all of your production code is covered by tests so once you have refactored if all your tests are still green you have satisfied that directive. The other implicit directive here is, as they say in the movie biz, “That’s a wrap. Print it!” In other words, take what you have at this point and preserve it-by committing to source control. That way you can always return to this state of good, working code should your next chunk of work take you down some dark, dingy alley.
-
-  A Whopper of a Misnomer
-  OK, the third thing you should understand before diving in is that Test Driven Development is not at all about testing!
-
-  What is TDD, exactly? I think Jack Sparrow said it best in his well-known talk on software methodology  😉 using this nautical analogy:
-
-  “Wherever we want to go, we go. That’s what a ship is, you know. It’s not just a keel and a hull and a deck and sails. That’s what a ship needs. But what a ship is…what the Black Pearl really is…is freedom.”
-  Similarly, TDD is the freedom to (per George Dinwiddie, Why I Practice TDD, 2013.07.23):
-
-  start working toward your solution before you can map it all out.
-  clear your head of the details because the tests are keeping track of them.
-  make changes knowing your tests will alert you if you violate a previous assumption that you have forgotten.
-  deliver code you can trust to work the way you think it does.
-  know you can correct an error without rewriting all the parts that do work.
-  That’s a useful start, but it even more useful to consider this: with all this talk about testing and the prevalence of the word test all over the place-even in the name-it is easy to get the idea that Test-Driven Development is about, well, testing. Scott Bellware, in Behavior-Driven Development, clarifies this well:
-
-  “Folks who do TDD for a while typically come to the conclusion that the only thing that TDD has to do with testing is the appearance of the word test in its name. That’s a bit of an exaggeration, but it’s a common one used by TDD’ers to help clarify the issue. We use unit testing frameworks to do TDD, and we write the example code in methods that can be executed by the test runners that come with unit testing frameworks, but that’s about the end of the commonalities between TDD and testing… TDD’s essential goal is to design and specify the behaviors of the system according to the expectations of the customer, and to be able to consistently prove that those behaviors work according to those expectations for as long as the product lives.”
-  Scott Bain, in Overcoming Impediments to TDD, adds:
-
-  “The entities we write are not actually tests. They are specifications. What we are doing is replacing traditional specs with automated specs. The process of writing the specification is an analysis task, one that leaves behind a suite of tests as a side-effect artifact…”
-  And finally, Uncle Bob (from Agile Software Development) chimes in with:
-
-  “The act of writing a unit test is more an act of design than of verification. It is also more an act of documentation than of verification. The act of writing a unit test closes a remarkable number of feedback loops, the least of which is the one pertaining to verification of function.”
-  Behavior-Driven Development
-  To my mind, Test-Driven Development is easier to understand, manage, and use, when you think of it as Behavior-Driven Development. That is, you are not writing tests: you are writing (verifiable) behaviors. Originally developed by Dan North as a response to issues encountered teaching TDD, BDD typically has a broader scope. It typically involves business analysts, users, and user stories. But using it at a more fine-grained level, as a developer in a more narrow focus, I find quite useful.
-
-  With BDD, according to Dan North in Introducing BDD, the challenging questions of TDD become straightforward:
-
-  Where to start?
-  What to test/not to test?
-  How much to put in one test?
-  What to name a test?
-  How to understand why a test fails?
-  Wrestling with these questions is what makes TDD seem to have such a steep learning curve. But if you think in terms of behaviors… not so much. Keep these questions in mind as we delve into the actual code construction in part 2!
-
-  The Tools
-  Test Driven Development can be done in most any language, and each language will have its own tools and techniques to support TDD. The code we will build is in C# using Visual Studio 2013. Even with that specificity, there are many choices you might make on specific tools. As we proceed in subsequent installments, I am going to introduce tools that I prefer, but in most cases you should be able to easily swap in your own favorite without any issue. Here are the main tools you will see me using, with other popular alternatives.
-
-  Category
-
-  Tool
-
-  Alternative Tools
-
-  Purpose
-
-  Mocking Framework
-
-  Moq
-
-  NSubstitute
-
-  RhinoMocks
-
-  Facilitates isolating a class under test.
-
-  Code Generation
-
-  ReSharper
-
-  CodeRush
-
-  Let’s you focus on what you need to code rather than the mechanics and syntax of that code, by letting you add the next relevant chunk of code or code construct often with a single keystroke.
-
-  Refactoring
-
-  ReSharper
-
-  CodeRush
-
-  Similar to code generation, refactoring tools often let you perform a complex refactoring with a single keystroke.
-
-  Unit Test Assertions
-
-  NUnit
-
-  Moq
-
-  MSTest
-
-  FluentAssertions
-
-  Though MSTest is built-in to Visual Studio, NUnit provides a richer assertion language so I use NUnit for everything except the assertions more appropriately handled by the mocking framework itself (e.g. verifying that a method on a mock was or was not invoked).
-
-  Unit Test Runner
-
-  NCrunch
-
-  ReSharper
-
-  CodeRush
-
-  NUnit (Test Adapter)
-
-  MSTest
-
-  Mostly I use NCrunch for running test because it runs and reports on your tests as you type your code.
-
-  Code Coverage
-
-  NCrunch
-
-  NCover
-
-  dotCover
-
-  As a byproduct of its real-time testing, NCrunch also annotates your source code for code coverage in real-time.
-
-  You will see how these all come into play in subsequent parts of this series. Beginning with the next installment, we dive right in to creating code from scratch using Test-Driven Development. As we go I will introduce the tools above along with design patterns and other techniques that will streamline your development process. There are a lot of pieces to mentally juggle, particularly when you are first starting out, but I believe that learning something then seeing it applied immediately, will help you keep everything organized in your head.
-
-  Subscribe for more articles
-  Fortnightly newsletters help sharpen your skills and keep you ahead, with articles, ebooks and opinion to keep you informed.
-
-  .NET newsletter
-  Simple Talk
-  Email
-  30
-  17385 views
-
-  Printer friendly version
-  Rate this article
-  Subscribe to our fortnightly newsletter
-  .NET newsletter
-  Simple Talk
-  Email
-  Michael Sorens
-  Michael Sorens
-  Michael Sorens is passionate about productivity, process, and quality. Besides working at a variety of companies from Fortune 500 firms to Silicon Valley startups, he enjoys spreading the seeds of good design wherever possible, having written over 100 articles, more than a dozen wallcharts, and posted in excess of 200 answers on StackOverflow. You can also find his open source projects on SourceForge and GitHub (notably SqlDiffFramework, a DB comparison tool for heterogeneous systems including SQL Server, Oracle, and MySql). Like what you have read? Connect with Michael on LinkedIn and Google +.
-
-  View all articles by Michael Sorens
-
-</p>
+<footer>
+  <div class="footer-container">
+    <div class="footer-left-section">
+      <p>
+        <a class="anchor-color-one" href="#">Contact Us</a>
+        <span> | </span>
+        <a class="anchor-color-one" href="#">Business Glossary</a>
+      </p>
+    </div>
+    <div class="footer-right-section">
+      <p class="copyright-text">&copy; 2019 UnitedHealthcare, All Rights Reserved</p>
+      <p class="privacy-text">
+        <a class="anchor-color" href="#">Privacy</a>
+        <span> | </span>
+        <a class="anchor-color" href="#">Terms of Use</a>
+        <span> | </span>
+        <a class="anchor-color" href="#">Sitemap</a>
+      </p>
+    </div>
+  </div>
+</footer>
