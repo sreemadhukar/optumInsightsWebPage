@@ -1,8 +1,13 @@
+@import '~src/assets/styles/variables.scss';
 .common-footer {
   border-top: 1px solid #efefef;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  text-align: left;
 }
 .timePeriod {
-  padding: 5px 20px 5px 20px;
+  padding: 10px 20px 25px 20px;
   color: #757588;
   font-family: 'UHCSans-Regular, Arial';
   font-size: 14px;
