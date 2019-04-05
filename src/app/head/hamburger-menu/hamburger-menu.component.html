@@ -6,7 +6,11 @@
     <!--<button mat-icon-button (click)="srnav.toggle()">
       <mat-icon>filter</mat-icon>
     </button>-->
+
     <app-header [button]="mobileQuery"></app-header>
+    <button mat-icon-button (click)="srnav.toggle()">
+      <mat-icon>filter</mat-icon>
+    </button>
   </mat-toolbar>
 
   <mat-sidenav-container class="example-sidenav-container">
@@ -17,7 +21,7 @@
       [mode]="'side'"
       [fixedInViewport]="true"
       [opened]="!mobileQuery"
-      fixedTopGap="56"
+      fixedTopGap="65"
     >
       <!-- HEALTHSYSTEM REPRESENTATION BLOCK -->
       <div class="health-system-representation-block">
@@ -40,7 +44,7 @@
         >
           <!-- USING ACCORDIAN IF CATEGORY HAS SUB CATEGORIES -->
           <mat-accordion *ngIf="category.children">
-            <mat-expansion-panel class="nav-menu-expansion-panel" [expanded]="true">
+            <mat-expansion-panel class="nav-menu-expansion-panel">
               <mat-expansion-panel-header
                 class="nav-menu-category"
                 [collapsedHeight]="'25px'"
@@ -96,4 +100,5 @@
       <router-outlet></router-outlet>
     </mat-sidenav-content>
   </mat-sidenav-container>
+  <app-footer class="footer-block"></app-footer>
 </div>

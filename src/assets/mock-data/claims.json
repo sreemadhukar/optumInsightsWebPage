@@ -1,0 +1,475 @@
+[
+  {
+    "ReportingPeriod": null,
+    "All": {
+      "ClaimsLobSummary": [
+        {
+          "AmountUHCPaid": 440571415.2399992,
+          "AmountActualAllowed": 534999288.4199989,
+          "AmountExpectedAllowed": 592337967.54827,
+          "ClaimsPaid": 837403,
+          "ClaimsDenied": 105674,
+          "ClaimsSubmitted": 943077,
+          "ClaimsCompleted": 943077,
+          "AmountBilled": 1942164840.6900015,
+          "AmountDenied": 57338679.128271006,
+          "AmountPaid": 440571415.2399992,
+          "AmountSubmitted": 497910094.36827016,
+          "AmountCompleted": 497910094.36827016
+        }
+      ],
+      "DenialCategory": [
+        {
+          "Claimdenialcategorylevel1shortname": "",
+          "DenialAmount": 0,
+          "DenialCount": 7167
+        },
+        {
+          "Claimdenialcategorylevel1shortname": "UHC SECONDARY DENIED",
+          "DenialAmount": 115517.5564859339,
+          "DenialCount": 137
+        },
+        {
+          "Claimdenialcategorylevel1shortname": "SERVICE NO ALLOWED UNDER CONTRACT",
+          "DenialAmount": 15351.640520752408,
+          "DenialCount": 44
+        },
+        {
+          "Claimdenialcategorylevel1shortname": "SECONDARY DENIED",
+          "DenialAmount": 1303053.1984788957,
+          "DenialCount": 150
+        },
+        {
+          "Claimdenialcategorylevel1shortname": "COB NEED FURTHER ACTION",
+          "DenialAmount": 2524418.385773207,
+          "DenialCount": 2330
+        },
+        {
+          "Claimdenialcategorylevel1shortname": "CLAIMS PAYMENT POLICY",
+          "DenialAmount": 17953227.909438904,
+          "DenialCount": 32871
+        },
+        {
+          "Claimdenialcategorylevel1shortname": "SENT TO UHC IN ERROR",
+          "DenialAmount": 244127.77039015808,
+          "DenialCount": 862
+        },
+        {
+          "Claimdenialcategorylevel1shortname": "TIMELY FILING",
+          "DenialAmount": 48543.46886619511,
+          "DenialCount": 85
+        },
+        {
+          "Claimdenialcategorylevel1shortname": "PAID",
+          "DenialAmount": 0,
+          "DenialCount": 9280
+        },
+        {
+          "Claimdenialcategorylevel1shortname": "DOC DOES NOT SUPPORT SERVICE",
+          "DenialAmount": 366261.6891771349,
+          "DenialCount": 316
+        },
+        {
+          "Claimdenialcategorylevel1shortname": "SUBRO WORKER COMP",
+          "DenialAmount": 130315.29366288731,
+          "DenialCount": 86
+        },
+        {
+          "Claimdenialcategorylevel1shortname": "NOT CATEGORIZED",
+          "DenialAmount": 1303989.6944706268,
+          "DenialCount": 3555
+        },
+        {
+          "Claimdenialcategorylevel1shortname": "UHC POLICY ON PROCESS",
+          "DenialAmount": 335.65198401225007,
+          "DenialCount": 1
+        },
+        {
+          "Claimdenialcategorylevel1shortname": "RATE METHOD EXCLUDED",
+          "DenialAmount": 81020.4610018307,
+          "DenialCount": 357
+        },
+        {
+          "Claimdenialcategorylevel1shortname": "DUPLICATE",
+          "DenialAmount": 0,
+          "DenialCount": 9502
+        },
+        {
+          "Claimdenialcategorylevel1shortname": "UHC CORRECT CODE",
+          "DenialAmount": 0,
+          "DenialCount": 33
+        },
+        {
+          "Claimdenialcategorylevel1shortname": "INFO ONLY",
+          "DenialAmount": 0.03738626261348275,
+          "DenialCount": 11
+        },
+        {
+          "Claimdenialcategorylevel1shortname": "NOT MED NEC",
+          "DenialAmount": 6052837.11995839,
+          "DenialCount": 1282
+        },
+        {
+          "Claimdenialcategorylevel1shortname": "NEED MORE INFORMATION",
+          "DenialAmount": 13797626.088084871,
+          "DenialCount": 10477
+        },
+        {
+          "Claimdenialcategorylevel1shortname": "NO BENEFIT COVERAGE",
+          "DenialAmount": 8338249.253150828,
+          "DenialCount": 18856
+        },
+        {
+          "Claimdenialcategorylevel1shortname": "NO AUTH NOTICE REF",
+          "DenialAmount": 4684428.7572110705,
+          "DenialCount": 4421
+        },
+        {
+          "Claimdenialcategorylevel1shortname": "ACCOUNTING CORRECTION",
+          "DenialAmount": 379375.15222905495,
+          "DenialCount": 3851
+        }
+      ]
+    },
+    "Cs": {
+      "ClaimsLobSummary": [
+        {
+          "AmountUHCPaid": 30777804.320000008,
+          "AmountActualAllowed": 32452415.04000001,
+          "AmountExpectedAllowed": 36332500.098865144,
+          "ClaimsPaid": 105582,
+          "ClaimsDenied": 15935,
+          "ClaimsSubmitted": 121517,
+          "ClaimsCompleted": 121517,
+          "AmountBilled": 247075724.3399999,
+          "AmountDenied": 3880085.0588651323,
+          "AmountPaid": 30777804.320000008,
+          "AmountSubmitted": 34657889.37886514,
+          "AmountCompleted": 34657889.37886514
+        }
+      ],
+      "DenialCategory": [
+        {
+          "Claimdenialcategorylevel1shortname": "",
+          "DenialAmount": 0,
+          "DenialCount": 346
+        },
+        {
+          "Claimdenialcategorylevel1shortname": "UHC SECONDARY DENIED",
+          "DenialAmount": 2515.795771356714,
+          "DenialCount": 1
+        },
+        {
+          "Claimdenialcategorylevel1shortname": "SECONDARY DENIED",
+          "DenialAmount": 11045.151366076705,
+          "DenialCount": 73
+        },
+        {
+          "Claimdenialcategorylevel1shortname": "COB NEED FURTHER ACTION",
+          "DenialAmount": 354292.1564813782,
+          "DenialCount": 1207
+        },
+        {
+          "Claimdenialcategorylevel1shortname": "CLAIMS PAYMENT POLICY",
+          "DenialAmount": 613360.3488285473,
+          "DenialCount": 3936
+        },
+        {
+          "Claimdenialcategorylevel1shortname": "TIMELY FILING",
+          "DenialAmount": 8031.49991264818,
+          "DenialCount": 7
+        },
+        {
+          "Claimdenialcategorylevel1shortname": "DOC DOES NOT SUPPORT SERVICE",
+          "DenialAmount": 4351.503001264865,
+          "DenialCount": 15
+        },
+        {
+          "Claimdenialcategorylevel1shortname": "PAID",
+          "DenialAmount": 0,
+          "DenialCount": 2588
+        },
+        {
+          "Claimdenialcategorylevel1shortname": "NOT CATEGORIZED",
+          "DenialAmount": 85394.42672492303,
+          "DenialCount": 157
+        },
+        {
+          "Claimdenialcategorylevel1shortname": "UHC POLICY ON PROCESS",
+          "DenialAmount": 335.65198401225007,
+          "DenialCount": 1
+        },
+        {
+          "Claimdenialcategorylevel1shortname": "RATE METHOD EXCLUDED",
+          "DenialAmount": 46905.919688522095,
+          "DenialCount": 342
+        },
+        {
+          "Claimdenialcategorylevel1shortname": "DUPLICATE",
+          "DenialAmount": 0,
+          "DenialCount": 897
+        },
+        {
+          "Claimdenialcategorylevel1shortname": "NOT MED NEC",
+          "DenialAmount": 381929.88523715467,
+          "DenialCount": 201
+        },
+        {
+          "Claimdenialcategorylevel1shortname": "NEED MORE INFORMATION",
+          "DenialAmount": 1742125.1422798915,
+          "DenialCount": 2927
+        },
+        {
+          "Claimdenialcategorylevel1shortname": "NO BENEFIT COVERAGE",
+          "DenialAmount": 512363.2427226307,
+          "DenialCount": 2757
+        },
+        {
+          "Claimdenialcategorylevel1shortname": "NO AUTH NOTICE REF",
+          "DenialAmount": 117434.33486672587,
+          "DenialCount": 245
+        },
+        {
+          "Claimdenialcategorylevel1shortname": "ACCOUNTING CORRECTION",
+          "DenialAmount": 0,
+          "DenialCount": 235
+        }
+      ]
+    },
+    "Ei": {
+      "ClaimsLobSummary": [
+        {
+          "AmountUHCPaid": 369536833.50999916,
+          "AmountActualAllowed": 453024301.6599989,
+          "AmountExpectedAllowed": 491457597.7283287,
+          "ClaimsPaid": 635242,
+          "ClaimsDenied": 61645,
+          "ClaimsSubmitted": 696887,
+          "ClaimsCompleted": 696887,
+          "AmountBilled": 1281798818.860002,
+          "AmountDenied": 38433296.068329856,
+          "AmountPaid": 369536833.50999916,
+          "AmountSubmitted": 407970129.578329,
+          "AmountCompleted": 407970129.578329
+        }
+      ],
+      "DenialCategory": [
+        {
+          "Claimdenialcategorylevel1shortname": "",
+          "DenialAmount": 0,
+          "DenialCount": 6417
+        },
+        {
+          "Claimdenialcategorylevel1shortname": "UHC SECONDARY DENIED",
+          "DenialAmount": 1667.3459988462369,
+          "DenialCount": 96
+        },
+        {
+          "Claimdenialcategorylevel1shortname": "SERVICE NO ALLOWED UNDER CONTRACT",
+          "DenialAmount": 14949.663981778713,
+          "DenialCount": 27
+        },
+        {
+          "Claimdenialcategorylevel1shortname": "SECONDARY DENIED",
+          "DenialAmount": 1292008.0471128188,
+          "DenialCount": 77
+        },
+        {
+          "Claimdenialcategorylevel1shortname": "COB NEED FURTHER ACTION",
+          "DenialAmount": 1841658.690691373,
+          "DenialCount": 729
+        },
+        {
+          "Claimdenialcategorylevel1shortname": "CLAIMS PAYMENT POLICY",
+          "DenialAmount": 15309270.887197088,
+          "DenialCount": 21835
+        },
+        {
+          "Claimdenialcategorylevel1shortname": "SENT TO UHC IN ERROR",
+          "DenialAmount": 244127.77039015808,
+          "DenialCount": 862
+        },
+        {
+          "Claimdenialcategorylevel1shortname": "TIMELY FILING",
+          "DenialAmount": 37573.56704808006,
+          "DenialCount": 64
+        },
+        {
+          "Claimdenialcategorylevel1shortname": "PAID",
+          "DenialAmount": 0,
+          "DenialCount": 509
+        },
+        {
+          "Claimdenialcategorylevel1shortname": "DOC DOES NOT SUPPORT SERVICE",
+          "DenialAmount": 361525.7825391017,
+          "DenialCount": 299
+        },
+        {
+          "Claimdenialcategorylevel1shortname": "SUBRO WORKER COMP",
+          "DenialAmount": 130151.04663823567,
+          "DenialCount": 85
+        },
+        {
+          "Claimdenialcategorylevel1shortname": "NOT CATEGORIZED",
+          "DenialAmount": 612942.1634401709,
+          "DenialCount": 2481
+        },
+        {
+          "Claimdenialcategorylevel1shortname": "RATE METHOD EXCLUDED",
+          "DenialAmount": 24371.29264536885,
+          "DenialCount": 11
+        },
+        {
+          "Claimdenialcategorylevel1shortname": "DUPLICATE",
+          "DenialAmount": 0,
+          "DenialCount": 5442
+        },
+        {
+          "Claimdenialcategorylevel1shortname": "UHC CORRECT CODE",
+          "DenialAmount": 0,
+          "DenialCount": 33
+        },
+        {
+          "Claimdenialcategorylevel1shortname": "INFO ONLY",
+          "DenialAmount": 0.03738626261348275,
+          "DenialCount": 11
+        },
+        {
+          "Claimdenialcategorylevel1shortname": "NOT MED NEC",
+          "DenialAmount": 2442062.2110358775,
+          "DenialCount": 456
+        },
+        {
+          "Claimdenialcategorylevel1shortname": "NEED MORE INFORMATION",
+          "DenialAmount": 4952782.698861314,
+          "DenialCount": 1891
+        },
+        {
+          "Claimdenialcategorylevel1shortname": "NO AUTH NOTICE REF",
+          "DenialAmount": 3746392.0755273094,
+          "DenialCount": 3929
+        },
+        {
+          "Claimdenialcategorylevel1shortname": "NO BENEFIT COVERAGE",
+          "DenialAmount": 6445439.068150684,
+          "DenialCount": 13640
+        },
+        {
+          "Claimdenialcategorylevel1shortname": "ACCOUNTING CORRECTION",
+          "DenialAmount": 976373.7196853885,
+          "DenialCount": 2751
+        }
+      ]
+    },
+    "Mr": {
+      "ClaimsLobSummary": [
+        {
+          "AmountUHCPaid": 40256777.41000001,
+          "AmountActualAllowed": 49522571.71999999,
+          "AmountExpectedAllowed": 64547869.72107602,
+          "ClaimsPaid": 96579,
+          "ClaimsDenied": 28094,
+          "ClaimsSubmitted": 124673,
+          "ClaimsCompleted": 124673,
+          "AmountBilled": 413290297.48999953,
+          "AmountDenied": 15025298.001076024,
+          "AmountPaid": 40256777.41000001,
+          "AmountSubmitted": 55282075.41107603,
+          "AmountCompleted": 55282075.41107603
+        }
+      ],
+      "DenialCategory": [
+        {
+          "Claimdenialcategorylevel1shortname": "",
+          "DenialAmount": 0,
+          "DenialCount": 404
+        },
+        {
+          "Claimdenialcategorylevel1shortname": "UHC SECONDARY DENIED",
+          "DenialAmount": 111334.41471573096,
+          "DenialCount": 40
+        },
+        {
+          "Claimdenialcategorylevel1shortname": "SERVICE NO ALLOWED UNDER CONTRACT",
+          "DenialAmount": 401.9765389736972,
+          "DenialCount": 17
+        },
+        {
+          "Claimdenialcategorylevel1shortname": "COB NEED FURTHER ACTION",
+          "DenialAmount": 328467.53860045574,
+          "DenialCount": 394
+        },
+        {
+          "Claimdenialcategorylevel1shortname": "CLAIMS PAYMENT POLICY",
+          "DenialAmount": 2030596.6734132636,
+          "DenialCount": 7100
+        },
+        {
+          "Claimdenialcategorylevel1shortname": "TIMELY FILING",
+          "DenialAmount": 2938.4019054668724,
+          "DenialCount": 14
+        },
+        {
+          "Claimdenialcategorylevel1shortname": "PAID",
+          "DenialAmount": 0,
+          "DenialCount": 6183
+        },
+        {
+          "Claimdenialcategorylevel1shortname": "DOC DOES NOT SUPPORT SERVICE",
+          "DenialAmount": 384.40363676821124,
+          "DenialCount": 2
+        },
+        {
+          "Claimdenialcategorylevel1shortname": "SUBRO WORKER COMP",
+          "DenialAmount": 164.2470246516592,
+          "DenialCount": 1
+        },
+        {
+          "Claimdenialcategorylevel1shortname": "NOT CATEGORIZED",
+          "DenialAmount": 605653.104305533,
+          "DenialCount": 917
+        },
+        {
+          "Claimdenialcategorylevel1shortname": "RATE METHOD EXCLUDED",
+          "DenialAmount": 9743.248667939739,
+          "DenialCount": 4
+        },
+        {
+          "Claimdenialcategorylevel1shortname": "DUPLICATE",
+          "DenialAmount": 0,
+          "DenialCount": 3163
+        },
+        {
+          "Claimdenialcategorylevel1shortname": "NOT MED NEC",
+          "DenialAmount": 3228845.023685358,
+          "DenialCount": 625
+        },
+        {
+          "Claimdenialcategorylevel1shortname": "NEED MORE INFORMATION",
+          "DenialAmount": 7102718.246943667,
+          "DenialCount": 5659
+        },
+        {
+          "Claimdenialcategorylevel1shortname": "NO AUTH NOTICE REF",
+          "DenialAmount": 820602.3468170359,
+          "DenialCount": 247
+        },
+        {
+          "Claimdenialcategorylevel1shortname": "NO BENEFIT COVERAGE",
+          "DenialAmount": 1380446.9422775141,
+          "DenialCount": 2459
+        },
+        {
+          "Claimdenialcategorylevel1shortname": "ACCOUNTING CORRECTION",
+          "DenialAmount": -596998.5674563333,
+          "DenialCount": 865
+        }
+      ]
+    },
+    "Tin": null,
+    "Startdate": "2017-12-01",
+    "Enddate": "2018-11-01",
+    "ProviderSystem": "NYU",
+    "Providerkey": 281
+  }
+]

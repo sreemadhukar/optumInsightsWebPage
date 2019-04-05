@@ -1,27 +1,26 @@
 import { Component, OnInit, HostListener, ElementRef, Input } from '@angular/core';
-import {
-  trigger,
-  state,
-  style,
-  animate,
-  transition
-} from '@angular/animations';
-
+import { trigger, state, style, animate, transition } from '@angular/animations';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.less'],
+  styleUrls: ['./header.component.scss'],
   animations: [
     trigger('scrollAnimation', [
-      state('show', style({
-        opacity: 1,
-        transform: 'translateY(0)'
-      })),
-      state('hide',   style({
-        opacity: 0,
-        transform: 'translateY(-100%)'
-      })),
+      state(
+        'show',
+        style({
+          opacity: 1,
+          transform: 'translateY(0)'
+        })
+      ),
+      state(
+        'hide',
+        style({
+          opacity: 0,
+          transform: 'translateY(-100%)'
+        })
+      ),
       transition('show => hide', animate('200ms ease-out')),
       transition('hide => show', animate('200ms ease-in'))
     ])
@@ -31,10 +30,9 @@ export class HeaderComponent implements OnInit {
   @Input() button: boolean;
   public state: any;
 
-  constructor(public el: ElementRef) { }
+  constructor(public el: ElementRef) {}
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   @HostListener('window:scroll', ['$event'])
   checkScroll() {
@@ -46,8 +44,5 @@ export class HeaderComponent implements OnInit {
     } else {
       this.state = 'hide';
     }
-
   }
-
-
 }

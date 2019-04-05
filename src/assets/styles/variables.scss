@@ -1,0 +1,125 @@
+/**------------------------- **\
+            @Variables
+            Created by Sri laxmi
+\**------------------------- **/
+
+/*Primary UI Brand Colors*/
+$white: #fff !default;
+$aqua: #f1f4f7 !default;
+$blue: #196ecf !default;
+$green: #0d880b !default;
+$black: #000 !default;
+
+$colors: () !default;
+
+$colors: map-merge(
+  (
+    'aqua': $aqua,
+    'blue': $blue,
+    'green': $green,
+    'white': $white
+  ),
+  $colors
+);
+
+/*UI Neutral Colors*/
+
+/*Additional UI Hover Colors*/
+
+$hover-blue: $green;
+
+/*Data Visualization Colors*/
+$DV-colors-list: #3381ff #80b0ff #003da1 #00b8cc #8e6edd;
+$text-color: $white;
+@each $current-color in $DV-colors-list {
+  $i: index($DV-colors-list, $current-color);
+  .data-#{$i} {
+    background-color: $current-color;
+    color: $text-color;
+  }
+}
+
+/**------------------------- **\
+  Secondary Marketing Colors
+\**------------------------- **/
+
+$SMCpalette: (
+  blue: (
+    base: #003da1,
+    medium: #c0e9ff,
+    light: #e8f6fa,
+    dark: #122377
+  ),
+  violet: (
+    base: #9521ad,
+    medium: #e3c5ea,
+    light: #f3e4f7,
+    dark: #5c1d6b
+  ),
+  teal: (
+    base: #00bcd6,
+    medium: #a5ebef,
+    light: #dff7fa,
+    dark: #007c89
+  ),
+  orange: (
+    base: #ff5f0e,
+    medium: #ffc9b6,
+    light: #ffe7e1,
+    dark: #d53704
+  ),
+  green: (
+    base: #21b01e,
+    medium: #bbeabb,
+    light: #e1fadf,
+    dark: #007000
+  ),
+  purple: (
+    base: #6636ba,
+    medium: #d0c7ef,
+    light: #ede9ff,
+    dark: #3e2087
+  ),
+  red: (
+    base: #e91b18,
+    medium: #ffb8c9,
+    light: #ffe6f0,
+    dark: #b10c00
+  ),
+  yellow: (
+    base: #ffd00d,
+    medium: #fffa97,
+    light: #fffcd9,
+    dark: #db9c00
+  )
+);
+/*To access Secondary Marketing Colors values*/
+@function color($color, $tone) {
+  @warn map-get($SMCpalette,$color);
+
+  @if map-has-key($SMCpalette, $color) {
+    $color: map-get($SMCpalette, $color);
+
+    @if map-has-key($color, $tone) {
+      $tone: map-get($color, $tone);
+      @return $tone;
+    }
+
+    @warn "unknown tone `#{$tone}` in color";
+    @return null;
+  }
+
+  @warn "unknown color `#{$color}` in palette";
+  @return null;
+}
+
+$primary: $green !default;
+//   $secondary:     $gray-600 !default;
+$success: $green !default;
+// $info: $cyan !default;
+// $warning: $yellow !default;
+// $danger: $red !default;
+//   $light:         $gray-100 !default;
+//   $dark:          $gray-800 !default;
+
+$theme-colors: () !default;

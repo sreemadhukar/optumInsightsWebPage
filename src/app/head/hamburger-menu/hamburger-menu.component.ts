@@ -1,10 +1,12 @@
-import { Component, AfterViewInit, HostListener, ElementRef, Renderer2 } from '@angular/core';
+import { Component, AfterViewInit, HostListener, ElementRef, Renderer2, ViewEncapsulation } from '@angular/core';
+
 import { BreakpointObserver } from '@angular/cdk/layout';
 
 @Component({
   selector: 'app-hamburger-menu',
   templateUrl: './hamburger-menu.component.html',
-  styleUrls: ['./hamburger-menu.component.less']
+  styleUrls: ['./hamburger-menu.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class HamburgerMenuComponent implements AfterViewInit {
   public mobileQuery: boolean;

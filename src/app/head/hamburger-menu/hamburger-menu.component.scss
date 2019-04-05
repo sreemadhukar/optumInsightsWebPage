@@ -1,3 +1,4 @@
+@import '~src/assets/styles/variables.scss';
 .example-container {
   display: flex;
   flex-direction: column;
@@ -41,6 +42,14 @@ h1.example-app-name {
 app-header {
   width: 100%;
 }
+.font-check {
+  font-family: 'UHCSans-Regular';
+  font-size: 14px;
+  color: $hover-blue;
+}
+.footer-block {
+  z-index: 9;
+}
 
 /************ CSS RELATED TO ONLY LEFT HAMBURGER MENU *************/
 
@@ -81,7 +90,7 @@ app-header {
 
 .mat-expansion-panel-header {
   height: 25px !important;
-  padding: 8px 12px 8px 32px;
+  padding: 8px 12px 8px 32px !important;
   font-family: 'UHC Sans';
   font-size: 16px;
   font-weight: 600;
@@ -159,12 +168,12 @@ app-header {
 }
 
 .nav-sub-category-items {
-  color: #757588;
+  color: #757588 !important;
 }
 
 .nav-sub-category-items:hover {
   background: #e3f0fd;
-  color: #196ecf;
+  color: #196ecf !important;
 }
 
 .nav-no-child-category:hover,

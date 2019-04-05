@@ -1,0 +1,13 @@
+@import '~src/assets/styles/variables.scss';
+.card-structure {
+  position: relative;
+  display: inline-flex;
+}
+.card-inner {
+  background-color: #ffffff;
+  width: 350px;
+  height: 301px;
+  margin: 10px;
+  line-height: 75px;
+  font-size: 30px;
+}
