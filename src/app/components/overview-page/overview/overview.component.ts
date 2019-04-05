@@ -59,8 +59,12 @@ export class OverviewComponent implements OnInit {
             value: '38.3%'
           }
         ],
-        chartData: [],
-        generalData: [],
+        chartData: [{ name: 'Commercial', value: 5 }, { name: 'Medicaid', value: 5 }, { name: 'Medicare', value: 5 }],
+        generalData: [
+          {
+            parentDiv: 'sampleDonutChart'
+          }
+        ],
         trend: [
           {
             trendNature: 'up',
@@ -126,7 +130,7 @@ export class OverviewComponent implements OnInit {
         ]
       },
       {
-        category: 'donutWithTrend',
+        category: 'starRating',
         titleCard: 'Medicare Star Rating',
         timePeriod: 'TimePeriod - TimePeriod',
         donutColor: [],
