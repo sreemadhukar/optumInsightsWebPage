@@ -6,18 +6,18 @@ import { OverviewSharedService } from '../../../shared/overview/overview-shared.
   styleUrls: ['./overview.component.scss']
 })
 export class OverviewComponent implements OnInit {
-  items: Array<Object> = [{}];
+  overviewItems: Array<Object> = [{}];
   private pageTitle: String = '';
   private pagesubTitle: String = '';
   private userName: String = '';
   constructor(private overviewsrc: OverviewSharedService) {
-    this.pagesubTitle = 'Your Insights at a glance';
+    this.pagesubTitle = 'Your Insights at a glance.';
   }
   ngOnInit() {
     this.overviewsrc.getOverviewData();
     this.userName = 'Anne';
     this.pageTitle = 'Hello, ' + this.userName + '.';
-    this.items = [
+    this.overviewItems = [
       {
         category: 'donutWithTrend',
         titleCard: 'Claims Paid',
