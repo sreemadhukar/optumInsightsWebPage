@@ -7,9 +7,9 @@ import { OverviewSharedService } from '../../../shared/overview/overview-shared.
 })
 export class OverviewComponent implements OnInit {
   overviewItems: Array<Object> = [{}];
-  private pageTitle: String = '';
-  private pagesubTitle: String = '';
-  private userName: String = '';
+  pageTitle: String = '';
+  pagesubTitle: String = '';
+  userName: String = '';
   constructor(private overviewsrc: OverviewSharedService) {
     this.pagesubTitle = 'Your Insights at a glance.';
   }
