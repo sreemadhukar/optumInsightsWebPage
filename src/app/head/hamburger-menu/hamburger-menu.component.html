@@ -1,27 +1,99 @@
 <div class="example-container" [class.example-is-mobile]="!mobileQuery">
   <mat-toolbar color="primary" class="example-toolbar">
-    <button mat-icon-button *ngIf="mobileQuery" (click)="snav.toggle()"><mat-icon>menu</mat-icon></button>
-    <button mat-icon-button (click)="srnav.toggle()"><mat-icon>filter</mat-icon></button>
+    <button mat-icon-button *ngIf="mobileQuery" (click)="snav.toggle()">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <!--<button mat-icon-button (click)="srnav.toggle()">
+      <mat-icon>filter</mat-icon>
+    </button>-->
     <app-header [button]="mobileQuery"></app-header>
   </mat-toolbar>
 
   <mat-sidenav-container class="example-sidenav-container">
+    <!-- SIDE NAVIGATION BAR -->
+    <mat-sidenav
+      class="side-navigation"
+      #snav
+      [mode]="'side'"
+      [fixedInViewport]="true"
+      [opened]="!mobileQuery"
+      fixedTopGap="56"
+    >
+      <!-- HEALTHSYSTEM REPRESENTATION BLOCK -->
+      <div class="health-system-representation-block">
+        <p class="representing-label">You are representing</p>
+        <p class="health-system-name">{{ healthSystemName }}</p>
+      </div>
+      <!-- END OF HEALTHSYSTEM REPRESENTATION BLOCK -->
 
-      <mat-sidenav #snav [mode]="'side'" [fixedInViewport]="true" [opened]="!mobileQuery" fixedTopGap="56">
-        <mat-nav-list>
-          <a style="width: 200px;" mat-list-item routerLink="." *ngFor="let nav of fillerNav">{{nav}}</a>
+      <!-- MENU CATEGORIES BLOCK -->
+      <div class="nav-mat-list-items">
+        <mat-nav-list
+          *ngFor="let category of navCategories; let rowIndex = index"
+          [ngClass]="
+            rowIndex === 0
+              ? 'navCategoryItem firstNavCategory'
+              : rowIndex === navCategories.length - 1
+              ? 'navCategoryItem lastNavCategory'
+              : 'navCategoryItem'
+          "
+        >
+          <!-- USING ACCORDIAN IF CATEGORY HAS SUB CATEGORIES -->
+          <mat-accordion *ngIf="category.children">
+            <mat-expansion-panel class="nav-menu-expansion-panel" [expanded]="true">
+              <mat-expansion-panel-header
+                class="nav-menu-category"
+                [collapsedHeight]="'25px'"
+                [expandedHeight]="'25px'"
+              >
+                <mat-panel-title>
+                  <img src="{{ category.icon }}" class="nav-menu-icons" />{{ category.name }}
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+              <a
+                class="nav-sub-category-items"
+                mat-list-item
+                routerLink="{{ subcategory.path }}"
+                routerLinkActive="active-link"
+                *ngFor="let subcategory of category.children"
+                >{{ subcategory.name }}</a
+              >
+            </mat-expansion-panel>
+          </mat-accordion>
+
+          <!-- CATEGORY WHICH HAS NO SUB CATEGORIES -->
+          <a
+            class="nav-no-child-category"
+            mat-list-item
+            routerLink="{{ category.path }}"
+            routerLinkActive="active-link"
+            *ngIf="!category.children"
+            ><img class="nav-menu-icons" [src]="category.icon" />{{ category.name }}</a
+          >
         </mat-nav-list>
-      </mat-sidenav>
+      </div>
+      <!-- END OF MENU CATEGORIES BLOCK -->
 
-      <mat-sidenav #srnav [mode]="'side'" position="end" [fixedInViewport]="true">
-        <mat-nav-list>
-          <a style="width: 360px;" mat-list-item routerLink="." *ngFor="let nav of fillerNav">{{nav}}</a>
-        </mat-nav-list>
-      </mat-sidenav>
+      <!-- SIGNOUT BLOCK -->
+      <div class="signout-block">
+        <p class="signout-label">
+          <a><img class="nav-menu-icons" src="/src/assets/images/icons/Action/round-home-24px.svg" />Sign Out</a>
+        </p>
+      </div>
+      <!-- END OF SIGNOUT BLOCK -->
+    </mat-sidenav>
+    <!-- END OF SIDE NAVIGATION BAR-->
 
-      <mat-sidenav-content>
-       <router-outlet></router-outlet>
-      </mat-sidenav-content>
+    <!-- RIGHT SIDE FILTER BAR-->
+    <mat-sidenav #srnav [mode]="'side'" position="end" [fixedInViewport]="true">
+      <mat-nav-list>
+        <a style="width: 360px;" mat-list-item routerLink="." *ngFor="let nav of fillerNav">{{ nav }}</a>
+      </mat-nav-list>
+    </mat-sidenav>
+    <!-- END OF RIGHT SIDE FILTER BAR-->
 
+    <mat-sidenav-content>
+      <router-outlet></router-outlet>
+    </mat-sidenav-content>
   </mat-sidenav-container>
 </div>
