@@ -45,7 +45,10 @@ export class OverviewComponent implements OnInit {
     this.pagesubTitle = 'Your Insights at a glance.';
   }
   ngOnInit() {
-    this.overviewsrc.getOverviewData();
+    this.overviewsrc
+      .getOverviewData()
+      .then(data => console.log(data))
+      .catch(reason => console.log(reason.message));
     this.userName = 'Anne';
     this.pageTitle = 'Hello, ' + this.userName + '.';
     this.overviewItems = [

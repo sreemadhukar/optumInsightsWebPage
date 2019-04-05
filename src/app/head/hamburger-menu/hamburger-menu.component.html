@@ -14,15 +14,13 @@
   </mat-toolbar>
 
   <mat-sidenav-container class="example-sidenav-container">
-    <!-- SIDE NAVIGATION BAR -->
-    <mat-sidenav
-      class="side-navigation"
-      #snav
-      [mode]="'side'"
-      [fixedInViewport]="true"
-      [opened]="!mobileQuery"
-      fixedTopGap="65"
-    >
+    <!-- SIDE NAVIGATION BAR  fixedTopGap="65"-->
+    <mat-sidenav class="side-navigation" #snav [mode]="'side'" [fixedInViewport]="true" [opened]="!mobileQuery">
+      <!-- UHC LOGO BLOCK -->
+      <div class="uhc-logo-block">
+        <img class="uhc-logo" src="/src/assets/images/UHC Logo@2x.png" />
+      </div>
+      <!-- END OF UHC LOGO BLOCK -->
       <!-- HEALTHSYSTEM REPRESENTATION BLOCK -->
       <div class="health-system-representation-block">
         <p class="representing-label">You are representing</p>

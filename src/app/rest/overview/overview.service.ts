@@ -1,26 +1,27 @@
 /* @author gmounika */
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { HttpHeaders, HttpClient, HttpParams } from '@angular/common/http';
 import { OverviewPageModule } from '../../components/overview-page/overview-page.module';
 import { map } from 'rxjs/operators';
+import { combineLatest } from 'rxjs';
 
 @Injectable({ providedIn: OverviewPageModule })
 export class OverviewService {
   public currentUser: any;
+  public combined: any;
   private authBearer: any;
   private APP_URL: string = environment.apiProxyUrl;
   private SERVICE_PATH: string;
-  constructor(private http: HttpClient) {}
-
-  public getOverviewDataJson() {
-    const apiUrl = './assets/mock-data/providersystems.json';
-    return this.http.get(apiUrl).pipe(
-      map(response => {
-        return response;
-      })
+  constructor(private http: HttpClient) {
+    this.combined = combineLatest(
+      this.http
+        .get('../../../src/assets/mock-data/providersystems.json')
+        .pipe(map(res => JSON.parse(JSON.stringify(res)))),
+      this.http.get('../../../src/assets/mock-data/claims.json').pipe(map(res => JSON.parse(JSON.stringify(res))))
     );
   }
+
   public getOverviewData() {
     // this.currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
     // this.authBearer = this.currentUser[0].PedAccessToken;
