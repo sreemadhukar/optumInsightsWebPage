@@ -13,9 +13,11 @@
 }
 .chart-details {
   width: 60%;
+  display: inline-block;
 }
 .trend-details {
   width: 40%;
+  display: inline-block;
 }
 .trend-data {
   color: #2d2d39;
@@ -25,9 +27,15 @@
   text-align: center;
 }
 .trend-image {
-  //margin-right: 8px;
-  height: 30px;
-  width: 30px;
+  height: 27px;
+  width: 27px;
   background-color: #efefef;
-  border-radius: 15px;
+  border-radius: 20px;
+  display: inline-block;
+  vertical-align: middle;
+  padding: 6px;
+}
+.trend-value {
+  display: inline;
+  vertical-align: middle;
 }
