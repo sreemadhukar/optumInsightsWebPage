@@ -1,26 +1,43 @@
 @import '~src/assets/styles/variables.scss';
 
 .overview-body {
-  padding: 30px;
   background-color: #efefef;
-}
-.page-title {
-  margin-left: 10px;
-  color: #2d2d39;
-  font-family: 'UHCSans-Regular', 'Arial';
-  font-size: 36px;
-  font-weight: 600;
-  line-height: 75px;
-}
+  padding: 30px;
 
-.page-subtitle {
-  margin-left: 10px;
-  color: #2d2d39;
-  font-family: 'UHCSans-Regular', 'Arial';
-  font-size: 28px;
-  font-weight: 600;
-  line-height: 50px;
-}
+  .overview-content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
 
-.overview-content {
+    .page-title {
+      display: block;
+      margin-left: 10px;
+      flex-basis: 100%;
+      padding: 0 8%;
+      color: #2d2d39;
+      font-family: 'UHCSans-Regular', 'Arial';
+      font-size: 36px;
+      font-weight: 600;
+      line-height: 75px;
+    }
+
+    .page-subtitle {
+      display: block;
+      margin-left: 10px;
+      flex-basis: 100%;
+      padding: 0 8%;
+      color: #2d2d39;
+      font-family: 'UHCSans-Regular', 'Arial';
+      font-size: 28px;
+      font-weight: 600;
+      line-height: 50px;
+    }
+
+    & > app-small-card {
+      margin: 10px;
+      text-align: center;
+      line-height: 75px;
+      font-size: 30px;
+    }
+  }
 }
