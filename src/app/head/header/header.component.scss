@@ -8,12 +8,14 @@
 }
 
 .header-div {
-  box-shadow: 2px 0 0 2px rgba(0, 0, 0, 0.3);
   color: white;
   background-color: #ffffff;
-  height: 63px;
+  height: 72px;
   display: flex;
   justify-content: space-between;
+  border-bottom: solid;
+  border-width: 1px;
+  border-color: #e0e0e0;
 }
 
 .header-logo-div {
