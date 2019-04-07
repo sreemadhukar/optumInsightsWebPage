@@ -35,7 +35,7 @@ export class OverviewComponent implements OnInit {
           sign: 'up',
           data: '+2.3%'
         },
-        timeperiod: 'Timeperiod - Rolling 12 Months'
+        timeperiod: 'Time Period - Time Period'
       },
       {
         category: 'small-cards',
@@ -51,7 +51,7 @@ export class OverviewComponent implements OnInit {
           sign: 'up',
           data: '+0.3%'
         },
-        timeperiod: 'Timeperiod - Rolling 12 Months'
+        timeperiod: 'Time Period - Time Period'
       },
       {
         category: 'small-cards',
@@ -67,7 +67,7 @@ export class OverviewComponent implements OnInit {
           sign: 'down',
           data: '-0.3%'
         },
-        timeperiod: 'Timeperiod - Rolling 12 Months'
+        timeperiod: 'Time Period - Time Period'
       },
       {
         category: 'small-cards',
@@ -83,7 +83,7 @@ export class OverviewComponent implements OnInit {
           sign: 'up',
           data: '+4.3%'
         },
-        timeperiod: 'Timeperiod - Rolling 12 Months'
+        timeperiod: 'Time Period - Time Period'
       },
       {
         category: 'small-cards',
@@ -99,7 +99,7 @@ export class OverviewComponent implements OnInit {
           sign: 'down',
           data: '-8.3%'
         },
-        timeperiod: 'Timeperiod - Rolling 12 Months'
+        timeperiod: 'Time Period - Time Period'
       },
       {
         category: 'small-cards',
@@ -115,7 +115,7 @@ export class OverviewComponent implements OnInit {
           sign: 'down',
           data: '-2.3%'
         },
-        timeperiod: 'Timeperiod - Rolling 12 Months'
+        timeperiod: 'Time Period - Time Period'
       }
     ];
   }

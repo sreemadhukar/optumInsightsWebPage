@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./getting-reimbursed.component.scss']
 })
 export class GettingReimbursedComponent implements OnInit {
-  overviewItems: Array<Object> = [{}];
+  summaryItems: Array<Object> = [{}];
   pageTitle: String = '';
   pagesubTitle: String = '';
   userName: String = '';
@@ -16,44 +16,38 @@ export class GettingReimbursedComponent implements OnInit {
 
   ngOnInit() {
     this.pageTitle = 'Getting Reimbursed';
-    this.overviewItems = [
+    this.summaryItems = [
       {
-        category: 'donutWithTrend',
-        titleCard: 'Total Claims Submitted',
-        timePeriod: 'Rolling 6 months',
-        donutColor: [],
-        donutText: [
-          {
-            value: '38.3%'
-          }
-        ],
-        chartData: [],
-        generalData: [],
-        trend: [
-          {
-            trendNature: 'up',
-            value: 28
-          }
-        ]
+        category: 'card',
+        type: 'donutWithTrend',
+        title: 'Claims Paid',
+        data: {
+          cValues: [],
+          cData: '',
+          color: [{ color1: '#00A8F7' }, { color2: '#F5F5F5' }, { color3: '#FFFFFF' }],
+          gdata: []
+        },
+        sdata: {
+          sign: 'up',
+          data: '+2.3%'
+        },
+        timeperiod: 'Rolling 12 Months'
       },
       {
-        category: 'donutWithTrend',
-        titleCard: 'Claims Average Turnaround Time',
-        timePeriod: 'Rolling 6 months',
-        donutColor: [],
-        donutText: [
-          {
-            value: '38.3%'
-          }
-        ],
-        chartData: [],
-        generalData: [],
-        trend: [
-          {
-            trendNature: 'up',
-            value: 28
-          }
-        ]
+        category: 'card',
+        type: 'donutWithTrend',
+        title: 'Total Calls',
+        data: {
+          cValues: [],
+          cData: '',
+          color: [{ color1: '#00A8F7' }, { color2: '#F5F5F5' }, { color3: '#FFFFFF' }],
+          gdata: []
+        },
+        sdata: {
+          sign: 'down',
+          data: '-2.3%'
+        },
+        timeperiod: 'Rolling 12 Months'
       }
     ];
   }
