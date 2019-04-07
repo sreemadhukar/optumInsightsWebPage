@@ -7,7 +7,7 @@
   background-color: #ffffff;
   width: 300px;
   height: 275px;
-  margin: 10px;
+  //margin: 10px;
   line-height: 75px;
   font-size: 30px;
 }
@@ -19,23 +19,33 @@
   width: 40%;
   display: inline-block;
 }
-.trend-data {
-  color: #2d2d39;
-  font-size: 20px;
-  font-weight: 600;
-  margin-top: 20px;
-  text-align: center;
+.trend-value {
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.2px;
+  line-height: 18px;
+  font-family: 'UHCSans-Regular', 'Arial';
+  display: inline;
+  vertical-align: middle;
 }
 .trend-image {
   height: 27px;
   width: 27px;
-  background-color: #efefef;
   border-radius: 20px;
   display: inline-block;
   vertical-align: middle;
   padding: 6px;
 }
-.trend-value {
-  display: inline;
-  vertical-align: middle;
+.trend-image-down {
+  background-color: #ffe6f0;
+}
+.trend-value-down {
+  color: #b10c00;
+}
+
+.trend-image-up {
+  background-color: #ffe6f0;
+}
+.trend-value-up {
+  color: green;
 }

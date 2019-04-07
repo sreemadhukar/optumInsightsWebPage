@@ -5,26 +5,23 @@
       small card works!
     </div>
     <div *ngIf="data.sdata != null" class="trend-details">
-      <div *ngIf="true" class="trend-data">
-        <img
-          *ngIf="data.sdata.sign === 'down'"
-          class="trend-image"
-          src="/src/assets/images/trend-up.svg"
-          alt="trend down"
-        />
-        <img
-          *ngIf="data.sdata.sign === 'up'"
-          class="trend-image"
-          src="/src/assets/images/trend-down.svg"
-          alt="trend down"
-        />
-        <div class="trend-value">
-          {{ data.sdata.data }}
+      <div *ngIf="true">
+        <div *ngIf="data.sdata.sign === 'down'">
+          <img class="trend-image trend-image-up" src="/src/assets/images/trend-up.svg" alt="trend down" />
+          <div class="trend-value trend-value-down">
+            {{ data.sdata.data }}
+          </div>
+        </div>
+        <div *ngIf="data.sdata.sign === 'up'">
+          <img class="trend-image trend-image-up" src="/src/assets/images/trend-down.svg" alt="trend up" />
+          <div class="trend-value trend-value-up">
+            {{ data.sdata.data }}
+          </div>
         </div>
       </div>
     </div>
     <div *ngIf="data.timeperiod">
-      <app-common-footer [timePeriod]="data.timePeriod"></app-common-footer>
+      <app-common-footer [timePeriod]="data.timeperiod"></app-common-footer>
     </div>
   </div>
 </div>

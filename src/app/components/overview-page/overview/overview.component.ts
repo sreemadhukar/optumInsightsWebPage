@@ -24,7 +24,7 @@ export class OverviewComponent implements OnInit {
       {
         category: 'small-cards',
         type: 'donutWithTrend',
-        title: 'Claims Yield',
+        title: 'Claims Paid',
         data: {
           cValues: [],
           cData: '',
@@ -40,7 +40,7 @@ export class OverviewComponent implements OnInit {
       {
         category: 'small-cards',
         type: 'donutWithTrend',
-        title: 'Claims Yield',
+        title: 'Prior Authorization Approval',
         data: {
           cValues: [],
           cData: '',
@@ -49,14 +49,14 @@ export class OverviewComponent implements OnInit {
         },
         sdata: {
           sign: 'up',
-          data: '+2.3%'
+          data: '+0.3%'
         },
         timeperiod: 'Timeperiod - Rolling 12 Months'
       },
       {
         category: 'small-cards',
         type: 'donutWithTrend',
-        title: 'Claims Yield',
+        title: 'Self Service Adoption Rate',
         data: {
           cValues: [],
           cData: '',
@@ -88,7 +88,7 @@ export class OverviewComponent implements OnInit {
       {
         category: 'small-cards',
         type: 'donutWithTrend',
-        title: 'Claims Yield',
+        title: 'Medicare Star Rating',
         data: {
           cValues: [],
           cData: '',
@@ -104,7 +104,7 @@ export class OverviewComponent implements OnInit {
       {
         category: 'small-cards',
         type: 'donutWithTrend',
-        title: 'Claims Yield',
+        title: 'Total Calls',
         data: {
           cValues: [],
           cData: '',
