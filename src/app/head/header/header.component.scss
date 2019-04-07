@@ -1,19 +1,48 @@
 @import '~src/assets/styles/variables.scss';
-div {
-  z-index: 1000;
-  box-shadow: 2px 0 0 2px rgba(0, 0, 0, 0.3);
-  color: $black;
-  background-color: $blue;
-  font-size: 2rem;
-  height: 63px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
 .font-check {
   font-family: 'UHCSans-Regular';
   font-size: 14px;
   background-color: color(blue, base);
   width: 20%;
   height: 50px;
+}
+
+.header-div {
+  box-shadow: 2px 0 0 2px rgba(0, 0, 0, 0.3);
+  color: white;
+  background-color: #ffffff;
+  height: 63px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.header-logo-div {
+  padding: 12px 0 24px 33px;
+}
+
+.Uhc-logo {
+  height: 36px;
+  width: 175px;
+}
+
+.user-div {
+  display: flex;
+  height: 25.2px;
+  width: 98px;
+  color: #757588;
+  font-family: 'UHC Sans';
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+  line-height: 22px;
+  text-align: right;
+  padding: 20.8px 32px 26px 0;
+}
+
+.user-name {
+  line-height: 27px;
+}
+
+.arrow {
+  line-height: 29px;
 }
