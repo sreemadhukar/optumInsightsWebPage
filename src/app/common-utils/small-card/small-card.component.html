@@ -1,8 +1,16 @@
 <div *ngIf="data != null" class="card-structure">
   <div *ngIf="data.category == 'donutWithTrend'" class="card-inner">
     <app-common-header [title]="data.titleCard"></app-common-header>
-    <div>
+    <div class="chart-details">
       card works!
+    </div>
+    <div class="trend-details">
+      <div *ngIf="true" class="trend-data">
+        <img class="pi-trend-image" src="/src/assets/images/trend-up.svg" alt="trend down" />
+        <div>
+          26.8%
+        </div>
+      </div>
     </div>
     <app-common-footer [timePeriod]="data.timePeriod"></app-common-footer>
   </div>
