@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { GettingReimbursedComponent } from './getting-reimbursed/getting-reimbursed.component';
 
 const routes: Routes = [];
 
@@ -7,4 +8,4 @@ const routes: Routes = [];
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class GettingReimbursedRoutingModule { }
+export class GettingReimbursedRoutingModule {}
