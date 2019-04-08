@@ -1,5 +1,6 @@
 @import '~src/assets/styles/variables.scss';
 .example-container {
+  background-color: #efefef;
   display: flex;
   flex-direction: column;
   position: absolute;
@@ -42,11 +43,13 @@ h1.example-app-name {
 app-header {
   width: 100%;
 }
+
 .font-check {
   font-family: 'UHCSans-Regular';
   font-size: 14px;
   color: $hover-blue;
 }
+
 .footer-block {
   z-index: 9;
 }
@@ -176,6 +179,7 @@ app-header {
 .mat-expanded {
   color: #196ecf;
 }
+
 .uhc-logo {
   width: 175px;
   height: 36px;
