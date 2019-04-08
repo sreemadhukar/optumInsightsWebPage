@@ -5,15 +5,15 @@
   padding: 30px;
 
   .overview-content {
-    display: inline-flex;
+    display: flex;
     flex-wrap: wrap;
-    //justify-content: center;
+    justify-content: center;
 
     .page-title {
       display: block;
       margin-left: 10px;
       flex-basis: 100%;
-      //padding: 0 8%;
+      padding: 0 8%;
       color: #2d2d39;
       font-family: 'UHCSans-Regular', 'Arial';
       font-size: 36px;
@@ -25,7 +25,7 @@
       display: block;
       margin-left: 10px;
       flex-basis: 100%;
-      // padding: 0 8%;
+      padding: 0 8%;
       color: #2d2d39;
       font-family: 'UHCSans-Regular', 'Arial';
       font-size: 28px;
