@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, HostListener, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, Input, HostListener, ViewEncapsulation, AfterViewInit } from '@angular/core';
 import * as d3 from 'd3';
 
 @Component({
@@ -7,10 +7,11 @@ import * as d3 from 'd3';
   styleUrls: ['./donut-chart.component.less'],
   encapsulation: ViewEncapsulation.None
 })
-export class DonutChartComponent implements OnInit {
+export class DonutChartComponent implements OnInit, AfterViewInit {
   public transition = 1;
   public noTransition = 0;
-  @Input() renderChart: string;
+  public renderChart: string;
+  public parentDiv: string;
   @Input() chartOptions: any = {};
 
   constructor() {}
@@ -20,13 +21,19 @@ export class DonutChartComponent implements OnInit {
     this.doDonutChart(this.chartOptions, this.noTransition);
   }
   ngOnInit() {
+    this.renderChart = '#' + this.chartOptions.gdata[1];
+  }
+
+  ngAfterViewInit() {
     this.doDonutChart(this.chartOptions, this.transition);
   }
 
   doDonutChart(chartOptions: any, transition: number) {
     // need to think how else to pass this...
-    const preWidth = document.getElementsByClassName('card-inner')[0].clientWidth / 2;
-    d3.select('#america')
+    // should go over how to go about this stuff....
+
+    const preWidth = document.getElementsByClassName(this.chartOptions.gdata[0])[0].clientWidth / 2;
+    d3.select(this.renderChart)
       .selectAll('*')
       .remove();
 
@@ -35,7 +42,7 @@ export class DonutChartComponent implements OnInit {
     const height = width - margin.top - margin.bottom;
 
     const chart = d3
-      .select('#america')
+      .select(this.renderChart)
       .append('svg')
       .attr('width', width + margin.left + margin.right)
       .attr('height', height + margin.top + margin.bottom)
@@ -81,6 +88,8 @@ export class DonutChartComponent implements OnInit {
       donutData.push({ name: chartOptions.cValues[i], value: chartOptions.cData[i] });
     }
 
+    console.log(donutData);
+
     const g = chart
       .selectAll('.arc')
       .data(pie(donutData))
@@ -103,7 +112,7 @@ export class DonutChartComponent implements OnInit {
           const i = d3.interpolate(d.startAngle, d.endAngle);
 
           return function(t) {
-            text.text('d');
+            text.text(chartOptions.centerText);
             text.text();
             d.endAngle = i(t);
             return arc(d);
@@ -117,7 +126,7 @@ export class DonutChartComponent implements OnInit {
           return donutColor(d.data.name);
         });
 
-      text.text('d');
+      text.text(chartOptions.centerText);
       text.text();
     }
   }

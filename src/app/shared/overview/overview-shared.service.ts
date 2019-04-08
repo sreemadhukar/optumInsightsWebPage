@@ -57,7 +57,8 @@ export class OverviewSharedService {
               cValues: ['Approved', 'Not Approved'],
               cData: [approvedRate, 1 - approvedRate],
               color: ['#00A8F7', '#F5F5F5'],
-              gdata: ['priorAuthCard', 'priorAuthCardD3Donut']
+              gdata: ['card-inner', 'priorAuthCardD3Donut'],
+              centerText: (approvedRate * 100).toFixed(0) + '%'
             },
             sdata: {
               sign: 'up',
@@ -91,7 +92,8 @@ export class OverviewSharedService {
               cValues: [(data.SelfServiceInquiries.ALL.Utilizations.OverallLinkAdoptionRate * 100).toFixed(0)],
               cData: (data.SelfServiceInquiries.ALL.Utilizations.OverallLinkAdoptionRate * 100).toFixed(0) + '%',
               color: ['#00A8F7', '#F5F5F5', '#FFFFFF'],
-              gdata: ['selfServiceCard', 'selfServiceCardD3Donut']
+              gdata: ['selfServiceCard', 'selfServiceCardD3Donut'],
+              centerText: (data.SelfServiceInquiries.ALL.Utilizations.OverallLinkAdoptionRate * 100).toFixed(0) + '%'
             },
             sdata: {
               sign: 'down',
@@ -125,7 +127,8 @@ export class OverviewSharedService {
               cValues: [data.PatientCareOpportunity.LineOfBusiness.MedicareAndRetirement.AverageStarRating.toFixed(2)],
               cData: data.PatientCareOpportunity.LineOfBusiness.MedicareAndRetirement.AverageStarRating.toFixed(2),
               color: ['#00A8F7', '#F5F5F5', '#FFFFFF'],
-              gdata: ['pcorCard', 'pcorCardD3Star']
+              gdata: ['pcorCard', 'pcorCardD3Star'],
+              centerText: data.PatientCareOpportunity.LineOfBusiness.MedicareAndRetirement.AverageStarRating.toFixed(2)
             },
             sdata: null,
             timeperiod: 'Timeperiod - Rolling 12 Months'
@@ -155,15 +158,16 @@ export class OverviewSharedService {
             type: 'donut',
             title: 'Total Calls',
             data: {
-              cValues: [
+              cValues: ['Claims', 'BenefitsEligibility', 'PriorAuth', 'Others'],
+              cData: [
                 data.ResolvingIssues.Calls.CallVolByQuesType.Claims,
                 data.ResolvingIssues.Calls.CallVolByQuesType.BenefitsEligibility,
                 data.ResolvingIssues.Calls.CallVolByQuesType.PriorAuth,
                 data.ResolvingIssues.Calls.CallVolByQuesType.Others
               ],
-              cData: this.nFormatter(data.ResolvingIssues.Calls.CallVolByQuesType.Total),
-              color: ['#00A8F7', '#F5F5F5', '#FFFFFF'],
-              gdata: ['callsCard', 'callsCardD3Donut']
+              color: ['#00A8F7', '#F5F5F5', '#FFFFFF', '#00B8CC'],
+              gdata: ['card-inner', 'callsCardD3Donut'],
+              centerText: this.nFormatter(data.ResolvingIssues.Calls.CallVolByQuesType.Total)
             },
             sdata: null,
             timeperiod: 'Timeperiod - Rolling 12 Months'
@@ -390,7 +394,8 @@ export class OverviewSharedService {
               ],
               cData: '$' + this.nFormatter(data1.All.ClaimsLobSummary[0].AmountUHCPaid),
               color: ['#00A8F7', '#F5F5F5', '#FFFFFF'],
-              gdata: ['claimsPaidCard', 'claimsPaidCardD3Donut']
+              gdata: ['claimsPaidCard', 'claimsPaidCardD3Donut'],
+              centerText: '$' + this.nFormatter(data1.All.ClaimsLobSummary[0].AmountUHCPaid)
             },
             sdata: {
               sign: 'down',
@@ -425,7 +430,8 @@ export class OverviewSharedService {
               cValues: [claimYieldDonut.toFixed()],
               cData: claimYieldDonut.toFixed() + '%',
               color: ['#00A8F7', '#F5F5F5', '#FFFFFF'],
-              gdata: ['claimsYieldCard', 'claimsYieldCardD3Donut']
+              gdata: ['claimsYieldCard', 'claimsYieldCardD3Donut'],
+              centerText: claimYieldDonut.toFixed() + '%'
             },
             sdata: {
               sign: 'up',
