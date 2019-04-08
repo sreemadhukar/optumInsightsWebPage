@@ -21,7 +21,7 @@ app.all("/api/int/ped/*", function (req, res) {
     function (e) {
       handleExceptions(e, res)
     }
-  );
+  ); 
 });
  
 
