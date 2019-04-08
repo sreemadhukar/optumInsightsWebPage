@@ -10,6 +10,7 @@ import { SharedModule } from './shared/shared.module';
 import { CommonUtilsModule } from './common-utils/common-utils.module';
 import { RestModule } from './rest/rest.module';
 import { PipesModule } from './pipes/pipes.module';
+import { AuthModule } from './auth/auth.module';
 import { MatExpansionModule } from '@angular/material';
 
 @NgModule({
@@ -24,7 +25,8 @@ import { MatExpansionModule } from '@angular/material';
     CommonUtilsModule,
     RestModule,
     PipesModule,
-    MatExpansionModule
+    MatExpansionModule,
+    AuthModule
   ],
   providers: [],
   bootstrap: [AppComponent]
