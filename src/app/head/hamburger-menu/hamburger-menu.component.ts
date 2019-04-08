@@ -1,6 +1,8 @@
 import { Component, AfterViewInit, HostListener, ElementRef, Renderer2, ViewEncapsulation } from '@angular/core';
 
 import { BreakpointObserver } from '@angular/cdk/layout';
+import { MatIconRegistry } from '@angular/material';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-hamburger-menu',
@@ -11,12 +13,13 @@ import { BreakpointObserver } from '@angular/cdk/layout';
 export class HamburgerMenuComponent implements AfterViewInit {
   public mobileQuery: boolean;
   public healthSystemName = 'North Region Health System';
+  public subMenuExpandState = false;
 
   /*** Array of Navigation Category List ***/
   public navCategories = [
-    { icon: '/src/assets/images/icons/Action/round-home-24px.svg', name: 'Overview', path: '/' },
+    { icon: 'home', name: 'Overview', path: '/' },
     {
-      icon: '/src/assets/images/icons/Action/round-home-24px.svg',
+      icon: 'home',
       name: 'Getting Reimbursed',
       children: [
         { name: 'Summary', path: 'GettingReimbursedSummary' },
@@ -27,12 +30,12 @@ export class HamburgerMenuComponent implements AfterViewInit {
       ]
     },
     {
-      icon: '/src/assets/images/icons/Action/round-home-24px.svg',
+      icon: 'home',
       name: 'Care Delivery',
       children: [{ name: 'Prior Authorizations', path: '#' }, { name: 'Patient Care Opportunity', path: '#' }]
     },
     {
-      icon: '/src/assets/images/icons/Action/round-home-24px.svg',
+      icon: 'home',
       name: 'Issue Resolution',
       children: [{ name: 'Summary', path: '#' }]
     }
@@ -43,9 +46,15 @@ export class HamburgerMenuComponent implements AfterViewInit {
   constructor(
     private breakpointObserver: BreakpointObserver,
     private elementRef: ElementRef,
-    private renderer: Renderer2
+    private renderer: Renderer2,
+    private iconRegistry: MatIconRegistry,
+    sanitizer: DomSanitizer
   ) {
     this.mobileQuery = this.breakpointObserver.isMatched('(max-width: 1024px)');
+    iconRegistry.addSvgIcon(
+      'home',
+      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/round-home-24px.svg')
+    );
   }
 
   @HostListener('window:resize', ['$event'])
@@ -70,5 +79,10 @@ export class HamburgerMenuComponent implements AfterViewInit {
     Array.from(listItemBody).forEach(listItem => {
       this.renderer.setStyle(listItem, 'padding', '0px');
     });
+  }
+
+  collapseExpansionPanels() {
+    this.subMenuExpandState = false;
+    alert('HI');
   }
 }
