@@ -11,7 +11,7 @@ import { CommonUtilsModule } from './common-utils/common-utils.module';
 import { RestModule } from './rest/rest.module';
 import { PipesModule } from './pipes/pipes.module';
 import { AuthModule } from './auth/auth.module';
-import { MatExpansionModule } from '@angular/material';
+import { MatExpansionModule, MatIconModule } from '@angular/material';
 
 @NgModule({
   declarations: [AppComponent],
@@ -26,7 +26,8 @@ import { MatExpansionModule } from '@angular/material';
     RestModule,
     PipesModule,
     MatExpansionModule,
-    AuthModule
+    AuthModule,
+    MatIconModule
   ],
   providers: [],
   bootstrap: [AppComponent]

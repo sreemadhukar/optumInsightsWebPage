@@ -1,6 +1,17 @@
-import { Component, AfterViewInit, HostListener, ElementRef, Renderer2, ViewEncapsulation } from '@angular/core';
-
+import {
+  Component,
+  AfterViewInit,
+  HostListener,
+  ElementRef,
+  Renderer2,
+  ViewEncapsulation,
+  ViewChildren,
+  QueryList
+} from '@angular/core';
+import { MatExpansionPanel } from '@angular/material';
 import { BreakpointObserver } from '@angular/cdk/layout';
+import { MatIconRegistry } from '@angular/material';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-hamburger-menu',
@@ -9,14 +20,16 @@ import { BreakpointObserver } from '@angular/cdk/layout';
   encapsulation: ViewEncapsulation.None
 })
 export class HamburgerMenuComponent implements AfterViewInit {
+  _allExpandState = false;
+  @ViewChildren(MatExpansionPanel) viewPanels: QueryList<MatExpansionPanel>;
   public mobileQuery: boolean;
   public healthSystemName = 'North Region Health System';
 
   /*** Array of Navigation Category List ***/
   public navCategories = [
-    { icon: '/src/assets/images/icons/Action/round-home-24px.svg', name: 'Overview', path: '/' },
+    { icon: 'home', name: 'Overview', path: '/' },
     {
-      icon: '/src/assets/images/icons/Action/round-search-24px.svg#round-search-24px',
+      icon: 'getting-reimburse',
       name: 'Getting Reimbursed',
       children: [
         { name: 'Summary', path: 'GettingReimbursed/Summary' },
@@ -27,12 +40,12 @@ export class HamburgerMenuComponent implements AfterViewInit {
       ]
     },
     {
-      icon: '/src/assets/images/icons/sprite.svg#round-undo-24px.svg',
+      icon: 'care-delivery',
       name: 'Care Delivery',
       children: [{ name: 'Prior Authorizations', path: '#' }, { name: 'Patient Care Opportunity', path: '#' }]
     },
     {
-      icon: '/src/assets/images/icons/svg-sprite.svg#round-zoom_in-24px.svg',
+      icon: 'issue-resolution',
       name: 'Issue Resolution',
       children: [{ name: 'Summary', path: '#' }]
     }
@@ -40,12 +53,37 @@ export class HamburgerMenuComponent implements AfterViewInit {
 
   fillerNav = Array.from({ length: 50 }, (_, i) => `Nav Item ${i + 1}`);
 
+  /** CONSTRUCTOR **/
   constructor(
     private breakpointObserver: BreakpointObserver,
     private elementRef: ElementRef,
-    private renderer: Renderer2
+    private renderer: Renderer2,
+    private iconRegistry: MatIconRegistry,
+    sanitizer: DomSanitizer
   ) {
     this.mobileQuery = this.breakpointObserver.isMatched('(max-width: 1024px)');
+
+    /** INITIALIZING SVG ICONS TO USE IN DESIGN - ANGULAR MATERIAL */
+    iconRegistry.addSvgIcon(
+      'home',
+      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/round-home-24px.svg')
+    );
+    iconRegistry.addSvgIcon(
+      'getting-reimburse',
+      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-attach_money-24px.svg')
+    );
+    iconRegistry.addSvgIcon(
+      'care-delivery',
+      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-favorite-24px.svg')
+    );
+    iconRegistry.addSvgIcon(
+      'issue-resolution',
+      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-stars-24px.svg')
+    );
+    iconRegistry.addSvgIcon(
+      'sign-out',
+      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-input-24px.svg')
+    );
   }
 
   @HostListener('window:resize', ['$event'])
@@ -71,4 +109,30 @@ export class HamburgerMenuComponent implements AfterViewInit {
       this.renderer.setStyle(listItem, 'padding', '0px');
     });
   }
+
+  /** FUNCTIONS TO COLLAPSE LEFT MENU **/
+  collapseExpansionPanels(id) {
+    this.allExpandState(false, id - 1);
+  }
+
+  private allExpandState(value: boolean, id) {
+    this._allExpandState = value;
+    this.togglePanels(value, id);
+  }
+
+  private togglePanels(value: boolean, id) {
+    // this.viewPanels.forEach(p => value ? p.open() : p.close());
+
+    /** USED TO COLLAPSE REMAINING ACCORDIANS OTHER THAN CLICKED ONE **/
+    this.viewPanels.forEach(element => {
+      if (element.id !== 'cdk-accordion-child-' + id) {
+        if (value) {
+          element.open();
+        } else {
+          element.close();
+        }
+      }
+    });
+  }
+  /** END OF FUNCTIONS TO COLLAPSE LEFT MENU **/
 }
