@@ -31,6 +31,7 @@ export class OverviewSharedService {
       let claimsPaid: object;
       let claimsYield: object;
       const oppurtunities: Array<object> = [];
+      const tempArray: Array<object> = [];
       this.overviewService.combined.subscribe(([data, data1]) => {
         if (
           data.hasOwnProperty('PriorAuth') &&
@@ -424,11 +425,13 @@ export class OverviewSharedService {
             timeperiod: null
           };
         }
-
-        this.overviewPageData.push(
-          { claimsPaid, cPriorAuth, cSelfService, claimsYield, cPcor, cIR },
-          { oppurtunities }
-        );
+        tempArray[0] = claimsPaid;
+        tempArray[1] = cPriorAuth;
+        tempArray[2] = cSelfService;
+        tempArray[3] = claimsYield;
+        tempArray[4] = cPcor;
+        tempArray[5] = cIR;
+        this.overviewPageData.push(tempArray, oppurtunities);
         if (this.overviewPageData.length) {
           resolve(this.overviewPageData);
         }
