@@ -8,9 +8,11 @@ import { Component, OnInit, Input } from '@angular/core';
 export class CardComponent implements OnInit {
   @Input() card: Object = {};
   data: Object = null;
+  labelColor: Array<Object> = null;
   constructor() {}
 
   ngOnInit() {
     this.data = this.card;
+    console.log('', this.data);
   }
 }
