@@ -17,8 +17,8 @@ export class OverviewComponent implements OnInit {
     this.overviewsrc
       .getOverviewData()
       .then(data => {
+        this.overviewItems = JSON.parse(JSON.stringify(data));
       })
-      this.overviewItems = JSON.parse(JSON.stringify(data));
       .catch(reason => console.log(reason.message));
     this.userName = 'Anne';
     this.pageTitle = 'Hello, ' + this.userName + '.';
