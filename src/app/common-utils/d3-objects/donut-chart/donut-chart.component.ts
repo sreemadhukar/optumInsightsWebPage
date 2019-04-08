@@ -88,8 +88,6 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
       donutData.push({ name: chartOptions.cValues[i], value: chartOptions.cData[i] });
     }
 
-    console.log(donutData);
-
     const g = chart
       .selectAll('.arc')
       .data(pie(donutData))

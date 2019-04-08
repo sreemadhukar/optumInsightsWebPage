@@ -72,7 +72,7 @@ export class OverviewSharedService {
             type: 'donut',
             title: null,
             data: {
-              gdata: ['priorAuthCard', 'priorAuthCardD3Donut']
+              gdata: ['card-inner', 'priorAuthCardD3Donut']
             },
             sdata: null,
             timeperiod: null
@@ -92,7 +92,7 @@ export class OverviewSharedService {
               cValues: [(data.SelfServiceInquiries.ALL.Utilizations.OverallLinkAdoptionRate * 100).toFixed(0)],
               cData: (data.SelfServiceInquiries.ALL.Utilizations.OverallLinkAdoptionRate * 100).toFixed(0) + '%',
               color: ['#00A8F7', '#F5F5F5', '#FFFFFF'],
-              gdata: ['selfServiceCard', 'selfServiceCardD3Donut'],
+              gdata: ['card-inner', 'selfServiceCardD3Donut'],
               centerText: (data.SelfServiceInquiries.ALL.Utilizations.OverallLinkAdoptionRate * 100).toFixed(0) + '%'
             },
             sdata: {
@@ -127,7 +127,7 @@ export class OverviewSharedService {
               cValues: [data.PatientCareOpportunity.LineOfBusiness.MedicareAndRetirement.AverageStarRating.toFixed(2)],
               cData: data.PatientCareOpportunity.LineOfBusiness.MedicareAndRetirement.AverageStarRating.toFixed(2),
               color: ['#00A8F7', '#F5F5F5', '#FFFFFF'],
-              gdata: ['pcorCard', 'pcorCardD3Star'],
+              gdata: ['card-inner', 'pcorCardD3Star'],
               centerText: data.PatientCareOpportunity.LineOfBusiness.MedicareAndRetirement.AverageStarRating.toFixed(2)
             },
             sdata: null,
@@ -177,7 +177,7 @@ export class OverviewSharedService {
             category: 'small-card',
             type: 'donut',
             title: null,
-            data: { gdata: ['callsCard', 'callsCardD3Donut'] },
+            data: { gdata: ['card-inner', 'callsCardD3Donut'] },
             sdata: null,
             timeperiod: null
           };
@@ -387,14 +387,14 @@ export class OverviewSharedService {
             type: 'donut',
             title: 'Claims Paid',
             data: {
-              cValues: [
+              cValues: ['mr', 'cs', 'ei'],
+              cData: [
                 data1.Mr.ClaimsLobSummary[0].hasOwnProperty('AmountUHCPaid'),
                 data1.Cs.ClaimsLobSummary[0].hasOwnProperty('AmountUHCPaid'),
                 data1.Ei.ClaimsLobSummary[0].hasOwnProperty('AmountUHCPaid')
               ],
-              cData: '$' + this.nFormatter(data1.All.ClaimsLobSummary[0].AmountUHCPaid),
               color: ['#00A8F7', '#F5F5F5', '#FFFFFF'],
-              gdata: ['claimsPaidCard', 'claimsPaidCardD3Donut'],
+              gdata: ['card-inner', 'claimsPaidCardD3Donut'],
               centerText: '$' + this.nFormatter(data1.All.ClaimsLobSummary[0].AmountUHCPaid)
             },
             sdata: {
@@ -408,7 +408,7 @@ export class OverviewSharedService {
             category: 'small-card',
             type: 'donut',
             title: null,
-            data: { gdata: ['claimsPaidCard', 'claimsPaidCardD3Donut'] },
+            data: { gdata: ['card-inner', 'claimsPaidCardD3Donut'] },
             sdata: null,
             timeperiod: null
           };
@@ -427,10 +427,10 @@ export class OverviewSharedService {
             type: 'donut',
             title: 'Claims Yield',
             data: {
-              cValues: [claimYieldDonut.toFixed()],
-              cData: claimYieldDonut.toFixed() + '%',
+              cValues: ['Approved', 'Not Approved'],
+              cData: [100 * claimYieldDonut, 100 - 100 * claimYieldDonut],
               color: ['#00A8F7', '#F5F5F5', '#FFFFFF'],
-              gdata: ['claimsYieldCard', 'claimsYieldCardD3Donut'],
+              gdata: ['card-inner', 'claimsYieldCardD3Donut'],
               centerText: claimYieldDonut.toFixed() + '%'
             },
             sdata: {
@@ -444,7 +444,7 @@ export class OverviewSharedService {
             category: 'small-card',
             type: 'donut',
             title: null,
-            data: { gdata: ['claimsYieldCard', 'claimsYieldCardD3Donut'] },
+            data: { gdata: ['card-inner', 'claimsYieldCardD3Donut'] },
             sdata: null,
             timeperiod: null
           };
