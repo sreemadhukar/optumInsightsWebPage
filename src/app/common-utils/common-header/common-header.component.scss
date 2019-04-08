@@ -1,26 +1,21 @@
 @import '~src/assets/styles/variables.scss';
 .header-container {
   position: relative;
-  padding: 20px;
-  .header-title {
-    font-family: 'UHCSans-SemiBold';
-    color: $blue;
-    font-size: 18px;
-    text-align: left;
-  }
-  .details {
-    color: #196ecf;
-    font-family: 'UHCSans-SemiBold';
-    font-size: 18px;
-    // font-weight: 600;
-    line-height: 22px;
-    float: right;
-  }
+  padding: 20px 20px 0 20px;
 }
-
-// color: #196ecf;
-// font-family: 'UHCSans-Regular, Arial';
-// font-size: 18px;
-// font-weight: 600;
-// line-height: 22px;
-// text-align: left;
+.header-title {
+  color: #196ecf;
+  font-family: 'UHCSans-Regular, Arial';
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 22px;
+  text-align: left;
+}
+.details {
+  color: #196ecf;
+  font-family: 'UHCSans-Regular, Arial';
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 22px;
+  float: right;
+}
