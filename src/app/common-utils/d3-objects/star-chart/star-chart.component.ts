@@ -55,7 +55,7 @@ export class StarChartComponent implements OnInit {
       .attr('y', 20)
       .attr('width', 160)
       .attr('height', 168)
-      .attr('xlink:href', 'assets/star.png');
+      .attr('xlink:href', 'assets/images/star.png');
 
     svg
       .append('text')
