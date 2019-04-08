@@ -30,6 +30,7 @@ export class OverviewSharedService {
       let cIR: object;
       let claimsPaid: object;
       let claimsYield: object;
+      const oppurtunities: Array<object> = [];
       this.overviewService.combined.subscribe(([data, data1]) => {
         if (
           data.hasOwnProperty('PriorAuth') &&
@@ -149,7 +150,7 @@ export class OverviewSharedService {
                 data.ResolvingIssues.Calls.CallVolByQuesType.Others
               ],
               cData: this.nFormatter(data.ResolvingIssues.Calls.CallVolByQuesType.Total),
-              color: [{ color1: '#00A8F7' }, { color2: '#F5F5F5' }, { color3: '#FFFFFF' }],
+              color: ['#00A8F7', '#F5F5F5', '#FFFFFF'],
               gdata: []
             },
             sdata: null,
@@ -158,7 +159,192 @@ export class OverviewSharedService {
         } else {
           cIR = { category: 'small-cards', type: 'donut', title: null, data: null, sdata: null, timeperiod: null };
         }
-
+        if (
+          data.hasOwnProperty('SelfServiceInquiries') &&
+          data.SelfServiceInquiries.hasOwnProperty('ALL') &&
+          data.SelfServiceInquiries.ALL.hasOwnProperty('SelfService') &&
+          data.SelfServiceInquiries.ALL.SelfService.hasOwnProperty('TotalCallCost')
+        ) {
+          oppurtunities.push({
+            category: 'mini-tile',
+            title: 'Reduce Calls and Operating Costs by:',
+            data: {
+              cData: '$' + this.nFormatter(data.SelfServiceInquiries.ALL.SelfService.TotalCallCost.toFixed(2)),
+              gdata: []
+            },
+            fdata: {
+              type: 'bar chart',
+              cValues: ['1.01', '5.40'],
+              concatString: '$',
+              color: ['#00A8F7', '#F5F5F5', '#FFFFFF'],
+              cValuesTitle: 'Avg. Transaction Costs',
+              cValueData1: '$1.01 for Self Service',
+              cValueData2: '$5.40 for Phone Call',
+              gdata: []
+            }
+          });
+        } else {
+          oppurtunities.push({
+            category: 'mini-tile',
+            title: null,
+            data: {
+              cData: null,
+              gdata: []
+            },
+            fdata: {
+              type: null,
+              cValues: null,
+              concatString: null,
+              color: null,
+              cValuesTitle: null,
+              cValueData1: null,
+              cValueData2: null,
+              gdata: []
+            }
+          });
+        }
+        if (
+          data.hasOwnProperty('SelfServiceInquiries') &&
+          data.SelfServiceInquiries.hasOwnProperty('ALL') &&
+          data.SelfServiceInquiries.ALL.hasOwnProperty('SelfService') &&
+          data.SelfServiceInquiries.ALL.SelfService.hasOwnProperty('TotalCallTime')
+        ) {
+          oppurtunities.push({
+            category: 'mini-tile',
+            title: "Save Your Staff's Time by:",
+            data: {
+              cData: data.SelfServiceInquiries.ALL.SelfService.TotalCallTime.toFixed() + ' Hours/day',
+              gdata: []
+            },
+            fdata: {
+              type: 'bar chart',
+              cValues: ['2', '8'],
+              concatString: 'hours',
+              color: ['#00A8F7', '#F5F5F5', '#FFFFFF'],
+              cValuesTitle: 'Avg. Processing Times',
+              cValueData1: 'for Self Service',
+              cValueData2: 'for Phone Call',
+              gdata: []
+            }
+          });
+        } else {
+          oppurtunities.push({
+            category: 'mini-tile',
+            title: null,
+            data: {
+              cData: null,
+              gdata: []
+            },
+            fdata: {
+              type: null,
+              cValues: null,
+              concatString: null,
+              color: null,
+              cValuesTitle: null,
+              cValueData1: null,
+              cValueData2: null,
+              gdata: []
+            }
+          });
+        }
+        if (
+          data.hasOwnProperty('SelfServiceInquiries') &&
+          data.SelfServiceInquiries.hasOwnProperty('ALL') &&
+          data.SelfServiceInquiries.ALL.hasOwnProperty('SelfService') &&
+          data.SelfServiceInquiries.ALL.SelfService.hasOwnProperty('AveragePaperClaimProcessingTime') &&
+          data.SelfServiceInquiries.ALL.SelfService.hasOwnProperty('AverageClaimProcessingTime')
+        ) {
+          oppurtunities.push({
+            category: 'mini-tile',
+            title: 'Reduce Claim Processing Time by:',
+            data: {
+              cData:
+                (
+                  data.SelfServiceInquiries.ALL.SelfService.AveragePaperClaimProcessingTime.toFixed() -
+                  data.SelfServiceInquiries.ALL.SelfService.AverageClaimProcessingTime.toFixed()
+                ).toFixed() + ' Days',
+              gdata: []
+            },
+            fdata: {
+              type: 'bar chart',
+              cValues: ['15', '25'],
+              concatString: 'Days',
+              color: ['#00A8F7', '#F5F5F5', '#FFFFFF'],
+              cValuesTitle: 'Avg. Processing Times',
+              cValueData1: 'for Self Service',
+              cValueData2: 'for Phone Call',
+              gdata: []
+            }
+          });
+        } else {
+          oppurtunities.push({
+            category: 'mini-tile',
+            title: null,
+            data: {
+              cData: null,
+              gdata: []
+            },
+            fdata: {
+              type: null,
+              cValues: null,
+              concatString: null,
+              color: null,
+              cValuesTitle: null,
+              cValueData1: null,
+              cValueData2: null,
+              gdata: []
+            }
+          });
+        }
+        if (
+          data.hasOwnProperty('SelfServiceInquiries') &&
+          data.SelfServiceInquiries.hasOwnProperty('ALL') &&
+          data.SelfServiceInquiries.ALL.hasOwnProperty('SelfService') &&
+          data.SelfServiceInquiries.ALL.SelfService.hasOwnProperty('AveragePaperReconsideredProcessingTime') &&
+          data.SelfServiceInquiries.ALL.SelfService.hasOwnProperty('AverageReconsideredProcessingTime')
+        ) {
+          oppurtunities.push({
+            category: 'mini-tile',
+            title: 'Reduce Reconsideration Processing by:',
+            data: {
+              cData:
+                (
+                  data.SelfServiceInquiries.ALL.SelfService.AveragePaperReconsideredProcessingTime.toFixed() -
+                  data.SelfServiceInquiries.ALL.SelfService.AverageReconsideredProcessingTime.toFixed()
+                ).toFixed() + ' Days',
+              gdata: []
+            },
+            fdata: {
+              type: 'bar chart',
+              cValues: ['15', '32'],
+              concatString: 'Days',
+              color: ['#00A8F7', '#F5F5F5', '#FFFFFF'],
+              cValuesTitle: 'Avg. Processing Times',
+              cValueData1: 'for Self Service',
+              cValueData2: 'for Phone Call',
+              gdata: []
+            }
+          });
+        } else {
+          oppurtunities.push({
+            category: 'mini-tile',
+            title: null,
+            data: {
+              cData: null,
+              gdata: []
+            },
+            fdata: {
+              type: null,
+              cValues: null,
+              concatString: null,
+              color: null,
+              cValuesTitle: null,
+              cValueData1: null,
+              cValueData2: null,
+              gdata: []
+            }
+          });
+        }
         if (
           data1.hasOwnProperty('All') &&
           data1.All.hasOwnProperty('ClaimsLobSummary') &&
@@ -183,8 +369,8 @@ export class OverviewSharedService {
                 data1.Cs.ClaimsLobSummary[0].hasOwnProperty('AmountUHCPaid'),
                 data1.Ei.ClaimsLobSummary[0].hasOwnProperty('AmountUHCPaid')
               ],
-              cData: this.nFormatter(data1.All.ClaimsLobSummary[0].AmountUHCPaid),
-              color: [{ color1: '#00A8F7' }, { color2: '#F5F5F5' }, { color3: '#FFFFFF' }],
+              cData: '$' + this.nFormatter(data1.All.ClaimsLobSummary[0].AmountUHCPaid),
+              color: ['#00A8F7', '#F5F5F5', '#FFFFFF'],
               gdata: []
             },
             sdata: {
@@ -219,7 +405,7 @@ export class OverviewSharedService {
             data: {
               cValues: [claimYieldDonut.toFixed()],
               cData: claimYieldDonut.toFixed() + '%',
-              color: [{ color1: '#00A8F7' }, { color2: '#F5F5F5' }, { color3: '#FFFFFF' }],
+              color: ['#00A8F7', '#F5F5F5', '#FFFFFF'],
               gdata: []
             },
             sdata: {
@@ -238,7 +424,11 @@ export class OverviewSharedService {
             timeperiod: null
           };
         }
-        this.overviewPageData.push(claimsPaid, cPriorAuth, cSelfService, claimsYield, cPcor, cIR);
+
+        this.overviewPageData.push(
+          { claimsPaid, cPriorAuth, cSelfService, claimsYield, cPcor, cIR },
+          { oppurtunities }
+        );
         if (this.overviewPageData.length) {
           resolve(this.overviewPageData);
         }
