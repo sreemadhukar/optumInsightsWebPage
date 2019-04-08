@@ -1,15 +1,16 @@
 <!--<button mat-icon-button *ngIf="button"><mat-icon>menu</mat-icon></button>-->
-
-<div class="header-div">
-  <div class="header-logo-div">
-    <a href="/">
-      <img class="Uhc-logo" src="/src/assets/images/UHC Logo@2x.png" alt="UHC Logo" />
-    </a>
-  </div>
-  <div class="user-div">
-    <div class="user-icon">
-      <img src="src\assets\images\icons\Content\round-person-24px.svg" class="nav-menu-icons" />
+<div [@scrollAnimation]="state">
+  <div class="header-div">
+    <div class="header-logo-div">
+      <a href="/">
+        <img class="Uhc-logo" src="/src/assets/images/UHC Logo@2x.png" alt="UHC Logo" />
+      </a>
     </div>
-    <div class="user-name">Anne</div>
+    <div class="user-div">
+      <div class="user-icon">
+        <img src="src\assets\images\icons\Content\round-person-24px.svg" class="nav-menu-icons" />
+      </div>
+      <div class="user-name">Anne</div>
+    </div>
   </div>
 </div>

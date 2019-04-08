@@ -1,15 +1,6 @@
 @import '~src/assets/styles/variables.scss';
-.font-check {
-  font-family: 'UHCSans-Regular';
-  font-size: 14px;
-  background-color: color(blue, base);
-  width: 20%;
-  height: 50px;
-}
-
 .header-div {
-  color: white;
-  background-color: #ffffff;
+  background-color: $white;
   height: 72px;
   display: flex;
   justify-content: space-between;
@@ -29,10 +20,9 @@
 
 .user-div {
   display: flex;
-  height: 25.2px;
+  height: 25px;
   width: 98px;
   color: #757588;
-  font-family: 'UHC Sans';
   font-size: 16px;
   font-weight: 600;
   letter-spacing: 0.2px;
@@ -43,8 +33,5 @@
 
 .user-name {
   line-height: 27px;
-}
-
-.arrow {
-  line-height: 29px;
+  font-family: 'UHCSans-Regular';
 }
