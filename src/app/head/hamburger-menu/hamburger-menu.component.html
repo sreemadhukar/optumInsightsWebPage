@@ -38,11 +38,7 @@
         >
           <!-- USING ACCORDIAN IF CATEGORY HAS SUB CATEGORIES -->
 
-          <mat-expansion-panel
-            *ngIf="category.children"
-            class="nav-menu-expansion-panel"
-            [expanded]="subMenuExpandState"
-          >
+          <mat-expansion-panel *ngIf="category.children" class="nav-menu-expansion-panel" [expanded]="_allExpandState">
             <mat-expansion-panel-header class="nav-menu-category" [collapsedHeight]="'25px'" [expandedHeight]="'25px'">
               <mat-panel-title>
                 <mat-icon class="nav-menu-icons" svgIcon="{{ category.icon }}"></mat-icon>
@@ -51,6 +47,7 @@
             </mat-expansion-panel-header>
             <a
               class="nav-sub-category-items"
+              (click)="collapseExpansionPanels(rowIndex)"
               [routerLinkActiveOptions]="{ exact: true }"
               mat-list-item
               routerLink="{{ subcategory.path }}"
@@ -81,7 +78,7 @@
       <!-- SIGNOUT BLOCK -->
       <div class="signout-block">
         <p class="signout-label">
-          <a> <mat-icon class="nav-menu-icons" svgIcon="home"></mat-icon>Sign Out </a>
+          <a> <mat-icon class="nav-menu-icons" svgIcon="sign-out"></mat-icon>Sign Out </a>
         </p>
       </div>
       <!-- END OF SIGNOUT BLOCK -->

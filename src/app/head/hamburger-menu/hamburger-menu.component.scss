@@ -114,6 +114,7 @@ app-header {
   letter-spacing: 0.2px;
   line-height: 22px;
   margin: 0px;
+  cursor: pointer;
 }
 
 .firstNavCategory {
@@ -176,7 +177,8 @@ app-header {
 
 .nav-no-child-category:hover,
 .mat-expansion-panel-header:hover,
-.mat-expanded {
+.mat-expanded,
+.signout-label:hover {
   color: #196ecf;
 }
 
