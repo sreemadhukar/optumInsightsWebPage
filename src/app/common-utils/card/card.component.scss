@@ -5,9 +5,47 @@
 }
 .card-inner {
   background-color: #ffffff;
-  width: 350px;
-  height: 301px;
+  width: 400px;
+  height: 375px;
   margin: 10px;
   line-height: 75px;
   font-size: 30px;
+}
+.chart-details {
+  width: 60%;
+  display: inline-block;
+}
+.trend-details {
+  width: 40%;
+  display: inline-block;
+}
+.trend-value {
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.2px;
+  line-height: 18px;
+  font-family: 'UHCSans-Regular', 'Arial';
+  display: inline;
+  vertical-align: middle;
+}
+.trend-image {
+  height: 27px;
+  width: 27px;
+  border-radius: 20px;
+  display: inline-block;
+  vertical-align: middle;
+  padding: 6px;
+}
+.trend-image-down {
+  background-color: #ffe6f0;
+}
+.trend-value-down {
+  color: #b10c00;
+}
+
+.trend-image-up {
+  background-color: #ffe6f0;
+}
+.trend-value-up {
+  color: green;
 }

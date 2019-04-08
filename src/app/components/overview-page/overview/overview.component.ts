@@ -22,118 +22,100 @@ export class OverviewComponent implements OnInit {
     this.pageTitle = 'Hello, ' + this.userName + '.';
     this.overviewItems = [
       {
-        category: 'donutWithTrend',
-        titleCard: 'Claims Paid',
-        timePeriod: 'TimePeriod - TimePeriod',
-        donutColor: [],
-        donutText: [
-          {
-            value: '38.3%'
-          }
-        ],
-        chartData: [],
-        generalData: [],
-        trend: [
-          {
-            trendNature: 'up',
-            value: 28
-          }
-        ]
+        category: 'small-cards',
+        type: 'donutWithTrend',
+        title: 'Claims Paid',
+        data: {
+          cValues: [],
+          cData: '',
+          color: [{ color1: '#00A8F7' }, { color2: '#F5F5F5' }, { color3: '#FFFFFF' }],
+          gdata: []
+        },
+        sdata: {
+          sign: 'up',
+          data: '+2.3%'
+        },
+        timeperiod: 'Time Period - Time Period'
       },
       {
-        category: 'donutWithTrend',
-        titleCard: 'Prior Authorization Approval',
-        timePeriod: 'TimePeriod - TimePeriod',
-        donutColor: [],
-        donutText: [
-          {
-            value: '38.3%'
-          }
-        ],
-        chartData: [],
-        generalData: [],
-        trend: [
-          {
-            trendNature: 'up',
-            value: 28
-          }
-        ]
+        category: 'small-cards',
+        type: 'donutWithTrend',
+        title: 'Prior Authorization Approval',
+        data: {
+          cValues: [],
+          cData: '',
+          color: [{ color1: '#00A8F7' }, { color2: '#F5F5F5' }, { color3: '#FFFFFF' }],
+          gdata: []
+        },
+        sdata: {
+          sign: 'up',
+          data: '+0.3%'
+        },
+        timeperiod: 'Time Period - Time Period'
       },
       {
-        category: 'donutWithTrend',
-        titleCard: 'Self Service Adoption Rate',
-        timePeriod: 'TimePeriod - TimePeriod',
-        donutColor: [],
-        donutText: [
-          {
-            value: '38.3%'
-          }
-        ],
-        chartData: [],
-        generalData: [],
-        trend: [
-          {
-            trendNature: 'up',
-            value: 28
-          }
-        ]
+        category: 'small-cards',
+        type: 'donutWithTrend',
+        title: 'Self Service Adoption Rate',
+        data: {
+          cValues: [],
+          cData: '',
+          color: [{ color1: '#00A8F7' }, { color2: '#F5F5F5' }, { color3: '#FFFFFF' }],
+          gdata: []
+        },
+        sdata: {
+          sign: 'down',
+          data: '-0.3%'
+        },
+        timeperiod: 'Time Period - Time Period'
       },
       {
-        category: 'donutWithTrend',
-        titleCard: 'Claims Yeild',
-        timePeriod: 'TimePeriod - TimePeriod',
-        donutColor: [],
-        donutText: [
-          {
-            value: '38.3%'
-          }
-        ],
-        chartData: [],
-        generalData: [],
-        trend: [
-          {
-            trendNature: 'up',
-            value: 28
-          }
-        ]
+        category: 'small-cards',
+        type: 'donutWithTrend',
+        title: 'Claims Yield',
+        data: {
+          cValues: [],
+          cData: '',
+          color: [{ color1: '#00A8F7' }, { color2: '#F5F5F5' }, { color3: '#FFFFFF' }],
+          gdata: []
+        },
+        sdata: {
+          sign: 'up',
+          data: '+4.3%'
+        },
+        timeperiod: 'Time Period - Time Period'
       },
       {
-        category: 'donutWithTrend',
-        titleCard: 'Medicare Star Rating',
-        timePeriod: 'TimePeriod - TimePeriod',
-        donutColor: [],
-        donutText: [
-          {
-            value: '38.3%'
-          }
-        ],
-        chartData: [],
-        generalData: [],
-        trend: [
-          {
-            trendNature: 'up',
-            value: 28
-          }
-        ]
+        category: 'small-cards',
+        type: 'donutWithTrend',
+        title: 'Medicare Star Rating',
+        data: {
+          cValues: [],
+          cData: '',
+          color: [{ color1: '#00A8F7' }, { color2: '#F5F5F5' }, { color3: '#FFFFFF' }],
+          gdata: []
+        },
+        sdata: {
+          sign: 'down',
+          data: '-8.3%'
+        },
+        timeperiod: 'Time Period - Time Period'
       },
       {
-        category: 'donutWithTrend',
-        titleCard: 'Total Calls',
-        timePeriod: 'TimePeriod - TimePeriod',
-        donutColor: [],
-        donutText: [
-          {
-            value: '38.3%'
-          }
-        ],
-        chartData: [],
-        generalData: [],
-        trend: [
-          {
-            trendNature: 'up',
-            value: 28
-          }
-        ]
+        category: 'small-cards',
+        type: 'donutWithTrend',
+        title: 'Total Calls',
+        data: {
+          cValues: [],
+          cData: '',
+          color: [{ color1: '#00A8F7' }, { color2: '#F5F5F5' }, { color3: '#FFFFFF' }],
+          gdata: []
+        },
+        sdata: {
+          sign: 'down',
+          data: '-2.3%'
+        },
+        timeperiod: 'Time Period - Time Period'
       }
     ];
   }
