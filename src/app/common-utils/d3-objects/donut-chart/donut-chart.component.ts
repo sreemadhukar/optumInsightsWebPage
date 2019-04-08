@@ -10,24 +10,23 @@ import * as d3 from 'd3';
 export class DonutChartComponent implements OnInit {
   public transition = 1;
   public noTransition = 0;
-  public renderChart: string;
+  @Input() renderChart: string;
   @Input() chartOptions: any = {};
 
   constructor() {}
 
   @HostListener('window:resize', ['$event'])
   onResize(event) {
-    this.doDonutChart(this.chartOptions.chartData, this.chartOptions.generalData, this.noTransition);
+    this.doDonutChart(this.chartOptions, this.noTransition);
   }
-
   ngOnInit() {
-    this.renderChart = '#' + this.chartOptions.chartId;
-    this.doDonutChart(this.chartOptions.chartData, this.chartOptions.generalData, this.transition);
+    this.doDonutChart(this.chartOptions, this.transition);
   }
 
-  doDonutChart(chartData: any, generalData: any, transition: number) {
-    const preWidth = document.getElementById(generalData[0].parentDiv).clientWidth / 2;
-    d3.select(this.renderChart)
+  doDonutChart(chartOptions: any, transition: number) {
+    // need to think how else to pass this...
+    const preWidth = document.getElementsByClassName('card-inner')[0].clientWidth / 2;
+    d3.select('#america')
       .selectAll('*')
       .remove();
 
@@ -36,7 +35,7 @@ export class DonutChartComponent implements OnInit {
     const height = width - margin.top - margin.bottom;
 
     const chart = d3
-      .select(this.renderChart)
+      .select('#america')
       .append('svg')
       .attr('width', width + margin.left + margin.right)
       .attr('height', height + margin.top + margin.bottom)
@@ -46,22 +45,11 @@ export class DonutChartComponent implements OnInit {
 
     const radius = Math.min(width, height) / 2;
 
-    let color;
-    if (generalData[0].color4) {
-      color = d3
-        .scaleOrdinal()
-        .range([generalData[0].color1, generalData[0].color2, generalData[0].color3, generalData[0].color4]);
-    } else if (generalData[0].color3) {
-      color = d3.scaleOrdinal().range([generalData[0].color1, generalData[0].color2, generalData[0].color3]);
-    } else if (generalData[0].color2) {
-      color = d3.scaleOrdinal().range([generalData[0].color1, generalData[0].color2]);
-    } else {
-      color = d3.scaleOrdinal().range([generalData[0].color1]);
-    }
+    const donutColor = d3.scaleOrdinal().range(chartOptions.color);
 
-    let circleThickness = 20;
-    if (generalData[0].circumferenceStroke) {
-      circleThickness = generalData[0].circumferenceStroke;
+    let circleThickness = 15;
+    if (chartOptions.gdata[0].circumferenceStroke) {
+      circleThickness = chartOptions.gdata[0].circumferenceStroke;
     }
 
     const arc = d3
@@ -69,52 +57,33 @@ export class DonutChartComponent implements OnInit {
       .outerRadius(radius)
       .innerRadius(radius - circleThickness);
 
-    let pie;
-    if (generalData[0].type === 'arc-padding') {
-      pie = d3
-        .pie()
-        .sort(null)
-        .startAngle(0)
-        .endAngle(2 * Math.PI)
-        .padAngle(0.015)
-        .value(function(d) {
-          return d.value;
-        });
-    } else {
-      pie = d3
-        .pie()
-        .sort(null)
-        .startAngle(0)
-        .endAngle(2 * Math.PI)
-        .value(function(d) {
-          return d.value;
-        });
-    }
-
-    const text_x = 2;
-    const text_y = 2;
+    const pie = d3
+      .pie()
+      .sort(null)
+      .startAngle(0)
+      .endAngle(2 * Math.PI)
+      .padAngle(0.015)
+      .value(function(d) {
+        return d.value;
+      });
 
     const text = chart
       .append('text')
       .attr('text-anchor', 'middle')
-      .attr('transform', 'translate(' + text_x + ',' + text_y + ')')
       .style('font-size', '22px')
       .style('font-weight', '600')
       .style('fill', '#2D2D39')
       .style('font-family', 'UHCSans-Regular');
 
-    const text2 = chart
-      .append('text')
-      .attr('text-anchor', 'middle')
-      .attr('transform', 'translate(' + text_x + ',' + (text_y + 25) + ')')
-      .style('font-size', '16px')
-      .style('fill', '#2D2D39')
-      .style('font-weight', '700')
-      .style('font-family', 'UHCSans-SemiBold');
+    const donutData = [];
+
+    for (let i = 0; i < chartOptions.cData.length; i++) {
+      donutData.push({ name: chartOptions.cValues[i], value: chartOptions.cData[i] });
+    }
 
     const g = chart
       .selectAll('.arc')
-      .data(pie(chartData))
+      .data(pie(donutData))
       .enter()
       .append('g')
       .attr('class', 'arc');
@@ -123,7 +92,7 @@ export class DonutChartComponent implements OnInit {
       // YES TRANSITION
       g.append('path')
         .style('fill', function(d) {
-          return color(d.data.name);
+          return donutColor(d.data.name);
         })
         .transition()
         .delay(function(d, i) {
@@ -132,9 +101,9 @@ export class DonutChartComponent implements OnInit {
         .duration(1000)
         .attrTween('d', function(d) {
           const i = d3.interpolate(d.startAngle, d.endAngle);
+
           return function(t) {
-            text.text(generalData[0].amount);
-            text2.text(generalData[0].desc1);
+            text.text('d');
             text.text();
             d.endAngle = i(t);
             return arc(d);
@@ -145,11 +114,10 @@ export class DonutChartComponent implements OnInit {
       g.append('path')
         .attr('d', arc)
         .style('fill', function(d) {
-          return color(d.data.name);
+          return donutColor(d.data.name);
         });
 
-      text.text(generalData[0].amount);
-      text2.text(generalData[0].desc1);
+      text.text('d');
       text.text();
     }
   }

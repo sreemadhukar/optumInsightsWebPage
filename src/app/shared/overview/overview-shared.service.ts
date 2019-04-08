@@ -54,10 +54,10 @@ export class OverviewSharedService {
             type: 'donut',
             title: 'Prior Authorization Approval',
             data: {
-              cValues: [(approvedRate * 100).toFixed(1)],
-              cData: (approvedRate * 100).toFixed(1) + '%',
-              color: ['#00A8F7', '#F5F5F5', '#FFFFFF'],
-              gdata: []
+              cValues: ['Approved', 'Not Approved'],
+              cData: [approvedRate, 1 - approvedRate],
+              color: ['#00A8F7', '#F5F5F5'],
+              gdata: ['priorAuthCard', 'priorAuthCardD3Donut']
             },
             sdata: {
               sign: 'up',
@@ -70,7 +70,9 @@ export class OverviewSharedService {
             category: 'small-card',
             type: 'donut',
             title: null,
-            data: null,
+            data: {
+              gdata: ['priorAuthCard', 'priorAuthCardD3Donut']
+            },
             sdata: null,
             timeperiod: null
           };
@@ -89,7 +91,7 @@ export class OverviewSharedService {
               cValues: [(data.SelfServiceInquiries.ALL.Utilizations.OverallLinkAdoptionRate * 100).toFixed(0)],
               cData: (data.SelfServiceInquiries.ALL.Utilizations.OverallLinkAdoptionRate * 100).toFixed(0) + '%',
               color: ['#00A8F7', '#F5F5F5', '#FFFFFF'],
-              gdata: []
+              gdata: ['selfServiceCard', 'selfServiceCardD3Donut']
             },
             sdata: {
               sign: 'down',
@@ -102,7 +104,9 @@ export class OverviewSharedService {
             category: 'small-card',
             type: 'donut',
             title: null,
-            data: null,
+            data: {
+              gdata: ['selfServiceCard', 'selfServiceCardD3Donut']
+            },
             sdata: null,
             timeperiod: null
           };
@@ -121,13 +125,20 @@ export class OverviewSharedService {
               cValues: [data.PatientCareOpportunity.LineOfBusiness.MedicareAndRetirement.AverageStarRating.toFixed(2)],
               cData: data.PatientCareOpportunity.LineOfBusiness.MedicareAndRetirement.AverageStarRating.toFixed(2),
               color: ['#00A8F7', '#F5F5F5', '#FFFFFF'],
-              gdata: []
+              gdata: ['pcorCard', 'pcorCardD3Star']
             },
             sdata: null,
             timeperiod: 'Timeperiod - Rolling 12 Months'
           };
         } else {
-          cPcor = { category: 'small-card', type: 'star', title: null, data: null, sdata: null, timeperiod: null };
+          cPcor = {
+            category: 'small-card',
+            type: 'star',
+            title: null,
+            data: { gdata: ['pcorCard', 'pcorCardD3Star'] },
+            sdata: null,
+            timeperiod: null
+          };
         }
         if (
           data.hasOwnProperty('ResolvingIssues') &&
@@ -152,13 +163,20 @@ export class OverviewSharedService {
               ],
               cData: this.nFormatter(data.ResolvingIssues.Calls.CallVolByQuesType.Total),
               color: ['#00A8F7', '#F5F5F5', '#FFFFFF'],
-              gdata: []
+              gdata: ['callsCard', 'callsCardD3Donut']
             },
             sdata: null,
             timeperiod: 'Timeperiod - Rolling 12 Months'
           };
         } else {
-          cIR = { category: 'small-card', type: 'donut', title: null, data: null, sdata: null, timeperiod: null };
+          cIR = {
+            category: 'small-card',
+            type: 'donut',
+            title: null,
+            data: { gdata: ['callsCard', 'callsCardD3Donut'] },
+            sdata: null,
+            timeperiod: null
+          };
         }
         if (
           data.hasOwnProperty('SelfServiceInquiries') &&
@@ -372,7 +390,7 @@ export class OverviewSharedService {
               ],
               cData: '$' + this.nFormatter(data1.All.ClaimsLobSummary[0].AmountUHCPaid),
               color: ['#00A8F7', '#F5F5F5', '#FFFFFF'],
-              gdata: []
+              gdata: ['claimsPaidCard', 'claimsPaidCardD3Donut']
             },
             sdata: {
               sign: 'down',
@@ -385,7 +403,7 @@ export class OverviewSharedService {
             category: 'small-card',
             type: 'donut',
             title: null,
-            data: null,
+            data: { gdata: ['claimsPaidCard', 'claimsPaidCardD3Donut'] },
             sdata: null,
             timeperiod: null
           };
@@ -407,7 +425,7 @@ export class OverviewSharedService {
               cValues: [claimYieldDonut.toFixed()],
               cData: claimYieldDonut.toFixed() + '%',
               color: ['#00A8F7', '#F5F5F5', '#FFFFFF'],
-              gdata: []
+              gdata: ['claimsYieldCard', 'claimsYieldCardD3Donut']
             },
             sdata: {
               sign: 'up',
@@ -420,7 +438,7 @@ export class OverviewSharedService {
             category: 'small-card',
             type: 'donut',
             title: null,
-            data: null,
+            data: { gdata: ['claimsYieldCard', 'claimsYieldCardD3Donut'] },
             sdata: null,
             timeperiod: null
           };
