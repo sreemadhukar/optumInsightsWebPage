@@ -1,4 +1,5 @@
 @import '~src/assets/styles/variables.scss';
+
 .example-container {
   background-color: #efefef;
   display: flex;
@@ -193,3 +194,6 @@ app-header {
 }
 
 /************ ABOVE IS THE CSS RELATED TO ONLY LEFT HAMBURGER MENU *************/
+.svg-ic_build_24px:hover {
+  fill: #196ecf !important;
+}

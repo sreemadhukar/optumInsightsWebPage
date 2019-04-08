@@ -1,7 +1,12 @@
 @import '~src/assets/styles/variables.scss';
-.header-div {
-  background-color: $white;
-  height: 72px;
+
+div {
+  z-index: 1000;
+  box-shadow: 2px 0 0 2px rgba(0, 0, 0, 0.3);
+  color: $black;
+  background-color: $blue;
+  font-size: 2rem;
+  height: 63px;
   display: flex;
   justify-content: space-between;
   border-bottom: solid;
