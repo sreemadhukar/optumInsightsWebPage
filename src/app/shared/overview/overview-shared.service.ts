@@ -49,7 +49,7 @@ export class OverviewSharedService {
           const approvedRate = data.PriorAuth.LineOfBusiness.All.PriorAuthApprovedCount / priorAuthRequested;
 
           cPriorAuth = {
-            category: 'small-cards',
+            category: 'small-card',
             type: 'donut',
             title: 'Prior Authorization Approval',
             data: {
@@ -66,7 +66,7 @@ export class OverviewSharedService {
           };
         } else {
           cPriorAuth = {
-            category: 'small-cards',
+            category: 'small-card',
             type: 'donut',
             title: null,
             data: null,
@@ -81,7 +81,7 @@ export class OverviewSharedService {
           data.SelfServiceInquiries.All.Utilizations.hasOwnProperty('OverallLinkAdoptionRate')
         ) {
           cSelfService = {
-            category: 'small-cards',
+            category: 'small-card',
             type: 'donut',
             title: 'Self Service Adoption Rate',
             data: {
@@ -98,7 +98,7 @@ export class OverviewSharedService {
           };
         } else {
           cSelfService = {
-            category: 'small-cards',
+            category: 'small-card',
             type: 'donut',
             title: null,
             data: null,
@@ -113,7 +113,7 @@ export class OverviewSharedService {
           data.PatientCareOpportunity.LineOfBusiness.MedicareAndRetirement.hasOwnProperty('AverageStarRating')
         ) {
           cPcor = {
-            category: 'small-cards',
+            category: 'small-card',
             type: 'star',
             title: 'Medicare Star Rating',
             data: {
@@ -126,7 +126,7 @@ export class OverviewSharedService {
             timeperiod: 'Timeperiod - Rolling 12 Months'
           };
         } else {
-          cPcor = { category: 'small-cards', type: 'star', title: null, data: null, sdata: null, timeperiod: null };
+          cPcor = { category: 'small-card', type: 'star', title: null, data: null, sdata: null, timeperiod: null };
         }
         if (
           data.hasOwnProperty('ResolvingIssues') &&
@@ -139,7 +139,7 @@ export class OverviewSharedService {
           data.ResolvingIssues.Calls.CallVolByQuesType.hasOwnProperty('Others')
         ) {
           cIR = {
-            category: 'small-cards',
+            category: 'small-card',
             type: 'donut',
             title: 'Total Calls',
             data: {
@@ -157,7 +157,7 @@ export class OverviewSharedService {
             timeperiod: 'Timeperiod - Rolling 12 Months'
           };
         } else {
-          cIR = { category: 'small-cards', type: 'donut', title: null, data: null, sdata: null, timeperiod: null };
+          cIR = { category: 'small-card', type: 'donut', title: null, data: null, sdata: null, timeperiod: null };
         }
         if (
           data.hasOwnProperty('SelfServiceInquiries') &&
@@ -360,7 +360,7 @@ export class OverviewSharedService {
           data1.Mr.ClaimsLobSummary[0].hasOwnProperty('AmountUHCPaid')
         ) {
           claimsPaid = {
-            category: 'small-cards',
+            category: 'small-card',
             type: 'donut',
             title: 'Claims Paid',
             data: {
@@ -381,7 +381,7 @@ export class OverviewSharedService {
           };
         } else {
           claimsPaid = {
-            category: 'small-cards',
+            category: 'small-card',
             type: 'donut',
             title: null,
             data: null,
@@ -399,7 +399,7 @@ export class OverviewSharedService {
           const expectedAllowed = parseFloat(data1.All.ClaimsLobSummary[0].AmountExpectedAllowed);
           const claimYieldDonut = (actualAllowed / expectedAllowed) * 100;
           claimsYield = {
-            category: 'small-cards',
+            category: 'small-card',
             type: 'donut',
             title: 'Claims Yield',
             data: {
@@ -416,7 +416,7 @@ export class OverviewSharedService {
           };
         } else {
           claimsYield = {
-            category: 'small-cards',
+            category: 'small-card',
             type: 'donut',
             title: null,
             data: null,
