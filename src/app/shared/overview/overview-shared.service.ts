@@ -429,7 +429,6 @@ export class OverviewSharedService {
           { claimsPaid, cPriorAuth, cSelfService, claimsYield, cPcor, cIR },
           { oppurtunities }
         );
-        
         if (this.overviewPageData.length) {
           resolve(this.overviewPageData);
         }
