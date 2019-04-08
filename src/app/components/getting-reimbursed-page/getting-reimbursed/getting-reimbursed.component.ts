@@ -35,7 +35,39 @@ export class GettingReimbursedComponent implements OnInit {
       },
       {
         category: 'card',
-        type: 'donutWithTrend',
+        type: 'donutBothLabelTrend',
+        title: 'Total Claims Submitted',
+        data: {
+          cValues: [],
+          cData: '',
+          color: [{ color1: '#00A8F7' }, { color2: '#F5F5F5' }, { color3: '#FFFFFF' }],
+          gdata: []
+        },
+        sdata: {
+          sign: 'down',
+          data: '-2.3%'
+        },
+        timeperiod: 'Rolling 12 Months'
+      },
+      {
+        category: 'card',
+        type: 'donutInsideTrend',
+        title: 'Total Calls',
+        data: {
+          cValues: [],
+          cData: '',
+          color: [{ color1: '#00A8F7' }, { color2: '#F5F5F5' }, { color3: '#FFFFFF' }],
+          gdata: []
+        },
+        sdata: {
+          sign: 'down',
+          data: '-2.3%'
+        },
+        timeperiod: 'Rolling 12 Months'
+      },
+      {
+        category: 'card',
+        type: 'donutBothLabelTrendAppeals',
         title: 'Total Calls',
         data: {
           cValues: [],

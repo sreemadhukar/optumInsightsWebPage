@@ -2,3 +2,57 @@
   // take a color as a parameter
   link-color: $text-color;
 }
+
+@mixin truncate($width: 100%) {
+  width: $width;
+  max-width: 100%;
+  display: block;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+/* define mixin for font family, weight, style*/
+@mixin font-face($font-name, $file-name, $weight: normal, $style: normal) {
+  @font-face {
+    font-family: quote($font-name);
+    src: url($file-name+'.eot');
+    src: url($file-name+'.eot?#iefix') format('embedded-opentype'), url($file-name+'.woff') format('woff'),
+      url($file-name+'.otf') format('truetype'), url($file-name+'.svg##{$font-name}') format('svg');
+    font-weight: $weight;
+    font-style: $style;
+  }
+}
+
+/*Material icon mixins*/
+@mixin icon-style($name, $icon-width, $icon-height) {
+  $url: '/src/assets/images/icons/#{$name}.svg';
+  background-image: url($url);
+  width: $icon-width;
+  height: $icon-height;
+}
+
+//Padding mixin
+@mixin padding($top, $right, $bottom, $left) {
+  padding-top: $top;
+  padding-right: $right;
+  padding-bottom: $bottom;
+  padding-left: $left;
+}
+//Margin mixin
+@mixin margin($top, $right, $bottom, $left) {
+  margin-top: $top;
+  margin-right: $right;
+  margin-bottom: $bottom;
+  margin-left: $left;
+}
+/*Centering a block*/
+@mixin center-block {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+@mixin text-size($sizeValue: 1.6) {
+  font-size: ($sizeValue * 10) + px;
+  font-size: $sizeValue + rem;
+}

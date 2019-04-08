@@ -16,10 +16,10 @@ export class HamburgerMenuComponent implements AfterViewInit {
   public navCategories = [
     { icon: '/src/assets/images/icons/Action/round-home-24px.svg', name: 'Overview', path: '/' },
     {
-      icon: '/src/assets/images/icons/Action/round-home-24px.svg',
+      icon: '/src/assets/images/icons/Action/round-search-24px.svg#round-search-24px',
       name: 'Getting Reimbursed',
       children: [
-        { name: 'Summary', path: 'GettingReimbursedSummary' },
+        { name: 'Summary', path: 'GettingReimbursed/Summary' },
         { name: 'Payments', path: '#' },
         { name: 'Non-Payments', path: '#' },
         { name: 'Appelas', path: '#' },
@@ -27,12 +27,12 @@ export class HamburgerMenuComponent implements AfterViewInit {
       ]
     },
     {
-      icon: '/src/assets/images/icons/Action/round-home-24px.svg',
+      icon: '/src/assets/images/icons/sprite.svg#round-undo-24px.svg',
       name: 'Care Delivery',
       children: [{ name: 'Prior Authorizations', path: '#' }, { name: 'Patient Care Opportunity', path: '#' }]
     },
     {
-      icon: '/src/assets/images/icons/Action/round-home-24px.svg',
+      icon: '/src/assets/images/icons/svg-sprite.svg#round-zoom_in-24px.svg',
       name: 'Issue Resolution',
       children: [{ name: 'Summary', path: '#' }]
     }
