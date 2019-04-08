@@ -25,7 +25,7 @@
 }
 
 /*Function to access UI Neutral Colors*/
-$UIN-colors-list: #2d2d39 #757588 #b3babc #e0e0e0 #f1f4f7;
+$UIN-colors-list: #f1f4f7 #e0e0e0 #b3babc #757588 #2d2d39;
 $text-color: #ffffff;
 @each $current-color in $UIN-colors-list {
   $i: index($UIN-colors-list, $current-color);

@@ -1,0 +1,2976 @@
+/* You can add global styles to this file, and also import other style files */
+/**------------------------- **\
+            Reset CSS
+\**------------------------- **/
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+  display: block;
+}
+
+body {
+  line-height: 1;
+}
+
+ol,
+ul {
+  list-style: none;
+}
+
+blockquote,
+q {
+  quotes: none;
+}
+
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+  content: '';
+  content: none;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+/**------------------------- **\
+            Functions
+\**------------------------- **/
+/*Retrieve color Sass maps*/
+/*Request a theme color level*/
+/*Function to access UI Neutral Colors*/
+.neutral-1 {
+  background-color: #f1f4f7;
+  color: #ffffff;
+}
+
+.neutral-2 {
+  background-color: #e0e0e0;
+  color: #ffffff;
+}
+
+.neutral-3 {
+  background-color: #b3babc;
+  color: #ffffff;
+}
+
+.neutral-4 {
+  background-color: #757588;
+  color: #ffffff;
+}
+
+.neutral-5 {
+  background-color: #2d2d39;
+  color: #ffffff;
+}
+
+/*To access Secondary Marketing Colors values*/
+/**------------------------- **\
+            @Variables
+            Created by Sri laxmi
+\**------------------------- **/
+/*Primary UI Brand Colors*/
+/*UI Neutral Colors*/
+/*Addition UI Hover Colors*/
+/*Additional UI Hover Colors*/
+/*Data Visualization Colors*/
+.data-1 {
+  background-color: #3381ff;
+  color: #fff;
+}
+
+.data-2 {
+  background-color: #80b0ff;
+  color: #fff;
+}
+
+.data-3 {
+  background-color: #003da1;
+  color: #fff;
+}
+
+.data-4 {
+  background-color: #00b8cc;
+  color: #fff;
+}
+
+.data-5 {
+  background-color: #8e6edd;
+  color: #fff;
+}
+
+/**------------------------- **\
+  Secondary Marketing Colors
+\**------------------------- **/
+/*To access Secondary Marketing Colors values*/
+/* define mixin for font family, weight, style*/
+/*Material icon mixins*/
+/*Centering a block*/
+/**------------------------- **\
+            @Variables
+            Created by Sri laxmi
+\**------------------------- **/
+/*Primary UI Brand Colors*/
+/*UI Neutral Colors*/
+/*Addition UI Hover Colors*/
+/*Additional UI Hover Colors*/
+/*Data Visualization Colors*/
+.data-1 {
+  background-color: #3381ff;
+  color: #fff;
+}
+
+.data-2 {
+  background-color: #80b0ff;
+  color: #fff;
+}
+
+.data-3 {
+  background-color: #003da1;
+  color: #fff;
+}
+
+.data-4 {
+  background-color: #00b8cc;
+  color: #fff;
+}
+
+.data-5 {
+  background-color: #8e6edd;
+  color: #fff;
+}
+
+/**------------------------- **\
+  Secondary Marketing Colors
+\**------------------------- **/
+/*To access Secondary Marketing Colors values*/
+.svg-ic_3d_rotation_24px {
+  background-image: url('/src/assets/images/icons/svg-sprite-action.svg');
+  width: 24px;
+  height: 24px;
+  background-position: 7.1428571429% 0;
+}
+
+.svg-ic_accessibility_24px {
+  background-image: url('/src/assets/images/icons/svg-sprite-action.svg');
+  width: 24px;
+  height: 24px;
+  background-position: 71.4285714286% 50%;
+}
+
+.svg-ic_accessible_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 0 7.1428571429% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_account_balance_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 7.1428571429% 7.1428571429% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_account_balance_wallet_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 14.2857142857% 0 no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_account_box_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 14.2857142857% 7.1428571429% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_account_circle_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 0 14.2857142857% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_add_shopping_cart_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 7.1428571429% 14.2857142857% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_alarm_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 14.2857142857% 14.2857142857% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_alarm_add_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 21.4285714286% 0 no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_alarm_off_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 21.4285714286% 7.1428571429% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_alarm_on_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 21.4285714286% 14.2857142857% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_all_out_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 0 21.4285714286% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_android_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 7.1428571429% 21.4285714286% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_announcement_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 14.2857142857% 21.4285714286% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_aspect_ratio_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 21.4285714286% 21.4285714286% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_assessment_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 28.5714285714% 0 no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_assignment_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 28.5714285714% 7.1428571429% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_assignment_ind_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 28.5714285714% 14.2857142857% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_assignment_late_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 28.5714285714% 21.4285714286% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_assignment_return_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 0 28.5714285714% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_assignment_returned_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 7.1428571429% 28.5714285714% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_assignment_turned_in_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 14.2857142857% 28.5714285714% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_autorenew_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 21.4285714286% 28.5714285714% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_backup_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 28.5714285714% 28.5714285714% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_book_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 35.7142857143% 0 no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_bookmark_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 35.7142857143% 7.1428571429% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_bookmark_border_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 35.7142857143% 14.2857142857% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_bug_report_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 35.7142857143% 21.4285714286% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_build_24px {
+  background-image: url('/src/assets/images/icons/svg-sprite-action.svg');
+  width: 24px;
+  height: 24px;
+  background-position: 35.7142857143% 28.5714285714%;
+}
+
+.svg-ic_build_24px path {
+  fill: #d53704 !important;
+}
+
+.svg-ic_cached_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 0 35.7142857143% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_camera_enhance_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 7.1428571429% 35.7142857143% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_card_giftcard_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 14.2857142857% 35.7142857143% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_card_membership_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 21.4285714286% 35.7142857143% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_card_travel_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 28.5714285714% 35.7142857143% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_change_history_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 35.7142857143% 35.7142857143% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_check_circle_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 42.8571428571% 0 no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_chrome_reader_mode_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 42.8571428571% 7.1428571429% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_class_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 42.8571428571% 14.2857142857% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_code_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 42.8571428571% 21.4285714286% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_compare_arrows_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 42.8571428571% 28.5714285714% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_copyright_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 42.8571428571% 35.7142857143% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_credit_card_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 0 42.8571428571% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_dashboard_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 7.1428571429% 42.8571428571% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_date_range_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 14.2857142857% 42.8571428571% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_delete_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 21.4285714286% 42.8571428571% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_delete_forever_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 28.5714285714% 42.8571428571% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_description_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 35.7142857143% 42.8571428571% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_dns_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 42.8571428571% 42.8571428571% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_done_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 50% 0 no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_done_all_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 50% 7.1428571429% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_donut_large_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 50% 14.2857142857% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_donut_small_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 50% 21.4285714286% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_eject_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 50% 28.5714285714% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_euro_symbol_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 50% 35.7142857143% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_event_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 50% 42.8571428571% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_event_seat_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 0 50% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_exit_to_app_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 7.1428571429% 50% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_explore_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 14.2857142857% 50% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_extension_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 21.4285714286% 50% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_face_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 28.5714285714% 50% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_favorite_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 35.7142857143% 50% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_favorite_border_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 42.8571428571% 50% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_feedback_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 50% 50% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_find_in_page_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 57.1428571429% 0 no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_find_replace_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 57.1428571429% 7.1428571429% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_fingerprint_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 57.1428571429% 14.2857142857% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_flight_land_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 57.1428571429% 21.4285714286% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_flight_takeoff_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 57.1428571429% 28.5714285714% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_flip_to_back_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 57.1428571429% 35.7142857143% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_flip_to_front_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 57.1428571429% 42.8571428571% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_g_translate_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 57.1428571429% 50% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_gavel_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 0 57.1428571429% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_get_app_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 7.1428571429% 57.1428571429% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_gif_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 14.2857142857% 57.1428571429% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_grade_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 21.4285714286% 57.1428571429% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_group_work_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 28.5714285714% 57.1428571429% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_help_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 35.7142857143% 57.1428571429% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_help_outline_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 42.8571428571% 57.1428571429% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_highlight_off_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 50% 57.1428571429% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_history_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 57.1428571429% 57.1428571429% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_home_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 64.2857142857% 0 no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_hourglass_empty_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 64.2857142857% 7.1428571429% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_hourglass_full_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 64.2857142857% 14.2857142857% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_http_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 64.2857142857% 21.4285714286% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_https_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 64.2857142857% 28.5714285714% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_important_devices_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 64.2857142857% 35.7142857143% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_info_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 64.2857142857% 42.8571428571% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_info_outline_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 64.2857142857% 50% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_input_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 64.2857142857% 57.1428571429% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_invert_colors_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 0 64.2857142857% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_label_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 7.1428571429% 64.2857142857% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_label_outline_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 14.2857142857% 64.2857142857% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_language_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 21.4285714286% 64.2857142857% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_launch_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 28.5714285714% 64.2857142857% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_lightbulb_outline_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 35.7142857143% 64.2857142857% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_line_style_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 42.8571428571% 64.2857142857% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_line_weight_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 50% 64.2857142857% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_list_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 57.1428571429% 64.2857142857% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_lock_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 64.2857142857% 64.2857142857% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_lock_open_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 71.4285714286% 0 no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_lock_outline_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 71.4285714286% 7.1428571429% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_loyalty_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 71.4285714286% 14.2857142857% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_markunread_mailbox_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 71.4285714286% 21.4285714286% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_motorcycle_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 71.4285714286% 28.5714285714% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_note_add_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 71.4285714286% 35.7142857143% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_offline_pin_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 71.4285714286% 42.8571428571% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_opacity_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 0 0 no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_open_in_browser_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 71.4285714286% 57.1428571429% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_open_in_new_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 71.4285714286% 64.2857142857% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_open_with_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 0 71.4285714286% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_pageview_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 7.1428571429% 71.4285714286% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_pan_tool_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 14.2857142857% 71.4285714286% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_payment_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 21.4285714286% 71.4285714286% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_perm_camera_mic_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 28.5714285714% 71.4285714286% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_perm_contact_calendar_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 35.7142857143% 71.4285714286% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_perm_data_setting_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 42.8571428571% 71.4285714286% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_perm_device_information_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 50% 71.4285714286% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_perm_identity_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 57.1428571429% 71.4285714286% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_perm_media_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 64.2857142857% 71.4285714286% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_perm_phone_msg_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 71.4285714286% 71.4285714286% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_perm_scan_wifi_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 78.5714285714% 0 no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_pets_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 78.5714285714% 7.1428571429% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_picture_in_picture_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 78.5714285714% 14.2857142857% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_picture_in_picture_alt_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 78.5714285714% 21.4285714286% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_play_for_work_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 78.5714285714% 28.5714285714% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_polymer_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 78.5714285714% 35.7142857143% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_power_settings_new_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 78.5714285714% 42.8571428571% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_pregnant_woman_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 78.5714285714% 50% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_print_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 78.5714285714% 57.1428571429% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_query_builder_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 78.5714285714% 64.2857142857% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_question_answer_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 78.5714285714% 71.4285714286% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_receipt_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 0 78.5714285714% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_record_voice_over_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 7.1428571429% 78.5714285714% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_redeem_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 14.2857142857% 78.5714285714% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_remove_shopping_cart_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 21.4285714286% 78.5714285714% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_reorder_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 28.5714285714% 78.5714285714% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_report_problem_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 35.7142857143% 78.5714285714% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_restore_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 42.8571428571% 78.5714285714% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_restore_page_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 50% 78.5714285714% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_room_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 57.1428571429% 78.5714285714% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_rounded_corner_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 64.2857142857% 78.5714285714% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_rowing_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 71.4285714286% 78.5714285714% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_schedule_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 78.5714285714% 78.5714285714% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_search_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 85.7142857143% 0 no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_settings_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 85.7142857143% 7.1428571429% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_settings_applications_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 85.7142857143% 14.2857142857% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_settings_backup_restore_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 85.7142857143% 21.4285714286% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_settings_bluetooth_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 85.7142857143% 28.5714285714% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_settings_brightness_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 85.7142857143% 35.7142857143% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_settings_cell_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 85.7142857143% 42.8571428571% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_settings_ethernet_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 85.7142857143% 50% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_settings_input_antenna_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 85.7142857143% 57.1428571429% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_settings_input_component_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 85.7142857143% 64.2857142857% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_settings_input_composite_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 85.7142857143% 71.4285714286% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_settings_input_hdmi_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 85.7142857143% 78.5714285714% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_settings_input_svideo_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 0 85.7142857143% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_settings_overscan_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 7.1428571429% 85.7142857143% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_settings_phone_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 14.2857142857% 85.7142857143% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_settings_power_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 21.4285714286% 85.7142857143% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_settings_remote_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 28.5714285714% 85.7142857143% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_settings_voice_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 35.7142857143% 85.7142857143% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_shop_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 42.8571428571% 85.7142857143% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_shop_two_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 50% 85.7142857143% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_shopping_basket_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 57.1428571429% 85.7142857143% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_shopping_cart_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 64.2857142857% 85.7142857143% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_speaker_notes_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 71.4285714286% 85.7142857143% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_speaker_notes_off_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 78.5714285714% 85.7142857143% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_spellcheck_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 85.7142857143% 85.7142857143% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_stars_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 92.8571428571% 0 no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_store_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 92.8571428571% 7.1428571429% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_subject_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 92.8571428571% 14.2857142857% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_supervisor_account_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 92.8571428571% 21.4285714286% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_swap_horiz_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 92.8571428571% 28.5714285714% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_swap_vert_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 92.8571428571% 35.7142857143% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_swap_vertical_circle_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 92.8571428571% 42.8571428571% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_system_update_alt_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 92.8571428571% 50% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_tab_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 92.8571428571% 57.1428571429% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_tab_unselected_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 92.8571428571% 64.2857142857% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_theaters_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 92.8571428571% 71.4285714286% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_thumb_down_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 92.8571428571% 78.5714285714% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_thumb_up_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 92.8571428571% 85.7142857143% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_thumbs_up_down_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 0 92.8571428571% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_timeline_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 7.1428571429% 92.8571428571% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_toc_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 14.2857142857% 92.8571428571% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_today_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 21.4285714286% 92.8571428571% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_toll_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 28.5714285714% 92.8571428571% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_touch_app_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 35.7142857143% 92.8571428571% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_track_changes_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 42.8571428571% 92.8571428571% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_translate_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 50% 92.8571428571% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_trending_down_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 57.1428571429% 92.8571428571% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_trending_flat_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 64.2857142857% 92.8571428571% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_trending_up_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 71.4285714286% 92.8571428571% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_turned_in_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 78.5714285714% 92.8571428571% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_turned_in_not_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 85.7142857143% 92.8571428571% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_update_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 92.8571428571% 92.8571428571% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_verified_user_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 100% 0 no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_view_agenda_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 100% 7.1428571429% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_view_array_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 100% 14.2857142857% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_view_carousel_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 100% 21.4285714286% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_view_column_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 100% 28.5714285714% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_view_day_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 100% 35.7142857143% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_view_headline_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 100% 42.8571428571% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_view_list_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 100% 50% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_view_module_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 100% 57.1428571429% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_view_quilt_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 100% 64.2857142857% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_view_stream_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 100% 71.4285714286% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_view_week_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 100% 78.5714285714% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_visibility_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 100% 85.7142857143% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_visibility_off_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 100% 92.8571428571% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_watch_later_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 0 100% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_work_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 7.1428571429% 100% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_youtube_searched_for_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 14.2857142857% 100% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_zoom_in_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 21.4285714286% 100% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_zoom_out_24px {
+  background: url(/src/assets/images/icons/svg-sprite-action.svg) 28.5714285714% 100% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_add_alert_24px {
+  background: url(/src/assets/images/icons/material-svg-sprite.svg) 0 0 no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_error_24px {
+  background: url(/src/assets/images/icons/svg-sprite-alert.svg) 100% 0 no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_error_outline_24px {
+  background: url(/src/assets/images/icons/svg-sprite-alert.svg) 0 100% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_warning_24px {
+  background: url(/src/assets/images/icons/svg-sprite-alert.svg) 100% 100% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_add_to_queue_24px {
+  background: url(/src/assets/images/icons/svg-sprite-av.svg) 12.5% 0 no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_airplay_24px {
+  background: url(/src/assets/images/icons/svg-sprite-av.svg) 75% 50% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_album_24px {
+  background: url(/src/assets/images/icons/svg-sprite-av.svg) 0 12.5% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_art_track_24px {
+  background: url(/src/assets/images/icons/svg-sprite-av.svg) 12.5% 12.5% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_av_timer_24px {
+  background: url(/src/assets/images/icons/svg-sprite-av.svg) 25% 0 no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_branding_watermark_24px {
+  background: url(/src/assets/images/icons/svg-sprite-av.svg) 25% 12.5% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_call_to_action_24px {
+  background: url(/src/assets/images/icons/svg-sprite-av.svg) 0 25% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_closed_caption_24px {
+  background: url(/src/assets/images/icons/svg-sprite-av.svg) 12.5% 25% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_equalizer_24px {
+  background: url(/src/assets/images/icons/svg-sprite-av.svg) 25% 25% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_explicit_24px {
+  background: url(/src/assets/images/icons/svg-sprite-av.svg) 37.5% 0 no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_fast_forward_24px {
+  background: url(/src/assets/images/icons/svg-sprite-av.svg) 37.5% 12.5% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_fast_rewind_24px {
+  background: url(/src/assets/images/icons/svg-sprite-av.svg) 37.5% 25% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_featured_play_list_24px {
+  background: url(/src/assets/images/icons/svg-sprite-av.svg) 0 37.5% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_featured_video_24px {
+  background: url(/src/assets/images/icons/svg-sprite-av.svg) 12.5% 37.5% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_fiber_dvr_24px {
+  background: url(/src/assets/images/icons/svg-sprite-av.svg) 25% 37.5% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_fiber_manual_record_24px {
+  background: url(/src/assets/images/icons/svg-sprite-av.svg) 37.5% 37.5% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_fiber_new_24px {
+  background: url(/src/assets/images/icons/svg-sprite-av.svg) 50% 0 no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_fiber_pin_24px {
+  background: url(/src/assets/images/icons/svg-sprite-av.svg) 50% 12.5% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_fiber_smart_record_24px {
+  background: url(/src/assets/images/icons/svg-sprite-av.svg) 50% 25% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_forward_10_24px {
+  background: url(/src/assets/images/icons/svg-sprite-av.svg) 50% 37.5% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_forward_30_24px {
+  background: url(/src/assets/images/icons/svg-sprite-av.svg) 0 50% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_forward_5_24px {
+  background: url(/src/assets/images/icons/svg-sprite-av.svg) 12.5% 50% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_games_24px {
+  background: url(/src/assets/images/icons/svg-sprite-av.svg) 25% 50% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_hd_24px {
+  background: url(/src/assets/images/icons/svg-sprite-av.svg) 37.5% 50% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_hearing_24px {
+  background: url(/src/assets/images/icons/svg-sprite-av.svg) 50% 50% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_high_quality_24px {
+  background: url(/src/assets/images/icons/svg-sprite-av.svg) 62.5% 0 no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_library_add_24px {
+  background: url(/src/assets/images/icons/svg-sprite-av.svg) 62.5% 12.5% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_library_books_24px {
+  background: url(/src/assets/images/icons/svg-sprite-av.svg) 62.5% 25% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_library_music_24px {
+  background: url(/src/assets/images/icons/svg-sprite-av.svg) 62.5% 37.5% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_loop_24px {
+  background: url(/src/assets/images/icons/svg-sprite-av.svg) 62.5% 50% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_mic_24px {
+  background: url(/src/assets/images/icons/svg-sprite-av.svg) 0 62.5% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_mic_none_24px {
+  background: url(/src/assets/images/icons/svg-sprite-av.svg) 12.5% 62.5% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_mic_off_24px {
+  background: url(/src/assets/images/icons/svg-sprite-av.svg) 25% 62.5% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_movie_24px {
+  background: url(/src/assets/images/icons/svg-sprite-av.svg) 37.5% 62.5% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_music_video_24px {
+  background: url(/src/assets/images/icons/svg-sprite-av.svg) 50% 62.5% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_new_releases_24px {
+  background: url(/src/assets/images/icons/svg-sprite-av.svg) 62.5% 62.5% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_not_interested_24px {
+  background: url(/src/assets/images/icons/svg-sprite-av.svg) 75% 0 no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_note_24px {
+  background: url(/src/assets/images/icons/svg-sprite-av.svg) 75% 12.5% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_pause_24px {
+  background: url(/src/assets/images/icons/svg-sprite-av.svg) 75% 25% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_pause_circle_filled_24px {
+  background: url(/src/assets/images/icons/svg-sprite-av.svg) 75% 37.5% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_pause_circle_outline_24px {
+  background: url(/src/assets/images/icons/svg-sprite-av.svg) 0 0 no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_play_arrow_24px {
+  background: url(/src/assets/images/icons/svg-sprite-av.svg) 75% 62.5% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_play_circle_filled_24px {
+  background: url(/src/assets/images/icons/svg-sprite-av.svg) 0 75% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_play_circle_outline_24px {
+  background: url(/src/assets/images/icons/svg-sprite-av.svg) 12.5% 75% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_playlist_add_24px {
+  background: url(/src/assets/images/icons/svg-sprite-av.svg) 25% 75% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_playlist_add_check_24px {
+  background: url(/src/assets/images/icons/svg-sprite-av.svg) 37.5% 75% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_playlist_play_24px {
+  background: url(/src/assets/images/icons/svg-sprite-av.svg) 50% 75% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_queue_24px {
+  background: url(/src/assets/images/icons/svg-sprite-av.svg) 62.5% 75% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_queue_music_24px {
+  background: url(/src/assets/images/icons/svg-sprite-av.svg) 75% 75% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_queue_play_next_24px {
+  background: url(/src/assets/images/icons/svg-sprite-av.svg) 87.5% 0 no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_radio_24px {
+  background: url(/src/assets/images/icons/svg-sprite-av.svg) 87.5% 12.5% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_recent_actors_24px {
+  background: url(/src/assets/images/icons/svg-sprite-av.svg) 87.5% 25% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_remove_from_queue_24px {
+  background: url(/src/assets/images/icons/svg-sprite-av.svg) 87.5% 37.5% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_repeat_24px {
+  background: url(/src/assets/images/icons/svg-sprite-av.svg) 87.5% 50% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_repeat_one_24px {
+  background: url(/src/assets/images/icons/svg-sprite-av.svg) 87.5% 62.5% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_replay_10_24px {
+  background: url(/src/assets/images/icons/svg-sprite-av.svg) 87.5% 75% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_replay_24px {
+  background: url(/src/assets/images/icons/svg-sprite-av.svg) 0 87.5% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_replay_30_24px {
+  background: url(/src/assets/images/icons/svg-sprite-av.svg) 12.5% 87.5% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_replay_5_24px {
+  background: url(/src/assets/images/icons/svg-sprite-av.svg) 25% 87.5% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_shuffle_24px {
+  background: url(/src/assets/images/icons/svg-sprite-av.svg) 37.5% 87.5% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_skip_next_24px {
+  background: url(/src/assets/images/icons/svg-sprite-av.svg) 50% 87.5% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_skip_previous_24px {
+  background: url(/src/assets/images/icons/svg-sprite-av.svg) 62.5% 87.5% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_slow_motion_video_24px {
+  background: url(/src/assets/images/icons/svg-sprite-av.svg) 75% 87.5% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_snooze_24px {
+  background: url(/src/assets/images/icons/svg-sprite-av.svg) 87.5% 87.5% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_sort_by_alpha_24px {
+  background: url(/src/assets/images/icons/svg-sprite-av.svg) 100% 0 no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_stop_24px {
+  background: url(/src/assets/images/icons/svg-sprite-av.svg) 100% 12.5% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_subscriptions_24px {
+  background: url(/src/assets/images/icons/svg-sprite-av.svg) 100% 25% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_subtitles_24px {
+  background: url(/src/assets/images/icons/svg-sprite-av.svg) 100% 37.5% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_surround_sound_24px {
+  background: url(/src/assets/images/icons/svg-sprite-av.svg) 100% 50% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_video_call_24px {
+  background: url(/src/assets/images/icons/svg-sprite-av.svg) 100% 62.5% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_video_label_24px {
+  background: url(/src/assets/images/icons/svg-sprite-av.svg) 100% 75% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_video_library_24px {
+  background: url(/src/assets/images/icons/svg-sprite-av.svg) 100% 87.5% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_videocam_24px {
+  background: url(/src/assets/images/icons/svg-sprite-av.svg) 0 100% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_videocam_off_24px {
+  background: url(/src/assets/images/icons/svg-sprite-av.svg) 12.5% 100% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_volume_down_24px {
+  background: url(/src/assets/images/icons/svg-sprite-av.svg) 25% 100% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_volume_mute_24px {
+  background: url(/src/assets/images/icons/svg-sprite-av.svg) 37.5% 100% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_volume_off_24px {
+  background: url(/src/assets/images/icons/svg-sprite-av.svg) 50% 100% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_volume_up_24px {
+  background: url(/src/assets/images/icons/svg-sprite-av.svg) 62.5% 100% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_web_24px {
+  background: url(/src/assets/images/icons/svg-sprite-av.svg) 75% 100% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_web_asset_24px {
+  background: url(/src/assets/images/icons/svg-sprite-av.svg) 87.5% 100% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_add_24px {
+  background: url(/src/assets/images/icons/svg-sprite-content.svg) 16.6666666667% 0 no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_add_box_24px {
+  background: url(/src/assets/images/icons/svg-sprite-content.svg) 0 80% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_add_circle_24px {
+  background: url(/src/assets/images/icons/svg-sprite-content.svg) 0 20% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_add_circle_outline_24px {
+  background: url(/src/assets/images/icons/svg-sprite-content.svg) 16.6666666667% 20% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_archive_24px {
+  background: url(/src/assets/images/icons/svg-sprite-content.svg) 33.3333333333% 0 no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_backspace_24px {
+  background: url(/src/assets/images/icons/svg-sprite-content.svg) 33.3333333333% 20% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_block_24px {
+  background: url(/src/assets/images/icons/svg-sprite-content.svg) 0 40% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_clear_24px {
+  background: url(/src/assets/images/icons/svg-sprite-content.svg) 16.6666666667% 40% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_content_copy_24px {
+  background: url(/src/assets/images/icons/svg-sprite-content.svg) 33.3333333333% 40% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_content_cut_24px {
+  background: url(/src/assets/images/icons/svg-sprite-content.svg) 50% 0 no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_content_paste_24px {
+  background: url(/src/assets/images/icons/svg-sprite-content.svg) 50% 20% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_create_24px {
+  background: url(/src/assets/images/icons/svg-sprite-content.svg) 50% 40% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_delete_sweep_24px {
+  background: url(/src/assets/images/icons/svg-sprite-content.svg) 0 60% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_drafts_24px {
+  background: url(/src/assets/images/icons/svg-sprite-content.svg) 16.6666666667% 60% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_filter_list_24px {
+  background: url(/src/assets/images/icons/svg-sprite-content.svg) 33.3333333333% 60% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_flag_24px {
+  background: url(/src/assets/images/icons/svg-sprite-content.svg) 50% 60% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_font_download_24px {
+  background: url(/src/assets/images/icons/svg-sprite-content.svg) 66.6666666667% 0 no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_forward_24px {
+  background: url(/src/assets/images/icons/svg-sprite-content.svg) 66.6666666667% 20% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_gesture_24px {
+  background: url(/src/assets/images/icons/svg-sprite-content.svg) 66.6666666667% 40% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_inbox_24px {
+  background: url(/src/assets/images/icons/svg-sprite-content.svg) 66.6666666667% 60% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_link_24px {
+  background: url(/src/assets/images/icons/svg-sprite-content.svg) 0 0 no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_low_priority_24px {
+  background: url(/src/assets/images/icons/svg-sprite-content.svg) 16.6666666667% 80% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_mail_24px {
+  background: url(/src/assets/images/icons/svg-sprite-content.svg) 33.3333333333% 80% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_markunread_24px {
+  background: url(/src/assets/images/icons/svg-sprite-content.svg) 50% 80% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_move_to_inbox_24px {
+  background: url(/src/assets/images/icons/svg-sprite-content.svg) 66.6666666667% 80% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_next_week_24px {
+  background: url(/src/assets/images/icons/svg-sprite-content.svg) 83.3333333333% 0 no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_redo_24px {
+  background: url(/src/assets/images/icons/svg-sprite-content.svg) 83.3333333333% 20% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_remove_24px {
+  background: url(/src/assets/images/icons/svg-sprite-content.svg) 83.3333333333% 40% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_remove_circle_24px {
+  background: url(/src/assets/images/icons/svg-sprite-content.svg) 83.3333333333% 60% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_remove_circle_outline_24px {
+  background: url(/src/assets/images/icons/svg-sprite-content.svg) 83.3333333333% 80% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_reply_24px {
+  background: url(/src/assets/images/icons/svg-sprite-content.svg) 0 100% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_reply_all_24px {
+  background: url(/src/assets/images/icons/svg-sprite-content.svg) 16.6666666667% 100% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_report_24px {
+  background: url(/src/assets/images/icons/svg-sprite-content.svg) 33.3333333333% 100% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_save_24px {
+  background: url(/src/assets/images/icons/svg-sprite-content.svg) 50% 100% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_select_all_24px {
+  background: url(/src/assets/images/icons/svg-sprite-content.svg) 66.6666666667% 100% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_send_24px {
+  background: url(/src/assets/images/icons/svg-sprite-content.svg) 83.3333333333% 100% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_sort_24px {
+  background: url(/src/assets/images/icons/svg-sprite-content.svg) 100% 0 no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_text_format_24px {
+  background: url(/src/assets/images/icons/svg-sprite-content.svg) 100% 20% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_unarchive_24px {
+  background: url(/src/assets/images/icons/svg-sprite-content.svg) 100% 40% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_undo_24px {
+  background: url(/src/assets/images/icons/svg-sprite-content.svg) 100% 60% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_weekend_24px {
+  background: url(/src/assets/images/icons/svg-sprite-content.svg) 100% 80% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_apps_24px {
+  background: url(/src/assets/images/icons/svg-sprite-navigation.svg) 20% 0 no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_arrow_back_24px {
+  background: url(/src/assets/images/icons/svg-sprite-navigation.svg) 20% 75% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_arrow_downward_24px {
+  background: url(/src/assets/images/icons/svg-sprite-navigation.svg) 0 25% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_arrow_drop_down_24px {
+  background: url(/src/assets/images/icons/svg-sprite-navigation.svg) 20% 25% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_arrow_drop_down_circle_24px {
+  background: url(/src/assets/images/icons/svg-sprite-navigation.svg) 40% 0 no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_arrow_drop_up_24px {
+  background: url(/src/assets/images/icons/svg-sprite-navigation.svg) 40% 25% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_arrow_forward_24px {
+  background: url(/src/assets/images/icons/svg-sprite-navigation.svg) 0 50% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_arrow_upward_24px {
+  background: url(/src/assets/images/icons/svg-sprite-navigation.svg) 20% 50% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_cancel_24px {
+  background: url(/src/assets/images/icons/svg-sprite-navigation.svg) 40% 50% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_check_24px {
+  background: url(/src/assets/images/icons/svg-sprite-navigation.svg) 60% 0 no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_chevron_left_24px {
+  background: url(/src/assets/images/icons/svg-sprite-navigation.svg) 60% 25% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_chevron_right_24px {
+  background: url(/src/assets/images/icons/svg-sprite-navigation.svg) 60% 50% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_close_24px {
+  background: url(/src/assets/images/icons/svg-sprite-navigation.svg) 0 75% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_expand_less_24px {
+  background: url(/src/assets/images/icons/svg-sprite-navigation.svg) 0 0 no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_expand_more_24px {
+  background: url(/src/assets/images/icons/svg-sprite-navigation.svg) 40% 75% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_first_page_24px {
+  background: url(/src/assets/images/icons/svg-sprite-navigation.svg) 60% 75% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_fullscreen_24px {
+  background: url(/src/assets/images/icons/svg-sprite-navigation.svg) 80% 0 no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_fullscreen_exit_24px {
+  background: url(/src/assets/images/icons/svg-sprite-navigation.svg) 80% 25% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_last_page_24px {
+  background: url(/src/assets/images/icons/svg-sprite-navigation.svg) 80% 50% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_menu_24px {
+  background: url(/src/assets/images/icons/svg-sprite-navigation.svg) 80% 75% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_more_horiz_24px {
+  background: url(/src/assets/images/icons/svg-sprite-navigation.svg) 0 100% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_more_vert_24px {
+  background: url(/src/assets/images/icons/svg-sprite-navigation.svg) 20% 100% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_refresh_24px {
+  background: url(/src/assets/images/icons/svg-sprite-navigation.svg) 40% 100% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_subdirectory_arrow_left_24px {
+  background: url(/src/assets/images/icons/svg-sprite-navigation.svg) 60% 100% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_subdirectory_arrow_right_24px {
+  background: url(/src/assets/images/icons/svg-sprite-navigation.svg) 80% 100% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_unfold_less_24px {
+  background: url(/src/assets/images/icons/svg-sprite-navigation.svg) 100% 0 no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_unfold_more_24px {
+  background: url(/src/assets/images/icons/svg-sprite-navigation.svg) 100% 25% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_check_box_24px {
+  background: url(/src/assets/images/icons/svg-sprite-toggle.svg) 0 0 no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_check_box_outline_blank_24px {
+  background: url(/src/assets/images/icons/svg-sprite-toggle.svg) 50% 0 no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_indeterminate_check_box_24px {
+  background: url(/src/assets/images/icons/svg-sprite-toggle.svg) 0 50% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_radio_button_checked_24px {
+  background: url(/src/assets/images/icons/svg-sprite-toggle.svg) 50% 50% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_radio_button_unchecked_24px {
+  background: url(/src/assets/images/icons/svg-sprite-toggle.svg) 100% 0 no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_star_24px {
+  background: url(/src/assets/images/icons/svg-sprite-toggle.svg) 100% 50% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_star_border_24px {
+  background: url(/src/assets/images/icons/svg-sprite-toggle.svg) 0 100% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_star_half_24px {
+  background: url(/src/assets/images/icons/svg-sprite-toggle.svg) 50% 100% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_attach_file_24px {
+  background: url(/src/assets/images/icons/svg-sprite-editor.svg) 12.5% 0 no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_attach_money_24px {
+  background-image: url('/src/assets/images/icons/svg-sprite-editor.svg');
+  width: 24px;
+  height: 24px;
+  background-position: 50% 71.4285714286% no-repeat;
+}
+
+.svg-ic_border_all_24px {
+  background: url(/src/assets/images/icons/svg-sprite-editor.svg) 0 14.2857142857% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_border_bottom_24px {
+  background: url(/src/assets/images/icons/svg-sprite-editor.svg) 12.5% 14.2857142857% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_border_clear_24px {
+  background: url(/src/assets/images/icons/svg-sprite-editor.svg) 25% 0 no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_border_color_24px {
+  background: url(/src/assets/images/icons/svg-sprite-editor.svg) 25% 14.2857142857% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_border_horizontal_24px {
+  background: url(/src/assets/images/icons/svg-sprite-editor.svg) 0 28.5714285714% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_border_inner_24px {
+  background: url(/src/assets/images/icons/svg-sprite-editor.svg) 12.5% 28.5714285714% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_border_left_24px {
+  background: url(/src/assets/images/icons/svg-sprite-editor.svg) 25% 28.5714285714% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_border_outer_24px {
+  background: url(/src/assets/images/icons/svg-sprite-editor.svg) 37.5% 0 no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_border_right_24px {
+  background: url(/src/assets/images/icons/svg-sprite-editor.svg) 37.5% 14.2857142857% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_border_style_24px {
+  background: url(/src/assets/images/icons/svg-sprite-editor.svg) 37.5% 28.5714285714% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_border_top_24px {
+  background: url(/src/assets/images/icons/svg-sprite-editor.svg) 0 42.8571428571% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_border_vertical_24px {
+  background: url(/src/assets/images/icons/svg-sprite-editor.svg) 12.5% 42.8571428571% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_bubble_chart_24px {
+  background: url(/src/assets/images/icons/svg-sprite-editor.svg) 25% 42.8571428571% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_drag_handle_24px {
+  background: url(/src/assets/images/icons/svg-sprite-editor.svg) 37.5% 42.8571428571% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_format_align_center_24px {
+  background: url(/src/assets/images/icons/svg-sprite-editor.svg) 50% 0 no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_format_align_justify_24px {
+  background: url(/src/assets/images/icons/svg-sprite-editor.svg) 50% 14.2857142857% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_format_align_left_24px {
+  background: url(/src/assets/images/icons/svg-sprite-editor.svg) 50% 28.5714285714% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_format_align_right_24px {
+  background: url(/src/assets/images/icons/svg-sprite-editor.svg) 50% 42.8571428571% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_format_bold_24px {
+  background: url(/src/assets/images/icons/svg-sprite-editor.svg) 0 57.1428571429% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_format_clear_24px {
+  background: url(/src/assets/images/icons/svg-sprite-editor.svg) 12.5% 57.1428571429% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_format_color_fill_24px {
+  background: url(/src/assets/images/icons/svg-sprite-editor.svg) 25% 57.1428571429% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_format_color_reset_24px {
+  background: url(/src/assets/images/icons/svg-sprite-editor.svg) 37.5% 57.1428571429% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_format_color_text_24px {
+  background: url(/src/assets/images/icons/svg-sprite-editor.svg) 50% 57.1428571429% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_format_indent_decrease_24px {
+  background: url(/src/assets/images/icons/svg-sprite-editor.svg) 62.5% 0 no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_format_indent_increase_24px {
+  background: url(/src/assets/images/icons/svg-sprite-editor.svg) 62.5% 14.2857142857% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_format_italic_24px {
+  background: url(/src/assets/images/icons/svg-sprite-editor.svg) 62.5% 28.5714285714% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_format_line_spacing_24px {
+  background: url(/src/assets/images/icons/svg-sprite-editor.svg) 62.5% 42.8571428571% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_format_list_bulleted_24px {
+  background: url(/src/assets/images/icons/svg-sprite-editor.svg) 62.5% 57.1428571429% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_format_list_numbered_24px {
+  background: url(/src/assets/images/icons/svg-sprite-editor.svg) 0 71.4285714286% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_format_paint_24px {
+  background: url(/src/assets/images/icons/svg-sprite-editor.svg) 12.5% 71.4285714286% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_format_quote_24px {
+  background: url(/src/assets/images/icons/svg-sprite-editor.svg) 25% 71.4285714286% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_format_shapes_24px {
+  background: url(/src/assets/images/icons/svg-sprite-editor.svg) 37.5% 71.4285714286% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_format_size_24px {
+  background: url(/src/assets/images/icons/svg-sprite-editor.svg) 0 0 no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_format_strikethrough_24px {
+  background: url(/src/assets/images/icons/svg-sprite-editor.svg) 62.5% 71.4285714286% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_format_textdirection_l_to_r_24px {
+  background: url(/src/assets/images/icons/svg-sprite-editor.svg) 75% 0 no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_format_textdirection_r_to_l_24px {
+  background: url(/src/assets/images/icons/svg-sprite-editor.svg) 75% 14.2857142857% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_format_underlined_24px {
+  background: url(/src/assets/images/icons/svg-sprite-editor.svg) 75% 28.5714285714% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_functions_24px {
+  background: url(/src/assets/images/icons/svg-sprite-editor.svg) 75% 42.8571428571% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_highlight_24px {
+  background: url(/src/assets/images/icons/svg-sprite-editor.svg) 75% 57.1428571429% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_insert_chart_24px {
+  background: url(/src/assets/images/icons/svg-sprite-editor.svg) 75% 71.4285714286% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_insert_comment_24px {
+  background: url(/src/assets/images/icons/svg-sprite-editor.svg) 0 85.7142857143% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_insert_drive_file_24px {
+  background: url(/src/assets/images/icons/svg-sprite-editor.svg) 12.5% 85.7142857143% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_insert_emoticon_24px {
+  background: url(/src/assets/images/icons/svg-sprite-editor.svg) 25% 85.7142857143% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_insert_invitation_24px {
+  background: url(/src/assets/images/icons/svg-sprite-editor.svg) 37.5% 85.7142857143% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_insert_link_24px {
+  background: url(/src/assets/images/icons/svg-sprite-editor.svg) 50% 85.7142857143% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_insert_photo_24px {
+  background: url(/src/assets/images/icons/svg-sprite-editor.svg) 62.5% 85.7142857143% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_linear_scale_24px {
+  background: url(/src/assets/images/icons/svg-sprite-editor.svg) 75% 85.7142857143% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_merge_type_24px {
+  background: url(/src/assets/images/icons/svg-sprite-editor.svg) 87.5% 0 no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_mode_comment_24px {
+  background: url(/src/assets/images/icons/svg-sprite-editor.svg) 87.5% 14.2857142857% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_mode_edit_24px {
+  background: url(/src/assets/images/icons/svg-sprite-editor.svg) 87.5% 28.5714285714% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_monetization_on_24px {
+  background: url(/src/assets/images/icons/svg-sprite-editor.svg) 87.5% 42.8571428571% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_money_off_24px {
+  background: url(/src/assets/images/icons/svg-sprite-editor.svg) 87.5% 57.1428571429% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_multiline_chart_24px {
+  background: url(/src/assets/images/icons/svg-sprite-editor.svg) 87.5% 71.4285714286% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_pie_chart_24px {
+  background: url(/src/assets/images/icons/svg-sprite-editor.svg) 87.5% 85.7142857143% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_pie_chart_outlined_24px {
+  background: url(/src/assets/images/icons/svg-sprite-editor.svg) 0 100% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_publish_24px {
+  background: url(/src/assets/images/icons/svg-sprite-editor.svg) 12.5% 100% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_short_text_24px {
+  background: url(/src/assets/images/icons/svg-sprite-editor.svg) 25% 100% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_show_chart_24px {
+  background: url(/src/assets/images/icons/svg-sprite-editor.svg) 37.5% 100% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_space_bar_24px {
+  background: url(/src/assets/images/icons/svg-sprite-editor.svg) 50% 100% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_strikethrough_s_24px {
+  background: url(/src/assets/images/icons/svg-sprite-editor.svg) 62.5% 100% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_text_fields_24px {
+  background: url(/src/assets/images/icons/svg-sprite-editor.svg) 75% 100% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_title_24px {
+  background: url(/src/assets/images/icons/svg-sprite-editor.svg) 87.5% 100% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_vertical_align_bottom_24px {
+  background: url(/src/assets/images/icons/svg-sprite-editor.svg) 100% 0 no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_vertical_align_center_24px {
+  background: url(/src/assets/images/icons/svg-sprite-editor.svg) 100% 14.2857142857% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_vertical_align_top_24px {
+  background: url(/src/assets/images/icons/svg-sprite-editor.svg) 100% 28.5714285714% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-ic_wrap_text_24px {
+  background: url(/src/assets/images/icons/svg-sprite-editor.svg) 100% 42.8571428571% no-repeat;
+  width: 24px;
+  height: 24px;
+}
+
+/**------------------------- **\
+            @FONTS
+\**------------------------- **/
+/*
+	 UHC Sans
+*/
+/*font-face (font-family, sourcefile path, font-weight, font-style)*/
+/*  UHC Sans Regular */
+@font-face {
+  font-family: 'UHCSans-Regular';
+  src: url('./assets/fonts/UHCSans-Regular.eot');
+  src: url('./assets/fonts/UHCSans-Regular.eot?#iefix') format('embedded-opentype'),
+    url('./assets/fonts/UHCSans-Regular.woff') format('woff'),
+    url('./assets/fonts/UHCSans-Regular.otf') format('truetype'),
+    url('./assets/fonts/UHCSans-Regular.svg#UHCSans-Regular') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+/*  UHC Sans Bold */
+@font-face {
+  font-family: 'UHCSans-Bold';
+  src: url('./assets/fonts/UHCSans-Bold.eot');
+  src: url('./assets/fonts/UHCSans-Bold.eot?#iefix') format('embedded-opentype'),
+    url('./assets/fonts/UHCSans-Bold.woff') format('woff'), url('./assets/fonts/UHCSans-Bold.otf') format('truetype'),
+    url('./assets/fonts/UHCSans-Bold.svg#UHCSans-Bold') format('svg');
+  font-weight: 700;
+  font-style: normal;
+}
+/*  UHC Sans Bold & Italic */
+@font-face {
+  font-family: 'UHCSans-BoldItalic';
+  src: url('./assets/fonts/UHCSans-BoldItalic.eot');
+  src: url('./assets/fonts/UHCSans-BoldItalic.eot?#iefix') format('embedded-opentype'),
+    url('./assets/fonts/UHCSans-BoldItalic.woff') format('woff'),
+    url('./assets/fonts/UHCSans-BoldItalic.otf') format('truetype'),
+    url('./assets/fonts/UHCSans-BoldItalic.svg#UHCSans-BoldItalic') format('svg');
+  font-weight: 700;
+  font-style: Italic;
+}
+/*  UHC Sans SemiBold */
+@font-face {
+  font-family: 'UHCSans-SemiBold';
+  src: url('./assets/fonts/UHCSans-SemiBold.eot');
+  src: url('./assets/fonts/UHCSans-SemiBold.eot?#iefix') format('embedded-opentype'),
+    url('./assets/fonts/UHCSans-SemiBold.woff') format('woff'),
+    url('./assets/fonts/UHCSans-SemiBold.otf') format('truetype'),
+    url('./assets/fonts/UHCSans-SemiBold.svg#UHCSans-SemiBold') format('svg');
+  font-weight: 600;
+  font-style: normal;
+}
+/*  UHC Sans SemiBold & Italic */
+@font-face {
+  font-family: 'UHCSans-SemiBoldItalic';
+  src: url('./assets/fonts/UHCSans-SemiBoldItalic.eot');
+  src: url('./assets/fonts/UHCSans-SemiBoldItalic.eot?#iefix') format('embedded-opentype'),
+    url('./assets/fonts/UHCSans-SemiBoldItalic.woff') format('woff'),
+    url('./assets/fonts/UHCSans-SemiBoldItalic.otf') format('truetype'),
+    url('./assets/fonts/UHCSans-SemiBoldItalic.svg#UHCSans-SemiBoldItalic') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+/*  UHC Sans Medium */
+/*  UHC Sans Medium & Italic */
+
+/*# sourceMappingURL=icon.css.map */
