@@ -19,7 +19,7 @@ export class HamburgerMenuComponent implements AfterViewInit {
       icon: '/src/assets/images/icons/Action/round-home-24px.svg',
       name: 'Getting Reimbursed',
       children: [
-        { name: 'Summary', path: 'GettingReimbursedSummary' },
+        { name: 'Summary', path: 'GettingReimbursed/Summary' },
         { name: 'Payments', path: '#' },
         { name: 'Non-Payments', path: '#' },
         { name: 'Appelas', path: '#' },

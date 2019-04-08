@@ -1,7 +1,7 @@
 <div *ngIf="data != null" class="card-structure">
-  <div *ngIf="data.type == 'donutWithTrend'" class="card-inner">
+  <div class="card-inner">
     <app-common-header [title]="data.title"></app-common-header>
-    <div *ngIf="data.data != null" class="chart-details">
+    <div *ngIf="data.type == 'donutWithTrend' && data.data != null" class="chart-details">
       small card works!
     </div>
     <div *ngIf="data.sdata != null" class="trend-details">
