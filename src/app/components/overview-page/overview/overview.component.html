@@ -6,6 +6,14 @@
     <div *ngFor="let item of mainCards; let i = index">
       <app-small-card *ngIf="item.data != null" class="cards" [data]="item"> </app-small-card>
     </div>
+
+    <div class="overview-content">
+      <div class="page-subtitle">{{ opportunities }}</div>
+      <div class="page-question">{{ opportunitiesQuestion }}</div>
+
+      <div *ngFor="let item of selfServiceMiniCards; let i = index">
+        <app-mini-tile *ngIf="item.data != null" class="cards" [data]="item"> </app-mini-tile>
+      </div>
+    </div>
   </div>
-  <app-mini-tile *ngFor="let item of selfServiceMiniCards; let i = index"> </app-mini-tile>
 </div>

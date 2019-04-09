@@ -32,6 +32,18 @@
       line-height: 50px;
     }
 
+    .page-question {
+      display: block;
+      margin-left: 10px;
+      flex-basis: 100%;
+      padding: 0 10%;
+      color: #2d2d39;
+      font-family: 'UHCSans-Regular', 'Arial';
+      font-size: 22px;
+      font-weight: 600;
+      line-height: 50px;
+    }
+
     & > app-small-card {
       text-align: center;
       line-height: 75px;
