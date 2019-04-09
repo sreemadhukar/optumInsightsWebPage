@@ -1,4 +1,4 @@
-<div *ngIf="data != null" class="card-structure">
+<div *ngIf="data != null && data.title != null" class="card-structure">
   <div class="card-inner">
     <app-common-header [title]="data.title"></app-common-header>
     <div class="card-body">
@@ -31,7 +31,7 @@
         <div *ngIf="true" class="trend-details">
           <div *ngIf="true">
             <ul class="list-labels">
-              <li *ngFor="let c of data.data.color; let i = index">{{ data.data.color }}</li>
+              <li *ngFor="let c of data.data.color; let i = index">Inder</li>
             </ul>
           </div>
         </div>
