@@ -7,6 +7,7 @@ import { CommonFooterComponent } from './common-footer/common-footer.component';
 import { SmallCardComponent } from './small-card/small-card.component';
 import { MiniBarChartComponent } from './d3-objects/mini-bar-chart/mini-bar-chart.component';
 import { DonutChartComponent } from './d3-objects/donut-chart/donut-chart.component';
+import { StarChartComponent } from './d3-objects/star-chart/star-chart.component';
 
 @NgModule({
   imports: [CommonModule],
@@ -18,7 +19,8 @@ import { DonutChartComponent } from './d3-objects/donut-chart/donut-chart.compon
     CommonFooterComponent,
     SmallCardComponent,
     MiniBarChartComponent,
-    DonutChartComponent
+    DonutChartComponent,
+    StarChartComponent
   ]
 })
 export class CommonUtilsModule {}

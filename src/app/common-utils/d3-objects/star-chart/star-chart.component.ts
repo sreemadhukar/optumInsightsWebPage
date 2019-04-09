@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewEncapsulation, HostListener } from '@angular/core';
+import { Component, OnInit, Input, ViewEncapsulation, HostListener, AfterViewInit } from '@angular/core';
 import * as d3 from 'd3';
 
 @Component({
@@ -7,7 +7,7 @@ import * as d3 from 'd3';
   styleUrls: ['./star-chart.component.less'],
   encapsulation: ViewEncapsulation.None
 })
-export class StarChartComponent implements OnInit {
+export class StarChartComponent implements OnInit, AfterViewInit {
   public width: any;
   public height: any;
   public renderChart: string;
@@ -15,21 +15,22 @@ export class StarChartComponent implements OnInit {
 
   constructor() {}
 
-  ngOnInit() {
-    this.renderChart = '#' + this.chartOptions.chartId;
-    this.doStarComponent(this.chartOptions.chartData, this.chartOptions.generalData);
-  }
-
-  onSystemChange() {
-    this.doStarComponent(this.chartOptions.chartData, this.chartOptions.generalData);
-  }
   @HostListener('window:resize', ['$event'])
   onResize(event) {
-    this.doStarComponent(this.chartOptions.chartData, this.chartOptions.generalData);
+    this.doStarComponent(this.chartOptions);
   }
 
-  doStarComponent(chartData: any, generalData: any) {
-    const preWidth = document.getElementById(generalData[0].parentDiv).clientWidth;
+  ngOnInit() {
+    this.renderChart = '#' + this.chartOptions.gdata[1];
+  }
+
+  ngAfterViewInit() {
+    console.log('d');
+    this.doStarComponent(this.chartOptions);
+  }
+
+  doStarComponent(chartOptions: any) {
+    const preWidth = document.getElementsByClassName(chartOptions.gdata[0])[0].clientWidth;
     d3.select(this.renderChart)
       .selectAll('*')
       .remove();
@@ -40,9 +41,6 @@ export class StarChartComponent implements OnInit {
 
     const svg = d3
       .select(this.renderChart)
-      .selectAll('svg')
-      .data(chartData)
-      .enter()
       .append('svg')
       .attr('width', width + margin.left + margin.right)
       .attr('height', height + margin.top + margin.bottom)
@@ -55,7 +53,7 @@ export class StarChartComponent implements OnInit {
       .attr('y', 20)
       .attr('width', 160)
       .attr('height', 168)
-      .attr('xlink:href', 'assets/images/star.png');
+      .attr('xlink:href', 'src/assets/images/star.png');
 
     svg
       .append('text')
@@ -65,6 +63,6 @@ export class StarChartComponent implements OnInit {
       .attr('fill', '#FFFFFF')
       .attr('font-size', '36')
       .attr('text-anchor', 'middle')
-      .text(chartData[0].number);
+      .text(chartOptions.centerText);
   }
 }
