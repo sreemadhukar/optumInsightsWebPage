@@ -2,26 +2,14 @@
 import { Injectable } from '@angular/core';
 import { OverviewService } from '../../rest/overview/overview.service';
 import { OverviewPageModule } from '../../components/overview-page/overview-page.module';
-import { ArrayType } from '@angular/compiler';
-
+import { CommonUtilsService } from '../common-utils.service';
 @Injectable({
   providedIn: OverviewPageModule
 })
 export class OverviewSharedService {
   private overviewPageData: Array<object> = [];
-  constructor(private overviewService: OverviewService) {}
-  public nFormatter(fnumber) {
-    if (fnumber >= 1000000000) {
-      return (fnumber / 1000000000).toFixed(1).replace(/\.0$/, '') + 'B';
-    }
-    if (fnumber >= 1000000) {
-      return (fnumber / 1000000).toFixed(1).replace(/\.0$/, '') + 'M';
-    }
-    if (fnumber >= 1000) {
-      return (fnumber / 1000).toFixed(1).replace(/\.0$/, '') + 'K';
-    }
-    return fnumber;
-  }
+  constructor(private overviewService: OverviewService, private common: CommonUtilsService) {}
+
   public getOverviewData() {
     return new Promise(resolve => {
       let cPriorAuth: object;
@@ -160,7 +148,7 @@ export class OverviewSharedService {
                 providerSystems.ResolvingIssues.Calls.CallVolByQuesType.PriorAuth,
                 providerSystems.ResolvingIssues.Calls.CallVolByQuesType.Others
               ],
-              centerNumber: this.nFormatter(providerSystems.ResolvingIssues.Calls.CallVolByQuesType.Total),
+              centerNumber: this.common.nFormatter(providerSystems.ResolvingIssues.Calls.CallVolByQuesType.Total),
               color: ['#00A8F7', '#F5F5F5', '#FFFFFF', '#00B8CC'],
               gdata: ['card-inner', 'callsCardD3Donut']
             },
@@ -181,7 +169,8 @@ export class OverviewSharedService {
             title: 'Reduce Calls and Operating Costs by:',
             data: {
               centerNumber:
-                '$' + this.nFormatter(providerSystems.SelfServiceInquiries.ALL.SelfService.TotalCallCost.toFixed(2)),
+                '$' +
+                this.common.nFormatter(providerSystems.SelfServiceInquiries.ALL.SelfService.TotalCallCost.toFixed(2)),
               gdata: []
             },
             fdata: {
@@ -383,7 +372,7 @@ export class OverviewSharedService {
                 claims.Cs.ClaimsLobSummary[0].hasOwnProperty('AmountUHCPaid'),
                 claims.Ei.ClaimsLobSummary[0].hasOwnProperty('AmountUHCPaid')
               ],
-              centerNumber: '$' + this.nFormatter(claims.All.ClaimsLobSummary[0].AmountUHCPaid),
+              centerNumber: '$' + this.common.nFormatter(claims.All.ClaimsLobSummary[0].AmountUHCPaid),
               color: ['#00A8F7', '#F5F5F5', '#FFFFFF'],
               gdata: []
             },
