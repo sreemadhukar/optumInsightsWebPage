@@ -6,6 +6,6 @@
     <div *ngFor="let item of mainCards; let i = index">
       <app-small-card *ngIf="item.data != null" class="cards" [data]="item"> </app-small-card>
     </div>
+    <app-mini-tile *ngFor="let item of selfServiceMiniCards; let i = index"> </app-mini-tile>
   </div>
-  <app-mini-tile *ngFor="let item of selfServiceMiniCards; let i = index"> </app-mini-tile>
 </div>

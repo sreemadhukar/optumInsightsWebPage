@@ -2,26 +2,14 @@
 import { Injectable } from '@angular/core';
 import { OverviewService } from '../../rest/overview/overview.service';
 import { OverviewPageModule } from '../../components/overview-page/overview-page.module';
-import { ArrayType } from '@angular/compiler';
-
+import { CommonUtilsService } from '../common-utils.service';
 @Injectable({
   providedIn: OverviewPageModule
 })
 export class OverviewSharedService {
   private overviewPageData: Array<object> = [];
-  constructor(private overviewService: OverviewService) {}
-  public nFormatter(fnumber) {
-    if (fnumber >= 1000000000) {
-      return (fnumber / 1000000000).toFixed(1).replace(/\.0$/, '') + 'B';
-    }
-    if (fnumber >= 1000000) {
-      return (fnumber / 1000000).toFixed(1).replace(/\.0$/, '') + 'M';
-    }
-    if (fnumber >= 1000) {
-      return (fnumber / 1000).toFixed(1).replace(/\.0$/, '') + 'K';
-    }
-    return fnumber;
-  }
+  constructor(private overviewService: OverviewService, private common: CommonUtilsService) {}
+
   public getOverviewData() {
     return new Promise(resolve => {
       let cPriorAuth: object;
@@ -32,22 +20,22 @@ export class OverviewSharedService {
       let claimsYield: object;
       const oppurtunities: Array<object> = [];
       const tempArray: Array<object> = [];
-      this.overviewService.combined.subscribe(([data, data1]) => {
+      this.overviewService.combined.subscribe(([providerSystems, claims]) => {
         if (
-          data.hasOwnProperty('PriorAuth') &&
-          data.PriorAuth.hasOwnProperty('LineOfBusiness') &&
-          data.PriorAuth.LineOfBusiness.hasOwnProperty('All') &&
-          data.PriorAuth.LineOfBusiness.All.hasOwnProperty('PriorAuthApprovedCount') &&
-          data.PriorAuth.LineOfBusiness.All.hasOwnProperty('PriorAuthNotApprovedCount') &&
-          data.PriorAuth.LineOfBusiness.All.hasOwnProperty('PriorAuthPendingCount') &&
-          data.PriorAuth.LineOfBusiness.All.hasOwnProperty('PriorAuthCancelledCount')
+          providerSystems.hasOwnProperty('PriorAuth') &&
+          providerSystems.PriorAuth.hasOwnProperty('LineOfBusiness') &&
+          providerSystems.PriorAuth.LineOfBusiness.hasOwnProperty('All') &&
+          providerSystems.PriorAuth.LineOfBusiness.All.hasOwnProperty('PriorAuthApprovedCount') &&
+          providerSystems.PriorAuth.LineOfBusiness.All.hasOwnProperty('PriorAuthNotApprovedCount') &&
+          providerSystems.PriorAuth.LineOfBusiness.All.hasOwnProperty('PriorAuthPendingCount') &&
+          providerSystems.PriorAuth.LineOfBusiness.All.hasOwnProperty('PriorAuthCancelledCount')
         ) {
           const priorAuthRequested =
-            data.PriorAuth.LineOfBusiness.All.PriorAuthApprovedCount +
-            data.PriorAuth.LineOfBusiness.All.PriorAuthNotApprovedCount +
-            data.PriorAuth.LineOfBusiness.All.PriorAuthPendingCount +
-            data.PriorAuth.LineOfBusiness.All.PriorAuthCancelledCount;
-          const approvedRate = data.PriorAuth.LineOfBusiness.All.PriorAuthApprovedCount / priorAuthRequested;
+            providerSystems.PriorAuth.LineOfBusiness.All.PriorAuthApprovedCount +
+            providerSystems.PriorAuth.LineOfBusiness.All.PriorAuthNotApprovedCount +
+            providerSystems.PriorAuth.LineOfBusiness.All.PriorAuthPendingCount +
+            providerSystems.PriorAuth.LineOfBusiness.All.PriorAuthCancelledCount;
+          const approvedRate = providerSystems.PriorAuth.LineOfBusiness.All.PriorAuthApprovedCount / priorAuthRequested;
 
           cPriorAuth = {
             category: 'small-card',
@@ -76,10 +64,10 @@ export class OverviewSharedService {
           };
         }
         if (
-          data.hasOwnProperty('SelfServiceInquiries') &&
-          data.SelfServiceInquiries.hasOwnProperty('All') &&
-          data.SelfServiceInquiries.All.hasOwnProperty('Utilizations') &&
-          data.SelfServiceInquiries.All.Utilizations.hasOwnProperty('OverallLinkAdoptionRate')
+          providerSystems.hasOwnProperty('SelfServiceInquiries') &&
+          providerSystems.SelfServiceInquiries.hasOwnProperty('All') &&
+          providerSystems.SelfServiceInquiries.All.hasOwnProperty('Utilizations') &&
+          providerSystems.SelfServiceInquiries.All.Utilizations.hasOwnProperty('OverallLinkAdoptionRate')
         ) {
           cSelfService = {
             category: 'small-card',
@@ -87,10 +75,11 @@ export class OverviewSharedService {
             title: 'Self Service Adoption Rate',
             data: {
               graphValues: [
-                data.SelfServiceInquiries.ALL.Utilizations.OverallLinkAdoptionRate * 100,
-                1 - data.SelfServiceInquiries.ALL.Utilizations.OverallLinkAdoptionRate * 100
+                providerSystems.SelfServiceInquiries.ALL.Utilizations.OverallLinkAdoptionRate * 100,
+                1 - providerSystems.SelfServiceInquiries.ALL.Utilizations.OverallLinkAdoptionRate * 100
               ],
-              centerNumber: (data.SelfServiceInquiries.ALL.Utilizations.OverallLinkAdoptionRate * 100).toFixed(0) + '%',
+              centerNumber:
+                (providerSystems.SelfServiceInquiries.ALL.Utilizations.OverallLinkAdoptionRate * 100).toFixed(0) + '%',
               color: ['#00A8F7', '#F5F5F5', '#FFFFFF'],
               gdata: ['card-inner', 'selfServiceCardD3Donut']
             },
@@ -111,10 +100,12 @@ export class OverviewSharedService {
           };
         }
         if (
-          data.hasOwnProperty('PatientCareOpportunity') &&
-          data.PatientCareOpportunity.hasOwnProperty('LineOfBusiness') &&
-          data.PatientCareOpportunity.LineOfBusiness.hasOwnProperty('MedicareAndRetirement') &&
-          data.PatientCareOpportunity.LineOfBusiness.MedicareAndRetirement.hasOwnProperty('AverageStarRating')
+          providerSystems.hasOwnProperty('PatientCareOpportunity') &&
+          providerSystems.PatientCareOpportunity.hasOwnProperty('LineOfBusiness') &&
+          providerSystems.PatientCareOpportunity.LineOfBusiness.hasOwnProperty('MedicareAndRetirement') &&
+          providerSystems.PatientCareOpportunity.LineOfBusiness.MedicareAndRetirement.hasOwnProperty(
+            'AverageStarRating'
+          )
         ) {
           cPcor = {
             category: 'small-card',
@@ -122,9 +113,9 @@ export class OverviewSharedService {
             title: 'Medicare Star Rating',
             data: {
               graphValues: [
-                data.PatientCareOpportunity.LineOfBusiness.MedicareAndRetirement.AverageStarRating.toFixed(2)
+                providerSystems.PatientCareOpportunity.LineOfBusiness.MedicareAndRetirement.AverageStarRating.toFixed(2)
               ],
-              centerNumber: data.PatientCareOpportunity.LineOfBusiness.MedicareAndRetirement.AverageStarRating.toFixed(
+              centerNumber: providerSystems.PatientCareOpportunity.LineOfBusiness.MedicareAndRetirement.AverageStarRating.toFixed(
                 2
               ),
               color: ['#00A8F7', '#F5F5F5', '#FFFFFF'],
@@ -144,14 +135,14 @@ export class OverviewSharedService {
           };
         }
         if (
-          data.hasOwnProperty('ResolvingIssues') &&
-          data.ResolvingIssues.hasOwnProperty('Calls') &&
-          data.ResolvingIssues.Calls.hasOwnProperty('CallVolByQuesType') &&
-          data.ResolvingIssues.Calls.CallVolByQuesType.hasOwnProperty('Total') &&
-          data.ResolvingIssues.Calls.CallVolByQuesType.hasOwnProperty('Claims') &&
-          data.ResolvingIssues.Calls.CallVolByQuesType.hasOwnProperty('BenefitsEligibility') &&
-          data.ResolvingIssues.Calls.CallVolByQuesType.hasOwnProperty('PriorAuth') &&
-          data.ResolvingIssues.Calls.CallVolByQuesType.hasOwnProperty('Others')
+          providerSystems.hasOwnProperty('ResolvingIssues') &&
+          providerSystems.ResolvingIssues.hasOwnProperty('Calls') &&
+          providerSystems.ResolvingIssues.Calls.hasOwnProperty('CallVolByQuesType') &&
+          providerSystems.ResolvingIssues.Calls.CallVolByQuesType.hasOwnProperty('Total') &&
+          providerSystems.ResolvingIssues.Calls.CallVolByQuesType.hasOwnProperty('Claims') &&
+          providerSystems.ResolvingIssues.Calls.CallVolByQuesType.hasOwnProperty('BenefitsEligibility') &&
+          providerSystems.ResolvingIssues.Calls.CallVolByQuesType.hasOwnProperty('PriorAuth') &&
+          providerSystems.ResolvingIssues.Calls.CallVolByQuesType.hasOwnProperty('Others')
         ) {
           cIR = {
             category: 'small-card',
@@ -159,12 +150,12 @@ export class OverviewSharedService {
             title: 'Total Calls',
             data: {
               graphValues: [
-                data.ResolvingIssues.Calls.CallVolByQuesType.Claims,
-                data.ResolvingIssues.Calls.CallVolByQuesType.BenefitsEligibility,
-                data.ResolvingIssues.Calls.CallVolByQuesType.PriorAuth,
-                data.ResolvingIssues.Calls.CallVolByQuesType.Others
+                providerSystems.ResolvingIssues.Calls.CallVolByQuesType.Claims,
+                providerSystems.ResolvingIssues.Calls.CallVolByQuesType.BenefitsEligibility,
+                providerSystems.ResolvingIssues.Calls.CallVolByQuesType.PriorAuth,
+                providerSystems.ResolvingIssues.Calls.CallVolByQuesType.Others
               ],
-              centerNumber: this.nFormatter(data.ResolvingIssues.Calls.CallVolByQuesType.Total),
+              centerNumber: this.common.nFormatter(providerSystems.ResolvingIssues.Calls.CallVolByQuesType.Total),
               color: ['#00A8F7', '#F5F5F5', '#FFFFFF', '#00B8CC'],
               gdata: ['card-inner', 'callsCardD3Donut']
             },
@@ -182,16 +173,18 @@ export class OverviewSharedService {
           };
         }
         if (
-          data.hasOwnProperty('SelfServiceInquiries') &&
-          data.SelfServiceInquiries.hasOwnProperty('ALL') &&
-          data.SelfServiceInquiries.ALL.hasOwnProperty('SelfService') &&
-          data.SelfServiceInquiries.ALL.SelfService.hasOwnProperty('TotalCallCost')
+          providerSystems.hasOwnProperty('SelfServiceInquiries') &&
+          providerSystems.SelfServiceInquiries.hasOwnProperty('ALL') &&
+          providerSystems.SelfServiceInquiries.ALL.hasOwnProperty('SelfService') &&
+          providerSystems.SelfServiceInquiries.ALL.SelfService.hasOwnProperty('TotalCallCost')
         ) {
           oppurtunities.push({
             category: 'mini-tile',
             title: 'Reduce Calls and Operating Costs by:',
             data: {
-              centerNumber: '$' + this.nFormatter(data.SelfServiceInquiries.ALL.SelfService.TotalCallCost.toFixed(2)),
+              centerNumber:
+                '$' +
+                this.common.nFormatter(providerSystems.SelfServiceInquiries.ALL.SelfService.TotalCallCost.toFixed(2)),
               gdata: []
             },
             fdata: {
@@ -199,9 +192,9 @@ export class OverviewSharedService {
               graphValues: ['1.01', '5.40'],
               concatString: '$',
               color: ['#00A8F7', '#F5F5F5', '#FFFFFF'],
-              cValuesTitle: 'Avg. Transaction Costs',
-              cValueData1: '$1.01 for Self Service',
-              cValueData2: '$5.40 for Phone Call',
+              graphValuesTitle: 'Avg. Transaction Costs',
+              graphData1: '$1.01 for Self Service',
+              graphData2: '$5.40 for Phone Call',
               gdata: []
             }
           });
@@ -218,24 +211,24 @@ export class OverviewSharedService {
               graphValues: null,
               concatString: null,
               color: null,
-              cValuesTitle: null,
-              cValueData1: null,
-              cValueData2: null,
+              graphValuesTitle: null,
+              graphData1: null,
+              graphData2: null,
               gdata: []
             }
           });
         }
         if (
-          data.hasOwnProperty('SelfServiceInquiries') &&
-          data.SelfServiceInquiries.hasOwnProperty('ALL') &&
-          data.SelfServiceInquiries.ALL.hasOwnProperty('SelfService') &&
-          data.SelfServiceInquiries.ALL.SelfService.hasOwnProperty('TotalCallTime')
+          providerSystems.hasOwnProperty('SelfServiceInquiries') &&
+          providerSystems.SelfServiceInquiries.hasOwnProperty('ALL') &&
+          providerSystems.SelfServiceInquiries.ALL.hasOwnProperty('SelfService') &&
+          providerSystems.SelfServiceInquiries.ALL.SelfService.hasOwnProperty('TotalCallTime')
         ) {
           oppurtunities.push({
             category: 'mini-tile',
             title: "Save Your Staff's Time by:",
             data: {
-              centerNumber: data.SelfServiceInquiries.ALL.SelfService.TotalCallTime.toFixed() + ' Hours/day',
+              centerNumber: providerSystems.SelfServiceInquiries.ALL.SelfService.TotalCallTime.toFixed() + ' Hours/day',
               gdata: []
             },
             fdata: {
@@ -243,9 +236,9 @@ export class OverviewSharedService {
               graphValues: ['2', '8'],
               concatString: 'hours',
               color: ['#00A8F7', '#F5F5F5', '#FFFFFF'],
-              cValuesTitle: 'Avg. Processing Times',
-              cValueData1: 'for Self Service',
-              cValueData2: 'for Phone Call',
+              graphValuesTitle: 'Avg. Processing Times',
+              graphData1: 'for Self Service',
+              graphData2: 'for Phone Call',
               gdata: []
             }
           });
@@ -262,19 +255,19 @@ export class OverviewSharedService {
               graphValues: null,
               concatString: null,
               color: null,
-              cValuesTitle: null,
-              cValueData1: null,
-              cValueData2: null,
+              graphValuesTitle: null,
+              graphData1: null,
+              graphData2: null,
               gdata: []
             }
           });
         }
         if (
-          data.hasOwnProperty('SelfServiceInquiries') &&
-          data.SelfServiceInquiries.hasOwnProperty('ALL') &&
-          data.SelfServiceInquiries.ALL.hasOwnProperty('SelfService') &&
-          data.SelfServiceInquiries.ALL.SelfService.hasOwnProperty('AveragePaperClaimProcessingTime') &&
-          data.SelfServiceInquiries.ALL.SelfService.hasOwnProperty('AverageClaimProcessingTime')
+          providerSystems.hasOwnProperty('SelfServiceInquiries') &&
+          providerSystems.SelfServiceInquiries.hasOwnProperty('ALL') &&
+          providerSystems.SelfServiceInquiries.ALL.hasOwnProperty('SelfService') &&
+          providerSystems.SelfServiceInquiries.ALL.SelfService.hasOwnProperty('AveragePaperClaimProcessingTime') &&
+          providerSystems.SelfServiceInquiries.ALL.SelfService.hasOwnProperty('AverageClaimProcessingTime')
         ) {
           oppurtunities.push({
             category: 'mini-tile',
@@ -282,8 +275,8 @@ export class OverviewSharedService {
             data: {
               centerNumber:
                 (
-                  data.SelfServiceInquiries.ALL.SelfService.AveragePaperClaimProcessingTime.toFixed() -
-                  data.SelfServiceInquiries.ALL.SelfService.AverageClaimProcessingTime.toFixed()
+                  providerSystems.SelfServiceInquiries.ALL.SelfService.AveragePaperClaimProcessingTime.toFixed() -
+                  providerSystems.SelfServiceInquiries.ALL.SelfService.AverageClaimProcessingTime.toFixed()
                 ).toFixed() + ' Days',
               gdata: []
             },
@@ -292,9 +285,9 @@ export class OverviewSharedService {
               graphValues: ['15', '25'],
               concatString: 'Days',
               color: ['#00A8F7', '#F5F5F5', '#FFFFFF'],
-              cValuesTitle: 'Avg. Processing Times',
-              cValueData1: 'for Self Service',
-              cValueData2: 'for Phone Call',
+              graphValuesTitle: 'Avg. Processing Times',
+              graphData1: 'for Self Service',
+              graphData2: 'for Phone Call',
               gdata: []
             }
           });
@@ -311,19 +304,21 @@ export class OverviewSharedService {
               graphValues: null,
               concatString: null,
               color: null,
-              cValuesTitle: null,
-              cValueData1: null,
-              cValueData2: null,
+              graphValuesTitle: null,
+              graphData1: null,
+              graphData2: null,
               gdata: []
             }
           });
         }
         if (
-          data.hasOwnProperty('SelfServiceInquiries') &&
-          data.SelfServiceInquiries.hasOwnProperty('ALL') &&
-          data.SelfServiceInquiries.ALL.hasOwnProperty('SelfService') &&
-          data.SelfServiceInquiries.ALL.SelfService.hasOwnProperty('AveragePaperReconsideredProcessingTime') &&
-          data.SelfServiceInquiries.ALL.SelfService.hasOwnProperty('AverageReconsideredProcessingTime')
+          providerSystems.hasOwnProperty('SelfServiceInquiries') &&
+          providerSystems.SelfServiceInquiries.hasOwnProperty('ALL') &&
+          providerSystems.SelfServiceInquiries.ALL.hasOwnProperty('SelfService') &&
+          providerSystems.SelfServiceInquiries.ALL.SelfService.hasOwnProperty(
+            'AveragePaperReconsideredProcessingTime'
+          ) &&
+          providerSystems.SelfServiceInquiries.ALL.SelfService.hasOwnProperty('AverageReconsideredProcessingTime')
         ) {
           oppurtunities.push({
             category: 'mini-tile',
@@ -331,8 +326,8 @@ export class OverviewSharedService {
             data: {
               centerNumber:
                 (
-                  data.SelfServiceInquiries.ALL.SelfService.AveragePaperReconsideredProcessingTime.toFixed() -
-                  data.SelfServiceInquiries.ALL.SelfService.AverageReconsideredProcessingTime.toFixed()
+                  providerSystems.SelfServiceInquiries.ALL.SelfService.AveragePaperReconsideredProcessingTime.toFixed() -
+                  providerSystems.SelfServiceInquiries.ALL.SelfService.AverageReconsideredProcessingTime.toFixed()
                 ).toFixed() + ' Days',
               gdata: []
             },
@@ -341,9 +336,9 @@ export class OverviewSharedService {
               graphValues: ['15', '32'],
               concatString: 'Days',
               color: ['#00A8F7', '#F5F5F5', '#FFFFFF'],
-              cValuesTitle: 'Avg. Processing Times',
-              cValueData1: 'for Self Service',
-              cValueData2: 'for Phone Call',
+              graphValuesTitle: 'Avg. Processing Times',
+              graphData1: 'for Self Service',
+              graphData2: 'for Phone Call',
               gdata: []
             }
           });
@@ -360,41 +355,40 @@ export class OverviewSharedService {
               graphValues: null,
               concatString: null,
               color: null,
-              cValuesTitle: null,
-              cValueData1: null,
-              cValueData2: null,
+              graphValuesTitle: null,
+              graphData1: null,
+              graphData2: null,
               gdata: []
             }
           });
         }
         if (
-          data1.hasOwnProperty('All') &&
-          data1.All.hasOwnProperty('ClaimsLobSummary') &&
-          data1.All.ClaimsLobSummary[0].hasOwnProperty('AmountUHCPaid') &&
-          data1.hasOwnProperty('Cs') &&
-          data1.Cs.hasOwnProperty('ClaimsLobSummary') &&
-          data1.Cs.ClaimsLobSummary[0].hasOwnProperty('AmountUHCPaid') &&
-          data1.hasOwnProperty('Ei') &&
-          data1.Ei.hasOwnProperty('ClaimsLobSummary') &&
-          data1.Ei.ClaimsLobSummary[0].hasOwnProperty('AmountUHCPaid') &&
-          data1.hasOwnProperty('Mr') &&
-          data1.Mr.hasOwnProperty('ClaimsLobSummary') &&
-          data1.Mr.ClaimsLobSummary[0].hasOwnProperty('AmountUHCPaid')
+          claims.hasOwnProperty('All') &&
+          claims.All.hasOwnProperty('ClaimsLobSummary') &&
+          claims.All.ClaimsLobSummary[0].hasOwnProperty('AmountUHCPaid') &&
+          claims.hasOwnProperty('Cs') &&
+          claims.Cs.hasOwnProperty('ClaimsLobSummary') &&
+          claims.Cs.ClaimsLobSummary[0].hasOwnProperty('AmountUHCPaid') &&
+          claims.hasOwnProperty('Ei') &&
+          claims.Ei.hasOwnProperty('ClaimsLobSummary') &&
+          claims.Ei.ClaimsLobSummary[0].hasOwnProperty('AmountUHCPaid') &&
+          claims.hasOwnProperty('Mr') &&
+          claims.Mr.hasOwnProperty('ClaimsLobSummary') &&
+          claims.Mr.ClaimsLobSummary[0].hasOwnProperty('AmountUHCPaid')
         ) {
           claimsPaid = {
             category: 'small-card',
             type: 'donut',
             title: 'Claims Paid',
             data: {
-              graphValues: ['mr', 'cs', 'ei'],
-              centerNumber: [
-                data1.Mr.ClaimsLobSummary[0].hasOwnProperty('AmountUHCPaid'),
-                data1.Cs.ClaimsLobSummary[0].hasOwnProperty('AmountUHCPaid'),
-                data1.Ei.ClaimsLobSummary[0].hasOwnProperty('AmountUHCPaid')
+              graphValues: [
+                claims.Mr.ClaimsLobSummary[0].hasOwnProperty('AmountUHCPaid'),
+                claims.Cs.ClaimsLobSummary[0].hasOwnProperty('AmountUHCPaid'),
+                claims.Ei.ClaimsLobSummary[0].hasOwnProperty('AmountUHCPaid')
               ],
+              centerNumber: '$' + this.common.nFormatter(claims.All.ClaimsLobSummary[0].AmountUHCPaid),
               color: ['#00A8F7', '#F5F5F5', '#FFFFFF'],
-              gdata: ['card-inner', 'claimsPaidCardD3Donut'],
-              centerText: '$' + this.nFormatter(data1.All.ClaimsLobSummary[0].AmountUHCPaid)
+              gdata: ['card-inner', 'claimsPaidCardD3Donut']
             },
             sdata: {
               sign: 'down',
@@ -413,24 +407,23 @@ export class OverviewSharedService {
           };
         }
         if (
-          data1.hasOwnProperty('All') &&
-          data1.All.hasOwnProperty('ClaimsLobSummary') &&
-          data1.All.ClaimsLobSummary[0].hasOwnProperty('AmountActualAllowed') &&
-          data1.All.ClaimsLobSummary[0].hasOwnProperty('AmountExpectedAllowed')
+          claims.hasOwnProperty('All') &&
+          claims.All.hasOwnProperty('ClaimsLobSummary') &&
+          claims.All.ClaimsLobSummary[0].hasOwnProperty('AmountActualAllowed') &&
+          claims.All.ClaimsLobSummary[0].hasOwnProperty('AmountExpectedAllowed')
         ) {
-          const actualAllowed = parseFloat(data1.All.ClaimsLobSummary[0].AmountActualAllowed);
-          const expectedAllowed = parseFloat(data1.All.ClaimsLobSummary[0].AmountExpectedAllowed);
+          const actualAllowed = parseFloat(claims.All.ClaimsLobSummary[0].AmountActualAllowed);
+          const expectedAllowed = parseFloat(claims.All.ClaimsLobSummary[0].AmountExpectedAllowed);
           const claimYieldDonut = (actualAllowed / expectedAllowed) * 100;
           claimsYield = {
             category: 'small-card',
             type: 'donut',
             title: 'Claims Yield',
             data: {
-              graphValues: ['Approved', 'Not Approved'],
-              centerNumber: [100 * claimYieldDonut, 100 - 100 * claimYieldDonut],
+              graphValues: [claimYieldDonut, 1 - claimYieldDonut],
+              centerNumber: claimYieldDonut.toFixed() + '%',
               color: ['#00A8F7', '#F5F5F5', '#FFFFFF'],
-              gdata: ['card-inner', 'claimsYieldCardD3Donut'],
-              centerText: claimYieldDonut.toFixed() + '%'
+              gdata: ['card-inner', 'claimsYieldCardD3Donut']
             },
             sdata: {
               sign: 'up',
