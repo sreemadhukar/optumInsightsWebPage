@@ -84,8 +84,8 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
 
     const donutData = [];
 
-    for (let i = 0; i < chartOptions.cData.length; i++) {
-      donutData.push({ name: chartOptions.cValues[i], value: chartOptions.cData[i] });
+    for (let i = 0; i < chartOptions.graphValues.length; i++) {
+      donutData.push({ value: chartOptions.graphValues[i] });
     }
 
     const g = chart
@@ -99,7 +99,7 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
       // YES TRANSITION
       g.append('path')
         .style('fill', function(d) {
-          return donutColor(d.data.name);
+          return donutColor(d.data.value);
         })
         .transition()
         .delay(function(d, i) {
@@ -110,7 +110,7 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
           const i = d3.interpolate(d.startAngle, d.endAngle);
 
           return function(t) {
-            text.text(chartOptions.centerText);
+            text.text(chartOptions.centerNumber);
             text.text();
             d.endAngle = i(t);
             return arc(d);
@@ -121,10 +121,10 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
       g.append('path')
         .attr('d', arc)
         .style('fill', function(d) {
-          return donutColor(d.data.name);
+          return donutColor(d.data.value);
         });
 
-      text.text(chartOptions.centerText);
+      text.text(chartOptions.centerNumber);
       text.text();
     }
   }

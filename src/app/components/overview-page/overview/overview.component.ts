@@ -20,9 +20,7 @@ export class OverviewComponent implements OnInit {
       .getOverviewData()
       .then(data => {
         this.overviewItems = JSON.parse(JSON.stringify(data));
-        const yes = this.overviewItems[0];
-        console.log(yes);
-        this.mainCards = [yes[1], yes[4], yes[5]];
+        this.mainCards = this.overviewItems[0];
         this.selfServiceMiniCards = this.overviewItems[1];
       })
       .catch(reason => console.log(reason.message));

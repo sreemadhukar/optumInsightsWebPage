@@ -25,7 +25,6 @@ export class StarChartComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    console.log('d');
     this.doStarComponent(this.chartOptions);
   }
 
@@ -63,6 +62,6 @@ export class StarChartComponent implements OnInit, AfterViewInit {
       .attr('fill', '#FFFFFF')
       .attr('font-size', '36')
       .attr('text-anchor', 'middle')
-      .text(chartOptions.centerText);
+      .text(chartOptions.centerNumber);
   }
 }
