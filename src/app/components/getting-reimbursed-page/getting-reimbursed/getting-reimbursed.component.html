@@ -6,6 +6,8 @@
     <div class="page-subtitle">
       {{ pagesubTitle }}
     </div>
-    <app-card *ngFor="let item of summaryItems; let i = index" class="cards" [card]="item"> </app-card>
+    <div *ngFor="let item of summaryItems; let i = index">
+      <app-card *ngIf="item.data != null" class="cards" [data]="item"> </app-card>
+    </div>
   </div>
 </div>
