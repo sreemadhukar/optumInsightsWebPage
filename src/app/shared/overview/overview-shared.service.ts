@@ -43,7 +43,7 @@ export class OverviewSharedService {
             title: 'Prior Authorization Approval',
             data: {
               graphValues: [approvedRate, 1 - approvedRate],
-              centerNumber: (approvedRate * 100).toFixed(1) + '%',
+              centerNumber: (approvedRate * 100).toFixed(0) + '%',
               color: ['#00A8F7', '#F5F5F5'],
               gdata: ['card-inner', 'priorAuthCardD3Donut']
             },
@@ -125,7 +125,14 @@ export class OverviewSharedService {
             timeperiod: 'Timeperiod - Rolling 12 Months'
           };
         } else {
-          cPcor = { category: 'small-card', type: 'star', title: null, data: null, sdata: null, timeperiod: null };
+          cPcor = {
+            category: 'small-card',
+            type: 'star',
+            title: null,
+            data: null,
+            sdata: null,
+            timeperiod: null
+          };
         }
         if (
           providerSystems.hasOwnProperty('ResolvingIssues') &&
@@ -156,7 +163,14 @@ export class OverviewSharedService {
             timeperiod: 'Timeperiod - Rolling 12 Months'
           };
         } else {
-          cIR = { category: 'small-card', type: 'donut', title: null, data: null, sdata: null, timeperiod: null };
+          cIR = {
+            category: 'small-card',
+            type: 'donut',
+            title: null,
+            data: null,
+            sdata: null,
+            timeperiod: null
+          };
         }
         if (
           providerSystems.hasOwnProperty('SelfServiceInquiries') &&
@@ -374,7 +388,7 @@ export class OverviewSharedService {
               ],
               centerNumber: '$' + this.common.nFormatter(claims.All.ClaimsLobSummary[0].AmountUHCPaid),
               color: ['#00A8F7', '#F5F5F5', '#FFFFFF'],
-              gdata: []
+              gdata: ['card-inner', 'claimsPaidCardD3Donut']
             },
             sdata: {
               sign: 'down',
@@ -406,10 +420,10 @@ export class OverviewSharedService {
             type: 'donut',
             title: 'Claims Yield',
             data: {
-              graphValues: [claimYieldDonut.toFixed()],
+              graphValues: [claimYieldDonut, 1 - claimYieldDonut],
               centerNumber: claimYieldDonut.toFixed() + '%',
               color: ['#00A8F7', '#F5F5F5', '#FFFFFF'],
-              gdata: []
+              gdata: ['card-inner', 'claimsYieldCardD3Donut']
             },
             sdata: {
               sign: 'up',

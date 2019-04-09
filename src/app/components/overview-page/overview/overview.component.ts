@@ -6,7 +6,9 @@ import { OverviewSharedService } from '../../../shared/overview/overview-shared.
   styleUrls: ['./overview.component.scss']
 })
 export class OverviewComponent implements OnInit {
-  overviewItems: Object;
+  overviewItems: any;
+  mainCards: any;
+  selfServiceMiniCards: any;
   pageTitle: String = '';
   pagesubTitle: String = '';
   userName: String = '';
@@ -18,7 +20,8 @@ export class OverviewComponent implements OnInit {
       .getOverviewData()
       .then(data => {
         this.overviewItems = JSON.parse(JSON.stringify(data));
-        console.log(this.overviewItems);
+        this.mainCards = this.overviewItems[0];
+        this.selfServiceMiniCards = this.overviewItems[1];
       })
       .catch(reason => console.log(reason.message));
     this.userName = 'Anne';
