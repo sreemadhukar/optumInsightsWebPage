@@ -2,7 +2,6 @@
 
 .overview-body {
   background-color: #efefef;
-  padding: 30px;
 
   .overview-content {
     display: flex;
@@ -13,7 +12,7 @@
       display: block;
       margin-left: 10px;
       flex-basis: 100%;
-      padding: 0 8%;
+      padding: 0 10%;
       color: #2d2d39;
       font-family: 'UHCSans-Regular', 'Arial';
       font-size: 36px;
@@ -25,7 +24,7 @@
       display: block;
       margin-left: 10px;
       flex-basis: 100%;
-      padding: 0 8%;
+      padding: 0 10%;
       color: #2d2d39;
       font-family: 'UHCSans-Regular', 'Arial';
       font-size: 28px;
@@ -34,7 +33,6 @@
     }
 
     & > app-small-card {
-      margin: 10px;
       text-align: center;
       line-height: 75px;
       font-size: 30px;

@@ -1,4 +1,4 @@
-<div *ngIf="data != null" class="card-structure">
+<div *ngIf="data != null && data.title != null" class="card-structure">
   <div class="card-inner">
     <app-common-header [title]="data.title"></app-common-header>
     <div *ngIf="data.type == 'donut' && data.data != null" class="chart-details">
