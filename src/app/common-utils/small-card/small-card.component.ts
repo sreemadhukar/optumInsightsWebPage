@@ -6,6 +6,8 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./small-card.component.scss']
 })
 export class SmallCardComponent implements OnInit {
+  @Input() data;
+  /*
   _card: Object = {};
   data: Object = {};
   get card(): Object {
@@ -17,7 +19,7 @@ export class SmallCardComponent implements OnInit {
     this._card = value;
     this.data = value;
   }
-
+*/
   constructor() {}
 
   ngOnInit() {}
