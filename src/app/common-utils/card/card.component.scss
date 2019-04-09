@@ -3,40 +3,6 @@
   vertical-align: center;
 }
 
-ul.list-labels {
-  // padding-top: 15px;
-  // padding-left: 30px;
-}
-ul.list-labels > li {
-  display: block;
-  color: #2d2d39;
-  font-family: 'UHCSans-Regular';
-  font-size: 14px;
-  font-weight: 500;
-  letter-spacing: 0.2px;
-  line-height: 18px;
-}
-
-ul.list-labels > li::before {
-  content: '•  ';
-  font-size: 45px;
-  position: relative;
-  top: 10px;
-}
-
-ul.list-labels > li:nth-child(1)::before {
-  color: red;
-}
-ul.list-labels > li:nth-child(2)::before {
-  color: yellow;
-}
-ul.list-labels > li:nth-child(3)::before {
-  color: green;
-}
-ul.list-labels > li:nth-child(4)::before {
-  color: #000;
-}
-
 .card-structure {
   position: relative;
   display: inline-flex;
@@ -45,6 +11,7 @@ ul.list-labels > li:nth-child(4)::before {
   background-color: #ffffff;
   width: 400px;
   height: 375px;
+  margin: 10px;
   margin: 10px;
   line-height: 75px;
   font-size: 30px;
@@ -87,3 +54,35 @@ ul.list-labels > li:nth-child(4)::before {
 .trend-value-up {
   color: green;
 }
+
+/* Css for Labels*/
+ul.list-labels > li {
+  display: block;
+  color: #2d2d39;
+  font-family: 'UHCSans-Regular';
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.2px;
+  line-height: 18px;
+}
+
+ul.list-labels > li::before {
+  content: '•  ';
+  font-size: 45px;
+  position: relative;
+  top: 10px;
+}
+
+ul.list-labels > li:nth-child(1)::before {
+  color: #3381ff;
+}
+ul.list-labels > li:nth-child(2)::before {
+  color: #3381f0;
+}
+ul.list-labels > li:nth-child(3)::before {
+  color: #338190;
+}
+ul.list-labels > li:nth-child(4)::before {
+  color: #000;
+}
+/* Css for Labels Ends here*/
