@@ -15,14 +15,26 @@ ul.list-labels > li {
   font-weight: 500;
   letter-spacing: 0.2px;
   line-height: 18px;
-  padding-right: 10px;
 }
 
 ul.list-labels > li::before {
   content: '•  ';
-  font-size: 30px;
+  font-size: 45px;
   position: relative;
-  top: 6px;
+  top: 10px;
+}
+
+ul.list-labels > li:nth-child(1)::before {
+  color: red;
+}
+ul.list-labels > li:nth-child(2)::before {
+  color: yellow;
+}
+ul.list-labels > li:nth-child(3)::before {
+  color: green;
+}
+ul.list-labels > li:nth-child(4)::before {
+  color: #000;
 }
 
 .card-structure {
@@ -70,7 +82,7 @@ ul.list-labels > li::before {
 }
 
 .trend-image-up {
-  background-color: #ffe6f0;
+  background-color: #e1fadf;
 }
 .trend-value-up {
   color: green;
