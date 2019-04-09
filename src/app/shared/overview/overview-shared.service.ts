@@ -54,10 +54,10 @@ export class OverviewSharedService {
             type: 'donut',
             title: 'Prior Authorization Approval',
             data: {
-              cValues: [(approvedRate * 100).toFixed(1)],
-              cData: (approvedRate * 100).toFixed(1) + '%',
-              color: ['#00A8F7', '#F5F5F5', '#FFFFFF'],
-              gdata: []
+              graphValues: [approvedRate, 1 - approvedRate],
+              centerNumber: (approvedRate * 100).toFixed(0) + '%',
+              color: ['#00A8F7', '#F5F5F5'],
+              gdata: ['card-inner', 'priorAuthCardD3Donut']
             },
             sdata: {
               sign: 'up',
@@ -86,10 +86,13 @@ export class OverviewSharedService {
             type: 'donut',
             title: 'Self Service Adoption Rate',
             data: {
-              cValues: [(data.SelfServiceInquiries.ALL.Utilizations.OverallLinkAdoptionRate * 100).toFixed(0)],
-              cData: (data.SelfServiceInquiries.ALL.Utilizations.OverallLinkAdoptionRate * 100).toFixed(0) + '%',
+              graphValues: [
+                data.SelfServiceInquiries.ALL.Utilizations.OverallLinkAdoptionRate * 100,
+                1 - data.SelfServiceInquiries.ALL.Utilizations.OverallLinkAdoptionRate * 100
+              ],
+              centerNumber: (data.SelfServiceInquiries.ALL.Utilizations.OverallLinkAdoptionRate * 100).toFixed(0) + '%',
               color: ['#00A8F7', '#F5F5F5', '#FFFFFF'],
-              gdata: []
+              gdata: ['card-inner', 'selfServiceCardD3Donut']
             },
             sdata: {
               sign: 'down',
@@ -118,16 +121,27 @@ export class OverviewSharedService {
             type: 'star',
             title: 'Medicare Star Rating',
             data: {
-              cValues: [data.PatientCareOpportunity.LineOfBusiness.MedicareAndRetirement.AverageStarRating.toFixed(2)],
-              cData: data.PatientCareOpportunity.LineOfBusiness.MedicareAndRetirement.AverageStarRating.toFixed(2),
+              graphValues: [
+                data.PatientCareOpportunity.LineOfBusiness.MedicareAndRetirement.AverageStarRating.toFixed(2)
+              ],
+              centerNumber: data.PatientCareOpportunity.LineOfBusiness.MedicareAndRetirement.AverageStarRating.toFixed(
+                2
+              ),
               color: ['#00A8F7', '#F5F5F5', '#FFFFFF'],
-              gdata: []
+              gdata: ['card-inner', 'pcorCardD3Star']
             },
             sdata: null,
             timeperiod: 'Timeperiod - Rolling 12 Months'
           };
         } else {
-          cPcor = { category: 'small-card', type: 'star', title: null, data: null, sdata: null, timeperiod: null };
+          cPcor = {
+            category: 'small-card',
+            type: 'star',
+            title: null,
+            data: null,
+            sdata: null,
+            timeperiod: null
+          };
         }
         if (
           data.hasOwnProperty('ResolvingIssues') &&
@@ -144,21 +158,28 @@ export class OverviewSharedService {
             type: 'donut',
             title: 'Total Calls',
             data: {
-              cValues: [
+              graphValues: [
                 data.ResolvingIssues.Calls.CallVolByQuesType.Claims,
                 data.ResolvingIssues.Calls.CallVolByQuesType.BenefitsEligibility,
                 data.ResolvingIssues.Calls.CallVolByQuesType.PriorAuth,
                 data.ResolvingIssues.Calls.CallVolByQuesType.Others
               ],
-              cData: this.nFormatter(data.ResolvingIssues.Calls.CallVolByQuesType.Total),
-              color: ['#00A8F7', '#F5F5F5', '#FFFFFF'],
-              gdata: []
+              centerNumber: this.nFormatter(data.ResolvingIssues.Calls.CallVolByQuesType.Total),
+              color: ['#00A8F7', '#F5F5F5', '#FFFFFF', '#00B8CC'],
+              gdata: ['card-inner', 'callsCardD3Donut']
             },
             sdata: null,
             timeperiod: 'Timeperiod - Rolling 12 Months'
           };
         } else {
-          cIR = { category: 'small-card', type: 'donut', title: null, data: null, sdata: null, timeperiod: null };
+          cIR = {
+            category: 'small-card',
+            type: 'donut',
+            title: null,
+            data: null,
+            sdata: null,
+            timeperiod: null
+          };
         }
         if (
           data.hasOwnProperty('SelfServiceInquiries') &&
@@ -170,12 +191,12 @@ export class OverviewSharedService {
             category: 'mini-tile',
             title: 'Reduce Calls and Operating Costs by:',
             data: {
-              cData: '$' + this.nFormatter(data.SelfServiceInquiries.ALL.SelfService.TotalCallCost.toFixed(2)),
+              centerNumber: '$' + this.nFormatter(data.SelfServiceInquiries.ALL.SelfService.TotalCallCost.toFixed(2)),
               gdata: []
             },
             fdata: {
               type: 'bar chart',
-              cValues: ['1.01', '5.40'],
+              graphValues: ['1.01', '5.40'],
               concatString: '$',
               color: ['#00A8F7', '#F5F5F5', '#FFFFFF'],
               cValuesTitle: 'Avg. Transaction Costs',
@@ -189,12 +210,12 @@ export class OverviewSharedService {
             category: 'mini-tile',
             title: null,
             data: {
-              cData: null,
+              centerNumber: null,
               gdata: []
             },
             fdata: {
               type: null,
-              cValues: null,
+              graphValues: null,
               concatString: null,
               color: null,
               cValuesTitle: null,
@@ -214,12 +235,12 @@ export class OverviewSharedService {
             category: 'mini-tile',
             title: "Save Your Staff's Time by:",
             data: {
-              cData: data.SelfServiceInquiries.ALL.SelfService.TotalCallTime.toFixed() + ' Hours/day',
+              centerNumber: data.SelfServiceInquiries.ALL.SelfService.TotalCallTime.toFixed() + ' Hours/day',
               gdata: []
             },
             fdata: {
               type: 'bar chart',
-              cValues: ['2', '8'],
+              graphValues: ['2', '8'],
               concatString: 'hours',
               color: ['#00A8F7', '#F5F5F5', '#FFFFFF'],
               cValuesTitle: 'Avg. Processing Times',
@@ -233,12 +254,12 @@ export class OverviewSharedService {
             category: 'mini-tile',
             title: null,
             data: {
-              cData: null,
+              centerNumber: null,
               gdata: []
             },
             fdata: {
               type: null,
-              cValues: null,
+              graphValues: null,
               concatString: null,
               color: null,
               cValuesTitle: null,
@@ -259,7 +280,7 @@ export class OverviewSharedService {
             category: 'mini-tile',
             title: 'Reduce Claim Processing Time by:',
             data: {
-              cData:
+              centerNumber:
                 (
                   data.SelfServiceInquiries.ALL.SelfService.AveragePaperClaimProcessingTime.toFixed() -
                   data.SelfServiceInquiries.ALL.SelfService.AverageClaimProcessingTime.toFixed()
@@ -268,7 +289,7 @@ export class OverviewSharedService {
             },
             fdata: {
               type: 'bar chart',
-              cValues: ['15', '25'],
+              graphValues: ['15', '25'],
               concatString: 'Days',
               color: ['#00A8F7', '#F5F5F5', '#FFFFFF'],
               cValuesTitle: 'Avg. Processing Times',
@@ -282,12 +303,12 @@ export class OverviewSharedService {
             category: 'mini-tile',
             title: null,
             data: {
-              cData: null,
+              centerNumber: null,
               gdata: []
             },
             fdata: {
               type: null,
-              cValues: null,
+              graphValues: null,
               concatString: null,
               color: null,
               cValuesTitle: null,
@@ -308,7 +329,7 @@ export class OverviewSharedService {
             category: 'mini-tile',
             title: 'Reduce Reconsideration Processing by:',
             data: {
-              cData:
+              centerNumber:
                 (
                   data.SelfServiceInquiries.ALL.SelfService.AveragePaperReconsideredProcessingTime.toFixed() -
                   data.SelfServiceInquiries.ALL.SelfService.AverageReconsideredProcessingTime.toFixed()
@@ -317,7 +338,7 @@ export class OverviewSharedService {
             },
             fdata: {
               type: 'bar chart',
-              cValues: ['15', '32'],
+              graphValues: ['15', '32'],
               concatString: 'Days',
               color: ['#00A8F7', '#F5F5F5', '#FFFFFF'],
               cValuesTitle: 'Avg. Processing Times',
@@ -331,12 +352,12 @@ export class OverviewSharedService {
             category: 'mini-tile',
             title: null,
             data: {
-              cData: null,
+              centerNumber: null,
               gdata: []
             },
             fdata: {
               type: null,
-              cValues: null,
+              graphValues: null,
               concatString: null,
               color: null,
               cValuesTitle: null,
@@ -365,14 +386,15 @@ export class OverviewSharedService {
             type: 'donut',
             title: 'Claims Paid',
             data: {
-              cValues: [
+              graphValues: ['mr', 'cs', 'ei'],
+              centerNumber: [
                 data1.Mr.ClaimsLobSummary[0].hasOwnProperty('AmountUHCPaid'),
                 data1.Cs.ClaimsLobSummary[0].hasOwnProperty('AmountUHCPaid'),
                 data1.Ei.ClaimsLobSummary[0].hasOwnProperty('AmountUHCPaid')
               ],
-              cData: '$' + this.nFormatter(data1.All.ClaimsLobSummary[0].AmountUHCPaid),
               color: ['#00A8F7', '#F5F5F5', '#FFFFFF'],
-              gdata: []
+              gdata: ['card-inner', 'claimsPaidCardD3Donut'],
+              centerText: '$' + this.nFormatter(data1.All.ClaimsLobSummary[0].AmountUHCPaid)
             },
             sdata: {
               sign: 'down',
@@ -404,10 +426,11 @@ export class OverviewSharedService {
             type: 'donut',
             title: 'Claims Yield',
             data: {
-              cValues: [claimYieldDonut.toFixed()],
-              cData: claimYieldDonut.toFixed() + '%',
+              graphValues: ['Approved', 'Not Approved'],
+              centerNumber: [100 * claimYieldDonut, 100 - 100 * claimYieldDonut],
               color: ['#00A8F7', '#F5F5F5', '#FFFFFF'],
-              gdata: []
+              gdata: ['card-inner', 'claimsYieldCardD3Donut'],
+              centerText: claimYieldDonut.toFixed() + '%'
             },
             sdata: {
               sign: 'up',
