@@ -278,7 +278,7 @@ export class OverviewSharedService {
           ) {
             oppurtunities.push({
               category: 'mini-tile',
-              title: "Save Your Staff's Time by:",
+              title: "Save Your Staff's Time by:" + '\n\xa0',
               data: {
                 centerNumber:
                   providerSystems.SelfServiceInquiries.ALL.SelfService.TotalCallTime.toFixed() + ' Hours/day',

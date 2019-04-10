@@ -12,8 +12,12 @@ export class OverviewComponent implements OnInit {
   pageTitle: String = '';
   pagesubTitle: String = '';
   userName: String = '';
+  opportunities: String = '';
+  opportunitiesQuestion: String = '';
   constructor(private overviewsrc: OverviewSharedService) {
     this.pagesubTitle = 'Your Insights at a glance.';
+    this.opportunities = 'Opportunities';
+    this.opportunitiesQuestion = 'How much can online self service save you?';
   }
   ngOnInit() {
     this.overviewsrc
@@ -23,6 +27,7 @@ export class OverviewComponent implements OnInit {
         console.log(this.overviewItems);
         this.mainCards = this.overviewItems[0];
         this.selfServiceMiniCards = this.overviewItems[1];
+        console.log(this.selfServiceMiniCards);
       })
       .catch(reason => console.log(reason.message));
     this.userName = 'Anne';

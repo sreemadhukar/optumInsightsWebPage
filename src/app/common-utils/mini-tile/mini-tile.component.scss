@@ -1,0 +1,37 @@
+@import '~src/assets/styles/variables.scss';
+.card-structure {
+  position: relative;
+  display: inline-flex;
+}
+.card-inner {
+  background-color: #ffffff;
+  width: 222px;
+  height: 238px;
+  margin: 10px;
+  line-height: 75px;
+  font-size: 30px;
+}
+
+.self-service-title {
+  position: relative;
+  padding: 20px 20px 0 20px;
+  color: #2d2d39;
+  font-family: 'UHCSans-Regular, Arial';
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 22px;
+  text-align: left;
+  letter-spacing: 0.2px;
+}
+
+.self-service-number {
+  position: relative;
+  padding: 20px 20px 0 20px;
+  color: #2d2d39;
+  font-family: 'UHCSans-Regular, Arial';
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 22px;
+  text-align: left;
+  letter-spacing: 0.2px;
+}
