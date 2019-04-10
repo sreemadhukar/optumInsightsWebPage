@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, HostListener } from '@angular/core';
+import { Component, OnInit, Input, HostListener, AfterViewInit } from '@angular/core';
 import * as d3 from 'd3';
 
 @Component({
@@ -6,9 +6,10 @@ import * as d3 from 'd3';
   templateUrl: './mini-bar-chart.component.html',
   styleUrls: ['./mini-bar-chart.component.scss']
 })
-export class MiniBarChartComponent implements OnInit {
+export class MiniBarChartComponent implements OnInit, AfterViewInit {
   public renderChart: string;
   @Input() chartOptions: any = {};
+  @Input() numberData: any = {};
   public transition = 1;
   public noTransition = 0;
 
@@ -16,22 +17,60 @@ export class MiniBarChartComponent implements OnInit {
 
   @HostListener('window:resize', ['$event'])
   onResize(event) {
-    this.doMiniBarChart(this.chartOptions.chartData, this.chartOptions.generalData, this.noTransition);
+    this.doMiniBarChart(this.chartOptions, this.noTransition);
   }
 
   ngOnInit() {
-    this.renderChart = '#' + this.chartOptions.chartId;
-    this.doMiniBarChart(this.chartOptions.chartData, this.chartOptions.generalData, this.transition);
+    this.renderChart = '#' + this.chartOptions.gdata[1];
   }
 
-  doMiniBarChart(chartData: any, generalData: any, transition: number) {
-    const preWidth = document.getElementById(generalData[0].parentDiv).clientWidth;
+  ngAfterViewInit() {
+    this.doMiniBarChart(this.chartOptions, this.transition);
+  }
+
+  doMiniBarChart(chartOptions: any, transition: number) {
+    const preWidth = document.getElementsByClassName(this.chartOptions.gdata[0])[0].clientWidth;
     d3.select(this.renderChart)
       .selectAll('*')
       .remove();
 
-    const margin = { top: 10, right: 10, bottom: 10, left: 10 };
+    const margin = { top: 10, right: 0, bottom: 10, left: 0 };
     const width = preWidth - margin.left - margin.right;
     const height = width - margin.top - margin.bottom;
+
+    const chart = d3
+      .select(this.renderChart)
+      .append('svg')
+      .attr('width', width + margin.left + margin.right)
+      .attr('height', height + margin.top + margin.bottom)
+      .append('g')
+      .attr('transform', 'translate(' + 10 + ',' + 10 + ')');
+
+    let totalSum = 0;
+
+    for (let i = 0; i < chartOptions.graphValues.length; i++) {
+      totalSum = totalSum + chartOptions.graphValues[i];
+    }
+
+    const xScale = d3
+      .scaleLinear()
+      .domain([0, totalSum])
+      .range([0, 180]);
+
+    chart
+      .append('rect')
+      .attr('x', 10)
+      .attr('y', 10)
+      .attr('width', xScale(chartOptions.graphValues[0]))
+      .attr('height', 20)
+      .attr('fill', chartOptions.color[0]);
+
+    chart
+      .append('rect')
+      .attr('x', 10 + xScale(chartOptions.graphValues[0]))
+      .attr('y', 10)
+      .attr('width', xScale(chartOptions.graphValues[1]))
+      .attr('height', 20)
+      .attr('fill', chartOptions.color[2]);
   }
 }
