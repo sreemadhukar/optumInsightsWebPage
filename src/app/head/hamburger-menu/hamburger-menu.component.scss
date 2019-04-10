@@ -1,4 +1,5 @@
-@import '~src/assets/styles/variables.scss';
+@import '~src/scss/variables.scss';
+@import '~src/scss/mixins';
 
 .example-container {
   background-color: #efefef;
@@ -11,13 +12,14 @@
   right: 0;
   max-width: 1648px;
   min-width: 1024px;
+  @include font-size(36);
 }
 
 .example-is-mobile .example-toolbar {
   position: fixed;
   /* Make sure the toolbar will stay on top of the content as it scrolls past. */
   z-index: 2;
-  padding: 0 !important;
+  padding: padding(0);
 }
 
 .mat-toolbar-single-row {
@@ -63,7 +65,7 @@ app-header {
 }
 
 .health-system-representation-block {
-  padding: 16px 12px 0px 32px;
+  @include padding(16px, 12px, 0px, 32px);
   border-bottom: 1px solid #e0e0e0;
 }
 
@@ -194,6 +196,3 @@ app-header {
   color: #196ecf !important;
 }
 /************ ABOVE IS THE CSS RELATED TO ONLY LEFT HAMBURGER MENU *************/
-.svg-ic_build_24px:hover {
-  fill: #196ecf !important;
-}

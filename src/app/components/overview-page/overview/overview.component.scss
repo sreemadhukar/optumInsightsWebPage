@@ -1,7 +1,9 @@
-@import '~src/assets/styles/variables.scss';
+@import '~src/scss/variables.scss';
+@import '~src/scss/mixins';
 
 .overview-body {
   background-color: #efefef;
+  @include padding(30px, 0, 30px, 30px);
 
   .overview-content {
     display: flex;
@@ -15,9 +17,10 @@
       padding: 0 10%;
       color: #2d2d39;
       font-family: 'UHCSans-Regular', 'Arial';
-      font-size: 36px;
+
       font-weight: 600;
       line-height: 75px;
+      @include font-size(36);
     }
 
     .page-subtitle {
@@ -27,9 +30,10 @@
       padding: 0 10%;
       color: #2d2d39;
       font-family: 'UHCSans-Regular', 'Arial';
-      font-size: 28px;
+
       font-weight: 600;
       line-height: 50px;
+      @include font-size(28);
     }
 
     .page-question {

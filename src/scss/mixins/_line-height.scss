@@ -1,0 +1,8 @@
+@mixin line-height($font-size, $line-height: $font-size) {
+  line-height: $line-height/$font-size;
+}
+
+// unitless line height fuction
+@function line-height($font-size, $line-height: $font-size) {
+  @return $line-height/$font-size;
+}
