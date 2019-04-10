@@ -37,7 +37,7 @@ export class HamburgerMenuComponent implements AfterViewInit {
       icon: 'getting-reimburse',
       name: 'Getting Reimbursed',
       children: [
-        { name: 'Summary', path: 'GettingReimbursed/Summary' },
+        { name: 'Summary', path: 'gettingReimbursed/summary' },
         { name: 'Payments', path: '#' },
         { name: 'Non-Payments', path: '#' },
         { name: 'Appelas', path: '#' },
