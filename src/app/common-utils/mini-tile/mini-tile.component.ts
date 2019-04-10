@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-mini-tile',
@@ -6,6 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./mini-tile.component.scss']
 })
 export class MiniTileComponent implements OnInit {
+  @Input() data;
   constructor() {}
 
   ngOnInit() {}
