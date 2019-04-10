@@ -1,5 +1,19 @@
-import { Component, OnInit, HostListener, ElementRef, Input } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  HostListener,
+  ElementRef,
+  Input,
+  Renderer2,
+  ViewEncapsulation,
+  ViewChildren,
+  QueryList
+} from '@angular/core';
 import { trigger, state, style, animate, transition } from '@angular/animations';
+import { MatExpansionPanel } from '@angular/material';
+import { BreakpointObserver } from '@angular/cdk/layout';
+import { MatIconRegistry } from '@angular/material';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-header',
@@ -30,7 +44,22 @@ export class HeaderComponent implements OnInit {
   @Input() button: boolean;
   public state: any;
 
-  constructor(public el: ElementRef) {}
+  constructor(
+    private breakpointObserver: BreakpointObserver,
+    public el: ElementRef,
+    private renderer: Renderer2,
+    private iconRegistry: MatIconRegistry,
+    sanitizer: DomSanitizer
+  ) {
+    iconRegistry.addSvgIcon(
+      'person',
+      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Content/round-person-24px.svg')
+    );
+    iconRegistry.addSvgIcon(
+      'expand-more',
+      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Navigation/round-expand_more-24px.svg')
+    );
+  }
 
   ngOnInit() {}
 
