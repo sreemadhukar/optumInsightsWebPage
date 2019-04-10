@@ -1,7 +1,6 @@
 @import '~src/assets/styles/variables.scss';
 .card-structure {
   position: relative;
-  display: inline-flex;
 }
 .card-inner {
   background-color: #ffffff;
@@ -13,11 +12,13 @@
 }
 .chart-details {
   width: 60%;
-  display: inline-block;
+  float: left;
+}
+.full-width {
+  width: 100%;
 }
 .trend-details {
-  width: 40%;
-  display: inline-block;
+  float: left;
 }
 .trend-value {
   font-size: 14px;
