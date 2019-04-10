@@ -1,3 +1,8 @@
+/*
+ * Author: Ranjith kumar Ankam
+ * Created Date: 03-Apr-2019
+ *  */
+
 @import '~src/assets/styles/variables.scss';
 
 .example-container {
@@ -69,7 +74,7 @@ app-header {
 
 .representing-label {
   color: #2d2d39;
-  font-family: 'UHC Sans';
+  font-family: 'UHCSans-Regular';
   font-size: 14px;
   font-weight: 500;
   letter-spacing: 0.2px;
@@ -79,7 +84,7 @@ app-header {
 
 .health-system-name {
   color: #2d2d39;
-  font-family: 'UHC Sans';
+  font-family: 'UHCSans-Regular';
   font-size: 16px;
   font-weight: 600;
   letter-spacing: 0.2px;
@@ -95,7 +100,7 @@ app-header {
 .mat-expansion-panel-header {
   height: 25px !important;
   padding: 8px 12px 8px 32px !important;
-  font-family: 'UHC Sans';
+  font-family: 'UHCSans-Regular';
   font-size: 16px;
   font-weight: 600;
   letter-spacing: 0.2px;
@@ -109,7 +114,7 @@ app-header {
 
 .signout-label {
   color: #757588;
-  font-family: 'UHC Sans';
+  font-family: 'UHCSans-Regular';
   font-size: 16px;
   font-weight: 600;
   letter-spacing: 0.2px;
@@ -121,7 +126,7 @@ app-header {
 .firstNavCategory {
   margin-top: 15px !important;
   color: #757588;
-  font-family: 'UHC Sans';
+  font-family: 'UHCSans-Regular';
   font-size: 16px !important;
   font-weight: 600;
   letter-spacing: 0.2px;
@@ -136,7 +141,7 @@ app-header {
 .navCategoryItem {
   /*padding-left: 32px !important;*/
   color: #757588;
-  font-family: 'UHC Sans';
+  font-family: 'UHCSans-Regular';
   font-size: 14px;
   font-weight: 600;
   letter-spacing: 0.2px;
