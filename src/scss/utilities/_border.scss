@@ -34,12 +34,6 @@
   border-left: 0 !important;
 }
 
-@each $color, $value in $theme-colors {
-  .border-#{$color} {
-    border-color: $value !important;
-  }
-}
-
 .border-white {
   border-color: $white !important;
 }

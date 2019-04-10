@@ -12,22 +12,22 @@
 
     .page-title {
       display: block;
-      margin-left: 10px;
+
       flex-basis: 100%;
-      padding: 0 10%;
+
       color: #2d2d39;
       font-family: 'UHCSans-Regular', 'Arial';
 
       font-weight: 600;
-      line-height: 75px;
+      line-height: 40px;
       @include font-size(36);
     }
 
     .page-subtitle {
       display: block;
-      margin-left: 10px;
+
       flex-basis: 100%;
-      padding: 0 10%;
+
       color: #2d2d39;
       font-family: 'UHCSans-Regular', 'Arial';
 
@@ -38,9 +38,9 @@
 
     .page-question {
       display: block;
-      margin-left: 10px;
+
       flex-basis: 100%;
-      padding: 0 10%;
+
       color: #2d2d39;
       font-family: 'UHCSans-Regular', 'Arial';
       font-size: 22px;

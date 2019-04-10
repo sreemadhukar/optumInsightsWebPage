@@ -36,10 +36,10 @@ $text-color: #ffffff;
 }
 /*
   .mr-4 which gives margin-right 10 pixels.
-  .m-r-4 gives MARGIN to the RIGHT 15 pixels.
-  .m-t-4 gives MARGIN to the TOP 15 pixels and so on.
-  .p-b-4 gives PADDING to the BOTTOM of 5 pixels
-  .p-l-4 gives PADDING to the LEFT of 40 pixels
+  .mt-4 gives MARGIN to the RIGHT 15 pixels.
+  .ml-4 gives MARGIN to the TOP 15 pixels and so on.
+  .pt-4 gives PADDING to the BOTTOM of 5 pixels
+  .pl-4 gives PADDING to the LEFT of 40 pixels
   */
 
 $spaceamounts: (4, 8, 12, 16, 24, 32, 40, 48, 56, 64, 72, 128); // Adjust this to include the pixel amounts you need.
