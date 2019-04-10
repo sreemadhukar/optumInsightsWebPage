@@ -55,7 +55,7 @@ export class MiniBarChartComponent implements OnInit, AfterViewInit {
     const xScale = d3
       .scaleLinear()
       .domain([0, totalSum])
-      .range([0, 179]);
+      .range([0, 178]);
 
     chart
       .append('rect')
@@ -69,13 +69,13 @@ export class MiniBarChartComponent implements OnInit, AfterViewInit {
       .append('rect')
       .attr('x', 10 + xScale(chartOptions.graphValues[0]))
       .attr('y', 10)
-      .attr('width', 1)
+      .attr('width', 2)
       .attr('height', 20)
       .attr('fill', chartOptions.color[1]);
 
     chart
       .append('rect')
-      .attr('x', 11 + xScale(chartOptions.graphValues[0]))
+      .attr('x', 12 + xScale(chartOptions.graphValues[0]))
       .attr('y', 10)
       .attr('width', xScale(chartOptions.graphValues[1]) + 1)
       .attr('height', 20)
