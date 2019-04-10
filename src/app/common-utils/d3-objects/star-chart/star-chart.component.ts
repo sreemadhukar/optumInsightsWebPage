@@ -48,19 +48,20 @@ export class StarChartComponent implements OnInit, AfterViewInit {
 
     svg
       .append('svg:image')
-      .attr('x', (width + margin.left + margin.right) / 4)
+      .attr('x', (width + margin.left + margin.right) / 3.5)
       .attr('y', 0)
-      .attr('width', width / 2)
-      .attr('height', width / 2)
+      .attr('width', width / 2.5)
+      .attr('height', width / 2.5)
       .attr('xlink:href', 'src/assets/images/star.png');
 
     svg
       .append('text')
-      .attr('x', (width + margin.left + margin.right) / 2)
-      .attr('y', 100)
-      .attr('font-family', 'UHCSans-SemiBold')
+      .attr('x', (width + margin.left + margin.right - 10) / 2)
+      .attr('y', 75)
+      .attr('font-family', 'UHCSans-Regular')
       .attr('fill', '#FFFFFF')
-      .attr('font-size', '36')
+      .attr('font-size', '22')
+      .attr('font-weight', '600')
       .attr('text-anchor', 'middle')
       .text(chartOptions.centerNumber);
   }
