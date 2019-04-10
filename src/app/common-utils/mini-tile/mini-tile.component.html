@@ -1,7 +1,10 @@
 <div *ngIf="data != null" class="card-structure">
   <div class="card-inner">
-    <div class="self-service-text">
+    <div class="self-service-title">
       {{ data.title }}
+    </div>
+    <div class="self-service-number">
+      {{ data.data.centerNumber }}
     </div>
   </div>
 </div>
