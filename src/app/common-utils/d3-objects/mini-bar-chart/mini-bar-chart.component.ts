@@ -36,7 +36,7 @@ export class MiniBarChartComponent implements OnInit, AfterViewInit {
 
     const margin = { top: 10, right: 0, bottom: 10, left: 0 };
     const width = preWidth - margin.left - margin.right;
-    const height = width - margin.top - margin.bottom;
+    const height = 50 - margin.top - margin.bottom;
 
     const chart = d3
       .select(this.renderChart)
@@ -44,7 +44,7 @@ export class MiniBarChartComponent implements OnInit, AfterViewInit {
       .attr('width', width + margin.left + margin.right)
       .attr('height', height + margin.top + margin.bottom)
       .append('g')
-      .attr('transform', 'translate(' + 10 + ',' + 10 + ')');
+      .attr('transform', 'translate(' + 10 + ',' + 0 + ')');
 
     let totalSum = 0;
 
