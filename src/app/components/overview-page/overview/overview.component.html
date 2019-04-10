@@ -2,6 +2,10 @@
   <div class="overview-content">
     <div class="page-title">{{ pageTitle }}</div>
     <div class="page-subtitle">{{ pagesubTitle }}</div>
-    <app-small-card *ngFor="let item of overviewItems; let i = index" class="cards" [card]="item"> </app-small-card>
+
+    <div *ngFor="let item of mainCards; let i = index">
+      <app-small-card *ngIf="item.data != null" class="cards" [data]="item"> </app-small-card>
+    </div>
+    <app-mini-tile *ngFor="let item of selfServiceMiniCards; let i = index"> </app-mini-tile>
   </div>
 </div>

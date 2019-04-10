@@ -6,7 +6,9 @@ import { OverviewSharedService } from '../../../shared/overview/overview-shared.
   styleUrls: ['./overview.component.scss']
 })
 export class OverviewComponent implements OnInit {
-  overviewItems: Array<Object> = [{}];
+  overviewItems: any;
+  mainCards: any;
+  selfServiceMiniCards: any;
   pageTitle: String = '';
   pagesubTitle: String = '';
   userName: String = '';
@@ -16,107 +18,13 @@ export class OverviewComponent implements OnInit {
   ngOnInit() {
     this.overviewsrc
       .getOverviewData()
-      .then(data => console.log(data))
+      .then(data => {
+        this.overviewItems = JSON.parse(JSON.stringify(data));
+        this.mainCards = this.overviewItems[0];
+        this.selfServiceMiniCards = this.overviewItems[1];
+      })
       .catch(reason => console.log(reason.message));
     this.userName = 'Anne';
     this.pageTitle = 'Hello, ' + this.userName + '.';
-    this.overviewItems = [
-      {
-        category: 'small-cards',
-        type: 'donutWithTrend',
-        title: 'Claims Paid',
-        data: {
-          cValues: [],
-          cData: '',
-          color: [{ color1: '#00A8F7' }, { color2: '#F5F5F5' }, { color3: '#FFFFFF' }],
-          gdata: []
-        },
-        sdata: {
-          sign: 'up',
-          data: '+2.3%'
-        },
-        timeperiod: 'Time Period - Time Period'
-      },
-      {
-        category: 'small-cards',
-        type: 'donutWithTrend',
-        title: 'Prior Authorization Approval',
-        data: {
-          cValues: [],
-          cData: '',
-          color: [{ color1: '#00A8F7' }, { color2: '#F5F5F5' }, { color3: '#FFFFFF' }],
-          gdata: []
-        },
-        sdata: {
-          sign: 'up',
-          data: '+0.3%'
-        },
-        timeperiod: 'Time Period - Time Period'
-      },
-      {
-        category: 'small-cards',
-        type: 'donutWithTrend',
-        title: 'Self Service Adoption Rate',
-        data: {
-          cValues: [],
-          cData: '',
-          color: [{ color1: '#00A8F7' }, { color2: '#F5F5F5' }, { color3: '#FFFFFF' }],
-          gdata: []
-        },
-        sdata: {
-          sign: 'down',
-          data: '-0.3%'
-        },
-        timeperiod: 'Time Period - Time Period'
-      },
-      {
-        category: 'small-cards',
-        type: 'donutWithTrend',
-        title: 'Claims Yield',
-        data: {
-          cValues: [],
-          cData: '',
-          color: [{ color1: '#00A8F7' }, { color2: '#F5F5F5' }, { color3: '#FFFFFF' }],
-          gdata: []
-        },
-        sdata: {
-          sign: 'up',
-          data: '+4.3%'
-        },
-        timeperiod: 'Time Period - Time Period'
-      },
-      {
-        category: 'small-cards',
-        type: 'donutWithTrend',
-        title: 'Medicare Star Rating',
-        data: {
-          cValues: [],
-          cData: '',
-          color: [{ color1: '#00A8F7' }, { color2: '#F5F5F5' }, { color3: '#FFFFFF' }],
-          gdata: []
-        },
-        sdata: {
-          sign: 'down',
-          data: '-8.3%'
-        },
-        timeperiod: 'Time Period - Time Period'
-      },
-      {
-        category: 'small-cards',
-        type: 'donutWithTrend',
-        title: 'Total Calls',
-        data: {
-          cValues: [],
-          cData: '',
-          color: [{ color1: '#00A8F7' }, { color2: '#F5F5F5' }, { color3: '#FFFFFF' }],
-          gdata: []
-        },
-        sdata: {
-          sign: 'down',
-          data: '-2.3%'
-        },
-        timeperiod: 'Time Period - Time Period'
-      }
-    ];
   }
 }

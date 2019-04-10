@@ -7,7 +7,7 @@ const routes: Routes = [
     loadChildren: '../components/overview-page/overview-page.module#OverviewPageModule'
   },
   {
-    path: 'GettingReimbursedSummary',
+    path: 'gettingReimbursed',
     loadChildren: '../components/getting-reimbursed-page/getting-reimbursed.module#GettingReimbursedModule'
   }
 ];

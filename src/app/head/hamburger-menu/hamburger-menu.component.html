@@ -6,11 +6,7 @@
     <!--<button mat-icon-button (click)="srnav.toggle()">
       <mat-icon>filter</mat-icon>
     </button>-->
-
     <app-header [button]="mobileQuery"></app-header>
-    <button mat-icon-button (click)="srnav.toggle()">
-      <mat-icon>filter</mat-icon>
-    </button>
   </mat-toolbar>
 
   <mat-sidenav-container class="example-sidenav-container">
@@ -41,37 +37,40 @@
           "
         >
           <!-- USING ACCORDIAN IF CATEGORY HAS SUB CATEGORIES -->
-          <mat-accordion *ngIf="category.children">
-            <mat-expansion-panel class="nav-menu-expansion-panel">
-              <mat-expansion-panel-header
-                class="nav-menu-category"
-                [collapsedHeight]="'25px'"
-                [expandedHeight]="'25px'"
-              >
-                <mat-panel-title>
-                  <img src="{{ category.icon }}" class="nav-menu-icons" />{{ category.name }}
-                </mat-panel-title>
-              </mat-expansion-panel-header>
-              <a
-                class="nav-sub-category-items"
-                mat-list-item
-                routerLink="{{ subcategory.path }}"
-                routerLinkActive="active-link"
-                *ngFor="let subcategory of category.children"
-                >{{ subcategory.name }}</a
-              >
-            </mat-expansion-panel>
-          </mat-accordion>
+
+          <mat-expansion-panel *ngIf="category.children" class="nav-menu-expansion-panel" [expanded]="_allExpandState">
+            <mat-expansion-panel-header class="nav-menu-category" [collapsedHeight]="'25px'" [expandedHeight]="'25px'">
+              <mat-panel-title>
+                <mat-icon class="nav-menu-icons" svgIcon="{{ category.icon }}"></mat-icon>
+                <!--<img src="{{ category.icon }}" class="nav-menu-icons" />-->{{ category.name }}
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <a
+              class="nav-sub-category-items"
+              (click)="collapseExpansionPanels(rowIndex)"
+              [routerLinkActiveOptions]="{ exact: true }"
+              mat-list-item
+              routerLink="{{ subcategory.path }}"
+              routerLinkActive="active-link"
+              *ngFor="let subcategory of category.children"
+              >{{ subcategory.name }}</a
+            >
+          </mat-expansion-panel>
 
           <!-- CATEGORY WHICH HAS NO SUB CATEGORIES -->
           <a
+            (click)="collapseExpansionPanels()"
             class="nav-no-child-category"
+            [routerLinkActiveOptions]="{ exact: true }"
             mat-list-item
             routerLink="{{ category.path }}"
             routerLinkActive="active-link"
             *ngIf="!category.children"
-            ><img class="nav-menu-icons" [src]="category.icon" />{{ category.name }}</a
           >
+            <!--<img
+              class="nav-menu-icons" [src]="category.icon" />-->
+            <mat-icon class="nav-menu-icons" svgIcon="{{ category.icon }}"></mat-icon> {{ category.name }}
+          </a>
         </mat-nav-list>
       </div>
       <!-- END OF MENU CATEGORIES BLOCK -->
@@ -79,7 +78,7 @@
       <!-- SIGNOUT BLOCK -->
       <div class="signout-block">
         <p class="signout-label">
-          <a><img class="nav-menu-icons" src="/src/assets/images/icons/Action/round-home-24px.svg" />Sign Out</a>
+          <a> <mat-icon class="nav-menu-icons" svgIcon="sign-out"></mat-icon>Sign Out </a>
         </p>
       </div>
       <!-- END OF SIGNOUT BLOCK -->

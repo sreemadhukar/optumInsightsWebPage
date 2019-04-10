@@ -35,8 +35,8 @@ export class GettingReimbursedComponent implements OnInit {
       },
       {
         category: 'card',
-        type: 'donutWithTrend',
-        title: 'Total Calls',
+        type: 'donutBothLabelTrend',
+        title: 'Total Claims Submitted',
         data: {
           cValues: [],
           cData: '',

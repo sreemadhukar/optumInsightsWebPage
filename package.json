@@ -29,6 +29,7 @@
     "classlist.js": "^1.1.20150312",
     "core-js": "^2.5.4",
     "cors": "^2.8.5",
+    "d3": "^5.9.2",
     "express": "^4.16.4",
     "http-proxy": "^1.17.0",
     "jsonwebtoken": "^8.5.1",

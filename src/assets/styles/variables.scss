@@ -9,9 +9,26 @@ $aqua: #f1f4f7 !default;
 $blue: #196ecf !default;
 $green: #0d880b !default;
 $black: #000 !default;
+$brand-blue-hover: #003da1;
+$brand-green-hover: #007000;
 
+/*UI Neutral Colors*/
+$neutral-1: #f1f4f7;
+$neutral-2: #e0e0e0;
+$neutral-3: #b3babc;
+$neutral-4: #757588;
+$neutral-5: #2d2d39;
+
+/*Addition UI Hover Colors*/
+$body-link-blue: #e3f0fd;
+$body-link-dark: #d7dce1;
+
+/*Additional UI Hover Colors*/
+$hover-blue: $body-link-blue;
+$hover-gray: $body-link-dark;
+
+$icon-idle: #757588;
 $colors: () !default;
-
 $colors: map-merge(
   (
     'aqua': $aqua,
@@ -21,12 +38,6 @@ $colors: map-merge(
   ),
   $colors
 );
-
-/*UI Neutral Colors*/
-
-/*Additional UI Hover Colors*/
-
-$hover-blue: $green;
 
 /*Data Visualization Colors*/
 $DV-colors-list: #3381ff #80b0ff #003da1 #00b8cc #8e6edd;
