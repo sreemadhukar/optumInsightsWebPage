@@ -88,7 +88,7 @@ export class HamburgerMenuComponent implements AfterViewInit {
 
   @HostListener('window:resize', ['$event'])
   onResize() {
-    this.mobileQuery = this.breakpointObserver.isMatched('(max-width: 1024px)');
+    this.mobileQuery = this.breakpointObserver.isMatched('(max-width: 1280px)');
   }
 
   /*** used to apply the CSS for dynamically generated elements ***/

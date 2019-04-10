@@ -8,46 +8,43 @@
     flex-wrap: wrap;
     justify-content: center;
 
-    .page-title {
-      display: block;
-      margin-left: 10px;
-      flex-basis: 100%;
-      padding: 0 10%;
-      color: #2d2d39;
-      font-family: 'UHCSans-Regular', 'Arial';
-      font-size: 36px;
-      font-weight: 600;
+    .cust-width-blank {
+      width: 600px;
+    }
+
+    .cust-width-title {
+      width: 350px;
+
+      .page-title {
+        flex-basis: 100%;
+        color: #2d2d39;
+        font-family: 'UHCSans-Regular', 'Arial';
+        font-size: 36px;
+        font-weight: 600;
+        line-height: 75px;
+      }
+
+      .page-subtitle {
+        flex-basis: 100%;
+        color: #2d2d39;
+        font-family: 'UHCSans-Regular', 'Arial';
+        font-size: 28px;
+        font-weight: 600;
+        line-height: 50px;
+      }
+      .page-question {
+        flex-basis: 100%;
+        color: #2d2d39;
+        font-family: 'UHCSans-Regular', 'Arial';
+        font-size: 22px;
+        font-weight: 600;
+        line-height: 50px;
+      }
+    }
+
+    & > .cards {
+      text-align: left;
       line-height: 75px;
-    }
-
-    .page-subtitle {
-      display: block;
-      margin-left: 10px;
-      flex-basis: 100%;
-      padding: 0 10%;
-      color: #2d2d39;
-      font-family: 'UHCSans-Regular', 'Arial';
-      font-size: 28px;
-      font-weight: 600;
-      line-height: 50px;
-    }
-
-    .page-question {
-      display: block;
-      margin-left: 10px;
-      flex-basis: 100%;
-      padding: 0 10%;
-      color: #2d2d39;
-      font-family: 'UHCSans-Regular', 'Arial';
-      font-size: 22px;
-      font-weight: 600;
-      line-height: 50px;
-    }
-
-    & > app-small-card {
-      text-align: center;
-      line-height: 75px;
-      font-size: 30px;
     }
   }
 }
