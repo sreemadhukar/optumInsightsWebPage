@@ -3,9 +3,8 @@ import { Injectable, OnInit } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { HttpHeaders, HttpClient, HttpParams } from '@angular/common/http';
 import { OverviewPageModule } from '../../components/overview-page/overview-page.module';
-import { map } from 'rxjs/operators';
-import { combineLatest } from 'rxjs';
-
+import { map, catchError } from 'rxjs/operators';
+import { combineLatest, of } from 'rxjs';
 @Injectable({ providedIn: OverviewPageModule })
 export class OverviewService {
   public currentUser: any;
@@ -15,10 +14,14 @@ export class OverviewService {
   private SERVICE_PATH: string;
   constructor(private http: HttpClient) {
     this.combined = combineLatest(
-      this.http
-        .get('../../../src/assets/mock-data/providersystems.json')
-        .pipe(map(res => JSON.parse(JSON.stringify(res)))),
-      this.http.get('../../../src/assets/mock-data/claims.json').pipe(map(res => JSON.parse(JSON.stringify(res))))
+      this.http.get('../../../src/assets/mock-data/providersystems.json').pipe(
+        map(res => JSON.parse(JSON.stringify(res))),
+        catchError(err => of(JSON.parse(JSON.stringify(err))))
+      ),
+      this.http.get('../../../src/assets/mock-data/claims.json').pipe(
+        map(res => JSON.parse(JSON.stringify(res))),
+        catchError(err => of(JSON.parse(JSON.stringify(err))))
+      )
     );
   }
 
