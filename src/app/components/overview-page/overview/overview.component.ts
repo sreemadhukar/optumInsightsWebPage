@@ -19,7 +19,7 @@ export class OverviewComponent implements OnInit {
     this.pagesubTitle = 'Your Insights at a glance.';
     this.opportunities = 'Opportunities';
     this.opportunitiesQuestion = 'How much can online self service save you?';
-    this.welcomeMessage = 'Welcome Back';
+    this.welcomeMessage = ' Welcome Back';
   }
   ngOnInit() {
     this.overviewsrc
