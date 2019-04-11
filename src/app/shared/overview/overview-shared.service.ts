@@ -20,6 +20,9 @@ export class OverviewSharedService {
       let claimsYield: object;
       const oppurtunities: Array<object> = [];
       const tempArray: Array<object> = [];
+      // this.overviewService.getOverviewData().subscribe(data => {
+      //   console.log(data)
+      // })
       this.overviewService.combined.subscribe(([providerSystems, claims]) => {
         if (providerSystems.hasOwnProperty('status')) {
           cPriorAuth = {
