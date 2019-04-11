@@ -6,7 +6,6 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
 import { CdkStepperModule } from '@angular/cdk/stepper';
 import { CdkTableModule } from '@angular/cdk/table';
 import { CdkTreeModule } from '@angular/cdk/tree';
-import { HttpClientModule } from '@angular/common/http';
 import {
   MatAutocompleteModule,
   MatBadgeModule,
@@ -91,8 +90,7 @@ import {
     ScrollingModule,
     MatBottomSheetModule,
     MatButtonModule,
-    MatButtonToggleModule,
-    HttpClientModule
+    MatButtonToggleModule
   ]
 })
 export class HeadMaterialModule {}
