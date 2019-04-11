@@ -14,7 +14,7 @@ export class OverviewService {
   private SERVICE_PATH: string;
   constructor(private http: HttpClient) {
     this.combined = combineLatest(
-      this.http.get('../../../src/assets/mock-data/providersystemss.json').pipe(
+      this.http.get('../../../src/assets/mock-data/providersystems.json').pipe(
         retry(2),
         map(res => JSON.parse(JSON.stringify(res))),
         catchError(err => of(JSON.parse(JSON.stringify(err))))
