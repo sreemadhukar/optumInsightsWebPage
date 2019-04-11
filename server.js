@@ -5,8 +5,6 @@ let path = require('path');
 let jwt = require('jsonwebtoken');
 let cors = require('cors');
 let port = process.env.PORT || 8000;
-
-let apiForwardingUrl = 'https://gateway-stage-core.optum.com';
 let sessionSecret = 'STwHkLYUwN1L5rc3yqdkuthRvczrBupc';
 let key = 'Q9gRpXWjVm5GXethNxG60utGMGW7NpsO';
 
