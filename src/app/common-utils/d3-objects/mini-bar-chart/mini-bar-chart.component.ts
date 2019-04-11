@@ -36,7 +36,7 @@ export class MiniBarChartComponent implements OnInit, AfterViewInit {
 
     const margin = { top: 10, right: 0, bottom: 10, left: 0 };
     const width = preWidth - margin.left - margin.right;
-    const height = width - margin.top - margin.bottom;
+    const height = 50 - margin.top - margin.bottom;
 
     const chart = d3
       .select(this.renderChart)
@@ -44,7 +44,7 @@ export class MiniBarChartComponent implements OnInit, AfterViewInit {
       .attr('width', width + margin.left + margin.right)
       .attr('height', height + margin.top + margin.bottom)
       .append('g')
-      .attr('transform', 'translate(' + 10 + ',' + 10 + ')');
+      .attr('transform', 'translate(' + 10 + ',' + 0 + ')');
 
     let totalSum = 0;
 
@@ -55,7 +55,7 @@ export class MiniBarChartComponent implements OnInit, AfterViewInit {
     const xScale = d3
       .scaleLinear()
       .domain([0, totalSum])
-      .range([0, 180]);
+      .range([0, 178]);
 
     chart
       .append('rect')
@@ -69,7 +69,15 @@ export class MiniBarChartComponent implements OnInit, AfterViewInit {
       .append('rect')
       .attr('x', 10 + xScale(chartOptions.graphValues[0]))
       .attr('y', 10)
-      .attr('width', xScale(chartOptions.graphValues[1]))
+      .attr('width', 2)
+      .attr('height', 20)
+      .attr('fill', chartOptions.color[1]);
+
+    chart
+      .append('rect')
+      .attr('x', 12 + xScale(chartOptions.graphValues[0]))
+      .attr('y', 10)
+      .attr('width', xScale(chartOptions.graphValues[1]) + 1)
       .attr('height', 20)
       .attr('fill', chartOptions.color[2]);
   }
