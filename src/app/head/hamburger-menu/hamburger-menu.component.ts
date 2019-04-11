@@ -12,6 +12,8 @@ import { MatExpansionPanel } from '@angular/material';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
+import { Router, NavigationStart } from '@angular/router';
+import { AuthenticationService } from '../../auth/_service/authentication.service';
 
 @Component({
   selector: 'app-hamburger-menu',
@@ -24,6 +26,7 @@ export class HamburgerMenuComponent implements AfterViewInit {
   @ViewChildren(MatExpansionPanel) viewPanels: QueryList<MatExpansionPanel>;
   public mobileQuery: boolean;
   public healthSystemName = 'North Region Health System';
+  public makeAbsolute: boolean;
 
   /*** Array of Navigation Category List ***/
   public navCategories = [
@@ -59,8 +62,17 @@ export class HamburgerMenuComponent implements AfterViewInit {
     private elementRef: ElementRef,
     private renderer: Renderer2,
     private iconRegistry: MatIconRegistry,
+    private router: Router,
+    private authService: AuthenticationService,
     sanitizer: DomSanitizer
   ) {
+    // to disable the header/footer/body when not authenticated
+    router.events.subscribe(event => {
+      if (event instanceof NavigationStart) {
+        this.makeAbsolute = !(authService.isLoggedIn() && !(event.url === '' || event.url.indexOf('/login') >= 0));
+      }
+      // PLEASE DON'T MODIFY THIS
+    });
     this.mobileQuery = this.breakpointObserver.isMatched('(max-width: 1024px)');
 
     /** INITIALIZING SVG ICONS TO USE IN DESIGN - ANGULAR MATERIAL */
@@ -88,7 +100,7 @@ export class HamburgerMenuComponent implements AfterViewInit {
 
   @HostListener('window:resize', ['$event'])
   onResize() {
-    this.mobileQuery = this.breakpointObserver.isMatched('(max-width: 1024px)');
+    this.mobileQuery = this.breakpointObserver.isMatched('(max-width: 1279px)');
   }
 
   /*** used to apply the CSS for dynamically generated elements ***/
