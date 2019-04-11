@@ -10,7 +10,7 @@ COPY . .
 
 RUN $(npm bin)/ng lint
 
-RUN $(npm bin)/ng build
+RUN $(npm bin)/ng build --prod
 
 COPY --from=builder /app/dist .
 
