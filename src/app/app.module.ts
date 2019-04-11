@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { HeadModule } from './head/head.module';
@@ -10,12 +10,10 @@ import { SharedModule } from './shared/shared.module';
 import { CommonUtilsModule } from './common-utils/common-utils.module';
 import { RestModule } from './rest/rest.module';
 import { PipesModule } from './pipes/pipes.module';
-import { BarChartComponent } from './common-utils/d3-objects/bar-chart/bar-chart.component';
 import { AuthModule } from './auth/auth.module';
-import { MatExpansionModule, MatIconModule } from '@angular/material';
 
 @NgModule({
-  declarations: [AppComponent, BarChartComponent],
+  declarations: [AppComponent],
   imports: [
     HttpClientModule,
     BrowserModule,
@@ -26,9 +24,7 @@ import { MatExpansionModule, MatIconModule } from '@angular/material';
     CommonUtilsModule,
     RestModule,
     PipesModule,
-    MatExpansionModule,
-    AuthModule,
-    MatIconModule
+    AuthModule
   ],
   providers: [],
   bootstrap: [AppComponent]
