@@ -73,6 +73,7 @@ export class InternalService {
     });
     return this.http.post(url, params, { headers: myHeader }).subscribe(async data => {
       sessionStorage.setItem('publicKey', JSON.stringify(data));
+      console.log(data);
       await this.login(userName, password);
     });
   }
