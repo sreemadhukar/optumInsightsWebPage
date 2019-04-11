@@ -6,7 +6,7 @@
  */
 export const environment: any = {
   apiProxyUrl: 'https://gateway-stage-core.optum.com/api/qaone/pdr/uhci/v1/',
-  originUrl: '/',
+  originUrl: 'https://pedui1-pedtst.ocp-ctc-core-nonprod.optum.com/',
   apiUrls: {
     ExecutiveSummaryPath: 'providersystems/',
     ProviderSystemClaimsAgg: 'agg-claims/search/',
