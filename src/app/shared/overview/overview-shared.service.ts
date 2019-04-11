@@ -257,8 +257,8 @@ export class OverviewSharedService {
                 concatString: '$',
                 color: ['#3381FF', '#FFFFFF', '#80B0FF'],
                 graphValuesTitle: 'Avg. Transaction Costs',
-                graphData1: '$1.01 for Self Service',
-                graphData2: '$5.40 for Phone Call',
+                graphData1: 'for Self Service',
+                graphData2: 'for Phone Call',
                 gdata: ['card-structure', 'totalCallCost']
               }
             });
