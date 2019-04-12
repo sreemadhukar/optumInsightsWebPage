@@ -1,4 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { MatIconRegistry } from '@angular/material';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-small-card',
@@ -20,7 +22,13 @@ export class SmallCardComponent implements OnInit {
     this.data = value;
   }
 */
-  constructor() {}
+  constructor(private iconRegistry: MatIconRegistry, sanitizer: DomSanitizer) {
+    /** INITIALIZING SVG ICONS TO USE IN DESIGN - ANGULAR MATERIAL */
+    iconRegistry.addSvgIcon(
+      'help',
+      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-help_outline-24px.svg')
+    );
+  }
 
   ngOnInit() {}
 }
