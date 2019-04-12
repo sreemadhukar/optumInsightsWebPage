@@ -1,11 +1,12 @@
-@import '~src/assets/styles/variables.scss';
+@import '~src/scss/variables.scss';
+
 .card-body {
   vertical-align: center;
 }
 
 .card-structure {
   position: relative;
-  display: inline-flex;
+  float: left;
 }
 .card-inner {
   background-color: #ffffff;

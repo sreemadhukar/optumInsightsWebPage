@@ -2,8 +2,8 @@
  * Author: Ranjith kumar Ankam
  * Created Date: 03-Apr-2019
  *  */
-
-@import '~src/assets/styles/variables.scss';
+@import '~src/scss/variables.scss';
+@import '~src/scss/mixins';
 
 .example-container {
   background-color: #efefef;
@@ -22,7 +22,7 @@
   position: fixed;
   /* Make sure the toolbar will stay on top of the content as it scrolls past. */
   z-index: 2;
-  padding: 0 !important;
+  padding: padding(0);
 }
 
 .mat-toolbar-single-row {
@@ -68,7 +68,7 @@ app-header {
 }
 
 .health-system-representation-block {
-  padding: 16px 12px 0px 32px;
+  @include padding(16px, 12px, 0px, 32px);
   border-bottom: 1px solid $neutral-2;
 }
 
@@ -201,4 +201,8 @@ app-header {
 /************ ABOVE IS THE CSS RELATED TO ONLY LEFT HAMBURGER MENU *************/
 .svg-ic_build_24px:hover {
   fill: $blue !important;
+}
+
+.display-none {
+  display: none !important;
 }

@@ -1,0 +1,28 @@
+/**------------------------- **\
+            @FONTS
+\**------------------------- **/
+/*
+	 UHC Sans
+*/
+/*font-face (font-family, sourcefile path, font-weight, font-style)*/
+
+/*  UHC Sans Regular */
+@include font-face('UHCSans-Regular', './assets/fonts/UHCSans-Regular', normal, normal);
+
+/*  UHC Sans Bold */
+@include font-face('UHCSans-Bold', './assets/fonts/UHCSans-Bold', 700, normal);
+
+/*  UHC Sans Bold & Italic */
+@include font-face('UHCSans-BoldItalic', './assets/fonts/UHCSans-BoldItalic', 700, Italic);
+
+/*  UHC Sans SemiBold */
+@include font-face('UHCSans-SemiBold', './assets/fonts/UHCSans-SemiBold', 600, normal);
+
+/*  UHC Sans SemiBold & Italic */
+@include font-face('UHCSans-SemiBoldItalic', './assets/fonts/UHCSans-SemiBoldItalic', normal, normal);
+
+/*  UHC Sans Medium */
+// @include font-face("UHCSans-Medium", "./assets/fonts/UHCSans-Medium",500, normal);
+
+/*  UHC Sans Medium & Italic */
+// @include font-face("UHCSans-Medium-Italic", "./assets/fonts/UHCSans-MediumItalic",500, normal);

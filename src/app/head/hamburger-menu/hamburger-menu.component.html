@@ -4,7 +4,7 @@
  *  -->
 
 <div class="example-container" [class.example-is-mobile]="!mobileQuery">
-  <mat-toolbar color="primary" class="example-toolbar">
+  <mat-toolbar color="primary" class="example-toolbar" [class.display-none]="makeAbsolute">
     <button mat-icon-button *ngIf="mobileQuery" (click)="snav.toggle()">
       <mat-icon>menu</mat-icon>
     </button>
@@ -16,7 +16,14 @@
 
   <mat-sidenav-container class="example-sidenav-container">
     <!-- SIDE NAVIGATION BAR  fixedTopGap="65"-->
-    <mat-sidenav class="side-navigation" #snav [mode]="'side'" [fixedInViewport]="true" [opened]="!mobileQuery">
+    <mat-sidenav
+      class="side-navigation"
+      #snav
+      [mode]="'side'"
+      [fixedInViewport]="true"
+      [opened]="!mobileQuery"
+      [class.display-none]="makeAbsolute"
+    >
       <!-- UHC LOGO BLOCK -->
       <div class="uhc-logo-block">
         <img class="uhc-logo" src="/src/assets/images/UHC Logo@2x.png" />
@@ -102,5 +109,5 @@
       <router-outlet></router-outlet>
     </mat-sidenav-content>
   </mat-sidenav-container>
-  <app-footer class="footer-block"></app-footer>
+  <app-footer class="footer-block" [class.display-none]="makeAbsolute"></app-footer>
 </div>

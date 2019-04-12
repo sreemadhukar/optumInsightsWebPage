@@ -1,7 +1,6 @@
-@import '~src/assets/styles/variables.scss';
+@import '~src/scss/variables.scss';
 .card-structure {
   position: relative;
-  display: inline-flex;
 }
 .card-inner {
   background-color: #ffffff;
@@ -13,39 +12,43 @@
 }
 .chart-details {
   width: 60%;
-  display: inline-block;
+  float: left;
+}
+.full-width {
+  width: 100%;
 }
 .trend-details {
-  width: 40%;
-  display: inline-block;
-}
-.trend-value {
-  font-size: 14px;
-  font-weight: 500;
-  letter-spacing: 0.2px;
-  line-height: 18px;
-  font-family: 'UHCSans-Regular', 'Arial';
-  display: inline;
-  vertical-align: middle;
-}
-.trend-image {
-  height: 27px;
-  width: 27px;
-  border-radius: 20px;
-  display: inline-block;
-  vertical-align: middle;
-  padding: 6px;
-}
-.trend-image-down {
-  background-color: #ffe6f0;
-}
-.trend-value-down {
-  color: #b10c00;
-}
+  float: left;
+  padding: 9% 0;
 
-.trend-image-up {
-  background-color: #e1fadf;
-}
-.trend-value-up {
-  color: green;
+  .trend-value {
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.2px;
+    line-height: 18px;
+    font-family: 'UHCSans-Regular', 'Arial';
+    display: inline;
+    vertical-align: middle;
+  }
+  .trend-image {
+    height: 17px;
+    width: 17px;
+    border-radius: 23px;
+    display: inline-block;
+    vertical-align: middle;
+    padding: 4px;
+  }
+  .trend-image-down {
+    background-color: #ffe6f0;
+  }
+  .trend-value-down {
+    color: #b10c00;
+  }
+  .trend-value-up {
+    color: #007000;
+  }
+
+  .trend-image-up {
+    background-color: #e1fadf;
+  }
 }
