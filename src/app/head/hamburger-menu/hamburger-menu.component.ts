@@ -1,3 +1,8 @@
+/**
+ * Author: Ranjith kumar Ankam
+ * Created Date: 03-Apr-2019
+ *  **/
+
 import {
   Component,
   AfterViewInit,
@@ -38,7 +43,7 @@ export class HamburgerMenuComponent implements AfterViewInit {
         { name: 'Summary', path: 'gettingReimbursed/summary' },
         { name: 'Payments', path: '#' },
         { name: 'Non-Payments', path: '#' },
-        { name: 'Appelas', path: '#' },
+        { name: 'Appeals', path: '#' },
         { name: 'Payment Integrity', path: '#' }
       ]
     },
