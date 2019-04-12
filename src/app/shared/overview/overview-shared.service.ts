@@ -143,9 +143,9 @@ export class OverviewSharedService {
           }
           if (
             providerSystems.hasOwnProperty('SelfServiceInquiries') &&
-            providerSystems.SelfServiceInquiries.hasOwnProperty('All') &&
-            providerSystems.SelfServiceInquiries.All.hasOwnProperty('Utilizations') &&
-            providerSystems.SelfServiceInquiries.All.Utilizations.hasOwnProperty('OverallLinkAdoptionRate')
+            providerSystems.SelfServiceInquiries.hasOwnProperty('ALL') &&
+            providerSystems.SelfServiceInquiries.ALL.hasOwnProperty('Utilizations') &&
+            providerSystems.SelfServiceInquiries.ALL.Utilizations.hasOwnProperty('OverallLinkAdoptionRate')
           ) {
             cSelfService = {
               category: 'small-card',
@@ -153,8 +153,8 @@ export class OverviewSharedService {
               title: 'Self Service Adoption Rate',
               data: {
                 graphValues: [
-                  providerSystems.SelfServiceInquiries.ALL.Utilizations.OverallLinkAdoptionRate * 100,
-                  1 - providerSystems.SelfServiceInquiries.ALL.Utilizations.OverallLinkAdoptionRate * 100
+                  providerSystems.SelfServiceInquiries.ALL.Utilizations.OverallLinkAdoptionRate,
+                  1 - providerSystems.SelfServiceInquiries.ALL.Utilizations.OverallLinkAdoptionRate
                 ],
                 centerNumber:
                   (providerSystems.SelfServiceInquiries.ALL.Utilizations.OverallLinkAdoptionRate * 100).toFixed(0) +
@@ -240,7 +240,10 @@ export class OverviewSharedService {
                 color: ['#00A8F7', '#F5F5F5', '#FFFFFF', '#00B8CC'],
                 gdata: ['card-inner', 'callsCardD3Donut']
               },
-              sdata: null,
+              sdata: {
+                sign: 'up',
+                data: '+2.3%'
+              },
               timeperiod: 'Timeperiod - Rolling 12 Months'
             };
           } else {
@@ -439,7 +442,7 @@ export class OverviewSharedService {
                   claims.Cs.ClaimsLobSummary[0].hasOwnProperty('AmountUHCPaid'),
                   claims.Ei.ClaimsLobSummary[0].hasOwnProperty('AmountUHCPaid')
                 ],
-                centerNumber: '$' + this.common.nFormatter(claims.All.ClaimsLobSummary[0].AmountUHCPaid),
+                centerNumber: '$' + this.common.nFormatter(claims.All.ClaimsLobSummary[0].AmountUHCPaid.toFixed()),
                 color: ['#00A8F7', '#F5F5F5', '#FFFFFF'],
                 gdata: ['card-inner', 'claimsPaidCardD3Donut']
               },
@@ -468,12 +471,13 @@ export class OverviewSharedService {
             const actualAllowed = parseFloat(claims.All.ClaimsLobSummary[0].AmountActualAllowed);
             const expectedAllowed = parseFloat(claims.All.ClaimsLobSummary[0].AmountExpectedAllowed);
             const claimYieldDonut = (actualAllowed / expectedAllowed) * 100;
+            const gDonut = actualAllowed / expectedAllowed;
             claimsYield = {
               category: 'small-card',
               type: 'donut',
               title: 'Claims Yield',
               data: {
-                graphValues: [claimYieldDonut, 1 - claimYieldDonut],
+                graphValues: [gDonut, 1 - gDonut],
                 centerNumber: claimYieldDonut.toFixed() + '%',
                 color: ['#00A8F7', '#F5F5F5', '#FFFFFF'],
                 gdata: ['card-inner', 'claimsYieldCardD3Donut']
