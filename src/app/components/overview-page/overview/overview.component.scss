@@ -11,11 +11,16 @@
     justify-content: center;
 
     .cust-width-blank {
-      width: 600px;
+      width: 502px;
+    }
+
+    & > .cards {
+      text-align: left;
+      line-height: 75px;
     }
 
     .cust-width-title {
-      width: 350px;
+      width: 450px;
 
       .page-title {
         flex-basis: 100%;
@@ -42,11 +47,6 @@
         font-weight: 600;
         line-height: 50px;
       }
-    }
-
-    & > .cards {
-      text-align: left;
-      line-height: 75px;
     }
   }
 }
