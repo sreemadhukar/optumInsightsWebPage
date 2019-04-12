@@ -20,6 +20,9 @@ export class OverviewSharedService {
       let claimsYield: object;
       const oppurtunities: Array<object> = [];
       const tempArray: Array<object> = [];
+      // this.overviewService.getOverviewData().subscribe(data => {
+      //   console.log(data)
+      // })
       this.overviewService.combined.subscribe(([providerSystems, claims]) => {
         if (providerSystems.hasOwnProperty('status')) {
           cPriorAuth = {
@@ -253,13 +256,13 @@ export class OverviewSharedService {
               },
               fdata: {
                 type: 'bar chart',
-                graphValues: ['1.01', '5.40'],
+                graphValues: [1.01, 5.4],
                 concatString: '$',
-                color: ['#00A8F7', '#F5F5F5', '#FFFFFF'],
+                color: ['#3381FF', '#FFFFFF', '#80B0FF'],
                 graphValuesTitle: 'Avg. Transaction Costs',
-                graphData1: '$1.01 for Self Service',
-                graphData2: '$5.40 for Phone Call',
-                gdata: []
+                graphData1: 'for Self Service',
+                graphData2: 'for Phone Call',
+                gdata: ['card-structure', 'totalCallCost']
               }
             });
           } else {
@@ -286,13 +289,13 @@ export class OverviewSharedService {
               },
               fdata: {
                 type: 'bar chart',
-                graphValues: ['2', '8'],
+                graphValues: [2, 8],
                 concatString: 'hours',
-                color: ['#00A8F7', '#F5F5F5', '#FFFFFF'],
+                color: ['#3381FF', '#FFFFFF', '#80B0FF'],
                 graphValuesTitle: 'Avg. Processing Times',
                 graphData1: 'for Self Service',
                 graphData2: 'for Phone Call',
-                gdata: []
+                gdata: ['card-structure', 'saveStaffTime']
               }
             });
           } else {
@@ -323,13 +326,13 @@ export class OverviewSharedService {
               },
               fdata: {
                 type: 'bar chart',
-                graphValues: ['15', '25'],
+                graphValues: [15, 25],
                 concatString: 'Days',
-                color: ['#00A8F7', '#F5F5F5', '#FFFFFF'],
+                color: ['#3381FF', '#FFFFFF', '#80B0FF'],
                 graphValuesTitle: 'Avg. Processing Times',
                 graphData1: 'for Self Service',
                 graphData2: 'for Phone Call',
-                gdata: []
+                gdata: ['card-structure', 'reduceClaimProcessingTime']
               }
             });
           } else {
@@ -362,13 +365,13 @@ export class OverviewSharedService {
               },
               fdata: {
                 type: 'bar chart',
-                graphValues: ['15', '32'],
+                graphValues: [15, 32],
                 concatString: 'Days',
-                color: ['#00A8F7', '#F5F5F5', '#FFFFFF'],
+                color: ['#3381FF', '#FFFFFF', '#80B0FF'],
                 graphValuesTitle: 'Avg. Processing Times',
                 graphData1: 'for Self Service',
                 graphData2: 'for Phone Call',
-                gdata: []
+                gdata: ['card-structure', 'reduceReconsiderationProcessing']
               }
             });
           } else {

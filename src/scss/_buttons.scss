@@ -1,0 +1,145 @@
+// stylelint-disable selector-no-qualifying-type
+
+//
+// Base styles
+//
+
+.btn {
+  display: inline-block;
+  font-weight: $btn-font-weight;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  user-select: none;
+  border: $btn-border-width solid transparent;
+  @include button-size(
+    $btn-padding-y,
+    $btn-padding-x,
+    $font-size-base,
+    $btn-line-height,
+    $btn-border-radius,
+    $font-family-base
+  );
+
+  // Share hover and focus styles
+  @include hover-focus {
+    text-decoration: none;
+  }
+
+  &:focus,
+  &.focus {
+    outline: 0;
+    box-shadow: $btn-focus-box-shadow;
+  }
+
+  // Disabled comes first so active can properly restyle
+  &.disabled,
+  &:disabled {
+    opacity: $btn-disabled-opacity;
+    @include box-shadow(none);
+  }
+
+  // Opinionated: add "hand" cursor to non-disabled .btn elements
+  &:not(:disabled):not(.disabled) {
+    cursor: pointer;
+  }
+
+  &:not(:disabled):not(.disabled):active,
+  &:not(:disabled):not(.disabled).active {
+    background-image: none;
+    @include box-shadow($btn-active-box-shadow);
+
+    &:focus {
+      @include box-shadow($btn-focus-box-shadow, $btn-active-box-shadow);
+    }
+  }
+}
+
+// Future-proof disabling of clicks on `<a>` elements
+a.btn.disabled,
+fieldset:disabled a.btn {
+  pointer-events: none;
+}
+
+//
+// Alternate buttons
+//
+
+//
+// Link buttons
+//
+
+// Make a button look and behave like a link
+.btn-link {
+  font-weight: $font-weight-normal;
+  color: $link-color;
+  background-color: transparent;
+
+  @include hover {
+    color: $link-hover-color;
+    text-decoration: $link-hover-decoration;
+    background-color: transparent;
+    border-color: transparent;
+  }
+
+  &:focus,
+  &.focus {
+    text-decoration: $link-hover-decoration;
+    border-color: transparent;
+    box-shadow: none;
+  }
+
+  &:disabled,
+  &.disabled {
+    color: $btn-link-disabled-color;
+  }
+
+  // No need for an active state here
+}
+
+//btn-primary
+
+.btn-primary {
+  @include btn-primary(
+    $btn-primary-color,
+    $btn-primary-bdr-color,
+    $text-color,
+    $active-background: $btn-color-hover,
+    $disabled-bg: $disabled-background,
+    $btn-disabled-color: $btn-link-disabled-color
+  );
+}
+.btn-secondary {
+  @include btn-secondary(
+    $btn-secondary-color,
+    $btn-secondary-bdr-color,
+    $text-color-blue,
+    $disabled-bg: $disabled-background,
+    $btn-disabled-color: $btn-link-disabled-color
+  );
+}
+.btn-primary2 {
+  @include btn-primary2(
+    $btn-primary2-color,
+    $btn-primary2-bdr-color,
+    $text-color,
+    $disabled-bg: $disabled-background,
+    $btn-disabled-color: $btn-link-disabled-color
+  );
+}
+.btn-teritary {
+  @include btn-teritary(
+    $btn-teritary-bg-color,
+    $btn-teritary-bdr-color,
+    $btn-teritary-text-color,
+    $disabled-bg: $disabled-background,
+    $btn-disabled-color: $btn-link-disabled-color
+  );
+}
+//
+// Button Sizes
+//
+
+//
+// Block button
+//
