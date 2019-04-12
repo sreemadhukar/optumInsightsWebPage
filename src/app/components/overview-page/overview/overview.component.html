@@ -1,8 +1,11 @@
+<head>
+  <script src="./modernizr.js"></script>
+</head>
 <div class="overview-body">
   <div class="overview-content">
     <div class="page-title">{{ pageTitle }}</div>
     <div class="page-subtitle">{{ pagesubTitle }}</div>
-
+    <div class="header123">Border Radius</div>
     <div *ngFor="let item of mainCards; let i = index">
       <app-small-card *ngIf="item.data != null" class="cards" [data]="item"> </app-small-card>
     </div>

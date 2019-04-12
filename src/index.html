@@ -1,14 +1,23 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <title>Webui2</title>
-  <base href="/">
+  <head>
+    <meta charset="utf-8" />
+    <title>Webui2</title>
+    <base href="/" />
+    <script src="./modernizr.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+  </head>
+  <style>
+    .no-borderradius .header123 {
+      background: red;
+    }
 
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="icon" type="image/x-icon" href="favicon.ico">
-</head>
-<body>
-  <app-root></app-root>
-</body>
+    .borderradius .header123 {
+      background-image: linear-gradient(cornflowerblue, rebeccapurple);
+    }
+  </style>
+  <body>
+    <app-root></app-root>
+  </body>
 </html>

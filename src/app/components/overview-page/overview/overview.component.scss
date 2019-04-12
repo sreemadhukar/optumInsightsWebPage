@@ -30,6 +30,14 @@
       font-size: 28px;
       font-weight: 600;
       line-height: 50px;
+
+      .no-borderradius .header123 {
+        background: red;
+      }
+
+      .borderradius .header123 {
+        background-image: linear-gradient(cornflowerblue, rebeccapurple);
+      }
     }
 
     & > app-small-card {
