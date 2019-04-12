@@ -240,7 +240,10 @@ export class OverviewSharedService {
                 color: ['#00A8F7', '#F5F5F5', '#FFFFFF', '#00B8CC'],
                 gdata: ['card-inner', 'callsCardD3Donut']
               },
-              sdata: null,
+              sdata: {
+                sign: 'up',
+                data: '+2.3%'
+              },
               timeperiod: 'Timeperiod - Rolling 12 Months'
             };
           } else {
