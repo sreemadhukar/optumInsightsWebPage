@@ -59,7 +59,7 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
       .sort(null)
       .startAngle(0)
       .endAngle(2 * Math.PI)
-      .padAngle(0.015)
+      .padAngle(0.025)
       .value(function(d) {
         return d.value;
       });
