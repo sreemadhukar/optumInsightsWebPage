@@ -31,6 +31,11 @@ export class LoginStubComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.loginForm = this.formBuilder.group({
+      username: ['', Validators.required],
+      password: ['', Validators.required]
+    });
+
     this.returnUrl = '/OverviewPage';
     if (this.isInternal) {
       if (this.authService.isLoggedIn()) {
@@ -39,13 +44,6 @@ export class LoginStubComponent implements OnInit {
         this.authService.getJwt().subscribe(data => {
           sessionStorage.setItem('token', JSON.stringify(data['token']));
         });
-        this.loginForm = this.formBuilder.group({
-          username: ['', Validators.required],
-          password: ['', Validators.required]
-        });
-
-        // reset login status
-        this.authService.logout();
       }
     } else {
       this.external.CheckExternal();
@@ -53,13 +51,11 @@ export class LoginStubComponent implements OnInit {
   }
 
   get f() {
-    return this.loginForm.controls;
+    return this.loginForm['controls'];
   }
 
   onSubmit() {
     this.submitted = true;
-
-    // stop here if form is invalid
     if (this.loginForm.invalid) {
       return;
     }
@@ -67,7 +63,6 @@ export class LoginStubComponent implements OnInit {
     //  this.loading = true;
     this.internalService
       .login(this.f.username.value, this.f.password.value)
-      .pipe(first())
       .subscribe(
         data => {
           console.log(data);
