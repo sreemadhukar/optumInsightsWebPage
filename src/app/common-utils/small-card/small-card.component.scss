@@ -44,16 +44,16 @@
     padding: 6px;
   }
   .trend-image-down {
-    background-color: #ffe6f0;
+    background-color: color(red, light);
   }
   .trend-value-down {
-    color: #b10c00;
+    color: color(red, dark);
   }
   .trend-value-up {
-    color: #007000;
+    color: $brand-green-hover;
   }
 
   .trend-image-up {
-    background-color: #e1fadf;
+    background-color: color(green, light);
   }
 }

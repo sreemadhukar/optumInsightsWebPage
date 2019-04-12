@@ -9,81 +9,83 @@
   float: left;
 }
 .card-inner {
-  background-color: #ffffff;
+  background-color: $white;
   width: 400px;
   height: 375px;
   margin: 10px;
   margin: 10px;
   line-height: 75px;
   font-size: 30px;
-}
-.chart-details {
-  width: 60%;
-  display: inline-block;
-}
-.trend-details {
-  width: 40%;
-  display: inline-block;
-}
-.trend-value {
-  font-size: 14px;
-  font-weight: 500;
-  letter-spacing: 0.2px;
-  line-height: 18px;
-  font-family: 'UHCSans-Regular', 'Arial';
-  display: inline;
-  vertical-align: middle;
-}
-.trend-image {
-  height: 27px;
-  width: 27px;
-  border-radius: 20px;
-  display: inline-block;
-  vertical-align: middle;
-  padding: 6px;
-}
-.trend-image-down {
-  background-color: #ffe6f0;
-}
-.trend-value-down {
-  color: #b10c00;
-}
 
-.trend-image-up {
-  background-color: #e1fadf;
-}
-.trend-value-up {
-  color: green;
-}
+  .chart-details {
+    width: 60%;
+    display: inline-block;
+  }
+  .trend-details {
+    float: left;
+    padding: 12% 0;
 
-/* Css for Labels*/
-ul.list-labels > li {
-  display: block;
-  color: #2d2d39;
-  font-family: 'UHCSans-Regular';
-  font-size: 14px;
-  font-weight: 500;
-  letter-spacing: 0.2px;
-  line-height: 18px;
-}
+    .trend-value {
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: 0.2px;
+      line-height: 18px;
+      font-family: 'UHCSans-Regular', 'Arial';
+      display: inline;
+      vertical-align: middle;
+    }
+    .trend-image {
+      height: 20px;
+      width: 20px;
+      border-radius: 21px;
+      display: inline-block;
+      vertical-align: middle;
+      padding: 6px;
+    }
+    .trend-image-down {
+      background-color: color(red, light);
+    }
+    .trend-value-down {
+      color: color(red, dark);
+    }
+    .trend-value-up {
+      color: $brand-green-hover;
+    }
 
-ul.list-labels > li::before {
-  content: '•  ';
-  font-size: 45px;
-  position: relative;
-  top: 10px;
-}
+    .trend-image-up {
+      background-color: color(green, light);
+    }
+  }
 
-ul.list-labels > li:nth-child(1)::before {
-  color: #3381ff;
+  /* Css for Labels*/
+  ul.list-labels > li {
+    display: block;
+    color: #2d2d39;
+    font-family: 'UHCSans-Regular';
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.2px;
+    line-height: 18px;
+  }
+
+  ul.list-labels > li::before {
+    content: '•  ';
+    font-size: 45px;
+    position: relative;
+    top: 10px;
+  }
+
+  ul.list-labels > li:nth-child(1)::before {
+    color: #3381ff;
+  }
+  ul.list-labels > li:nth-child(2)::before {
+    color: #3381f0;
+  }
+  ul.list-labels > li:nth-child(3)::before {
+    color: #338190;
+  }
+  ul.list-labels > li:nth-child(4)::before {
+    color: #000;
+  }
+  /* Css for Labels Ends here*/
 }
-ul.list-labels > li:nth-child(2)::before {
-  color: #3381f0;
-}
-ul.list-labels > li:nth-child(3)::before {
-  color: #338190;
-}
-ul.list-labels > li:nth-child(4)::before {
-  color: #000;
-}
-/* Css for Labels Ends here*/
