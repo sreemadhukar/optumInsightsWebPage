@@ -122,7 +122,7 @@ export class OverviewSharedService {
               data: {
                 graphValues: [approvedRate, 1 - approvedRate],
                 centerNumber: (approvedRate * 100).toFixed(0) + '%',
-                color: ['#00A8F7', '#F5F5F5'],
+                color: ['#3381FF', '#F5F5F5'],
                 gdata: ['card-inner', 'priorAuthCardD3Donut']
               },
               sdata: {
@@ -159,7 +159,7 @@ export class OverviewSharedService {
                 centerNumber:
                   (providerSystems.SelfServiceInquiries.ALL.Utilizations.OverallLinkAdoptionRate * 100).toFixed(0) +
                   '%',
-                color: ['#00A8F7', '#F5F5F5', '#FFFFFF'],
+                color: ['#3381FF', '#F5F5F5'],
                 gdata: ['card-inner', 'selfServiceCardD3Donut']
               },
               sdata: {
@@ -237,7 +237,7 @@ export class OverviewSharedService {
                   providerSystems.ResolvingIssues.Calls.CallVolByQuesType.Others
                 ],
                 centerNumber: this.common.nFormatter(providerSystems.ResolvingIssues.Calls.CallVolByQuesType.Total),
-                color: ['#00A8F7', '#F5F5F5', '#FFFFFF', '#00B8CC'],
+                color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'],
                 gdata: ['card-inner', 'callsCardD3Donut']
               },
               sdata: {
@@ -442,7 +442,7 @@ export class OverviewSharedService {
               data: {
                 graphValues: [mrPercentage, csPercentage, eiPercentage],
                 centerNumber: '$' + this.common.nFormatter(claims.All.ClaimsLobSummary[0].AmountUHCPaid),
-                color: ['#00A8F7', '#F5F5F5', '#00B8CC'],
+                color: ['#3381FF', '#80B0FF', '#003DA1'],
                 gdata: ['card-inner', 'claimsPaidCardD3Donut']
               },
               sdata: {
@@ -478,7 +478,7 @@ export class OverviewSharedService {
               data: {
                 graphValues: [gDonut, 1 - gDonut],
                 centerNumber: claimYieldDonut.toFixed() + '%',
-                color: ['#00A8F7', '#F5F5F5', '#FFFFFF'],
+                color: ['#3381FF', '#F5F5F5'],
                 gdata: ['card-inner', 'claimsYieldCardD3Donut']
               },
               sdata: {
