@@ -50,12 +50,15 @@ export class HamburgerMenuComponent implements AfterViewInit {
     {
       icon: 'care-delivery',
       name: 'Care Delivery',
-      children: [{ name: 'Prior Authorizations', path: '#' }, { name: 'Patient Care Opportunity', path: '#' }]
+      children: [
+        { name: 'Prior Authorizations', path: 'careDelivery/priorAuth' },
+        { name: 'Patient Care Opportunity', path: '#' }
+      ]
     },
     {
       icon: 'issue-resolution',
       name: 'Issue Resolution',
-      children: [{ name: 'Summary', path: '#' }]
+      children: [{ name: 'Summary', path: 'issueResolution' }]
     }
   ];
 
