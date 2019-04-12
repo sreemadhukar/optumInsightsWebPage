@@ -5,70 +5,68 @@
   display: inline-flex;
 }
 .card-inner {
-  background-color: #ffffff;
+  background-color: $white;
   width: 222px;
   height: 238px;
   margin: 10px;
   line-height: 75px;
   @include font-size(30);
-}
 
-.self-service-title {
-  position: relative;
-  padding: 16px 20px 0 20px;
-  color: #2d2d39;
-  font-family: 'UHCSans-Regular, Arial';
-  font-size: 16px;
-  font-weight: 500;
-  line-height: 22px;
-  text-align: left;
-  letter-spacing: 0.2px;
-}
+  .self-service-title {
+    position: relative;
+    padding: 16px 20px 0 20px;
+    color: $neutral-5;
+    font-family: 'UHCSans-Regular', 'Arial';
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 22px;
+    text-align: left;
+    letter-spacing: 0.2px;
+  }
 
-.self-service-number {
-  position: relative;
-  padding: 10px 20px 10px 20px;
-  color: #2d2d39;
-  font-family: 'UHCSans-Regular, Arial';
-  font-size: 22px;
-  font-weight: 600;
-  line-height: 22px;
-  text-align: left;
-  letter-spacing: 0.2px;
-}
+  .self-service-number {
+    position: relative;
+    padding: 10px 20px 10px 20px;
+    color: $neutral-5;
+    font-family: 'UHCSans-SemiBold', 'Arial';
+    font-size: 22px;
+    line-height: 22px;
+    text-align: left;
+    letter-spacing: 0.2px;
+  }
 
-.self-service-subtitle {
-  color: #2d2d39;
-  font-family: 'UHCSans-Regular, Arial';
-  font-size: 14px;
-  font-weight: 600;
-  letter-spacing: 0.2px;
-  line-height: 18px;
-  padding: 0px 20px 0 20px;
-}
+  .self-service-subtitle {
+    color: $neutral-5;
+    font-family: 'UHCSans-SemiBold', 'Arial';
+    font-size: 14px;
+    letter-spacing: 0.2px;
+    line-height: 18px;
+    padding: 0px 20px 0 20px;
+  }
 
-/* Css for Labels*/
-ul.list-labels > li {
-  display: block;
-  color: #2d2d39;
-  font-family: 'UHCSans-Regular';
-  font-size: 14px;
-  font-weight: 500;
-  letter-spacing: 0.2px;
-  line-height: 18px;
-}
+  /* Css for Labels*/
+  ul.list-labels > li {
+    display: block;
+    color: $neutral-5;
+    font-family: 'UHCSans-Regular';
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.2px;
+    line-height: 18px;
+  }
 
-ul.list-labels > li::before {
-  content: '•  ';
-  font-size: 45px;
-  position: relative;
-  top: 10px;
-  left: 10px;
-}
+  ul.list-labels > li::before {
+    content: '•  ';
+    font-size: 45px;
+    position: relative;
+    top: 10px;
+    left: 10px;
+  }
 
-ul.list-labels > li:nth-child(1)::before {
-  color: #3381ff;
-}
-ul.list-labels > li:nth-child(2)::before {
-  color: #80b0ff;
+  ul.list-labels > li:nth-child(1)::before {
+    color: #3381ff;
+  }
+  ul.list-labels > li:nth-child(2)::before {
+    color: #80b0ff;
+  }
 }
