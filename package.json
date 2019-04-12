@@ -10,7 +10,8 @@
     "format:fix": "pretty-quick --staged",
     "format:check": "prettier --config ./.prettierrc --list-different \"src/{app,environments,assets}/**/*{.ts,.js,.json,.css,.scss}\"",
     "precommit": "run-s format:fix lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "postinstall": "modernizr -c modernizr-config.json"
   },
   "private": true,
   "dependencies": {

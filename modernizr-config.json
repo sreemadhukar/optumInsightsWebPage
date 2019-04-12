@@ -1,0 +1,33 @@
+{
+  "minify": true,
+  "options": ["setClasses"],
+  "feature-detects": [
+    "test/canvas",
+    "test/custom-elements",
+    "test/fullscreen-api",
+    "test/htmlimports",
+    "test/ie8compat",
+    "test/input",
+    "test/inputsearchevent",
+    "test/inputtypes",
+    "test/json",
+    "test/lists-reversed",
+    "test/svg",
+    "test/templatestrings",
+    "test/css/appearance",
+    "test/es5/array",
+    "test/es5/date",
+    "test/es5/function",
+    "test/es5/object",
+    "test/es5/specification",
+    "test/es5/string",
+    "test/es6/array",
+    "test/es6/collections",
+    "test/es6/object",
+    "test/es6/promises",
+    "test/es6/string",
+    "test/forms/formattribute",
+    "test/forms/placeholder",
+    "test/forms/validation"
+  ]
+}
