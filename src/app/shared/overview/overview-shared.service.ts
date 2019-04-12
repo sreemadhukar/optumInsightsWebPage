@@ -3,14 +3,27 @@ import { Injectable } from '@angular/core';
 import { OverviewService } from '../../rest/overview/overview.service';
 import { OverviewPageModule } from '../../components/overview-page/overview-page.module';
 import { CommonUtilsService } from '../common-utils.service';
+import { SessionService } from '../session.service';
 @Injectable({
   providedIn: OverviewPageModule
 })
 export class OverviewSharedService {
   private overviewPageData: Array<object> = [];
-  constructor(private overviewService: OverviewService, private common: CommonUtilsService) {}
+  private tin: string;
+  private lob: string;
+  private timeFrame: string;
+  private providerKey: number;
+  constructor(
+    private overviewService: OverviewService,
+    private common: CommonUtilsService,
+    private session: SessionService
+  ) {}
 
   public getOverviewData() {
+    this.tin = this.session.tin;
+    this.lob = this.session.lob;
+    this.timeFrame = this.session.timeFrame;
+    this.providerKey = this.session.providerkey;
     return new Promise(resolve => {
       let cPriorAuth: object;
       let cSelfService: object;
@@ -18,12 +31,13 @@ export class OverviewSharedService {
       let cIR: object;
       let claimsPaid: object;
       let claimsYield: object;
+      let parameters;
       const oppurtunities: Array<object> = [];
       const tempArray: Array<object> = [];
-      // this.overviewService.getOverviewData().subscribe(data => {
-      //   console.log(data)
-      // })
-      this.overviewService.combined.subscribe(([providerSystems, claims]) => {
+      if (this.timeFrame === 'Rolling 12 Months') {
+        parameters = [this.providerKey, true];
+      }
+      this.overviewService.getOverviewData(...parameters).subscribe(([providerSystems, claims]) => {
         if (providerSystems.hasOwnProperty('status')) {
           cPriorAuth = {
             category: 'small-card',
