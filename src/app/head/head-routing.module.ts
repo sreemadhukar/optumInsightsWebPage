@@ -17,7 +17,7 @@ const routes: Routes = [
     loadChildren: '../components/getting-reimbursed-page/getting-reimbursed.module#GettingReimbursedModule',
     canActivate: [AuthGuard]
   },
-  {
+  /*{
     path: 'careDelivery',
     loadChildren: '../components/care-delivery-page/care-delivery-page.module#CareDeliveryPageModule',
     canActivate: [AuthGuard]
@@ -26,7 +26,7 @@ const routes: Routes = [
     path: 'issueResolution',
     loadChildren: '../components/issue-resolution-page/issue-resolution-page.module#IssueResolutionPageModule',
     canActivate: [AuthGuard]
-  },
+  },*/
   { path: '**', redirectTo: '' }
 ];
 
