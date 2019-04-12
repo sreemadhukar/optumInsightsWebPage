@@ -10,48 +10,43 @@
     flex-wrap: wrap;
     justify-content: center;
 
-    .page-title {
-      display: block;
-
-      flex-basis: 100%;
-
-      color: #2d2d39;
-      font-family: 'UHCSans-Regular', 'Arial';
-
-      font-weight: 600;
-      line-height: 40px;
-      @include font-size(36);
+    .cust-width-blank {
+      width: 502px;
     }
 
-    .page-subtitle {
-      display: block;
-
-      flex-basis: 100%;
-
-      color: #2d2d39;
-      font-family: 'UHCSans-Regular', 'Arial';
-
-      font-weight: 600;
-      line-height: 50px;
-      @include font-size(28);
-    }
-
-    .page-question {
-      display: block;
-
-      flex-basis: 100%;
-
-      color: #2d2d39;
-      font-family: 'UHCSans-Regular', 'Arial';
-      font-size: 22px;
-      font-weight: 600;
-      line-height: 50px;
-    }
-
-    & > app-small-card {
-      text-align: center;
+    & > .cards {
+      text-align: left;
       line-height: 75px;
-      font-size: 30px;
+    }
+
+    .cust-width-title {
+      width: 450px;
+
+      .page-title {
+        flex-basis: 100%;
+        color: #2d2d39;
+        font-family: 'UHCSans-Regular', 'Arial';
+        font-size: 36px;
+        font-weight: 600;
+        line-height: 75px;
+      }
+
+      .page-subtitle {
+        flex-basis: 100%;
+        color: #2d2d39;
+        font-family: 'UHCSans-Regular', 'Arial';
+        font-size: 28px;
+        font-weight: 600;
+        line-height: 50px;
+      }
+      .page-question {
+        flex-basis: 100%;
+        color: #2d2d39;
+        font-family: 'UHCSans-Regular', 'Arial';
+        font-size: 22px;
+        font-weight: 600;
+        line-height: 50px;
+      }
     }
   }
 }

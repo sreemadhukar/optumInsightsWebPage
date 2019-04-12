@@ -19,7 +19,7 @@ export class OverviewComponent implements OnInit {
     this.pagesubTitle = 'Your Insights at a glance.';
     this.opportunities = 'Opportunities';
     this.opportunitiesQuestion = 'How much can online self service save you?';
-    this.welcomeMessage = ' Welcome Back';
+    this.welcomeMessage = '';
   }
   ngOnInit() {
     this.overviewsrc
@@ -33,6 +33,6 @@ export class OverviewComponent implements OnInit {
       })
       .catch(reason => console.log(reason.message));
     this.userName = 'Anne';
-    this.pageTitle = 'Hello, ' + this.userName + ',' + this.welcomeMessage + '.';
+    this.pageTitle = 'Hello, ' + this.userName + '.';
   }
 }
