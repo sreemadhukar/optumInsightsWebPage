@@ -35,7 +35,7 @@ export class HamburgerMenuComponent implements AfterViewInit {
 
   /*** Array of Navigation Category List ***/
   public navCategories = [
-    { icon: 'home', name: 'Overview', path: '/' },
+    { icon: 'home', name: 'Overview', path: '/OverviewPage' },
     {
       icon: 'getting-reimburse',
       name: 'Getting Reimbursed',
