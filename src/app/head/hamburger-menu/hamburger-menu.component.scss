@@ -1,3 +1,7 @@
+/*
+ * Author: Ranjith kumar Ankam
+ * Created Date: 03-Apr-2019
+ *  */
 @import '~src/scss/variables.scss';
 @import '~src/scss/mixins';
 
@@ -60,17 +64,17 @@ app-header {
 
 .side-navigation {
   width: 256px;
-  background-color: #ffffff;
+  background-color: $white;
 }
 
 .health-system-representation-block {
   @include padding(16px, 12px, 0px, 32px);
-  border-bottom: 1px solid #e0e0e0;
+  border-bottom: 1px solid $neutral-2;
 }
 
 .representing-label {
-  color: #2d2d39;
-  font-family: 'UHC Sans';
+  color: $neutral-5;
+  font-family: 'UHCSans-Regular';
   font-size: 14px;
   font-weight: 500;
   letter-spacing: 0.2px;
@@ -79,10 +83,10 @@ app-header {
 }
 
 .health-system-name {
-  color: #2d2d39;
-  font-family: 'UHC Sans';
+  color: $neutral-5;
+  font-family: 'UHCSans-SemiBold';
   font-size: 16px;
-  font-weight: 600;
+  /*font-weight: 600;*/
   letter-spacing: 0.2px;
   line-height: 22px;
   margin: 0px 0px 15px 0px;
@@ -96,12 +100,12 @@ app-header {
 .mat-expansion-panel-header {
   height: 25px !important;
   padding: 8px 12px 8px 32px !important;
-  font-family: 'UHC Sans';
+  font-family: 'UHCSans-SemiBold';
   font-size: 16px;
-  font-weight: 600;
+  /*font-weight: 600;*/
   letter-spacing: 0.2px;
   line-height: 22px;
-  /*background: #E3F0FD;*/
+  /*background: $body-link-blue;*/
 }
 
 .signout-block {
@@ -109,10 +113,10 @@ app-header {
 }
 
 .signout-label {
-  color: #757588;
-  font-family: 'UHC Sans';
+  color: $neutral-4;
+  font-family: 'UHCSans-SemiBold';
   font-size: 16px;
-  font-weight: 600;
+  /*font-weight: 600;*/
   letter-spacing: 0.2px;
   line-height: 22px;
   margin: 0px;
@@ -121,10 +125,10 @@ app-header {
 
 .firstNavCategory {
   margin-top: 15px !important;
-  color: #757588;
-  font-family: 'UHC Sans';
+  color: $neutral-4;
+  font-family: 'UHCSans-SemiBold';
   font-size: 16px !important;
-  font-weight: 600;
+  /*font-weight: 600;*/
   letter-spacing: 0.2px;
   line-height: 18px;
   /*padding-left: 32px !important;*/
@@ -136,10 +140,10 @@ app-header {
 
 .navCategoryItem {
   /*padding-left: 32px !important;*/
-  color: #757588;
-  font-family: 'UHC Sans';
+  color: $neutral-4;
+  font-family: 'UHCSans-SemiBold';
   font-size: 14px;
-  font-weight: 600;
+  /*font-weight: 600;*/
   letter-spacing: 0.2px;
   margin-top: 18px !important;
   line-height: 18px;
@@ -151,7 +155,7 @@ app-header {
 
 .nav-mat-list-items {
   padding-bottom: 46px !important;
-  border-bottom: 1px solid #e0e0e0;
+  border-bottom: 1px solid $neutral-2;
 }
 
 .nav-menu-icons {
@@ -169,19 +173,19 @@ app-header {
 }
 
 .nav-sub-category-items {
-  color: #757588 !important;
+  color: $neutral-4 !important;
 }
 
 .nav-sub-category-items:hover {
-  background: #e3f0fd;
-  color: #196ecf !important;
+  background: $body-link-blue;
+  color: $blue !important;
 }
 
 .nav-no-child-category:hover,
 .mat-expansion-panel-header:hover,
 .mat-expanded,
 .signout-label:hover {
-  color: #196ecf;
+  color: $blue;
 }
 
 .uhc-logo {
@@ -191,12 +195,12 @@ app-header {
   margin-left: 32px;
 }
 .active-link {
-  background: #e3f0fd;
-  color: #196ecf !important;
+  background: $body-link-blue;
+  color: $blue !important;
 }
 /************ ABOVE IS THE CSS RELATED TO ONLY LEFT HAMBURGER MENU *************/
 .svg-ic_build_24px:hover {
-  fill: #196ecf !important;
+  fill: $blue !important;
 }
 
 .display-none {
