@@ -11,42 +11,38 @@ export class OverviewService {
   public combined: any;
   private authBearer: any;
   private APP_URL: string = environment.apiProxyUrl;
-  private SERVICE_PATH: string;
-  constructor(private http: HttpClient) {
-    this.combined = combineLatest(
-      this.http.get('../../../src/assets/mock-data/providersystems.json').pipe(
-        retry(2),
-        map(res => JSON.parse(JSON.stringify(res))),
-        catchError(err => of(JSON.parse(JSON.stringify(err))))
-      ),
-      this.http.get('../../../src/assets/mock-data/claims.json').pipe(
-        retry(2),
-        map(res => JSON.parse(JSON.stringify(res))),
-        catchError(err => of(JSON.parse(JSON.stringify(err))))
-      )
-    );
-  }
+  private CLAIMS_SERVICE_PATH: string = environment.apiUrls.ProviderSystemClaimsSummary;
+  private EXECUTIVE_SERVICE_PATH: string = environment.apiUrls.ExecutiveSummaryPath;
+  constructor(private http: HttpClient) {}
 
-  public getOverviewData() {
+  public getOverviewData(...parameters) {
     this.currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
     this.authBearer = this.currentUser[0].PedAccessToken;
-    this.SERVICE_PATH = environment.apiUrls.ProviderSystemClaimsSummary;
-    const myInsights: any = {};
     const myHeader = new HttpHeaders({
       Authorization: 'Bearer ' + this.authBearer,
       Accept: '*/*'
     });
-    const provKey = 299;
-    const opts = { headers: myHeader };
-    let params = new HttpParams();
-    params = params.append('rolling12', 'true');
-    const url = this.APP_URL + this.SERVICE_PATH + provKey;
+    let cparams = new HttpParams();
+    if (parameters[1]) {
+      cparams = cparams.append('rolling12', parameters[1]);
+    }
 
-    return this.http.post(url, params, { headers: myHeader }).pipe(
-      map(OverviewData => {
-        console.log(OverviewData);
-        return OverviewData;
-      })
+    let eparams = new HttpParams();
+    eparams = eparams.append('filter', 'executive');
+
+    const executiveURL = this.APP_URL + this.EXECUTIVE_SERVICE_PATH + parameters[0];
+    const claimsURL = this.APP_URL + this.CLAIMS_SERVICE_PATH + parameters[0];
+    return combineLatest(
+      this.http.get(executiveURL, { params: eparams, headers: myHeader }).pipe(
+        retry(2),
+        map(res => JSON.parse(JSON.stringify(res))),
+        catchError(err => of(JSON.parse(JSON.stringify(err))))
+      ),
+      this.http.post(claimsURL, cparams, { headers: myHeader }).pipe(
+        retry(2),
+        map(res => JSON.parse(JSON.stringify(res[0]))),
+        catchError(err => of(JSON.parse(JSON.stringify(err))))
+      )
     );
   }
 }
