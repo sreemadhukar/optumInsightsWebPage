@@ -429,18 +429,17 @@ export class OverviewSharedService {
             claims.Mr.hasOwnProperty('ClaimsLobSummary') &&
             claims.Mr.ClaimsLobSummary[0].hasOwnProperty('AmountUHCPaid')
           ) {
+            const mrPercentage = claims.Mr.ClaimsLobSummary[0].AmountUHCPaid;
+            const eiPercentage = claims.Ei.ClaimsLobSummary[0].AmountUHCPaid;
+            const csPercentage = claims.Cs.ClaimsLobSummary[0].AmountUHCPaid;
             claimsPaid = {
               category: 'small-card',
               type: 'donut',
               title: 'Claims Paid',
               data: {
-                graphValues: [
-                  claims.Mr.ClaimsLobSummary[0].hasOwnProperty('AmountUHCPaid'),
-                  claims.Cs.ClaimsLobSummary[0].hasOwnProperty('AmountUHCPaid'),
-                  claims.Ei.ClaimsLobSummary[0].hasOwnProperty('AmountUHCPaid')
-                ],
+                graphValues: [mrPercentage, csPercentage, eiPercentage],
                 centerNumber: '$' + this.common.nFormatter(claims.All.ClaimsLobSummary[0].AmountUHCPaid),
-                color: ['#00A8F7', '#F5F5F5', '#FFFFFF'],
+                color: ['#00A8F7', '#F5F5F5', '#00B8CC'],
                 gdata: ['card-inner', 'claimsPaidCardD3Donut']
               },
               sdata: {
