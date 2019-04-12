@@ -6,6 +6,7 @@ import { AuthenticationService } from '../_service/authentication.service';
 import { InternalService } from '../_service/internal.service';
 import { first } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import { ProviderSharedService } from '../../shared/provider/provider-shared.service';
 
 @Component({
   selector: 'app-login-stub',
@@ -25,7 +26,8 @@ export class LoginStubComponent implements OnInit {
     private formBuilder: FormBuilder,
     private authService: AuthenticationService,
     private internalService: InternalService,
-    private router: Router
+    private router: Router,
+    private providerSharedService: ProviderSharedService
   ) {}
 
   ngOnInit() {
@@ -69,6 +71,8 @@ export class LoginStubComponent implements OnInit {
       .subscribe(
         data => {
           console.log(data);
+          this.providerSharedService.providersList();
+
           // this.router.navigate([this.returnUrl]);
         },
         error => {
