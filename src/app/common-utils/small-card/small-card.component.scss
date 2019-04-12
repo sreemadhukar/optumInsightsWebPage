@@ -10,8 +10,13 @@
   line-height: 75px;
   font-size: 30px;
 }
+.chart-details-donut {
+  width: 50%;
+  float: left;
+  padding-left: 30px;
+  padding-top: 10px;
+}
 .chart-details {
-  width: 60%;
   float: left;
 }
 .full-width {
@@ -19,7 +24,7 @@
 }
 .trend-details {
   float: left;
-  padding: 9% 0;
+  padding: 10% 0;
 
   .trend-value {
     font-size: 14px;
@@ -31,12 +36,12 @@
     vertical-align: middle;
   }
   .trend-image {
-    height: 17px;
-    width: 17px;
-    border-radius: 23px;
+    height: 20px;
+    width: 20px;
+    border-radius: 21px;
     display: inline-block;
     vertical-align: middle;
-    padding: 4px;
+    padding: 6px;
   }
   .trend-image-down {
     background-color: #ffe6f0;
