@@ -48,11 +48,15 @@
   ul.list-labels > li {
     display: block;
     color: $neutral-5;
-    font-family: 'UHCSans-Regular';
+    font-family: 'UHCSans-Regular', 'Arial';
     font-size: 14px;
     font-weight: 500;
     letter-spacing: 0.2px;
     line-height: 18px;
+
+    .labels1 {
+      font-family: 'UHCSans-SemiBold', 'Arial';
+    }
   }
 
   ul.list-labels > li::before {

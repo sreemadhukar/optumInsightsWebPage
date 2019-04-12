@@ -2,7 +2,7 @@
 @import '~src/scss/mixins';
 
 .overview-body {
-  background-color: #efefef;
+  background-color: $aqua;
   @include padding(30px, 0, 30px, 30px);
 
   .overview-content {
