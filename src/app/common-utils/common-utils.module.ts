@@ -9,9 +9,10 @@ import { MiniBarChartComponent } from './d3-objects/mini-bar-chart/mini-bar-char
 import { DonutChartComponent } from './d3-objects/donut-chart/donut-chart.component';
 import { StarChartComponent } from './d3-objects/star-chart/star-chart.component';
 import { BarChartComponent } from './d3-objects/bar-chart/bar-chart.component';
+import { HeadMaterialModule } from '../head/head.material.module';
 
 @NgModule({
-  imports: [CommonModule],
+  imports: [CommonModule, HeadMaterialModule],
   exports: [
     MiniTileComponent,
     CardComponent,
