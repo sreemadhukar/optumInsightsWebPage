@@ -3,15 +3,12 @@
  * Created Date: 03-Apr-2019
  *  -->
 
-<div class="example-container" [class.example-is-mobile]="!mobileQuery">
+<div class="example-container example-is-mobile">
   <mat-toolbar color="primary" class="example-toolbar" [class.display-none]="makeAbsolute">
-    <button mat-icon-button *ngIf="mobileQuery" (click)="snav.toggle()">
-      <mat-icon>menu</mat-icon>
-    </button>
     <!--<button mat-icon-button (click)="srnav.toggle()">
       <mat-icon>filter</mat-icon>
     </button>-->
-    <app-header [button]="mobileQuery"></app-header>
+    <app-header (hamburgerDisplay)="hamburgerDisplay($event)"></app-header>
   </mat-toolbar>
 
   <mat-sidenav-container class="example-sidenav-container">
@@ -21,7 +18,7 @@
       #snav
       [mode]="'side'"
       [fixedInViewport]="true"
-      [opened]="!mobileQuery"
+      [opened]="!sideNavFlag"
       [class.display-none]="makeAbsolute"
     >
       <!-- UHC LOGO BLOCK -->

@@ -1,12 +1,23 @@
 @import '~src/scss/variables.scss';
+@import '~src/scss/mixins';
 .header-div {
   background-color: $white;
   height: 72px;
   display: flex;
-  justify-content: space-between;
   border-bottom: solid;
   border-width: 1px;
   border-color: #e0e0e0;
+  .menu-div {
+    @include padding(0, 0, 0, 0);
+    .menu-icon {
+      margin: 0;
+      color: #196ecf;
+      background-color: none;
+      @include padding(20px, 0px, 22px, 40px);
+    }
+    .menu-icon:hover {
+    }
+  }
   .header-logo-div {
     padding: 12px 0 24px 33px;
     .Uhc-logo {
@@ -15,6 +26,7 @@
     }
   }
   .user-div {
+    margin-left: auto;
     display: flex;
     height: 25px;
     width: 98px;
