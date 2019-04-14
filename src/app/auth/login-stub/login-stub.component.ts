@@ -6,6 +6,7 @@ import { AuthenticationService } from '../_service/authentication.service';
 import { InternalService } from '../_service/internal.service';
 import { first } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import { ProviderSharedService } from '../../shared/provider/provider-shared.service';
 
 @Component({
   selector: 'app-login-stub',
@@ -25,10 +26,16 @@ export class LoginStubComponent implements OnInit {
     private formBuilder: FormBuilder,
     private authService: AuthenticationService,
     private internalService: InternalService,
-    private router: Router
+    private router: Router,
+    private providerSharedService: ProviderSharedService
   ) {}
 
   ngOnInit() {
+    this.loginForm = this.formBuilder.group({
+      username: ['', Validators.required],
+      password: ['', Validators.required]
+    });
+
     this.returnUrl = '/OverviewPage';
     if (this.isInternal) {
       if (this.authService.isLoggedIn()) {
@@ -37,13 +44,6 @@ export class LoginStubComponent implements OnInit {
         this.authService.getJwt().subscribe(data => {
           sessionStorage.setItem('token', JSON.stringify(data['token']));
         });
-        this.loginForm = this.formBuilder.group({
-          username: ['', Validators.required],
-          password: ['', Validators.required]
-        });
-
-        // reset login status
-        this.authService.logout();
       }
     } else {
       this.external.CheckExternal();
@@ -51,13 +51,11 @@ export class LoginStubComponent implements OnInit {
   }
 
   get f() {
-    return this.loginForm.controls;
+    return this.loginForm['controls'];
   }
 
   onSubmit() {
     this.submitted = true;
-
-    // stop here if form is invalid
     if (this.loginForm.invalid) {
       return;
     }
@@ -65,10 +63,11 @@ export class LoginStubComponent implements OnInit {
     //  this.loading = true;
     this.internalService
       .login(this.f.username.value, this.f.password.value)
-      .pipe(first())
       .subscribe(
         data => {
           console.log(data);
+          this.providerSharedService.providersList();
+
           // this.router.navigate([this.returnUrl]);
         },
         error => {
