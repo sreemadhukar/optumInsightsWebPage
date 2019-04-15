@@ -1,4 +1,5 @@
-<!--<button mat-icon-button *ngIf="button"><mat-icon>menu</mat-icon></button>-->
+<!--Author: madhukar
+    date: 4-15-2019 -->
 <div [@scrollAnimation]="state">
   <div class="header-div">
     <div class="menu-div" *ngIf="mobileQuery" (click)="sidenav()">
@@ -13,7 +14,7 @@
       <div class="user-icon">
         <mat-icon class="nav-menu-icons" svgIcon="person"></mat-icon>
       </div>
-      <div class="user-name">Anne</div>
+      <div class="user-name">{{ username }}</div>
       <div class="user-expand-more">
         <mat-icon class="nav-menu-icons" svgIcon="expand-more"></mat-icon>
       </div>

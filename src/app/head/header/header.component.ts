@@ -1,3 +1,5 @@
+// author: madhukar
+// date: 4-15-2019
 import {
   Component,
   OnInit,
@@ -49,6 +51,7 @@ export class HeaderComponent implements OnInit {
   public state: any;
   public mobileQuery: boolean;
   public menuIcon = 'menu';
+  public username = this.getuser('LastName') + ' ' + this.getuser('FirstName');
 
   constructor(
     private breakpointObserver: BreakpointObserver,
@@ -77,6 +80,10 @@ export class HeaderComponent implements OnInit {
   }
 
   ngOnInit() {}
+
+  getuser(select: any) {
+    return JSON.parse(sessionStorage.getItem('loggedUser'))[select];
+  }
   sidenav() {
     this.sideNavFlag = !this.sideNavFlag;
     this.hamburgerDisplay.emit(this.sideNavFlag);
@@ -95,6 +102,7 @@ export class HeaderComponent implements OnInit {
       this.hamburgerDisplay.emit(this.sideNavFlag);
     } else {
       this.sideNavFlag = true;
+      this.menuIcon = 'menu';
       this.hamburgerDisplay.emit(this.sideNavFlag);
     }
   }
