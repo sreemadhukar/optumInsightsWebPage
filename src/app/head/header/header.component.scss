@@ -1,4 +1,4 @@
-@import '~src/assets/styles/variables.scss';
+@import '~src/scss/variables.scss';
 .header-div {
   background-color: $white;
   height: 72px;
@@ -7,31 +7,30 @@
   border-bottom: solid;
   border-width: 1px;
   border-color: #e0e0e0;
-}
-
-.header-logo-div {
-  padding: 12px 0 24px 33px;
-}
-
-.Uhc-logo {
-  height: 36px;
-  width: 175px;
-}
-
-.user-div {
-  display: flex;
-  height: 25px;
-  width: 98px;
-  color: #757588;
-  font-size: 16px;
-  font-weight: 600;
-  letter-spacing: 0.2px;
-  line-height: 22px;
-  text-align: right;
-  padding: 20.8px 32px 26px 0;
-}
-
-.user-name {
-  line-height: 27px;
-  font-family: 'UHCSans-Regular';
+  .header-logo-div {
+    padding: 12px 0 24px 33px;
+    .Uhc-logo {
+      height: 36px;
+      width: 175px;
+    }
+  }
+  .user-div {
+    display: flex;
+    height: 25px;
+    width: 98px;
+    color: $neutral-4;
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 0.2px;
+    line-height: 22px;
+    text-align: right;
+    padding: 20.8px 32px 26px 0;
+    .user-name {
+      line-height: 31px;
+      font-family: 'UHCSans-Regular';
+    }
+    .user-expand-more {
+      line-height: 26px;
+    }
+  }
 }

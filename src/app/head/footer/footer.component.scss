@@ -1,17 +1,17 @@
+@import '~src/scss/variables.scss';
 .footer-container {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-between;
   height: 118px;
-  background: #003da1;
+  background: color(blue, base);
 }
 
 .footer-left-section {
   display: flex;
-  font-family: 'UHC Sans';
+  font-family: 'UHCSans-SemiBold', 'Arial';
   font-size: 16px;
-  font-weight: 600;
   color: #ffffff;
   line-height: 22px;
   text-align: center;
@@ -24,7 +24,7 @@
   display: flex;
   font-size: 14px;
   color: #ffffff;
-  font-family: 'UHC Sans';
+  font-family: 'UHCSans-Regular', 'Arial';
   line-height: 18px;
   text-align: center;
   letter-spacing: 0.2px;

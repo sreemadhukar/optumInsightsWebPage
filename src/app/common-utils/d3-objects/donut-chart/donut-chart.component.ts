@@ -11,7 +11,6 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
   public transition = 1;
   public noTransition = 0;
   public renderChart: string;
-  public parentDiv: string;
   @Input() chartOptions: any = {};
 
   constructor() {}
@@ -29,9 +28,6 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
   }
 
   doDonutChart(chartOptions: any, transition: number) {
-    // need to think how else to pass this...
-    // should go over how to go about this stuff....
-
     const preWidth = document.getElementsByClassName(this.chartOptions.gdata[0])[0].clientWidth / 2;
     d3.select(this.renderChart)
       .selectAll('*')
@@ -46,18 +42,12 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
       .append('svg')
       .attr('width', width + margin.left + margin.right)
       .attr('height', height + margin.top + margin.bottom)
-      .style('float', 'left')
       .append('g')
       .attr('transform', 'translate(' + (width / 2 + margin.left) + ',' + (height / 2 + margin.top) + ')');
 
     const radius = Math.min(width, height) / 2;
-
     const donutColor = d3.scaleOrdinal().range(chartOptions.color);
-
-    let circleThickness = 15;
-    if (chartOptions.gdata[0].circumferenceStroke) {
-      circleThickness = chartOptions.gdata[0].circumferenceStroke;
-    }
+    const circleThickness = 15;
 
     const arc = d3
       .arc()
@@ -69,7 +59,7 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
       .sort(null)
       .startAngle(0)
       .endAngle(2 * Math.PI)
-      .padAngle(0.015)
+      .padAngle(0.025)
       .value(function(d) {
         return d.value;
       });
@@ -77,6 +67,7 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
     const text = chart
       .append('text')
       .attr('text-anchor', 'middle')
+      .attr('y', height / 16)
       .style('font-size', '22px')
       .style('font-weight', '600')
       .style('fill', '#2D2D39')
@@ -96,7 +87,6 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
       .attr('class', 'arc');
 
     if (transition) {
-      // YES TRANSITION
       g.append('path')
         .style('fill', function(d) {
           return donutColor(d.data.value);
@@ -108,7 +98,6 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
         .duration(1000)
         .attrTween('d', function(d) {
           const i = d3.interpolate(d.startAngle, d.endAngle);
-
           return function(t) {
             text.text(chartOptions.centerNumber);
             text.text();
@@ -117,7 +106,6 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
           };
         });
     } else {
-      // NO TRANSITION
       g.append('path')
         .attr('d', arc)
         .style('fill', function(d) {

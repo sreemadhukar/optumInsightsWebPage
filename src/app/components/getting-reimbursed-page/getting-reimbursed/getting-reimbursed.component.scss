@@ -1,23 +1,21 @@
-@import '~src/assets/styles/variables.scss';
+@import '~src/scss/variables.scss';
 
 .overview-body {
   padding: 30px;
-  background-color: #efefef;
+  background-color: $aqua;
 }
 .page-title {
   margin-left: 10px;
-  color: #2d2d39;
-  font-family: 'UHCSans-Regular', 'Arial';
+  color: $neutral-5;
+  font-family: 'UHCSans-SemiBold', 'Arial';
   font-size: 36px;
-  font-weight: 600;
   line-height: 75px;
 }
 
 .page-subtitle {
   margin-left: 10px;
-  color: #2d2d39;
-  font-family: 'UHCSans-Regular', 'Arial';
+  color: $neutral-5;
+  font-family: 'UHCSans-SemiBold', 'Arial';
   font-size: 28px;
-  font-weight: 600;
   line-height: 50px;
 }

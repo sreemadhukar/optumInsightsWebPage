@@ -1,66 +1,66 @@
 /*! modernizr 3.6.0 (Custom Build) | MIT *
- * https://modernizr.com/download/?-borderradius-cssgradients-setclasses !*/
+ * https://modernizr.com/download/?-borderradius-setclasses !*/
 !(function(e, n, t) {
   function r(e, n) {
     return typeof e === n;
   }
   function o() {
-    var e, n, t, o, s, i, a;
-    for (var l in w)
-      if (w.hasOwnProperty(l)) {
+    var e, n, t, o, s, i, l;
+    for (var a in S)
+      if (S.hasOwnProperty(a)) {
         if (
           ((e = []),
-          (n = w[l]),
+          (n = S[a]),
           n.name && (e.push(n.name.toLowerCase()), n.options && n.options.aliases && n.options.aliases.length))
         )
           for (t = 0; t < n.options.aliases.length; t++) e.push(n.options.aliases[t].toLowerCase());
         for (o = r(n.fn, 'function') ? n.fn() : n.fn, s = 0; s < e.length; s++)
           (i = e[s]),
-            (a = i.split('.')),
-            1 === a.length
-              ? (Modernizr[a[0]] = o)
-              : (!Modernizr[a[0]] ||
-                  Modernizr[a[0]] instanceof Boolean ||
-                  (Modernizr[a[0]] = new Boolean(Modernizr[a[0]])),
-                (Modernizr[a[0]][a[1]] = o)),
-            C.push((o ? '' : 'no-') + a.join('-'));
+            (l = i.split('.')),
+            1 === l.length
+              ? (Modernizr[l[0]] = o)
+              : (!Modernizr[l[0]] ||
+                  Modernizr[l[0]] instanceof Boolean ||
+                  (Modernizr[l[0]] = new Boolean(Modernizr[l[0]])),
+                (Modernizr[l[0]][l[1]] = o)),
+            C.push((o ? '' : 'no-') + l.join('-'));
       }
   }
   function s(e) {
-    var n = b.className,
+    var n = _.className,
       t = Modernizr._config.classPrefix || '';
-    if ((x && (n = n.baseVal), Modernizr._config.enableJSClass)) {
+    if ((b && (n = n.baseVal), Modernizr._config.enableJSClass)) {
       var r = new RegExp('(^|\\s)' + t + 'no-js(\\s|$)');
       n = n.replace(r, '$1' + t + 'js$2');
     }
     Modernizr._config.enableClasses &&
-      ((n += ' ' + t + e.join(' ' + t)), x ? (b.className.baseVal = n) : (b.className = n));
+      ((n += ' ' + t + e.join(' ' + t)), b ? (_.className.baseVal = n) : (_.className = n));
   }
-  function i() {
+  function i(e, n) {
+    return !!~('' + e).indexOf(n);
+  }
+  function l() {
     return 'function' != typeof n.createElement
       ? n.createElement(arguments[0])
-      : x
+      : b
       ? n.createElementNS.call(n, 'http://www.w3.org/2000/svg', arguments[0])
       : n.createElement.apply(n, arguments);
   }
-  function a(e, n) {
-    return !!~('' + e).indexOf(n);
-  }
-  function l(e) {
+  function a(e) {
     return e
       .replace(/([a-z])-([a-z])/g, function(e, n, t) {
         return n + t.toUpperCase();
       })
       .replace(/^-/, '');
   }
-  function f(e, n) {
+  function u(e, n) {
     return function() {
       return e.apply(n, arguments);
     };
   }
-  function u(e, n, t) {
+  function f(e, n, t) {
     var o;
-    for (var s in e) if (e[s] in n) return t === !1 ? e[s] : ((o = n[e[s]]), r(o, 'function') ? f(o, t || n) : o);
+    for (var s in e) if (e[s] in n) return t === !1 ? e[s] : ((o = n[e[s]]), r(o, 'function') ? u(o, t || n) : o);
     return !1;
   }
   function d(e) {
@@ -85,37 +85,37 @@
   }
   function p() {
     var e = n.body;
-    return e || ((e = i(x ? 'svg' : 'body')), (e.fake = !0)), e;
+    return e || ((e = l(b ? 'svg' : 'body')), (e.fake = !0)), e;
   }
   function m(e, t, r, o) {
     var s,
+      i,
       a,
-      l,
-      f,
-      u = 'modernizr',
-      d = i('div'),
+      u,
+      f = 'modernizr',
+      d = l('div'),
       c = p();
-    if (parseInt(r, 10)) for (; r--; ) (l = i('div')), (l.id = o ? o[r] : u + (r + 1)), d.appendChild(l);
+    if (parseInt(r, 10)) for (; r--; ) (a = l('div')), (a.id = o ? o[r] : f + (r + 1)), d.appendChild(a);
     return (
-      (s = i('style')),
+      (s = l('style')),
       (s.type = 'text/css'),
-      (s.id = 's' + u),
+      (s.id = 's' + f),
       (c.fake ? c : d).appendChild(s),
       c.appendChild(d),
       s.styleSheet ? (s.styleSheet.cssText = e) : s.appendChild(n.createTextNode(e)),
-      (d.id = u),
+      (d.id = f),
       c.fake &&
         ((c.style.background = ''),
         (c.style.overflow = 'hidden'),
-        (f = b.style.overflow),
-        (b.style.overflow = 'hidden'),
-        b.appendChild(c)),
-      (a = t(d, e)),
-      c.fake ? (c.parentNode.removeChild(c), (b.style.overflow = f), b.offsetHeight) : d.parentNode.removeChild(d),
-      !!a
+        (u = _.style.overflow),
+        (_.style.overflow = 'hidden'),
+        _.appendChild(c)),
+      (i = t(d, e)),
+      c.fake ? (c.parentNode.removeChild(c), (_.style.overflow = u), _.offsetHeight) : d.parentNode.removeChild(d),
+      !!i
     );
   }
-  function g(n, r) {
+  function y(n, r) {
     var o = n.length;
     if ('CSS' in e && 'supports' in e.CSS) {
       for (; o--; ) if (e.CSS.supports(d(n[o]), r)) return !0;
@@ -132,39 +132,39 @@
     }
     return t;
   }
-  function h(e, n, o, s) {
-    function f() {
-      d && (delete T.style, delete T.modElem);
+  function v(e, n, o, s) {
+    function u() {
+      d && (delete N.style, delete N.modElem);
     }
     if (((s = r(s, 'undefined') ? !1 : s), !r(o, 'undefined'))) {
-      var u = g(e, o);
-      if (!r(u, 'undefined')) return u;
+      var f = y(e, o);
+      if (!r(f, 'undefined')) return f;
     }
-    for (var d, c, p, m, h, v = ['modernizr', 'tspan', 'samp']; !T.style && v.length; )
-      (d = !0), (T.modElem = i(v.shift())), (T.style = T.modElem.style);
+    for (var d, c, p, m, v, g = ['modernizr', 'tspan', 'samp']; !N.style && g.length; )
+      (d = !0), (N.modElem = l(g.shift())), (N.style = N.modElem.style);
     for (p = e.length, c = 0; p > c; c++)
-      if (((m = e[c]), (h = T.style[m]), a(m, '-') && (m = l(m)), T.style[m] !== t)) {
-        if (s || r(o, 'undefined')) return f(), 'pfx' == n ? m : !0;
+      if (((m = e[c]), (v = N.style[m]), i(m, '-') && (m = a(m)), N.style[m] !== t)) {
+        if (s || r(o, 'undefined')) return u(), 'pfx' == n ? m : !0;
         try {
-          T.style[m] = o;
-        } catch (y) {}
-        if (T.style[m] != h) return f(), 'pfx' == n ? m : !0;
+          N.style[m] = o;
+        } catch (h) {}
+        if (N.style[m] != v) return u(), 'pfx' == n ? m : !0;
       }
-    return f(), !1;
+    return u(), !1;
   }
-  function v(e, n, t, o, s) {
+  function g(e, n, t, o, s) {
     var i = e.charAt(0).toUpperCase() + e.slice(1),
-      a = (e + ' ' + z.join(i + ' ') + i).split(' ');
+      l = (e + ' ' + P.join(i + ' ') + i).split(' ');
     return r(n, 'string') || r(n, 'undefined')
-      ? h(a, n, o, s)
-      : ((a = (e + ' ' + k.join(i + ' ') + i).split(' ')), u(a, n, t));
+      ? v(l, n, o, s)
+      : ((l = (e + ' ' + z.join(i + ' ') + i).split(' ')), f(l, n, t));
   }
-  function y(e, n, r) {
-    return v(e, t, t, n, r);
+  function h(e, n, r) {
+    return g(e, t, t, n, r);
   }
   var C = [],
-    w = [],
-    _ = {
+    S = [],
+    w = {
       _version: '3.6.0',
       _config: { classPrefix: '', enableClasses: !0, enableJSClass: !0, usePrefixes: !0 },
       _q: [],
@@ -175,55 +175,36 @@
         }, 0);
       },
       addTest: function(e, n, t) {
-        w.push({ name: e, fn: n, options: t });
+        S.push({ name: e, fn: n, options: t });
       },
       addAsyncTest: function(e) {
-        w.push({ name: null, fn: e });
+        S.push({ name: null, fn: e });
       }
     },
     Modernizr = function() {};
-  (Modernizr.prototype = _), (Modernizr = new Modernizr());
-  var b = n.documentElement,
-    x = 'svg' === b.nodeName.toLowerCase(),
-    S = _._config.usePrefixes ? ' -webkit- -moz- -o- -ms- '.split(' ') : ['', ''];
-  (_._prefixes = S),
-    Modernizr.addTest('cssgradients', function() {
-      for (
-        var e,
-          n = 'background-image:',
-          t = 'gradient(linear,left top,right bottom,from(#9f9),to(white));',
-          r = '',
-          o = 0,
-          s = S.length - 1;
-        s > o;
-        o++
-      )
-        (e = 0 === o ? 'to ' : ''), (r += n + S[o] + 'linear-gradient(' + e + 'left top, #9f9, white);');
-      Modernizr._config.usePrefixes && (r += n + '-webkit-' + t);
-      var a = i('a'),
-        l = a.style;
-      return (l.cssText = r), ('' + l.backgroundImage).indexOf('gradient') > -1;
-    });
-  var P = 'Moz O ms Webkit',
-    z = _._config.usePrefixes ? P.split(' ') : [];
-  _._cssomPrefixes = z;
-  var k = _._config.usePrefixes ? P.toLowerCase().split(' ') : [];
-  _._domPrefixes = k;
-  var E = { elem: i('modernizr') };
+  (Modernizr.prototype = w), (Modernizr = new Modernizr());
+  var _ = n.documentElement,
+    b = 'svg' === _.nodeName.toLowerCase(),
+    x = 'Moz O ms Webkit',
+    P = w._config.usePrefixes ? x.split(' ') : [];
+  w._cssomPrefixes = P;
+  var z = w._config.usePrefixes ? x.toLowerCase().split(' ') : [];
+  w._domPrefixes = z;
+  var E = { elem: l('modernizr') };
   Modernizr._q.push(function() {
     delete E.elem;
   });
-  var T = { style: E.elem.style };
+  var N = { style: E.elem.style };
   Modernizr._q.unshift(function() {
-    delete T.style;
+    delete N.style;
   }),
-    (_.testAllProps = v),
-    (_.testAllProps = y),
-    Modernizr.addTest('borderradius', y('borderRadius', '0px', !0)),
+    (w.testAllProps = g),
+    (w.testAllProps = h),
+    Modernizr.addTest('borderradius', h('borderRadius', '0px', !0)),
     o(),
     s(C),
-    delete _.addTest,
-    delete _.addAsyncTest;
-  for (var N = 0; N < Modernizr._q.length; N++) Modernizr._q[N]();
+    delete w.addTest,
+    delete w.addAsyncTest;
+  for (var T = 0; T < Modernizr._q.length; T++) Modernizr._q[T]();
   e.Modernizr = Modernizr;
 })(window, document);

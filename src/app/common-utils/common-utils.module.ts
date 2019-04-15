@@ -8,10 +8,19 @@ import { SmallCardComponent } from './small-card/small-card.component';
 import { MiniBarChartComponent } from './d3-objects/mini-bar-chart/mini-bar-chart.component';
 import { DonutChartComponent } from './d3-objects/donut-chart/donut-chart.component';
 import { StarChartComponent } from './d3-objects/star-chart/star-chart.component';
+import { BarChartComponent } from './d3-objects/bar-chart/bar-chart.component';
+import { HeadMaterialModule } from '../head/head.material.module';
 
 @NgModule({
-  imports: [CommonModule],
-  exports: [MiniTileComponent, CardComponent, CommonFooterComponent, CommonHeaderComponent, SmallCardComponent],
+  imports: [CommonModule, HeadMaterialModule],
+  exports: [
+    MiniTileComponent,
+    CardComponent,
+    CommonFooterComponent,
+    CommonHeaderComponent,
+    SmallCardComponent,
+    BarChartComponent
+  ],
   declarations: [
     MiniTileComponent,
     CardComponent,
@@ -20,7 +29,8 @@ import { StarChartComponent } from './d3-objects/star-chart/star-chart.component
     SmallCardComponent,
     MiniBarChartComponent,
     DonutChartComponent,
-    StarChartComponent
+    StarChartComponent,
+    BarChartComponent
   ]
 })
 export class CommonUtilsModule {}

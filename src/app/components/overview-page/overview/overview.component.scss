@@ -1,49 +1,46 @@
-@import '~src/assets/styles/variables.scss';
+@import '~src/scss/variables.scss';
+@import '~src/scss/mixins';
 
 .overview-body {
-  background-color: #efefef;
+  background-color: $aqua;
+  @include padding(30px, 0, 30px, 30px);
 
   .overview-content {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
 
-    .page-title {
-      display: block;
-      margin-left: 10px;
-      flex-basis: 100%;
-      padding: 0 10%;
-      color: #2d2d39;
-      font-family: 'UHCSans-Regular', 'Arial';
-      font-size: 36px;
-      font-weight: 600;
+    .cust-width-blank {
+      width: 502px;
+    }
+
+    & > .cards {
+      text-align: left;
       line-height: 75px;
     }
 
-    .page-subtitle {
-      display: block;
-      margin-left: 10px;
-      flex-basis: 100%;
-      padding: 0 10%;
-      color: #2d2d39;
-      font-family: 'UHCSans-Regular', 'Arial';
-      font-size: 28px;
-      font-weight: 600;
-      line-height: 50px;
+    .cust-width-title {
+      width: 450px;
+      font-family: 'UHCSans-SemiBold', 'Arial';
+      color: $neutral-5;
 
-      .no-borderradius .header123 {
-        background: red;
+      .page-title {
+        flex-basis: 100%;
+        font-size: 36px;
+        line-height: 75px;
       }
 
-      .borderradius .header123 {
-        background-image: linear-gradient(cornflowerblue, rebeccapurple);
+      .page-subtitle {
+        flex-basis: 100%;
+        font-size: 28px;
+        line-height: 50px;
       }
-    }
 
-    & > app-small-card {
-      text-align: center;
-      line-height: 75px;
-      font-size: 30px;
+      .page-question {
+        flex-basis: 100%;
+        font-size: 22px;
+        line-height: 50px;
+      }
     }
   }
 }

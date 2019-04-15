@@ -1,0 +1,23 @@
+import { Injectable, Inject } from '@angular/core';
+import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
+import { environment } from '../../../environments/environment';
+import { DOCUMENT } from '@angular/common';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class AuthGuard implements CanActivate {
+  constructor(private router: Router, @Inject(DOCUMENT) private document: any) {}
+
+  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+    if (sessionStorage.getItem('currentUser')) {
+      // logged in so return true
+      return true;
+    }
+
+    // not logged in so redirect to login page with the return url
+    const redirectUri = environment.apiUrls.SsoRedirectUri;
+    this.document.location.href = redirectUri;
+    return false;
+  }
+}
