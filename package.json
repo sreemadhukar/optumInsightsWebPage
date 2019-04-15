@@ -37,7 +37,7 @@
     "jsonwebtoken": "^8.5.1",
     "path": "^0.12.7",
     "rxjs": "~6.2.0",
-    "web-animations-js": "2.3.1",
+    "web-animations-js": "^2.3.1",
     "zone.js": "~0.8.26"
   },
   "devDependencies": {

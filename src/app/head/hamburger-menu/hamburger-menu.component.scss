@@ -15,7 +15,7 @@
   left: 0;
   right: 0;
   max-width: 1648px;
-  min-width: 1024px;
+  min-width: 1032px;
 }
 
 .example-is-mobile .example-toolbar {
@@ -35,7 +35,7 @@ h1.example-app-name {
 .example-sidenav-container {
   /* When the sidenav is not fixed, stretch the sidenav container to fill the available space. This
      causes `<mat-sidenav-content>` to act as our scrolling element for desktop layouts. */
-  margin-top: 65px;
+  // margin-top: 65px;
   flex: 1;
 }
 
