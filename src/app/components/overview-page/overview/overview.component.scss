@@ -5,6 +5,7 @@
   background-color: $aqua;
   @include padding(30px, 0, 30px, 30px);
 
+  
   .overview-content {
     display: flex;
     flex-wrap: wrap;
@@ -39,6 +40,7 @@
         font-size: 28px;
         line-height: 50px;
       }
+
       .page-question {
         flex-basis: 100%;
         font-size: 22px;

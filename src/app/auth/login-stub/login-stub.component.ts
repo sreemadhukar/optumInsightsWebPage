@@ -61,19 +61,17 @@ export class LoginStubComponent implements OnInit {
     }
 
     //  this.loading = true;
-    this.internalService
-      .login(this.f.username.value, this.f.password.value)
-      .subscribe(
-        data => {
-          console.log(data);
-          this.providerSharedService.providersList();
+    this.internalService.login(this.f.username.value, this.f.password.value).subscribe(
+      data => {
+        console.log(data);
+        this.providerSharedService.providersList();
 
-          // this.router.navigate([this.returnUrl]);
-        },
-        error => {
-          this.error = error;
-          this.loading = false;
-        }
-      );
+        // this.router.navigate([this.returnUrl]);
+      },
+      error => {
+        this.error = error;
+        this.loading = false;
+      }
+    );
   }
 }
