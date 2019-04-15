@@ -3,7 +3,8 @@
 
 .overview-body {
   background-color: $aqua;
-  @include padding(30px, 0, 30px, 30px);
+  overflow-x: hidden;
+  @include padding(30px, 30px, 30px, 30px);
 
   .overview-content {
     display: flex;
