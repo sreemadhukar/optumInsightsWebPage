@@ -29,7 +29,7 @@ import { AuthenticationService } from '../../auth/_service/authentication.servic
 export class HamburgerMenuComponent implements AfterViewInit {
   _allExpandState = false;
   @ViewChildren(MatExpansionPanel) viewPanels: QueryList<MatExpansionPanel>;
-  public healthSystemName = 'North Region Health System';
+  public healthSystemName = 'Novant Health System';
   public makeAbsolute: boolean;
   public sideNavFlag: boolean;
 
