@@ -1,0 +1,14 @@
+// Done for testing purpose for Modernizr
+
+/*  Modernizr does the following :-
+ 1. It adds classes indicating feature support, allowing you to apply different styling to elements depending on what features they support.
+ 2. It allows you to run feature detection to decide whether to run a script/run a polyfill or not.
+ 3. It injects html5shiv, which allows old browsers to understand HTML5 elements. */
+
+.borderradius .header123 {
+  background-image: linear-gradient(cornflowerblue, rebeccapurple);
+}
+
+.no-borderradius .header123 {
+  background: red;
+}
