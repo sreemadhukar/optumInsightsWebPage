@@ -100,13 +100,13 @@ export class HeaderComponent implements OnInit {
   }
   @HostListener('window:scroll', ['$event'])
   checkScroll() {
-    const componentPosition = this.el.nativeElement.offsetTop + 10;
+    const componentPosition = this.el.nativeElement.offsetTop - 30;
     const scrollPosition = window.pageYOffset;
 
     if (scrollPosition < componentPosition) {
       this.state = 'show';
     } else {
-      this.state = 'hide';
+      this.state = 'show';
     }
   }
 }
