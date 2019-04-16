@@ -40,10 +40,10 @@ export class InternalService {
               this.sso.push({
                 PedAccessToken: this.tempUser.PedAccessToken
               });
-
               sessionStorage.setItem('currentUser', JSON.stringify(this.sso));
               sessionStorage.setItem('loggedUser', JSON.stringify(user));
               this.router.navigate([this.returnUrl]);
+              return user;
             } else {
               //    this.loader = false;
               alert('please enter valid MS ID and Password');

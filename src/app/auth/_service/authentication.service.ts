@@ -48,7 +48,7 @@ export class AuthenticationService {
 
   public getJwt() {
     const url = this.jwtPath + 'api/getJwt';
-    const myHeader = new Headers();
+    const myHeader = new HttpHeaders();
     myHeader.set('Accept', '*/*');
     const params = new HttpParams();
     return this.http.get(url, { params }).pipe(
