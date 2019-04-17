@@ -2,14 +2,19 @@
 @import '~src/scss/mixins';
 
 .overview-body {
-  background-color: #efefef;
-  @include padding(30px, 0, 30px, 30px);
+  background-color: $aqua;
+  overflow-x: hidden;
+  @include padding(30px, 30px, 30px, 30px);
 
   .overview-content {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
 
+    .height1Separator {
+      height: 0;
+      width: 1200px;
+    }
     .cust-width-blank {
       width: 502px;
     }
@@ -21,32 +26,32 @@
 
     .cust-width-title {
       width: 450px;
+      font-family: 'UHCSans-SemiBold', 'Arial';
+      color: $neutral-5;
 
       .page-title {
         flex-basis: 100%;
-        color: #2d2d39;
-        font-family: 'UHCSans-Regular', 'Arial';
         font-size: 36px;
-        font-weight: 600;
         line-height: 75px;
       }
 
       .page-subtitle {
         flex-basis: 100%;
-        color: #2d2d39;
-        font-family: 'UHCSans-Regular', 'Arial';
         font-size: 28px;
-        font-weight: 600;
         line-height: 50px;
       }
+
       .page-question {
         flex-basis: 100%;
-        color: #2d2d39;
-        font-family: 'UHCSans-Regular', 'Arial';
         font-size: 22px;
-        font-weight: 600;
         line-height: 50px;
       }
     }
+  }
+}
+
+@media only screen and (min-width: 1540px) {
+  .overview-content {
+    padding: 2%;
   }
 }

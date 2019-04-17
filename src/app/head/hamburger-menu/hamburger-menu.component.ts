@@ -29,9 +29,9 @@ import { AuthenticationService } from '../../auth/_service/authentication.servic
 export class HamburgerMenuComponent implements AfterViewInit {
   _allExpandState = false;
   @ViewChildren(MatExpansionPanel) viewPanels: QueryList<MatExpansionPanel>;
-  public mobileQuery: boolean;
-  public healthSystemName = 'North Region Health System';
+  public healthSystemName = 'Novant Health System';
   public makeAbsolute: boolean;
+  public sideNavFlag: boolean;
 
   /*** Array of Navigation Category List ***/
   public navCategories = [
@@ -50,12 +50,15 @@ export class HamburgerMenuComponent implements AfterViewInit {
     {
       icon: 'care-delivery',
       name: 'Care Delivery',
-      children: [{ name: 'Prior Authorizations', path: '#' }, { name: 'Patient Care Opportunity', path: '#' }]
+      children: [
+        { name: 'Prior Authorizations', path: 'careDelivery/priorAuth' },
+        { name: 'Patient Care Opportunity', path: '#' }
+      ]
     },
     {
       icon: 'issue-resolution',
       name: 'Issue Resolution',
-      children: [{ name: 'Summary', path: '#' }]
+      children: [{ name: 'Summary', path: 'issueResolution' }]
     }
   ];
 
@@ -78,7 +81,6 @@ export class HamburgerMenuComponent implements AfterViewInit {
       }
       // PLEASE DON'T MODIFY THIS
     });
-    this.mobileQuery = this.breakpointObserver.isMatched('(max-width: 1024px)');
 
     /** INITIALIZING SVG ICONS TO USE IN DESIGN - ANGULAR MATERIAL */
     iconRegistry.addSvgIcon(
@@ -103,11 +105,6 @@ export class HamburgerMenuComponent implements AfterViewInit {
     );
   }
 
-  @HostListener('window:resize', ['$event'])
-  onResize() {
-    this.mobileQuery = this.breakpointObserver.isMatched('(max-width: 1279px)');
-  }
-
   /*** used to apply the CSS for dynamically generated elements ***/
   public ngAfterViewInit(): void {
     const listItems = this.elementRef.nativeElement.querySelectorAll('.mat-list-item') as HTMLElement[];
@@ -126,7 +123,10 @@ export class HamburgerMenuComponent implements AfterViewInit {
       this.renderer.setStyle(listItem, 'padding', '0px');
     });
   }
-
+  hamburgerDisplay(input: boolean) {
+    this.sideNavFlag = input;
+    console.log(input);
+  }
   /** FUNCTIONS TO COLLAPSE LEFT MENU **/
   collapseExpansionPanels(id) {
     this.allExpandState(false, id - 1);

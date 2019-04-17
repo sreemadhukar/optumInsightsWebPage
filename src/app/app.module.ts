@@ -11,6 +11,9 @@ import { CommonUtilsModule } from './common-utils/common-utils.module';
 import { RestModule } from './rest/rest.module';
 import { PipesModule } from './pipes/pipes.module';
 import { AuthModule } from './auth/auth.module';
+import { ProviderService } from './rest/provider/provider.service';
+import { ProviderSharedService } from './shared/provider/provider-shared.service';
+
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -25,7 +28,7 @@ import { AuthModule } from './auth/auth.module';
     PipesModule,
     AuthModule
   ],
-  providers: [],
+  providers: [ProviderService, ProviderSharedService],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

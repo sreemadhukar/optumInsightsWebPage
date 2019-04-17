@@ -2,11 +2,11 @@
  * Author: Ranjith kumar Ankam
  * Created Date: 03-Apr-2019
  *  */
+
 @import '~src/scss/variables.scss';
 @import '~src/scss/mixins';
-
 .example-container {
-  background-color: #efefef;
+  background-color: #f1f4f7;
   display: flex;
   flex-direction: column;
   position: absolute;
@@ -15,11 +15,10 @@
   left: 0;
   right: 0;
   max-width: 1648px;
-  min-width: 1024px;
+  min-width: 1032px;
 }
 
 .example-is-mobile .example-toolbar {
-  position: fixed;
   /* Make sure the toolbar will stay on top of the content as it scrolls past. */
   z-index: 2;
   padding: padding(0);
@@ -36,7 +35,7 @@ h1.example-app-name {
 .example-sidenav-container {
   /* When the sidenav is not fixed, stretch the sidenav container to fill the available space. This
      causes `<mat-sidenav-content>` to act as our scrolling element for desktop layouts. */
-  margin-top: 65px;
+  // margin-top: 65px;
   flex: 1;
 }
 
@@ -194,11 +193,14 @@ app-header {
   margin-top: 24px;
   margin-left: 32px;
 }
+
 .active-link {
   background: $body-link-blue;
   color: $blue !important;
 }
+
 /************ ABOVE IS THE CSS RELATED TO ONLY LEFT HAMBURGER MENU *************/
+
 .svg-ic_build_24px:hover {
   fill: $blue !important;
 }
