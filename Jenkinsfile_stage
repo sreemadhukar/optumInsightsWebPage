@@ -16,7 +16,7 @@ String oseInterProject= 'ped-internal'
 
 String intUiPod = 'pedintui'
 String stageUiPod = 'pedui'
-String interUiPod = 'pedui2'
+String interUiPod = 'pedstgui2'
 
 pipeline {
     agent none
