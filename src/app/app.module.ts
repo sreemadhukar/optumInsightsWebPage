@@ -11,7 +11,6 @@ import { CommonUtilsModule } from './common-utils/common-utils.module';
 import { RestModule } from './rest/rest.module';
 import { PipesModule } from './pipes/pipes.module';
 import { AuthModule } from './auth/auth.module';
-
 @NgModule({
   declarations: [AppComponent],
   imports: [

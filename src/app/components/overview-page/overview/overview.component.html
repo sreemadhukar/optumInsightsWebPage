@@ -6,6 +6,10 @@
     </div>
     <div class="cards cust-width-blank"></div>
     <br />
+
+    <span tooltip="Tooltip placed at top" placement="top" display="true">Tooltip on top</span>
+    <span tooltip="Tooltip placed at bottom" placement="bottom" display="true" theme="light">Tooltip on bottom</span>
+
     <div *ngFor="let item of mainCards; let i = index">
       <app-small-card *ngIf="item.data != null" class="cards" [data]="item"> </app-small-card>
     </div>
