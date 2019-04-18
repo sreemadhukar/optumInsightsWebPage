@@ -1,0 +1,15 @@
+@import '~src/scss/variables.scss';
+
+.card-structure {
+  position: relative;
+  float: left;
+}
+
+.card-inner-large {
+  background-color: $white;
+  width: 961px;
+  height: 600px;
+  margin: 10px;
+  line-height: 75px;
+  font-size: 30px;
+}
