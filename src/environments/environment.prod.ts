@@ -5,7 +5,7 @@
  * MAINTAIN ALPHABETIC ORDER
  */
 export const environment: any = {
-  apiProxyUrl: 'https://gateway-stage-core.optum.com/api/stage2/pdr/uhci/v1/',
+  apiProxyUrl: 'https://gateway-core.optum.com/api/pdr/uhci2/v1/',
   originUrl: '/',
   apiUrls: {
     ExecutiveSummaryPath: 'providersystems/',
@@ -14,9 +14,9 @@ export const environment: any = {
     ProviderSystemPriorAuth: 'PriorAuthSummary/',
     SsoTokenPath: 'myinsightOptumIdHandshake',
     SsoRedirectUri:
-      'https://stage-sso.uhc.com/ext/as/authorization.oauth2?pfidpadapterid=OptumIdOIDCStage&client_id=PED42235&response_' +
-      'type=code&redirect_uri=https://pedstgui2-ped-internal.ocp-ctc-core.optum.com/login&scope=openid+profile+email&state=PED&prompt=none',
-    linkLoginPage: 'https://provider-stage.linkhealth.com',
+      'https://sso.uhc.com/ext/as/authorization.oauth2?pfidpadapterid=OptumIdOIDCStage&client_id=PED42235&response_' +
+      'type=code&redirect_uri=https://myinsights.uhc.com/login&scope=openid+profile+email&state=PED&prompt=none',
+    linkLoginPage: 'https://provider.linkhealth.com',
     ProvTinList: 'provider-tins/',
     LayerSevenPath: 'myinsightLayerSevenHandshake',
     URL: window.location.origin,
