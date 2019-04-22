@@ -37,7 +37,7 @@ export class BarChartComponent implements OnInit, AfterViewInit {
       barHeight = chartOptions.barHeight;
     }
 
-    const margin = { top: 20, right: 10, bottom: 10, left: 10 };
+    const margin = { top: 25, right: 10, bottom: 5, left: 10 };
     const width = preWidth - margin.left - margin.right;
     const height = barHeight * 2 - margin.top - margin.bottom;
 
@@ -48,21 +48,33 @@ export class BarChartComponent implements OnInit, AfterViewInit {
       .attr('height', height + margin.top + margin.bottom)
       .append('g')
       .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
+    /*
+    const div = d3.select(this.renderChart).append('div')
+      .attr('class', 'tooltip')
+      .style('height', 200)
+      .style('opacity', 0)
+      .style('border-radius', 0)
 
+    const svg2 = div.append('svg')
+      .attr('height', 200)
+
+    div.append('div')
+      .attr('class', 'triangle');
+*/
     const xScale = d3
       .scaleLinear()
       .domain([0, chartOptions.barSummation])
-      .range([0, width]);
+      .range([0, width / 2]);
 
     chart
       .append('rect')
-      .attr('x', 10)
+      .attr('x', 10 + xScale(chartOptions.barSummation))
       .attr('y', 10)
       .attr('width', xScale(chartOptions.barData))
       .attr('height', barHeight)
       .attr('fill', chartOptions.color[0].color1);
 
-    if (chartOptions.color[1].color2) {
+    if (chartOptions.color.length === 2) {
       chart
         .append('rect')
         .attr('x', xScale(chartOptions.barData))
@@ -71,5 +83,49 @@ export class BarChartComponent implements OnInit, AfterViewInit {
         .attr('height', barHeight)
         .attr('fill', chartOptions.color[1].color2);
     }
+
+    if (chartOptions.PCORStarCount > 1) {
+      const PCORStars = chartOptions.PCORStarCount;
+      const PCORStarXCoordinateMultiplier = 17.5;
+
+      for (let i = 0; i < PCORStars; i++) {
+        const xCoordinate = 10 + PCORStarXCoordinateMultiplier * i + xScale(chartOptions.barSummation);
+        chart
+          .append('g')
+          .attr('transform', 'translate(' + xCoordinate + ',' + -10 + ')')
+          .append('polygon')
+          .attr('fill', '#3381FF')
+          .attr(
+            'points',
+            '8 13.2668737 3.05572809 16 4 10.2111456 -3.02535774e-13 6.11145618 5.52786405 5.26687371 8 0 ' +
+              '10.472136 5.26687371 16 6.11145618 12 10.2111456 12.9442719 16'
+          );
+      }
+    } else {
+      const textWithHover = chart
+        .append('text')
+        .attr('x', xScale(chartOptions.barSummation / 5))
+        .attr('y', (height + 7.5) / 2)
+        .attr('fill', '#2D2D39')
+        .attr('font-size', '16')
+        .style('text-anchor', 'start')
+        .style('font-family', 'UHCSans-Regular')
+        .style('font-weight', '500')
+        .text(chartOptions.barText);
+    }
+
+    chart
+      .append('text')
+      .attr('x', xScale(chartOptions.barSummation) - 50)
+      .attr('y', (height + 10) / 2)
+      .attr('fill', '#2D2D39')
+      .attr('font-size', '22')
+      .style('text-anchor', 'start')
+      .style('font-family', 'UHCSans-Regular')
+      .style('font-weight', '600')
+      .text(chartOptions.barData);
+
+    // might have to build a hover object for the long text
+    // and add a feature to have the number on the left
   }
 }

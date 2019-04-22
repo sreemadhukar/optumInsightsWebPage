@@ -64,10 +64,16 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
         return d.value;
       });
 
+    let heightDivider = 16;
+    if (chartOptions.sdata) {
+      heightDivider = -16;
+    }
+    console.log(chartOptions.sdata);
+
     const text = chart
       .append('text')
       .attr('text-anchor', 'middle')
-      .attr('y', height / 16)
+      .attr('y', height / heightDivider)
       .style('font-size', '22px')
       .style('font-weight', '600')
       .style('fill', '#2D2D39')
@@ -76,47 +82,61 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
     // src="/src/assets/images/trend-down.svg" alt="trend up"
     // src="/src/assets/images/trend-up.svg" alt="trend down"
 
-    /*
-    if trend up
-     svg
-     .append('svg:image')
-     .attr('x', (width + margin.left + margin.right) / 3.5)
-     .attr('y', height / 12)
-     .attr('width', '20px')
-     .attr('height', '20px')
-     .attr('xlink:href', 'src/assets/images/trend-up.svg');
+    if (chartOptions.sdata) {
+      if (chartOptions.sdata.sign === 'up') {
+        chart
+          .append('circle')
+          .attr('cx', width / -8)
+          .attr('cy', height / 6)
+          .attr('r', 16)
+          .attr('fill', '#FFE6F0');
 
-     .trend-value {
-     font-size: 14px;
-     font-weight: 500;
-     letter-spacing: 0.2px;
-     line-height: 18px;
-     font-family: 'UHCSans-Regular', 'Arial';
-     display: inline;
-     vertical-align: middle;
-     }
-     .trend-image {
-     height: 20px;
-     width: 20px;
-     border-radius: 21px;
-     display: inline-block;
-     vertical-align: middle;
-     padding: 6px;
-     }
-     .trend-image-down {
-     background-color: color(red, light);
-     }
-     .trend-value-down {
-     color: color(red, dark);
-     }
-     .trend-value-up {
-     color: $brand-green-hover;
-     }
+        chart
+          .append('svg:image')
+          .attr('x', width / -5)
+          .attr('y', height / 10)
+          .attr('width', '20px')
+          .attr('height', '20px')
+          .attr('xlink:href', 'src/assets/images/trend-up.svg');
 
-     .trend-image-up {
-     background-color: color(green, light);
-     }
-     */
+        chart
+          .append('text')
+          .attr('x', width / 256)
+          .attr('y', height / 5)
+          .style('font-size', '16px')
+          .style('font-weight', '500')
+          .style('fill', '#B10C00')
+          .style('font-family', 'UHCSans-Regular')
+          .style('text-anchor', 'start')
+          .text(chartOptions.sdata.data);
+      } else if (chartOptions.sdata.sign === 'down') {
+        chart
+          .append('circle')
+          .attr('cx', width / -8)
+          .attr('cy', height / 6)
+          .attr('r', 16)
+          .attr('fill', '#E1FADF');
+
+        chart
+          .append('svg:image')
+          .attr('x', width / -5)
+          .attr('y', height / 10)
+          .attr('width', '20px')
+          .attr('height', '20px')
+          .attr('xlink:href', 'src/assets/images/trend-down.svg');
+
+        chart
+          .append('text')
+          .attr('x', width / 256)
+          .attr('y', height / 5)
+          .style('font-size', '16px')
+          .style('font-weight', '500')
+          .style('fill', '#007000')
+          .style('font-family', 'UHCSans-Regular')
+          .style('text-anchor', 'start')
+          .text(chartOptions.sdata.data);
+      }
+    }
 
     const donutData = [];
 

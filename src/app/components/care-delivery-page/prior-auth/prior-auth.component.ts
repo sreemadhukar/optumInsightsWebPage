@@ -55,26 +55,26 @@ export class PriorAuthComponent implements OnInit {
     this.reasonItems = [
       {
         type: 'singleBarChart',
-        title: 'Prior Authorization Requested',
+        title: 'Top Reason Not Approved',
         data: {
           barHeight: 48,
           barData: 50,
           barSummation: 90,
           barText: 'No Evidence',
-          color: [{ color1: 'green' }],
+          color: [{ color1: '#3381FF' }],
           gdata: ['card-inner-large', 'reasonOneBar']
         },
         timeperiod: 'Rolling 12 Months'
       },
       {
         type: 'singleBarChart',
-        title: 'Prior Authorization Approval Rate',
+        title: 'Top Reason Not Approved',
         data: {
           barHeight: 48,
           barData: 40,
           barSummation: 90,
           barText: 'Need more information',
-          color: [{ color1: 'green' }],
+          color: [{ color1: '#3381FF' }],
           gdata: ['card-inner-large', 'reasonTwoBar']
         },
         timeperiod: 'Rolling 12 Months'
