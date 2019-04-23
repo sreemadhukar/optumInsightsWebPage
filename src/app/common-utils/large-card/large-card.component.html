@@ -6,5 +6,6 @@
     <div *ngFor="let item of data; let i = index">
       <app-bar-chart *ngIf="item.data != null" [chartOptions]="item.data"> </app-bar-chart>
     </div>
+    <app-rotating-arrow-object></app-rotating-arrow-object>
   </div>
 </div>
