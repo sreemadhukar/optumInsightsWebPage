@@ -5,6 +5,10 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class CommonUtilsService {
+  public currentYear = 2019;
+  public currentYearMinusOne = (this.currentYear - 1).toString();
+  public currentYearMinusTwo = (this.currentYear - 2).toString();
+  public currentYearMinusThree = (this.currentYear - 3).toString();
   constructor() {}
   public nFormatter(fnumber) {
     if (fnumber >= 1000000000) {
@@ -38,6 +42,17 @@ export class CommonUtilsService {
       return 'MedicareAndRetirement';
     } else if (lob === 'Community & State') {
       return 'CommunityAndState';
+    }
+  }
+  public matchTimePeriodWithJSON(timeframe) {
+    if (timeframe === 'Calendar Year ' + this.currentYearMinusOne) {
+      return this.currentYearMinusOne;
+    } else if (timeframe === 'Calendar Year ' + this.currentYearMinusTwo) {
+      return this.currentYearMinusTwo;
+    } else if (timeframe === 'Rolling 12 Months') {
+      return 'rolling12months';
+    } else if (timeframe === 'Year to Date') {
+      return 'yeartodate';
     }
   }
 }

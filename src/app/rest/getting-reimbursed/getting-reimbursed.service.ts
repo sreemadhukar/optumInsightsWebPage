@@ -41,7 +41,6 @@ export class GettingReimbursedService {
       cparams = cparams.append('TIN', parameters[5]);
     }
     const aggClaimsURL = this.APP_URL + this.AGG_CLAIMS_SERVICE_PATH + parameters[0];
-    const claimsURL = this.APP_URL + this.CLAIMS_SERVICE_PATH + parameters[0];
     const appealsURL = this.APP_URL + this.APPEALS_SERVICE_PATH + parameters[0];
     return combineLatest(
       this.http.post(aggClaimsURL, eparams, { headers: myHeader }).pipe(
@@ -49,12 +48,7 @@ export class GettingReimbursedService {
         map(res => JSON.parse(JSON.stringify(res))),
         catchError(err => of(JSON.parse(JSON.stringify(err))))
       ),
-      this.http.post(claimsURL, cparams, { headers: myHeader }).pipe(
-        retry(2),
-        map(res => JSON.parse(JSON.stringify(res[0]))),
-        catchError(err => of(JSON.parse(JSON.stringify(err))))
-      ),
-      this.http.post(appealsURL, { params: cparams, headers: myHeader }).pipe(
+      this.http.get(appealsURL, { params: cparams, headers: myHeader }).pipe(
         retry(2),
         map(res => JSON.parse(JSON.stringify(res[0]))),
         catchError(err => of(JSON.parse(JSON.stringify(err))))
