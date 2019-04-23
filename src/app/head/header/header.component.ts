@@ -9,18 +9,13 @@ import {
   Renderer2,
   ViewEncapsulation,
   ViewChildren,
-  QueryList,
-  AfterViewInit,
-  Host,
-  HostBinding
+  QueryList
 } from '@angular/core';
 import { trigger, state, style, animate, transition } from '@angular/animations';
 import { MatExpansionPanel } from '@angular/material';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
-import { DOCUMENT } from '@angular/platform-browser';
-import { hostElement } from '@angular/core/src/render3/instructions';
 
 @Component({
   selector: 'app-header',
