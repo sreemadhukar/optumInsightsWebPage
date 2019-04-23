@@ -24,6 +24,12 @@
       line-height: 75px;
     }
 
+    .page-subtitle {
+      flex-basis: 100%;
+      font-size: 28px;
+      line-height: 50px;
+    }
+
     .cust-width-title {
       width: 450px;
       font-family: 'UHCSans-SemiBold', 'Arial';
@@ -33,12 +39,6 @@
         flex-basis: 100%;
         font-size: 36px;
         line-height: 75px;
-      }
-
-      .page-subtitle {
-        flex-basis: 100%;
-        font-size: 28px;
-        line-height: 50px;
       }
 
       .page-question {
