@@ -12,30 +12,40 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
   public noTransition = 0;
   public renderChart: string;
   @Input() chartOptions: any = {};
+  @Input() customWidth: number;
+  @Input() customHeight: number;
 
   constructor() {}
 
   @HostListener('window:resize', ['$event'])
   onResize(event) {
-    this.doDonutChart(this.chartOptions, this.noTransition);
+    this.doDonutChart(this.chartOptions, this.customWidth, this.customHeight, this.noTransition);
   }
   ngOnInit() {
     this.renderChart = '#' + this.chartOptions.gdata[1];
   }
 
   ngAfterViewInit() {
-    this.doDonutChart(this.chartOptions, this.transition);
+    this.doDonutChart(this.chartOptions, this.customWidth, this.customHeight, this.transition);
   }
 
-  doDonutChart(chartOptions: any, transition: number) {
+  doDonutChart(chartOptions: any, customWidth: number, customHeight: number, transition: number) {
     const preWidth = document.getElementsByClassName(this.chartOptions.gdata[0])[0].clientWidth / 2;
     d3.select(this.renderChart)
       .selectAll('*')
       .remove();
 
     const margin = { top: 10, right: 10, bottom: 10, left: 10 };
-    const width = preWidth - margin.left - margin.right;
-    const height = width - margin.top - margin.bottom;
+    let width = preWidth - margin.left - margin.right;
+    let height = width - margin.top - margin.bottom;
+
+    if (customWidth > 0) {
+      width = customWidth - margin.left - margin.right;
+    }
+
+    if (customHeight > 0) {
+      height = customHeight - margin.left - margin.right;
+    }
 
     const chart = d3
       .select(this.renderChart)
@@ -68,7 +78,6 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
     if (chartOptions.sdata) {
       heightDivider = -16;
     }
-    console.log(chartOptions.sdata);
 
     const text = chart
       .append('text')
@@ -78,9 +87,6 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
       .style('font-weight', '600')
       .style('fill', '#2d2d39')
       .style('font-family', 'UHCSans-SemiBold');
-
-    // src="/src/assets/images/trend-down.svg" alt="trend up"
-    // src="/src/assets/images/trend-up.svg" alt="trend down"
 
     if (chartOptions.sdata) {
       if (chartOptions.sdata.sign === 'up') {
