@@ -74,7 +74,7 @@ export class GettingReimbursedSharedService {
                 gdata: ['card-inner', 'priorAuthCardD3Donut'],
                 sdata: {
                   sign: 'up',
-                  data: '8%'
+                  data: '+8%'
                 }
               },
               besideData: {
@@ -219,7 +219,7 @@ export class GettingReimbursedSharedService {
                 gdata: ['card-inner', 'priorAuthCardD3Donut'],
                 sdata: {
                   sign: 'down',
-                  data: '+10.2%'
+                  data: '-10.2%'
                 }
               },
               besideData: {
@@ -277,7 +277,7 @@ export class GettingReimbursedSharedService {
                 gdata: ['card-inner', 'priorAuthCardD3Donut'],
                 sdata: {
                   sign: 'up',
-                  data: '+2.3%'
+                  data: '+5.3%'
                 }
               },
               timeperiod: this.timeFrame

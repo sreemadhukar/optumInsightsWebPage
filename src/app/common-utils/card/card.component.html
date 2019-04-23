@@ -1,23 +1,28 @@
-<div *ngIf="data != null" class="card-structure">
+<div *ngIf="chartData != null" class="card-structure">
   <div class="card-inner">
-    <app-common-header [title]="data.title"></app-common-header>
-    <div *ngIf="data.data != null">
-      <div *ngIf="data.type == 'donutWithLabel' || data.type == 'donut'">
-        <app-donut-chart [chartOptions]="data.data"></app-donut-chart>
-        <div *ngIf="data.type == 'donutWithLabel'" class="trend-details">
+    <app-common-header [title]="chartData.title"></app-common-header>
+    <div *ngIf="chartData.data != null">
+      <div *ngIf="chartData.type == 'donutWithLabel'">
+        <div class="chart-details-donut">
+          <app-donut-chart [chartOptions]="chartData.data"></app-donut-chart>
+        </div>
+        <div *ngIf="chartData.type == 'donutWithLabel'">
           <ul class="list-labels">
-            <li *ngFor="let c of data.besideData.labels; let i = index">{{ c }}</li>
+            <li *ngFor="let c of chartData.besideData.labels; let i = index">{{ c }}</li>
           </ul>
         </div>
-        <div *ngIf="data.type == 'star' && data.data != null" class="chart-details">
-          <app-star-chart [chartOptions]="data.data"></app-star-chart>
+        <div *ngIf="chartData.type == 'star' && chartData.data != null" class="chart-details">
+          <app-star-chart [chartOptions]="chartData.data"></app-star-chart>
         </div>
-        <div *ngIf="data.timeperiod">
-          <app-common-footer [timePeriod]="data.timeperiod"></app-common-footer>
+        <div *ngIf="chartData.timeperiod">
+          <app-common-footer [timePeriod]="chartData.timeperiod"></app-common-footer>
         </div>
       </div>
-      <div *ngIf="data.type == 'rotateWithLabel'">
-        <app-rotating-arrow-object [chartOptions]="data.data"></app-rotating-arrow-object>
+      <div *ngIf="chartData.type == 'rotateWithLabel'">
+        Inder
+      </div>
+      <div *ngIf="chartData.type == 'donut'">
+        <app-donut-chart [chartOptions]="chartData.data"></app-donut-chart>
       </div>
     </div>
   </div>

@@ -8,7 +8,7 @@ import { DomSanitizer } from '@angular/platform-browser';
   styleUrls: ['./card.component.scss']
 })
 export class CardComponent implements OnInit {
-  @Input() data;
+  @Input() chartData;
   constructor(private iconRegistry: MatIconRegistry, sanitizer: DomSanitizer) {
     /** INITIALIZING SVG ICONS TO USE IN DESIGN - ANGULAR MATERIAL */
     iconRegistry.addSvgIcon(
@@ -18,6 +18,6 @@ export class CardComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this.data);
+    console.log(this.chartData);
   }
 }
