@@ -55,7 +55,7 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
       .append('g')
       .attr('transform', 'translate(' + (width / 2 + margin.left) + ',' + (height / 2 + margin.top) + ')');
 
-    const radius = Math.min(width, height) / 2;
+    const radius = Math.min(width, height) / 2 + 5;
     const donutColor = d3.scaleOrdinal().range(chartOptions.color);
     const circleThickness = 15;
 
@@ -85,8 +85,8 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
       .attr('y', height / heightDivider)
       .style('font-size', '22px')
       .style('font-weight', '600')
-      .style('fill', '#2D2D39')
-      .style('font-family', 'UHCSans-Regular');
+      .style('fill', '#2d2d39')
+      .style('font-family', 'UHCSans-SemiBold');
 
     if (chartOptions.sdata) {
       if (chartOptions.sdata.sign === 'up') {
@@ -95,7 +95,7 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
           .attr('cx', width / -8)
           .attr('cy', height / 6)
           .attr('r', 16)
-          .attr('fill', '#FFE6F0');
+          .attr('fill', '#E1FADF');
 
         chart
           .append('svg:image')
@@ -111,7 +111,7 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
           .attr('y', height / 5)
           .style('font-size', '16px')
           .style('font-weight', '500')
-          .style('fill', '#B10C00')
+          .style('fill', '#007000')
           .style('font-family', 'UHCSans-Regular')
           .style('text-anchor', 'start')
           .text(chartOptions.sdata.data);
@@ -121,7 +121,7 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
           .attr('cx', width / -8)
           .attr('cy', height / 6)
           .attr('r', 16)
-          .attr('fill', '#E1FADF');
+          .attr('fill', '#FFE6F0');
 
         chart
           .append('svg:image')
@@ -137,7 +137,7 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
           .attr('y', height / 5)
           .style('font-size', '16px')
           .style('font-weight', '500')
-          .style('fill', '#007000')
+          .style('fill', '#B10C00')
           .style('font-family', 'UHCSans-Regular')
           .style('text-anchor', 'start')
           .text(chartOptions.sdata.data);
