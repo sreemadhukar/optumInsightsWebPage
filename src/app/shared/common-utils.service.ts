@@ -18,4 +18,26 @@ export class CommonUtilsService {
     }
     return fnumber;
   }
+  public matchLobWithData(lob) {
+    if (lob === 'All') {
+      return 'All';
+    } else if (lob === 'Employer & Individual') {
+      return 'Ei';
+    } else if (lob === 'Medicare & Retirement') {
+      return 'Mr';
+    } else if (lob === 'Community & State') {
+      return 'Cs';
+    }
+  }
+  public matchFullLobWithData(lob) {
+    if (lob === 'All') {
+      return 'ALL';
+    } else if (lob === 'Employer & Individual') {
+      return 'EmployerAndIndividual';
+    } else if (lob === 'Medicare & Retirement') {
+      return 'MedicareAndRetirement';
+    } else if (lob === 'Community & State') {
+      return 'CommunityAndState';
+    }
+  }
 }
