@@ -335,11 +335,10 @@ export class GettingReimbursedSharedService {
                 color: ['#3381FF', '#80B0FF', '#003DA1']
               },
               bottomData: {
-                values: [
-                  appealsData.LineOfBusiness[lobData].AdminAppeals,
-                  appealsData.LineOfBusiness[lobData].ClinicalAppeals
-                ],
-                labels: ['Admin', 'Clinical']
+                horizontalData: [
+                  { values: appealsData.LineOfBusiness[lobData].AdminAppeals, labels: 'Admin' },
+                  { values: appealsData.LineOfBusiness[lobData].ClinicalAppeals, labels: 'Clinical' }
+                ]
               },
               timeperiod: this.timeFrame
             };
