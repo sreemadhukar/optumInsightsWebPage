@@ -45,7 +45,7 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
       .append('g')
       .attr('transform', 'translate(' + (width / 2 + margin.left) + ',' + (height / 2 + margin.top) + ')');
 
-    const radius = Math.min(width, height) / 2;
+    const radius = Math.min(width, height) / 2 + 5;
     const donutColor = d3.scaleOrdinal().range(chartOptions.color);
     const circleThickness = 15;
 
@@ -70,8 +70,8 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
       .attr('y', height / 16)
       .style('font-size', '22px')
       .style('font-weight', '600')
-      .style('fill', '#2D2D39')
-      .style('font-family', 'UHCSans-Regular');
+      .style('fill', '#2d2d39')
+      .style('font-family', 'UHCSans-SemiBold');
 
     const donutData = [];
 

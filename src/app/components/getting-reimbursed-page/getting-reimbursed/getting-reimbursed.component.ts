@@ -18,36 +18,82 @@ export class GettingReimbursedComponent implements OnInit {
     this.pageTitle = 'Getting Reimbursed';
     this.summaryItems = [
       {
-        category: 'card',
-        type: 'donutWithTrend',
-        title: 'Claims Paid',
+        category: 'medium-card',
+        type: 'star',
+        title: 'Medicare & Retirement Average Star Rating',
         data: {
-          cValues: [],
-          cData: '',
-          color: [{ color1: '#00A8F7' }, { color2: '#F5F5F5' }, { color3: '#FFFFFF' }],
-          gdata: []
+          graphValues: [2.34],
+          centerNumber: 54.3,
+          color: ['#00A8F7', '#F5F5F5', '#FFFFFF'],
+          gdata: ['card-inner', 'pcorCardD3Star']
         },
-        sdata: {
-          sign: 'up',
-          data: '+2.3%'
-        },
-        timeperiod: 'Rolling 12 Months'
+        sdata: null,
+        timeperiod: 'Timeperiod - Rolling 6 Months'
       },
       {
-        category: 'card',
-        type: 'donutBothLabelTrend',
-        title: 'Total Claims Submitted',
+        category: 'medium-card',
+        type: 'donut',
+        title: 'Claims Non-Payment Rate',
         data: {
-          cValues: [],
-          cData: '',
-          color: [{ color1: '#00A8F7' }, { color2: '#F5F5F5' }, { color3: '#FFFFFF' }],
-          gdata: []
+          graphValues: [0.4, 1 - 0.4],
+          centerNumber: '50.4%',
+          color: ['#3381FF', '#F5F5F5'],
+          gdata: ['card-inner', 'selfServiceCardD3Donut']
+        },
+        timeperiod: 'Timeperiod - Rolling 6 Months'
+      },
+      {
+        category: 'medium-card',
+        type: 'donut',
+        title: 'Claims Non-Payment Rate',
+        data: {
+          graphValues: [0.4, 1 - 0.4],
+          centerNumber: '50.4%',
+          color: ['#3381FF', '#F5F5F5'],
+          gdata: ['card-inner', 'selfServiceCardD3Donut']
         },
         sdata: {
           sign: 'down',
-          data: '-2.3%'
+          data: '-1.3%'
         },
-        timeperiod: 'Rolling 12 Months'
+        timeperiod: 'Timeperiod - Rolling 6 Months'
+      },
+      {
+        category: 'medium-card',
+        type: 'donutWithTrend',
+        title: 'Claims Non-Payment Rate',
+        data: {
+          graphValues: [0.4, 1 - 0.4],
+          centerNumber: '50.4%',
+          color: ['#3381FF', '#F5F5F5'],
+          gdata: ['card-inner', 'selfServiceCardD3Donut'],
+          sdata: [
+            {
+              sign: 'down',
+              data: '-1.3%'
+            }
+          ]
+        },
+        timeperiod: 'Timeperiod - Rolling 6 Months'
+      },
+      {
+        category: 'medium-card',
+        type: 'donutWithTrend',
+        title: 'Claims Non-Payment Rate',
+        data: {
+          graphValues: [0.4, 1 - 0.4],
+          centerNumber: '50.4%',
+          color: ['#3381FF', '#F5F5F5'],
+          gdata: ['card-inner', 'selfServiceCardD3Donut'],
+          sdata: [
+            {
+              sign: 'down',
+              data: '-1.3%'
+            }
+          ]
+        },
+        labels: ['Medicare', 'Retirement'],
+        timeperiod: 'Timeperiod - Rolling 6 Months'
       }
     ];
   }
