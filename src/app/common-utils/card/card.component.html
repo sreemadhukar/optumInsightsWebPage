@@ -2,17 +2,19 @@
   <div class="card-inner">
     <app-common-header [title]="data.title"></app-common-header>
     <div *ngIf="data.data != null">
-      <app-donut-chart [chartOptions]="data.data"></app-donut-chart>
-      <div *ngIf="data.type == 'donutWithLabel'" class="trend-details">
-        <ul class="list-labels">
-          <li *ngFor="let c of data.besideData.labels; let i = index">{{ c }}</li>
-        </ul>
-      </div>
-      <div *ngIf="data.type == 'star' && data.data != null" class="chart-details">
-        <app-star-chart [chartOptions]="data.data"></app-star-chart>
-      </div>
-      <div *ngIf="data.timeperiod">
-        <app-common-footer [timePeriod]="data.timeperiod"></app-common-footer>
+      <div *ngIf="data.type == 'donutWithLabel' || data.type == 'donut'">
+        <app-donut-chart [chartOptions]="data.data"></app-donut-chart>
+        <div *ngIf="data.type == 'donutWithLabel'" class="trend-details">
+          <ul class="list-labels">
+            <li *ngFor="let c of data.besideData.labels; let i = index">{{ c }}</li>
+          </ul>
+        </div>
+        <div *ngIf="data.type == 'star' && data.data != null" class="chart-details">
+          <app-star-chart [chartOptions]="data.data"></app-star-chart>
+        </div>
+        <div *ngIf="data.timeperiod">
+          <app-common-footer [timePeriod]="data.timeperiod"></app-common-footer>
+        </div>
       </div>
     </div>
   </div>
