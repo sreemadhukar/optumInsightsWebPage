@@ -12,12 +12,14 @@ export class StarChartComponent implements OnInit, AfterViewInit {
   public height: any;
   public renderChart: string;
   @Input() chartOptions: any = {};
+  @Input() customWidth: number;
+  @Input() customHeight: number;
 
   constructor() {}
 
   @HostListener('window:resize', ['$event'])
   onResize(event) {
-    this.doStarComponent(this.chartOptions);
+    this.doStarComponent(this.chartOptions, this.customWidth, this.customHeight);
   }
 
   ngOnInit() {
@@ -25,18 +27,26 @@ export class StarChartComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    this.doStarComponent(this.chartOptions);
+    this.doStarComponent(this.chartOptions, this.customWidth, this.customHeight);
   }
 
-  doStarComponent(chartOptions: any) {
+  doStarComponent(chartOptions: any, customWidth: number, customHeight: number) {
     const preWidth = document.getElementsByClassName(chartOptions.gdata[0])[0].clientWidth;
     d3.select(this.renderChart)
       .selectAll('*')
       .remove();
 
-    const margin = { top: 10, right: 0, bottom: 10, left: 0 },
-      width = preWidth - margin.left - margin.right,
-      height = preWidth - margin.top - margin.bottom;
+    const margin = { top: 10, right: 0, bottom: 10, left: 0 };
+    let width = preWidth - margin.left - margin.right;
+    let height = preWidth - margin.top - margin.bottom;
+
+    if (customWidth > 0) {
+      width = customWidth - margin.left - margin.right;
+    }
+
+    if (customHeight > 0) {
+      height = customHeight - margin.left - margin.right;
+    }
 
     const svg = d3
       .select(this.renderChart)

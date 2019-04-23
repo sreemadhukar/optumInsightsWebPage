@@ -12,30 +12,40 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
   public noTransition = 0;
   public renderChart: string;
   @Input() chartOptions: any = {};
+  @Input() customWidth: number;
+  @Input() customHeight: number;
 
   constructor() {}
 
   @HostListener('window:resize', ['$event'])
   onResize(event) {
-    this.doDonutChart(this.chartOptions, this.noTransition);
+    this.doDonutChart(this.chartOptions, this.customWidth, this.customHeight, this.noTransition);
   }
   ngOnInit() {
     this.renderChart = '#' + this.chartOptions.gdata[1];
   }
 
   ngAfterViewInit() {
-    this.doDonutChart(this.chartOptions, this.transition);
+    this.doDonutChart(this.chartOptions, this.customWidth, this.customHeight, this.transition);
   }
 
-  doDonutChart(chartOptions: any, transition: number) {
+  doDonutChart(chartOptions: any, customWidth: number, customHeight: number, transition: number) {
     const preWidth = document.getElementsByClassName(this.chartOptions.gdata[0])[0].clientWidth / 2;
     d3.select(this.renderChart)
       .selectAll('*')
       .remove();
 
     const margin = { top: 10, right: 10, bottom: 10, left: 10 };
-    const width = preWidth - margin.left - margin.right;
-    const height = width - margin.top - margin.bottom;
+    let width = preWidth - margin.left - margin.right;
+    let height = width - margin.top - margin.bottom;
+
+    if (customWidth > 0) {
+      width = customWidth - margin.left - margin.right;
+    }
+
+    if (customHeight > 0) {
+      height = customHeight - margin.left - margin.right;
+    }
 
     const chart = d3
       .select(this.renderChart)
@@ -45,7 +55,7 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
       .append('g')
       .attr('transform', 'translate(' + (width / 2 + margin.left) + ',' + (height / 2 + margin.top) + ')');
 
-    const radius = Math.min(width, height) / 2;
+    const radius = Math.min(width, height) / 2 + 5;
     const donutColor = d3.scaleOrdinal().range(chartOptions.color);
     const circleThickness = 15;
 
@@ -64,14 +74,75 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
         return d.value;
       });
 
+    let heightDivider = 16;
+    if (chartOptions.sdata) {
+      heightDivider = -16;
+    }
+
     const text = chart
       .append('text')
       .attr('text-anchor', 'middle')
-      .attr('y', height / 16)
+      .attr('y', height / heightDivider)
       .style('font-size', '22px')
       .style('font-weight', '600')
-      .style('fill', '#2D2D39')
-      .style('font-family', 'UHCSans-Regular');
+      .style('fill', '#2d2d39')
+      .style('font-family', 'UHCSans-SemiBold');
+
+    if (chartOptions.sdata) {
+      if (chartOptions.sdata.sign === 'up') {
+        chart
+          .append('circle')
+          .attr('cx', width / -8)
+          .attr('cy', height / 6)
+          .attr('r', 16)
+          .attr('fill', '#E1FADF');
+
+        chart
+          .append('svg:image')
+          .attr('x', width / -5)
+          .attr('y', height / 10)
+          .attr('width', '20px')
+          .attr('height', '20px')
+          .attr('xlink:href', 'src/assets/images/trend-up.svg');
+
+        chart
+          .append('text')
+          .attr('x', width / 256)
+          .attr('y', height / 5)
+          .style('font-size', '16px')
+          .style('font-weight', '500')
+          .style('fill', '#007000')
+          .style('font-family', 'UHCSans-Regular')
+          .style('text-anchor', 'start')
+          .text(chartOptions.sdata.data);
+      } else if (chartOptions.sdata.sign === 'down') {
+        chart
+          .append('circle')
+          .attr('cx', width / -8)
+          .attr('cy', height / 6)
+          .attr('r', 16)
+          .attr('fill', '#FFE6F0');
+
+        chart
+          .append('svg:image')
+          .attr('x', width / -5)
+          .attr('y', height / 10)
+          .attr('width', '20px')
+          .attr('height', '20px')
+          .attr('xlink:href', 'src/assets/images/trend-down.svg');
+
+        chart
+          .append('text')
+          .attr('x', width / 256)
+          .attr('y', height / 5)
+          .style('font-size', '16px')
+          .style('font-weight', '500')
+          .style('fill', '#B10C00')
+          .style('font-family', 'UHCSans-Regular')
+          .style('text-anchor', 'start')
+          .text(chartOptions.sdata.data);
+      }
+    }
 
     const donutData = [];
 

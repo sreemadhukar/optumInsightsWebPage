@@ -1,44 +1,21 @@
-<div *ngIf="data != null && data.title != null" class="card-structure">
+<div *ngIf="data != null" class="card-structure">
   <div class="card-inner">
     <app-common-header [title]="data.title"></app-common-header>
-    <div class="card-body">
-      <div *ngIf="data.type == 'donutWithTrend'">
-        <div *ngIf="data.data != null" class="chart-details">
-          card works!
+    <div *ngIf="data.data != null">
+      <div *ngIf="data.type == 'donutWithLabel' || data.type == 'donut'">
+        <app-donut-chart [chartOptions]="data.data"></app-donut-chart>
+        <div *ngIf="data.type == 'donutWithLabel'" class="trend-details">
+          <ul class="list-labels">
+            <li *ngFor="let c of data.besideData.labels; let i = index">{{ c }}</li>
+          </ul>
         </div>
-        <div *ngIf="data.sdata != null" class="trend-details">
-          <div *ngIf="true">
-            <div *ngIf="data.sdata.sign === 'down'">
-              <img class="trend-image trend-image-up" src="/src/assets/images/trend-up.svg" alt="trend down" />
-              <div class="trend-value trend-value-down">
-                {{ data.sdata.data }}
-              </div>
-            </div>
-            <div *ngIf="data.sdata.sign === 'up'">
-              <img class="trend-image trend-image-up" src="/src/assets/images/trend-down.svg" alt="trend up" />
-              <div class="trend-value trend-value-up">
-                {{ data.sdata.data }}
-              </div>
-            </div>
-          </div>
+        <div *ngIf="data.type == 'star' && data.data != null" class="chart-details">
+          <app-star-chart [chartOptions]="data.data"></app-star-chart>
+        </div>
+        <div *ngIf="data.timeperiod">
+          <app-common-footer [timePeriod]="data.timeperiod"></app-common-footer>
         </div>
       </div>
-      <!-- end donutWithTrend-->
-      <div *ngIf="data.type == 'donutBothLabelTrend'">
-        <div *ngIf="data.data != null" class="chart-details">
-          card works!
-        </div>
-        <div *ngIf="true" class="trend-details">
-          <div *ngIf="true">
-            <ul class="list-labels">
-              <li *ngFor="let c of data.data.color; let i = index">Label {{ i + 1 }}</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div *ngIf="data.timeperiod">
-      <app-common-footer [timePeriod]="data.timeperiod"></app-common-footer>
     </div>
   </div>
 </div>
