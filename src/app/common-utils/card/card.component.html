@@ -16,6 +16,9 @@
           <app-common-footer [timePeriod]="data.timeperiod"></app-common-footer>
         </div>
       </div>
+      <div *ngIf="data.type == 'rotateWithLabel'">
+        <app-rotating-arrow-object [chartOptions]="data.data"></app-rotating-arrow-object>
+      </div>
     </div>
   </div>
 </div>
