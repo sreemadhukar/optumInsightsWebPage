@@ -13,4 +13,7 @@ export class CommonHeaderComponent implements OnInit {
   ngOnInit() {
     this.titleHeader = this.title;
   }
+  getMetricDetails(titleHeader) {
+    console.log(titleHeader);
+  }
 }

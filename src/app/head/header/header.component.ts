@@ -9,13 +9,18 @@ import {
   Renderer2,
   ViewEncapsulation,
   ViewChildren,
-  QueryList
+  QueryList,
+  AfterViewInit,
+  Host,
+  HostBinding
 } from '@angular/core';
 import { trigger, state, style, animate, transition } from '@angular/animations';
 import { MatExpansionPanel } from '@angular/material';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
+import { DOCUMENT } from '@angular/platform-browser';
+import { hostElement } from '@angular/core/src/render3/instructions';
 
 @Component({
   selector: 'app-header',
@@ -77,6 +82,7 @@ export class HeaderComponent implements OnInit {
   }
 
   ngOnInit() {}
+
   sidenav() {
     this.sideNavFlag = !this.sideNavFlag;
     this.hamburgerDisplay.emit(this.sideNavFlag);
