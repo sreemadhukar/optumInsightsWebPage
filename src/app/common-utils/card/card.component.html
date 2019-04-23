@@ -1,44 +1,29 @@
-<div *ngIf="data != null && data.title != null" class="card-structure">
+<div *ngIf="chartData != null" class="card-structure">
   <div class="card-inner">
-    <app-common-header [title]="data.title"></app-common-header>
-    <div class="card-body">
-      <div *ngIf="data.type == 'donutWithTrend'">
-        <div *ngIf="data.data != null" class="chart-details">
-          card works!
+    <app-common-header [title]="chartData.title"></app-common-header>
+    <div *ngIf="chartData.data != null">
+      <div *ngIf="chartData.type == 'donutWithLabel'">
+        <div class="chart-details-donut">
+          <app-donut-chart [chartOptions]="chartData.data"></app-donut-chart>
         </div>
-        <div *ngIf="data.sdata != null" class="trend-details">
-          <div *ngIf="true">
-            <div *ngIf="data.sdata.sign === 'down'">
-              <img class="trend-image trend-image-up" src="/src/assets/images/trend-up.svg" alt="trend down" />
-              <div class="trend-value trend-value-down">
-                {{ data.sdata.data }}
-              </div>
-            </div>
-            <div *ngIf="data.sdata.sign === 'up'">
-              <img class="trend-image trend-image-up" src="/src/assets/images/trend-down.svg" alt="trend up" />
-              <div class="trend-value trend-value-up">
-                {{ data.sdata.data }}
-              </div>
-            </div>
-          </div>
+        <div *ngIf="chartData.type == 'donutWithLabel'">
+          <ul class="list-labels">
+            <li *ngFor="let c of chartData.besideData.labels; let i = index">{{ c }}</li>
+          </ul>
+        </div>
+        <div *ngIf="chartData.type == 'star' && chartData.data != null" class="chart-details">
+          <app-star-chart [chartOptions]="chartData.data"></app-star-chart>
+        </div>
+        <div *ngIf="chartData.timeperiod">
+          <app-common-footer [timePeriod]="chartData.timeperiod"></app-common-footer>
         </div>
       </div>
-      <!-- end donutWithTrend-->
-      <div *ngIf="data.type == 'donutBothLabelTrend'">
-        <div *ngIf="data.data != null" class="chart-details">
-          card works!
-        </div>
-        <div *ngIf="true" class="trend-details">
-          <div *ngIf="true">
-            <ul class="list-labels">
-              <li *ngFor="let c of data.data.color; let i = index">Label {{ i + 1 }}</li>
-            </ul>
-          </div>
-        </div>
+      <div *ngIf="chartData.type == 'rotateWithLabel'">
+        Rotate
       </div>
-    </div>
-    <div *ngIf="data.timeperiod">
-      <app-common-footer [timePeriod]="data.timeperiod"></app-common-footer>
+      <div *ngIf="chartData.type == 'donut'">
+        <app-donut-chart [chartOptions]="chartData.data"></app-donut-chart>
+      </div>
     </div>
   </div>
 </div>
