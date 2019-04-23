@@ -10,30 +10,32 @@ import * as d3 from 'd3';
 export class RotatingArrowObjectComponent implements OnInit, AfterViewInit {
   public renderChart: string;
   @Input() chartOptions: any = {};
+  @Input() customWidth: number;
+  @Input() customHeight: number;
 
   constructor() {}
 
   @HostListener('window:resize', ['$event'])
   onResize(event) {
-    this.doRotatingArrowChart(this.chartOptions);
+    this.doRotatingArrowChart(this.chartOptions, this.customWidth, this.customHeight);
   }
   ngOnInit() {
     this.renderChart = '#' + this.chartOptions.gdata[1];
   }
 
   ngAfterViewInit() {
-    this.doRotatingArrowChart(this.chartOptions);
+    this.doRotatingArrowChart(this.chartOptions, this.customWidth, this.customHeight);
   }
 
-  doRotatingArrowChart(chartOptions: any) {
+  doRotatingArrowChart(chartOptions: any, customWidth: number, customHeight: number) {
     const preWidth = document.getElementsByClassName(this.chartOptions.gdata[0])[0].clientWidth / 3;
     d3.select(this.renderChart)
       .selectAll('*')
       .remove();
 
     const margin = { top: 10, right: 10, bottom: 10, left: 10 };
-    const width = preWidth - margin.left - margin.right;
-    const height = width - margin.top - margin.bottom;
+    let width = preWidth - margin.left - margin.right;
+    let height = width - margin.top - margin.bottom;
 
     const chart = d3
       .select(this.renderChart)
@@ -42,6 +44,14 @@ export class RotatingArrowObjectComponent implements OnInit, AfterViewInit {
       .attr('height', height + margin.top + margin.bottom)
       .append('g')
       .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
+
+    if (customWidth > 0) {
+      width = customWidth - margin.left - margin.right;
+    }
+
+    if (customHeight > 0) {
+      height = customHeight - margin.left - margin.right;
+    }
 
     chart
       .append('path')
