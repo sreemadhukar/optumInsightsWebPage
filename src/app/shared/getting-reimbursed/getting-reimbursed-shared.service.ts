@@ -62,7 +62,7 @@ export class GettingReimbursedSharedService {
           ) {
             claimsSubmitted = {
               category: 'app-card',
-              type: 'donut',
+              type: 'donutWithLabel',
               title: 'Total Claims Submitted',
               data: {
                 graphValues: [
@@ -78,14 +78,14 @@ export class GettingReimbursedSharedService {
                 }
               },
               besideData: {
-                titles: ['Paid', 'Not Paid'],
+                labels: ['Paid', 'Not Paid'],
                 color: ['#3381FF', '#80B0FF']
               },
               timeperiod: this.timeFrame
             };
             claimsTAT = {
               category: 'app-card',
-              type: 'donut',
+              type: 'rotateWithLabel',
               title: 'Claims Average Turnaround Time to Payment',
               data: {
                 centerNumber: '24 Days',
@@ -97,7 +97,7 @@ export class GettingReimbursedSharedService {
                 }
               },
               besideData: {
-                titles: ['6 Days', '18 Days'],
+                values: ['6 Days', '18 Days'],
                 labels: ['DOS to Received', 'Received to Paid']
               },
               timeperiod: this.timeFrame
@@ -105,7 +105,7 @@ export class GettingReimbursedSharedService {
           } else {
             claimsSubmitted = {
               category: 'app-card',
-              type: 'donut',
+              type: 'donutWithLabel',
               title: null,
               data: null,
               besideData: null,
@@ -113,7 +113,7 @@ export class GettingReimbursedSharedService {
             };
             claimsTAT = {
               category: 'app-card',
-              type: 'donut',
+              type: 'rotateWithLabel',
               title: 'Claims Average Turnaround Time to Payment',
               data: {
                 centerNumber: '24 Days',
@@ -125,7 +125,7 @@ export class GettingReimbursedSharedService {
                 }
               },
               besideData: {
-                titles: ['6 Days', '18 Days'],
+                values: ['6 Days', '18 Days'],
                 labels: ['DOS to Received', 'Received to Paid']
               },
               timeperiod: this.timeFrame
@@ -156,7 +156,7 @@ export class GettingReimbursedSharedService {
             ];
             claimsPaid = {
               category: 'app-card',
-              type: 'donut',
+              type: 'donutWithLabel',
               title: 'Claims Paid',
               data: {
                 graphValues: paidData,
@@ -169,7 +169,7 @@ export class GettingReimbursedSharedService {
                 }
               },
               besideData: {
-                titles: ['Medicare & Retirement', 'Community & State', 'Employer & Individual'],
+                labels: ['Medicare & Retirement', 'Community & State', 'Employer & Individual'],
                 color: ['#3381FF', '#80B0FF', '#003DA1']
               },
               timeperiod: this.timeFrame
@@ -177,7 +177,7 @@ export class GettingReimbursedSharedService {
           } else {
             claimsPaid = {
               category: 'app-card',
-              type: 'donut',
+              type: 'donutWithLabel',
               title: null,
               data: null,
               besideData: null,
@@ -210,7 +210,7 @@ export class GettingReimbursedSharedService {
             ];
             claimsNotPaid = {
               category: 'app-card',
-              type: 'donut',
+              type: 'donutWithLabel',
               title: 'Claims Not Paid',
               data: {
                 graphValues: nonPaidData,
@@ -223,7 +223,7 @@ export class GettingReimbursedSharedService {
                 }
               },
               besideData: {
-                titles: ['Medicare & Retirement', 'Community & State', 'Employer & Individual'],
+                labels: ['Medicare & Retirement', 'Community & State', 'Employer & Individual'],
                 color: ['#3381FF', '#80B0FF', '#003DA1']
               },
               timeperiod: this.timeFrame
@@ -231,7 +231,7 @@ export class GettingReimbursedSharedService {
           } else {
             claimsNotPaid = {
               category: 'app-card',
-              type: 'donut',
+              type: 'donutWithLabel',
               title: null,
               data: null,
               besideData: null,
@@ -316,7 +316,7 @@ export class GettingReimbursedSharedService {
             ];
             appealsSubmitted = {
               category: 'app-card',
-              type: 'donut',
+              type: 'donutWithLabelBottom',
               title: 'Claims Appeals Submitted',
               data: {
                 graphValues: submittedData,
@@ -331,7 +331,7 @@ export class GettingReimbursedSharedService {
                 }
               },
               besideData: {
-                titles: ['Medicare & Retirement', 'Community & State', 'Employer & Individual'],
+                labels: ['Medicare & Retirement', 'Community & State', 'Employer & Individual'],
                 color: ['#3381FF', '#80B0FF', '#003DA1']
               },
               bottomData: {
@@ -339,14 +339,14 @@ export class GettingReimbursedSharedService {
                   appealsData.LineOfBusiness[lobData].AdminAppeals,
                   appealsData.LineOfBusiness[lobData].ClinicalAppeals
                 ],
-                titles: ['Admin', 'Clinical']
+                labels: ['Admin', 'Clinical']
               },
               timeperiod: this.timeFrame
             };
           } else {
             appealsSubmitted = {
               category: 'app-card',
-              type: 'donut',
+              type: 'donutWithLabelBottom',
               title: null,
               data: null,
               besideData: null,
