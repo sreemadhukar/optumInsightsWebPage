@@ -1,16 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef, Renderer2, AfterViewInit } from '@angular/core';
 
 @Component({
   selector: 'app-getting-reimbursed',
   templateUrl: './getting-reimbursed.component.html',
   styleUrls: ['./getting-reimbursed.component.scss']
 })
-export class GettingReimbursedComponent implements OnInit {
+export class GettingReimbursedComponent implements OnInit, AfterViewInit {
   summaryItems: Array<Object> = [{}];
   pageTitle: String = '';
   pagesubTitle: String = '';
   userName: String = '';
-  constructor() {
+  constructor(private elementRef: ElementRef, private renderer: Renderer2) {
     this.pagesubTitle = 'Claim Submissions';
   }
 
@@ -50,5 +50,12 @@ export class GettingReimbursedComponent implements OnInit {
         timeperiod: 'Rolling 12 Months'
       }
     ];
+  }
+
+  public ngAfterViewInit(): void {
+    const listItems = this.elementRef.nativeElement.querySelectorAll('.mat-tab-label') as HTMLElement[];
+    Array.from(listItems).forEach(listItem => {
+      this.renderer.setStyle(listItem, 'height', 'auto !important');
+    });
   }
 }

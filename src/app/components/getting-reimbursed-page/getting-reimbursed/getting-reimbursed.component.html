@@ -6,6 +6,19 @@
     <div class="page-subtitle">
       {{ pagesubTitle }}
     </div>
+    <!-- <mat-tab-group animationDuration="0ms">
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <h3>Sybmissions</h3>
+          <p>160K +8%</p>
+        </ng-template>
+        Content 1
+      </mat-tab>
+      <mat-tab label="Payments">Content 2</mat-tab>
+      <mat-tab label="Non-Payments">Content 3</mat-tab>
+      <mat-tab label="Appeals">Content 4</mat-tab>
+    </mat-tab-group>-->
+
     <div *ngFor="let item of summaryItems; let i = index">
       <app-card *ngIf="item.data != null" class="cards" [data]="item"> </app-card>
     </div>
