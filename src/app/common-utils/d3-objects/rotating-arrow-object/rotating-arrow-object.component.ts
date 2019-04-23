@@ -18,7 +18,7 @@ export class RotatingArrowObjectComponent implements OnInit, AfterViewInit {
     this.doRotatingArrowChart(this.chartOptions);
   }
   ngOnInit() {
-    this.renderChart = '#' + 'lol';
+    this.renderChart = '#' + this.chartOptions.gdata[1];
   }
 
   ngAfterViewInit() {
@@ -26,7 +26,7 @@ export class RotatingArrowObjectComponent implements OnInit, AfterViewInit {
   }
 
   doRotatingArrowChart(chartOptions: any) {
-    const preWidth = document.getElementsByClassName('card-inner-large')[0].clientWidth / 3;
+    const preWidth = document.getElementsByClassName(this.chartOptions.gdata[0])[0].clientWidth / 3;
     d3.select(this.renderChart)
       .selectAll('*')
       .remove();
