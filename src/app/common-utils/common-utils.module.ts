@@ -11,6 +11,7 @@ import { StarChartComponent } from './d3-objects/star-chart/star-chart.component
 import { BarChartComponent } from './d3-objects/bar-chart/bar-chart.component';
 import { HeadMaterialModule } from '../head/head.material.module';
 import { LargeCardComponent } from './large-card/large-card.component';
+import { RotatingArrowObjectComponent } from './d3-objects/rotating-arrow-object/rotating-arrow-object.component';
 
 @NgModule({
   imports: [CommonModule, HeadMaterialModule],
@@ -33,7 +34,8 @@ import { LargeCardComponent } from './large-card/large-card.component';
     DonutChartComponent,
     StarChartComponent,
     BarChartComponent,
-    LargeCardComponent
+    LargeCardComponent,
+    RotatingArrowObjectComponent
   ]
 })
 export class CommonUtilsModule {}
