@@ -38,6 +38,7 @@ export class OverviewSharedService {
         parameters = [this.providerKey, true];
       }
       this.overviewService.getOverviewData(...parameters).subscribe(([providerSystems, claims]) => {
+        console.log(providerSystems);
         if (providerSystems.hasOwnProperty('status')) {
           cPriorAuth = {
             category: 'small-card',

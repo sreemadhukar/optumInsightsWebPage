@@ -10,6 +10,8 @@ import { DonutChartComponent } from './d3-objects/donut-chart/donut-chart.compon
 import { StarChartComponent } from './d3-objects/star-chart/star-chart.component';
 import { BarChartComponent } from './d3-objects/bar-chart/bar-chart.component';
 import { HeadMaterialModule } from '../head/head.material.module';
+import { LargeCardComponent } from './large-card/large-card.component';
+import { RotatingArrowObjectComponent } from './d3-objects/rotating-arrow-object/rotating-arrow-object.component';
 
 @NgModule({
   imports: [CommonModule, HeadMaterialModule],
@@ -19,7 +21,8 @@ import { HeadMaterialModule } from '../head/head.material.module';
     CommonFooterComponent,
     CommonHeaderComponent,
     SmallCardComponent,
-    BarChartComponent
+    BarChartComponent,
+    LargeCardComponent
   ],
   declarations: [
     MiniTileComponent,
@@ -30,7 +33,9 @@ import { HeadMaterialModule } from '../head/head.material.module';
     MiniBarChartComponent,
     DonutChartComponent,
     StarChartComponent,
-    BarChartComponent
+    BarChartComponent,
+    LargeCardComponent,
+    RotatingArrowObjectComponent
   ]
 })
 export class CommonUtilsModule {}
