@@ -9,9 +9,11 @@ import { DomSanitizer } from '@angular/platform-browser';
 })
 export class CardComponent implements OnInit {
   @Input() chartData;
-
+  heightDonut: Number = 234;
+  widthDonut: Number = 234;
   constructor(private iconRegistry: MatIconRegistry, sanitizer: DomSanitizer) {
     /** INITIALIZING SVG ICONS TO USE IN DESIGN - ANGULAR MATERIAL */
+
     iconRegistry.addSvgIcon(
       'help',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-help_outline-24px.svg')
