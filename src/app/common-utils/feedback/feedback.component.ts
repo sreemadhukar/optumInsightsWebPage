@@ -1,5 +1,5 @@
 import { Component, OnInit, AfterViewInit, Inject, ElementRef } from '@angular/core';
-import { DOCUMENT } from '@angular/platform-browser';
+import { DOCUMENT } from '@angular/common';
 
 @Component({
   selector: 'app-feedback',
