@@ -71,7 +71,7 @@ export class GettingReimbursedSharedService {
                 ],
                 centerNumber: this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].ClaimsSubmitted),
                 color: ['#3381FF', '#80B0FF'],
-                gdata: ['card-inner', 'priorAuthCardD3Donut'],
+                gdata: ['card-inner', 'totalClaimsSubmitted'],
                 sdata: {
                   sign: 'up',
                   data: '+8%'
@@ -90,7 +90,7 @@ export class GettingReimbursedSharedService {
               data: {
                 centerNumber: '24 Days',
                 color: ['#3381FF', '#3381FF'],
-                gdata: ['card-inner', 'priorAuthCardD3Donut'],
+                gdata: ['card-inner', 'claimsTurnAroundTime'],
                 sdata: {
                   sign: 'down',
                   data: '-1.2%'
@@ -118,7 +118,7 @@ export class GettingReimbursedSharedService {
               data: {
                 centerNumber: '24 Days',
                 color: ['#3381FF', '#3381FF'],
-                gdata: ['card-inner', 'priorAuthCardD3Donut'],
+                gdata: ['card-inner', 'claimsTurnAroundTime'],
                 sdata: {
                   sign: 'down',
                   data: '-1.2%'
@@ -162,7 +162,7 @@ export class GettingReimbursedSharedService {
                 graphValues: paidData,
                 centerNumber: this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].ClaimsPaid),
                 color: ['#3381FF', '#80B0FF', '#003DA1'],
-                gdata: ['card-inner', 'priorAuthCardD3Donut'],
+                gdata: ['card-inner', 'claimsPaid'],
                 sdata: {
                   sign: 'down',
                   data: '-2.8%'
@@ -216,7 +216,7 @@ export class GettingReimbursedSharedService {
                 graphValues: nonPaidData,
                 centerNumber: this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].ClaimsDenied),
                 color: ['#3381FF', '#80B0FF', '#003DA1'],
-                gdata: ['card-inner', 'priorAuthCardD3Donut'],
+                gdata: ['card-inner', 'claimsNotPaid'],
                 sdata: {
                   sign: 'down',
                   data: '-10.2%'
@@ -258,7 +258,7 @@ export class GettingReimbursedSharedService {
                 graphValues: [denialRate, yieldRate],
                 centerNumber: denialRate + '%',
                 color: ['#3381FF', '#F5F5F5'],
-                gdata: ['card-inner', 'priorAuthCardD3Donut'],
+                gdata: ['card-inner', 'claimsNonPaymentRate'],
                 sdata: {
                   sign: 'up',
                   data: '+3.7%'
@@ -274,7 +274,7 @@ export class GettingReimbursedSharedService {
                 graphValues: [yieldRate, denialRate],
                 centerNumber: yieldRate + '%',
                 color: ['#3381FF', '#F5F5F5'],
-                gdata: ['card-inner', 'priorAuthCardD3Donut'],
+                gdata: ['card-inner', 'claimsYield'],
                 sdata: {
                   sign: 'up',
                   data: '+5.3%'
@@ -324,7 +324,7 @@ export class GettingReimbursedSharedService {
                   appealsData.LineOfBusiness[lobData].AdminAppeals +
                   appealsData.LineOfBusiness[lobData].ClinicalAppeals,
                 color: ['#3381FF', '#80B0FF', '#003DA1'],
-                gdata: ['card-inner', 'priorAuthCardD3Donut'],
+                gdata: ['card-inner', 'claimsAppeal'],
                 sdata: {
                   sign: 'up',
                   data: '+4%'
@@ -371,7 +371,7 @@ export class GettingReimbursedSharedService {
                 graphValues: overturnedData,
                 centerNumber: appealsData.LineOfBusiness[lobFullData].OverTurnCount,
                 color: ['#3381FF', '#F5F5F5'],
-                gdata: ['card-inner', 'priorAuthCardD3Donut'],
+                gdata: ['card-inner', 'claimsAppealOverturned'],
                 sdata: {
                   sign: 'up',
                   data: '+2.3%'

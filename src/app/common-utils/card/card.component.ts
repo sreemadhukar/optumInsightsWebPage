@@ -9,6 +9,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 })
 export class CardComponent implements OnInit {
   @Input() chartData;
+
   constructor(private iconRegistry: MatIconRegistry, sanitizer: DomSanitizer) {
     /** INITIALIZING SVG ICONS TO USE IN DESIGN - ANGULAR MATERIAL */
     iconRegistry.addSvgIcon(
@@ -18,6 +19,6 @@ export class CardComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this.chartData);
+    console.log('ChartData', this.chartData);
   }
 }
