@@ -77,6 +77,7 @@ export class HeaderComponent implements OnInit {
   }
 
   ngOnInit() {}
+
   sidenav() {
     this.sideNavFlag = !this.sideNavFlag;
     this.hamburgerDisplay.emit(this.sideNavFlag);

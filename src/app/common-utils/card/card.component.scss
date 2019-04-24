@@ -3,7 +3,7 @@
   position: relative;
 }
 .card-inner {
-  background-color: #ffffff;
+  background-color: $white;
   width: 468px;
   height: 356px;
   margin: 10px;
@@ -13,7 +13,7 @@
   .chart-details-donut {
     width: 50%;
     float: left;
-    padding-left: 30px;
+    padding-left: 15px;
     padding-top: 10px;
   }
   .chart-details {
@@ -24,9 +24,10 @@
   }
 
   /* Css for Labels*/
+
   ul.list-labels > li {
     display: block;
-    color: #2d2d39;
+    color: $neutral-5;
     font-family: 'UHCSans-Regular';
     font-size: 14px;
     font-weight: 500;
