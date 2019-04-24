@@ -110,23 +110,23 @@ export class RotatingArrowObjectComponent implements OnInit, AfterViewInit {
       if (chartOptions.sdata.sign === 'up') {
         chart
           .append('circle')
-          .attr('cx', width / 4)
-          .attr('cy', height / 3)
+          .attr('cx', width / 3)
+          .attr('cy', height / 2)
           .attr('r', 16)
           .attr('fill', '#FFE6F0');
 
         chart
           .append('svg:image')
-          .attr('x', width / 4.5)
-          .attr('y', height / 3.25)
+          .attr('x', width / 3.325)
+          .attr('y', height / 2.175)
           .attr('width', '20px')
           .attr('height', '20px')
           .attr('xlink:href', 'src/assets/images/trend-up.svg');
 
         chart
           .append('text')
-          .attr('x', width / 3.25)
-          .attr('y', height / 2.875)
+          .attr('x', width / 2.25)
+          .attr('y', height / 1.925)
           .style('font-size', '16px')
           .style('font-weight', '500')
           .style('fill', '#B10C00')
@@ -143,16 +143,16 @@ export class RotatingArrowObjectComponent implements OnInit, AfterViewInit {
 
         chart
           .append('svg:image')
-          .attr('x', width / 3)
-          .attr('y', height / 2)
+          .attr('x', width / 3.325)
+          .attr('y', height / 2.175)
           .attr('width', '20px')
           .attr('height', '20px')
           .attr('xlink:href', 'src/assets/images/trend-down.svg');
 
         chart
           .append('text')
-          .attr('x', width / 2)
-          .attr('y', height / 2)
+          .attr('x', width / 2.25)
+          .attr('y', height / 1.925)
           .style('font-size', '16px')
           .style('font-weight', '500')
           .style('fill', '#007000')
