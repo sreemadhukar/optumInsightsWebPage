@@ -1,14 +1,16 @@
-<div class="overview-body">
-  <div class="overview-content">
-    <app-breadcrumbs></app-breadcrumbs>
-    <div class="page-title">
-      {{ pageTitle }}
+<app-feedback></app-feedback>
+<div class="gettingReimburse-body">
+  <div class="gettingReimburse-content">
+    <div class="cards cust-width-title">
+      <app-breadcrumbs></app-breadcrumbs>
+      <div class="page-title">{{ pageTitle }}</div>
+      <button *ngFor="let option of tabOptions; let i = index" (click)="matOptionClicked(i)">{{ option }}</button>
+      <div class="page-subtitle">{{ currentTabTitle }}</div>
     </div>
-    <div class="page-subtitle">
-      {{ pagesubTitle }}
-    </div>
-    <div *ngFor="let item of summaryItems; let i = index">
-      <app-card *ngIf="item.data != null" class="cards" [data]="item"> </app-card>
+    <div class="cards cust-width-blank"></div>
+    <div class="height1Separator"></div>
+    <div *ngFor="let item of currentSummary">
+      <app-card *ngIf="item.data != null" class="cards" [chartData]="item"> </app-card>
     </div>
   </div>
 </div>

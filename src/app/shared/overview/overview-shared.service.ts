@@ -9,8 +9,6 @@ import { SessionService } from '../session.service';
 })
 export class OverviewSharedService {
   private overviewPageData: Array<object> = [];
-  private tin: string;
-  private lob: string;
   private timeFrame: string;
   private providerKey: number;
   constructor(
@@ -20,8 +18,6 @@ export class OverviewSharedService {
   ) {}
 
   public getOverviewData() {
-    this.tin = this.session.tin;
-    this.lob = this.session.lob;
     this.timeFrame = this.session.timeFrame;
     this.providerKey = this.session.providerkey;
     return new Promise(resolve => {
@@ -35,6 +31,9 @@ export class OverviewSharedService {
       const oppurtunities: Array<object> = [];
       const tempArray: Array<object> = [];
       if (this.timeFrame === 'Rolling 12 Months') {
+        parameters = [this.providerKey, true];
+      } else {
+        this.session.timeFrame = this.timeFrame = 'Rolling 12 Months';
         parameters = [this.providerKey, true];
       }
       this.overviewService.getOverviewData(...parameters).subscribe(([providerSystems, claims]) => {
