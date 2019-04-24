@@ -16,12 +16,27 @@
             <li *ngFor="let c of chartData.besideData.labels; let i = index">{{ c }}</li>
           </ul>
         </div>
-        <div *ngIf="chartData.type == 'star' && chartData.data != null" class="chart-details">
-          <app-star-chart [chartOptions]="chartData.data"></app-star-chart>
+        <div *ngIf="chartData.timeperiod">
+          <app-common-footer [timePeriod]="chartData.timeperiod"></app-common-footer>
+        </div>
+      </div>
+
+      <div *ngIf="chartData.type === 'donutWithLabelBottom'">
+        <div class="chart-details-donut">
+          <app-donut-chart [donutType]="'app-card'" [chartOptions]="chartData.data"></app-donut-chart>
+        </div>
+        <div *ngIf="chartData.type === 'donutWithLabelBottom'">
+          <ul class="list-labels">
+            <li *ngFor="let c of chartData.besideData.labels; let i = index">{{ c }}</li>
+          </ul>
         </div>
         <div *ngIf="chartData.timeperiod">
           <app-common-footer [timePeriod]="chartData.timeperiod"></app-common-footer>
         </div>
+      </div>
+
+      <div *ngIf="chartData.type == 'star' && chartData.data != null" class="chart-details">
+        <app-star-chart [chartOptions]="chartData.data"></app-star-chart>
       </div>
       <div *ngIf="chartData.type == 'rotateWithLabel'">
         <div class="rotating-arrow-object">

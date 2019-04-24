@@ -28,16 +28,11 @@
         line-height: 75px;
       }
 
-      .page-subtitle {
-        flex-basis: 100%;
-        font-size: 28px;
-        line-height: 50px;
-      }
-
       .cust-width-title {
-        width: 450px;
+        width: 100%;
         font-family: 'UHCSans-SemiBold', 'Arial';
         color: $neutral-5;
+        margin-left: 10px;
 
         .page-title {
           flex-basis: 100%;
@@ -45,73 +40,64 @@
           line-height: 75px;
         }
 
-        .page-question {
+        .page-subtitle {
           flex-basis: 100%;
-          font-size: 22px;
+          font-size: 28px;
           line-height: 50px;
         }
-      }
-    }
-  }
-}
 
-.container--tabs {
-  margin: 2rem;
+        /* tabs css starts here*/
+        .container--tabs {
+          .nav-tabs {
+            float: left;
+            width: 100%;
+            margin: 0;
+            border: 1px solid #e0e0e0;
+            border-radius: 2px;
+            list-style-type: none;
 
-  .nav-tabs {
-    float: left;
-    width: 100%;
-    margin: 0;
-    list-style-type: none;
-    border-bottom: 1px solid #ddd;
+            > li {
+              float: left;
+              margin-bottom: -1px;
+              > span {
+                float: left;
+                font-size: 16px;
+                font-weight: 600;
+                letter-spacing: 0.2px;
+                color: #757588;
+                text-decoration: none;
+                margin-right: 2px;
+                line-height: 1.42857143;
+                background-color: $white;
+                border: 1px solid transparent;
+                border-radius: 4px 4px 0 0;
+                padding: 20px 160px 20px 25px;
+                border-color: #eee #eee #ddd;
+                &:hover {
+                  border-color: #eee #eee #ddd;
+                }
+              }
 
-    > li {
-      float: left;
-      margin-bottom: -1px;
-
-      > a {
-        float: left;
-        margin-right: 2px;
-        line-height: 1.42857143;
-        padding: 10px;
-        border: 1px solid transparent;
-        border-radius: 4px 4px 0 0;
-
-        &:hover {
-          border-color: #eee #eee #ddd;
+              &.active {
+                > span,
+                > span:hover,
+                > span:focus {
+                  color: #757588;
+                  padding: 20px 160px 20px 25px;
+                  cursor: pointer;
+                  background-color: mat-color($accent);
+                  border: 1px solid #ddd;
+                  border-top: 4px solid #196ecf;
+                  border-radius: 2px 2px 0 0;
+                  border-bottom-color: transparent;
+                  text-decoration: none;
+                }
+              }
+            }
+          }
         }
-      }
-
-      &.active {
-        > a,
-        > a:hover,
-        > a:focus {
-          color: #555;
-          cursor: default;
-          background-color: #fff;
-          border: 1px solid #ddd;
-          border-bottom-color: transparent;
-        }
-      }
-    }
-  }
-
-  .tab-content {
-    float: left;
-    width: 100%;
-
-    > .tab-pane {
-      display: none;
-
-      &.active {
-        display: block;
-        padding: 2.5% 3.5%;
-        background-color: #efefef;
-      }
-    }
-
-    > .active {
-      display: block;
+        /* ends tabs css ends here*/
+      } /* end cust-width title heirarchy*/
     }
   }
 }
