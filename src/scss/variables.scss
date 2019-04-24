@@ -1,6 +1,6 @@
 /**------------------------- **\
             @Variables
-            Created by Sri laxmi
+            Author: Sri laxmi
 \**------------------------- **/
 
 /*Primary UI Brand Colors*/
@@ -50,16 +50,6 @@ $link-hover-color: $neutral-4 !default;
 $link-hover-decoration: underline !default;
 $btn-color-hover: #003da1;
 $btn-bg-color: #f2f2f2;
-$colors: () !default;
-$colors: map-merge(
-  (
-    'aqua': $aqua,
-    'blue': $blue,
-    'green': $green,
-    'white': $white
-  ),
-  $colors
-);
 
 /*Data Visualization Colors*/
 $DV-colors-list: #3381ff #80b0ff #003da1 #00b8cc #8e6edd;
@@ -72,6 +62,7 @@ $text-color: $white;
   }
 }
 /*If you want to use above colors use .data-1,.data-2,.data-3,.data-4,.data-5 as class name*/
+
 /**------------------------- **\
   Secondary Marketing Colors
 \**------------------------- **/
@@ -130,22 +121,13 @@ $SMCpalette: (
 
 /*To access Secondary Marketing Colors values*/
 @function color($color, $tone) {
-  @warn map-get($SMCpalette,$color);
-
   @if map-has-key($SMCpalette, $color) {
     $color: map-get($SMCpalette, $color);
-
     @if map-has-key($color, $tone) {
       $tone: map-get($color, $tone);
       @return $tone;
     }
-
-    @warn "unknown tone `#{$tone}` in color";
-    @return null;
   }
-
-  @warn "unknown color `#{$color}` in palette";
-  @return null;
 }
 // Components
 //
@@ -164,8 +146,8 @@ $border-radius: 0.125rem !default;
 // Font, line-height, and color for body text, headings, and more.
 
 // stylelint-disable value-keyword-case
-$font-family-sans-serif: UHCSans-Regular, Arial, sans-serif !default;
-$font-family-base: $font-family-sans-serif !default;
+$font-family-UHC: UHCSans-Regular, Arial, sans-serif !default;
+$font-family-base: $font-family-UHC !default;
 // stylelint-enable value-keyword-case
 
 $font-size-base: 1rem !default; // Assumes the browser default, typically `16px`
