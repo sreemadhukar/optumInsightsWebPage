@@ -1,49 +1,55 @@
 @import '~src/scss/variables.scss';
 @import '~src/scss/mixins';
+@import '~src/scss/my-custom-theme';
+@mixin sidenav-theme($theme) {
+  $accent: map-get($theme, accent);
+  $background: map-get($theme, background);
+  $background-color: mat-color($background);
+  .gettingReimburse-body {
+    @include mat-elevation(2);
+    background-color: mat-color($accent);
+    overflow-x: hidden;
+    @include padding(30px, 30px, 30px, 30px);
 
-.gettingReimburse-body {
-  background-color: $aqua;
-  overflow-x: hidden;
-  @include padding(30px, 30px, 30px, 30px);
+    .gettingReimburse-content {
+      display: flex;
+      flex-wrap: wrap;
 
-  .gettingReimburse-content {
-    display: flex;
-    flex-wrap: wrap;
+      .height1Separator {
+        height: 0;
+        width: 1200px;
+      }
+      .cust-width-blank {
+        width: 502px;
+      }
 
-    .height1Separator {
-      height: 0;
-      width: 1200px;
-    }
-    .cust-width-blank {
-      width: 502px;
-    }
-
-    & > .cards {
-      text-align: left;
-      line-height: 75px;
-    }
-
-    .page-subtitle {
-      flex-basis: 100%;
-      font-size: 28px;
-      line-height: 50px;
-    }
-
-    .cust-width-title {
-      width: 450px;
-      font-family: 'UHCSans-SemiBold', 'Arial';
-      color: $neutral-5;
-
-      .page-title {
-        flex-basis: 100%;
-        font-size: 36px;
+      & > .cards {
+        text-align: left;
         line-height: 75px;
       }
 
-      .page-question {
+      .page-subtitle {
         flex-basis: 100%;
-        font-size: 22px;
+        font-size: 28px;
         line-height: 50px;
+      }
+
+      .cust-width-title {
+        width: 450px;
+        font-family: 'UHCSans-SemiBold', 'Arial';
+        color: $neutral-5;
+
+        .page-title {
+          flex-basis: 100%;
+          font-size: 36px;
+          line-height: 75px;
+        }
+
+        .page-question {
+          flex-basis: 100%;
+          font-size: 22px;
+          line-height: 50px;
+        }
       }
     }
   }

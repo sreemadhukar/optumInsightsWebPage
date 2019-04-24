@@ -13,6 +13,7 @@ import { PipesModule } from './pipes/pipes.module';
 import { AuthModule } from './auth/auth.module';
 import { ProviderService } from './rest/provider/provider.service';
 import { ProviderSharedService } from './shared/provider/provider-shared.service';
+import { ThemeService } from './shared/theme.service';
 
 @NgModule({
   declarations: [AppComponent],
@@ -28,7 +29,7 @@ import { ProviderSharedService } from './shared/provider/provider-shared.service
     PipesModule,
     AuthModule
   ],
-  providers: [ProviderService, ProviderSharedService],
+  providers: [ProviderService, ProviderSharedService, ThemeService],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

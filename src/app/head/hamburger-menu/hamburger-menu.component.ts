@@ -6,6 +6,7 @@
 import {
   Component,
   AfterViewInit,
+  OnInit,
   HostListener,
   ElementRef,
   Renderer2,
@@ -19,15 +20,17 @@ import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router, NavigationStart } from '@angular/router';
 import { AuthenticationService } from '../../auth/_service/authentication.service';
-
+import { ThemeService } from '../../shared/theme.service';
+import { Observable } from 'rxjs';
 @Component({
   selector: 'app-hamburger-menu',
   templateUrl: './hamburger-menu.component.html',
   styleUrls: ['./hamburger-menu.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class HamburgerMenuComponent implements AfterViewInit {
+export class HamburgerMenuComponent implements AfterViewInit, OnInit {
   _allExpandState = false;
+  isDarkTheme: Observable<boolean>;
   @ViewChildren(MatExpansionPanel) viewPanels: QueryList<MatExpansionPanel>;
   public healthSystemName = 'Novant Health System';
   public makeAbsolute: boolean;
@@ -72,7 +75,8 @@ export class HamburgerMenuComponent implements AfterViewInit {
     private iconRegistry: MatIconRegistry,
     private router: Router,
     private authService: AuthenticationService,
-    sanitizer: DomSanitizer
+    sanitizer: DomSanitizer,
+    private themeService: ThemeService
   ) {
     // to disable the header/footer/body when not authenticated
     router.events.subscribe(event => {
@@ -104,6 +108,9 @@ export class HamburgerMenuComponent implements AfterViewInit {
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-input-24px.svg')
     );
   }
+  ngOnInit() {
+    this.isDarkTheme = this.themeService.isDarkTheme;
+  }
 
   /*** used to apply the CSS for dynamically generated elements ***/
   public ngAfterViewInit(): void {
@@ -126,6 +133,10 @@ export class HamburgerMenuComponent implements AfterViewInit {
   hamburgerDisplay(input: boolean) {
     this.sideNavFlag = input;
     console.log(input);
+  }
+
+  toggleDarkTheme(isDarkTheme: boolean) {
+    this.themeService.setDarkTheme(isDarkTheme);
   }
   /** FUNCTIONS TO COLLAPSE LEFT MENU **/
   collapseExpansionPanels(id) {
