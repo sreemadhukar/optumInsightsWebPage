@@ -32,13 +32,11 @@ export class OverviewSharedService {
       const tempArray: Array<object> = [];
       if (this.timeFrame === 'Rolling 12 Months') {
         parameters = [this.providerKey, true];
+      } else {
+        this.session.timeFrame = this.timeFrame = 'Rolling 12 Months';
+        parameters = [this.providerKey, true];
       }
-      // else {
-      //   this.session.timeFrame = this.timeFrame = 'Rolling 12 Months';
-      //   parameters = [this.providerKey, true];
-      // }
       this.overviewService.getOverviewData(...parameters).subscribe(([providerSystems, claims]) => {
-        console.log(providerSystems);
         if (providerSystems.hasOwnProperty('status')) {
           cPriorAuth = {
             category: 'small-card',
