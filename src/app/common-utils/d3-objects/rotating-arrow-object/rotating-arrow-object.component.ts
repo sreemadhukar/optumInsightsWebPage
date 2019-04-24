@@ -106,60 +106,46 @@ export class RotatingArrowObjectComponent implements OnInit, AfterViewInit {
       )
       .attr('fill', '#3381FF');
 
+    let circleColor;
+    let textColor;
+    let arrowLink;
+
     if (chartOptions.sdata) {
       if (chartOptions.sdata.sign === 'up') {
-        chart
-          .append('circle')
-          .attr('cx', width / 3)
-          .attr('cy', height / 2)
-          .attr('r', 16)
-          .attr('fill', '#FFE6F0');
-
-        chart
-          .append('svg:image')
-          .attr('x', width / 3.325)
-          .attr('y', height / 2.175)
-          .attr('width', '20px')
-          .attr('height', '20px')
-          .attr('xlink:href', 'src/assets/images/trend-up.svg');
-
-        chart
-          .append('text')
-          .attr('x', width / 2.25)
-          .attr('y', height / 1.925)
-          .style('font-size', '16px')
-          .style('font-weight', '500')
-          .style('fill', '#B10C00')
-          .style('font-family', 'UHCSans-Regular')
-          .style('text-anchor', 'start')
-          .text(chartOptions.sdata.data);
+        circleColor = '#FFE6F0';
+        textColor = '#B10C00';
+        arrowLink = 'src/assets/images/trend-up.svg';
       } else if (chartOptions.sdata.sign === 'down') {
-        chart
-          .append('circle')
-          .attr('cx', width / 3)
-          .attr('cy', height / 2)
-          .attr('r', 16)
-          .attr('fill', '#E1FADF');
-
-        chart
-          .append('svg:image')
-          .attr('x', width / 3.325)
-          .attr('y', height / 2.175)
-          .attr('width', '20px')
-          .attr('height', '20px')
-          .attr('xlink:href', 'src/assets/images/trend-down.svg');
-
-        chart
-          .append('text')
-          .attr('x', width / 2.25)
-          .attr('y', height / 1.925)
-          .style('font-size', '16px')
-          .style('font-weight', '500')
-          .style('fill', '#007000')
-          .style('font-family', 'UHCSans-Regular')
-          .style('text-anchor', 'start')
-          .text(chartOptions.sdata.data);
+        circleColor = '#E1FADF';
+        textColor = '#007000';
+        arrowLink = 'src/assets/images/trend-down.svg';
       }
+
+      chart
+        .append('circle')
+        .attr('cx', width / 3)
+        .attr('cy', height / 2)
+        .attr('r', 16)
+        .attr('fill', circleColor);
+
+      chart
+        .append('svg:image')
+        .attr('x', width / 3.325)
+        .attr('y', height / 2.175)
+        .attr('width', '20px')
+        .attr('height', '20px')
+        .attr('xlink:href', arrowLink);
+
+      chart
+        .append('text')
+        .attr('x', width / 2.25)
+        .attr('y', height / 1.925)
+        .style('font-size', '16px')
+        .style('font-weight', '500')
+        .style('fill', textColor)
+        .style('font-family', 'UHCSans-Regular')
+        .style('text-anchor', 'start')
+        .text(chartOptions.sdata.data);
     }
 
     chart
