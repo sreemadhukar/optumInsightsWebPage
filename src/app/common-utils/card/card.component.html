@@ -24,7 +24,13 @@
         </div>
       </div>
       <div *ngIf="chartData.type == 'rotateWithLabel'">
-        Rotate
+        <div class="rotating-arrow-object">
+          <app-rotating-arrow-object
+            [customWidth]="widthRotatingArrow"
+            [customHeight]="heightRotatingArrow"
+            [chartOptions]="chartData.data"
+          ></app-rotating-arrow-object>
+        </div>
       </div>
     </div>
   </div>
