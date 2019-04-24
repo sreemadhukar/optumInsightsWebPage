@@ -151,7 +151,7 @@ export class RotatingArrowObjectComponent implements OnInit, AfterViewInit {
     chart
       .append('text')
       .attr('text-anchor', 'middle')
-      .attr('y', height / 2.75)
+      .attr('y', height / 2.5)
       .attr('x', width / 2.25)
       .style('font-size', '41px')
       .style('font-weight', '500')
