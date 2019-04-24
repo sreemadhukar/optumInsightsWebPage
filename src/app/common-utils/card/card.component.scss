@@ -11,10 +11,9 @@
   font-size: 30px;
 
   .chart-details-donut {
-    width: 50%;
     float: left;
-    padding-left: 15px;
-    padding-top: 10px;
+    /*padding-left: 15px;
+    padding-top: 10px;*/
   }
   .chart-details {
     float: left;
@@ -74,14 +73,48 @@
     width: 16px;
     border-radius: 50%;
   }
-  .beside-data-block {
+  .total-claims-beside-data-block {
     float: left;
     margin-top: 110px;
     margin-left: 25px;
   }
+  .claims-paid-beside-data-block {
+    float: left;
+    margin-top: 94px;
+    margin-left: 24px;
+  }
   .full-width-block {
     float: left;
     width: 100%;
+  }
+  .total-claims-donut-with-label {
+    float: left;
+    padding: 14px 0px 32px 77px;
+  }
+  .claims-paid-donut-with-label {
+    float: left;
+    padding: 14px 0px 32px 32px;
+  }
+  .rotate-graph-label-value {
+    color: $neutral-5;
+    font-family: 'UHCSans-Regular';
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 22px;
+    text-align: center;
+  }
+  .rotate-graph-label {
+    color: $neutral-4;
+    font-family: 'UHCSans-Regular';
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: 0.2px;
+    line-height: 22px;
+    text-align: center;
+  }
+  .only-donut-block {
+    float: left;
+    padding: 14px 125px 32px;
   }
   /* Css for Labels Ends here*/
 }
