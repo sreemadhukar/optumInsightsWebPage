@@ -35,6 +35,7 @@ export class GettingReimbursedComponent implements OnInit, AfterViewInit {
       .getGettingReimbursedData()
       .then(completeData => {
         this.summaryItems = JSON.parse(JSON.stringify(completeData));
+        console.log('SUmmary Item', this.summaryItems);
         this.currentSummary = this.summaryItems[0].data;
         this.currentTabTitle = this.summaryItems[0].title;
         console.log(this.currentSummary);

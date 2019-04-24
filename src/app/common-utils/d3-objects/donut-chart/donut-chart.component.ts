@@ -12,39 +12,42 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
   public noTransition = 0;
   public renderChart: string;
   @Input() chartOptions: any = {};
-  @Input() customWidth: number;
-  @Input() customHeight: number;
+  @Input() donutType: string;
 
   constructor() {}
 
   @HostListener('window:resize', ['$event'])
   onResize(event) {
-    this.doDonutChart(this.chartOptions, this.customWidth, this.customHeight, this.noTransition);
+    this.doDonutChart(this.chartOptions, this.noTransition);
   }
   ngOnInit() {
     this.renderChart = '#' + this.chartOptions.gdata[1];
   }
 
   ngAfterViewInit() {
-    this.doDonutChart(this.chartOptions, this.customWidth, this.customHeight, this.transition);
+    this.doDonutChart(this.chartOptions, this.transition);
   }
 
-  doDonutChart(chartOptions: any, customWidth: number, customHeight: number, transition: number) {
+  doDonutChart(chartOptions: any, transition: number) {
     const preWidth = document.getElementsByClassName(this.chartOptions.gdata[0])[0].clientWidth / 2;
     d3.select(this.renderChart)
       .selectAll('*')
       .remove();
 
-    const margin = { top: 10, right: 10, bottom: 10, left: 10 };
+    const margin = { top: 0, right: 0, bottom: 0, left: 0 };
+
     let width = preWidth - margin.left - margin.right;
     let height = width - margin.top - margin.bottom;
 
-    if (customWidth > 0) {
-      width = customWidth - margin.left - margin.right;
-    }
+    let radius = Math.min(width, height) / 2 + 5;
+    const donutColor = d3.scaleOrdinal().range(chartOptions.color);
+    let circleThickness = 15;
 
-    if (customHeight > 0) {
-      height = customHeight - margin.left - margin.right;
+    if (this.donutType === 'app-card') {
+      width = 215;
+      height = 215;
+      radius = 105;
+      circleThickness = 23;
     }
 
     const chart = d3
@@ -54,10 +57,6 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
       .attr('height', height + margin.top + margin.bottom)
       .append('g')
       .attr('transform', 'translate(' + (width / 2 + margin.left) + ',' + (height / 2 + margin.top) + ')');
-
-    const radius = Math.min(width, height) / 2 + 5;
-    const donutColor = d3.scaleOrdinal().range(chartOptions.color);
-    const circleThickness = 15;
 
     const arc = d3
       .arc()
@@ -78,24 +77,34 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
     if (chartOptions.sdata) {
       heightDivider = -16;
     }
+    let text;
+    if (this.donutType === 'app-card') {
+      heightDivider = 14;
+      text = chart
+        .append('text')
+        .attr('text-anchor', 'middle')
+        .attr('y', height / heightDivider)
+        .style('font-size', '41px')
+        .style('fill', '#2d2d39')
+        .style('font-family', 'UHCSans-SemiBold');
+    } else {
+      text = chart
+        .append('text')
+        .attr('text-anchor', 'middle')
+        .attr('y', height / heightDivider)
+        .style('font-size', '22px')
+        .style('fill', '#2d2d39')
+        .style('font-family', 'UHCSans-SemiBold');
+    }
 
-    const text = chart
-      .append('text')
-      .attr('text-anchor', 'middle')
-      .attr('y', height / heightDivider)
-      .style('font-size', '22px')
-      .style('font-weight', '600')
-      .style('fill', '#2d2d39')
-      .style('font-family', 'UHCSans-SemiBold');
-
-    if (chartOptions.sdata) {
+    if (chartOptions.hasOwnProperty('sdata') && chartOptions.sdata != null) {
       if (chartOptions.sdata.sign === 'up') {
         chart
           .append('circle')
           .attr('cx', width / -8)
           .attr('cy', height / 6)
           .attr('r', 16)
-          .attr('fill', '#E1FADF');
+          .attr('fill', '#e1fadf');
 
         chart
           .append('svg:image')
@@ -109,7 +118,7 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
           .append('text')
           .attr('x', width / 256)
           .attr('y', height / 5)
-          .style('font-size', '16px')
+          .style('font-size', '14px')
           .style('font-weight', '500')
           .style('fill', '#007000')
           .style('font-family', 'UHCSans-Regular')
@@ -121,7 +130,7 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
           .attr('cx', width / -8)
           .attr('cy', height / 6)
           .attr('r', 16)
-          .attr('fill', '#FFE6F0');
+          .attr('fill', '#ffe6f0');
 
         chart
           .append('svg:image')
@@ -135,9 +144,9 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
           .append('text')
           .attr('x', width / 256)
           .attr('y', height / 5)
-          .style('font-size', '16px')
+          .style('font-size', '14px')
           .style('font-weight', '500')
-          .style('fill', '#B10C00')
+          .style('fill', '#b10c00')
           .style('font-family', 'UHCSans-Regular')
           .style('text-anchor', 'start')
           .text(chartOptions.sdata.data);

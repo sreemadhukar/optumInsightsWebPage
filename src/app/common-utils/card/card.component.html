@@ -5,7 +5,7 @@
       <!-- DONUT WITH LABEL -->
       <div *ngIf="chartData.type == 'donutWithLabel'" class="full-width-block">
         <div class="chart-details-donut">
-          <app-donut-chart [chartOptions]="chartData.data"></app-donut-chart>
+          <app-donut-chart [donutType]="'app-card'" [chartOptions]="chartData.data"></app-donut-chart>
         </div>
         <div class="beside-data-block">
           <ul class="app-card-list-labels">
@@ -21,8 +21,12 @@
 
       <!-- ROTATE WITH LABEL -->
       <div *ngIf="chartData.type == 'rotateWithLabel'">
-        <div class="chart-details-donut">
-          ROTATE WITH LABEL
+        <div class="rotating-arrow-object">
+          <app-rotating-arrow-object
+            [customWidth]="widthRotatingArrow"
+            [customHeight]="heightRotatingArrow"
+            [chartOptions]="chartData.data"
+          ></app-rotating-arrow-object>
         </div>
       </div>
 
@@ -58,7 +62,6 @@
       <!-- ONLY BARS -->
       <div *ngIf="chartData.type == 'bar'">
         <div>ONLY BARS</div>
-        >
       </div>
     </div>
     <div *ngIf="chartData.timeperiod" class="full-width-block">

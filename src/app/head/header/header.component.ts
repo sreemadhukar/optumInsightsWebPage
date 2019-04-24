@@ -16,7 +16,8 @@ import { MatExpansionPanel } from '@angular/material';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
-
+import { ThemeService } from '../../shared/theme.service';
+import { Observable } from 'rxjs';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -43,6 +44,7 @@ import { DomSanitizer } from '@angular/platform-browser';
   ]
 })
 export class HeaderComponent implements OnInit {
+  @Input() isDarkTheme: Observable<boolean>;
   @Input() button: boolean;
   @Output() hamburgerDisplay = new EventEmitter<boolean>();
   public sideNavFlag = false;
@@ -55,7 +57,8 @@ export class HeaderComponent implements OnInit {
     public el: ElementRef,
     private renderer: Renderer2,
     private iconRegistry: MatIconRegistry,
-    sanitizer: DomSanitizer
+    sanitizer: DomSanitizer,
+    private themeService: ThemeService
   ) {
     this.mobileQuery = this.breakpointObserver.isMatched('(max-width: 1024px)');
     iconRegistry.addSvgIcon(
@@ -76,7 +79,15 @@ export class HeaderComponent implements OnInit {
     );
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.isDarkTheme = this.themeService.isDarkTheme;
+  }
+  /*angular theme */
+
+  toggleDarkTheme(checked: boolean) {
+    this.themeService.setDarkTheme(checked);
+  }
+  /*angular theme */
 
   sidenav() {
     this.sideNavFlag = !this.sideNavFlag;
