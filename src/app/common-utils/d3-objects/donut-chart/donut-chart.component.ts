@@ -103,7 +103,7 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
           .attr('y', height / 10)
           .attr('width', '20px')
           .attr('height', '20px')
-          .attr('xlink:href', 'src/assets/images/trend-up.svg');
+          .attr('xlink:href', 'src/assets/images/trend-down.svg');
 
         chart
           .append('text')
@@ -129,7 +129,7 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
           .attr('y', height / 10)
           .attr('width', '20px')
           .attr('height', '20px')
-          .attr('xlink:href', 'src/assets/images/trend-down.svg');
+          .attr('xlink:href', 'src/assets/images/trend-up.svg');
 
         chart
           .append('text')
