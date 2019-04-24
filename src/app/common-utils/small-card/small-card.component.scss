@@ -1,60 +1,60 @@
 @import '~src/scss/variables.scss';
-.card-structure {
+.small-card-structure {
   position: relative;
-}
-.card-inner {
-  background-color: #ffffff;
-  width: 304px;
-  height: 237px;
-  margin: 10px;
-  line-height: 75px;
-  font-size: 30px;
 
-  .chart-details-donut {
-    width: 50%;
-    float: left;
-    padding-left: 30px;
-    padding-top: 10px;
-  }
-  .chart-details {
-    float: left;
-  }
-  .full-width {
-    width: 100%;
-  }
-  .trend-details {
-    float: left;
-    padding: 10% 0;
+  .card-inner {
+    background-color: #ffffff;
+    width: 304px;
+    height: 237px;
+    margin: 10px;
+    line-height: 75px;
+    font-size: 30px;
 
-    .trend-value {
-      font-size: 14px;
-      font-weight: 500;
-      letter-spacing: 0.2px;
-      line-height: 18px;
-      font-family: 'UHCSans-Regular', 'Arial';
-      display: inline;
-      vertical-align: middle;
+    .chart-details-donut {
+      width: 50%;
+      float: left;
+      padding-left: 15px;
     }
-    .trend-image {
-      height: 20px;
-      width: 20px;
-      border-radius: 21px;
-      display: inline-block;
-      vertical-align: middle;
-      padding: 6px;
+    .chart-details {
+      float: left;
     }
-    .trend-image-down {
-      background-color: color(red, light);
+    .full-width {
+      width: 100%;
     }
-    .trend-value-down {
-      color: color(red, dark);
-    }
-    .trend-value-up {
-      color: $brand-green-hover;
-    }
+    .trend-details {
+      float: left;
+      padding: 10% 0;
 
-    .trend-image-up {
-      background-color: color(green, light);
+      .trend-value {
+        font-size: 14px;
+        font-weight: 500;
+        letter-spacing: 0.2px;
+        line-height: 18px;
+        font-family: 'UHCSans-Regular', 'Arial';
+        display: inline;
+        vertical-align: middle;
+      }
+      .trend-image {
+        height: 20px;
+        width: 20px;
+        border-radius: 21px;
+        display: inline-block;
+        vertical-align: middle;
+        padding: 6px;
+      }
+      .trend-image-down {
+        background-color: color(red, light);
+      }
+      .trend-value-down {
+        color: color(red, dark);
+      }
+      .trend-value-up {
+        color: $brand-green-hover;
+      }
+
+      .trend-image-up {
+        background-color: color(green, light);
+      }
     }
   }
 }

@@ -35,5 +35,31 @@ export class GettingReimbursedComponent implements OnInit {
         console.log(this.currentSummary);
       })
       .catch(reason => console.log(reason.message));
+
+    window.addEventListener('load', function() {
+      // store tabs variable
+      /*
+      const myTabs = document.querySelectorAll('ul.nav-tabs > li');
+      function myTabClicks(tabClickEvent) {
+        for (let i = 0; i < myTabs.length; i++) {
+          myTabs[i].classList.remove('active');
+        }
+        const clickedTab = tabClickEvent.currentTarget;
+        clickedTab.classList.add('active');
+        tabClickEvent.preventDefault();
+        let myContentPanes = document.querySelectorAll('.tab-pane');
+        for (let i = 0; i < myContentPanes.length; i++) {
+          myContentPanes[i].classList.remove('active');
+        }
+        const anchorReference = tabClickEvent.target;
+        var activePaneId = anchorReference.getAttribute('href');
+        var activePane = document.querySelector(activePaneId);
+        activePane.classList.add('active');
+      }
+      for (i = 0; i < myTabs.length; i++) {
+        myTabs[i].addEventListener('click', myTabClicks);
+      }
+      */
+    });
   }
 }
