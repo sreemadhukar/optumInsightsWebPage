@@ -8,7 +8,7 @@
 @import '~src/scss/my-custom-theme';
 @include mat-core();
 
-$primary: mat-palette($mat-pink, 700, 300, 900);
+$primary: mat-palette($mat-blue, A200, A100, A700);
 $accent: mat-palette($my-primary);
 $warn: mat-palette($mat-deep-orange, A200);
 $theme: mat-light-theme($primary, $accent, $warn);
@@ -19,7 +19,7 @@ $theme: mat-light-theme($primary, $accent, $warn);
 // Our dark theme
 .dark-theme {
   $dark-primary: mat-palette($my-primary, 700, 300, 900);
-  $dark-accent: mat-palette($mat-blue, 500, A100, A700);
+  $dark-accent: mat-palette($mat-blue, A200, A100, A700);
   $dark-warn: mat-palette($mat-red);
   $dark-theme: mat-dark-theme($dark-primary, $dark-accent, $dark-warn);
 

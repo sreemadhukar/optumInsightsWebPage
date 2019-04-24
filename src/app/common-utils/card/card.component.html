@@ -2,11 +2,20 @@
   <div class="card-inner">
     <app-common-header [title]="chartData.title"></app-common-header>
     <div *ngIf="chartData.data != null">
-      <div *ngIf="chartData.type == 'donutWithLabel'">
+      <div *ngIf="chartData.type === 'donut'">
+        <div class="chart-details-donut">
+          <app-donut-chart
+            [customHeight]="donutHeight"
+            [customHeight]="donutWidth"
+            [chartOptions]="chartData.data"
+          ></app-donut-chart>
+        </div>
+      </div>
+      <div *ngIf="chartData.type === 'donutWithLabel'">
         <div class="chart-details-donut">
           <app-donut-chart [chartOptions]="chartData.data"></app-donut-chart>
         </div>
-        <div *ngIf="chartData.type == 'donutWithLabel'">
+        <div *ngIf="chartData.type === 'donutWithLabel'">
           <ul class="list-labels">
             <li *ngFor="let c of chartData.besideData.labels; let i = index">{{ c }}</li>
           </ul>
@@ -20,9 +29,6 @@
       </div>
       <div *ngIf="chartData.type == 'rotateWithLabel'">
         Rotate
-      </div>
-      <div *ngIf="chartData.type == 'donut'">
-        <app-donut-chart [chartOptions]="chartData.data"></app-donut-chart>
       </div>
     </div>
   </div>

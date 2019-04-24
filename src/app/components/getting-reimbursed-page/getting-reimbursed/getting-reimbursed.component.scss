@@ -5,7 +5,6 @@
   $accent: map-get($theme, accent);
   $background: map-get($theme, background);
   $background-color: mat-color($background);
-
   .gettingReimburse-body {
     @include mat-elevation(2);
     background-color: mat-color($accent);
@@ -15,7 +14,6 @@
     .gettingReimburse-content {
       display: flex;
       flex-wrap: wrap;
-      justify-content: center;
 
       .height1Separator {
         height: 0;
