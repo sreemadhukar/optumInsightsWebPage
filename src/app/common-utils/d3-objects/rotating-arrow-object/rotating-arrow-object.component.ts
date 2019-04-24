@@ -33,17 +33,9 @@ export class RotatingArrowObjectComponent implements OnInit, AfterViewInit {
       .selectAll('*')
       .remove();
 
-    const margin = { top: 10, right: 10, bottom: 10, left: 10 };
+    const margin = { top: 30, right: 10, bottom: 10, left: 30 };
     let width = preWidth - margin.left - margin.right;
     let height = width - margin.top - margin.bottom;
-
-    const chart = d3
-      .select(this.renderChart)
-      .append('svg')
-      .attr('width', width + margin.left + margin.right)
-      .attr('height', height + margin.top + margin.bottom)
-      .append('g')
-      .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
 
     if (customWidth > 0) {
       width = customWidth - margin.left - margin.right;
@@ -52,6 +44,14 @@ export class RotatingArrowObjectComponent implements OnInit, AfterViewInit {
     if (customHeight > 0) {
       height = customHeight - margin.left - margin.right;
     }
+
+    const chart = d3
+      .select(this.renderChart)
+      .append('svg')
+      .attr('width', width + margin.left + margin.right)
+      .attr('height', height + margin.top + margin.bottom)
+      .append('g')
+      .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
 
     chart
       .append('path')
@@ -136,23 +136,23 @@ export class RotatingArrowObjectComponent implements OnInit, AfterViewInit {
       } else if (chartOptions.sdata.sign === 'down') {
         chart
           .append('circle')
-          .attr('cx', width / -8)
-          .attr('cy', height / 6)
+          .attr('cx', width / 3)
+          .attr('cy', height / 2)
           .attr('r', 16)
           .attr('fill', '#E1FADF');
 
         chart
           .append('svg:image')
-          .attr('x', width / -5)
-          .attr('y', height / 10)
+          .attr('x', width / 3)
+          .attr('y', height / 2)
           .attr('width', '20px')
           .attr('height', '20px')
           .attr('xlink:href', 'src/assets/images/trend-down.svg');
 
         chart
           .append('text')
-          .attr('x', width / 256)
-          .attr('y', height / 5)
+          .attr('x', width / 2)
+          .attr('y', height / 2)
           .style('font-size', '16px')
           .style('font-weight', '500')
           .style('fill', '#007000')
@@ -165,12 +165,13 @@ export class RotatingArrowObjectComponent implements OnInit, AfterViewInit {
     chart
       .append('text')
       .attr('text-anchor', 'middle')
-      .attr('y', height / 2)
-      .attr('x', width)
+      .attr('y', height / 2.75)
+      .attr('x', width / 2.25)
       .style('font-size', '41px')
       .style('font-weight', '500')
       .style('fill', '#2D2D39')
       .style('font-family', 'UHCSans-Regular')
-      .text('0.0');
+      .style('letter-spacing', '-0.5px')
+      .text(chartOptions.centerNumber);
   }
 }

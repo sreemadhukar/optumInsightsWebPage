@@ -142,7 +142,7 @@ export class GettingReimbursedSharedService {
                 data: {
                   centerNumber: '24 Days',
                   color: ['#3381FF', '#3381FF'],
-                  gdata: ['card-inner', 'priorAuthCardD3Donut'],
+                  gdata: ['card-inner', 'rotating-arrow-object'],
                   sdata: {
                     sign: 'down',
                     data: '-1.2%'
@@ -172,7 +172,7 @@ export class GettingReimbursedSharedService {
                 data: {
                   centerNumber: '24 Days',
                   color: ['#3381FF', '#3381FF'],
-                  gdata: ['card-inner', 'priorAuthCardD3Donut'],
+                  gdata: ['card-inner', 'rotating-arrow-object'],
                   sdata: {
                     sign: 'down',
                     data: '-1.2%'
@@ -591,7 +591,7 @@ export class GettingReimbursedSharedService {
                   data: {
                     centerNumber: '24 Days',
                     color: ['#3381FF', '#3381FF'],
-                    gdata: ['card-inner', 'priorAuthCardD3Donut'],
+                    gdata: ['card-inner', 'rotating-arrow-object'],
                     sdata: {
                       sign: 'down',
                       data: '-1.2%'
@@ -621,7 +621,7 @@ export class GettingReimbursedSharedService {
                   data: {
                     centerNumber: '24 Days',
                     color: ['#3381FF', '#3381FF'],
-                    gdata: ['card-inner', 'priorAuthCardD3Donut'],
+                    gdata: ['card-inner', 'rotating-arrow-object'],
                     sdata: {
                       sign: 'down',
                       data: '-1.2%'
