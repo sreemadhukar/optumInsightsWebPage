@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 import { MiniTileComponent } from './mini-tile/mini-tile.component';
 import { CardComponent } from './card/card.component';
 import { CommonHeaderComponent } from './common-header/common-header.component';
@@ -10,16 +11,18 @@ import { DonutChartComponent } from './d3-objects/donut-chart/donut-chart.compon
 import { StarChartComponent } from './d3-objects/star-chart/star-chart.component';
 import { BarChartComponent } from './d3-objects/bar-chart/bar-chart.component';
 import { HeadMaterialModule } from '../head/head.material.module';
+import { BreadcrumbsComponent } from './breadcrumbs/breadcrumbs.component';
 
 @NgModule({
-  imports: [CommonModule, HeadMaterialModule],
+  imports: [CommonModule, HeadMaterialModule, RouterModule],
   exports: [
     MiniTileComponent,
     CardComponent,
     CommonFooterComponent,
     CommonHeaderComponent,
     SmallCardComponent,
-    BarChartComponent
+    BarChartComponent,
+    BreadcrumbsComponent
   ],
   declarations: [
     MiniTileComponent,
@@ -30,7 +33,8 @@ import { HeadMaterialModule } from '../head/head.material.module';
     MiniBarChartComponent,
     DonutChartComponent,
     StarChartComponent,
-    BarChartComponent
+    BarChartComponent,
+    BreadcrumbsComponent
   ]
 })
 export class CommonUtilsModule {}

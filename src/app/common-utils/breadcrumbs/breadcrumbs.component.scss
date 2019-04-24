@@ -1,0 +1,16 @@
+@import '~src/scss/variables.scss';
+
+.breadcrumb li {
+  display: inline;
+}
+.breadcrumb li + li:before {
+  content: ' > ';
+  color: gray;
+}
+.breadcrumb {
+  //background-color: #ffffff;
+  padding: 20px;
+  a {
+    color: gray;
+  }
+}
