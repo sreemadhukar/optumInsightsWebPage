@@ -16,8 +16,6 @@ export class CardComponent implements OnInit {
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-help_outline-24px.svg')
     );
   }
-
-  
   ngOnInit() {
     console.log(this.chartData);
   }
