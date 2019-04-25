@@ -115,8 +115,6 @@
         <router-outlet></router-outlet>
       </mat-sidenav-content>
     </mat-sidenav-container>
-    <app-footer class="footer-block"></app-footer>
+    <app-footer class="footer-block" [class.display-none]="makeAbsolute"></app-footer>
   </div>
 </div>
-
-<router-outlet name="login"></router-outlet>
