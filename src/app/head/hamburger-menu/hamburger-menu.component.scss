@@ -138,13 +138,16 @@ app-header {
 
 .firstNavCategory {
   margin-top: 15px !important;
-  color: $neutral-4;
+  color: $neutral-4 !important;
   font-family: 'UHCSans-SemiBold';
   font-size: 16px !important;
   /*font-weight: 600;*/
   letter-spacing: 0.2px;
   line-height: 18px;
   /*padding-left: 32px !important;*/
+}
+.mat-expansion-panel-header-title {
+  color: $neutral-4 !important;
 }
 
 .lastNavCategory {
@@ -183,14 +186,28 @@ app-header {
 
 .nav-no-child-category {
   padding: 8px 12px 8px 32px !important;
+  color: $neutral-4 !important;
+  font-size: 16px !important;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+  font-family: 'UHCSans-Regular';
 }
 
 .nav-sub-category-items {
   color: $neutral-4 !important;
+  font-size: 14px !important;
+  font-family: 'UHCSans-Regular';
+  font-weight: 600;
+  letter-spacing: 0.2px;
+  line-height: 18px;
+}
+.mat-expansion-panel-header-description,
+.mat-expansion-panel-header-title {
+  line-height: 26px !important;
 }
 
 .nav-sub-category-items:hover {
-  background: $body-link-blue;
+  background: $body-link-blue !important;
   color: $blue !important;
 }
 
@@ -198,9 +215,38 @@ app-header {
 .mat-expansion-panel-header:hover,
 .mat-expanded,
 .signout-label:hover {
-  color: $blue;
+  color: $blue !important;
+  .mat-expansion-panel-header-title {
+    color: $blue !important;
+  }
+  .mat-expansion-indicator::after {
+    color: $blue !important;
+  }
 }
-
+.nav-no-child-category:hover,
+.mat-expansion-panel-header:hover,
+.signout-label:hover {
+  color: $blue !important;
+  background: $body-link-blue !important;
+  .mat-expansion-indicator::after {
+    color: $blue !important;
+  }
+}
+.mat-nav-list .mat-list-item:focus {
+  background: $body-link-blue !important;
+}
+.mat-expansion-panel {
+  border-radius: 0px !important;
+}
+.mat-expansion-indicator::after {
+  border-style: solid;
+  border-width: 0 2px 2px 0;
+  content: '';
+  display: inline-block;
+  padding: 3px;
+  transform: rotate(45deg);
+  vertical-align: text-top;
+}
 .uhc-logo {
   width: 175px;
   height: 36px;
