@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-common-header',
@@ -7,11 +7,15 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class CommonHeaderComponent implements OnInit {
   @Input() title: String;
+  @Output() helpIconClicked = new EventEmitter();
   titleHeader: String = null;
   constructor() {}
 
   ngOnInit() {
     this.titleHeader = this.title;
+  }
+  functionClicked() {
+    this.helpIconClicked.emit(this.title);
   }
   getMetricDetails(titleHeader) {
     console.log(titleHeader);
