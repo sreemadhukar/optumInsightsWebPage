@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MiniTileComponent } from './mini-tile/mini-tile.component';
 import { CardComponent } from './card/card.component';
 import { CommonHeaderComponent } from './common-header/common-header.component';
@@ -14,9 +15,11 @@ import { FeedbackComponent } from './feedback/feedback.component';
 import { LargeCardComponent } from './large-card/large-card.component';
 import { RotatingArrowObjectComponent } from './d3-objects/rotating-arrow-object/rotating-arrow-object.component';
 import { ClaimsPaidBarGraphComponent } from './d3-objects/claims-paid-bar-graph/claims-paid-bar-graph.component';
+import { ProviderSearchComponent } from './provider-search/provider-search.component';
+import { ErrorCardComponent } from './error-card/error-card.component';
 
 @NgModule({
-  imports: [CommonModule, HeadMaterialModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, HeadMaterialModule],
   exports: [
     MiniTileComponent,
     CardComponent,
@@ -40,7 +43,10 @@ import { ClaimsPaidBarGraphComponent } from './d3-objects/claims-paid-bar-graph/
     FeedbackComponent,
     LargeCardComponent,
     RotatingArrowObjectComponent,
-    ClaimsPaidBarGraphComponent
-  ]
+    ClaimsPaidBarGraphComponent,
+    ProviderSearchComponent,
+    ErrorCardComponent
+  ],
+  entryComponents: [ProviderSearchComponent]
 })
 export class CommonUtilsModule {}

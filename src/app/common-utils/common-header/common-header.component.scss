@@ -1,7 +1,8 @@
 @import '~src/scss/variables.scss';
 .header-container {
   position: relative;
-  padding: 20px 20px 0 20px;
+  /*padding: 20px 20px 0 20px;*/
+  padding: 16px;
 }
 .header-title {
   color: $blue;
@@ -16,4 +17,8 @@
   font-size: 18px;
   line-height: 22px;
   float: right;
+}
+
+.app-card-header-title {
+  color: $neutral-5 !important;
 }

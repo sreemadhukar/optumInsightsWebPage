@@ -30,6 +30,7 @@
         <div class="health-system-representation-block">
           <p class="representing-label">You are representing</p>
           <p class="health-system-name">{{ healthSystemName }}</p>
+          <p class="change-provider" (click)="openDialog()">Change Provider</p>
         </div>
         <!-- END OF HEALTHSYSTEM REPRESENTATION BLOCK -->
 
@@ -103,10 +104,10 @@
       <!-- END OF SIDE NAVIGATION BAR-->
 
       <!-- RIGHT SIDE FILTER BAR-->
-      <mat-sidenav #srnav [mode]="'side'" position="end" [fixedInViewport]="true">
-        <mat-nav-list>
-          <a style="width: 360px;" mat-list-item routerLink="." *ngFor="let nav of fillerNav">{{ nav }}</a>
-        </mat-nav-list>
+      <mat-sidenav #srnav [mode]="'push'" position="end" [fixedInViewport]="true" [opened]="true">
+        <div style="width:10pt;">
+          Glossary
+        </div>
       </mat-sidenav>
       <!-- END OF RIGHT SIDE FILTER BAR-->
 

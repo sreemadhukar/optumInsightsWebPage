@@ -1,8 +1,6 @@
 @import '~src/scss/variables.scss';
-.card-structure {
+.app-card-structure {
   position: relative;
-}
-.card-inner {
   background-color: $white;
   width: 468px;
   height: 356px;
@@ -11,10 +9,9 @@
   font-size: 30px;
 
   .chart-details-donut {
-    width: 50%;
     float: left;
-    padding-left: 15px;
-    padding-top: 10px;
+    /*padding-left: 15px;
+    padding-top: 10px;*/
   }
   .chart-details {
     float: left;
@@ -24,8 +21,39 @@
   }
 
   /* Css for Labels*/
+  /*
+    ul.list-labels > li {
+      display: block;
+      color: $neutral-5;
+      font-family: 'UHCSans-Regular';
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: 0.2px;
+      line-height: 18px;
+    }
 
-  ul.list-labels > li {
+    ul.list-labels > li::before {
+      content: '•  ';
+      font-size: 45px;
+      position: relative;
+      top: 10px;
+    }
+
+    ul.list-labels > li:nth-child(1)::before {
+      color: #3381ff;
+    }
+    ul.list-labels > li:nth-child(2)::before {
+      color: #3381f0;
+    }
+    ul.list-labels > li:nth-child(3)::before {
+      color: #338190;
+    }
+    ul.list-labels > li:nth-child(4)::before {
+      color: #000;
+    }  */
+  /* Css for Labels Ends here*/
+
+  .app-card-list-labels {
     display: block;
     color: $neutral-5;
     font-family: 'UHCSans-Regular';
@@ -33,26 +61,59 @@
     font-weight: 500;
     letter-spacing: 0.2px;
     line-height: 18px;
+    float: left;
   }
-
-  ul.list-labels > li::before {
-    content: '•  ';
-    font-size: 45px;
-    position: relative;
-    top: 10px;
+  .app-card-list-labels > li {
+    margin-bottom: 13px;
+    margin-right: 8px;
   }
-
-  ul.list-labels > li:nth-child(1)::before {
-    color: #3381ff;
+  .label-dots {
+    height: 16px;
+    width: 16px;
+    border-radius: 50%;
   }
-  ul.list-labels > li:nth-child(2)::before {
-    color: #3381f0;
+  .total-claims-beside-data-block {
+    float: left;
+    margin-top: 110px;
+    margin-left: 25px;
   }
-  ul.list-labels > li:nth-child(3)::before {
-    color: #338190;
+  .claims-paid-beside-data-block {
+    float: left;
+    margin-top: 94px;
+    margin-left: 24px;
   }
-  ul.list-labels > li:nth-child(4)::before {
-    color: #000;
+  .full-width-block {
+    float: left;
+    width: 100%;
+  }
+  .total-claims-donut-with-label {
+    float: left;
+    padding: 14px 0px 32px 77px;
+  }
+  .claims-paid-donut-with-label {
+    float: left;
+    padding: 14px 0px 32px 32px;
+  }
+  .rotate-graph-label-value {
+    color: $neutral-5;
+    font-family: 'UHCSans-Regular';
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 22px;
+    text-align: center;
+  }
+  .rotate-graph-label {
+    color: $neutral-4;
+    font-family: 'UHCSans-Regular';
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: 0.2px;
+    line-height: 22px;
+    text-align: center;
+  }
+  .only-donut-block {
+    float: left;
+    padding: 14px 125px 32px;
   }
   /* Css for Labels Ends here*/
 }

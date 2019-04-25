@@ -39,15 +39,20 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
     let width = preWidth - margin.left - margin.right;
     let height = width - margin.top - margin.bottom;
 
-    let radius = Math.min(width, height) / 2 + 5;
+    let radius = Math.min(width, height) / 2.5;
     const donutColor = d3.scaleOrdinal().range(chartOptions.color);
     let circleThickness = 15;
 
     if (this.donutType === 'app-card') {
-      width = 215;
-      height = 215;
+      width = 212;
+      height = 212;
       radius = 105;
       circleThickness = 23;
+    } else if (this.donutType === 'small-card') {
+      width = 129;
+      height = 129;
+      radius = 64;
+      circleThickness = 16;
     }
 
     const chart = d3
@@ -79,15 +84,14 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
     }
     let text;
     if (this.donutType === 'app-card') {
-      heightDivider = 14;
       text = chart
         .append('text')
         .attr('text-anchor', 'middle')
-        .attr('y', height / heightDivider)
+        .attr('y', height / height)
         .style('font-size', '41px')
         .style('fill', '#2d2d39')
         .style('font-family', 'UHCSans-SemiBold');
-    } else {
+    } else if (this.donutType === 'small-card') {
       text = chart
         .append('text')
         .attr('text-anchor', 'middle')
@@ -108,8 +112,8 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
 
         chart
           .append('svg:image')
-          .attr('x', width / -5)
-          .attr('y', height / 10)
+          .attr('x', -38)
+          .attr('y', 25)
           .attr('width', '20px')
           .attr('height', '20px')
           .attr('xlink:href', 'src/assets/images/trend-down.svg');
@@ -117,7 +121,7 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
         chart
           .append('text')
           .attr('x', width / 256)
-          .attr('y', height / 5)
+          .attr('y', 40)
           .style('font-size', '14px')
           .style('font-weight', '500')
           .style('fill', '#007000')
@@ -134,8 +138,8 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
 
         chart
           .append('svg:image')
-          .attr('x', width / -5)
-          .attr('y', height / 10)
+          .attr('x', -38)
+          .attr('y', 25)
           .attr('width', '20px')
           .attr('height', '20px')
           .attr('xlink:href', 'src/assets/images/trend-up.svg');
@@ -143,7 +147,7 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
         chart
           .append('text')
           .attr('x', width / 256)
-          .attr('y', height / 5)
+          .attr('y', 40)
           .style('font-size', '14px')
           .style('font-weight', '500')
           .style('fill', '#b10c00')
