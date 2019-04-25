@@ -1,4 +1,9 @@
+/**------------------------- **\
+            @fonts
+            Author: Sri laxmi
+\**------------------------- **/
 /* define mixin for font family, weight, style*/
+
 @mixin font-face($font-name, $file-name, $weight: normal, $style: normal) {
   @font-face {
     font-family: quote($font-name);
