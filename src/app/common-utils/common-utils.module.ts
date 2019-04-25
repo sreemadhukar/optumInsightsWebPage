@@ -13,6 +13,7 @@ import { HeadMaterialModule } from '../head/head.material.module';
 import { FeedbackComponent } from './feedback/feedback.component';
 import { LargeCardComponent } from './large-card/large-card.component';
 import { RotatingArrowObjectComponent } from './d3-objects/rotating-arrow-object/rotating-arrow-object.component';
+import { GlossaryComponent } from './glossary/glossary.component';
 
 @NgModule({
   imports: [CommonModule, HeadMaterialModule],
@@ -24,7 +25,8 @@ import { RotatingArrowObjectComponent } from './d3-objects/rotating-arrow-object
     SmallCardComponent,
     BarChartComponent,
     FeedbackComponent,
-    LargeCardComponent
+    LargeCardComponent,
+    GlossaryComponent
   ],
   declarations: [
     MiniTileComponent,
@@ -38,7 +40,8 @@ import { RotatingArrowObjectComponent } from './d3-objects/rotating-arrow-object
     BarChartComponent,
     FeedbackComponent,
     LargeCardComponent,
-    RotatingArrowObjectComponent
+    RotatingArrowObjectComponent,
+    GlossaryComponent
   ]
 })
 export class CommonUtilsModule {}

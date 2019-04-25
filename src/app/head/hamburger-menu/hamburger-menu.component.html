@@ -94,12 +94,17 @@
     </mat-sidenav>
     <!-- END OF SIDE NAVIGATION BAR-->
 
-    <!-- RIGHT SIDE FILTER BAR-->
+    <!-- RIGHT SIDE FILTER BAR
     <mat-sidenav #srnav [mode]="'side'" position="end" [fixedInViewport]="true">
       <mat-nav-list>
         <a style="width: 360px;" mat-list-item routerLink="." *ngFor="let nav of fillerNav">{{ nav }}</a>
       </mat-nav-list>
+    </mat-sidenav>  -->
+
+    <mat-sidenav #srnav [mode]="'side'" position="end" [fixedInViewport]="true">
+      <mat-nav-list> Glossary </mat-nav-list>
     </mat-sidenav>
+
     <!-- END OF RIGHT SIDE FILTER BAR-->
 
     <mat-sidenav-content>
