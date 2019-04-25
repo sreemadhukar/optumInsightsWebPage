@@ -14,7 +14,7 @@ import {
   ViewChildren,
   QueryList
 } from '@angular/core';
-import { MatExpansionPanel } from '@angular/material';
+import { MatExpansionPanel, MatDialog } from '@angular/material';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -22,6 +22,9 @@ import { Router, NavigationStart } from '@angular/router';
 import { AuthenticationService } from '../../auth/_service/authentication.service';
 import { ThemeService } from '../../shared/theme.service';
 import { Observable } from 'rxjs';
+import { ProviderSearchComponent } from '../../common-utils/provider-search/provider-search.component';
+import { StorageService } from '../../shared/storage-service.service';
+
 @Component({
   selector: 'app-hamburger-menu',
   templateUrl: './hamburger-menu.component.html',
@@ -32,9 +35,12 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit {
   _allExpandState = false;
   isDarkTheme: Observable<boolean>;
   @ViewChildren(MatExpansionPanel) viewPanels: QueryList<MatExpansionPanel>;
-  public healthSystemName = 'Novant Health System';
+  public healthSystemName = JSON.parse(sessionStorage.getItem('currentUser'))
+    ? JSON.parse(sessionStorage.getItem('currentUser'))[0]['HealthCareOrganizationName']
+    : '';
   public makeAbsolute: boolean;
   public sideNavFlag: boolean;
+  subscription: any;
 
   /*** Array of Navigation Category List ***/
   public navCategories = [
@@ -76,7 +82,9 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit {
     private router: Router,
     private authService: AuthenticationService,
     sanitizer: DomSanitizer,
-    private themeService: ThemeService
+    private themeService: ThemeService,
+    private dialog: MatDialog,
+    private checkStorage: StorageService
   ) {
     // to disable the header/footer/body when not authenticated
     router.events.subscribe(event => {
@@ -110,6 +118,9 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit {
   }
   ngOnInit() {
     this.isDarkTheme = this.themeService.isDarkTheme;
+    this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => {
+      this.healthSystemName = JSON.parse(sessionStorage.getItem('currentUser'))[0]['HealthCareOrganizationName'];
+    });
   }
 
   /*** used to apply the CSS for dynamically generated elements ***/
@@ -163,4 +174,11 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit {
     });
   }
   /** END OF FUNCTIONS TO COLLAPSE LEFT MENU **/
+  private openDialog(): void {
+    this.dialog.open(ProviderSearchComponent, {
+      width: '550px',
+      height: '212px',
+      disableClose: true
+    });
+  }
 }

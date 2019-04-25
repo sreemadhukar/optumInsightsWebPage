@@ -30,6 +30,7 @@
         <div class="health-system-representation-block">
           <p class="representing-label">You are representing</p>
           <p class="health-system-name">{{ healthSystemName }}</p>
+          <p class="change-provider" (click)="openDialog()">Change Provider</p>
         </div>
         <!-- END OF HEALTHSYSTEM REPRESENTATION BLOCK -->
 
@@ -114,6 +115,8 @@
         <router-outlet></router-outlet>
       </mat-sidenav-content>
     </mat-sidenav-container>
-    <app-footer class="footer-block" [class.display-none]="makeAbsolute"></app-footer>
+    <app-footer class="footer-block"></app-footer>
   </div>
 </div>
+
+<router-outlet name="login"></router-outlet>
