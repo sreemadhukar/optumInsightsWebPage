@@ -39,7 +39,7 @@ export class BarChartComponent implements OnInit, AfterViewInit {
 
     const margin = { top: 25, right: 10, bottom: 5, left: 10 };
     const width = preWidth - margin.left - margin.right;
-    const height = barHeight * 2 - margin.top - margin.bottom;
+    const height = barHeight * 1.5 - margin.top - margin.bottom;
 
     const chart = d3
       .select(this.renderChart)
@@ -68,8 +68,8 @@ export class BarChartComponent implements OnInit, AfterViewInit {
 
     chart
       .append('rect')
-      .attr('x', 10 + xScale(chartOptions.barSummation))
-      .attr('y', 10)
+      .attr('x', xScale(chartOptions.barSummation) - 100)
+      .attr('y', 0)
       .attr('width', xScale(chartOptions.barData))
       .attr('height', barHeight)
       .attr('fill', chartOptions.color[0].color1);
@@ -78,7 +78,7 @@ export class BarChartComponent implements OnInit, AfterViewInit {
       chart
         .append('rect')
         .attr('x', xScale(chartOptions.barData))
-        .attr('y', 10)
+        .attr('y', 0)
         .attr('width', xScale(chartOptions.barSummation) - xScale(chartOptions.barData))
         .attr('height', barHeight)
         .attr('fill', chartOptions.color[1].color2);
@@ -104,8 +104,8 @@ export class BarChartComponent implements OnInit, AfterViewInit {
     } else {
       const textWithHover = chart
         .append('text')
-        .attr('x', xScale(chartOptions.barSummation / 5))
-        .attr('y', (height + 7.5) / 2)
+        .attr('x', xScale(chartOptions.barSummation / 10))
+        .attr('y', (height + 10) / 2)
         .attr('fill', '#2D2D39')
         .attr('font-size', '16')
         .style('text-anchor', 'start')
@@ -116,8 +116,8 @@ export class BarChartComponent implements OnInit, AfterViewInit {
 
     chart
       .append('text')
-      .attr('x', xScale(chartOptions.barSummation) - 50)
-      .attr('y', (height + 10) / 2)
+      .attr('x', xScale(chartOptions.barSummation / 1.5))
+      .attr('y', (height + 20) / 2)
       .attr('fill', '#2D2D39')
       .attr('font-size', '22')
       .style('text-anchor', 'start')
