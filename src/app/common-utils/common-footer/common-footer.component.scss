@@ -1,10 +1,11 @@
 @import '~src/scss/variables.scss';
 .common-footer {
   border-top: 1px solid #efefef;
-  position: absolute;
-  bottom: 0;
+  /*position: absolute;
   width: 94%;
-  text-align: left;
+  bottom: 0;
+  width: 100%;
+  text-align: left;*/
 }
 .timePeriod {
   padding: 10px 20px 15px 20px;
