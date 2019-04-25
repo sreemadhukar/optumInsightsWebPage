@@ -1,6 +1,12 @@
 @import '~src/scss/variables.scss';
 .app-card-structure {
   position: relative;
+  background-color: $white;
+  width: 468px;
+  height: 356px;
+  margin: 10px;
+  line-height: 75px;
+  font-size: 30px;
 
   .chart-details-donut {
     float: left;
