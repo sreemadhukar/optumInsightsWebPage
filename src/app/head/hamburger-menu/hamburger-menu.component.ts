@@ -42,6 +42,8 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit {
   public makeAbsolute: boolean;
   public sideNavFlag: boolean;
   subscription: any;
+  public glossaryFlag: boolean;
+  public glossaryTitle: string = null;
 
   /*** Array of Navigation Category List ***/
   public navCategories = [
@@ -88,6 +90,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit {
     private checkStorage: StorageService,
     private glossaryExpandService: GlossaryExpandService
   ) {
+    this.glossaryFlag = true;
     // to disable the header/footer/body when not authenticated
     router.events.subscribe(event => {
       if (event instanceof NavigationStart) {
@@ -122,6 +125,10 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit {
     this.isDarkTheme = this.themeService.isDarkTheme;
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => {
       this.healthSystemName = JSON.parse(sessionStorage.getItem('currentUser'))[0]['HealthCareOrganizationName'];
+      // this.glossaryFlag = this.glossaryExpandService.glossaryFlag;
+      alert('Hiii' + this.glossaryFlag);
+      console.log('this.glossaryFlag', this.glossaryFlag);
+      console.log('this.glossaryExpandService.glossaryFlag', this.glossaryExpandService.glossaryTitle);
     });
   }
 
@@ -142,6 +149,11 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit {
     Array.from(listItemBody).forEach(listItem => {
       this.renderer.setStyle(listItem, 'padding', '0px');
     });
+
+    this.glossaryFlag = this.glossaryExpandService.glossaryFlag;
+    alert('Hiii' + this.glossaryFlag);
+    console.log('this.glossaryFlag', this.glossaryFlag);
+    console.log('this.glossaryExpandService.glossaryFlag', this.glossaryExpandService.glossaryTitle);
   }
   hamburgerDisplay(input: boolean) {
     this.sideNavFlag = input;

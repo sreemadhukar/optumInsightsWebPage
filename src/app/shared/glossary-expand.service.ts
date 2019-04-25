@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class GlossaryExpandService {
-  public glossaryFlag;
+  public glossaryFlag: boolean;
   public glossaryTitle;
 
   constructor() {}
