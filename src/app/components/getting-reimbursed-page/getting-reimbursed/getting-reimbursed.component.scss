@@ -48,44 +48,38 @@
           width: 100%;
           .nav-tabs {
             display: flex;
-            margin: 0;
             border-radius: 2px;
             list-style-type: none;
+            font-family: 'UHCSans-SemiBold', 'Arial';
+            color: $neutral-5;
 
             > li {
+              flex-basis: 100%;
+              background-color: $white;
+              border: 1px solid #efefef;
+              font-size: 16px;
+              font-weight: 600;
+              letter-spacing: 0.2px;
+              line-height: 1.42857143;
+              border-radius: 4px 4px 0 0;
+              padding: 20px;
+              cursor: pointer;
               > span {
-                font-size: 16px;
-                font-weight: 600;
-                letter-spacing: 0.2px;
-                color: #757588;
-                text-decoration: none;
-                margin-right: 2px;
-                line-height: 1.42857143;
-                background-color: $white;
-                border: 1px solid transparent;
-                border-radius: 4px 4px 0 0;
-                padding: 20px;
-                border-color: #eee #eee #ddd;
                 &:hover {
                   border-color: #eee #eee #ddd;
-                  cursor: pointer;
                 }
               }
 
-              &.active {
-                > span,
-                > span:hover,
-                > span:focus {
-                  color: #757588;
-                  padding: 20px;
-                  cursor: pointer;
-                  background-color: mat-color($accent);
-                  border: 1px solid #ddd;
-                  border-top: 4px solid #196ecf;
-                  border-radius: 2px 2px 0 0;
-                  border-bottom-color: transparent;
-                  text-decoration: none;
-                }
+              &.active,
+              &.active:hover,
+              &.active:focus {
+                background-color: mat-color($accent);
+                padding: 20px;
+                border: 1px solid #ddd;
+                border-top: 4px solid #196ecf;
+                border-radius: 2px 2px 0 0;
+                border-bottom-color: transparent;
+                text-decoration: none;
               }
             }
           }

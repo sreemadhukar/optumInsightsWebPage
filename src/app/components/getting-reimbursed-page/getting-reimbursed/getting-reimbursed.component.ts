@@ -20,22 +20,15 @@ export class GettingReimbursedComponent implements OnInit {
     this.tabOptions = ['Submission', 'Payments', 'Non-Payments', 'Appeals'];
   }
 
-  matOptionClicked(i: any) {
+  matOptionClicked(i: any, event: any) {
     console.log('option clicked', i);
     this.currentSummary = this.summaryItems[i].data;
     this.currentTabTitle = this.summaryItems[i].title;
     const myTabs = document.querySelectorAll('ul.nav-tabs > li');
-    function myTabClicks(tabClickEvent) {
-      for (let j = 0; j < myTabs.length; j++) {
-        myTabs[j].classList.remove('active');
-      }
-      const clickedTab = tabClickEvent.currentTarget;
-      clickedTab.classList.add('active');
-      tabClickEvent.preventDefault();
+    for (let j = 0; j < myTabs.length; j++) {
+      myTabs[j].classList.remove('active');
     }
-    for (let m = 0; m < myTabs.length; m++) {
-      myTabs[m].addEventListener('click', myTabClicks);
-    }
+    event.target.classList.add('active');
   }
   ngOnInit() {
     this.gettingReimbursedSharedService
