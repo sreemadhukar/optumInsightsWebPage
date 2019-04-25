@@ -13,6 +13,7 @@ import { HeadMaterialModule } from '../head/head.material.module';
 import { FeedbackComponent } from './feedback/feedback.component';
 import { LargeCardComponent } from './large-card/large-card.component';
 import { RotatingArrowObjectComponent } from './d3-objects/rotating-arrow-object/rotating-arrow-object.component';
+import { ClaimsPaidBarGraphComponent } from './d3-objects/claims-paid-bar-graph/claims-paid-bar-graph.component';
 
 @NgModule({
   imports: [CommonModule, HeadMaterialModule],
@@ -38,7 +39,8 @@ import { RotatingArrowObjectComponent } from './d3-objects/rotating-arrow-object
     BarChartComponent,
     FeedbackComponent,
     LargeCardComponent,
-    RotatingArrowObjectComponent
+    RotatingArrowObjectComponent,
+    ClaimsPaidBarGraphComponent
   ]
 })
 export class CommonUtilsModule {}
