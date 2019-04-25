@@ -156,6 +156,38 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit {
       .attr('x2', 400)
       .attr('y2', 350)
       .attr('stroke', '#757588')
-      .attr('stroke-width', 'px');
+      .attr('stroke-width', '1px');
+
+    const highestValue = 300;
+    const xScale = d3
+      .scaleLinear()
+      .domain([0, highestValue]) // input
+      .range([400, 900])
+      .nice(3); // output
+
+    // tick format for bottom
+    chart
+      .append('g')
+      .attr('transform', 'translate(' + 0 + ',' + 55 + ')')
+      .call(
+        d3
+          .axisBottom(xScale)
+          .ticks(3)
+          .tickSize(295)
+          .tickFormat('')
+      )
+      .call(g => g.select('.domain').remove());
+
+    d3.selectAll('.tick')
+      .selectAll('line')
+      .attr('stroke', '#B3BABC')
+      .attr('stroke-width', 1)
+      .attr('stroke-opacity', 0.7);
+
+    d3.selectAll('.tick')
+      .filter(function(d) {
+        return d === 0;
+      })
+      .remove();
   }
 }
