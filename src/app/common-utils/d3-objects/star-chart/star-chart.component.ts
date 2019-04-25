@@ -14,6 +14,7 @@ export class StarChartComponent implements OnInit, AfterViewInit {
   @Input() chartOptions: any = {};
   @Input() customWidth: number;
   @Input() customHeight: number;
+  @Input() starType: string;
 
   constructor() {}
 
@@ -36,7 +37,7 @@ export class StarChartComponent implements OnInit, AfterViewInit {
       .selectAll('*')
       .remove();
 
-    const margin = { top: 10, right: 0, bottom: 10, left: 0 };
+    const margin = { top: 0, right: 0, bottom: 0, left: 0 };
     let width = preWidth - margin.left - margin.right;
     let height = preWidth - margin.top - margin.bottom;
 
@@ -46,6 +47,13 @@ export class StarChartComponent implements OnInit, AfterViewInit {
 
     if (customHeight > 0) {
       height = customHeight - margin.left - margin.right;
+    }
+    if (this.starType === 'app-card') {
+      width = 212;
+      height = 212;
+    } else if (this.starType === 'small-card') {
+      width = 120;
+      height = 120;
     }
 
     const svg = d3
@@ -58,16 +66,16 @@ export class StarChartComponent implements OnInit, AfterViewInit {
 
     svg
       .append('svg:image')
-      .attr('x', (width + margin.left + margin.right) / 3.5)
+      .attr('x', 0)
       .attr('y', 0)
-      .attr('width', width / 2.5)
-      .attr('height', width / 2.5)
+      .attr('width', width)
+      .attr('height', height)
       .attr('xlink:href', 'src/assets/images/star.png');
 
     svg
       .append('text')
-      .attr('x', (width + margin.left + margin.right - 10) / 2)
-      .attr('y', 75)
+      .attr('x', (width + margin.left + margin.right) / 2)
+      .attr('y', width / 2 + 10)
       .attr('font-family', 'UHCSans-Regular')
       .attr('fill', '#FFFFFF')
       .attr('font-size', '22')
