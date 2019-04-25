@@ -34,14 +34,14 @@ h1.example-app-name {
 
 .example-sidenav-container {
   /* When the sidenav is not fixed, stretch the sidenav container to fill the available space. This
-     causes `<mat-sidenav-content>` to act as our scrolling element for desktop layouts. */
+      causes `<mat-sidenav-content>` to act as our scrolling element for desktop layouts. */
   // margin-top: 65px;
   flex: 1;
 }
 
 .example-is-mobile .example-sidenav-container {
   /* When the sidenav is fixed, don't constrain the height of the sidenav container. This allows the
-     `<body>` to be our scrolling element for mobile layouts. */
+      `<body>` to be our scrolling element for mobile layouts. */
   flex: 1 0 auto;
 }
 
@@ -63,7 +63,7 @@ app-header {
 
 .side-navigation {
   width: 256px;
-  background-color: $white;
+  //  background-color: $white;
 }
 
 .health-system-representation-block {
@@ -89,6 +89,20 @@ app-header {
   letter-spacing: 0.2px;
   line-height: 22px;
   margin: 0px 0px 15px 0px;
+}
+
+.change-provider {
+  height: 18px;
+  width: 105px;
+  color: #196ecf;
+  font-family: 'UHCSans-SemiBold';
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+  line-height: 18px;
+  text-decoration: underline;
+  margin: 9px 0;
+  cursor: pointer;
 }
 
 .mat-list-base {

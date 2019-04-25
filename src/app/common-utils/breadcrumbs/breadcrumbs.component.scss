@@ -5,12 +5,10 @@
 }
 .breadcrumb li + li:before {
   content: ' > ';
-  color: gray;
+  color: #196ecf;
 }
 .breadcrumb {
-  //background-color: #ffffff;
-  padding: 20px;
   a {
-    color: gray;
+    color: #196ecf;
   }
 }

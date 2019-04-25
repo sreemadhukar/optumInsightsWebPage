@@ -4,9 +4,10 @@ import { ExternalService } from '../_service/external.service';
 import { environment } from '../../../environments/environment';
 import { AuthenticationService } from '../_service/authentication.service';
 import { InternalService } from '../_service/internal.service';
-import { first } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { ProviderSharedService } from '../../shared/provider/provider-shared.service';
+import { MatDialog } from '@angular/material';
+import { ProviderSearchComponent } from '../../common-utils/provider-search/provider-search.component';
 
 @Component({
   selector: 'app-login-stub',
@@ -27,7 +28,8 @@ export class LoginStubComponent implements OnInit {
     private authService: AuthenticationService,
     private internalService: InternalService,
     private router: Router,
-    private providerSharedService: ProviderSharedService
+    private providerSharedService: ProviderSharedService,
+    private dialog: MatDialog
   ) {}
 
   ngOnInit() {
@@ -41,6 +43,7 @@ export class LoginStubComponent implements OnInit {
       if (this.authService.isLoggedIn()) {
         this.router.navigate([this.returnUrl]);
       } else {
+        this.internalService.getPublicKey();
         this.authService.getJwt().subscribe(data => {
           sessionStorage.setItem('token', JSON.stringify(data['token']));
         });
@@ -59,19 +62,27 @@ export class LoginStubComponent implements OnInit {
     if (this.loginForm.invalid) {
       return;
     }
-
-    //  this.loading = true;
     this.internalService.login(this.f.username.value, this.f.password.value).subscribe(
-      data => {
-        console.log(data);
-        this.providerSharedService.providersList();
-
-        // this.router.navigate([this.returnUrl]);
+      () => {
+        this.openDialog();
       },
       error => {
         this.error = error;
         this.loading = false;
       }
     );
+  }
+
+  openDialog(): void {
+    const dialogRef = this.dialog.open(ProviderSearchComponent, {
+      width: '550px',
+      height: '212px',
+      disableClose: true,
+      panelClass: 'custom'
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.router.navigate([this.returnUrl]);
+    });
   }
 }

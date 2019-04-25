@@ -1,0 +1,10 @@
+/**------------------------- **\
+            @component themes
+            Author: Sri laxmi
+\**------------------------- **/
+@import '../app/components/overview-page/overview/overview.component';
+@import '../app/components/getting-reimbursed-page/getting-reimbursed/getting-reimbursed.component';
+@mixin component-themes($theme) {
+  @include title-theme($theme);
+  @include sidenav-theme($theme);
+}

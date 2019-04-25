@@ -32,7 +32,7 @@ pipeline {
                 branch 'dev'
             }
             agent {
-                label 'docker-nodejs-slave'
+                label 'docker-kitchensink-slave'
             }
             steps {
                 glDockerImageBuildPush tag: "$tagBase/$qaWebRepo:qaone",
