@@ -45,12 +45,12 @@ export class GettingReimbursedService {
     return combineLatest(
       this.http.post(aggClaimsURL, eparams, { headers: myHeader }).pipe(
         retry(2),
-        map(res => JSON.parse(JSON.stringify(res))),
+        map(res => JSON.parse(JSON.stringify(res[0]))),
         catchError(err => of(JSON.parse(JSON.stringify(err))))
       ),
       this.http.get(appealsURL, { params: cparams, headers: myHeader }).pipe(
         retry(2),
-        map(res => JSON.parse(JSON.stringify(res[0]))),
+        map(res => JSON.parse(JSON.stringify(res))),
         catchError(err => of(JSON.parse(JSON.stringify(err))))
       )
     );

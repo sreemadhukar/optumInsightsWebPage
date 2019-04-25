@@ -48,6 +48,11 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
       height = 212;
       radius = 105;
       circleThickness = 23;
+    } else if (this.donutType === 'small-card') {
+      width = 129;
+      height = 129;
+      radius = 64;
+      circleThickness = 16;
     }
 
     const chart = d3
@@ -86,7 +91,7 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
         .style('font-size', '41px')
         .style('fill', '#2d2d39')
         .style('font-family', 'UHCSans-SemiBold');
-    } else {
+    } else if (this.donutType === 'small-card') {
       text = chart
         .append('text')
         .attr('text-anchor', 'middle')

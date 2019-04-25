@@ -15,6 +15,7 @@ import { FeedbackComponent } from './feedback/feedback.component';
 import { LargeCardComponent } from './large-card/large-card.component';
 import { RotatingArrowObjectComponent } from './d3-objects/rotating-arrow-object/rotating-arrow-object.component';
 import { ProviderSearchComponent } from './provider-search/provider-search.component';
+import { ErrorCardComponent } from './error-card/error-card.component';
 
 @NgModule({
   imports: [CommonModule, FormsModule, ReactiveFormsModule, HeadMaterialModule],
@@ -41,7 +42,8 @@ import { ProviderSearchComponent } from './provider-search/provider-search.compo
     FeedbackComponent,
     LargeCardComponent,
     RotatingArrowObjectComponent,
-    ProviderSearchComponent
+    ProviderSearchComponent,
+    ErrorCardComponent
   ],
   entryComponents: [ProviderSearchComponent]
 })
