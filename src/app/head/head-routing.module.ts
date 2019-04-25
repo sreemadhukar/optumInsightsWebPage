@@ -13,12 +13,12 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
-    path: 'gettingReimbursed',
+    path: 'GettingReimbursed',
     loadChildren: '../components/getting-reimbursed-page/getting-reimbursed.module#GettingReimbursedModule',
     canActivate: [AuthGuard]
   },
   {
-    path: 'careDelivery',
+    path: 'CareDelivery',
     loadChildren: '../components/care-delivery-page/care-delivery-page.module#CareDeliveryPageModule',
     canActivate: [AuthGuard]
   },

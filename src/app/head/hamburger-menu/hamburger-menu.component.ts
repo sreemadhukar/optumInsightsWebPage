@@ -49,7 +49,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit {
       icon: 'getting-reimburse',
       name: 'Getting Reimbursed',
       children: [
-        { name: 'Summary', path: 'gettingReimbursed/summary' },
+        { name: 'Summary', path: 'GettingReimbursed' },
         { name: 'Payments', path: '#' },
         { name: 'Non-Payments', path: '#' },
         { name: 'Appeals', path: '#' },
@@ -60,7 +60,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit {
       icon: 'care-delivery',
       name: 'Care Delivery',
       children: [
-        { name: 'Prior Authorizations', path: 'careDelivery/priorAuth' },
+        { name: 'Prior Authorizations', path: 'CareDelivery/priorAuth' },
         { name: 'Patient Care Opportunity', path: '#' }
       ]
     },

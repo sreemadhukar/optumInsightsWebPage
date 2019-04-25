@@ -14,6 +14,7 @@ interface IBreadcrumb {
 })
 export class BreadcrumbsComponent implements OnInit {
   public breadcrumbs: IBreadcrumb[];
+  public breadcrumbLength: number;
 
   constructor(private activatedRoute: ActivatedRoute, private router: Router) {
     this.breadcrumbs = [];
@@ -22,9 +23,11 @@ export class BreadcrumbsComponent implements OnInit {
       const root: ActivatedRoute = this.activatedRoute.root;
       // console.log(root);
       this.breadcrumbs = this.getBreadcrumbs(root);
-      this.breadcrumbs.forEach(element => {
+      this.breadcrumbLength = this.breadcrumbs.length;
+      console.log(this.breadcrumbLength);
+      /*this.breadcrumbs.forEach(element => {
         console.log(element.label);
-      });
+      });*/
     });
   }
 

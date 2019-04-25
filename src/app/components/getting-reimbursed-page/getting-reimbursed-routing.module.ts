@@ -4,10 +4,10 @@ import { GettingReimbursedComponent } from './getting-reimbursed/getting-reimbur
 
 const routes: Routes = [
   {
-    path: 'summary',
+    path: '',
     component: GettingReimbursedComponent,
     data: {
-      breadcrumb: 'Summary'
+      breadcrumb: 'Getting Reimbursed'
     }
   }
 ];

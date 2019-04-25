@@ -1,6 +1,9 @@
 <ol class="breadcrumb">
   <li><a routerLink="">Overview</a></li>
-  <li *ngFor="let breadcrumb of breadcrumbs" class="breadcrumb">
-    <a [routerLink]="[breadcrumb.url, breadcrumb.params]">{{ breadcrumb.label }}</a>
+  <li *ngFor="let breadcrumb of breadcrumbs; let i = index">
+    <a [routerLink]="[breadcrumb.url, breadcrumb.params]" [class.disable-link]="i + 1 == breadcrumbs.length">
+      > {{ breadcrumb.label }}</a
+    >
+    <span *ngIf="i + 1 < breadcrumbs.length"> </span>
   </li>
 </ol>

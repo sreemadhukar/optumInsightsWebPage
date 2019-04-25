@@ -2,11 +2,16 @@
 
 .breadcrumb li {
   display: inline;
+  font-size: 14px;
+  font-family: 'UHCSans-SemiBold', 'Arial';
+  padding-right: 5px;
 }
-.breadcrumb li + li:before {
-  content: ' > ';
-  color: #196ecf;
+
+.disable-link {
+  color: #757588 !important;
+  text-decoration: none;
 }
+
 .breadcrumb {
   a {
     color: #196ecf;
