@@ -11,6 +11,7 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit {
   public noTransition = 0;
   public renderChart: string;
   @Input() chartOptions: any = {};
+  public testID = 'lolol';
 
   constructor() {}
 
@@ -20,7 +21,7 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
-    this.renderChart = '#' + this.chartOptions.gdata[1];
+    this.renderChart = '#' + this.testID;
   }
 
   ngAfterViewInit() {
@@ -29,8 +30,11 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit {
 
   doBarGraph(chartOptions: any, transition: number) {
     // might have to hard code class names for testing
-    const preWidth = document.getElementsByClassName(this.chartOptions.gdata[0])[0].clientWidth;
-    const preHeight = document.getElementsByClassName(this.chartOptions.gdata[0])[0].clientHeight;
+    const className = 'card-inner-large';
+    // this.chartOptions.gdata[0]
+    //
+    const preWidth = document.getElementsByClassName(className)[0].clientWidth;
+    const preHeight = document.getElementsByClassName(className)[0].clientHeight;
     d3.select(this.renderChart)
       .selectAll('*')
       .remove();
@@ -50,7 +54,7 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit {
 
     chart
       .append('text')
-      .attr('x', width / 3)
+      .attr('x', 231)
       .attr('y', 100)
       .attr('fill', '#2D2D39')
       .attr('font-size', '16')
@@ -61,19 +65,19 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit {
 
     chart
       .append('text')
-      .attr('x', width / 3 + 50)
+      .attr('x', 281)
       .attr('y', 100)
       .attr('fill', '#2D2D39')
       .attr('font-size', '22')
-      .style('text-anchor', 'end')
+      .style('text-anchor', 'start')
       .style('font-family', 'UHCSans-Regular')
       .style('font-weight', '600')
       .text('$856M');
 
     chart
       .append('text')
-      .attr('x', width / 3)
-      .attr('y', 200)
+      .attr('x', 231)
+      .attr('y', 180)
       .attr('fill', '#2D2D39')
       .attr('font-size', '16')
       .style('text-anchor', 'end')
@@ -83,19 +87,19 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit {
 
     chart
       .append('text')
-      .attr('x', width / 3 + 50)
-      .attr('y', 200)
+      .attr('x', 281)
+      .attr('y', 180)
       .attr('fill', '#2D2D39')
       .attr('font-size', '22')
-      .style('text-anchor', 'end')
+      .style('text-anchor', 'start')
       .style('font-family', 'UHCSans-Regular')
       .style('font-weight', '600')
       .text('$645M');
 
     chart
       .append('text')
-      .attr('x', width / 3)
-      .attr('y', 400)
+      .attr('x', 231)
+      .attr('y', 230)
       .attr('fill', '#2D2D39')
       .attr('font-size', '16')
       .style('text-anchor', 'end')
@@ -105,19 +109,19 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit {
 
     chart
       .append('text')
-      .attr('x', width / 3 + 50)
-      .attr('y', 400)
+      .attr('x', 281)
+      .attr('y', 230)
       .attr('fill', '#2D2D39')
       .attr('font-size', '22')
-      .style('text-anchor', 'end')
+      .style('text-anchor', 'start')
       .style('font-family', 'UHCSans-Regular')
       .style('font-weight', '600')
       .text('$211M');
 
     chart
       .append('text')
-      .attr('x', width / 3)
-      .attr('y', 500)
+      .attr('x', 231)
+      .attr('y', 310)
       .attr('fill', '#2D2D39')
       .attr('font-size', '16')
       .style('text-anchor', 'end')
@@ -127,13 +131,31 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit {
 
     chart
       .append('text')
-      .attr('x', width / 3 + 50)
-      .attr('y', 500)
+      .attr('x', 281)
+      .attr('y', 310)
       .attr('fill', '#2D2D39')
       .attr('font-size', '22')
-      .style('text-anchor', 'end')
+      .style('text-anchor', 'start')
       .style('font-family', 'UHCSans-Regular')
       .style('font-weight', '600')
       .text('$571M');
+
+    const line = d3
+      .line()
+      .x(function(d) {
+        return d.x;
+      })
+      .y(function(d) {
+        return d.y;
+      });
+
+    chart
+      .append('line')
+      .attr('x1', 400)
+      .attr('y1', 55)
+      .attr('x2', 400)
+      .attr('y2', 350)
+      .attr('stroke', '#757588')
+      .attr('stroke-width', 'px');
   }
 }

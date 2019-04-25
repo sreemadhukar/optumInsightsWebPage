@@ -3,8 +3,11 @@
     <div>
       <app-common-header [title]="data[0].title"></app-common-header>
     </div>
+    <!--
     <div *ngFor="let item of data; let i = index">
       <app-bar-chart *ngIf="item.data != null" [chartOptions]="item.data"> </app-bar-chart>
     </div>
+    -->
+    <app-claims-paid-bar-graph></app-claims-paid-bar-graph>
   </div>
 </div>
