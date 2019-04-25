@@ -144,7 +144,7 @@
   }
   .left-padding-with-border {
     padding-left: 24px;
-    border-left: 1px solid #b3babc;
+    border-left: 1px solid $neutral-3;
   }
   .right-padding {
     padding-right: 24px;
@@ -155,7 +155,20 @@
   .only-donut-block-with-more-padding {
     padding: 58px 125px 74px !important;
   }
-
+  .claims-avg-tat-rotate-object {
+    float: left;
+    padding: 14px 0px 32px 53px;
+  }
+  .claims-avg-tat-hr-line {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width: 60px;
+  }
+  .claims-avg-tat-beside-data-block {
+    float: left;
+    padding-top: 48px;
+    padding-left: 32px;
+  }
   /* Css for Labels Ends here*/
 }
 .app-card-structure-with-more-height {

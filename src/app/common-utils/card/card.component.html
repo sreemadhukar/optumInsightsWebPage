@@ -49,14 +49,15 @@ Date Created: 17-Apr-2019
             [customWidth]="widthRotatingArrow"
             [customHeight]="heightRotatingArrow"
             [chartOptions]="chartData.data"
+            class="claims-avg-tat-rotate-object"
           ></app-rotating-arrow-object>
         </div>
-        <div class="beside-data-block">
+        <div class="claims-avg-tat-beside-data-block">
           <ul>
             <li *ngFor="let d of chartData.besideData.verticalData; let i = index">
               <p class="rotate-graph-label-value">{{ d.values }}</p>
               <p class="rotate-graph-label">{{ d.labels }}</p>
-              <hr *ngIf="i + 1 < chartData.besideData.verticalData.length" />
+              <hr *ngIf="i + 1 < chartData.besideData.verticalData.length" class="claims-avg-tat-hr-line" />
             </li>
           </ul>
         </div>
