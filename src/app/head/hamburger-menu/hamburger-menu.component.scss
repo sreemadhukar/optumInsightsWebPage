@@ -91,6 +91,20 @@ app-header {
   margin: 0px 0px 15px 0px;
 }
 
+.change-provider {
+  height: 18px;
+  width: 105px;
+  color: #196ecf;
+  font-family: 'UHCSans-SemiBold';
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+  line-height: 18px;
+  text-decoration: underline;
+  margin: 9px 0;
+  cursor: pointer;
+}
+
 .mat-list-base {
   padding: 0px !important;
   margin: 0px !important;

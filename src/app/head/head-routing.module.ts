@@ -22,6 +22,11 @@ const routes: Routes = [
     loadChildren: '../components/care-delivery-page/care-delivery-page.module#CareDeliveryPageModule',
     canActivate: [AuthGuard]
   },
+  {
+    path: 'ProviderSearch',
+    loadChildren: '../components/provider-search/provider-search.module#ProviderSearchModule',
+    canActivate: [AuthGuard]
+  },
   /*  {
     path: 'issueResolution',
     loadChildren: '../components/issue-resolution-page/issue-resolution-page.module#IssueResolutionPageModule',

@@ -34,7 +34,6 @@ export class InternalService {
         map(
           user => {
             if (typeof user !== 'undefined' && user !== null) {
-              // this.loader = false;
               this.tempUser = user;
               this.sso = [];
               this.sso.push({
@@ -42,7 +41,6 @@ export class InternalService {
               });
               sessionStorage.setItem('currentUser', JSON.stringify(this.sso));
               sessionStorage.setItem('loggedUser', JSON.stringify(user));
-              this.router.navigate([this.returnUrl]);
               return user;
             } else {
               //    this.loader = false;
@@ -51,19 +49,17 @@ export class InternalService {
             }
           },
           error => {
-            //     this.loader = false;
             console.log('Login service error', error.status);
             environment.errorMessage = error.status;
-            //     this.checkErrorService.checkError(error);
           }
         )
       );
     } else {
-      this.getPublicKey(userName, password);
+      this.getPublicKey();
     }
   }
 
-  getPublicKey(userName, password) {
+  getPublicKey() {
     const url = this.APP_URL + 'getPublicKey';
     const token = JSON.parse(sessionStorage.getItem('token'));
     const params = new HttpParams();
@@ -73,7 +69,6 @@ export class InternalService {
     });
     return this.http.post(url, params, { headers: myHeader }).subscribe(async data => {
       sessionStorage.setItem('publicKey', JSON.stringify(data));
-      await this.login(userName, password);
     });
   }
 
