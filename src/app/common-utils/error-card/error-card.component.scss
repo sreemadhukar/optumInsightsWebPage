@@ -1,0 +1,60 @@
+@import '~src/scss/variables.scss';
+@import '~src/scss/mixins';
+.card-structure {
+  position: relative;
+  display: inline-flex;
+}
+.card-inner {
+  background-color: $white;
+  width: 222px;
+  height: 238px;
+  margin: 10px;
+  line-height: 75px;
+  @include font-size(30);
+  .self-service-title {
+    position: relative;
+    padding: 16px 20px 0 20px;
+    color: $neutral-5;
+    font-family: 'UHCSans-Regular', 'Arial';
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 22px;
+    text-align: left;
+    letter-spacing: 0.2px;
+  }
+}
+
+.card-inner-large {
+  background-color: $white;
+  width: 820px;
+  height: 600px;
+  margin: 10px;
+  line-height: 75px;
+  font-size: 30px;
+}
+
+.app-card-structure {
+  position: relative;
+  background-color: $white;
+  width: 468px;
+  height: 356px;
+  margin: 10px;
+  line-height: 75px;
+  font-size: 30px;
+}
+
+.small-card-structure {
+  position: relative;
+
+  .card-inner {
+    background-color: #ffffff;
+    width: 304px;
+    height: 237px;
+    margin: 10px;
+    line-height: 75px;
+    font-size: 30px;
+    .full-width {
+      width: 100%;
+    }
+  }
+}

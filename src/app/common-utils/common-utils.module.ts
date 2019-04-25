@@ -27,7 +27,8 @@ import { ErrorCardComponent } from './error-card/error-card.component';
     SmallCardComponent,
     BarChartComponent,
     FeedbackComponent,
-    LargeCardComponent
+    LargeCardComponent,
+    ErrorCardComponent
   ],
   declarations: [
     MiniTileComponent,
