@@ -1,0 +1,14 @@
+<div
+  [class.card-structure]="data.category === 'mini-tile'"
+  [class.small-card-structure]="data.category !== 'small-card'"
+  [class.app-card-structure]="data.category !== 'app-card'"
+  [class.card-structure]="data.category !== 'large-card'"
+>
+  <div
+    [class.card-inner]="data.category === 'mini-tile' || data.category !== 'small-card' || data.category !== 'app-card'"
+    [class.card-inner-large]="data.category !== 'large-card'"
+  >
+    <div [class.self-service-title]="data.category === 'mini-tile'">{{ data.title }}</div>
+    <app-common-header [title]="data.title" *ngIf="data.category !== 'mini-tile'"></app-common-header>
+  </div>
+</div>

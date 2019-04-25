@@ -373,14 +373,15 @@ export class GettingReimbursedSharedService {
               timeperiod: null
             };
           } else {
+            console.log(appealsData);
             if (
               appealsData.hasOwnProperty('LineOfBusiness') &&
-              appealsData.LineOfBusiness.hasOwnProperty(lobData) &&
+              appealsData.LineOfBusiness.hasOwnProperty(lobFullData) &&
               appealsData.LineOfBusiness.hasOwnProperty('CommunityAndState') &&
               appealsData.LineOfBusiness.hasOwnProperty('EmployerAndIndividual') &&
               appealsData.LineOfBusiness.hasOwnProperty('MedicareAndRetirement') &&
-              appealsData.LineOfBusiness[lobData].hasOwnProperty('AdminAppeals') &&
-              appealsData.LineOfBusiness[lobData].hasOwnProperty('ClinicalAppeals') &&
+              appealsData.LineOfBusiness[lobFullData].hasOwnProperty('AdminAppeals') &&
+              appealsData.LineOfBusiness[lobFullData].hasOwnProperty('ClinicalAppeals') &&
               appealsData.LineOfBusiness.CommunityAndState.hasOwnProperty('AdminAppeals') &&
               appealsData.LineOfBusiness.CommunityAndState.hasOwnProperty('ClinicalAppeals') &&
               appealsData.LineOfBusiness.EmployerAndIndividual.hasOwnProperty('AdminAppeals') &&
@@ -403,8 +404,8 @@ export class GettingReimbursedSharedService {
                 data: {
                   graphValues: submittedData,
                   centerNumber:
-                    appealsData.LineOfBusiness[lobData].AdminAppeals +
-                    appealsData.LineOfBusiness[lobData].ClinicalAppeals,
+                    appealsData.LineOfBusiness[lobFullData].AdminAppeals +
+                    appealsData.LineOfBusiness[lobFullData].ClinicalAppeals,
                   color: ['#3381FF', '#80B0FF', '#003DA1'],
                   gdata: ['card-inner', 'claimsAppealSubmitted'],
                   sdata: {
@@ -418,8 +419,8 @@ export class GettingReimbursedSharedService {
                 },
                 bottomData: {
                   horizontalData: [
-                    { values: appealsData.LineOfBusiness[lobData].AdminAppeals, labels: 'Admin' },
-                    { values: appealsData.LineOfBusiness[lobData].ClinicalAppeals, labels: 'Clinical' }
+                    { values: appealsData.LineOfBusiness[lobFullData].AdminAppeals, labels: 'Admin' },
+                    { values: appealsData.LineOfBusiness[lobFullData].ClinicalAppeals, labels: 'Clinical' }
                   ]
                 },
                 timeperiod: this.timeFrame
@@ -824,12 +825,12 @@ export class GettingReimbursedSharedService {
             } else {
               if (
                 appealsData.hasOwnProperty('LineOfBusiness') &&
-                appealsData.LineOfBusiness.hasOwnProperty(lobData) &&
+                appealsData.LineOfBusiness.hasOwnProperty(lobFullData) &&
                 appealsData.LineOfBusiness.hasOwnProperty('CommunityAndState') &&
                 appealsData.LineOfBusiness.hasOwnProperty('EmployerAndIndividual') &&
                 appealsData.LineOfBusiness.hasOwnProperty('MedicareAndRetirement') &&
-                appealsData.LineOfBusiness[lobData].hasOwnProperty('AdminAppeals') &&
-                appealsData.LineOfBusiness[lobData].hasOwnProperty('ClinicalAppeals') &&
+                appealsData.LineOfBusiness[lobFullData].hasOwnProperty('AdminAppeals') &&
+                appealsData.LineOfBusiness[lobFullData].hasOwnProperty('ClinicalAppeals') &&
                 appealsData.LineOfBusiness.CommunityAndState.hasOwnProperty('AdminAppeals') &&
                 appealsData.LineOfBusiness.CommunityAndState.hasOwnProperty('ClinicalAppeals') &&
                 appealsData.LineOfBusiness.EmployerAndIndividual.hasOwnProperty('AdminAppeals') &&
@@ -852,8 +853,8 @@ export class GettingReimbursedSharedService {
                   data: {
                     graphValues: submittedData,
                     centerNumber:
-                      appealsData.LineOfBusiness[lobData].AdminAppeals +
-                      appealsData.LineOfBusiness[lobData].ClinicalAppeals,
+                      appealsData.LineOfBusiness[lobFullData].AdminAppeals +
+                      appealsData.LineOfBusiness[lobFullData].ClinicalAppeals,
                     color: ['#3381FF', '#80B0FF', '#003DA1'],
                     gdata: ['card-inner', 'claimsAppealSubmitted'],
                     sdata: {
@@ -867,8 +868,8 @@ export class GettingReimbursedSharedService {
                   },
                   bottomData: {
                     horizontalData: [
-                      { values: appealsData.LineOfBusiness[lobData].AdminAppeals, labels: 'Admin' },
-                      { values: appealsData.LineOfBusiness[lobData].ClinicalAppeals, labels: 'Clinical' }
+                      { values: appealsData.LineOfBusiness[lobFullData].AdminAppeals, labels: 'Admin' },
+                      { values: appealsData.LineOfBusiness[lobFullData].ClinicalAppeals, labels: 'Clinical' }
                     ]
                   },
                   timeperiod: this.timeFrame
