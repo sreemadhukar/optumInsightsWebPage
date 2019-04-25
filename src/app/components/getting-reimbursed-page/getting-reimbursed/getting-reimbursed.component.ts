@@ -14,6 +14,8 @@ export class GettingReimbursedComponent implements OnInit {
   currentSummary: Array<Object> = [{}];
   currentTabTitle: String = '';
   tabOptions: Array<String> = [];
+  selectedItemId: Number = 0;
+
   constructor(private gettingReimbursedSharedService: GettingReimbursedSharedService) {
     this.pageTitle = 'Getting Reimbursed';
     this.currentTabTitle = '';
@@ -21,7 +23,8 @@ export class GettingReimbursedComponent implements OnInit {
   }
 
   matOptionClicked(i: any, event: any) {
-    console.log('option clicked', i);
+    console.log('option clicked', this.selectedItemId);
+    this.selectedItemId = i;
     this.currentSummary = this.summaryItems[i].data;
     this.currentTabTitle = this.summaryItems[i].title;
     const myTabs = document.querySelectorAll('ul.nav-tabs > li');
@@ -31,6 +34,7 @@ export class GettingReimbursedComponent implements OnInit {
     event.target.classList.add('active');
   }
   ngOnInit() {
+    this.selectedItemId = 0;
     this.gettingReimbursedSharedService
       .getGettingReimbursedData()
       .then(completeData => {
