@@ -154,6 +154,14 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit {
     this.allExpandState(false, id - 1);
   }
 
+  openDialog(): void {
+    this.dialog.open(ProviderSearchComponent, {
+      width: '550px',
+      height: '212px',
+      disableClose: true
+    });
+  }
+
   private allExpandState(value: boolean, id) {
     this._allExpandState = value;
     this.togglePanels(value, id);
@@ -174,11 +182,4 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit {
     });
   }
   /** END OF FUNCTIONS TO COLLAPSE LEFT MENU **/
-  private openDialog(): void {
-    this.dialog.open(ProviderSearchComponent, {
-      width: '550px',
-      height: '212px',
-      disableClose: true
-    });
-  }
 }
