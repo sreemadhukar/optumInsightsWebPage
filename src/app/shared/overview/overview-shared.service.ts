@@ -178,7 +178,7 @@ export class OverviewSharedService {
             };
           }
           if (
-            providerSystems.hasOwnProperty('PatientCareOpportunity') &&
+            providerSystems.hasOwnProperty('PatientCareOpportunity') !== null &&
             providerSystems.PatientCareOpportunity.hasOwnProperty('LineOfBusiness') &&
             providerSystems.PatientCareOpportunity.LineOfBusiness.hasOwnProperty('MedicareAndRetirement') &&
             providerSystems.PatientCareOpportunity.LineOfBusiness.MedicareAndRetirement.hasOwnProperty(

@@ -8,8 +8,6 @@ import { ProviderService } from '../../rest/provider/provider.service';
 export class ProviderSharedService {
   constructor(private providerService: ProviderService) {}
   public providersList() {
-    this.providerService.getProvidersData().subscribe(providers => {
-      console.log(providers);
-    });
+    return this.providerService.getProvidersData();
   }
 }
