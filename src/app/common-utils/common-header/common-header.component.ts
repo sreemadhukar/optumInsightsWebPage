@@ -17,10 +17,7 @@ export class CommonHeaderComponent implements OnInit {
     this.titleHeader = this.title;
     this.typeOfCard = this.cardType;
   }
-  functionClicked() {
+  helpFunctionClicked() {
     this.helpIconClicked.emit(this.title);
-  }
-  getMetricDetails(titleHeader) {
-    console.log(titleHeader);
   }
 }
