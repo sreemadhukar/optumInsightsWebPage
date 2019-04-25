@@ -140,14 +140,16 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit {
       .style('font-weight', '600')
       .text('$571M');
 
-    const line = d3
-      .line()
-      .x(function(d) {
-        return d.x;
-      })
-      .y(function(d) {
-        return d.y;
-      });
+    chart
+      .append('text')
+      .attr('x', 900)
+      .attr('y', 30)
+      .attr('fill', '#2D2D39')
+      .attr('font-size', '12')
+      .style('text-anchor', 'end')
+      .style('font-family', 'UHCSans-Regular')
+      .style('font-weight', '500')
+      .text('*Includes Member Responsibility');
 
     chart
       .append('line')
@@ -189,5 +191,39 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit {
         return d === 0;
       })
       .remove();
+
+    // these rect widths shouldnt be hard coded
+    chart
+      .append('rect')
+      .attr('x', 400)
+      .attr('y', 70)
+      .attr('width', 300)
+      .attr('height', 48)
+      .attr('fill', '#3381FF');
+
+    chart
+      .append('rect')
+      .attr('x', 400)
+      .attr('y', 150)
+      .attr('width', 500)
+      .attr('height', 48)
+      .attr('fill', '#3381FF');
+
+    // #FC6431
+    chart
+      .append('rect')
+      .attr('x', 400)
+      .attr('y', 200)
+      .attr('width', 100)
+      .attr('height', 48)
+      .attr('fill', '#FC6431');
+
+    chart
+      .append('rect')
+      .attr('x', 400)
+      .attr('y', 280)
+      .attr('width', 305)
+      .attr('height', 48)
+      .attr('fill', '#3381FF');
   }
 }
