@@ -28,30 +28,29 @@ export class RotatingArrowObjectComponent implements OnInit, AfterViewInit {
   }
 
   doRotatingArrowChart(chartOptions: any, customWidth: number, customHeight: number) {
-    const preWidth = document.getElementsByClassName(this.chartOptions.gdata[0])[0].clientWidth / 3;
+    // const preWidth = document.getElementsByClassName(this.chartOptions.gdata[0])[0].clientWidth;
     d3.select(this.renderChart)
       .selectAll('*')
       .remove();
 
-    const margin = { top: 30, right: 10, bottom: 10, left: 30 };
-    let width = preWidth - margin.left - margin.right;
-    let height = width - margin.top - margin.bottom;
+    let width = 212;
+    let height = 212;
 
     if (customWidth > 0) {
-      width = customWidth - margin.left - margin.right;
+      width = customWidth;
     }
 
     if (customHeight > 0) {
-      height = customHeight - margin.left - margin.right;
+      height = customHeight;
     }
 
     const chart = d3
       .select(this.renderChart)
       .append('svg')
-      .attr('width', width + margin.left + margin.right)
-      .attr('height', height + margin.top + margin.bottom)
+      .attr('width', width)
+      .attr('height', height)
       .append('g')
-      .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
+      .attr('transform', 'translate(' + 0 + ',' + 0 + ')');
 
     chart
       .append('path')
