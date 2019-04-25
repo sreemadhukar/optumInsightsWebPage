@@ -12,7 +12,8 @@ import {
   Renderer2,
   ViewEncapsulation,
   ViewChildren,
-  QueryList
+  QueryList,
+  ViewChild
 } from '@angular/core';
 import { MatExpansionPanel, MatDialog } from '@angular/material';
 import { BreakpointObserver } from '@angular/cdk/layout';
@@ -42,7 +43,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit {
   public makeAbsolute: boolean;
   public sideNavFlag: boolean;
   subscription: any;
-  public glossaryFlag: boolean;
+  public glossaryFlag;
   public glossaryTitle: string = null;
 
   /*** Array of Navigation Category List ***/
@@ -75,7 +76,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit {
   ];
 
   fillerNav = Array.from({ length: 50 }, (_, i) => `Nav Item ${i + 1}`);
-
+  // @ViewChild('srnav') public glossaryFlag;
   /** CONSTRUCTOR **/
   constructor(
     private breakpointObserver: BreakpointObserver,
@@ -90,7 +91,6 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit {
     private checkStorage: StorageService,
     private glossaryExpandService: GlossaryExpandService
   ) {
-    this.glossaryFlag = true;
     // to disable the header/footer/body when not authenticated
     router.events.subscribe(event => {
       if (event instanceof NavigationStart) {
@@ -149,6 +149,10 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit {
   hamburgerDisplay(input: boolean) {
     this.sideNavFlag = input;
     console.log(input);
+  }
+
+  abc(glossaryTitle) {
+    this.glossaryExpandService.glossaryFlag = this.glossaryFlag;
   }
 
   toggleDarkTheme(isDarkTheme: boolean) {
