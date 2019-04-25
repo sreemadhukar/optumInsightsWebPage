@@ -29,6 +29,8 @@ export class SmallCardComponent implements OnInit {
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-help_outline-24px.svg')
     );
   }
-
+  helpIconClick(d) {
+    console.log('clicked title', d);
+  }
   ngOnInit() {}
 }
