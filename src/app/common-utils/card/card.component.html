@@ -1,44 +1,38 @@
 <div *ngIf="chartData != null" class="app-card-structure">
   <div class="card-inner">
-    <app-common-header [title]="chartData.title"></app-common-header>
-    <div *ngIf="chartData.data != null">
-      <div *ngIf="chartData.type === 'donut'">
+    <app-common-header [cardType]="'appCard'" [title]="chartData.title"></app-common-header>
+    <div *ngIf="chartData.data != null" class="full-width-block">
+      <!-- DONUT WITH LABEL -->
+      <div *ngIf="chartData.type == 'donutWithLabel'" class="full-width-block">
         <div class="chart-details-donut">
-          <app-donut-chart [donutType]="'app-card'" [chartOptions]="chartData.data"></app-donut-chart>
+          <app-donut-chart
+            [donutType]="'app-card'"
+            [chartOptions]="chartData.data"
+            [class.total-claims-donut-with-label]="chartData.title == 'Total Claims Submitted'"
+            [class.claims-paid-donut-with-label]="
+              chartData.title == 'Claims Paid' || chartData.title == 'Claims Not Paid'
+            "
+          ></app-donut-chart>
         </div>
-      </div>
-      <div *ngIf="chartData.type === 'donutWithLabel'">
-        <div class="chart-details-donut">
-          <app-donut-chart [donutType]="'app-card'" [chartOptions]="chartData.data"></app-donut-chart>
-        </div>
-        <div *ngIf="chartData.type === 'donutWithLabel'">
-          <ul class="list-labels">
+        <div
+          [class.total-claims-beside-data-block]="chartData.title == 'Total Claims Submitted'"
+          [class.claims-paid-beside-data-block]="
+            chartData.title == 'Claims Paid' || chartData.title == 'Claims Not Paid'
+          "
+        >
+          <ul class="app-card-list-labels">
+            <li *ngFor="let c of chartData.besideData.color; let i = index">
+              <div class="label-dots" style.background-color="{{ c }}"></div>
+            </li>
+          </ul>
+          <ul class="app-card-list-labels">
             <li *ngFor="let c of chartData.besideData.labels; let i = index">{{ c }}</li>
           </ul>
         </div>
-        <div *ngIf="chartData.timeperiod">
-          <app-common-footer [timePeriod]="chartData.timeperiod"></app-common-footer>
-        </div>
       </div>
 
-      <div *ngIf="chartData.type === 'donutWithLabelBottom'">
-        <div class="chart-details-donut">
-          <app-donut-chart [donutType]="'app-card'" [chartOptions]="chartData.data"></app-donut-chart>
-        </div>
-        <div *ngIf="chartData.type === 'donutWithLabelBottom'">
-          <ul class="list-labels">
-            <li *ngFor="let c of chartData.besideData.labels; let i = index">{{ c }}</li>
-          </ul>
-        </div>
-        <div *ngIf="chartData.timeperiod">
-          <app-common-footer [timePeriod]="chartData.timeperiod"></app-common-footer>
-        </div>
-      </div>
-
-      <div *ngIf="chartData.type == 'star' && chartData.data != null" class="chart-details">
-        <app-star-chart [chartOptions]="chartData.data"></app-star-chart>
-      </div>
-      <div *ngIf="chartData.type == 'rotateWithLabel'">
+      <!-- ROTATE WITH LABEL -->
+      <div *ngIf="chartData.type == 'rotateWithLabel'" class="full-width-block">
         <div class="rotating-arrow-object">
           <app-rotating-arrow-object
             [customWidth]="widthRotatingArrow"
@@ -46,7 +40,57 @@
             [chartOptions]="chartData.data"
           ></app-rotating-arrow-object>
         </div>
+        <div class="beside-data-block">
+          <ul>
+            <li *ngFor="let d of chartData.besideData.verticalData; let i = index">
+              <p class="rotate-graph-label-value">{{ d.values }}</p>
+              <p class="rotate-graph-label">{{ d.labels }}</p>
+              <hr *ngIf="i + 1 < chartData.besideData.verticalData.length" />
+            </li>
+          </ul>
+        </div>
       </div>
+
+      <!-- ONLY DONUT -->
+      <div *ngIf="chartData.type == 'donut'">
+        <div class="chart-details-donut">
+          <app-donut-chart
+            [donutType]="'app-card'"
+            class="only-donut-block"
+            [chartOptions]="chartData.data"
+          ></app-donut-chart>
+        </div>
+      </div>
+
+      <!-- DONUT WITH LABEL BOTTOM-->
+      <div *ngIf="chartData.type == 'donutWithLabelBottom'">
+        <div class="chart-details-donut">
+          <app-donut-chart [chartOptions]="chartData.data"></app-donut-chart>
+        </div>
+        <div>
+          <ul class="list-labels">
+            <li *ngFor="let c of chartData.besideData.labels; let i = index">{{ c }}</li>
+          </ul>
+        </div>
+        <div>
+          Bottom Labels
+        </div>
+      </div>
+
+      <!-- ONLY STAR -->
+      <div *ngIf="chartData.type == 'star' && chartData.data != null" class="chart-details">
+        <div>
+          <app-star-chart [chartOptions]="chartData.data"></app-star-chart>
+        </div>
+      </div>
+
+      <!-- ONLY BARS -->
+      <div *ngIf="chartData.type == 'bar'">
+        <div>ONLY BARS</div>
+      </div>
+    </div>
+    <div *ngIf="chartData.timeperiod" class="full-width-block">
+      <app-common-footer [timePeriod]="chartData.timeperiod"></app-common-footer>
     </div>
   </div>
 </div>

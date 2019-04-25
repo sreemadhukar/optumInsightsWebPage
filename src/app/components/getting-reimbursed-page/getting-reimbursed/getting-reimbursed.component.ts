@@ -19,10 +19,23 @@ export class GettingReimbursedComponent implements OnInit {
     this.currentTabTitle = '';
     this.tabOptions = ['Submission', 'Payments', 'Non-Payments', 'Appeals'];
   }
+
   matOptionClicked(i: any) {
     console.log('option clicked', i);
     this.currentSummary = this.summaryItems[i].data;
     this.currentTabTitle = this.summaryItems[i].title;
+    const myTabs = document.querySelectorAll('ul.nav-tabs > li');
+    function myTabClicks(tabClickEvent) {
+      for (let j = 0; j < myTabs.length; j++) {
+        myTabs[j].classList.remove('active');
+      }
+      const clickedTab = tabClickEvent.currentTarget;
+      clickedTab.classList.add('active');
+      tabClickEvent.preventDefault();
+    }
+    for (let m = 0; m < myTabs.length; m++) {
+      myTabs[m].addEventListener('click', myTabClicks);
+    }
   }
   ngOnInit() {
     this.gettingReimbursedSharedService
@@ -35,22 +48,5 @@ export class GettingReimbursedComponent implements OnInit {
         console.log(this.currentSummary);
       })
       .catch(reason => console.log(reason.message));
-
-    window.addEventListener('load', function() {
-      // store tabs variable
-
-      const myTabs = document.querySelectorAll('ul.nav-tabs > li');
-      function myTabClicks(tabClickEvent) {
-        for (let i = 0; i < myTabs.length; i++) {
-          myTabs[i].classList.remove('active');
-        }
-        const clickedTab = tabClickEvent.currentTarget;
-        clickedTab.classList.add('active');
-        tabClickEvent.preventDefault();
-      }
-      for (let i = 0; i < myTabs.length; i++) {
-        myTabs[i].addEventListener('click', myTabClicks);
-      }
-    });
   }
 }
