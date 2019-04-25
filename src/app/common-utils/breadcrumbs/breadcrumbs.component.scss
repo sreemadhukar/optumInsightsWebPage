@@ -7,6 +7,16 @@
   padding-right: 5px;
 }
 
+.breadcrumb li + li:before {
+  content: ' > ';
+  color: #196ecf;
+  padding-right: 5px;
+}
+
+/*.disable-link li+li:before {
+  content: " > ";
+  color: #757588 ;
+}*/
 .disable-link {
   color: #757588 !important;
   text-decoration: none;
