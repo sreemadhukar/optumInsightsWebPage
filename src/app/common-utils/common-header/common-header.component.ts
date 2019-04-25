@@ -7,11 +7,14 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class CommonHeaderComponent implements OnInit {
   @Input() title: String;
+  @Input() cardType: String;
   titleHeader: String = null;
+  typeOfCard: String = null;
   constructor() {}
 
   ngOnInit() {
     this.titleHeader = this.title;
+    this.typeOfCard = this.cardType;
   }
   getMetricDetails(titleHeader) {
     console.log(titleHeader);

@@ -11,9 +11,12 @@
     font-size: 30px;
 
     .chart-details-donut {
-      width: 50%;
+      /*width: 50%;
       float: left;
-      padding-left: 15px;
+      padding-left: 15px;*/
+      float: left;
+      padding-left: 42px;
+      margin-bottom: 16px;
     }
     .chart-details {
       float: left;
@@ -23,7 +26,10 @@
     }
     .trend-details {
       float: left;
-      padding: 10% 0;
+      /*padding: 10% 0;*/
+      display: flex;
+      margin-top: 56px;
+      margin-left: 18px;
 
       .trend-value {
         font-size: 14px;
@@ -31,15 +37,17 @@
         letter-spacing: 0.2px;
         line-height: 18px;
         font-family: 'UHCSans-Regular', 'Arial';
-        display: inline;
-        vertical-align: middle;
+        /*display: inline;
+        vertical-align: middle;*/
+        margin-left: 8px;
+        margin-top: 7px;
       }
       .trend-image {
         height: 20px;
         width: 20px;
-        border-radius: 21px;
-        display: inline-block;
-        vertical-align: middle;
+        border-radius: 50%;
+        /*display: inline-block;
+        vertical-align: middle;*/
         padding: 6px;
       }
       .trend-image-down {
@@ -55,6 +63,16 @@
       .trend-image-up {
         background-color: color(green, light);
       }
+      .flex-box {
+        display: flex;
+      }
     }
+  }
+  .full-display-block {
+    float: left;
+    width: 100%;
+  }
+  .small-star-chart {
+    margin-left: 92px;
   }
 }

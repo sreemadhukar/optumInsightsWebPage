@@ -1,11 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef, Renderer2, AfterViewInit } from '@angular/core';
 import { GettingReimbursedSharedService } from '../../../shared/getting-reimbursed/getting-reimbursed-shared.service';
+
 @Component({
   selector: 'app-getting-reimbursed',
   templateUrl: './getting-reimbursed.component.html',
   styleUrls: ['./getting-reimbursed.component.scss']
 })
-export class GettingReimbursedComponent implements OnInit {
+export class GettingReimbursedComponent implements OnInit, AfterViewInit {
   summaryItems: any;
   pageTitle: String = '';
   pagesubTitle: String = '';
@@ -14,7 +15,12 @@ export class GettingReimbursedComponent implements OnInit {
   currentSummary: Array<Object> = [{}];
   currentTabTitle: String = '';
   tabOptions: Array<String> = [];
-  constructor(private gettingReimbursedSharedService: GettingReimbursedSharedService) {
+  constructor(
+    private elementRef: ElementRef,
+    private renderer: Renderer2,
+    private gettingReimbursedSharedService: GettingReimbursedSharedService
+  ) {
+    this.pagesubTitle = 'Claim Submissions';
     this.pageTitle = 'Getting Reimbursed';
     this.currentTabTitle = '';
     this.tabOptions = ['Submission', 'Payments', 'Non-Payments', 'Appeals'];
@@ -51,6 +57,13 @@ export class GettingReimbursedComponent implements OnInit {
       for (let i = 0; i < myTabs.length; i++) {
         myTabs[i].addEventListener('click', myTabClicks);
       }
+    });
+  }
+
+  public ngAfterViewInit(): void {
+    const listItems = this.elementRef.nativeElement.querySelectorAll('.mat-tab-label') as HTMLElement[];
+    Array.from(listItems).forEach(listItem => {
+      this.renderer.setStyle(listItem, 'height', 'auto !important');
     });
   }
 }

@@ -2,7 +2,7 @@
   <div class="details">
     <mat-icon class="nav-menu-icons" (click)="getMetricDetails(titleHeader)" svgIcon="help"></mat-icon>
   </div>
-  <div class="header-title">
+  <div class="header-title" [class.app-card-header-title]="typeOfCard == 'appCard'">
     {{ titleHeader }}
   </div>
 </div>
