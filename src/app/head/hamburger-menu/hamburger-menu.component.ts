@@ -24,6 +24,7 @@ import { ThemeService } from '../../shared/theme.service';
 import { Observable } from 'rxjs';
 import { ProviderSearchComponent } from '../../common-utils/provider-search/provider-search.component';
 import { StorageService } from '../../shared/storage-service.service';
+import { GlossaryExpandService } from '../../shared/glossary-expand.service';
 
 @Component({
   selector: 'app-hamburger-menu',
@@ -84,7 +85,8 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit {
     sanitizer: DomSanitizer,
     private themeService: ThemeService,
     private dialog: MatDialog,
-    private checkStorage: StorageService
+    private checkStorage: StorageService,
+    private glossaryExpandService: GlossaryExpandService
   ) {
     // to disable the header/footer/body when not authenticated
     router.events.subscribe(event => {
