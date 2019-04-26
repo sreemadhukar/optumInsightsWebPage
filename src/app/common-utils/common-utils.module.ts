@@ -19,6 +19,7 @@ import { RotatingArrowObjectComponent } from './d3-objects/rotating-arrow-object
 import { ClaimsPaidBarGraphComponent } from './d3-objects/claims-paid-bar-graph/claims-paid-bar-graph.component';
 import { ProviderSearchComponent } from './provider-search/provider-search.component';
 import { ErrorCardComponent } from './error-card/error-card.component';
+import { GlossaryComponent } from './glossary/glossary.component';
 
 @NgModule({
   imports: [CommonModule, FormsModule, ReactiveFormsModule, HeadMaterialModule, RouterModule],
@@ -31,7 +32,8 @@ import { ErrorCardComponent } from './error-card/error-card.component';
     BarChartComponent,
     BreadcrumbsComponent,
     FeedbackComponent,
-    LargeCardComponent
+    LargeCardComponent,
+    GlossaryComponent
   ],
   declarations: [
     MiniTileComponent,
@@ -49,7 +51,8 @@ import { ErrorCardComponent } from './error-card/error-card.component';
     RotatingArrowObjectComponent,
     ClaimsPaidBarGraphComponent,
     ProviderSearchComponent,
-    ErrorCardComponent
+    ErrorCardComponent,
+    GlossaryComponent
   ],
   entryComponents: [ProviderSearchComponent]
 })

@@ -12,7 +12,8 @@ import {
   Renderer2,
   ViewEncapsulation,
   ViewChildren,
-  QueryList
+  QueryList,
+  OnDestroy
 } from '@angular/core';
 import { MatExpansionPanel, MatDialog } from '@angular/material';
 import { BreakpointObserver } from '@angular/cdk/layout';
@@ -24,6 +25,8 @@ import { ThemeService } from '../../shared/theme.service';
 import { Observable } from 'rxjs';
 import { ProviderSearchComponent } from '../../common-utils/provider-search/provider-search.component';
 import { StorageService } from '../../shared/storage-service.service';
+import { GlossaryExpandService } from '../../shared/glossary-expand.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-hamburger-menu',
@@ -31,7 +34,7 @@ import { StorageService } from '../../shared/storage-service.service';
   styleUrls: ['./hamburger-menu.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class HamburgerMenuComponent implements AfterViewInit, OnInit {
+export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy {
   _allExpandState = false;
   isDarkTheme: Observable<boolean>;
   @ViewChildren(MatExpansionPanel) viewPanels: QueryList<MatExpansionPanel>;
@@ -41,7 +44,9 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit {
   public makeAbsolute: boolean;
   public sideNavFlag: boolean;
   subscription: any;
-
+  public glossaryFlag: boolean;
+  public glossaryTitle: string = null;
+  clickHelpIcon: Subscription;
   /*** Array of Navigation Category List ***/
   public navCategories = [
     { icon: 'home', name: 'Overview', path: '/OverviewPage' },
@@ -84,8 +89,10 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit {
     sanitizer: DomSanitizer,
     private themeService: ThemeService,
     private dialog: MatDialog,
-    private checkStorage: StorageService
+    private checkStorage: StorageService,
+    private glossaryExpandService: GlossaryExpandService
   ) {
+    this.glossaryFlag = false;
     // to disable the header/footer/body when not authenticated
     router.events.subscribe(event => {
       if (event instanceof NavigationStart) {
@@ -121,8 +128,17 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit {
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => {
       this.healthSystemName = JSON.parse(sessionStorage.getItem('currentUser'))[0]['HealthCareOrganizationName'];
     });
+    this.clickHelpIcon = this.glossaryExpandService.message.subscribe(data => {
+      this.glossaryFlag = true;
+      this.glossaryTitle = data;
+      console.log('Hamburger Subscripption', data);
+    });
   }
-
+  ngOnDestroy() {
+    this.clickHelpIcon.unsubscribe();
+    this.glossaryFlag = false;
+    this.glossaryTitle = null;
+  }
   /*** used to apply the CSS for dynamically generated elements ***/
   public ngAfterViewInit(): void {
     const listItems = this.elementRef.nativeElement.querySelectorAll('.mat-list-item') as HTMLElement[];
