@@ -20,7 +20,6 @@ import { MatExpansionPanel } from '@angular/material';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
-import { SessionService } from '../../shared/session.service';
 import { ThemeService } from '../../shared/theme.service';
 import { Observable } from 'rxjs';
 @Component({
@@ -56,16 +55,12 @@ export class HeaderComponent implements AfterViewChecked, OnInit {
   public state: any;
   public mobileQuery: boolean;
   public menuIcon = 'menu';
-  public username =
-    this.session.sessionStorage('loggedUser', 'LastName') +
-    ' ' +
-    this.session.sessionStorage('loggedUser', 'FirstName');
+  public username: any;
 
   constructor(
     private breakpointObserver: BreakpointObserver,
     public el: ElementRef,
     private renderer: Renderer2,
-    private session: SessionService,
     private iconRegistry: MatIconRegistry,
     sanitizer: DomSanitizer,
     private themeService: ThemeService
@@ -89,10 +84,7 @@ export class HeaderComponent implements AfterViewChecked, OnInit {
     );
   }
   ngAfterViewChecked() {
-    this.username =
-      this.session.sessionStorage('loggedUser', 'LastName') +
-      ' ' +
-      this.session.sessionStorage('loggedUser', 'FirstName');
+    this.username = 'Anne';
   }
 
   ngOnInit() {
@@ -135,7 +127,7 @@ export class HeaderComponent implements AfterViewChecked, OnInit {
     if (scrollPosition < componentPosition) {
       this.state = 'show';
     } else {
-      this.state = 'hide';
+      this.state = 'show';
     }
   }
 }
