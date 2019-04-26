@@ -55,8 +55,8 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
       name: 'Getting Reimbursed',
       children: [
         { name: 'Summary', path: 'GettingReimbursed' },
-        { name: 'Payments', path: '#' },
-        { name: 'Non-Payments', path: '#' },
+        { name: 'Payments', path: 'GettingReimbursed/Payments' },
+        { name: 'Non-Payments', path: 'GettingReimbursed/NonPayments' },
         { name: 'Appeals', path: 'GettingReimbursed/Appeals' },
         { name: 'Payment Integrity', path: 'GettingReimbursed/PaymentIntegrity' }
       ]
@@ -66,7 +66,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
       name: 'Care Delivery',
       children: [
         { name: 'Prior Authorizations', path: 'CareDelivery/priorAuth' },
-        { name: 'Patient Care Opportunity', path: '#' }
+        { name: 'Patient Care Opportunity', path: 'CareDelivery/PatientCareOpportunity' }
       ]
     },
     {
