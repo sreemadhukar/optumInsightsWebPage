@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { GlossaryService } from './../../rest/glossary/glossary.service';
 
 @Component({
@@ -9,17 +9,25 @@ import { GlossaryService } from './../../rest/glossary/glossary.service';
 export class GlossaryComponent implements OnInit {
   glossaryList: any;
   glossaryData: any[];
+  @Input() title;
 
   constructor(private glossaryService: GlossaryService) {}
 
   ngOnInit() {
     this.glossaryService.getBusinessGlossaryData().subscribe(response => {
       this.glossaryList = response;
-      /* for (let i = 0; i < this.glossaryList.length; i++) {
+
+      this.glossaryList = this.glossaryList.filter(
+        item => item.BusinessGlossary.ProviderDashboardName.Metric === 'Claims yield'
+      );
+      console.log(this.glossaryList);
+      /*for (let i = 0; i < this.glossaryList.length; i++) {
         this.glossaryList[i].BusinessGlossary.ProviderDashboardName.metricData =
         this.glossaryList[i].BusinessGlossary.ProviderDashboardName.Metric.replace(/[^a-zA-Z]/g, '');
         }
-      this.glossaryData = this.glossaryList.sort(function(a, b) {
+
+
+     this.glossaryData = this.glossaryList.sort(function(a, b) {
         if (a.BusinessGlossary.ProviderDashboardName.Metric.toLowerCase() <
         b.BusinessGlossary.ProviderDashboardName.Metric.toLowerCase()) { // sort string ascending
               return -1;
