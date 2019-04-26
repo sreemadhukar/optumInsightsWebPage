@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MiniTileComponent } from './mini-tile/mini-tile.component';
 import { CardComponent } from './card/card.component';
@@ -11,6 +12,7 @@ import { DonutChartComponent } from './d3-objects/donut-chart/donut-chart.compon
 import { StarChartComponent } from './d3-objects/star-chart/star-chart.component';
 import { BarChartComponent } from './d3-objects/bar-chart/bar-chart.component';
 import { HeadMaterialModule } from '../head/head.material.module';
+import { BreadcrumbsComponent } from './breadcrumbs/breadcrumbs.component';
 import { FeedbackComponent } from './feedback/feedback.component';
 import { LargeCardComponent } from './large-card/large-card.component';
 import { RotatingArrowObjectComponent } from './d3-objects/rotating-arrow-object/rotating-arrow-object.component';
@@ -20,7 +22,7 @@ import { ErrorCardComponent } from './error-card/error-card.component';
 import { GlossaryComponent } from './glossary/glossary.component';
 
 @NgModule({
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, HeadMaterialModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, HeadMaterialModule, RouterModule],
   exports: [
     MiniTileComponent,
     CardComponent,
@@ -28,6 +30,7 @@ import { GlossaryComponent } from './glossary/glossary.component';
     CommonHeaderComponent,
     SmallCardComponent,
     BarChartComponent,
+    BreadcrumbsComponent,
     FeedbackComponent,
     LargeCardComponent,
     GlossaryComponent
@@ -42,6 +45,7 @@ import { GlossaryComponent } from './glossary/glossary.component';
     DonutChartComponent,
     StarChartComponent,
     BarChartComponent,
+    BreadcrumbsComponent,
     FeedbackComponent,
     LargeCardComponent,
     RotatingArrowObjectComponent,
