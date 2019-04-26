@@ -123,14 +123,14 @@ export class RotatingArrowObjectComponent implements OnInit, AfterViewInit {
       chart
         .append('circle')
         .attr('cx', width / 3)
-        .attr('cy', height / 2)
+        .attr('cy', height / 1.55)
         .attr('r', 16)
         .attr('fill', circleColor);
 
       chart
         .append('svg:image')
-        .attr('x', width / 3.325)
-        .attr('y', height / 2.175)
+        .attr('x', width / 3.4)
+        .attr('y', height / 1.7)
         .attr('width', '20px')
         .attr('height', '20px')
         .attr('xlink:href', arrowLink);
@@ -138,7 +138,7 @@ export class RotatingArrowObjectComponent implements OnInit, AfterViewInit {
       chart
         .append('text')
         .attr('x', width / 2.25)
-        .attr('y', height / 1.925)
+        .attr('y', height / 1.5)
         .style('font-size', '16px')
         .style('font-weight', '500')
         .style('fill', textColor)
@@ -150,8 +150,8 @@ export class RotatingArrowObjectComponent implements OnInit, AfterViewInit {
     chart
       .append('text')
       .attr('text-anchor', 'middle')
-      .attr('y', height / 2.5)
-      .attr('x', width / 2.25)
+      .attr('y', height / 2)
+      .attr('x', width / 2)
       .style('font-size', '41px')
       .style('font-weight', '500')
       .style('fill', '#2D2D39')
