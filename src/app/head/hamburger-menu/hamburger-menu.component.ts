@@ -152,6 +152,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit {
   }
 
   abc(glossaryTitle) {
+    console.log(glossaryTitle);
     this.glossaryExpandService.glossaryFlag = this.glossaryFlag;
   }
 
