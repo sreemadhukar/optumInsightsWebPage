@@ -21,13 +21,8 @@ export class BreadcrumbsComponent implements OnInit {
     const ROUTE_DATA_BREADCRUMB = 'breadcrumb';
     this.router.events.pipe(filter(event => event instanceof NavigationEnd)).subscribe(event => {
       const root: ActivatedRoute = this.activatedRoute.root;
-      // console.log(root);
       this.breadcrumbs = this.getBreadcrumbs(root);
       this.breadcrumbLength = this.breadcrumbs.length;
-      console.log(this.breadcrumbLength);
-      /*this.breadcrumbs.forEach(element => {
-        console.log(element.label);
-      });*/
     });
   }
 
@@ -36,13 +31,10 @@ export class BreadcrumbsComponent implements OnInit {
   private getBreadcrumbs(route: ActivatedRoute, url: string = '', breadcrumbs: IBreadcrumb[] = []): IBreadcrumb[] {
     const ROUTE_DATA_BREADCRUMB = 'breadcrumb';
     const children: ActivatedRoute[] = route.children;
-    // console.log(ROUTE_DATA_BREADCRUMB, ActivatedRoute, children.length, breadcrumbs);
-
     if (children.length === 0) {
       return breadcrumbs;
     }
     for (const child of children) {
-      // alert(child.parent.snapshot.url.map(segment => segment.path).join('/'));
       if (child.outlet !== PRIMARY_OUTLET) {
         continue;
       }
@@ -60,7 +52,6 @@ export class BreadcrumbsComponent implements OnInit {
         params: child.snapshot.params,
         url: url
       };
-      // console.log(breadcrumb.label, breadcrumb.url);
       breadcrumbs.push(breadcrumb);
       return this.getBreadcrumbs(child, url, breadcrumbs);
     }
