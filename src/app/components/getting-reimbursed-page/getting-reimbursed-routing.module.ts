@@ -9,7 +9,7 @@ const routes: Routes = [
     path: '',
     component: GettingReimbursedComponent,
     data: {
-      breadcrumb: 'Getting Reimbursed'
+      breadcrumb: 'Summary'
     }
   },
   {
