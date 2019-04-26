@@ -1,0 +1,29 @@
+@import '~src/scss/variables.scss';
+
+.breadcrumb li {
+  display: inline;
+  font-size: 14px;
+  font-family: 'UHCSans-SemiBold', 'Arial';
+  padding-right: 5px;
+}
+
+.overview-arrow {
+  color: $blue;
+  padding-left: 5px;
+}
+
+.disable-arrow {
+  color: $neutral-4;
+  padding-left: 5px;
+}
+
+.disable-link {
+  color: $neutral-4 !important;
+  text-decoration: none;
+}
+
+.breadcrumb {
+  a {
+    color: $blue;
+  }
+}
