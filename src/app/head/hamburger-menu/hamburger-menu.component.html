@@ -105,7 +105,10 @@
 
       <!-- RIGHT SIDE FILTER BAR-->
       <mat-sidenav #srnav [mode]="'side'" position="end" [fixedInViewport]="true" [opened]="glossaryFlag">
-        <div style="width: 360px;"></div>
+        <div style="width: 360px;">
+          {{ glossaryTitle }}
+          <!--<app-glossary (helpIconClicked)="helpIconClick($event)"></app-glossary>-->
+        </div>
       </mat-sidenav>
       <!-- END OF RIGHT SIDE FILTER BAR-->
 

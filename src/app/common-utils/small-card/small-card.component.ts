@@ -1,7 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
-
+import { GlossaryExpandService } from '../../shared/glossary-expand.service';
+import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-small-card',
   templateUrl: './small-card.component.html',
@@ -9,6 +10,8 @@ import { DomSanitizer } from '@angular/platform-browser';
 })
 export class SmallCardComponent implements OnInit {
   @Input() data;
+
+  subscription: Subscription;
   /*
   _card: Object = {};
   data: Object = {};
@@ -22,15 +25,20 @@ export class SmallCardComponent implements OnInit {
     this.data = value;
   }
 */
-  constructor(private iconRegistry: MatIconRegistry, sanitizer: DomSanitizer) {
+  constructor(
+    private iconRegistry: MatIconRegistry,
+    sanitizer: DomSanitizer,
+    private glossaryExpandService: GlossaryExpandService
+  ) {
     /** INITIALIZING SVG ICONS TO USE IN DESIGN - ANGULAR MATERIAL */
     iconRegistry.addSvgIcon(
       'help',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-help_outline-24px.svg')
     );
   }
-  helpIconClick(d) {
-    console.log('clicked title', d);
+
+  helpIconClick(title) {
+    this.glossaryExpandService.setMessage(title);
   }
   ngOnInit() {}
 }
