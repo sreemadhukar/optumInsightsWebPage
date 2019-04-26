@@ -46,6 +46,7 @@
         /* tabs css starts here*/
         .container--tabs {
           width: 100%;
+          line-height: 25px;
           .nav-tabs {
             display: flex;
             border-radius: 2px;
@@ -58,13 +59,12 @@
               background-color: $white;
               border: 1px solid #e0e0e0;
               border-radius: 2px;
-              padding: 0 20px;
+              padding: 10px 20px;
               cursor: pointer;
               > span {
                 font-size: 16px;
                 font-weight: 600;
                 letter-spacing: 0.2px;
-                line-height: 0px;
                 &:hover {
                 }
               }
@@ -73,7 +73,6 @@
               &.active:hover,
               &.active:focus {
                 background-color: mat-color($accent);
-                padding: 0 20px;
                 border: 1px solid #ddd;
                 border-top: 4px solid #196ecf;
                 border-radius: 2px 2px 0 0;
@@ -85,14 +84,18 @@
                 color: #2d2d39;
                 font-size: 18px;
                 font-family: 'UHCSans-Regular', 'Arial';
-                line-height: 22px;
                 font-weight: 600;
                 .metrics {
-                  color: #007000;
                   font-size: 14px;
                   font-weight: 500;
                   letter-spacing: 0.2px;
                   line-height: 18px;
+                }
+                .upgreen {
+                  color: #007000;
+                }
+                .downred {
+                  color: color(red, dark);
                 }
               }
             }
