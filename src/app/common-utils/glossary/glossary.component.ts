@@ -16,7 +16,8 @@ export class GlossaryComponent implements OnInit {
   ngOnInit() {
     this.glossaryService.getBusinessGlossaryData().subscribe(response => {
       this.glossaryList = response;
-      this.glossaryList = this.glossaryList.map(
+
+      this.glossaryList = this.glossaryList.filter(
         item => item.BusinessGlossary.ProviderDashboardName.Metric === 'Claims yield'
       );
       console.log(this.glossaryList);
