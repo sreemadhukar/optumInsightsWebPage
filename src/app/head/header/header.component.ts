@@ -135,7 +135,7 @@ export class HeaderComponent implements AfterViewChecked, OnInit {
     if (scrollPosition < componentPosition) {
       this.state = 'show';
     } else {
-      this.state = 'hide';
+      this.state = 'show';
     }
   }
 }
