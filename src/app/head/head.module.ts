@@ -10,9 +10,10 @@ import { HeadMaterialModule } from './head.material.module';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { JwtInterceptor } from '../auth/_helpers/jwt.interceptor';
 import { ErrorInterceptor } from '../auth/_helpers/error.interceptor';
+import { CommonUtilsModule } from './../common-utils/common-utils.module';
 
 @NgModule({
-  imports: [CommonModule, HeadRoutingModule, HeadMaterialModule],
+  imports: [CommonModule, HeadRoutingModule, HeadMaterialModule, CommonUtilsModule],
   exports: [BodyComponent],
   declarations: [HeaderComponent, FooterComponent, HamburgerMenuComponent, BodyComponent],
   providers: [
