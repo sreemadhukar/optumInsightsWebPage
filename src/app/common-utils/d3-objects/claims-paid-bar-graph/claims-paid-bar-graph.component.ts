@@ -28,6 +28,112 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit {
     this.doBarGraph(this.chartOptions, this.transition);
   }
 
+  formatDynamicAbbreviation(tickNumber: number, tickValue: number, prefix: string) {
+    // zero is false and one is true
+    const q = tickValue;
+    const w = tickNumber - 1;
+    const step = q / w;
+    let zeroOrOne;
+    let abbreviation;
+
+    const maxTickValueStringLength = q.toString().length;
+    const stepStringLength = step.toString().length;
+
+    if (maxTickValueStringLength === stepStringLength) {
+      zeroOrOne = 0;
+    } else if (maxTickValueStringLength % 3 === 0 || maxTickValueStringLength % 5 === 0) {
+      zeroOrOne = 0;
+    } else {
+      zeroOrOne = 1;
+    }
+
+    // 6 = T, 5 = B, 4 = M, 3 = K, 2 = mid-K, 1=hundreds
+
+    if (q >= 1000000000) {
+      abbreviation = 9;
+    } else if (q >= 1000000) {
+      abbreviation = 6;
+    } else if (q >= 1000) {
+      abbreviation = 3;
+    } else {
+      abbreviation = 0;
+    }
+
+    const newFormatNumber = d3.format(',.0f'),
+      formatBillion = function(x) {
+        if (x === 0) {
+          return prefix + '0';
+        } else {
+          return prefix + newFormatNumber(x / 1e9) + 'B';
+        }
+      },
+      formatMillion = function(x) {
+        if (x === 0) {
+          return prefix + '0';
+        } else {
+          return prefix + newFormatNumber(x / 1e6) + 'M';
+        }
+      },
+      formatThousand = function(x) {
+        if (x === 0) {
+          return prefix + '0';
+        } else {
+          return prefix + newFormatNumber(x / 1e3) + 'K';
+        }
+      },
+      formatZero = function(x) {
+        return prefix + newFormatNumber(x);
+      };
+
+    const newFormatNumberOne = d3.format('.1f'),
+      formatBillionOne = function(x) {
+        if (x === 0) {
+          return prefix + '0';
+        } else {
+          return prefix + newFormatNumberOne(x / 1e9) + 'B';
+        }
+      },
+      formatMillionOne = function(x) {
+        if (x === 0) {
+          return prefix + '0';
+        } else {
+          return prefix + newFormatNumberOne(x / 1e6) + 'M';
+        }
+      },
+      formatThousandOne = function(x) {
+        if (x === 0) {
+          return prefix + '0';
+        } else {
+          return prefix + newFormatNumberOne(x / 1e3) + 'K';
+        }
+      },
+      formatZeroOne = function(x) {
+        return prefix + newFormatNumberOne(x);
+      };
+
+    const flag = abbreviation + zeroOrOne;
+    switch (flag) {
+      case 10:
+        return formatBillionOne;
+      case 9:
+        return formatBillion;
+      case 7:
+        return formatMillionOne;
+      case 6:
+        return formatMillion;
+      case 4:
+        return formatThousandOne;
+      case 3:
+        return formatThousand;
+      case 1:
+        return formatZeroOne;
+      case 0:
+        return formatZero;
+      default:
+        break;
+    }
+  }
+
   doBarGraph(chartOptions: any, transition: number) {
     // might have to hard code class names for testing
     const className = 'card-inner-large';
@@ -140,14 +246,16 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit {
       .style('font-weight', '600')
       .text('$571M');
 
-    const line = d3
-      .line()
-      .x(function(d) {
-        return d.x;
-      })
-      .y(function(d) {
-        return d.y;
-      });
+    chart
+      .append('text')
+      .attr('x', 900)
+      .attr('y', 30)
+      .attr('fill', '#2D2D39')
+      .attr('font-size', '12')
+      .style('text-anchor', 'end')
+      .style('font-family', 'UHCSans-Regular')
+      .style('font-weight', '500')
+      .text('*Includes Member Responsibility');
 
     chart
       .append('line')
@@ -161,11 +269,40 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit {
     const highestValue = 300;
     const xScale = d3
       .scaleLinear()
-      .domain([0, highestValue]) // input
+      .domain([0, highestValue])
       .range([400, 900])
-      .nice(3); // output
+      .nice(3);
 
-    // tick format for bottom
+    chart
+      .append('g')
+      .attr('visibility', 'hidden')
+      .attr('id', 'forCalculations')
+      .call(
+        d3
+          .axisBottom(xScale)
+          .ticks(3)
+          .tickSize(295)
+      );
+
+    const preArray = d3
+      .select('#forCalculations')
+      .selectAll('.tick>text')
+      .nodes()
+      .map(function(t) {
+        return t.innerHTML;
+      });
+
+    d3.select('#forCalculations').remove();
+
+    for (let i = 0; i < preArray.length; i++) {
+      preArray[i] = preArray[i].replace(/,/g, '');
+    }
+
+    const preArrayOfNumbers = preArray.map(Number);
+    const numberOfTicks = preArrayOfNumbers.length;
+    const highestTickValue = preArrayOfNumbers[numberOfTicks - 1];
+    const axisPrefix = '$';
+
     chart
       .append('g')
       .attr('transform', 'translate(' + 0 + ',' + 55 + ')')
@@ -174,7 +311,7 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit {
           .axisBottom(xScale)
           .ticks(3)
           .tickSize(295)
-          .tickFormat('')
+          .tickFormat(this.formatDynamicAbbreviation(numberOfTicks, highestTickValue, axisPrefix))
       )
       .call(g => g.select('.domain').remove());
 
@@ -185,9 +322,51 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit {
       .attr('stroke-opacity', 0.7);
 
     d3.selectAll('.tick')
+      .selectAll('text')
+      .attr('y', '305')
+      .attr('fill', '#2D2D39')
+      .attr('font-size', '16')
+      .attr('font-family', 'UHCSans-Regular')
+      .attr('font-weight', '600');
+
+    d3.selectAll('.tick')
+      .selectAll('line')
       .filter(function(d) {
         return d === 0;
       })
       .remove();
+
+    // these rect widths shouldnt be hard coded
+    chart
+      .append('rect')
+      .attr('x', 400)
+      .attr('y', 70)
+      .attr('width', 300)
+      .attr('height', 48)
+      .attr('fill', '#3381FF');
+
+    chart
+      .append('rect')
+      .attr('x', 400)
+      .attr('y', 150)
+      .attr('width', 500)
+      .attr('height', 48)
+      .attr('fill', '#3381FF');
+
+    chart
+      .append('rect')
+      .attr('x', 400)
+      .attr('y', 200)
+      .attr('width', 100)
+      .attr('height', 48)
+      .attr('fill', '#FC6431');
+
+    chart
+      .append('rect')
+      .attr('x', 400)
+      .attr('y', 280)
+      .attr('width', 305)
+      .attr('height', 48)
+      .attr('fill', '#3381FF');
   }
 }

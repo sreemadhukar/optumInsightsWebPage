@@ -13,17 +13,19 @@ export class GettingReimbursedComponent implements OnInit {
   tabId: Number = 0;
   currentSummary: Array<Object> = [{}];
   currentTabTitle: String = '';
-  tabOptions: Array<String> = [];
+  tabOptions: Array<Object> = [];
   selectedItemId: Number = 0;
-
+  tabOptionsTitle: Array<String> = [];
   constructor(private gettingReimbursedSharedService: GettingReimbursedSharedService) {
     this.pageTitle = 'Getting Reimbursed';
     this.currentTabTitle = '';
-    this.tabOptions = ['Submission', 'Payments', 'Non-Payments', 'Appeals'];
+    this.tabOptionsTitle = ['Submission', 'Payments', 'Non-Payments', 'Appeals'];
   }
 
+  getTabOptionsTitle(i: number) {
+    return this.tabOptionsTitle[i];
+  }
   matOptionClicked(i: any, event: any) {
-    console.log('option clicked', this.selectedItemId);
     this.selectedItemId = i;
     this.currentSummary = this.summaryItems[i].data;
     this.currentTabTitle = this.summaryItems[i].title;
@@ -39,10 +41,22 @@ export class GettingReimbursedComponent implements OnInit {
       .getGettingReimbursedData()
       .then(completeData => {
         this.summaryItems = JSON.parse(JSON.stringify(completeData));
-        console.log('SUmmary Item', this.summaryItems);
         this.currentSummary = this.summaryItems[0].data;
         this.currentTabTitle = this.summaryItems[0].title;
         console.log(this.currentSummary);
+
+        for (let i = 0; i < 4; i++) {
+          const temp = {
+            id: i,
+            title: this.getTabOptionsTitle(i),
+            value1: this.summaryItems[i].data[0].data.centerNumber,
+            sdata: {
+              sign: this.summaryItems[i].data[0].data.sdata.sign,
+              value: this.summaryItems[i].data[0].data.sdata.data
+            }
+          };
+          this.tabOptions.push(temp);
+        }
       })
       .catch(reason => console.log(reason.message));
   }
