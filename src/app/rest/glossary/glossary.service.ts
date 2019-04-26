@@ -27,7 +27,7 @@ export class GlossaryService {
       const url = this.APP_URL + this.SERVICE_PATH;
       return this.http.get(url, { params, headers: myHeader }).pipe(
         retry(2),
-        map(res => console.log(JSON.parse(JSON.stringify(res)))),
+        map(res => JSON.parse(JSON.stringify(res))),
         catchError(err => of(JSON.parse(JSON.stringify(err))))
       );
     }
