@@ -12,7 +12,8 @@ import {
   Renderer2,
   ViewEncapsulation,
   ViewChildren,
-  QueryList
+  QueryList,
+  OnDestroy
 } from '@angular/core';
 import { MatExpansionPanel, MatDialog } from '@angular/material';
 import { BreakpointObserver } from '@angular/cdk/layout';
@@ -25,6 +26,7 @@ import { Observable } from 'rxjs';
 import { ProviderSearchComponent } from '../../common-utils/provider-search/provider-search.component';
 import { StorageService } from '../../shared/storage-service.service';
 import { GlossaryExpandService } from '../../shared/glossary-expand.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-hamburger-menu',
@@ -32,7 +34,7 @@ import { GlossaryExpandService } from '../../shared/glossary-expand.service';
   styleUrls: ['./hamburger-menu.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class HamburgerMenuComponent implements AfterViewInit, OnInit {
+export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy {
   _allExpandState = false;
   isDarkTheme: Observable<boolean>;
   @ViewChildren(MatExpansionPanel) viewPanels: QueryList<MatExpansionPanel>;
@@ -44,7 +46,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit {
   subscription: any;
   public glossaryFlag: boolean;
   public glossaryTitle: string = null;
-
+  clickHelpIcon: Subscription;
   /*** Array of Navigation Category List ***/
   public navCategories = [
     { icon: 'home', name: 'Overview', path: '/OverviewPage' },
@@ -52,18 +54,18 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit {
       icon: 'getting-reimburse',
       name: 'Getting Reimbursed',
       children: [
-        { name: 'Summary', path: 'gettingReimbursed/summary' },
+        { name: 'Summary', path: 'GettingReimbursed' },
         { name: 'Payments', path: '#' },
         { name: 'Non-Payments', path: '#' },
-        { name: 'Appeals', path: '#' },
-        { name: 'Payment Integrity', path: '#' }
+        { name: 'Appeals', path: 'GettingReimbursed/Appeals' },
+        { name: 'Payment Integrity', path: 'GettingReimbursed/PaymentIntegrity' }
       ]
     },
     {
       icon: 'care-delivery',
       name: 'Care Delivery',
       children: [
-        { name: 'Prior Authorizations', path: 'careDelivery/priorAuth' },
+        { name: 'Prior Authorizations', path: 'CareDelivery/priorAuth' },
         { name: 'Patient Care Opportunity', path: '#' }
       ]
     },
@@ -90,7 +92,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit {
     private checkStorage: StorageService,
     private glossaryExpandService: GlossaryExpandService
   ) {
-    this.glossaryFlag = true;
+    this.glossaryFlag = false;
     // to disable the header/footer/body when not authenticated
     router.events.subscribe(event => {
       if (event instanceof NavigationStart) {
@@ -126,8 +128,17 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit {
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => {
       this.healthSystemName = JSON.parse(sessionStorage.getItem('currentUser'))[0]['HealthCareOrganizationName'];
     });
+    this.clickHelpIcon = this.glossaryExpandService.message.subscribe(data => {
+      this.glossaryFlag = true;
+      this.glossaryTitle = data;
+      console.log('Hamburger Subscripption', data);
+    });
   }
-
+  ngOnDestroy() {
+    this.clickHelpIcon.unsubscribe();
+    this.glossaryFlag = false;
+    this.glossaryTitle = null;
+  }
   /*** used to apply the CSS for dynamically generated elements ***/
   public ngAfterViewInit(): void {
     const listItems = this.elementRef.nativeElement.querySelectorAll('.mat-list-item') as HTMLElement[];
