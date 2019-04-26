@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { OverviewSharedService } from '../../../shared/overview/overview-shared.service';
+import { SessionService } from '../../../shared/session.service';
 import { StorageService } from '../../../shared/storage-service.service';
 
 @Component({
@@ -19,7 +20,11 @@ export class OverviewComponent implements OnInit {
   welcomeMessage: String = '';
   subscription: any;
 
-  constructor(private overviewsrc: OverviewSharedService, private checkStorage: StorageService) {
+  constructor(
+    private overviewsrc: OverviewSharedService,
+    private checkStorage: StorageService,
+    private session: SessionService
+  ) {
     this.pagesubTitle = 'Your Insights at a glance.';
     this.opportunities = 'Opportunities';
     this.opportunitiesQuestion = 'How much can online self service save you?';
@@ -36,7 +41,10 @@ export class OverviewComponent implements OnInit {
         // console.log(this.selfServiceMiniCards);
       })
       .catch(reason => console.log(reason.message));
-    this.userName = 'Anne';
+    this.userName =
+      this.session.sessionStorage('loggedUser', 'LastName') +
+      ' ' +
+      this.session.sessionStorage('loggedUser', 'FirstName');
     this.pageTitle = 'Hello, ' + this.userName + '.';
 
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.ngOnInit());
