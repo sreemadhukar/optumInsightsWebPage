@@ -44,7 +44,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
   public makeAbsolute: boolean;
   public sideNavFlag: boolean;
   subscription: any;
-  public glossaryFlag;
+  public glossaryFlag: boolean;
   public glossaryTitle: string = null;
   clickHelpIcon: Subscription;
   /*** Array of Navigation Category List ***/
@@ -77,7 +77,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
   ];
 
   fillerNav = Array.from({ length: 50 }, (_, i) => `Nav Item ${i + 1}`);
-  // @ViewChild('srnav') public glossaryFlag;
+
   /** CONSTRUCTOR **/
   constructor(
     private breakpointObserver: BreakpointObserver,
@@ -160,11 +160,6 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
   hamburgerDisplay(input: boolean) {
     this.sideNavFlag = input;
     console.log(input);
-  }
-
-  abc(glossaryTitle) {
-    console.log(glossaryTitle);
-    this.glossaryExpandService.glossaryFlag = this.glossaryFlag;
   }
 
   toggleDarkTheme(isDarkTheme: boolean) {

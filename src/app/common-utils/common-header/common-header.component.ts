@@ -12,7 +12,6 @@ export class CommonHeaderComponent implements OnInit {
   @Input() cardType: String;
   titleHeader: String = null;
   typeOfCard: String = null;
-  constructor(private glossaryExpandService: GlossaryExpandService) {}
 
   ngOnInit() {
     this.titleHeader = this.title;
@@ -20,7 +19,5 @@ export class CommonHeaderComponent implements OnInit {
   }
   helpFunctionClicked() {
     this.helpIconClicked.emit(this.title);
-    this.glossaryExpandService.glossaryFlag = true;
-    this.glossaryExpandService.glossaryTitle = this.title;
   }
 }
