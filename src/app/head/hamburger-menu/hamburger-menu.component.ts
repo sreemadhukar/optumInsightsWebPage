@@ -159,7 +159,6 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
   }
   hamburgerDisplay(input: boolean) {
     this.sideNavFlag = input;
-    console.log(input);
   }
 
   toggleDarkTheme(isDarkTheme: boolean) {

@@ -1,6 +1,10 @@
+// author: madhukar
+// date: 4-15-2019
 import {
   Component,
   OnInit,
+  AfterViewInit,
+  AfterViewChecked,
   HostListener,
   ElementRef,
   Input,
@@ -16,6 +20,7 @@ import { MatExpansionPanel } from '@angular/material';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
+import { SessionService } from '../../shared/session.service';
 import { ThemeService } from '../../shared/theme.service';
 import { Observable } from 'rxjs';
 @Component({
@@ -43,7 +48,7 @@ import { Observable } from 'rxjs';
     ])
   ]
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent implements AfterViewChecked, OnInit {
   @Input() isDarkTheme: Observable<boolean>;
   @Input() button: boolean;
   @Output() hamburgerDisplay = new EventEmitter<boolean>();
@@ -51,11 +56,16 @@ export class HeaderComponent implements OnInit {
   public state: any;
   public mobileQuery: boolean;
   public menuIcon = 'menu';
+  public username =
+    this.session.sessionStorage('loggedUser', 'LastName') +
+    ' ' +
+    this.session.sessionStorage('loggedUser', 'FirstName');
 
   constructor(
     private breakpointObserver: BreakpointObserver,
     public el: ElementRef,
     private renderer: Renderer2,
+    private session: SessionService,
     private iconRegistry: MatIconRegistry,
     sanitizer: DomSanitizer,
     private themeService: ThemeService
@@ -77,6 +87,12 @@ export class HeaderComponent implements OnInit {
       'cross',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Content/round-clear-24px.svg')
     );
+  }
+  ngAfterViewChecked() {
+    this.username =
+      this.session.sessionStorage('loggedUser', 'LastName') +
+      ' ' +
+      this.session.sessionStorage('loggedUser', 'FirstName');
   }
 
   ngOnInit() {
@@ -107,18 +123,19 @@ export class HeaderComponent implements OnInit {
       this.hamburgerDisplay.emit(this.sideNavFlag);
     } else {
       this.sideNavFlag = true;
+      this.menuIcon = 'menu';
       this.hamburgerDisplay.emit(this.sideNavFlag);
     }
   }
   @HostListener('window:scroll', ['$event'])
   checkScroll() {
-    const componentPosition = this.el.nativeElement.offsetTop - 30;
+    const componentPosition = this.el.nativeElement.offsetTop + 10;
     const scrollPosition = window.pageYOffset;
 
     if (scrollPosition < componentPosition) {
       this.state = 'show';
     } else {
-      this.state = 'show';
+      this.state = 'hide';
     }
   }
 }
