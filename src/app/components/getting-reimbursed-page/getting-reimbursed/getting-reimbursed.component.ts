@@ -1,12 +1,11 @@
-import { Component, OnInit, ElementRef, Renderer2, AfterViewInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { GettingReimbursedSharedService } from '../../../shared/getting-reimbursed/getting-reimbursed-shared.service';
-
 @Component({
   selector: 'app-getting-reimbursed',
   templateUrl: './getting-reimbursed.component.html',
   styleUrls: ['./getting-reimbursed.component.scss']
 })
-export class GettingReimbursedComponent implements OnInit, AfterViewInit {
+export class GettingReimbursedComponent implements OnInit {
   summaryItems: any;
   pageTitle: String = '';
   pagesubTitle: String = '';
@@ -14,56 +13,51 @@ export class GettingReimbursedComponent implements OnInit, AfterViewInit {
   tabId: Number = 0;
   currentSummary: Array<Object> = [{}];
   currentTabTitle: String = '';
-  tabOptions: Array<String> = [];
-  constructor(
-    private elementRef: ElementRef,
-    private renderer: Renderer2,
-    private gettingReimbursedSharedService: GettingReimbursedSharedService
-  ) {
-    this.pagesubTitle = 'Claim Submissions';
+  tabOptions: Array<Object> = [];
+  selectedItemId: Number = 0;
+  tabOptionsTitle: Array<String> = [];
+  constructor(private gettingReimbursedSharedService: GettingReimbursedSharedService) {
     this.pageTitle = 'Getting Reimbursed';
     this.currentTabTitle = '';
-    this.tabOptions = ['Submission', 'Payments', 'Non-Payments', 'Appeals'];
+    this.tabOptionsTitle = ['Submission', 'Payments', 'Non-Payments', 'Appeals'];
   }
-  matOptionClicked(i: any) {
-    console.log('option clicked', i);
+
+  getTabOptionsTitle(i: number) {
+    return this.tabOptionsTitle[i];
+  }
+  matOptionClicked(i: any, event: any) {
+    this.selectedItemId = i;
     this.currentSummary = this.summaryItems[i].data;
     this.currentTabTitle = this.summaryItems[i].title;
+    const myTabs = document.querySelectorAll('ul.nav-tabs > li');
+    for (let j = 0; j < myTabs.length; j++) {
+      myTabs[j].classList.remove('active');
+    }
+    event.target.classList.add('active');
   }
   ngOnInit() {
+    this.selectedItemId = 0;
     this.gettingReimbursedSharedService
       .getGettingReimbursedData()
       .then(completeData => {
         this.summaryItems = JSON.parse(JSON.stringify(completeData));
-        console.log('SUmmary Item', this.summaryItems);
         this.currentSummary = this.summaryItems[0].data;
         this.currentTabTitle = this.summaryItems[0].title;
         console.log(this.currentSummary);
+
+        for (let i = 0; i < 4; i++) {
+          const temp = {
+            id: i,
+            title: this.getTabOptionsTitle(i),
+            value1: this.summaryItems[i].data[0].data.centerNumber,
+            sdata: {
+              sign: this.summaryItems[i].data[0].data.sdata.sign,
+              value: this.summaryItems[i].data[0].data.sdata.data
+            }
+          };
+          this.tabOptions.push(temp);
+        }
       })
       .catch(reason => console.log(reason.message));
-
-    window.addEventListener('load', function() {
-      // store tabs variable
-
-      const myTabs = document.querySelectorAll('ul.nav-tabs > li');
-      function myTabClicks(tabClickEvent) {
-        for (let i = 0; i < myTabs.length; i++) {
-          myTabs[i].classList.remove('active');
-        }
-        const clickedTab = tabClickEvent.currentTarget;
-        clickedTab.classList.add('active');
-        tabClickEvent.preventDefault();
-      }
-      for (let i = 0; i < myTabs.length; i++) {
-        myTabs[i].addEventListener('click', myTabClicks);
-      }
-    });
-  }
-
-  public ngAfterViewInit(): void {
-    const listItems = this.elementRef.nativeElement.querySelectorAll('.mat-tab-label') as HTMLElement[];
-    Array.from(listItems).forEach(listItem => {
-      this.renderer.setStyle(listItem, 'height', 'auto !important');
-    });
   }
 }

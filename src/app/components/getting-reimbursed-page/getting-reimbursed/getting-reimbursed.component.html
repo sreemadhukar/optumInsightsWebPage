@@ -2,14 +2,26 @@
 <div class="gettingReimburse-body">
   <div class="gettingReimburse-content">
     <div class="cards cust-width-title">
+      <app-breadcrumbs></app-breadcrumbs>
       <div class="page-title">{{ pageTitle }}</div>
       <div class="container--tabs">
         <section class="row">
           <ul class="nav nav-tabs">
-            <li class="active" (click)="matOptionClicked(0)"><span>Submission</span></li>
-            <li class="" (click)="matOptionClicked(1)"><span>Payment</span></li>
-            <li class="" (click)="matOptionClicked(2)"><span>Non-Payment</span></li>
-            <li class="" (click)="matOptionClicked(3)"><span>Appeals</span></li>
+            <li
+              *ngFor="let item of tabOptions; let i = index"
+              (click)="matOptionClicked(i, $event)"
+              [ngClass]="{ active: selectedItemId === i }"
+            >
+              <span>
+                {{ item.title }}
+                <div class="nav-values">
+                  {{ item.value1 }}
+                  <span class="metrics" [ngClass]="item.sdata.sign === 'up' ? 'upgreen' : 'downred'">
+                    {{ item.sdata.value }}
+                  </span>
+                </div>
+              </span>
+            </li>
           </ul>
         </section>
       </div>
@@ -18,18 +30,6 @@
       <div class="page-subtitle">{{ currentTabTitle }}</div>
     </div>
     <div class="height1Separator"></div>
-    <!-- <mat-tab-group animationDuration="0ms">
-      <mat-tab>
-        <ng-template mat-tab-label>
-          <h3>Sybmissions</h3>
-          <p>160K +8%</p>
-        </ng-template>
-        Content 1
-      </mat-tab>
-      <mat-tab label="Payments">Content 2</mat-tab>
-      <mat-tab label="Non-Payments">Content 3</mat-tab>
-      <mat-tab label="Appeals">Content 4</mat-tab>
-    </mat-tab-group>-->
     <div *ngFor="let item of currentSummary">
       <app-card *ngIf="item.data != null" class="cards" [chartData]="item"> </app-card>
       <app-error-card *ngIf="item.status != null" class="cards" [data]="item"></app-error-card>

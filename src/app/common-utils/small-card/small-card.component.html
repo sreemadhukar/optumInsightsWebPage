@@ -1,6 +1,6 @@
 <div *ngIf="data != null" class="small-card-structure">
   <div class="card-inner">
-    <app-common-header [title]="data.title"></app-common-header>
+    <app-common-header [title]="data.title" (helpIconClicked)="helpIconClick($event)"></app-common-header>
     <div
       *ngIf="data.type == 'donut' && data.data != null"
       [ngClass]="data.sdata != null ? 'chart-details-donut' : 'full-width'"

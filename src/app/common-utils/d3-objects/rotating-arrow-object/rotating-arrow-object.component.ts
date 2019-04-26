@@ -28,30 +28,29 @@ export class RotatingArrowObjectComponent implements OnInit, AfterViewInit {
   }
 
   doRotatingArrowChart(chartOptions: any, customWidth: number, customHeight: number) {
-    const preWidth = document.getElementsByClassName(this.chartOptions.gdata[0])[0].clientWidth / 3;
+    // const preWidth = document.getElementsByClassName(this.chartOptions.gdata[0])[0].clientWidth;
     d3.select(this.renderChart)
       .selectAll('*')
       .remove();
 
-    const margin = { top: 30, right: 10, bottom: 10, left: 30 };
-    let width = preWidth - margin.left - margin.right;
-    let height = width - margin.top - margin.bottom;
+    let width = 212;
+    let height = 212;
 
     if (customWidth > 0) {
-      width = customWidth - margin.left - margin.right;
+      width = customWidth;
     }
 
     if (customHeight > 0) {
-      height = customHeight - margin.left - margin.right;
+      height = customHeight;
     }
 
     const chart = d3
       .select(this.renderChart)
       .append('svg')
-      .attr('width', width + margin.left + margin.right)
-      .attr('height', height + margin.top + margin.bottom)
+      .attr('width', width)
+      .attr('height', height)
       .append('g')
-      .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
+      .attr('transform', 'translate(' + 0 + ',' + 0 + ')');
 
     chart
       .append('path')
@@ -124,14 +123,14 @@ export class RotatingArrowObjectComponent implements OnInit, AfterViewInit {
       chart
         .append('circle')
         .attr('cx', width / 3)
-        .attr('cy', height / 2)
+        .attr('cy', height / 1.55)
         .attr('r', 16)
         .attr('fill', circleColor);
 
       chart
         .append('svg:image')
-        .attr('x', width / 3.325)
-        .attr('y', height / 2.175)
+        .attr('x', width / 3.4)
+        .attr('y', height / 1.7)
         .attr('width', '20px')
         .attr('height', '20px')
         .attr('xlink:href', arrowLink);
@@ -139,7 +138,7 @@ export class RotatingArrowObjectComponent implements OnInit, AfterViewInit {
       chart
         .append('text')
         .attr('x', width / 2.25)
-        .attr('y', height / 1.925)
+        .attr('y', height / 1.5)
         .style('font-size', '16px')
         .style('font-weight', '500')
         .style('fill', textColor)
@@ -151,8 +150,8 @@ export class RotatingArrowObjectComponent implements OnInit, AfterViewInit {
     chart
       .append('text')
       .attr('text-anchor', 'middle')
-      .attr('y', height / 2.5)
-      .attr('x', width / 2.25)
+      .attr('y', height / 2)
+      .attr('x', width / 2)
       .style('font-size', '41px')
       .style('font-weight', '500')
       .style('fill', '#2D2D39')

@@ -1,4 +1,5 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { GlossaryExpandService } from '../../shared/glossary-expand.service';
 
 @Component({
   selector: 'app-common-header',
@@ -7,16 +8,16 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class CommonHeaderComponent implements OnInit {
   @Input() title: String;
+  @Output() helpIconClicked = new EventEmitter();
   @Input() cardType: String;
   titleHeader: String = null;
   typeOfCard: String = null;
-  constructor() {}
 
   ngOnInit() {
     this.titleHeader = this.title;
     this.typeOfCard = this.cardType;
   }
-  getMetricDetails(titleHeader) {
-    console.log(titleHeader);
+  helpFunctionClicked() {
+    this.helpIconClicked.emit(this.title);
   }
 }

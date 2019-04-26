@@ -11,8 +11,8 @@ export class CardComponent implements OnInit {
   @Input() chartData;
   heightDonut: Number = 234;
   widthDonut: Number = 234;
-  heightRotatingArrow: Number = 300;
-  widthRotatingArrow: Number = 300;
+  heightRotatingArrow: Number = 212;
+  widthRotatingArrow: Number = 225;
   constructor(private iconRegistry: MatIconRegistry, sanitizer: DomSanitizer) {
     /** INITIALIZING SVG ICONS TO USE IN DESIGN - ANGULAR MATERIAL */
 
@@ -21,7 +21,5 @@ export class CardComponent implements OnInit {
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-help_outline-24px.svg')
     );
   }
-  ngOnInit() {
-    console.log('ChartData', this.chartData);
-  }
+  ngOnInit() {}
 }
