@@ -35,12 +35,12 @@ export class OverviewComponent implements OnInit {
       .getOverviewData()
       .then(data => {
         this.overviewItems = JSON.parse(JSON.stringify(data));
-        // console.log(this.overviewItems);
+        console.log(this.overviewItems);
         this.mainCards = this.overviewItems[0];
         this.selfServiceMiniCards = this.overviewItems[1];
-        // console.log(this.selfServiceMiniCards);
+        console.log(this.selfServiceMiniCards);
       })
-      .catch(reason => console.log(reason.message));
+      .catch(reason => console.log(reason));
     this.userName =
       this.session.sessionStorage('loggedUser', 'LastName') +
       ' ' +

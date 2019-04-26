@@ -26,9 +26,9 @@ app.all('/api/qaone/ped/*', function(req, res) {
   });
 });
 
-app.use((error, req, res, next) => { 
+app.use((error, req, res, next) => {
   handleExceptions(error, res);
-}); 
+});
 
 app.get('/api/getJwt', cors(), function(req, res) {
   let token = jwt.sign(

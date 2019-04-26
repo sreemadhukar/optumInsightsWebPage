@@ -33,6 +33,7 @@ import { GlossaryComponent } from './glossary/glossary.component';
     BreadcrumbsComponent,
     FeedbackComponent,
     LargeCardComponent,
+    ErrorCardComponent,
     GlossaryComponent
   ],
   declarations: [
