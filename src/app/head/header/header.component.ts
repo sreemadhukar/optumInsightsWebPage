@@ -3,6 +3,8 @@
 import {
   Component,
   OnInit,
+  AfterViewInit,
+  AfterViewChecked,
   HostListener,
   ElementRef,
   Input,
@@ -18,7 +20,7 @@ import { MatExpansionPanel } from '@angular/material';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
-
+import { SessionService } from '../../shared/session.service';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -44,19 +46,23 @@ import { DomSanitizer } from '@angular/platform-browser';
     ])
   ]
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent implements AfterViewChecked {
   @Input() button: boolean;
   @Output() hamburgerDisplay = new EventEmitter<boolean>();
   public sideNavFlag = false;
   public state: any;
   public mobileQuery: boolean;
   public menuIcon = 'menu';
-  public username = this.getuser('LastName') + ' ' + this.getuser('FirstName');
+  public username =
+    this.session.sessionStorage('loggedUser', 'LastName') +
+    ' ' +
+    this.session.sessionStorage('loggedUser', 'FirstName');
 
   constructor(
     private breakpointObserver: BreakpointObserver,
     public el: ElementRef,
     private renderer: Renderer2,
+    private session: SessionService,
     private iconRegistry: MatIconRegistry,
     sanitizer: DomSanitizer
   ) {
@@ -78,11 +84,11 @@ export class HeaderComponent implements OnInit {
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Content/round-clear-24px.svg')
     );
   }
-
-  ngOnInit() {}
-
-  getuser(select: any) {
-    return JSON.parse(sessionStorage.getItem('loggedUser'))[select];
+  ngAfterViewChecked() {
+    this.username =
+      this.session.sessionStorage('loggedUser', 'LastName') +
+      ' ' +
+      this.session.sessionStorage('loggedUser', 'FirstName');
   }
   sidenav() {
     this.sideNavFlag = !this.sideNavFlag;
@@ -108,13 +114,13 @@ export class HeaderComponent implements OnInit {
   }
   @HostListener('window:scroll', ['$event'])
   checkScroll() {
-    const componentPosition = this.el.nativeElement.offsetTop - 30;
+    const componentPosition = this.el.nativeElement.offsetTop + 10;
     const scrollPosition = window.pageYOffset;
 
     if (scrollPosition < componentPosition) {
       this.state = 'show';
     } else {
-      this.state = 'show';
+      this.state = 'hide';
     }
   }
 }

@@ -9,7 +9,11 @@ export class SessionService {
   public providerkey = 299;
   public tin = 'All';
   constructor() {}
-
+  public sessionStorage(value: string, item: string) {
+    if (sessionStorage.getItem(value)) {
+      return JSON.parse(sessionStorage.getItem(value))[item];
+    }
+  }
   get getProviderkey(): number {
     return this.providerkey;
   }

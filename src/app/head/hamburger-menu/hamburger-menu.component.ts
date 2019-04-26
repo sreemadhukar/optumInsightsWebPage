@@ -125,7 +125,6 @@ export class HamburgerMenuComponent implements AfterViewInit {
   }
   hamburgerDisplay(input: boolean) {
     this.sideNavFlag = input;
-    console.log(input);
   }
   /** FUNCTIONS TO COLLAPSE LEFT MENU **/
   collapseExpansionPanels(id) {
