@@ -3,7 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { IssueResolutionComponent } from './issue-resolution/issue-resolution.component';
 
-const routes: Routes = [{ path: '', component: IssueResolutionComponent }];
+const routes: Routes = [{ path: '', component: IssueResolutionComponent, data: { breadcrumb: 'Issue Resolution' } }];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],

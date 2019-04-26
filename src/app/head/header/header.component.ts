@@ -1,6 +1,10 @@
+// author: madhukar
+// date: 4-15-2019
 import {
   Component,
   OnInit,
+  AfterViewInit,
+  AfterViewChecked,
   HostListener,
   ElementRef,
   Input,
@@ -43,7 +47,7 @@ import { Observable } from 'rxjs';
     ])
   ]
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent implements AfterViewChecked, OnInit {
   @Input() isDarkTheme: Observable<boolean>;
   @Input() button: boolean;
   @Output() hamburgerDisplay = new EventEmitter<boolean>();
@@ -51,6 +55,7 @@ export class HeaderComponent implements OnInit {
   public state: any;
   public mobileQuery: boolean;
   public menuIcon = 'menu';
+  public username: any;
 
   constructor(
     private breakpointObserver: BreakpointObserver,
@@ -77,6 +82,9 @@ export class HeaderComponent implements OnInit {
       'cross',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Content/round-clear-24px.svg')
     );
+  }
+  ngAfterViewChecked() {
+    this.username = 'Anne';
   }
 
   ngOnInit() {
@@ -107,12 +115,13 @@ export class HeaderComponent implements OnInit {
       this.hamburgerDisplay.emit(this.sideNavFlag);
     } else {
       this.sideNavFlag = true;
+      this.menuIcon = 'menu';
       this.hamburgerDisplay.emit(this.sideNavFlag);
     }
   }
   @HostListener('window:scroll', ['$event'])
   checkScroll() {
-    const componentPosition = this.el.nativeElement.offsetTop - 30;
+    const componentPosition = this.el.nativeElement.offsetTop + 10;
     const scrollPosition = window.pageYOffset;
 
     if (scrollPosition < componentPosition) {

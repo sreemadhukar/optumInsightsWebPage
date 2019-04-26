@@ -19,7 +19,8 @@ export class OverviewSharedService {
 
   public getOverviewData() {
     this.timeFrame = this.session.timeFrame;
-    this.providerKey = this.session.providerkey;
+    this.providerKey = this.session.providerKey();
+    console.log(this.providerKey);
     return new Promise(resolve => {
       let cPriorAuth: object;
       let cSelfService: object;
@@ -41,7 +42,8 @@ export class OverviewSharedService {
           cPriorAuth = {
             category: 'small-card',
             type: 'donut',
-            title: providerSystems.status,
+            status: providerSystems.status,
+            title: 'Prior Authorization Approval',
             data: null,
             sdata: null,
             timeperiod: null
@@ -49,7 +51,8 @@ export class OverviewSharedService {
           cSelfService = {
             category: 'small-card',
             type: 'donut',
-            title: providerSystems.status,
+            status: providerSystems.status,
+            title: 'Self Service Adoption Rate',
             data: null,
             sdata: null,
             timeperiod: null
@@ -57,7 +60,8 @@ export class OverviewSharedService {
           cPcor = {
             category: 'small-card',
             type: 'star',
-            title: providerSystems.status,
+            status: providerSystems.status,
+            title: 'Medicare Star Rating',
             data: null,
             sdata: null,
             timeperiod: null
@@ -65,7 +69,8 @@ export class OverviewSharedService {
           cIR = {
             category: 'small-card',
             type: 'donut',
-            title: providerSystems.status,
+            status: providerSystems.status,
+            title: 'Total Calls',
             data: null,
             sdata: null,
             timeperiod: null
@@ -73,25 +78,29 @@ export class OverviewSharedService {
           oppurtunities.push(
             {
               category: 'mini-tile',
-              title: providerSystems.status,
+              status: providerSystems.status,
+              title: 'Reduce Calls and Operating Costs by:',
               data: null,
               fdata: null
             },
             {
               category: 'mini-tile',
-              title: providerSystems.status,
+              status: providerSystems.status,
+              title: "Save Your Staff's Time by: ",
               data: null,
               fdata: null
             },
             {
               category: 'mini-tile',
-              title: providerSystems.status,
+              status: providerSystems.status,
+              title: 'Reduce Claim Processing Time by:',
               data: null,
               fdata: null
             },
             {
               category: 'mini-tile',
-              title: providerSystems.status,
+              status: providerSystems.status,
+              title: 'Reduce Reconsideration Processing by:',
               data: null,
               fdata: null
             }
@@ -403,7 +412,8 @@ export class OverviewSharedService {
           claimsYield = {
             category: 'small-card',
             type: 'donut',
-            title: claims.status,
+            status: claims.status,
+            title: 'Claims Yield',
             data: null,
             sdata: null,
             timeperiod: null
@@ -411,7 +421,8 @@ export class OverviewSharedService {
           claimsPaid = {
             category: 'small-card',
             type: 'donut',
-            title: claims.status,
+            status: claims.status,
+            title: 'Claims Paid',
             data: null,
             sdata: null,
             timeperiod: null

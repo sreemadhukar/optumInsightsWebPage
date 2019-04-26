@@ -10,10 +10,18 @@ import { GettingReimbursedSharedService } from '../../shared/getting-reimbursed/
 import { GettingReimbursedService } from '../../rest/getting-reimbursed/getting-reimbursed.service';
 import { AppealsComponent } from './appeals/appeals.component';
 import { PaymentIntegrityComponent } from './payment-integrity/payment-integrity.component';
+import { NonPaymentsComponent } from './non-payments/non-payments.component';
+import { PaymentsComponent } from './payments/payments.component';
 @NgModule({
   imports: [CommonModule, GettingReimbursedRoutingModule, CommonUtilsModule, HeadMaterialModule],
   providers: [GettingReimbursedService, GettingReimbursedSharedService],
 
-  declarations: [GettingReimbursedComponent, AppealsComponent, PaymentIntegrityComponent]
+  declarations: [
+    GettingReimbursedComponent,
+    AppealsComponent,
+    PaymentIntegrityComponent,
+    NonPaymentsComponent,
+    PaymentsComponent
+  ]
 })
 export class GettingReimbursedModule {}

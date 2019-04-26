@@ -55,8 +55,8 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
       name: 'Getting Reimbursed',
       children: [
         { name: 'Summary', path: 'GettingReimbursed' },
-        { name: 'Payments', path: '#' },
-        { name: 'Non-Payments', path: '#' },
+        { name: 'Payments', path: 'GettingReimbursed/Payments' },
+        { name: 'Non-Payments', path: 'GettingReimbursed/NonPayments' },
         { name: 'Appeals', path: 'GettingReimbursed/Appeals' },
         { name: 'Payment Integrity', path: 'GettingReimbursed/PaymentIntegrity' }
       ]
@@ -66,7 +66,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
       name: 'Care Delivery',
       children: [
         { name: 'Prior Authorizations', path: 'CareDelivery/priorAuth' },
-        { name: 'Patient Care Opportunity', path: '#' }
+        { name: 'Patient Care Opportunity', path: 'CareDelivery/PatientCareOpportunity' }
       ]
     },
     {
@@ -122,6 +122,10 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
       'sign-out',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-input-24px.svg')
     );
+    iconRegistry.addSvgIcon(
+      'close',
+      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-close-24px.svg')
+    );
   }
   ngOnInit() {
     this.isDarkTheme = this.themeService.isDarkTheme;
@@ -159,7 +163,6 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
   }
   hamburgerDisplay(input: boolean) {
     this.sideNavFlag = input;
-    console.log(input);
   }
 
   toggleDarkTheme(isDarkTheme: boolean) {
@@ -196,6 +199,10 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
         }
       }
     });
+  }
+
+  private closeGlossary() {
+    this.glossaryFlag = false;
   }
   /** END OF FUNCTIONS TO COLLAPSE LEFT MENU **/
 }
