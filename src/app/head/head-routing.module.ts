@@ -15,11 +15,17 @@ const routes: Routes = [
   {
     path: 'GettingReimbursed',
     loadChildren: '../components/getting-reimbursed-page/getting-reimbursed.module#GettingReimbursedModule',
+    data: {
+      breadcrumb: 'Getting Reimbursed'
+    },
     canActivate: [AuthGuard]
   },
   {
     path: 'CareDelivery',
     loadChildren: '../components/care-delivery-page/care-delivery-page.module#CareDeliveryPageModule',
+    data: {
+      breadcrumb: 'Care Delivery'
+    },
     canActivate: [AuthGuard]
   },
   {

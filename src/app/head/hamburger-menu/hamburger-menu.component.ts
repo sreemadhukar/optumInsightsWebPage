@@ -52,8 +52,8 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit {
         { name: 'Summary', path: 'GettingReimbursed' },
         { name: 'Payments', path: '#' },
         { name: 'Non-Payments', path: '#' },
-        { name: 'Appeals', path: '#' },
-        { name: 'Payment Integrity', path: '#' }
+        { name: 'Appeals', path: 'GettingReimbursed/Appeals' },
+        { name: 'Payment Integrity', path: 'GettingReimbursed/PaymentIntegrity' }
       ]
     },
     {

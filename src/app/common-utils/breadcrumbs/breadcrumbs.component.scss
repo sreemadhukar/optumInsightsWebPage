@@ -7,23 +7,23 @@
   padding-right: 5px;
 }
 
-.breadcrumb li + li:before {
-  content: ' > ';
-  color: #196ecf;
-  padding-right: 5px;
+.overview-arrow {
+  color: $blue;
+  padding-left: 5px;
 }
 
-/*.disable-link li+li:before {
-  content: " > ";
-  color: #757588 ;
-}*/
+.disable-arrow {
+  color: $neutral-4;
+  padding-left: 5px;
+}
+
 .disable-link {
-  color: #757588 !important;
+  color: $neutral-4 !important;
   text-decoration: none;
 }
 
 .breadcrumb {
   a {
-    color: #196ecf;
+    color: $blue;
   }
 }
