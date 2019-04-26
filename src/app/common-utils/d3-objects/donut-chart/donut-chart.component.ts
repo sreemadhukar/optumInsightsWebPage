@@ -12,6 +12,7 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
   public noTransition = 0;
   public renderChart: string;
   @Input() chartOptions: any = {};
+  @Input() donutType: string;
 
   constructor() {}
 
@@ -33,9 +34,26 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
       .selectAll('*')
       .remove();
 
-    const margin = { top: 10, right: 10, bottom: 10, left: 10 };
-    const width = preWidth - margin.left - margin.right;
-    const height = width - margin.top - margin.bottom;
+    const margin = { top: 0, right: 0, bottom: 0, left: 0 };
+
+    let width = preWidth - margin.left - margin.right;
+    let height = width - margin.top - margin.bottom;
+
+    let radius = Math.min(width, height) / 2.5;
+    const donutColor = d3.scaleOrdinal().range(chartOptions.color);
+    let circleThickness = 15;
+
+    if (this.donutType === 'app-card') {
+      width = 212;
+      height = 212;
+      radius = 105;
+      circleThickness = 23;
+    } else if (this.donutType === 'small-card') {
+      width = 129;
+      height = 129;
+      radius = 64;
+      circleThickness = 16;
+    }
 
     const chart = d3
       .select(this.renderChart)
@@ -44,10 +62,6 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
       .attr('height', height + margin.top + margin.bottom)
       .append('g')
       .attr('transform', 'translate(' + (width / 2 + margin.left) + ',' + (height / 2 + margin.top) + ')');
-
-    const radius = Math.min(width, height) / 2;
-    const donutColor = d3.scaleOrdinal().range(chartOptions.color);
-    const circleThickness = 15;
 
     const arc = d3
       .arc()
@@ -64,14 +78,84 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
         return d.value;
       });
 
-    const text = chart
-      .append('text')
-      .attr('text-anchor', 'middle')
-      .attr('y', height / 16)
-      .style('font-size', '22px')
-      .style('font-weight', '600')
-      .style('fill', '#2D2D39')
-      .style('font-family', 'UHCSans-Regular');
+    let heightDivider = 16;
+    if (chartOptions.sdata) {
+      heightDivider = -16;
+    }
+    let text;
+    if (this.donutType === 'app-card') {
+      text = chart
+        .append('text')
+        .attr('text-anchor', 'middle')
+        .attr('y', height / height)
+        .style('font-size', '41px')
+        .style('fill', '#2d2d39')
+        .style('font-family', 'UHCSans-SemiBold');
+    } else if (this.donutType === 'small-card') {
+      text = chart
+        .append('text')
+        .attr('text-anchor', 'middle')
+        .attr('y', height / heightDivider)
+        .style('font-size', '22px')
+        .style('fill', '#2d2d39')
+        .style('font-family', 'UHCSans-SemiBold');
+    }
+
+    if (chartOptions.hasOwnProperty('sdata') && chartOptions.sdata != null) {
+      if (chartOptions.sdata.sign === 'up') {
+        chart
+          .append('circle')
+          .attr('cx', width / -8)
+          .attr('cy', height / 6)
+          .attr('r', 16)
+          .attr('fill', '#e1fadf');
+
+        chart
+          .append('svg:image')
+          .attr('x', -38)
+          .attr('y', 25)
+          .attr('width', '20px')
+          .attr('height', '20px')
+          .attr('xlink:href', 'src/assets/images/trend-down.svg');
+
+        chart
+          .append('text')
+          .attr('x', width / 256)
+          .attr('y', 40)
+          .style('font-size', '14px')
+          .style('font-weight', '500')
+          .style('fill', '#007000')
+          .style('font-family', 'UHCSans-Regular')
+          .style('text-anchor', 'start')
+          .text(chartOptions.sdata.data);
+      } else if (chartOptions.sdata.sign === 'down') {
+        chart
+          .append('circle')
+          .attr('cx', width / -8)
+          .attr('cy', height / 6)
+          .attr('r', 16)
+          .attr('fill', '#ffe6f0');
+
+        chart
+          .append('svg:image')
+          .attr('x', -38)
+          .attr('y', 25)
+          .attr('width', '20px')
+          .attr('height', '20px')
+          .attr('xlink:href', 'src/assets/images/trend-up.svg');
+
+        chart
+          .append('text')
+          .attr('x', width / 256)
+          .attr('y', 40)
+          .style('font-size', '14px')
+          .style('font-weight', '500')
+          .style('fill', '#b10c00')
+          .style('font-family', 'UHCSans-Regular')
+          .style('text-anchor', 'start')
+          .text(chartOptions.sdata.data);
+      }
+    }
 
     const donutData = [];
 

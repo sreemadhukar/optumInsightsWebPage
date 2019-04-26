@@ -10,9 +10,9 @@ COPY . .
 
 RUN $(npm bin)/ng lint
 
-RUN $(npm bin)/ng build --prod
+RUN $(npm bin)/ng build --prod && cp -R ./dist/* .
 
-COPY --from=builder /app/dist .
+#COPY --from=builder /app/dist .
 
 EXPOSE 8000
 

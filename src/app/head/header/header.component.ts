@@ -21,6 +21,8 @@ import { BreakpointObserver } from '@angular/cdk/layout';
 import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 import { SessionService } from '../../shared/session.service';
+import { ThemeService } from '../../shared/theme.service';
+import { Observable } from 'rxjs';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -46,7 +48,8 @@ import { SessionService } from '../../shared/session.service';
     ])
   ]
 })
-export class HeaderComponent implements AfterViewChecked {
+export class HeaderComponent implements AfterViewChecked, OnInit {
+  @Input() isDarkTheme: Observable<boolean>;
   @Input() button: boolean;
   @Output() hamburgerDisplay = new EventEmitter<boolean>();
   public sideNavFlag = false;
@@ -64,7 +67,8 @@ export class HeaderComponent implements AfterViewChecked {
     private renderer: Renderer2,
     private session: SessionService,
     private iconRegistry: MatIconRegistry,
-    sanitizer: DomSanitizer
+    sanitizer: DomSanitizer,
+    private themeService: ThemeService
   ) {
     this.mobileQuery = this.breakpointObserver.isMatched('(max-width: 1024px)');
     iconRegistry.addSvgIcon(
@@ -90,6 +94,17 @@ export class HeaderComponent implements AfterViewChecked {
       ' ' +
       this.session.sessionStorage('loggedUser', 'FirstName');
   }
+
+  ngOnInit() {
+    this.isDarkTheme = this.themeService.isDarkTheme;
+  }
+  /*angular theme */
+
+  toggleDarkTheme(checked: boolean) {
+    this.themeService.setDarkTheme(checked);
+  }
+  /*angular theme */
+
   sidenav() {
     this.sideNavFlag = !this.sideNavFlag;
     this.hamburgerDisplay.emit(this.sideNavFlag);

@@ -6,7 +6,7 @@ import { Injectable } from '@angular/core';
 export class SessionService {
   public timeFrame = 'Rolling 12 Months';
   public lob = 'All';
-  public providerkey = 299;
+  public providerkey = JSON.parse(sessionStorage.getItem('currentUser'))[0]['ProviderKey'];
   public tin = 'All';
   constructor() {}
   public sessionStorage(value: string, item: string) {
