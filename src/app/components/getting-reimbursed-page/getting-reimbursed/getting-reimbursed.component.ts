@@ -14,30 +14,27 @@ export class GettingReimbursedComponent implements OnInit {
   currentSummary: Array<Object> = [{}];
   currentTabTitle: String = '';
   tabOptions: Array<String> = [];
+  selectedItemId: Number = 0;
+
   constructor(private gettingReimbursedSharedService: GettingReimbursedSharedService) {
     this.pageTitle = 'Getting Reimbursed';
     this.currentTabTitle = '';
     this.tabOptions = ['Submission', 'Payments', 'Non-Payments', 'Appeals'];
   }
 
-  matOptionClicked(i: any) {
-    console.log('option clicked', i);
+  matOptionClicked(i: any, event: any) {
+    console.log('option clicked', this.selectedItemId);
+    this.selectedItemId = i;
     this.currentSummary = this.summaryItems[i].data;
     this.currentTabTitle = this.summaryItems[i].title;
     const myTabs = document.querySelectorAll('ul.nav-tabs > li');
-    function myTabClicks(tabClickEvent) {
-      for (let j = 0; j < myTabs.length; j++) {
-        myTabs[j].classList.remove('active');
-      }
-      const clickedTab = tabClickEvent.currentTarget;
-      clickedTab.classList.add('active');
-      tabClickEvent.preventDefault();
+    for (let j = 0; j < myTabs.length; j++) {
+      myTabs[j].classList.remove('active');
     }
-    for (let m = 0; m < myTabs.length; m++) {
-      myTabs[m].addEventListener('click', myTabClicks);
-    }
+    event.target.classList.add('active');
   }
   ngOnInit() {
+    this.selectedItemId = 0;
     this.gettingReimbursedSharedService
       .getGettingReimbursedData()
       .then(completeData => {
