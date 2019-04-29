@@ -204,6 +204,5 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
       }
     });
   }
-
   /** END OF FUNCTIONS TO COLLAPSE LEFT MENU **/
 }
