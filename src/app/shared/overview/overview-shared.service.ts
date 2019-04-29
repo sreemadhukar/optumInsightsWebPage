@@ -86,7 +86,7 @@ export class OverviewSharedService {
             {
               category: 'mini-tile',
               status: providerSystems.status,
-              title: "Save Your Staff's Time by: ",
+              title: "Save Your Staff's Time by: " + '\n\xa0',
               data: null,
               fdata: null
             },

@@ -4,9 +4,7 @@
   position: relative;
   display: inline-flex;
 }
-.image-align {
-  vertical-align: middle;
-}
+
 .common-header {
   .header-container {
     .header-title[_ngcontent-c16] {
@@ -54,12 +52,15 @@
     .img-align {
       display: inline-block;
       box-sizing: border-box;
-      height: 97px;
-      width: 97px;
+      height: 73px;
+      width: 73px;
       border: 1px solid #bb880a;
       border-radius: 48px;
       background-color: #fffcd9;
-      display: inline-block;
+    }
+    .image-align {
+      height: 36px;
+      margin-top: 14px;
     }
     .data-title {
       padding-top: 16px;
@@ -114,6 +115,10 @@
       border-radius: 48px;
       background-color: #fffcd9;
     }
+    .image-align {
+      vertical-align: middle;
+      height: 48px;
+    }
     .data-title {
       padding-top: 24px;
     }
@@ -152,12 +157,16 @@
       }
       .img-align {
         box-sizing: border-box;
-        height: 97px;
-        width: 97px;
+        height: 73px;
+        width: 73px;
         border: 1px solid #bb880a;
         border-radius: 48px;
         background-color: #fffcd9;
         display: inline-block;
+      }
+      .image-align {
+        height: 36px;
+        margin-top: 14px;
       }
       .data-title {
         padding-top: 16px;
