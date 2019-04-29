@@ -1,43 +1,33 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnChanges, Input } from '@angular/core';
 import { GlossaryService } from './../../rest/glossary/glossary.service';
+import { catchError } from 'rxjs/operators';
 
 @Component({
   selector: 'app-glossary',
   templateUrl: './glossary.component.html',
   styleUrls: ['./glossary.component.scss']
 })
-export class GlossaryComponent implements OnInit {
+export class GlossaryComponent implements OnChanges {
   glossaryList: any;
   glossaryData: any[];
+  glossaryTitleShow: String = '';
   @Input() title;
 
   constructor(private glossaryService: GlossaryService) {}
 
-  ngOnInit() {
-    this.glossaryService.getBusinessGlossaryData().subscribe(response => {
-      this.glossaryList = response;
-
-      this.glossaryList = this.glossaryList.filter(
-        item => item.BusinessGlossary.ProviderDashboardName.Metric === 'Claims yield'
-      );
-      console.log(this.glossaryList);
-      /*for (let i = 0; i < this.glossaryList.length; i++) {
-        this.glossaryList[i].BusinessGlossary.ProviderDashboardName.metricData =
-        this.glossaryList[i].BusinessGlossary.ProviderDashboardName.Metric.replace(/[^a-zA-Z]/g, '');
+  ngOnChanges() {
+    if (this.title != undefined || this.title != null) {
+      this.glossaryService.getBusinessGlossaryData().subscribe(
+        response => {
+          this.glossaryTitleShow = this.title;
+          this.glossaryList = response.filter(
+            item => item.BusinessGlossary.ProviderDashboardName.Metric === 'Claims yield'
+          );
+        },
+        err => {
+          console.log('error', err);
         }
-
-
-     this.glossaryData = this.glossaryList.sort(function(a, b) {
-        if (a.BusinessGlossary.ProviderDashboardName.Metric.toLowerCase() <
-        b.BusinessGlossary.ProviderDashboardName.Metric.toLowerCase()) { // sort string ascending
-              return -1;
-            } else if (a.BusinessGlossary.ProviderDashboardName.Metric.toLowerCase() >
-            b.BusinessGlossary.ProviderDashboardName.Metric.toLowerCase()) {
-            return 1;
-          } else {
-            return 0;
-            }
-    });*/
-    });
-  }
-}
+      );
+    } // end if
+  } // end ngOnChanges
+} // end export class

@@ -1,12 +1,12 @@
 <div>
   <br />
-  <div style="padding-left: 10px;">
+  <div style="margin-left: 10px;">
     <input type="text" placeholder="What metrics can we help you with ?" class="idle-container" />
   </div>
   <br />
   <div *ngFor="let glossary of glossaryList; let i = index">
     <div class="glossary-title">
-      {{ glossary.BusinessGlossary.ProviderDashboardName.Metric }}
+      {{ glossaryTitleShow }}
     </div>
     <br />
     <div class="glossary-definition">

@@ -5,14 +5,11 @@ import { Subject } from 'rxjs';
   providedIn: 'root'
 })
 export class GlossaryExpandService {
-  public glossaryFlag: boolean;
-  public glossaryTitle;
   public message = new Subject<string>();
 
   constructor() {}
   setMessage(value: string) {
     this.message.next(value);
-    console.log('value', value);
     // it is publishing this value to all the subscribers that have already subscribed to this message
   }
 }

@@ -126,18 +126,27 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
       'close',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-close-24px.svg')
     );
+    iconRegistry.addSvgIcon(
+      'search',
+      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-search-24px.svg')
+    );
   }
   ngOnInit() {
     this.isDarkTheme = this.themeService.isDarkTheme;
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => {
       this.healthSystemName = JSON.parse(sessionStorage.getItem('currentUser'))[0]['HealthCareOrganizationName'];
     });
-    this.clickHelpIcon = this.glossaryExpandService.message.subscribe(data => {
-      this.glossaryFlag = true;
-      this.glossaryTitle = data;
-      console.log('Hamburger Subscripption', data);
-    });
+    this.clickHelpIcon = this.glossaryExpandService.message.subscribe(
+      data => {
+        this.glossaryFlag = true;
+        this.glossaryTitle = data;
+      },
+      err => {
+        console.log('Error, clickHelpIcon , inside Hamburger', err);
+      }
+    );
   }
+
   ngOnDestroy() {
     this.clickHelpIcon.unsubscribe();
     this.glossaryFlag = false;
@@ -181,7 +190,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
     });
   }
 
-  public closeGlossary() {
+  closeGlossary() {
     this.glossaryFlag = false;
   }
 
@@ -204,6 +213,5 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
       }
     });
   }
-
   /** END OF FUNCTIONS TO COLLAPSE LEFT MENU **/
 }
