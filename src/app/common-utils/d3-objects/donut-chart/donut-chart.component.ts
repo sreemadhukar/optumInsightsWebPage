@@ -42,7 +42,6 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
     let radius = Math.min(width, height) / 2.5;
     const donutColor = d3.scaleOrdinal().range(chartOptions.color);
     let circleThickness = 15;
-    console.log(this.donutType);
     if (this.donutType === 'app-card') {
       width = 212;
       height = 212;
