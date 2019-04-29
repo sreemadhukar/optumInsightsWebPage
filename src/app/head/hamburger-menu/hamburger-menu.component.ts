@@ -180,6 +180,10 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
       disableClose: true
     });
   }
+  
+  closeGlossary() {
+    this.glossaryFlag = false;
+  }
 
   private allExpandState(value: boolean, id) {
     this._allExpandState = value;
@@ -199,10 +203,6 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
         }
       }
     });
-  }
-
-  private closeGlossary() {
-    this.glossaryFlag = false;
   }
   /** END OF FUNCTIONS TO COLLAPSE LEFT MENU **/
 }
