@@ -10,6 +10,7 @@ import { catchError } from 'rxjs/operators';
 export class GlossaryComponent implements OnChanges {
   glossaryList: any;
   glossaryData: any[];
+  glossaryTitleShow: String = '';
   @Input() title;
 
   constructor(private glossaryService: GlossaryService) {}
@@ -18,12 +19,10 @@ export class GlossaryComponent implements OnChanges {
     if (this.title != undefined || this.title != null) {
       this.glossaryService.getBusinessGlossaryData().subscribe(
         response => {
-          this.glossaryList = response;
-
-          this.glossaryList = this.glossaryList.filter(
+          this.glossaryTitleShow = this.title;
+          this.glossaryList = response.filter(
             item => item.BusinessGlossary.ProviderDashboardName.Metric === 'Claims yield'
           );
-          console.log(this.glossaryList);
         },
         err => {
           console.log('error', err);

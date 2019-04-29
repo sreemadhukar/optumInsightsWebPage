@@ -140,10 +140,9 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
       data => {
         this.glossaryFlag = true;
         this.glossaryTitle = data;
-        console.log('Hamburger Subscripption', data);
       },
       err => {
-        console.log('clickHelpIcon , inside Hamburger', err);
+        console.log('Error, clickHelpIcon , inside Hamburger', err);
       }
     );
   }
