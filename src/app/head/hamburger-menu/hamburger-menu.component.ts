@@ -180,7 +180,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
       disableClose: true
     });
   }
-  
+
   closeGlossary() {
     this.glossaryFlag = false;
   }
