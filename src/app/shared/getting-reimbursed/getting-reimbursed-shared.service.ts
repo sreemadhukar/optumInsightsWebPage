@@ -54,7 +54,6 @@ export class GettingReimbursedSharedService {
         this.gettingReimbursedService.getGettingReimbursedData(...parameters).subscribe(([claimsData, appealsData]) => {
           const lobFullData = this.common.matchFullLobWithData(this.lob);
           const lobData = this.common.matchLobWithData(this.lob);
-          console.log(appealsData);
           if (claimsData.hasOwnProperty('status')) {
             claimsSubmitted = {
               category: 'app-card',

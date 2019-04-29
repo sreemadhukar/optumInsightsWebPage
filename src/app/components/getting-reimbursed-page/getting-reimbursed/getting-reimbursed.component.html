@@ -31,8 +31,8 @@
     </div>
     <div class="height1Separator"></div>
     <div *ngFor="let item of currentSummary">
-      <!-- <app-card *ngIf="item.data != null" class="cards" [chartData]="item"> </app-card> -->
-      <app-error-card *ngIf="item.data != null" class="cards" [data]="item"></app-error-card>
+      <app-card *ngIf="item.data != null" class="cards" [chartData]="item"> </app-card>
+      <app-error-card *ngIf="item.status != null" class="cards" [data]="item"></app-error-card>
     </div>
   </div>
 </div>
