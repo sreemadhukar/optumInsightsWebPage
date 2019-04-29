@@ -181,6 +181,10 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
     });
   }
 
+  closeGlossary() {
+    this.glossaryFlag = false;
+  }
+
   private allExpandState(value: boolean, id) {
     this._allExpandState = value;
     this.togglePanels(value, id);
@@ -199,10 +203,6 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
         }
       }
     });
-  }
-
-  private closeGlossary() {
-    this.glossaryFlag = false;
   }
   /** END OF FUNCTIONS TO COLLAPSE LEFT MENU **/
 }
