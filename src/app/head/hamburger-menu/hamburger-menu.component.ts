@@ -136,12 +136,18 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => {
       this.healthSystemName = JSON.parse(sessionStorage.getItem('currentUser'))[0]['HealthCareOrganizationName'];
     });
-    this.clickHelpIcon = this.glossaryExpandService.message.subscribe(data => {
-      this.glossaryFlag = true;
-      this.glossaryTitle = data;
-      console.log('Hamburger Subscripption', data);
-    });
+    this.clickHelpIcon = this.glossaryExpandService.message.subscribe(
+      data => {
+        this.glossaryFlag = true;
+        this.glossaryTitle = data;
+        console.log('Hamburger Subscripption', data);
+      },
+      err => {
+        console.log('clickHelpIcon , inside Hamburger', err);
+      }
+    );
   }
+
   ngOnDestroy() {
     this.clickHelpIcon.unsubscribe();
     this.glossaryFlag = false;
