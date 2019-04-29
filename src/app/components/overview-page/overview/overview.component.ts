@@ -45,7 +45,7 @@ export class OverviewComponent implements OnInit {
       this.session.sessionStorage('loggedUser', 'LastName') +
       ' ' +
       this.session.sessionStorage('loggedUser', 'FirstName');
-    this.pageTitle = 'Hello, ' + this.userName + '.';
+    this.pageTitle = 'Hello, ' + 'Anne' + '.';
 
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.ngOnInit());
   }

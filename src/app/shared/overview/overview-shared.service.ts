@@ -19,7 +19,8 @@ export class OverviewSharedService {
 
   public getOverviewData() {
     this.timeFrame = this.session.timeFrame;
-    this.providerKey = this.session.providerkey;
+    this.providerKey = this.session.providerKey();
+    console.log(this.providerKey);
     return new Promise(resolve => {
       let cPriorAuth: object;
       let cSelfService: object;

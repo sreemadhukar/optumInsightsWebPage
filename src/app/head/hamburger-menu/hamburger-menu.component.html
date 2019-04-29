@@ -105,8 +105,12 @@
 
       <!-- RIGHT SIDE FILTER BAR-->
       <mat-sidenav #srnav [mode]="'side'" position="end" [fixedInViewport]="true" [opened]="glossaryFlag">
-        <div style="width: 360px;">
-          {{ glossaryTitle }}
+        <div style="width: 400px;">
+          <div>
+            <mat-icon class="icon-left" svgIcon="close" (click)="closeGlossary()">
+              <div class="h-3-title">Knowledge Center</div></mat-icon
+            >
+          </div>
           <app-glossary [title]="glossaryTitle"></app-glossary>
         </div>
       </mat-sidenav>
