@@ -126,6 +126,10 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
       'close',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-close-24px.svg')
     );
+    iconRegistry.addSvgIcon(
+      'search',
+      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-search-24px.svg')
+    );
   }
   ngOnInit() {
     this.isDarkTheme = this.themeService.isDarkTheme;
