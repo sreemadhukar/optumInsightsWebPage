@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnChanges, Input } from '@angular/core';
 import { GlossaryService } from './../../rest/glossary/glossary.service';
 
 @Component({
@@ -6,14 +6,14 @@ import { GlossaryService } from './../../rest/glossary/glossary.service';
   templateUrl: './glossary.component.html',
   styleUrls: ['./glossary.component.scss']
 })
-export class GlossaryComponent implements OnInit {
+export class GlossaryComponent implements OnChanges {
   glossaryList: any;
   glossaryData: any[];
   @Input() title;
 
   constructor(private glossaryService: GlossaryService) {}
 
-  ngOnInit() {
+  ngOnChanges() {
     this.glossaryService.getBusinessGlossaryData().subscribe(response => {
       this.glossaryList = response;
 
@@ -21,23 +21,6 @@ export class GlossaryComponent implements OnInit {
         item => item.BusinessGlossary.ProviderDashboardName.Metric === 'Claims yield'
       );
       console.log(this.glossaryList);
-      /*for (let i = 0; i < this.glossaryList.length; i++) {
-        this.glossaryList[i].BusinessGlossary.ProviderDashboardName.metricData =
-        this.glossaryList[i].BusinessGlossary.ProviderDashboardName.Metric.replace(/[^a-zA-Z]/g, '');
-        }
-
-
-     this.glossaryData = this.glossaryList.sort(function(a, b) {
-        if (a.BusinessGlossary.ProviderDashboardName.Metric.toLowerCase() <
-        b.BusinessGlossary.ProviderDashboardName.Metric.toLowerCase()) { // sort string ascending
-              return -1;
-            } else if (a.BusinessGlossary.ProviderDashboardName.Metric.toLowerCase() >
-            b.BusinessGlossary.ProviderDashboardName.Metric.toLowerCase()) {
-            return 1;
-          } else {
-            return 0;
-            }
-    });*/
     });
   }
 }

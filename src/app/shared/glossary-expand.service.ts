@@ -5,8 +5,6 @@ import { Subject } from 'rxjs';
   providedIn: 'root'
 })
 export class GlossaryExpandService {
-  public glossaryFlag: boolean;
-  public glossaryTitle;
   public message = new Subject<string>();
 
   constructor() {}
