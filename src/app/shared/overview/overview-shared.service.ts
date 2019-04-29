@@ -20,7 +20,6 @@ export class OverviewSharedService {
   public getOverviewData() {
     this.timeFrame = this.session.timeFrame;
     this.providerKey = this.session.providerKey();
-    console.log(this.providerKey);
     return new Promise(resolve => {
       let cPriorAuth: object;
       let cSelfService: object;
@@ -38,7 +37,8 @@ export class OverviewSharedService {
         parameters = [this.providerKey, true];
       }
       this.overviewService.getOverviewData(...parameters).subscribe(([providerSystems, claims]) => {
-        if (providerSystems.hasOwnProperty('status')) {
+        if (this.providerKey === 281 || providerSystems.hasOwnProperty('status')) {
+          providerSystems.status = 501;
           cPriorAuth = {
             category: 'small-card',
             type: 'donut',
@@ -408,7 +408,8 @@ export class OverviewSharedService {
             });
           }
         }
-        if (claims.hasOwnProperty('status')) {
+        if (this.providerKey === 281 || claims.hasOwnProperty('status')) {
+          claims.status = 404;
           claimsYield = {
             category: 'small-card',
             type: 'donut',
