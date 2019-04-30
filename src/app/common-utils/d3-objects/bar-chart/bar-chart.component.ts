@@ -27,6 +27,53 @@ export class BarChartComponent implements OnInit, AfterViewInit {
   }
 
   doBarChart(chartOptions: any, transition: number) {
+    function getTextWidth(text, fontSize, fontFace) {
+      const canvas = document.createElement('canvas');
+      const context = canvas.getContext('2d');
+      context.font = fontSize + 'px ' + fontFace;
+      return context.measureText(text).width;
+    }
+
+    function wrap(textObject, pixelWidth, uniqueID) {
+      textObject.each(function() {
+        let word;
+        const text = d3.select(this),
+          words = text
+            .text()
+            .split(/\s+/)
+            .reverse(),
+          line = [],
+          lineNumber = 0,
+          lineHeight = 1.1, // ems
+          y = text.attr('y'),
+          dy = parseFloat(text.attr('dy')),
+          tspan = text
+            .text(null)
+            .append('tspan')
+            .attr('x', 30)
+            .attr('y', y)
+            .attr('dy', dy + 'em');
+        let i = 0;
+        while ((word = words.pop())) {
+          line.push(word);
+          const line2 = line.join(' ');
+          tspan.text(line.join(' '));
+          if (getTextWidth(line2, 16, 'Arial') > pixelWidth) {
+            line.pop();
+            tspan.text(line.join(' '));
+            line = [word];
+            tspan = text
+              .append('tspan')
+              .attr('x', 30)
+              .attr('y', y)
+              .attr('dy', 20 + 'px')
+              .attr('id', uniqueID + i)
+              .text(word);
+            i++;
+          }
+        }
+      });
+    }
     const preWidth = document.getElementsByClassName(this.chartOptions.gdata[0])[0].clientWidth;
     d3.select(this.renderChart)
       .selectAll('*')
@@ -48,19 +95,7 @@ export class BarChartComponent implements OnInit, AfterViewInit {
       .attr('height', height + margin.top + margin.bottom)
       .append('g')
       .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
-    /*
-    const div = d3.select(this.renderChart).append('div')
-      .attr('class', 'tooltip')
-      .style('height', 200)
-      .style('opacity', 0)
-      .style('border-radius', 0)
 
-    const svg2 = div.append('svg')
-      .attr('height', 200)
-
-    div.append('div')
-      .attr('class', 'triangle');
-*/
     const xScale = d3
       .scaleLinear()
       .domain([0, chartOptions.barSummation])
@@ -102,16 +137,46 @@ export class BarChartComponent implements OnInit, AfterViewInit {
           );
       }
     } else {
+      const uniqueText = 'reasonText' + this.renderChart.slice(1);
+      const tspanID = uniqueText + 'tspan';
       const textWithHover = chart
         .append('text')
+        .attr('id', uniqueText)
         .attr('x', xScale(chartOptions.barSummation / 10))
         .attr('y', (height + 10) / 2)
         .attr('fill', '#2D2D39')
         .attr('font-size', '16')
-        .style('text-anchor', 'start')
-        .style('font-family', 'UHCSans-Regular')
-        .style('font-weight', '500')
-        .text(chartOptions.barText);
+        .attr('text-anchor', 'start')
+        .attr('font-family', 'UHCSans-Regular')
+        .attr('font-weight', '500')
+        .text(chartOptions.barText)
+        .call(wrap, 200, tspanID);
+
+      // Shift text object up for longer reasons
+      if (textWithHover.selectAll('tspan').size() > 1) {
+        d3.select('#' + uniqueText).attr('transform', 'translate(' + 0 + ',' + -7.5 + ')');
+      }
+
+      if (textWithHover.selectAll('tspan').size() > 2) {
+        const tspanArray = textWithHover.selectAll('tspan').nodes();
+        const tspanArrayIDs = [];
+        const replacementtspan = tspanArray[1];
+        for (let i = 0; i < tspanArray.length; i++) {
+          tspanArrayIDs.push(tspanArray[i].id);
+        }
+
+        for (let i = tspanArrayIDs.length - 1; i > 0; i--) {
+          d3.select('#' + tspanArrayIDs[i]).remove();
+        }
+
+        d3.select('#' + uniqueText)
+          .append('tspan')
+          .attr('x', replacementtspan.getAttribute('x'))
+          .attr('y', replacementtspan.getAttribute('y'))
+          .attr('dy', replacementtspan.getAttribute('dy'))
+          .attr('id', replacementtspan.id + 'new')
+          .text(replacementtspan.textContent + '...');
+      }
     }
 
     chart
@@ -124,8 +189,5 @@ export class BarChartComponent implements OnInit, AfterViewInit {
       .style('font-family', 'UHCSans-Regular')
       .style('font-weight', '600')
       .text(chartOptions.barData);
-
-    // might have to build a hover object for the long text
-    // and add a feature to have the number on the left
   }
 }

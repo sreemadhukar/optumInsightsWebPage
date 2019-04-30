@@ -59,7 +59,7 @@ export class PriorAuthComponent implements OnInit {
         data: {
           barHeight: 48,
           barData: 50,
-          barSummation: 90,
+          barSummation: 150,
           barText: 'No Evidence',
           color: [{ color1: '#3381FF' }],
           gdata: ['card-inner-large', 'reasonOneBar']
@@ -72,10 +72,23 @@ export class PriorAuthComponent implements OnInit {
         data: {
           barHeight: 48,
           barData: 40,
-          barSummation: 90,
+          barSummation: 150,
           barText: 'Need more information',
           color: [{ color1: '#3381FF' }],
           gdata: ['card-inner-large', 'reasonTwoBar']
+        },
+        timeperiod: 'Rolling 12 Months'
+      },
+      {
+        type: 'singleBarChart',
+        title: 'Top Reason Not Approved',
+        data: {
+          barHeight: 48,
+          barData: 60,
+          barSummation: 150,
+          barText: 'Need more information because sometimes people forget the little things in life',
+          color: [{ color1: '#3381FF' }],
+          gdata: ['card-inner-large', 'reasonThreeBar']
         },
         timeperiod: 'Rolling 12 Months'
       }

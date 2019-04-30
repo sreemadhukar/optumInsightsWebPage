@@ -160,88 +160,88 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit {
 
     chart
       .append('text')
-      .attr('x', 231)
+      .attr('x', 22)
       .attr('y', 100)
       .attr('fill', '#2D2D39')
       .attr('font-size', '16')
-      .style('text-anchor', 'end')
+      .style('text-anchor', 'start')
       .style('font-family', 'UHCSans-Regular')
       .style('font-weight', '500')
       .text('Total Billed');
 
     chart
       .append('text')
-      .attr('x', 281)
+      .attr('x', 370)
       .attr('y', 100)
       .attr('fill', '#2D2D39')
       .attr('font-size', '22')
-      .style('text-anchor', 'start')
+      .style('text-anchor', 'end')
       .style('font-family', 'UHCSans-Regular')
       .style('font-weight', '600')
       .text('$856M');
 
     chart
       .append('text')
-      .attr('x', 231)
+      .attr('x', 22)
       .attr('y', 180)
       .attr('fill', '#2D2D39')
       .attr('font-size', '16')
-      .style('text-anchor', 'end')
+      .style('text-anchor', 'start')
       .style('font-family', 'UHCSans-Regular')
       .style('font-weight', '500')
       .text('Actual Allowed*');
 
     chart
       .append('text')
-      .attr('x', 281)
+      .attr('x', 370)
       .attr('y', 180)
       .attr('fill', '#2D2D39')
       .attr('font-size', '22')
-      .style('text-anchor', 'start')
+      .style('text-anchor', 'end')
       .style('font-family', 'UHCSans-Regular')
       .style('font-weight', '600')
       .text('$645M');
 
     chart
       .append('text')
-      .attr('x', 231)
+      .attr('x', 22)
       .attr('y', 230)
       .attr('fill', '#2D2D39')
       .attr('font-size', '16')
-      .style('text-anchor', 'end')
+      .style('text-anchor', 'start')
       .style('font-family', 'UHCSans-Regular')
       .style('font-weight', '500')
       .text('Estimated Non-Payment');
 
     chart
       .append('text')
-      .attr('x', 281)
+      .attr('x', 370)
       .attr('y', 230)
       .attr('fill', '#2D2D39')
       .attr('font-size', '22')
-      .style('text-anchor', 'start')
+      .style('text-anchor', 'end')
       .style('font-family', 'UHCSans-Regular')
       .style('font-weight', '600')
       .text('$211M');
 
     chart
       .append('text')
-      .attr('x', 231)
+      .attr('x', 22)
       .attr('y', 310)
       .attr('fill', '#2D2D39')
       .attr('font-size', '16')
-      .style('text-anchor', 'end')
+      .style('text-anchor', 'start')
       .style('font-family', 'UHCSans-Regular')
       .style('font-weight', '500')
       .text('Total Paid By UHC');
 
     chart
       .append('text')
-      .attr('x', 281)
+      .attr('x', 370)
       .attr('y', 310)
       .attr('fill', '#2D2D39')
       .attr('font-size', '22')
-      .style('text-anchor', 'start')
+      .style('text-anchor', 'end')
       .style('font-family', 'UHCSans-Regular')
       .style('font-weight', '600')
       .text('$571M');
