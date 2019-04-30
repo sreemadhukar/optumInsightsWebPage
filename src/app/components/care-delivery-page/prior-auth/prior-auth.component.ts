@@ -86,7 +86,9 @@ export class PriorAuthComponent implements OnInit {
           barHeight: 48,
           barData: 60,
           barSummation: 150,
-          barText: 'Need more information because sometimes people forget the little things in life',
+          barText:
+            'Medical equipment which cannot withstand repeated use OR is disposable, OR is not used to serve a medical purpose, ' +
+            'OR is generally not useful to a person in the absence of a Sickness or Injury, OR is not appropriate for use in the home',
           color: [{ color1: '#3381FF' }],
           gdata: ['card-inner-large', 'reasonThreeBar']
         },

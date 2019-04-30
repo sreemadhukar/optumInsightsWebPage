@@ -51,7 +51,7 @@ export class BarChartComponent implements OnInit, AfterViewInit {
         let tspan = text
           .text(null)
           .append('tspan')
-          .attr('x', 30)
+          .attr('x', 15)
           .attr('y', y)
           .attr('dy', dy + 'em');
         let i = 0;
@@ -66,7 +66,7 @@ export class BarChartComponent implements OnInit, AfterViewInit {
             line = [word];
             tspan = text
               .append('tspan')
-              .attr('x', 30)
+              .attr('x', 15)
               .attr('y', y)
               .attr('dy', 20 * dyMultiplier + 'px')
               .attr('id', uniqueID + i)
@@ -185,23 +185,25 @@ export class BarChartComponent implements OnInit, AfterViewInit {
           .select(this.renderChart)
           .append('div')
           .attr('class', 'tooltip')
-          .style('height', '212px')
-          .style('width', '370px')
+          .style('height', '116px')
+          .style('width', '438px')
           .style('opacity', 0)
           .style('border-radius', 0);
 
         const svg2 = div
           .append('svg')
-          .attr('height', '212px')
-          .attr('width', '370px');
+          .attr('height', '116px')
+          .attr('width', '438px');
 
-        div.append('div').attr('class', 'triangle');
+        div
+          .append('div')
+          .attr('class', 'triangle')
+          .style('top', '105px');
 
         // need to make id clean
         svg2
           .append('text')
           .attr('id', uniqueText + 'hover')
-          .attr('x', xScale(chartOptions.barSummation / 10))
           .attr('y', (height + 10) / 2)
           .attr('fill', '#2D2D39')
           .attr('font-size', '16')
@@ -209,7 +211,7 @@ export class BarChartComponent implements OnInit, AfterViewInit {
           .attr('font-family', 'UHCSans-Regular')
           .attr('font-weight', '500')
           .text(chartOptions.barText)
-          .call(wrap, 250, tspanID + 'hover');
+          .call(wrap, 420, tspanID + 'hover');
 
         const label = d3.select('#' + uniqueText).selectAll('*');
 
@@ -219,14 +221,14 @@ export class BarChartComponent implements OnInit, AfterViewInit {
               .transition()
               .duration(10)
               .style('opacity', 1);
-            div.style('left', d3.event.layerX + 15 + 'px').style('top', d3.event.layerY - 40 + 'px');
+            div.style('left', d3.event.layerX - 219 + 'px').style('top', d3.event.layerY - 130 + 'px');
           })
           .on('mousemove', function(d) {
             div
               .transition()
               .duration(10)
               .style('opacity', 1);
-            div.style('left', d3.event.layerX + 15 + 'px').style('top', d3.event.layerY - 40 + 'px');
+            div.style('left', d3.event.layerX - 219 + 'px').style('top', d3.event.layerY - 130 + 'px');
           })
           .on('mouseleave', function(d) {
             div
