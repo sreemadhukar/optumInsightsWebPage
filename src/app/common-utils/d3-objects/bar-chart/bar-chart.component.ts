@@ -36,23 +36,23 @@ export class BarChartComponent implements OnInit, AfterViewInit {
 
     function wrap(textObject, pixelWidth, uniqueID) {
       textObject.each(function() {
-        let word;
+        let word,
+          line = [];
         const text = d3.select(this),
           words = text
             .text()
             .split(/\s+/)
             .reverse(),
-          line = [],
           lineNumber = 0,
           lineHeight = 1.1, // ems
           y = text.attr('y'),
-          dy = parseFloat(text.attr('dy')),
-          tspan = text
-            .text(null)
-            .append('tspan')
-            .attr('x', 30)
-            .attr('y', y)
-            .attr('dy', dy + 'em');
+          dy = parseFloat(text.attr('dy'));
+        let tspan = text
+          .text(null)
+          .append('tspan')
+          .attr('x', 30)
+          .attr('y', y)
+          .attr('dy', dy + 'em');
         let i = 0;
         while ((word = words.pop())) {
           line.push(word);
