@@ -4,7 +4,8 @@ import * as d3 from 'd3';
 @Component({
   selector: 'app-bar-chart',
   templateUrl: './bar-chart.component.html',
-  styleUrls: ['./bar-chart.component.less']
+  styleUrls: ['./bar-chart.component.less'],
+  encapsulation: ViewEncapsulation.None
 })
 export class BarChartComponent implements OnInit, AfterViewInit {
   public transition = 1;
@@ -54,6 +55,7 @@ export class BarChartComponent implements OnInit, AfterViewInit {
           .attr('y', y)
           .attr('dy', dy + 'em');
         let i = 0;
+        let dyMultiplier = 1;
         while ((word = words.pop())) {
           line.push(word);
           const line2 = line.join(' ');
@@ -66,10 +68,11 @@ export class BarChartComponent implements OnInit, AfterViewInit {
               .append('tspan')
               .attr('x', 30)
               .attr('y', y)
-              .attr('dy', 20 + 'px')
+              .attr('dy', 20 * dyMultiplier + 'px')
               .attr('id', uniqueID + i)
               .text(word);
             i++;
+            dyMultiplier++;
           }
         }
       });
@@ -150,13 +153,14 @@ export class BarChartComponent implements OnInit, AfterViewInit {
         .attr('font-family', 'UHCSans-Regular')
         .attr('font-weight', '500')
         .text(chartOptions.barText)
-        .call(wrap, 200, tspanID);
+        .call(wrap, 250, tspanID);
 
-      // Shift text object up for longer reasons
+      // Shift text object up for 2+ line reasons
       if (textWithHover.selectAll('tspan').size() > 1) {
         d3.select('#' + uniqueText).attr('transform', 'translate(' + 0 + ',' + -7.5 + ')');
       }
 
+      // where we should enable the hover object to exist
       if (textWithHover.selectAll('tspan').size() > 2) {
         const tspanArray = textWithHover.selectAll('tspan').nodes();
         const tspanArrayIDs = [];
@@ -176,6 +180,60 @@ export class BarChartComponent implements OnInit, AfterViewInit {
           .attr('dy', replacementtspan.getAttribute('dy'))
           .attr('id', replacementtspan.id + 'new')
           .text(replacementtspan.textContent + '...');
+
+        const div = d3
+          .select(this.renderChart)
+          .append('div')
+          .attr('class', 'tooltip')
+          .style('height', '212px')
+          .style('width', '370px')
+          .style('opacity', 0)
+          .style('border-radius', 0);
+
+        const svg2 = div
+          .append('svg')
+          .attr('height', '212px')
+          .attr('width', '370px');
+
+        div.append('div').attr('class', 'triangle');
+
+        // need to make id clean
+        svg2
+          .append('text')
+          .attr('id', uniqueText + 'hover')
+          .attr('x', xScale(chartOptions.barSummation / 10))
+          .attr('y', (height + 10) / 2)
+          .attr('fill', '#2D2D39')
+          .attr('font-size', '16')
+          .attr('text-anchor', 'start')
+          .attr('font-family', 'UHCSans-Regular')
+          .attr('font-weight', '500')
+          .text(chartOptions.barText)
+          .call(wrap, 250, tspanID + 'hover');
+
+        const label = d3.select('#' + uniqueText).selectAll('*');
+
+        label
+          .on('mouseenter', function(d) {
+            div
+              .transition()
+              .duration(10)
+              .style('opacity', 1);
+            div.style('left', d3.event.layerX + 15 + 'px').style('top', d3.event.layerY - 40 + 'px');
+          })
+          .on('mousemove', function(d) {
+            div
+              .transition()
+              .duration(10)
+              .style('opacity', 1);
+            div.style('left', d3.event.layerX + 15 + 'px').style('top', d3.event.layerY - 40 + 'px');
+          })
+          .on('mouseleave', function(d) {
+            div
+              .transition()
+              .duration(10)
+              .style('opacity', 0);
+          });
       }
     }
 
