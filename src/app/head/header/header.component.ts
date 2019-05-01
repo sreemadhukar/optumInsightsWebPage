@@ -47,7 +47,7 @@ import { Observable } from 'rxjs';
     ])
   ]
 })
-export class HeaderComponent implements AfterViewChecked, OnInit {
+export class HeaderComponent implements OnInit {
   @Input() isDarkTheme: Observable<boolean>;
   @Input() button: boolean;
   @Output() hamburgerDisplay = new EventEmitter<boolean>();
@@ -55,7 +55,7 @@ export class HeaderComponent implements AfterViewChecked, OnInit {
   public state: any;
   public mobileQuery: boolean;
   public menuIcon = 'menu';
-  public username: any;
+  public username = 'Anne';
 
   constructor(
     private breakpointObserver: BreakpointObserver,
@@ -82,9 +82,6 @@ export class HeaderComponent implements AfterViewChecked, OnInit {
       'cross',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Content/round-clear-24px.svg')
     );
-  }
-  ngAfterViewChecked() {
-    this.username = 'Anne';
   }
 
   ngOnInit() {

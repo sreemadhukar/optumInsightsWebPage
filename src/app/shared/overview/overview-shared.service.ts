@@ -20,6 +20,7 @@ export class OverviewSharedService {
   public getOverviewData() {
     this.timeFrame = this.session.timeFrame;
     this.providerKey = this.session.providerKey();
+    this.overviewPageData = [];
     return new Promise(resolve => {
       let cPriorAuth: object;
       let cSelfService: object;
@@ -108,6 +109,7 @@ export class OverviewSharedService {
         } else {
           if (
             providerSystems.hasOwnProperty('PriorAuth') &&
+            providerSystems.PriorAuth !== null &&
             providerSystems.PriorAuth.hasOwnProperty('LineOfBusiness') &&
             providerSystems.PriorAuth.LineOfBusiness.hasOwnProperty('All') &&
             providerSystems.PriorAuth.LineOfBusiness.All.hasOwnProperty('PriorAuthApprovedCount') &&
@@ -187,7 +189,8 @@ export class OverviewSharedService {
             };
           }
           if (
-            providerSystems.hasOwnProperty('PatientCareOpportunity') !== null &&
+            providerSystems &&
+            providerSystems['PatientCareOpportunity'] !== null &&
             providerSystems.PatientCareOpportunity.hasOwnProperty('LineOfBusiness') &&
             providerSystems.PatientCareOpportunity.LineOfBusiness.hasOwnProperty('MedicareAndRetirement') &&
             providerSystems.PatientCareOpportunity.LineOfBusiness.MedicareAndRetirement.hasOwnProperty(
