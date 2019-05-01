@@ -38,7 +38,8 @@ pipeline {
                 glDockerImageBuildPush tag: "$tagBase/$qaWebRepo:qaone",
                         repository: "$qaWebRepo",
                         namespace: "$namespace",
-                        dockerCredentialsId: "$env.DOCKER_CREDENTIALS_ID"
+                        dockerCredentialsId: "$env.DOCKER_CREDENTIALS_ID",
+                        extraBuildOptions: "--build-arg env_var=dev"
             }
         }
 
