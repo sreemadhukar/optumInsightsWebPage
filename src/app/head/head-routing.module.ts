@@ -13,20 +13,34 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
-    path: 'gettingReimbursed',
+    path: 'GettingReimbursed',
     loadChildren: '../components/getting-reimbursed-page/getting-reimbursed.module#GettingReimbursedModule',
+    data: {
+      breadcrumb: 'Getting Reimbursed'
+    },
     canActivate: [AuthGuard]
   },
-  /*{
-    path: 'careDelivery',
+  {
+    path: 'CareDelivery',
     loadChildren: '../components/care-delivery-page/care-delivery-page.module#CareDeliveryPageModule',
+    data: {
+      breadcrumb: 'Care Delivery'
+    },
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'ProviderSearch',
+    loadChildren: '../components/provider-search/provider-search.module#ProviderSearchModule',
     canActivate: [AuthGuard]
   },
   {
     path: 'issueResolution',
     loadChildren: '../components/issue-resolution-page/issue-resolution-page.module#IssueResolutionPageModule',
+    data: {
+      breadcrumb: 'Issue Resolution'
+    },
     canActivate: [AuthGuard]
-  },*/
+  },
   { path: '**', redirectTo: '' }
 ];
 

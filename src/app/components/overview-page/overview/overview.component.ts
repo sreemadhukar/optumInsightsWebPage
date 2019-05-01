@@ -1,11 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterContentInit } from '@angular/core';
 import { OverviewSharedService } from '../../../shared/overview/overview-shared.service';
+import { SessionService } from '../../../shared/session.service';
+import { StorageService } from '../../../shared/storage-service.service';
+
 @Component({
   selector: 'app-overview',
   templateUrl: './overview.component.html',
   styleUrls: ['./overview.component.scss']
 })
-export class OverviewComponent implements OnInit {
+export class OverviewComponent implements OnInit, AfterContentInit {
   overviewItems: any;
   mainCards: any;
   selfServiceMiniCards: any;
@@ -15,24 +18,39 @@ export class OverviewComponent implements OnInit {
   opportunities: String = '';
   opportunitiesQuestion: String = '';
   welcomeMessage: String = '';
-  constructor(private overviewsrc: OverviewSharedService) {
+  subscription: any;
+
+  constructor(
+    private overviewsrc: OverviewSharedService,
+    private checkStorage: StorageService,
+    private session: SessionService
+  ) {
     this.pagesubTitle = 'Your Insights at a glance.';
     this.opportunities = 'Opportunities';
     this.opportunitiesQuestion = 'How much can online self service save you?';
     this.welcomeMessage = '';
+    this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.ngOnInit());
   }
   ngOnInit() {
     this.overviewsrc
       .getOverviewData()
       .then(data => {
+        this.overviewItems = [];
+        this.mainCards = [];
+        this.selfServiceMiniCards = [];
         this.overviewItems = JSON.parse(JSON.stringify(data));
         console.log(this.overviewItems);
         this.mainCards = this.overviewItems[0];
         this.selfServiceMiniCards = this.overviewItems[1];
         console.log(this.selfServiceMiniCards);
       })
-      .catch(reason => console.log(reason.message));
-    this.userName = 'Anne';
-    this.pageTitle = 'Hello, ' + this.userName + '.';
+      .catch(reason => console.log(reason));
+    this.userName =
+      this.session.sessionStorage('loggedUser', 'LastName') +
+      ' ' +
+      this.session.sessionStorage('loggedUser', 'FirstName');
+    this.pageTitle = 'Hello, ' + 'Anne' + '.';
   }
+
+  ngAfterContentInit() {}
 }

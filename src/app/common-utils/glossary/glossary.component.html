@@ -1,0 +1,26 @@
+<div>
+  <br />
+  <div style="margin-left: 10px;">
+    <input type="text" placeholder="What metrics can we help you with ?" class="idle-container" />
+  </div>
+  <br />
+  <div *ngFor="let glossary of glossaryList; let i = index">
+    <div class="glossary-title">
+      {{ glossaryTitleShow }}
+    </div>
+    <br />
+    <div class="glossary-definition">
+      {{ glossary.BusinessGlossary.ProviderDashboardName.Definition }}
+    </div>
+    <br />
+    <div>
+      <a class="go-to-metric-location">
+        Go To Metric Location >
+      </a>
+    </div>
+    <div *ngIf="glossary.BusinessGlossary.ProviderDashboardName.Formula.trim().length != 0" class="glossary-definition">
+      Metric Formula
+      {{ glossary.BusinessGlossary.ProviderDashboardName.Formula }}
+    </div>
+  </div>
+</div>

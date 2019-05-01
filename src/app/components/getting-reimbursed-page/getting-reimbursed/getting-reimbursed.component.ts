@@ -1,54 +1,63 @@
 import { Component, OnInit } from '@angular/core';
-
+import { GettingReimbursedSharedService } from '../../../shared/getting-reimbursed/getting-reimbursed-shared.service';
 @Component({
   selector: 'app-getting-reimbursed',
   templateUrl: './getting-reimbursed.component.html',
   styleUrls: ['./getting-reimbursed.component.scss']
 })
 export class GettingReimbursedComponent implements OnInit {
-  summaryItems: Array<Object> = [{}];
+  summaryItems: any;
   pageTitle: String = '';
   pagesubTitle: String = '';
   userName: String = '';
-  constructor() {
-    this.pagesubTitle = 'Claim Submissions';
+  tabId: Number = 0;
+  currentSummary: Array<Object> = [{}];
+  currentTabTitle: String = '';
+  tabOptions: Array<Object> = [];
+  selectedItemId: Number = 0;
+  tabOptionsTitle: Array<String> = [];
+  constructor(private gettingReimbursedSharedService: GettingReimbursedSharedService) {
+    this.pageTitle = 'Getting Reimbursed';
+    this.currentTabTitle = '';
+    this.tabOptionsTitle = ['Submission', 'Payments', 'Non-Payments', 'Appeals'];
   }
 
+  getTabOptionsTitle(i: number) {
+    return this.tabOptionsTitle[i];
+  }
+  matOptionClicked(i: any, event: any) {
+    this.selectedItemId = i;
+    this.currentSummary = this.summaryItems[i].data;
+    this.currentTabTitle = this.summaryItems[i].title;
+    const myTabs = document.querySelectorAll('ul.nav-tabs > li');
+    for (let j = 0; j < myTabs.length; j++) {
+      myTabs[j].classList.remove('active');
+    }
+    event.target.classList.add('active');
+  }
   ngOnInit() {
-    this.pageTitle = 'Getting Reimbursed';
-    this.summaryItems = [
-      {
-        category: 'card',
-        type: 'donutWithTrend',
-        title: 'Claims Paid',
-        data: {
-          cValues: [],
-          cData: '',
-          color: [{ color1: '#00A8F7' }, { color2: '#F5F5F5' }, { color3: '#FFFFFF' }],
-          gdata: []
-        },
-        sdata: {
-          sign: 'up',
-          data: '+2.3%'
-        },
-        timeperiod: 'Rolling 12 Months'
-      },
-      {
-        category: 'card',
-        type: 'donutBothLabelTrend',
-        title: 'Total Claims Submitted',
-        data: {
-          cValues: [],
-          cData: '',
-          color: [{ color1: '#00A8F7' }, { color2: '#F5F5F5' }, { color3: '#FFFFFF' }],
-          gdata: []
-        },
-        sdata: {
-          sign: 'down',
-          data: '-2.3%'
-        },
-        timeperiod: 'Rolling 12 Months'
-      }
-    ];
+    this.selectedItemId = 0;
+    this.gettingReimbursedSharedService
+      .getGettingReimbursedData()
+      .then(completeData => {
+        this.summaryItems = JSON.parse(JSON.stringify(completeData));
+        this.currentSummary = this.summaryItems[0].data;
+        this.currentTabTitle = this.summaryItems[0].title;
+        console.log(this.currentSummary);
+
+        for (let i = 0; i < 4; i++) {
+          const temp = {
+            id: i,
+            title: this.getTabOptionsTitle(i),
+            value1: this.summaryItems[i].data[0].data.centerNumber,
+            sdata: {
+              sign: this.summaryItems[i].data[0].data.sdata.sign,
+              value: this.summaryItems[i].data[0].data.sdata.data
+            }
+          };
+          this.tabOptions.push(temp);
+        }
+      })
+      .catch(reason => console.log(reason.message));
   }
 }
