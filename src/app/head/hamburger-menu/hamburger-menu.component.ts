@@ -49,30 +49,33 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
   clickHelpIcon: Subscription;
   /*** Array of Navigation Category List ***/
   public navCategories = [
-    { icon: 'home', name: 'Overview', path: '/OverviewPage' },
+    { icon: 'home', name: 'Overview', path: '/OverviewPage', disabled: false },
     {
       icon: 'getting-reimburse',
       name: 'Getting Reimbursed',
       children: [
-        { name: 'Summary', path: 'GettingReimbursed' },
-        { name: 'Payments', path: 'GettingReimbursed/Payments' },
-        { name: 'Non-Payments', path: 'GettingReimbursed/NonPayments' },
-        { name: 'Appeals', path: 'GettingReimbursed/Appeals' },
-        { name: 'Payment Integrity', path: 'GettingReimbursed/PaymentIntegrity' }
-      ]
+        { name: 'Summary', path: '/OverviewPage' },
+        { name: 'Payments', path: '/OverviewPage' },
+        { name: 'Non-Payments', path: '/OverviewPage' },
+        { name: 'Appeals', path: '/OverviewPage' },
+        { name: 'Payment Integrity', path: '/OverviewPage' }
+      ],
+      disabled: true
     },
     {
       icon: 'care-delivery',
       name: 'Care Delivery',
       children: [
-        { name: 'Prior Authorizations', path: 'CareDelivery/priorAuth' },
-        { name: 'Patient Care Opportunity', path: 'CareDelivery/PatientCareOpportunity' }
-      ]
+        { name: 'Prior Authorizations', path: '/OverviewPage' },
+        { name: 'Patient Care Opportunity', path: '/OverviewPage' }
+      ],
+      disabled: true
     },
     {
       icon: 'issue-resolution',
       name: 'Issue Resolution',
-      children: [{ name: 'Summary', path: 'issueResolution' }]
+      children: [{ name: 'Summary', path: '/OverviewPage' }],
+      disabled: true
     }
   ];
 
