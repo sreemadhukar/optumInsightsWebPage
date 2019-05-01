@@ -55,7 +55,7 @@ export class HeaderComponent implements OnInit {
   public state: any;
   public mobileQuery: boolean;
   public menuIcon = 'menu';
-  public username: string = 'Anne';
+  public username = 'Anne';
 
   constructor(
     private breakpointObserver: BreakpointObserver,
