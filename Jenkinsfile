@@ -121,10 +121,10 @@ pipeline {
             }
         }
 
-        stage('OSE Deployment Web - devOne') {
+        stage('OSE Deployment Web - devTwo') {
             when {
                 beforeAgent true
-                branch 'devOne'
+                branch 'devTwo'
             }
             agent {
                 label 'docker-maven-slave'
@@ -139,10 +139,10 @@ pipeline {
             }
         }
       
-      stage('Web: Build and Deploy Docker Image to DTR - devOne') {
+      stage('Web: Build and Deploy Docker Image to DTR - devThree') {
             when {
                 beforeAgent true
-                branch 'devOne'
+                branch 'devThree'
             }
             agent {
                 label 'docker-nodejs-slave'
@@ -156,10 +156,10 @@ pipeline {
             }
         }
 
-        stage('OSE Deployment Web - devOne') {
+        stage('OSE Deployment Web - devThree') {
             when {
                 beforeAgent true
-                branch 'devOne'
+                branch 'devThree'
             }
             agent {
                 label 'docker-maven-slave'
@@ -175,10 +175,10 @@ pipeline {
             }
         }
         
-      stage('Web: Build and Deploy Docker Image to DTR - devOne') {
+      stage('Web: Build and Deploy Docker Image to DTR - devFour') {
             when {
                 beforeAgent true
-                branch 'devOne'
+                branch 'devFour'
             }
             agent {
                 label 'docker-nodejs-slave'
@@ -192,10 +192,10 @@ pipeline {
             }
         }
 
-        stage('OSE Deployment Web - devOne') {
+        stage('OSE Deployment Web - devFour') {
             when {
                 beforeAgent true
-                branch 'devOne'
+                branch 'devFour'
             }
             agent {
                 label 'docker-maven-slave'
