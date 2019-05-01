@@ -12,11 +12,11 @@ export class StorageService implements OnDestroy {
   private changes = this.onSubject.asObservable().pipe(share());
 
   constructor(private route: Router) {
-    this.start();
+    // this.start();
   }
 
   ngOnDestroy() {
-    this.stop();
+    //  this.stop();
   }
 
   public store(key: string, data: any): void {
@@ -33,23 +33,24 @@ export class StorageService implements OnDestroy {
     return this.providerChange;
   }
 
-  private start(): void {
-    window.addEventListener('storage', this.storageEventListener.bind(this));
-  }
+  // private start(): void {
+  //   window.addEventListener('storage', this.storageEventListener.bind(this));
+  // }
 
-  private storageEventListener(event: StorageEvent) {
-    console.log(event);
-    if (event.storageArea === sessionStorage) {
-      console.log(event.newValue[0]);
-      if (event.newValue) {
-        alert('emitted');
-        this.emitChangeEvent();
-      }
-    }
-  }
+  // private storageEventListener(event: StorageEvent) {
+  //   alert(1);
+  //   console.log(event);
+  //   if (event.storageArea === sessionStorage) {
+  //     console.log(event.newValue[0]);
+  //     if (event.newValue) {
+  //       alert('emitted');
+  //       this.emitChangeEvent();
+  //     }
+  //   }
+  // }
 
-  private stop(): void {
-    window.removeEventListener('storage', this.storageEventListener.bind(this));
-    this.onSubject.complete();
-  }
+  // private stop(): void {
+  //   window.removeEventListener('storage', this.storageEventListener.bind(this));
+  //   this.onSubject.complete();
+  // }
 }
