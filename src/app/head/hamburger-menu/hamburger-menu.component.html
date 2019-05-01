@@ -52,6 +52,8 @@
               *ngIf="category.children"
               class="nav-menu-expansion-panel mat-elevation-z0"
               [expanded]="_allExpandState"
+              [disabled]="category.disabled"
+              [class.pointer-none]="category.disabled"
             >
               <mat-expansion-panel-header
                 class="nav-menu-category"
