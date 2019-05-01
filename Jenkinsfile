@@ -7,12 +7,18 @@ String namespace = 'fspeddeply'
 String tagBase = "$dockerHost/$namespace"
 
 String qaWebRepo = 'pedweb_tst'
+String devWebRepo = 'pedweb_dev'
 
 String oseHost= "https://ocp-ctc-core-nonprod.optum.com"
 
 String oseQaProject = 'pedtst'
+String oseDevProject = 'peddev'
 
 String qaOneUiPod = 'pedui1'
+String devOneUiPod = 'pedui1'
+String devTwoUiPod = 'pedui2'
+String devThreeUiPod = 'pedui3'
+String devFourUiPod = 'pedui4'
 
 pipeline {
     agent none
@@ -32,7 +38,7 @@ pipeline {
                 branch 'dev'
             }
             agent {
-                label 'docker-kitchensink-slave'
+                label 'docker-nodejs-slave'
             }
             steps {
                 glDockerImageBuildPush tag: "$tagBase/$qaWebRepo:qaone",
@@ -61,7 +67,148 @@ pipeline {
 
             }
         }
+      
+      stage('Web: Build and Deploy Docker Image to DTR - devOne') {
+            when {
+                beforeAgent true
+                branch 'devOne'
+            }
+            agent {
+                label 'docker-nodejs-slave'
+            }
+            steps {
+                glDockerImageBuildPush tag: "$tagBase/$qaWebRepo:devone",
+                        repository: "$devWebRepo",
+                        namespace: "$namespace",
+                        dockerCredentialsId: "$env.DOCKER_CREDENTIALS_ID",
+                        extraBuildOptions: "--build-arg env_var=devone"
+            }
+        }
+
+        stage('OSE Deployment Web - devOne') {
+            when {
+                beforeAgent true
+                branch 'devOne'
+            }
+            agent {
+                label 'docker-maven-slave'
+            }
+            steps {
+                glOpenshiftDeploy credentials: "$env.OPENSHIFT_CREDENTIALS_ID",
+                        ocpUrl: "$oseHost",
+                        project: "$oseDevProject",
+                        serviceName: "$devOneUiPod",
+                        dockerImage: "$tagBase/$qaWebRepo:devone",
+                        port: '8000'
+
+            }
+        }
+      
+      stage('Web: Build and Deploy Docker Image to DTR - devTwo') {
+            when {
+                beforeAgent true
+                branch 'devTwo'
+            }
+            agent {
+                label 'docker-nodejs-slave'
+            }
+            steps {
+                glDockerImageBuildPush tag: "$tagBase/$qaWebRepo:devone",
+                        repository: "$devWebRepo",
+                        namespace: "$namespace",
+                        dockerCredentialsId: "$env.DOCKER_CREDENTIALS_ID",
+                        extraBuildOptions: "--build-arg env_var=devone"
+            }
+        }
+
+        stage('OSE Deployment Web - devOne') {
+            when {
+                beforeAgent true
+                branch 'devOne'
+            }
+            agent {
+                label 'docker-maven-slave'
+            }
+            steps {
+                glOpenshiftDeploy credentials: "$env.OPENSHIFT_CREDENTIALS_ID",
+                        ocpUrl: "$oseHost",
+                        project: "$oseDevProject",
+                        serviceName: "$devOneUiPod",
+                        dockerImage: "$tagBase/$qaWebRepo:devone",
+                        port: '8000'
+            }
+        }
+      
+      stage('Web: Build and Deploy Docker Image to DTR - devOne') {
+            when {
+                beforeAgent true
+                branch 'devOne'
+            }
+            agent {
+                label 'docker-nodejs-slave'
+            }
+            steps {
+                glDockerImageBuildPush tag: "$tagBase/$qaWebRepo:devone",
+                        repository: "$devWebRepo",
+                        namespace: "$namespace",
+                        dockerCredentialsId: "$env.DOCKER_CREDENTIALS_ID",
+                        extraBuildOptions: "--build-arg env_var=devone"
+            }
+        }
+
+        stage('OSE Deployment Web - devOne') {
+            when {
+                beforeAgent true
+                branch 'devOne'
+            }
+            agent {
+                label 'docker-maven-slave'
+            }
+            steps {
+                glOpenshiftDeploy credentials: "$env.OPENSHIFT_CREDENTIALS_ID",
+                        ocpUrl: "$oseHost",
+                        project: "$oseDevProject",
+                        serviceName: "$devOneUiPod",
+                        dockerImage: "$tagBase/$qaWebRepo:devone",
+                        port: '8000'
+              
+            }
+        }
         
+      stage('Web: Build and Deploy Docker Image to DTR - devOne') {
+            when {
+                beforeAgent true
+                branch 'devOne'
+            }
+            agent {
+                label 'docker-nodejs-slave'
+            }
+            steps {
+                glDockerImageBuildPush tag: "$tagBase/$qaWebRepo:devone",
+                        repository: "$devWebRepo",
+                        namespace: "$namespace",
+                        dockerCredentialsId: "$env.DOCKER_CREDENTIALS_ID",
+                        extraBuildOptions: "--build-arg env_var=devone"
+            }
+        }
+
+        stage('OSE Deployment Web - devOne') {
+            when {
+                beforeAgent true
+                branch 'devOne'
+            }
+            agent {
+                label 'docker-maven-slave'
+            }
+            steps {
+                glOpenshiftDeploy credentials: "$env.OPENSHIFT_CREDENTIALS_ID",
+                        ocpUrl: "$oseHost",
+                        project: "$oseDevProject",
+                        serviceName: "$devOneUiPod",
+                        dockerImage: "$tagBase/$qaWebRepo:devone",
+                        port: '8000'
+            }
+        }
       }
       
     post {
