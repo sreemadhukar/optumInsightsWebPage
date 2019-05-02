@@ -11,7 +11,11 @@ Date Created: 17-Apr-2019
   "
 >
   <div class="card-inner">
-    <app-common-header [cardType]="'appCard'" [title]="chartData.title"></app-common-header>
+    <app-common-header
+      [cardType]="'appCard'"
+      [title]="chartData.title"
+      (helpIconClicked)="helpIconClick($event)"
+    ></app-common-header>
     <div *ngIf="chartData.data != null" class="full-width-block">
       <!-- DONUT WITH LABEL -->
       <div *ngIf="chartData.type == 'donutWithLabel'" class="full-width-block">

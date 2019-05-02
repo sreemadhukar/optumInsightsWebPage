@@ -19,16 +19,16 @@
     <div
       [class.full-width-block]="data.category === 'large-card' || data.category === 'app-card'"
       [class.full-width]="data.category === 'small-card'"
+      [class.self-service-width]="data.category === 'mini-tile'"
     >
-      <div class="img-allign" *ngIf="data.category === 'app-card'">
-        <img src="/src/assets/images/alert-app-card.PNG" />
-      </div>
-      <div class="img-allign" *ngIf="data.category === 'small-card'">
-        <img src="/src/assets/images/alert-small-card.PNG" />
+      <div class="img-align">
+        <img class="image-align" src="/src/assets/images/warning-icon.svg" />
       </div>
       <div *ngFor="let errorCode of errorCodes">
-        <div class="errorTitle" *ngIf="errorCode.code === 501">{{ errorCode.title }}</div>
-        <div class="errorSubTitle" *ngIf="errorCode.code === 501">{{ errorCode.message }}</div>
+        <div *ngIf="errorCode.code === data.status" class=" data-title">
+          <div class="errorTitle" *ngIf="errorCode.code === data.status">{{ errorCode.title }}</div>
+          <div class="errorSubTitle" *ngIf="errorCode.code === data.status">{{ errorCode.message }}</div>
+        </div>
       </div>
     </div>
   </div>

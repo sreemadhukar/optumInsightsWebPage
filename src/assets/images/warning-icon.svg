@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="36px" height="36px" viewBox="0 0 36 36" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 54.1 (76490) - https://sketchapp.com -->
+    <title>Combined Shape</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Misc-Backlog" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Card-Errors" transform="translate(-677.000000, -181.000000)" fill="#BB880A">
+            <g id="Group-3" transform="translate(553.000000, 164.000000)">
+                <g id="icon/alert/attention" transform="translate(106.000000, 0.000000)">
+                    <g id="icon/alert/compact/attention" transform="translate(18.000000, 17.000000)">
+                        <path d="M3.77959067,36 C0.87129978,36 -0.941660773,32.4650889 0.51248467,29.6498604 L14.732894,2.11142143 C16.1870394,-0.703807144 19.8129606,-0.703807144 21.267106,2.11142143 L35.4875153,29.6498604 C36.9416608,32.4650889 35.1287002,36 32.2204093,36 L3.77959067,36 Z M32.4,32.4 L18,3.6 L3.6,32.4 L32.4,32.4 Z M18,12.6 C18.99,12.6 19.8,13.275 19.8,14.1 L19.8,20.1 C19.8,20.925 18.99,21.6 18,21.6 C17.01,21.6 16.2,20.925 16.2,20.1 L16.2,14.1 C16.2,13.275 17.01,12.6 18,12.6 Z M19.8,28.8 L16.2,28.8 L16.2,25.2 L19.8,25.2 L19.8,28.8 Z" id="Combined-Shape"></path>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
