@@ -5,35 +5,37 @@
 
 /*Primary UI Brand Colors*/
 $white: #fff !default;
-$aqua: #f1f4f7 !default;
+$alice-blue: #f1f4f7 !default;
 $blue: #196ecf !default;
 $green: #0d880b !default;
 $black: #000 !default;
-
+$dark-green: #007000;
+$smalt: #003da1;
+$white-smoke: #f2f2f2;
 $bg-color: $blue;
-$brand-blue-hover: #003da1;
-$brand-green-hover: #007000;
+$brand-blue-hover: $smalt;
+$brand-green-hover: $dark-green;
 
 /*UI Neutral Colors*/
-$neutral-1: #f1f4f7;
-$neutral-2: #e0e0e0;
-$neutral-3: #b3babc;
-$neutral-4: #757588;
-$neutral-5: #2d2d39;
+$alice-blue: #f1f4f7; /*neutral-1*/
+$gainsboro: #e0e0e0; /*neutral-2*/
+$heather: #b3babc; /*neutral-3*/
+$strom-grey: #757588; /*neutral-4*/
+$black-rock: #2d2d39; /*$neutral-5*/
 
 /*Addition UI Hover Colors*/
-$body-link-blue: #e3f0fd;
-$body-link-dark: #d7dce1;
+$darker-alice-blue: #e3f0fd; /*$body-link-blue*/
+$pattens-blue: #d7dce1; /*$body-link-dark*/
 
 /*Additional UI Hover Colors*/
-$hover-blue: $body-link-blue;
-$hover-gray: $body-link-dark;
+$hover-blue: $darker-alice-blue;
+$hover-gray: $pattens-blue;
 // Body
 //
 // Settings for the `<body>` element.
 
-$body-bg: $neutral-1 !default;
-$body-color: $neutral-5 !default;
+$body-bg: $alice-blue !default;
+$body-color: $black-rock !default;
 $text-color-blue: $blue;
 // Links
 //
@@ -44,12 +46,12 @@ $link-decoration: none !default;
 $link-hover-color: $blue !default;
 $link-hover-decoration: underline !default;
 
-$link-color-gray: $neutral-4;
+$link-color-gray: $strom-grey;
 $link-decoration: none !default;
-$link-hover-color: $neutral-4 !default;
+$link-hover-color: $strom-grey !default;
 $link-hover-decoration: underline !default;
-$btn-color-hover: #003da1;
-$btn-bg-color: #f2f2f2;
+$btn-color-hover: $smalt;
+$btn-bg-color: $white-smoke;
 
 /*Data Visualization Colors*/
 $DV-colors-list: #3381ff #80b0ff #003da1 #00b8cc #8e6edd;
@@ -184,9 +186,9 @@ $lead-font-weight: 300 !default;
 
 $small-font-size: 80% !default;
 
-$text-muted: $neutral-5 !default;
+$text-muted: $black-rock !default;
 
-$hr-border-color: $neutral-2 !default;
+$hr-border-color: $gainsboro !default;
 $hr-border-width: $border-width !default;
 
 $list-inline-padding: 0.5rem !default;
@@ -194,7 +196,7 @@ $list-inline-padding: 0.5rem !default;
 $hr-margin-y: $spacer !default;
 // Shared variables that are reassigned to `$input-` and `$btn-` specific variables.
 
-$label-color: $neutral-5;
+$label-color: $black-rock;
 $label-font-size: 0.875rem;
 
 $input-btn-padding-y: 0.5625rem !default;
@@ -230,8 +232,8 @@ $btn-box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15) !default;
 
 $btn-primary-color: $blue;
 $btn-primary-bdr-color: $blue;
-$active-background: $btn-color-hover;
-$disabled-background: $neutral-2;
+$active-background: $smalt;
+$disabled-background: $gainsboro;
 $btn-secondary-color: $white;
 $btn-secondary-hover: $btn-bg-color;
 $btn-secondary-bdr-color: $blue;
@@ -241,17 +243,17 @@ $btn-primary2-bdr-color: $green;
 $btn-primary-hover: $brand-green-hover;
 
 $btn-teritary-bg-color: $white;
-$btn-teritary-bdr-color: $neutral-5;
-$btn-teritary-text-color: $neutral-5;
-$btn-teritary-disabled: $neutral-5;
+$btn-teritary-bdr-color: $black-rock;
+$btn-teritary-text-color: $black-rock;
+$btn-teritary-disabled: $black-rock;
 $btn-teritary-hover: $btn-bg-color;
 
 $btn-focus-width: $input-btn-focus-width !default;
 $btn-focus-box-shadow: $input-btn-focus-box-shadow !default;
-$btn-disabled-opacity: $neutral-2 !default;
+$btn-disabled-opacity: $gainsboro !default;
 $btn-active-box-shadow: inset 0 3px 5px rgba($black, 0.125) !default;
 
-$btn-link-disabled-color: $neutral-4 !default;
+$btn-link-disabled-color: $strom-grey !default;
 
 $btn-block-spacing-y: 0.5rem !default;
 
@@ -269,7 +271,7 @@ $input-padding-x: $input-btn-padding-x !default;
 $input-line-height: $input-btn-line-height !default;
 
 $input-bg: $white !default;
-$input-disabled-bg: $neutral-2 !default;
+$input-disabled-bg: $gainsboro !default;
 
 // $input-color:                           $gray-700 !default;
 // $input-border-color:                    $gray-400 !default;

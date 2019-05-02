@@ -2,7 +2,7 @@
 @import '~src/scss/mixins';
 .prior-auth-body {
   padding: 30px;
-  background-color: $aqua;
+  background-color: $alice-blue;
 }
 .prior-auth-content {
   display: flex;
@@ -25,7 +25,7 @@
   .cust-width-title {
     width: 450px;
     font-family: 'UHCSans-SemiBold', 'Arial';
-    color: $neutral-5;
+    color: $black-rock;
 
     .page-title {
       flex-basis: 100%;
