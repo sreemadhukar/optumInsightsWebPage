@@ -20,6 +20,7 @@ import { ClaimsPaidBarGraphComponent } from './d3-objects/claims-paid-bar-graph/
 import { ProviderSearchComponent } from './provider-search/provider-search.component';
 import { ErrorCardComponent } from './error-card/error-card.component';
 import { GlossaryComponent } from './glossary/glossary.component';
+import { SmallBarChartComponent } from './d3-objects/small-bar-chart/small-bar-chart.component';
 
 @NgModule({
   imports: [CommonModule, FormsModule, ReactiveFormsModule, HeadMaterialModule, RouterModule],
@@ -34,7 +35,8 @@ import { GlossaryComponent } from './glossary/glossary.component';
     FeedbackComponent,
     LargeCardComponent,
     ErrorCardComponent,
-    GlossaryComponent
+    GlossaryComponent,
+    SmallBarChartComponent
   ],
   declarations: [
     MiniTileComponent,
@@ -53,7 +55,8 @@ import { GlossaryComponent } from './glossary/glossary.component';
     ClaimsPaidBarGraphComponent,
     ProviderSearchComponent,
     ErrorCardComponent,
-    GlossaryComponent
+    GlossaryComponent,
+    SmallBarChartComponent
   ],
   entryComponents: [ProviderSearchComponent]
 })
