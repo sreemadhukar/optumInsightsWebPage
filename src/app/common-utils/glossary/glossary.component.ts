@@ -1,6 +1,5 @@
 import { Component, OnChanges, Input } from '@angular/core';
 import { GlossaryService } from './../../rest/glossary/glossary.service';
-import { catchError } from 'rxjs/operators';
 
 @Component({
   selector: 'app-glossary',

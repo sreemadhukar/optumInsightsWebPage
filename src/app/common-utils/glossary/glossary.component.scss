@@ -42,12 +42,12 @@
   padding-left: 10px;
 }
 
-.icon-search-black {
-  height: 24px;
-  width: 24px;
-}
+.provider-search {
+  padding: 10px;
 
-.oval {
-  height: 40px;
-  width: 40px;
+  &-form {
+    mat-form-field {
+      width: 100%;
+    }
+  }
 }
