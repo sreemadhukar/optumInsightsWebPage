@@ -2,109 +2,126 @@
  * Author: Ranjith kumar Ankam
  * Created Date: 03-Apr-2019
  *  -->
-
-<div class="example-container example-is-mobile">
-  <mat-toolbar color="primary" class="example-toolbar" [class.display-none]="makeAbsolute">
-    <!--<button mat-icon-button (click)="srnav.toggle()">
+<div [ngClass]="{ 'dark-theme': isDarkTheme | async }">
+  <div class="example-container example-is-mobile" color="primary">
+    <mat-toolbar color="primary" class="example-toolbar" [class.display-none]="makeAbsolute">
+      <!--<button mat-icon-button (click)="srnav.toggle()">
       <mat-icon>filter</mat-icon>
     </button>-->
-    <app-header (hamburgerDisplay)="hamburgerDisplay($event)"></app-header>
-  </mat-toolbar>
+      <app-header (hamburgerDisplay)="hamburgerDisplay($event)"></app-header>
+    </mat-toolbar>
+    <mat-sidenav-container class="example-sidenav-container" color="primary">
+      <!-- SIDE NAVIGATION BAR  fixedTopGap="65"-->
+      <mat-sidenav
+        class="side-navigation"
+        #snav
+        [mode]="'side'"
+        [fixedInViewport]="true"
+        [opened]="!sideNavFlag"
+        [class.display-none]="makeAbsolute"
+        color="primary"
+      >
+        <!-- UHC LOGO BLOCK -->
+        <div class="uhc-logo-block">
+          <img class="uhc-logo" src="/src/assets/images/UHC Logo@2x.png" />
+        </div>
+        <!-- END OF UHC LOGO BLOCK -->
+        <!-- HEALTHSYSTEM REPRESENTATION BLOCK -->
+        <div class="health-system-representation-block">
+          <p class="representing-label">You are representing</p>
+          <p class="health-system-name">{{ healthSystemName }}</p>
+          <p class="change-provider" (click)="openDialog()">Change Provider</p>
+        </div>
+        <!-- END OF HEALTHSYSTEM REPRESENTATION BLOCK -->
 
-  <mat-sidenav-container class="example-sidenav-container">
-    <!-- SIDE NAVIGATION BAR  fixedTopGap="65"-->
-    <mat-sidenav
-      class="side-navigation"
-      #snav
-      [mode]="'side'"
-      [fixedInViewport]="true"
-      [opened]="!sideNavFlag"
-      [class.display-none]="makeAbsolute"
-    >
-      <!-- UHC LOGO BLOCK -->
-      <div class="uhc-logo-block">
-        <img class="uhc-logo" src="/src/assets/images/UHC Logo@2x.png" />
-      </div>
-      <!-- END OF UHC LOGO BLOCK -->
-      <!-- HEALTHSYSTEM REPRESENTATION BLOCK -->
-      <div class="health-system-representation-block">
-        <p class="representing-label">You are representing</p>
-        <p class="health-system-name">{{ healthSystemName }}</p>
-      </div>
-      <!-- END OF HEALTHSYSTEM REPRESENTATION BLOCK -->
+        <!-- MENU CATEGORIES BLOCK -->
+        <div class="nav-mat-list-items">
+          <mat-nav-list
+            *ngFor="let category of navCategories; let rowIndex = index"
+            [ngClass]="
+              rowIndex === 0
+                ? 'navCategoryItem firstNavCategory'
+                : rowIndex === navCategories.length - 1
+                ? 'navCategoryItem lastNavCategory'
+                : 'navCategoryItem'
+            "
+          >
+            <!-- USING ACCORDIAN IF CATEGORY HAS SUB CATEGORIES -->
 
-      <!-- MENU CATEGORIES BLOCK -->
-      <div class="nav-mat-list-items">
-        <mat-nav-list
-          *ngFor="let category of navCategories; let rowIndex = index"
-          [ngClass]="
-            rowIndex === 0
-              ? 'navCategoryItem firstNavCategory'
-              : rowIndex === navCategories.length - 1
-              ? 'navCategoryItem lastNavCategory'
-              : 'navCategoryItem'
-          "
-        >
-          <!-- USING ACCORDIAN IF CATEGORY HAS SUB CATEGORIES -->
+            <mat-expansion-panel
+              *ngIf="category.children"
+              class="nav-menu-expansion-panel mat-elevation-z0"
+              [expanded]="_allExpandState"
+              [disabled]="category.disabled"
+              [class.pointer-none]="category.disabled"
+            >
+              <mat-expansion-panel-header
+                class="nav-menu-category"
+                [collapsedHeight]="'25px'"
+                [expandedHeight]="'25px'"
+              >
+                <mat-panel-title>
+                  <mat-icon class="nav-menu-icons" svgIcon="{{ category.icon }}"></mat-icon>
+                  <!--<img src="{{ category.icon }}" class="nav-menu-icons" />-->{{ category.name }}
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+              <a
+                class="nav-sub-category-items"
+                (click)="collapseExpansionPanels(rowIndex)"
+                [routerLinkActiveOptions]="{ exact: true }"
+                mat-list-item
+                routerLink="{{ subcategory.path }}"
+                routerLinkActive="active-link"
+                *ngFor="let subcategory of category.children"
+                >{{ subcategory.name }}</a
+              >
+            </mat-expansion-panel>
 
-          <mat-expansion-panel *ngIf="category.children" class="nav-menu-expansion-panel" [expanded]="_allExpandState">
-            <mat-expansion-panel-header class="nav-menu-category" [collapsedHeight]="'25px'" [expandedHeight]="'25px'">
-              <mat-panel-title>
-                <mat-icon class="nav-menu-icons" svgIcon="{{ category.icon }}"></mat-icon>
-                <!--<img src="{{ category.icon }}" class="nav-menu-icons" />-->{{ category.name }}
-              </mat-panel-title>
-            </mat-expansion-panel-header>
+            <!-- CATEGORY WHICH HAS NO SUB CATEGORIES -->
             <a
-              class="nav-sub-category-items"
-              (click)="collapseExpansionPanels(rowIndex)"
+              (click)="collapseExpansionPanels()"
+              class="nav-no-child-category"
               [routerLinkActiveOptions]="{ exact: true }"
               mat-list-item
-              routerLink="{{ subcategory.path }}"
+              routerLink="{{ category.path }}"
               routerLinkActive="active-link"
-              *ngFor="let subcategory of category.children"
-              >{{ subcategory.name }}</a
+              *ngIf="!category.children"
             >
-          </mat-expansion-panel>
-
-          <!-- CATEGORY WHICH HAS NO SUB CATEGORIES -->
-          <a
-            (click)="collapseExpansionPanels()"
-            class="nav-no-child-category"
-            [routerLinkActiveOptions]="{ exact: true }"
-            mat-list-item
-            routerLink="{{ category.path }}"
-            routerLinkActive="active-link"
-            *ngIf="!category.children"
-          >
-            <!--<img
+              <!--<img
               class="nav-menu-icons" [src]="category.icon" />-->
-            <mat-icon class="nav-menu-icons" svgIcon="{{ category.icon }}"></mat-icon> {{ category.name }}
-          </a>
-        </mat-nav-list>
-      </div>
-      <!-- END OF MENU CATEGORIES BLOCK -->
+              <mat-icon class="nav-menu-icons" svgIcon="{{ category.icon }}"></mat-icon> {{ category.name }}
+            </a>
+          </mat-nav-list>
+        </div>
+        <!-- END OF MENU CATEGORIES BLOCK -->
 
-      <!-- SIGNOUT BLOCK -->
-      <div class="signout-block">
-        <p class="signout-label">
-          <a> <mat-icon class="nav-menu-icons" svgIcon="sign-out"></mat-icon>Sign Out </a>
-        </p>
-      </div>
-      <!-- END OF SIGNOUT BLOCK -->
-    </mat-sidenav>
-    <!-- END OF SIDE NAVIGATION BAR-->
+        <!-- SIGNOUT BLOCK -->
+        <div class="signout-block">
+          <p class="signout-label">
+            <a> <mat-icon class="nav-menu-icons" svgIcon="sign-out"></mat-icon>Sign Out </a>
+          </p>
+        </div>
+        <!-- END OF SIGNOUT BLOCK -->
+      </mat-sidenav>
+      <!-- END OF SIDE NAVIGATION BAR-->
 
-    <!-- RIGHT SIDE FILTER BAR-->
-    <mat-sidenav #srnav [mode]="'side'" position="end" [fixedInViewport]="true">
-      <mat-nav-list>
-        <a style="width: 360px;" mat-list-item routerLink="." *ngFor="let nav of fillerNav">{{ nav }}</a>
-      </mat-nav-list>
-    </mat-sidenav>
-    <!-- END OF RIGHT SIDE FILTER BAR-->
+      <!-- RIGHT SIDE FILTER BAR-->
+      <mat-sidenav #srnav [mode]="'side'" position="end" [fixedInViewport]="true" [opened]="glossaryFlag">
+        <div style="width: 400px;">
+          <div>
+            <mat-icon class="icon-left" svgIcon="close" (click)="closeGlossary()">
+              <div class="h-3-title">Knowledge Center</div></mat-icon
+            >
+          </div>
+          <app-glossary [title]="glossaryTitle"></app-glossary>
+        </div>
+      </mat-sidenav>
+      <!-- END OF RIGHT SIDE FILTER BAR-->
 
-    <mat-sidenav-content>
-      <router-outlet></router-outlet>
-    </mat-sidenav-content>
-  </mat-sidenav-container>
-  <app-footer class="footer-block" [class.display-none]="makeAbsolute"></app-footer>
+      <mat-sidenav-content color="primary">
+        <router-outlet></router-outlet>
+      </mat-sidenav-content>
+    </mat-sidenav-container>
+    <app-footer class="footer-block" [class.display-none]="makeAbsolute"></app-footer>
+  </div>
 </div>

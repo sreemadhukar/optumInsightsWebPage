@@ -1,8 +1,12 @@
 <div *ngIf="titleHeader != null" class="header-container">
   <div class="details">
-    <mat-icon class="nav-menu-icons" svgIcon="help"></mat-icon>
+    <mat-icon class="nav-menu-icons" (click)="helpFunctionClicked()" svgIcon="help"></mat-icon>
   </div>
-  <div class="header-title">
+  <div
+    class="header-title"
+    [class.common-header]="cardType === 'error-card'"
+    [class.app-card-header-title]="typeOfCard == 'appCard'"
+  >
     {{ titleHeader }}
   </div>
 </div>

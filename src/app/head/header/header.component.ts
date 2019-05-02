@@ -1,6 +1,10 @@
+// author: madhukar
+// date: 4-15-2019
 import {
   Component,
   OnInit,
+  AfterViewInit,
+  AfterViewChecked,
   HostListener,
   ElementRef,
   Input,
@@ -16,7 +20,8 @@ import { MatExpansionPanel } from '@angular/material';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
-
+import { ThemeService } from '../../shared/theme.service';
+import { Observable } from 'rxjs';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -43,19 +48,22 @@ import { DomSanitizer } from '@angular/platform-browser';
   ]
 })
 export class HeaderComponent implements OnInit {
+  @Input() isDarkTheme: Observable<boolean>;
   @Input() button: boolean;
   @Output() hamburgerDisplay = new EventEmitter<boolean>();
   public sideNavFlag = false;
   public state: any;
   public mobileQuery: boolean;
   public menuIcon = 'menu';
+  public username = 'Anne';
 
   constructor(
     private breakpointObserver: BreakpointObserver,
     public el: ElementRef,
     private renderer: Renderer2,
     private iconRegistry: MatIconRegistry,
-    sanitizer: DomSanitizer
+    sanitizer: DomSanitizer,
+    private themeService: ThemeService
   ) {
     this.mobileQuery = this.breakpointObserver.isMatched('(max-width: 1024px)');
     iconRegistry.addSvgIcon(
@@ -76,7 +84,16 @@ export class HeaderComponent implements OnInit {
     );
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.isDarkTheme = this.themeService.isDarkTheme;
+  }
+  /*angular theme */
+
+  toggleDarkTheme(checked: boolean) {
+    this.themeService.setDarkTheme(checked);
+  }
+  /*angular theme */
+
   sidenav() {
     this.sideNavFlag = !this.sideNavFlag;
     this.hamburgerDisplay.emit(this.sideNavFlag);
@@ -95,12 +112,13 @@ export class HeaderComponent implements OnInit {
       this.hamburgerDisplay.emit(this.sideNavFlag);
     } else {
       this.sideNavFlag = true;
+      this.menuIcon = 'menu';
       this.hamburgerDisplay.emit(this.sideNavFlag);
     }
   }
   @HostListener('window:scroll', ['$event'])
   checkScroll() {
-    const componentPosition = this.el.nativeElement.offsetTop - 30;
+    const componentPosition = this.el.nativeElement.offsetTop + 10;
     const scrollPosition = window.pageYOffset;
 
     if (scrollPosition < componentPosition) {

@@ -1,0 +1,38 @@
+/**------------------------- **\
+            @Custom themes
+            Author: Sri laxmi
+\**------------------------- **/
+@import '~@angular/material/theming';
+@include mat-core();
+$my-primary: (
+  50: #fdfefe,
+  100: #fbfcfd,
+  200: #f8fafb,
+  300: #f5f7f9,
+  400: #f3f6f8,
+  500: #f1f4f7,
+  600: #eff3f6,
+  700: #edf1f5,
+  800: #ebeff3,
+  900: #e7ecf1,
+  A100: #ffffff,
+  A200: #ffffff,
+  A400: #ffffff,
+  A700: #ffffff,
+  contrast: (
+    50: $dark-primary-text,
+    100: $dark-primary-text,
+    200: $dark-primary-text,
+    300: $dark-primary-text,
+    400: $dark-primary-text,
+    500: $light-primary-text,
+    600: $light-primary-text,
+    700: $light-primary-text,
+    800: $light-primary-text,
+    900: $light-primary-text,
+    A100: $dark-primary-text,
+    A200: $dark-primary-text,
+    A400: $dark-primary-text,
+    A700: $dark-primary-text
+  )
+);
