@@ -119,8 +119,16 @@ Date Created: 17-Apr-2019
       </div>
 
       <!-- ONLY BARS -->
-      <div *ngIf="chartData.type == 'bar'">
-        <div>ONLY BARS</div>
+      <div *ngIf="chartData.type == 'small-bar-chart'">
+        <div class="small-bar-chart-struct">
+          <div class="small-bar-chart-value">{{ chartData.data.value }}</div>
+          <app-small-bar-chart
+            class="small-bar-chart-cust"
+            [height]="heightSmallBarChart"
+            [width]="widthSmallBarChart"
+            [chartOptions]="chartData.data"
+          ></app-small-bar-chart>
+        </div>
       </div>
     </div>
     <div *ngIf="chartData.timeperiod" class="full-width-block">

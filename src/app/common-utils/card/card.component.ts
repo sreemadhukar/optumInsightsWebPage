@@ -14,6 +14,8 @@ export class CardComponent implements OnInit {
   widthDonut: Number = 234;
   heightRotatingArrow: Number = 212;
   widthRotatingArrow: Number = 225;
+  heightSmallBarChart: Number = 155;
+  widthSmallBarChart: Number = 268;
   constructor(
     private iconRegistry: MatIconRegistry,
     sanitizer: DomSanitizer,

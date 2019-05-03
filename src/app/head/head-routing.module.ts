@@ -34,7 +34,7 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
-    path: 'issueResolution',
+    path: 'IssueResolution',
     loadChildren: '../components/issue-resolution-page/issue-resolution-page.module#IssueResolutionPageModule',
     data: {
       breadcrumb: 'Issue Resolution'

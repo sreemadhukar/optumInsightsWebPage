@@ -1,0 +1,51 @@
+@import '~src/scss/variables.scss';
+@import '~src/scss/mixins';
+@import '~src/scss/my-custom-theme';
+.breadcrumb-top-padding {
+  @include padding(20px, 0, 15px, 32px);
+}
+
+@mixin sidenav-theme($theme) {
+  $accent: map-get($theme, accent);
+  $background: map-get($theme, background);
+  $background-color: mat-color($background);
+
+  .breadcrumb-top-padding {
+    @include padding(20px, 0, 15px, 32px);
+  }
+
+  .selfServiceBody {
+    @include mat-elevation(2);
+    background-color: mat-color($accent);
+    overflow-x: hidden;
+    @include padding(30px, 30px, 30px, 30px);
+
+    .selfServiceContent {
+      display: flex;
+      flex-wrap: wrap;
+
+      .height1Separator {
+        height: 0;
+        width: 1200px;
+      }
+
+      & > .cards {
+        text-align: left;
+        line-height: 75px;
+      }
+
+      .cust-width-title {
+        width: 100%;
+        font-family: 'UHCSans-SemiBold', 'Arial';
+        color: $neutral-5;
+        margin-left: 10px;
+
+        .page-title {
+          flex-basis: 100%;
+          font-size: 36px;
+          line-height: 75px;
+        }
+      }
+    }
+  }
+}
