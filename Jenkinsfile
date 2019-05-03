@@ -98,7 +98,7 @@ pipeline {
                         ocpUrl: "$oseHost",
                         project: "$oseDevProject",
                         serviceName: "$devOneUiPod",
-                        dockerImage: "$tagBase/$qaWebRepo:devone",
+                        dockerImage: "$tagBase/$devWebRepo:devone",
                         port: '8000'
 
             }
@@ -113,11 +113,11 @@ pipeline {
                 label 'docker-nodejs-slave'
             }
             steps {
-                glDockerImageBuildPush tag: "$tagBase/$qaWebRepo:devone",
+                glDockerImageBuildPush tag: "$tagBase/$devWebRepo:devtwo",
                         repository: "$devWebRepo",
                         namespace: "$namespace",
                         dockerCredentialsId: "$env.DOCKER_CREDENTIALS_ID",
-                        extraBuildOptions: "--build-arg env_var=devone"
+                        extraBuildOptions: "--build-arg env_var=devtwo"
             }
         }
 
@@ -133,8 +133,8 @@ pipeline {
                 glOpenshiftDeploy credentials: "$env.OPENSHIFT_CREDENTIALS_ID",
                         ocpUrl: "$oseHost",
                         project: "$oseDevProject",
-                        serviceName: "$devOneUiPod",
-                        dockerImage: "$tagBase/$qaWebRepo:devone",
+                        serviceName: "$devTwoUiPod",
+                        dockerImage: "$tagBase/$devWebRepo:devtwo",
                         port: '8000'
             }
         }
@@ -148,11 +148,11 @@ pipeline {
                 label 'docker-nodejs-slave'
             }
             steps {
-                glDockerImageBuildPush tag: "$tagBase/$qaWebRepo:devone",
+                glDockerImageBuildPush tag: "$tagBase/$devWebRepo:devthree",
                         repository: "$devWebRepo",
                         namespace: "$namespace",
                         dockerCredentialsId: "$env.DOCKER_CREDENTIALS_ID",
-                        extraBuildOptions: "--build-arg env_var=devone"
+                        extraBuildOptions: "--build-arg env_var=devthree"
             }
         }
 
@@ -168,8 +168,8 @@ pipeline {
                 glOpenshiftDeploy credentials: "$env.OPENSHIFT_CREDENTIALS_ID",
                         ocpUrl: "$oseHost",
                         project: "$oseDevProject",
-                        serviceName: "$devOneUiPod",
-                        dockerImage: "$tagBase/$qaWebRepo:devone",
+                        serviceName: "$devThreeUiPod",
+                        dockerImage: "$tagBase/$devWebRepo:devthree",
                         port: '8000'
               
             }
@@ -184,11 +184,11 @@ pipeline {
                 label 'docker-nodejs-slave'
             }
             steps {
-                glDockerImageBuildPush tag: "$tagBase/$qaWebRepo:devone",
+                glDockerImageBuildPush tag: "$tagBase/$devWebRepo:devfour",
                         repository: "$devWebRepo",
                         namespace: "$namespace",
                         dockerCredentialsId: "$env.DOCKER_CREDENTIALS_ID",
-                        extraBuildOptions: "--build-arg env_var=devone"
+                        extraBuildOptions: "--build-arg env_var=devfour"
             }
         }
 
@@ -204,8 +204,8 @@ pipeline {
                 glOpenshiftDeploy credentials: "$env.OPENSHIFT_CREDENTIALS_ID",
                         ocpUrl: "$oseHost",
                         project: "$oseDevProject",
-                        serviceName: "$devOneUiPod",
-                        dockerImage: "$tagBase/$qaWebRepo:devone",
+                        serviceName: "$devFourUiPod",
+                        dockerImage: "$tagBase/$devWebRepo:devfour",
                         port: '8000'
             }
         }
