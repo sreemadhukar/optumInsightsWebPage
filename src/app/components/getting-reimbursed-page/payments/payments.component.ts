@@ -6,7 +6,13 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./payments.component.scss']
 })
 export class PaymentsComponent implements OnInit {
-  constructor() {}
+  pageTitle: String = '';
+  paymentsItems: Array<Object> = [{}];
+  timeFrame: String = '';
+  constructor() {
+    this.pageTitle = 'Claims Payments';
+    this.timeFrame = 'Time Period - Time Period';
+  }
 
   ngOnInit() {}
 }
