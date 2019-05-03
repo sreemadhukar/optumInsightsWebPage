@@ -55,7 +55,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
       name: 'Getting Reimbursed',
       children: [
         { name: 'Summary', path: '/GettingReimbursed' },
-        { name: 'Payments', path: '/OverviewPage' },
+        { name: 'Payments', path: '/GettingReimbursed/Payments' },
         { name: 'Non-Payments', path: '/OverviewPage' },
         { name: 'Appeals', path: '/OverviewPage' },
         { name: 'Payment Integrity', path: '/OverviewPage' }
