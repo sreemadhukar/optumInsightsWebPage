@@ -33,11 +33,14 @@ const routes: Routes = [
     loadChildren: '../components/provider-search/provider-search.module#ProviderSearchModule',
     canActivate: [AuthGuard]
   },
-  /*  {
+  {
     path: 'issueResolution',
     loadChildren: '../components/issue-resolution-page/issue-resolution-page.module#IssueResolutionPageModule',
+    data: {
+      breadcrumb: 'Care Delivery'
+    },
     canActivate: [AuthGuard]
-  },*/
+  },
   { path: '**', redirectTo: '' }
 ];
 

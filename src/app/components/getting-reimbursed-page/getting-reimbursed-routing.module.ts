@@ -3,13 +3,28 @@ import { Routes, RouterModule } from '@angular/router';
 import { GettingReimbursedComponent } from './getting-reimbursed/getting-reimbursed.component';
 import { AppealsComponent } from './appeals/appeals.component';
 import { PaymentIntegrityComponent } from './payment-integrity/payment-integrity.component';
-
+import { NonPaymentsComponent } from './non-payments/non-payments.component';
+import { PaymentsComponent } from './payments/payments.component';
 const routes: Routes = [
   {
     path: '',
     component: GettingReimbursedComponent,
     data: {
       breadcrumb: 'Summary'
+    }
+  },
+  {
+    path: 'Payments',
+    component: PaymentsComponent,
+    data: {
+      breadcrumb: 'Payments'
+    }
+  },
+  {
+    path: 'NonPayments',
+    component: NonPaymentsComponent,
+    data: {
+      breadcrumb: 'Non Payments'
     }
   },
   {

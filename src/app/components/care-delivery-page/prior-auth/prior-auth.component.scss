@@ -1,6 +1,5 @@
 @import '~src/scss/variables.scss';
 @import '~src/scss/mixins';
-
 .prior-auth-body {
   padding: 30px;
   background-color: $aqua;
@@ -46,4 +45,8 @@
       line-height: 50px;
     }
   }
+}
+
+.breadcrumb-top-padding {
+  @include padding(0, 0, 15px, 32px);
 }
