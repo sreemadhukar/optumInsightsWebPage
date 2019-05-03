@@ -35,7 +35,7 @@ export class BarChartComponent implements OnInit, AfterViewInit {
       return context.measureText(text).width;
     }
 
-    function wrap(textObject, pixelWidth, uniqueID) {
+    function wrap(textObject, pixelWidth, uniqueID, fontSize) {
       textObject.each(function() {
         let word,
           line = [];
@@ -60,7 +60,7 @@ export class BarChartComponent implements OnInit, AfterViewInit {
           line.push(word);
           const line2 = line.join(' ');
           tspan.text(line.join(' '));
-          if (getTextWidth(line2, 16, 'Arial') > pixelWidth) {
+          if (getTextWidth(line2, fontSize, 'Arial') > pixelWidth) {
             line.pop();
             tspan.text(line.join(' '));
             line = [word];
@@ -153,7 +153,7 @@ export class BarChartComponent implements OnInit, AfterViewInit {
         .attr('font-family', 'UHCSans-Regular')
         .attr('font-weight', '500')
         .text(chartOptions.barText)
-        .call(wrap, 250, tspanID);
+        .call(wrap, 250, tspanID, 16);
 
       // Shift text object up for 2+ line reasons
       if (textWithHover.selectAll('tspan').size() > 1) {
@@ -206,12 +206,12 @@ export class BarChartComponent implements OnInit, AfterViewInit {
           .attr('id', uniqueText + 'hover')
           .attr('y', (height + 10) / 2)
           .attr('fill', '#2D2D39')
-          .attr('font-size', '16')
+          .attr('font-size', '14')
           .attr('text-anchor', 'start')
           .attr('font-family', 'UHCSans-Regular')
-          .attr('font-weight', '500')
+          .attr('font-weight', '600')
           .text(chartOptions.barText)
-          .call(wrap, 420, tspanID + 'hover');
+          .call(wrap, 420, tspanID + 'hover', 14);
 
         const label = d3.select('#' + uniqueText).selectAll('*');
 
