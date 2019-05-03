@@ -1,0 +1,81 @@
+@import '~src/scss/variables.scss';
+@import '~src/scss/mixins';
+@import '~src/scss/my-custom-theme';
+.selfService-body {
+  .calls-operating-structure {
+    position: relative;
+
+    .card-inner {
+      background-color: #ffffff;
+      width: 960px;
+      height: 350px;
+      margin: 10px;
+
+      .full-width-block {
+        float: left;
+        width: 100%;
+      }
+      /* tabs css starts here*/
+      .container--tabs {
+        float: left;
+        width: 30%;
+        line-height: 22px;
+        font-size: 16px;
+        .nav-tabs {
+          display: inline-block;
+          border-radius: 2px;
+          list-style-type: none;
+          font-family: 'UHCSans-SemiBold', 'Arial';
+          color: $black-rock;
+
+          > li {
+            background-color: $white;
+            padding: 10px 20px;
+            cursor: pointer;
+            > span {
+              font-size: 16px;
+              font-weight: 600;
+              letter-spacing: 0.2px;
+              &:hover {
+              }
+            }
+
+            &.active,
+            &.active:hover,
+            &.active:focus {
+              background-color: #efefef;
+              border-left: 4px solid #196ecf;
+              text-decoration: none;
+            }
+          }
+        }
+      }
+      /* ends tabs css ends here*/
+      .calls-operating-section1 {
+        font-family: 'UHCSans-Regular', 'Arial';
+        float: left;
+        width: 30%;
+        .labelsCallsOperating {
+          color: #757588;
+          font-size: 16px;
+          font-weight: 500;
+          letter-spacing: 0.2px;
+          line-height: 22px;
+
+          .cost-value {
+            color: #2d2d39;
+            display: block;
+            font-size: 41px;
+            font-weight: 500;
+            letter-spacing: -0.5px;
+            line-height: 48px;
+          }
+        }
+      }
+      .calls-operating-section2 {
+        float: left;
+        width: 40%;
+      }
+    }
+  }
+}

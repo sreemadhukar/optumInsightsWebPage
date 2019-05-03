@@ -1,0 +1,61 @@
+<app-feedback></app-feedback>
+<div class="selfService-body gettingReimburse-body">
+  <div class="gettingReimburse-content">
+    <div class="cards cust-width-title">
+      <app-breadcrumbs></app-breadcrumbs>
+      <div class="page-title">{{ pageTitle }}</div>
+      <div class="page-subtitle">{{ currentTabTitle }}</div>
+    </div>
+    <div class="height1Separator"></div>
+    <div *ngFor="let item of selfServiceItems">
+      <app-card *ngIf="item.data != null" class="cards" [chartData]="item"> </app-card>
+      <app-error-card *ngIf="item.status != null" class="cards" [data]="item"></app-error-card>
+    </div>
+    <!-- end-->
+    <div class="calls-operating-structure">
+      <div class="card-inner">
+        <app-common-header [title]="'Calls and Operating Costs'"></app-common-header>
+        <div class="container--tabs">
+          <section class="row">
+            <ul class="nav nav-tabs">
+              <li
+                *ngFor="let item of tabOptionsTitle; let i = index"
+                (click)="matOptionClicked(i, $event)"
+                [ngClass]="{ active: selectedItemId === i }"
+              >
+                {{ item }}
+                <!-- <span>
+                    {{ item.title }}
+                    <div class="nav-values">
+                      {{ item.value1 }}
+                      <span class="metrics" [ngClass]="item.sdata.sign === 'up' ? 'upgreen' : 'downred'">
+                        {{ item.sdata.value }}
+                      </span>
+                    </div>
+                  </span> -->
+              </li>
+            </ul>
+          </section>
+        </div>
+        <div class="calls-operating-section1">
+          <div class="labelsCallsOperating">Reduce your costs by: <span class="cost-value">$32K</span></div>
+          <div class="labelsCallsOperating">Calls in last 90 days: <span class="cost-value">13,916</span></div>
+        </div>
+        <div class="calls-operating-section2">
+          <app-small-bar-chart
+            class="small-bar-chart-cust"
+            [height]="heightSmallBarChart"
+            [width]="widthSmallBarChart"
+            [chartOptions]="callCostOperating.data"
+          ></app-small-bar-chart>
+        </div>
+
+        <div class="full-width-block">
+          <app-common-footer [timePeriod]="'TimePeriod'"></app-common-footer>
+        </div>
+      </div>
+    </div>
+
+    <!-- end-->
+  </div>
+</div>

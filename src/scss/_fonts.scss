@@ -20,10 +20,10 @@
 @include font-face('UHCSans-SemiBold', './assets/fonts/UHCSans-SemiBold', 600, normal);
 
 /*  UHC Sans SemiBold & Italic */
-@include font-face('UHCSans-SemiBoldItalic', './assets/fonts/UHCSans-SemiBoldItalic', normal, normal);
+@include font-face('UHCSans-SemiBoldItalic', './assets/fonts/UHCSans-SemiBoldItalic', 600, normal);
 
 /*  UHC Sans Medium */
-// @include font-face("UHCSans-Medium", "./assets/fonts/UHCSans-Medium",500, normal);
+@include font-face('UHCSans-Medium', './assets/fonts/UHCSans-Medium', 500, normal);
 
 /*  UHC Sans Medium & Italic */
-// @include font-face("UHCSans-Medium-Italic", "./assets/fonts/UHCSans-MediumItalic",500, normal);
+// @include font-face('UHCSans-Medium-Italic', './assets/fonts/UHCSans-MediumItalic', 500, Italic);
