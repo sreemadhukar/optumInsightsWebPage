@@ -9,9 +9,24 @@ export class SelfServiceComponent implements OnInit {
   pageTitle: String = '';
   selfServiceItems: Array<Object> = [{}];
   timeFrame: String = '';
+  tabOptions: Array<Object> = [];
+  selectedItemId: Number = 0;
+  tabOptionsTitle: Array<String> = [];
+  heightSmallBarChart: Number = 140;
+  widthSmallBarChart: Number = 240;
+  callCostOperating: Object = {};
   constructor() {
     this.pageTitle = 'Self Service';
     this.timeFrame = 'Time Period - Time Period';
+    this.tabOptionsTitle = ['Submission', 'Payments', 'Non-Payments', 'Appeals'];
+  }
+  matOptionClicked(i: any, event: any) {
+    this.selectedItemId = i;
+    const myTabs = document.querySelectorAll('ul.nav-tabs > li');
+    for (let j = 0; j < myTabs.length; j++) {
+      myTabs[j].classList.remove('active');
+    }
+    event.target.classList.add('active');
   }
 
   ngOnInit() {
@@ -110,5 +125,19 @@ export class SelfServiceComponent implements OnInit {
         timeperiod: this.timeFrame
       }
     ];
+    this.callCostOperating = {
+      category: 'app-card',
+      type: 'small-bar-chart',
+      data: {
+        chartData: [
+          { labelsRight: '60 hours/day', values: 60, metricName: 'Phone' },
+          { labelsRight: '15 hours/day', values: 15, metricName: 'Self Service' }
+        ],
+        value: '45 hours/day',
+        color: ['#80B0FF', '#3381FF'],
+        gdata: ['card-inner', 'callCostOperating']
+      },
+      timeperiod: this.timeFrame
+    };
   } // ngOnit funtion ends here
 }
