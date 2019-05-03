@@ -73,7 +73,8 @@ export class SelfServiceComponent implements OnInit {
             { labelsRight: '8 hours/day', values: 8, metricName: 'Phone' },
             { labelsRight: '2 hours/day', values: 2, metricName: 'Self Service' }
           ],
-          color: ['#3381FF', '#80B0FF'],
+          value: '6 hours/day',
+          color: ['#80B0FF', '#3381FF'],
           gdata: ['card-inner', 'staffTimeSave']
         },
         timeperiod: this.timeFrame
@@ -87,7 +88,8 @@ export class SelfServiceComponent implements OnInit {
             { labelsRight: '22 days', values: 22, metricName: 'Phone' },
             { labelsRight: '5 days', values: 5, metricName: 'Self Service' }
           ],
-          color: ['#3381FF', '#80B0FF'],
+          value: '13 days',
+          color: ['#80B0FF', '#3381FF'],
           gdata: ['card-inner', 'reduceClaimTime']
         },
         timeperiod: this.timeFrame
@@ -101,7 +103,8 @@ export class SelfServiceComponent implements OnInit {
             { labelsRight: '60 hours/day', values: 60, metricName: 'Phone' },
             { labelsRight: '15 hours/day', values: 15, metricName: 'Self Service' }
           ],
-          color: ['#3381FF', '#80B0FF'],
+          value: '45 hours/day',
+          color: ['#80B0FF', '#3381FF'],
           gdata: ['card-inner', 'reduceProcessing']
         },
         timeperiod: this.timeFrame

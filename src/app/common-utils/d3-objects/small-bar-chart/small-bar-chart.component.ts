@@ -8,6 +8,8 @@ import * as d3 from 'd3';
 })
 export class SmallBarChartComponent implements OnInit, AfterViewInit {
   @Input() chartOptions;
+  @Input() height;
+  @Input() width;
   renderChart;
   constructor() {}
   @HostListener('window:resize', ['$event'])
@@ -30,20 +32,21 @@ export class SmallBarChartComponent implements OnInit, AfterViewInit {
       .remove();
 
     let data = this.chartOptions.chartData;
-    console.log('data', data);
+    const barColors = this.chartOptions.color;
+
     data = data.sort(function(a, b) {
       return d3.ascending(a.values, b.values);
     });
 
     // set the dimensions and margins of the graph
-    const margin = { top: 20, right: 20, bottom: 30, left: 40 },
-      width = preWidth - margin.left - margin.right,
-      height = 160 - margin.top - margin.bottom;
+    const margin = { top: 20, right: 0, bottom: 0, left: 0 },
+      width = this.width,
+      height = this.height;
 
     // set the ranges
     const yScale = d3
       .scaleBand()
-      .range([height, 0])
+      .range([height - 35, 0])
       .padding(0.1);
 
     const xScale = d3.scaleLinear().range([0, width / 1.5]);
@@ -55,8 +58,8 @@ export class SmallBarChartComponent implements OnInit, AfterViewInit {
     const svg = d3
       .select(this.renderChart)
       .append('svg')
-      .attr('width', width + margin.left + margin.right)
-      .attr('height', height + margin.top + margin.bottom)
+      .attr('width', width)
+      .attr('height', height)
       .append('g')
       .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
 
@@ -77,8 +80,11 @@ export class SmallBarChartComponent implements OnInit, AfterViewInit {
         return d.labelsRight;
       })
     );
-    // y.domain([0, d3.max(data, function(d) { return d.values; })]);
 
+    // y.domain([0, d3.max(data, function(d) { return d.values; })]);
+    const colorFunction = function(i) {
+      return barColors[i];
+    };
     // append the rectangles for the bar chart
     svg
       .selectAll('.bar')
@@ -93,7 +99,9 @@ export class SmallBarChartComponent implements OnInit, AfterViewInit {
         return yScale(d.labelsRight);
       })
       .attr('height', yScale.bandwidth() - 28)
-      .attr('fill', this.chartOptions.color[0])
+      .attr('fill', function(d, i) {
+        return colorFunction(i);
+      })
       .attr('transform', 'translate(' + 0 + ',' + 10 + ')');
 
     svg
@@ -128,7 +136,7 @@ export class SmallBarChartComponent implements OnInit, AfterViewInit {
       })
       // x position is 3 pixels to the right of the bar
       .attr('x', function(d) {
-        return xScale(d.values + 3);
+        return xScale(d.values + 1);
       })
       .text(function(d) {
         return d.labelsRight;
