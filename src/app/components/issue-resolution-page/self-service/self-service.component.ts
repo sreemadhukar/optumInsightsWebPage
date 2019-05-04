@@ -126,18 +126,13 @@ export class SelfServiceComponent implements OnInit {
       }
     ];
     this.callCostOperating = {
-      category: 'app-card',
-      type: 'small-bar-chart',
-      data: {
-        chartData: [
-          { labelsRight: '60 hours/day', values: 60, metricName: 'Phone' },
-          { labelsRight: '15 hours/day', values: 15, metricName: 'Self Service' }
-        ],
-        value: '45 hours/day',
-        color: ['#80B0FF', '#3381FF'],
-        gdata: ['card-inner', 'callCostOperating']
-      },
-      timeperiod: this.timeFrame
+      chartData: [
+        { labelsRight: '60 hours/day', values: 60, metricName: 'Phone' },
+        { labelsRight: '15 hours/day', values: 15, metricName: 'Self Service' }
+      ],
+      value: '45 hours/day',
+      color: ['#80B0FF', '#3381FF'],
+      gdata: ['card-inner', 'callCostOperating']
     };
   } // ngOnit funtion ends here
 }
