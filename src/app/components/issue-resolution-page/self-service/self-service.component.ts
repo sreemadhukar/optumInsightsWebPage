@@ -14,7 +14,7 @@ export class SelfServiceComponent implements OnInit {
   tabOptionsTitle: Array<String> = [];
   heightSmallBarChart: Number = 140;
   widthSmallBarChart: Number = 240;
-  callCostOperating: Object = {};
+  callCostOperating: Object;
   constructor() {
     this.pageTitle = 'Self Service';
     this.timeFrame = 'Time Period - Time Period';
