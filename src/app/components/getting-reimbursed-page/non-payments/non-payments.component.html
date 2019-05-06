@@ -1,7 +1,15 @@
-<p class="breadcrumb-top-padding">
-  <app-breadcrumbs></app-breadcrumbs>
-</p>
-
-<p>
-  Non-payments works!
-</p>
+<app-feedback></app-feedback>
+<div class="gettingReimburse-body">
+  <div class="gettingReimburse-content">
+    <div class="breadcrumb-top-padding title-left-padding">
+      <app-breadcrumbs></app-breadcrumbs>
+      <div class="page-title">{{ pageTitle }}</div>
+      <div class="time-period">Time Period : <b>Last 12 Months</b></div>
+    </div>
+    <div class="height1Separator"></div>
+    <div *ngFor="let item of currentSummary">
+      <app-card *ngIf="item.data != null" class="cards" [chartData]="item"> </app-card>
+      <app-error-card *ngIf="item.status != null" class="cards" [data]="item"></app-error-card>
+    </div>
+  </div>
+</div>
