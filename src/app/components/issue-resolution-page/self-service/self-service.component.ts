@@ -20,7 +20,7 @@ export class SelfServiceComponent implements OnInit {
   callCostReduceCostValue: String = '';
   callCostCallIn90daysValue: String = '';
   callCostOperatingData: any = {};
-
+  disBarGraphCallsCost: Boolean = false;
   constructor() {
     this.pageTitle = 'Self Service';
     this.timeFrame = 'Time Period - Time Period';
@@ -89,6 +89,7 @@ export class SelfServiceComponent implements OnInit {
 
   matOptionClicked(i: number, event: any) {
     this.callCostChartData = {};
+    this.disBarGraphCallsCost = false;
     const myTabs = document.querySelectorAll('ul.nav-tabs > li');
     myTabs[this.previousSelected].classList.remove('active');
     event.target.classList.add('active');
@@ -96,9 +97,11 @@ export class SelfServiceComponent implements OnInit {
     this.callCostChartData = this.callCostOperatingData[i].data;
     this.callCostReduceCostValue = this.callCostOperatingData[i].callCostReduceCostValue;
     this.callCostCallIn90daysValue = this.callCostOperatingData[i].callCostCallIn90daysValue;
+    this.disBarGraphCallsCost = true;
   }
 
   ngOnInit() {
+    this.disBarGraphCallsCost = true;
     this.callCostChartData = this.callCostOperatingData[0].data;
     this.callCostReduceCostValue = this.callCostOperatingData[0].callCostReduceCostValue;
     this.callCostCallIn90daysValue = this.callCostOperatingData[0].callCostCallIn90daysValue;
