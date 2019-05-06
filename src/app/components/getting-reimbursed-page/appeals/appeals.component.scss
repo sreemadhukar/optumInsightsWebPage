@@ -3,3 +3,21 @@
 .breadcrumb-top-padding {
   @include padding(20px, 0, 15px, 32px);
 }
+.page-title {
+  flex-basis: 100%;
+  font-size: 36px;
+  line-height: 75px;
+}
+.time-period {
+  box-sizing: border-box;
+  height: 33px;
+  width: 210px;
+  border: 1px solid #b3babc;
+  border-radius: 16px;
+  background-color: #e0e0e0;
+  line-height: 30px;
+  padding-left: 7px;
+}
+.title-left-padding {
+  padding-left: 15px;
+}

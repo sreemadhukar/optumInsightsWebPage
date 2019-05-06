@@ -57,7 +57,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
         { name: 'Summary', path: '/GettingReimbursed' },
         { name: 'Payments', path: '/OverviewPage' },
         { name: 'Non-Payments', path: '/GettingReimbursed/NonPayments' },
-        { name: 'Appeals', path: '/OverviewPage' },
+        { name: 'Appeals', path: '/GettingReimbursed/Appeals' },
         { name: 'Payment Integrity', path: '/OverviewPage' }
       ]
     },
@@ -65,10 +65,9 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
       icon: 'care-delivery',
       name: 'Care Delivery',
       children: [
-        { name: 'Prior Authorizations', path: '/OverviewPage' },
+        { name: 'Prior Authorizations', path: '/CareDelivery/priorAuth' },
         { name: 'Patient Care Opportunity', path: '/OverviewPage' }
-      ],
-      disabled: true
+      ]
     },
     {
       icon: 'issue-resolution',

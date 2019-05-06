@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
+import { GettingReimbursedSharedService } from '../../../shared/getting-reimbursed/getting-reimbursed-shared.service';
 
 @Component({
   selector: 'app-non-payments',
@@ -11,6 +12,10 @@ export class NonPaymentsComponent implements OnInit {
   title = 'Top Reasons for Claims Non-Payment';
   timePeriod = 'Last 6 Months';
   section: any = [];
+  summaryItems: any;
+  pageTitle: String = '';
+  currentSummary: Array<Object> = [{}];
+  currentTabTitle: String = '';
 
   barChartsArray = [
     { title: 'Need More Information', value: '$2.6M' },
@@ -20,7 +25,11 @@ export class NonPaymentsComponent implements OnInit {
     { title: 'Not Categorized', value: '$232.2K' }
   ];
 
-  constructor(private iconRegistry: MatIconRegistry, sanitizer: DomSanitizer) {
+  constructor(
+    private iconRegistry: MatIconRegistry,
+    sanitizer: DomSanitizer,
+    private gettingReimbursedSharedService: GettingReimbursedSharedService
+  ) {
     /** INITIALIZING SVG ICONS TO USE IN DESIGN - ANGULAR MATERIAL */
     iconRegistry.addSvgIcon(
       'open',
@@ -30,7 +39,15 @@ export class NonPaymentsComponent implements OnInit {
       'close',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-remove-24px.svg')
     );
+    this.pageTitle = 'Claims Non-Payments';
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.gettingReimbursedSharedService.getGettingReimbursedData().then(completeData => {
+      this.summaryItems = JSON.parse(JSON.stringify(completeData));
+      this.currentSummary = this.summaryItems[2].data;
+      this.currentTabTitle = this.summaryItems[2].title;
+      console.log(this.currentSummary);
+    });
+  }
 }
