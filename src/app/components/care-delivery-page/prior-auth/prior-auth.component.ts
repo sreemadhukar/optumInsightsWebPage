@@ -20,7 +20,7 @@ export class PriorAuthComponent implements OnInit {
   ngOnInit() {
     const parameters = [this.sessionService.providerkey.toString(), true];
     this.priorAuthService.getPriorAuthData(...parameters).subscribe(data => {
-      console.log(data);
+      console.log(data.PriorAuth.LineOfBusiness.All);
     });
     this.pageTitle = 'Prior Authorizations';
     this.summaryItems = [
