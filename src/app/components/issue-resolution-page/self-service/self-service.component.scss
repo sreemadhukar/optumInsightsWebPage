@@ -2,9 +2,10 @@
 @import '~src/scss/mixins';
 @import '~src/scss/my-custom-theme';
 .selfService-body {
-  margin-left: 10px;
   .calls-operating-structure {
     position: relative;
+    margin-left: 10px;
+    margin-top: 10px;
 
     .card-inner {
       background-color: #ffffff;
