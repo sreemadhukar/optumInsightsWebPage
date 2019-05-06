@@ -60,6 +60,8 @@ export class AuthenticationService {
 
   public logout() {
     sessionStorage.removeItem('currentUser');
+    sessionStorage.removeItem('loggedUser');
+    window.location.reload();
   }
 
   public isLoggedIn() {

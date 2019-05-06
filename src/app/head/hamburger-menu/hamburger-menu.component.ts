@@ -194,6 +194,10 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
     this.glossaryFlag = false;
   }
 
+  signOut() {
+    this.authService.logout();
+  }
+
   private allExpandState(value: boolean, id) {
     this._allExpandState = value;
     this.togglePanels(value, id);
