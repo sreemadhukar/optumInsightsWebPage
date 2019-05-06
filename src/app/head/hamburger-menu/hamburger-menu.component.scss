@@ -63,6 +63,7 @@ app-header {
 
 .side-navigation {
   width: 256px;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
   //  background-color: $white;
 }
 
@@ -78,7 +79,7 @@ app-header {
   font-weight: 500;
   letter-spacing: 0.2px;
   line-height: 18px;
-  margin: 0;
+  margin-top: 4px;
 }
 
 .health-system-name {
@@ -88,7 +89,7 @@ app-header {
   /*font-weight: 600;*/
   letter-spacing: 0.2px;
   line-height: 22px;
-  margin: 0px 0px 15px 0px;
+  margin: 4px 0 15px 0;
 }
 
 .change-provider {
@@ -112,7 +113,7 @@ app-header {
 
 .mat-expansion-panel-header {
   height: 25px !important;
-  padding: 8px 12px 8px 32px !important;
+  padding: 8px 16px 8px 10px !important;
   font-family: 'UHCSans-SemiBold';
   font-size: 16px;
   /*font-weight: 600;*/
@@ -122,12 +123,13 @@ app-header {
 }
 
 .signout-block {
-  padding: 24px 0px 0px 32px;
+  padding: 24px 0px 0px 4px;
 }
 
 .signout-label {
   color: $strom-grey;
   font-family: 'UHCSans-SemiBold';
+
   font-size: 16px;
   /*font-weight: 600;*/
   letter-spacing: 0.2px;
@@ -161,8 +163,9 @@ app-header {
   font-size: 14px;
   /*font-weight: 600;*/
   letter-spacing: 0.2px;
-  margin-top: 18px !important;
+  margin-top: 4px !important;
   line-height: 18px;
+  margin-left: 30px !important;
 }
 
 .mat-expansion-panel-body {
@@ -185,7 +188,7 @@ app-header {
 }
 
 .nav-no-child-category {
-  padding: 8px 12px 8px 32px !important;
+  padding: 9px 12px 9px 10px !important;
   color: $strom-grey !important;
   font-size: 16px !important;
   font-weight: 600;

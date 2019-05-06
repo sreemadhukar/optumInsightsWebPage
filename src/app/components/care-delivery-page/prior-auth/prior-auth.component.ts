@@ -25,7 +25,7 @@ export class PriorAuthComponent implements OnInit {
         data: {
           cValues: [],
           cData: '',
-          color: [{ color1: '#00A8F7' }, { color2: '#F5F5F5' }, { color3: '#FFFFFF' }],
+          color: [{ color1: '#00A8F7' }, { color2: '#D7DCE1' }, { color3: '#FFFFFF' }],
           gdata: []
         },
         sdata: {
@@ -41,7 +41,7 @@ export class PriorAuthComponent implements OnInit {
         data: {
           cValues: [],
           cData: '',
-          color: [{ color1: '#00A8F7' }, { color2: '#F5F5F5' }, { color3: '#FFFFFF' }],
+          color: [{ color1: '#00A8F7' }, { color2: '#D7DCE1' }, { color3: '#FFFFFF' }],
           gdata: []
         },
         sdata: {
