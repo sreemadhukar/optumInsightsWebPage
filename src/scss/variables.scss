@@ -2,19 +2,16 @@
             @Variables
             Author: Sri laxmi
 \**------------------------- **/
+/*Generic colors*/
+$white: #fff !default;
+$black: #000 !default;
+$white-smoke: #f2f2f2;
 
 /*Primary UI Brand Colors*/
-$white: #fff !default;
-$alice-blue: #f1f4f7 !default;
 $blue: #196ecf !default;
 $green: #0d880b !default;
-$black: #000 !default;
 $dark-green: #007000;
 $smalt: #003da1;
-$white-smoke: #f2f2f2;
-$bg-color: $blue;
-$brand-blue-hover: $smalt;
-$brand-green-hover: $dark-green;
 
 /*UI Neutral Colors*/
 $alice-blue: #f1f4f7; /*neutral-1*/
@@ -30,6 +27,7 @@ $pattens-blue: #d7dce1; /*$body-link-dark*/
 /*Additional UI Hover Colors*/
 $hover-blue: $darker-alice-blue;
 $hover-gray: $pattens-blue;
+
 // Body
 //
 // Settings for the `<body>` element.
@@ -37,8 +35,12 @@ $hover-gray: $pattens-blue;
 $body-bg: $alice-blue !default;
 $body-color: $black-rock !default;
 $text-color-blue: $blue;
+
+$bg-color: $blue;
+$brand-blue-hover: $smalt;
+$brand-green-hover: $dark-green;
+
 // Links
-//
 // Style anchor elements.
 
 $link-color: $blue;
@@ -54,7 +56,12 @@ $btn-color-hover: $smalt;
 $btn-bg-color: $white-smoke;
 
 /*Data Visualization Colors*/
-$DV-colors-list: #3381ff #80b0ff #003da1 #00b8cc #8e6edd;
+$dodger-blue: #3381ff;
+$maya-blue: #80b0ff;
+$iris-blue: #00b8cc;
+$medium-purple: #8e6edd;
+/*If you want to use above colors as background color use .data-1,.data-2,.data-3,.data-4,.data-5 as class name*/
+$DV-colors-list: $dodger-blue $maya-blue $smalt $iris-blue $medium-purple $pattens-blue;
 $text-color: $white;
 @each $current-color in $DV-colors-list {
   $i: index($DV-colors-list, $current-color);
@@ -63,63 +70,124 @@ $text-color: $white;
     color: $text-color;
   }
 }
-/*If you want to use above colors use .data-1,.data-2,.data-3,.data-4,.data-5 as class name*/
+
+/*Data visualization Hover colors*/
+$denim: #1256c4;
+$havelock-blue: #5486d9;
+$sapphire: #082d6a;
+$dark-cyan: #027f8d;
+$daisy-bush: #593e9d;
+/*If you want to use above colors as background color use .data-hover-1,.data-hover-2,.data-hover-3,.data-hover-4,.data-hover-5 as class name*/
+$DV-colors-hover-list: $denim $havelock-blue $sapphire $dark-cyan $daisy-bush;
+$text-color: $white;
+@each $current-color in $DV-colors-hover-list {
+  $i: index($DV-colors-hover-list, $current-color);
+  .data-hover-#{$i} {
+    background-color: $current-color;
+    color: $text-color;
+  }
+}
 
 /**------------------------- **\
   Secondary Marketing Colors
 \**------------------------- **/
+/*Blue*/
+$blue-base: #003da1;
+$blue-medium: #c0e9ff;
+$blue-light: #e8f6fa;
+$blue-dark: #122377;
 
+/*violet*/
+$violet-base: #9521ad;
+$violet-medium: #e3c5ea;
+$violet-light: #f3e4f7;
+$violet-dark: #5c1d6b;
+
+/*teal*/
+$teal-base: #00bcd6;
+$teal-medium: #a5ebef;
+$teal-light: #dff7fa;
+$teal-dark: #007c89;
+
+/*orange*/
+$orange-base: #ff5f0e;
+$orange-medium: #ffc9b6;
+$orange-light: #ffe7e1;
+$orange-dark: #d53704;
+/*Green*/
+$green-base: #21b01e;
+$green-medium: #bbeabb;
+$green-light: #e1fadf;
+$green-dark: #007000;
+
+/*purple*/
+$purple-base: #6636ba;
+$purple-medium: #d0c7ef;
+$purple-light: #ede9ff;
+$purple-dark: #3e2087;
+
+/*red*/
+$red-base: #e91b18;
+$red-medium: #ffb8c9;
+$red-light: #ffe6f0;
+$red-dark: #b10c00;
+
+/*yellow*/
+$yellow-base: #ffd00d;
+$yellow-medium: #fffa97;
+$yellow-light: #fffcd9;
+$yellow-dark: #db9c00;
 $SMCpalette: (
   blue: (
-    base: #003da1,
-    medium: #c0e9ff,
-    light: #e8f6fa,
-    dark: #122377
+    base: $blue-base,
+    medium: $blue-medium,
+    light: $blue-light,
+    dark: $blue-dark
   ),
   violet: (
-    base: #9521ad,
-    medium: #e3c5ea,
-    light: #f3e4f7,
-    dark: #5c1d6b
+    base: $violet-base,
+    medium: $violet-medium,
+    light: $violet-light,
+    dark: $violet-dark
   ),
   teal: (
-    base: #00bcd6,
-    medium: #a5ebef,
-    light: #dff7fa,
-    dark: #007c89
+    base: $teal-base,
+    medium: $teal-medium,
+    light: $teal-light,
+    dark: $teal-dark
   ),
   orange: (
-    base: #ff5f0e,
-    medium: #ffc9b6,
-    light: #ffe7e1,
-    dark: #d53704
+    base: $orange-base,
+    medium: $orange-medium,
+    light: $orange-light,
+    dark: $orange-dark
   ),
   green: (
-    base: #21b01e,
-    medium: #bbeabb,
-    light: #e1fadf,
-    dark: #007000
+    base: $green-base,
+    medium: $green-medium,
+    light: $green-light,
+    dark: $green-dark
   ),
   purple: (
-    base: #6636ba,
-    medium: #d0c7ef,
-    light: #ede9ff,
-    dark: #3e2087
+    base: $purple-base,
+    medium: $purple-medium,
+    light: $purple-light,
+    dark: $purple-dark
   ),
   red: (
-    base: #e91b18,
-    medium: #ffb8c9,
-    light: #ffe6f0,
-    dark: #b10c00
+    base: $red-base,
+    medium: $red-medium,
+    light: $red-light,
+    dark: $red-dark
   ),
   yellow: (
-    base: #ffd00d,
-    medium: #fffa97,
-    light: #fffcd9,
-    dark: #db9c00
+    base: $yellow-base,
+    medium: $yellow-medium,
+    light: $yellow-light,
+    dark: $yellow-dark
   )
 );
-/*If you want to use above colors for example: background:color(blue,base)*/
+/*If you want to use above colors use like this example: background:color(blue,base)*/
 
 /*To access Secondary Marketing Colors values*/
 @function color($color, $tone) {
@@ -135,6 +203,7 @@ $SMCpalette: (
 //
 // Define common padding and border radius sizes and more.
 $spacer: 1rem !default;
+
 $line-height-lg: 1.5 !default;
 $line-height-sm: 1.5 !default;
 
@@ -163,20 +232,21 @@ $font-weight-semibold: 600 !default;
 $font-weight-bold: 700 !default;
 
 $font-weight-base: $font-weight-normal !default;
-$line-height-base: 1.375 !default;
-
+$line-height-base: 1.125 !default;
+$jumbo-font-size: $font-size-base * 3.625 !default;
+$standard-font-size: $font-size-base * 2.563 !default;
 $h1-font-size: $font-size-base * 2.25 !default;
 $h2-font-size: $font-size-base * 1.75 !default;
 $h3-font-size: $font-size-base * 1.375 !default;
-$h4-font-size: $font-size-base * 1.5 !default;
-$h5-font-size: $font-size-base * 0.875 !default;
+$h4-font-size: $font-size-base * 1.25 !default;
+$h5-font-size: $font-size-base * 1.125 !default;
 $h6-font-size: $font-size-base !default;
 
 $headings-margin-bottom: $spacer !default;
-$headings-font-family: inherit !default;
+$headings-font-family: $font-family-base !default;
 $headings-font-weight: 500 !default;
 $headings-line-height: 1.2 !default;
-$headings-color: inherit !default;
+$headings-color: $black-rock !default;
 
 $enable-rounded: true !default;
 $enable-shadows: false !default;
