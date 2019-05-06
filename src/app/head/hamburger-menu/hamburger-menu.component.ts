@@ -72,10 +72,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
     {
       icon: 'issue-resolution',
       name: 'Issue Resolution',
-      children: [
-        { name: 'Summary', path: '/IssueResolution' },
-        { name: 'Self Service', path: '/IssueResolution/SelfService' }
-      ]
+      children: [{ name: 'Self Service', path: '/IssueResolution/SelfService' }]
     }
   ];
 
