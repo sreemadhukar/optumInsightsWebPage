@@ -59,7 +59,7 @@ export class PriorAuthComponent implements OnInit {
         data: {
           barHeight: 48,
           barData: 50,
-          barSummation: 90,
+          barSummation: 150,
           barText: 'No Evidence',
           color: [{ color1: '#3381FF' }],
           gdata: ['card-inner-large', 'reasonOneBar']
@@ -72,10 +72,25 @@ export class PriorAuthComponent implements OnInit {
         data: {
           barHeight: 48,
           barData: 40,
-          barSummation: 90,
+          barSummation: 150,
           barText: 'Need more information',
           color: [{ color1: '#3381FF' }],
           gdata: ['card-inner-large', 'reasonTwoBar']
+        },
+        timeperiod: 'Rolling 12 Months'
+      },
+      {
+        type: 'singleBarChart',
+        title: 'Top Reason Not Approved',
+        data: {
+          barHeight: 48,
+          barData: 60,
+          barSummation: 150,
+          barText:
+            'Medical equipment which cannot withstand repeated use OR is disposable, OR is not used to serve a medical purpose, ' +
+            'OR is generally not useful to a person in the absence of a Sickness or Injury, OR is not appropriate for use in the home',
+          color: [{ color1: '#3381FF' }],
+          gdata: ['card-inner-large', 'reasonThreeBar']
         },
         timeperiod: 'Rolling 12 Months'
       }

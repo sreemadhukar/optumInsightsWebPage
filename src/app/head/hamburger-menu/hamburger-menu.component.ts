@@ -65,10 +65,9 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
       icon: 'care-delivery',
       name: 'Care Delivery',
       children: [
-        { name: 'Prior Authorizations', path: '/OverviewPage' },
+        { name: 'Prior Authorizations', path: '/CareDelivery/priorAuth' },
         { name: 'Patient Care Opportunity', path: '/OverviewPage' }
-      ],
-      disabled: true
+      ]
     },
     {
       icon: 'issue-resolution',

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { GettingReimbursedSharedService } from '../../../shared/getting-reimbursed/getting-reimbursed-shared.service';
 
 @Component({
   selector: 'app-payments',
@@ -6,7 +7,21 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./payments.component.scss']
 })
 export class PaymentsComponent implements OnInit {
-  constructor() {}
+  paymentsItems: any;
+  payments: Array<object>;
+  pageTitle: String = '';
+  userName: String = '';
+  constructor(private gettingReimbursedSharedService: GettingReimbursedSharedService) {
+    this.pageTitle = 'Claims Payments';
+  }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.gettingReimbursedSharedService
+      .getGettingReimbursedData()
+      .then(completeData => {
+        this.paymentsItems = JSON.parse(JSON.stringify(completeData));
+        this.payments = this.paymentsItems[1].data;
+      })
+      .catch(reason => console.log(reason.message));
+  }
 }
