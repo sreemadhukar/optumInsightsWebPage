@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { PriorAuthService } from '../../../rest/prior-auth/prior-auth.service';
+import { SessionService } from '../../../shared/session.service';
 
 @Component({
   selector: 'app-prior-auth',
@@ -11,11 +13,15 @@ export class PriorAuthComponent implements OnInit {
   pageTitle: String = '';
   pagesubTitle: String = '';
   userName: String = '';
-  constructor() {
+  constructor(private priorAuthService: PriorAuthService, private sessionService: SessionService) {
     this.pagesubTitle = '';
   }
 
   ngOnInit() {
+    const parameters = [this.sessionService.providerkey.toString(), true];
+    this.priorAuthService.getPriorAuthData(...parameters).subscribe(data => {
+      console.log(data);
+    });
     this.pageTitle = 'Prior Authorizations';
     this.summaryItems = [
       {
