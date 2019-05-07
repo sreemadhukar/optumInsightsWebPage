@@ -1,8 +1,7 @@
-<div class="prior-auth-body">
-  <app-breadcrumbs></app-breadcrumbs>
-
-  <div class="prior-auth-content">
+<div class="content-wrapper">
+  <div class="main-content">
     <div class="cards cust-width-title">
+      <app-breadcrumbs></app-breadcrumbs>
       <div class="page-title">
         {{ pageTitle }}
       </div>
@@ -12,9 +11,8 @@
     <div *ngFor="let item of summaryItems; let i = index">
       <app-card *ngIf="item.data != null" class="cards" [chartData]="item"> </app-card>
     </div>
-  </div>
-
-  <div class="prior-auth-content">
-    <app-large-card [data]="reasonItems"></app-large-card>
+    <div class="prior-auth-content">
+      <app-large-card [data]="reasonItems"></app-large-card>
+    </div>
   </div>
 </div>
