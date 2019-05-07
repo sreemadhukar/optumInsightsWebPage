@@ -319,7 +319,7 @@ export class GettingReimbursedSharedService {
                 data: {
                   graphValues: [denialRate, yieldRate],
                   centerNumber: denialRate + '%',
-                  color: ['#3381FF', '#F5F5F5'],
+                  color: ['#3381FF', '#D7DCE1'],
                   gdata: ['card-inner', 'claimsNonPaymentRate'],
                   sdata: {
                     sign: 'up',
@@ -335,7 +335,7 @@ export class GettingReimbursedSharedService {
                 data: {
                   graphValues: [yieldRate, denialRate],
                   centerNumber: yieldRate + '%',
-                  color: ['#3381FF', '#F5F5F5'],
+                  color: ['#3381FF', '#D7DCE1'],
                   gdata: ['card-inner', 'claimsYield'],
                   sdata: {
                     sign: 'up',
@@ -459,7 +459,7 @@ export class GettingReimbursedSharedService {
                 data: {
                   graphValues: overturnedData,
                   centerNumber: appealsData.LineOfBusiness[lobFullData].OverTurnCount,
-                  color: ['#3381FF', '#F5F5F5'],
+                  color: ['#3381FF', '#D7DCE1'],
                   gdata: ['card-inner', 'claimsAppealOverturned'],
                   sdata: {
                     sign: 'up',
@@ -776,7 +776,7 @@ export class GettingReimbursedSharedService {
                   data: {
                     graphValues: [denialRate, yieldRate],
                     centerNumber: denialRate + '%',
-                    color: ['#3381FF', '#F5F5F5'],
+                    color: ['#3381FF', '#D7DCE1'],
                     gdata: ['card-inner', 'claimsNonPaymentRate'],
                     sdata: {
                       sign: 'up',
@@ -792,7 +792,7 @@ export class GettingReimbursedSharedService {
                   data: {
                     graphValues: [yieldRate, denialRate],
                     centerNumber: yieldRate + '%',
-                    color: ['#3381FF', '#F5F5F5'],
+                    color: ['#3381FF', '#D7DCE1'],
                     gdata: ['card-inner', 'claimsYield'],
                     sdata: {
                       sign: 'up',
@@ -916,7 +916,7 @@ export class GettingReimbursedSharedService {
                   data: {
                     graphValues: overturnedData,
                     centerNumber: appealsData.LineOfBusiness[lobFullData].OverTurnCount,
-                    color: ['#3381FF', '#F5F5F5'],
+                    color: ['#3381FF', '#D7DCE1'],
                     gdata: ['card-inner', 'claimsAppealOverturned'],
                     sdata: {
                       sign: 'up',
