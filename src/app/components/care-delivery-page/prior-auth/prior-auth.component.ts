@@ -41,7 +41,7 @@ export class PriorAuthComponent implements OnInit {
     const parameters = [this.sessionService.providerkey.toString(), true];
     this.pageTitle = 'Prior Authorizations';
     this.priorAuthService.getPriorAuthData(...parameters).subscribe(data => {
-      console.log(data.PriorAuth.LineOfBusiness.All);
+      // console.log(data.PriorAuth.LineOfBusiness.All);
       const PAApprovedCount = data.PriorAuth.LineOfBusiness.All.PriorAuthApprovedCount;
       const PANotApprovedCount = data.PriorAuth.LineOfBusiness.All.PriorAuthNotApprovedCount;
       const PANotPendingCount = data.PriorAuth.LineOfBusiness.All.PriorAuthPendingCount;
