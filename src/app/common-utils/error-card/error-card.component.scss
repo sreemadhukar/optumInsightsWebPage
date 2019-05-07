@@ -7,7 +7,7 @@
 
 .common-header {
   .header-container {
-    .header-title[_ngcontent-c16] {
+    .header-title {
       color: $black-rock !important;
     }
   }
@@ -19,6 +19,9 @@
   height: 238px;
   margin: 10px;
   line-height: 75px;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
+  border-radius: 2px;
+
   @include font-size(30);
   .self-service-title {
     position: relative;
@@ -75,6 +78,8 @@
   margin: 10px;
   line-height: 75px;
   font-size: 30px;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
+  border-radius: 2px;
 }
 
 .app-card-structure {
@@ -85,6 +90,9 @@
   margin: 10px;
   line-height: 75px;
   font-size: 30px;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
+  border-radius: 2px;
+
   .full-width-block {
     float: left;
     width: 100%;
@@ -135,6 +143,9 @@
     margin: 10px;
     line-height: 75px;
     font-size: 30px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
+    border-radius: 2px;
+
     .full-width {
       text-align: center;
       width: 100%;

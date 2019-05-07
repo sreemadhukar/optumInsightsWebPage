@@ -3,6 +3,89 @@
 .breadcrumb-top-padding {
   @include padding(20px, 0, 15px, 32px);
 }
+
+.top-reasons-for-claims-non-payment-block {
+  width: 961px;
+  border-radius: 2px;
+  background-color: #ffffff;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
+  margin: 12px;
+  float: left;
+}
+.bar-graphs-block {
+  padding: 16px;
+  float: left;
+}
+.bar-graphs {
+  margin-top: 8px;
+  float: left;
+}
+.bar-graphs-content {
+  padding: 8px;
+  float: left;
+  cursor: pointer;
+}
+.bar-graphs-content:hover {
+  background: $darker-alice-blue;
+}
+.margin-0 {
+  margin: 0;
+}
+.bar-graph-title {
+  color: $black-rock;
+  font-family: 'UHCSans-Regular';
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: 0.2px;
+  line-height: 22px;
+  float: left;
+}
+.bar-graph-value {
+  color: $black-rock;
+  font-family: 'UHCSans-Regular';
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 22px;
+  float: right;
+}
+.bar-graph-inside-left-block {
+  width: 388px;
+  float: left;
+}
+.bar-graph-inside-left-block-content {
+  padding-left: 24px;
+  padding-right: 24px;
+}
+.bar-graph-inside-right-block {
+  width: 517px;
+  background: #3381ff;
+  height: 45px;
+  float: left;
+}
+.bar-graph-block-icon {
+  float: left;
+}
+
+.full-display {
+  float: left;
+  width: 100%;
+}
+
+.inner-block {
+  position: relative;
+}
+.inner-block::before {
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  border-top: 1px solid #ccc;
+  left: 20px;
+  content: '';
+  margin-top: -19px;
+  transform: rotate(45deg);
+  border-left: 1px solid #ccc;
+  background: #efefef;
+}
 .page-title {
   flex-basis: 100%;
   font-size: 36px;
@@ -11,7 +94,7 @@
 .time-period {
   box-sizing: border-box;
   height: 33px;
-  width: 210px;
+  width: 230px;
   border: 1px solid #b3babc;
   border-radius: 16px;
   background-color: #e0e0e0;

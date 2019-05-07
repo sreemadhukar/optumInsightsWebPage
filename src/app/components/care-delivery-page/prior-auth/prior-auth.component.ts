@@ -25,35 +25,40 @@ export class PriorAuthComponent implements OnInit {
     this.pageTitle = 'Prior Authorizations';
     this.summaryItems = [
       {
-        category: 'card',
-        type: 'donutWithTrend',
+        category: 'app-card',
+        type: 'donutWithLabel',
         title: 'Prior Authorization Requested',
         data: {
-          cValues: [],
-          cData: '',
-          color: [{ color1: '#00A8F7' }, { color2: '#F5F5F5' }, { color3: '#FFFFFF' }],
-          gdata: []
+          graphValues: [50, 40, 7, 3],
+          centerNumber: '57K',
+          color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'],
+
+          gdata: ['card-inner', 'PARequested']
         },
-        sdata: {
-          sign: 'up',
-          data: '+2.3%'
+        besideData: {
+          labels: ['Approved', 'Not Approved', 'Pending', 'Canceled'],
+          color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC']
         },
         timeperiod: 'Rolling 12 Months'
       },
       {
-        category: 'card',
-        type: 'donutBothLabelTrend',
+        category: 'app-card',
+        type: 'donutWithLabel',
         title: 'Prior Authorization Approval Rate',
         data: {
-          cValues: [],
-          cData: '',
-          color: [{ color1: '#00A8F7' }, { color2: '#F5F5F5' }, { color3: '#FFFFFF' }],
-          gdata: []
+          graphValues: [78, 22],
+          centerNumber: '78 %',
+          color: ['#3381FF', '#E0E0E0'],
+          gdata: ['card-inner', 'PAApprovalRate']
         },
-        sdata: {
-          sign: 'down',
-          data: '-2.3%'
+        besideData: {
+          verticalData: [
+            { title: 'Average Turnaround Time' },
+            { values: '3 Days', labels: 'Standard' },
+            { values: '18 Hours', labels: 'Urgent' }
+          ]
         },
+
         timeperiod: 'Rolling 12 Months'
       }
     ];

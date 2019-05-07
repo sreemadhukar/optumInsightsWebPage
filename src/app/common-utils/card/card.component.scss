@@ -7,6 +7,8 @@
   margin: 12px;
   line-height: 75px;
   font-size: 30px;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
+  border-radius: 2px;
 
   .chart-details-donut {
     float: left;
@@ -77,6 +79,17 @@
     margin-top: 110px;
     margin-left: 25px;
   }
+  .pa-requested-beside-data-block {
+    float: left;
+    margin-top: 76px;
+    margin-left: 25px;
+  }
+  .pa-approval-rate-beside-data-block {
+    float: left;
+    margin-top: 40px;
+    margin-left: 53px;
+  }
+
   .claims-paid-beside-data-block,
   .claims-appeals-submitted-beside-data-block {
     float: left;
@@ -91,6 +104,15 @@
     float: left;
     padding: 14px 0px 32px 77px;
   }
+  .pa-requested-donut-with-label {
+    float: left;
+    padding: 14px 0px 32px 77px;
+  }
+  .pa-approval-rate-donut-with-label {
+    float: left;
+    padding: 30px 0px 32px 53px;
+  }
+
   .claims-paid-donut-with-label,
   .claims-appeals-submitted-donut-with-label {
     float: left;
@@ -166,8 +188,48 @@
   }
   .claims-avg-tat-beside-data-block {
     float: left;
-    padding-top: 48px;
+    padding-top: 74px;
     padding-left: 32px;
+  }
+  .pa-approved-rate-vertical-data-block {
+    float: left;
+    padding-top: 48px;
+    width: 135px;
+    text-align: center;
+    padding-left: 32px;
+
+    .donut-graph-title {
+      color: $strom-grey;
+      font-family: 'UHCSans-Regular';
+      font-size: 16px;
+      font-weight: 500;
+      letter-spacing: 0.2px;
+      line-height: 22px;
+      text-align: center;
+      padding-bottom: 16px;
+    }
+    .donut-graph-label-value {
+      color: $black-rock;
+      font-family: 'UHCSans-Regular';
+      font-size: 20px;
+      font-weight: 600;
+      line-height: 22px;
+      text-align: center;
+    }
+    .donut-graph-label {
+      color: $strom-grey;
+      font-family: 'UHCSans-Regular';
+      font-size: 16px;
+      font-weight: 500;
+      letter-spacing: 0.2px;
+      line-height: 22px;
+      text-align: center;
+    }
+    .pa-avg-tat-hr-line {
+      margin-top: 10px;
+      margin-bottom: 10px;
+      width: 60px;
+    }
   }
   /* Css for Labels Ends here*/
 }

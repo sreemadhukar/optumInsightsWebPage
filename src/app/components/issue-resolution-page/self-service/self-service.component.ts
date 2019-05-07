@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-
 @Component({
   selector: 'app-self-service',
   templateUrl: './self-service.component.html',
@@ -7,6 +6,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SelfServiceComponent implements OnInit {
   pageTitle: String = '';
+  previousSelected: any = 0;
   selfServiceItems: Array<Object> = [{}];
   timeFrame: String = '';
   tabOptions: Array<Object> = [];
@@ -14,22 +14,98 @@ export class SelfServiceComponent implements OnInit {
   tabOptionsTitle: Array<String> = [];
   heightSmallBarChart: Number = 140;
   widthSmallBarChart: Number = 240;
-  callCostOperating: Object;
+  callCostChartData: Object;
+  callCostReduceYourCost: String = '';
+  callCostCallIn90days: String = '';
+  callCostReduceCostValue: String = '';
+  callCostCallIn90daysValue: String = '';
+  callCostOperatingData: any = {};
+  disBarGraphCallsCost: Boolean = false;
   constructor() {
     this.pageTitle = 'Self Service';
     this.timeFrame = 'Time Period - Time Period';
-    this.tabOptionsTitle = ['Submission', 'Payments', 'Non-Payments', 'Appeals'];
+    this.callCostReduceYourCost = 'Reduce your costs by:';
+    this.callCostCallIn90days = 'Calls in last 90 days:';
+    this.tabOptionsTitle = ['Total Costs', 'Claims Status', 'Eligibility & Benefits', 'Prior Authorizations'];
+    this.callCostOperatingData = [
+      {
+        title: 'Total Costs',
+        callCostReduceCostValue: '$32K',
+        callCostCallIn90daysValue: '13,916',
+        data: {
+          chartData: [
+            { labelsRight: '40 hours/day', values: 40, metricName: 'Phone' },
+            { labelsRight: '25 hours/day', values: 25, metricName: 'Self Service' }
+          ],
+          value: '15 hours/day',
+          color: ['#80B0FF', '#3381FF'],
+          gdata: ['card-inner', 'callCostOperating1']
+        }
+      },
+      {
+        title: 'Claims Status',
+        callCostReduceCostValue: '$12K',
+        callCostCallIn90daysValue: '23,916',
+        data: {
+          chartData: [
+            { labelsRight: '50 hours/day', values: 50, metricName: 'Phone' },
+            { labelsRight: '10 hours/day', values: 45, metricName: 'Self Service' }
+          ],
+          value: '5 hours/day',
+          color: ['#80B0FF', '#3381FF'],
+          gdata: ['card-inner', 'callCostOperating2']
+        }
+      },
+      {
+        title: 'Eligibility & Benefits',
+        callCostReduceCostValue: '$32K',
+        callCostCallIn90daysValue: '13,916',
+        data: {
+          chartData: [
+            { labelsRight: '60 hours/day', values: 60, metricName: 'Phone' },
+            { labelsRight: '15 hours/day', values: 15, metricName: 'Self Service' }
+          ],
+          value: '45 hours/day',
+          color: ['#80B0FF', '#3381FF'],
+          gdata: ['card-inner', 'callCostOperating3']
+        }
+      },
+      {
+        title: 'Prior Authorizations',
+        callCostReduceCostValue: '$22K',
+        callCostCallIn90daysValue: '3,916',
+        data: {
+          chartData: [
+            { labelsRight: '30 hours/day', values: 30, metricName: 'Phone' },
+            { labelsRight: '15 hours/day', values: 15, metricName: 'Self Service' }
+          ],
+          value: '15 hours/day',
+          color: ['#80B0FF', '#3381FF'],
+          gdata: ['card-inner', 'callCostOperating4']
+        }
+      }
+    ];
   }
-  matOptionClicked(i: any, event: any) {
-    this.selectedItemId = i;
+
+  matOptionClicked(i: number, event: any) {
+    this.callCostChartData = {};
+    this.disBarGraphCallsCost = false;
     const myTabs = document.querySelectorAll('ul.nav-tabs > li');
-    for (let j = 0; j < myTabs.length; j++) {
-      myTabs[j].classList.remove('active');
-    }
+    myTabs[this.previousSelected].classList.remove('active');
     event.target.classList.add('active');
+    this.previousSelected = i;
+    this.callCostChartData = this.callCostOperatingData[i].data;
+    this.callCostReduceCostValue = this.callCostOperatingData[i].callCostReduceCostValue;
+    this.callCostCallIn90daysValue = this.callCostOperatingData[i].callCostCallIn90daysValue;
+    this.disBarGraphCallsCost = true;
   }
 
   ngOnInit() {
+    this.disBarGraphCallsCost = true;
+    this.callCostChartData = this.callCostOperatingData[0].data;
+    this.callCostReduceCostValue = this.callCostOperatingData[0].callCostReduceCostValue;
+    this.callCostCallIn90daysValue = this.callCostOperatingData[0].callCostCallIn90daysValue;
+
     this.selfServiceItems = [
       {
         category: 'app-card',
@@ -38,7 +114,7 @@ export class SelfServiceComponent implements OnInit {
         data: {
           graphValues: [93, 0],
           centerNumber: '93 %',
-          color: ['#3381FF', '#F5F5F5'],
+          color: ['#3381FF', '#D7DCE1'],
           gdata: ['card-inner', 'selfAdoptionRate'],
           sdata: {
             sign: 'down',
@@ -54,7 +130,7 @@ export class SelfServiceComponent implements OnInit {
         data: {
           graphValues: [97, 3],
           centerNumber: '97 %',
-          color: ['#3381FF', '#F5F5F5'],
+          color: ['#3381FF', '#D7DCE1'],
           gdata: ['card-inner', 'linkAndEdiCallRatio'],
           sdata: {
             sign: 'up',
@@ -70,7 +146,7 @@ export class SelfServiceComponent implements OnInit {
         data: {
           graphValues: [15, 85],
           centerNumber: '15 %',
-          color: ['#3381FF', '#F5F5F5'],
+          color: ['#3381FF', '#D7DCE1'],
           gdata: ['card-inner', 'paperlessDelivery'],
           sdata: {
             sign: 'down',
@@ -125,14 +201,5 @@ export class SelfServiceComponent implements OnInit {
         timeperiod: this.timeFrame
       }
     ];
-    this.callCostOperating = {
-      chartData: [
-        { labelsRight: '60 hours/day', values: 60, metricName: 'Phone' },
-        { labelsRight: '15 hours/day', values: 15, metricName: 'Self Service' }
-      ],
-      value: '45 hours/day',
-      color: ['#80B0FF', '#3381FF'],
-      gdata: ['card-inner', 'callCostOperating']
-    };
   } // ngOnit funtion ends here
 }
