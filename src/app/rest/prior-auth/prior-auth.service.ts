@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { CareDeliveryPageModule } from '../../components/care-delivery-page/care-delivery-page.module';
 import { environment } from '../../../environments/environment';
 import { HttpHeaders, HttpClient, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
+// import { Observable } from 'rxjs/Observable';
 import { map, retry, catchError } from 'rxjs/operators';
 import { combineLatest, of } from 'rxjs';
 
