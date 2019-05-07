@@ -30,6 +30,7 @@ export class PriorAuthService {
     let paparams = new HttpParams();
     if (parameters[1]) {
       paparams = paparams.append('rolling12', parameters[1]);
+      paparams = paparams.append('allProviderTins', parameters[2]);
     }
 
     let eparams = new HttpParams();
