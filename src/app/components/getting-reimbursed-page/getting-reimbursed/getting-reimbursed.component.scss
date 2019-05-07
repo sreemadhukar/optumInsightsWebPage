@@ -6,7 +6,6 @@
   $background: map-get($theme, background);
   $background-color: mat-color($background);
   .gettingReimburse-body {
-    @include mat-elevation(2);
     background-color: mat-color($accent);
     overflow-x: hidden;
     @include padding(30px, 30px, 30px, 30px);
