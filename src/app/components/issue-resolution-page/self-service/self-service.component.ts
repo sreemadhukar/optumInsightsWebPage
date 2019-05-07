@@ -114,7 +114,7 @@ export class SelfServiceComponent implements OnInit {
         data: {
           graphValues: [93, 0],
           centerNumber: '93 %',
-          color: ['#3381FF', '#F5F5F5'],
+          color: ['#3381FF', '#D7DCE1'],
           gdata: ['card-inner', 'selfAdoptionRate'],
           sdata: {
             sign: 'down',
@@ -130,7 +130,7 @@ export class SelfServiceComponent implements OnInit {
         data: {
           graphValues: [97, 3],
           centerNumber: '97 %',
-          color: ['#3381FF', '#F5F5F5'],
+          color: ['#3381FF', '#D7DCE1'],
           gdata: ['card-inner', 'linkAndEdiCallRatio'],
           sdata: {
             sign: 'up',
@@ -146,7 +146,7 @@ export class SelfServiceComponent implements OnInit {
         data: {
           graphValues: [15, 85],
           centerNumber: '15 %',
-          color: ['#3381FF', '#F5F5F5'],
+          color: ['#3381FF', '#D7DCE1'],
           gdata: ['card-inner', 'paperlessDelivery'],
           sdata: {
             sign: 'down',

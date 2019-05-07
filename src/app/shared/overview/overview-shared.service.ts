@@ -62,14 +62,14 @@ export class OverviewSharedService {
             data: {
               graphValues: [approvedRate, 1 - approvedRate],
               centerNumber: (approvedRate * 100).toFixed(0) + '%',
-              color: ['#3381FF', '#F5F5F5'],
+              color: ['#3381FF', '#D7DCE1'],
               gdata: ['card-inner', 'priorAuthCardD3Donut']
             },
             sdata: {
               sign: 'up',
               data: '+1%'
             },
-            timeperiod: 'Timeperiod - Rolling 12 Months'
+            timeperiod: 'Rolling 12 Months'
           };
         } else {
           cPriorAuth = {
@@ -98,14 +98,14 @@ export class OverviewSharedService {
               ],
               centerNumber:
                 (providerSystems.SelfServiceInquiries.ALL.Utilizations.OverallLinkAdoptionRate * 100).toFixed(0) + '%',
-              color: ['#3381FF', '#F5F5F5'],
+              color: ['#3381FF', '#D7DCE1'],
               gdata: ['card-inner', 'selfServiceCardD3Donut']
             },
             sdata: {
               sign: 'down',
               data: '-1.3%'
             },
-            timeperiod: 'Timeperiod - Rolling 12 Months'
+            timeperiod: 'Rolling 12 Months'
           };
         } else {
           cSelfService = {
@@ -137,11 +137,11 @@ export class OverviewSharedService {
               centerNumber: providerSystems.PatientCareOpportunity.LineOfBusiness.MedicareAndRetirement.AverageStarRating.toFixed(
                 2
               ),
-              color: ['#00A8F7', '#F5F5F5', '#FFFFFF'],
+              color: ['#00A8F7', '#D7DCE1', '#FFFFFF'],
               gdata: ['card-inner', 'pcorCardD3Star']
             },
             sdata: null,
-            timeperiod: 'Timeperiod - Rolling 12 Months'
+            timeperiod: 'Rolling 12 Months'
           };
         } else {
           cPcor = {
@@ -182,7 +182,7 @@ export class OverviewSharedService {
               sign: 'up',
               data: '+2.3%'
             },
-            timeperiod: 'Timeperiod - Rolling 12 Months'
+            timeperiod: 'Rolling 12 Months'
           };
         } else {
           cIR = {
@@ -371,7 +371,7 @@ export class OverviewSharedService {
               sign: 'down',
               data: '-2.8%'
             },
-            timeperiod: 'Timeperiod - Rolling 12 Months'
+            timeperiod: 'Rolling 12 Months'
           };
         } else {
           claimsPaid = {
@@ -400,14 +400,14 @@ export class OverviewSharedService {
             data: {
               graphValues: [gDonut, 1 - gDonut],
               centerNumber: claimYieldDonut.toFixed() + '%',
-              color: ['#3381FF', '#F5F5F5'],
+              color: ['#3381FF', '#D7DCE1'],
               gdata: ['card-inner', 'claimsYieldCardD3Donut']
             },
             sdata: {
               sign: 'up',
               data: '+2.3%'
             },
-            timeperiod: 'Timeperiod - Rolling 12 Months'
+            timeperiod: 'Rolling 12 Months'
           };
         } else {
           claimsYield = {
