@@ -31,6 +31,7 @@ export class NonPaymentsComponent implements OnInit {
     private gettingReimbursedSharedService: GettingReimbursedSharedService
   ) {
     /** INITIALIZING SVG ICONS TO USE IN DESIGN - ANGULAR MATERIAL */
+
     iconRegistry.addSvgIcon(
       'open',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-add-24px.svg')
