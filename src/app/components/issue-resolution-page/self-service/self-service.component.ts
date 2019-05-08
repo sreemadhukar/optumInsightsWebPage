@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { SelfSharedService } from '../../../shared/issue-resolution/self-shared.service';
+import { SessionService } from '../../../shared/session.service';
+import { StorageService } from '../../../shared/storage-service.service';
 @Component({
   selector: 'app-self-service',
   templateUrl: './self-service.component.html',
@@ -21,7 +24,14 @@ export class SelfServiceComponent implements OnInit {
   callCostCallIn90daysValue: String = '';
   callCostOperatingData: any = {};
   disBarGraphCallsCost: Boolean = false;
-  constructor() {
+
+  subscription: any;
+
+  constructor(
+    private selfServiceSrc: SelfSharedService,
+    private checkStorage: StorageService,
+    private session: SessionService
+  ) {
     this.pageTitle = 'Self Service';
     this.timeFrame = 'Time Period - Time Period';
     this.callCostReduceYourCost = 'Reduce your costs by:';
@@ -85,6 +95,8 @@ export class SelfServiceComponent implements OnInit {
         }
       }
     ];
+
+    this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.ngOnInit());
   }
 
   matOptionClicked(i: number, event: any) {
@@ -101,11 +113,19 @@ export class SelfServiceComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.selfServiceSrc
+      .getSelfServiceData()
+      .then(data => {
+        this.selfServiceItems = data[0];
+        console.log('Original data', this.selfServiceItems);
+      })
+      .catch(reason => console.log('Self Service Page Service Error ', reason));
+    console.log('Mockup', this.selfServiceItems);
     this.disBarGraphCallsCost = true;
     this.callCostChartData = this.callCostOperatingData[0].data;
     this.callCostReduceCostValue = this.callCostOperatingData[0].callCostReduceCostValue;
     this.callCostCallIn90daysValue = this.callCostOperatingData[0].callCostCallIn90daysValue;
-
+    /*
     this.selfServiceItems = [
       {
         category: 'app-card',
@@ -201,5 +221,6 @@ export class SelfServiceComponent implements OnInit {
         timeperiod: this.timeFrame
       }
     ];
+    */
   } // ngOnit funtion ends here
 }
