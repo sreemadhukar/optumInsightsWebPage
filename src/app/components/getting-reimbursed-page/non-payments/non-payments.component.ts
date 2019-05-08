@@ -18,11 +18,136 @@ export class NonPaymentsComponent implements OnInit {
   currentTabTitle: String = '';
 
   barChartsArray = [
-    { title: 'Need More Information', value: '$2.6M' },
-    { title: 'No Auth Notice Ref', value: '$999.9M' },
-    { title: 'Claims Payment Policy', value: '$354.8K' },
-    { title: 'No Benefit Coverage', value: '$354.2K' },
-    { title: 'Not Categorized', value: '$232.2K' }
+    {
+      title: 'Need More Information',
+      value: '$2.6M',
+      top5: [
+        {
+          text: 'Requested Information Not Submitted/Not Submitted on Time',
+          value: '$1.6M'
+        },
+        {
+          text: 'Requested Information Not Submitted/Not Submitted on Time',
+          value: '$1.6M'
+        },
+        {
+          text: 'Requested Information Not Submitted/Not Submitted on Time',
+          value: '$1.6M'
+        },
+        {
+          text: 'Requested Information Not Submitted/Not Submitted on Time',
+          value: '$1.6M'
+        },
+        {
+          text: 'Requested Information Not Submitted/Not Submitted on Time',
+          value: '$1.6M'
+        }
+      ]
+    },
+    {
+      title: 'No Auth Notice Ref',
+      value: '$999.9M',
+      top5: [
+        {
+          text: 'Requested Information Not Submitted/Not Submitted on Time',
+          value: '$1.6M'
+        },
+        {
+          text: 'Requested Information Not Submitted/Not Submitted on Time',
+          value: '$1.6M'
+        },
+        {
+          text: 'Requested Information Not Submitted/Not Submitted on Time',
+          value: '$1.6M'
+        },
+        {
+          text: 'Requested Information Not Submitted/Not Submitted on Time',
+          value: '$1.6M'
+        },
+        {
+          text: 'Requested Information Not Submitted/Not Submitted on Time',
+          value: '$1.6M'
+        }
+      ]
+    },
+    {
+      title: 'Claims Payment Policy',
+      value: '$354.8K',
+      top5: [
+        {
+          text: 'Requested Information Not Submitted/Not Submitted on Time',
+          value: '$1.6M'
+        },
+        {
+          text: 'Requested Information Not Submitted/Not Submitted on Time',
+          value: '$1.6M'
+        },
+        {
+          text: 'Requested Information Not Submitted/Not Submitted on Time',
+          value: '$1.6M'
+        },
+        {
+          text: 'Requested Information Not Submitted/Not Submitted on Time',
+          value: '$1.6M'
+        },
+        {
+          text: 'Requested Information Not Submitted/Not Submitted on Time',
+          value: '$1.6M'
+        }
+      ]
+    },
+    {
+      title: 'No Benefit Coverage',
+      value: '$354.2K',
+      top5: [
+        {
+          text: 'Requested Information Not Submitted/Not Submitted on Time',
+          value: '$1.6M'
+        },
+        {
+          text: 'Requested Information Not Submitted/Not Submitted on Time',
+          value: '$1.6M'
+        },
+        {
+          text: 'Requested Information Not Submitted/Not Submitted on Time',
+          value: '$1.6M'
+        },
+        {
+          text: 'Requested Information Not Submitted/Not Submitted on Time',
+          value: '$1.6M'
+        },
+        {
+          text: 'Requested Information Not Submitted/Not Submitted on Time',
+          value: '$1.6M'
+        }
+      ]
+    },
+    {
+      title: 'Not Categorized',
+      value: '$232.2K',
+      top5: [
+        {
+          text: 'Requested Information Not Submitted/Not Submitted on Time',
+          value: '$1.6M'
+        },
+        {
+          text: 'Requested Information Not Submitted/Not Submitted on Time',
+          value: '$1.6M'
+        },
+        {
+          text: 'Requested Information Not Submitted/Not Submitted on Time',
+          value: '$1.6M'
+        },
+        {
+          text: 'Requested Information Not Submitted/Not Submitted on Time',
+          value: '$1.6M'
+        },
+        {
+          text: 'Requested Information Not Submitted/Not Submitted on Time',
+          value: '$1.6M'
+        }
+      ]
+    }
   ];
 
   constructor(
