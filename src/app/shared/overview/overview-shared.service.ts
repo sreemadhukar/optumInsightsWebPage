@@ -429,7 +429,7 @@ export class OverviewSharedService {
         if (this.overviewPageData.length) {
           resolve(this.overviewPageData);
         }
-      });
-    });
-  }
-}
+      }); // end subscribing to REST call
+    }); // ends Promise
+  } // end getOverviewData function
+} // end export class
