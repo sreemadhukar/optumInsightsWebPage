@@ -6,8 +6,9 @@ import { AuthenticationService } from '../_service/authentication.service';
 import { InternalService } from '../_service/internal.service';
 import { Router } from '@angular/router';
 import { ProviderSharedService } from '../../shared/provider/provider-shared.service';
-import { MatDialog } from '@angular/material';
+import { MatDialog, MatIconRegistry } from '@angular/material';
 import { ProviderSearchComponent } from '../../common-utils/provider-search/provider-search.component';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-login-stub',
@@ -20,7 +21,8 @@ export class LoginStubComponent implements OnInit {
   loading = false;
   submitted = false;
   returnUrl: string;
-  error = '';
+  error = false;
+  blankScreen = false;
 
   constructor(
     private external: ExternalService,
@@ -29,8 +31,15 @@ export class LoginStubComponent implements OnInit {
     private internalService: InternalService,
     private router: Router,
     private providerSharedService: ProviderSharedService,
-    private dialog: MatDialog
-  ) {}
+    private dialog: MatDialog,
+    private iconRegistry: MatIconRegistry,
+    private sanitizer: DomSanitizer
+  ) {
+    iconRegistry.addSvgIcon(
+      'error',
+      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Alert/round-error_outline-24px.svg')
+    );
+  }
 
   ngOnInit() {
     this.loginForm = this.formBuilder.group({
@@ -57,23 +66,30 @@ export class LoginStubComponent implements OnInit {
     return this.loginForm['controls'];
   }
 
+  valueUpdated() {
+    this.error = false;
+  }
+
   onSubmit() {
     this.submitted = true;
+    this.loading = true;
     if (this.loginForm.invalid) {
       return;
     }
     this.internalService.login(this.f.username.value, this.f.password.value).subscribe(
       () => {
+        this.loading = false;
         this.openDialog();
       },
       error => {
-        this.error = error;
+        this.error = true;
         this.loading = false;
       }
     );
   }
 
   openDialog(): void {
+    this.blankScreen = true;
     const dialogRef = this.dialog.open(ProviderSearchComponent, {
       width: '550px',
       height: '212px',
@@ -82,6 +98,7 @@ export class LoginStubComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
+      this.blankScreen = false;
       this.router.navigate([this.returnUrl]);
     });
   }
