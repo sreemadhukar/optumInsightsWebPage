@@ -7,6 +7,7 @@ import { GettingReimbursedSharedService } from '../../../shared/getting-reimburs
   styleUrls: ['./payments.component.scss']
 })
 export class PaymentsComponent implements OnInit {
+  title = 'Claims Paid Breakdown';
   paymentsItems: any;
   payments: Array<object>;
   claimsPaidItems: Array<object>;

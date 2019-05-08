@@ -1,10 +1,7 @@
 @import '~src/scss/variables.scss';
 @import '~src/scss/mixins';
 @import '~src/scss/my-custom-theme';
-/*@mixin sidenav-theme($theme) {
-  $accent: map-get($theme, accent);
-  $background: map-get($theme, background);
-  $background-color: mat-color($background);*/
+
 .payments-body {
   @include mat-elevation(2);
   //background-color: mat-color($accent);
@@ -36,6 +33,16 @@
         font-size: 36px;
         line-height: 75px;
       }
+    }
+
+    .claims-paid-content {
+      width: 961px;
+      border-radius: 2px;
+      background-color: #ffffff;
+      box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
+      margin: 12px;
+      float: left;
+      height: 500px;
     }
   }
 }
