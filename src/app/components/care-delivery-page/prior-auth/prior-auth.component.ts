@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { PriorAuthService } from '../../../rest/prior-auth/prior-auth.service';
 import { SessionService } from '../../../shared/session.service';
+import { StorageService } from '../../../shared/storage-service.service';
 
 @Component({
   selector: 'app-prior-auth',
@@ -13,8 +14,15 @@ export class PriorAuthComponent implements OnInit {
   pageTitle: String = '';
   pagesubTitle: String = '';
   userName: String = '';
-  constructor(private priorAuthService: PriorAuthService, private sessionService: SessionService) {
+  subscription: any;
+
+  constructor(
+    private priorAuthService: PriorAuthService,
+    private sessionService: SessionService,
+    private checkStorage: StorageService
+  ) {
     this.pagesubTitle = '';
+    this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.ngOnInit());
   }
 
   nFormatter(num, digits) {
@@ -40,8 +48,8 @@ export class PriorAuthComponent implements OnInit {
   ngOnInit() {
     const parameters = [this.sessionService.providerkey.toString(), true];
     this.pageTitle = 'Prior Authorizations';
+
     this.priorAuthService.getPriorAuthData(...parameters).subscribe(data => {
-      // console.log(data.PriorAuth.LineOfBusiness.All);
       const PAApprovedCount = data.PriorAuth.LineOfBusiness.All.PriorAuthApprovedCount;
       const PANotApprovedCount = data.PriorAuth.LineOfBusiness.All.PriorAuthNotApprovedCount;
       const PANotPendingCount = data.PriorAuth.LineOfBusiness.All.PriorAuthPendingCount;
@@ -89,6 +97,25 @@ export class PriorAuthComponent implements OnInit {
           timeperiod: 'Rolling 12 Months'
         }
       ];
+    });
+
+    const newParameters = [
+      this.sessionService.providerkey.toString(),
+      true,
+      true,
+      true,
+      false,
+      true,
+      false,
+      false,
+      false
+    ];
+    const timeRange = 'rolling12';
+    const isAllTin = true;
+    const isAlllob = true;
+
+    this.priorAuthService.getPriorAuthDateRange(timeRange, isAllTin, isAlllob, ...newParameters).subscribe(data => {
+      console.log(data);
     });
 
     this.reasonItems = [
