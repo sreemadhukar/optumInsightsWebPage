@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { PriorAuthService } from '../../../rest/prior-auth/prior-auth.service';
+import { SessionService } from '../../../shared/session.service';
 
 @Component({
   selector: 'app-prior-auth',
@@ -11,46 +13,83 @@ export class PriorAuthComponent implements OnInit {
   pageTitle: String = '';
   pagesubTitle: String = '';
   userName: String = '';
-  constructor() {
+  constructor(private priorAuthService: PriorAuthService, private sessionService: SessionService) {
     this.pagesubTitle = '';
   }
 
-  ngOnInit() {
-    this.pageTitle = 'Prior Authorizations';
-    this.summaryItems = [
-      {
-        category: 'card',
-        type: 'donutWithTrend',
-        title: 'Prior Authorization Requested',
-        data: {
-          cValues: [],
-          cData: '',
-          color: [{ color1: '#00A8F7' }, { color2: '#D7DCE1' }, { color3: '#FFFFFF' }],
-          gdata: []
-        },
-        sdata: {
-          sign: 'up',
-          data: '+2.3%'
-        },
-        timeperiod: 'Rolling 12 Months'
-      },
-      {
-        category: 'card',
-        type: 'donutBothLabelTrend',
-        title: 'Prior Authorization Approval Rate',
-        data: {
-          cValues: [],
-          cData: '',
-          color: [{ color1: '#00A8F7' }, { color2: '#D7DCE1' }, { color3: '#FFFFFF' }],
-          gdata: []
-        },
-        sdata: {
-          sign: 'down',
-          data: '-2.3%'
-        },
-        timeperiod: 'Rolling 12 Months'
-      }
+  nFormatter(num, digits) {
+    const si = [
+      { value: 1, symbol: '' },
+      { value: 1e3, symbol: 'K' },
+      { value: 1e6, symbol: 'M' },
+      { value: 1e9, symbol: 'G' },
+      { value: 1e12, symbol: 'T' },
+      { value: 1e15, symbol: 'P' },
+      { value: 1e18, symbol: 'E' }
     ];
+    const rx = /\.0+$|(\.[0-9]*[1-9])0+$/;
+    let i;
+    for (i = si.length - 1; i > 0; i--) {
+      if (num >= si[i].value) {
+        break;
+      }
+    }
+    return (num / si[i].value).toFixed(digits).replace(rx, '$1') + si[i].symbol;
+  }
+
+  ngOnInit() {
+    const parameters = [this.sessionService.providerkey.toString(), true];
+    this.pageTitle = 'Prior Authorizations';
+    this.priorAuthService.getPriorAuthData(...parameters).subscribe(data => {
+      // console.log(data.PriorAuth.LineOfBusiness.All);
+      const PAApprovedCount = data.PriorAuth.LineOfBusiness.All.PriorAuthApprovedCount;
+      const PANotApprovedCount = data.PriorAuth.LineOfBusiness.All.PriorAuthNotApprovedCount;
+      const PANotPendingCount = data.PriorAuth.LineOfBusiness.All.PriorAuthPendingCount;
+      const PANotCancelledCount = data.PriorAuth.LineOfBusiness.All.PriorAuthCancelledCount;
+      const PARequestedCount = PAApprovedCount + PANotApprovedCount + PANotPendingCount + PANotCancelledCount;
+      const PAApprovalRate = PAApprovedCount / PARequestedCount;
+      const StandardTATConversion = (data.PriorAuth.LineOfBusiness.All.StandartPriorAuthTAT / 86400).toFixed(0);
+      const UrgentTATConversion = (data.PriorAuth.LineOfBusiness.All.UrgentPriorAuthTAT / 3600).toFixed(0);
+      this.summaryItems = [
+        {
+          category: 'app-card',
+          type: 'donutWithLabel',
+          title: 'Prior Authorization Requested',
+          data: {
+            graphValues: [PAApprovedCount, PANotApprovedCount, PANotPendingCount, PANotCancelledCount],
+            centerNumber: this.nFormatter(PARequestedCount, 1),
+            color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'],
+
+            gdata: ['card-inner', 'PARequested']
+          },
+          besideData: {
+            labels: ['Approved', 'Not Approved', 'Pending', 'Canceled'],
+            color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC']
+          },
+          timeperiod: 'Rolling 12 Months'
+        },
+        {
+          category: 'app-card',
+          type: 'donutWithLabel',
+          title: 'Prior Authorization Approval Rate',
+          data: {
+            graphValues: [PAApprovalRate, 1 - PAApprovalRate],
+            centerNumber: (PAApprovalRate * 100).toFixed(0) + '%',
+            color: ['#3381FF', '#E0E0E0'],
+            gdata: ['card-inner', 'PAApprovalRate']
+          },
+          besideData: {
+            verticalData: [
+              { title: 'Average Turnaround Time' },
+              { values: StandardTATConversion + ' Days', labels: 'Standard' },
+              { values: UrgentTATConversion + ' Hours', labels: 'Urgent' }
+            ]
+          },
+
+          timeperiod: 'Rolling 12 Months'
+        }
+      ];
+    });
 
     this.reasonItems = [
       {
