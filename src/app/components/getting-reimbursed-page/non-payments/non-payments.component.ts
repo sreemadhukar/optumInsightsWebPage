@@ -46,7 +46,7 @@ export class NonPaymentsComponent implements OnInit {
     },
     {
       title: 'No Auth Notice Ref',
-      value: '$999.9M',
+      value: '$999.9K',
       top5: [
         {
           text: 'Requested Information Not Submitted/Not Submitted on Time',
