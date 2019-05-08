@@ -1,15 +1,17 @@
 <app-feedback></app-feedback>
-<div class="payments-body">
-  <div class="payments-content">
+<div class="gettingReimburse-body">
+  <div class="gettingReimburse-content">
     <div class="cards cust-width-title">
       <app-breadcrumbs></app-breadcrumbs>
       <div class="page-title">{{ pageTitle }}</div>
-      <div class="page-subtitle">{{ currentTabTitle }}</div>
     </div>
-    <div class="height1Separator"></div>
-    <div *ngFor="let item of paymentsItems">
+    <div *ngFor="let item of payments">
       <app-card *ngIf="item.data != null" class="cards" [chartData]="item"> </app-card>
       <app-error-card *ngIf="item.status != null" class="cards" [data]="item"></app-error-card>
+    </div>
+    <div class="claims-paid-content">
+      <app-claims-paid-bar-graph></app-claims-paid-bar-graph>
+      <app-large-card [data]="claimsPaidItems"> </app-large-card>
     </div>
   </div>
 </div>

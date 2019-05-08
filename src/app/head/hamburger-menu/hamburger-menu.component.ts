@@ -55,9 +55,9 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
       name: 'Getting Reimbursed',
       children: [
         { name: 'Summary', path: '/GettingReimbursed' },
-        { name: 'Payments', path: '/OverviewPage' },
-        { name: 'Non-Payments', path: '/OverviewPage' },
-        { name: 'Appeals', path: '/OverviewPage' },
+        { name: 'Payments', path: '/GettingReimbursed/Payments' },
+        { name: 'Non-Payments', path: '/GettingReimbursed/NonPayments' },
+        { name: 'Appeals', path: '/GettingReimbursed/Appeals' },
         { name: 'Payment Integrity', path: '/OverviewPage' }
       ]
     },
@@ -65,18 +65,14 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
       icon: 'care-delivery',
       name: 'Care Delivery',
       children: [
-        { name: 'Prior Authorizations', path: '/OverviewPage' },
+        { name: 'Prior Authorizations', path: '/CareDelivery/priorAuth' },
         { name: 'Patient Care Opportunity', path: '/OverviewPage' }
-      ],
-      disabled: true
+      ]
     },
     {
       icon: 'issue-resolution',
       name: 'Issue Resolution',
-      children: [
-        { name: 'Summary', path: '/IssueResolution' },
-        { name: 'Self Service', path: '/IssueResolution/SelfService' }
-      ]
+      children: [{ name: 'Self Service', path: '/IssueResolution/SelfService' }]
     }
   ];
 
@@ -167,7 +163,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
     });
     Array.from(listItems).forEach(listItem => {
       this.renderer.setStyle(listItem, 'height', 'auto');
-      this.renderer.setStyle(listItem, 'padding', '8px 12px 8px 65px');
+      this.renderer.setStyle(listItem, 'padding', '8px 12px 8px 43px');
       this.renderer.setStyle(listItem, 'width', 'auto');
     });
     Array.from(listItemBody).forEach(listItem => {
@@ -196,6 +192,10 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
 
   closeGlossary() {
     this.glossaryFlag = false;
+  }
+
+  signOut() {
+    this.authService.logout();
   }
 
   private allExpandState(value: boolean, id) {

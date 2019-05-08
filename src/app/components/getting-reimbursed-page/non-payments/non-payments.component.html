@@ -1,7 +1,44 @@
-<p class="breadcrumb-top-padding">
-  <app-breadcrumbs></app-breadcrumbs>
-</p>
+<app-feedback></app-feedback>
+<div class="gettingReimburse-body">
+  <div class="gettingReimburse-content">
+    <div class="breadcrumb-top-padding title-left-padding">
+      <app-breadcrumbs></app-breadcrumbs>
+      <div class="page-title">{{ pageTitle }}</div>
+      <div class="time-period">
+        Time Period : <b>{{ timePeriod }}</b>
+      </div>
+    </div>
+    <div class="height1Separator"></div>
+    <div *ngFor="let item of currentSummary">
+      <app-card *ngIf="item.data != null" class="cards" [chartData]="item"> </app-card>
+      <app-error-card *ngIf="item.status != null" class="cards" [data]="item"></app-error-card>
+    </div>
 
-<p>
-  Non-payments works!
-</p>
+    <div class="top-reasons-for-claims-non-payment-block">
+      <app-common-header [title]="title" class=""></app-common-header>
+      <div class="bar-graphs-block">
+        <div class="bar-graphs" *ngFor="let barchart of barChartsArray; let i = index">
+          <div class="bar-graphs-content" (click)="section[i] = !section[i]">
+            <div class="bar-graph-inside-left-block">
+              <div class="bar-graph-inside-left-block-content">
+                <mat-icon class="bar-graph-block-icon" *ngIf="!section[i]" svgIcon="open"></mat-icon>
+                <mat-icon class="bar-graph-block-icon" *ngIf="section[i]" svgIcon="close"></mat-icon>
+                <p class="bar-graph-title">{{ barchart.title }}</p>
+                <p class="bar-graph-value">{{ barchart.value }}</p>
+              </div>
+            </div>
+            <div class="bar-graph-inside-right-block"></div>
+          </div>
+          <div class="inner-block" *ngIf="section[i]" style="border:1px solid #ccc;padding:10px;float: left;">
+            <div style="height:200px;width:200px;margin-right:10px;background:red;float:left;">{{ i }}</div>
+            <div style="height:200px;width:200px;margin-right:10px;background:green;float:left;">{{ i }}</div>
+            <div style="height:200px;width:200px;margin-right:10px;background:yellowgreen;float:left;">{{ i }}</div>
+            <div style="height:200px;width:200px;margin-right:10px;background:grey;float:left;">{{ i }}</div>
+          </div>
+        </div>
+      </div>
+
+      <app-common-footer [timePeriod]="timePeriod" class="full-display"></app-common-footer>
+    </div>
+  </div>
+</div>

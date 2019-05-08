@@ -21,6 +21,7 @@ import { ProviderSearchComponent } from './provider-search/provider-search.compo
 import { ErrorCardComponent } from './error-card/error-card.component';
 import { GlossaryComponent } from './glossary/glossary.component';
 import { SmallBarChartComponent } from './d3-objects/small-bar-chart/small-bar-chart.component';
+import { UhcLoaderComponent } from './uhc-loader/uhc-loader.component';
 
 @NgModule({
   imports: [CommonModule, FormsModule, ReactiveFormsModule, HeadMaterialModule, RouterModule],
@@ -36,7 +37,10 @@ import { SmallBarChartComponent } from './d3-objects/small-bar-chart/small-bar-c
     LargeCardComponent,
     ErrorCardComponent,
     GlossaryComponent,
-    SmallBarChartComponent
+    SmallBarChartComponent,
+    ProviderSearchComponent,
+    UhcLoaderComponent,
+    ClaimsPaidBarGraphComponent
   ],
   declarations: [
     MiniTileComponent,
@@ -56,7 +60,8 @@ import { SmallBarChartComponent } from './d3-objects/small-bar-chart/small-bar-c
     ProviderSearchComponent,
     ErrorCardComponent,
     GlossaryComponent,
-    SmallBarChartComponent
+    SmallBarChartComponent,
+    UhcLoaderComponent
   ],
   entryComponents: [ProviderSearchComponent]
 })

@@ -1,19 +1,19 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { IssueResolutionComponent } from './issue-resolution.component';
+import { UhcLoaderComponent } from './uhc-loader.component';
 
-describe('IssueResolutionComponent', () => {
-  let component: IssueResolutionComponent;
-  let fixture: ComponentFixture<IssueResolutionComponent>;
+describe('UhcLoaderComponent', () => {
+  let component: UhcLoaderComponent;
+  let fixture: ComponentFixture<UhcLoaderComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [IssueResolutionComponent]
+      declarations: [UhcLoaderComponent]
     }).compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(IssueResolutionComponent);
+    fixture = TestBed.createComponent(UhcLoaderComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
