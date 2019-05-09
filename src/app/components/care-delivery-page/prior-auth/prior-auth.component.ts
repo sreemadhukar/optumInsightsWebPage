@@ -74,7 +74,7 @@ export class PriorAuthComponent implements OnInit {
             labels: ['Approved', 'Not Approved', 'Pending', 'Canceled'],
             color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC']
           },
-          timeperiod: 'Rolling 12 Months'
+          timeperiod: 'Last 12 Months'
         },
         {
           category: 'app-card',
@@ -94,7 +94,7 @@ export class PriorAuthComponent implements OnInit {
             ]
           },
 
-          timeperiod: 'Rolling 12 Months'
+          timeperiod: 'Last 12 Months'
         }
       ];
     });
@@ -130,7 +130,7 @@ export class PriorAuthComponent implements OnInit {
           color: [{ color1: '#3381FF' }],
           gdata: ['card-inner-large', 'reasonOneBar']
         },
-        timeperiod: 'Rolling 12 Months'
+        timeperiod: 'Last 12 Months'
       },
       {
         type: 'singleBarChart',
@@ -143,7 +143,7 @@ export class PriorAuthComponent implements OnInit {
           color: [{ color1: '#3381FF' }],
           gdata: ['card-inner-large', 'reasonTwoBar']
         },
-        timeperiod: 'Rolling 12 Months'
+        timeperiod: 'Last 12 Months'
       },
       {
         type: 'singleBarChart',
@@ -156,7 +156,7 @@ export class PriorAuthComponent implements OnInit {
           color: [{ color1: '#3381FF' }],
           gdata: ['card-inner-large', 'reasonThreeBar']
         },
-        timeperiod: 'Rolling 12 Months'
+        timeperiod: 'Last 12 Months'
       },
       {
         type: 'singleBarChart',
@@ -169,7 +169,7 @@ export class PriorAuthComponent implements OnInit {
           color: [{ color1: '#3381FF' }],
           gdata: ['card-inner-large', 'reasonFourBar']
         },
-        timeperiod: 'Rolling 12 Months'
+        timeperiod: 'Last 12 Months'
       },
       {
         type: 'singleBarChart',
@@ -182,7 +182,7 @@ export class PriorAuthComponent implements OnInit {
           color: [{ color1: '#3381FF' }],
           gdata: ['card-inner-large', 'reasonFiveBar']
         },
-        timeperiod: 'Rolling 12 Months'
+        timeperiod: 'Last 12 Months'
       }
     ];
   }

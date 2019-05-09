@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { SelfServiceService } from '../../rest/issue-resolution/self-service.service';
 import { IssueResolutionPageModule } from '../../components/issue-resolution-page/issue-resolution-page.module';
-import { CommonUtilsService } from '../common-utils.service';
 import { SessionService } from '../session.service';
 
 @Injectable({ providedIn: IssueResolutionPageModule })
@@ -9,11 +8,7 @@ export class SelfSharedService {
   private selfServiceData: Array<object> = [];
   private timeFrame: string;
   private providerKey: number;
-  constructor(
-    private selfService: SelfServiceService,
-    private common: CommonUtilsService,
-    private session: SessionService
-  ) {}
+  constructor(private selfService: SelfServiceService, private session: SessionService) {}
 
   /** The following function is kind of template for the 3 donuts that we have in the Self Service Page
    * The data is corresponding to Utilization Object that we have inside like this
@@ -46,7 +41,7 @@ export class SelfSharedService {
     return temp;
   }
   public getSelfServiceData() {
-    this.timeFrame = 'Rolling 3 months';
+    this.timeFrame = 'Last 3 Months';
     this.providerKey = this.session.providerKey();
     this.selfServiceData = [];
     return new Promise(resolve => {
@@ -60,10 +55,10 @@ export class SelfSharedService {
       const tempArray: Array<object> = [];
       parameters = [this.providerKey];
       /*
-      if (this.timeFrame === 'Rolling 3 Months') {
+      if (this.timeFrame === 'Last 3 Months') {
         parameters = [this.providerKey, true];
       } else {
-         this.session.timeFrame = this.timeFrame = 'Rolling 12 Months';
+         this.session.timeFrame = this.timeFrame = 'Last 12 Months';
          parameters = [this.providerKey, true];
       }
       */
@@ -149,10 +144,11 @@ export class SelfSharedService {
           ) {
             const selfService = providerSystems.SelfServiceInquiries.ALL.SelfService;
             try {
-              saveStaffTime = this.selfServiceUtilization(null, null, null);
               /*
+              saveStaffTime = this.selfServiceUtilization(null, null, null);
+              */
               saveStaffTime = this.selfServiceUtilization(
-                "'Save Your Staff's Time by'",
+                "Save Your Staff's Time by",
                 {
                   chartData: [
                     { labelsRight: '8 hours/day', values: 8, metricName: 'Phone' },
@@ -163,7 +159,7 @@ export class SelfSharedService {
                   gdata: ['card-inner', 'staffTimeSave']
                 },
                 this.timeFrame
-              );*/
+              );
             } catch (Error) {
               saveStaffTime = this.selfServiceUtilization(null, null, null);
             } // End try catch for Save Your's Staff TIme

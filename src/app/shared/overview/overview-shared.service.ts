@@ -31,10 +31,10 @@ export class OverviewSharedService {
       let parameters;
       const oppurtunities: Array<object> = [];
       const tempArray: Array<object> = [];
-      if (this.timeFrame === 'Rolling 12 Months') {
+      if (this.timeFrame === 'Last 12 Months') {
         parameters = [this.providerKey, true];
       } else {
-        this.session.timeFrame = this.timeFrame = 'Rolling 12 Months';
+        this.session.timeFrame = this.timeFrame = 'Last 12 Months';
         parameters = [this.providerKey, true];
       }
       this.overviewService.getOverviewData(...parameters).subscribe(([providerSystems, claims]) => {
@@ -69,7 +69,7 @@ export class OverviewSharedService {
               sign: 'up',
               data: '+1%'
             },
-            timeperiod: 'Rolling 12 Months'
+            timeperiod: 'Last 12 Months'
           };
         } else {
           cPriorAuth = {
@@ -105,7 +105,7 @@ export class OverviewSharedService {
               sign: 'down',
               data: '-1.3%'
             },
-            timeperiod: 'Rolling 12 Months'
+            timeperiod: 'Last 12 Months'
           };
         } else {
           cSelfService = {
@@ -141,7 +141,7 @@ export class OverviewSharedService {
               gdata: ['card-inner', 'pcorCardD3Star']
             },
             sdata: null,
-            timeperiod: 'Rolling 12 Months'
+            timeperiod: 'Last 12 Months'
           };
         } else {
           cPcor = {
@@ -182,7 +182,7 @@ export class OverviewSharedService {
               sign: 'up',
               data: '+2.3%'
             },
-            timeperiod: 'Rolling 12 Months'
+            timeperiod: 'Last 12 Months'
           };
         } else {
           cIR = {
@@ -371,7 +371,7 @@ export class OverviewSharedService {
               sign: 'down',
               data: '-2.8%'
             },
-            timeperiod: 'Rolling 12 Months'
+            timeperiod: 'Last 12 Months'
           };
         } else {
           claimsPaid = {
@@ -407,7 +407,7 @@ export class OverviewSharedService {
               sign: 'up',
               data: '+2.3%'
             },
-            timeperiod: 'Rolling 12 Months'
+            timeperiod: 'Last 12 Months'
           };
         } else {
           claimsYield = {
