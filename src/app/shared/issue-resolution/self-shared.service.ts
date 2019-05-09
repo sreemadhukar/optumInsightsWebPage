@@ -193,6 +193,7 @@ export class SelfSharedService {
                 this.timeFrame
               );
             } catch (Error) {
+              console.log('Error | Reduce Claim Processing Time by');
               reduceClaimProcessingTime = this.selfServiceUtilization(null, null, null);
             } // End try catch for Reduce Your Claim Processing Time
             try {
@@ -221,6 +222,7 @@ export class SelfSharedService {
                 this.timeFrame
               );
             } catch (Error) {
+              console.log('Error | Reduce Reconsideration Processing by');
               reduceReconsiderationProcessing = this.selfServiceUtilization(null, null, null);
             } // End try Catch for Reduce Reconsideration Processing
           } else {
