@@ -40,7 +40,9 @@
           </div>
 
           <div class="inner-block" *ngIf="section[i]">
-            <div class="bottom-shadow"></div>
+            <div class="bottom-shadow">
+              <div class="hide-bottom-arrow-block"></div>
+            </div>
             <h3 class="inner-blocks-header">Top Reason for Need More Information</h3>
             <div *ngFor="let inside of barchart.top5; let j = index">
               <div [class.extra-margin-left-4]="j == 0" class="top-5-block">
