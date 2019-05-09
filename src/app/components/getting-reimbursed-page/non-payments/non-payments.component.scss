@@ -190,3 +190,12 @@
 .top-5-value {
   margin-top: 16px;
 }
+.hide-bottom-arrow-block {
+  width: 25px;
+  height: 20px;
+  background: $alice-blue;
+  position: absolute;
+  left: 40px;
+  top: 1px;
+  border-radius: 20px;
+}
