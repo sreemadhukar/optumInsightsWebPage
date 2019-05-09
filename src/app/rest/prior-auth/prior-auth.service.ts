@@ -58,7 +58,7 @@ export class PriorAuthService {
     */
   }
 
-  public getPriorAuthDateRange(timeRange: string, allTin: boolean, allLOB: boolean, ...parameters) {
+  public getPriorAuthDateRange(timeRange: string, allTin: boolean, allLOB: boolean, isAllSS: boolean, ...parameters) {
     this.currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
     this.authBearer = this.currentUser[0].PedAccessToken;
     const myHeader = new HttpHeaders({
@@ -146,6 +146,10 @@ export class PriorAuthService {
         params = params.append('eAndILob', parameters[7]);
         params = params.append('mAndRLob', parameters[8]);
       }
+    }
+
+    if (isAllSS) {
+      params = params.append('allNotApprovedSettings', parameters[9]);
     }
 
     return this.http.post(url, params, { headers: myHeader }).pipe(
