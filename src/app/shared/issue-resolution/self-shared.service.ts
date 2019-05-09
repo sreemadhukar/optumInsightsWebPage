@@ -15,8 +15,38 @@ export class SelfSharedService {
     private session: SessionService
   ) {}
 
+  /** The following function is kind of template for the 3 donuts that we have in the Self Service Page
+   * The data is corresponding to Utilization Object that we have inside like this
+   * SelfServiceInquiries -> ALL -> Utilizations
+   */
+  public utilizationDataObject(title: String, data: any, timeperiod?: String | null): Object {
+    const temp: Object = {
+      category: 'app-card',
+      type: 'donut',
+      title: title,
+      data: data,
+      timeperiod: timeperiod
+    };
+    return temp;
+  }
+
+  /** The following function is kind of template for the 3 small-bar-graph that we have in the Self Service Page
+   * The data is corresponding to SelfService Object that we have inside like this
+   * SelfServiceInquiries -> ALL -> SelfService
+   */
+
+  public selfServiceUtilization(title: String, data: any, timeperiod?: String | null): Object {
+    const temp: Object = {
+      category: 'app-card',
+      type: 'small-bar-chart',
+      title: title,
+      data: data,
+      timeperiod: timeperiod
+    };
+    return temp;
+  }
   public getSelfServiceData() {
-    this.timeFrame = this.session.timeFrame;
+    this.timeFrame = 'Rolling 3 months';
     this.providerKey = this.session.providerKey();
     this.selfServiceData = [];
     return new Promise(resolve => {
@@ -47,11 +77,9 @@ export class SelfSharedService {
           ) {
             const utilization = providerSystems.SelfServiceInquiries.ALL.Utilizations;
             try {
-              adoptionRate = {
-                category: 'app-card',
-                type: 'donut',
-                title: 'Self-Service Adoption Rate',
-                data: {
+              adoptionRate = this.utilizationDataObject(
+                'Self-Service Adoption Rate',
+                {
                   graphValues: [
                     utilization.OverallLinkAdoptionRate * 100,
                     100 - utilization.OverallLinkAdoptionRate * 100
@@ -64,24 +92,15 @@ export class SelfSharedService {
                     data: '-1.3%'
                   }
                 },
-                timeperiod: this.timeFrame
-              };
+                this.timeFrame
+              );
             } catch (Error) {
-              adoptionRate = {
-                category: 'app-card',
-                type: 'donut',
-                title: null,
-                data: null,
-                sdata: null,
-                timeperiod: null
-              };
+              adoptionRate = this.utilizationDataObject(null, null, null);
             } // End try catch for Adoption Rate
             try {
-              linkEdiRation = {
-                category: 'app-card',
-                type: 'donut',
-                title: 'LINK & EDI to Call Ratio',
-                data: {
+              linkEdiRation = this.utilizationDataObject(
+                'LINK & EDI to Call Ratio',
+                {
                   graphValues: [100 - utilization.LinkAdoptionRate * 100, utilization.LinkAdoptionRate * 100],
                   centerNumber: (utilization.LinkAdoptionRate * 100).toFixed(0) + ' %',
                   color: ['#3381FF', '#D7DCE1'],
@@ -91,24 +110,15 @@ export class SelfSharedService {
                     data: '+1.3%'
                   }
                 },
-                timeperiod: this.timeFrame
-              };
+                this.timeFrame
+              );
             } catch (Error) {
-              linkEdiRation = {
-                category: 'app-card',
-                type: 'donut',
-                title: null,
-                data: null,
-                sdata: null,
-                timeperiod: null
-              };
+              linkEdiRation = this.utilizationDataObject(null, null, null);
             } // End try catch for Link & EDI Ration
             try {
-              paperLessDelivery = {
-                category: 'app-card',
-                type: 'donut',
-                title: 'Paperless Delivery',
-                data: {
+              paperLessDelivery = this.utilizationDataObject(
+                'Paperless Delivery',
+                {
                   graphValues: [
                     utilization.PaperAndPostageAdoptionRate * 100,
                     100 - utilization.PaperAndPostageAdoptionRate * 100
@@ -121,46 +131,17 @@ export class SelfSharedService {
                     data: '-3.7%'
                   }
                 },
-                timeperiod: this.timeFrame
-              };
+                this.timeFrame
+              );
             } catch (Error) {
-              paperLessDelivery = {
-                category: 'app-card',
-                type: 'donut',
-                title: null,
-                data: null,
-                sdata: null,
-                timeperiod: null
-              };
+              paperLessDelivery = this.utilizationDataObject(null, null, null);
             } // End try catch for PaperlessDelivery
           } else {
-            adoptionRate = {
-              category: 'app-card',
-              type: 'donut',
-              title: null,
-              data: null,
-              sdata: null,
-              timeperiod: null
-            };
-
-            linkEdiRation = {
-              category: 'app-card',
-              type: 'donut',
-              title: null,
-              data: null,
-              sdata: null,
-              timeperiod: null
-            };
-
-            paperLessDelivery = {
-              category: 'app-card',
-              type: 'donut',
-              title: null,
-              data: null,
-              sdata: null,
-              timeperiod: null
-            };
-          } // End if else block Utilization
+            adoptionRate = this.utilizationDataObject(null, null, null);
+            linkEdiRation = this.utilizationDataObject(null, null, null);
+            paperLessDelivery = this.utilizationDataObject(null, null, null);
+          } // End if else block Utilization Object
+          // Started If Else block for Self Service Object
           if (
             providerSystems.hasOwnProperty('SelfServiceInquiries') &&
             providerSystems.SelfServiceInquiries.hasOwnProperty('ALL') &&
@@ -168,11 +149,11 @@ export class SelfSharedService {
           ) {
             const selfService = providerSystems.SelfServiceInquiries.ALL.SelfService;
             try {
-              saveStaffTime = {
-                category: 'app-card',
-                type: 'small-bar-chart',
-                title: "Save Your Staff's Time by",
-                data: {
+              saveStaffTime = this.selfServiceUtilization(null, null, null);
+              /*
+              saveStaffTime = this.selfServiceUtilization(
+                "'Save Your Staff's Time by'",
+                {
                   chartData: [
                     { labelsRight: '8 hours/day', values: 8, metricName: 'Phone' },
                     { labelsRight: '2 hours/day', values: 2, metricName: 'Self Service' }
@@ -181,24 +162,15 @@ export class SelfSharedService {
                   color: ['#80B0FF', '#3381FF'],
                   gdata: ['card-inner', 'staffTimeSave']
                 },
-                timeperiod: this.timeFrame
-              };
+                this.timeFrame
+              );*/
             } catch (Error) {
-              saveStaffTime = {
-                category: 'app-card',
-                type: 'small-bar-chart',
-                title: null,
-                data: null,
-                sdata: null,
-                timeperiod: null
-              };
+              saveStaffTime = this.selfServiceUtilization(null, null, null);
             } // End try catch for Save Your's Staff TIme
             try {
-              reduceClaimProcessingTime = {
-                category: 'app-card',
-                type: 'small-bar-chart',
-                title: 'Reduce Claim Processing Time by',
-                data: {
+              reduceClaimProcessingTime = this.selfServiceUtilization(
+                'Reduce Claim Processing Time by',
+                {
                   chartData: [
                     {
                       labelsRight: selfService.AveragePaperClaimProcessingTime.toFixed(0) + ' days',
@@ -218,24 +190,16 @@ export class SelfSharedService {
                   color: ['#80B0FF', '#3381FF'],
                   gdata: ['card-inner', 'reduceClaimTime']
                 },
-                timeperiod: this.timeFrame
-              };
+                this.timeFrame
+              );
             } catch (Error) {
-              reduceClaimProcessingTime = {
-                category: 'app-card',
-                type: 'small-bar-chart',
-                title: null,
-                data: null,
-                sdata: null,
-                timeperiod: null
-              };
+              console.log('Error | Reduce Claim Processing Time by');
+              reduceClaimProcessingTime = this.selfServiceUtilization(null, null, null);
             } // End try catch for Reduce Your Claim Processing Time
             try {
-              reduceReconsiderationProcessing = {
-                category: 'app-card',
-                type: 'small-bar-chart',
-                title: 'Reduce Reconsideration Processing by:',
-                data: {
+              reduceReconsiderationProcessing = this.selfServiceUtilization(
+                'Reduce Reconsideration Processing by:',
+                {
                   chartData: [
                     {
                       labelsRight: selfService.AveragePaperReconsideredProcessingTime.toFixed(0) + ' days',
@@ -255,45 +219,18 @@ export class SelfSharedService {
                   color: ['#80B0FF', '#3381FF'],
                   gdata: ['card-inner', 'reduceProcessing']
                 },
-                timeperiod: this.timeFrame
-              };
+                this.timeFrame
+              );
             } catch (Error) {
-              reduceReconsiderationProcessing = {
-                category: 'app-card',
-                type: 'small-bar-chart',
-                title: null,
-                data: null,
-                sdata: null,
-                timeperiod: null
-              };
+              console.log('Error | Reduce Reconsideration Processing by');
+              reduceReconsiderationProcessing = this.selfServiceUtilization(null, null, null);
             } // End try Catch for Reduce Reconsideration Processing
           } else {
-            saveStaffTime = {
-              category: 'app-card',
-              type: 'small-bar-chart',
-              title: null,
-              data: null,
-              sdata: null,
-              timeperiod: null
-            };
+            saveStaffTime = this.selfServiceUtilization(null, null, null);
 
-            reduceClaimProcessingTime = {
-              category: 'app-card',
-              type: 'small-bar-chart',
-              title: null,
-              data: null,
-              sdata: null,
-              timeperiod: null
-            };
+            reduceClaimProcessingTime = this.selfServiceUtilization(null, null, null);
 
-            reduceReconsiderationProcessing = {
-              category: 'app-card',
-              type: 'small-bar-chart',
-              title: null,
-              data: null,
-              sdata: null,
-              timeperiod: null
-            };
+            reduceReconsiderationProcessing = this.selfServiceUtilization(null, null, null);
           } // End If Else block SelfService
           tempArray[0] = adoptionRate;
           tempArray[1] = linkEdiRation;
@@ -310,5 +247,5 @@ export class SelfSharedService {
         }
       ); // end subscribing to REST call
     }); // ends Promise
-  } // end getOverviewData function
+  } // end getSelfServiceData function
 } // end export class
