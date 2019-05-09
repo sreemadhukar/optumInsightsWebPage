@@ -17,7 +17,7 @@
         #snav
         [mode]="'side'"
         [fixedInViewport]="true"
-        [opened]="!sideNavFlag"
+        [opened]="!(!sideNavFlag && makeAbsolute)"
         [class.display-none]="makeAbsolute"
         color="primary"
       >

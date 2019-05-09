@@ -68,6 +68,7 @@ export class ProviderSearchComponent implements OnInit {
   close() {
     sessionStorage.removeItem('currentUser');
     sessionStorage.removeItem('loggedUser');
+    this.dialogRef.close();
   }
 
   provider() {
