@@ -39,9 +39,9 @@ export class GettingReimbursedSharedService {
       let claimsPaidRate: object;
       let strtDate: string;
       let endDate: string;
-      if (this.timeFrame === 'Rolling 12 Months' || this.timeFrame === 'Year To Date') {
-        if (this.timeFrame === 'Rolling 12 Months') {
-          this.timeFrame = 'Rolling 6 Months';
+      if (this.timeFrame === 'Last 12 Months' || this.timeFrame === 'Year To Date') {
+        if (this.timeFrame === 'Last 12 Months') {
+          this.timeFrame = 'Last 6 Months';
           parameters = [this.providerKey, true];
           if (this.tin !== 'All') {
             parameters = [this.providerKey, true, false, this.tin];
@@ -303,8 +303,8 @@ export class GettingReimbursedSharedService {
               claimsData.hasOwnProperty(lobData) &&
               claimsData[lobData].hasOwnProperty('ClaimsLobSummary') &&
               claimsData[lobData].ClaimsLobSummary.length &&
-              claimsData[lobData].ClaimsLobSummary[0].ClaimsYieldRate &&
-              claimsData[lobData].ClaimsLobSummary[0].ClaimsNonPaymentRate
+              claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('ClaimsYieldRate') &&
+              claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('ClaimsNonPaymentRate')
             ) {
               claimsNotPaidRate = {
                 category: 'app-card',
@@ -759,8 +759,8 @@ export class GettingReimbursedSharedService {
                 claimsData.hasOwnProperty(lobData) &&
                 claimsData[lobData].hasOwnProperty('ClaimsLobSummary') &&
                 claimsData[lobData].ClaimsLobSummary.length &&
-                claimsData[lobData].ClaimsLobSummary[0].ClaimsYieldRate &&
-                claimsData[lobData].ClaimsLobSummary[0].ClaimsNonPaymentRate
+                claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('ClaimsYieldRate') &&
+                claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('ClaimsNonPaymentRate')
               ) {
                 claimsNotPaidRate = {
                   category: 'app-card',

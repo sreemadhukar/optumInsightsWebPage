@@ -46,7 +46,7 @@ export class SelfSharedService {
     return temp;
   }
   public getSelfServiceData() {
-    this.timeFrame = 'Rolling 3 months';
+    this.timeFrame = 'Last 3 months';
     this.providerKey = this.session.providerKey();
     this.selfServiceData = [];
     return new Promise(resolve => {
@@ -60,10 +60,10 @@ export class SelfSharedService {
       const tempArray: Array<object> = [];
       parameters = [this.providerKey];
       /*
-      if (this.timeFrame === 'Rolling 3 Months') {
+      if (this.timeFrame === 'Last 3 Months') {
         parameters = [this.providerKey, true];
       } else {
-         this.session.timeFrame = this.timeFrame = 'Rolling 12 Months';
+         this.session.timeFrame = this.timeFrame = 'Last 12 Months';
          parameters = [this.providerKey, true];
       }
       */

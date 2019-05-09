@@ -49,8 +49,8 @@ export class CommonUtilsService {
       return this.currentYearMinusOne;
     } else if (timeframe === 'Calendar Year ' + this.currentYearMinusTwo) {
       return this.currentYearMinusTwo;
-    } else if (timeframe === 'Rolling 12 Months') {
-      return 'rolling12months';
+    } else if (timeframe === 'Last 12 Months') {
+      return 'last12months';
     } else if (timeframe === 'Year to Date') {
       return 'yeartodate';
     }
