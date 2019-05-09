@@ -136,7 +136,7 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit {
 
   doBarGraph(chartOptions: any, transition: number) {
     // might have to hard code class names for testing
-    const className = 'claims-paid-content';
+    const className = 'claims-paid-content'; // 'card-inner-large'
     // this.chartOptions.gdata[0]
     //
     const preWidth = document.getElementsByClassName(className)[0].clientWidth;

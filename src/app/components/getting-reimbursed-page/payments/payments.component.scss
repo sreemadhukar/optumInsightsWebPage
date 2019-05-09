@@ -6,6 +6,7 @@
   @include mat-elevation(2);
   //background-color: mat-color($accent);
   overflow-x: hidden;
+  overflow-y: hidden;
   @include padding(30px, 30px, 30px, 30px);
 
   .payments-content {
