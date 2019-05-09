@@ -74,7 +74,7 @@ export class PriorAuthComponent implements OnInit {
             labels: ['Approved', 'Not Approved', 'Pending', 'Canceled'],
             color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC']
           },
-          timeperiod: 'Last 12 Months'
+          timeperiod: 'Last 6 Months'
         },
         {
           category: 'app-card',
@@ -94,7 +94,7 @@ export class PriorAuthComponent implements OnInit {
             ]
           },
 
-          timeperiod: 'Last 12 Months'
+          timeperiod: 'Last 6 Months'
         }
       ];
     });
