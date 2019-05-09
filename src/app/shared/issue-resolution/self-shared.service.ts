@@ -41,7 +41,7 @@ export class SelfSharedService {
     return temp;
   }
   public getSelfServiceData() {
-    this.timeFrame = 'Rolling 3 months';
+    this.timeFrame = 'Last 3 Months';
     this.providerKey = this.session.providerKey();
     this.selfServiceData = [];
     return new Promise(resolve => {
