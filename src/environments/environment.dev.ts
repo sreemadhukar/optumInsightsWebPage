@@ -6,11 +6,11 @@
  */
 export const environment: any = {
   apiProxyUrl: 'https://gateway-stage-core.optum.com/api/devfour/pdr/uhci/v1/',
-  originUrl: 'https://pedui1-pedtst.ocp-ctc-core-nonprod.optum.com/',
+  originUrl: 'https://pedui4-peddev.ocp-ctc-core-nonprod.optum.com/',
   apiUrls: {
     ExecutiveSummaryPath: 'providersystems/',
-    ProviderSystemClaimsAgg: 'agg-claims/search/',
-    ProviderSystemClaimsSummary: 'claims/search/',
+    ProviderSystemClaimsAgg: 'agg-claims/search/v2.0/',
+    ProviderSystemClaimsSummary: 'claims/search/v2.0/',
     ProviderSystemPriorAuth: 'PriorAuthSummary/',
     SsoTokenPath: 'myinsightOptumIdHandshake',
     SsoRedirectUri:
