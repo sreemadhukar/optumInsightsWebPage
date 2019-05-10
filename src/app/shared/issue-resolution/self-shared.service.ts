@@ -79,7 +79,7 @@ export class SelfSharedService {
                     utilization.OverallLinkAdoptionRate * 100,
                     100 - utilization.OverallLinkAdoptionRate * 100
                   ],
-                  centerNumber: (utilization.OverallLinkAdoptionRate * 100).toFixed(0) + ' %',
+                  centerNumber: (utilization.OverallLinkAdoptionRate * 100).toFixed(0) + '%',
                   color: ['#3381FF', '#D7DCE1'],
                   gdata: ['card-inner', 'selfAdoptionRate'],
                   sdata: {
@@ -97,7 +97,7 @@ export class SelfSharedService {
                 'LINK & EDI to Call Ratio',
                 {
                   graphValues: [100 - utilization.LinkAdoptionRate * 100, utilization.LinkAdoptionRate * 100],
-                  centerNumber: (utilization.LinkAdoptionRate * 100).toFixed(0) + ' %',
+                  centerNumber: (utilization.LinkAdoptionRate * 100).toFixed(0) + '%',
                   color: ['#3381FF', '#D7DCE1'],
                   gdata: ['card-inner', 'linkAndEdiCallRatio'],
                   sdata: {
@@ -118,7 +118,7 @@ export class SelfSharedService {
                     utilization.PaperAndPostageAdoptionRate * 100,
                     100 - utilization.PaperAndPostageAdoptionRate * 100
                   ],
-                  centerNumber: (utilization.PaperAndPostageAdoptionRate * 100).toFixed(0) + ' %',
+                  centerNumber: (utilization.PaperAndPostageAdoptionRate * 100).toFixed(0) + '%',
                   color: ['#3381FF', '#D7DCE1'],
                   gdata: ['card-inner', 'paperlessDelivery'],
                   sdata: {
