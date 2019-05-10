@@ -136,7 +136,7 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit {
 
   doBarGraph(chartOptions: any, transition: number) {
     // might have to hard code class names for testing
-    const className = 'card-inner-large';
+    const className = 'claims-paid-content'; // 'card-inner-large'
     // this.chartOptions.gdata[0]
     //
     const preWidth = document.getElementsByClassName(className)[0].clientWidth;
@@ -341,7 +341,7 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit {
       .append('rect')
       .attr('x', 400)
       .attr('y', 70)
-      .attr('width', 300)
+      .attr('width', 500)
       .attr('height', 48)
       .attr('fill', '#3381FF');
 
@@ -349,7 +349,7 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit {
       .append('rect')
       .attr('x', 400)
       .attr('y', 150)
-      .attr('width', 500)
+      .attr('width', 400)
       .attr('height', 48)
       .attr('fill', '#3381FF');
 

@@ -13,7 +13,7 @@ export const environment: any = {
   originUrl: 'https://pedintui-pedstg.ocp-ctc-dmz-stg.optum.com/',
   apiUrls: {
     ExecutiveSummaryPath: 'providersystems/',
-    ProviderSystemClaimsAgg: 'agg-claims/search/v2/',
+    ProviderSystemClaimsAgg: 'agg-claims/search/v2.0/',
     ProviderSystemClaimsSummary: 'claims/search/v2.0/',
     ProviderSystemPriorAuth: 'PriorAuthSummary/',
     SsoTokenPath: 'myinsightOptumIdHandshake',

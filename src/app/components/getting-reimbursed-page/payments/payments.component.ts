@@ -7,8 +7,11 @@ import { GettingReimbursedSharedService } from '../../../shared/getting-reimburs
   styleUrls: ['./payments.component.scss']
 })
 export class PaymentsComponent implements OnInit {
+  title = 'Claims Paid Breakdown';
+  claimsPaidTimePeriod = 'Rolling 6 Months';
   paymentsItems: any;
   payments: Array<object>;
+  claimsPaidItems: Array<object>;
   pageTitle: String = '';
   userName: String = '';
   constructor(private gettingReimbursedSharedService: GettingReimbursedSharedService) {
@@ -23,5 +26,11 @@ export class PaymentsComponent implements OnInit {
         this.payments = this.paymentsItems[1].data;
       })
       .catch(reason => console.log(reason.message));
+
+    this.claimsPaidItems = [
+      {
+        title: 'Claims Paid'
+      }
+    ];
   }
 }
