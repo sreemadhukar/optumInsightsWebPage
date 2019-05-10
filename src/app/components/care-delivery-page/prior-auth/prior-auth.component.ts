@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { PriorAuthService } from '../../../rest/prior-auth/prior-auth.service';
 import { SessionService } from '../../../shared/session.service';
+import { StorageService } from '../../../shared/storage-service.service';
 
 @Component({
   selector: 'app-prior-auth',
@@ -13,8 +14,15 @@ export class PriorAuthComponent implements OnInit {
   pageTitle: String = '';
   pagesubTitle: String = '';
   userName: String = '';
-  constructor(private priorAuthService: PriorAuthService, private sessionService: SessionService) {
+  subscription: any;
+
+  constructor(
+    private priorAuthService: PriorAuthService,
+    private sessionService: SessionService,
+    private checkStorage: StorageService
+  ) {
     this.pagesubTitle = '';
+    this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.ngOnInit());
   }
 
   nFormatter(num, digits) {
@@ -40,8 +48,8 @@ export class PriorAuthComponent implements OnInit {
   ngOnInit() {
     const parameters = [this.sessionService.providerkey.toString(), true];
     this.pageTitle = 'Prior Authorizations';
+
     this.priorAuthService.getPriorAuthData(...parameters).subscribe(data => {
-      // console.log(data.PriorAuth.LineOfBusiness.All);
       const PAApprovedCount = data.PriorAuth.LineOfBusiness.All.PriorAuthApprovedCount;
       const PANotApprovedCount = data.PriorAuth.LineOfBusiness.All.PriorAuthNotApprovedCount;
       const PANotPendingCount = data.PriorAuth.LineOfBusiness.All.PriorAuthPendingCount;
@@ -66,7 +74,7 @@ export class PriorAuthComponent implements OnInit {
             labels: ['Approved', 'Not Approved', 'Pending', 'Canceled'],
             color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC']
           },
-          timeperiod: 'Last 12 Months'
+          timeperiod: 'Last 6 Months'
         },
         {
           category: 'app-card',
@@ -86,77 +94,105 @@ export class PriorAuthComponent implements OnInit {
             ]
           },
 
-          timeperiod: 'Last 12 Months'
+          timeperiod: 'Last 6 Months'
         }
       ];
     });
 
-    this.reasonItems = [
-      {
-        type: 'singleBarChart',
-        title: 'Top Reasons for Prior Authorizations Not Approved',
-        data: {
-          barHeight: 40,
-          barData: 50,
-          barSummation: 150,
-          barText: 'Services provided are not for the purpose of preventing…',
-          color: [{ color1: '#3381FF' }],
-          gdata: ['card-inner-large', 'reasonOneBar']
-        },
-        timeperiod: 'Last 12 Months'
-      },
-      {
-        type: 'singleBarChart',
-        title: 'Top Reason Not Approved',
-        data: {
-          barHeight: 40,
-          barData: 40,
-          barSummation: 150,
-          barText: 'Medical equipment which cannot withstand repeated use OR is…',
-          color: [{ color1: '#3381FF' }],
-          gdata: ['card-inner-large', 'reasonTwoBar']
-        },
-        timeperiod: 'Last 12 Months'
-      },
-      {
-        type: 'singleBarChart',
-        title: 'Top Reason Not Approved',
-        data: {
-          barHeight: 40,
-          barData: 30,
-          barSummation: 150,
-          barText: 'Services are not covered due to  ' + 'specific exclusions or limitations…',
-          color: [{ color1: '#3381FF' }],
-          gdata: ['card-inner-large', 'reasonThreeBar']
-        },
-        timeperiod: 'Last 12 Months'
-      },
-      {
-        type: 'singleBarChart',
-        title: 'Top Reason Not Approved',
-        data: {
-          barHeight: 40,
-          barData: 60,
-          barSummation: 150,
-          barText: 'Services are not being provided ' + 'for the primary purpose of…',
-          color: [{ color1: '#3381FF' }],
-          gdata: ['card-inner-large', 'reasonFourBar']
-        },
-        timeperiod: 'Last 12 Months'
-      },
-      {
-        type: 'singleBarChart',
-        title: 'Top Reason Not Approved',
-        data: {
-          barHeight: 40,
-          barData: 50,
-          barSummation: 150,
-          barText: 'Treatment is not consistent with ' + 'published clinical evidence',
-          color: [{ color1: '#3381FF' }],
-          gdata: ['card-inner-large', 'reasonFiveBar']
-        },
-        timeperiod: 'Last 12 Months'
-      }
+    const newParameters = [
+      this.sessionService.providerkey.toString(),
+      true,
+      true,
+      true,
+      false,
+      true,
+      false,
+      false,
+      false,
+      true
     ];
+    const timeRange = 'rolling12';
+    const isAllTin = true;
+    const isAlllob = true;
+    const isAllSS = true;
+
+    this.priorAuthService
+      .getPriorAuthDateRange(timeRange, isAllTin, isAlllob, isAllSS, ...newParameters)
+      .subscribe(data => {
+        const PriorAuthNotApprovedReasons = data.All.NotApproved.AllNotApprovedSettings;
+        PriorAuthNotApprovedReasons.sort(function(a, b) {
+          return b.Count - a.Count;
+        });
+
+        const barScaleMax = PriorAuthNotApprovedReasons[0].Count;
+
+        this.reasonItems = [
+          {
+            type: 'singleBarChart',
+            title: 'Top Reasons for Prior Authorizations Not Approved',
+            data: {
+              barHeight: 40,
+              barData: PriorAuthNotApprovedReasons[0].Count,
+              barSummation: barScaleMax,
+              barText: PriorAuthNotApprovedReasons[0].Reason,
+              color: [{ color1: '#3381FF' }],
+              gdata: ['card-inner-large', 'reasonOneBar']
+            },
+            timeperiod: 'Last 6 Months'
+          },
+          {
+            type: 'singleBarChart',
+            title: 'Top Reason Not Approved',
+            data: {
+              barHeight: 40,
+              barData: PriorAuthNotApprovedReasons[1].Count,
+              barSummation: barScaleMax,
+              barText: PriorAuthNotApprovedReasons[1].Reason,
+              color: [{ color1: '#3381FF' }],
+              gdata: ['card-inner-large', 'reasonTwoBar']
+            },
+            timeperiod: 'Last 12 Months'
+          },
+          {
+            type: 'singleBarChart',
+            title: 'Top Reason Not Approved',
+            data: {
+              barHeight: 40,
+              barData: PriorAuthNotApprovedReasons[2].Count,
+              barSummation: barScaleMax,
+              barText: PriorAuthNotApprovedReasons[2].Reason,
+              color: [{ color1: '#3381FF' }],
+              gdata: ['card-inner-large', 'reasonThreeBar']
+            },
+            timeperiod: 'Last 12 Months'
+          },
+          {
+            type: 'singleBarChart',
+            title: 'Top Reason Not Approved',
+            data: {
+              barHeight: 40,
+              barData: PriorAuthNotApprovedReasons[3].Count,
+              barSummation: barScaleMax,
+              barText: PriorAuthNotApprovedReasons[3].Reason,
+              color: [{ color1: '#3381FF' }],
+              gdata: ['card-inner-large', 'reasonFourBar']
+            },
+            timeperiod: 'Last 12 Months'
+          },
+          {
+            type: 'singleBarChart',
+            title: 'Top Reason Not Approved',
+            data: {
+              barHeight: 40,
+              barData: PriorAuthNotApprovedReasons[4].Count,
+              barSummation: barScaleMax,
+              barText: PriorAuthNotApprovedReasons[4].Reason,
+              color: [{ color1: '#3381FF' }],
+              gdata: ['card-inner-large', 'reasonFiveBar']
+            },
+            timeperiod: 'Last 12 Months'
+          }
+        ];
+      });
   }
 }
