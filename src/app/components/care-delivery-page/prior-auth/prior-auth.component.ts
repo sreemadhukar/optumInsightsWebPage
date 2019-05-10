@@ -138,7 +138,7 @@ export class PriorAuthComponent implements OnInit {
               color: [{ color1: '#3381FF' }],
               gdata: ['card-inner-large', 'reasonOneBar']
             },
-            timeperiod: 'Last 12 Months'
+            timeperiod: 'Last 6 Months'
           },
           {
             type: 'singleBarChart',
