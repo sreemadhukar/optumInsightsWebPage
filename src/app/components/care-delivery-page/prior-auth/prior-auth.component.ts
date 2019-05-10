@@ -125,7 +125,7 @@ export class PriorAuthComponent implements OnInit {
         });
 
         const barScaleMax = PriorAuthNotApprovedReasons[0].Count;
-
+        console.log(barScaleMax);
         this.reasonItems = [
           {
             type: 'singleBarChart',

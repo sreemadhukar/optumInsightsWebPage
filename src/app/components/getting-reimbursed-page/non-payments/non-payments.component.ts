@@ -16,9 +16,75 @@ export class NonPaymentsComponent implements OnInit {
   pageTitle: String = '';
   currentSummary: Array<Object> = [{}];
   currentTabTitle: String = '';
+  nonPaymentItems: Array<Object> = [{}];
 
   barChartsArray = [
     {
+      type: 'singleBarChart',
+      title: 'Need More Information',
+      data: {
+        barHeight: 40,
+        barData: 100,
+        barSummation: 300,
+        barText: 'Need More Information',
+        color: [{ color1: '#3381FF' }],
+        gdata: ['card-inner-large', 'reasonOneBar']
+      }
+      // timeperiod: 'Last 6 Months'
+    },
+    {
+      type: 'singleBarChart',
+      title: 'No Auth Notice Ref',
+      data: {
+        barHeight: 40,
+        barData: 70,
+        barSummation: 300,
+        barText: 'Need More Information',
+        color: [{ color1: '#3381FF' }],
+        gdata: ['card-inner-large', 'reasonOneBar']
+      }
+      // timeperiod: 'Last 6 Months'
+    },
+    {
+      type: 'singleBarChart',
+      title: 'Claims Payment Policy',
+      data: {
+        barHeight: 40,
+        barData: 100,
+        barSummation: 300,
+        barText: 'Need More Information',
+        color: [{ color1: '#3381FF' }],
+        gdata: ['card-inner-large', 'reasonOneBar']
+      }
+      // timeperiod: 'Last 6 Months'
+    },
+    {
+      type: 'singleBarChart',
+      title: 'No Benefit Coverage',
+      data: {
+        barHeight: 40,
+        barData: 100,
+        barSummation: 300,
+        barText: 'Need More Information',
+        color: [{ color1: '#3381FF' }],
+        gdata: ['card-inner-large', 'reasonOneBar']
+      }
+      // timeperiod: 'Last 6 Months'
+    },
+    {
+      type: 'singleBarChart',
+      title: 'Not Categorized',
+      data: {
+        barHeight: 40,
+        barData: 100,
+        barSummation: 300,
+        barText: 'Need More Information',
+        color: [{ color1: '#3381FF' }],
+        gdata: ['card-inner-large', 'reasonOneBar']
+      }
+      // timeperiod: 'Last 6 Months'
+    }
+    /*{
       title: 'Need More Information',
       value: '$2.6M',
       top5: [
@@ -44,7 +110,7 @@ export class NonPaymentsComponent implements OnInit {
         }
       ]
     },
-    {
+   {
       title: 'No Auth Notice Ref',
       value: '$999.9K',
       top5: [
@@ -147,7 +213,7 @@ export class NonPaymentsComponent implements OnInit {
           value: '$1.6M'
         }
       ]
-    }
+    }*/
   ];
 
   constructor(
@@ -175,5 +241,65 @@ export class NonPaymentsComponent implements OnInit {
       this.currentTabTitle = this.summaryItems[2].title;
       console.log(this.currentSummary);
     });
+
+    /* this.nonPaymentItems = [
+      {
+        type: 'singleBarChart',
+        title: 'Top Reasons for Prior Authorizations Not Approved',
+        data: {
+          barHeight: 40,
+          barData: 300,
+          barSummation: 300,
+          barText: 'Need More Information',
+          color: [{ color1: '#3381FF' }],
+          gdata: ['card-inner-large', 'reasonOneBar']
+      },
+      {
+        type: 'singleBarChart',
+        title: 'Top Reasons for Prior Authorizations Not Approved',
+        data: {
+          barHeight: 40,
+          barData: 200,
+          barSummation: 300,
+          barText: 'Need More Information',
+          color: [{ color1: '#3381FF' }],
+          gdata: ['card-inner-large', 'reasonOneBar']}
+      },
+      {
+        type: 'singleBarChart',
+        title: 'Top Reasons for Prior Authorizations Not Approved',
+        data: {
+          barHeight: 40,
+          barData: 170,
+          barSummation: 300,
+          barText: 'Need More Information',
+          color: [{ color1: '#3381FF' }],
+          gdata: ['card-inner-large', 'reasonOneBar']
+      },
+      {
+        type: 'singleBarChart',
+        title: 'Top Reasons for Prior Authorizations Not Approved',
+        data: {
+          barHeight: 40,
+          barData: 170,
+          barSummation: 300,
+          barText: 'Need More Information',
+          color: [{ color1: '#3381FF' }],
+          gdata: ['card-inner-large', 'reasonOneBar']},
+          timeperiod: 'Last 6 Months'
+      },
+      {
+        type: 'singleBarChart',
+        title: 'Top Reasons for Prior Authorizations Not Approved',
+        data: {
+          barHeight: 40,
+          barData: 170,
+          barSummation: 300,
+          barText: 'Need More Information',
+          color: [{ color1: '#3381FF' }],
+          gdata: ['card-inner-large', 'reasonOneBar']},
+          timeperiod: 'Last 6 Months'
+      }
+    ];*/
   }
 }
