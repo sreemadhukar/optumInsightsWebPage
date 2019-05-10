@@ -113,6 +113,7 @@ export class GettingReimbursedSharedService {
           } else if (claimsData != null) {
             if (
               claimsData.hasOwnProperty(lobData) &&
+              claimsData[lobData] != null &&
               claimsData[lobData].hasOwnProperty('ClaimsLobSummary') &&
               claimsData[lobData].ClaimsLobSummary.length &&
               claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('ClaimsPaid') &&
@@ -154,6 +155,7 @@ export class GettingReimbursedSharedService {
             }
             if (
               claimsData.hasOwnProperty(lobData) &&
+              claimsData[lobData] != null &&
               claimsData[lobData].hasOwnProperty('ClaimsLobSummary') &&
               claimsData[lobData].ClaimsLobSummary.length &&
               claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('ClaimsAvgTat') &&
@@ -193,6 +195,7 @@ export class GettingReimbursedSharedService {
             }
             if (
               claimsData.hasOwnProperty(lobData) &&
+              claimsData[lobData] != null &&
               claimsData[lobData].hasOwnProperty('ClaimsLobSummary') &&
               claimsData[lobData].ClaimsLobSummary.length &&
               claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('ClaimsPaid') &&
@@ -247,6 +250,7 @@ export class GettingReimbursedSharedService {
             }
             if (
               claimsData.hasOwnProperty(lobData) &&
+              claimsData[lobData] != null &&
               claimsData[lobData].hasOwnProperty('ClaimsLobSummary') &&
               claimsData[lobData].ClaimsLobSummary.length &&
               claimsData[lobData].ClaimsLobSummary[0].ClaimsDenied &&
@@ -301,6 +305,7 @@ export class GettingReimbursedSharedService {
             }
             if (
               claimsData.hasOwnProperty(lobData) &&
+              claimsData[lobData] != null &&
               claimsData[lobData].hasOwnProperty('ClaimsLobSummary') &&
               claimsData[lobData].ClaimsLobSummary.length &&
               claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('ClaimsYieldRate') &&
@@ -569,6 +574,7 @@ export class GettingReimbursedSharedService {
             } else if (claimsData != null) {
               if (
                 claimsData.hasOwnProperty(lobData) &&
+                claimsData[lobData] != null &&
                 claimsData[lobData].hasOwnProperty('ClaimsLobSummary') &&
                 claimsData[lobData].ClaimsLobSummary.length &&
                 claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('ClaimsPaid') &&
@@ -610,6 +616,7 @@ export class GettingReimbursedSharedService {
               }
               if (
                 claimsData.hasOwnProperty(lobData) &&
+                claimsData[lobData] != null &&
                 claimsData[lobData].hasOwnProperty('ClaimsLobSummary') &&
                 claimsData[lobData].ClaimsLobSummary.length &&
                 claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('ClaimsAvgTat') &&
@@ -649,6 +656,7 @@ export class GettingReimbursedSharedService {
               }
               if (
                 claimsData.hasOwnProperty(lobData) &&
+                claimsData[lobData] != null &&
                 claimsData[lobData].hasOwnProperty('ClaimsLobSummary') &&
                 claimsData[lobData].ClaimsLobSummary.length &&
                 claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('ClaimsPaid') &&
@@ -703,6 +711,7 @@ export class GettingReimbursedSharedService {
               }
               if (
                 claimsData.hasOwnProperty(lobData) &&
+                claimsData[lobData] != null &&
                 claimsData[lobData].hasOwnProperty('ClaimsLobSummary') &&
                 claimsData[lobData].ClaimsLobSummary.length &&
                 claimsData[lobData].ClaimsLobSummary[0].ClaimsDenied &&
@@ -757,6 +766,7 @@ export class GettingReimbursedSharedService {
               }
               if (
                 claimsData.hasOwnProperty(lobData) &&
+                claimsData[lobData] != null &&
                 claimsData[lobData].hasOwnProperty('ClaimsLobSummary') &&
                 claimsData[lobData].ClaimsLobSummary.length &&
                 claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('ClaimsYieldRate') &&
