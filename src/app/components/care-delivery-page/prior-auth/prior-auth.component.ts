@@ -66,7 +66,7 @@ export class PriorAuthComponent implements OnInit {
             labels: ['Approved', 'Not Approved', 'Pending', 'Canceled'],
             color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC']
           },
-          timeperiod: 'Rolling 12 Months'
+          timeperiod: 'Last 12 Months'
         },
         {
           category: 'app-card',
@@ -86,7 +86,7 @@ export class PriorAuthComponent implements OnInit {
             ]
           },
 
-          timeperiod: 'Rolling 12 Months'
+          timeperiod: 'Last 12 Months'
         }
       ];
     });
@@ -94,44 +94,68 @@ export class PriorAuthComponent implements OnInit {
     this.reasonItems = [
       {
         type: 'singleBarChart',
-        title: 'Top Reason Not Approved',
+        title: 'Top Reasons for Prior Authorizations Not Approved',
         data: {
-          barHeight: 48,
+          barHeight: 40,
           barData: 50,
           barSummation: 150,
-          barText: 'No Evidence',
+          barText: 'Services provided are not for the purpose of preventing…',
           color: [{ color1: '#3381FF' }],
           gdata: ['card-inner-large', 'reasonOneBar']
         },
-        timeperiod: 'Rolling 12 Months'
+        timeperiod: 'Last 12 Months'
       },
       {
         type: 'singleBarChart',
         title: 'Top Reason Not Approved',
         data: {
-          barHeight: 48,
+          barHeight: 40,
           barData: 40,
           barSummation: 150,
-          barText: 'Need more information',
+          barText: 'Medical equipment which cannot withstand repeated use OR is…',
           color: [{ color1: '#3381FF' }],
           gdata: ['card-inner-large', 'reasonTwoBar']
         },
-        timeperiod: 'Rolling 12 Months'
+        timeperiod: 'Last 12 Months'
       },
       {
         type: 'singleBarChart',
         title: 'Top Reason Not Approved',
         data: {
-          barHeight: 48,
-          barData: 60,
+          barHeight: 40,
+          barData: 30,
           barSummation: 150,
-          barText:
-            'Medical equipment which cannot withstand repeated use OR is disposable, OR is not used to serve a medical purpose, ' +
-            'OR is generally not useful to a person in the absence of a Sickness or Injury, OR is not appropriate for use in the home',
+          barText: 'Services are not covered due to  ' + 'specific exclusions or limitations…',
           color: [{ color1: '#3381FF' }],
           gdata: ['card-inner-large', 'reasonThreeBar']
         },
-        timeperiod: 'Rolling 12 Months'
+        timeperiod: 'Last 12 Months'
+      },
+      {
+        type: 'singleBarChart',
+        title: 'Top Reason Not Approved',
+        data: {
+          barHeight: 40,
+          barData: 60,
+          barSummation: 150,
+          barText: 'Services are not being provided ' + 'for the primary purpose of…',
+          color: [{ color1: '#3381FF' }],
+          gdata: ['card-inner-large', 'reasonFourBar']
+        },
+        timeperiod: 'Last 12 Months'
+      },
+      {
+        type: 'singleBarChart',
+        title: 'Top Reason Not Approved',
+        data: {
+          barHeight: 40,
+          barData: 50,
+          barSummation: 150,
+          barText: 'Treatment is not consistent with ' + 'published clinical evidence',
+          color: [{ color1: '#3381FF' }],
+          gdata: ['card-inner-large', 'reasonFiveBar']
+        },
+        timeperiod: 'Last 12 Months'
       }
     ];
   }
