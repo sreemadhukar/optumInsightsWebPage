@@ -39,7 +39,8 @@ import { UhcLoaderComponent } from './uhc-loader/uhc-loader.component';
     GlossaryComponent,
     SmallBarChartComponent,
     ProviderSearchComponent,
-    UhcLoaderComponent
+    UhcLoaderComponent,
+    ClaimsPaidBarGraphComponent
   ],
   declarations: [
     MiniTileComponent,

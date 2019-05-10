@@ -195,11 +195,6 @@ export class BarChartComponent implements OnInit, AfterViewInit {
           .attr('height', '116px')
           .attr('width', '438px');
 
-        div
-          .append('div')
-          .attr('class', 'triangle')
-          .style('top', '105px');
-
         // need to make id clean
         svg2
           .append('text')
