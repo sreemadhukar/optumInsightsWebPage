@@ -10,8 +10,12 @@
       <app-error-card *ngIf="item.status != null" class="cards" [data]="item"></app-error-card>
     </div>
     <div class="claims-paid-content">
-      <app-common-header [title]="title" class=""></app-common-header>
+      <app-common-header [title]="title" class="claims-header"></app-common-header>
       <app-claims-paid-bar-graph></app-claims-paid-bar-graph>
+      <!--app-common-footer [timePeriod]="claimsPaidTimePeriod"></app-common-footer-->
+      <div class="timeperiod-block">
+        <p class="timeperiod-text">{{ claimsPaidTimePeriod }}</p>
+      </div>
     </div>
   </div>
 </div>

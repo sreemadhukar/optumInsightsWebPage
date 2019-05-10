@@ -141,7 +141,6 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit {
     //
     const preWidth = document.getElementsByClassName(className)[0].clientWidth;
     const preHeight = document.getElementsByClassName(className)[0].clientHeight;
-    console.log(preWidth, preHeight);
     d3.select(this.renderChart)
       .selectAll('*')
       .remove();

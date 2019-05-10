@@ -8,6 +8,7 @@ import { GettingReimbursedSharedService } from '../../../shared/getting-reimburs
 })
 export class PaymentsComponent implements OnInit {
   title = 'Claims Paid Breakdown';
+  claimsPaidTimePeriod = 'Rolling 6 Months';
   paymentsItems: any;
   payments: Array<object>;
   claimsPaidItems: Array<object>;
