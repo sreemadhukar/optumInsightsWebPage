@@ -79,9 +79,15 @@
 }
 .bar-graph-inside-right-block {
   width: 517px;
+  /*background: $dodger-blue;
+  height: 45px;*/
+  float: left;
+}
+.bar-graph-inside-right-block-bars {
   background: $dodger-blue;
   height: 45px;
   float: left;
+  border-radius: 0 2px 2px 0;
 }
 .bar-graph-block-icon {
   float: left;
