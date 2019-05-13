@@ -36,10 +36,10 @@
                 <p class="bar-graph-value">{{ barchart.value }}</p>
               </div>
             </div>
-            <div class="bar-graph-inside-right-block">
+            <div class="bar-graph-inside-right-block" #barsParentBlock>
               <div
                 class="bar-graph-inside-right-block-bars"
-                [style.width.px]="(barchart.numeric / barChartsArray[0].numeric) * 517"
+                [style.width.px]="(barchart.numeric / barChartsArray[0].numeric) * barsParentBlock.offsetWidth"
               ></div>
             </div>
           </div>
