@@ -341,6 +341,7 @@ export class OverviewSharedService {
         }
         console.log('Claims', claims);
         if (
+          claims != null &&
           claims.hasOwnProperty('All') &&
           claims.All != null &&
           claims.All.hasOwnProperty('ClaimsLobSummary') &&
@@ -386,6 +387,7 @@ export class OverviewSharedService {
         }
 
         if (
+          claims != null &&
           claims.hasOwnProperty('All') &&
           claims.All != null &&
           claims.All.hasOwnProperty('ClaimsLobSummary') &&
