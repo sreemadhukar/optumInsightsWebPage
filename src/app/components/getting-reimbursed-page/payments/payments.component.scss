@@ -50,10 +50,12 @@
 
       .timeperiod-block {
         border-top: 0.5px solid #efefef;
-        position: relative;
-        bottom: 0;
-        margin-top: 475px;
-        height: 44px;
+        position: absolute;
+        /* bottom: 0; */
+        margin-top: 490px;
+        /* height: 44px; */
+        width: 961px;
+        z-index: 999999;
 
         .timeperiod-text {
           position: inherit;
@@ -65,7 +67,7 @@
           letter-spacing: 0.2px;
           line-height: 17px;
           height: 30px;
-          margin-top: 5px;
+          // margin-top: 5px;
         }
       }
     }
