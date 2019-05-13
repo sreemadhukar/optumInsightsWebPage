@@ -178,7 +178,7 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit {
       .style('text-anchor', 'end')
       .style('font-family', 'UHCSans-Regular')
       .style('font-weight', '600')
-      .text('$856M');
+      .text('$800M');
 
     chart
       .append('text')
@@ -200,7 +200,7 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit {
       .style('text-anchor', 'end')
       .style('font-family', 'UHCSans-Regular')
       .style('font-weight', '600')
-      .text('$645M');
+      .text('$589M');
 
     chart
       .append('text')
@@ -266,7 +266,7 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit {
       .attr('stroke', '#757588')
       .attr('stroke-width', '1px');
 
-    const highestValue = 300;
+    const highestValue = 800;
     const xScale = d3
       .scaleLinear()
       .domain([0, highestValue])
@@ -349,7 +349,7 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit {
       .append('rect')
       .attr('x', 400)
       .attr('y', 150)
-      .attr('width', 400)
+      .attr('width', 350)
       .attr('height', 48)
       .attr('fill', '#3381FF');
 
@@ -357,7 +357,7 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit {
       .append('rect')
       .attr('x', 400)
       .attr('y', 200)
-      .attr('width', 100)
+      .attr('width', 130)
       .attr('height', 48)
       .attr('fill', '#FC6431');
 
