@@ -21,6 +21,7 @@ export class NonPaymentsComponent implements OnInit {
     {
       title: 'Need More Information',
       value: '$2.6M',
+      numeric: 2600000,
       top5: [
         {
           text: 'Requested Information Not Submitted/Not Submitted on Time',
@@ -47,6 +48,7 @@ export class NonPaymentsComponent implements OnInit {
     {
       title: 'No Auth Notice Ref',
       value: '$999.9K',
+      numeric: 999900,
       top5: [
         {
           text: 'Requested Information Not Submitted/Not Submitted on Time',
@@ -72,7 +74,8 @@ export class NonPaymentsComponent implements OnInit {
     },
     {
       title: 'Claims Payment Policy',
-      value: '$354.8K',
+      value: '$754.8K',
+      numeric: 754800,
       top5: [
         {
           text: 'Requested Information Not Submitted/Not Submitted on Time',
@@ -99,6 +102,7 @@ export class NonPaymentsComponent implements OnInit {
     {
       title: 'No Benefit Coverage',
       value: '$354.2K',
+      numeric: 354200,
       top5: [
         {
           text: 'Requested Information Not Submitted/Not Submitted on Time',
@@ -125,6 +129,7 @@ export class NonPaymentsComponent implements OnInit {
     {
       title: 'Not Categorized',
       value: '$232.2K',
+      numeric: 232200,
       top5: [
         {
           text: 'Requested Information Not Submitted/Not Submitted on Time',

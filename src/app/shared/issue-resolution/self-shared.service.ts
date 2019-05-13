@@ -64,7 +64,6 @@ export class SelfSharedService {
       */
       this.selfService.getSelfServiceData(...parameters).subscribe(
         ([providerSystems]) => {
-          console.log('Shared providerData', providerSystems);
           if (
             providerSystems.hasOwnProperty('SelfServiceInquiries') &&
             providerSystems.SelfServiceInquiries.hasOwnProperty('ALL') &&
@@ -79,7 +78,7 @@ export class SelfSharedService {
                     utilization.OverallLinkAdoptionRate * 100,
                     100 - utilization.OverallLinkAdoptionRate * 100
                   ],
-                  centerNumber: (utilization.OverallLinkAdoptionRate * 100).toFixed(0) + ' %',
+                  centerNumber: (utilization.OverallLinkAdoptionRate * 100).toFixed(0) + '%',
                   color: ['#3381FF', '#D7DCE1'],
                   gdata: ['card-inner', 'selfAdoptionRate'],
                   sdata: {
@@ -97,7 +96,7 @@ export class SelfSharedService {
                 'LINK & EDI to Call Ratio',
                 {
                   graphValues: [100 - utilization.LinkAdoptionRate * 100, utilization.LinkAdoptionRate * 100],
-                  centerNumber: (utilization.LinkAdoptionRate * 100).toFixed(0) + ' %',
+                  centerNumber: (utilization.LinkAdoptionRate * 100).toFixed(0) + '%',
                   color: ['#3381FF', '#D7DCE1'],
                   gdata: ['card-inner', 'linkAndEdiCallRatio'],
                   sdata: {
@@ -118,7 +117,7 @@ export class SelfSharedService {
                     utilization.PaperAndPostageAdoptionRate * 100,
                     100 - utilization.PaperAndPostageAdoptionRate * 100
                   ],
-                  centerNumber: (utilization.PaperAndPostageAdoptionRate * 100).toFixed(0) + ' %',
+                  centerNumber: (utilization.PaperAndPostageAdoptionRate * 100).toFixed(0) + '%',
                   color: ['#3381FF', '#D7DCE1'],
                   gdata: ['card-inner', 'paperlessDelivery'],
                   sdata: {
@@ -144,9 +143,8 @@ export class SelfSharedService {
           ) {
             const selfService = providerSystems.SelfServiceInquiries.ALL.SelfService;
             try {
-              /*
               saveStaffTime = this.selfServiceUtilization(null, null, null);
-              */
+              /*
               saveStaffTime = this.selfServiceUtilization(
                 "Save Your Staff's Time by",
                 {
@@ -154,12 +152,13 @@ export class SelfSharedService {
                     { labelsRight: '8 hours/day', values: 8, metricName: 'Phone' },
                     { labelsRight: '2 hours/day', values: 2, metricName: 'Self Service' }
                   ],
-                  value: '6 hours/day',
+                  value: selfService.TotalCallTime.toFixed() + ' Hours/day',
                   color: ['#80B0FF', '#3381FF'],
                   gdata: ['card-inner', 'staffTimeSave']
                 },
                 this.timeFrame
               );
+              */
             } catch (Error) {
               saveStaffTime = this.selfServiceUtilization(null, null, null);
             } // End try catch for Save Your's Staff TIme
@@ -235,7 +234,6 @@ export class SelfSharedService {
           tempArray[4] = reduceClaimProcessingTime;
           tempArray[5] = reduceReconsiderationProcessing;
           this.selfServiceData.push(tempArray);
-          console.log('Self Service', this.selfServiceData);
           resolve(this.selfServiceData);
         },
         err => {
