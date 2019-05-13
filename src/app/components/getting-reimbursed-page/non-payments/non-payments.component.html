@@ -36,7 +36,12 @@
                 <p class="bar-graph-value">{{ barchart.value }}</p>
               </div>
             </div>
-            <div class="bar-graph-inside-right-block"></div>
+            <div class="bar-graph-inside-right-block">
+              <div
+                class="bar-graph-inside-right-block-bars"
+                [style.width.px]="(barchart.numeric / barChartsArray[0].numeric) * 517"
+              ></div>
+            </div>
           </div>
 
           <div class="inner-block" *ngIf="section[i]">
