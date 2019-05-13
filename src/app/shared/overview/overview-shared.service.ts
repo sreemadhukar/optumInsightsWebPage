@@ -37,6 +37,7 @@ export class OverviewSharedService {
         this.session.timeFrame = this.timeFrame = 'Last 12 Months';
         parameters = [this.providerKey, true];
       }
+      
       this.overviewService.getOverviewData(...parameters).subscribe(([providerSystems, claims]) => {
         if (
           providerSystems.hasOwnProperty('PriorAuth') &&
