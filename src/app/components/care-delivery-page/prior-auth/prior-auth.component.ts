@@ -116,9 +116,8 @@ export class PriorAuthComponent implements OnInit {
     const isAlllob = true;
     const isAllSS = true;
 
-    this.priorAuthService
-      .getPriorAuthDateRange(timeRange, isAllTin, isAlllob, isAllSS, ...newParameters)
-      .subscribe(data => {
+    this.priorAuthService.getPriorAuthDateRange(timeRange, isAllTin, isAlllob, isAllSS, ...newParameters).subscribe(
+      data => {
         const PriorAuthNotApprovedReasons = data.All.NotApproved.AllNotApprovedSettings;
         PriorAuthNotApprovedReasons.sort(function(a, b) {
           return b.Count - a.Count;
@@ -193,6 +192,10 @@ export class PriorAuthComponent implements OnInit {
             timeperiod: 'Last 12 Months'
           }
         ];
-      });
+      },
+      err => {
+        console.log('Error in fetching the data, Prior Auth', err);
+      }
+    );
   }
 }

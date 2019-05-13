@@ -339,7 +339,7 @@ export class OverviewSharedService {
             fdata: null
           });
         }
-
+        console.log('Claims', claims);
         if (
           claims != null &&
           claims.hasOwnProperty('All') &&
@@ -385,6 +385,7 @@ export class OverviewSharedService {
             timeperiod: null
           };
         }
+
         if (
           claims != null &&
           claims.hasOwnProperty('All') &&
