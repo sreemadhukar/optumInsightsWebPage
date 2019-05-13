@@ -11,7 +11,7 @@ export class AppealsComponent implements OnInit {
   pageTitle: String = '';
   currentSummary: Array<Object> = [{}];
   currentTabTitle: String = '';
-  timePeriod = 'Last 12 months';
+  timePeriod = 'Last 6 months';
 
   constructor(private gettingReimbursedSharedService: GettingReimbursedSharedService) {
     this.pageTitle = 'Claims Appeals';
@@ -22,7 +22,7 @@ export class AppealsComponent implements OnInit {
       this.summaryItems = JSON.parse(JSON.stringify(completeData));
       this.currentSummary = this.summaryItems[3].data;
       this.currentTabTitle = this.summaryItems[3].title;
-      console.log(this.currentSummary);
+      console.log('Appeals Data ', this.currentSummary);
     });
   }
 }

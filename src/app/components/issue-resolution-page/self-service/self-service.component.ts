@@ -18,7 +18,7 @@ export class SelfServiceComponent implements OnInit {
   heightSmallBarChart: Number = 140;
   widthSmallBarChart: Number = 240;
 
-  toggleCallsOperating: Boolean = true;
+  toggleCallsOperating: Boolean = false;
   callCostChartData: Object;
   callCostReduceYourCost: String = '';
   callCostCallIn90days: String = '';
@@ -115,19 +115,19 @@ export class SelfServiceComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.toggleCallsOperating = true;
+    this.toggleCallsOperating = false;
 
     this.selfServiceSrc
       .getSelfServiceData()
       .then(data => {
         this.selfServiceItems = data[0];
-        console.log('Original data', this.selfServiceItems);
       })
       .catch(reason => console.log('Self Service Page Service Error ', reason));
-
-    this.disBarGraphCallsCost = true;
-    this.callCostChartData = this.callCostOperatingData[0].data;
-    this.callCostReduceCostValue = this.callCostOperatingData[0].callCostReduceCostValue;
-    this.callCostCallIn90daysValue = this.callCostOperatingData[0].callCostCallIn90daysValue;
+    if (this.toggleCallsOperating) {
+      this.disBarGraphCallsCost = true;
+      this.callCostChartData = this.callCostOperatingData[0].data;
+      this.callCostReduceCostValue = this.callCostOperatingData[0].callCostReduceCostValue;
+      this.callCostCallIn90daysValue = this.callCostOperatingData[0].callCostCallIn90daysValue;
+    }
   } // ngOnit funtion ends here
 }
