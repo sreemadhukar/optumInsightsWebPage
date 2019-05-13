@@ -64,7 +64,6 @@ export class SelfSharedService {
       */
       this.selfService.getSelfServiceData(...parameters).subscribe(
         ([providerSystems]) => {
-          console.log('Shared providerData', providerSystems);
           if (
             providerSystems.hasOwnProperty('SelfServiceInquiries') &&
             providerSystems.SelfServiceInquiries.hasOwnProperty('ALL') &&
@@ -235,7 +234,6 @@ export class SelfSharedService {
           tempArray[4] = reduceClaimProcessingTime;
           tempArray[5] = reduceReconsiderationProcessing;
           this.selfServiceData.push(tempArray);
-          console.log('Self Service', this.selfServiceData);
           resolve(this.selfServiceData);
         },
         err => {

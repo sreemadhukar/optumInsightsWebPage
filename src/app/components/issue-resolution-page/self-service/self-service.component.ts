@@ -121,7 +121,6 @@ export class SelfServiceComponent implements OnInit {
       .getSelfServiceData()
       .then(data => {
         this.selfServiceItems = data[0];
-        console.log('Original data', this.selfServiceItems);
       })
       .catch(reason => console.log('Self Service Page Service Error ', reason));
     if (this.toggleCallsOperating) {
