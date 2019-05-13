@@ -373,7 +373,7 @@ export class OverviewSharedService {
               sign: 'down',
               data: '-2.8%'
             },
-            timeperiod: 'Last 12 Months'
+            timeperiod: 'Last 6 Months'
           };
         } else {
           claimsPaid = {
@@ -412,7 +412,7 @@ export class OverviewSharedService {
               sign: 'up',
               data: '+2.3%'
             },
-            timeperiod: 'Last 12 Months'
+            timeperiod: 'Last 6 Months'
           };
         } else {
           claimsYield = {
