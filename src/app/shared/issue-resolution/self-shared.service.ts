@@ -144,9 +144,8 @@ export class SelfSharedService {
           ) {
             const selfService = providerSystems.SelfServiceInquiries.ALL.SelfService;
             try {
-              /*
               saveStaffTime = this.selfServiceUtilization(null, null, null);
-              */
+              /*
               saveStaffTime = this.selfServiceUtilization(
                 "Save Your Staff's Time by",
                 {
@@ -154,12 +153,13 @@ export class SelfSharedService {
                     { labelsRight: '8 hours/day', values: 8, metricName: 'Phone' },
                     { labelsRight: '2 hours/day', values: 2, metricName: 'Self Service' }
                   ],
-                  value: '6 hours/day',
+                  value: selfService.TotalCallTime.toFixed() + ' Hours/day',
                   color: ['#80B0FF', '#3381FF'],
                   gdata: ['card-inner', 'staffTimeSave']
                 },
                 this.timeFrame
               );
+              */
             } catch (Error) {
               saveStaffTime = this.selfServiceUtilization(null, null, null);
             } // End try catch for Save Your's Staff TIme
