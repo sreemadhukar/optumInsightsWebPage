@@ -341,7 +341,9 @@ export class OverviewSharedService {
         }
 
         if (
+          claims != null &&
           claims.hasOwnProperty('All') &&
+          claims.All != null &&
           claims.All.hasOwnProperty('ClaimsLobSummary') &&
           claims.All.ClaimsLobSummary[0].hasOwnProperty('AmountUHCPaid') &&
           claims.hasOwnProperty('Cs') &&
@@ -384,7 +386,9 @@ export class OverviewSharedService {
           };
         }
         if (
+          claims != null &&
           claims.hasOwnProperty('All') &&
+          claims.All != null &&
           claims.All.hasOwnProperty('ClaimsLobSummary') &&
           claims.All.ClaimsLobSummary[0].hasOwnProperty('AmountActualAllowed') &&
           claims.All.ClaimsLobSummary[0].hasOwnProperty('AmountExpectedAllowed')
