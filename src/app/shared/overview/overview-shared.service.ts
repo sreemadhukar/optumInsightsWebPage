@@ -69,7 +69,7 @@ export class OverviewSharedService {
               sign: 'up',
               data: '+1%'
             },
-            timeperiod: 'Last 12 Months'
+            timeperiod: ''
           };
         } else {
           cPriorAuth = {
@@ -182,7 +182,7 @@ export class OverviewSharedService {
               sign: 'up',
               data: '+2.3%'
             },
-            timeperiod: 'Last 12 Months'
+            timeperiod: ''
           };
         } else {
           cIR = {
