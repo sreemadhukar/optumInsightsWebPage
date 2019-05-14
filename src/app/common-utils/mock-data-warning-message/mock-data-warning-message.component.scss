@@ -1,0 +1,33 @@
+/*
+ * Author: Ranjith kumar Ankam
+ * Created Date: 14-May-2019
+ *  */
+
+@import '~src/scss/variables.scss';
+@import '~src/scss/mixins';
+
+.warning-block {
+  padding: 15px 20px;
+  background: #faf7da;
+  width: 961px;
+  box-sizing: border-box;
+  border: 1px solid #edd425;
+  border-radius: 2px;
+  float: left;
+  margin-bottom: 24px;
+}
+.warning-text {
+  font-family: 'UHCSans-Regular';
+  font-size: 14px;
+  line-height: 22px;
+  color: $black-rock;
+}
+.warning-icon {
+  vertical-align: middle;
+  margin-right: 20px;
+}
+.warning-note {
+  font-weight: 600;
+  font-family: 'UHCSans-Regular';
+  font-family: 'UHCSans-SemiBold', 'Arial';
+}
