@@ -38,6 +38,7 @@ export class OverviewSharedService {
         parameters = [this.providerKey, true];
       }
       this.overviewService.getOverviewData(...parameters).subscribe(([providerSystems, claims]) => {
+        console.log('providerSystem', providerSystems);
         if (
           providerSystems.hasOwnProperty('PriorAuth') &&
           providerSystems.PriorAuth !== null &&
@@ -280,7 +281,10 @@ export class OverviewSharedService {
             },
             fdata: {
               type: 'bar chart',
-              graphValues: [15, 25],
+              graphValues: [
+                providerSystems.SelfServiceInquiries.ALL.SelfService.AveragePaperClaimProcessingTime.toFixed(0),
+                providerSystems.SelfServiceInquiries.ALL.SelfService.AverageClaimProcessingTime.toFixed(0)
+              ],
               concatString: 'Days',
               color: ['#3381FF', '#FFFFFF', '#80B0FF'],
               graphValuesTitle: 'Avg. Processing Times',
@@ -322,7 +326,10 @@ export class OverviewSharedService {
             },
             fdata: {
               type: 'bar chart',
-              graphValues: [15, 32],
+              graphValues: [
+                providerSystems.SelfServiceInquiries.ALL.SelfService.AveragePaperReconsideredProcessingTime.toFixed(0),
+                providerSystems.SelfServiceInquiries.ALL.SelfService.AverageReconsideredProcessingTime.toFixed(0)
+              ],
               concatString: 'Days',
               color: ['#3381FF', '#FFFFFF', '#80B0FF'],
               graphValuesTitle: 'Avg. Processing Times',
