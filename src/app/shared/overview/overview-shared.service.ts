@@ -16,7 +16,6 @@ export class OverviewSharedService {
     private common: CommonUtilsService,
     private session: SessionService
   ) {}
-
   public getOverviewData() {
     this.timeFrame = this.session.timeFrame;
     this.providerKey = this.session.providerKey();
