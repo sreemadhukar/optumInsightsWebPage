@@ -89,7 +89,7 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
         .attr('y', height / height)
         .style('font-size', '41px')
         .style('fill', '#2d2d39')
-        .style('font-family', 'UHCSans-SemiBold');
+        .style('font-family', 'UHCSans-Regular');
     } else if (this.donutType === 'small-card') {
       text = chart
         .append('text')
