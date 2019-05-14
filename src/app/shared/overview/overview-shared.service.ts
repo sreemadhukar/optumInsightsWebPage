@@ -216,7 +216,7 @@ export class OverviewSharedService {
               color: ['#3381FF', '#FFFFFF', '#80B0FF'],
               graphValuesTitle: 'Avg. Transaction Costs',
               graphData1: 'for Self Service',
-              graphData2: 'for Mail',
+              graphData2: 'for Phone Call',
               gdata: ['card-structure', 'totalCallCost']
             }
           });
@@ -288,7 +288,7 @@ export class OverviewSharedService {
               color: ['#3381FF', '#FFFFFF', '#80B0FF'],
               graphValuesTitle: 'Avg. Processing Times',
               graphData1: 'for Self Service',
-              graphData2: 'for Phone Call',
+              graphData2: 'for Mail',
               gdata: ['card-structure', 'reduceClaimProcessingTime']
             }
           });
