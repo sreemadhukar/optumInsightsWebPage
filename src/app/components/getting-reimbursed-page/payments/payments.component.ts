@@ -14,6 +14,7 @@ export class PaymentsComponent implements OnInit {
   claimsPaidItems: Array<object>;
   pageTitle: String = '';
   userName: String = '';
+  showClaimsPaid: Boolean = false;
   constructor(private gettingReimbursedSharedService: GettingReimbursedSharedService) {
     this.pageTitle = 'Claims Payments';
   }
