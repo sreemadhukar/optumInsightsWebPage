@@ -97,7 +97,7 @@ export class SelfSharedService {
                 'LINK & EDI to Call Ratio',
                 {
                   graphValueName: ['Diabetic Patients', 'Completed'],
-                  graphValues: [100 - utilization.LinkAdoptionRate * 100, utilization.LinkAdoptionRate * 100],
+                  graphValues: [utilization.LinkAdoptionRate * 100, 100 - utilization.LinkAdoptionRate * 100],
                   centerNumber: (utilization.LinkAdoptionRate * 100).toFixed(0) + '%',
                   color: ['#3381FF', '#D7DCE1'],
                   gdata: ['card-inner', 'linkAndEdiCallRatio'],
