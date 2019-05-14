@@ -22,6 +22,7 @@ import { ErrorCardComponent } from './error-card/error-card.component';
 import { GlossaryComponent } from './glossary/glossary.component';
 import { SmallBarChartComponent } from './d3-objects/small-bar-chart/small-bar-chart.component';
 import { UhcLoaderComponent } from './uhc-loader/uhc-loader.component';
+import { MockDataWarningMessageComponent } from './mock-data-warning-message/mock-data-warning-message.component';
 
 @NgModule({
   imports: [CommonModule, FormsModule, ReactiveFormsModule, HeadMaterialModule, RouterModule],
@@ -40,7 +41,8 @@ import { UhcLoaderComponent } from './uhc-loader/uhc-loader.component';
     SmallBarChartComponent,
     ProviderSearchComponent,
     UhcLoaderComponent,
-    ClaimsPaidBarGraphComponent
+    ClaimsPaidBarGraphComponent,
+    MockDataWarningMessageComponent
   ],
   declarations: [
     MiniTileComponent,
@@ -61,7 +63,8 @@ import { UhcLoaderComponent } from './uhc-loader/uhc-loader.component';
     ErrorCardComponent,
     GlossaryComponent,
     SmallBarChartComponent,
-    UhcLoaderComponent
+    UhcLoaderComponent,
+    MockDataWarningMessageComponent
   ],
   entryComponents: [ProviderSearchComponent]
 })
