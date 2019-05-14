@@ -415,9 +415,10 @@ export class GettingReimbursedSharedService {
                 title: 'Claims Appeals Submitted',
                 data: {
                   graphValues: submittedData,
-                  centerNumber:
+                  centerNumber: this.common.nFormatter(
                     appealsData.LineOfBusiness[lobFullData].AdminAppeals +
-                    appealsData.LineOfBusiness[lobFullData].ClinicalAppeals,
+                      appealsData.LineOfBusiness[lobFullData].ClinicalAppeals
+                  ),
                   color: ['#3381FF', '#80B0FF', '#003DA1'],
                   gdata: ['card-inner', 'claimsAppealSubmitted'],
                   sdata: {

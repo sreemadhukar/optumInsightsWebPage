@@ -109,10 +109,10 @@ export class SmallBarChartComponent implements OnInit, AfterViewInit {
       .data(data)
       .enter()
       .append('text')
-      .style('font-size', '14px')
-      .style('fill', '#757588')
-      .style('font-weight', '600')
-      .style('font-family', 'UHCSans-SemiBold')
+      .style('font-size', '16px')
+      .style('fill', '#2d2d39')
+      .style('font-weight', '500')
+      .style('font-family', 'UHCSans-Regular')
       .attr('y', function(d) {
         return yScale(d.labelsRight);
       })
@@ -126,8 +126,8 @@ export class SmallBarChartComponent implements OnInit, AfterViewInit {
       .data(data)
       .enter()
       .append('text')
-      .style('font-size', '12px')
-      .style('fill', '#757588')
+      .style('font-size', '14px')
+      .style('fill', '#2d2d39')
       .style('font-weight', '600')
       .style('font-family', 'UHCSans-SemiBold')
       // y position of the label is halfway down the bar
