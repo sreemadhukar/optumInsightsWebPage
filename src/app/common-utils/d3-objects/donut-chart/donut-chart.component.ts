@@ -104,23 +104,23 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
       if (chartOptions.sdata.sign === 'up') {
         chart
           .append('circle')
-          .attr('cx', width / -8)
-          .attr('cy', height / 6)
+          .attr('cx', -24)
+          .attr('cy', 29)
           .attr('r', 16)
           .attr('fill', '#e1fadf');
 
         chart
           .append('svg:image')
-          .attr('x', -38)
-          .attr('y', 25)
+          .attr('x', -36)
+          .attr('y', 19)
           .attr('width', '20px')
           .attr('height', '20px')
           .attr('xlink:href', 'src/assets/images/trend-down.svg');
 
         chart
           .append('text')
-          .attr('x', width / 256)
-          .attr('y', 40)
+          .attr('x', 0)
+          .attr('y', 32)
           .style('font-size', '14px')
           .style('font-weight', '500')
           .style('fill', '#007000')
@@ -130,23 +130,23 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
       } else if (chartOptions.sdata.sign === 'down') {
         chart
           .append('circle')
-          .attr('cx', width / -8)
-          .attr('cy', height / 6)
+          .attr('cx', -24)
+          .attr('cy', 29)
           .attr('r', 16)
           .attr('fill', '#ffe6f0');
 
         chart
           .append('svg:image')
-          .attr('x', -38)
-          .attr('y', 25)
+          .attr('x', -36)
+          .attr('y', 19)
           .attr('width', '20px')
           .attr('height', '20px')
           .attr('xlink:href', 'src/assets/images/trend-up.svg');
 
         chart
           .append('text')
-          .attr('x', width / 256)
-          .attr('y', 40)
+          .attr('x', 0)
+          .attr('y', 32)
           .style('font-size', '14px')
           .style('font-weight', '500')
           .style('fill', '#b10c00')
