@@ -38,7 +38,12 @@ export class OverviewService {
         map(res => JSON.parse(JSON.stringify(res))),
         catchError(err => of(JSON.parse(JSON.stringify(err))))
       ),
-      this.http.post(claimsURL, cparams, { headers: myHeader }).pipe(
+      // this.http.post(claimsURL, cparams, { headers: myHeader }).pipe(
+      //   retry(2),
+      //   map(res => JSON.parse(JSON.stringify(res[0]))),
+      //   catchError(err => of(JSON.parse(JSON.stringify(err))))
+      // )
+      this.http.get('src/assets/mock-data/claims.json').pipe(
         retry(2),
         map(res => JSON.parse(JSON.stringify(res[0]))),
         catchError(err => of(JSON.parse(JSON.stringify(err))))
