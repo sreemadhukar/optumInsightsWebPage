@@ -352,20 +352,20 @@ export class OverviewSharedService {
           claims.hasOwnProperty('All') &&
           claims.All != null &&
           claims.All.hasOwnProperty('ClaimsLobSummary') &&
-          claims.All.ClaimsLobSummary[0].hasOwnProperty('AmountUHCPaid') &&
+          claims.All.ClaimsLobSummary[0].hasOwnProperty('ClaimsPaid') &&
           claims.hasOwnProperty('Cs') &&
           claims.Cs.hasOwnProperty('ClaimsLobSummary') &&
-          claims.Cs.ClaimsLobSummary[0].hasOwnProperty('AmountUHCPaid') &&
+          claims.Cs.ClaimsLobSummary[0].hasOwnProperty('ClaimsPaid') &&
           claims.hasOwnProperty('Ei') &&
           claims.Ei.hasOwnProperty('ClaimsLobSummary') &&
-          claims.Ei.ClaimsLobSummary[0].hasOwnProperty('AmountUHCPaid') &&
+          claims.Ei.ClaimsLobSummary[0].hasOwnProperty('ClaimsPaid') &&
           claims.hasOwnProperty('Mr') &&
           claims.Mr.hasOwnProperty('ClaimsLobSummary') &&
-          claims.Mr.ClaimsLobSummary[0].hasOwnProperty('AmountUHCPaid')
+          claims.Mr.ClaimsLobSummary[0].hasOwnProperty('ClaimsPaid')
         ) {
-          const mrPercentage = claims.Mr.ClaimsLobSummary[0].AmountUHCPaid;
-          const eiPercentage = claims.Ei.ClaimsLobSummary[0].AmountUHCPaid;
-          const csPercentage = claims.Cs.ClaimsLobSummary[0].AmountUHCPaid;
+          const mrPercentage = claims.Mr.ClaimsLobSummary[0].ClaimsPaid;
+          const eiPercentage = claims.Ei.ClaimsLobSummary[0].ClaimsPaid;
+          const csPercentage = claims.Cs.ClaimsLobSummary[0].ClaimsPaid;
           claimsPaid = {
             category: 'small-card',
             type: 'donut',
