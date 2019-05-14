@@ -223,7 +223,7 @@ export class GettingReimbursedSharedService {
                 title: 'Claims Paid',
                 data: {
                   graphValues: paidData,
-                  centerNumber: this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].ClaimsPaid),
+                  centerNumber: '$' + this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].ClaimsPaid),
                   color: ['#3381FF', '#80B0FF', '#003DA1'],
                   gdata: ['card-inner', 'claimsPaid'],
                   sdata: {
@@ -278,7 +278,7 @@ export class GettingReimbursedSharedService {
                 title: 'Claims Not Paid',
                 data: {
                   graphValues: nonPaidData,
-                  centerNumber: this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].ClaimsDenied),
+                  centerNumber: '$' + this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].ClaimsDenied),
                   color: ['#3381FF', '#80B0FF', '#003DA1'],
                   gdata: ['card-inner', 'claimsNotPaid'],
                   sdata: {
@@ -685,7 +685,7 @@ export class GettingReimbursedSharedService {
                   title: 'Claims Paid',
                   data: {
                     graphValues: paidData,
-                    centerNumber: this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].ClaimsPaid),
+                    centerNumber: '$' + this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].ClaimsPaid),
                     color: ['#3381FF', '#80B0FF', '#003DA1'],
                     gdata: ['card-inner', 'claimsPaid'],
                     sdata: {
@@ -740,7 +740,7 @@ export class GettingReimbursedSharedService {
                   title: 'Claims Not Paid',
                   data: {
                     graphValues: nonPaidData,
-                    centerNumber: this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].ClaimsDenied),
+                    centerNumber: '$' + this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].ClaimsDenied),
                     color: ['#3381FF', '#80B0FF', '#003DA1'],
                     gdata: ['card-inner', 'claimsNotPaid'],
                     sdata: {
