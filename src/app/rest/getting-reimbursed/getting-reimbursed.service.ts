@@ -80,7 +80,12 @@ export class GettingReimbursedService {
     const appealsURL = this.APP_URL + this.APPEALS_SERVICE_PATH + parameters[0];
 
     return combineLatest(
-      this.http.post(claimsURL, cparams, { headers: myHeader }).pipe(
+      // this.http.post(claimsURL, cparams, { headers: myHeader }).pipe(
+      //   retry(2),
+      //   map(res => JSON.parse(JSON.stringify(res[0]))),
+      //   catchError(err => of(JSON.parse(JSON.stringify(err))))
+      // ),
+      this.http.get('src/assets/mock-data/claims.json').pipe(
         retry(2),
         map(res => JSON.parse(JSON.stringify(res[0]))),
         catchError(err => of(JSON.parse(JSON.stringify(err))))
