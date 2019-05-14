@@ -212,6 +212,7 @@ $border-color: $blue !default;
 
 $border-radius: 0.125rem !default;
 
+$border-radius-rounded: 1rem !default;
 // Fonts
 //
 // Font, line-height, and color for body text, headings, and more.
@@ -286,6 +287,10 @@ $input-btn-border-width: $border-width !default;
 $btn-padding-y: $input-btn-padding-y !default;
 $btn-padding-x: $input-btn-padding-x !default;
 $btn-line-height: $input-btn-line-height !default;
+$padding-rounded-y: 0.46875rem;
+$padding-rounded-x: 0.78125rem;
+$btn-rounded-font-size: 0.875rem;
+$line-height-rounded: 1.125rem;
 
 // $btn-padding-y-sm:            $input-btn-padding-y-sm !default;
 // $btn-padding-x-sm:            $input-btn-padding-x-sm !default;
@@ -317,6 +322,15 @@ $btn-teritary-bdr-color: $black-rock;
 $btn-teritary-text-color: $black-rock;
 $btn-teritary-disabled: $black-rock;
 $btn-teritary-hover: $btn-bg-color;
+
+$btn-rounded-bg-color: $gainsboro;
+$btn-rounded-bdr-color: $heather;
+$btn-rounded-category-text-color: $black-rock;
+$btn-rounded-text-color: $black-rock;
+$btn-rounded-disabled: $black-rock;
+$btn-rounded-hover: $heather;
+// $disabled-bg: $disabled-background;
+// $btn-disabled-color: $btn-link-disabled-color;
 
 $btn-focus-width: $input-btn-focus-width !default;
 $btn-focus-box-shadow: $input-btn-focus-box-shadow !default;

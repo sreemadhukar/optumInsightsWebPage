@@ -46,19 +46,19 @@
 //
 
 .rounded {
-  border-radius: $border-radius !important;
+  border-radius: $border-radius-rounded !important;
 }
 .rounded-top {
-  border-top-left-radius: $border-radius !important;
-  border-top-right-radius: $border-radius !important;
+  border-top-left-radius: $border-radius-rounded !important;
+  border-top-right-radius: $border-radius-rounded !important;
 }
 .rounded-right {
-  border-top-right-radius: $border-radius !important;
-  border-bottom-right-radius: $border-radius !important;
+  border-top-right-radius: $border-radius-rounded !important;
+  border-bottom-right-radius: $border-radius-rounded !important;
 }
 .rounded-bottom {
-  border-bottom-right-radius: $border-radius !important;
-  border-bottom-left-radius: $border-radius !important;
+  border-bottom-right-radius: $border-radius-rounded !important;
+  border-bottom-left-radius: $border-radius-rounded !important;
 }
 .rounded-left {
   border-top-left-radius: $border-radius !important;
