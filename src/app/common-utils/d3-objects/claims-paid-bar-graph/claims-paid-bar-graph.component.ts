@@ -146,7 +146,7 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit {
       .remove();
 
     // make sure to verify height if something looks off
-    const margin = { top: 10, right: 10, bottom: 10, left: 10 };
+    const margin = { top: 10, right: 10, bottom: 10, left: 0 };
     const width = preWidth - margin.left - margin.right;
     const height = preHeight - margin.top - margin.bottom;
 
@@ -160,7 +160,7 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit {
 
     chart
       .append('text')
-      .attr('x', 22)
+      .attr('x', 32)
       .attr('y', 100)
       .attr('fill', '#2D2D39')
       .attr('font-size', '16')
@@ -182,7 +182,7 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit {
 
     chart
       .append('text')
-      .attr('x', 22)
+      .attr('x', 32)
       .attr('y', 180)
       .attr('fill', '#2D2D39')
       .attr('font-size', '16')
@@ -204,7 +204,7 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit {
 
     chart
       .append('text')
-      .attr('x', 22)
+      .attr('x', 32)
       .attr('y', 230)
       .attr('fill', '#2D2D39')
       .attr('font-size', '16')
@@ -226,7 +226,7 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit {
 
     chart
       .append('text')
-      .attr('x', 22)
+      .attr('x', 32)
       .attr('y', 310)
       .attr('fill', '#2D2D39')
       .attr('font-size', '16')
@@ -325,7 +325,7 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit {
       .selectAll('text')
       .attr('y', '305')
       .attr('fill', '#2D2D39')
-      .attr('font-size', '16')
+      .attr('font-size', '14')
       .attr('font-family', 'UHCSans-Regular')
       .attr('font-weight', '600');
 
