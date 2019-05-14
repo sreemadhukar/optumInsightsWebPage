@@ -372,7 +372,7 @@ export class OverviewSharedService {
             title: 'Claims Paid',
             data: {
               graphValues: [mrPercentage, csPercentage, eiPercentage],
-              centerNumber: '$' + this.common.nFormatter(claims.All.ClaimsLobSummary[0].AmountUHCPaid),
+              centerNumber: '$' + this.common.nFormatter(claims.All.ClaimsLobSummary[0].ClaimsPaid),
               color: ['#3381FF', '#80B0FF', '#003DA1'],
               gdata: ['card-inner', 'claimsPaidCardD3Donut']
             },
