@@ -20,6 +20,7 @@ import { MatExpansionPanel } from '@angular/material';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
+import { Router, NavigationStart } from '@angular/router';
 import { ThemeService } from '../../shared/theme.service';
 import { Observable } from 'rxjs';
 @Component({
@@ -63,9 +64,27 @@ export class HeaderComponent implements OnInit {
     private renderer: Renderer2,
     private iconRegistry: MatIconRegistry,
     sanitizer: DomSanitizer,
-    private themeService: ThemeService
+    private themeService: ThemeService,
+    private router: Router
   ) {
-    this.mobileQuery = this.breakpointObserver.isMatched('(max-width: 1024px)');
+    // this.mobileQuery = this.breakpointObserver.isMatched('(max-width: 1024px)');
+    router.events.subscribe(event => {
+      if (event instanceof NavigationStart) {
+        this.mobileQuery = this.breakpointObserver.isMatched('(max-width: 1279px)');
+        // alert(this.mobileQuery);
+        if (!this.mobileQuery) {
+          this.sideNavFlag = true;
+          this.menuIcon = 'cross';
+          this.hamburgerDisplay.emit(this.sideNavFlag);
+        } else {
+          this.sideNavFlag = false;
+          this.menuIcon = 'menu';
+          this.hamburgerDisplay.emit(this.sideNavFlag);
+        }
+      }
+      // PLEASE DON'T MODIFY THIS
+    });
+
     iconRegistry.addSvgIcon(
       'person',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Content/round-person-24px.svg')
@@ -97,7 +116,8 @@ export class HeaderComponent implements OnInit {
   sidenav() {
     this.sideNavFlag = !this.sideNavFlag;
     this.hamburgerDisplay.emit(this.sideNavFlag);
-    if (!this.sideNavFlag) {
+    // alert(this.sideNavFlag);
+    if (this.sideNavFlag) {
       this.menuIcon = 'cross';
     } else {
       this.menuIcon = 'menu';
@@ -107,11 +127,12 @@ export class HeaderComponent implements OnInit {
   @HostListener('window:resize', ['$event'])
   onResize() {
     this.mobileQuery = this.breakpointObserver.isMatched('(max-width: 1279px)');
+    // alert(this.mobileQuery);
     if (!this.mobileQuery) {
-      this.sideNavFlag = false;
+      this.sideNavFlag = true;
       this.hamburgerDisplay.emit(this.sideNavFlag);
     } else {
-      this.sideNavFlag = true;
+      this.sideNavFlag = false;
       this.menuIcon = 'menu';
       this.hamburgerDisplay.emit(this.sideNavFlag);
     }
