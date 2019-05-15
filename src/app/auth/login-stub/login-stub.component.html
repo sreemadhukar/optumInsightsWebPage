@@ -1,9 +1,9 @@
 <div class="page-overlay">
-  <div class="container">
+  <div class="container" *ngIf="!blankScreen">
     <header>
       <div class="header-div">
         <div class="header-logo-div">
-          <a href="/">
+          <a routerLink="/">
             <img class="Uhc-logo" src="/src/assets/images/UHC Logo@2x.png" alt="UHC Logo" />
           </a>
         </div>
@@ -12,20 +12,38 @@
         <div>Enterprise Secure Sign In</div>
       </div>
     </header>
+    <div class="header">
+      <div class="notifier">Welcome to UHC Insights (Internal)</div>
+      <div class="content">
+        UHC Insights is a data service available to Health Care Providers that shows real-time statistics, trends and
+        other information about Claims, Claims Appeals, Prior Authorizations, Patient Care Opportunities (PCOR),
+        Self-Service, Issue Resolution and more. The internal version allows UnitedHealth Group employees to view the
+        data of any provider that has been added to the system.
+      </div>
+      <div class="system-error" *ngIf="error">
+        <mat-icon svgIcon="error"></mat-icon>
+        <div>
+          Please check your MS ID/Password and try again.
+        </div>
+      </div>
+    </div>
+
     <div class="body">
       <div class="left-body">
         <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
           <header>Sign in</header>
           <div class="form-group">
-            <label for="username">MS ID</label>
+            <label for="username">MS ID (example: asmith1)</label>
             <input
               type="text"
               id="username"
               formControlName="username"
               [ngClass]="{ 'is-invalid': submitted && f.username.errors }"
+              (keypress)="valueUpdated()"
             />
+            <mat-icon class="input-icon" *ngIf="submitted && f.username.errors" svgIcon="error"></mat-icon>
             <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
-              <div *ngIf="f.username.errors.required">Username is required</div>
+              <div *ngIf="f.username.errors.required">Enter alphaanumeric MS ID.</div>
             </div>
           </div>
           <div class="form-group">
@@ -35,9 +53,11 @@
               id="password"
               formControlName="password"
               [ngClass]="{ 'is-invalid': submitted && f.password.errors }"
+              (keypress)="valueUpdated()"
             />
+            <mat-icon class="input-icon" *ngIf="submitted && f.password.errors" svgIcon="error"></mat-icon>
             <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
-              <div *ngIf="f.password.errors.required">Password is required</div>
+              <div *ngIf="f.password.errors.required">Password is Required.</div>
             </div>
           </div>
           <div class="form-group">
@@ -50,12 +70,12 @@
         </form>
       </div>
       <div class="right-body">
-        <h2 class="message">
+        <h2 class="message head">
           Need help signing in?
         </h2>
         <p class="message">
-          <span class="ownLine">Call the IT Help Desk at:</span>
-          <span class="contactlink ownLine">
+          <span>Call the IT Help Desk at:</span>
+          <span class="contactlink">
             <a href="tel:+18888483375" aria-label="North &amp; South America phone number - 1-888-848-3375"
               >1-888-848-3375</a
             >
@@ -81,4 +101,5 @@
       <span class="ownLine">© 2019 UnitedHealth Group</span>
     </footer>
   </div>
+  <app-uhc-loader *ngIf="loading"></app-uhc-loader>
 </div>

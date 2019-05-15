@@ -1,7 +1,21 @@
-<p class="breadcrumb-top-padding">
-  <app-breadcrumbs></app-breadcrumbs>
-</p>
-
-<p>
-  payments works!
-</p>
+<app-feedback></app-feedback>
+<div class="payments-body">
+  <div class="payments-content">
+    <div class="cards cust-width-title">
+      <app-breadcrumbs></app-breadcrumbs>
+      <div class="page-title">{{ pageTitle }}</div>
+      <app-mock-data-warning-message></app-mock-data-warning-message>
+    </div>
+    <div *ngFor="let item of payments">
+      <app-card *ngIf="item.data != null" class="cards" [chartData]="item"> </app-card>
+      <app-error-card *ngIf="item.status != null" class="cards" [data]="item"></app-error-card>
+    </div>
+    <div class="claims-paid-content">
+      <app-common-header [title]="title" class="claims-header"></app-common-header>
+      <app-claims-paid-bar-graph></app-claims-paid-bar-graph>
+      <div class="timeperiod-block">
+        <p class="timeperiod-text">{{ claimsPaidTimePeriod }}</p>
+      </div>
+    </div>
+  </div>
+</div>

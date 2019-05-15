@@ -39,8 +39,9 @@ export class GettingReimbursedSharedService {
       let claimsPaidRate: object;
       let strtDate: string;
       let endDate: string;
-      if (this.timeFrame === 'Rolling 12 Months' || this.timeFrame === 'Year To Date') {
-        if (this.timeFrame === 'Rolling 12 Months') {
+      if (this.timeFrame === 'Last 12 Months' || this.timeFrame === 'Year To Date') {
+        if (this.timeFrame === 'Last 12 Months') {
+          this.timeFrame = 'Last 6 Months';
           parameters = [this.providerKey, true];
           if (this.tin !== 'All') {
             parameters = [this.providerKey, true, false, this.tin];
@@ -54,7 +55,7 @@ export class GettingReimbursedSharedService {
         this.gettingReimbursedService.getGettingReimbursedData(...parameters).subscribe(([claimsData, appealsData]) => {
           const lobFullData = this.common.matchFullLobWithData(this.lob);
           const lobData = this.common.matchLobWithData(this.lob);
-          if (claimsData.hasOwnProperty('status')) {
+          if (claimsData != null && claimsData.hasOwnProperty('status')) {
             claimsSubmitted = {
               category: 'app-card',
               type: 'donutWithLabel',
@@ -109,14 +110,15 @@ export class GettingReimbursedSharedService {
               data: null,
               timeperiod: null
             };
-          } else {
+          } else if (claimsData != null) {
             if (
               claimsData.hasOwnProperty(lobData) &&
+              claimsData[lobData] != null &&
               claimsData[lobData].hasOwnProperty('ClaimsLobSummary') &&
               claimsData[lobData].ClaimsLobSummary.length &&
-              claimsData[lobData].ClaimsLobSummary[0].ClaimsPaid &&
-              claimsData[lobData].ClaimsLobSummary[0].ClaimsDenied &&
-              claimsData[lobData].ClaimsLobSummary[0].ClaimsSubmitted
+              claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('ClaimsPaid') &&
+              claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('ClaimsDenied') &&
+              claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('ClaimsSubmitted')
             ) {
               claimsSubmitted = {
                 category: 'app-card',
@@ -141,27 +143,6 @@ export class GettingReimbursedSharedService {
                 },
                 timeperiod: this.timeFrame
               };
-              claimsTAT = {
-                category: 'app-card',
-                type: 'rotateWithLabel',
-                title: 'Claims Average Turnaround Time to Payment',
-                data: {
-                  centerNumber: '24 Days',
-                  color: ['#3381FF', '#3381FF'],
-                  gdata: ['card-inner', 'claimsAverageTurnAround'],
-                  sdata: {
-                    sign: 'down',
-                    data: '-1.2%'
-                  }
-                },
-                besideData: {
-                  verticalData: [
-                    { values: '6 Days', labels: 'DOS to Received' },
-                    { values: '18 Days', labels: 'Received to Paid' }
-                  ]
-                },
-                timeperiod: this.timeFrame
-              };
             } else {
               claimsSubmitted = {
                 category: 'app-card',
@@ -171,12 +152,22 @@ export class GettingReimbursedSharedService {
                 besideData: null,
                 timeperiod: this.timeFrame
               };
+            }
+            if (
+              claimsData.hasOwnProperty(lobData) &&
+              claimsData[lobData] != null &&
+              claimsData[lobData].hasOwnProperty('ClaimsLobSummary') &&
+              claimsData[lobData].ClaimsLobSummary.length &&
+              claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('ClaimsAvgTat') &&
+              claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('DosToReceived') &&
+              claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('ReceivedToPaid')
+            ) {
               claimsTAT = {
                 category: 'app-card',
                 type: 'rotateWithLabel',
                 title: 'Claims Average Turnaround Time to Payment',
                 data: {
-                  centerNumber: '24 Days',
+                  centerNumber: claimsData[lobData].ClaimsLobSummary[0].ClaimsAvgTat,
                   color: ['#3381FF', '#3381FF'],
                   gdata: ['card-inner', 'claimsAverageTurnAround'],
                   sdata: {
@@ -186,30 +177,40 @@ export class GettingReimbursedSharedService {
                 },
                 besideData: {
                   verticalData: [
-                    { values: '6 Days', labels: 'DOS to Received' },
-                    { values: '18 Days', labels: 'Received to Paid' }
+                    { values: claimsData[lobData].ClaimsLobSummary[0].DosToReceived, labels: 'DOS to Received' },
+                    { values: claimsData[lobData].ClaimsLobSummary[0].ReceivedToPaid, labels: 'Received to Paid' }
                   ]
                 },
+                timeperiod: this.timeFrame
+              };
+            } else {
+              claimsTAT = {
+                category: 'app-card',
+                type: 'rotateWithLabel',
+                title: 'Claims Average Turnaround Time to Payment',
+                data: null,
+                besideData: null,
                 timeperiod: this.timeFrame
               };
             }
             if (
               claimsData.hasOwnProperty(lobData) &&
+              claimsData[lobData] != null &&
               claimsData[lobData].hasOwnProperty('ClaimsLobSummary') &&
               claimsData[lobData].ClaimsLobSummary.length &&
-              claimsData[lobData].ClaimsLobSummary[0].ClaimsPaid &&
+              claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('ClaimsPaid') &&
               claimsData.hasOwnProperty('Cs') &&
               claimsData.Cs.hasOwnProperty('ClaimsLobSummary') &&
               claimsData.Cs.ClaimsLobSummary.length &&
-              claimsData.Cs.ClaimsLobSummary[0].ClaimsPaid &&
+              claimsData.Cs.ClaimsLobSummary[0].hasOwnProperty('ClaimsPaid') &&
               claimsData.hasOwnProperty('Ei') &&
               claimsData.Ei.hasOwnProperty('ClaimsLobSummary') &&
               claimsData.Ei.ClaimsLobSummary.length &&
-              claimsData.Ei.ClaimsLobSummary[0].ClaimsPaid &&
+              claimsData.Ei.ClaimsLobSummary[0].hasOwnProperty('ClaimsPaid') &&
               claimsData.hasOwnProperty('Mr') &&
               claimsData.Mr.hasOwnProperty('ClaimsLobSummary') &&
               claimsData.Mr.ClaimsLobSummary.length &&
-              claimsData.Mr.ClaimsLobSummary[0].ClaimsPaid
+              claimsData.Mr.ClaimsLobSummary[0].hasOwnProperty('ClaimsPaid')
             ) {
               const paidData = [
                 claimsData.Mr.ClaimsLobSummary[0].ClaimsPaid,
@@ -222,7 +223,7 @@ export class GettingReimbursedSharedService {
                 title: 'Claims Paid',
                 data: {
                   graphValues: paidData,
-                  centerNumber: this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].ClaimsPaid),
+                  centerNumber: '$' + this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].ClaimsPaid),
                   color: ['#3381FF', '#80B0FF', '#003DA1'],
                   gdata: ['card-inner', 'claimsPaid'],
                   sdata: {
@@ -249,21 +250,22 @@ export class GettingReimbursedSharedService {
             }
             if (
               claimsData.hasOwnProperty(lobData) &&
+              claimsData[lobData] != null &&
               claimsData[lobData].hasOwnProperty('ClaimsLobSummary') &&
               claimsData[lobData].ClaimsLobSummary.length &&
               claimsData[lobData].ClaimsLobSummary[0].ClaimsDenied &&
               claimsData.hasOwnProperty('Cs') &&
               claimsData.Cs.hasOwnProperty('ClaimsLobSummary') &&
               claimsData.Cs.ClaimsLobSummary.length &&
-              claimsData.Cs.ClaimsLobSummary[0].ClaimsDenied &&
+              claimsData.Cs.ClaimsLobSummary[0].hasOwnProperty('ClaimsDenied') &&
               claimsData.hasOwnProperty('Ei') &&
               claimsData.Ei.hasOwnProperty('ClaimsLobSummary') &&
               claimsData.Ei.ClaimsLobSummary.length &&
-              claimsData.Ei.ClaimsLobSummary[0].ClaimsDenied &&
+              claimsData.Ei.ClaimsLobSummary[0].hasOwnProperty('ClaimsDenied') &&
               claimsData.hasOwnProperty('Mr') &&
               claimsData.Mr.hasOwnProperty('ClaimsLobSummary') &&
               claimsData.Mr.ClaimsLobSummary.length &&
-              claimsData.Mr.ClaimsLobSummary[0].ClaimsDenied
+              claimsData.Mr.ClaimsLobSummary[0].hasOwnProperty('ClaimsDenied')
             ) {
               const nonPaidData = [
                 claimsData.Mr.ClaimsLobSummary[0].ClaimsDenied,
@@ -276,7 +278,7 @@ export class GettingReimbursedSharedService {
                 title: 'Claims Not Paid',
                 data: {
                   graphValues: nonPaidData,
-                  centerNumber: this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].ClaimsDenied),
+                  centerNumber: '$' + this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].ClaimsDenied),
                   color: ['#3381FF', '#80B0FF', '#003DA1'],
                   gdata: ['card-inner', 'claimsNotPaid'],
                   sdata: {
@@ -303,23 +305,23 @@ export class GettingReimbursedSharedService {
             }
             if (
               claimsData.hasOwnProperty(lobData) &&
+              claimsData[lobData] != null &&
               claimsData[lobData].hasOwnProperty('ClaimsLobSummary') &&
               claimsData[lobData].ClaimsLobSummary.length &&
-              claimsData[lobData].ClaimsLobSummary[0].AmountActualAllowed &&
-              claimsData[lobData].ClaimsLobSummary[0].AmountExpectedAllowed
+              claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('ClaimsYieldRate') &&
+              claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('ClaimsNonPaymentRate')
             ) {
-              const actualAllowed = parseFloat(claimsData[lobData].ClaimsLobSummary[0].AmountActualAllowed);
-              const expectedAllowed = parseFloat(claimsData[lobData].ClaimsLobSummary[0].AmountExpectedAllowed);
-              const yieldRate = ((actualAllowed / expectedAllowed) * 100).toFixed();
-              const denialRate = 100 - parseFloat(yieldRate);
               claimsNotPaidRate = {
                 category: 'app-card',
                 type: 'donut',
                 title: 'Claims Non-Payment Rate',
                 data: {
-                  graphValues: [denialRate, yieldRate],
-                  centerNumber: denialRate + '%',
-                  color: ['#3381FF', '#F5F5F5'],
+                  graphValues: [
+                    claimsData[lobData].ClaimsLobSummary[0].ClaimsNonPaymentRate,
+                    claimsData[lobData].ClaimsLobSummary[0].ClaimsYieldRate
+                  ],
+                  centerNumber: claimsData[lobData].ClaimsLobSummary[0].ClaimsNonPaymentRate + '%',
+                  color: ['#3381FF', '#D7DCE1'],
                   gdata: ['card-inner', 'claimsNonPaymentRate'],
                   sdata: {
                     sign: 'up',
@@ -333,9 +335,12 @@ export class GettingReimbursedSharedService {
                 type: 'donut',
                 title: 'Claims Yield',
                 data: {
-                  graphValues: [yieldRate, denialRate],
-                  centerNumber: yieldRate + '%',
-                  color: ['#3381FF', '#F5F5F5'],
+                  graphValues: [
+                    claimsData[lobData].ClaimsLobSummary[0].ClaimsYieldRate,
+                    claimsData[lobData].ClaimsLobSummary[0].ClaimsNonPaymentRate
+                  ],
+                  centerNumber: claimsData[lobData].ClaimsLobSummary[0].ClaimsYieldRate + '%',
+                  color: ['#3381FF', '#D7DCE1'],
                   gdata: ['card-inner', 'claimsYield'],
                   sdata: {
                     sign: 'up',
@@ -361,7 +366,7 @@ export class GettingReimbursedSharedService {
               };
             }
           }
-          if (appealsData.hasOwnProperty('status')) {
+          if (appealsData != null && appealsData.hasOwnProperty('status')) {
             appealsSubmitted = {
               category: 'app-card',
               type: 'donutWithLabelBottom',
@@ -380,7 +385,7 @@ export class GettingReimbursedSharedService {
               data: null,
               timeperiod: null
             };
-          } else {
+          } else if (appealsData != null) {
             if (
               appealsData.hasOwnProperty('LineOfBusiness') &&
               appealsData.LineOfBusiness.hasOwnProperty(lobFullData) &&
@@ -410,9 +415,10 @@ export class GettingReimbursedSharedService {
                 title: 'Claims Appeals Submitted',
                 data: {
                   graphValues: submittedData,
-                  centerNumber:
+                  centerNumber: this.common.nFormatter(
                     appealsData.LineOfBusiness[lobFullData].AdminAppeals +
-                    appealsData.LineOfBusiness[lobFullData].ClinicalAppeals,
+                      appealsData.LineOfBusiness[lobFullData].ClinicalAppeals
+                  ),
                   color: ['#3381FF', '#80B0FF', '#003DA1'],
                   gdata: ['card-inner', 'claimsAppealSubmitted'],
                   sdata: {
@@ -459,7 +465,7 @@ export class GettingReimbursedSharedService {
                 data: {
                   graphValues: overturnedData,
                   centerNumber: appealsData.LineOfBusiness[lobFullData].OverTurnCount,
-                  color: ['#3381FF', '#F5F5F5'],
+                  color: ['#3381FF', '#D7DCE1'],
                   gdata: ['card-inner', 'claimsAppealOverturned'],
                   sdata: {
                     sign: 'up',
@@ -511,7 +517,7 @@ export class GettingReimbursedSharedService {
           .subscribe(([claimsData, appealsData]) => {
             const lobFullData = this.common.matchFullLobWithData(this.lob);
             const lobData = this.common.matchLobWithData(this.lob);
-            if (claimsData.hasOwnProperty('status')) {
+            if (claimsData != null && claimsData.hasOwnProperty('status')) {
               claimsSubmitted = {
                 category: 'app-card',
                 type: 'donutWithLabel',
@@ -566,14 +572,15 @@ export class GettingReimbursedSharedService {
                 data: null,
                 timeperiod: null
               };
-            } else {
+            } else if (claimsData != null) {
               if (
                 claimsData.hasOwnProperty(lobData) &&
+                claimsData[lobData] != null &&
                 claimsData[lobData].hasOwnProperty('ClaimsLobSummary') &&
                 claimsData[lobData].ClaimsLobSummary.length &&
-                claimsData[lobData].ClaimsLobSummary[0].ClaimsPaid &&
-                claimsData[lobData].ClaimsLobSummary[0].ClaimsDenied &&
-                claimsData[lobData].ClaimsLobSummary[0].ClaimsSubmitted
+                claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('ClaimsPaid') &&
+                claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('ClaimsDenied') &&
+                claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('ClaimsSubmitted')
               ) {
                 claimsSubmitted = {
                   category: 'app-card',
@@ -598,27 +605,6 @@ export class GettingReimbursedSharedService {
                   },
                   timeperiod: this.timeFrame
                 };
-                claimsTAT = {
-                  category: 'app-card',
-                  type: 'rotateWithLabel',
-                  title: 'Claims Average Turnaround Time to Payment',
-                  data: {
-                    centerNumber: '24 Days',
-                    color: ['#3381FF', '#3381FF'],
-                    gdata: ['card-inner', 'claimsTurnaroundTime'],
-                    sdata: {
-                      sign: 'down',
-                      data: '-1.2%'
-                    }
-                  },
-                  besideData: {
-                    verticalData: [
-                      { values: '6 Days', labels: 'DOS to Received' },
-                      { values: '18 Days', labels: 'Received to Paid' }
-                    ]
-                  },
-                  timeperiod: this.timeFrame
-                };
               } else {
                 claimsSubmitted = {
                   category: 'app-card',
@@ -628,14 +614,24 @@ export class GettingReimbursedSharedService {
                   besideData: null,
                   timeperiod: this.timeFrame
                 };
+              }
+              if (
+                claimsData.hasOwnProperty(lobData) &&
+                claimsData[lobData] != null &&
+                claimsData[lobData].hasOwnProperty('ClaimsLobSummary') &&
+                claimsData[lobData].ClaimsLobSummary.length &&
+                claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('ClaimsAvgTat') &&
+                claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('DosToReceived') &&
+                claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('ReceivedToPaid')
+              ) {
                 claimsTAT = {
                   category: 'app-card',
                   type: 'rotateWithLabel',
                   title: 'Claims Average Turnaround Time to Payment',
                   data: {
-                    centerNumber: '24 Days',
+                    centerNumber: claimsData[lobData].ClaimsLobSummary[0].ClaimsAvgTat,
                     color: ['#3381FF', '#3381FF'],
-                    gdata: ['card-inner', 'claimsTurnaroundTime'],
+                    gdata: ['card-inner', 'claimsAverageTurnAround'],
                     sdata: {
                       sign: 'down',
                       data: '-1.2%'
@@ -643,30 +639,40 @@ export class GettingReimbursedSharedService {
                   },
                   besideData: {
                     verticalData: [
-                      { values: '6 Days', labels: 'DOS to Received' },
-                      { values: '18 Days', labels: 'Received to Paid' }
+                      { values: claimsData[lobData].ClaimsLobSummary[0].DosToReceived, labels: 'DOS to Received' },
+                      { values: claimsData[lobData].ClaimsLobSummary[0].ReceivedToPaid, labels: 'Received to Paid' }
                     ]
                   },
+                  timeperiod: this.timeFrame
+                };
+              } else {
+                claimsTAT = {
+                  category: 'app-card',
+                  type: 'rotateWithLabel',
+                  title: 'Claims Average Turnaround Time to Payment',
+                  data: null,
+                  besideData: null,
                   timeperiod: this.timeFrame
                 };
               }
               if (
                 claimsData.hasOwnProperty(lobData) &&
+                claimsData[lobData] != null &&
                 claimsData[lobData].hasOwnProperty('ClaimsLobSummary') &&
                 claimsData[lobData].ClaimsLobSummary.length &&
-                claimsData[lobData].ClaimsLobSummary[0].ClaimsPaid &&
+                claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('ClaimsPaid') &&
                 claimsData.hasOwnProperty('Cs') &&
                 claimsData.Cs.hasOwnProperty('ClaimsLobSummary') &&
                 claimsData.Cs.ClaimsLobSummary.length &&
-                claimsData.Cs.ClaimsLobSummary[0].ClaimsPaid &&
+                claimsData.Cs.ClaimsLobSummary[0].hasOwnProperty('ClaimsPaid') &&
                 claimsData.hasOwnProperty('Ei') &&
                 claimsData.Ei.hasOwnProperty('ClaimsLobSummary') &&
                 claimsData.Ei.ClaimsLobSummary.length &&
-                claimsData.Ei.ClaimsLobSummary[0].ClaimsPaid &&
+                claimsData.Ei.ClaimsLobSummary[0].hasOwnProperty('ClaimsPaid') &&
                 claimsData.hasOwnProperty('Mr') &&
                 claimsData.Mr.hasOwnProperty('ClaimsLobSummary') &&
                 claimsData.Mr.ClaimsLobSummary.length &&
-                claimsData.Mr.ClaimsLobSummary[0].ClaimsPaid
+                claimsData.Mr.ClaimsLobSummary[0].hasOwnProperty('ClaimsPaid')
               ) {
                 const paidData = [
                   claimsData.Mr.ClaimsLobSummary[0].ClaimsPaid,
@@ -679,7 +685,7 @@ export class GettingReimbursedSharedService {
                   title: 'Claims Paid',
                   data: {
                     graphValues: paidData,
-                    centerNumber: this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].ClaimsPaid),
+                    centerNumber: '$' + this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].ClaimsPaid),
                     color: ['#3381FF', '#80B0FF', '#003DA1'],
                     gdata: ['card-inner', 'claimsPaid'],
                     sdata: {
@@ -706,21 +712,22 @@ export class GettingReimbursedSharedService {
               }
               if (
                 claimsData.hasOwnProperty(lobData) &&
+                claimsData[lobData] != null &&
                 claimsData[lobData].hasOwnProperty('ClaimsLobSummary') &&
                 claimsData[lobData].ClaimsLobSummary.length &&
                 claimsData[lobData].ClaimsLobSummary[0].ClaimsDenied &&
                 claimsData.hasOwnProperty('Cs') &&
                 claimsData.Cs.hasOwnProperty('ClaimsLobSummary') &&
                 claimsData.Cs.ClaimsLobSummary.length &&
-                claimsData.Cs.ClaimsLobSummary[0].ClaimsDenied &&
+                claimsData.Cs.ClaimsLobSummary[0].hasOwnProperty('ClaimsDenied') &&
                 claimsData.hasOwnProperty('Ei') &&
                 claimsData.Ei.hasOwnProperty('ClaimsLobSummary') &&
                 claimsData.Ei.ClaimsLobSummary.length &&
-                claimsData.Ei.ClaimsLobSummary[0].ClaimsDenied &&
+                claimsData.Ei.ClaimsLobSummary[0].hasOwnProperty('ClaimsDenied') &&
                 claimsData.hasOwnProperty('Mr') &&
                 claimsData.Mr.hasOwnProperty('ClaimsLobSummary') &&
                 claimsData.Mr.ClaimsLobSummary.length &&
-                claimsData.Mr.ClaimsLobSummary[0].ClaimsDenied
+                claimsData.Mr.ClaimsLobSummary[0].hasOwnProperty('ClaimsDenied')
               ) {
                 const nonPaidData = [
                   claimsData.Mr.ClaimsLobSummary[0].ClaimsDenied,
@@ -733,7 +740,7 @@ export class GettingReimbursedSharedService {
                   title: 'Claims Not Paid',
                   data: {
                     graphValues: nonPaidData,
-                    centerNumber: this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].ClaimsDenied),
+                    centerNumber: '$' + this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].ClaimsDenied),
                     color: ['#3381FF', '#80B0FF', '#003DA1'],
                     gdata: ['card-inner', 'claimsNotPaid'],
                     sdata: {
@@ -760,23 +767,23 @@ export class GettingReimbursedSharedService {
               }
               if (
                 claimsData.hasOwnProperty(lobData) &&
+                claimsData[lobData] != null &&
                 claimsData[lobData].hasOwnProperty('ClaimsLobSummary') &&
                 claimsData[lobData].ClaimsLobSummary.length &&
-                claimsData[lobData].ClaimsLobSummary[0].AmountActualAllowed &&
-                claimsData[lobData].ClaimsLobSummary[0].AmountExpectedAllowed
+                claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('ClaimsYieldRate') &&
+                claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('ClaimsNonPaymentRate')
               ) {
-                const actualAllowed = parseFloat(claimsData[lobData].ClaimsLobSummary[0].AmountActualAllowed);
-                const expectedAllowed = parseFloat(claimsData[lobData].ClaimsLobSummary[0].AmountExpectedAllowed);
-                const yieldRate = ((actualAllowed / expectedAllowed) * 100).toFixed();
-                const denialRate = 100 - parseFloat(yieldRate);
                 claimsNotPaidRate = {
                   category: 'app-card',
                   type: 'donut',
                   title: 'Claims Non-Payment Rate',
                   data: {
-                    graphValues: [denialRate, yieldRate],
-                    centerNumber: denialRate + '%',
-                    color: ['#3381FF', '#F5F5F5'],
+                    graphValues: [
+                      claimsData[lobData].ClaimsLobSummary[0].ClaimsNonPaymentRate,
+                      claimsData[lobData].ClaimsLobSummary[0].ClaimsYieldRate
+                    ],
+                    centerNumber: claimsData[lobData].ClaimsLobSummary[0].ClaimsNonPaymentRate + '%',
+                    color: ['#3381FF', '#D7DCE1'],
                     gdata: ['card-inner', 'claimsNonPaymentRate'],
                     sdata: {
                       sign: 'up',
@@ -790,9 +797,12 @@ export class GettingReimbursedSharedService {
                   type: 'donut',
                   title: 'Claims Yield',
                   data: {
-                    graphValues: [yieldRate, denialRate],
-                    centerNumber: yieldRate + '%',
-                    color: ['#3381FF', '#F5F5F5'],
+                    graphValues: [
+                      claimsData[lobData].ClaimsLobSummary[0].ClaimsYieldRate,
+                      claimsData[lobData].ClaimsLobSummary[0].ClaimsNonPaymentRate
+                    ],
+                    centerNumber: claimsData[lobData].ClaimsLobSummary[0].ClaimsYieldRate + '%',
+                    color: ['#3381FF', '#D7DCE1'],
                     gdata: ['card-inner', 'claimsYield'],
                     sdata: {
                       sign: 'up',
@@ -818,7 +828,7 @@ export class GettingReimbursedSharedService {
                 };
               }
             }
-            if (appealsData.hasOwnProperty('status')) {
+            if (appealsData != null && appealsData.hasOwnProperty('status')) {
               appealsSubmitted = {
                 category: 'app-card',
                 type: 'donutWithLabelBottom',
@@ -837,7 +847,7 @@ export class GettingReimbursedSharedService {
                 data: null,
                 timeperiod: null
               };
-            } else {
+            } else if (appealsData != null) {
               if (
                 appealsData.hasOwnProperty('LineOfBusiness') &&
                 appealsData.LineOfBusiness.hasOwnProperty(lobFullData) &&
@@ -916,7 +926,7 @@ export class GettingReimbursedSharedService {
                   data: {
                     graphValues: overturnedData,
                     centerNumber: appealsData.LineOfBusiness[lobFullData].OverTurnCount,
-                    color: ['#3381FF', '#F5F5F5'],
+                    color: ['#3381FF', '#D7DCE1'],
                     gdata: ['card-inner', 'claimsAppealOverturned'],
                     sdata: {
                       sign: 'up',

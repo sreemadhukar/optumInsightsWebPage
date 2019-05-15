@@ -24,13 +24,30 @@ Date Created: 17-Apr-2019
             [donutType]="'app-card'"
             [chartOptions]="chartData.data"
             [class.total-claims-donut-with-label]="chartData.title == 'Total Claims Submitted'"
+            [class.pa-requested-donut-with-label]="chartData.title == 'Prior Authorization Requested'"
+            [class.pa-approval-rate-donut-with-label]="chartData.title == 'Prior Authorization Approval Rate'"
             [class.claims-paid-donut-with-label]="
               chartData.title == 'Claims Paid' || chartData.title == 'Claims Not Paid'
             "
           ></app-donut-chart>
         </div>
         <div
+          *ngIf="chartData.title == 'Prior Authorization Approval Rate'"
+          class="pa-approved-rate-vertical-data-block"
+        >
+          <ul>
+            <li *ngFor="let d of chartData.besideData.verticalData; let i = index">
+              <p class="donut-graph-title" *ngIf="d.title == 'Average Turnaround Time'">{{ d.title }}</p>
+              <p class="donut-graph-label-value">{{ d.values }}</p>
+              <p class="donut-graph-label">{{ d.labels }}</p>
+              <hr *ngIf="i + 1 < chartData.besideData.verticalData.length && d.values" class="pa-avg-tat-hr-line" />
+            </li>
+          </ul>
+        </div>
+        <div
           [class.total-claims-beside-data-block]="chartData.title == 'Total Claims Submitted'"
+          [class.pa-requested-beside-data-block]="chartData.title == 'Prior Authorization Requested'"
+          [class.pa-approval-rate-beside-data-block]="chartData.title == 'Prior Authorization Approval Rate'"
           [class.claims-paid-beside-data-block]="
             chartData.title == 'Claims Paid' || chartData.title == 'Claims Not Paid'
           "
@@ -119,8 +136,16 @@ Date Created: 17-Apr-2019
       </div>
 
       <!-- ONLY BARS -->
-      <div *ngIf="chartData.type == 'bar'">
-        <div>ONLY BARS</div>
+      <div *ngIf="chartData.type == 'small-bar-chart'">
+        <div class="small-bar-chart-struct">
+          <div class="small-bar-chart-value">{{ chartData.data.value }}</div>
+          <app-small-bar-chart
+            class="small-bar-chart-cust"
+            [height]="heightSmallBarChart"
+            [width]="widthSmallBarChart"
+            [chartOptions]="chartData.data"
+          ></app-small-bar-chart>
+        </div>
       </div>
     </div>
     <div *ngIf="chartData.timeperiod" class="full-width-block">

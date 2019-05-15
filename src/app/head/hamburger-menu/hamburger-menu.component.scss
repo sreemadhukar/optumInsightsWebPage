@@ -7,15 +7,17 @@
 @import '~src/scss/mixins';
 .example-container {
   background-color: #f1f4f7;
-  display: flex;
   flex-direction: column;
-  position: absolute;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
   top: 0;
   bottom: 0;
   left: 0;
   right: 0;
   max-width: 1610px;
   min-width: 1032px;
+  margin: 0 auto;
 }
 
 .example-is-mobile .example-toolbar {
@@ -63,32 +65,33 @@ app-header {
 
 .side-navigation {
   width: 256px;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
   //  background-color: $white;
 }
 
 .health-system-representation-block {
   @include padding(16px, 12px, 0px, 32px);
-  border-bottom: 1px solid $neutral-2;
+  border-bottom: 1px solid $gainsboro;
 }
 
 .representing-label {
-  color: $neutral-5;
+  color: $black-rock;
   font-family: 'UHCSans-Regular';
   font-size: 14px;
   font-weight: 500;
   letter-spacing: 0.2px;
   line-height: 18px;
-  margin: 0;
+  margin-top: 4px;
 }
 
 .health-system-name {
-  color: $neutral-5;
+  color: $black-rock;
   font-family: 'UHCSans-SemiBold';
   font-size: 16px;
   /*font-weight: 600;*/
   letter-spacing: 0.2px;
   line-height: 22px;
-  margin: 0px 0px 15px 0px;
+  margin: 4px 0 15px 0;
 }
 
 .change-provider {
@@ -112,33 +115,35 @@ app-header {
 
 .mat-expansion-panel-header {
   height: 25px !important;
-  padding: 8px 12px 8px 32px !important;
+  padding: 8px 16px 8px 10px !important;
   font-family: 'UHCSans-SemiBold';
   font-size: 16px;
   /*font-weight: 600;*/
   letter-spacing: 0.2px;
   line-height: 22px;
-  /*background: $body-link-blue;*/
+  /*background: $darker-alice-blue;*/
 }
 
 .signout-block {
-  padding: 24px 0px 0px 32px;
+  padding: 25px 0 0 33px;
 }
 
 .signout-label {
-  color: $neutral-4;
+  color: $strom-grey;
   font-family: 'UHCSans-SemiBold';
+
   font-size: 16px;
   /*font-weight: 600;*/
   letter-spacing: 0.2px;
   line-height: 22px;
-  margin: 0px;
+  margin: 0;
   cursor: pointer;
+  padding: 9px;
 }
 
 .firstNavCategory {
   margin-top: 15px !important;
-  color: $neutral-4 !important;
+  color: $strom-grey !important;
   font-family: 'UHCSans-SemiBold';
   font-size: 16px !important;
   /*font-weight: 600;*/
@@ -147,7 +152,7 @@ app-header {
   /*padding-left: 32px !important;*/
 }
 .mat-expansion-panel-header-title {
-  color: $neutral-4 !important;
+  color: $strom-grey !important;
 }
 
 .lastNavCategory {
@@ -156,13 +161,14 @@ app-header {
 
 .navCategoryItem {
   /*padding-left: 32px !important;*/
-  color: $neutral-4;
+  color: $strom-grey;
   font-family: 'UHCSans-SemiBold';
   font-size: 14px;
   /*font-weight: 600;*/
   letter-spacing: 0.2px;
-  margin-top: 18px !important;
+  margin-top: 4px !important;
   line-height: 18px;
+  margin-left: 30px !important;
 }
 
 .mat-expansion-panel-body {
@@ -171,7 +177,7 @@ app-header {
 
 .nav-mat-list-items {
   padding-bottom: 46px !important;
-  border-bottom: 1px solid $neutral-2;
+  border-bottom: 1px solid $gainsboro;
 }
 
 .nav-menu-icons {
@@ -185,8 +191,8 @@ app-header {
 }
 
 .nav-no-child-category {
-  padding: 8px 12px 8px 32px !important;
-  color: $neutral-4 !important;
+  padding: 9px 12px 9px 10px !important;
+  color: $strom-grey !important;
   font-size: 16px !important;
   font-weight: 600;
   letter-spacing: 0.2px;
@@ -194,7 +200,7 @@ app-header {
 }
 
 .nav-sub-category-items {
-  color: $neutral-4 !important;
+  color: $strom-grey !important;
   font-size: 14px !important;
   font-family: 'UHCSans-Regular';
   font-weight: 600;
@@ -207,7 +213,7 @@ app-header {
 }
 
 .nav-sub-category-items:hover {
-  background: $body-link-blue !important;
+  background: $darker-alice-blue !important;
   color: $blue !important;
 }
 
@@ -227,13 +233,13 @@ app-header {
 .mat-expansion-panel-header:hover,
 .signout-label:hover {
   color: $blue !important;
-  background: $body-link-blue !important;
+  background: $darker-alice-blue !important;
   .mat-expansion-indicator::after {
     color: $blue !important;
   }
 }
 .mat-nav-list .mat-list-item:focus {
-  background: $body-link-blue !important;
+  background: $darker-alice-blue !important;
 }
 .mat-expansion-panel {
   border-radius: 0px !important;
@@ -255,7 +261,7 @@ app-header {
 }
 
 .active-link {
-  background: $body-link-blue;
+  background: $darker-alice-blue;
   color: $blue !important;
 }
 

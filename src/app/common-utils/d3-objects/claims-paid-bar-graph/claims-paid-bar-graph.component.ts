@@ -136,7 +136,7 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit {
 
   doBarGraph(chartOptions: any, transition: number) {
     // might have to hard code class names for testing
-    const className = 'card-inner-large';
+    const className = 'claims-paid-content'; // 'card-inner-large'
     // this.chartOptions.gdata[0]
     //
     const preWidth = document.getElementsByClassName(className)[0].clientWidth;
@@ -146,7 +146,7 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit {
       .remove();
 
     // make sure to verify height if something looks off
-    const margin = { top: 10, right: 10, bottom: 10, left: 10 };
+    const margin = { top: 10, right: 10, bottom: 10, left: 0 };
     const width = preWidth - margin.left - margin.right;
     const height = preHeight - margin.top - margin.bottom;
 
@@ -160,88 +160,88 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit {
 
     chart
       .append('text')
-      .attr('x', 231)
+      .attr('x', 32)
       .attr('y', 100)
       .attr('fill', '#2D2D39')
       .attr('font-size', '16')
-      .style('text-anchor', 'end')
+      .style('text-anchor', 'start')
       .style('font-family', 'UHCSans-Regular')
       .style('font-weight', '500')
       .text('Total Billed');
 
     chart
       .append('text')
-      .attr('x', 281)
+      .attr('x', 370)
       .attr('y', 100)
       .attr('fill', '#2D2D39')
       .attr('font-size', '22')
-      .style('text-anchor', 'start')
+      .style('text-anchor', 'end')
       .style('font-family', 'UHCSans-Regular')
       .style('font-weight', '600')
-      .text('$856M');
+      .text('$800M');
 
     chart
       .append('text')
-      .attr('x', 231)
+      .attr('x', 32)
       .attr('y', 180)
       .attr('fill', '#2D2D39')
       .attr('font-size', '16')
-      .style('text-anchor', 'end')
+      .style('text-anchor', 'start')
       .style('font-family', 'UHCSans-Regular')
       .style('font-weight', '500')
       .text('Actual Allowed*');
 
     chart
       .append('text')
-      .attr('x', 281)
+      .attr('x', 370)
       .attr('y', 180)
       .attr('fill', '#2D2D39')
       .attr('font-size', '22')
-      .style('text-anchor', 'start')
+      .style('text-anchor', 'end')
       .style('font-family', 'UHCSans-Regular')
       .style('font-weight', '600')
-      .text('$645M');
+      .text('$589M');
 
     chart
       .append('text')
-      .attr('x', 231)
+      .attr('x', 32)
       .attr('y', 230)
       .attr('fill', '#2D2D39')
       .attr('font-size', '16')
-      .style('text-anchor', 'end')
+      .style('text-anchor', 'start')
       .style('font-family', 'UHCSans-Regular')
       .style('font-weight', '500')
       .text('Estimated Non-Payment');
 
     chart
       .append('text')
-      .attr('x', 281)
+      .attr('x', 370)
       .attr('y', 230)
       .attr('fill', '#2D2D39')
       .attr('font-size', '22')
-      .style('text-anchor', 'start')
+      .style('text-anchor', 'end')
       .style('font-family', 'UHCSans-Regular')
       .style('font-weight', '600')
       .text('$211M');
 
     chart
       .append('text')
-      .attr('x', 231)
+      .attr('x', 32)
       .attr('y', 310)
       .attr('fill', '#2D2D39')
       .attr('font-size', '16')
-      .style('text-anchor', 'end')
+      .style('text-anchor', 'start')
       .style('font-family', 'UHCSans-Regular')
       .style('font-weight', '500')
       .text('Total Paid By UHC');
 
     chart
       .append('text')
-      .attr('x', 281)
+      .attr('x', 370)
       .attr('y', 310)
       .attr('fill', '#2D2D39')
       .attr('font-size', '22')
-      .style('text-anchor', 'start')
+      .style('text-anchor', 'end')
       .style('font-family', 'UHCSans-Regular')
       .style('font-weight', '600')
       .text('$571M');
@@ -266,7 +266,7 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit {
       .attr('stroke', '#757588')
       .attr('stroke-width', '1px');
 
-    const highestValue = 300;
+    const highestValue = 800;
     const xScale = d3
       .scaleLinear()
       .domain([0, highestValue])
@@ -325,7 +325,7 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit {
       .selectAll('text')
       .attr('y', '305')
       .attr('fill', '#2D2D39')
-      .attr('font-size', '16')
+      .attr('font-size', '14')
       .attr('font-family', 'UHCSans-Regular')
       .attr('font-weight', '600');
 
@@ -341,14 +341,6 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit {
       .append('rect')
       .attr('x', 400)
       .attr('y', 70)
-      .attr('width', 300)
-      .attr('height', 48)
-      .attr('fill', '#3381FF');
-
-    chart
-      .append('rect')
-      .attr('x', 400)
-      .attr('y', 150)
       .attr('width', 500)
       .attr('height', 48)
       .attr('fill', '#3381FF');
@@ -356,8 +348,16 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit {
     chart
       .append('rect')
       .attr('x', 400)
+      .attr('y', 150)
+      .attr('width', 350)
+      .attr('height', 48)
+      .attr('fill', '#3381FF');
+
+    chart
+      .append('rect')
+      .attr('x', 400)
       .attr('y', 200)
-      .attr('width', 100)
+      .attr('width', 130)
       .attr('height', 48)
       .attr('fill', '#FC6431');
 
