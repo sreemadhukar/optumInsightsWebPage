@@ -4,6 +4,7 @@ import { GettingReimbursedModule } from '../../components/getting-reimbursed-pag
 import { GettingReimbursedService } from '../../rest/getting-reimbursed/getting-reimbursed.service';
 import { CommonUtilsService } from '../common-utils.service';
 import { SessionService } from '../session.service';
+import { AuthorizationService } from '../../auth/_service/authorization.service';
 @Injectable({
   providedIn: GettingReimbursedModule
 })
@@ -15,7 +16,8 @@ export class GettingReimbursedSharedService {
   constructor(
     private gettingReimbursedService: GettingReimbursedService,
     private common: CommonUtilsService,
-    private session: SessionService
+    private session: SessionService,
+    private toggle: AuthorizationService
   ) {}
   public getGettingReimbursedData() {
     this.tin = this.session.tin;
@@ -124,6 +126,12 @@ export class GettingReimbursedSharedService {
                 category: 'app-card',
                 type: 'donutWithLabel',
                 title: 'Total Claims Submitted',
+                toggle: this.toggle.setToggles(
+                  'Total Claims Submitted',
+                  'Claims Submissions',
+                  'Getting Reimbursed',
+                  true
+                ),
                 data: {
                   graphValues: [
                     claimsData[lobData].ClaimsLobSummary[0].ClaimsPaid,
@@ -166,6 +174,12 @@ export class GettingReimbursedSharedService {
                 category: 'app-card',
                 type: 'rotateWithLabel',
                 title: 'Claims Average Turnaround Time to Payment',
+                toggle: this.toggle.setToggles(
+                  'Claims Average Turnaround Time to Payment',
+                  'Claims Submissions',
+                  'Getting Reimbursed',
+                  true
+                ),
                 data: {
                   centerNumber: claimsData[lobData].ClaimsLobSummary[0].ClaimsAvgTat,
                   color: ['#3381FF', '#3381FF'],

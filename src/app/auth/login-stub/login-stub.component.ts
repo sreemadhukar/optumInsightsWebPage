@@ -9,6 +9,7 @@ import { ProviderSharedService } from '../../shared/provider/provider-shared.ser
 import { MatDialog, MatIconRegistry } from '@angular/material';
 import { ProviderSearchComponent } from '../../common-utils/provider-search/provider-search.component';
 import { DomSanitizer } from '@angular/platform-browser';
+import { AuthorizationService } from '../_service/authorization.service';
 
 @Component({
   selector: 'app-login-stub',
@@ -23,6 +24,7 @@ export class LoginStubComponent implements OnInit {
   returnUrl: string;
   error = false;
   blankScreen = false;
+  id: any;
 
   constructor(
     private external: ExternalService,
@@ -33,7 +35,8 @@ export class LoginStubComponent implements OnInit {
     private providerSharedService: ProviderSharedService,
     private dialog: MatDialog,
     private iconRegistry: MatIconRegistry,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    private authorise: AuthorizationService
   ) {
     iconRegistry.addSvgIcon(
       'error',
@@ -42,6 +45,14 @@ export class LoginStubComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.loading = true;
+    this.id = setTimeout(() => {
+      this.loading = false;
+      this.initLogin();
+    }, 3000);
+  }
+
+  initLogin() {
     this.loginForm = this.formBuilder.group({
       username: ['', Validators.required],
       password: ['', Validators.required]
@@ -79,6 +90,9 @@ export class LoginStubComponent implements OnInit {
     this.internalService.login(this.f.username.value, this.f.password.value).subscribe(
       () => {
         this.loading = false;
+        this.authorise.getToggles().subscribe(value => {
+          console.log(value);
+        });
         this.openDialog();
       },
       error => {

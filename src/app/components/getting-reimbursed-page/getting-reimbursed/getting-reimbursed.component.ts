@@ -44,7 +44,7 @@ export class GettingReimbursedComponent implements OnInit {
         this.summaryItems = JSON.parse(JSON.stringify(completeData));
         this.currentSummary = this.summaryItems[0].data;
         this.currentTabTitle = this.summaryItems[0].title;
-        console.log(this.currentSummary);
+        console.log(this.summaryItems);
 
         for (let i = 0; i < 4; i++) {
           const temp = {
