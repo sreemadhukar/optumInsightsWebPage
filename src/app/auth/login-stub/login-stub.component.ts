@@ -45,6 +45,9 @@ export class LoginStubComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.authService.getJwt().subscribe(data => {
+      sessionStorage.setItem('token', JSON.stringify(data['token']));
+    });
     this.loading = true;
     this.id = setTimeout(() => {
       this.loading = false;
