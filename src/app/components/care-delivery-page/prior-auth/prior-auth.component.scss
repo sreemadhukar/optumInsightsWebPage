@@ -49,6 +49,12 @@
       }
       .time-period {
         padding-bottom: 28px;
+        button {
+          span:first-child {
+            font-weight: 500;
+            font-family: 'UHCSans-Medium';
+          }
+        }
       }
     }
   }
