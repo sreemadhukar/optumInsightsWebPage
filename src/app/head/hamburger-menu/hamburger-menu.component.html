@@ -4,8 +4,7 @@
  *  -->
 <div [ngClass]="{ 'dark-theme': isDarkTheme | async }">
   <div class="example-container example-is-mobile" color="primary">
-    <mat-toolbar color="primary" class="example-toolbar"
-      >-->
+    <mat-toolbar color="primary" class="example-toolbar" [class.display-none]="makeAbsolute">
       <!--<button mat-icon-button (click)="srnav.toggle()">-->
       <!--<mat-icon>filter</mat-icon>-->
       <!--</button>-->
