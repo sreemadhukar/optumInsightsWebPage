@@ -65,7 +65,7 @@ export class GettingReimbursedService {
     let cparams = new HttpParams();
     let aparams = new HttpParams();
     if (parameters.length > 1 && parameters[1]) {
-      cparams = cparams.append('timeFilter', 'last6months');
+      cparams = cparams.append('timeFilter', 'rolling12months');
       aparams = aparams.append('rolling12', parameters[1]);
     } else if (parameters.length > 2 && parameters[2]) {
       cparams = cparams.append('YTD', parameters[2]);

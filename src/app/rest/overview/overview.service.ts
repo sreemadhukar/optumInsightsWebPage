@@ -24,7 +24,7 @@ export class OverviewService {
     });
     let cparams = new HttpParams();
     if (parameters[1]) {
-      cparams = cparams.append('timeFilter', 'last6months');
+      cparams = cparams.append('timeFilter', 'rolling12months');
     }
 
     let eparams = new HttpParams();
