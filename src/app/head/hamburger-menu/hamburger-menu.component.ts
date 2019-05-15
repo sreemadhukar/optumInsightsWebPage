@@ -42,11 +42,12 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
     ? JSON.parse(sessionStorage.getItem('currentUser'))[0]['HealthCareOrganizationName']
     : '';
   public makeAbsolute: boolean;
-  public sideNavFlag: boolean;
+  public sideNavFlag = true;
   subscription: any;
   public glossaryFlag: boolean;
   public glossaryTitle: string = null;
   clickHelpIcon: Subscription;
+  public mobileQuery: boolean;
   /*** Array of Navigation Category List ***/
   public navCategories = [
     { icon: 'home', name: 'Overview', path: '/OverviewPage', disabled: false },
@@ -172,6 +173,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
   }
   hamburgerDisplay(input: boolean) {
     this.sideNavFlag = input;
+    // alert(this.sideNavFlag);
   }
 
   toggleDarkTheme(isDarkTheme: boolean) {

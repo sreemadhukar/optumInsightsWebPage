@@ -17,7 +17,7 @@
         #snav
         [mode]="'side'"
         [fixedInViewport]="true"
-        [opened]="!(!sideNavFlag && makeAbsolute)"
+        [opened]="sideNavFlag && !makeAbsolute"
         [class.display-none]="makeAbsolute"
         color="primary"
       >
@@ -110,8 +110,8 @@
         <div style="width: 400px;">
           <div>
             <mat-icon class="icon-left" svgIcon="close" (click)="closeGlossary()">
-              <div class="h-3-title">Knowledge Center</div></mat-icon
-            >
+              <div class="h-3-title">Knowledge Center</div>
+            </mat-icon>
           </div>
           <app-glossary [title]="glossaryTitle"></app-glossary>
         </div>
