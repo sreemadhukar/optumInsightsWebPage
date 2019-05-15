@@ -172,7 +172,7 @@ export class SelfSharedService {
                     {
                       labelsRight: selfService.AveragePaperClaimProcessingTime.toFixed(0) + ' days',
                       values: selfService.AveragePaperClaimProcessingTime.toFixed(0),
-                      metricName: 'Phone'
+                      metricName: 'Mail'
                     },
                     {
                       labelsRight: selfService.AverageClaimProcessingTime.toFixed(0) + ' days',
@@ -201,7 +201,7 @@ export class SelfSharedService {
                     {
                       labelsRight: selfService.AveragePaperReconsideredProcessingTime.toFixed(0) + ' days',
                       values: selfService.AveragePaperReconsideredProcessingTime.toFixed(0),
-                      metricName: 'Phone'
+                      metricName: 'Mail'
                     },
                     {
                       labelsRight: selfService.AverageReconsideredProcessingTime.toFixed(0) + ' days',
