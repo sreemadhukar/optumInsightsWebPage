@@ -25,6 +25,7 @@ export class PaymentsComponent implements OnInit {
       .then(completeData => {
         this.paymentsItems = JSON.parse(JSON.stringify(completeData));
         this.payments = this.paymentsItems[1].data;
+        console.log(this.payments);
       })
       .catch(reason => console.log(reason.message));
 

@@ -5,10 +5,10 @@
 <div [ngClass]="{ 'dark-theme': isDarkTheme | async }">
   <div class="example-container example-is-mobile" color="primary">
     <mat-toolbar color="primary" class="example-toolbar" [class.display-none]="makeAbsolute">
-      <!--<button mat-icon-button (click)="srnav.toggle()">
-      <mat-icon>filter</mat-icon>
-    </button>-->
-      <app-header (hamburgerDisplay)="hamburgerDisplay($event)"></app-header>
+      <!--<button mat-icon-button (click)="srnav.toggle()">-->
+      <!--<mat-icon>filter</mat-icon>-->
+      <!--</button>-->
+      <app-header [class.display-none]="makeAbsolute" (hamburgerDisplay)="hamburgerDisplay($event)"></app-header>
     </mat-toolbar>
     <mat-sidenav-container class="example-sidenav-container" color="primary">
       <!-- SIDE NAVIGATION BAR  fixedTopGap="65"-->
@@ -17,7 +17,7 @@
         #snav
         [mode]="'side'"
         [fixedInViewport]="true"
-        [opened]="sideNavFlag && !makeAbsolute"
+        [opened]="!(!sideNavFlag || makeAbsolute)"
         [class.display-none]="makeAbsolute"
         color="primary"
       >
@@ -106,7 +106,7 @@
       <!-- END OF SIDE NAVIGATION BAR-->
 
       <!-- RIGHT SIDE FILTER BAR-->
-      <mat-sidenav #srnav [mode]="'side'" position="end" [fixedInViewport]="true" [opened]="glossaryFlag">
+      <mat-sidenav #srnav [mode]="'over'" position="end" [fixedInViewport]="true" [opened]="glossaryFlag">
         <div style="width: 400px;">
           <div>
             <mat-icon class="icon-left" svgIcon="close" (click)="closeGlossary()">
