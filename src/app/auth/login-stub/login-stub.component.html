@@ -3,7 +3,7 @@
     <header>
       <div class="header-div">
         <div class="header-logo-div">
-          <a href="/">
+          <a routerLink="/">
             <img class="Uhc-logo" src="/src/assets/images/UHC Logo@2x.png" alt="UHC Logo" />
           </a>
         </div>
@@ -30,7 +30,7 @@
 
     <div class="body">
       <div class="left-body">
-        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <form *ngIf="loginForm" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
           <header>Sign in</header>
           <div class="form-group">
             <label for="username">MS ID (example: asmith1)</label>

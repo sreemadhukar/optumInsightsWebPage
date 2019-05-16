@@ -74,6 +74,7 @@ export class SelfSharedService {
               adoptionRate = this.utilizationDataObject(
                 'Self-Service Adoption Rate',
                 {
+                  graphValueName: ['Total Patients', 'Completed'],
                   graphValues: [
                     utilization.OverallLinkAdoptionRate * 100,
                     100 - utilization.OverallLinkAdoptionRate * 100
@@ -95,7 +96,8 @@ export class SelfSharedService {
               linkEdiRation = this.utilizationDataObject(
                 'LINK & EDI to Call Ratio',
                 {
-                  graphValues: [100 - utilization.LinkAdoptionRate * 100, utilization.LinkAdoptionRate * 100],
+                  graphValueName: ['Diabetic Patients', 'Completed'],
+                  graphValues: [utilization.LinkAdoptionRate * 100, 100 - utilization.LinkAdoptionRate * 100],
                   centerNumber: (utilization.LinkAdoptionRate * 100).toFixed(0) + '%',
                   color: ['#3381FF', '#D7DCE1'],
                   gdata: ['card-inner', 'linkAndEdiCallRatio'],
@@ -170,7 +172,7 @@ export class SelfSharedService {
                     {
                       labelsRight: selfService.AveragePaperClaimProcessingTime.toFixed(0) + ' days',
                       values: selfService.AveragePaperClaimProcessingTime.toFixed(0),
-                      metricName: 'Phone'
+                      metricName: 'Mail'
                     },
                     {
                       labelsRight: selfService.AverageClaimProcessingTime.toFixed(0) + ' days',
@@ -199,7 +201,7 @@ export class SelfSharedService {
                     {
                       labelsRight: selfService.AveragePaperReconsideredProcessingTime.toFixed(0) + ' days',
                       values: selfService.AveragePaperReconsideredProcessingTime.toFixed(0),
-                      metricName: 'Phone'
+                      metricName: 'Mail'
                     },
                     {
                       labelsRight: selfService.AverageReconsideredProcessingTime.toFixed(0) + ' days',

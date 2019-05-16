@@ -4,6 +4,7 @@ import { OverviewService } from '../../rest/overview/overview.service';
 import { OverviewPageModule } from '../../components/overview-page/overview-page.module';
 import { CommonUtilsService } from '../common-utils.service';
 import { SessionService } from '../session.service';
+import { AuthorizationService } from '../../auth/_service/authorization.service';
 @Injectable({
   providedIn: OverviewPageModule
 })
@@ -14,9 +15,9 @@ export class OverviewSharedService {
   constructor(
     private overviewService: OverviewService,
     private common: CommonUtilsService,
-    private session: SessionService
+    private session: SessionService,
+    private toggle: AuthorizationService
   ) {}
-
   public getOverviewData() {
     this.timeFrame = this.session.timeFrame;
     this.providerKey = this.session.providerKey();
@@ -38,6 +39,7 @@ export class OverviewSharedService {
         parameters = [this.providerKey, true];
       }
       this.overviewService.getOverviewData(...parameters).subscribe(([providerSystems, claims]) => {
+        console.log('providerSystem', providerSystems);
         if (
           providerSystems.hasOwnProperty('PriorAuth') &&
           providerSystems.PriorAuth !== null &&
@@ -59,6 +61,7 @@ export class OverviewSharedService {
             category: 'small-card',
             type: 'donut',
             title: 'Prior Authorization Approval',
+            toggle: this.toggle.setToggles('Prior Authorization Approval', 'AtGlance', 'Overview', false),
             data: {
               graphValues: [approvedRate, 1 - approvedRate],
               centerNumber: (approvedRate * 100).toFixed(0) + '%',
@@ -91,6 +94,7 @@ export class OverviewSharedService {
             category: 'small-card',
             type: 'donut',
             title: 'Self Service Adoption Rate',
+            toggle: this.toggle.setToggles('Self Service Adoption Rate', 'AtGlance', 'Overview', false),
             data: {
               graphValues: [
                 providerSystems.SelfServiceInquiries.ALL.Utilizations.OverallLinkAdoptionRate,
@@ -130,6 +134,7 @@ export class OverviewSharedService {
             category: 'small-card',
             type: 'star',
             title: 'Medicare Star Rating',
+            toggle: this.toggle.setToggles('Medicare Star Rating', 'AtGlance', 'Overview', false),
             data: {
               graphValues: [
                 providerSystems.PatientCareOpportunity.LineOfBusiness.MedicareAndRetirement.AverageStarRating.toFixed(2)
@@ -167,6 +172,7 @@ export class OverviewSharedService {
             category: 'small-card',
             type: 'donut',
             title: 'Total Calls',
+            toggle: this.toggle.setToggles('Total Calls', 'AtGlance', 'Overview', false),
             data: {
               graphValues: [
                 providerSystems.ResolvingIssues.Calls.CallVolByQuesType.Claims,
@@ -203,6 +209,7 @@ export class OverviewSharedService {
           oppurtunities.push({
             category: 'mini-tile',
             title: 'Reduce Calls and Operating Costs by:',
+            toggle: this.toggle.setToggles('Reduce Calls and Operating Costs by:', 'Opportunities', 'Overview', false),
             data: {
               centerNumber:
                 '$' +
@@ -237,6 +244,7 @@ export class OverviewSharedService {
           oppurtunities.push({
             category: 'mini-tile',
             title: "Save Your Staff's Time by:" + '\n\xa0',
+            toggle: this.toggle.setToggles("Save Your Staff's Time by:", 'Opportunities', 'Overview', false),
             data: {
               centerNumber: providerSystems.SelfServiceInquiries.ALL.SelfService.TotalCallTime.toFixed() + ' Hours/day',
               gdata: []
@@ -270,6 +278,7 @@ export class OverviewSharedService {
           oppurtunities.push({
             category: 'mini-tile',
             title: 'Reduce Claim Processing Time by:',
+            toggle: this.toggle.setToggles('Reduce Claim Processing Time by:', 'Opportunities', 'Overview', false),
             data: {
               centerNumber:
                 (
@@ -280,12 +289,15 @@ export class OverviewSharedService {
             },
             fdata: {
               type: 'bar chart',
-              graphValues: [15, 25],
+              graphValues: [
+                providerSystems.SelfServiceInquiries.ALL.SelfService.AverageClaimProcessingTime.toFixed(0),
+                providerSystems.SelfServiceInquiries.ALL.SelfService.AveragePaperClaimProcessingTime.toFixed(0)
+              ],
               concatString: 'Days',
               color: ['#3381FF', '#FFFFFF', '#80B0FF'],
               graphValuesTitle: 'Avg. Processing Times',
               graphData1: 'for Self Service',
-              graphData2: 'for Phone Call',
+              graphData2: 'for Mail',
               gdata: ['card-structure', 'reduceClaimProcessingTime']
             }
           });
@@ -312,6 +324,7 @@ export class OverviewSharedService {
           oppurtunities.push({
             category: 'mini-tile',
             title: 'Reduce Reconsideration Processing by:',
+            toggle: this.toggle.setToggles('Reduce Reconsideration Processing by:', 'Opportunities', 'Overview', false),
             data: {
               centerNumber:
                 (
@@ -322,12 +335,15 @@ export class OverviewSharedService {
             },
             fdata: {
               type: 'bar chart',
-              graphValues: [15, 32],
+              graphValues: [
+                providerSystems.SelfServiceInquiries.ALL.SelfService.AverageReconsideredProcessingTime.toFixed(0),
+                providerSystems.SelfServiceInquiries.ALL.SelfService.AveragePaperReconsideredProcessingTime.toFixed(0)
+              ],
               concatString: 'Days',
               color: ['#3381FF', '#FFFFFF', '#80B0FF'],
               graphValuesTitle: 'Avg. Processing Times',
               graphData1: 'for Self Service',
-              graphData2: 'for Phone Call',
+              graphData2: 'for Mail',
               gdata: ['card-structure', 'reduceReconsiderationProcessing']
             }
           });
@@ -345,27 +361,28 @@ export class OverviewSharedService {
           claims.hasOwnProperty('All') &&
           claims.All != null &&
           claims.All.hasOwnProperty('ClaimsLobSummary') &&
-          claims.All.ClaimsLobSummary[0].hasOwnProperty('AmountUHCPaid') &&
+          claims.All.ClaimsLobSummary[0].hasOwnProperty('ClaimsPaid') &&
           claims.hasOwnProperty('Cs') &&
           claims.Cs.hasOwnProperty('ClaimsLobSummary') &&
-          claims.Cs.ClaimsLobSummary[0].hasOwnProperty('AmountUHCPaid') &&
+          claims.Cs.ClaimsLobSummary[0].hasOwnProperty('ClaimsPaid') &&
           claims.hasOwnProperty('Ei') &&
           claims.Ei.hasOwnProperty('ClaimsLobSummary') &&
-          claims.Ei.ClaimsLobSummary[0].hasOwnProperty('AmountUHCPaid') &&
+          claims.Ei.ClaimsLobSummary[0].hasOwnProperty('ClaimsPaid') &&
           claims.hasOwnProperty('Mr') &&
           claims.Mr.hasOwnProperty('ClaimsLobSummary') &&
-          claims.Mr.ClaimsLobSummary[0].hasOwnProperty('AmountUHCPaid')
+          claims.Mr.ClaimsLobSummary[0].hasOwnProperty('ClaimsPaid')
         ) {
-          const mrPercentage = claims.Mr.ClaimsLobSummary[0].AmountUHCPaid;
-          const eiPercentage = claims.Ei.ClaimsLobSummary[0].AmountUHCPaid;
-          const csPercentage = claims.Cs.ClaimsLobSummary[0].AmountUHCPaid;
+          const mrPercentage = claims.Mr.ClaimsLobSummary[0].ClaimsPaid;
+          const eiPercentage = claims.Ei.ClaimsLobSummary[0].ClaimsPaid;
+          const csPercentage = claims.Cs.ClaimsLobSummary[0].ClaimsPaid;
           claimsPaid = {
             category: 'small-card',
             type: 'donut',
             title: 'Claims Paid',
+            toggle: this.toggle.setToggles('Claims Paid', 'AtGlance', 'Overview', false),
             data: {
               graphValues: [mrPercentage, csPercentage, eiPercentage],
-              centerNumber: '$' + this.common.nFormatter(claims.All.ClaimsLobSummary[0].AmountUHCPaid),
+              centerNumber: '$' + this.common.nFormatter(claims.All.ClaimsLobSummary[0].ClaimsPaid),
               color: ['#3381FF', '#80B0FF', '#003DA1'],
               gdata: ['card-inner', 'claimsPaidCardD3Donut']
             },
@@ -402,6 +419,7 @@ export class OverviewSharedService {
             category: 'small-card',
             type: 'donut',
             title: 'Claims Yield',
+            toggle: this.toggle.setToggles('Claims Yield', 'AtGlance', 'Overview', false),
             data: {
               graphValues: [gDonut, 1 - gDonut],
               centerNumber: claimYieldDonut.toFixed() + '%',

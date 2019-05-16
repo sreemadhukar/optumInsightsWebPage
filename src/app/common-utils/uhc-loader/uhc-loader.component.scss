@@ -1,10 +1,12 @@
+@import '~src/scss/variables.scss';
+
 .container {
-  background-color: rgba(0, 0, 0, 0.7);
-  position: absolute;
+  background-color: $white-smoke;
+  position: fixed;
   top: 0;
   left: 0;
+  height: 900px;
   width: 100%;
-  height: 100%;
   display: flex;
   div {
     margin: auto;

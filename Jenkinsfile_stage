@@ -1,0 +1,76 @@
+#!/usr/bin/env groovy
+
+@Library("com.optum.jenkins.pipeline.library@v0.1.24") _
+
+String dockerHost = 'docker.optum.com'
+String namespace = 'fspeddeply'
+String tagBase = "$dockerHost/$namespace"
+
+String stgWebRepo = 'pedweb_stg'
+
+String oseUiHost= "https://ocp-ctc-dmz-stg.optum.com"
+String oseInterHost= "https://ocp-ctc-core.optum.com"
+
+String oseUiProject = 'pedstg'
+String oseInterProject= 'ped-internal'
+
+String intUiPod = 'pedintui'
+String stageUiPod = 'pedui'
+String interUiPod = 'pedstgui2'
+
+pipeline {
+    agent none
+    environment {
+        DOCKER_CREDENTIALS_ID = 'deploy_id'
+        OPENSHIFT_CREDENTIALS_ID = 'deploy_id'
+        DEVOPS_METRICS_ENABLED = 'false'
+        SONAR_CREDENTIALS_ID = 'Sonar_ID'
+        NPM_ID = 'npm_id'
+        NODEJS_VERSION = '7.9.0'
+    }
+    
+    stages{
+    stage('Web: Build and Deploy Docker Image to DTR - stage') {
+            agent {
+                label 'docker-nodejs-slave'
+            }
+            steps {
+                glDockerImageBuildPush tag: "$tagBase/$stgWebRepo:stage2",
+                        repository: "$stgWebRepo",
+                        namespace: "$namespace",
+                        dockerCredentialsId: "$env.DOCKER_CREDENTIALS_ID"
+            }
+        }
+
+        stage('OSE Deployment Web - stage') {
+            agent {
+                label 'docker-maven-slave'
+            }
+            steps {
+                glOpenshiftDeploy credentials: "$env.OPENSHIFT_CREDENTIALS_ID",
+                        ocpUrl: "$oseInterHost",
+                        project: "$oseInterProject",
+                        serviceName: "$interUiPod",
+                        dockerImage: "$tagBase/$stgWebRepo:stage2",
+                        port: '8000'
+
+            }
+        }
+        
+      }
+      
+    post {
+        always {
+            echo 'Email Notification'
+            emailext body: "A UI build is completed with $currentBuild.currentResult based on the recent checkins to one of the branches in MyInsights Webui2 repo \n\n" +
+                    "Please check here for more details \n" +
+                    "${env.JOB_URL} \n\n" +
+                    "Sonar Link: Replace <branch> with branch name from which this build was triggered in the below URL \n"+
+                    "http://sonar.optum.com/dashboard/index/com.optum.bdapps.ped:UI:<branch> \n\n"+
+                    "Note: If this build is from any personal branch (which can be seen from the url), this email can be ignored \n\n"+
+                    "If connection to any of the apps is refused, please give a few minutes for pods to fully deploy in OpenShift",
+                    subject: "$currentBuild.currentResult-UI Deployment",
+                    to: 'myinsights_devops_DL@ds.uhc.com'
+        }
+    }
+}
