@@ -19,6 +19,7 @@ export class OverviewComponent implements OnInit, AfterContentInit {
   opportunitiesQuestion: String = '';
   welcomeMessage: String = '';
   subscription: any;
+  loading = false;
 
   constructor(
     private overviewsrc: OverviewSharedService,
@@ -32,9 +33,11 @@ export class OverviewComponent implements OnInit, AfterContentInit {
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.ngOnInit());
   }
   ngOnInit() {
+    this.loading = true;
     this.overviewsrc
       .getOverviewData()
       .then(data => {
+        this.loading = false;
         this.overviewItems = [];
         this.mainCards = [];
         this.selfServiceMiniCards = [];
@@ -44,7 +47,10 @@ export class OverviewComponent implements OnInit, AfterContentInit {
         this.selfServiceMiniCards = this.overviewItems[1];
         console.log(this.selfServiceMiniCards);
       })
-      .catch(reason => console.log(reason));
+      .catch(reason => {
+        this.loading = true;
+        console.log(reason);
+      });
     this.userName =
       this.session.sessionStorage('loggedUser', 'LastName') +
       ' ' +

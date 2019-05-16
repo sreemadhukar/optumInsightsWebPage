@@ -1,7 +1,68 @@
-<p class="breadcrumb-top-padding">
-  <app-breadcrumbs></app-breadcrumbs>
-</p>
+<app-feedback></app-feedback>
+<div class="gettingReimburse-body">
+  <div class="gettingReimburse-content">
+    <div class="breadcrumb-top-padding title-left-padding">
+      <app-breadcrumbs></app-breadcrumbs>
+      <div class="page-title">{{ pageTitle }}</div>
+      <app-mock-data-warning-message></app-mock-data-warning-message>
+      <div class="time-period">
+        Time Period : <b>{{ timePeriod }}</b>
+      </div>
+    </div>
+    <div class="height1Separator"></div>
 
-<p>
-  Non-payments works!
-</p>
+    <div *ngFor="let item of currentSummary">
+      <app-card *ngIf="item.data != null" class="cards" [chartData]="item"> </app-card>
+      <app-error-card *ngIf="item.status != null" class="cards" [data]="item"></app-error-card>
+    </div>
+
+    <div class="top-reasons-for-claims-non-payment-block">
+      <app-common-header [title]="title" class="full-display"></app-common-header>
+      <div class="bar-graphs-block">
+        <div
+          class="bar-graphs"
+          *ngFor="let barchart of barChartsArray; let i = index"
+          [class.extra-margin-bottom-33]="i + 1 == barChartsArray.length && !section[i]"
+        >
+          <div
+            [class.extra-margin-top-8]="i != 0"
+            [class.extra-margin-bottom-16]="section[i]"
+            class="bar-graphs-content"
+            (click)="section[i] = !section[i]"
+          >
+            <div class="bar-graph-inside-left-block">
+              <div class="bar-graph-inside-left-block-content">
+                <mat-icon class="bar-graph-block-icon" *ngIf="!section[i]" svgIcon="open"></mat-icon>
+                <mat-icon class="bar-graph-block-icon" *ngIf="section[i]" svgIcon="close"></mat-icon>
+                <p class="bar-graph-title">{{ barchart.title }}</p>
+                <p class="bar-graph-value">{{ barchart.value }}</p>
+              </div>
+            </div>
+            <div class="bar-graph-inside-right-block" #barsParentBlock>
+              <div
+                class="bar-graph-inside-right-block-bars"
+                [style.width.px]="(barchart.numeric / barChartsArray[0].numeric) * barsParentBlock.offsetWidth"
+              ></div>
+            </div>
+          </div>
+
+          <div class="inner-block" *ngIf="section[i]">
+            <div class="bottom-shadow">
+              <div class="hide-bottom-arrow-block"></div>
+            </div>
+            <h3 class="inner-blocks-header">Top Reason for Need More Information</h3>
+            <div *ngFor="let inside of barchart.top5; let j = index">
+              <div [class.extra-margin-left-4]="j == 0" class="top-5-block">
+                <p class="top-5-text">{{ inside.text }}</p>
+                <p class="top-5-value">{{ inside.value }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="full-display">
+        <app-common-footer [timePeriod]="timePeriod" class="width-100"></app-common-footer>
+      </div>
+    </div>
+  </div>
+</div>

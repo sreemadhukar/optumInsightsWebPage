@@ -7,12 +7,18 @@ String namespace = 'fspeddeply'
 String tagBase = "$dockerHost/$namespace"
 
 String qaWebRepo = 'pedweb_tst'
+String devWebRepo = 'pedweb_dev'
 
 String oseHost= "https://ocp-ctc-core-nonprod.optum.com"
 
 String oseQaProject = 'pedtst'
+String oseDevProject = 'peddev'
 
 String qaOneUiPod = 'pedui1'
+String devOneUiPod = 'pedui1'
+String devTwoUiPod = 'pedui2'
+String devThreeUiPod = 'pedui3'
+String devFourUiPod = 'pedui4'
 
 pipeline {
     agent none
@@ -32,13 +38,14 @@ pipeline {
                 branch 'dev'
             }
             agent {
-                label 'docker-kitchensink-slave'
+                label 'docker-nodejs-slave'
             }
             steps {
                 glDockerImageBuildPush tag: "$tagBase/$qaWebRepo:qaone",
                         repository: "$qaWebRepo",
                         namespace: "$namespace",
-                        dockerCredentialsId: "$env.DOCKER_CREDENTIALS_ID"
+                        dockerCredentialsId: "$env.DOCKER_CREDENTIALS_ID",
+                        extraBuildOptions: "--build-arg env_var=dev"
             }
         }
 
@@ -60,7 +67,148 @@ pipeline {
 
             }
         }
+      
+      stage('Web: Build and Deploy Docker Image to DTR - devOne') {
+            when {
+                beforeAgent true
+                branch 'devOne'
+            }
+            agent {
+                label 'docker-nodejs-slave'
+            }
+            steps {
+                glDockerImageBuildPush tag: "$tagBase/$qaWebRepo:devone",
+                        repository: "$devWebRepo",
+                        namespace: "$namespace",
+                        dockerCredentialsId: "$env.DOCKER_CREDENTIALS_ID",
+                        extraBuildOptions: "--build-arg env_var=devone"
+            }
+        }
+
+        stage('OSE Deployment Web - devOne') {
+            when {
+                beforeAgent true
+                branch 'devOne'
+            }
+            agent {
+                label 'docker-maven-slave'
+            }
+            steps {
+                glOpenshiftDeploy credentials: "$env.OPENSHIFT_CREDENTIALS_ID",
+                        ocpUrl: "$oseHost",
+                        project: "$oseDevProject",
+                        serviceName: "$devOneUiPod",
+                        dockerImage: "$tagBase/$devWebRepo:devone",
+                        port: '8000'
+
+            }
+        }
+      
+      stage('Web: Build and Deploy Docker Image to DTR - devTwo') {
+            when {
+                beforeAgent true
+                branch 'devTwo'
+            }
+            agent {
+                label 'docker-nodejs-slave'
+            }
+            steps {
+                glDockerImageBuildPush tag: "$tagBase/$devWebRepo:devtwo",
+                        repository: "$devWebRepo",
+                        namespace: "$namespace",
+                        dockerCredentialsId: "$env.DOCKER_CREDENTIALS_ID",
+                        extraBuildOptions: "--build-arg env_var=devtwo"
+            }
+        }
+
+        stage('OSE Deployment Web - devTwo') {
+            when {
+                beforeAgent true
+                branch 'devTwo'
+            }
+            agent {
+                label 'docker-maven-slave'
+            }
+            steps {
+                glOpenshiftDeploy credentials: "$env.OPENSHIFT_CREDENTIALS_ID",
+                        ocpUrl: "$oseHost",
+                        project: "$oseDevProject",
+                        serviceName: "$devTwoUiPod",
+                        dockerImage: "$tagBase/$devWebRepo:devtwo",
+                        port: '8000'
+            }
+        }
+      
+      stage('Web: Build and Deploy Docker Image to DTR - devThree') {
+            when {
+                beforeAgent true
+                branch 'devThree'
+            }
+            agent {
+                label 'docker-nodejs-slave'
+            }
+            steps {
+                glDockerImageBuildPush tag: "$tagBase/$devWebRepo:devthree",
+                        repository: "$devWebRepo",
+                        namespace: "$namespace",
+                        dockerCredentialsId: "$env.DOCKER_CREDENTIALS_ID",
+                        extraBuildOptions: "--build-arg env_var=devthree"
+            }
+        }
+
+        stage('OSE Deployment Web - devThree') {
+            when {
+                beforeAgent true
+                branch 'devThree'
+            }
+            agent {
+                label 'docker-maven-slave'
+            }
+            steps {
+                glOpenshiftDeploy credentials: "$env.OPENSHIFT_CREDENTIALS_ID",
+                        ocpUrl: "$oseHost",
+                        project: "$oseDevProject",
+                        serviceName: "$devThreeUiPod",
+                        dockerImage: "$tagBase/$devWebRepo:devthree",
+                        port: '8000'
+              
+            }
+        }
         
+      stage('Web: Build and Deploy Docker Image to DTR - devFour') {
+            when {
+                beforeAgent true
+                branch 'devFour'
+            }
+            agent {
+                label 'docker-nodejs-slave'
+            }
+            steps {
+                glDockerImageBuildPush tag: "$tagBase/$devWebRepo:devfour",
+                        repository: "$devWebRepo",
+                        namespace: "$namespace",
+                        dockerCredentialsId: "$env.DOCKER_CREDENTIALS_ID",
+                        extraBuildOptions: "--build-arg env_var=devfour"
+            }
+        }
+
+        stage('OSE Deployment Web - devFour') {
+            when {
+                beforeAgent true
+                branch 'devFour'
+            }
+            agent {
+                label 'docker-maven-slave'
+            }
+            steps {
+                glOpenshiftDeploy credentials: "$env.OPENSHIFT_CREDENTIALS_ID",
+                        ocpUrl: "$oseHost",
+                        project: "$oseDevProject",
+                        serviceName: "$devFourUiPod",
+                        dockerImage: "$tagBase/$devWebRepo:devfour",
+                        port: '8000'
+            }
+        }
       }
       
     post {

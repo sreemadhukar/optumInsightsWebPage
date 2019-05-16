@@ -63,13 +63,17 @@ export class GettingReimbursedService {
       Accept: '*/*'
     });
     let cparams = new HttpParams();
+    let aparams = new HttpParams();
     if (parameters.length > 1 && parameters[1]) {
-      cparams = cparams.append('rolling12', parameters[1]);
+      cparams = cparams.append('timeFilter', 'last6months');
+      aparams = aparams.append('rolling12', parameters[1]);
     } else if (parameters.length > 2 && parameters[2]) {
       cparams = cparams.append('YTD', parameters[2]);
+      aparams = aparams.append('YTD', parameters[2]);
     }
     if (parameters.length > 3 && parameters[3] !== null && parameters[3] !== undefined) {
       cparams = cparams.append('TIN', parameters[3]);
+      aparams = aparams.append('TIN', parameters[3]);
     }
 
     const claimsURL = this.APP_URL + this.CLAIMS_SERVICE_PATH + parameters[0];
@@ -81,7 +85,7 @@ export class GettingReimbursedService {
         map(res => JSON.parse(JSON.stringify(res[0]))),
         catchError(err => of(JSON.parse(JSON.stringify(err))))
       ),
-      this.http.get(appealsURL, { params: cparams, headers: myHeader }).pipe(
+      this.http.get(appealsURL, { params: aparams, headers: myHeader }).pipe(
         retry(2),
         map(res => JSON.parse(JSON.stringify(res))),
         catchError(err => of(JSON.parse(JSON.stringify(err))))

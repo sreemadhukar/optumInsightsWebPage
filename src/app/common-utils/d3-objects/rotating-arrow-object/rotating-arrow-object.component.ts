@@ -111,12 +111,12 @@ export class RotatingArrowObjectComponent implements OnInit, AfterViewInit {
 
     if (chartOptions.sdata) {
       if (chartOptions.sdata.sign === 'up') {
-        circleColor = '#FFE6F0';
-        textColor = '#B10C00';
-        arrowLink = 'src/assets/images/trend-up.svg';
-      } else if (chartOptions.sdata.sign === 'down') {
         circleColor = '#E1FADF';
         textColor = '#007000';
+        arrowLink = 'src/assets/images/trend-up.svg';
+      } else if (chartOptions.sdata.sign === 'down') {
+        circleColor = '#FFE6F0';
+        textColor = '#B10C00';
         arrowLink = 'src/assets/images/trend-down.svg';
       }
 

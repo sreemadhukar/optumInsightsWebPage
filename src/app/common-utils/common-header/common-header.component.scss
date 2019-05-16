@@ -3,6 +3,9 @@
   position: relative;
   /*padding: 20px 20px 0 20px;*/
   padding: 16px;
+  float: left;
+  width: 100%;
+  box-sizing: border-box;
 }
 .header-title {
   color: $blue;
@@ -10,18 +13,19 @@
   font-size: 18px;
   line-height: 22px;
   text-align: left;
+  float: left;
 }
 .common-header {
-  color: $neutral-5;
+  color: $black-rock;
 }
 .details {
-  color: $neutral-4;
+  color: $strom-grey;
   font-family: 'UHCSans-SemiBold', 'Arial';
   font-size: 18px;
   line-height: 22px;
   float: right;
 }
 
-.app-card-header-title {
-  color: $neutral-5 !important;
+.non-small-card-header-title {
+  color: $black-rock !important;
 }

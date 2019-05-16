@@ -48,16 +48,17 @@ export class ExternalService {
           );
         } else {
           this.authService.logout();
-          this.returnUrl = '/OverviewPage';
+          // this.returnUrl = '/OverviewPage';commented this
           // this.document.location.href = redirectUri;
-          this.router.navigate([this.returnUrl]);
+          // this.router.navigate([this.returnUrl]);commented this
         }
       });
 
       // get return url from route parameters or default to '/'
     } else {
-      this.document.location.href = redirectUri;
-      this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/ExecutiveSummary';
+      // this.document.location.href = redirectUri;commented this
+      // this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/ExecutiveSummary';commented this
+      this.router.navigate([this.returnUrl]); // added this
     }
   }
 }

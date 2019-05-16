@@ -1,0 +1,21 @@
+@import '~src/scss/variables.scss';
+
+.container {
+  background-color: $white-smoke;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 900px;
+  width: 100%;
+  display: flex;
+  div {
+    margin: auto;
+    top: 50%;
+    width: 50%;
+    text-align: center;
+
+    img {
+      margin-bottom: 30px;
+    }
+  }
+}
