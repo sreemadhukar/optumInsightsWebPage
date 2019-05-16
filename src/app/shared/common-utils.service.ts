@@ -1,5 +1,6 @@
 /* @author gmounika */
 import { Injectable } from '@angular/core';
+import { Observable, Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -9,6 +10,8 @@ export class CommonUtilsService {
   public currentYearMinusOne = (this.currentYear - 1).toString();
   public currentYearMinusTwo = (this.currentYear - 2).toString();
   public currentYearMinusThree = (this.currentYear - 3).toString();
+  private subject = new Subject<any>();
+
   constructor() {}
   public nFormatter(fnumber) {
     if (fnumber >= 1000000000) {
@@ -54,5 +57,12 @@ export class CommonUtilsService {
     } else if (timeframe === 'Year to Date') {
       return 'yeartodate';
     }
+  }
+
+  public emitChangeEvent(param: any) {
+    this.subject.next(param);
+  }
+  public getChangeEmitter(): Observable<any> {
+    return this.subject.asObservable();
   }
 }
