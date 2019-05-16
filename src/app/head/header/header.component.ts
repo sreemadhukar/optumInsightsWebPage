@@ -13,7 +13,8 @@ import {
   Renderer2,
   ViewEncapsulation,
   ViewChildren,
-  QueryList
+  QueryList,
+  OnDestroy
 } from '@angular/core';
 import { trigger, state, style, animate, transition } from '@angular/animations';
 import { MatExpansionPanel } from '@angular/material';
@@ -22,7 +23,8 @@ import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router, NavigationStart } from '@angular/router';
 import { ThemeService } from '../../shared/theme.service';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
+import { CommonUtilsService } from '../../shared/common-utils.service';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -48,7 +50,7 @@ import { Observable } from 'rxjs';
     ])
   ]
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent implements OnInit, OnDestroy {
   @Input() isDarkTheme: Observable<boolean>;
   @Input() button: boolean;
   @Output() hamburgerDisplay = new EventEmitter<boolean>();
@@ -56,7 +58,8 @@ export class HeaderComponent implements OnInit {
   public state: any;
   public mobileQuery: boolean;
   public menuIcon = 'menu';
-  public username = 'Anne';
+  public username: string;
+  subscription: Subscription;
 
   constructor(
     private breakpointObserver: BreakpointObserver,
@@ -65,7 +68,8 @@ export class HeaderComponent implements OnInit {
     private iconRegistry: MatIconRegistry,
     sanitizer: DomSanitizer,
     private themeService: ThemeService,
-    private router: Router
+    private router: Router,
+    private utils: CommonUtilsService
   ) {
     // this.mobileQuery = this.breakpointObserver.isMatched('(max-width: 1024px)');
     router.events.subscribe(event => {
@@ -105,6 +109,11 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit() {
     this.isDarkTheme = this.themeService.isDarkTheme;
+    const userInfo = JSON.parse(sessionStorage.getItem('loggedUser'));
+    this.username = userInfo.FirstName + ' ' + userInfo.LastName;
+    this.subscription = this.utils
+      .getChangeEmitter()
+      .subscribe(item => (this.username = item.FirstName + ' ' + item.LastName));
   }
   /*angular theme */
 
@@ -147,5 +156,9 @@ export class HeaderComponent implements OnInit {
     } else {
       this.state = 'show';
     }
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 }

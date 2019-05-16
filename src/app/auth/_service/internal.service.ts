@@ -5,6 +5,7 @@ import { map } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { environment } from '../../../environments/environment';
 import { JSEncrypt } from 'jsencrypt';
+import { CommonUtilsService } from '../../shared/common-utils.service';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +17,7 @@ export class InternalService {
   private tempUser: any;
   private returnUrl: any;
 
-  constructor(public http: HttpClient, public router: Router) {}
+  constructor(public http: HttpClient, public router: Router, public utils: CommonUtilsService) {}
 
   login(userName, password) {
     if (sessionStorage.getItem('publicKey')) {
@@ -41,6 +42,7 @@ export class InternalService {
               });
               sessionStorage.setItem('currentUser', JSON.stringify(this.sso));
               sessionStorage.setItem('loggedUser', JSON.stringify(user));
+              this.utils.emitChangeEvent(user);
               return user;
             } else {
               //    this.loader = false;
