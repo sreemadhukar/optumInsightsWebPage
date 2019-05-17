@@ -3,7 +3,6 @@ import { SelfServiceService } from '../../rest/issue-resolution/self-service.ser
 import { IssueResolutionPageModule } from '../../components/issue-resolution-page/issue-resolution-page.module';
 import { CommonUtilsService } from '../common-utils.service';
 import { SessionService } from '../session.service';
-import { start } from 'repl';
 
 @Injectable({ providedIn: IssueResolutionPageModule })
 export class SelfSharedService {
