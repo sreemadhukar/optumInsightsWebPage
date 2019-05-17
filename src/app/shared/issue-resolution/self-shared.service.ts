@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { SelfServiceService } from '../../rest/issue-resolution/self-service.service';
 import { IssueResolutionPageModule } from '../../components/issue-resolution-page/issue-resolution-page.module';
+import { CommonUtilsService } from '../common-utils.service';
 import { SessionService } from '../session.service';
 
 @Injectable({ providedIn: IssueResolutionPageModule })
@@ -8,7 +9,11 @@ export class SelfSharedService {
   private selfServiceData: Array<object> = [];
   private timeFrame: string;
   private providerKey: number;
-  constructor(private selfService: SelfServiceService, private session: SessionService) {}
+  constructor(
+    private selfService: SelfServiceService,
+    private session: SessionService,
+    private common: CommonUtilsService
+  ) {}
 
   /** The following function is kind of template for the 3 donuts that we have in the Self Service Page
    * The data is corresponding to Utilization Object that we have inside like this
@@ -41,7 +46,6 @@ export class SelfSharedService {
     return temp;
   }
   public getSelfServiceData() {
-    this.timeFrame = 'Last 3 Months';
     this.providerKey = this.session.providerKey();
     this.selfServiceData = [];
     return new Promise(resolve => {
@@ -64,6 +68,28 @@ export class SelfSharedService {
       */
       this.selfService.getSelfServiceData(...parameters).subscribe(
         ([providerSystems]) => {
+          if (
+            providerSystems.hasOwnProperty('SelfServiceInquiries') &&
+            providerSystems.SelfServiceInquiries.hasOwnProperty('ALL') &&
+            providerSystems.SelfServiceInquiries.ALL.hasOwnProperty('ReportingPeriodStartDate') &&
+            providerSystems.SelfServiceInquiries.ALL.hasOwnProperty('ReportingPeriodEndDate')
+          ) {
+            try {
+              const startDate: string = this.common.dateFormat(
+                providerSystems.SelfServiceInquiries.ALL.ReportingPeriodStartDate
+              );
+              const endDate: string = this.common.dateFormat(
+                providerSystems.SelfServiceInquiries.ALL.ReportingPeriodEndDate
+              );
+              this.timeFrame = startDate + ' - ' + endDate;
+            } catch (Error) {
+              this.timeFrame = null;
+              console.log('Error in Self Service TimePeriod', this.timeFrame);
+            }
+          } else {
+            this.timeFrame = null;
+          }
+
           if (
             providerSystems.hasOwnProperty('SelfServiceInquiries') &&
             providerSystems.SelfServiceInquiries.hasOwnProperty('ALL') &&
