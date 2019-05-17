@@ -1,0 +1,59 @@
+@import '~src/scss/variables.scss';
+@import '~src/scss/mixins';
+@import '~src/scss/my-custom-theme';
+@mixin title-theme($theme) {
+  $accent: map-get($theme, accent);
+  $background: map-get($theme, background);
+  $background-color: mat-color($background);
+  .overview-body {
+    @include mat-elevation(2);
+    background-color: mat-color($accent);
+
+    overflow-x: hidden;
+    @include padding(30px, 30px, 30px, 30px);
+
+    .overview-content {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+
+      .height1Separator {
+        height: 0;
+        width: 1200px;
+      }
+      .cust-width-blank {
+        width: 502px;
+      }
+
+      & > .cards {
+        text-align: left;
+        line-height: 75px;
+      }
+
+      .cust-width-title {
+        width: 450px;
+        font-family: 'UHCSans-SemiBold', 'Arial';
+        color: $black-rock;
+
+        .page-title {
+          flex-basis: 100%;
+          font-size: 36px;
+          line-height: 75px;
+          color: $black-rock;
+        }
+
+        .page-subtitle {
+          flex-basis: 100%;
+          font-size: 28px;
+          line-height: 50px;
+        }
+
+        .page-question {
+          flex-basis: 100%;
+          font-size: 22px;
+          line-height: 50px;
+        }
+      }
+    }
+  }
+}

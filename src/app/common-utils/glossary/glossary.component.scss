@@ -1,0 +1,53 @@
+@import '~src/scss/variables.scss';
+@import '~src/scss/mixins';
+
+.idle-container {
+  box-sizing: border-box;
+  height: 41px;
+  width: 355px;
+  border: 1px solid #b3babc;
+  border-radius: 2px;
+  background-color: $white;
+  padding-left: 10px;
+}
+
+.glossary-title {
+  color: $black-rock;
+  font-family: 'UHCSans-SemiBold', 'Arial';
+  font-size: 28px;
+  font-weight: 400;
+  line-height: 32px;
+  padding-left: 10px;
+}
+
+.glossary-definition {
+  height: 100%;
+  width: 338px;
+  color: $black-rock;
+  font-family: 'UHCSans-Regular', 'Arial';
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: 0.2px;
+  line-height: 22px;
+  padding-left: 10px;
+}
+
+.go-to-metric-location {
+  color: #196ecf;
+  font-family: 'UHCSans-Regular', 'Arial';
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+  line-height: 22px;
+  padding-left: 10px;
+}
+
+.icon-search-black {
+  height: 24px;
+  width: 24px;
+}
+
+.oval {
+  height: 40px;
+  width: 40px;
+}

@@ -1,0 +1,8 @@
+/**------------------------- **\
+       Author: Sri laxmi
+\**------------------------- **/
+@mixin text-truncate() {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

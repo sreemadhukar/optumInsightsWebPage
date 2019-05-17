@@ -1,0 +1,6 @@
+/**------------------------- **\
+       Author: Sri laxmi
+\**------------------------- **/
+@mixin box-shadow($shadow...) {
+  box-shadow: $shadow;
+}

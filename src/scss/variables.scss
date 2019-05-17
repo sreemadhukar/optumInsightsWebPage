@@ -1,0 +1,374 @@
+/**------------------------- **\
+            @Variables
+            Author: Sri laxmi
+\**------------------------- **/
+/*Generic colors*/
+$white: #fff !default;
+$black: #000 !default;
+$white-smoke: #f2f2f2;
+
+/*Primary UI Brand Colors*/
+$blue: #196ecf !default;
+$green: #0d880b !default;
+$dark-green: #007000;
+$smalt: #003da1;
+
+/*UI Neutral Colors*/
+$alice-blue: #f1f4f7; /*neutral-1*/
+$gainsboro: #e0e0e0; /*neutral-2*/
+$heather: #b3babc; /*neutral-3*/
+$strom-grey: #757588; /*neutral-4*/
+$black-rock: #2d2d39; /*$neutral-5*/
+
+/*Addition UI Hover Colors*/
+$darker-alice-blue: #e3f0fd; /*$body-link-blue*/
+$pattens-blue: #d7dce1; /*$body-link-dark*/
+
+/*Additional UI Hover Colors*/
+$hover-blue: $darker-alice-blue;
+$hover-gray: $pattens-blue;
+
+// Body
+//
+// Settings for the `<body>` element.
+
+$body-bg: $alice-blue !default;
+$body-color: $black-rock !default;
+$text-color-blue: $blue;
+
+$bg-color: $blue;
+$brand-blue-hover: $smalt;
+$brand-green-hover: $dark-green;
+
+// Links
+// Style anchor elements.
+
+$link-color: $blue;
+$link-decoration: none !default;
+$link-hover-color: $blue !default;
+$link-hover-decoration: underline !default;
+
+$link-color-gray: $strom-grey;
+$link-decoration: none !default;
+$link-hover-color: $strom-grey !default;
+$link-hover-decoration: underline !default;
+$btn-color-hover: $smalt;
+$btn-bg-color: $white-smoke;
+
+/*Data Visualization Colors*/
+$dodger-blue: #3381ff;
+$maya-blue: #80b0ff;
+$iris-blue: #00b8cc;
+$medium-purple: #8e6edd;
+/*If you want to use above colors as background color use .data-1,.data-2,.data-3,.data-4,.data-5 as class name*/
+$DV-colors-list: $dodger-blue $maya-blue $smalt $iris-blue $medium-purple $pattens-blue;
+$text-color: $white;
+@each $current-color in $DV-colors-list {
+  $i: index($DV-colors-list, $current-color);
+  .data-#{$i} {
+    background-color: $current-color;
+    color: $text-color;
+  }
+}
+
+/*Data visualization Hover colors*/
+$denim: #1256c4;
+$havelock-blue: #5486d9;
+$sapphire: #082d6a;
+$dark-cyan: #027f8d;
+$daisy-bush: #593e9d;
+/*If you want to use above colors as background color use .data-hover-1,.data-hover-2,.data-hover-3,.data-hover-4,.data-hover-5 as class name*/
+$DV-colors-hover-list: $denim $havelock-blue $sapphire $dark-cyan $daisy-bush;
+$text-color: $white;
+@each $current-color in $DV-colors-hover-list {
+  $i: index($DV-colors-hover-list, $current-color);
+  .data-hover-#{$i} {
+    background-color: $current-color;
+    color: $text-color;
+  }
+}
+
+/**------------------------- **\
+  Secondary Marketing Colors
+\**------------------------- **/
+/*Blue*/
+$blue-base: #003da1;
+$blue-medium: #c0e9ff;
+$blue-light: #e8f6fa;
+$blue-dark: #122377;
+
+/*violet*/
+$violet-base: #9521ad;
+$violet-medium: #e3c5ea;
+$violet-light: #f3e4f7;
+$violet-dark: #5c1d6b;
+
+/*teal*/
+$teal-base: #00bcd6;
+$teal-medium: #a5ebef;
+$teal-light: #dff7fa;
+$teal-dark: #007c89;
+
+/*orange*/
+$orange-base: #ff5f0e;
+$orange-medium: #ffc9b6;
+$orange-light: #ffe7e1;
+$orange-dark: #d53704;
+/*Green*/
+$green-base: #21b01e;
+$green-medium: #bbeabb;
+$green-light: #e1fadf;
+$green-dark: #007000;
+
+/*purple*/
+$purple-base: #6636ba;
+$purple-medium: #d0c7ef;
+$purple-light: #ede9ff;
+$purple-dark: #3e2087;
+
+/*red*/
+$red-base: #e91b18;
+$red-medium: #ffb8c9;
+$red-light: #ffe6f0;
+$red-dark: #b10c00;
+
+/*yellow*/
+$yellow-base: #ffd00d;
+$yellow-medium: #fffa97;
+$yellow-light: #fffcd9;
+$yellow-dark: #db9c00;
+$SMCpalette: (
+  blue: (
+    base: $blue-base,
+    medium: $blue-medium,
+    light: $blue-light,
+    dark: $blue-dark
+  ),
+  violet: (
+    base: $violet-base,
+    medium: $violet-medium,
+    light: $violet-light,
+    dark: $violet-dark
+  ),
+  teal: (
+    base: $teal-base,
+    medium: $teal-medium,
+    light: $teal-light,
+    dark: $teal-dark
+  ),
+  orange: (
+    base: $orange-base,
+    medium: $orange-medium,
+    light: $orange-light,
+    dark: $orange-dark
+  ),
+  green: (
+    base: $green-base,
+    medium: $green-medium,
+    light: $green-light,
+    dark: $green-dark
+  ),
+  purple: (
+    base: $purple-base,
+    medium: $purple-medium,
+    light: $purple-light,
+    dark: $purple-dark
+  ),
+  red: (
+    base: $red-base,
+    medium: $red-medium,
+    light: $red-light,
+    dark: $red-dark
+  ),
+  yellow: (
+    base: $yellow-base,
+    medium: $yellow-medium,
+    light: $yellow-light,
+    dark: $yellow-dark
+  )
+);
+/*If you want to use above colors use like this example: background:color(blue,base)*/
+
+/*To access Secondary Marketing Colors values*/
+@function color($color, $tone) {
+  @if map-has-key($SMCpalette, $color) {
+    $color: map-get($SMCpalette, $color);
+    @if map-has-key($color, $tone) {
+      $tone: map-get($color, $tone);
+      @return $tone;
+    }
+  }
+}
+// Components
+//
+// Define common padding and border radius sizes and more.
+$spacer: 1rem !default;
+
+$line-height-lg: 1.5 !default;
+$line-height-sm: 1.5 !default;
+
+$border-width: 1px !default;
+$border-color: $blue !default;
+
+$border-radius: 0.125rem !default;
+
+// Fonts
+//
+// Font, line-height, and color for body text, headings, and more.
+
+// stylelint-disable value-keyword-case
+$font-family-UHC: UHCSans-Regular, Arial, sans-serif !default;
+$font-family-base: $font-family-UHC !default;
+// stylelint-enable value-keyword-case
+
+$font-size-base: 1rem !default; // Assumes the browser default, typically `16px`
+$font-size-lg: ($font-size-base * 1.25) !default;
+$font-size-sm: ($font-size-base * 0.875) !default;
+
+$font-weight-light: 300 !default;
+$font-weight-normal: 400 !default;
+$font-weight-medium: 500 !default;
+$font-weight-semibold: 600 !default;
+$font-weight-bold: 700 !default;
+
+$font-weight-base: $font-weight-normal !default;
+$line-height-base: 1.125 !default;
+$jumbo-font-size: $font-size-base * 3.625 !default;
+$standard-font-size: $font-size-base * 2.563 !default;
+$h1-font-size: $font-size-base * 2.25 !default;
+$h2-font-size: $font-size-base * 1.75 !default;
+$h3-font-size: $font-size-base * 1.375 !default;
+$h4-font-size: $font-size-base * 1.25 !default;
+$h5-font-size: $font-size-base * 1.125 !default;
+$h6-font-size: $font-size-base !default;
+
+$headings-margin-bottom: $spacer !default;
+$headings-font-family: $font-family-base !default;
+$headings-font-weight: 500 !default;
+$headings-line-height: 1.2 !default;
+$headings-color: $black-rock !default;
+
+$enable-rounded: true !default;
+$enable-shadows: false !default;
+
+$lead-font-size: ($font-size-base * 1.25) !default;
+$lead-font-weight: 300 !default;
+
+$small-font-size: 80% !default;
+
+$text-muted: $black-rock !default;
+
+$hr-border-color: $gainsboro !default;
+$hr-border-width: $border-width !default;
+
+$list-inline-padding: 0.5rem !default;
+
+$hr-margin-y: $spacer !default;
+// Shared variables that are reassigned to `$input-` and `$btn-` specific variables.
+
+$label-color: $black-rock;
+$label-font-size: 0.875rem;
+
+$input-btn-padding-y: 0.5625rem !default;
+$input-btn-padding-x: 1.563rem !default;
+$input-btn-line-height: $line-height-base !default;
+
+$input-btn-focus-width: 0.25rem !default;
+$input-btn-focus-color: $blue !default;
+$input-btn-focus-radius: $border-radius;
+$input-btn-focus-box-shadow: 0 0 0 $input-btn-focus-width $input-btn-focus-color !default;
+
+$input-btn-border-width: $border-width !default;
+// Buttons
+//
+// For each of  buttons, define text, background, and border color.
+
+$btn-padding-y: $input-btn-padding-y !default;
+$btn-padding-x: $input-btn-padding-x !default;
+$btn-line-height: $input-btn-line-height !default;
+
+// $btn-padding-y-sm:            $input-btn-padding-y-sm !default;
+// $btn-padding-x-sm:            $input-btn-padding-x-sm !default;
+// $btn-line-height-sm:          $input-btn-line-height-sm !default;
+
+// $btn-padding-y-lg:            $input-btn-padding-y-lg !default;
+// $btn-padding-x-lg:            $input-btn-padding-x-lg !default;
+// $btn-line-height-lg:          $input-btn-line-height-lg !default;
+
+$btn-border-width: $input-btn-border-width !default;
+
+$btn-font-weight: $font-weight-semibold !default;
+$btn-box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15) !default;
+
+$btn-primary-color: $blue;
+$btn-primary-bdr-color: $blue;
+$active-background: $smalt;
+$disabled-background: $gainsboro;
+$btn-secondary-color: $white;
+$btn-secondary-hover: $btn-bg-color;
+$btn-secondary-bdr-color: $blue;
+
+$btn-primary2-color: $green;
+$btn-primary2-bdr-color: $green;
+$btn-primary-hover: $brand-green-hover;
+
+$btn-teritary-bg-color: $white;
+$btn-teritary-bdr-color: $black-rock;
+$btn-teritary-text-color: $black-rock;
+$btn-teritary-disabled: $black-rock;
+$btn-teritary-hover: $btn-bg-color;
+
+$btn-focus-width: $input-btn-focus-width !default;
+$btn-focus-box-shadow: $input-btn-focus-box-shadow !default;
+$btn-disabled-opacity: $gainsboro !default;
+$btn-active-box-shadow: inset 0 3px 5px rgba($black, 0.125) !default;
+
+$btn-link-disabled-color: $strom-grey !default;
+
+$btn-block-spacing-y: 0.5rem !default;
+
+// Allows for customizing button radius independently from global border radius
+$btn-border-radius: $border-radius !default;
+// $btn-border-radius-lg:        $border-radius-lg !default;
+// $btn-border-radius-sm:        $border-radius-sm !default;
+
+// $btn-transition:              color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out !default;
+
+// Forms
+
+$input-padding-y: $input-btn-padding-y !default;
+$input-padding-x: $input-btn-padding-x !default;
+$input-line-height: $input-btn-line-height !default;
+
+$input-bg: $white !default;
+$input-disabled-bg: $gainsboro !default;
+
+// $input-color:                           $gray-700 !default;
+// $input-border-color:                    $gray-400 !default;
+// $input-border-width:                    $input-btn-border-width !default;
+// $input-box-shadow:                      inset 0 1px 1px rgba($black, .075) !default;
+
+// $input-border-radius:                   $border-radius !default;
+// $input-border-radius-lg:                $border-radius-lg !default;
+// $input-border-radius-sm:                $border-radius-sm !default;
+
+// $input-focus-bg:                        $input-bg !default;
+// $input-focus-border-color:              lighten($component-active-bg, 25%) !default;
+// $input-focus-color:                     $input-color !default;
+// $input-focus-width:                     $input-btn-focus-width !default;
+// $input-focus-box-shadow:                $input-btn-focus-box-shadow !default;
+
+// $input-placeholder-color:               $gray-600 !default;
+
+// $input-height-border:                   $input-border-width * 2 !default;
+
+// $input-height-inner:                    ($font-size-base * $input-btn-line-height) + ($input-btn-padding-y * 2) !default;
+// $input-height:                          calc(#{$input-height-inner} + #{$input-height-border}) !default;
+
+// $input-height-inner-sm:                 ($font-size-sm * $input-btn-line-height-sm) + ($input-btn-padding-y-sm * 2) !default;
+// $input-height-sm:                       calc(#{$input-height-inner-sm} + #{$input-height-border}) !default;
+
+// $input-height-inner-lg:                 ($font-size-lg * $input-btn-line-height-lg) + ($input-btn-padding-y-lg * 2) !default;
+// $input-height-lg:                       calc(#{$input-height-inner-lg} + #{$input-height-border}) !default;
+
+// $input-transition:                      border-color .15s ease-in-out, box-shadow .15s ease-in-out !default;

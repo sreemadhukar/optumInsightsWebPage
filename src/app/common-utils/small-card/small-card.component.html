@@ -1,0 +1,39 @@
+<div *ngIf="data != null" class="small-card-structure">
+  <div class="card-inner">
+    <app-common-header
+      [cardType]="'smallCard'"
+      [title]="data.title"
+      (helpIconClicked)="helpIconClick($event)"
+    ></app-common-header>
+    <div
+      *ngIf="data.type == 'donut' && data.data != null"
+      [ngClass]="data.sdata != null ? 'chart-details-donut' : 'full-width'"
+    >
+      <app-donut-chart [donutType]="'small-card'" [chartOptions]="data.data"></app-donut-chart>
+    </div>
+    <div *ngIf="data.type == 'star' && data.data != null" class="chart-details small-star-chart">
+      <app-star-chart [starType]="'small-card'" [chartOptions]="data.data"></app-star-chart>
+    </div>
+    <div *ngIf="data.sdata != null" class="trend-details">
+      <div *ngIf="data.sdata.sign === 'down'" class="flex-box">
+        <span class="trend" [class.down]="data.sdata.sign === 'down'">
+          <img class="trend-image trend-image-down" src="/src/assets/images/trend-down.svg" alt="trend down" />
+        </span>
+        <div class="trend-value trend-value-down">
+          {{ data.sdata.data }}
+        </div>
+      </div>
+      <div *ngIf="data.sdata.sign === 'up'" class="flex-box">
+        <span class="trend" [class.up]="data.sdata.sign === 'up'">
+          <img class="trend-image  trend-image-up" src="/src/assets/images/trend-up.svg" alt="trend up" />
+        </span>
+        <div class="trend-value trend-value-up">
+          {{ data.sdata.data }}
+        </div>
+      </div>
+    </div>
+    <div *ngIf="data.timeperiod" class="full-display-block">
+      <app-common-footer [timePeriod]="data.timeperiod"></app-common-footer>
+    </div>
+  </div>
+</div>

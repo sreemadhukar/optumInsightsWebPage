@@ -1,0 +1,35 @@
+<div
+  [class.card-structure]="data.category === 'mini-tile'"
+  [class.small-card-structure]="data.category === 'small-card'"
+  [class.app-card-structure]="data.category === 'app-card'"
+  [class.card-structure]="data.category === 'large-card'"
+>
+  <div
+    [class.card-inner]="data.category === 'mini-tile' || data.category === 'small-card'"
+    [class.card-inner-large]="data.category === 'large-card'"
+  >
+    <div [class.self-service-title]="data.category === 'mini-tile'" *ngIf="data.category === 'mini-tile'">
+      {{ data.title }}
+    </div>
+    <app-common-header
+      [cardType]="'error-card'"
+      [title]="data.title"
+      *ngIf="data.category !== 'mini-tile'"
+    ></app-common-header>
+    <div
+      [class.full-width-block]="data.category === 'large-card' || data.category === 'app-card'"
+      [class.full-width]="data.category === 'small-card'"
+      [class.self-service-width]="data.category === 'mini-tile'"
+    >
+      <div class="img-align">
+        <img class="image-align" src="/src/assets/images/warning-icon.svg" />
+      </div>
+      <div *ngFor="let errorCode of errorCodes">
+        <div *ngIf="errorCode.code === data.status" class=" data-title">
+          <div class="errorTitle" *ngIf="errorCode.code === data.status">{{ errorCode.title }}</div>
+          <div class="errorSubTitle" *ngIf="errorCode.code === data.status">{{ errorCode.message }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

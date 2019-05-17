@@ -1,0 +1,295 @@
+/*
+ * Author: Ranjith kumar Ankam
+ * Created Date: 03-Apr-2019
+ *  */
+
+@import '~src/scss/variables.scss';
+@import '~src/scss/mixins';
+.example-container {
+  background-color: #f1f4f7;
+  flex-direction: column;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  max-width: 1610px;
+  min-width: 1032px;
+  margin: 0 auto;
+}
+
+.example-is-mobile .example-toolbar {
+  /* Make sure the toolbar will stay on top of the content as it scrolls past. */
+  z-index: 2;
+  padding: padding(0);
+}
+
+.mat-toolbar-single-row {
+  padding: 0 !important;
+}
+
+h1.example-app-name {
+  margin-left: 8px;
+}
+
+.example-sidenav-container {
+  /* When the sidenav is not fixed, stretch the sidenav container to fill the available space. This
+      causes `<mat-sidenav-content>` to act as our scrolling element for desktop layouts. */
+  // margin-top: 65px;
+  flex: 1;
+}
+
+.example-is-mobile .example-sidenav-container {
+  /* When the sidenav is fixed, don't constrain the height of the sidenav container. This allows the
+      `<body>` to be our scrolling element for mobile layouts. */
+  flex: 1 0 auto;
+}
+
+app-header {
+  width: 100%;
+}
+
+.font-check {
+  font-family: 'UHCSans-Regular';
+  font-size: 14px;
+  color: $hover-blue;
+}
+
+.footer-block {
+  z-index: 9;
+}
+
+/************ CSS RELATED TO ONLY LEFT HAMBURGER MENU *************/
+
+.side-navigation {
+  width: 256px;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
+  //  background-color: $white;
+}
+
+.health-system-representation-block {
+  @include padding(16px, 12px, 0px, 32px);
+  border-bottom: 1px solid $gainsboro;
+}
+
+.representing-label {
+  color: $black-rock;
+  font-family: 'UHCSans-Regular';
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.2px;
+  line-height: 18px;
+  margin-top: 4px;
+}
+
+.health-system-name {
+  color: $black-rock;
+  font-family: 'UHCSans-SemiBold';
+  font-size: 16px;
+  /*font-weight: 600;*/
+  letter-spacing: 0.2px;
+  line-height: 22px;
+  margin: 4px 0 15px 0;
+}
+
+.change-provider {
+  height: 18px;
+  width: 105px;
+  color: #196ecf;
+  font-family: 'UHCSans-SemiBold';
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+  line-height: 18px;
+  text-decoration: underline;
+  margin: 9px 0;
+  cursor: pointer;
+}
+
+.mat-list-base {
+  padding: 0px !important;
+  margin: 0px !important;
+}
+
+.mat-expansion-panel-header {
+  height: 25px !important;
+  padding: 8px 16px 8px 10px !important;
+  font-family: 'UHCSans-SemiBold';
+  font-size: 16px;
+  /*font-weight: 600;*/
+  letter-spacing: 0.2px;
+  line-height: 22px;
+  /*background: $darker-alice-blue;*/
+}
+
+.signout-block {
+  padding: 25px 0 0 33px;
+}
+
+.signout-label {
+  color: $strom-grey;
+  font-family: 'UHCSans-SemiBold';
+
+  font-size: 16px;
+  /*font-weight: 600;*/
+  letter-spacing: 0.2px;
+  line-height: 22px;
+  margin: 0;
+  cursor: pointer;
+  padding: 9px;
+}
+
+.firstNavCategory {
+  margin-top: 15px !important;
+  color: $strom-grey !important;
+  font-family: 'UHCSans-SemiBold';
+  font-size: 16px !important;
+  /*font-weight: 600;*/
+  letter-spacing: 0.2px;
+  line-height: 18px;
+  /*padding-left: 32px !important;*/
+}
+.mat-expansion-panel-header-title {
+  color: $strom-grey !important;
+}
+
+.lastNavCategory {
+  /*padding-left: 32px !important;*/
+}
+
+.navCategoryItem {
+  /*padding-left: 32px !important;*/
+  color: $strom-grey;
+  font-family: 'UHCSans-SemiBold';
+  font-size: 14px;
+  /*font-weight: 600;*/
+  letter-spacing: 0.2px;
+  margin-top: 4px !important;
+  line-height: 18px;
+  margin-left: 30px !important;
+}
+
+.mat-expansion-panel-body {
+  padding: 0px !important;
+}
+
+.nav-mat-list-items {
+  padding-bottom: 46px !important;
+  border-bottom: 1px solid $gainsboro;
+}
+
+.nav-menu-icons {
+  margin: 0px 8px;
+  vertical-align: middle;
+  margin-left: 0px;
+}
+
+.mat-expansion-indicator::after {
+  vertical-align: super;
+}
+
+.nav-no-child-category {
+  padding: 9px 12px 9px 10px !important;
+  color: $strom-grey !important;
+  font-size: 16px !important;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+  font-family: 'UHCSans-Regular';
+}
+
+.nav-sub-category-items {
+  color: $strom-grey !important;
+  font-size: 14px !important;
+  font-family: 'UHCSans-Regular';
+  font-weight: 600;
+  letter-spacing: 0.2px;
+  line-height: 18px;
+}
+.mat-expansion-panel-header-description,
+.mat-expansion-panel-header-title {
+  line-height: 26px !important;
+}
+
+.nav-sub-category-items:hover {
+  background: $darker-alice-blue !important;
+  color: $blue !important;
+}
+
+.nav-no-child-category:hover,
+.mat-expansion-panel-header:hover,
+.mat-expanded,
+.signout-label:hover {
+  color: $blue !important;
+  .mat-expansion-panel-header-title {
+    color: $blue !important;
+  }
+  .mat-expansion-indicator::after {
+    color: $blue !important;
+  }
+}
+.nav-no-child-category:hover,
+.mat-expansion-panel-header:hover,
+.signout-label:hover {
+  color: $blue !important;
+  background: $darker-alice-blue !important;
+  .mat-expansion-indicator::after {
+    color: $blue !important;
+  }
+}
+.mat-nav-list .mat-list-item:focus {
+  background: $darker-alice-blue !important;
+}
+.mat-expansion-panel {
+  border-radius: 0px !important;
+}
+.mat-expansion-indicator::after {
+  border-style: solid;
+  border-width: 0 2px 2px 0;
+  content: '';
+  display: inline-block;
+  padding: 3px;
+  transform: rotate(45deg);
+  vertical-align: text-top;
+}
+.uhc-logo {
+  width: 175px;
+  height: 36px;
+  margin-top: 24px;
+  margin-left: 32px;
+}
+
+.active-link {
+  background: $darker-alice-blue;
+  color: $blue !important;
+}
+
+/************ ABOVE IS THE CSS RELATED TO ONLY LEFT HAMBURGER MENU *************/
+
+.svg-ic_build_24px:hover {
+  fill: $blue !important;
+}
+
+.display-none {
+  display: none !important;
+}
+
+.h-3-title {
+  height: 28px;
+  width: 418px;
+  color: #2d2d39;
+  font-family: 'UHC Sans';
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 75px;
+  text-align: center;
+}
+
+.icon-left {
+  padding-left: 10px;
+}
+
+.pointer-none {
+  pointer-events: none;
+}

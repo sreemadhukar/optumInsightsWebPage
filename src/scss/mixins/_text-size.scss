@@ -1,0 +1,6 @@
+/**------------------------- **\
+       Author: Sri laxmi
+\**------------------------- **/
+@mixin font-size($fontSize) {
+  font-size: ($fontSize / 16) + rem;
+}

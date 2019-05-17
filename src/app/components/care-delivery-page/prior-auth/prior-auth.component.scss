@@ -1,0 +1,51 @@
+@import '~src/scss/variables.scss';
+@import '~src/scss/mixins';
+.content-wrapper {
+  background-color: $alice-blue;
+  overflow-x: hidden;
+  @include padding(30px, 30px, 30px, 30px);
+  .main-content {
+    display: flex;
+    flex-wrap: wrap;
+
+    .height1Separator {
+      height: 0;
+      width: 1200px;
+    }
+    .cust-width-blank {
+      width: 502px;
+    }
+
+    & > .cards {
+      text-align: left;
+      @include margin(0, 0, 0, 12px);
+    }
+
+    .cust-width-title {
+      width: 450px;
+      font-family: 'UHCSans-SemiBold', 'Arial';
+      color: $black-rock;
+      ol {
+        @include margin(0, 0, 16px, 0);
+      }
+      .page-title {
+        flex-basis: 100%;
+        font-size: 36px;
+        line-height: 75px;
+        color: $black-rock;
+      }
+
+      .page-subtitle {
+        flex-basis: 100%;
+        font-size: 28px;
+        line-height: 50px;
+      }
+
+      .page-question {
+        flex-basis: 100%;
+        font-size: 22px;
+        line-height: 50px;
+      }
+    }
+  }
+}

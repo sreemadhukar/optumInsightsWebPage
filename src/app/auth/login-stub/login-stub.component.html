@@ -1,0 +1,105 @@
+<div class="page-overlay">
+  <div class="container" *ngIf="!blankScreen">
+    <header>
+      <div class="header-div">
+        <div class="header-logo-div">
+          <a routerLink="/">
+            <img class="Uhc-logo" src="/src/assets/images/UHC Logo@2x.png" alt="UHC Logo" />
+          </a>
+        </div>
+      </div>
+      <div class="element-div">
+        <div>Enterprise Secure Sign In</div>
+      </div>
+    </header>
+    <div class="header">
+      <div class="notifier">Welcome to UHC Insights (Internal)</div>
+      <div class="content">
+        UHC Insights is a data service available to Health Care Providers that shows real-time statistics, trends and
+        other information about Claims, Claims Appeals, Prior Authorizations, Patient Care Opportunities (PCOR),
+        Self-Service, Issue Resolution and more. The internal version allows UnitedHealth Group employees to view the
+        data of any provider that has been added to the system.
+      </div>
+      <div class="system-error" *ngIf="error">
+        <mat-icon svgIcon="error"></mat-icon>
+        <div>
+          Please check your MS ID/Password and try again.
+        </div>
+      </div>
+    </div>
+
+    <div class="body">
+      <div class="left-body">
+        <form *ngIf="loginForm" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+          <header>Sign in</header>
+          <div class="form-group">
+            <label for="username">MS ID (example: asmith1)</label>
+            <input
+              type="text"
+              id="username"
+              formControlName="username"
+              [ngClass]="{ 'is-invalid': submitted && f.username.errors }"
+              (keypress)="valueUpdated()"
+            />
+            <mat-icon class="input-icon" *ngIf="submitted && f.username.errors" svgIcon="error"></mat-icon>
+            <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
+              <div *ngIf="f.username.errors.required">Enter alphaanumeric MS ID.</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input
+              type="password"
+              id="password"
+              formControlName="password"
+              [ngClass]="{ 'is-invalid': submitted && f.password.errors }"
+              (keypress)="valueUpdated()"
+            />
+            <mat-icon class="input-icon" *ngIf="submitted && f.password.errors" svgIcon="error"></mat-icon>
+            <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+              <div *ngIf="f.password.errors.required">Password is Required.</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <button [disabled]="loading" class="btn-bd-primary">Submit</button>
+            <img
+              *ngIf="loading"
+              src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA=="
+            />
+          </div>
+        </form>
+      </div>
+      <div class="right-body">
+        <h2 class="message head">
+          Need help signing in?
+        </h2>
+        <p class="message">
+          <span>Call the IT Help Desk at:</span>
+          <span class="contactlink">
+            <a href="tel:+18888483375" aria-label="North &amp; South America phone number - 1-888-848-3375"
+              >1-888-848-3375</a
+            >
+            (North &amp; South America)</span
+          >
+        </p>
+
+        <p class="message contactlink">
+          View all <a href="https://apsrd8920.uhc.com:9031/help">IT Help Desk Phone Numbers</a>
+        </p>
+
+        <p class="message">
+          Enterprise Secure Sign In gives UnitedHealth Group employees and contractors access to applications via entry
+          of an MS ID and password.
+        </p>
+
+        <p class="message">
+          Do not share your MS ID or password!
+        </p>
+      </div>
+    </div>
+    <footer>
+      <span class="ownLine">© 2019 UnitedHealth Group</span>
+    </footer>
+  </div>
+  <app-uhc-loader *ngIf="loading"></app-uhc-loader>
+</div>

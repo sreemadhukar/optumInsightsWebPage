@@ -1,0 +1,31 @@
+@import '~src/scss/variables.scss';
+.header-container {
+  position: relative;
+  /*padding: 20px 20px 0 20px;*/
+  padding: 16px;
+  float: left;
+  width: 100%;
+  box-sizing: border-box;
+}
+.header-title {
+  color: $blue;
+  font-family: 'UHCSans-SemiBold', 'Arial';
+  font-size: 18px;
+  line-height: 22px;
+  text-align: left;
+  float: left;
+}
+.common-header {
+  color: $black-rock;
+}
+.details {
+  color: $strom-grey;
+  font-family: 'UHCSans-SemiBold', 'Arial';
+  font-size: 18px;
+  line-height: 22px;
+  float: right;
+}
+
+.non-small-card-header-title {
+  color: $black-rock !important;
+}

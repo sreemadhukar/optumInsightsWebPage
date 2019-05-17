@@ -1,0 +1,130 @@
+{
+  "ProviderSysKey": 281,
+  "EntityType": "MyInsight",
+  "HealthCareOrganizationName": "NYU",
+  "RecordRefreshDate": "2019-04-04T00:00:00.000+0000",
+  "ReportingPeriod": "2019-04-01T00:00:00.000+0000",
+  "SelfServiceInquiries": {
+    "ALL": {
+      "SelfService": {
+        "AverageClaimCount": 140427,
+        "AverageClaimProcessingTime": 19.054431285714283,
+        "AveragePaperReconsideredProcessingTime": 91.41023250000002,
+        "AveragePaperClaimProcessingTime": 72.08399800000001,
+        "AverageReconsideredProcessingTime": 46.451702000000004,
+        "ReconsideredProcessingTimeDifferential": 44.958530500000016,
+        "AuthCallCount": 943,
+        "ClaimProcessingTimeDifferential": 53.02956671428572,
+        "AveragePaperReconsideredCount": 397,
+        "EligibilityCallCount": 10012,
+        "AveragePaperClaimCount": 4453,
+        "BenefitsCallCount": 5158,
+        "TotalCallCount": 43394,
+        "TotalCallCost": 107073.61,
+        "TotalCallTime": 44.67974814814814,
+        "TotalClaimCallCount": 19597
+      },
+      "Utilizations": {
+        "LinkAdoptionRate": 0.9541895576502682,
+        "OverallLinkAdoptionRate": 0.9209188637892202,
+        "PaperAndPostageAdoptionRate": 0,
+        "PaperAndPostageElectronicWeighting": 0,
+        "PaperAndPostagePaperWeighting": 3022.6666666666665,
+        "SelfServiceCallsAndClaimsWeighting": 340680.5,
+        "SizeOfOpportunityCallsAndClaimsWeighting": 41833.07333333333,
+        "SizeOfOpportunityCallsAndClaimsPaperAndPostageWeighting": 1511.3333333333333
+      },
+      "RecordRefreshDate": "2019-01-07 06:24:56",
+      "ReportingPeriodStartDate": "2018-06-01 00:00:00",
+      "ReportingPeriodEndDate": "2018-08-01 05:00:00"
+    }
+  },
+  "ResolvingIssues": {
+    "Calls": {
+      "CallVolByQuesType": {
+        "BenefitsEligibility": 1507,
+        "Claims": 2579,
+        "Others": 1235,
+        "PriorAuth": 0,
+        "Total": 5321
+      },
+      "CallTalkTimeByQuesType": {
+        "BenefitsEligibility": 115.71,
+        "Claims": 464.55,
+        "Others": 116.22,
+        "PriorAuth": 0,
+        "Total": 696.49
+      },
+      "ReportStartDate": "2018-01-25",
+      "ReportEndDate": "2019-01-25",
+      "RollupLevel": "Last365",
+      "CreateDate": "2019-01-25 06:25:29"
+    }
+  },
+  "PriorAuth": {
+    "ReportingStartDate": "04-01-2018",
+    "ReportingEndDate": "04-03-2019",
+    "LineOfBusiness": {
+      "All": {
+        "PriorAuthApprovedCount": 151109,
+        "PriorAuthCancelledCount": 14201,
+        "PriorAuthNotApprovedCount": 9089,
+        "PriorAuthPendingCount": 11100,
+        "StandartPriorAuthTAT": 256326.75630449018,
+        "UrgentPriorAuthTAT": 255857.28205739547,
+        "InpatientFacilityApprovedCount": 7123,
+        "InpatientFacilityNotApprovedCount": 2654,
+        "InpatientFacilityCancelledCount": 2090,
+        "InpatientFacilityPendingCount": 208,
+        "OutpatientApprovedCount": 130955,
+        "OutpatientNotApprovedCount": 6137,
+        "OutpatientCancelledCount": 4173,
+        "OutpatientPendingCount": 10554,
+        "OutpatientFacilityApprovedCount": 13031,
+        "OutpatientFacilityNotApprovedCount": 298,
+        "OutpatientFacilityCancelledCount": 4196,
+        "OutpatientFacilityPendingCount": 338,
+        "InPatientFacilityApprovalRate": 82.54,
+        "OutpatientApprovalRate": 89.87,
+        "OutpatientFacilityApprovalRate": 79.77,
+        "InpatientFacilityRequestedCount": 8630,
+        "OutpatientRequestedCount": 145712,
+        "OutpatientFacilityRequestedCount": 16336
+      }
+    },
+    "RecordRefreshDate": "2018-12-26 14:48:20"
+  },
+  "PatientCareOpportunity": {
+    "ReportingPeriod": "05-31-2018",
+    "LineOfBusiness": {
+      "MedicareAndRetirement": {
+        "AverageStarRating": 2.7,
+        "TotalProviderGroupCount": 51,
+        "1StarMeasureCount": 9,
+        "2StarMeasureCount": 3,
+        "3StarMeasureCount": 4,
+        "4StarMeasureCount": 1,
+        "5StarMeasureCount": 3,
+        "TotalACVs": 442,
+        "TotalDiabeticACVs": 88,
+        "TotalDiabeticPatients": 654,
+        "TotalPatientCount": 3396
+      },
+      "ALL": {
+        "AverageStarRating": 2.7,
+        "TotalProviderGroupCount": 51,
+        "1StarMeasureCount": 9,
+        "2StarMeasureCount": 3,
+        "3StarMeasureCount": 4,
+        "4StarMeasureCount": 1,
+        "5StarMeasureCount": 3,
+        "TotalACVs": 442,
+        "TotalDiabeticACVs": 88,
+        "TotalDiabeticPatients": 654,
+        "TotalPatientCount": 3396
+      }
+    },
+    "RecordRefreshDate": "2018-10-29 16:01:27"
+  },
+  "ProviderIdHash": "749f864a3e097265aba1e1b5f65344a1"
+}

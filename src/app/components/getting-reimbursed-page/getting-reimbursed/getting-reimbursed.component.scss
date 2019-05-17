@@ -1,0 +1,107 @@
+@import '~src/scss/variables.scss';
+@import '~src/scss/mixins';
+@import '~src/scss/my-custom-theme';
+@mixin sidenav-theme($theme) {
+  $accent: map-get($theme, accent);
+  $background: map-get($theme, background);
+  $background-color: mat-color($background);
+  .gettingReimburse-body {
+    background-color: mat-color($accent);
+    overflow-x: hidden;
+    @include padding(30px, 30px, 30px, 30px);
+
+    .gettingReimburse-content {
+      display: flex;
+      flex-wrap: wrap;
+
+      .height1Separator {
+        height: 0;
+        width: 1200px;
+      }
+
+      & > .cards {
+        text-align: left;
+        line-height: 75px;
+      }
+
+      .cust-width-title {
+        width: 100%;
+        font-family: 'UHCSans-SemiBold', 'Arial';
+        color: $black-rock;
+        margin-left: 10px;
+
+        .page-title {
+          flex-basis: 100%;
+          font-size: 36px;
+          line-height: 75px;
+        }
+
+        .page-subtitle {
+          flex-basis: 100%;
+          font-size: 28px;
+          line-height: 50px;
+        }
+
+        /* tabs css starts here*/
+        .container--tabs {
+          width: 100%;
+          line-height: 25px;
+          .nav-tabs {
+            display: flex;
+            border-radius: 2px;
+            list-style-type: none;
+            font-family: 'UHCSans-SemiBold', 'Arial';
+            color: $black-rock;
+
+            > li {
+              flex-basis: 100%;
+              background-color: $white;
+              border: 1px solid #e0e0e0;
+              border-radius: 2px;
+              padding: 10px 20px;
+              cursor: pointer;
+              > span {
+                font-size: 16px;
+                font-weight: 600;
+                letter-spacing: 0.2px;
+                &:hover {
+                }
+              }
+
+              &.active,
+              &.active:hover,
+              &.active:focus {
+                background-color: mat-color($accent);
+                border: 1px solid #ddd;
+                border-top: 4px solid #196ecf;
+                border-radius: 2px 2px 0 0;
+                border-bottom-color: transparent;
+                text-decoration: none;
+              }
+
+              .nav-values {
+                color: #2d2d39;
+                font-size: 18px;
+                font-family: 'UHCSans-Regular', 'Arial';
+                font-weight: 600;
+                .metrics {
+                  font-size: 14px;
+                  font-weight: 500;
+                  letter-spacing: 0.2px;
+                  line-height: 18px;
+                }
+                .upgreen {
+                  color: #007000;
+                }
+                .downred {
+                  color: color(red, dark);
+                }
+              }
+            }
+          }
+        }
+        /* ends tabs css ends here*/
+      } /* end cust-width title heirarchy*/
+    }
+  }
+}

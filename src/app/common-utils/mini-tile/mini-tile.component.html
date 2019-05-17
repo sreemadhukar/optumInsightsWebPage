@@ -1,0 +1,33 @@
+<div *ngIf="data != null" class="card-structure">
+  <div class="card-inner">
+    <div class="self-service-title">
+      {{ data.title }}
+    </div>
+    <div class="self-service-number">
+      {{ data.data.centerNumber }}
+    </div>
+    <app-mini-bar-chart [chartOptions]="data.fdata"></app-mini-bar-chart>
+    <div class="self-service-subtitle">
+      {{ data.fdata.graphValuesTitle }}
+    </div>
+    <ul class="list-labels">
+      <li *ngIf="data.fdata.concatString == '$'">
+        <span class="labels1">{{ data.fdata.concatString + data.fdata.graphValues[0] }}</span>
+        {{ data.fdata.graphData1 }}
+      </li>
+      <li *ngIf="data.fdata.concatString == '$'">
+        <span style="font-weight: 700">{{ data.fdata.concatString + data.fdata.graphValues[1] }}</span>
+        {{ data.fdata.graphData2 }}
+      </li>
+
+      <li *ngIf="data.fdata.concatString != '$'">
+        <span style="font-weight: 700">{{ data.fdata.graphValues[0] + ' ' + data.fdata.concatString }}</span>
+        {{ data.fdata.graphData1 }}
+      </li>
+      <li *ngIf="data.fdata.concatString != '$'">
+        <span style="font-weight: 700">{{ data.fdata.graphValues[1] + ' ' + data.fdata.concatString }}</span>
+        {{ data.fdata.graphData2 }}
+      </li>
+    </ul>
+  </div>
+</div>
