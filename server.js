@@ -25,7 +25,7 @@ app.all('/api/qaone/ped/*', function(req, res) {
     handleExceptions(e, res);
   });
 });
- 
+
 app.use((error, req, res, next) => {
   handleExceptions(error, res);
 }); 
