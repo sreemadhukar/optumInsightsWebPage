@@ -243,13 +243,11 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
         .style('border-radius', 0);
 
       const svg2 = divHover.append('svg');
+      const boxWidth = '109px';
+      const boxHeight = '63px';
 
       g.on('mouseenter', function(d) {
         const hoverTextLength = topFunctions.getTextWidth(d.data.label, 14, 'Arial');
-        const boxWidth = '109px';
-        const boxHeight = '63px';
-        const labelYCoordinate;
-        const numberYCoordinate;
 
         divHover.style('height', boxHeight).style('width', boxWidth);
 
