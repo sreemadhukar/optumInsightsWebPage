@@ -51,11 +51,12 @@ export class OverviewComponent implements OnInit, AfterContentInit {
         this.loading = true;
         console.log(reason);
       });
+    const userInfo = JSON.parse(sessionStorage.getItem('loggedUser'));
     this.userName =
       this.session.sessionStorage('loggedUser', 'LastName') +
       ' ' +
       this.session.sessionStorage('loggedUser', 'FirstName');
-    this.pageTitle = 'Hello, ' + 'Anne' + '.';
+    this.pageTitle = 'Hello, ' + userInfo.FirstName + '.';
   }
 
   ngAfterContentInit() {}
