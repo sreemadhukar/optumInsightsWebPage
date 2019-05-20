@@ -8,7 +8,16 @@ path {
   width: 100%;
 }
 
-.tooltip {
+.full-display {
+  display: flex;
+}
+
+.widget {
+  display: flex;
+  float: left;
+}
+
+.tooltipDonut {
   position: absolute;
   background: white;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.15);
@@ -16,7 +25,7 @@ path {
   z-index: 9999;
 }
 
-.tooltip:after {
+.tooltipDonut::after {
   content: '';
   position: absolute;
   top: 25%;
@@ -27,13 +36,4 @@ path {
   border-right: solid 15px white;
   border-top: solid 15px transparent;
   border-bottom: solid 15px transparent;
-}
-
-.full-display {
-  display: flex;
-}
-
-.widget {
-  display: flex;
-  float: left;
 }

@@ -238,18 +238,16 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
       const divHover = d3
         .select(this.renderChart)
         .append('div')
-        .attr('class', 'tooltip')
+        .attr('class', 'tooltipDonut')
         .style('opacity', 0)
         .style('border-radius', 0);
 
       const svg2 = divHover.append('svg');
+      const boxWidth = '109px';
+      const boxHeight = '63px';
 
       g.on('mouseenter', function(d) {
         const hoverTextLength = topFunctions.getTextWidth(d.data.label, 14, 'Arial');
-        const boxWidth = '109px';
-        const boxHeight = '63px';
-        const labelYCoordinate;
-        const numberYCoordinate;
 
         divHover.style('height', boxHeight).style('width', boxWidth);
 
