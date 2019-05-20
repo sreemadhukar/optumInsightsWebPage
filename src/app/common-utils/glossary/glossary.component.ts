@@ -86,6 +86,7 @@ export class GlossaryComponent implements OnInit {
       });
     });
   }
+  public filteredData(value) {}
   private _filter(value: string): string[] {
     if (value != undefined) {
       const filterValue = value.toLowerCase();
