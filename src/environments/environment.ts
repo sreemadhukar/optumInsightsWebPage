@@ -9,6 +9,7 @@ export const environment: any = {
   Pointing to QA1 environment
    apiProxyUrl: 'https://gateway-stage-core.optum.com/api/qaone/pdr/uhci/v1/',
    originUrl: 'https://pedui1-pedtst.ocp-ctc-core-nonprod.optum.com/',
+   https://pedui1-pedtst.ocp-ctc-core-nonprod.optum.co
    */
   /*
   QA1 pointing to INT environment to interact with INT API

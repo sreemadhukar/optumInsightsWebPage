@@ -11,21 +11,22 @@ path {
 .tooltip {
   position: absolute;
   background: white;
-  box-shadow: 0 10px 20px 0 rgba(0, 0, 0, 0.35);
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.15);
   pointer-events: none;
   z-index: 9999;
 }
 
-.triangle {
-  border-top: 15px solid transparent;
-  border-bottom: 15px solid transparent;
-  border-right: 15px solid white;
-  top: 25px;
+.tooltip:after {
   content: '';
   position: absolute;
-  left: -15px;
+  top: 25%;
+  left: 0%;
+  margin-left: -10px;
   width: 0;
   height: 0;
+  border-right: solid 15px white;
+  border-top: solid 15px transparent;
+  border-bottom: solid 15px transparent;
 }
 
 .full-display {
