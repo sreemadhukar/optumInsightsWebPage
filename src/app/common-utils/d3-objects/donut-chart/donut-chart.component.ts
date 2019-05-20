@@ -238,7 +238,7 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
       const divHover = d3
         .select(this.renderChart)
         .append('div')
-        .attr('class', 'tooltip')
+        .attr('class', 'tooltipDonut')
         .style('opacity', 0)
         .style('border-radius', 0);
 
