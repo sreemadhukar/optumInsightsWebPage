@@ -67,45 +67,50 @@
 
     <div class="claims-non-payments-by-facility-block">
       <app-common-header [title]="facilityTitle" class="full-display"></app-common-header>
-      <div class="">
-        <table mat-table [dataSource]="dataSource" matSort>
+      <div class="claims-non-payments-by-facility-table">
+        <table mat-table [dataSource]="dataSource" matSort matSortActive="facilityName" matSortDirection="asc">
           <!-- Position Column -->
-          <ng-container matColumnDef="facility">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Facility Name</th>
-            <td mat-cell *matCellDef="let element">
-              {{ element.facilityName.provider }}<br />
-              {{ element.facilityName.tin }}
+          <ng-container matColumnDef="facilityName">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="mat-table-header-cell">Facility Name</th>
+            <td mat-cell *matCellDef="let element" class="mat-table-cell">
+              <p class="table-facility-healthsystem">{{ element.facilityName }}</p>
+              <p class="table-facility-tin">{{ element.tin }}</p>
             </td>
           </ng-container>
 
           <!-- Name Column -->
           <ng-container matColumnDef="needAdditionalInfo">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Need Addiotional Information</th>
-            <td mat-cell *matCellDef="let element">{{ element.needAdditionalInfo }}</td>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="mat-table-header-cell">
+              Need Additional Information
+            </th>
+            <td mat-cell *matCellDef="let element" class="mat-table-cell">{{ element.needAdditionalInfo }}</td>
           </ng-container>
-
           <!-- Weight Column -->
           <ng-container matColumnDef="noAuthNoticeRef">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>No Auth Notice Ref</th>
-            <td mat-cell *matCellDef="let element">{{ element.noAuthNoticeRef }}</td>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="mat-table-header-cell">No Auth Notice Ref</th>
+            <td mat-cell *matCellDef="let element" class="mat-table-cell">{{ element.noAuthNoticeRef }}</td>
           </ng-container>
 
           <!-- Symbol Column -->
           <ng-container matColumnDef="claimsPaymentsPolicy">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Claims Payments Policy</th>
-            <td mat-cell *matCellDef="let element">{{ element.claimsPaymentsPolicy }}</td>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="mat-table-header-cell">
+              Claims Payments Policy
+            </th>
+            <td mat-cell *matCellDef="let element" class="mat-table-cell">{{ element.claimsPaymentsPolicy }}</td>
           </ng-container>
 
           <!-- Symbol Column -->
           <ng-container matColumnDef="noBenefitCoverage">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>No Benefit Coverage</th>
-            <td mat-cell *matCellDef="let element">{{ element.noBenefitCoverage }}</td>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="mat-table-header-cell">No Benefit Coverage</th>
+            <td mat-cell *matCellDef="let element" class="mat-table-cell">{{ element.noBenefitCoverage }}</td>
           </ng-container>
 
           <!-- Symbol Column -->
           <ng-container matColumnDef="cobNeedFortherAction">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Cob Need Forther Action</th>
-            <td mat-cell *matCellDef="let element">{{ element.cobNeedFortherAction }}</td>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="mat-table-header-cell">
+              Cob Need Forther Action
+            </th>
+            <td mat-cell *matCellDef="let element" class="mat-table-cell">{{ element.cobNeedFortherAction }}</td>
           </ng-container>
 
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

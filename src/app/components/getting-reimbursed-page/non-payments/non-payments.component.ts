@@ -19,7 +19,7 @@ export class NonPaymentsComponent implements OnInit {
   currentSummary: Array<Object> = [{}];
   currentTabTitle: String = '';
   displayedColumns: string[] = [
-    'facility',
+    'facilityName',
     'needAdditionalInfo',
     'noAuthNoticeRef',
     'claimsPaymentsPolicy',
@@ -169,7 +169,62 @@ export class NonPaymentsComponent implements OnInit {
   ];
   facilityData = [
     {
-      facilityName: { provider: 'North Region Hospital', tin: 43730045 },
+      facilityName: 'North Region Hospital',
+      tin: 43730045,
+      needAdditionalInfo: '$6.3M',
+      noAuthNoticeRef: '$3.3M',
+      claimsPaymentsPolicy: '$6.6M',
+      noBenefitCoverage: '$1.3M',
+      cobNeedFortherAction: '$4.7M'
+    },
+    {
+      facilityName: 'South Region Hospital',
+      tin: 43730045,
+      needAdditionalInfo: '$5.4M',
+      noAuthNoticeRef: '$3.3M',
+      claimsPaymentsPolicy: '$4.5M',
+      noBenefitCoverage: '$3.5M',
+      cobNeedFortherAction: '$3.5M'
+    },
+    {
+      facilityName: 'South Region Hospital',
+      tin: 43730045,
+      needAdditionalInfo: '$4.4M',
+      noAuthNoticeRef: '$5.5M',
+      claimsPaymentsPolicy: '$4.6M',
+      noBenefitCoverage: '$1.3M',
+      cobNeedFortherAction: '$3.2M'
+    },
+    {
+      facilityName: 'North Region Hospital',
+      tin: 43730045,
+      needAdditionalInfo: '$3.4M',
+      noAuthNoticeRef: '$5.6M',
+      claimsPaymentsPolicy: '$3.6M',
+      noBenefitCoverage: '$1.6M',
+      cobNeedFortherAction: '$2.7M'
+    },
+    {
+      facilityName: 'South Region Hospital',
+      tin: 43730045,
+      needAdditionalInfo: '$6.6M',
+      noAuthNoticeRef: '$3.3M',
+      claimsPaymentsPolicy: '$4.6M',
+      noBenefitCoverage: '$6.5M',
+      cobNeedFortherAction: '$3.2M'
+    },
+    {
+      facilityName: 'East Region Hospital',
+      tin: 43730045,
+      needAdditionalInfo: '$3.4M',
+      noAuthNoticeRef: '$5.6M',
+      claimsPaymentsPolicy: '$3.6M',
+      noBenefitCoverage: '$1.4M',
+      cobNeedFortherAction: '$6.7M'
+    },
+    {
+      facilityName: 'North Region Hospital',
+      tin: 43730045,
       needAdditionalInfo: '$6.4M',
       noAuthNoticeRef: '$5.3M',
       claimsPaymentsPolicy: '$4.6M',
@@ -177,7 +232,8 @@ export class NonPaymentsComponent implements OnInit {
       cobNeedFortherAction: '$3.7M'
     },
     {
-      facilityName: { provider: 'North Region Hospital', tin: 43730045 },
+      facilityName: 'East Region Hospital',
+      tin: 43730045,
       needAdditionalInfo: '$6.4M',
       noAuthNoticeRef: '$5.3M',
       claimsPaymentsPolicy: '$4.6M',
@@ -185,7 +241,8 @@ export class NonPaymentsComponent implements OnInit {
       cobNeedFortherAction: '$3.7M'
     },
     {
-      facilityName: { provider: 'North Region Hospital', tin: 43730045 },
+      facilityName: 'West Region Hospital',
+      tin: 43730045,
       needAdditionalInfo: '$6.4M',
       noAuthNoticeRef: '$5.3M',
       claimsPaymentsPolicy: '$4.6M',
@@ -193,7 +250,8 @@ export class NonPaymentsComponent implements OnInit {
       cobNeedFortherAction: '$3.7M'
     },
     {
-      facilityName: { provider: 'North Region Hospital', tin: 43730045 },
+      facilityName: 'South Region Hospital',
+      tin: 43730045,
       needAdditionalInfo: '$6.4M',
       noAuthNoticeRef: '$5.3M',
       claimsPaymentsPolicy: '$4.6M',
@@ -201,7 +259,8 @@ export class NonPaymentsComponent implements OnInit {
       cobNeedFortherAction: '$3.7M'
     },
     {
-      facilityName: { provider: 'North Region Hospital', tin: 43730045 },
+      facilityName: 'West Region Hospital',
+      tin: 43730045,
       needAdditionalInfo: '$6.4M',
       noAuthNoticeRef: '$5.3M',
       claimsPaymentsPolicy: '$4.6M',
@@ -209,7 +268,8 @@ export class NonPaymentsComponent implements OnInit {
       cobNeedFortherAction: '$3.7M'
     },
     {
-      facilityName: { provider: 'North Region Hospital', tin: 43730045 },
+      facilityName: 'North Region Hospital',
+      tin: 43730045,
       needAdditionalInfo: '$6.4M',
       noAuthNoticeRef: '$5.3M',
       claimsPaymentsPolicy: '$4.6M',
@@ -217,7 +277,8 @@ export class NonPaymentsComponent implements OnInit {
       cobNeedFortherAction: '$3.7M'
     },
     {
-      facilityName: { provider: 'North Region Hospital', tin: 43730045 },
+      facilityName: 'East Region Hospital',
+      tin: 43730045,
       needAdditionalInfo: '$6.4M',
       noAuthNoticeRef: '$5.3M',
       claimsPaymentsPolicy: '$4.6M',
@@ -225,7 +286,8 @@ export class NonPaymentsComponent implements OnInit {
       cobNeedFortherAction: '$3.7M'
     },
     {
-      facilityName: { provider: 'North Region Hospital', tin: 43730045 },
+      facilityName: 'North Region Hospital',
+      tin: 43730045,
       needAdditionalInfo: '$6.4M',
       noAuthNoticeRef: '$5.3M',
       claimsPaymentsPolicy: '$4.6M',
@@ -233,7 +295,8 @@ export class NonPaymentsComponent implements OnInit {
       cobNeedFortherAction: '$3.7M'
     },
     {
-      facilityName: { provider: 'North Region Hospital', tin: 43730045 },
+      facilityName: 'Central Region Hospital',
+      tin: 43730045,
       needAdditionalInfo: '$6.4M',
       noAuthNoticeRef: '$5.3M',
       claimsPaymentsPolicy: '$4.6M',
@@ -241,7 +304,8 @@ export class NonPaymentsComponent implements OnInit {
       cobNeedFortherAction: '$3.7M'
     },
     {
-      facilityName: { provider: 'North Region Hospital', tin: 43730045 },
+      facilityName: 'South Central Region Hospital',
+      tin: 43730045,
       needAdditionalInfo: '$6.4M',
       noAuthNoticeRef: '$5.3M',
       claimsPaymentsPolicy: '$4.6M',
@@ -249,7 +313,8 @@ export class NonPaymentsComponent implements OnInit {
       cobNeedFortherAction: '$3.7M'
     },
     {
-      facilityName: { provider: 'North Region Hospital', tin: 43730045 },
+      facilityName: 'North Region Hospital',
+      tin: 43730045,
       needAdditionalInfo: '$6.4M',
       noAuthNoticeRef: '$5.3M',
       claimsPaymentsPolicy: '$4.6M',
@@ -257,7 +322,8 @@ export class NonPaymentsComponent implements OnInit {
       cobNeedFortherAction: '$3.7M'
     },
     {
-      facilityName: { provider: 'North Region Hospital', tin: 43730045 },
+      facilityName: 'Middle East Region Hospital',
+      tin: 43730045,
       needAdditionalInfo: '$6.4M',
       noAuthNoticeRef: '$5.3M',
       claimsPaymentsPolicy: '$4.6M',
@@ -265,7 +331,8 @@ export class NonPaymentsComponent implements OnInit {
       cobNeedFortherAction: '$3.7M'
     },
     {
-      facilityName: { provider: 'North Region Hospital', tin: 43730045 },
+      facilityName: 'North Region Hospital',
+      tin: 43730045,
       needAdditionalInfo: '$6.4M',
       noAuthNoticeRef: '$5.3M',
       claimsPaymentsPolicy: '$4.6M',
@@ -273,55 +340,8 @@ export class NonPaymentsComponent implements OnInit {
       cobNeedFortherAction: '$3.7M'
     },
     {
-      facilityName: { provider: 'North Region Hospital', tin: 43730045 },
-      needAdditionalInfo: '$6.4M',
-      noAuthNoticeRef: '$5.3M',
-      claimsPaymentsPolicy: '$4.6M',
-      noBenefitCoverage: '$1.5M',
-      cobNeedFortherAction: '$3.7M'
-    },
-    {
-      facilityName: { provider: 'North Region Hospital', tin: 43730045 },
-      needAdditionalInfo: '$6.4M',
-      noAuthNoticeRef: '$5.3M',
-      claimsPaymentsPolicy: '$4.6M',
-      noBenefitCoverage: '$1.5M',
-      cobNeedFortherAction: '$3.7M'
-    },
-    {
-      facilityName: { provider: 'North Region Hospital', tin: 43730045 },
-      needAdditionalInfo: '$6.4M',
-      noAuthNoticeRef: '$5.3M',
-      claimsPaymentsPolicy: '$4.6M',
-      noBenefitCoverage: '$1.5M',
-      cobNeedFortherAction: '$3.7M'
-    },
-    {
-      facilityName: { provider: 'North Region Hospital', tin: 43730045 },
-      needAdditionalInfo: '$6.4M',
-      noAuthNoticeRef: '$5.3M',
-      claimsPaymentsPolicy: '$4.6M',
-      noBenefitCoverage: '$1.5M',
-      cobNeedFortherAction: '$3.7M'
-    },
-    {
-      facilityName: { provider: 'North Region Hospital', tin: 43730045 },
-      needAdditionalInfo: '$6.4M',
-      noAuthNoticeRef: '$5.3M',
-      claimsPaymentsPolicy: '$4.6M',
-      noBenefitCoverage: '$1.5M',
-      cobNeedFortherAction: '$3.7M'
-    },
-    {
-      facilityName: { provider: 'North Region Hospital', tin: 43730045 },
-      needAdditionalInfo: '$6.4M',
-      noAuthNoticeRef: '$5.3M',
-      claimsPaymentsPolicy: '$4.6M',
-      noBenefitCoverage: '$1.5M',
-      cobNeedFortherAction: '$3.7M'
-    },
-    {
-      facilityName: { provider: 'North Region Hospital', tin: 43730045 },
+      facilityName: 'Eastern Region Hospital',
+      tin: 43730045,
       needAdditionalInfo: '$6.4M',
       noAuthNoticeRef: '$5.3M',
       claimsPaymentsPolicy: '$4.6M',
@@ -351,6 +371,15 @@ export class NonPaymentsComponent implements OnInit {
   ngOnInit() {
     this.dataSource = new MatTableDataSource(this.facilityData);
     this.dataSource.paginator = this.paginator;
+    this.dataSource.sortingDataAccessor = (item, property) => {
+      switch (property) {
+        case 'facilityName':
+          return item.facilityName + item.tin;
+        default:
+          return item[property];
+      }
+    };
+    this.dataSource.sort = this.sort;
     this.gettingReimbursedSharedService.getGettingReimbursedData().then(completeData => {
       this.summaryItems = JSON.parse(JSON.stringify(completeData));
       this.currentSummary = this.summaryItems[2].data;
