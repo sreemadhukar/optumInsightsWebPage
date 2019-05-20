@@ -1,15 +1,47 @@
 @import '~src/scss/variables.scss';
 @import '~src/scss/mixins';
-
-.idle-container {
-  box-sizing: border-box;
-  height: 41px;
-  width: 355px;
-  border: 1px solid #b3babc;
-  border-radius: 2px;
-  background-color: $white;
-  padding-left: 10px;
+::ng-deep .mat-autocomplete-panel {
+  max-height: 0% !important;
 }
+::ng-deep .mat-autocomplete-panel:not([class*='mat-elevation-z']) {
+  margin-top: 3px;
+  border: 1px solid #e0e0e0;
+  border-radius: 2px;
+  background-color: #ffffff;
+  box-shadow: 0 20px 40px 0 rgba(0, 0, 0, 0.15);
+}
+::ng-deep .mat-form-field-appearance-outline.mat-focused ::ng-deep .mat-form-field-outline-thick {
+  color: #196ecf;
+}
+
+.business-glossary {
+  padding: 10px;
+  &-header {
+    text-align: center;
+  }
+
+  &-form {
+    mat-form-field {
+      width: 95%;
+      mat-form-field-flex {
+        border: 1px solid #b3babc;
+        border-radius: 5px;
+        mat-option-text {
+          font-family: 'UHCSans-Regular', 'Arial';
+          font-weight: 500 !important;
+        }
+      }
+    }
+  }
+}
+// ::ng-deep .mat-form-field-flex {
+//   height: 41px;
+//   width: 355px;
+//   border: 1px solid #b3babc;
+//   border-radius: 2px;
+//   background-color: $white;
+//   padding-left: 10px;
+// }
 
 .glossary-title {
   color: $black-rock;
@@ -50,4 +82,8 @@
 .oval {
   height: 40px;
   width: 40px;
+}
+.view-allMetrics {
+  color: #196ecf;
+  cursor: pointer;
 }
