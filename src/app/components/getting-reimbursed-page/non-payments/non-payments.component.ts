@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 import { GettingReimbursedSharedService } from '../../../shared/getting-reimbursed/getting-reimbursed-shared.service';
+import { MatPaginator, MatTableDataSource, MatSort } from '@angular/material';
 
 @Component({
   selector: 'app-non-payments',
@@ -10,13 +11,25 @@ import { GettingReimbursedSharedService } from '../../../shared/getting-reimburs
 })
 export class NonPaymentsComponent implements OnInit {
   title = 'Top Reasons for Claims Non-Payment';
+  facilityTitle = 'Claims Non-Payments by Facility';
   timePeriod = 'Last 6 Months';
   section: any = [];
   summaryItems: any;
   pageTitle: String = '';
   currentSummary: Array<Object> = [{}];
   currentTabTitle: String = '';
+  displayedColumns: string[] = [
+    'facility',
+    'needAdditionalInfo',
+    'noAuthNoticeRef',
+    'claimsPaymentsPolicy',
+    'noBenefitCoverage',
+    'cobNeedFortherAction'
+  ];
+  dataSource: MatTableDataSource<any>;
 
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
   barChartsArray = [
     {
       title: 'Need More Information',
@@ -154,6 +167,168 @@ export class NonPaymentsComponent implements OnInit {
       ]
     }
   ];
+  facilityData = [
+    {
+      facilityName: { provider: 'North Region Hospital', tin: 43730045 },
+      needAdditionalInfo: '$6.4M',
+      noAuthNoticeRef: '$5.3M',
+      claimsPaymentsPolicy: '$4.6M',
+      noBenefitCoverage: '$1.5M',
+      cobNeedFortherAction: '$3.7M'
+    },
+    {
+      facilityName: { provider: 'North Region Hospital', tin: 43730045 },
+      needAdditionalInfo: '$6.4M',
+      noAuthNoticeRef: '$5.3M',
+      claimsPaymentsPolicy: '$4.6M',
+      noBenefitCoverage: '$1.5M',
+      cobNeedFortherAction: '$3.7M'
+    },
+    {
+      facilityName: { provider: 'North Region Hospital', tin: 43730045 },
+      needAdditionalInfo: '$6.4M',
+      noAuthNoticeRef: '$5.3M',
+      claimsPaymentsPolicy: '$4.6M',
+      noBenefitCoverage: '$1.5M',
+      cobNeedFortherAction: '$3.7M'
+    },
+    {
+      facilityName: { provider: 'North Region Hospital', tin: 43730045 },
+      needAdditionalInfo: '$6.4M',
+      noAuthNoticeRef: '$5.3M',
+      claimsPaymentsPolicy: '$4.6M',
+      noBenefitCoverage: '$1.5M',
+      cobNeedFortherAction: '$3.7M'
+    },
+    {
+      facilityName: { provider: 'North Region Hospital', tin: 43730045 },
+      needAdditionalInfo: '$6.4M',
+      noAuthNoticeRef: '$5.3M',
+      claimsPaymentsPolicy: '$4.6M',
+      noBenefitCoverage: '$1.5M',
+      cobNeedFortherAction: '$3.7M'
+    },
+    {
+      facilityName: { provider: 'North Region Hospital', tin: 43730045 },
+      needAdditionalInfo: '$6.4M',
+      noAuthNoticeRef: '$5.3M',
+      claimsPaymentsPolicy: '$4.6M',
+      noBenefitCoverage: '$1.5M',
+      cobNeedFortherAction: '$3.7M'
+    },
+    {
+      facilityName: { provider: 'North Region Hospital', tin: 43730045 },
+      needAdditionalInfo: '$6.4M',
+      noAuthNoticeRef: '$5.3M',
+      claimsPaymentsPolicy: '$4.6M',
+      noBenefitCoverage: '$1.5M',
+      cobNeedFortherAction: '$3.7M'
+    },
+    {
+      facilityName: { provider: 'North Region Hospital', tin: 43730045 },
+      needAdditionalInfo: '$6.4M',
+      noAuthNoticeRef: '$5.3M',
+      claimsPaymentsPolicy: '$4.6M',
+      noBenefitCoverage: '$1.5M',
+      cobNeedFortherAction: '$3.7M'
+    },
+    {
+      facilityName: { provider: 'North Region Hospital', tin: 43730045 },
+      needAdditionalInfo: '$6.4M',
+      noAuthNoticeRef: '$5.3M',
+      claimsPaymentsPolicy: '$4.6M',
+      noBenefitCoverage: '$1.5M',
+      cobNeedFortherAction: '$3.7M'
+    },
+    {
+      facilityName: { provider: 'North Region Hospital', tin: 43730045 },
+      needAdditionalInfo: '$6.4M',
+      noAuthNoticeRef: '$5.3M',
+      claimsPaymentsPolicy: '$4.6M',
+      noBenefitCoverage: '$1.5M',
+      cobNeedFortherAction: '$3.7M'
+    },
+    {
+      facilityName: { provider: 'North Region Hospital', tin: 43730045 },
+      needAdditionalInfo: '$6.4M',
+      noAuthNoticeRef: '$5.3M',
+      claimsPaymentsPolicy: '$4.6M',
+      noBenefitCoverage: '$1.5M',
+      cobNeedFortherAction: '$3.7M'
+    },
+    {
+      facilityName: { provider: 'North Region Hospital', tin: 43730045 },
+      needAdditionalInfo: '$6.4M',
+      noAuthNoticeRef: '$5.3M',
+      claimsPaymentsPolicy: '$4.6M',
+      noBenefitCoverage: '$1.5M',
+      cobNeedFortherAction: '$3.7M'
+    },
+    {
+      facilityName: { provider: 'North Region Hospital', tin: 43730045 },
+      needAdditionalInfo: '$6.4M',
+      noAuthNoticeRef: '$5.3M',
+      claimsPaymentsPolicy: '$4.6M',
+      noBenefitCoverage: '$1.5M',
+      cobNeedFortherAction: '$3.7M'
+    },
+    {
+      facilityName: { provider: 'North Region Hospital', tin: 43730045 },
+      needAdditionalInfo: '$6.4M',
+      noAuthNoticeRef: '$5.3M',
+      claimsPaymentsPolicy: '$4.6M',
+      noBenefitCoverage: '$1.5M',
+      cobNeedFortherAction: '$3.7M'
+    },
+    {
+      facilityName: { provider: 'North Region Hospital', tin: 43730045 },
+      needAdditionalInfo: '$6.4M',
+      noAuthNoticeRef: '$5.3M',
+      claimsPaymentsPolicy: '$4.6M',
+      noBenefitCoverage: '$1.5M',
+      cobNeedFortherAction: '$3.7M'
+    },
+    {
+      facilityName: { provider: 'North Region Hospital', tin: 43730045 },
+      needAdditionalInfo: '$6.4M',
+      noAuthNoticeRef: '$5.3M',
+      claimsPaymentsPolicy: '$4.6M',
+      noBenefitCoverage: '$1.5M',
+      cobNeedFortherAction: '$3.7M'
+    },
+    {
+      facilityName: { provider: 'North Region Hospital', tin: 43730045 },
+      needAdditionalInfo: '$6.4M',
+      noAuthNoticeRef: '$5.3M',
+      claimsPaymentsPolicy: '$4.6M',
+      noBenefitCoverage: '$1.5M',
+      cobNeedFortherAction: '$3.7M'
+    },
+    {
+      facilityName: { provider: 'North Region Hospital', tin: 43730045 },
+      needAdditionalInfo: '$6.4M',
+      noAuthNoticeRef: '$5.3M',
+      claimsPaymentsPolicy: '$4.6M',
+      noBenefitCoverage: '$1.5M',
+      cobNeedFortherAction: '$3.7M'
+    },
+    {
+      facilityName: { provider: 'North Region Hospital', tin: 43730045 },
+      needAdditionalInfo: '$6.4M',
+      noAuthNoticeRef: '$5.3M',
+      claimsPaymentsPolicy: '$4.6M',
+      noBenefitCoverage: '$1.5M',
+      cobNeedFortherAction: '$3.7M'
+    },
+    {
+      facilityName: { provider: 'North Region Hospital', tin: 43730045 },
+      needAdditionalInfo: '$6.4M',
+      noAuthNoticeRef: '$5.3M',
+      claimsPaymentsPolicy: '$4.6M',
+      noBenefitCoverage: '$1.5M',
+      cobNeedFortherAction: '$3.7M'
+    }
+  ];
 
   constructor(
     private iconRegistry: MatIconRegistry,
@@ -174,11 +349,12 @@ export class NonPaymentsComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.dataSource = new MatTableDataSource(this.facilityData);
+    this.dataSource.paginator = this.paginator;
     this.gettingReimbursedSharedService.getGettingReimbursedData().then(completeData => {
       this.summaryItems = JSON.parse(JSON.stringify(completeData));
       this.currentSummary = this.summaryItems[2].data;
       this.currentTabTitle = this.summaryItems[2].title;
-      console.log(this.currentSummary);
     });
   }
 }
