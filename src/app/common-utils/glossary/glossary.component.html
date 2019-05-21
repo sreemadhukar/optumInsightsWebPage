@@ -1,10 +1,14 @@
 <div class="business-glossary">
   <br />
+  <!--   <div class="header-section col-md-12">
+    <mat-icon class="nav-menu-icons col-md-2 path" svgIcon="close"></mat-icon>
+  <div class="title col-md-8">Knowledge Center</div>
+  </div> -->
   <mat-dialog-content>
     <form class="business-glossary-form">
       <mat-form-field appearance="outline">
         <mat-label>What metrics can we help you with ?</mat-label>
-        <input matInput [matAutocomplete]="auto" [formControl]="glossaryCtrl" />
+        <input type="text" matInput [matAutocomplete]="auto" [formControl]="glossaryCtrl" aria-expanded="false" />
         <mat-icon matPrefix class="nav-menu-icons" svgIcon="search"></mat-icon>
         <mat-autocomplete #auto="matAutocomplete" (optionSelected)="filteredData($event.option.value)">
           <mat-option *ngFor="let glossary of (filteredOptions | async)" [value]="glossary">
@@ -23,23 +27,28 @@
     </form>
   </mat-dialog-content>
   <br />
-  <!-- <div *ngFor="let glossary of glossaryList; let i = index">
-    <div class="glossary-title">
-      {{ glossaryTitleShow }}
-    </div>
-    <br />
-    <div class="glossary-definition">
-      {{ glossary.BusinessGlossary.ProviderDashboardName.Definition }}
-    </div>
-    <br />
-    <div>
+  <div *ngIf="glossarySelected.length">
+    <div *ngFor="let glossary of glossarySelected; let i = index">
+      <div class="glossary-title">
+        {{ glossary.BusinessGlossary.ProviderDashboardName.Metric }}
+      </div>
+      <br />
+      <div class="glossary-definition">
+        {{ glossary.BusinessGlossary.ProviderDashboardName.Definition }}
+      </div>
+      <br />
+      <!-- <div>
       <a class="go-to-metric-location">
         Go To Metric Location >
       </a>
+    </div> -->
+      <div
+        *ngIf="glossary.BusinessGlossary.ProviderDashboardName.Formula.trim().length != 0"
+        class="glossary-definition"
+      >
+        Metric Formula
+        {{ glossary.BusinessGlossary.ProviderDashboardName.Formula }}
+      </div>
     </div>
-    <div *ngIf="glossary.BusinessGlossary.ProviderDashboardName.Formula.trim().length != 0" class="glossary-definition">
-      Metric Formula
-      {{ glossary.BusinessGlossary.ProviderDashboardName.Formula }}
-    </div>
-  </div> -->
+  </div>
 </div>
