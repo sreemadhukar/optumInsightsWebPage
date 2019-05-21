@@ -1,10 +1,11 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { GlossaryService } from './../../rest/glossary/glossary.service';
 import { catchError } from 'rxjs/operators';
 import { MatIconRegistry, MatDialogRef, MatAutocompleteSelectedEvent } from '@angular/material';
+import { MatInput } from '@angular/material/input';
 
 @Component({
   selector: 'app-glossary',
@@ -13,6 +14,8 @@ import { MatIconRegistry, MatDialogRef, MatAutocompleteSelectedEvent } from '@an
 })
 export class GlossaryComponent implements OnInit {
   glossaryList: any;
+  public glossaryFlag: boolean;
+  glossarySelected = [];
   glossaryData: any[];
   public options: string[];
   glossaryTitleShow: String = '';
@@ -24,7 +27,9 @@ export class GlossaryComponent implements OnInit {
   public toHighlight = '';
   @Input() title;
 
-  constructor(private glossaryService: GlossaryService) {}
+  constructor(private glossaryService: GlossaryService) {
+    this.glossaryFlag = false;
+  }
 
   ngOnInit() {
     this.options = [];
@@ -34,6 +39,9 @@ export class GlossaryComponent implements OnInit {
         this.glossaryList[i].BusinessGlossary.ProviderDashboardName.metricData = this.glossaryList[
           i
         ].BusinessGlossary.ProviderDashboardName.Metric.replace(/[^a-zA-Z]/g, '');
+        if (this.glossaryList[i].BusinessGlossary.ProviderDashboardName.Metric === this.title) {
+          this.glossarySelected = [this.glossaryList[i]];
+        }
       }
       this.glossaryData = this.glossaryList.sort(function(a, b) {
         if (
@@ -86,7 +94,17 @@ export class GlossaryComponent implements OnInit {
       });
     });
   }
-  public filteredData(value) {}
+  public filteredData(value) {
+    for (let i = 0; i < this.glossaryList.length; i++) {
+      if (this.glossaryList[i].BusinessGlossary.ProviderDashboardName.Metric === value) {
+        this.glossarySelected = [this.glossaryList[i]];
+      }
+    }
+    console.log(this.glossarySelected);
+  }
+  closeGlossary() {
+    this.glossaryFlag = false;
+  }
   private _filter(value: string): string[] {
     if (value != undefined) {
       const filterValue = value.toLowerCase();

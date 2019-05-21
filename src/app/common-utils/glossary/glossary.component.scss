@@ -13,9 +13,29 @@
 ::ng-deep .mat-form-field-appearance-outline.mat-focused ::ng-deep .mat-form-field-outline-thick {
   color: #196ecf;
 }
+::ng-deep .mat-option-text {
+  font-family: 'UHCSans-Regular', 'Arial';
+  font-weight: 500 !important;
+}
 
 .business-glossary {
   padding: 10px;
+  .header-section {
+    // line-height: 28px;
+    margin: 0 0 30.5px 0;
+    position: relative;
+    .title {
+      color: #2d2d39;
+      font-family: 'UHC Sans';
+      font-size: 22px;
+      font-weight: 600;
+      text-align: center;
+    }
+    .path {
+      float: left;
+      color: #757588;
+    }
+  }
   &-header {
     text-align: center;
   }
@@ -26,22 +46,10 @@
       mat-form-field-flex {
         border: 1px solid #b3babc;
         border-radius: 5px;
-        mat-option-text {
-          font-family: 'UHCSans-Regular', 'Arial';
-          font-weight: 500 !important;
-        }
       }
     }
   }
 }
-// ::ng-deep .mat-form-field-flex {
-//   height: 41px;
-//   width: 355px;
-//   border: 1px solid #b3babc;
-//   border-radius: 2px;
-//   background-color: $white;
-//   padding-left: 10px;
-// }
 
 .glossary-title {
   color: $black-rock;
