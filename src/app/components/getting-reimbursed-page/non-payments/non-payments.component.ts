@@ -1,5 +1,5 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatIconRegistry } from '@angular/material';
+import { Component, OnInit, ViewChild, ViewEncapsulation, AfterViewChecked } from '@angular/core';
+import { MatIconRegistry, PageEvent } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 import { GettingReimbursedSharedService } from '../../../shared/getting-reimbursed/getting-reimbursed-shared.service';
 import { MatPaginator, MatTableDataSource, MatSort } from '@angular/material';
@@ -7,9 +7,10 @@ import { MatPaginator, MatTableDataSource, MatSort } from '@angular/material';
 @Component({
   selector: 'app-non-payments',
   templateUrl: './non-payments.component.html',
-  styleUrls: ['./non-payments.component.scss']
+  styleUrls: ['./non-payments.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
-export class NonPaymentsComponent implements OnInit {
+export class NonPaymentsComponent implements OnInit, AfterViewChecked {
   title = 'Top Reasons for Claims Non-Payment';
   facilityTitle = 'Claims Non-Payments by Facility';
   timePeriod = 'Last 6 Months';
@@ -349,6 +350,11 @@ export class NonPaymentsComponent implements OnInit {
       cobNeedFortherAction: '$3.7M'
     }
   ];
+  pageIndex = 0;
+  previousPageIndex = 0;
+  pageNumber = 1;
+  totalPages = 0;
+  totalRecords = 0;
 
   constructor(
     private iconRegistry: MatIconRegistry,
@@ -385,5 +391,40 @@ export class NonPaymentsComponent implements OnInit {
       this.currentSummary = this.summaryItems[2].data;
       this.currentTabTitle = this.summaryItems[2].title;
     });
+  }
+  ngAfterViewChecked() {
+    const list = document.getElementsByClassName('mat-paginator-range-label');
+    list[0].innerHTML = 'Page: ' + this.paginator.pageIndex;
+    this.totalPages = this.paginator.getNumberOfPages();
+    this.totalRecords = this.paginator.length;
+  }
+  syncPrimaryPaginator(event: PageEvent) {
+    this.pageIndex = event.pageIndex;
+    this.previousPageIndex = event.previousPageIndex;
+    /*this.paginator.pageIndex = event.pageIndex;
+    this.paginator.pageSize = event.pageSize;
+    this.paginator.page.emit(event);*/
+  }
+  changePagination(event) {
+    this.totalPages = this.paginator.getNumberOfPages();
+    this.paginator.pageSize = Number(event.target.value);
+    // let index = (this.length / event.target.value) - 1;
+    // let preindex = (this.length / event.target.value);
+    this.paginator.page.emit({
+      previousPageIndex: 2,
+      pageIndex: 1,
+      pageSize: event.target.value,
+      length: this.paginator.length
+    });
+    this.paginator.firstPage();
+    // this.paginator.pageIndex = event.target.value;
+  }
+  changePage() {
+    (this.paginator.pageIndex = this.pageNumber - 1), // number of the page you want to jump.
+      this.paginator.page.next({
+        pageIndex: this.pageNumber - 1,
+        pageSize: this.paginator.pageSize,
+        length: this.paginator.length
+      });
   }
 }

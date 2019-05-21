@@ -68,6 +68,17 @@
     <div class="claims-non-payments-by-facility-block">
       <app-common-header [title]="facilityTitle" class="full-display"></app-common-header>
       <div class="claims-non-payments-by-facility-table">
+        <!-- <mat-paginator #paginator [length]="100" [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>-->
+        <p>
+          Displaying
+          <select (change)="changePagination($event)">
+            <option value="5">5</option>
+            <option value="10">10</option>
+            <option value="15">15</option>
+            <option value="20">20</option>
+          </select>
+          of {{ totalRecords }}
+        </p>
         <table mat-table [dataSource]="dataSource" matSort matSortActive="facilityName" matSortDirection="asc">
           <!-- Position Column -->
           <ng-container matColumnDef="facilityName">
@@ -117,7 +128,9 @@
           <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
         </table>
 
-        <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+        <mat-paginator (page)="syncPrimaryPaginator($event)" [pageSize]="5"></mat-paginator>
+
+        <p>Page <input type="text" [(ngModel)]="pageNumber" (change)="changePage()" /> of {{ totalPages }}</p>
       </div>
 
       <div class="full-display">
