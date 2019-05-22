@@ -67,8 +67,9 @@ export class PriorAuthComponent implements OnInit {
             graphValues: [PAApprovedCount, PANotApprovedCount, PANotPendingCount, PANotCancelledCount],
             centerNumber: this.nFormatter(PARequestedCount, 1),
             color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'],
-
-            gdata: ['card-inner', 'PARequested']
+            labels: ['Approved', 'Not Approved', 'Pending', 'Canceled'],
+            gdata: ['card-inner', 'PARequested'],
+            hover: true
           },
           besideData: {
             labels: ['Approved', 'Not Approved', 'Pending', 'Canceled'],

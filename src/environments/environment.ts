@@ -9,6 +9,7 @@ export const environment: any = {
   Pointing to QA1 environment
    apiProxyUrl: 'https://gateway-stage-core.optum.com/api/qaone/pdr/uhci/v1/',
    originUrl: 'https://pedui1-pedtst.ocp-ctc-core-nonprod.optum.com/',
+   https://pedui1-pedtst.ocp-ctc-core-nonprod.optum.co
    */
   /*
   QA1 pointing to INT environment to interact with INT API
@@ -20,7 +21,7 @@ export const environment: any = {
   apiProxyUrl: 'https://gateway-stage-core.optum.com/api/devfour/pdr/uhci/v1/',
   originUrl: 'https://pedintui-pedstg.ocp-ctc-dmz-stg.optum.com/',
   */
-  apiProxyUrl: 'https://gateway-stage-core.optum.com/api/devfour/pdr/uhci/v1/',
+  apiProxyUrl: 'https://nginx-pedtst.ocp-ctc-core-nonprod.optum.com/',
   originUrl: 'https://pedintui-pedstg.ocp-ctc-dmz-stg.optum.com/',
   apiUrls: {
     ExecutiveSummaryPath: 'providersystems/',
