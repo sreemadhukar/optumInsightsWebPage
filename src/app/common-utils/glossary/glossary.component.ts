@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { FormBuilder, FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
@@ -14,7 +14,6 @@ import { MatInput } from '@angular/material/input';
 })
 export class GlossaryComponent implements OnInit {
   glossaryList: any;
-  public glossaryFlag: boolean;
   glossarySelected = [];
   glossaryData: any[];
   public options: string[];
@@ -26,21 +25,24 @@ export class GlossaryComponent implements OnInit {
   public optionND = false;
   public toHighlight = '';
   @Input() title;
-
-  constructor(private glossaryService: GlossaryService) {
-    this.glossaryFlag = false;
-  }
+  constructor(private glossaryService: GlossaryService) {}
 
   ngOnInit() {
     this.options = [];
+    this.glossarySelected = [];
     this.glossaryService.getBusinessGlossaryData().subscribe(response => {
       this.glossaryList = JSON.parse(JSON.stringify(response));
       for (let i = 0; i < this.glossaryList.length; i++) {
         this.glossaryList[i].BusinessGlossary.ProviderDashboardName.metricData = this.glossaryList[
           i
         ].BusinessGlossary.ProviderDashboardName.Metric.replace(/[^a-zA-Z]/g, '');
-        if (this.glossaryList[i].BusinessGlossary.ProviderDashboardName.Metric === this.title) {
-          this.glossarySelected = [this.glossaryList[i]];
+        if (
+          this.glossaryList[i].BusinessGlossary.ProviderDashboardName.Metric.toLowerCase().includes(
+            this.title.toLowerCase()
+          )
+        ) {
+          console.log(this.glossarySelected);
+          this.glossarySelected.push(this.glossaryList[i]);
         }
       }
       this.glossaryData = this.glossaryList.sort(function(a, b) {
@@ -102,9 +104,7 @@ export class GlossaryComponent implements OnInit {
     }
     console.log(this.glossarySelected);
   }
-  closeGlossary() {
-    this.glossaryFlag = false;
-  }
+
   private _filter(value: string): string[] {
     if (value != undefined) {
       const filterValue = value.toLowerCase();

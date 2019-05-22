@@ -277,7 +277,7 @@ app-header {
 
 .h-3-title {
   height: 28px;
-  width: 418px;
+  width: 346px;
   color: #2d2d39;
   font-family: 'UHC Sans';
   font-size: 22px;
@@ -292,4 +292,12 @@ app-header {
 
 .pointer-none {
   pointer-events: none;
+}
+
+.sidenav-glossary {
+  position: absolute !important;
+  z-index: 9999 !important;
+}
+.sidemargin {
+  margin: 0 24px 0 24px;
 }

@@ -3,6 +3,7 @@ import { MatIconRegistry, PageEvent } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 import { GettingReimbursedSharedService } from '../../../shared/getting-reimbursed/getting-reimbursed-shared.service';
 import { MatPaginator, MatTableDataSource, MatSort } from '@angular/material';
+import { GlossaryExpandService } from '../../../shared/glossary-expand.service';
 
 @Component({
   selector: 'app-non-payments',
@@ -360,7 +361,8 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
     private iconRegistry: MatIconRegistry,
     sanitizer: DomSanitizer,
     private gettingReimbursedSharedService: GettingReimbursedSharedService,
-    private cdRef: ChangeDetectorRef
+    private cdRef: ChangeDetectorRef,
+    private glossaryExpandService: GlossaryExpandService
   ) {
     /** INITIALIZING SVG ICONS TO USE IN DESIGN - ANGULAR MATERIAL */
 
@@ -421,5 +423,8 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
         pageSize: this.paginator.pageSize,
         length: this.paginator.length
       });
+  }
+  helpIconClick(title) {
+    this.glossaryExpandService.setMessage(title);
   }
 }

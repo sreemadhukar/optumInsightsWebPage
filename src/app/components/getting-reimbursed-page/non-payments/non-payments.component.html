@@ -17,7 +17,11 @@
     </div>
 
     <div class="top-reasons-for-claims-non-payment-block">
-      <app-common-header [title]="title" class="full-display"></app-common-header>
+      <app-common-header
+        [title]="title"
+        class="full-display"
+        (helpIconClicked)="helpIconClick($event)"
+      ></app-common-header>
       <div class="bar-graphs-block">
         <div
           class="bar-graphs"
@@ -66,7 +70,11 @@
     </div>
 
     <div class="claims-non-payments-by-facility-block">
-      <app-common-header [title]="facilityTitle" class="full-display padding-bottom-15"></app-common-header>
+      <app-common-header
+        [title]="facilityTitle"
+        class="full-display padding-bottom-15"
+        (helpIconClicked)="helpIconClick($event)"
+      ></app-common-header>
       <p class="top-pagination">
         Displaying
         <select class="top-pagination-dropdown" (change)="changePagination($event)">

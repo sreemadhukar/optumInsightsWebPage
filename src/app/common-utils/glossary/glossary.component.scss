@@ -20,21 +20,16 @@
 
 .business-glossary {
   padding: 10px;
-  .header-section {
-    // line-height: 28px;
-    margin: 0 0 30.5px 0;
-    position: relative;
-    .title {
-      color: #2d2d39;
-      font-family: 'UHC Sans';
-      font-size: 22px;
-      font-weight: 600;
-      text-align: center;
-    }
-    .path {
-      float: left;
-      color: #757588;
-    }
+  .title {
+    color: #2d2d39;
+    font-family: 'UHC Sans';
+    font-size: 22px;
+    font-weight: 600;
+    text-align: center;
+  }
+  .path {
+    float: left;
+    color: #757588;
   }
   &-header {
     text-align: center;
@@ -42,7 +37,7 @@
 
   &-form {
     mat-form-field {
-      width: 95%;
+      width: 100%;
       mat-form-field-flex {
         border: 1px solid #b3babc;
         border-radius: 5px;
@@ -54,22 +49,18 @@
 .glossary-title {
   color: $black-rock;
   font-family: 'UHCSans-SemiBold', 'Arial';
-  font-size: 28px;
-  font-weight: 400;
-  line-height: 32px;
-  padding-left: 10px;
+  font-size: 16px;
+  line-height: 22px;
+  letter-spacing: 0.2px;
 }
 
 .glossary-definition {
-  height: 100%;
-  width: 338px;
   color: $black-rock;
   font-family: 'UHCSans-Regular', 'Arial';
   font-size: 16px;
   font-weight: 500;
   letter-spacing: 0.2px;
   line-height: 22px;
-  padding-left: 10px;
 }
 
 .go-to-metric-location {
@@ -79,7 +70,6 @@
   font-weight: 600;
   letter-spacing: 0.2px;
   line-height: 22px;
-  padding-left: 10px;
 }
 
 .icon-search-black {
