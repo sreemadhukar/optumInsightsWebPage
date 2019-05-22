@@ -3,6 +3,7 @@ import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 import { GettingReimbursedSharedService } from '../../../shared/getting-reimbursed/getting-reimbursed-shared.service';
 import { MatPaginator, MatTableDataSource, MatSort } from '@angular/material';
+import { GlossaryExpandService } from '../../../shared/glossary-expand.service';
 
 @Component({
   selector: 'app-non-payments',
@@ -353,7 +354,8 @@ export class NonPaymentsComponent implements OnInit {
   constructor(
     private iconRegistry: MatIconRegistry,
     sanitizer: DomSanitizer,
-    private gettingReimbursedSharedService: GettingReimbursedSharedService
+    private gettingReimbursedSharedService: GettingReimbursedSharedService,
+    private glossaryExpandService: GlossaryExpandService
   ) {
     /** INITIALIZING SVG ICONS TO USE IN DESIGN - ANGULAR MATERIAL */
 
@@ -385,5 +387,8 @@ export class NonPaymentsComponent implements OnInit {
       this.currentSummary = this.summaryItems[2].data;
       this.currentTabTitle = this.summaryItems[2].title;
     });
+  }
+  helpIconClick(title) {
+    this.glossaryExpandService.setMessage(title);
   }
 }

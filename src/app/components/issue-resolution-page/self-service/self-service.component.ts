@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { SelfSharedService } from '../../../shared/issue-resolution/self-shared.service';
 import { SessionService } from '../../../shared/session.service';
 import { StorageService } from '../../../shared/storage-service.service';
+import { GlossaryExpandService } from '../../../shared/glossary-expand.service';
+
 @Component({
   selector: 'app-self-service',
   templateUrl: './self-service.component.html',
@@ -32,7 +34,8 @@ export class SelfServiceComponent implements OnInit {
   constructor(
     private selfServiceSrc: SelfSharedService,
     private checkStorage: StorageService,
-    private session: SessionService
+    private session: SessionService,
+    private glossaryExpandService: GlossaryExpandService
   ) {
     this.pageTitle = 'Self Service';
     this.timeFrame = 'Time Period - Time Period';
@@ -130,4 +133,7 @@ export class SelfServiceComponent implements OnInit {
       this.callCostCallIn90daysValue = this.callCostOperatingData[0].callCostCallIn90daysValue;
     }
   } // ngOnit funtion ends here
+  helpIconClick(title) {
+    this.glossaryExpandService.setMessage(title);
+  }
 }
