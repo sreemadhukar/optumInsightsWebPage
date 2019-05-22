@@ -3,7 +3,7 @@
     <form class="business-glossary-form">
       <mat-form-field appearance="outline">
         <mat-label>What metrics can we help you with ?</mat-label>
-        <input type="text" #glossary matInput [matAutocomplete]="auto" [formControl]="glossaryCtrl" />
+        <input type="text" matInput [matAutocomplete]="auto" [formControl]="glossaryCtrl" />
         <mat-icon matPrefix class="nav-menu-icons" svgIcon="search"></mat-icon>
         <mat-autocomplete #auto="matAutocomplete" (optionSelected)="filteredData($event.option.value)">
           <mat-option *ngFor="let glossary of (filteredOptions | async)" [value]="glossary">
@@ -16,7 +16,7 @@
           >
             No Results Found For <b>{{ toHighlight }}</b>
           </mat-option>
-          <mat-option class="view-allMetrics">View All Metrics</mat-option>
+          <div class="view-allMetrics">View All Metrics</div>
         </mat-autocomplete>
       </mat-form-field>
     </form>

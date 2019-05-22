@@ -11,7 +11,7 @@
   box-shadow: 0 20px 40px 0 rgba(0, 0, 0, 0.15);
 }
 ::ng-deep .mat-form-field-appearance-outline.mat-focused ::ng-deep .mat-form-field-outline-thick {
-  color: #196ecf;
+  color: $blue;
 }
 ::ng-deep .mat-option-text {
   font-family: 'UHCSans-Regular', 'Arial';
@@ -64,7 +64,7 @@
 }
 
 .go-to-metric-location {
-  color: #196ecf;
+  color: $blue;
   font-family: 'UHCSans-Regular', 'Arial';
   font-size: 16px;
   font-weight: 600;
@@ -82,6 +82,11 @@
   width: 40px;
 }
 .view-allMetrics {
-  color: #196ecf;
+  color: $blue;
   cursor: pointer;
+  font-family: 'UHCSans-SemiBold';
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+  padding: 18px 0 18px 18px;
 }
