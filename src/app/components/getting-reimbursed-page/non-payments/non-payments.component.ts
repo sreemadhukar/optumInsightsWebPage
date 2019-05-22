@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ViewEncapsulation, AfterViewChecked } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewEncapsulation, AfterViewChecked, ChangeDetectorRef } from '@angular/core';
 import { MatIconRegistry, PageEvent } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 import { GettingReimbursedSharedService } from '../../../shared/getting-reimbursed/getting-reimbursed-shared.service';
@@ -354,12 +354,13 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
   previousPageIndex = 0;
   pageNumber = 1;
   totalPages = 0;
-  totalRecords = 0;
+  totalRecords: any = 0;
 
   constructor(
     private iconRegistry: MatIconRegistry,
     sanitizer: DomSanitizer,
-    private gettingReimbursedSharedService: GettingReimbursedSharedService
+    private gettingReimbursedSharedService: GettingReimbursedSharedService,
+    private cdRef: ChangeDetectorRef
   ) {
     /** INITIALIZING SVG ICONS TO USE IN DESIGN - ANGULAR MATERIAL */
 
@@ -397,19 +398,13 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
     list[0].innerHTML = 'Page: ' + this.paginator.pageIndex;
     this.totalPages = this.paginator.getNumberOfPages();
     this.totalRecords = this.paginator.length;
+    this.cdRef.detectChanges();
   }
   syncPrimaryPaginator(event: PageEvent) {
-    this.pageIndex = event.pageIndex;
-    this.previousPageIndex = event.previousPageIndex;
-    /*this.paginator.pageIndex = event.pageIndex;
-    this.paginator.pageSize = event.pageSize;
-    this.paginator.page.emit(event);*/
+    this.pageNumber = event.pageIndex + 1;
   }
   changePagination(event) {
-    this.totalPages = this.paginator.getNumberOfPages();
     this.paginator.pageSize = Number(event.target.value);
-    // let index = (this.length / event.target.value) - 1;
-    // let preindex = (this.length / event.target.value);
     this.paginator.page.emit({
       previousPageIndex: 2,
       pageIndex: 1,
@@ -417,7 +412,7 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
       length: this.paginator.length
     });
     this.paginator.firstPage();
-    // this.paginator.pageIndex = event.target.value;
+    this.pageNumber = 1;
   }
   changePage() {
     (this.paginator.pageIndex = this.pageNumber - 1), // number of the page you want to jump.

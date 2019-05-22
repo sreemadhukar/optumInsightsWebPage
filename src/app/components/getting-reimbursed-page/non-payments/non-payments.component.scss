@@ -7,7 +7,7 @@
 .top-reasons-for-claims-non-payment-block {
   width: 961px;
   border-radius: 2px;
-  background-color: #ffffff;
+  background-color: $white;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
   margin: 12px;
   float: left;
@@ -135,9 +135,9 @@
   box-sizing: border-box;
   height: 33px;
   width: 230px;
-  border: 1px solid #b3babc;
+  border: 1px solid $heather;
   border-radius: 16px;
-  background-color: #e0e0e0;
+  background-color: $gainsboro;
   line-height: 30px;
   padding-left: 7px;
   float: left;
@@ -178,7 +178,7 @@
 }
 .top-5-block {
   border-radius: 2px;
-  background-color: #ffffff;
+  background-color: $white;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
   width: 185.6px;
   height: 154px;
@@ -216,95 +216,176 @@
 .claims-non-payments-by-facility-block {
   width: 961px;
   border-radius: 2px;
-  background-color: #ffffff;
+  background-color: $white;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
   margin: 12px;
   float: left;
-}
-.claims-non-payments-by-facility-table {
-  table {
-    width: 100%;
-  }
-  .mat-row {
-    height: 60px !important;
-  }
-  .mat-header-row {
-    height: 72px !important;
-    border-top: 1px solid $gainsboro;
-  }
-  .mat-header-cell,
-  .mat-table-cell {
-    padding: 0px !important;
-    vertical-align: middle;
-  }
-  td.mat-cell:first-of-type,
-  td.mat-footer-cell:first-of-type,
-  th.mat-header-cell:first-of-type {
-    padding-left: 32px !important;
-    border-left: none;
-    width: auto !important;
-    box-sizing: border-box;
-  }
-  .mat-table-cell,
-  .mat-table-header-cell {
-    padding-left: 16.5px !important;
+  position: relative;
+  .top-pagination {
+    position: absolute;
+    right: 56px;
+    top: 15.5px;
     color: $black-rock;
     font-family: 'UHCSans-Regular';
     font-size: 14px;
     font-weight: 500;
     letter-spacing: 0.2px;
     line-height: 18px;
-    width: 146px !important;
-    box-sizing: border-box;
   }
-  .table-facility-tin {
-    font-weight: 500;
-    font-family: 'UHCSans-Regular';
-  }
-  .table-facility-healthsystem {
-    font-weight: 600;
-    font-family: 'UHCSans-Regular';
-  }
-  mat-row,
-  mat-header-row,
-  mat-footer-row,
-  th.mat-header-cell,
-  td.mat-cell,
-  td.mat-footer-cell {
-    border-bottom-color: $gainsboro;
-    border-left: 1px solid $gainsboro;
-  }
-  .mat-row:nth-child(even) {
+  .top-pagination-dropdown {
+    width: 72px;
+    border: 1px solid $heather;
+    border-radius: 2px;
     background-color: $white;
+    box-sizing: border-box;
+    height: 41px;
+    color: $strom-grey;
+    font-family: 'UHCSans-Regular';
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: 0.2px;
+    line-height: 22px;
+    padding: 9px 12.5px;
+    margin-left: 7.5px;
+    margin-right: 7.5px;
+  }
+  .padding-bottom-15 {
+    padding-bottom: 15.5px;
+  }
+  .facility-tble-time-period {
+    padding-bottom: 16px;
+    float: left;
+    padding-top: 24px;
+  }
+  .jump-to-page-number {
+    box-sizing: border-box;
+    height: 41px;
+    width: 51px;
+    border: 1px solid $heather;
+    border-radius: 2px;
+    background-color: $white;
+    padding: 8px 4px;
+    text-align: center;
+    color: $strom-grey;
+  }
+  .bottom-pagination {
+    position: absolute;
+    right: 114px;
+    padding-top: 15.5px;
+    color: $black-rock;
+    font-family: 'UHCSans-Regular';
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.2px;
+    line-height: 18px;
+  }
+  .bottom-pagination-arrows {
+    position: absolute;
+    right: 0;
+  }
+  .common-footer {
+    border-top: none !important;
   }
 
-  .mat-row:nth-child(odd) {
-    background-color: $alice-blue;
-  }
-  .mat-row:hover {
-    background-color: $darker-alice-blue;
-    cursor: pointer;
-  }
-  .mat-table-header-cell {
-    font-weight: 600 !important;
-  }
-  .mat-sort-header-button {
-    text-align: left !important;
-  }
-  .mat-paginator-page-size,
-  .mat-paginator-range-label {
-    display: none;
-  }
-  .mat-paginator-navigation-previous,
-  .mat-paginator-navigation-next {
-    border: 1px solid #196ecf;
-    border-radius: 2px;
-    color: #196ecf;
-  }
-  .mat-paginator-navigation-next {
-    margin-left: 6px;
-  }
-  .mat-icon-button[disabled][disabled] {
-    border: 1px solid rgba(0, 0, 0, 0.26);
+  .claims-non-payments-by-facility-table {
+    table {
+      width: 100%;
+    }
+    .mat-row {
+      height: 60px !important;
+    }
+    .mat-header-row {
+      height: 72px !important;
+      border-top: 1px solid $gainsboro;
+    }
+    .mat-header-cell,
+    .mat-table-cell {
+      padding: 0px !important;
+      vertical-align: middle;
+    }
+    td.mat-cell:first-of-type,
+    td.mat-footer-cell:first-of-type,
+    th.mat-header-cell:first-of-type {
+      padding-left: 32px !important;
+      border-left: none;
+      width: auto !important;
+      box-sizing: border-box;
+    }
+    .mat-table-cell,
+    .mat-table-header-cell {
+      padding-left: 16.5px !important;
+      color: $black-rock;
+      font-family: 'UHCSans-Regular';
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: 0.2px;
+      line-height: 18px;
+      width: 146px !important;
+      box-sizing: border-box;
+    }
+    .table-facility-tin {
+      font-weight: 500;
+      font-family: 'UHCSans-Regular';
+    }
+    .table-facility-healthsystem {
+      font-weight: 600;
+      font-family: 'UHCSans-Regular';
+    }
+    mat-row,
+    mat-header-row,
+    mat-footer-row,
+    th.mat-header-cell,
+    td.mat-cell,
+    td.mat-footer-cell {
+      border-bottom-color: $gainsboro;
+      border-left: 1px solid $gainsboro;
+    }
+    .mat-row:nth-child(even) {
+      background-color: $white;
+    }
+
+    .mat-row:nth-child(odd) {
+      background-color: $alice-blue;
+    }
+    .mat-row:hover {
+      background-color: $darker-alice-blue;
+      cursor: pointer;
+    }
+    .mat-table-header-cell {
+      font-weight: 600 !important;
+    }
+    .mat-sort-header-button {
+      text-align: left !important;
+    }
+    .mat-paginator-page-size,
+    .mat-paginator-range-label {
+      display: none;
+    }
+    .mat-paginator-navigation-previous,
+    .mat-paginator-navigation-next {
+      border: none !important;
+    }
+    .mat-paginator-navigation-next {
+      margin-left: 6px;
+    }
+    .mat-icon-button[disabled][disabled] > .mat-button-wrapper > .mat-paginator-icon {
+      border: 1px solid $heather;
+      color: $strom-grey;
+    }
+    .mat-paginator-icon {
+      width: 41px;
+      padding: 8px;
+      border: 1px solid $blue;
+      border-radius: 2px;
+      color: $blue;
+      box-sizing: border-box;
+    }
+    .mat-paginator-container {
+      min-height: 0;
+      height: auto;
+    }
+    .mat-paginator-range-actions {
+      padding-top: 15.5px;
+    }
   }
 }
