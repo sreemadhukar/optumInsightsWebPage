@@ -17,7 +17,7 @@
      font-family: 'UHCSans-Regular', 'Arial';;
      font-size: 14px;
      font-weight: 600;
-     fill: '@epd-primary-text';
+     fill: #2D2D39;
      text-transform: uppercase;
   }
   .mt-25{
@@ -27,7 +27,7 @@
      font-family: 'UHCSans-Regular', 'Arial';;
      font-weight: 700;
      font-size: 14px;
-     fill: '@epd-primary-text';
+     fill: #2D2D39;
   }
  
  .grid line {
@@ -52,12 +52,10 @@
      font-family: 'UHCSans-Regular', 'Arial';;
      font-size: 14px;
      font-weight: 600;
-     fill: '@epd-primary-text';
+     fill: #2D2D39;
  }
  
  .dot {
-     fill: white;
-     stroke: rgba( 25, 110, 207, 1);
      border: 15px;
      border-color: rgba( 25, 110, 207, 1);
  }
@@ -97,7 +95,7 @@
     content: "";
     position: absolute;
     top: 10px;
-    right: 213px;
+    right: 120px;
     width: 0;
     height: 0;
     border-top: 10px solid transparent;
@@ -106,7 +104,7 @@
 }
   .tooltipClass {
     position: absolute;
-    width: 213px;
+    width: auto;
     height: auto;
     padding: 10px 12px;
     color: black;
@@ -123,7 +121,7 @@
     content: "";
     position: absolute;
     top: 10px;
-    left: 213px;
+    left: 120px;
     width: 0;
     height: 0;
     border-top: 10px solid transparent;
@@ -132,7 +130,7 @@
 }
   .tooltipClassLeft {
     position: absolute;
-    width: 213px;
+    width: auto;
     height: auto;
     padding: 10px 12px;
     color: black;
@@ -147,10 +145,11 @@
 
   
   .lineLabelHover{
-      font-size: 15px;
-      font-weight: bold;
+      font-size: 14px;
+      font-weight: 600;
       line-height: 18px;
       padding-bottom: 5px;
+      color: #2D2D39;
   }
   .claim-yield-rate {
      font-size: 14px;
@@ -188,7 +187,7 @@
      border: 2px dashed #D53704;
      background-color: rgba(255,95,14,0.25);
  }        
- .hr_cust_margin{
+ /*.hr-cust-margin{
      height: 1px;
      margin-top:6px;
      margin-bottom:6px;
@@ -197,7 +196,7 @@
  }
  .hr_opacity{
      opacity: 0.5;
- }
+ }*/
  .displayNone{
      display: none;
  }

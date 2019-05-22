@@ -164,21 +164,14 @@ export class LineGraphComponent implements OnInit {
       if (year == undefined || !year || year === '') {
         return (
           "<div class='lineLabelHover'>" +
-          d.x +
-          // tslint:disable-next-line:max-line-length
-          "&nbsp; Trend Details</div><hr class='hr_cust_margin'><div class='details_label'><span class='circle_label_sm circle1'></span>&nbsp;&nbsp;&nbsp;" +
-          d.x +
-          // tslint:disable-next-line:max-line-length
-          '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' +
+          "Claims Not Paid</div><div class='details-label'>" +
           prefix +
           formatDy(d.y)
         );
       } else {
         return (
           "<div class='lineLabelHover'>" +
-          d.x +
-          // tslint:disable-next-line:max-line-length
-          "&nbsp; Trend Details</div><hr class='hr_cust_margin'><div class='details_label'><span class='circle_label_sm circle1'></span>&nbsp;&nbsp;&nbsp;" +
+          "&nbsp; Claims Not Paid</div><div class='details-label'>&nbsp;&nbsp;&nbsp;" +
           d.x +
           '&nbsp;&nbsp;' +
           year[0] +
@@ -192,8 +185,6 @@ export class LineGraphComponent implements OnInit {
           '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' +
           prefix +
           formatDy(d.y_twoYearsAgo) +
-          // "<hr class='hr_cust_margin hr_opacity'><div class='claim-yield-rate'>Claims Yield Rate &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
-          // +((d.y/d.y_twoYearsAgo)*100).toFixed(1)+
           '%</div></div>'
         );
       }
@@ -203,7 +194,7 @@ export class LineGraphComponent implements OnInit {
         "<div class='lineLabelHover'>" +
         d.x +
         // tslint:disable-next-line:max-line-length
-        "&nbsp; Trend Details</div><hr class='hr_cust_margin'><div class='details_label'><span class='circle_label_sm circle1'></span>&nbsp;&nbsp;&nbsp;" +
+        "&nbsp; Trend Details</div><hr class='hr_cust_margin'><div class='details-label'><span class='circle_label_sm circle1'></span>&nbsp;&nbsp;&nbsp;" +
         d.x +
         '&nbsp;&nbsp;' +
         year[0] +
@@ -217,14 +208,11 @@ export class LineGraphComponent implements OnInit {
         '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' +
         prefix +
         formatDy(d.y) +
-        //  "<hr class='hr_cust_margin hr_opacity'><div class='claim-yield-rate'>Claims Yield Rate &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
-        //  +((d.y_lastYear/d.y)*100).toFixed(1)+
         '%</div></div>'
       );
     }
 
     const preWidth = 961; // document.getElementById(generalData[0].parentDiv).clientWidth;
-    console.log(document.getElementById(generalData[0].parentDiv).clientWidth);
 
     let topMarginSubtract = 150;
     if (titleData[0].topTitleBoxNumber) {
@@ -248,7 +236,7 @@ export class LineGraphComponent implements OnInit {
         .style('background-color', generalData[0].backgroundColor)
         .append('g')
         .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
-
+        // .attr('transform', 'rotate(' + -30 + ')');
        const div = d3
       .select(this.renderChart)
       .append('div')
@@ -256,7 +244,7 @@ export class LineGraphComponent implements OnInit {
       .style('opacity', 0);
 
 
-    const shiftTooltip = -260;
+    const shiftTooltip = -155;
 
     if (generalData[0].tooltipBoolean === true) {
       // tslint:disable-next-line:no-var-keyword
@@ -358,6 +346,7 @@ export class LineGraphComponent implements OnInit {
       .attr('font-family', 'UHCSans-Regular')
       .attr('font-size', '14px')
       .text(chartData[0].name)
+      .style('fill', '#2D2D39')
       .style('font-weight', '600');
 
     const text_element1 = chart.select('#forlolCalculations');
@@ -597,6 +586,7 @@ export class LineGraphComponent implements OnInit {
         .data(data)
         .enter()
         .append('circle')
+        .style('fill', '#3381FF')
         .attr('class', 'dot')
         .attr('cx', function(d) {
           return d.xCoordinate;
@@ -604,7 +594,7 @@ export class LineGraphComponent implements OnInit {
         .attr('cy', function(d) {
           return yScale(d.y);
         })
-        .attr('r', 5)
+        .attr('r', 6)
         .on('mouseover', d => {
           tooltipVar
             .transition()
@@ -725,7 +715,6 @@ export class LineGraphComponent implements OnInit {
         .attr('fill', 'white')
         .attr('stroke', '#B3BABC')
         .attr('stroke-width', 1);
-
       chart
         .append('text')
         .attr('id', 'forTextCalculations')
