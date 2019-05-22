@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { PriorAuthService } from '../../../rest/prior-auth/prior-auth.service';
 import { SessionService } from '../../../shared/session.service';
 import { StorageService } from '../../../shared/storage-service.service';
+import { PriorAuthSharedService } from '../../../shared/prior-authorization/prior-auth.service';
 
 @Component({
   selector: 'app-prior-auth',
@@ -19,7 +20,8 @@ export class PriorAuthComponent implements OnInit {
   constructor(
     private priorAuthService: PriorAuthService,
     private sessionService: SessionService,
-    private checkStorage: StorageService
+    private checkStorage: StorageService,
+    private priorAuthShared: PriorAuthSharedService
   ) {
     this.pagesubTitle = '';
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.ngOnInit());
@@ -98,6 +100,10 @@ export class PriorAuthComponent implements OnInit {
           timeperiod: 'Last 6 Months'
         }
       ];
+    });
+
+    this.priorAuthShared.getPriorAuthData().then(data => {
+      console.log(data);
     });
 
     const newParameters = [
