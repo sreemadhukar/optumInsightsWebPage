@@ -100,6 +100,14 @@
     float: left;
     width: 100%;
   }
+  .calls-beside-data-block {
+    float: right;
+    padding: 80px 20px 0px 0px;
+  }
+  .total-claims-donut-with-label {
+    float: left;
+    padding: 14px 0px 32px 77px;
+  }
   .total-claims-donut-with-label {
     float: left;
     padding: 14px 0px 32px 77px;
@@ -114,7 +122,8 @@
   }
 
   .claims-paid-donut-with-label,
-  .claims-appeals-submitted-donut-with-label {
+  .claims-appeals-submitted-donut-with-label,
+  .calls-donut-with-label {
     float: left;
     padding: 14px 0px 32px 32px;
   }
