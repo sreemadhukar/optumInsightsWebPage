@@ -1,11 +1,9 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { FormBuilder, FormControl } from '@angular/forms';
+import { Component, OnInit, Input, ViewChild } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { GlossaryService } from './../../rest/glossary/glossary.service';
 import { catchError } from 'rxjs/operators';
-import { MatIconRegistry, MatDialogRef, MatAutocompleteSelectedEvent } from '@angular/material';
-import { MatInput } from '@angular/material/input';
 
 @Component({
   selector: 'app-glossary',
@@ -41,7 +39,6 @@ export class GlossaryComponent implements OnInit {
             this.title.toLowerCase()
           )
         ) {
-          console.log(this.glossarySelected);
           this.glossarySelected.push(this.glossaryList[i]);
         }
       }
@@ -67,7 +64,7 @@ export class GlossaryComponent implements OnInit {
       if (this.options.length) {
         this.filteredOptions = this.glossaryCtrl.valueChanges.pipe(
           startWith(''),
-          map(value => this._filter(value))
+          map(value => (value ? this._filter(value) : null))
         );
       }
       const results = {};
@@ -92,7 +89,6 @@ export class GlossaryComponent implements OnInit {
         if (mdata.length > 0) {
           this.metricDataList.push({ key: key, value: results[key], rdata: mdata });
         }
-        // console.log(this.metricDataList);
       });
     });
   }
@@ -102,11 +98,10 @@ export class GlossaryComponent implements OnInit {
         this.glossarySelected = [this.glossaryList[i]];
       }
     }
-    console.log(this.glossarySelected);
   }
 
   private _filter(value: string): string[] {
-    if (value != undefined) {
+    if (value != undefined && value != null && value) {
       const filterValue = value.toLowerCase();
       this.toHighlight = value;
       const optionsData = this.options.filter(option => option.toLowerCase().indexOf(filterValue) === 0).slice(0, 5);
