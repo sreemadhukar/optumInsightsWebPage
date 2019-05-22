@@ -69,7 +69,7 @@ export class CallsSharedService {
                   color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'],
                   gdata: ['card-inner', 'callsByCallType'],
                   sdata: {
-                    sign: 'up',
+                    sign: 'down',
                     data: '+7%'
                   }
                 },
@@ -101,11 +101,11 @@ export class CallsSharedService {
                     totalCalls.PriorAuth,
                     totalCalls.Others
                   ],
-                  centerNumber: totalCalls.Total.toFixed(0) + 'Hrs',
+                  centerNumber: this.common.nFormatter(totalCalls.Total) + 'Hrs',
                   color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'],
                   gdata: ['card-inner', 'talkTimeByCallType'],
                   sdata: {
-                    sign: 'up',
+                    sign: 'down',
                     data: '+7%'
                   }
                 },
