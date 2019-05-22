@@ -10,7 +10,7 @@
       <!--</button>-->
       <app-header [class.display-none]="makeAbsolute" (hamburgerDisplay)="hamburgerDisplay($event)"></app-header>
     </mat-toolbar>
-    <mat-sidenav-container class="example-sidenav-container" color="primary">
+    <mat-sidenav-container class="example-sidenav-container" color="primary" (backdropClick)="close()">
       <!-- SIDE NAVIGATION BAR  fixedTopGap="65"-->
       <mat-sidenav
         class="side-navigation"
@@ -106,14 +106,24 @@
       <!-- END OF SIDE NAVIGATION BAR-->
 
       <!-- RIGHT SIDE FILTER BAR-->
-      <mat-sidenav #srnav [mode]="'over'" position="end" [fixedInViewport]="true" [opened]="glossaryFlag">
-        <div style="width: 400px;">
-          <div>
-            <mat-icon class="icon-left" svgIcon="close" (click)="closeGlossary()">
-              <div class="h-3-title">Knowledge Center</div>
-            </mat-icon>
+      <mat-sidenav
+        #srnav
+        [mode]="'over'"
+        class="sidenav-glossary"
+        position="end"
+        [fixedInViewport]="true"
+        [opened]="glossaryFlag"
+        disableClose
+      >
+        <div style="width: 418px;">
+          <div class="sidemargin">
+            <div>
+              <mat-icon class="icon-left" svgIcon="close" (click)="closeGlossary()">
+                <div class="h-3-title">Knowledge Center</div>
+              </mat-icon>
+            </div>
+            <app-glossary *ngIf="glossaryTitle" [title]="glossaryTitle"></app-glossary>
           </div>
-          <app-glossary [title]="glossaryTitle"></app-glossary>
         </div>
       </mat-sidenav>
       <!-- END OF RIGHT SIDE FILTER BAR-->
