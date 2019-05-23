@@ -14,24 +14,23 @@
 }
 
 .tick_hidden text {
-  font-family: 'UHCSans-Regular', 'Arial';
+  font-family: $font-family-UHC;
   font-size: 14px;
-  font-weight: 600;
-  fill: #2d2d39;
-  text-transform: uppercase;
+ font-weight: $font-weight-semibold;
+  fill: #2E2C3A;
+  text-transform: capitalize;
+  margin-top: 17px;
 }
-.mt-25 {
-  margin-top: 25px;
-}
+
 .grid text {
-  font-family: 'UHCSans-Regular', 'Arial';
-  font-weight: 700;
+  font-family: $font-family-UHC;
+  font-weight: 600;
   font-size: 14px;
-  fill: #2d2d39;
+  fill: #2F2A3C;
 }
 
 .grid line {
-  stroke: '#b3babc';
+  stroke: $heather;
   stroke-opacity: 1;
   shape-rendering: crispEdges;
 }
@@ -49,19 +48,19 @@
 }
 
 .tick_hidden_y text {
-  font-family: 'UHCSans-Regular', 'Arial';
+  font-family: $font-family-UHC;
   font-size: 14px;
-  font-weight: 600;
-  fill: #2d2d39;
+ font-weight: $font-weight-semibold;
+  fill: $black-rock;
 }
 
 .dot {
   border: 15px;
-  border-color: rgba(25, 110, 207, 1);
+  border-color: $dodger-blue;
   position: relative;
 }
 .dot2 {
-  fill: white;
+  fill: $white;
   stroke: rgba(213, 55, 4, 1);
   border: 15px;
   border-color: rgba(213, 55, 4, 1);
@@ -73,7 +72,7 @@
   z-index: 1;
 }
 .line {
-  stroke: rgba(25, 110, 207, 1);
+  stroke: $dodger-blue;
   stroke-width: 3px;
   position: relative;
 }
@@ -107,7 +106,7 @@
   width: 0;
   height: 0;
   border-top: 10px solid transparent;
-  border-right: 10px solid #ffffff;
+  border-right: 10px solid $white;
   border-bottom: 10px solid transparent;
 }
 .tooltipClass {
@@ -116,8 +115,8 @@
   height: auto;
   padding: 10px 12px;
   color: black;
-  font-family: 'UHCSans-Regular', 'Arial';
-  background-color: #ffffff;
+  font-family: $font-family-UHC;
+  background-color: $white;
   border-radius: 2px;
   pointer-events: none;
   box-shadow: 0 10px 20px 0 rgba(0, 0, 0, 0.35);
@@ -133,7 +132,7 @@
   width: 0;
   height: 0;
   border-top: 10px solid transparent;
-  border-left: 10px solid #ffffff;
+  border-left: 10px solid $white;
   border-bottom: 10px solid transparent;
 }
 .tooltipClassLeft {
@@ -142,8 +141,8 @@
   height: auto;
   padding: 10px 12px;
   color: black;
-  font-family: 'UHCSans-Regular', 'Arial';
-  background-color: #ffffff;
+  font-family: $font-family-UHC;
+  background-color: $white;
   border-radius: 2px;
   pointer-events: none;
   box-shadow: 0 10px 20px 0 rgba(0, 0, 0, 0.35);
@@ -153,10 +152,10 @@
 
 .lineLabelHover {
   font-size: 14px;
-  font-weight: 600;
+ font-weight: $font-weight-semibold;
   line-height: 18px;
   padding-bottom: 5px;
-  color: #2d2d39;
+  color: $black-rock;
 }
 .claim-yield-rate {
   font-size: 14px;
@@ -180,8 +179,8 @@
   height: 145px;
   padding: 2px;
   font-size: 12px;
-  font-family: 'UHCSans-Regular', 'Arial';
-  background: #ffffff;
+  font-family: $font-family-UHC;
+  background: $white;
   border: 0;
   border-radius: 8px;
   pointer-events: none;
@@ -194,16 +193,7 @@
   border: 2px dashed #d53704;
   background-color: rgba(255, 95, 14, 0.25);
 }
-/*.hr-cust-margin{
-     height: 1px;
-     margin-top:6px;
-     margin-bottom:6px;
-     background-color:blue;     
-     border:0;
- }
- .hr_opacity{
-     opacity: 0.5;
- }*/
+
 .displayNone {
   display: none;
 }

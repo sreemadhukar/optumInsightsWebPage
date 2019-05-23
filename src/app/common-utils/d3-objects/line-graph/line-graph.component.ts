@@ -294,6 +294,13 @@ export class LineGraphComponent implements OnInit {
       .attr('class', 'tooltip')
       .style('opacity', 0);
 
+    /* const showRectOne =  d3
+                       .data(data)
+                       .enter()
+                       .select('RectBarOne')
+                       .on('mouseover',  function(d){
+                        return  d.xCoordinate - 22sin; )*/
+
     const shiftTooltip = -155;
 
     if (generalData[0].tooltipBoolean === true) {
@@ -630,7 +637,6 @@ export class LineGraphComponent implements OnInit {
         .attr('class', 'area2')
         .attr('d', area);
     }
-
     if (1) {
       chart
         .selectAll('.rect-bar')
@@ -639,18 +645,18 @@ export class LineGraphComponent implements OnInit {
         .append('rect')
         .style('fill', '#E3F0FD')
         .attr('class', 'rect-bar')
+        .attr('id', 'RectLineOne')
         .attr('x', function(d) {
           console.log(d);
           return d.xCoordinate - 22;
         })
         .attr('y', 113.5);
-      // .on('mouseover', 'handleMouseOverBar1')
-      // .on('mouseout', handleMouseOut1);
       chart
         .append('path')
         .datum(data)
         .attr('class', 'line')
         .attr('d', line)
+        .attr('id', 'LineOne')
         .style('fill', 'none')
         .style('stroke', generalData[0].barColor);
       chart
@@ -660,6 +666,7 @@ export class LineGraphComponent implements OnInit {
         .append('circle')
         .style('fill', '#3381FF')
         .attr('class', 'dot')
+        .attr('id', 'LineOneDot')
         .attr('cx', function(d) {
           console.log(d);
           console.log(d.xCoordinate);

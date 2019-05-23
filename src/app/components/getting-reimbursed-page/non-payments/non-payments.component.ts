@@ -201,7 +201,7 @@ export class NonPaymentsComponent implements OnInit {
       { name: 'Jan', value: 1160834 },
       { name: 'Feb', value: 1876756 },
       { name: 'Mar', value: 2076756 },
-      { name: 'Apr', value: 4000078 }
+      { name: 'Apr', value: 3000078 }
     ];
     this.monthlyLineGraph.generalData2 = [];
     this.monthlyLineGraph.chartData2 = [];

@@ -226,4 +226,25 @@
   float: left;
 }
 
+.timeperiod-block {
+  border-top: 1px solid #efefef;
+  position: absolute;
+   margin-top: 350px;
+   width: 961px;
+  z-index: 999999;}
+
+  .timeperiod-text {
+    position: inherit;
+    padding: 9px 20px 9px 16px;
+    color: #757588;
+    font-family: 'UHCSans-Regular', 'Arial';
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.2px;
+    line-height: 17px;
+    height: 30px;
+    // margin-top: 5px;
+  }
+
+
 // Claims Non Payment Trend CSs Ends
