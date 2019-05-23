@@ -11,7 +11,6 @@ import * as d3 from 'd3';
   }
 })
 export class LineGraphComponent implements OnInit {
-
   public width: any;
   public height: any;
   public renderChart: string;
@@ -96,8 +95,15 @@ export class LineGraphComponent implements OnInit {
 
   doLineGraph(chartData: any, chartData2: any, titleData: any, generalData: any, generalData2: any) {
     function formatDy(dy: number): string {
-      if (dy === 0) { return '0.0M'; } else if (dy < 999) {return dy.toFixed(0); } else if (dy < 999999) {
-        return (dy / 1000).toFixed(1) + 'K'; } else if (dy) {return (dy / 1000000).toFixed(1) + 'M'; }
+      if (dy === 0) {
+        return '0.0M';
+      } else if (dy < 999) {
+        return dy.toFixed(0);
+      } else if (dy < 999999) {
+        return (dy / 1000).toFixed(1) + 'K';
+      } else if (dy) {
+        return (dy / 1000000).toFixed(1) + 'M';
+      }
     }
 
     function formatDynamicAbbreviation(tickNumber, tickValue, prefix) {
@@ -110,32 +116,77 @@ export class LineGraphComponent implements OnInit {
       const maxTickValueStringLength = q.toString().length;
       const stepStringLength = step.toString().length;
 
-      if (maxTickValueStringLength === stepStringLength) { zeroOrOne = 0; } else if (maxTickValueStringLength % 3 === 0) {
-        zeroOrOne = 0; } else if (maxTickValueStringLength === 5 && stepStringLength === 4) { zeroOrOne = 0; } else {
-        zeroOrOne = 1; }
+      if (maxTickValueStringLength === stepStringLength) {
+        zeroOrOne = 0;
+      } else if (maxTickValueStringLength % 3 === 0) {
+        zeroOrOne = 0;
+      } else if (maxTickValueStringLength === 5 && stepStringLength === 4) {
+        zeroOrOne = 0;
+      } else {
+        zeroOrOne = 1;
+      }
 
-
-      if (q >= 1000000000) {abbreviation = 9; } else if (q >= 1000000) {abbreviation = 6; } else if (q >= 1000) {
-        abbreviation = 3; } else {abbreviation = 0; }
+      if (q >= 1000000000) {
+        abbreviation = 9;
+      } else if (q >= 1000000) {
+        abbreviation = 6;
+      } else if (q >= 1000) {
+        abbreviation = 3;
+      } else {
+        abbreviation = 0;
+      }
 
       const newFormatNumber = d3.format(',.0f'),
         formatBillion = function(x) {
-          if (x === 0)  {return prefix + '0'; } else {return prefix + newFormatNumber(x / 1e9) + 'B'; } },
+          if (x === 0) {
+            return prefix + '0';
+          } else {
+            return prefix + newFormatNumber(x / 1e9) + 'B';
+          }
+        },
         formatMillion = function(x) {
-          if (x === 0) {return prefix + '0'; } else {return prefix + newFormatNumber(x / 1e6) + 'M'; } },
+          if (x === 0) {
+            return prefix + '0';
+          } else {
+            return prefix + newFormatNumber(x / 1e6) + 'M';
+          }
+        },
         formatThousand = function(x) {
-          if (x === 0) {return prefix + '0'; } else {return prefix + newFormatNumber(x / 1e3) + 'K'; } },
+          if (x === 0) {
+            return prefix + '0';
+          } else {
+            return prefix + newFormatNumber(x / 1e3) + 'K';
+          }
+        },
         formatZero = function(x) {
-          return prefix + newFormatNumber(x); };
+          return prefix + newFormatNumber(x);
+        };
 
       const newFormatNumberOne = d3.format('.1f'),
         formatBillionOne = function(x) {
-          if (x === 0) {return prefix + '0'; } else {return prefix + newFormatNumberOne(x / 1e9) + 'B'; }},
+          if (x === 0) {
+            return prefix + '0';
+          } else {
+            return prefix + newFormatNumberOne(x / 1e9) + 'B';
+          }
+        },
         formatMillionOne = function(x) {
-          if (x === 0) {return prefix + '0'; } else {return prefix + newFormatNumberOne(x / 1e6) + 'M'; }},
+          if (x === 0) {
+            return prefix + '0';
+          } else {
+            return prefix + newFormatNumberOne(x / 1e6) + 'M';
+          }
+        },
         formatThousandOne = function(x) {
-          if (x === 0) {return prefix + '0'; } else {return prefix + newFormatNumberOne(x / 1e3) + 'K'; } },
-        formatZeroOne = function(x) { return prefix + newFormatNumberOne(x); };
+          if (x === 0) {
+            return prefix + '0';
+          } else {
+            return prefix + newFormatNumberOne(x / 1e3) + 'K';
+          }
+        },
+        formatZeroOne = function(x) {
+          return prefix + newFormatNumberOne(x);
+        };
 
       const flag = abbreviation + zeroOrOne;
       switch (flag) {
@@ -164,14 +215,14 @@ export class LineGraphComponent implements OnInit {
       if (year == undefined || !year || year === '') {
         return (
           "<div class='lineLabelHover'>" +
-          "Claims Not Paid</div><div class='details-label'>" +
+          "Claims Not <br> Paid</div><div class='details-label'>" +
           prefix +
           formatDy(d.y)
         );
       } else {
         return (
           "<div class='lineLabelHover'>" +
-          "&nbsp; Claims Not Paid</div><div class='details-label'>&nbsp;&nbsp;&nbsp;" +
+          "&nbsp; Claims Not <br> Paid</div><div class='details-label'>&nbsp;&nbsp;&nbsp;" +
           d.x +
           '&nbsp;&nbsp;' +
           year[0] +
@@ -227,22 +278,21 @@ export class LineGraphComponent implements OnInit {
     const width = preWidth - margin.left - margin.right;
     const height = 351 - margin.top - margin.bottom + 8;
 
-      const chart = d3
-        .select(this.renderChart)
-        .append('svg')
-        .attr('width', width + margin.left + margin.right)
-        .attr('height', height + margin.top + margin.bottom)
-        .attr('class', 'mt-25 ml-10')
-        .style('background-color', generalData[0].backgroundColor)
-        .append('g')
-        .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
-        // .attr('transform', 'rotate(' + -30 + ')');
-       const div = d3
+    const chart = d3
+      .select(this.renderChart)
+      .append('svg')
+      .attr('width', width + margin.left + margin.right)
+      .attr('height', height - margin.top - margin.bottom)
+      // .attr('class', 'mt-25 ml-10')
+      .style('background-color', generalData[0].backgroundColor)
+      .append('g')
+      .attr('transform', 'translate(' + (margin.left - 7) + ',' + margin.top + ')');
+    // .attr('transform', 'rotate(' + -30 + ')');
+    const div = d3
       .select(this.renderChart)
       .append('div')
       .attr('class', 'tooltip')
       .style('opacity', 0);
-
 
     const shiftTooltip = -155;
 
@@ -279,7 +329,11 @@ export class LineGraphComponent implements OnInit {
     );
     let axisPrefix = '';
 
-    if (highestValue % 1 === 0) {axisPrefix = ''; } else {axisPrefix = '$'; }
+    if (highestValue % 1 === 0) {
+      axisPrefix = '';
+    } else {
+      axisPrefix = '$';
+    }
 
     if (highestValue < highestValue2) {
       highestValue = highestValue2;
@@ -304,7 +358,7 @@ export class LineGraphComponent implements OnInit {
       ) // input
       .range([25, width - 25]);
 
-     const yScale = d3
+    const yScale = d3
       .scaleLinear()
       .domain([0, highestValue]) // input
       .range([height, 0])
@@ -322,7 +376,7 @@ export class LineGraphComponent implements OnInit {
       });
 
     // tslint:disable-next-line:no-var-keyword
-    var  data = [];
+    var data = [];
 
     for (let a = 0; a < lengthOfData; a++) {
       data.push({ y: chartData[a].value });
@@ -355,8 +409,11 @@ export class LineGraphComponent implements OnInit {
 
     chart.select('#forlolCalculations').remove();
 
-    if (chartData[0].name.length === 4) {textWidth1 = textWidth1 / 2; } else if (chartData[0].name.length === 3) {
-      textWidth1 = textWidth1 * 1.25; }
+    if (chartData[0].name.length === 4) {
+      textWidth1 = textWidth1 / 2;
+    } else if (chartData[0].name.length === 3) {
+      textWidth1 = textWidth1 * 1.25;
+    }
 
     // tslint:disable-next-line:no-var-keyword
     var data = [];
@@ -424,9 +481,10 @@ export class LineGraphComponent implements OnInit {
         chart
           .append('g')
           .attr('class', 'tick_hidden_y')
+          .attr('transform', 'translate( ' + width + ', 0 )')
           .call(
             d3
-              .axisLeft(yScale)
+              .axisRight(yScale)
               .tickSize(5, 0, 0)
               .tickSizeOuter([0])
               .ticks(3)
@@ -462,8 +520,11 @@ export class LineGraphComponent implements OnInit {
       var textWidth2 = text_element2.node().getComputedTextLength();
       chart.select('#forlolCalculations2').remove();
 
-      if (chartData2[0].name.length === 4) {textWidth2 = textWidth2 / 2; } else if (chartData2[0].name.length === 3) {
-        textWidth2 = textWidth2 * 1.25; }
+      if (chartData2[0].name.length === 4) {
+        textWidth2 = textWidth2 / 2;
+      } else if (chartData2[0].name.length === 3) {
+        textWidth2 = textWidth2 * 1.25;
+      }
 
       /* Starts Data for tooltip */
       if (this.chartOptions.chartData2 != undefined && this.chartOptions.chartData2.length > 0) {
@@ -511,7 +572,8 @@ export class LineGraphComponent implements OnInit {
 
       d3.select('#forYCalculations2').remove();
       for (let c = 0; c < preYArray2.length; c++) {
-        preYArray2[c] = preYArray2[c].replace(/,/g, ''); }
+        preYArray2[c] = preYArray2[c].replace(/,/g, '');
+      }
 
       const preArrayOfNumbers2 = preYArray2.map(Number);
       // tslint:disable-next-line:no-var-keyword
@@ -534,16 +596,6 @@ export class LineGraphComponent implements OnInit {
         );
     }
 
-    chart
-      .append('path')
-      .datum(data)
-      .attr('class', 'line')
-      .attr('d', line)
-      .style('fill', 'none')
-      .style('stroke', generalData[0].barColor);
-
-    // .style("stroke", "rgb(0, 168, 247)");
-
     if (this.chartOptions.chartData2 != undefined && this.chartOptions.chartData2.length > 0) {
       chart
         .append('path')
@@ -565,7 +617,6 @@ export class LineGraphComponent implements OnInit {
         return yScale(d.y);
       });
 
-
     chart
       .append('path')
       .datum(data)
@@ -582,6 +633,27 @@ export class LineGraphComponent implements OnInit {
 
     if (1) {
       chart
+        .selectAll('.rect-bar')
+        .data(data)
+        .enter()
+        .append('rect')
+        .style('fill', '#E3F0FD')
+        .attr('class', 'rect-bar')
+        .attr('x', function(d) {
+          console.log(d);
+          return d.xCoordinate - 22;
+        })
+        .attr('y', 113.5);
+      // .on('mouseover', 'handleMouseOverBar1')
+      // .on('mouseout', handleMouseOut1);
+      chart
+        .append('path')
+        .datum(data)
+        .attr('class', 'line')
+        .attr('d', line)
+        .style('fill', 'none')
+        .style('stroke', generalData[0].barColor);
+      chart
         .selectAll('.dot')
         .data(data)
         .enter()
@@ -589,6 +661,8 @@ export class LineGraphComponent implements OnInit {
         .style('fill', '#3381FF')
         .attr('class', 'dot')
         .attr('cx', function(d) {
+          console.log(d);
+          console.log(d.xCoordinate);
           return d.xCoordinate;
         })
         .attr('cy', function(d) {
@@ -699,10 +773,21 @@ export class LineGraphComponent implements OnInit {
       let rectangleWidth = 130;
       const numberOfInt = titleData[0].topTitleBoxNumber.replace(/\D/g, '').length;
 
-      if (numberOfInt === 2) {rectangleWidth = 110; } else if (numberOfInt === 3) {
-      rectangleWidth = 130; } else if (numberOfInt === 4) { rectangleWidth = 150; } else if (numberOfInt === 5) {
-      rectangleWidth = 170; } else if (numberOfInt === 6) { rectangleWidth = 190; } else if (numberOfInt === 7) {
-      rectangleWidth = 210; } else {rectangleWidth = 230; }
+      if (numberOfInt === 2) {
+        rectangleWidth = 110;
+      } else if (numberOfInt === 3) {
+        rectangleWidth = 130;
+      } else if (numberOfInt === 4) {
+        rectangleWidth = 150;
+      } else if (numberOfInt === 5) {
+        rectangleWidth = 170;
+      } else if (numberOfInt === 6) {
+        rectangleWidth = 190;
+      } else if (numberOfInt === 7) {
+        rectangleWidth = 210;
+      } else {
+        rectangleWidth = 230;
+      }
 
       chart
         .append('rect')

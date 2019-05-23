@@ -19,7 +19,6 @@ export class NonPaymentsComponent implements OnInit {
   currentTabTitle: String = '';
   monthlyLineGraph: any = [{}];
 
-
   barChartsArray = [
     {
       title: 'Need More Information',
@@ -182,26 +181,27 @@ export class NonPaymentsComponent implements OnInit {
       this.currentSummary = this.summaryItems[2].data;
       this.currentTabTitle = this.summaryItems[2].title;
       console.log(this.currentSummary);
-     });
-     this.monthlyLineGraph.chartId = 'non-payment-trend-block';
-     this.monthlyLineGraph.titleData = [{}];
-     this.monthlyLineGraph.generalData = [
-           {
-             width: 500,
-             backgroundColor: 'null',
-             barGraphNumberSize: 18,
-             barColor: '#196ECF',
-             parentDiv: 'non-payment-trend-block',
-             tooltipBoolean: true,
-             hideYAxis: false
-           }];
+    });
+    this.monthlyLineGraph.chartId = 'non-payment-trend-block';
+    this.monthlyLineGraph.titleData = [{}];
+    this.monthlyLineGraph.generalData = [
+      {
+        width: 500,
+        backgroundColor: 'null',
+        barGraphNumberSize: 18,
+        barColor: '#196ECF',
+        parentDiv: 'non-payment-trend-block',
+        tooltipBoolean: true,
+        hideYAxis: false
+      }
+    ];
     this.monthlyLineGraph.chartData = [
-      {name: 'Nov', value: 1360834},
-      {name: 'Dec', value: 1260634},
-      {name: 'Jan', value: 1160834},
-      {name: 'Feb', value: 1876756},
-      {name: 'Mar', value: 2076756},
-      {name: 'Apr', value: 4076756}
+      { name: 'Nov', value: 1360834 },
+      { name: 'Dec', value: 1260634 },
+      { name: 'Jan', value: 1160834 },
+      { name: 'Feb', value: 1876756 },
+      { name: 'Mar', value: 2076756 },
+      { name: 'Apr', value: 4000078 }
     ];
     this.monthlyLineGraph.generalData2 = [];
     this.monthlyLineGraph.chartData2 = [];
