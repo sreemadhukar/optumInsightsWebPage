@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { GettingReimbursedSharedService } from '../../../shared/getting-reimbursed/getting-reimbursed-shared.service';
+import { GlossaryExpandService } from '../../../shared/glossary-expand.service';
 
 @Component({
   selector: 'app-payments',
@@ -15,7 +16,10 @@ export class PaymentsComponent implements OnInit {
   pageTitle: String = '';
   userName: String = '';
   showClaimsPaid: Boolean = false;
-  constructor(private gettingReimbursedSharedService: GettingReimbursedSharedService) {
+  constructor(
+    private gettingReimbursedSharedService: GettingReimbursedSharedService,
+    private glossaryExpandService: GlossaryExpandService
+  ) {
     this.pageTitle = 'Claims Payments';
   }
 
@@ -34,5 +38,8 @@ export class PaymentsComponent implements OnInit {
         title: 'Claims Paid'
       }
     ];
+  }
+  helpIconClick(title) {
+    this.glossaryExpandService.setMessage(title);
   }
 }

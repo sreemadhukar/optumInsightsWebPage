@@ -1,14 +1,9 @@
 <div class="business-glossary">
-  <br />
-  <!--   <div class="header-section col-md-12">
-    <mat-icon class="nav-menu-icons col-md-2 path" svgIcon="close"></mat-icon>
-  <div class="title col-md-8">Knowledge Center</div>
-  </div> -->
   <mat-dialog-content>
     <form class="business-glossary-form">
       <mat-form-field appearance="outline">
         <mat-label>What metrics can we help you with ?</mat-label>
-        <input type="text" matInput [matAutocomplete]="auto" [formControl]="glossaryCtrl" aria-expanded="false" />
+        <input type="text" matInput [matAutocomplete]="auto" [formControl]="glossaryCtrl" />
         <mat-icon matPrefix class="nav-menu-icons" svgIcon="search"></mat-icon>
         <mat-autocomplete #auto="matAutocomplete" (optionSelected)="filteredData($event.option.value)">
           <mat-option *ngFor="let glossary of (filteredOptions | async)" [value]="glossary">
@@ -21,12 +16,11 @@
           >
             No Results Found For <b>{{ toHighlight }}</b>
           </mat-option>
-          <mat-option class="view-allMetrics">View All Metrics</mat-option>
+          <div class="view-allMetrics">View All Metrics</div>
         </mat-autocomplete>
       </mat-form-field>
     </form>
   </mat-dialog-content>
-  <br />
   <div *ngIf="glossarySelected.length">
     <div *ngFor="let glossary of glossarySelected; let i = index">
       <div class="glossary-title">
@@ -36,7 +30,6 @@
       <div class="glossary-definition">
         {{ glossary.BusinessGlossary.ProviderDashboardName.Definition }}
       </div>
-      <br />
       <!-- <div>
       <a class="go-to-metric-location">
         Go To Metric Location >
@@ -49,6 +42,7 @@
         Metric Formula
         {{ glossary.BusinessGlossary.ProviderDashboardName.Formula }}
       </div>
+      <br />
     </div>
   </div>
 </div>

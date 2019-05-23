@@ -98,7 +98,7 @@ export class SelfSharedService {
             const utilization = providerSystems.SelfServiceInquiries.ALL.Utilizations;
             try {
               adoptionRate = this.utilizationDataObject(
-                'Self-Service Adoption Rate',
+                'Self Service Adoption Rate',
                 {
                   graphValueName: ['Total Patients', 'Completed'],
                   graphValues: [
