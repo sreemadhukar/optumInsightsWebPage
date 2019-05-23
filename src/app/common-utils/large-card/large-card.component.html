@@ -7,7 +7,7 @@
       <app-bar-chart *ngIf="item.data != null" [chartOptions]="item.data"> </app-bar-chart>
     </div>
     <!--<app-claims-paid-bar-graph></app-claims-paid-bar-graph> -->
-    <div class="full-width-block">
+    <div class="full-width-block" *ngIf="data[0].timeperiod">
       <app-common-footer [timePeriod]="data[0].timeperiod"></app-common-footer>
     </div>
   </div>
