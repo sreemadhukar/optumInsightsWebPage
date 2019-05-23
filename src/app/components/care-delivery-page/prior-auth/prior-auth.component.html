@@ -12,7 +12,7 @@
       <app-card *ngIf="item.data != null" class="cards" [chartData]="item"> </app-card>
     </div>
     <div class="main-content">
-      <app-large-card [data]="reasonItems"></app-large-card>
+      <app-large-card [data]="reasonItems" *ngIf="reasonItems.length > 1"></app-large-card>
     </div>
   </div>
 </div>
