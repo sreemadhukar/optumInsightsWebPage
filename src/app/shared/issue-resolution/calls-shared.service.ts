@@ -101,7 +101,7 @@ export class CallsSharedService {
                     totalCalls.PriorAuth,
                     totalCalls.Others
                   ],
-                  centerNumber: this.common.nFormatter(totalCalls.Total) + 'Hrs',
+                  centerNumber: this.common.nFormatter(totalCalls.Total).toFixed(0) + 'Hrs',
                   color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'],
                   gdata: ['card-inner', 'talkTimeByCallType'],
                   sdata: {
