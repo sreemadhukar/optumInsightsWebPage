@@ -3,7 +3,8 @@
 .breadcrumb li {
   display: inline;
   font-size: 14px;
-  font-family: 'UHCSans-SemiBold', 'Arial';
+  font-family: 'UHCSans-Medium', 'Arial';
+  font-weight: 500;
   padding-right: 5px;
 }
 
@@ -25,5 +26,7 @@
 .breadcrumb {
   a {
     color: $blue;
+    font-family: 'UHCSans-Medium';
+    font-weight: 500;
   }
 }

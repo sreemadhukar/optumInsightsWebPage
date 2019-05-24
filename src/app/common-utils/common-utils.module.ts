@@ -23,6 +23,7 @@ import { GlossaryComponent } from './glossary/glossary.component';
 import { SmallBarChartComponent } from './d3-objects/small-bar-chart/small-bar-chart.component';
 import { UhcLoaderComponent } from './uhc-loader/uhc-loader.component';
 import { MockDataWarningMessageComponent } from './mock-data-warning-message/mock-data-warning-message.component';
+import { LineGraphComponent } from './d3-objects/line-graph/line-graph.component';
 import { HighlightPipe } from '../pipes/hignlight.pipe';
 @NgModule({
   imports: [CommonModule, FormsModule, ReactiveFormsModule, HeadMaterialModule, RouterModule],
@@ -43,6 +44,7 @@ import { HighlightPipe } from '../pipes/hignlight.pipe';
     UhcLoaderComponent,
     ClaimsPaidBarGraphComponent,
     MockDataWarningMessageComponent,
+    LineGraphComponent,
     HighlightPipe
   ],
   declarations: [
@@ -66,6 +68,7 @@ import { HighlightPipe } from '../pipes/hignlight.pipe';
     SmallBarChartComponent,
     UhcLoaderComponent,
     MockDataWarningMessageComponent,
+    LineGraphComponent,
     HighlightPipe
   ],
   entryComponents: [ProviderSearchComponent]
