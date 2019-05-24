@@ -16,7 +16,8 @@ export class PriorAuthComponent implements OnInit {
   pagesubTitle: String = '';
   userName: String = '';
   subscription: any;
-
+  title = 'Top Reasons for Prior Authorizations Not Approved';
+  timePeriod = 'Last 6 Months';
   constructor(
     private priorAuthService: PriorAuthService,
     private sessionService: SessionService,

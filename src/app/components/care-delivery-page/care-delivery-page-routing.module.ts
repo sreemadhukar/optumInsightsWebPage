@@ -7,7 +7,7 @@ const routes: Routes = [
     path: 'priorAuth',
     component: PriorAuthComponent,
     data: {
-      breadcrumb: 'Prior Auth'
+      breadcrumb: 'Prior Authorizations'
     }
   },
   {
