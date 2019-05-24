@@ -979,6 +979,10 @@ export class GettingReimbursedSharedService {
   /* function to get Top Reasons for Claims Non Payments - Ranjith kumar Ankam*/
   public getTopReasonsforClaimsNonPayments() {
     return new Promise((resolve, reject) => {
+      this.tin = this.session.tin;
+      this.lob = this.session.lob;
+      this.timeFrame = this.session.timeFrame;
+      this.providerKey = this.session.providerkey;
       const parameters = {
         providerkey: this.providerKey,
         timeperiod: '',
@@ -986,9 +990,15 @@ export class GettingReimbursedSharedService {
         tin: '',
         startDate: '',
         endDate: '',
-        monthly: false,
-        rolling12: true
+        monthly: false
       };
+      if (this.timeFrame === 'Last 12 Months') {
+        parameters.timeperiod = 'rolling12months';
+      } else if (this.timeFrame === 'Last 6 Months') {
+        parameters.timeperiod = 'last6months';
+      } else if (this.timeFrame === 'Year To Date') {
+        parameters.ytd = true;
+      }
       this.gettingReimbursedService.getClaimsNonPaymentsData(parameters).subscribe(data => {
         const result = [];
         if (data[0].All !== null) {
@@ -1025,8 +1035,7 @@ export class GettingReimbursedSharedService {
           tin: '0',
           startDate: '',
           endDate: '',
-          monthly: false,
-          rolling12: ''
+          monthly: false
         };
         const output: any = [];
         const response: any = [];

@@ -136,10 +136,10 @@ export class GettingReimbursedService {
     if (parameters.endDate !== '') {
       params = params.append('endDate', parameters.endDate);
     }
-    if (parameters.rolling12 !== '') {
+    /*if (parameters.rolling12 !== '') {
       params = params.append('rolling12', parameters.rolling12);
     }
-
+*/
     const claimsURL = this.APP_URL + this.CLAIMS_SERVICE_PATH + parameters.providerkey;
     return this.http.post(claimsURL, params, { headers: myHeader }).pipe(
       retry(2),
