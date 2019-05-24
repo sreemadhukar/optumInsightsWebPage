@@ -2,6 +2,15 @@
 @import '~src/scss/mixins';
 @import '~src/scss/my-custom-theme';
 
+.breadcrumb-top-padding {
+  @include padding(20px, 0, 15px, 32px);
+}
+.page-title {
+  flex-basis: 100%;
+  font-size: 36px;
+  line-height: 75px;
+}
+
 .time-period {
   box-sizing: border-box;
   height: 33px;

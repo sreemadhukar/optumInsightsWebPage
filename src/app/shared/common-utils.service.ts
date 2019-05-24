@@ -23,6 +23,9 @@ export class CommonUtilsService {
     if (fnumber >= 1000) {
       return (fnumber / 1000).toFixed(1).replace(/\.0$/, '') + 'K';
     }
+    if (fnumber < 1000) {
+      return fnumber.toFixed(1).replace(/\.0$/, '');
+    }
     return fnumber;
   }
   public matchLobWithData(lob) {
