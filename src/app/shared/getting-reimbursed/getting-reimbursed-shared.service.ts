@@ -13,6 +13,7 @@ export class GettingReimbursedSharedService {
   private lob: string;
   private timeFrame: string;
   private providerKey: number;
+  private nonPaymentBy: string;
   constructor(
     private gettingReimbursedService: GettingReimbursedService,
     private common: CommonUtilsService,
@@ -972,6 +973,118 @@ export class GettingReimbursedSharedService {
             }
           });
       }
+    });
+  }
+
+  /* function to get Top Reasons for Claims Non Payments - Ranjith kumar Ankam*/
+  public getTopReasonsforClaimsNonPayments() {
+    return new Promise((resolve, reject) => {
+      const parameters = {
+        providerkey: this.providerKey,
+        timeperiod: '',
+        ytd: false,
+        tin: '',
+        startDate: '',
+        endDate: '',
+        monthly: false,
+        rolling12: true
+      };
+      this.gettingReimbursedService.getClaimsNonPaymentsData(parameters).subscribe(data => {
+        const result = [];
+        data[0].All.DenialCategory.forEach(element => {
+          if (element.Claimdenialcategorylevel1shortname !== '') {
+            result.push({
+              Claimdenialcategorylevel1shortname: this.sentenceCase(element.Claimdenialcategorylevel1shortname),
+              DenialAmount: element.DenialAmount
+            });
+          }
+        });
+        result.sort((a, b) => parseFloat(b.DenialAmount) - parseFloat(a.DenialAmount));
+        resolve(result.slice(0, 5));
+      });
+    });
+  }
+
+  /* function to get Claims Non Payments by Facility Data - Ranjith kumar Ankam*/
+  public getClaimsNonPaymentsbyFacilityData(top5Reasons) {
+    return new Promise((resolve, reject) => {
+      this.gettingReimbursedService.getTins(this.providerKey).subscribe(tins => {
+        const providerTins = tins;
+        const parameters = {
+          providerkey: this.providerKey,
+          timeperiod: '',
+          ytd: false,
+          tin: '0',
+          startDate: '',
+          endDate: '',
+          monthly: ''
+        };
+        const output: any = [];
+        const response: any = [];
+
+        if (this.timeFrame === 'Last 12 Months') {
+          parameters.timeperiod = 'last12months';
+        } else if (this.timeFrame === 'Last 6 Months') {
+          parameters.timeperiod = 'last6months';
+        } else if (this.timeFrame === 'Year To Date') {
+          parameters.ytd = true;
+        }
+        if (this.tin !== 'All') {
+          parameters.tin = this.tin;
+        }
+
+        this.gettingReimbursedService.getClaimsNonPaymentsData(parameters).subscribe(nonPaymentsByFacilitydata => {
+          this.nonPaymentBy = this.session.nonPaymentBy;
+          nonPaymentsByFacilitydata.forEach(element => {
+            const indObject: any = {};
+            indObject.tin = element.Tin;
+            providerTins.forEach(tin => {
+              if (element.Tin === tin.Tin) {
+                indObject.tinname = this.sentenceCase(tin.Tinname);
+              }
+            });
+            const reasons = [];
+            element.All.DenialCategory.forEach(top5 => {
+              if (top5Reasons.includes(this.sentenceCase(top5.Claimdenialcategorylevel1shortname))) {
+                if (this.nonPaymentBy === 'dollar') {
+                  reasons.push({
+                    denialCategory: this.sentenceCase(top5.Claimdenialcategorylevel1shortname),
+                    val: '$' + this.common.nFormatter(top5.DenialAmount)
+                  });
+                } else if (this.nonPaymentBy === 'volume') {
+                  reasons.push({
+                    denialCategory: this.sentenceCase(top5.Claimdenialcategorylevel1shortname),
+                    val: this.common.nFormatter(top5.DenialCount)
+                  });
+                } else if (this.nonPaymentBy === 'average') {
+                  reasons.push({
+                    denialCategory: this.sentenceCase(top5.Claimdenialcategorylevel1shortname),
+                    val: '$' + this.common.nFormatter(top5.DenialCount / top5.DenialCount)
+                  });
+                }
+              }
+            });
+            indObject.reasons = reasons;
+            output.push(indObject);
+          });
+          output.forEach(element => {
+            const result: any = {};
+            result.tin = element.tin;
+            result.facilityName = element.tinname;
+            element.reasons.forEach(el => {
+              result[el.denialCategory] = el.val;
+            });
+            response.push(result);
+          });
+          resolve(response);
+        });
+      });
+    });
+  }
+
+  public sentenceCase(str) {
+    return str.replace(/\w\S*/g, function(txt) {
+      return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
     });
   }
 }
