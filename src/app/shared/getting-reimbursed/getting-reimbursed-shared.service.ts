@@ -1032,7 +1032,7 @@ export class GettingReimbursedSharedService {
         const response: any = [];
 
         if (this.timeFrame === 'Last 12 Months') {
-          parameters.timeperiod = 'last12months';
+          parameters.timeperiod = 'rolling12months';
         } else if (this.timeFrame === 'Last 6 Months') {
           parameters.timeperiod = 'last6months';
         } else if (this.timeFrame === 'Year To Date') {
