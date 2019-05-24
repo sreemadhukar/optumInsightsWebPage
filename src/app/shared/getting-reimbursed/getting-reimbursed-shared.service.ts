@@ -1025,7 +1025,7 @@ export class GettingReimbursedSharedService {
           tin: '0',
           startDate: '',
           endDate: '',
-          monthly: '',
+          monthly: false,
           rolling12: ''
         };
         const output: any = [];
