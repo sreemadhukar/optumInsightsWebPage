@@ -6,7 +6,7 @@ import { SessionService } from '../session.service';
 
 @Injectable({ providedIn: IssueResolutionPageModule })
 export class SelfSharedService {
-  private selfServiceData: Array<object> = [];
+  private selfServiceData = [];
   private timeFrame: string;
   private providerKey: number;
   constructor(
@@ -19,13 +19,13 @@ export class SelfSharedService {
    * The data is corresponding to Utilization Object that we have inside like this
    * SelfServiceInquiries -> ALL -> Utilizations
    */
-  public utilizationDataObject(title: String, data: any, timeperiod?: String | null): Object {
+  public utilizationObjectMethod(title: String, data: any, timeperiod?: String | null): Object {
     const temp: Object = {
       category: 'app-card',
       type: 'donut',
       title: title,
       data: data,
-      timeperiod: timeperiod
+      timeperiod: this.timeFrame
     };
     return temp;
   }
@@ -35,16 +35,34 @@ export class SelfSharedService {
    * SelfServiceInquiries -> ALL -> SelfService
    */
 
-  public selfServiceUtilization(title: String, data: any, timeperiod?: String | null): Object {
+  public selfServiceObjectMethod(title: String, data: any, timeperiod?: String | null): Object {
     const temp: Object = {
       category: 'app-card',
       type: 'small-bar-chart',
       title: title,
       data: data,
-      timeperiod: timeperiod
+      timeperiod: this.timeFrame
     };
     return temp;
   }
+
+  public callsOperatingCostMethod(
+    title: String,
+    callCostReduceCostValue: number,
+    callCostCallIn90daysValue: number,
+    data: any,
+    timeperiod?: String | null
+  ): Object {
+    const temp: Object = {
+      title: title,
+      callCostReduceCostValue: '$' + this.common.nFormatter(callCostReduceCostValue),
+      callCostCallIn90daysValue: this.common.nFormatter(callCostCallIn90daysValue),
+      data: data,
+      timeperiod: this.timeFrame
+    };
+    return temp;
+  }
+
   public getSelfServiceData() {
     this.providerKey = this.session.providerKey();
     this.selfServiceData = [];
@@ -57,6 +75,7 @@ export class SelfSharedService {
       let reduceClaimProcessingTime;
       let reduceReconsiderationProcessing;
       const tempArray: Array<object> = [];
+      const callsOperatingCostData: Array<Object> = [{}];
       parameters = [this.providerKey];
       /*
       if (this.timeFrame === 'Last 3 Months') {
@@ -97,7 +116,7 @@ export class SelfSharedService {
           ) {
             const utilization = providerSystems.SelfServiceInquiries.ALL.Utilizations;
             try {
-              adoptionRate = this.utilizationDataObject(
+              adoptionRate = this.utilizationObjectMethod(
                 'Self Service Adoption Rate',
                 {
                   graphValueName: ['Total Patients', 'Completed'],
@@ -116,10 +135,10 @@ export class SelfSharedService {
                 this.timeFrame
               );
             } catch (Error) {
-              adoptionRate = this.utilizationDataObject(null, null, null);
+              adoptionRate = this.utilizationObjectMethod(null, null, null);
             } // End try catch for Adoption Rate
             try {
-              linkEdiRation = this.utilizationDataObject(
+              linkEdiRation = this.utilizationObjectMethod(
                 'LINK & EDI to Call Ratio',
                 {
                   graphValueName: ['Diabetic Patients', 'Completed'],
@@ -135,10 +154,10 @@ export class SelfSharedService {
                 this.timeFrame
               );
             } catch (Error) {
-              linkEdiRation = this.utilizationDataObject(null, null, null);
+              linkEdiRation = this.utilizationObjectMethod(null, null, null);
             } // End try catch for Link & EDI Ration
             try {
-              paperLessDelivery = this.utilizationDataObject(
+              paperLessDelivery = this.utilizationObjectMethod(
                 'Paperless Delivery',
                 {
                   graphValues: [
@@ -156,12 +175,12 @@ export class SelfSharedService {
                 this.timeFrame
               );
             } catch (Error) {
-              paperLessDelivery = this.utilizationDataObject(null, null, null);
+              paperLessDelivery = this.utilizationObjectMethod(null, null, null);
             } // End try catch for PaperlessDelivery
           } else {
-            adoptionRate = this.utilizationDataObject(null, null, null);
-            linkEdiRation = this.utilizationDataObject(null, null, null);
-            paperLessDelivery = this.utilizationDataObject(null, null, null);
+            adoptionRate = this.utilizationObjectMethod(null, null, null);
+            linkEdiRation = this.utilizationObjectMethod(null, null, null);
+            paperLessDelivery = this.utilizationObjectMethod(null, null, null);
           } // End if else block Utilization Object
           // Started If Else block for Self Service Object
           if (
@@ -171,27 +190,45 @@ export class SelfSharedService {
           ) {
             const selfService = providerSystems.SelfServiceInquiries.ALL.SelfService;
             try {
-              saveStaffTime = this.selfServiceUtilization(null, null, null);
-              /*
-              saveStaffTime = this.selfServiceUtilization(
-                "Save Your Staff's Time by",
-                {
-                  chartData: [
-                    { labelsRight: '8 hours/day', values: 8, metricName: 'Phone' },
-                    { labelsRight: '2 hours/day', values: 2, metricName: 'Self Service' }
-                  ],
-                  value: selfService.TotalCallTime.toFixed() + ' Hours/day',
-                  color: ['#80B0FF', '#3381FF'],
-                  gdata: ['card-inner', 'staffTimeSave']
-                },
-                this.timeFrame
-              );
-              */
+              if (
+                selfService.PhoneCallTime === undefined ||
+                selfService.SelfServiceCallTime === undefined ||
+                selfService.TotalCallTime == undefined ||
+                selfService.PhoneCallTime === null ||
+                selfService.SelfServiceCallTime === null ||
+                selfService.TotalCallTime === null
+              ) {
+                console.log('Self Service Page | Data not found for the Save Your Staff Time by');
+                saveStaffTime = this.selfServiceObjectMethod(null, null, null);
+              } else {
+                saveStaffTime = this.selfServiceObjectMethod(
+                  "Save Your Staff's Time by",
+                  {
+                    chartData: [
+                      {
+                        labelsRight: selfService.PhoneCallTime + ' hours/day',
+                        values: selfService.PhoneCallTime,
+                        metricName: 'Phone'
+                      },
+                      {
+                        labelsRight: selfService.SelfServiceCallTime + ' hours/day',
+                        values: selfService.SelfServiceCallTime,
+                        metricName: 'Self Service'
+                      }
+                    ],
+                    value: selfService.TotalCallTime.toFixed() + ' Hours/day',
+                    color: ['#80B0FF', '#3381FF'],
+                    gdata: ['card-inner', 'staffTimeSave']
+                  },
+                  this.timeFrame
+                );
+              }
             } catch (Error) {
-              saveStaffTime = this.selfServiceUtilization(null, null, null);
+              console.log('Self Service Page | Data not found for the Save Your Staff Time by');
+              saveStaffTime = this.selfServiceObjectMethod(null, null, null);
             } // End try catch for Save Your's Staff TIme
             try {
-              reduceClaimProcessingTime = this.selfServiceUtilization(
+              reduceClaimProcessingTime = this.selfServiceObjectMethod(
                 'Reduce Claim Processing Time by',
                 {
                   chartData: [
@@ -217,10 +254,10 @@ export class SelfSharedService {
               );
             } catch (Error) {
               console.log('Error | Reduce Claim Processing Time by');
-              reduceClaimProcessingTime = this.selfServiceUtilization(null, null, null);
+              reduceClaimProcessingTime = this.selfServiceObjectMethod(null, null, null);
             } // End try catch for Reduce Your Claim Processing Time
             try {
-              reduceReconsiderationProcessing = this.selfServiceUtilization(
+              reduceReconsiderationProcessing = this.selfServiceObjectMethod(
                 'Reduce Reconsideration Processing by:',
                 {
                   chartData: [
@@ -246,22 +283,101 @@ export class SelfSharedService {
               );
             } catch (Error) {
               console.log('Error | Reduce Reconsideration Processing by');
-              reduceReconsiderationProcessing = this.selfServiceUtilization(null, null, null);
+              reduceReconsiderationProcessing = this.selfServiceObjectMethod(null, null, null);
             } // End try Catch for Reduce Reconsideration Processing
           } else {
-            saveStaffTime = this.selfServiceUtilization(null, null, null);
+            saveStaffTime = this.selfServiceObjectMethod(null, null, null);
 
-            reduceClaimProcessingTime = this.selfServiceUtilization(null, null, null);
+            reduceClaimProcessingTime = this.selfServiceObjectMethod(null, null, null);
 
-            reduceReconsiderationProcessing = this.selfServiceUtilization(null, null, null);
+            reduceReconsiderationProcessing = this.selfServiceObjectMethod(null, null, null);
           } // End If Else block SelfService
+
+          /*******  Calls and Operating Costs****** */
+          if (
+            providerSystems.hasOwnProperty('SelfServiceInquiries') &&
+            providerSystems.SelfServiceInquiries.hasOwnProperty('ALL') &&
+            providerSystems.SelfServiceInquiries.ALL.hasOwnProperty('SelfService')
+          ) {
+            let totalCosts;
+            let claimsStatus;
+            let eligibilityBenefits;
+            let priorAuth;
+            try {
+              totalCosts = this.callsOperatingCostMethod('Total Costs', 12, 3916, {
+                chartData: [
+                  { labelsRight: '30 hours/day', values: 40, metricName: 'Phone' },
+                  { labelsRight: '15 hours/day', values: 25, metricName: 'Self Service' }
+                ],
+                value: '15 hours/day',
+                color: ['#80B0FF', '#3381FF'],
+                gdata: ['card-inner', 'callCostOperating1']
+              });
+            } catch (Error) {
+              totalCosts = null;
+            }
+            try {
+              claimsStatus = this.callsOperatingCostMethod('Claim Status', 332, 333916, {
+                chartData: [
+                  { labelsRight: '40 hours/day', values: 40, metricName: 'Phone' },
+                  { labelsRight: '25 hours/day', values: 25, metricName: 'Self Service' }
+                ],
+                value: '15 hours/day',
+                color: ['#80B0FF', '#3381FF'],
+                gdata: ['card-inner', 'callCostOperating2']
+              });
+            } catch (Error) {
+              claimsStatus = null;
+            }
+            try {
+              eligibilityBenefits = this.callsOperatingCostMethod('Eligibilty & Benefits', 7892, 144316, {
+                chartData: [
+                  { labelsRight: '60 hours/day', values: 40, metricName: 'Phone' },
+                  { labelsRight: '25 hours/day', values: 25, metricName: 'Self Service' }
+                ],
+                value: '15 hours/day',
+                color: ['#80B0FF', '#3381FF'],
+                gdata: ['card-inner', 'callCostOperating3']
+              });
+            } catch (Error) {
+              eligibilityBenefits = null;
+            }
+            try {
+              priorAuth = this.callsOperatingCostMethod('Prior Authorizations', 32, 13916, {
+                chartData: [
+                  { labelsRight: '70 hours/day', values: 40, metricName: 'Phone' },
+                  { labelsRight: '55 hours/day', values: 25, metricName: 'Self Service' }
+                ],
+                value: '15 hours/day',
+                color: ['#80B0FF', '#3381FF'],
+                gdata: ['card-inner', 'callCostOperating4']
+              });
+            } catch (Error) {
+              priorAuth = null;
+            }
+            callsOperatingCostData[0] = totalCosts;
+            callsOperatingCostData[1] = claimsStatus;
+            callsOperatingCostData[2] = eligibilityBenefits;
+            callsOperatingCostData[3] = priorAuth;
+          } else {
+            callsOperatingCostData[0] = null;
+            callsOperatingCostData[1] = null;
+            callsOperatingCostData[2] = null;
+            callsOperatingCostData[3] = null;
+          }
+
+          /************* */
           tempArray[0] = adoptionRate;
           tempArray[1] = linkEdiRation;
           tempArray[2] = paperLessDelivery;
           tempArray[3] = saveStaffTime;
           tempArray[4] = reduceClaimProcessingTime;
           tempArray[5] = reduceReconsiderationProcessing;
-          this.selfServiceData.push(tempArray);
+
+          const removeNullCallsOperatingCost = callsOperatingCostData.filter(function(el) {
+            return el != null;
+          });
+          this.selfServiceData.push(tempArray, removeNullCallsOperatingCost);
           resolve(this.selfServiceData);
         },
         err => {
