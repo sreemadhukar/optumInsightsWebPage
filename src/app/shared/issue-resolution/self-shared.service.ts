@@ -374,7 +374,10 @@ export class SelfSharedService {
           tempArray[4] = reduceClaimProcessingTime;
           tempArray[5] = reduceReconsiderationProcessing;
 
-          this.selfServiceData.push(tempArray, callsOperatingCostData);
+          const removeNullCallsOperatingCost = callsOperatingCostData.filter(function(el) {
+            return el != null;
+          });
+          this.selfServiceData.push(tempArray, removeNullCallsOperatingCost);
           resolve(this.selfServiceData);
         },
         err => {
