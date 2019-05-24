@@ -263,6 +263,11 @@ export class LineGraphComponent implements OnInit {
       );
     }
 
+    /*let  mx = 0;
+         mx  = d3.mouse(this)[0];
+         console.log(mx);*/
+
+
     const preWidth = 961; // document.getElementById(generalData[0].parentDiv).clientWidth;
 
     let topMarginSubtract = 150;
@@ -283,19 +288,16 @@ export class LineGraphComponent implements OnInit {
       .append('svg')
       .attr('width', width + margin.left + margin.right)
       .attr('height', height - margin.top - margin.bottom)
-      // .attr('class', 'mt-25 ml-10')
       .style('background-color', generalData[0].backgroundColor)
       .append('g')
       .attr('transform', 'translate(' + (margin.left - 7) + ',' + margin.top + ')');
-    // .attr('transform', 'rotate(' + -30 + ')');
     const div = d3
       .select(this.renderChart)
       .append('div')
       .attr('class', 'tooltip')
       .style('opacity', 0);
 
-
-    const shiftTooltip = -155;
+       const shiftTooltip = -155;
 
     if (generalData[0].tooltipBoolean === true) {
         // tslint:disable-next-line:no-var-keyword
@@ -605,7 +607,6 @@ export class LineGraphComponent implements OnInit {
         .style('fill', 'none')
         .style('stroke', generalData2[0].barColor);
     }
-
     // tslint:disable-next-line:no-var-keyword
     var area = d3
       .area()
@@ -630,6 +631,7 @@ export class LineGraphComponent implements OnInit {
         .attr('class', 'area2')
         .attr('d', area);
     }
+
     const RectBarOne = chart.selectAll('.rect-bar').data(data)
                             .enter().append('rect').style('fill', '#E3F0FD').attr('class', 'rect-bar')
                             .attr('id', 'RectLineOne')
@@ -637,20 +639,25 @@ export class LineGraphComponent implements OnInit {
                                     console.log(d);
                                     return d.xCoordinate - 22; })
                             .attr('y', 113.5);
+
     if (1) {
          RectBarOne
-        .on('mouseenter', function() {
+        .on('mouseenter', function(d) {
           DotOne
           .transition()
           .duration(200)
           .style('opacity', 1);
+          const showRect = RectBarOne.transition().duration(200).style('opacity', 1 );
         })
-        .on('mouseleave', function() {
+        .on('mouseleave', function(d) {
                             DotOne
                             .transition()
                            .duration(500)
                            .style('opacity', 0);
+              const hideRect = RectBarOne. transition().duration(500)
+                                         .style('opacity', 0);
             });
+
       chart
         .append('path')
         .datum(data)
@@ -670,7 +677,7 @@ export class LineGraphComponent implements OnInit {
                           return d.xCoordinate;
                           })
                          .attr('cy', function(d) {
-                           return yScale(d.y);})
+                           return yScale(d.y); })
        .attr('r', 6)
        .on('mouseover', d => {
          tooltipVar
