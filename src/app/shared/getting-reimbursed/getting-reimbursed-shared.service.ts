@@ -1012,6 +1012,10 @@ export class GettingReimbursedSharedService {
   /* function to get Claims Non Payments by Facility Data - Ranjith kumar Ankam*/
   public getClaimsNonPaymentsbyFacilityData(top5Reasons) {
     return new Promise((resolve, reject) => {
+      this.tin = this.session.tin;
+      this.lob = this.session.lob;
+      this.timeFrame = this.session.timeFrame;
+      this.providerKey = this.session.providerkey;
       this.gettingReimbursedService.getTins(this.providerKey).subscribe(tins => {
         const providerTins = tins;
         const parameters = {
@@ -1021,7 +1025,8 @@ export class GettingReimbursedSharedService {
           tin: '0',
           startDate: '',
           endDate: '',
-          monthly: ''
+          monthly: '',
+          rolling12: ''
         };
         const output: any = [];
         const response: any = [];
