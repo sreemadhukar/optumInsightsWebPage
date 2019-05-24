@@ -51,7 +51,6 @@ export class MiniBarChartComponent implements OnInit, AfterViewInit {
     for (let i = 0; i < chartOptions.graphValues.length; i++) {
       totalSum = totalSum + Number(chartOptions.graphValues[i]);
     }
-    console.log('sum-mini', totalSum);
     const xScale = d3
       .scaleLinear()
       .domain([0, totalSum])
