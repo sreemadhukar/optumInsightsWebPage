@@ -13,6 +13,7 @@ import { GlossaryExpandService } from '../../../shared/glossary-expand.service';
 })
 export class NonPaymentsComponent implements OnInit {
   title = 'Top Reasons for Claims Non-Payment';
+  trendTitle = 'Claims Non-Payment Trend';
   facilityTitle = 'Claims Non-Payments by Facility';
   timePeriod = 'Last 6 Months';
   section: any = [];
@@ -20,6 +21,7 @@ export class NonPaymentsComponent implements OnInit {
   pageTitle: String = '';
   currentSummary: Array<Object> = [{}];
   currentTabTitle: String = '';
+  monthlyLineGraph: any = [{}];
   recordsMorethan10 = true;
   showPagination = true;
   displayedColumns: string[] = ['facilityName'];
@@ -197,6 +199,29 @@ export class NonPaymentsComponent implements OnInit {
       this.currentSummary = this.summaryItems[2].data;
       this.currentTabTitle = this.summaryItems[2].title;
     });
+    this.monthlyLineGraph.chartId = 'non-payment-trend-block';
+    this.monthlyLineGraph.titleData = [{}];
+    this.monthlyLineGraph.generalData = [
+      {
+        width: 500,
+        backgroundColor: 'null',
+        barGraphNumberSize: 18,
+        barColor: '#196ECF',
+        parentDiv: 'non-payment-trend-block',
+        tooltipBoolean: true,
+        hideYAxis: false
+      }
+    ];
+    this.monthlyLineGraph.chartData = [
+      { name: 'Nov', value: 1360834 },
+      { name: 'Dec', value: 1260634 },
+      { name: 'Jan', value: 1160834 },
+      { name: 'Feb', value: 1876756 },
+      { name: 'Mar', value: 2076756 },
+      { name: 'Apr', value: 4000078 }
+    ];
+    this.monthlyLineGraph.generalData2 = [];
+    this.monthlyLineGraph.chartData2 = [];
     this.gettingReimbursedSharedService.getTopReasonsforClaimsNonPayments().then(topReasons => {
       this.top5ReasonsDataArray = topReasons;
       this.top5ReasonsDataArray.forEach(element => {
