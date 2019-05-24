@@ -263,12 +263,7 @@ export class LineGraphComponent implements OnInit {
       );
     }
 
-    /*let  mx = 0;
-         mx  = d3.mouse(this)[0];
-         console.log(mx);*/
-
-
-    const preWidth = 961; // document.getElementById(generalData[0].parentDiv).clientWidth;
+        const preWidth = 961; // document.getElementById(generalData[0].parentDiv).clientWidth;
 
     let topMarginSubtract = 150;
     if (titleData[0].topTitleBoxNumber) {
@@ -297,18 +292,18 @@ export class LineGraphComponent implements OnInit {
       .attr('class', 'tooltip')
       .style('opacity', 0);
 
-       const shiftTooltip = -155;
+    const shiftTooltip = -155;
 
     if (generalData[0].tooltipBoolean === true) {
-        // tslint:disable-next-line:no-var-keyword
-        var tooltipVar = d3
+      // tslint:disable-next-line:no-var-keyword
+      var tooltipVar = d3
         .select(this.renderChart)
         .append('div')
         .classed('tooltipClass', false)
         .classed('tooltipClassLeft', false)
         .classed('hidden', true);
     } else {
-        tooltipVar = d3
+      tooltipVar = d3
         .select(this.renderChart)
         .append('div')
         .attr('class', 'displayNone');
@@ -323,7 +318,7 @@ export class LineGraphComponent implements OnInit {
       })
     );
     // tslint:disable-next-line:no-var-keyword
-  const highestValue2 = Math.max.apply(
+    const highestValue2 = Math.max.apply(
       Math,
       chartData2.map(function(o) {
         return o.value;
@@ -417,7 +412,7 @@ export class LineGraphComponent implements OnInit {
       textWidth1 = textWidth1 * 1.25;
     }
 
-   // tslint:disable-next-line:prefer-const
+    // tslint:disable-next-line:prefer-const
     var data = [];
 
     for (let l = 0; l < lengthOfData; l++) {
@@ -633,30 +628,32 @@ export class LineGraphComponent implements OnInit {
     }
 
     const RectBarOne = chart.selectAll('.rect-bar').data(data)
-                            .enter().append('rect').style('fill', '#E3F0FD').attr('class', 'rect-bar')
-                            .attr('id', 'RectLineOne')
-                            .attr('x', function(d) {
-                                    console.log(d);
-                                    return d.xCoordinate - 22; })
-                            .attr('y', 113.5);
+      .enter().append('rect').style('fill', '#E3F0FD').attr('class', 'rect-bar')
+      .attr('id', function(d) {
+        return d.x;
+      })
+      .attr('x', function(d) {
+        console.log(d);
+        return d.xCoordinate - 22;
+      })
+      .attr('y', 113.5);
 
     if (1) {
-         RectBarOne
-        .on('mouseenter', function(d) {
-          DotOne
+      RectBarOne.on('mouseenter', function(d) {
+        DotOne
           .transition()
           .duration(200)
+          .style('opacity', 1); });
+          const showRect = RectBarOne.data(data).enter().selectAll(function(d) {
+          return d.x;
+        }).transition()
+          .duration(200)
           .style('opacity', 1);
-          const showRect = RectBarOne.transition().duration(200).style('opacity', 1 );
-        })
-        .on('mouseleave', function(d) {
-                            DotOne
-                            .transition()
-                           .duration(500)
-                           .style('opacity', 0);
-              const hideRect = RectBarOne. transition().duration(500)
-                                         .style('opacity', 0);
-            });
+       /* DotOne.transition()
+          .duration(500)
+          .style('opacity', 0);*/
+        const hideRect = RectBarOne.transition().duration(500)
+                                   .style('opacity', 0);
 
       chart
         .append('path')
@@ -667,47 +664,55 @@ export class LineGraphComponent implements OnInit {
         .style('fill', 'none')
         .style('stroke', generalData[0].barColor);
 
-     const DotOne = chart.selectAll('.dot')
-                         .data(data).enter().append('circle')
-                         .style('fill', '#3381FF').attr('class', 'dot')
-                         .attr('id', 'LineOneDot')
-                         .attr('cx', function(d) {
-                          console.log(d);
-                          console.log(d.xCoordinate);
-                          return d.xCoordinate;
-                          })
-                         .attr('cy', function(d) {
-                           return yScale(d.y); })
-       .attr('r', 6)
-       .on('mouseover', d => {
-         tooltipVar
-           .transition()
-           .duration(200)
-           .style('opacity', 1);
-         if (d3.event.layerX + 213 < width + margin.left + margin.right) {
-           tooltipVar
-             .html(tooltipText(d, this.yearComparison, axisPrefix))
-             .classed('hidden', false)
-             .classed('tooltipClass', true)
-             .classed('tooltipClassLeft', false)
-             .style('left', d3.event.layerX + 23 + 'px')
-             .style('top', d3.event.layerY + -20 + 'px');
-         } else {
-           tooltipVar
-             .html(tooltipText(d, this.yearComparison, axisPrefix))
-             .classed('hidden', false)
-             .classed('tooltipClass', false)
-             .classed('tooltipClassLeft', true)
-             .style('left', d3.event.layerX + 23 + shiftTooltip + 'px')
-             .style('top', d3.event.layerY + -20 + 'px');
-         }
-       })
-       .on('mouseout', function(d) {
-         tooltipVar
-           .transition()
-           .duration(500)
-           .style('opacity', 0);
-       });
+      const DotOne = chart
+        .selectAll('.dot')
+        .data(data)
+        .enter()
+        .append('circle')
+        .style('fill', '#3381FF')
+        .attr('class', 'dot')
+        .attr('id', function(d) {
+                console.log('*********');
+                console.log( d.x + '.rect-bar');
+                return  ( d.x );
+        })
+        .attr('cx', function(d) {
+          console.log(d);
+          console.log(d.xCoordinate);
+          return d.xCoordinate;
+        })
+        .attr('cy', function(d) {
+          return yScale(d.y); })
+        .attr('r', 6)
+        .on('mouseover', d => {
+          tooltipVar
+            .transition()
+            .duration(200)
+            .style('opacity', 1);
+          if (d3.event.layerX + 213 < width + margin.left + margin.right) {
+            tooltipVar
+              .html(tooltipText(d, this.yearComparison, axisPrefix))
+              .classed('hidden', false)
+              .classed('tooltipClass', true)
+              .classed('tooltipClassLeft', false)
+              .style('left', d3.event.layerX + 23 + 'px')
+              .style('top', d3.event.layerY + -20 + 'px');
+          } else {
+            tooltipVar
+              .html(tooltipText(d, this.yearComparison, axisPrefix))
+              .classed('hidden', false)
+              .classed('tooltipClass', false)
+              .classed('tooltipClassLeft', true)
+              .style('left', d3.event.layerX + 23 + shiftTooltip + 'px')
+              .style('top', d3.event.layerY + -20 + 'px');
+          }
+        })
+        .on('mouseout', function(d) {
+          tooltipVar
+            .transition()
+            .duration(500)
+            .style('opacity', 0);
+        });
     }
 
     if (this.chartOptions.chartData2 != undefined && this.chartOptions.chartData2.length > 0) {
