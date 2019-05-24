@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { GlossaryService } from './../../rest/glossary/glossary.service';
 import { catchError } from 'rxjs/operators';
+import { MatInput } from '@angular/material';
 
 @Component({
   selector: 'app-glossary',
@@ -24,7 +25,6 @@ export class GlossaryComponent implements OnInit {
   public toHighlight = '';
   @Input() title;
   constructor(private glossaryService: GlossaryService) {}
-
   ngOnInit() {
     this.options = [];
     this.glossarySelected = [];
@@ -92,6 +92,7 @@ export class GlossaryComponent implements OnInit {
       });
     });
   }
+
   public filteredData(value) {
     for (let i = 0; i < this.glossaryList.length; i++) {
       if (this.glossaryList[i].BusinessGlossary.ProviderDashboardName.Metric === value) {

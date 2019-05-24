@@ -139,10 +139,14 @@ fieldset:disabled a.btn {
     $btn-disabled-color: $btn-link-disabled-color
   );
 }
-//
-// Button Sizes
-//
 
-//
-// Block button
-//
+.btn-rounded {
+  @include btn-rounded(
+    $btn-rounded-bg-color,
+    $btn-rounded-bdr-color,
+    $btn-rounded-category-text-color,
+    $btn-rounded-text-color,
+    $btn-rounded-disabled,
+    $btn-rounded-hover
+  );
+}

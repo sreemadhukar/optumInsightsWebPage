@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ViewEncapsulation, AfterViewChecked, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewEncapsulation, ChangeDetectorRef } from '@angular/core';
 import { MatIconRegistry, PageEvent } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 import { GettingReimbursedSharedService } from '../../../shared/getting-reimbursed/getting-reimbursed-shared.service';
@@ -11,7 +11,7 @@ import { GlossaryExpandService } from '../../../shared/glossary-expand.service';
   styleUrls: ['./non-payments.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class NonPaymentsComponent implements OnInit, AfterViewChecked {
+export class NonPaymentsComponent implements OnInit {
   title = 'Top Reasons for Claims Non-Payment';
   facilityTitle = 'Claims Non-Payments by Facility';
   timePeriod = 'Last 6 Months';
@@ -20,14 +20,15 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
   pageTitle: String = '';
   currentSummary: Array<Object> = [{}];
   currentTabTitle: String = '';
-  displayedColumns: string[] = [
-    'facilityName',
-    'needAdditionalInfo',
-    'noAuthNoticeRef',
-    'claimsPaymentsPolicy',
-    'noBenefitCoverage',
-    'cobNeedFortherAction'
-  ];
+  recordsMorethan10 = true;
+  showPagination = true;
+  displayedColumns: string[] = ['facilityName'];
+  pageNumber = 1;
+  totalPages = 0;
+  totalRecords: any = 0;
+  top5ReasonsDataArray: any;
+  top5Reasons: any = [];
+  facilityData: any;
   dataSource: MatTableDataSource<any>;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -169,193 +170,6 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
       ]
     }
   ];
-  facilityData = [
-    {
-      facilityName: 'North Region Hospital',
-      tin: 43730045,
-      needAdditionalInfo: '$6.3M',
-      noAuthNoticeRef: '$3.3M',
-      claimsPaymentsPolicy: '$6.6M',
-      noBenefitCoverage: '$1.3M',
-      cobNeedFortherAction: '$4.7M'
-    },
-    {
-      facilityName: 'South Region Hospital',
-      tin: 43730045,
-      needAdditionalInfo: '$5.4M',
-      noAuthNoticeRef: '$3.3M',
-      claimsPaymentsPolicy: '$4.5M',
-      noBenefitCoverage: '$3.5M',
-      cobNeedFortherAction: '$3.5M'
-    },
-    {
-      facilityName: 'South Region Hospital',
-      tin: 43730045,
-      needAdditionalInfo: '$4.4M',
-      noAuthNoticeRef: '$5.5M',
-      claimsPaymentsPolicy: '$4.6M',
-      noBenefitCoverage: '$1.3M',
-      cobNeedFortherAction: '$3.2M'
-    },
-    {
-      facilityName: 'North Region Hospital',
-      tin: 43730045,
-      needAdditionalInfo: '$3.4M',
-      noAuthNoticeRef: '$5.6M',
-      claimsPaymentsPolicy: '$3.6M',
-      noBenefitCoverage: '$1.6M',
-      cobNeedFortherAction: '$2.7M'
-    },
-    {
-      facilityName: 'South Region Hospital',
-      tin: 43730045,
-      needAdditionalInfo: '$6.6M',
-      noAuthNoticeRef: '$3.3M',
-      claimsPaymentsPolicy: '$4.6M',
-      noBenefitCoverage: '$6.5M',
-      cobNeedFortherAction: '$3.2M'
-    },
-    {
-      facilityName: 'East Region Hospital',
-      tin: 43730045,
-      needAdditionalInfo: '$3.4M',
-      noAuthNoticeRef: '$5.6M',
-      claimsPaymentsPolicy: '$3.6M',
-      noBenefitCoverage: '$1.4M',
-      cobNeedFortherAction: '$6.7M'
-    },
-    {
-      facilityName: 'North Region Hospital',
-      tin: 43730045,
-      needAdditionalInfo: '$6.4M',
-      noAuthNoticeRef: '$5.3M',
-      claimsPaymentsPolicy: '$4.6M',
-      noBenefitCoverage: '$1.5M',
-      cobNeedFortherAction: '$3.7M'
-    },
-    {
-      facilityName: 'East Region Hospital',
-      tin: 43730045,
-      needAdditionalInfo: '$6.4M',
-      noAuthNoticeRef: '$5.3M',
-      claimsPaymentsPolicy: '$4.6M',
-      noBenefitCoverage: '$1.5M',
-      cobNeedFortherAction: '$3.7M'
-    },
-    {
-      facilityName: 'West Region Hospital',
-      tin: 43730045,
-      needAdditionalInfo: '$6.4M',
-      noAuthNoticeRef: '$5.3M',
-      claimsPaymentsPolicy: '$4.6M',
-      noBenefitCoverage: '$1.5M',
-      cobNeedFortherAction: '$3.7M'
-    },
-    {
-      facilityName: 'South Region Hospital',
-      tin: 43730045,
-      needAdditionalInfo: '$6.4M',
-      noAuthNoticeRef: '$5.3M',
-      claimsPaymentsPolicy: '$4.6M',
-      noBenefitCoverage: '$1.5M',
-      cobNeedFortherAction: '$3.7M'
-    },
-    {
-      facilityName: 'West Region Hospital',
-      tin: 43730045,
-      needAdditionalInfo: '$6.4M',
-      noAuthNoticeRef: '$5.3M',
-      claimsPaymentsPolicy: '$4.6M',
-      noBenefitCoverage: '$1.5M',
-      cobNeedFortherAction: '$3.7M'
-    },
-    {
-      facilityName: 'North Region Hospital',
-      tin: 43730045,
-      needAdditionalInfo: '$6.4M',
-      noAuthNoticeRef: '$5.3M',
-      claimsPaymentsPolicy: '$4.6M',
-      noBenefitCoverage: '$1.5M',
-      cobNeedFortherAction: '$3.7M'
-    },
-    {
-      facilityName: 'East Region Hospital',
-      tin: 43730045,
-      needAdditionalInfo: '$6.4M',
-      noAuthNoticeRef: '$5.3M',
-      claimsPaymentsPolicy: '$4.6M',
-      noBenefitCoverage: '$1.5M',
-      cobNeedFortherAction: '$3.7M'
-    },
-    {
-      facilityName: 'North Region Hospital',
-      tin: 43730045,
-      needAdditionalInfo: '$6.4M',
-      noAuthNoticeRef: '$5.3M',
-      claimsPaymentsPolicy: '$4.6M',
-      noBenefitCoverage: '$1.5M',
-      cobNeedFortherAction: '$3.7M'
-    },
-    {
-      facilityName: 'Central Region Hospital',
-      tin: 43730045,
-      needAdditionalInfo: '$6.4M',
-      noAuthNoticeRef: '$5.3M',
-      claimsPaymentsPolicy: '$4.6M',
-      noBenefitCoverage: '$1.5M',
-      cobNeedFortherAction: '$3.7M'
-    },
-    {
-      facilityName: 'South Central Region Hospital',
-      tin: 43730045,
-      needAdditionalInfo: '$6.4M',
-      noAuthNoticeRef: '$5.3M',
-      claimsPaymentsPolicy: '$4.6M',
-      noBenefitCoverage: '$1.5M',
-      cobNeedFortherAction: '$3.7M'
-    },
-    {
-      facilityName: 'North Region Hospital',
-      tin: 43730045,
-      needAdditionalInfo: '$6.4M',
-      noAuthNoticeRef: '$5.3M',
-      claimsPaymentsPolicy: '$4.6M',
-      noBenefitCoverage: '$1.5M',
-      cobNeedFortherAction: '$3.7M'
-    },
-    {
-      facilityName: 'Middle East Region Hospital',
-      tin: 43730045,
-      needAdditionalInfo: '$6.4M',
-      noAuthNoticeRef: '$5.3M',
-      claimsPaymentsPolicy: '$4.6M',
-      noBenefitCoverage: '$1.5M',
-      cobNeedFortherAction: '$3.7M'
-    },
-    {
-      facilityName: 'North Region Hospital',
-      tin: 43730045,
-      needAdditionalInfo: '$6.4M',
-      noAuthNoticeRef: '$5.3M',
-      claimsPaymentsPolicy: '$4.6M',
-      noBenefitCoverage: '$1.5M',
-      cobNeedFortherAction: '$3.7M'
-    },
-    {
-      facilityName: 'Eastern Region Hospital',
-      tin: 43730045,
-      needAdditionalInfo: '$6.4M',
-      noAuthNoticeRef: '$5.3M',
-      claimsPaymentsPolicy: '$4.6M',
-      noBenefitCoverage: '$1.5M',
-      cobNeedFortherAction: '$3.7M'
-    }
-  ];
-  pageIndex = 0;
-  previousPageIndex = 0;
-  pageNumber = 1;
-  totalPages = 0;
-  totalRecords: any = 0;
 
   constructor(
     private iconRegistry: MatIconRegistry,
@@ -378,29 +192,44 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
   }
 
   ngOnInit() {
-    this.dataSource = new MatTableDataSource(this.facilityData);
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sortingDataAccessor = (item, property) => {
-      switch (property) {
-        case 'facilityName':
-          return item.facilityName + item.tin;
-        default:
-          return item[property];
-      }
-    };
-    this.dataSource.sort = this.sort;
     this.gettingReimbursedSharedService.getGettingReimbursedData().then(completeData => {
       this.summaryItems = JSON.parse(JSON.stringify(completeData));
       this.currentSummary = this.summaryItems[2].data;
       this.currentTabTitle = this.summaryItems[2].title;
     });
-  }
-  ngAfterViewChecked() {
-    const list = document.getElementsByClassName('mat-paginator-range-label');
-    list[0].innerHTML = 'Page: ' + this.paginator.pageIndex;
-    this.totalPages = this.paginator.getNumberOfPages();
-    this.totalRecords = this.paginator.length;
-    this.cdRef.detectChanges();
+    this.gettingReimbursedSharedService.getTopReasonsforClaimsNonPayments().then(topReasons => {
+      this.top5ReasonsDataArray = topReasons;
+      this.top5ReasonsDataArray.forEach(element => {
+        this.displayedColumns.push(element.Claimdenialcategorylevel1shortname);
+        this.top5Reasons.push(element.Claimdenialcategorylevel1shortname);
+      });
+    });
+    this.gettingReimbursedSharedService
+      .getClaimsNonPaymentsbyFacilityData(this.top5Reasons)
+      .then(claimsNonpaymentsData => {
+        this.facilityData = claimsNonpaymentsData;
+        if (this.facilityData.length === 0) {
+          this.showPagination = false;
+        }
+        this.dataSource = new MatTableDataSource(this.facilityData);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sortingDataAccessor = (item, property) => {
+          switch (property) {
+            case 'facilityName':
+              return item.facilityName + item.tin;
+            default:
+              return item[property];
+          }
+        };
+        this.dataSource.sort = this.sort;
+        this.totalRecords = this.facilityData.length;
+
+        if (this.facilityData.length <= 10) {
+          this.recordsMorethan10 = false;
+        } else {
+          this.totalPages = Math.ceil(this.totalRecords / 10);
+        }
+      });
   }
   syncPrimaryPaginator(event: PageEvent) {
     this.pageNumber = event.pageIndex + 1;
@@ -415,6 +244,7 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
     });
     this.paginator.firstPage();
     this.pageNumber = 1;
+    this.totalPages = this.paginator.getNumberOfPages();
   }
   changePage() {
     (this.paginator.pageIndex = this.pageNumber - 1), // number of the page you want to jump.
