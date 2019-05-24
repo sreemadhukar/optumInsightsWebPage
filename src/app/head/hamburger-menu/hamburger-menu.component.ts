@@ -51,7 +51,6 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
   public glossaryTitle: string = null;
   clickHelpIcon: Subscription;
   public mobileQuery: boolean;
-  @Input() glossaryFlagStatus;
   /*** Array of Navigation Category List ***/
   public navCategories = [
     { icon: 'home', name: 'Overview', path: '/OverviewPage', disabled: false },

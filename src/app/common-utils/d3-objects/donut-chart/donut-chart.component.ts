@@ -100,7 +100,7 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
       .sort(null)
       .startAngle(0)
       .endAngle(2 * Math.PI)
-      .padAngle(0.02)
+      .padAngle(0.01)
       .value(function(d) {
         return d.value;
       });
@@ -117,7 +117,9 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
         .attr('y', height / height)
         .style('font-size', '41px')
         .style('fill', '#2d2d39')
-        .style('font-family', 'UHCSans-Regular');
+        .style('font-family', 'UHCSans-Medium')
+        .style('font-weight', '500')
+        .style('vertical-align', 'middle');
     } else if (this.donutType === 'small-card') {
       text = chart
         .append('text')
@@ -195,13 +197,29 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
         donutData.push({ value: chartOptions.graphValues[i] });
       }
     }
-
+    const div = d3
+      .select(this.renderChart)
+      .append('div')
+      .attr('class', 'tooltip');
     const g = chart
       .selectAll('.arc')
       .data(pie(donutData))
       .enter()
       .append('g')
-      .attr('class', 'arc');
+      .attr('class', 'arc')
+      .on('mousemove', function(d) {
+        const mouseVal = d3.mouse(this);
+
+        div
+          .html(d.besideData.labels + '</br>' + d.data.value)
+          .style('left', d3.event.pageX + 12 + 'px')
+          .style('top', d3.event.pageY - 10 + 'px')
+          .style('opacity', 1)
+          .style('display', 'block');
+      })
+      .on('mouseout', function() {
+        div.html(' ').style('display', 'none');
+      });
 
     if (transition) {
       g.append('path')
