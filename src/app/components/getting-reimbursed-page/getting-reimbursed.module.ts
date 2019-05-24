@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 import { GettingReimbursedRoutingModule } from './getting-reimbursed-routing.module';
 import { GettingReimbursedComponent } from './getting-reimbursed/getting-reimbursed.component';
@@ -13,7 +14,7 @@ import { PaymentIntegrityComponent } from './payment-integrity/payment-integrity
 import { NonPaymentsComponent } from './non-payments/non-payments.component';
 import { PaymentsComponent } from './payments/payments.component';
 @NgModule({
-  imports: [CommonModule, GettingReimbursedRoutingModule, CommonUtilsModule, HeadMaterialModule],
+  imports: [CommonModule, GettingReimbursedRoutingModule, CommonUtilsModule, HeadMaterialModule, FormsModule],
   providers: [GettingReimbursedService, GettingReimbursedSharedService],
 
   declarations: [

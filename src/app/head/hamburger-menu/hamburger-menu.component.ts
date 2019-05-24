@@ -12,10 +12,12 @@ import {
   Renderer2,
   ViewEncapsulation,
   ViewChildren,
+  ViewChild,
   QueryList,
-  OnDestroy
+  OnDestroy,
+  Input
 } from '@angular/core';
-import { MatExpansionPanel, MatDialog } from '@angular/material';
+import { MatExpansionPanel, MatDialog, MatSidenav } from '@angular/material';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -38,6 +40,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
   _allExpandState = false;
   isDarkTheme: Observable<boolean>;
   @ViewChildren(MatExpansionPanel) viewPanels: QueryList<MatExpansionPanel>;
+  @ViewChild('srnav') srnav: MatSidenav;
   public healthSystemName = JSON.parse(sessionStorage.getItem('currentUser'))
     ? JSON.parse(sessionStorage.getItem('currentUser'))[0]['HealthCareOrganizationName']
     : '';
@@ -73,7 +76,10 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
     {
       icon: 'issue-resolution',
       name: 'Issue Resolution',
-      children: [{ name: 'Self Service', path: '/IssueResolution/SelfService' }]
+      children: [
+        { name: 'Self Service', path: '/IssueResolution/SelfService' },
+        { name: 'Calls', path: '/IssueResolution/Calls' }
+      ]
     }
   ];
 
@@ -194,12 +200,15 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
 
   closeGlossary() {
     this.glossaryFlag = false;
+    this.glossaryTitle = null;
   }
 
   signOut() {
     this.authService.logout();
   }
-
+  public close() {
+    this.srnav.disableClose = true;
+  }
   private allExpandState(value: boolean, id) {
     this._allExpandState = value;
     this.togglePanels(value, id);

@@ -17,6 +17,7 @@ export class GettingReimbursedService {
   private CLAIMS_SERVICE_PATH: string = environment.apiUrls.ProviderSystemClaimsSummary;
   private AGG_CLAIMS_SERVICE_PATH: string = environment.apiUrls.ProviderSystemClaimsAgg;
   private APPEALS_SERVICE_PATH: string = environment.apiUrls.Appeals;
+  private TINS_SERVICE_PATH: string = environment.apiUrls.ProvTinList;
   constructor(private http: HttpClient) {}
   public getGettingReimbursedYearWiseData(...parameters) {
     this.currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
@@ -65,7 +66,7 @@ export class GettingReimbursedService {
     let cparams = new HttpParams();
     let aparams = new HttpParams();
     if (parameters.length > 1 && parameters[1]) {
-      cparams = cparams.append('timeFilter', 'rolling12months');
+      cparams = cparams.append('timeFilter', 'last6months');
       aparams = aparams.append('rolling12', parameters[1]);
     } else if (parameters.length > 2 && parameters[2]) {
       cparams = cparams.append('YTD', parameters[2]);
@@ -90,6 +91,60 @@ export class GettingReimbursedService {
         map(res => JSON.parse(JSON.stringify(res))),
         catchError(err => of(JSON.parse(JSON.stringify(err))))
       )
+    );
+  }
+
+  /* Function to get Provider TINS of Health System - Ranjith kumar Ankam */
+  public getTins(providerKey) {
+    this.currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
+    this.authBearer = this.currentUser[0].PedAccessToken;
+    const myHeader = new HttpHeaders({
+      Authorization: 'Bearer ' + this.authBearer,
+      Accept: '*/*'
+    });
+    const params = new HttpParams();
+    const tinsURL = this.APP_URL + this.TINS_SERVICE_PATH + providerKey;
+
+    return this.http.get(tinsURL, { params: params, headers: myHeader }).pipe(
+      retry(2),
+      map(res => res),
+      catchError(err => of(err))
+    );
+  }
+
+  /* Function to get Claims Non payments by Facility Data - Ranjith kumar Ankam */
+  public getClaimsNonPaymentsData(parameters) {
+    this.currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
+    this.authBearer = this.currentUser[0].PedAccessToken;
+    const myHeader = new HttpHeaders({
+      Authorization: 'Bearer ' + this.authBearer,
+      Accept: '*/*'
+    });
+    let params = new HttpParams();
+
+    params = params.append('monthly', parameters.monthly);
+    params = params.append('YTD', parameters.ytd);
+    if (parameters.timeperiod !== '') {
+      params = params.append('timeFilter', parameters.timeperiod);
+    }
+    if (parameters.tin !== '') {
+      params = params.append('TIN', parameters.tin);
+    }
+    if (parameters.startDate !== '') {
+      params = params.append('startDate', parameters.startDate);
+    }
+    if (parameters.endDate !== '') {
+      params = params.append('endDate', parameters.endDate);
+    }
+    if (parameters.rolling12 !== '') {
+      params = params.append('rolling12', parameters.rolling12);
+    }
+
+    const claimsURL = this.APP_URL + this.CLAIMS_SERVICE_PATH + parameters.providerkey;
+    return this.http.post(claimsURL, params, { headers: myHeader }).pipe(
+      retry(2),
+      map(res => res),
+      catchError(err => of(err))
     );
   }
 }

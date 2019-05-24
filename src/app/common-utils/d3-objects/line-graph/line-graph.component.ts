@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, AfterViewInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, Input, AfterViewInit, ViewEncapsulation, HostBinding } from '@angular/core';
 import * as d3 from 'd3';
 
 @Component({
@@ -6,6 +6,7 @@ import * as d3 from 'd3';
   templateUrl: './line-graph.component.html',
   styleUrls: ['./line-graph.component.scss'],
   encapsulation: ViewEncapsulation.None,
+  // tslint:disable-next-line:use-host-property-decorator
   host: {
     '(window:resize)': 'onResize($event)'
   }
@@ -63,6 +64,7 @@ export class LineGraphComponent implements OnInit {
     this.renderChart = '#' + this.chartOptions.chartId;
   }
 
+  // tslint:disable-next-line:use-life-cycle-interface
   ngAfterViewInit() {
     this.doLineGraph(
       this.chartOptions.chartData,
@@ -267,7 +269,6 @@ export class LineGraphComponent implements OnInit {
          mx  = d3.mouse(this)[0];
          console.log(mx);*/
 
-
     const preWidth = 961; // document.getElementById(generalData[0].parentDiv).clientWidth;
 
     let topMarginSubtract = 150;
@@ -297,18 +298,18 @@ export class LineGraphComponent implements OnInit {
       .attr('class', 'tooltip')
       .style('opacity', 0);
 
-       const shiftTooltip = -155;
+    const shiftTooltip = -155;
 
     if (generalData[0].tooltipBoolean === true) {
-        // tslint:disable-next-line:no-var-keyword
-        var tooltipVar = d3
+      // tslint:disable-next-line:no-var-keyword
+      var tooltipVar = d3
         .select(this.renderChart)
         .append('div')
         .classed('tooltipClass', false)
         .classed('tooltipClassLeft', false)
         .classed('hidden', true);
     } else {
-        tooltipVar = d3
+      tooltipVar = d3
         .select(this.renderChart)
         .append('div')
         .attr('class', 'displayNone');
@@ -323,7 +324,7 @@ export class LineGraphComponent implements OnInit {
       })
     );
     // tslint:disable-next-line:no-var-keyword
-  const highestValue2 = Math.max.apply(
+    const highestValue2 = Math.max.apply(
       Math,
       chartData2.map(function(o) {
         return o.value;
@@ -367,7 +368,7 @@ export class LineGraphComponent implements OnInit {
       .nice(3); // output
 
     // tslint:disable-next-line:no-var-keyword
-    var area = d3
+    let area = d3
       .area()
       .x(function(d, i) {
         return xScale(i);
@@ -378,10 +379,10 @@ export class LineGraphComponent implements OnInit {
       });
 
     // tslint:disable-next-line:no-var-keyword
-    var data = [];
+    const ydata = [];
 
     for (let a = 0; a < lengthOfData; a++) {
-      data.push({ y: chartData[a].value });
+      ydata.push({ y: chartData[a].value });
     }
 
     chart
@@ -417,9 +418,8 @@ export class LineGraphComponent implements OnInit {
       textWidth1 = textWidth1 * 1.25;
     }
 
-   // tslint:disable-next-line:prefer-const
-    var data = [];
-
+    // tslint:disable-next-line:prefer-const
+    let data = [];
     for (let l = 0; l < lengthOfData; l++) {
       data.push({ y: chartData[l].value, xCoordinate: xScale(l), x: chartData[l].name });
     }
@@ -505,7 +505,7 @@ export class LineGraphComponent implements OnInit {
         })
       );
       // tslint:disable-next-line:no-var-keyword
-      var data2 = [];
+      /* var data2 = [];
       for (let x = 0; x < lengthOfData2; x++) {
         data2.push({ y: chartData2[x].value });
       }
@@ -515,7 +515,7 @@ export class LineGraphComponent implements OnInit {
         .attr('font-family', 'UHCSans-Regular')
         .attr('font-size', '14px')
         .text(chartData2[0].name)
-        .style('font-weight', '600');
+        .style('font-weight', '600');*/
 
       const text_element2 = chart.select('#forlolCalculations2');
       // tslint:disable-next-line:no-var-keyword
@@ -529,11 +529,11 @@ export class LineGraphComponent implements OnInit {
       }
 
       /* Starts Data for tooltip */
-      if (this.chartOptions.chartData2 != undefined && this.chartOptions.chartData2.length > 0) {
+      /*if (this.chartOptions.chartData2 != undefined && this.chartOptions.chartData2.length > 0) {
         // tslint:disable-next-line:no-var-keyword
-        var data2 = [];
+        let data2 = [];
         // tslint:disable-next-line:no-var-keyword
-        var data = [];
+        let data = [];
         for (let v = 0; v < lengthOfData; v++) {
           data.push({
             y: chartData[v].value,
@@ -551,7 +551,7 @@ export class LineGraphComponent implements OnInit {
             x_lastYear: chartData[u].name
           });
         }
-      }
+      } */
       /* Ends Data for tooltip */
       chart
         .append('g')
@@ -579,12 +579,12 @@ export class LineGraphComponent implements OnInit {
 
       const preArrayOfNumbers2 = preYArray2.map(Number);
       // tslint:disable-next-line:no-var-keyword
-      var numberOfTicks2 = preArrayOfNumbers2.length;
+      // var numberOfTicks2 = preArrayOfNumbers2.length;
       // tslint:disable-next-line:no-var-keyword
-      var highestTickValue2 = preArrayOfNumbers2[numberOfTicks2 - 1];
+      // var highestTickValue2 = preArrayOfNumbers2[numberOfTicks2 - 1];
     } // end if structure of chartData2
 
-    if (this.chartOptions.chartData2 != undefined && this.chartOptions.chartData2.length > 0) {
+    /*  if (this.chartOptions.chartData2 != undefined && this.chartOptions.chartData2.length > 0) {
       chart
         .append('g')
         .attr('class', 'tick_hidden_y')
@@ -596,9 +596,9 @@ export class LineGraphComponent implements OnInit {
             .ticks(3)
             .tickFormat(formatDynamicAbbreviation(numberOfTicks2, highestTickValue2, axisPrefix))
         );
-    }
+    }*/
 
-    if (this.chartOptions.chartData2 != undefined && this.chartOptions.chartData2.length > 0) {
+    /* if (this.chartOptions.chartData2 != undefined && this.chartOptions.chartData2.length > 0) {
       chart
         .append('path')
         .datum(data2)
@@ -606,9 +606,9 @@ export class LineGraphComponent implements OnInit {
         .attr('d', line)
         .style('fill', 'none')
         .style('stroke', generalData2[0].barColor);
-    }
+    } */
     // tslint:disable-next-line:no-var-keyword
-    var area = d3
+    area = d3
       .area()
       .x(function(d, i) {
         return d.xCoordinate;
@@ -624,39 +624,91 @@ export class LineGraphComponent implements OnInit {
       .attr('class', 'area')
       .attr('d', area);
 
-    if (this.chartOptions.chartData2 != undefined && this.chartOptions.chartData2.length > 0) {
+    /*if (this.chartOptions.chartData2 != undefined && this.chartOptions.chartData2.length > 0) {
       chart
         .append('path')
         .datum(data2)
         .attr('class', 'area2')
         .attr('d', area);
-    }
+    }*/
 
-    const RectBarOne = chart.selectAll('.rect-bar').data(data)
-                            .enter().append('rect').style('fill', '#E3F0FD').attr('class', 'rect-bar')
-                            .attr('id', 'RectLineOne')
-                            .attr('x', function(d) {
-                                    console.log(d);
-                                    return d.xCoordinate - 22; })
-                            .attr('y', 113.5);
+    const RectBarOne = chart
+      .selectAll('.rect-bar')
+      .data(data)
+      .enter()
+      .append('rect')
+      .style('fill', '#E3F0FD')
+      .attr('class', 'rect-bar')
+      .attr('id', 'RectLineOne')
+      .attr('x', function(d) {
+        console.log(d);
+        return d.xCoordinate - 22;
+      })
+      .attr('y', 113.5);
 
-    if (1) {
-         RectBarOne
-        .on('mouseenter', function(d) {
-          DotOne
+    const DotOne = chart
+      .selectAll('.dot')
+      .data(data)
+      .enter()
+      .append('circle')
+      .style('fill', '#3381FF')
+      .attr('class', 'dot')
+      .attr('id', 'LineOneDot')
+      .attr('cx', function(d) {
+        console.log(d);
+        console.log(d.xCoordinate);
+        return d.xCoordinate;
+      })
+      .attr('cy', function(d) {
+        return yScale(d.y);
+      })
+      .attr('r', 6)
+      .on('mouseover', d => {
+        tooltipVar
           .transition()
           .duration(200)
           .style('opacity', 1);
-          const showRect = RectBarOne.transition().duration(200).style('opacity', 1 );
-        })
-        .on('mouseleave', function(d) {
-                            DotOne
-                            .transition()
-                           .duration(500)
-                           .style('opacity', 0);
-              const hideRect = RectBarOne. transition().duration(500)
-                                         .style('opacity', 0);
-            });
+        if (d3.event.layerX + 213 < width + margin.left + margin.right) {
+          tooltipVar
+            .html(tooltipText(d, this.yearComparison, axisPrefix))
+            .classed('hidden', false)
+            .classed('tooltipClass', true)
+            .classed('tooltipClassLeft', false)
+            .style('left', d3.event.layerX + 23 + 'px')
+            .style('top', d3.event.layerY + -20 + 'px');
+        } else {
+          tooltipVar
+            .html(tooltipText(d, this.yearComparison, axisPrefix))
+            .classed('hidden', false)
+            .classed('tooltipClass', false)
+            .classed('tooltipClassLeft', true)
+            .style('left', d3.event.layerX + 23 + shiftTooltip + 'px')
+            .style('top', d3.event.layerY + -20 + 'px');
+        }
+      })
+      .on('mouseout', function(d) {
+        tooltipVar
+          .transition()
+          .duration(500)
+          .style('opacity', 0);
+      });
+
+    if (1) {
+      RectBarOne.on('mouseenter', function(d) {
+        DotOne.transition()
+          .duration(200)
+          .style('opacity', 1);
+        const showRect = RectBarOne.transition()
+          .duration(200)
+          .style('opacity', 1);
+      }).on('mouseleave', function(d) {
+        DotOne.transition()
+          .duration(500)
+          .style('opacity', 0);
+        const hideRect = RectBarOne.transition()
+          .duration(500)
+          .style('opacity', 0);
+      });
 
       chart
         .append('path')
@@ -666,51 +718,9 @@ export class LineGraphComponent implements OnInit {
         .attr('id', 'LineOne')
         .style('fill', 'none')
         .style('stroke', generalData[0].barColor);
-
-     const DotOne = chart.selectAll('.dot')
-                         .data(data).enter().append('circle')
-                         .style('fill', '#3381FF').attr('class', 'dot')
-                         .attr('id', 'LineOneDot')
-                         .attr('cx', function(d) {
-                          console.log(d);
-                          console.log(d.xCoordinate);
-                          return d.xCoordinate;
-                          })
-                         .attr('cy', function(d) {
-                           return yScale(d.y); })
-       .attr('r', 6)
-       .on('mouseover', d => {
-         tooltipVar
-           .transition()
-           .duration(200)
-           .style('opacity', 1);
-         if (d3.event.layerX + 213 < width + margin.left + margin.right) {
-           tooltipVar
-             .html(tooltipText(d, this.yearComparison, axisPrefix))
-             .classed('hidden', false)
-             .classed('tooltipClass', true)
-             .classed('tooltipClassLeft', false)
-             .style('left', d3.event.layerX + 23 + 'px')
-             .style('top', d3.event.layerY + -20 + 'px');
-         } else {
-           tooltipVar
-             .html(tooltipText(d, this.yearComparison, axisPrefix))
-             .classed('hidden', false)
-             .classed('tooltipClass', false)
-             .classed('tooltipClassLeft', true)
-             .style('left', d3.event.layerX + 23 + shiftTooltip + 'px')
-             .style('top', d3.event.layerY + -20 + 'px');
-         }
-       })
-       .on('mouseout', function(d) {
-         tooltipVar
-           .transition()
-           .duration(500)
-           .style('opacity', 0);
-       });
     }
 
-    if (this.chartOptions.chartData2 != undefined && this.chartOptions.chartData2.length > 0) {
+    /*  if (this.chartOptions.chartData2 != undefined && this.chartOptions.chartData2.length > 0) {
       chart
         .selectAll('.dot2')
         .data(data2)
@@ -753,7 +763,7 @@ export class LineGraphComponent implements OnInit {
             .duration(500)
             .style('opacity', 0);
         });
-    }
+    } */
 
     chart
       .append('text')

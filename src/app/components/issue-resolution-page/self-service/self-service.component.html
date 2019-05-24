@@ -14,7 +14,10 @@
     <!-- end-->
     <div *ngIf="toggleCallsOperating" class="calls-operating-structure">
       <div class="card-inner">
-        <app-common-header [title]="'Calls and Operating Costs'"></app-common-header>
+        <app-common-header
+          [title]="'Calls and Operating Costs'"
+          (helpIconClicked)="helpIconClick($event)"
+        ></app-common-header>
         <div class="calls-operatin-body">
           <div class="container--tabs">
             <section class="row">
