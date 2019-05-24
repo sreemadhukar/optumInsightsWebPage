@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ViewEncapsulation, AfterViewChecked, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewEncapsulation, ChangeDetectorRef } from '@angular/core';
 import { MatIconRegistry, PageEvent } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 import { GettingReimbursedSharedService } from '../../../shared/getting-reimbursed/getting-reimbursed-shared.service';
@@ -11,7 +11,7 @@ import { GlossaryExpandService } from '../../../shared/glossary-expand.service';
   styleUrls: ['./non-payments.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class NonPaymentsComponent implements OnInit, AfterViewChecked {
+export class NonPaymentsComponent implements OnInit {
   title = 'Top Reasons for Claims Non-Payment';
   facilityTitle = 'Claims Non-Payments by Facility';
   timePeriod = 'Last 6 Months';
@@ -21,6 +21,7 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
   currentSummary: Array<Object> = [{}];
   currentTabTitle: String = '';
   recordsMorethan10 = true;
+  showPagination = true;
   displayedColumns: string[] = ['facilityName'];
   pageNumber = 1;
   totalPages = 0;
@@ -198,7 +199,6 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
     });
     this.gettingReimbursedSharedService.getTopReasonsforClaimsNonPayments().then(topReasons => {
       this.top5ReasonsDataArray = topReasons;
-      console.log(topReasons);
       this.top5ReasonsDataArray.forEach(element => {
         this.displayedColumns.push(element.Claimdenialcategorylevel1shortname);
         this.top5Reasons.push(element.Claimdenialcategorylevel1shortname);
@@ -208,6 +208,9 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
       .getClaimsNonPaymentsbyFacilityData(this.top5Reasons)
       .then(claimsNonpaymentsData => {
         this.facilityData = claimsNonpaymentsData;
+        if (this.facilityData.length === 0) {
+          this.showPagination = false;
+        }
         this.dataSource = new MatTableDataSource(this.facilityData);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sortingDataAccessor = (item, property) => {
@@ -227,9 +230,6 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
           this.totalPages = Math.ceil(this.totalRecords / 10);
         }
       });
-  }
-  ngAfterViewChecked() {
-    this.cdRef.detectChanges();
   }
   syncPrimaryPaginator(event: PageEvent) {
     this.pageNumber = event.pageIndex + 1;

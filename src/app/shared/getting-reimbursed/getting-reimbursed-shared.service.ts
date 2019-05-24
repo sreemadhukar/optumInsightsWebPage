@@ -991,16 +991,20 @@ export class GettingReimbursedSharedService {
       };
       this.gettingReimbursedService.getClaimsNonPaymentsData(parameters).subscribe(data => {
         const result = [];
-        data[0].All.DenialCategory.forEach(element => {
-          if (element.Claimdenialcategorylevel1shortname !== '') {
-            result.push({
-              Claimdenialcategorylevel1shortname: this.sentenceCase(element.Claimdenialcategorylevel1shortname),
-              DenialAmount: element.DenialAmount
-            });
-          }
-        });
-        result.sort((a, b) => parseFloat(b.DenialAmount) - parseFloat(a.DenialAmount));
-        resolve(result.slice(0, 5));
+        if (data[0].All !== null) {
+          data[0].All.DenialCategory.forEach(element => {
+            if (element.Claimdenialcategorylevel1shortname !== '') {
+              result.push({
+                Claimdenialcategorylevel1shortname: this.sentenceCase(element.Claimdenialcategorylevel1shortname),
+                DenialAmount: element.DenialAmount
+              });
+            }
+          });
+          result.sort((a, b) => parseFloat(b.DenialAmount) - parseFloat(a.DenialAmount));
+          resolve(result.slice(0, 5));
+        } else {
+          resolve(result);
+        }
       });
     });
   }
@@ -1044,26 +1048,30 @@ export class GettingReimbursedSharedService {
               }
             });
             const reasons = [];
-            element.All.DenialCategory.forEach(top5 => {
-              if (top5Reasons.includes(this.sentenceCase(top5.Claimdenialcategorylevel1shortname))) {
-                if (this.nonPaymentBy === 'dollar') {
-                  reasons.push({
-                    denialCategory: this.sentenceCase(top5.Claimdenialcategorylevel1shortname),
-                    val: '$' + this.common.nFormatter(top5.DenialAmount)
-                  });
-                } else if (this.nonPaymentBy === 'volume') {
-                  reasons.push({
-                    denialCategory: this.sentenceCase(top5.Claimdenialcategorylevel1shortname),
-                    val: this.common.nFormatter(top5.DenialCount)
-                  });
-                } else if (this.nonPaymentBy === 'average') {
-                  reasons.push({
-                    denialCategory: this.sentenceCase(top5.Claimdenialcategorylevel1shortname),
-                    val: '$' + this.common.nFormatter(top5.DenialCount / top5.DenialCount)
-                  });
+            if (element.All !== null) {
+              element.All.DenialCategory.forEach(top5 => {
+                if (top5Reasons.includes(this.sentenceCase(top5.Claimdenialcategorylevel1shortname))) {
+                  if (this.nonPaymentBy === 'dollar') {
+                    reasons.push({
+                      denialCategory: this.sentenceCase(top5.Claimdenialcategorylevel1shortname),
+                      val: '$' + this.common.nFormatter(top5.DenialAmount)
+                    });
+                  } else if (this.nonPaymentBy === 'volume') {
+                    reasons.push({
+                      denialCategory: this.sentenceCase(top5.Claimdenialcategorylevel1shortname),
+                      val: this.common.nFormatter(top5.DenialCount)
+                    });
+                  } else if (this.nonPaymentBy === 'average') {
+                    reasons.push({
+                      denialCategory: this.sentenceCase(top5.Claimdenialcategorylevel1shortname),
+                      val: '$' + this.common.nFormatter(top5.DenialCount / top5.DenialCount)
+                    });
+                  }
                 }
-              }
-            });
+              });
+            } else {
+              resolve([]);
+            }
             indObject.reasons = reasons;
             output.push(indObject);
           });

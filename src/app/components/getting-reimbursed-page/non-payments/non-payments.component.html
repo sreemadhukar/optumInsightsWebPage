@@ -75,7 +75,7 @@
         class="full-display padding-bottom-15"
         (helpIconClicked)="helpIconClick($event)"
       ></app-common-header>
-      <p class="top-pagination">
+      <p *ngIf="showPagination" class="top-pagination">
         Displaying
         <select class="top-pagination-dropdown" (change)="changePagination($event)">
           <option value="10">10</option>
@@ -112,17 +112,18 @@
           <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
         </table>
 
-        <mat-paginator
-          *ngIf="recordsMorethan10"
-          class="bottom-pagination-arrows"
-          (page)="syncPrimaryPaginator($event)"
-          [pageSize]="10"
-        ></mat-paginator>
+        <div *ngIf="recordsMorethan10">
+          <mat-paginator
+            class="bottom-pagination-arrows"
+            (page)="syncPrimaryPaginator($event)"
+            [pageSize]="10"
+          ></mat-paginator>
 
-        <p class="bottom-pagination" *ngIf="recordsMorethan10">
-          Page <input class="jump-to-page-number" type="text" [(ngModel)]="pageNumber" (change)="changePage()" /> of
-          {{ totalPages }}
-        </p>
+          <p class="bottom-pagination">
+            Page <input class="jump-to-page-number" type="text" [(ngModel)]="pageNumber" (change)="changePage()" /> of
+            {{ totalPages }}
+          </p>
+        </div>
       </div>
 
       <div class="full-display">
