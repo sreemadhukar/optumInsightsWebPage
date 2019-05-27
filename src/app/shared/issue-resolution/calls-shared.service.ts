@@ -80,7 +80,7 @@ export class CallsSharedService {
                 this.timeFrame
               );
             } catch (Error) {
-              // callsByCallType = this.utilizationDataObject(null, null, null);
+              callsByCallType = this.utilizationDataObject(null, null, null);
             }
           }
           if (
@@ -116,14 +116,13 @@ export class CallsSharedService {
                 this.timeFrame
               );
             } catch (Error) {
-              // talkTimeByCallType = this.utilizationDataObject(null, null, null);
+              talkTimeByCallType = this.utilizationDataObject(null, null, null);
             }
           }
-          this.callsData[0] = callsByCallType;
-          this.callsData[1] = talkTimeByCallType;
-          // this.callsData.push(tempArray);
+          tempArray[0] = callsByCallType;
+          tempArray[1] = talkTimeByCallType;
+          this.callsData.push(tempArray);
           resolve(this.callsData);
-          // console.log(tempArray);
           console.log(this.callsData);
         },
         err => {
