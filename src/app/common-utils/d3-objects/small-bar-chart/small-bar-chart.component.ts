@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, HostListener, AfterViewInit } from '@angular/core';
+import { Component, OnInit, Input, HostListener, AfterViewInit, OnChanges } from '@angular/core';
 import * as d3 from 'd3';
 
 @Component({
@@ -6,7 +6,7 @@ import * as d3 from 'd3';
   templateUrl: './small-bar-chart.component.html',
   styleUrls: ['./small-bar-chart.component.scss']
 })
-export class SmallBarChartComponent implements OnInit, AfterViewInit {
+export class SmallBarChartComponent implements OnInit, AfterViewInit, OnChanges {
   @Input() chartOptions;
   @Input() height;
   @Input() width;
@@ -24,7 +24,9 @@ export class SmallBarChartComponent implements OnInit, AfterViewInit {
   ngAfterViewInit() {
     this.doSmallBarChart(this.chartOptions);
   }
-
+  ngOnChanges() {
+    this.doSmallBarChart(this.chartOptions);
+  }
   doSmallBarChart(chartOptions: any) {
     const preWidth = document.getElementsByClassName(chartOptions.gdata[0])[0].clientWidth;
     d3.select(this.renderChart)
@@ -40,7 +42,7 @@ export class SmallBarChartComponent implements OnInit, AfterViewInit {
 
     // set the dimensions and margins of the graph
     const margin = { top: 20, right: 0, bottom: 0, left: 0 },
-      width = preWidth,
+      width = preWidth - 120,
       height = this.height;
 
     // set the ranges

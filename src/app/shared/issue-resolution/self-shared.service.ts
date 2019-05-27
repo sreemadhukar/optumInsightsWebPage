@@ -206,17 +206,17 @@ export class SelfSharedService {
                   {
                     chartData: [
                       {
-                        labelsRight: this.common.nFormatter(selfService.PhoneCallTime.toFixed(0)) + ' hours/day',
-                        values: selfService.PhoneCallTime.toFixed(),
+                        labelsRight: selfService.PhoneCallTime.toFixed(0) + ' hours/day',
+                        values: selfService.PhoneCallTime.toFixed(0),
                         metricName: 'Phone'
                       },
                       {
-                        labelsRight: this.common.nFormatter(selfService.SelfServiceCallTime.toFixed(0)) + ' hours/day',
-                        values: selfService.SelfServiceCallTime.toFixed(),
+                        labelsRight: selfService.SelfServiceCallTime.toFixed(0) + ' hours/day',
+                        values: selfService.SelfServiceCallTime.toFixed(0),
                         metricName: 'Self Service'
                       }
                     ],
-                    value: this.common.nFormatter(selfService.TotalCallTime.toFixed(0)) + ' Hours/day',
+                    value: selfService.TotalCallTime.toFixed(0) + ' Hours/day',
                     color: ['#80B0FF', '#3381FF'],
                     gdata: ['card-inner', 'staffTimeSave']
                   },
@@ -433,15 +433,13 @@ export class SelfSharedService {
                     chartData: [
                       {
                         labelsRight:
-                          this.common.nFormatter(tempCallOperating.PriorAuthorizationsPhoneCost.toFixed(0)) +
-                          ' hours/day',
+                          this.common.nFormatter(tempCallOperating.PriorAuthorizationsPhoneCost) + ' hours/day',
                         values: tempCallOperating.PriorAuthorizationsPhoneCost,
                         metricName: 'Phone'
                       },
                       {
                         labelsRight:
-                          this.common.nFormatter(tempCallOperating.PriorAuthorizationsSelfServiceCost.toFixed(0)) +
-                          ' hours/day',
+                          this.common.nFormatter(tempCallOperating.PriorAuthorizationsSelfServiceCost) + ' hours/day',
                         values: tempCallOperating.PriorAuthorizationsSelfServiceCost,
                         metricName: 'Self Service'
                       }
