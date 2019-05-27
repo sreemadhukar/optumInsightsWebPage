@@ -28,7 +28,7 @@ export class CallsSharedService {
   }
 
   public getCallsData() {
-    this.timeFrame = 'Last 3 Months';
+    this.timeFrame = 'Last 6 Months';
     this.providerKey = this.session.providerKey();
     this.callsData = [];
     return new Promise(resolve => {
