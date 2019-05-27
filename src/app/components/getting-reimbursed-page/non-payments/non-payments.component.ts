@@ -197,7 +197,7 @@ export class NonPaymentsComponent implements OnInit {
   }
 
   ngOnInit() {
-    // this.timePeriod = this.session.timeFrame; //uncomment it
+    //  this.timePeriod = this.session.timeFrame; //uncomment it
     this.gettingReimbursedSharedService.getGettingReimbursedData().then(completeData => {
       this.summaryItems = JSON.parse(JSON.stringify(completeData));
       this.currentSummary = this.summaryItems[2].data;
