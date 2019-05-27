@@ -33,6 +33,7 @@ export class NonPaymentsComponent implements OnInit {
   top5Reasons: any = [];
   facilityData: any;
   dataSource: MatTableDataSource<any>;
+  show = false;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -196,7 +197,7 @@ export class NonPaymentsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.timePeriod = this.session.timeFrame;
+    // this.timePeriod = this.session.timeFrame; //uncomment it
     this.gettingReimbursedSharedService.getGettingReimbursedData().then(completeData => {
       this.summaryItems = JSON.parse(JSON.stringify(completeData));
       this.currentSummary = this.summaryItems[2].data;
