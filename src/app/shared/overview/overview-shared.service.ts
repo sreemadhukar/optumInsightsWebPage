@@ -219,16 +219,14 @@ export class OverviewSharedService {
               data: {
                 centerNumber:
                   '$' +
-                  this.common.nFormatter(providerSystems.SelfServiceInquiries.ALL.SelfService.TotalCallCost.toFixed(2)),
+                  this.common.nFormatter(providerSystems.SelfServiceInquiries.ALL.SelfService.TotalCallCost.toFixed(0)),
                 gdata: []
               },
               fdata: {
                 type: 'bar chart',
                 graphValues: [
-                  this.common.nFormatter(
-                    providerSystems.SelfServiceInquiries.ALL.SelfService.TotalSelfServiceCost.toFixed(2)
-                  ),
-                  this.common.nFormatter(providerSystems.SelfServiceInquiries.ALL.SelfService.TotalPhoneCost.toFixed(2))
+                  providerSystems.SelfServiceInquiries.ALL.SelfService.TotalSelfServiceCost.toFixed(0),
+                  providerSystems.SelfServiceInquiries.ALL.SelfService.TotalPhoneCost.toFixed(0)
                 ],
                 concatString: '$',
                 color: ['#3381FF', '#FFFFFF', '#80B0FF'],
@@ -264,19 +262,20 @@ export class OverviewSharedService {
           try {
             oppurtunities.push({
               category: 'mini-tile',
-              title: "Save Your Staff's Time by:" + '\n\xa0',
+              title: "Save Your Staff's Time by:",
               toggle: this.toggle.setToggles("Save Your Staff's Time by:", 'Opportunities', 'Overview', false),
               data: {
                 centerNumber:
-                  this.common.nFormatter(providerSystems.SelfServiceInquiries.ALL.SelfService.TotalCallTime) +
-                  ' Hours/day',
+                  this.common.nFormatter(
+                    providerSystems.SelfServiceInquiries.ALL.SelfService.TotalCallTime.toFixed(0)
+                  ) + ' Hours/day',
                 gdata: []
               },
               fdata: {
                 type: 'bar chart',
                 graphValues: [
-                  providerSystems.SelfServiceInquiries.ALL.SelfService.SelfServiceCallTime.toFixed(1),
-                  providerSystems.SelfServiceInquiries.ALL.SelfService.PhoneCallTime.toFixed(1)
+                  providerSystems.SelfServiceInquiries.ALL.SelfService.SelfServiceCallTime.toFixed(0),
+                  providerSystems.SelfServiceInquiries.ALL.SelfService.PhoneCallTime.toFixed(0)
                 ],
                 concatString: 'hours',
                 color: ['#3381FF', '#FFFFFF', '#80B0FF'],
