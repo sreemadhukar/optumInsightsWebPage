@@ -1,9 +1,10 @@
-import { Component, OnInit, ViewChild, ViewEncapsulation, AfterViewChecked, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewEncapsulation, ChangeDetectorRef, AfterViewChecked } from '@angular/core';
 import { MatIconRegistry, PageEvent } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 import { GettingReimbursedSharedService } from '../../../shared/getting-reimbursed/getting-reimbursed-shared.service';
 import { MatPaginator, MatTableDataSource, MatSort } from '@angular/material';
 import { GlossaryExpandService } from '../../../shared/glossary-expand.service';
+import { SessionService } from 'src/app/shared/session.service';
 
 @Component({
   selector: 'app-non-payments',
@@ -13,6 +14,7 @@ import { GlossaryExpandService } from '../../../shared/glossary-expand.service';
 })
 export class NonPaymentsComponent implements OnInit, AfterViewChecked {
   title = 'Top Reasons for Claims Non-Payment';
+  trendTitle = 'Claims Non-Payment Trend';
   facilityTitle = 'Claims Non-Payments by Facility';
   timePeriod = 'Last 6 Months';
   section: any = [];
@@ -20,6 +22,11 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
   pageTitle: String = '';
   currentSummary: Array<Object> = [{}];
   currentTabTitle: String = '';
+  monthlyLineGraph: any = [{}];
+  recordsMorethan10 = true;
+  showPagination = true;
+  // displayedColumns: string[] = ['facilityName'];
+  /*** MOCK DATA ***/
   displayedColumns: string[] = [
     'facilityName',
     'needAdditionalInfo',
@@ -28,6 +35,14 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
     'noBenefitCoverage',
     'cobNeedFortherAction'
   ];
+  /*** MOCK DATA ***/
+
+  pageNumber = 1;
+  totalPages = 0;
+  totalRecords: any = 0;
+  top5ReasonsDataArray: any;
+  top5Reasons: any = [];
+  facilityData: any;
   dataSource: MatTableDataSource<any>;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -169,7 +184,8 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
       ]
     }
   ];
-  facilityData = [
+
+  facilityMockData = [
     {
       facilityName: 'North Region Hospital',
       tin: 43730045,
@@ -241,6 +257,15 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
       claimsPaymentsPolicy: '$4.6M',
       noBenefitCoverage: '$1.5M',
       cobNeedFortherAction: '$3.7M'
+    },
+    {
+      facilityName: 'Coastl Hospital',
+      tin: 3228930,
+      needAdditionalInfo: '$3.9M',
+      noAuthNoticeRef: '$2.9M',
+      claimsPaymentsPolicy: '$6.1M',
+      noBenefitCoverage: '$9.3M',
+      cobNeedFortherAction: '$1.2M'
     },
     {
       facilityName: 'West Region Hospital',
@@ -351,18 +376,14 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
       cobNeedFortherAction: '$3.7M'
     }
   ];
-  pageIndex = 0;
-  previousPageIndex = 0;
-  pageNumber = 1;
-  totalPages = 0;
-  totalRecords: any = 0;
 
   constructor(
     private iconRegistry: MatIconRegistry,
     sanitizer: DomSanitizer,
     private gettingReimbursedSharedService: GettingReimbursedSharedService,
     private cdRef: ChangeDetectorRef,
-    private glossaryExpandService: GlossaryExpandService
+    private glossaryExpandService: GlossaryExpandService,
+    private session: SessionService
   ) {
     /** INITIALIZING SVG ICONS TO USE IN DESIGN - ANGULAR MATERIAL */
 
@@ -378,7 +399,8 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
   }
 
   ngOnInit() {
-    this.dataSource = new MatTableDataSource(this.facilityData);
+    /*** MOCK DATA  ***/
+    this.dataSource = new MatTableDataSource(this.facilityMockData);
     this.dataSource.paginator = this.paginator;
     this.dataSource.sortingDataAccessor = (item, property) => {
       switch (property) {
@@ -389,15 +411,74 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
       }
     };
     this.dataSource.sort = this.sort;
+    /*** MOCK DATA ***/
+
+    this.timePeriod = this.session.timeFrame;
     this.gettingReimbursedSharedService.getGettingReimbursedData().then(completeData => {
       this.summaryItems = JSON.parse(JSON.stringify(completeData));
       this.currentSummary = this.summaryItems[2].data;
       this.currentTabTitle = this.summaryItems[2].title;
     });
+    this.monthlyLineGraph.chartId = 'non-payment-trend-block';
+    this.monthlyLineGraph.titleData = [{}];
+    this.monthlyLineGraph.generalData = [
+      {
+        width: 500,
+        backgroundColor: 'null',
+        barGraphNumberSize: 18,
+        barColor: '#196ECF',
+        parentDiv: 'non-payment-trend-block',
+        tooltipBoolean: true,
+        hideYAxis: false
+      }
+    ];
+    this.monthlyLineGraph.chartData = [
+      { name: 'Nov', value: 1360834 },
+      { name: 'Dec', value: 1260634 },
+      { name: 'Jan', value: 1160834 },
+      { name: 'Feb', value: 1876756 },
+      { name: 'Mar', value: 2076756 },
+      { name: 'Apr', value: 4000078 }
+    ];
+    this.monthlyLineGraph.generalData2 = [];
+    this.monthlyLineGraph.chartData2 = [];
+
+    /*** LIVE DATA ***/
+    /*this.gettingReimbursedSharedService.getTopReasonsforClaimsNonPayments().then(topReasons => {
+      this.top5ReasonsDataArray = topReasons;
+      this.top5ReasonsDataArray.forEach(element => {
+        this.displayedColumns.push(element.Claimdenialcategorylevel1shortname);
+        this.top5Reasons.push(element.Claimdenialcategorylevel1shortname);
+      });
+    });
+    this.gettingReimbursedSharedService
+      .getClaimsNonPaymentsbyFacilityData(this.top5Reasons)
+      .then(claimsNonpaymentsData => {
+        this.facilityData = claimsNonpaymentsData;
+        if (this.facilityData.length === 0) {
+          this.showPagination = false;
+        }
+        this.dataSource = new MatTableDataSource(this.facilityData);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sortingDataAccessor = (item, property) => {
+          switch (property) {
+            case 'facilityName':
+              return item.facilityName + item.tin;
+            default:
+              return item[property];
+          }
+        };
+        this.dataSource.sort = this.sort;
+        this.totalRecords = this.facilityData.length;
+
+        if (this.facilityData.length <= 10) {
+          this.recordsMorethan10 = false;
+        } else {
+          this.totalPages = Math.ceil(this.totalRecords / 10);
+        }
+      });*/
   }
   ngAfterViewChecked() {
-    const list = document.getElementsByClassName('mat-paginator-range-label');
-    list[0].innerHTML = 'Page: ' + this.paginator.pageIndex;
     this.totalPages = this.paginator.getNumberOfPages();
     this.totalRecords = this.paginator.length;
     this.cdRef.detectChanges();
@@ -415,6 +496,7 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
     });
     this.paginator.firstPage();
     this.pageNumber = 1;
+    this.totalPages = this.paginator.getNumberOfPages();
   }
   changePage() {
     (this.paginator.pageIndex = this.pageNumber - 1), // number of the page you want to jump.

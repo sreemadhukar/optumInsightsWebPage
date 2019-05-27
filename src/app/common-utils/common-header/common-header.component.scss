@@ -25,6 +25,9 @@
   line-height: 22px;*/
   display: flex;
   float: right;
+  .mat-icon > svg {
+    display: block;
+  }
 }
 
 .non-small-card-header-title {
