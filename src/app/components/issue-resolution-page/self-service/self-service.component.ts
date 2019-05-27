@@ -38,7 +38,6 @@ export class SelfServiceComponent implements OnInit {
     private glossaryExpandService: GlossaryExpandService
   ) {
     this.pageTitle = 'Self Service';
-    this.timeFrame = 'Time Period - Time Period';
     this.callCostReduceYourCost = 'Reduce your costs by:';
     this.callCostCallIn90days = 'Calls in last 90 days:';
 
@@ -46,19 +45,24 @@ export class SelfServiceComponent implements OnInit {
   }
 
   matOptionClicked(i: number, event: any) {
-    this.callCostChartData = {};
+    this.disBarGraphCallsCost = false;
+    this.callCostChartData = null;
     this.toggleCallsOperating = false;
     const myTabs = document.querySelectorAll('ul.nav-tabs > li');
     myTabs[this.previousSelected].classList.remove('active');
     event.target.classList.add('active');
     this.previousSelected = i;
+    alert('Hi');
     this.callCostChartData = this.callCostOperatingData[i].data;
     this.callCostReduceCostValue = this.callCostOperatingData[i].callCostReduceCostValue;
     this.callCostCallIn90daysValue = this.callCostOperatingData[i].callCostCallIn90daysValue;
+    console.log('Change', this.callCostChartData);
     this.toggleCallsOperating = true;
+    this.disBarGraphCallsCost = true;
   }
 
   ngOnInit() {
+    this.disBarGraphCallsCost = true;
     this.selfServiceSrc
       .getSelfServiceData()
       .then(selfServiceData => {
@@ -73,6 +77,7 @@ export class SelfServiceComponent implements OnInit {
         this.callCostChartData = this.callCostOperatingData[0].data;
         this.callCostReduceCostValue = this.callCostOperatingData[0].callCostReduceCostValue;
         this.callCostCallIn90daysValue = this.callCostOperatingData[0].callCostCallIn90daysValue;
+        this.timeFrame = this.callCostOperatingData[0].timeperiod;
         this.toggleCallsOperating = true;
       })
       .catch(reason => console.log('Self Service Page Service Error ', reason));
