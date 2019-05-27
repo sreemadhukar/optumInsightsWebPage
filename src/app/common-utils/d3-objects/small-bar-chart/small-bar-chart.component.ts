@@ -14,7 +14,7 @@ export class SmallBarChartComponent implements OnInit, AfterViewInit {
   constructor() {}
   @HostListener('window:resize', ['$event'])
   onResize(event) {
-    this.doSmallBarChart();
+    this.doSmallBarChart(this.chartOptions);
   }
 
   ngOnInit() {
@@ -22,17 +22,17 @@ export class SmallBarChartComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    this.doSmallBarChart();
+    this.doSmallBarChart(this.chartOptions);
   }
 
-  doSmallBarChart() {
-    const preWidth = document.getElementsByClassName(this.chartOptions.gdata[0])[0].clientWidth;
+  doSmallBarChart(chartOptions: any) {
+    const preWidth = document.getElementsByClassName(chartOptions.gdata[0])[0].clientWidth;
     d3.select(this.renderChart)
       .selectAll('*')
       .remove();
 
-    let data = this.chartOptions.chartData;
-    const barColors = this.chartOptions.color;
+    let data = chartOptions.chartData;
+    const barColors = chartOptions.color;
 
     data = data.sort(function(a, b) {
       return d3.ascending(a.values, b.values);
