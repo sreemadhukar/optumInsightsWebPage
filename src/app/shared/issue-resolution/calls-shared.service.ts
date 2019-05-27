@@ -80,7 +80,7 @@ export class CallsSharedService {
                 this.timeFrame
               );
             } catch (Error) {
-              // callsByCallType = this.utilizationDataObject(null, null, null);
+              callsByCallType = this.utilizationDataObject(null, null, null);
             }
           }
           if (
@@ -88,20 +88,20 @@ export class CallsSharedService {
             // providerSystems.ResolvingIssues.hasOwnProperty('Calls') &&
             providerSystems.hasOwnProperty('CallTalkTimeByQuesType')
           ) {
-            const totalCalls = providerSystems.CallTalkTimeByQuesType;
-            console.log(totalCalls);
+            const totalCalls1 = providerSystems.CallTalkTimeByQuesType;
+            console.log(totalCalls1);
             try {
               talkTimeByCallType = this.utilizationDataObject(
                 'Talk Time By Call Type',
                 {
                   graphValueName: ['Eligibilty and Benefits', 'Claims', 'Prior Authorizations', 'Others'],
                   graphValues: [
-                    totalCalls.BenefitsEligibility,
-                    totalCalls.Claims,
-                    totalCalls.PriorAuth,
-                    totalCalls.Others
+                    totalCalls1.BenefitsEligibility,
+                    totalCalls1.Claims,
+                    totalCalls1.PriorAuth,
+                    totalCalls1.Others
                   ],
-                  centerNumber: this.common.nFormatter(totalCalls.Total).toFixed(0) + 'Hrs',
+                  centerNumber: this.common.nFormatter(totalCalls1.Total).toFixed(0) + 'Hrs',
                   color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'],
                   gdata: ['card-inner', 'talkTimeByCallType'],
                   sdata: {
@@ -116,14 +116,13 @@ export class CallsSharedService {
                 this.timeFrame
               );
             } catch (Error) {
-              // talkTimeByCallType = this.utilizationDataObject(null, null, null);
+              talkTimeByCallType = this.utilizationDataObject(null, null, null);
             }
           }
-          this.callsData[0] = callsByCallType;
-          this.callsData[1] = talkTimeByCallType;
-          // this.callsData.push(tempArray);
+          tempArray[0] = callsByCallType;
+          tempArray[1] = talkTimeByCallType;
+          this.callsData.push(tempArray);
           resolve(this.callsData);
-          // console.log(tempArray);
           console.log(this.callsData);
         },
         err => {
