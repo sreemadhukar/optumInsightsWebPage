@@ -15,7 +15,7 @@ export class CallsSharedService {
     private common: CommonUtilsService
   ) {}
 
-  public utilizationDataObject(title: String, data: any, besideData: any, timeperiod?: String | null): Object {
+  public issueResolution(title: String, data: any, besideData: any, timeperiod?: String | null): Object {
     const temp: Object = {
       category: 'app-card',
       type: 'donutWithLabel',
@@ -55,7 +55,7 @@ export class CallsSharedService {
             const totalCalls = providerSystems.CallVolByQuesType;
             console.log(totalCalls);
             try {
-              callsByCallType = this.utilizationDataObject(
+              callsByCallType = this.issueResolution(
                 'Calls By Call Type',
                 {
                   graphValueName: ['Eligibilty and Benefits', 'Claims', 'Prior Authorizations', 'Others'],
@@ -80,7 +80,7 @@ export class CallsSharedService {
                 this.timeFrame
               );
             } catch (Error) {
-              callsByCallType = this.utilizationDataObject(null, null, null);
+              callsByCallType = this.issueResolution(null, null, null);
             }
           }
           if (
@@ -88,20 +88,20 @@ export class CallsSharedService {
             // providerSystems.ResolvingIssues.hasOwnProperty('Calls') &&
             providerSystems.hasOwnProperty('CallTalkTimeByQuesType')
           ) {
-            const totalCalls1 = providerSystems.CallTalkTimeByQuesType;
-            console.log(totalCalls1);
+            const totalCalls = providerSystems.CallTalkTimeByQuesType;
+            console.log(totalCalls);
             try {
-              talkTimeByCallType = this.utilizationDataObject(
+              talkTimeByCallType = this.issueResolution(
                 'Talk Time By Call Type',
                 {
                   graphValueName: ['Eligibilty and Benefits', 'Claims', 'Prior Authorizations', 'Others'],
                   graphValues: [
-                    totalCalls1.BenefitsEligibility,
-                    totalCalls1.Claims,
-                    totalCalls1.PriorAuth,
-                    totalCalls1.Others
+                    totalCalls.BenefitsEligibility,
+                    totalCalls.Claims,
+                    totalCalls.PriorAuth,
+                    totalCalls.Others
                   ],
-                  centerNumber: this.common.nFormatter(totalCalls1.Total).toFixed(0) + 'Hrs',
+                  centerNumber: this.common.nFormatter(totalCalls.Total) + 'Hrs',
                   color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'],
                   gdata: ['card-inner', 'talkTimeByCallType'],
                   sdata: {
@@ -116,7 +116,7 @@ export class CallsSharedService {
                 this.timeFrame
               );
             } catch (Error) {
-              talkTimeByCallType = this.utilizationDataObject(null, null, null);
+              talkTimeByCallType = this.issueResolution(null, null, null);
             }
           }
           tempArray[0] = callsByCallType;

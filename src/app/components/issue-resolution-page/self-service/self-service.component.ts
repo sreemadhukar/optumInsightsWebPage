@@ -52,11 +52,10 @@ export class SelfServiceComponent implements OnInit {
     myTabs[this.previousSelected].classList.remove('active');
     event.target.classList.add('active');
     this.previousSelected = i;
-    alert('Hi');
     this.callCostChartData = this.callCostOperatingData[i].data;
     this.callCostReduceCostValue = this.callCostOperatingData[i].callCostReduceCostValue;
     this.callCostCallIn90daysValue = this.callCostOperatingData[i].callCostCallIn90daysValue;
-    console.log('Change', this.callCostChartData);
+    console.log('Change', this.callCostChartData.data);
     this.toggleCallsOperating = true;
     this.disBarGraphCallsCost = true;
   }

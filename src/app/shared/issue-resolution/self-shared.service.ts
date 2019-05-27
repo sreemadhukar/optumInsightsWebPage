@@ -303,29 +303,54 @@ export class SelfSharedService {
             let claimsStatus;
             let eligibilityBenefits;
             let priorAuth;
+            const tempCallOperating = providerSystems.SelfServiceInquiries.ALL.SelfService;
             try {
-              totalCosts = this.callsOperatingCostMethod('Total Costs', 12, 3916, {
-                chartData: [
-                  { labelsRight: '30 hours/day', values: 40, metricName: 'Phone' },
-                  { labelsRight: '15 hours/day', values: 25, metricName: 'Self Service' }
-                ],
-                value: '15 hours/day',
-                color: ['#80B0FF', '#3381FF'],
-                gdata: ['card-inner', 'callCostOperating1']
-              });
+              totalCosts = this.callsOperatingCostMethod(
+                'Total Costs',
+                this.common.nFormatter(tempCallOperating.TotalCallCost),
+                this.common.nFormatter(tempCallOperating.TotalCallCount),
+                {
+                  chartData: [
+                    {
+                      labelsRight: this.common.nFormatter(tempCallOperating.TotalPhoneCost) + ' hours/day',
+                      values: this.common.nFormatter(tempCallOperating.TotalPhoneCost),
+                      metricName: 'Phone'
+                    },
+                    {
+                      labelsRight: this.common.nFormatter(tempCallOperating.TotalSelfServiceCost) + ' hours/day',
+                      values: this.common.nFormatter(tempCallOperating.TotalSelfServiceCost),
+                      metricName: 'Self Service'
+                    }
+                  ],
+                  color: ['#80B0FF', '#3381FF'],
+                  gdata: ['card-inner', 'totalCosts']
+                }
+              );
             } catch (Error) {
               totalCosts = null;
             }
             try {
-              claimsStatus = this.callsOperatingCostMethod('Claim Status', 332, 333916, {
-                chartData: [
-                  { labelsRight: '40 hours/day', values: 40, metricName: 'Phone' },
-                  { labelsRight: '25 hours/day', values: 25, metricName: 'Self Service' }
-                ],
-                value: '15 hours/day',
-                color: ['#80B0FF', '#3381FF'],
-                gdata: ['card-inner', 'callCostOperating2']
-              });
+              claimsStatus = this.callsOperatingCostMethod(
+                'Claims Status',
+                this.common.nFormatter(tempCallOperating.TotalCallCost),
+                this.common.nFormatter(tempCallOperating.TotalCallCount),
+                {
+                  chartData: [
+                    {
+                      labelsRight: this.common.nFormatter(tempCallOperating.TotalPhoneCost) + ' hours/day',
+                      values: this.common.nFormatter(tempCallOperating.TotalPhoneCost),
+                      metricName: 'Phone'
+                    },
+                    {
+                      labelsRight: this.common.nFormatter(tempCallOperating.TotalSelfServiceCost) + ' hours/day',
+                      values: this.common.nFormatter(tempCallOperating.TotalSelfServiceCost),
+                      metricName: 'Self Service'
+                    }
+                  ],
+                  color: ['#80B0FF', '#3381FF'],
+                  gdata: ['card-inner', 'claimsStatus']
+                }
+              );
             } catch (Error) {
               claimsStatus = null;
             }
