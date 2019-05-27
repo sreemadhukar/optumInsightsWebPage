@@ -206,17 +206,17 @@ export class SelfSharedService {
                   {
                     chartData: [
                       {
-                        labelsRight: this.common.nFormatter(selfService.PhoneCallTime) + ' hours/day',
+                        labelsRight: this.common.nFormatter(selfService.PhoneCallTime.toFixed(0)) + ' hours/day',
                         values: selfService.PhoneCallTime.toFixed(),
                         metricName: 'Phone'
                       },
                       {
-                        labelsRight: this.common.nFormatter(selfService.SelfServiceCallTime) + ' hours/day',
+                        labelsRight: this.common.nFormatter(selfService.SelfServiceCallTime.toFixed(0)) + ' hours/day',
                         values: selfService.SelfServiceCallTime.toFixed(),
                         metricName: 'Self Service'
                       }
                     ],
-                    value: this.common.nFormatter(selfService.TotalCallTime) + ' Hours/day',
+                    value: this.common.nFormatter(selfService.TotalCallTime.toFixed(0)) + ' Hours/day',
                     color: ['#80B0FF', '#3381FF'],
                     gdata: ['card-inner', 'staffTimeSave']
                   },
@@ -433,14 +433,16 @@ export class SelfSharedService {
                     chartData: [
                       {
                         labelsRight:
-                          this.common.nFormatter(tempCallOperating.PriorAuthorizationsPhoneCost) + ' hours/day',
-                        values: tempCallOperating.PriorAuthorizationsPhoneCost.toFixed(),
+                          this.common.nFormatter(tempCallOperating.PriorAuthorizationsPhoneCost.toFixed(0)) +
+                          ' hours/day',
+                        values: tempCallOperating.PriorAuthorizationsPhoneCost,
                         metricName: 'Phone'
                       },
                       {
                         labelsRight:
-                          this.common.nFormatter(tempCallOperating.PriorAuthorizationsSelfServiceCost) + ' hours/day',
-                        values: tempCallOperating.PriorAuthorizationsSelfServiceCost.toFixed(),
+                          this.common.nFormatter(tempCallOperating.PriorAuthorizationsSelfServiceCost.toFixed(0)) +
+                          ' hours/day',
+                        values: tempCallOperating.PriorAuthorizationsSelfServiceCost,
                         metricName: 'Self Service'
                       }
                     ],
@@ -450,7 +452,7 @@ export class SelfSharedService {
                   this.timeFrame
                 );
               } catch (Error) {
-                console.log('Self Service | Calls and Operating Cost | Prior Auth', Error);
+                console.log('Self Service | Calls and Operating Cost | Prior Auth ', Error);
                 priorAuth = null;
               }
             } else {
