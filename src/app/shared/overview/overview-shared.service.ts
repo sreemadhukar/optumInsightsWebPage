@@ -266,7 +266,7 @@ export class OverviewSharedService {
               toggle: this.toggle.setToggles("Save Your Staff's Time by:", 'Opportunities', 'Overview', false),
               data: {
                 centerNumber:
-                  providerSystems.SelfServiceInquiries.ALL.SelfService.TotalCallTime.toFixed() + ' Hours/day',
+                  providerSystems.SelfServiceInquiries.ALL.SelfService.TotalCallTime.toFixed(2) + ' Hours/day',
                 gdata: []
               },
               fdata: {
