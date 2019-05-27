@@ -16,8 +16,8 @@
 .tick_hidden text {
   font-family: $font-family-UHC;
   font-size: 14px;
- font-weight: $font-weight-semibold;
-  fill: #2E2C3A;
+  font-weight: $font-weight-semibold;
+  fill: #2e2c3a;
   text-transform: capitalize;
   margin-top: 17px;
 }
@@ -26,12 +26,13 @@
   font-family: $font-family-UHC;
   font-weight: 600;
   font-size: 14px;
-  fill: #2F2A3C;
+  fill: #2f2a3c;
 }
 
 .grid line {
   stroke: $heather;
   stroke-opacity: 1;
+  stroke-width: 2px;
   shape-rendering: crispEdges;
 }
 
@@ -50,7 +51,7 @@
 .tick_hidden_y text {
   font-family: $font-family-UHC;
   font-size: 14px;
- font-weight: $font-weight-semibold;
+  font-weight: $font-weight-semibold;
   fill: $black-rock;
 }
 
@@ -152,15 +153,15 @@
 
 .lineLabelHover {
   font-size: 14px;
- font-weight: $font-weight-semibold;
+  font-weight: $font-weight-semibold;
   line-height: 18px;
   padding-bottom: 5px;
   color: $black-rock;
 }
-.details-label{
-    color: $strom-grey;
-    font-size: 14px;
-    font-weight: $font-weight-medium;
+.details-label {
+  color: $strom-grey;
+  font-size: 14px;
+  font-weight: $font-weight-medium;
 }
 .claim-yield-rate {
   font-size: 14px;

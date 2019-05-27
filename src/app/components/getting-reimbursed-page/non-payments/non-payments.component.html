@@ -134,5 +134,18 @@
         ></app-common-footer>
       </div>
     </div>
+
+    <!-- Claims Non - Payment Trend  Starts Here -->
+    <div class="non-payment-trend-block">
+      <app-common-header [title]="trendTitle" class="full-display"></app-common-header>
+      <div class="full-display">
+        <app-line-graph [chartOptions]="monthlyLineGraph"></app-line-graph>
+        <app-common-footer [timePeriod]="timePeriod" class="width-100 time-period-trend"></app-common-footer>
+        <!--div class="timeperiod-block">
+          <p class="timeperiod-text">{{ timePeriod }}</p>
+        </div-->
+      </div>
+    </div>
+    <!-- Claims Non - Payment Trend Ends Here -->
   </div>
 </div>
