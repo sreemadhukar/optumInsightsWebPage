@@ -233,20 +233,20 @@ export class SelfSharedService {
                 {
                   chartData: [
                     {
-                      labelsRight: selfService.AveragePaperClaimProcessingTime.toFixed(0) + ' days',
-                      values: selfService.AveragePaperClaimProcessingTime.toFixed(0),
+                      labelsRight: this.common.nFormatter(selfService.AveragePaperClaimProcessingTime) + ' days',
+                      values: selfService.AveragePaperClaimProcessingTime.toFixed(),
                       metricName: 'Mail'
                     },
                     {
-                      labelsRight: selfService.AverageClaimProcessingTime.toFixed(0) + ' days',
-                      values: selfService.AverageClaimProcessingTime.toFixed(0),
+                      labelsRight: this.common.nFormatter(selfService.AverageClaimProcessingTime) + ' days',
+                      values: selfService.AverageClaimProcessingTime.toFixed(),
                       metricName: 'Self Service'
                     }
                   ],
                   value:
-                    selfService.AveragePaperClaimProcessingTime.toFixed(0) -
-                    selfService.AverageClaimProcessingTime.toFixed(0) +
-                    ' days',
+                    this.common.nFormatter(
+                      selfService.AveragePaperClaimProcessingTime - selfService.AverageClaimProcessingTime
+                    ) + ' days',
                   color: ['#80B0FF', '#3381FF'],
                   gdata: ['card-inner', 'reduceClaimTime']
                 },
@@ -262,20 +262,20 @@ export class SelfSharedService {
                 {
                   chartData: [
                     {
-                      labelsRight: selfService.AveragePaperReconsideredProcessingTime.toFixed(0) + ' days',
-                      values: selfService.AveragePaperReconsideredProcessingTime.toFixed(0),
+                      labelsRight: this.common.nFormatter(selfService.AveragePaperReconsideredProcessingTime) + ' days',
+                      values: selfService.AveragePaperReconsideredProcessingTime.toFixed(),
                       metricName: 'Mail'
                     },
                     {
-                      labelsRight: selfService.AverageReconsideredProcessingTime.toFixed(0) + ' days',
-                      values: selfService.AverageReconsideredProcessingTime.toFixed(0),
+                      labelsRight: this.common.nFormatter(selfService.AverageReconsideredProcessingTime) + ' days',
+                      values: selfService.AverageReconsideredProcessingTime.toFixed(),
                       metricName: 'Self Service'
                     }
                   ],
                   value:
-                    selfService.AveragePaperReconsideredProcessingTime.toFixed(0) -
-                    selfService.AverageReconsideredProcessingTime.toFixed(0) +
-                    ' days',
+                    this.common.nFormatter(
+                      selfService.AveragePaperReconsideredProcessingTime - selfService.AverageReconsideredProcessingTime
+                    ) + ' days',
                   color: ['#80B0FF', '#3381FF'],
                   gdata: ['card-inner', 'reduceProcessing']
                 },
@@ -313,12 +313,12 @@ export class SelfSharedService {
                   chartData: [
                     {
                       labelsRight: this.common.nFormatter(tempCallOperating.TotalPhoneCost) + ' hours/day',
-                      values: this.common.nFormatter(tempCallOperating.TotalPhoneCost),
+                      values: tempCallOperating.TotalPhoneCost.toFixed(),
                       metricName: 'Phone'
                     },
                     {
                       labelsRight: this.common.nFormatter(tempCallOperating.TotalSelfServiceCost) + ' hours/day',
-                      values: this.common.nFormatter(tempCallOperating.TotalSelfServiceCost),
+                      values: tempCallOperating.TotalSelfServiceCost.toFixed(),
                       metricName: 'Self Service'
                     }
                   ],
