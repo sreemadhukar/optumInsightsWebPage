@@ -206,13 +206,13 @@ export class SelfSharedService {
                   {
                     chartData: [
                       {
-                        labelsRight: selfService.PhoneCallTime + ' hours/day',
+                        labelsRight: selfService.PhoneCallTime.toFixed(0) + ' hours/day',
                         values: selfService.PhoneCallTime,
                         metricName: 'Phone'
                       },
                       {
                         labelsRight: selfService.SelfServiceCallTime + ' hours/day',
-                        values: selfService.SelfServiceCallTime,
+                        values: selfService.SelfServiceCallTime.toFixed(0),
                         metricName: 'Self Service'
                       }
                     ],

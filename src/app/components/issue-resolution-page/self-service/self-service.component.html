@@ -40,7 +40,7 @@
               {{ callCostCallIn90days }} <span class="cost-value">{{ callCostCallIn90daysValue }}</span>
             </div>
           </div>
-          <div class="calls-operating-section2">
+          <div *ngIf="disBarGraphCallsCost" class="calls-operating-section2">
             <app-small-bar-chart
               class="small-bar-chart-cust"
               [height]="heightSmallBarChart"
