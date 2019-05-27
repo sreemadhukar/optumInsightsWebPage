@@ -88,20 +88,20 @@ export class CallsSharedService {
             // providerSystems.ResolvingIssues.hasOwnProperty('Calls') &&
             providerSystems.hasOwnProperty('CallTalkTimeByQuesType')
           ) {
-            const totalCalls1 = providerSystems.CallTalkTimeByQuesType;
-            console.log(totalCalls1);
+            const totalCalls = providerSystems.CallTalkTimeByQuesType;
+            console.log(totalCalls);
             try {
               talkTimeByCallType = this.utilizationDataObject(
                 'Talk Time By Call Type',
                 {
                   graphValueName: ['Eligibilty and Benefits', 'Claims', 'Prior Authorizations', 'Others'],
                   graphValues: [
-                    totalCalls1.BenefitsEligibility,
-                    totalCalls1.Claims,
-                    totalCalls1.PriorAuth,
-                    totalCalls1.Others
+                    totalCalls.BenefitsEligibility,
+                    totalCalls.Claims,
+                    totalCalls.PriorAuth,
+                    totalCalls.Others
                   ],
-                  centerNumber: this.common.nFormatter(totalCalls1.Total).toFixed(0) + 'Hrs',
+                  centerNumber: this.common.nFormatter(totalCalls.Total) + 'Hrs',
                   color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'],
                   gdata: ['card-inner', 'talkTimeByCallType'],
                   sdata: {
