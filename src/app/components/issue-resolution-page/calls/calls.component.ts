@@ -7,9 +7,9 @@ import { CallsSharedService } from '../../../shared/issue-resolution/calls-share
   styleUrls: ['./calls.component.scss']
 })
 export class CallsComponent implements OnInit {
-  callsItems: Array<Object> = [{}];
+  callsItems: any;
   pageTitle: String = '';
-  timePeriod = 'Last 3 months';
+  timePeriod = 'Last 6 months';
 
   constructor(private callsServiceSrc: CallsSharedService) {
     this.pageTitle = 'Calls';
@@ -19,7 +19,7 @@ export class CallsComponent implements OnInit {
     this.callsServiceSrc
       .getCallsData()
       .then(data => {
-        this.callsItems = data[0];
+        this.callsItems = data;
         console.log(this.callsItems);
       })
       .catch(reason => console.log('Calls Service Error ', reason));
