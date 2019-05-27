@@ -121,9 +121,8 @@ export class CallsSharedService {
           }
           tempArray[0] = callsByCallType;
           tempArray[1] = talkTimeByCallType;
-          // tempArray[1] = linkEdiRation;
           this.callsData.push(tempArray);
-          resolve(this.callsData);
+          resolve(tempArray);
         },
         err => {
           console.log('Calls Error Data', err);
