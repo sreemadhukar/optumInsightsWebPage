@@ -52,7 +52,7 @@ export class CallsSharedService {
             // providerSystems.ResolvingIssues.hasOwnProperty('Calls') &&
             providerSystems.hasOwnProperty('CallVolByQuesType')
           ) {
-            const totalCalls = providerSystems.ResolvingIssues.Calls.CallVolByQuesType;
+            const totalCalls = providerSystems.CallVolByQuesType;
             console.log(totalCalls);
             try {
               callsByCallType = this.utilizationDataObject(
@@ -88,7 +88,7 @@ export class CallsSharedService {
             // providerSystems.ResolvingIssues.hasOwnProperty('Calls') &&
             providerSystems.hasOwnProperty('CallTalkTimeByQuesType')
           ) {
-            const totalCalls = providerSystems.ResolvingIssues.Calls.CallTalkTimeByQuesType;
+            const totalCalls = providerSystems.CallTalkTimeByQuesType;
             console.log(totalCalls);
             try {
               talkTimeByCallType = this.utilizationDataObject(
