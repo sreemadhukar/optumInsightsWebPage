@@ -40,7 +40,7 @@ export class SmallBarChartComponent implements OnInit, AfterViewInit {
 
     // set the dimensions and margins of the graph
     const margin = { top: 20, right: 0, bottom: 0, left: 0 },
-      width = this.width,
+      width = preWidth,
       height = this.height;
 
     // set the ranges
