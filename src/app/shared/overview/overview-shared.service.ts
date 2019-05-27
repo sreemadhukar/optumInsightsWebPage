@@ -219,14 +219,14 @@ export class OverviewSharedService {
               data: {
                 centerNumber:
                   '$' +
-                  this.common.nFormatter(providerSystems.SelfServiceInquiries.ALL.SelfService.TotalCallCost.toFixed(2)),
+                  this.common.nFormatter(providerSystems.SelfServiceInquiries.ALL.SelfService.TotalCallCost.toFixed(0)),
                 gdata: []
               },
               fdata: {
                 type: 'bar chart',
                 graphValues: [
-                  providerSystems.SelfServiceInquiries.ALL.SelfService.TotalSelfServiceCost,
-                  providerSystems.SelfServiceInquiries.ALL.SelfService.TotalPhoneCost
+                  providerSystems.SelfServiceInquiries.ALL.SelfService.TotalSelfServiceCost.toFixed(0),
+                  providerSystems.SelfServiceInquiries.ALL.SelfService.TotalPhoneCost.toFixed(0)
                 ],
                 concatString: '$',
                 color: ['#3381FF', '#FFFFFF', '#80B0FF'],
@@ -262,25 +262,31 @@ export class OverviewSharedService {
           try {
             oppurtunities.push({
               category: 'mini-tile',
-              title: "Save Your Staff's Time by:" + '\n\xa0',
-              toggle: this.toggle.setToggles("Save Your Staff's Time by:", 'Opportunities', 'Overview', false),
+              title: 'Reduce Calls and Operating Costs by:',
+              toggle: this.toggle.setToggles(
+                'Reduce Calls and Operating Costs by:',
+                'Opportunities',
+                'Overview',
+                false
+              ),
               data: {
                 centerNumber:
-                  providerSystems.SelfServiceInquiries.ALL.SelfService.TotalCallTime.toFixed() + ' Hours/day',
+                  '$' +
+                  this.common.nFormatter(providerSystems.SelfServiceInquiries.ALL.SelfService.TotalCallCost.toFixed(2)),
                 gdata: []
               },
               fdata: {
                 type: 'bar chart',
                 graphValues: [
-                  providerSystems.SelfServiceInquiries.ALL.SelfService.SelfServiceCallTime,
-                  providerSystems.SelfServiceInquiries.ALL.SelfService.PhoneCallTime
+                  providerSystems.SelfServiceInquiries.ALL.SelfService.TotalSelfServiceCost.toFixed(2),
+                  providerSystems.SelfServiceInquiries.ALL.SelfService.TotalPhoneCost.toFixed(2)
                 ],
-                concatString: 'hours',
+                concatString: '$',
                 color: ['#3381FF', '#FFFFFF', '#80B0FF'],
-                graphValuesTitle: 'Avg. Processing Times',
+                graphValuesTitle: 'Avg. Transaction Costs',
                 graphData1: 'for Self Service',
                 graphData2: 'for Phone Call',
-                gdata: ['card-structure', 'saveStaffTime']
+                gdata: ['card-structure', 'totalCallCost']
               }
             });
           } catch (Error) {
@@ -314,16 +320,20 @@ export class OverviewSharedService {
             data: {
               centerNumber:
                 (
-                  providerSystems.SelfServiceInquiries.ALL.SelfService.AveragePaperClaimProcessingTime.toFixed() -
-                  providerSystems.SelfServiceInquiries.ALL.SelfService.AverageClaimProcessingTime.toFixed()
+                  this.common.nFormatter(
+                    providerSystems.SelfServiceInquiries.ALL.SelfService.AveragePaperClaimProcessingTime
+                  ) -
+                  this.common.nFormatter(
+                    providerSystems.SelfServiceInquiries.ALL.SelfService.AverageClaimProcessingTime
+                  )
                 ).toFixed() + ' Days',
               gdata: []
             },
             fdata: {
               type: 'bar chart',
               graphValues: [
-                providerSystems.SelfServiceInquiries.ALL.SelfService.AverageClaimProcessingTime.toFixed(0),
-                providerSystems.SelfServiceInquiries.ALL.SelfService.AveragePaperClaimProcessingTime.toFixed(0)
+                providerSystems.SelfServiceInquiries.ALL.SelfService.AverageClaimProcessingTime.toFixed(),
+                providerSystems.SelfServiceInquiries.ALL.SelfService.AveragePaperClaimProcessingTime.toFixed()
               ],
               concatString: 'Days',
               color: ['#3381FF', '#FFFFFF', '#80B0FF'],
@@ -360,16 +370,16 @@ export class OverviewSharedService {
             data: {
               centerNumber:
                 (
-                  providerSystems.SelfServiceInquiries.ALL.SelfService.AveragePaperReconsideredProcessingTime.toFixed() -
-                  providerSystems.SelfServiceInquiries.ALL.SelfService.AverageReconsideredProcessingTime.toFixed()
+                  providerSystems.SelfServiceInquiries.ALL.SelfService.AveragePaperReconsideredProcessingTime -
+                  providerSystems.SelfServiceInquiries.ALL.SelfService.AverageReconsideredProcessingTime
                 ).toFixed() + ' Days',
               gdata: []
             },
             fdata: {
               type: 'bar chart',
               graphValues: [
-                providerSystems.SelfServiceInquiries.ALL.SelfService.AverageReconsideredProcessingTime.toFixed(0),
-                providerSystems.SelfServiceInquiries.ALL.SelfService.AveragePaperReconsideredProcessingTime.toFixed(0)
+                providerSystems.SelfServiceInquiries.ALL.SelfService.AverageReconsideredProcessingTime.toFixed(),
+                providerSystems.SelfServiceInquiries.ALL.SelfService.AveragePaperReconsideredProcessingTime.toFixed()
               ],
               concatString: 'Days',
               color: ['#3381FF', '#FFFFFF', '#80B0FF'],
