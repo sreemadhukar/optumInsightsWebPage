@@ -48,11 +48,11 @@ export class CallsSharedService {
       this.callsService.getCallsData(...parameters).subscribe(
         ([providerSystems]) => {
           if (
-            providerSystems.hasOwnProperty('ResolvingIssues') &&
-            providerSystems.ResolvingIssues.hasOwnProperty('Calls') &&
-            providerSystems.ResolvingIssues.Calls.hasOwnProperty('CallVolByQuesType')
+            // providerSystems.hasOwnProperty('ResolvingIssues') &&
+            // providerSystems.ResolvingIssues.hasOwnProperty('Calls') &&
+            providerSystems.hasOwnProperty('CallVolByQuesType')
           ) {
-            const totalCalls = providerSystems.ResolvingIssues.Calls.CallVolByQuesType;
+            const totalCalls = providerSystems.CallVolByQuesType;
             console.log(totalCalls);
             try {
               callsByCallType = this.utilizationDataObject(
@@ -84,11 +84,11 @@ export class CallsSharedService {
             }
           }
           if (
-            providerSystems.hasOwnProperty('ResolvingIssues') &&
-            providerSystems.ResolvingIssues.hasOwnProperty('Calls') &&
-            providerSystems.ResolvingIssues.Calls.hasOwnProperty('CallTalkTimeByQuesType')
+            // providerSystems.hasOwnProperty('ResolvingIssues') &&
+            // providerSystems.ResolvingIssues.hasOwnProperty('Calls') &&
+            providerSystems.hasOwnProperty('CallTalkTimeByQuesType')
           ) {
-            const totalCalls = providerSystems.ResolvingIssues.Calls.CallTalkTimeByQuesType;
+            const totalCalls = providerSystems.CallTalkTimeByQuesType;
             console.log(totalCalls);
             try {
               talkTimeByCallType = this.utilizationDataObject(
