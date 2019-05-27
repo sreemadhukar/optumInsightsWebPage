@@ -262,27 +262,31 @@ export class OverviewSharedService {
           try {
             oppurtunities.push({
               category: 'mini-tile',
-              title: "Save Your Staff's Time by:",
-              toggle: this.toggle.setToggles("Save Your Staff's Time by:", 'Opportunities', 'Overview', false),
+              title: 'Reduce Calls and Operating Costs by:',
+              toggle: this.toggle.setToggles(
+                'Reduce Calls and Operating Costs by:',
+                'Opportunities',
+                'Overview',
+                false
+              ),
               data: {
                 centerNumber:
-                  this.common.nFormatter(
-                    providerSystems.SelfServiceInquiries.ALL.SelfService.TotalCallTime.toFixed(0)
-                  ) + ' Hours/day',
+                  '$' +
+                  this.common.nFormatter(providerSystems.SelfServiceInquiries.ALL.SelfService.TotalCallCost.toFixed(2)),
                 gdata: []
               },
               fdata: {
                 type: 'bar chart',
                 graphValues: [
-                  providerSystems.SelfServiceInquiries.ALL.SelfService.SelfServiceCallTime.toFixed(0),
-                  providerSystems.SelfServiceInquiries.ALL.SelfService.PhoneCallTime.toFixed(0)
+                  providerSystems.SelfServiceInquiries.ALL.SelfService.TotalSelfServiceCost.toFixed(2),
+                  providerSystems.SelfServiceInquiries.ALL.SelfService.TotalPhoneCost.toFixed(2)
                 ],
-                concatString: 'hours',
+                concatString: '$',
                 color: ['#3381FF', '#FFFFFF', '#80B0FF'],
-                graphValuesTitle: 'Avg. Processing Times',
+                graphValuesTitle: 'Avg. Transaction Costs',
                 graphData1: 'for Self Service',
                 graphData2: 'for Phone Call',
-                gdata: ['card-structure', 'saveStaffTime']
+                gdata: ['card-structure', 'totalCallCost']
               }
             });
           } catch (Error) {
