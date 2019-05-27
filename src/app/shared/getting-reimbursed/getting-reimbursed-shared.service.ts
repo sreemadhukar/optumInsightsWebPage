@@ -981,7 +981,8 @@ export class GettingReimbursedSharedService {
     return new Promise((resolve, reject) => {
       this.tin = this.session.tin;
       this.lob = this.session.lob;
-      this.timeFrame = this.session.timeFrame;
+      // this.timeFrame = this.session.timeFrame;
+      this.timeFrame = 'Last 6 Months'; // need to remove this, and uncomment above line
       this.providerKey = this.session.providerkey;
       const parameters = {
         providerkey: this.providerKey,
@@ -1024,7 +1025,8 @@ export class GettingReimbursedSharedService {
     return new Promise((resolve, reject) => {
       this.tin = this.session.tin;
       this.lob = this.session.lob;
-      this.timeFrame = this.session.timeFrame;
+      // this.timeFrame = this.session.timeFrame;
+      this.timeFrame = 'Last 6 Months'; // need to remove this, and uncomment above line
       this.providerKey = this.session.providerkey;
       this.gettingReimbursedService.getTins(this.providerKey).subscribe(tins => {
         const providerTins = tins;
