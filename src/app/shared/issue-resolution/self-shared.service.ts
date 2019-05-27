@@ -58,7 +58,7 @@ export class SelfSharedService {
       callCostReduceCostValue: '$' + this.common.nFormatter(callCostReduceCostValue),
       callCostCallIn90daysValue: this.common.nFormatter(callCostCallIn90daysValue),
       data: data,
-      timeperiod: this.timeFrame
+      timeperiod: timeperiod
     };
     return temp;
   }
@@ -233,19 +233,20 @@ export class SelfSharedService {
                 {
                   chartData: [
                     {
-                      labelsRight: this.common.nFormatter(selfService.AveragePaperClaimProcessingTime) + ' days',
+                      labelsRight:
+                        this.common.nFormatter(selfService.AveragePaperClaimProcessingTime.toFixed(0)) + ' days',
                       values: selfService.AveragePaperClaimProcessingTime.toFixed(),
                       metricName: 'Mail'
                     },
                     {
-                      labelsRight: this.common.nFormatter(selfService.AverageClaimProcessingTime) + ' days',
+                      labelsRight: this.common.nFormatter(selfService.AverageClaimProcessingTime.toFixed(0)) + ' days',
                       values: selfService.AverageClaimProcessingTime.toFixed(),
                       metricName: 'Self Service'
                     }
                   ],
                   value:
                     this.common.nFormatter(
-                      selfService.AveragePaperClaimProcessingTime - selfService.AverageClaimProcessingTime
+                      (selfService.AveragePaperClaimProcessingTime - selfService.AverageClaimProcessingTime).toFixed(0)
                     ) + ' days',
                   color: ['#80B0FF', '#3381FF'],
                   gdata: ['card-inner', 'reduceClaimTime']
@@ -324,7 +325,8 @@ export class SelfSharedService {
                   ],
                   color: ['#80B0FF', '#3381FF'],
                   gdata: ['card-inner', 'totalCosts']
-                }
+                },
+                this.timeFrame
               );
             } catch (Error) {
               totalCosts = null;
@@ -349,7 +351,8 @@ export class SelfSharedService {
                   ],
                   color: ['#80B0FF', '#3381FF'],
                   gdata: ['card-inner', 'claimsStatus']
-                }
+                },
+                this.timeFrame
               );
             } catch (Error) {
               claimsStatus = null;
@@ -377,7 +380,8 @@ export class SelfSharedService {
                   value: '15 hours/day',
                   color: ['#80B0FF', '#3381FF'],
                   gdata: ['card-inner', 'eligibilityBenefits']
-                }
+                },
+                this.timeFrame
               );
             } catch (Error) {
               eligibilityBenefits = null;
@@ -404,7 +408,8 @@ export class SelfSharedService {
                   ],
                   color: ['#80B0FF', '#3381FF'],
                   gdata: ['card-inner', 'priorAuth']
-                }
+                },
+                this.timeFrame
               );
             } catch (Error) {
               priorAuth = null;
