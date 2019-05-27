@@ -48,9 +48,9 @@ export class CallsSharedService {
       this.callsService.getCallsData(...parameters).subscribe(
         ([providerSystems]) => {
           if (
-            // providerSystems.hasOwnProperty('ResolvingIssues') &&
-            // providerSystems.ResolvingIssues.hasOwnProperty('Calls') &&
-            providerSystems.hasOwnProperty('CallVolByQuesType')
+            providerSystems.hasOwnProperty('CallVolByQuesType') &&
+            providerSystems.CallVolByQuesType != null &&
+            providerSystems.CallVolByQuesType != undefined
           ) {
             const totalCalls = providerSystems.CallVolByQuesType;
             try {
@@ -79,13 +79,14 @@ export class CallsSharedService {
                 this.timeFrame
               );
             } catch (Error) {
+              console.log('Error in Calls Page | Question Type By Call Type', Error);
               callsByCallType = this.issueResolution(null, null, null);
             }
           }
           if (
-            // providerSystems.hasOwnProperty('ResolvingIssues') &&
-            // providerSystems.ResolvingIssues.hasOwnProperty('Calls') &&
-            providerSystems.hasOwnProperty('CallTalkTimeByQuesType')
+            providerSystems.hasOwnProperty('CallTalkTimeByQuesType') &&
+            providerSystems.CallTalkTimeByQuesType != null &&
+            providerSystems.CallTalkTimeByQuesType != undefined
           ) {
             const totalCalls = providerSystems.CallTalkTimeByQuesType;
             try {
@@ -114,6 +115,7 @@ export class CallsSharedService {
                 this.timeFrame
               );
             } catch (Error) {
+              console.log('Error in Calls Page | TalkTime By Call Type', Error);
               talkTimeByCallType = this.issueResolution(null, null, null);
             }
           }
@@ -121,7 +123,6 @@ export class CallsSharedService {
           tempArray[1] = talkTimeByCallType;
           this.callsData.push(tempArray);
           resolve(this.callsData);
-          console.log(this.callsData);
         },
         err => {
           console.log('Calls Error Data', err);

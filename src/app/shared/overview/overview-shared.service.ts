@@ -275,8 +275,8 @@ export class OverviewSharedService {
               fdata: {
                 type: 'bar chart',
                 graphValues: [
-                  this.common.nFormatter(providerSystems.SelfServiceInquiries.ALL.SelfService.SelfServiceCallTime),
-                  this.common.nFormatter(providerSystems.SelfServiceInquiries.ALL.SelfService.PhoneCallTime)
+                  providerSystems.SelfServiceInquiries.ALL.SelfService.SelfServiceCallTime.toFixed(1),
+                  providerSystems.SelfServiceInquiries.ALL.SelfService.PhoneCallTime.toFixed(1)
                 ],
                 concatString: 'hours',
                 color: ['#3381FF', '#FFFFFF', '#80B0FF'],
@@ -329,10 +329,8 @@ export class OverviewSharedService {
             fdata: {
               type: 'bar chart',
               graphValues: [
-                this.common.nFormatter(providerSystems.SelfServiceInquiries.ALL.SelfService.AverageClaimProcessingTime),
-                this.common.nFormatter(
-                  providerSystems.SelfServiceInquiries.ALL.SelfService.AveragePaperClaimProcessingTime
-                )
+                providerSystems.SelfServiceInquiries.ALL.SelfService.AverageClaimProcessingTime.toFixed(),
+                providerSystems.SelfServiceInquiries.ALL.SelfService.AveragePaperClaimProcessingTime.toFixed()
               ],
               concatString: 'Days',
               color: ['#3381FF', '#FFFFFF', '#80B0FF'],
@@ -369,16 +367,16 @@ export class OverviewSharedService {
             data: {
               centerNumber:
                 (
-                  providerSystems.SelfServiceInquiries.ALL.SelfService.AveragePaperReconsideredProcessingTime.toFixed() -
-                  providerSystems.SelfServiceInquiries.ALL.SelfService.AverageReconsideredProcessingTime.toFixed()
+                  providerSystems.SelfServiceInquiries.ALL.SelfService.AveragePaperReconsideredProcessingTime -
+                  providerSystems.SelfServiceInquiries.ALL.SelfService.AverageReconsideredProcessingTime
                 ).toFixed() + ' Days',
               gdata: []
             },
             fdata: {
               type: 'bar chart',
               graphValues: [
-                providerSystems.SelfServiceInquiries.ALL.SelfService.AverageReconsideredProcessingTime.toFixed(0),
-                providerSystems.SelfServiceInquiries.ALL.SelfService.AveragePaperReconsideredProcessingTime.toFixed(0)
+                providerSystems.SelfServiceInquiries.ALL.SelfService.AverageReconsideredProcessingTime.toFixed(),
+                providerSystems.SelfServiceInquiries.ALL.SelfService.AveragePaperReconsideredProcessingTime.toFixed()
               ],
               concatString: 'Days',
               color: ['#3381FF', '#FFFFFF', '#80B0FF'],
