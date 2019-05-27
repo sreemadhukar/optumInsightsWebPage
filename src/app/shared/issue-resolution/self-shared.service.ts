@@ -233,28 +233,27 @@ export class SelfSharedService {
                 {
                   chartData: [
                     {
-                      labelsRight:
-                        this.common.nFormatter(selfService.AveragePaperClaimProcessingTime.toFixed(0)) + ' days',
-                      values: selfService.AveragePaperClaimProcessingTime.toFixed(),
+                      labelsRight: selfService.AveragePaperClaimProcessingTime.toFixed(0) + ' days',
+                      values: selfService.AveragePaperClaimProcessingTime.toFixed(0),
                       metricName: 'Mail'
                     },
                     {
-                      labelsRight: this.common.nFormatter(selfService.AverageClaimProcessingTime.toFixed(0)) + ' days',
-                      values: selfService.AverageClaimProcessingTime.toFixed(),
+                      labelsRight: selfService.AverageClaimProcessingTime.toFixed(0) + ' days',
+                      values: selfService.AverageClaimProcessingTime.toFixed(0),
                       metricName: 'Self Service'
                     }
                   ],
                   value:
-                    this.common.nFormatter(
-                      (selfService.AveragePaperClaimProcessingTime - selfService.AverageClaimProcessingTime).toFixed(0)
-                    ) + ' days',
+                    selfService.AveragePaperClaimProcessingTime.toFixed(0) -
+                    selfService.AverageClaimProcessingTime.toFixed(0) +
+                    ' days',
                   color: ['#80B0FF', '#3381FF'],
                   gdata: ['card-inner', 'reduceClaimTime']
                 },
                 this.timeFrame
               );
             } catch (Error) {
-              console.log('Error | Self Service Page | Reduce Claim Processing Time by');
+              console.log('Error | Self Service Page | Reduce Claim Processing Time by', Error);
               reduceClaimProcessingTime = this.selfServiceObjectMethod(null, null, null);
             } // End try catch for Reduce Your Claim Processing Time
             try {

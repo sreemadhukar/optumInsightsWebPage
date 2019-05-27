@@ -225,8 +225,8 @@ export class OverviewSharedService {
               fdata: {
                 type: 'bar chart',
                 graphValues: [
-                  providerSystems.SelfServiceInquiries.ALL.SelfService.TotalSelfServiceCost.toFixed(0),
-                  providerSystems.SelfServiceInquiries.ALL.SelfService.TotalPhoneCost.toFixed(0)
+                  providerSystems.SelfServiceInquiries.ALL.SelfService.TotalSelfServiceCost,
+                  providerSystems.SelfServiceInquiries.ALL.SelfService.TotalPhoneCost
                 ],
                 concatString: '$',
                 color: ['#3381FF', '#FFFFFF', '#80B0FF'],
