@@ -4,7 +4,7 @@
     <div class="breadcrumb-top-padding title-left-padding">
       <app-breadcrumbs></app-breadcrumbs>
       <div class="page-title">{{ pageTitle }}</div>
-      <app-mock-data-warning-message></app-mock-data-warning-message>
+      <app-mock-data-warning-message *ngIf="show"></app-mock-data-warning-message>
       <div class="time-period">
         Time Period : <b>{{ timePeriod }}</b>
       </div>
@@ -16,7 +16,7 @@
       <app-error-card *ngIf="item.status != null" class="cards" [data]="item"></app-error-card>
     </div>
 
-    <div class="top-reasons-for-claims-non-payment-block">
+    <div class="top-reasons-for-claims-non-payment-block" *ngIf="show">
       <app-common-header
         [title]="title"
         class="full-display"
