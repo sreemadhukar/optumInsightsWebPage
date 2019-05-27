@@ -123,6 +123,8 @@ export class CallsSharedService {
           tempArray[1] = talkTimeByCallType;
           this.callsData.push(tempArray);
           resolve(tempArray);
+          console.log(tempArray);
+          console.log(this.callsData);
         },
         err => {
           console.log('Calls Error Data', err);
