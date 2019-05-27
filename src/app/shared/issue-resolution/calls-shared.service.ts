@@ -28,7 +28,7 @@ export class CallsSharedService {
   }
 
   public getCallsData() {
-    this.timeFrame = 'Last 3 Months';
+    this.timeFrame = 'Last 6 Months';
     this.providerKey = this.session.providerKey();
     this.callsData = [];
     return new Promise(resolve => {
@@ -53,7 +53,6 @@ export class CallsSharedService {
             providerSystems.hasOwnProperty('CallVolByQuesType')
           ) {
             const totalCalls = providerSystems.CallVolByQuesType;
-            console.log(totalCalls);
             try {
               callsByCallType = this.issueResolution(
                 'Calls By Call Type',
@@ -89,7 +88,6 @@ export class CallsSharedService {
             providerSystems.hasOwnProperty('CallTalkTimeByQuesType')
           ) {
             const totalCalls = providerSystems.CallTalkTimeByQuesType;
-            console.log(totalCalls);
             try {
               talkTimeByCallType = this.issueResolution(
                 'Talk Time By Call Type',
