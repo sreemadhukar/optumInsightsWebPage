@@ -42,7 +42,7 @@ export class SmallBarChartComponent implements OnInit, AfterViewInit, OnChanges 
 
     // set the dimensions and margins of the graph
     const margin = { top: 20, right: 0, bottom: 0, left: 0 },
-      width = preWidth - 120,
+      width = preWidth,
       height = this.height;
 
     // set the ranges
@@ -51,7 +51,7 @@ export class SmallBarChartComponent implements OnInit, AfterViewInit, OnChanges 
       .range([height - 35, 0])
       .padding(0.1);
 
-    const xScale = d3.scaleLinear().range([0, width / 1.5]);
+    const xScale = d3.scaleLinear().range([0, width / 2]);
 
     // append the svg object to the body of the page
     // append a 'group' element to 'svg'

@@ -426,7 +426,7 @@ export class SelfSharedService {
             ) {
               try {
                 priorAuth = this.callsOperatingCostMethod(
-                  'Prior Authorizations',
+                  'Prior Authorization',
                   this.common.nFormatter(tempCallOperating.ReducePriorAuthorizationsCost),
                   this.common.nFormatter(tempCallOperating.AuthCallCount),
                   {
@@ -434,18 +434,19 @@ export class SelfSharedService {
                       {
                         labelsRight:
                           this.common.nFormatter(tempCallOperating.PriorAuthorizationsPhoneCost) + ' hours/day',
-                        values: tempCallOperating.PriorAuthorizationsPhoneCost,
+                        values: tempCallOperating.PriorAuthorizationsPhoneCost.toFixed(),
                         metricName: 'Phone'
                       },
                       {
                         labelsRight:
                           this.common.nFormatter(tempCallOperating.PriorAuthorizationsSelfServiceCost) + ' hours/day',
-                        values: tempCallOperating.PriorAuthorizationsSelfServiceCost,
+                        values: tempCallOperating.PriorAuthorizationsSelfServiceCost.toFixed(),
                         metricName: 'Self Service'
                       }
                     ],
+                    value: '15 hours/day',
                     color: ['#80B0FF', '#3381FF'],
-                    gdata: ['card-inner', 'priorAuth']
+                    gdata: ['card-inner', 'eligibilityBenefits']
                   },
                   this.timeFrame
                 );
