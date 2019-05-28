@@ -10,6 +10,7 @@ export class SmallBarChartComponent implements OnInit, AfterViewInit, OnChanges,
   @Input() chartOptions;
   @Input() height;
   @Input() width;
+  @Input() custom;
   renderChart;
   constructor() {}
   @HostListener('window:resize', ['$event'])
@@ -41,9 +42,14 @@ export class SmallBarChartComponent implements OnInit, AfterViewInit, OnChanges,
     });
 
     // set the dimensions and margins of the graph
-    const margin = { top: 20, right: 0, bottom: 0, left: 0 },
-      width = preWidth,
-      height = this.height;
+    const margin = { top: 20, right: 0, bottom: 0, left: 0 };
+    let width;
+    if (!this.custom) {
+      width = preWidth;
+    } else {
+      width = this.width;
+    }
+    const height = this.height;
 
     // set the ranges
     const yScale = d3
