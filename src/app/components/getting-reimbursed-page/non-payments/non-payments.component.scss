@@ -391,6 +391,8 @@
     }
     .mat-sort-header-button {
       text-align: left !important;
+      position: relative;
+      width: 100%;
     }
     .mat-paginator-page-size,
     .mat-paginator-range-label {
@@ -421,6 +423,29 @@
     }
     .mat-paginator-range-actions {
       padding-top: 15.5px;
+    }
+    .mat-sort-header-arrow {
+      display: none;
+    }
+    .sort-header-asc {
+      position: absolute;
+      right: 12px;
+      margin-top: -3px;
+      /*bottom: 2px;*/
+    }
+    .sort-header-desc {
+      position: absolute;
+      right: 12px;
+      margin-top: 3px;
+    }
+    .table-headers {
+      width: 90px;
+    }
+    .sort-header-icon {
+      color: $strom-grey;
+    }
+    .active-sort {
+      color: $black-rock;
     }
   }
 }
