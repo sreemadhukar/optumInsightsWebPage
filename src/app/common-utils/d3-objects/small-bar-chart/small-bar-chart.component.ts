@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, HostListener, AfterViewInit, OnChanges } from '@angular/core';
+import { Component, OnInit, Input, HostListener, AfterViewInit, OnChanges, OnDestroy } from '@angular/core';
 import * as d3 from 'd3';
 
 @Component({
@@ -6,10 +6,11 @@ import * as d3 from 'd3';
   templateUrl: './small-bar-chart.component.html',
   styleUrls: ['./small-bar-chart.component.scss']
 })
-export class SmallBarChartComponent implements OnInit, AfterViewInit, OnChanges {
+export class SmallBarChartComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy {
   @Input() chartOptions;
   @Input() height;
   @Input() width;
+  @Input() custom;
   renderChart;
   constructor() {}
   @HostListener('window:resize', ['$event'])
@@ -41,9 +42,14 @@ export class SmallBarChartComponent implements OnInit, AfterViewInit, OnChanges 
     });
 
     // set the dimensions and margins of the graph
-    const margin = { top: 20, right: 0, bottom: 0, left: 0 },
-      width = preWidth - 120,
-      height = this.height;
+    const margin = { top: 20, right: 0, bottom: 0, left: 0 };
+    let width;
+    if (!this.custom) {
+      width = preWidth;
+    } else {
+      width = this.width;
+    }
+    const height = this.height;
 
     // set the ranges
     const yScale = d3
@@ -51,7 +57,7 @@ export class SmallBarChartComponent implements OnInit, AfterViewInit, OnChanges 
       .range([height - 35, 0])
       .padding(0.1);
 
-    const xScale = d3.scaleLinear().range([0, width / 1.5]);
+    const xScale = d3.scaleLinear().range([0, width / 2]);
 
     // append the svg object to the body of the page
     // append a 'group' element to 'svg'
@@ -155,5 +161,10 @@ export class SmallBarChartComponent implements OnInit, AfterViewInit, OnChanges 
     /*
     svg.append("g").call(d3.axisLeft(y));
     */
+  }
+  ngOnDestry() {
+    d3.select(this.renderChart)
+      .selectAll('*')
+      .remove();
   }
 }

@@ -349,7 +349,7 @@ export class SelfSharedService {
             ) {
               try {
                 claimsStatus = this.callsOperatingCostMethod(
-                  'Claims Status',
+                  'Claim Status',
                   this.common.nFormatter(tempCallOperating.ReduceClaimCost),
                   this.common.nFormatter(tempCallOperating.TotalClaimCallCount),
                   {
@@ -434,16 +434,17 @@ export class SelfSharedService {
                       {
                         labelsRight:
                           this.common.nFormatter(tempCallOperating.PriorAuthorizationsPhoneCost) + ' hours/day',
-                        values: tempCallOperating.PriorAuthorizationsPhoneCost,
+                        values: tempCallOperating.PriorAuthorizationsPhoneCost.toFixed(),
                         metricName: 'Phone'
                       },
                       {
                         labelsRight:
                           this.common.nFormatter(tempCallOperating.PriorAuthorizationsSelfServiceCost) + ' hours/day',
-                        values: tempCallOperating.PriorAuthorizationsSelfServiceCost,
+                        values: tempCallOperating.PriorAuthorizationsSelfServiceCost.toFixed(),
                         metricName: 'Self Service'
                       }
                     ],
+                    value: '15 hours/day',
                     color: ['#80B0FF', '#3381FF'],
                     gdata: ['card-inner', 'priorAuth']
                   },
