@@ -55,7 +55,7 @@ export class SelfServiceComponent implements OnInit {
     this.callCostChartData = this.callCostOperatingData[i].data;
     this.callCostReduceCostValue = this.callCostOperatingData[i].callCostReduceCostValue;
     this.callCostCallIn90daysValue = this.callCostOperatingData[i].callCostCallIn90daysValue;
-    console.log('Change', this.callCostChartData.data);
+    console.log('Change', this.callCostChartData);
     this.toggleCallsOperating = true;
     this.disBarGraphCallsCost = true;
   }
