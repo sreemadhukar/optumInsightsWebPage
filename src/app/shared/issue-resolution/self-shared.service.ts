@@ -393,13 +393,13 @@ export class SelfSharedService {
                     chartData: [
                       {
                         labelsRight: '$' + this.common.nFormatter(tempCallOperating.EligibilityAndBenefitPhoneCost),
-                        values: tempCallOperating.EligibilityAndBenefitPhoneCost.toFixed(),
+                        values: tempCallOperating.EligibilityAndBenefitPhoneCost.toFixed(2),
                         metricName: 'Phone Costs'
                       },
                       {
                         labelsRight:
                           '$' + this.common.nFormatter(tempCallOperating.EligibilityAndBenefitSelfServiceCost),
-                        values: tempCallOperating.EligibilityAndBenefitSelfServiceCost.toFixed(),
+                        values: tempCallOperating.EligibilityAndBenefitSelfServiceCost.toFixed(2),
                         metricName: 'Self Service Costs'
                       }
                     ],
