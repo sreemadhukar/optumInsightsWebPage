@@ -6,7 +6,7 @@ import * as d3 from 'd3';
   templateUrl: './small-bar-chart.component.html',
   styleUrls: ['./small-bar-chart.component.scss']
 })
-export class SmallBarChartComponent implements OnInit, AfterViewInit, OnChanges{
+export class SmallBarChartComponent implements OnInit, AfterViewInit, OnChanges {
   @Input() chartOptions;
   @Input() height;
   @Input() width;
