@@ -138,7 +138,7 @@
     <!-- Claims Non - Payment Trend  Starts Here -->
     <div class="non-payment-trend-block">
       <app-common-header [title]="trendTitle" class="full-display"></app-common-header>
-      <div class="full-display">
+      <div class="full-display" *ngIf="dataLoaded">
         <app-line-graph [chartOptions]="monthlyLineGraph"></app-line-graph>
         <app-common-footer [timePeriod]="timePeriod" class="width-100 time-period-trend"></app-common-footer>
         <!--div class="timeperiod-block">

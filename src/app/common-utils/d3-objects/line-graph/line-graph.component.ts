@@ -618,7 +618,6 @@ export class LineGraphComponent implements OnInit {
       .attr('class', 'rect-bar')
       .attr('id', 'RectLineOne')
       .attr('x', function(d) {
-        console.log(d);
         return d.xCoordinate - 22;
       })
       .attr('y', 113.5);*/
@@ -632,8 +631,6 @@ export class LineGraphComponent implements OnInit {
       .attr('class', 'dot')
       .attr('id', 'LineOneDot')
       .attr('cx', function(d) {
-        console.log(d);
-        console.log(d.xCoordinate);
         return d.xCoordinate;
       })
       .attr('cy', function(d) {
