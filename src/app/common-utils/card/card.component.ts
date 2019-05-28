@@ -14,6 +14,7 @@ export class CardComponent implements OnInit {
   widthRotatingArrow: Number = 225;
   heightSmallBarChart: Number = 155;
   widthSmallBarChart: Number = 268;
+  customSmallBarChart: Boolean = false;
   constructor(private glossaryExpandService: GlossaryExpandService) {}
 
   helpIconClick(title) {

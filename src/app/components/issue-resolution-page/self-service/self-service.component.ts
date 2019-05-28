@@ -18,8 +18,8 @@ export class SelfServiceComponent implements OnInit {
   selectedItemId: Number = 0;
   tabOptionsTitle: Array<String> = [];
   heightSmallBarChart: Number = 140;
-  widthSmallBarChart: Number = 280;
-
+  widthSmallBarChart: Number = 220;
+  customSmallBarChart: Boolean = true;
   toggleCallsOperating: Boolean = false;
   callCostChartData: any;
   callCostReduceYourCost: String = '';
@@ -70,14 +70,16 @@ export class SelfServiceComponent implements OnInit {
         if (this.callCostOperatingData.length === 0) {
           this.toggleCallsOperating = false;
         }
-        for (let i = 0; i < this.callCostOperatingData.length; i++) {
-          this.tabOptionsTitle.push(this.callCostOperatingData[i].title);
+        if (this.callCostOperatingData.length) {
+          for (let i = 0; i < this.callCostOperatingData.length; i++) {
+            this.tabOptionsTitle.push(this.callCostOperatingData[i].title);
+          }
+          this.callCostChartData = this.callCostOperatingData[0].data;
+          this.callCostReduceCostValue = this.callCostOperatingData[0].callCostReduceCostValue;
+          this.callCostCallIn90daysValue = this.callCostOperatingData[0].callCostCallIn90daysValue;
+          this.timeFrame = this.callCostOperatingData[0].timeperiod;
+          this.toggleCallsOperating = true;
         }
-        this.callCostChartData = this.callCostOperatingData[0].data;
-        this.callCostReduceCostValue = this.callCostOperatingData[0].callCostReduceCostValue;
-        this.callCostCallIn90daysValue = this.callCostOperatingData[0].callCostCallIn90daysValue;
-        this.timeFrame = this.callCostOperatingData[0].timeperiod;
-        this.toggleCallsOperating = true;
       })
       .catch(reason => console.log('Self Service Page Service Error ', reason));
   } // ngOnit funtion ends here

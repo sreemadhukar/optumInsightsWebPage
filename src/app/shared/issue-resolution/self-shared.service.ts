@@ -58,7 +58,7 @@ export class SelfSharedService {
       callCostReduceCostValue: '$' + this.common.nFormatter(callCostReduceCostValue),
       callCostCallIn90daysValue: this.common.nFormatter(callCostCallIn90daysValue),
       data: data,
-      timeperiod: this.timeFrame
+      timeperiod: timeperiod
     };
     return temp;
   }
@@ -181,8 +181,8 @@ export class SelfSharedService {
             adoptionRate = this.utilizationObjectMethod(null, null, null);
             linkEdiRation = this.utilizationObjectMethod(null, null, null);
             paperLessDelivery = this.utilizationObjectMethod(null, null, null);
-          } // End if else block Utilization Object
-          // Started If Else block for Self Service Object
+          } // End if Data not found Utilization Object
+          // Started If Data not found for Self Service Object
           if (
             providerSystems.hasOwnProperty('SelfServiceInquiries') &&
             providerSystems.SelfServiceInquiries.hasOwnProperty('ALL') &&
@@ -207,24 +207,24 @@ export class SelfSharedService {
                     chartData: [
                       {
                         labelsRight: selfService.PhoneCallTime.toFixed(0) + ' hours/day',
-                        values: selfService.PhoneCallTime,
+                        values: selfService.PhoneCallTime.toFixed(0),
                         metricName: 'Phone'
                       },
                       {
-                        labelsRight: selfService.SelfServiceCallTime + ' hours/day',
+                        labelsRight: selfService.SelfServiceCallTime.toFixed(0) + ' hours/day',
                         values: selfService.SelfServiceCallTime.toFixed(0),
                         metricName: 'Self Service'
                       }
                     ],
-                    value: selfService.TotalCallTime.toFixed() + ' Hours/day',
+                    value: selfService.TotalCallTime.toFixed(0) + ' Hours/day',
                     color: ['#80B0FF', '#3381FF'],
                     gdata: ['card-inner', 'staffTimeSave']
                   },
                   this.timeFrame
                 );
-              }
+              } // end if Data not found
             } catch (Error) {
-              console.log('Self Service Page | Data not found for the Save Your Staff Time by');
+              console.log('Error | Self Service Page | Data not found for the Save Your Staff Time by');
               saveStaffTime = this.selfServiceObjectMethod(null, null, null);
             } // End try catch for Save Your's Staff TIme
             try {
@@ -253,7 +253,7 @@ export class SelfSharedService {
                 this.timeFrame
               );
             } catch (Error) {
-              console.log('Error | Reduce Claim Processing Time by');
+              console.log('Error | Self Service Page | Reduce Claim Processing Time by', Error);
               reduceClaimProcessingTime = this.selfServiceObjectMethod(null, null, null);
             } // End try catch for Reduce Your Claim Processing Time
             try {
@@ -282,7 +282,7 @@ export class SelfSharedService {
                 this.timeFrame
               );
             } catch (Error) {
-              console.log('Error | Reduce Reconsideration Processing by');
+              console.log('Error | Self Service Page | Reduce Reconsideration Processing by');
               reduceReconsiderationProcessing = this.selfServiceObjectMethod(null, null, null);
             } // End try Catch for Reduce Reconsideration Processing
           } else {
@@ -291,7 +291,7 @@ export class SelfSharedService {
             reduceClaimProcessingTime = this.selfServiceObjectMethod(null, null, null);
 
             reduceReconsiderationProcessing = this.selfServiceObjectMethod(null, null, null);
-          } // End If Else block SelfService
+          } // End If Data not found SelfService
 
           /*******  Calls and Operating Costs****** */
           if (
@@ -304,80 +304,158 @@ export class SelfSharedService {
             let eligibilityBenefits;
             let priorAuth;
             const tempCallOperating = providerSystems.SelfServiceInquiries.ALL.SelfService;
-            try {
-              totalCosts = this.callsOperatingCostMethod(
-                'Total Costs',
-                this.common.nFormatter(tempCallOperating.TotalCallCost),
-                this.common.nFormatter(tempCallOperating.TotalCallCount),
-                {
-                  chartData: [
-                    {
-                      labelsRight: this.common.nFormatter(tempCallOperating.TotalPhoneCost) + ' hours/day',
-                      values: this.common.nFormatter(tempCallOperating.TotalPhoneCost),
-                      metricName: 'Phone'
-                    },
-                    {
-                      labelsRight: this.common.nFormatter(tempCallOperating.TotalSelfServiceCost) + ' hours/day',
-                      values: this.common.nFormatter(tempCallOperating.TotalSelfServiceCost),
-                      metricName: 'Self Service'
-                    }
-                  ],
-                  color: ['#80B0FF', '#3381FF'],
-                  gdata: ['card-inner', 'totalCosts']
-                }
-              );
-            } catch (Error) {
+            if (
+              tempCallOperating.hasOwnProperty('TotalCallCost') &&
+              tempCallOperating.hasOwnProperty('TotalCallCount') &&
+              tempCallOperating.hasOwnProperty('ClaimPhoneCost') &&
+              tempCallOperating.hasOwnProperty('TotalSelfServiceCost')
+            ) {
+              try {
+                totalCosts = this.callsOperatingCostMethod(
+                  'Total Costs',
+                  this.common.nFormatter(tempCallOperating.TotalCallCost),
+                  this.common.nFormatter(tempCallOperating.TotalCallCount),
+                  {
+                    chartData: [
+                      {
+                        labelsRight: this.common.nFormatter(tempCallOperating.TotalPhoneCost) + ' hours/day',
+                        values: tempCallOperating.TotalPhoneCost.toFixed(),
+                        metricName: 'Phone'
+                      },
+                      {
+                        labelsRight: this.common.nFormatter(tempCallOperating.TotalSelfServiceCost) + ' hours/day',
+                        values: tempCallOperating.TotalSelfServiceCost.toFixed(),
+                        metricName: 'Self Service'
+                      }
+                    ],
+                    color: ['#80B0FF', '#3381FF'],
+                    gdata: ['card-inner', 'totalCosts']
+                  },
+                  this.timeFrame
+                );
+              } catch (Error) {
+                console.log('Self Service | Calls and Operating Cost | Total Cost', Error);
+                totalCosts = null;
+              }
+            } else {
+              console.log('Self Service | Calls and Operating Cost | Data not found | Total Cost', Error);
               totalCosts = null;
             }
-            try {
-              claimsStatus = this.callsOperatingCostMethod(
-                'Claims Status',
-                this.common.nFormatter(tempCallOperating.TotalCallCost),
-                this.common.nFormatter(tempCallOperating.TotalCallCount),
-                {
-                  chartData: [
-                    {
-                      labelsRight: this.common.nFormatter(tempCallOperating.TotalPhoneCost) + ' hours/day',
-                      values: this.common.nFormatter(tempCallOperating.TotalPhoneCost),
-                      metricName: 'Phone'
-                    },
-                    {
-                      labelsRight: this.common.nFormatter(tempCallOperating.TotalSelfServiceCost) + ' hours/day',
-                      values: this.common.nFormatter(tempCallOperating.TotalSelfServiceCost),
-                      metricName: 'Self Service'
-                    }
-                  ],
-                  color: ['#80B0FF', '#3381FF'],
-                  gdata: ['card-inner', 'claimsStatus']
-                }
-              );
-            } catch (Error) {
+            if (
+              tempCallOperating.hasOwnProperty('ReduceClaimCost') &&
+              tempCallOperating.hasOwnProperty('ClaimPhoneCost') &&
+              tempCallOperating.hasOwnProperty('SelfServicePhoneCost') &&
+              tempCallOperating.hasOwnProperty('TotalClaimCallCount')
+            ) {
+              try {
+                claimsStatus = this.callsOperatingCostMethod(
+                  'Claim Status',
+                  this.common.nFormatter(tempCallOperating.ReduceClaimCost),
+                  this.common.nFormatter(tempCallOperating.TotalClaimCallCount),
+                  {
+                    chartData: [
+                      {
+                        labelsRight: this.common.nFormatter(tempCallOperating.ClaimPhoneCost) + ' hours/day',
+                        values: tempCallOperating.ClaimPhoneCost.toFixed(),
+                        metricName: 'Phone'
+                      },
+                      {
+                        labelsRight: this.common.nFormatter(tempCallOperating.SelfServicePhoneCost) + ' hours/day',
+                        values: tempCallOperating.SelfServicePhoneCost.toFixed(),
+                        metricName: 'Self Service'
+                      }
+                    ],
+                    color: ['#80B0FF', '#3381FF'],
+                    gdata: ['card-inner', 'claimsStatus']
+                  },
+                  this.timeFrame
+                );
+              } catch (Error) {
+                console.log('Self Service | Calls and Operating Cost | Claims Status', Error);
+                claimsStatus = null;
+              }
+            } else {
+              console.log('Self Service | Calls and Operating Cost | Data not found | Claims Status', Error);
               claimsStatus = null;
             }
-            try {
-              eligibilityBenefits = this.callsOperatingCostMethod('Eligibilty & Benefits', 7892, 144316, {
-                chartData: [
-                  { labelsRight: '60 hours/day', values: 40, metricName: 'Phone' },
-                  { labelsRight: '25 hours/day', values: 25, metricName: 'Self Service' }
-                ],
-                value: '15 hours/day',
-                color: ['#80B0FF', '#3381FF'],
-                gdata: ['card-inner', 'callCostOperating3']
-              });
-            } catch (Error) {
+            if (
+              tempCallOperating.hasOwnProperty('ReduceEligibilityAndBenefitsCost') &&
+              tempCallOperating.hasOwnProperty('EligibilityAndBenefitCallCount') &&
+              tempCallOperating.hasOwnProperty('EligibilityAndBenefitPhoneCost') &&
+              tempCallOperating.hasOwnProperty('EligibilityAndBenefitSelfServiceCost')
+            ) {
+              try {
+                eligibilityBenefits = this.callsOperatingCostMethod(
+                  'Eligibilty & Benefits',
+                  this.common.nFormatter(tempCallOperating.ReduceEligibilityAndBenefitsCost),
+                  this.common.nFormatter(tempCallOperating.EligibilityAndBenefitCallCount),
+                  {
+                    chartData: [
+                      {
+                        labelsRight:
+                          this.common.nFormatter(tempCallOperating.EligibilityAndBenefitPhoneCost) + ' hours/day',
+                        values: tempCallOperating.EligibilityAndBenefitPhoneCost.toFixed(),
+                        metricName: 'Phone'
+                      },
+                      {
+                        labelsRight:
+                          this.common.nFormatter(tempCallOperating.EligibilityAndBenefitSelfServiceCost) + ' hours/day',
+                        values: tempCallOperating.EligibilityAndBenefitSelfServiceCost.toFixed(),
+                        metricName: 'Self Service'
+                      }
+                    ],
+                    value: '15 hours/day',
+                    color: ['#80B0FF', '#3381FF'],
+                    gdata: ['card-inner', 'eligibilityBenefits']
+                  },
+                  this.timeFrame
+                );
+              } catch (Error) {
+                console.log('Self Service | Calls and Operating Cost | Eligibility and Benefits', Error);
+                eligibilityBenefits = null;
+              }
+            } else {
+              console.log('Self Service | Calls and Operating Cost | Data not found | Eligibility and Benefits', Error);
               eligibilityBenefits = null;
             }
-            try {
-              priorAuth = this.callsOperatingCostMethod('Prior Authorizations', 32, 13916, {
-                chartData: [
-                  { labelsRight: '70 hours/day', values: 40, metricName: 'Phone' },
-                  { labelsRight: '55 hours/day', values: 25, metricName: 'Self Service' }
-                ],
-                value: '15 hours/day',
-                color: ['#80B0FF', '#3381FF'],
-                gdata: ['card-inner', 'callCostOperating4']
-              });
-            } catch (Error) {
+            if (
+              tempCallOperating.hasOwnProperty('ReducePriorAuthorizationsCost') &&
+              tempCallOperating.hasOwnProperty('AuthCallCount') &&
+              tempCallOperating.hasOwnProperty('PriorAuthorizationsPhoneCost') &&
+              tempCallOperating.hasOwnProperty('PriorAuthorizationsSelfServiceCost')
+            ) {
+              try {
+                priorAuth = this.callsOperatingCostMethod(
+                  'Prior Authorizations',
+                  this.common.nFormatter(tempCallOperating.ReducePriorAuthorizationsCost),
+                  this.common.nFormatter(tempCallOperating.AuthCallCount),
+                  {
+                    chartData: [
+                      {
+                        labelsRight:
+                          this.common.nFormatter(tempCallOperating.PriorAuthorizationsPhoneCost) + ' hours/day',
+                        values: tempCallOperating.PriorAuthorizationsPhoneCost.toFixed(),
+                        metricName: 'Phone'
+                      },
+                      {
+                        labelsRight:
+                          this.common.nFormatter(tempCallOperating.PriorAuthorizationsSelfServiceCost) + ' hours/day',
+                        values: tempCallOperating.PriorAuthorizationsSelfServiceCost.toFixed(),
+                        metricName: 'Self Service'
+                      }
+                    ],
+                    value: '15 hours/day',
+                    color: ['#80B0FF', '#3381FF'],
+                    gdata: ['card-inner', 'priorAuth']
+                  },
+                  this.timeFrame
+                );
+              } catch (Error) {
+                console.log('Self Service | Calls and Operating Cost | Prior Auth ', Error);
+                priorAuth = null;
+              }
+            } else {
+              console.log('Self Service | Calls and Operating Cost | Data not found | Prior Auth', Error);
               priorAuth = null;
             }
             callsOperatingCostData[0] = totalCosts;

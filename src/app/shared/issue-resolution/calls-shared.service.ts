@@ -28,7 +28,7 @@ export class CallsSharedService {
   }
 
   public getCallsData() {
-    this.timeFrame = 'Last 3 Months';
+    this.timeFrame = 'Last 6 Months';
     this.providerKey = this.session.providerKey();
     this.callsData = [];
     return new Promise(resolve => {
@@ -48,12 +48,11 @@ export class CallsSharedService {
       this.callsService.getCallsData(...parameters).subscribe(
         ([providerSystems]) => {
           if (
-            // providerSystems.hasOwnProperty('ResolvingIssues') &&
-            // providerSystems.ResolvingIssues.hasOwnProperty('Calls') &&
-            providerSystems.hasOwnProperty('CallVolByQuesType')
+            providerSystems.hasOwnProperty('CallVolByQuesType') &&
+            providerSystems.CallVolByQuesType != null &&
+            providerSystems.CallVolByQuesType != undefined
           ) {
             const totalCalls = providerSystems.CallVolByQuesType;
-            console.log(totalCalls);
             try {
               callsByCallType = this.issueResolution(
                 'Calls By Call Type',
@@ -80,16 +79,16 @@ export class CallsSharedService {
                 this.timeFrame
               );
             } catch (Error) {
+              console.log('Error in Calls Page | Question Type By Call Type', Error);
               callsByCallType = this.issueResolution(null, null, null);
             }
           }
           if (
-            // providerSystems.hasOwnProperty('ResolvingIssues') &&
-            // providerSystems.ResolvingIssues.hasOwnProperty('Calls') &&
-            providerSystems.hasOwnProperty('CallTalkTimeByQuesType')
+            providerSystems.hasOwnProperty('CallTalkTimeByQuesType') &&
+            providerSystems.CallTalkTimeByQuesType != null &&
+            providerSystems.CallTalkTimeByQuesType != undefined
           ) {
             const totalCalls = providerSystems.CallTalkTimeByQuesType;
-            console.log(totalCalls);
             try {
               talkTimeByCallType = this.issueResolution(
                 'Talk Time By Call Type',
@@ -116,6 +115,7 @@ export class CallsSharedService {
                 this.timeFrame
               );
             } catch (Error) {
+              console.log('Error in Calls Page | TalkTime By Call Type', Error);
               talkTimeByCallType = this.issueResolution(null, null, null);
             }
           }
@@ -123,7 +123,6 @@ export class CallsSharedService {
           tempArray[1] = talkTimeByCallType;
           this.callsData.push(tempArray);
           resolve(this.callsData);
-          console.log(this.callsData);
         },
         err => {
           console.log('Calls Error Data', err);
