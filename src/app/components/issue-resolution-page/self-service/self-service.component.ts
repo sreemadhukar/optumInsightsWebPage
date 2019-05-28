@@ -17,8 +17,8 @@ export class SelfServiceComponent implements OnInit {
   tabOptions: Array<Object> = [];
   selectedItemId: Number = 0;
   tabOptionsTitle: Array<String> = [];
-  heightSmallBarChart: Number = 140;
-  widthSmallBarChart: Number = 230;
+  heightSmallBarChart: Number = 155;
+  widthSmallBarChart: Number = 468;
   customSmallBarChart: Boolean = true;
   toggleCallsOperating: Boolean = false;
   callCostChartData: any;
