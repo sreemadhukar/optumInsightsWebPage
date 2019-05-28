@@ -9,7 +9,7 @@ import { CallsSharedService } from '../../../shared/issue-resolution/calls-share
 export class CallsComponent implements OnInit {
   callsItems: Array<Object> = [{}];
   pageTitle: String = '';
-  timePeriod = 'Last 3 months';
+  timePeriod = 'Last 6 months';
 
   constructor(private callsServiceSrc: CallsSharedService) {
     this.pageTitle = 'Calls';

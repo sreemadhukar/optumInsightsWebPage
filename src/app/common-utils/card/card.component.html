@@ -146,10 +146,10 @@ Date Created: 17-Apr-2019
         <div class="small-bar-chart-struct">
           <div class="small-bar-chart-value">{{ chartData.data.value }}</div>
           <app-small-bar-chart
-            class="small-bar-chart-cust"
             [height]="heightSmallBarChart"
             [width]="widthSmallBarChart"
             [chartOptions]="chartData.data"
+            [custom]="customSmallBarChart"
           ></app-small-bar-chart>
         </div>
       </div>

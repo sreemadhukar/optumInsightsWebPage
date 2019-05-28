@@ -40,18 +40,17 @@
               {{ callCostCallIn90days }} <span class="cost-value">{{ callCostCallIn90daysValue }}</span>
             </div>
           </div>
-          <div class="calls-operating-section2">
+          <div *ngIf="disBarGraphCallsCost" class="calls-operating-section2">
             <app-small-bar-chart
-              *ngIf="disBarGraphCallsCost"
-              class="small-bar-chart-cust"
               [height]="heightSmallBarChart"
               [width]="widthSmallBarChart"
               [chartOptions]="callCostChartData"
+              [custom]="customSmallBarChart"
             ></app-small-bar-chart>
           </div>
         </div>
         <div class="call-operation-footer">
-          <app-common-footer [timePeriod]="'TimePeriod'"></app-common-footer>
+          <app-common-footer [timePeriod]="timeFrame"></app-common-footer>
         </div>
       </div>
     </div>

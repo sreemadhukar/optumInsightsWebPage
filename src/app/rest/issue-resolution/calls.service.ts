@@ -10,7 +10,7 @@ export class CallsService {
   public combined: any;
   private authBearer: any;
   private APP_URL: string = environment.apiProxyUrl;
-  private EXECUTIVE_SERVICE_PATH: string = environment.apiUrls.ExecutiveSummaryPath;
+  private CALLS_SERVICE_PATH: string = environment.apiUrls.Calls;
   constructor(private http: HttpClient) {}
 
   public getCallsData(...parameters) {
@@ -24,7 +24,7 @@ export class CallsService {
     let eparams = new HttpParams();
     eparams = eparams.append('filter', 'executive');
 
-    const executiveURL = this.APP_URL + this.EXECUTIVE_SERVICE_PATH + parameters[0];
+    const executiveURL = this.APP_URL + this.CALLS_SERVICE_PATH + parameters[0];
     console.log('Calls paramater', executiveURL);
     return combineLatest(
       this.http.get(executiveURL, { params: eparams, headers: myHeader }).pipe(

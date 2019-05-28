@@ -1,4 +1,5 @@
 <div class="business-glossary">
+  <input type="text" autofocus="true" style="opacity:0" />
   <mat-dialog-content>
     <form class="business-glossary-form">
       <mat-form-field appearance="outline">
@@ -41,6 +42,21 @@
       >
         Metric Formula
         {{ glossary.BusinessGlossary.ProviderDashboardName.Formula }}
+      </div>
+      <br />
+    </div>
+  </div>
+  <div *ngIf="!glossarySelected.length">
+    <div>
+      <div class="glossary-title">
+        {{ title }}
+      </div>
+      <br />
+      <div class="glossary-definition">
+        No Data Available
+      </div>
+      <div class="glossary-definition">
+        Metric Formula - No Data Available
       </div>
       <br />
     </div>

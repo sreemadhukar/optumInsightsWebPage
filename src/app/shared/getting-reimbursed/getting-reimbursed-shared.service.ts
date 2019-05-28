@@ -20,6 +20,35 @@ export class GettingReimbursedSharedService {
     private session: SessionService,
     private toggle: AuthorizationService
   ) {}
+
+  public ReturnMonthlyString(a) {
+    if (a === '01') {
+      return 'Jan';
+    } else if (a === '02') {
+      return 'Feb';
+    } else if (a === '03') {
+      return 'Mar';
+    } else if (a === '04') {
+      return 'Apr';
+    } else if (a === '05') {
+      return 'May';
+    } else if (a === '06') {
+      return 'Jun';
+    } else if (a === '07') {
+      return 'Jul';
+    } else if (a === '08') {
+      return 'Aug';
+    } else if (a === '09') {
+      return 'Sep';
+    } else if (a === '10') {
+      return 'Oct';
+    } else if (a === '11') {
+      return 'Nov';
+    } else if (a === '12') {
+      return 'Dec';
+    }
+  }
+
   public getGettingReimbursedData() {
     this.tin = this.session.tin;
     this.lob = this.session.lob;
@@ -42,6 +71,7 @@ export class GettingReimbursedSharedService {
       let claimsPaidRate: object;
       let strtDate: string;
       let endDate: string;
+
       if (this.timeFrame === 'Last 12 Months' || this.timeFrame === 'Year To Date') {
         if (this.timeFrame === 'Last 12 Months') {
           this.timeFrame = 'Last 6 Months';
@@ -55,6 +85,7 @@ export class GettingReimbursedSharedService {
             parameters = [this.providerKey, false, true, this.tin];
           }
         }
+
         this.gettingReimbursedService.getGettingReimbursedData(...parameters).subscribe(([claimsData, appealsData]) => {
           const lobFullData = this.common.matchFullLobWithData(this.lob);
           const lobData = this.common.matchLobWithData(this.lob);
@@ -979,6 +1010,11 @@ export class GettingReimbursedSharedService {
   /* function to get Top Reasons for Claims Non Payments - Ranjith kumar Ankam*/
   public getTopReasonsforClaimsNonPayments() {
     return new Promise((resolve, reject) => {
+      this.tin = this.session.tin;
+      this.lob = this.session.lob;
+      // this.timeFrame = this.session.timeFrame;
+      this.timeFrame = 'Last 6 Months'; // need to remove this, and uncomment above line
+      this.providerKey = this.session.providerkey;
       const parameters = {
         providerkey: this.providerKey,
         timeperiod: '',
@@ -986,9 +1022,15 @@ export class GettingReimbursedSharedService {
         tin: '',
         startDate: '',
         endDate: '',
-        monthly: false,
-        rolling12: true
+        monthly: false
       };
+      if (this.timeFrame === 'Last 12 Months') {
+        parameters.timeperiod = 'rolling12months';
+      } else if (this.timeFrame === 'Last 6 Months') {
+        parameters.timeperiod = 'last6months';
+      } else if (this.timeFrame === 'Year To Date') {
+        parameters.ytd = true;
+      }
       this.gettingReimbursedService.getClaimsNonPaymentsData(parameters).subscribe(data => {
         const result = [];
         if (data[0].All !== null) {
@@ -1014,7 +1056,8 @@ export class GettingReimbursedSharedService {
     return new Promise((resolve, reject) => {
       this.tin = this.session.tin;
       this.lob = this.session.lob;
-      this.timeFrame = this.session.timeFrame;
+      // this.timeFrame = this.session.timeFrame;
+      this.timeFrame = 'Last 6 Months'; // need to remove this, and uncomment above line
       this.providerKey = this.session.providerkey;
       this.gettingReimbursedService.getTins(this.providerKey).subscribe(tins => {
         const providerTins = tins;
@@ -1025,8 +1068,7 @@ export class GettingReimbursedSharedService {
           tin: '0',
           startDate: '',
           endDate: '',
-          monthly: '',
-          rolling12: ''
+          monthly: false
         };
         const output: any = [];
         const response: any = [];
@@ -1090,6 +1132,100 @@ export class GettingReimbursedSharedService {
             response.push(result);
           });
           resolve(response);
+        });
+      });
+    });
+  }
+
+  public getclaimsNonPaymentTrendData() {
+    return new Promise((resolve, reject) => {
+      this.tin = this.session.tin;
+      this.lob = this.session.lob;
+      // this.timeFrame = 'Last 12 Months'; // this.timeFrame = this.session.timeFrame;
+      const timePeriod = 'Last 12 Months';
+      this.providerKey = this.session.providerkey;
+      this.gettingReimbursedService.getTins(this.providerKey).subscribe(tins => {
+        const providerTins = tins;
+        const parameters = {
+          providerkey: this.providerKey,
+          timeperiod: '',
+          ytd: false,
+          tin: '',
+          startDate: '',
+          endDate: '',
+          monthly: true
+        };
+        this.nonPaymentBy = 'dollar';
+        const output: any = [];
+        const response: any = [];
+
+        if (timePeriod === 'Last 12 Months') {
+          parameters.timeperiod = 'rolling12months';
+        } else if (timePeriod === 'Last 6 Months') {
+          parameters.timeperiod = 'last6months';
+        } else if (timePeriod === 'Year To Date') {
+          parameters.ytd = true;
+        }
+        if (this.tin !== 'All') {
+          parameters.tin = this.tin;
+        }
+
+        this.gettingReimbursedService.getClaimsNonPaymentsData(parameters).subscribe(nonPaymentsTrendData => {
+          const lobData = this.lob;
+          const filter_data_claimSummary = [];
+          let trendMonthValue = '';
+          nonPaymentsTrendData.forEach(element => {
+            if (this.nonPaymentBy === 'dollar') {
+              trendMonthValue = element.All.ClaimsLobSummary[0].AmountDenied;
+            } else if (this.nonPaymentBy === 'volume') {
+              trendMonthValue = element.All.ClaimsLobSummary[0].ClaimsDenied;
+            }
+            const trendTimePeriod = element.ReportingPeriod;
+            const trendTimePeriodArr = trendTimePeriod.split('-');
+            const trendTimePeriodFinal = trendTimePeriodArr[1];
+            // console.log(tpFinal);
+            filter_data_claimSummary.push({
+              name: this.ReturnMonthlyString(trendTimePeriodFinal),
+              value: trendMonthValue,
+              month: trendTimePeriod
+            });
+          });
+          filter_data_claimSummary.sort(function(a, b) {
+            let dateA: any;
+            dateA = new Date(a.month);
+            let dateB: any;
+            dateB = new Date(b.month);
+            return dateA - dateB; // sort by date ascending
+          });
+          filter_data_claimSummary.forEach(function(v) {
+            delete v.month;
+          });
+          resolve(filter_data_claimSummary);
+          /* filter_data_claimSummary = summaryData[0].sort(function(a, b) {
+            a = a.ReportingPeriod.split('-').join('');
+            b = b.ReportingPeriod.split('-').join('');
+            console.log('a, b', a, b);
+            return a > b ? 1 : a < b ? -1 : 0;
+          });
+          console.log(filter_data_claimSummary);
+          const monthlyTrend = [];
+          let monString = '';
+          for (let i = 0; i < filter_data_claimSummary.length; i++) {
+            monString = filter_data_claimSummary[i].ReportingPeriod.split('-')[1];
+            console.log(monString, this.nonPaymentBy);
+            if (this.nonPaymentBy === 'volume') {
+              monthlyTrend.push({
+                name: this.ReturnMonthlyString(monString),
+                value: filter_data_claimSummary[i][lobData]['ClaimsLobSummary'][0].ClaimsDenied
+              });
+            } else if (this.nonPaymentBy === 'dollar') {
+              monthlyTrend.push({
+                name: this.ReturnMonthlyString(monString),
+                value: filter_data_claimSummary[i][lobData]['ClaimsLobSummary'][0].AmountDenied
+              });
+            }
+          }
+          console.log('final array', monthlyTrend);*/
         });
       });
     });
