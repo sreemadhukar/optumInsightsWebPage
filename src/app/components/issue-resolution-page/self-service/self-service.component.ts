@@ -18,7 +18,7 @@ export class SelfServiceComponent implements OnInit {
   selectedItemId: Number = 0;
   tabOptionsTitle: Array<String> = [];
   heightSmallBarChart: Number = 140;
-  widthSmallBarChart: Number = 220;
+  widthSmallBarChart: Number = 230;
   customSmallBarChart: Boolean = true;
   toggleCallsOperating: Boolean = false;
   callCostChartData: any;
@@ -55,7 +55,7 @@ export class SelfServiceComponent implements OnInit {
     this.callCostChartData = this.callCostOperatingData[i].data;
     this.callCostReduceCostValue = this.callCostOperatingData[i].callCostReduceCostValue;
     this.callCostCallIn90daysValue = this.callCostOperatingData[i].callCostCallIn90daysValue;
-    console.log('Change', this.callCostChartData.data);
+    console.log('Change', this.callCostChartData);
     this.toggleCallsOperating = true;
     this.disBarGraphCallsCost = true;
   }
@@ -77,7 +77,7 @@ export class SelfServiceComponent implements OnInit {
           this.callCostChartData = this.callCostOperatingData[0].data;
           this.callCostReduceCostValue = this.callCostOperatingData[0].callCostReduceCostValue;
           this.callCostCallIn90daysValue = this.callCostOperatingData[0].callCostCallIn90daysValue;
-          this.timeFrame = this.callCostOperatingData[0].timeperiod;
+          this.timeFrame = selfServiceData[0][0].timeperiod;
           this.toggleCallsOperating = true;
         }
       })

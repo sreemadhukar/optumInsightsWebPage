@@ -218,7 +218,7 @@
 
 .non-payment-trend-block {
   width: 961px;
-  height: 450px;
+  // height: 450px;
   border-radius: 2px;
   background-color: #ffffff;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
@@ -229,9 +229,9 @@
 .timeperiod-block {
   border-top: 1px solid #efefef;
   position: absolute;
-  margin-top: 358px;
+  margin-top: 35px;
   width: 961px;
-  z-index: 999999;
+  z-index: 99999;
 }
 
 .timeperiod-text {
@@ -245,6 +245,10 @@
   line-height: 17px;
   height: 30px;
   // margin-top: 5px;
+}
+
+.time-period-trend {
+  float: left;
 }
 // Claims Non Payment Trend CSs Ends
 

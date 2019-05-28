@@ -39,26 +39,7 @@ export class LineGraphComponent implements OnInit {
     return this._changeTimeFrame;
   }
 
-  constructor() {
-    this.dataOne = [
-      { name: '2015', value: 90 },
-      { name: '2017', value: 84 },
-      { name: '2016', value: 110 },
-      { name: '2016', value: 79 }
-    ];
-
-    this.titleDataOne = [
-      {
-        title: 'Current Days to Onboard',
-        topTitleBoxNumber: '86',
-        topTitleBoxNumberType: 'Days',
-        percentageValue: '15',
-        percentageValueColor: 'green',
-        percentageValueType: 'YoY',
-        averagePeerPerformance: false
-      }
-    ];
-  } // constructor ends here
+  constructor() {}
 
   ngOnInit() {
     this.renderChart = '#' + this.chartOptions.chartId;
@@ -265,10 +246,6 @@ export class LineGraphComponent implements OnInit {
       );
     }
 
-    /*let  mx = 0;
-         mx  = d3.mouse(this)[0];
-         console.log(mx);*/
-
     const preWidth = 961; // document.getElementById(generalData[0].parentDiv).clientWidth;
 
     let topMarginSubtract = 150;
@@ -282,7 +259,7 @@ export class LineGraphComponent implements OnInit {
 
     const margin = { top: 85 - topMarginSubtract, right: 62, bottom: 85, left: 48 };
     const width = preWidth - margin.left - margin.right;
-    const height = 351 - margin.top - margin.bottom + 8;
+    const height = 430 - margin.top - margin.bottom + 8;
 
     const chart = d3
       .select(this.renderChart)
@@ -332,10 +309,10 @@ export class LineGraphComponent implements OnInit {
     );
     let axisPrefix = '';
 
-    if (highestValue % 1 === 0) {
-      axisPrefix = '';
-    } else {
+    if (highestValue !== 0) {
       axisPrefix = '$';
+    } else {
+      axisPrefix = '';
     }
 
     if (highestValue < highestValue2) {
@@ -632,7 +609,7 @@ export class LineGraphComponent implements OnInit {
         .attr('d', area);
     }*/
 
-    const RectBarOne = chart
+    /*const RectBarOne = chart
       .selectAll('.rect-bar')
       .data(data)
       .enter()
@@ -641,10 +618,9 @@ export class LineGraphComponent implements OnInit {
       .attr('class', 'rect-bar')
       .attr('id', 'RectLineOne')
       .attr('x', function(d) {
-        console.log(d);
         return d.xCoordinate - 22;
       })
-      .attr('y', 113.5);
+      .attr('y', 113.5);*/
 
     const DotOne = chart
       .selectAll('.dot')
@@ -655,8 +631,6 @@ export class LineGraphComponent implements OnInit {
       .attr('class', 'dot')
       .attr('id', 'LineOneDot')
       .attr('cx', function(d) {
-        console.log(d);
-        console.log(d.xCoordinate);
         return d.xCoordinate;
       })
       .attr('cy', function(d) {
@@ -694,18 +668,18 @@ export class LineGraphComponent implements OnInit {
       });
 
     if (1) {
-      RectBarOne.on('mouseenter', function(d) {
+      DotOne.on('mouseenter', function(d) {
         DotOne.transition()
           .duration(200)
           .style('opacity', 1);
-        const showRect = RectBarOne.transition()
+        const showDot = DotOne.transition()
           .duration(200)
           .style('opacity', 1);
       }).on('mouseleave', function(d) {
         DotOne.transition()
           .duration(500)
           .style('opacity', 0);
-        const hideRect = RectBarOne.transition()
+        const hideDot = DotOne.transition()
           .duration(500)
           .style('opacity', 0);
       });

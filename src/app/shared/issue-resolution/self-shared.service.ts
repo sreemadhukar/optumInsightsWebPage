@@ -404,7 +404,6 @@ export class SelfSharedService {
                         metricName: 'Self Service'
                       }
                     ],
-                    value: '15 hours/day',
                     color: ['#80B0FF', '#3381FF'],
                     gdata: ['card-inner', 'eligibilityBenefits']
                   },
@@ -427,24 +426,21 @@ export class SelfSharedService {
               try {
                 priorAuth = this.callsOperatingCostMethod(
                   'Prior Authorizations',
-                  this.common.nFormatter(tempCallOperating.ReducePriorAuthorizationsCost),
-                  this.common.nFormatter(tempCallOperating.AuthCallCount),
+                  tempCallOperating.ReducePriorAuthorizationsCost,
+                  tempCallOperating.AuthCallCount,
                   {
                     chartData: [
                       {
-                        labelsRight:
-                          this.common.nFormatter(tempCallOperating.PriorAuthorizationsPhoneCost) + ' hours/day',
-                        values: tempCallOperating.PriorAuthorizationsPhoneCost.toFixed(),
+                        labelsRight: tempCallOperating.PriorAuthorizationsPhoneCost + ' hours/day',
+                        values: tempCallOperating.PriorAuthorizationsPhoneCost,
                         metricName: 'Phone'
                       },
                       {
-                        labelsRight:
-                          this.common.nFormatter(tempCallOperating.PriorAuthorizationsSelfServiceCost) + ' hours/day',
-                        values: tempCallOperating.PriorAuthorizationsSelfServiceCost.toFixed(),
+                        labelsRight: tempCallOperating.PriorAuthorizationsSelfServiceCost + ' hours/day',
+                        values: tempCallOperating.PriorAuthorizationsSelfServiceCost,
                         metricName: 'Self Service'
                       }
                     ],
-                    value: '15 hours/day',
                     color: ['#80B0FF', '#3381FF'],
                     gdata: ['card-inner', 'priorAuth']
                   },
@@ -477,10 +473,10 @@ export class SelfSharedService {
           tempArray[4] = reduceClaimProcessingTime;
           tempArray[5] = reduceReconsiderationProcessing;
 
-          const removeNullCallsOperatingCost = callsOperatingCostData.filter(function(el) {
-            return el != null;
-          });
-          this.selfServiceData.push(tempArray, removeNullCallsOperatingCost);
+          // const removeNullCallsOperatingCost = callsOperatingCostData.filter(function(el) {
+          //   return el != null;
+          // });
+          this.selfServiceData.push(tempArray, callsOperatingCostData);
           resolve(this.selfServiceData);
         },
         err => {

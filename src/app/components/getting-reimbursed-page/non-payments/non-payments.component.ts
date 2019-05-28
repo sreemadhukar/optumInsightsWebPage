@@ -43,6 +43,7 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
   facilityData: any;
   dataSource: MatTableDataSource<any>;
   show = false;
+  dataLoaded = false;
   type: any;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -218,11 +219,11 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
 
   ngOnInit() {
     //  this.timePeriod = this.session.timeFrame; // uncomment it
-    this.gettingReimbursedSharedService.getGettingReimbursedData().then(completeData => {
+    /* this.gettingReimbursedSharedService.getGettingReimbursedData().then(completeData => {
       this.summaryItems = JSON.parse(JSON.stringify(completeData));
       this.currentSummary = this.summaryItems[2].data;
       this.currentTabTitle = this.summaryItems[2].title;
-    });
+    });*/
     this.monthlyLineGraph.chartId = 'non-payment-trend-block';
     this.monthlyLineGraph.titleData = [{}];
     this.monthlyLineGraph.generalData = [
@@ -236,14 +237,13 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
         hideYAxis: false
       }
     ];
-    this.monthlyLineGraph.chartData = [
-      { name: 'Nov', value: 1360834 },
-      { name: 'Dec', value: 1260634 },
-      { name: 'Jan', value: 1160834 },
-      { name: 'Feb', value: 1876756 },
-      { name: 'Mar', value: 2076756 },
-      { name: 'Apr', value: 4000078 }
-    ];
+
+    this.gettingReimbursedSharedService.getclaimsNonPaymentTrendData().then(trendData => {
+      this.monthlyLineGraph.chartData = trendData;
+      // console.log('**********' , trendData);
+      this.dataLoaded = true;
+    });
+
     this.monthlyLineGraph.generalData2 = [];
     this.monthlyLineGraph.chartData2 = [];
     this.gettingReimbursedSharedService.getTopReasonsforClaimsNonPayments().then(topReasons => {
