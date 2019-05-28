@@ -426,8 +426,8 @@ export class SelfSharedService {
               try {
                 priorAuth = this.callsOperatingCostMethod(
                   'Prior Authorizations',
-                  this.common.nFormatter(tempCallOperating.ReducePriorAuthorizationsCost),
-                  this.common.nFormatter(tempCallOperating.AuthCallCount),
+                  tempCallOperating.ReducePriorAuthorizationsCost,
+                  tempCallOperating.AuthCallCount,
                   {
                     chartData: [
                       {
@@ -473,10 +473,10 @@ export class SelfSharedService {
           tempArray[4] = reduceClaimProcessingTime;
           tempArray[5] = reduceReconsiderationProcessing;
 
-          const removeNullCallsOperatingCost = callsOperatingCostData.filter(function(el) {
-            return el != null;
-          });
-          this.selfServiceData.push(tempArray, removeNullCallsOperatingCost);
+          // const removeNullCallsOperatingCost = callsOperatingCostData.filter(function(el) {
+          //   return el != null;
+          // });
+          this.selfServiceData.push(tempArray, callsOperatingCostData);
           resolve(this.selfServiceData);
         },
         err => {
