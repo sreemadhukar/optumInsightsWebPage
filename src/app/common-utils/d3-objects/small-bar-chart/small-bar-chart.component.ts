@@ -27,9 +27,11 @@ export class SmallBarChartComponent implements OnInit, AfterViewInit, OnChanges 
   }
   ngOnChanges() {
     this.doSmallBarChart(this.chartOptions);
+    this.renderChart = '#' + this.chartOptions.gdata[1];
   }
   doSmallBarChart(chartOptions: any) {
     const preWidth = document.getElementsByClassName(chartOptions.gdata[0])[0].clientWidth;
+    console.log('this.renderChart', this.renderChart);
     d3.select(this.renderChart)
       .selectAll('*')
       .remove();
