@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, HostListener, AfterViewInit, OnChanges } from '@angular/core';
+import { Component, OnInit, Input, HostListener, AfterViewInit, OnChanges, OnDestroy } from '@angular/core';
 import * as d3 from 'd3';
 
 @Component({
@@ -6,7 +6,7 @@ import * as d3 from 'd3';
   templateUrl: './small-bar-chart.component.html',
   styleUrls: ['./small-bar-chart.component.scss']
 })
-export class SmallBarChartComponent implements OnInit, AfterViewInit, OnChanges {
+export class SmallBarChartComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy {
   @Input() chartOptions;
   @Input() height;
   @Input() width;
@@ -155,5 +155,10 @@ export class SmallBarChartComponent implements OnInit, AfterViewInit, OnChanges 
     /*
     svg.append("g").call(d3.axisLeft(y));
     */
+  }
+  ngOnDestry() {
+    d3.select(this.renderChart)
+      .selectAll('*')
+      .remove();
   }
 }
