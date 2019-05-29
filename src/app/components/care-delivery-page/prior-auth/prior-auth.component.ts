@@ -53,17 +53,20 @@ export class PriorAuthComponent implements OnInit {
     this.pageTitle = 'Prior Authorizations';
 
     this.reasonItems = [{}];
+    this.summaryItems = [{}];
 
+    /*
     this.priorAuthShared.getPriorAuthData().then(data => {
       this.summaryItems = data;
     });
+    */
 
     this.priorAuthShared.getPriorAuthNotApprovedReasons().then(data => {
       this.reasonItems = data;
     });
 
     this.priorAuthShared.getPriorAuthCounts().then(data => {
-      console.log(data);
+      this.summaryItems = data;
     });
   }
 }
