@@ -223,12 +223,13 @@ export class LineGraphComponent implements OnInit {
         );
       }
     }
-    function tooltipText2(d, year, prefix) {
+    /*function tooltipText2(d, year, prefix) {
       return (
         "<div class='lineLabelHover'>" +
         d.x +
         // tslint:disable-next-line:max-line-length
-        "&nbsp; Trend Details</div><hr class='hr_cust_margin'><div class='details-label'><span class='circle_label_sm circle1'></span>&nbsp;&nbsp;&nbsp;" +
+        "&nbsp; Trend Details</div><hr class='hr_cust_margin'><div class='details-label'>
+        <span class='circle_label_sm circle1'></span>&nbsp;&nbsp;&nbsp;" +
         d.x +
         '&nbsp;&nbsp;' +
         year[0] +
@@ -244,7 +245,7 @@ export class LineGraphComponent implements OnInit {
         formatDy(d.y) +
         '%</div></div>'
       );
-    }
+    }*/
 
     const preWidth = 961; // document.getElementById(generalData[0].parentDiv).clientWidth;
 
@@ -269,11 +270,11 @@ export class LineGraphComponent implements OnInit {
       .style('background-color', generalData[0].backgroundColor)
       .append('g')
       .attr('transform', 'translate(' + (margin.left - 7) + ',' + margin.top + ')');
-    const div = d3
+    /* const div = d3
       .select(this.renderChart)
       .append('div')
       .attr('class', 'tooltip')
-      .style('opacity', 0);
+      .style('opacity', 0);*/
 
     const shiftTooltip = -155;
 
