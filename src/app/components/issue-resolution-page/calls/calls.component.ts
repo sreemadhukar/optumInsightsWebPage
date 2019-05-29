@@ -20,7 +20,6 @@ export class CallsComponent implements OnInit {
       .getCallsData()
       .then(data => {
         this.callsItems = data[0];
-        console.log(this.callsItems);
       })
       .catch(reason => console.log('Calls Service Error ', reason));
   }

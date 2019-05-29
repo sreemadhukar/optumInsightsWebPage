@@ -31,7 +31,6 @@ export class SmallBarChartComponent implements OnInit, AfterViewInit, OnChanges 
   }
   doSmallBarChart(chartOptions: any) {
     const preWidth = document.getElementsByClassName(chartOptions.gdata[0])[0].clientWidth;
-    console.log('this.renderChart', this.renderChart);
     d3.select(this.renderChart)
       .selectAll('*')
       .remove();
@@ -122,7 +121,7 @@ export class SmallBarChartComponent implements OnInit, AfterViewInit, OnChanges 
       .style('font-size', '16px')
       .style('fill', '#2d2d39')
       .style('font-weight', '500')
-      .style('font-family', 'UHCSans-Regular')
+      .style('font-family', 'UHCSans-Medium')
       .attr('y', function(d) {
         return yScale(d.labelsRight);
       })
