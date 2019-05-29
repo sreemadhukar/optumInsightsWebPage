@@ -4,10 +4,11 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class SessionService {
-  public timeFrame = 'Last 12 Months';
+  public timeFrame = 'Last 6 Months';
   public lob = 'All';
   public providerkey = this.providerKey();
   public tin = 'All';
+  public nonPaymentBy = 'dollar';
   constructor() {}
   public providerKey() {
     if (sessionStorage.getItem('currentUser')) {
@@ -47,6 +48,14 @@ export class SessionService {
   }
 
   set setLob(value: string) {
-    this.lob = this.lob;
+    this.lob = value;
+  }
+
+  get getNonPaymentBy(): string {
+    return this.nonPaymentBy;
+  }
+
+  set setNonPaymentBy(value: string) {
+    this.nonPaymentBy = value;
   }
 }
