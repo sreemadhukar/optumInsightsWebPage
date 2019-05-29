@@ -1142,7 +1142,7 @@ export class GettingReimbursedSharedService {
       this.tin = this.session.tin;
       this.lob = this.session.lob;
       // this.timeFrame = 'Last 12 Months'; // this.timeFrame = this.session.timeFrame;
-      const timePeriod = 'Last 12 Months';
+      const timePeriod = 'Last 6 Months';
       this.providerKey = this.session.providerkey;
       this.gettingReimbursedService.getTins(this.providerKey).subscribe(tins => {
         const providerTins = tins;
