@@ -15,7 +15,7 @@ export class CallsSharedService {
     private common: CommonUtilsService
   ) {}
 
-  public utilizationDataObject(title: String, data: any, besideData: any, timeperiod?: String | null): Object {
+  public issueResolution(title: String, data: any, besideData: any, timeperiod?: String | null): Object {
     const temp: Object = {
       category: 'app-card',
       type: 'donutWithLabel',
@@ -28,7 +28,7 @@ export class CallsSharedService {
   }
 
   public getCallsData() {
-    this.timeFrame = 'Last 3 Months';
+    this.timeFrame = 'Last 6 Months';
     this.providerKey = this.session.providerKey();
     this.callsData = [];
     return new Promise(resolve => {
@@ -48,14 +48,13 @@ export class CallsSharedService {
       this.callsService.getCallsData(...parameters).subscribe(
         ([providerSystems]) => {
           if (
-            // providerSystems.hasOwnProperty('ResolvingIssues') &&
-            // providerSystems.ResolvingIssues.hasOwnProperty('Calls') &&
-            providerSystems.hasOwnProperty('CallVolByQuesType')
+            providerSystems.hasOwnProperty('CallVolByQuesType') &&
+            providerSystems.CallVolByQuesType != null &&
+            providerSystems.CallVolByQuesType != undefined
           ) {
             const totalCalls = providerSystems.CallVolByQuesType;
-            console.log(totalCalls);
             try {
-              callsByCallType = this.utilizationDataObject(
+              callsByCallType = this.issueResolution(
                 'Calls By Call Type',
                 {
                   graphValueName: ['Eligibilty and Benefits', 'Claims', 'Prior Authorizations', 'Others'],
@@ -80,18 +79,18 @@ export class CallsSharedService {
                 this.timeFrame
               );
             } catch (Error) {
-              callsByCallType = this.utilizationDataObject(null, null, null);
+              console.log('Error in Calls Page | Question Type By Call Type', Error);
+              callsByCallType = this.issueResolution(null, null, null);
             }
           }
           if (
-            // providerSystems.hasOwnProperty('ResolvingIssues') &&
-            // providerSystems.ResolvingIssues.hasOwnProperty('Calls') &&
-            providerSystems.hasOwnProperty('CallTalkTimeByQuesType')
+            providerSystems.hasOwnProperty('CallTalkTimeByQuesType') &&
+            providerSystems.CallTalkTimeByQuesType != null &&
+            providerSystems.CallTalkTimeByQuesType != undefined
           ) {
             const totalCalls = providerSystems.CallTalkTimeByQuesType;
-            console.log(totalCalls);
             try {
-              talkTimeByCallType = this.utilizationDataObject(
+              talkTimeByCallType = this.issueResolution(
                 'Talk Time By Call Type',
                 {
                   graphValueName: ['Eligibilty and Benefits', 'Claims', 'Prior Authorizations', 'Others'],
@@ -101,7 +100,7 @@ export class CallsSharedService {
                     totalCalls.PriorAuth,
                     totalCalls.Others
                   ],
-                  centerNumber: this.common.nFormatter(totalCalls.Total).toFixed(0) + 'Hrs',
+                  centerNumber: this.common.nFormatter(totalCalls.Total) + 'Hrs',
                   color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'],
                   gdata: ['card-inner', 'talkTimeByCallType'],
                   sdata: {
@@ -116,13 +115,14 @@ export class CallsSharedService {
                 this.timeFrame
               );
             } catch (Error) {
-              talkTimeByCallType = this.utilizationDataObject(null, null, null);
+              console.log('Error in Calls Page | TalkTime By Call Type', Error);
+              talkTimeByCallType = this.issueResolution(null, null, null);
             }
           }
           tempArray[0] = callsByCallType;
           tempArray[1] = talkTimeByCallType;
           this.callsData.push(tempArray);
-          resolve(tempArray);
+          resolve(this.callsData);
         },
         err => {
           console.log('Calls Error Data', err);

@@ -17,9 +17,9 @@ export class SelfServiceComponent implements OnInit {
   tabOptions: Array<Object> = [];
   selectedItemId: Number = 0;
   tabOptionsTitle: Array<String> = [];
-  heightSmallBarChart: Number = 140;
-  widthSmallBarChart: Number = 280;
-
+  heightSmallBarChart: Number = 155;
+  widthSmallBarChart: Number = 468;
+  customSmallBarChart: Boolean = true;
   toggleCallsOperating: Boolean = false;
   callCostChartData: any;
   callCostReduceYourCost: String = '';
@@ -52,7 +52,6 @@ export class SelfServiceComponent implements OnInit {
     myTabs[this.previousSelected].classList.remove('active');
     event.target.classList.add('active');
     this.previousSelected = i;
-    alert('Hi');
     this.callCostChartData = this.callCostOperatingData[i].data;
     this.callCostReduceCostValue = this.callCostOperatingData[i].callCostReduceCostValue;
     this.callCostCallIn90daysValue = this.callCostOperatingData[i].callCostCallIn90daysValue;
@@ -71,14 +70,16 @@ export class SelfServiceComponent implements OnInit {
         if (this.callCostOperatingData.length === 0) {
           this.toggleCallsOperating = false;
         }
-        for (let i = 0; i < this.callCostOperatingData.length; i++) {
-          this.tabOptionsTitle.push(this.callCostOperatingData[i].title);
+        if (this.callCostOperatingData.length) {
+          for (let i = 0; i < this.callCostOperatingData.length; i++) {
+            this.tabOptionsTitle.push(this.callCostOperatingData[i].title);
+          }
+          this.callCostChartData = this.callCostOperatingData[0].data;
+          this.callCostReduceCostValue = this.callCostOperatingData[0].callCostReduceCostValue;
+          this.callCostCallIn90daysValue = this.callCostOperatingData[0].callCostCallIn90daysValue;
+          this.timeFrame = selfServiceData[0][0].timeperiod;
+          this.toggleCallsOperating = true;
         }
-        this.callCostChartData = this.callCostOperatingData[0].data;
-        this.callCostReduceCostValue = this.callCostOperatingData[0].callCostReduceCostValue;
-        this.callCostCallIn90daysValue = this.callCostOperatingData[0].callCostCallIn90daysValue;
-        this.timeFrame = this.callCostOperatingData[0].timeperiod;
-        this.toggleCallsOperating = true;
       })
       .catch(reason => console.log('Self Service Page Service Error ', reason));
   } // ngOnit funtion ends here

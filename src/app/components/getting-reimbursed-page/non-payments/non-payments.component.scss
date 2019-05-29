@@ -218,7 +218,7 @@
 
 .non-payment-trend-block {
   width: 961px;
-  height: 450px;
+  // height: 450px;
   border-radius: 2px;
   background-color: #ffffff;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
@@ -229,9 +229,9 @@
 .timeperiod-block {
   border-top: 1px solid #efefef;
   position: absolute;
-  margin-top: 358px;
+  margin-top: 35px;
   width: 961px;
-  z-index: 999999;
+  z-index: 99999;
 }
 
 .timeperiod-text {
@@ -245,6 +245,10 @@
   line-height: 17px;
   height: 30px;
   // margin-top: 5px;
+}
+
+.time-period-trend {
+  float: left;
 }
 // Claims Non Payment Trend CSs Ends
 
@@ -391,6 +395,8 @@
     }
     .mat-sort-header-button {
       text-align: left !important;
+      position: relative;
+      width: 100%;
     }
     .mat-paginator-page-size,
     .mat-paginator-range-label {
@@ -421,6 +427,29 @@
     }
     .mat-paginator-range-actions {
       padding-top: 15.5px;
+    }
+    .mat-sort-header-arrow {
+      display: none;
+    }
+    .sort-header-asc {
+      position: absolute;
+      right: 12px;
+      margin-top: -3px;
+      /*bottom: 2px;*/
+    }
+    .sort-header-desc {
+      position: absolute;
+      right: 12px;
+      margin-top: 3px;
+    }
+    .table-headers {
+      width: 90px;
+    }
+    .sort-header-icon {
+      color: $strom-grey;
+    }
+    .active-sort {
+      color: $black-rock;
     }
   }
 }

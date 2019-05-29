@@ -1,4 +1,13 @@
-import { Component, OnInit, ViewChild, ViewEncapsulation, ChangeDetectorRef } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  ViewEncapsulation,
+  ChangeDetectorRef,
+  ElementRef,
+  Renderer2,
+  AfterViewChecked
+} from '@angular/core';
 import { MatIconRegistry, PageEvent } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 import { GettingReimbursedSharedService } from '../../../shared/getting-reimbursed/getting-reimbursed-shared.service';
@@ -12,7 +21,7 @@ import { SessionService } from 'src/app/shared/session.service';
   styleUrls: ['./non-payments.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class NonPaymentsComponent implements OnInit {
+export class NonPaymentsComponent implements OnInit, AfterViewChecked {
   title = 'Top Reasons for Claims Non-Payment';
   trendTitle = 'Claims Non-Payment Trend';
   facilityTitle = 'Claims Non-Payments by Facility';
@@ -33,6 +42,9 @@ export class NonPaymentsComponent implements OnInit {
   top5Reasons: any = [];
   facilityData: any;
   dataSource: MatTableDataSource<any>;
+  show = false;
+  dataLoaded = false;
+  type: any;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -176,6 +188,8 @@ export class NonPaymentsComponent implements OnInit {
 
   constructor(
     private iconRegistry: MatIconRegistry,
+    private elementRef: ElementRef,
+    private renderer: Renderer2,
     sanitizer: DomSanitizer,
     private gettingReimbursedSharedService: GettingReimbursedSharedService,
     private cdRef: ChangeDetectorRef,
@@ -192,16 +206,24 @@ export class NonPaymentsComponent implements OnInit {
       'close',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-remove-24px.svg')
     );
+    iconRegistry.addSvgIcon(
+      'asc-sort',
+      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-arrow_drop_up-24px.svg')
+    );
+    iconRegistry.addSvgIcon(
+      'desc-sort',
+      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-arrow_drop_down-24px.svg')
+    );
     this.pageTitle = 'Claims Non-Payments';
   }
 
   ngOnInit() {
-    this.timePeriod = this.session.timeFrame;
-    this.gettingReimbursedSharedService.getGettingReimbursedData().then(completeData => {
+    //  this.timePeriod = this.session.timeFrame; // uncomment it
+    /* this.gettingReimbursedSharedService.getGettingReimbursedData().then(completeData => {
       this.summaryItems = JSON.parse(JSON.stringify(completeData));
       this.currentSummary = this.summaryItems[2].data;
       this.currentTabTitle = this.summaryItems[2].title;
-    });
+    });*/
     this.monthlyLineGraph.chartId = 'non-payment-trend-block';
     this.monthlyLineGraph.titleData = [{}];
     this.monthlyLineGraph.generalData = [
@@ -215,14 +237,13 @@ export class NonPaymentsComponent implements OnInit {
         hideYAxis: false
       }
     ];
-    this.monthlyLineGraph.chartData = [
-      { name: 'Nov', value: 1360834 },
-      { name: 'Dec', value: 1260634 },
-      { name: 'Jan', value: 1160834 },
-      { name: 'Feb', value: 1876756 },
-      { name: 'Mar', value: 2076756 },
-      { name: 'Apr', value: 4000078 }
-    ];
+
+    this.gettingReimbursedSharedService.getclaimsNonPaymentTrendData().then(trendData => {
+      this.monthlyLineGraph.chartData = trendData;
+      // console.log('**********' , trendData);
+      this.dataLoaded = true;
+    });
+
     this.monthlyLineGraph.generalData2 = [];
     this.monthlyLineGraph.chartData2 = [];
     this.gettingReimbursedSharedService.getTopReasonsforClaimsNonPayments().then(topReasons => {
@@ -284,5 +305,26 @@ export class NonPaymentsComponent implements OnInit {
   }
   helpIconClick(title) {
     this.glossaryExpandService.setMessage(title);
+  }
+
+  sortHeader(event) {
+    const listItems = this.elementRef.nativeElement.querySelectorAll('.sort-header-icon') as HTMLElement[];
+    Array.from(listItems).forEach(listItem => {
+      this.renderer.setStyle(listItem, 'color', '#757588');
+    });
+    this.type = event.direction;
+  }
+
+  ngAfterViewChecked() {
+    if (this.type === 'asc') {
+      (document.querySelector(
+        '.mat-sort-header-sorted > .mat-sort-header-button> .sort-header-asc'
+      ) as HTMLElement).style.color = '#2d2d39';
+    } else if (this.type === 'desc') {
+      (document.querySelector(
+        '.mat-sort-header-sorted > .mat-sort-header-button> .sort-header-desc'
+      ) as HTMLElement).style.color = '#2d2d39';
+    }
+    // this.cdRef.detectChanges();
   }
 }

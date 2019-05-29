@@ -4,7 +4,7 @@
     <div class="breadcrumb-top-padding title-left-padding">
       <app-breadcrumbs></app-breadcrumbs>
       <div class="page-title">{{ pageTitle }}</div>
-      <app-mock-data-warning-message></app-mock-data-warning-message>
+      <app-mock-data-warning-message *ngIf="show"></app-mock-data-warning-message>
       <div class="time-period">
         Time Period : <b>{{ timePeriod }}</b>
       </div>
@@ -16,7 +16,7 @@
       <app-error-card *ngIf="item.status != null" class="cards" [data]="item"></app-error-card>
     </div>
 
-    <div class="top-reasons-for-claims-non-payment-block">
+    <div class="top-reasons-for-claims-non-payment-block" *ngIf="show">
       <app-common-header
         [title]="title"
         class="full-display"
@@ -87,10 +87,22 @@
       <div class="claims-non-payments-by-facility-table">
         <!-- <mat-paginator #paginator [length]="100" [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>-->
 
-        <table mat-table [dataSource]="dataSource" matSort matSortActive="facilityName" matSortDirection="asc">
+        <table
+          mat-table
+          [dataSource]="dataSource"
+          matSort
+          matSortActive="facilityName"
+          matSortDirection="asc"
+          matSortDisableClear="true"
+          (matSortChange)="sortHeader($event)"
+        >
           <!-- Position Column -->
           <ng-container matColumnDef="facilityName">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header class="mat-table-header-cell">Facility Name</th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="mat-table-header-cell">
+              Facility Name
+              <mat-icon class="sort-header-asc sort-header-icon active-sort" svgIcon="asc-sort"></mat-icon>
+              <mat-icon class="sort-header-desc sort-header-icon" svgIcon="desc-sort"></mat-icon>
+            </th>
             <td mat-cell *matCellDef="let element" class="mat-table-cell">
               <p class="table-facility-healthsystem">{{ element.facilityName }}</p>
               <p class="table-facility-tin">{{ element.tin }}</p>
@@ -100,7 +112,9 @@
           <!-- Name Column -->
           <ng-container *ngFor="let data of top5Reasons" matColumnDef="{{ data }}">
             <th mat-header-cell *matHeaderCellDef mat-sort-header class="mat-table-header-cell">
-              {{ data }}
+              <span class="table-headers">{{ data }}</span>
+              <mat-icon class="sort-header-asc sort-header-icon" svgIcon="asc-sort"></mat-icon>
+              <mat-icon class="sort-header-desc sort-header-icon" svgIcon="desc-sort"></mat-icon>
             </th>
             <td mat-cell *matCellDef="let element" class="mat-table-cell">
               {{ element[data] ? element[data] : '$0' }}
@@ -134,5 +148,19 @@
         ></app-common-footer>
       </div>
     </div>
+
+    <!-- Claims Non - Payment Trend  Starts Here -->
+    <div class="non-payment-trend-block">
+      <app-common-header [title]="trendTitle" class="full-display"></app-common-header>
+      <div class="full-display" *ngIf="dataLoaded">
+        <app-line-graph [chartOptions]="monthlyLineGraph"></app-line-graph>
+
+        <!--div class="timeperiod-block">
+          <p class="timeperiod-text">{{ timePeriod }}</p>
+        </div-->
+      </div>
+      <app-common-footer [timePeriod]="timePeriod" class="width-100 time-period-trend"></app-common-footer>
+    </div>
+    <!-- Claims Non - Payment Trend Ends Here -->
   </div>
 </div>
