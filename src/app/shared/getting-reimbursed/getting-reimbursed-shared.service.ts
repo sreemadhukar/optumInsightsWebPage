@@ -1142,7 +1142,7 @@ export class GettingReimbursedSharedService {
       this.tin = this.session.tin;
       this.lob = this.session.lob;
       // this.timeFrame = 'Last 12 Months'; // this.timeFrame = this.session.timeFrame;
-      const timePeriod = 'Last 6 Months';
+      this.timeFrame = 'Last 6 Months';
       this.providerKey = this.session.providerkey;
       this.gettingReimbursedService.getTins(this.providerKey).subscribe(tins => {
         const providerTins = tins;
@@ -1159,11 +1159,11 @@ export class GettingReimbursedSharedService {
         const output: any = [];
         const response: any = [];
 
-        if (timePeriod === 'Last 12 Months') {
+        if (this.timeFrame === 'Last 12 Months') {
           parameters.timeperiod = 'rolling12months';
-        } else if (timePeriod === 'Last 6 Months') {
+        } else if (this.timeFrame === 'Last 6 Months') {
           parameters.timeperiod = 'last6months';
-        } else if (timePeriod === 'Year To Date') {
+        } else if (this.timeFrame === 'Year To Date') {
           parameters.ytd = true;
         }
         if (this.tin !== 'All') {
