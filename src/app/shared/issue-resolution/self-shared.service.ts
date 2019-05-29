@@ -318,14 +318,14 @@ export class SelfSharedService {
                   {
                     chartData: [
                       {
-                        labelsRight: this.common.nFormatter(tempCallOperating.TotalPhoneCost) + ' hours/day',
+                        labelsRight: '$' + this.common.nFormatter(tempCallOperating.TotalPhoneCost),
                         values: tempCallOperating.TotalPhoneCost.toFixed(),
-                        metricName: 'Phone'
+                        metricName: 'Phone Costs'
                       },
                       {
-                        labelsRight: this.common.nFormatter(tempCallOperating.TotalSelfServiceCost) + ' hours/day',
+                        labelsRight: '$' + this.common.nFormatter(tempCallOperating.TotalSelfServiceCost),
                         values: tempCallOperating.TotalSelfServiceCost.toFixed(),
-                        metricName: 'Self Service'
+                        metricName: 'Self Service Costs'
                       }
                     ],
                     color: ['#80B0FF', '#3381FF'],
@@ -355,14 +355,14 @@ export class SelfSharedService {
                   {
                     chartData: [
                       {
-                        labelsRight: this.common.nFormatter(tempCallOperating.ClaimPhoneCost) + ' hours/day',
+                        labelsRight: '$' + this.common.nFormatter(tempCallOperating.ClaimPhoneCost),
                         values: tempCallOperating.ClaimPhoneCost.toFixed(),
-                        metricName: 'Phone'
+                        metricName: 'Phone Costs'
                       },
                       {
-                        labelsRight: this.common.nFormatter(tempCallOperating.SelfServicePhoneCost) + ' hours/day',
+                        labelsRight: '$' + this.common.nFormatter(tempCallOperating.SelfServicePhoneCost),
                         values: tempCallOperating.SelfServicePhoneCost.toFixed(),
-                        metricName: 'Self Service'
+                        metricName: 'Self Service Costs'
                       }
                     ],
                     color: ['#80B0FF', '#3381FF'],
@@ -392,16 +392,15 @@ export class SelfSharedService {
                   {
                     chartData: [
                       {
-                        labelsRight:
-                          this.common.nFormatter(tempCallOperating.EligibilityAndBenefitPhoneCost) + ' hours/day',
-                        values: tempCallOperating.EligibilityAndBenefitPhoneCost.toFixed(),
-                        metricName: 'Phone'
+                        labelsRight: '$' + this.common.nFormatter(tempCallOperating.EligibilityAndBenefitPhoneCost),
+                        values: tempCallOperating.EligibilityAndBenefitPhoneCost.toFixed(2),
+                        metricName: 'Phone Costs'
                       },
                       {
                         labelsRight:
-                          this.common.nFormatter(tempCallOperating.EligibilityAndBenefitSelfServiceCost) + ' hours/day',
-                        values: tempCallOperating.EligibilityAndBenefitSelfServiceCost.toFixed(),
-                        metricName: 'Self Service'
+                          '$' + this.common.nFormatter(tempCallOperating.EligibilityAndBenefitSelfServiceCost),
+                        values: tempCallOperating.EligibilityAndBenefitSelfServiceCost.toFixed(2),
+                        metricName: 'Self Service Costs'
                       }
                     ],
                     color: ['#80B0FF', '#3381FF'],
@@ -426,19 +425,19 @@ export class SelfSharedService {
               try {
                 priorAuth = this.callsOperatingCostMethod(
                   'Prior Authorizations',
-                  this.common.nFormatter(tempCallOperating.ReducePriorAuthorizationsCost),
-                  this.common.nFormatter(tempCallOperating.AuthCallCount),
+                  tempCallOperating.ReducePriorAuthorizationsCost,
+                  tempCallOperating.AuthCallCount,
                   {
                     chartData: [
                       {
-                        labelsRight: tempCallOperating.PriorAuthorizationsPhoneCost + ' hours/day',
+                        labelsRight: '$' + tempCallOperating.PriorAuthorizationsPhoneCost,
                         values: tempCallOperating.PriorAuthorizationsPhoneCost,
-                        metricName: 'Phone'
+                        metricName: 'Phone Costs'
                       },
                       {
-                        labelsRight: tempCallOperating.PriorAuthorizationsSelfServiceCost + ' hours/day',
+                        labelsRight: '$' + tempCallOperating.PriorAuthorizationsSelfServiceCost,
                         values: tempCallOperating.PriorAuthorizationsSelfServiceCost,
-                        metricName: 'Self Service'
+                        metricName: 'Self Service Costs'
                       }
                     ],
                     color: ['#80B0FF', '#3381FF'],
@@ -473,10 +472,10 @@ export class SelfSharedService {
           tempArray[4] = reduceClaimProcessingTime;
           tempArray[5] = reduceReconsiderationProcessing;
 
-          const removeNullCallsOperatingCost = callsOperatingCostData.filter(function(el) {
-            return el != null;
-          });
-          this.selfServiceData.push(tempArray, removeNullCallsOperatingCost);
+          // const removeNullCallsOperatingCost = callsOperatingCostData.filter(function(el) {
+          //   return el != null;
+          // });
+          this.selfServiceData.push(tempArray, callsOperatingCostData);
           resolve(this.selfServiceData);
         },
         err => {

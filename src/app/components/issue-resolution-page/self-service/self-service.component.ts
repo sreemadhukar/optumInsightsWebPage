@@ -17,8 +17,8 @@ export class SelfServiceComponent implements OnInit {
   tabOptions: Array<Object> = [];
   selectedItemId: Number = 0;
   tabOptionsTitle: Array<String> = [];
-  heightSmallBarChart: Number = 140;
-  widthSmallBarChart: Number = 220;
+  heightSmallBarChart: Number = 155;
+  widthSmallBarChart: Number = 468;
   customSmallBarChart: Boolean = true;
   toggleCallsOperating: Boolean = false;
   callCostChartData: any;
@@ -77,7 +77,7 @@ export class SelfServiceComponent implements OnInit {
           this.callCostChartData = this.callCostOperatingData[0].data;
           this.callCostReduceCostValue = this.callCostOperatingData[0].callCostReduceCostValue;
           this.callCostCallIn90daysValue = this.callCostOperatingData[0].callCostCallIn90daysValue;
-          this.timeFrame = this.callCostOperatingData[0].timeperiod;
+          this.timeFrame = selfServiceData[0][0].timeperiod;
           this.toggleCallsOperating = true;
         }
       })
