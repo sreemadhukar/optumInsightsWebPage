@@ -61,5 +61,9 @@ export class PriorAuthComponent implements OnInit {
     this.priorAuthShared.getPriorAuthNotApprovedReasons().then(data => {
       this.reasonItems = data;
     });
+
+    this.priorAuthShared.getPriorAuthCounts().then(data => {
+      console.log(data);
+    });
   }
 }
