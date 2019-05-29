@@ -253,7 +253,6 @@ export class LineGraphComponent implements OnInit {
     if (titleData[0].topTitleBoxNumber) {
       topMarginSubtract = 0;
     }
-
     d3.select(this.renderChart)
       .selectAll('*')
       .remove();
