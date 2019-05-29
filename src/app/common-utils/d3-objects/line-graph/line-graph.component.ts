@@ -260,16 +260,16 @@ export class LineGraphComponent implements OnInit {
 
     const margin = { top: 85 - topMarginSubtract, right: 62, bottom: 85, left: 48 };
     const width = preWidth - margin.left - margin.right;
-    const height = 430 - margin.top - margin.bottom + 8;
+    const height = 520 - margin.top - margin.bottom + 8;
 
     const chart = d3
       .select(this.renderChart)
       .append('svg')
       .attr('width', width + margin.left + margin.right)
-      .attr('height', height - margin.top - margin.bottom)
+      .attr('height', 560 /*height - margin.top - margin.bottom*/)
       .style('background-color', generalData[0].backgroundColor)
       .append('g')
-      .attr('transform', 'translate(' + (margin.left - 7) + ',' + margin.top + ')');
+      .attr('transform', 'translate(' + (margin.left - 7) + ',' + 5 + ')');
     /* const div = d3
       .select(this.renderChart)
       .append('div')
