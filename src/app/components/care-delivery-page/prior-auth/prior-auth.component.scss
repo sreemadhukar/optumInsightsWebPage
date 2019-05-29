@@ -52,7 +52,7 @@
         font-size: 22px;
         line-height: 50px;
       }
-      .time-period {
+      .time--period {
         margin-bottom: 12px;
         button {
           span:first-child {
@@ -63,7 +63,7 @@
       }
     }
   }
-  @media only screen and (min-device-width: 720px) and (max-device-width: 1280px) {
-    @include padding(30px, 18px, 30px, 18px);
+  @media only screen and (min-width: 1024px) {
+    @include padding(30px, 16px, 30px, 16px);
   }
 }

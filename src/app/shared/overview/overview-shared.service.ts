@@ -188,7 +188,7 @@ export class OverviewSharedService {
               sign: 'up',
               data: '+2.3%'
             },
-            timeperiod: ''
+            timeperiod: 'Last 6 Months'
           };
         } else {
           cIR = {
@@ -440,21 +440,19 @@ export class OverviewSharedService {
           claims.hasOwnProperty('All') &&
           claims.All != null &&
           claims.All.hasOwnProperty('ClaimsLobSummary') &&
-          claims.All.ClaimsLobSummary[0].hasOwnProperty('AmountActualAllowed') &&
-          claims.All.ClaimsLobSummary[0].hasOwnProperty('AmountExpectedAllowed')
+          claims.All.ClaimsLobSummary[0].hasOwnProperty('ClaimsYieldRate')
         ) {
-          const actualAllowed = parseFloat(claims.All.ClaimsLobSummary[0].AmountActualAllowed);
-          const expectedAllowed = parseFloat(claims.All.ClaimsLobSummary[0].AmountExpectedAllowed);
-          const claimYieldDonut = (actualAllowed / expectedAllowed) * 100;
-          const gDonut = actualAllowed / expectedAllowed;
           claimsYield = {
             category: 'small-card',
             type: 'donut',
             title: 'Claims Yield',
             toggle: this.toggle.setToggles('Claims Yield', 'AtGlance', 'Overview', false),
             data: {
-              graphValues: [gDonut, 1 - gDonut],
-              centerNumber: claimYieldDonut.toFixed() + '%',
+              graphValues: [
+                claims.All.ClaimsLobSummary[0].ClaimsYieldRate,
+                100 - claims.All.ClaimsLobSummary[0].ClaimsYieldRate
+              ],
+              centerNumber: claims.All.ClaimsLobSummary[0].ClaimsYieldRate.toFixed() + '%',
               color: ['#3381FF', '#D7DCE1'],
               gdata: ['card-inner', 'claimsYieldCardD3Donut']
             },
