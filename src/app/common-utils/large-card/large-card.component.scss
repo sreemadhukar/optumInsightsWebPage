@@ -3,30 +3,35 @@
 .card-structure {
   position: relative;
   float: left;
-}
 
-.card-inner-large {
-  background-color: $white;
-  width: 961px;
-  height: 519px;
-  margin: 10px;
-  line-height: 75px;
-  font-size: 30px;
-  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
-  border-radius: 2px;
-}
+  .card-inner-large {
+    background-color: $white;
+    width: 961px;
+    // height: 519px;
+    position: relative;
+    overflow: hidden;
+    height: auto;
+    margin: 12px;
 
-.header-properties {
-  color: #2d2d39;
-  font-family: 'UHCSans-Regular';
-  font-size: 18px;
-  font-weight: 600;
-  line-height: 22px;
-  padding-left: 16px;
-  padding-top: 16px;
-}
+    font-size: 30px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
+    border-radius: 2px;
+  }
+  .full-width-block {
+    padding-top: 41px;
+  }
+  .header-properties {
+    color: #2d2d39;
+    font-family: 'UHCSans-Regular';
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 22px;
+    padding-left: 16px;
+    padding-top: 16px;
+  }
 
-.full-width-block {
-  float: left;
-  width: 100%;
+  .full-width-block {
+    float: left;
+    width: 100%;
+  }
 }

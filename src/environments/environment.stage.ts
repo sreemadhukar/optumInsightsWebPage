@@ -27,7 +27,8 @@ export const environment: any = {
     Appeals: 'appeals/',
     BusinessGlossary: 'business-glossaries/',
     PriorAuth: 'prior-authorizations/search/',
-    RepeatContact: 'repeat-contacts/search/'
+    RepeatContact: 'repeat-contacts/search/',
+    Calls: 'issue-resolutions/'
   },
   headerKeys: {
     selectedCompany: '',

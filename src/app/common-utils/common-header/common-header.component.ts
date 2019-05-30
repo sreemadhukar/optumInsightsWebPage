@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ViewEncapsulation } from '@angular/core';
 import { GlossaryExpandService } from '../../shared/glossary-expand.service';
 import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -6,7 +6,8 @@ import { DomSanitizer } from '@angular/platform-browser';
 @Component({
   selector: 'app-common-header',
   templateUrl: './common-header.component.html',
-  styleUrls: ['./common-header.component.scss']
+  styleUrls: ['./common-header.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class CommonHeaderComponent implements OnInit {
   @Input() title: String;

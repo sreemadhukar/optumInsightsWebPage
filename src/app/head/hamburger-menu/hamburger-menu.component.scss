@@ -97,7 +97,7 @@ app-header {
 .change-provider {
   height: 18px;
   width: 105px;
-  color: #196ecf;
+  color: $blue;
   font-family: 'UHCSans-SemiBold';
   font-size: 14px;
   font-weight: 600;
@@ -277,8 +277,8 @@ app-header {
 
 .h-3-title {
   height: 28px;
-  width: 418px;
-  color: #2d2d39;
+  width: 346px;
+  color: $black-rock;
   font-family: 'UHC Sans';
   font-size: 22px;
   font-weight: 600;
@@ -292,4 +292,12 @@ app-header {
 
 .pointer-none {
   pointer-events: none;
+}
+
+.sidenav-glossary {
+  position: absolute !important;
+  z-index: 9999 !important;
+}
+.sidemargin {
+  margin: 0 24px 0 24px;
 }

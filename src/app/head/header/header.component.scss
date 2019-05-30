@@ -7,6 +7,7 @@
   border-bottom: solid;
   border-width: 1px;
   border-color: #e0e0e0;
+  z-index: 999;
   .menu-div {
     @include padding(0, 0, 0, 0);
     .menu-icon {

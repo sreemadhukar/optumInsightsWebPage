@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, HostListener, AfterViewInit } from '@angular/core';
+import { Component, OnInit, Input, HostListener, AfterViewInit, OnChanges } from '@angular/core';
 import * as d3 from 'd3';
 
 @Component({
@@ -6,15 +6,16 @@ import * as d3 from 'd3';
   templateUrl: './small-bar-chart.component.html',
   styleUrls: ['./small-bar-chart.component.scss']
 })
-export class SmallBarChartComponent implements OnInit, AfterViewInit {
+export class SmallBarChartComponent implements OnInit, AfterViewInit, OnChanges {
   @Input() chartOptions;
   @Input() height;
   @Input() width;
+  @Input() custom;
   renderChart;
   constructor() {}
   @HostListener('window:resize', ['$event'])
   onResize(event) {
-    this.doSmallBarChart();
+    this.doSmallBarChart(this.chartOptions);
   }
 
   ngOnInit() {
@@ -22,26 +23,34 @@ export class SmallBarChartComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    this.doSmallBarChart();
+    this.doSmallBarChart(this.chartOptions);
   }
-
-  doSmallBarChart() {
-    const preWidth = document.getElementsByClassName(this.chartOptions.gdata[0])[0].clientWidth;
+  ngOnChanges() {
+    this.doSmallBarChart(this.chartOptions);
+    this.renderChart = '#' + this.chartOptions.gdata[1];
+  }
+  doSmallBarChart(chartOptions: any) {
+    const preWidth = document.getElementsByClassName(chartOptions.gdata[0])[0].clientWidth;
     d3.select(this.renderChart)
       .selectAll('*')
       .remove();
 
-    let data = this.chartOptions.chartData;
-    const barColors = this.chartOptions.color;
+    let data = chartOptions.chartData;
+    const barColors = chartOptions.color;
 
     data = data.sort(function(a, b) {
       return d3.ascending(a.values, b.values);
     });
 
     // set the dimensions and margins of the graph
-    const margin = { top: 20, right: 0, bottom: 0, left: 0 },
-      width = this.width,
-      height = this.height;
+    const margin = { top: 20, right: 0, bottom: 0, left: 0 };
+    let width;
+    if (!this.custom) {
+      width = preWidth;
+    } else {
+      width = this.width;
+    }
+    const height = this.height;
 
     // set the ranges
     const yScale = d3
@@ -49,7 +58,7 @@ export class SmallBarChartComponent implements OnInit, AfterViewInit {
       .range([height - 35, 0])
       .padding(0.1);
 
-    const xScale = d3.scaleLinear().range([0, width / 1.5]);
+    const xScale = d3.scaleLinear().range([0, width / 2]);
 
     // append the svg object to the body of the page
     // append a 'group' element to 'svg'
@@ -112,7 +121,7 @@ export class SmallBarChartComponent implements OnInit, AfterViewInit {
       .style('font-size', '16px')
       .style('fill', '#2d2d39')
       .style('font-weight', '500')
-      .style('font-family', 'UHCSans-Regular')
+      .style('font-family', 'UHCSans-Medium')
       .attr('y', function(d) {
         return yScale(d.labelsRight);
       })

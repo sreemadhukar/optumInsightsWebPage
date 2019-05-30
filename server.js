@@ -1,4 +1,4 @@
-// Required Modules 
+// Required Modules
 var express = require('express');
 var app = express();
 var path = require('path');
@@ -6,7 +6,7 @@ var httpProxy = require('http-proxy');
 var jwt = require('jsonwebtoken');
 var cors = require('cors');
 var compression = require('compression');
-var helmet = require('helmet');
+var helmet = require('helmet'); 
 
 var port = process.env.PORT || 8000;
 console.log(`Worker ${process.pid} started...`);

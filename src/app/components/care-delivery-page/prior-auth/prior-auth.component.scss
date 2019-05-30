@@ -5,9 +5,15 @@
   overflow-x: hidden;
   @include padding(30px, 30px, 30px, 30px);
   .main-content {
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
     display: flex;
-    flex-wrap: wrap;
 
+    -webkit-flex-flow: row wrap;
+    justify-content: center;
+    flex-wrap: wrap;
     .height1Separator {
       height: 0;
       width: 1200px;
@@ -46,6 +52,18 @@
         font-size: 22px;
         line-height: 50px;
       }
+      .time--period {
+        margin-bottom: 12px;
+        button {
+          span:first-child {
+            font-weight: 500;
+            font-family: 'UHCSans-Medium';
+          }
+        }
+      }
     }
+  }
+  @media only screen and (min-width: 1024px) {
+    @include padding(30px, 16px, 30px, 16px);
   }
 }
