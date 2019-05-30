@@ -14,7 +14,6 @@
       box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
       border-radius: 2px;
 
-      
       .call-operation-footer {
         float: left;
         width: 100%;
@@ -34,7 +33,7 @@
             border-radius: 2px;
             list-style-type: none;
             font-family: 'UHCSans-SemiBold', 'Arial';
-            color: #757588;
+            color: $strom-grey;
 
             > li {
               background-color: $white;
@@ -61,12 +60,12 @@
         /* ends tabs css ends here*/
         .calls-operating-section1 {
           border-left: 1px solid #e0e0e0;
-          font-family: 'UHCSans-Regular', 'Arial';
+          font-family: 'UHCSans-Medium', 'Arial';
           float: left;
           width: 25%;
           padding: 0 4%;
           .labelsCallsOperating {
-            color: #757588;
+            color: $strom-grey;
             font-size: 16px;
             font-weight: 500;
             letter-spacing: 0.2px;
