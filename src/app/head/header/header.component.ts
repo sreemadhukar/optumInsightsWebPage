@@ -114,7 +114,7 @@ export class HeaderComponent implements AfterViewInit, OnDestroy {
   ngAfterViewInit() {
     this.isDarkTheme = this.themeService.isDarkTheme;
     const userInfo = JSON.parse(sessionStorage.getItem('loggedUser'));
-    this.username = userInfo.FirstName + ' ' + userInfo.LastName;
+    this.username = userInfo.FirstName;
   }
   /*angular theme */
 
