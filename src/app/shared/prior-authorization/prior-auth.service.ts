@@ -5,7 +5,7 @@ import { CommonUtilsService } from '../common-utils.service';
 import { SessionService } from '../session.service';
 
 @Injectable({
-  providedIn: CareDeliveryPageModule
+  providedIn: 'root'
 })
 export class PriorAuthSharedService {
   private priorAuthData: Array<object> = [];
