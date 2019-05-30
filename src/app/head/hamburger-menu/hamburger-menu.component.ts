@@ -52,6 +52,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
   public glossaryTitle: string = null;
   clickHelpIcon: Subscription;
   public mobileQuery: boolean;
+  public PCORFlag: boolean;
   /*** Array of Navigation Category List ***/
   public navCategories = [
     { icon: 'home', name: 'Overview', path: '/OverviewPage', disabled: false },
@@ -145,6 +146,44 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => {
       this.healthSystemName = JSON.parse(sessionStorage.getItem('currentUser'))[0]['HealthCareOrganizationName'];
     });
+
+    // For first load
+    this.priorAuthShared.getPCORData().then(data => {
+      this.PCORFlag = data;
+      if (this.PCORFlag) {
+        this.navCategories[2].children.push({
+          name: 'Patient Care Opportunity',
+          path: '/CareDelivery/PatientCareOpportunity'
+        });
+      }
+    });
+
+    this.checkStorage.getNavChangeEmitter().subscribe(() => {
+      this.priorAuthShared.getPCORData().then(data => {
+        if (this.PCORFlag === data) {
+          // Do nothing
+        } else {
+          if (data) {
+            this.navCategories[2].children.push({
+              name: 'Patient Care Opportunity',
+              path: '/CareDelivery/PatientCareOpportunity'
+            });
+            this.PCORFlag = data;
+          } else {
+            this.navCategories[2].children.splice(
+              this.navCategories[2].children.indexOf({
+                name: 'Patient Care Opportunity',
+                path: '/CareDelivery/PatientCareOpportunity'
+              }),
+              1
+            );
+            this.PCORFlag = data;
+          }
+        }
+        console.log(this.navCategories[2].children);
+      });
+    });
+
     this.clickHelpIcon = this.glossaryExpandService.message.subscribe(
       data => {
         this.glossaryFlag = true;
