@@ -5,6 +5,7 @@ import { OverviewPageModule } from '../../components/overview-page/overview-page
 import { CommonUtilsService } from '../common-utils.service';
 import { SessionService } from '../session.service';
 import { AuthorizationService } from '../../auth/_service/authorization.service';
+
 @Injectable({
   providedIn: OverviewPageModule
 })
@@ -188,7 +189,7 @@ export class OverviewSharedService {
               sign: 'up',
               data: '+2.3%'
             },
-            timeperiod: ''
+            timeperiod: 'Last 6 Months'
           };
         } else {
           cIR = {
@@ -206,27 +207,45 @@ export class OverviewSharedService {
           providerSystems.SelfServiceInquiries.ALL.hasOwnProperty('SelfService') &&
           providerSystems.SelfServiceInquiries.ALL.SelfService.hasOwnProperty('TotalCallCost')
         ) {
-          oppurtunities.push({
-            category: 'mini-tile',
-            title: 'Reduce Calls and Operating Costs by:',
-            toggle: this.toggle.setToggles('Reduce Calls and Operating Costs by:', 'Opportunities', 'Overview', false),
-            data: {
-              centerNumber:
-                '$' +
-                this.common.nFormatter(providerSystems.SelfServiceInquiries.ALL.SelfService.TotalCallCost.toFixed(2)),
-              gdata: []
-            },
-            fdata: {
-              type: 'bar chart',
-              graphValues: [1.01, 5.4],
-              concatString: '$',
-              color: ['#3381FF', '#FFFFFF', '#80B0FF'],
-              graphValuesTitle: 'Avg. Transaction Costs',
-              graphData1: 'for Self Service',
-              graphData2: 'for Phone Call',
-              gdata: ['card-structure', 'totalCallCost']
-            }
-          });
+          try {
+            oppurtunities.push({
+              category: 'mini-tile',
+              title: 'Reduce Calls and Operating Costs by:',
+              toggle: this.toggle.setToggles(
+                'Reduce Calls and Operating Costs by:',
+                'Opportunities',
+                'Overview',
+                false
+              ),
+              data: {
+                centerNumber:
+                  '$' +
+                  this.common.nFormatter(providerSystems.SelfServiceInquiries.ALL.SelfService.TotalCallCost.toFixed(2)),
+                gdata: []
+              },
+              fdata: {
+                type: 'bar chart',
+                graphValues: [
+                  providerSystems.SelfServiceInquiries.ALL.SelfService.TotalSelfServiceCost.toFixed(2),
+                  providerSystems.SelfServiceInquiries.ALL.SelfService.TotalPhoneCost.toFixed(2)
+                ],
+                concatString: '$',
+                color: ['#3381FF', '#FFFFFF', '#80B0FF'],
+                graphValuesTitle: 'Avg. Transaction Costs',
+                graphData1: 'for Self Service',
+                graphData2: 'for Phone Call',
+                gdata: ['card-structure', 'totalCallCost']
+              }
+            });
+          } catch (Error) {
+            console.log('Overview Page, Self Service, Data not found for Calls and Operating Cost');
+            oppurtunities.push({
+              category: 'mini-tile',
+              title: null,
+              data: null,
+              fdata: null
+            });
+          }
         } else {
           oppurtunities.push({
             category: 'mini-tile',
@@ -241,25 +260,39 @@ export class OverviewSharedService {
           providerSystems.SelfServiceInquiries.ALL.hasOwnProperty('SelfService') &&
           providerSystems.SelfServiceInquiries.ALL.SelfService.hasOwnProperty('TotalCallTime')
         ) {
-          oppurtunities.push({
-            category: 'mini-tile',
-            title: "Save Your Staff's Time by:" + '\n\xa0',
-            toggle: this.toggle.setToggles("Save Your Staff's Time by:", 'Opportunities', 'Overview', false),
-            data: {
-              centerNumber: providerSystems.SelfServiceInquiries.ALL.SelfService.TotalCallTime.toFixed() + ' Hours/day',
-              gdata: []
-            },
-            fdata: {
-              type: 'bar chart',
-              graphValues: [2, 8],
-              concatString: 'hours',
-              color: ['#3381FF', '#FFFFFF', '#80B0FF'],
-              graphValuesTitle: 'Avg. Processing Times',
-              graphData1: 'for Self Service',
-              graphData2: 'for Phone Call',
-              gdata: ['card-structure', 'saveStaffTime']
-            }
-          });
+          try {
+            oppurtunities.push({
+              category: 'mini-tile',
+              title: "Save Your Staff's Time by:" + '\n\xa0',
+              toggle: this.toggle.setToggles("Save Your Staff's Time by:", 'Opportunities', 'Overview', false),
+              data: {
+                centerNumber:
+                  providerSystems.SelfServiceInquiries.ALL.SelfService.TotalCallTime.toFixed(2) + ' Hours/day',
+                gdata: []
+              },
+              fdata: {
+                type: 'bar chart',
+                graphValues: [
+                  providerSystems.SelfServiceInquiries.ALL.SelfService.SelfServiceCallTime.toFixed(2),
+                  providerSystems.SelfServiceInquiries.ALL.SelfService.PhoneCallTime.toFixed(2)
+                ],
+                concatString: 'hours',
+                color: ['#3381FF', '#FFFFFF', '#80B0FF'],
+                graphValuesTitle: 'Avg. Processing Times',
+                graphData1: 'for Self Service',
+                graphData2: 'for Phone Call',
+                gdata: ['card-structure', 'saveStaffTime']
+              }
+            });
+          } catch (Error) {
+            console.log('Overview Page, Self Service, Data not found for Save Yours Staff Time');
+            oppurtunities.push({
+              category: 'mini-tile',
+              title: null,
+              data: null,
+              fdata: null
+            });
+          }
         } else {
           oppurtunities.push({
             category: 'mini-tile',
@@ -408,21 +441,19 @@ export class OverviewSharedService {
           claims.hasOwnProperty('All') &&
           claims.All != null &&
           claims.All.hasOwnProperty('ClaimsLobSummary') &&
-          claims.All.ClaimsLobSummary[0].hasOwnProperty('AmountActualAllowed') &&
-          claims.All.ClaimsLobSummary[0].hasOwnProperty('AmountExpectedAllowed')
+          claims.All.ClaimsLobSummary[0].hasOwnProperty('ClaimsYieldRate')
         ) {
-          const actualAllowed = parseFloat(claims.All.ClaimsLobSummary[0].AmountActualAllowed);
-          const expectedAllowed = parseFloat(claims.All.ClaimsLobSummary[0].AmountExpectedAllowed);
-          const claimYieldDonut = (actualAllowed / expectedAllowed) * 100;
-          const gDonut = actualAllowed / expectedAllowed;
           claimsYield = {
             category: 'small-card',
             type: 'donut',
             title: 'Claims Yield',
             toggle: this.toggle.setToggles('Claims Yield', 'AtGlance', 'Overview', false),
             data: {
-              graphValues: [gDonut, 1 - gDonut],
-              centerNumber: claimYieldDonut.toFixed() + '%',
+              graphValues: [
+                claims.All.ClaimsLobSummary[0].ClaimsYieldRate,
+                100 - claims.All.ClaimsLobSummary[0].ClaimsYieldRate
+              ],
+              centerNumber: claims.All.ClaimsLobSummary[0].ClaimsYieldRate.toFixed() + '%',
               color: ['#3381FF', '#D7DCE1'],
               gdata: ['card-inner', 'claimsYieldCardD3Donut']
             },

@@ -5,7 +5,7 @@ import { CommonUtilsService } from '../common-utils.service';
 import { SessionService } from '../session.service';
 
 @Injectable({
-  providedIn: CareDeliveryPageModule
+  providedIn: 'root'
 })
 export class PriorAuthSharedService {
   private priorAuthData: Array<object> = [];
@@ -188,6 +188,75 @@ export class PriorAuthSharedService {
           console.log('Prior Auth Not Approved Count Error', err);
         }
       );
+    });
+  }
+
+  public getPriorAuthCounts() {
+    this.providerKey = this.session.providerKey();
+    this.priorAuthData = [];
+    return new Promise(resolve => {
+      const newParameters = [this.providerKey, true, true, true, false, true, false, false, false, true];
+      const timeRange = 'rolling12';
+      const isAllTin = true;
+      const isAlllob = true;
+      const isAllSS = true;
+
+      this.priorAuthService
+        .getPriorAuthDateRange(timeRange, isAllTin, isAlllob, isAllSS, ...newParameters)
+        .subscribe(providerSystems => {
+          const data = providerSystems.PriorAuthorizations.LineOfBusiness.All;
+          const PAApprovedCount = data.PriorAuthApprovedCount;
+          const PANotApprovedCount = data.PriorAuthNotApprovedCount;
+          const PANotPendingCount = data.PriorAuthPendingCount;
+          const PANotCancelledCount = data.PriorAuthCancelledCount;
+          const PARequestedCount = PAApprovedCount + PANotApprovedCount + PANotPendingCount + PANotCancelledCount;
+          const PAApprovalRate = PAApprovedCount / PARequestedCount;
+          const StandardTATConversion = (data.StandartPriorAuthTAT / 86400).toFixed(0);
+          const UrgentTATConversion = (data.UrgentPriorAuthTAT / 3600).toFixed(0);
+
+          const PACount = [
+            {
+              category: 'app-card',
+              type: 'donutWithLabel',
+              title: 'Prior Authorization Requested',
+              data: {
+                graphValues: [PAApprovedCount, PANotApprovedCount, PANotPendingCount, PANotCancelledCount],
+                centerNumber: this.nFormatter(PARequestedCount, 1),
+                color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'],
+                labels: ['Approved', 'Not Approved', 'Pending', 'Canceled'],
+                gdata: ['card-inner', 'PARequested'],
+                hover: true
+              },
+              besideData: {
+                labels: ['Approved', 'Not Approved', 'Pending', 'Canceled'],
+                color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC']
+              },
+              timeperiod: 'Last 6 Months'
+            },
+            {
+              category: 'app-card',
+              type: 'donutWithLabel',
+              title: 'Prior Authorization Approval Rate',
+              data: {
+                graphValues: [PAApprovalRate, 1 - PAApprovalRate],
+                centerNumber: (PAApprovalRate * 100).toFixed(0) + '%',
+                color: ['#3381FF', '#E0E0E0'],
+                gdata: ['card-inner', 'PAApprovalRate']
+              },
+              besideData: {
+                verticalData: [
+                  { title: 'Average Turnaround Time' },
+                  { values: StandardTATConversion + ' Days', labels: 'Standard' },
+                  { values: UrgentTATConversion + ' Hours', labels: 'Urgent' }
+                ]
+              },
+
+              timeperiod: 'Last 6 Months'
+            }
+          ];
+
+          resolve(PACount);
+        });
     });
   }
 }

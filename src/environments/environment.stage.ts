@@ -9,8 +9,8 @@ export const environment: any = {
   originUrl: '/',
   apiUrls: {
     ExecutiveSummaryPath: 'providersystems/',
-    ProviderSystemClaimsAgg: 'agg-claims/search/',
-    ProviderSystemClaimsSummary: 'claims/search/',
+    ProviderSystemClaimsAgg: 'agg-claims/search/v2.0/',
+    ProviderSystemClaimsSummary: 'claims/search/v2.0/',
     ProviderSystemPriorAuth: 'PriorAuthSummary/',
     SsoTokenPath: 'myinsightOptumIdHandshake',
     SsoRedirectUri:
@@ -27,7 +27,8 @@ export const environment: any = {
     Appeals: 'appeals/',
     BusinessGlossary: 'business-glossaries/',
     PriorAuth: 'prior-authorizations/search/',
-    RepeatContact: 'repeat-contacts/search/'
+    RepeatContact: 'repeat-contacts/search/',
+    Calls: 'issue-resolutions/'
   },
   headerKeys: {
     selectedCompany: '',
