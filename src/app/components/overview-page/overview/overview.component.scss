@@ -11,19 +11,19 @@
 
     overflow-x: hidden;
     @include padding(30px, 30px, 30px, 30px);
-
     .overview-content {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
       margin-top: 25px;
       padding-left: 40px;
+      .self-service-heading {
+        display: flex;
+        width: 83%;
+      }
       .height1Separator {
         height: 0;
         width: 1200px;
-      }
-      .cust-width-blank {
-        width: 502px;
       }
 
       & > .cards {
@@ -33,6 +33,7 @@
 
       .cust-width-title {
         width: 450px;
+        margin-left: 10px;
         font-family: 'UHCSans-SemiBold', 'Arial';
         color: $black-rock;
 
@@ -56,6 +57,26 @@
           line-height: 1;
           margin-bottom: 8px;
         }
+        .self-service-link {
+          color: $blue;
+          font-family: 'UHC Sans';
+          font-size: 16px;
+          font-weight: 600;
+          letter-spacing: 0.2px;
+          line-height: 22px;
+          text-align: right;
+          margin-top: 51px;
+          a {
+            text-decoration: none;
+            color: $blue;
+            .icon-display {
+              vertical-align: middle;
+            }
+          }
+        }
+      }
+      .cust-width-blank {
+        width: 502px;
       }
     }
   }

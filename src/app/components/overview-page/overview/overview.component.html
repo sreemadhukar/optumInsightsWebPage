@@ -15,11 +15,20 @@
   </div>
 
   <div class="overview-content">
-    <div class="cards cust-width-title">
-      <div class="page-title">{{ opportunities }}</div>
-      <div class="page-question">{{ opportunitiesQuestion }}</div>
+    <div class="self-service-heading">
+      <div class="cards cust-width-title">
+        <div class="page-title">{{ opportunities }}</div>
+        <div class="page-question">{{ opportunitiesQuestion }}</div>
+      </div>
+      <div class="cards cust-width-blank cust-width-title">
+        <div class="page-question self-service-link">
+          <a href="/IssueResolution/SelfService"
+            >Self Service Details
+            <mat-icon class="icon-display" svgIcon="arrow"></mat-icon>
+          </a>
+        </div>
+      </div>
     </div>
-    <div class="cards cust-width-blank"></div>
     <div class="height1Separator"></div>
     <div *ngFor="let item of selfServiceMiniCards; let i = index">
       <app-mini-tile *ngIf="item.data != null && item.toggle" class="cards" [data]="item"> </app-mini-tile>
