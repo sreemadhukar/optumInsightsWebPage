@@ -15,7 +15,8 @@
     .overview-content {
       display: flex;
       flex-wrap: wrap;
-      justify-content: center;
+      justify-content: left;
+      padding-left: 40px;
 
       .height1Separator {
         height: 0;
