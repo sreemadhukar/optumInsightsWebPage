@@ -7,7 +7,7 @@ import { map, retry, catchError } from 'rxjs/operators';
 import { combineLatest, of } from 'rxjs';
 
 @Injectable({
-  providedIn: CareDeliveryPageModule
+  providedIn: 'root'
 })
 export class PriorAuthService {
   public currentUser: any;

@@ -29,6 +29,7 @@ import { ProviderSearchComponent } from '../../common-utils/provider-search/prov
 import { StorageService } from '../../shared/storage-service.service';
 import { GlossaryExpandService } from '../../shared/glossary-expand.service';
 import { Subscription } from 'rxjs';
+import { PriorAuthSharedService } from 'src/app/shared/prior-authorization/prior-auth.service';
 
 @Component({
   selector: 'app-hamburger-menu',
@@ -97,7 +98,8 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
     private themeService: ThemeService,
     private dialog: MatDialog,
     private checkStorage: StorageService,
-    private glossaryExpandService: GlossaryExpandService
+    private glossaryExpandService: GlossaryExpandService,
+    private priorAuthShared: PriorAuthSharedService
   ) {
     this.glossaryFlag = false;
     // to disable the header/footer/body when not authenticated
