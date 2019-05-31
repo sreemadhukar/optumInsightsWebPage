@@ -33,7 +33,6 @@
   flex-direction: column;
   min-height: 100vh;
   @include padding(30px, 30px, 30px, 30px);
-
   .calls-content {
     display: flex;
     flex-wrap: wrap;
