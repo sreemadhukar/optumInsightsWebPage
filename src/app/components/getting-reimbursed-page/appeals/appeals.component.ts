@@ -20,7 +20,7 @@ export class AppealsComponent implements OnInit {
     private checkStorage: StorageService
   ) {
     this.pageTitle = 'Claims Appeals';
-    this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.ngOnInit);
+    this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.ngOnInit());
   }
 
   ngOnInit() {
