@@ -159,39 +159,52 @@ export class OverviewSharedService {
             timeperiod: null
           };
         }
-        if (
-          providerSystems.hasOwnProperty('ResolvingIssues') &&
-          providerSystems.ResolvingIssues.hasOwnProperty('Calls') &&
-          providerSystems.ResolvingIssues.Calls.hasOwnProperty('CallVolByQuesType') &&
-          providerSystems.ResolvingIssues.Calls.CallVolByQuesType.hasOwnProperty('Total') &&
-          providerSystems.ResolvingIssues.Calls.CallVolByQuesType.hasOwnProperty('Claims') &&
-          providerSystems.ResolvingIssues.Calls.CallVolByQuesType.hasOwnProperty('BenefitsEligibility') &&
-          providerSystems.ResolvingIssues.Calls.CallVolByQuesType.hasOwnProperty('PriorAuth') &&
-          providerSystems.ResolvingIssues.Calls.CallVolByQuesType.hasOwnProperty('Others')
-        ) {
-          cIR = {
-            category: 'small-card',
-            type: 'donut',
-            title: 'Total Calls',
-            toggle: this.toggle.setToggles('Total Calls', 'AtGlance', 'Overview', false),
-            data: {
-              graphValues: [
-                providerSystems.ResolvingIssues.Calls.CallVolByQuesType.Claims,
-                providerSystems.ResolvingIssues.Calls.CallVolByQuesType.BenefitsEligibility,
-                providerSystems.ResolvingIssues.Calls.CallVolByQuesType.PriorAuth,
-                providerSystems.ResolvingIssues.Calls.CallVolByQuesType.Others
-              ],
-              centerNumber: this.common.nFormatter(providerSystems.ResolvingIssues.Calls.CallVolByQuesType.Total),
-              color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'],
-              gdata: ['card-inner', 'callsCardD3Donut']
-            },
-            sdata: {
-              sign: 'up',
-              data: '+2.3%'
-            },
-            timeperiod: 'Last 6 Months'
-          };
-        } else {
+        try {
+          if (
+            providerSystems.hasOwnProperty('ResolvingIssues') &&
+            providerSystems.ResolvingIssues.Calls != null &&
+            providerSystems.ResolvingIssues.hasOwnProperty('Calls') &&
+            providerSystems.ResolvingIssues.Calls.hasOwnProperty('CallVolByQuesType') &&
+            providerSystems.ResolvingIssues.Calls.CallVolByQuesType.hasOwnProperty('Total') &&
+            providerSystems.ResolvingIssues.Calls.CallVolByQuesType.hasOwnProperty('Claims') &&
+            providerSystems.ResolvingIssues.Calls.CallVolByQuesType.hasOwnProperty('BenefitsEligibility') &&
+            providerSystems.ResolvingIssues.Calls.CallVolByQuesType.hasOwnProperty('PriorAuth') &&
+            providerSystems.ResolvingIssues.Calls.CallVolByQuesType.hasOwnProperty('Others')
+          ) {
+            cIR = {
+              category: 'small-card',
+              type: 'donut',
+              title: 'Total Calls',
+              toggle: this.toggle.setToggles('Total Calls', 'AtGlance', 'Overview', false),
+              data: {
+                graphValues: [
+                  providerSystems.ResolvingIssues.Calls.CallVolByQuesType.Claims,
+                  providerSystems.ResolvingIssues.Calls.CallVolByQuesType.BenefitsEligibility,
+                  providerSystems.ResolvingIssues.Calls.CallVolByQuesType.PriorAuth,
+                  providerSystems.ResolvingIssues.Calls.CallVolByQuesType.Others
+                ],
+                centerNumber: this.common.nFormatter(providerSystems.ResolvingIssues.Calls.CallVolByQuesType.Total),
+                color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'],
+                gdata: ['card-inner', 'callsCardD3Donut']
+              },
+              sdata: {
+                sign: 'up',
+                data: '+2.3%'
+              },
+              timeperiod: 'Last 6 Months'
+            };
+          } else {
+            cIR = {
+              category: 'small-card',
+              type: 'donut',
+              title: null,
+              data: null,
+              sdata: null,
+              timeperiod: null
+            };
+          }
+        } catch (Error) {
+          console.log('Overview Page Total Calls Error ', Error);
           cIR = {
             category: 'small-card',
             type: 'donut',
@@ -200,7 +213,7 @@ export class OverviewSharedService {
             sdata: null,
             timeperiod: null
           };
-        }
+        } // ent try catch for Total Calls
         if (
           providerSystems.hasOwnProperty('SelfServiceInquiries') &&
           providerSystems.SelfServiceInquiries.hasOwnProperty('ALL') &&
