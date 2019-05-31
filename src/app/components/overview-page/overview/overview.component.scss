@@ -16,7 +16,7 @@
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-
+      margin-top: 25px;
       .height1Separator {
         height: 0;
         width: 1200px;
@@ -38,7 +38,8 @@
         .page-title {
           flex-basis: 100%;
           font-size: 36px;
-          line-height: 75px;
+          line-height: 1;
+          margin-bottom: 16px;
           color: $black-rock;
         }
 
@@ -51,7 +52,8 @@
         .page-question {
           flex-basis: 100%;
           font-size: 22px;
-          line-height: 50px;
+          line-height: 1;
+          margin-bottom: 8px;
         }
       }
     }

@@ -161,6 +161,7 @@ export class OverviewSharedService {
         }
         if (
           providerSystems.hasOwnProperty('ResolvingIssues') &&
+          providerSystems.ResolvingIssues != null &&
           providerSystems.ResolvingIssues.hasOwnProperty('Calls') &&
           providerSystems.ResolvingIssues.Calls.hasOwnProperty('CallVolByQuesType') &&
           providerSystems.ResolvingIssues.Calls.CallVolByQuesType.hasOwnProperty('Total') &&
