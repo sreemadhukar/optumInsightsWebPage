@@ -479,7 +479,7 @@ export class SelfSharedService {
           resolve(this.selfServiceData);
         },
         err => {
-          console.log('Self service Error Data', err);
+          console.log('Self Service Error Data', err);
         }
       ); // end subscribing to REST call
     }); // ends Promise
