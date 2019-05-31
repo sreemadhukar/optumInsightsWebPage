@@ -197,29 +197,13 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
         donutData.push({ value: chartOptions.graphValues[i] });
       }
     }
-    const div = d3
-      .select(this.renderChart)
-      .append('div')
-      .attr('class', 'tooltip');
+
     const g = chart
       .selectAll('.arc')
       .data(pie(donutData))
       .enter()
       .append('g')
-      .attr('class', 'arc')
-      .on('mousemove', function(d) {
-        const mouseVal = d3.mouse(this);
-
-        div
-          .html(d.besideData.labels + '</br>' + d.data.value)
-          .style('left', d3.event.pageX + 12 + 'px')
-          .style('top', d3.event.pageY - 10 + 'px')
-          .style('opacity', 1)
-          .style('display', 'block');
-      })
-      .on('mouseout', function() {
-        div.html(' ').style('display', 'none');
-      });
+      .attr('class', 'arc');
 
     if (transition) {
       g.append('path')
@@ -252,7 +236,7 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
     }
 
     // chartOptions.hover
-    if (chartOptions.hover) {
+    if (chartOptions.hover === true) {
       const divHover = d3
         .select(this.renderChart)
         .append('div')

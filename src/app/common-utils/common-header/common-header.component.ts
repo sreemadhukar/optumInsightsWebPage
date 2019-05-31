@@ -2,6 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter, ViewEncapsulation } fro
 import { GlossaryExpandService } from '../../shared/glossary-expand.service';
 import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-common-header',
@@ -15,7 +16,8 @@ export class CommonHeaderComponent implements OnInit {
   @Input() cardType: String;
   titleHeader: String = null;
   typeOfCard: String = null;
-  constructor(private iconRegistry: MatIconRegistry, sanitizer: DomSanitizer) {
+  routhPath: string;
+  constructor(private iconRegistry: MatIconRegistry, sanitizer: DomSanitizer, private router: Router) {
     /** INITIALIZING SVG ICONS TO USE IN DESIGN - ANGULAR MATERIAL */
 
     iconRegistry.addSvgIcon(
@@ -29,5 +31,24 @@ export class CommonHeaderComponent implements OnInit {
   }
   helpFunctionClicked() {
     this.helpIconClicked.emit(this.title);
+  }
+
+  titleClicked(title) {
+    if (title === 'Claims Paid') {
+      this.routhPath = '/GettingReimbursed/Payments';
+    } else if (title === 'Prior Authorization Approval') {
+      this.routhPath = '/CareDelivery/priorAuth';
+    } else if (title === 'Self Service Adoption Rate') {
+      this.routhPath = '/IssueResolution/SelfService';
+    } else if (title === 'Claims Yield') {
+      this.routhPath = '/GettingReimbursed/Payments';
+    } else if (title === 'Medicare Star Rating') {
+      this.routhPath = '/OverviewPage';
+    } else if (title === 'Total Calls') {
+      this.routhPath = '/IssueResolution/Calls';
+    } else {
+      this.routhPath = '/GettingReimbursed';
+    }
+    this.router.navigate([this.routhPath]);
   }
 }
