@@ -162,6 +162,7 @@ export class OverviewSharedService {
         try {
           if (
             providerSystems.hasOwnProperty('ResolvingIssues') &&
+            providerSystems.ResolvingIssues != null &&
             providerSystems.ResolvingIssues.Calls != null &&
             providerSystems.ResolvingIssues.hasOwnProperty('Calls') &&
             providerSystems.ResolvingIssues.Calls.hasOwnProperty('CallVolByQuesType') &&

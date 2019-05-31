@@ -10,7 +10,6 @@
     overflow-x: hidden;
     @include padding(30px, 30px, 30px, 30px);
 
-    
     .gettingReimburse-content {
       display: flex;
       flex-wrap: wrap;
@@ -20,7 +19,6 @@
         width: 1200px;
       }
 
-      
       & > .cards {
         text-align: left;
         line-height: 75px;
