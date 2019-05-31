@@ -8,6 +8,9 @@
   .gettingReimburse-body {
     background-color: mat-color($accent);
     overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
     @include padding(30px, 30px, 30px, 30px);
 
     .gettingReimburse-content {
