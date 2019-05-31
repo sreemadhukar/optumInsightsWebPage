@@ -18,6 +18,7 @@ export class AppealsComponent implements OnInit {
   }
 
   ngOnInit() {
+    // this.timePeriod = this.session.timeFrame;
     this.gettingReimbursedSharedService.getGettingReimbursedData().then(completeData => {
       this.summaryItems = JSON.parse(JSON.stringify(completeData));
       this.currentSummary = this.summaryItems[3].data;

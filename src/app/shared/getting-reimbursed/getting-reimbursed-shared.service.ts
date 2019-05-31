@@ -65,6 +65,8 @@ export class GettingReimbursedSharedService {
       let claimsTAT: object;
       let appealsSubmitted: object;
       let appealsOverturned: object;
+      let appealsOverturnedRate: object;
+      let appealsOverturnReasons: object;
       let claimsNotPaid: object;
       let claimsNotPaidRate: object;
       let claimsPaid: object;
@@ -431,6 +433,20 @@ export class GettingReimbursedSharedService {
               data: null,
               timeperiod: null
             };
+            appealsOverturnedRate = {
+              category: 'app-card',
+              type: 'donutWithLabel',
+              data: {
+                graphValues: [6.6, 100],
+                centerNumber: '6.6 %',
+                color: ['#3381FF', '#E0E0E0'],
+                // gdata:,
+                besideData: null
+              },
+
+              timeperiod: null
+            };
+            appealsOverturnReasons = {};
           } else if (appealsData != null) {
             if (
               appealsData.hasOwnProperty('LineOfBusiness') &&
@@ -533,7 +549,11 @@ export class GettingReimbursedSharedService {
           submissions = { id: 1, title: 'Claims Submissions', data: [claimsSubmitted, claimsTAT] };
           payments = { id: 2, title: 'Claims Payments', data: [claimsPaid, claimsPaidRate] };
           nonpayments = { id: 3, title: 'Claims Non-Payments', data: [claimsNotPaid, claimsNotPaidRate] };
-          appeals = { id: 4, title: 'Claims Appeals', data: [appealsSubmitted, appealsOverturned] };
+          appeals = {
+            id: 4,
+            title: 'Claims Appeals',
+            data: [appealsSubmitted, appealsOverturned, appealsOverturnedRate, appealsOverturnReasons]
+          };
           summaryData[0] = submissions;
           summaryData[1] = payments;
           summaryData[2] = nonpayments;
@@ -994,7 +1014,11 @@ export class GettingReimbursedSharedService {
             submissions = { id: 1, title: 'Claims Submissions', data: [claimsSubmitted, claimsTAT] };
             payments = { id: 2, title: 'Claims Payments', data: [claimsPaid, claimsPaidRate] };
             nonpayments = { id: 3, title: 'Claims Non-Payments', data: [claimsNotPaid, claimsNotPaidRate] };
-            appeals = { id: 4, title: 'Claims Appeals', data: [appealsSubmitted, appealsOverturned] };
+            appeals = {
+              id: 4,
+              title: 'Claims Appeals',
+              data: [appealsSubmitted, appealsOverturned, appealsOverturnedRate, appealsOverturnReasons]
+            };
             summaryData[0] = submissions;
             summaryData[1] = payments;
             summaryData[2] = nonpayments;
