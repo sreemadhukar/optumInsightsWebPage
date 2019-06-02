@@ -7,6 +7,6 @@
     [class.common-header]="cardType === 'error-card'"
     [class.non-small-card-header-title]="typeOfCard != 'smallCard'"
   >
-    {{ titleHeader }}
+    <a (click)="titleClicked(titleHeader)">{{ titleHeader }}</a>
   </div>
 </div>

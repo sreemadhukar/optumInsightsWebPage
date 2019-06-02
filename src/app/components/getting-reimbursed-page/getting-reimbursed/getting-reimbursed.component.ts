@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { GettingReimbursedSharedService } from '../../../shared/getting-reimbursed/getting-reimbursed-shared.service';
+import { StorageService } from '../../../shared/storage-service.service';
 @Component({
   selector: 'app-getting-reimbursed',
   templateUrl: './getting-reimbursed.component.html',
@@ -17,10 +18,16 @@ export class GettingReimbursedComponent implements OnInit {
   previousSelected: Number = 0;
   selectedItemId: any = 0;
   tabOptionsTitle: Array<String> = [];
-  constructor(private gettingReimbursedSharedService: GettingReimbursedSharedService) {
+  subscription: any;
+
+  constructor(
+    private gettingReimbursedSharedService: GettingReimbursedSharedService,
+    private checkStorage: StorageService
+  ) {
     this.pageTitle = 'Getting Reimbursed';
     this.currentTabTitle = '';
     this.tabOptionsTitle = ['Submission', 'Payments', 'Non-Payments', 'Appeals'];
+    this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.ngOnInit());
   }
 
   getTabOptionsTitle(i: number) {
@@ -46,6 +53,7 @@ export class GettingReimbursedComponent implements OnInit {
         this.currentTabTitle = this.summaryItems[0].title;
         console.log(this.summaryItems);
 
+        this.tabOptions = [];
         for (let i = 0; i < 4; i++) {
           const temp = {
             id: i,
