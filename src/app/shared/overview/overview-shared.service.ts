@@ -73,7 +73,7 @@ export class OverviewSharedService {
               sign: 'up',
               data: '+1%'
             },
-            timeperiod: ''
+            timeperiod: 'Last 6 Months'
           };
         } else {
           cPriorAuth = {
@@ -110,7 +110,7 @@ export class OverviewSharedService {
               sign: 'down',
               data: '-1.3%'
             },
-            timeperiod: ''
+            timeperiod: 'Last 6 Months'
           };
         } else {
           cSelfService = {
@@ -147,7 +147,7 @@ export class OverviewSharedService {
               gdata: ['card-inner', 'pcorCardD3Star']
             },
             sdata: null,
-            timeperiod: ''
+            timeperiod: 'Last 6 Months'
           };
         } else {
           cPcor = {
