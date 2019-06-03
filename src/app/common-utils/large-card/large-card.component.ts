@@ -11,6 +11,7 @@ export class LargeCardComponent implements OnInit {
   @Input() data;
   @Input() title;
   @Input() timePeriod;
+  @Input() skeleton;
 
   constructor(
     private iconRegistry: MatIconRegistry,

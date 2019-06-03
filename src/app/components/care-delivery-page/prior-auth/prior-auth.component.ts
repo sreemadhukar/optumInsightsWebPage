@@ -12,6 +12,7 @@ import { PriorAuthSharedService } from '../../../shared/prior-authorization/prio
 export class PriorAuthComponent implements OnInit {
   summaryItems: any;
   reasonItems: any;
+  mockCards: any;
   pageTitle: String = '';
   pagesubTitle: String = '';
   userName: String = '';
@@ -29,6 +30,7 @@ export class PriorAuthComponent implements OnInit {
     this.loading = true;
     this.reasonItems = [{}];
     this.summaryItems = [{}];
+    this.mockCards = [{}, {}];
 
     this.priorAuthShared.getPriorAuthData().then(data => {
       this.loading = false;
