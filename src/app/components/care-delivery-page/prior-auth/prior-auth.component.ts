@@ -16,57 +16,24 @@ export class PriorAuthComponent implements OnInit {
   pagesubTitle: String = '';
   userName: String = '';
   subscription: any;
+  loading: boolean;
   title = 'Top Reasons for Prior Authorizations Not Approved';
   timePeriod = 'Last 6 Months';
-  constructor(
-    private priorAuthService: PriorAuthService,
-    private sessionService: SessionService,
-    private checkStorage: StorageService,
-    private priorAuthShared: PriorAuthSharedService
-  ) {
+  constructor(private checkStorage: StorageService, private priorAuthShared: PriorAuthSharedService) {
     this.pagesubTitle = '';
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.ngOnInit());
   }
 
-  nFormatter(num, digits) {
-    const si = [
-      { value: 1, symbol: '' },
-      { value: 1e3, symbol: 'K' },
-      { value: 1e6, symbol: 'M' },
-      { value: 1e9, symbol: 'G' },
-      { value: 1e12, symbol: 'T' },
-      { value: 1e15, symbol: 'P' },
-      { value: 1e18, symbol: 'E' }
-    ];
-    const rx = /\.0+$|(\.[0-9]*[1-9])0+$/;
-    let i;
-    for (i = si.length - 1; i > 0; i--) {
-      if (num >= si[i].value) {
-        break;
-      }
-    }
-    return (num / si[i].value).toFixed(digits).replace(rx, '$1') + si[i].symbol;
-  }
-
   ngOnInit() {
-    const parameters = [this.sessionService.providerkey.toString(), true];
     this.pageTitle = 'Prior Authorizations';
-
+    this.loading = true;
     this.reasonItems = [{}];
     this.summaryItems = [{}];
 
-    /*
     this.priorAuthShared.getPriorAuthData().then(data => {
-      this.summaryItems = data;
-    });
-    */
-
-    this.priorAuthShared.getPriorAuthNotApprovedReasons().then(data => {
-      this.reasonItems = data;
-    });
-
-    this.priorAuthShared.getPriorAuthCounts().then(data => {
-      this.summaryItems = data;
+      this.loading = false;
+      this.summaryItems = data[0];
+      this.reasonItems = data[1];
     });
   }
 }

@@ -56,13 +56,13 @@ export class PriorAuthSharedService {
           resolve(PCORChecker);
         },
         err => {
-          console.log('Prior Auth Counts Error', err);
+          console.log('PCOR Error', err);
         }
       );
     });
   }
 
-  public getPriorAuthNotApprovedReasons() {
+  public getPriorAuthData() {
     this.providerKey = this.session.providerKey();
     this.priorAuthData = [];
     return new Promise(resolve => {
@@ -74,54 +74,6 @@ export class PriorAuthSharedService {
 
       this.priorAuthService.getPriorAuthDateRange(timeRange, isAllTin, isAlllob, isAllSS, ...newParameters).subscribe(
         providerSystems => {
-          const PriorAuthNotApprovedReasons = providerSystems.All.NotApproved.AllNotApprovedSettings;
-          PriorAuthNotApprovedReasons.sort(function(a, b) {
-            return b.Count - a.Count;
-          });
-
-          const barScaleMax = PriorAuthNotApprovedReasons[0].Count;
-
-          const PriorAuthBarGraphParamaters = [];
-
-          for (let i = 0; i < PriorAuthNotApprovedReasons.length; i++) {
-            PriorAuthBarGraphParamaters.push({
-              type: 'singleBarChart',
-              title: 'Top Reasons for Prior Authorizations Not Approved',
-              data: {
-                barHeight: 40,
-                barData: PriorAuthNotApprovedReasons[i].Count,
-                barSummation: barScaleMax,
-                barText: PriorAuthNotApprovedReasons[i].Reason,
-                color: [{ color1: '#3381FF' }],
-                gdata: ['card-inner-large', 'reasonBar' + i]
-              },
-              timeperiod: 'Last 6 Months'
-            });
-          }
-
-          // this.priorAuthData.push(PriorAuthBarGraphParamaters);
-          resolve(PriorAuthBarGraphParamaters);
-        },
-        err => {
-          console.log('Prior Auth Not Approved Count Error', err);
-        }
-      );
-    });
-  }
-
-  public getPriorAuthCounts() {
-    this.providerKey = this.session.providerKey();
-    this.priorAuthData = [];
-    return new Promise(resolve => {
-      const newParameters = [this.providerKey, true, true, true, false, true, false, false, false, true];
-      const timeRange = 'rolling12';
-      const isAllTin = true;
-      const isAlllob = true;
-      const isAllSS = true;
-
-      this.priorAuthService
-        .getPriorAuthDateRange(timeRange, isAllTin, isAlllob, isAllSS, ...newParameters)
-        .subscribe(providerSystems => {
           const data = providerSystems.PriorAuthorizations.LineOfBusiness.All;
           const PAApprovedCount = data.PriorAuthApprovedCount;
           const PANotApprovedCount = data.PriorAuthNotApprovedCount;
@@ -173,8 +125,38 @@ export class PriorAuthSharedService {
             }
           ];
 
-          resolve(PACount);
-        });
+          const PriorAuthNotApprovedReasons = providerSystems.All.NotApproved.AllNotApprovedSettings;
+          PriorAuthNotApprovedReasons.sort(function(a, b) {
+            return b.Count - a.Count;
+          });
+
+          const barScaleMax = PriorAuthNotApprovedReasons[0].Count;
+
+          const PriorAuthBarGraphParamaters = [];
+
+          for (let i = 0; i < PriorAuthNotApprovedReasons.length; i++) {
+            PriorAuthBarGraphParamaters.push({
+              type: 'singleBarChart',
+              title: 'Top Reasons for Prior Authorizations Not Approved',
+              data: {
+                barHeight: 40,
+                barData: PriorAuthNotApprovedReasons[i].Count,
+                barSummation: barScaleMax,
+                barText: PriorAuthNotApprovedReasons[i].Reason,
+                color: [{ color1: '#3381FF' }],
+                gdata: ['card-inner-large', 'reasonBar' + i]
+              },
+              timeperiod: 'Last 6 Months'
+            });
+          }
+
+          const PAData = [PACount, PriorAuthBarGraphParamaters];
+          resolve(PAData);
+        },
+        err => {
+          console.log('Prior Auth Error', err);
+        }
+      );
     });
   }
 }

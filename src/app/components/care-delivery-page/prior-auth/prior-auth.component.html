@@ -19,6 +19,10 @@
       <app-card *ngIf="item.data != null" class="cards" [chartData]="item"> </app-card>
     </div>
 
+    <div *ngIf="loading">
+      lol
+    </div>
+
     <app-large-card [data]="reasonItems" *ngIf="reasonItems.length > 1"></app-large-card>
   </div>
 </div>
