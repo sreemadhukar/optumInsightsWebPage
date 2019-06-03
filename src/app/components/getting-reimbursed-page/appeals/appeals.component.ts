@@ -14,13 +14,15 @@ export class AppealsComponent implements OnInit {
   currentTabTitle: String = '';
   timePeriod = 'Last 6 months';
   subscription: any;
+  overturnItem: any;
+  overturnReasonItem: any;
 
   constructor(
     private gettingReimbursedSharedService: GettingReimbursedSharedService,
     private checkStorage: StorageService
   ) {
     this.pageTitle = 'Claims Appeals';
-    this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.ngOnInit);
+    this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.ngOnInit());
   }
 
   ngOnInit() {
@@ -30,5 +32,8 @@ export class AppealsComponent implements OnInit {
       this.currentTabTitle = this.summaryItems[3].title;
       console.log('Appeals Data ', this.currentSummary);
     });
+
+    this.overturnItem = [{}];
+    this.overturnItem = this.gettingReimbursedSharedService.getAppealsOverturnedMockData();
   }
 }
