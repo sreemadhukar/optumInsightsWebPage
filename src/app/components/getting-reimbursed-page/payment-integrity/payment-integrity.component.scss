@@ -3,3 +3,87 @@
 .breadcrumb-top-padding {
   @include padding(20px, 0, 15px, 32px);
 }
+.content-wrapper {
+  background-color: $alice-blue;
+  overflow-x: hidden;
+  @include padding(30px, 30px, 30px, 30px);
+  .main-content {
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+
+    -webkit-flex-flow: row wrap;
+    justify-content: center;
+    flex-wrap: wrap;
+    .height1Separator {
+      height: 0;
+      width: 1200px;
+    }
+
+    .pi-medical-record-coding-review-block {
+      width: 961px;
+      border-radius: 2px;
+      background-color: $white;
+      box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
+      margin: 12px;
+      float: left;
+    }
+
+    .full-display {
+      float: left;
+      width: 100%;
+    }
+    .width-100 {
+      width: 100%;
+    }
+
+    & > .cards {
+      text-align: left;
+      // @include margin(0, 0, 0, 12px);
+    }
+
+    .cust-width-title {
+      width: 961px;
+      font-family: 'UHCSans-SemiBold', 'Arial';
+      color: $black-rock;
+      ol {
+        @include margin(0, 0, 16px, 0);
+      }
+      .page-title {
+        margin-top: 13.2px;
+        color: $black-rock;
+        font-family: 'UHCSans-Regular';
+        font-size: 36px;
+        font-weight: 600;
+        line-height: 40px;
+      }
+
+      .page-subtitle {
+        flex-basis: 100%;
+        font-size: 28px;
+        line-height: 50px;
+      }
+
+      .page-question {
+        flex-basis: 100%;
+        font-size: 22px;
+        line-height: 50px;
+      }
+      .time--period {
+        margin-bottom: 12px;
+        margin-top: 28px;
+        button {
+          span:first-child {
+            font-weight: 500;
+            font-family: 'UHCSans-Medium';
+          }
+        }
+      }
+    }
+  }
+  @media only screen and (min-width: 1024px) {
+    @include padding(30px, 16px, 30px, 16px);
+  }
+}

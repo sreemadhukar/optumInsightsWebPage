@@ -1,7 +1,28 @@
-<p class="breadcrumb-top-padding">
-  <app-breadcrumbs></app-breadcrumbs>
-</p>
+<div class="content-wrapper">
+  <div class="main-content">
+    <div class="cards cust-width-title">
+      <app-breadcrumbs></app-breadcrumbs>
+      <div class="page-title">
+        {{ pageTitle }}
+      </div>
+      <div class="time--period">
+        <button class="btn btn-rounded" disabled>
+          <span>Time Period: </span><span class="font-weight-semibold pl-4">Last 6 Months </span>
+        </button>
+      </div>
+    </div>
 
-<p>
-  payment-integrity works!
-</p>
+    <div class="height1Separator"></div>
+    <div class="pi-medical-record-coding-review-block card-inner">
+      <app-common-header
+        [title]="title"
+        class="full-display"
+        (helpIconClicked)="helpIconClick($event)"
+      ></app-common-header>
+      <app-donut-chart [chartOptions]="donutData" donutType="'app-card'"></app-donut-chart>
+      <div class="full-display">
+        <app-common-footer [timePeriod]="timePeriod" class="width-100"></app-common-footer>
+      </div>
+    </div>
+  </div>
+</div>
