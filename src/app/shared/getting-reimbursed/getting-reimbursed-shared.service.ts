@@ -89,7 +89,6 @@ export class GettingReimbursedSharedService {
         this.gettingReimbursedService.getGettingReimbursedData(...parameters).subscribe(([claimsData, appealsData]) => {
           const lobFullData = this.common.matchFullLobWithData(this.lob);
           const lobData = this.common.matchLobWithData(this.lob);
-          console.log(appealsData);
           if (claimsData != null && claimsData.hasOwnProperty('status')) {
             claimsSubmitted = {
               category: 'app-card',
@@ -285,7 +284,7 @@ export class GettingReimbursedSharedService {
                 timeperiod: this.timeFrame
               };
               // AUTHOR: MADHUKAR - claims paid shows no color if the value is 0
-              if (!paidData[0] && !paidData[1] && !paidData[2] ) {
+              if (!paidData[0] && !paidData[1] && !paidData[2]) {
                 claimsPaid = {
                   category: 'app-card',
                   type: 'donutWithLabel',
@@ -306,7 +305,7 @@ export class GettingReimbursedSharedService {
                   },
                   timeperiod: this.timeFrame
                 };
-      }  // Date : 31/5/2019
+              } // Date : 31/5/2019
             } else {
               claimsPaid = {
                 category: 'app-card',
