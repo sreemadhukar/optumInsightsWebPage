@@ -24,7 +24,7 @@ export class PaymentsComponent implements OnInit {
     private checkStorage: StorageService
   ) {
     this.pageTitle = 'Claims Payments';
-    this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.ngOnInit);
+    this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.ngOnInit());
   }
 
   ngOnInit() {

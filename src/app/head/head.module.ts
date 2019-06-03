@@ -11,8 +11,6 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { JwtInterceptor } from '../auth/_helpers/jwt.interceptor';
 import { ErrorInterceptor } from '../auth/_helpers/error.interceptor';
 import { CommonUtilsModule } from './../common-utils/common-utils.module';
-// import { OverviewSharedService } from './../shared/overview/overview-shared.service';
-// import { OverviewService } from './../rest/overview/overview.service';
 
 @NgModule({
   imports: [CommonModule, HeadRoutingModule, HeadMaterialModule, CommonUtilsModule],

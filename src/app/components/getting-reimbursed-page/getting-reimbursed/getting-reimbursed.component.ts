@@ -53,6 +53,7 @@ export class GettingReimbursedComponent implements OnInit {
         this.currentTabTitle = this.summaryItems[0].title;
         console.log(this.summaryItems);
 
+        this.tabOptions = [];
         for (let i = 0; i < 4; i++) {
           const temp = {
             id: i,

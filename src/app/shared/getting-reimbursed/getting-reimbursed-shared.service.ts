@@ -53,7 +53,7 @@ export class GettingReimbursedSharedService {
     this.tin = this.session.tin;
     this.lob = this.session.lob;
     this.timeFrame = this.session.timeFrame;
-    this.providerKey = this.session.providerkey;
+    this.providerKey = this.session.providerKey();
     const summaryData: Array<object> = [];
     return new Promise(resolve => {
       let parameters;
@@ -284,6 +284,29 @@ export class GettingReimbursedSharedService {
                 },
                 timeperiod: this.timeFrame
               };
+              // AUTHOR: MADHUKAR - claims paid shows no color if the value is 0
+              if (!paidData[0] && !paidData[1] && !paidData[2] ) {
+                claimsPaid = {
+                  category: 'app-card',
+                  type: 'donutWithLabel',
+                  title: 'Claims Paid',
+                  data: {
+                    graphValues: [100],
+                    centerNumber: '$' + this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].ClaimsPaid),
+                    color: ['#D7DCE1'],
+                    gdata: ['card-inner', 'claimsPaid'],
+                    sdata: {
+                      sign: 'down',
+                      data: '-2.8%'
+                    }
+                  },
+                  besideData: {
+                    labels: ['Medicare & Retirement', 'Community & State', 'Employer & Individual'],
+                    color: ['#3381FF', '#80B0FF', '#003DA1']
+                  },
+                  timeperiod: this.timeFrame
+                };
+      }  // Date : 31/5/2019
             } else {
               claimsPaid = {
                 category: 'app-card',
@@ -1019,7 +1042,7 @@ export class GettingReimbursedSharedService {
       this.lob = this.session.lob;
       // this.timeFrame = this.session.timeFrame;
       this.timeFrame = 'Last 6 Months'; // need to remove this, and uncomment above line
-      this.providerKey = this.session.providerkey;
+      this.providerKey = this.session.providerKey();
       const parameters = {
         providerkey: this.providerKey,
         timeperiod: '',
@@ -1063,7 +1086,7 @@ export class GettingReimbursedSharedService {
       this.lob = this.session.lob;
       // this.timeFrame = this.session.timeFrame;
       this.timeFrame = 'Last 6 Months'; // need to remove this, and uncomment above line
-      this.providerKey = this.session.providerkey;
+      this.providerKey = this.session.providerKey();
       this.gettingReimbursedService.getTins(this.providerKey).subscribe(tins => {
         const providerTins = tins;
         const parameters = {
@@ -1148,7 +1171,7 @@ export class GettingReimbursedSharedService {
       this.lob = this.session.lob;
       // this.timeFrame = 'Last 12 Months'; // this.timeFrame = this.session.timeFrame;
       this.timeFrame = 'Last 6 Months';
-      this.providerKey = this.session.providerkey;
+      this.providerKey = this.session.providerKey();
       this.gettingReimbursedService.getTins(this.providerKey).subscribe(tins => {
         const providerTins = tins;
         const parameters = {

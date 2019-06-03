@@ -9,7 +9,7 @@ import { StorageService } from '../../../shared/storage-service.service';
 export class PaymentIntegrityComponent implements OnInit {
   subscription: any;
   constructor(private checkStorage: StorageService) {
-    this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.ngOnInit);
+    this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.ngOnInit());
   }
 
   ngOnInit() {}

@@ -162,6 +162,7 @@ export class OverviewSharedService {
         try {
           if (
             providerSystems.hasOwnProperty('ResolvingIssues') &&
+            providerSystems.ResolvingIssues != null &&
             providerSystems.ResolvingIssues.Calls != null &&
             providerSystems.ResolvingIssues.hasOwnProperty('Calls') &&
             providerSystems.ResolvingIssues.Calls.hasOwnProperty('CallVolByQuesType') &&
@@ -438,6 +439,27 @@ export class OverviewSharedService {
             },
             timeperiod: 'Last 6 Months'
           };
+          // AUTHOR: MADHUKAR - claims paid shows no color if the value is 0
+          if (!mrPercentage && !eiPercentage && !csPercentage) {
+            claimsPaid = {
+              category: 'small-card',
+              type: 'donut',
+              title: 'Claims Paid',
+              toggle: this.toggle.setToggles('Claims Paid', 'AtGlance', 'Overview', false),
+              data: {
+                graphValues: [100],
+                centerNumber: '$' + this.common.nFormatter(claims.All.ClaimsLobSummary[0].ClaimsPaid),
+                color: ['#D7DCE1'],
+                gdata: ['card-inner', 'claimsPaidCardD3Donut']
+              },
+              sdata: {
+                sign: 'down',
+                data: '-2.8%'
+              },
+              timeperiod: 'Last 6 Months'
+            };
+          }
+          // Date: 31/5/2019
         } else {
           claimsPaid = {
             category: 'small-card',
