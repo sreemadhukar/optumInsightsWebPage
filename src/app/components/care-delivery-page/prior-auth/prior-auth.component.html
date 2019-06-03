@@ -23,10 +23,7 @@
       <app-card class="cards" [skeleton]="loading" *ngIf="loading"> </app-card>
     </div>
 
+    <app-large-card [skeletonLarge]="loading" *ngIf="loading"></app-large-card>
     <app-large-card [data]="reasonItems" *ngIf="reasonItems.length > 1"></app-large-card>
-
-    <div *ngIf="loading">
-      <app-large-card [skeleton]="loading"></app-large-card>
-    </div>
   </div>
 </div>
