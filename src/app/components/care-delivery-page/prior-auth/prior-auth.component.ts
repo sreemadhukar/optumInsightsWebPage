@@ -18,6 +18,7 @@ export class PriorAuthComponent implements OnInit {
   userName: String = '';
   subscription: any;
   loading: boolean;
+  hideAllObjects: boolean;
   title = 'Top Reasons for Prior Authorizations Not Approved';
   timePeriod = 'Last 6 Months';
   constructor(private checkStorage: StorageService, private priorAuthShared: PriorAuthSharedService) {
@@ -28,14 +29,20 @@ export class PriorAuthComponent implements OnInit {
   ngOnInit() {
     this.pageTitle = 'Prior Authorizations';
     this.loading = true;
+    this.hideAllObjects = true;
     this.reasonItems = [{}];
     this.summaryItems = [{}];
     this.mockCards = [{}, {}];
 
-    this.priorAuthShared.getPriorAuthData().then(data => {
-      this.loading = false;
-      this.summaryItems = data[0];
-      this.reasonItems = data[1];
-    });
+    this.priorAuthShared.getPriorAuthData().then(
+      data => {
+        this.loading = false;
+        this.summaryItems = data[0];
+        this.reasonItems = data[1];
+      },
+      error => {
+        this.hideAllObjects = false;
+      }
+    );
   }
 }
