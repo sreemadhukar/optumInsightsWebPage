@@ -283,6 +283,29 @@ export class GettingReimbursedSharedService {
                 },
                 timeperiod: this.timeFrame
               };
+              // AUTHOR: MADHUKAR - claims paid shows no color if the value is 0
+              if (!paidData[0] && !paidData[1] && !paidData[2] ) {
+                claimsPaid = {
+                  category: 'app-card',
+                  type: 'donutWithLabel',
+                  title: 'Claims Paid',
+                  data: {
+                    graphValues: [100],
+                    centerNumber: '$' + this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].ClaimsPaid),
+                    color: ['#D7DCE1'],
+                    gdata: ['card-inner', 'claimsPaid'],
+                    sdata: {
+                      sign: 'down',
+                      data: '-2.8%'
+                    }
+                  },
+                  besideData: {
+                    labels: ['Medicare & Retirement', 'Community & State', 'Employer & Individual'],
+                    color: ['#3381FF', '#80B0FF', '#003DA1']
+                  },
+                  timeperiod: this.timeFrame
+                };
+      }  // Date : 31/5/2019
             } else {
               claimsPaid = {
                 category: 'app-card',
