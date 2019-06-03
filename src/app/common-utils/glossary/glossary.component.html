@@ -40,8 +40,18 @@
         *ngIf="glossary.BusinessGlossary.ProviderDashboardName.Formula.trim().length != 0"
         class="glossary-definition"
       >
-        Metric Formula
+        <br />
+        <div class="glossary-formula">{{ glossary.BusinessGlossary.ProviderDashboardName.Metric }} Formula</div>
+        <br />
         {{ glossary.BusinessGlossary.ProviderDashboardName.Formula }}
+      </div>
+      <br />
+      <div class="glossary-definition" *ngIf="glossary.BusinessGlossary.ProviderDashboardName.DataSource && internal">
+        <div class="glossary-formula">
+          Data Source
+        </div>
+        <br />
+        {{ glossary.BusinessGlossary.ProviderDashboardName.DataSource }}
       </div>
       <br />
     </div>
@@ -55,10 +65,20 @@
       <div class="glossary-definition">
         No Data Available
       </div>
+      <br />
       <div class="glossary-definition">
-        Metric Formula - No Data Available
+        <div class="glossary-formula">{{ title }} Formula</div>
+        <br />
+        No Data Available
       </div>
       <br />
+      <div class="glossary-definition" *ngIf="internal">
+        <div class="glossary-formula">
+          Data Source
+        </div>
+        <br />
+        No Data Available
+      </div>
     </div>
   </div>
 </div>

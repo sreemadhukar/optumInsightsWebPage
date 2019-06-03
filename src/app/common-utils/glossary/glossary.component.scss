@@ -49,11 +49,18 @@
 .glossary-title {
   color: $black-rock;
   font-family: 'UHCSans-SemiBold', 'Arial';
-  font-size: 16px;
-  line-height: 22px;
+  font-size: 28px;
+  line-height: 32px;
   letter-spacing: 0.2px;
 }
 
+.glossary-formula {
+  color: $black-rock;
+  font-family: 'UHCSans-SemiBold', 'Arial';
+  font-size: 16px;
+  letter-spacing: 0.2px;
+  line-height: 22px;
+}
 .glossary-definition {
   color: $black-rock;
   font-family: 'UHCSans-Regular', 'Arial';
