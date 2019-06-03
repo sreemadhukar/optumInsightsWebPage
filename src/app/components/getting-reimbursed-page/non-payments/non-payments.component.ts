@@ -14,6 +14,7 @@ import { GettingReimbursedSharedService } from '../../../shared/getting-reimburs
 import { MatPaginator, MatTableDataSource, MatSort } from '@angular/material';
 import { GlossaryExpandService } from '../../../shared/glossary-expand.service';
 import { SessionService } from 'src/app/shared/session.service';
+import { StorageService } from '../../../shared/storage-service.service';
 
 @Component({
   selector: 'app-non-payments',
@@ -28,6 +29,7 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
   timePeriod = 'Last 6 Months';
   section: any = [];
   summaryItems: any;
+  subscription: any;
   pageTitle: String = '';
   currentSummary: Array<Object> = [{}];
   currentTabTitle: String = '';
@@ -187,6 +189,7 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
   ];
 
   constructor(
+    private checkStorage: StorageService,
     private iconRegistry: MatIconRegistry,
     private elementRef: ElementRef,
     private renderer: Renderer2,
@@ -215,6 +218,7 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-arrow_drop_down-24px.svg')
     );
     this.pageTitle = 'Claims Non-Payments';
+    this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.ngOnInit());
   }
 
   ngOnInit() {
@@ -238,6 +242,8 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
       }
     ];
 
+    this.monthlyLineGraph.chartData = [];
+    this.dataLoaded = false;
     this.gettingReimbursedSharedService.getclaimsNonPaymentTrendData().then(trendData => {
       this.monthlyLineGraph.chartData = trendData;
       // console.log('**********' , trendData);
@@ -246,6 +252,9 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
 
     this.monthlyLineGraph.generalData2 = [];
     this.monthlyLineGraph.chartData2 = [];
+    this.top5ReasonsDataArray = undefined;
+    this.displayedColumns = ['facilityName'];
+    this.top5Reasons = [{}];
     this.gettingReimbursedSharedService.getTopReasonsforClaimsNonPayments().then(topReasons => {
       this.top5ReasonsDataArray = topReasons;
       this.top5ReasonsDataArray.forEach(element => {
@@ -253,6 +262,8 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
         this.top5Reasons.push(element.Claimdenialcategorylevel1shortname);
       });
     });
+    this.facilityData = null;
+    this.totalRecords = null;
     this.gettingReimbursedSharedService
       .getClaimsNonPaymentsbyFacilityData(this.top5Reasons)
       .then(claimsNonpaymentsData => {
