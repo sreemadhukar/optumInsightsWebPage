@@ -1,5 +1,4 @@
 import { Component, OnInit, Input, Output, EventEmitter, ViewEncapsulation } from '@angular/core';
-import { GlossaryExpandService } from '../../shared/glossary-expand.service';
 import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
@@ -47,7 +46,7 @@ export class CommonHeaderComponent implements OnInit {
     } else if (title === 'Total Calls') {
       this.routhPath = '/IssueResolution/Calls';
     } else {
-      this.routhPath = '/GettingReimbursed';
+      this.routhPath = '/OverviewPage';
     }
     this.router.navigate([this.routhPath]);
   }
