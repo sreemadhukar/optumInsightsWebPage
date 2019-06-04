@@ -52,7 +52,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
   public glossaryTitle: string = null;
   clickHelpIcon: Subscription;
   public mobileQuery: boolean;
-  public PCORFlag: any;
+  public PCORFlag: boolean;
   /*** Array of Navigation Category List ***/
   public navCategories = [
     { icon: 'home', name: 'Overview', path: '/OverviewPage', disabled: false },
@@ -147,20 +147,22 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
       this.healthSystemName = JSON.parse(sessionStorage.getItem('currentUser'))[0]['HealthCareOrganizationName'];
     });
 
-    this.priorAuthShared.getPCORData().then(
-      data => {
-        this.PCORFlag = data;
-        if (this.PCORFlag) {
-          this.navCategories[2].children.push({
-            name: 'Patient Care Opportunity',
-            path: '/CareDelivery/PatientCareOpportunity'
-          });
-        }
-      },
-      error => {
-        console.log(error);
+    // For first load
+    /*
+    this.priorAuthShared.getPCORData().then(data => {
+      this.PCORFlag = data;
+      if (this.PCORFlag) {
+        this.navCategories[2].children.push({
+          name: 'Patient Care Opportunity',
+          path: '/CareDelivery/PatientCareOpportunity'
+        });
       }
-    );
+    });
+    */
+
+    this.priorAuthShared.getPriorAuthNotApprovedReasons().then(data => {
+      console.log(data);
+    });
 
     this.checkStorage.getNavChangeEmitter().subscribe(() => {
       this.priorAuthShared.getPCORData().then(data => {
@@ -174,9 +176,6 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
             });
             this.PCORFlag = data;
           } else {
-            if (this.router.url === '/CareDelivery/PatientCareOpportunity') {
-              this.router.navigateByUrl('/OverviewPage');
-            }
             this.navCategories[2].children.splice(
               this.navCategories[2].children.indexOf({
                 name: 'Patient Care Opportunity',
@@ -187,6 +186,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
             this.PCORFlag = data;
           }
         }
+        console.log(this.navCategories[2].children);
       });
     });
 
