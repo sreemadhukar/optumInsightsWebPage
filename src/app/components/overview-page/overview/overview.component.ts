@@ -47,7 +47,6 @@ export class OverviewComponent implements OnInit, AfterContentInit {
     this.loading = true;
     this.mockMainCards = [{}, {}, {}, {}, {}, {}];
     this.mockSelfServiceMiniCards = [{}, {}, {}, {}];
-    /*
     this.overviewsrc
       .getOverviewData()
       .then(data => {
@@ -65,7 +64,7 @@ export class OverviewComponent implements OnInit, AfterContentInit {
         this.loading = true;
         console.log(reason);
       });
-      */
+
     const userInfo = JSON.parse(sessionStorage.getItem('loggedUser'));
     this.userName =
       this.session.sessionStorage('loggedUser', 'LastName') +

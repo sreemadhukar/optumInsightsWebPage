@@ -33,6 +33,9 @@
       </div>
     </div>
     <div class="height1Separator"></div>
+    <div *ngFor="let data of mockSelfServiceMiniCards; let i = index">
+      <app-mini-tile class="cards" [skeleton]="loading" *ngIf="loading"> </app-mini-tile>
+    </div>
     <div *ngFor="let item of selfServiceMiniCards; let i = index">
       <app-mini-tile *ngIf="item.data != null && item.toggle" class="cards" [data]="item"> </app-mini-tile>
       <app-error-card *ngIf="item.status != null && item.toggle" [data]="item"></app-error-card>
