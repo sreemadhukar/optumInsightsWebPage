@@ -56,7 +56,7 @@ export class PriorAuthSharedService {
           resolve(PCORChecker);
         },
         err => {
-          console.log('Prior Auth Counts Error', err);
+          console.log('PCOR Error', err);
         }
       );
     });
