@@ -147,16 +147,20 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
       this.healthSystemName = JSON.parse(sessionStorage.getItem('currentUser'))[0]['HealthCareOrganizationName'];
     });
 
-    // For first load
-    this.priorAuthShared.getPCORData().then(data => {
-      this.PCORFlag = data;
-      if (this.PCORFlag) {
-        this.navCategories[2].children.push({
-          name: 'Patient Care Opportunity',
-          path: '/CareDelivery/PatientCareOpportunity'
-        });
+    this.priorAuthShared.getPCORData().then(
+      data => {
+        this.PCORFlag = data;
+        if (this.PCORFlag) {
+          this.navCategories[2].children.push({
+            name: 'Patient Care Opportunity',
+            path: '/CareDelivery/PatientCareOpportunity'
+          });
+        }
+      },
+      error => {
+        console.log(error);
       }
-    });
+    );
 
     this.checkStorage.getNavChangeEmitter().subscribe(() => {
       this.priorAuthShared.getPCORData().then(data => {
