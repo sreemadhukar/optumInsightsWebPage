@@ -12,6 +12,9 @@
       <app-small-card *ngIf="item.data != null && item.toggle" class="cards" [data]="item"> </app-small-card>
       <app-error-card *ngIf="item.status != null && item.toggle" class="cards" [data]="item"></app-error-card>
     </div>
+    <div *ngFor="let data of mockMainCards; let i = index">
+      <app-small-card class="cards" [skeleton]="loading" *ngIf="loading"> </app-small-card>
+    </div>
   </div>
 
   <div class="overview-content">
@@ -37,4 +40,4 @@
   </div>
 </div>
 
-<app-uhc-loader *ngIf="loading"></app-uhc-loader>
+<!-- <app-uhc-loader *ngIf="loading"></app-uhc-loader> -->
