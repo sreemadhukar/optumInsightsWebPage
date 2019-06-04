@@ -1,7 +1,6 @@
 @import '~src/scss/variables.scss';
 .small-card-structure {
   position: relative;
-
   .card-inner {
     background-color: #ffffff;
     width: 304px;
@@ -94,5 +93,10 @@
   }
   .small-star-chart {
     margin-left: 92px;
+  }
+  @media screen and (max-width: 1289px) {
+    .card-inner {
+      width: 287px;
+    }
   }
 }

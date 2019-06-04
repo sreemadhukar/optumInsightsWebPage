@@ -127,7 +127,8 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
         .attr('y', height / heightDivider)
         .style('font-size', '22px')
         .style('fill', '#2d2d39')
-        .style('font-family', 'UHCSans-SemiBold');
+        .style('font-family', 'UHCSans-Medium')
+        .style('font-weight', '500');
     }
 
     if (chartOptions.hasOwnProperty('sdata') && chartOptions.sdata != null) {
