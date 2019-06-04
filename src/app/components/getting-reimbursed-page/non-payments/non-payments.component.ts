@@ -218,6 +218,10 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
       'desc-sort',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-arrow_drop_down-24px.svg')
     );
+    iconRegistry.addSvgIcon(
+      'filter',
+      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-filter_list-24px.svg')
+    );
     this.pageTitle = 'Claims Non-Payments';
   }
 
