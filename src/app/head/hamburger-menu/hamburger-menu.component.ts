@@ -160,10 +160,6 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
     });
     */
 
-    this.priorAuthShared.getPriorAuthNotApprovedReasons().then(data => {
-      console.log(data);
-    });
-
     this.checkStorage.getNavChangeEmitter().subscribe(() => {
       this.priorAuthShared.getPCORData().then(data => {
         if (this.PCORFlag === data) {
