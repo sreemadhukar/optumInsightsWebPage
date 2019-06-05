@@ -18,6 +18,8 @@ export class PaymentsComponent implements OnInit {
   userName: String = '';
   showClaimsPaid: Boolean = false;
   subscription: any;
+  loading: boolean;
+  mockCards: any;
   constructor(
     private gettingReimbursedSharedService: GettingReimbursedSharedService,
     private glossaryExpandService: GlossaryExpandService,
@@ -28,14 +30,20 @@ export class PaymentsComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.loading = true;
+    this.mockCards = [{}, {}];
     this.gettingReimbursedSharedService
       .getGettingReimbursedData()
       .then(completeData => {
+        this.loading = false;
         this.paymentsItems = JSON.parse(JSON.stringify(completeData));
         this.payments = this.paymentsItems[1].data;
         console.log(this.payments);
       })
-      .catch(reason => console.log(reason.message));
+      .catch(reason => {
+        console.log(reason.message);
+        this.loading = false;
+      });
 
     this.claimsPaidItems = [
       {
