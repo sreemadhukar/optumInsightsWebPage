@@ -19,6 +19,8 @@ export class GettingReimbursedComponent implements OnInit {
   selectedItemId: any = 0;
   tabOptionsTitle: Array<String> = [];
   subscription: any;
+  loading: boolean;
+  mockCards: any;
 
   constructor(
     private gettingReimbursedSharedService: GettingReimbursedSharedService,
@@ -44,10 +46,12 @@ export class GettingReimbursedComponent implements OnInit {
     //    event.target.classList.add('active');
   }
   ngOnInit() {
+    this.loading = true;
     this.selectedItemId = 0;
     this.gettingReimbursedSharedService
       .getGettingReimbursedData()
       .then(completeData => {
+        this.loading = false;
         this.summaryItems = JSON.parse(JSON.stringify(completeData));
         this.currentSummary = this.summaryItems[0].data;
         this.currentTabTitle = this.summaryItems[0].title;
@@ -67,6 +71,9 @@ export class GettingReimbursedComponent implements OnInit {
           this.tabOptions.push(temp);
         }
       })
-      .catch(reason => console.log(reason.message));
+      .catch(reason => {
+        this.loading = false;
+        console.log(reason.message);
+      });
   }
 }

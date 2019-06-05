@@ -18,7 +18,7 @@
   height: 50px;
 }
 .warning-text {
-  font-family: 'UHCSans-Regular';
+  font-family: 'UHCSans-Medium', 'sans-serif', 'Arial';
   font-size: 14px;
   color: $black-rock;
   letter-spacing: 0.2px;
@@ -31,7 +31,5 @@
   height: 20px;
 }
 .warning-note {
-  font-weight: 600;
-  font-family: 'UHCSans-Regular';
   font-family: 'UHCSans-SemiBold', 'Arial';
 }
