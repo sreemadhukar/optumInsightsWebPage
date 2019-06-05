@@ -142,29 +142,19 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
     );
   }
   ngOnInit() {
+    this.PCORFlag = false;
     this.isDarkTheme = this.themeService.isDarkTheme;
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => {
       this.healthSystemName = JSON.parse(sessionStorage.getItem('currentUser'))[0]['HealthCareOrganizationName'];
     });
 
-    // For first load
-    /*
-    this.priorAuthShared.getPCORData().then(data => {
-      this.PCORFlag = data;
-      if (this.PCORFlag) {
-        this.navCategories[2].children.push({
-          name: 'Patient Care Opportunity',
-          path: '/CareDelivery/PatientCareOpportunity'
-        });
-      }
-    });
-    */
-
     this.checkStorage.getNavChangeEmitter().subscribe(() => {
       this.priorAuthShared.getPCORData().then(data => {
         if (this.PCORFlag === data) {
           // Do nothing
+          // Same State
         } else {
+          // Flag changed
           if (data) {
             this.navCategories[2].children.push({
               name: 'Patient Care Opportunity',
@@ -179,10 +169,10 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
               }),
               1
             );
+            this.router.navigateByUrl('/OverviewPage');
             this.PCORFlag = data;
           }
         }
-        console.log(this.navCategories[2].children);
       });
     });
 
