@@ -50,7 +50,7 @@
 }
 .bar-graph-title {
   color: $black-rock;
-  font-family: 'UHCSans-Regular';
+  font-family: 'UHCSans-Medium', 'sans-serif', 'Arial';
   font-size: 16px;
   font-weight: 500;
   letter-spacing: 0.2px;
@@ -60,7 +60,7 @@
 }
 .bar-graph-value {
   color: $black-rock;
-  font-family: 'UHCSans-Regular';
+  font-family: 'UHCSans-Medium', 'sans-serif', 'Arial';
   font-size: 20px;
   font-weight: 600;
   line-height: 22px;
@@ -168,7 +168,7 @@
 
 .inner-blocks-header {
   color: $black-rock;
-  font-family: 'UHCSans-Regular';
+  font-family: 'UHCSans-Medium', 'sans-serif', 'Arial';
   font-size: 16px;
   font-weight: 600;
   letter-spacing: 0.2px;
@@ -312,7 +312,7 @@
     right: 114px;
     padding-top: 15.5px;
     color: $black-rock;
-    font-family: 'UHCSans-Regular';
+    font-family: 'UHCSans-Medium', 'sans-serif', 'Arial';
     font-size: 14px;
     font-weight: 500;
     letter-spacing: 0.2px;
@@ -354,7 +354,7 @@
     .mat-table-header-cell {
       padding-left: 16.5px !important;
       color: $black-rock;
-      font-family: 'UHCSans-Regular';
+      font-family: 'UHCSans-Medium', 'sans-serif', 'Arial';
       font-size: 14px;
       font-weight: 500;
       letter-spacing: 0.2px;
@@ -364,11 +364,11 @@
     }
     .table-facility-tin {
       font-weight: 500;
-      font-family: 'UHCSans-Regular';
+      font-family: 'UHCSans-Medium', 'sans-serif', 'Arial';
     }
     .table-facility-healthsystem {
       font-weight: 600;
-      font-family: 'UHCSans-Regular';
+      font-family: 'UHCSans-Medium', 'sans-serif', 'Arial';
     }
     mat-row,
     mat-header-row,
