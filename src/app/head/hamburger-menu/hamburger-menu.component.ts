@@ -30,6 +30,7 @@ import { StorageService } from '../../shared/storage-service.service';
 import { GlossaryExpandService } from '../../shared/glossary-expand.service';
 import { Subscription } from 'rxjs';
 import { PriorAuthSharedService } from 'src/app/shared/prior-authorization/prior-auth.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-hamburger-menu',
@@ -52,7 +53,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
   public glossaryTitle: string = null;
   clickHelpIcon: Subscription;
   public mobileQuery: boolean;
-  public PCORFlag: boolean;
+  public PCORFlag: any;
   /*** Array of Navigation Category List ***/
   public navCategories = [
     { icon: 'home', name: 'Overview', path: '/OverviewPage', disabled: false },
@@ -70,10 +71,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
     {
       icon: 'care-delivery',
       name: 'Care Delivery',
-      children: [
-        { name: 'Prior Authorizations', path: '/CareDelivery/priorAuth' }
-        // { name: 'Patient Care Opportunity', path: '/OverviewPage' }
-      ]
+      children: [{ name: 'Prior Authorizations', path: '/CareDelivery/priorAuth' }]
     },
     {
       icon: 'issue-resolution',
@@ -100,7 +98,8 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
     private dialog: MatDialog,
     private checkStorage: StorageService,
     private glossaryExpandService: GlossaryExpandService,
-    private priorAuthShared: PriorAuthSharedService
+    private priorAuthShared: PriorAuthSharedService,
+    private location: Location
   ) {
     this.glossaryFlag = false;
     // to disable the header/footer/body when not authenticated
@@ -151,8 +150,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
     this.checkStorage.getNavChangeEmitter().subscribe(() => {
       this.priorAuthShared.getPCORData().then(data => {
         if (this.PCORFlag === data) {
-          // Do nothing
-          // Same State
+          // Do nothing because its the same state
         } else {
           // Flag changed
           if (data) {
@@ -169,7 +167,9 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
               }),
               1
             );
-            this.router.navigateByUrl('/OverviewPage');
+            if (this.location.path() === '/CareDelivery/PatientCareOpportunity') {
+              this.router.navigateByUrl('/OverviewPage');
+            }
             this.PCORFlag = data;
           }
         }
