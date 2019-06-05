@@ -8,6 +8,7 @@ import { GlossaryExpandService } from '../../shared/glossary-expand.service';
 })
 export class CardComponent implements OnInit {
   @Input() chartData;
+  @Input() skeleton;
   heightDonut: Number = 234;
   widthDonut: Number = 234;
   heightRotatingArrow: Number = 212;

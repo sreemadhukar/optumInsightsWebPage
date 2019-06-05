@@ -10,7 +10,7 @@ import { Subscription } from 'rxjs';
 })
 export class SmallCardComponent implements OnInit {
   @Input() data;
-
+  @Input() skeleton;
   subscription: Subscription;
   /*
   _card: Object = {};
