@@ -377,7 +377,7 @@ export class LineGraphComponent implements OnInit {
     chart
       .append('text')
       .attr('id', 'forlolCalculations')
-      .attr('font-family', 'UHCSans-Regular')
+      .attr('font-family', 'UHCSans-Medium')
       .attr('font-size', '14px')
       .text(chartData[0].name)
       .style('fill', '#2D2D39')
