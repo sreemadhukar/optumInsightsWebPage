@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { GettingReimbursedSharedService } from '../../../shared/getting-reimbursed/getting-reimbursed-shared.service';
 import { GlossaryExpandService } from '../../../shared/glossary-expand.service';
+import { StorageService } from '../../../shared/storage-service.service';
 
 @Component({
   selector: 'app-payments',
@@ -16,11 +17,14 @@ export class PaymentsComponent implements OnInit {
   pageTitle: String = '';
   userName: String = '';
   showClaimsPaid: Boolean = false;
+  subscription: any;
   constructor(
     private gettingReimbursedSharedService: GettingReimbursedSharedService,
-    private glossaryExpandService: GlossaryExpandService
+    private glossaryExpandService: GlossaryExpandService,
+    private checkStorage: StorageService
   ) {
     this.pageTitle = 'Claims Payments';
+    this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.ngOnInit());
   }
 
   ngOnInit() {

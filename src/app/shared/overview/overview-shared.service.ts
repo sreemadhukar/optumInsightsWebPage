@@ -73,7 +73,7 @@ export class OverviewSharedService {
               sign: 'up',
               data: '+1%'
             },
-            timeperiod: ''
+            timeperiod: 'Last 6 Months'
           };
         } else {
           cPriorAuth = {
@@ -110,7 +110,7 @@ export class OverviewSharedService {
               sign: 'down',
               data: '-1.3%'
             },
-            timeperiod: ''
+            timeperiod: 'Last 6 Months'
           };
         } else {
           cSelfService = {
@@ -147,7 +147,7 @@ export class OverviewSharedService {
               gdata: ['card-inner', 'pcorCardD3Star']
             },
             sdata: null,
-            timeperiod: ''
+            timeperiod: 'Last 6 Months'
           };
         } else {
           cPcor = {
@@ -159,39 +159,53 @@ export class OverviewSharedService {
             timeperiod: null
           };
         }
-        if (
-          providerSystems.hasOwnProperty('ResolvingIssues') &&
-          providerSystems.ResolvingIssues.hasOwnProperty('Calls') &&
-          providerSystems.ResolvingIssues.Calls.hasOwnProperty('CallVolByQuesType') &&
-          providerSystems.ResolvingIssues.Calls.CallVolByQuesType.hasOwnProperty('Total') &&
-          providerSystems.ResolvingIssues.Calls.CallVolByQuesType.hasOwnProperty('Claims') &&
-          providerSystems.ResolvingIssues.Calls.CallVolByQuesType.hasOwnProperty('BenefitsEligibility') &&
-          providerSystems.ResolvingIssues.Calls.CallVolByQuesType.hasOwnProperty('PriorAuth') &&
-          providerSystems.ResolvingIssues.Calls.CallVolByQuesType.hasOwnProperty('Others')
-        ) {
-          cIR = {
-            category: 'small-card',
-            type: 'donut',
-            title: 'Total Calls',
-            toggle: this.toggle.setToggles('Total Calls', 'AtGlance', 'Overview', false),
-            data: {
-              graphValues: [
-                providerSystems.ResolvingIssues.Calls.CallVolByQuesType.Claims,
-                providerSystems.ResolvingIssues.Calls.CallVolByQuesType.BenefitsEligibility,
-                providerSystems.ResolvingIssues.Calls.CallVolByQuesType.PriorAuth,
-                providerSystems.ResolvingIssues.Calls.CallVolByQuesType.Others
-              ],
-              centerNumber: this.common.nFormatter(providerSystems.ResolvingIssues.Calls.CallVolByQuesType.Total),
-              color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'],
-              gdata: ['card-inner', 'callsCardD3Donut']
-            },
-            sdata: {
-              sign: 'up',
-              data: '+2.3%'
-            },
-            timeperiod: 'Last 6 Months'
-          };
-        } else {
+        try {
+          if (
+            providerSystems.hasOwnProperty('ResolvingIssues') &&
+            providerSystems.ResolvingIssues != null &&
+            providerSystems.ResolvingIssues.Calls != null &&
+            providerSystems.ResolvingIssues.hasOwnProperty('Calls') &&
+            providerSystems.ResolvingIssues.Calls.hasOwnProperty('CallVolByQuesType') &&
+            providerSystems.ResolvingIssues.Calls.CallVolByQuesType.hasOwnProperty('Total') &&
+            providerSystems.ResolvingIssues.Calls.CallVolByQuesType.hasOwnProperty('Claims') &&
+            providerSystems.ResolvingIssues.Calls.CallVolByQuesType.hasOwnProperty('BenefitsEligibility') &&
+            providerSystems.ResolvingIssues.Calls.CallVolByQuesType.hasOwnProperty('PriorAuth') &&
+            providerSystems.ResolvingIssues.Calls.CallVolByQuesType.hasOwnProperty('Others')
+          ) {
+            cIR = {
+              category: 'small-card',
+              type: 'donut',
+              title: 'Total Calls',
+              toggle: this.toggle.setToggles('Total Calls', 'AtGlance', 'Overview', false),
+              data: {
+                graphValues: [
+                  providerSystems.ResolvingIssues.Calls.CallVolByQuesType.Claims,
+                  providerSystems.ResolvingIssues.Calls.CallVolByQuesType.BenefitsEligibility,
+                  providerSystems.ResolvingIssues.Calls.CallVolByQuesType.PriorAuth,
+                  providerSystems.ResolvingIssues.Calls.CallVolByQuesType.Others
+                ],
+                centerNumber: this.common.nFormatter(providerSystems.ResolvingIssues.Calls.CallVolByQuesType.Total),
+                color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'],
+                gdata: ['card-inner', 'callsCardD3Donut']
+              },
+              sdata: {
+                sign: 'up',
+                data: '+2.3%'
+              },
+              timeperiod: 'Last 6 Months'
+            };
+          } else {
+            cIR = {
+              category: 'small-card',
+              type: 'donut',
+              title: null,
+              data: null,
+              sdata: null,
+              timeperiod: null
+            };
+          }
+        } catch (Error) {
+          console.log('Overview Page Total Calls Error ', Error);
           cIR = {
             category: 'small-card',
             type: 'donut',
@@ -200,7 +214,7 @@ export class OverviewSharedService {
             sdata: null,
             timeperiod: null
           };
-        }
+        } // ent try catch for Total Calls
         if (
           providerSystems.hasOwnProperty('SelfServiceInquiries') &&
           providerSystems.SelfServiceInquiries.hasOwnProperty('ALL') &&
@@ -425,6 +439,27 @@ export class OverviewSharedService {
             },
             timeperiod: 'Last 6 Months'
           };
+          // AUTHOR: MADHUKAR - claims paid shows no color if the value is 0
+          if (!mrPercentage && !eiPercentage && !csPercentage) {
+            claimsPaid = {
+              category: 'small-card',
+              type: 'donut',
+              title: 'Claims Paid',
+              toggle: this.toggle.setToggles('Claims Paid', 'AtGlance', 'Overview', false),
+              data: {
+                graphValues: [100],
+                centerNumber: '$' + this.common.nFormatter(claims.All.ClaimsLobSummary[0].ClaimsPaid),
+                color: ['#D7DCE1'],
+                gdata: ['card-inner', 'claimsPaidCardD3Donut']
+              },
+              sdata: {
+                sign: 'down',
+                data: '-2.8%'
+              },
+              timeperiod: 'Last 6 Months'
+            };
+          }
+          // Date: 31/5/2019
         } else {
           claimsPaid = {
             category: 'small-card',

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { GettingReimbursedSharedService } from '../../../shared/getting-reimbursed/getting-reimbursed-shared.service';
+import { StorageService } from '../../../shared/storage-service.service';
 
 @Component({
   selector: 'app-appeals',
@@ -12,9 +13,16 @@ export class AppealsComponent implements OnInit {
   currentSummary: Array<Object> = [{}];
   currentTabTitle: String = '';
   timePeriod = 'Last 6 months';
+  subscription: any;
+  overturnItem: any;
+  overturnReasonItem: any;
 
-  constructor(private gettingReimbursedSharedService: GettingReimbursedSharedService) {
+  constructor(
+    private gettingReimbursedSharedService: GettingReimbursedSharedService,
+    private checkStorage: StorageService
+  ) {
     this.pageTitle = 'Claims Appeals';
+    this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.ngOnInit());
   }
 
   ngOnInit() {
@@ -24,5 +32,8 @@ export class AppealsComponent implements OnInit {
       this.currentTabTitle = this.summaryItems[3].title;
       console.log('Appeals Data ', this.currentSummary);
     });
+
+    this.overturnItem = [{}];
+    this.overturnItem = this.gettingReimbursedSharedService.getAppealsOverturnedMockData();
   }
 }

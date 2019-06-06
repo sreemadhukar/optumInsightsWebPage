@@ -1,5 +1,72 @@
 @import '~src/scss/variables.scss';
 @import '~src/scss/mixins';
-.breadcrumb-top-padding {
-  @include padding(20px, 0, 15px, 32px);
+.content-wrapper {
+  background-color: $alice-blue;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  @include padding(30px, 30px, 30px, 30px);
+  .main-content {
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+
+    -webkit-flex-flow: row wrap;
+    justify-content: center;
+    flex-wrap: wrap;
+    .height1Separator {
+      height: 0;
+      width: 1200px;
+    }
+    .cust-width-blank {
+      width: 502px;
+    }
+
+    & > .cards {
+      text-align: left;
+      @include margin(0, 0, 0, 12px);
+    }
+
+    .cust-width-title {
+      width: 450px;
+      font-family: 'UHCSans-SemiBold', 'Arial';
+      color: $black-rock;
+      ol {
+        @include margin(0, 0, 16px, 0);
+      }
+      .page-title {
+        flex-basis: 100%;
+        font-size: 36px;
+        line-height: 75px;
+        color: $black-rock;
+      }
+
+      .page-subtitle {
+        flex-basis: 100%;
+        font-size: 28px;
+        line-height: 50px;
+      }
+
+      .page-question {
+        flex-basis: 100%;
+        font-size: 22px;
+        line-height: 50px;
+      }
+      .time--period {
+        margin-bottom: 12px;
+        button {
+          span:first-child {
+            font-weight: 500;
+            font-family: 'UHCSans-Medium';
+          }
+        }
+      }
+    }
+  }
+  @media only screen and (min-width: 1024px) {
+    @include padding(30px, 16px, 30px, 16px);
+  }
 }

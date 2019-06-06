@@ -5,6 +5,7 @@ import { map, startWith } from 'rxjs/operators';
 import { GlossaryService } from './../../rest/glossary/glossary.service';
 import { catchError } from 'rxjs/operators';
 import { MatInput } from '@angular/material';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-glossary',
@@ -23,6 +24,7 @@ export class GlossaryComponent implements OnInit {
   public optionLength = 0;
   public optionND = false;
   public toHighlight = '';
+  public internal = environment.internalAccess;
   @Input() title;
   constructor(private glossaryService: GlossaryService) {}
   ngOnInit() {

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { GlossaryExpandService } from 'src/app/shared/glossary-expand.service';
+import { StorageService } from '../../../shared/storage-service.service';
 
 @Component({
   selector: 'app-payment-integrity',
@@ -11,16 +12,24 @@ export class PaymentIntegrityComponent implements OnInit {
   currentTabTitle: String = '';
   timePeriod = 'Last 6 months';
   title = 'Payment Integrity: Medical Record Coding Reveiw';
-
-  donutData = {
-    centerNumber: 6795,
-    color: ['#3381FF', '#80B0FF', '#003DA1'],
-    gdata: ['card-inner', 'piCard'],
-    graphValues: [6334, 255, 206],
-    sdata: { sign: 'up', data: '+4%' }
+  subscription: any;
+  piDonutData = {
+    timeperiod: 'Last 6 Months',
+    donutData: {
+      centerNumber: '1.1K',
+      color: ['#3381FF', '#D7DCE1'],
+      gdata: ['card-inner', 'piCard'],
+      graphValues: [100, 1000],
+      sdata: { sign: 'down', data: '-1.2%' }
+    },
+    besideData: {
+      color: ['#3381FF', '#D7DCE1'],
+      labels: ['Pre-Payment Records Requested', 'Claims Submitted']
+    }
   };
-  constructor(private glossaryExpandService: GlossaryExpandService) {
+  constructor(private glossaryExpandService: GlossaryExpandService, private checkStorage: StorageService) {
     this.pageTitle = 'Claims Payment Integrity';
+    this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.ngOnInit());
   }
 
   ngOnInit() {}
