@@ -11,6 +11,7 @@ import { PriorAuthSharedService } from '../../../shared/prior-authorization/prio
 })
 export class PatientCareOpportunityComponent implements OnInit {
   subscription: any;
+  pageTitle: String = '';
   constructor(
     private priorAuthService: PriorAuthService,
     private sessionService: SessionService,
@@ -20,5 +21,7 @@ export class PatientCareOpportunityComponent implements OnInit {
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.ngOnInit());
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.pageTitle = 'Patient Care Opportunity–Medicare & Retirement';
+  }
 }

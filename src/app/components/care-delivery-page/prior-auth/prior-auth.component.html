@@ -19,6 +19,11 @@
       <app-card *ngIf="item.data != null" class="cards" [chartData]="item"> </app-card>
     </div>
 
+    <div *ngFor="let data of mockCards; let i = index">
+      <app-card class="cards" [skeleton]="loading" *ngIf="loading"> </app-card>
+    </div>
+
+    <app-large-card [skeletonLarge]="loading" *ngIf="loading"></app-large-card>
     <app-large-card [data]="reasonItems" *ngIf="reasonItems.length > 1"></app-large-card>
   </div>
 </div>

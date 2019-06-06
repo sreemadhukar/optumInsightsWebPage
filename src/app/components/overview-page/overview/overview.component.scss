@@ -14,14 +14,14 @@
     .overview-content {
       display: flex;
       flex-wrap: wrap;
-      justify-content: center;
+      justify-content: left;
       margin-top: 25px;
       //      flex-direction: column;
       //      min-height: 100vh;
       padding-left: 40px;
       .self-service-heading {
         display: flex;
-        width: 90%;
+        // width: 83%;
       }
       .height1Separator {
         height: 0;
@@ -42,6 +42,13 @@
         .page-title {
           flex-basis: 100%;
           font-size: 36px;
+          line-height: 1;
+          margin-bottom: 16px;
+          color: $black-rock;
+        }
+        .title-opportunity {
+          flex-basis: 100%;
+          font-size: 28px;
           line-height: 1;
           margin-bottom: 16px;
           color: $black-rock;
@@ -78,7 +85,8 @@
         }
       }
       .cust-width-blank {
-        width: 502px;
+        width: 487px;
+        margin-left: 20px;
       }
     }
   }

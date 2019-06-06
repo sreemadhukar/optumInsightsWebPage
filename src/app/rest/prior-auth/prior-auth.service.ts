@@ -26,12 +26,6 @@ export class PriorAuthService {
       Accept: '*/*'
     });
 
-    let paparams = new HttpParams();
-    if (parameters[1]) {
-      paparams = paparams.append('rolling12', parameters[1]);
-      paparams = paparams.append('allProviderTins', parameters[2]);
-    }
-
     let eparams = new HttpParams();
     eparams = eparams.append('filter', 'executive');
 
@@ -42,20 +36,6 @@ export class PriorAuthService {
       map(res => JSON.parse(JSON.stringify(res))),
       catchError(err => of(JSON.parse(JSON.stringify(err))))
     );
-    /*
-    return combineLatest(
-      this.http.get(executiveURL, { params: eparams, headers: myHeader }).pipe(
-        retry(2),
-        map(res => JSON.parse(JSON.stringify(res))),
-        catchError(err => of(JSON.parse(JSON.stringify(err))))
-      ),
-      this.http.post(priorAuthURL, paparams, { headers: myHeader }).pipe(
-        retry(2),
-        map(res => JSON.parse(JSON.stringify(res[0]))),
-        catchError(err => of(JSON.parse(JSON.stringify(err))))
-      )
-    );
-    */
   }
 
   public getPriorAuthDateRange(timeRange: string, allTin: boolean, allLOB: boolean, isAllSS: boolean, ...parameters) {

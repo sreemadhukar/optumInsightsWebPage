@@ -14,7 +14,10 @@ export class AppealsComponent implements OnInit {
   currentTabTitle: String = '';
   timePeriod = 'Last 6 months';
   subscription: any;
-
+  overturnItem: any;
+  overturnReasonItem: any;
+  loading: boolean;
+  mockCards: any;
   constructor(
     private gettingReimbursedSharedService: GettingReimbursedSharedService,
     private checkStorage: StorageService
@@ -24,11 +27,16 @@ export class AppealsComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.loading = true;
+    this.mockCards = [{}, {}];
     this.gettingReimbursedSharedService.getGettingReimbursedData().then(completeData => {
+      this.loading = false;
       this.summaryItems = JSON.parse(JSON.stringify(completeData));
       this.currentSummary = this.summaryItems[3].data;
       this.currentTabTitle = this.summaryItems[3].title;
-      console.log('Appeals Data ', this.currentSummary);
     });
+
+    this.overturnItem = [{}];
+    // this.overturnItem = this.gettingReimbursedSharedService.getAppealsOverturnedMockData();
   }
 }
