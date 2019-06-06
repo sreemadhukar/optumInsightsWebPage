@@ -34,17 +34,12 @@
 
   &:hover,
   &:focus {
-    position: relative;
-    height: 40px;
-    width: 40px;
-    top: -8px;
     border-radius: 2px;
     background-color: #d7dce1;
   }
   .onHoverIcon {
     &:hover,
     &:focus {
-      padding: 20px;
     }
   }
 }
