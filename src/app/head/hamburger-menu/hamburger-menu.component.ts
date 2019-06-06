@@ -169,6 +169,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
             );
             if (this.location.path() === '/CareDelivery/PatientCareOpportunity') {
               this.router.navigateByUrl('/OverviewPage');
+              this.collapseExpansionPanels(2);
             }
             this.PCORFlag = data;
           }
