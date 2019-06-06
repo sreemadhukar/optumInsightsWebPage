@@ -521,11 +521,16 @@ export class GettingReimbursedSharedService {
             if (
               appealsData.hasOwnProperty('LineOfBusiness') &&
               appealsData.LineOfBusiness.hasOwnProperty(lobFullData) &&
-              appealsData.LineOfBusiness[lobFullData].hasOwnProperty('OverTurnCount')
+              appealsData.LineOfBusiness[lobFullData].hasOwnProperty('OverTurnCount') &&
+              appealsData.LineOfBusiness[lobFullData].hasOwnProperty('AdminAppeals') &&
+              appealsData.LineOfBusiness[lobFullData].hasOwnProperty('ClinicalAppeals')
             ) {
+              const submitted =
+                appealsData.LineOfBusiness[lobFullData].AdminAppeals +
+                appealsData.LineOfBusiness[lobFullData].ClinicalAppeals;
               const overturnedData = [
                 appealsData.LineOfBusiness[lobFullData].OverTurnCount,
-                100 - appealsData.LineOfBusiness[lobFullData].OverTurnCount
+                submitted - appealsData.LineOfBusiness[lobFullData].OverTurnCount
               ];
               appealsOverturned = {
                 category: 'app-card',
@@ -533,7 +538,7 @@ export class GettingReimbursedSharedService {
                 title: 'Claims Appeals Overturned',
                 data: {
                   graphValues: overturnedData,
-                  centerNumber: appealsData.LineOfBusiness[lobFullData].OverTurnCount,
+                  centerNumber: this.common.nFormatter(appealsData.LineOfBusiness[lobFullData].OverTurnCount),
                   color: ['#3381FF', '#D7DCE1'],
                   gdata: ['card-inner', 'claimsAppealOverturned'],
                   sdata: {
