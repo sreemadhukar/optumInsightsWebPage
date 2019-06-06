@@ -301,3 +301,11 @@ app-header {
 .sidemargin {
   margin: 0 24px 0 24px;
 }
+
+// ::ng-deep span.mat-expansion-indicator {
+//   padding-bottom: 6px !important;
+// }
+
+::ng-deep .mat-expansion-indicator::after {
+  margin-bottom: 6px !important;
+}
