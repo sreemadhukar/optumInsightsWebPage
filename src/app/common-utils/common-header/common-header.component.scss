@@ -31,6 +31,13 @@
   .mat-icon > svg {
     display: block;
   }
+  &.active,
+  &.active:hover,
+  &.active:focus {
+    padding: 20px;
+    border-radius: 2px;
+    background-color: #d7dce1;
+  }
 }
 
 .non-small-card-header-title {
