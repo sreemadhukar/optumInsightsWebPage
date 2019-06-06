@@ -15,7 +15,17 @@
     </div>
     <div *ngFor="let overturn of overturnItem">
       <app-card *ngIf="overturn != null && overturn.data != null" class="cards" [chartData]="overturn"></app-card>
-      <app-error-card *ngIf="item != null && item.status != null" class="cards" [data]="item"></app-error-card>
+      <app-error-card
+        *ngIf="overturn != null && overturn.status != null"
+        class="cards"
+        [data]="overturn"
+      ></app-error-card>
+    </div>
+
+    <div class="overturn-reason-block">
+      <div *ngFor="let r of reason; let i = index">
+        <app-med-bar-chart [chartOptions]="reason[i]"></app-med-bar-chart>
+      </div>
     </div>
   </div>
 </div>
