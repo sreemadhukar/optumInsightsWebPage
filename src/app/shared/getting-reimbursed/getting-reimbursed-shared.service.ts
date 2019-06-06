@@ -284,15 +284,15 @@ export class GettingReimbursedSharedService {
                 timeperiod: this.timeFrame
               };
               // AUTHOR: MADHUKAR - claims paid shows no color if the value is 0
-              if (!paidData[0] && !paidData[1] && !paidData[2] ) {
+              if (!paidData[0] && !paidData[1] && !paidData[2]) {
                 claimsPaid = {
                   category: 'app-card',
                   type: 'donutWithLabel',
                   title: 'Claims Paid',
                   data: {
-                    graphValues: [100],
+                    graphValues: [0, 100],
                     centerNumber: '$' + this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].ClaimsPaid),
-                    color: ['#D7DCE1'],
+                    color: ['#D7DCE1', '#D7DCE1'],
                     gdata: ['card-inner', 'claimsPaid'],
                     sdata: {
                       sign: 'down',
@@ -305,7 +305,7 @@ export class GettingReimbursedSharedService {
                   },
                   timeperiod: this.timeFrame
                 };
-      }  // Date : 31/5/2019
+              } // Date : 31/5/2019
             } else {
               claimsPaid = {
                 category: 'app-card',

@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from '../auth/_guards/auth.guard';
+import { TermsOfUseComponent } from './terms-of-use/terms-of-use.component';
 
 const routes: Routes = [
   {
@@ -40,6 +41,10 @@ const routes: Routes = [
       breadcrumb: 'Issue Resolution'
     },
     canActivate: [AuthGuard]
+  },
+  {
+    path: 'TermsofUse',
+    component: TermsOfUseComponent
   },
   { path: '**', redirectTo: '' }
 ];
