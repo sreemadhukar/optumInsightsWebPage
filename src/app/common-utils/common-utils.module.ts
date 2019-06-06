@@ -45,7 +45,8 @@ import { HighlightPipe } from '../pipes/hignlight.pipe';
     ClaimsPaidBarGraphComponent,
     MockDataWarningMessageComponent,
     LineGraphComponent,
-    HighlightPipe
+    HighlightPipe,
+    DonutChartComponent
   ],
   declarations: [
     MiniTileComponent,
