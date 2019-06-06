@@ -155,16 +155,16 @@
       width: 151px;
     }
     .financial-value {
-      color: #2d2d39;
-      font-family: 'UHC Sans';
+      color: $black-rock;
+      font-family: 'UHCSans-Regular';
       font-size: 20px;
       font-weight: 600;
       line-height: 22px;
       float: left;
     }
     .financial-trend {
-      color: #b10c00;
-      font-family: 'UHC Sans';
+      color: $red-dark;
+      font-family: 'UHCSans-Regular';
       font-size: 14px;
       font-weight: 500;
       letter-spacing: 0.2px;
@@ -174,8 +174,8 @@
       margin-left: 8px;
     }
     .financial-opportunity {
-      color: #2d2d39;
-      font-family: 'UHC Sans';
+      color: $black-rock;
+      font-family: 'UHCSans-Regular';
       font-size: 16px;
       font-weight: 500;
       letter-spacing: 0.2px;
