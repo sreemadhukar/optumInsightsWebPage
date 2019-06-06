@@ -46,6 +46,13 @@
           margin-bottom: 16px;
           color: $black-rock;
         }
+        .title-opportunity {
+          flex-basis: 100%;
+          font-size: 28px;
+          line-height: 1;
+          margin-bottom: 16px;
+          color: $black-rock;
+        }
 
         .page-subtitle {
           flex-basis: 100%;
@@ -78,7 +85,8 @@
         }
       }
       .cust-width-blank {
-        width: 502px;
+        width: 487px;
+        margin-left: 20px;
       }
     }
   }

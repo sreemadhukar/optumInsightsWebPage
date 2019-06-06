@@ -127,7 +127,8 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
         .attr('y', height / heightDivider)
         .style('font-size', '22px')
         .style('fill', '#2d2d39')
-        .style('font-family', 'UHCSans-SemiBold');
+        .style('font-family', 'UHCSans-Medium')
+        .style('font-weight', '500');
     }
 
     if (chartOptions.hasOwnProperty('sdata') && chartOptions.sdata != null) {
@@ -154,7 +155,7 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
           .style('font-size', '14px')
           .style('font-weight', '500')
           .style('fill', '#007000')
-          .style('font-family', 'UHCSans-Regular')
+          .style('font-family', 'UHCSans-Medium')
           .style('text-anchor', 'start')
           .text(chartOptions.sdata.data);
       } else if (chartOptions.sdata.sign === 'down') {
@@ -180,7 +181,7 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
           .style('font-size', '14px')
           .style('font-weight', '500')
           .style('fill', '#b10c00')
-          .style('font-family', 'UHCSans-Regular')
+          .style('font-family', 'UHCSans-Medium')
           .style('text-anchor', 'start')
           .text(chartOptions.sdata.data);
       }
@@ -268,7 +269,7 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
           .attr('y', '25px')
           .style('font-size', '14px')
           .style('fill', '#2D2D39')
-          .style('font-family', 'UHCSans-Regular')
+          .style('font-family', 'UHCSans-SemiBold')
           .style('font-weight', '600')
           .text(d.data.label);
 

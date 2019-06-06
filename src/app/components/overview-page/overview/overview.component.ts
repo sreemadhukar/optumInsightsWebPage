@@ -13,7 +13,9 @@ import { DomSanitizer } from '@angular/platform-browser';
 export class OverviewComponent implements OnInit, AfterContentInit {
   overviewItems: any;
   mainCards: any;
+  mockMainCards: any;
   selfServiceMiniCards: any;
+  mockSelfServiceMiniCards: any;
   pageTitle: String = '';
   pagesubTitle: String = '';
   userName: String = '';
@@ -43,23 +45,24 @@ export class OverviewComponent implements OnInit, AfterContentInit {
   }
   ngOnInit() {
     this.loading = true;
+    this.mockMainCards = [{}, {}, {}, {}, {}, {}];
+    this.mockSelfServiceMiniCards = [{}, {}, {}, {}];
+    this.overviewItems = [];
+    this.mainCards = [];
+    this.selfServiceMiniCards = [];
     this.overviewsrc
       .getOverviewData()
       .then(data => {
         this.loading = false;
-        this.overviewItems = [];
-        this.mainCards = [];
-        this.selfServiceMiniCards = [];
         this.overviewItems = JSON.parse(JSON.stringify(data));
-        console.log(this.overviewItems);
         this.mainCards = this.overviewItems[0];
         this.selfServiceMiniCards = this.overviewItems[1];
-        console.log(this.selfServiceMiniCards);
       })
       .catch(reason => {
         this.loading = true;
         console.log(reason);
       });
+
     const userInfo = JSON.parse(sessionStorage.getItem('loggedUser'));
     this.userName =
       this.session.sessionStorage('loggedUser', 'LastName') +
