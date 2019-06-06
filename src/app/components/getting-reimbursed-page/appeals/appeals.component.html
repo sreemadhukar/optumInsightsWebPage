@@ -24,7 +24,9 @@
 
     <div class="overturn-reason-block">
       <div *ngFor="let r of reason; let i = index">
-        <app-med-bar-chart [chartOptions]="reason[i]"></app-med-bar-chart>
+        <div class="appeals-overturned-bar-chart">
+          <app-med-bar-chart [chartOptions]="reason[i]"></app-med-bar-chart>
+        </div>
       </div>
     </div>
   </div>

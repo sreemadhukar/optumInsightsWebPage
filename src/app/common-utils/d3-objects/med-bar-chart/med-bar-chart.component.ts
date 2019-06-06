@@ -107,7 +107,7 @@ export class MedBarChartComponent implements OnInit {
     chart
       .append('rect')
       .attr('x', 10)
-      .attr('y', 10)
+      .attr('y', 20)
       .attr('width', xScale(chartOptions.graphValues[0]))
       .attr('height', 24)
       .attr('fill', chartOptions.color[0]);
@@ -115,7 +115,7 @@ export class MedBarChartComponent implements OnInit {
     chart
       .append('rect')
       .attr('x', 10 + xScale(chartOptions.graphValues[0]))
-      .attr('y', 10)
+      .attr('y', 20)
       .attr('width', 2)
       .attr('height', 24)
       .attr('fill', chartOptions.color[1]);
@@ -123,7 +123,7 @@ export class MedBarChartComponent implements OnInit {
     chart
       .append('rect')
       .attr('x', 12 + xScale(chartOptions.graphValues[0]))
-      .attr('y', 10)
+      .attr('y', 20)
       .attr('width', xScale(chartOptions.graphValues[1]) + 1)
       .attr('height', 24)
       .attr('fill', chartOptions.color[2]);
@@ -133,7 +133,7 @@ export class MedBarChartComponent implements OnInit {
     chart
       .append('text')
       .attr('x', 10 + xScale(chartOptions.graphValues[0]))
-      .attr('y', 5)
+      .attr('y', 12)
       .attr('fill', '#2D2D39')
       .attr('font-size', '16')
       .attr('text-anchor', 'start')
@@ -145,7 +145,7 @@ export class MedBarChartComponent implements OnInit {
     chart
       .append('text')
       .attr('x', 270)
-      .attr('y', 28)
+      .attr('y', 38)
       .attr('fill', '#2D2D39')
       .attr('font-size', '16')
       .attr('text-anchor', 'start')
