@@ -308,6 +308,6 @@ app-header {
 //   padding-bottom: 6px !important;
 // }
 
-::ng-deep .mat-expansion-indicator::after {
+.mat-expansion-indicator::after {
   margin-bottom: 6px !important;
 }
