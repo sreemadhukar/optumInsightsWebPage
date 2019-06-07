@@ -110,6 +110,7 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
       .attr('y', 20)
       .attr('width', xScale(chartOptions.graphValues[0]))
       .attr('height', 24)
+      .style('padding-bottom', 16)
       .attr('fill', chartOptions.color[0]);
 
     chart
@@ -124,6 +125,8 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
       .append('rect')
       .attr('x', 12 + xScale(chartOptions.graphValues[0]))
       .attr('y', 20)
+      .attr('rx', 2)
+      // .attr('ry', 2)
       .attr('width', xScale(chartOptions.graphValues[1]) + 1)
       .attr('height', 24)
       .attr('fill', chartOptions.color[2]);
