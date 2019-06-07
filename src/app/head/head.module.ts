@@ -12,11 +12,19 @@ import { JwtInterceptor } from '../auth/_helpers/jwt.interceptor';
 import { ErrorInterceptor } from '../auth/_helpers/error.interceptor';
 import { CommonUtilsModule } from './../common-utils/common-utils.module';
 import { TermsOfUseComponent } from './terms-of-use/terms-of-use.component';
+import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component';
 
 @NgModule({
   imports: [CommonModule, HeadRoutingModule, HeadMaterialModule, CommonUtilsModule],
   exports: [BodyComponent],
-  declarations: [HeaderComponent, FooterComponent, HamburgerMenuComponent, BodyComponent, TermsOfUseComponent],
+  declarations: [
+    HeaderComponent,
+    FooterComponent,
+    HamburgerMenuComponent,
+    BodyComponent,
+    TermsOfUseComponent,
+    PrivacyPolicyComponent
+  ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
