@@ -10,7 +10,7 @@ import {
   HttpErrorResponse
 } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
-import { map, catchError } from 'rxjs/operators';
+import { map, catchError, retry } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -28,6 +28,7 @@ export class HttpInterceptorService implements HttpInterceptor {
     request = request.clone({ headers: request.headers.set('Accept', '*/*') });
 
     return next.handle(request).pipe(
+      retry(2),
       map((event: HttpEvent<any>) => {
         /*if (event instanceof HttpResponse) {
           console.log('event--->>>', event);
