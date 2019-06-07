@@ -1297,7 +1297,7 @@ export class GettingReimbursedSharedService {
       }
       this.gettingReimbursedService.getPaymentIntegrityData(parameters).subscribe(r => {
         console.log(r);
-        if (r !== null) {
+        if (r !== null && r !== '') {
           const result: any = r;
           const output: any = {};
           let returnedWidth = 4;
