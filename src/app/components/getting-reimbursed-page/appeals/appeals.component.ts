@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { GettingReimbursedSharedService } from '../../../shared/getting-reimbursed/getting-reimbursed-shared.service';
 import { StorageService } from '../../../shared/storage-service.service';
+import { GlossaryExpandService } from 'src/app/shared/glossary-expand.service';
 
 @Component({
   selector: 'app-appeals',
@@ -22,7 +23,8 @@ export class AppealsComponent implements OnInit {
   mockCards: any;
   constructor(
     private gettingReimbursedSharedService: GettingReimbursedSharedService,
-    private checkStorage: StorageService
+    private checkStorage: StorageService,
+    private glossaryExpandService: GlossaryExpandService
   ) {
     this.pageTitle = 'Claims Appeals';
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.ngOnInit());
@@ -63,5 +65,9 @@ export class AppealsComponent implements OnInit {
       });
     }
     console.log(this.reason);
+  }
+
+  helpIconClick(title) {
+    this.glossaryExpandService.setMessage(title);
   }
 }
