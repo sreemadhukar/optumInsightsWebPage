@@ -1,0 +1,22 @@
+<div class="line"></div>
+<div class="titleData">
+  <div class="title">Line of Business</div>
+  <mat-icon class="icon-display" *ngIf="!arrowmark" (click)="clickArrowMark()" svgIcon="arrowdn"></mat-icon>
+  <mat-icon class="icon-display" *ngIf="arrowmark" (click)="clickArrowMark()" svgIcon="arrowup"></mat-icon>
+</div>
+<div class="lobgrp">
+  <div>
+    <label id="radio-group-label" class="label-data">{{ lobData }}</label>
+  </div>
+  <div class="select-option-data" *ngIf="arrowmark">
+    <mat-radio-group class="radio-group" [(ngModel)]="lobData">
+      <mat-radio-button class="radio-button" *ngFor="let lob of lobs" [value]="lob">
+        {{ lob }}
+      </mat-radio-button>
+    </mat-radio-group>
+  </div>
+</div>
+<div class="btn-display">
+  <button type="reset" class="resetbtn" mat-button (click)="resetFilter()">Reset All Filters</button>
+  <button type="submit" class="applybtn" mat-button (click)="applyFilter()">Apply Filters</button>
+</div>
