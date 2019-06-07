@@ -53,7 +53,7 @@ export class AppealsComponent implements OnInit {
     const val1 = [30, 60, 80, 20, 10];
     const val2 = [40, 10, 10, 50, 60];
     const btitle = ['Notifications/ Authorizations', 'Referrals', 'Claims Processing', 'Timely Filing', 'Audit Review'];
-    const bvalue = ['22 %', '19%', '16%', '12%', '5%'];
+    const bvalue = ['22 %', '33%', '30%', '10%', '5%'];
     for (let i = 0; i <= 4; i++) {
       this.reason.push({
         type: 'bar chart',
@@ -61,7 +61,7 @@ export class AppealsComponent implements OnInit {
         barText: btitle[i],
         barValue: bvalue[i],
         color: ['#3381FF', '#FFFFFF', '#E0E0E0'],
-        gdata: ['app-card-structure', 'appealsOverturnedReason']
+        gdata: ['app-card-structure', 'appealsOverturnedReason' + i]
       });
     }
     console.log(this.reason);
