@@ -47,7 +47,8 @@ import { MedBarChartComponent } from './d3-objects/med-bar-chart/med-bar-chart.c
     MockDataWarningMessageComponent,
     LineGraphComponent,
     HighlightPipe,
-    MedBarChartComponent
+    MedBarChartComponent,
+    DonutChartComponent
   ],
   declarations: [
     MiniTileComponent,

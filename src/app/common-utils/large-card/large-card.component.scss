@@ -12,7 +12,18 @@
     overflow: hidden;
     height: auto;
     margin: 12px;
-
+    font-size: 30px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
+    border-radius: 2px;
+  }
+  .card-inner-large-skeleton {
+    background-color: $white;
+    width: 961px;
+    height: 519px;
+    position: relative;
+    overflow: hidden;
+    // height: auto;
+    margin: 12px;
     font-size: 30px;
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
     border-radius: 2px;
@@ -22,7 +33,7 @@
   }
   .header-properties {
     color: #2d2d39;
-    font-family: 'UHCSans-Regular';
+    font-family: 'UHCSans-Medium', 'sans-serif', 'Arial';
     font-size: 18px;
     font-weight: 600;
     line-height: 22px;
@@ -33,5 +44,32 @@
   .full-width-block {
     float: left;
     width: 100%;
+  }
+}
+
+.card-skeleton-large:empty {
+  margin: auto;
+  width: 961px;
+  height: 519px;
+
+  background-image: radial-gradient(circle 50px at 50px 50px, lightgray 0, transparent 0),
+    linear-gradient(100deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.5) 50%, rgba(255, 255, 255, 0) 80%),
+    linear-gradient(lightgray 20px, transparent 0), linear-gradient(lightgray 20px, transparent 0),
+    linear-gradient(lightgray 20px, transparent 0), linear-gradient(lightgray 20px, transparent 0);
+
+  background-repeat: no-repeat;
+
+  background-size: 100px 200px, /* circle */ 50px 519px, /* highlight */ 700px 200px, 700px 200px, 700px 200px,
+    700px 200px;
+
+  background-position: 10px 125px, /* circle */ 0 0, /* highlight */ 120px 100px, 120px 200px, 120px 300px, 120px 400px;
+
+  animation: shine-large 1s infinite;
+}
+
+@keyframes shine-large {
+  to {
+    background-position: 10px 125px, 100% 0, /* move highlight to right */ 120px 100px, 120px 200px, 120px 300px,
+      120px 400px;
   }
 }

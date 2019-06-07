@@ -1,7 +1,69 @@
-<p class="breadcrumb-top-padding">
-  <app-breadcrumbs></app-breadcrumbs>
-</p>
+<div class="content-wrapper">
+  <div class="main-content">
+    <div class="cards cust-width-title">
+      <app-breadcrumbs></app-breadcrumbs>
+      <div class="page-title">
+        {{ pageTitle }}
+      </div>
+      <div class="time--period">
+        <button class="btn btn-rounded" disabled>
+          <span>Time Period: </span><span class="font-weight-semibold pl-4">Last 6 Months </span>
+        </button>
+      </div>
+    </div>
 
-<p>
-  payment-integrity works!
-</p>
+    <div class="height1Separator"></div>
+    <div class="pi-medical-record-coding-review-block card-inner" *ngIf="piDataloaded">
+      <app-common-header
+        [title]="title"
+        class="full-display"
+        (helpIconClicked)="helpIconClick($event)"
+      ></app-common-header>
+      <div class="donut-chart-block">
+        <app-donut-chart [chartOptions]="cardData.piDonutData.donutData" donutType="app-card"></app-donut-chart>
+        <ul class="app-card-list-labels label-dots-ul">
+          <li *ngFor="let c of cardData.piDonutData.besideData.color; let i = index">
+            <div class="label-dots" style.background-color="{{ c }}"></div>
+          </li>
+        </ul>
+        <ul class="app-card-list-labels labels-ul">
+          <li *ngFor="let c of cardData.piDonutData.besideData.labels; let i = index">{{ c }}</li>
+        </ul>
+        <p class="date-range-text">
+          *Positive/ negative trend comparison is {{ cardData.VarianceEndDate }} vs. {{ cardData.VarianceStartDate }}
+        </p>
+      </div>
+      <div class="bar-chart-block">
+        <div class="pi-numbers-block">
+          <p class="mr-returned-number">{{ cardData.MedicalRecordsReturned }}</p>
+          <p class="mr-not-returned-number mr-returned-number">{{ cardData.MedicalRecordsOutstanding }}</p>
+        </div>
+        <div class="pull-left">
+          <div class="medical-records-returned-block">
+            <div class="mr-returned-bar-block">
+              <p class="mr-returned-text">Medical Records Returned to UHC</p>
+              <div class="medical-records-returned-bar"></div>
+            </div>
+          </div>
+          <div class="medical-records-not-returned-block">
+            <div class="mr-not-returned-bar-block mr-returned-bar-block">
+              <p class="mr-not-returned-text mr-returned-text">Medical Records Not Returned to UHC</p>
+              <div class="mr-not-returned-bar-text-block">
+                <div class="medical-records-not-returned-bar"></div>
+                <div class="financial-ooportunity-block">
+                  <p class="financial-value">{{ cardData.OutStandingAmount }}</p>
+                  <p class="financial-trend">{{ cardData.OutStandingAmountVariance }}*</p>
+                  <p class="financial-opportunity">Financial Opportunity</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="full-display">
+        <app-common-footer [timePeriod]="cardData.timeperiod" class="width-100"></app-common-footer>
+      </div>
+    </div>
+  </div>
+</div>

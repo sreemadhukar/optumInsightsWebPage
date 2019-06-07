@@ -19,7 +19,7 @@
     position: relative;
     padding: 16px 20px 0 20px;
     color: $black-rock;
-    font-family: 'UHCSans-Regular', 'Arial';
+    font-family: 'UHCSans-Medium', 'sans-serif', 'Arial';
     font-size: 16px;
     font-weight: 500;
     line-height: 22px;
@@ -51,7 +51,7 @@
   ul.list-labels > li {
     display: block;
     color: $black-rock;
-    font-family: 'UHCSans-Regular', 'Arial';
+    font-family: 'UHCSans-Medium', 'sans-serif', 'Arial';
     font-size: 14px;
     font-weight: 500;
     letter-spacing: 0.2px;
@@ -75,5 +75,37 @@
   }
   ul.list-labels > li:nth-child(2)::before {
     color: #80b0ff;
+  }
+}
+
+@media screen and (max-width: 1331px) {
+  .card-inner {
+    width: 210px;
+  }
+}
+
+.card-skeleton-mini-tile:empty {
+  margin: auto;
+  width: 222px;
+  height: 238px;
+
+  background-image: radial-gradient(circle 50px at 50px 50px, lightgray 0, transparent 0),
+    linear-gradient(100deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.5) 50%, rgba(255, 255, 255, 0) 80%),
+    linear-gradient(lightgray 20px, transparent 0), linear-gradient(lightgray 20px, transparent 0),
+    linear-gradient(lightgray 20px, transparent 0), linear-gradient(lightgray 20px, transparent 0);
+
+  background-repeat: no-repeat;
+
+  background-size: 100px 200px, /* circle */ 20px 304px, /* highlight */ 75px 200px, 100px 200px, 150px 200px,
+    150px 200px;
+
+  background-position: 10px 75px, /* circle */ 0 0, /* highlight */ 20px 25px, 20px 100px, 20px 150px, 20px 200px;
+
+  animation: shine-mini-tile 1s infinite;
+}
+
+@keyframes shine-mini-tile {
+  to {
+    background-position: 10px 75px, 100% 0, /* move highlight to right */ 20px 25px, 20px 100px, 20px 150px, 20px 200px;
   }
 }
