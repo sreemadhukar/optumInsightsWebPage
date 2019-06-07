@@ -25,6 +25,7 @@ import { UhcLoaderComponent } from './uhc-loader/uhc-loader.component';
 import { MockDataWarningMessageComponent } from './mock-data-warning-message/mock-data-warning-message.component';
 import { LineGraphComponent } from './d3-objects/line-graph/line-graph.component';
 import { HighlightPipe } from '../pipes/hignlight.pipe';
+import { MedBarChartComponent } from './d3-objects/med-bar-chart/med-bar-chart.component';
 @NgModule({
   imports: [CommonModule, FormsModule, ReactiveFormsModule, HeadMaterialModule, RouterModule],
   exports: [
@@ -46,6 +47,7 @@ import { HighlightPipe } from '../pipes/hignlight.pipe';
     MockDataWarningMessageComponent,
     LineGraphComponent,
     HighlightPipe,
+    MedBarChartComponent,
     DonutChartComponent
   ],
   declarations: [
@@ -70,7 +72,8 @@ import { HighlightPipe } from '../pipes/hignlight.pipe';
     UhcLoaderComponent,
     MockDataWarningMessageComponent,
     LineGraphComponent,
-    HighlightPipe
+    HighlightPipe,
+    MedBarChartComponent
   ],
   entryComponents: [ProviderSearchComponent]
 })

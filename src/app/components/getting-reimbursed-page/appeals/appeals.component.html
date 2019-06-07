@@ -18,7 +18,28 @@
     </div>
     <div *ngFor="let overturn of overturnItem">
       <app-card *ngIf="overturn != null && overturn.data != null" class="cards" [chartData]="overturn"></app-card>
-      <app-error-card *ngIf="item != null && item.status != null" class="cards" [data]="item"></app-error-card>
+      <app-error-card
+        *ngIf="overturn != null && overturn.status != null"
+        class="cards"
+        [data]="overturn"
+      ></app-error-card>
+    </div>
+
+    <div class="overturn-reason-block">
+      <app-common-header
+        [title]="title"
+        class="full-display"
+        (helpIconClicked)="helpIconClick($event)"
+      ></app-common-header>
+      <div *ngFor="let r of reason; let i = index">
+        <div class="appeals-overturned-bar-chart">
+          <app-med-bar-chart [chartOptions]="reason[i]"></app-med-bar-chart>
+        </div>
+      </div>
+      <div class="common-footer">
+        <div class="reason-time">{{ timePeriod }}</div>
+      </div>
+      <!--app-common-footer [timePeriod]="timePeriod" class="reason-time"></app-common-footer-->
     </div>
   </div>
 </div>

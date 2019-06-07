@@ -290,9 +290,9 @@ export class GettingReimbursedSharedService {
                   type: 'donutWithLabel',
                   title: 'Claims Paid',
                   data: {
-                    graphValues: [100],
+                    graphValues: [0, 100],
                     centerNumber: '$' + this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].ClaimsPaid),
-                    color: ['#D7DCE1'],
+                    color: ['#D7DCE1', '#D7DCE1'],
                     gdata: ['card-inner', 'claimsPaid'],
                     sdata: {
                       sign: 'down',
@@ -1044,8 +1044,7 @@ export class GettingReimbursedSharedService {
     return new Promise((resolve, reject) => {
       this.tin = this.session.tin;
       this.lob = this.session.lob;
-      // this.timeFrame = this.session.timeFrame;
-      this.timeFrame = 'Last 6 Months'; // need to remove this, and uncomment above line
+      this.timeFrame = this.session.timeFrame;
       this.providerKey = this.session.providerKey();
       const parameters = {
         providerkey: this.providerKey,
@@ -1088,8 +1087,7 @@ export class GettingReimbursedSharedService {
     return new Promise((resolve, reject) => {
       this.tin = this.session.tin;
       this.lob = this.session.lob;
-      // this.timeFrame = this.session.timeFrame;
-      this.timeFrame = 'Last 6 Months'; // need to remove this, and uncomment above line
+      this.timeFrame = this.session.timeFrame;
       this.providerKey = this.session.providerKey();
       this.gettingReimbursedService.getTins(this.providerKey).subscribe(tins => {
         const providerTins = tins;
@@ -1173,8 +1171,7 @@ export class GettingReimbursedSharedService {
     return new Promise((resolve, reject) => {
       this.tin = this.session.tin;
       this.lob = this.session.lob;
-      // this.timeFrame = 'Last 12 Months'; // this.timeFrame = this.session.timeFrame;
-      this.timeFrame = 'Last 6 Months';
+      this.timeFrame = this.session.timeFrame;
       this.providerKey = this.session.providerKey();
       this.gettingReimbursedService.getTins(this.providerKey).subscribe(tins => {
         const providerTins = tins;
@@ -1282,9 +1279,102 @@ export class GettingReimbursedSharedService {
     return appealsOverturnedRate;
   }
 
+  /* function to get Payment Integrity Card Data - Ranjith kumar Ankam */
+  public getPaymentIntegrityData() {
+    return new Promise((resolve, reject) => {
+      this.timeFrame = this.session.timeFrame;
+      this.providerKey = this.session.providerKey();
+
+      const parameters = {
+        providerkey: this.providerKey,
+        timeperiod: ''
+      };
+
+      if (this.timeFrame === 'Last 12 Months') {
+        parameters.timeperiod = 'rolling12months';
+      } else if (this.timeFrame === 'Last 6 Months') {
+        parameters.timeperiod = 'last6months';
+      }
+      this.gettingReimbursedService.getPaymentIntegrityData(parameters).subscribe(r => {
+        console.log(r);
+        if (r !== null && r !== '') {
+          const result: any = r;
+          const output: any = {};
+          let returnedWidth = 4;
+          let notReturnedWidth = 4;
+          if (result.MedicalRecordsReturned > result.MedicalRecordsOutstanding) {
+            returnedWidth = 382;
+            if (result.MedicalRecordsOutstanding !== 0) {
+              notReturnedWidth = (result.MedicalRecordsOutstanding * 382) / result.MedicalRecordsReturned;
+            }
+          } else {
+            notReturnedWidth = 382;
+            if (result.MedicalRecordsReturned !== 0) {
+              returnedWidth = (result.MedicalRecordsReturned * 382) / result.MedicalRecordsOutstanding;
+            }
+          }
+
+          output.returnedWidth = returnedWidth;
+          output.notReturnedWidth = notReturnedWidth;
+          output.MedicalRecordsOutstanding = this.common.nFormatter(result.MedicalRecordsOutstanding);
+          output.MedicalRecordsRequested = this.common.nFormatter(result.MedicalRecordsRequested);
+          output.MedicalRecordsReturned = this.common.nFormatter(result.MedicalRecordsReturned);
+          output.OutStandingAmount = '$' + this.common.nFormatter(result.OutStandingAmount);
+          output.OutStandingAmountVariance =
+            Math.round(result.OutStandingAmountVariance) > 0
+              ? '+' + Math.round(result.OutStandingAmountVariance * 10) / 10 + '%'
+              : Math.round(result.OutStandingAmountVariance * 10) / 10 + '%';
+          output.RecordsRequestedVariance =
+            Math.round(result.RecordsRequestedVariance) > 0
+              ? '+' + Math.round(result.RecordsRequestedVariance * 10) / 10 + '%'
+              : Math.round(result.RecordsRequestedVariance * 10) / 10 + '%';
+          output.VarianceStartDate =
+            this.getMonthname(result.VarianceStartDate) + ' ' + this.getFullyear(result.VarianceStartDate);
+          output.VarianceEndDate =
+            this.getMonthname(result.VarianceEndDate) + ' ' + this.getFullyear(result.VarianceEndDate);
+          output.timeperiod = this.timeFrame;
+          let sData: any = {};
+          if (result.RecordsRequestedVariance > 0) {
+            sData = { sign: 'down', data: output.RecordsRequestedVariance + '*' };
+          } else {
+            sData = { sign: 'up', data: output.RecordsRequestedVariance + '*' };
+          }
+          output.piDonutData = {
+            timeperiod: this.timeFrame,
+            donutData: {
+              centerNumber: this.common.nFormatter(result.MedicalRecordsRequested),
+              color: ['#3381FF', '#D7DCE1'],
+              gdata: ['card-inner', 'piCard'],
+              graphValues: [100, 1000],
+              sdata: sData
+            },
+            besideData: {
+              color: ['#3381FF', '#D7DCE1'],
+              labels: ['Pre-Payment Records Requested', 'Claims Submitted']
+            }
+          };
+          resolve(output);
+        } else {
+          resolve(null);
+        }
+      });
+    });
+  }
+
   public sentenceCase(str) {
     return str.replace(/\w\S*/g, function(txt) {
       return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
     });
+  }
+
+  public getMonthname(dt) {
+    const d = new Date(dt);
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    return months[d.getMonth()];
+  }
+
+  public getFullyear(dt) {
+    const d = new Date(dt);
+    return d.getFullYear();
   }
 }
