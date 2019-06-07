@@ -290,9 +290,9 @@ export class GettingReimbursedSharedService {
                   type: 'donutWithLabel',
                   title: 'Claims Paid',
                   data: {
-                    graphValues: [100],
+                    graphValues: [0, 100],
                     centerNumber: '$' + this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].ClaimsPaid),
-                    color: ['#D7DCE1'],
+                    color: ['#D7DCE1', '#D7DCE1'],
                     gdata: ['card-inner', 'claimsPaid'],
                     sdata: {
                       sign: 'down',
