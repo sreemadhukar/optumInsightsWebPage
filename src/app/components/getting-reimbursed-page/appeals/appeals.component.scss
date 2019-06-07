@@ -33,10 +33,14 @@
   width: 468px;
   border-radius: 2px;
   background-color: $white;
-  
+
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
-  margin: 12px;
+
   float: left;
+}
+
+.overturn-margin {
+  padding: 12px;
 }
 .appeals-overturned-bar-chart {
   padding-bottom: 16px;
