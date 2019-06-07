@@ -22,8 +22,14 @@
   padding-left: 15px;
 }
 
+.full-display {
+  float: left;
+  width: 100%;
+  padding-bottom: 39px;
+}
+
 .overturn-reason-block {
-  height: 494px;
+  height: 443px;
   width: 468px;
   border-radius: 2px;
   background-color: #ffffff;
@@ -32,7 +38,20 @@
   float: left;
 }
 .appeals-overturned-bar-chart {
-  padding-top: 34.8px;
   padding-bottom: 16px;
   padding-left: 89px;
+}
+.reason-time {
+  // margin-top: 372px;
+  padding: 10px 20px 10px 16px;
+  color: $strom-grey;
+  font-family: 'UHCSans-Medium', 'Arial';
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.2px;
+  line-height: 20px;
+}
+.common-footer {
+  margin-top: 319px;
+  border-top: 1px solid #efefef;
 }

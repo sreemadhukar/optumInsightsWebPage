@@ -17,7 +17,7 @@ export class AppealsComponent implements OnInit {
   overturnItem: any;
   overturnReasonItem: any;
   reason: any;
-
+  title = 'Top Claims Appeals Overturn Reasons';
   loading: boolean;
   mockCards: any;
   constructor(
