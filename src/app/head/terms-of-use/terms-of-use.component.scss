@@ -1,8 +1,10 @@
+@import '~src/scss/variables.scss';
+@import '~src/scss/mixins';
 .terms-content {
   padding-left: 32px;
   padding-right: 32px;
   padding-bottom: 24px;
-  background-color: #f1f4f7;
+  background-color: $alice-blue;
 }
 
 .header-div {
@@ -11,8 +13,8 @@
 }
 
 .header {
-  color: #2d2d39;
-  font-family: 'UHC Sans';
+  color: $black-rock;
+  font-family: 'UHCSans-Regular';
   font-size: 36px;
   font-weight: 600;
   line-height: 40px;
@@ -24,8 +26,8 @@
 }
 
 .sub-header {
-  color: #2d2d39;
-  font-family: 'UHC Sans';
+  color: $black-rock;
+  font-family: 'UHCSans-Regular';
   font-size: 22px;
   font-weight: 600;
   line-height: 28px;
@@ -36,8 +38,8 @@
 }
 
 .content {
-  color: #2d2d39;
-  font-family: 'UHC Sans';
+  color: $black-rock;
+  font-family: 'UHCSans-Regular';
   font-size: 16px;
   font-weight: 500;
   letter-spacing: 0.2px;
@@ -49,7 +51,7 @@
 }
 
 .hyperlink {
-  color: #196ecf;
+  color: $blue;
 }
 
 .list-div {
@@ -58,12 +60,12 @@
 }
 
 a {
-  font-family: 'UHC Sans';
+  font-family: 'UHCSans-Regular';
 }
 
 li {
-  color: #2d2d39;
-  font-family: 'UHC Sans';
+  color: $black-rock;
+  font-family: 'UHCSans-Regular';
   font-size: 16px;
   font-weight: 500;
   letter-spacing: 0.2px;
