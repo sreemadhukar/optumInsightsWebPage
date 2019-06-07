@@ -5,7 +5,7 @@ import * as d3 from 'd3';
   templateUrl: './med-bar-chart.component.html',
   styleUrls: ['./med-bar-chart.component.scss']
 })
-export class MedBarChartComponent implements OnInit {
+export class MedBarChartComponent implements OnInit, AfterViewInit {
   public renderChart: string;
   @Input() chartOptions: any = {};
   @Input() numberData: any = {};
