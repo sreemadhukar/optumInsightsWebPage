@@ -67,3 +67,34 @@
     }
   }
 }
+.applybtn {
+  box-sizing: border-box;
+  height: 41px;
+  width: 50%;
+  border: 1px solid #0d880b;
+  border-radius: 2px;
+  background-color: #0d880b;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
+  color: #ffffff;
+  font-family: 'UHCSans-SemiBold', 'Arial';
+  font-size: 16px;
+}
+.resetbtn {
+  box-sizing: border-box;
+  height: 41px;
+  width: 50%;
+  border: 1px solid #ffffff;
+  border-radius: 2px;
+  background-color: #ffffff;
+  box-shadow: 0 2px 4px 0 #ffffff;
+  color: $blue;
+  font-family: 'UHCSans-SemiBold', 'Arial';
+  font-size: 16px;
+}
+.btn-display {
+  margin-top: 24px;
+}
+// .resetbtn:hover, .resetbtn:focus, .resetbtn:active{
+//   background-color: #FFFFFF;
+//   box-shadow: 0 2px 4px 0 #FFFFFF;
+// }
