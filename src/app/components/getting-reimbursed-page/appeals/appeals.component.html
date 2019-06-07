@@ -25,33 +25,35 @@
       ></app-error-card>
     </div>
 
-    <div class="overturn-reason-block">
-      <app-common-header
-        [title]="title"
-        class="full-display"
-        (helpIconClicked)="helpIconClick($event)"
-      ></app-common-header>
-      <!--div *ngFor="let r of reason; let i = index"-->
-      <div class="appeals-overturned-bar-chart">
-        <app-med-bar-chart [chartOptions]="reason[0]"></app-med-bar-chart>
+    <div class="overturn-margin">
+      <div class="overturn-reason-block">
+        <app-common-header
+          [title]="title"
+          class="full-display"
+          (helpIconClicked)="helpIconClick($event)"
+        ></app-common-header>
+        <!--div *ngFor="let r of reason; let i = index"-->
+        <div class="appeals-overturned-bar-chart">
+          <app-med-bar-chart [chartOptions]="reason[0]"></app-med-bar-chart>
+        </div>
+        <div class="appeals-overturned-bar-chart">
+          <app-med-bar-chart [chartOptions]="reason[1]"></app-med-bar-chart>
+        </div>
+        <div class="appeals-overturned-bar-chart">
+          <app-med-bar-chart [chartOptions]="reason[2]"></app-med-bar-chart>
+        </div>
+        <div class="appeals-overturned-bar-chart">
+          <app-med-bar-chart [chartOptions]="reason[3]"></app-med-bar-chart>
+        </div>
+        <div class="appeals-overturned-bar-chart">
+          <app-med-bar-chart [chartOptions]="reason[4]"></app-med-bar-chart>
+        </div>
+        <!--/div-->
+        <div class="common-footer">
+          <div class="reason-time">{{ timePeriod }}</div>
+        </div>
+        <!--app-common-footer [timePeriod]="timePeriod" class="reason-time"></app-common-footer-->
       </div>
-      <div class="appeals-overturned-bar-chart">
-        <app-med-bar-chart [chartOptions]="reason[1]"></app-med-bar-chart>
-      </div>
-      <div class="appeals-overturned-bar-chart">
-        <app-med-bar-chart [chartOptions]="reason[2]"></app-med-bar-chart>
-      </div>
-      <div class="appeals-overturned-bar-chart">
-        <app-med-bar-chart [chartOptions]="reason[3]"></app-med-bar-chart>
-      </div>
-      <div class="appeals-overturned-bar-chart">
-        <app-med-bar-chart [chartOptions]="reason[4]"></app-med-bar-chart>
-      </div>
-      <!--/div-->
-      <div class="common-footer">
-        <div class="reason-time">{{ timePeriod }}</div>
-      </div>
-      <!--app-common-footer [timePeriod]="timePeriod" class="reason-time"></app-common-footer-->
     </div>
   </div>
 </div>
