@@ -1,0 +1,69 @@
+@import '~src/scss/variables.scss';
+.line {
+  background-color: #fff;
+  height: 16px;
+  display: flex;
+  border-bottom: solid;
+  border-width: 1px;
+  border-color: #b3babc;
+  z-index: 999;
+}
+::ng-deep .mat-radio-label-content {
+  margin: 5px;
+  font-family: 'UHCSans-Medium', 'Arial' !important;
+  font-size: 16px;
+}
+::ng-deep .mat-radio-button.mat-accent.mat-radio-checked ::ng-deep .mat-radio-outer-circle {
+  border-color: $blue !important;
+}
+::ng-deep .mat-radio-button.mat-accent ::ng-deep .mat-radio-inner-circle {
+  background-color: $blue !important;
+}
+::ng-deep .mat-radio-outer-circle {
+  border-color: #b3babc;
+}
+.titleData {
+  width: 100%;
+  .title {
+    widows: 80%;
+    color: #2d2d39;
+    font-family: 'UHCSans-SemiBold', 'Arial';
+    font-size: 18px;
+    line-height: 22px;
+    margin: 15px 0 8px 0;
+    float: left;
+  }
+  .icon-display {
+    width: 20%;
+    float: right;
+    height: 32px;
+    margin-top: 15px;
+    color: #2d2d39;
+  }
+}
+.lobgrp {
+  width: 100%;
+  display: inline-flex;
+  .label-data {
+    width: 100%;
+    color: #757588;
+    font-family: 'UHC Sans';
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: 0.2px;
+    line-height: 22px;
+  }
+  .select-option-data {
+    .radio-group {
+      width: 100%;
+      float: left;
+      display: flex;
+      flex-direction: column;
+      margin: 15px 0;
+    }
+    .radio-button {
+      color: #2d2d39;
+      margin-bottom: 15px;
+    }
+  }
+}

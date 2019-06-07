@@ -30,6 +30,7 @@ import { StorageService } from '../../shared/storage-service.service';
 import { GlossaryExpandService } from '../../shared/glossary-expand.service';
 import { Subscription } from 'rxjs';
 import { PriorAuthSharedService } from 'src/app/shared/prior-authorization/prior-auth.service';
+import { FilterExpandService } from '../../shared/filter-expand.service';
 
 @Component({
   selector: 'app-hamburger-menu',
@@ -50,7 +51,10 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
   subscription: any;
   public glossaryFlag: boolean;
   public glossaryTitle: string = null;
+  public filterFlag: boolean;
+  public filterurl: string = null;
   clickHelpIcon: Subscription;
+  clickFilterIcon: Subscription;
   public mobileQuery: boolean;
   /*** Array of Navigation Category List ***/
   public navCategories = [
@@ -99,9 +103,11 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
     private dialog: MatDialog,
     private checkStorage: StorageService,
     private glossaryExpandService: GlossaryExpandService,
+    private filterExpandService: FilterExpandService,
     private priorAuthShared: PriorAuthSharedService
   ) {
     this.glossaryFlag = false;
+    this.filterFlag = false;
     // to disable the header/footer/body when not authenticated
     router.events.subscribe(event => {
       if (event instanceof NavigationStart) {
@@ -132,7 +138,11 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-input-24px.svg')
     );
     iconRegistry.addSvgIcon(
-      'close',
+      'closeGlossary',
+      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-close-24px.svg')
+    );
+    iconRegistry.addSvgIcon(
+      'closeFilter',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-close-24px.svg')
     );
     iconRegistry.addSvgIcon(
@@ -154,12 +164,25 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
         console.log('Error, clickHelpIcon , inside Hamburger', err);
       }
     );
+
+    this.clickFilterIcon = this.filterExpandService.url.subscribe(
+      data => {
+        this.filterFlag = true;
+        this.filterurl = data;
+      },
+      err => {
+        console.log('Error, clickHelpIcon , inside Hamburger', err);
+      }
+    );
   }
 
   ngOnDestroy() {
     this.clickHelpIcon.unsubscribe();
     this.glossaryFlag = false;
     this.glossaryTitle = null;
+    this.filterFlag = false;
+    this.filterurl = null;
+    this.clickFilterIcon.unsubscribe();
   }
   /*** used to apply the CSS for dynamically generated elements ***/
   public ngAfterViewInit(): void {
@@ -203,6 +226,11 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
   closeGlossary() {
     this.glossaryFlag = false;
     this.glossaryTitle = null;
+  }
+
+  closeFilter() {
+    this.filterFlag = false;
+    this.filterurl = null;
   }
 
   signOut() {

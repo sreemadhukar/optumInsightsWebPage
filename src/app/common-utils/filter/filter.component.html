@@ -1,0 +1,17 @@
+<div class="line"></div>
+<div class="titleData">
+  <div class="title">Line of Business</div>
+  <mat-icon class="icon-display" svgIcon="arrowdn"></mat-icon>
+</div>
+<div class="lobgrp">
+  <div>
+    <label id="radio-group-label" class="label-data">{{ lobData }}</label>
+  </div>
+  <div class="select-option-data">
+    <mat-radio-group class="radio-group" [(ngModel)]="lobData">
+      <mat-radio-button class="radio-button" *ngFor="let lob of lobs" [value]="lob">
+        {{ lob }}
+      </mat-radio-button>
+    </mat-radio-group>
+  </div>
+</div>
