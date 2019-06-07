@@ -124,7 +124,7 @@ export class OverviewSharedService {
         }
         if (
           providerSystems &&
-          providerSystems['PatientCareOpportunity'] !== null &&
+          providerSystems.PatientCareOpportunity != null &&
           providerSystems.PatientCareOpportunity.hasOwnProperty('LineOfBusiness') &&
           providerSystems.PatientCareOpportunity.LineOfBusiness.hasOwnProperty('MedicareAndRetirement') &&
           providerSystems.PatientCareOpportunity.LineOfBusiness.MedicareAndRetirement.hasOwnProperty(
