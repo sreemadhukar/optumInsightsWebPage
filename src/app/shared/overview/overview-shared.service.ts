@@ -447,9 +447,9 @@ export class OverviewSharedService {
               title: 'Claims Paid',
               toggle: this.toggle.setToggles('Claims Paid', 'AtGlance', 'Overview', false),
               data: {
-                graphValues: [100],
+                graphValues: [0, 100],
                 centerNumber: '$' + this.common.nFormatter(claims.All.ClaimsLobSummary[0].ClaimsPaid),
-                color: ['#D7DCE1'],
+                color: ['#D7DCE1', '#D7DCE1'],
                 gdata: ['card-inner', 'claimsPaidCardD3Donut']
               },
               sdata: {
