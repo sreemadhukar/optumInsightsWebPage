@@ -31,6 +31,7 @@ import { GlossaryExpandService } from '../../shared/glossary-expand.service';
 import { Subscription } from 'rxjs';
 import { PriorAuthSharedService } from 'src/app/shared/prior-authorization/prior-auth.service';
 import { FilterExpandService } from '../../shared/filter-expand.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-hamburger-menu',
@@ -56,6 +57,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
   clickHelpIcon: Subscription;
   clickFilterIcon: Subscription;
   public mobileQuery: boolean;
+  public PCORFlag: any;
   /*** Array of Navigation Category List ***/
   public navCategories = [
     { icon: 'home', name: 'Overview', path: '/OverviewPage', disabled: false },
@@ -66,17 +68,14 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
         { name: 'Summary', path: '/GettingReimbursed' },
         { name: 'Payments', path: '/GettingReimbursed/Payments' },
         { name: 'Non-Payments', path: '/GettingReimbursed/NonPayments' },
-        { name: 'Appeals', path: '/GettingReimbursed/Appeals' }
-        // { name: 'Payment Integrity', path: '/OverviewPage' }
+        { name: 'Appeals', path: '/GettingReimbursed/Appeals' },
+        { name: 'Payment Integrity', path: '/GettingReimbursed/PaymentIntegrity' }
       ]
     },
     {
       icon: 'care-delivery',
       name: 'Care Delivery',
-      children: [
-        { name: 'Prior Authorizations', path: '/CareDelivery/priorAuth' }
-        // { name: 'Patient Care Opportunity', path: '/OverviewPage' }
-      ]
+      children: [{ name: 'Prior Authorizations', path: '/CareDelivery/priorAuth' }]
     },
     {
       icon: 'issue-resolution',
@@ -104,7 +103,8 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
     private checkStorage: StorageService,
     private glossaryExpandService: GlossaryExpandService,
     private filterExpandService: FilterExpandService,
-    private priorAuthShared: PriorAuthSharedService
+    private priorAuthShared: PriorAuthSharedService,
+    private location: Location
   ) {
     this.glossaryFlag = false;
     this.filterFlag = false;
@@ -151,10 +151,42 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
     );
   }
   ngOnInit() {
+    this.PCORFlag = false;
     this.isDarkTheme = this.themeService.isDarkTheme;
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => {
       this.healthSystemName = JSON.parse(sessionStorage.getItem('currentUser'))[0]['HealthCareOrganizationName'];
     });
+
+    this.checkStorage.getNavChangeEmitter().subscribe(() => {
+      this.priorAuthShared.getPCORData().then(data => {
+        if (this.PCORFlag === data) {
+          // Do nothing because its the same state
+        } else {
+          // Flag changed
+          if (data) {
+            this.navCategories[2].children.push({
+              name: 'Patient Care Opportunity',
+              path: '/CareDelivery/PatientCareOpportunity'
+            });
+            this.PCORFlag = data;
+          } else {
+            this.navCategories[2].children.splice(
+              this.navCategories[2].children.indexOf({
+                name: 'Patient Care Opportunity',
+                path: '/CareDelivery/PatientCareOpportunity'
+              }),
+              1
+            );
+            if (this.location.path() === '/CareDelivery/PatientCareOpportunity') {
+              this.router.navigateByUrl('/OverviewPage');
+              this.collapseExpansionPanels(2);
+            }
+            this.PCORFlag = data;
+          }
+        }
+      });
+    });
+
     this.clickHelpIcon = this.glossaryExpandService.message.subscribe(
       data => {
         this.glossaryFlag = true;
@@ -227,7 +259,10 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
     this.glossaryFlag = false;
     this.glossaryTitle = null;
   }
-
+  filterFlagChange(flag) {
+    this.filterFlag = flag;
+    this.filterurl = null;
+  }
   closeFilter() {
     this.filterFlag = false;
     this.filterurl = null;

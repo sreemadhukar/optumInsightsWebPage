@@ -7,6 +7,7 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class MiniTileComponent implements OnInit {
   @Input() data;
+  @Input() skeleton;
   constructor() {}
 
   ngOnInit() {}

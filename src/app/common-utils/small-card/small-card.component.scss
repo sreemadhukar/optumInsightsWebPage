@@ -37,7 +37,7 @@
         font-weight: 500;
         letter-spacing: 0.2px;
         line-height: 18px;
-        font-family: 'UHCSans-Regular', 'Arial';
+        font-family: 'UHCSans-Medium', 'sans-serif', 'Arial';
         /*display: inline;
         vertical-align: middle;*/
         margin-left: 8px;
@@ -94,9 +94,33 @@
   .small-star-chart {
     margin-left: 92px;
   }
-  @media screen and (max-width: 1289px) {
+  @media screen and (max-width: 1331px) {
     .card-inner {
       width: 287px;
     }
+  }
+}
+
+.card-skeleton-small-card:empty {
+  margin: auto;
+  width: 304px;
+  height: 237px;
+
+  background-image: radial-gradient(circle 50px at 50px 50px, lightgray 99%, transparent 0),
+    linear-gradient(100deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.5) 50%, rgba(255, 255, 255, 0) 80%),
+    linear-gradient(lightgray 20px, transparent 0), linear-gradient(lightgray 20px, transparent 0);
+
+  background-repeat: no-repeat;
+
+  background-size: 100px 200px, /* circle */ 20px 304px, /* highlight */ 150px 200px, 150px 200px;
+
+  background-position: 10px 75px, /* circle */ 0 0, /* highlight */ 120px 100px, 120px 137.5px;
+
+  animation: shine-small-card 1s infinite;
+}
+
+@keyframes shine-small-card {
+  to {
+    background-position: 10px 75px, 100% 0, /* move highlight to right */ 120px 100px, 120px 137.5px;
   }
 }

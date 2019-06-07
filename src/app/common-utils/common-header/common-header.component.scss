@@ -2,7 +2,6 @@
 .header-container {
   position: relative;
   /*padding: 20px 20px 0 20px;*/
-  padding: 16px;
   float: left;
   width: 100%;
   box-sizing: border-box;
@@ -11,6 +10,7 @@
   color: $blue;
   font-family: 'UHCSans-SemiBold', 'Arial';
   font-size: 18px;
+  padding: 16px;
   line-height: 22px;
   text-align: left;
   float: left;
@@ -28,8 +28,23 @@
   line-height: 22px;*/
   display: flex;
   float: right;
+  height: 40px;
+  width: 40px;
+  margin-right: 5px;
+  margin-top: 5px;
   .mat-icon > svg {
     display: block;
+  }
+
+  &:hover,
+  &:focus {
+    border-radius: 2px;
+    background-color: #d7dce1;
+    cursor: pointer;
+    color: #2d2d39;
+  }
+  .onHoverIcon {
+    padding: 8px;
   }
 }
 

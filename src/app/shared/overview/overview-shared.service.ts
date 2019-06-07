@@ -36,7 +36,8 @@ export class OverviewSharedService {
       if (this.timeFrame === 'Last 12 Months') {
         parameters = [this.providerKey, true];
       } else {
-        this.session.timeFrame = this.timeFrame = 'Last 12 Months';
+        // this.session.timeFrame = this.timeFrame = 'Last 12 Months';
+        this.timeFrame = 'Last 12 Months';
         parameters = [this.providerKey, true];
       }
       this.overviewService.getOverviewData(...parameters).subscribe(([providerSystems, claims]) => {
@@ -124,7 +125,7 @@ export class OverviewSharedService {
         }
         if (
           providerSystems &&
-          providerSystems['PatientCareOpportunity'] !== null &&
+          providerSystems.PatientCareOpportunity != null &&
           providerSystems.PatientCareOpportunity.hasOwnProperty('LineOfBusiness') &&
           providerSystems.PatientCareOpportunity.LineOfBusiness.hasOwnProperty('MedicareAndRetirement') &&
           providerSystems.PatientCareOpportunity.LineOfBusiness.MedicareAndRetirement.hasOwnProperty(
@@ -447,9 +448,9 @@ export class OverviewSharedService {
               title: 'Claims Paid',
               toggle: this.toggle.setToggles('Claims Paid', 'AtGlance', 'Overview', false),
               data: {
-                graphValues: [100],
+                graphValues: [0, 100],
                 centerNumber: '$' + this.common.nFormatter(claims.All.ClaimsLobSummary[0].ClaimsPaid),
-                color: ['#D7DCE1'],
+                color: ['#D7DCE1', '#D7DCE1'],
                 gdata: ['card-inner', 'claimsPaidCardD3Donut']
               },
               sdata: {

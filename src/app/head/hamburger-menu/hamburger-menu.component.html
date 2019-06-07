@@ -128,7 +128,7 @@
               </mat-icon>
             </div>
             <app-glossary *ngIf="glossaryTitle" [title]="glossaryTitle"></app-glossary>
-            <app-filter *ngIf="filterFlag"></app-filter>
+            <app-filter *ngIf="filterFlag" (filterFlag)="filterFlagChange($event)"></app-filter>
           </div>
         </div>
       </mat-sidenav>

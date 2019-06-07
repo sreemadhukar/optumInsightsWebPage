@@ -233,12 +233,12 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
   }
 
   ngOnInit() {
-    //  this.timePeriod = this.session.timeFrame; // uncomment it
-    /* this.gettingReimbursedSharedService.getGettingReimbursedData().then(completeData => {
+    this.timePeriod = this.session.timeFrame; // uncomment it
+    this.gettingReimbursedSharedService.getGettingReimbursedData().then(completeData => {
       this.summaryItems = JSON.parse(JSON.stringify(completeData));
       this.currentSummary = this.summaryItems[2].data;
       this.currentTabTitle = this.summaryItems[2].title;
-    });*/
+    });
     this.monthlyLineGraph.chartId = 'non-payment-trend-block';
     this.monthlyLineGraph.titleData = [{}];
     this.monthlyLineGraph.generalData = [

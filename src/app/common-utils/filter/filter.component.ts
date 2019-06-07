@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 import { SessionService } from '../../shared/session.service';
@@ -11,6 +11,7 @@ import { SessionService } from '../../shared/session.service';
 export class FilterComponent implements OnInit {
   public lobData: string;
   public arrowmark: boolean;
+  @Output() filterFlag = new EventEmitter();
   public lobs = ['All', 'Community & State', 'Employee & Individual', 'Medicare & Retirement'];
   constructor(private iconRegistry: MatIconRegistry, sanitizer: DomSanitizer, private session: SessionService) {
     this.lobData = this.session.lob;
@@ -32,8 +33,10 @@ export class FilterComponent implements OnInit {
   }
   resetFilter() {
     this.session.lob = this.lobData = this.lobs[0];
+    this.filterFlag.emit(false);
   }
   applyFilter() {
     this.session.lob = this.lobData;
+    this.filterFlag.emit(false);
   }
 }

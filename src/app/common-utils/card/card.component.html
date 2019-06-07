@@ -8,7 +8,8 @@ Date Created: 17-Apr-2019
   class="app-card-structure"
   [class.app-card-structure-with-more-height]="
     chartData.type === 'donutWithLabelBottom' ||
-    chartData.title === ('Claims Appeals Overturned' || 'Claims Appeals Overturned Rate')
+    chartData.title === 'Claims Appeals Overturned' ||
+    chartData.title === 'Claims Appeals Overturned Rate'
   "
 >
   <div class="card-inner">
@@ -99,7 +100,7 @@ Date Created: 17-Apr-2019
             class="only-donut-block"
             [chartOptions]="chartData.data"
             [class.only-donut-block-with-more-padding]="
-              chartData.title == ('Claims Appeals Overturned' || 'Claims Appeals Overturned Rate')
+              chartData.title == 'Claims Appeals Overturned' || chartData.title == 'Claims Appeals Overturned Rate'
             "
           ></app-donut-chart>
         </div>
@@ -159,6 +160,14 @@ Date Created: 17-Apr-2019
     </div>
     <div *ngIf="chartData.timeperiod" class="full-width-block">
       <app-common-footer [timePeriod]="chartData.timeperiod"></app-common-footer>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="skeleton" class="app-card-structure">
+  <div class="card-inner">
+    <div class="full-width-block">
+      <div class="card-skeleton"></div>
     </div>
   </div>
 </div>

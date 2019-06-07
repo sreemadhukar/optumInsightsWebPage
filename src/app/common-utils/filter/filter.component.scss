@@ -24,6 +24,7 @@
 }
 .titleData {
   width: 100%;
+  display: inline-block;
   .title {
     widows: 80%;
     color: #2d2d39;
@@ -43,7 +44,6 @@
 }
 .lobgrp {
   width: 100%;
-  display: inline-flex;
   .label-data {
     width: 100%;
     color: #757588;
@@ -94,7 +94,13 @@
 .btn-display {
   margin-top: 24px;
 }
-// .resetbtn:hover, .resetbtn:focus, .resetbtn:active{
-//   background-color: #FFFFFF;
-//   box-shadow: 0 2px 4px 0 #FFFFFF;
-// }
+.resetbtn:visited,
+.resetbtn:hover,
+.resetbtn:active,
+.resetbtn:focus {
+  background-color: #ffffff;
+  box-shadow: 0 2px 4px 0 #ffffff;
+}
+::ng-deep.mat-button-focus-overlay {
+  background-color: #ffffff;
+}

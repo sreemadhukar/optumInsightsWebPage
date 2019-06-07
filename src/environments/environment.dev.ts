@@ -28,7 +28,8 @@ export const environment: any = {
     BusinessGlossary: 'business-glossaries/',
     PriorAuth: 'prior-authorizations/search/',
     RepeatContact: 'repeat-contacts/search/',
-    Calls: 'issue-resolutions/'
+    Calls: 'issue-resolutions/',
+    PaymentIntegrity: 'pi-metrics/'
   },
   headerKeys: {
     selectedCompany: '',

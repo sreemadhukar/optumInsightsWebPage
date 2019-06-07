@@ -14,7 +14,7 @@
   color: $blue;
 }
 ::ng-deep .mat-option-text {
-  font-family: 'UHCSans-Regular', 'Arial';
+  font-family: 'UHCSans-Medium', 'sans-serif', 'Arial';
   font-weight: 500 !important;
 }
 
@@ -22,7 +22,7 @@
   padding: 10px;
   .title {
     color: #2d2d39;
-    font-family: 'UHC Sans';
+    font-family: 'UHCSans-Medium', 'sans-serif', 'Arial';
     font-size: 22px;
     font-weight: 600;
     text-align: center;
@@ -63,7 +63,7 @@
 }
 .glossary-definition {
   color: $black-rock;
-  font-family: 'UHCSans-Regular', 'Arial';
+  font-family: 'UHCSans-Medium', 'sans-serif', 'Arial';
   font-size: 16px;
   font-weight: 500;
   letter-spacing: 0.2px;
@@ -72,7 +72,7 @@
 
 .go-to-metric-location {
   color: $blue;
-  font-family: 'UHCSans-Regular', 'Arial';
+  font-family: 'UHCSans-Medium', 'sans-serif', 'Arial';
   font-size: 16px;
   font-weight: 600;
   letter-spacing: 0.2px;

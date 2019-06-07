@@ -1,0 +1,74 @@
+@import '~src/scss/variables.scss';
+@import '~src/scss/mixins';
+.terms-content {
+  padding-left: 32px;
+  padding-right: 32px;
+  padding-bottom: 24px;
+  background-color: $alice-blue;
+}
+
+.header-div {
+  padding-top: 16px;
+  padding-bottom: 8.8px;
+}
+
+.header {
+  color: $black-rock;
+  font-family: 'UHCSans-Regular';
+  font-size: 36px;
+  font-weight: 600;
+  line-height: 40px;
+}
+
+.sub-header-div {
+  padding-top: 16px;
+  padding-bottom: 16px;
+}
+
+.sub-header {
+  color: $black-rock;
+  font-family: 'UHCSans-Regular';
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 28px;
+}
+
+.para-bottom-margin {
+  margin-bottom: 16px;
+}
+
+.content {
+  color: $black-rock;
+  font-family: 'UHCSans-Regular';
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: 0.2px;
+  line-height: 22px;
+}
+
+.bold {
+  font-family: 'UHCSans-Bold';
+}
+
+.hyperlink {
+  color: $blue;
+}
+
+.list-div {
+  margin-left: 32px;
+  margin-top: 10px;
+}
+
+a {
+  font-family: 'UHCSans-Regular';
+}
+
+li {
+  color: $black-rock;
+  font-family: 'UHCSans-Regular';
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: 0.2px;
+  line-height: 22px;
+  list-style-type: disc;
+}

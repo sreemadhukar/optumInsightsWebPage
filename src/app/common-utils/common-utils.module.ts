@@ -26,6 +26,7 @@ import { MockDataWarningMessageComponent } from './mock-data-warning-message/moc
 import { LineGraphComponent } from './d3-objects/line-graph/line-graph.component';
 import { HighlightPipe } from '../pipes/hignlight.pipe';
 import { FilterComponent } from './filter/filter.component';
+import { MedBarChartComponent } from './d3-objects/med-bar-chart/med-bar-chart.component';
 @NgModule({
   imports: [CommonModule, FormsModule, ReactiveFormsModule, HeadMaterialModule, RouterModule],
   exports: [
@@ -47,7 +48,9 @@ import { FilterComponent } from './filter/filter.component';
     MockDataWarningMessageComponent,
     LineGraphComponent,
     HighlightPipe,
-    FilterComponent
+    FilterComponent,
+    MedBarChartComponent,
+    DonutChartComponent
   ],
   declarations: [
     MiniTileComponent,
@@ -72,7 +75,8 @@ import { FilterComponent } from './filter/filter.component';
     MockDataWarningMessageComponent,
     LineGraphComponent,
     HighlightPipe,
-    FilterComponent
+    FilterComponent,
+    MedBarChartComponent
   ],
   entryComponents: [ProviderSearchComponent]
 })

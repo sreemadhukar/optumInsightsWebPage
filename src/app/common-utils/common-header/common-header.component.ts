@@ -42,9 +42,11 @@ export class CommonHeaderComponent implements OnInit {
     } else if (title === 'Claims Yield') {
       this.routhPath = '/GettingReimbursed/Payments';
     } else if (title === 'Medicare Star Rating') {
-      this.routhPath = '/OverviewPage';
+      this.routhPath = '/CareDelivery/PatientCareOpportunity';
     } else if (title === 'Total Calls') {
       this.routhPath = '/IssueResolution/Calls';
+    } else if (title === 'Patient Care Opportunity–Medicare & Retirement') {
+      this.routhPath = '/CareDelivery/PatientCareOpportunity';
     } else {
       this.routhPath = '/OverviewPage';
     }
