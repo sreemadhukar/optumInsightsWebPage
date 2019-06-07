@@ -16,6 +16,7 @@ export class PaymentIntegrityComponent implements OnInit {
   subscription: any;
   cardData: any;
   piDataloaded = false;
+  loading: boolean;
   constructor(
     private glossaryExpandService: GlossaryExpandService,
     private checkStorage: StorageService,
@@ -26,8 +27,11 @@ export class PaymentIntegrityComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.piDataloaded = false;
+    this.loading = true;
     this.gettingReimbursedSharedService.getPaymentIntegrityData().then(r => {
       this.cardData = r;
+      this.loading = false;
       this.piDataloaded = true;
     });
   }

@@ -1044,8 +1044,7 @@ export class GettingReimbursedSharedService {
     return new Promise((resolve, reject) => {
       this.tin = this.session.tin;
       this.lob = this.session.lob;
-      // this.timeFrame = this.session.timeFrame;
-      this.timeFrame = 'Last 6 Months'; // need to remove this, and uncomment above line
+      this.timeFrame = this.session.timeFrame;
       this.providerKey = this.session.providerKey();
       const parameters = {
         providerkey: this.providerKey,
@@ -1088,8 +1087,7 @@ export class GettingReimbursedSharedService {
     return new Promise((resolve, reject) => {
       this.tin = this.session.tin;
       this.lob = this.session.lob;
-      // this.timeFrame = this.session.timeFrame;
-      this.timeFrame = 'Last 6 Months'; // need to remove this, and uncomment above line
+      this.timeFrame = this.session.timeFrame;
       this.providerKey = this.session.providerKey();
       this.gettingReimbursedService.getTins(this.providerKey).subscribe(tins => {
         const providerTins = tins;
@@ -1173,8 +1171,7 @@ export class GettingReimbursedSharedService {
     return new Promise((resolve, reject) => {
       this.tin = this.session.tin;
       this.lob = this.session.lob;
-      // this.timeFrame = 'Last 12 Months'; // this.timeFrame = this.session.timeFrame;
-      this.timeFrame = 'Last 6 Months';
+      this.timeFrame = this.session.timeFrame;
       this.providerKey = this.session.providerKey();
       this.gettingReimbursedService.getTins(this.providerKey).subscribe(tins => {
         const providerTins = tins;
@@ -1298,12 +1295,27 @@ export class GettingReimbursedSharedService {
       } else if (this.timeFrame === 'Last 6 Months') {
         parameters.timeperiod = 'last6months';
       }
-
       this.gettingReimbursedService.getPaymentIntegrityData(parameters).subscribe(r => {
+        console.log(r);
         if (r !== null) {
           const result: any = r;
           const output: any = {};
+          let returnedWidth = 4;
+          let notReturnedWidth = 4;
+          if (result.MedicalRecordsReturned > result.MedicalRecordsOutstanding) {
+            returnedWidth = 382;
+            if (result.MedicalRecordsOutstanding !== 0) {
+              notReturnedWidth = (result.MedicalRecordsOutstanding * 382) / result.MedicalRecordsReturned;
+            }
+          } else {
+            notReturnedWidth = 382;
+            if (result.MedicalRecordsReturned !== 0) {
+              returnedWidth = (result.MedicalRecordsReturned * 382) / result.MedicalRecordsOutstanding;
+            }
+          }
 
+          output.returnedWidth = returnedWidth;
+          output.notReturnedWidth = notReturnedWidth;
           output.MedicalRecordsOutstanding = this.common.nFormatter(result.MedicalRecordsOutstanding);
           output.MedicalRecordsRequested = this.common.nFormatter(result.MedicalRecordsRequested);
           output.MedicalRecordsReturned = this.common.nFormatter(result.MedicalRecordsReturned);
@@ -1341,7 +1353,6 @@ export class GettingReimbursedSharedService {
               labels: ['Pre-Payment Records Requested', 'Claims Submitted']
             }
           };
-
           resolve(output);
         } else {
           resolve(null);
