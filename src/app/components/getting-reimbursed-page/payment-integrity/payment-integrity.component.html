@@ -13,6 +13,7 @@
     </div>
 
     <div class="height1Separator"></div>
+    <app-large-card [skeletonLarge]="loading" *ngIf="loading"></app-large-card>
     <div class="pi-medical-record-coding-review-block card-inner" *ngIf="piDataloaded">
       <app-common-header
         [title]="title"
@@ -42,14 +43,22 @@
           <div class="medical-records-returned-block">
             <div class="mr-returned-bar-block">
               <p class="mr-returned-text">Medical Records Returned to UHC</p>
-              <div class="medical-records-returned-bar"></div>
+              <div
+                class="medical-records-returned-bar"
+                [class.zero-data-bar]="cardData.MedicalRecordsReturned == 0"
+                [style.width.px]="cardData.returnedWidth"
+              ></div>
             </div>
           </div>
           <div class="medical-records-not-returned-block">
             <div class="mr-not-returned-bar-block mr-returned-bar-block">
               <p class="mr-not-returned-text mr-returned-text">Medical Records Not Returned to UHC</p>
               <div class="mr-not-returned-bar-text-block">
-                <div class="medical-records-not-returned-bar"></div>
+                <div
+                  class="medical-records-not-returned-bar"
+                  [class.zero-data-bar]="cardData.MedicalRecordsOutstanding == 0"
+                  [style.width.px]="cardData.notReturnedWidth"
+                ></div>
                 <div class="financial-ooportunity-block">
                   <p class="financial-value">{{ cardData.OutStandingAmount }}</p>
                   <p class="financial-trend">{{ cardData.OutStandingAmountVariance }}*</p>

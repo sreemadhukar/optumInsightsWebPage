@@ -36,7 +36,8 @@ export class OverviewSharedService {
       if (this.timeFrame === 'Last 12 Months') {
         parameters = [this.providerKey, true];
       } else {
-        this.session.timeFrame = this.timeFrame = 'Last 12 Months';
+        // this.session.timeFrame = this.timeFrame = 'Last 12 Months';
+        this.timeFrame = 'Last 12 Months';
         parameters = [this.providerKey, true];
       }
       this.overviewService.getOverviewData(...parameters).subscribe(([providerSystems, claims]) => {
