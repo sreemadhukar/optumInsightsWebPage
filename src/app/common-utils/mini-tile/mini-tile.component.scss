@@ -78,6 +78,12 @@
   }
 }
 
+@media screen and (max-width: 1331px) {
+  .card-inner {
+    width: 210px;
+  }
+}
+
 .card-skeleton-mini-tile:empty {
   margin: auto;
   width: 222px;

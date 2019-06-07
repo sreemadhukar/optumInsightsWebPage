@@ -47,18 +47,16 @@ export class OverviewComponent implements OnInit, AfterContentInit {
     this.loading = true;
     this.mockMainCards = [{}, {}, {}, {}, {}, {}];
     this.mockSelfServiceMiniCards = [{}, {}, {}, {}];
+    this.overviewItems = [];
+    this.mainCards = [];
+    this.selfServiceMiniCards = [];
     this.overviewsrc
       .getOverviewData()
       .then(data => {
         this.loading = false;
-        this.overviewItems = [];
-        this.mainCards = [];
-        this.selfServiceMiniCards = [];
         this.overviewItems = JSON.parse(JSON.stringify(data));
-        console.log(this.overviewItems);
         this.mainCards = this.overviewItems[0];
         this.selfServiceMiniCards = this.overviewItems[1];
-        console.log(this.selfServiceMiniCards);
       })
       .catch(reason => {
         this.loading = true;

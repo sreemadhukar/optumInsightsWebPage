@@ -39,12 +39,14 @@ h1.example-app-name {
       causes `<mat-sidenav-content>` to act as our scrolling element for desktop layouts. */
   // margin-top: 65px;
   flex: 1;
+  min-height: 760px;
 }
 
 .example-is-mobile .example-sidenav-container {
   /* When the sidenav is fixed, don't constrain the height of the sidenav container. This allows the
       `<body>` to be our scrolling element for mobile layouts. */
   flex: 1 0 auto;
+  min-height: 760px;
 }
 
 app-header {
@@ -300,4 +302,12 @@ app-header {
 }
 .sidemargin {
   margin: 0 24px 0 24px;
+}
+
+// ::ng-deep span.mat-expansion-indicator {
+//   padding-bottom: 6px !important;
+// }
+
+.mat-expansion-indicator::after {
+  margin-bottom: 6px !important;
 }

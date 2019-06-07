@@ -64,8 +64,8 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
         { name: 'Summary', path: '/GettingReimbursed' },
         { name: 'Payments', path: '/GettingReimbursed/Payments' },
         { name: 'Non-Payments', path: '/GettingReimbursed/NonPayments' },
-        { name: 'Appeals', path: '/GettingReimbursed/Appeals' }
-        // { name: 'Payment Integrity', path: '/OverviewPage' }
+        { name: 'Appeals', path: '/GettingReimbursed/Appeals' },
+        { name: 'Payment Integrity', path: '/GettingReimbursed/PaymentIntegrity' }
       ]
     },
     {
@@ -169,6 +169,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
             );
             if (this.location.path() === '/CareDelivery/PatientCareOpportunity') {
               this.router.navigateByUrl('/OverviewPage');
+              this.collapseExpansionPanels(2);
             }
             this.PCORFlag = data;
           }

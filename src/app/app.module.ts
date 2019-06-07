@@ -16,6 +16,7 @@ import { ProviderSharedService } from './shared/provider/provider-shared.service
 import { ThemeService } from './shared/theme.service';
 import { PriorAuthService } from './rest/prior-auth/prior-auth.service';
 import { PriorAuthSharedService } from './shared/prior-authorization/prior-auth.service';
+import { HttpInterceptorService } from './rest/interceptor/http-interceptor.service';
 
 @NgModule({
   declarations: [AppComponent],
@@ -31,7 +32,14 @@ import { PriorAuthSharedService } from './shared/prior-authorization/prior-auth.
     PipesModule,
     AuthModule
   ],
-  providers: [ProviderService, ProviderSharedService, ThemeService, PriorAuthService, PriorAuthSharedService],
+  providers: [
+    ProviderService,
+    ProviderSharedService,
+    ThemeService,
+    PriorAuthService,
+    PriorAuthSharedService,
+    { provide: HTTP_INTERCEPTORS, useClass: HttpInterceptorService, multi: true }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {}
