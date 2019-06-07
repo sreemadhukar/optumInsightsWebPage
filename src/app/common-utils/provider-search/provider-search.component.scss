@@ -4,9 +4,16 @@
   &-header {
     text-align: center;
 
-    button {
+    .close-button {
       float: right;
       margin: -15px -25px 0 0;
+      background-color: white;
+      border: white;
+      cursor: pointer;
+
+      &:hover {
+        background-color: #d7dce1;
+      }
     }
   }
 
