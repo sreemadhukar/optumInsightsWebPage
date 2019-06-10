@@ -1062,6 +1062,7 @@ export class GettingReimbursedSharedService {
         monthly: false
       };
       if (this.timeFrame === 'Last 12 Months') {
+        this.timeFrame = 'Last 6 Months';
         parameters.timeperiod = 'rolling12months';
       } else if (this.timeFrame === 'Last 6 Months') {
         parameters.timeperiod = 'last6months';
@@ -1110,6 +1111,7 @@ export class GettingReimbursedSharedService {
         const response: any = [];
 
         if (this.timeFrame === 'Last 12 Months') {
+          this.timeFrame = 'Last 6 Months';
           parameters.timeperiod = 'rolling12months';
         } else if (this.timeFrame === 'Last 6 Months') {
           parameters.timeperiod = 'last6months';
@@ -1195,6 +1197,7 @@ export class GettingReimbursedSharedService {
         const response: any = [];
 
         if (this.timeFrame === 'Last 12 Months') {
+          this.timeFrame = 'Last 6 Months';
           parameters.timeperiod = 'rolling12months';
         } else if (this.timeFrame === 'Last 6 Months') {
           parameters.timeperiod = 'last6months';
@@ -1373,6 +1376,7 @@ export class GettingReimbursedSharedService {
       };
 
       if (this.timeFrame === 'Last 12 Months') {
+        this.timeFrame = 'Last 6 Months';
         parameters.timeperiod = 'rolling12months';
       } else if (this.timeFrame === 'Last 6 Months') {
         parameters.timeperiod = 'last6months';

@@ -116,15 +116,15 @@
         disableClose
       >
         <div style="width: 418px;">
-          <div class="sidemargin">
+          <div class="" [ngClass]="{ sidemargin: glossaryFlag, 'sidemargin-filter': filterFlag }">
             <div *ngIf="glossaryFlag">
               <mat-icon class="icon-left" svgIcon="closeGlossary" (click)="closeGlossary()">
                 <div class="h-3-title">Knowledge Center</div>
               </mat-icon>
             </div>
             <div *ngIf="filterFlag">
-              <mat-icon class="icon-left" svgIcon="closeFilter" (click)="closeFilter()">
-                <div class="h-3-title">Filters</div>
+              <mat-icon class="icon-left-filter" svgIcon="closeFilter" (click)="closeFilter()">
+                <div class="h-3-title-filter">Filters</div>
               </mat-icon>
             </div>
             <app-glossary *ngIf="glossaryTitle" [title]="glossaryTitle"></app-glossary>
