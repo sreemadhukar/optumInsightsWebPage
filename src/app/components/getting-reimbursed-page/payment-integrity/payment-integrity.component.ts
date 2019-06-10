@@ -30,9 +30,13 @@ export class PaymentIntegrityComponent implements OnInit {
     this.piDataloaded = false;
     this.loading = true;
     this.gettingReimbursedSharedService.getPaymentIntegrityData().then(r => {
-      this.cardData = r;
-      this.loading = false;
-      this.piDataloaded = true;
+      if (r != null) {
+        this.cardData = r;
+        this.loading = false;
+        this.piDataloaded = true;
+      } else {
+        this.loading = false;
+      }
     });
   }
   helpIconClick(title) {
