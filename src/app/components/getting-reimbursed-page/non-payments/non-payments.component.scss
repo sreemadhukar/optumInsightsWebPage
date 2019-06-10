@@ -2,6 +2,29 @@
 @import '~src/scss/mixins';
 .breadcrumb-top-padding {
   @include padding(20px, 0, 15px, 32px);
+  width: 79.5%;
+  .filter_bg {
+    box-sizing: border-box;
+    border: 1px solid $blue;
+    border-radius: 2px;
+    float: right;
+    cursor: pointer;
+    .filter_title {
+      color: $blue;
+      font-family: 'UHCSans-SemiBold', 'Arial';
+      font-size: 16px;
+      letter-spacing: 0.2px;
+      line-height: 22px;
+      text-align: center;
+      margin: 12.5px 12.5px 8.5px 0;
+      float: left;
+    }
+    .filter_icon {
+      color: $blue;
+      margin: 9.5px 14px 9.5px 14px;
+      float: left;
+    }
+  }
 }
 
 .top-reasons-for-claims-non-payment-block {

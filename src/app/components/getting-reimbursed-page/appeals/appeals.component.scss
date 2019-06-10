@@ -21,3 +21,42 @@
 .title-left-padding {
   padding-left: 15px;
 }
+
+.full-display {
+  float: left;
+  width: 100%;
+  padding-bottom: 39px;
+}
+
+.overturn-reason-block {
+  height: 443px;
+  width: 468px;
+  border-radius: 2px;
+  background-color: $white;
+
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
+
+  float: left;
+}
+
+.overturn-margin {
+  padding: 12px;
+}
+.appeals-overturned-bar-chart {
+  padding-bottom: 16px;
+  padding-left: 89px;
+}
+.reason-time {
+  // margin-top: 372px;
+  padding: 10px 20px 10px 16px;
+  color: $strom-grey;
+  font-family: 'UHCSans-Medium', 'Arial';
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.2px;
+  line-height: 20px;
+}
+.common-footer {
+  margin-top: 319px;
+  border-top: 1px solid #efefef;
+}

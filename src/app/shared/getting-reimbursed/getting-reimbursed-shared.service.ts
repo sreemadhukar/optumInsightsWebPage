@@ -955,9 +955,10 @@ export class GettingReimbursedSharedService {
                   title: 'Claims Appeals Submitted',
                   data: {
                     graphValues: submittedData,
-                    centerNumber:
+                    centerNumber: this.common.nFormatter(
                       appealsData.LineOfBusiness[lobFullData].AdminAppeals +
-                      appealsData.LineOfBusiness[lobFullData].ClinicalAppeals,
+                        appealsData.LineOfBusiness[lobFullData].ClinicalAppeals
+                    ),
                     color: ['#3381FF', '#80B0FF', '#003DA1'],
                     gdata: ['card-inner', 'claimsAppealSubmitted'],
                     sdata: {
@@ -991,11 +992,16 @@ export class GettingReimbursedSharedService {
               if (
                 appealsData.hasOwnProperty('LineOfBusiness') &&
                 appealsData.LineOfBusiness.hasOwnProperty(lobFullData) &&
-                appealsData.LineOfBusiness[lobFullData].hasOwnProperty('OverTurnCount')
+                appealsData.LineOfBusiness[lobFullData].hasOwnProperty('OverTurnCount') &&
+                appealsData.LineOfBusiness[lobFullData].hasOwnProperty('AdminAppeals') &&
+                appealsData.LineOfBusiness[lobFullData].hasOwnProperty('ClinicalAppeals')
               ) {
+                const submitted =
+                  appealsData.LineOfBusiness[lobFullData].AdminAppeals +
+                  appealsData.LineOfBusiness[lobFullData].ClinicalAppeals;
                 const overturnedData = [
                   appealsData.LineOfBusiness[lobFullData].OverTurnCount,
-                  100 - appealsData.LineOfBusiness[lobFullData].OverTurnCount
+                  submitted - appealsData.LineOfBusiness[lobFullData].OverTurnCount
                 ];
                 appealsOverturned = {
                   category: 'app-card',
@@ -1003,7 +1009,7 @@ export class GettingReimbursedSharedService {
                   title: 'Claims Appeals Overturned',
                   data: {
                     graphValues: overturnedData,
-                    centerNumber: appealsData.LineOfBusiness[lobFullData].OverTurnCount,
+                    centerNumber: this.common.nFormatter(appealsData.LineOfBusiness[lobFullData].OverTurnCount),
                     color: ['#3381FF', '#D7DCE1'],
                     gdata: ['card-inner', 'claimsAppealOverturned'],
                     sdata: {
@@ -1044,8 +1050,7 @@ export class GettingReimbursedSharedService {
     return new Promise((resolve, reject) => {
       this.tin = this.session.tin;
       this.lob = this.session.lob;
-      // this.timeFrame = this.session.timeFrame;
-      this.timeFrame = 'Last 6 Months'; // need to remove this, and uncomment above line
+      this.timeFrame = this.session.timeFrame;
       this.providerKey = this.session.providerKey();
       const parameters = {
         providerkey: this.providerKey,
@@ -1088,8 +1093,7 @@ export class GettingReimbursedSharedService {
     return new Promise((resolve, reject) => {
       this.tin = this.session.tin;
       this.lob = this.session.lob;
-      // this.timeFrame = this.session.timeFrame;
-      this.timeFrame = 'Last 6 Months'; // need to remove this, and uncomment above line
+      this.timeFrame = this.session.timeFrame;
       this.providerKey = this.session.providerKey();
       this.gettingReimbursedService.getTins(this.providerKey).subscribe(tins => {
         const providerTins = tins;
@@ -1173,8 +1177,7 @@ export class GettingReimbursedSharedService {
     return new Promise((resolve, reject) => {
       this.tin = this.session.tin;
       this.lob = this.session.lob;
-      // this.timeFrame = 'Last 12 Months'; // this.timeFrame = this.session.timeFrame;
-      this.timeFrame = 'Last 6 Months';
+      this.timeFrame = this.session.timeFrame;
       this.providerKey = this.session.providerKey();
       this.gettingReimbursedService.getTins(this.providerKey).subscribe(tins => {
         const providerTins = tins;
@@ -1298,12 +1301,27 @@ export class GettingReimbursedSharedService {
       } else if (this.timeFrame === 'Last 6 Months') {
         parameters.timeperiod = 'last6months';
       }
-
       this.gettingReimbursedService.getPaymentIntegrityData(parameters).subscribe(r => {
-        if (r !== null) {
+        console.log(r);
+        if (r !== null && r !== '') {
           const result: any = r;
           const output: any = {};
+          let returnedWidth = 4;
+          let notReturnedWidth = 4;
+          if (result.MedicalRecordsReturned > result.MedicalRecordsOutstanding) {
+            returnedWidth = 382;
+            if (result.MedicalRecordsOutstanding !== 0) {
+              notReturnedWidth = (result.MedicalRecordsOutstanding * 382) / result.MedicalRecordsReturned;
+            }
+          } else {
+            notReturnedWidth = 382;
+            if (result.MedicalRecordsReturned !== 0) {
+              returnedWidth = (result.MedicalRecordsReturned * 382) / result.MedicalRecordsOutstanding;
+            }
+          }
 
+          output.returnedWidth = returnedWidth;
+          output.notReturnedWidth = notReturnedWidth;
           output.MedicalRecordsOutstanding = this.common.nFormatter(result.MedicalRecordsOutstanding);
           output.MedicalRecordsRequested = this.common.nFormatter(result.MedicalRecordsRequested);
           output.MedicalRecordsReturned = this.common.nFormatter(result.MedicalRecordsReturned);
@@ -1341,7 +1359,6 @@ export class GettingReimbursedSharedService {
               labels: ['Pre-Payment Records Requested', 'Claims Submitted']
             }
           };
-
           resolve(output);
         } else {
           resolve(null);

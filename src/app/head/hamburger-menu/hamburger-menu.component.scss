@@ -290,6 +290,7 @@ app-header {
 
 .icon-left {
   padding-left: 10px;
+  color: #757588;
 }
 
 .pointer-none {
@@ -300,6 +301,12 @@ app-header {
   position: absolute !important;
   z-index: 9999 !important;
 }
+
+.sidenav-filter {
+  position: absolute !important;
+  z-index: 9999 !important;
+}
+
 .sidemargin {
   margin: 0 24px 0 24px;
 }

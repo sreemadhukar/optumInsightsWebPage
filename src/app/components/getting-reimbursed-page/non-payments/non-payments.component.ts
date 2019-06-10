@@ -6,7 +6,9 @@ import {
   ChangeDetectorRef,
   ElementRef,
   Renderer2,
-  AfterViewChecked
+  AfterViewChecked,
+  Output,
+  EventEmitter
 } from '@angular/core';
 import { MatIconRegistry, PageEvent } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -15,6 +17,8 @@ import { MatPaginator, MatTableDataSource, MatSort } from '@angular/material';
 import { GlossaryExpandService } from '../../../shared/glossary-expand.service';
 import { SessionService } from 'src/app/shared/session.service';
 import { StorageService } from '../../../shared/storage-service.service';
+import { Router } from '@angular/router';
+import { FilterExpandService } from '../../../shared/filter-expand.service';
 
 @Component({
   selector: 'app-non-payments',
@@ -28,6 +32,7 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
   facilityTitle = 'Claims Non-Payments by Facility';
   timePeriod = 'Last 6 Months';
   section: any = [];
+  @Output() filterIconClicked = new EventEmitter();
   summaryItems: any;
   pageTitle: String = '';
   currentSummary: Array<Object> = [{}];
@@ -197,7 +202,9 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
     private gettingReimbursedSharedService: GettingReimbursedSharedService,
     private cdRef: ChangeDetectorRef,
     private glossaryExpandService: GlossaryExpandService,
-    private session: SessionService
+    private filterExpandService: FilterExpandService,
+    private session: SessionService,
+    private router: Router
   ) {
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.ngOnInit());
     /** INITIALIZING SVG ICONS TO USE IN DESIGN - ANGULAR MATERIAL */
@@ -217,6 +224,10 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
     iconRegistry.addSvgIcon(
       'desc-sort',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-arrow_drop_down-24px.svg')
+    );
+    iconRegistry.addSvgIcon(
+      'filter',
+      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-filter_list-24px.svg')
     );
     this.pageTitle = 'Claims Non-Payments';
   }
@@ -339,5 +350,8 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
       ) as HTMLElement).style.color = '#2d2d39';
     }
     // this.cdRef.detectChanges();
+  }
+  openFilter() {
+    this.filterExpandService.setURL(this.router.url);
   }
 }
