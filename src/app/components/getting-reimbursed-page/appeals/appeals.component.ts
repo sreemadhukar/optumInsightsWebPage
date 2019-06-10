@@ -16,7 +16,7 @@ export class AppealsComponent implements OnInit {
   timePeriod = 'Last 6 months';
   subscription: any;
   overturn: any;
-  overturnItem = {};
+  overturnItem: Array<Object> = [{}];
   overturnReasonItem: any;
   reason: any;
   title = 'Top Claims Appeals Overturn Reasons';
@@ -43,8 +43,7 @@ export class AppealsComponent implements OnInit {
 
     this.gettingReimbursedSharedService.getappealsRateAndReasonData().then(appealsRateData => {
       // this.overturn = JSON.parse(JSON.stringify(appealsRateData));
-      this.overturnItem = appealsRateData;
-      console.log(this.overturnItem);
+      this.overturnItem = appealsRateData[0];
     });
     //  this.overturnReasonItem = this.gettingReimbursedSharedService.getOverturnReasonsMock();
     this.reason = [];
@@ -67,7 +66,6 @@ export class AppealsComponent implements OnInit {
         gdata: ['app-card-structure', 'appealsOverturnedReason' + i]
       });
     }
-    console.log(this.reason);
   }
 
   helpIconClick(title) {
