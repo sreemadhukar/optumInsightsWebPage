@@ -52,8 +52,8 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
           .text(null)
           .append('tspan')
           .attr('x', 10)
-          .attr('y', y);
-        // .attr('dy', dy + 'em');
+          .attr('y', y)
+          .attr('dy', dy + 'em');
         let i = 0;
         let dyMultiplier = 1;
         while ((word = words.pop())) {
@@ -68,7 +68,7 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
               .append('tspan')
               .attr('x', 10)
               .attr('y', y)
-              // .attr('dy', 20 * dyMultiplier + 'px')
+              .attr('dy', 20 * dyMultiplier + 'px')
               .attr('id', uniqueID + i)
               .text(word);
             i++;
@@ -126,7 +126,7 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
       .attr('x', 12 + xScale(chartOptions.graphValues[0]))
       .attr('y', 20)
       .attr('rx', 2)
-      // .attr('ry', 2)
+      .attr('ry', 2)
       .attr('width', xScale(chartOptions.graphValues[1]) + 1)
       .attr('height', 24)
       .attr('fill', chartOptions.color[2]);
@@ -135,7 +135,7 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
     const tspanID = uniqueText + 'tspan';
     const textWithHover = chart
       .append('text')
-      .attr('x', 10 + xScale(chartOptions.graphValues[0]))
+      .attr('x', 10)
       .attr('y', 12)
       .attr('fill', '#2D2D39')
       .attr('font-size', '16')
@@ -145,12 +145,8 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
       .text(chartOptions.barText)
       .call(wrap, 250, tspanID, 16);
 
-    if (textWithHover.selectAll('tspan').size() > 1) {
-      d3.select('#' + uniqueText).attr('transform', 'translate(' + 0 + ',' + -7.5 + ')');
-    }
-
     // where we should enable the hover object to exist
-    if (textWithHover.selectAll('tspan').size() > 2) {
+    if (textWithHover.selectAll('tspan').size() > 1) {
       const tspanArray = textWithHover.selectAll('tspan').nodes();
       const tspanArrayIDs = [];
       const replacementtspan = tspanArray[1];
@@ -184,7 +180,6 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
         .attr('height', '116px')
         .attr('width', '438px');
 
-      // need to make id clean
       svg2
         .append('text')
         .attr('id', uniqueText + 'hover')
@@ -195,7 +190,8 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
         .attr('font-family', 'UHCSans-SemiBold')
         .attr('font-weight', '600')
         .text(chartOptions.barText)
-        .call(wrap, 420, tspanID + 'hover', 14);
+        // .call(wrap, 250, tspanID, 16);
+        .call(wrap, 250, tspanID + 'hover', 14);
 
       const label = d3.select('#' + uniqueText).selectAll('*');
 
