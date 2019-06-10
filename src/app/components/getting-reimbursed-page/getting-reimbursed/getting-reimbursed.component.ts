@@ -47,6 +47,7 @@ export class GettingReimbursedComponent implements OnInit {
   }
   ngOnInit() {
     this.loading = true;
+    this.mockCards = [{}, {}];
     this.selectedItemId = 0;
     this.gettingReimbursedSharedService
       .getGettingReimbursedData()

@@ -33,7 +33,7 @@ export class AppealsComponent implements OnInit {
 
   ngOnInit() {
     this.loading = true;
-    this.mockCards = [{}, {}];
+    this.mockCards = [{}, {}, {}, {}];
     this.gettingReimbursedSharedService.getGettingReimbursedData().then(completeData => {
       this.loading = false;
       this.summaryItems = JSON.parse(JSON.stringify(completeData));
