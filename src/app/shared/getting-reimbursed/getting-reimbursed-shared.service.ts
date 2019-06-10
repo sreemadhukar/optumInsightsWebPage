@@ -1353,6 +1353,7 @@ export class GettingReimbursedSharedService {
             timeperiod: null
           };
        }*/
+
           AOR = [appealsOverturnedRate, reason];
           resolve(AOR);
         });
