@@ -111,15 +111,27 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
     }
     let text;
     if (this.donutType === 'app-card') {
-      text = chart
-        .append('text')
-        .attr('text-anchor', 'middle')
-        .attr('y', height / height)
-        .style('font-size', '41px')
-        .style('fill', '#2d2d39')
-        .style('font-family', 'UHCSans-Medium')
-        .style('font-weight', '500')
-        .style('vertical-align', 'middle');
+      if (this.chartOptions.gdata[1] === 'claimsAppealOverturnedRate') {
+        text = chart
+          .append('text')
+          .attr('text-anchor', 'middle')
+          .attr('y', 8)
+          .style('font-size', '41px')
+          .style('fill', '#2d2d39')
+          .style('font-family', 'UHCSans-Medium')
+          .style('font-weight', '500')
+          .style('vertical-align', 'middle');
+      } else {
+        text = chart
+          .append('text')
+          .attr('text-anchor', 'middle')
+          .attr('y', height / height)
+          .style('font-size', '41px')
+          .style('fill', '#2d2d39')
+          .style('font-family', 'UHCSans-Medium')
+          .style('font-weight', '500')
+          .style('vertical-align', 'middle');
+      }
     } else if (this.donutType === 'small-card') {
       text = chart
         .append('text')
