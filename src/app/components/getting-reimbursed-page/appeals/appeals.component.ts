@@ -13,7 +13,7 @@ export class AppealsComponent implements OnInit {
   pageTitle: String = '';
   currentSummary: Array<Object> = [{}];
   currentTabTitle: String = '';
-  timePeriod = 'Last 6 months';
+  timePeriod = 'Last 12 months';
   subscription: any;
   overturn: any;
   overturnItem: Array<Object> = [{}];

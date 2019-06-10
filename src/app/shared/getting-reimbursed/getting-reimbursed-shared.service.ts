@@ -505,7 +505,7 @@ export class GettingReimbursedSharedService {
                     { values: appealsData.LineOfBusiness[lobFullData].ClinicalAppeals, labels: 'Clinical' }
                   ]
                 },
-                timeperiod: this.timeFrame
+                timeperiod: 'Last 12 Months' // this.timeFrame
               };
             } else {
               appealsSubmitted = {
@@ -546,7 +546,7 @@ export class GettingReimbursedSharedService {
                     data: '+2.3%'
                   }
                 },
-                timeperiod: this.timeFrame
+                timeperiod: 'Last 12 Months' // this.timeFrame
               };
             } else {
               appealsOverturned = {
@@ -976,7 +976,7 @@ export class GettingReimbursedSharedService {
                       { values: appealsData.LineOfBusiness[lobFullData].ClinicalAppeals, labels: 'Clinical' }
                     ]
                   },
-                  timeperiod: this.timeFrame
+                  timeperiod: 'Last 12 Months' // this.timeFrame
                 };
               } else {
                 appealsSubmitted = {
@@ -1017,7 +1017,7 @@ export class GettingReimbursedSharedService {
                       data: '+2.3%'
                     }
                   },
-                  timeperiod: this.timeFrame
+                  timeperiod: 'Last 12 Months' // this.timeFrame
                 };
               } else {
                 appealsOverturned = {
@@ -1306,7 +1306,7 @@ export class GettingReimbursedSharedService {
                     gdata: ['card-inner', 'claimsAppealOverturnedRate'],
                     sdata: null
                   },
-                  timeperiod: 'Last 6 Months'
+                  timeperiod: 'Last 12 Months'
                 }
               ];
 
