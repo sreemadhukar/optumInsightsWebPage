@@ -7,6 +7,20 @@
   background-color: $alice-blue;
 }
 
+.breadcrums {
+  font-family: 'UHCSans-Medium';
+}
+
+.breadcrums-div {
+  padding-top: 16px;
+  color: $strom-grey;
+  font-family: 'UHCSans-Medium';
+  font-size: 14px;
+  font-weight: $font-weight-semibold;
+  letter-spacing: 0.2px;
+  line-height: 18px;
+}
+
 .header-div {
   padding-top: 16px;
   padding-bottom: 8.8px;
@@ -14,9 +28,9 @@
 
 .header {
   color: $black-rock;
-  font-family: 'UHCSans-Regular';
+  font-family: 'UHCSans-Medium';
   font-size: 36px;
-  font-weight: 600;
+  font-weight: $font-weight-semibold;
   line-height: 40px;
 }
 
@@ -27,9 +41,9 @@
 
 .sub-header {
   color: $black-rock;
-  font-family: 'UHCSans-Regular';
+  font-family: 'UHCSans-Medium';
   font-size: 22px;
-  font-weight: 600;
+  font-weight: $font-weight-semibold;
   line-height: 28px;
 }
 
@@ -39,9 +53,9 @@
 
 .content {
   color: $black-rock;
-  font-family: 'UHCSans-Regular';
+  font-family: 'UHCSans-Medium';
   font-size: 16px;
-  font-weight: 500;
+  font-weight: $font-weight-medium;
   letter-spacing: 0.2px;
   line-height: 22px;
 }
@@ -51,6 +65,7 @@
 }
 
 .hyperlink {
+  font-family: 'UHCSans-Medium';
   color: $blue;
 }
 
@@ -60,15 +75,33 @@
   margin-bottom: 8px;
 }
 
-a {
-  font-family: 'UHCSans-Regular';
+a,
+u {
+  text-decoration: none;
+}
+
+.hyperlink:hover {
+  text-decoration: underline;
+}
+
+a:visited {
+  color: $blue;
+}
+
+a.breadcrums {
+  color: $strom-grey;
+  font-family: 'UHCSans-Medium';
+  font-size: 14px;
+  font-weight: $font-weight-semibold;
+  letter-spacing: 0.2px;
+  line-height: 18px;
 }
 
 li {
   color: $black-rock;
-  font-family: 'UHCSans-Regular';
+  font-family: 'UHCSans-Medium';
   font-size: 16px;
-  font-weight: 500;
+  font-weight: $font-weight-medium;
   letter-spacing: 0.2px;
   line-height: 22px;
   list-style-type: disc;
