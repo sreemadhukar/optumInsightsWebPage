@@ -52,6 +52,10 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
   dataLoaded = false;
   type: any;
   subscription: any;
+  loadingOne: boolean;
+  mockCardOne: any;
+  loadingTwo: boolean;
+  mockCardTwo: any;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -233,6 +237,10 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
   }
 
   ngOnInit() {
+    this.loadingOne = false;
+    this.mockCardOne = [{}];
+    this.loadingTwo = false;
+    this.mockCardTwo = [{}];
     this.timePeriod = this.session.timeFrame; // uncomment it
     this.gettingReimbursedSharedService.getGettingReimbursedData().then(completeData => {
       this.summaryItems = JSON.parse(JSON.stringify(completeData));
