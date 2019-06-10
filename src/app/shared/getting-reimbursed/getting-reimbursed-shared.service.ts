@@ -1249,6 +1249,7 @@ export class GettingReimbursedSharedService {
     return new Promise((resolve, reject) => {
       let parameters;
       let appealsOverturnedRate: Object;
+      const reason = [];
 
       if (this.timeFrame === 'Last 12 Months' || this.timeFrame === 'Year To Date') {
         if (this.timeFrame === 'Last 12 Months') {
@@ -1289,25 +1290,59 @@ export class GettingReimbursedSharedService {
                 appealsData.LineOfBusiness[lobFullData].AdminAppeals +
                 appealsData.LineOfBusiness[lobFullData].ClinicalAppeals;
               const overturned = appealsData.LineOfBusiness[lobFullData].OverTurnCount;
-              /*const overturnedData = [ appealsData.LineOfBusiness[lobFullData].OverTurnCount,
-          submitted - appealsData.LineOfBusiness[lobFullData].OverTurnCount
-        ];*/
+
               const overturnRate = ((overturned / submitted) * 100).toFixed(0);
               const ornumber = Number(overturnRate);
 
-              appealsOverturnedRate = {
-                category: 'app-card',
-                type: 'donut',
-                title: 'Claims Appeals Overturned Rate',
-                data: {
-                  graphValues: [overturnRate, 100 - ornumber],
-                  centerNumber: overturnRate + '%',
-                  color: ['#3381FF', '#E0E0E0'],
-                  gdata: ['card-inner', 'claimsAppealOverturnedRate'],
-                  sdata: null
-                },
-                timeperiod: 'Last 6 Months'
-              };
+              appealsOverturnedRate = [
+                {
+                  category: 'app-card',
+                  type: 'donut',
+                  title: 'Claims Appeals Overturned Rate',
+                  data: {
+                    graphValues: [overturnRate, 100 - ornumber],
+                    centerNumber: overturnRate + '%',
+                    color: ['#3381FF', '#E0E0E0'],
+                    gdata: ['card-inner', 'claimsAppealOverturnedRate'],
+                    sdata: null
+                  },
+                  timeperiod: 'Last 6 Months'
+                }
+              ];
+
+              const reasonsVal1 = [{}];
+              const reasonsVal2 = [{}];
+              const barVal = [{}];
+              const barTitle = [{}];
+              const getTopFiveReasons = appealsData.LineOfBusiness[lobFullData].ListReasonAndCount.sort(function(a, b) {
+                return b.Count - a.Count;
+              }).slice(0, 5);
+              let topFiveReasonTotal;
+              for (let i = 0; i < getTopFiveReasons.length; i++) {
+                if (i === 0) {
+                  topFiveReasonTotal = getTopFiveReasons[i].Count;
+                } else {
+                  topFiveReasonTotal = topFiveReasonTotal + getTopFiveReasons[i].Count;
+                }
+              }
+              for (let a = 0; a < getTopFiveReasons.length; a++) {
+                reasonsVal1[a] = getTopFiveReasons[a].Count;
+                const value1 = Number(reasonsVal1[a]);
+                reasonsVal2[a] = topFiveReasonTotal - getTopFiveReasons[a].Count;
+                barVal[a] = ((getTopFiveReasons[a].Count / topFiveReasonTotal) * 100).toFixed() + '%';
+                barTitle[a] = getTopFiveReasons[a].Reason;
+              }
+              console.log(reasonsVal1, reasonsVal2);
+              for (let i = 0; i <= getTopFiveReasons.length; i++) {
+                reason.push({
+                  type: 'bar chart',
+                  graphValues: [reasonsVal1[i], reasonsVal2[i]],
+                  barText: barTitle[i],
+                  barValue: barVal[i],
+                  color: ['#3381FF', '#FFFFFF', '#E0E0E0'],
+                  gdata: ['app-card-structure', 'appealsOverturnedReason' + i]
+                });
+              }
             }
           } /*else {
           appealsOverturnedRate = {
@@ -1318,30 +1353,12 @@ export class GettingReimbursedSharedService {
             timeperiod: null
           };
        }*/
-          AOR = [appealsOverturnedRate];
+          AOR = [appealsOverturnedRate, reason];
           resolve(AOR);
         });
       }
     });
   }
-  /*public getAppealsOverturnedMockData() {
-    const appealsOverturnedRate = [
-      {
-        category: 'app-card',
-        type: 'donut',
-        title: 'Claims Appeals Overturned Rate',
-        data: {
-          graphValues: [6.6, 100],
-          centerNumber: '6.6%',
-          color: ['#3381FF', '#E0E0E0'],
-          gdata: ['card-inner', 'claimsAppealOverturnedRate'],
-          sdata: null
-        },
-        timeperiod: 'Last 6 Months'
-      }
-    ];
-    return appealsOverturnedRate;
-  }*/
 
   /* function to get Payment Integrity Card Data - Ranjith kumar Ankam */
   public getPaymentIntegrityData() {
