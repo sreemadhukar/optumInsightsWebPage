@@ -1,8 +1,10 @@
 @import '~src/scss/variables.scss';
 @import '~src/scss/mixins';
 .breadcrumb-top-padding {
-  @include padding(20px, 0, 15px, 32px);
-  width: 79.5%;
+  @include padding(20px, 0, 15px, 0);
+  @include margin(0, 0, 0, 11px);
+  box-sizing: border-box;
+  width: 961px;
   .filter_bg {
     box-sizing: border-box;
     border: 1px solid $blue;
@@ -23,6 +25,28 @@
       color: $blue;
       margin: 9.5px 14px 9.5px 14px;
       float: left;
+    }
+  }
+  .filter_bg:hover,
+  .filter_bg:focus {
+    background-color: #196ecf;
+    color: #ffffff;
+    .filter_title {
+      color: #ffffff;
+    }
+    .filter_icon {
+      color: #ffffff;
+    }
+  }
+
+  .filter_bg:active {
+    background-color: #003da1;
+    color: #ffffff;
+    .filter_title {
+      color: #ffffff;
+    }
+    .filter_icon {
+      color: #ffffff;
     }
   }
 }
@@ -164,9 +188,6 @@
   line-height: 30px;
   padding-left: 7px;
   float: left;
-}
-.title-left-padding {
-  padding-left: 15px;
 }
 
 .bottom-shadow {

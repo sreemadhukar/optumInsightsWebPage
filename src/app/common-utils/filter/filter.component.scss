@@ -8,6 +8,17 @@
   border-color: #b3babc;
   z-index: 999;
 }
+.line1 {
+  background-color: #fff;
+  height: 16px;
+  display: flex;
+  border-bottom: solid;
+  border-width: 1px;
+  border-color: #e0e0e0;
+  z-index: 999;
+  width: 418px;
+  margin-left: -32px !important;
+}
 ::ng-deep .mat-radio-label-content {
   margin: 5px;
   font-family: 'UHCSans-Medium', 'Arial' !important;
@@ -23,10 +34,10 @@
   border-color: #b3babc;
 }
 .titleData {
-  width: 100%;
+  width: 354px;
   display: inline-block;
   .title {
-    widows: 80%;
+    width: 322px;
     color: #2d2d39;
     font-family: 'UHCSans-SemiBold', 'Arial';
     font-size: 18px;
@@ -35,7 +46,7 @@
     float: left;
   }
   .icon-display {
-    width: 20%;
+    width: 32px;
     float: right;
     height: 32px;
     margin-top: 15px;
