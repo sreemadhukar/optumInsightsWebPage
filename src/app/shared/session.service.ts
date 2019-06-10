@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class SessionService {
-  public timeFrame = 'Last 6 Months';
+  public timeFrame = 'Last 12 Months';
   public lob = 'All';
   public providerkey = this.providerKey();
   public tin = 'All';
