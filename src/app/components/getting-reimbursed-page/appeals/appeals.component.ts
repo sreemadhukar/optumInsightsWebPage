@@ -15,7 +15,8 @@ export class AppealsComponent implements OnInit {
   currentTabTitle: String = '';
   timePeriod = 'Last 6 months';
   subscription: any;
-  overturnItem: any;
+  overturn: any;
+  overturnItem = {};
   overturnReasonItem: any;
   reason: any;
   title = 'Top Claims Appeals Overturn Reasons';
@@ -40,9 +41,11 @@ export class AppealsComponent implements OnInit {
       this.currentTabTitle = this.summaryItems[3].title;
     });
 
-    this.overturnItem = [{}];
-    this.overturnItem = this.gettingReimbursedSharedService.getAppealsOverturnedMockData();
-    this.overturnReasonItem = [{}];
+    this.gettingReimbursedSharedService.getappealsRateAndReasonData().then(appealsRateData => {
+      // this.overturn = JSON.parse(JSON.stringify(appealsRateData));
+      this.overturnItem = appealsRateData;
+      console.log(this.overturnItem);
+    });
     //  this.overturnReasonItem = this.gettingReimbursedSharedService.getOverturnReasonsMock();
     this.reason = [];
     /* this.reason.type = 'bar chart';
