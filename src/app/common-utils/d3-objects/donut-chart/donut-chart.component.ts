@@ -1,5 +1,7 @@
 import { Component, OnInit, Input, HostListener, ViewEncapsulation, AfterViewInit } from '@angular/core';
 import * as d3 from 'd3';
+import { MatIconRegistry } from '@angular/material';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-donut-chart',
@@ -14,7 +16,9 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
   @Input() chartOptions: any = {};
   @Input() donutType: string;
 
-  constructor() {}
+  constructor(private iconRegistry: MatIconRegistry, sanitizer: DomSanitizer) {
+    iconRegistry.addSvgIcon('home', sanitizer.bypassSecurityTrustResourceUrl('src/assets/images/trend-down.svg'));
+  }
 
   @HostListener('window:resize', ['$event'])
   onResize(event) {
@@ -152,14 +156,23 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
           .attr('r', 16)
           .attr('fill', '#e1fadf');
 
-        chart
-          .append('svg:image')
-          .attr('x', -36)
-          .attr('y', 19)
-          .attr('width', '20px')
-          .attr('height', '20px')
-          .attr('xlink:href', 'src/assets/images/trend-up.svg');
-
+        if (chartOptions.hasOwnProperty('graphScreen') && chartOptions.graphScreen === 'PI') {
+          chart
+            .append('svg:image')
+            .attr('x', -35)
+            .attr('y', 19)
+            .attr('width', '20px')
+            .attr('height', '20px')
+            .attr('xlink:href', 'src/assets/images/down-positive-no-circle.svg');
+        } else {
+          chart
+            .append('svg:image')
+            .attr('x', -36)
+            .attr('y', 19)
+            .attr('width', '20px')
+            .attr('height', '20px')
+            .attr('xlink:href', 'src/assets/images/trend-up.svg');
+        }
         chart
           .append('text')
           .attr('x', 0)
@@ -178,13 +191,23 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
           .attr('r', 16)
           .attr('fill', '#ffe6f0');
 
-        chart
-          .append('svg:image')
-          .attr('x', -36)
-          .attr('y', 19)
-          .attr('width', '20px')
-          .attr('height', '20px')
-          .attr('xlink:href', 'src/assets/images/trend-down.svg');
+        if (chartOptions.hasOwnProperty('graphScreen') && chartOptions.graphScreen === 'PI') {
+          chart
+            .append('svg:image')
+            .attr('x', -36)
+            .attr('y', 19)
+            .attr('width', '20px')
+            .attr('height', '20px')
+            .attr('xlink:href', 'src/assets/images/up-negative-no-circle.svg');
+        } else {
+          chart
+            .append('svg:image')
+            .attr('x', -36)
+            .attr('y', 19)
+            .attr('width', '20px')
+            .attr('height', '20px')
+            .attr('xlink:href', 'src/assets/images/trend-down.svg');
+        }
 
         chart
           .append('text')
