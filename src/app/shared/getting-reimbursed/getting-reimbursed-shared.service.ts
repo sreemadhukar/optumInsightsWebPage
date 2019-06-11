@@ -145,6 +145,8 @@ export class GettingReimbursedSharedService {
               timeperiod: null
             };
           } else if (claimsData != null) {
+            this.timeFrame = 'Last 6 Months';
+
             if (
               claimsData.hasOwnProperty(lobData) &&
               claimsData[lobData] != null &&
@@ -154,6 +156,7 @@ export class GettingReimbursedSharedService {
               claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('ClaimsDenied') &&
               claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('ClaimsSubmitted')
             ) {
+              console.log(this.timeFrame);
               claimsSubmitted = {
                 category: 'app-card',
                 type: 'donutWithLabel',
@@ -1377,7 +1380,7 @@ export class GettingReimbursedSharedService {
 
       if (this.timeFrame === 'Last 12 Months') {
         this.timeFrame = 'Last 6 Months';
-        parameters.timeperiod = 'last6months';
+        parameters.timeperiod = 'rolling12months';
       } else if (this.timeFrame === 'Last 6 Months') {
         parameters.timeperiod = 'last6months';
       }
