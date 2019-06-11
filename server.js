@@ -42,7 +42,6 @@ app.get('/api/getJwt', cors(), function(req, res) {
     token: token
   });
 });
-
 app.get('*', function(req, res) {
   res.sendFile(path.join(__dirname, 'index.html'));
 });
