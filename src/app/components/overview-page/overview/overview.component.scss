@@ -88,6 +88,11 @@
         width: 487px;
         margin-left: 20px;
       }
+      @media (max-width: 1300px) {
+        .cust-width-blank {
+          width: 437px;
+        }
+      }
     }
   }
 }

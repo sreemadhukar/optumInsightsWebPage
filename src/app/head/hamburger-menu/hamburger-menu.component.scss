@@ -287,12 +287,25 @@ app-header {
   line-height: 75px;
   text-align: center;
 }
+.h-3-title-filter {
+  height: 24px;
+  width: 346px;
+  color: $black-rock;
+  font-family: 'UHC Sans';
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 75px;
+  text-align: center;
+}
 
 .icon-left {
   padding-left: 10px;
   color: #757588;
 }
-
+.icon-left-filter {
+  margin-left: -5px;
+  color: #757588;
+}
 .pointer-none {
   pointer-events: none;
 }
@@ -310,7 +323,9 @@ app-header {
 .sidemargin {
   margin: 0 24px 0 24px;
 }
-
+.sidemargin-filter {
+  margin: 0 32px 0 32px;
+}
 // ::ng-deep span.mat-expansion-indicator {
 //   padding-bottom: 6px !important;
 // }

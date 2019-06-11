@@ -13,9 +13,10 @@ export class AppealsComponent implements OnInit {
   pageTitle: String = '';
   currentSummary: Array<Object> = [{}];
   currentTabTitle: String = '';
-  timePeriod = 'Last 6 months';
+  timePeriod = 'Last 12 months';
   subscription: any;
-  overturnItem: any;
+  overturn: any;
+  overturnItem: Array<Object> = [{}];
   overturnReasonItem: any;
   reason: any;
   title = 'Top Claims Appeals Overturn Reasons';
@@ -32,7 +33,7 @@ export class AppealsComponent implements OnInit {
 
   ngOnInit() {
     this.loading = true;
-    this.mockCards = [{}, {}];
+    this.mockCards = [{}, {}, {}, {}];
     this.gettingReimbursedSharedService.getGettingReimbursedData().then(completeData => {
       this.loading = false;
       this.summaryItems = JSON.parse(JSON.stringify(completeData));
@@ -40,31 +41,11 @@ export class AppealsComponent implements OnInit {
       this.currentTabTitle = this.summaryItems[3].title;
     });
 
-    this.overturnItem = [{}];
-    this.overturnItem = this.gettingReimbursedSharedService.getAppealsOverturnedMockData();
-    this.overturnReasonItem = [{}];
-    //  this.overturnReasonItem = this.gettingReimbursedSharedService.getOverturnReasonsMock();
-    this.reason = [];
-    /* this.reason.type = 'bar chart';
-    this.reason.graphValues = [30, 40 ] ;
-    this.reason.color =  ['#3381FF', '#FFFFFF', '#E0E0E0'];
-    this.reason.gdata = ['card-inner', 'appealsOverturnedReason'];*/
-
-    const val1 = [30, 60, 80, 20, 10];
-    const val2 = [40, 10, 10, 50, 60];
-    const btitle = ['Notifications/ Authorizations', 'Referrals', 'Claims Processing', 'Timely Filing', 'Audit Review'];
-    const bvalue = ['22 %', '33%', '30%', '10%', '5%'];
-    for (let i = 0; i <= 4; i++) {
-      this.reason.push({
-        type: 'bar chart',
-        graphValues: [val1[i], val2[i]],
-        barText: btitle[i],
-        barValue: bvalue[i],
-        color: ['#3381FF', '#FFFFFF', '#E0E0E0'],
-        gdata: ['app-card-structure', 'appealsOverturnedReason' + i]
-      });
-    }
-    console.log(this.reason);
+    this.gettingReimbursedSharedService.getappealsRateAndReasonData().then(appealsRateData => {
+      this.loading = false;
+      this.overturnItem = appealsRateData[0];
+      this.reason = appealsRateData[1];
+    });
   }
 
   helpIconClick(title) {
