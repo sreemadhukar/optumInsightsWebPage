@@ -1,7 +1,5 @@
 import { Component, OnInit, Input, HostListener, ViewEncapsulation, AfterViewInit } from '@angular/core';
 import * as d3 from 'd3';
-import { MatIconRegistry } from '@angular/material';
-import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-donut-chart',
@@ -16,9 +14,7 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
   @Input() chartOptions: any = {};
   @Input() donutType: string;
 
-  constructor(private iconRegistry: MatIconRegistry, sanitizer: DomSanitizer) {
-    iconRegistry.addSvgIcon('home', sanitizer.bypassSecurityTrustResourceUrl('src/assets/images/trend-down.svg'));
-  }
+  constructor() {}
 
   @HostListener('window:resize', ['$event'])
   onResize(event) {
