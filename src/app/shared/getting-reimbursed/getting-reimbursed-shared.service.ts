@@ -1065,7 +1065,7 @@ export class GettingReimbursedSharedService {
       };
       if (this.timeFrame === 'Last 12 Months') {
         this.timeFrame = 'Last 6 Months';
-        parameters.timeperiod = 'rolling12months';
+        parameters.timeperiod = 'last6months';
       } else if (this.timeFrame === 'Last 6 Months') {
         parameters.timeperiod = 'last6months';
       } else if (this.timeFrame === 'Year To Date') {
