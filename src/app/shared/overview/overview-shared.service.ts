@@ -241,8 +241,8 @@ export class OverviewSharedService {
               fdata: {
                 type: 'bar chart',
                 graphValues: [
-                  providerSystems.SelfServiceInquiries.ALL.SelfService.TotalSelfServiceCost.toFixed(2),
-                  providerSystems.SelfServiceInquiries.ALL.SelfService.TotalPhoneCost.toFixed(2)
+                  providerSystems.SelfServiceInquiries.ALL.SelfService.TotalSelfServiceCost.toFixed(),
+                  providerSystems.SelfServiceInquiries.ALL.SelfService.TotalPhoneCost.toFixed()
                 ],
                 concatString: '$',
                 color: ['#3381FF', '#FFFFFF', '#80B0FF'],
@@ -282,14 +282,14 @@ export class OverviewSharedService {
               toggle: this.toggle.setToggles("Save Your Staff's Time by:", 'Opportunities', 'Overview', false),
               data: {
                 centerNumber:
-                  providerSystems.SelfServiceInquiries.ALL.SelfService.TotalCallTime.toFixed(2) + ' Hours/day',
+                  providerSystems.SelfServiceInquiries.ALL.SelfService.TotalCallTime.toFixed(0) + ' Hours/day',
                 gdata: []
               },
               fdata: {
                 type: 'bar chart',
                 graphValues: [
-                  providerSystems.SelfServiceInquiries.ALL.SelfService.SelfServiceCallTime.toFixed(2),
-                  providerSystems.SelfServiceInquiries.ALL.SelfService.PhoneCallTime.toFixed(2)
+                  providerSystems.SelfServiceInquiries.ALL.SelfService.SelfServiceCallTime.toFixed(0),
+                  providerSystems.SelfServiceInquiries.ALL.SelfService.PhoneCallTime.toFixed(0)
                 ],
                 concatString: 'hours',
                 color: ['#3381FF', '#FFFFFF', '#80B0FF'],

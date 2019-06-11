@@ -80,6 +80,10 @@ u {
   text-decoration: none;
 }
 
+a.hyperlink {
+  color: $blue;
+}
+
 .hyperlink:hover {
   text-decoration: underline;
 }
