@@ -65,6 +65,7 @@
 }
 
 .hyperlink {
+  font-family: 'UHCSans-Medium';
   color: $blue;
 }
 
@@ -77,6 +78,11 @@ a,
 u {
   font-family: 'UHCSans-Medium';
   text-decoration: none;
+  color: $blue;
+}
+
+a.hyperlink {
+  color: $blue;
 }
 
 .hyperlink:hover {
