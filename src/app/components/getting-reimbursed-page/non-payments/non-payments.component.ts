@@ -246,7 +246,6 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
       this.summaryItems = JSON.parse(JSON.stringify(completeData));
       this.currentSummary = this.summaryItems[2].data;
       this.currentTabTitle = this.summaryItems[2].title;
-      console.log(this.summaryItems);
     });
     this.monthlyLineGraph.chartId = 'non-payment-trend-block';
     this.monthlyLineGraph.titleData = [{}];

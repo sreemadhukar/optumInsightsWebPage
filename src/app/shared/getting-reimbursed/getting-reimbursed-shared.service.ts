@@ -156,7 +156,6 @@ export class GettingReimbursedSharedService {
               claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('ClaimsDenied') &&
               claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('ClaimsSubmitted')
             ) {
-              console.log(this.timeFrame);
               claimsSubmitted = {
                 category: 'app-card',
                 type: 'donutWithLabel',
