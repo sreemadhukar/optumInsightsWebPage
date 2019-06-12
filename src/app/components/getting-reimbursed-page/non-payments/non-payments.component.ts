@@ -52,7 +52,6 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
   show = false;
   dataLoaded = false;
   type: any;
-  subscription: any;
   loadingOne: boolean;
   mockCardOne: any;
   loadingTwo: boolean;
@@ -203,7 +202,6 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
     private iconRegistry: MatIconRegistry,
     private elementRef: ElementRef,
     private renderer: Renderer2,
-    private checkStorage: StorageService,
     sanitizer: DomSanitizer,
     private gettingReimbursedSharedService: GettingReimbursedSharedService,
     private cdRef: ChangeDetectorRef,
