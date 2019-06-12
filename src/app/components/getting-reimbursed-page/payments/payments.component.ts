@@ -11,6 +11,7 @@ import { StorageService } from '../../../shared/storage-service.service';
 export class PaymentsComponent implements OnInit {
   title = 'Claims Paid Breakdown';
   claimsPaidTimePeriod = 'Rolling 6 Months';
+  subscription: any;
   paymentsItems: any;
   payments: Array<object>;
   claimsPaidItems: Array<object>;
@@ -21,6 +22,7 @@ export class PaymentsComponent implements OnInit {
   loading: boolean;
   mockCards: any;
   constructor(
+    private checkStorage: StorageService,
     private gettingReimbursedSharedService: GettingReimbursedSharedService,
     private glossaryExpandService: GlossaryExpandService,
     private checkStorage: StorageService
