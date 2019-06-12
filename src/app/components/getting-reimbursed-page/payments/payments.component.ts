@@ -18,24 +18,34 @@ export class PaymentsComponent implements OnInit {
   pageTitle: String = '';
   userName: String = '';
   showClaimsPaid: Boolean = false;
+  subscription: any;
+  loading: boolean;
+  mockCards: any;
   constructor(
     private checkStorage: StorageService,
     private gettingReimbursedSharedService: GettingReimbursedSharedService,
-    private glossaryExpandService: GlossaryExpandService
+    private glossaryExpandService: GlossaryExpandService,
+    private checkStorage: StorageService
   ) {
     this.pageTitle = 'Claims Payments';
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.ngOnInit());
   }
 
   ngOnInit() {
+    this.loading = true;
+    this.mockCards = [{}, {}];
     this.gettingReimbursedSharedService
       .getGettingReimbursedData()
       .then(completeData => {
+        this.loading = false;
         this.paymentsItems = JSON.parse(JSON.stringify(completeData));
         this.payments = this.paymentsItems[1].data;
         console.log(this.payments);
       })
-      .catch(reason => console.log(reason.message));
+      .catch(reason => {
+        console.log(reason.message);
+        this.loading = false;
+      });
 
     this.claimsPaidItems = [
       {

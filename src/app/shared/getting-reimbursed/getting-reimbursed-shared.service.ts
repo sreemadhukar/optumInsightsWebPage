@@ -145,6 +145,8 @@ export class GettingReimbursedSharedService {
               timeperiod: null
             };
           } else if (claimsData != null) {
+            this.timeFrame = 'Last 6 Months';
+
             if (
               claimsData.hasOwnProperty(lobData) &&
               claimsData[lobData] != null &&
@@ -283,6 +285,29 @@ export class GettingReimbursedSharedService {
                 },
                 timeperiod: this.timeFrame
               };
+              // AUTHOR: MADHUKAR - claims paid shows no color if the value is 0
+              if (!paidData[0] && !paidData[1] && !paidData[2]) {
+                claimsPaid = {
+                  category: 'app-card',
+                  type: 'donutWithLabel',
+                  title: 'Claims Paid',
+                  data: {
+                    graphValues: [0, 100],
+                    centerNumber: '$' + this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].ClaimsPaid),
+                    color: ['#D7DCE1', '#D7DCE1'],
+                    gdata: ['card-inner', 'claimsPaid'],
+                    sdata: {
+                      sign: 'down',
+                      data: '-2.8%'
+                    }
+                  },
+                  besideData: {
+                    labels: ['Medicare & Retirement', 'Community & State', 'Employer & Individual'],
+                    color: ['#3381FF', '#80B0FF', '#003DA1']
+                  },
+                  timeperiod: this.timeFrame
+                };
+              } // Date : 31/5/2019
             } else {
               claimsPaid = {
                 category: 'app-card',
@@ -482,7 +507,7 @@ export class GettingReimbursedSharedService {
                     { values: appealsData.LineOfBusiness[lobFullData].ClinicalAppeals, labels: 'Clinical' }
                   ]
                 },
-                timeperiod: this.timeFrame
+                timeperiod: 'Last 12 Months' // this.timeFrame
               };
             } else {
               appealsSubmitted = {
@@ -498,11 +523,16 @@ export class GettingReimbursedSharedService {
             if (
               appealsData.hasOwnProperty('LineOfBusiness') &&
               appealsData.LineOfBusiness.hasOwnProperty(lobFullData) &&
-              appealsData.LineOfBusiness[lobFullData].hasOwnProperty('OverTurnCount')
+              appealsData.LineOfBusiness[lobFullData].hasOwnProperty('OverTurnCount') &&
+              appealsData.LineOfBusiness[lobFullData].hasOwnProperty('AdminAppeals') &&
+              appealsData.LineOfBusiness[lobFullData].hasOwnProperty('ClinicalAppeals')
             ) {
+              const submitted =
+                appealsData.LineOfBusiness[lobFullData].AdminAppeals +
+                appealsData.LineOfBusiness[lobFullData].ClinicalAppeals;
               const overturnedData = [
                 appealsData.LineOfBusiness[lobFullData].OverTurnCount,
-                100 - appealsData.LineOfBusiness[lobFullData].OverTurnCount
+                submitted - appealsData.LineOfBusiness[lobFullData].OverTurnCount
               ];
               appealsOverturned = {
                 category: 'app-card',
@@ -510,7 +540,7 @@ export class GettingReimbursedSharedService {
                 title: 'Claims Appeals Overturned',
                 data: {
                   graphValues: overturnedData,
-                  centerNumber: appealsData.LineOfBusiness[lobFullData].OverTurnCount,
+                  centerNumber: this.common.nFormatter(appealsData.LineOfBusiness[lobFullData].OverTurnCount),
                   color: ['#3381FF', '#D7DCE1'],
                   gdata: ['card-inner', 'claimsAppealOverturned'],
                   sdata: {
@@ -518,7 +548,7 @@ export class GettingReimbursedSharedService {
                     data: '+2.3%'
                   }
                 },
-                timeperiod: this.timeFrame
+                timeperiod: 'Last 12 Months' // this.timeFrame
               };
             } else {
               appealsOverturned = {
@@ -533,7 +563,11 @@ export class GettingReimbursedSharedService {
           submissions = { id: 1, title: 'Claims Submissions', data: [claimsSubmitted, claimsTAT] };
           payments = { id: 2, title: 'Claims Payments', data: [claimsPaid, claimsPaidRate] };
           nonpayments = { id: 3, title: 'Claims Non-Payments', data: [claimsNotPaid, claimsNotPaidRate] };
-          appeals = { id: 4, title: 'Claims Appeals', data: [appealsSubmitted, appealsOverturned] };
+          appeals = {
+            id: 4,
+            title: 'Claims Appeals',
+            data: [appealsSubmitted, appealsOverturned]
+          };
           summaryData[0] = submissions;
           summaryData[1] = payments;
           summaryData[2] = nonpayments;
@@ -923,9 +957,10 @@ export class GettingReimbursedSharedService {
                   title: 'Claims Appeals Submitted',
                   data: {
                     graphValues: submittedData,
-                    centerNumber:
+                    centerNumber: this.common.nFormatter(
                       appealsData.LineOfBusiness[lobFullData].AdminAppeals +
-                      appealsData.LineOfBusiness[lobFullData].ClinicalAppeals,
+                        appealsData.LineOfBusiness[lobFullData].ClinicalAppeals
+                    ),
                     color: ['#3381FF', '#80B0FF', '#003DA1'],
                     gdata: ['card-inner', 'claimsAppealSubmitted'],
                     sdata: {
@@ -943,7 +978,7 @@ export class GettingReimbursedSharedService {
                       { values: appealsData.LineOfBusiness[lobFullData].ClinicalAppeals, labels: 'Clinical' }
                     ]
                   },
-                  timeperiod: this.timeFrame
+                  timeperiod: 'Last 12 Months' // this.timeFrame
                 };
               } else {
                 appealsSubmitted = {
@@ -959,11 +994,16 @@ export class GettingReimbursedSharedService {
               if (
                 appealsData.hasOwnProperty('LineOfBusiness') &&
                 appealsData.LineOfBusiness.hasOwnProperty(lobFullData) &&
-                appealsData.LineOfBusiness[lobFullData].hasOwnProperty('OverTurnCount')
+                appealsData.LineOfBusiness[lobFullData].hasOwnProperty('OverTurnCount') &&
+                appealsData.LineOfBusiness[lobFullData].hasOwnProperty('AdminAppeals') &&
+                appealsData.LineOfBusiness[lobFullData].hasOwnProperty('ClinicalAppeals')
               ) {
+                const submitted =
+                  appealsData.LineOfBusiness[lobFullData].AdminAppeals +
+                  appealsData.LineOfBusiness[lobFullData].ClinicalAppeals;
                 const overturnedData = [
                   appealsData.LineOfBusiness[lobFullData].OverTurnCount,
-                  100 - appealsData.LineOfBusiness[lobFullData].OverTurnCount
+                  submitted - appealsData.LineOfBusiness[lobFullData].OverTurnCount
                 ];
                 appealsOverturned = {
                   category: 'app-card',
@@ -971,7 +1011,7 @@ export class GettingReimbursedSharedService {
                   title: 'Claims Appeals Overturned',
                   data: {
                     graphValues: overturnedData,
-                    centerNumber: appealsData.LineOfBusiness[lobFullData].OverTurnCount,
+                    centerNumber: this.common.nFormatter(appealsData.LineOfBusiness[lobFullData].OverTurnCount),
                     color: ['#3381FF', '#D7DCE1'],
                     gdata: ['card-inner', 'claimsAppealOverturned'],
                     sdata: {
@@ -979,7 +1019,7 @@ export class GettingReimbursedSharedService {
                       data: '+2.3%'
                     }
                   },
-                  timeperiod: this.timeFrame
+                  timeperiod: 'Last 12 Months' // this.timeFrame
                 };
               } else {
                 appealsOverturned = {
@@ -1025,7 +1065,8 @@ export class GettingReimbursedSharedService {
         monthly: false
       };
       if (this.timeFrame === 'Last 12 Months') {
-        parameters.timeperiod = 'rolling12months';
+        this.timeFrame = 'Last 6 Months';
+        parameters.timeperiod = 'last6months';
       } else if (this.timeFrame === 'Last 6 Months') {
         parameters.timeperiod = 'last6months';
       } else if (this.timeFrame === 'Year To Date') {
@@ -1074,6 +1115,7 @@ export class GettingReimbursedSharedService {
         const response: any = [];
 
         if (this.timeFrame === 'Last 12 Months') {
+          this.timeFrame = 'Last 6 Months';
           parameters.timeperiod = 'rolling12months';
         } else if (this.timeFrame === 'Last 6 Months') {
           parameters.timeperiod = 'last6months';
@@ -1160,6 +1202,7 @@ export class GettingReimbursedSharedService {
         const response: any = [];
 
         if (this.timeFrame === 'Last 12 Months') {
+          this.timeFrame = 'Last 6 Months';
           parameters.timeperiod = 'rolling12months';
         } else if (this.timeFrame === 'Last 6 Months') {
           parameters.timeperiod = 'last6months';
@@ -1201,32 +1244,211 @@ export class GettingReimbursedSharedService {
             delete v.month;
           });
           resolve(filter_data_claimSummary);
-          /* filter_data_claimSummary = summaryData[0].sort(function(a, b) {
-            a = a.ReportingPeriod.split('-').join('');
-            b = b.ReportingPeriod.split('-').join('');
-            console.log('a, b', a, b);
-            return a > b ? 1 : a < b ? -1 : 0;
-          });
-          console.log(filter_data_claimSummary);
-          const monthlyTrend = [];
-          let monString = '';
-          for (let i = 0; i < filter_data_claimSummary.length; i++) {
-            monString = filter_data_claimSummary[i].ReportingPeriod.split('-')[1];
-            console.log(monString, this.nonPaymentBy);
-            if (this.nonPaymentBy === 'volume') {
-              monthlyTrend.push({
-                name: this.ReturnMonthlyString(monString),
-                value: filter_data_claimSummary[i][lobData]['ClaimsLobSummary'][0].ClaimsDenied
-              });
-            } else if (this.nonPaymentBy === 'dollar') {
-              monthlyTrend.push({
-                name: this.ReturnMonthlyString(monString),
-                value: filter_data_claimSummary[i][lobData]['ClaimsLobSummary'][0].AmountDenied
-              });
+        });
+      });
+    });
+  }
+  public getappealsRateAndReasonData() {
+    this.tin = this.session.tin;
+    this.lob = this.session.lob;
+    this.timeFrame = 'Last 12 Months'; // this.session.timeFrame;
+    this.providerKey = this.session.providerKey();
+    let AOR: Array<Object> = [];
+    return new Promise((resolve, reject) => {
+      let parameters;
+      let appealsOverturnedRate: Object;
+      const reason = [];
+
+      if (this.timeFrame === 'Last 12 Months' || this.timeFrame === 'Year To Date') {
+        if (this.timeFrame === 'Last 12 Months') {
+          this.timeFrame = 'Last 6 Months';
+          parameters = [this.providerKey, true];
+          if (this.tin !== 'All') {
+            parameters = [this.providerKey, true, false, this.tin];
+          }
+        } else if (this.timeFrame === 'Year To Date') {
+          parameters = [this.providerKey, false, true];
+          if (this.tin !== 'All') {
+            parameters = [this.providerKey, false, true, this.tin];
+          }
+        }
+        this.gettingReimbursedService.getGettingReimbursedData(...parameters).subscribe(([claimsData, appealsData]) => {
+          const lobFullData = this.common.matchFullLobWithData(this.lob);
+          const lobData = this.common.matchLobWithData(this.lob);
+          /*  if (appealsData != null && appealsData.hasOwnProperty('status')) {
+          appealsOverturnedRate = {
+              category: 'app-card',
+              type: 'donut',
+              status: appealsData.status,
+              title: 'Claims Appeals Overturned Rate',
+              data: null,
+              timeperiod: null
+            };
+    } else*/ if (
+            appealsData != null
+          ) {
+            if (
+              appealsData.hasOwnProperty('LineOfBusiness') &&
+              appealsData.LineOfBusiness.hasOwnProperty(lobFullData) &&
+              appealsData.LineOfBusiness[lobFullData].hasOwnProperty('OverTurnCount') &&
+              appealsData.LineOfBusiness[lobFullData].hasOwnProperty('AdminAppeals') &&
+              appealsData.LineOfBusiness[lobFullData].hasOwnProperty('ClinicalAppeals')
+            ) {
+              const submitted =
+                appealsData.LineOfBusiness[lobFullData].AdminAppeals +
+                appealsData.LineOfBusiness[lobFullData].ClinicalAppeals;
+              const overturned = appealsData.LineOfBusiness[lobFullData].OverTurnCount;
+
+              const overturnRate = ((overturned / submitted) * 100).toFixed(0);
+              const ornumber = Number(overturnRate);
+
+              appealsOverturnedRate = [
+                {
+                  category: 'app-card',
+                  type: 'donut',
+                  title: 'Claims Appeals Overturned Rate',
+                  data: {
+                    graphValues: [overturnRate, 100 - ornumber],
+                    centerNumber: overturnRate + '%',
+                    color: ['#3381FF', '#E0E0E0'],
+                    gdata: ['card-inner', 'claimsAppealOverturnedRate'],
+                    sdata: null
+                  },
+                  timeperiod: 'Last 12 Months'
+                }
+              ];
+
+              const reasonsVal1 = [{}];
+              const reasonsVal2 = [{}];
+              const barVal = [{}];
+              const barTitle = [{}];
+              const getTopFiveReasons = appealsData.LineOfBusiness[lobFullData].ListReasonAndCount.sort(function(a, b) {
+                return b.Count - a.Count;
+              }).slice(0, 5);
+              let topFiveReasonTotal;
+              for (let i = 0; i < getTopFiveReasons.length; i++) {
+                if (i === 0) {
+                  topFiveReasonTotal = getTopFiveReasons[i].Count;
+                } else {
+                  topFiveReasonTotal = topFiveReasonTotal + getTopFiveReasons[i].Count;
+                }
+              }
+              for (let a = 0; a < getTopFiveReasons.length; a++) {
+                reasonsVal1[a] = getTopFiveReasons[a].Count;
+                const value1 = Number(reasonsVal1[a]);
+                reasonsVal2[a] = topFiveReasonTotal - getTopFiveReasons[a].Count;
+                barVal[a] = ((getTopFiveReasons[a].Count / topFiveReasonTotal) * 100).toFixed() + '%';
+                barTitle[a] = getTopFiveReasons[a].Reason;
+              }
+              console.log(reasonsVal1, reasonsVal2);
+              for (let i = 0; i <= getTopFiveReasons.length; i++) {
+                reason.push({
+                  type: 'bar chart',
+                  graphValues: [reasonsVal1[i], reasonsVal2[i]],
+                  barText: barTitle[i],
+                  barValue: barVal[i],
+                  color: ['#3381FF', '#FFFFFF', '#E0E0E0'],
+                  gdata: ['app-card-structure', 'appealsOverturnedReason' + i]
+                });
+              }
+            }
+          } /*else {
+          appealsOverturnedRate = {
+            category: 'app-card',
+            type: 'donut',
+            title: null,
+            data: null,
+            timeperiod: null
+          };
+       }*/
+
+          AOR = [appealsOverturnedRate, reason];
+          resolve(AOR);
+        });
+      }
+    });
+  }
+
+  /* function to get Payment Integrity Card Data - Ranjith kumar Ankam */
+  public getPaymentIntegrityData() {
+    return new Promise((resolve, reject) => {
+      this.timeFrame = this.session.timeFrame;
+      this.providerKey = this.session.providerKey();
+
+      const parameters = {
+        providerkey: this.providerKey,
+        timeperiod: ''
+      };
+
+      if (this.timeFrame === 'Last 12 Months') {
+        this.timeFrame = 'Last 6 Months';
+        parameters.timeperiod = 'rolling12months';
+      } else if (this.timeFrame === 'Last 6 Months') {
+        parameters.timeperiod = 'last6months';
+      }
+      this.gettingReimbursedService.getPaymentIntegrityData(parameters).subscribe(r => {
+        console.log(r);
+        if (r !== null && r !== '') {
+          const result: any = r;
+          const output: any = {};
+          let returnedWidth = 4;
+          let notReturnedWidth = 4;
+          if (result.MedicalRecordsReturned > result.MedicalRecordsOutstanding) {
+            returnedWidth = 382;
+            if (result.MedicalRecordsOutstanding !== 0) {
+              notReturnedWidth = (result.MedicalRecordsOutstanding * 382) / result.MedicalRecordsReturned;
+            }
+          } else {
+            notReturnedWidth = 382;
+            if (result.MedicalRecordsReturned !== 0) {
+              returnedWidth = (result.MedicalRecordsReturned * 382) / result.MedicalRecordsOutstanding;
             }
           }
-          console.log('final array', monthlyTrend);*/
-        });
+
+          output.returnedWidth = returnedWidth;
+          output.notReturnedWidth = notReturnedWidth;
+          output.MedicalRecordsOutstanding = this.common.nFormatter(result.MedicalRecordsOutstanding);
+          output.MedicalRecordsRequested = this.common.nFormatter(result.MedicalRecordsRequested);
+          output.MedicalRecordsReturned = this.common.nFormatter(result.MedicalRecordsReturned);
+          output.OutStandingAmount = '$' + this.common.nFormatter(result.OutStandingAmount);
+          output.OutStandingAmountVariance =
+            Math.round(result.OutStandingAmountVariance) > 0
+              ? '+' + Math.round(result.OutStandingAmountVariance * 10) / 10 + '%'
+              : Math.round(result.OutStandingAmountVariance * 10) / 10 + '%';
+          output.RecordsRequestedVariance =
+            Math.round(result.RecordsRequestedVariance) > 0
+              ? '+' + Math.round(result.RecordsRequestedVariance * 10) / 10 + '%'
+              : Math.round(result.RecordsRequestedVariance * 10) / 10 + '%';
+          output.VarianceStartDate =
+            this.getMonthname(result.VarianceStartDate) + ' ' + this.getFullyear(result.VarianceStartDate);
+          output.VarianceEndDate =
+            this.getMonthname(result.VarianceEndDate) + ' ' + this.getFullyear(result.VarianceEndDate);
+          output.timeperiod = this.timeFrame;
+          let sData: any = {};
+          if (result.RecordsRequestedVariance > 0) {
+            sData = { sign: 'down', data: output.RecordsRequestedVariance + '*' };
+          } else {
+            sData = { sign: 'up', data: output.RecordsRequestedVariance + '*' };
+          }
+          output.piDonutData = {
+            timeperiod: this.timeFrame,
+            donutData: {
+              centerNumber: this.common.nFormatter(result.MedicalRecordsRequested),
+              color: ['#3381FF', '#D7DCE1'],
+              gdata: ['card-inner', 'piCard'],
+              graphValues: [100, 1000],
+              sdata: sData,
+              graphScreen: 'PI'
+            },
+            besideData: {
+              color: ['#3381FF', '#D7DCE1'],
+              labels: ['Pre-Payment Records Requested', 'Claims Submitted']
+            }
+          };
+          resolve(output);
+        } else {
+          resolve(null);
+        }
       });
     });
   }
@@ -1235,5 +1457,16 @@ export class GettingReimbursedSharedService {
     return str.replace(/\w\S*/g, function(txt) {
       return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
     });
+  }
+
+  public getMonthname(dt) {
+    const d = new Date(dt);
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    return months[d.getMonth()];
+  }
+
+  public getFullyear(dt) {
+    const d = new Date(dt);
+    return d.getFullYear();
   }
 }

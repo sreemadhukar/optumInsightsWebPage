@@ -28,6 +28,8 @@ export class SelfServiceComponent implements OnInit {
   callCostCallIn90daysValue: String = '';
   callCostOperatingData: any = {};
   disBarGraphCallsCost: Boolean = false;
+  mockCards: any;
+  loading: boolean;
 
   subscription: any;
 
@@ -61,9 +63,12 @@ export class SelfServiceComponent implements OnInit {
 
   ngOnInit() {
     this.disBarGraphCallsCost = true;
+    this.mockCards = [{}, {}, {}, {}, {}, {}];
+    this.loading = true;
     this.selfServiceSrc
       .getSelfServiceData()
       .then(selfServiceData => {
+        this.loading = false;
         this.selfServiceItems = selfServiceData[0];
         this.callCostOperatingData = selfServiceData[1];
         if (this.callCostOperatingData.length === 0) {

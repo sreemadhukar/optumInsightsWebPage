@@ -9,7 +9,6 @@
   font-size: 30px;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
   border-radius: 2px;
-
   .chart-details-donut {
     float: left;
     /*padding-left: 15px;
@@ -21,13 +20,12 @@
   .full-width {
     width: 100%;
   }
-
   /* Css for Labels*/
   /*
     ul.list-labels > li {
       display: block;
       color: $black-rock;
-      font-family: 'UHCSans-Regular';
+      font-family: 'UHCSans-Medium', 'sans-serif', 'Arial';
       font-size: 14px;
       font-weight: 500;
       letter-spacing: 0.2px;
@@ -54,7 +52,6 @@
       color: #000;
     }  */
   /* Css for Labels Ends here*/
-
   .app-card-list-labels {
     display: block;
     color: $black-rock;
@@ -66,8 +63,9 @@
     float: left;
   }
   .app-card-list-labels > li {
-    margin-bottom: 13px;
+    margin-bottom: 16px;
     margin-right: 8px;
+    font-family: 'UHCSans-Medium';
   }
   .label-dots {
     height: 16px;
@@ -89,7 +87,6 @@
     margin-top: 40px;
     margin-left: 53px;
   }
-
   .claims-paid-beside-data-block,
   .claims-appeals-submitted-beside-data-block {
     float: left;
@@ -120,7 +117,6 @@
     float: left;
     padding: 14px 0px 32px 53px;
   }
-
   .claims-paid-donut-with-label,
   .claims-appeals-submitted-donut-with-label,
   .calls-donut-with-label {
@@ -129,7 +125,7 @@
   }
   .rotate-graph-label-value {
     color: $black-rock;
-    font-family: 'UHCSans-Regular';
+    font-family: 'UHCSans-Medium', 'sans-serif', 'Arial';
     font-size: 20px;
     font-weight: 600;
     line-height: 22px;
@@ -137,7 +133,7 @@
   }
   .rotate-graph-label {
     color: $strom-grey;
-    font-family: 'UHCSans-Regular';
+    font-family: 'UHCSans-Medium', 'sans-serif', 'Arial';
     font-size: 16px;
     font-weight: 500;
     letter-spacing: 0.2px;
@@ -159,7 +155,7 @@
   }
   .bottom-label-value {
     color: $black-rock;
-    font-family: 'UHCSans-Regular';
+    font-family: 'UHCSans-SemiBold';
     font-size: 20px;
     font-weight: 600;
     line-height: 22px;
@@ -167,7 +163,7 @@
   }
   .bottom-label {
     color: $strom-grey;
-    font-family: 'UHCSans-Regular';
+    font-family: 'UHCSans-Medium', 'sans-serif', 'Arial';
     font-size: 16px;
     font-weight: 500;
     letter-spacing: 0.2px;
@@ -206,7 +202,6 @@
     width: 135px;
     text-align: center;
     padding-left: 29px;
-
     .donut-graph-title {
       color: $strom-grey;
       font-family: 'UHCSans-Medium';
@@ -242,6 +237,7 @@
   }
   /* Css for Labels Ends here*/
 }
+
 .app-card-structure-with-more-height {
   height: 442px !important;
 }
@@ -249,13 +245,39 @@
 .small-bar-chart-struct {
   padding-left: 72px;
   padding-top: 30px;
-
   .small-bar-chart-value {
     color: #2d2d39;
-    font-family: 'UHCSans-Regular', 'Arial';
+    font-family: 'UHCSans-Medium', 'sans-serif', 'Arial';
     font-size: 41px;
     font-weight: 500;
     letter-spacing: -0.5px;
     line-height: 48px;
+  }
+}
+
+.card-skeleton:empty {
+  margin: auto;
+  width: 468px;
+  height: 356px;
+
+  background-image: radial-gradient(circle 50px at 50px 50px, lightgray 99%, transparent 0),
+    linear-gradient(100deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.5) 50%, rgba(255, 255, 255, 0) 80%),
+    linear-gradient(lightgray 20px, transparent 0), linear-gradient(lightgray 20px, transparent 0),
+    linear-gradient(lightgray 20px, transparent 0), linear-gradient(lightgray 20px, transparent 0);
+
+  background-repeat: no-repeat;
+
+  background-size: 100px 200px, /* circle */ 50px 356px, /* highlight */ 150px 200px, 250px 200px, 300px 200px,
+    250px 200px;
+
+  background-position: 10px 125px, /* circle */ 0 0, /* highlight */ 120px 100px, 120px 150px, 120px 200px, 120px 250px;
+
+  animation: shine 1s infinite;
+}
+
+@keyframes shine {
+  to {
+    background-position: 10px 125px, 100% 0, /* move highlight to right */ 120px 100px, 120px 150px, 120px 200px,
+      120px 250px;
   }
 }

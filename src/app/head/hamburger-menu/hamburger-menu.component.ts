@@ -29,6 +29,9 @@ import { ProviderSearchComponent } from '../../common-utils/provider-search/prov
 import { StorageService } from '../../shared/storage-service.service';
 import { GlossaryExpandService } from '../../shared/glossary-expand.service';
 import { Subscription } from 'rxjs';
+import { PriorAuthSharedService } from 'src/app/shared/prior-authorization/prior-auth.service';
+import { FilterExpandService } from '../../shared/filter-expand.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-hamburger-menu',
@@ -49,8 +52,12 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
   subscription: any;
   public glossaryFlag: boolean;
   public glossaryTitle: string = null;
+  public filterFlag: boolean;
+  public filterurl: string = null;
   clickHelpIcon: Subscription;
+  clickFilterIcon: Subscription;
   public mobileQuery: boolean;
+  public PCORFlag: any;
   /*** Array of Navigation Category List ***/
   public navCategories = [
     { icon: 'home', name: 'Overview', path: '/OverviewPage', disabled: false },
@@ -61,17 +68,14 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
         { name: 'Summary', path: '/GettingReimbursed' },
         { name: 'Payments', path: '/GettingReimbursed/Payments' },
         { name: 'Non-Payments', path: '/GettingReimbursed/NonPayments' },
-        { name: 'Appeals', path: '/GettingReimbursed/Appeals' }
-        // { name: 'Payment Integrity', path: '/OverviewPage' }
+        { name: 'Appeals', path: '/GettingReimbursed/Appeals' },
+        { name: 'Payment Integrity', path: '/GettingReimbursed/PaymentIntegrity' }
       ]
     },
     {
       icon: 'care-delivery',
       name: 'Care Delivery',
-      children: [
-        { name: 'Prior Authorizations', path: '/CareDelivery/priorAuth' }
-        // { name: 'Patient Care Opportunity', path: '/OverviewPage' }
-      ]
+      children: [{ name: 'Prior Authorizations', path: '/CareDelivery/priorAuth' }]
     },
     {
       icon: 'issue-resolution',
@@ -97,9 +101,13 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
     private themeService: ThemeService,
     private dialog: MatDialog,
     private checkStorage: StorageService,
-    private glossaryExpandService: GlossaryExpandService
+    private glossaryExpandService: GlossaryExpandService,
+    private filterExpandService: FilterExpandService,
+    private priorAuthShared: PriorAuthSharedService,
+    private location: Location
   ) {
     this.glossaryFlag = false;
+    this.filterFlag = false;
     // to disable the header/footer/body when not authenticated
     router.events.subscribe(event => {
       if (event instanceof NavigationStart) {
@@ -130,7 +138,11 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-input-24px.svg')
     );
     iconRegistry.addSvgIcon(
-      'close',
+      'closeGlossary',
+      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-close-24px.svg')
+    );
+    iconRegistry.addSvgIcon(
+      'closeFilter',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-close-24px.svg')
     );
     iconRegistry.addSvgIcon(
@@ -139,14 +151,56 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
     );
   }
   ngOnInit() {
+    this.PCORFlag = false;
     this.isDarkTheme = this.themeService.isDarkTheme;
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => {
       this.healthSystemName = JSON.parse(sessionStorage.getItem('currentUser'))[0]['HealthCareOrganizationName'];
     });
+
+    this.checkStorage.getNavChangeEmitter().subscribe(() => {
+      this.priorAuthShared.getPCORData().then(data => {
+        if (this.PCORFlag === data) {
+          // Do nothing because its the same state
+        } else {
+          // Flag changed
+          if (data) {
+            this.navCategories[2].children.push({
+              name: 'Patient Care Opportunity',
+              path: '/CareDelivery/PatientCareOpportunity'
+            });
+            this.PCORFlag = data;
+          } else {
+            this.navCategories[2].children.splice(
+              this.navCategories[2].children.indexOf({
+                name: 'Patient Care Opportunity',
+                path: '/CareDelivery/PatientCareOpportunity'
+              }),
+              1
+            );
+            if (this.location.path() === '/CareDelivery/PatientCareOpportunity') {
+              this.router.navigateByUrl('/OverviewPage');
+              this.collapseExpansionPanels(2);
+            }
+            this.PCORFlag = data;
+          }
+        }
+      });
+    });
+
     this.clickHelpIcon = this.glossaryExpandService.message.subscribe(
       data => {
         this.glossaryFlag = true;
         this.glossaryTitle = data;
+      },
+      err => {
+        console.log('Error, clickHelpIcon , inside Hamburger', err);
+      }
+    );
+
+    this.clickFilterIcon = this.filterExpandService.url.subscribe(
+      data => {
+        this.filterFlag = true;
+        this.filterurl = data;
       },
       err => {
         console.log('Error, clickHelpIcon , inside Hamburger', err);
@@ -158,6 +212,9 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
     this.clickHelpIcon.unsubscribe();
     this.glossaryFlag = false;
     this.glossaryTitle = null;
+    this.filterFlag = false;
+    this.filterurl = null;
+    this.clickFilterIcon.unsubscribe();
   }
   /*** used to apply the CSS for dynamically generated elements ***/
   public ngAfterViewInit(): void {
@@ -201,6 +258,14 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
   closeGlossary() {
     this.glossaryFlag = false;
     this.glossaryTitle = null;
+  }
+  filterFlagChange(flag) {
+    this.filterFlag = flag;
+    this.filterurl = null;
+  }
+  closeFilter() {
+    this.filterFlag = false;
+    this.filterurl = null;
   }
 
   signOut() {

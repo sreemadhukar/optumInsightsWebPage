@@ -1,7 +1,54 @@
 @import '~src/scss/variables.scss';
 @import '~src/scss/mixins';
 .breadcrumb-top-padding {
-  @include padding(20px, 0, 15px, 32px);
+  @include padding(20px, 0, 15px, 0);
+  @include margin(0, 0, 0, 11px);
+  box-sizing: border-box;
+  width: 961px;
+  .filter_bg {
+    box-sizing: border-box;
+    border: 1px solid $blue;
+    border-radius: 2px;
+    float: right;
+    cursor: pointer;
+    .filter_title {
+      color: $blue;
+      font-family: 'UHCSans-SemiBold', 'Arial';
+      font-size: 16px;
+      letter-spacing: 0.2px;
+      line-height: 22px;
+      text-align: center;
+      margin: 12.5px 12.5px 8.5px 0;
+      float: left;
+    }
+    .filter_icon {
+      color: $blue;
+      margin: 9.5px 14px 9.5px 14px;
+      float: left;
+    }
+  }
+  .filter_bg:hover,
+  .filter_bg:focus {
+    background-color: #196ecf;
+    color: #ffffff;
+    .filter_title {
+      color: #ffffff;
+    }
+    .filter_icon {
+      color: #ffffff;
+    }
+  }
+
+  .filter_bg:active {
+    background-color: #003da1;
+    color: #ffffff;
+    .filter_title {
+      color: #ffffff;
+    }
+    .filter_icon {
+      color: #ffffff;
+    }
+  }
 }
 
 .top-reasons-for-claims-non-payment-block {
@@ -50,7 +97,7 @@
 }
 .bar-graph-title {
   color: $black-rock;
-  font-family: 'UHCSans-Regular';
+  font-family: 'UHCSans-Medium', 'sans-serif', 'Arial';
   font-size: 16px;
   font-weight: 500;
   letter-spacing: 0.2px;
@@ -60,7 +107,7 @@
 }
 .bar-graph-value {
   color: $black-rock;
-  font-family: 'UHCSans-Regular';
+  font-family: 'UHCSans-Medium', 'sans-serif', 'Arial';
   font-size: 20px;
   font-weight: 600;
   line-height: 22px;
@@ -142,9 +189,6 @@
   padding-left: 7px;
   float: left;
 }
-.title-left-padding {
-  padding-left: 15px;
-}
 
 .bottom-shadow {
   height: 1px;
@@ -168,7 +212,7 @@
 
 .inner-blocks-header {
   color: $black-rock;
-  font-family: 'UHCSans-Regular';
+  font-family: 'UHCSans-Medium', 'sans-serif', 'Arial';
   font-size: 16px;
   font-weight: 600;
   letter-spacing: 0.2px;
@@ -312,7 +356,7 @@
     right: 114px;
     padding-top: 15.5px;
     color: $black-rock;
-    font-family: 'UHCSans-Regular';
+    font-family: 'UHCSans-Medium', 'sans-serif', 'Arial';
     font-size: 14px;
     font-weight: 500;
     letter-spacing: 0.2px;
@@ -354,7 +398,7 @@
     .mat-table-header-cell {
       padding-left: 16.5px !important;
       color: $black-rock;
-      font-family: 'UHCSans-Regular';
+      font-family: 'UHCSans-Medium', 'sans-serif', 'Arial';
       font-size: 14px;
       font-weight: 500;
       letter-spacing: 0.2px;
@@ -364,11 +408,11 @@
     }
     .table-facility-tin {
       font-weight: 500;
-      font-family: 'UHCSans-Regular';
+      font-family: 'UHCSans-Medium', 'sans-serif', 'Arial';
     }
     .table-facility-healthsystem {
       font-weight: 600;
-      font-family: 'UHCSans-Regular';
+      font-family: 'UHCSans-Medium', 'sans-serif', 'Arial';
     }
     mat-row,
     mat-header-row,
