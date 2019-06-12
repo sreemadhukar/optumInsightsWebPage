@@ -18,14 +18,12 @@ export class PaymentsComponent implements OnInit {
   pageTitle: String = '';
   userName: String = '';
   showClaimsPaid: Boolean = false;
-  subscription: any;
   loading: boolean;
   mockCards: any;
   constructor(
     private checkStorage: StorageService,
     private gettingReimbursedSharedService: GettingReimbursedSharedService,
-    private glossaryExpandService: GlossaryExpandService,
-    private checkStorage: StorageService
+    private glossaryExpandService: GlossaryExpandService
   ) {
     this.pageTitle = 'Claims Payments';
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.ngOnInit());
