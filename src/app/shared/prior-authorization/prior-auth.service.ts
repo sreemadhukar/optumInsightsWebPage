@@ -279,11 +279,39 @@ export class PriorAuthSharedService {
             }
           ];
 
-          const MandRStarRatingCard = [MandRAvgStarRatingCard, MandRACVCard];
+          const PCORRatings = [
+            PCORMandRData['5StarMeasureCount'],
+            PCORMandRData['4StarMeasureCount'],
+            PCORMandRData['3StarMeasureCount'],
+            PCORMandRData['2StarMeasureCount'],
+            PCORMandRData['1StarMeasureCount']
+          ];
 
-          const PCORCards = [];
+          const TotalStarRatingSum = PCORRatings.reduce((x, y) => x + y);
 
-          resolve(MandRStarRatingCard);
+          const MandRStarRatingCard = [];
+
+          for (let i = 0; i < PCORRatings.length; i++) {
+            MandRStarRatingCard.push({
+              type: 'singleBarChart',
+              title: 'Quality Star Ratings',
+              data: {
+                barHeight: 40,
+                barData: PCORRatings[i],
+                barSummation: TotalStarRatingSum,
+                barText: PCORRatings[i],
+                color: [{ color1: '#3381FF' }],
+                gdata: ['card-inner-large', 'PCORreasonBar' + i],
+                starObject: true,
+                starCount: 5 - i
+              },
+              timeperiod: 'Last 6 Months'
+            });
+          }
+
+          const PCORCards = [MandRAvgStarRatingCard, MandRACVCard, MandRStarRatingCard];
+
+          resolve(PCORCards);
         },
         err => {
           console.log('PCOR Error', err);
