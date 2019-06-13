@@ -38,6 +38,36 @@ export class PriorAuthSharedService {
     return (num / si[i].value).toFixed(digits).replace(rx, '$1') + si[i].symbol;
   }
 
+  public generateMonth(a) {
+    if (a === 0) {
+      return 'January';
+    } else if (a === 1) {
+      return 'February';
+    } else if (a === 2) {
+      return 'March';
+    } else if (a === 3) {
+      return 'April';
+    } else if (a === 4) {
+      return 'May';
+    } else if (a === 5) {
+      return 'June';
+    } else if (a === 6) {
+      return 'July';
+    } else if (a === 7) {
+      return 'August';
+    } else if (a === 8) {
+      return 'September';
+    } else if (a === 9) {
+      return 'October';
+    } else if (a === 10) {
+      return 'November';
+    } else if (a === 11) {
+      return 'December';
+    } else {
+      return null;
+    }
+  }
+
   public getPCORData() {
     this.providerKey = this.session.providerKey();
     this.priorAuthData = [];
@@ -155,6 +185,108 @@ export class PriorAuthSharedService {
         },
         err => {
           console.log('Prior Auth Error', err);
+        }
+      );
+    });
+  }
+
+  getPCORMandRData() {
+    this.providerKey = this.session.providerKey();
+    this.priorAuthData = [];
+    return new Promise(resolve => {
+      const parametersExecutive = [this.providerKey, true];
+
+      this.priorAuthService.getPriorAuthData(...parametersExecutive).subscribe(
+        data => {
+          const PCORData = data.PatientCareOpportunity;
+          // Reporting Date will be used for all three cards
+          const PCORMRdate = PCORData.ReportingPeriod;
+          const PCORMRmonth = this.generateMonth(parseInt(PCORMRdate.substr(0, 2)) - 1);
+          const PCORMRday = parseInt(PCORMRdate.substr(3, 2));
+          const PCORMRyear = PCORMRdate.substr(6, 4);
+          const PCORRMReportingDate = PCORMRmonth + ' ' + PCORMRday + ', ' + PCORMRyear;
+
+          const PCORMandRData = PCORData.LineOfBusiness.MedicareAndRetirement;
+
+          const totalAllCompletionRate = PCORMandRData.TotalACVs / PCORMandRData.TotalPatientCount;
+          const totalDiabeticCompletionRate = PCORMandRData.TotalDiabeticACVs / PCORMandRData.TotalDiabeticPatients;
+
+          const MandRAvgStarRatingCard = [
+            {
+              category: 'app-card',
+              type: 'star',
+              title: 'Medicare Star Rating',
+              data: {
+                graphValues: [PCORMandRData.AverageStarRating],
+                centerNumber: PCORMandRData.AverageStarRating,
+                color: ['#00A8F7', '#D7DCE1', '#FFFFFF'],
+                gdata: ['card-inner', 'pcorCardD3Star']
+              },
+              sdata: null,
+              timeperiod: 'Data represents claims processed as of ' + PCORRMReportingDate
+            }
+          ];
+          const MandRACVCard = [
+            {
+              category: 'app-card',
+              type: 'donutWithLabelandTab',
+              title: 'Medicare & Retirement Annual Care Visits Completion Rate',
+              data: {
+                graphValues: [totalAllCompletionRate, 1 - totalAllCompletionRate],
+                centerNumber: totalAllCompletionRate.toFixed(0) + '%',
+                color: ['#3381FF', '#E0E0E0'],
+                gdata: ['card-inner', 'PCORACVAll']
+              },
+              besideData: {
+                verticalData: [
+                  { title: '' },
+                  {
+                    values: PCORMandRData.TotalPatientCount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','),
+                    labels: 'Total Patients'
+                  },
+                  {
+                    values: PCORMandRData.TotalACVs.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','),
+                    labels: 'Completed'
+                  }
+                ]
+              },
+              timeperiod: 'Data represents claims processed as of ' + PCORRMReportingDate
+            },
+            {
+              category: 'app-card',
+              type: 'donutWithLabelandTab',
+              title: 'Medicare & Retirement Annual Care Visits Completion Rate',
+              data: {
+                graphValues: [totalDiabeticCompletionRate, 1 - totalDiabeticCompletionRate],
+                centerNumber: totalDiabeticCompletionRate.toFixed(0) + '%',
+                color: ['#3381FF', '#E0E0E0'],
+                gdata: ['card-inner', 'PCORACVDiabetic']
+              },
+              besideData: {
+                verticalData: [
+                  { title: '' },
+                  {
+                    values: PCORMandRData.TotalDiabeticPatients.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','),
+                    labels: 'Total Patients'
+                  },
+                  {
+                    values: PCORMandRData.TotalDiabeticACVs.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','),
+                    labels: 'Completed'
+                  }
+                ]
+              },
+              timeperiod: 'Data represents claims processed as of ' + PCORRMReportingDate
+            }
+          ];
+
+          const MandRStarRatingCard = [MandRAvgStarRatingCard, MandRACVCard];
+
+          const PCORCards = [];
+
+          resolve(MandRStarRatingCard);
+        },
+        err => {
+          console.log('PCOR Error', err);
         }
       );
     });

@@ -12,6 +12,7 @@ import { PriorAuthSharedService } from '../../../shared/prior-authorization/prio
 export class PatientCareOpportunityComponent implements OnInit {
   subscription: any;
   pageTitle: String = '';
+  loading: boolean;
   constructor(
     private priorAuthService: PriorAuthService,
     private sessionService: SessionService,
@@ -23,5 +24,12 @@ export class PatientCareOpportunityComponent implements OnInit {
 
   ngOnInit() {
     this.pageTitle = 'Patient Care Opportunity–Medicare & Retirement';
+    this.loading = true;
+    this.priorAuthShared.getPCORMandRData().then(
+      data => {
+        console.log(data);
+      },
+      error => {}
+    );
   }
 }
