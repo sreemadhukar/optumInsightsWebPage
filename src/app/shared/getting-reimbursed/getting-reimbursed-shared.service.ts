@@ -1443,7 +1443,8 @@ export class GettingReimbursedSharedService {
               color: ['#3381FF', '#D7DCE1'],
               gdata: ['card-inner', 'piCard'],
               graphValues: [100, 1000],
-              sdata: sData
+              sdata: sData,
+              graphScreen: 'PI'
             },
             besideData: {
               color: ['#3381FF', '#D7DCE1'],
