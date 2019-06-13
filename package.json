@@ -36,7 +36,6 @@
     "http-proxy": "^1.17.0",
     "jsencrypt": "^3.0.0-rc.1",
     "jsonwebtoken": "^8.5.1",
-    "ng-multiselect-dropdown": "^0.2.3",
     "path": "^0.12.7",
     "rxjs": "~6.2.0",
     "web-animations-js": "^2.3.1",
