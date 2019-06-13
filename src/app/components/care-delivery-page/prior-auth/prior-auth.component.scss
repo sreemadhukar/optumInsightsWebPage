@@ -3,6 +3,9 @@
 .content-wrapper {
   background-color: $alice-blue;
   overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
   @include padding(30px, 30px, 30px, 30px);
   .main-content {
     display: -webkit-box;

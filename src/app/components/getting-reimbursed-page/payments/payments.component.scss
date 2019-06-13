@@ -6,6 +6,9 @@
   @include mat-elevation(2);
   overflow-x: hidden;
   overflow-y: hidden;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
   @include padding(30px, 30px, 30px, 30px);
 
   .payments-content {

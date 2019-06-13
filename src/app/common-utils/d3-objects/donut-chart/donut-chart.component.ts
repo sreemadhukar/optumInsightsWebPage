@@ -111,15 +111,27 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
     }
     let text;
     if (this.donutType === 'app-card') {
-      text = chart
-        .append('text')
-        .attr('text-anchor', 'middle')
-        .attr('y', height / height)
-        .style('font-size', '41px')
-        .style('fill', '#2d2d39')
-        .style('font-family', 'UHCSans-Medium')
-        .style('font-weight', '500')
-        .style('vertical-align', 'middle');
+      if (this.chartOptions.gdata[1] === 'claimsAppealOverturnedRate') {
+        text = chart
+          .append('text')
+          .attr('text-anchor', 'middle')
+          .attr('y', 8)
+          .style('font-size', '41px')
+          .style('fill', '#2d2d39')
+          .style('font-family', 'UHCSans-Medium')
+          .style('font-weight', '500')
+          .style('vertical-align', 'middle');
+      } else {
+        text = chart
+          .append('text')
+          .attr('text-anchor', 'middle')
+          .attr('y', height / height)
+          .style('font-size', '41px')
+          .style('fill', '#2d2d39')
+          .style('font-family', 'UHCSans-Medium')
+          .style('font-weight', '500')
+          .style('vertical-align', 'middle');
+      }
     } else if (this.donutType === 'small-card') {
       text = chart
         .append('text')
@@ -127,7 +139,8 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
         .attr('y', height / heightDivider)
         .style('font-size', '22px')
         .style('fill', '#2d2d39')
-        .style('font-family', 'UHCSans-SemiBold');
+        .style('font-family', 'UHCSans-Medium')
+        .style('font-weight', '500');
     }
 
     if (chartOptions.hasOwnProperty('sdata') && chartOptions.sdata != null) {
@@ -139,14 +152,23 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
           .attr('r', 16)
           .attr('fill', '#e1fadf');
 
-        chart
-          .append('svg:image')
-          .attr('x', -36)
-          .attr('y', 19)
-          .attr('width', '20px')
-          .attr('height', '20px')
-          .attr('xlink:href', 'src/assets/images/trend-up.svg');
-
+        if (chartOptions.hasOwnProperty('graphScreen') && chartOptions.graphScreen === 'PI') {
+          chart
+            .append('svg:image')
+            .attr('x', -35)
+            .attr('y', 19)
+            .attr('width', '20px')
+            .attr('height', '20px')
+            .attr('xlink:href', 'src/assets/images/down-positive-no-circle.svg');
+        } else {
+          chart
+            .append('svg:image')
+            .attr('x', -36)
+            .attr('y', 19)
+            .attr('width', '20px')
+            .attr('height', '20px')
+            .attr('xlink:href', 'src/assets/images/trend-up.svg');
+        }
         chart
           .append('text')
           .attr('x', 0)
@@ -154,7 +176,7 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
           .style('font-size', '14px')
           .style('font-weight', '500')
           .style('fill', '#007000')
-          .style('font-family', 'UHCSans-Regular')
+          .style('font-family', 'UHCSans-Medium')
           .style('text-anchor', 'start')
           .text(chartOptions.sdata.data);
       } else if (chartOptions.sdata.sign === 'down') {
@@ -165,13 +187,23 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
           .attr('r', 16)
           .attr('fill', '#ffe6f0');
 
-        chart
-          .append('svg:image')
-          .attr('x', -36)
-          .attr('y', 19)
-          .attr('width', '20px')
-          .attr('height', '20px')
-          .attr('xlink:href', 'src/assets/images/trend-down.svg');
+        if (chartOptions.hasOwnProperty('graphScreen') && chartOptions.graphScreen === 'PI') {
+          chart
+            .append('svg:image')
+            .attr('x', -36)
+            .attr('y', 19)
+            .attr('width', '20px')
+            .attr('height', '20px')
+            .attr('xlink:href', 'src/assets/images/up-negative-no-circle.svg');
+        } else {
+          chart
+            .append('svg:image')
+            .attr('x', -36)
+            .attr('y', 19)
+            .attr('width', '20px')
+            .attr('height', '20px')
+            .attr('xlink:href', 'src/assets/images/trend-down.svg');
+        }
 
         chart
           .append('text')
@@ -180,7 +212,7 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
           .style('font-size', '14px')
           .style('font-weight', '500')
           .style('fill', '#b10c00')
-          .style('font-family', 'UHCSans-Regular')
+          .style('font-family', 'UHCSans-Medium')
           .style('text-anchor', 'start')
           .text(chartOptions.sdata.data);
       }
@@ -197,29 +229,13 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
         donutData.push({ value: chartOptions.graphValues[i] });
       }
     }
-    const div = d3
-      .select(this.renderChart)
-      .append('div')
-      .attr('class', 'tooltip');
+
     const g = chart
       .selectAll('.arc')
       .data(pie(donutData))
       .enter()
       .append('g')
-      .attr('class', 'arc')
-      .on('mousemove', function(d) {
-        const mouseVal = d3.mouse(this);
-
-        div
-          .html(d.besideData.labels + '</br>' + d.data.value)
-          .style('left', d3.event.pageX + 12 + 'px')
-          .style('top', d3.event.pageY - 10 + 'px')
-          .style('opacity', 1)
-          .style('display', 'block');
-      })
-      .on('mouseout', function() {
-        div.html(' ').style('display', 'none');
-      });
+      .attr('class', 'arc');
 
     if (transition) {
       g.append('path')
@@ -252,7 +268,7 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
     }
 
     // chartOptions.hover
-    if (chartOptions.hover) {
+    if (chartOptions.hover === true) {
       const divHover = d3
         .select(this.renderChart)
         .append('div')
@@ -284,7 +300,7 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
           .attr('y', '25px')
           .style('font-size', '14px')
           .style('fill', '#2D2D39')
-          .style('font-family', 'UHCSans-Regular')
+          .style('font-family', 'UHCSans-SemiBold')
           .style('font-weight', '600')
           .text(d.data.label);
 

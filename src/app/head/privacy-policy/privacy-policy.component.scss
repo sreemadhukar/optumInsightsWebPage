@@ -1,0 +1,112 @@
+@import '~src/scss/variables.scss';
+@import '~src/scss/mixins';
+.privacy-content {
+  padding-left: 32px;
+  padding-right: 32px;
+  padding-bottom: 24px;
+  background-color: $alice-blue;
+}
+
+.breadcrums {
+  font-family: 'UHCSans-Medium';
+}
+
+.breadcrums-div {
+  padding-top: 16px;
+  color: $strom-grey;
+  font-family: 'UHCSans-Medium';
+  font-size: 14px;
+  font-weight: $font-weight-semibold;
+  letter-spacing: 0.2px;
+  line-height: 18px;
+}
+
+.header-div {
+  padding-top: 16px;
+  padding-bottom: 8.8px;
+}
+
+.header {
+  color: $black-rock;
+  font-family: 'UHCSans-Medium';
+  font-size: 36px;
+  font-weight: $font-weight-semibold;
+  line-height: 40px;
+}
+
+.sub-header-div {
+  padding-top: 16px;
+  padding-bottom: 16px;
+}
+
+.sub-header {
+  color: $black-rock;
+  font-family: 'UHCSans-Medium';
+  font-size: 22px;
+  font-weight: $font-weight-semibold;
+  line-height: 28px;
+}
+
+.para-bottom-margin {
+  margin-bottom: 22px;
+}
+
+.content {
+  color: $black-rock;
+  font-family: 'UHCSans-Medium';
+  font-size: 16px;
+  font-weight: $font-weight-medium;
+  letter-spacing: 0.2px;
+  line-height: 22px;
+}
+
+.bold {
+  font-family: 'UHCSans-Bold';
+}
+
+.hyperlink {
+  font-family: 'UHCSans-Medium';
+  color: $blue;
+}
+
+.list-div {
+  margin-left: 32px;
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
+
+a,
+u {
+  text-decoration: none;
+}
+
+a.hyperlink {
+  color: $blue;
+}
+
+.hyperlink:hover {
+  text-decoration: underline;
+}
+
+a:visited {
+  color: $blue;
+}
+
+a.breadcrums {
+  color: $strom-grey;
+  font-family: 'UHCSans-Medium';
+  font-size: 14px;
+  font-weight: $font-weight-semibold;
+  letter-spacing: 0.2px;
+  line-height: 18px;
+}
+
+li {
+  color: $black-rock;
+  font-family: 'UHCSans-Medium';
+  font-size: 16px;
+  font-weight: $font-weight-medium;
+  letter-spacing: 0.2px;
+  line-height: 22px;
+  list-style-type: disc;
+}
