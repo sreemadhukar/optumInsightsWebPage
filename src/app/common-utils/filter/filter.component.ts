@@ -11,11 +11,15 @@ import { SessionService } from '../../shared/session.service';
 export class FilterComponent implements OnInit {
   public lobData: string;
   public arrowmark: boolean;
+  public taxData: string;
+  public tarrowmark: boolean;
   @Output() filterFlag = new EventEmitter();
   public lobs = ['All', 'Community & State', 'Employee & Individual', 'Medicare & Retirement'];
   constructor(private iconRegistry: MatIconRegistry, sanitizer: DomSanitizer, private session: SessionService) {
     this.lobData = this.session.lob;
     this.arrowmark = false;
+    this.taxData = this.session.tin;
+    this.tarrowmark = false;
     iconRegistry.addSvgIcon(
       'arrowdn',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-keyboard_arrow_down-24px.svg')
@@ -25,8 +29,14 @@ export class FilterComponent implements OnInit {
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-keyboard_arrow_up-24px.svg')
     );
   }
-  public clickArrowMark() {
-    this.arrowmark = !this.arrowmark;
+  public clickArrowMark(value) {
+    if (value === 'tax') {
+      this.tarrowmark = !this.tarrowmark;
+      this.arrowmark = false;
+    } else if (value === 'lob') {
+      this.arrowmark = !this.arrowmark;
+      this.tarrowmark = false;
+    }
   }
   ngOnInit() {
     this.lobData = this.session.lob;
