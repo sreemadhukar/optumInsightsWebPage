@@ -13,7 +13,9 @@ export class FilterComponent implements OnInit {
   public arrowmark: boolean;
   public taxData: string;
   public tarrowmark: boolean;
+  public tiarrowmark: boolean;
   public tinsData: any;
+  public timeframeData: any;
   @Output() filterFlag = new EventEmitter();
   public timeframes = ['Last 6 Months', 'Last 12 Months', 'Year to Date', '2018', '2017'];
   public lobs = ['All', 'Community & State', 'Employee & Individual', 'Medicare & Retirement'];
