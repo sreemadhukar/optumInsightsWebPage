@@ -16,6 +16,7 @@ export class PatientCareOpportunityComponent implements OnInit {
   loading: boolean;
   MRAStarData: any;
   MRACVCompletionData: any;
+  StarRatings: any;
   mockCards: any;
   tabOptions: Array<Object> = [];
   previousSelected: Number = 0;
@@ -62,6 +63,7 @@ export class PatientCareOpportunityComponent implements OnInit {
         this.MRAStarData = this.summaryItems[0];
         this.MRACVCompletionData = this.summaryItems[1];
         this.currentTabTitle = this.summaryItems[1].title;
+        this.StarRatings = this.summaryItems[2];
 
         // this.MRAStarData = data[0];
         // this.MRACVCompletionData=data[1];
