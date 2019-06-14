@@ -86,7 +86,7 @@ export class BarChartComponent implements OnInit, AfterViewInit {
     if (chartOptions.barHeight) {
       barHeight = chartOptions.barHeight + 8;
     }
-    console.log('d3bar height' + barHeight);
+
     const margin = { top: 25, right: 10, bottom: 5, left: 10 };
     const width = preWidth - margin.left - margin.right;
     const height = barHeight * 1.5 - margin.top - margin.bottom;
@@ -122,8 +122,8 @@ export class BarChartComponent implements OnInit, AfterViewInit {
         .attr('fill', chartOptions.color[1].color2);
     }
 
-    if (chartOptions.PCORStarCount > 1) {
-      const PCORStars = chartOptions.PCORStarCount;
+    if (chartOptions.starObject) {
+      const PCORStars = chartOptions.starCount;
       const PCORStarXCoordinateMultiplier = 17.5;
 
       for (let i = 0; i < PCORStars; i++) {

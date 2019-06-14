@@ -111,8 +111,18 @@ export class PriorAuthSharedService {
           const PANotCancelledCount = data.PriorAuthCancelledCount;
           const PARequestedCount = PAApprovedCount + PANotApprovedCount + PANotPendingCount + PANotCancelledCount;
           const PAApprovalRate = PAApprovedCount / PARequestedCount;
-          const StandardTATConversion = (data.StandartPriorAuthTAT / 86400).toFixed(0);
-          const UrgentTATConversion = (data.UrgentPriorAuthTAT / 3600).toFixed(0);
+          let StandardTATConversion;
+          let UrgentTATConversion;
+          if (data.StandartPriorAuthTAT / 86400 < 1) {
+            StandardTATConversion = '<1';
+          } else {
+            StandardTATConversion = (data.StandartPriorAuthTAT / 86400).toFixed(0);
+          }
+          if (data.UrgentPriorAuthTAT / 3600 < 1) {
+            UrgentTATConversion = '<1';
+          } else {
+            UrgentTATConversion = (data.UrgentPriorAuthTAT / 3600).toFixed(0);
+          }
 
           const PACount = [
             {
