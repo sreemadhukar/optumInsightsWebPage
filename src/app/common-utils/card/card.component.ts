@@ -16,10 +16,18 @@ export class CardComponent implements OnInit {
   heightSmallBarChart: Number = 155;
   widthSmallBarChart: Number = 268;
   customSmallBarChart: Boolean = false;
-  constructor(private glossaryExpandService: GlossaryExpandService) {}
+  @Input() matOptionClicked;
+  tabOptionsTitle = [];
+  @Input() tabOptions;
+  @Input() getTabOptionsTitle;
+  constructor(private glossaryExpandService: GlossaryExpandService) {
+    this.tabOptionsTitle = ['All', 'Diabetic'];
+  }
 
   helpIconClick(title) {
     this.glossaryExpandService.setMessage(title);
   }
-  ngOnInit() {}
+  ngOnInit() {
+    this.tabOptionsTitle = ['All', 'Diabetic'];
+  }
 }

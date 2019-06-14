@@ -11,8 +11,19 @@ import { PriorAuthSharedService } from '../../../shared/prior-authorization/prio
 })
 export class PatientCareOpportunityComponent implements OnInit {
   subscription: any;
+  summaryItems: any;
   pageTitle: String = '';
   loading: boolean;
+  MRAStarData: any;
+  MRACVCompletionData: any;
+  mockCards: any;
+  tabOptions: Array<Object> = [];
+  previousSelected: Number = 0;
+  selectedItemId: any = 0;
+  tabOptionsTitle: Array<String> = [];
+  currentSummary: Array<Object> = [{}];
+  currentTabTitle: String = '';
+  hideAllObjects: boolean;
   constructor(
     private priorAuthService: PriorAuthService,
     private sessionService: SessionService,
@@ -20,16 +31,60 @@ export class PatientCareOpportunityComponent implements OnInit {
     private priorAuthShared: PriorAuthSharedService
   ) {
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.ngOnInit());
+    this.tabOptionsTitle = ['All', 'Diabetic'];
   }
-
+  getTabOptionsTitle(i: number) {
+    return this.tabOptionsTitle[i];
+  }
+  matOptionClicked(i: number, event: any) {
+    this.currentSummary = this.summaryItems[i].data;
+    this.currentTabTitle = this.summaryItems[i].title;
+    const myTabs = document.querySelectorAll('ul.nav-tabs > li');
+    for (let j = 0; j < myTabs.length; j++) {
+      myTabs[j].classList.remove('active');
+    }
+    myTabs[i].classList.add('active');
+    //    event.target.classList.add('active');
+  }
   ngOnInit() {
     this.pageTitle = 'Patient Care Opportunity–Medicare & Retirement';
     this.loading = true;
+    this.hideAllObjects = true;
+    this.mockCards = [{}, {}];
+    this.MRAStarData = [{ id: '1' }, { id: '2' }];
+    this.summaryItems = [{}];
+    // this.MRACVCompletionData=[{}];
+
     this.priorAuthShared.getPCORMandRData().then(
       data => {
-        console.log(data);
+        this.loading = false;
+        this.summaryItems = JSON.parse(JSON.stringify(data));
+        this.MRAStarData = this.summaryItems[0];
+        this.MRACVCompletionData = this.summaryItems[1];
+        this.currentTabTitle = this.summaryItems[1].title;
+
+        // this.MRAStarData = data[0];
+        // this.MRACVCompletionData=data[1];
+        console.log(this.MRACVCompletionData);
+        this.tabOptions = [];
+        for (let i = 0; i < 2; i++) {
+          const temp = {
+            id: i,
+            title: this.getTabOptionsTitle(i)
+            // value1: this.MRAStarData[i].data[0].data.centerNumber,
+            // sdata: {
+            //   sign: this.MRAStarData[i].data[0].data.sdata.sign,
+            //   value: this.MRAStarData[i].data[0].data.sdata.data
+            // }
+          };
+
+          this.tabOptions.push(temp);
+          alert(this.tabOptions.push(temp));
+        }
       },
-      error => {}
+      error => {
+        this.hideAllObjects = false;
+      }
     );
   }
 }

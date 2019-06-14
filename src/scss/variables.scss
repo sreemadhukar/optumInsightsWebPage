@@ -217,7 +217,7 @@ $border-radius-rounded: 1rem !default;
 // Font, line-height, and color for body text, headings, and more.
 
 // stylelint-disable value-keyword-case
-$font-family-UHC: UHCSans-Regular, Arial, sans-serif !default;
+$font-family-UHC: 'UHCSans-Regular', Helvetica, Arial, sans-serif !default;
 $font-family-base: $font-family-UHC !default;
 // stylelint-enable value-keyword-case
 
@@ -226,7 +226,7 @@ $font-size-lg: ($font-size-base * 1.25) !default;
 $font-size-sm: ($font-size-base * 0.875) !default;
 
 $font-weight-light: 300 !default;
-$font-weight-normal: 400 !default;
+$font-weight-normal: normal !default;
 $font-weight-medium: 500 !default;
 $font-weight-semibold: 600 !default;
 $font-weight-bold: 700 !default;
