@@ -17,7 +17,7 @@
 </div>
 <div class="lobgrp">
   <div>
-    <label id="radio-group-label" class="label-data">{{ lobData }}</label>
+    <label id="radio-group" class="label-data">{{ lobData }}</label>
   </div>
   <div class="select-option-data" *ngIf="arrowmark">
     <mat-radio-group class="radio-group" [(ngModel)]="lobData">
@@ -27,6 +27,8 @@
     </mat-radio-group>
   </div>
 </div>
+<app-multi-select [tinsData]="tinsData"></app-multi-select>
+
 <div class="line1"></div>
 <div class="btn-display">
   <button type="reset" class="resetbtn" mat-button (click)="resetFilter()">Reset All Filters</button>

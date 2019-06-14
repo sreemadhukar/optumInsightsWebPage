@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { GettingReimbursedService } from '../rest/getting-reimbursed/getting-reimbursed.service';
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +10,7 @@ export class SessionService {
   public providerkey = this.providerKey();
   public tin = 'All';
   public nonPaymentBy = 'dollar';
-  constructor() {}
+  constructor(private gettingReimbursedService: GettingReimbursedService) {}
   public providerKey() {
     if (sessionStorage.getItem('currentUser')) {
       return JSON.parse(sessionStorage.getItem('currentUser'))[0]['ProviderKey'];
@@ -19,6 +20,15 @@ export class SessionService {
     if (sessionStorage.getItem(value)) {
       return JSON.parse(sessionStorage.getItem(value))[item];
     }
+  }
+  public getTins() {
+    return new Promise((resolve, reject) => {
+      this.providerKey = this.providerKey();
+      this.gettingReimbursedService.getTins(this.providerKey).subscribe(tins => {
+        const providerTins = tins;
+        resolve(providerTins);
+      });
+    });
   }
   get getProviderkey(): number {
     return this.providerkey;
