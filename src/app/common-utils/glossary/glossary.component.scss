@@ -1,45 +1,82 @@
 @import '~src/scss/variables.scss';
 @import '~src/scss/mixins';
-
-.idle-container {
-  box-sizing: border-box;
-  height: 41px;
-  width: 355px;
-  border: 1px solid #b3babc;
+::ng-deep .mat-autocomplete-panel {
+  max-height: 0% !important;
+}
+::ng-deep .mat-autocomplete-panel:not([class*='mat-elevation-z']) {
+  margin-top: 3px;
+  border: 1px solid #e0e0e0;
   border-radius: 2px;
-  background-color: $white;
-  padding-left: 10px;
+  background-color: #ffffff;
+  box-shadow: 0 20px 40px 0 rgba(0, 0, 0, 0.15);
+}
+::ng-deep .mat-form-field-appearance-outline.mat-focused ::ng-deep .mat-form-field-outline-thick {
+  color: $blue;
+}
+::ng-deep .mat-option-text {
+  font-family: 'UHCSans-Medium', 'sans-serif', 'Arial';
+  font-weight: 500 !important;
+}
+
+.business-glossary {
+  padding: 10px;
+  .title {
+    color: #2d2d39;
+    font-family: 'UHCSans-Medium', 'sans-serif', 'Arial';
+    font-size: 22px;
+    font-weight: 600;
+    text-align: center;
+  }
+  .path {
+    float: left;
+    color: $strom-grey;
+  }
+  &-header {
+    text-align: center;
+  }
+
+  &-form {
+    mat-form-field {
+      width: 100%;
+      mat-form-field-flex {
+        border: 1px solid #b3babc;
+        border-radius: 5px;
+      }
+    }
+  }
 }
 
 .glossary-title {
   color: $black-rock;
   font-family: 'UHCSans-SemiBold', 'Arial';
   font-size: 28px;
-  font-weight: 400;
   line-height: 32px;
-  padding-left: 10px;
+  letter-spacing: 0.2px;
 }
 
-.glossary-definition {
-  height: 100%;
-  width: 338px;
+.glossary-formula {
   color: $black-rock;
-  font-family: 'UHCSans-Regular', 'Arial';
+  font-family: 'UHCSans-SemiBold', 'Arial';
+  font-size: 16px;
+  letter-spacing: 0.2px;
+  line-height: 22px;
+}
+.glossary-definition {
+  color: $black-rock;
+  font-family: 'UHCSans-Medium', 'sans-serif', 'Arial';
   font-size: 16px;
   font-weight: 500;
   letter-spacing: 0.2px;
   line-height: 22px;
-  padding-left: 10px;
 }
 
 .go-to-metric-location {
-  color: #196ecf;
-  font-family: 'UHCSans-Regular', 'Arial';
+  color: $blue;
+  font-family: 'UHCSans-Medium', 'sans-serif', 'Arial';
   font-size: 16px;
   font-weight: 600;
   letter-spacing: 0.2px;
   line-height: 22px;
-  padding-left: 10px;
 }
 
 .icon-search-black {
@@ -50,4 +87,13 @@
 .oval {
   height: 40px;
   width: 40px;
+}
+.view-allMetrics {
+  color: $blue;
+  cursor: pointer;
+  font-family: 'UHCSans-SemiBold';
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+  padding: 18px 0 18px 18px;
 }

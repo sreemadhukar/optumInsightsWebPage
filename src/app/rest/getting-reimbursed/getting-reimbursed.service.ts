@@ -17,6 +17,9 @@ export class GettingReimbursedService {
   private CLAIMS_SERVICE_PATH: string = environment.apiUrls.ProviderSystemClaimsSummary;
   private AGG_CLAIMS_SERVICE_PATH: string = environment.apiUrls.ProviderSystemClaimsAgg;
   private APPEALS_SERVICE_PATH: string = environment.apiUrls.Appeals;
+  private TINS_SERVICE_PATH: string = environment.apiUrls.ProvTinList;
+  private PAYMENT_INTEGRITY_PATH: string = environment.apiUrls.PaymentIntegrity;
+
   constructor(private http: HttpClient) {}
   public getGettingReimbursedYearWiseData(...parameters) {
     this.currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
@@ -91,5 +94,59 @@ export class GettingReimbursedService {
         catchError(err => of(JSON.parse(JSON.stringify(err))))
       )
     );
+  }
+
+  /* Function to get Provider TINS of Health System - Ranjith kumar Ankam */
+  public getTins(providerKey) {
+    const params = new HttpParams();
+    const tinsURL = this.APP_URL + this.TINS_SERVICE_PATH + providerKey;
+
+    return this.http.get(tinsURL, { params: params }).pipe(
+      retry(2),
+      map(res => res),
+      catchError(err => of(err))
+    );
+  }
+
+  /* Function to get Claims Non payments by Facility Data - Ranjith kumar Ankam */
+  public getClaimsNonPaymentsData(parameters) {
+    let params = new HttpParams();
+
+    params = params.append('monthly', parameters.monthly);
+    params = params.append('YTD', parameters.ytd);
+    if (parameters.timeperiod !== '') {
+      params = params.append('timeFilter', parameters.timeperiod);
+    }
+    if (parameters.tin !== '') {
+      params = params.append('TIN', parameters.tin);
+    }
+    if (parameters.startDate !== '') {
+      params = params.append('startDate', parameters.startDate);
+    }
+    if (parameters.endDate !== '') {
+      params = params.append('endDate', parameters.endDate);
+    }
+    /*if (parameters.rolling12 !== '') {
+      params = params.append('rolling12', parameters.rolling12);
+    }
+*/
+    const claimsURL = this.APP_URL + this.CLAIMS_SERVICE_PATH + parameters.providerkey;
+    return this.http.post(claimsURL, params).pipe(
+      retry(2),
+      map(res => res),
+      catchError(err => of(err))
+    );
+  }
+
+  /* Function to get Payment Integrity Data - Ranjith kumar Ankam */
+
+  public getPaymentIntegrityData(parameters) {
+    const piURL = this.APP_URL + this.PAYMENT_INTEGRITY_PATH + parameters.providerkey;
+    let params = new HttpParams();
+
+    if (parameters.timeperiod !== '') {
+      params = params.append('timeFilter', parameters.timeperiod);
+    }
+    return this.http.get(piURL, { params: params });
   }
 }

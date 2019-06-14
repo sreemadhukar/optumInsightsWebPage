@@ -1,4 +1,4 @@
-// Required Modules 
+// Required Modules
 var express = require('express');
 var app = express();
 var path = require('path');
@@ -42,7 +42,6 @@ app.get('/api/getJwt', cors(), function(req, res) {
     token: token
   });
 });
-
 app.get('*', function(req, res) {
   res.sendFile(path.join(__dirname, 'index.html'));
 });

@@ -1,26 +1,84 @@
-<div>
-  <br />
-  <div style="margin-left: 10px;">
-    <input type="text" placeholder="What metrics can we help you with ?" class="idle-container" />
-  </div>
-  <br />
-  <div *ngFor="let glossary of glossaryList; let i = index">
-    <div class="glossary-title">
-      {{ glossaryTitleShow }}
-    </div>
-    <br />
-    <div class="glossary-definition">
-      {{ glossary.BusinessGlossary.ProviderDashboardName.Definition }}
-    </div>
-    <br />
-    <div>
+<div class="business-glossary">
+  <input type="text" autofocus="true" style="opacity:0" />
+  <mat-dialog-content>
+    <form class="business-glossary-form">
+      <mat-form-field appearance="outline">
+        <mat-label>What metrics can we help you with ?</mat-label>
+        <input type="text" matInput [matAutocomplete]="auto" [formControl]="glossaryCtrl" />
+        <mat-icon matPrefix class="nav-menu-icons" svgIcon="search"></mat-icon>
+        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="filteredData($event.option.value)">
+          <mat-option *ngFor="let glossary of (filteredOptions | async)" [value]="glossary">
+            <span class="highlight" [innerHTML]="glossary | highlight: toHighlight"></span>
+          </mat-option>
+          <mat-option
+            [ngClass]="{ 'hide-autocomplete': !showAutocomplete }"
+            class="dropData backgroundDropData"
+            *ngIf="optionND"
+          >
+            No Results Found For <b>{{ toHighlight }}</b>
+          </mat-option>
+          <div class="view-allMetrics">View All Metrics</div>
+        </mat-autocomplete>
+      </mat-form-field>
+    </form>
+  </mat-dialog-content>
+  <div *ngIf="glossarySelected.length">
+    <div *ngFor="let glossary of glossarySelected; let i = index">
+      <div class="glossary-title">
+        {{ glossary.BusinessGlossary.ProviderDashboardName.Metric }}
+      </div>
+      <br />
+      <div class="glossary-definition">
+        {{ glossary.BusinessGlossary.ProviderDashboardName.Definition }}
+      </div>
+      <!-- <div>
       <a class="go-to-metric-location">
         Go To Metric Location >
       </a>
+    </div> -->
+      <div
+        *ngIf="glossary.BusinessGlossary.ProviderDashboardName.Formula.trim().length != 0"
+        class="glossary-definition"
+      >
+        <br />
+        <div class="glossary-formula">{{ glossary.BusinessGlossary.ProviderDashboardName.Metric }} Formula</div>
+        <br />
+        {{ glossary.BusinessGlossary.ProviderDashboardName.Formula }}
+      </div>
+      <br />
+      <div class="glossary-definition" *ngIf="glossary.BusinessGlossary.ProviderDashboardName.DataSource && internal">
+        <div class="glossary-formula">
+          Data Source
+        </div>
+        <br />
+        {{ glossary.BusinessGlossary.ProviderDashboardName.DataSource }}
+      </div>
+      <br />
     </div>
-    <div *ngIf="glossary.BusinessGlossary.ProviderDashboardName.Formula.trim().length != 0" class="glossary-definition">
-      Metric Formula
-      {{ glossary.BusinessGlossary.ProviderDashboardName.Formula }}
+  </div>
+  <div *ngIf="!glossarySelected.length">
+    <div>
+      <div class="glossary-title">
+        {{ title }}
+      </div>
+      <br />
+      <div class="glossary-definition">
+        No Data Available
+      </div>
+      <br />
+      <div class="glossary-definition">
+        <div class="glossary-formula">{{ title }} Formula</div>
+        <br />
+        No Data Available
+      </div>
+      <br />
+      <div class="glossary-definition" *ngIf="internal">
+        <div class="glossary-formula">
+          Data Source
+        </div>
+        <br />
+        No Data Available
+      </div>
     </div>
   </div>
 </div>

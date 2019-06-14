@@ -7,6 +7,9 @@
       <!-- <div class="page-subtitle">{{ currentTabTitle }}</div> -->
     </div>
     <div class="height1Separator"></div>
+    <div *ngFor="let data of mockCards; let i = index">
+      <app-card class="cards" [skeleton]="loading" *ngIf="loading"> </app-card>
+    </div>
     <div *ngFor="let item of selfServiceItems">
       <app-card *ngIf="item.data != null" class="cards" [chartData]="item"> </app-card>
       <app-error-card *ngIf="item.status != null" class="cards" [data]="item"></app-error-card>
@@ -14,7 +17,10 @@
     <!-- end-->
     <div *ngIf="toggleCallsOperating" class="calls-operating-structure">
       <div class="card-inner">
-        <app-common-header [title]="'Calls and Operating Costs'"></app-common-header>
+        <app-common-header
+          [title]="'Calls and Operating Costs'"
+          (helpIconClicked)="helpIconClick($event)"
+        ></app-common-header>
         <div class="calls-operatin-body">
           <div class="container--tabs">
             <section class="row">
@@ -37,18 +43,17 @@
               {{ callCostCallIn90days }} <span class="cost-value">{{ callCostCallIn90daysValue }}</span>
             </div>
           </div>
-          <div class="calls-operating-section2">
+          <div *ngIf="disBarGraphCallsCost" class="calls-operating-section2">
             <app-small-bar-chart
-              *ngIf="disBarGraphCallsCost"
-              class="small-bar-chart-cust"
               [height]="heightSmallBarChart"
               [width]="widthSmallBarChart"
               [chartOptions]="callCostChartData"
+              [custom]="customSmallBarChart"
             ></app-small-bar-chart>
           </div>
         </div>
         <div class="call-operation-footer">
-          <app-common-footer [timePeriod]="'TimePeriod'"></app-common-footer>
+          <app-common-footer [timePeriod]="timeFrame"></app-common-footer>
         </div>
       </div>
     </div>

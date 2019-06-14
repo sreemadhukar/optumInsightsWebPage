@@ -37,7 +37,7 @@
         justify-content: center;
         color: $white;
         vertical-align: middle;
-        font-family: 'UHCSans-Regular';
+        font-family: 'UHCSans-Medium', 'sans-serif', 'Arial';
         font-size: 2rem;
         text-align: center;
         line-height: normal;
@@ -52,7 +52,7 @@
       margin: 3% 7% 0 7%;
 
       .notifier {
-        font-family: 'UHCSans-Regular';
+        font-family: 'UHCSans-Medium', 'sans-serif', 'Arial';
         font-size: 28px;
         font-weight: 600;
         line-height: 32px;
@@ -62,7 +62,7 @@
         font-weight: 500;
         letter-spacing: 0.2px;
         line-height: 22px;
-        font-family: 'UHCSans-Regular';
+        font-family: 'UHCSans-Medium', 'sans-serif', 'Arial';
         margin-top: 2%;
       }
 
@@ -76,7 +76,7 @@
         display: inline-flex;
         width: 100%;
         div {
-          font-family: 'UHCSans-Regular';
+          font-family: 'UHCSans-Medium', 'sans-serif', 'Arial';
           font-size: 14px;
           font-weight: 500;
           letter-spacing: 0.2px;
@@ -124,7 +124,7 @@
               display: inline-block;
               max-width: 100%;
               margin-bottom: 5px;
-              font-family: 'UHCSans-Regular';
+              font-family: 'UHCSans-Medium', 'sans-serif', 'Arial';
               font-size: 14px;
               font-weight: 500;
               letter-spacing: 0.2px;
@@ -168,7 +168,7 @@
 
             .invalid-feedback {
               div {
-                font-family: 'UHCSans-Regular';
+                font-family: 'UHCSans-Medium', 'sans-serif', 'Arial';
                 font-size: 14px;
                 font-weight: 500;
                 letter-spacing: 0.2px;
@@ -193,9 +193,9 @@
           font-weight: 400;
           line-height: normal;
           padding-top: 19px;
-          font-family: 'UHCSans-Regular';
+          font-family: 'UHCSans-Medium', 'sans-serif', 'Arial';
           span {
-            font-family: 'UHCSans-Regular';
+            font-family: 'UHCSans-Medium', 'sans-serif', 'Arial';
           }
         }
         .head {
@@ -213,7 +213,7 @@
       letter-spacing: 0.2px;
       line-height: 18px;
       margin: 0 3% 10% 7%;
-      font-family: 'UHCSans-Regular';
+      font-family: 'UHCSans-Medium', 'sans-serif', 'Arial';
     }
   }
 }

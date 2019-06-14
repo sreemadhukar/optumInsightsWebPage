@@ -6,6 +6,9 @@
   @include mat-elevation(2);
   overflow-x: hidden;
   overflow-y: hidden;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
   @include padding(30px, 30px, 30px, 30px);
 
   .payments-content {
@@ -62,7 +65,7 @@
         .timeperiod-text {
           position: inherit;
           padding: 9px 20px 9px 16px;
-          color: #757588;
+          color: $strom-grey;
           font-family: 'UHCSans-Regular', 'Arial';
           font-size: 14px;
           font-weight: 500;

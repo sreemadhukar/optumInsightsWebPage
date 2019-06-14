@@ -1,0 +1,117 @@
+@import '~src/scss/variables.scss';
+.line {
+  background-color: #fff;
+  height: 16px;
+  display: flex;
+  border-bottom: solid;
+  border-width: 1px;
+  border-color: #b3babc;
+  z-index: 999;
+}
+.line1 {
+  background-color: #fff;
+  height: 16px;
+  display: flex;
+  border-bottom: solid;
+  border-width: 1px;
+  border-color: #e0e0e0;
+  z-index: 999;
+  width: 418px;
+  margin-left: -32px !important;
+}
+::ng-deep .mat-radio-label-content {
+  margin: 5px;
+  font-family: 'UHCSans-Medium', 'Arial' !important;
+  font-size: 16px;
+}
+::ng-deep .mat-radio-button.mat-accent.mat-radio-checked ::ng-deep .mat-radio-outer-circle {
+  border-color: $blue !important;
+}
+::ng-deep .mat-radio-button.mat-accent ::ng-deep .mat-radio-inner-circle {
+  background-color: $blue !important;
+}
+::ng-deep .mat-radio-outer-circle {
+  border-color: #b3babc;
+}
+.titleData {
+  width: 354px;
+  display: inline-block;
+  .title {
+    width: 322px;
+    color: #2d2d39;
+    font-family: 'UHCSans-SemiBold', 'Arial';
+    font-size: 18px;
+    line-height: 22px;
+    margin: 15px 0 8px 0;
+    float: left;
+  }
+  .icon-display {
+    width: 32px;
+    float: right;
+    height: 32px;
+    margin-top: 15px;
+    color: #2d2d39;
+  }
+}
+.lobgrp {
+  width: 100%;
+  .label-data {
+    width: 100%;
+    color: #757588;
+    font-family: 'UHC Sans';
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: 0.2px;
+    line-height: 22px;
+  }
+  .select-option-data {
+    .radio-group {
+      width: 100%;
+      float: left;
+      display: flex;
+      flex-direction: column;
+      margin: 15px 0;
+    }
+    .radio-button {
+      color: #2d2d39;
+      margin-bottom: 15px;
+    }
+  }
+}
+.applybtn {
+  box-sizing: border-box;
+  height: 41px;
+  width: 50%;
+  border: 1px solid #0d880b;
+  border-radius: 2px;
+  background-color: #0d880b;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
+  color: #ffffff;
+  font-family: 'UHCSans-SemiBold', 'Arial';
+  font-size: 16px;
+}
+.resetbtn {
+  box-sizing: border-box;
+  height: 41px;
+  width: 50%;
+  border: 1px solid #ffffff;
+  border-radius: 2px;
+  background-color: #ffffff;
+  box-shadow: 0 2px 4px 0 #ffffff;
+  color: $blue;
+  font-family: 'UHCSans-SemiBold', 'Arial';
+  font-size: 16px;
+}
+.btn-display {
+  margin-top: 24px;
+}
+.resetbtn:visited,
+.resetbtn:hover,
+.resetbtn:active,
+.resetbtn:focus {
+  background-color: #ffffff;
+  box-shadow: 0 2px 4px 0 #ffffff;
+}
+::ng-deep.mat-button-focus-overlay {
+  background-color: #ffffff;
+}

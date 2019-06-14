@@ -7,7 +7,9 @@ Date Created: 17-Apr-2019
   *ngIf="chartData != null"
   class="app-card-structure"
   [class.app-card-structure-with-more-height]="
-    chartData.type == 'donutWithLabelBottom' || chartData.title == 'Claims Appeals Overturned'
+    chartData.type === 'donutWithLabelBottom' ||
+    chartData.title === 'Claims Appeals Overturned' ||
+    chartData.title === 'Claims Appeals Overturned Rate'
   "
 >
   <div class="card-inner">
@@ -28,6 +30,9 @@ Date Created: 17-Apr-2019
             [class.pa-approval-rate-donut-with-label]="chartData.title == 'Prior Authorization Approval Rate'"
             [class.claims-paid-donut-with-label]="
               chartData.title == 'Claims Paid' || chartData.title == 'Claims Not Paid'
+            "
+            [class.calls-donut-with-label]="
+              chartData.title == 'Calls By Call Type' || chartData.title == 'Talk Time By Call Type'
             "
           ></app-donut-chart>
         </div>
@@ -50,6 +55,9 @@ Date Created: 17-Apr-2019
           [class.pa-approval-rate-beside-data-block]="chartData.title == 'Prior Authorization Approval Rate'"
           [class.claims-paid-beside-data-block]="
             chartData.title == 'Claims Paid' || chartData.title == 'Claims Not Paid'
+          "
+          [class.calls-beside-data-block]="
+            chartData.title == 'Calls By Call Type' || chartData.title == 'Talk Time By Call Type'
           "
         >
           <ul class="app-card-list-labels">
@@ -91,7 +99,9 @@ Date Created: 17-Apr-2019
             [donutType]="'app-card'"
             class="only-donut-block"
             [chartOptions]="chartData.data"
-            [class.only-donut-block-with-more-padding]="chartData.title == 'Claims Appeals Overturned'"
+            [class.only-donut-block-with-more-padding]="
+              chartData.title == 'Claims Appeals Overturned' || chartData.title == 'Claims Appeals Overturned Rate'
+            "
           ></app-donut-chart>
         </div>
       </div>
@@ -140,16 +150,24 @@ Date Created: 17-Apr-2019
         <div class="small-bar-chart-struct">
           <div class="small-bar-chart-value">{{ chartData.data.value }}</div>
           <app-small-bar-chart
-            class="small-bar-chart-cust"
             [height]="heightSmallBarChart"
             [width]="widthSmallBarChart"
             [chartOptions]="chartData.data"
+            [custom]="customSmallBarChart"
           ></app-small-bar-chart>
         </div>
       </div>
     </div>
     <div *ngIf="chartData.timeperiod" class="full-width-block">
       <app-common-footer [timePeriod]="chartData.timeperiod"></app-common-footer>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="skeleton" class="app-card-structure">
+  <div class="card-inner">
+    <div class="full-width-block">
+      <div class="card-skeleton"></div>
     </div>
   </div>
 </div>

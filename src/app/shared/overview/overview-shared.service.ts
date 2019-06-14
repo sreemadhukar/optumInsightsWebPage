@@ -5,6 +5,7 @@ import { OverviewPageModule } from '../../components/overview-page/overview-page
 import { CommonUtilsService } from '../common-utils.service';
 import { SessionService } from '../session.service';
 import { AuthorizationService } from '../../auth/_service/authorization.service';
+
 @Injectable({
   providedIn: OverviewPageModule
 })
@@ -35,7 +36,8 @@ export class OverviewSharedService {
       if (this.timeFrame === 'Last 12 Months') {
         parameters = [this.providerKey, true];
       } else {
-        this.session.timeFrame = this.timeFrame = 'Last 12 Months';
+        // this.session.timeFrame = this.timeFrame = 'Last 12 Months';
+        this.timeFrame = 'Last 12 Months';
         parameters = [this.providerKey, true];
       }
       this.overviewService.getOverviewData(...parameters).subscribe(([providerSystems, claims]) => {
@@ -72,7 +74,7 @@ export class OverviewSharedService {
               sign: 'up',
               data: '+1%'
             },
-            timeperiod: ''
+            timeperiod: 'Last 6 Months'
           };
         } else {
           cPriorAuth = {
@@ -109,7 +111,7 @@ export class OverviewSharedService {
               sign: 'down',
               data: '-1.3%'
             },
-            timeperiod: ''
+            timeperiod: 'Last 6 Months'
           };
         } else {
           cSelfService = {
@@ -123,7 +125,7 @@ export class OverviewSharedService {
         }
         if (
           providerSystems &&
-          providerSystems['PatientCareOpportunity'] !== null &&
+          providerSystems.PatientCareOpportunity != null &&
           providerSystems.PatientCareOpportunity.hasOwnProperty('LineOfBusiness') &&
           providerSystems.PatientCareOpportunity.LineOfBusiness.hasOwnProperty('MedicareAndRetirement') &&
           providerSystems.PatientCareOpportunity.LineOfBusiness.MedicareAndRetirement.hasOwnProperty(
@@ -146,7 +148,7 @@ export class OverviewSharedService {
               gdata: ['card-inner', 'pcorCardD3Star']
             },
             sdata: null,
-            timeperiod: ''
+            timeperiod: 'Last 6 Months'
           };
         } else {
           cPcor = {
@@ -158,39 +160,53 @@ export class OverviewSharedService {
             timeperiod: null
           };
         }
-        if (
-          providerSystems.hasOwnProperty('ResolvingIssues') &&
-          providerSystems.ResolvingIssues.hasOwnProperty('Calls') &&
-          providerSystems.ResolvingIssues.Calls.hasOwnProperty('CallVolByQuesType') &&
-          providerSystems.ResolvingIssues.Calls.CallVolByQuesType.hasOwnProperty('Total') &&
-          providerSystems.ResolvingIssues.Calls.CallVolByQuesType.hasOwnProperty('Claims') &&
-          providerSystems.ResolvingIssues.Calls.CallVolByQuesType.hasOwnProperty('BenefitsEligibility') &&
-          providerSystems.ResolvingIssues.Calls.CallVolByQuesType.hasOwnProperty('PriorAuth') &&
-          providerSystems.ResolvingIssues.Calls.CallVolByQuesType.hasOwnProperty('Others')
-        ) {
-          cIR = {
-            category: 'small-card',
-            type: 'donut',
-            title: 'Total Calls',
-            toggle: this.toggle.setToggles('Total Calls', 'AtGlance', 'Overview', false),
-            data: {
-              graphValues: [
-                providerSystems.ResolvingIssues.Calls.CallVolByQuesType.Claims,
-                providerSystems.ResolvingIssues.Calls.CallVolByQuesType.BenefitsEligibility,
-                providerSystems.ResolvingIssues.Calls.CallVolByQuesType.PriorAuth,
-                providerSystems.ResolvingIssues.Calls.CallVolByQuesType.Others
-              ],
-              centerNumber: this.common.nFormatter(providerSystems.ResolvingIssues.Calls.CallVolByQuesType.Total),
-              color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'],
-              gdata: ['card-inner', 'callsCardD3Donut']
-            },
-            sdata: {
-              sign: 'up',
-              data: '+2.3%'
-            },
-            timeperiod: ''
-          };
-        } else {
+        try {
+          if (
+            providerSystems.hasOwnProperty('ResolvingIssues') &&
+            providerSystems.ResolvingIssues != null &&
+            providerSystems.ResolvingIssues.Calls != null &&
+            providerSystems.ResolvingIssues.hasOwnProperty('Calls') &&
+            providerSystems.ResolvingIssues.Calls.hasOwnProperty('CallVolByQuesType') &&
+            providerSystems.ResolvingIssues.Calls.CallVolByQuesType.hasOwnProperty('Total') &&
+            providerSystems.ResolvingIssues.Calls.CallVolByQuesType.hasOwnProperty('Claims') &&
+            providerSystems.ResolvingIssues.Calls.CallVolByQuesType.hasOwnProperty('BenefitsEligibility') &&
+            providerSystems.ResolvingIssues.Calls.CallVolByQuesType.hasOwnProperty('PriorAuth') &&
+            providerSystems.ResolvingIssues.Calls.CallVolByQuesType.hasOwnProperty('Others')
+          ) {
+            cIR = {
+              category: 'small-card',
+              type: 'donut',
+              title: 'Total Calls',
+              toggle: this.toggle.setToggles('Total Calls', 'AtGlance', 'Overview', false),
+              data: {
+                graphValues: [
+                  providerSystems.ResolvingIssues.Calls.CallVolByQuesType.Claims,
+                  providerSystems.ResolvingIssues.Calls.CallVolByQuesType.BenefitsEligibility,
+                  providerSystems.ResolvingIssues.Calls.CallVolByQuesType.PriorAuth,
+                  providerSystems.ResolvingIssues.Calls.CallVolByQuesType.Others
+                ],
+                centerNumber: this.common.nFormatter(providerSystems.ResolvingIssues.Calls.CallVolByQuesType.Total),
+                color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'],
+                gdata: ['card-inner', 'callsCardD3Donut']
+              },
+              sdata: {
+                sign: 'up',
+                data: '+2.3%'
+              },
+              timeperiod: 'Last 6 Months'
+            };
+          } else {
+            cIR = {
+              category: 'small-card',
+              type: 'donut',
+              title: null,
+              data: null,
+              sdata: null,
+              timeperiod: null
+            };
+          }
+        } catch (Error) {
+          console.log('Overview Page Total Calls Error ', Error);
           cIR = {
             category: 'small-card',
             type: 'donut',
@@ -199,34 +215,52 @@ export class OverviewSharedService {
             sdata: null,
             timeperiod: null
           };
-        }
+        } // ent try catch for Total Calls
         if (
           providerSystems.hasOwnProperty('SelfServiceInquiries') &&
           providerSystems.SelfServiceInquiries.hasOwnProperty('ALL') &&
           providerSystems.SelfServiceInquiries.ALL.hasOwnProperty('SelfService') &&
           providerSystems.SelfServiceInquiries.ALL.SelfService.hasOwnProperty('TotalCallCost')
         ) {
-          oppurtunities.push({
-            category: 'mini-tile',
-            title: 'Reduce Calls and Operating Costs by:',
-            toggle: this.toggle.setToggles('Reduce Calls and Operating Costs by:', 'Opportunities', 'Overview', false),
-            data: {
-              centerNumber:
-                '$' +
-                this.common.nFormatter(providerSystems.SelfServiceInquiries.ALL.SelfService.TotalCallCost.toFixed(2)),
-              gdata: []
-            },
-            fdata: {
-              type: 'bar chart',
-              graphValues: [1.01, 5.4],
-              concatString: '$',
-              color: ['#3381FF', '#FFFFFF', '#80B0FF'],
-              graphValuesTitle: 'Avg. Transaction Costs',
-              graphData1: 'for Self Service',
-              graphData2: 'for Phone Call',
-              gdata: ['card-structure', 'totalCallCost']
-            }
-          });
+          try {
+            oppurtunities.push({
+              category: 'mini-tile',
+              title: 'Reduce Calls and Operating Costs by:',
+              toggle: this.toggle.setToggles(
+                'Reduce Calls and Operating Costs by:',
+                'Opportunities',
+                'Overview',
+                false
+              ),
+              data: {
+                centerNumber:
+                  '$' +
+                  this.common.nFormatter(providerSystems.SelfServiceInquiries.ALL.SelfService.TotalCallCost.toFixed(2)),
+                gdata: []
+              },
+              fdata: {
+                type: 'bar chart',
+                graphValues: [
+                  providerSystems.SelfServiceInquiries.ALL.SelfService.TotalSelfServiceCost.toFixed(),
+                  providerSystems.SelfServiceInquiries.ALL.SelfService.TotalPhoneCost.toFixed()
+                ],
+                concatString: '$',
+                color: ['#3381FF', '#FFFFFF', '#80B0FF'],
+                graphValuesTitle: 'Avg. Transaction Costs',
+                graphData1: 'for Self Service',
+                graphData2: 'for Phone Call',
+                gdata: ['card-structure', 'totalCallCost']
+              }
+            });
+          } catch (Error) {
+            console.log('Overview Page, Self Service, Data not found for Calls and Operating Cost');
+            oppurtunities.push({
+              category: 'mini-tile',
+              title: null,
+              data: null,
+              fdata: null
+            });
+          }
         } else {
           oppurtunities.push({
             category: 'mini-tile',
@@ -241,25 +275,39 @@ export class OverviewSharedService {
           providerSystems.SelfServiceInquiries.ALL.hasOwnProperty('SelfService') &&
           providerSystems.SelfServiceInquiries.ALL.SelfService.hasOwnProperty('TotalCallTime')
         ) {
-          oppurtunities.push({
-            category: 'mini-tile',
-            title: "Save Your Staff's Time by:" + '\n\xa0',
-            toggle: this.toggle.setToggles("Save Your Staff's Time by:", 'Opportunities', 'Overview', false),
-            data: {
-              centerNumber: providerSystems.SelfServiceInquiries.ALL.SelfService.TotalCallTime.toFixed() + ' Hours/day',
-              gdata: []
-            },
-            fdata: {
-              type: 'bar chart',
-              graphValues: [2, 8],
-              concatString: 'hours',
-              color: ['#3381FF', '#FFFFFF', '#80B0FF'],
-              graphValuesTitle: 'Avg. Processing Times',
-              graphData1: 'for Self Service',
-              graphData2: 'for Phone Call',
-              gdata: ['card-structure', 'saveStaffTime']
-            }
-          });
+          try {
+            oppurtunities.push({
+              category: 'mini-tile',
+              title: "Save Your Staff's Time by:" + '\n\xa0',
+              toggle: this.toggle.setToggles("Save Your Staff's Time by:", 'Opportunities', 'Overview', false),
+              data: {
+                centerNumber:
+                  providerSystems.SelfServiceInquiries.ALL.SelfService.TotalCallTime.toFixed(0) + ' Hours/day',
+                gdata: []
+              },
+              fdata: {
+                type: 'bar chart',
+                graphValues: [
+                  providerSystems.SelfServiceInquiries.ALL.SelfService.SelfServiceCallTime.toFixed(0),
+                  providerSystems.SelfServiceInquiries.ALL.SelfService.PhoneCallTime.toFixed(0)
+                ],
+                concatString: 'hours',
+                color: ['#3381FF', '#FFFFFF', '#80B0FF'],
+                graphValuesTitle: 'Avg. Processing Times',
+                graphData1: 'for Self Service',
+                graphData2: 'for Phone Call',
+                gdata: ['card-structure', 'saveStaffTime']
+              }
+            });
+          } catch (Error) {
+            console.log('Overview Page, Self Service, Data not found for Save Yours Staff Time');
+            oppurtunities.push({
+              category: 'mini-tile',
+              title: null,
+              data: null,
+              fdata: null
+            });
+          }
         } else {
           oppurtunities.push({
             category: 'mini-tile',
@@ -392,6 +440,27 @@ export class OverviewSharedService {
             },
             timeperiod: 'Last 6 Months'
           };
+          // AUTHOR: MADHUKAR - claims paid shows no color if the value is 0
+          if (!mrPercentage && !eiPercentage && !csPercentage) {
+            claimsPaid = {
+              category: 'small-card',
+              type: 'donut',
+              title: 'Claims Paid',
+              toggle: this.toggle.setToggles('Claims Paid', 'AtGlance', 'Overview', false),
+              data: {
+                graphValues: [0, 100],
+                centerNumber: '$' + this.common.nFormatter(claims.All.ClaimsLobSummary[0].ClaimsPaid),
+                color: ['#D7DCE1', '#D7DCE1'],
+                gdata: ['card-inner', 'claimsPaidCardD3Donut']
+              },
+              sdata: {
+                sign: 'down',
+                data: '-2.8%'
+              },
+              timeperiod: 'Last 6 Months'
+            };
+          }
+          // Date: 31/5/2019
         } else {
           claimsPaid = {
             category: 'small-card',
@@ -408,21 +477,19 @@ export class OverviewSharedService {
           claims.hasOwnProperty('All') &&
           claims.All != null &&
           claims.All.hasOwnProperty('ClaimsLobSummary') &&
-          claims.All.ClaimsLobSummary[0].hasOwnProperty('AmountActualAllowed') &&
-          claims.All.ClaimsLobSummary[0].hasOwnProperty('AmountExpectedAllowed')
+          claims.All.ClaimsLobSummary[0].hasOwnProperty('ClaimsYieldRate')
         ) {
-          const actualAllowed = parseFloat(claims.All.ClaimsLobSummary[0].AmountActualAllowed);
-          const expectedAllowed = parseFloat(claims.All.ClaimsLobSummary[0].AmountExpectedAllowed);
-          const claimYieldDonut = (actualAllowed / expectedAllowed) * 100;
-          const gDonut = actualAllowed / expectedAllowed;
           claimsYield = {
             category: 'small-card',
             type: 'donut',
             title: 'Claims Yield',
             toggle: this.toggle.setToggles('Claims Yield', 'AtGlance', 'Overview', false),
             data: {
-              graphValues: [gDonut, 1 - gDonut],
-              centerNumber: claimYieldDonut.toFixed() + '%',
+              graphValues: [
+                claims.All.ClaimsLobSummary[0].ClaimsYieldRate,
+                100 - claims.All.ClaimsLobSummary[0].ClaimsYieldRate
+              ],
+              centerNumber: claims.All.ClaimsLobSummary[0].ClaimsYieldRate.toFixed() + '%',
               color: ['#3381FF', '#D7DCE1'],
               gdata: ['card-inner', 'claimsYieldCardD3Donut']
             },

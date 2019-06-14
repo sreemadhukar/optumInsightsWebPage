@@ -28,7 +28,35 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
     this.doDonutChart(this.chartOptions, this.transition);
   }
 
+  nFormatter(num, digits) {
+    const si = [
+      { value: 1, symbol: '' },
+      { value: 1e3, symbol: 'K' },
+      { value: 1e6, symbol: 'M' },
+      { value: 1e9, symbol: 'G' },
+      { value: 1e12, symbol: 'T' },
+      { value: 1e15, symbol: 'P' },
+      { value: 1e18, symbol: 'E' }
+    ];
+    const rx = /\.0+$|(\.[0-9]*[1-9])0+$/;
+    let i;
+    for (i = si.length - 1; i > 0; i--) {
+      if (num >= si[i].value) {
+        break;
+      }
+    }
+    return (num / si[i].value).toFixed(digits).replace(rx, '$1') + si[i].symbol;
+  }
+
+  getTextWidth(text, fontSize, fontFace) {
+    const canvas = document.createElement('canvas');
+    const context = canvas.getContext('2d');
+    context.font = fontSize + 'px ' + fontFace;
+    return context.measureText(text).width;
+  }
+
   doDonutChart(chartOptions: any, transition: number) {
+    const topFunctions = this;
     const preWidth = document.getElementsByClassName(this.chartOptions.gdata[0])[0].clientWidth / 2;
     d3.select(this.renderChart)
       .selectAll('*')
@@ -72,7 +100,7 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
       .sort(null)
       .startAngle(0)
       .endAngle(2 * Math.PI)
-      .padAngle(0.02)
+      .padAngle(0.01)
       .value(function(d) {
         return d.value;
       });
@@ -83,13 +111,27 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
     }
     let text;
     if (this.donutType === 'app-card') {
-      text = chart
-        .append('text')
-        .attr('text-anchor', 'middle')
-        .attr('y', height / height)
-        .style('font-size', '41px')
-        .style('fill', '#2d2d39')
-        .style('font-family', 'UHCSans-Regular');
+      if (this.chartOptions.gdata[1] === 'claimsAppealOverturnedRate') {
+        text = chart
+          .append('text')
+          .attr('text-anchor', 'middle')
+          .attr('y', 8)
+          .style('font-size', '41px')
+          .style('fill', '#2d2d39')
+          .style('font-family', 'UHCSans-Medium')
+          .style('font-weight', '500')
+          .style('vertical-align', 'middle');
+      } else {
+        text = chart
+          .append('text')
+          .attr('text-anchor', 'middle')
+          .attr('y', height / height)
+          .style('font-size', '41px')
+          .style('fill', '#2d2d39')
+          .style('font-family', 'UHCSans-Medium')
+          .style('font-weight', '500')
+          .style('vertical-align', 'middle');
+      }
     } else if (this.donutType === 'small-card') {
       text = chart
         .append('text')
@@ -97,7 +139,8 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
         .attr('y', height / heightDivider)
         .style('font-size', '22px')
         .style('fill', '#2d2d39')
-        .style('font-family', 'UHCSans-SemiBold');
+        .style('font-family', 'UHCSans-Medium')
+        .style('font-weight', '500');
     }
 
     if (chartOptions.hasOwnProperty('sdata') && chartOptions.sdata != null) {
@@ -109,14 +152,23 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
           .attr('r', 16)
           .attr('fill', '#e1fadf');
 
-        chart
-          .append('svg:image')
-          .attr('x', -36)
-          .attr('y', 19)
-          .attr('width', '20px')
-          .attr('height', '20px')
-          .attr('xlink:href', 'src/assets/images/trend-up.svg');
-
+        if (chartOptions.hasOwnProperty('graphScreen') && chartOptions.graphScreen === 'PI') {
+          chart
+            .append('svg:image')
+            .attr('x', -35)
+            .attr('y', 19)
+            .attr('width', '20px')
+            .attr('height', '20px')
+            .attr('xlink:href', 'src/assets/images/down-positive-no-circle.svg');
+        } else {
+          chart
+            .append('svg:image')
+            .attr('x', -36)
+            .attr('y', 19)
+            .attr('width', '20px')
+            .attr('height', '20px')
+            .attr('xlink:href', 'src/assets/images/trend-up.svg');
+        }
         chart
           .append('text')
           .attr('x', 0)
@@ -124,7 +176,7 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
           .style('font-size', '14px')
           .style('font-weight', '500')
           .style('fill', '#007000')
-          .style('font-family', 'UHCSans-Regular')
+          .style('font-family', 'UHCSans-Medium')
           .style('text-anchor', 'start')
           .text(chartOptions.sdata.data);
       } else if (chartOptions.sdata.sign === 'down') {
@@ -135,13 +187,23 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
           .attr('r', 16)
           .attr('fill', '#ffe6f0');
 
-        chart
-          .append('svg:image')
-          .attr('x', -36)
-          .attr('y', 19)
-          .attr('width', '20px')
-          .attr('height', '20px')
-          .attr('xlink:href', 'src/assets/images/trend-down.svg');
+        if (chartOptions.hasOwnProperty('graphScreen') && chartOptions.graphScreen === 'PI') {
+          chart
+            .append('svg:image')
+            .attr('x', -36)
+            .attr('y', 19)
+            .attr('width', '20px')
+            .attr('height', '20px')
+            .attr('xlink:href', 'src/assets/images/up-negative-no-circle.svg');
+        } else {
+          chart
+            .append('svg:image')
+            .attr('x', -36)
+            .attr('y', 19)
+            .attr('width', '20px')
+            .attr('height', '20px')
+            .attr('xlink:href', 'src/assets/images/trend-down.svg');
+        }
 
         chart
           .append('text')
@@ -150,7 +212,7 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
           .style('font-size', '14px')
           .style('font-weight', '500')
           .style('fill', '#b10c00')
-          .style('font-family', 'UHCSans-Regular')
+          .style('font-family', 'UHCSans-Medium')
           .style('text-anchor', 'start')
           .text(chartOptions.sdata.data);
       }
@@ -158,8 +220,14 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
 
     const donutData = [];
 
-    for (let i = 0; i < chartOptions.graphValues.length; i++) {
-      donutData.push({ value: chartOptions.graphValues[i] });
+    if (chartOptions.hasOwnProperty('labels')) {
+      for (let i = 0; i < chartOptions.graphValues.length; i++) {
+        donutData.push({ value: chartOptions.graphValues[i], label: chartOptions.labels[i] });
+      }
+    } else {
+      for (let i = 0; i < chartOptions.graphValues.length; i++) {
+        donutData.push({ value: chartOptions.graphValues[i] });
+      }
     }
 
     const g = chart
@@ -197,6 +265,70 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
 
       text.text(chartOptions.centerNumber);
       text.text();
+    }
+
+    // chartOptions.hover
+    if (chartOptions.hover === true) {
+      const divHover = d3
+        .select(this.renderChart)
+        .append('div')
+        .attr('class', 'tooltipDonut')
+        .style('opacity', 0)
+        .style('border-radius', 0);
+
+      const svg2 = divHover.append('svg');
+      const boxWidth = '109px';
+      const boxHeight = '63px';
+
+      g.on('mouseenter', function(d) {
+        const hoverTextLength = topFunctions.getTextWidth(d.data.label, 14, 'Arial');
+
+        divHover.style('height', boxHeight).style('width', boxWidth);
+
+        svg2.attr('height', boxHeight).attr('width', boxWidth);
+
+        divHover
+          .transition()
+          .duration(10)
+          .style('opacity', 1);
+        divHover.style('left', d3.event.layerX + 15 + 'px').style('top', d3.event.layerY - 40 + 'px');
+
+        svg2
+          .append('text')
+          .attr('text-anchor', 'start')
+          .attr('x', '12.5px')
+          .attr('y', '25px')
+          .style('font-size', '14px')
+          .style('fill', '#2D2D39')
+          .style('font-family', 'UHCSans-SemiBold')
+          .style('font-weight', '600')
+          .text(d.data.label);
+
+        svg2
+          .append('text')
+          .attr('text-anchor', 'start')
+          .attr('x', '12.5px')
+          .attr('y', '47px')
+          .style('font-size', '14px')
+          .style('fill', '#757588')
+          .style('font-family', 'UHCSans-Regular')
+          .text(topFunctions.nFormatter(d.value, 1));
+      })
+        .on('mousemove', function(d) {
+          divHover
+            .transition()
+            .duration(10)
+            .style('opacity', 1);
+          divHover.style('left', d3.event.layerX + 15 + 'px').style('top', d3.event.layerY - 40 + 'px');
+        })
+        .on('mouseleave', function(d) {
+          divHover
+            .transition()
+            .duration(10)
+            .style('opacity', 0);
+
+          svg2.selectAll('*').remove();
+        });
     }
   }
 }

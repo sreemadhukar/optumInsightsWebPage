@@ -82,11 +82,11 @@ export class BarChartComponent implements OnInit, AfterViewInit {
       .selectAll('*')
       .remove();
 
-    let barHeight = 48;
+    let barHeight = 68;
     if (chartOptions.barHeight) {
-      barHeight = chartOptions.barHeight;
+      barHeight = chartOptions.barHeight + 8;
     }
-
+    console.log('d3bar height' + barHeight);
     const margin = { top: 25, right: 10, bottom: 5, left: 10 };
     const width = preWidth - margin.left - margin.right;
     const height = barHeight * 1.5 - margin.top - margin.bottom;
@@ -150,7 +150,7 @@ export class BarChartComponent implements OnInit, AfterViewInit {
         .attr('fill', '#2D2D39')
         .attr('font-size', '16')
         .attr('text-anchor', 'start')
-        .attr('font-family', 'UHCSans-Regular')
+        .attr('font-family', 'UHCSans-Medium')
         .attr('font-weight', '500')
         .text(chartOptions.barText)
         .call(wrap, 250, tspanID, 16);
@@ -203,7 +203,7 @@ export class BarChartComponent implements OnInit, AfterViewInit {
           .attr('fill', '#2D2D39')
           .attr('font-size', '14')
           .attr('text-anchor', 'start')
-          .attr('font-family', 'UHCSans-Regular')
+          .attr('font-family', 'UHCSans-SemiBold')
           .attr('font-weight', '600')
           .text(chartOptions.barText)
           .call(wrap, 420, tspanID + 'hover', 14);
@@ -241,7 +241,7 @@ export class BarChartComponent implements OnInit, AfterViewInit {
       .attr('fill', '#2D2D39')
       .attr('font-size', '22')
       .style('text-anchor', 'start')
-      .style('font-family', 'UHCSans-Regular')
+      .style('font-family', 'UHCSans-SemiBold')
       .style('font-weight', '600')
       .text(chartOptions.barData);
   }

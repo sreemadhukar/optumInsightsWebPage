@@ -25,6 +25,7 @@ import { Router, NavigationStart } from '@angular/router';
 import { ThemeService } from '../../shared/theme.service';
 import { Observable, Subscription } from 'rxjs';
 import { CommonUtilsService } from '../../shared/common-utils.service';
+import { StorageService } from '../../shared/storage-service.service';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -50,7 +51,7 @@ import { CommonUtilsService } from '../../shared/common-utils.service';
     ])
   ]
 })
-export class HeaderComponent implements OnInit, OnDestroy {
+export class HeaderComponent implements AfterViewInit, OnDestroy {
   @Input() isDarkTheme: Observable<boolean>;
   @Input() button: boolean;
   @Output() hamburgerDisplay = new EventEmitter<boolean>();
@@ -69,7 +70,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
     sanitizer: DomSanitizer,
     private themeService: ThemeService,
     private router: Router,
-    private utils: CommonUtilsService
+    private utils: CommonUtilsService,
+    private checkStorage: StorageService
   ) {
     // this.mobileQuery = this.breakpointObserver.isMatched('(max-width: 1024px)');
     router.events.subscribe(event => {
@@ -105,15 +107,14 @@ export class HeaderComponent implements OnInit, OnDestroy {
       'cross',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Content/round-clear-24px.svg')
     );
+
+    this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.ngAfterViewInit());
   }
 
-  ngOnInit() {
+  ngAfterViewInit() {
     this.isDarkTheme = this.themeService.isDarkTheme;
     const userInfo = JSON.parse(sessionStorage.getItem('loggedUser'));
-    this.username = userInfo.FirstName + ' ' + userInfo.LastName;
-    this.subscription = this.utils
-      .getChangeEmitter()
-      .subscribe(item => (this.username = item.FirstName + ' ' + item.LastName));
+    this.username = userInfo.FirstName;
   }
   /*angular theme */
 

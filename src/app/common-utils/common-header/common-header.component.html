@@ -1,12 +1,17 @@
 <div *ngIf="titleHeader != null" class="header-container">
   <div class="details">
-    <mat-icon class="" (click)="helpFunctionClicked()" svgIcon="help"></mat-icon>
+    <mat-icon class="onHoverIcon" (click)="helpFunctionClicked()" svgIcon="help"></mat-icon>
   </div>
   <div
     class="header-title"
     [class.common-header]="cardType === 'error-card'"
     [class.non-small-card-header-title]="typeOfCard != 'smallCard'"
   >
-    {{ titleHeader }}
+    <div *ngIf="typeOfCard === 'smallCard'">
+      <a class="handClicked" (click)="titleClicked(titleHeader)">{{ titleHeader }}</a>
+    </div>
+    <div *ngIf="typeOfCard != 'smallCard'">
+      {{ titleHeader }}
+    </div>
   </div>
 </div>

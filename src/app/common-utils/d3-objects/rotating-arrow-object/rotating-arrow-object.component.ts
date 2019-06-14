@@ -142,7 +142,7 @@ export class RotatingArrowObjectComponent implements OnInit, AfterViewInit {
         .style('font-size', '16px')
         .style('font-weight', '500')
         .style('fill', textColor)
-        .style('font-family', 'UHCSans-Regular')
+        .style('font-family', 'UHCSans-Medium')
         .style('text-anchor', 'start')
         .text(chartOptions.sdata.data);
     }
@@ -155,7 +155,7 @@ export class RotatingArrowObjectComponent implements OnInit, AfterViewInit {
       .style('font-size', '41px')
       .style('font-weight', '500')
       .style('fill', '#2D2D39')
-      .style('font-family', 'UHCSans-Regular')
+      .style('font-family', 'UHCSans-Medium')
       .style('letter-spacing', '-0.5px')
       .text(chartOptions.centerNumber);
   }
