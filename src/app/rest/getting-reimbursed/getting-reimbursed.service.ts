@@ -7,7 +7,7 @@ import { map, retry, catchError } from 'rxjs/operators';
 import { combineLatest, of } from 'rxjs';
 
 @Injectable({
-  providedIn: GettingReimbursedModule
+  providedIn: 'root'
 })
 export class GettingReimbursedService {
   public currentUser: any;

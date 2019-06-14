@@ -13,6 +13,7 @@ export class FilterComponent implements OnInit {
   public arrowmark: boolean;
   public taxData: string;
   public tarrowmark: boolean;
+  public tinsData: any;
   @Output() filterFlag = new EventEmitter();
   public lobs = ['All', 'Community & State', 'Employee & Individual', 'Medicare & Retirement'];
   constructor(private iconRegistry: MatIconRegistry, sanitizer: DomSanitizer, private session: SessionService) {
@@ -40,6 +41,12 @@ export class FilterComponent implements OnInit {
   }
   ngOnInit() {
     this.lobData = this.session.lob;
+    this.session.getTins().then(data => {
+      this.tinsData = data;
+      this.tinsData.forEach(value => {
+        value['checked'] = false;
+      });
+    });
   }
   resetFilter() {
     this.session.lob = this.lobData = this.lobs[0];
