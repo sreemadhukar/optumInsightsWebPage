@@ -37,24 +37,15 @@ export class PatientCareOpportunityComponent implements OnInit {
   getTabOptionsTitle(i: number) {
     return this.tabOptionsTitle[i];
   }
-  matOptionClicked(i: number, event: any) {
-    this.currentSummary = this.summaryItems[i].data;
-    this.currentTabTitle = this.summaryItems[i].title;
-    const myTabs = document.querySelectorAll('ul.nav-tabs > li');
-    for (let j = 0; j < myTabs.length; j++) {
-      myTabs[j].classList.remove('active');
-    }
-    myTabs[i].classList.add('active');
-    //    event.target.classList.add('active');
-  }
+
   ngOnInit() {
     this.pageTitle = 'Patient Care Opportunity–Medicare & Retirement';
     this.loading = true;
     this.hideAllObjects = true;
     this.mockCards = [{}, {}];
-    this.MRAStarData = [{ id: '1' }, { id: '2' }];
+    this.MRAStarData = [{}];
     this.summaryItems = [{}];
-    // this.MRACVCompletionData=[{}];
+    this.MRACVCompletionData = [{}];
 
     this.priorAuthShared.getPCORMandRData().then(
       data => {

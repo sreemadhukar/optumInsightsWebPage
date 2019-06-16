@@ -182,24 +182,48 @@ Date Created: 17-Apr-2019
           </section>
         </div>
 
-        <div class="chart-details-donut">
+        <div class="chart-details-donut" *ngIf="allData">
           <app-donut-chart
             [donutType]="'app-card'"
-            [chartOptions]="chartData.data"
+            [chartOptions]="chartData.data.All"
+            [class.PCOR-annual-rate-donut-with-label-tab]="
+              chartData.title == 'Medicare & Retirement Annual Care Visits Completion Rate'
+            "
+          ></app-donut-chart>
+        </div>
+        <div class="chart-details-donut" *ngIf="diabeticDivData">
+          <app-donut-chart
+            [donutType]="'app-card'"
+            [chartOptions]="chartData.data.Diabetic"
             [class.PCOR-annual-rate-donut-with-label-tab]="
               chartData.title == 'Medicare & Retirement Annual Care Visits Completion Rate'
             "
           ></app-donut-chart>
         </div>
         <div
-          *ngIf="chartData.title == 'Medicare & Retirement Annual Care Visits Completion Rate'"
+          *ngIf="chartData.title == 'Medicare & Retirement Annual Care Visits Completion Rate' && allData"
           class="PCOR-annual-rate-vertical-data-block"
         >
           <ul>
-            <li *ngFor="let d of chartData.besideData.verticalData; let i = index">
+            <li *ngFor="let d of chartData.besideData.All.verticalData; let i = index">
               <p class="donut-graph-label-value">{{ d.values }}</p>
               <p class="donut-graph-label">{{ d.labels }}</p>
-              <hr *ngIf="i + 1 < chartData.besideData.verticalData.length && d.values" class="pa-avg-tat-hr-line" />
+              <hr *ngIf="i + 1 < chartData.besideData.All.verticalData.length && d.values" class="pa-avg-tat-hr-line" />
+            </li>
+          </ul>
+        </div>
+        <div
+          *ngIf="chartData.title == 'Medicare & Retirement Annual Care Visits Completion Rate' && diabeticDivData"
+          class="PCOR-annual-rate-vertical-data-block"
+        >
+          <ul>
+            <li *ngFor="let d of chartData.besideData.Diabetic.verticalData; let i = index">
+              <p class="donut-graph-label-value">{{ d.values }}</p>
+              <p class="donut-graph-label">{{ d.labels }}</p>
+              <hr
+                *ngIf="i + 1 < chartData.besideData.Diabetic.verticalData.length && d.values"
+                class="pa-avg-tat-hr-line"
+              />
             </li>
           </ul>
         </div>

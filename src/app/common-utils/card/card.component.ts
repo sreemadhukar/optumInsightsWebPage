@@ -16,18 +16,34 @@ export class CardComponent implements OnInit {
   heightSmallBarChart: Number = 155;
   widthSmallBarChart: Number = 268;
   customSmallBarChart: Boolean = false;
-  @Input() matOptionClicked;
-  tabOptionsTitle = [];
-  @Input() tabOptions;
-  @Input() getTabOptionsTitle;
+  previousSelected: any = 0;
+  tabOptions = [];
+  diabeticDivData: Boolean = false;
+  allData: Boolean = true;
+  selectedItemId: any = 0;
+  matOptionClicked(i: number, event: any) {
+    this.previousSelected = i;
+
+    const myTabs = document.querySelectorAll('ul.nav-tabs > li');
+    for (let j = 0; j < myTabs.length; j++) {
+      myTabs[j].classList.remove('active');
+      this.diabeticDivData = true;
+      this.allData = false;
+    }
+    myTabs[i].classList.add('active');
+  }
+
   constructor(private glossaryExpandService: GlossaryExpandService) {
-    this.tabOptionsTitle = ['All', 'Diabetic'];
+    this.tabOptions = ['All', 'Diabetic'];
   }
 
   helpIconClick(title) {
     this.glossaryExpandService.setMessage(title);
   }
   ngOnInit() {
-    this.tabOptionsTitle = ['All', 'Diabetic'];
+    this.tabOptions = ['All', 'Diabetic'];
+    this.selectedItemId = 0;
+    this.allData = true;
+    this.diabeticDivData = false;
   }
 }

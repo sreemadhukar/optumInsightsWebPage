@@ -242,48 +242,46 @@ export class PriorAuthSharedService {
               type: 'donutWithLabelandTab',
               title: 'Medicare & Retirement Annual Care Visits Completion Rate',
               data: {
-                graphValues: [totalAllCompletionRate, 1 - totalAllCompletionRate],
-                centerNumber: totalAllCompletionRate.toFixed(0) + '%',
-                color: ['#3381FF', '#E0E0E0'],
-                gdata: ['card-inner', 'PCORACVAll']
+                All: {
+                  graphValues: [totalAllCompletionRate, 1 - totalAllCompletionRate],
+                  centerNumber: totalAllCompletionRate.toFixed(0) + '%',
+                  color: ['#3381FF', '#E0E0E0'],
+                  gdata: ['card-inner', 'PCORACVAll']
+                },
+                Diabetic: {
+                  graphValues: [totalDiabeticCompletionRate, 1 - totalDiabeticCompletionRate],
+                  centerNumber: totalDiabeticCompletionRate.toFixed(0) + '%',
+                  color: ['#3381FF', '#E0E0E0'],
+                  gdata: ['card-inner', 'PCORACVDiabetic']
+                }
               },
               besideData: {
-                verticalData: [
-                  { title: '' },
-                  {
-                    values: PCORMandRData.TotalPatientCount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','),
-                    labels: 'Total Patients'
-                  },
-                  {
-                    values: PCORMandRData.TotalACVs.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','),
-                    labels: 'Completed'
-                  }
-                ]
-              },
-              timeperiod: 'Data represents claims processed as of ' + PCORRMReportingDate
-            },
-            {
-              category: 'app-card',
-              type: 'donutWithLabelandTab',
-              title: 'Medicare & Retirement Annual Care Visits Completion Rate',
-              data: {
-                graphValues: [totalDiabeticCompletionRate, 1 - totalDiabeticCompletionRate],
-                centerNumber: totalDiabeticCompletionRate.toFixed(0) + '%',
-                color: ['#3381FF', '#E0E0E0'],
-                gdata: ['card-inner', 'PCORACVDiabetic']
-              },
-              besideData: {
-                verticalData: [
-                  { title: '' },
-                  {
-                    values: PCORMandRData.TotalDiabeticPatients.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','),
-                    labels: 'Total Patients'
-                  },
-                  {
-                    values: PCORMandRData.TotalDiabeticACVs.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','),
-                    labels: 'Completed'
-                  }
-                ]
+                All: {
+                  verticalData: [
+                    { title: '' },
+                    {
+                      values: PCORMandRData.TotalPatientCount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','),
+                      labels: 'Total Patients'
+                    },
+                    {
+                      values: PCORMandRData.TotalACVs.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','),
+                      labels: 'Completed'
+                    }
+                  ]
+                },
+                Diabetic: {
+                  verticalData: [
+                    { title: '' },
+                    {
+                      values: PCORMandRData.TotalDiabeticPatients.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','),
+                      labels: 'Total Patients'
+                    },
+                    {
+                      values: PCORMandRData.TotalDiabeticACVs.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','),
+                      labels: 'Completed'
+                    }
+                  ]
+                }
               },
               timeperiod: 'Data represents claims processed as of ' + PCORRMReportingDate
             }
