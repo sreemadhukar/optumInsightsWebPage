@@ -244,13 +244,13 @@ export class PriorAuthSharedService {
               data: {
                 All: {
                   graphValues: [totalAllCompletionRate, 1 - totalAllCompletionRate],
-                  centerNumber: totalAllCompletionRate.toFixed(0) + '%',
+                  centerNumber: (totalAllCompletionRate * 100).toFixed(0) + '%',
                   color: ['#3381FF', '#E0E0E0'],
                   gdata: ['card-inner', 'PCORACVAll']
                 },
                 Diabetic: {
                   graphValues: [totalDiabeticCompletionRate, 1 - totalDiabeticCompletionRate],
-                  centerNumber: totalDiabeticCompletionRate.toFixed(0) + '%',
+                  centerNumber: (totalDiabeticCompletionRate * 100).toFixed(0) + '%',
                   color: ['#3381FF', '#E0E0E0'],
                   gdata: ['card-inner', 'PCORACVDiabetic']
                 }
@@ -295,7 +295,7 @@ export class PriorAuthSharedService {
             PCORMandRData['1StarMeasureCount']
           ];
 
-          const TotalStarRatingSum = PCORRatings.reduce((x, y) => x + y);
+          const barScaleMax = Math.max(...PCORRatings);
 
           const MandRStarRatingCard = [];
 
@@ -304,9 +304,9 @@ export class PriorAuthSharedService {
               type: 'singleBarChart',
               title: 'Quality Star Ratings',
               data: {
-                barHeight: 40,
+                barHeight: 48,
                 barData: PCORRatings[i],
-                barSummation: TotalStarRatingSum,
+                barSummation: barScaleMax,
                 barText: PCORRatings[i],
                 color: [{ color1: '#3381FF' }],
                 gdata: ['card-inner-large', 'PCORreasonBar' + i],
