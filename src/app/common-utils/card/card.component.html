@@ -9,7 +9,9 @@ Date Created: 17-Apr-2019
   [class.app-card-structure-with-more-height]="
     chartData.type === 'donutWithLabelBottom' ||
     chartData.title === 'Claims Appeals Overturned' ||
-    chartData.title === 'Claims Appeals Overturned Rate'
+    chartData.title === 'Claims Appeals Overturned Rate' ||
+    chartData.title === 'Medicare & Retirement Annual Care Visits Completion Rate' ||
+    chartData.title === 'Medicare & Retirement Average Star Rating'
   "
 >
   <div class="card-inner">
@@ -200,7 +202,10 @@ Date Created: 17-Apr-2019
             <li *ngFor="let d of medicareBesideData; let i = index">
               <p class="donut-graph-label-value">{{ d.values }}</p>
               <p class="donut-graph-label">{{ d.label }}</p>
-              <hr *ngIf="i + 1 < chartData.besideData.All.verticalData.length && d.values" class="pa-avg-tat-hr-line" />
+              <hr
+                *ngIf="i + 1 < chartData.besideData.All.verticalData.length && d.values && i === 0"
+                class="pa-avg-tat-hr-line"
+              />
             </li>
           </ul>
         </div>

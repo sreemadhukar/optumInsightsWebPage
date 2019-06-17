@@ -225,7 +225,7 @@ export class PriorAuthSharedService {
             {
               category: 'app-card',
               type: 'star',
-              title: 'Medicare Star Rating',
+              title: 'Medicare & Retirement Average Star Rating',
               data: {
                 graphValues: [PCORMandRData.AverageStarRating],
                 centerNumber: PCORMandRData.AverageStarRating,

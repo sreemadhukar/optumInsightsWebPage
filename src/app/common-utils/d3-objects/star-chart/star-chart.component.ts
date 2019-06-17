@@ -48,12 +48,18 @@ export class StarChartComponent implements OnInit, AfterViewInit {
     if (customHeight > 0) {
       height = customHeight - margin.left - margin.right;
     }
+    let centerTextFontSize;
+    let centerTextHeight;
     if (this.starType === 'app-card') {
       width = 212;
-      height = 212;
+      height = 320;
+      centerTextFontSize = 41;
+      centerTextHeight = 185;
     } else if (this.starType === 'small-card') {
       width = 120;
       height = 120;
+      centerTextFontSize = 22;
+      centerTextHeight = width / 2 + 10;
     }
 
     const svg = d3
@@ -75,10 +81,10 @@ export class StarChartComponent implements OnInit, AfterViewInit {
     svg
       .append('text')
       .attr('x', (width + margin.left + margin.right) / 2)
-      .attr('y', width / 2 + 10)
+      .attr('y', centerTextHeight)
       .attr('font-family', 'UHCSans-Regular')
       .attr('fill', '#FFFFFF')
-      .attr('font-size', '22')
+      .attr('font-size', centerTextFontSize)
       .attr('font-weight', '600')
       .attr('text-anchor', 'middle')
       .text(chartOptions.centerNumber);
