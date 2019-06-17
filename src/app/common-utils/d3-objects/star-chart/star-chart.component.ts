@@ -4,7 +4,7 @@ import * as d3 from 'd3';
 @Component({
   selector: 'app-star-chart',
   templateUrl: './star-chart.component.html',
-  styleUrls: ['./star-chart.component.less'],
+  styleUrls: ['./star-chart.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
 export class StarChartComponent implements OnInit, AfterViewInit {

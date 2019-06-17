@@ -32,10 +32,6 @@ export class PatientCareOpportunityComponent implements OnInit {
     private priorAuthShared: PriorAuthSharedService
   ) {
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.ngOnInit());
-    this.tabOptionsTitle = ['All', 'Diabetic'];
-  }
-  getTabOptionsTitle(i: number) {
-    return this.tabOptionsTitle[i];
   }
 
   ngOnInit() {
@@ -55,25 +51,6 @@ export class PatientCareOpportunityComponent implements OnInit {
         this.MRACVCompletionData = this.summaryItems[1];
         this.currentTabTitle = this.summaryItems[1].title;
         this.StarRatings = this.summaryItems[2];
-
-        // this.MRAStarData = data[0];
-        // this.MRACVCompletionData=data[1];
-        console.log(this.MRACVCompletionData);
-        this.tabOptions = [];
-        for (let i = 0; i < 2; i++) {
-          const temp = {
-            id: i,
-            title: this.getTabOptionsTitle(i)
-            // value1: this.MRAStarData[i].data[0].data.centerNumber,
-            // sdata: {
-            //   sign: this.MRAStarData[i].data[0].data.sdata.sign,
-            //   value: this.MRAStarData[i].data[0].data.sdata.data
-            // }
-          };
-
-          this.tabOptions.push(temp);
-          alert(this.tabOptions.push(temp));
-        }
       },
       error => {
         this.hideAllObjects = false;
