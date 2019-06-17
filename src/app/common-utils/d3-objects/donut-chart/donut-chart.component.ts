@@ -28,7 +28,7 @@ export class DonutChartComponent implements OnInit, AfterViewInit, OnChanges {
     this.doDonutChart(this.chartOptions, this.transition);
   }
   ngOnChanges() {
-    this.doDonutChart(this.chartOptions, this.transition);
+    this.doDonutChart(this.chartOptions, this.noTransition);
     this.renderChart = '#' + this.chartOptions.gdata[1];
   }
 
