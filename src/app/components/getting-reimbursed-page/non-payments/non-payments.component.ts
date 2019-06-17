@@ -48,7 +48,7 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
   top5Reasons: any = [];
   facilityData: any;
   dataSource: MatTableDataSource<any>;
-  show = false;
+  show = true;
   dataLoaded = false;
   type: any;
   subscription: any;
