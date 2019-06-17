@@ -1,5 +1,5 @@
-@import '~src/scss/variables.scss';
-@import '~src/scss/mixins';
+@import "~src/scss/variables.scss";
+@import "~src/scss/mixins";
 .breadcrumb-top-padding {
   @include padding(20px, 0, 15px, 32px);
 }
@@ -46,7 +46,7 @@
     .app-card-list-labels {
       display: block;
       color: $black-rock;
-      font-family: 'UHCSans-Regular';
+      font-family: "UHCSans-Regular";
       font-size: 14px;
       font-weight: 500;
       letter-spacing: 0.2px;
@@ -57,7 +57,7 @@
     .app-card-list-labels > li {
       margin-bottom: 16px;
       margin-right: 8px;
-      font-family: 'UHCSans-Regular';
+      font-family: "UHCSans-Regular";
       font-weight: 500;
     }
     .label-dots {
@@ -73,7 +73,7 @@
       float: left;
       margin-top: 16px;
       color: $strom-grey;
-      font-family: 'UHCSans-Regular';
+      font-family: "UHCSans-Regular";
       font-size: 14px;
       font-weight: 500;
       letter-spacing: 0.2px;
@@ -94,7 +94,7 @@
     }
     .mr-returned-number {
       color: $black-rock;
-      font-family: 'UHCSans-Regular';
+      font-family: "UHCSans-Regular";
       font-size: 20px;
       font-weight: 600;
       line-height: 22px;
@@ -110,7 +110,7 @@
     }
     .mr-returned-text {
       color: $black-rock;
-      font-family: 'UHCSans-Regular';
+      font-family: "UHCSans-Regular";
       font-size: 16px;
       font-weight: 500;
       letter-spacing: 0.2px;
@@ -148,33 +148,31 @@
     }
     .financial-ooportunity-block {
       float: left;
-      width: 151px;
+      width: 165px;
     }
     .zero-data-bar {
       background-color: $strom-grey !important;
     }
     .financial-value {
       color: $black-rock;
-      font-family: 'UHCSans-Regular';
+      font-family: "UHCSans-Regular";
       font-size: 20px;
       font-weight: 600;
       line-height: 22px;
       float: left;
     }
     .financial-trend {
-      color: $red-dark;
-      font-family: 'UHCSans-Regular';
+      font-family: "UHCSans-Regular";
       font-size: 14px;
       font-weight: 500;
       letter-spacing: 0.2px;
-      line-height: 18px;
+      line-height: 22px;
       text-align: center;
       float: left;
-      margin-left: 8px;
     }
     .financial-opportunity {
       color: $black-rock;
-      font-family: 'UHCSans-Regular';
+      font-family: "UHCSans-Regular";
       font-size: 16px;
       font-weight: 500;
       letter-spacing: 0.2px;
@@ -198,9 +196,16 @@
       float: left;
       margin-top: 24px;
     }
+    .pi-trend-icons {
+      margin-left: 4px;
+      margin-right: 4px;
+      float: left;
+      height: 20px;
+      width: 20px;
+    }
     .cust-width-title {
       width: 961px;
-      font-family: 'UHCSans-SemiBold', 'Arial';
+      font-family: "UHCSans-SemiBold", "Arial";
       color: $black-rock;
       ol {
         @include margin(0, 0, 16px, 0);
@@ -208,7 +213,7 @@
       .page-title {
         margin-top: 13.2px;
         color: $black-rock;
-        font-family: 'UHCSans-Regular';
+        font-family: "UHCSans-Regular";
         font-size: 36px;
         font-weight: 600;
         line-height: 40px;
@@ -231,7 +236,7 @@
         button {
           span:first-child {
             font-weight: 500;
-            font-family: 'UHCSans-Regular';
+            font-family: "UHCSans-Regular";
           }
         }
       }
