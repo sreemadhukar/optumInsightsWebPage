@@ -237,6 +237,9 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
   }
 
   ngOnInit() {
+    this.gettingReimbursedSharedService.getTins().then(tins => {
+      console.log(tins);
+    });
     this.loadingOne = false;
     this.mockCardOne = [{}];
     this.loadingTwo = false;

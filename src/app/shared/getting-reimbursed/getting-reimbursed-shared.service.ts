@@ -1091,6 +1091,15 @@ export class GettingReimbursedSharedService {
     });
   }
 
+  public getTins() {
+    return new Promise((resolve, reject) => {
+      this.providerKey = this.session.providerKey();
+      this.gettingReimbursedService.getTins(this.providerKey).subscribe(tins => {
+        const providerTins = tins;
+        resolve(providerTins);
+      });
+    });
+  }
   /* function to get Claims Non Payments by Facility Data - Ranjith kumar Ankam*/
   public getClaimsNonPaymentsbyFacilityData(top5Reasons) {
     return new Promise((resolve, reject) => {
