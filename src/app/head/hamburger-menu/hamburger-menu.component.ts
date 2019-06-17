@@ -15,6 +15,7 @@ import {
   ViewChild,
   QueryList,
   OnDestroy,
+  AfterViewChecked,
   Input
 } from '@angular/core';
 import { MatExpansionPanel, MatDialog, MatSidenav } from '@angular/material';
@@ -39,7 +40,7 @@ import { Location } from '@angular/common';
   styleUrls: ['./hamburger-menu.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy {
+export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy, AfterViewChecked {
   _allExpandState = false;
   isDarkTheme: Observable<boolean>;
   @ViewChildren(MatExpansionPanel) viewPanels: QueryList<MatExpansionPanel>;
@@ -263,6 +264,17 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
     Array.from(listItemBody).forEach(listItem => {
       this.renderer.setStyle(listItem, 'padding', '0px');
     });
+  }
+  ngAfterViewChecked() {
+    // console.log(this.elementRef.nativeElement.querySelectorAll('*[href="/CareDelivery/PatientCareOpportunity"]'));
+    try {
+      const PCORNavMenu = this.elementRef.nativeElement.querySelectorAll(
+        '*[href="/CareDelivery/PatientCareOpportunity"]'
+      )[0];
+      PCORNavMenu.style.height = 'auto';
+      PCORNavMenu.style.padding = '8px 0 8px 27px';
+      PCORNavMenu.style.width = 'auto';
+    } catch (error) {}
   }
   hamburgerDisplay(input: boolean) {
     this.sideNavFlag = input;
