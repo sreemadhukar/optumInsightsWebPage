@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { GlossaryExpandService } from 'src/app/shared/glossary-expand.service';
 import { StorageService } from '../../../shared/storage-service.service';
 import { GettingReimbursedSharedService } from 'src/app/shared/getting-reimbursed/getting-reimbursed-shared.service';
+import { MatIconRegistry } from '@angular/material';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-payment-integrity',
@@ -20,8 +22,19 @@ export class PaymentIntegrityComponent implements OnInit {
   constructor(
     private glossaryExpandService: GlossaryExpandService,
     private checkStorage: StorageService,
+    private iconRegistry: MatIconRegistry,
+    sanitizer: DomSanitizer,
     private gettingReimbursedSharedService: GettingReimbursedSharedService
   ) {
+    /** INITIALIZING SVG ICONS TO USE IN DESIGN - ANGULAR MATERIAL */
+    iconRegistry.addSvgIcon(
+      'down-green-trend-icon',
+      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/down-positive-no-circle.svg')
+    );
+    iconRegistry.addSvgIcon(
+      'up-red-trend-icon',
+      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/up-negative-no-circle.svg')
+    );
     this.pageTitle = 'Claims Payment Integrity';
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.ngOnInit());
   }

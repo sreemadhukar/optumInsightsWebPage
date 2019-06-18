@@ -13,17 +13,22 @@ export class FilterComponent implements OnInit {
   public arrowmark: boolean;
   public taxData: string;
   public tarrowmark: boolean;
+  public tiarrowmark: boolean;
   public tinsData: any;
   public taxValue: string;
   public inputDisplay = false;
   public taxArrayData = [];
+  public timeframeData: any;
   @Output() filterFlag = new EventEmitter();
+  public timeframes = ['Last 6 Months', 'Last 12 Months', 'Year to Date', '2018', '2017'];
   public lobs = ['All', 'Community & State', 'Employee & Individual', 'Medicare & Retirement'];
   constructor(private iconRegistry: MatIconRegistry, sanitizer: DomSanitizer, private session: SessionService) {
+    this.timeframeData = this.session.timeFrame;
     this.lobData = this.session.lob;
     this.arrowmark = false;
     this.taxData = this.session.tin;
     this.tarrowmark = false;
+    this.tiarrowmark = false;
     iconRegistry.addSvgIcon(
       'arrowdn',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-keyboard_arrow_down-24px.svg')
@@ -39,8 +44,14 @@ export class FilterComponent implements OnInit {
       this.arrowmark = false;
       this.taxValue = '';
       this.inputDisplay = false;
+      this.tiarrowmark = false;
     } else if (value === 'lob') {
       this.arrowmark = !this.arrowmark;
+      this.tarrowmark = false;
+      this.tiarrowmark = false;
+    } else if (value === 'timeframe') {
+      this.tiarrowmark = !this.tiarrowmark;
+      this.arrowmark = false;
       this.tarrowmark = false;
     }
   }
@@ -59,6 +70,7 @@ export class FilterComponent implements OnInit {
   }
   applyFilter() {
     this.session.lob = this.lobData;
+    this.session.timeFrame = this.timeframeData;
     this.filterFlag.emit(false);
   }
   focusFunction(searchValue: string) {

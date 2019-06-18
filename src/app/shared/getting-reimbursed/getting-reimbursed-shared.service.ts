@@ -1417,10 +1417,17 @@ export class GettingReimbursedSharedService {
           output.MedicalRecordsRequested = this.common.nFormatter(result.MedicalRecordsRequested);
           output.MedicalRecordsReturned = this.common.nFormatter(result.MedicalRecordsReturned);
           output.OutStandingAmount = '$' + this.common.nFormatter(result.OutStandingAmount);
-          output.OutStandingAmountVariance =
-            Math.round(result.OutStandingAmountVariance) > 0
-              ? '+' + Math.round(result.OutStandingAmountVariance * 10) / 10 + '%'
-              : Math.round(result.OutStandingAmountVariance * 10) / 10 + '%';
+
+          if (Math.round(result.OutStandingAmountVariance) < 0) {
+            output.OutStandingAmountVarianceColor = '#007000';
+            output.OutStandingAmountVariance = Math.round(result.OutStandingAmountVariance * 10) / 10 + '%';
+            output.OutStandingAmountVarianceIcon = 'down-green-trend-icon';
+          } else {
+            output.OutStandingAmountVarianceColor = '#B10C00';
+            output.OutStandingAmountVariance = '+' + Math.round(result.OutStandingAmountVariance * 10) / 10 + '%';
+            output.OutStandingAmountVarianceIcon = 'up-red-trend-icon';
+          }
+
           output.RecordsRequestedVariance =
             Math.round(result.RecordsRequestedVariance) > 0
               ? '+' + Math.round(result.RecordsRequestedVariance * 10) / 10 + '%'

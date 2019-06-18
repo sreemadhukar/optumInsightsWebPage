@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, HostListener, ViewEncapsulation, AfterViewInit } from '@angular/core';
+import { Component, OnInit, Input, HostListener, ViewEncapsulation, AfterViewInit, OnChanges } from '@angular/core';
 import * as d3 from 'd3';
 
 @Component({
@@ -7,7 +7,7 @@ import * as d3 from 'd3';
   styleUrls: ['./donut-chart.component.less'],
   encapsulation: ViewEncapsulation.None
 })
-export class DonutChartComponent implements OnInit, AfterViewInit {
+export class DonutChartComponent implements OnInit, AfterViewInit, OnChanges {
   public transition = 1;
   public noTransition = 0;
   public renderChart: string;
@@ -26,6 +26,10 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     this.doDonutChart(this.chartOptions, this.transition);
+  }
+  ngOnChanges() {
+    this.doDonutChart(this.chartOptions, this.noTransition);
+    this.renderChart = '#' + this.chartOptions.gdata[1];
   }
 
   nFormatter(num, digits) {
