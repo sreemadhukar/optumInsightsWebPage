@@ -11,7 +11,7 @@ import * as d3 from 'd3';
     '(window:resize)': 'onResize($event)'
   }
 })
-export class LineGraphComponent implements OnInit {
+export class LineGraphComponent implements OnInit, AfterViewInit {
   public width: any;
   public height: any;
   public renderChart: string;
@@ -20,6 +20,7 @@ export class LineGraphComponent implements OnInit {
   public temp: any;
   public selectYear;
   public count = 1;
+  public RectBarOne: any;
 
   @Input() yearComparison;
   @Input() chartOptions: any = {};
@@ -45,7 +46,6 @@ export class LineGraphComponent implements OnInit {
     this.renderChart = '#' + this.chartOptions.chartId;
   }
 
-  // tslint:disable-next-line:use-life-cycle-interface
   ngAfterViewInit() {
     this.doLineGraph(
       this.chartOptions.chartData,
@@ -89,6 +89,15 @@ export class LineGraphComponent implements OnInit {
       }
     }
 
+    /* function testFunc(d) {
+      console.log(d.xCoordinate);
+      const c = chart
+        .append('rect')
+        .style('fill', '#FF00FF')
+        .attr('class', 'rect-bar')
+        .attr('x', d.xCoordinate - 22)
+        .attr('y', 0.5);
+    }*/
     function formatDynamicAbbreviation(tickNumber, tickValue, prefix) {
       const q = tickValue;
       const w = tickNumber - 1;
@@ -355,7 +364,6 @@ export class LineGraphComponent implements OnInit {
         return yScale(d.y);
       });
 
-    // tslint:disable-next-line:no-var-keyword
     const ydata = [];
 
     for (let a = 0; a < lengthOfData; a++) {
@@ -609,19 +617,22 @@ export class LineGraphComponent implements OnInit {
         .attr('d', area);
     }*/
 
-    /*const RectBarOne = chart
-      .selectAll('.rect-bar')
-      .data(data)
-      .enter()
-      .append('rect')
-      .style('fill', '#E3F0FD')
-      .attr('class', 'rect-bar')
-      .attr('id', 'RectLineOne')
-      .attr('x', function(d) {
-        return d.xCoordinate - 22;
-      })
-      .attr('y', 113.5);*/
+    function appendRectangle(d, vis) {
+      console.log(d);
+      this.RectBarOne = chart
+        .append('rect')
+        .style('fill', '#E3F0FD')
+        .attr('visibility', vis)
+        .attr('class', 'rect-bar')
+        .attr('id', 'RectLineOne' + d.x)
+        .attr('x', d.xCoordinate - 22)
+        .attr('y', 1);
 
+      /*  if ( vis === 'hidden') {
+        d3.select( '#' + 'RectLineOne' + d.x)
+          .attr('visibility', 'hidden');
+      }*/
+    }
     const DotOne = chart
       .selectAll('.dot')
       .data(data)
@@ -643,6 +654,7 @@ export class LineGraphComponent implements OnInit {
           .duration(200)
           .style('opacity', 1);
         if (d3.event.layerX + 213 < width + margin.left + margin.right) {
+          //  appendRectangle(d, 'visible');
           tooltipVar
             .html(tooltipText(d, this.yearComparison, axisPrefix))
             .classed('hidden', false)
@@ -665,6 +677,13 @@ export class LineGraphComponent implements OnInit {
           .transition()
           .duration(500)
           .style('opacity', 0);
+        /* d3.selectAll('#' + 'RectLineOne' + d.x).transition()
+            .duration(500)
+            .style('opacity', 0);*/
+
+        this.RectBarOne.transition()
+          .duration(500)
+          .style('opacity', 0);
       });
 
     if (1) {
@@ -675,6 +694,7 @@ export class LineGraphComponent implements OnInit {
         const showDot = DotOne.transition()
           .duration(200)
           .style('opacity', 1);
+        appendRectangle(d, 'visible');
       }).on('mouseleave', function(d) {
         DotOne.transition()
           .duration(500)
@@ -682,6 +702,17 @@ export class LineGraphComponent implements OnInit {
         const hideDot = DotOne.transition()
           .duration(500)
           .style('opacity', 0);
+        d3.selectAll('#' + 'RectLineOne' + d.x)
+          .transition()
+          .duration(500)
+          .style('opacity', 0);
+        // appendRectangle(d, 'hidden');
+        /* RectBarOne.transition()
+        .duration(500)
+        .style('opacity', 0);
+        const hideRect =  RectBarOne.transition()
+        .duration(500)
+        .style('opacity', 0);*/
       });
 
       chart
