@@ -41,10 +41,9 @@ export class SmallBarChartComponent implements OnInit, AfterViewInit, OnChanges 
     data = data.sort(function(a, b) {
       return d3.ascending(a.values, b.values);
     });
-    const maxValue = data[0].values;
-    const sumData = data[0].values + data[1].values; // it will be used to place labels at right correctly
-    const posLabelRight = maxValue / sumData;
-    console.log('posLable', data, maxValue, sumData, posLabelRight);
+    const minValue = data[0].values;
+    const sumData = parseFloat(data[1].values + data[0].values); // it will be used to place labels at right correctly
+    const posLabelRight = minValue / sumData; // lowest divide by sum
 
     // set the dimensions and margins of the graph
     const margin = { top: 20, right: 0, bottom: 0, left: 0 };
