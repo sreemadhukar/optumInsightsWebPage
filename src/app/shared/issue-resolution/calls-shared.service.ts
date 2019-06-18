@@ -49,9 +49,9 @@ export class CallsSharedService {
         ([providerSystems]) => {
           try {
             if (
-              providerSystems.hasOwnProperty('CallVolByQuesType') &&
               providerSystems.CallVolByQuesType != null &&
-              providerSystems.CallVolByQuesType != undefined
+              providerSystems.CallVolByQuesType != undefined &&
+              providerSystems.hasOwnProperty('CallVolByQuesType')
             ) {
               const totalCalls = providerSystems.CallVolByQuesType;
               try {

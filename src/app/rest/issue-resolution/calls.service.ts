@@ -23,9 +23,7 @@ export class CallsService {
 
     let eparams = new HttpParams();
     eparams = eparams.append('filter', 'executive');
-
     const executiveURL = this.APP_URL + this.CALLS_SERVICE_PATH + parameters[0];
-    console.log('Calls paramater', executiveURL);
     return combineLatest(
       this.http.get(executiveURL, { params: eparams, headers: myHeader }).pipe(
         retry(2),

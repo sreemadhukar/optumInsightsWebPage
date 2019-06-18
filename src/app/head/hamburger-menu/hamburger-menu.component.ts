@@ -78,7 +78,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
       children: [{ name: 'Prior Authorizations', path: '/CareDelivery/priorAuth' }]
     },
     {
-      icon: 'issue-resolution',
+      icon: 'service-interaction',
       name: 'Service Interaction',
       children: [
         { name: 'Self Service', path: '/ServiceInteraction/SelfService' },
@@ -130,7 +130,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-favorite-24px.svg')
     );
     iconRegistry.addSvgIcon(
-      'issue-resolution',
+      'service-interaction',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-stars-24px.svg')
     );
     iconRegistry.addSvgIcon(
