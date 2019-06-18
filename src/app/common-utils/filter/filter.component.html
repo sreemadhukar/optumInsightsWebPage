@@ -28,8 +28,33 @@
   <mat-icon class="icon-display" *ngIf="tarrowmark" (click)="clickArrowMark('tax')" svgIcon="arrowup"></mat-icon>
 </div>
 <div class="lobgrp">
-  <div>
+  <div *ngIf="taxArrayData.length == 0">
     <label id="radio-group-label" class="label-data">{{ taxData }}</label>
+  </div>
+  <div *ngIf="taxArrayData.length && taxArrayData.length < 4">
+    <label id="radio-group-label" class="label-data">{{ taxData }}</label>
+  </div>
+  <div *ngIf="taxArrayData.length >= 4">
+    <label id="radio-group-label" class="label-data">{{ taxArrayData.length }} Selected</label>
+  </div>
+  <div *ngIf="tarrowmark" class="label-cls">
+    <div *ngIf="!inputDisplay">
+      <mat-icon matPrefix class="nav-menu-icons input-search" svgIcon="search"></mat-icon>
+      <input
+        type="text"
+        class="input-class"
+        (input)="focusFunction($event.target.value)"
+        [ngModel]="taxValue"
+        placeholder="Search for a Tax ID"
+        onfocus="this.placeholder=''"
+      />
+    </div>
+    <app-multi-select
+      *ngIf="inputDisplay"
+      [tinsData]="tinsData"
+      [tinValue]="taxValue"
+      (taxArray)="taxArrayFunction($event)"
+    ></app-multi-select>
   </div>
 </div>
 <div class="line"></div>
@@ -50,7 +75,6 @@
     </mat-radio-group>
   </div>
 </div>
-<app-multi-select [tinsData]="tinsData"></app-multi-select>
 
 <div class="line1"></div>
 <div class="btn-display">

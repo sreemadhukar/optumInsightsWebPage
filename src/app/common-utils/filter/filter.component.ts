@@ -15,6 +15,9 @@ export class FilterComponent implements OnInit {
   public tarrowmark: boolean;
   public tiarrowmark: boolean;
   public tinsData: any;
+  public taxValue: string;
+  public inputDisplay = false;
+  public taxArrayData = [];
   public timeframeData: any;
   @Output() filterFlag = new EventEmitter();
   public timeframes = ['Last 6 Months', 'Last 12 Months', 'Year to Date', '2018', '2017'];
@@ -39,6 +42,8 @@ export class FilterComponent implements OnInit {
     if (value === 'tax') {
       this.tarrowmark = !this.tarrowmark;
       this.arrowmark = false;
+      this.taxValue = '';
+      this.inputDisplay = false;
       this.tiarrowmark = false;
     } else if (value === 'lob') {
       this.arrowmark = !this.arrowmark;
@@ -67,5 +72,22 @@ export class FilterComponent implements OnInit {
     this.session.lob = this.lobData;
     this.session.timeFrame = this.timeframeData;
     this.filterFlag.emit(false);
+  }
+  focusFunction(searchValue: string) {
+    if (searchValue) {
+      this.taxValue = searchValue;
+      this.inputDisplay = !this.inputDisplay;
+    }
+  }
+  taxArrayFunction(data) {
+    let tempArray = [];
+    if (data) {
+      this.taxData = data;
+    } else {
+      this.taxData = 'All';
+    }
+
+    tempArray = data.split(', ');
+    this.taxArrayData = tempArray.filter((el, i, a) => i === a.indexOf(el));
   }
 }
