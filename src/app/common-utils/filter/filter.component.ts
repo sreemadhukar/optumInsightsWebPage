@@ -14,6 +14,9 @@ export class FilterComponent implements OnInit {
   public taxData: string;
   public tarrowmark: boolean;
   public tinsData: any;
+  public taxValue: string;
+  public inputDisplay = false;
+  public taxArrayData = [];
   @Output() filterFlag = new EventEmitter();
   public lobs = ['All', 'Community & State', 'Employee & Individual', 'Medicare & Retirement'];
   constructor(private iconRegistry: MatIconRegistry, sanitizer: DomSanitizer, private session: SessionService) {
@@ -34,6 +37,8 @@ export class FilterComponent implements OnInit {
     if (value === 'tax') {
       this.tarrowmark = !this.tarrowmark;
       this.arrowmark = false;
+      this.taxValue = '';
+      this.inputDisplay = false;
     } else if (value === 'lob') {
       this.arrowmark = !this.arrowmark;
       this.tarrowmark = false;
@@ -55,5 +60,22 @@ export class FilterComponent implements OnInit {
   applyFilter() {
     this.session.lob = this.lobData;
     this.filterFlag.emit(false);
+  }
+  focusFunction(searchValue: string) {
+    if (searchValue) {
+      this.taxValue = searchValue;
+      this.inputDisplay = !this.inputDisplay;
+    }
+  }
+  taxArrayFunction(data) {
+    let tempArray = [];
+    if (data) {
+      this.taxData = data;
+    } else {
+      this.taxData = 'All';
+    }
+
+    tempArray = data.split(', ');
+    this.taxArrayData = tempArray.filter((el, i, a) => i === a.indexOf(el));
   }
 }
