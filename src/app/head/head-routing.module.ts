@@ -36,10 +36,10 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
-    path: 'IssueResolution',
+    path: 'ServiceInteraction',
     loadChildren: '../components/issue-resolution-page/issue-resolution-page.module#IssueResolutionPageModule',
     data: {
-      breadcrumb: 'Issue Resolution'
+      breadcrumb: 'Service Interaction'
     },
     canActivate: [AuthGuard]
   },

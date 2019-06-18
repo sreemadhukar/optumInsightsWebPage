@@ -47,91 +47,95 @@ export class CallsSharedService {
       */
       this.callsService.getCallsData(...parameters).subscribe(
         ([providerSystems]) => {
-          try {
-            if (
-              providerSystems.hasOwnProperty('CallVolByQuesType') &&
-              providerSystems.CallVolByQuesType != null &&
-              providerSystems.CallVolByQuesType != undefined
-            ) {
-              const totalCalls = providerSystems.CallVolByQuesType;
-              try {
-                callsByCallType = this.issueResolution(
-                  'Calls By Call Type',
-                  {
-                    graphValueName: ['Eligibilty and Benefits', 'Claims', 'Prior Authorizations', 'Others'],
-                    graphValues: [
-                      totalCalls.BenefitsEligibility,
-                      totalCalls.Claims,
-                      totalCalls.PriorAuth,
-                      totalCalls.Others
-                    ],
-                    centerNumber: this.common.nFormatter(totalCalls.Total),
-                    color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'],
-                    gdata: ['card-inner', 'callsByCallType'],
-                    sdata: {
-                      sign: 'down',
-                      data: '+7%'
-                    }
-                  },
-                  {
-                    labels: ['Eligibilty and Benefits', 'Claims', 'Prior Authorizations', 'Others'],
-                    color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC']
-                  },
-                  this.timeFrame
-                );
-              } catch (Error) {
-                console.log('Error in Calls Page | Question Type By Call Type', Error);
-                callsByCallType = this.issueResolution(null, null, null);
+          if (providerSystems != null) {
+            try {
+              if (
+                providerSystems.CallVolByQuesType != null &&
+                providerSystems.CallVolByQuesType != undefined &&
+                providerSystems.hasOwnProperty('CallVolByQuesType')
+              ) {
+                const totalCalls = providerSystems.CallVolByQuesType;
+                try {
+                  callsByCallType = this.issueResolution(
+                    'Calls By Call Type',
+                    {
+                      graphValueName: ['Eligibilty and Benefits', 'Claims', 'Prior Authorizations', 'Others'],
+                      graphValues: [
+                        totalCalls.BenefitsEligibility,
+                        totalCalls.Claims,
+                        totalCalls.PriorAuth,
+                        totalCalls.Others
+                      ],
+                      centerNumber: this.common.nFormatter(totalCalls.Total),
+                      color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'],
+                      gdata: ['card-inner', 'callsByCallType'],
+                      sdata: {
+                        sign: 'down',
+                        data: '+7%'
+                      }
+                    },
+                    {
+                      labels: ['Eligibilty and Benefits', 'Claims', 'Prior Authorizations', 'Others'],
+                      color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC']
+                    },
+                    this.timeFrame
+                  );
+                } catch (Error) {
+                  console.log('Error in Calls Page | Question Type By Call Type', Error);
+                  callsByCallType = this.issueResolution(null, null, null);
+                }
               }
+            } catch (Error) {
+              console.log('Calls Page Error CallVolByQuesType', Error);
+              callsByCallType = this.issueResolution(null, null, null);
             }
-          } catch (Error) {
-            console.log('Calls Page Error CallVolByQuesType', Error);
-            callsByCallType = this.issueResolution(null, null, null);
+            try {
+              if (
+                providerSystems.CallTalkTimeByQuesType != undefined &&
+                providerSystems.CallTalkTimeByQuesType != null &&
+                providerSystems.hasOwnProperty('CallTalkTimeByQuesType')
+              ) {
+                const totalCalls = providerSystems.CallTalkTimeByQuesType;
+                try {
+                  talkTimeByCallType = this.issueResolution(
+                    'Talk Time By Call Type',
+                    {
+                      graphValueName: ['Eligibilty and Benefits', 'Claims', 'Prior Authorizations', 'Others'],
+                      graphValues: [
+                        totalCalls.BenefitsEligibility,
+                        totalCalls.Claims,
+                        totalCalls.PriorAuth,
+                        totalCalls.Others
+                      ],
+                      centerNumber: this.common.nFormatter(totalCalls.Total) + 'Hrs',
+                      color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'],
+                      gdata: ['card-inner', 'talkTimeByCallType'],
+                      sdata: {
+                        sign: 'down',
+                        data: '+7%'
+                      }
+                    },
+                    {
+                      labels: ['Eligibilty and Benefits', 'Claims', 'Prior Authorizations', 'Others'],
+                      color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC']
+                    },
+                    this.timeFrame
+                  );
+                } catch (Error) {
+                  console.log('Error in Calls Page | TalkTime By Call Type', Error);
+                  talkTimeByCallType = this.issueResolution(null, null, null);
+                }
+              } // end if else blocl
+            } catch (Error) {
+              console.log('Calls Page Error CallTalkTimeByQuesType', Error);
+              talkTimeByCallType = this.issueResolution(null, null, null);
+            }
+            tempArray[0] = callsByCallType;
+            tempArray[1] = talkTimeByCallType;
+            this.callsData.push(tempArray);
+          } else {
+            this.callsData = null;
           }
-          try {
-            if (
-              providerSystems.CallTalkTimeByQuesType != undefined &&
-              providerSystems.CallTalkTimeByQuesType != null &&
-              providerSystems.hasOwnProperty('CallTalkTimeByQuesType')
-            ) {
-              const totalCalls = providerSystems.CallTalkTimeByQuesType;
-              try {
-                talkTimeByCallType = this.issueResolution(
-                  'Talk Time By Call Type',
-                  {
-                    graphValueName: ['Eligibilty and Benefits', 'Claims', 'Prior Authorizations', 'Others'],
-                    graphValues: [
-                      totalCalls.BenefitsEligibility,
-                      totalCalls.Claims,
-                      totalCalls.PriorAuth,
-                      totalCalls.Others
-                    ],
-                    centerNumber: this.common.nFormatter(totalCalls.Total) + 'Hrs',
-                    color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'],
-                    gdata: ['card-inner', 'talkTimeByCallType'],
-                    sdata: {
-                      sign: 'down',
-                      data: '+7%'
-                    }
-                  },
-                  {
-                    labels: ['Eligibilty and Benefits', 'Claims', 'Prior Authorizations', 'Others'],
-                    color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC']
-                  },
-                  this.timeFrame
-                );
-              } catch (Error) {
-                console.log('Error in Calls Page | TalkTime By Call Type', Error);
-                talkTimeByCallType = this.issueResolution(null, null, null);
-              }
-            } // end if else blocl
-          } catch (Error) {
-            console.log('Calls Page Error CallTalkTimeByQuesType', Error);
-            talkTimeByCallType = this.issueResolution(null, null, null);
-          }
-          tempArray[0] = callsByCallType;
-          tempArray[1] = talkTimeByCallType;
-          this.callsData.push(tempArray);
           resolve(this.callsData);
         },
         err => {
