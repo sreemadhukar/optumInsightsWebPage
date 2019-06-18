@@ -42,6 +42,7 @@ export class PatientCareOpportunityComponent implements OnInit {
     this.MRAStarData = [{}];
     this.summaryItems = [{}];
     this.MRACVCompletionData = [{}];
+    this.StarRatings = [{}];
 
     this.priorAuthShared.getPCORMandRData().then(
       data => {
