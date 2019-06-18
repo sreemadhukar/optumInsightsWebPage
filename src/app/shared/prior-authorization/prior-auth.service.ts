@@ -313,7 +313,7 @@ export class PriorAuthSharedService {
                 starObject: true,
                 starCount: 5 - i
               },
-              timeperiod: 'Last 6 Months'
+              timeperiod: 'Data represents claims processed as of ' + PCORRMReportingDate
             });
           }
 
