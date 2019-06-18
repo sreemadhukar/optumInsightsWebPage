@@ -21,11 +21,10 @@ export class CallsService {
       Accept: '*/*'
     });
 
-    let eparams = new HttpParams();
-    eparams = eparams.append('filter', 'executive');
+    const params = new HttpParams();
     const executiveURL = this.APP_URL + this.CALLS_SERVICE_PATH + parameters[0];
     return combineLatest(
-      this.http.get(executiveURL, { params: eparams, headers: myHeader }).pipe(
+      this.http.get(executiveURL, { params, headers: myHeader }).pipe(
         retry(2),
         map(res => res),
         catchError(err => of(err))
