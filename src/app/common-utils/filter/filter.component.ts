@@ -11,11 +11,21 @@ import { SessionService } from '../../shared/session.service';
 export class FilterComponent implements OnInit {
   public lobData: string;
   public arrowmark: boolean;
+  public taxData: string;
+  public tarrowmark: boolean;
+  public tiarrowmark: boolean;
+  public tinsData: any;
+  public timeframeData: any;
   @Output() filterFlag = new EventEmitter();
+  public timeframes = ['Last 6 Months', 'Last 12 Months', 'Year to Date', '2018', '2017'];
   public lobs = ['All', 'Community & State', 'Employee & Individual', 'Medicare & Retirement'];
   constructor(private iconRegistry: MatIconRegistry, sanitizer: DomSanitizer, private session: SessionService) {
+    this.timeframeData = this.session.timeFrame;
     this.lobData = this.session.lob;
     this.arrowmark = false;
+    this.taxData = this.session.tin;
+    this.tarrowmark = false;
+    this.tiarrowmark = false;
     iconRegistry.addSvgIcon(
       'arrowdn',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-keyboard_arrow_down-24px.svg')
@@ -25,11 +35,29 @@ export class FilterComponent implements OnInit {
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-keyboard_arrow_up-24px.svg')
     );
   }
-  public clickArrowMark() {
-    this.arrowmark = !this.arrowmark;
+  public clickArrowMark(value) {
+    if (value === 'tax') {
+      this.tarrowmark = !this.tarrowmark;
+      this.arrowmark = false;
+      this.tiarrowmark = false;
+    } else if (value === 'lob') {
+      this.arrowmark = !this.arrowmark;
+      this.tarrowmark = false;
+      this.tiarrowmark = false;
+    } else if (value === 'timeframe') {
+      this.tiarrowmark = !this.tiarrowmark;
+      this.arrowmark = false;
+      this.tarrowmark = false;
+    }
   }
   ngOnInit() {
     this.lobData = this.session.lob;
+    this.session.getTins().then(data => {
+      this.tinsData = data;
+      this.tinsData.forEach(value => {
+        value['checked'] = false;
+      });
+    });
   }
   resetFilter() {
     this.session.lob = this.lobData = this.lobs[0];
@@ -37,6 +65,7 @@ export class FilterComponent implements OnInit {
   }
   applyFilter() {
     this.session.lob = this.lobData;
+    this.session.timeFrame = this.timeframeData;
     this.filterFlag.emit(false);
   }
 }

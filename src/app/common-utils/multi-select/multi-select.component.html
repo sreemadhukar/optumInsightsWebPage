@@ -1,0 +1,15 @@
+<div class="container">
+  <mat-icon matPrefix class="nav-menu-icons" svgIcon="search"></mat-icon>
+  <div class="search-section">
+    <div>
+      <span class="box" *ngFor="let selected of selectedArray"
+        >{{ selected.Tin }}<mat-icon class="nav-menu-icons" (click)="onRemove(selected)" svgIcon="cross"></mat-icon
+      ></span>
+    </div>
+    <input #inputValue [formControl]="searchControl" />
+    <div *ngFor="let items of fileterdArray" class="list">
+      <button (click)="selectedItem(items)">{{ items.Tin }}</button>
+      <span>{{ items.checked }}</span>
+    </div>
+  </div>
+</div>
