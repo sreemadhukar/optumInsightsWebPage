@@ -18,6 +18,7 @@ export class PatientCareOpportunityComponent implements OnInit {
   MRACVCompletionData: any;
   StarRatings: any;
   mockCards: any;
+  PCORTabData: boolean;
   tabOptions: Array<Object> = [];
   previousSelected: Number = 0;
   selectedItemId: any = 0;
@@ -43,6 +44,7 @@ export class PatientCareOpportunityComponent implements OnInit {
     this.summaryItems = [{}];
     this.MRACVCompletionData = [{}];
     this.StarRatings = [{}];
+    this.PCORTabData = true;
 
     this.priorAuthShared.getPCORMandRData().then(
       data => {

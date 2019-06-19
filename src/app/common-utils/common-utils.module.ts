@@ -28,6 +28,7 @@ import { HighlightPipe } from '../pipes/hignlight.pipe';
 import { FilterComponent } from './filter/filter.component';
 import { MedBarChartComponent } from './d3-objects/med-bar-chart/med-bar-chart.component';
 import { MultiSelectComponent } from './multi-select/multi-select.component';
+import { DonutChartOnchangeComponent } from './d3-objects/donut-chart-onchange/donut-chart-onchange.component';
 @NgModule({
   imports: [CommonModule, FormsModule, ReactiveFormsModule, HeadMaterialModule, RouterModule],
   exports: [
@@ -78,7 +79,8 @@ import { MultiSelectComponent } from './multi-select/multi-select.component';
     HighlightPipe,
     FilterComponent,
     MedBarChartComponent,
-    MultiSelectComponent
+    MultiSelectComponent,
+    DonutChartOnchangeComponent
   ],
   entryComponents: [ProviderSearchComponent]
 })

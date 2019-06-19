@@ -9,6 +9,7 @@ import { GlossaryExpandService } from '../../shared/glossary-expand.service';
 export class CardComponent implements OnInit {
   @Input() chartData;
   @Input() skeleton;
+  @Input() tabData;
   heightDonut: Number = 234;
   widthDonut: Number = 234;
   heightRotatingArrow: Number = 212;
@@ -74,17 +75,19 @@ export class CardComponent implements OnInit {
     this.glossaryExpandService.setMessage(title);
   }
   ngOnInit() {
-    // this.medicareBesideData = [
-    //   {
-    //     label: this.chartData.besideData.All.verticalData[1].labels,
-    //     values: this.chartData.besideData.All.verticalData[1].values
-    //   },
-    //   {
-    //     label: this.chartData.besideData.All.verticalData[2].labels,
-    //     values: this.chartData.besideData.All.verticalData[2].values
-    //   }
-    // ];
-    // this.medicareData = this.chartData.data.All;
-    // this.selectedItemId = 0;
+    if (this.tabData) {
+      this.medicareBesideData = [
+        {
+          label: this.chartData.besideData.All.verticalData[1].labels,
+          values: this.chartData.besideData.All.verticalData[1].values
+        },
+        {
+          label: this.chartData.besideData.All.verticalData[2].labels,
+          values: this.chartData.besideData.All.verticalData[2].values
+        }
+      ];
+      this.medicareData = this.chartData.data.All;
+      this.selectedItemId = 0;
+    }
   }
 }
