@@ -59,36 +59,27 @@ export class GettingReimbursedService {
     );
   }
   public getGettingReimbursedData(...parameters) {
-    this.currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
-    this.authBearer = this.currentUser[0].PedAccessToken;
-    const myHeader = new HttpHeaders({
-      Authorization: 'Bearer ' + this.authBearer,
-      Accept: '*/*'
-    });
     let cparams = new HttpParams();
-    let aparams = new HttpParams();
+    const aparams = new HttpParams();
     if (parameters.length > 1 && parameters[1]) {
       cparams = cparams.append('timeFilter', 'last6months');
-      aparams = aparams.append('rolling12', parameters[1]);
     } else if (parameters.length > 2 && parameters[2]) {
       cparams = cparams.append('YTD', parameters[2]);
-      aparams = aparams.append('YTD', parameters[2]);
     }
     if (parameters.length > 3 && parameters[3] !== null && parameters[3] !== undefined) {
       cparams = cparams.append('TIN', parameters[3]);
-      aparams = aparams.append('TIN', parameters[3]);
     }
 
     const claimsURL = this.APP_URL + this.CLAIMS_SERVICE_PATH + parameters[0];
     const appealsURL = this.APP_URL + this.APPEALS_SERVICE_PATH + parameters[0];
 
     return combineLatest(
-      this.http.post(claimsURL, cparams, { headers: myHeader }).pipe(
+      this.http.post(claimsURL, cparams).pipe(
         retry(2),
         map(res => JSON.parse(JSON.stringify(res[0]))),
         catchError(err => of(JSON.parse(JSON.stringify(err))))
       ),
-      this.http.get(appealsURL, { params: aparams, headers: myHeader }).pipe(
+      this.http.get(appealsURL, { params: aparams }).pipe(
         retry(2),
         map(res => JSON.parse(JSON.stringify(res))),
         catchError(err => of(JSON.parse(JSON.stringify(err))))
