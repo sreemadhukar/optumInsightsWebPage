@@ -453,6 +453,8 @@ export class OverviewSharedService {
                 color: ['#D7DCE1', '#D7DCE1'],
                 gdata: ['card-inner', 'claimsPaidCardD3Donut']
               },
+              labels: ['Medicare & Retirement', 'Community & State', 'Employer & Individual'],
+              hover: true,
               sdata: {
                 sign: 'down',
                 data: '-2.8%'
