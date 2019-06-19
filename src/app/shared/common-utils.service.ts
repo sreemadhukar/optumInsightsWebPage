@@ -27,6 +27,14 @@ export class CommonUtilsService {
     }
     return fnumber;
   }
+  public percentageFormatter(number: Number) {
+    if (number < 1) {
+      return '< 1%';
+    } else {
+      return number.toFixed(0) + '%';
+    }
+  }
+
   public matchLobWithData(lob) {
     if (lob === 'All') {
       return 'All';

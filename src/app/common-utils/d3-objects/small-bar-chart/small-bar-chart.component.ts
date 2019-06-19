@@ -41,6 +41,9 @@ export class SmallBarChartComponent implements OnInit, AfterViewInit, OnChanges 
     data = data.sort(function(a, b) {
       return d3.ascending(a.values, b.values);
     });
+    const minValue = data[0].values;
+    const sumData = parseFloat(data[1].values + data[0].values); // it will be used to place labels at right correctly
+    const posLabelRight = minValue / sumData; // lowest divide by sum
 
     // set the dimensions and margins of the graph
     const margin = { top: 20, right: 0, bottom: 0, left: 0 };
@@ -145,13 +148,13 @@ export class SmallBarChartComponent implements OnInit, AfterViewInit, OnChanges 
       })
       // x position is 3 pixels to the right of the bar
       .attr('x', function(d) {
-        return xScale(d.values + 1);
+        return xScale(d.values + posLabelRight);
       })
       .text(function(d) {
         return d.labelsRight;
       });
 
-    // add the x Axis
+    // add   the x Axis
     /*
     svg
       .append("g")

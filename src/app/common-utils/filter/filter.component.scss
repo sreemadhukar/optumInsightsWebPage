@@ -55,6 +55,45 @@
 }
 .lobgrp {
   width: 100%;
+  .label-cls {
+    margin-top: 16px;
+    .input-search {
+      position: absolute;
+      margin: 8px;
+    }
+    .input-class {
+      box-sizing: border-box;
+      height: 41px;
+      width: 355px;
+      border: 1px solid #b3babc;
+      border-radius: 2px;
+      background-color: #ffffff;
+      padding-left: 48px;
+    }
+  }
+  ::placeholder {
+    /* Firefox, Chrome, Opera */
+    color: #757588;
+    font-family: 'UHCSans-Medium';
+    font-size: 16px;
+    letter-spacing: 0.2px;
+  }
+
+  :-ms-input-placeholder {
+    /* Internet Explorer 10-11 */
+    color: #757588;
+    font-family: 'UHCSans-Medium';
+    font-size: 16px;
+    letter-spacing: 0.2px;
+  }
+
+  ::-ms-input-placeholder {
+    /* Microsoft Edge */
+    color: #757588;
+    font-family: 'UHCSans-Medium';
+    font-size: 16px;
+    letter-spacing: 0.2px;
+  }
   .label-data {
     width: 100%;
     color: #757588;

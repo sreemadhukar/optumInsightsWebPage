@@ -76,6 +76,7 @@ export class SelfServiceComponent implements OnInit {
         }
         if (this.callCostOperatingData.length) {
           for (let i = 0; i < this.callCostOperatingData.length; i++) {
+            // alert(this.callCostOperatingData[i].title);
             this.tabOptionsTitle.push(this.callCostOperatingData[i].title);
           }
           this.callCostChartData = this.callCostOperatingData[0].data;
