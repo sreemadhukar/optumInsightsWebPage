@@ -185,13 +185,13 @@ Date Created: 17-Apr-2019
         </div>
 
         <div class="chart-details-donut">
-          <app-donut-chart
+          <app-donut-chart-onchange
             [donutType]="'app-card'"
             [chartOptions]="medicareData"
             [class.PCOR-annual-rate-donut-with-label-tab]="
               chartData.title == 'Medicare & Retirement Annual Care Visits Completion Rate'
             "
-          ></app-donut-chart>
+          ></app-donut-chart-onchange>
         </div>
 
         <div
