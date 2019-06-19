@@ -11,7 +11,20 @@ import { PriorAuthSharedService } from '../../../shared/prior-authorization/prio
 })
 export class PatientCareOpportunityComponent implements OnInit {
   subscription: any;
+  summaryItems: any;
   pageTitle: String = '';
+  loading: boolean;
+  MRAStarData: any;
+  MRACVCompletionData: any;
+  StarRatings: any;
+  mockCards: any;
+  tabOptions: Array<Object> = [];
+  previousSelected: Number = 0;
+  selectedItemId: any = 0;
+  tabOptionsTitle: Array<String> = [];
+  currentSummary: Array<Object> = [{}];
+  currentTabTitle: String = '';
+  hideAllObjects: boolean;
   constructor(
     private priorAuthService: PriorAuthService,
     private sessionService: SessionService,
@@ -23,5 +36,26 @@ export class PatientCareOpportunityComponent implements OnInit {
 
   ngOnInit() {
     this.pageTitle = 'Patient Care Opportunity–Medicare & Retirement';
+    this.loading = true;
+    this.hideAllObjects = true;
+    this.mockCards = [{}, {}];
+    this.MRAStarData = [{}];
+    this.summaryItems = [{}];
+    this.MRACVCompletionData = [{}];
+    this.StarRatings = [{}];
+
+    this.priorAuthShared.getPCORMandRData().then(
+      data => {
+        this.loading = false;
+        this.summaryItems = JSON.parse(JSON.stringify(data));
+        this.MRAStarData = this.summaryItems[0];
+        this.MRACVCompletionData = this.summaryItems[1];
+        this.currentTabTitle = this.summaryItems[1].title;
+        this.StarRatings = this.summaryItems[2];
+      },
+      error => {
+        this.hideAllObjects = false;
+      }
+    );
   }
 }

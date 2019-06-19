@@ -1,12 +1,13 @@
 @import '~src/scss/variables.scss';
 @import '~src/scss/mixins';
+
 .content-wrapper {
   background-color: $alice-blue;
   overflow-x: hidden;
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  @include padding(30px, 30px, 30px, 30px);
+  @include padding(16px, 30px, 30px, 30px);
   .main-content {
     display: -webkit-box;
     display: -moz-box;
@@ -15,7 +16,7 @@
     display: flex;
 
     -webkit-flex-flow: row wrap;
-    justify-content: center;
+    justify-content: left;
     flex-wrap: wrap;
     .height1Separator {
       height: 0;
@@ -40,7 +41,7 @@
       .page-title {
         flex-basis: 100%;
         font-size: 36px;
-        line-height: 75px;
+        @include padding(16px, 0, 32px, 0);
         color: $black-rock;
       }
 
@@ -66,7 +67,7 @@
       }
     }
   }
-  @media only screen and (min-width: 1024px) {
-    @include padding(30px, 16px, 30px, 16px);
+  @media only screen and (max-width: 1024px) {
+    @include padding(16px, 30spx, 16px, 30px);
   }
 }
