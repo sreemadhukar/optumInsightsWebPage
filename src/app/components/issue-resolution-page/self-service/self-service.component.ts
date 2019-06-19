@@ -71,7 +71,6 @@ export class SelfServiceComponent implements OnInit {
         this.loading = false;
         this.selfServiceItems = selfServiceData[0];
         this.callCostOperatingData = selfServiceData[1];
-
         if (this.callCostOperatingData.length === 0) {
           this.toggleCallsOperating = false;
         }
