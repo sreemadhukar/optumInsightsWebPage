@@ -66,9 +66,11 @@ export class LoginStubComponent implements OnInit {
       if (this.authService.isLoggedIn()) {
         this.router.navigate([this.returnUrl]);
       } else {
+        console.log('sessionStorage', sessionStorage);
         this.internalService.getPublicKey();
         this.authService.getJwt().subscribe(data => {
           sessionStorage.setItem('token', JSON.stringify(data['token']));
+          console.log('sessionStorage', sessionStorage, 'data', data);
         });
       }
     } else {
