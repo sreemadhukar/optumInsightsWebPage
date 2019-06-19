@@ -22,6 +22,7 @@ export class CallsComponent implements OnInit {
     this.callsServiceSrc
       .getCallsData()
       .then(data => {
+        console.log('Calls Data', data);
         this.loading = false;
         this.callsItems = data[0];
       })
