@@ -38,13 +38,13 @@ export class CommonHeaderComponent implements OnInit {
     } else if (title === 'Prior Authorization Approval') {
       this.routhPath = '/CareDelivery/priorAuth';
     } else if (title === 'Self Service Adoption Rate') {
-      this.routhPath = '/IssueResolution/SelfService';
+      this.routhPath = '/ServiceInteraction/SelfService';
     } else if (title === 'Claims Yield') {
       this.routhPath = '/GettingReimbursed/Payments';
     } else if (title === 'Medicare Star Rating') {
       this.routhPath = '/CareDelivery/PatientCareOpportunity';
     } else if (title === 'Total Calls') {
-      this.routhPath = '/IssueResolution/Calls';
+      this.routhPath = '/ServiceInteraction/Calls';
     } else if (title === 'Patient Care Opportunity–Medicare & Retirement') {
       this.routhPath = '/CareDelivery/PatientCareOpportunity';
     } else {

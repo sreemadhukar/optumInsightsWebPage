@@ -430,7 +430,10 @@ export class OverviewSharedService {
             toggle: this.toggle.setToggles('Claims Paid', 'AtGlance', 'Overview', false),
             data: {
               graphValues: [mrPercentage, csPercentage, eiPercentage],
-              centerNumber: '$' + this.common.nFormatter(claims.All.ClaimsLobSummary[0].ClaimsPaid),
+              centerNumber:
+                this.common.nFormatter(claims.All.ClaimsLobSummary[0].ClaimsPaid) < 1
+                  ? '< $1'
+                  : '$' + this.common.nFormatter(claims.All.ClaimsLobSummary[0].ClaimsPaid),
               color: ['#3381FF', '#80B0FF', '#003DA1'],
               gdata: ['card-inner', 'claimsPaidCardD3Donut']
             },
@@ -449,7 +452,10 @@ export class OverviewSharedService {
               toggle: this.toggle.setToggles('Claims Paid', 'AtGlance', 'Overview', false),
               data: {
                 graphValues: [0, 100],
-                centerNumber: '$' + this.common.nFormatter(claims.All.ClaimsLobSummary[0].ClaimsPaid),
+                centerNumber:
+                  this.common.nFormatter(claims.All.ClaimsLobSummary[0].ClaimsPaid) < 1
+                    ? '< $1'
+                    : '$' + this.common.nFormatter(claims.All.ClaimsLobSummary[0].ClaimsPaid),
                 color: ['#D7DCE1', '#D7DCE1'],
                 gdata: ['card-inner', 'claimsPaidCardD3Donut']
               },
