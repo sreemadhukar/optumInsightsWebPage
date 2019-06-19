@@ -13,6 +13,7 @@ import { ErrorInterceptor } from '../auth/_helpers/error.interceptor';
 import { CommonUtilsModule } from './../common-utils/common-utils.module';
 import { TermsOfUseComponent } from './terms-of-use/terms-of-use.component';
 import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component';
+import { SelectProviderComponent } from './../components/select-provider/select-provider.component';
 
 @NgModule({
   imports: [CommonModule, HeadRoutingModule, HeadMaterialModule, CommonUtilsModule],
@@ -23,7 +24,8 @@ import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.componen
     HamburgerMenuComponent,
     BodyComponent,
     TermsOfUseComponent,
-    PrivacyPolicyComponent
+    PrivacyPolicyComponent,
+    SelectProviderComponent
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
