@@ -20,7 +20,7 @@ export class LineGraphComponent implements OnInit, AfterViewInit {
   public temp: any;
   public selectYear;
   public count = 1;
-  public RectBarOne: any;
+  //  public RectBarOne: any;
 
   @Input() yearComparison;
   @Input() chartOptions: any = {};
@@ -333,6 +333,9 @@ export class LineGraphComponent implements OnInit, AfterViewInit {
       .domain([0, lengthOfData - 1]) // input
       .range([25, width - 25]);
 
+    const inv = xScale.invert();
+    console.log(inv);
+
     const xScalePath = d3
       .scaleLinear()
       .domain([0, 2]) // input
@@ -619,7 +622,7 @@ export class LineGraphComponent implements OnInit, AfterViewInit {
 
     function appendRectangle(d, vis) {
       console.log(d);
-      this.RectBarOne = chart
+      const RectBarOne = chart
         .append('rect')
         .style('fill', '#E3F0FD')
         .attr('visibility', vis)
