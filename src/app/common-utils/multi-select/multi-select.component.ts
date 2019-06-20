@@ -10,6 +10,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 export class MultiSelectComponent implements OnInit {
   @Input() tinsData: any;
   @Input() tinValue: any;
+  @Input() taxData: any;
   @Output() taxArray = new EventEmitter();
   public taxArrayData = '';
   public fileterdArray: any;
@@ -23,6 +24,15 @@ export class MultiSelectComponent implements OnInit {
   }
 
   ngOnInit() {
+    if (this.taxData !== 'All') {
+      this.taxArrayData = this.taxData;
+      this.tinsData.forEach(value => {
+        if (this.taxArrayData.includes(value['Tin'])) {
+          this.selectedArray.push(value);
+          value['checked'] = true;
+        }
+      });
+    }
     this.searchControl = new FormControl('');
     this.searchControl.valueChanges.subscribe(query => {
       this.fileterdArray = this.tinsData
@@ -59,7 +69,11 @@ export class MultiSelectComponent implements OnInit {
       } else {
         this.taxArrayData = this.taxArrayData.replace(item.Tin, '');
       }
-      this.taxArray.emit(this.taxArrayData);
+      if (this.taxArrayData) {
+        this.taxArray.emit(this.taxArrayData);
+      } else {
+        this.taxArray.emit('All');
+      }
       this.selectedArray = this.selectedArray.filter(tin => tin !== item);
       this.tinsData.forEach(value => {
         if (value['Tin'] === item.Tin) {
