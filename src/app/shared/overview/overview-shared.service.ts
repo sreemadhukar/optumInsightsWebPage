@@ -431,7 +431,8 @@ export class OverviewSharedService {
             data: {
               graphValues: [mrPercentage, csPercentage, eiPercentage],
               centerNumber:
-                this.common.nFormatter(claims.All.ClaimsLobSummary[0].ClaimsPaid) < 1
+                this.common.nFormatter(claims.All.ClaimsLobSummary[0].ClaimsPaid) < 1 &&
+                this.common.nFormatter(claims.All.ClaimsLobSummary[0].ClaimsPaid) > 0
                   ? '< $1'
                   : '$' + this.common.nFormatter(claims.All.ClaimsLobSummary[0].ClaimsPaid),
               color: ['#3381FF', '#80B0FF', '#003DA1'],
@@ -453,7 +454,8 @@ export class OverviewSharedService {
               data: {
                 graphValues: [0, 100],
                 centerNumber:
-                  this.common.nFormatter(claims.All.ClaimsLobSummary[0].ClaimsPaid) < 1
+                  this.common.nFormatter(claims.All.ClaimsLobSummary[0].ClaimsPaid) < 1 &&
+                  this.common.nFormatter(claims.All.ClaimsLobSummary[0].ClaimsPaid) > 0
                     ? '< $1'
                     : '$' + this.common.nFormatter(claims.All.ClaimsLobSummary[0].ClaimsPaid),
                 color: ['#D7DCE1', '#D7DCE1'],

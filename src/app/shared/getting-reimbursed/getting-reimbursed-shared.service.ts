@@ -274,7 +274,8 @@ export class GettingReimbursedSharedService {
                 data: {
                   graphValues: paidData,
                   centerNumber:
-                    this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].ClaimsPaid) < 1
+                    this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].ClaimsPaid) < 1 &&
+                    this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].ClaimsPaid) > 0
                       ? '< $1'
                       : '$' + this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].ClaimsPaid),
                   color: ['#3381FF', '#80B0FF', '#003DA1'],
@@ -301,7 +302,8 @@ export class GettingReimbursedSharedService {
                   data: {
                     graphValues: [0, 100],
                     centerNumber:
-                      this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].ClaimsPaid) < 1
+                      this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].ClaimsPaid) < 1 &&
+                      this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].ClaimsPaid) > 0
                         ? '< $1'
                         : '$' + this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].ClaimsPaid),
                     color: ['#D7DCE1', '#D7DCE1'],
@@ -362,7 +364,8 @@ export class GettingReimbursedSharedService {
                 data: {
                   graphValues: nonPaidData,
                   centerNumber:
-                    this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].ClaimsDenied) < 1
+                    this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].ClaimsDenied) < 1 &&
+                    this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].ClaimsDenied) > 0
                       ? '< $1'
                       : '$' + this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].ClaimsDenied),
                   color: ['#3381FF', '#80B0FF', '#003DA1'],
@@ -409,7 +412,8 @@ export class GettingReimbursedSharedService {
                     claimsData[lobData].ClaimsLobSummary[0].ClaimsYieldRate
                   ],
                   centerNumber:
-                    claimsData[lobData].ClaimsLobSummary[0].ClaimsNonPaymentRate < 1
+                    claimsData[lobData].ClaimsLobSummary[0].ClaimsNonPaymentRate < 1 &&
+                    claimsData[lobData].ClaimsLobSummary[0].ClaimsNonPaymentRate > 0
                       ? '< 1%'
                       : claimsData[lobData].ClaimsLobSummary[0].ClaimsNonPaymentRate + '%',
                   color: ['#3381FF', '#D7DCE1'],
@@ -788,7 +792,8 @@ export class GettingReimbursedSharedService {
                   data: {
                     graphValues: paidData,
                     centerNumber:
-                      this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].ClaimsPaid) < 1
+                      this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].ClaimsPaid) < 1 &&
+                      this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].ClaimsPaid) > 0
                         ? '< $1'
                         : '$' + this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].ClaimsPaid),
                     color: ['#3381FF', '#80B0FF', '#003DA1'],
@@ -848,7 +853,8 @@ export class GettingReimbursedSharedService {
                   data: {
                     graphValues: nonPaidData,
                     centerNumber:
-                      this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].ClaimsDenied) < 1
+                      this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].ClaimsDenied) < 1 &&
+                      this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].ClaimsDenied) > 0
                         ? '< $1'
                         : '$' + this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].ClaimsDenied),
                     color: ['#3381FF', '#80B0FF', '#003DA1'],
@@ -895,7 +901,8 @@ export class GettingReimbursedSharedService {
                       claimsData[lobData].ClaimsLobSummary[0].ClaimsYieldRate
                     ],
                     centerNumber:
-                      claimsData[lobData].ClaimsLobSummary[0].ClaimsNonPaymentRate < 1
+                      claimsData[lobData].ClaimsLobSummary[0].ClaimsNonPaymentRate < 1 &&
+                      claimsData[lobData].ClaimsLobSummary[0].ClaimsNonPaymentRate > 0
                         ? '< 1%'
                         : claimsData[lobData].ClaimsLobSummary[0].ClaimsNonPaymentRate + '%',
                     color: ['#3381FF', '#D7DCE1'],
