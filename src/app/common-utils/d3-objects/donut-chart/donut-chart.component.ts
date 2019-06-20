@@ -339,7 +339,7 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
         let textLineOneY = '25px';
         let textLineTwoY = '47px';
         const lengthToShift = getTextWidth(d.data.label, 14, 'Arial');
-        console.log(lengthToShift);
+        // console.log(lengthToShift);
         if (lengthToShift >= 84) {
           textLineOneY = '17px';
           textLineTwoY = '55px';
