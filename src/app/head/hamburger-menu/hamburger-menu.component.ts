@@ -42,6 +42,7 @@ import { Location } from '@angular/common';
 })
 export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy, AfterViewChecked {
   _allExpandState = false;
+  loading = false;
   isDarkTheme: Observable<boolean>;
   @ViewChildren(MatExpansionPanel) viewPanels: QueryList<MatExpansionPanel>;
   @ViewChild('srnav') srnav: MatSidenav;
@@ -113,6 +114,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     router.events.subscribe(event => {
       if (event instanceof NavigationStart) {
         this.makeAbsolute = !(authService.isLoggedIn() && !(event.url === '' || event.url.indexOf('/login') >= 0));
+        this.loading = true;
       }
       // PLEASE DON'T MODIFY THIS
     });
@@ -152,6 +154,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     );
   }
   ngOnInit() {
+    // this.loading = false;
     this.PCORFlag = false;
     this.isDarkTheme = this.themeService.isDarkTheme;
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => {
