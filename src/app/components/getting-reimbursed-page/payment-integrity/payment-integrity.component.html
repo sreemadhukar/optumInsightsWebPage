@@ -5,7 +5,7 @@
       <div class="page-title">
         {{ pageTitle }}
       </div>
-      <app-mock-data-warning-message class="warning-block"></app-mock-data-warning-message>
+      <!--<app-mock-data-warning-message class="warning-block"></app-mock-data-warning-message>-->
       <div class="time--period">
         <button class="btn btn-rounded" disabled>
           <span>Time Period: </span><span class="font-weight-semibold pl-4">Last 6 Months </span>
@@ -61,8 +61,13 @@
                   [style.width.px]="cardData.notReturnedWidth"
                 ></div>
                 <div class="financial-ooportunity-block">
-                  <p class="financial-value">{{ cardData.OutStandingAmount }}</p>
-                  <p class="financial-trend">{{ cardData.OutStandingAmountVariance }}*</p>
+                  <div class="financial-ooportunity-numbers-block">
+                    <p class="financial-value">{{ cardData.OutStandingAmount }}</p>
+                    <mat-icon class="pi-trend-icons" svgIcon="{{ cardData.OutStandingAmountVarianceIcon }}"></mat-icon>
+                    <p class="financial-trend" [style.color]="cardData.OutStandingAmountVarianceColor">
+                      {{ cardData.OutStandingAmountVariance }}*
+                    </p>
+                  </div>
                   <p class="financial-opportunity">Financial Opportunity</p>
                 </div>
               </div>

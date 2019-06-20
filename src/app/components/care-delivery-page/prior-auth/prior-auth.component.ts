@@ -1,6 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { PriorAuthService } from '../../../rest/prior-auth/prior-auth.service';
-import { SessionService } from '../../../shared/session.service';
 import { StorageService } from '../../../shared/storage-service.service';
 import { PriorAuthSharedService } from '../../../shared/prior-authorization/prior-auth.service';
 

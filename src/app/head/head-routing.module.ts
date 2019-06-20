@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from '../auth/_guards/auth.guard';
 import { TermsOfUseComponent } from './terms-of-use/terms-of-use.component';
 import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component';
+import { SelectProviderComponent } from './../components/select-provider/select-provider.component';
 
 const routes: Routes = [
   {
@@ -36,10 +37,10 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
-    path: 'IssueResolution',
+    path: 'ServiceInteraction',
     loadChildren: '../components/issue-resolution-page/issue-resolution-page.module#IssueResolutionPageModule',
     data: {
-      breadcrumb: 'Issue Resolution'
+      breadcrumb: 'Service Interaction'
     },
     canActivate: [AuthGuard]
   },
@@ -50,6 +51,10 @@ const routes: Routes = [
   {
     path: 'PrivacyPolicy',
     component: PrivacyPolicyComponent
+  },
+  {
+    path: 'SelectProvider',
+    component: SelectProviderComponent
   },
   { path: '**', redirectTo: '' }
 ];

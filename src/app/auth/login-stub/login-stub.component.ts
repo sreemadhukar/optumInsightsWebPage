@@ -115,7 +115,6 @@ export class LoginStubComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      this.blankScreen = false;
       this.router.navigate([this.returnUrl]);
     });
   }

@@ -17,7 +17,7 @@ export class AppealsComponent implements OnInit {
   pageTitle: String = '';
   currentSummary: Array<Object> = [{}];
   currentTabTitle: String = '';
-  timePeriod = 'Last 12 months';
+  timePeriod = 'Last 6 months';
   subscription: any;
   overturn: any;
   overturnItem: Array<Object> = [{}];
@@ -50,11 +50,13 @@ export class AppealsComponent implements OnInit {
       this.loading = false;
       this.summaryItems = JSON.parse(JSON.stringify(completeData));
       this.currentSummary = this.summaryItems[3].data;
+      console.log(this.currentSummary);
       this.currentTabTitle = this.summaryItems[3].title;
     });
 
     this.gettingReimbursedSharedService.getappealsRateAndReasonData().then(appealsRateData => {
       this.loading = false;
+      console.log(appealsRateData);
       this.overturnItem = appealsRateData[0];
       this.reason = appealsRateData[1];
     });
