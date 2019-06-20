@@ -154,7 +154,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     );
   }
   ngOnInit() {
-    // this.loading = false;
+    this.loading = false;
     this.PCORFlag = false;
     this.isDarkTheme = this.themeService.isDarkTheme;
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => {
