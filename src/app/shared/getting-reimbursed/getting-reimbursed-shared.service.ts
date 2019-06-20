@@ -177,7 +177,9 @@ export class GettingReimbursedSharedService {
                   sdata: {
                     sign: 'up',
                     data: '+8%'
-                  }
+                  },
+                  labels: ['Paid', 'Not Paid'],
+                  hover: true
                 },
                 besideData: {
                   labels: ['Paid', 'Not Paid'],
@@ -281,7 +283,9 @@ export class GettingReimbursedSharedService {
                   sdata: {
                     sign: 'down',
                     data: '-2.8%'
-                  }
+                  },
+                  labels: ['Medicare & Retirement', 'Community & State', 'Employer & Individual'],
+                  hover: true
                 },
                 besideData: {
                   labels: ['Medicare & Retirement', 'Community & State', 'Employer & Individual'],
@@ -307,7 +311,9 @@ export class GettingReimbursedSharedService {
                     sdata: {
                       sign: 'down',
                       data: '-2.8%'
-                    }
+                    },
+                    labels: ['Medicare &  Retirement', 'Community & State', 'Employer & Individual'],
+                    hover: true
                   },
                   besideData: {
                     labels: ['Medicare & Retirement', 'Community & State', 'Employer & Individual'],
@@ -367,7 +373,9 @@ export class GettingReimbursedSharedService {
                   sdata: {
                     sign: 'down',
                     data: '-10.2%'
-                  }
+                  },
+                  labels: ['Medicare & Retirement', 'Community & State', 'Employer & Individual'],
+                  hover: true
                 },
                 besideData: {
                   labels: ['Medicare & Retirement', 'Community & State', 'Employer & Individual'],
@@ -511,7 +519,9 @@ export class GettingReimbursedSharedService {
                   sdata: {
                     sign: 'up',
                     data: '+4%'
-                  }
+                  },
+                  labels: ['Medicare & Retirement', 'Community & State', 'Employer & Individual'],
+                  hover: true
                 },
                 besideData: {
                   labels: ['Medicare & Retirement', 'Community & State', 'Employer & Individual'],
@@ -791,7 +801,9 @@ export class GettingReimbursedSharedService {
                     sdata: {
                       sign: 'down',
                       data: '-2.8%'
-                    }
+                    },
+                    labels: ['Medicare & Retirement', 'Community & State', 'Employer & Individual'],
+                    hover: true
                   },
                   besideData: {
                     labels: ['Medicare & Retirement', 'Community & State', 'Employer & Individual'],
@@ -850,7 +862,9 @@ export class GettingReimbursedSharedService {
                     sdata: {
                       sign: 'down',
                       data: '-10.2%'
-                    }
+                    },
+                    labels: ['Medicare & Retirement', 'Community & State', 'Employer & Individual'],
+                    hover: true
                   },
                   besideData: {
                     labels: ['Medicare & Retirement', 'Community & State', 'Employer & Individual'],
@@ -994,7 +1008,9 @@ export class GettingReimbursedSharedService {
                     sdata: {
                       sign: 'up',
                       data: '+4%'
-                    }
+                    },
+                    labels: ['Medicare & Retirement', 'Community & State', 'Employer & Individual'],
+                    hover: true
                   },
                   besideData: {
                     labels: ['Medicare & Retirement', 'Community & State', 'Employer & Individual'],
