@@ -12,6 +12,7 @@ import { FilterExpandService } from '../../../shared/filter-expand.service';
   styleUrls: ['./getting-reimbursed.component.scss']
 })
 export class GettingReimbursedComponent implements OnInit {
+  timePeriod = 'Last 6 Months';
   summaryItems: any;
   pageTitle: String = '';
   pagesubTitle: String = '';
