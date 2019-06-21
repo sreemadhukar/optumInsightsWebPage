@@ -2,10 +2,9 @@
 @import '~src/scss/mixins';
 @import '~src/scss/my-custom-theme';
 .breadcrumb-top-padding {
-  @include padding(20px, 0, 15px, 0);
-  @include margin(0, 0, 0, 11px);
+  @include margin(0, 0, 12px, 0);
   box-sizing: border-box;
-  font-family: 'UHCSans-Medium', 'Arial';
+  font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
   width: 961px;
   .filter_bg {
     box-sizing: border-box;
@@ -15,17 +14,17 @@
     cursor: pointer;
     .filter_title {
       color: $blue;
-      font-family: 'UHCSans-SemiBold', 'Arial';
+      font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
       font-size: 16px;
       letter-spacing: 0.2px;
       line-height: 22px;
       text-align: center;
-      margin: 12.5px 12.5px 8.5px 0;
+      margin: 9px 12px;
       float: left;
     }
     .filter_icon {
       color: $blue;
-      margin: 9.5px 14px 9.5px 14px;
+      margin: 9px 12px;
       float: left;
     }
   }
@@ -59,31 +58,48 @@
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  @include padding(30px, 30px, 30px, 30px);
+  @include padding(16px, 20px, 30px, 20px);
+
   .payments-content {
     display: flex;
+    -webkit-flex-flow: row wrap;
+    justify-content: left;
     flex-wrap: wrap;
     .height1Separator {
       height: 0;
       width: 1200px;
     }
-    .page-title {
-      flex-basis: 100%;
-      font-size: 36px;
-      line-height: 40px;
-      margin-bottom: 24px;
-      margin-top: 16px;
+
+    & > .cards {
+      text-align: left;
     }
-    .time-period {
-      box-sizing: border-box;
-      height: 33px;
-      width: 230px;
-      border: 1px solid $heather;
-      border-radius: 16px;
-      background-color: $gainsboro;
-      line-height: 30px;
-      padding-left: 7px;
-      float: left;
+
+    .cust-width-title {
+      width: 100%;
+      font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+      color: $black-rock;
+      margin-left: 12px;
+
+      .page-title {
+        flex-basis: 100%;
+        font-size: 36px;
+        @include padding(16px, 0, 32px, 0);
+        line-height: 40px;
+      }
+      .time--period {
+        .horizontal-align {
+          display: inline-block;
+          margin: 3px 0;
+        }
+        button {
+          span:first-child {
+            font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+          }
+          span.text-semibold {
+            font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+          }
+        }
+      }
     }
     .claims-paid-content {
       width: 961px;
@@ -108,9 +124,8 @@
           position: inherit;
           padding: 9px 20px 9px 16px;
           color: $strom-grey;
-          font-family: 'UHCSans-Regular', 'Arial';
+          font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
           font-size: 14px;
-          font-weight: 500;
           letter-spacing: 0.2px;
           line-height: 17px;
           height: 30px;
@@ -118,5 +133,8 @@
         }
       }
     }
+  }
+  @media only screen and (max-width: 1024px) {
+    @include padding(16px, 20px, 16px, 20px);
   }
 }

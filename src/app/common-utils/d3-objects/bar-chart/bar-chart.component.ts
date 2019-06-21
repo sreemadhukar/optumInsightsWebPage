@@ -135,8 +135,7 @@ export class BarChartComponent implements OnInit, AfterViewInit {
         .attr('fill', '#2D2D39')
         .attr('font-size', '22')
         .style('text-anchor', 'start')
-        .style('font-family', 'UHCSans-SemiBold')
-        .style('font-weight', '600')
+        .style('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
         .text(chartOptions.barData);
 
       chart
@@ -175,8 +174,7 @@ export class BarChartComponent implements OnInit, AfterViewInit {
         .attr('fill', '#2D2D39')
         .attr('font-size', '16')
         .attr('text-anchor', 'start')
-        .attr('font-family', 'UHCSans-Medium')
-        .attr('font-weight', '500')
+        .attr('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
         .text(chartOptions.barText)
         .call(wrap, 250, tspanID, 16);
 
@@ -228,8 +226,7 @@ export class BarChartComponent implements OnInit, AfterViewInit {
           .attr('fill', '#2D2D39')
           .attr('font-size', '14')
           .attr('text-anchor', 'start')
-          .attr('font-family', 'UHCSans-SemiBold')
-          .attr('font-weight', '600')
+          .attr('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
           .text(chartOptions.barText)
           .call(wrap, 420, tspanID + 'hover', 14);
 
@@ -265,8 +262,8 @@ export class BarChartComponent implements OnInit, AfterViewInit {
         .attr('fill', '#2D2D39')
         .attr('font-size', '22')
         .style('text-anchor', 'start')
-        .style('font-family', 'UHCSans-SemiBold')
-        .style('font-weight', '600')
+        .style('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
+
         .text(chartOptions.barData);
     }
   }

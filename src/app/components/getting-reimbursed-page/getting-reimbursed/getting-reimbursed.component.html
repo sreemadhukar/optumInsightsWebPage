@@ -1,18 +1,24 @@
 <app-feedback></app-feedback>
 <div class="gettingReimburse-body">
   <div class="gettingReimburse-content">
-    <div class="breadcrumb-top-padding cust-width-title">
+    <div class="cust-width-title">
       <app-breadcrumbs></app-breadcrumbs>
       <div class="page-title">{{ pageTitle }}</div>
-      <div class="filter-div">
-        <div class="time-period">
-          Time Period : <b>{{ timePeriod }}</b>
-        </div>
-        <div class="filter_bg" (click)="openFilter()">
-          <mat-icon matPrefix class="nav-menu-icons" class="filter_icon" svgIcon="filter"></mat-icon>
-          <div class="filter_title">Filters</div>
+
+      <div class="breadcrumb-top-padding filter-div">
+        <div class="time--period ">
+          <div class="horizontal-align">
+            <button class="btn btn-rounded" disabled>
+              <span>Time Period: </span><span class="text-semibold pl-4">{{ timePeriod }} </span>
+            </button>
+          </div>
+          <div class="filter_bg" (click)="openFilter()">
+            <mat-icon matPrefix class="nav-menu-icons" class="filter_icon" svgIcon="filter"></mat-icon>
+            <div class="filter_title">Filters</div>
+          </div>
         </div>
       </div>
+
       <div class="container--tabs">
         <section class="row">
           <ul class="nav nav-tabs">

@@ -1,10 +1,12 @@
 <ol class="breadcrumb">
-  <li><a routerLink="/OverviewPage">Overview</a> <span class="disable-arrow">></span></li>
+  <li>
+    <a routerLink="/OverviewPage">Overview</a> <mat-icon svgIcon="chevron_right" class="disable-arrow"></mat-icon>
+  </li>
 
   <li *ngFor="let breadcrumb of breadcrumbs; let i = index">
     <span *ngIf="i + 1 < breadcrumbs.length" class="disable-link">{{ breadcrumb.label }}</span>
 
-    <span *ngIf="i + 1 < breadcrumbs.length" class="disable-arrow">></span>
+    <span *ngIf="i + 1 < breadcrumbs.length"><mat-icon svgIcon="chevron_right" class="disable-arrow"></mat-icon></span>
     <span *ngIf="i + 1 == breadcrumbs.length" class="disable-link">{{ breadcrumb.label }}</span>
   </li>
 </ol>

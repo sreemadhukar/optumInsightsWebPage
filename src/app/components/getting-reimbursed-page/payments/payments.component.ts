@@ -25,6 +25,7 @@ export class PaymentsComponent implements OnInit {
   subscription: any;
   loading: boolean;
   mockCards: any;
+  timePeriod = 'Last 6 Months';
   constructor(
     private gettingReimbursedSharedService: GettingReimbursedSharedService,
     private glossaryExpandService: GlossaryExpandService,

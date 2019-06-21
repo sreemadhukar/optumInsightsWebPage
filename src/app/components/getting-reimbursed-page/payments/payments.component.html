@@ -1,16 +1,22 @@
 <app-feedback></app-feedback>
 <div class="payments-body">
   <div class="payments-content">
-    <div class="breadcrumb-top-padding">
+    <div class="cust-width-title">
       <app-breadcrumbs></app-breadcrumbs>
       <div class="page-title">{{ pageTitle }}</div>
       <app-mock-data-warning-message></app-mock-data-warning-message>
-      <div class="time-period">
-        Time Period : <b>{{ claimsPaidTimePeriod }}</b>
-      </div>
-      <div class="filter_bg" (click)="openFilter()">
-        <mat-icon matPrefix class="nav-menu-icons" class="filter_icon" svgIcon="filter"></mat-icon>
-        <div class="filter_title">Filters</div>
+      <div class="breadcrumb-top-padding filter-div">
+        <div class="time--period ">
+          <div class="horizontal-align">
+            <button class="btn btn-rounded" disabled>
+              <span>Time Period: </span><span class="text-semibold pl-4">{{ timePeriod }} </span>
+            </button>
+          </div>
+          <div class="filter_bg" (click)="openFilter()">
+            <mat-icon matPrefix class="nav-menu-icons" class="filter_icon" svgIcon="filter"></mat-icon>
+            <div class="filter_title">Filters</div>
+          </div>
+        </div>
       </div>
     </div>
     <div *ngFor="let data of mockCards; let i = index">

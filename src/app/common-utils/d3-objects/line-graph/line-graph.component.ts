@@ -377,11 +377,10 @@ export class LineGraphComponent implements OnInit {
     chart
       .append('text')
       .attr('id', 'forlolCalculations')
-      .attr('font-family', 'UHCSans-Medium')
+      .attr('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
       .attr('font-size', '14px')
       .text(chartData[0].name)
-      .style('fill', '#2D2D39')
-      .style('font-weight', '600');
+      .style('fill', '#2D2D39');
 
     const text_element1 = chart.select('#forlolCalculations');
     // tslint:disable-next-line:no-var-keyword
@@ -742,10 +741,9 @@ export class LineGraphComponent implements OnInit {
     chart
       .append('text')
       .attr('id', 'forTextCalculations')
-      .attr('font-family', 'UHCSans-Regular')
+      .attr('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
       .attr('font-size', '15px')
-      .text(titleData[0].title)
-      .style('font-weight', '600');
+      .text(titleData[0].title);
 
     let text_element = chart.select('#forTextCalculations');
     let textWidth = text_element.node().getComputedTextLength();
@@ -757,9 +755,8 @@ export class LineGraphComponent implements OnInit {
       .attr('x', xScalePath(1) - textWidth / 2)
       .attr('y', -125)
       .style('font-size', '15px')
-      .style('font-family', 'UHCSans-Regular')
+      .style('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
       .style('fill', '#2D2D39')
-      .style('font-weight', '600')
       .text(titleData[0].title);
 
     // Start custom box
@@ -797,10 +794,9 @@ export class LineGraphComponent implements OnInit {
       chart
         .append('text')
         .attr('id', 'forTextCalculations')
-        .attr('font-family', 'UHCSans-Regular')
+        .attr('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
         .attr('font-size', '22px')
-        .text(titleData[0].topTitleBoxNumber + ' ' + titleData[0].topTitleBoxNumberType)
-        .style('font-weight', '500');
+        .text(titleData[0].topTitleBoxNumber + ' ' + titleData[0].topTitleBoxNumberType);
 
       text_element = chart.select('#forTextCalculations');
       textWidth = text_element.node().getComputedTextLength();
@@ -812,18 +808,16 @@ export class LineGraphComponent implements OnInit {
         .attr('x', xScalePath(1) - textWidth / 2)
         .attr('y', -75)
         .style('font-size', '22px')
-        .style('font-family', 'UHCSans-Regular')
+        .style('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
         .style('fill', '#2D2D39')
-        .style('font-weight', '500')
         .text(titleData[0].topTitleBoxNumber + ' ' + titleData[0].topTitleBoxNumberType);
 
       chart
         .append('text')
         .attr('id', 'forTextCalculations')
-        .attr('font-family', 'UHCSans-Regular')
+        .attr('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
         .attr('font-size', '15px')
-        .text(titleData[0].percentageValue + '% ' + titleData[0].percentageValueType)
-        .style('font-weight', '500');
+        .text(titleData[0].percentageValue + '% ' + titleData[0].percentageValueType);
 
       text_element = chart.select('#forTextCalculations');
       textWidth = text_element.node().getComputedTextLength();
@@ -835,9 +829,8 @@ export class LineGraphComponent implements OnInit {
         .attr('x', xScalePath(1) - textWidth / 2)
         .attr('y', -55)
         .style('font-size', '15px')
-        .style('font-family', 'UHCSans-Regular')
+        .style('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
         .style('fill', '#21B01E')
-        .style('font-weight', '500')
         .text(titleData[0].percentageValue + '% ' + titleData[0].percentageValueType);
 
       const polygonPoint = xScalePath(1) - textWidth / 2 - 7.5;

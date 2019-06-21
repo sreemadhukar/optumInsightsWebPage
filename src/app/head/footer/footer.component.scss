@@ -3,34 +3,29 @@
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  justify-content: space-between;
-  height: 118px;
+  justify-content: center;
+  height: 80px;
   background: color(blue, base);
 }
 
 .footer-left-section {
   display: flex;
-  font-family: 'UHCSans-SemiBold', 'Arial';
+  font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
   font-size: 16px;
   color: #ffffff;
   line-height: 22px;
   text-align: center;
-  margin-top: 35px;
-  margin-left: 32px;
-  padding-top: 15px;
+  vertical-align: middle;
 }
 
 .footer-right-section {
   display: flex;
   font-size: 14px;
   color: #ffffff;
-  font-family: 'UHCSans-Medium', 'Arial';
-  line-height: 18px;
+  font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+  line-height: 80px;
   text-align: center;
   letter-spacing: 0.2px;
-  margin-top: 35px;
-  margin-right: 20px;
-  padding-top: 15px;
 }
 
 .anchor-color {
