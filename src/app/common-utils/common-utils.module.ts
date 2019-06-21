@@ -29,8 +29,10 @@ import { FilterComponent } from './filter/filter.component';
 import { MedBarChartComponent } from './d3-objects/med-bar-chart/med-bar-chart.component';
 import { MultiSelectComponent } from './multi-select/multi-select.component';
 import { DonutChartOnchangeComponent } from './d3-objects/donut-chart-onchange/donut-chart-onchange.component';
+import { MatIconModule } from '@angular/material';
+
 @NgModule({
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, HeadMaterialModule, RouterModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, HeadMaterialModule, RouterModule, MatIconModule],
   exports: [
     MiniTileComponent,
     CardComponent,
