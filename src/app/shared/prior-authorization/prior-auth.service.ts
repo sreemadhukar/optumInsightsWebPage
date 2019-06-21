@@ -109,7 +109,7 @@ export class PriorAuthSharedService {
           const PANotApprovedCount = data.PriorAuthNotApprovedCount;
           const PANotPendingCount = data.PriorAuthPendingCount;
           const PANotCancelledCount = data.PriorAuthCancelledCount;
-          const PARequestedCount = PAApprovedCount + PANotApprovedCount + PANotPendingCount + PANotCancelledCount;
+          const PARequestedCount = PAApprovedCount + PANotApprovedCount;
           const PAApprovalRate = PAApprovedCount / PARequestedCount;
           let StandardTATConversion;
           let UrgentTATConversion;
