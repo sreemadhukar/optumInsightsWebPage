@@ -17,10 +17,9 @@ import { ThemeService } from './shared/theme.service';
 import { PriorAuthService } from './rest/prior-auth/prior-auth.service';
 import { PriorAuthSharedService } from './shared/prior-authorization/prior-auth.service';
 import { HttpInterceptorService } from './rest/interceptor/http-interceptor.service';
-import { SelectProviderComponent } from './components/select-provider/select-provider.component';
 
 @NgModule({
-  declarations: [AppComponent, SelectProviderComponent],
+  declarations: [AppComponent],
   imports: [
     HttpClientModule,
     BrowserModule,
