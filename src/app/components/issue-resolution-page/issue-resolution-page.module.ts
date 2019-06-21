@@ -9,8 +9,9 @@ import { SelfSharedService } from '../../shared/issue-resolution/self-shared.ser
 import { CallsComponent } from './calls/calls.component';
 import { CallsSharedService } from '../../shared/issue-resolution/calls-shared.service';
 import { CallsService } from '../../rest/issue-resolution/calls.service';
+import { HeadMaterialModule } from 'src/app/head/head.material.module';
 @NgModule({
-  imports: [CommonModule, IssueResolutionPageRoutingModule, CommonUtilsModule],
+  imports: [CommonModule, IssueResolutionPageRoutingModule, HeadMaterialModule, CommonUtilsModule],
   providers: [SelfSharedService, SelfServiceService, CallsSharedService, CallsService],
   declarations: [SelfServiceComponent, CallsComponent]
 })
