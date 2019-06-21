@@ -64,6 +64,7 @@ export class SelectProviderComponent implements OnInit {
     } else {
       this.storage.store('currentUser', [Object.assign(provider, data)]);
     }
+    this.router.navigate(['/OverviewPage']);
   }
 
   private _filterStates(value: string): Providers[] {
