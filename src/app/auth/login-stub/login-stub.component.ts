@@ -96,7 +96,8 @@ export class LoginStubComponent implements OnInit {
         this.authorise.getToggles().subscribe(value => {
           console.log(value);
         });
-        this.openDialog();
+        // this.openDialog();
+        this.router.navigate(['/ProviderSearch']);
       },
       error => {
         this.error = true;
