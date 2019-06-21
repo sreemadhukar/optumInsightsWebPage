@@ -15,7 +15,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 })
 export class PaymentsComponent implements OnInit {
   title = 'Claims Paid Breakdown';
-  claimsPaidTimePeriod = 'Last 6 Months';
+  claimsPaidTimePeriod = 'Rolling 6 Months';
   paymentsItems: any;
   payments: Array<object>;
   claimsPaidItems: Array<object>;
