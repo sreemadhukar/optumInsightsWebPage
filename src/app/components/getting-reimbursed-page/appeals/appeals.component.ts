@@ -1,7 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { GettingReimbursedSharedService } from '../../../shared/getting-reimbursed/getting-reimbursed-shared.service';
 import { StorageService } from '../../../shared/storage-service.service';
+import { DomSanitizer } from '@angular/platform-browser';
 import { GlossaryExpandService } from 'src/app/shared/glossary-expand.service';
+import { MatIconRegistry, PageEvent } from '@angular/material';
+import { Router } from '@angular/router';
+import { FilterExpandService } from '../../../shared/filter-expand.service';
 
 @Component({
   selector: 'app-appeals',
@@ -24,11 +28,19 @@ export class AppealsComponent implements OnInit {
   mockCards: any;
   constructor(
     private gettingReimbursedSharedService: GettingReimbursedSharedService,
+    private iconRegistry: MatIconRegistry,
     private checkStorage: StorageService,
-    private glossaryExpandService: GlossaryExpandService
+    sanitizer: DomSanitizer,
+    private glossaryExpandService: GlossaryExpandService,
+    private filterExpandService: FilterExpandService,
+    private router: Router
   ) {
     this.pageTitle = 'Claims Appeals';
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.ngOnInit());
+    iconRegistry.addSvgIcon(
+      'filter',
+      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-filter_list-24px.svg')
+    );
   }
 
   ngOnInit() {
@@ -52,5 +64,8 @@ export class AppealsComponent implements OnInit {
 
   helpIconClick(title) {
     this.glossaryExpandService.setMessage(title);
+  }
+  openFilter() {
+    this.filterExpandService.setURL(this.router.url);
   }
 }

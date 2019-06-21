@@ -1,6 +1,55 @@
 @import '~src/scss/variables.scss';
 @import '~src/scss/mixins';
 @import '~src/scss/my-custom-theme';
+.breadcrumb-top-padding {
+  @include margin(0, 0, 0, 11px);
+  box-sizing: border-box;
+  width: 961px;
+  .filter_bg {
+    box-sizing: border-box;
+    border: 1px solid $blue;
+    border-radius: 2px;
+    float: right;
+    cursor: pointer;
+    .filter_title {
+      color: $blue;
+      font-family: 'UHCSans-SemiBold', 'Arial';
+      font-size: 16px;
+      letter-spacing: 0.2px;
+      line-height: 22px;
+      text-align: center;
+      margin: 12.5px 12.5px 8.5px 0;
+      float: left;
+    }
+    .filter_icon {
+      color: $blue;
+      margin: 9.5px 14px 9.5px 14px;
+      float: left;
+    }
+  }
+  .filter_bg:hover,
+  .filter_bg:focus {
+    background-color: #196ecf;
+    color: #ffffff;
+    .filter_title {
+      color: #ffffff;
+    }
+    .filter_icon {
+      color: #ffffff;
+    }
+  }
+  .filter_bg:active {
+    background-color: #003da1;
+    color: #ffffff;
+    .filter_title {
+      color: #ffffff;
+    }
+    .filter_icon {
+      color: #ffffff;
+    }
+  }
+}
+
 @mixin sidenav-theme($theme) {
   $accent: map-get($theme, accent);
   $background: map-get($theme, background);
@@ -12,39 +61,48 @@
     flex-direction: column;
     min-height: 100vh;
     @include padding(30px, 30px, 30px, 30px);
-
     .gettingReimburse-content {
       display: flex;
       flex-wrap: wrap;
-
+      .filter-div {
+        overflow: auto;
+        @include padding(13px, 0, 28px, 0);
+        line-height: 0;
+      }
+      .time-period {
+        box-sizing: border-box;
+        height: 33px;
+        width: 230px;
+        border: 1px solid $heather;
+        border-radius: 16px;
+        background-color: $gainsboro;
+        line-height: 30px;
+        padding-left: 7px;
+        float: left;
+      }
       .height1Separator {
         height: 0;
         width: 1200px;
       }
-
       & > .cards {
         text-align: left;
         line-height: 75px;
       }
-
       .cust-width-title {
         width: 100%;
         font-family: 'UHCSans-SemiBold', 'Arial';
         color: $black-rock;
         margin-left: 10px;
-
         .page-title {
           flex-basis: 100%;
           font-size: 36px;
           line-height: 75px;
         }
-
         .page-subtitle {
           flex-basis: 100%;
           font-size: 28px;
           line-height: 50px;
         }
-
         /* tabs css starts here*/
         .container--tabs {
           width: 100%;
@@ -55,7 +113,6 @@
             list-style-type: none;
             font-family: 'UHCSans-SemiBold', 'Arial';
             color: $black-rock;
-
             > li {
               flex-basis: 100%;
               background-color: $white;
@@ -70,7 +127,6 @@
                 &:hover {
                 }
               }
-
               &.active,
               &.active:hover,
               &.active:focus {
@@ -81,7 +137,6 @@
                 border-bottom-color: transparent;
                 text-decoration: none;
               }
-
               .nav-values {
                 color: #2d2d39;
                 font-size: 18px;
@@ -104,7 +159,8 @@
           }
         }
         /* ends tabs css ends here*/
-      } /* end cust-width title heirarchy*/
+      }
+      /* end cust-width title heirarchy*/
     }
   }
 }

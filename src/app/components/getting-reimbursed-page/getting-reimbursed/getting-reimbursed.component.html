@@ -1,9 +1,18 @@
 <app-feedback></app-feedback>
 <div class="gettingReimburse-body">
   <div class="gettingReimburse-content">
-    <div class="cards cust-width-title">
+    <div class="breadcrumb-top-padding cust-width-title">
       <app-breadcrumbs></app-breadcrumbs>
       <div class="page-title">{{ pageTitle }}</div>
+      <div class="filter-div">
+        <div class="time-period">
+          Time Period : <b>{{ timePeriod }}</b>
+        </div>
+        <div class="filter_bg" (click)="openFilter()">
+          <mat-icon matPrefix class="nav-menu-icons" class="filter_icon" svgIcon="filter"></mat-icon>
+          <div class="filter_title">Filters</div>
+        </div>
+      </div>
       <div class="container--tabs">
         <section class="row">
           <ul class="nav nav-tabs">

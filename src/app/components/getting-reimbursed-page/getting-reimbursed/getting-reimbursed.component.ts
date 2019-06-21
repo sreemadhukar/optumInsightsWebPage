@@ -1,6 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { GettingReimbursedSharedService } from '../../../shared/getting-reimbursed/getting-reimbursed-shared.service';
 import { StorageService } from '../../../shared/storage-service.service';
+import { DomSanitizer } from '@angular/platform-browser';
+import { MatIconRegistry, PageEvent } from '@angular/material';
+import { Router } from '@angular/router';
+import { FilterExpandService } from '../../../shared/filter-expand.service';
+
 @Component({
   selector: 'app-getting-reimbursed',
   templateUrl: './getting-reimbursed.component.html',
@@ -24,12 +29,20 @@ export class GettingReimbursedComponent implements OnInit {
 
   constructor(
     private gettingReimbursedSharedService: GettingReimbursedSharedService,
-    private checkStorage: StorageService
+    private checkStorage: StorageService,
+    private iconRegistry: MatIconRegistry,
+    sanitizer: DomSanitizer,
+    private filterExpandService: FilterExpandService,
+    private router: Router
   ) {
     this.pageTitle = 'Getting Reimbursed';
     this.currentTabTitle = '';
     this.tabOptionsTitle = ['Submission', 'Payments', 'Non-Payments', 'Appeals'];
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.ngOnInit());
+    iconRegistry.addSvgIcon(
+      'filter',
+      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-filter_list-24px.svg')
+    );
   }
 
   getTabOptionsTitle(i: number) {
@@ -76,5 +89,8 @@ export class GettingReimbursedComponent implements OnInit {
         this.loading = false;
         console.log(reason.message);
       });
+  }
+  openFilter() {
+    this.filterExpandService.setURL(this.router.url);
   }
 }

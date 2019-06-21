@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { StorageService } from '../../../shared/storage-service.service';
 import { PriorAuthSharedService } from '../../../shared/prior-authorization/prior-auth.service';
+import { MatIconRegistry } from '@angular/material';
+import { DomSanitizer } from '@angular/platform-browser';
+import { Router } from '@angular/router';
+import { FilterExpandService } from '../../../shared/filter-expand.service';
 
 @Component({
   selector: 'app-prior-auth',
@@ -19,9 +23,20 @@ export class PriorAuthComponent implements OnInit {
   hideAllObjects: boolean;
   title = 'Top Reasons for Prior Authorizations Not Approved';
   timePeriod = 'Last 6 Months';
-  constructor(private checkStorage: StorageService, private priorAuthShared: PriorAuthSharedService) {
+  constructor(
+    private checkStorage: StorageService,
+    private priorAuthShared: PriorAuthSharedService,
+    private filterExpandService: FilterExpandService,
+    private router: Router,
+    private iconRegistry: MatIconRegistry,
+    sanitizer: DomSanitizer
+  ) {
     this.pagesubTitle = '';
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.ngOnInit());
+    iconRegistry.addSvgIcon(
+      'filter',
+      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-filter_list-24px.svg')
+    );
   }
 
   ngOnInit() {
@@ -42,5 +57,8 @@ export class PriorAuthComponent implements OnInit {
         this.hideAllObjects = false;
       }
     );
+  }
+  openFilter() {
+    this.filterExpandService.setURL(this.router.url);
   }
 }

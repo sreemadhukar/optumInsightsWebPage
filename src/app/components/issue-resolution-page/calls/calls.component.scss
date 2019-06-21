@@ -1,10 +1,61 @@
 @import '~src/scss/variables.scss';
 @import '~src/scss/mixins';
 @import '~src/scss/my-custom-theme';
-
 .breadcrumb-top-padding {
   @include padding(20px, 0, 15px, 32px);
+  @include margin(0, 0, 0, 0);
+  box-sizing: border-box;
+  font-family: 'UHCSans-Medium', 'Arial';
+  width: 961px;
+  .filter-div {
+    overflow: auto;
+    line-height: 0;
+  }
+  .filter_bg {
+    box-sizing: border-box;
+    border: 1px solid $blue;
+    border-radius: 2px;
+    float: right;
+    cursor: pointer;
+    .filter_title {
+      color: $blue;
+      font-family: 'UHCSans-SemiBold', 'Arial';
+      font-size: 16px;
+      letter-spacing: 0.2px;
+      line-height: 22px;
+      text-align: center;
+      margin: 12.5px 12.5px 8.5px 0;
+      float: left;
+    }
+    .filter_icon {
+      color: $blue;
+      margin: 9.5px 14px 9.5px 14px;
+      float: left;
+    }
+  }
+  .filter_bg:hover,
+  .filter_bg:focus {
+    background-color: #196ecf;
+    color: #ffffff;
+    .filter_title {
+      color: #ffffff;
+    }
+    .filter_icon {
+      color: #ffffff;
+    }
+  }
+  .filter_bg:active {
+    background-color: #003da1;
+    color: #ffffff;
+    .filter_title {
+      color: #ffffff;
+    }
+    .filter_icon {
+      color: #ffffff;
+    }
+  }
 }
+
 .page-title {
   flex-basis: 100%;
   font-size: 36px;
@@ -15,12 +66,14 @@
   box-sizing: border-box;
   height: 33px;
   width: 230px;
-  border: 1px solid #b3babc;
+  border: 1px solid $heather;
   border-radius: 16px;
-  background-color: #e0e0e0;
+  background-color: $gainsboro;
   line-height: 30px;
   padding-left: 7px;
+  float: left;
 }
+
 .title-left-padding {
   padding-left: 15px;
 }
@@ -36,23 +89,19 @@
   .calls-content {
     display: flex;
     flex-wrap: wrap;
-
     .height1Separator {
       height: 0;
       width: 1200px;
     }
-
     & > .cards {
       text-align: left;
       line-height: 75px;
     }
-
     .cust-width-title {
       width: 100%;
       font-family: 'UHCSans-SemiBold', 'Arial';
       color: $black-rock;
       margin-left: 10px;
-
       .page-title {
         flex-basis: 100%;
         font-size: 36px;
