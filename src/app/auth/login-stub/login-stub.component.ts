@@ -25,6 +25,7 @@ export class LoginStubComponent implements OnInit {
   error = false;
   blankScreen = false;
   id: any;
+  token: string;
 
   constructor(
     private external: ExternalService,
@@ -45,14 +46,26 @@ export class LoginStubComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.authService.getJwt().subscribe(data => {
-      sessionStorage.setItem('token', JSON.stringify(data['token']));
-    });
-    this.loading = true;
-    this.id = setTimeout(() => {
-      this.loading = false;
-      this.initLogin();
-    }, 3000);
+    if (this.isInternal) {
+      this.authService.getJwt().subscribe(data => {
+        sessionStorage.setItem('token', JSON.stringify(data['token']));
+      });
+      this.loading = true;
+      this.id = setTimeout(() => {
+        this.loading = false;
+        this.initLogin();
+      }, 3000);
+    } else {
+      if (environment.production) {
+        this.external.CheckExternal(environment.production ? 'true' : 'false');
+      } else {
+        this.authService.getJwt().subscribe(async val => {
+          this.token = val['token'];
+          sessionStorage.setItem('token', JSON.stringify(val['token']));
+          await this.external.CheckExternal(this.token);
+        });
+      }
+    }
   }
 
   initLogin() {
@@ -62,17 +75,13 @@ export class LoginStubComponent implements OnInit {
     });
 
     this.returnUrl = '/OverviewPage';
-    if (this.isInternal) {
-      if (this.authService.isLoggedIn()) {
-        this.router.navigate([this.returnUrl]);
-      } else {
-        this.internalService.getPublicKey();
-        this.authService.getJwt().subscribe(data => {
-          sessionStorage.setItem('token', JSON.stringify(data['token']));
-        });
-      }
+    if (this.authService.isLoggedIn()) {
+      this.router.navigate([this.returnUrl]);
     } else {
-      this.external.CheckExternal();
+      this.internalService.getPublicKey();
+      this.authService.getJwt().subscribe(data => {
+        sessionStorage.setItem('token', JSON.stringify(data['token']));
+      });
     }
   }
 

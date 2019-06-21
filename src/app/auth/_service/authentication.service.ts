@@ -27,24 +27,36 @@ export class AuthenticationService {
     return this.currentUserSubject.value;
   }
 
-  public getSsoToken(codeId: string): Observable<any> {
-    this.getJwt().subscribe(async val => {
-      this.token = val['token'];
-      await sessionStorage.setItem('token', JSON.stringify(val['token']));
-    });
-    const token = JSON.parse(sessionStorage.getItem('token'));
-    const myHeader = new HttpHeaders({
-      Authorization: 'Bearer ' + token,
-      Accept: '*/*'
-    });
+  public getSsoToken(codeId: string, tokenString: string): Observable<any> {
     let params = new HttpParams();
     params = params.append('code', codeId);
     const url = this.APP_URL + this.SERVICE_PATH;
-    return this.http.post(url, params, { headers: myHeader }).pipe(
+    console.log(this.getHeaders(tokenString));
+    return this.http.post(url, params, { headers: this.getHeaders(tokenString) }).pipe(
       map(ssoTokenData => {
         return ssoTokenData;
       })
     );
+  }
+
+  public getHeaders(tokenString) {
+    if (tokenString !== 'true') {
+      this.getJwt().subscribe(async val => {
+        this.token = val['token'];
+        await sessionStorage.setItem('token', JSON.stringify(val['token']));
+      });
+      const token = JSON.parse(sessionStorage.getItem('token'))
+        ? JSON.parse(sessionStorage.getItem('token'))
+        : tokenString;
+      return new HttpHeaders({
+        Authorization: 'Bearer ' + token,
+        Accept: '*/*'
+      });
+    } else {
+      return new HttpHeaders({
+        Accept: '*/*'
+      });
+    }
   }
 
   public getJwt() {

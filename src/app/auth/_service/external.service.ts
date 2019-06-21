@@ -3,6 +3,7 @@ import { environment } from '../../../environments/environment';
 import { DOCUMENT } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthenticationService } from './authentication.service';
+import { ErrorHandlingService } from './error-handling.service';
 
 @Injectable({
   providedIn: 'root'
@@ -16,25 +17,25 @@ export class ExternalService {
     private router: Router,
     private route: ActivatedRoute,
     private authService: AuthenticationService,
+    private errorHandlingService: ErrorHandlingService,
     @Inject(DOCUMENT) private document: any
   ) {}
 
-  CheckExternal() {
+  CheckExternal(token) {
     const redirectUri = environment.apiUrls.SsoRedirectUri;
     if (this.route.queryParams) {
       this.route.queryParams.subscribe(params => {
         this.code = params.code;
         if (this.code) {
-          // this.authService.logout();
+          this.removeSession();
           this.returnUrl = '/OverviewPage';
-          this.authService.getSsoToken(this.code).subscribe(
+          this.authService.getSsoToken(this.code, token).subscribe(
             ssoTokenData => {
               if (typeof ssoTokenData !== 'undefined' && ssoTokenData !== null) {
+                console.log(ssoTokenData);
                 this.sso = ssoTokenData;
                 sessionStorage.setItem('currentUser', JSON.stringify(this.sso));
                 const user = { FirstName: this.sso.FirstName, LastName: this.sso.LastName };
-                // console.log(user);
-
                 sessionStorage.setItem('loggedUser', JSON.stringify(user));
                 this.router.navigate([this.returnUrl]);
               }
@@ -42,23 +43,23 @@ export class ExternalService {
             error => {
               console.log('Login service error', error.status);
               environment.errorMessage = error.status;
-              // this.checkErrorService.checkError(error);
-              //  this.document.location.href = redirectUri;
+              this.errorHandlingService.checkError(error);
+              this.document.location.href = redirectUri;
             }
           );
         } else {
-          this.authService.logout();
-          // this.returnUrl = '/OverviewPage';commented this
-          // this.document.location.href = redirectUri;
-          // this.router.navigate([this.returnUrl]);commented this
+          this.document.location.href = redirectUri;
         }
       });
 
       // get return url from route parameters or default to '/'
     } else {
-      // this.document.location.href = redirectUri;commented this
-      // this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/ExecutiveSummary';commented this
-      this.router.navigate([this.returnUrl]); // added this
+      this.document.location.href = redirectUri;
+      this.router.navigate([this.returnUrl]);
     }
+  }
+
+  removeSession() {
+    sessionStorage.removeItem('currentUser');
   }
 }

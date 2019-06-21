@@ -22,9 +22,11 @@ export class SessionService {
     return this.filterObjSubject.value;
   }
   public providerKey() {
-    if (sessionStorage.getItem('currentUser')) {
+    if (sessionStorage.getItem('currentUser') && JSON.parse(sessionStorage.getItem('currentUser'))[0]) {
       console.log(JSON.parse(sessionStorage.getItem('currentUser'))[0]['ProviderKey']);
       return JSON.parse(sessionStorage.getItem('currentUser'))[0]['ProviderKey'];
+    } else {
+      sessionStorage.removeItem('currentUser');
     }
   }
   public sessionStorage(value: string, item: string) {
