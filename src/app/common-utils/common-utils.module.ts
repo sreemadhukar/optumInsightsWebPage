@@ -29,6 +29,7 @@ import { FilterComponent } from './filter/filter.component';
 import { MedBarChartComponent } from './d3-objects/med-bar-chart/med-bar-chart.component';
 import { MultiSelectComponent } from './multi-select/multi-select.component';
 import { DonutChartOnchangeComponent } from './d3-objects/donut-chart-onchange/donut-chart-onchange.component';
+import { PrintComponent } from './print/print.component';
 @NgModule({
   imports: [CommonModule, FormsModule, ReactiveFormsModule, HeadMaterialModule, RouterModule],
   exports: [
@@ -52,7 +53,8 @@ import { DonutChartOnchangeComponent } from './d3-objects/donut-chart-onchange/d
     HighlightPipe,
     FilterComponent,
     MedBarChartComponent,
-    DonutChartComponent
+    DonutChartComponent,
+    PrintComponent
   ],
   declarations: [
     MiniTileComponent,
@@ -80,7 +82,8 @@ import { DonutChartOnchangeComponent } from './d3-objects/donut-chart-onchange/d
     FilterComponent,
     MedBarChartComponent,
     MultiSelectComponent,
-    DonutChartOnchangeComponent
+    DonutChartOnchangeComponent,
+    PrintComponent
   ],
   entryComponents: [ProviderSearchComponent]
 })
