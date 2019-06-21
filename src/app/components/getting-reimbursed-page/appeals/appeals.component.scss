@@ -1,9 +1,10 @@
 @import '~src/scss/variables.scss';
 @import '~src/scss/mixins';
 .breadcrumb-top-padding {
-  @include padding(20px, 0, 15px, 32px);
+  @include padding(20px, 0, 0, 0);
   @include margin(0, 0, 0, 0);
   box-sizing: border-box;
+  font-family: 'UHCSans-Medium', 'Arial';
   width: 961px;
   .filter-div {
     overflow: auto;

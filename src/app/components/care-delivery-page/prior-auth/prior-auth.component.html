@@ -5,10 +5,14 @@
       <div class="page-title">
         {{ pageTitle }}
       </div>
-      <div class="time--period">
-        <button class="btn btn-rounded" disabled>
-          <span>Time Period: </span><span class="font-weight-semibold pl-4">Last 6 Months </span>
-        </button>
+      <div class="breadcrumb-top-padding filter-div">
+        <div class="time-period">
+          Time Period : <b>{{ timePeriod }}</b>
+        </div>
+        <div class="filter_bg" (click)="openFilter()">
+          <mat-icon matPrefix class="nav-menu-icons" class="filter_icon" svgIcon="filter"></mat-icon>
+          <div class="filter_title">Filters</div>
+        </div>
       </div>
     </div>
 

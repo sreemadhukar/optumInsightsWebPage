@@ -13,7 +13,7 @@ import { FilterExpandService } from '../../../shared/filter-expand.service';
 })
 export class GettingReimbursedComponent implements OnInit {
   summaryItems: any;
-  timePeriod = 'Last 12 months';
+  timePeriod = 'Last 6 months';
   pageTitle: String = '';
   pagesubTitle: String = '';
   userName: String = '';
