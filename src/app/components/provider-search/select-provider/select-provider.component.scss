@@ -6,8 +6,6 @@
   margin-right: 60px;
 
   /* header css starts here*/
-  @import '~src/scss/variables.scss';
-  @import '~src/scss/mixins';
   .header-div {
     background-color: $white;
     height: 72px;
@@ -16,17 +14,6 @@
     border-width: 1px;
     border-color: #e0e0e0;
     z-index: 999;
-    .menu-div {
-      @include padding(0, 0, 0, 0);
-      .menu-icon {
-        margin: 0;
-        color: #196ecf;
-        background-color: none;
-        @include padding(20px, 0px, 22px, 40px);
-      }
-      .menu-icon:hover {
-      }
-    }
     .header-logo-div {
       padding: 18px 0 18px 33px;
 
@@ -64,12 +51,18 @@
     width: 30%;
 
     .select-provider-header {
-      font-family: 'UHCSans-SemiBold', 'sans-serif', 'Arial';
+      font-family: 'UHCSans-SemiBold', 'sans-serif', 'Arial', 'Helvetica Neue';
       color: #2d2d39;
       font-size: 22px;
       line-height: 28px;
       text-align: center;
       padding-bottom: 30px;
+      .mat-dialog-title {
+        font: 22px/32px 'UHCSans-SemiBold', 'sans-serif', 'Arial', 'Helvetica Neue';
+      }
+    }
+    .provider-icon-color {
+      color: #2d2d39 !important;
     }
     &-header {
       text-align: center;

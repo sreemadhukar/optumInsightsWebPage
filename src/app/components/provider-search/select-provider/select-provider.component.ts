@@ -24,12 +24,6 @@ import {
   OnDestroy
 } from '@angular/core';
 
-import { MatExpansionPanel } from '@angular/material';
-import { BreakpointObserver } from '@angular/cdk/layout';
-import { NavigationStart } from '@angular/router';
-import { ThemeService } from '../../../shared/theme.service';
-import { CommonUtilsService } from '../../../shared/common-utils.service';
-
 @Component({
   selector: 'app-select-provider',
   templateUrl: './select-provider.component.html',
@@ -64,6 +58,12 @@ export class SelectProviderComponent implements OnInit {
       'search',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/round-search-24px.svg')
     );
+
+    iconRegistry.addSvgIcon(
+      'arrow-down',
+      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/arrow-down.svg')
+    );
+
     if (!this.states) {
       this.providerSharedService.providersList().subscribe(value => (this.states = value));
     }
