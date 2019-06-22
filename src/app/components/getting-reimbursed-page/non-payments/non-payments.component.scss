@@ -1,11 +1,11 @@
 @import '~src/scss/variables.scss';
 @import '~src/scss/mixins';
 .breadcrumb-top-padding {
-  @include margin(0, 0, 12px, 0);
+  @include margin(12px, 0, 12px, 0);
   box-sizing: border-box;
   font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
-  width: 961px;
   margin-left: 12px;
+  clear: left;
   .filter_bg {
     box-sizing: border-box;
     border: 1px solid $blue;
@@ -55,7 +55,7 @@
   background-color: $alice-blue;
   font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
   overflow-x: hidden;
-  @include padding(16px, 20px, 30px, 20px);
+  @include padding(16px, 20px, 64px, 32px);
   .gettingReimburse-content {
     display: -webkit-box;
     display: -moz-box;
