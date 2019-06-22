@@ -1,8 +1,5 @@
 <div class="select-provider-body">
   <div class="header-div">
-    <div class="menu-div" *ngIf="mobileQuery" (click)="sidenav()">
-      <mat-icon class="nav-menu-icons menu-icon" svgIcon="{{ menuIcon }}"></mat-icon>
-    </div>
     <div class="header-logo-div">
       <a routerLink="/">
         <img class="Uhc-logo" src="/src/assets/images/UHC Logo@2x.png" alt="UHC Logo" />
@@ -27,9 +24,9 @@
     </div>
     <form class="select-provider-form">
       <mat-form-field appearance="outline">
-        <mat-label>Search Providers.</mat-label>
+        <!-- <mat-label>Search Providers.</mat-label> -->
         <input matInput [matAutocomplete]="auto" [formControl]="stateCtrl" />
-        <mat-icon matPrefix class="nav-menu-icons" svgIcon="search"></mat-icon>
+        <mat-icon matPrefix class="nav-menu-icons provider-icon-color" svgIcon="search"></mat-icon>
 
         <mat-autocomplete #auto="matAutocomplete" (optionSelected)="providerSelect($event)">
           <mat-option *ngFor="let state of (filteredStates | async)" [value]="state.HealthCareOrganizationName">
@@ -37,6 +34,7 @@
           >
           <!-- <div class="view-allProviders" (click)="provider()">View All Providers</div> -->
         </mat-autocomplete>
+        <mat-icon matSuffix class="nav-menu-icons provider-icon-color" svgIcon="arrow-down"></mat-icon>
       </mat-form-field>
     </form>
   </div>
