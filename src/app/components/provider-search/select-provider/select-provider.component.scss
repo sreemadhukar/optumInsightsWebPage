@@ -1,47 +1,119 @@
-.select-provider {
-  width: 40%;
-  margin: 270px 400px 280px 430px;
+@import '~src/scss/variables.scss';
+@import '~src/scss/mixins';
+@import '~src/scss/my-custom-theme';
+.select-provider-body {
+  margin-left: 60px;
+  margin-right: 60px;
 
-  &-header {
-    text-align: center;
+  /* header css starts here*/
+  @import '~src/scss/variables.scss';
+  @import '~src/scss/mixins';
+  .header-div {
+    background-color: $white;
+    height: 72px;
+    display: flex;
+    border-bottom: solid;
+    border-width: 1px;
+    border-color: #e0e0e0;
+    z-index: 999;
+    .menu-div {
+      @include padding(0, 0, 0, 0);
+      .menu-icon {
+        margin: 0;
+        color: #196ecf;
+        background-color: none;
+        @include padding(20px, 0px, 22px, 40px);
+      }
+      .menu-icon:hover {
+      }
+    }
+    .header-logo-div {
+      padding: 18px 0 18px 33px;
 
-    button {
-      float: right;
-      margin: -15px -25px 0 0;
+      .Uhc-logo {
+        height: 36px;
+        width: 175px;
+      }
+    }
+    .user-div {
+      margin-left: auto;
+      display: flex;
+      height: 25px;
+      color: $strom-grey;
+      font-size: 16px;
+      font-weight: 600;
+      letter-spacing: 0.2px;
+      line-height: 22px;
+      text-align: right;
+      padding: 25px 32px 20px 0;
+
+      .user-name {
+        line-height: 31px;
+        font-family: 'UHCSans-Medium', 'Helvetica', 'Arial';
+        font-weight: 500;
+      }
+      .user-expand-more {
+        line-height: 26px;
+      }
     }
   }
 
-  &-form {
-    mat-form-field {
-      width: 100%;
+  /* header css ends here*/
+  .select-provider {
+    margin: 160px auto 0 auto;
+    width: 30%;
 
-      //input {
-      //  box-sizing: border-box;
-      //  height: 41px;
-      //  width: 386px;
-      //  border: 1px solid #B3BABC;
-      //  border-radius: 2px;
-      //  background-color: #FFFFFF;
-      //  color: #2D2D39;
-      //  font-family: 'UHCSans-Regular';
-      //  font-size: 16px;
-      //  font-weight: 600;
-      //  letter-spacing: 0.2px;
-      //  line-height: 22px;
-      //}
+    .select-provider-header {
+      font-family: 'UHCSans-SemiBold', 'sans-serif', 'Arial';
+      color: #2d2d39;
+      font-size: 22px;
+      line-height: 28px;
+      text-align: center;
+      padding-bottom: 30px;
+    }
+    &-header {
+      text-align: center;
+
+      button {
+        float: right;
+        margin: -15px -25px 0 0;
+      }
+    }
+
+    &-form {
+      mat-form-field {
+        width: 100%;
+
+        //input {
+        //  box-sizing: border-box;
+        //  height: 41px;
+        //  width: 386px;
+        //  border: 1px solid #B3BABC;
+        //  border-radius: 2px;
+        //  background-color: #FFFFFF;
+        //  color: #2D2D39;
+        //  font-family: 'UHCSans-Regular';
+        //  font-size: 16px;
+        //  font-weight: 600;
+        //  letter-spacing: 0.2px;
+        //  line-height: 22px;
+        //}
+      }
     }
   }
-}
-
-.view-allProviders {
-  width: 100%;
-  color: #196ecf;
-  font-family: 'UHCSans-SemiBold';
-  font-size: 18px;
-  font-weight: 600;
-  letter-spacing: 0.2px;
-  line-height: 22px;
-  text-align: center;
-  padding: 18px 0;
-  cursor: pointer;
+  // .view-allProviders {
+  //   width: 100%;
+  //   color: #196ecf;
+  //   font-family: 'UHCSans-SemiBold';
+  //   font-size: 18px;
+  //   font-weight: 600;
+  //   letter-spacing: 0.2px;
+  //   line-height: 22px;
+  //   text-align: center;
+  //   padding: 18px 0;
+  //   cursor: pointer;
+  // }
+  .footer-separtor {
+    height: 220px;
+  }
 }
