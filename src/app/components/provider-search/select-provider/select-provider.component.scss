@@ -1,47 +1,52 @@
-.select-provider {
-  width: 40%;
-  margin: 270px 400px 280px 430px;
+.select-provider-body {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
 
-  &-header {
-    text-align: center;
+  .select-provider {
+    margin-top: 220px;
+    width: 30%;
 
-    button {
-      float: right;
-      margin: -15px -25px 0 0;
+    .select-provider-header {
+      font-family: 'UHCSans-Medium', 'sans-serif', 'Arial';
+      color: #2d2d39;
+      font-size: 22px;
+      font-weight: 600;
+      line-height: 28px;
+      text-align: center;
+    }
+    &-header {
+      text-align: center;
+
+      button {
+        float: right;
+        margin: -15px -25px 0 0;
+      }
+    }
+
+    &-form {
+      mat-form-field {
+        width: 100%;
+
+        //input {
+        //  box-sizing: border-box;
+        //  height: 41px;
+        //  width: 386px;
+        //  border: 1px solid #B3BABC;
+        //  border-radius: 2px;
+        //  background-color: #FFFFFF;
+        //  color: #2D2D39;
+        //  font-family: 'UHCSans-Regular';
+        //  font-size: 16px;
+        //  font-weight: 600;
+        //  letter-spacing: 0.2px;
+        //  line-height: 22px;
+        //}
+      }
     }
   }
 
-  &-form {
-    mat-form-field {
-      width: 100%;
-
-      //input {
-      //  box-sizing: border-box;
-      //  height: 41px;
-      //  width: 386px;
-      //  border: 1px solid #B3BABC;
-      //  border-radius: 2px;
-      //  background-color: #FFFFFF;
-      //  color: #2D2D39;
-      //  font-family: 'UHCSans-Regular';
-      //  font-size: 16px;
-      //  font-weight: 600;
-      //  letter-spacing: 0.2px;
-      //  line-height: 22px;
-      //}
-    }
+  .footer-block {
+    z-index: 9;
   }
-}
-
-.view-allProviders {
-  width: 100%;
-  color: #196ecf;
-  font-family: 'UHCSans-SemiBold';
-  font-size: 18px;
-  font-weight: 600;
-  letter-spacing: 0.2px;
-  line-height: 22px;
-  text-align: center;
-  padding: 18px 0;
-  cursor: pointer;
 }

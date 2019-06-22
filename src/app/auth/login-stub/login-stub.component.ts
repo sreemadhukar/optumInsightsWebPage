@@ -61,7 +61,7 @@ export class LoginStubComponent implements OnInit {
       password: ['', Validators.required]
     });
 
-    this.returnUrl = '/OverviewPage';
+    this.returnUrl = '/ProviderSearch';
     if (this.isInternal) {
       if (this.authService.isLoggedIn()) {
         this.router.navigate([this.returnUrl]);
