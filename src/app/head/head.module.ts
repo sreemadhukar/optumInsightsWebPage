@@ -16,7 +16,7 @@ import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.componen
 
 @NgModule({
   imports: [CommonModule, HeadRoutingModule, HeadMaterialModule, CommonUtilsModule],
-  exports: [BodyComponent],
+  exports: [BodyComponent, HeaderComponent, FooterComponent],
   declarations: [
     HeaderComponent,
     FooterComponent,

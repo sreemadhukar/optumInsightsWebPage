@@ -14,6 +14,7 @@
       font-weight: 600;
       line-height: 28px;
       text-align: center;
+      padding-bottom: 30px;
     }
     &-header {
       text-align: center;
@@ -45,8 +46,71 @@
       }
     }
   }
-
+  // .view-allProviders {
+  //   width: 100%;
+  //   color: #196ecf;
+  //   font-family: 'UHCSans-SemiBold';
+  //   font-size: 18px;
+  //   font-weight: 600;
+  //   letter-spacing: 0.2px;
+  //   line-height: 22px;
+  //   text-align: center;
+  //   padding: 18px 0;
+  //   cursor: pointer;
+  // }
   .footer-block {
     z-index: 9;
+  }
+}
+
+.footer-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  height: 118px;
+  background: color(blue, base);
+
+  .footer-left-section {
+    display: flex;
+    font-family: 'UHCSans-SemiBold', 'Arial';
+    font-size: 16px;
+    color: #ffffff;
+    line-height: 22px;
+    text-align: center;
+    margin-top: 35px;
+    margin-left: 32px;
+    padding-top: 15px;
+
+    .footer-right-section {
+      display: flex;
+      font-size: 14px;
+      color: #ffffff;
+      font-family: 'UHCSans-Medium', 'Arial';
+      line-height: 18px;
+      text-align: center;
+      letter-spacing: 0.2px;
+      margin-top: 35px;
+      margin-right: 20px;
+      padding-top: 15px;
+    }
+
+    .anchor-color {
+      color: #ffffff;
+    }
+
+    .anchor-color-one {
+      color: #ffffff;
+      text-decoration-line: none;
+    }
+
+    .copyright-text {
+      margin-right: 16px;
+    }
+
+    .privacy-text {
+      margin-left: 16px;
+      margin-right: 16px;
+    }
   }
 }
