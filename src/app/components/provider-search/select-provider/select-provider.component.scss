@@ -1,17 +1,72 @@
+@import '~src/scss/variables.scss';
+@import '~src/scss/mixins';
+@import '~src/scss/my-custom-theme';
 .select-provider-body {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+  margin-left: 60px;
+  margin-right: 60px;
 
+  /* header css starts here*/
+  @import '~src/scss/variables.scss';
+  @import '~src/scss/mixins';
+  .header-div {
+    background-color: $white;
+    height: 72px;
+    display: flex;
+    border-bottom: solid;
+    border-width: 1px;
+    border-color: #e0e0e0;
+    z-index: 999;
+    .menu-div {
+      @include padding(0, 0, 0, 0);
+      .menu-icon {
+        margin: 0;
+        color: #196ecf;
+        background-color: none;
+        @include padding(20px, 0px, 22px, 40px);
+      }
+      .menu-icon:hover {
+      }
+    }
+    .header-logo-div {
+      padding: 18px 0 18px 33px;
+
+      .Uhc-logo {
+        height: 36px;
+        width: 175px;
+      }
+    }
+    .user-div {
+      margin-left: auto;
+      display: flex;
+      height: 25px;
+      color: $strom-grey;
+      font-size: 16px;
+      font-weight: 600;
+      letter-spacing: 0.2px;
+      line-height: 22px;
+      text-align: right;
+      padding: 25px 32px 20px 0;
+
+      .user-name {
+        line-height: 31px;
+        font-family: 'UHCSans-Medium', 'Helvetica', 'Arial';
+        font-weight: 500;
+      }
+      .user-expand-more {
+        line-height: 26px;
+      }
+    }
+  }
+
+  /* header css ends here*/
   .select-provider {
-    margin-top: 220px;
+    margin: 160px auto 0 auto;
     width: 30%;
 
     .select-provider-header {
-      font-family: 'UHCSans-Medium', 'sans-serif', 'Arial';
+      font-family: 'UHCSans-SemiBold', 'sans-serif', 'Arial';
       color: #2d2d39;
       font-size: 22px;
-      font-weight: 600;
       line-height: 28px;
       text-align: center;
       padding-bottom: 30px;
@@ -58,59 +113,7 @@
   //   padding: 18px 0;
   //   cursor: pointer;
   // }
-  .footer-block {
-    z-index: 9;
-  }
-}
-
-.footer-container {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  height: 118px;
-  background: color(blue, base);
-
-  .footer-left-section {
-    display: flex;
-    font-family: 'UHCSans-SemiBold', 'Arial';
-    font-size: 16px;
-    color: #ffffff;
-    line-height: 22px;
-    text-align: center;
-    margin-top: 35px;
-    margin-left: 32px;
-    padding-top: 15px;
-
-    .footer-right-section {
-      display: flex;
-      font-size: 14px;
-      color: #ffffff;
-      font-family: 'UHCSans-Medium', 'Arial';
-      line-height: 18px;
-      text-align: center;
-      letter-spacing: 0.2px;
-      margin-top: 35px;
-      margin-right: 20px;
-      padding-top: 15px;
-    }
-
-    .anchor-color {
-      color: #ffffff;
-    }
-
-    .anchor-color-one {
-      color: #ffffff;
-      text-decoration-line: none;
-    }
-
-    .copyright-text {
-      margin-right: 16px;
-    }
-
-    .privacy-text {
-      margin-left: 16px;
-      margin-right: 16px;
-    }
+  .footer-separtor {
+    height: 200px;
   }
 }

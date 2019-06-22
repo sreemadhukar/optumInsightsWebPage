@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { FooterComponent } from './footer/footer.component';
+import { FooterModule } from './../components/footer/footer.module';
 import { BodyComponent } from './body/body.component';
 import { HeaderComponent } from './header/header.component';
 import { HamburgerMenuComponent } from './hamburger-menu/hamburger-menu.component';
@@ -15,16 +15,9 @@ import { TermsOfUseComponent } from './terms-of-use/terms-of-use.component';
 import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component';
 
 @NgModule({
-  imports: [CommonModule, HeadRoutingModule, HeadMaterialModule, CommonUtilsModule],
-  exports: [BodyComponent, HeaderComponent, FooterComponent],
-  declarations: [
-    HeaderComponent,
-    FooterComponent,
-    HamburgerMenuComponent,
-    BodyComponent,
-    TermsOfUseComponent,
-    PrivacyPolicyComponent
-  ],
+  imports: [CommonModule, HeadRoutingModule, HeadMaterialModule, CommonUtilsModule, FooterModule],
+  exports: [BodyComponent, HeaderComponent],
+  declarations: [HeaderComponent, HamburgerMenuComponent, BodyComponent, TermsOfUseComponent, PrivacyPolicyComponent],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
