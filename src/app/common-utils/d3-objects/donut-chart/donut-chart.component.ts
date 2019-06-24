@@ -161,8 +161,7 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
           .attr('y', 8)
           .style('font-size', '41px')
           .style('fill', '#2d2d39')
-          .style('font-family', 'UHCSans-Medium')
-          .style('font-weight', '500')
+          .style('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
           .style('vertical-align', 'middle');
       } else {
         text = chart
@@ -171,8 +170,7 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
           .attr('y', height / height)
           .style('font-size', '41px')
           .style('fill', '#2d2d39')
-          .style('font-family', 'UHCSans-Medium')
-          .style('font-weight', '500')
+          .style('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
           .style('vertical-align', 'middle');
       }
     } else if (this.donutType === 'small-card') {
@@ -182,8 +180,7 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
         .attr('y', height / heightDivider)
         .style('font-size', '22px')
         .style('fill', '#2d2d39')
-        .style('font-family', 'UHCSans-Medium')
-        .style('font-weight', '500');
+        .style('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'");
     }
 
     if (chartOptions.hasOwnProperty('sdata') && chartOptions.sdata != null) {
@@ -217,9 +214,8 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
           .attr('x', 0)
           .attr('y', 32)
           .style('font-size', '14px')
-          .style('font-weight', '500')
           .style('fill', '#007000')
-          .style('font-family', 'UHCSans-Medium')
+          .style('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
           .style('text-anchor', 'start')
           .text(chartOptions.sdata.data);
       } else if (chartOptions.sdata.sign === 'down') {
@@ -253,9 +249,8 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
           .attr('x', 0)
           .attr('y', 32)
           .style('font-size', '14px')
-          .style('font-weight', '500')
           .style('fill', '#b10c00')
-          .style('font-family', 'UHCSans-Medium')
+          .style('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
           .style('text-anchor', 'start')
           .text(chartOptions.sdata.data);
       }
@@ -354,8 +349,7 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
           .attr('y', textLineOneY /*'25px'*/)
           .style('font-size', '14px')
           .style('fill', '#2D2D39')
-          .style('font-family', 'UHCSans-SemiBold')
-          .style('font-weight', '600')
+          .style('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
           .text(d.data.label)
           .call(wrap, 84, tspanID, 14);
 

@@ -10,7 +10,7 @@
     background-color: mat-color($accent);
 
     overflow-x: hidden;
-    @include padding(30px, 30px, 30px, 30px);
+    @include padding(30px, 30px, 64px, 30px);
     .overview-content {
       display: flex;
       flex-wrap: wrap;
@@ -36,7 +36,7 @@
       .cust-width-title {
         width: 450px;
         margin-left: 10px;
-        font-family: 'UHCSans-SemiBold', 'Arial';
+        font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
         color: $black-rock;
 
         .page-title {
@@ -68,9 +68,8 @@
         }
         .self-service-link {
           color: $blue;
-          font-family: 'UHC Sans';
+          font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
           font-size: 16px;
-          font-weight: 600;
           letter-spacing: 0.2px;
           line-height: 22px;
           text-align: right;

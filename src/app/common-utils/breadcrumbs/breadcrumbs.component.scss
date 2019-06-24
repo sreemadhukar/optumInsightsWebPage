@@ -3,9 +3,9 @@
 .breadcrumb li {
   display: inline;
   font-size: 14px;
-  font-family: 'UHCSans-Medium', 'Arial';
-  font-weight: 500;
-  padding-right: 5px;
+  font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+  padding-right: 6px;
+  line-height: 18px;
 }
 
 .overview-arrow {
@@ -15,20 +15,22 @@
 
 .disable-arrow {
   color: $strom-grey;
-  padding-left: 5px;
+  padding-left: 6px;
+  width: 16px;
+  height: 18px;
+  vertical-align: middle;
+  font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
 }
 
 .disable-link {
   color: $strom-grey !important;
   text-decoration: none;
-  font-family: 'UHCSans-Medium';
-  font-weight: 500;
+  font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
 }
 
 .breadcrumb {
   a {
     color: $blue;
-    font-family: 'UHCSans-Medium';
-    font-weight: 500;
+    font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
   }
 }
