@@ -203,3 +203,16 @@
 .displayNone {
   display: none;
 }
+.recBarClass {
+  width: 45px;
+  height: 508px;
+  background-color: green;
+  position: absolute;
+}
+.rectDraw {
+  width: 45px;
+  height: 508px;
+  background-color: red;
+  position: absolute;
+  opacity: 0.1;
+}

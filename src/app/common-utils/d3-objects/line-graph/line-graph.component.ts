@@ -202,7 +202,9 @@ export class LineGraphComponent implements OnInit, AfterViewInit {
           break;
       }
     } // ends formatDynamicAbbrevia function
-
+    function drawRectangle() {
+      return "<div class='rectDraw'>Inderjeet Vashista</div>";
+    }
     function tooltipText(d, year, prefix) {
       if (year == undefined || !year || year === '') {
         return (
@@ -294,8 +296,18 @@ export class LineGraphComponent implements OnInit, AfterViewInit {
         .classed('tooltipClass', false)
         .classed('tooltipClassLeft', false)
         .classed('hidden', true);
+      // tslint:disable-next-line:no-var-keyword
+      var rectBarVar = d3
+        .select(this.renderChart)
+        .append('div')
+        .classed('recBarClass', true)
+        .classed('hidden', false);
     } else {
       tooltipVar = d3
+        .select(this.renderChart)
+        .append('div')
+        .attr('class', 'displayNone');
+      rectBarVar = d3
         .select(this.renderChart)
         .append('div')
         .attr('class', 'displayNone');
@@ -657,7 +669,7 @@ export class LineGraphComponent implements OnInit, AfterViewInit {
           .duration(200)
           .style('opacity', 1);
         if (d3.event.layerX + 213 < width + margin.left + margin.right) {
-          //  appendRectangle(d, 'visible');
+          // appendRectangle(d, 'visible');
           tooltipVar
             .html(tooltipText(d, this.yearComparison, axisPrefix))
             .classed('hidden', false)
@@ -674,6 +686,21 @@ export class LineGraphComponent implements OnInit, AfterViewInit {
             .style('left', d3.event.layerX + 23 + shiftTooltip + 'px')
             .style('top', d3.event.layerY + -20 + 'px');
         }
+        if (d3.event.layerX + 213 < width + margin.left + margin.right) {
+          rectBarVar
+            .html(drawRectangle())
+            .classed('recBarClass', true)
+            .style('left', d3.event.layerX - 10 + 'px')
+            .style('top', 730 + 'px');
+        } else {
+          rectBarVar
+            .html(drawRectangle())
+            .classed('recBarClass', true)
+            .style('left', d3.event.layerX - 10 + 'px')
+            .style('top', 730 + 'px');
+        }
+        console.log('d3.x', d3.event.layerX);
+        console.log('d3.y', d3.event.layerY);
       })
       .on('mouseout', function(d) {
         tooltipVar
@@ -691,20 +718,20 @@ export class LineGraphComponent implements OnInit, AfterViewInit {
 
     if (1) {
       DotOne.on('mouseenter', function(d) {
-        DotOne.transition()
-          .duration(200)
-          .style('opacity', 1);
-        const showDot = DotOne.transition()
-          .duration(200)
-          .style('opacity', 1);
-        appendRectangle(d, 'visible');
+        // DotOne.transition()
+        //   .duration(200)
+        //   .style('opacity', 1);
+        // const showDot = DotOne.transition()
+        //   .duration(200)
+        //   .style('opacity', 1);
+        // appendRectangle(d, 'visible');
       }).on('mouseleave', function(d) {
-        DotOne.transition()
-          .duration(500)
-          .style('opacity', 0);
-        const hideDot = DotOne.transition()
-          .duration(500)
-          .style('opacity', 0);
+        // DotOne.transition()
+        //   .duration(500)
+        //   .style('opacity', 0);
+        // const hideDot = DotOne.transition()
+        //   .duration(500)
+        //   .style('opacity', 0);
         d3.selectAll('#' + 'RectLineOne' + d.x)
           .transition()
           .duration(500)
