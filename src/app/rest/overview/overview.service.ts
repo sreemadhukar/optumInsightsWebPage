@@ -19,8 +19,8 @@ export class OverviewService {
     this.currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
     this.authBearer = this.currentUser[0].PedAccessToken;
     const myHeader = new HttpHeaders({
-      // Authorization: 'Bearer ' + this.authBearer,
-      // Accept: '*/*'
+      Authorization: 'Bearer ' + this.authBearer,
+      Accept: '*/*'
     });
     let cparams = new HttpParams();
     if (parameters[1]) {
