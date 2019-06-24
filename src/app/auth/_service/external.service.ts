@@ -54,7 +54,7 @@ export class ExternalService {
 
       // get return url from route parameters or default to '/'
     } else {
-      this.document.location.href = redirectUri;
+      // this.document.location.href = redirectUri;
       this.router.navigate([this.returnUrl]);
     }
   }

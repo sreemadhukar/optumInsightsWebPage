@@ -22,7 +22,7 @@ export class HttpInterceptorService implements HttpInterceptor {
       const token = currentUser[0].PedAccessToken;
 
       if (token) {
-        request = request.clone({ headers: request.headers.set('Authorization', 'Bearer ' + token) });
+        request = request.clone({ headers: request.headers.set('PedAccessToken', 'Bearer ' + token) });
       }
     }
     request = request.clone({ headers: request.headers.set('Accept', '*/*') });

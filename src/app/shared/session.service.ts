@@ -29,7 +29,7 @@ export class SessionService {
       environment.internalAccess
     ) {
       return JSON.parse(sessionStorage.getItem('currentUser'))[0]['ProviderKey'];
-    } else {
+    } else if (sessionStorage.getItem('currentUser') && JSON.parse(sessionStorage.getItem('currentUser'))[0]) {
       return JSON.parse(sessionStorage.getItem('currentUser'))[0]['Providersyskey'];
     }
   }
