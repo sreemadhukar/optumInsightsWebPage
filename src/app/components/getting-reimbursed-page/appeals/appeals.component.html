@@ -18,52 +18,53 @@
         </div>
       </div>
     </div>
-  </div>
-  <div class="height1Separator"></div>
-  <div *ngFor="let data of mockCards; let i = index">
-    <app-card class="cards" [skeleton]="loading" *ngIf="loading"> </app-card>
-  </div>
-  <div *ngFor="let item of currentSummary">
-    <app-card *ngIf="item != null && item.data != null" class="cards" [chartData]="item"> </app-card>
-    <app-error-card *ngIf="item != null && item.status != null" class="cards" [data]="item"></app-error-card>
-  </div>
-  <div *ngFor="let overturn of overturnItem">
-    <app-card *ngIf="overturn != null && overturn.data != null" class="cards" [chartData]="overturn"></app-card>
-    <app-error-card
-      *ngIf="overturn != null && overturn.status != null"
-      class="cards"
-      [data]="overturn"
-    ></app-error-card>
-  </div>
 
-  <div class="overturn-margin">
-    <div class="overturn-reason-block">
-      <app-common-header
-        [title]="title"
-        class="full-display"
-        (helpIconClicked)="helpIconClick($event)"
-      ></app-common-header>
-      <!--div *ngFor="let r of reason; let i = index"-->
-      <div *ngIf="reason.length >= 1" class="appeals-overturned-bar-chart">
-        <app-med-bar-chart [chartOptions]="reason[0]"></app-med-bar-chart>
+    <div class="height1Separator"></div>
+    <div *ngFor="let data of mockCards; let i = index">
+      <app-card class="cards" [skeleton]="loading" *ngIf="loading"> </app-card>
+    </div>
+    <div *ngFor="let item of currentSummary">
+      <app-card *ngIf="item != null && item.data != null" class="cards" [chartData]="item"> </app-card>
+      <app-error-card *ngIf="item != null && item.status != null" class="cards" [data]="item"></app-error-card>
+    </div>
+    <div *ngFor="let overturn of overturnItem">
+      <app-card *ngIf="overturn != null && overturn.data != null" class="cards" [chartData]="overturn"></app-card>
+      <app-error-card
+        *ngIf="overturn != null && overturn.status != null"
+        class="cards"
+        [data]="overturn"
+      ></app-error-card>
+    </div>
+
+    <div class="overturn-margin">
+      <div class="overturn-reason-block">
+        <app-common-header
+          [title]="title"
+          class="full-display"
+          (helpIconClicked)="helpIconClick($event)"
+        ></app-common-header>
+        <!--div *ngFor="let r of reason; let i = index"-->
+        <div *ngIf="reason.length >= 1" class="appeals-overturned-bar-chart">
+          <app-med-bar-chart [chartOptions]="reason[0]"></app-med-bar-chart>
+        </div>
+        <div *ngIf="reason.length >= 2" class="appeals-overturned-bar-chart">
+          <app-med-bar-chart [chartOptions]="reason[1]"></app-med-bar-chart>
+        </div>
+        <div *ngIf="reason.length >= 3" class="appeals-overturned-bar-chart">
+          <app-med-bar-chart [chartOptions]="reason[2]"></app-med-bar-chart>
+        </div>
+        <div *ngIf="reason.length >= 4" class="appeals-overturned-bar-chart">
+          <app-med-bar-chart [chartOptions]="reason[3]"></app-med-bar-chart>
+        </div>
+        <div *ngIf="reason.length >= 5" class="appeals-overturned-bar-chart">
+          <app-med-bar-chart [chartOptions]="reason[4]"></app-med-bar-chart>
+        </div>
+        <!--/div-->
+        <div class="common-footer">
+          <div class="reason-time">{{ timePeriod }}</div>
+        </div>
+        <!--app-common-footer [timePeriod]="timePeriod" class="reason-time"></app-common-footer-->
       </div>
-      <div *ngIf="reason.length >= 2" class="appeals-overturned-bar-chart">
-        <app-med-bar-chart [chartOptions]="reason[1]"></app-med-bar-chart>
-      </div>
-      <div *ngIf="reason.length >= 3" class="appeals-overturned-bar-chart">
-        <app-med-bar-chart [chartOptions]="reason[2]"></app-med-bar-chart>
-      </div>
-      <div *ngIf="reason.length >= 4" class="appeals-overturned-bar-chart">
-        <app-med-bar-chart [chartOptions]="reason[3]"></app-med-bar-chart>
-      </div>
-      <div *ngIf="reason.length >= 5" class="appeals-overturned-bar-chart">
-        <app-med-bar-chart [chartOptions]="reason[4]"></app-med-bar-chart>
-      </div>
-      <!--/div-->
-      <div class="common-footer">
-        <div class="reason-time">{{ timePeriod }}</div>
-      </div>
-      <!--app-common-footer [timePeriod]="timePeriod" class="reason-time"></app-common-footer-->
     </div>
   </div>
 </div>

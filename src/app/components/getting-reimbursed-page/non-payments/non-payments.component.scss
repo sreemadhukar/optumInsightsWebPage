@@ -55,7 +55,7 @@
   background-color: $alice-blue;
   font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
   overflow-x: hidden;
-  @include padding(16px, 20px, 64px, 32px);
+  @include padding(16px, 0, 64px, 0);
   .gettingReimburse-content {
     display: -webkit-box;
     display: -moz-box;
@@ -63,7 +63,7 @@
     display: -webkit-flex;
     display: flex;
     -webkit-flex-flow: row wrap;
-    justify-content: left;
+    justify-content: center;
     flex-wrap: wrap;
     .top-reasons-for-claims-non-payment-block {
       width: 961px;
@@ -494,6 +494,6 @@
     }
   }
   @media only screen and (max-width: 1024px) {
-    @include padding(16px, 20px, 16px, 20px);
+    @include padding(16px, 0, 16px, 0);
   }
 }
