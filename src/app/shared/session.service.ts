@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { GettingReimbursedService } from '../rest/getting-reimbursed/getting-reimbursed.service';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Filter } from './_models/filter';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -22,11 +23,14 @@ export class SessionService {
     return this.filterObjSubject.value;
   }
   public providerKey() {
-    if (sessionStorage.getItem('currentUser') && JSON.parse(sessionStorage.getItem('currentUser'))[0]) {
-      console.log(JSON.parse(sessionStorage.getItem('currentUser'))[0]['ProviderKey']);
+    if (
+      sessionStorage.getItem('currentUser') &&
+      JSON.parse(sessionStorage.getItem('currentUser'))[0] &&
+      environment.internalAccess
+    ) {
       return JSON.parse(sessionStorage.getItem('currentUser'))[0]['ProviderKey'];
     } else {
-      sessionStorage.removeItem('currentUser');
+      return JSON.parse(sessionStorage.getItem('currentUser'))[0]['Providersyskey'];
     }
   }
   public sessionStorage(value: string, item: string) {
