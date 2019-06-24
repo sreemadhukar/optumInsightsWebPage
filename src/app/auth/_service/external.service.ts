@@ -28,7 +28,7 @@ export class ExternalService {
         this.code = params.code;
         if (this.code) {
           this.removeSession();
-          this.returnUrl = '/OverviewPage';
+          this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/OverviewPage';
           this.authService.getSsoToken(this.code, token).subscribe(
             ssoTokenData => {
               if (typeof ssoTokenData !== 'undefined' && ssoTokenData !== null) {
@@ -54,8 +54,8 @@ export class ExternalService {
 
       // get return url from route parameters or default to '/'
     } else {
-      // this.document.location.href = redirectUri;
-      this.router.navigate([this.returnUrl]);
+      this.document.location.href = redirectUri;
+      this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/OverviewPage';
     }
   }
 
