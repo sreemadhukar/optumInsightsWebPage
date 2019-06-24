@@ -104,12 +104,12 @@ export class PriorAuthSharedService {
 
       this.priorAuthService.getPriorAuthDateRange(timeRange, isAllTin, isAlllob, isAllSS, ...newParameters).subscribe(
         providerSystems => {
-          const data = providerSystems.PriorAuthorizations.LineOfBusiness.All;
+          const data = providerSystems.PriorAuthorizations.LineOfBusiness.ALL;
           const PAApprovedCount = data.PriorAuthApprovedCount;
           const PANotApprovedCount = data.PriorAuthNotApprovedCount;
           const PANotPendingCount = data.PriorAuthPendingCount;
           const PANotCancelledCount = data.PriorAuthCancelledCount;
-          const PARequestedCount = PAApprovedCount + PANotApprovedCount + PANotPendingCount + PANotCancelledCount;
+          const PARequestedCount = PAApprovedCount + PANotApprovedCount;
           const PAApprovalRate = PAApprovedCount / PARequestedCount;
           let StandardTATConversion;
           let UrgentTATConversion;
