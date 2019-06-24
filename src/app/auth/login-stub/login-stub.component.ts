@@ -46,6 +46,10 @@ export class LoginStubComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.authService.getJwt().subscribe(data => {
+      this.token = data['token'];
+      sessionStorage.setItem('token', JSON.stringify(data['token']));
+    });
     if (this.isInternal) {
       this.authService.getJwt().subscribe(data => {
         sessionStorage.setItem('token', JSON.stringify(data['token']));
@@ -56,14 +60,14 @@ export class LoginStubComponent implements OnInit {
         this.initLogin();
       }, 3000);
     } else {
-      if (environment.production) {
-        this.external.CheckExternal(environment.production ? 'true' : 'false');
+      if (!(sessionStorage.getItem('currentUser') && JSON.parse(sessionStorage.getItem('currentUser')).length !== 0)) {
+        if (environment.production) {
+          this.external.CheckExternal(environment.production ? 'true' : 'false');
+        } else {
+          this.external.CheckExternal(this.token);
+        }
       } else {
-        this.authService.getJwt().subscribe(async val => {
-          this.token = val['token'];
-          sessionStorage.setItem('token', JSON.stringify(val['token']));
-          await this.external.CheckExternal(this.token);
-        });
+        this.router.navigate(['/OverviewPage']);
       }
     }
   }

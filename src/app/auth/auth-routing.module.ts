@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { LoginStubComponent } from './login-stub/login-stub.component';
 
-const routes: Routes = [{ path: '', component: LoginStubComponent }];
+const routes: Routes = [{ path: '', component: LoginStubComponent }, { path: '**', redirectTo: '' }];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],

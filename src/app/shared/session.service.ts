@@ -25,15 +25,17 @@ export class SessionService {
   public providerKey() {
     if (
       sessionStorage.getItem('currentUser') &&
-      JSON.parse(sessionStorage.getItem('currentUser'))[0].hasOwnProperty('ProviderKey') &&
+      JSON.parse(sessionStorage.getItem('currentUser')).length !== 0 &&
       environment.internalAccess
     ) {
       return JSON.parse(sessionStorage.getItem('currentUser'))[0]['ProviderKey'];
     } else if (
       sessionStorage.getItem('currentUser') &&
-      JSON.parse(sessionStorage.getItem('currentUser'))[0].hasOwnProperty('Providersyskey')
+      JSON.parse(sessionStorage.getItem('currentUser')).length !== 0
     ) {
       return JSON.parse(sessionStorage.getItem('currentUser'))[0]['Providersyskey'];
+    } else {
+      sessionStorage.removeItem('currentUser');
     }
   }
   public sessionStorage(value: string, item: string) {

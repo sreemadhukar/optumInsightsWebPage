@@ -46,9 +46,10 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
   isDarkTheme: Observable<boolean>;
   @ViewChildren(MatExpansionPanel) viewPanels: QueryList<MatExpansionPanel>;
   @ViewChild('srnav') srnav: MatSidenav;
-  public healthSystemName = JSON.parse(sessionStorage.getItem('currentUser'))
-    ? JSON.parse(sessionStorage.getItem('currentUser'))[0]['HealthCareOrganizationName']
-    : '';
+  public healthSystemName =
+    sessionStorage.getItem('currentUser') && JSON.parse(sessionStorage.getItem('currentUser')).length !== 0
+      ? JSON.parse(sessionStorage.getItem('currentUser'))[0]['HealthCareOrganizationName']
+      : '';
   public makeAbsolute: boolean;
   public sideNavFlag = true;
   subscription: any;

@@ -4,6 +4,7 @@ import { DOCUMENT } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthenticationService } from './authentication.service';
 import { ErrorHandlingService } from './error-handling.service';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +22,7 @@ export class ExternalService {
     @Inject(DOCUMENT) private document: any
   ) {}
 
-  CheckExternal(token) {
+  public CheckExternal(token) {
     const redirectUri = environment.apiUrls.SsoRedirectUri;
     if (this.route.queryParams) {
       this.route.queryParams.subscribe(params => {
@@ -55,7 +56,8 @@ export class ExternalService {
       // get return url from route parameters or default to '/'
     } else {
       this.document.location.href = redirectUri;
-      this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/OverviewPage';
+      this.returnUrl = '/OverviewPage';
+      this.router.navigate([this.returnUrl]);
     }
   }
 
