@@ -275,13 +275,14 @@ export class LineGraphComponent implements OnInit {
       .attr('class', 'tooltip')
       .style('opacity', 0);*/
 
-    const shiftTooltip = -155;
+    const shiftTooltip = -130;
 
     if (generalData[0].tooltipBoolean === true) {
       // tslint:disable-next-line:no-var-keyword
       var tooltipVar = d3
         .select(this.renderChart)
         .append('div')
+        .classed('tooltipBlockClass', true)
         .classed('tooltipClass', false)
         .classed('tooltipClassLeft', false)
         .classed('hidden', true);
@@ -608,18 +609,70 @@ export class LineGraphComponent implements OnInit {
         .attr('d', area);
     }*/
 
-    /*const RectBarOne = chart
+    const RectBarOne = chart
       .selectAll('.rect-bar')
       .data(data)
       .enter()
       .append('rect')
       .style('fill', '#E3F0FD')
+      .style('opacity', 0)
       .attr('class', 'rect-bar')
-      .attr('id', 'RectLineOne')
       .attr('x', function(d) {
         return d.xCoordinate - 22;
       })
-      .attr('y', 113.5);*/
+      .attr('id', function(d) {
+        return 'rect-id-' + d.x;
+      })
+      .attr('y', 0)
+      .on('mouseover', d => {
+        const RectBar = chart.selectAll('#rect-id-' + d.x);
+        RectBar.transition()
+          .duration(200)
+          .style('opacity', 1)
+          .style('cursor', 'pointer');
+        const RectBarDot = chart.selectAll('#dot-id-' + d.x);
+        RectBarDot.transition()
+          .duration(200)
+          .style('opacity', 1);
+
+        tooltipVar
+          .transition()
+          .duration(200)
+          .style('opacity', 1);
+        const topMar = yScale(d.y) + 39 + 'px';
+        if (d3.event.layerX + 213 < width + margin.left + margin.right) {
+          tooltipVar
+            .html(tooltipText(d, this.yearComparison, axisPrefix))
+            .classed('hidden', false)
+            .classed('tooltipClass', true)
+            .classed('tooltipClassLeft', false)
+            .style('left', d.xCoordinate + 56 + 'px')
+            .style('top', topMar);
+        } else {
+          tooltipVar
+            .html(tooltipText(d, this.yearComparison, axisPrefix))
+            .classed('hidden', false)
+            .classed('tooltipClass', false)
+            .classed('tooltipClassLeft', true)
+            .style('left', d.xCoordinate + 56 + shiftTooltip + 'px')
+            .style('top', topMar);
+        }
+      })
+      .on('mouseout', function(d) {
+        const RectBar = chart.selectAll('#rect-id-' + d.x);
+        RectBar.transition()
+          .duration(200)
+          .style('opacity', 0);
+        const RectBarDot = chart.selectAll('#dot-id-' + d.x);
+        RectBarDot.transition()
+          .duration(200)
+          .style('opacity', 0);
+
+        tooltipVar
+          .transition()
+          .duration(500)
+          .style('opacity', 0);
+      });
 
     const DotOne = chart
       .selectAll('.dot')
@@ -627,62 +680,20 @@ export class LineGraphComponent implements OnInit {
       .enter()
       .append('circle')
       .style('fill', '#3381FF')
+      .style('opacity', 0)
       .attr('class', 'dot')
-      .attr('id', 'LineOneDot')
+      .attr('id', function(d) {
+        return 'dot-id-' + d.x;
+      })
       .attr('cx', function(d) {
         return d.xCoordinate;
       })
       .attr('cy', function(d) {
         return yScale(d.y);
       })
-      .attr('r', 6)
-      .on('mouseover', d => {
-        tooltipVar
-          .transition()
-          .duration(200)
-          .style('opacity', 1);
-        if (d3.event.layerX + 213 < width + margin.left + margin.right) {
-          tooltipVar
-            .html(tooltipText(d, this.yearComparison, axisPrefix))
-            .classed('hidden', false)
-            .classed('tooltipClass', true)
-            .classed('tooltipClassLeft', false)
-            .style('left', d3.event.layerX + 23 + 'px')
-            .style('top', d3.event.layerY + -20 + 'px');
-        } else {
-          tooltipVar
-            .html(tooltipText(d, this.yearComparison, axisPrefix))
-            .classed('hidden', false)
-            .classed('tooltipClass', false)
-            .classed('tooltipClassLeft', true)
-            .style('left', d3.event.layerX + 23 + shiftTooltip + 'px')
-            .style('top', d3.event.layerY + -20 + 'px');
-        }
-      })
-      .on('mouseout', function(d) {
-        tooltipVar
-          .transition()
-          .duration(500)
-          .style('opacity', 0);
-      });
+      .attr('r', 6);
 
     if (1) {
-      DotOne.on('mouseenter', function(d) {
-        DotOne.transition()
-          .duration(200)
-          .style('opacity', 1);
-        const showDot = DotOne.transition()
-          .duration(200)
-          .style('opacity', 1);
-      }).on('mouseleave', function(d) {
-        DotOne.transition()
-          .duration(500)
-          .style('opacity', 0);
-        const hideDot = DotOne.transition()
-          .duration(500)
-          .style('opacity', 0);
-      });
-
       chart
         .append('path')
         .datum(data)
