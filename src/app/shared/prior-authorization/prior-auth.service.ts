@@ -255,6 +255,10 @@ export class PriorAuthSharedService {
                   gdata: ['card-inner', 'PCORACVDiabetic']
                 }
               },
+              sdata: {
+                sign: null,
+                data: null
+              },
               besideData: {
                 All: {
                   verticalData: [
