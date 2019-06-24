@@ -54,7 +54,9 @@ export class OverviewSharedService {
         ) {
           const priorAuthRequested =
             providerSystems.PriorAuth.LineOfBusiness.All.PriorAuthApprovedCount +
-            providerSystems.PriorAuth.LineOfBusiness.All.PriorAuthNotApprovedCount;
+            providerSystems.PriorAuth.LineOfBusiness.All.PriorAuthNotApprovedCount +
+            providerSystems.PriorAuth.LineOfBusiness.All.PriorAuthPendingCount +
+            providerSystems.PriorAuth.LineOfBusiness.All.PriorAuthCancelledCount;
           const approvedRate = providerSystems.PriorAuth.LineOfBusiness.All.PriorAuthApprovedCount / priorAuthRequested;
 
           cPriorAuth = {
