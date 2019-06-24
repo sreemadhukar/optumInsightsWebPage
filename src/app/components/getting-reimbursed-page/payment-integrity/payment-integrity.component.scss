@@ -56,7 +56,7 @@
 .content-wrapper {
   background-color: $alice-blue;
   overflow-x: hidden;
-  @include padding(16px, 30px, 64px, 32px);
+  @include padding(16px, 0, 64px, 0);
   .main-content {
     display: -webkit-box;
     display: -moz-box;
@@ -64,7 +64,7 @@
     display: -webkit-flex;
     display: flex;
     -webkit-flex-flow: row wrap;
-    justify-content: left;
+    justify-content: center;
     flex-wrap: wrap;
     .height1Separator {
       height: 0;
@@ -286,6 +286,6 @@
     }
   }
   @media only screen and (max-width: 1024px) {
-    @include padding(16px, 20px, 16px, 20px);
+    @include padding(16px, 0, 16px, 0);
   }
 }
