@@ -8,6 +8,15 @@
       float: right;
       margin: -15px -25px 0 0;
     }
+    button:focus {
+      outline: none;
+    }
+    .provider-close-icon {
+      border: 0;
+      box-shadow: none;
+      background: #ffffff;
+      color: #2d3939;
+    }
   }
 
   &-form {

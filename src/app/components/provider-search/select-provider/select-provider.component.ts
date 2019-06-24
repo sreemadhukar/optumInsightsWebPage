@@ -8,6 +8,22 @@ import { Providers } from './../../../shared/provider/provider.class';
 import { MatIconRegistry, MatAutocompleteSelectedEvent } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 import { StorageService } from './../../../shared/storage-service.service';
+
+import {
+  AfterViewInit,
+  AfterViewChecked,
+  HostListener,
+  ElementRef,
+  Input,
+  Output,
+  EventEmitter,
+  Renderer2,
+  ViewEncapsulation,
+  ViewChildren,
+  QueryList,
+  OnDestroy
+} from '@angular/core';
+
 @Component({
   selector: 'app-select-provider',
   templateUrl: './select-provider.component.html',
@@ -22,6 +38,8 @@ export class SelectProviderComponent implements OnInit {
   filteredStates: Observable<Providers[]>;
   states: Providers[];
   providerData: any;
+
+  public username: string;
 
   constructor(
     private fb: FormBuilder,
@@ -40,6 +58,12 @@ export class SelectProviderComponent implements OnInit {
       'search',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/round-search-24px.svg')
     );
+
+    iconRegistry.addSvgIcon(
+      'arrow-down',
+      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/arrow-down.svg')
+    );
+
     if (!this.states) {
       this.providerSharedService.providersList().subscribe(value => (this.states = value));
     }
@@ -48,10 +72,28 @@ export class SelectProviderComponent implements OnInit {
       startWith(''),
       map(state => (state ? this._filterStates(state) : null))
     );
+    iconRegistry.addSvgIcon(
+      'person',
+      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Content/round-person-24px.svg')
+    );
+    iconRegistry.addSvgIcon(
+      'expand-more',
+      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Navigation/round-expand_more-24px.svg')
+    );
+    iconRegistry.addSvgIcon(
+      'menu',
+      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Navigation/round-menu-24px.svg')
+    );
+    iconRegistry.addSvgIcon(
+      'cross',
+      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Content/round-clear-24px.svg')
+    );
   }
 
   ngOnInit() {
     this.providerData = JSON.parse(sessionStorage.getItem('currentUser'));
+    const userInfo = JSON.parse(sessionStorage.getItem('loggedUser'));
+    this.username = userInfo.FirstName;
   }
 
   providerSelect(event: MatAutocompleteSelectedEvent) {
