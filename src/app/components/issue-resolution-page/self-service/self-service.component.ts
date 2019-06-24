@@ -69,6 +69,7 @@ export class SelfServiceComponent implements OnInit {
       .getSelfServiceData()
       .then(selfServiceData => {
         this.loading = false;
+        console.log(selfServiceData);
         this.selfServiceItems = selfServiceData[0];
         this.callCostOperatingData = selfServiceData[1];
         if (this.callCostOperatingData.length === 0) {
@@ -83,6 +84,7 @@ export class SelfServiceComponent implements OnInit {
           this.callCostReduceCostValue = this.callCostOperatingData[0].callCostReduceCostValue;
           this.callCostCallIn90daysValue = this.callCostOperatingData[0].callCostCallIn90daysValue;
           this.timeFrame = selfServiceData[0][0].timeperiod;
+          console.log(this.timeFrame);
           this.toggleCallsOperating = true;
         }
       })

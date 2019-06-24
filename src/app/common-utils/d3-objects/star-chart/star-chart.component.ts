@@ -17,12 +17,12 @@ export class StarChartComponent implements OnInit, AfterViewInit {
   @Input() starType: string;
 
   constructor() {}
-
+  /*
   @HostListener('window:resize', ['$event'])
   onResize(event) {
     this.doStarComponent(this.chartOptions, this.customWidth, this.customHeight);
   }
-
+*/
   ngOnInit() {
     this.renderChart = '#' + this.chartOptions.gdata[1];
   }

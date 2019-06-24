@@ -123,7 +123,7 @@ app-header {
 }
 
 .signout-block {
-  padding: 25px 0 0 33px;
+  padding: 25px 0 0 40px;
 }
 
 .signout-label {
@@ -135,6 +135,10 @@ app-header {
   margin: 0;
   cursor: pointer;
   padding: 9px;
+
+  .sign-out-text {
+    vertical-align: bottom;
+  }
 }
 
 .firstNavCategory {
@@ -157,6 +161,12 @@ app-header {
 .mat-list-item-content {
   font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
 }
+/*left menu on click bg changing issue*/
+.mat-ripple-element {
+  transition-duration: 0ms !important;
+  background-color: transparent;
+}
+/*left menu on click bg changing issue*/
 .lastNavCategory {
   /*padding-left: 32px !important;*/
 }
