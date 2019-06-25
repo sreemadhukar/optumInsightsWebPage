@@ -120,7 +120,7 @@
         [opened]="glossaryFlag || filterFlag"
       >
         <div style="width: 418px;">
-          <div class="" [ngClass]="{ sidemargin: glossaryFlag, 'sidemargin-filter': filterFlag }">
+          <div [ngClass]="{ sidemargin: glossaryFlag, 'sidemargin-filter': filterFlag }">
             <div *ngIf="glossaryFlag" class="mat-details">
               <mat-icon class="icon-left" svgIcon="closeGlossary" (click)="closeGlossary()">
                 <div class="h-3-title">Knowledge Center</div>
