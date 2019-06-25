@@ -265,7 +265,7 @@ export class LineGraphComponent implements OnInit {
       .select(this.renderChart)
       .append('svg')
       .attr('width', width + margin.left + margin.right)
-      .attr('height', 560 /*height - margin.top - margin.bottom*/)
+      .attr('height', 420 /*height - margin.top - margin.bottom*/)
       .style('background-color', generalData[0].backgroundColor)
       .append('g')
       .attr('transform', 'translate(' + (margin.left - 7) + ',' + 5 + ')');
@@ -342,7 +342,7 @@ export class LineGraphComponent implements OnInit {
     const yScale = d3
       .scaleLinear()
       .domain([0, highestValue]) // input
-      .range([height, 0])
+      .range([350, 0])
       .nice(3); // output
 
     // tslint:disable-next-line:no-var-keyword
@@ -367,7 +367,7 @@ export class LineGraphComponent implements OnInit {
       .append('g')
       .attr('class', 'tick_hidden')
       .attr('id', 'forCalculation')
-      .attr('transform', 'translate(0,' + (height + 10) + ')')
+      .attr('transform', 'translate(0,' + 360 /*(height - 60)*/ + ')')
       .call(
         d3
           .axisBottom(xScale3)
