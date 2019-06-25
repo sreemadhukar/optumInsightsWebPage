@@ -1,84 +1,91 @@
-<div class="line"></div>
-<div class="titleData">
-  <div class="title">Time Period</div>
-  <mat-icon
-    class="icon-display"
-    *ngIf="!tiarrowmark"
-    (click)="clickArrowMark('timeframe')"
-    svgIcon="arrowdn"
-  ></mat-icon>
-  <mat-icon class="icon-display" *ngIf="tiarrowmark" (click)="clickArrowMark('timeframe')" svgIcon="arrowup"></mat-icon>
-</div>
-<div class="lobgrp">
-  <div>
-    <label id="radio-group-label" class="label-data">{{ timeframeData }}</label>
+<div class="filter">
+  <div class="line-top"></div>
+  <div class="titleData">
+    <div class="title">Time Period</div>
+    <mat-icon
+      class="icon-display"
+      *ngIf="!tiarrowmark"
+      (click)="clickArrowMark('timeframe')"
+      svgIcon="arrowdn"
+    ></mat-icon>
+    <mat-icon
+      class="icon-display"
+      *ngIf="tiarrowmark"
+      (click)="clickArrowMark('timeframe')"
+      svgIcon="arrowup"
+    ></mat-icon>
   </div>
-  <div class="select-option-data" *ngIf="tiarrowmark">
-    <mat-radio-group class="radio-group" [(ngModel)]="timeframeData">
-      <mat-radio-button class="radio-button" *ngFor="let timeframe of timeframes" [value]="timeframe">
-        {{ timeframe }}
-      </mat-radio-button>
-    </mat-radio-group>
-  </div>
-</div>
-<div class="line"></div>
-<div class="titleData">
-  <div class="title">Tax ID</div>
-  <mat-icon class="icon-display" *ngIf="!tarrowmark" (click)="clickArrowMark('tax')" svgIcon="arrowdn"></mat-icon>
-  <mat-icon class="icon-display" *ngIf="tarrowmark" (click)="clickArrowMark('tax')" svgIcon="arrowup"></mat-icon>
-</div>
-<div class="lobgrp">
-  <div *ngIf="taxArrayData.length == 0">
-    <label id="radio-group-label" class="label-data">{{ taxData }}</label>
-  </div>
-  <div *ngIf="taxArrayData.length && taxArrayData.length < 4">
-    <label id="radio-group-label" class="label-data">{{ taxData }}</label>
-  </div>
-  <div *ngIf="taxArrayData.length >= 4">
-    <label id="radio-group-label" class="label-data">{{ taxArrayData.length }} Selected</label>
-  </div>
-  <div *ngIf="tarrowmark" class="label-cls">
-    <div *ngIf="!inputDisplay">
-      <mat-icon matPrefix class="nav-menu-icons input-search" svgIcon="search"></mat-icon>
-      <input
-        type="text"
-        class="input-class"
-        (input)="focusFunction($event.target.value)"
-        [ngModel]="taxValue"
-        placeholder="Search for a Tax ID"
-        onfocus="this.placeholder=''"
-      />
+  <div class="lobgrp">
+    <div>
+      <label id="radio-group-label" class="label-data">{{ timeframeData }}</label>
     </div>
-    <app-multi-select
-      *ngIf="inputDisplay"
-      [tinsData]="tinsData"
-      [tinValue]="taxValue"
-      [taxData]="taxData"
-      (taxArray)="taxArrayFunction($event)"
-    ></app-multi-select>
+    <div class="select-option-data" *ngIf="tiarrowmark">
+      <mat-radio-group class="radio-group" [(ngModel)]="timeframeData">
+        <mat-radio-button class="radio-button" *ngFor="let timeframe of timeframes" [value]="timeframe">
+          {{ timeframe }}
+        </mat-radio-button>
+      </mat-radio-group>
+    </div>
   </div>
-</div>
-<div class="line"></div>
-<div class="titleData">
-  <div class="title">Line of Business</div>
-  <mat-icon class="icon-display" *ngIf="!arrowmark" (click)="clickArrowMark('lob')" svgIcon="arrowdn"></mat-icon>
-  <mat-icon class="icon-display" *ngIf="arrowmark" (click)="clickArrowMark('lob')" svgIcon="arrowup"></mat-icon>
-</div>
-<div class="lobgrp">
-  <div>
-    <label id="radio-group" class="label-data">{{ lobData }}</label>
+  <div class="line"></div>
+  <div class="titleData">
+    <div class="title">Tax ID</div>
+    <mat-icon class="icon-display" *ngIf="!tarrowmark" (click)="clickArrowMark('tax')" svgIcon="arrowdn"></mat-icon>
+    <mat-icon class="icon-display" *ngIf="tarrowmark" (click)="clickArrowMark('tax')" svgIcon="arrowup"></mat-icon>
   </div>
-  <div class="select-option-data" *ngIf="arrowmark">
-    <mat-radio-group class="radio-group" [(ngModel)]="lobData">
-      <mat-radio-button class="radio-button" *ngFor="let lob of lobs" [value]="lob">
-        {{ lob }}
-      </mat-radio-button>
-    </mat-radio-group>
+  <div class="lobgrp">
+    <div *ngIf="taxArrayData.length == 0">
+      <label id="radio-group-label" class="label-data">{{ taxData }}</label>
+    </div>
+    <div *ngIf="taxArrayData.length && taxArrayData.length < 4">
+      <label id="radio-group-label" class="label-data">{{ taxData }}</label>
+    </div>
+    <div *ngIf="taxArrayData.length >= 4">
+      <label id="radio-group-label" class="label-data">{{ taxArrayData.length }} Selected</label>
+    </div>
+    <div *ngIf="tarrowmark" class="label-cls">
+      <div *ngIf="!inputDisplay">
+        <mat-icon matPrefix class="nav-menu-icons input-search" svgIcon="search"></mat-icon>
+        <input
+          type="text"
+          class="input-class"
+          (input)="focusFunction($event.target.value)"
+          [ngModel]="taxValue"
+          placeholder="Search for a Tax ID"
+          onfocus="this.placeholder=''"
+        />
+      </div>
+      <app-multi-select
+        *ngIf="inputDisplay"
+        [tinsData]="tinsData"
+        [tinValue]="taxValue"
+        [taxData]="taxData"
+        (taxArray)="taxArrayFunction($event)"
+      ></app-multi-select>
+    </div>
   </div>
-</div>
+  <div class="line"></div>
+  <div class="titleData">
+    <div class="title">Line of Business</div>
+    <mat-icon class="icon-display" *ngIf="!arrowmark" (click)="clickArrowMark('lob')" svgIcon="arrowdn"></mat-icon>
+    <mat-icon class="icon-display" *ngIf="arrowmark" (click)="clickArrowMark('lob')" svgIcon="arrowup"></mat-icon>
+  </div>
+  <div class="lobgrp">
+    <div>
+      <label id="radio-group" class="label-data">{{ lobData }}</label>
+    </div>
+    <div class="select-option-data" *ngIf="arrowmark">
+      <mat-radio-group class="radio-group" [(ngModel)]="lobData">
+        <mat-radio-button class="radio-button" *ngFor="let lob of lobs" [value]="lob">
+          {{ lob }}
+        </mat-radio-button>
+      </mat-radio-group>
+    </div>
+  </div>
 
-<div class="line1"></div>
-<div class="btn-display">
-  <button type="reset" class="resetbtn" mat-button (click)="resetFilter()">Reset All Filters</button>
-  <button type="submit" class="applybtn" mat-button (click)="applyFilter()">Apply Filters</button>
+  <div class="line1"></div>
+  <div class="btn-display">
+    <button type="reset" class="resetbtn" mat-button (click)="resetFilter()">Reset All Filters</button>
+    <button type="submit" class="applybtn" mat-button (click)="applyFilter()">Apply Filters</button>
+  </div>
 </div>

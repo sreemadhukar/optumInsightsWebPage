@@ -320,7 +320,12 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     this.authService.logout();
   }
   public close() {
-    this.srnav.disableClose = true;
+    if (this.filterFlag) {
+      this.filterFlag = false;
+    }
+    if (this.glossaryFlag) {
+      this.glossaryFlag = false;
+    }
   }
   private allExpandState(value: boolean, id) {
     this._allExpandState = value;
