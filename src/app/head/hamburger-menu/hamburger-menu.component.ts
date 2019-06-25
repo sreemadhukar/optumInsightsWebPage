@@ -16,7 +16,8 @@ import {
   QueryList,
   OnDestroy,
   AfterViewChecked,
-  Input
+  Input,
+  Inject
 } from '@angular/core';
 import { MatExpansionPanel, MatDialog, MatSidenav } from '@angular/material';
 import { BreakpointObserver } from '@angular/cdk/layout';
@@ -32,7 +33,8 @@ import { GlossaryExpandService } from '../../shared/glossary-expand.service';
 import { Subscription } from 'rxjs';
 import { PriorAuthSharedService } from 'src/app/shared/prior-authorization/prior-auth.service';
 import { FilterExpandService } from '../../shared/filter-expand.service';
-import { Location } from '@angular/common';
+import { DOCUMENT, Location } from '@angular/common';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-hamburger-menu',
@@ -106,7 +108,8 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     private glossaryExpandService: GlossaryExpandService,
     private filterExpandService: FilterExpandService,
     private priorAuthShared: PriorAuthSharedService,
-    private location: Location
+    private location: Location,
+    @Inject(DOCUMENT) private document: any
   ) {
     this.glossaryFlag = false;
     this.filterFlag = false;
@@ -318,6 +321,9 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
 
   signOut() {
     this.authService.logout();
+    if (!environment.internalAccess) {
+      this.document.location.href = 'https://provider-stage.linkhealth.com/';
+    }
   }
   public close() {
     if (this.filterFlag) {

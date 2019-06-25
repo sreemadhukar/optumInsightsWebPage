@@ -1,4 +1,4 @@
-<div class="page-overlay">
+<div class="page-overlay" *ngIf="isInternal">
   <div class="container" *ngIf="!blankScreen">
     <header>
       <div class="header-div">
@@ -102,4 +102,5 @@
     </footer>
   </div>
   <app-uhc-loader *ngIf="loading"></app-uhc-loader>
+  <app-uhc-loader *ngIf="!isInternal"></app-uhc-loader>
 </div>
