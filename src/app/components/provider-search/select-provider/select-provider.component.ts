@@ -1,31 +1,51 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
-import { ProviderSharedService } from '../../shared/provider/provider-shared.service';
-import { Providers } from '../../shared/provider/provider.class';
-import { MatIconRegistry, MatDialogRef, MatAutocompleteSelectedEvent } from '@angular/material';
+import { ProviderSharedService } from './../../../shared/provider/provider-shared.service';
+import { Providers } from './../../../shared/provider/provider.class';
+import { MatIconRegistry, MatAutocompleteSelectedEvent } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
-import { StorageService } from '../../shared/storage-service.service';
+import { StorageService } from './../../../shared/storage-service.service';
+
+import {
+  AfterViewInit,
+  AfterViewChecked,
+  HostListener,
+  ElementRef,
+  Input,
+  Output,
+  EventEmitter,
+  Renderer2,
+  ViewEncapsulation,
+  ViewChildren,
+  QueryList,
+  OnDestroy
+} from '@angular/core';
 
 @Component({
-  selector: 'app-provider-search',
-  templateUrl: './provider-search.component.html',
-  styleUrls: ['./provider-search.component.scss']
+  selector: 'app-select-provider',
+  templateUrl: './select-provider.component.html',
+  styleUrls: ['./select-provider.component.scss']
 })
-export class ProviderSearchComponent implements OnInit, AfterViewInit {
+
+/**
+ * @title Option groups autocomplete
+ */
+export class SelectProviderComponent implements OnInit {
   stateCtrl = new FormControl();
   filteredStates: Observable<Providers[]>;
   states: Providers[];
   providerData: any;
+
+  public username: string;
 
   constructor(
     private fb: FormBuilder,
     private providerSharedService: ProviderSharedService,
     private iconRegistry: MatIconRegistry,
     private storage: StorageService,
-    private dialogRef: MatDialogRef<ProviderSearchComponent>,
     private router: Router,
     sanitizer: DomSanitizer
   ) {
@@ -38,31 +58,44 @@ export class ProviderSearchComponent implements OnInit, AfterViewInit {
       'search',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/round-search-24px.svg')
     );
+
+    iconRegistry.addSvgIcon(
+      'arrow-down',
+      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/arrow-down.svg')
+    );
+
+    if (!this.states) {
+      this.providerSharedService.providersList().subscribe(value => (this.states = value));
+    }
+
+    this.filteredStates = this.stateCtrl.valueChanges.pipe(
+      startWith(''),
+      map(state => (state ? this._filterStates(state) : null))
+    );
+    iconRegistry.addSvgIcon(
+      'person',
+      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Content/round-person-24px.svg')
+    );
+    iconRegistry.addSvgIcon(
+      'expand-more',
+      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Navigation/round-expand_more-24px.svg')
+    );
+    iconRegistry.addSvgIcon(
+      'menu',
+      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Navigation/round-menu-24px.svg')
+    );
+    iconRegistry.addSvgIcon(
+      'cross',
+      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Content/round-clear-24px.svg')
+    );
   }
 
   ngOnInit() {
-    if (!this.states) {
-      this.providerSharedService.providersList().subscribe(value => (this.states = value));
-    }
-
-    this.filteredStates = this.stateCtrl.valueChanges.pipe(
-      startWith(''),
-      map(state => (state ? this._filterStates(state) : null))
-    );
-
     this.providerData = JSON.parse(sessionStorage.getItem('currentUser'));
+    const userInfo = JSON.parse(sessionStorage.getItem('loggedUser'));
+    this.username = userInfo.FirstName;
   }
 
-  ngAfterViewInit() {
-    if (!this.states) {
-      this.providerSharedService.providersList().subscribe(value => (this.states = value));
-    }
-
-    this.filteredStates = this.stateCtrl.valueChanges.pipe(
-      startWith(''),
-      map(state => (state ? this._filterStates(state) : null))
-    );
-  }
   providerSelect(event: MatAutocompleteSelectedEvent) {
     const provider = this.providerData[0];
     const data = this.states.find(prov => prov.HealthCareOrganizationName === event.option.value);
@@ -73,18 +106,7 @@ export class ProviderSearchComponent implements OnInit, AfterViewInit {
     } else {
       this.storage.store('currentUser', [Object.assign(provider, data)]);
     }
-    this.dialogRef.close();
-  }
-
-  close() {
-    sessionStorage.removeItem('currentUser');
-    sessionStorage.removeItem('loggedUser');
-    this.dialogRef.close();
-  }
-
-  provider() {
-    this.router.navigate(['/ProviderSearch']);
-    this.dialogRef.close();
+    this.router.navigate(['/OverviewPage']);
   }
 
   private _filterStates(value: string): Providers[] {

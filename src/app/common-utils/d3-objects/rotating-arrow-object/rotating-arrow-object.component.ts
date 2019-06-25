@@ -140,9 +140,8 @@ export class RotatingArrowObjectComponent implements OnInit, AfterViewInit {
         .attr('x', width / 2.25)
         .attr('y', height / 1.5)
         .style('font-size', '16px')
-        .style('font-weight', '500')
         .style('fill', textColor)
-        .style('font-family', 'UHCSans-Medium')
+        .style('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
         .style('text-anchor', 'start')
         .text(chartOptions.sdata.data);
     }
@@ -153,9 +152,8 @@ export class RotatingArrowObjectComponent implements OnInit, AfterViewInit {
       .attr('y', height / 2)
       .attr('x', width / 2)
       .style('font-size', '41px')
-      .style('font-weight', '500')
       .style('fill', '#2D2D39')
-      .style('font-family', 'UHCSans-Medium')
+      .style('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
       .style('letter-spacing', '-0.5px')
       .text(chartOptions.centerNumber);
   }

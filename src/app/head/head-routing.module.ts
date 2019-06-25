@@ -3,13 +3,13 @@ import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from '../auth/_guards/auth.guard';
 import { TermsOfUseComponent } from './terms-of-use/terms-of-use.component';
 import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component';
-import { SelectProviderComponent } from './../components/select-provider/select-provider.component';
 
 const routes: Routes = [
   {
     path: '',
     loadChildren: '../auth/auth.module#AuthModule'
   },
+
   {
     path: 'OverviewPage',
     loadChildren: '../components/overview-page/overview-page.module#OverviewPageModule',
@@ -51,10 +51,6 @@ const routes: Routes = [
   {
     path: 'PrivacyPolicy',
     component: PrivacyPolicyComponent
-  },
-  {
-    path: 'SelectProvider',
-    component: SelectProviderComponent
   },
   { path: '**', redirectTo: '' }
 ];

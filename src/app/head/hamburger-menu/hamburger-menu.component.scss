@@ -54,7 +54,7 @@ app-header {
 }
 
 .font-check {
-  font-family: 'UHCSans-Medium', 'sans-serif', 'Arial';
+  font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
   font-size: 14px;
   color: $hover-blue;
 }
@@ -80,7 +80,6 @@ app-header {
   color: $black-rock;
   font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
   font-size: 14px;
-  font-weight: 500;
   letter-spacing: 0.2px;
   line-height: 18px;
   margin-top: 4px;
@@ -102,7 +101,6 @@ app-header {
   color: $blue;
   font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
   font-size: 14px;
-  font-weight: 600;
   letter-spacing: 0.2px;
   line-height: 18px;
   text-decoration: underline;
@@ -118,29 +116,29 @@ app-header {
 .mat-expansion-panel-header {
   height: 25px !important;
   padding: 8px 16px 8px 10px !important;
-  font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+  font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif !important;
   font-size: 16px;
-  /*font-weight: 600;*/
   letter-spacing: 0.2px;
   line-height: 22px;
-  /*background: $darker-alice-blue;*/
 }
 
 .signout-block {
-  padding: 25px 0 0 33px;
+  padding: 25px 0 0 40px;
 }
 
 .signout-label {
   color: $strom-grey;
   font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
-
   font-size: 16px;
-  /*font-weight: 600;*/
   letter-spacing: 0.2px;
   line-height: 22px;
   margin: 0;
   cursor: pointer;
   padding: 9px;
+
+  .sign-out-text {
+    vertical-align: bottom;
+  }
 }
 
 .firstNavCategory {
@@ -148,18 +146,27 @@ app-header {
   color: $strom-grey !important;
   font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
   font-size: 16px !important;
-  /*font-weight: 600;*/
   letter-spacing: 0.2px;
   line-height: 18px;
-  /*padding-left: 32px !important;*/
+}
+.mat-expansion-panel-content,
+.mat-expansion-panel-body {
+  font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
 }
 .mat-expansion-panel-header-title {
   color: $strom-grey !important;
+  font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
 }
 .mat-list-item-content,
 .mat-list-item-content {
-  font-weight: inherit;
+  font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
 }
+/*left menu on click bg changing issue*/
+.mat-ripple-element {
+  transition-duration: 0ms !important;
+  background-color: transparent;
+}
+/*left menu on click bg changing issue*/
 .lastNavCategory {
   /*padding-left: 32px !important;*/
 }
@@ -169,7 +176,6 @@ app-header {
   color: $strom-grey;
   font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
   font-size: 14px;
-  /*font-weight: 600;*/
   letter-spacing: 0.2px;
   margin-top: 4px !important;
   line-height: 18px;
@@ -286,7 +292,6 @@ app-header {
   color: $black-rock;
   font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
   font-size: 22px;
-
   line-height: 75px;
   text-align: center;
 }
@@ -296,7 +301,6 @@ app-header {
   color: $black-rock;
   font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
   font-size: 22px;
-
   line-height: 75px;
   text-align: center;
 }

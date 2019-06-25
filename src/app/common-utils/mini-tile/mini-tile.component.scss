@@ -19,9 +19,8 @@
     position: relative;
     padding: 16px 20px 0 20px;
     color: $black-rock;
-    font-family: 'UHCSans-Medium', 'sans-serif', 'Arial';
+    font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
     font-size: 16px;
-    font-weight: 500;
     line-height: 22px;
     text-align: left;
     letter-spacing: 0.2px;
@@ -31,7 +30,7 @@
     position: relative;
     padding: 10px 20px 10px 20px;
     color: $black-rock;
-    font-family: 'UHCSans-SemiBold', 'Arial';
+    font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
     font-size: 22px;
     line-height: 22px;
     text-align: left;
@@ -40,7 +39,7 @@
 
   .self-service-subtitle {
     color: $black-rock;
-    font-family: 'UHCSans-SemiBold', 'Arial';
+    font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
     font-size: 14px;
     letter-spacing: 0.2px;
     line-height: 18px;
@@ -51,14 +50,13 @@
   ul.list-labels > li {
     display: block;
     color: $black-rock;
-    font-family: 'UHCSans-Medium', 'sans-serif', 'Arial';
+    font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
     font-size: 14px;
-    font-weight: 500;
     letter-spacing: 0.2px;
     line-height: 18px;
 
     .labels1 {
-      font-family: 'UHCSans-SemiBold', 'Arial';
+      font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
     }
   }
 

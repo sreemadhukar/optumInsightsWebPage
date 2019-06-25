@@ -17,12 +17,12 @@ export class StarChartComponent implements OnInit, AfterViewInit {
   @Input() starType: string;
 
   constructor() {}
-
+  /*
   @HostListener('window:resize', ['$event'])
   onResize(event) {
     this.doStarComponent(this.chartOptions, this.customWidth, this.customHeight);
   }
-
+*/
   ngOnInit() {
     this.renderChart = '#' + this.chartOptions.gdata[1];
   }
@@ -82,10 +82,9 @@ export class StarChartComponent implements OnInit, AfterViewInit {
       .append('text')
       .attr('x', (width + margin.left + margin.right) / 2)
       .attr('y', centerTextHeight)
-      .attr('font-family', 'UHCSans-Regular')
+      .attr('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
       .attr('fill', '#FFFFFF')
       .attr('font-size', centerTextFontSize)
-      .attr('font-weight', '600')
       .attr('text-anchor', 'middle')
       .text(chartOptions.centerNumber);
   }

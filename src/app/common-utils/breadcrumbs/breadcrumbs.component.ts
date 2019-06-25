@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, NavigationEnd, Params, PRIMARY_OUTLET } from '@angular/router';
 import { filter } from 'rxjs/operators';
-
+import { MatDialog, MatIconRegistry } from '@angular/material';
+import { DomSanitizer } from '@angular/platform-browser';
 interface IBreadcrumb {
   label: string;
   params?: Params;
@@ -16,13 +17,23 @@ export class BreadcrumbsComponent implements OnInit {
   public breadcrumbs: IBreadcrumb[];
   public breadcrumbLength: number;
 
-  constructor(private activatedRoute: ActivatedRoute, private router: Router) {
+  constructor(
+    private activatedRoute: ActivatedRoute,
+    private router: Router,
+    private iconRegistry: MatIconRegistry,
+    private sanitizer: DomSanitizer
+  ) {
     this.breadcrumbs = [];
     const ROUTE_DATA_BREADCRUMB = 'breadcrumb';
     this.router.events.pipe(filter(event => event instanceof NavigationEnd)).subscribe(event => {
       const root: ActivatedRoute = this.activatedRoute.root;
       this.breadcrumbs = this.getBreadcrumbs(root);
       this.breadcrumbLength = this.breadcrumbs.length;
+
+      iconRegistry.addSvgIcon(
+        'chevron_right',
+        sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Navigation/baseline-chevron_right-24px.svg')
+      );
     });
   }
 
