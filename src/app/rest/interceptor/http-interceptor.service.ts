@@ -27,9 +27,9 @@ export class HttpInterceptorService implements HttpInterceptor {
       const getJwt = '/api/getJwt';
       if (token) {
         request = request.clone({ headers: request.headers.set('Authorization', 'Bearer ' + token) });
-        request = request.clone({
-          headers: request.headers.set('PedAccessToken', 'Bearer ' + currentUser[0].PedAccessToken)
-        });
+//         request = request.clone({
+//           headers: request.headers.set('PedAccessToken', 'Bearer ' + currentUser[0].PedAccessToken)
+//         });
       }
     }
     request = request.clone({ headers: request.headers.set('Accept', '*/*') });
