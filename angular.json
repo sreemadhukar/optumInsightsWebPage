@@ -60,7 +60,7 @@
               "vendorChunk": false,
               "buildOptimizer": true
             },
-            "devThree": {
+            "devthree": {
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
