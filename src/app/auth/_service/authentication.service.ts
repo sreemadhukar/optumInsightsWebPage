@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { HttpParams } from '@angular/common/http';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -27,12 +27,7 @@ export class AuthenticationService {
     return this.currentUserSubject.value;
   }
 
-  public getSsoToken(codeId: string): Observable<any> {
-    this.getJwt().subscribe(async val => {
-      this.token = val['token'];
-      await sessionStorage.setItem('token', JSON.stringify(val['token']));
-    });
-    const token = JSON.parse(sessionStorage.getItem('token'));
+  public getSsoToken(codeId: string, token: string): Observable<any> {
     const myHeader = new HttpHeaders({
       Authorization: 'Bearer ' + token,
       Accept: '*/*'
@@ -62,7 +57,9 @@ export class AuthenticationService {
   public logout() {
     sessionStorage.removeItem('currentUser');
     sessionStorage.removeItem('loggedUser');
-    this.router.navigate(['']);
+    if (environment.internalAccess) {
+      this.router.navigate(['']);
+    }
   }
 
   public isLoggedIn() {

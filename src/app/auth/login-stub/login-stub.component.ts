@@ -1,15 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ExternalService } from '../_service/external.service';
 import { environment } from '../../../environments/environment';
 import { AuthenticationService } from '../_service/authentication.service';
 import { InternalService } from '../_service/internal.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ProviderSharedService } from '../../shared/provider/provider-shared.service';
 import { MatDialog, MatIconRegistry } from '@angular/material';
 import { ProviderSearchComponent } from '../../common-utils/provider-search/provider-search.component';
 import { DomSanitizer } from '@angular/platform-browser';
 import { AuthorizationService } from '../_service/authorization.service';
+import { DOCUMENT } from '@angular/common';
 
 @Component({
   selector: 'app-login-stub',
@@ -25,6 +26,7 @@ export class LoginStubComponent implements OnInit {
   error = false;
   blankScreen = false;
   id: any;
+  token: string;
 
   constructor(
     private external: ExternalService,
@@ -36,7 +38,9 @@ export class LoginStubComponent implements OnInit {
     private dialog: MatDialog,
     private iconRegistry: MatIconRegistry,
     private sanitizer: DomSanitizer,
-    private authorise: AuthorizationService
+    private authorise: AuthorizationService,
+    private route: ActivatedRoute,
+    @Inject(DOCUMENT) private document: any
   ) {
     iconRegistry.addSvgIcon(
       'error',
@@ -47,6 +51,7 @@ export class LoginStubComponent implements OnInit {
   ngOnInit() {
     this.authService.getJwt().subscribe(data => {
       sessionStorage.setItem('token', JSON.stringify(data['token']));
+      this.token = data['token'];
     });
     this.loading = true;
     this.id = setTimeout(() => {
@@ -72,7 +77,22 @@ export class LoginStubComponent implements OnInit {
         });
       }
     } else {
-      this.external.CheckExternal();
+      if (this.route.queryParams) {
+        this.route.queryParams.subscribe(params => {
+          if (params.code && !this.authService.isLoggedIn()) {
+            this.external.CheckExternal(params.code, this.token).then(value => {
+              this.authorise.getToggles().subscribe(value1 => {});
+              this.router.navigate(['/OverviewPage']);
+            });
+          } else if (this.authService.isLoggedIn()) {
+            this.router.navigate(['/OverviewPage']);
+          } else {
+            this.document.location.href = environment.apiUrls.SsoRedirectUri;
+          }
+        });
+      } else {
+        this.document.location.href = environment.apiUrls.SsoRedirectUri;
+      }
     }
   }
 
