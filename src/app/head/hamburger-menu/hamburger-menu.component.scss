@@ -304,14 +304,28 @@ app-header {
   line-height: 75px;
   text-align: center;
 }
-
+.mat-details {
+  position: fixed;
+}
 .icon-left {
   padding-left: 10px;
   color: #757588;
 }
+.icon-left svg:hover {
+  background-color: lightgrey;
+  color: black;
+  padding: 5px;
+  cursor: pointer;
+}
 .icon-left-filter {
   margin-left: -5px;
   color: #757588;
+}
+.icon-left-filter svg:hover {
+  background-color: lightgrey;
+  color: black;
+  padding: 5px;
+  cursor: pointer;
 }
 .pointer-none {
   pointer-events: none;
