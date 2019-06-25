@@ -104,7 +104,7 @@ export class PriorAuthSharedService {
 
       this.priorAuthService.getPriorAuthDateRange(timeRange, isAllTin, isAlllob, isAllSS, ...newParameters).subscribe(
         providerSystems => {
-          const data = providerSystems.PriorAuthorizations.LineOfBusiness.All;
+          const data = providerSystems.PriorAuthorizations.LineOfBusiness.ALL;
           const PAApprovedCount = data.PriorAuthApprovedCount;
           const PANotApprovedCount = data.PriorAuthNotApprovedCount;
           const PANotPendingCount = data.PriorAuthPendingCount;
@@ -254,6 +254,10 @@ export class PriorAuthSharedService {
                   color: ['#3381FF', '#E0E0E0'],
                   gdata: ['card-inner', 'PCORACVDiabetic']
                 }
+              },
+              sdata: {
+                sign: null,
+                data: null
               },
               besideData: {
                 All: {
