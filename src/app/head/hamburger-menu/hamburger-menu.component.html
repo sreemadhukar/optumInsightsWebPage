@@ -115,21 +115,20 @@
         position="end"
         [fixedInViewport]="true"
         [opened]="glossaryFlag || filterFlag"
-        disableClose
       >
         <div style="width: 418px;">
           <div class="" [ngClass]="{ sidemargin: glossaryFlag, 'sidemargin-filter': filterFlag }">
-            <div *ngIf="glossaryFlag">
+            <div *ngIf="glossaryFlag" class="mat-details">
               <mat-icon class="icon-left" svgIcon="closeGlossary" (click)="closeGlossary()">
                 <div class="h-3-title">Knowledge Center</div>
               </mat-icon>
             </div>
-            <div *ngIf="filterFlag">
+            <div *ngIf="filterFlag" class="mat-details">
               <mat-icon class="icon-left-filter" svgIcon="closeFilter" (click)="closeFilter()">
                 <div class="h-3-title-filter">Filters</div>
               </mat-icon>
             </div>
-            <app-glossary *ngIf="glossaryTitle" [title]="glossaryTitle"></app-glossary>
+            <app-glossary *ngIf="glossaryFlag && glossaryTitle" [title]="glossaryTitle"></app-glossary>
             <app-filter *ngIf="filterFlag" (filterFlag)="filterFlagChange($event)"></app-filter>
           </div>
         </div>
