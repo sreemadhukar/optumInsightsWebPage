@@ -24,7 +24,6 @@ export class HttpInterceptorService implements HttpInterceptor {
         !environment.internalAccess && environment.production
           ? currentUser[0].AccessToken
           : currentUser[0].PedAccessToken;
-      const getJwt = '/api/getJwt';
       if (token) {
         request = request.clone({ headers: request.headers.set('Authorization', 'Bearer ' + token) });
 //         request = request.clone({
