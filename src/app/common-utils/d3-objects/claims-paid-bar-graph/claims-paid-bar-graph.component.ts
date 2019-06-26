@@ -165,8 +165,7 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit {
       .attr('fill', '#2D2D39')
       .attr('font-size', '16')
       .style('text-anchor', 'start')
-      .style('font-family', 'UHCSans-Regular')
-      .style('font-weight', '500')
+      .style('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
       .text('Total Billed');
 
     chart
@@ -176,8 +175,7 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit {
       .attr('fill', '#2D2D39')
       .attr('font-size', '22')
       .style('text-anchor', 'end')
-      .style('font-family', 'UHCSans-Regular')
-      .style('font-weight', '600')
+      .style('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
       .text('$800M');
 
     chart
@@ -187,8 +185,7 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit {
       .attr('fill', '#2D2D39')
       .attr('font-size', '16')
       .style('text-anchor', 'start')
-      .style('font-family', 'UHCSans-Regular')
-      .style('font-weight', '500')
+      .style('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
       .text('Actual Allowed*');
 
     chart
@@ -198,8 +195,7 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit {
       .attr('fill', '#2D2D39')
       .attr('font-size', '22')
       .style('text-anchor', 'end')
-      .style('font-family', 'UHCSans-Regular')
-      .style('font-weight', '600')
+      .style('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
       .text('$589M');
 
     chart
@@ -209,8 +205,7 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit {
       .attr('fill', '#2D2D39')
       .attr('font-size', '16')
       .style('text-anchor', 'start')
-      .style('font-family', 'UHCSans-Regular')
-      .style('font-weight', '500')
+      .style('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
       .text('Estimated Non-Payment');
 
     chart
@@ -220,8 +215,7 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit {
       .attr('fill', '#2D2D39')
       .attr('font-size', '22')
       .style('text-anchor', 'end')
-      .style('font-family', 'UHCSans-Regular')
-      .style('font-weight', '600')
+      .style('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
       .text('$211M');
 
     chart
@@ -231,8 +225,7 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit {
       .attr('fill', '#2D2D39')
       .attr('font-size', '16')
       .style('text-anchor', 'start')
-      .style('font-family', 'UHCSans-Regular')
-      .style('font-weight', '500')
+      .style('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
       .text('Total Paid By UHC');
 
     chart
@@ -242,8 +235,7 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit {
       .attr('fill', '#2D2D39')
       .attr('font-size', '22')
       .style('text-anchor', 'end')
-      .style('font-family', 'UHCSans-Regular')
-      .style('font-weight', '600')
+      .style('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
       .text('$571M');
 
     chart
@@ -253,8 +245,7 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit {
       .attr('fill', '#2D2D39')
       .attr('font-size', '12')
       .style('text-anchor', 'end')
-      .style('font-family', 'UHCSans-Regular')
-      .style('font-weight', '500')
+      .style('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
       .text('*Includes Member Responsibility');
 
     chart
@@ -326,8 +317,7 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit {
       .attr('y', '305')
       .attr('fill', '#2D2D39')
       .attr('font-size', '14')
-      .attr('font-family', 'UHCSans-Regular')
-      .attr('font-weight', '600');
+      .attr('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'");
 
     d3.selectAll('.tick')
       .selectAll('line')

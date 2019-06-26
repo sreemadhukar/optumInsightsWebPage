@@ -61,7 +61,7 @@ export class LoginStubComponent implements OnInit {
       password: ['', Validators.required]
     });
 
-    this.returnUrl = '/OverviewPage';
+    this.returnUrl = '/ProviderSearch';
     if (this.isInternal) {
       if (this.authService.isLoggedIn()) {
         this.router.navigate([this.returnUrl]);
@@ -85,24 +85,29 @@ export class LoginStubComponent implements OnInit {
   }
 
   onSubmit() {
+    this.blankScreen = true;
     this.submitted = true;
     this.loading = true;
     if (this.loginForm.invalid) {
+      this.blankScreen = false;
       return;
+    } else {
+      this.internalService.login(this.f.username.value, this.f.password.value).subscribe(
+        () => {
+          this.blankScreen = true;
+          this.loading = false;
+          this.authorise.getToggles().subscribe(value => {
+            console.log(value);
+          });
+          // this.openDialog();
+          this.router.navigate(['/ProviderSearch']);
+        },
+        error => {
+          this.error = true;
+          this.loading = false;
+        }
+      );
     }
-    this.internalService.login(this.f.username.value, this.f.password.value).subscribe(
-      () => {
-        this.loading = false;
-        this.authorise.getToggles().subscribe(value => {
-          console.log(value);
-        });
-        this.openDialog();
-      },
-      error => {
-        this.error = true;
-        this.loading = false;
-      }
-    );
   }
 
   openDialog(): void {
@@ -115,7 +120,9 @@ export class LoginStubComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      this.blankScreen = false;
+      if (!sessionStorage.getItem('currentUser')) {
+        this.blankScreen = false;
+      }
       this.router.navigate([this.returnUrl]);
     });
   }

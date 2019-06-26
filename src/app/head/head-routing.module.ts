@@ -9,6 +9,7 @@ const routes: Routes = [
     path: '',
     loadChildren: '../auth/auth.module#AuthModule'
   },
+
   {
     path: 'OverviewPage',
     loadChildren: '../components/overview-page/overview-page.module#OverviewPageModule',
@@ -36,10 +37,10 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
-    path: 'IssueResolution',
-    loadChildren: '../components/issue-resolution-page/issue-resolution-page.module#IssueResolutionPageModule',
+    path: 'ServiceInteraction',
+    loadChildren: '../components/service-interaction/service-interaction.module#ServiceInteractionModule',
     data: {
-      breadcrumb: 'Issue Resolution'
+      breadcrumb: 'Service Interaction'
     },
     canActivate: [AuthGuard]
   },
