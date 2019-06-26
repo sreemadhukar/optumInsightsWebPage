@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, ViewChild, TemplateRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ExternalService } from '../_service/external.service';
 import { environment } from '../../../environments/environment';
@@ -27,6 +27,7 @@ export class LoginStubComponent implements OnInit {
   blankScreen = false;
   id: any;
   token: string;
+  @ViewChild('errorDialog') errorDialog: TemplateRef<any>;
 
   constructor(
     private external: ExternalService,
@@ -80,10 +81,15 @@ export class LoginStubComponent implements OnInit {
       if (this.route.queryParams) {
         this.route.queryParams.subscribe(params => {
           if (params.code && !this.authService.isLoggedIn()) {
-            this.external.CheckExternal(params.code, this.token).then(value => {
-              this.authorise.getToggles().subscribe(value1 => {});
-              this.router.navigate(['/OverviewPage']);
-            });
+            this.external
+              .CheckExternal(params.code, this.token)
+              .then(value => {
+                this.authorise.getToggles().subscribe(value1 => {});
+                this.router.navigate(['/OverviewPage']);
+              })
+              .catch(error => {
+                this.openErrorDialog();
+              });
           } else if (this.authService.isLoggedIn()) {
             this.router.navigate(['/OverviewPage']);
           } else {
@@ -144,6 +150,22 @@ export class LoginStubComponent implements OnInit {
         this.blankScreen = false;
       }
       this.router.navigate([this.returnUrl]);
+    });
+  }
+
+  openErrorDialog(): void {
+    this.blankScreen = true;
+    const dialogErrorRef = this.dialog.open(this.errorDialog, {
+      width: '550px',
+      height: '212px',
+      disableClose: true,
+      panelClass: 'custom'
+    });
+
+    dialogErrorRef.afterClosed().subscribe(result => {
+      if (!environment.internalAccess) {
+        this.document.location.href = 'https://provider-stage.linkhealth.com/';
+      }
     });
   }
 }
