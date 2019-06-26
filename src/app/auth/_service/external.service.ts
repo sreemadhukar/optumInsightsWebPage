@@ -5,7 +5,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AuthenticationService } from './authentication.service';
 import { StorageService } from '../../shared/storage-service.service';
 import { ErrorHandlingService } from '../error-handling.service';
-import { reject } from 'q';
 
 @Injectable({
   providedIn: 'root'
