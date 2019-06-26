@@ -141,6 +141,10 @@ export class PriorAuthSharedService {
                 labels: ['Approved', 'Not Approved', 'Pending', 'Canceled'],
                 color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC']
               },
+              sdata: {
+                sign: null,
+                data: null
+              },
               timeperiod: 'Last 6 Months'
             },
             {
@@ -159,6 +163,10 @@ export class PriorAuthSharedService {
                   { values: StandardTATConversion + ' Days', labels: 'Standard' },
                   { values: UrgentTATConversion + ' Hours', labels: 'Urgent' }
                 ]
+              },
+              sdata: {
+                sign: null,
+                data: null
               },
 
               timeperiod: 'Last 6 Months'
