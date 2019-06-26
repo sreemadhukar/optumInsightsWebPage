@@ -245,11 +245,13 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
         console.log('Error, clickHelpIcon , inside Hamburger', err);
       }
     );
-     const user = JSON.parse(sessionStorage.getItem('currentUser'));
+     setTimeout(() => {
+      const user = JSON.parse(sessionStorage.getItem('currentUser'));
       this.healthSystemName =
         user && user[0].hasOwnProperty('HealthCareOrganizationName')
           ? user[0]['HealthCareOrganizationName']
           : user[0]['Healthcareorganizationname'];
+    }, 6000);
   }
 
   ngOnDestroy() {
