@@ -122,11 +122,6 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
         this.loading = true;
       }
       // PLEASE DON'T MODIFY THIS
-      const user = JSON.parse(sessionStorage.getItem('currentUser'));
-      this.healthSystemName =
-        user && user[0].hasOwnProperty('HealthCareOrganizationName')
-          ? user[0]['HealthCareOrganizationName']
-          : user[0]['Healthcareorganizationname'];
     });
 
     /** INITIALIZING SVG ICONS TO USE IN DESIGN - ANGULAR MATERIAL */
@@ -250,6 +245,13 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
         console.log('Error, clickHelpIcon , inside Hamburger', err);
       }
     );
+    setTimeout(() => {
+      const user = JSON.parse(sessionStorage.getItem('currentUser'));
+      this.healthSystemName =
+        user && user[0].hasOwnProperty('HealthCareOrganizationName')
+          ? user[0]['HealthCareOrganizationName']
+          : user[0]['Healthcareorganizationname'];
+    }, 6000);
   }
 
   ngOnDestroy() {
