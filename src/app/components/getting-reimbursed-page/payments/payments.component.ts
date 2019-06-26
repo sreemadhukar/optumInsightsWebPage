@@ -30,7 +30,6 @@ export class PaymentsComponent implements OnInit {
     private checkStorage: StorageService,
     private gettingReimbursedSharedService: GettingReimbursedSharedService,
     private glossaryExpandService: GlossaryExpandService,
-    private checkStorage: StorageService,
     private filterExpandService: FilterExpandService,
     private session: SessionService,
     private router: Router,

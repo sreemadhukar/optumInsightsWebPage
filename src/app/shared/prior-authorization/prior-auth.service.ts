@@ -107,6 +107,7 @@ export class PriorAuthSharedService {
           let PACount = [];
           let PriorAuthBarGraphParamaters = [];
           if (
+            providerSystems.PriorAuthorizations !== null &&
             providerSystems.hasOwnProperty('PriorAuthorizations') &&
             providerSystems.PriorAuthorizations.hasOwnProperty('LineOfBusiness') &&
             providerSystems.PriorAuthorizations.LineOfBusiness.hasOwnProperty('ALL') &&
@@ -178,6 +179,7 @@ export class PriorAuthSharedService {
 
           // if (providerSystems.All.NotApproved.AllNotApprovedSettings !== null) {
           if (
+            providerSystems.All !== null &&
             providerSystems.hasOwnProperty('All') &&
             providerSystems.All.hasOwnProperty('NotApproved') &&
             providerSystems.All.NotApproved.hasOwnProperty('AllNotApprovedSettings')
