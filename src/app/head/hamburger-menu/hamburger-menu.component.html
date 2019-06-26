@@ -122,14 +122,6 @@
         <div style="width: 418px;">
           <div [ngClass]="{ sidemargin: glossaryFlag, 'sidemargin-filter': filterFlag }">
             <div *ngIf="glossaryFlag" class="mat-details">
-              <<<<<<< Updated upstream
-              <mat-icon class="icon-left" svgIcon="closeGlossary" (click)="closeGlossary()"> </mat-icon>
-              <div class="h-3-title">Knowledge Center</div>
-            </div>
-            <div *ngIf="filterFlag" class="mat-details">
-              <mat-icon class="icon-left-filter" svgIcon="closeFilter" (click)="closeFilter()"> </mat-icon>
-              <div class="h-3-title-filter">Filters</div>
-              =======
               <div class="h-3-title-filter">
                 <div class="close-icon-style">
                   <mat-icon class="icon-left-filter" svgIcon="closeGlossary" (click)="closeGlossary()"> </mat-icon>
@@ -144,7 +136,6 @@
                 </div>
                 <div class="filter-text">Filters</div>
               </div>
-              >>>>>>> Stashed changes
             </div>
             <app-glossary *ngIf="glossaryFlag && glossaryTitle" [title]="glossaryTitle"></app-glossary>
             <app-filter *ngIf="filterFlag" (filterFlag)="filterFlagChange($event)"></app-filter>

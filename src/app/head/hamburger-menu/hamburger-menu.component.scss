@@ -290,26 +290,15 @@ app-header {
 
 .h-3-title {
   height: 28px;
-  width: 330px;
+  width: 346px;
   color: $black-rock;
   font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
   font-size: 22px;
+  line-height: 75px;
   text-align: center;
 }
 .h-3-title-filter {
-  <<<<<<<Updated upstream
-  height: 24px;
-  width: 330px;
-  color: $black-rock;
-  font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
-  font-size: 22px;
-  text-align: center;
-}
-.mat-details {
-  position: relative;
-  display: flex;
-  margin-top: 20px;
-  =======width: 346px;
+  width: 346px;
   color: $black-rock;
   font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
   font-size: 22px;
@@ -325,7 +314,7 @@ app-header {
   width: 300px;
   vertical-align: middle;
   line-height: 40px;
-  margin-bottom: 15px >>>>>>> Stashed changes;
+  margin-bottom: 15px;
 }
 .icon-left {
   padding-left: 10px;
