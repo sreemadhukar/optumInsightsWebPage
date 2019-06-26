@@ -32,6 +32,7 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
   section: any = [];
   @Output() filterIconClicked = new EventEmitter();
   summaryItems: any;
+  subscription: any;
   pageTitle: String = '';
   currentSummary: Array<Object> = [{}];
   currentTabTitle: String = '';
@@ -40,7 +41,6 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
   show = true;
   dataLoaded = false;
   type: any;
-  subscription: any;
   loadingOne: boolean;
   mockCardOne: any;
   loadingTwo: boolean;
@@ -185,10 +185,10 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
   ];
 
   constructor(
+    private checkStorage: StorageService,
     private iconRegistry: MatIconRegistry,
     private elementRef: ElementRef,
     private renderer: Renderer2,
-    private checkStorage: StorageService,
     sanitizer: DomSanitizer,
     private gettingReimbursedSharedService: GettingReimbursedSharedService,
     private cdRef: ChangeDetectorRef,
@@ -221,6 +221,7 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-filter_list-24px.svg')
     );
     this.pageTitle = 'Claims Non-Payments';
+    this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.ngOnInit());
   }
 
   ngOnInit() {
