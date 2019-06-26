@@ -16,17 +16,18 @@ import { DomSanitizer } from '@angular/platform-browser';
 export class PaymentsComponent implements OnInit {
   title = 'Claims Paid Breakdown';
   claimsPaidTimePeriod = 'Rolling 6 Months';
+  subscription: any;
   paymentsItems: any;
   payments: Array<object>;
   claimsPaidItems: Array<object>;
   pageTitle: String = '';
   userName: String = '';
   showClaimsPaid: Boolean = false;
-  subscription: any;
   loading: boolean;
   mockCards: any;
   timePeriod = 'Last 6 Months';
   constructor(
+    private checkStorage: StorageService,
     private gettingReimbursedSharedService: GettingReimbursedSharedService,
     private glossaryExpandService: GlossaryExpandService,
     private checkStorage: StorageService,
