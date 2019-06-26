@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { SelfSharedService } from '../../../shared/issue-resolution/self-shared.service';
+import { SelfSharedService } from '../../../shared/service-interaction/self-shared.service';
 import { SessionService } from '../../../shared/session.service';
 import { StorageService } from '../../../shared/storage-service.service';
 import { GlossaryExpandService } from '../../../shared/glossary-expand.service';
