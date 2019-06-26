@@ -25,7 +25,6 @@ export class SelfServiceService {
     eparams = eparams.append('filter', 'executive');
 
     const executiveURL = this.APP_URL + this.EXECUTIVE_SERVICE_PATH + parameters[0];
-    console.log('Self Service', executiveURL, eparams);
     return combineLatest(
       this.http.get(executiveURL, { params: eparams, headers: myHeader }).pipe(
         retry(2),
