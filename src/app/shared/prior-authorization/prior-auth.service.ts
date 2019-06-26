@@ -110,10 +110,10 @@ export class PriorAuthSharedService {
             providerSystems.PriorAuthorizations !== null &&
             providerSystems.hasOwnProperty('PriorAuthorizations') &&
             providerSystems.PriorAuthorizations.hasOwnProperty('LineOfBusiness') &&
-            providerSystems.PriorAuthorizations.LineOfBusiness.hasOwnProperty('ALL') &&
-            providerSystems.PriorAuthorizations.LineOfBusiness.ALL.hasOwnProperty('PriorAuthApprovedCount')
+            providerSystems.PriorAuthorizations.LineOfBusiness.hasOwnProperty('All') &&
+            providerSystems.PriorAuthorizations.LineOfBusiness.All.hasOwnProperty('PriorAuthApprovedCount')
           ) {
-            const data = providerSystems.PriorAuthorizations.LineOfBusiness.ALL;
+            const data = providerSystems.PriorAuthorizations.LineOfBusiness.All;
             const PAApprovedCount = data.PriorAuthApprovedCount;
             const PANotApprovedCount = data.PriorAuthNotApprovedCount;
             const PANotPendingCount = data.PriorAuthPendingCount;
