@@ -5,6 +5,7 @@ import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { FilterExpandService } from '../../../shared/filter-expand.service';
+import { SessionService } from 'src/app/shared/session.service';
 
 @Component({
   selector: 'app-prior-auth',
@@ -28,6 +29,7 @@ export class PriorAuthComponent implements OnInit {
     private priorAuthShared: PriorAuthSharedService,
     private filterExpandService: FilterExpandService,
     private router: Router,
+    private session: SessionService,
     private iconRegistry: MatIconRegistry,
     sanitizer: DomSanitizer
   ) {
