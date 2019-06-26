@@ -48,9 +48,6 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
   isDarkTheme: Observable<boolean>;
   @ViewChildren(MatExpansionPanel) viewPanels: QueryList<MatExpansionPanel>;
   @ViewChild('srnav') srnav: MatSidenav;
-  public healthSystemName = JSON.parse(sessionStorage.getItem('currentUser'))
-    ? JSON.parse(sessionStorage.getItem('currentUser'))[0]['HealthCareOrganizationName']
-    : '';
   public makeAbsolute: boolean;
   public sideNavFlag = true;
   subscription: any;
@@ -62,6 +59,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
   clickFilterIcon: Subscription;
   public mobileQuery: boolean;
   public PCORFlag: any;
+  public healthSystemName: string;
   disableChangeProvider: boolean = environment.internalAccess;
   /*** Array of Navigation Category List ***/
   public navCategories = [
@@ -124,6 +122,11 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
         this.loading = true;
       }
       // PLEASE DON'T MODIFY THIS
+      const user = JSON.parse(sessionStorage.getItem('currentUser'));
+      this.healthSystemName =
+        user && user[0].hasOwnProperty('HealthCareOrganizationName')
+          ? user[0]['HealthCareOrganizationName']
+          : user[0]['Healthcareorganizationname'];
     });
 
     /** INITIALIZING SVG ICONS TO USE IN DESIGN - ANGULAR MATERIAL */
