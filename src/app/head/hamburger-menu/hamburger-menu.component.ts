@@ -62,6 +62,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
   clickFilterIcon: Subscription;
   public mobileQuery: boolean;
   public PCORFlag: any;
+  disableChangeProvider: boolean = environment.internalAccess;
   /*** Array of Navigation Category List ***/
   public navCategories = [
     { icon: 'home', name: 'Overview', path: '/OverviewPage', disabled: false },
