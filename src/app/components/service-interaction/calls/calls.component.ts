@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CallsSharedService } from '../../../shared/issue-resolution/calls-shared.service';
+import { CallsSharedService } from '../../../shared/service-interaction/calls-shared.service';
 import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
