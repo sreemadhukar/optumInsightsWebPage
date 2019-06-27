@@ -45,7 +45,7 @@ pipeline {
                 label 'docker-nodejs-slave'
             }
             steps {
-                glDockerImageBuildPush tag: "$tagBase/$webRepo",
+                glDockerImageBuildPush tag: "$tagBase/$webRepo:uhcrelease",
                         repository: "$webRepo",
                         namespace: "$namespace",
                         dockerCredentialsId: "$env.DOCKER_CREDENTIALS_ID",
@@ -67,7 +67,7 @@ pipeline {
                         ocpUrl: "https://ocp-elr-dmz.optum.com",
                         project: 'pedprd',
                         serviceName: 'peduiuhc',
-                        dockerImage: 'docker.optum.com/fspeddeply/pedweb_prd:latest',
+                        dockerImage: 'docker.optum.com/fspeddeply/pedweb_prd:uhcrelease',
                         port: '8000'
 
             }
@@ -82,7 +82,7 @@ pipeline {
                         ocpUrl: "https://ocp-ctc-dmz.optum.com",
                         project: 'pedprddr',
                         serviceName: 'peduiuhc',
-                        dockerImage: 'docker.optum.com/fspeddeply/pedweb_prd:latest',
+                        dockerImage: 'docker.optum.com/fspeddeply/pedweb_prd:uhcrelease',
                         port: '8000'
                 glOpenshiftDeploy credentials: "$env.OPENSHIFT_CREDENTIALS_ID",
                         ocpUrl: "https://ocp-ctc-core.optum.com",
