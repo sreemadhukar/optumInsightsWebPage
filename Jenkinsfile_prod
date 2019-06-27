@@ -49,7 +49,7 @@ pipeline {
                         repository: "$webRepo",
                         namespace: "$namespace",
                         dockerCredentialsId: "$env.DOCKER_CREDENTIALS_ID",
-                        extraBuildOptions: "--build-arg env_var=demo"
+                        extraBuildOptions: "--build-arg env_var=externalprod"
                 /**glDockerImageBuildPush tag: "$tagBase/$webRepo:internalrelease",
                         repository: "$webRepo",
                         namespace: "$namespace",
