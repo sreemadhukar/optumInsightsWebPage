@@ -42,7 +42,7 @@ pipeline {
         
         stage('Web: Build and Deploy Docker Image to DTR') {
             agent {
-                label 'docker-dotnet-core-slave'
+                label 'docker-nodejs-slave'
             }
             steps {
                 glDockerImageBuildPush tag: "$tagBase/$webRepo",
@@ -50,23 +50,23 @@ pipeline {
                         namespace: "$namespace",
                         dockerCredentialsId: "$env.DOCKER_CREDENTIALS_ID",
                         extraBuildOptions: "--build-arg env_var=externalprod"
-                /**glDockerImageBuildPush tag: "$tagBase/$webRepo:internalrelease",
+                glDockerImageBuildPush tag: "$tagBase/$webRepo:pedui2",
                         repository: "$webRepo",
                         namespace: "$namespace",
                         dockerCredentialsId: "$env.DOCKER_CREDENTIALS_ID",
-                        extraBuildOptions: "--build-arg env_var=internalprod"**/
+                        extraBuildOptions: "--build-arg env_var=prod"
             }
         }
         
         stage('OSE Deployment Web Prod') {
         agent {
-                label 'docker-oc-slave'
+                label 'docker-maven-slave'
             }
             steps {
                 glOpenshiftDeploy credentials: "$env.OPENSHIFT_CREDENTIALS_ID",
                         ocpUrl: "https://ocp-elr-dmz.optum.com",
                         project: 'pedprd',
-                        serviceName: 'pedui',
+                        serviceName: 'peduiuhc',
                         dockerImage: 'docker.optum.com/fspeddeply/pedweb_prd:latest',
                         port: '8000'
 
@@ -75,21 +75,21 @@ pipeline {
         
        stage('OSE Deployment Web DR') {
        agent {
-                label 'docker-oc-slave'
+                label 'docker-maven-slave'
             }
             steps {
                 glOpenshiftDeploy credentials: "$env.OPENSHIFT_CREDENTIALS_ID",
                         ocpUrl: "https://ocp-ctc-dmz.optum.com",
                         project: 'pedprddr',
-                        serviceName: 'pedui',
+                        serviceName: 'peduiuhc',
                         dockerImage: 'docker.optum.com/fspeddeply/pedweb_prd:latest',
                         port: '8000'
-                /**glOpenshiftDeploy credentials: "$env.OPENSHIFT_CREDENTIALS_ID",
+                glOpenshiftDeploy credentials: "$env.OPENSHIFT_CREDENTIALS_ID",
                         ocpUrl: "https://ocp-ctc-core.optum.com",
                         project: 'ped-internal',
-                        serviceName: 'pedui',
-                        dockerImage: 'docker.optum.com/fspeddeply/pedweb_prd:internalrelease',
-                        port: '8000'**/
+                        serviceName: 'pedui2',
+                        dockerImage: 'docker.optum.com/fspeddeply/pedweb_prd:pedui2',
+                        port: '8000'
 
             }
         }    
@@ -105,6 +105,7 @@ pipeline {
                     "If connection to app is refused, please give a few minutes for pods to fully deploy in OpenShift",
                     subject: "$currentBuild.currentResult-PRD UI Deployment",
                     to: 'sathwik.anumala@optum.com'
+
         }
     }
 

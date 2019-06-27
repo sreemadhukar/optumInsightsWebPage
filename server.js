@@ -6,7 +6,7 @@ var httpProxy = require('http-proxy');
 var jwt = require('jsonwebtoken');
 var cors = require('cors');
 var compression = require('compression');
-var helmet = require('helmet'); 
+var helmet = require('helmet');
 
 var port = process.env.PORT || 8000;
 console.log(`Worker ${process.pid} started...`);
@@ -17,8 +17,8 @@ app.use(express.static(path.join(__dirname, '.')));
 
 var apiProxy = httpProxy.createProxyServer();
 var apiForwardingUrl = 'https://pedapigateway-pedprddr.ocp-ctc-dmz.optum.com';
-var sessionSecret = 'STwHkLYUwN1L5rc3yqdkuthRvczrBupc';
-var key = 'Q9gRpXWjVm5GXethNxG60utGMGW7NpsO'; 
+var sessionSecret = '7dX03633CEuFJaf25ot5HlSPOZYQ6E9Y';
+var key = 'PvU8koWDqgbqZNin5aBj00RtRHWze7pC';
 
 app.all("/uhci/prd2/*", function (req, res) {
     apiProxy.web(req, res, { target: apiForwardingUrl, changeOrigin: true, secure: false },
