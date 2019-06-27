@@ -77,6 +77,8 @@ export class FilterComponent implements OnInit {
   resetFilter() {
     this.session.filterObjValue.lob = this.lobData = this.lobs[0];
     this.session.filterObjValue.timeFrame = this.timeframeData = this.timeframes[0];
+    this.session.filterObjValue.tax = ['All'];
+    this.taxData = 'All';
     this.filterFlag.emit(false);
   }
   applyFilter() {

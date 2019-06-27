@@ -1,12 +1,24 @@
 @import '~src/scss/variables.scss';
-.line {
+.filter {
+  position: relative;
+  margin-top: 16px;
+}
+.line-top {
   background-color: #fff;
-  height: 16px;
   display: flex;
   border-bottom: solid;
   border-width: 1px;
   border-color: #b3babc;
   z-index: 999;
+}
+.line {
+  background-color: #fff;
+  display: flex;
+  border-bottom: solid;
+  border-width: 1px;
+  border-color: #b3babc;
+  z-index: 999;
+  height: 16px;
 }
 .line1 {
   background-color: #fff;

@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { SelfServiceService } from '../../rest/issue-resolution/self-service.service';
-import { IssueResolutionPageModule } from '../../components/issue-resolution-page/issue-resolution-page.module';
+import { SelfServiceService } from '../../rest/service-interaction/self-service.service';
+import { ServiceInteractionModule } from '../../components/service-interaction/service-interaction.module';
 import { CommonUtilsService } from '../common-utils.service';
 import { SessionService } from '../session.service';
 
-@Injectable({ providedIn: IssueResolutionPageModule })
+@Injectable({ providedIn: ServiceInteractionModule })
 export class SelfSharedService {
   private selfServiceData = [];
   private timeFrame: string;

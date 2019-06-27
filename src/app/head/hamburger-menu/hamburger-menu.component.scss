@@ -288,30 +288,44 @@ app-header {
 
 .h-3-title {
   height: 28px;
-  width: 346px;
+  width: 330px;
   color: $black-rock;
   font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
   font-size: 22px;
-  line-height: 75px;
   text-align: center;
 }
 .h-3-title-filter {
   height: 24px;
-  width: 346px;
+  width: 330px;
   color: $black-rock;
   font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
   font-size: 22px;
-  line-height: 75px;
   text-align: center;
 }
-
+.mat-details {
+  position: relative;
+  display: flex;
+  margin-top: 20px;
+}
 .icon-left {
   padding-left: 10px;
   color: #757588;
 }
+.icon-left svg:hover {
+  background-color: lightgrey;
+  color: black;
+  padding: 5px;
+  cursor: pointer;
+}
 .icon-left-filter {
   margin-left: -5px;
   color: #757588;
+}
+.icon-left-filter svg:hover {
+  background-color: lightgrey;
+  color: black;
+  padding: 5px;
+  cursor: pointer;
 }
 .pointer-none {
   pointer-events: none;
