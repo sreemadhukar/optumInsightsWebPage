@@ -86,6 +86,7 @@ export class OverviewSharedService {
         }
         if (
           providerSystems.hasOwnProperty('SelfServiceInquiries') &&
+          providerSystems.SelfServiceInquiries != null &&
           providerSystems.SelfServiceInquiries.hasOwnProperty('ALL') &&
           providerSystems.SelfServiceInquiries.ALL.hasOwnProperty('Utilizations') &&
           providerSystems.SelfServiceInquiries.ALL.Utilizations.hasOwnProperty('OverallLinkAdoptionRate')
@@ -216,6 +217,7 @@ export class OverviewSharedService {
         } // ent try catch for Total Calls
         if (
           providerSystems.hasOwnProperty('SelfServiceInquiries') &&
+          providerSystems.SelfServiceInquiries != null &&
           providerSystems.SelfServiceInquiries.hasOwnProperty('ALL') &&
           providerSystems.SelfServiceInquiries.ALL.hasOwnProperty('SelfService') &&
           providerSystems.SelfServiceInquiries.ALL.SelfService.hasOwnProperty('TotalCallCost')
@@ -269,6 +271,7 @@ export class OverviewSharedService {
         }
         if (
           providerSystems.hasOwnProperty('SelfServiceInquiries') &&
+          providerSystems.SelfServiceInquiries != null &&
           providerSystems.SelfServiceInquiries.hasOwnProperty('ALL') &&
           providerSystems.SelfServiceInquiries.ALL.hasOwnProperty('SelfService') &&
           providerSystems.SelfServiceInquiries.ALL.SelfService.hasOwnProperty('TotalCallTime')
@@ -316,6 +319,7 @@ export class OverviewSharedService {
         }
         if (
           providerSystems.hasOwnProperty('SelfServiceInquiries') &&
+          providerSystems.SelfServiceInquiries != null &&
           providerSystems.SelfServiceInquiries.hasOwnProperty('ALL') &&
           providerSystems.SelfServiceInquiries.ALL.hasOwnProperty('SelfService') &&
           providerSystems.SelfServiceInquiries.ALL.SelfService.hasOwnProperty('AveragePaperClaimProcessingTime') &&
@@ -357,6 +361,7 @@ export class OverviewSharedService {
         }
         if (
           providerSystems.hasOwnProperty('SelfServiceInquiries') &&
+          providerSystems.SelfServiceInquiries != null &&
           providerSystems.SelfServiceInquiries.hasOwnProperty('ALL') &&
           providerSystems.SelfServiceInquiries.ALL.hasOwnProperty('SelfService') &&
           providerSystems.SelfServiceInquiries.ALL.SelfService.hasOwnProperty(
