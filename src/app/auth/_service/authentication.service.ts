@@ -28,15 +28,16 @@ export class AuthenticationService {
   }
 
   public getSsoToken(codeId: string, token: string): Observable<any> {
-    if (token === 'test') { 
-    const myHeader = new HttpHeaders({
-      Accept: '*/*'
-    });
+    let myHeader;
+    if (token === 'isProd') {
+      myHeader = new HttpHeaders({
+        Accept: '*/*'
+      });
     } else {
-    const myHeader = new HttpHeaders({
-      Authorization: 'Bearer ' + token,
-      Accept: '*/*'
-    });
+      myHeader = new HttpHeaders({
+        Authorization: 'Bearer ' + token,
+        Accept: '*/*'
+      });
     }
     let params = new HttpParams();
     params = params.append('code', codeId);

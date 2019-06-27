@@ -51,12 +51,12 @@ export class LoginStubComponent implements OnInit {
 
   ngOnInit() {
     if (!environment.production) {
-    this.authService.getJwt().subscribe(data => {
-      sessionStorage.setItem('token', JSON.stringify(data['token']));
-      this.token = data['token'];
-    });
+      this.authService.getJwt().subscribe(data => {
+        sessionStorage.setItem('token', JSON.stringify(data['token']));
+        this.token = data['token'];
+      });
     } else {
-      this.token = 'test';
+      this.token = 'isProd';
     }
     this.loading = true;
     this.id = setTimeout(() => {
