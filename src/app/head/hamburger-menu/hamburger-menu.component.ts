@@ -251,7 +251,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
         user && user[0].hasOwnProperty('HealthCareOrganizationName')
           ? user[0]['HealthCareOrganizationName']
           : user[0]['Healthcareorganizationname'];
-    }, 6000);
+    }, 10000);
   }
 
   ngOnDestroy() {
