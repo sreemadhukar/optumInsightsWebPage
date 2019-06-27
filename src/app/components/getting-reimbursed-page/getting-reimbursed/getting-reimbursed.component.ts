@@ -6,7 +6,6 @@ import { MatIconRegistry, PageEvent } from '@angular/material';
 import { Router } from '@angular/router';
 import { FilterExpandService } from '../../../shared/filter-expand.service';
 
-
 @Component({
   selector: 'app-getting-reimbursed',
   templateUrl: './getting-reimbursed.component.html',
