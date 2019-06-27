@@ -19,12 +19,10 @@
 
 .business-glossary {
   padding: 10px;
-  position: relative;
   width: 354px;
-  margin-top: -25px;
   .title {
     color: #2d2d39;
-    font-family: 'UHCSans-SemiBold', 'sans-serif', 'Arial';
+    font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
     font-size: 22px;
     text-align: center;
   }
@@ -77,7 +75,12 @@
   letter-spacing: 0.2px;
   line-height: 22px;
 }
-
+.business-glossary {
+  .input-style {
+    height: 0 !important;
+    padding: 0 !important;
+  }
+}
 .icon-search-black {
   height: 24px;
   width: 24px;

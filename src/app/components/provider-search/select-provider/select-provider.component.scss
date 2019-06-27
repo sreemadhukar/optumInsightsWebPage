@@ -4,8 +4,13 @@
 .select-provider-body {
   margin-left: 60px;
   margin-right: 60px;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 
   /* header css starts here*/
+
   .header-div {
     background-color: $white;
     height: 72px;
@@ -28,7 +33,7 @@
       height: 25px;
       color: $strom-grey;
       font-size: 16px;
-      font-weight: 600;
+      font-family: 'UHCSans-SemiBold', 'Helvetica', 'Arial', 'sans-serif';
       letter-spacing: 0.2px;
       line-height: 22px;
       text-align: right;
@@ -36,8 +41,7 @@
 
       .user-name {
         line-height: 31px;
-        font-family: 'UHCSans-Medium', 'Helvetica', 'Arial';
-        font-weight: 500;
+        font-family: 'UHCSans-Medium', 'Helvetica', 'Arial', 'sans-serif';
       }
       .user-expand-more {
         line-height: 26px;

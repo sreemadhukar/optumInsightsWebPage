@@ -61,3 +61,6 @@
   padding: 18px 0;
   cursor: pointer;
 }
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-flex {
+  padding: 0 4px;
+}
