@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { CallsService } from '../../rest/issue-resolution/calls.service';
-import { IssueResolutionPageModule } from '../../components/issue-resolution-page/issue-resolution-page.module';
+import { CallsService } from '../../rest/service-interaction/calls.service';
+import { ServiceInteractionModule } from '../../components/service-interaction/service-interaction.module';
 import { SessionService } from '../session.service';
 import { CommonUtilsService } from '../common-utils.service';
 
-@Injectable({ providedIn: IssueResolutionPageModule })
+@Injectable({ providedIn: ServiceInteractionModule })
 export class CallsSharedService {
   private callsData: Array<object> = [];
   private timeFrame: string;

@@ -42,7 +42,7 @@ const routes: Routes = [
   },
   {
     path: 'ServiceInteraction',
-    loadChildren: '../components/issue-resolution-page/issue-resolution-page.module#IssueResolutionPageModule',
+    loadChildren: '../components/service-interaction/service-interaction.module#ServiceInteractionModule',
     data: {
       breadcrumb: 'Service Interaction'
     },

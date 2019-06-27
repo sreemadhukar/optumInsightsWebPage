@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { HttpHeaders, HttpClient, HttpParams } from '@angular/common/http';
-import { IssueResolutionPageModule } from '../../components/issue-resolution-page/issue-resolution-page.module';
+import { ServiceInteractionModule } from '../../components/service-interaction/service-interaction.module';
 import { map, retry, catchError } from 'rxjs/operators';
 import { combineLatest, of } from 'rxjs';
-@Injectable({ providedIn: IssueResolutionPageModule })
+
+@Injectable({ providedIn: ServiceInteractionModule })
 export class CallsService {
   public currentUser: any;
   public combined: any;

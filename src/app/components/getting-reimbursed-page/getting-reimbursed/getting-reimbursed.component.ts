@@ -18,13 +18,13 @@ export class GettingReimbursedComponent implements OnInit {
   pagesubTitle: String = '';
   userName: String = '';
   tabId: Number = 0;
+  subscription: any;
   currentSummary: Array<Object> = [{}];
   currentTabTitle: String = '';
   tabOptions: Array<Object> = [];
   previousSelected: Number = 0;
   selectedItemId: any = 0;
   tabOptionsTitle: Array<String> = [];
-  subscription: any;
   loading: boolean;
   mockCards: any;
 
@@ -70,7 +70,7 @@ export class GettingReimbursedComponent implements OnInit {
         this.summaryItems = JSON.parse(JSON.stringify(completeData));
         this.currentSummary = this.summaryItems[0].data;
         this.currentTabTitle = this.summaryItems[0].title;
-        console.log(this.summaryItems);
+        // console.log(this.summaryItems);
 
         this.tabOptions = [];
         for (let i = 0; i < 4; i++) {
