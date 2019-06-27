@@ -1,0 +1,43 @@
+<div class="select-provider-body">
+  <div class="header-div">
+    <div class="header-logo-div">
+      <a routerLink="/">
+        <img class="Uhc-logo" src="/src/assets/images/UHC Logo@2x.png" alt="UHC Logo" />
+      </a>
+    </div>
+
+    <div class="user-div">
+      <!-- <mat-slide-toggle [checked]="isDarkTheme | async" labelPosition="before" (change)="toggleDarkTheme($event.checked)"></mat-slide-toggle> -->
+      <div class="user-icon">
+        <mat-icon class="nav-menu-icons" svgIcon="person"></mat-icon>
+      </div>
+      <div class="user-name">{{ username }}</div>
+      <!--<div class="user-expand-more">-->
+      <!--<mat-icon class="nav-menu-icons" svgIcon="expand-more"></mat-icon>-->
+      <!--</div>-->
+    </div>
+  </div>
+
+  <div class="select-provider">
+    <div class="select-provider-header">
+      <h2 mat-dialog-title>Select an organization to represent</h2>
+    </div>
+    <form class="select-provider-form">
+      <mat-form-field appearance="outline">
+        <!-- <mat-label>Search Providers.</mat-label> -->
+        <input matInput [matAutocomplete]="auto" [formControl]="stateCtrl" />
+        <mat-icon matPrefix class="nav-menu-icons provider-icon-color" svgIcon="search"></mat-icon>
+
+        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="providerSelect($event)">
+          <mat-option *ngFor="let state of (filteredStates | async)" [value]="state.HealthCareOrganizationName">
+            <span>{{ state.HealthCareOrganizationName }}</span></mat-option
+          >
+          <!-- <div class="view-allProviders" (click)="provider()">View All Providers</div> -->
+        </mat-autocomplete>
+        <mat-icon matSuffix class="nav-menu-icons provider-icon-color" svgIcon="arrow-down"></mat-icon>
+      </mat-form-field>
+    </form>
+  </div>
+  <div class="footer-separtor"></div>
+  <app-footer-common></app-footer-common>
+</div>

@@ -54,9 +54,7 @@ export class OverviewSharedService {
         ) {
           const priorAuthRequested =
             providerSystems.PriorAuth.LineOfBusiness.All.PriorAuthApprovedCount +
-            providerSystems.PriorAuth.LineOfBusiness.All.PriorAuthNotApprovedCount +
-            providerSystems.PriorAuth.LineOfBusiness.All.PriorAuthPendingCount +
-            providerSystems.PriorAuth.LineOfBusiness.All.PriorAuthCancelledCount;
+            providerSystems.PriorAuth.LineOfBusiness.All.PriorAuthNotApprovedCount;
           const approvedRate = providerSystems.PriorAuth.LineOfBusiness.All.PriorAuthApprovedCount / priorAuthRequested;
 
           cPriorAuth = {
@@ -430,7 +428,11 @@ export class OverviewSharedService {
             toggle: this.toggle.setToggles('Claims Paid', 'AtGlance', 'Overview', false),
             data: {
               graphValues: [mrPercentage, csPercentage, eiPercentage],
-              centerNumber: '$' + this.common.nFormatter(claims.All.ClaimsLobSummary[0].ClaimsPaid),
+              centerNumber:
+                this.common.nFormatter(claims.All.ClaimsLobSummary[0].ClaimsPaid) < 1 &&
+                this.common.nFormatter(claims.All.ClaimsLobSummary[0].ClaimsPaid) > 0
+                  ? '< $1'
+                  : '$' + this.common.nFormatter(claims.All.ClaimsLobSummary[0].ClaimsPaid),
               color: ['#3381FF', '#80B0FF', '#003DA1'],
               gdata: ['card-inner', 'claimsPaidCardD3Donut']
             },
@@ -449,10 +451,16 @@ export class OverviewSharedService {
               toggle: this.toggle.setToggles('Claims Paid', 'AtGlance', 'Overview', false),
               data: {
                 graphValues: [0, 100],
-                centerNumber: '$' + this.common.nFormatter(claims.All.ClaimsLobSummary[0].ClaimsPaid),
+                centerNumber:
+                  this.common.nFormatter(claims.All.ClaimsLobSummary[0].ClaimsPaid) < 1 &&
+                  this.common.nFormatter(claims.All.ClaimsLobSummary[0].ClaimsPaid) > 0
+                    ? '< $1'
+                    : '$' + this.common.nFormatter(claims.All.ClaimsLobSummary[0].ClaimsPaid),
                 color: ['#D7DCE1', '#D7DCE1'],
                 gdata: ['card-inner', 'claimsPaidCardD3Donut']
               },
+              labels: ['Medicare & Retirement', 'Community & State', 'Employer & Individual'],
+              hover: true,
               sdata: {
                 sign: 'down',
                 data: '-2.8%'

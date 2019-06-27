@@ -16,21 +16,24 @@ app.use(helmet());
 app.use(express.static(path.join(__dirname, '.')));
 
 var apiProxy = httpProxy.createProxyServer();
-var apiForwardingUrl = 'https://gateway-stage-core.optum.com';
+var apiForwardingUrl = 'https://pedapigateway-pedprddr.ocp-ctc-dmz.optum.com';
 var sessionSecret = '7dX03633CEuFJaf25ot5HlSPOZYQ6E9Y';
 var key = 'PvU8koWDqgbqZNin5aBj00RtRHWze7pC';
 
-app.all('/api/qaone/ped/*', function(req, res) {
-  apiProxy.web(req, res, { target: apiForwardingUrl, changeOrigin: true, secure: true }, function(e) {
-    handleExceptions(e, res);
-  });
+app.all("/uhci/prd2/*", function (req, res) {
+    apiProxy.web(req, res, { target: apiForwardingUrl, changeOrigin: true, secure: false },
+        function (e) {
+            handleExceptions(e, res)
+        }
+    );
 });
+
 
 app.use((error, req, res, next) => {
   handleExceptions(error, res);
 });
 
-app.get('/api/getJwt', cors(), function(req, res) {
+app.get('/api/getJwt', cors(), function(req, res) { 
   let token = jwt.sign(
     {
       exp: Math.floor(Date.now() / 1000) + 60 * 60,

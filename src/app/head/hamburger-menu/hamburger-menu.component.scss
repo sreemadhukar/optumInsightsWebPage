@@ -54,7 +54,7 @@ app-header {
 }
 
 .font-check {
-  font-family: 'UHCSans-Medium', 'sans-serif', 'Arial';
+  font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
   font-size: 14px;
   color: $hover-blue;
 }
@@ -78,9 +78,8 @@ app-header {
 
 .representing-label {
   color: $black-rock;
-  font-family: 'UHCSans-Medium', 'sans-serif', 'Arial';
+  font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
   font-size: 14px;
-  font-weight: 500;
   letter-spacing: 0.2px;
   line-height: 18px;
   margin-top: 4px;
@@ -88,9 +87,9 @@ app-header {
 
 .health-system-name {
   color: $black-rock;
-  font-family: 'UHCSans-SemiBold';
+  font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
   font-size: 16px;
-  /*font-weight: 600;*/
+
   letter-spacing: 0.2px;
   line-height: 22px;
   margin: 4px 0 15px 0;
@@ -100,9 +99,8 @@ app-header {
   height: 18px;
   width: 105px;
   color: $blue;
-  font-family: 'UHCSans-SemiBold';
+  font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
   font-size: 14px;
-  font-weight: 600;
   letter-spacing: 0.2px;
   line-height: 18px;
   text-decoration: underline;
@@ -118,45 +116,57 @@ app-header {
 .mat-expansion-panel-header {
   height: 25px !important;
   padding: 8px 16px 8px 10px !important;
-  font-family: 'UHCSans-SemiBold';
+  font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif !important;
   font-size: 16px;
-  /*font-weight: 600;*/
   letter-spacing: 0.2px;
   line-height: 22px;
-  /*background: $darker-alice-blue;*/
 }
 
 .signout-block {
-  padding: 25px 0 0 33px;
+  padding: 25px 0 0 40px;
 }
 
 .signout-label {
   color: $strom-grey;
-  font-family: 'UHCSans-SemiBold';
-
+  font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
   font-size: 16px;
-  /*font-weight: 600;*/
   letter-spacing: 0.2px;
   line-height: 22px;
   margin: 0;
   cursor: pointer;
   padding: 9px;
+
+  .sign-out-text {
+    vertical-align: bottom;
+  }
 }
 
 .firstNavCategory {
   margin-top: 15px !important;
   color: $strom-grey !important;
-  font-family: 'UHCSans-SemiBold';
+  font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
   font-size: 16px !important;
-  /*font-weight: 600;*/
   letter-spacing: 0.2px;
   line-height: 18px;
-  /*padding-left: 32px !important;*/
+}
+.mat-expansion-panel-content,
+.mat-expansion-panel-body {
+  font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
 }
 .mat-expansion-panel-header-title {
   color: $strom-grey !important;
+  font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
 }
-
+.mat-list-item-content,
+.mat-list-item-content {
+  font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+}
+/*left menu on click bg changing issue*/
+.mat-ripple-element {
+  transition-duration: 0ms !important;
+  background-color: transparent;
+}
+/*left menu on click bg changing issue*/
 .lastNavCategory {
   /*padding-left: 32px !important;*/
 }
@@ -164,9 +174,8 @@ app-header {
 .navCategoryItem {
   /*padding-left: 32px !important;*/
   color: $strom-grey;
-  font-family: 'UHCSans-SemiBold';
+  font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
   font-size: 14px;
-  /*font-weight: 600;*/
   letter-spacing: 0.2px;
   margin-top: 4px !important;
   line-height: 18px;
@@ -193,22 +202,22 @@ app-header {
 }
 
 .nav-no-child-category {
+  font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif !important;
   padding: 9px 12px 9px 10px !important;
   color: $strom-grey !important;
   font-size: 16px !important;
-  font-weight: 600;
   letter-spacing: 0.2px;
-  font-family: 'UHCSans-Medium', 'sans-serif', 'Arial';
 }
 
 .nav-sub-category-items {
   color: $strom-grey !important;
   font-size: 14px !important;
-  font-family: 'UHCSans-Medium', 'sans-serif', 'Arial';
-  font-weight: 600;
+  font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif !important;
+
   letter-spacing: 0.2px;
   line-height: 18px;
 }
+
 .mat-expansion-panel-header-description,
 .mat-expansion-panel-header-title {
   line-height: 26px !important;
@@ -279,32 +288,44 @@ app-header {
 
 .h-3-title {
   height: 28px;
-  width: 346px;
+  width: 330px;
   color: $black-rock;
-  font-family: 'UHC Sans';
+  font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
   font-size: 22px;
-  font-weight: 600;
-  line-height: 75px;
   text-align: center;
 }
 .h-3-title-filter {
   height: 24px;
-  width: 346px;
+  width: 330px;
   color: $black-rock;
-  font-family: 'UHC Sans';
+  font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
   font-size: 22px;
-  font-weight: 600;
-  line-height: 75px;
   text-align: center;
 }
-
+.mat-details {
+  position: relative;
+  display: flex;
+  margin-top: 20px;
+}
 .icon-left {
   padding-left: 10px;
   color: #757588;
 }
+.icon-left svg:hover {
+  background-color: lightgrey;
+  color: black;
+  padding: 5px;
+  cursor: pointer;
+}
 .icon-left-filter {
   margin-left: -5px;
   color: #757588;
+}
+.icon-left-filter svg:hover {
+  background-color: lightgrey;
+  color: black;
+  padding: 5px;
+  cursor: pointer;
 }
 .pointer-none {
   pointer-events: none;
