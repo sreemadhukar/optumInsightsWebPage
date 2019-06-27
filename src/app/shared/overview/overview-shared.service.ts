@@ -46,16 +46,16 @@ export class OverviewSharedService {
           providerSystems.hasOwnProperty('PriorAuth') &&
           providerSystems.PriorAuth !== null &&
           providerSystems.PriorAuth.hasOwnProperty('LineOfBusiness') &&
-          providerSystems.PriorAuth.LineOfBusiness.hasOwnProperty('ALL') &&
-          providerSystems.PriorAuth.LineOfBusiness.ALL.hasOwnProperty('PriorAuthApprovedCount') &&
-          providerSystems.PriorAuth.LineOfBusiness.ALL.hasOwnProperty('PriorAuthNotApprovedCount') &&
-          providerSystems.PriorAuth.LineOfBusiness.ALL.hasOwnProperty('PriorAuthPendingCount') &&
-          providerSystems.PriorAuth.LineOfBusiness.ALL.hasOwnProperty('PriorAuthCancelledCount')
+          providerSystems.PriorAuth.LineOfBusiness.hasOwnProperty('All') &&
+          providerSystems.PriorAuth.LineOfBusiness.All.hasOwnProperty('PriorAuthApprovedCount') &&
+          providerSystems.PriorAuth.LineOfBusiness.All.hasOwnProperty('PriorAuthNotApprovedCount') &&
+          providerSystems.PriorAuth.LineOfBusiness.All.hasOwnProperty('PriorAuthPendingCount') &&
+          providerSystems.PriorAuth.LineOfBusiness.All.hasOwnProperty('PriorAuthCancelledCount')
         ) {
           const priorAuthRequested =
-            providerSystems.PriorAuth.LineOfBusiness.ALL.PriorAuthApprovedCount +
-            providerSystems.PriorAuth.LineOfBusiness.ALL.PriorAuthNotApprovedCount;
-          const approvedRate = providerSystems.PriorAuth.LineOfBusiness.ALL.PriorAuthApprovedCount / priorAuthRequested;
+            providerSystems.PriorAuth.LineOfBusiness.All.PriorAuthApprovedCount +
+            providerSystems.PriorAuth.LineOfBusiness.All.PriorAuthNotApprovedCount;
+          const approvedRate = providerSystems.PriorAuth.LineOfBusiness.All.PriorAuthApprovedCount / priorAuthRequested;
 
           cPriorAuth = {
             category: 'small-card',
