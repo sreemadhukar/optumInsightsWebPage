@@ -314,7 +314,6 @@ app-header {
   width: 300px;
   vertical-align: middle;
   line-height: 40px;
-  margin-bottom: 15px;
 }
 .icon-left {
   padding-left: 10px;
@@ -323,13 +322,15 @@ app-header {
 
 .icon-left-filter {
   color: #757588;
-  padding: 10px;
   display: block;
+  padding: 8px;
 }
 .icon-left-filter:hover {
   background-color: #d7dce1;
   color: #2d2d2d;
-  padding: 10px;
+  padding: 8px;
+  height: 24px;
+  width: 24px;
   cursor: hand;
   cursor: pointer;
   border-radius: 2px;

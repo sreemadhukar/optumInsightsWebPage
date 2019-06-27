@@ -7,10 +7,13 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class CommonFooterComponent implements OnInit {
   @Input() timePeriod: String;
+  @Input() cardType: String;
   timePeriodFooter: String = null;
+  typeOfCard: String = null;
   constructor() {}
 
   ngOnInit() {
     this.timePeriodFooter = this.timePeriod;
+    this.typeOfCard = this.cardType;
   }
 }

@@ -113,24 +113,27 @@
       .claims-header {
         color: $strom-grey;
       }
+      .footer-border {
+        border-top: 1px solid #e0e0e0;
+        margin: 0;
+        padding: 0;
+        height: 1px;
+      }
       .timeperiod-block {
-        border-top: 1px solid #efefef;
+        height: 40px;
         position: absolute;
         /* bottom: 0; */
-        margin-top: 490px;
+        margin-top: 482px;
         /* height: 44px; */
         width: 961px;
         z-index: 999999;
         .timeperiod-text {
-          position: inherit;
-          padding: 9px 20px 9px 16px;
-          color: $strom-grey;
+          padding: 12px 16px 10px 16px;
+          color: rgb(117, 117, 136);
           font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
           font-size: 14px;
           letter-spacing: 0.2px;
-          line-height: 17px;
-          height: 30px;
-          // margin-top: 5px;
+          line-height: 18px;
         }
       }
     }
