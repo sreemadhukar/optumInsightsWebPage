@@ -56,7 +56,6 @@ export class AppealsComponent implements OnInit {
     });
 
     this.gettingReimbursedSharedService.getappealsRateAndReasonData().then(appealsRateData => {
-      console.log(appealsRateData[1]);
       this.loading = false;
       if (appealsRateData[1].length !== 0) {
         this.reasonDataAvailable = true;
