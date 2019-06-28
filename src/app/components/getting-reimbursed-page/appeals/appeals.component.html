@@ -37,7 +37,8 @@
     </div>
 
     <div class="overturn-margin">
-      <div class="overturn-reason-block">
+      <app-card class="cards" [skeleton]="loading" *ngIf="loading"> </app-card>
+      <div *ngIf="reasonDataAvailable" class="overturn-reason-block">
         <app-common-header
           [title]="title"
           class="full-display"
