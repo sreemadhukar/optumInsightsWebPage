@@ -29,9 +29,15 @@ export class FilterComponent implements OnInit {
     this.arrowmark = false;
     if (this.session.filterObjValue.tax.length > 1) {
       this.taxData = this.session.filterObjValue.tax.join(', ');
+      this.inputDisplay = true;
       this.taxArrayData = this.session.filterObjValue.tax;
     } else if (this.session.filterObjValue.tax.length === 1) {
       this.taxData = this.session.filterObjValue.tax[0];
+      if (this.session.filterObjValue.tax[0] !== 'All') {
+        this.inputDisplay = true;
+      } else {
+        this.inputDisplay = false;
+      }
     }
 
     this.tarrowmark = false;
@@ -50,7 +56,6 @@ export class FilterComponent implements OnInit {
       this.tarrowmark = !this.tarrowmark;
       this.arrowmark = false;
       this.taxValue = '';
-      this.inputDisplay = false;
       this.tiarrowmark = false;
     } else if (value === 'lob') {
       this.arrowmark = !this.arrowmark;
