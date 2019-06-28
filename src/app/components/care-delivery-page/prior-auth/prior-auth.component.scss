@@ -9,6 +9,8 @@
     line-height: 0;
   }
   .filter_bg {
+    height: 40px;
+    width: 100px;
     box-sizing: border-box;
     border: 1px solid $blue;
     border-radius: 2px;
@@ -21,12 +23,12 @@
       letter-spacing: 0.2px;
       line-height: 22px;
       text-align: center;
-      margin: 9px 12px;
+      margin: 9px 0;
       float: left;
     }
     .filter_icon {
       color: $blue;
-      margin: 9px 12px;
+      margin: 7px 10px;
       float: left;
     }
   }
@@ -78,7 +80,7 @@
     }
     & > .cards {
       text-align: left;
-      @include margin(0, 0, 0, 12px);
+      @include margin(0, 0, 0, 0);
     }
     .cust-width-title {
       width: 961px;

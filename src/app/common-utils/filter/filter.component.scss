@@ -1,6 +1,6 @@
 @import '~src/scss/variables.scss';
 .filter {
-  margin-top: 15px;
+  margin-top: 6px;
 }
 .line-top {
   background-color: #fff;
@@ -48,7 +48,7 @@
   width: 354px;
   display: inline-block;
   .title {
-    width: 322px;
+    width: 300px;
     color: #2d2d39;
     font-family: 'UHCSans-SemiBold', 'Arial';
     font-size: 18px;
@@ -56,16 +56,22 @@
     margin: 15px 0 8px 0;
     float: left;
   }
-  .icon-display {
-    width: 32px;
+  .chevron {
+    height: 40px;
+    width: 40px;
+    cursor: pointer;
     float: right;
-    height: 32px;
-    margin-top: 15px;
-    color: #2d2d39;
+    .icon-display {
+      width: 32px;
+      height: 32px;
+      margin-top: 15px;
+      color: #2d2d39;
+    }
   }
 }
 .lobgrp {
   width: 100%;
+  display: inline-block;
   .label-cls {
     margin-top: 16px;
     .input-search {
@@ -119,7 +125,7 @@
       float: left;
       display: flex;
       flex-direction: column;
-      margin: 15px 0;
+      margin: 15px 0 0 0;
     }
     .radio-button {
       color: #2d2d39;
