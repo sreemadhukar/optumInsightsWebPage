@@ -97,6 +97,7 @@
   flex-direction: column;
   min-height: 100vh;
   @include padding(16px, 0, 64px, 0);
+  background-color: $alice-blue;
   .calls-content {
     display: flex;
     -webkit-flex-flow: row wrap;

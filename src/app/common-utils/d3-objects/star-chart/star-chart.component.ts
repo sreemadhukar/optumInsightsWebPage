@@ -82,7 +82,7 @@ export class StarChartComponent implements OnInit, AfterViewInit {
       .append('text')
       .attr('x', (width + margin.left + margin.right) / 2)
       .attr('y', centerTextHeight)
-      .attr('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
+      .attr('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
       .attr('fill', '#FFFFFF')
       .attr('font-size', centerTextFontSize)
       .attr('text-anchor', 'middle')
