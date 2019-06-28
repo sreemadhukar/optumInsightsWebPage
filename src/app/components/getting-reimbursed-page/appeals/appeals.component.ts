@@ -26,6 +26,7 @@ export class AppealsComponent implements OnInit {
   title = 'Top Claims Appeals Overturn Reasons';
   loading: boolean;
   mockCards: any;
+  reasonDataAvailable = false;
   constructor(
     private gettingReimbursedSharedService: GettingReimbursedSharedService,
     private iconRegistry: MatIconRegistry,
@@ -55,8 +56,11 @@ export class AppealsComponent implements OnInit {
     });
 
     this.gettingReimbursedSharedService.getappealsRateAndReasonData().then(appealsRateData => {
+      console.log(appealsRateData[1]);
       this.loading = false;
-      console.log(appealsRateData);
+      if (appealsRateData[1].length !== 0) {
+        this.reasonDataAvailable = true;
+      }
       this.overturnItem = appealsRateData[0];
       this.reason = appealsRateData[1];
     });
