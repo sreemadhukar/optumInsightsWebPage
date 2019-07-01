@@ -7,7 +7,7 @@
       <div class="page-subtitle">{{ pagesubTitle }}</div>
     </div>
     <div class="cards cust-width-blank">
-      <app-print [printDivId]="'print-overview'"></app-print>
+      <app-print [printDivId]="'print-overview'" [printName]="'Overview Page'"></app-print>
     </div>
     <div class="height1Separator"></div>
     <div *ngFor="let item of mainCards; let i = index">

@@ -3,7 +3,8 @@ import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 import * as html2canvas from 'html2canvas';
 import { PrintService } from '../../shared/print.service';
-
+import { StorageService } from '../../shared/storage-service.service';
+import { Providers } from '../../shared/provider/provider.class';
 @Component({
   selector: 'app-print',
   templateUrl: './print.component.html',
@@ -11,11 +12,21 @@ import { PrintService } from '../../shared/print.service';
 })
 export class PrintComponent implements OnInit, OnDestroy {
   @Input() printDivId: string;
+  @Input() printName: string;
+
   public providerName = '---';
+  public providerData: any;
+  states: Providers[];
   // @Input() hasFilter: string;
   private canvas: any;
   private subscription: any;
-  constructor(private iconRegistry: MatIconRegistry, sanitizer: DomSanitizer, public printService: PrintService) {
+
+  constructor(
+    private iconRegistry: MatIconRegistry,
+    sanitizer: DomSanitizer,
+    public printService: PrintService,
+    private storage: StorageService
+  ) {
     /** INITIALIZING SVG ICONS TO USE IN DESIGN - ANGULAR MATERIAL */
 
     iconRegistry.addSvgIcon(
@@ -29,20 +40,22 @@ export class PrintComponent implements OnInit, OnDestroy {
   }
 
   public print() {
+    this.providerData = JSON.parse(sessionStorage.getItem('currentUser'));
+    const provider = this.providerData[0];
+    console.log('Provider Data', provider);
+    console.log('Provider Name', provider.HealthCareOrganizationName);
+
     const region = document.getElementById(this.printDivId);
-    console.log('region', region);
     html2canvas(region).then(c => {});
     html2canvas(region).then(canvas => {
       canvas.style.width = 700;
       canvas.style.height = 700;
       this.canvas = canvas;
       if (this.canvas) {
-        const currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
-        this.providerName = currentUser[0].Healthcareorganizationname;
-        //   this.providerName = 'madhukar';
+        const providerData = JSON.parse(sessionStorage.getItem('currentUser'));
+        this.providerName = providerData.HealthCareOrganizationName;
         this.popup(this.canvas);
       }
-      console.log('canvas', canvas);
     });
   }
 
@@ -53,7 +66,7 @@ export class PrintComponent implements OnInit, OnDestroy {
     popupWin.document.write(`
                               <html>
                                 <head>
-                                  <title>Inderjeet</title>
+                                  <title>${this.printName}</title>
                                 <style>
                                 body{
                                     float:left;
@@ -87,7 +100,7 @@ export class PrintComponent implements OnInit, OnDestroy {
                                 <div class="header-logo-space">
                                     <img class="uhc-logo" src="assets/images/UHC Logo@2x.png" alt="UHC Logo" />
                                 <div class="provider-name">
-                                <h1>Provider Name</h1>
+                                <h1>${this.providerName}</h1>
                                 </div>
                             </div>
                                </body>
