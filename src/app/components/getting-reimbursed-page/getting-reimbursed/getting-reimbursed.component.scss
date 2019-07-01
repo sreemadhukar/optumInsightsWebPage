@@ -77,7 +77,7 @@
       .time--period {
         .horizontal-align {
           display: inline-block;
-          margin: 5px 0;
+          margin: 5px 17px 5px 0;
         }
         button {
           span:first-child {
@@ -134,8 +134,6 @@
                 font-size: 16px;
                 font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
                 letter-spacing: 0.2px;
-                &:hover {
-                }
               }
               &.active,
               &.active:hover,
