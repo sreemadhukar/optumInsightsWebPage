@@ -5,6 +5,7 @@ import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { FilterExpandService } from '../../../shared/filter-expand.service';
+import { SessionService } from 'src/app/shared/session.service';
 
 @Component({
   selector: 'app-prior-auth',
@@ -29,6 +30,7 @@ export class PriorAuthComponent implements OnInit {
     private filterExpandService: FilterExpandService,
     private router: Router,
     private iconRegistry: MatIconRegistry,
+    private session: SessionService,
     sanitizer: DomSanitizer
   ) {
     this.pagesubTitle = '';
@@ -46,6 +48,9 @@ export class PriorAuthComponent implements OnInit {
     this.reasonItems = [{}];
     this.summaryItems = [{}];
     this.mockCards = [{}, {}];
+    console.log(this.session.filterObjValue);
+
+    this.priorAuthShared.getPriorAuthDataFiltered(this.session.filterObjValue).then();
 
     this.priorAuthShared.getPriorAuthData().then(
       data => {

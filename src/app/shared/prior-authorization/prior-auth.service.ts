@@ -350,5 +350,98 @@ export class PriorAuthSharedService {
     });
   }
 
-  getPriorAuthDataFiltered(filterParamteres) {}
+  getPriorAuthDataFiltered(filterParamteres) {
+    this.providerKey = this.session.providerKey();
+
+    const timePeriod = filterParamteres.timeFrame;
+    const TIN = filterParamteres.tax[0];
+    const LOB = filterParamteres.lob;
+
+    console.log(timePeriod, TIN, LOB);
+
+    // Default parameters
+    let timeRange = 'rolling12';
+    const timeRangeAPIParameter = true;
+    let timeRangeAdditionalData = true;
+    let isAllTinBool = true;
+    let specificTin = '';
+    let isAllLobBool = true;
+    let iscAndSLobBool = false;
+    let iseAndILobBool = false;
+    let ismAndRLobBool = false;
+    const isAllSSFlagBool = true; // Only if we need all reasons; most commands will already give all 3 so just have to filter
+
+    // configurations for time period
+    if (timePeriod === 'Last 12 Months') {
+      timeRange = 'rolling12';
+    } else if (timePeriod === 'Last 6 Months') {
+      timeRange = 'last6Months';
+    } else if (timePeriod === 'Year to Date') {
+      timeRange = 'YTD';
+    } else {
+      // for year values
+      timeRange = 'calenderYear';
+      timeRangeAdditionalData = timePeriod;
+    }
+
+    // configurations for lob
+    if (LOB === 'All') {
+      isAllLobBool = true;
+      iscAndSLobBool = false;
+      iseAndILobBool = false;
+      ismAndRLobBool = false;
+    } else {
+      isAllLobBool = false;
+      if (LOB === 'Community & State') {
+        iscAndSLobBool = true;
+        iseAndILobBool = false;
+        ismAndRLobBool = false;
+      }
+      if (LOB === 'Employee & Individual') {
+        iscAndSLobBool = false;
+        iseAndILobBool = true;
+        ismAndRLobBool = false;
+      }
+      if (LOB === 'Medicare & Retirement') {
+        iscAndSLobBool = false;
+        iseAndILobBool = true;
+        ismAndRLobBool = false;
+      }
+    }
+
+    if (TIN === 'All') {
+      isAllTinBool = true;
+      specificTin = '';
+    } else {
+      isAllTinBool = false;
+      specificTin = TIN;
+    }
+
+    return new Promise(resolve => {
+      const newParameters = [this.providerKey, true, true, true, false, true, false, false, false, true];
+
+      const priorAuthAPIParameters = [
+        this.providerKey,
+        timeRangeAPIParameter,
+        timeRangeAdditionalData,
+        isAllTinBool,
+        specificTin,
+        isAllLobBool,
+        iscAndSLobBool,
+        iseAndILobBool,
+        ismAndRLobBool,
+        isAllSSFlagBool
+      ];
+      // Parameters key
+      // zero - provider key
+      // one/two - time period data
+      // three/four - all tin flag/specific tin
+      // five-eight - all lob/cAndSLob/eAndILob/mAndRLob flag
+      // nine - all service setting flag
+
+      this.priorAuthService
+        .getPriorAuthDateRange(timeRange, isAllTinBool, isAllLobBool, isAllSSFlagBool, ...priorAuthAPIParameters)
+        .subscribe(providerSystems => {});
+    });
+  }
 }
