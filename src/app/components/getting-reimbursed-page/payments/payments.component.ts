@@ -7,7 +7,7 @@ import { StorageService } from '../../../shared/storage-service.service';
 import { Router } from '@angular/router';
 import { FilterExpandService } from '../../../shared/filter-expand.service';
 import { DomSanitizer } from '@angular/platform-browser';
-
+import { CommonUtilsService } from '../../../shared/common-utils.service';
 @Component({
   selector: 'app-payments',
   templateUrl: './payments.component.html',
@@ -25,7 +25,9 @@ export class PaymentsComponent implements OnInit {
   showClaimsPaid: Boolean = false;
   loading: boolean;
   mockCards: any;
-  timePeriod = 'Last 6 Months';
+  timePeriod: string;
+  lob: string;
+  taxID: Array<string>;
   constructor(
     private checkStorage: StorageService,
     private gettingReimbursedSharedService: GettingReimbursedSharedService,
@@ -34,7 +36,8 @@ export class PaymentsComponent implements OnInit {
     private session: SessionService,
     private router: Router,
     sanitizer: DomSanitizer,
-    private iconRegistry: MatIconRegistry
+    private iconRegistry: MatIconRegistry,
+    private filtermatch: CommonUtilsService
   ) {
     const filData = this.session.getFilChangeEmitter().subscribe(() => this.ngOnInit());
     this.pageTitle = 'Claims Payments';
@@ -47,6 +50,12 @@ export class PaymentsComponent implements OnInit {
 
   ngOnInit() {
     this.loading = true;
+    this.timePeriod = this.session.filterObjValue.timeFrame;
+    this.lob = this.filtermatch.matchLobWithLobData(this.session.filterObjValue.lob);
+    this.taxID = this.session.filterObjValue.tax;
+    if (this.taxID.length > 3) {
+      this.taxID = [this.taxID.length + ' Selected'];
+    }
     this.mockCards = [{}, {}];
     this.gettingReimbursedSharedService
       .getGettingReimbursedData()

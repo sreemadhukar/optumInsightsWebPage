@@ -46,6 +46,17 @@ export class CommonUtilsService {
       return 'Cs';
     }
   }
+  public matchLobWithLobData(lob) {
+    if (lob === 'All') {
+      return 'All';
+    } else if (lob === 'Employee & Individual') {
+      return 'E&I';
+    } else if (lob === 'Medicare & Retirement') {
+      return 'M&R';
+    } else if (lob === 'Community & State') {
+      return 'C&S';
+    }
+  }
   public matchFullLobWithData(lob) {
     if (lob === 'All') {
       return 'ALL';

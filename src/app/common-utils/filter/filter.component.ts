@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 import { SessionService } from '../../shared/session.service';
@@ -21,6 +21,7 @@ export class FilterComponent implements OnInit {
   public timeframeData: any;
   public filterData: any;
   @Output() filterFlag = new EventEmitter();
+  @Input() filterurl;
   public timeframes = ['Last 6 Months', 'Last 12 Months', 'Year to Date', '2018', '2017'];
   public lobs = ['All', 'Community & State', 'Employee & Individual', 'Medicare & Retirement'];
   constructor(private iconRegistry: MatIconRegistry, sanitizer: DomSanitizer, private session: SessionService) {
