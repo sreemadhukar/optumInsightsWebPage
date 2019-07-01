@@ -19,6 +19,9 @@ export class GettingReimbursedService {
   private APPEALS_SERVICE_PATH: string = environment.apiUrls.Appeals;
   private TINS_SERVICE_PATH: string = environment.apiUrls.ProvTinList;
   private PAYMENT_INTEGRITY_PATH: string = environment.apiUrls.PaymentIntegrity;
+  private PAYMENT_PATH: string = environment.apiUrls.Payment;
+
+  private PAYMENT_REQUEST_TYPE = '?requestType=PAYMENT_METRICS';
 
   constructor(private http: HttpClient) {}
   public getGettingReimbursedYearWiseData(...parameters) {
@@ -122,6 +125,7 @@ export class GettingReimbursedService {
     }
 */
     const claimsURL = this.APP_URL + this.CLAIMS_SERVICE_PATH + parameters.providerkey;
+    console.log('Claims URL ' + claimsURL);
     return this.http.post(claimsURL, params).pipe(
       retry(2),
       map(res => res),
@@ -139,5 +143,24 @@ export class GettingReimbursedService {
       params = params.append('timeFilter', parameters.timeperiod);
     }
     return this.http.get(piURL, { params: params });
+  }
+
+  public getPaymentData(parameters) {
+    this.currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
+    this.authBearer = this.currentUser[0].PedAccessToken;
+    const myHeader = new HttpHeaders({
+      Authorization: 'Bearer ' + this.authBearer,
+      Accept: '*/*'
+    });
+    /* if need to combine with above function -
+     Write If condition to append REQUESTTYPE BASED on Null or not null value of Payment Metric*/
+    const payURL = this.APP_URL + this.PAYMENT_PATH + parameters + this.PAYMENT_REQUEST_TYPE;
+    let params = new HttpParams();
+
+    if (parameters.timeperiod !== '') {
+      params = params.append('timeFilter', parameters.timeperiod);
+    }
+
+    return this.http.post(payURL, { params: params, headers: myHeader });
   }
 }

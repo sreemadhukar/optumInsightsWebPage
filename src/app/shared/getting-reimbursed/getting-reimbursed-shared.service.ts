@@ -87,6 +87,7 @@ export class GettingReimbursedSharedService {
         }
 
         this.gettingReimbursedService.getGettingReimbursedData(...parameters).subscribe(([claimsData, appealsData]) => {
+          console.log(claimsData);
           const lobFullData = this.common.matchFullLobWithData(this.lob);
           const lobData = this.common.matchLobWithData(this.lob);
           if (claimsData != null && claimsData.hasOwnProperty('status')) {
@@ -1306,6 +1307,7 @@ export class GettingReimbursedSharedService {
     this.lob = this.session.lob;
     this.timeFrame = 'Last 6 Months'; // this.session.timeFrame;
     this.providerKey = this.session.providerKey();
+
     let AOR: Array<Object> = [];
     return new Promise((resolve, reject) => {
       let parameters;
@@ -1384,7 +1386,6 @@ export class GettingReimbursedSharedService {
                   : '<1%';
               barTitle[a] = getTopFiveReasons[a].Reason;
             }
-            console.log(reasonsVal1, reasonsVal2);
             for (let i = 0; i <= getTopFiveReasons.length; i++) {
               reason.push({
                 type: 'bar chart',
@@ -1396,16 +1397,7 @@ export class GettingReimbursedSharedService {
               });
             }
           }
-        } /*else {
-          appealsOverturnedRate = {
-            category: 'app-card',
-            type: 'donut',
-            title: null,
-            data: null,
-            timeperiod: null
-          };
-       }*/
-
+        }
         AOR = [appealsOverturnedRate, reason];
         resolve(AOR);
       });
@@ -1503,6 +1495,55 @@ export class GettingReimbursedSharedService {
         } else {
           resolve(null);
         }
+      });
+    });
+  }
+
+  claimsPaid() {
+    this.tin = this.session.tin;
+    this.lob = this.session.lob;
+    this.timeFrame = 'Last 6 Months'; // this.session.timeFrame;
+    this.providerKey = this.session.providerKey();
+    const timeperiod = '';
+
+    // let paidArray:  Array<Object> = [];
+
+    return new Promise((resolve, reject) => {
+      let parameters;
+      parameters = [this.providerKey];
+      this.gettingReimbursedService.getPaymentData(parameters).subscribe(paymentData => {
+        const lobFullData = this.common.matchFullLobWithData(this.lob);
+        const lobData = this.common.matchLobWithData(this.lob);
+        console.log(paymentData);
+        // if(paymentData => )
+      });
+    });
+  }
+  getClaimsPaidBreakdownData() {
+    this.tin = this.session.tin;
+    this.lob = this.session.lob;
+    this.timeFrame = 'Last 6 Months'; // this.session.timeFrame;
+    this.providerKey = this.session.providerKey();
+
+    let paidArray: Array<Object> = [];
+
+    return new Promise((resolve, reject) => {
+      let parameters;
+      let paidBreakdown = [];
+      parameters = [this.providerKey];
+      this.gettingReimbursedService.getGettingReimbursedData(...parameters).subscribe(([claimsData, appealsData]) => {
+        const lobFullData = this.common.matchFullLobWithData(this.lob);
+        const lobData = this.common.matchLobWithData(this.lob);
+        if (claimsData !== null) {
+          paidBreakdown = [
+            claimsData[lobData].ClaimsLobSummary[0].AmountBilled,
+            claimsData[lobData].ClaimsLobSummary[0].AmountActualAllowed,
+            claimsData[lobData].ClaimsLobSummary[0].AmountDenied,
+            claimsData[lobData].ClaimsLobSummary[0].AmountUHCPaid
+          ];
+        }
+        paidArray = [paidBreakdown];
+        resolve(paidArray);
       });
     });
   }
