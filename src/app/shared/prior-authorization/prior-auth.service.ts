@@ -69,7 +69,7 @@ export class PriorAuthSharedService {
   }
 
   public getPCORData() {
-    this.providerKey = this.session.providerKey();
+    this.providerKey = this.session.providerKeyData();
     this.priorAuthData = [];
     return new Promise(resolve => {
       const parametersExecutive = [this.providerKey, true];
@@ -93,7 +93,7 @@ export class PriorAuthSharedService {
   }
 
   public getPriorAuthData() {
-    this.providerKey = this.session.providerKey();
+    this.providerKey = this.session.providerKeyData();
     this.priorAuthData = [];
     return new Promise(resolve => {
       const newParameters = [this.providerKey, true, true, true, false, true, false, false, false, true];
@@ -219,7 +219,7 @@ export class PriorAuthSharedService {
   }
 
   getPCORMandRData() {
-    this.providerKey = this.session.providerKey();
+    this.providerKey = this.session.providerKeyData();
     this.priorAuthData = [];
     return new Promise(resolve => {
       const parametersExecutive = [this.providerKey, true];

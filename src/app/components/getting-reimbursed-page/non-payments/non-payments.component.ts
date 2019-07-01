@@ -197,6 +197,7 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
     private session: SessionService,
     private router: Router
   ) {
+    const filData = this.session.getFilChangeEmitter().subscribe(() => this.ngOnInit());
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.ngOnInit());
     /** INITIALIZING SVG ICONS TO USE IN DESIGN - ANGULAR MATERIAL */
 
@@ -225,6 +226,7 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
   }
 
   ngOnInit() {
+    console.log('am here', this.session.filterObjSubject.value);
     this.gettingReimbursedSharedService.getTins().then(tins => {
       console.log(tins);
     });

@@ -89,13 +89,17 @@ export class FilterComponent implements OnInit {
   applyFilter() {
     // this.session.lob = this.lobData;
     // this.session.timeFrame = this.timeframeData;
-    this.session.filterObjValue.timeFrame = this.timeframeData;
-    this.session.filterObjValue.lob = this.lobData;
+
+    // this.session.filterObjValue.timeFrame = this.timeframeData;
+    // this.session.filterObjValue.lob = this.lobData;
     if (this.taxArrayData.length > 0) {
-      this.session.filterObjValue.tax = this.taxArrayData;
+      //  this.session.filterObjValue.tax = this.taxArrayData;
+      this.session.store({ timeFrame: this.timeframeData, lob: this.lobData, tax: this.taxArrayData });
     } else {
-      this.session.filterObjValue.tax = [this.taxData];
+      // this.session.filterObjValue.tax = [this.taxData];
+      this.session.store({ timeFrame: this.timeframeData, lob: this.lobData, tax: [this.taxData] });
     }
+    this.session.filterObjSubject.complete();
     this.filterFlag.emit(false);
   }
   focusFunction(searchValue: string) {
