@@ -22,6 +22,7 @@ export class PrintComponent implements OnInit, OnDestroy {
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/print-icon.svg')
     );
   }
+
   ngOnInit() {
     this.subscription = this.printService.getNavChangeEmitter().subscribe(() => this.print());
   }
