@@ -33,6 +33,7 @@ export class PriorAuthComponent implements OnInit {
     private session: SessionService,
     sanitizer: DomSanitizer
   ) {
+    const filData = this.session.getFilChangeEmitter().subscribe(() => this.ngOnInit());
     this.pagesubTitle = '';
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.ngOnInit());
     iconRegistry.addSvgIcon(
@@ -48,10 +49,20 @@ export class PriorAuthComponent implements OnInit {
     this.reasonItems = [{}];
     this.summaryItems = [{}];
     this.mockCards = [{}, {}];
-    console.log(this.session.filterObjValue);
+    // console.log(this.session.filterObjValue);
 
-    this.priorAuthShared.getPriorAuthDataFiltered(this.session.filterObjValue).then();
+    this.priorAuthShared.getPriorAuthDataFiltered(this.session.filterObjValue).then(
+      data => {
+        this.loading = false;
+        this.summaryItems = data[0];
+        this.reasonItems = data[1];
+      },
+      error => {
+        this.hideAllObjects = false;
+      }
+    );
 
+    /*
     this.priorAuthShared.getPriorAuthData().then(
       data => {
         this.loading = false;
@@ -62,6 +73,7 @@ export class PriorAuthComponent implements OnInit {
         this.hideAllObjects = false;
       }
     );
+    */
   }
   openFilter() {
     this.filterExpandService.setURL(this.router.url);
