@@ -49,7 +49,7 @@ export class PriorAuthComponent implements OnInit {
     this.reasonItems = [{}];
     this.summaryItems = [{}];
     this.mockCards = [{}, {}];
-    // console.log(this.session.filterObjValue);
+    console.log(this.session);
 
     this.priorAuthShared.getPriorAuthDataFiltered(this.session.filterObjValue).then(
       data => {
