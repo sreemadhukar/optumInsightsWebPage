@@ -414,7 +414,10 @@ export class PriorAuthSharedService {
       specificTin = '';
     } else {
       isAllTinBool = false;
-      specificTin = TIN;
+      let tinNumberFormatted;
+      specificTin = TIN.replace(/\D/g, '');
+      tinNumberFormatted = parseInt(specificTin, 10);
+      specificTin = tinNumberFormatted;
     }
 
     return new Promise(resolve => {
