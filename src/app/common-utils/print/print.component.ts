@@ -10,6 +10,7 @@ import { PrintService } from '../../shared/print.service';
   styleUrls: ['./print.component.scss']
 })
 export class PrintComponent implements OnInit, OnDestroy {
+  @Input() printDivId: string;
   public providerName = '---';
   // @Input() hasFilter: string;
   private canvas: any;
@@ -28,7 +29,8 @@ export class PrintComponent implements OnInit, OnDestroy {
   }
 
   public print() {
-    const region = document.getElementById('print-overview');
+    const region = document.getElementById(this.printDivId);
+    console.log('region', region);
     html2canvas(region).then(c => {});
     html2canvas(region).then(canvas => {
       canvas.style.width = 700;
@@ -40,6 +42,7 @@ export class PrintComponent implements OnInit, OnDestroy {
         //   this.providerName = 'madhukar';
         this.popup(this.canvas);
       }
+      console.log('canvas', canvas);
     });
   }
 
