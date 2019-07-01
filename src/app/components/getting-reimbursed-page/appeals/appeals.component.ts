@@ -6,6 +6,8 @@ import { GlossaryExpandService } from 'src/app/shared/glossary-expand.service';
 import { MatIconRegistry, PageEvent } from '@angular/material';
 import { Router } from '@angular/router';
 import { FilterExpandService } from '../../../shared/filter-expand.service';
+import { CommonUtilsService } from '../../../shared/common-utils.service';
+import { SessionService } from 'src/app/shared/session.service';
 
 @Component({
   selector: 'app-appeals',
@@ -17,7 +19,9 @@ export class AppealsComponent implements OnInit {
   pageTitle: String = '';
   currentSummary: Array<Object> = [{}];
   currentTabTitle: String = '';
-  timePeriod = 'Last 6 months';
+  timePeriod: string;
+  lob: string;
+  taxID: Array<string>;
   subscription: any;
   overturn: any;
   overturnItem: Array<Object> = [{}];
@@ -34,8 +38,11 @@ export class AppealsComponent implements OnInit {
     sanitizer: DomSanitizer,
     private glossaryExpandService: GlossaryExpandService,
     private filterExpandService: FilterExpandService,
-    private router: Router
+    private session: SessionService,
+    private router: Router,
+    private filtermatch: CommonUtilsService
   ) {
+    const filData = this.session.getFilChangeEmitter().subscribe(() => this.ngOnInit());
     this.pageTitle = 'Claims Appeals';
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.ngOnInit());
     iconRegistry.addSvgIcon(
@@ -45,6 +52,12 @@ export class AppealsComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.timePeriod = this.session.filterObjValue.timeFrame;
+    this.lob = this.filtermatch.matchLobWithLobData(this.session.filterObjValue.lob);
+    this.taxID = this.session.filterObjValue.tax;
+    if (this.taxID.length > 3) {
+      this.taxID = [this.taxID.length + ' Selected'];
+    }
     this.loading = true;
     this.mockCards = [{}, {}, {}, {}];
     this.gettingReimbursedSharedService.getGettingReimbursedData().then(completeData => {
