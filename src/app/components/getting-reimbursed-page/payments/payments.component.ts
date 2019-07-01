@@ -36,6 +36,7 @@ export class PaymentsComponent implements OnInit {
     sanitizer: DomSanitizer,
     private iconRegistry: MatIconRegistry
   ) {
+    const filData = this.session.getFilChangeEmitter().subscribe(() => this.ngOnInit());
     this.pageTitle = 'Claims Payments';
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.ngOnInit());
     iconRegistry.addSvgIcon(
