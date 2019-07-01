@@ -520,35 +520,130 @@ export class PriorAuthSharedService {
             }
 
             // if (providerSystems.All.NotApproved.AllNotApprovedSettings !== null) {
-            if (
-              providerSystems.All !== null &&
-              providerSystems.hasOwnProperty('All') &&
-              providerSystems.All.hasOwnProperty('NotApproved') &&
-              providerSystems.All.NotApproved.hasOwnProperty('AllNotApprovedSettings')
-            ) {
-              const PriorAuthNotApprovedReasons = providerSystems.All.NotApproved.AllNotApprovedSettings;
-              PriorAuthNotApprovedReasons.sort(function(a, b) {
-                return b.Count - a.Count;
-              });
-
-              const barScaleMax = PriorAuthNotApprovedReasons[0].Count;
-              for (let i = 0; i < PriorAuthNotApprovedReasons.length; i++) {
-                PriorAuthBarGraphParamaters.push({
-                  type: 'singleBarChart',
-                  title: 'Top Reasons for Prior Authorizations Not Approved',
-                  data: {
-                    barHeight: 40,
-                    barData: PriorAuthNotApprovedReasons[i].Count,
-                    barSummation: barScaleMax,
-                    barText: PriorAuthNotApprovedReasons[i].Reason,
-                    color: [{ color1: '#3381FF' }],
-                    gdata: ['card-inner-large', 'reasonBar' + i]
-                  },
-                  timeperiod: timePeriod
+            if (isAllLobBool) {
+              if (
+                providerSystems.All !== null &&
+                providerSystems.hasOwnProperty('All') &&
+                providerSystems.All.hasOwnProperty('NotApproved') &&
+                providerSystems.All.NotApproved.hasOwnProperty('AllNotApprovedSettings')
+              ) {
+                const PriorAuthNotApprovedReasons = providerSystems.All.NotApproved.AllNotApprovedSettings;
+                PriorAuthNotApprovedReasons.sort(function(a, b) {
+                  return b.Count - a.Count;
                 });
+
+                const barScaleMax = PriorAuthNotApprovedReasons[0].Count;
+                for (let i = 0; i < PriorAuthNotApprovedReasons.length; i++) {
+                  PriorAuthBarGraphParamaters.push({
+                    type: 'singleBarChart',
+                    title: 'Top Reasons for Prior Authorizations Not Approved',
+                    data: {
+                      barHeight: 40,
+                      barData: PriorAuthNotApprovedReasons[i].Count,
+                      barSummation: barScaleMax,
+                      barText: PriorAuthNotApprovedReasons[i].Reason,
+                      color: [{ color1: '#3381FF' }],
+                      gdata: ['card-inner-large', 'reasonBar' + i]
+                    },
+                    timeperiod: timePeriod
+                  });
+                }
+              } else {
+                PriorAuthBarGraphParamaters = [];
               }
-            } else {
-              PriorAuthBarGraphParamaters = [];
+            } else if (iscAndSLobBool) {
+              if (
+                providerSystems.Cs !== null &&
+                providerSystems.hasOwnProperty('Cs') &&
+                providerSystems.Cs.hasOwnProperty('NotApproved') &&
+                providerSystems.Cs.NotApproved.hasOwnProperty('AllNotApprovedSettings')
+              ) {
+                const PriorAuthNotApprovedReasons = providerSystems.Cs.NotApproved.AllNotApprovedSettings;
+                PriorAuthNotApprovedReasons.sort(function(a, b) {
+                  return b.Count - a.Count;
+                });
+
+                const barScaleMax = PriorAuthNotApprovedReasons[0].Count;
+                for (let i = 0; i < PriorAuthNotApprovedReasons.length; i++) {
+                  PriorAuthBarGraphParamaters.push({
+                    type: 'singleBarChart',
+                    title: 'Top Reasons for Prior Authorizations Not Approved',
+                    data: {
+                      barHeight: 40,
+                      barData: PriorAuthNotApprovedReasons[i].Count,
+                      barSummation: barScaleMax,
+                      barText: PriorAuthNotApprovedReasons[i].Reason,
+                      color: [{ color1: '#3381FF' }],
+                      gdata: ['card-inner-large', 'reasonBar' + i]
+                    },
+                    timeperiod: timePeriod
+                  });
+                }
+              } else {
+                PriorAuthBarGraphParamaters = [];
+              }
+            } else if (iseAndILobBool) {
+              if (
+                providerSystems.Ei !== null &&
+                providerSystems.hasOwnProperty('Ei') &&
+                providerSystems.Ei.hasOwnProperty('NotApproved') &&
+                providerSystems.Ei.NotApproved.hasOwnProperty('AllNotApprovedSettings')
+              ) {
+                const PriorAuthNotApprovedReasons = providerSystems.Ei.NotApproved.AllNotApprovedSettings;
+                PriorAuthNotApprovedReasons.sort(function(a, b) {
+                  return b.Count - a.Count;
+                });
+
+                const barScaleMax = PriorAuthNotApprovedReasons[0].Count;
+                for (let i = 0; i < PriorAuthNotApprovedReasons.length; i++) {
+                  PriorAuthBarGraphParamaters.push({
+                    type: 'singleBarChart',
+                    title: 'Top Reasons for Prior Authorizations Not Approved',
+                    data: {
+                      barHeight: 40,
+                      barData: PriorAuthNotApprovedReasons[i].Count,
+                      barSummation: barScaleMax,
+                      barText: PriorAuthNotApprovedReasons[i].Reason,
+                      color: [{ color1: '#3381FF' }],
+                      gdata: ['card-inner-large', 'reasonBar' + i]
+                    },
+                    timeperiod: timePeriod
+                  });
+                }
+              } else {
+                PriorAuthBarGraphParamaters = [];
+              }
+            } else if (ismAndRLobBool) {
+              if (
+                providerSystems.Mr !== null &&
+                providerSystems.hasOwnProperty('Mr') &&
+                providerSystems.Mr.hasOwnProperty('NotApproved') &&
+                providerSystems.Mr.NotApproved.hasOwnProperty('AllNotApprovedSettings')
+              ) {
+                const PriorAuthNotApprovedReasons = providerSystems.Mr.NotApproved.AllNotApprovedSettings;
+                PriorAuthNotApprovedReasons.sort(function(a, b) {
+                  return b.Count - a.Count;
+                });
+
+                const barScaleMax = PriorAuthNotApprovedReasons[0].Count;
+                for (let i = 0; i < PriorAuthNotApprovedReasons.length; i++) {
+                  PriorAuthBarGraphParamaters.push({
+                    type: 'singleBarChart',
+                    title: 'Top Reasons for Prior Authorizations Not Approved',
+                    data: {
+                      barHeight: 40,
+                      barData: PriorAuthNotApprovedReasons[i].Count,
+                      barSummation: barScaleMax,
+                      barText: PriorAuthNotApprovedReasons[i].Reason,
+                      color: [{ color1: '#3381FF' }],
+                      gdata: ['card-inner-large', 'reasonBar' + i]
+                    },
+                    timeperiod: timePeriod
+                  });
+                }
+              } else {
+                PriorAuthBarGraphParamaters = [];
+              }
             }
             const PAData = [PACount, PriorAuthBarGraphParamaters];
             resolve(PAData);
