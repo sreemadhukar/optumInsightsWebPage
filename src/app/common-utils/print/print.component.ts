@@ -42,8 +42,7 @@ export class PrintComponent implements OnInit, OnDestroy {
   public print() {
     this.providerData = JSON.parse(sessionStorage.getItem('currentUser'));
     const provider = this.providerData[0];
-    console.log('Provider Data', provider);
-    console.log('Provider Name', provider.HealthCareOrganizationName);
+    this.providerName = provider.HealthCareOrganizationName;
 
     const region = document.getElementById(this.printDivId);
     html2canvas(region).then(c => {});
@@ -52,8 +51,6 @@ export class PrintComponent implements OnInit, OnDestroy {
       canvas.style.height = 700;
       this.canvas = canvas;
       if (this.canvas) {
-        const providerData = JSON.parse(sessionStorage.getItem('currentUser'));
-        this.providerName = providerData.HealthCareOrganizationName;
         this.popup(this.canvas);
       }
     });
