@@ -257,7 +257,7 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit {
       .attr('stroke', '#757588')
       .attr('stroke-width', '1px');
 
-    const highestValue = 800000000.4;
+    const highestValue = 800;
     const xScale = d3
       .scaleLinear()
       .domain([0, highestValue])
@@ -288,8 +288,6 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit {
     for (let i = 0; i < preArray.length; i++) {
       preArray[i] = preArray[i].replace(/,/g, '');
     }
-
-    console.log(preArray);
 
     const preArrayOfNumbers = preArray.map(Number);
     const numberOfTicks = preArrayOfNumbers.length;
