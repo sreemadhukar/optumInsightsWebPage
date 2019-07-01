@@ -2,6 +2,7 @@ import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 import { SessionService } from '../../shared/session.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-filter',
@@ -24,7 +25,12 @@ export class FilterComponent implements OnInit {
   @Input() filterurl;
   public timeframes = ['Last 6 Months', 'Last 12 Months', 'Year to Date', '2018', '2017'];
   public lobs = ['All', 'Community & State', 'Employee & Individual', 'Medicare & Retirement'];
-  constructor(private iconRegistry: MatIconRegistry, sanitizer: DomSanitizer, private session: SessionService) {
+  constructor(
+    private iconRegistry: MatIconRegistry,
+    sanitizer: DomSanitizer,
+    private session: SessionService,
+    private location: Location
+  ) {
     this.timeframeData = this.session.filterObjValue.timeFrame;
     this.lobData = this.session.filterObjValue.lob;
     this.arrowmark = false;
@@ -69,6 +75,7 @@ export class FilterComponent implements OnInit {
     }
   }
   ngOnInit() {
+    // console.log(this.location.path())
     this.lobData = this.session.filterObjValue.lob;
     this.session.getTins().then(data => {
       this.tinsData = data;
