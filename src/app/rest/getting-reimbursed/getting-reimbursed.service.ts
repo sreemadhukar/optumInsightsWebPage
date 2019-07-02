@@ -59,22 +59,29 @@ export class GettingReimbursedService {
     );
   }
   public getGettingReimbursedData(...parameters) {
-    let cparams = new HttpParams();
+    const cparams = new HttpParams();
     const aparams = new HttpParams();
-    if (parameters.length > 1 && parameters[1]) {
+    /*if (parameters.length > 1 && parameters[1]) {
       cparams = cparams.append('timeFilter', 'last6months');
     } else if (parameters.length > 2 && parameters[2]) {
       cparams = cparams.append('YTD', parameters[2]);
     }
     if (parameters.length > 3 && parameters[3] !== null && parameters[3] !== undefined) {
       cparams = cparams.append('TIN', parameters[3]);
-    }
+    }*/
 
-    const claimsURL = this.APP_URL + this.CLAIMS_SERVICE_PATH + parameters[0];
+    const claimsURL = this.APP_URL + this.CLAIMS_SERVICE_PATH + parameters[0] + '?requestType=PAYMENT_METRICS';
     const appealsURL = this.APP_URL + this.APPEALS_SERVICE_PATH + parameters[0];
 
+    let tParams = {};
+    if (parameters.length > 1 && parameters[1]) {
+      tParams = {
+        TimeFilter: 'Last6Months'
+      };
+    }
+
     return combineLatest(
-      this.http.post(claimsURL, cparams).pipe(
+      this.http.post(claimsURL, tParams).pipe(
         retry(2),
         map(res => JSON.parse(JSON.stringify(res[0]))),
         catchError(err => of(JSON.parse(JSON.stringify(err))))
