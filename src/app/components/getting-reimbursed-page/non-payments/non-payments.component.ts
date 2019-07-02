@@ -35,7 +35,6 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
   lob: string;
   taxID: Array<string>;
   @Output() filterIconClicked = new EventEmitter();
-  summaryItems: any;
   subscription: any;
   pageTitle: String = '';
   nonPaymentData1: Array<Object> = [{}];
@@ -246,16 +245,12 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
     this.loadingTwo = false;
     this.mockCardTwo = [{}];
     // this.timePeriod = this.session.timeFrame; // uncomment it
-    // this.gettingReimbursedSharedService.getGettingReimbursedData().then(completeData => {
-    //   this.summaryItems = JSON.parse(JSON.stringify(completeData));
-    //   this.nonPaymentData1 = this.summaryItems[2].data;
-    //   this.currentTabTitle = this.summaryItems[2].title;
-    // });
+
+    /** code for two donuts  Claims Not Paid and Claims Non-payment Rate */
     this.nonPaymentService.getNonPayment().then(nonPayment => {
-      this.summaryItems = JSON.parse(JSON.stringify(nonPayment));
-      this.nonPaymentData1 = this.summaryItems;
-      console.log('NonPayment Serivce', this.nonPaymentData1);
+      this.nonPaymentData1 = JSON.parse(JSON.stringify(nonPayment));
     });
+
     this.monthlyLineGraph.chartId = 'non-payment-trend-block';
     this.monthlyLineGraph.titleData = [{}];
     this.monthlyLineGraph.generalData = [
