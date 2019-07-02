@@ -19,6 +19,7 @@ import { StorageService } from '../../../shared/storage-service.service';
 import { Router } from '@angular/router';
 import { FilterExpandService } from '../../../shared/filter-expand.service';
 import { CommonUtilsService } from '../../../shared/common-utils.service';
+import { NonPaymentSharedService } from '../../../shared/getting-reimbursed/non-payment-shared.service';
 
 @Component({
   selector: 'app-non-payments',
@@ -34,10 +35,9 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
   lob: string;
   taxID: Array<string>;
   @Output() filterIconClicked = new EventEmitter();
-  summaryItems: any;
   subscription: any;
   pageTitle: String = '';
-  currentSummary: Array<Object> = [{}];
+  nonPaymentData1: Array<Object> = [{}];
   currentTabTitle: String = '';
   monthlyLineGraph: any = [{}];
 
@@ -199,7 +199,8 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
     private filterExpandService: FilterExpandService,
     private session: SessionService,
     private router: Router,
-    private filtermatch: CommonUtilsService
+    private filtermatch: CommonUtilsService,
+    private nonPaymentService: NonPaymentSharedService
   ) {
     const filData = this.session.getFilChangeEmitter().subscribe(() => this.ngOnInit());
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.ngOnInit());
@@ -244,11 +245,12 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
     this.loadingTwo = false;
     this.mockCardTwo = [{}];
     // this.timePeriod = this.session.timeFrame; // uncomment it
-    this.gettingReimbursedSharedService.getGettingReimbursedData().then(completeData => {
-      this.summaryItems = JSON.parse(JSON.stringify(completeData));
-      this.currentSummary = this.summaryItems[2].data;
-      this.currentTabTitle = this.summaryItems[2].title;
+
+    /** code for two donuts  Claims Not Paid and Claims Non-payment Rate */
+    this.nonPaymentService.getNonPayment().then(nonPayment => {
+      this.nonPaymentData1 = JSON.parse(JSON.stringify(nonPayment));
     });
+
     this.monthlyLineGraph.chartId = 'non-payment-trend-block';
     this.monthlyLineGraph.titleData = [{}];
     this.monthlyLineGraph.generalData = [

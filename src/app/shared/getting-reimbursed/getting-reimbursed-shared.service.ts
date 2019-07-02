@@ -338,7 +338,7 @@ export class GettingReimbursedSharedService {
               claimsData[lobData] != null &&
               claimsData[lobData].hasOwnProperty('ClaimsLobSummary') &&
               claimsData[lobData].ClaimsLobSummary.length &&
-              claimsData[lobData].ClaimsLobSummary[0].ClaimsDenied &&
+              claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('ClaimsDenied') &&
               claimsData.hasOwnProperty('Cs') &&
               claimsData.Cs.hasOwnProperty('ClaimsLobSummary') &&
               claimsData.Cs.ClaimsLobSummary.length &&
