@@ -89,7 +89,6 @@ app-header {
   color: $black-rock;
   font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
   font-size: 16px;
-
   letter-spacing: 0.2px;
   line-height: 22px;
   margin: 4px 0 15px 0;
@@ -107,9 +106,11 @@ app-header {
   margin: 9px 0;
   cursor: pointer;
 }
+
 .change-provider:hover {
   text-decoration: underline;
 }
+
 .mat-list-base {
   padding: 0px !important;
   margin: 0px !important;
@@ -137,7 +138,6 @@ app-header {
   margin: 0;
   cursor: pointer;
   padding: 9px;
-
   .sign-out-text {
     vertical-align: bottom;
   }
@@ -151,24 +151,31 @@ app-header {
   letter-spacing: 0.2px;
   line-height: 18px;
 }
+
 .mat-expansion-panel-content,
 .mat-expansion-panel-body {
   font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
 }
+
 .mat-expansion-panel-header-title {
   color: $strom-grey !important;
   font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
 }
+
 .mat-list-item-content,
 .mat-list-item-content {
   font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
 }
+
 /*left menu on click bg changing issue*/
+
 .mat-ripple-element {
   transition-duration: 0ms !important;
   background-color: transparent;
 }
+
 /*left menu on click bg changing issue*/
+
 .lastNavCategory {
   /*padding-left: 32px !important;*/
 }
@@ -215,7 +222,6 @@ app-header {
   color: $strom-grey !important;
   font-size: 14px !important;
   font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif !important;
-
   letter-spacing: 0.2px;
   line-height: 18px;
 }
@@ -242,6 +248,7 @@ app-header {
     color: $blue !important;
   }
 }
+
 .nav-no-child-category:hover,
 .mat-expansion-panel-header:hover,
 .signout-label:hover {
@@ -251,12 +258,15 @@ app-header {
     color: $blue !important;
   }
 }
+
 .mat-nav-list .mat-list-item:focus {
   background: $darker-alice-blue !important;
 }
+
 .mat-expansion-panel {
   border-radius: 0px !important;
 }
+
 .mat-expansion-indicator::after {
   border-style: solid;
   border-width: 0 2px 2px 0;
@@ -266,6 +276,7 @@ app-header {
   transform: rotate(45deg);
   vertical-align: text-top;
 }
+
 .uhc-logo {
   width: 175px;
   height: 36px;
@@ -297,24 +308,28 @@ app-header {
   line-height: 75px;
   text-align: center;
 }
+
 .h-3-title-filter {
   width: 346px;
   color: $black-rock;
   font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
   font-size: 22px;
 }
+
 .close-icon-style {
   width: 40px;
   height: 40px;
   float: left;
   vertical-align: top;
 }
+
 .filter-text {
   text-align: center;
   width: 300px;
   vertical-align: middle;
   line-height: 40px;
 }
+
 .icon-left {
   padding-left: 10px;
   color: #757588;
@@ -325,6 +340,7 @@ app-header {
   display: block;
   padding: 8px;
 }
+
 .icon-left-filter:hover {
   background-color: #d7dce1;
   color: #2d2d2d;
@@ -335,6 +351,7 @@ app-header {
   cursor: pointer;
   border-radius: 2px;
 }
+
 .mat-details {
   position: relative;
   display: flex;
@@ -357,14 +374,21 @@ app-header {
 
 .sidemargin {
   margin: 0 24px 0 24px;
+  height: inherit;
 }
+
 .sidemargin-filter {
   margin: 0 32px 0 32px;
 }
+
 // ::ng-deep span.mat-expansion-indicator {
 //   padding-bottom: 6px !important;
 // }
-
 .mat-expansion-indicator::after {
   margin-bottom: 6px !important;
+}
+
+.sticky {
+  position: fixed;
+  top: 0;
 }
