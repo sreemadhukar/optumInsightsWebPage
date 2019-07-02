@@ -7,6 +7,8 @@
   margin-left: 12px;
   clear: left;
   .filter_bg {
+    height: 40px;
+    width: 100px;
     box-sizing: border-box;
     border: 1px solid $blue;
     border-radius: 2px;
@@ -19,12 +21,12 @@
       letter-spacing: 0.2px;
       line-height: 22px;
       text-align: center;
-      margin: 9px 12px;
+      margin: 9px 0;
       float: left;
     }
     .filter_icon {
       color: $blue;
-      margin: 9px 12px;
+      margin: 7px 10px;
       float: left;
     }
   }
@@ -193,7 +195,7 @@
     .time--period {
       .horizontal-align {
         display: inline-block;
-        margin: 5px 0;
+        margin: 5px 17px 5px 0;
       }
       button {
         span:first-child {

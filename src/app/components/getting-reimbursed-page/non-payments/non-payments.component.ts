@@ -18,6 +18,8 @@ import { SessionService } from 'src/app/shared/session.service';
 import { StorageService } from '../../../shared/storage-service.service';
 import { Router } from '@angular/router';
 import { FilterExpandService } from '../../../shared/filter-expand.service';
+import { CommonUtilsService } from '../../../shared/common-utils.service';
+import { NonPaymentSharedService } from '../../../shared/getting-reimbursed/non-payment-shared.service';
 
 @Component({
   selector: 'app-non-payments',
@@ -28,13 +30,14 @@ import { FilterExpandService } from '../../../shared/filter-expand.service';
 export class NonPaymentsComponent implements OnInit, AfterViewChecked {
   title = 'Top Reasons for Claims Non-Payment';
   trendTitle = 'Claims Non-Payment Trend';
-  timePeriod = 'Last 6 Months';
   section: any = [];
+  timePeriod: string;
+  lob: string;
+  taxID: Array<string>;
   @Output() filterIconClicked = new EventEmitter();
-  summaryItems: any;
   subscription: any;
   pageTitle: String = '';
-  currentSummary: Array<Object> = [{}];
+  nonPaymentData1: Array<Object> = [{}];
   currentTabTitle: String = '';
   monthlyLineGraph: any = [{}];
 
@@ -195,8 +198,11 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
     private glossaryExpandService: GlossaryExpandService,
     private filterExpandService: FilterExpandService,
     private session: SessionService,
-    private router: Router
+    private router: Router,
+    private filtermatch: CommonUtilsService,
+    private nonPaymentService: NonPaymentSharedService
   ) {
+    const filData = this.session.getFilChangeEmitter().subscribe(() => this.ngOnInit());
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.ngOnInit());
     /** INITIALIZING SVG ICONS TO USE IN DESIGN - ANGULAR MATERIAL */
 
@@ -225,6 +231,12 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
   }
 
   ngOnInit() {
+    this.timePeriod = this.session.filterObjValue.timeFrame;
+    this.lob = this.filtermatch.matchLobWithLobData(this.session.filterObjValue.lob);
+    this.taxID = this.session.filterObjValue.tax;
+    if (this.taxID.length > 3) {
+      this.taxID = [this.taxID.length + ' Selected'];
+    }
     this.gettingReimbursedSharedService.getTins().then(tins => {
       console.log(tins);
     });
@@ -233,11 +245,12 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
     this.loadingTwo = false;
     this.mockCardTwo = [{}];
     // this.timePeriod = this.session.timeFrame; // uncomment it
-    this.gettingReimbursedSharedService.getGettingReimbursedData().then(completeData => {
-      this.summaryItems = JSON.parse(JSON.stringify(completeData));
-      this.currentSummary = this.summaryItems[2].data;
-      this.currentTabTitle = this.summaryItems[2].title;
+
+    /** code for two donuts  Claims Not Paid and Claims Non-payment Rate */
+    this.nonPaymentService.getNonPayment().then(nonPayment => {
+      this.nonPaymentData1 = JSON.parse(JSON.stringify(nonPayment));
     });
+
     this.monthlyLineGraph.chartId = 'non-payment-trend-block';
     this.monthlyLineGraph.titleData = [{}];
     this.monthlyLineGraph.generalData = [

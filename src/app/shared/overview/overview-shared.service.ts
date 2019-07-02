@@ -21,7 +21,7 @@ export class OverviewSharedService {
   ) {}
   getOverviewData() {
     this.timeFrame = this.session.timeFrame;
-    this.providerKey = this.session.providerKey();
+    this.providerKey = this.session.providerKeyData();
     this.overviewPageData = [];
     return new Promise(resolve => {
       let parameters;
