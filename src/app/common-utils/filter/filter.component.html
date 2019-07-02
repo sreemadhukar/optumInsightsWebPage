@@ -2,18 +2,20 @@
   <div class="line-top"></div>
   <div class="titleData">
     <div class="title">Time Period</div>
-    <mat-icon
-      class="icon-display"
-      *ngIf="!tiarrowmark"
-      (click)="clickArrowMark('timeframe')"
-      svgIcon="arrowdn"
-    ></mat-icon>
-    <mat-icon
-      class="icon-display"
-      *ngIf="tiarrowmark"
-      (click)="clickArrowMark('timeframe')"
-      svgIcon="arrowup"
-    ></mat-icon>
+    <div class="chevron">
+      <mat-icon
+        class="icon-display"
+        *ngIf="!tiarrowmark"
+        (click)="clickArrowMark('timeframe')"
+        svgIcon="arrowdn"
+      ></mat-icon>
+      <mat-icon
+        class="icon-display"
+        *ngIf="tiarrowmark"
+        (click)="clickArrowMark('timeframe')"
+        svgIcon="arrowup"
+      ></mat-icon>
+    </div>
   </div>
   <div class="lobgrp">
     <div>
@@ -30,8 +32,10 @@
   <div class="line"></div>
   <div class="titleData">
     <div class="title">Tax ID</div>
-    <mat-icon class="icon-display" *ngIf="!tarrowmark" (click)="clickArrowMark('tax')" svgIcon="arrowdn"></mat-icon>
-    <mat-icon class="icon-display" *ngIf="tarrowmark" (click)="clickArrowMark('tax')" svgIcon="arrowup"></mat-icon>
+    <div class="chevron">
+      <mat-icon class="icon-display" *ngIf="!tarrowmark" (click)="clickArrowMark('tax')" svgIcon="arrowdn"></mat-icon>
+      <mat-icon class="icon-display" *ngIf="tarrowmark" (click)="clickArrowMark('tax')" svgIcon="arrowup"></mat-icon>
+    </div>
   </div>
   <div class="lobgrp">
     <div *ngIf="taxArrayData.length == 0">
@@ -67,8 +71,10 @@
   <div class="line"></div>
   <div class="titleData">
     <div class="title">Line of Business</div>
-    <mat-icon class="icon-display" *ngIf="!arrowmark" (click)="clickArrowMark('lob')" svgIcon="arrowdn"></mat-icon>
-    <mat-icon class="icon-display" *ngIf="arrowmark" (click)="clickArrowMark('lob')" svgIcon="arrowup"></mat-icon>
+    <div class="chevron">
+      <mat-icon class="icon-display" *ngIf="!arrowmark" (click)="clickArrowMark('lob')" svgIcon="arrowdn"></mat-icon>
+      <mat-icon class="icon-display" *ngIf="arrowmark" (click)="clickArrowMark('lob')" svgIcon="arrowup"></mat-icon>
+    </div>
   </div>
   <div class="lobgrp">
     <div>

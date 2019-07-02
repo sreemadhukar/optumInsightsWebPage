@@ -102,9 +102,13 @@ app-header {
   font-size: 14px;
   letter-spacing: 0.2px;
   line-height: 18px;
-  text-decoration: underline;
+  text-decoration: none;
   margin: 9px 0;
   cursor: pointer;
+}
+
+.change-provider:hover {
+  text-decoration: underline;
 }
 
 .mat-list-base {
@@ -297,26 +301,33 @@ app-header {
 
 .h-3-title {
   height: 28px;
-  width: 330px;
+  width: 346px;
   color: $black-rock;
   font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
   font-size: 22px;
+  line-height: 75px;
   text-align: center;
 }
 
 .h-3-title-filter {
-  height: 24px;
-  width: 330px;
+  width: 346px;
   color: $black-rock;
   font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
   font-size: 22px;
-  text-align: center;
 }
 
-.mat-details {
-  position: relative;
-  display: flex;
-  margin-top: 20px;
+.close-icon-style {
+  width: 40px;
+  height: 40px;
+  float: left;
+  vertical-align: top;
+}
+
+.filter-text {
+  text-align: center;
+  width: 300px;
+  vertical-align: middle;
+  line-height: 40px;
 }
 
 .icon-left {
@@ -324,23 +335,27 @@ app-header {
   color: #757588;
 }
 
-.icon-left svg:hover {
-  background-color: lightgrey;
-  color: black;
-  padding: 5px;
-  cursor: pointer;
-}
-
 .icon-left-filter {
-  margin-left: -5px;
   color: #757588;
+  display: block;
+  padding: 8px;
 }
 
-.icon-left-filter svg:hover {
-  background-color: lightgrey;
-  color: black;
-  padding: 5px;
+.icon-left-filter:hover {
+  background-color: #d7dce1;
+  color: #2d2d2d;
+  padding: 8px;
+  height: 24px;
+  width: 24px;
+  cursor: hand;
   cursor: pointer;
+  border-radius: 2px;
+}
+
+.mat-details {
+  position: relative;
+  display: flex;
+  margin-top: 20px;
 }
 
 .pointer-none {

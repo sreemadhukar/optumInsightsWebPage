@@ -5,7 +5,8 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { MatIconRegistry, PageEvent } from '@angular/material';
 import { Router } from '@angular/router';
 import { FilterExpandService } from '../../../shared/filter-expand.service';
-
+import { CommonUtilsService } from '../../../shared/common-utils.service';
+import { SessionService } from 'src/app/shared/session.service';
 
 @Component({
   selector: 'app-getting-reimbursed',
@@ -13,7 +14,9 @@ import { FilterExpandService } from '../../../shared/filter-expand.service';
   styleUrls: ['./getting-reimbursed.component.scss']
 })
 export class GettingReimbursedComponent implements OnInit {
-  timePeriod = 'Last 6 Months';
+  timePeriod: string;
+  lob: string;
+  taxID: Array<string>;
   summaryItems: any;
   pageTitle: String = '';
   pagesubTitle: String = '';
@@ -35,8 +38,11 @@ export class GettingReimbursedComponent implements OnInit {
     private iconRegistry: MatIconRegistry,
     sanitizer: DomSanitizer,
     private filterExpandService: FilterExpandService,
-    private router: Router
+    private router: Router,
+    private session: SessionService,
+    private filtermatch: CommonUtilsService
   ) {
+    const filData = this.session.getFilChangeEmitter().subscribe(() => this.ngOnInit());
     this.pageTitle = 'Getting Reimbursed';
     this.currentTabTitle = '';
     this.tabOptionsTitle = ['Submission', 'Payments', 'Non-Payments', 'Appeals'];
@@ -61,6 +67,12 @@ export class GettingReimbursedComponent implements OnInit {
     //    event.target.classList.add('active');
   }
   ngOnInit() {
+    this.timePeriod = this.session.filterObjValue.timeFrame;
+    this.lob = this.filtermatch.matchLobWithLobData(this.session.filterObjValue.lob);
+    this.taxID = this.session.filterObjValue.tax;
+    if (this.taxID.length > 3) {
+      this.taxID = [this.taxID.length + ' Selected'];
+    }
     this.loading = true;
     this.mockCards = [{}, {}];
     this.selectedItemId = 0;

@@ -11,6 +11,16 @@
               <span>Time Period: </span><span class="text-semibold pl-4">{{ timePeriod }} </span>
             </button>
           </div>
+          <div class="horizontal-align" *ngFor="let tax of taxID">
+            <button class="btn btn-rounded" disabled>
+              <span>Tax ID: </span><span class="text-semibold pl-4">{{ tax }} </span>
+            </button>
+          </div>
+          <div class="horizontal-align">
+            <button class="btn btn-rounded" disabled>
+              <span>Line of Business: </span><span class="text-semibold pl-4">{{ lob }} </span>
+            </button>
+          </div>
           <div class="filter_bg" (click)="openFilter()">
             <mat-icon matPrefix class="nav-menu-icons" class="filter_icon" svgIcon="filter"></mat-icon>
             <div class="filter_title">Filters</div>
@@ -37,7 +47,8 @@
     </div>
 
     <div class="overturn-margin">
-      <div class="overturn-reason-block">
+      <app-card class="cards" [skeleton]="loading" *ngIf="loading"> </app-card>
+      <div *ngIf="reasonDataAvailable" class="overturn-reason-block">
         <app-common-header
           [title]="title"
           class="full-display"

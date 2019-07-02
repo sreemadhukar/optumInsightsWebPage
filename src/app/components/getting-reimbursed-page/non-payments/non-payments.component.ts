@@ -18,6 +18,7 @@ import { SessionService } from 'src/app/shared/session.service';
 import { StorageService } from '../../../shared/storage-service.service';
 import { Router } from '@angular/router';
 import { FilterExpandService } from '../../../shared/filter-expand.service';
+import { CommonUtilsService } from '../../../shared/common-utils.service';
 
 @Component({
   selector: 'app-non-payments',
@@ -28,8 +29,10 @@ import { FilterExpandService } from '../../../shared/filter-expand.service';
 export class NonPaymentsComponent implements OnInit, AfterViewChecked {
   title = 'Top Reasons for Claims Non-Payment';
   trendTitle = 'Claims Non-Payment Trend';
-  timePeriod = 'Last 6 Months';
   section: any = [];
+  timePeriod: string;
+  lob: string;
+  taxID: Array<string>;
   @Output() filterIconClicked = new EventEmitter();
   summaryItems: any;
   subscription: any;
@@ -195,8 +198,10 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
     private glossaryExpandService: GlossaryExpandService,
     private filterExpandService: FilterExpandService,
     private session: SessionService,
-    private router: Router
+    private router: Router,
+    private filtermatch: CommonUtilsService
   ) {
+    const filData = this.session.getFilChangeEmitter().subscribe(() => this.ngOnInit());
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.ngOnInit());
     /** INITIALIZING SVG ICONS TO USE IN DESIGN - ANGULAR MATERIAL */
 
@@ -225,6 +230,12 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
   }
 
   ngOnInit() {
+    this.timePeriod = this.session.filterObjValue.timeFrame;
+    this.lob = this.filtermatch.matchLobWithLobData(this.session.filterObjValue.lob);
+    this.taxID = this.session.filterObjValue.tax;
+    if (this.taxID.length > 3) {
+      this.taxID = [this.taxID.length + ' Selected'];
+    }
     this.gettingReimbursedSharedService.getTins().then(tins => {
       console.log(tins);
     });

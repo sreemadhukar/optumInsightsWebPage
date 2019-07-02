@@ -1,7 +1,8 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 import { SessionService } from '../../shared/session.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-filter',
@@ -21,17 +22,29 @@ export class FilterComponent implements OnInit {
   public timeframeData: any;
   public filterData: any;
   @Output() filterFlag = new EventEmitter();
+  @Input() filterurl;
   public timeframes = ['Last 6 Months', 'Last 12 Months', 'Year to Date', '2018', '2017'];
   public lobs = ['All', 'Community & State', 'Employee & Individual', 'Medicare & Retirement'];
-  constructor(private iconRegistry: MatIconRegistry, sanitizer: DomSanitizer, private session: SessionService) {
+  constructor(
+    private iconRegistry: MatIconRegistry,
+    sanitizer: DomSanitizer,
+    private session: SessionService,
+    private location: Location
+  ) {
     this.timeframeData = this.session.filterObjValue.timeFrame;
     this.lobData = this.session.filterObjValue.lob;
     this.arrowmark = false;
     if (this.session.filterObjValue.tax.length > 1) {
       this.taxData = this.session.filterObjValue.tax.join(', ');
+      this.inputDisplay = true;
       this.taxArrayData = this.session.filterObjValue.tax;
     } else if (this.session.filterObjValue.tax.length === 1) {
       this.taxData = this.session.filterObjValue.tax[0];
+      if (this.session.filterObjValue.tax[0] !== 'All') {
+        this.inputDisplay = true;
+      } else {
+        this.inputDisplay = false;
+      }
     }
 
     this.tarrowmark = false;
@@ -50,7 +63,6 @@ export class FilterComponent implements OnInit {
       this.tarrowmark = !this.tarrowmark;
       this.arrowmark = false;
       this.taxValue = '';
-      this.inputDisplay = false;
       this.tiarrowmark = false;
     } else if (value === 'lob') {
       this.arrowmark = !this.arrowmark;
@@ -63,6 +75,7 @@ export class FilterComponent implements OnInit {
     }
   }
   ngOnInit() {
+    // console.log(this.location.path())
     this.lobData = this.session.filterObjValue.lob;
     this.session.getTins().then(data => {
       this.tinsData = data;
@@ -84,13 +97,17 @@ export class FilterComponent implements OnInit {
   applyFilter() {
     // this.session.lob = this.lobData;
     // this.session.timeFrame = this.timeframeData;
-    this.session.filterObjValue.timeFrame = this.timeframeData;
-    this.session.filterObjValue.lob = this.lobData;
+
+    // this.session.filterObjValue.timeFrame = this.timeframeData;
+    // this.session.filterObjValue.lob = this.lobData;
     if (this.taxArrayData.length > 0) {
-      this.session.filterObjValue.tax = this.taxArrayData;
+      //  this.session.filterObjValue.tax = this.taxArrayData;
+      this.session.store({ timeFrame: this.timeframeData, lob: this.lobData, tax: this.taxArrayData });
     } else {
-      this.session.filterObjValue.tax = [this.taxData];
+      // this.session.filterObjValue.tax = [this.taxData];
+      this.session.store({ timeFrame: this.timeframeData, lob: this.lobData, tax: [this.taxData] });
     }
+    this.session.filterObjSubject.complete();
     this.filterFlag.emit(false);
   }
   focusFunction(searchValue: string) {
