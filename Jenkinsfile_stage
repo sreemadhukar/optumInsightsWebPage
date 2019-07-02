@@ -39,7 +39,7 @@ pipeline {
                         repository: "$stgWebRepo",
                         namespace: "$namespace",
                         dockerCredentialsId: "$env.DOCKER_CREDENTIALS_ID",
-                        extraBuildOptions: "--build-arg env_var=stage"
+                        extraBuildOptions: "--build-arg env_var=externalstage"
                 glDockerImageBuildPush tag: "$tagBase/$stgWebRepo:stage2",
                         repository: "$stgWebRepo",
                         namespace: "$namespace",
