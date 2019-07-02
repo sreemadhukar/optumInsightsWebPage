@@ -10,7 +10,7 @@ export const environment: any = {
     ProviderSystemClaimsAgg: 'agg-claims/search/',
     ProviderSystemClaimsSummary: 'claims/search/',
     ProviderSystemPriorAuth: 'PriorAuthSummary/',
-    SsoTokenPath: 'myinsightOptumIdHandshake/v2.0',
+    SsoTokenPath: 'myinsightOptumIdHandshake',
     SsoRedirectUri:
       'https://stage-sso.uhc.com/ext/as/authorization.oauth2?pfidpadapterid=OptumIdOIDCStage&client_id=PED42235&' +
       'response_type=code&redirect_uri=https://uhcinsights-stg.uhc.com/login&scope=openid+profile+email&state=PED&prompt=none',
