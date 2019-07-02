@@ -29,7 +29,7 @@ pipeline {
         steps { 
         glFortifyScan fortifyBuildName:"MyInsightsUI",
                         scarCredentialsId:"$env.SONAR_CREDENTIALS_ID",
-                        scarUploadToken:"5cf95ecd-5331-4a84-8d88-4b25a43c2755",
+                        scarUploadToken:"34b797bc-9d7a-4a7c-85c5-12ef5d3f13e7",
                         scarProjectName:"ProviderExternalDashboard_UHGWM110-019413",
                         scarProjectVersion:18606,
                         criticalThreshold:15,
