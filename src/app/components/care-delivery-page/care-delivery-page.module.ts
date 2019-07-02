@@ -8,9 +8,10 @@ import { PatientCareOpportunityComponent } from './patient-care-opportunity/pati
 
 import { PriorAuthService } from '../../rest/prior-auth/prior-auth.service';
 import { PriorAuthSharedService } from '../../shared/prior-authorization/prior-auth.service';
+import { HeadMaterialModule } from 'src/app/head/head.material.module';
 
 @NgModule({
-  imports: [CommonModule, CareDeliveryPageRoutingModule, CommonUtilsModule],
+  imports: [CommonModule, CareDeliveryPageRoutingModule, HeadMaterialModule, CommonUtilsModule],
   providers: [PriorAuthService, PriorAuthSharedService],
   declarations: [PriorAuthComponent, PatientCareOpportunityComponent]
 })

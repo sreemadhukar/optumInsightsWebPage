@@ -1,0 +1,18 @@
+<div class="container">
+  <mat-icon matPrefix class="nav-menu-icons icon-display" svgIcon="search"></mat-icon>
+  <div class="search-section">
+    <div>
+      <span class="box" *ngFor="let selected of selectedArray"
+        >{{ selected.Tin
+        }}<mat-icon class="nav-menu-icons icondata-display" (click)="onRemove(selected)" svgIcon="cross"></mat-icon
+      ></span>
+    </div>
+    <input #inputValue [formControl]="searchControl" [ngModel]="tinValue" autofocus />
+    <div *ngFor="let items of fileterdArray" class="list">
+      <button (click)="selectedItem(items)">{{ items.Tin }}</button>
+      <span *ngIf="items.checked"
+        ><mat-icon matPrefix class="nav-menu-icons done-icon-display" svgIcon="done"></mat-icon
+      ></span>
+    </div>
+  </div>
+</div>

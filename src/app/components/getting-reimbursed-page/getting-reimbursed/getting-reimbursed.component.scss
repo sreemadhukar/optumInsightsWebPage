@@ -1,6 +1,55 @@
 @import '~src/scss/variables.scss';
 @import '~src/scss/mixins';
 @import '~src/scss/my-custom-theme';
+.breadcrumb-top-padding {
+  @include margin(12px, 0, 24px, 0);
+  box-sizing: border-box;
+
+  .filter_bg {
+    box-sizing: border-box;
+    border: 1px solid $blue;
+    border-radius: 2px;
+    float: right;
+    cursor: pointer;
+    .filter_title {
+      color: $blue;
+      font-family: 'UHCSans-SemiBold', 'Arial';
+      font-size: 16px;
+      letter-spacing: 0.2px;
+      line-height: 22px;
+      text-align: center;
+      margin: 9px 12px;
+      float: left;
+    }
+    .filter_icon {
+      color: $blue;
+      margin: 9px 12px;
+      float: left;
+    }
+  }
+  .filter_bg:hover,
+  .filter_bg:focus {
+    background-color: #196ecf;
+    color: #ffffff;
+    .filter_title {
+      color: #ffffff;
+    }
+    .filter_icon {
+      color: #ffffff;
+    }
+  }
+  .filter_bg:active {
+    background-color: #003da1;
+    color: #ffffff;
+    .filter_title {
+      color: #ffffff;
+    }
+    .filter_icon {
+      color: #ffffff;
+    }
+  }
+}
+
 @mixin sidenav-theme($theme) {
   $accent: map-get($theme, accent);
   $background: map-get($theme, background);
@@ -11,51 +60,68 @@
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-    @include padding(30px, 30px, 30px, 30px);
+    @include padding(16px, 0, 64px, 0);
 
     .gettingReimburse-content {
       display: flex;
+      -webkit-flex-flow: row wrap;
+      justify-content: center;
       flex-wrap: wrap;
+      .filter-div {
+        overflow: auto;
 
+        line-height: 0;
+      }
+      .time--period {
+        .horizontal-align {
+          display: inline-block;
+          margin: 5px 0;
+        }
+        button {
+          span:first-child {
+            font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+          }
+          span.text-semibold {
+            font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+          }
+        }
+      }
       .height1Separator {
         height: 0;
         width: 1200px;
       }
-
       & > .cards {
         text-align: left;
-        line-height: 75px;
       }
-
       .cust-width-title {
-        width: 100%;
-        font-family: 'UHCSans-SemiBold', 'Arial';
+        width: 961px;
+        font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
         color: $black-rock;
-        margin-left: 10px;
+        margin-left: 12px;
 
         .page-title {
           flex-basis: 100%;
           font-size: 36px;
-          line-height: 75px;
+          @include padding(16px, 0, 20px, 0);
+          line-height: 40px;
         }
-
         .page-subtitle {
           flex-basis: 100%;
           font-size: 28px;
-          line-height: 50px;
+          line-height: 32px;
+          margin-bottom: 12px;
         }
-
         /* tabs css starts here*/
         .container--tabs {
           width: 100%;
           line-height: 25px;
+          margin-bottom: 12px;
           .nav-tabs {
             display: flex;
             border-radius: 2px;
             list-style-type: none;
-            font-family: 'UHCSans-SemiBold', 'Arial';
+            font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
             color: $black-rock;
-
             > li {
               flex-basis: 100%;
               background-color: $white;
@@ -65,12 +131,11 @@
               cursor: pointer;
               > span {
                 font-size: 16px;
-                font-weight: 600;
+                font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
                 letter-spacing: 0.2px;
                 &:hover {
                 }
               }
-
               &.active,
               &.active:hover,
               &.active:focus {
@@ -81,15 +146,13 @@
                 border-bottom-color: transparent;
                 text-decoration: none;
               }
-
               .nav-values {
                 color: #2d2d39;
                 font-size: 18px;
-                font-family: 'UHCSans-Medium', 'sans-serif', 'Arial';
-                font-weight: 600;
+                font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
                 .metrics {
                   font-size: 14px;
-                  font-weight: 500;
+                  font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
                   letter-spacing: 0.2px;
                   line-height: 18px;
                 }
@@ -104,7 +167,11 @@
           }
         }
         /* ends tabs css ends here*/
-      } /* end cust-width title heirarchy*/
+      }
+      /* end cust-width title heirarchy*/
     }
+  }
+  @media only screen and (max-width: 1024px) {
+    @include padding(16px, 0, 16px, 0);
   }
 }

@@ -1,19 +1,68 @@
 @import '~src/scss/variables.scss';
 @import '~src/scss/mixins';
 .breadcrumb-top-padding {
-  @include padding(20px, 0, 15px, 32px);
+  @include margin(12px, 0, 12px, 0);
+  box-sizing: border-box;
+
+  .filter-div {
+    overflow: auto;
+    line-height: 0;
+  }
+  .filter_bg {
+    box-sizing: border-box;
+    border: 1px solid $blue;
+    border-radius: 2px;
+    float: right;
+    cursor: pointer;
+    .filter_title {
+      color: $blue;
+      font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+      font-size: 16px;
+      letter-spacing: 0.2px;
+      line-height: 22px;
+      text-align: center;
+      margin: 9px 12px;
+      float: left;
+    }
+    .filter_icon {
+      color: $blue;
+      margin: 9px 12px;
+      float: left;
+    }
+  }
+  .filter_bg:hover,
+  .filter_bg:focus {
+    background-color: #196ecf;
+    color: #ffffff;
+    .filter_title {
+      color: #ffffff;
+    }
+    .filter_icon {
+      color: #ffffff;
+    }
+  }
+  .filter_bg:active {
+    background-color: #003da1;
+    color: #ffffff;
+    .filter_title {
+      color: #ffffff;
+    }
+    .filter_icon {
+      color: #ffffff;
+    }
+  }
 }
+
 .content-wrapper {
   background-color: $alice-blue;
   overflow-x: hidden;
-  @include padding(30px, 30px, 30px, 30px);
+  @include padding(16px, 0, 64px, 0);
   .main-content {
     display: -webkit-box;
     display: -moz-box;
     display: -ms-flexbox;
     display: -webkit-flex;
     display: flex;
-
     -webkit-flex-flow: row wrap;
     justify-content: center;
     flex-wrap: wrap;
@@ -21,7 +70,6 @@
       height: 0;
       width: 1200px;
     }
-
     .pi-medical-record-coding-review-block {
       width: 961px;
       border-radius: 2px;
@@ -30,7 +78,6 @@
       float: left;
       margin-top: 12px;
     }
-
     .full-display {
       float: left;
       width: 100%;
@@ -38,7 +85,6 @@
     .width-100 {
       width: 100%;
     }
-
     & > .cards {
       text-align: left;
       // @include margin(0, 0, 0, 12px);
@@ -46,9 +92,8 @@
     .app-card-list-labels {
       display: block;
       color: $black-rock;
-      font-family: 'UHCSans-Regular';
+      font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
       font-size: 14px;
-      font-weight: 500;
       letter-spacing: 0.2px;
       line-height: 18px;
       float: left;
@@ -57,8 +102,7 @@
     .app-card-list-labels > li {
       margin-bottom: 16px;
       margin-right: 8px;
-      font-family: 'UHCSans-Regular';
-      font-weight: 500;
+      font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
     }
     .label-dots {
       height: 16px;
@@ -73,9 +117,8 @@
       float: left;
       margin-top: 16px;
       color: $strom-grey;
-      font-family: 'UHCSans-Regular';
+      font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
       font-size: 14px;
-      font-weight: 500;
       letter-spacing: 0.2px;
       line-height: 18px;
     }
@@ -94,9 +137,8 @@
     }
     .mr-returned-number {
       color: $black-rock;
-      font-family: 'UHCSans-Regular';
+      font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
       font-size: 20px;
-      font-weight: 600;
       line-height: 22px;
       margin-top: 43px;
       /*float: left;*/
@@ -110,9 +152,8 @@
     }
     .mr-returned-text {
       color: $black-rock;
-      font-family: 'UHCSans-Regular';
+      font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
       font-size: 16px;
-      font-weight: 500;
       letter-spacing: 0.2px;
       line-height: 22px;
       float: left;
@@ -148,35 +189,30 @@
     }
     .financial-ooportunity-block {
       float: left;
-      width: 151px;
+      width: 165px;
     }
     .zero-data-bar {
       background-color: $strom-grey !important;
     }
     .financial-value {
       color: $black-rock;
-      font-family: 'UHCSans-Regular';
+      font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
       font-size: 20px;
-      font-weight: 600;
       line-height: 22px;
       float: left;
     }
     .financial-trend {
-      color: $red-dark;
-      font-family: 'UHCSans-Regular';
+      font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
       font-size: 14px;
-      font-weight: 500;
       letter-spacing: 0.2px;
-      line-height: 18px;
+      line-height: 22px;
       text-align: center;
       float: left;
-      margin-left: 8px;
     }
     .financial-opportunity {
       color: $black-rock;
-      font-family: 'UHCSans-Regular';
+      font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
       font-size: 16px;
-      font-weight: 500;
       letter-spacing: 0.2px;
       line-height: 22px;
       float: left;
@@ -198,46 +234,58 @@
       float: left;
       margin-top: 24px;
     }
+    .pi-trend-icons {
+      margin-left: 4px;
+      margin-right: 4px;
+      float: left;
+      height: 20px;
+      width: 20px;
+    }
+    .mr-not-returned-bar-block {
+      width: 398px;
+    }
     .cust-width-title {
       width: 961px;
-      font-family: 'UHCSans-SemiBold', 'Arial';
+      font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
       color: $black-rock;
+      margin-left: 12px;
       ol {
         @include margin(0, 0, 16px, 0);
       }
       .page-title {
-        margin-top: 13.2px;
-        color: $black-rock;
-        font-family: 'UHCSans-Regular';
+        flex-basis: 100%;
         font-size: 36px;
-        font-weight: 600;
-        line-height: 40px;
+        @include padding(16px, 0, 20px, 0);
+        color: $black-rock;
       }
-
       .page-subtitle {
         flex-basis: 100%;
         font-size: 28px;
-        line-height: 50px;
+        line-height: 32px;
+        margin-bottom: 12px;
       }
-
       .page-question {
         flex-basis: 100%;
         font-size: 22px;
         line-height: 50px;
       }
       .time--period {
-        margin-bottom: 12px;
-        margin-top: 28px;
+        .horizontal-align {
+          display: inline-block;
+          margin: 5px 0;
+        }
         button {
           span:first-child {
-            font-weight: 500;
-            font-family: 'UHCSans-Regular';
+            font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+          }
+          span.text-semibold {
+            font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
           }
         }
       }
     }
   }
-  @media only screen and (min-width: 1024px) {
-    @include padding(30px, 16px, 30px, 16px);
+  @media only screen and (max-width: 1024px) {
+    @include padding(16px, 0, 16px, 0);
   }
 }

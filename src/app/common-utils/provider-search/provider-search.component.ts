@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { FormBuilder, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
@@ -14,7 +14,7 @@ import { StorageService } from '../../shared/storage-service.service';
   templateUrl: './provider-search.component.html',
   styleUrls: ['./provider-search.component.scss']
 })
-export class ProviderSearchComponent implements OnInit {
+export class ProviderSearchComponent implements OnInit, AfterViewInit {
   stateCtrl = new FormControl();
   filteredStates: Observable<Providers[]>;
   states: Providers[];
@@ -38,6 +38,22 @@ export class ProviderSearchComponent implements OnInit {
       'search',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/round-search-24px.svg')
     );
+  }
+
+  ngOnInit() {
+    if (!this.states) {
+      this.providerSharedService.providersList().subscribe(value => (this.states = value));
+    }
+
+    this.filteredStates = this.stateCtrl.valueChanges.pipe(
+      startWith(''),
+      map(state => (state ? this._filterStates(state) : null))
+    );
+
+    this.providerData = JSON.parse(sessionStorage.getItem('currentUser'));
+  }
+
+  ngAfterViewInit() {
     if (!this.states) {
       this.providerSharedService.providersList().subscribe(value => (this.states = value));
     }
@@ -47,11 +63,6 @@ export class ProviderSearchComponent implements OnInit {
       map(state => (state ? this._filterStates(state) : null))
     );
   }
-
-  ngOnInit() {
-    this.providerData = JSON.parse(sessionStorage.getItem('currentUser'));
-  }
-
   providerSelect(event: MatAutocompleteSelectedEvent) {
     const provider = this.providerData[0];
     const data = this.states.find(prov => prov.HealthCareOrganizationName === event.option.value);
@@ -66,8 +77,6 @@ export class ProviderSearchComponent implements OnInit {
   }
 
   close() {
-    sessionStorage.removeItem('currentUser');
-    sessionStorage.removeItem('loggedUser');
     this.dialogRef.close();
   }
 

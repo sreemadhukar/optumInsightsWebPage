@@ -1,12 +1,24 @@
 @import '~src/scss/variables.scss';
-.line {
+.filter {
+  position: relative;
+  margin-top: 16px;
+}
+.line-top {
   background-color: #fff;
-  height: 16px;
   display: flex;
   border-bottom: solid;
   border-width: 1px;
   border-color: #b3babc;
   z-index: 999;
+}
+.line {
+  background-color: #fff;
+  display: flex;
+  border-bottom: solid;
+  border-width: 1px;
+  border-color: #b3babc;
+  z-index: 999;
+  height: 16px;
 }
 .line1 {
   background-color: #fff;
@@ -55,12 +67,50 @@
 }
 .lobgrp {
   width: 100%;
+  .label-cls {
+    margin-top: 16px;
+    .input-search {
+      position: absolute;
+      margin: 8px;
+    }
+    .input-class {
+      box-sizing: border-box;
+      height: 41px;
+      width: 355px;
+      border: 1px solid #b3babc;
+      border-radius: 2px;
+      background-color: #ffffff;
+      padding-left: 48px;
+    }
+  }
+  ::placeholder {
+    /* Firefox, Chrome, Opera */
+    color: #757588;
+    font-family: 'UHCSans-Medium';
+    font-size: 16px;
+    letter-spacing: 0.2px;
+  }
+
+  :-ms-input-placeholder {
+    /* Internet Explorer 10-11 */
+    color: #757588;
+    font-family: 'UHCSans-Medium';
+    font-size: 16px;
+    letter-spacing: 0.2px;
+  }
+
+  ::-ms-input-placeholder {
+    /* Microsoft Edge */
+    color: #757588;
+    font-family: 'UHCSans-Medium';
+    font-size: 16px;
+    letter-spacing: 0.2px;
+  }
   .label-data {
     width: 100%;
     color: #757588;
-    font-family: 'UHC Sans';
+    font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
     font-size: 16px;
-    font-weight: 500;
     letter-spacing: 0.2px;
     line-height: 22px;
   }

@@ -14,9 +14,8 @@
 .breadcrums-div {
   padding-top: 16px;
   color: $strom-grey;
-  font-family: 'UHCSans-Medium';
+  font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
   font-size: 14px;
-  font-weight: $font-weight-semibold;
   letter-spacing: 0.2px;
   line-height: 18px;
 }
@@ -28,9 +27,8 @@
 
 .header {
   color: $black-rock;
-  font-family: 'UHCSans-Medium';
+  font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
   font-size: 36px;
-  font-weight: $font-weight-semibold;
   line-height: 40px;
 }
 
@@ -41,9 +39,8 @@
 
 .sub-header {
   color: $black-rock;
-  font-family: 'UHCSans-Medium';
+  font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
   font-size: 22px;
-  font-weight: $font-weight-semibold;
   line-height: 28px;
 }
 
@@ -53,19 +50,18 @@
 
 .content {
   color: $black-rock;
-  font-family: 'UHCSans-Medium';
+  font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
   font-size: 16px;
-  font-weight: $font-weight-medium;
   letter-spacing: 0.2px;
   line-height: 22px;
 }
 
 .bold {
-  font-family: 'UHCSans-Bold';
+  font-family: 'UHCSans-Bold', Helvetica, Arial, sans-serif;
 }
 
 .hyperlink {
-  font-family: 'UHCSans-Medium';
+  font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
   color: $blue;
 }
 
@@ -94,18 +90,16 @@ a:visited {
 
 a.breadcrums {
   color: $strom-grey;
-  font-family: 'UHCSans-Medium';
+  font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
   font-size: 14px;
-  font-weight: $font-weight-semibold;
   letter-spacing: 0.2px;
   line-height: 18px;
 }
 
 li {
   color: $black-rock;
-  font-family: 'UHCSans-Medium';
+  font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
   font-size: 16px;
-  font-weight: $font-weight-medium;
   letter-spacing: 0.2px;
   line-height: 22px;
   list-style-type: disc;

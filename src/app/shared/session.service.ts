@@ -1,4 +1,8 @@
 import { Injectable } from '@angular/core';
+import { GettingReimbursedService } from '../rest/getting-reimbursed/getting-reimbursed.service';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { Filter } from './_models/filter';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -9,16 +13,37 @@ export class SessionService {
   public providerkey = this.providerKey();
   public tin = 'All';
   public nonPaymentBy = 'dollar';
-  constructor() {}
+  public filterObj: Observable<Filter>;
+  private filterObjSubject: BehaviorSubject<Filter>;
+  constructor(private gettingReimbursedService: GettingReimbursedService) {
+    this.filterObjSubject = new BehaviorSubject<Filter>({ timeFrame: 'Last 12 Months', lob: 'All', tax: ['All'] });
+    this.filterObj = this.filterObjSubject.asObservable();
+  }
+  public get filterObjValue(): Filter {
+    return this.filterObjSubject.value;
+  }
   public providerKey() {
-    if (sessionStorage.getItem('currentUser')) {
+    if (sessionStorage.getItem('currentUser') && environment.internalAccess) {
       return JSON.parse(sessionStorage.getItem('currentUser'))[0]['ProviderKey'];
+    } else if (sessionStorage.getItem('currentUser') && !environment.internalAccess) {
+      return JSON.parse(sessionStorage.getItem('currentUser'))[0]['Providersyskey'];
     }
   }
   public sessionStorage(value: string, item: string) {
     if (sessionStorage.getItem(value)) {
       return JSON.parse(sessionStorage.getItem(value))[item];
     }
+  }
+  public getTins() {
+    return new Promise((resolve, reject) => {
+      if (sessionStorage.getItem('currentUser')) {
+        this.providerKey = JSON.parse(sessionStorage.getItem('currentUser'))[0]['ProviderKey'];
+        this.gettingReimbursedService.getTins(this.providerKey).subscribe(tins => {
+          const providerTins = tins;
+          resolve(providerTins);
+        });
+      }
+    });
   }
   get getProviderkey(): number {
     return this.providerkey;

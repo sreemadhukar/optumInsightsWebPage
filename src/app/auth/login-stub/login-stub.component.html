@@ -1,4 +1,4 @@
-<div class="page-overlay">
+<div class="page-overlay" *ngIf="isInternal">
   <div class="container" *ngIf="!blankScreen">
     <header>
       <div class="header-div">
@@ -17,7 +17,7 @@
       <div class="content">
         UHC Insights is a data service available to Health Care Providers that shows real-time statistics, trends and
         other information about Claims, Claims Appeals, Prior Authorizations, Patient Care Opportunities (PCOR),
-        Self-Service, Issue Resolution and more. The internal version allows UnitedHealth Group employees to view the
+        Self-Service, Service Interaction and more. The internal version allows UnitedHealth Group employees to view the
         data of any provider that has been added to the system.
       </div>
       <div class="system-error" *ngIf="error">
@@ -103,3 +103,18 @@
   </div>
   <app-uhc-loader *ngIf="loading"></app-uhc-loader>
 </div>
+<app-uhc-loader *ngIf="!isInternal"></app-uhc-loader>
+
+<ng-template #errorDialog>
+  <button class="provider-close-icon" [mat-dialog-close]="true">
+    <mat-icon class="nav-menu-icons" svgIcon="cross"></mat-icon>
+  </button>
+  <h2 mat-dialog-title>UHC Insights</h2>
+  <mat-dialog-content class="mat-typography">
+    <h3>
+      The Selected User's Optum ID is not associated with any of the providers. please check your requests and Try
+      again.
+    </h3>
+  </mat-dialog-content>
+  <button class="btn" mat-button [mat-dialog-close]="true">Close</button>
+</ng-template>

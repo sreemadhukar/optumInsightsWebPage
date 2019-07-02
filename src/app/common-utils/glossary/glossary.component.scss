@@ -14,17 +14,18 @@
   color: $blue;
 }
 ::ng-deep .mat-option-text {
-  font-family: 'UHCSans-Medium', 'sans-serif', 'Arial';
-  font-weight: 500 !important;
+  font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
 }
 
 .business-glossary {
   padding: 10px;
+  position: relative;
+  width: 354px;
+  margin-top: -25px;
   .title {
     color: #2d2d39;
-    font-family: 'UHCSans-Medium', 'sans-serif', 'Arial';
+    font-family: 'UHCSans-SemiBold', 'sans-serif', 'Arial';
     font-size: 22px;
-    font-weight: 600;
     text-align: center;
   }
   .path {
@@ -48,7 +49,7 @@
 
 .glossary-title {
   color: $black-rock;
-  font-family: 'UHCSans-SemiBold', 'Arial';
+  font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
   font-size: 28px;
   line-height: 32px;
   letter-spacing: 0.2px;
@@ -56,25 +57,23 @@
 
 .glossary-formula {
   color: $black-rock;
-  font-family: 'UHCSans-SemiBold', 'Arial';
+  font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
   font-size: 16px;
   letter-spacing: 0.2px;
   line-height: 22px;
 }
 .glossary-definition {
   color: $black-rock;
-  font-family: 'UHCSans-Medium', 'sans-serif', 'Arial';
+  font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
   font-size: 16px;
-  font-weight: 500;
   letter-spacing: 0.2px;
   line-height: 22px;
 }
 
 .go-to-metric-location {
   color: $blue;
-  font-family: 'UHCSans-Medium', 'sans-serif', 'Arial';
+  font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
   font-size: 16px;
-  font-weight: 600;
   letter-spacing: 0.2px;
   line-height: 22px;
 }
@@ -91,9 +90,8 @@
 .view-allMetrics {
   color: $blue;
   cursor: pointer;
-  font-family: 'UHCSans-SemiBold';
+  font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
   font-size: 16px;
-  font-weight: 600;
   letter-spacing: 0.2px;
   padding: 18px 0 18px 18px;
 }
