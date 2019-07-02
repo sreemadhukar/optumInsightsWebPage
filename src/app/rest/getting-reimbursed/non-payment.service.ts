@@ -20,6 +20,7 @@ export class NonPaymentService {
     this.authBearer = this.currentUser[0].PedAccessToken;
     const myHeader = new HttpHeaders({
       Authorization: 'Bearer ' + this.authBearer,
+      'Content-Type': 'application/json',
       Accept: '*/*'
     });
     let cparams = new HttpParams();
