@@ -27,6 +27,7 @@ export class PriorAuthComponent implements OnInit {
   timePeriod: string;
   lob: string;
   taxID: Array<string>;
+  serviceSetting: string;
   constructor(
     private checkStorage: StorageService,
     private priorAuthShared: PriorAuthSharedService,
@@ -52,6 +53,11 @@ export class PriorAuthComponent implements OnInit {
     this.taxID = this.session.filterObjValue.tax;
     if (this.taxID.length > 3) {
       this.taxID = [this.taxID.length + ' Selected'];
+    }
+    if (this.session.filterObjValue.serviceSetting) {
+      this.serviceSetting = this.session.filterObjValue.serviceSetting;
+    } else {
+      this.serviceSetting = 'All';
     }
     this.pageTitle = 'Prior Authorizations';
     this.loading = true;
