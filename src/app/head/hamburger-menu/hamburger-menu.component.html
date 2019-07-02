@@ -10,7 +10,11 @@
       <!--<button mat-icon-button (click)="srnav.toggle()">-->
       <!--<mat-icon>filter</mat-icon>-->
       <!--</button>-->
-      <app-header [class.display-none]="makeAbsolute" (hamburgerDisplay)="hamburgerDisplay($event)"></app-header>
+      <app-header
+        [class.display-none]="makeAbsolute"
+        class="sticky"
+        (hamburgerDisplay)="hamburgerDisplay($event)"
+      ></app-header>
     </mat-toolbar>
     <mat-sidenav-container class="example-sidenav-container" color="primary" (backdropClick)="close()">
       <!-- SIDE NAVIGATION BAR  fixedTopGap="65"-->
@@ -119,7 +123,7 @@
         [fixedInViewport]="true"
         [opened]="glossaryFlag || filterFlag"
       >
-        <div style="width: 418px; height: 97%;">
+        <div style="width: 418px; min-height: 96%;">
           <div [ngClass]="{ sidemargin: glossaryFlag, 'sidemargin-filter': filterFlag }">
             <div *ngIf="glossaryFlag" class="mat-details">
               <div class="h-3-title-filter">

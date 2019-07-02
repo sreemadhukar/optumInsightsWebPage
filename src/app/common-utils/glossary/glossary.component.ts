@@ -50,7 +50,7 @@ export class GlossaryComponent implements OnInit {
         }
       }
       if (this.glossarySelected) {
-        if (this.glossarySelected.length > 1) {
+        if (this.glossarySelected.length > 1 && document.body.clientHeight < 1100) {
           this.singlemetric = false;
         } else {
           this.singlemetric = true;

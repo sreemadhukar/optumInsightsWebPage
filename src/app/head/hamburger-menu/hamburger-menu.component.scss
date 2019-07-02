@@ -387,3 +387,8 @@ app-header {
 .mat-expansion-indicator::after {
   margin-bottom: 6px !important;
 }
+
+.sticky {
+  position: fixed;
+  top: 0;
+}
