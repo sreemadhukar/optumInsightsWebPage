@@ -519,14 +519,47 @@ export class PriorAuthSharedService {
               PACount = [];
             }
 
-            // if (providerSystems.All.NotApproved.AllNotApprovedSettings !== null) {
-            if (
-              providerSystems.All !== null &&
-              providerSystems.hasOwnProperty('All') &&
-              providerSystems.All.hasOwnProperty('NotApproved') &&
-              providerSystems.All.NotApproved.hasOwnProperty('AllNotApprovedSettings')
-            ) {
-              const PriorAuthNotApprovedReasons = providerSystems.All.NotApproved.AllNotApprovedSettings;
+            let PriorAuthNotApprovedReasons = [];
+
+            if (isAllLobBool) {
+              if (
+                providerSystems.All !== null &&
+                providerSystems.hasOwnProperty('All') &&
+                providerSystems.All.hasOwnProperty('NotApproved') &&
+                providerSystems.All.NotApproved.hasOwnProperty('AllNotApprovedSettings')
+              ) {
+                PriorAuthNotApprovedReasons = providerSystems.All.NotApproved.AllNotApprovedSettings;
+              }
+            } else if (iscAndSLobBool) {
+              if (
+                providerSystems.Cs !== null &&
+                providerSystems.hasOwnProperty('Cs') &&
+                providerSystems.Cs.hasOwnProperty('NotApproved') &&
+                providerSystems.Cs.NotApproved.hasOwnProperty('AllNotApprovedSettings')
+              ) {
+                PriorAuthNotApprovedReasons = providerSystems.Cs.NotApproved.AllNotApprovedSettings;
+              }
+            } else if (iseAndILobBool) {
+              if (
+                providerSystems.Ei !== null &&
+                providerSystems.hasOwnProperty('Ei') &&
+                providerSystems.Ei.hasOwnProperty('NotApproved') &&
+                providerSystems.Ei.NotApproved.hasOwnProperty('AllNotApprovedSettings')
+              ) {
+                PriorAuthNotApprovedReasons = providerSystems.Ei.NotApproved.AllNotApprovedSettings;
+              }
+            } else if (ismAndRLobBool) {
+              if (
+                providerSystems.Mr !== null &&
+                providerSystems.hasOwnProperty('Mr') &&
+                providerSystems.Mr.hasOwnProperty('NotApproved') &&
+                providerSystems.Mr.NotApproved.hasOwnProperty('AllNotApprovedSettings')
+              ) {
+                PriorAuthNotApprovedReasons = providerSystems.Mr.NotApproved.AllNotApprovedSettings;
+              }
+            }
+
+            if (PriorAuthNotApprovedReasons.length > 0) {
               PriorAuthNotApprovedReasons.sort(function(a, b) {
                 return b.Count - a.Count;
               });
@@ -550,6 +583,7 @@ export class PriorAuthSharedService {
             } else {
               PriorAuthBarGraphParamaters = [];
             }
+
             const PAData = [PACount, PriorAuthBarGraphParamaters];
             resolve(PAData);
           },
