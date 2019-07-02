@@ -18,9 +18,13 @@ export class GlossaryComponent implements OnInit {
   glossaryData: any[];
   public options: string[];
   glossaryTitleShow: String = '';
+  selectedmetric = '';
   filteredOptions: Observable<any[]>;
-  glossaryCtrl = new FormControl();
+  public glossaryCtrl = new FormControl();
   metricDataList: any[];
+  public singlemetric = true;
+  public allmetrics = false;
+  public readmoreFlag = [];
   public optionLength = 0;
   public optionND = false;
   public toHighlight = '';
@@ -33,6 +37,7 @@ export class GlossaryComponent implements OnInit {
     this.glossaryService.getBusinessGlossaryData().subscribe(response => {
       this.glossaryList = JSON.parse(JSON.stringify(response));
       for (let i = 0; i < this.glossaryList.length; i++) {
+        this.readmoreFlag[i] = true;
         this.glossaryList[i].BusinessGlossary.ProviderDashboardName.metricData = this.glossaryList[
           i
         ].BusinessGlossary.ProviderDashboardName.Metric.replace(/[^a-zA-Z]/g, '');
@@ -44,6 +49,14 @@ export class GlossaryComponent implements OnInit {
           this.glossarySelected.push(this.glossaryList[i]);
         }
       }
+      if (this.glossarySelected) {
+        if (this.glossarySelected.length > 1) {
+          this.singlemetric = false;
+        } else {
+          this.singlemetric = true;
+        }
+      }
+      //  madhukar
       this.glossaryData = this.glossaryList.sort(function(a, b) {
         if (
           a.BusinessGlossary.ProviderDashboardName.Metric.toLowerCase() <
@@ -96,10 +109,34 @@ export class GlossaryComponent implements OnInit {
   }
 
   public filteredData(value) {
-    for (let i = 0; i < this.glossaryList.length; i++) {
-      if (this.glossaryList[i].BusinessGlossary.ProviderDashboardName.Metric === value) {
-        this.glossarySelected = [this.glossaryList[i]];
+    this.singlemetric = true;
+    if (value === 'All') {
+      this.selectedmetric = null;
+      this.allmetrics = true;
+      this.glossarySelected = this.glossaryList;
+    } else {
+      this.allmetrics = false;
+      for (let i = 0; i < this.glossaryList.length; i++) {
+        if (this.glossaryList[i].BusinessGlossary.ProviderDashboardName.Metric === value) {
+          this.glossarySelected = [this.glossaryList[i]];
+        }
       }
+    }
+  }
+
+  public readmore(value) {
+    for (let i = 0; i < this.readmoreFlag.length; i++) {
+      if (i !== value) {
+        this.readmoreFlag[i] = true;
+        document.getElementById('each-metric-div' + i).classList.add('each-metric-div');
+      }
+    }
+    if (this.readmoreFlag[value]) {
+      this.readmoreFlag[value] = false;
+      document.getElementById('each-metric-div' + value).classList.remove('each-metric-div');
+    } else {
+      this.readmoreFlag[value] = true;
+      document.getElementById('each-metric-div' + value).classList.add('each-metric-div');
     }
   }
 

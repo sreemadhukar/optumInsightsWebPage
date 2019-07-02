@@ -3,6 +3,7 @@
 ::ng-deep .mat-autocomplete-panel {
   max-height: 0% !important;
 }
+
 ::ng-deep .mat-autocomplete-panel:not([class*='mat-elevation-z']) {
   margin-top: 3px;
   border: 1px solid #e0e0e0;
@@ -10,9 +11,11 @@
   background-color: #ffffff;
   box-shadow: 0 20px 40px 0 rgba(0, 0, 0, 0.15);
 }
+
 ::ng-deep .mat-form-field-appearance-outline.mat-focused ::ng-deep .mat-form-field-outline-thick {
   color: $blue;
 }
+
 ::ng-deep .mat-option-text {
   font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
 }
@@ -22,6 +25,7 @@
   position: relative;
   width: 354px;
   margin-top: -25px;
+  height: 100%;
   .title {
     color: #2d2d39;
     font-family: 'UHCSans-SemiBold', 'sans-serif', 'Arial';
@@ -35,7 +39,6 @@
   &-header {
     text-align: center;
   }
-
   &-form {
     mat-form-field {
       width: 100%;
@@ -62,6 +65,7 @@
   letter-spacing: 0.2px;
   line-height: 22px;
 }
+
 .glossary-definition {
   color: $black-rock;
   font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
@@ -87,6 +91,39 @@
   height: 40px;
   width: 40px;
 }
+
+.metrics-div {
+  min-height: 92%;
+  word-break: break-all;
+}
+
+.each-metric-border {
+  border-top: 1px solid #e0e0e0;
+}
+
+.each-metric-div {
+  padding-top: 22px;
+  padding-bottom: 9px;
+  .glossary-metric-content-div {
+    height: 44px;
+    overflow: hidden;
+  }
+}
+
+.Read-More {
+  color: #196ecf;
+  font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+  line-height: 22px;
+  padding-bottom: 25px;
+}
+
+.Read-More:hover {
+  cursor: pointer;
+}
+
 .view-allMetrics {
   color: $blue;
   cursor: pointer;
@@ -94,4 +131,48 @@
   font-size: 16px;
   letter-spacing: 0.2px;
   padding: 18px 0 18px 18px;
+}
+
+.view-all-metrics-button-div {
+}
+
+.absolute {
+  position: absolute;
+  bottom: 0;
+}
+
+.relative {
+  position: relative;
+  bottom: 0;
+}
+
+.view-all-metrics-button {
+  box-sizing: border-box;
+  height: 41px;
+  width: 351.35px;
+  border: 1px solid;
+  border-color: #196ecf;
+  border-radius: 2px;
+  text-align: center;
+  margin-bottom: 28.5px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+
+.view-all-metrics-button:hover {
+  .view-all-metrics-button-text {
+    color: white;
+  }
+  background-color: #196ecf;
+  cursor: pointer;
+}
+
+.view-all-metrics-button-text {
+  color: #196ecf;
+  font-family: 'UHC Sans';
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+  line-height: 22px;
+  text-align: center;
 }
