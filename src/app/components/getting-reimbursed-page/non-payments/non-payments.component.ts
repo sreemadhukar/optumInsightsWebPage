@@ -38,7 +38,7 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
   summaryItems: any;
   subscription: any;
   pageTitle: String = '';
-  currentSummary: Array<Object> = [{}];
+  nonPaymentData1: Array<Object> = [{}];
   currentTabTitle: String = '';
   monthlyLineGraph: any = [{}];
 
@@ -246,13 +246,15 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
     this.loadingTwo = false;
     this.mockCardTwo = [{}];
     // this.timePeriod = this.session.timeFrame; // uncomment it
-    this.gettingReimbursedSharedService.getGettingReimbursedData().then(completeData => {
-      this.summaryItems = JSON.parse(JSON.stringify(completeData));
-      this.currentSummary = this.summaryItems[2].data;
-      this.currentTabTitle = this.summaryItems[2].title;
-    });
+    // this.gettingReimbursedSharedService.getGettingReimbursedData().then(completeData => {
+    //   this.summaryItems = JSON.parse(JSON.stringify(completeData));
+    //   this.nonPaymentData1 = this.summaryItems[2].data;
+    //   this.currentTabTitle = this.summaryItems[2].title;
+    // });
     this.nonPaymentService.getNonPayment().then(nonPayment => {
-      console.log('NonPayment Serivce', nonPayment);
+      this.summaryItems = JSON.parse(JSON.stringify(nonPayment));
+      this.nonPaymentData1 = this.summaryItems;
+      console.log('NonPayment Serivce', this.nonPaymentData1);
     });
     this.monthlyLineGraph.chartId = 'non-payment-trend-block';
     this.monthlyLineGraph.titleData = [{}];

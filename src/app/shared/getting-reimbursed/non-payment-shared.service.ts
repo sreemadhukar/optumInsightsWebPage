@@ -20,14 +20,13 @@ export class NonPaymentSharedService {
   ) {}
   public getNonPayment() {
     this.providerKey = this.session.providerKeyData();
-    this.timeFrame = this.session.timeFrame;
+    this.timeFrame = 'Last 6 Months';
     return new Promise(resolve => {
       const parameters = [this.providerKey, 'NONPAYMENT_METRICS'];
       // let nonPayment: object;
 
       this.nonPaymentService.getNonPaymentData(...parameters).subscribe(
         ([nonPaymentData1]) => {
-          this.summaryData = nonPaymentData1;
           console.log('Shared Non Payment', nonPaymentData1);
           let claimsNotPaid: Object;
           let claimsNotPaidRate: Object;
@@ -36,7 +35,7 @@ export class NonPaymentSharedService {
             nonPaymentData1.All != null &&
             nonPaymentData1.All.hasOwnProperty('ClaimsLobSummary') &&
             nonPaymentData1.All.ClaimsLobSummary.length &&
-            nonPaymentData1.All.ClaimsLobSummary[0].ClaimsDenied &&
+            nonPaymentData1.All.ClaimsLobSummary[0].hasOwnProperty('ClaimsDenied') &&
             nonPaymentData1.hasOwnProperty('Cs') &&
             nonPaymentData1.Cs.hasOwnProperty('ClaimsLobSummary') &&
             nonPaymentData1.Cs.ClaimsLobSummary.length &&
@@ -131,15 +130,8 @@ export class NonPaymentSharedService {
               data: null,
               timeperiod: null
             };
-            claimsPaidRate = {
-              category: 'app-card',
-              type: 'donut',
-              title: null,
-              data: null,
-              timeperiod: null
-            };
           } // end if else
-
+          this.summaryData.push(claimsNotPaid, claimsNotPaidRate);
           resolve(this.summaryData);
         },
         err => {
