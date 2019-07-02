@@ -80,12 +80,14 @@
   letter-spacing: 0.2px;
   line-height: 22px;
 }
+
 .business-glossary {
   .input-style {
     height: 0 !important;
     padding: 0 !important;
   }
 }
+
 .icon-search-black {
   height: 24px;
   width: 24px;
@@ -103,10 +105,10 @@
 
 .each-metric-border {
   border-top: 1px solid #e0e0e0;
+  padding-top: 22px;
 }
 
 .each-metric-div {
-  padding-top: 22px;
   padding-bottom: 9px;
   .glossary-metric-content-div {
     height: 44px;

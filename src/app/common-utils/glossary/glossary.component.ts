@@ -24,6 +24,7 @@ export class GlossaryComponent implements OnInit {
   metricDataList: any[];
   public singlemetric = true;
   public allmetrics = false;
+  public allmetricsdefinitionShort = [];
   public readmoreFlag = [];
   public optionLength = 0;
   public optionND = false;
@@ -111,6 +112,17 @@ export class GlossaryComponent implements OnInit {
   public filteredData(value) {
     this.singlemetric = true;
     if (value === 'All') {
+      for (let i = 0; i < this.glossaryList.length; i++) {
+        if (
+          this.getTextWidth(this.glossaryList[i].BusinessGlossary.ProviderDashboardName.Definition, 16, 'Arial') > 700
+        ) {
+          this.allmetricsdefinitionShort.push(
+            this.glossaryList[i].BusinessGlossary.ProviderDashboardName.Definition.slice(0, 95) + '...'
+          );
+        } else {
+          this.allmetricsdefinitionShort.push(null);
+        }
+      }
       this.selectedmetric = null;
       this.allmetrics = true;
       this.glossarySelected = this.glossaryList;
@@ -138,6 +150,12 @@ export class GlossaryComponent implements OnInit {
       this.readmoreFlag[value] = true;
       document.getElementById('each-metric-div' + value).classList.add('each-metric-div');
     }
+  }
+  public getTextWidth(text, fontSize, fontFace) {
+    const canvas = document.createElement('canvas');
+    const context = canvas.getContext('2d');
+    context.font = fontSize + 'px ' + fontFace;
+    return context.measureText(text).width;
   }
 
   private _filter(value: string): string[] {

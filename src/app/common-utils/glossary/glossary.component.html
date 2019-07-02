@@ -30,7 +30,10 @@
       </form>
     </mat-dialog-content>
     <div *ngIf="glossarySelected.length">
-      <div *ngFor="let glossary of glossarySelected; let i = index" [ngClass]="{ 'each-metric-border': allmetrics }">
+      <div
+        *ngFor="let glossary of glossarySelected; let shortdef; of: allmetricsdefinitionShort; let i = index"
+        [ngClass]="{ 'each-metric-border': allmetrics }"
+      >
         <div [ngClass]="{ 'each-metric-div': allmetrics }" id="each-metric-div{{ i }}">
           <div class="glossary-title">
             {{ glossary.BusinessGlossary.ProviderDashboardName.Metric }}
@@ -38,7 +41,9 @@
           <br />
           <div class="glossary-metric-content-div">
             <div class="glossary-definition">
-              {{ glossary.BusinessGlossary.ProviderDashboardName.Definition }}
+              <span *ngIf="allmetricsdefinitionShort[i] && allmetrics && this.readmoreFlag[i]"
+                >{{ allmetricsdefinitionShort[i] }}<br /></span
+              >{{ glossary.BusinessGlossary.ProviderDashboardName.Definition }}
             </div>
             <!-- <div>
       <a class="go-to-metric-location">
