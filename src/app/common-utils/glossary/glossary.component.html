@@ -30,12 +30,13 @@
       </form>
     </mat-dialog-content>
     <div *ngIf="glossarySelected.length">
+      <div class="view-all-metrics-title" *ngIf="allmetrics">View All Metrics</div>
       <div
         *ngFor="let glossary of glossarySelected; let shortdef; of: allmetricsdefinitionShort; let i = index"
         [ngClass]="{ 'each-metric-border': allmetrics }"
       >
         <div [ngClass]="{ 'each-metric-div': allmetrics }" id="each-metric-div{{ i }}">
-          <div class="glossary-title">
+          <div [ngClass]="{ 'all-metrics-glossary-title': allmetrics, 'glossary-title': !allmetrics }">
             {{ glossary.BusinessGlossary.ProviderDashboardName.Metric }}
           </div>
           <br />
@@ -106,13 +107,9 @@
       </div>
     </div>
   </div>
-  <div class="view-all-metrics-button-div" *ngIf="!allmetrics">
-    <div
-      class="view-all-metrics-button"
-      [ngClass]="{ absolute: singlemetric, relative: !singlemetric }"
-      (click)="filteredData('All')"
-    >
-      <span class="view-all-metrics-button-text">View All Metrics</span>
-    </div>
+</div>
+<div class="view-all-metrics-button-div" *ngIf="!allmetrics">
+  <div class="view-all-metrics-button" (click)="filteredData('All')">
+    <span class="view-all-metrics-button-text">View All Metrics</span>
   </div>
 </div>
