@@ -118,6 +118,14 @@
             font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
           }
         }
+        .close-btn {
+          display: inherit;
+          position: relative;
+          cursor: pointer;
+          .icon-display {
+            color: #757588;
+          }
+        }
       }
     }
   }

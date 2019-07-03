@@ -15,11 +15,21 @@
           <div class="horizontal-align" *ngFor="let tax of taxID">
             <button class="btn btn-rounded" disabled>
               <span>Tax ID: </span><span class="text-semibold pl-4">{{ tax }} </span>
+              <div class="close-btn">
+                <mat-icon class="icon-display" (click)="removeFilter('tax', tax)" svgIcon="close"></mat-icon>
+              </div>
             </button>
           </div>
-          <div class="horizontal-align">
+          <div class="horizontal-align" *ngIf="lob">
             <button class="btn btn-rounded" disabled>
               <span>Line of Business: </span><span class="text-semibold pl-4">{{ lob }} </span>
+              <div class="close-btn">
+                <mat-icon
+                  class="icon-display"
+                  (click)="removeFilter('lob', session.filterObjValue.lob)"
+                  svgIcon="close"
+                ></mat-icon>
+              </div>
             </button>
           </div>
           <div class="horizontal-align">

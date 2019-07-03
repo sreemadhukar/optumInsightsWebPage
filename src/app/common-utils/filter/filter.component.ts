@@ -118,11 +118,6 @@ export class FilterComponent implements OnInit {
     this.filterFlag.emit(false);
   }
   applyFilter() {
-    // this.session.lob = this.lobData;
-    // this.session.timeFrame = this.timeframeData;
-
-    // this.session.filterObjValue.timeFrame = this.timeframeData;
-    // this.session.filterObjValue.lob = this.lobData;
     if (this.taxArrayData.length > 0) {
       //  this.session.filterObjValue.tax = this.taxArrayData;
       if (this.serviceSettingDisplay) {
