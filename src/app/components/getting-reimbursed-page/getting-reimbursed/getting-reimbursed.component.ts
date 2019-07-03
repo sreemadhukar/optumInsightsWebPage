@@ -61,6 +61,7 @@ export class GettingReimbursedComponent implements OnInit {
     return this.tabOptionsTitle[i];
   }
   matOptionClicked(i: number, event: any) {
+    this.currentSummary = [];
     this.currentSummary = this.summaryItems[i].data;
     this.currentTabTitle = this.summaryItems[i].title;
     const myTabs = document.querySelectorAll('ul.nav-tabs > li');
@@ -84,32 +85,43 @@ export class GettingReimbursedComponent implements OnInit {
     this.loading = true;
     this.mockCards = [{}, {}];
     this.selectedItemId = 0;
+
     this.gettingReimbursedSharedService
       .getGettingReimbursedData()
       .then(completeData => {
         this.loading = false;
+        this.tabOptions = [];
         this.summaryItems = JSON.parse(JSON.stringify(completeData));
         this.currentSummary = this.summaryItems[0].data;
         this.currentTabTitle = this.summaryItems[0].title;
-        // console.log(this.summaryItems);
-
-        this.tabOptions = [];
+        console.log(this.summaryItems);
         for (let i = 0; i < 4; i++) {
-          const temp = {
-            id: i,
-            title: this.getTabOptionsTitle(i),
-            value1: this.summaryItems[i].data[0].data.centerNumber,
-            sdata: {
-              sign: this.summaryItems[i].data[0].data.sdata.sign,
-              value: this.summaryItems[i].data[0].data.sdata.data
-            }
-          };
+          let temp;
+          if (this.summaryItems[i].data[0] != null && this.summaryItems[i].data[0].data != null) {
+            temp = {
+              id: i,
+              title: this.getTabOptionsTitle(i),
+              value1: this.summaryItems[i].data[0].data.centerNumber,
+              sdata: {
+                sign: this.summaryItems[i].data[0].data.sdata.sign,
+                value: this.summaryItems[i].data[0].data.sdata.data
+              }
+            };
+          } else {
+            temp = {
+              id: i,
+              title: this.getTabOptionsTitle(i),
+              value1: '--',
+              sdata: null
+            };
+          }
+          console.log(i, temp);
           this.tabOptions.push(temp);
         }
       })
       .catch(reason => {
         this.loading = false;
-        console.log(reason.message);
+        console.log('Getting Reimbursed Summary page', reason.message);
       });
   }
   openFilter() {

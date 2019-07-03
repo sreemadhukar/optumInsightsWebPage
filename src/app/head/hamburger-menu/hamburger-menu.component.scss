@@ -365,6 +365,7 @@ app-header {
 .sidenav-glossary {
   position: absolute !important;
   z-index: 9999 !important;
+  overflow-x: hidden;
 }
 
 .sidenav-filter {

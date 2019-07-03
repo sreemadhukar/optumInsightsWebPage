@@ -27,6 +27,8 @@ export class PriorAuthComponent implements OnInit {
   timePeriod: string;
   lob: string;
   taxID: Array<string>;
+  serviceSetting: string;
+  filterParameters: any;
   constructor(
     private checkStorage: StorageService,
     private priorAuthShared: PriorAuthSharedService,
@@ -51,6 +53,7 @@ export class PriorAuthComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.filterParameters = this.session.filterObjValue;
     this.timePeriod = this.session.filterObjValue.timeFrame;
     if (this.session.filterObjValue.lob !== 'All') {
       this.lob = this.filtermatch.matchLobWithLobData(this.session.filterObjValue.lob);
@@ -61,15 +64,21 @@ export class PriorAuthComponent implements OnInit {
         this.taxID = [this.taxID.length + ' Selected'];
       }
     }
+    if (this.session.filterObjValue.serviceSetting) {
+      this.serviceSetting = this.session.filterObjValue.serviceSetting;
+    } else {
+      this.serviceSetting = 'All';
+      this.filterParameters.serviceSetting = 'All';
+    }
     this.pageTitle = 'Prior Authorizations';
     this.loading = true;
     this.hideAllObjects = true;
     this.reasonItems = [{}];
     this.summaryItems = [{}];
     this.mockCards = [{}, {}];
-    // console.log(this.session);
+    console.log(this.filterParameters);
 
-    this.priorAuthShared.getPriorAuthDataFiltered(this.session.filterObjValue).then(
+    this.priorAuthShared.getPriorAuthDataFiltered(this.filterParameters).then(
       data => {
         this.loading = false;
         this.summaryItems = data[0];

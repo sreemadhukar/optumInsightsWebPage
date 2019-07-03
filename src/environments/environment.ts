@@ -18,13 +18,14 @@ export const environment: any = {
   */
   // *In Local use dev4
   apiProxyUrl: 'https://gateway-stage-core.optum.com/api/devone/pdr/uhci/v1/',
-  originUrl: 'https://pedui1-pedtst.ocp-ctc-core-nonprod.optum.com/',
+  originUrl: 'https://pedintui-pedstg.ocp-ctc-dmz-stg.optum.com/',
   // apiProxyUrl: 'https://nginx-pedtst.ocp-ctc-core-nonprod.optum.com/',
   // originUrl: 'https://pedintui-pedstg.ocp-ctc-dmz-stg.optum.com/',
   apiUrls: {
     ExecutiveSummaryPath: 'providersystems/',
     ProviderSystemClaimsAgg: 'agg-claims/search/v2.0/',
-    ProviderSystemClaimsSummary: 'claims/search/v2.0/',
+    // ProviderSystemClaimsSummary: 'claims/search/v2.0/',
+    ProviderSystemClaimsSummary: 'claim-metrics/',
     ProviderSystemPriorAuth: 'PriorAuthSummary/',
     SsoTokenPath: 'myinsightOptumIdHandshake',
     SsoRedirectUri:
