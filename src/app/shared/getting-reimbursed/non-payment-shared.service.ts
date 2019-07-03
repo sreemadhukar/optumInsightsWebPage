@@ -130,6 +130,7 @@ export class NonPaymentSharedService {
               timeperiod: null
             };
           } // end if else
+          this.summaryData = [];
           this.summaryData.push(claimsNotPaid, claimsNotPaidRate);
           resolve(this.summaryData);
         },

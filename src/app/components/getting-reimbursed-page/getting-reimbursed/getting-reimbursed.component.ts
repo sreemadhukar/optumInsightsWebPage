@@ -7,7 +7,6 @@ import { Router } from '@angular/router';
 import { FilterExpandService } from '../../../shared/filter-expand.service';
 import { CommonUtilsService } from '../../../shared/common-utils.service';
 import { SessionService } from 'src/app/shared/session.service';
-import { NonPaymentSharedService } from '../../../shared/getting-reimbursed/non-payment-shared.service';
 
 @Component({
   selector: 'app-getting-reimbursed',
@@ -32,7 +31,6 @@ export class GettingReimbursedComponent implements OnInit {
   tabOptionsTitle: Array<String> = [];
   loading: boolean;
   mockCards: any;
-  nonPaymentData1: any;
 
   constructor(
     private gettingReimbursedSharedService: GettingReimbursedSharedService,
@@ -42,8 +40,7 @@ export class GettingReimbursedComponent implements OnInit {
     private filterExpandService: FilterExpandService,
     private router: Router,
     private session: SessionService,
-    private filtermatch: CommonUtilsService,
-    private nonPaymentService: NonPaymentSharedService
+    private filtermatch: CommonUtilsService
   ) {
     const filData = this.session.getFilChangeEmitter().subscribe(() => this.ngOnInit());
     this.pageTitle = 'Getting Reimbursed';
@@ -60,11 +57,8 @@ export class GettingReimbursedComponent implements OnInit {
     return this.tabOptionsTitle[i];
   }
   matOptionClicked(i: number, event: any) {
-    if (this.summaryItems[i].title === 'Claims Non-Payments') {
-      this.currentSummary = this.nonPaymentData1;
-    } else {
-      this.currentSummary = this.summaryItems[i].data;
-    }
+    this.currentSummary = [];
+    this.currentSummary = this.summaryItems[i].data;
     this.currentTabTitle = this.summaryItems[i].title;
     const myTabs = document.querySelectorAll('ul.nav-tabs > li');
     for (let j = 0; j < myTabs.length; j++) {
@@ -84,13 +78,6 @@ export class GettingReimbursedComponent implements OnInit {
     this.mockCards = [{}, {}];
     this.selectedItemId = 0;
 
-    /** Non Payment Service Code starts here */
-    /** code for two donuts  Claims Not Paid and Claims Non-payment Rate */
-    this.nonPaymentService.getNonPayment().then(nonPayment => {
-      this.nonPaymentData1 = JSON.parse(JSON.stringify(nonPayment));
-    });
-    /** code ends here */
-
     this.gettingReimbursedSharedService
       .getGettingReimbursedData()
       .then(completeData => {
@@ -101,11 +88,7 @@ export class GettingReimbursedComponent implements OnInit {
         console.log(this.summaryItems);
         for (let i = 0; i < 4; i++) {
           let temp;
-          if (
-            this.summaryItems[i].data[0] != null &&
-            this.summaryItems[i].data[0].data != null &&
-            this.summaryItems[i].title !== 'Claims Non-Payments'
-          ) {
+          if (this.summaryItems[i].data[0] != null && this.summaryItems[i].data[0].data != null) {
             temp = {
               id: i,
               title: this.getTabOptionsTitle(i),
@@ -115,17 +98,6 @@ export class GettingReimbursedComponent implements OnInit {
                 value: this.summaryItems[i].data[0].data.sdata.data
               }
             };
-          } else if (this.summaryItems[i].title === 'Claims Non-Payments') {
-            temp = {
-              id: i,
-              title: this.getTabOptionsTitle(i),
-              value1: this.nonPaymentData1[0].data.centerNumber,
-              sdata: {
-                sign: this.nonPaymentData1[0].data.sdata.sign,
-                value: this.nonPaymentData1[0].data.sdata.data
-              }
-            };
-            console.log('Non-Payment', temp);
           } else {
             temp = {
               id: i,
