@@ -57,6 +57,15 @@
   letter-spacing: 0.2px;
 }
 
+.all-metrics-glossary-title {
+  color: $black-rock;
+  font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+  letter-spacing: 0.2px;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 22px;
+}
+
 .glossary-formula {
   color: $black-rock;
   font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
@@ -101,6 +110,17 @@
 .metrics-div {
   min-height: 92%;
   word-break: break-all;
+  padding-bottom: 100px;
+}
+
+.view-all-metrics-title {
+  color: $black-rock;
+  font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+  font-size: 28px;
+  font-weight: 600;
+  line-height: 32px;
+  padding-top: 6px;
+  padding-bottom: 25px;
 }
 
 .each-metric-border {
@@ -140,16 +160,14 @@
 }
 
 .view-all-metrics-button-div {
-}
-
-.absolute {
+  background: #ffffff;
+  width: 99.5%;
   position: absolute;
   bottom: 0;
-}
-
-.relative {
-  position: relative;
-  bottom: 0;
+  margin-left: -24px;
+  padding-left: 34px;
+  padding-bottom: 25px;
+  padding-top: 25px;
 }
 
 .view-all-metrics-button {
@@ -160,7 +178,6 @@
   border-color: #196ecf;
   border-radius: 2px;
   text-align: center;
-  margin-bottom: 28.5px;
   padding-top: 8px;
   padding-bottom: 8px;
 }
