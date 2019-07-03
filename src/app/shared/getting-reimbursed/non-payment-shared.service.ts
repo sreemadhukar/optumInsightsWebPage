@@ -27,7 +27,6 @@ export class NonPaymentSharedService {
 
       this.nonPaymentService.getNonPaymentData(...parameters).subscribe(
         ([nonPaymentData1]) => {
-          console.log('Shared Non Payment', nonPaymentData1);
           let claimsNotPaid: Object;
           let claimsNotPaidRate: Object;
           if (

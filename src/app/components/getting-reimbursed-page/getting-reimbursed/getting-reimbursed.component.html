@@ -42,7 +42,11 @@
                   {{ item.title }}
                   <div class="nav-values">
                     {{ item.value1 }}
-                    <span class="metrics" [ngClass]="item.sdata.sign === 'up' ? 'upgreen' : 'downred'">
+                    <span
+                      *ngIf="item.sdata != null"
+                      class="metrics"
+                      [ngClass]="item.sdata.sign === 'up' ? 'upgreen' : 'downred'"
+                    >
                       {{ item.sdata.value }}
                     </span>
                   </div>

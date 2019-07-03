@@ -60,7 +60,7 @@ export class GettingReimbursedComponent implements OnInit {
     return this.tabOptionsTitle[i];
   }
   matOptionClicked(i: number, event: any) {
-    if (i === 2) {
+    if (this.summaryItems[i].title === 'Claims Non-Payments') {
       this.currentSummary = this.nonPaymentData1;
     } else {
       this.currentSummary = this.summaryItems[i].data;
@@ -91,10 +91,19 @@ export class GettingReimbursedComponent implements OnInit {
         this.currentSummary = this.summaryItems[0].data;
         this.currentTabTitle = this.summaryItems[0].title;
         console.log(this.summaryItems);
+        /** Non Payment Service Code starts here */
+        /** code for two donuts  Claims Not Paid and Claims Non-payment Rate */
+        this.nonPaymentService.getNonPayment().then(nonPayment => {
+          this.nonPaymentData1 = JSON.parse(JSON.stringify(nonPayment));
+        });
 
         for (let i = 0; i < 4; i++) {
           let temp;
-          if (this.summaryItems[i].data[0].data != null) {
+          if (
+            this.summaryItems[i].data[0] != null &&
+            this.summaryItems[i].data[0].data != null &&
+            this.summaryItems[i].title !== 'Claims Non-Payments'
+          ) {
             temp = {
               id: i,
               title: this.getTabOptionsTitle(i),
@@ -104,28 +113,31 @@ export class GettingReimbursedComponent implements OnInit {
                 value: this.summaryItems[i].data[0].data.sdata.data
               }
             };
+          } else if (this.summaryItems[i].title === 'Claims Non-Payments') {
+            temp = {
+              id: i,
+              title: this.getTabOptionsTitle(i),
+              value1: this.nonPaymentData1[0].data.centerNumber,
+              sdata: {
+                sign: this.nonPaymentData1[0].data.sdata.sign,
+                value: this.nonPaymentData1[0].data.sdata.data
+              }
+            };
           } else {
             temp = {
               id: i,
               title: this.getTabOptionsTitle(i),
-              value1: null,
+              value1: '--',
               sdata: null
             };
           }
           this.tabOptions.push(temp);
         }
-        alert('Inder');
       })
       .catch(reason => {
         this.loading = false;
         console.log('Getting Reimbursed Summary page', reason.message);
       });
-
-    /** Non Payment Service Code starts here */
-    /** code for two donuts  Claims Not Paid and Claims Non-payment Rate */
-    this.nonPaymentService.getNonPayment().then(nonPayment => {
-      this.nonPaymentData1 = JSON.parse(JSON.stringify(nonPayment));
-    });
   }
   openFilter() {
     this.filterExpandService.setURL(this.router.url);
