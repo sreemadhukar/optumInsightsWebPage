@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { FilterExpandService } from '../../../shared/filter-expand.service';
 import { CommonUtilsService } from '../../../shared/common-utils.service';
 import { SessionService } from 'src/app/shared/session.service';
+import { NonPaymentSharedService } from '../../../shared/getting-reimbursed/non-payment-shared.service';
 
 @Component({
   selector: 'app-getting-reimbursed',
@@ -31,6 +32,7 @@ export class GettingReimbursedComponent implements OnInit {
   tabOptionsTitle: Array<String> = [];
   loading: boolean;
   mockCards: any;
+  nonPaymentData1: any;
 
   constructor(
     private gettingReimbursedSharedService: GettingReimbursedSharedService,
@@ -40,7 +42,8 @@ export class GettingReimbursedComponent implements OnInit {
     private filterExpandService: FilterExpandService,
     private router: Router,
     private session: SessionService,
-    private filtermatch: CommonUtilsService
+    private filtermatch: CommonUtilsService,
+    private nonPaymentService: NonPaymentSharedService
   ) {
     const filData = this.session.getFilChangeEmitter().subscribe(() => this.ngOnInit());
     this.pageTitle = 'Getting Reimbursed';
@@ -57,7 +60,11 @@ export class GettingReimbursedComponent implements OnInit {
     return this.tabOptionsTitle[i];
   }
   matOptionClicked(i: number, event: any) {
-    this.currentSummary = this.summaryItems[i].data;
+    if (i === 2) {
+      this.currentSummary = this.nonPaymentData1;
+    } else {
+      this.currentSummary = this.summaryItems[i].data;
+    }
     this.currentTabTitle = this.summaryItems[i].title;
     const myTabs = document.querySelectorAll('ul.nav-tabs > li');
     for (let j = 0; j < myTabs.length; j++) {
@@ -83,26 +90,42 @@ export class GettingReimbursedComponent implements OnInit {
         this.summaryItems = JSON.parse(JSON.stringify(completeData));
         this.currentSummary = this.summaryItems[0].data;
         this.currentTabTitle = this.summaryItems[0].title;
-        // console.log(this.summaryItems);
+        console.log(this.summaryItems);
 
-        this.tabOptions = [];
         for (let i = 0; i < 4; i++) {
-          const temp = {
-            id: i,
-            title: this.getTabOptionsTitle(i),
-            value1: this.summaryItems[i].data[0].data.centerNumber,
-            sdata: {
-              sign: this.summaryItems[i].data[0].data.sdata.sign,
-              value: this.summaryItems[i].data[0].data.sdata.data
-            }
-          };
+          let temp;
+          if (this.summaryItems[i].data[0].data != null) {
+            temp = {
+              id: i,
+              title: this.getTabOptionsTitle(i),
+              value1: this.summaryItems[i].data[0].data.centerNumber,
+              sdata: {
+                sign: this.summaryItems[i].data[0].data.sdata.sign,
+                value: this.summaryItems[i].data[0].data.sdata.data
+              }
+            };
+          } else {
+            temp = {
+              id: i,
+              title: this.getTabOptionsTitle(i),
+              value1: null,
+              sdata: null
+            };
+          }
           this.tabOptions.push(temp);
         }
+        alert('Inder');
       })
       .catch(reason => {
         this.loading = false;
-        console.log(reason.message);
+        console.log('Getting Reimbursed Summary page', reason.message);
       });
+
+    /** Non Payment Service Code starts here */
+    /** code for two donuts  Claims Not Paid and Claims Non-payment Rate */
+    this.nonPaymentService.getNonPayment().then(nonPayment => {
+      this.nonPaymentData1 = JSON.parse(JSON.stringify(nonPayment));
+    });
   }
   openFilter() {
     this.filterExpandService.setURL(this.router.url);
