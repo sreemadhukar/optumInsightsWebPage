@@ -83,6 +83,14 @@ export class GettingReimbursedComponent implements OnInit {
     this.loading = true;
     this.mockCards = [{}, {}];
     this.selectedItemId = 0;
+
+    /** Non Payment Service Code starts here */
+    /** code for two donuts  Claims Not Paid and Claims Non-payment Rate */
+    this.nonPaymentService.getNonPayment().then(nonPayment => {
+      this.nonPaymentData1 = JSON.parse(JSON.stringify(nonPayment));
+    });
+    /** code ends here */
+
     this.gettingReimbursedSharedService
       .getGettingReimbursedData()
       .then(completeData => {
@@ -91,12 +99,6 @@ export class GettingReimbursedComponent implements OnInit {
         this.currentSummary = this.summaryItems[0].data;
         this.currentTabTitle = this.summaryItems[0].title;
         console.log(this.summaryItems);
-        /** Non Payment Service Code starts here */
-        /** code for two donuts  Claims Not Paid and Claims Non-payment Rate */
-        this.nonPaymentService.getNonPayment().then(nonPayment => {
-          this.nonPaymentData1 = JSON.parse(JSON.stringify(nonPayment));
-        });
-
         for (let i = 0; i < 4; i++) {
           let temp;
           if (
@@ -123,6 +125,7 @@ export class GettingReimbursedComponent implements OnInit {
                 value: this.nonPaymentData1[0].data.sdata.data
               }
             };
+            console.log('Non-Payment', temp);
           } else {
             temp = {
               id: i,
@@ -131,6 +134,7 @@ export class GettingReimbursedComponent implements OnInit {
               sdata: null
             };
           }
+          console.log(i, temp);
           this.tabOptions.push(temp);
         }
       })
