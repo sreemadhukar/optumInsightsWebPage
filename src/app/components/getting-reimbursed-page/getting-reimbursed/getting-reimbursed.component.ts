@@ -82,6 +82,7 @@ export class GettingReimbursedComponent implements OnInit {
       .getGettingReimbursedData()
       .then(completeData => {
         this.loading = false;
+        this.tabOptions = [];
         this.summaryItems = JSON.parse(JSON.stringify(completeData));
         this.currentSummary = this.summaryItems[0].data;
         this.currentTabTitle = this.summaryItems[0].title;
