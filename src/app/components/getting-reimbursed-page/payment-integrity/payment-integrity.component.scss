@@ -283,6 +283,11 @@
             font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
           }
         }
+        .close-btn {
+          display: inherit;
+          position: relative;
+          cursor: pointer;
+        }
       }
     }
   }

@@ -87,6 +87,11 @@
       font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
     }
   }
+  .close-btn {
+    display: inherit;
+    position: relative;
+    cursor: pointer;
+  }
 }
 .title-left-padding {
   padding-left: 15px;

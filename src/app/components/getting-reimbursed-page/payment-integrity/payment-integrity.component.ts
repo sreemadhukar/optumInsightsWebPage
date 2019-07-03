@@ -50,16 +50,24 @@ export class PaymentIntegrityComponent implements OnInit {
       'filter',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-filter_list-24px.svg')
     );
+    iconRegistry.addSvgIcon(
+      'close',
+      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-close-24px.svg')
+    );
     this.pageTitle = 'Claims Payment Integrity';
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.ngOnInit());
   }
 
   ngOnInit() {
     this.timePeriod = this.session.filterObjValue.timeFrame;
-    this.lob = this.filtermatch.matchLobWithLobData(this.session.filterObjValue.lob);
-    this.taxID = this.session.filterObjValue.tax;
-    if (this.taxID.length > 3) {
-      this.taxID = [this.taxID.length + ' Selected'];
+    if (this.session.filterObjValue.lob !== 'All') {
+      this.lob = this.filtermatch.matchLobWithLobData(this.session.filterObjValue.lob);
+    }
+    if (this.session.filterObjValue.tax.length > 0 && this.session.filterObjValue.tax[0] !== 'All') {
+      this.taxID = this.session.filterObjValue.tax;
+      if (this.taxID.length > 3) {
+        this.taxID = [this.taxID.length + ' Selected'];
+      }
     }
     this.piDataloaded = false;
     this.loading = true;
@@ -78,5 +86,22 @@ export class PaymentIntegrityComponent implements OnInit {
   }
   openFilter() {
     this.filterExpandService.setURL(this.router.url);
+  }
+  removeFilter(type, value) {
+    if (type === 'lob') {
+      this.lob = '';
+      this.session.store({ timeFrame: this.timePeriod, lob: 'All', tax: this.session.filterObjValue.tax });
+    } else if (type === 'tax' && !value.includes('Selected')) {
+      this.taxID = this.session.filterObjValue.tax.filter(id => id !== value);
+      if (this.taxID.length > 0) {
+        this.session.store({ timeFrame: this.timePeriod, lob: this.session.filterObjValue.lob, tax: this.taxID });
+      } else {
+        this.session.store({ timeFrame: this.timePeriod, lob: this.session.filterObjValue.lob, tax: ['All'] });
+        this.taxID = [];
+      }
+    } else if (type === 'tax' && value.includes('Selected')) {
+      this.session.store({ timeFrame: this.timePeriod, lob: this.session.filterObjValue.lob, tax: ['All'] });
+      this.taxID = [];
+    }
   }
 }

@@ -75,7 +75,6 @@ export class FilterComponent implements OnInit {
     }
   }
   ngOnInit() {
-    // console.log(this.location.path())
     this.lobData = this.session.filterObjValue.lob;
     this.session.getTins().then(data => {
       this.tinsData = data;
@@ -95,16 +94,9 @@ export class FilterComponent implements OnInit {
     this.filterFlag.emit(false);
   }
   applyFilter() {
-    // this.session.lob = this.lobData;
-    // this.session.timeFrame = this.timeframeData;
-
-    // this.session.filterObjValue.timeFrame = this.timeframeData;
-    // this.session.filterObjValue.lob = this.lobData;
     if (this.taxArrayData.length > 0) {
-      //  this.session.filterObjValue.tax = this.taxArrayData;
       this.session.store({ timeFrame: this.timeframeData, lob: this.lobData, tax: this.taxArrayData });
     } else {
-      // this.session.filterObjValue.tax = [this.taxData];
       this.session.store({ timeFrame: this.timeframeData, lob: this.lobData, tax: [this.taxData] });
     }
     this.session.filterObjSubject.complete();
