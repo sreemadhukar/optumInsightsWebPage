@@ -22,7 +22,6 @@ export class GlossaryComponent implements OnInit {
   filteredOptions: Observable<any[]>;
   public glossaryCtrl = new FormControl();
   metricDataList: any[];
-  public singlemetric = true;
   public allmetrics = false;
   public allmetricsdefinitionShort = [];
   public readmoreFlag = [];
@@ -37,24 +36,19 @@ export class GlossaryComponent implements OnInit {
     this.glossarySelected = [];
     this.glossaryService.getBusinessGlossaryData().subscribe(response => {
       this.glossaryList = JSON.parse(JSON.stringify(response));
-      for (let i = 0; i < this.glossaryList.length; i++) {
-        this.readmoreFlag[i] = true;
-        this.glossaryList[i].BusinessGlossary.ProviderDashboardName.metricData = this.glossaryList[
-          i
-        ].BusinessGlossary.ProviderDashboardName.Metric.replace(/[^a-zA-Z]/g, '');
-        if (
-          this.glossaryList[i].BusinessGlossary.ProviderDashboardName.Metric.toLowerCase().includes(
-            this.title.toLowerCase()
-          )
-        ) {
-          this.glossarySelected.push(this.glossaryList[i]);
-        }
-      }
-      if (this.glossarySelected) {
-        if (this.glossarySelected.length > 1 && document.body.clientHeight < 1100) {
-          this.singlemetric = false;
-        } else {
-          this.singlemetric = true;
+      if (this.glossaryList) {
+        for (let i = 0; i < this.glossaryList.length; i++) {
+          this.readmoreFlag[i] = true;
+          this.glossaryList[i].BusinessGlossary.ProviderDashboardName.metricData = this.glossaryList[
+            i
+          ].BusinessGlossary.ProviderDashboardName.Metric.replace(/[^a-zA-Z]/g, '');
+          if (
+            this.glossaryList[i].BusinessGlossary.ProviderDashboardName.Metric.toLowerCase().includes(
+              this.title.toLowerCase()
+            )
+          ) {
+            this.glossarySelected.push(this.glossaryList[i]);
+          }
         }
       }
       //  madhukar
@@ -110,7 +104,6 @@ export class GlossaryComponent implements OnInit {
   }
 
   public filteredData(value) {
-    this.singlemetric = true;
     if (value === 'All') {
       for (let i = 0; i < this.glossaryList.length; i++) {
         if (
@@ -137,6 +130,7 @@ export class GlossaryComponent implements OnInit {
   }
 
   public readmore(value) {
+    this.selectedmetric = this.glossaryList[value].BusinessGlossary.ProviderDashboardName.Metric;
     for (let i = 0; i < this.readmoreFlag.length; i++) {
       if (i !== value) {
         this.readmoreFlag[i] = true;
@@ -148,6 +142,7 @@ export class GlossaryComponent implements OnInit {
       document.getElementById('each-metric-div' + value).classList.remove('each-metric-div');
     } else {
       this.readmoreFlag[value] = true;
+      this.selectedmetric = '';
       document.getElementById('each-metric-div' + value).classList.add('each-metric-div');
     }
   }
