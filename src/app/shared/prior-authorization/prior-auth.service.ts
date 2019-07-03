@@ -68,6 +68,34 @@ export class PriorAuthSharedService {
     }
   }
 
+  public ReturnMonthlyCountString(a) {
+    if (a === 0) {
+      return '01';
+    } else if (a === 1) {
+      return '02';
+    } else if (a === 2) {
+      return '03';
+    } else if (a === 3) {
+      return '04';
+    } else if (a === 4) {
+      return '05';
+    } else if (a === 5) {
+      return '06';
+    } else if (a === 6) {
+      return '07';
+    } else if (a === 7) {
+      return '08';
+    } else if (a === 8) {
+      return '09';
+    } else if (a === 9) {
+      return '10';
+    } else if (a === 10) {
+      return '11';
+    } else if (a === 11) {
+      return '12';
+    }
+  }
+
   public getPCORData() {
     this.providerKey = this.session.providerKeyData();
     this.priorAuthData = [];
@@ -361,10 +389,11 @@ export class PriorAuthSharedService {
 
     // Default parameters
     let timeRange = 'rolling12';
-    const timeRangeAPIParameter = true;
-    let timeRangeAdditionalData = true;
+    let timeRangeAPIParameter;
+    let timeRangeAdditionalData;
     let isAllTinBool = true;
     let specificTin = '';
+    let tinNumberFormatted;
     let isAllLobBool = true;
     let iscAndSLobBool = false;
     let iseAndILobBool = false;
@@ -377,11 +406,27 @@ export class PriorAuthSharedService {
     } else if (timePeriod === 'Last 6 Months') {
       timeRange = 'last6Months';
     } else if (timePeriod === 'Year to Date') {
-      timeRange = 'YTD';
+      timeRange = 'customDateRange';
+      const yesterday = (d => new Date(d.setDate(d.getDate() - 1)))(new Date());
+      timeRangeAPIParameter = yesterday.getFullYear() + '-01-01';
+      let endDateString;
+      if (yesterday.getDate() < 10) {
+        endDateString = '0' + yesterday.getDate();
+      } else {
+        endDateString = yesterday.getDate();
+      }
+      timeRangeAdditionalData =
+        yesterday.getFullYear() + '-' + this.ReturnMonthlyCountString(yesterday.getMonth()) + '-' + endDateString;
     } else {
       // for year values
-      timeRange = 'calenderYear';
-      timeRangeAdditionalData = timePeriod;
+      timeRange = 'customDateRange';
+      timeRangeAPIParameter = timePeriod + '-01-01'; // start date
+      timeRangeAdditionalData = timePeriod + '-12-31'; // end date
+    }
+
+    if (timeRange !== 'customDateRange') {
+      timeRangeAPIParameter = true;
+      timeRangeAdditionalData = true;
     }
 
     // configurations for lob
@@ -414,7 +459,6 @@ export class PriorAuthSharedService {
       specificTin = '';
     } else {
       isAllTinBool = false;
-      let tinNumberFormatted;
       specificTin = TIN.replace(/\D/g, '');
       tinNumberFormatted = parseInt(specificTin, 10);
       specificTin = tinNumberFormatted;
@@ -519,14 +563,47 @@ export class PriorAuthSharedService {
               PACount = [];
             }
 
-            // if (providerSystems.All.NotApproved.AllNotApprovedSettings !== null) {
-            if (
-              providerSystems.All !== null &&
-              providerSystems.hasOwnProperty('All') &&
-              providerSystems.All.hasOwnProperty('NotApproved') &&
-              providerSystems.All.NotApproved.hasOwnProperty('AllNotApprovedSettings')
-            ) {
-              const PriorAuthNotApprovedReasons = providerSystems.All.NotApproved.AllNotApprovedSettings;
+            let PriorAuthNotApprovedReasons = [];
+
+            if (isAllLobBool) {
+              if (
+                providerSystems.All !== null &&
+                providerSystems.hasOwnProperty('All') &&
+                providerSystems.All.hasOwnProperty('NotApproved') &&
+                providerSystems.All.NotApproved.hasOwnProperty('AllNotApprovedSettings')
+              ) {
+                PriorAuthNotApprovedReasons = providerSystems.All.NotApproved.AllNotApprovedSettings;
+              }
+            } else if (iscAndSLobBool) {
+              if (
+                providerSystems.Cs !== null &&
+                providerSystems.hasOwnProperty('Cs') &&
+                providerSystems.Cs.hasOwnProperty('NotApproved') &&
+                providerSystems.Cs.NotApproved.hasOwnProperty('AllNotApprovedSettings')
+              ) {
+                PriorAuthNotApprovedReasons = providerSystems.Cs.NotApproved.AllNotApprovedSettings;
+              }
+            } else if (iseAndILobBool) {
+              if (
+                providerSystems.Ei !== null &&
+                providerSystems.hasOwnProperty('Ei') &&
+                providerSystems.Ei.hasOwnProperty('NotApproved') &&
+                providerSystems.Ei.NotApproved.hasOwnProperty('AllNotApprovedSettings')
+              ) {
+                PriorAuthNotApprovedReasons = providerSystems.Ei.NotApproved.AllNotApprovedSettings;
+              }
+            } else if (ismAndRLobBool) {
+              if (
+                providerSystems.Mr !== null &&
+                providerSystems.hasOwnProperty('Mr') &&
+                providerSystems.Mr.hasOwnProperty('NotApproved') &&
+                providerSystems.Mr.NotApproved.hasOwnProperty('AllNotApprovedSettings')
+              ) {
+                PriorAuthNotApprovedReasons = providerSystems.Mr.NotApproved.AllNotApprovedSettings;
+              }
+            }
+
+            if (PriorAuthNotApprovedReasons.length > 0) {
               PriorAuthNotApprovedReasons.sort(function(a, b) {
                 return b.Count - a.Count;
               });
@@ -550,6 +627,7 @@ export class PriorAuthSharedService {
             } else {
               PriorAuthBarGraphParamaters = [];
             }
+
             const PAData = [PACount, PriorAuthBarGraphParamaters];
             resolve(PAData);
           },

@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { FilterExpandService } from '../../../shared/filter-expand.service';
 import { CommonUtilsService } from '../../../shared/common-utils.service';
 import { SessionService } from 'src/app/shared/session.service';
+import { StorageService } from '../../../shared/storage-service.service';
 
 @Component({
   selector: 'app-calls',
@@ -20,7 +21,9 @@ export class CallsComponent implements OnInit {
   taxID: Array<string>;
   loading: boolean;
   mockCards: any;
+  subscription: any;
   constructor(
+    private checkStorage: StorageService,
     private callsServiceSrc: CallsSharedService,
     private filterExpandService: FilterExpandService,
     private router: Router,
@@ -31,6 +34,7 @@ export class CallsComponent implements OnInit {
   ) {
     const filData = this.session.getFilChangeEmitter().subscribe(() => this.ngOnInit());
     this.pageTitle = 'Calls';
+    this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.ngOnInit());
     iconRegistry.addSvgIcon(
       'filter',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-filter_list-24px.svg')
