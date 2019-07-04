@@ -51,12 +51,17 @@ export class GettingReimbursedComponent implements OnInit {
       'filter',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-filter_list-24px.svg')
     );
+    iconRegistry.addSvgIcon(
+      'close',
+      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-close-24px.svg')
+    );
   }
 
   getTabOptionsTitle(i: number) {
     return this.tabOptionsTitle[i];
   }
   matOptionClicked(i: number, event: any) {
+    this.currentSummary = [];
     this.currentSummary = this.summaryItems[i].data;
     this.currentTabTitle = this.summaryItems[i].title;
     const myTabs = document.querySelectorAll('ul.nav-tabs > li');
@@ -68,43 +73,75 @@ export class GettingReimbursedComponent implements OnInit {
   }
   ngOnInit() {
     this.timePeriod = this.session.filterObjValue.timeFrame;
-    this.lob = this.filtermatch.matchLobWithLobData(this.session.filterObjValue.lob);
-    this.taxID = this.session.filterObjValue.tax;
-    if (this.taxID.length > 3) {
-      this.taxID = [this.taxID.length + ' Selected'];
+    if (this.session.filterObjValue.lob !== 'All') {
+      this.lob = this.filtermatch.matchLobWithLobData(this.session.filterObjValue.lob);
+    }
+    if (this.session.filterObjValue.tax.length > 0 && this.session.filterObjValue.tax[0] !== 'All') {
+      this.taxID = this.session.filterObjValue.tax;
+      if (this.taxID.length > 3) {
+        this.taxID = [this.taxID.length + ' Selected'];
+      }
     }
     this.loading = true;
     this.mockCards = [{}, {}];
     this.selectedItemId = 0;
+
     this.gettingReimbursedSharedService
       .getGettingReimbursedData()
       .then(completeData => {
         this.loading = false;
+        this.tabOptions = [];
         this.summaryItems = JSON.parse(JSON.stringify(completeData));
         this.currentSummary = this.summaryItems[0].data;
         this.currentTabTitle = this.summaryItems[0].title;
-        // console.log(this.summaryItems);
-
-        this.tabOptions = [];
+        console.log(this.summaryItems);
         for (let i = 0; i < 4; i++) {
-          const temp = {
-            id: i,
-            title: this.getTabOptionsTitle(i),
-            value1: this.summaryItems[i].data[0].data.centerNumber,
-            sdata: {
-              sign: this.summaryItems[i].data[0].data.sdata.sign,
-              value: this.summaryItems[i].data[0].data.sdata.data
-            }
-          };
+          let temp;
+          if (this.summaryItems[i].data[0] != null && this.summaryItems[i].data[0].data != null) {
+            temp = {
+              id: i,
+              title: this.getTabOptionsTitle(i),
+              value1: this.summaryItems[i].data[0].data.centerNumber,
+              sdata: {
+                sign: this.summaryItems[i].data[0].data.sdata.sign,
+                value: this.summaryItems[i].data[0].data.sdata.data
+              }
+            };
+          } else {
+            temp = {
+              id: i,
+              title: this.getTabOptionsTitle(i),
+              value1: '--',
+              sdata: null
+            };
+          }
+          console.log(i, temp);
           this.tabOptions.push(temp);
         }
       })
       .catch(reason => {
         this.loading = false;
-        console.log(reason.message);
+        console.log('Getting Reimbursed Summary page', reason.message);
       });
   }
   openFilter() {
     this.filterExpandService.setURL(this.router.url);
+  }
+  removeFilter(type, value) {
+    if (type === 'lob') {
+      this.lob = '';
+      this.session.store({ timeFrame: this.timePeriod, lob: 'All', tax: this.session.filterObjValue.tax });
+    } else if (type === 'tax' && !value.includes('Selected')) {
+      this.taxID = this.session.filterObjValue.tax.filter(id => id !== value);
+      if (this.taxID.length > 0) {
+        this.session.store({ timeFrame: this.timePeriod, lob: this.session.filterObjValue.lob, tax: this.taxID });
+      } else {
+        this.session.store({ timeFrame: this.timePeriod, lob: this.session.filterObjValue.lob, tax: ['All'] });
+        this.taxID = [];
+      }
+    } else if (type === 'tax' && value.includes('Selected')) {
+      this.session.store({ timeFrame: this.timePeriod, lob: this.session.filterObjValue.lob, tax: ['All'] });
+      this.taxID = [];
+    }
   }
 }
