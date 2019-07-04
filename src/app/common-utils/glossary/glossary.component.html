@@ -58,7 +58,7 @@
               <br />
               <div class="glossary-formula">{{ glossary.BusinessGlossary.ProviderDashboardName.Metric }} Formula</div>
               <br />
-              {{ glossary.BusinessGlossary.ProviderDashboardName.Formula }}
+              <div class="glossary-metric-formula">{{ glossary.BusinessGlossary.ProviderDashboardName.Formula }}</div>
             </div>
             <br />
             <div
@@ -108,8 +108,13 @@
     </div>
   </div>
 </div>
-<div class="view-all-metrics-button-div" *ngIf="!allmetrics">
-  <div class="view-all-metrics-button" (click)="filteredData('All')">
-    <span class="view-all-metrics-button-text">View All Metrics</span>
+<div
+  class="view-all-metrics-button-position-div"
+  [ngClass]="{ fixed: viewallmetricsbuttonposition, absolute: !viewallmetricsbuttonposition }"
+>
+  <div class="view-all-metrics-button-div" *ngIf="!allmetrics">
+    <div class="view-all-metrics-button" (click)="filteredData('All')">
+      <span class="view-all-metrics-button-text">View All Metrics</span>
+    </div>
   </div>
 </div>

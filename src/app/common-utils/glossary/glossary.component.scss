@@ -21,6 +21,7 @@
 }
 
 .business-glossary {
+  word-break: keep-all;
   padding: 10px;
   width: 354px;
   margin-top: -25px;
@@ -51,6 +52,7 @@
 
 .glossary-title {
   color: $black-rock;
+  word-break: keep-all;
   font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
   font-size: 28px;
   line-height: 32px;
@@ -64,6 +66,7 @@
   font-size: 18px;
   font-weight: 600;
   line-height: 22px;
+  word-break: keep-all;
 }
 
 .glossary-formula {
@@ -74,7 +77,12 @@
   line-height: 22px;
 }
 
+.glossary-metric-formula {
+  word-break: break-all;
+}
+
 .glossary-definition {
+  word-break: keep-all;
   color: $black-rock;
   font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
   font-size: 16px;
@@ -159,13 +167,25 @@
   padding: 18px 0 18px 18px;
 }
 
-.view-all-metrics-button-div {
-  background: #ffffff;
-  width: 99.5%;
+.view-all-metrics-button-position-div {
+}
+
+.absolute {
   position: absolute;
   bottom: 0;
+}
+
+.fixed {
+  position: fixed;
+  bottom: 0;
+  right: -1px;
+}
+
+.view-all-metrics-button-div {
+  background: #ffffff;
   margin-left: -24px;
   padding-left: 34px;
+  padding-right: 33px;
   padding-bottom: 25px;
   padding-top: 25px;
 }
