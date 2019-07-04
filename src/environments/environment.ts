@@ -45,7 +45,8 @@ export const environment: any = {
     RepeatContact: 'repeat-contacts/search/',
     Calls: 'issue-resolutions/',
     PaymentIntegrity: 'pi-metrics/',
-    NonPayment: 'claim-metrics/'
+    NonPayment: 'claim-metrics/',
+    CallsTrend: 'provider-calls/'
   },
   headerKeys: {
     selectedCompany: '',
