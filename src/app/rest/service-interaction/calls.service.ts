@@ -26,7 +26,6 @@ export class CallsService {
     const params = new HttpParams();
     const prevLastURL = this.APP_URL + this.CALLS_TREND_PATH + parameters[0] + '?TimeFilter=' + parameters[1];
     const lastURL = this.APP_URL + this.CALLS_TREND_PATH + parameters[0] + '?TimeFilter=' + parameters[2];
-    console.log(prevLastURL, lastURL);
     return combineLatest(
       this.http.get(prevLastURL, { params, headers: myHeader }).pipe(
         retry(2),
