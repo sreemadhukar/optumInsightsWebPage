@@ -384,8 +384,7 @@ export class PriorAuthSharedService {
     const timePeriod = filterParamteres.timeFrame;
     const TIN = filterParamteres.tax[0];
     const LOB = filterParamteres.lob;
-
-    console.log(timePeriod, TIN, LOB);
+    const serviceSetting = filterParamteres.serviceSetting;
 
     // Default parameters
     let timeRange = 'rolling12';
@@ -398,7 +397,7 @@ export class PriorAuthSharedService {
     let iscAndSLobBool = false;
     let iseAndILobBool = false;
     let ismAndRLobBool = false;
-    const isAllSSFlagBool = true; // Only if we need all reasons; most commands will already give all 3 so just have to filter
+    let isAllSSFlagBool = true; // Only if we need all reasons; most commands will already give all 3 so just have to filter
 
     // configurations for time period
     if (timePeriod === 'Last 12 Months') {
@@ -464,6 +463,12 @@ export class PriorAuthSharedService {
       specificTin = tinNumberFormatted;
     }
 
+    if (serviceSetting === 'All') {
+      isAllSSFlagBool = true;
+    } else {
+      isAllSSFlagBool = false;
+    }
+
     return new Promise(resolve => {
       // const newParameters = [this.providerKey, true, true, true, false, true, false, false, false, true];
 
@@ -500,12 +505,39 @@ export class PriorAuthSharedService {
               providerSystems.PriorAuthorizations.LineOfBusiness.All.hasOwnProperty('PriorAuthApprovedCount')
             ) {
               const data = providerSystems.PriorAuthorizations.LineOfBusiness.All;
-              const PAApprovedCount = data.PriorAuthApprovedCount;
-              const PANotApprovedCount = data.PriorAuthNotApprovedCount;
-              const PANotPendingCount = data.PriorAuthPendingCount;
-              const PANotCancelledCount = data.PriorAuthCancelledCount;
+
+              let PAApprovedCount;
+              let PANotApprovedCount;
+              let PANotPendingCount;
+              let PANotCancelledCount;
+
+              if (isAllSSFlagBool) {
+                PAApprovedCount = data.PriorAuthApprovedCount;
+                PANotApprovedCount = data.PriorAuthNotApprovedCount;
+                PANotPendingCount = data.PriorAuthPendingCount;
+                PANotCancelledCount = data.PriorAuthCancelledCount;
+              } else {
+                if (serviceSetting === 'Inpatient') {
+                  PAApprovedCount = data.InpatientFacilityApprovedCount;
+                  PANotApprovedCount = data.InpatientFacilityNotApprovedCount;
+                  PANotCancelledCount = data.InpatientFacilityCancelledCount;
+                  PANotPendingCount = data.InpatientFacilityPendingCount;
+                } else if (serviceSetting === 'Outpatient') {
+                  PAApprovedCount = data.OutpatientApprovedCount;
+                  PANotApprovedCount = data.OutpatientNotApprovedCount;
+                  PANotCancelledCount = data.OutpatientCancelledCount;
+                  PANotPendingCount = data.OutpatientPendingCount;
+                } else if (serviceSetting === 'Outpatient Facility') {
+                  PAApprovedCount = data.OutpatientFacilityApprovedCount;
+                  PANotApprovedCount = data.OutpatientFacilityNotApprovedCount;
+                  PANotCancelledCount = data.OutpatientFacilityCancelledCount;
+                  PANotPendingCount = data.OutpatientFacilityPendingCount;
+                }
+              }
+
               const PARequestedCount = PAApprovedCount + PANotApprovedCount;
               const PAApprovalRate = PAApprovedCount / PARequestedCount;
+
               let StandardTATConversion;
               let UrgentTATConversion;
               if (data.StandartPriorAuthTAT / 86400 < 1) {
@@ -569,37 +601,101 @@ export class PriorAuthSharedService {
               if (
                 providerSystems.All !== null &&
                 providerSystems.hasOwnProperty('All') &&
-                providerSystems.All.hasOwnProperty('NotApproved') &&
-                providerSystems.All.NotApproved.hasOwnProperty('AllNotApprovedSettings')
+                providerSystems.All.hasOwnProperty('NotApproved')
               ) {
-                PriorAuthNotApprovedReasons = providerSystems.All.NotApproved.AllNotApprovedSettings;
+                if (isAllSSFlagBool && providerSystems.All.NotApproved.hasOwnProperty('AllNotApprovedSettings')) {
+                  PriorAuthNotApprovedReasons = providerSystems.All.NotApproved.AllNotApprovedSettings;
+                } else if (
+                  serviceSetting === 'Inpatient' &&
+                  providerSystems.All.NotApproved.hasOwnProperty('InPatient')
+                ) {
+                  PriorAuthNotApprovedReasons = providerSystems.All.NotApproved.InPatient;
+                } else if (
+                  serviceSetting === 'Outpatient' &&
+                  providerSystems.All.NotApproved.hasOwnProperty('OutPatient')
+                ) {
+                  PriorAuthNotApprovedReasons = providerSystems.All.NotApproved.OutPatient;
+                } else if (
+                  serviceSetting === 'Outpatient Facility' &&
+                  providerSystems.All.NotApproved.hasOwnProperty('OutPatientFacility')
+                ) {
+                  PriorAuthNotApprovedReasons = providerSystems.All.NotApproved.OutPatientFacility;
+                }
               }
             } else if (iscAndSLobBool) {
               if (
                 providerSystems.Cs !== null &&
                 providerSystems.hasOwnProperty('Cs') &&
-                providerSystems.Cs.hasOwnProperty('NotApproved') &&
-                providerSystems.Cs.NotApproved.hasOwnProperty('AllNotApprovedSettings')
+                providerSystems.Cs.hasOwnProperty('NotApproved')
               ) {
-                PriorAuthNotApprovedReasons = providerSystems.Cs.NotApproved.AllNotApprovedSettings;
+                if (isAllSSFlagBool && providerSystems.Cs.NotApproved.hasOwnProperty('AllNotApprovedSettings')) {
+                  PriorAuthNotApprovedReasons = providerSystems.Cs.NotApproved.AllNotApprovedSettings;
+                } else if (
+                  serviceSetting === 'Inpatient' &&
+                  providerSystems.Cs.NotApproved.hasOwnProperty('InPatient')
+                ) {
+                  PriorAuthNotApprovedReasons = providerSystems.Cs.NotApproved.InPatient;
+                } else if (
+                  serviceSetting === 'Outpatient' &&
+                  providerSystems.Cs.NotApproved.hasOwnProperty('OutPatient')
+                ) {
+                  PriorAuthNotApprovedReasons = providerSystems.Cs.NotApproved.OutPatient;
+                } else if (
+                  serviceSetting === 'Outpatient Facility' &&
+                  providerSystems.Cs.NotApproved.hasOwnProperty('OutPatientFacility')
+                ) {
+                  PriorAuthNotApprovedReasons = providerSystems.Cs.NotApproved.OutPatientFacility;
+                }
               }
             } else if (iseAndILobBool) {
               if (
                 providerSystems.Ei !== null &&
                 providerSystems.hasOwnProperty('Ei') &&
-                providerSystems.Ei.hasOwnProperty('NotApproved') &&
-                providerSystems.Ei.NotApproved.hasOwnProperty('AllNotApprovedSettings')
+                providerSystems.Ei.hasOwnProperty('NotApproved')
               ) {
-                PriorAuthNotApprovedReasons = providerSystems.Ei.NotApproved.AllNotApprovedSettings;
+                if (isAllSSFlagBool && providerSystems.Ei.NotApproved.hasOwnProperty('AllNotApprovedSettings')) {
+                  PriorAuthNotApprovedReasons = providerSystems.Ei.NotApproved.AllNotApprovedSettings;
+                } else if (
+                  serviceSetting === 'Inpatient' &&
+                  providerSystems.Ei.NotApproved.hasOwnProperty('InPatient')
+                ) {
+                  PriorAuthNotApprovedReasons = providerSystems.Ei.NotApproved.InPatient;
+                } else if (
+                  serviceSetting === 'Outpatient' &&
+                  providerSystems.Ei.NotApproved.hasOwnProperty('OutPatient')
+                ) {
+                  PriorAuthNotApprovedReasons = providerSystems.Ei.NotApproved.OutPatient;
+                } else if (
+                  serviceSetting === 'Outpatient Facility' &&
+                  providerSystems.Ei.NotApproved.hasOwnProperty('OutPatientFacility')
+                ) {
+                  PriorAuthNotApprovedReasons = providerSystems.Ei.NotApproved.OutPatientFacility;
+                }
               }
             } else if (ismAndRLobBool) {
               if (
                 providerSystems.Mr !== null &&
                 providerSystems.hasOwnProperty('Mr') &&
-                providerSystems.Mr.hasOwnProperty('NotApproved') &&
-                providerSystems.Mr.NotApproved.hasOwnProperty('AllNotApprovedSettings')
+                providerSystems.Mr.hasOwnProperty('NotApproved')
               ) {
-                PriorAuthNotApprovedReasons = providerSystems.Mr.NotApproved.AllNotApprovedSettings;
+                if (isAllSSFlagBool && providerSystems.Mr.NotApproved.hasOwnProperty('AllNotApprovedSettings')) {
+                  PriorAuthNotApprovedReasons = providerSystems.Mr.NotApproved.AllNotApprovedSettings;
+                } else if (
+                  serviceSetting === 'Inpatient' &&
+                  providerSystems.Mr.NotApproved.hasOwnProperty('InPatient')
+                ) {
+                  PriorAuthNotApprovedReasons = providerSystems.Mr.NotApproved.InPatient;
+                } else if (
+                  serviceSetting === 'Outpatient' &&
+                  providerSystems.Mr.NotApproved.hasOwnProperty('OutPatient')
+                ) {
+                  PriorAuthNotApprovedReasons = providerSystems.Mr.NotApproved.OutPatient;
+                } else if (
+                  serviceSetting === 'Outpatient Facility' &&
+                  providerSystems.Mr.NotApproved.hasOwnProperty('OutPatientFacility')
+                ) {
+                  PriorAuthNotApprovedReasons = providerSystems.Mr.NotApproved.OutPatientFacility;
+                }
               }
             }
 
