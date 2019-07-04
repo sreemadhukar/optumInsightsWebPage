@@ -72,6 +72,16 @@ export class CallsComponent implements OnInit {
         console.log('Calls Service Error ', reason);
         this.loading = false;
       });
+
+    this.callsServiceSrc
+      .getCallsTrendData()
+      .then(data => {
+        console.log('Trend Data', data);
+      })
+      .catch(reason => {
+        console.log('Calls Service Error ', reason);
+        this.loading = false;
+      });
   }
   openFilter() {
     this.filterExpandService.setURL(this.router.url);
