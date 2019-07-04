@@ -366,6 +366,7 @@ app-header {
   position: absolute !important;
   z-index: 9999 !important;
   overflow-x: hidden;
+  overflow-y: auto;
 }
 
 .sidenav-filter {
@@ -392,4 +393,9 @@ app-header {
 .sticky {
   position: fixed;
   top: 0;
+}
+
+.mat-drawer-inner-container {
+  overflow: unset !important;
+  height: 97% !important;
 }
