@@ -27,7 +27,8 @@ export const environment: any = {
     PriorAuth: 'prior-authorizations/search/',
     RepeatContact: 'repeat-contacts/search/',
     PaymentIntegrity: 'pi-metrics/',
-    NonPayment: 'claim-metrics/'
+    NonPayment: 'claim-metrics/',
+    CallsTrend: 'provider-calls/'
   },
   headerKeys: {
     selectedCompany: '',
