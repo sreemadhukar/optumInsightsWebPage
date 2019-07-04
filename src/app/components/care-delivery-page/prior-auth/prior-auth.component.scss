@@ -112,6 +112,10 @@
           .horizontal-align {
             display: inline-block;
             margin: 5px 17px 5px 0;
+            .btn-rounded {
+              height: 34px;
+              padding: 0.355rem 0.78125rem;
+            }
           }
           button {
             span:first-child {
@@ -125,6 +129,11 @@
             display: inherit;
             position: relative;
             cursor: pointer;
+            height: 24px;
+            display: inline-block;
+            vertical-align: middle;
+            padding: 0 0 0 8px;
+            margin-top: -1px;
             .icon-display {
               color: #757588;
             }
