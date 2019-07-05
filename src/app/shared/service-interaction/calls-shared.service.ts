@@ -80,6 +80,8 @@ export class CallsSharedService {
         console.log('Calls Shared Trend Data', data);
       })
       .catch(reason => {
+        this.sdataTrend[0] = null;
+        this.sdataTrend[1] = null;
         console.log('Calls Service Error ', reason);
       });
     /** Ends Get Calls Trend Data */
