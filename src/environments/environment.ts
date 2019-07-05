@@ -24,7 +24,8 @@ export const environment: any = {
   apiUrls: {
     ExecutiveSummaryPath: 'providersystems/',
     ProviderSystemClaimsAgg: 'agg-claims/search/v2.0/',
-    ProviderSystemClaimsSummary: 'claims/search/v2.0/',
+    // ProviderSystemClaimsSummary: 'claims/search/v2.0/',
+    ProviderSystemClaimsSummary: 'claim-metrics/',
     ProviderSystemPriorAuth: 'PriorAuthSummary/',
     SsoTokenPath: 'myinsightOptumIdHandshake',
     SsoRedirectUri:
@@ -44,7 +45,8 @@ export const environment: any = {
     RepeatContact: 'repeat-contacts/search/',
     Calls: 'issue-resolutions/',
     PaymentIntegrity: 'pi-metrics/',
-    NonPayment: 'claim-metrics/'
+    NonPayment: 'claim-metrics/',
+    CallsTrend: 'provider-calls/'
   },
   headerKeys: {
     selectedCompany: '',

@@ -16,33 +16,56 @@ export class OverviewService {
   constructor(private http: HttpClient) {}
 
   public getOverviewData(...parameters) {
-    this.currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
-    this.authBearer = this.currentUser[0].PedAccessToken;
-    const myHeader = new HttpHeaders({
-      Authorization: 'Bearer ' + this.authBearer,
-      Accept: '*/*'
-    });
+    /*
     let cparams = new HttpParams();
     if (parameters[1]) {
       cparams = cparams.append('timeFilter', 'last6months');
     }
-
+*/
+    let tParams = {};
+    if (parameters.length > 1 && parameters[1]) {
+      tParams = {
+        TimeFilter: 'Last6Months'
+      };
+    }
     let eparams = new HttpParams();
     eparams = eparams.append('filter', 'executive');
 
     const executiveURL = this.APP_URL + this.EXECUTIVE_SERVICE_PATH + parameters[0];
-    const claimsURL = this.APP_URL + this.CLAIMS_SERVICE_PATH + parameters[0];
+    const claimsURL = this.APP_URL + this.CLAIMS_SERVICE_PATH + parameters[0] + '?requestType=PAYMENT_METRICS';
     return combineLatest(
-      this.http.get(executiveURL, { params: eparams, headers: myHeader }).pipe(
+      this.http.get(executiveURL, { params: eparams }).pipe(
         retry(2),
         map(res => JSON.parse(JSON.stringify(res))),
         catchError(err => of(JSON.parse(JSON.stringify(err))))
       ),
-      this.http.post(claimsURL, cparams, { headers: myHeader }).pipe(
+      this.http.post(claimsURL, tParams).pipe(
         retry(2),
         map(res => JSON.parse(JSON.stringify(res[0]))),
         catchError(err => of(JSON.parse(JSON.stringify(err))))
       )
+    );
+  }
+
+  public getOverviewClaimsTrend(parameters) {
+    /*
+    let cparams = new HttpParams();
+    if (parameters[1]) {
+      cparams = cparams.append('timeFilter', 'last6months');
+    }
+*/
+    let tParams = {};
+    if (parameters.TimeFilter) {
+      tParams = {
+        TimeFilter: parameters.TimeFilter
+      };
+    }
+
+    const claimsURL = this.APP_URL + this.CLAIMS_SERVICE_PATH + parameters.providerkey + '?requestType=PAYMENT_METRICS';
+    return this.http.post(claimsURL, tParams).pipe(
+      retry(2),
+      map(res => JSON.parse(JSON.stringify(res[0]))),
+      catchError(err => of(JSON.parse(JSON.stringify(err))))
     );
   }
 }

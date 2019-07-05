@@ -26,6 +26,34 @@ export class CallsSharedService {
     };
     return temp;
   }
+  public getCallsTrendData() {
+    this.providerKey = this.session.providerKeyData();
+    this.callsData = [];
+    return new Promise(resolve => {
+      let parameters;
+      parameters = [this.providerKey, 'PreviousLast30Days', 'Last30Days'];
+      const tempArray: Array<object> = [];
+
+      /*
+      if (this.timeFrame === 'Last 3 Months') {
+        parameters = [this.providerKey, true];
+      } else {
+         this.session.timeFrame = this.timeFrame = 'Last 12 Months';
+         parameters = [this.providerKey, true];
+      }
+      */
+      this.callsService.getCallsTrendData(...parameters).subscribe(
+        ([previousLast, lastTrend]) => {
+          console.log(previousLast, lastTrend);
+          tempArray.push(previousLast, lastTrend);
+          resolve(tempArray);
+        },
+        err => {
+          console.log('Calls Error Data', err);
+        }
+      );
+    });
+  }
 
   public getCallsData() {
     this.timeFrame = 'Last 6 Months';

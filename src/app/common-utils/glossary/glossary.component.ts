@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild } from '@angular/core';
+import { Component, OnInit, Input, HostListener, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
@@ -18,9 +18,14 @@ export class GlossaryComponent implements OnInit {
   glossaryData: any[];
   public options: string[];
   glossaryTitleShow: String = '';
+  selectedmetric = '';
+  viewallmetricsbuttonposition = true;
   filteredOptions: Observable<any[]>;
-  glossaryCtrl = new FormControl();
+  public glossaryCtrl = new FormControl();
   metricDataList: any[];
+  public allmetrics = false;
+  public allmetricsdefinitionShort = [];
+  public readmoreFlag = [];
   public optionLength = 0;
   public optionND = false;
   public toHighlight = '';
@@ -32,18 +37,22 @@ export class GlossaryComponent implements OnInit {
     this.glossarySelected = [];
     this.glossaryService.getBusinessGlossaryData().subscribe(response => {
       this.glossaryList = JSON.parse(JSON.stringify(response));
-      for (let i = 0; i < this.glossaryList.length; i++) {
-        this.glossaryList[i].BusinessGlossary.ProviderDashboardName.metricData = this.glossaryList[
-          i
-        ].BusinessGlossary.ProviderDashboardName.Metric.replace(/[^a-zA-Z]/g, '');
-        if (
-          this.glossaryList[i].BusinessGlossary.ProviderDashboardName.Metric.toLowerCase().includes(
-            this.title.toLowerCase()
-          )
-        ) {
-          this.glossarySelected.push(this.glossaryList[i]);
+      if (this.glossaryList) {
+        for (let i = 0; i < this.glossaryList.length; i++) {
+          this.readmoreFlag[i] = true;
+          this.glossaryList[i].BusinessGlossary.ProviderDashboardName.metricData = this.glossaryList[
+            i
+          ].BusinessGlossary.ProviderDashboardName.Metric.replace(/[^a-zA-Z]/g, '');
+          if (
+            this.glossaryList[i].BusinessGlossary.ProviderDashboardName.Metric.toLowerCase().includes(
+              this.title.toLowerCase()
+            )
+          ) {
+            this.glossarySelected.push(this.glossaryList[i]);
+          }
         }
       }
+      //  madhukar
       this.glossaryData = this.glossaryList.sort(function(a, b) {
         if (
           a.BusinessGlossary.ProviderDashboardName.Metric.toLowerCase() <
@@ -96,10 +105,66 @@ export class GlossaryComponent implements OnInit {
   }
 
   public filteredData(value) {
-    for (let i = 0; i < this.glossaryList.length; i++) {
-      if (this.glossaryList[i].BusinessGlossary.ProviderDashboardName.Metric === value) {
-        this.glossarySelected = [this.glossaryList[i]];
+    if (value === 'All') {
+      for (let i = 0; i < this.glossaryList.length; i++) {
+        if (
+          this.getTextWidth(this.glossaryList[i].BusinessGlossary.ProviderDashboardName.Definition, 16, 'Arial') > 680
+        ) {
+          this.allmetricsdefinitionShort.push(
+            this.glossaryList[i].BusinessGlossary.ProviderDashboardName.Definition.slice(0, 90) + '...'
+          );
+        } else {
+          this.allmetricsdefinitionShort.push(null);
+        }
       }
+      this.selectedmetric = null;
+      this.allmetrics = true;
+      this.glossarySelected = this.glossaryList;
+    } else {
+      this.allmetrics = false;
+      for (let i = 0; i < this.glossaryList.length; i++) {
+        if (this.glossaryList[i].BusinessGlossary.ProviderDashboardName.Metric === value) {
+          this.glossarySelected = [this.glossaryList[i]];
+        }
+      }
+    }
+  }
+
+  public readmore(value) {
+    for (let i = 0; i < this.readmoreFlag.length; i++) {
+      if (i !== value) {
+        this.readmoreFlag[i] = true;
+        document.getElementById('each-metric-div' + i).classList.add('each-metric-div');
+      }
+    }
+    if (this.readmoreFlag[value]) {
+      document.getElementById('each-metric-div' + value).classList.remove('each-metric-div');
+      this.readmoreFlag[value] = false;
+      if (value > this.readmoreFlag.length - 2) {
+        window.scrollTo(300, 300);
+        document.getElementById('side-nav-glossary').scrollTo(0, 4150);
+      } else {
+        window.scrollTo(300, 0);
+        document.getElementById('side-nav-glossary').scrollTo(0, 208 + 161 * value);
+      }
+    } else {
+      this.readmoreFlag[value] = true;
+      this.selectedmetric = '';
+      document.getElementById('each-metric-div' + value).classList.add('each-metric-div');
+    }
+  }
+  public getTextWidth(text, fontSize, fontFace) {
+    const canvas = document.createElement('canvas');
+    const context = canvas.getContext('2d');
+    context.font = fontSize + 'px ' + fontFace;
+    return context.measureText(text).width;
+  }
+  @HostListener('window:scroll', ['$event'])
+  checkScroll() {
+    if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 80) {
+      this.viewallmetricsbuttonposition = false;
+    } else {
+      this.viewallmetricsbuttonposition = true;
     }
   }
 

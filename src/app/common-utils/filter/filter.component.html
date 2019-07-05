@@ -89,6 +89,38 @@
     </div>
   </div>
 
+  <div *ngIf="serviceSettingDisplay">
+    <div class="line1"></div>
+    <div class="titleData">
+      <div class="title">Service Setting</div>
+      <div class="chevron">
+        <mat-icon
+          class="icon-display"
+          *ngIf="!ssarrowmark"
+          (click)="clickArrowMark('servicesetting')"
+          svgIcon="arrowdn"
+        ></mat-icon>
+        <mat-icon
+          class="icon-display"
+          *ngIf="ssarrowmark"
+          (click)="clickArrowMark('servicesetting')"
+          svgIcon="arrowup"
+        ></mat-icon>
+      </div>
+    </div>
+    <div class="lobgrp">
+      <div>
+        <label id="radio-group-ss" class="label-data">{{ serviceSettingData }}</label>
+      </div>
+      <div class="select-option-data" *ngIf="ssarrowmark">
+        <mat-radio-group class="radio-group" [(ngModel)]="serviceSettingData">
+          <mat-radio-button class="radio-button" *ngFor="let ss of servicesettings" [value]="ss">
+            {{ ss }}
+          </mat-radio-button>
+        </mat-radio-group>
+      </div>
+    </div>
+  </div>
   <div class="line1"></div>
   <div class="btn-display">
     <button type="reset" class="resetbtn" mat-button (click)="resetFilter()">Reset All Filters</button>

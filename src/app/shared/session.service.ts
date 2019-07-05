@@ -33,7 +33,6 @@ export class SessionService {
   }
 
   public getFilChangeEmitter() {
-    console.log('am here');
     return this.filterChange;
   }
 

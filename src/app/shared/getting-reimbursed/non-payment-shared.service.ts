@@ -27,7 +27,6 @@ export class NonPaymentSharedService {
 
       this.nonPaymentService.getNonPaymentData(...parameters).subscribe(
         ([nonPaymentData1]) => {
-          console.log('Shared Non Payment', nonPaymentData1);
           let claimsNotPaid: Object;
           let claimsNotPaidRate: Object;
           if (
@@ -131,6 +130,7 @@ export class NonPaymentSharedService {
               timeperiod: null
             };
           } // end if else
+          this.summaryData = [];
           this.summaryData.push(claimsNotPaid, claimsNotPaidRate);
           resolve(this.summaryData);
         },

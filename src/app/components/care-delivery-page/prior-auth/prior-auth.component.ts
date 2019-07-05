@@ -27,6 +27,8 @@ export class PriorAuthComponent implements OnInit {
   timePeriod: string;
   lob: string;
   taxID: Array<string>;
+  serviceSetting: string;
+  filterParameters: any;
   constructor(
     private checkStorage: StorageService,
     private priorAuthShared: PriorAuthSharedService,
@@ -44,14 +46,33 @@ export class PriorAuthComponent implements OnInit {
       'filter',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-filter_list-24px.svg')
     );
+    iconRegistry.addSvgIcon(
+      'close',
+      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-close-24px.svg')
+    );
   }
 
   ngOnInit() {
+    this.filterParameters = this.session.filterObjValue;
     this.timePeriod = this.session.filterObjValue.timeFrame;
-    this.lob = this.filtermatch.matchLobWithLobData(this.session.filterObjValue.lob);
-    this.taxID = this.session.filterObjValue.tax;
-    if (this.taxID.length > 3) {
-      this.taxID = [this.taxID.length + ' Selected'];
+    if (this.session.filterObjValue.lob !== 'All') {
+      this.lob = this.filtermatch.matchLobWithLobData(this.session.filterObjValue.lob);
+    } else {
+      this.lob = '';
+    }
+    if (this.session.filterObjValue.tax.length > 0 && this.session.filterObjValue.tax[0] !== 'All') {
+      this.taxID = this.session.filterObjValue.tax;
+      if (this.taxID.length > 3) {
+        this.taxID = [this.taxID.length + ' Selected'];
+      }
+    } else {
+      this.taxID = [];
+    }
+    if (this.session.filterObjValue.serviceSetting) {
+      this.serviceSetting = this.session.filterObjValue.serviceSetting;
+    } else {
+      this.serviceSetting = 'All';
+      this.filterParameters.serviceSetting = 'All';
     }
     this.pageTitle = 'Prior Authorizations';
     this.loading = true;
@@ -59,9 +80,9 @@ export class PriorAuthComponent implements OnInit {
     this.reasonItems = [{}];
     this.summaryItems = [{}];
     this.mockCards = [{}, {}];
-    // console.log(this.session);
+    console.log(this.filterParameters);
 
-    this.priorAuthShared.getPriorAuthDataFiltered(this.session.filterObjValue).then(
+    this.priorAuthShared.getPriorAuthDataFiltered(this.filterParameters).then(
       data => {
         this.loading = false;
         this.summaryItems = data[0];
@@ -87,5 +108,22 @@ export class PriorAuthComponent implements OnInit {
   }
   openFilter() {
     this.filterExpandService.setURL(this.router.url);
+  }
+  removeFilter(type, value) {
+    if (type === 'lob') {
+      this.lob = '';
+      this.session.store({ timeFrame: this.timePeriod, lob: 'All', tax: this.session.filterObjValue.tax });
+    } else if (type === 'tax' && !value.includes('Selected')) {
+      this.taxID = this.session.filterObjValue.tax.filter(id => id !== value);
+      if (this.taxID.length > 0) {
+        this.session.store({ timeFrame: this.timePeriod, lob: this.session.filterObjValue.lob, tax: this.taxID });
+      } else {
+        this.session.store({ timeFrame: this.timePeriod, lob: this.session.filterObjValue.lob, tax: ['All'] });
+        this.taxID = [];
+      }
+    } else if (type === 'tax' && value.includes('Selected')) {
+      this.session.store({ timeFrame: this.timePeriod, lob: this.session.filterObjValue.lob, tax: ['All'] });
+      this.taxID = [];
+    }
   }
 }
