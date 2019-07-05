@@ -694,7 +694,7 @@ export class OverviewSharedService {
             previousClaimsPaid == undefined
           ) {
             claimsPaidTrendObject.sign = 'up';
-            claimsPaidTrendObject.data = '+' + latestClaimsPaid * 100 + '%';
+            claimsPaidTrendObject.data = '+' + latestClaimsPaid + '%';
           }
 
           if (
@@ -720,7 +720,7 @@ export class OverviewSharedService {
             previousClaimsYieldRate == undefined
           ) {
             claimsYieldTrendObject.sign = 'up';
-            claimsYieldTrendObject.data = '+' + latestClaimsYieldRate * 100 + '%';
+            claimsYieldTrendObject.data = '+' + latestClaimsYieldRate + '%';
           }
 
           resolve({ claimsPaidTrendObject: claimsPaidTrendObject, claimsYieldTrendObject: claimsYieldTrendObject });
