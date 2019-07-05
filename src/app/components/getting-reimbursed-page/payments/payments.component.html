@@ -4,7 +4,6 @@
     <div class="cards cust-width-title">
       <app-breadcrumbs></app-breadcrumbs>
       <div class="page-title">{{ pageTitle }}</div>
-      <app-mock-data-warning-message></app-mock-data-warning-message>
       <div class="breadcrumb-top-padding filter-div">
         <div class="time--period ">
           <div class="filterchips">
@@ -48,7 +47,8 @@
       <app-card *ngIf="item.data != null" class="cards" [chartData]="item"> </app-card>
       <app-error-card *ngIf="item.status != null" class="cards" [data]="item"></app-error-card>
     </div>
-    <div class="claims-paid-content">
+    <app-large-card [skeletonLarge]="loading" *ngIf="loading"></app-large-card>
+    <div *ngIf="cData[0] != null" class="claims-paid-content">
       <app-common-header
         [title]="title"
         class="claims-header"
