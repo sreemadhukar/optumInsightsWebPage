@@ -238,12 +238,16 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
     this.timePeriod = this.session.filterObjValue.timeFrame;
     if (this.session.filterObjValue.lob !== 'All') {
       this.lob = this.filtermatch.matchLobWithLobData(this.session.filterObjValue.lob);
+    } else {
+      this.lob = '';
     }
     if (this.session.filterObjValue.tax.length > 0 && this.session.filterObjValue.tax[0] !== 'All') {
       this.taxID = this.session.filterObjValue.tax;
       if (this.taxID.length > 3) {
         this.taxID = [this.taxID.length + ' Selected'];
       }
+    } else {
+      this.taxID = [];
     }
     this.gettingReimbursedSharedService.getTins().then(tins => {
       console.log(tins);
