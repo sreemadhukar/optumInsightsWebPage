@@ -197,7 +197,7 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit {
       .attr('font-size', '22')
       .style('text-anchor', 'end')
       .style('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
-      .text(this.common.nFormatter(this.chartOptions.chartData[0]));
+      .text('$' + this.common.nFormatter(this.chartOptions.chartData[0]));
 
     chart
       .append('text')
@@ -217,7 +217,7 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit {
       .attr('font-size', '22')
       .style('text-anchor', 'end')
       .style('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
-      .text(this.common.nFormatter(this.chartOptions.chartData[1]));
+      .text('$' + this.common.nFormatter(this.chartOptions.chartData[1]));
 
     chart
       .append('text')
@@ -237,7 +237,7 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit {
       .attr('font-size', '22')
       .style('text-anchor', 'end')
       .style('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
-      .text(this.common.nFormatter(this.chartOptions.chartData[2]));
+      .text('$' + this.common.nFormatter(this.chartOptions.chartData[2]));
 
     chart
       .append('text')
@@ -257,7 +257,7 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit {
       .attr('font-size', '22')
       .style('text-anchor', 'end')
       .style('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
-      .text(this.common.nFormatter(this.chartOptions.chartData[3]));
+      .text('$' + this.common.nFormatter(this.chartOptions.chartData[3]));
 
     chart
       .append('text')

@@ -69,11 +69,7 @@ export class PaymentsComponent implements OnInit {
       }
     ];
 
-    this.gettingReimbursedSharedService.claimsPaid().then(pData => {
-      console.log(pData);
-    });
-
-    this.gettingReimbursedSharedService.getClaimsPaidBreakdownData().then(payData => {
+    this.gettingReimbursedSharedService.getclaimsPaidData().then(payData => {
       this.paymentArray = payData[0];
 
       for (let p = 0; p < 1; p++) {
@@ -82,9 +78,7 @@ export class PaymentsComponent implements OnInit {
           gdata: ['card-inner', 'claimsPaidBreakDown']
         });
       }
-      console.log(this.cData[0].gdata[1]);
     });
-    // console.log(paymentArray);
   }
 
   helpIconClick(title) {

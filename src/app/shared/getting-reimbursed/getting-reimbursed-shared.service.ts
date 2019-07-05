@@ -1499,7 +1499,7 @@ export class GettingReimbursedSharedService {
     });
   }
 
-  claimsPaid() {
+  getclaimsPaidData() {
     this.tin = this.session.tin;
     this.lob = this.session.lob;
     this.timeFrame = 'Last 6 Months'; // this.session.timeFrame;
@@ -1511,15 +1511,26 @@ export class GettingReimbursedSharedService {
     return new Promise((resolve, reject) => {
       let parameters;
       parameters = [this.providerKey];
+      let paidBreakdown = [];
+      let paidArray: Array<Object> = [];
       this.gettingReimbursedService.getPaymentData(parameters).subscribe(paymentData => {
         const lobFullData = this.common.matchFullLobWithData(this.lob);
         const lobData = this.common.matchLobWithData(this.lob);
         console.log(paymentData);
-        // if(paymentData => )
+        if (paymentData !== null) {
+          paidBreakdown = [
+            paymentData[lobData].ClaimsLobSummary[0].AmountBilled,
+            paymentData[lobData].ClaimsLobSummary[0].AmountActualAllowed,
+            paymentData[lobData].ClaimsLobSummary[0].AmountDenied,
+            paymentData[lobData].ClaimsLobSummary[0].AmountUHCPaid
+          ];
+        }
+        paidArray = [paidBreakdown];
+        resolve(paidArray);
       });
     });
   }
-  getClaimsPaidBreakdownData() {
+  /*  getClaimsPaidBreakdownData() {
     this.tin = this.session.tin;
     this.lob = this.session.lob;
     this.timeFrame = 'Last 6 Months'; // this.session.timeFrame;
@@ -1546,7 +1557,7 @@ export class GettingReimbursedSharedService {
         resolve(paidArray);
       });
     });
-  }
+  }*/
 
   public sentenceCase(str) {
     return str.replace(/\w\S*/g, function(txt) {
