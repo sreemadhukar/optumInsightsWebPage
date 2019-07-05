@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 import { FilterExpandService } from '../../../shared/filter-expand.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { CommonUtilsService } from '../../../shared/common-utils.service';
+
 @Component({
   selector: 'app-payments',
   templateUrl: './payments.component.html',
@@ -25,7 +26,7 @@ export class PaymentsComponent implements OnInit {
   showClaimsPaid: Boolean = false;
   loading: boolean;
   mockCards: any;
- // timePeriod = 'Last 6 Months';
+  // timePeriod = 'Last 6 Months';
   paymentArray: Array<object>;
   cData = [];
   // chartData: Array<object>;
