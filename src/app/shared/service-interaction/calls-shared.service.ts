@@ -3,12 +3,16 @@ import { CallsService } from '../../rest/service-interaction/calls.service';
 import { ServiceInteractionModule } from '../../components/service-interaction/service-interaction.module';
 import { SessionService } from '../session.service';
 import { CommonUtilsService } from '../common-utils.service';
+import { OverviewPageModule } from '../../components/overview-page/overview-page.module';
 
-@Injectable({ providedIn: ServiceInteractionModule })
+@Injectable({ providedIn: 'root' })
 export class CallsSharedService {
+  public sdataQuestionType: Object;
+  public sdataTalkTime: Object;
   private callsData: Array<object> = [];
   private timeFrame: string;
   private providerKey: number;
+
   constructor(
     private callsService: CallsService,
     private session: SessionService,
@@ -34,22 +38,32 @@ export class CallsSharedService {
       parameters = [this.providerKey, 'PreviousLast30Days', 'Last30Days'];
       const tempArray: Array<object> = [];
 
-      /*
-      if (this.timeFrame === 'Last 3 Months') {
-        parameters = [this.providerKey, true];
-      } else {
-         this.session.timeFrame = this.timeFrame = 'Last 12 Months';
-         parameters = [this.providerKey, true];
-      }
-      */
       this.callsService.getCallsTrendData(...parameters).subscribe(
         ([previousLast, lastTrend]) => {
           console.log(previousLast, lastTrend);
-          tempArray.push(previousLast, lastTrend);
+          if (
+            lastTrend != null &&
+            previousLast != null &&
+            typeof lastTrend === 'object' &&
+            typeof previousLast === 'object'
+          ) {
+            this.sdataQuestionType = this.common.last30DaysTrend(
+              lastTrend.CallVolByQuesType.Total,
+              previousLast.CallVolByQuesType.Total
+            );
+            this.sdataTalkTime = this.common.last30DaysTrend(
+              lastTrend.CallTalkTimeByQuesType.Total,
+              previousLast.CallTalkTimeByQuesType.Total
+            );
+          } else {
+            this.sdataQuestionType = null;
+            this.sdataTalkTime = null;
+          }
+          tempArray.push(this.sdataQuestionType, this.sdataTalkTime);
           resolve(tempArray);
         },
         err => {
-          console.log('Calls Error Data', err);
+          console.log('Calls Trend Error Data', err);
         }
       );
     });
@@ -97,10 +111,7 @@ export class CallsSharedService {
                       centerNumber: this.common.nFormatter(totalCalls.Total),
                       color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'],
                       gdata: ['card-inner', 'callsByCallType'],
-                      sdata: {
-                        sign: 'down',
-                        data: '+7%'
-                      }
+                      sdata: this.sdataQuestionType
                     },
                     {
                       labels: ['Eligibilty and Benefits', 'Claims', 'Prior Authorizations', 'Others'],
@@ -138,10 +149,7 @@ export class CallsSharedService {
                       centerNumber: this.common.nFormatter(totalCalls.Total) + 'Hrs',
                       color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'],
                       gdata: ['card-inner', 'talkTimeByCallType'],
-                      sdata: {
-                        sign: 'down',
-                        data: '+7%'
-                      }
+                      sdata: this.sdataTalkTime
                     },
                     {
                       labels: ['Eligibilty and Benefits', 'Claims', 'Prior Authorizations', 'Others'],
