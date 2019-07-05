@@ -10,7 +10,7 @@ import { NonPaymentSharedService } from './non-payment-shared.service';
   providedIn: GettingReimbursedModule
 })
 export class GettingReimbursedSharedService {
-  public nonPaymentData1: any;
+  public nonPaymentData1: any = null;
   private tin: string;
   private lob: string;
   private timeFrame: string;
