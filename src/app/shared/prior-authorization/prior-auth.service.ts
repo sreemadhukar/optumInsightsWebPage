@@ -448,8 +448,8 @@ export class PriorAuthSharedService {
       }
       if (LOB === 'Medicare & Retirement') {
         iscAndSLobBool = false;
-        iseAndILobBool = true;
-        ismAndRLobBool = false;
+        iseAndILobBool = false;
+        ismAndRLobBool = true;
       }
     }
 
@@ -500,11 +500,21 @@ export class PriorAuthSharedService {
             if (
               providerSystems.PriorAuthorizations !== null &&
               providerSystems.hasOwnProperty('PriorAuthorizations') &&
-              providerSystems.PriorAuthorizations.hasOwnProperty('LineOfBusiness') &&
-              providerSystems.PriorAuthorizations.LineOfBusiness.hasOwnProperty('All') &&
-              providerSystems.PriorAuthorizations.LineOfBusiness.All.hasOwnProperty('PriorAuthApprovedCount')
+              providerSystems.PriorAuthorizations.hasOwnProperty('LineOfBusiness')
             ) {
-              const data = providerSystems.PriorAuthorizations.LineOfBusiness.All;
+              let data;
+              // const data = providerSystems.PriorAuthorizations.LineOfBusiness.All;
+              if (isAllLobBool) {
+                data = providerSystems.PriorAuthorizations.LineOfBusiness.All;
+              } else {
+                if (iscAndSLobBool) {
+                  data = providerSystems.PriorAuthorizations.LineOfBusiness.CommunityAndState;
+                } else if (iseAndILobBool) {
+                  data = providerSystems.PriorAuthorizations.LineOfBusiness.EmployerAndIndividual;
+                } else if (ismAndRLobBool) {
+                  data = providerSystems.PriorAuthorizations.LineOfBusiness.MedicareAndRetirement;
+                }
+              }
 
               let PAApprovedCount;
               let PANotApprovedCount;
