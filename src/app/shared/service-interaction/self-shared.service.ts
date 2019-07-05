@@ -33,7 +33,7 @@ export class SelfSharedService {
   }
 
   public getSelfServiceData() {
-    this.providerKey = this.session.providerKey();
+    this.providerKey = this.session.providerKeyData();
     this.selfServiceData = [];
     return new Promise(resolve => {
       let parameters;

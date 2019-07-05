@@ -5,10 +5,12 @@ import { GettingReimbursedService } from '../../rest/getting-reimbursed/getting-
 import { CommonUtilsService } from '../common-utils.service';
 import { SessionService } from '../session.service';
 import { AuthorizationService } from '../../auth/_service/authorization.service';
+import { NonPaymentSharedService } from './non-payment-shared.service';
 @Injectable({
   providedIn: GettingReimbursedModule
 })
 export class GettingReimbursedSharedService {
+  public nonPaymentData1: any;
   private tin: string;
   private lob: string;
   private timeFrame: string;
@@ -18,7 +20,8 @@ export class GettingReimbursedSharedService {
     private gettingReimbursedService: GettingReimbursedService,
     private common: CommonUtilsService,
     private session: SessionService,
-    private toggle: AuthorizationService
+    private toggle: AuthorizationService,
+    private nonPaymentService: NonPaymentSharedService
   ) {}
 
   public ReturnMonthlyString(a) {
@@ -48,12 +51,19 @@ export class GettingReimbursedSharedService {
       return 'Dec';
     }
   }
-
+  public getNonPaymentData() {
+    /** Non Payment Service Code starts here */
+    /** code for two donuts  Claims Not Paid and Claims Non-payment Rate */
+    this.nonPaymentService.getNonPayment().then(nonPayment => {
+      this.nonPaymentData1 = JSON.parse(JSON.stringify(nonPayment));
+    });
+    /** code ends here */
+  }
   public getGettingReimbursedData() {
     this.tin = this.session.tin;
     this.lob = this.session.lob;
     this.timeFrame = this.session.timeFrame;
-    this.providerKey = this.session.providerKey();
+    this.providerKey = this.session.providerKeyData();
     const summaryData: Array<object> = [];
     return new Promise(resolve => {
       let parameters;
@@ -86,6 +96,7 @@ export class GettingReimbursedSharedService {
           }
         }
 
+        this.getNonPaymentData();
         this.gettingReimbursedService.getGettingReimbursedData(...parameters).subscribe(([claimsData, appealsData]) => {
           console.log(claimsData);
           const lobFullData = this.common.matchFullLobWithData(this.lob);
@@ -334,56 +345,8 @@ export class GettingReimbursedSharedService {
                 timeperiod: null
               };
             }
-            if (
-              claimsData.hasOwnProperty(lobData) &&
-              claimsData[lobData] != null &&
-              claimsData[lobData].hasOwnProperty('ClaimsLobSummary') &&
-              claimsData[lobData].ClaimsLobSummary.length &&
-              claimsData[lobData].ClaimsLobSummary[0].ClaimsDenied &&
-              claimsData.hasOwnProperty('Cs') &&
-              claimsData.Cs.hasOwnProperty('ClaimsLobSummary') &&
-              claimsData.Cs.ClaimsLobSummary.length &&
-              claimsData.Cs.ClaimsLobSummary[0].hasOwnProperty('ClaimsDenied') &&
-              claimsData.hasOwnProperty('Ei') &&
-              claimsData.Ei.hasOwnProperty('ClaimsLobSummary') &&
-              claimsData.Ei.ClaimsLobSummary.length &&
-              claimsData.Ei.ClaimsLobSummary[0].hasOwnProperty('ClaimsDenied') &&
-              claimsData.hasOwnProperty('Mr') &&
-              claimsData.Mr.hasOwnProperty('ClaimsLobSummary') &&
-              claimsData.Mr.ClaimsLobSummary.length &&
-              claimsData.Mr.ClaimsLobSummary[0].hasOwnProperty('ClaimsDenied')
-            ) {
-              const nonPaidData = [
-                claimsData.Mr.ClaimsLobSummary[0].ClaimsDenied,
-                claimsData.Cs.ClaimsLobSummary[0].ClaimsDenied,
-                claimsData.Ei.ClaimsLobSummary[0].ClaimsDenied
-              ];
-              claimsNotPaid = {
-                category: 'app-card',
-                type: 'donutWithLabel',
-                title: 'Claims Not Paid',
-                data: {
-                  graphValues: nonPaidData,
-                  centerNumber:
-                    this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].ClaimsDenied) < 1 &&
-                    this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].ClaimsDenied) > 0
-                      ? '< $1'
-                      : '$' + this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].ClaimsDenied),
-                  color: ['#3381FF', '#80B0FF', '#003DA1'],
-                  gdata: ['card-inner', 'claimsNotPaid'],
-                  sdata: {
-                    sign: 'down',
-                    data: '-10.2%'
-                  },
-                  labels: ['Medicare & Retirement', 'Community & State', 'Employer & Individual'],
-                  hover: true
-                },
-                besideData: {
-                  labels: ['Medicare & Retirement', 'Community & State', 'Employer & Individual'],
-                  color: ['#3381FF', '#80B0FF', '#003DA1']
-                },
-                timeperiod: this.timeFrame
-              };
+            if (this.nonPaymentData1[0] != null && this.nonPaymentData1[0].data != null) {
+              claimsNotPaid = this.nonPaymentData1[0];
             } else {
               claimsNotPaid = {
                 category: 'app-card',
@@ -395,6 +358,17 @@ export class GettingReimbursedSharedService {
                 timeperiod: null
               };
             }
+            if (this.nonPaymentData1[1] != null && this.nonPaymentData1[1].data != null) {
+              claimsNotPaidRate = this.nonPaymentData1[1];
+            } else {
+              claimsNotPaidRate = {
+                category: 'app-card',
+                type: 'donut',
+                title: null,
+                data: null,
+                timeperiod: null
+              };
+            }
             if (
               claimsData.hasOwnProperty(lobData) &&
               claimsData[lobData] != null &&
@@ -403,29 +377,6 @@ export class GettingReimbursedSharedService {
               claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('ClaimsYieldRate') &&
               claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('ClaimsNonPaymentRate')
             ) {
-              claimsNotPaidRate = {
-                category: 'app-card',
-                type: 'donut',
-                title: 'Claims Non-Payment Rate',
-                data: {
-                  graphValues: [
-                    claimsData[lobData].ClaimsLobSummary[0].ClaimsNonPaymentRate,
-                    claimsData[lobData].ClaimsLobSummary[0].ClaimsYieldRate
-                  ],
-                  centerNumber:
-                    claimsData[lobData].ClaimsLobSummary[0].ClaimsNonPaymentRate < 1 &&
-                    claimsData[lobData].ClaimsLobSummary[0].ClaimsNonPaymentRate > 0
-                      ? '< 1%'
-                      : claimsData[lobData].ClaimsLobSummary[0].ClaimsNonPaymentRate + '%',
-                  color: ['#3381FF', '#D7DCE1'],
-                  gdata: ['card-inner', 'claimsNonPaymentRate'],
-                  sdata: {
-                    sign: 'up',
-                    data: '+3.7%'
-                  }
-                },
-                timeperiod: this.timeFrame
-              };
               claimsPaidRate = {
                 category: 'app-card',
                 type: 'donut',
@@ -446,13 +397,6 @@ export class GettingReimbursedSharedService {
                 timeperiod: this.timeFrame
               };
             } else {
-              claimsNotPaidRate = {
-                category: 'app-card',
-                type: 'donut',
-                title: null,
-                data: null,
-                timeperiod: null
-              };
               claimsPaidRate = {
                 category: 'app-card',
                 type: 'donut',
@@ -1099,7 +1043,7 @@ export class GettingReimbursedSharedService {
       this.lob = this.session.lob;
       // this.timeFrame = this.session.timeFrame;
       this.timeFrame = 'Last 6 Months'; // need to remove this, and uncomment above line
-      this.providerKey = this.session.providerKey();
+      this.providerKey = this.session.providerKeyData();
       const parameters = {
         providerkey: this.providerKey,
         timeperiod: '',
@@ -1139,7 +1083,7 @@ export class GettingReimbursedSharedService {
 
   public getTins() {
     return new Promise((resolve, reject) => {
-      this.providerKey = this.session.providerKey();
+      this.providerKey = this.session.providerKeyData();
       this.gettingReimbursedService.getTins(this.providerKey).subscribe(tins => {
         const providerTins = tins;
         resolve(providerTins);
@@ -1153,7 +1097,7 @@ export class GettingReimbursedSharedService {
       this.lob = this.session.lob;
       // this.timeFrame = this.session.timeFrame;
       this.timeFrame = 'Last 6 Months'; // need to remove this, and uncomment above line
-      this.providerKey = this.session.providerKey();
+      this.providerKey = this.session.providerKeyData();
       this.gettingReimbursedService.getTins(this.providerKey).subscribe(tins => {
         const providerTins = tins;
         const parameters = {
@@ -1239,7 +1183,7 @@ export class GettingReimbursedSharedService {
       this.lob = this.session.lob;
       // this.timeFrame = 'Last 12 Months'; // this.timeFrame = this.session.timeFrame;
       this.timeFrame = 'Last 6 Months';
-      this.providerKey = this.session.providerKey();
+      this.providerKey = this.session.providerKeyData();
       this.gettingReimbursedService.getTins(this.providerKey).subscribe(tins => {
         const providerTins = tins;
         const parameters = {
@@ -1306,8 +1250,7 @@ export class GettingReimbursedSharedService {
     this.tin = this.session.tin;
     this.lob = this.session.lob;
     this.timeFrame = 'Last 6 Months'; // this.session.timeFrame;
-    this.providerKey = this.session.providerKey();
-
+    this.providerKey = this.session.providerKeyData();
     let AOR: Array<Object> = [];
     return new Promise((resolve, reject) => {
       let parameters;
@@ -1410,7 +1353,7 @@ export class GettingReimbursedSharedService {
       this.timeFrame = this.session.timeFrame;
       this.timeFrame = 'Last 6 Months';
 
-      this.providerKey = this.session.providerKey();
+      this.providerKey = this.session.providerKeyData();
 
       const parameters = {
         providerkey: this.providerKey,
@@ -1503,7 +1446,7 @@ export class GettingReimbursedSharedService {
     this.tin = this.session.tin;
     this.lob = this.session.lob;
     this.timeFrame = 'Last 6 Months'; // this.session.timeFrame;
-    this.providerKey = this.session.providerKey();
+    this.providerKey = this.session.providerKeyData();
     const timeperiod = '';
 
     // let paidArray:  Array<Object> = [];
