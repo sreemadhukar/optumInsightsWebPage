@@ -1516,7 +1516,6 @@ export class GettingReimbursedSharedService {
       this.gettingReimbursedService.getPaymentData(parameters).subscribe(paymentData => {
         const lobFullData = this.common.matchFullLobWithData(this.lob);
         const lobData = this.common.matchLobWithData(this.lob);
-        console.log(paymentData);
         if (paymentData !== null) {
           paidBreakdown = [
             paymentData[lobData].ClaimsLobSummary[0].AmountBilled,
@@ -1530,34 +1529,6 @@ export class GettingReimbursedSharedService {
       });
     });
   }
-  /*  getClaimsPaidBreakdownData() {
-    this.tin = this.session.tin;
-    this.lob = this.session.lob;
-    this.timeFrame = 'Last 6 Months'; // this.session.timeFrame;
-    this.providerKey = this.session.providerKey();
-
-    let paidArray: Array<Object> = [];
-
-    return new Promise((resolve, reject) => {
-      let parameters;
-      let paidBreakdown = [];
-      parameters = [this.providerKey];
-      this.gettingReimbursedService.getGettingReimbursedData(...parameters).subscribe(([claimsData, appealsData]) => {
-        const lobFullData = this.common.matchFullLobWithData(this.lob);
-        const lobData = this.common.matchLobWithData(this.lob);
-        if (claimsData !== null) {
-          paidBreakdown = [
-            claimsData[lobData].ClaimsLobSummary[0].AmountBilled,
-            claimsData[lobData].ClaimsLobSummary[0].AmountActualAllowed,
-            claimsData[lobData].ClaimsLobSummary[0].AmountDenied,
-            claimsData[lobData].ClaimsLobSummary[0].AmountUHCPaid
-          ];
-        }
-        paidArray = [paidBreakdown];
-        resolve(paidArray);
-      });
-    });
-  }*/
 
   public sentenceCase(str) {
     return str.replace(/\w\S*/g, function(txt) {

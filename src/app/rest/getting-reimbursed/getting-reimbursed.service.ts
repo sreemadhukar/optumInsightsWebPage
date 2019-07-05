@@ -149,7 +149,6 @@ export class GettingReimbursedService {
     };
 
     const claimsURL = this.APP_URL + this.CLAIMS_SERVICE_PATH + parameters + '?requestType=PAYMENT_METRICS';
-    console.log(claimsURL);
     return this.http.post(claimsURL, bParam).pipe(
       retry(2),
       map(res => JSON.parse(JSON.stringify(res[0]))),
