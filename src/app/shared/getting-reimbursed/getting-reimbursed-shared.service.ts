@@ -1328,7 +1328,6 @@ export class GettingReimbursedSharedService {
                   : '<1%';
               barTitle[a] = getTopFiveReasons[a].Reason;
             }
-            console.log(reasonsVal1, reasonsVal2);
             for (let i = 0; i <= getTopFiveReasons.length; i++) {
               reason.push({
                 type: 'bar chart',
@@ -1340,16 +1339,7 @@ export class GettingReimbursedSharedService {
               });
             }
           }
-        } /*else {
-          appealsOverturnedRate = {
-            category: 'app-card',
-            type: 'donut',
-            title: null,
-            data: null,
-            timeperiod: null
-          };
-       }*/
-
+        }
         AOR = [appealsOverturnedRate, reason];
         resolve(AOR);
       });
@@ -1447,6 +1437,37 @@ export class GettingReimbursedSharedService {
         } else {
           resolve(null);
         }
+      });
+    });
+  }
+
+  getclaimsPaidData() {
+    this.tin = this.session.tin;
+    this.lob = this.session.lob;
+    this.timeFrame = 'Last 6 Months'; // this.session.timeFrame;
+    this.providerKey = this.session.providerKeyData();
+    const timeperiod = '';
+
+    // let paidArray:  Array<Object> = [];
+
+    return new Promise((resolve, reject) => {
+      let parameters;
+      parameters = [this.providerKey];
+      let paidBreakdown = [];
+      let paidArray: Array<Object> = [];
+      this.gettingReimbursedService.getPaymentData(parameters).subscribe(paymentData => {
+        const lobFullData = this.common.matchFullLobWithData(this.lob);
+        const lobData = this.common.matchLobWithData(this.lob);
+        if (paymentData !== null) {
+          paidBreakdown = [
+            paymentData[lobData].ClaimsLobSummary[0].AmountBilled,
+            paymentData[lobData].ClaimsLobSummary[0].AmountActualAllowed,
+            paymentData[lobData].ClaimsLobSummary[0].AmountDenied,
+            paymentData[lobData].ClaimsLobSummary[0].AmountUHCPaid
+          ];
+        }
+        paidArray = [paidBreakdown];
+        resolve(paidArray);
       });
     });
   }

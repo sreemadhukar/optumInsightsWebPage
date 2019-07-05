@@ -54,11 +54,11 @@
         class="claims-header"
         (helpIconClicked)="helpIconClick($event)"
       ></app-common-header>
-      <app-claims-paid-bar-graph></app-claims-paid-bar-graph>
+      <app-claims-paid-bar-graph *ngIf="cData[0] != null" [chartOptions]="cData[0]"></app-claims-paid-bar-graph>
 
       <div class="timeperiod-block">
         <hr class="footer-border" />
-        <p class="timeperiod-text">{{ claimsPaidTimePeriod }}</p>
+        <p class="timeperiod-text">{{ timePeriod }}</p>
       </div>
     </div>
   </div>
