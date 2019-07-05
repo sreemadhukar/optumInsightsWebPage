@@ -9,7 +9,7 @@ import { CallsTrendService } from './calls-trend.service';
 export class CallsSharedService {
   public sdataQuestionType: object;
   public sdataTalkTime: object;
-  public sdataTrend: any;
+  public sdataTrend: any = null;
   private callsData: Array<object> = [];
   private timeFrame: string;
   private providerKey: number;
@@ -73,12 +73,10 @@ export class CallsSharedService {
       .getCallsTrendData()
       .then(data => {
         this.sdataTrend = data;
-        if (typeof this.sdataTrend[0] === 'object' && typeof this.sdataTrend[1] === 'object') {
-          this.sdataQuestionType = this.sdataTrend[0];
-          this.sdataTalkTime = this.sdataTrend[1];
+        if (typeof this.sdataTrend[0] === null && typeof this.sdataTrend[1] === null) {
+          this.sdataTrend[0] = null;
+          this.sdataTrend[1] = null;
         }
-        this.sdataQuestionType = null;
-        this.sdataTalkTime = null;
         console.log('Calls Shared Trend Data', data);
       })
       .catch(reason => {
@@ -127,7 +125,7 @@ export class CallsSharedService {
                       centerNumber: this.common.nFormatter(totalCalls.Total),
                       color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'],
                       gdata: ['card-inner', 'callsByCallType'],
-                      sdata: this.sdataQuestionType
+                      sdata: this.sdataTrend[0]
                     },
                     {
                       labels: ['Eligibilty and Benefits', 'Claims', 'Prior Authorizations', 'Others'],
@@ -165,7 +163,7 @@ export class CallsSharedService {
                       centerNumber: this.common.nFormatter(totalCalls.Total) + 'Hrs',
                       color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'],
                       gdata: ['card-inner', 'talkTimeByCallType'],
-                      sdata: this.sdataTalkTime
+                      sdata: this.sdataTrend[1]
                     },
                     {
                       labels: ['Eligibilty and Benefits', 'Claims', 'Prior Authorizations', 'Others'],
