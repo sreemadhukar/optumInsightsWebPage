@@ -16,6 +16,7 @@ export class PrintComponent implements OnInit, OnDestroy {
 
   public providerName = '---';
   public providerData: any;
+  public username: string;
   states: Providers[];
   // @Input() hasFilter: string;
   private canvas: any;
@@ -43,6 +44,9 @@ export class PrintComponent implements OnInit, OnDestroy {
     this.providerData = JSON.parse(sessionStorage.getItem('currentUser'));
     const provider = this.providerData[0];
     this.providerName = provider.HealthCareOrganizationName;
+
+    const userInfo = JSON.parse(sessionStorage.getItem('loggedUser'));
+    this.username = userInfo.FirstName;
 
     const region = document.getElementById(this.printDivId);
     html2canvas(region).then(c => {});
@@ -93,15 +97,13 @@ export class PrintComponent implements OnInit, OnDestroy {
                                     }
                         </style>
                                 </head>
-                                <body>
-                                <div class="header-logo-space">
-                                    <img class="uhc-logo" src="assets/images/UHC Logo@2x.png" alt="UHC Logo" />
-                                <div class="provider-name">
-                                <h1>${this.providerName}</h1>
-                                </div>
-                            </div>
-                               </body>
-                              </html>`);
+      <div class="header-logo-div">
+      <a routerLink="/">
+        <img class="Uhc-logo" src="/src/assets/images/UHC Logo@2x.png" alt="UHC Logo" />
+      </a>
+      <div class="provider-name">${this.username}</div>
+          </div>
+              </html>`);
     popupWin.document.body.appendChild(canvas);
     popupWin.print();
     popupWin.close();

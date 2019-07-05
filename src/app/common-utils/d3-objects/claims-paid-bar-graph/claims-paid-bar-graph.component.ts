@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, HostListener, ViewEncapsulation, AfterViewInit } from '@angular/core';
 import * as d3 from 'd3';
+import { CommonUtilsService } from '../../../shared/common-utils.service';
 
 @Component({
   selector: 'app-claims-paid-bar-graph',
@@ -11,13 +12,13 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit {
   public noTransition = 0;
   public renderChart: string;
   @Input() chartOptions: any = {};
-  public testID = 'lolol';
+  public testID = 'claimsPaidBreakDown';
 
-  constructor() {}
+  constructor(private common: CommonUtilsService) {}
 
   @HostListener('window:resize', ['$event'])
   onResize(event) {
-    this.doBarGraph(this.chartOptions, this.noTransition);
+    this.doBarGraph(this.chartOptions.chartData, this.noTransition);
   }
 
   ngOnInit() {
@@ -25,7 +26,7 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    this.doBarGraph(this.chartOptions, this.transition);
+    this.doBarGraph(this.chartOptions.chartData, this.transition);
   }
 
   formatDynamicAbbreviation(tickNumber: number, tickValue: number, prefix: string) {
@@ -133,7 +134,27 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit {
         break;
     }
   }
+  findGreatest(inputOne, inputTwo, inputThree, inputFour) {
+    let valOne = 0;
+    let valTwo = 0;
+    if (inputOne > inputTwo) {
+      valOne = inputOne;
+    } else {
+      valOne = inputTwo;
+    }
 
+    if (inputThree > inputFour) {
+      valTwo = inputThree;
+    } else {
+      valTwo = inputFour;
+    }
+
+    if (valOne > valTwo) {
+      return valOne;
+    } else {
+      return valTwo;
+    }
+  }
   doBarGraph(chartOptions: any, transition: number) {
     // might have to hard code class names for testing
     const className = 'claims-paid-content'; // 'card-inner-large'
@@ -176,7 +197,7 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit {
       .attr('font-size', '22')
       .style('text-anchor', 'end')
       .style('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
-      .text('$800M');
+      .text('$' + this.common.nFormatter(this.chartOptions.chartData[0]));
 
     chart
       .append('text')
@@ -196,7 +217,7 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit {
       .attr('font-size', '22')
       .style('text-anchor', 'end')
       .style('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
-      .text('$589M');
+      .text('$' + this.common.nFormatter(this.chartOptions.chartData[1]));
 
     chart
       .append('text')
@@ -216,7 +237,7 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit {
       .attr('font-size', '22')
       .style('text-anchor', 'end')
       .style('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
-      .text('$211M');
+      .text('$' + this.common.nFormatter(this.chartOptions.chartData[2]));
 
     chart
       .append('text')
@@ -236,7 +257,7 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit {
       .attr('font-size', '22')
       .style('text-anchor', 'end')
       .style('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
-      .text('$571M');
+      .text('$' + this.common.nFormatter(this.chartOptions.chartData[3]));
 
     chart
       .append('text')
@@ -257,12 +278,23 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit {
       .attr('stroke', '#757588')
       .attr('stroke-width', '1px');
 
-    const highestValue = 800;
+    const highestValue = this.findGreatest(
+      this.chartOptions.chartData[0],
+      this.chartOptions.chartData[1],
+      this.chartOptions.chartData[2],
+      this.chartOptions.chartData[3]
+    );
+    // const highestValue = 800;
     const xScale = d3
       .scaleLinear()
       .domain([0, highestValue])
       .range([400, 900])
       .nice(3);
+
+    const xScaleBar = d3
+      .scaleLinear()
+      .domain([0, highestValue])
+      .range([0, 500]);
 
     chart
       .append('g')
@@ -272,7 +304,8 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit {
         d3
           .axisBottom(xScale)
           .ticks(3)
-          .tickSize(295)
+          .tickSize(5, 0, 0)
+        // .tickSizeOuter([0])
       );
 
     const preArray = d3
@@ -326,12 +359,11 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit {
       })
       .remove();
 
-    // these rect widths shouldnt be hard coded
     chart
       .append('rect')
       .attr('x', 400)
       .attr('y', 70)
-      .attr('width', 500)
+      .attr('width', xScaleBar(this.chartOptions.chartData[0]))
       .attr('height', 48)
       .attr('fill', '#3381FF');
 
@@ -339,7 +371,7 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit {
       .append('rect')
       .attr('x', 400)
       .attr('y', 150)
-      .attr('width', 350)
+      .attr('width', xScaleBar(this.chartOptions.chartData[1]))
       .attr('height', 48)
       .attr('fill', '#3381FF');
 
@@ -347,7 +379,7 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit {
       .append('rect')
       .attr('x', 400)
       .attr('y', 200)
-      .attr('width', 130)
+      .attr('width', xScaleBar(this.chartOptions.chartData[2]))
       .attr('height', 48)
       .attr('fill', '#FC6431');
 
@@ -355,7 +387,7 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit {
       .append('rect')
       .attr('x', 400)
       .attr('y', 280)
-      .attr('width', 305)
+      .attr('width', xScaleBar(this.chartOptions.chartData[3]))
       .attr('height', 48)
       .attr('fill', '#3381FF');
   }
