@@ -8,10 +8,11 @@ import { SelfSharedService } from '../../shared/service-interaction/self-shared.
 import { CallsComponent } from './calls/calls.component';
 import { CallsSharedService } from '../../shared/service-interaction/calls-shared.service';
 import { CallsService } from '../../rest/service-interaction/calls.service';
+import { CallsTrendService } from '../../shared/service-interaction/calls-trend.service';
 import { HeadMaterialModule } from 'src/app/head/head.material.module';
 @NgModule({
   imports: [CommonModule, ServiceInteractionRoutingModule, HeadMaterialModule, CommonUtilsModule],
-  providers: [SelfSharedService, SelfServiceService, CallsSharedService, CallsService],
+  providers: [SelfSharedService, SelfServiceService, CallsSharedService, CallsService, CallsTrendService],
   declarations: [SelfServiceComponent, CallsComponent]
 })
 export class ServiceInteractionModule {}
