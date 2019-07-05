@@ -26,7 +26,6 @@ export class NonPaymentService {
     let cparams = new HttpParams();
     cparams = cparams.append('requestType', 'NONPAYMENT_METRICS');
     const nonPaymentURL = this.APP_URL + this.NON_PAYMENT + parameters[0] + '?requestType=' + parameters[1];
-    console.log(nonPaymentURL);
     return combineLatest(
       this.http.post(nonPaymentURL, JSON.stringify({ TimeFilter: 'Last6Months' }), { headers: myHeader }).pipe(
         retry(2),

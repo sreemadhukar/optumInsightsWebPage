@@ -49,12 +49,16 @@ export class CallsComponent implements OnInit {
     this.timePeriod = this.session.filterObjValue.timeFrame;
     if (this.session.filterObjValue.lob !== 'All') {
       this.lob = this.filtermatch.matchLobWithLobData(this.session.filterObjValue.lob);
+    } else {
+      this.lob = '';
     }
     if (this.session.filterObjValue.tax.length > 0 && this.session.filterObjValue.tax[0] !== 'All') {
       this.taxID = this.session.filterObjValue.tax;
       if (this.taxID.length > 3) {
         this.taxID = [this.taxID.length + ' Selected'];
       }
+    } else {
+      this.taxID = [];
     }
     this.loading = true;
     this.mockCards = [{}, {}];
@@ -63,6 +67,16 @@ export class CallsComponent implements OnInit {
       .then(data => {
         this.loading = false;
         this.callsItems = data[0];
+      })
+      .catch(reason => {
+        console.log('Calls Service Error ', reason);
+        this.loading = false;
+      });
+
+    this.callsServiceSrc
+      .getCallsTrendData()
+      .then(data => {
+        console.log('Trend Data', data);
       })
       .catch(reason => {
         console.log('Calls Service Error ', reason);
