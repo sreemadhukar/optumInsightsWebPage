@@ -140,14 +140,16 @@ export class GlossaryComponent implements OnInit {
     if (this.readmoreFlag[value]) {
       document.getElementById('each-metric-div' + value).classList.remove('each-metric-div');
       this.readmoreFlag[value] = false;
-      if (value > this.readmoreFlag.length - 2) {
-        window.scrollTo(300, 300);
-        document.getElementById('side-nav-glossary').scrollTo(0, 4150);
+      if (value > this.readmoreFlag.length - 4) {
+        document.getElementById('metrics-div').style.padding = '0 0 480px 0';
+        document.getElementById('side-nav-glossary').scrollTo(0, 208 + 160 * value);
       } else {
-        window.scrollTo(300, 0);
-        document.getElementById('side-nav-glossary').scrollTo(0, 208 + 161 * value);
+        document.getElementById('side-nav-glossary').scrollTo(0, 208 + 160.5 * value);
+        document.getElementById('metrics-div').style.padding = '0 0 100px 0';
       }
+      window.scrollTo(300, 0);
     } else {
+      document.getElementById('metrics-div').style.padding = '0 0 100px 0';
       this.readmoreFlag[value] = true;
       this.selectedmetric = '';
       document.getElementById('each-metric-div' + value).classList.add('each-metric-div');
