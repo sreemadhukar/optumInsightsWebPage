@@ -27,6 +27,23 @@ export class CommonUtilsService {
     }
     return fnumber;
   }
+  public last30DaysTrend(last30: number, previousLast30: number): Object {
+    const temp = ((last30 - previousLast30) / previousLast30) * 100;
+    let prefix = '';
+    const suffix = '%';
+    let tempSign;
+    if (temp > 0) {
+      tempSign = 'down';
+      prefix = '+';
+    } else {
+      tempSign = 'up';
+    }
+    const value = prefix + temp.toFixed() + suffix;
+    return {
+      sign: tempSign,
+      data: value
+    };
+  }
   public percentageFormatter(number: Number) {
     if (number < 1) {
       return '< 1%';
