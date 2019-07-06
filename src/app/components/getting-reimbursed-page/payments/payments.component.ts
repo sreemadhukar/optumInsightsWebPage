@@ -94,8 +94,8 @@ export class PaymentsComponent implements OnInit {
     ];
 
     this.gettingReimbursedSharedService.getclaimsPaidData().then(payData => {
+      this.loading = false;
       this.paymentArray = payData[0];
-
       for (let p = 0; p < 1; p++) {
         this.cData.push({
           chartData: [this.paymentArray[0], this.paymentArray[1], this.paymentArray[2], this.paymentArray[3]],
