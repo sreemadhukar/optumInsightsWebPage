@@ -671,58 +671,105 @@ export class OverviewSharedService {
           previousClaimsPaid = previousClaimsTrendData.previousClaimsPaid;
           previousClaimsYieldRate = previousClaimsTrendData.previousClaimsYieldRate;
           console.log(latestClaimsPaid, previousClaimsPaid, latestClaimsYieldRate, previousClaimsYieldRate);
-          if (
-            latestClaimsPaid !== 0 &&
-            previousClaimsPaid !== 0 &&
-            latestClaimsPaid !== '0' &&
-            previousClaimsPaid !== '0' &&
-            latestClaimsPaid != undefined &&
-            previousClaimsPaid != undefined
-          ) {
-            claimsTrendValue = ((latestClaimsPaid - previousClaimsPaid) / previousClaimsPaid) * 100;
-            if (claimsTrendValue >= 0) {
-              claimsPaidTrendObject.sign = 'up';
-              claimsPaidTrendObject.data = '+' + claimsTrendValue + '%';
+          if (latestClaimsPaid !== 0 && latestClaimsPaid !== '0' && latestClaimsPaid != undefined) {
+            if (latestClaimsPaid === previousClaimsPaid) {
+              claimsPaidTrendObject.sign = '';
+              claimsPaidTrendObject.data = '';
+            } else if (previousClaimsPaid != undefined) {
+              claimsTrendValue = ((latestClaimsPaid - previousClaimsPaid) / previousClaimsPaid) * 100;
+              if (claimsTrendValue >= 0) {
+                claimsPaidTrendObject.sign = 'up';
+                claimsPaidTrendObject.data = '+' + claimsTrendValue.toFixed(1) + '%';
+              } else {
+                claimsPaidTrendObject.sign = 'down';
+                claimsPaidTrendObject.data = claimsTrendValue.toFixed(1) + '%';
+              }
             } else {
-              claimsPaidTrendObject.sign = 'down';
-              claimsPaidTrendObject.data = claimsTrendValue + '%';
+              claimsPaidTrendObject.sign = 'up';
+              claimsPaidTrendObject.data = '+' + latestClaimsPaid + '%';
             }
-          } else if (
-            previousClaimsPaid === 0 ||
-            previousClaimsPaid === '0' ||
-            previousClaimsPaid == undefined ||
-            previousClaimsPaid == undefined
-          ) {
-            claimsPaidTrendObject.sign = 'up';
-            claimsPaidTrendObject.data = '+' + latestClaimsPaid + '%';
+          } else if (previousClaimsPaid !== 0 || previousClaimsPaid !== '0' || previousClaimsPaid != undefined) {
+            if (latestClaimsPaid != undefined) {
+              claimsTrendValue = ((latestClaimsPaid - previousClaimsPaid) / previousClaimsPaid) * 100;
+              if (claimsTrendValue >= 0) {
+                claimsPaidTrendObject.sign = 'up';
+                claimsPaidTrendObject.data = '+' + claimsTrendValue.toFixed(1) + '%';
+              } else {
+                claimsPaidTrendObject.sign = 'down';
+                claimsPaidTrendObject.data = claimsTrendValue.toFixed(1) + '%';
+              }
+            }
+          } else {
+            claimsPaidTrendObject.sign = '';
+            claimsPaidTrendObject.data = '';
           }
 
-          if (
-            latestClaimsYieldRate !== 0 &&
-            previousClaimsYieldRate !== 0 &&
-            latestClaimsYieldRate !== '0' &&
-            previousClaimsYieldRate !== '0' &&
-            latestClaimsYieldRate != undefined &&
+          if (latestClaimsYieldRate !== 0 && latestClaimsYieldRate !== '0' && latestClaimsYieldRate != undefined) {
+            if (latestClaimsYieldRate === previousClaimsYieldRate) {
+              claimsYieldTrendObject.sign = '';
+              claimsYieldTrendObject.data = '';
+            } else if (previousClaimsYieldRate != undefined) {
+              claimsYieldTrendValue =
+                ((latestClaimsYieldRate - previousClaimsYieldRate) / previousClaimsYieldRate) * 100;
+              if (claimsYieldTrendValue >= 0) {
+                claimsYieldTrendObject.sign = 'up';
+                claimsYieldTrendObject.data = '+' + claimsYieldTrendValue.toFixed(1) + '%';
+              } else {
+                claimsYieldTrendObject.sign = 'down';
+                claimsYieldTrendObject.data = claimsYieldTrendValue.toFixed(1) + '%';
+              }
+            } else {
+              claimsYieldTrendObject.sign = 'up';
+              claimsYieldTrendObject.data = '+' + latestClaimsYieldRate + '%';
+            }
+          } else if (
+            previousClaimsYieldRate !== 0 ||
+            previousClaimsYieldRate !== '0' ||
             previousClaimsYieldRate != undefined
           ) {
-            claimsYieldTrendValue = ((latestClaimsYieldRate - previousClaimsYieldRate) / previousClaimsYieldRate) * 100;
-            if (claimsYieldTrendValue >= 0) {
-              claimsYieldTrendObject.sign = 'up';
-              claimsYieldTrendObject.data = '+' + claimsYieldTrendValue + '%';
-            } else {
-              claimsYieldTrendObject.sign = 'down';
-              claimsYieldTrendObject.data = claimsYieldTrendValue + '%';
+            if (latestClaimsYieldRate != undefined) {
+              claimsYieldTrendValue =
+                ((latestClaimsYieldRate - previousClaimsYieldRate) / previousClaimsYieldRate) * 100;
+              if (claimsYieldTrendValue >= 0) {
+                claimsYieldTrendObject.sign = 'up';
+                claimsYieldTrendObject.data = '+' + claimsYieldTrendValue.toFixed(1) + '%';
+              } else {
+                claimsYieldTrendObject.sign = 'down';
+                claimsYieldTrendObject.data = claimsYieldTrendValue.toFixed(1) + '%';
+              }
             }
-          } else if (
-            previousClaimsYieldRate === 0 ||
-            previousClaimsYieldRate === '0' ||
-            previousClaimsYieldRate == undefined ||
-            previousClaimsYieldRate == undefined
-          ) {
-            claimsYieldTrendObject.sign = 'up';
-            claimsYieldTrendObject.data = '+' + latestClaimsYieldRate + '%';
+          } else {
+            claimsYieldTrendObject.sign = '';
+            claimsYieldTrendObject.data = '';
           }
 
+          /*
+                    if (
+                      latestClaimsYieldRate !== 0 &&
+                      previousClaimsYieldRate !== 0 &&
+                      latestClaimsYieldRate !== '0' &&
+                      previousClaimsYieldRate !== '0' &&
+                      latestClaimsYieldRate != undefined &&
+                      previousClaimsYieldRate != undefined
+                    ) {
+                      claimsYieldTrendValue = ((latestClaimsYieldRate - previousClaimsYieldRate) / previousClaimsYieldRate) * 100;
+                      if (claimsYieldTrendValue >= 0) {
+                        claimsYieldTrendObject.sign = 'up';
+                        claimsYieldTrendObject.data = '+' + claimsYieldTrendValue.toFixed(1) + '%';
+                      } else {
+                        claimsYieldTrendObject.sign = 'down';
+                        claimsYieldTrendObject.data = claimsYieldTrendValue.toFixed(1) + '%';
+                      }
+                    } else if (
+                      previousClaimsYieldRate === 0 ||
+                      previousClaimsYieldRate === '0' ||
+                      previousClaimsYieldRate == undefined ||
+                      previousClaimsYieldRate == undefined
+                    ) {
+                      claimsYieldTrendObject.sign = 'up';
+                      claimsYieldTrendObject.data = '+' + latestClaimsYieldRate + '%';
+                    }
+          */
           resolve({ claimsPaidTrendObject: claimsPaidTrendObject, claimsYieldTrendObject: claimsYieldTrendObject });
         });
     });
@@ -741,12 +788,12 @@ export class OverviewSharedService {
           claimsTrendLatestData.All.hasOwnProperty('ClaimsLobSummary')
         ) {
           if (claimsTrendLatestData.All.ClaimsLobSummary[0].hasOwnProperty('ClaimsPaid')) {
-            latestClaimsPaid = this.common.nFormatter(claimsTrendLatestData.All.ClaimsLobSummary[0].ClaimsPaid);
+            // latestClaimsPaid = this.common.nFormatter(claimsTrendLatestData.All.ClaimsLobSummary[0].ClaimsPaid);
+            latestClaimsPaid = claimsTrendLatestData.All.ClaimsLobSummary[0].ClaimsPaid;
           }
           if (claimsTrendLatestData.All.ClaimsLobSummary[0].hasOwnProperty('ClaimsYieldRate')) {
-            latestClaimsYieldRate = this.common.nFormatter(
-              claimsTrendLatestData.All.ClaimsLobSummary[0].ClaimsYieldRate
-            );
+            // latestClaimsYieldRate = this.common.nFormatter(claimsTrendLatestData.All.ClaimsLobSummary[0].ClaimsYieldRate);
+            latestClaimsYieldRate = claimsTrendLatestData.All.ClaimsLobSummary[0].ClaimsYieldRate;
           }
         }
 
@@ -768,12 +815,12 @@ export class OverviewSharedService {
           claimsTrendPreviousData.All.hasOwnProperty('ClaimsLobSummary')
         ) {
           if (claimsTrendPreviousData.All.ClaimsLobSummary[0].hasOwnProperty('ClaimsPaid')) {
-            previousClaimsPaid = this.common.nFormatter(claimsTrendPreviousData.All.ClaimsLobSummary[0].ClaimsPaid);
+            // previousClaimsPaid = this.common.nFormatter(claimsTrendPreviousData.All.ClaimsLobSummary[0].ClaimsPaid);
+            previousClaimsPaid = claimsTrendPreviousData.All.ClaimsLobSummary[0].ClaimsPaid;
           }
           if (claimsTrendPreviousData.All.ClaimsLobSummary[0].hasOwnProperty('ClaimsYieldRate')) {
-            previousClaimsYieldRate = this.common.nFormatter(
-              claimsTrendPreviousData.All.ClaimsLobSummary[0].ClaimsYieldRate
-            );
+            // previousClaimsYieldRate = this.common.nFormatter(claimsTrendPreviousData.All.ClaimsLobSummary[0].ClaimsYieldRate);
+            previousClaimsYieldRate = claimsTrendPreviousData.All.ClaimsLobSummary[0].ClaimsYieldRate;
           }
         }
 
