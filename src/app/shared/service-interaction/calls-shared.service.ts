@@ -158,7 +158,6 @@ export class CallsSharedService {
             }
             tempArray[0] = callsByCallType;
             tempArray[1] = talkTimeByCallType;
-            console.log('Temp', tempArray);
           } else {
             tempArray = null;
           }
