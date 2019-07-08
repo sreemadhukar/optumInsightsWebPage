@@ -385,6 +385,7 @@ export class PriorAuthSharedService {
     const TIN = filterParamteres.tax[0];
     const LOB = filterParamteres.lob;
     const serviceSetting = filterParamteres.serviceSetting;
+    // console.log(filterParamteres);
 
     // Default parameters
     let timeRange = 'rolling12';
