@@ -29,24 +29,23 @@ export class GettingReimbursedService {
       Accept: '*/*'
     });
     let cparams = new HttpParams();
-    if (parameters.length > 1 && parameters[1]) {
-      cparams = cparams.append('monthly', parameters[1]);
-      cparams = cparams.append('startDate', parameters[2]);
-      cparams = cparams.append('endDate', parameters[3]);
+    if (parameters.length > 1) {
+      cparams = cparams.append('monthly', 'true');
+      cparams = cparams.append('startDate', '01-' + parameters[1].TimeFilterText);
+      cparams = cparams.append('endDate', '12-' + parameters[1].TimeFilterText);
+      if (parameters[1].Lob) {
+        cparams = cparams.append('LOB', parameters[1].Lob);
+      }
+      // if(parameters[1].tin){
+      //   cparams = cparams.append('TIN',parameters[1].tin)
+      // }
     }
 
-    let eparams = new HttpParams();
-    if (parameters.length > 4 && parameters[4] !== null && parameters[4] !== undefined) {
-      eparams = eparams.append('ReportingPeriod', parameters[4]);
-    }
-    if (parameters.length > 5 && parameters[5] !== null && parameters[5] !== undefined) {
-      eparams = eparams.append('TIN', parameters[5]);
-      cparams = cparams.append('TIN', parameters[5]);
-    }
-    const aggClaimsURL = this.APP_URL + this.AGG_CLAIMS_SERVICE_PATH + parameters[0];
+    const claimsURL = this.APP_URL + this.CLAIMS_SERVICE_PATH + parameters[0] + '?requestType=PAYMENT_METRICS';
     const appealsURL = this.APP_URL + this.APPEALS_SERVICE_PATH + parameters[0];
+
     return combineLatest(
-      this.http.post(aggClaimsURL, eparams, { headers: myHeader }).pipe(
+      this.http.post(claimsURL, parameters[1]).pipe(
         retry(2),
         map(res => JSON.parse(JSON.stringify(res[0]))),
         catchError(err => of(JSON.parse(JSON.stringify(err))))
@@ -59,29 +58,18 @@ export class GettingReimbursedService {
     );
   }
   public getGettingReimbursedData(...parameters) {
-    const cparams = new HttpParams();
-    const aparams = new HttpParams();
-    /*if (parameters.length > 1 && parameters[1]) {
-      cparams = cparams.append('timeFilter', 'last6months');
-    } else if (parameters.length > 2 && parameters[2]) {
-      cparams = cparams.append('YTD', parameters[2]);
+    let aparams = new HttpParams();
+    if (parameters[1].Lob) {
+      aparams = aparams.append('LOB', parameters[1].Lob);
     }
-    if (parameters.length > 3 && parameters[3] !== null && parameters[3] !== undefined) {
-      cparams = cparams.append('TIN', parameters[3]);
-    }*/
-
+    // if(parameters[1].tin){
+    //   aparams = aparams.append('TIN',parameters[1].tin)
+    // }
     const claimsURL = this.APP_URL + this.CLAIMS_SERVICE_PATH + parameters[0] + '?requestType=PAYMENT_METRICS';
     const appealsURL = this.APP_URL + this.APPEALS_SERVICE_PATH + parameters[0];
 
-    let tParams = {};
-    if (parameters.length > 1 && parameters[1]) {
-      tParams = {
-        TimeFilter: 'Last6Months'
-      };
-    }
-
     return combineLatest(
-      this.http.post(claimsURL, tParams).pipe(
+      this.http.post(claimsURL, parameters[1]).pipe(
         retry(2),
         map(res => JSON.parse(JSON.stringify(res[0]))),
         catchError(err => of(JSON.parse(JSON.stringify(err))))

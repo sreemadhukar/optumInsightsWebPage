@@ -17,7 +17,7 @@ export class SessionService {
   public filterObj: Observable<Filter>;
   public filterObjSubject: BehaviorSubject<Filter>;
   constructor(private gettingReimbursedService: GettingReimbursedService) {
-    this.filterObjSubject = new BehaviorSubject<Filter>({ timeFrame: 'Last 12 Months', lob: 'All', tax: ['All'] });
+    this.filterObjSubject = new BehaviorSubject<Filter>({ timeFrame: 'Last 6 Months', lob: 'All', tax: ['All'] });
     this.filterObj = this.filterObjSubject.asObservable().pipe(share());
   }
   public get filterObjValue(): Filter {
