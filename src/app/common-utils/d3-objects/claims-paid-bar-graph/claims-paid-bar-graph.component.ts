@@ -359,36 +359,72 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit {
       })
       .remove();
 
-    chart
-      .append('rect')
-      .attr('x', 400)
-      .attr('y', 70)
-      .attr('width', xScaleBar(this.chartOptions.chartData[0]))
-      .attr('height', 48)
-      .attr('fill', '#3381FF');
+    if (
+      this.chartOptions.chartData[0] === 0 &&
+      this.chartOptions.chartData[1] === 0 &&
+      this.chartOptions.chartData[2] === 0 &&
+      this.chartOptions.chartData[3] === 0
+    ) {
+      chart
+        .append('rect')
+        .attr('x', 400)
+        .attr('y', 70)
+        .attr('width', this.chartOptions.chartData[0])
+        .attr('height', 48)
+        .attr('fill', '#3381FF');
+      chart
+        .append('rect')
+        .attr('x', 400)
+        .attr('y', 150)
+        .attr('width', this.chartOptions.chartData[1])
+        .attr('height', 48)
+        .attr('fill', '#3381FF');
+      chart
+        .append('rect')
+        .attr('x', 400)
+        .attr('y', 200)
+        .attr('width', this.chartOptions.chartData[2])
+        .attr('height', 48)
+        .attr('fill', '#FC6431');
+      chart
+        .append('rect')
+        .attr('x', 400)
+        .attr('y', 280)
+        .attr('width', this.chartOptions.chartData[3])
+        .attr('height', 48)
+        .attr('fill', '#3381FF');
+    } else {
+      chart
+        .append('rect')
+        .attr('x', 400)
+        .attr('y', 70)
+        .attr('width', xScaleBar(this.chartOptions.chartData[0]))
+        .attr('height', 48)
+        .attr('fill', '#3381FF');
 
-    chart
-      .append('rect')
-      .attr('x', 400)
-      .attr('y', 150)
-      .attr('width', xScaleBar(this.chartOptions.chartData[1]))
-      .attr('height', 48)
-      .attr('fill', '#3381FF');
+      chart
+        .append('rect')
+        .attr('x', 400)
+        .attr('y', 150)
+        .attr('width', xScaleBar(this.chartOptions.chartData[1]))
+        .attr('height', 48)
+        .attr('fill', '#3381FF');
 
-    chart
-      .append('rect')
-      .attr('x', 400)
-      .attr('y', 200)
-      .attr('width', xScaleBar(this.chartOptions.chartData[2]))
-      .attr('height', 48)
-      .attr('fill', '#FC6431');
+      chart
+        .append('rect')
+        .attr('x', 400)
+        .attr('y', 200)
+        .attr('width', xScaleBar(this.chartOptions.chartData[2]))
+        .attr('height', 48)
+        .attr('fill', '#FC6431');
 
-    chart
-      .append('rect')
-      .attr('x', 400)
-      .attr('y', 280)
-      .attr('width', xScaleBar(this.chartOptions.chartData[3]))
-      .attr('height', 48)
-      .attr('fill', '#3381FF');
+      chart
+        .append('rect')
+        .attr('x', 400)
+        .attr('y', 280)
+        .attr('width', xScaleBar(this.chartOptions.chartData[3]))
+        .attr('height', 48)
+        .attr('fill', '#3381FF');
+    }
   }
 }
