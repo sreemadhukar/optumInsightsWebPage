@@ -71,9 +71,9 @@ export class GettingReimbursedSharedService {
     /** code ends here */
   }
   public getGettingReimbursedData() {
-    this.tin = this.session.tin;
-    this.lob = this.session.lob;
-    this.timeFrame = this.session.timeFrame;
+    this.tin = this.session.filterObjValue.tax.toString();
+    this.lob = this.session.filterObjValue.lob;
+    this.timeFrame = this.session.filterObjValue.timeFrame;
     this.providerKey = this.session.providerKeyData();
     const summaryData: Array<object> = [];
     return new Promise(resolve => {
@@ -90,20 +90,59 @@ export class GettingReimbursedSharedService {
       let claimsNotPaidRate: object;
       let claimsPaid: object;
       let claimsPaidRate: object;
-      let strtDate: string;
-      let endDate: string;
 
-      if (this.timeFrame === 'Last 12 Months' || this.timeFrame === 'Year To Date') {
+      if (
+        this.timeFrame === 'Last 12 Months' ||
+        this.timeFrame === 'Last 6 Months' ||
+        this.timeFrame === 'Year To Date'
+      ) {
         if (this.timeFrame === 'Last 12 Months') {
-          this.timeFrame = 'Last 6 Months';
-          parameters = [this.providerKey, true];
-          if (this.tin !== 'All') {
-            parameters = [this.providerKey, true, false, this.tin];
+          if (this.tin !== 'All' && this.lob !== 'All') {
+            parameters = [
+              this.providerKey,
+              { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Rolling12Months', Tin: this.tin }
+            ];
+          } else if (this.tin !== 'All') {
+            parameters = [this.providerKey, { TimeFilter: 'Rolling12Months', Tin: this.tin }];
+          } else if (this.lob !== 'All') {
+            parameters = [
+              this.providerKey,
+              { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Rolling12Months' }
+            ];
+          } else {
+            parameters = [this.providerKey, { TimeFilter: 'Rolling12Months' }];
           }
         } else if (this.timeFrame === 'Year To Date') {
-          parameters = [this.providerKey, false, true];
-          if (this.tin !== 'All') {
-            parameters = [this.providerKey, false, true, this.tin];
+          if (this.tin !== 'All' && this.lob !== 'All') {
+            parameters = [
+              this.providerKey,
+              { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'YearToDate', Tin: this.tin }
+            ];
+          } else if (this.tin !== 'All') {
+            parameters = [this.providerKey, { TimeFilter: 'YearToDate', Tin: this.tin }];
+          } else if (this.lob !== 'All') {
+            parameters = [
+              this.providerKey,
+              { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'YearToDate' }
+            ];
+          } else {
+            parameters = [this.providerKey, { TimeFilter: 'YearToDate' }];
+          }
+        } else if (this.timeFrame === 'Last 6 Months') {
+          if (this.tin !== 'All' && this.lob !== 'All') {
+            parameters = [
+              this.providerKey,
+              { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Last6Months', Tin: this.tin }
+            ];
+          } else if (this.tin !== 'All') {
+            parameters = [this.providerKey, { TimeFilter: 'Last6Months', Tin: this.tin }];
+          } else if (this.lob !== 'All') {
+            parameters = [
+              this.providerKey,
+              { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Last6Months' }
+            ];
+          } else {
+            parameters = [this.providerKey, { TimeFilter: 'Last6Months' }];
           }
         }
 
@@ -444,6 +483,7 @@ export class GettingReimbursedSharedService {
               timeperiod: null
             };
           } else if (appealsData != null) {
+            console.log('am here', lobFullData);
             if (
               appealsData.hasOwnProperty('LineOfBusiness') &&
               appealsData.LineOfBusiness.hasOwnProperty(lobFullData) &&
@@ -566,25 +606,37 @@ export class GettingReimbursedSharedService {
           }
         });
       } else {
-        strtDate = this.common.matchTimePeriodWithJSON(this.timeFrame) + '-01';
-        endDate = this.common.matchTimePeriodWithJSON(this.timeFrame) + '-12';
-
-        if (this.tin !== 'All') {
+        const lobFullData = this.common.matchFullLobWithData(this.lob);
+        if (this.tin !== 'All' && this.lob !== 'All') {
           parameters = [
             this.providerKey,
-            true,
-            strtDate,
-            endDate,
-            this.common.matchTimePeriodWithJSON(this.timeFrame),
-            this.tin
+            {
+              Lob: this.common.matchLobWithCapsData(this.lob),
+              TimeFilter: 'CalendarYear',
+              TimeFilterText: this.timeFrame,
+              Tin: this.tin
+            }
+          ];
+        } else if (this.tin !== 'All') {
+          parameters = [
+            this.providerKey,
+            { TimeFilter: 'CalendarYear', TimeFilterText: this.timeFrame, Tin: this.tin }
+          ];
+        } else if (this.lob !== 'All') {
+          parameters = [
+            this.providerKey,
+            {
+              Lob: this.common.matchLobWithCapsData(this.lob),
+              TimeFilter: 'CalendarYear',
+              TimeFilterText: this.timeFrame
+            }
           ];
         } else {
-          parameters = [this.providerKey, true, strtDate, endDate, this.common.matchTimePeriodWithJSON(this.timeFrame)];
+          parameters = [this.providerKey, { TimeFilter: 'CalendarYear', TimeFilterText: this.timeFrame }];
         }
         this.gettingReimbursedService
           .getGettingReimbursedYearWiseData(...parameters)
           .subscribe(([claimsData, appealsData]) => {
-            const lobFullData = this.common.matchFullLobWithData(this.lob);
             const lobData = this.common.matchLobWithData(this.lob);
             if (claimsData != null && claimsData.hasOwnProperty('status')) {
               claimsSubmitted = {

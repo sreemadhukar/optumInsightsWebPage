@@ -55,12 +55,23 @@ export class CommonUtilsService {
   public matchLobWithData(lob) {
     if (lob === 'All') {
       return 'All';
-    } else if (lob === 'Employer & Individual') {
+    } else if (lob === 'Employee & Individual') {
       return 'Ei';
     } else if (lob === 'Medicare & Retirement') {
       return 'Mr';
     } else if (lob === 'Community & State') {
       return 'Cs';
+    }
+  }
+  public matchLobWithCapsData(lob) {
+    if (lob === 'All') {
+      return 'All';
+    } else if (lob === 'Employee & Individual') {
+      return 'EI';
+    } else if (lob === 'Medicare & Retirement') {
+      return 'MR';
+    } else if (lob === 'Community & State') {
+      return 'CS';
     }
   }
   public matchLobWithLobData(lob) {
@@ -74,10 +85,33 @@ export class CommonUtilsService {
       return 'C&S';
     }
   }
+
+  public matchLobWithFilData(lob) {
+    if (lob === 'All') {
+      return 'All';
+    } else if (lob === 'E&I') {
+      return 'Ei';
+    } else if (lob === 'M&R') {
+      return 'Mr';
+    } else if (lob === 'C&S') {
+      return 'Cs';
+    }
+  }
+  public matchFullLobWithFilData(lob) {
+    if (lob === 'All') {
+      return 'ALL';
+    } else if (lob === 'E&I') {
+      return 'EmployerAndIndividual';
+    } else if (lob === 'M&R') {
+      return 'MedicareAndRetirement';
+    } else if (lob === 'C&S') {
+      return 'CommunityAndState';
+    }
+  }
   public matchFullLobWithData(lob) {
     if (lob === 'All') {
       return 'ALL';
-    } else if (lob === 'Employer & Individual') {
+    } else if (lob === 'Employee & Individual') {
       return 'EmployerAndIndividual';
     } else if (lob === 'Medicare & Retirement') {
       return 'MedicareAndRetirement';
