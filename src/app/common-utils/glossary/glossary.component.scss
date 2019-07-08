@@ -206,15 +206,14 @@
   .view-all-metrics-button-text {
     color: white;
   }
-  background-color: #196ecf;
+  background-color: #196ecf !important;
   cursor: pointer;
 }
 
 .view-all-metrics-button-text {
-  color: #196ecf;
-  font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+  color: #196ecf !important;
+  font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
   font-size: 16px;
-  font-weight: 600;
   letter-spacing: 0.2px;
   line-height: 22px;
   text-align: center;

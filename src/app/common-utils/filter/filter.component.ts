@@ -114,6 +114,14 @@ export class FilterComponent implements OnInit {
     this.taxData = 'All';
     if (this.serviceSettingDisplay) {
       this.session.filterObjValue.serviceSetting = this.servicesettings[0];
+      this.session.store({
+        timeFrame: this.timeframes[0],
+        lob: this.lobs[0],
+        tax: ['All'],
+        serviceSetting: this.servicesettings[0]
+      });
+    } else {
+      this.session.store({ timeFrame: this.timeframes[0], lob: this.lobs[0], tax: ['All'] });
     }
     this.filterFlag.emit(false);
   }

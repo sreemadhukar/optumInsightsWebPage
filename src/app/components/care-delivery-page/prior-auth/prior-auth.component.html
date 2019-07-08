@@ -36,6 +36,13 @@
             <div class="horizontal-align" *ngIf="serviceSetting !== 'All'">
               <button class="btn btn-rounded" disabled>
                 <span>Service Setting: </span><span class="text-semibold pl-4">{{ serviceSetting }} </span>
+                <div class="close-btn">
+                  <mat-icon
+                    class="icon-display"
+                    (click)="removeFilter('serviceSetting', session.filterObjValue.serviceSetting)"
+                    svgIcon="close"
+                  ></mat-icon>
+                </div>
               </button>
             </div>
           </div>

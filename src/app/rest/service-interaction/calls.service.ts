@@ -5,7 +5,7 @@ import { ServiceInteractionModule } from '../../components/service-interaction/s
 import { map, retry, catchError } from 'rxjs/operators';
 import { combineLatest, of } from 'rxjs';
 
-@Injectable({ providedIn: ServiceInteractionModule })
+@Injectable({ providedIn: 'root' })
 export class CallsService {
   public currentUser: any;
   public combined: any;
