@@ -2,7 +2,7 @@
 @import '~src/scss/mixins';
 @import '~src/scss/my-custom-theme';
 .selfService-body {
-  overflow-x: hidden;
+  overflow: hidden;
   padding-bottom: 60px;
   .selfService-content {
     display: flex;
