@@ -42,21 +42,13 @@ export class PriorAuthComponent implements OnInit {
     const filData = this.session.getFilChangeEmitter().subscribe(() => this.ngOnInit());
     this.pagesubTitle = '';
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => {
-      if (this.session.filterObjValue.serviceSetting !== 'All') {
-        this.session.store({
-          timeFrame: this.timePeriod,
-          lob: this.session.filterObjValue.lob,
-          tax: ['All'],
-          serviceSetting: this.session.filterObjValue.serviceSetting
-        });
-      } else {
-        this.session.store({
-          timeFrame: this.timePeriod,
-          lob: this.session.filterObjValue.lob,
-          tax: ['All'],
-          serviceSetting: 'All'
-        });
-      }
+      // changing the session will trigger ngoninit
+      this.session.store({
+        timeFrame: this.timePeriod,
+        lob: this.session.filterObjValue.lob,
+        tax: ['All'],
+        serviceSetting: this.session.filterObjValue.serviceSetting
+      });
       // this.ngOnInit();
     });
     iconRegistry.addSvgIcon(
