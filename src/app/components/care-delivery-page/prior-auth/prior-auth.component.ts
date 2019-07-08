@@ -41,7 +41,16 @@ export class PriorAuthComponent implements OnInit {
   ) {
     const filData = this.session.getFilChangeEmitter().subscribe(() => this.ngOnInit());
     this.pagesubTitle = '';
-    this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.ngOnInit());
+    this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => {
+      this.taxID = [];
+      this.session.store({
+        timeFrame: this.timeframes[0],
+        lob: this.lobs[0],
+        tax: ['All'],
+        serviceSetting: this.servicesettings[0]
+      });
+      this.ngOnInit();
+    });
     iconRegistry.addSvgIcon(
       'filter',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-filter_list-24px.svg')
@@ -53,6 +62,7 @@ export class PriorAuthComponent implements OnInit {
   }
 
   ngOnInit() {
+    console.log(this.session);
     this.filterParameters = this.session.filterObjValue;
     this.timePeriod = this.session.filterObjValue.timeFrame;
     if (this.session.filterObjValue.lob !== 'All') {
@@ -80,7 +90,7 @@ export class PriorAuthComponent implements OnInit {
     this.reasonItems = [{}];
     this.summaryItems = [{}];
     this.mockCards = [{}, {}];
-    console.log(this.filterParameters);
+    // console.log(this.filterParameters);
 
     this.priorAuthShared.getPriorAuthDataFiltered(this.filterParameters).then(
       data => {
