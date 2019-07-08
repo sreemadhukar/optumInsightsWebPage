@@ -9,7 +9,7 @@ import { share } from 'rxjs/operators';
 })
 export class SessionService {
   filterChange: EventEmitter<any> = new EventEmitter();
-  public timeFrame = 'Last 12 Months';
+  public timeFrame = 'Last 6 Months';
   public lob = 'All';
   public providerkey = this.providerKeyData();
   public tin = 'All';
