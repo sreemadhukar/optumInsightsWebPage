@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 import { FilterExpandService } from '../../../shared/filter-expand.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { CommonUtilsService } from '../../../shared/common-utils.service';
+
 @Component({
   selector: 'app-payments',
   templateUrl: './payments.component.html',
@@ -15,7 +16,7 @@ import { CommonUtilsService } from '../../../shared/common-utils.service';
 })
 export class PaymentsComponent implements OnInit {
   title = 'Claims Paid Breakdown';
-  claimsPaidTimePeriod = 'Rolling 6 Months';
+  claimsPaidTimePeriod = 'Last 6 Months'; // this.session.timeFrame;
   subscription: any;
   paymentsItems: any;
   payments: Array<object>;
@@ -25,6 +26,10 @@ export class PaymentsComponent implements OnInit {
   showClaimsPaid: Boolean = false;
   loading: boolean;
   mockCards: any;
+  // timePeriod = 'Last 6 Months';
+  paymentArray: Array<object>;
+  cData = [];
+  // chartData: Array<object>;
   timePeriod: string;
   lob: string;
   taxID: Array<string>;
@@ -87,7 +92,19 @@ export class PaymentsComponent implements OnInit {
         title: 'Claims Paid'
       }
     ];
+
+    this.gettingReimbursedSharedService.getclaimsPaidData().then(payData => {
+      this.loading = false;
+      this.paymentArray = payData[0];
+      for (let p = 0; p < 1; p++) {
+        this.cData.push({
+          chartData: [this.paymentArray[0], this.paymentArray[1], this.paymentArray[2], this.paymentArray[3]],
+          gdata: ['card-inner', 'claimsPaidBreakDown']
+        });
+      }
+    });
   }
+
   helpIconClick(title) {
     this.glossaryExpandService.setMessage(title);
   }

@@ -5,6 +5,7 @@ import { OverviewPageModule } from '../../components/overview-page/overview-page
 import { CommonUtilsService } from '../common-utils.service';
 import { SessionService } from '../session.service';
 import { AuthorizationService } from '../../auth/_service/authorization.service';
+import { CallsTrendService } from './../service-interaction/calls-trend.service';
 
 @Injectable({
   providedIn: OverviewPageModule
@@ -13,11 +14,14 @@ export class OverviewSharedService {
   private overviewPageData: Array<object> = [];
   private timeFrame: string;
   private providerKey: number;
+  private baseTimePeriod = 'Last6Months';
+  private previousTimePeriod = 'PreviousLast6Months';
   constructor(
     private overviewService: OverviewService,
     private common: CommonUtilsService,
     private session: SessionService,
-    private toggle: AuthorizationService
+    private toggle: AuthorizationService,
+    private callsTrendService: CallsTrendService
   ) {}
   getOverviewData() {
     this.timeFrame = this.session.timeFrame;
@@ -38,6 +42,7 @@ export class OverviewSharedService {
       this.overviewService.getOverviewData(...parameters).subscribe(([providerSystems, claims]) => {
         console.log('providerSystem', providerSystems);
 
+        /* code changed by Ranjith kumar Ankam - 04-Jul-2019*/
         this.createPriorAuthObject(providerSystems)
           .then(cPriorAuth => {
             tempArray[1] = cPriorAuth;
@@ -61,13 +66,17 @@ export class OverviewSharedService {
           })
           .then(claimsYield => {
             tempArray[3] = claimsYield;
-            return this.getClaimsTrends();
+            return this.getClaimsTrends(this.baseTimePeriod, this.previousTimePeriod);
           })
           .then(trendData => {
             let trends: any;
             trends = trendData;
             tempArray[0]['sdata'] = trends.claimsPaidTrendObject;
             tempArray[3]['sdata'] = trends.claimsYieldTrendObject;
+            return this.createTotalCallsTrend();
+          })
+          .then(trendIssueResolution => {
+            tempArray[5]['sdata'] = trendIssueResolution;
             return this.reduceCallsandOperatingCostsMiniTile(providerSystems, oppurtunities);
           })
           .then(reduceoppurtunities => {
@@ -87,6 +96,7 @@ export class OverviewSharedService {
     }); // ends Promise
   } // end getOverviewData function
 
+  /* function to create Prioir Auth Tile in Overview Page -  Ranjith kumar Ankam - 04-Jul-2019*/
   createPriorAuthObject(providerSystems) {
     return new Promise((resolve, reject) => {
       let cPriorAuth: object;
@@ -137,6 +147,7 @@ export class OverviewSharedService {
     });
   }
 
+  /* function to create Selef Service Tile in Overview Page -  Ranjith kumar Ankam - 04-Jul-2019*/
   createSelfServiceObject(providerSystems) {
     return new Promise((resolve, reject) => {
       let cSelfService: object;
@@ -181,6 +192,8 @@ export class OverviewSharedService {
       resolve(cSelfService);
     });
   }
+
+  /* function to create PCOR Tile in Overview Page -  Ranjith kumar Ankam - 04-Jul-2019*/
   createPCORObject(providerSystems) {
     let cPcor: Object;
     return new Promise((resolve, reject) => {
@@ -223,6 +236,21 @@ export class OverviewSharedService {
     });
   }
 
+  createTotalCallsTrend() {
+    let trendIR: Object;
+    return new Promise((resolve, reject) => {
+      this.callsTrendService
+        .getCallsTrendData()
+        .then(data => {
+          trendIR = data[0];
+          resolve(trendIR);
+        })
+        .catch(reason => {
+          console.log('Calls Service Error ', reason);
+        });
+    });
+  }
+  /* function to create Total Calls Tile in Overview Page -  Ranjith kumar Ankam - 04-Jul-2019*/
   createTotalCallsObject(providerSystems) {
     let cIR: Object;
     return new Promise((resolve, reject) => {
@@ -274,6 +302,7 @@ export class OverviewSharedService {
     });
   }
 
+  /* function to create Calls and Operating Costs OPPORTUNITIES Tile in Overview Page -  Ranjith kumar Ankam - 04-Jul-2019*/
   reduceCallsandOperatingCostsMiniTile(providerSystems, oppurtunities) {
     return new Promise((resolve, reject) => {
       if (
@@ -329,6 +358,7 @@ export class OverviewSharedService {
     });
   }
 
+  /* function to create Save Your Staff's Time OPPORTUNITIES Tile in Overview Page -  Ranjith kumar Ankam - 04-Jul-2019*/
   saveYourStaffsTimeMiniTile(providerSystems, oppurtunities) {
     return new Promise((resolve, reject) => {
       if (
@@ -383,6 +413,7 @@ export class OverviewSharedService {
     });
   }
 
+  /* function to create Reduce Claims Processing Time OPPORTUNITIES Tile in Overview Page -  Ranjith kumar Ankam - 04-Jul-2019*/
   reduceClaimsProcessingTimeMiniTile(providerSystems, oppurtunities) {
     return new Promise((resolve, reject) => {
       if (
@@ -431,6 +462,7 @@ export class OverviewSharedService {
     });
   }
 
+  /* function to create Reduce Reconsideration Process OPPORTUNITIES Tile in Overview Page -  Ranjith kumar Ankam - 04-Jul-2019*/
   reduceReconsiderationProcessMiniTile(providerSystems, oppurtunities) {
     return new Promise((resolve, reject) => {
       if (
@@ -482,6 +514,7 @@ export class OverviewSharedService {
     });
   }
 
+  /* function to create Claims Paid in Overview Page -  Ranjith kumar Ankam - 04-Jul-2019*/
   createClaimsPaidObject(claims) {
     let claimsPaid: Object;
     return new Promise((resolve, reject) => {
@@ -571,6 +604,7 @@ export class OverviewSharedService {
     });
   }
 
+  /* function to create Claims Yield Tile in Overview Page -  Ranjith kumar Ankam - 04-Jul-2019*/
   createClaimsYieldObject(claims) {
     let claimsYield: Object;
     return new Promise((resolve, reject) => {
@@ -622,65 +656,14 @@ export class OverviewSharedService {
     });
   }
 
-  getCurrentClaimsTrend(parameters) {
-    let latestClaimsPaid;
-    let latestClaimsYieldRate;
-    return new Promise((resolve, reject) => {
-      this.overviewService.getOverviewClaimsTrend(parameters).subscribe(claimsTrendLatestData => {
-        if (
-          claimsTrendLatestData != null &&
-          claimsTrendLatestData.hasOwnProperty('All') &&
-          claimsTrendLatestData.All != null &&
-          claimsTrendLatestData.All.hasOwnProperty('ClaimsLobSummary')
-        ) {
-          if (claimsTrendLatestData.All.ClaimsLobSummary[0].hasOwnProperty('ClaimsPaid')) {
-            latestClaimsPaid = this.common.nFormatter(claimsTrendLatestData.All.ClaimsLobSummary[0].ClaimsPaid);
-          }
-          if (claimsTrendLatestData.All.ClaimsLobSummary[0].hasOwnProperty('ClaimsYieldRate')) {
-            latestClaimsYieldRate = this.common.nFormatter(
-              claimsTrendLatestData.All.ClaimsLobSummary[0].ClaimsYieldRate
-            );
-          }
-        }
-
-        resolve({ latestClaimsPaid: latestClaimsPaid, latestClaimsYieldRate: latestClaimsYieldRate });
-      });
-    });
-  }
-
-  getPreviousClaimsTrend(parameters) {
-    let previousClaimsPaid;
-    let previousClaimsYieldRate;
-    return new Promise((resolve, reject) => {
-      this.overviewService.getOverviewClaimsTrend(parameters).subscribe(claimsTrendPreviousData => {
-        if (
-          claimsTrendPreviousData != null &&
-          claimsTrendPreviousData.hasOwnProperty('All') &&
-          claimsTrendPreviousData.All != null &&
-          claimsTrendPreviousData.All.hasOwnProperty('ClaimsLobSummary')
-        ) {
-          if (claimsTrendPreviousData.All.ClaimsLobSummary[0].hasOwnProperty('ClaimsPaid')) {
-            previousClaimsPaid = this.common.nFormatter(claimsTrendPreviousData.All.ClaimsLobSummary[0].ClaimsPaid);
-          }
-          if (claimsTrendPreviousData.All.ClaimsLobSummary[0].hasOwnProperty('ClaimsYieldRate')) {
-            previousClaimsYieldRate = this.common.nFormatter(
-              claimsTrendPreviousData.All.ClaimsLobSummary[0].ClaimsYieldRate
-            );
-          }
-        }
-
-        resolve({ previousClaimsPaid: previousClaimsPaid, previousClaimsYieldRate: previousClaimsYieldRate });
-      });
-    });
-  }
-
-  getClaimsTrends() {
+  /* function to calculate Claims Paid & Claims YIeld Rate TRENDS -  Ranjith kumar Ankam - 04-Jul-2019*/
+  getClaimsTrends(baseTimePeriod, previousTimePeriod) {
     return new Promise((resolve, reject) => {
       /************************TRENDS********* */
       let parameters = {
         providerkey: this.providerKey,
         // TimeFilter: 'Last30Days'
-        TimeFilter: 'Last6Months'
+        TimeFilter: baseTimePeriod
       };
       let latestClaimsPaid;
       let latestClaimsYieldRate;
@@ -699,7 +682,7 @@ export class OverviewSharedService {
           parameters = {
             providerkey: this.providerKey,
             // TimeFilter: 'PreviousLast30Days'
-            TimeFilter: 'Last6Months'
+            TimeFilter: previousTimePeriod
           };
           return this.getPreviousClaimsTrend(parameters);
         })
@@ -707,41 +690,162 @@ export class OverviewSharedService {
           const previousClaimsTrendData: any = r;
           previousClaimsPaid = previousClaimsTrendData.previousClaimsPaid;
           previousClaimsYieldRate = previousClaimsTrendData.previousClaimsYieldRate;
-
-          if (
-            latestClaimsPaid !== 0 &&
-            previousClaimsPaid !== 0 &&
-            latestClaimsPaid != undefined &&
-            previousClaimsPaid != undefined
-          ) {
-            claimsTrendValue = ((latestClaimsPaid - previousClaimsPaid) / 100) * 100;
-            if (claimsTrendValue > 0) {
-              claimsPaidTrendObject.sign = 'up';
-              claimsPaidTrendObject.data = '+' + claimsTrendValue + '%';
+          console.log(latestClaimsPaid, previousClaimsPaid, latestClaimsYieldRate, previousClaimsYieldRate);
+          if (latestClaimsPaid !== 0 && latestClaimsPaid !== '0' && latestClaimsPaid != undefined) {
+            if (latestClaimsPaid === previousClaimsPaid) {
+              claimsPaidTrendObject.sign = '';
+              claimsPaidTrendObject.data = '';
+            } else if (previousClaimsPaid != undefined) {
+              claimsTrendValue = ((latestClaimsPaid - previousClaimsPaid) / previousClaimsPaid) * 100;
+              if (claimsTrendValue >= 0) {
+                claimsPaidTrendObject.sign = 'up';
+                claimsPaidTrendObject.data = '+' + claimsTrendValue.toFixed(1) + '%';
+              } else {
+                claimsPaidTrendObject.sign = 'down';
+                claimsPaidTrendObject.data = claimsTrendValue.toFixed(1) + '%';
+              }
             } else {
-              claimsPaidTrendObject.sign = 'down';
-              claimsPaidTrendObject.data = claimsTrendValue + '%';
+              claimsPaidTrendObject.sign = 'up';
+              claimsPaidTrendObject.data = '+' + latestClaimsPaid + '%';
             }
+          } else if (previousClaimsPaid !== 0 || previousClaimsPaid !== '0' || previousClaimsPaid != undefined) {
+            if (latestClaimsPaid != undefined) {
+              claimsTrendValue = ((latestClaimsPaid - previousClaimsPaid) / previousClaimsPaid) * 100;
+              if (claimsTrendValue >= 0) {
+                claimsPaidTrendObject.sign = 'up';
+                claimsPaidTrendObject.data = '+' + claimsTrendValue.toFixed(1) + '%';
+              } else {
+                claimsPaidTrendObject.sign = 'down';
+                claimsPaidTrendObject.data = claimsTrendValue.toFixed(1) + '%';
+              }
+            }
+          } else {
+            claimsPaidTrendObject.sign = '';
+            claimsPaidTrendObject.data = '';
           }
 
-          if (
-            latestClaimsYieldRate !== 0 &&
-            previousClaimsYieldRate !== 0 &&
-            latestClaimsYieldRate != undefined &&
+          if (latestClaimsYieldRate !== 0 && latestClaimsYieldRate !== '0' && latestClaimsYieldRate != undefined) {
+            if (latestClaimsYieldRate === previousClaimsYieldRate) {
+              claimsYieldTrendObject.sign = '';
+              claimsYieldTrendObject.data = '';
+            } else if (previousClaimsYieldRate != undefined) {
+              claimsYieldTrendValue =
+                ((latestClaimsYieldRate - previousClaimsYieldRate) / previousClaimsYieldRate) * 100;
+              if (claimsYieldTrendValue >= 0) {
+                claimsYieldTrendObject.sign = 'up';
+                claimsYieldTrendObject.data = '+' + claimsYieldTrendValue.toFixed(1) + '%';
+              } else {
+                claimsYieldTrendObject.sign = 'down';
+                claimsYieldTrendObject.data = claimsYieldTrendValue.toFixed(1) + '%';
+              }
+            } else {
+              claimsYieldTrendObject.sign = 'up';
+              claimsYieldTrendObject.data = '+' + latestClaimsYieldRate + '%';
+            }
+          } else if (
+            previousClaimsYieldRate !== 0 ||
+            previousClaimsYieldRate !== '0' ||
             previousClaimsYieldRate != undefined
           ) {
-            claimsYieldTrendValue = ((latestClaimsYieldRate - previousClaimsYieldRate) / 100) * 100;
-            if (claimsYieldTrendValue > 0) {
-              claimsYieldTrendObject.sign = 'up';
-              claimsYieldTrendObject.data = '+' + claimsYieldTrendValue + '%';
-            } else {
-              claimsYieldTrendObject.sign = 'down';
-              claimsYieldTrendObject.data = claimsYieldTrendValue + '%';
+            if (latestClaimsYieldRate != undefined) {
+              claimsYieldTrendValue =
+                ((latestClaimsYieldRate - previousClaimsYieldRate) / previousClaimsYieldRate) * 100;
+              if (claimsYieldTrendValue >= 0) {
+                claimsYieldTrendObject.sign = 'up';
+                claimsYieldTrendObject.data = '+' + claimsYieldTrendValue.toFixed(1) + '%';
+              } else {
+                claimsYieldTrendObject.sign = 'down';
+                claimsYieldTrendObject.data = claimsYieldTrendValue.toFixed(1) + '%';
+              }
             }
+          } else {
+            claimsYieldTrendObject.sign = '';
+            claimsYieldTrendObject.data = '';
           }
 
+          /*
+                    if (
+                      latestClaimsYieldRate !== 0 &&
+                      previousClaimsYieldRate !== 0 &&
+                      latestClaimsYieldRate !== '0' &&
+                      previousClaimsYieldRate !== '0' &&
+                      latestClaimsYieldRate != undefined &&
+                      previousClaimsYieldRate != undefined
+                    ) {
+                      claimsYieldTrendValue = ((latestClaimsYieldRate - previousClaimsYieldRate) / previousClaimsYieldRate) * 100;
+                      if (claimsYieldTrendValue >= 0) {
+                        claimsYieldTrendObject.sign = 'up';
+                        claimsYieldTrendObject.data = '+' + claimsYieldTrendValue.toFixed(1) + '%';
+                      } else {
+                        claimsYieldTrendObject.sign = 'down';
+                        claimsYieldTrendObject.data = claimsYieldTrendValue.toFixed(1) + '%';
+                      }
+                    } else if (
+                      previousClaimsYieldRate === 0 ||
+                      previousClaimsYieldRate === '0' ||
+                      previousClaimsYieldRate == undefined ||
+                      previousClaimsYieldRate == undefined
+                    ) {
+                      claimsYieldTrendObject.sign = 'up';
+                      claimsYieldTrendObject.data = '+' + latestClaimsYieldRate + '%';
+                    }
+          */
           resolve({ claimsPaidTrendObject: claimsPaidTrendObject, claimsYieldTrendObject: claimsYieldTrendObject });
         });
+    });
+  }
+
+  /* function to get current Claims Paid & Claims YIeld Rate TRENDS -  Ranjith kumar Ankam - 04-Jul-2019*/
+  getCurrentClaimsTrend(parameters) {
+    let latestClaimsPaid;
+    let latestClaimsYieldRate;
+    return new Promise((resolve, reject) => {
+      this.overviewService.getOverviewClaimsTrend(parameters).subscribe(claimsTrendLatestData => {
+        if (
+          claimsTrendLatestData != null &&
+          claimsTrendLatestData.hasOwnProperty('All') &&
+          claimsTrendLatestData.All != null &&
+          claimsTrendLatestData.All.hasOwnProperty('ClaimsLobSummary')
+        ) {
+          if (claimsTrendLatestData.All.ClaimsLobSummary[0].hasOwnProperty('ClaimsPaid')) {
+            // latestClaimsPaid = this.common.nFormatter(claimsTrendLatestData.All.ClaimsLobSummary[0].ClaimsPaid);
+            latestClaimsPaid = claimsTrendLatestData.All.ClaimsLobSummary[0].ClaimsPaid;
+          }
+          if (claimsTrendLatestData.All.ClaimsLobSummary[0].hasOwnProperty('ClaimsYieldRate')) {
+            // latestClaimsYieldRate = this.common.nFormatter(claimsTrendLatestData.All.ClaimsLobSummary[0].ClaimsYieldRate);
+            latestClaimsYieldRate = claimsTrendLatestData.All.ClaimsLobSummary[0].ClaimsYieldRate;
+          }
+        }
+
+        resolve({ latestClaimsPaid: latestClaimsPaid, latestClaimsYieldRate: latestClaimsYieldRate });
+      });
+    });
+  }
+
+  /* function to get previous Claims Paid & Claims YIeld Rate TRENDS -  Ranjith kumar Ankam - 04-Jul-2019*/
+  getPreviousClaimsTrend(parameters) {
+    let previousClaimsPaid;
+    let previousClaimsYieldRate;
+    return new Promise((resolve, reject) => {
+      this.overviewService.getOverviewClaimsTrend(parameters).subscribe(claimsTrendPreviousData => {
+        if (
+          claimsTrendPreviousData != null &&
+          claimsTrendPreviousData.hasOwnProperty('All') &&
+          claimsTrendPreviousData.All != null &&
+          claimsTrendPreviousData.All.hasOwnProperty('ClaimsLobSummary')
+        ) {
+          if (claimsTrendPreviousData.All.ClaimsLobSummary[0].hasOwnProperty('ClaimsPaid')) {
+            // previousClaimsPaid = this.common.nFormatter(claimsTrendPreviousData.All.ClaimsLobSummary[0].ClaimsPaid);
+            previousClaimsPaid = claimsTrendPreviousData.All.ClaimsLobSummary[0].ClaimsPaid;
+          }
+          if (claimsTrendPreviousData.All.ClaimsLobSummary[0].hasOwnProperty('ClaimsYieldRate')) {
+            // previousClaimsYieldRate = this.common.nFormatter(claimsTrendPreviousData.All.ClaimsLobSummary[0].ClaimsYieldRate);
+            previousClaimsYieldRate = claimsTrendPreviousData.All.ClaimsLobSummary[0].ClaimsYieldRate;
+          }
+        }
+
+        resolve({ previousClaimsPaid: previousClaimsPaid, previousClaimsYieldRate: previousClaimsYieldRate });
+      });
     });
   }
 } // end export class

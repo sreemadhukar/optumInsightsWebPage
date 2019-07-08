@@ -117,6 +117,7 @@ export class GettingReimbursedService {
     }
 */
     const claimsURL = this.APP_URL + this.CLAIMS_SERVICE_PATH + parameters.providerkey;
+    console.log('Claims URL ' + claimsURL);
     return this.http.post(claimsURL, params).pipe(
       retry(2),
       map(res => res),
@@ -134,5 +135,19 @@ export class GettingReimbursedService {
       params = params.append('timeFilter', parameters.timeperiod);
     }
     return this.http.get(piURL, { params: params });
+  }
+
+  public getPaymentData(parameters) {
+    const params = new HttpParams();
+    const bParam = {
+      TimeFilter: 'Last6Months'
+    };
+
+    const claimsURL = this.APP_URL + this.CLAIMS_SERVICE_PATH + parameters + '?requestType=PAYMENT_METRICS';
+    return this.http.post(claimsURL, bParam).pipe(
+      retry(2),
+      map(res => JSON.parse(JSON.stringify(res[0]))),
+      catchError(err => of(JSON.parse(JSON.stringify(err))))
+    );
   }
 }

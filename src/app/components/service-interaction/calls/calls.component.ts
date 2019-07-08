@@ -14,7 +14,7 @@ import { StorageService } from '../../../shared/storage-service.service';
   styleUrls: ['./calls.component.scss']
 })
 export class CallsComponent implements OnInit {
-  callsItems: Array<Object> = [{}];
+  callsItems: any;
   pageTitle: String = '';
   timePeriod: string;
   lob: string;
@@ -66,17 +66,7 @@ export class CallsComponent implements OnInit {
       .getCallsData()
       .then(data => {
         this.loading = false;
-        this.callsItems = data[0];
-      })
-      .catch(reason => {
-        console.log('Calls Service Error ', reason);
-        this.loading = false;
-      });
-
-    this.callsServiceSrc
-      .getCallsTrendData()
-      .then(data => {
-        console.log('Trend Data', data);
+        this.callsItems = data;
       })
       .catch(reason => {
         console.log('Calls Service Error ', reason);
