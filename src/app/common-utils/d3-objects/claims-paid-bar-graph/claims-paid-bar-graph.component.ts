@@ -304,7 +304,7 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit {
         d3
           .axisBottom(xScale)
           .ticks(3)
-          .tickSize(1, 0, 0)
+          .tickSize(5, 0, 0)
         // .tickSizeOuter([0])
       );
 
