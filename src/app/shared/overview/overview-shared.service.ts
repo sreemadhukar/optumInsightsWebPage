@@ -5,6 +5,7 @@ import { OverviewPageModule } from '../../components/overview-page/overview-page
 import { CommonUtilsService } from '../common-utils.service';
 import { SessionService } from '../session.service';
 import { AuthorizationService } from '../../auth/_service/authorization.service';
+import { CallsTrendService } from './../service-interaction/calls-trend.service';
 
 @Injectable({
   providedIn: OverviewPageModule
@@ -19,9 +20,21 @@ export class OverviewSharedService {
     private overviewService: OverviewService,
     private common: CommonUtilsService,
     private session: SessionService,
-    private toggle: AuthorizationService
+    private toggle: AuthorizationService,
+    private callsTrendService: CallsTrendService
   ) {}
   getOverviewData() {
+    /** Get Calls Trend Data */
+    this.callsTrendService
+      .getCallsTrendData()
+      .then(data => {
+        console.log('Calls Shared Trend Data', data);
+      })
+      .catch(reason => {
+        console.log('Calls Service Error ', reason);
+      });
+    /** Ends Get Calls Trend Data */
+
     this.timeFrame = this.session.timeFrame;
     this.providerKey = this.session.providerKeyData();
     this.overviewPageData = [];
