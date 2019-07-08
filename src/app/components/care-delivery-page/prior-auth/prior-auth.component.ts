@@ -42,14 +42,22 @@ export class PriorAuthComponent implements OnInit {
     const filData = this.session.getFilChangeEmitter().subscribe(() => this.ngOnInit());
     this.pagesubTitle = '';
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => {
-      this.taxID = [];
-      this.session.store({
-        timeFrame: this.timeframes[0],
-        lob: this.lobs[0],
-        tax: ['All'],
-        serviceSetting: this.servicesettings[0]
-      });
-      this.ngOnInit();
+      if (this.session.filterObjValue.serviceSetting !== 'All') {
+        this.session.store({
+          timeFrame: this.timePeriod,
+          lob: this.session.filterObjValue.lob,
+          tax: ['All'],
+          serviceSetting: this.session.filterObjValue.serviceSetting
+        });
+      } else {
+        this.session.store({
+          timeFrame: this.timePeriod,
+          lob: this.session.filterObjValue.lob,
+          tax: ['All'],
+          serviceSetting: 'All'
+        });
+      }
+      // this.ngOnInit();
     });
     iconRegistry.addSvgIcon(
       'filter',
@@ -62,7 +70,6 @@ export class PriorAuthComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this.session);
     this.filterParameters = this.session.filterObjValue;
     this.timePeriod = this.session.filterObjValue.timeFrame;
     if (this.session.filterObjValue.lob !== 'All') {
@@ -134,6 +141,9 @@ export class PriorAuthComponent implements OnInit {
     } else if (type === 'tax' && value.includes('Selected')) {
       this.session.store({ timeFrame: this.timePeriod, lob: this.session.filterObjValue.lob, tax: ['All'] });
       this.taxID = [];
+    } else if (type === 'serviceSetting') {
+      this.serviceSetting = 'All';
+      this.session.store({ timeFrame: this.timePeriod, lob: 'All', tax: this.session.filterObjValue.tax });
     }
   }
 }
