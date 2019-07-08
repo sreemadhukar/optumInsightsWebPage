@@ -56,7 +56,7 @@
 .gettingReimburse-body {
   background-color: $alice-blue;
   font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
-  overflow-x: hidden;
+  overflow: hidden;
   @include padding(16px, 0, 64px, 0);
   .gettingReimburse-content {
     display: -webkit-box;
