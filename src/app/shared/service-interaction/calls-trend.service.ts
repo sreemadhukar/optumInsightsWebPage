@@ -29,7 +29,6 @@ export class CallsTrendService {
           let sdataQuestionType: object = {};
           let sdataTalkTime: object = {};
 
-          console.log(previousLast, lastTrend);
           if (
             lastTrend != null &&
             previousLast != null &&

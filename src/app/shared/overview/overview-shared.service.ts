@@ -24,17 +24,6 @@ export class OverviewSharedService {
     private callsTrendService: CallsTrendService
   ) {}
   getOverviewData() {
-    /** Get Calls Trend Data */
-    this.callsTrendService
-      .getCallsTrendData()
-      .then(data => {
-        console.log('Calls Shared Trend Data', data);
-      })
-      .catch(reason => {
-        console.log('Calls Service Error ', reason);
-      });
-    /** Ends Get Calls Trend Data */
-
     this.timeFrame = this.session.timeFrame;
     this.providerKey = this.session.providerKeyData();
     this.overviewPageData = [];
@@ -84,6 +73,10 @@ export class OverviewSharedService {
             trends = trendData;
             tempArray[0]['sdata'] = trends.claimsPaidTrendObject;
             tempArray[3]['sdata'] = trends.claimsYieldTrendObject;
+            return this.createTotalCallsTrend();
+          })
+          .then(trendIssueResolution => {
+            tempArray[5]['sdata'] = trendIssueResolution;
             return this.reduceCallsandOperatingCostsMiniTile(providerSystems, oppurtunities);
           })
           .then(reduceoppurtunities => {
@@ -243,6 +236,20 @@ export class OverviewSharedService {
     });
   }
 
+  createTotalCallsTrend() {
+    let trendIR: Object;
+    return new Promise((resolve, reject) => {
+      this.callsTrendService
+        .getCallsTrendData()
+        .then(data => {
+          trendIR = data[0];
+          resolve(trendIR);
+        })
+        .catch(reason => {
+          console.log('Calls Service Error ', reason);
+        });
+    });
+  }
   /* function to create Total Calls Tile in Overview Page -  Ranjith kumar Ankam - 04-Jul-2019*/
   createTotalCallsObject(providerSystems) {
     let cIR: Object;
