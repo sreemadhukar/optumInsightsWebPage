@@ -114,3 +114,7 @@
     height: 220px;
   }
 }
+// To adjust the input field on center aligned
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-infix {
+  padding: 0.6em 0 1em 0 !important;
+}

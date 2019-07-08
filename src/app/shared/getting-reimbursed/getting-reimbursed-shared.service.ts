@@ -10,7 +10,7 @@ import { NonPaymentSharedService } from './non-payment-shared.service';
   providedIn: GettingReimbursedModule
 })
 export class GettingReimbursedSharedService {
-  public nonPaymentData1: any;
+  public nonPaymentData1: any = null;
   private tin: string;
   private lob: string;
   private timeFrame: string;
@@ -54,9 +54,20 @@ export class GettingReimbursedSharedService {
   public getNonPaymentData() {
     /** Non Payment Service Code starts here */
     /** code for two donuts  Claims Not Paid and Claims Non-payment Rate */
-    this.nonPaymentService.getNonPayment().then(nonPayment => {
-      this.nonPaymentData1 = JSON.parse(JSON.stringify(nonPayment));
-    });
+    this.nonPaymentService
+      .getNonPayment()
+      .then(nonPayment => {
+        if (typeof nonPayment === null || typeof nonPayment === undefined) {
+          this.nonPaymentData1 = null;
+        } else {
+          this.nonPaymentData1 = JSON.parse(JSON.stringify(nonPayment));
+        }
+      })
+      .catch(reason => {
+        this.nonPaymentData1 = null;
+        console.log('Calls Service Error ', reason);
+      });
+
     /** code ends here */
   }
   public getGettingReimbursedData() {
@@ -344,7 +355,11 @@ export class GettingReimbursedSharedService {
                 timeperiod: null
               };
             }
-            if (this.nonPaymentData1[0] != null && this.nonPaymentData1[0].data != null) {
+            if (
+              this.nonPaymentData1 !== null &&
+              this.nonPaymentData1[0] !== null &&
+              this.nonPaymentData1[0].data !== null
+            ) {
               claimsNotPaid = this.nonPaymentData1[0];
             } else {
               claimsNotPaid = {
@@ -357,7 +372,11 @@ export class GettingReimbursedSharedService {
                 timeperiod: null
               };
             }
-            if (this.nonPaymentData1[1] != null && this.nonPaymentData1[1].data != null) {
+            if (
+              this.nonPaymentData1 !== null &&
+              this.nonPaymentData1[1] != null &&
+              this.nonPaymentData1[1].data != null
+            ) {
               claimsNotPaidRate = this.nonPaymentData1[1];
             } else {
               claimsNotPaidRate = {
