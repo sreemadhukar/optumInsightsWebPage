@@ -29,16 +29,19 @@ export class CommonUtilsService {
   }
   public last30DaysTrend(last30: number, previousLast30: number): Object {
     const temp = ((last30 - previousLast30) / previousLast30) * 100;
-    let prefix = '';
+    let value = '';
     const suffix = '%';
     let tempSign;
     if (temp > 0) {
       tempSign = 'down';
-      prefix = '+';
+      value = '+' + temp.toFixed() + suffix;
+    } else if (temp === 0) {
+      tempSign = 'neutral';
+      value = 'No Change';
     } else {
       tempSign = 'up';
+      value = temp.toFixed() + suffix;
     }
-    const value = prefix + temp.toFixed() + suffix;
     return {
       sign: tempSign,
       data: value
