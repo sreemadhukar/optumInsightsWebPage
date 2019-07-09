@@ -291,11 +291,6 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit {
       .range([400, 900])
       .nice(3);
 
-    const xScaleBar = d3
-      .scaleLinear()
-      .domain([0, highestValue])
-      .range([0, 500]);
-
     chart
       .append('g')
       .attr('visibility', 'hidden')
@@ -326,6 +321,11 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit {
     const numberOfTicks = preArrayOfNumbers.length;
     const highestTickValue = preArrayOfNumbers[numberOfTicks - 1];
     const axisPrefix = '$';
+
+    const xScaleBar = d3
+      .scaleLinear()
+      .domain([0, highestTickValue])
+      .range([0, 500]);
 
     chart
       .append('g')

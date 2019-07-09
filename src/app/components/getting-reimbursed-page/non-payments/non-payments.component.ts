@@ -211,7 +211,7 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-add-24px.svg')
     );
     iconRegistry.addSvgIcon(
-      'close',
+      'close-bar',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-remove-24px.svg')
     );
     iconRegistry.addSvgIcon(
