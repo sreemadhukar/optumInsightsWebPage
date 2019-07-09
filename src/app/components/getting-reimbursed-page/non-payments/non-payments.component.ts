@@ -235,6 +235,7 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
   }
 
   ngOnInit() {
+    this.nonPaymentData1 = [];
     this.timePeriod = this.session.filterObjValue.timeFrame;
     if (this.session.filterObjValue.lob !== 'All') {
       this.lob = this.filtermatch.matchLobWithLobData(this.session.filterObjValue.lob);
