@@ -21,7 +21,7 @@ export class NonPaymentSharedService {
     private toggle: AuthorizationService
   ) {}
   public getNonPayment() {
-    this.tin = this.session.filterObjValue.tax.toString();
+    this.tin = this.session.filterObjValue.tax.toString().replace('-', '');
     this.lob = this.session.filterObjValue.lob;
     this.timeFrame = this.session.filterObjValue.timeFrame;
     this.providerKey = this.session.providerKeyData();
@@ -36,17 +36,17 @@ export class NonPaymentSharedService {
           if (this.tin !== 'All' && this.lob !== 'All') {
             parameters = [
               this.providerKey,
-              { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Rolling12Months', Tin: this.tin }
+              { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Last12Months', Tin: this.tin }
             ];
           } else if (this.tin !== 'All') {
-            parameters = [this.providerKey, { TimeFilter: 'Rolling12Months', Tin: this.tin }];
+            parameters = [this.providerKey, { TimeFilter: 'Last12Months', Tin: this.tin }];
           } else if (this.lob !== 'All') {
             parameters = [
               this.providerKey,
-              { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Rolling12Months' }
+              { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Last12Months' }
             ];
           } else {
-            parameters = [this.providerKey, { TimeFilter: 'Rolling12Months' }];
+            parameters = [this.providerKey, { TimeFilter: 'Last12Months' }];
           }
         } else if (this.timeFrame === 'Year To Date') {
           if (this.tin !== 'All' && this.lob !== 'All') {

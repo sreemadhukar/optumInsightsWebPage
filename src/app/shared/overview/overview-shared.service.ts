@@ -14,8 +14,8 @@ export class OverviewSharedService {
   private overviewPageData: Array<object> = [];
   private timeFrame: string;
   private providerKey: number;
-  private baseTimePeriod = 'Last6Months';
-  private previousTimePeriod = 'PreviousLast6Months';
+  private baseTimePeriod = 'Last30Days';
+  private previousTimePeriod = 'PreviousLast30Days';
   constructor(
     private overviewService: OverviewService,
     private common: CommonUtilsService,
