@@ -100,17 +100,17 @@ export class GettingReimbursedSharedService {
           if (this.tin !== 'All' && this.lob !== 'All') {
             parameters = [
               this.providerKey,
-              { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Rolling12Months', Tin: this.tin }
+              { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Last12Months', Tin: this.tin }
             ];
           } else if (this.tin !== 'All') {
-            parameters = [this.providerKey, { TimeFilter: 'Rolling12Months', Tin: this.tin }];
+            parameters = [this.providerKey, { TimeFilter: 'Last12Months', Tin: this.tin }];
           } else if (this.lob !== 'All') {
             parameters = [
               this.providerKey,
-              { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Rolling12Months' }
+              { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Last12Months' }
             ];
           } else {
-            parameters = [this.providerKey, { TimeFilter: 'Rolling12Months' }];
+            parameters = [this.providerKey, { TimeFilter: 'Last12Months' }];
           }
         } else if (this.timeFrame === 'Year To Date') {
           if (this.tin !== 'All' && this.lob !== 'All') {
@@ -1184,7 +1184,7 @@ export class GettingReimbursedSharedService {
 
         if (this.timeFrame === 'Last 12 Months') {
           this.timeFrame = 'Last 6 Months';
-          parameters.timeperiod = 'rolling12months';
+          parameters.timeperiod = 'Last12Months';
         } else if (this.timeFrame === 'Last 6 Months') {
           parameters.timeperiod = 'last6months';
         } else if (this.timeFrame === 'Year To Date') {
@@ -1271,7 +1271,7 @@ export class GettingReimbursedSharedService {
 
         if (this.timeFrame === 'Last 12 Months') {
           this.timeFrame = 'Last 6 Months';
-          parameters.timeperiod = 'rolling12months';
+          parameters.timeperiod = 'Last12Months';
         } else if (this.timeFrame === 'Last 6 Months') {
           parameters.timeperiod = 'last6months';
         } else if (this.timeFrame === 'Year To Date') {
@@ -1336,17 +1336,17 @@ export class GettingReimbursedSharedService {
           if (this.tin !== 'All' && this.lob !== 'All') {
             parameters = [
               this.providerKey,
-              { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Rolling12Months', Tin: this.tin }
+              { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Last12Months', Tin: this.tin }
             ];
           } else if (this.tin !== 'All') {
-            parameters = [this.providerKey, { TimeFilter: 'Rolling12Months', Tin: this.tin }];
+            parameters = [this.providerKey, { TimeFilter: 'Last12Months', Tin: this.tin }];
           } else if (this.lob !== 'All') {
             parameters = [
               this.providerKey,
-              { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Rolling12Months' }
+              { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Last12Months' }
             ];
           } else {
-            parameters = [this.providerKey, { TimeFilter: 'Rolling12Months' }];
+            parameters = [this.providerKey, { TimeFilter: 'Last12Months' }];
           }
         } else if (this.timeFrame === 'Year To Date') {
           if (this.tin !== 'All' && this.lob !== 'All') {
@@ -1487,7 +1487,7 @@ export class GettingReimbursedSharedService {
       };
 
       /*if (this.timeFrame === 'Last 12 Months') {
-        parameters.timeperiod = 'rolling12months';
+        parameters.timeperiod = 'Last12Months';
       } else if (this.timeFrame === 'Last 6 Months') {
         parameters.timeperiod = 'last6months';
       }*/
