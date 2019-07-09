@@ -129,7 +129,6 @@ export class GettingReimbursedService {
     }
 */
     const claimsURL = this.APP_URL + this.CLAIMS_SERVICE_PATH + parameters.providerkey;
-    console.log('Claims URL ' + claimsURL);
     return this.http.post(claimsURL, params).pipe(
       retry(2),
       map(res => res),

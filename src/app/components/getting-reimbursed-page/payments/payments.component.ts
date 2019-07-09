@@ -20,19 +20,17 @@ export class PaymentsComponent implements OnInit {
   subscription: any;
   paymentsItems: any;
   payments: Array<object>;
-  claimsPaidItems: Array<object>;
   pageTitle: String = '';
   userName: String = '';
-  showClaimsPaid: Boolean = false;
   loading: boolean;
   mockCards: any;
   // timePeriod = 'Last 6 Months';
   paymentArray: Array<object>;
   cData = [];
-  // chartData: Array<object>;
   timePeriod: string;
   lob: string;
   taxID: Array<string>;
+  showPaymentBreakdownCard = false;
   constructor(
     private checkStorage: StorageService,
     private gettingReimbursedSharedService: GettingReimbursedSharedService,
@@ -59,6 +57,7 @@ export class PaymentsComponent implements OnInit {
 
   ngOnInit() {
     this.loading = true;
+    this.showPaymentBreakdownCard = false;
     this.timePeriod = this.session.filterObjValue.timeFrame;
     if (this.session.filterObjValue.lob !== 'All') {
       this.lob = this.filtermatch.matchLobWithLobData(this.session.filterObjValue.lob);
@@ -80,22 +79,25 @@ export class PaymentsComponent implements OnInit {
         this.loading = false;
         this.paymentsItems = JSON.parse(JSON.stringify(completeData));
         this.payments = this.paymentsItems[1].data;
-        console.log(this.payments);
       })
       .catch(reason => {
         console.log(reason.message);
         this.loading = false;
       });
 
-    this.claimsPaidItems = [
-      {
-        title: 'Claims Paid'
-      }
-    ];
-
     this.gettingReimbursedSharedService.getclaimsPaidData().then(payData => {
       this.loading = false;
+      this.showPaymentBreakdownCard = true;
       this.paymentArray = payData[0];
+      /*  if (this.paymentArray !== null) {
+         this.showPaymentBreakdownCard = true;
+      } else { this.showPaymentBreakdownCard = false; }
+
+      if ( payData[0][0] === 0 &&  payData[0][1] === 0  &&
+        payData[0][2] === 0 && payData[0][3] === 0) {
+              this.showPaymentBreakdownCard  = false;
+        } */
+
       for (let p = 0; p < 1; p++) {
         this.cData.push({
           chartData: [this.paymentArray[0], this.paymentArray[1], this.paymentArray[2], this.paymentArray[3]],

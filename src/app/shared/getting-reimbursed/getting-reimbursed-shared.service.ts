@@ -1463,11 +1463,9 @@ export class GettingReimbursedSharedService {
   getclaimsPaidData() {
     this.tin = this.session.tin;
     this.lob = this.session.lob;
-    this.timeFrame = 'Last 6 Months'; // this.session.timeFrame;
+    this.timeFrame = this.session.timeFrame;
     this.providerKey = this.session.providerKeyData();
-    const timeperiod = '';
-
-    // let paidArray:  Array<Object> = [];
+    const timeperiod = this.timeFrame;
 
     return new Promise((resolve, reject) => {
       let parameters;

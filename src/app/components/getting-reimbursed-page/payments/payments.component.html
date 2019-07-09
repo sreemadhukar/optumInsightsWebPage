@@ -48,7 +48,7 @@
       <app-error-card *ngIf="item.status != null" class="cards" [data]="item"></app-error-card>
     </div>
     <app-large-card [skeletonLarge]="loading" *ngIf="loading"></app-large-card>
-    <div *ngIf="cData[0] != null" class="claims-paid-content">
+    <div *ngIf="showPaymentBreakdownCard" class="claims-paid-content">
       <app-common-header
         [title]="title"
         class="claims-header"
