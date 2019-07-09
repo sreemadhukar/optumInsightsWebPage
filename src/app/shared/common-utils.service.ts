@@ -33,13 +33,13 @@ export class CommonUtilsService {
     const suffix = '%';
     let tempSign;
     if (temp > 0) {
-      tempSign = 'down';
+      tempSign = 'up';
       value = '+' + temp.toFixed() + suffix;
     } else if (temp === 0) {
       tempSign = 'neutral';
       value = 'No Change';
     } else {
-      tempSign = 'up';
+      tempSign = 'down';
       value = temp.toFixed() + suffix;
     }
     return {

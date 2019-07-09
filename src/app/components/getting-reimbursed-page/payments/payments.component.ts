@@ -97,7 +97,6 @@ export class PaymentsComponent implements OnInit {
 
     this.gettingReimbursedSharedService.getclaimsPaidData().then(
       payData => {
-        console.log('Payment', payData);
         this.claimsPaidBreakBool = true;
         this.loading = false;
         this.paymentArray = payData[0];

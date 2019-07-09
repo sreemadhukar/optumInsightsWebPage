@@ -156,7 +156,6 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit {
     }
   }
   doBarGraph(chartOptions: any, transition: number) {
-    console.log('Claims Paid Break Down', chartOptions);
     // might have to hard code class names for testing
     const className = 'claims-paid-content'; // 'card-inner-large'
     // this.chartOptions.gdata[0]
@@ -322,7 +321,6 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit {
     const numberOfTicks = preArrayOfNumbers.length;
     const highestTickValue = preArrayOfNumbers[numberOfTicks - 1];
     const axisPrefix = '$';
-    console.log('', preArrayOfNumbers, '', numberOfTicks, '', highestTickValue);
 
     const xScaleBar = d3
       .scaleLinear()
