@@ -21,7 +21,7 @@ export class NonPaymentSharedService {
     private toggle: AuthorizationService
   ) {}
   public getNonPayment() {
-    this.tin = this.session.filterObjValue.tax.toString();
+    this.tin = this.session.filterObjValue.tax.toString().replace('-', '');
     this.lob = this.session.filterObjValue.lob;
     this.timeFrame = this.session.filterObjValue.timeFrame;
     this.providerKey = this.session.providerKeyData();
