@@ -1327,11 +1327,66 @@ export class GettingReimbursedSharedService {
       let appealsOverturnedRate: Object;
       const reason = [];
 
-      parameters = [this.providerKey];
-      this.gettingReimbursedService.getGettingReimbursedData(...parameters).subscribe(([claimsData, appealsData]) => {
-        const lobFullData = this.common.matchFullLobWithData(this.lob);
-        const lobData = this.common.matchLobWithData(this.lob);
-        /*  if (appealsData != null && appealsData.hasOwnProperty('status')) {
+      if (
+        this.timeFrame === 'Last 12 Months' ||
+        this.timeFrame === 'Last 6 Months' ||
+        this.timeFrame === 'Year To Date'
+      ) {
+        if (this.timeFrame === 'Last 12 Months') {
+          if (this.tin !== 'All' && this.lob !== 'All') {
+            parameters = [
+              this.providerKey,
+              { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Rolling12Months', Tin: this.tin }
+            ];
+          } else if (this.tin !== 'All') {
+            parameters = [this.providerKey, { TimeFilter: 'Rolling12Months', Tin: this.tin }];
+          } else if (this.lob !== 'All') {
+            parameters = [
+              this.providerKey,
+              { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Rolling12Months' }
+            ];
+          } else {
+            parameters = [this.providerKey, { TimeFilter: 'Rolling12Months' }];
+          }
+        } else if (this.timeFrame === 'Year To Date') {
+          if (this.tin !== 'All' && this.lob !== 'All') {
+            parameters = [
+              this.providerKey,
+              { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'YearToDate', Tin: this.tin }
+            ];
+          } else if (this.tin !== 'All') {
+            parameters = [this.providerKey, { TimeFilter: 'YearToDate', Tin: this.tin }];
+          } else if (this.lob !== 'All') {
+            parameters = [
+              this.providerKey,
+              { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'YearToDate' }
+            ];
+          } else {
+            parameters = [this.providerKey, { TimeFilter: 'YearToDate' }];
+          }
+        } else if (this.timeFrame === 'Last 6 Months') {
+          if (this.tin !== 'All' && this.lob !== 'All') {
+            parameters = [
+              this.providerKey,
+              { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Last6Months', Tin: this.tin }
+            ];
+          } else if (this.tin !== 'All') {
+            parameters = [this.providerKey, { TimeFilter: 'Last6Months', Tin: this.tin }];
+          } else if (this.lob !== 'All') {
+            parameters = [
+              this.providerKey,
+              { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Last6Months' }
+            ];
+          } else {
+            parameters = [this.providerKey, { TimeFilter: 'Last6Months' }];
+          }
+        }
+
+        // parameters = [this.providerKey];
+        this.gettingReimbursedService.getGettingReimbursedData(...parameters).subscribe(([claimsData, appealsData]) => {
+          const lobFullData = this.common.matchFullLobWithData(this.lob);
+          const lobData = this.common.matchLobWithData(this.lob);
+          /*  if (appealsData != null && appealsData.hasOwnProperty('status')) {
           appealsOverturnedRate = {
               category: 'app-card',
               type: 'donut',
@@ -1341,79 +1396,80 @@ export class GettingReimbursedSharedService {
               timeperiod: null
             };
     } else*/ if (
-          appealsData != null
-        ) {
-          if (
-            appealsData.hasOwnProperty('LineOfBusiness') &&
-            appealsData.LineOfBusiness.hasOwnProperty(lobFullData) &&
-            appealsData.LineOfBusiness[lobFullData].hasOwnProperty('OverTurnCount') &&
-            appealsData.LineOfBusiness[lobFullData].hasOwnProperty('AdminAppeals') &&
-            appealsData.LineOfBusiness[lobFullData].hasOwnProperty('ClinicalAppeals')
+            appealsData != null
           ) {
-            const submitted =
-              appealsData.LineOfBusiness[lobFullData].AdminAppeals +
-              appealsData.LineOfBusiness[lobFullData].ClinicalAppeals;
-            const overturned = appealsData.LineOfBusiness[lobFullData].OverTurnCount;
+            if (
+              appealsData.hasOwnProperty('LineOfBusiness') &&
+              appealsData.LineOfBusiness.hasOwnProperty(lobFullData) &&
+              appealsData.LineOfBusiness[lobFullData].hasOwnProperty('OverTurnCount') &&
+              appealsData.LineOfBusiness[lobFullData].hasOwnProperty('AdminAppeals') &&
+              appealsData.LineOfBusiness[lobFullData].hasOwnProperty('ClinicalAppeals')
+            ) {
+              const submitted =
+                appealsData.LineOfBusiness[lobFullData].AdminAppeals +
+                appealsData.LineOfBusiness[lobFullData].ClinicalAppeals;
+              const overturned = appealsData.LineOfBusiness[lobFullData].OverTurnCount;
 
-            const overturnRate = ((overturned / submitted) * 100).toFixed(0);
-            const ornumber = Number(overturnRate);
+              const overturnRate = ((overturned / submitted) * 100).toFixed(0);
+              const ornumber = Number(overturnRate);
 
-            appealsOverturnedRate = [
-              {
-                category: 'app-card',
-                type: 'donut',
-                title: 'Claims Appeals Overturned Rate',
-                data: {
-                  graphValues: [overturnRate, 100 - ornumber],
-                  centerNumber: overturnRate + '%',
-                  color: ['#3381FF', '#E0E0E0'],
-                  gdata: ['card-inner', 'claimsAppealOverturnedRate'],
-                  sdata: null
-                },
-                timeperiod: this.timeFrame
+              appealsOverturnedRate = [
+                {
+                  category: 'app-card',
+                  type: 'donut',
+                  title: 'Claims Appeals Overturned Rate',
+                  data: {
+                    graphValues: [overturnRate, 100 - ornumber],
+                    centerNumber: overturnRate + '%',
+                    color: ['#3381FF', '#E0E0E0'],
+                    gdata: ['card-inner', 'claimsAppealOverturnedRate'],
+                    sdata: null
+                  },
+                  timeperiod: this.timeFrame
+                }
+              ];
+
+              const reasonsVal1 = [{}];
+              const reasonsVal2 = [{}];
+              const barVal = [{}];
+              const barTitle = [{}];
+              const getTopFiveReasons = appealsData.LineOfBusiness[lobFullData].ListReasonAndCount.sort(function(a, b) {
+                return b.Count - a.Count;
+              }).slice(0, 5);
+              let topFiveReasonTotal;
+              for (let i = 0; i < getTopFiveReasons.length; i++) {
+                if (i === 0) {
+                  topFiveReasonTotal = getTopFiveReasons[i].Count;
+                } else {
+                  topFiveReasonTotal = topFiveReasonTotal + getTopFiveReasons[i].Count;
+                }
               }
-            ];
-
-            const reasonsVal1 = [{}];
-            const reasonsVal2 = [{}];
-            const barVal = [{}];
-            const barTitle = [{}];
-            const getTopFiveReasons = appealsData.LineOfBusiness[lobFullData].ListReasonAndCount.sort(function(a, b) {
-              return b.Count - a.Count;
-            }).slice(0, 5);
-            let topFiveReasonTotal;
-            for (let i = 0; i < getTopFiveReasons.length; i++) {
-              if (i === 0) {
-                topFiveReasonTotal = getTopFiveReasons[i].Count;
-              } else {
-                topFiveReasonTotal = topFiveReasonTotal + getTopFiveReasons[i].Count;
+              for (let a = 0; a < getTopFiveReasons.length; a++) {
+                reasonsVal1[a] = getTopFiveReasons[a].Count;
+                const value1 = Number(reasonsVal1[a]);
+                reasonsVal2[a] = topFiveReasonTotal - getTopFiveReasons[a].Count;
+                barVal[a] =
+                  Number(((getTopFiveReasons[a].Count / topFiveReasonTotal) * 100).toFixed()) >= 1
+                    ? ((getTopFiveReasons[a].Count / topFiveReasonTotal) * 100).toFixed() + '%'
+                    : '<1%';
+                barTitle[a] = getTopFiveReasons[a].Reason;
               }
-            }
-            for (let a = 0; a < getTopFiveReasons.length; a++) {
-              reasonsVal1[a] = getTopFiveReasons[a].Count;
-              const value1 = Number(reasonsVal1[a]);
-              reasonsVal2[a] = topFiveReasonTotal - getTopFiveReasons[a].Count;
-              barVal[a] =
-                Number(((getTopFiveReasons[a].Count / topFiveReasonTotal) * 100).toFixed()) >= 1
-                  ? ((getTopFiveReasons[a].Count / topFiveReasonTotal) * 100).toFixed() + '%'
-                  : '<1%';
-              barTitle[a] = getTopFiveReasons[a].Reason;
-            }
-            for (let i = 0; i <= getTopFiveReasons.length; i++) {
-              reason.push({
-                type: 'bar chart',
-                graphValues: [reasonsVal1[i], reasonsVal2[i]],
-                barText: barTitle[i],
-                barValue: barVal[i],
-                color: ['#3381FF', '#FFFFFF', '#E0E0E0'],
-                gdata: ['app-card-structure', 'appealsOverturnedReason' + i]
-              });
+              for (let i = 0; i <= getTopFiveReasons.length; i++) {
+                reason.push({
+                  type: 'bar chart',
+                  graphValues: [reasonsVal1[i], reasonsVal2[i]],
+                  barText: barTitle[i],
+                  barValue: barVal[i],
+                  color: ['#3381FF', '#FFFFFF', '#E0E0E0'],
+                  gdata: ['app-card-structure', 'appealsOverturnedReason' + i]
+                });
+              }
             }
           }
-        }
-        AOR = [appealsOverturnedRate, reason];
-        resolve(AOR);
-      });
+          AOR = [appealsOverturnedRate, reason];
+          resolve(AOR);
+        });
+      }
     });
   }
 

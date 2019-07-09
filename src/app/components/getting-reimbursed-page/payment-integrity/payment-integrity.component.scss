@@ -57,7 +57,7 @@
 
 .content-wrapper {
   background-color: $alice-blue;
-  overflow-x: hidden;
+  overflow: hidden;
   @include padding(16px, 0, 64px, 0);
   .main-content {
     display: -webkit-box;
