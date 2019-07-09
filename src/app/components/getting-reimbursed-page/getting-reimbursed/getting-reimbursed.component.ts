@@ -72,6 +72,8 @@ export class GettingReimbursedComponent implements OnInit {
     //    event.target.classList.add('active');
   }
   ngOnInit() {
+    this.currentSummary = [];
+    this.tabOptions = [];
     this.timePeriod = this.session.filterObjValue.timeFrame;
     if (this.session.filterObjValue.lob !== 'All') {
       this.lob = this.filtermatch.matchLobWithLobData(this.session.filterObjValue.lob);

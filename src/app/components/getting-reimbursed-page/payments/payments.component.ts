@@ -58,6 +58,7 @@ export class PaymentsComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.payments = [];
     this.loading = true;
     this.timePeriod = this.session.filterObjValue.timeFrame;
     if (this.session.filterObjValue.lob !== 'All') {
