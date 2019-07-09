@@ -76,7 +76,6 @@ export class AppealsComponent implements OnInit {
       this.loading = false;
       this.summaryItems = JSON.parse(JSON.stringify(completeData));
       this.currentSummary = this.summaryItems[3].data;
-      console.log(this.currentSummary);
       this.currentTabTitle = this.summaryItems[3].title;
     });
 

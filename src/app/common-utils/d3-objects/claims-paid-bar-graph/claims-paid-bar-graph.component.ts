@@ -194,7 +194,7 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit {
       .attr('x', 370)
       .attr('y', 100)
       .attr('fill', '#2D2D39')
-      .attr('font-size', '22')
+      .attr('font-size', '20')
       .style('text-anchor', 'end')
       .style('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
       .text('$' + this.common.nFormatter(this.chartOptions.chartData[0]));
@@ -214,7 +214,7 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit {
       .attr('x', 370)
       .attr('y', 180)
       .attr('fill', '#2D2D39')
-      .attr('font-size', '22')
+      .attr('font-size', '20')
       .style('text-anchor', 'end')
       .style('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
       .text('$' + this.common.nFormatter(this.chartOptions.chartData[1]));
@@ -234,7 +234,7 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit {
       .attr('x', 370)
       .attr('y', 230)
       .attr('fill', '#2D2D39')
-      .attr('font-size', '22')
+      .attr('font-size', '20')
       .style('text-anchor', 'end')
       .style('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
       .text('$' + this.common.nFormatter(this.chartOptions.chartData[2]));
@@ -254,7 +254,7 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit {
       .attr('x', 370)
       .attr('y', 310)
       .attr('fill', '#2D2D39')
-      .attr('font-size', '22')
+      .attr('font-size', '20')
       .style('text-anchor', 'end')
       .style('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
       .text('$' + this.common.nFormatter(this.chartOptions.chartData[3]));
