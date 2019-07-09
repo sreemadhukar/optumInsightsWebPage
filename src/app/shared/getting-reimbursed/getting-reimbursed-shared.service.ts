@@ -206,8 +206,6 @@ export class GettingReimbursedSharedService {
               timeperiod: null
             };
           } else if (claimsData != null) {
-            this.timeFrame = 'Last 6 Months';
-
             if (
               claimsData.hasOwnProperty(lobData) &&
               claimsData[lobData] != null &&

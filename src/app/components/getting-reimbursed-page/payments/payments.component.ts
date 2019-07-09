@@ -16,7 +16,7 @@ import { CommonUtilsService } from '../../../shared/common-utils.service';
 })
 export class PaymentsComponent implements OnInit {
   title = 'Claims Paid Breakdown';
-  claimsPaidTimePeriod = 'Last 6 Months'; // this.session.timeFrame;
+  claimsPaidTimePeriod = this.session.filterObjValue.timeFrame;
   claimsPaidBreakBool: Boolean = false;
   subscription: any;
   paymentsItems: any;
