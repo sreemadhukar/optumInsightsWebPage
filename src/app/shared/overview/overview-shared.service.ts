@@ -525,20 +525,20 @@ export class OverviewSharedService {
         claims.All.hasOwnProperty('ClaimsLobSummary')
       ) {
         if (
-          claims.All.ClaimsLobSummary[0].hasOwnProperty('ClaimsPaid') &&
+          claims.All.ClaimsLobSummary[0].hasOwnProperty('AmountPaid') &&
           claims.hasOwnProperty('Cs') &&
           claims.Cs.hasOwnProperty('ClaimsLobSummary') &&
-          claims.Cs.ClaimsLobSummary[0].hasOwnProperty('ClaimsPaid') &&
+          claims.Cs.ClaimsLobSummary[0].hasOwnProperty('AmountPaid') &&
           claims.hasOwnProperty('Ei') &&
           claims.Ei.hasOwnProperty('ClaimsLobSummary') &&
-          claims.Ei.ClaimsLobSummary[0].hasOwnProperty('ClaimsPaid') &&
+          claims.Ei.ClaimsLobSummary[0].hasOwnProperty('AmountPaid') &&
           claims.hasOwnProperty('Mr') &&
           claims.Mr.hasOwnProperty('ClaimsLobSummary') &&
-          claims.Mr.ClaimsLobSummary[0].hasOwnProperty('ClaimsPaid')
+          claims.Mr.ClaimsLobSummary[0].hasOwnProperty('AmountPaid')
         ) {
-          const mrPercentage = claims.Mr.ClaimsLobSummary[0].ClaimsPaid;
-          const eiPercentage = claims.Ei.ClaimsLobSummary[0].ClaimsPaid;
-          const csPercentage = claims.Cs.ClaimsLobSummary[0].ClaimsPaid;
+          const mrPercentage = claims.Mr.ClaimsLobSummary[0].AmountPaid;
+          const eiPercentage = claims.Ei.ClaimsLobSummary[0].AmountPaid;
+          const csPercentage = claims.Cs.ClaimsLobSummary[0].AmountPaid;
           claimsPaid = {
             category: 'small-card',
             type: 'donut',
@@ -547,10 +547,10 @@ export class OverviewSharedService {
             data: {
               graphValues: [mrPercentage, csPercentage, eiPercentage],
               centerNumber:
-                this.common.nFormatter(claims.All.ClaimsLobSummary[0].ClaimsPaid) < 1 &&
-                this.common.nFormatter(claims.All.ClaimsLobSummary[0].ClaimsPaid) > 0
+                this.common.nFormatter(claims.All.ClaimsLobSummary[0].AmountPaid) < 1 &&
+                this.common.nFormatter(claims.All.ClaimsLobSummary[0].AmountPaid) > 0
                   ? '< $1'
-                  : '$' + this.common.nFormatter(claims.All.ClaimsLobSummary[0].ClaimsPaid),
+                  : '$' + this.common.nFormatter(claims.All.ClaimsLobSummary[0].AmountPaid),
               color: ['#3381FF', '#80B0FF', '#003DA1'],
               gdata: ['card-inner', 'claimsPaidCardD3Donut']
             },
@@ -567,10 +567,10 @@ export class OverviewSharedService {
               data: {
                 graphValues: [0, 100],
                 centerNumber:
-                  this.common.nFormatter(claims.All.ClaimsLobSummary[0].ClaimsPaid) < 1 &&
-                  this.common.nFormatter(claims.All.ClaimsLobSummary[0].ClaimsPaid) > 0
+                  this.common.nFormatter(claims.All.ClaimsLobSummary[0].AmountPaid) < 1 &&
+                  this.common.nFormatter(claims.All.ClaimsLobSummary[0].AmountPaid) > 0
                     ? '< $1'
-                    : '$' + this.common.nFormatter(claims.All.ClaimsLobSummary[0].ClaimsPaid),
+                    : '$' + this.common.nFormatter(claims.All.ClaimsLobSummary[0].AmountPaid),
                 color: ['#D7DCE1', '#D7DCE1'],
                 gdata: ['card-inner', 'claimsPaidCardD3Donut']
               },
@@ -807,9 +807,9 @@ export class OverviewSharedService {
           claimsTrendLatestData.All != null &&
           claimsTrendLatestData.All.hasOwnProperty('ClaimsLobSummary')
         ) {
-          if (claimsTrendLatestData.All.ClaimsLobSummary[0].hasOwnProperty('ClaimsPaid')) {
-            // latestClaimsPaid = this.common.nFormatter(claimsTrendLatestData.All.ClaimsLobSummary[0].ClaimsPaid);
-            latestClaimsPaid = claimsTrendLatestData.All.ClaimsLobSummary[0].ClaimsPaid;
+          if (claimsTrendLatestData.All.ClaimsLobSummary[0].hasOwnProperty('AmountPaid')) {
+            // latestClaimsPaid = this.common.nFormatter(claimsTrendLatestData.All.ClaimsLobSummary[0].AmountPaid);
+            latestClaimsPaid = claimsTrendLatestData.All.ClaimsLobSummary[0].AmountPaid;
           }
           if (claimsTrendLatestData.All.ClaimsLobSummary[0].hasOwnProperty('ClaimsYieldRate')) {
             // latestClaimsYieldRate = this.common.nFormatter(claimsTrendLatestData.All.ClaimsLobSummary[0].ClaimsYieldRate);
@@ -834,9 +834,9 @@ export class OverviewSharedService {
           claimsTrendPreviousData.All != null &&
           claimsTrendPreviousData.All.hasOwnProperty('ClaimsLobSummary')
         ) {
-          if (claimsTrendPreviousData.All.ClaimsLobSummary[0].hasOwnProperty('ClaimsPaid')) {
-            // previousClaimsPaid = this.common.nFormatter(claimsTrendPreviousData.All.ClaimsLobSummary[0].ClaimsPaid);
-            previousClaimsPaid = claimsTrendPreviousData.All.ClaimsLobSummary[0].ClaimsPaid;
+          if (claimsTrendPreviousData.All.ClaimsLobSummary[0].hasOwnProperty('AmountPaid')) {
+            // previousClaimsPaid = this.common.nFormatter(claimsTrendPreviousData.All.ClaimsLobSummary[0].AmountPaid);
+            previousClaimsPaid = claimsTrendPreviousData.All.ClaimsLobSummary[0].AmountPaid;
           }
           if (claimsTrendPreviousData.All.ClaimsLobSummary[0].hasOwnProperty('ClaimsYieldRate')) {
             // previousClaimsYieldRate = this.common.nFormatter(claimsTrendPreviousData.All.ClaimsLobSummary[0].ClaimsYieldRate);
