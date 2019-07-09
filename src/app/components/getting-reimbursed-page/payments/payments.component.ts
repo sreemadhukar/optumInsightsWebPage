@@ -16,7 +16,7 @@ import { CommonUtilsService } from '../../../shared/common-utils.service';
 })
 export class PaymentsComponent implements OnInit {
   title = 'Claims Paid Breakdown';
-  claimsPaidTimePeriod = this.session.filterObjValue.timeFrame;
+  public claimsPaidTimePeriod;
   claimsPaidBreakBool: Boolean = false;
   subscription: any;
   paymentsItems: any;
@@ -60,6 +60,7 @@ export class PaymentsComponent implements OnInit {
 
   ngOnInit() {
     this.payments = [];
+    this.claimsPaidTimePeriod = this.session.filterObjValue.timeFrame;
     this.claimsPaidBreakBool = false;
     this.loading = true;
     this.timePeriod = this.session.filterObjValue.timeFrame;
@@ -85,7 +86,6 @@ export class PaymentsComponent implements OnInit {
         this.payments = this.paymentsItems[1].data;
       })
       .catch(reason => {
-        console.log(reason.message);
         this.loading = false;
       });
 
