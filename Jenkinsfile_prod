@@ -1,0 +1,112 @@
+#!/usr/bin/env groovy
+
+//@Library("com.optum.jenkins.pipeline.library@master") _
+@Library("com.optum.jenkins.pipeline.library@v0.1.24") _
+
+String dockerHost = 'docker.optum.com'
+String webRepo = 'pedweb_prd'
+String namespace = 'fspeddeply'
+String webuiDir = 'webui'
+String tagBase = "$dockerHost/$namespace"
+
+pipeline {
+    agent none
+    environment {
+        DOCKER_CREDENTIALS_ID = 'deploy_id'
+        OPENSHIFT_CREDENTIALS_ID = 'deploy_id'
+        DEVOPS_METRICS_ENABLED = 'false'
+        SONAR_CREDENTIALS_ID = 'Sonar_ID'
+        NPM_ID = 'npm_id'
+        NODEJS_VERSION = '7.9.0'
+    }
+
+    stages {
+        
+        /**stage('Run Sonar Scan for UI') {
+            agent {
+                label 'docker-kitchensink-slave'
+            }
+            steps {
+                withCredentials([string(credentialsId:"${env.NPM_ID}", variable:'NPM_AUTH_KEY')]){
+                    command """
+                    export NPM_AUTH_KEY="ped"
+                    export NPM_EMAIL="email"
+                    npm install
+                    """
+                    }
+               glSonarNpmScan gitUserCredentialsId:"${env.SONAR_CREDENTIALS_ID}",
+               additionalProps:['sonar.sources':'src', 'sonar.javascript.lcov.reportPath':'coverage/lcov.info', 'sonar.ts.lcov.reportpath':'coverage/lcov.info'] 
+                   
+            }        
+        }**/
+        
+        stage('Web: Build and Deploy Docker Image to DTR') {
+            agent {
+                label 'docker-nodejs-slave'
+            }
+            steps {
+                glDockerImageBuildPush tag: "$tagBase/$webRepo",
+                        repository: "$webRepo",
+                        namespace: "$namespace",
+                        dockerCredentialsId: "$env.DOCKER_CREDENTIALS_ID",
+                        extraBuildOptions: "--build-arg env_var=externalprod"
+                glDockerImageBuildPush tag: "$tagBase/$webRepo:pedui2",
+                        repository: "$webRepo",
+                        namespace: "$namespace",
+                        dockerCredentialsId: "$env.DOCKER_CREDENTIALS_ID",
+                        extraBuildOptions: "--build-arg env_var=prod"
+            }
+        }
+        
+        stage('OSE Deployment Web Prod') {
+        agent {
+                label 'docker-maven-slave'
+            }
+            steps {
+                glOpenshiftDeploy credentials: "$env.OPENSHIFT_CREDENTIALS_ID",
+                        ocpUrl: "https://ocp-elr-dmz.optum.com",
+                        project: 'pedprd',
+                        serviceName: 'peduiuhc',
+                        dockerImage: 'docker.optum.com/fspeddeply/pedweb_prd:latest',
+                        port: '8000'
+
+            }
+        }
+        
+       stage('OSE Deployment Web DR') {
+       agent {
+                label 'docker-maven-slave'
+            }
+            steps {
+                glOpenshiftDeploy credentials: "$env.OPENSHIFT_CREDENTIALS_ID",
+                        ocpUrl: "https://ocp-ctc-dmz.optum.com",
+                        project: 'pedprddr',
+                        serviceName: 'peduiuhc',
+                        dockerImage: 'docker.optum.com/fspeddeply/pedweb_prd:latest',
+                        port: '8000'
+                glOpenshiftDeploy credentials: "$env.OPENSHIFT_CREDENTIALS_ID",
+                        ocpUrl: "https://ocp-ctc-core.optum.com",
+                        project: 'ped-internal',
+                        serviceName: 'pedui2',
+                        dockerImage: 'docker.optum.com/fspeddeply/pedweb_prd:pedui2',
+                        port: '8000'
+
+            }
+        }    
+    }
+
+    post {
+        always {
+            echo 'Email Notification'
+            emailext body: "UI release deployment is completed with $currentBuild.currentResult \n\n" +
+                    "Please check following production projects for more details \n" +
+                    "Prd Url: https://ocp-elr-dmz.optum.com \n" +
+                    "Dr Url: https://ocp-ctc-dmz.optum.com \n\n" +
+                    "If connection to app is refused, please give a few minutes for pods to fully deploy in OpenShift",
+                    subject: "$currentBuild.currentResult-PRD UI Deployment",
+                    to: 'sathwik.anumala@optum.com'
+
+        }
+    }
+
+}

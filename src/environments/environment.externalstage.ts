@@ -1,35 +1,19 @@
-// import { EnvironmentConfig } from './i.config';
-
 /**
  * Base Environment Configuration Instance
  * MAINTAIN ALPHABETIC ORDER
  */
 export const environment: any = {
-  /*
-  Pointing to QA1 environment
-   apiProxyUrl: 'https://gateway-stage-core.optum.com/api/qaone/pdr/uhci/v1/',
-   originUrl: 'https://pedui1-pedtst.ocp-ctc-core-nonprod.optum.com/',
-   https://pedui1-pedtst.ocp-ctc-core-nonprod.optum.co
-   */
-  /*
-  QA1 pointing to INT environment to interact with INT API
-  apiProxyUrl: 'https://gateway-stage-core.optum.com/api/int/pdr/uhci/v1/',
-  originUrl: 'https://pedintui-pedstg.ocp-ctc-dmz-stg.optum.com/',
-  */
-  // *In Local use dev3
-  apiProxyUrl: 'https://gateway-stage-core.optum.com/api/devthree/pdr/uhci/v1/',
-  originUrl: 'https://pedintui-pedstg.ocp-ctc-dmz-stg.optum.com/',
-  // apiProxyUrl: 'https://nginx-pedtst.ocp-ctc-core-nonprod.optum.com/',
-  // originUrl: 'https://pedintui-pedstg.ocp-ctc-dmz-stg.optum.com/',
+  apiProxyUrl: 'https://gateway-stage-core.optum.com/api/stage/pdr/uhci/v1/',
+  originUrl: '/',
   apiUrls: {
     ExecutiveSummaryPath: 'providersystems/',
-    ProviderSystemClaimsAgg: 'agg-claims/search/v2.0/',
-    ProviderSystemClaimsSummary: 'claim-metrics/',
+    ProviderSystemClaimsAgg: 'agg-claims/search/',
+    ProviderSystemClaimsSummary: 'claims/search/',
     ProviderSystemPriorAuth: 'PriorAuthSummary/',
     SsoTokenPath: 'myinsightOptumIdHandshake',
     SsoRedirectUri:
-      'https://stage-sso.uhc.com/ext/as/authorization.oauth2?pfidpadapterid=OptumIdOIDCStage&client_id=PED42235&response_' +
-      'type=code&redirect_uri=https://localhost:4200/login&scope=openid+profile+email&state=PED&prompt=none',
+      'https://stage-sso.uhc.com/ext/as/authorization.oauth2?pfidpadapterid=OptumIdOIDCStage&client_id=PED42235&' +
+      'response_type=code&redirect_uri=https://uhcinsights-stg.uhc.com/login&scope=openid+profile+email&state=PED&prompt=none',
     linkLoginPage: 'https://provider-stage.linkhealth.com',
     ProvTinList: 'provider-tins/',
     LayerSevenPath: 'myinsightLayerSevenHandshake',
@@ -43,9 +27,7 @@ export const environment: any = {
     PriorAuth: 'prior-authorizations/search/',
     RepeatContact: 'repeat-contacts/search/',
     Calls: 'issue-resolutions/',
-    PaymentIntegrity: 'pi-metrics/',
-    NonPayment: 'claim-metrics/',
-    CallsTrend: 'provider-calls/'
+    PaymentIntegrity: 'pi-metrics/'
   },
   headerKeys: {
     selectedCompany: '',
