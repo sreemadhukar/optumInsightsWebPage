@@ -282,7 +282,9 @@ export class OverviewSharedService {
             ],
             centerNumber: this.common.nFormatter(providerSystems.ResolvingIssues.Calls.CallVolByQuesType.Total),
             color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'],
-            gdata: ['card-inner', 'callsCardD3Donut']
+            gdata: ['card-inner', 'callsCardD3Donut'],
+            labels: ['Claims', 'Benefits & Eligibility', 'Prior Authorization', 'Others'],
+            hover: true
           },
           sdata: {
             sign: 'up',
@@ -554,7 +556,9 @@ export class OverviewSharedService {
                   ? '< $1'
                   : '$' + this.common.nFormatter(claims.All.ClaimsLobSummary[0].AmountPaid),
               color: ['#3381FF', '#80B0FF', '#003DA1'],
-              gdata: ['card-inner', 'claimsPaidCardD3Donut']
+              gdata: ['card-inner', 'claimsPaidCardD3Donut'],
+              labels: ['Medicare & Retirement', 'Community & State', 'Employer & Individual'],
+              hover: true
             },
             // sdata: claimsTrendObject,
             timeperiod: 'Last 6 Months'
