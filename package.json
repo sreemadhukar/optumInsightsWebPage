@@ -34,6 +34,7 @@
     "d3": "^5.9.2",
     "express": "^4.16.4",
     "helmet": "^3.16.0",
+    "html2canvas": "^1.0.0-alpha.12",
     "http-proxy": "^1.17.0",
     "jsencrypt": "^3.0.0-rc.1",
     "jsonwebtoken": "^8.5.1",

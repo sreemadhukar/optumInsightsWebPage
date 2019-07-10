@@ -6,6 +6,8 @@ import { GlossaryExpandService } from 'src/app/shared/glossary-expand.service';
 import { MatIconRegistry, PageEvent } from '@angular/material';
 import { Router } from '@angular/router';
 import { FilterExpandService } from '../../../shared/filter-expand.service';
+import { CommonUtilsService } from '../../../shared/common-utils.service';
+import { SessionService } from 'src/app/shared/session.service';
 
 @Component({
   selector: 'app-appeals',
@@ -17,7 +19,9 @@ export class AppealsComponent implements OnInit {
   pageTitle: String = '';
   currentSummary: Array<Object> = [{}];
   currentTabTitle: String = '';
-  timePeriod = 'Last 6 months';
+  timePeriod: string;
+  lob: string;
+  taxID: Array<string>;
   subscription: any;
   overturn: any;
   overturnItem: Array<Object> = [{}];
@@ -26,6 +30,7 @@ export class AppealsComponent implements OnInit {
   title = 'Top Claims Appeals Overturn Reasons';
   loading: boolean;
   mockCards: any;
+  reasonDataAvailable = false;
   constructor(
     private gettingReimbursedSharedService: GettingReimbursedSharedService,
     private iconRegistry: MatIconRegistry,
@@ -33,30 +38,52 @@ export class AppealsComponent implements OnInit {
     sanitizer: DomSanitizer,
     private glossaryExpandService: GlossaryExpandService,
     private filterExpandService: FilterExpandService,
-    private router: Router
+    private session: SessionService,
+    private router: Router,
+    private filtermatch: CommonUtilsService
   ) {
+    const filData = this.session.getFilChangeEmitter().subscribe(() => this.ngOnInit());
     this.pageTitle = 'Claims Appeals';
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.ngOnInit());
     iconRegistry.addSvgIcon(
       'filter',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-filter_list-24px.svg')
     );
+    iconRegistry.addSvgIcon(
+      'close',
+      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-close-24px.svg')
+    );
   }
 
   ngOnInit() {
+    this.timePeriod = this.session.filterObjValue.timeFrame;
+    if (this.session.filterObjValue.lob !== 'All') {
+      this.lob = this.filtermatch.matchLobWithLobData(this.session.filterObjValue.lob);
+    } else {
+      this.lob = '';
+    }
+    if (this.session.filterObjValue.tax.length > 0 && this.session.filterObjValue.tax[0] !== 'All') {
+      this.taxID = this.session.filterObjValue.tax;
+      if (this.taxID.length > 3) {
+        this.taxID = [this.taxID.length + ' Selected'];
+      }
+    } else {
+      this.taxID = [];
+    }
     this.loading = true;
     this.mockCards = [{}, {}, {}, {}];
     this.gettingReimbursedSharedService.getGettingReimbursedData().then(completeData => {
       this.loading = false;
       this.summaryItems = JSON.parse(JSON.stringify(completeData));
       this.currentSummary = this.summaryItems[3].data;
-      console.log(this.currentSummary);
       this.currentTabTitle = this.summaryItems[3].title;
     });
 
     this.gettingReimbursedSharedService.getappealsRateAndReasonData().then(appealsRateData => {
       this.loading = false;
-      console.log(appealsRateData);
+      if (appealsRateData[1].length !== 0) {
+        this.reasonDataAvailable = true;
+      }
       this.overturnItem = appealsRateData[0];
       this.reason = appealsRateData[1];
     });
@@ -67,5 +94,22 @@ export class AppealsComponent implements OnInit {
   }
   openFilter() {
     this.filterExpandService.setURL(this.router.url);
+  }
+  removeFilter(type, value) {
+    if (type === 'lob') {
+      this.lob = '';
+      this.session.store({ timeFrame: this.timePeriod, lob: 'All', tax: this.session.filterObjValue.tax });
+    } else if (type === 'tax' && !value.includes('Selected')) {
+      this.taxID = this.session.filterObjValue.tax.filter(id => id !== value);
+      if (this.taxID.length > 0) {
+        this.session.store({ timeFrame: this.timePeriod, lob: this.session.filterObjValue.lob, tax: this.taxID });
+      } else {
+        this.session.store({ timeFrame: this.timePeriod, lob: this.session.filterObjValue.lob, tax: ['All'] });
+        this.taxID = [];
+      }
+    } else if (type === 'tax' && value.includes('Selected')) {
+      this.session.store({ timeFrame: this.timePeriod, lob: this.session.filterObjValue.lob, tax: ['All'] });
+      this.taxID = [];
+    }
   }
 }

@@ -59,11 +59,6 @@ export class SelectProviderComponent implements OnInit {
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/round-search-24px.svg')
     );
 
-    iconRegistry.addSvgIcon(
-      'arrow-down',
-      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/arrow-down.svg')
-    );
-
     if (!this.states) {
       this.providerSharedService.providersList().subscribe(value => (this.states = value));
     }

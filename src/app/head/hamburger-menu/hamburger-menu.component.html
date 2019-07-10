@@ -10,7 +10,11 @@
       <!--<button mat-icon-button (click)="srnav.toggle()">-->
       <!--<mat-icon>filter</mat-icon>-->
       <!--</button>-->
-      <app-header [class.display-none]="makeAbsolute" (hamburgerDisplay)="hamburgerDisplay($event)"></app-header>
+      <app-header
+        [class.display-none]="makeAbsolute"
+        class="sticky"
+        (hamburgerDisplay)="hamburgerDisplay($event)"
+      ></app-header>
     </mat-toolbar>
     <mat-sidenav-container class="example-sidenav-container" color="primary" (backdropClick)="close()">
       <!-- SIDE NAVIGATION BAR  fixedTopGap="65"-->
@@ -118,19 +122,32 @@
         position="end"
         [fixedInViewport]="true"
         [opened]="glossaryFlag || filterFlag"
+        id="side-nav-glossary"
       >
-        <div style="width: 418px;">
+        <div style="width: 418px; min-height: 96%;">
           <div [ngClass]="{ sidemargin: glossaryFlag, 'sidemargin-filter': filterFlag }">
             <div *ngIf="glossaryFlag" class="mat-details">
-              <mat-icon class="icon-left" svgIcon="closeGlossary" (click)="closeGlossary()"> </mat-icon>
-              <div class="h-3-title">Knowledge Center</div>
+              <div class="h-3-title-filter">
+                <div class="close-icon-style">
+                  <mat-icon class="icon-left-filter" svgIcon="closeGlossary" (click)="closeGlossary()"> </mat-icon>
+                </div>
+                <div class="filter-text">Knowledge Center</div>
+              </div>
             </div>
             <div *ngIf="filterFlag" class="mat-details">
-              <mat-icon class="icon-left-filter" svgIcon="closeFilter" (click)="closeFilter()"> </mat-icon>
-              <div class="h-3-title-filter">Filters</div>
+              <div class="h-3-title-filter">
+                <div class="close-icon-style">
+                  <mat-icon class="icon-left-filter" svgIcon="closeFilter" (click)="closeFilter()"> </mat-icon>
+                </div>
+                <div class="filter-text">Filters</div>
+              </div>
             </div>
             <app-glossary *ngIf="glossaryFlag && glossaryTitle" [title]="glossaryTitle"></app-glossary>
-            <app-filter *ngIf="filterFlag" (filterFlag)="filterFlagChange($event)"></app-filter>
+            <app-filter
+              *ngIf="filterFlag"
+              (filterurl)="(filterurl)"
+              (filterFlag)="filterFlagChange($event)"
+            ></app-filter>
           </div>
         </div>
       </mat-sidenav>
