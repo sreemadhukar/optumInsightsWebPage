@@ -220,7 +220,9 @@ export class OverviewSharedService {
             gdata: ['card-inner', 'pcorCardD3Star']
           },
           sdata: null,
-          timeperiod: 'Last 6 Months'
+          timeperiod:
+            'Claims processed as of ' +
+            this.common.generatePCORMonth(providerSystems.PatientCareOpportunity.ReportingPeriod)
         };
       } else {
         cPcor = {

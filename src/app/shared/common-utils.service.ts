@@ -183,4 +183,42 @@ export class CommonUtilsService {
     const y = this.ReturnMonthlyString(x[1]) + ' ' + x[2] + ', ' + x[0]; // Feb 02, 2019
     return y;
   }
+  public generateMonth(a) {
+    if (a === 0) {
+      return 'January';
+    } else if (a === 1) {
+      return 'February';
+    } else if (a === 2) {
+      return 'March';
+    } else if (a === 3) {
+      return 'April';
+    } else if (a === 4) {
+      return 'May';
+    } else if (a === 5) {
+      return 'June';
+    } else if (a === 6) {
+      return 'July';
+    } else if (a === 7) {
+      return 'August';
+    } else if (a === 8) {
+      return 'September';
+    } else if (a === 9) {
+      return 'October';
+    } else if (a === 10) {
+      return 'November';
+    } else if (a === 11) {
+      return 'December';
+    } else {
+      return null;
+    }
+  }
+
+  public generatePCORMonth(a) {
+    const PCORMRdate = a;
+    const PCORMRmonth = this.generateMonth(parseInt(PCORMRdate.substr(0, 2)) - 1);
+    const PCORMRday = parseInt(PCORMRdate.substr(3, 2));
+    const PCORMRyear = PCORMRdate.substr(6, 4);
+    const PCORRMReportingDate = PCORMRmonth + ' ' + PCORMRday + ', ' + PCORMRyear;
+    return PCORRMReportingDate;
+  }
 }

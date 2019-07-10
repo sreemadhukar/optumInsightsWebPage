@@ -256,14 +256,8 @@ export class PriorAuthSharedService {
         data => {
           const PCORData = data.PatientCareOpportunity;
           // Reporting Date will be used for all three cards
-          const PCORMRdate = PCORData.ReportingPeriod;
-          const PCORMRmonth = this.generateMonth(parseInt(PCORMRdate.substr(0, 2)) - 1);
-          const PCORMRday = parseInt(PCORMRdate.substr(3, 2));
-          const PCORMRyear = PCORMRdate.substr(6, 4);
-          const PCORRMReportingDate = PCORMRmonth + ' ' + PCORMRday + ', ' + PCORMRyear;
-
+          const PCORRMReportingDate = this.common.generatePCORMonth(PCORData.ReportingPeriod);
           const PCORMandRData = PCORData.LineOfBusiness.MedicareAndRetirement;
-
           const totalAllCompletionRate = PCORMandRData.TotalACVs / PCORMandRData.TotalPatientCount;
           const totalDiabeticCompletionRate = PCORMandRData.TotalDiabeticACVs / PCORMandRData.TotalDiabeticPatients;
 
