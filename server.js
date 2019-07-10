@@ -6,7 +6,7 @@ var httpProxy = require('http-proxy');
 var jwt = require('jsonwebtoken');
 var cors = require('cors');
 var compression = require('compression');
-var helmet = require('helmet');
+var helmet = require('helmet'); 
 
 var port = process.env.PORT || 8000;
 console.log(`Worker ${process.pid} started...`);
@@ -18,16 +18,13 @@ app.use(express.static(path.join(__dirname, '.')));
 var apiProxy = httpProxy.createProxyServer();
 var apiForwardingUrl = 'https://gateway-stage-core.optum.com';
 var sessionSecret = 'STwHkLYUwN1L5rc3yqdkuthRvczrBupc';
-var key = 'Q9gRpXWjVm5GXethNxG60utGMGW7NpsO';
+var key = 'Q9gRpXWjVm5GXethNxG60utGMGW7NpsO'; 
 
-app.all("/uhci/prd2/*", function (req, res) {
-    apiProxy.web(req, res, { target: apiForwardingUrl, changeOrigin: true, secure: false },
-        function (e) {
-            handleExceptions(e, res)
-        }
-    );
+app.all('/api/qaone/ped/*', function(req, res) {
+  apiProxy.web(req, res, { target: apiForwardingUrl, changeOrigin: true, secure: true }, function(e) {
+    handleExceptions(e, res);
+  });
 });
-
 
 app.use((error, req, res, next) => {
   handleExceptions(error, res);

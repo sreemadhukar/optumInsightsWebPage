@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HttpParams } from '@angular/common/http';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -27,18 +27,16 @@ export class AuthenticationService {
     return this.currentUserSubject.value;
   }
 
-  public getSsoToken(codeId: string, token: string): Observable<any> {
-    let myHeader;
-    if (token === 'isProd') {
-      myHeader = new HttpHeaders({
-        Accept: '*/*'
-      });
-    } else {
-      myHeader = new HttpHeaders({
-        Authorization: 'Bearer ' + token,
-        Accept: '*/*'
-      });
-    }
+  public getSsoToken(codeId: string): Observable<any> {
+    this.getJwt().subscribe(async val => {
+      this.token = val['token'];
+      await sessionStorage.setItem('token', JSON.stringify(val['token']));
+    });
+    const token = JSON.parse(sessionStorage.getItem('token'));
+    const myHeader = new HttpHeaders({
+      Authorization: 'Bearer ' + token,
+      Accept: '*/*'
+    });
     let params = new HttpParams();
     params = params.append('code', codeId);
     const url = this.APP_URL + this.SERVICE_PATH;
@@ -64,9 +62,7 @@ export class AuthenticationService {
   public logout() {
     sessionStorage.removeItem('currentUser');
     sessionStorage.removeItem('loggedUser');
-    if (environment.internalAccess) {
-      this.router.navigate(['']);
-    }
+    this.router.navigate(['']);
   }
 
   public isLoggedIn() {

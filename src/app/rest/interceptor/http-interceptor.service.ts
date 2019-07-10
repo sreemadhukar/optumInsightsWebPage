@@ -11,7 +11,6 @@ import {
 } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { map, catchError, retry } from 'rxjs/operators';
-import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -20,15 +19,10 @@ export class HttpInterceptorService implements HttpInterceptor {
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
     if (currentUser) {
-      const token =
-        !environment.internalAccess && environment.production
-          ? currentUser[0].AccessToken
-          : currentUser[0].PedAccessToken;
+      const token = currentUser[0].PedAccessToken;
+
       if (token) {
         request = request.clone({ headers: request.headers.set('Authorization', 'Bearer ' + token) });
-        request = request.clone({
-          headers: request.headers.set('PedAccessToken', 'Bearer ' + currentUser[0].PedAccessToken)
-        });
       }
     }
     request = request.clone({ headers: request.headers.set('Accept', '*/*') });
