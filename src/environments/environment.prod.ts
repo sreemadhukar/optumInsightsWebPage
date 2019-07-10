@@ -5,18 +5,18 @@
  * MAINTAIN ALPHABETIC ORDER
  */
 export const environment: any = {
-  apiProxyUrl: 'https://gateway-core.optum.com/api/pdr/uhci/v1/',
+  apiProxyUrl: 'https://gateway-stage-core.optum.com/api/stage2/pdr/uhci/v1/',
   originUrl: '/',
   apiUrls: {
     ExecutiveSummaryPath: 'providersystems/',
-    ProviderSystemClaimsAgg: 'agg-claims/search/v2.0/',
-    ProviderSystemClaimsSummary: 'claims/search/v2.0/',
+    ProviderSystemClaimsAgg: 'agg-claims/search/',
+    ProviderSystemClaimsSummary: 'claims/search/',
     ProviderSystemPriorAuth: 'PriorAuthSummary/',
     SsoTokenPath: 'myinsightOptumIdHandshake',
     SsoRedirectUri:
-      'https://sso.uhc.com/ext/as/authorization.oauth2?pfidpadapterid=OptumIdOIDCStage&client_id=PED42235&response_' +
-      'type=code&redirect_uri=https://uhcinsights.uhc.com/login&scope=openid+profile+email&state=PED&prompt=none',
-    linkLoginPage: 'https://provider.linkhealth.com',
+      'https://stage-sso.uhc.com/ext/as/authorization.oauth2?pfidpadapterid=OptumIdOIDCStage&client_id=PED42235&response_' +
+      'type=code&redirect_uri=https://pedstgui2-ped-internal.ocp-ctc-core.optum.com/login&scope=openid+profile+email&state=PED&prompt=none',
+    linkLoginPage: 'https://provider-stage.linkhealth.com',
     ProvTinList: 'provider-tins/',
     LayerSevenPath: 'myinsightLayerSevenHandshake',
     URL: window.location.origin,

@@ -2,7 +2,6 @@ import { Injectable, EventEmitter } from '@angular/core';
 import { GettingReimbursedService } from '../rest/getting-reimbursed/getting-reimbursed.service';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Filter } from './_models/filter';
-import { environment } from '../../environments/environment';
 import { share } from 'rxjs/operators';
 
 @Injectable({
@@ -24,7 +23,6 @@ export class SessionService {
   public get filterObjValue(): Filter {
     return this.filterObjSubject.value;
   }
-
   public store(data: any): void {
     this.filterObjSubject.next(data);
     this.emitChangeEvent();
@@ -39,14 +37,11 @@ export class SessionService {
   }
 
   public providerKeyData() {
-    if (sessionStorage.getItem('currentUser') && environment.internalAccess) {
+    if (sessionStorage.getItem('currentUser')) {
       console.log(JSON.parse(sessionStorage.getItem('currentUser'))[0]['ProviderKey']);
       return JSON.parse(sessionStorage.getItem('currentUser'))[0]['ProviderKey'];
-    } else if (sessionStorage.getItem('currentUser') && !environment.internalAccess) {
-      return JSON.parse(sessionStorage.getItem('currentUser'))[0]['Providersyskey'];
     }
   }
-  
   public sessionStorage(value: string, item: string) {
     if (sessionStorage.getItem(value)) {
       return JSON.parse(sessionStorage.getItem(value))[item];
