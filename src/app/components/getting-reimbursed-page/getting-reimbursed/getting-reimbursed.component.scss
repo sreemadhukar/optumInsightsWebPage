@@ -71,7 +71,7 @@
       flex-wrap: wrap;
       .getting-reimbursed-cards {
         display: inline-flex;
-        flex-direction: column;
+        margin-left: -10px;
       }
       .filter-div {
         overflow: auto;
