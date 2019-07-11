@@ -27,6 +27,26 @@ export class CommonUtilsService {
     }
     return fnumber;
   }
+  public last30DaysTrend(last30: number, previousLast30: number): Object {
+    const temp = ((last30 - previousLast30) / previousLast30) * 100;
+    let value = '';
+    const suffix = '%';
+    let tempSign;
+    if (temp > 0) {
+      tempSign = 'up';
+      value = '+' + temp.toFixed() + suffix;
+    } else if (temp === 0) {
+      tempSign = 'neutral';
+      value = 'No Change';
+    } else {
+      tempSign = 'down';
+      value = temp.toFixed() + suffix;
+    }
+    return {
+      sign: tempSign,
+      data: value
+    };
+  }
   public percentageFormatter(number: Number) {
     if (number < 1) {
       return '< 1%';
@@ -38,7 +58,7 @@ export class CommonUtilsService {
   public matchLobWithData(lob) {
     if (lob === 'All') {
       return 'All';
-    } else if (lob === 'Employer & Individual') {
+    } else if (lob === 'Employee & Individual') {
       return 'Ei';
     } else if (lob === 'Medicare & Retirement') {
       return 'Mr';
@@ -46,10 +66,55 @@ export class CommonUtilsService {
       return 'Cs';
     }
   }
+  public matchLobWithCapsData(lob) {
+    if (lob === 'All') {
+      return 'All';
+    } else if (lob === 'Employee & Individual') {
+      return 'EI';
+    } else if (lob === 'Medicare & Retirement') {
+      return 'MR';
+    } else if (lob === 'Community & State') {
+      return 'CS';
+    }
+  }
+  public matchLobWithLobData(lob) {
+    if (lob === 'All') {
+      return 'All';
+    } else if (lob === 'Employee & Individual') {
+      return 'E&I';
+    } else if (lob === 'Medicare & Retirement') {
+      return 'M&R';
+    } else if (lob === 'Community & State') {
+      return 'C&S';
+    }
+  }
+
+  public matchLobWithFilData(lob) {
+    if (lob === 'All') {
+      return 'All';
+    } else if (lob === 'E&I') {
+      return 'Ei';
+    } else if (lob === 'M&R') {
+      return 'Mr';
+    } else if (lob === 'C&S') {
+      return 'Cs';
+    }
+  }
+  public matchFullLobWithFilData(lob) {
+    if (lob === 'All') {
+      return 'ALL';
+    } else if (lob === 'E&I') {
+      return 'EmployerAndIndividual';
+    } else if (lob === 'M&R') {
+      return 'MedicareAndRetirement';
+    } else if (lob === 'C&S') {
+      return 'CommunityAndState';
+    }
+  }
   public matchFullLobWithData(lob) {
     if (lob === 'All') {
       return 'ALL';
-    } else if (lob === 'Employer & Individual') {
+    } else if (lob === 'Employee & Individual') {
       return 'EmployerAndIndividual';
     } else if (lob === 'Medicare & Retirement') {
       return 'MedicareAndRetirement';

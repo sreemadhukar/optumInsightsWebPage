@@ -1,8 +1,10 @@
+@import '~src/scss/variables.scss';
 .provider-search {
   padding: 10px;
 
   &-header {
     text-align: center;
+    padding-right: 9px;
 
     button {
       float: right;
@@ -15,13 +17,13 @@
       border: 0;
       box-shadow: none;
       background: #ffffff;
-      color: #757588;
-      padding: 5px 0 5px 5px;
+      color: $strom-grey;
+      padding: 8px 1px 8px 8px;
       &:hover {
         border-radius: 2px;
         background-color: #d7dce1;
         cursor: pointer;
-        color: #2d2d39;
+        color: $black-rock;
       }
     }
   }
@@ -58,4 +60,7 @@
   text-align: center;
   padding: 18px 0;
   cursor: pointer;
+}
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-flex {
+  padding: 0 4px;
 }

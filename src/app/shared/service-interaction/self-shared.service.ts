@@ -3,6 +3,7 @@ import { SelfServiceService } from '../../rest/service-interaction/self-service.
 import { ServiceInteractionModule } from '../../components/service-interaction/service-interaction.module';
 import { CommonUtilsService } from '../common-utils.service';
 import { SessionService } from '../session.service';
+import { AuthorizationService } from '../../auth/_service/authorization.service';
 
 @Injectable({ providedIn: ServiceInteractionModule })
 export class SelfSharedService {
@@ -12,7 +13,8 @@ export class SelfSharedService {
   constructor(
     private selfService: SelfServiceService,
     private session: SessionService,
-    private common: CommonUtilsService
+    private common: CommonUtilsService,
+    private toggle: AuthorizationService
   ) {}
 
   /** The following function is kind of template for the 3 donuts that we have in the Self Service Page
@@ -30,52 +32,16 @@ export class SelfSharedService {
     return temp;
   }
 
-  /** The following function is kind of template for the 3 small-bar-graph that we have in the Self Service Page
-   * The data is corresponding to SelfService Object that we have inside like this
-   * SelfServiceInquiries -> ALL -> SelfService
-   */
-
-  public selfServiceObjectMethod(title: String, data: any, timeperiod?: String | null): Object {
-    const temp: Object = {
-      category: 'app-card',
-      type: 'small-bar-chart',
-      title: title,
-      data: data,
-      timeperiod: this.timeFrame
-    };
-    return temp;
-  }
-
-  public callsOperatingCostMethod(
-    title: String,
-    callCostReduceCostValue: number,
-    callCostCallIn90daysValue: number,
-    data: any,
-    timeperiod?: String | null
-  ): Object {
-    const temp: Object = {
-      title: title,
-      callCostReduceCostValue: '$' + this.common.nFormatter(callCostReduceCostValue),
-      callCostCallIn90daysValue: this.common.nFormatter(callCostCallIn90daysValue),
-      data: data,
-      timeperiod: timeperiod
-    };
-    return temp;
-  }
-
   public getSelfServiceData() {
-    this.providerKey = this.session.providerKey();
+    this.providerKey = this.session.providerKeyData();
     this.selfServiceData = [];
     return new Promise(resolve => {
       let parameters;
       let adoptionRate;
       let linkEdiRation;
       let paperLessDelivery;
-      let saveStaffTime;
-      let reduceClaimProcessingTime;
-      let reduceReconsiderationProcessing;
+      const oppurtunities: Array<object> = [];
       const tempArray: Array<object> = [];
-      const callsOperatingCostData: Array<Object> = [{}];
       parameters = [this.providerKey];
       /*
       if (this.timeFrame === 'Last 3 Months') {
@@ -89,6 +55,7 @@ export class SelfSharedService {
         ([providerSystems]) => {
           if (
             providerSystems.hasOwnProperty('SelfServiceInquiries') &&
+            providerSystems.SelfServiceInquiries != null &&
             providerSystems.SelfServiceInquiries.hasOwnProperty('ALL') &&
             providerSystems.SelfServiceInquiries.ALL.hasOwnProperty('ReportingPeriodStartDate') &&
             providerSystems.SelfServiceInquiries.ALL.hasOwnProperty('ReportingPeriodEndDate')
@@ -111,6 +78,7 @@ export class SelfSharedService {
 
           if (
             providerSystems.hasOwnProperty('SelfServiceInquiries') &&
+            providerSystems.SelfServiceInquiries != null &&
             providerSystems.SelfServiceInquiries.hasOwnProperty('ALL') &&
             providerSystems.SelfServiceInquiries.ALL.hasOwnProperty('Utilizations')
           ) {
@@ -182,300 +150,210 @@ export class SelfSharedService {
             linkEdiRation = this.utilizationObjectMethod(null, null, null);
             paperLessDelivery = this.utilizationObjectMethod(null, null, null);
           } // End if Data not found Utilization Object
-          // Started If Data not found for Self Service Object
           if (
             providerSystems.hasOwnProperty('SelfServiceInquiries') &&
+            providerSystems.SelfServiceInquiries != null &&
             providerSystems.SelfServiceInquiries.hasOwnProperty('ALL') &&
-            providerSystems.SelfServiceInquiries.ALL.hasOwnProperty('SelfService')
+            providerSystems.SelfServiceInquiries.ALL.hasOwnProperty('SelfService') &&
+            providerSystems.SelfServiceInquiries.ALL.SelfService.hasOwnProperty('TotalCallCost')
           ) {
-            const selfService = providerSystems.SelfServiceInquiries.ALL.SelfService;
             try {
-              if (
-                selfService.PhoneCallTime === undefined ||
-                selfService.SelfServiceCallTime === undefined ||
-                selfService.TotalCallTime == undefined ||
-                selfService.PhoneCallTime === null ||
-                selfService.SelfServiceCallTime === null ||
-                selfService.TotalCallTime === null
-              ) {
-                console.log('Self Service Page | Data not found for the Save Your Staff Time by');
-                saveStaffTime = this.selfServiceObjectMethod(null, null, null);
-              } else {
-                saveStaffTime = this.selfServiceObjectMethod(
-                  "Save Your Staff's Time by",
-                  {
-                    chartData: [
-                      {
-                        labelsRight: selfService.PhoneCallTime.toFixed(0) + ' hours/day',
-                        values: selfService.PhoneCallTime.toFixed(0),
-                        metricName: 'Phone'
-                      },
-                      {
-                        labelsRight: selfService.SelfServiceCallTime.toFixed(0) + ' hours/day',
-                        values: selfService.SelfServiceCallTime.toFixed(0),
-                        metricName: 'Self Service'
-                      }
-                    ],
-                    value: selfService.TotalCallTime.toFixed(0) + ' Hours/day',
-                    color: ['#80B0FF', '#3381FF'],
-                    gdata: ['card-inner', 'staffTimeSave']
-                  },
-                  this.timeFrame
-                );
-              } // end if Data not found
-            } catch (Error) {
-              console.log('Error | Self Service Page | Data not found for the Save Your Staff Time by');
-              saveStaffTime = this.selfServiceObjectMethod(null, null, null);
-            } // End try catch for Save Your's Staff TIme
-            try {
-              reduceClaimProcessingTime = this.selfServiceObjectMethod(
-                'Reduce Claim Processing Time by',
-                {
-                  chartData: [
-                    {
-                      labelsRight: selfService.AveragePaperClaimProcessingTime.toFixed(0) + ' days',
-                      values: selfService.AveragePaperClaimProcessingTime.toFixed(0),
-                      metricName: 'Mail'
-                    },
-                    {
-                      labelsRight: selfService.AverageClaimProcessingTime.toFixed(0) + ' days',
-                      values: selfService.AverageClaimProcessingTime.toFixed(0),
-                      metricName: 'Self Service'
-                    }
-                  ],
-                  value:
-                    selfService.AveragePaperClaimProcessingTime.toFixed(0) -
-                    selfService.AverageClaimProcessingTime.toFixed(0) +
-                    ' days',
-                  color: ['#80B0FF', '#3381FF'],
-                  gdata: ['card-inner', 'reduceClaimTime']
+              oppurtunities.push({
+                category: 'mini-tile',
+                title: 'Reduce Calls and Operating Costs by:',
+                toggle: this.toggle.setToggles(
+                  'Reduce Calls and Operating Costs by:',
+                  'Opportunities',
+                  'Overview',
+                  false
+                ),
+                data: {
+                  centerNumber:
+                    '$' +
+                    this.common.nFormatter(
+                      providerSystems.SelfServiceInquiries.ALL.SelfService.TotalCallCost.toFixed(2)
+                    ),
+                  gdata: []
                 },
-                this.timeFrame
-              );
+                fdata: {
+                  type: 'bar chart',
+                  graphValues: [
+                    providerSystems.SelfServiceInquiries.ALL.SelfService.TotalSelfServiceCost.toFixed(),
+                    providerSystems.SelfServiceInquiries.ALL.SelfService.TotalPhoneCost.toFixed()
+                  ],
+                  concatString: '$',
+                  color: ['#3381FF', '#FFFFFF', '#80B0FF'],
+                  graphValuesTitle: 'Avg. Transaction Costs',
+                  graphData1: 'for Self Service',
+                  graphData2: 'for Phone Call',
+                  gdata: ['card-structure', 'totalCallCost']
+                }
+              });
             } catch (Error) {
-              console.log('Error | Self Service Page | Reduce Claim Processing Time by', Error);
-              reduceClaimProcessingTime = this.selfServiceObjectMethod(null, null, null);
-            } // End try catch for Reduce Your Claim Processing Time
+              console.log('Overview Page, Self Service, Data not found for Calls and Operating Cost');
+              oppurtunities.push({
+                category: 'mini-tile',
+                title: null,
+                data: null,
+                fdata: null
+              });
+            }
+          } else {
+            oppurtunities.push({
+              category: 'mini-tile',
+              title: null,
+              data: null,
+              fdata: null
+            });
+          }
+          if (
+            providerSystems.hasOwnProperty('SelfServiceInquiries') &&
+            providerSystems.SelfServiceInquiries != null &&
+            providerSystems.SelfServiceInquiries.hasOwnProperty('ALL') &&
+            providerSystems.SelfServiceInquiries.ALL.hasOwnProperty('SelfService') &&
+            providerSystems.SelfServiceInquiries.ALL.SelfService.hasOwnProperty('TotalCallTime')
+          ) {
             try {
-              reduceReconsiderationProcessing = this.selfServiceObjectMethod(
+              oppurtunities.push({
+                category: 'mini-tile',
+                title: "Save Your Staff's Time by:" + '\n\xa0',
+                toggle: this.toggle.setToggles("Save Your Staff's Time by:", 'Opportunities', 'Overview', false),
+                data: {
+                  centerNumber:
+                    providerSystems.SelfServiceInquiries.ALL.SelfService.TotalCallTime.toFixed(0) + ' Hours/day',
+                  gdata: []
+                },
+                fdata: {
+                  type: 'bar chart',
+                  graphValues: [
+                    providerSystems.SelfServiceInquiries.ALL.SelfService.SelfServiceCallTime.toFixed(0),
+                    providerSystems.SelfServiceInquiries.ALL.SelfService.PhoneCallTime.toFixed(0)
+                  ],
+                  concatString: 'hours',
+                  color: ['#3381FF', '#FFFFFF', '#80B0FF'],
+                  graphValuesTitle: 'Avg. Processing Times',
+                  graphData1: 'for Self Service',
+                  graphData2: 'for Phone Call',
+                  gdata: ['card-structure', 'saveStaffTime']
+                }
+              });
+            } catch (Error) {
+              console.log('Overview Page, Self Service, Data not found for Save Yours Staff Time');
+              oppurtunities.push({
+                category: 'mini-tile',
+                title: null,
+                data: null,
+                fdata: null
+              });
+            }
+          } else {
+            oppurtunities.push({
+              category: 'mini-tile',
+              title: null,
+              data: null,
+              fdata: null
+            });
+          }
+          if (
+            providerSystems.hasOwnProperty('SelfServiceInquiries') &&
+            providerSystems.SelfServiceInquiries != null &&
+            providerSystems.SelfServiceInquiries.hasOwnProperty('ALL') &&
+            providerSystems.SelfServiceInquiries.ALL.hasOwnProperty('SelfService') &&
+            providerSystems.SelfServiceInquiries.ALL.SelfService.hasOwnProperty('AveragePaperClaimProcessingTime') &&
+            providerSystems.SelfServiceInquiries.ALL.SelfService.hasOwnProperty('AverageClaimProcessingTime')
+          ) {
+            oppurtunities.push({
+              category: 'mini-tile',
+              title: 'Reduce Claim Processing Time by:',
+              toggle: this.toggle.setToggles('Reduce Claim Processing Time by:', 'Opportunities', 'Overview', false),
+              data: {
+                centerNumber:
+                  (
+                    providerSystems.SelfServiceInquiries.ALL.SelfService.AveragePaperClaimProcessingTime.toFixed() -
+                    providerSystems.SelfServiceInquiries.ALL.SelfService.AverageClaimProcessingTime.toFixed()
+                  ).toFixed() + ' Days',
+                gdata: []
+              },
+              fdata: {
+                type: 'bar chart',
+                graphValues: [
+                  providerSystems.SelfServiceInquiries.ALL.SelfService.AverageClaimProcessingTime.toFixed(0),
+                  providerSystems.SelfServiceInquiries.ALL.SelfService.AveragePaperClaimProcessingTime.toFixed(0)
+                ],
+                concatString: 'Days',
+                color: ['#3381FF', '#FFFFFF', '#80B0FF'],
+                graphValuesTitle: 'Avg. Processing Times',
+                graphData1: 'for Self Service',
+                graphData2: 'for Mail',
+                gdata: ['card-structure', 'reduceClaimProcessingTime']
+              }
+            });
+          } else {
+            oppurtunities.push({
+              category: 'mini-tile',
+              title: null,
+              data: null,
+              fdata: null
+            });
+          }
+          if (
+            providerSystems.hasOwnProperty('SelfServiceInquiries') &&
+            providerSystems.SelfServiceInquiries != null &&
+            providerSystems.SelfServiceInquiries.hasOwnProperty('ALL') &&
+            providerSystems.SelfServiceInquiries.ALL.hasOwnProperty('SelfService') &&
+            providerSystems.SelfServiceInquiries.ALL.SelfService.hasOwnProperty(
+              'AveragePaperReconsideredProcessingTime'
+            ) &&
+            providerSystems.SelfServiceInquiries.ALL.SelfService.hasOwnProperty('AverageReconsideredProcessingTime') &&
+            providerSystems.SelfServiceInquiries.ALL.hasOwnProperty('SelfService') &&
+            providerSystems.SelfServiceInquiries.ALL.SelfService['AveragePaperReconsideredProcessingTime'] !== null &&
+            providerSystems.SelfServiceInquiries.ALL.SelfService['AverageReconsideredProcessingTime'] !== null
+          ) {
+            oppurtunities.push({
+              category: 'mini-tile',
+              title: 'Reduce Reconsideration Processing by:',
+              toggle: this.toggle.setToggles(
                 'Reduce Reconsideration Processing by:',
-                {
-                  chartData: [
-                    {
-                      labelsRight: selfService.AveragePaperReconsideredProcessingTime.toFixed(0) + ' days',
-                      values: selfService.AveragePaperReconsideredProcessingTime.toFixed(0),
-                      metricName: 'Mail'
-                    },
-                    {
-                      labelsRight: selfService.AverageReconsideredProcessingTime.toFixed(0) + ' days',
-                      values: selfService.AverageReconsideredProcessingTime.toFixed(0),
-                      metricName: 'Self Service'
-                    }
-                  ],
-                  value:
-                    selfService.AveragePaperReconsideredProcessingTime.toFixed(0) -
-                    selfService.AverageReconsideredProcessingTime.toFixed(0) +
-                    ' days',
-                  color: ['#80B0FF', '#3381FF'],
-                  gdata: ['card-inner', 'reduceProcessing']
-                },
-                this.timeFrame
-              );
-            } catch (Error) {
-              console.log('Error | Self Service Page | Reduce Reconsideration Processing by');
-              reduceReconsiderationProcessing = this.selfServiceObjectMethod(null, null, null);
-            } // End try Catch for Reduce Reconsideration Processing
+                'Opportunities',
+                'Overview',
+                false
+              ),
+              data: {
+                centerNumber:
+                  (
+                    providerSystems.SelfServiceInquiries.ALL.SelfService.AveragePaperReconsideredProcessingTime.toFixed() -
+                    providerSystems.SelfServiceInquiries.ALL.SelfService.AverageReconsideredProcessingTime.toFixed()
+                  ).toFixed() + ' Days',
+                gdata: []
+              },
+              fdata: {
+                type: 'bar chart',
+                graphValues: [
+                  providerSystems.SelfServiceInquiries.ALL.SelfService.AverageReconsideredProcessingTime.toFixed(0),
+                  providerSystems.SelfServiceInquiries.ALL.SelfService.AveragePaperReconsideredProcessingTime.toFixed(0)
+                ],
+                concatString: 'Days',
+                color: ['#3381FF', '#FFFFFF', '#80B0FF'],
+                graphValuesTitle: 'Avg. Processing Times',
+                graphData1: 'for Self Service',
+                graphData2: 'for Mail',
+                gdata: ['card-structure', 'reduceReconsiderationProcessing']
+              }
+            });
           } else {
-            saveStaffTime = this.selfServiceObjectMethod(null, null, null);
-
-            reduceClaimProcessingTime = this.selfServiceObjectMethod(null, null, null);
-
-            reduceReconsiderationProcessing = this.selfServiceObjectMethod(null, null, null);
-          } // End If Data not found SelfService
-
-          /*******  Calls and Operating Costs****** */
-          if (
-            providerSystems.hasOwnProperty('SelfServiceInquiries') &&
-            providerSystems.SelfServiceInquiries.hasOwnProperty('ALL') &&
-            providerSystems.SelfServiceInquiries.ALL.hasOwnProperty('SelfService')
-          ) {
-            let totalCosts;
-            let claimsStatus;
-            let eligibilityBenefits;
-            let priorAuth;
-            const tempCallOperating = providerSystems.SelfServiceInquiries.ALL.SelfService;
-            if (
-              tempCallOperating.hasOwnProperty('TotalCallCost') &&
-              tempCallOperating.hasOwnProperty('TotalCallCount') &&
-              tempCallOperating.hasOwnProperty('ClaimPhoneCost') &&
-              tempCallOperating.hasOwnProperty('TotalSelfServiceCost')
-            ) {
-              try {
-                totalCosts = this.callsOperatingCostMethod(
-                  'Total Costs',
-                  this.common.nFormatter(tempCallOperating.TotalCallCost),
-                  this.common.nFormatter(tempCallOperating.TotalCallCount),
-                  {
-                    chartData: [
-                      {
-                        labelsRight: '$' + this.common.nFormatter(tempCallOperating.TotalPhoneCost),
-                        values: tempCallOperating.TotalPhoneCost.toFixed(),
-                        metricName: 'Phone Costs'
-                      },
-                      {
-                        labelsRight: '$' + this.common.nFormatter(tempCallOperating.TotalSelfServiceCost),
-                        values: tempCallOperating.TotalSelfServiceCost.toFixed(),
-                        metricName: 'Self Service Costs'
-                      }
-                    ],
-                    color: ['#80B0FF', '#3381FF'],
-                    gdata: ['card-inner', 'totalCosts']
-                  },
-                  this.timeFrame
-                );
-              } catch (Error) {
-                console.log('Self Service | Calls and Operating Cost | Total Cost', Error);
-                totalCosts = null;
-              }
-            } else {
-              console.log('Self Service | Calls and Operating Cost | Data not found | Total Cost', Error);
-              totalCosts = null;
-            }
-            if (
-              tempCallOperating.hasOwnProperty('ReduceClaimCost') &&
-              tempCallOperating.hasOwnProperty('ClaimPhoneCost') &&
-              tempCallOperating.hasOwnProperty('SelfServicePhoneCost') &&
-              tempCallOperating.hasOwnProperty('TotalClaimCallCount')
-            ) {
-              try {
-                claimsStatus = this.callsOperatingCostMethod(
-                  'Claim Status',
-                  this.common.nFormatter(tempCallOperating.ReduceClaimCost),
-                  this.common.nFormatter(tempCallOperating.TotalClaimCallCount),
-                  {
-                    chartData: [
-                      {
-                        labelsRight: '$' + this.common.nFormatter(tempCallOperating.ClaimPhoneCost),
-                        values: tempCallOperating.ClaimPhoneCost.toFixed(),
-                        metricName: 'Phone Costs'
-                      },
-                      {
-                        labelsRight: '$' + this.common.nFormatter(tempCallOperating.SelfServicePhoneCost),
-                        values: tempCallOperating.SelfServicePhoneCost.toFixed(),
-                        metricName: 'Self Service Costs'
-                      }
-                    ],
-                    color: ['#80B0FF', '#3381FF'],
-                    gdata: ['card-inner', 'claimsStatus']
-                  },
-                  this.timeFrame
-                );
-              } catch (Error) {
-                console.log('Self Service | Calls and Operating Cost | Claims Status', Error);
-                claimsStatus = null;
-              }
-            } else {
-              console.log('Self Service | Calls and Operating Cost | Data not found | Claims Status', Error);
-              claimsStatus = null;
-            }
-            if (
-              tempCallOperating.hasOwnProperty('ReduceEligibilityAndBenefitsCost') &&
-              tempCallOperating.hasOwnProperty('EligibilityAndBenefitCallCount') &&
-              tempCallOperating.hasOwnProperty('EligibilityAndBenefitPhoneCost') &&
-              tempCallOperating.hasOwnProperty('EligibilityAndBenefitSelfServiceCost')
-            ) {
-              try {
-                eligibilityBenefits = this.callsOperatingCostMethod(
-                  'Eligibilty & Benefits',
-                  this.common.nFormatter(tempCallOperating.ReduceEligibilityAndBenefitsCost),
-                  this.common.nFormatter(tempCallOperating.EligibilityAndBenefitCallCount),
-                  {
-                    chartData: [
-                      {
-                        labelsRight: '$' + this.common.nFormatter(tempCallOperating.EligibilityAndBenefitPhoneCost),
-                        values: tempCallOperating.EligibilityAndBenefitPhoneCost.toFixed(2),
-                        metricName: 'Phone Costs'
-                      },
-                      {
-                        labelsRight:
-                          '$' + this.common.nFormatter(tempCallOperating.EligibilityAndBenefitSelfServiceCost),
-                        values: tempCallOperating.EligibilityAndBenefitSelfServiceCost.toFixed(2),
-                        metricName: 'Self Service Costs'
-                      }
-                    ],
-                    color: ['#80B0FF', '#3381FF'],
-                    gdata: ['card-inner', 'eligibilityBenefits']
-                  },
-                  this.timeFrame
-                );
-              } catch (Error) {
-                console.log('Self Service | Calls and Operating Cost | Eligibility and Benefits', Error);
-                eligibilityBenefits = null;
-              }
-            } else {
-              console.log('Self Service | Calls and Operating Cost | Data not found | Eligibility and Benefits', Error);
-              eligibilityBenefits = null;
-            }
-            if (
-              tempCallOperating.hasOwnProperty('ReducePriorAuthorizationsCost') &&
-              tempCallOperating.hasOwnProperty('AuthCallCount') &&
-              tempCallOperating.hasOwnProperty('PriorAuthorizationsPhoneCost') &&
-              tempCallOperating.hasOwnProperty('PriorAuthorizationsSelfServiceCost')
-            ) {
-              try {
-                priorAuth = this.callsOperatingCostMethod(
-                  'Prior Authorizations',
-                  tempCallOperating.ReducePriorAuthorizationsCost,
-                  tempCallOperating.AuthCallCount,
-                  {
-                    chartData: [
-                      {
-                        labelsRight: '$' + tempCallOperating.PriorAuthorizationsPhoneCost,
-                        values: tempCallOperating.PriorAuthorizationsPhoneCost,
-                        metricName: 'Phone Costs'
-                      },
-                      {
-                        labelsRight: '$' + tempCallOperating.PriorAuthorizationsSelfServiceCost,
-                        values: tempCallOperating.PriorAuthorizationsSelfServiceCost,
-                        metricName: 'Self Service Costs'
-                      }
-                    ],
-                    color: ['#80B0FF', '#3381FF'],
-                    gdata: ['card-inner', 'priorAuth']
-                  },
-                  this.timeFrame
-                );
-              } catch (Error) {
-                console.log('Self Service | Calls and Operating Cost | Prior Auth ', Error);
-                priorAuth = null;
-              }
-            } else {
-              console.log('Self Service | Calls and Operating Cost | Data not found | Prior Auth', Error);
-              priorAuth = null;
-            }
-            callsOperatingCostData[0] = totalCosts;
-            callsOperatingCostData[1] = claimsStatus;
-            callsOperatingCostData[2] = eligibilityBenefits;
-            callsOperatingCostData[3] = priorAuth;
-          } else {
-            callsOperatingCostData[0] = null;
-            callsOperatingCostData[1] = null;
-            callsOperatingCostData[2] = null;
-            callsOperatingCostData[3] = null;
+            oppurtunities.push({
+              category: 'mini-tile',
+              title: null,
+              data: null,
+              fdata: null
+            });
           }
 
-          /************* */
           tempArray[0] = adoptionRate;
           tempArray[1] = linkEdiRation;
           tempArray[2] = paperLessDelivery;
-          tempArray[3] = saveStaffTime;
-          tempArray[4] = reduceClaimProcessingTime;
-          tempArray[5] = reduceReconsiderationProcessing;
 
-          // const removeNullCallsOperatingCost = callsOperatingCostData.filter(function(el) {
-          //   return el != null;
-          // });
-          this.selfServiceData.push(tempArray, callsOperatingCostData);
+          this.selfServiceData.push(tempArray, oppurtunities);
           resolve(this.selfServiceData);
         },
         err => {

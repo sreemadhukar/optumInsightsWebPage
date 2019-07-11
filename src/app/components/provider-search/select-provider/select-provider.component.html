@@ -25,16 +25,14 @@
     <form class="select-provider-form">
       <mat-form-field appearance="outline">
         <!-- <mat-label>Search Providers.</mat-label> -->
-        <input matInput [matAutocomplete]="auto" [formControl]="stateCtrl" />
+        <input matInput placeholder="Enter an organization here." [matAutocomplete]="auto" [formControl]="stateCtrl" />
         <mat-icon matPrefix class="nav-menu-icons provider-icon-color" svgIcon="search"></mat-icon>
-
         <mat-autocomplete #auto="matAutocomplete" (optionSelected)="providerSelect($event)">
           <mat-option *ngFor="let state of (filteredStates | async)" [value]="state.HealthCareOrganizationName">
             <span>{{ state.HealthCareOrganizationName }}</span></mat-option
           >
           <!-- <div class="view-allProviders" (click)="provider()">View All Providers</div> -->
         </mat-autocomplete>
-        <mat-icon matSuffix class="nav-menu-icons provider-icon-color" svgIcon="arrow-down"></mat-icon>
       </mat-form-field>
     </form>
   </div>

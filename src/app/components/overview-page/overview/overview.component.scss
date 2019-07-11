@@ -9,16 +9,20 @@
     @include mat-elevation(2);
     background-color: mat-color($accent);
 
-    overflow-x: hidden;
-    @include padding(30px, 30px, 64px, 30px);
+    overflow: hidden;
+    @include padding(30px, 0, 64px, 0);
     .overview-content {
+      display: -webkit-box;
+      display: -moz-box;
+      display: -ms-flexbox;
+      display: -webkit-flex;
       display: flex;
-      flex-wrap: wrap;
+      -webkit-flex-flow: row wrap;
       justify-content: left;
+      flex-wrap: wrap;
       margin-top: 25px;
-      //      flex-direction: column;
-      //      min-height: 100vh;
       padding-left: 40px;
+
       .self-service-heading {
         display: flex;
         // width: 83%;
