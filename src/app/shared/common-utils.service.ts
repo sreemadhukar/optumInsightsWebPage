@@ -183,4 +183,20 @@ export class CommonUtilsService {
     const y = this.ReturnMonthlyString(x[1]) + ' ' + x[2] + ', ' + x[0]; // Feb 02, 2019
     return y;
   }
+
+  public nondecimalFormatter(fnumber) {
+    if (fnumber >= 1000000000) {
+      return (fnumber / 1000000000).toFixed(0).replace(/\.0$/, '') + 'B';
+    }
+    if (fnumber >= 1000000) {
+      return (fnumber / 1000000).toFixed(0).replace(/\.0$/, '') + 'M';
+    }
+    if (fnumber >= 1000) {
+      return (fnumber / 1000).toFixed(0).replace(/\.0$/, '') + 'K';
+    }
+    if (fnumber < 1000) {
+      return fnumber.toFixed(0).replace(/\.0$/, '');
+    }
+    return fnumber;
+  }
 }
