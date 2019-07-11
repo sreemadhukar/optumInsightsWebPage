@@ -16,7 +16,7 @@ app.use(helmet());
 app.use(express.static(path.join(__dirname, '.')));
 
 var apiProxy = httpProxy.createProxyServer();
-var apiForwardingUrl = 'https://gateway-stage-core.optum.com';
+var apiForwardingUrl = 'https://pedapigateway-pedprddr.ocp-ctc-dmz.optum.com';
 var sessionSecret = '7dX03633CEuFJaf25ot5HlSPOZYQ6E9Y';
 var key = 'PvU8koWDqgbqZNin5aBj00RtRHWze7pC';
 
