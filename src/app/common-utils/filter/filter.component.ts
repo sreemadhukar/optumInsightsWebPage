@@ -1,7 +1,8 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 import { SessionService } from '../../shared/session.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-filter',
@@ -10,32 +11,49 @@ import { SessionService } from '../../shared/session.service';
 })
 export class FilterComponent implements OnInit {
   public lobData: string;
+  public serviceSettingData: string;
   public arrowmark: boolean;
   public taxData: string;
   public tarrowmark: boolean;
   public tiarrowmark: boolean;
+  public ssarrowmark: boolean;
   public tinsData: any;
   public taxValue: string;
   public inputDisplay = false;
+  public serviceSettingDisplay = false;
   public taxArrayData = [];
   public timeframeData: any;
   public filterData: any;
   @Output() filterFlag = new EventEmitter();
+  @Input() filterurl;
   public timeframes = ['Last 6 Months', 'Last 12 Months', 'Year to Date', '2018', '2017'];
   public lobs = ['All', 'Community & State', 'Employee & Individual', 'Medicare & Retirement'];
-  constructor(private iconRegistry: MatIconRegistry, sanitizer: DomSanitizer, private session: SessionService) {
+  public servicesettings = ['All', 'Inpatient', 'Outpatient', 'Outpatient Facility'];
+  constructor(
+    private iconRegistry: MatIconRegistry,
+    sanitizer: DomSanitizer,
+    private session: SessionService,
+    private location: Location
+  ) {
     this.timeframeData = this.session.filterObjValue.timeFrame;
     this.lobData = this.session.filterObjValue.lob;
     this.arrowmark = false;
     if (this.session.filterObjValue.tax.length > 1) {
       this.taxData = this.session.filterObjValue.tax.join(', ');
+      this.inputDisplay = true;
       this.taxArrayData = this.session.filterObjValue.tax;
     } else if (this.session.filterObjValue.tax.length === 1) {
       this.taxData = this.session.filterObjValue.tax[0];
+      if (this.session.filterObjValue.tax[0] !== 'All') {
+        this.inputDisplay = true;
+      } else {
+        this.inputDisplay = false;
+      }
     }
 
     this.tarrowmark = false;
     this.tiarrowmark = false;
+    this.ssarrowmark = false;
     iconRegistry.addSvgIcon(
       'arrowdn',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-keyboard_arrow_down-24px.svg')
@@ -50,7 +68,6 @@ export class FilterComponent implements OnInit {
       this.tarrowmark = !this.tarrowmark;
       this.arrowmark = false;
       this.taxValue = '';
-      this.inputDisplay = false;
       this.tiarrowmark = false;
     } else if (value === 'lob') {
       this.arrowmark = !this.arrowmark;
@@ -60,9 +77,25 @@ export class FilterComponent implements OnInit {
       this.tiarrowmark = !this.tiarrowmark;
       this.arrowmark = false;
       this.tarrowmark = false;
+    } else if (value === 'servicesetting') {
+      this.ssarrowmark = !this.ssarrowmark;
+      this.arrowmark = false;
+      this.tarrowmark = false;
+      this.tiarrowmark = false;
     }
   }
   ngOnInit() {
+    if (this.location.path() === '/CareDelivery/priorAuth') {
+      this.serviceSettingDisplay = true;
+      if (this.session.filterObjValue.serviceSetting) {
+        this.serviceSettingData = this.session.filterObjValue.serviceSetting;
+      } else {
+        this.serviceSettingData = this.servicesettings[0];
+      }
+    } else {
+      this.serviceSettingDisplay = false;
+    }
+    console.log(this.serviceSettingDisplay);
     this.lobData = this.session.filterObjValue.lob;
     this.session.getTins().then(data => {
       this.tinsData = data;
@@ -79,18 +112,46 @@ export class FilterComponent implements OnInit {
     this.session.filterObjValue.timeFrame = this.timeframeData = this.timeframes[0];
     this.session.filterObjValue.tax = ['All'];
     this.taxData = 'All';
+    if (this.serviceSettingDisplay) {
+      this.session.filterObjValue.serviceSetting = this.servicesettings[0];
+      this.session.store({
+        timeFrame: this.timeframes[0],
+        lob: this.lobs[0],
+        tax: ['All'],
+        serviceSetting: this.servicesettings[0]
+      });
+    } else {
+      this.session.store({ timeFrame: this.timeframes[0], lob: this.lobs[0], tax: ['All'] });
+    }
     this.filterFlag.emit(false);
   }
   applyFilter() {
-    // this.session.lob = this.lobData;
-    // this.session.timeFrame = this.timeframeData;
-    this.session.filterObjValue.timeFrame = this.timeframeData;
-    this.session.filterObjValue.lob = this.lobData;
     if (this.taxArrayData.length > 0) {
-      this.session.filterObjValue.tax = this.taxArrayData;
+      //  this.session.filterObjValue.tax = this.taxArrayData;
+      if (this.serviceSettingDisplay) {
+        this.session.store({
+          timeFrame: this.timeframeData,
+          lob: this.lobData,
+          tax: this.taxArrayData,
+          serviceSetting: this.serviceSettingData
+        });
+      } else {
+        this.session.store({ timeFrame: this.timeframeData, lob: this.lobData, tax: this.taxArrayData });
+      }
     } else {
-      this.session.filterObjValue.tax = [this.taxData];
+      // this.session.filterObjValue.tax = [this.taxData];
+      if (this.serviceSettingDisplay) {
+        this.session.store({
+          timeFrame: this.timeframeData,
+          lob: this.lobData,
+          tax: [this.taxData],
+          serviceSetting: this.serviceSettingData
+        });
+      } else {
+        this.session.store({ timeFrame: this.timeframeData, lob: this.lobData, tax: [this.taxData] });
+      }
     }
+    this.session.filterObjSubject.complete();
     this.filterFlag.emit(false);
   }
   focusFunction(searchValue: string) {

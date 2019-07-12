@@ -6,6 +6,8 @@
   box-sizing: border-box;
 
   .filter_bg {
+    height: 40px;
+    width: 100px;
     box-sizing: border-box;
     border: 1px solid $blue;
     border-radius: 2px;
@@ -18,12 +20,12 @@
       letter-spacing: 0.2px;
       line-height: 22px;
       text-align: center;
-      margin: 9px 12px;
+      margin: 9px 0;
       float: left;
     }
     .filter_icon {
       color: $blue;
-      margin: 9px 12px;
+      margin: 7px 10px;
       float: left;
     }
   }
@@ -56,7 +58,7 @@
   $background-color: mat-color($background);
   .gettingReimburse-body {
     background-color: mat-color($accent);
-    overflow-x: hidden;
+    overflow: hidden;
     display: flex;
     flex-direction: column;
     min-height: 100vh;
@@ -73,16 +75,37 @@
         line-height: 0;
       }
       .time--period {
-        .horizontal-align {
-          display: inline-block;
-          margin: 5px 0;
-        }
-        button {
-          span:first-child {
-            font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+        .filterchips {
+          width: 857px;
+          float: left;
+          .horizontal-align {
+            display: inline-block;
+            margin: 5px 17px 5px 0;
+            .btn-rounded {
+              height: 34px;
+              padding: 0.355rem 0.78125rem;
+            }
           }
-          span.text-semibold {
-            font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+          button {
+            span:first-child {
+              font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+            }
+            span.text-semibold {
+              font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+            }
+          }
+          .close-btn {
+            display: inherit;
+            position: relative;
+            cursor: pointer;
+            height: 24px;
+            display: inline-block;
+            vertical-align: middle;
+            padding: 0 0 0 8px;
+            margin-top: -1px;
+            .icon-display {
+              color: #757588;
+            }
           }
         }
       }
@@ -97,7 +120,6 @@
         width: 961px;
         font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
         color: $black-rock;
-        margin-left: 12px;
 
         .page-title {
           flex-basis: 100%;
@@ -113,9 +135,11 @@
         }
         /* tabs css starts here*/
         .container--tabs {
+          clear: left;
           width: 100%;
           line-height: 25px;
           margin-bottom: 12px;
+          padding-top: 24px;
           .nav-tabs {
             display: flex;
             border-radius: 2px;
@@ -133,8 +157,6 @@
                 font-size: 16px;
                 font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
                 letter-spacing: 0.2px;
-                &:hover {
-                }
               }
               &.active,
               &.active:hover,

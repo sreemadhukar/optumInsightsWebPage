@@ -15,7 +15,7 @@ String oseUiProject = 'pedstg'
 String oseInterProject= 'ped-internal'
 
 String intUiPod = 'pedintui'
-String stageUiPod = 'pedui'
+String stageUiPod = 'peduiuhc'
 String interUiPod = 'pedstgui2'
 
 pipeline {
@@ -35,6 +35,11 @@ pipeline {
                 label 'docker-nodejs-slave'
             }
             steps {
+                glDockerImageBuildPush tag: "$tagBase/$stgWebRepo:uhcstage",
+                        repository: "$stgWebRepo",
+                        namespace: "$namespace",
+                        dockerCredentialsId: "$env.DOCKER_CREDENTIALS_ID",
+                        extraBuildOptions: "--build-arg env_var=externalstage"
                 glDockerImageBuildPush tag: "$tagBase/$stgWebRepo:stage2",
                         repository: "$stgWebRepo",
                         namespace: "$namespace",
@@ -48,6 +53,12 @@ pipeline {
                 label 'docker-maven-slave'
             }
             steps {
+                glOpenshiftDeploy credentials: "$env.OPENSHIFT_CREDENTIALS_ID",
+                        ocpUrl: "$oseUiHost",
+                        project: "$oseUiProject",
+                        serviceName: "$stageUiPod",
+                        dockerImage: "$tagBase/$stgWebRepo:uhcstage",
+                        port: '8000'
                 glOpenshiftDeploy credentials: "$env.OPENSHIFT_CREDENTIALS_ID",
                         ocpUrl: "$oseInterHost",
                         project: "$oseInterProject",
