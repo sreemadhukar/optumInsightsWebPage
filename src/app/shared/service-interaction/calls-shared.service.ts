@@ -98,7 +98,7 @@ export class CallsSharedService {
                         totalCalls.PriorAuth,
                         totalCalls.Others
                       ],
-                      centerNumber: this.common.nFormatter(totalCalls.Total),
+                      centerNumber: this.common.nondecimalFormatter(totalCalls.Total),
                       color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'],
                       gdata: ['card-inner', 'callsByCallType']
                       // sdata: this.sdataTrend[0]
@@ -136,7 +136,7 @@ export class CallsSharedService {
                         totalCalls.PriorAuth,
                         totalCalls.Others
                       ],
-                      centerNumber: this.common.nFormatter(totalCalls.Total) + 'Hrs',
+                      centerNumber: this.common.nondecimalFormatter(totalCalls.Total) + 'Hrs',
                       color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'],
                       gdata: ['card-inner', 'talkTimeByCallType']
                       // sdata: this.sdataTrend[1]

@@ -2,7 +2,7 @@
 .app-card-structure {
   position: relative;
   background-color: $white;
-  width: 468px;
+  width: 464px;
   height: 356px;
   margin: 12px;
   line-height: 75px;
@@ -197,7 +197,7 @@
   }
   .pa-approved-rate-vertical-data-block {
     float: left;
-    padding-top: 10px;
+    padding-top: 35px; // top-bottom centre
     width: 135px;
     text-align: center;
     padding-left: 29px;
