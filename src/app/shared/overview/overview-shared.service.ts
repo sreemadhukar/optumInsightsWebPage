@@ -173,7 +173,10 @@ export class OverviewSharedService {
             color: ['#3381FF', '#D7DCE1'],
             gdata: ['card-inner', 'selfServiceCardD3Donut']
           },
-          sdata: null,
+          sdata: {
+            sign: 'up',
+            data: '+1%'
+          },
           timeperiod: '90 Days Period'
         };
       } else {
