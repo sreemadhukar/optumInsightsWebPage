@@ -29,7 +29,7 @@ export class GettingReimbursedComponent implements OnInit {
   tabOptionsTitle: Array<String> = [];
   loading: boolean;
   mockCards: any;
-  previousSelectedTab: Number = 0;
+  previousSelectedTab: any = 0;
   constructor(
     private gettingReimbursedSharedService: GettingReimbursedSharedService,
     private checkStorage: StorageService,
