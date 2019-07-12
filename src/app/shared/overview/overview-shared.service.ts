@@ -174,10 +174,10 @@ export class OverviewSharedService {
             gdata: ['card-inner', 'selfServiceCardD3Donut']
           },
           sdata: {
-            sign: 'down',
-            data: '-1.3%'
+            sign: 'up',
+            data: '+1%'
           },
-          timeperiod: 'Last 6 Months'
+          timeperiod: '90 Days Period'
         };
       } else {
         cSelfService = {
