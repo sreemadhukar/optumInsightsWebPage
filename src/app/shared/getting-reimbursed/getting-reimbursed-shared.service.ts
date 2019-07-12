@@ -145,7 +145,6 @@ export class GettingReimbursedSharedService {
             parameters = [this.providerKey, { TimeFilter: 'Last6Months' }];
           }
         }
-
         this.getNonPaymentData();
         this.gettingReimbursedService.getGettingReimbursedData(...parameters).subscribe(([claimsData, appealsData]) => {
           const lobFullData = this.common.matchFullLobWithData(this.lob);
@@ -206,14 +205,12 @@ export class GettingReimbursedSharedService {
               timeperiod: null
             };
           } else if (claimsData != null) {
-            this.timeFrame = 'Last 6 Months';
-
             if (
               claimsData.hasOwnProperty(lobData) &&
               claimsData[lobData] != null &&
               claimsData[lobData].hasOwnProperty('ClaimsLobSummary') &&
               claimsData[lobData].ClaimsLobSummary.length &&
-              claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('ClaimsPaid') &&
+              claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('AmountPaid') &&
               claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('ClaimsDenied') &&
               claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('ClaimsSubmitted')
             ) {
@@ -229,7 +226,7 @@ export class GettingReimbursedSharedService {
                 ),
                 data: {
                   graphValues: [
-                    claimsData[lobData].ClaimsLobSummary[0].ClaimsPaid,
+                    claimsData[lobData].ClaimsLobSummary[0].AmountPaid,
                     claimsData[lobData].ClaimsLobSummary[0].ClaimsDenied
                   ],
                   centerNumber: this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].ClaimsSubmitted),
@@ -309,24 +306,24 @@ export class GettingReimbursedSharedService {
               claimsData[lobData] != null &&
               claimsData[lobData].hasOwnProperty('ClaimsLobSummary') &&
               claimsData[lobData].ClaimsLobSummary.length &&
-              claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('ClaimsPaid') &&
+              claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('AmountPaid') &&
               claimsData.hasOwnProperty('Cs') &&
               claimsData.Cs.hasOwnProperty('ClaimsLobSummary') &&
               claimsData.Cs.ClaimsLobSummary.length &&
-              claimsData.Cs.ClaimsLobSummary[0].hasOwnProperty('ClaimsPaid') &&
+              claimsData.Cs.ClaimsLobSummary[0].hasOwnProperty('AmountPaid') &&
               claimsData.hasOwnProperty('Ei') &&
               claimsData.Ei.hasOwnProperty('ClaimsLobSummary') &&
               claimsData.Ei.ClaimsLobSummary.length &&
-              claimsData.Ei.ClaimsLobSummary[0].hasOwnProperty('ClaimsPaid') &&
+              claimsData.Ei.ClaimsLobSummary[0].hasOwnProperty('AmountPaid') &&
               claimsData.hasOwnProperty('Mr') &&
               claimsData.Mr.hasOwnProperty('ClaimsLobSummary') &&
               claimsData.Mr.ClaimsLobSummary.length &&
-              claimsData.Mr.ClaimsLobSummary[0].hasOwnProperty('ClaimsPaid')
+              claimsData.Mr.ClaimsLobSummary[0].hasOwnProperty('AmountPaid')
             ) {
               const paidData = [
-                claimsData.Mr.ClaimsLobSummary[0].ClaimsPaid,
-                claimsData.Cs.ClaimsLobSummary[0].ClaimsPaid,
-                claimsData.Ei.ClaimsLobSummary[0].ClaimsPaid
+                claimsData.Mr.ClaimsLobSummary[0].AmountPaid,
+                claimsData.Cs.ClaimsLobSummary[0].AmountPaid,
+                claimsData.Ei.ClaimsLobSummary[0].AmountPaid
               ];
               claimsPaid = {
                 category: 'app-card',
@@ -335,10 +332,10 @@ export class GettingReimbursedSharedService {
                 data: {
                   graphValues: paidData,
                   centerNumber:
-                    this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].ClaimsPaid) < 1 &&
-                    this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].ClaimsPaid) > 0
+                    this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].AmountPaid) < 1 &&
+                    this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].AmountPaid) > 0
                       ? '< $1'
-                      : '$' + this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].ClaimsPaid),
+                      : '$' + this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].AmountPaid),
                   color: ['#3381FF', '#80B0FF', '#003DA1'],
                   gdata: ['card-inner', 'claimsPaid'],
                   sdata: {
@@ -363,10 +360,10 @@ export class GettingReimbursedSharedService {
                   data: {
                     graphValues: [0, 100],
                     centerNumber:
-                      this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].ClaimsPaid) < 1 &&
-                      this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].ClaimsPaid) > 0
+                      this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].AmountPaid) < 1 &&
+                      this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].AmountPaid) > 0
                         ? '< $1'
-                        : '$' + this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].ClaimsPaid),
+                        : '$' + this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].AmountPaid),
                     color: ['#D7DCE1', '#D7DCE1'],
                     gdata: ['card-inner', 'claimsPaid'],
                     sdata: {
@@ -781,24 +778,24 @@ export class GettingReimbursedSharedService {
                 claimsData[lobData] != null &&
                 claimsData[lobData].hasOwnProperty('ClaimsLobSummary') &&
                 claimsData[lobData].ClaimsLobSummary.length &&
-                claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('ClaimsPaid') &&
+                claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('AmountPaid') &&
                 claimsData.hasOwnProperty('Cs') &&
                 claimsData.Cs.hasOwnProperty('ClaimsLobSummary') &&
                 claimsData.Cs.ClaimsLobSummary.length &&
-                claimsData.Cs.ClaimsLobSummary[0].hasOwnProperty('ClaimsPaid') &&
+                claimsData.Cs.ClaimsLobSummary[0].hasOwnProperty('AmountPaid') &&
                 claimsData.hasOwnProperty('Ei') &&
                 claimsData.Ei.hasOwnProperty('ClaimsLobSummary') &&
                 claimsData.Ei.ClaimsLobSummary.length &&
-                claimsData.Ei.ClaimsLobSummary[0].hasOwnProperty('ClaimsPaid') &&
+                claimsData.Ei.ClaimsLobSummary[0].hasOwnProperty('AmountPaid') &&
                 claimsData.hasOwnProperty('Mr') &&
                 claimsData.Mr.hasOwnProperty('ClaimsLobSummary') &&
                 claimsData.Mr.ClaimsLobSummary.length &&
-                claimsData.Mr.ClaimsLobSummary[0].hasOwnProperty('ClaimsPaid')
+                claimsData.Mr.ClaimsLobSummary[0].hasOwnProperty('AmountPaid')
               ) {
                 const paidData = [
-                  claimsData.Mr.ClaimsLobSummary[0].ClaimsPaid,
-                  claimsData.Cs.ClaimsLobSummary[0].ClaimsPaid,
-                  claimsData.Ei.ClaimsLobSummary[0].ClaimsPaid
+                  claimsData.Mr.ClaimsLobSummary[0].AmountPaid,
+                  claimsData.Cs.ClaimsLobSummary[0].AmountPaid,
+                  claimsData.Ei.ClaimsLobSummary[0].AmountPaid
                 ];
                 claimsPaid = {
                   category: 'app-card',
@@ -807,10 +804,10 @@ export class GettingReimbursedSharedService {
                   data: {
                     graphValues: paidData,
                     centerNumber:
-                      this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].ClaimsPaid) < 1 &&
-                      this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].ClaimsPaid) > 0
+                      this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].AmountPaid) < 1 &&
+                      this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].AmountPaid) > 0
                         ? '< $1'
-                        : '$' + this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].ClaimsPaid),
+                        : '$' + this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].AmountPaid),
                     color: ['#3381FF', '#80B0FF', '#003DA1'],
                     gdata: ['card-inner', 'claimsPaid'],
                     sdata: {

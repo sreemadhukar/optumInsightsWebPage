@@ -66,9 +66,13 @@
 
     .gettingReimburse-content {
       display: flex;
-      -webkit-flex-flow: row wrap;
+      // -webkit-flex-flow: row wrap;
       justify-content: center;
       flex-wrap: wrap;
+      .getting-reimbursed-cards {
+        display: inline-flex;
+        margin-left: -10px;
+      }
       .filter-div {
         overflow: auto;
 
@@ -167,6 +171,7 @@
                 border-radius: 2px 2px 0 0;
                 border-bottom-color: transparent;
                 text-decoration: none;
+                margin-top: -3px;
               }
               .nav-values {
                 color: #2d2d39;

@@ -70,7 +70,7 @@
         <div class="page-subtitle">{{ currentTabTitle }}</div>
       </div>
       <div class="height1Separator"></div>
-      <div *ngFor="let item of currentSummary">
+      <div class="getting-reimbursed-cards" *ngFor="let item of currentSummary">
         <app-card *ngIf="item.data != null && item.type != 'rotateWithLabel'" class="cards" [chartData]="item">
         </app-card>
         <app-error-card *ngIf="item.status != null" class="cards" [data]="item"></app-error-card>
