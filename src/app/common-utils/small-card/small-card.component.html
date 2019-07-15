@@ -28,7 +28,7 @@
           <img class="trend-image trend-image-neutral" src="/src/assets/images/flat-no-change.svg" alt="no-change" />
         </span>
         <div class="trend-value trend-value-neutral">
-          No Change
+          {{ data.sdata.data }}
         </div>
       </div>
       <div *ngIf="data.sdata.sign === 'up'" class="flex-box">
