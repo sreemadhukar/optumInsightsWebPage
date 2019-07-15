@@ -145,7 +145,7 @@ export class BarChartComponent implements OnInit, AfterViewInit {
         .attr('x', 28 + xScale(chartOptions.barData))
         .attr('y', (height + 20) / 2)
         .attr('fill', '#2D2D39')
-        .attr('font-size', '22')
+        .attr('font-size', '20')
         .style('text-anchor', 'start')
         .style('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
         .text(formatDy(chartOptions.barData));
