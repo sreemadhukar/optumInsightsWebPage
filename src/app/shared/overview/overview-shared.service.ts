@@ -420,9 +420,13 @@ export class OverviewSharedService {
         providerSystems.hasOwnProperty('SelfServiceInquiries') &&
         providerSystems.SelfServiceInquiries != null &&
         providerSystems.SelfServiceInquiries.hasOwnProperty('ALL') &&
+        providerSystems.SelfServiceInquiries.ALL != null &&
         providerSystems.SelfServiceInquiries.ALL.hasOwnProperty('SelfService') &&
+        providerSystems.SelfServiceInquiries.ALL.SelfService != null &&
         providerSystems.SelfServiceInquiries.ALL.SelfService.hasOwnProperty('AveragePaperClaimProcessingTime') &&
-        providerSystems.SelfServiceInquiries.ALL.SelfService.hasOwnProperty('AverageClaimProcessingTime')
+        providerSystems.SelfServiceInquiries.ALL.SelfService.AveragePaperClaimProcessingTime != null &&
+        providerSystems.SelfServiceInquiries.ALL.SelfService.hasOwnProperty('AverageClaimProcessingTime') &&
+        providerSystems.SelfServiceInquiries.ALL.SelfService.AverageClaimProcessingTime != null
       ) {
         oppurtunities.push({
           category: 'mini-tile',
@@ -469,12 +473,13 @@ export class OverviewSharedService {
         providerSystems.hasOwnProperty('SelfServiceInquiries') &&
         providerSystems.SelfServiceInquiries != null &&
         providerSystems.SelfServiceInquiries.hasOwnProperty('ALL') &&
+        providerSystems.SelfServiceInquiries.ALL != null &&
         providerSystems.SelfServiceInquiries.ALL.hasOwnProperty('SelfService') &&
+        providerSystems.SelfServiceInquiries.ALL.SelfService != null &&
         providerSystems.SelfServiceInquiries.ALL.SelfService.hasOwnProperty('AveragePaperReconsideredProcessingTime') &&
         providerSystems.SelfServiceInquiries.ALL.SelfService.hasOwnProperty('AverageReconsideredProcessingTime') &&
-        providerSystems.SelfServiceInquiries.ALL.hasOwnProperty('SelfService') &&
-        providerSystems.SelfServiceInquiries.ALL.SelfService['AveragePaperReconsideredProcessingTime'] !== null &&
-        providerSystems.SelfServiceInquiries.ALL.SelfService['AverageReconsideredProcessingTime'] !== null
+        providerSystems.SelfServiceInquiries.ALL.SelfService.AveragePaperReconsideredProcessingTime !== null &&
+        providerSystems.SelfServiceInquiries.ALL.SelfService.AverageReconsideredProcessingTime !== null
       ) {
         oppurtunities.push({
           category: 'mini-tile',
