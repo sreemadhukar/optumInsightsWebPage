@@ -199,4 +199,34 @@ export class CommonUtilsService {
     }
     return fnumber;
   }
+
+  public generateMonth(a) {
+    if (a === 0) {
+      return 'January';
+    } else if (a === 1) {
+      return 'February';
+    } else if (a === 2) {
+      return 'March';
+    } else if (a === 3) {
+      return 'April';
+    } else if (a === 4) {
+      return 'May';
+    } else if (a === 5) {
+      return 'June';
+    } else if (a === 6) {
+      return 'July';
+    } else if (a === 7) {
+      return 'August';
+    } else if (a === 8) {
+      return 'September';
+    } else if (a === 9) {
+      return 'October';
+    } else if (a === 10) {
+      return 'November';
+    } else if (a === 11) {
+      return 'December';
+    } else {
+      return null;
+    }
+  }
 }

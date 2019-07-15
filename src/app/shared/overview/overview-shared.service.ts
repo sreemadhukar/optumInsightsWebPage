@@ -204,6 +204,11 @@ export class OverviewSharedService {
         providerSystems.PatientCareOpportunity.LineOfBusiness.hasOwnProperty('MedicareAndRetirement') &&
         providerSystems.PatientCareOpportunity.LineOfBusiness.MedicareAndRetirement.hasOwnProperty('AverageStarRating')
       ) {
+        const PCORMRdate = providerSystems.PatientCareOpportunity.ReportingPeriod;
+        const PCORMRmonth = this.common.generateMonth(parseInt(PCORMRdate.substr(0, 2)) - 1);
+        const PCORMRday = parseInt(PCORMRdate.substr(3, 2));
+        const PCORMRyear = PCORMRdate.substr(6, 4);
+        const PCORRMReportingDate = PCORMRmonth + ' ' + PCORMRday + ', ' + PCORMRyear;
         cPcor = {
           category: 'small-card',
           type: 'star',
@@ -220,7 +225,7 @@ export class OverviewSharedService {
             gdata: ['card-inner', 'pcorCardD3Star']
           },
           sdata: null,
-          timeperiod: 'Last 6 Months'
+          timeperiod: 'Claims Processed as of' + PCORRMReportingDate
         };
       } else {
         cPcor = {
@@ -280,7 +285,9 @@ export class OverviewSharedService {
             ],
             centerNumber: this.common.nFormatter(providerSystems.ResolvingIssues.Calls.CallVolByQuesType.Total),
             color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'],
-            gdata: ['card-inner', 'callsCardD3Donut']
+            gdata: ['card-inner', 'callsCardD3Donut'],
+            hover: true,
+            labels: ['Claims', 'Benefits & Eligibility', 'Prior Authorizations', 'Others']
           },
           sdata: {
             sign: 'up',
@@ -557,7 +564,9 @@ export class OverviewSharedService {
                   ? '< $1'
                   : '$' + this.common.nFormatter(claims.All.ClaimsLobSummary[0].AmountPaid),
               color: ['#3381FF', '#80B0FF', '#003DA1'],
-              gdata: ['card-inner', 'claimsPaidCardD3Donut']
+              gdata: ['card-inner', 'claimsPaidCardD3Donut'],
+              labels: ['Medicare & Retirement', 'Community & State', 'Employer & Individual'],
+              hover: true
             },
             // sdata: claimsTrendObject,
             timeperiod: 'Last 6 Months'
@@ -579,8 +588,6 @@ export class OverviewSharedService {
                 color: ['#D7DCE1', '#D7DCE1'],
                 gdata: ['card-inner', 'claimsPaidCardD3Donut']
               },
-              labels: ['Medicare & Retirement', 'Community & State', 'Employer & Individual'],
-              hover: true,
               // sdata: claimsTrendObject,
               timeperiod: 'Last 6 Months'
             };
