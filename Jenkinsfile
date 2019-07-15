@@ -2,12 +2,9 @@
 
 @Library("com.optum.jenkins.pipeline.library@v0.1.24") _
 
-String dockerHost = 'docker.optum.com'
-String namespace = 'fspeddeply'
+String dockerHost = 'docker.repo1.uhc.com'
+String namespace = 'uhcinsights'
 String tagBase = "$dockerHost/$namespace"
-
-String qaWebRepo = 'pedweb_tst'
-String devWebRepo = 'pedweb_dev'
 
 String oseHost= "https://ocp-ctc-core-nonprod.optum.com"
 
@@ -41,11 +38,16 @@ pipeline {
                 label 'docker-nodejs-slave'
             }
             steps {
-                glDockerImageBuildPush tag: "$tagBase/$qaWebRepo:qaone",
-                        repository: "$qaWebRepo",
-                        namespace: "$namespace",
+                glDockerImageBuildPush tag: "$tagBase/ui_int:qaone",
+                        dockerHost: 'docker.repo1.uhc.com',
                         dockerCredentialsId: "$env.DOCKER_CREDENTIALS_ID",
                         extraBuildOptions: "--build-arg env_var=dev"
+              
+                 glDockerImageTag sourceTag: "$tagBase/ui_int:qaone",
+                                 destTag: "$tagBase/ui_int:${env.BUILD_NUMBER}"
+                 glDockerImagePush dockerCredentialsId: "${env.DOCKER_CREDENTIALS_ID}", 
+                     tag:"$tagBase/ui_int:${env.BUILD_NUMBER}",
+                     dockerHost: 'docker.repo1.uhc.com'
             }
         }
 
@@ -62,7 +64,7 @@ pipeline {
                         ocpUrl: "$oseHost",
                         project: "$oseQaProject",
                         serviceName: "$qaOneUiPod",
-                        dockerImage: "$tagBase/$qaWebRepo:qaone",
+                        dockerImage: "$tagBase/ui_int:qaone",
                         port: '8000'
 
             }
@@ -148,11 +150,16 @@ pipeline {
                 label 'docker-nodejs-slave'
             }
             steps {
-                glDockerImageBuildPush tag: "$tagBase/$devWebRepo:devthree",
-                        repository: "$devWebRepo",
-                        namespace: "$namespace",
+                glDockerImageBuildPush tag: "$tagBase/ui_devthree:devthree",
+                        dockerHost: 'docker.repo1.uhc.com',
                         dockerCredentialsId: "$env.DOCKER_CREDENTIALS_ID",
                         extraBuildOptions: "--build-arg env_var=devthree"
+              
+                glDockerImageTag sourceTag: "$tagBase/ui_devthree:devthree",
+                                 destTag: "$tagBase/ui_devthree:${env.BUILD_NUMBER}"
+                glDockerImagePush dockerCredentialsId: "${env.DOCKER_CREDENTIALS_ID}", 
+                     tag:"$tagBase/ui_devthree:${env.BUILD_NUMBER}",
+                     dockerHost: 'docker.repo1.uhc.com'
             }
         }
 
@@ -169,7 +176,7 @@ pipeline {
                         ocpUrl: "$oseHost",
                         project: "$oseDevProject",
                         serviceName: "$devThreeUiPod",
-                        dockerImage: "$tagBase/$devWebRepo:devthree",
+                        dockerImage: "$tagBase/ui_devthree:devthree",
                         port: '8000'
               
             }
