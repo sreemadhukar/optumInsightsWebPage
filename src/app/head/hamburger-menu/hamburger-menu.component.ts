@@ -238,6 +238,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
       data => {
         this.filterFlag = true;
         this.filterurl = data;
+        console.log(data);
       },
       err => {
         console.log('Error, clickHelpIcon , inside Hamburger', err);
