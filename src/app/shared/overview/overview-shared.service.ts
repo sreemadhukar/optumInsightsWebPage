@@ -127,8 +127,8 @@ export class OverviewSharedService {
             gdata: ['card-inner', 'priorAuthCardD3Donut']
           },
           sdata: {
-            sign: 'up',
-            data: '+1%'
+            sign: '',
+            data: ''
           },
           timeperiod: 'Last 6 Months'
         };
@@ -174,8 +174,8 @@ export class OverviewSharedService {
             gdata: ['card-inner', 'selfServiceCardD3Donut']
           },
           sdata: {
-            sign: 'up',
-            data: '+1%'
+            sign: '',
+            data: ''
           },
           timeperiod: '90 Days Period'
         };
