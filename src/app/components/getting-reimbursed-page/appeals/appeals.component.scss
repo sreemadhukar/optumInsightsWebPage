@@ -156,3 +156,10 @@
   // margin-top: 319px;
   border-top: 1px solid #efefef;
 }
+
+.appeals-content {
+  display: flex;
+  justify-content: left;
+  flex-wrap: wrap;
+  padding-left: 85px;
+}
