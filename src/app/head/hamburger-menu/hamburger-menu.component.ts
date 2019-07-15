@@ -113,7 +113,10 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     // to disable the header/footer/body when not authenticated
     router.events.subscribe(event => {
       if (event instanceof NavigationStart) {
-        this.makeAbsolute = !(authService.isLoggedIn() && !(event.url === '' || event.url.indexOf('/login') >= 0));
+        this.makeAbsolute = !(
+          authService.isLoggedIn() &&
+          !(event.url === '' || event.url === '/ProviderSearch' || event.url.indexOf('/login') >= 0)
+        );
         this.loading = true;
       }
       // PLEASE DON'T MODIFY THIS
@@ -289,7 +292,8 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
   }
   /** FUNCTIONS TO COLLAPSE LEFT MENU **/
   collapseExpansionPanels(id) {
-    this.allExpandState(false, id - 1);
+    window.scrollTo(300, 0);
+    // this.allExpandState(false, id - 1);
   }
 
   openDialog(): void {
@@ -317,7 +321,12 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     this.authService.logout();
   }
   public close() {
-    this.srnav.disableClose = true;
+    if (this.filterFlag) {
+      this.filterFlag = false;
+    }
+    if (this.glossaryFlag) {
+      this.glossaryFlag = false;
+    }
   }
   private allExpandState(value: boolean, id) {
     this._allExpandState = value;

@@ -3,6 +3,7 @@
 ::ng-deep .mat-autocomplete-panel {
   max-height: 0% !important;
 }
+
 ::ng-deep .mat-autocomplete-panel:not([class*='mat-elevation-z']) {
   margin-top: 3px;
   border: 1px solid #e0e0e0;
@@ -10,21 +11,25 @@
   background-color: #ffffff;
   box-shadow: 0 20px 40px 0 rgba(0, 0, 0, 0.15);
 }
+
 ::ng-deep .mat-form-field-appearance-outline.mat-focused ::ng-deep .mat-form-field-outline-thick {
   color: $blue;
 }
+
 ::ng-deep .mat-option-text {
-  font-family: 'UHCSans-Medium', 'sans-serif', 'Arial';
-  font-weight: 500 !important;
+  font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
 }
 
 .business-glossary {
+  word-break: keep-all;
   padding: 10px;
+  width: 354px;
+  margin-top: -25px;
+  height: 100%;
   .title {
     color: #2d2d39;
-    font-family: 'UHCSans-Medium', 'sans-serif', 'Arial';
+    font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
     font-size: 22px;
-    font-weight: 600;
     text-align: center;
   }
   .path {
@@ -34,7 +39,6 @@
   &-header {
     text-align: center;
   }
-
   &-form {
     mat-form-field {
       width: 100%;
@@ -48,35 +52,57 @@
 
 .glossary-title {
   color: $black-rock;
-  font-family: 'UHCSans-SemiBold', 'Arial';
+  word-break: keep-all;
+  font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
   font-size: 28px;
   line-height: 32px;
   letter-spacing: 0.2px;
 }
 
+.all-metrics-glossary-title {
+  color: $black-rock;
+  font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+  letter-spacing: 0.2px;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 22px;
+  word-break: keep-all;
+}
+
 .glossary-formula {
   color: $black-rock;
-  font-family: 'UHCSans-SemiBold', 'Arial';
+  font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
   font-size: 16px;
   letter-spacing: 0.2px;
   line-height: 22px;
 }
+
+.glossary-metric-formula {
+  word-break: break-all;
+}
+
 .glossary-definition {
+  word-break: keep-all;
   color: $black-rock;
-  font-family: 'UHCSans-Medium', 'sans-serif', 'Arial';
+  font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
   font-size: 16px;
-  font-weight: 500;
   letter-spacing: 0.2px;
   line-height: 22px;
 }
 
 .go-to-metric-location {
   color: $blue;
-  font-family: 'UHCSans-Medium', 'sans-serif', 'Arial';
+  font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
   font-size: 16px;
-  font-weight: 600;
   letter-spacing: 0.2px;
   line-height: 22px;
+}
+
+.business-glossary {
+  .input-style {
+    height: 0 !important;
+    padding: 0 !important;
+  }
 }
 
 .icon-search-black {
@@ -88,12 +114,111 @@
   height: 40px;
   width: 40px;
 }
-.view-allMetrics {
-  color: $blue;
-  cursor: pointer;
-  font-family: 'UHCSans-SemiBold';
+
+.metrics-div {
+  min-height: 92%;
+  word-break: break-all;
+  padding-bottom: 100px;
+}
+
+.view-all-metrics-title {
+  color: $black-rock;
+  font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+  font-size: 28px;
+  font-weight: 600;
+  line-height: 32px;
+  padding-top: 6px;
+  padding-bottom: 25px;
+}
+
+.each-metric-border {
+  border-top: 1px solid #e0e0e0;
+  padding-top: 22px;
+}
+
+.each-metric-div {
+  padding-bottom: 9px;
+  .glossary-metric-content-div {
+    height: 44px;
+    overflow: hidden;
+  }
+}
+
+.Read-More {
+  color: #196ecf;
+  font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
   font-size: 16px;
   font-weight: 600;
   letter-spacing: 0.2px;
+  line-height: 22px;
+  padding-bottom: 25px;
+}
+
+.Read-More:hover {
+  cursor: pointer;
+}
+
+.view-allMetrics {
+  color: $blue;
+  cursor: pointer;
+  font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  letter-spacing: 0.2px;
   padding: 18px 0 18px 18px;
+}
+
+.view-all-metrics-button-position-div {
+}
+
+.absolute {
+  position: absolute;
+  bottom: 0;
+}
+
+.fixed {
+  position: fixed;
+  bottom: 0;
+  right: -1px;
+}
+
+.relative {
+  position: relative;
+}
+
+.view-all-metrics-button-div {
+  background: #ffffff;
+  margin-left: -24px;
+  padding-left: 33px;
+  padding-right: 32px;
+  padding-bottom: 25px;
+  padding-top: 25px;
+}
+
+.view-all-metrics-button {
+  box-sizing: border-box;
+  height: 41px;
+  width: 354px;
+  border: 1px solid;
+  border-color: #196ecf;
+  border-radius: 2px;
+  text-align: center;
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+
+.view-all-metrics-button:hover {
+  .view-all-metrics-button-text {
+    color: white !important;
+  }
+  background-color: #196ecf !important;
+  cursor: pointer;
+}
+
+.view-all-metrics-button-text {
+  color: #196ecf !important;
+  font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  letter-spacing: 0.2px;
+  line-height: 22px;
+  text-align: center;
 }

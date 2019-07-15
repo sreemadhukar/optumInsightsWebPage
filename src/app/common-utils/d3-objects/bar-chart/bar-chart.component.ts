@@ -28,6 +28,18 @@ export class BarChartComponent implements OnInit, AfterViewInit {
   }
 
   doBarChart(chartOptions: any, transition: number) {
+    function formatDy(dy: number): string {
+      if (dy === 0) {
+        return '0.0M';
+      } else if (dy < 999) {
+        return dy.toFixed(0);
+      } else if (dy < 999999) {
+        return (dy / 1000).toFixed(1) + 'K';
+      } else if (dy) {
+        return (dy / 1000000).toFixed(1) + 'M';
+      }
+    }
+
     function getTextWidth(text, fontSize, fontFace) {
       const canvas = document.createElement('canvas');
       const context = canvas.getContext('2d');
@@ -82,7 +94,7 @@ export class BarChartComponent implements OnInit, AfterViewInit {
       .selectAll('*')
       .remove();
 
-    let barHeight = 68;
+    let barHeight = 48;
     if (chartOptions.barHeight) {
       barHeight = chartOptions.barHeight + 8;
     }
@@ -135,9 +147,8 @@ export class BarChartComponent implements OnInit, AfterViewInit {
         .attr('fill', '#2D2D39')
         .attr('font-size', '22')
         .style('text-anchor', 'start')
-        .style('font-family', 'UHCSans-SemiBold')
-        .style('font-weight', '600')
-        .text(chartOptions.barData);
+        .style('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
+        .text(formatDy(chartOptions.barData));
 
       chart
         .append('rect')
@@ -175,8 +186,7 @@ export class BarChartComponent implements OnInit, AfterViewInit {
         .attr('fill', '#2D2D39')
         .attr('font-size', '16')
         .attr('text-anchor', 'start')
-        .attr('font-family', 'UHCSans-Medium')
-        .attr('font-weight', '500')
+        .attr('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
         .text(chartOptions.barText)
         .call(wrap, 250, tspanID, 16);
 
@@ -228,8 +238,7 @@ export class BarChartComponent implements OnInit, AfterViewInit {
           .attr('fill', '#2D2D39')
           .attr('font-size', '14')
           .attr('text-anchor', 'start')
-          .attr('font-family', 'UHCSans-SemiBold')
-          .attr('font-weight', '600')
+          .attr('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
           .text(chartOptions.barText)
           .call(wrap, 420, tspanID + 'hover', 14);
 
@@ -241,14 +250,14 @@ export class BarChartComponent implements OnInit, AfterViewInit {
               .transition()
               .duration(10)
               .style('opacity', 1);
-            div.style('left', d3.event.layerX - 219 + 'px').style('top', d3.event.layerY - 130 + 'px');
+            div.style('left', 18 + 'px').style('top', 302 + 'px');
           })
           .on('mousemove', function(d) {
             div
               .transition()
               .duration(10)
               .style('opacity', 1);
-            div.style('left', d3.event.layerX - 219 + 'px').style('top', d3.event.layerY - 130 + 'px');
+            div.style('left', 18 + 'px').style('top', 302 + 'px');
           })
           .on('mouseleave', function(d) {
             div
@@ -265,8 +274,8 @@ export class BarChartComponent implements OnInit, AfterViewInit {
         .attr('fill', '#2D2D39')
         .attr('font-size', '22')
         .style('text-anchor', 'start')
-        .style('font-family', 'UHCSans-SemiBold')
-        .style('font-weight', '600')
+        .style('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
+
         .text(chartOptions.barData);
     }
   }

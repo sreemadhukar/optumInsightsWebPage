@@ -1,6 +1,57 @@
 @import '~src/scss/variables.scss';
 @import '~src/scss/mixins';
 @import '~src/scss/my-custom-theme';
+.breadcrumb-top-padding {
+  @include margin(12px, 0, 12px, 0);
+  box-sizing: border-box;
+  font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+
+  .filter_bg {
+    height: 40px;
+    width: 100px;
+    box-sizing: border-box;
+    border: 1px solid $blue;
+    border-radius: 2px;
+    float: right;
+    cursor: pointer;
+    .filter_title {
+      color: $blue;
+      font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+      font-size: 16px;
+      letter-spacing: 0.2px;
+      line-height: 22px;
+      text-align: center;
+      margin: 9px 0;
+      float: left;
+    }
+    .filter_icon {
+      color: $blue;
+      margin: 7px 10px;
+      float: left;
+    }
+  }
+  .filter_bg:hover,
+  .filter_bg:focus {
+    background-color: #196ecf;
+    color: #ffffff;
+    .filter_title {
+      color: #ffffff;
+    }
+    .filter_icon {
+      color: #ffffff;
+    }
+  }
+  .filter_bg:active {
+    background-color: #003da1;
+    color: #ffffff;
+    .filter_title {
+      color: #ffffff;
+    }
+    .filter_icon {
+      color: #ffffff;
+    }
+  }
+}
 
 .payments-body {
   @include mat-elevation(2);
@@ -9,12 +60,14 @@
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  @include padding(30px, 30px, 30px, 30px);
+  background-color: $alice-blue;
+  @include padding(16px, 0, 64px, 0);
 
   .payments-content {
     display: flex;
+    -webkit-flex-flow: row wrap;
+    justify-content: center;
     flex-wrap: wrap;
-
     .height1Separator {
       height: 0;
       width: 1200px;
@@ -22,24 +75,56 @@
 
     & > .cards {
       text-align: left;
-      line-height: 75px;
     }
 
     .cust-width-title {
-      width: 100%;
-      font-family: 'UHCSans-SemiBold', 'Arial';
+      width: 961px;
+      font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
       color: $black-rock;
-      margin-left: 10px;
 
       .page-title {
         flex-basis: 100%;
         font-size: 36px;
+        @include padding(16px, 0, 20px, 0);
         line-height: 40px;
-        margin-bottom: 24px;
-        margin-top: 16px;
+      }
+      .time--period {
+        .filterchips {
+          width: 857px;
+          float: left;
+          .horizontal-align {
+            display: inline-block;
+            margin: 5px 17px 5px 0;
+            .btn-rounded {
+              height: 34px;
+              padding: 0.355rem 0.78125rem;
+            }
+          }
+          button {
+            span:first-child {
+              font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+            }
+            span.text-semibold {
+              font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+            }
+          }
+          .close-btn {
+            display: inherit;
+            position: relative;
+            cursor: pointer;
+            width: 24px;
+            height: 24px;
+            display: inline-block;
+            vertical-align: middle;
+            padding: 0 0 0 8px;
+            margin-top: -1px;
+            .icon-display {
+              color: #757588;
+            }
+          }
+        }
       }
     }
-
     .claims-paid-content {
       width: 961px;
       border-radius: 2px;
@@ -48,33 +133,35 @@
       margin: 12px;
       float: left;
       height: 525px;
-
       .claims-header {
         color: $strom-grey;
       }
-
+      .footer-border {
+        border-top: 1px solid #e0e0e0;
+        margin: 0;
+        padding: 0;
+        height: 1px;
+      }
       .timeperiod-block {
-        border-top: 1px solid #efefef;
+        height: 40px;
         position: absolute;
         /* bottom: 0; */
-        margin-top: 490px;
+        margin-top: 482px;
         /* height: 44px; */
         width: 961px;
         z-index: 999999;
-
         .timeperiod-text {
-          position: inherit;
-          padding: 9px 20px 9px 16px;
-          color: $strom-grey;
-          font-family: 'UHCSans-Regular', 'Arial';
+          padding: 12px 16px 10px 16px;
+          color: rgb(117, 117, 136);
+          font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
           font-size: 14px;
-          font-weight: 500;
           letter-spacing: 0.2px;
-          line-height: 17px;
-          height: 30px;
-          // margin-top: 5px;
+          line-height: 18px;
         }
       }
     }
+  }
+  @media only screen and (max-width: 1024px) {
+    @include padding(16px, 0, 16px, 0);
   }
 }

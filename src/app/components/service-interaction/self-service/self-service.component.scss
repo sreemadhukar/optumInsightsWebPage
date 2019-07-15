@@ -1,0 +1,70 @@
+@import '~src/scss/variables.scss';
+@import '~src/scss/mixins';
+@import '~src/scss/my-custom-theme';
+.selfService-body {
+  overflow: hidden;
+  padding-bottom: 60px;
+  .selfService-content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: left;
+    padding-left: 85px; // for center align
+    .height1Separator {
+      height: 0;
+      width: 1200px;
+    }
+
+    & > .cards {
+      text-align: left;
+      line-height: 75px;
+    }
+
+    .cust-width-title {
+      width: 450px;
+      margin-left: 10px;
+      font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+      color: $black-rock;
+
+      .page-title {
+        flex-basis: 100%;
+        font-size: 36px;
+        line-height: 1;
+        margin-bottom: 16px;
+        color: $black-rock;
+      }
+      .title-opportunity {
+        flex-basis: 100%;
+        font-size: 28px;
+        line-height: 1;
+        margin-bottom: 16px;
+        color: $black-rock;
+      }
+
+      .page-question {
+        flex-basis: 100%;
+        font-size: 22px;
+        line-height: 1;
+        margin-bottom: 8px;
+      }
+    }
+    .opportunity-content {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: left;
+      .self-service-heading {
+        display: flex;
+        padding-top: 30px;
+      }
+    }
+
+    .cust-width-blank {
+      width: 487px;
+      margin-left: 20px;
+    }
+    @media (max-width: 1300px) {
+      .cust-width-blank {
+        width: 437px;
+      }
+    }
+  }
+}

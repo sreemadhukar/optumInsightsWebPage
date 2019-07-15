@@ -55,8 +55,10 @@ export class OverviewComponent implements OnInit, AfterContentInit {
       .then(data => {
         this.loading = false;
         this.overviewItems = JSON.parse(JSON.stringify(data));
+        console.log(this.overviewItems[0]);
         this.mainCards = this.overviewItems[0];
         this.selfServiceMiniCards = this.overviewItems[1];
+        console.log(this.overviewItems[1]);
       })
       .catch(reason => {
         this.loading = true;

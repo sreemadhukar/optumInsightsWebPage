@@ -1,11 +1,13 @@
 @import '~src/scss/variables.scss';
 @import '~src/scss/mixins';
 .breadcrumb-top-padding {
-  @include padding(20px, 0, 15px, 0);
-  @include margin(0, 0, 0, 11px);
+  @include margin(12px, 0, 12px, 0);
   box-sizing: border-box;
-  width: 961px;
+  font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+  clear: left;
   .filter_bg {
+    height: 40px;
+    width: 100px;
     box-sizing: border-box;
     border: 1px solid $blue;
     border-radius: 2px;
@@ -13,17 +15,17 @@
     cursor: pointer;
     .filter_title {
       color: $blue;
-      font-family: 'UHCSans-SemiBold', 'Arial';
+      font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
       font-size: 16px;
       letter-spacing: 0.2px;
       line-height: 22px;
       text-align: center;
-      margin: 12.5px 12.5px 8.5px 0;
+      margin: 9px 0;
       float: left;
     }
     .filter_icon {
       color: $blue;
-      margin: 9.5px 14px 9.5px 14px;
+      margin: 7px 10px;
       float: left;
     }
   }
@@ -38,7 +40,6 @@
       color: #ffffff;
     }
   }
-
   .filter_bg:active {
     background-color: #003da1;
     color: #ffffff;
@@ -53,18 +54,71 @@
 
 .gettingReimburse-body {
   background-color: $alice-blue;
-  overflow-x: hidden;
-  @include padding(30px, 30px, 30px, 30px);
+  font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+  overflow: hidden;
+  @include padding(16px, 0, 64px, 0);
   .gettingReimburse-content {
     display: -webkit-box;
     display: -moz-box;
     display: -ms-flexbox;
     display: -webkit-flex;
     display: flex;
-
     -webkit-flex-flow: row wrap;
     justify-content: center;
     flex-wrap: wrap;
+
+    & > .cards {
+      text-align: left;
+    }
+
+    .cust-width-title {
+      width: 961px;
+      font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+      color: $black-rock;
+
+      .page-title {
+        flex-basis: 100%;
+        font-size: 36px;
+        @include padding(16px, 0, 20px, 0);
+        line-height: 40px;
+      }
+      .time--period {
+        .filterchips {
+          width: 857px;
+          float: left;
+          .horizontal-align {
+            display: inline-block;
+            margin: 5px 17px 5px 0;
+            .btn-rounded {
+              height: 34px;
+              padding: 0.355rem 0.78125rem;
+            }
+          }
+          button {
+            span:first-child {
+              font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+            }
+            span.text-semibold {
+              font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+            }
+          }
+          .close-btn {
+            display: inherit;
+            position: relative;
+            cursor: pointer;
+            width: 24px;
+            height: 24px;
+            display: inline-block;
+            vertical-align: middle;
+            padding: 0 0 0 8px;
+            margin-top: -1px;
+            .icon-display {
+              color: #757588;
+            }
+          }
+        }
+      }
+    }
 
     .top-reasons-for-claims-non-payment-block {
       width: 961px;
@@ -113,9 +167,8 @@
     }
     .bar-graph-title {
       color: $black-rock;
-      font-family: 'UHCSans-Medium', 'sans-serif', 'Arial';
+      font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
       font-size: 16px;
-      font-weight: 500;
       letter-spacing: 0.2px;
       line-height: 22px;
       float: left;
@@ -123,9 +176,8 @@
     }
     .bar-graph-value {
       color: $black-rock;
-      font-family: 'UHCSans-Medium', 'sans-serif', 'Arial';
+      font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
       font-size: 20px;
-      font-weight: 600;
       line-height: 22px;
       float: right;
     }
@@ -154,15 +206,15 @@
     }
     .bar-graph-block-icon {
       float: left;
-      margin-top: -2px;
+      /*margin-top: -2px;*/
       margin-left: 8px;
+      height: 20px;
+      width: 20px;
     }
-
     .full-display {
       float: left;
       width: 100%;
     }
-
     .inner-block {
       position: relative;
       background: $alice-blue;
@@ -190,22 +242,46 @@
     .page-title {
       flex-basis: 100%;
       font-size: 36px;
+      @include padding(16px, 0, 32px, 0);
       line-height: 40px;
-      margin-bottom: 24px;
-      margin-top: 16px;
+      font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+      color: $black-rock;
     }
-    .time-period {
-      box-sizing: border-box;
-      height: 33px;
-      width: 230px;
-      border: 1px solid $heather;
-      border-radius: 16px;
-      background-color: $gainsboro;
-      line-height: 30px;
-      padding-left: 7px;
-      float: left;
+    .time--period {
+      .filterchips {
+        width: 857px;
+        float: left;
+        .horizontal-align {
+          display: inline-block;
+          margin: 5px 17px 5px 0;
+          .btn-rounded {
+            height: 34px;
+            padding: 0.355rem 0.78125rem;
+          }
+        }
+        button {
+          span:first-child {
+            font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+          }
+          span.text-semibold {
+            font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+          }
+        }
+        .close-btn {
+          display: inherit;
+          position: relative;
+          cursor: pointer;
+          height: 24px;
+          display: inline-block;
+          vertical-align: middle;
+          padding: 0 0 0 8px;
+          margin-top: -1px;
+          .icon-display {
+            color: #757588;
+          }
+        }
+      }
     }
-
     .bottom-shadow {
       height: 1px;
       background: $alice-blue;
@@ -225,15 +301,14 @@
       margin-left: 24px;
       box-shadow: -2px -2px 4px 0 rgba(0, 0, 0, 0.15) inset;
     }
-
     .inner-blocks-header {
       color: $black-rock;
-      font-family: 'UHCSans-Medium', 'sans-serif', 'Arial';
+      font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
       font-size: 16px;
-      font-weight: 600;
       letter-spacing: 0.2px;
-      line-height: 22px;
-      margin-top: 25px;
+      /*line-height: 22px;*/
+      line-height: unset;
+      margin-top: 24px;
       margin-left: 4px;
     }
     .top-5-block {
@@ -250,18 +325,16 @@
     }
     .top-5-text {
       color: $black-rock;
-      font-family: $font-family-UHC;
+      font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
       font-size: 16px;
-      font-weight: 500;
       letter-spacing: 0.2px;
       line-height: 22px;
     }
     .top-5-value {
       margin-top: 16px;
       color: $black-rock;
-      font-family: $font-family-UHC;
+      font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
       font-size: 18px;
-      font-weight: 600;
       line-height: 22px;
     }
     .hide-bottom-arrow-block {
@@ -273,9 +346,7 @@
       top: 1px;
       border-radius: 20px;
     }
-
     // Claims Non Payment Trend Css Begins
-
     .non-payment-trend-block {
       width: 961px;
       // height: 450px;
@@ -284,8 +355,12 @@
       box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
       margin: 12px;
       float: left;
+      position: relative;
     }
 
+    .bottom-margin-block {
+      margin-bottom: 15px;
+    }
     .timeperiod-block {
       border-top: 1px solid #efefef;
       position: absolute;
@@ -293,25 +368,21 @@
       width: 961px;
       z-index: 99999;
     }
-
     .timeperiod-text {
       position: inherit;
       padding: 9px 20px 9px 16px;
       color: $strom-grey;
-      font-family: 'UHCSans-Medium', 'Arial';
+      font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
       font-size: 14px;
-      font-weight: 500;
       letter-spacing: 0.2px;
       line-height: 17px;
       height: 30px;
       // margin-top: 5px;
     }
-
     .time-period-trend {
       float: left;
     }
     // Claims Non Payment Trend CSs Ends
-
     .claims-non-payments-by-facility-block {
       width: 961px;
       border-radius: 2px;
@@ -325,9 +396,8 @@
         right: 56px;
         top: 15.5px;
         color: $black-rock;
-        font-family: 'UHCSans-Medium';
+        font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
         font-size: 14px;
-        font-weight: 500;
         letter-spacing: 0.2px;
         line-height: 18px;
       }
@@ -339,9 +409,8 @@
         box-sizing: border-box;
         height: 41px;
         color: $strom-grey;
-        font-family: 'UHCSans-Medium';
+        font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
         font-size: 16px;
-        font-weight: 500;
         letter-spacing: 0.2px;
         line-height: 22px;
         padding: 9px 12.5px;
@@ -372,9 +441,8 @@
         right: 114px;
         padding-top: 15.5px;
         color: $black-rock;
-        font-family: 'UHCSans-Medium', 'sans-serif', 'Arial';
+        font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
         font-size: 14px;
-        font-weight: 500;
         letter-spacing: 0.2px;
         line-height: 18px;
       }
@@ -385,7 +453,6 @@
       .common-footer {
         border-top: none !important;
       }
-
       .claims-non-payments-by-facility-table {
         float: left;
         width: 961px;
@@ -416,21 +483,18 @@
         .mat-table-header-cell {
           padding-left: 16.5px !important;
           color: $black-rock;
-          font-family: 'UHCSans-Medium', 'sans-serif', 'Arial';
+          font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
           font-size: 14px;
-          font-weight: 500;
           letter-spacing: 0.2px;
           line-height: 18px;
           width: 146px !important;
           box-sizing: border-box;
         }
         .table-facility-tin {
-          font-weight: 500;
-          font-family: 'UHCSans-Medium', 'sans-serif', 'Arial';
+          font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
         }
         .table-facility-healthsystem {
-          font-weight: 600;
-          font-family: 'UHCSans-Medium', 'sans-serif', 'Arial';
+          font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
         }
         mat-row,
         mat-header-row,
@@ -444,7 +508,6 @@
         .mat-row:nth-child(even) {
           background-color: $white;
         }
-
         .mat-row:nth-child(odd) {
           background-color: $alice-blue;
         }
@@ -453,7 +516,7 @@
           cursor: pointer;
         }
         .mat-table-header-cell {
-          font-weight: 600 !important;
+          font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
         }
         .mat-sort-header-button {
           text-align: left !important;
@@ -516,7 +579,7 @@
       }
     }
   }
-  @media only screen and (min-width: 1024px) {
-    @include padding(30px, 16px, 30px, 16px);
+  @media only screen and (max-width: 1024px) {
+    @include padding(16px, 0, 16px, 0);
   }
 }

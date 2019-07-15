@@ -1,27 +1,59 @@
 <app-feedback></app-feedback>
 <div class="gettingReimburse-body">
   <div class="gettingReimburse-content">
-    <div class="breadcrumb-top-padding">
+    <div>
       <app-breadcrumbs></app-breadcrumbs>
       <div class="page-title">{{ pageTitle }}</div>
       <app-mock-data-warning-message *ngIf="show"></app-mock-data-warning-message>
-      <div class="time-period">
-        Time Period : <b>{{ timePeriod }}</b>
-      </div>
-      <div class="filter_bg" (click)="openFilter()">
-        <mat-icon matPrefix class="nav-menu-icons" class="filter_icon" svgIcon="filter"></mat-icon>
-        <div class="filter_title">Filters</div>
+      <div class="breadcrumb-top-padding filter-div">
+        <div class="time--period ">
+          <div class="filterchips">
+            <div class="horizontal-align">
+              <button class="btn btn-rounded" disabled>
+                <span>Time Period: </span><span class="text-semibold pl-4">{{ timePeriod }} </span>
+              </button>
+            </div>
+            <div class="horizontal-align" *ngFor="let tax of taxID">
+              <button class="btn btn-rounded" disabled>
+                <span>Tax ID: </span><span class="text-semibold pl-4">{{ tax }} </span>
+                <div class="close-btn">
+                  <mat-icon class="icon-display" (click)="removeFilter('tax', tax)" svgIcon="close"></mat-icon>
+                </div>
+              </button>
+            </div>
+            <div class="horizontal-align" *ngIf="lob">
+              <button class="btn btn-rounded" disabled>
+                <span>Line of Business: </span><span class="text-semibold pl-4">{{ lob }} </span>
+                <div class="close-btn">
+                  <mat-icon
+                    class="icon-display"
+                    (click)="removeFilter('lob', session.filterObjValue.lob)"
+                    svgIcon="close"
+                  ></mat-icon>
+                </div>
+              </button>
+            </div>
+          </div>
+          <div class="filter_bg" (click)="openFilter()">
+            <mat-icon matPrefix class="nav-menu-icons" class="filter_icon" svgIcon="filter"></mat-icon>
+            <div class="filter_title">Filters</div>
+          </div>
+        </div>
       </div>
     </div>
     <div class="height1Separator"></div>
 
-    <div *ngFor="let item of currentSummary">
+    <div *ngFor="let item of nonPaymentData1">
       <app-card *ngIf="item.data != null" class="cards" [chartData]="item"> </app-card>
       <app-error-card *ngIf="item.status != null" class="cards" [data]="item"></app-error-card>
     </div>
     <!-- Claims Non - Payment Trend  Starts Here -->
     <div class="non-payment-trend-block">
-      <app-common-header [title]="trendTitle" class="full-display"></app-common-header>
+      <app-common-header
+        [title]="trendTitle"
+        class="full-display bottom-margin-block"
+        (helpIconClicked)="helpIconClick($event)"
+      ></app-common-header>
       <div class="full-display" *ngIf="dataLoaded">
         <app-line-graph [chartOptions]="monthlyLineGraph"></app-line-graph>
         <!--div class="timeperiod-block">
@@ -54,7 +86,7 @@
             <div class="bar-graph-inside-left-block">
               <div class="bar-graph-inside-left-block-content">
                 <mat-icon class="bar-graph-block-icon" *ngIf="!section[i]" svgIcon="open"></mat-icon>
-                <mat-icon class="bar-graph-block-icon" *ngIf="section[i]" svgIcon="close"></mat-icon>
+                <mat-icon class="bar-graph-block-icon" *ngIf="section[i]" svgIcon="close-bar"></mat-icon>
                 <p class="bar-graph-title">{{ barchart.title }}</p>
                 <p class="bar-graph-value">{{ barchart.value }}</p>
               </div>

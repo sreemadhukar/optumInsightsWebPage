@@ -5,20 +5,25 @@
   $accent: map-get($theme, accent);
   $background: map-get($theme, background);
   $background-color: mat-color($background);
+  
   .overview-body {
     @include mat-elevation(2);
     background-color: mat-color($accent);
 
-    overflow-x: hidden;
-    @include padding(30px, 30px, 30px, 30px);
+    overflow: hidden;
+    @include padding(30px, 0, 64px, 0);
     .overview-content {
+      display: -webkit-box;
+      display: -moz-box;
+      display: -ms-flexbox;
+      display: -webkit-flex;
       display: flex;
-      flex-wrap: wrap;
+      -webkit-flex-flow: row wrap;
       justify-content: left;
+      flex-wrap: wrap;
       margin-top: 25px;
-      //      flex-direction: column;
-      //      min-height: 100vh;
       padding-left: 40px;
+
       .self-service-heading {
         display: flex;
         // width: 83%;
@@ -36,7 +41,7 @@
       .cust-width-title {
         width: 450px;
         margin-left: 10px;
-        font-family: 'UHCSans-SemiBold', 'Arial';
+        font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
         color: $black-rock;
 
         .page-title {
@@ -68,9 +73,8 @@
         }
         .self-service-link {
           color: $blue;
-          font-family: 'UHC Sans';
+          font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
           font-size: 16px;
-          font-weight: 600;
           letter-spacing: 0.2px;
           line-height: 22px;
           text-align: right;
@@ -81,6 +85,9 @@
             .icon-display {
               vertical-align: middle;
             }
+          }
+          a:hover {
+            text-decoration: underline;
           }
         }
       }

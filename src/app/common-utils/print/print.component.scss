@@ -1,0 +1,66 @@
+@import '~src/scss/variables.scss';
+@import '~src/scss/mixins';
+
+.print-icon-body {
+  float: right;
+  color: #757588;
+  display: inline-flex;
+
+  span.print-label {
+    font-family: 'UHCSans-SemiBold', 'sans-serif';
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 0.2px;
+    line-height: 56px;
+    padding-left: 10px;
+    padding-top: 2px;
+    cursor: pointer;
+  }
+}
+
+.header-div {
+  background-color: $white;
+  height: 72px;
+  display: flex;
+  border-bottom: solid;
+  border-width: 1px;
+  border-color: #e0e0e0;
+  z-index: 999;
+  .menu-div {
+    @include padding(0, 0, 0, 0);
+    .menu-icon {
+      margin: 0;
+      color: #196ecf;
+      background-color: none;
+      @include padding(20px, 0px, 22px, 40px);
+    }
+    .menu-icon:hover {
+    }
+  }
+  .header-logo-div {
+    padding: 18px 0 18px 33px;
+
+    .Uhc-logo {
+      height: 36px;
+      width: 175px;
+    }
+  }
+  .user-div {
+    margin-left: auto;
+    display: flex;
+    height: 25px;
+    color: $strom-grey;
+    font-size: 16px;
+    font-family: 'UHCSans-SemiBold', 'Helvetica', 'Arial', 'sans-serif';
+    letter-spacing: 0.2px;
+    line-height: 22px;
+    text-align: right;
+    padding: 25px 32px 20px 0;
+
+    .user-name {
+      line-height: 31px;
+      font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+      text-align: right;
+    }
+  }
+}

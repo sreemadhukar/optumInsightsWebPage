@@ -7,21 +7,22 @@
 .card-inner {
   background-color: $white;
   width: 222px;
-  height: 238px;
+  min-height: 238px;
+  height: auto;
   margin: 10px;
   line-height: 75px;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
   border-radius: 2px;
+  padding-bottom: 16px;
 
   @include font-size(30);
 
   .self-service-title {
     position: relative;
-    padding: 16px 20px 0 20px;
+    padding: 16px 20px 0 16px;
     color: $black-rock;
-    font-family: 'UHCSans-Medium', 'sans-serif', 'Arial';
+    font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
     font-size: 16px;
-    font-weight: 500;
     line-height: 22px;
     text-align: left;
     letter-spacing: 0.2px;
@@ -29,44 +30,43 @@
 
   .self-service-number {
     position: relative;
-    padding: 10px 20px 10px 20px;
+    padding: 10px 20px 10px 16px;
     color: $black-rock;
-    font-family: 'UHCSans-SemiBold', 'Arial';
+    font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
     font-size: 22px;
-    line-height: 22px;
+    line-height: 28px;
     text-align: left;
     letter-spacing: 0.2px;
   }
 
   .self-service-subtitle {
     color: $black-rock;
-    font-family: 'UHCSans-SemiBold', 'Arial';
+    font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
     font-size: 14px;
     letter-spacing: 0.2px;
     line-height: 18px;
-    padding: 0px 20px 0 20px;
+    padding: 0px 20px 0 16px;
   }
 
   /* Css for Labels*/
   ul.list-labels > li {
     display: block;
     color: $black-rock;
-    font-family: 'UHCSans-Medium', 'sans-serif', 'Arial';
+    font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
     font-size: 14px;
-    font-weight: 500;
     letter-spacing: 0.2px;
     line-height: 18px;
 
     .labels1 {
-      font-family: 'UHCSans-SemiBold', 'Arial';
+      font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
     }
   }
 
   ul.list-labels > li::before {
     content: '•  ';
-    font-size: 45px;
+    font-size: 60px;
     position: relative;
-    top: 10px;
+    top: 16px;
     left: 10px;
   }
 
@@ -78,12 +78,12 @@
   }
 }
 
-@media screen and (max-width: 1331px) {
-  .card-inner {
-    width: 210px;
-    height: 280px;
-  }
-}
+// @media screen and (max-width: 1331px) {
+//   .card-inner {
+//     width: 210px;
+//     height: 280px;
+//   }
+// }
 
 .card-skeleton-mini-tile:empty {
   margin: auto;
