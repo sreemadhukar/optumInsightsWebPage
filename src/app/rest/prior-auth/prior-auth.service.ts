@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { CareDeliveryPageModule } from '../../components/care-delivery-page/care-delivery-page.module';
 import { environment } from '../../../environments/environment';
 import { HttpHeaders, HttpClient, HttpParams } from '@angular/common/http';
-import { map, retry, catchError } from 'rxjs/operators';
+import { map, catchError } from 'rxjs/operators';
 import { combineLatest, of } from 'rxjs';
 
 @Injectable({
@@ -32,7 +32,6 @@ export class PriorAuthService {
     const executiveURL = this.APP_URL + this.EXECUTIVE_SERVICE_PATH + parameters[0];
 
     return this.http.get(executiveURL, { params: eparams, headers: myHeader }).pipe(
-      retry(2),
       map(res => JSON.parse(JSON.stringify(res))),
       catchError(err => of(JSON.parse(JSON.stringify(err))))
     );

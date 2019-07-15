@@ -95,7 +95,6 @@ export class FilterComponent implements OnInit {
     } else {
       this.serviceSettingDisplay = false;
     }
-    console.log(this.serviceSettingDisplay);
     this.lobData = this.session.filterObjValue.lob;
     this.session.getTins().then(data => {
       this.tinsData = data;

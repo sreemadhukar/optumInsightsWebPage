@@ -69,6 +69,10 @@
     }
   }
 }
+.titleDisable {
+  pointer-events: none;
+  cursor: pointer;
+}
 .lobgrp {
   width: 100%;
   display: inline-block;
