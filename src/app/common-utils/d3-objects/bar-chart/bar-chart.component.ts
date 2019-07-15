@@ -250,14 +250,14 @@ export class BarChartComponent implements OnInit, AfterViewInit {
               .transition()
               .duration(10)
               .style('opacity', 1);
-            div.style('left', 18 + 'px').style('top', 302 + 'px');
+            div.style('left', d3.event.layerX - 219 + 'px').style('top', d3.event.layerY - 130 + 'px');
           })
           .on('mousemove', function(d) {
             div
               .transition()
               .duration(10)
               .style('opacity', 1);
-            div.style('left', 18 + 'px').style('top', 302 + 'px');
+            div.style('left', d3.event.layerX - 219 + 'px').style('top', d3.event.layerY - 130 + 'px');
           })
           .on('mouseleave', function(d) {
             div
@@ -266,7 +266,6 @@ export class BarChartComponent implements OnInit, AfterViewInit {
               .style('opacity', 0);
           });
       }
-
       chart
         .append('text')
         .attr('x', xScale(chartOptions.barSummation / 1.5))
