@@ -1,11 +1,9 @@
 @import '~src/scss/variables.scss';
 .provider-search {
   padding: 10px;
-
   &-header {
     text-align: center;
     padding-right: 9px;
-
     button {
       float: right;
       margin: -15px -25px 0 0;
@@ -27,11 +25,9 @@
       }
     }
   }
-
   &-form {
     mat-form-field {
       width: 100%;
-
       //input {
       //  box-sizing: border-box;
       //  height: 41px;
@@ -61,6 +57,11 @@
   padding: 18px 0;
   cursor: pointer;
 }
+
 ::ng-deep .mat-form-field-appearance-outline .mat-form-field-flex {
   padding: 0 4px;
+}
+
+::ng-deep .mat-form-field-outline-start {
+  width: 34px !important;
 }
