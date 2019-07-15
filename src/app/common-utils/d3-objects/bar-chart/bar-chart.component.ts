@@ -28,6 +28,18 @@ export class BarChartComponent implements OnInit, AfterViewInit {
   }
 
   doBarChart(chartOptions: any, transition: number) {
+    function formatDy(dy: number): string {
+      if (dy === 0) {
+        return '0.0M';
+      } else if (dy < 999) {
+        return dy.toFixed(0);
+      } else if (dy < 999999) {
+        return (dy / 1000).toFixed(1) + 'K';
+      } else if (dy) {
+        return (dy / 1000000).toFixed(1) + 'M';
+      }
+    }
+
     function getTextWidth(text, fontSize, fontFace) {
       const canvas = document.createElement('canvas');
       const context = canvas.getContext('2d');
@@ -82,7 +94,7 @@ export class BarChartComponent implements OnInit, AfterViewInit {
       .selectAll('*')
       .remove();
 
-    let barHeight = 68;
+    let barHeight = 48;
     if (chartOptions.barHeight) {
       barHeight = chartOptions.barHeight + 8;
     }
@@ -136,7 +148,7 @@ export class BarChartComponent implements OnInit, AfterViewInit {
         .attr('font-size', '22')
         .style('text-anchor', 'start')
         .style('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
-        .text(chartOptions.barData);
+        .text(formatDy(chartOptions.barData));
 
       chart
         .append('rect')
