@@ -225,7 +225,7 @@ export class OverviewSharedService {
             gdata: ['card-inner', 'pcorCardD3Star']
           },
           sdata: null,
-          timeperiod: 'Claims Processed as of' + PCORRMReportingDate
+          timeperiod: 'Claims processed as of ' + PCORRMReportingDate
         };
       } else {
         cPcor = {
