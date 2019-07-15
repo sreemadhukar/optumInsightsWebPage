@@ -38,7 +38,14 @@ export class PriorAuthService {
     );
   }
 
-  public getPriorAuthDateRange(timeRange: string, allTin: boolean, allLOB: boolean, isAllSS: boolean, ...parameters) {
+  public getPriorAuthDateRange(
+    timeRange: string,
+    allTin: boolean,
+    allLOB: boolean,
+    isAllSS: boolean,
+    isDecisionType: boolean,
+    ...parameters
+  ) {
     this.currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
     this.authBearer = this.currentUser[0].PedAccessToken;
     const myHeader = new HttpHeaders({
@@ -127,9 +134,12 @@ export class PriorAuthService {
         params = params.append('mAndRLob', parameters[8]);
       }
     }
-
     if (isAllSS) {
       params = params.append('allNotApprovedSettings', parameters[9]);
+    }
+    if (isDecisionType) {
+      params = params.append('decisionType', parameters[10]);
+      params = params.append('decisionValue', parameters[11]);
     }
 
     return this.http.post(url, params, { headers: myHeader }).pipe(

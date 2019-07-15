@@ -385,6 +385,7 @@ export class PriorAuthSharedService {
     const TIN = filterParamteres.tax[0];
     const LOB = filterParamteres.lob;
     const serviceSetting = filterParamteres.serviceSetting;
+    const paDecisionType = filterParamteres.priorAuthType;
     // console.log(filterParamteres);
 
     // Default parameters
@@ -399,6 +400,8 @@ export class PriorAuthSharedService {
     let iseAndILobBool = false;
     let ismAndRLobBool = false;
     let isAllSSFlagBool = true; // Only if we need all reasons; most commands will already give all 3 so just have to filter
+    let isDecisionType = false;
+    const decisionValue = paDecisionType;
 
     // configurations for time period
     if (timePeriod === 'Last 12 Months') {
@@ -470,6 +473,12 @@ export class PriorAuthSharedService {
       isAllSSFlagBool = false;
     }
 
+    if (decisionValue !== 'All') {
+      isDecisionType = true;
+    } else {
+      isDecisionType = false;
+    }
+
     return new Promise(resolve => {
       // const newParameters = [this.providerKey, true, true, true, false, true, false, false, false, true];
 
@@ -483,7 +492,9 @@ export class PriorAuthSharedService {
         iscAndSLobBool,
         iseAndILobBool,
         ismAndRLobBool,
-        isAllSSFlagBool
+        isAllSSFlagBool,
+        isDecisionType,
+        decisionValue
       ];
       // Parameters key
       // zero - provider key
@@ -493,7 +504,14 @@ export class PriorAuthSharedService {
       // nine - all service setting flag
 
       this.priorAuthService
-        .getPriorAuthDateRange(timeRange, isAllTinBool, isAllLobBool, isAllSSFlagBool, ...priorAuthAPIParameters)
+        .getPriorAuthDateRange(
+          timeRange,
+          isAllTinBool,
+          isAllLobBool,
+          isAllSSFlagBool,
+          isDecisionType,
+          ...priorAuthAPIParameters
+        )
         .subscribe(
           providerSystems => {
             let PACount = [];
