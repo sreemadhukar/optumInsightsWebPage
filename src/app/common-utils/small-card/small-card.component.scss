@@ -57,6 +57,9 @@
       .down {
         background-color: color(red, light);
       }
+      .neutral {
+        background-color: $gainsboro;
+      }
       .up {
         background-color: color(green, light);
       }
@@ -71,16 +74,23 @@
       .trend-image-down {
         background-color: color(red, light);
       }
+      .trend-image-up {
+        background-color: color(green, light);
+      }
+      .trend-image-neutral {
+        background-color: $gainsboro;
+      }
+
       .trend-value-down {
         color: color(red, dark);
+      }
+      .trend-value-neutral {
+        color: $black-rock;
       }
       .trend-value-up {
         color: $brand-green-hover;
       }
 
-      .trend-image-up {
-        background-color: color(green, light);
-      }
       .flex-box {
         display: flex;
       }

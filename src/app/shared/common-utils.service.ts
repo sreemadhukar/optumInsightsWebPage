@@ -32,16 +32,19 @@ export class CommonUtilsService {
     let value = '';
     const suffix = '%';
     let tempSign;
-    if (temp > 0) {
-      tempSign = 'up';
-      value = '+' + temp.toFixed() + suffix;
-    } else if (temp === 0) {
-      tempSign = 'neutral';
-      value = 'No Change';
-    } else {
-      tempSign = 'down';
-      value = temp.toFixed() + suffix;
-    }
+    // if (temp > 0) {
+    //   tempSign = 'up';
+    //   value = '+' + temp.toFixed() + suffix;
+    // } else if (temp === 0) {
+    //   tempSign = 'neutral';
+    //   value = 'No Change';
+    // } else {
+    //   tempSign = 'down';
+    //   value = temp.toFixed() + suffix;
+    // }
+    tempSign = 'neutral';
+    value = 'No Change';
+
     return {
       sign: tempSign,
       data: value
