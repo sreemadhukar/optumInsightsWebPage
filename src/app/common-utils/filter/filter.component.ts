@@ -33,6 +33,7 @@ export class FilterComponent implements OnInit {
   public lobs = ['All', 'Community & State', 'Employee & Individual', 'Medicare & Retirement'];
   public servicesettings = ['All', 'Inpatient', 'Outpatient', 'Outpatient Facility'];
   public priorauthdecisiontype = ['All', 'Admin', 'Clinical'];
+  public priorauthservicecategory = ['All'];
   constructor(
     private iconRegistry: MatIconRegistry,
     sanitizer: DomSanitizer,
