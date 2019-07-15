@@ -30,14 +30,14 @@
     </div>
   </div>
   <div class="line"></div>
-  <div class="titleData">
+  <div class="titleData" [ngClass]="{ titleDisable: filterurl === '/ServiceInteraction/Calls' }">
     <div class="title">Tax ID</div>
     <div class="chevron">
       <mat-icon class="icon-display" *ngIf="!tarrowmark" (click)="clickArrowMark('tax')" svgIcon="arrowdn"></mat-icon>
       <mat-icon class="icon-display" *ngIf="tarrowmark" (click)="clickArrowMark('tax')" svgIcon="arrowup"></mat-icon>
     </div>
   </div>
-  <div class="lobgrp">
+  <div class="lobgrp" [ngClass]="{ titleDisable: filterurl === '/ServiceInteraction/Calls' }">
     <div *ngIf="taxArrayData.length == 0">
       <label id="radio-group-label" class="label-data">{{ taxData }}</label>
     </div>
@@ -69,14 +69,14 @@
     </div>
   </div>
   <div class="line"></div>
-  <div class="titleData">
+  <div class="titleData" [ngClass]="{ titleDisable: filterurl === '/ServiceInteraction/Calls' }">
     <div class="title">Line of Business</div>
     <div class="chevron">
       <mat-icon class="icon-display" *ngIf="!arrowmark" (click)="clickArrowMark('lob')" svgIcon="arrowdn"></mat-icon>
       <mat-icon class="icon-display" *ngIf="arrowmark" (click)="clickArrowMark('lob')" svgIcon="arrowup"></mat-icon>
     </div>
   </div>
-  <div class="lobgrp">
+  <div class="lobgrp" [ngClass]="{ titleDisable: filterurl === '/ServiceInteraction/Calls' }">
     <div>
       <label id="radio-group" class="label-data">{{ lobData }}</label>
     </div>

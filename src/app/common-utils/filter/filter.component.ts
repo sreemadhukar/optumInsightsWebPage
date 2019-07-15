@@ -118,7 +118,6 @@ export class FilterComponent implements OnInit {
     } else {
       this.priorAuthorizationCustomFilterBool = false;
     }
-    console.log(this.priorAuthorizationCustomFilterBool);
     this.lobData = this.session.filterObjValue.lob;
     this.session.getTins().then(data => {
       this.tinsData = data;
