@@ -26,12 +26,10 @@ export class GettingReimbursedComponent implements OnInit {
   currentSummary: Array<Object> = [{}];
   currentTabTitle: String = '';
   tabOptions: Array<Object> = [];
-  previousSelected: Number = 0;
-  selectedItemId: any = 0;
   tabOptionsTitle: Array<String> = [];
   loading: boolean;
   mockCards: any;
-
+  previousSelectedTab: any = 0;
   constructor(
     private gettingReimbursedSharedService: GettingReimbursedSharedService,
     private checkStorage: StorageService,
@@ -69,11 +67,10 @@ export class GettingReimbursedComponent implements OnInit {
       myTabs[j].classList.remove('active');
     }
     myTabs[i].classList.add('active');
+    this.previousSelectedTab = i;
     //    event.target.classList.add('active');
   }
   ngOnInit() {
-    this.currentSummary = [];
-    this.tabOptions = [];
     this.timePeriod = this.session.filterObjValue.timeFrame;
     if (this.session.filterObjValue.lob !== 'All') {
       this.lob = this.filtermatch.matchLobWithLobData(this.session.filterObjValue.lob);
@@ -90,7 +87,6 @@ export class GettingReimbursedComponent implements OnInit {
     }
     this.loading = true;
     this.mockCards = [{}, {}];
-    this.selectedItemId = 0;
 
     this.gettingReimbursedSharedService
       .getGettingReimbursedData()
@@ -98,8 +94,14 @@ export class GettingReimbursedComponent implements OnInit {
         this.loading = false;
         this.tabOptions = [];
         this.summaryItems = JSON.parse(JSON.stringify(completeData));
-        this.currentSummary = this.summaryItems[0].data;
-        this.currentTabTitle = this.summaryItems[0].title;
+        if (this.previousSelectedTab) {
+          this.currentSummary = this.summaryItems[this.previousSelectedTab].data;
+          this.currentTabTitle = this.summaryItems[this.previousSelectedTab].title;
+        } else {
+          this.currentSummary = this.summaryItems[0].data;
+          this.currentTabTitle = this.summaryItems[0].title;
+        }
+
         console.log(this.summaryItems);
         for (let i = 0; i < 4; i++) {
           let temp;
