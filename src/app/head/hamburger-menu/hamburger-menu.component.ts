@@ -293,7 +293,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
   /** FUNCTIONS TO COLLAPSE LEFT MENU **/
   collapseExpansionPanels(id) {
     window.scrollTo(300, 0);
-    this.allExpandState(false, id - 1);
+    // this.allExpandState(false, id - 1);
   }
 
   openDialog(): void {
