@@ -290,8 +290,8 @@ export class OverviewSharedService {
             labels: ['Claims', 'Benefits & Eligibility', 'Prior Authorizations', 'Others']
           },
           sdata: {
-            sign: 'up',
-            data: '+2.3%'
+            sign: '',
+            data: ''
           },
           timeperiod: 'Last 6 Months'
         };
