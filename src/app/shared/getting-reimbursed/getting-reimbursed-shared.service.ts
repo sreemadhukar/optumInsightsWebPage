@@ -233,8 +233,8 @@ export class GettingReimbursedSharedService {
                   color: ['#3381FF', '#80B0FF'],
                   gdata: ['card-inner', 'totalClaimsSubmitted'],
                   sdata: {
-                    sign: 'up',
-                    data: '+8%'
+                    sign: '',
+                    data: ''
                   },
                   labels: ['Paid', 'Not Paid'],
                   hover: true
@@ -339,8 +339,8 @@ export class GettingReimbursedSharedService {
                   color: ['#3381FF', '#80B0FF', '#003DA1'],
                   gdata: ['card-inner', 'claimsPaid'],
                   sdata: {
-                    sign: 'down',
-                    data: '-2.8%'
+                    sign: '',
+                    data: ''
                   },
                   labels: ['Medicare & Retirement', 'Community & State', 'Employer & Individual'],
                   hover: true
@@ -443,10 +443,7 @@ export class GettingReimbursedSharedService {
                   centerNumber: claimsData[lobData].ClaimsLobSummary[0].ClaimsYieldRate.toFixed() + '%',
                   color: ['#3381FF', '#D7DCE1'],
                   gdata: ['card-inner', 'claimsYield'],
-                  sdata: {
-                    sign: 'up',
-                    data: '+5.3%'
-                  }
+                  sdata: null
                 },
                 timeperiod: this.timeFrame
               };
@@ -517,8 +514,8 @@ export class GettingReimbursedSharedService {
                   color: ['#3381FF', '#80B0FF', '#003DA1'],
                   gdata: ['card-inner', 'claimsAppealSubmitted'],
                   sdata: {
-                    sign: 'up',
-                    data: '+4%'
+                    sign: '',
+                    data: ''
                   },
                   labels: ['Medicare & Retirement', 'Community & State', 'Employer & Individual'],
                   hover: true
@@ -569,10 +566,7 @@ export class GettingReimbursedSharedService {
                   centerNumber: this.common.nFormatter(appealsData.LineOfBusiness[lobFullData].OverTurnCount),
                   color: ['#3381FF', '#D7DCE1'],
                   gdata: ['card-inner', 'claimsAppealOverturned'],
-                  sdata: {
-                    sign: 'up',
-                    data: '+2.3%'
-                  }
+                  sdata: null
                 },
                 timeperiod: this.timeFrame
               };
@@ -713,8 +707,8 @@ export class GettingReimbursedSharedService {
                     color: ['#3381FF', '#80B0FF'],
                     gdata: ['card-inner', 'totalClaimsSubmitted'],
                     sdata: {
-                      sign: 'up',
-                      data: '+8%'
+                      sign: '',
+                      data: ''
                     }
                   },
                   besideData: {
@@ -811,8 +805,8 @@ export class GettingReimbursedSharedService {
                     color: ['#3381FF', '#80B0FF', '#003DA1'],
                     gdata: ['card-inner', 'claimsPaid'],
                     sdata: {
-                      sign: 'down',
-                      data: '-2.8%'
+                      sign: '',
+                      data: ''
                     },
                     labels: ['Medicare & Retirement', 'Community & State', 'Employer & Individual'],
                     hover: true
@@ -938,10 +932,7 @@ export class GettingReimbursedSharedService {
                     centerNumber: claimsData[lobData].ClaimsLobSummary[0].ClaimsYieldRate.toFixed() + '%',
                     color: ['#3381FF', '#D7DCE1'],
                     gdata: ['card-inner', 'claimsYield'],
-                    sdata: {
-                      sign: 'up',
-                      data: '+5.3%'
-                    }
+                    sdata: null
                   },
                   timeperiod: this.timeFrame
                 };
@@ -1018,8 +1009,8 @@ export class GettingReimbursedSharedService {
                     color: ['#3381FF', '#80B0FF', '#003DA1'],
                     gdata: ['card-inner', 'claimsAppealSubmitted'],
                     sdata: {
-                      sign: 'up',
-                      data: '+4%'
+                      sign: '',
+                      data: ''
                     },
                     labels: ['Medicare & Retirement', 'Community & State', 'Employer & Individual'],
                     hover: true
@@ -1070,10 +1061,7 @@ export class GettingReimbursedSharedService {
                     centerNumber: this.common.nFormatter(appealsData.LineOfBusiness[lobFullData].OverTurnCount),
                     color: ['#3381FF', '#D7DCE1'],
                     gdata: ['card-inner', 'claimsAppealOverturned'],
-                    sdata: {
-                      sign: 'up',
-                      data: '+2.3%'
-                    }
+                    sdata: null
                   },
                   timeperiod: this.timeFrame
                 };
