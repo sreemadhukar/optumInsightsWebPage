@@ -157,22 +157,24 @@
               border-radius: 2px;
               padding: 10px 20px;
               cursor: pointer;
+
               > span {
                 font-size: 16px;
                 font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
                 letter-spacing: 0.2px;
               }
-              &.active,
-              &.active:hover,
-              &.active:focus {
+
+              &.active {
                 background-color: mat-color($accent);
-                border: 1px solid #ddd;
                 border-top: 4px solid #196ecf;
                 border-radius: 2px 2px 0 0;
                 border-bottom-color: transparent;
                 text-decoration: none;
                 margin-top: -3px;
+                border-left: 0;
+                border-right: 0;
               }
+
               .nav-values {
                 color: #2d2d39;
                 font-size: 18px;
@@ -190,7 +192,14 @@
                   color: color(red, dark);
                 }
               }
-            }
+
+              &:hover,
+              &:focus {
+                border-top: 4px solid #196ecf;
+                text-decoration: none;
+                margin-top: -3px;
+              }
+            } // li styling
           }
         }
         /* ends tabs css ends here*/
