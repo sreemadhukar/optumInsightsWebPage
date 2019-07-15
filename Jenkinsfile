@@ -39,7 +39,7 @@ pipeline {
             }
             steps {
                 glDockerImageBuildPush tag: "$tagBase/ui_int:qaone",
-                        dockerHost: 'docker.repo1.uhc.com'
+                        dockerHost: 'docker.repo1.uhc.com',
                         dockerCredentialsId: "$env.DOCKER_CREDENTIALS_ID",
                         extraBuildOptions: "--build-arg env_var=dev"
               
@@ -151,10 +151,10 @@ pipeline {
             }
             steps {
                 glDockerImageBuildPush tag: "$tagBase/ui_devthree:devthree",
-                        repository: "$devWebRepo",
-                        namespace: "$namespace",
+                        dockerHost: 'docker.repo1.uhc.com',
                         dockerCredentialsId: "$env.DOCKER_CREDENTIALS_ID",
                         extraBuildOptions: "--build-arg env_var=devthree"
+              
                 glDockerImageTag sourceTag: "$tagBase/ui_devthree:devthree",
                                  destTag: "$tagBase/ui_devthree:${env.BUILD_NUMBER}"
                 glDockerImagePush dockerCredentialsId: "${env.DOCKER_CREDENTIALS_ID}", 
