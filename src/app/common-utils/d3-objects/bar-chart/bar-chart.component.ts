@@ -250,14 +250,14 @@ export class BarChartComponent implements OnInit, AfterViewInit {
               .transition()
               .duration(10)
               .style('opacity', 1);
-            div.style('left', d3.event.layerX - 219 + 'px').style('top', d3.event.layerY - 110 + 'px');
+            div.style('left', d3.event.layerX + 'px').style('top', d3.event.layerY - 110 + 'px');
           })
           .on('mousemove', function(d) {
             div
               .transition()
               .duration(10)
               .style('opacity', 1);
-            div.style('left', d3.event.layerX - 219 + 'px').style('top', d3.event.layerY - 110 + 'px');
+            div.style('left', d3.event.layerX + 'px').style('top', d3.event.layerY - 110 + 'px');
           })
           .on('mouseleave', function(d) {
             div
