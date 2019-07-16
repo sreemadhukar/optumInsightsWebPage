@@ -505,6 +505,7 @@ export class PriorAuthSharedService {
       // three/four - all tin flag/specific tin
       // five-eight - all lob/cAndSLob/eAndILob/mAndRLob flag
       // nine - all service setting flag
+      // ten/eleven - pa decision type with a bool with adiminstrative/clinical
 
       this.priorAuthService
         .getPriorAuthDateRange(
@@ -763,6 +764,76 @@ export class PriorAuthSharedService {
             console.log('Prior Auth Error', err);
           }
         );
+    });
+  }
+
+  // For overview page
+  getPriorAuthTrendData(paramteres) {
+    this.providerKey = this.session.providerKeyData();
+
+    // Default parameters
+    // need to configure time range for last 30 and last 31-60 days
+    const timeRange = 'customDateRange';
+    let timeRangeAPIParameter;
+    let timeRangeAdditionalData;
+    const isAllTinBool = true;
+    const specificTin = '';
+    const isAllLobBool = true;
+    const iscAndSLobBool = false;
+    const iseAndILobBool = false;
+    const ismAndRLobBool = false;
+    const isAllSSFlagBool = true; // Only if we need all reasons; most commands will already give all 3 so just have to filter
+    const isDecisionType = false;
+    const decisionValue = 'All';
+
+    // timeRangeAPIParameter needs to be the last 30th date...
+    const yesterday = (d => new Date(d.setDate(d.getDate() - 1)))(new Date());
+    const last30thDay = (d => new Date(d.setDate(d.getDate() - 31)))(new Date());
+    let startDateString;
+    let endDateString;
+    if (last30thDay.getDate() < 10) {
+      startDateString = '0' + last30thDay.getDate();
+    } else {
+      startDateString = last30thDay.getDate();
+    }
+    if (yesterday.getDate() < 10) {
+      endDateString = '0' + yesterday.getDate();
+    } else {
+      endDateString = yesterday.getDate();
+    }
+    timeRangeAPIParameter =
+      last30thDay.getFullYear() + '-' + this.ReturnMonthlyCountString(last30thDay.getMonth()) + '-' + startDateString;
+    timeRangeAdditionalData =
+      yesterday.getFullYear() + '-' + this.ReturnMonthlyCountString(yesterday.getMonth()) + '-' + endDateString;
+
+    return new Promise(resolve => {
+      const priorAuthAPIParameters = [
+        this.providerKey,
+        timeRangeAPIParameter,
+        timeRangeAdditionalData,
+        isAllTinBool,
+        specificTin,
+        isAllLobBool,
+        iscAndSLobBool,
+        iseAndILobBool,
+        ismAndRLobBool,
+        isAllSSFlagBool,
+        isDecisionType,
+        decisionValue
+      ];
+
+      this.priorAuthService
+        .getPriorAuthDateRange(
+          timeRange,
+          isAllTinBool,
+          isAllLobBool,
+          isAllSSFlagBool,
+          isDecisionType,
+          ...priorAuthAPIParameters
+        )
+        .subscribe(providerSystems => {
+          resolve(providerSystems);
+        });
     });
   }
 }
