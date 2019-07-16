@@ -300,7 +300,7 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
         text = chart
           .append('text')
           .attr('text-anchor', 'middle')
-          .attr('y', 14)
+          .attr('y', 8)
           .style('font-size', '41px')
           .style('fill', '#2d2d39')
           .style('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
@@ -309,7 +309,7 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
         text = chart
           .append('text')
           .attr('text-anchor', 'middle')
-          .attr('y', 14)
+          .attr('y', 8)
           .style('font-size', '22px')
           .style('fill', '#2d2d39')
           .style('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'");
