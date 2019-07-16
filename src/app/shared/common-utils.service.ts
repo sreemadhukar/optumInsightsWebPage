@@ -28,9 +28,7 @@ export class CommonUtilsService {
     return fnumber;
   }
   public last30DaysTrend(last30: number, previousLast30: number): Object {
-    console.log(last30, previousLast30);
     const temp = ((last30 - previousLast30) / previousLast30) * 100;
-    console.log(temp);
     let value = '';
     const suffix = '%';
     let tempSign;
