@@ -10,7 +10,7 @@ import { NonPaymentSharedService } from './non-payment-shared.service';
   providedIn: GettingReimbursedModule
 })
 export class GettingReimbursedSharedService {
-  public nonPaymentData1: any = null;
+  public nonPaymentData: any = null;
   private tin: string;
   private lob: string;
   private timeFrame: string;
@@ -51,102 +51,48 @@ export class GettingReimbursedSharedService {
       return 'Dec';
     }
   }
-  public getNonPaymentData() {
+
+  /** code starts here for shared NonPayment Data */
+
+  public sharedNonPaymentData() {
     /** Non Payment Service Code starts here */
     /** code for two donuts  Claims Not Paid and Claims Non-payment Rate */
-    this.nonPaymentService
-      .getNonPayment()
-      .then(nonPayment => {
-        if (typeof nonPayment === null || typeof nonPayment === undefined) {
-          this.nonPaymentData1 = null;
-        } else {
-          this.nonPaymentData1 = JSON.parse(JSON.stringify(nonPayment));
-        }
-      })
-      .catch(reason => {
-        this.nonPaymentData1 = null;
-        console.log('Calls Service Error ', reason);
-      });
-
-    /** code ends here */
+    let tempNonPaymentData: any;
+    return new Promise(resolve => {
+      this.nonPaymentService
+        .getNonPayment()
+        .then(nonPayment => {
+          if (typeof nonPayment === null || typeof nonPayment === undefined) {
+            tempNonPaymentData = null;
+          } else {
+            tempNonPaymentData = JSON.parse(JSON.stringify(nonPayment));
+          }
+          resolve(tempNonPaymentData);
+        })
+        .catch(reason => {
+          console.log('NonPayment Shared Function | Getting Reimbursed | Error ', reason);
+        });
+    });
   }
-  public getGettingReimbursedData() {
-    this.tin = this.session.filterObjValue.tax.toString().replace('-', '');
-    this.lob = this.session.filterObjValue.lob;
-    this.timeFrame = this.session.filterObjValue.timeFrame;
-    this.providerKey = this.session.providerKeyData();
+  /** code ends here for shared NonPayment Data */
+
+  public sharedGettingReimbursedData(parameters) {
+    let appeals: object;
+    let payments: object;
+    let nonpayments: object;
+    let submissions: object;
+    let claimsSubmitted: object;
+    let claimsTAT: object;
+    let appealsSubmitted: object;
+    let appealsOverturned: object;
+    let claimsNotPaid: object;
+    let claimsNotPaidRate: object;
+    let claimsPaid: object;
+    let claimsPaidRate: object;
     const summaryData: Array<object> = [];
     return new Promise(resolve => {
-      let parameters;
-      let appeals: object;
-      let payments: object;
-      let nonpayments: object;
-      let submissions: object;
-      let claimsSubmitted: object;
-      let claimsTAT: object;
-      let appealsSubmitted: object;
-      let appealsOverturned: object;
-      let claimsNotPaid: object;
-      let claimsNotPaidRate: object;
-      let claimsPaid: object;
-      let claimsPaidRate: object;
-
-      if (
-        this.timeFrame === 'Last 12 Months' ||
-        this.timeFrame === 'Last 6 Months' ||
-        this.timeFrame === 'Year To Date'
-      ) {
-        if (this.timeFrame === 'Last 12 Months') {
-          if (this.tin !== 'All' && this.lob !== 'All') {
-            parameters = [
-              this.providerKey,
-              { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Last12Months', Tin: this.tin }
-            ];
-          } else if (this.tin !== 'All') {
-            parameters = [this.providerKey, { TimeFilter: 'Last12Months', Tin: this.tin }];
-          } else if (this.lob !== 'All') {
-            parameters = [
-              this.providerKey,
-              { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Last12Months' }
-            ];
-          } else {
-            parameters = [this.providerKey, { TimeFilter: 'Last12Months' }];
-          }
-        } else if (this.timeFrame === 'Year To Date') {
-          if (this.tin !== 'All' && this.lob !== 'All') {
-            parameters = [
-              this.providerKey,
-              { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'YearToDate', Tin: this.tin }
-            ];
-          } else if (this.tin !== 'All') {
-            parameters = [this.providerKey, { TimeFilter: 'YearToDate', Tin: this.tin }];
-          } else if (this.lob !== 'All') {
-            parameters = [
-              this.providerKey,
-              { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'YearToDate' }
-            ];
-          } else {
-            parameters = [this.providerKey, { TimeFilter: 'YearToDate' }];
-          }
-        } else if (this.timeFrame === 'Last 6 Months') {
-          if (this.tin !== 'All' && this.lob !== 'All') {
-            parameters = [
-              this.providerKey,
-              { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Last6Months', Tin: this.tin }
-            ];
-          } else if (this.tin !== 'All') {
-            parameters = [this.providerKey, { TimeFilter: 'Last6Months', Tin: this.tin }];
-          } else if (this.lob !== 'All') {
-            parameters = [
-              this.providerKey,
-              { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Last6Months' }
-            ];
-          } else {
-            parameters = [this.providerKey, { TimeFilter: 'Last6Months' }];
-          }
-        }
-        this.getNonPaymentData();
-        this.gettingReimbursedService.getGettingReimbursedData(...parameters).subscribe(([claimsData, appealsData]) => {
+      this.gettingReimbursedService.getGettingReimbursedData(...parameters).subscribe(
+        ([claimsData, appealsData]) => {
           const lobFullData = this.common.matchFullLobWithData(this.lob);
           const lobData = this.common.matchLobWithData(this.lob);
           if (claimsData != null && claimsData.hasOwnProperty('status')) {
@@ -392,11 +338,11 @@ export class GettingReimbursedSharedService {
               };
             }
             if (
-              this.nonPaymentData1 !== null &&
-              this.nonPaymentData1[0] !== null &&
-              this.nonPaymentData1[0].data !== null
+              this.nonPaymentData !== null &&
+              this.nonPaymentData[0] !== null &&
+              this.nonPaymentData[0].data !== null
             ) {
-              claimsNotPaid = this.nonPaymentData1[0];
+              claimsNotPaid = this.nonPaymentData[0];
             } else {
               claimsNotPaid = {
                 category: 'app-card',
@@ -408,12 +354,8 @@ export class GettingReimbursedSharedService {
                 timeperiod: null
               };
             }
-            if (
-              this.nonPaymentData1 !== null &&
-              this.nonPaymentData1[1] != null &&
-              this.nonPaymentData1[1].data != null
-            ) {
-              claimsNotPaidRate = this.nonPaymentData1[1];
+            if (this.nonPaymentData !== null && this.nonPaymentData[1] != null && this.nonPaymentData[1].data != null) {
+              claimsNotPaidRate = this.nonPaymentData[1];
             } else {
               claimsNotPaidRate = {
                 category: 'app-card',
@@ -595,7 +537,100 @@ export class GettingReimbursedSharedService {
           if (summaryData.length) {
             resolve(summaryData);
           }
-        });
+        },
+        err => {
+          console.log('Getting Reimbursed Shared Data', err);
+        }
+      );
+    });
+  }
+  public getGettingReimbursedData() {
+    this.tin = this.session.filterObjValue.tax.toString().replace('-', '');
+    this.lob = this.session.filterObjValue.lob;
+    this.timeFrame = this.session.filterObjValue.timeFrame;
+    this.providerKey = this.session.providerKeyData();
+    const summaryData: Array<object> = [];
+
+    return new Promise(resolve => {
+      let parameters;
+      let appeals: object;
+      let payments: object;
+      let nonpayments: object;
+      let submissions: object;
+      let claimsSubmitted: object;
+      let claimsTAT: object;
+      let appealsSubmitted: object;
+      let appealsOverturned: object;
+      let claimsNotPaid: object;
+      let claimsNotPaidRate: object;
+      let claimsPaid: object;
+      let claimsPaidRate: object;
+      let gettingReimbursedData: any;
+
+      if (
+        this.timeFrame === 'Last 12 Months' ||
+        this.timeFrame === 'Last 6 Months' ||
+        this.timeFrame === 'Year To Date'
+      ) {
+        if (this.timeFrame === 'Last 12 Months') {
+          if (this.tin !== 'All' && this.lob !== 'All') {
+            parameters = [
+              this.providerKey,
+              { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Last12Months', Tin: this.tin }
+            ];
+          } else if (this.tin !== 'All') {
+            parameters = [this.providerKey, { TimeFilter: 'Last12Months', Tin: this.tin }];
+          } else if (this.lob !== 'All') {
+            parameters = [
+              this.providerKey,
+              { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Last12Months' }
+            ];
+          } else {
+            parameters = [this.providerKey, { TimeFilter: 'Last12Months' }];
+          }
+        } else if (this.timeFrame === 'Year To Date') {
+          if (this.tin !== 'All' && this.lob !== 'All') {
+            parameters = [
+              this.providerKey,
+              { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'YearToDate', Tin: this.tin }
+            ];
+          } else if (this.tin !== 'All') {
+            parameters = [this.providerKey, { TimeFilter: 'YearToDate', Tin: this.tin }];
+          } else if (this.lob !== 'All') {
+            parameters = [
+              this.providerKey,
+              { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'YearToDate' }
+            ];
+          } else {
+            parameters = [this.providerKey, { TimeFilter: 'YearToDate' }];
+          }
+        } else if (this.timeFrame === 'Last 6 Months') {
+          if (this.tin !== 'All' && this.lob !== 'All') {
+            parameters = [
+              this.providerKey,
+              { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Last6Months', Tin: this.tin }
+            ];
+          } else if (this.tin !== 'All') {
+            parameters = [this.providerKey, { TimeFilter: 'Last6Months', Tin: this.tin }];
+          } else if (this.lob !== 'All') {
+            parameters = [
+              this.providerKey,
+              { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Last6Months' }
+            ];
+          } else {
+            parameters = [this.providerKey, { TimeFilter: 'Last6Months' }];
+          }
+        }
+
+        this.sharedNonPaymentData()
+          .then(nonPayment => {
+            this.nonPaymentData = nonPayment;
+            return this.sharedGettingReimbursedData(parameters);
+          })
+          .then(data => {
+            gettingReimbursedData = data;
+            resolve(gettingReimbursedData);
+          });
       } else {
         const lobFullData = this.common.matchFullLobWithData(this.lob);
         if (this.tin !== 'All' && this.lob !== 'All') {
@@ -829,11 +864,11 @@ export class GettingReimbursedSharedService {
                 };
               }
               if (
-                this.nonPaymentData1 !== null &&
-                this.nonPaymentData1[0] !== null &&
-                this.nonPaymentData1[0].data !== null
+                this.nonPaymentData !== null &&
+                this.nonPaymentData[0] !== null &&
+                this.nonPaymentData[0].data !== null
               ) {
-                claimsNotPaid = this.nonPaymentData1[0];
+                claimsNotPaid = this.nonPaymentData[0];
               } else {
                 claimsNotPaid = {
                   category: 'app-card',
@@ -846,11 +881,11 @@ export class GettingReimbursedSharedService {
                 };
               }
               if (
-                this.nonPaymentData1 !== null &&
-                this.nonPaymentData1[1] != null &&
-                this.nonPaymentData1[1].data != null
+                this.nonPaymentData !== null &&
+                this.nonPaymentData[1] != null &&
+                this.nonPaymentData[1].data != null
               ) {
-                claimsNotPaidRate = this.nonPaymentData1[1];
+                claimsNotPaidRate = this.nonPaymentData[1];
               } else {
                 claimsNotPaidRate = {
                   category: 'app-card',
