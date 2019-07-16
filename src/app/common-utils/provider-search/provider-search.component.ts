@@ -113,6 +113,7 @@ export class ProviderSearchComponent implements OnInit, AfterViewInit {
         (<HTMLElement>document.querySelector('.mat-form-field-outline-thick')).style.color = 'black';
       } else {
         (<HTMLElement>document.querySelector('.mat-form-field-outline-thick')).style.color = '#196ECF';
+        (<HTMLElement>document.querySelector('.mat-form-field-label')).style.color = '#196ECF';
       }
     }
 
