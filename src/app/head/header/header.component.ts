@@ -114,7 +114,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.isDarkTheme = this.themeService.isDarkTheme;
     const userInfo = JSON.parse(sessionStorage.getItem('loggedUser'));
-    this.username = userInfo.FirstName;
+    if (userInfo) {
+      this.username = userInfo.FirstName;
+    }
   }
   /*angular theme */
 
