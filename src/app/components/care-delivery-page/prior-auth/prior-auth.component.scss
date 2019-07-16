@@ -4,10 +4,6 @@
   @include margin(12px, 0, 12px, 0);
   box-sizing: border-box;
 
-  .filter-div {
-    overflow: auto;
-    line-height: 0;
-  }
   .filter_bg {
     height: 40px;
     width: 100px;
@@ -145,6 +141,10 @@
           }
         }
       }
+    }
+    .filter-div {
+      overflow: auto;
+      line-height: 0;
     }
   }
   @media only screen and (max-width: 1024px) {
