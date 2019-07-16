@@ -5,10 +5,7 @@
   box-sizing: border-box;
   font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
   width: 961px;
-  .filter-div {
-    overflow: auto;
-    line-height: 0;
-  }
+
   .filter_bg {
     height: 40px;
     width: 100px;
@@ -76,6 +73,10 @@
     @include padding(16px, 0, 20px, 0);
     line-height: 40px;
     font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+  }
+  .filter-div {
+    overflow: auto;
+    line-height: 0;
   }
 }
 
