@@ -61,6 +61,7 @@
   font-size: 36px;
   @include padding(16px, 0, 20px, 0);
   line-height: 40px;
+  font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
 }
 
 .time-period {
@@ -160,6 +161,7 @@
 .appeals-content {
   display: flex;
   justify-content: left;
+  width: 1000px;
+  margin: auto;
   flex-wrap: wrap;
-  padding-left: 85px;
 }

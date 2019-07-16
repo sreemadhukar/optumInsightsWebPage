@@ -64,7 +64,9 @@
     display: -webkit-flex;
     display: flex;
     -webkit-flex-flow: row wrap;
-    justify-content: center;
+    justify-content: left;
+    width: 1000px;
+    margin: auto;
     flex-wrap: wrap;
 
     & > .cards {

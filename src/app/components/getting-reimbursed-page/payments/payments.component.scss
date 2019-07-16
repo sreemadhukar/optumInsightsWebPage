@@ -66,8 +66,11 @@
   .payments-content {
     display: flex;
     -webkit-flex-flow: row wrap;
-    justify-content: center;
+    justify-content: left;
+    width: 1000px;
+    margin: auto;
     flex-wrap: wrap;
+
     .height1Separator {
       height: 0;
       width: 1200px;
@@ -81,6 +84,7 @@
       width: 961px;
       font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
       color: $black-rock;
+      margin-left: 7px;
 
       .page-title {
         flex-basis: 100%;
