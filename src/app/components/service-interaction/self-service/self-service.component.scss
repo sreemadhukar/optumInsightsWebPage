@@ -8,7 +8,9 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: left;
-    padding-left: 85px; // for center align
+    width: 1000px;
+    margin: auto;
+
     .height1Separator {
       height: 0;
       width: 1200px;
