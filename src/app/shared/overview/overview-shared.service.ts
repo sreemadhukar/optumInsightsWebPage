@@ -45,20 +45,24 @@ export class OverviewSharedService {
         /* code changed by Ranjith kumar Ankam - 04-Jul-2019*/
         this.createPriorAuthObject(providerSystems)
           .then(cPriorAuth => {
-            tempArray[1] = cPriorAuth;
+            // tempArray[1] = cPriorAuth;
+            tempArray[0] = cPriorAuth;
             return this.createSelfServiceObject(providerSystems);
           })
           .then(cSelfService => {
-            tempArray[2] = cSelfService;
+            // tempArray[2] = cSelfService;
+            tempArray[1] = cSelfService;
             return this.createPCORObject(providerSystems);
           })
           .then(cPcor => {
-            tempArray[4] = cPcor;
+            // tempArray[4] = cPcor;
+            tempArray[2] = cPcor;
             return this.createTotalCallsObject(providerSystems);
           })
           .then(cIR => {
-            tempArray[5] = cIR;
-            return this.createClaimsPaidObject(claims);
+            // tempArray[5] = cIR;
+            tempArray[3] = cIR;
+            /*return this.createClaimsPaidObject(claims);
           })
           .then(claimsPaid => {
             tempArray[0] = claimsPaid;
@@ -72,11 +76,12 @@ export class OverviewSharedService {
             let trends: any;
             trends = trendData;
             tempArray[0]['sdata'] = trends.claimsPaidTrendObject;
-            tempArray[3]['sdata'] = trends.claimsYieldTrendObject;
+            tempArray[3]['sdata'] = trends.claimsYieldTrendObject;*/
             return this.createTotalCallsTrend();
           })
           .then(trendIssueResolution => {
-            tempArray[5]['sdata'] = trendIssueResolution;
+            // tempArray[5]['sdata'] = trendIssueResolution;
+            tempArray[3]['sdata'] = trendIssueResolution;
             return this.reduceCallsandOperatingCostsMiniTile(providerSystems, oppurtunities);
           })
           .then(reduceoppurtunities => {
@@ -127,8 +132,8 @@ export class OverviewSharedService {
             gdata: ['card-inner', 'priorAuthCardD3Donut']
           },
           sdata: {
-            sign: 'up',
-            data: '+1%'
+            sign: '',
+            data: ''
           },
           timeperiod: 'Last 6 Months'
         };
@@ -174,8 +179,8 @@ export class OverviewSharedService {
             gdata: ['card-inner', 'selfServiceCardD3Donut']
           },
           sdata: {
-            sign: 'up',
-            data: '+1%'
+            sign: '',
+            data: ''
           },
           timeperiod: '90 Days Period'
         };
@@ -290,8 +295,8 @@ export class OverviewSharedService {
             labels: ['Claims', 'Benefits & Eligibility', 'Prior Authorizations', 'Others']
           },
           sdata: {
-            sign: 'up',
-            data: '+2.3%'
+            sign: '',
+            data: ''
           },
           timeperiod: 'Last 6 Months'
         };
@@ -859,5 +864,46 @@ export class OverviewSharedService {
         resolve({ previousClaimsPaid: previousClaimsPaid, previousClaimsYieldRate: previousClaimsYieldRate });
       });
     });
+  }
+
+  /*Function to get claims cards seperately - RANJITH KUMAR ANKAM - 16-July-2019 */
+  getClaimsCards() {
+    this.timeFrame = this.session.timeFrame;
+    this.providerKey = this.session.providerKeyData();
+    this.overviewPageData = [];
+    return new Promise(resolve => {
+      const tempArray: Array<object> = [];
+      const parameters = {
+        providerkey: this.providerKey,
+        TimeFilter: 'Last6Months'
+      };
+
+      this.overviewService.getOverviewClaimsTrend(parameters).subscribe(claims => {
+        this.createClaimsPaidObject(claims)
+          .then(claimsPaid => {
+            tempArray[0] = claimsPaid;
+            return this.createClaimsYieldObject(claims);
+          })
+          .then(claimsYield => {
+            tempArray[1] = claimsYield;
+            return this.getClaimsTrends(this.baseTimePeriod, this.previousTimePeriod);
+          })
+          .then(trendData => {
+            let trends: any;
+            trends = trendData;
+            tempArray[0]['sdata'] = trends.claimsPaidTrendObject;
+            tempArray[1]['sdata'] = trends.claimsYieldTrendObject;
+            /*tempArray[0]['sdata'] = {
+              sign: "down",
+              data: "-46%"
+            };
+            tempArray[1]['sdata'] = {
+              sign: "down",
+              data: "-46%"
+            };*/
+            resolve(tempArray);
+          });
+      }); // end subscribing to REST call
+    }); // ends Promise
   }
 } // end export class

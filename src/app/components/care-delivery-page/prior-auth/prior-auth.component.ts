@@ -28,6 +28,7 @@ export class PriorAuthComponent implements OnInit {
   lob: string;
   taxID: Array<string>;
   serviceSetting: string;
+  priorAuthType: string;
   filterParameters: any;
   constructor(
     private checkStorage: StorageService,
@@ -83,6 +84,12 @@ export class PriorAuthComponent implements OnInit {
       this.serviceSetting = 'All';
       this.filterParameters.serviceSetting = 'All';
     }
+    if (this.session.filterObjValue.priorAuthType) {
+      this.priorAuthType = this.session.filterObjValue.priorAuthType;
+    } else {
+      this.priorAuthType = 'All';
+      this.filterParameters.priorAuthType = 'All';
+    }
     this.pageTitle = 'Prior Authorizations';
     this.loading = true;
     this.hideAllObjects = true;
@@ -121,21 +128,60 @@ export class PriorAuthComponent implements OnInit {
   removeFilter(type, value) {
     if (type === 'lob') {
       this.lob = '';
-      this.session.store({ timeFrame: this.timePeriod, lob: 'All', tax: this.session.filterObjValue.tax });
+      this.session.store({
+        timeFrame: this.timePeriod,
+        lob: 'All',
+        tax: this.session.filterObjValue.tax,
+        serviceSetting: this.session.filterObjValue.serviceSetting,
+        priorAuthType: this.session.filterObjValue.priorAuthType
+      });
     } else if (type === 'tax' && !value.includes('Selected')) {
       this.taxID = this.session.filterObjValue.tax.filter(id => id !== value);
       if (this.taxID.length > 0) {
-        this.session.store({ timeFrame: this.timePeriod, lob: this.session.filterObjValue.lob, tax: this.taxID });
+        this.session.store({
+          timeFrame: this.timePeriod,
+          lob: this.session.filterObjValue.lob,
+          tax: this.taxID,
+          serviceSetting: this.session.filterObjValue.serviceSetting,
+          priorAuthType: this.session.filterObjValue.priorAuthType
+        });
       } else {
-        this.session.store({ timeFrame: this.timePeriod, lob: this.session.filterObjValue.lob, tax: ['All'] });
+        this.session.store({
+          timeFrame: this.timePeriod,
+          lob: this.session.filterObjValue.lob,
+          tax: ['All'],
+          serviceSetting: this.session.filterObjValue.serviceSetting,
+          priorAuthType: this.session.filterObjValue.priorAuthType
+        });
         this.taxID = [];
       }
     } else if (type === 'tax' && value.includes('Selected')) {
-      this.session.store({ timeFrame: this.timePeriod, lob: this.session.filterObjValue.lob, tax: ['All'] });
+      this.session.store({
+        timeFrame: this.timePeriod,
+        lob: this.session.filterObjValue.lob,
+        tax: ['All'],
+        serviceSetting: this.session.filterObjValue.serviceSetting,
+        priorAuthType: this.session.filterObjValue.priorAuthType
+      });
       this.taxID = [];
     } else if (type === 'serviceSetting') {
       this.serviceSetting = 'All';
-      this.session.store({ timeFrame: this.timePeriod, lob: 'All', tax: this.session.filterObjValue.tax });
+      this.session.store({
+        timeFrame: this.timePeriod,
+        lob: this.session.filterObjValue.lob,
+        tax: this.session.filterObjValue.tax,
+        serviceSetting: 'All',
+        priorAuthType: this.session.filterObjValue.priorAuthType
+      });
+    } else if (type === 'priorAuthType') {
+      this.priorAuthType = 'All';
+      this.session.store({
+        timeFrame: this.timePeriod,
+        lob: this.session.filterObjValue.lob,
+        tax: this.session.filterObjValue.tax,
+        serviceSetting: this.session.filterObjValue.serviceSetting,
+        priorAuthType: 'All'
+      });
     }
   }
 }

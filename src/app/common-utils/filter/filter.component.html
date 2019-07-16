@@ -30,14 +30,14 @@
     </div>
   </div>
   <div class="line"></div>
-  <div class="titleData">
+  <div class="titleData" [ngClass]="{ titleDisable: filterurl === '/ServiceInteraction/Calls' }">
     <div class="title">Tax ID</div>
     <div class="chevron">
       <mat-icon class="icon-display" *ngIf="!tarrowmark" (click)="clickArrowMark('tax')" svgIcon="arrowdn"></mat-icon>
       <mat-icon class="icon-display" *ngIf="tarrowmark" (click)="clickArrowMark('tax')" svgIcon="arrowup"></mat-icon>
     </div>
   </div>
-  <div class="lobgrp">
+  <div class="lobgrp" [ngClass]="{ titleDisable: filterurl === '/ServiceInteraction/Calls' }">
     <div *ngIf="taxArrayData.length == 0">
       <label id="radio-group-label" class="label-data">{{ taxData }}</label>
     </div>
@@ -69,14 +69,14 @@
     </div>
   </div>
   <div class="line"></div>
-  <div class="titleData">
+  <div class="titleData" [ngClass]="{ titleDisable: filterurl === '/ServiceInteraction/Calls' }">
     <div class="title">Line of Business</div>
     <div class="chevron">
       <mat-icon class="icon-display" *ngIf="!arrowmark" (click)="clickArrowMark('lob')" svgIcon="arrowdn"></mat-icon>
       <mat-icon class="icon-display" *ngIf="arrowmark" (click)="clickArrowMark('lob')" svgIcon="arrowup"></mat-icon>
     </div>
   </div>
-  <div class="lobgrp">
+  <div class="lobgrp" [ngClass]="{ titleDisable: filterurl === '/ServiceInteraction/Calls' }">
     <div>
       <label id="radio-group" class="label-data">{{ lobData }}</label>
     </div>
@@ -89,8 +89,9 @@
     </div>
   </div>
 
-  <div *ngIf="serviceSettingDisplay">
-    <div class="line1"></div>
+  <div *ngIf="priorAuthorizationCustomFilterBool">
+    <!-- Service Setting Filter  -->
+    <div class="line"></div>
     <div class="titleData">
       <div class="title">Service Setting</div>
       <div class="chevron">
@@ -120,7 +121,39 @@
         </mat-radio-group>
       </div>
     </div>
+    <!-- Prior Auth Type -->
+    <div class="line"></div>
+    <div class="titleData">
+      <div class="title">Prior Auth Type</div>
+      <div class="chevron">
+        <mat-icon
+          class="icon-display"
+          *ngIf="!patypearrowmark"
+          (click)="clickArrowMark('priorauthtype')"
+          svgIcon="arrowdn"
+        ></mat-icon>
+        <mat-icon
+          class="icon-display"
+          *ngIf="patypearrowmark"
+          (click)="clickArrowMark('priorauthtype')"
+          svgIcon="arrowup"
+        ></mat-icon>
+      </div>
+    </div>
+    <div class="lobgrp">
+      <div>
+        <label id="radio-group-patype" class="label-data">{{ priorAuthTypeData }}</label>
+      </div>
+      <div class="select-option-data" *ngIf="patypearrowmark">
+        <mat-radio-group class="radio-group" [(ngModel)]="priorAuthTypeData">
+          <mat-radio-button class="radio-button" *ngFor="let patype of priorauthdecisiontype" [value]="patype">
+            {{ patype }}
+          </mat-radio-button>
+        </mat-radio-group>
+      </div>
+    </div>
   </div>
+
   <div class="line1"></div>
   <div class="btn-display">
     <button type="reset" class="resetbtn" mat-button (click)="resetFilter()">Reset All Filters</button>
