@@ -32,7 +32,7 @@ export class FilterComponent implements OnInit {
   public timeframes = ['Last 6 Months', 'Last 12 Months', 'Year to Date', '2018', '2017'];
   public lobs = ['All', 'Community & State', 'Employee & Individual', 'Medicare & Retirement'];
   public servicesettings = ['All', 'Inpatient', 'Outpatient', 'Outpatient Facility'];
-  public priorauthdecisiontype = ['All', 'Admin', 'Clinical'];
+  public priorauthdecisiontype = ['All', 'Administrative', 'Clinical'];
   public priorauthservicecategory = ['All'];
   constructor(
     private iconRegistry: MatIconRegistry,
