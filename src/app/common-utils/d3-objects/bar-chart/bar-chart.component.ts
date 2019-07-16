@@ -269,12 +269,12 @@ export class BarChartComponent implements OnInit, AfterViewInit {
       }
       chart
         .append('text')
-        .attr('x', xScale(chartOptions.barSummation / 1.5))
+        .attr('x', xScale(chartOptions.barSummation / 1.31))
         .attr('y', (height + 20) / 2)
         .attr('fill', '#2D2D39')
         .attr('font-size', '22')
         .attr('float', 'right')
-        // .style('text-anchor', 'start')
+        .style('text-anchor', 'end')
         .style('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
 
         .text(formatDy(chartOptions.barData));
