@@ -348,11 +348,17 @@
         }
       }
 
-      &.active,
-      &.active:hover,
-      &.active:focus {
+      &.active {
         // background-color: mat-color($accent);
         color: $blue;
+        border-bottom: 4px solid $blue;
+        border-radius: 2px 2px 0 0;
+        text-align: center;
+        text-decoration: none;
+      }
+
+      &:hover,
+      &:focus {
         border-bottom: 4px solid $blue;
         border-radius: 2px 2px 0 0;
         text-align: center;
