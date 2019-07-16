@@ -129,120 +129,123 @@ export class PriorAuthSharedService {
       const isAllTin = true;
       const isAlllob = true;
       const isAllSS = true;
+      const isDecisionType = false;
 
-      this.priorAuthService.getPriorAuthDateRange(timeRange, isAllTin, isAlllob, isAllSS, ...newParameters).subscribe(
-        providerSystems => {
-          let PACount = [];
-          let PriorAuthBarGraphParamaters = [];
-          if (
-            providerSystems.PriorAuthorizations !== null &&
-            providerSystems.hasOwnProperty('PriorAuthorizations') &&
-            providerSystems.PriorAuthorizations.hasOwnProperty('LineOfBusiness') &&
-            providerSystems.PriorAuthorizations.LineOfBusiness.hasOwnProperty('All') &&
-            providerSystems.PriorAuthorizations.LineOfBusiness.All.hasOwnProperty('PriorAuthApprovedCount')
-          ) {
-            const data = providerSystems.PriorAuthorizations.LineOfBusiness.All;
-            const PAApprovedCount = data.PriorAuthApprovedCount;
-            const PANotApprovedCount = data.PriorAuthNotApprovedCount;
-            const PANotPendingCount = data.PriorAuthPendingCount;
-            const PANotCancelledCount = data.PriorAuthCancelledCount;
-            const PARequestedCount = PAApprovedCount + PANotApprovedCount;
-            const PAApprovalRate = PAApprovedCount / PARequestedCount;
-            let StandardTATConversion;
-            let UrgentTATConversion;
-            if (data.StandartPriorAuthTAT / 86400 < 1) {
-              StandardTATConversion = '<1';
-            } else {
-              StandardTATConversion = (data.StandartPriorAuthTAT / 86400).toFixed(0);
-            }
-            if (data.UrgentPriorAuthTAT / 3600 < 1) {
-              UrgentTATConversion = '<1';
-            } else {
-              UrgentTATConversion = (data.UrgentPriorAuthTAT / 3600).toFixed(0);
-            }
-
-            PACount = [
-              {
-                category: 'app-card',
-                type: 'donutWithLabel',
-                title: 'Prior Authorization Requested',
-                data: {
-                  graphValues: [PAApprovedCount, PANotApprovedCount, PANotPendingCount, PANotCancelledCount],
-                  centerNumber: this.nFormatter(PARequestedCount, 1),
-                  color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'],
-                  labels: ['Approved', 'Not Approved', 'Pending', 'Canceled'],
-                  gdata: ['card-inner', 'PARequested'],
-                  hover: true
-                },
-                besideData: {
-                  labels: ['Approved', 'Not Approved', 'Pending', 'Canceled'],
-                  color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC']
-                },
-                timeperiod: 'Last 6 Months'
-              },
-              {
-                category: 'app-card',
-                type: 'donutWithLabel',
-                title: 'Prior Authorization Approval Rate',
-                data: {
-                  graphValues: [PAApprovalRate, 1 - PAApprovalRate],
-                  centerNumber: (PAApprovalRate * 100).toFixed(0) + '%',
-                  color: ['#3381FF', '#E0E0E0'],
-                  gdata: ['card-inner', 'PAApprovalRate']
-                },
-                besideData: {
-                  verticalData: [
-                    { title: 'Average Turnaround Time' },
-                    { values: StandardTATConversion + ' Days', labels: 'Standard' },
-                    { values: UrgentTATConversion + ' Hours', labels: 'Urgent' }
-                  ]
-                },
-
-                timeperiod: 'Last 6 Months'
+      this.priorAuthService
+        .getPriorAuthDateRange(timeRange, isAllTin, isAlllob, isAllSS, isDecisionType, ...newParameters)
+        .subscribe(
+          providerSystems => {
+            let PACount = [];
+            let PriorAuthBarGraphParamaters = [];
+            if (
+              providerSystems.PriorAuthorizations !== null &&
+              providerSystems.hasOwnProperty('PriorAuthorizations') &&
+              providerSystems.PriorAuthorizations.hasOwnProperty('LineOfBusiness') &&
+              providerSystems.PriorAuthorizations.LineOfBusiness.hasOwnProperty('All') &&
+              providerSystems.PriorAuthorizations.LineOfBusiness.All.hasOwnProperty('PriorAuthApprovedCount')
+            ) {
+              const data = providerSystems.PriorAuthorizations.LineOfBusiness.All;
+              const PAApprovedCount = data.PriorAuthApprovedCount;
+              const PANotApprovedCount = data.PriorAuthNotApprovedCount;
+              const PANotPendingCount = data.PriorAuthPendingCount;
+              const PANotCancelledCount = data.PriorAuthCancelledCount;
+              const PARequestedCount = PAApprovedCount + PANotApprovedCount;
+              const PAApprovalRate = PAApprovedCount / PARequestedCount;
+              let StandardTATConversion;
+              let UrgentTATConversion;
+              if (data.StandartPriorAuthTAT / 86400 < 1) {
+                StandardTATConversion = '<1';
+              } else {
+                StandardTATConversion = (data.StandartPriorAuthTAT / 86400).toFixed(0);
               }
-            ];
-          } else {
-            PACount = [];
-          }
+              if (data.UrgentPriorAuthTAT / 3600 < 1) {
+                UrgentTATConversion = '<1';
+              } else {
+                UrgentTATConversion = (data.UrgentPriorAuthTAT / 3600).toFixed(0);
+              }
 
-          // if (providerSystems.All.NotApproved.AllNotApprovedSettings !== null) {
-          if (
-            providerSystems.All !== null &&
-            providerSystems.hasOwnProperty('All') &&
-            providerSystems.All.hasOwnProperty('NotApproved') &&
-            providerSystems.All.NotApproved.hasOwnProperty('AllNotApprovedSettings')
-          ) {
-            const PriorAuthNotApprovedReasons = providerSystems.All.NotApproved.AllNotApprovedSettings;
-            PriorAuthNotApprovedReasons.sort(function(a, b) {
-              return b.Count - a.Count;
-            });
-
-            const barScaleMax = PriorAuthNotApprovedReasons[0].Count;
-            for (let i = 0; i < PriorAuthNotApprovedReasons.length; i++) {
-              PriorAuthBarGraphParamaters.push({
-                type: 'singleBarChart',
-                title: 'Top Reasons for Prior Authorizations Not Approved',
-                data: {
-                  barHeight: 40,
-                  barData: PriorAuthNotApprovedReasons[i].Count,
-                  barSummation: barScaleMax,
-                  barText: PriorAuthNotApprovedReasons[i].Reason,
-                  color: [{ color1: '#3381FF' }],
-                  gdata: ['card-inner-large', 'reasonBar' + i]
+              PACount = [
+                {
+                  category: 'app-card',
+                  type: 'donutWithLabel',
+                  title: 'Prior Authorization Requested',
+                  data: {
+                    graphValues: [PAApprovedCount, PANotApprovedCount, PANotPendingCount, PANotCancelledCount],
+                    centerNumber: this.nFormatter(PARequestedCount, 1),
+                    color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'],
+                    labels: ['Approved', 'Not Approved', 'Pending', 'Canceled'],
+                    gdata: ['card-inner', 'PARequested'],
+                    hover: true
+                  },
+                  besideData: {
+                    labels: ['Approved', 'Not Approved', 'Pending', 'Canceled'],
+                    color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC']
+                  },
+                  timeperiod: 'Last 6 Months'
                 },
-                timeperiod: 'Last 6 Months'
-              });
+                {
+                  category: 'app-card',
+                  type: 'donutWithLabel',
+                  title: 'Prior Authorization Approval Rate',
+                  data: {
+                    graphValues: [PAApprovalRate, 1 - PAApprovalRate],
+                    centerNumber: (PAApprovalRate * 100).toFixed(0) + '%',
+                    color: ['#3381FF', '#E0E0E0'],
+                    gdata: ['card-inner', 'PAApprovalRate']
+                  },
+                  besideData: {
+                    verticalData: [
+                      { title: 'Average Turnaround Time' },
+                      { values: StandardTATConversion + ' Days', labels: 'Standard' },
+                      { values: UrgentTATConversion + ' Hours', labels: 'Urgent' }
+                    ]
+                  },
+
+                  timeperiod: 'Last 6 Months'
+                }
+              ];
+            } else {
+              PACount = [];
             }
-          } else {
-            PriorAuthBarGraphParamaters = [];
+
+            // if (providerSystems.All.NotApproved.AllNotApprovedSettings !== null) {
+            if (
+              providerSystems.All !== null &&
+              providerSystems.hasOwnProperty('All') &&
+              providerSystems.All.hasOwnProperty('NotApproved') &&
+              providerSystems.All.NotApproved.hasOwnProperty('AllNotApprovedSettings')
+            ) {
+              const PriorAuthNotApprovedReasons = providerSystems.All.NotApproved.AllNotApprovedSettings;
+              PriorAuthNotApprovedReasons.sort(function(a, b) {
+                return b.Count - a.Count;
+              });
+
+              const barScaleMax = PriorAuthNotApprovedReasons[0].Count;
+              for (let i = 0; i < PriorAuthNotApprovedReasons.length; i++) {
+                PriorAuthBarGraphParamaters.push({
+                  type: 'singleBarChart',
+                  title: 'Top Reasons for Prior Authorizations Not Approved',
+                  data: {
+                    barHeight: 40,
+                    barData: PriorAuthNotApprovedReasons[i].Count,
+                    barSummation: barScaleMax,
+                    barText: PriorAuthNotApprovedReasons[i].Reason,
+                    color: [{ color1: '#3381FF' }],
+                    gdata: ['card-inner-large', 'reasonBar' + i]
+                  },
+                  timeperiod: 'Last 6 Months'
+                });
+              }
+            } else {
+              PriorAuthBarGraphParamaters = [];
+            }
+            const PAData = [PACount, PriorAuthBarGraphParamaters];
+            resolve(PAData);
+          },
+          err => {
+            console.log('Prior Auth Error', err);
           }
-          const PAData = [PACount, PriorAuthBarGraphParamaters];
-          resolve(PAData);
-        },
-        err => {
-          console.log('Prior Auth Error', err);
-        }
-      );
+        );
     });
   }
 
@@ -385,6 +388,7 @@ export class PriorAuthSharedService {
     const TIN = filterParamteres.tax[0];
     const LOB = filterParamteres.lob;
     const serviceSetting = filterParamteres.serviceSetting;
+    const paDecisionType = filterParamteres.priorAuthType;
     // console.log(filterParamteres);
 
     // Default parameters
@@ -399,6 +403,8 @@ export class PriorAuthSharedService {
     let iseAndILobBool = false;
     let ismAndRLobBool = false;
     let isAllSSFlagBool = true; // Only if we need all reasons; most commands will already give all 3 so just have to filter
+    let isDecisionType = false;
+    const decisionValue = paDecisionType;
 
     // configurations for time period
     if (timePeriod === 'Last 12 Months') {
@@ -470,6 +476,12 @@ export class PriorAuthSharedService {
       isAllSSFlagBool = false;
     }
 
+    if (decisionValue !== 'All') {
+      isDecisionType = true;
+    } else {
+      isDecisionType = false;
+    }
+
     return new Promise(resolve => {
       // const newParameters = [this.providerKey, true, true, true, false, true, false, false, false, true];
 
@@ -483,7 +495,9 @@ export class PriorAuthSharedService {
         iscAndSLobBool,
         iseAndILobBool,
         ismAndRLobBool,
-        isAllSSFlagBool
+        isAllSSFlagBool,
+        isDecisionType,
+        decisionValue
       ];
       // Parameters key
       // zero - provider key
@@ -493,7 +507,14 @@ export class PriorAuthSharedService {
       // nine - all service setting flag
 
       this.priorAuthService
-        .getPriorAuthDateRange(timeRange, isAllTinBool, isAllLobBool, isAllSSFlagBool, ...priorAuthAPIParameters)
+        .getPriorAuthDateRange(
+          timeRange,
+          isAllTinBool,
+          isAllLobBool,
+          isAllSSFlagBool,
+          isDecisionType,
+          ...priorAuthAPIParameters
+        )
         .subscribe(
           providerSystems => {
             let PACount = [];

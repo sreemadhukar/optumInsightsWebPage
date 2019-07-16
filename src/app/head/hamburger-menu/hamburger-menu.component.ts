@@ -238,6 +238,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
       data => {
         this.filterFlag = true;
         this.filterurl = data;
+        console.log(data);
       },
       err => {
         console.log('Error, clickHelpIcon , inside Hamburger', err);
@@ -292,7 +293,8 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
   }
   /** FUNCTIONS TO COLLAPSE LEFT MENU **/
   collapseExpansionPanels(id) {
-    this.allExpandState(false, id - 1);
+    window.scrollTo(300, 0);
+    // this.allExpandState(false, id - 1);
   }
 
   openDialog(): void {

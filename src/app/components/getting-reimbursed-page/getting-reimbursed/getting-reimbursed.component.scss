@@ -2,7 +2,7 @@
 @import '~src/scss/mixins';
 @import '~src/scss/my-custom-theme';
 .breadcrumb-top-padding {
-  @include margin(12px, 0, 24px, 0);
+  @include margin(12px, 0, 18px, 0);
   box-sizing: border-box;
 
   .filter_bg {
@@ -132,10 +132,11 @@
           line-height: 40px;
         }
         .page-subtitle {
+          margin-top: 24px;
           flex-basis: 100%;
-          font-size: 28px;
+          font-size: 36px;
           line-height: 32px;
-          margin-bottom: 12px;
+          margin-bottom: 2px;
         }
         /* tabs css starts here*/
         .container--tabs {
