@@ -53,7 +53,9 @@ export class GettingReimbursedSharedService {
   }
 
   /** code starts here for shared NonPayment Data */
-
+  /** Actually we have to used this nonPayment service in for Non-Payment cards that's why we
+   * need to call the Non-Payment API in Getting Reimbursed Summary page as well
+   */
   public sharedNonPaymentData() {
     /** Non Payment Service Code starts here */
     /** code for two donuts  Claims Not Paid and Claims Non-payment Rate */
@@ -76,6 +78,10 @@ export class GettingReimbursedSharedService {
   }
   /** code ends here for shared NonPayment Data */
 
+  /** The below function will return the data for the Getting Reimbursed page,
+   * In the main function getGettingReimbursedData() , we will call the sharedGettingReimbursedData(parameters)
+   * after calling the sharedNonPaymentData() so that we get the nonPayment data first.
+   */
   public sharedGettingReimbursedData(parameters) {
     let appeals: object;
     let payments: object;
@@ -622,6 +628,7 @@ export class GettingReimbursedSharedService {
           }
         }
 
+        /** We used promise so that we get the data in synchronous manner  */
         this.sharedNonPaymentData()
           .then(nonPayment => {
             this.nonPaymentData = nonPayment;
