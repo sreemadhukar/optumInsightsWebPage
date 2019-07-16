@@ -183,7 +183,13 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
         .style('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'");
     }
 
-    if (chartOptions.hasOwnProperty('sdata') && chartOptions.sdata != null) {
+    if (
+      chartOptions.hasOwnProperty('sdata') &&
+      chartOptions.sdata != undefined &&
+      chartOptions.sdata != null &&
+      chartOptions.sdata.sign != undefined &&
+      chartOptions.sdata.sign != null
+    ) {
       if (chartOptions.sdata.sign === 'up') {
         chart
           .append('circle')
@@ -250,6 +256,41 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
           .attr('y', 32)
           .style('font-size', '14px')
           .style('fill', '#b10c00')
+          .style('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
+          .style('text-anchor', 'start')
+          .text(chartOptions.sdata.data);
+      } else if (chartOptions.sdata.sign === 'neutral') {
+        chart
+          .append('circle')
+          .attr('cx', -39)
+          .attr('cy', 29)
+          .attr('r', 16)
+          .attr('fill', '#e0e0e0');
+
+        if (chartOptions.hasOwnProperty('graphScreen') && chartOptions.graphScreen === 'PI') {
+          chart
+            .append('svg:image')
+            .attr('x', -50)
+            .attr('y', 19)
+            .attr('width', '20px')
+            .attr('height', '20px')
+            .attr('xlink:href', 'src/assets/images/up-negative-no-circle.svg');
+        } else {
+          chart
+            .append('svg:image')
+            .attr('x', -50)
+            .attr('y', 19)
+            .attr('width', '20px')
+            .attr('height', '20px')
+            .attr('xlink:href', 'src/assets/images/flat-no-change.svg');
+        }
+
+        chart
+          .append('text')
+          .attr('x', -15)
+          .attr('y', 32)
+          .style('font-size', '14px')
+          .style('fill', '#2d2d39')
           .style('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
           .style('text-anchor', 'start')
           .text(chartOptions.sdata.data);

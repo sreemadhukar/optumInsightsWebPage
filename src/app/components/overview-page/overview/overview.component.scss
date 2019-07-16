@@ -5,7 +5,7 @@
   $accent: map-get($theme, accent);
   $background: map-get($theme, background);
   $background-color: mat-color($background);
-  
+
   .overview-body {
     @include mat-elevation(2);
     background-color: mat-color($accent);
@@ -21,8 +21,9 @@
       -webkit-flex-flow: row wrap;
       justify-content: left;
       flex-wrap: wrap;
-      margin-top: 25px;
       padding-left: 40px;
+      width: 1000px;
+      margin: auto;
 
       .self-service-heading {
         display: flex;
