@@ -4,10 +4,11 @@
 .selfService-body {
   overflow: hidden;
   padding-bottom: 60px;
+  background-color: $alice-blue;
   .selfService-content {
     display: flex;
     flex-wrap: wrap;
-    justify-content: left;
+    justify-content: center;
     padding-left: 40px;
     .height1Separator {
       height: 0;
@@ -20,7 +21,7 @@
     }
 
     .cust-width-title {
-      width: 450px;
+      width: 961px;
       margin-left: 10px;
       font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
       color: $black-rock;
@@ -50,10 +51,11 @@
     .opportunity-content {
       display: flex;
       flex-wrap: wrap;
-      justify-content: left;
+      justify-content: center;
       .self-service-heading {
         display: flex;
         padding-top: 30px;
+        width: 961px;
       }
     }
 
