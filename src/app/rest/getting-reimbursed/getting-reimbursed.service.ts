@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { GettingReimbursedModule } from '../../components/getting-reimbursed-page/getting-reimbursed.module';
 import { environment } from '../../../environments/environment';
 import { HttpHeaders, HttpClient, HttpParams } from '@angular/common/http';
-import { map, retry, catchError } from 'rxjs/operators';
+import { map, catchError } from 'rxjs/operators';
 import { combineLatest, of } from 'rxjs';
 
 @Injectable({
@@ -46,12 +46,10 @@ export class GettingReimbursedService {
 
     return combineLatest(
       this.http.post(claimsURL, parameters[1]).pipe(
-        retry(2),
         map(res => JSON.parse(JSON.stringify(res[0]))),
         catchError(err => of(JSON.parse(JSON.stringify(err))))
       ),
       this.http.get(appealsURL, { params: cparams, headers: myHeader }).pipe(
-        retry(2),
         map(res => JSON.parse(JSON.stringify(res))),
         catchError(err => of(JSON.parse(JSON.stringify(err))))
       )
@@ -70,12 +68,10 @@ export class GettingReimbursedService {
 
     return combineLatest(
       this.http.post(claimsURL, parameters[1]).pipe(
-        retry(2),
         map(res => JSON.parse(JSON.stringify(res[0]))),
         catchError(err => of(JSON.parse(JSON.stringify(err))))
       ),
       this.http.get(appealsURL, { params: aparams }).pipe(
-        retry(2),
         map(res => JSON.parse(JSON.stringify(res))),
         catchError(err => of(JSON.parse(JSON.stringify(err))))
       )
@@ -88,7 +84,6 @@ export class GettingReimbursedService {
     const tinsURL = this.APP_URL + this.TINS_SERVICE_PATH + providerKey;
 
     return this.http.get(tinsURL, { params: params }).pipe(
-      retry(2),
       map(res => res),
       catchError(err => of(err))
     );
@@ -118,7 +113,6 @@ export class GettingReimbursedService {
 */
     const claimsURL = this.APP_URL + this.CLAIMS_SERVICE_PATH + parameters.providerkey;
     return this.http.post(claimsURL, params).pipe(
-      retry(2),
       map(res => res),
       catchError(err => of(err))
     );
@@ -144,7 +138,6 @@ export class GettingReimbursedService {
 
     const claimsURL = this.APP_URL + this.CLAIMS_SERVICE_PATH + parameters + '?requestType=PAYMENT_METRICS';
     return this.http.post(claimsURL, bParam).pipe(
-      retry(2),
       map(res => JSON.parse(JSON.stringify(res[0]))),
       catchError(err => of(JSON.parse(JSON.stringify(err))))
     );
