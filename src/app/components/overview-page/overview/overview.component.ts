@@ -115,6 +115,8 @@ export class OverviewComponent implements OnInit, AfterContentInit {
         } else if (this.claimsYieldBlock.status != null && this.claimsYieldBlock.toggle) {
           this.errorloadClaimsYieldCard = true;
         }
+        console.log(this.claimsPaidBlock);
+        console.log(this.claimsYieldBlock);
       })
       .catch(reason => {
         this.claimsLoading = true;
@@ -160,7 +162,7 @@ export class OverviewComponent implements OnInit, AfterContentInit {
           this.errorloadTotalCallsCard = true;
         }
         this.selfServiceMiniCards = this.overviewItems[1];
-        console.log(this.overviewItems[1]);
+        console.log(this.overviewItems[0]);
       })
       .catch(reason => {
         this.loading = true;
