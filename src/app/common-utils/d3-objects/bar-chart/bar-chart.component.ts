@@ -146,9 +146,10 @@ export class BarChartComponent implements OnInit, AfterViewInit {
         .attr('y', (height + 20) / 2)
         .attr('fill', '#2D2D39')
         .attr('font-size', '20')
+        .attr('text-align', 'right')
         .style('text-anchor', 'start')
         .style('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
-        .text(formatDy(chartOptions.barData));
+        .text(chartOptions.barData);
 
       chart
         .append('rect')
@@ -220,7 +221,7 @@ export class BarChartComponent implements OnInit, AfterViewInit {
           .select(this.renderChart)
           .append('div')
           .attr('class', 'tooltip')
-          .style('height', '100px')
+          .style('height', 'auto')
           .style('width', '438px')
           .style('opacity', 0)
           .style('border-radius', 0);
@@ -272,10 +273,11 @@ export class BarChartComponent implements OnInit, AfterViewInit {
         .attr('y', (height + 20) / 2)
         .attr('fill', '#2D2D39')
         .attr('font-size', '22')
-        .style('text-anchor', 'start')
+        .attr('float', 'right')
+        // .style('text-anchor', 'start')
         .style('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
 
-        .text(chartOptions.barData);
+        .text(formatDy(chartOptions.barData));
     }
   }
 }
