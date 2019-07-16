@@ -122,6 +122,7 @@
       </div>
     </div>
     <!-- Prior Auth Type -->
+    <!-- Disabled PA Type for now
     <div class="line"></div>
     <div class="titleData">
       <div class="title">Prior Auth Type</div>
@@ -150,6 +151,56 @@
             {{ patype }}
           </mat-radio-button>
         </mat-radio-group>
+      </div>
+    </div>
+    -->
+    <div class="line"></div>
+    <div class="titleData">
+      <div class="title">Service Category</div>
+      <div class="chevron">
+        <mat-icon
+          class="icon-display"
+          *ngIf="!paservicecategoryarrowmark"
+          (click)="clickArrowMark('paservicecategory')"
+          svgIcon="arrowdn"
+        ></mat-icon>
+        <mat-icon
+          class="icon-display"
+          *ngIf="paservicecategoryarrowmark"
+          (click)="clickArrowMark('paservicecategory')"
+          svgIcon="arrowup"
+        ></mat-icon>
+      </div>
+    </div>
+    <div class="lobgrp">
+      <div *ngIf="paServiceCategoryArrayData.length == 0">
+        <label id="radio-group-label" class="label-data">{{ paServiceCategoryData }}</label>
+      </div>
+      <div *ngIf="paServiceCategoryArrayData.length && taxArrayData.length < 4">
+        <label id="radio-group-label" class="label-data">{{ paServiceCategoryData }}</label>
+      </div>
+      <div *ngIf="paServiceCategoryArrayData.length >= 4">
+        <label id="radio-group-label" class="label-data">{{ paServiceCategoryArrayData.length }} Selected</label>
+      </div>
+      <div *ngIf="paservicecategoryarrowmark" class="label-cls">
+        <div *ngIf="!inputDisplay">
+          <mat-icon matPrefix class="nav-menu-icons input-search" svgIcon="search"></mat-icon>
+          <input
+            type="text"
+            class="input-class"
+            (input)="focusFunction($event.target.value)"
+            [ngModel]="taxValue"
+            placeholder="Search for a Service Category"
+            onfocus="this.placeholder=''"
+          />
+        </div>
+        <app-multi-select
+          *ngIf="inputDisplay"
+          [tinsData]="tinsData"
+          [tinValue]="taxValue"
+          [taxData]="taxData"
+          (taxArray)="taxArrayFunction($event)"
+        ></app-multi-select>
       </div>
     </div>
   </div>

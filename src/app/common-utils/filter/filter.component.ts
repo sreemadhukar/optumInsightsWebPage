@@ -19,12 +19,15 @@ export class FilterComponent implements OnInit {
   public tiarrowmark: boolean;
   public ssarrowmark: boolean;
   public patypearrowmark: boolean;
+  public paservicecategoryarrowmark: boolean;
   public tinsData: any;
   public taxValue: string;
   public inputDisplay = false;
   // prior auth has 3 unique filters so make one bool
   public priorAuthorizationCustomFilterBool = false;
   public taxArrayData = [];
+  public paServiceCategoryArrayData = [];
+  public paServiceCategoryData: string;
   public timeframeData: any;
   public filterData: any;
   @Output() filterFlag = new EventEmitter();
@@ -33,7 +36,60 @@ export class FilterComponent implements OnInit {
   public lobs = ['All', 'Community & State', 'Employee & Individual', 'Medicare & Retirement'];
   public servicesettings = ['All', 'Inpatient', 'Outpatient', 'Outpatient Facility'];
   public priorauthdecisiontype = ['All', 'Administrative', 'Clinical'];
-  public priorauthservicecategory = ['All'];
+  public priorauthservicecategory = [
+    'All',
+    'Medical',
+    'Surgical',
+    'Maternity',
+    'Transplant',
+    'Cosmetic / Reconstructive',
+    'Mental Health',
+    'Ambulance Air/Water',
+    'Chiropractic',
+    'Dental',
+    'Diagnostic Testing',
+    'Durable Medical Equipment',
+    'Hospice',
+    'Imaging',
+    'Infertility Benefit Interpretation',
+    'Infusion Services',
+    'Lab',
+    'Long Term Care',
+    'Medications',
+    'NICU',
+    'Occupational Therapy',
+    'Orthotics',
+    'Pain Management',
+    'Pharmacy',
+    'Physical Therapy',
+    'Podiatry',
+    'Private Duty Nursing',
+    'Prosthetics',
+    'Rehabilitation',
+    'Respiratory Therapy',
+    'Skilled Nursing',
+    'Speech Therapy',
+    'Substance Use Disorder',
+    'Supplies',
+    'Therapy Services',
+    'Transport',
+    'Unproven, Experimental, Investigational',
+    'Transplant Services',
+    'Vision',
+    'Well Baby (eNtf Only)',
+    'Home Services',
+    'Long Term Acute Care',
+    'Intensive Service Delivery',
+    'Cardiac Rehabilitation',
+    'Dialysis',
+    'PAT Skilled Nursing',
+    'Mental Health',
+    'Home and Community Based Services',
+    'Ambulatory Surgical Center',
+    'Facility Based Service',
+    'Custodial',
+    'Weight Management'
+  ];
   constructor(
     private iconRegistry: MatIconRegistry,
     sanitizer: DomSanitizer,
@@ -60,6 +116,7 @@ export class FilterComponent implements OnInit {
     this.tiarrowmark = false;
     this.ssarrowmark = false;
     this.patypearrowmark = false;
+    this.paservicecategoryarrowmark = false;
     iconRegistry.addSvgIcon(
       'arrowdn',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-keyboard_arrow_down-24px.svg')
@@ -77,18 +134,21 @@ export class FilterComponent implements OnInit {
       this.tiarrowmark = false;
       this.ssarrowmark = false;
       this.patypearrowmark = false;
+      this.paservicecategoryarrowmark = false;
     } else if (value === 'lob') {
       this.arrowmark = !this.arrowmark;
       this.tarrowmark = false;
       this.tiarrowmark = false;
       this.ssarrowmark = false;
       this.patypearrowmark = false;
+      this.paservicecategoryarrowmark = false;
     } else if (value === 'timeframe') {
       this.tiarrowmark = !this.tiarrowmark;
       this.arrowmark = false;
       this.tarrowmark = false;
       this.ssarrowmark = false;
       this.patypearrowmark = false;
+      this.paservicecategoryarrowmark = false;
     } else if (value === 'servicesetting') {
       this.ssarrowmark = !this.ssarrowmark;
       this.arrowmark = false;
@@ -101,6 +161,14 @@ export class FilterComponent implements OnInit {
       this.arrowmark = false;
       this.tarrowmark = false;
       this.tiarrowmark = false;
+      this.paservicecategoryarrowmark = false;
+    } else if (value === 'paservicecategory') {
+      this.paservicecategoryarrowmark = !this.paservicecategoryarrowmark;
+      this.ssarrowmark = false;
+      this.arrowmark = false;
+      this.tarrowmark = false;
+      this.tiarrowmark = false;
+      this.patypearrowmark = false;
     }
   }
   ngOnInit() {
