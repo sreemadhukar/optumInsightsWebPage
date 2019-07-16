@@ -69,10 +69,6 @@
     }
   }
 }
-.titleDisable {
-  pointer-events: none;
-  cursor: pointer;
-}
 .lobgrp {
   width: 100%;
   display: inline-block;
@@ -142,6 +138,21 @@
       color: #2d2d39;
       margin-bottom: 15px;
     }
+  }
+}
+.titleDisable {
+  pointer-events: none;
+  cursor: pointer;
+  .title {
+    color: lightgray;
+  }
+  .chevron {
+    .icon-display {
+      color: lightgray;
+    }
+  }
+  .label-data {
+    color: lightgray;
   }
 }
 .applybtn {
