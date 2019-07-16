@@ -102,6 +102,12 @@ export class OverviewComponent implements OnInit, AfterContentInit {
     this.overviewsrc
       .getClaimsCards()
       .then(data => {
+        this.loadClaimsPaidCard = false;
+        this.loadClaimsYieldCard = false;
+
+        this.errorloadClaimsPaidCard = false;
+        this.errorloadClaimsYieldCard = false;
+
         this.claimsLoading = false;
         this.claimsPaidBlock = data[0];
         this.claimsYieldBlock = data[1];
@@ -133,6 +139,16 @@ export class OverviewComponent implements OnInit, AfterContentInit {
     this.overviewsrc
       .getOverviewData()
       .then(data => {
+        this.loadPrioirAuthCard = false;
+        this.loadselfServiceAdoptionCard = false;
+        this.loadMedicareStarRatingCard = false;
+        this.loadTotalCallsCard = false;
+
+        this.errorloadPrioirAuthCard = false;
+        this.errorloadselfServiceAdoptionCard = false;
+        this.errorloadMedicareStarRatingCard = false;
+        this.errorloadTotalCallsCard = false;
+
         this.loading = false;
         this.overviewItems = JSON.parse(JSON.stringify(data));
         console.log(this.overviewItems[0]);
