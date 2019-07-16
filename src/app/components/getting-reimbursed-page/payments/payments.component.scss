@@ -14,6 +14,8 @@
     border-radius: 2px;
     float: right;
     cursor: pointer;
+    margin-right: 7px;
+
     .filter_title {
       color: $blue;
       font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
@@ -66,8 +68,11 @@
   .payments-content {
     display: flex;
     -webkit-flex-flow: row wrap;
-    justify-content: center;
+    justify-content: left;
+    width: 1000px;
+    margin: auto;
     flex-wrap: wrap;
+
     .height1Separator {
       height: 0;
       width: 1200px;
@@ -81,6 +86,7 @@
       width: 961px;
       font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
       color: $black-rock;
+      margin-left: 10px;
 
       .page-title {
         flex-basis: 100%;
@@ -90,7 +96,7 @@
       }
       .time--period {
         .filterchips {
-          width: 857px;
+          width: 850px;
           float: left;
           .horizontal-align {
             display: inline-block;

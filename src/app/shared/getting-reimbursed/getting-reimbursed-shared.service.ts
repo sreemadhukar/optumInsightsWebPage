@@ -233,8 +233,8 @@ export class GettingReimbursedSharedService {
                   color: ['#3381FF', '#80B0FF'],
                   gdata: ['card-inner', 'totalClaimsSubmitted'],
                   sdata: {
-                    sign: 'up',
-                    data: '+8%'
+                    sign: '',
+                    data: ''
                   },
                   labels: ['Paid', 'Not Paid'],
                   hover: true
@@ -339,8 +339,8 @@ export class GettingReimbursedSharedService {
                   color: ['#3381FF', '#80B0FF', '#003DA1'],
                   gdata: ['card-inner', 'claimsPaid'],
                   sdata: {
-                    sign: 'down',
-                    data: '-2.8%'
+                    sign: '',
+                    data: ''
                   },
                   labels: ['Medicare & Retirement', 'Community & State', 'Employer & Individual'],
                   hover: true
@@ -443,10 +443,7 @@ export class GettingReimbursedSharedService {
                   centerNumber: claimsData[lobData].ClaimsLobSummary[0].ClaimsYieldRate.toFixed() + '%',
                   color: ['#3381FF', '#D7DCE1'],
                   gdata: ['card-inner', 'claimsYield'],
-                  sdata: {
-                    sign: 'up',
-                    data: '+5.3%'
-                  }
+                  sdata: null
                 },
                 timeperiod: this.timeFrame
               };
@@ -517,8 +514,8 @@ export class GettingReimbursedSharedService {
                   color: ['#3381FF', '#80B0FF', '#003DA1'],
                   gdata: ['card-inner', 'claimsAppealSubmitted'],
                   sdata: {
-                    sign: 'up',
-                    data: '+4%'
+                    sign: '',
+                    data: ''
                   },
                   labels: ['Medicare & Retirement', 'Community & State', 'Employer & Individual'],
                   hover: true
@@ -569,10 +566,7 @@ export class GettingReimbursedSharedService {
                   centerNumber: this.common.nFormatter(appealsData.LineOfBusiness[lobFullData].OverTurnCount),
                   color: ['#3381FF', '#D7DCE1'],
                   gdata: ['card-inner', 'claimsAppealOverturned'],
-                  sdata: {
-                    sign: 'up',
-                    data: '+2.3%'
-                  }
+                  sdata: null
                 },
                 timeperiod: this.timeFrame
               };
@@ -713,8 +707,8 @@ export class GettingReimbursedSharedService {
                     color: ['#3381FF', '#80B0FF'],
                     gdata: ['card-inner', 'totalClaimsSubmitted'],
                     sdata: {
-                      sign: 'up',
-                      data: '+8%'
+                      sign: '',
+                      data: ''
                     }
                   },
                   besideData: {
@@ -811,8 +805,8 @@ export class GettingReimbursedSharedService {
                     color: ['#3381FF', '#80B0FF', '#003DA1'],
                     gdata: ['card-inner', 'claimsPaid'],
                     sdata: {
-                      sign: 'down',
-                      data: '-2.8%'
+                      sign: '',
+                      data: ''
                     },
                     labels: ['Medicare & Retirement', 'Community & State', 'Employer & Individual'],
                     hover: true
@@ -835,55 +829,11 @@ export class GettingReimbursedSharedService {
                 };
               }
               if (
-                claimsData.hasOwnProperty(lobData) &&
-                claimsData[lobData] != null &&
-                claimsData[lobData].hasOwnProperty('ClaimsLobSummary') &&
-                claimsData[lobData].ClaimsLobSummary.length &&
-                claimsData[lobData].ClaimsLobSummary[0].ClaimsDenied &&
-                claimsData.hasOwnProperty('Cs') &&
-                claimsData.Cs.hasOwnProperty('ClaimsLobSummary') &&
-                claimsData.Cs.ClaimsLobSummary.length &&
-                claimsData.Cs.ClaimsLobSummary[0].hasOwnProperty('ClaimsDenied') &&
-                claimsData.hasOwnProperty('Ei') &&
-                claimsData.Ei.hasOwnProperty('ClaimsLobSummary') &&
-                claimsData.Ei.ClaimsLobSummary.length &&
-                claimsData.Ei.ClaimsLobSummary[0].hasOwnProperty('ClaimsDenied') &&
-                claimsData.hasOwnProperty('Mr') &&
-                claimsData.Mr.hasOwnProperty('ClaimsLobSummary') &&
-                claimsData.Mr.ClaimsLobSummary.length &&
-                claimsData.Mr.ClaimsLobSummary[0].hasOwnProperty('ClaimsDenied')
+                this.nonPaymentData1 !== null &&
+                this.nonPaymentData1[0] !== null &&
+                this.nonPaymentData1[0].data !== null
               ) {
-                const nonPaidData = [
-                  claimsData.Mr.ClaimsLobSummary[0].ClaimsDenied,
-                  claimsData.Cs.ClaimsLobSummary[0].ClaimsDenied,
-                  claimsData.Ei.ClaimsLobSummary[0].ClaimsDenied
-                ];
-                claimsNotPaid = {
-                  category: 'app-card',
-                  type: 'donutWithLabel',
-                  title: 'Claims Not Paid',
-                  data: {
-                    graphValues: nonPaidData,
-                    centerNumber:
-                      this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].ClaimsDenied) < 1 &&
-                      this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].ClaimsDenied) > 0
-                        ? '< $1'
-                        : '$' + this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].ClaimsDenied),
-                    color: ['#3381FF', '#80B0FF', '#003DA1'],
-                    gdata: ['card-inner', 'claimsNotPaid'],
-                    sdata: {
-                      sign: 'down',
-                      data: '-10.2%'
-                    },
-                    labels: ['Medicare & Retirement', 'Community & State', 'Employer & Individual'],
-                    hover: true
-                  },
-                  besideData: {
-                    labels: ['Medicare & Retirement', 'Community & State', 'Employer & Individual'],
-                    color: ['#3381FF', '#80B0FF', '#003DA1']
-                  },
-                  timeperiod: this.timeFrame
-                };
+                claimsNotPaid = this.nonPaymentData1[0];
               } else {
                 claimsNotPaid = {
                   category: 'app-card',
@@ -896,6 +846,21 @@ export class GettingReimbursedSharedService {
                 };
               }
               if (
+                this.nonPaymentData1 !== null &&
+                this.nonPaymentData1[1] != null &&
+                this.nonPaymentData1[1].data != null
+              ) {
+                claimsNotPaidRate = this.nonPaymentData1[1];
+              } else {
+                claimsNotPaidRate = {
+                  category: 'app-card',
+                  type: 'donut',
+                  title: null,
+                  data: null,
+                  timeperiod: null
+                };
+              }
+              if (
                 claimsData.hasOwnProperty(lobData) &&
                 claimsData[lobData] != null &&
                 claimsData[lobData].hasOwnProperty('ClaimsLobSummary') &&
@@ -903,29 +868,6 @@ export class GettingReimbursedSharedService {
                 claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('ClaimsYieldRate') &&
                 claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('ClaimsNonPaymentRate')
               ) {
-                claimsNotPaidRate = {
-                  category: 'app-card',
-                  type: 'donut',
-                  title: 'Claims Non-Payment Rate',
-                  data: {
-                    graphValues: [
-                      claimsData[lobData].ClaimsLobSummary[0].ClaimsNonPaymentRate,
-                      claimsData[lobData].ClaimsLobSummary[0].ClaimsYieldRate
-                    ],
-                    centerNumber:
-                      claimsData[lobData].ClaimsLobSummary[0].ClaimsNonPaymentRate < 1 &&
-                      claimsData[lobData].ClaimsLobSummary[0].ClaimsNonPaymentRate > 0
-                        ? '< 1%'
-                        : claimsData[lobData].ClaimsLobSummary[0].ClaimsNonPaymentRate + '%',
-                    color: ['#3381FF', '#D7DCE1'],
-                    gdata: ['card-inner', 'claimsNonPaymentRate'],
-                    sdata: {
-                      sign: 'up',
-                      data: '+3.7%'
-                    }
-                  },
-                  timeperiod: this.timeFrame
-                };
                 claimsPaidRate = {
                   category: 'app-card',
                   type: 'donut',
@@ -938,21 +880,11 @@ export class GettingReimbursedSharedService {
                     centerNumber: claimsData[lobData].ClaimsLobSummary[0].ClaimsYieldRate.toFixed() + '%',
                     color: ['#3381FF', '#D7DCE1'],
                     gdata: ['card-inner', 'claimsYield'],
-                    sdata: {
-                      sign: 'up',
-                      data: '+5.3%'
-                    }
+                    sdata: null
                   },
                   timeperiod: this.timeFrame
                 };
               } else {
-                claimsNotPaidRate = {
-                  category: 'app-card',
-                  type: 'donut',
-                  title: null,
-                  data: null,
-                  timeperiod: null
-                };
                 claimsPaidRate = {
                   category: 'app-card',
                   type: 'donut',
@@ -1018,8 +950,8 @@ export class GettingReimbursedSharedService {
                     color: ['#3381FF', '#80B0FF', '#003DA1'],
                     gdata: ['card-inner', 'claimsAppealSubmitted'],
                     sdata: {
-                      sign: 'up',
-                      data: '+4%'
+                      sign: '',
+                      data: ''
                     },
                     labels: ['Medicare & Retirement', 'Community & State', 'Employer & Individual'],
                     hover: true
@@ -1070,10 +1002,7 @@ export class GettingReimbursedSharedService {
                     centerNumber: this.common.nFormatter(appealsData.LineOfBusiness[lobFullData].OverTurnCount),
                     color: ['#3381FF', '#D7DCE1'],
                     gdata: ['card-inner', 'claimsAppealOverturned'],
-                    sdata: {
-                      sign: 'up',
-                      data: '+2.3%'
-                    }
+                    sdata: null
                   },
                   timeperiod: this.timeFrame
                 };

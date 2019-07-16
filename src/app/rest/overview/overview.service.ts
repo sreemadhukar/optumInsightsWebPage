@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { HttpHeaders, HttpClient, HttpParams } from '@angular/common/http';
 import { OverviewPageModule } from '../../components/overview-page/overview-page.module';
-import { map, retry, catchError } from 'rxjs/operators';
+import { map, catchError } from 'rxjs/operators';
 import { combineLatest, of } from 'rxjs';
 @Injectable({ providedIn: OverviewPageModule })
 export class OverviewService {
@@ -35,12 +35,10 @@ export class OverviewService {
     const claimsURL = this.APP_URL + this.CLAIMS_SERVICE_PATH + parameters[0] + '?requestType=PAYMENT_METRICS';
     return combineLatest(
       this.http.get(executiveURL, { params: eparams }).pipe(
-        retry(2),
         map(res => JSON.parse(JSON.stringify(res))),
         catchError(err => of(JSON.parse(JSON.stringify(err))))
       ),
       this.http.post(claimsURL, tParams).pipe(
-        retry(2),
         map(res => JSON.parse(JSON.stringify(res[0]))),
         catchError(err => of(JSON.parse(JSON.stringify(err))))
       )
@@ -63,7 +61,6 @@ export class OverviewService {
 
     const claimsURL = this.APP_URL + this.CLAIMS_SERVICE_PATH + parameters.providerkey + '?requestType=PAYMENT_METRICS';
     return this.http.post(claimsURL, tParams).pipe(
-      retry(2),
       map(res => JSON.parse(JSON.stringify(res[0]))),
       catchError(err => of(JSON.parse(JSON.stringify(err))))
     );
