@@ -126,8 +126,8 @@ export class NonPaymentSharedService {
                   color: ['#3381FF', '#80B0FF', '#003DA1'],
                   gdata: ['card-inner', 'claimsNotPaid'],
                   sdata: {
-                    sign: 'down',
-                    data: '-10.2%'
+                    sign: '',
+                    data: ''
                   },
                   labels: ['Medicare & Retirement', 'Community & State', 'Employer & Individual'],
                   hover: true
@@ -173,10 +173,7 @@ export class NonPaymentSharedService {
                       : nonPaymentData1.All.ClaimsLobSummary[0].ClaimsNonPaymentRate + '%',
                   color: ['#3381FF', '#D7DCE1'],
                   gdata: ['card-inner', 'claimsNonPaymentRate'],
-                  sdata: {
-                    sign: 'up',
-                    data: '+3.7%'
-                  }
+                  sdata: null
                 },
                 timeperiod: this.timeFrame
               };
@@ -268,8 +265,8 @@ export class NonPaymentSharedService {
                   color: ['#3381FF', '#80B0FF', '#003DA1'],
                   gdata: ['card-inner', 'claimsNotPaid'],
                   sdata: {
-                    sign: 'down',
-                    data: '-10.2%'
+                    sign: '',
+                    data: ''
                   },
                   labels: ['Medicare & Retirement', 'Community & State', 'Employer & Individual'],
                   hover: true
@@ -315,10 +312,7 @@ export class NonPaymentSharedService {
                       : nonPaymentData1[lobData].ClaimsLobSummary[0].ClaimsNonPaymentRate + '%',
                   color: ['#3381FF', '#D7DCE1'],
                   gdata: ['card-inner', 'claimsNonPaymentRate'],
-                  sdata: {
-                    sign: 'up',
-                    data: '+3.7%'
-                  }
+                  sdata: null
                 },
                 timeperiod: this.timeFrame
               };

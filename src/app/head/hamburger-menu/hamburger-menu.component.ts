@@ -163,37 +163,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => {
       this.healthSystemName = JSON.parse(sessionStorage.getItem('currentUser'))[0]['HealthCareOrganizationName'];
     });
-
-    this.priorAuthShared.getPCORData().then(data => {
-      console.log(data);
-      if (this.PCORFlag === data) {
-        // Do nothing because its the same state
-      } else {
-        // Flag changed
-        if (data) {
-          this.navCategories[2].children.push({
-            name: 'Patient Care Opportunity',
-            path: '/CareDelivery/PatientCareOpportunity'
-          });
-          this.PCORFlag = data;
-        } else {
-          this.navCategories[2].children.splice(
-            this.navCategories[2].children.indexOf({
-              name: 'Patient Care Opportunity',
-              path: '/CareDelivery/PatientCareOpportunity'
-            }),
-            1
-          );
-          if (this.location.path() === '/CareDelivery/PatientCareOpportunity') {
-            this.router.navigateByUrl('/OverviewPage');
-            this.togglePanels(false, NaN);
-          }
-          this.PCORFlag = data;
-        }
-      }
-    });
-
-    this.checkStorage.getNavChangeEmitter().subscribe(() => {
+    if (sessionStorage.getItem('currentUser')) {
       this.priorAuthShared.getPCORData().then(data => {
         console.log(data);
         if (this.PCORFlag === data) {
@@ -222,7 +192,38 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
           }
         }
       });
-    });
+
+      this.checkStorage.getNavChangeEmitter().subscribe(() => {
+        this.priorAuthShared.getPCORData().then(data => {
+          console.log(data);
+          if (this.PCORFlag === data) {
+            // Do nothing because its the same state
+          } else {
+            // Flag changed
+            if (data) {
+              this.navCategories[2].children.push({
+                name: 'Patient Care Opportunity',
+                path: '/CareDelivery/PatientCareOpportunity'
+              });
+              this.PCORFlag = data;
+            } else {
+              this.navCategories[2].children.splice(
+                this.navCategories[2].children.indexOf({
+                  name: 'Patient Care Opportunity',
+                  path: '/CareDelivery/PatientCareOpportunity'
+                }),
+                1
+              );
+              if (this.location.path() === '/CareDelivery/PatientCareOpportunity') {
+                this.router.navigateByUrl('/OverviewPage');
+                this.togglePanels(false, NaN);
+              }
+              this.PCORFlag = data;
+            }
+          }
+        });
+      });
+    }
 
     this.clickHelpIcon = this.glossaryExpandService.message.subscribe(
       data => {
@@ -238,6 +239,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
       data => {
         this.filterFlag = true;
         this.filterurl = data;
+        console.log(data);
       },
       err => {
         console.log('Error, clickHelpIcon , inside Hamburger', err);
@@ -292,7 +294,8 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
   }
   /** FUNCTIONS TO COLLAPSE LEFT MENU **/
   collapseExpansionPanels(id) {
-    this.allExpandState(false, id - 1);
+    window.scrollTo(300, 0);
+    // this.allExpandState(false, id - 1);
   }
 
   openDialog(): void {
