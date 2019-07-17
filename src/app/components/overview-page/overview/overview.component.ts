@@ -25,6 +25,7 @@ export class OverviewComponent implements OnInit, AfterContentInit {
   subscription: any;
   loading = false;
   claimsLoading = false;
+  callsLoading = false;
 
   /***************** DONT CANGE THESE *************/
   claimsPaidBlock: any;
@@ -99,6 +100,8 @@ export class OverviewComponent implements OnInit, AfterContentInit {
       type: "donut"
     }*/
     this.claimsLoading = true;
+
+    /* SERVICE CALL TO GET CLAIMS CARDS DATA */
     this.overviewsrc
       .getClaimsCards()
       .then(data => {
@@ -129,6 +132,31 @@ export class OverviewComponent implements OnInit, AfterContentInit {
         console.log(reason);
       });
 
+    /* SERVICE CALL TO GET DATA FOR PRIOR AUTH CARD */
+    // this.overviewsrc.getPriorAuthCardData().then(data=>{
+
+    // })
+
+    /* SERVICE CALL TO GET DATA FOR CALLS CARD */
+    this.callsLoading = true;
+    this.overviewsrc
+      .getTotalCallsCardData()
+      .then(data => {
+        this.callsLoading = false;
+        this.loadTotalCallsCard = false;
+        this.errorloadTotalCallsCard = false;
+        this.totalCallsBlock = data;
+        if (this.totalCallsBlock.data != null && this.totalCallsBlock.toggle) {
+          this.loadTotalCallsCard = true;
+        } else if (this.totalCallsBlock.status != null && this.totalCallsBlock.toggle) {
+          this.errorloadTotalCallsCard = true;
+        }
+      })
+      .catch(reason => {
+        this.callsLoading = true;
+        console.log(reason);
+      });
+
     /***************** DON"T CHANGE THESE *************/
     this.loading = true;
     this.mockMainCards = [{}, {}, {}, {}, {}, {}];
@@ -142,12 +170,10 @@ export class OverviewComponent implements OnInit, AfterContentInit {
         this.loadPrioirAuthCard = false;
         this.loadselfServiceAdoptionCard = false;
         this.loadMedicareStarRatingCard = false;
-        this.loadTotalCallsCard = false;
 
         this.errorloadPrioirAuthCard = false;
         this.errorloadselfServiceAdoptionCard = false;
         this.errorloadMedicareStarRatingCard = false;
-        this.errorloadTotalCallsCard = false;
 
         this.loading = false;
         this.overviewItems = JSON.parse(JSON.stringify(data));
@@ -156,7 +182,7 @@ export class OverviewComponent implements OnInit, AfterContentInit {
         this.priorAuthBlock = this.mainCards[0];
         this.selfServiceAdoptionBlock = this.mainCards[1];
         this.medicareStarRatingBlock = this.mainCards[2];
-        this.totalCallsBlock = this.mainCards[3];
+
         if (this.priorAuthBlock.data != null && this.priorAuthBlock.toggle) {
           this.loadPrioirAuthCard = true;
         } else if (this.priorAuthBlock.status != null && this.priorAuthBlock.toggle) {
@@ -172,11 +198,7 @@ export class OverviewComponent implements OnInit, AfterContentInit {
         } else if (this.medicareStarRatingBlock.status != null && this.medicareStarRatingBlock.toggle) {
           this.errorloadMedicareStarRatingCard = true;
         }
-        if (this.totalCallsBlock.data != null && this.totalCallsBlock.toggle) {
-          this.loadTotalCallsCard = true;
-        } else if (this.totalCallsBlock.status != null && this.totalCallsBlock.toggle) {
-          this.errorloadTotalCallsCard = true;
-        }
+
         this.selfServiceMiniCards = this.overviewItems[1];
         console.log(this.overviewItems[0]);
       })
