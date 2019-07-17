@@ -26,6 +26,7 @@ export class OverviewComponent implements OnInit, AfterContentInit {
   loading = false;
   claimsLoading = false;
   callsLoading = false;
+  priorAuthLoading = false;
 
   /***************** DONT CANGE THESE *************/
   claimsPaidBlock: any;
@@ -133,9 +134,24 @@ export class OverviewComponent implements OnInit, AfterContentInit {
       });
 
     /* SERVICE CALL TO GET DATA FOR PRIOR AUTH CARD */
-    // this.overviewsrc.getPriorAuthCardData().then(data=>{
-
-    // })
+    this.priorAuthLoading = true;
+    this.overviewsrc
+      .getPriorAuthCardData()
+      .then(data => {
+        this.loadPrioirAuthCard = false;
+        this.errorloadPrioirAuthCard = false;
+        this.priorAuthLoading = false;
+        this.priorAuthBlock = data;
+        if (this.priorAuthBlock.data != null && this.priorAuthBlock.toggle) {
+          this.loadPrioirAuthCard = true;
+        } else if (this.priorAuthBlock.status != null && this.priorAuthBlock.toggle) {
+          this.errorloadPrioirAuthCard = true;
+        }
+      })
+      .catch(reason => {
+        this.priorAuthLoading = true;
+        console.log(reason);
+      });
 
     /* SERVICE CALL TO GET DATA FOR CALLS CARD */
     this.callsLoading = true;
@@ -167,11 +183,9 @@ export class OverviewComponent implements OnInit, AfterContentInit {
     this.overviewsrc
       .getOverviewData()
       .then(data => {
-        this.loadPrioirAuthCard = false;
         this.loadselfServiceAdoptionCard = false;
         this.loadMedicareStarRatingCard = false;
 
-        this.errorloadPrioirAuthCard = false;
         this.errorloadselfServiceAdoptionCard = false;
         this.errorloadMedicareStarRatingCard = false;
 
@@ -179,15 +193,10 @@ export class OverviewComponent implements OnInit, AfterContentInit {
         this.overviewItems = JSON.parse(JSON.stringify(data));
         console.log(this.overviewItems[0]);
         this.mainCards = this.overviewItems[0];
-        this.priorAuthBlock = this.mainCards[0];
-        this.selfServiceAdoptionBlock = this.mainCards[1];
-        this.medicareStarRatingBlock = this.mainCards[2];
 
-        if (this.priorAuthBlock.data != null && this.priorAuthBlock.toggle) {
-          this.loadPrioirAuthCard = true;
-        } else if (this.priorAuthBlock.status != null && this.priorAuthBlock.toggle) {
-          this.errorloadPrioirAuthCard = true;
-        }
+        this.selfServiceAdoptionBlock = this.mainCards[0];
+        this.medicareStarRatingBlock = this.mainCards[1];
+
         if (this.selfServiceAdoptionBlock.data != null && this.selfServiceAdoptionBlock.toggle) {
           this.loadselfServiceAdoptionCard = true;
         } else if (this.selfServiceAdoptionBlock.status != null && this.selfServiceAdoptionBlock.toggle) {
