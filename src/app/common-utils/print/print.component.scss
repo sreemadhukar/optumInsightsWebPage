@@ -5,6 +5,11 @@
   float: right;
   color: #757588;
   display: inline-flex;
+  border-radius: 3px;
+  width: 120px;
+  height: 52px;
+
+  // box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
 
   span.print-label {
     font-family: 'UHCSans-SemiBold', 'sans-serif';
@@ -16,6 +21,21 @@
     padding-top: 2px;
     cursor: pointer;
   }
+}
+
+.print-outer {
+  border: 1px solid #f1f4f7;
+  padding: 2px;
+  border-radius: 3px;
+}
+.print-outer :hover {
+  background: $gainsboro;
+  color: $black;
+}
+
+.print-outer :active {
+  background: $heather;
+  color: $black;
 }
 
 .header-div {

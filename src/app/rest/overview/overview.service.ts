@@ -13,6 +13,9 @@ export class OverviewService {
   private APP_URL: string = environment.apiProxyUrl;
   private CLAIMS_SERVICE_PATH: string = environment.apiUrls.ProviderSystemClaimsSummary;
   private EXECUTIVE_SERVICE_PATH: string = environment.apiUrls.ExecutiveSummaryPath;
+  private PRIOR_AUTH_SERVICE_PATH: string = environment.apiUrls.PriorAuth;
+  private CALLS_SERVICE_PATH: string = environment.apiUrls.CallsTrend;
+
   constructor(private http: HttpClient) {}
 
   public getOverviewData(...parameters) {
@@ -63,6 +66,30 @@ export class OverviewService {
     return this.http.post(claimsURL, tParams).pipe(
       map(res => JSON.parse(JSON.stringify(res[0]))),
       catchError(err => of(JSON.parse(JSON.stringify(err))))
+    );
+  }
+
+  public getOverviewPriorAuth(parameters) {
+    let params = new HttpParams();
+    params = params.append('last6Months', parameters.last6Months);
+    params = params.append('allProviderTins', parameters.allProviderTins);
+    params = params.append('allLob', parameters.allLob);
+    params = params.append('allNotApprovedSettings', parameters.allNotApprovedSettings);
+
+    const priorURL = this.APP_URL + this.PRIOR_AUTH_SERVICE_PATH + parameters.providerkey;
+    return this.http.post(priorURL, params).pipe(
+      map(res => JSON.parse(JSON.stringify(res[0]))),
+      catchError(err => of(JSON.parse(JSON.stringify(err))))
+    );
+  }
+
+  public getOverviewTotalCalls(parameters) {
+    const prevLastURL =
+      this.APP_URL + this.CALLS_SERVICE_PATH + parameters.providerkey + '?TimeFilter=' + parameters.timeFilter;
+
+    return this.http.get(prevLastURL).pipe(
+      map(res => res),
+      catchError(err => of(err))
     );
   }
 }

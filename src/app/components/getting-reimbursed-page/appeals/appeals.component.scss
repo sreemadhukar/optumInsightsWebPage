@@ -1,7 +1,7 @@
 @import '~src/scss/variables.scss';
 @import '~src/scss/mixins';
 .breadcrumb-top-padding {
-  @include margin(12px, 0, 12px, 0);
+  @include margin(8px, 0, 12px, 0);
   box-sizing: border-box;
   font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
   width: 961px;
@@ -36,6 +36,7 @@
   .filter_bg:focus {
     background-color: #196ecf;
     color: #ffffff;
+    box-shadow: 0 4px 0px 0 rgba(0, 0, 0, 0.15);
     .filter_title {
       color: #ffffff;
     }
