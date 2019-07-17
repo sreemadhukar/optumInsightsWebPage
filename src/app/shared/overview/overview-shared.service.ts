@@ -6,6 +6,7 @@ import { CommonUtilsService } from '../common-utils.service';
 import { SessionService } from '../session.service';
 import { AuthorizationService } from '../../auth/_service/authorization.service';
 import { CallsTrendService } from './../service-interaction/calls-trend.service';
+import { TrendingMetricsService } from '../../rest/trending/trending-metrics.service';
 
 @Injectable({
   providedIn: OverviewPageModule
@@ -21,7 +22,8 @@ export class OverviewSharedService {
     private common: CommonUtilsService,
     private session: SessionService,
     private toggle: AuthorizationService,
-    private callsTrendService: CallsTrendService
+    private callsTrendService: CallsTrendService,
+    private trendsSerive: TrendingMetricsService
   ) {}
   getOverviewData() {
     this.timeFrame = this.session.timeFrame;
@@ -38,6 +40,10 @@ export class OverviewSharedService {
         this.timeFrame = 'Last 12 Months';
         parameters = [this.providerKey, true];
       }
+
+      this.trendsSerive.getTrendingMetrics([this.providerKey]).subscribe(data => {
+        console.log(data);
+      });
 
       this.overviewService.getOverviewData(...parameters).subscribe(([providerSystems, claims]) => {
         // console.log('providerSystem', providerSystems);
