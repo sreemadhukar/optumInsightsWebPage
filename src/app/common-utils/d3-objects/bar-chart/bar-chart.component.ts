@@ -193,7 +193,9 @@ export class BarChartComponent implements OnInit, AfterViewInit {
 
       // Shift text object up for 2+ line reasons
       if (textWithHover.selectAll('tspan').size() > 1) {
-        d3.select('#' + uniqueText).attr('transform', 'translate(' + 0 + ',' + -7.5 + ')');
+        d3.select('#' + uniqueText)
+          .attr('transform', 'translate(' + 0 + ',' + -7.5 + ')')
+          .attr('cursor', 'pointer');
       }
 
       // where we should enable the hover object to exist
@@ -238,7 +240,6 @@ export class BarChartComponent implements OnInit, AfterViewInit {
           .attr('y', (height + 10) / 2)
           .attr('fill', '#2D2D39')
           .attr('font-size', '14')
-          .attr('cursor', 'pointer')
           .attr('text-anchor', 'start')
           .attr('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
           .text(chartOptions.barText)
