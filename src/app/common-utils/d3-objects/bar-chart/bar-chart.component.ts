@@ -272,7 +272,7 @@ export class BarChartComponent implements OnInit, AfterViewInit {
         .attr('x', xScale(chartOptions.barSummation / 1.32))
         .attr('y', (height + 20) / 2)
         .attr('fill', '#2D2D39')
-        .attr('font-size', '22')
+        .attr('font-size', '20')
         .attr('float', 'right')
         .style('text-anchor', 'end')
         .style('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
