@@ -1537,9 +1537,9 @@ export class GettingReimbursedSharedService {
   }
 
   getclaimsPaidData() {
-    this.tin = this.session.tin;
-    this.lob = this.session.lob;
-    this.timeFrame = 'Last 6 Months'; // this.session.timeFrame;
+    this.tin = this.session.filterObjValue.tax.toString().replace('-', '');
+    this.lob = this.session.filterObjValue.lob;
+    this.timeFrame = this.session.filterObjValue.timeFrame; // 'Last 6 Months'; // this.session.timeFrame;
     this.providerKey = this.session.providerKeyData();
     const timeperiod = '';
 

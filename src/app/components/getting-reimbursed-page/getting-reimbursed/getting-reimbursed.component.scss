@@ -13,6 +13,7 @@
     border-radius: 2px;
     float: right;
     cursor: pointer;
+    margin-right: 15px;
     .filter_title {
       color: $blue;
       font-family: 'UHCSans-SemiBold', 'Arial';
@@ -32,6 +33,7 @@
   .filter_bg:hover,
   .filter_bg:focus {
     background-color: #196ecf;
+    box-shadow: 0 4px 0px 0 rgba(0, 0, 0, 0.15);
     color: #ffffff;
     .filter_title {
       color: #ffffff;
@@ -69,6 +71,7 @@
       // -webkit-flex-flow: row wrap;
       justify-content: center;
       flex-wrap: wrap;
+
       .getting-reimbursed-cards {
         display: inline-flex;
         margin-left: -10px;
@@ -80,7 +83,7 @@
       }
       .time--period {
         .filterchips {
-          width: 857px;
+          width: 840px;
           float: left;
           .horizontal-align {
             display: inline-block;
@@ -140,7 +143,7 @@
         /* tabs css starts here*/
         .container--tabs {
           clear: left;
-          width: 100%;
+          width: 98.5%;
           line-height: 25px;
           margin-bottom: 12px;
           padding-top: 24px;
@@ -198,6 +201,7 @@
                 border-top: 4px solid #196ecf;
                 text-decoration: none;
                 margin-top: -3px;
+                border-radius: 2px 2px 0 0;
               }
             } // li styling
           }
