@@ -1025,7 +1025,7 @@ export class PriorAuthSharedService {
         })
         .then(data => {
           console.log(this.priorAuthDataCombined[0]);
-          this.priorAuthDataCombined[0][0].data['sdata'] = data[0];
+          // this.priorAuthDataCombined[0][0].data['sdata'] = data[0];
           this.priorAuthDataCombined[0][1].data['sdata'] = data[1];
           resolve(this.priorAuthDataCombined);
         });

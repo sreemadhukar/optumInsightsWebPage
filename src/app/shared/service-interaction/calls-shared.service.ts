@@ -47,7 +47,6 @@ export class CallsSharedService {
         .then(data => {
           this.callsData[0].data['sdata'] = data[0];
           this.callsData[1].data['sdata'] = data[1];
-          console.log(this.callsData);
           resolve(this.callsData);
         });
     });
