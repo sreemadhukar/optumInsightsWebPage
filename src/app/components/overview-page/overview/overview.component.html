@@ -46,9 +46,9 @@
     <app-small-card class="cards" [skeleton]="loading" *ngIf="loading"> </app-small-card>
     <app-error-card *ngIf="errorloadMedicareStarRatingCard" class="cards" [data]="item"></app-error-card>
 
-    <app-small-card class="cards" *ngIf="loadTotalCallsCard && !loading" class="cards" [data]="totalCallsBlock">
+    <app-small-card class="cards" *ngIf="loadTotalCallsCard && !callsLoading" class="cards" [data]="totalCallsBlock">
     </app-small-card>
-    <app-small-card class="cards" [skeleton]="loading" *ngIf="loading"> </app-small-card>
+    <app-small-card class="cards" [skeleton]="callsLoading" *ngIf="callsLoading"> </app-small-card>
     <app-error-card *ngIf="errorloadTotalCallsCard" class="cards" [data]="item"></app-error-card>
 
     <!--<div *ngFor="let item of mainCards; let i = index">
