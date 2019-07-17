@@ -238,6 +238,7 @@ export class BarChartComponent implements OnInit, AfterViewInit {
           .attr('y', (height + 10) / 2)
           .attr('fill', '#2D2D39')
           .attr('font-size', '14')
+          .attr('cursor', 'pointer')
           .attr('text-anchor', 'start')
           .attr('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
           .text(chartOptions.barText)
@@ -251,14 +252,14 @@ export class BarChartComponent implements OnInit, AfterViewInit {
               .transition()
               .duration(10)
               .style('opacity', 1);
-            div.style('left', d3.event.layerX + 'px').style('top', d3.event.layerY - 130 + 'px');
+            div.style('left', d3.event.layerX - 14 + 'px').style('top', d3.event.layerY - 130 + 'px');
           })
           .on('mousemove', function(d) {
             div
               .transition()
               .duration(10)
               .style('opacity', 1);
-            div.style('left', d3.event.layerX + 'px').style('top', d3.event.layerY - 130 + 'px');
+            div.style('left', d3.event.layerX - 14 + 'px').style('top', d3.event.layerY - 130 + 'px');
           })
           .on('mouseleave', function(d) {
             div
@@ -269,10 +270,10 @@ export class BarChartComponent implements OnInit, AfterViewInit {
       }
       chart
         .append('text')
-        .attr('x', xScale(chartOptions.barSummation / 1.32))
+        .attr('x', xScale(chartOptions.barSummation / 1.35))
         .attr('y', (height + 20) / 2)
         .attr('fill', '#2D2D39')
-        .attr('font-size', '22')
+        .attr('font-size', '20')
         .attr('float', 'right')
         .style('text-anchor', 'end')
         .style('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")

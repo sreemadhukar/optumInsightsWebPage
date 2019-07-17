@@ -49,20 +49,21 @@ export class OverviewSharedService {
         // console.log('providerSystem', providerSystems);
 
         /* code changed by Ranjith kumar Ankam - 04-Jul-2019*/
-        this.createPriorAuthObject(providerSystems)
+        /*this.createPriorAuthObject(providerSystems)
           .then(cPriorAuth => {
             // tempArray[1] = cPriorAuth;
             tempArray[0] = cPriorAuth;
             return this.createSelfServiceObject(providerSystems);
-          })
+          })*/
+        this.createSelfServiceObject(providerSystems)
           .then(cSelfService => {
             // tempArray[2] = cSelfService;
-            tempArray[1] = cSelfService;
+            tempArray[0] = cSelfService;
             return this.createPCORObject(providerSystems);
           })
           .then(cPcor => {
             // tempArray[4] = cPcor;
-            tempArray[2] = cPcor;
+            tempArray[1] = cPcor;
             /* return this.createTotalCallsObject(providerSystems);
            })
            .then(cIR => {
@@ -926,6 +927,53 @@ export class OverviewSharedService {
 
       this.overviewService.getOverviewPriorAuth(parameters).subscribe(priorAuth => {
         console.log(priorAuth);
+        let cPriorAuth: object;
+        if (
+          priorAuth &&
+          priorAuth.hasOwnProperty('PriorAuthorizations') &&
+          priorAuth.PriorAuthorizations !== null &&
+          priorAuth.PriorAuthorizations.hasOwnProperty('LineOfBusiness') &&
+          priorAuth.PriorAuthorizations.LineOfBusiness.hasOwnProperty('All') &&
+          priorAuth.PriorAuthorizations.LineOfBusiness.All.hasOwnProperty('PriorAuthApprovedCount') &&
+          priorAuth.PriorAuthorizations.LineOfBusiness.All.hasOwnProperty('PriorAuthNotApprovedCount') &&
+          priorAuth.PriorAuthorizations.LineOfBusiness.All.hasOwnProperty('PriorAuthPendingCount') &&
+          priorAuth.PriorAuthorizations.LineOfBusiness.All.hasOwnProperty('PriorAuthCancelledCount')
+        ) {
+          const priorAuthRequested =
+            priorAuth.PriorAuthorizations.LineOfBusiness.All.PriorAuthApprovedCount +
+            priorAuth.PriorAuthorizations.LineOfBusiness.All.PriorAuthNotApprovedCount;
+          const approvedRate =
+            priorAuth.PriorAuthorizations.LineOfBusiness.All.PriorAuthApprovedCount / priorAuthRequested;
+
+          cPriorAuth = {
+            category: 'small-card',
+            type: 'donut',
+            title: 'Prior Authorization Approval',
+            toggle: this.toggle.setToggles('Prior Authorization Approval', 'AtGlance', 'Overview', false),
+            data: {
+              graphValues: [approvedRate, 1 - approvedRate],
+              centerNumber: (approvedRate * 100).toFixed(0) + '%',
+              color: ['#3381FF', '#D7DCE1'],
+              gdata: ['card-inner', 'priorAuthCardD3Donut']
+            },
+            sdata: {
+              sign: '',
+              data: ''
+            },
+            timeperiod: 'Last 6 Months'
+          };
+        } else {
+          cPriorAuth = {
+            category: 'small-card',
+            type: 'donut',
+            title: null,
+            data: null,
+            sdata: null,
+            timeperiod: null
+          };
+        }
+
+        resolve(cPriorAuth);
       });
     });
   }
