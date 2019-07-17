@@ -11,6 +11,7 @@ export class PriorAuthSharedService {
   private priorAuthData: Array<object> = [];
   private timeFrame: string;
   private providerKey: number;
+  private priorAuthDataCombined: any;
 
   constructor(
     private priorAuthService: PriorAuthService,
@@ -983,12 +984,50 @@ export class PriorAuthSharedService {
           const PARequestedCountTwo = PAApprovedCountTwo + PANotApprovedCountTwo;
           const PAApprovalRateTwo = PAApprovedCountTwo / PARequestedCountTwo;
 
-          const PARequestedTrend = (((PARequestedCountTwo - PARequestedCountOne) / PARequestedCountOne) * 100).toFixed(
-            1
-          );
-          const PAApprovalRateTrend = (((PAApprovalRateTwo - PAApprovalRateOne) / PAApprovalRateOne) * 100).toFixed(1);
+          const PARequestedTrend = ((PARequestedCountTwo - PARequestedCountOne) / PARequestedCountOne) * 100;
+          const PAApprovalRateTrend = ((PAApprovalRateTwo - PAApprovalRateOne) / PAApprovalRateOne) * 100;
 
-          resolve([PARequestedTrend, PAApprovalRateTrend]);
+          let trendLineOne;
+          let trendLineTwo;
+
+          if (PARequestedTrend < 0) {
+            trendLineOne = 'down';
+          } else {
+            trendLineOne = 'up';
+          }
+
+          if (PAApprovalRateTrend < 0) {
+            trendLineTwo = 'down';
+          } else {
+            trendLineTwo = 'up';
+          }
+
+          const sDataObjectOne = {
+            data: PARequestedTrend.toFixed(1) + '%',
+            sign: trendLineOne
+          };
+          const sDataObjectTwo = {
+            data: PAApprovalRateTrend.toFixed(1) + '%',
+            sign: trendLineTwo
+          };
+
+          resolve([sDataObjectOne, sDataObjectTwo]);
+        });
+    });
+  }
+
+  getPriorAuthDataCombined(filterParameters) {
+    return new Promise(resolve => {
+      this.getPriorAuthDataFiltered(filterParameters)
+        .then(data => {
+          this.priorAuthDataCombined = data;
+          return this.getPriorAuthTrendData(filterParameters);
+        })
+        .then(data => {
+          console.log(this.priorAuthDataCombined[0]);
+          this.priorAuthDataCombined[0][0].data['sdata'] = data[0];
+          this.priorAuthDataCombined[0][1].data['sdata'] = data[1];
+          resolve(this.priorAuthDataCombined);
         });
     });
   }

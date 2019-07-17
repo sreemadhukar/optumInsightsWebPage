@@ -98,6 +98,7 @@ export class PriorAuthComponent implements OnInit {
     this.mockCards = [{}, {}];
     // console.log(this.filterParameters);
 
+    /*
     this.priorAuthShared.getPriorAuthDataFiltered(this.filterParameters).then(
       data => {
         this.loading = false;
@@ -109,9 +110,22 @@ export class PriorAuthComponent implements OnInit {
       }
     );
 
+
     this.priorAuthShared.getPriorAuthTrendData(this.filterParameters).then(data => {
       console.log(data);
     });
+    */
+
+    this.priorAuthShared.getPriorAuthDataCombined(this.filterParameters).then(
+      data => {
+        this.loading = false;
+        this.summaryItems = data[0];
+        this.reasonItems = data[1];
+      },
+      error => {
+        this.hideAllObjects = false;
+      }
+    );
 
     /*
     this.priorAuthShared.getPriorAuthData().then(
