@@ -4,7 +4,7 @@ import { CareDeliveryPageModule } from '../../components/care-delivery-page/care
 import { environment } from '../../../environments/environment';
 import { HttpHeaders, HttpClient, HttpParams } from '@angular/common/http';
 import { map, catchError } from 'rxjs/operators';
-import { combineLatest, of } from 'rxjs';
+import { combineLatest, Observable, of, forkJoin } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -145,5 +145,87 @@ export class PriorAuthService {
       map(res => JSON.parse(JSON.stringify(res[0]))),
       catchError(err => of(JSON.parse(JSON.stringify(err))))
     );
+  }
+
+  public getPriorAuthTrend(
+    timeRange: string,
+    allTin: boolean,
+    allLOB: boolean,
+    isAllSS: boolean,
+    isDecisionType: boolean,
+    ...parameters
+  ) {
+    this.currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
+    this.authBearer = this.currentUser[0].PedAccessToken;
+    const myHeader = new HttpHeaders({
+      Authorization: 'Bearer ' + this.authBearer,
+      Accept: '*/*'
+    });
+    const opts = { headers: myHeader };
+
+    let paramsone = new HttpParams();
+    let paramstwo = new HttpParams();
+    const urlone = this.APP_URL + this.SERVICE_PATH + parameters[0];
+    const urltwo = this.APP_URL + this.SERVICE_PATH + parameters[0];
+
+    // we can generate the past 31-60 days here...
+    if (timeRange === 'customDateRange') {
+      paramsone = paramsone.append('startDate', parameters[1]);
+      paramsone = paramsone.append('endDate', parameters[2]);
+      // add 31-60 day here
+      paramstwo = paramstwo.append('startDate', parameters[12]);
+      paramstwo = paramstwo.append('endDate', parameters[13]);
+      if (allTin) {
+        paramsone = paramsone.append('allProviderTins', parameters[3]);
+        paramstwo = paramstwo.append('allProviderTins', parameters[3]);
+      } else {
+        paramsone = paramsone.append('allProviderTins', parameters[3]);
+        paramstwo = paramstwo.append('allProviderTins', parameters[3]);
+        if (parameters[4] !== false) {
+          paramsone = paramsone.append('providerTin', parameters[4]);
+          paramstwo = paramstwo.append('providerTin', parameters[4]);
+        }
+      }
+      /*lob  */
+      if (allLOB) {
+        paramsone = paramsone.append('allLob', parameters[5]);
+        paramstwo = paramstwo.append('allLob', parameters[5]);
+      } else {
+        paramsone = paramsone.append('cAndSLob', parameters[6]);
+        paramsone = paramsone.append('eAndILob', parameters[7]);
+        paramsone = paramsone.append('mAndRLob', parameters[8]);
+        paramstwo = paramstwo.append('cAndSLob', parameters[6]);
+        paramstwo = paramstwo.append('eAndILob', parameters[7]);
+        paramstwo = paramstwo.append('mAndRLob', parameters[8]);
+      }
+    }
+    if (isAllSS) {
+      paramsone = paramsone.append('allNotApprovedSettings', parameters[9]);
+      paramstwo = paramstwo.append('allNotApprovedSettings', parameters[9]);
+    }
+    if (isDecisionType) {
+      paramsone = paramsone.append('decisionType', parameters[10]);
+      paramsone = paramsone.append('decisionValue', parameters[11]);
+      paramstwo = paramstwo.append('decisionType', parameters[10]);
+      paramstwo = paramstwo.append('decisionValue', parameters[11]);
+    }
+
+    return combineLatest(
+      this.http.post(urlone, paramsone, { headers: myHeader }).pipe(
+        map(res => JSON.parse(JSON.stringify(res[0]))),
+        catchError(err => of(JSON.parse(JSON.stringify(err))))
+      ),
+      this.http.post(urltwo, paramstwo, { headers: myHeader }).pipe(
+        map(res => JSON.parse(JSON.stringify(res[0]))),
+        catchError(err => of(JSON.parse(JSON.stringify(err))))
+      )
+    );
+
+    /*
+    return this.http.post(urlone, paramsone, { headers: myHeader }).pipe(
+      map(res => JSON.parse(JSON.stringify(res[0]))),
+      catchError(err => of(JSON.parse(JSON.stringify(err))))
+    );
+ */
   }
 }

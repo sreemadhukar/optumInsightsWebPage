@@ -768,7 +768,8 @@ export class PriorAuthSharedService {
   }
 
   // For overview page
-  getPriorAuthTrendData(paramteres) {
+  // will need to make parameters configurable
+  getPriorAuthTrendData() {
     this.providerKey = this.session.providerKeyData();
 
     // Default parameters
@@ -806,6 +807,30 @@ export class PriorAuthSharedService {
     timeRangeAdditionalData =
       yesterday.getFullYear() + '-' + this.ReturnMonthlyCountString(yesterday.getMonth()) + '-' + endDateString;
 
+    const last31stDay = (d => new Date(d.setDate(d.getDate() - 32)))(new Date());
+    const last60thDay = (d => new Date(d.setDate(d.getDate() - 60)))(new Date());
+    let startDateStringTwo;
+    let endDateStringTwo;
+    if (last60thDay.getDate() < 10) {
+      startDateStringTwo = '0' + last60thDay.getDate();
+    } else {
+      startDateStringTwo = last60thDay.getDate();
+    }
+    if (last31stDay.getDate() < 10) {
+      endDateStringTwo = '0' + last31stDay.getDate();
+    } else {
+      endDateStringTwo = last31stDay.getDate();
+    }
+
+    const timeRangeAPIParameterTwo =
+      last60thDay.getFullYear() +
+      '-' +
+      this.ReturnMonthlyCountString(last60thDay.getMonth()) +
+      '-' +
+      startDateStringTwo;
+    const timeRangeAdditionalDataTwo =
+      last31stDay.getFullYear() + '-' + this.ReturnMonthlyCountString(last31stDay.getMonth()) + '-' + endDateStringTwo;
+
     return new Promise(resolve => {
       const priorAuthAPIParameters = [
         this.providerKey,
@@ -819,11 +844,13 @@ export class PriorAuthSharedService {
         ismAndRLobBool,
         isAllSSFlagBool,
         isDecisionType,
-        decisionValue
+        decisionValue,
+        timeRangeAPIParameterTwo,
+        timeRangeAdditionalDataTwo
       ];
 
       this.priorAuthService
-        .getPriorAuthDateRange(
+        .getPriorAuthTrend(
           timeRange,
           isAllTinBool,
           isAllLobBool,
@@ -831,8 +858,9 @@ export class PriorAuthSharedService {
           isDecisionType,
           ...priorAuthAPIParameters
         )
-        .subscribe(providerSystems => {
-          resolve(providerSystems);
+        .subscribe(([one, two]) => {
+          console.log(one, two);
+          resolve(one);
         });
     });
   }

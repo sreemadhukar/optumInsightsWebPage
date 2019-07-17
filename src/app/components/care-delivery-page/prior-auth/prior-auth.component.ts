@@ -109,6 +109,10 @@ export class PriorAuthComponent implements OnInit {
       }
     );
 
+    this.priorAuthShared.getPriorAuthTrendData().then(data => {
+      console.log(data);
+    });
+
     /*
     this.priorAuthShared.getPriorAuthData().then(
       data => {

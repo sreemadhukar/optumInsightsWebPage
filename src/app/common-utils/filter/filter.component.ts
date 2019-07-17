@@ -183,6 +183,7 @@ export class FilterComponent implements OnInit {
         this.priorAuthTypeData = this.session.filterObjValue.priorAuthType;
       } else {
         this.priorAuthTypeData = this.priorauthdecisiontype[0];
+        this.paServiceCategoryArrayData = this.priorauthservicecategory;
       }
     } else {
       this.priorAuthorizationCustomFilterBool = false;
