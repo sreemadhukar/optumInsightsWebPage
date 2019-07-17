@@ -381,14 +381,14 @@ export class PriorAuthSharedService {
     });
   }
 
-  getPriorAuthDataFiltered(filterParamteres) {
+  getPriorAuthDataFiltered(filterParameters) {
     this.providerKey = this.session.providerKeyData();
 
-    const timePeriod = filterParamteres.timeFrame;
-    const TIN = filterParamteres.tax[0];
-    const LOB = filterParamteres.lob;
-    const serviceSetting = filterParamteres.serviceSetting;
-    const paDecisionType = filterParamteres.priorAuthType;
+    const timePeriod = filterParameters.timeFrame;
+    const TIN = filterParameters.tax[0];
+    const LOB = filterParameters.lob;
+    const serviceSetting = filterParameters.serviceSetting;
+    const paDecisionType = filterParameters.priorAuthType;
     // console.log(filterParamteres);
 
     // Default parameters
@@ -769,23 +769,69 @@ export class PriorAuthSharedService {
 
   // For overview page
   // will need to make parameters configurable
-  getPriorAuthTrendData() {
+  getPriorAuthTrendData(filterParameters) {
     this.providerKey = this.session.providerKeyData();
+    const TIN = filterParameters.tax[0];
+    const LOB = filterParameters.lob;
+    const serviceSetting = filterParameters.serviceSetting;
+    const paDecisionType = filterParameters.priorAuthType;
 
     // Default parameters
     // need to configure time range for last 30 and last 31-60 days
     const timeRange = 'customDateRange';
     let timeRangeAPIParameter;
     let timeRangeAdditionalData;
-    const isAllTinBool = true;
-    const specificTin = '';
-    const isAllLobBool = true;
-    const iscAndSLobBool = false;
-    const iseAndILobBool = false;
-    const ismAndRLobBool = false;
-    const isAllSSFlagBool = true; // Only if we need all reasons; most commands will already give all 3 so just have to filter
+    let isAllTinBool = true;
+    let specificTin = '';
+    let isAllLobBool = true;
+    let iscAndSLobBool = false;
+    let iseAndILobBool = false;
+    let ismAndRLobBool = false;
+    let isAllSSFlagBool = true; // Only if we need all reasons; most commands will already give all 3 so just have to filter
     const isDecisionType = false;
     const decisionValue = 'All';
+
+    let tinNumberFormatted;
+
+    if (TIN === 'All') {
+      isAllTinBool = true;
+      specificTin = '';
+    } else {
+      isAllTinBool = false;
+      specificTin = TIN.replace(/\D/g, '');
+      tinNumberFormatted = parseInt(specificTin, 10);
+      specificTin = tinNumberFormatted;
+    }
+
+    if (LOB === 'All') {
+      isAllLobBool = true;
+      iscAndSLobBool = false;
+      iseAndILobBool = false;
+      ismAndRLobBool = false;
+    } else {
+      isAllLobBool = false;
+      if (LOB === 'Community & State') {
+        iscAndSLobBool = true;
+        iseAndILobBool = false;
+        ismAndRLobBool = false;
+      }
+      if (LOB === 'Employee & Individual') {
+        iscAndSLobBool = false;
+        iseAndILobBool = true;
+        ismAndRLobBool = false;
+      }
+      if (LOB === 'Medicare & Retirement') {
+        iscAndSLobBool = false;
+        iseAndILobBool = false;
+        ismAndRLobBool = true;
+      }
+    }
+
+    if (serviceSetting === 'All') {
+      isAllSSFlagBool = true;
+    } else {
+      isAllSSFlagBool = false;
+    }
 
     // timeRangeAPIParameter needs to be the last 30th date...
     const yesterday = (d => new Date(d.setDate(d.getDate() - 1)))(new Date());
@@ -849,6 +895,7 @@ export class PriorAuthSharedService {
         timeRangeAdditionalDataTwo
       ];
 
+      // the return object will change depending on LOB/service setting
       this.priorAuthService
         .getPriorAuthTrend(
           timeRange,
@@ -859,8 +906,89 @@ export class PriorAuthSharedService {
           ...priorAuthAPIParameters
         )
         .subscribe(([one, two]) => {
-          console.log(one, two);
-          resolve(one);
+          const paTrendOne = one.PriorAuthorizations.LineOfBusiness;
+          const paTrendTwo = two.PriorAuthorizations.LineOfBusiness;
+
+          let countDataOne;
+          let countDataTwo;
+
+          if (isAllLobBool) {
+            countDataOne = paTrendOne.All;
+            countDataTwo = paTrendTwo.All;
+          } else {
+            if (iscAndSLobBool) {
+              countDataOne = paTrendOne.CommunityAndState;
+              countDataTwo = paTrendTwo.CommunityAndState;
+            } else if (iseAndILobBool) {
+              countDataOne = paTrendOne.EmployerAndIndividual;
+              countDataTwo = paTrendTwo.EmployerAndIndividual;
+            } else if (ismAndRLobBool) {
+              countDataOne = paTrendOne.MedicareAndRetirement;
+              countDataTwo = paTrendTwo.MedicareAndRetirement;
+            }
+          }
+
+          let PAApprovedCountOne;
+          let PANotApprovedCountOne;
+          let PANotPendingCountOne;
+          let PANotCancelledCountOne;
+
+          let PAApprovedCountTwo;
+          let PANotApprovedCountTwo;
+          let PANotPendingCountTwo;
+          let PANotCancelledCountTwo;
+
+          if (isAllSSFlagBool) {
+            PAApprovedCountOne = countDataOne.PriorAuthApprovedCount;
+            PANotApprovedCountOne = countDataOne.PriorAuthNotApprovedCount;
+            PANotPendingCountOne = countDataOne.PriorAuthPendingCount;
+            PANotCancelledCountOne = countDataOne.PriorAuthCancelledCount;
+            PAApprovedCountTwo = countDataTwo.PriorAuthApprovedCount;
+            PANotApprovedCountTwo = countDataTwo.PriorAuthNotApprovedCount;
+            PANotPendingCountTwo = countDataTwo.PriorAuthPendingCount;
+            PANotCancelledCountTwo = countDataTwo.PriorAuthCancelledCount;
+          } else {
+            if (serviceSetting === 'Inpatient') {
+              PAApprovedCountOne = countDataOne.InpatientFacilityApprovedCount;
+              PANotApprovedCountOne = countDataOne.InpatientFacilityNotApprovedCount;
+              PANotCancelledCountOne = countDataOne.InpatientFacilityCancelledCount;
+              PANotPendingCountOne = countDataOne.InpatientFacilityPendingCount;
+              PAApprovedCountTwo = countDataTwo.InpatientFacilityApprovedCount;
+              PANotApprovedCountTwo = countDataTwo.InpatientFacilityNotApprovedCount;
+              PANotCancelledCountTwo = countDataTwo.InpatientFacilityCancelledCount;
+              PANotPendingCountTwo = countDataTwo.InpatientFacilityPendingCount;
+            } else if (serviceSetting === 'Outpatient') {
+              PAApprovedCountOne = countDataOne.OutpatientApprovedCount;
+              PANotApprovedCountOne = countDataOne.OutpatientNotApprovedCount;
+              PANotCancelledCountOne = countDataOne.OutpatientCancelledCount;
+              PANotPendingCountOne = countDataOne.OutpatientPendingCount;
+              PAApprovedCountTwo = countDataTwo;
+              PANotApprovedCountTwo = countDataTwo;
+              PANotCancelledCountTwo = countDataTwo;
+              PANotPendingCountTwo = countDataTwo;
+            } else if (serviceSetting === 'Outpatient Facility') {
+              PAApprovedCountOne = countDataOne.OutpatientFacilityApprovedCount;
+              PANotApprovedCountOne = countDataOne.OutpatientFacilityNotApprovedCount;
+              PANotCancelledCountOne = countDataOne.OutpatientFacilityCancelledCount;
+              PANotPendingCountOne = countDataOne.OutpatientFacilityPendingCount;
+              PAApprovedCountTwo = countDataTwo.OutpatientFacilityApprovedCount;
+              PANotApprovedCountTwo = countDataTwo.OutpatientFacilityNotApprovedCount;
+              PANotCancelledCountTwo = countDataTwo.OutpatientFacilityCancelledCount;
+              PANotPendingCountTwo = countDataTwo.OutpatientFacilityPendingCount;
+            }
+          }
+
+          const PARequestedCountOne = PAApprovedCountOne + PANotApprovedCountOne;
+          const PAApprovalRateOne = PAApprovedCountOne / PARequestedCountOne;
+          const PARequestedCountTwo = PAApprovedCountTwo + PANotApprovedCountTwo;
+          const PAApprovalRateTwo = PAApprovedCountTwo / PARequestedCountTwo;
+
+          const PARequestedTrend = (((PARequestedCountTwo - PARequestedCountOne) / PARequestedCountOne) * 100).toFixed(
+            1
+          );
+          const PAApprovalRateTrend = (((PAApprovalRateTwo - PAApprovalRateOne) / PAApprovalRateOne) * 100).toFixed(1);
+
+          resolve([PARequestedTrend, PAApprovalRateTrend]);
         });
     });
   }
