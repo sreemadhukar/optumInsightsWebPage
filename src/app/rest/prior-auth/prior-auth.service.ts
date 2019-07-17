@@ -43,6 +43,7 @@ export class PriorAuthService {
     allLOB: boolean,
     isAllSS: boolean,
     isDecisionType: boolean,
+    isServiceCategory: boolean,
     ...parameters
   ) {
     this.currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
@@ -141,6 +142,12 @@ export class PriorAuthService {
       params = params.append('decisionValue', parameters[11]);
     }
 
+    if (isServiceCategory) {
+      params = params.append('serviceCategory', parameters[12]);
+      params = params.append('serviceCategoryValue', parameters[13]);
+    }
+    // serviceCategory=true&serviceCategoryValue=Medical
+
     return this.http.post(url, params, { headers: myHeader }).pipe(
       map(res => JSON.parse(JSON.stringify(res[0]))),
       catchError(err => of(JSON.parse(JSON.stringify(err))))
@@ -153,6 +160,7 @@ export class PriorAuthService {
     allLOB: boolean,
     isAllSS: boolean,
     isDecisionType: boolean,
+    isServiceCategory: boolean,
     ...parameters
   ) {
     this.currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
@@ -173,8 +181,8 @@ export class PriorAuthService {
       paramsone = paramsone.append('startDate', parameters[1]);
       paramsone = paramsone.append('endDate', parameters[2]);
       // add 31-60 day here
-      paramstwo = paramstwo.append('startDate', parameters[12]);
-      paramstwo = paramstwo.append('endDate', parameters[13]);
+      paramstwo = paramstwo.append('startDate', parameters[14]);
+      paramstwo = paramstwo.append('endDate', parameters[15]);
       if (allTin) {
         paramsone = paramsone.append('allProviderTins', parameters[3]);
         paramstwo = paramstwo.append('allProviderTins', parameters[3]);
@@ -209,6 +217,14 @@ export class PriorAuthService {
       paramstwo = paramstwo.append('decisionType', parameters[10]);
       paramstwo = paramstwo.append('decisionValue', parameters[11]);
     }
+
+    if (isServiceCategory) {
+      paramsone = paramsone.append('serviceCategory', parameters[12]);
+      paramsone = paramsone.append('serviceCategoryValue', parameters[13]);
+      paramstwo = paramstwo.append('serviceCategory', parameters[12]);
+      paramstwo = paramstwo.append('serviceCategoryValue', parameters[13]);
+    }
+    // serviceCategory=true&serviceCategoryValue=Medical
 
     return combineLatest(
       this.http.post(urlone, paramsone, { headers: myHeader }).pipe(

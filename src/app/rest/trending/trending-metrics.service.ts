@@ -9,7 +9,6 @@ import { of } from 'rxjs/index';
 })
 export class TrendingMetricsService {
   public currentUser: any;
-  public combined: any;
   private authBearer: any;
   private APP_URL: string = environment.apiProxyUrl;
   private TRENDING_METRICS_PATH: string = environment.apiUrls.TrendingMetrics;

@@ -131,9 +131,18 @@ export class PriorAuthSharedService {
       const isAlllob = true;
       const isAllSS = true;
       const isDecisionType = false;
+      const isServiceCategory = false;
 
       this.priorAuthService
-        .getPriorAuthDateRange(timeRange, isAllTin, isAlllob, isAllSS, isDecisionType, ...newParameters)
+        .getPriorAuthDateRange(
+          timeRange,
+          isAllTin,
+          isAlllob,
+          isAllSS,
+          isDecisionType,
+          isServiceCategory,
+          ...newParameters
+        )
         .subscribe(
           providerSystems => {
             let PACount = [];
@@ -390,6 +399,7 @@ export class PriorAuthSharedService {
     const LOB = filterParameters.lob;
     const serviceSetting = filterParameters.serviceSetting;
     const paDecisionType = filterParameters.priorAuthType;
+    const paServiceCategory = 'All';
     // console.log(filterParamteres);
 
     // Default parameters
@@ -406,6 +416,8 @@ export class PriorAuthSharedService {
     let isAllSSFlagBool = true; // Only if we need all reasons; most commands will already give all 3 so just have to filter
     let isDecisionType = false;
     const decisionValue = paDecisionType;
+    let isServiceCategory = false;
+    let paServiceCategoryString = '';
 
     // configurations for time period
     if (timePeriod === 'Last 12 Months') {
@@ -483,6 +495,14 @@ export class PriorAuthSharedService {
       isDecisionType = false;
     }
 
+    if (paServiceCategory !== 'All') {
+      isServiceCategory = true;
+      paServiceCategoryString = paServiceCategory;
+    } else {
+      isServiceCategory = false;
+      paServiceCategoryString = '';
+    }
+
     return new Promise(resolve => {
       // const newParameters = [this.providerKey, true, true, true, false, true, false, false, false, true];
 
@@ -498,7 +518,9 @@ export class PriorAuthSharedService {
         ismAndRLobBool,
         isAllSSFlagBool,
         isDecisionType,
-        decisionValue
+        decisionValue,
+        isServiceCategory,
+        paServiceCategoryString
       ];
       // Parameters key
       // zero - provider key
@@ -515,6 +537,7 @@ export class PriorAuthSharedService {
           isAllLobBool,
           isAllSSFlagBool,
           isDecisionType,
+          isServiceCategory,
           ...priorAuthAPIParameters
         )
         .subscribe(
@@ -776,6 +799,7 @@ export class PriorAuthSharedService {
     const LOB = filterParameters.lob;
     const serviceSetting = filterParameters.serviceSetting;
     const paDecisionType = filterParameters.priorAuthType;
+    const paServiceCategory = 'All';
 
     // Default parameters
     // need to configure time range for last 30 and last 31-60 days
@@ -791,6 +815,8 @@ export class PriorAuthSharedService {
     let isAllSSFlagBool = true; // Only if we need all reasons; most commands will already give all 3 so just have to filter
     const isDecisionType = false;
     const decisionValue = 'All';
+    let isServiceCategory = false;
+    let paServiceCategoryString = '';
 
     let tinNumberFormatted;
 
@@ -832,6 +858,14 @@ export class PriorAuthSharedService {
       isAllSSFlagBool = true;
     } else {
       isAllSSFlagBool = false;
+    }
+
+    if (paServiceCategory !== 'All') {
+      isServiceCategory = true;
+      paServiceCategoryString = paServiceCategory;
+    } else {
+      isServiceCategory = false;
+      paServiceCategoryString = '';
     }
 
     // timeRangeAPIParameter needs to be the last 30th date...
@@ -892,6 +926,8 @@ export class PriorAuthSharedService {
         isAllSSFlagBool,
         isDecisionType,
         decisionValue,
+        isServiceCategory,
+        paServiceCategoryString,
         timeRangeAPIParameterTwo,
         timeRangeAdditionalDataTwo
       ];
@@ -904,6 +940,7 @@ export class PriorAuthSharedService {
           isAllLobBool,
           isAllSSFlagBool,
           isDecisionType,
+          isServiceCategory,
           ...priorAuthAPIParameters
         )
         .subscribe(([one, two]) => {
@@ -1024,10 +1061,14 @@ export class PriorAuthSharedService {
           return this.getPriorAuthTrendData(filterParameters);
         })
         .then(data => {
-          console.log(this.priorAuthDataCombined[0]);
           // this.priorAuthDataCombined[0][0].data['sdata'] = data[0];
           this.priorAuthDataCombined[0][1].data['sdata'] = data[1];
           resolve(this.priorAuthDataCombined);
+        })
+        .catch(reason => {
+          this.priorAuthDataCombined[0][1].data['sdata'] = null;
+          resolve(this.priorAuthDataCombined);
+          console.log('Prior Auth Service Error ', reason);
         });
     });
   }
