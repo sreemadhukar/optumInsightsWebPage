@@ -5,10 +5,7 @@
   box-sizing: border-box;
   font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
   width: 961px;
-  .filter-div {
-    overflow: auto;
-    line-height: 0;
-  }
+
   .filter_bg {
     height: 40px;
     width: 100px;
@@ -78,6 +75,10 @@
     line-height: 40px;
     font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
   }
+  .filter-div {
+    overflow: auto;
+    line-height: 0;
+  }
 }
 
 .time-period {
@@ -93,7 +94,7 @@
 }
 .time--period {
   .filterchips {
-    width: 850px;
+    width: 845px;
     float: left;
     .horizontal-align {
       display: inline-block;

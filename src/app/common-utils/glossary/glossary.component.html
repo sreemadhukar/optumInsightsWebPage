@@ -52,7 +52,7 @@
       </a>
     </div> -->
             <div
-              *ngIf="glossary.BusinessGlossary.ProviderDashboardName.Formula.trim().length != 0"
+              *ngIf="glossary.BusinessGlossary.ProviderDashboardName.Formula.trim().length != 0 && internal"
               class="glossary-definition"
             >
               <br />
@@ -91,7 +91,7 @@
           No Data Available
         </div>
         <br />
-        <div class="glossary-definition">
+        <div class="glossary-definition" *ngIf="internal">
           <div class="glossary-formula">{{ title }} Formula</div>
           <br />
           No Data Available
