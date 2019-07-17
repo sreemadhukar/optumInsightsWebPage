@@ -4,10 +4,6 @@
   @include margin(12px, 0, 12px, 0);
   box-sizing: border-box;
 
-  .filter-div {
-    overflow: auto;
-    line-height: 0;
-  }
   .filter_bg {
     height: 40px;
     width: 100px;
@@ -38,6 +34,7 @@
   .filter_bg:focus {
     background-color: #196ecf;
     color: #ffffff;
+    box-shadow: 0 4px 0px 0 rgba(0, 0, 0, 0.15);
     .filter_title {
       color: #ffffff;
     }
@@ -145,6 +142,10 @@
           }
         }
       }
+    }
+    .filter-div {
+      overflow: auto;
+      line-height: 0;
     }
   }
   @media only screen and (max-width: 1024px) {

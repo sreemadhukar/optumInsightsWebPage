@@ -40,48 +40,49 @@ export class OverviewSharedService {
       }
 
       this.overviewService.getOverviewData(...parameters).subscribe(([providerSystems, claims]) => {
-        console.log('providerSystem', providerSystems);
+        // console.log('providerSystem', providerSystems);
 
         /* code changed by Ranjith kumar Ankam - 04-Jul-2019*/
-        this.createPriorAuthObject(providerSystems)
+        /*this.createPriorAuthObject(providerSystems)
           .then(cPriorAuth => {
             // tempArray[1] = cPriorAuth;
             tempArray[0] = cPriorAuth;
             return this.createSelfServiceObject(providerSystems);
-          })
+          })*/
+        this.createSelfServiceObject(providerSystems)
           .then(cSelfService => {
             // tempArray[2] = cSelfService;
-            tempArray[1] = cSelfService;
+            tempArray[0] = cSelfService;
             return this.createPCORObject(providerSystems);
           })
           .then(cPcor => {
             // tempArray[4] = cPcor;
-            tempArray[2] = cPcor;
-            return this.createTotalCallsObject(providerSystems);
-          })
-          .then(cIR => {
-            // tempArray[5] = cIR;
-            tempArray[3] = cIR;
-            /*return this.createClaimsPaidObject(claims);
-          })
-          .then(claimsPaid => {
-            tempArray[0] = claimsPaid;
-            return this.createClaimsYieldObject(claims);
-          })
-          .then(claimsYield => {
-            tempArray[3] = claimsYield;
-            return this.getClaimsTrends(this.baseTimePeriod, this.previousTimePeriod);
-          })
-          .then(trendData => {
-            let trends: any;
-            trends = trendData;
-            tempArray[0]['sdata'] = trends.claimsPaidTrendObject;
-            tempArray[3]['sdata'] = trends.claimsYieldTrendObject;*/
-            return this.createTotalCallsTrend();
-          })
-          .then(trendIssueResolution => {
-            // tempArray[5]['sdata'] = trendIssueResolution;
-            tempArray[3]['sdata'] = trendIssueResolution;
+            tempArray[1] = cPcor;
+            /* return this.createTotalCallsObject(providerSystems);
+           })
+           .then(cIR => {
+             // tempArray[5] = cIR;
+             tempArray[3] = cIR;
+             return this.createClaimsPaidObject(claims);
+           })
+           .then(claimsPaid => {
+             tempArray[0] = claimsPaid;
+             return this.createClaimsYieldObject(claims);
+           })
+           .then(claimsYield => {
+             tempArray[3] = claimsYield;
+             return this.getClaimsTrends(this.baseTimePeriod, this.previousTimePeriod);
+           })
+           .then(trendData => {
+             let trends: any;
+             trends = trendData;
+             tempArray[0]['sdata'] = trends.claimsPaidTrendObject;
+             tempArray[3]['sdata'] = trends.claimsYieldTrendObject;
+             return this.createTotalCallsTrend();
+           })
+           .then(trendIssueResolution => {
+             // tempArray[5]['sdata'] = trendIssueResolution;
+             tempArray[3]['sdata'] = trendIssueResolution;*/
             return this.reduceCallsandOperatingCostsMiniTile(providerSystems, oppurtunities);
           })
           .then(reduceoppurtunities => {
@@ -707,7 +708,7 @@ export class OverviewSharedService {
           const previousClaimsTrendData: any = r;
           previousClaimsPaid = previousClaimsTrendData.previousClaimsPaid;
           previousClaimsYieldRate = previousClaimsTrendData.previousClaimsYieldRate;
-          console.log(latestClaimsPaid, previousClaimsPaid, latestClaimsYieldRate, previousClaimsYieldRate);
+          // console.log(latestClaimsPaid, previousClaimsPaid, latestClaimsYieldRate, previousClaimsYieldRate);
           if (latestClaimsPaid !== 0 && latestClaimsPaid !== '0' && latestClaimsPaid != undefined) {
             if (latestClaimsPaid === previousClaimsPaid) {
               claimsPaidTrendObject.sign = '';
@@ -905,5 +906,130 @@ export class OverviewSharedService {
           });
       }); // end subscribing to REST call
     }); // ends Promise
+  }
+
+  /* function to get PRIOR AUTH CARD seperately i overview page - RANJITH KUMAR ANKAM - 17th JULY 2019 */
+  getPriorAuthCardData() {
+    return new Promise((resolve, reject) => {
+      const parameters = {
+        providerkey: this.providerKey,
+        last6Months: true,
+        allProviderTins: true,
+        allLob: true,
+        allNotApprovedSettings: true
+      };
+
+      this.overviewService.getOverviewPriorAuth(parameters).subscribe(priorAuth => {
+        console.log(priorAuth);
+        let cPriorAuth: object;
+        if (
+          priorAuth &&
+          priorAuth.hasOwnProperty('PriorAuthorizations') &&
+          priorAuth.PriorAuthorizations !== null &&
+          priorAuth.PriorAuthorizations.hasOwnProperty('LineOfBusiness') &&
+          priorAuth.PriorAuthorizations.LineOfBusiness.hasOwnProperty('All') &&
+          priorAuth.PriorAuthorizations.LineOfBusiness.All.hasOwnProperty('PriorAuthApprovedCount') &&
+          priorAuth.PriorAuthorizations.LineOfBusiness.All.hasOwnProperty('PriorAuthNotApprovedCount') &&
+          priorAuth.PriorAuthorizations.LineOfBusiness.All.hasOwnProperty('PriorAuthPendingCount') &&
+          priorAuth.PriorAuthorizations.LineOfBusiness.All.hasOwnProperty('PriorAuthCancelledCount')
+        ) {
+          const priorAuthRequested =
+            priorAuth.PriorAuthorizations.LineOfBusiness.All.PriorAuthApprovedCount +
+            priorAuth.PriorAuthorizations.LineOfBusiness.All.PriorAuthNotApprovedCount;
+          const approvedRate =
+            priorAuth.PriorAuthorizations.LineOfBusiness.All.PriorAuthApprovedCount / priorAuthRequested;
+
+          cPriorAuth = {
+            category: 'small-card',
+            type: 'donut',
+            title: 'Prior Authorization Approval',
+            toggle: this.toggle.setToggles('Prior Authorization Approval', 'AtGlance', 'Overview', false),
+            data: {
+              graphValues: [approvedRate, 1 - approvedRate],
+              centerNumber: (approvedRate * 100).toFixed(0) + '%',
+              color: ['#3381FF', '#D7DCE1'],
+              gdata: ['card-inner', 'priorAuthCardD3Donut']
+            },
+            sdata: {
+              sign: '',
+              data: ''
+            },
+            timeperiod: 'Last 6 Months'
+          };
+        } else {
+          cPriorAuth = {
+            category: 'small-card',
+            type: 'donut',
+            title: null,
+            data: null,
+            sdata: null,
+            timeperiod: null
+          };
+        }
+
+        resolve(cPriorAuth);
+      });
+    });
+  }
+
+  /* function to get TOTAL CALLS CARD seperately i overview page - RANJITH KUMAR ANKAM - 17th JULY 2019 */
+  getTotalCallsCardData() {
+    return new Promise((resolve, reject) => {
+      const parameters = {
+        providerkey: this.providerKey,
+        timeFilter: 'Last6Months'
+      };
+      let cIR: any;
+      this.overviewService.getOverviewTotalCalls(parameters).subscribe(calls => {
+        if (
+          calls.hasOwnProperty('CallVolByQuesType') &&
+          calls.CallVolByQuesType.hasOwnProperty('Total') &&
+          calls.CallVolByQuesType.hasOwnProperty('Claims') &&
+          calls.CallVolByQuesType.hasOwnProperty('BenefitsEligibility') &&
+          calls.CallVolByQuesType.hasOwnProperty('PriorAuth') &&
+          calls.CallVolByQuesType.hasOwnProperty('Others')
+        ) {
+          cIR = {
+            category: 'small-card',
+            type: 'donut',
+            title: 'Total Calls',
+            toggle: this.toggle.setToggles('Total Calls', 'AtGlance', 'Overview', false),
+            data: {
+              graphValues: [
+                calls.CallVolByQuesType.Claims,
+                calls.CallVolByQuesType.BenefitsEligibility,
+                calls.CallVolByQuesType.PriorAuth,
+                calls.CallVolByQuesType.Others
+              ],
+              centerNumber: this.common.nFormatter(calls.CallVolByQuesType.Total),
+              color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'],
+              gdata: ['card-inner', 'callsCardD3Donut'],
+              hover: true,
+              labels: ['Claims', 'Benefits & Eligibility', 'Prior Authorizations', 'Others']
+            },
+            sdata: {
+              sign: '',
+              data: ''
+            },
+            timeperiod: 'Last 6 Months'
+          };
+        } else {
+          cIR = {
+            category: 'small-card',
+            type: 'donut',
+            title: null,
+            data: null,
+            sdata: null,
+            timeperiod: null
+          };
+        }
+        // resolve(cIR);
+
+        this.createTotalCallsTrend().then(trendIssueResolution => {
+          cIR.sdata = trendIssueResolution;
+          resolve(cIR);
+        });
+      });
+    });
   }
 } // end export class

@@ -102,7 +102,6 @@ export class GettingReimbursedComponent implements OnInit {
           this.currentTabTitle = this.summaryItems[0].title;
         }
 
-        console.log(this.summaryItems);
         for (let i = 0; i < 4; i++) {
           let temp;
           if (this.summaryItems[i].data[0] != null && this.summaryItems[i].data[0].data != null) {
@@ -123,7 +122,6 @@ export class GettingReimbursedComponent implements OnInit {
               sdata: null
             };
           }
-          console.log(i, temp);
           this.tabOptions.push(temp);
         }
       })

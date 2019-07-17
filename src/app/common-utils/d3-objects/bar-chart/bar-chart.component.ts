@@ -146,9 +146,10 @@ export class BarChartComponent implements OnInit, AfterViewInit {
         .attr('y', (height + 20) / 2)
         .attr('fill', '#2D2D39')
         .attr('font-size', '20')
+        .attr('text-align', 'right')
         .style('text-anchor', 'start')
         .style('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
-        .text(formatDy(chartOptions.barData));
+        .text(chartOptions.barData);
 
       chart
         .append('rect')
@@ -220,7 +221,7 @@ export class BarChartComponent implements OnInit, AfterViewInit {
           .select(this.renderChart)
           .append('div')
           .attr('class', 'tooltip')
-          .style('height', '100px')
+          .style('height', 'auto')
           .style('width', '438px')
           .style('opacity', 0)
           .style('border-radius', 0);
@@ -237,6 +238,7 @@ export class BarChartComponent implements OnInit, AfterViewInit {
           .attr('y', (height + 10) / 2)
           .attr('fill', '#2D2D39')
           .attr('font-size', '14')
+          .attr('cursor', 'pointer')
           .attr('text-anchor', 'start')
           .attr('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
           .text(chartOptions.barText)
@@ -250,14 +252,14 @@ export class BarChartComponent implements OnInit, AfterViewInit {
               .transition()
               .duration(10)
               .style('opacity', 1);
-            div.style('left', d3.event.layerX - 219 + 'px').style('top', d3.event.layerY - 110 + 'px');
+            div.style('left', d3.event.layerX - 14 + 'px').style('top', d3.event.layerY - 130 + 'px');
           })
           .on('mousemove', function(d) {
             div
               .transition()
               .duration(10)
               .style('opacity', 1);
-            div.style('left', d3.event.layerX - 219 + 'px').style('top', d3.event.layerY - 110 + 'px');
+            div.style('left', d3.event.layerX - 14 + 'px').style('top', d3.event.layerY - 130 + 'px');
           })
           .on('mouseleave', function(d) {
             div
@@ -268,14 +270,15 @@ export class BarChartComponent implements OnInit, AfterViewInit {
       }
       chart
         .append('text')
-        .attr('x', xScale(chartOptions.barSummation / 1.5))
+        .attr('x', xScale(chartOptions.barSummation / 1.35))
         .attr('y', (height + 20) / 2)
         .attr('fill', '#2D2D39')
-        .attr('font-size', '22')
-        .style('text-anchor', 'start')
+        .attr('font-size', '20')
+        .attr('float', 'right')
+        .style('text-anchor', 'end')
         .style('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
 
-        .text(chartOptions.barData);
+        .text(formatDy(chartOptions.barData));
     }
   }
 }
