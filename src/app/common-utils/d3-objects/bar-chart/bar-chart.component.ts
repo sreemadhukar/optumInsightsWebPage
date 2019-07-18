@@ -109,7 +109,7 @@ export class BarChartComponent implements OnInit, AfterViewInit {
       .attr('width', width + margin.left + margin.right)
       .attr('height', height + margin.top + margin.bottom)
       .append('g')
-      .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
+      .attr('transform', 'translate(' + (margin.left + 6) + ',' + margin.top + ')');
 
     let xScaleConstant;
     if (chartOptions.starObject) {
@@ -271,7 +271,7 @@ export class BarChartComponent implements OnInit, AfterViewInit {
       }
       chart
         .append('text')
-        .attr('x', xScale(chartOptions.barSummation / 1.35))
+        .attr('x', xScale(chartOptions.barSummation / 1.358))
         .attr('y', (height + 20) / 2)
         .attr('fill', '#2D2D39')
         .attr('font-size', '20')

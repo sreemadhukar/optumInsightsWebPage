@@ -81,7 +81,7 @@
             [class.extra-margin-top-8]="i != 0"
             [class.extra-margin-bottom-16]="section[i]"
             class="bar-graphs-content"
-            (click)="section[i] = !section[i]; inder(i)"
+            (click)="section[i] = !section[i]; reasonsCollapose(i)"
           >
             <div class="bar-graph-inside-left-block">
               <div class="bar-graph-inside-left-block-content">
@@ -103,7 +103,7 @@
             <div class="bottom-shadow">
               <div class="hide-bottom-arrow-block"></div>
             </div>
-            <h3 class="inner-blocks-header">Top Reason for Need More Information {{ i }}</h3>
+            <h3 class="inner-blocks-header">Top Reason for Need More Information</h3>
             <div *ngFor="let inside of barchart.top5; let j = index">
               <div [class.extra-margin-left-4]="j == 0" class="top-5-block">
                 <p class="top-5-text">{{ inside.text }}</p>
