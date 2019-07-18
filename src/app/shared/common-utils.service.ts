@@ -42,6 +42,7 @@ export class CommonUtilsService {
       tempSign = 'down-green'; // green color
       value = temp.toFixed() + suffix;
     }
+
     return {
       sign: tempSign,
       data: value
