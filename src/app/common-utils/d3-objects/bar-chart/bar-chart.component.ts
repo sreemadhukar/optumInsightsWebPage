@@ -96,7 +96,7 @@ export class BarChartComponent implements OnInit, AfterViewInit {
 
     let barHeight = 48;
     if (chartOptions.barHeight) {
-      barHeight = chartOptions.barHeight + 8;
+      barHeight = chartOptions.barHeight; // bar height to be 48
     }
 
     const margin = { top: 25, right: 10, bottom: 5, left: 10 };
