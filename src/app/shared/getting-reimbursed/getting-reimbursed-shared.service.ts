@@ -495,7 +495,10 @@ export class GettingReimbursedSharedService {
               appealsData.LineOfBusiness.hasOwnProperty(lobFullData) &&
               appealsData.LineOfBusiness[lobFullData].hasOwnProperty('OverTurnCount') &&
               appealsData.LineOfBusiness[lobFullData].hasOwnProperty('AdminAppeals') &&
-              appealsData.LineOfBusiness[lobFullData].hasOwnProperty('ClinicalAppeals')
+              appealsData.LineOfBusiness[lobFullData].hasOwnProperty('ClinicalAppeals') &&
+              appealsData.LineOfBusiness[lobFullData].OverTurnCount &&
+              appealsData.LineOfBusiness[lobFullData].AdminAppeals &&
+              appealsData.LineOfBusiness[lobFullData].ClinicalAppeals
             ) {
               const submitted =
                 appealsData.LineOfBusiness[lobFullData].AdminAppeals +
