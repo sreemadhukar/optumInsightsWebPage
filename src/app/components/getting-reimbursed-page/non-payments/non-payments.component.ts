@@ -292,6 +292,20 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
   helpIconClick(title) {
     this.glossaryExpandService.setMessage(title);
   }
+  /** This function is used for collapse of Top Reasons For Non Payment
+   * section is an array of boolean variable
+   * The functionlaity in html code is like when we click on + and - icon, boolean value of true
+   * is pushed in section array.
+   * So this function is marking false for all those indexes in the section array except for the
+   * clicked one which we captured in the variable x
+   */
+  reasonsCollapose(x: Number) {
+    for (let i = 0; i < this.section.length; i++) {
+      if (i !== x) {
+        this.section[i] = false;
+      }
+    }
+  }
 
   sortHeader(event) {
     const listItems = this.elementRef.nativeElement.querySelectorAll('.sort-header-icon') as HTMLElement[];
