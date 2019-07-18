@@ -100,20 +100,6 @@ export class OverviewService {
         catchError(err => of(JSON.parse(JSON.stringify(err))))
       )
     );
-
-    /*
-
-    return combineLatest(
-            this.http.post(priorURL, params).pipe(
-                  map(res => JSON.parse(JSON.stringify(res[0]))),
-                  catchError(err => of(JSON.parse(JSON.stringify(err)))),
-            this.http.get(trendsURL, paramsTrends).pipe(
-                  map(res => JSON.parse(JSON.stringify(res))),
-                  catchError(err => of(JSON.parse(JSON.stringify(err))))
-     )
-     ));
-
-     */
   }
 
   public getOverviewTotalCalls(parameters) {
