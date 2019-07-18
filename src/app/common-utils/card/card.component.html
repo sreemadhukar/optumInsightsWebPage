@@ -63,7 +63,7 @@ Date Created: 17-Apr-2019
           "
         >
           <ul class="app-card-list-labels">
-            <li *ngFor="let c of chartData.besideData.color; let i = index">
+            <li class="label-color-indicators" *ngFor="let c of chartData.besideData.color; let i = index">
               <div class="label-dots" style.background-color="{{ c }}"></div>
             </li>
           </ul>
