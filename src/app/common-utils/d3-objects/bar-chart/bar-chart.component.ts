@@ -109,7 +109,7 @@ export class BarChartComponent implements OnInit, AfterViewInit {
       .attr('width', width + margin.left + margin.right)
       .attr('height', height + margin.top + margin.bottom)
       .append('g')
-      .attr('transform', 'translate(' + (margin.left + 6) + ',' + margin.top + ')');
+      .attr('transform', 'translate(' + (margin.left + 6) + ',' + (margin.top + 5) + ')');
 
     let xScaleConstant;
     if (chartOptions.starObject) {
