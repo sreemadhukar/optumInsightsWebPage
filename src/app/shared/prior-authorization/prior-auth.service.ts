@@ -448,7 +448,7 @@ export class PriorAuthSharedService {
         iseAndILobBool = false;
         ismAndRLobBool = false;
       }
-      if (LOB === 'Employee & Individual') {
+      if (LOB === 'Employer & Individual') {
         iscAndSLobBool = false;
         iseAndILobBool = true;
         ismAndRLobBool = false;
