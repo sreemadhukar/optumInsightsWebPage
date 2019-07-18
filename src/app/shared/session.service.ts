@@ -46,7 +46,6 @@ export class SessionService {
       return JSON.parse(sessionStorage.getItem('currentUser'))[0]['Providersyskey'];
     }
   }
-  
   public sessionStorage(value: string, item: string) {
     if (sessionStorage.getItem(value)) {
       return JSON.parse(sessionStorage.getItem(value))[item];
