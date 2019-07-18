@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { ProviderSharedService } from '../../shared/provider/provider-shared.service';
 import { Providers } from '../../shared/provider/provider.class';
-import { MatIconRegistry, MatDialogRef, MatAutocompleteSelectedEvent } from '@angular/material';
+import { MatIconRegistry, MatDialogRef, MatAutocompleteSelectedEvent, MatAutocompleteModule } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 import { StorageService } from '../../shared/storage-service.service';
 
@@ -19,6 +19,7 @@ export class ProviderSearchComponent implements OnInit, AfterViewInit {
   filteredStates: Observable<Providers[]>;
   states: Providers[];
   providerData: any;
+  nomatchFlag: any;
 
   constructor(
     private fb: FormBuilder,
@@ -38,6 +39,10 @@ export class ProviderSearchComponent implements OnInit, AfterViewInit {
       'search',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/round-search-24px.svg')
     );
+    iconRegistry.addSvgIcon(
+      'noData',
+      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Alert/round-error_outline-24px.svg')
+    );
   }
 
   ngOnInit() {
@@ -51,6 +56,7 @@ export class ProviderSearchComponent implements OnInit, AfterViewInit {
     );
 
     this.providerData = JSON.parse(sessionStorage.getItem('currentUser'));
+    this.nomatchFlag = true;
   }
 
   ngAfterViewInit() {
@@ -81,6 +87,42 @@ export class ProviderSearchComponent implements OnInit, AfterViewInit {
     this.dialogRef.close();
   }
 
+  // author: madhukar date: 16/7/2109 for provider not found
+  checkCondition() {
+    if (document.querySelector('.mat-autocomplete-panel')) {
+      (<HTMLElement>document.querySelector('.mat-autocomplete-panel')).style.height = '0';
+    }
+    if (this.stateCtrl.value && this.stateCtrl.value !== '') {
+      if (document.querySelector('.mat-autocomplete-panel')) {
+        (<HTMLElement>document.querySelector('.mat-autocomplete-panel')).style.height = 'auto';
+      }
+      for (let i = 0; i < this.states.length; i++) {
+        if (!this.states[i].HealthCareOrganizationName.toLowerCase().startsWith(this.stateCtrl.value.toLowerCase())) {
+          this.nomatchFlag = false;
+          (<HTMLElement>document.querySelector('.mat-form-field-label')).style.color = 'red';
+          (<HTMLElement>document.querySelector('.mat-form-field-outline-thick')).style.color = 'red';
+        } else {
+          (<HTMLElement>document.querySelector('.mat-form-field-label')).style.color = '#196ECF';
+          (<HTMLElement>document.querySelector('.mat-form-field-outline-thick')).style.color = '#196ECF';
+          this.nomatchFlag = true;
+          break;
+        }
+      }
+    }
+    if (this.stateCtrl.value === '') {
+      if (!(<HTMLElement>document.querySelector('.mat-focused'))) {
+        (<HTMLElement>document.querySelector('.mat-form-field-label')).style.color = '#757588';
+        (<HTMLElement>document.querySelector('.mat-form-field-outline-thick')).style.color = 'black';
+      } else {
+        (<HTMLElement>document.querySelector('.mat-form-field-outline-thick')).style.color = '#196ECF';
+        (<HTMLElement>document.querySelector('.mat-form-field-label')).style.color = '#196ECF';
+      }
+    }
+
+    // madhukar
+
+    return true;
+  }
   provider() {
     this.router.navigate(['/ProviderSearch']);
     this.dialogRef.close();

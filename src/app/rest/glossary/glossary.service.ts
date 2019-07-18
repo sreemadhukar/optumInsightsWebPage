@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { HttpHeaders, HttpClient, HttpParams } from '@angular/common/http';
-import { map, retry, catchError } from 'rxjs/operators';
+import { map, catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
 
 @Injectable({
@@ -26,7 +26,6 @@ export class GlossaryService {
       const params = new HttpParams();
       const url = this.APP_URL + this.SERVICE_PATH;
       return this.http.get(url, { params, headers: myHeader }).pipe(
-        retry(2),
         map(res => JSON.parse(JSON.stringify(res))),
         catchError(err => of(JSON.parse(JSON.stringify(err))))
       );

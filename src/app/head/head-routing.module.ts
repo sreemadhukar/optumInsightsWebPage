@@ -13,7 +13,6 @@ const routes: Routes = [
     path: 'login',
     loadChildren: '../auth/auth.module#AuthModule'
   },
-
   {
     path: 'OverviewPage',
     loadChildren: '../components/overview-page/overview-page.module#OverviewPageModule',

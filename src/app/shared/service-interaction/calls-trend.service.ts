@@ -35,11 +35,11 @@ export class CallsTrendService {
             typeof lastTrend === 'object' &&
             typeof previousLast === 'object'
           ) {
-            sdataQuestionType = this.common.last30DaysTrend(
+            sdataQuestionType = this.common.trendNegativeMeansGood(
               lastTrend.CallVolByQuesType.Total,
               previousLast.CallVolByQuesType.Total
             );
-            sdataTalkTime = this.common.last30DaysTrend(
+            sdataTalkTime = this.common.trendNegativeMeansGood(
               lastTrend.CallTalkTimeByQuesType.Total,
               previousLast.CallTalkTimeByQuesType.Total
             );

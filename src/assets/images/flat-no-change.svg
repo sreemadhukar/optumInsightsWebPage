@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="32px" height="32px" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 54.1 (76490) - https://sketchapp.com -->
+    <title>icon/alert/trending/flat</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Getting-Reimbursed" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="icon/alert/trending/flat">
+            <circle id="Oval" fill="#E0E0E0" cx="16" cy="16" r="16"></circle>
+            <g id="round-trending_flat-24px" stroke-width="1" transform="translate(4.000000, 4.000000)">
+                <polygon id="Path" points="0 0 24 0 24 24 0 24"></polygon>
+                <path d="M21.65,11.65 L18.86,8.86 C18.54,8.54 18,8.76 18,9.21 L18,11 L4,11 C3.45,11 3,11.45 3,12 C3,12.55 3.45,13 4,13 L18,13 L18,14.79 C18,15.24 18.54,15.46 18.85,15.14 L21.64,12.35 C21.84,12.16 21.84,11.84 21.65,11.65 L21.65,11.65 Z" id="Path" fill="#757588"></path>
+            </g>
+        </g>
+    </g>
+</svg>

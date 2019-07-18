@@ -20,20 +20,17 @@ var apiForwardingUrl = 'https://gateway-stage-core.optum.com';
 var sessionSecret = 'STwHkLYUwN1L5rc3yqdkuthRvczrBupc';
 var key = 'Q9gRpXWjVm5GXethNxG60utGMGW7NpsO';
 
-app.all("/uhci/prd2/*", function (req, res) {
-    apiProxy.web(req, res, { target: apiForwardingUrl, changeOrigin: true, secure: false },
-        function (e) {
-            handleExceptions(e, res)
-        }
-    );
+app.all('/uhci/prd2/*', function(req, res) {
+  apiProxy.web(req, res, { target: apiForwardingUrl, changeOrigin: true, secure: false }, function(e) {
+    handleExceptions(e, res);
+  });
 });
-
 
 app.use((error, req, res, next) => {
   handleExceptions(error, res);
 });
 
-app.get('/api/getJwt', cors(), function(req, res) { 
+app.get('/api/getJwt', cors(), function(req, res) {
   let token = jwt.sign(
     {
       exp: Math.floor(Date.now() / 1000) + 60 * 60,

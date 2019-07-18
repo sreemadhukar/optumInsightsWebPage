@@ -13,7 +13,6 @@
   padding: 16px;
   line-height: 22px;
   text-align: left;
-  float: left;
 }
 .handClicked {
   cursor: pointer;
@@ -51,7 +50,7 @@
 .non-small-card-header-title {
   color: $black-rock !important;
   word-break: break-word;
-  width: 390px;
+  // width: 375px; title should come in single line w.rt to Prior Auth Page
 }
 .half-card-header-title {
   word-break: break-word;

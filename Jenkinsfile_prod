@@ -21,7 +21,7 @@ pipeline {
     }
 
     stages {
-        
+
         /**stage('Run Sonar Scan for UI') {
             agent {
                 label 'docker-kitchensink-slave'
@@ -35,11 +35,11 @@ pipeline {
                     """
                     }
                glSonarNpmScan gitUserCredentialsId:"${env.SONAR_CREDENTIALS_ID}",
-               additionalProps:['sonar.sources':'src', 'sonar.javascript.lcov.reportPath':'coverage/lcov.info', 'sonar.ts.lcov.reportpath':'coverage/lcov.info'] 
-                   
-            }        
+               additionalProps:['sonar.sources':'src', 'sonar.javascript.lcov.reportPath':'coverage/lcov.info', 'sonar.ts.lcov.reportpath':'coverage/lcov.info']
+
+            }
         }**/
-        
+
         stage('Web: Build and Deploy Docker Image to DTR') {
             agent {
                 label 'docker-nodejs-slave'
@@ -57,7 +57,7 @@ pipeline {
                         extraBuildOptions: "--build-arg env_var=prod"
             }
         }
-        
+
         stage('OSE Deployment Web Prod') {
         agent {
                 label 'docker-maven-slave'
@@ -72,7 +72,7 @@ pipeline {
 
             }
         }
-        
+
        stage('OSE Deployment Web DR') {
        agent {
                 label 'docker-maven-slave'
@@ -92,7 +92,7 @@ pipeline {
                         port: '8000'
 
             }
-        }    
+        }
     }
 
     post {

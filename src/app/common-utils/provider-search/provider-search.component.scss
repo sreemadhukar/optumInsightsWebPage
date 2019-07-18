@@ -1,11 +1,9 @@
 @import '~src/scss/variables.scss';
 .provider-search {
   padding: 10px;
-
   &-header {
     text-align: center;
     padding-right: 9px;
-
     button {
       float: right;
       margin: -15px -25px 0 0;
@@ -27,11 +25,9 @@
       }
     }
   }
-
   &-form {
     mat-form-field {
       width: 100%;
-
       //input {
       //  box-sizing: border-box;
       //  height: 41px;
@@ -61,6 +57,55 @@
   padding: 18px 0;
   cursor: pointer;
 }
+
 ::ng-deep .mat-form-field-appearance-outline .mat-form-field-flex {
   padding: 0 4px;
+}
+
+::ng-deep .mat-form-field-outline-start {
+  width: 34px !important;
+}
+
+::ng-deep.mat-autocomplete-hidden {
+  visibility: visible !important;
+}
+
+.remove {
+  height: 0;
+}
+
+.hidden {
+  visibility: hidden;
+  height: 0;
+}
+
+.no-result-found-div {
+  padding-top: 13px;
+  padding-left: 12px;
+  padding-right: 30px;
+}
+
+.no-result-found {
+  color: #2d2d39;
+  font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  letter-spacing: 0.2px;
+  line-height: 22px;
+  padding-bottom: 8px;
+}
+
+.no-result-found-text {
+  color: #2d2d39;
+  font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  letter-spacing: 0.2px;
+  line-height: 18px;
+}
+
+.noDataicon {
+  color: red;
+}
+
+.searchicon {
+  color: #757588;
 }
