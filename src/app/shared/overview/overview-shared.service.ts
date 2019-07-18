@@ -1018,7 +1018,15 @@ export class OverviewSharedService {
         // resolve(cIR);
 
         this.createTotalCallsTrend().then(trendIssueResolution => {
-          cIR.sdata = trendIssueResolution;
+        const nullTrend =  {
+            sign: '',
+            data: ''
+          };
+          if (trendIssueResolution === null) {
+            cIR.sdata = nullTrend;
+          } else {
+            cIR.sdata = trendIssueResolution;
+          }
           resolve(cIR);
         });
       });
