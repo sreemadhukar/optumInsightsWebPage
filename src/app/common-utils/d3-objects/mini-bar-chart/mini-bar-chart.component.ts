@@ -44,7 +44,7 @@ export class MiniBarChartComponent implements OnInit, AfterViewInit {
       .attr('width', width + margin.left + margin.right)
       .attr('height', height + margin.top + margin.bottom)
       .append('g')
-      .attr('transform', 'translate(' + 10 + ',' + 0 + ')');
+      .attr('transform', 'translate(' + 7 + ',' + 0 + ')');
 
     let totalSum = 0;
 

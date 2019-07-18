@@ -23,7 +23,7 @@ export class CommonUtilsService {
       return (fnumber / 1000).toFixed(1).replace(/\.0$/, '') + 'K';
     }
     if (fnumber < 1000) {
-      return fnumber.toFixed(1).replace(/\.0$/, '');
+      return fnumber.toFixed(2).replace(/\.0$/, '');
     }
     return fnumber;
   }
