@@ -33,15 +33,16 @@ export class CommonUtilsService {
     const suffix = '%';
     let tempSign;
     if (temp >= 1) {
-      tempSign = 'down'; // green color
+      tempSign = 'up-red'; // red color
       value = '+' + temp.toFixed() + suffix;
     } else if (temp < 1 && temp >= 0) {
       tempSign = 'neutral';
       value = 'No Change';
     } else {
-      tempSign = 'up'; // red color
+      tempSign = 'down-green'; // green color
       value = temp.toFixed() + suffix;
     }
+
     return {
       sign: tempSign,
       data: value
@@ -53,13 +54,13 @@ export class CommonUtilsService {
     const suffix = '%';
     let tempSign;
     if (temp >= 1) {
-      tempSign = 'up'; // red color
+      tempSign = 'up'; // green color
       value = '+' + temp.toFixed() + suffix;
     } else if (temp < 1 && temp >= 0) {
       tempSign = 'neutral';
       value = 'No Change';
     } else {
-      tempSign = 'down'; // green color
+      tempSign = 'down'; // red color
       value = temp.toFixed() + suffix;
     }
     return {
@@ -78,7 +79,7 @@ export class CommonUtilsService {
   public matchLobWithData(lob) {
     if (lob === 'All') {
       return 'All';
-    } else if (lob === 'Employee & Individual') {
+    } else if (lob === 'Employer & Individual') {
       return 'Ei';
     } else if (lob === 'Medicare & Retirement') {
       return 'Mr';
@@ -89,7 +90,7 @@ export class CommonUtilsService {
   public matchLobWithCapsData(lob) {
     if (lob === 'All') {
       return 'All';
-    } else if (lob === 'Employee & Individual') {
+    } else if (lob === 'Employer & Individual') {
       return 'EI';
     } else if (lob === 'Medicare & Retirement') {
       return 'MR';
@@ -100,7 +101,7 @@ export class CommonUtilsService {
   public matchLobWithLobData(lob) {
     if (lob === 'All') {
       return 'All';
-    } else if (lob === 'Employee & Individual') {
+    } else if (lob === 'Employer & Individual') {
       return 'E&I';
     } else if (lob === 'Medicare & Retirement') {
       return 'M&R';
@@ -134,7 +135,7 @@ export class CommonUtilsService {
   public matchFullLobWithData(lob) {
     if (lob === 'All') {
       return 'ALL';
-    } else if (lob === 'Employee & Individual') {
+    } else if (lob === 'Employer & Individual') {
       return 'EmployerAndIndividual';
     } else if (lob === 'Medicare & Retirement') {
       return 'MedicareAndRetirement';

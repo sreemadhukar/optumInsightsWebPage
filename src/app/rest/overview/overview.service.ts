@@ -95,7 +95,7 @@ export class OverviewService {
         catchError(err => of(JSON.parse(JSON.stringify(err))))
       ),
 
-      this.http.get(trendsURL, paramsTrends).pipe(
+      this.http.get(trendsURL).pipe(
         map(res => JSON.parse(JSON.stringify(res))),
         catchError(err => of(JSON.parse(JSON.stringify(err))))
       )

@@ -7,7 +7,7 @@
     ></app-common-header>
     <div
       *ngIf="data.type == 'donut' && data.data != null"
-      [ngClass]="data.sdata != null ? 'chart-details-donut' : 'full-width'"
+      [ngClass]="data.sdata != null && data.sdata.sign != '' ? 'chart-details-donut' : 'full-width'"
     >
       <app-donut-chart [donutType]="'small-card'" [chartOptions]="data.data"></app-donut-chart>
     </div>
@@ -23,19 +23,43 @@
           {{ data.sdata.data }}
         </div>
       </div>
-      <div *ngIf="data.sdata.sign === 'neutral'" class="flex-box">
-        <span class="trend" [class.neutral]="data.sdata.sign === 'neutral'">
-          <img class="trend-image trend-image-neutral" src="/src/assets/images/flat-no-change.svg" alt="no-change" />
-        </span>
-        <div class="trend-value trend-value-neutral">
-          {{ data.sdata.data }}
-        </div>
-      </div>
       <div *ngIf="data.sdata.sign === 'up'" class="flex-box">
         <span class="trend" [class.up]="data.sdata.sign === 'up'">
           <img class="trend-image  trend-image-up" src="/src/assets/images/trend-up.svg" alt="trend-up" />
         </span>
         <div class="trend-value trend-value-up">
+          {{ data.sdata.data }}
+        </div>
+      </div>
+      <div *ngIf="data.sdata.sign === 'down-green'" class="flex-box">
+        <span class="trend" [class.up]="data.sdata.sign === 'down-green'">
+          <img
+            class="trend-image trend-image-up"
+            src="/src/assets/images/down-positive-no-circle.svg"
+            alt="trend-down"
+          />
+        </span>
+        <div class="trend-value trend-value-up">
+          {{ data.sdata.data }}
+        </div>
+      </div>
+      <div *ngIf="data.sdata.sign === 'up-red'" class="flex-box">
+        <span class="trend" [class.down]="data.sdata.sign === 'up-red'">
+          <img
+            class="trend-image  trend-image-down"
+            src="/src/assets/images/up-negative-no-circle.svg"
+            alt="trend-up"
+          />
+        </span>
+        <div class="trend-value trend-value-down">
+          {{ data.sdata.data }}
+        </div>
+      </div>
+      <div *ngIf="data.sdata.sign === 'neutral'" class="flex-box">
+        <span class="trend" [class.neutral]="data.sdata.sign === 'neutral'">
+          <img class="trend-image trend-image-neutral" src="/src/assets/images/flat-no-change.svg" alt="no-change" />
+        </span>
+        <div class="trend-value trend-value-neutral">
           {{ data.sdata.data }}
         </div>
       </div>

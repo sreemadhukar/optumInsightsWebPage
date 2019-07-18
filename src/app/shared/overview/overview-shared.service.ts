@@ -135,10 +135,7 @@ export class OverviewSharedService {
             color: ['#3381FF', '#D7DCE1'],
             gdata: ['card-inner', 'priorAuthCardD3Donut']
           },
-          sdata: {
-            sign: '',
-            data: ''
-          },
+          sdata: null,
           timeperiod: 'Last 6 Months'
         };
       } else {
@@ -182,10 +179,7 @@ export class OverviewSharedService {
             color: ['#3381FF', '#D7DCE1'],
             gdata: ['card-inner', 'selfServiceCardD3Donut']
           },
-          sdata: {
-            sign: '',
-            data: ''
-          },
+          sdata: null,
           timeperiod: '90 Days Period'
         };
       } else {
@@ -298,10 +292,7 @@ export class OverviewSharedService {
             hover: true,
             labels: ['Claims', 'Benefits & Eligibility', 'Prior Authorizations', 'Others']
           },
-          sdata: {
-            sign: '',
-            data: ''
-          },
+          sdata: null,
           timeperiod: 'Last 6 Months'
         };
       } else {
@@ -326,7 +317,9 @@ export class OverviewSharedService {
         providerSystems.SelfServiceInquiries != null &&
         providerSystems.SelfServiceInquiries.hasOwnProperty('ALL') &&
         providerSystems.SelfServiceInquiries.ALL.hasOwnProperty('SelfService') &&
-        providerSystems.SelfServiceInquiries.ALL.SelfService.hasOwnProperty('TotalCallCost')
+        providerSystems.SelfServiceInquiries.ALL.SelfService.hasOwnProperty('TotalCallCost') &&
+        providerSystems.SelfServiceInquiries.ALL.SelfService.hasOwnProperty('TotalSelfServiceCost') &&
+        providerSystems.SelfServiceInquiries.ALL.SelfService.hasOwnProperty('TotalPhoneCost')
       ) {
         try {
           oppurtunities.push({
@@ -382,7 +375,9 @@ export class OverviewSharedService {
         providerSystems.SelfServiceInquiries != null &&
         providerSystems.SelfServiceInquiries.hasOwnProperty('ALL') &&
         providerSystems.SelfServiceInquiries.ALL.hasOwnProperty('SelfService') &&
-        providerSystems.SelfServiceInquiries.ALL.SelfService.hasOwnProperty('TotalCallTime')
+        providerSystems.SelfServiceInquiries.ALL.SelfService.hasOwnProperty('TotalCallTime') &&
+        providerSystems.SelfServiceInquiries.ALL.SelfService.hasOwnProperty('SelfServiceCallTime') &&
+        providerSystems.SelfServiceInquiries.ALL.SelfService.hasOwnProperty('PhoneCallTime')
       ) {
         try {
           oppurtunities.push({
@@ -924,6 +919,7 @@ export class OverviewSharedService {
 
       this.overviewService.getOverviewPriorAuth(parameters).subscribe(([priorAuth, trends]) => {
         let PAOverviewTrends: object;
+        console.log(trends);
 
         if (
           trends &&
@@ -943,13 +939,8 @@ export class OverviewSharedService {
             };
           }
         } else {
-          PAOverviewTrends = {
-            sign: '',
-            data: ''
-          };
+          PAOverviewTrends = null;
         }
-
-        console.log(PAOverviewTrends);
 
         let cPriorAuth: object;
         if (
@@ -1053,7 +1044,15 @@ export class OverviewSharedService {
         // resolve(cIR);
 
         this.createTotalCallsTrend().then(trendIssueResolution => {
-          cIR.sdata = trendIssueResolution;
+          const nullTrend = {
+            sign: '',
+            data: ''
+          };
+          if (trendIssueResolution === null) {
+            cIR.sdata = nullTrend;
+          } else {
+            cIR.sdata = trendIssueResolution;
+          }
           resolve(cIR);
         });
       });
