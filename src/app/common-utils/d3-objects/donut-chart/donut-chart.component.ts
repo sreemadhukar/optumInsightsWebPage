@@ -73,8 +73,17 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
           .text(null)
           .append('tspan')
           .attr('x', 12.5)
-          .attr('y', y)
-          .attr('dy', dy + 'em');
+          .attr('y', y);
+
+        if (!Number.isNaN(dy)) {
+          tspan = textLabel
+            .text(null)
+            .append('tspan')
+            .attr('x', 12.5)
+            .attr('y', y)
+            .attr('dy', dy + 'em');
+        }
+
         let i = 0;
         let dyMultiplier = 1;
         while ((word = words.pop())) {

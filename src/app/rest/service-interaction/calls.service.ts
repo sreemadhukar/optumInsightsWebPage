@@ -46,10 +46,11 @@ export class CallsService {
       Accept: '*/*'
     });
 
-    const params = new HttpParams();
+    let params = new HttpParams();
+    params = params.append('timeFilter', parameters[1].TimeFilter);
     const executiveURL = this.APP_URL + this.CALLS_SERVICE_PATH + parameters[0];
     return combineLatest(
-      this.http.get(executiveURL, { params, headers: myHeader }).pipe(
+      this.http.get(executiveURL, { params: params, headers: myHeader }).pipe(
         map(res => res),
         catchError(err => of(err))
       )

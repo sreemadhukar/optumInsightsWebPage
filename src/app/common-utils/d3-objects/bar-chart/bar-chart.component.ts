@@ -96,7 +96,7 @@ export class BarChartComponent implements OnInit, AfterViewInit {
 
     let barHeight = 48;
     if (chartOptions.barHeight) {
-      barHeight = chartOptions.barHeight + 8;
+      barHeight = chartOptions.barHeight; // bar height to be 48
     }
 
     const margin = { top: 25, right: 10, bottom: 5, left: 10 };
@@ -109,7 +109,7 @@ export class BarChartComponent implements OnInit, AfterViewInit {
       .attr('width', width + margin.left + margin.right)
       .attr('height', height + margin.top + margin.bottom)
       .append('g')
-      .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
+      .attr('transform', 'translate(' + (margin.left + 6) + ',' + (margin.top + 5) + ')');
 
     let xScaleConstant;
     if (chartOptions.starObject) {
@@ -193,7 +193,9 @@ export class BarChartComponent implements OnInit, AfterViewInit {
 
       // Shift text object up for 2+ line reasons
       if (textWithHover.selectAll('tspan').size() > 1) {
-        d3.select('#' + uniqueText).attr('transform', 'translate(' + 0 + ',' + -7.5 + ')');
+        d3.select('#' + uniqueText)
+          .attr('transform', 'translate(' + 0 + ',' + -7.5 + ')')
+          .attr('cursor', 'pointer');
       }
 
       // where we should enable the hover object to exist
@@ -238,7 +240,6 @@ export class BarChartComponent implements OnInit, AfterViewInit {
           .attr('y', (height + 10) / 2)
           .attr('fill', '#2D2D39')
           .attr('font-size', '14')
-          .attr('cursor', 'pointer')
           .attr('text-anchor', 'start')
           .attr('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
           .text(chartOptions.barText)
@@ -270,7 +271,7 @@ export class BarChartComponent implements OnInit, AfterViewInit {
       }
       chart
         .append('text')
-        .attr('x', xScale(chartOptions.barSummation / 1.35))
+        .attr('x', xScale(chartOptions.barSummation / 1.358))
         .attr('y', (height + 20) / 2)
         .attr('fill', '#2D2D39')
         .attr('font-size', '20')
