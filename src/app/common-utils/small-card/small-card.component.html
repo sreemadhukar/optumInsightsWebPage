@@ -7,7 +7,7 @@
     ></app-common-header>
     <div
       *ngIf="data.type == 'donut' && data.data != null"
-      [ngClass]="data.sdata != null ? 'chart-details-donut' : 'full-width'"
+      [ngClass]="data.sdata != null && data.sdata.sign != '' ? 'chart-details-donut' : 'full-width'"
     >
       <app-donut-chart [donutType]="'small-card'" [chartOptions]="data.data"></app-donut-chart>
     </div>

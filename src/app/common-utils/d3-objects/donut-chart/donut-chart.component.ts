@@ -197,7 +197,8 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
       chartOptions.sdata != undefined &&
       chartOptions.sdata != null &&
       chartOptions.sdata.sign != undefined &&
-      chartOptions.sdata.sign != null
+      chartOptions.sdata.sign != null &&
+      chartOptions.sdata.sign !== ''
     ) {
       if (chartOptions.sdata.sign === 'up') {
         chart
