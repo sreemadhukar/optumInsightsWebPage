@@ -55,37 +55,63 @@ export class StarChartComponent implements OnInit, AfterViewInit {
       height = 320;
       centerTextFontSize = 41;
       centerTextHeight = 185;
+
+      const svg = d3
+        .select(this.renderChart)
+        .append('svg')
+        .attr('width', width + margin.left + margin.right)
+        .attr('height', height + margin.top + margin.bottom)
+        .append('g')
+        .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
+
+      svg
+        .append('svg:image')
+        .attr('x', 5)
+        .attr('y', 70)
+        .attr('width', 200) // 200 by 170 suggested by UX for PCOR
+        .attr('height', 190)
+        .attr('xlink:href', 'src/assets/images/star.png');
+
+      svg
+        .append('text')
+        .attr('x', (width + margin.left + margin.right) / 2)
+        .attr('y', centerTextHeight)
+        .attr('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
+        .attr('fill', '#FFFFFF')
+        .attr('font-size', centerTextFontSize)
+        .attr('text-anchor', 'middle')
+        .text(chartOptions.centerNumber);
     } else if (this.starType === 'small-card') {
       width = 120;
       height = 120;
       centerTextFontSize = 22;
       centerTextHeight = width / 2 + 10;
+
+      const svg = d3
+        .select(this.renderChart)
+        .append('svg')
+        .attr('width', width + margin.left + margin.right)
+        .attr('height', height + margin.top + margin.bottom)
+        .append('g')
+        .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
+
+      svg
+        .append('svg:image')
+        .attr('x', 0)
+        .attr('y', 0)
+        .attr('width', width)
+        .attr('height', height)
+        .attr('xlink:href', 'src/assets/images/star.png');
+
+      svg
+        .append('text')
+        .attr('x', (width + margin.left + margin.right) / 2)
+        .attr('y', centerTextHeight)
+        .attr('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
+        .attr('fill', '#FFFFFF')
+        .attr('font-size', centerTextFontSize)
+        .attr('text-anchor', 'middle')
+        .text(chartOptions.centerNumber);
     }
-
-    const svg = d3
-      .select(this.renderChart)
-      .append('svg')
-      .attr('width', width + margin.left + margin.right)
-      .attr('height', height + margin.top + margin.bottom)
-      .append('g')
-      .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
-
-    svg
-      .append('svg:image')
-      .attr('x', 0)
-      .attr('y', 0)
-      .attr('width', width)
-      .attr('height', height)
-      .attr('xlink:href', 'src/assets/images/star.png');
-
-    svg
-      .append('text')
-      .attr('x', (width + margin.left + margin.right) / 2)
-      .attr('y', centerTextHeight)
-      .attr('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
-      .attr('fill', '#FFFFFF')
-      .attr('font-size', centerTextFontSize)
-      .attr('text-anchor', 'middle')
-      .text(chartOptions.centerNumber);
   }
 }
