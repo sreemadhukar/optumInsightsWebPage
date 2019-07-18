@@ -81,7 +81,7 @@
             [class.extra-margin-top-8]="i != 0"
             [class.extra-margin-bottom-16]="section[i]"
             class="bar-graphs-content"
-            (click)="section[i] = !section[i]; sec = i"
+            (click)="section[i] = !section[i]"
           >
             <div class="bar-graph-inside-left-block">
               <div class="bar-graph-inside-left-block-content">
@@ -99,7 +99,7 @@
             </div>
           </div>
 
-          <div class="inner-block" *ngIf="section[i] && sec == i">
+          <div class="inner-block" *ngIf="section[i]">
             <div class="bottom-shadow">
               <div class="hide-bottom-arrow-block"></div>
             </div>
