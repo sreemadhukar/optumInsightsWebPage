@@ -42,8 +42,31 @@ export class OverviewSharedService {
         parameters = [this.providerKey, true];
       }
 
-      this.overviewService.getOverviewData(...parameters).subscribe(([providerSystems, claims]) => {
+      this.overviewService.getOverviewData(...parameters).subscribe(([providerSystems, claims, trends]) => {
         // console.log('providerSystem', providerSystems);
+
+        let PAOverviewTrends: object;
+        if (
+          trends &&
+          trends.hasOwnProperty('TendingMtrics') &&
+          trends.TendingMtrics.hasOwnProperty('PaApprovedCount')
+        ) {
+          const dataPoint = trends.TendingMtrics.PaApprovedCount.toFixed(1) + '%';
+          if (trends.TendingMtrics.PaApprovedCount < 0) {
+            PAOverviewTrends = {
+              sign: 'down',
+              data: dataPoint
+            };
+          } else {
+            PAOverviewTrends = {
+              sign: 'up',
+              data: dataPoint
+            };
+          }
+        } else {
+          PAOverviewTrends = null;
+        }
+        console.log(PAOverviewTrends);
 
         /* code changed by Ranjith kumar Ankam - 04-Jul-2019*/
         /*this.createPriorAuthObject(providerSystems)
@@ -923,11 +946,11 @@ export class OverviewSharedService {
 
         if (
           trends &&
-          trends.hasOwnProperty('TrendingMetricsCounts') &&
-          trends.TrendingMetricsCounts.hasOwnProperty('PAApprovedCountTrendPer')
+          trends.hasOwnProperty('TendingMtrics') &&
+          trends.TendingMtrics.hasOwnProperty('PaApprovedCount')
         ) {
-          const dataPoint = trends.TrendingMetricsCounts.PAApprovedCountTrendPer[0].toFixed(1) + '%';
-          if (trends.TrendingMetricsCounts.PAApprovedCountTrendPer[0] < 0) {
+          const dataPoint = trends.TendingMtrics.PaApprovedCount.toFixed(1) + '%';
+          if (trends.TendingMtrics.PaApprovedCount < 0) {
             PAOverviewTrends = {
               sign: 'down',
               data: dataPoint

@@ -37,6 +37,8 @@ export class OverviewService {
 
     const executiveURL = this.APP_URL + this.EXECUTIVE_SERVICE_PATH + parameters[0];
     const claimsURL = this.APP_URL + this.CLAIMS_SERVICE_PATH + parameters[0] + '?requestType=PAYMENT_METRICS';
+    const trendsURL = this.APP_URL + this.TRENDING_METRICS_PATH + parameters[0];
+
     return combineLatest(
       this.http.get(executiveURL, { params: eparams }).pipe(
         map(res => JSON.parse(JSON.stringify(res))),
@@ -44,6 +46,10 @@ export class OverviewService {
       ),
       this.http.post(claimsURL, tParams).pipe(
         map(res => JSON.parse(JSON.stringify(res[0]))),
+        catchError(err => of(JSON.parse(JSON.stringify(err))))
+      ),
+      this.http.get(trendsURL).pipe(
+        map(res => JSON.parse(JSON.stringify(res))),
         catchError(err => of(JSON.parse(JSON.stringify(err))))
       )
     );

@@ -51,6 +51,8 @@ export class OverviewComponent implements OnInit, AfterContentInit {
   errorloadTotalCallsCard = false;
   /***************** DONT CHANGE THESE *************/
 
+  trendsData: any;
+
   constructor(
     private overviewsrc: OverviewSharedService,
     private checkStorage: StorageService,
