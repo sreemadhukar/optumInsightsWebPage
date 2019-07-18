@@ -261,6 +261,18 @@ export class GettingReimbursedSharedService {
               claimsData[lobData].ClaimsLobSummary.length &&
               claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('AmountPaid')
             ) {
+              let colorcodes;
+              if (lobData === 'All') {
+                colorcodes = ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'];
+              } else if (lobData === 'Mr') {
+                colorcodes = ['#3381FF'];
+              } else if (lobData === 'Cs') {
+                colorcodes = ['#80B0FF'];
+              } else if (lobData === 'Ei') {
+                colorcodes = ['#003DA1'];
+              } else {
+                colorcodes = ['#00B8CC'];
+              }
               const paidData = [];
               if (claimsData.hasOwnProperty('Mr') && claimsData.Mr != null) {
                 if (
@@ -298,6 +310,9 @@ export class GettingReimbursedSharedService {
                   paidData.push(claimsData.Un.ClaimsLobSummary[0].AmountPaid);
                 }
               }
+              if (lobData !== 'All') {
+                paidData.push(0);
+              }
               claimsPaid = {
                 category: 'app-card',
                 type: 'donutWithLabel',
@@ -309,7 +324,7 @@ export class GettingReimbursedSharedService {
                     this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].AmountPaid) > 0
                       ? '< $1'
                       : '$' + this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].AmountPaid),
-                  color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'],
+                  color: colorcodes,
                   gdata: ['card-inner', 'claimsPaid'],
                   sdata: {
                     sign: '',
@@ -325,7 +340,7 @@ export class GettingReimbursedSharedService {
                 timeperiod: this.timeFrame
               };
               // AUTHOR: MADHUKAR - claims paid shows no color if the value is 0
-              if (!paidData[0] && !paidData[1] && !paidData[2]) {
+              if (!paidData[0] && !paidData[1] && !paidData[2] && !paidData[3]) {
                 claimsPaid = {
                   category: 'app-card',
                   type: 'donutWithLabel',
