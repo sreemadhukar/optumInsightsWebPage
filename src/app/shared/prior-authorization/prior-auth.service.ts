@@ -1054,6 +1054,8 @@ export class PriorAuthSharedService {
   }
 
   getPriorAuthDataCombined(filterParameters) {
+    console.log(this.common.convertServiceCategoryOneWord('Unproven, Experimental, Investigational'));
+
     return new Promise(resolve => {
       this.getPriorAuthDataFiltered(filterParameters)
         .then(data => {

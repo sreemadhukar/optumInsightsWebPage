@@ -23,7 +23,7 @@ export class OverviewSharedService {
     private session: SessionService,
     private toggle: AuthorizationService,
     private callsTrendService: CallsTrendService,
-    private trendsSerive: TrendingMetricsService
+    private trendsService: TrendingMetricsService
   ) {}
   getOverviewData() {
     this.timeFrame = this.session.timeFrame;
@@ -41,7 +41,7 @@ export class OverviewSharedService {
         parameters = [this.providerKey, true];
       }
 
-      this.trendsSerive.getTrendingMetrics([this.providerKey]).subscribe(data => {
+      this.trendsService.getTrendingMetrics([this.providerKey]).subscribe(data => {
         console.log(data);
       });
 

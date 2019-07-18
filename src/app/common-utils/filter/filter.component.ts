@@ -42,7 +42,7 @@ export class FilterComponent implements OnInit {
     'Surgical',
     'Maternity',
     'Transplant',
-    'Cosmetic / Reconstructive',
+    'Cosmetic/Reconstructive',
     'Mental Health',
     'Ambulance Air/Water',
     'Chiropractic',
