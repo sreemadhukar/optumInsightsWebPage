@@ -277,6 +277,16 @@ export class GettingReimbursedSharedService {
                 claimsData.Cs.ClaimsLobSummary[0].AmountPaid,
                 claimsData.Ei.ClaimsLobSummary[0].AmountPaid
               ];
+              let colorcodes;
+              if (lobData === 'All') {
+                colorcodes = ['#3381FF', '#80B0FF', '#003DA1'];
+              } else if (lobData === 'Mr') {
+                colorcodes = ['#3381FF', '#3381FF', '#3381FF'];
+              } else if (lobData === 'Cs') {
+                colorcodes = ['#80B0FF', '#80B0FF', '#80B0FF'];
+              } else {
+                colorcodes = ['#003DA1', '#003DA1', '#003DA1'];
+              }
               claimsPaid = {
                 category: 'app-card',
                 type: 'donutWithLabel',
@@ -288,7 +298,7 @@ export class GettingReimbursedSharedService {
                     this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].AmountPaid) > 0
                       ? '< $1'
                       : '$' + this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].AmountPaid),
-                  color: ['#3381FF', '#80B0FF', '#003DA1'],
+                  color: colorcodes,
                   gdata: ['card-inner', 'claimsPaid'],
                   sdata: {
                     sign: '',
