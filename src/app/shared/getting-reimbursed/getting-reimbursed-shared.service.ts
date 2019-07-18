@@ -425,7 +425,6 @@ export class GettingReimbursedSharedService {
               timeperiod: null
             };
           } else if (appealsData != null) {
-            console.log('am here', lobFullData);
             if (
               appealsData.hasOwnProperty('LineOfBusiness') &&
               appealsData.LineOfBusiness.hasOwnProperty(lobFullData) &&
@@ -556,7 +555,6 @@ export class GettingReimbursedSharedService {
     this.timeFrame = this.session.filterObjValue.timeFrame;
     this.providerKey = this.session.providerKeyData();
     const summaryData: Array<object> = [];
-
     return new Promise(resolve => {
       let parameters;
       let appeals: object;
@@ -576,7 +574,7 @@ export class GettingReimbursedSharedService {
       if (
         this.timeFrame === 'Last 12 Months' ||
         this.timeFrame === 'Last 6 Months' ||
-        this.timeFrame === 'Year To Date'
+        this.timeFrame === 'Year to Date'
       ) {
         if (this.timeFrame === 'Last 12 Months') {
           if (this.tin !== 'All' && this.lob !== 'All') {
@@ -594,21 +592,18 @@ export class GettingReimbursedSharedService {
           } else {
             parameters = [this.providerKey, { TimeFilter: 'Last12Months' }];
           }
-        } else if (this.timeFrame === 'Year To Date') {
+        } else if (this.timeFrame === 'Year to Date') {
           if (this.tin !== 'All' && this.lob !== 'All') {
             parameters = [
               this.providerKey,
-              { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'YearToDate', Tin: this.tin }
+              { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'YTD', Tin: this.tin }
             ];
           } else if (this.tin !== 'All') {
-            parameters = [this.providerKey, { TimeFilter: 'YearToDate', Tin: this.tin }];
+            parameters = [this.providerKey, { TimeFilter: 'YTD', Tin: this.tin }];
           } else if (this.lob !== 'All') {
-            parameters = [
-              this.providerKey,
-              { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'YearToDate' }
-            ];
+            parameters = [this.providerKey, { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'YTD' }];
           } else {
-            parameters = [this.providerKey, { TimeFilter: 'YearToDate' }];
+            parameters = [this.providerKey, { TimeFilter: 'YTD' }];
           }
         } else if (this.timeFrame === 'Last 6 Months') {
           if (this.tin !== 'All' && this.lob !== 'All') {
@@ -1262,7 +1257,6 @@ export class GettingReimbursedSharedService {
             const trendTimePeriod = element.ReportingPeriod;
             const trendTimePeriodArr = trendTimePeriod.split('-');
             const trendTimePeriodFinal = trendTimePeriodArr[1];
-            // console.log(tpFinal);
             filter_data_claimSummary.push({
               name: this.ReturnMonthlyString(trendTimePeriodFinal),
               value: trendMonthValue,
@@ -1461,8 +1455,6 @@ export class GettingReimbursedSharedService {
       }*/
 
       this.gettingReimbursedService.getPaymentIntegrityData(parameters).subscribe(r => {
-        console.log(r);
-
         if (r !== null && r !== '') {
           const result: any = r;
           const output: any = {};
