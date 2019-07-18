@@ -95,10 +95,7 @@ export class SelfSharedService {
                   centerNumber: this.common.percentageFormatter(utilization.OverallLinkAdoptionRate * 100),
                   color: ['#3381FF', '#D7DCE1'],
                   gdata: ['card-inner', 'selfAdoptionRate'],
-                  sdata: {
-                    sign: 'down',
-                    data: '-1.3%'
-                  }
+                  sdata: null
                 },
                 this.timeFrame
               );
@@ -114,10 +111,11 @@ export class SelfSharedService {
                   centerNumber: this.common.percentageFormatter(utilization.LinkAdoptionRate * 100),
                   color: ['#3381FF', '#D7DCE1'],
                   gdata: ['card-inner', 'linkAndEdiCallRatio'],
-                  sdata: {
-                    sign: 'up',
-                    data: '+1.3%'
-                  }
+                  sdata: null
+                  // sdata: {
+                  //   sign: 'up',
+                  //   data: '+1.3%'
+                  // }
                 },
                 this.timeFrame
               );
@@ -135,10 +133,7 @@ export class SelfSharedService {
                   centerNumber: this.common.percentageFormatter(utilization.PaperAndPostageAdoptionRate * 100),
                   color: ['#3381FF', '#D7DCE1'],
                   gdata: ['card-inner', 'paperlessDelivery'],
-                  sdata: {
-                    sign: 'down',
-                    data: '-3.7%'
-                  }
+                  sdata: null
                 },
                 this.timeFrame
               );

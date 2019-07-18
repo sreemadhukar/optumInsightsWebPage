@@ -12,23 +12,28 @@ import { Location } from '@angular/common';
 export class FilterComponent implements OnInit {
   public lobData: string;
   public serviceSettingData: string;
+  public priorAuthTypeData: string;
   public arrowmark: boolean;
   public taxData: string;
   public tarrowmark: boolean;
   public tiarrowmark: boolean;
   public ssarrowmark: boolean;
+  public patypearrowmark: boolean;
   public tinsData: any;
   public taxValue: string;
   public inputDisplay = false;
-  public serviceSettingDisplay = false;
+  // prior auth has 3 unique filters so make one bool
+  public priorAuthorizationCustomFilterBool = false;
   public taxArrayData = [];
   public timeframeData: any;
   public filterData: any;
   @Output() filterFlag = new EventEmitter();
   @Input() filterurl;
   public timeframes = ['Last 6 Months', 'Last 12 Months', 'Year to Date', '2018', '2017'];
-  public lobs = ['All', 'Community & State', 'Employee & Individual', 'Medicare & Retirement'];
+  public lobs = ['All', 'Community & State', 'Employer & Individual', 'Medicare & Retirement'];
   public servicesettings = ['All', 'Inpatient', 'Outpatient', 'Outpatient Facility'];
+  public priorauthdecisiontype = ['All', 'Administrative', 'Clinical'];
+  public priorauthservicecategory = ['All'];
   constructor(
     private iconRegistry: MatIconRegistry,
     sanitizer: DomSanitizer,
@@ -54,6 +59,7 @@ export class FilterComponent implements OnInit {
     this.tarrowmark = false;
     this.tiarrowmark = false;
     this.ssarrowmark = false;
+    this.patypearrowmark = false;
     iconRegistry.addSvgIcon(
       'arrowdn',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-keyboard_arrow_down-24px.svg')
@@ -69,16 +75,29 @@ export class FilterComponent implements OnInit {
       this.arrowmark = false;
       this.taxValue = '';
       this.tiarrowmark = false;
+      this.ssarrowmark = false;
+      this.patypearrowmark = false;
     } else if (value === 'lob') {
       this.arrowmark = !this.arrowmark;
       this.tarrowmark = false;
       this.tiarrowmark = false;
+      this.ssarrowmark = false;
+      this.patypearrowmark = false;
     } else if (value === 'timeframe') {
       this.tiarrowmark = !this.tiarrowmark;
       this.arrowmark = false;
       this.tarrowmark = false;
+      this.ssarrowmark = false;
+      this.patypearrowmark = false;
     } else if (value === 'servicesetting') {
       this.ssarrowmark = !this.ssarrowmark;
+      this.arrowmark = false;
+      this.tarrowmark = false;
+      this.tiarrowmark = false;
+      this.patypearrowmark = false;
+    } else if (value === 'priorauthtype') {
+      this.patypearrowmark = !this.patypearrowmark;
+      this.ssarrowmark = false;
       this.arrowmark = false;
       this.tarrowmark = false;
       this.tiarrowmark = false;
@@ -86,16 +105,20 @@ export class FilterComponent implements OnInit {
   }
   ngOnInit() {
     if (this.location.path() === '/CareDelivery/priorAuth') {
-      this.serviceSettingDisplay = true;
+      this.priorAuthorizationCustomFilterBool = true;
       if (this.session.filterObjValue.serviceSetting) {
         this.serviceSettingData = this.session.filterObjValue.serviceSetting;
       } else {
         this.serviceSettingData = this.servicesettings[0];
       }
+      if (this.session.filterObjValue.priorAuthType) {
+        this.priorAuthTypeData = this.session.filterObjValue.priorAuthType;
+      } else {
+        this.priorAuthTypeData = this.priorauthdecisiontype[0];
+      }
     } else {
-      this.serviceSettingDisplay = false;
+      this.priorAuthorizationCustomFilterBool = false;
     }
-    console.log(this.serviceSettingDisplay);
     this.lobData = this.session.filterObjValue.lob;
     this.session.getTins().then(data => {
       this.tinsData = data;
@@ -112,13 +135,14 @@ export class FilterComponent implements OnInit {
     this.session.filterObjValue.timeFrame = this.timeframeData = this.timeframes[0];
     this.session.filterObjValue.tax = ['All'];
     this.taxData = 'All';
-    if (this.serviceSettingDisplay) {
+    if (this.priorAuthorizationCustomFilterBool) {
       this.session.filterObjValue.serviceSetting = this.servicesettings[0];
       this.session.store({
         timeFrame: this.timeframes[0],
         lob: this.lobs[0],
         tax: ['All'],
-        serviceSetting: this.servicesettings[0]
+        serviceSetting: this.servicesettings[0],
+        priorAuthType: this.priorauthdecisiontype[0]
       });
     } else {
       this.session.store({ timeFrame: this.timeframes[0], lob: this.lobs[0], tax: ['All'] });
@@ -128,24 +152,26 @@ export class FilterComponent implements OnInit {
   applyFilter() {
     if (this.taxArrayData.length > 0) {
       //  this.session.filterObjValue.tax = this.taxArrayData;
-      if (this.serviceSettingDisplay) {
+      if (this.priorAuthorizationCustomFilterBool) {
         this.session.store({
           timeFrame: this.timeframeData,
           lob: this.lobData,
           tax: this.taxArrayData,
-          serviceSetting: this.serviceSettingData
+          serviceSetting: this.serviceSettingData,
+          priorAuthType: this.priorAuthTypeData
         });
       } else {
         this.session.store({ timeFrame: this.timeframeData, lob: this.lobData, tax: this.taxArrayData });
       }
     } else {
       // this.session.filterObjValue.tax = [this.taxData];
-      if (this.serviceSettingDisplay) {
+      if (this.priorAuthorizationCustomFilterBool) {
         this.session.store({
           timeFrame: this.timeframeData,
           lob: this.lobData,
           tax: [this.taxData],
-          serviceSetting: this.serviceSettingData
+          serviceSetting: this.serviceSettingData,
+          priorAuthType: this.priorAuthTypeData
         });
       } else {
         this.session.store({ timeFrame: this.timeframeData, lob: this.lobData, tax: [this.taxData] });

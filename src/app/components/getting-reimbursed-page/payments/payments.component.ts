@@ -84,6 +84,7 @@ export class PaymentsComponent implements OnInit {
         this.loading = false;
         this.paymentsItems = JSON.parse(JSON.stringify(completeData));
         this.payments = this.paymentsItems[1].data;
+        console.log(this.payments);
       })
       .catch(reason => {
         this.loading = false;
@@ -95,6 +96,7 @@ export class PaymentsComponent implements OnInit {
       }
     ];
 
+    // this.claimsPaidBreakBool = false;
     this.gettingReimbursedSharedService.getclaimsPaidData().then(
       payData => {
         this.claimsPaidBreakBool = true;

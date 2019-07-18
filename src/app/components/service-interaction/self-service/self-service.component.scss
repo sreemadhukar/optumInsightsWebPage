@@ -4,11 +4,14 @@
 .selfService-body {
   overflow: hidden;
   padding-bottom: 60px;
+  background-color: $alice-blue;
   .selfService-content {
     display: flex;
     flex-wrap: wrap;
     justify-content: left;
-    padding-left: 40px;
+    width: 1000px;
+    margin: auto;
+
     .height1Separator {
       height: 0;
       width: 1200px;

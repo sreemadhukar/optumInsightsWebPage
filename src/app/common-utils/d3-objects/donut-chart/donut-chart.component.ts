@@ -73,8 +73,17 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
           .text(null)
           .append('tspan')
           .attr('x', 12.5)
-          .attr('y', y)
-          .attr('dy', dy + 'em');
+          .attr('y', y);
+
+        if (!Number.isNaN(dy)) {
+          tspan = textLabel
+            .text(null)
+            .append('tspan')
+            .attr('x', 12.5)
+            .attr('y', y)
+            .attr('dy', dy + 'em');
+        }
+
         let i = 0;
         let dyMultiplier = 1;
         while ((word = words.pop())) {
@@ -183,14 +192,20 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
         .style('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'");
     }
 
-    if (chartOptions.hasOwnProperty('sdata') && chartOptions.sdata != null) {
+    if (
+      chartOptions.hasOwnProperty('sdata') &&
+      chartOptions.sdata != undefined &&
+      chartOptions.sdata != null &&
+      chartOptions.sdata.sign != undefined &&
+      chartOptions.sdata.sign != null
+    ) {
       if (chartOptions.sdata.sign === 'up') {
         chart
           .append('circle')
           .attr('cx', -24)
           .attr('cy', 29)
           .attr('r', 16)
-          .attr('fill', '#e1fadf');
+          .attr('fill', '#e1fadf'); // green color
 
         if (chartOptions.hasOwnProperty('graphScreen') && chartOptions.graphScreen === 'PI') {
           chart
@@ -214,7 +229,7 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
           .attr('x', 0)
           .attr('y', 32)
           .style('font-size', '14px')
-          .style('fill', '#007000')
+          .style('fill', '#007000') // green color
           .style('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
           .style('text-anchor', 'start')
           .text(chartOptions.sdata.data);
@@ -253,13 +268,118 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
           .style('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
           .style('text-anchor', 'start')
           .text(chartOptions.sdata.data);
+      } else if (chartOptions.sdata.sign === 'up-red') {
+        chart
+          .append('circle')
+          .attr('cx', -24)
+          .attr('cy', 29)
+          .attr('r', 16)
+          .attr('fill', '#ffe6f0');
+
+        if (chartOptions.hasOwnProperty('graphScreen') && chartOptions.graphScreen === 'PI') {
+          chart
+            .append('svg:image')
+            .attr('x', -35)
+            .attr('y', 19)
+            .attr('width', '20px')
+            .attr('height', '20px')
+            .attr('xlink:href', 'src/assets/images/up-negative-no-circle.svg');
+        } else {
+          chart
+            .append('svg:image')
+            .attr('x', -36)
+            .attr('y', 19)
+            .attr('width', '20px')
+            .attr('height', '20px')
+            .attr('xlink:href', 'src/assets/images/up-negative-no-circle.svg');
+        }
+        chart
+          .append('text')
+          .attr('x', 0)
+          .attr('y', 32)
+          .style('font-size', '14px')
+          .style('fill', '#b10c00') // red color
+          .style('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
+          .style('text-anchor', 'start')
+          .text(chartOptions.sdata.data);
+      } else if (chartOptions.sdata.sign === 'down-green') {
+        chart
+          .append('circle')
+          .attr('cx', -24)
+          .attr('cy', 29)
+          .attr('r', 16)
+          .attr('fill', '#e1fadf'); // green color
+
+        if (chartOptions.hasOwnProperty('graphScreen') && chartOptions.graphScreen === 'PI') {
+          chart
+            .append('svg:image')
+            .attr('x', -36)
+            .attr('y', 19)
+            .attr('width', '20px')
+            .attr('height', '20px')
+            .attr('xlink:href', 'src/assets/images/down-positive-no-circle.svg');
+        } else {
+          chart
+            .append('svg:image')
+            .attr('x', -36)
+            .attr('y', 19)
+            .attr('width', '20px')
+            .attr('height', '20px')
+            .attr('fill', '#ffe6f0')
+            .attr('xlink:href', 'src/assets/images/down-positive-no-circle.svg');
+        }
+
+        chart
+          .append('text')
+          .attr('x', 0)
+          .attr('y', 32)
+          .style('font-size', '14px')
+          .style('fill', '#007000') // green color
+          .style('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
+          .style('text-anchor', 'start')
+          .text(chartOptions.sdata.data);
+      } else if (chartOptions.sdata.sign === 'neutral') {
+        chart
+          .append('circle')
+          .attr('cx', -39)
+          .attr('cy', 29)
+          .attr('r', 16)
+          .attr('fill', '#e0e0e0');
+
+        if (chartOptions.hasOwnProperty('graphScreen') && chartOptions.graphScreen === 'PI') {
+          chart
+            .append('svg:image')
+            .attr('x', -50)
+            .attr('y', 19)
+            .attr('width', '20px')
+            .attr('height', '20px')
+            .attr('xlink:href', 'src/assets/images/up-negative-no-circle.svg');
+        } else {
+          chart
+            .append('svg:image')
+            .attr('x', -50)
+            .attr('y', 19)
+            .attr('width', '20px')
+            .attr('height', '20px')
+            .attr('xlink:href', 'src/assets/images/flat-no-change.svg');
+        }
+
+        chart
+          .append('text')
+          .attr('x', -15)
+          .attr('y', 32)
+          .style('font-size', '14px')
+          .style('fill', '#2d2d39')
+          .style('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
+          .style('text-anchor', 'start')
+          .text(chartOptions.sdata.data);
       }
     } else {
       if (this.donutType === 'app-card') {
         text = chart
           .append('text')
           .attr('text-anchor', 'middle')
-          .attr('y', 8)
+          .attr('y', 14)
           .style('font-size', '41px')
           .style('fill', '#2d2d39')
           .style('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")

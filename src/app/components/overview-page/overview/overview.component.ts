@@ -24,6 +24,32 @@ export class OverviewComponent implements OnInit, AfterContentInit {
   welcomeMessage: String = '';
   subscription: any;
   loading = false;
+  claimsLoading = false;
+  callsLoading = false;
+  priorAuthLoading = false;
+
+  /***************** DONT CANGE THESE *************/
+  claimsPaidBlock: any;
+  priorAuthBlock: any;
+  selfServiceAdoptionBlock: any;
+  claimsYieldBlock: any;
+  medicareStarRatingBlock: any;
+  totalCallsBlock: any;
+
+  loadClaimsPaidCard = false;
+  loadClaimsYieldCard = false;
+  loadPrioirAuthCard = false;
+  loadselfServiceAdoptionCard = false;
+  loadMedicareStarRatingCard = false;
+  loadTotalCallsCard = false;
+
+  errorloadClaimsPaidCard = false;
+  errorloadClaimsYieldCard = false;
+  errorloadPrioirAuthCard = false;
+  errorloadselfServiceAdoptionCard = false;
+  errorloadMedicareStarRatingCard = false;
+  errorloadTotalCallsCard = false;
+  /***************** DONT CHANGE THESE *************/
 
   constructor(
     private overviewsrc: OverviewSharedService,
@@ -44,6 +70,110 @@ export class OverviewComponent implements OnInit, AfterContentInit {
     );
   }
   ngOnInit() {
+    /***************** DELETE LATER *************/
+    /*this.claimsPaidBlock = {
+      category: "small-card",
+      data: {
+        centerNumber: "$3434.6M",
+        color: ["#3381FF", "#80B0FF", "#003DA1"],
+        gdata: ["card-inner", "claimsPaidCardD3Donutss"],
+        graphValues: [13440154.46, 65374225.25, 114778212.67]
+      },
+      sdata: {},
+      timeperiod: "Last 6 Months",
+      title: "Claims Paidss",
+      toggle: true,
+      type: "donut"
+    };
+
+    this.claimsYieldBlock = {
+      category: "small-card",
+      data: {
+        centerNumber: "55%",
+        color: ["#3381FF", "#D7DCE1"],
+        gdata: ["card-inner", "claimsYieldCardD3Donutss"],
+        graphValues: [100, 0]
+      },
+      sdata: {},
+      timeperiod: "Last 6 Months",
+      title: "Claims Yieldss",
+      toggle: true,
+      type: "donut"
+    }*/
+    this.claimsLoading = true;
+
+    /* SERVICE CALL TO GET CLAIMS CARDS DATA */
+    this.overviewsrc
+      .getClaimsCards()
+      .then(data => {
+        this.loadClaimsPaidCard = false;
+        this.loadClaimsYieldCard = false;
+
+        this.errorloadClaimsPaidCard = false;
+        this.errorloadClaimsYieldCard = false;
+
+        this.claimsLoading = false;
+        this.claimsPaidBlock = data[0];
+        this.claimsYieldBlock = data[1];
+        if (this.claimsPaidBlock.data != null && this.claimsPaidBlock.toggle) {
+          this.loadClaimsPaidCard = true;
+        } else if (this.claimsPaidBlock.status != null && this.claimsPaidBlock.toggle) {
+          this.errorloadClaimsPaidCard = true;
+        }
+        if (this.claimsYieldBlock.data != null && this.claimsYieldBlock.toggle) {
+          this.loadClaimsYieldCard = true;
+        } else if (this.claimsYieldBlock.status != null && this.claimsYieldBlock.toggle) {
+          this.errorloadClaimsYieldCard = true;
+        }
+        console.log(this.claimsPaidBlock);
+        console.log(this.claimsYieldBlock);
+      })
+      .catch(reason => {
+        this.claimsLoading = true;
+        console.log(reason);
+      });
+
+    /* SERVICE CALL TO GET DATA FOR PRIOR AUTH CARD */
+    this.priorAuthLoading = true;
+    this.overviewsrc
+      .getPriorAuthCardData()
+      .then(data => {
+        this.loadPrioirAuthCard = false;
+        this.errorloadPrioirAuthCard = false;
+        this.priorAuthLoading = false;
+        this.priorAuthBlock = data;
+        if (this.priorAuthBlock.data != null && this.priorAuthBlock.toggle) {
+          this.loadPrioirAuthCard = true;
+        } else if (this.priorAuthBlock.status != null && this.priorAuthBlock.toggle) {
+          this.errorloadPrioirAuthCard = true;
+        }
+      })
+      .catch(reason => {
+        this.priorAuthLoading = true;
+        console.log(reason);
+      });
+
+    /* SERVICE CALL TO GET DATA FOR CALLS CARD */
+    this.callsLoading = true;
+    this.overviewsrc
+      .getTotalCallsCardData()
+      .then(data => {
+        this.callsLoading = false;
+        this.loadTotalCallsCard = false;
+        this.errorloadTotalCallsCard = false;
+        this.totalCallsBlock = data;
+        if (this.totalCallsBlock.data != null && this.totalCallsBlock.toggle) {
+          this.loadTotalCallsCard = true;
+        } else if (this.totalCallsBlock.status != null && this.totalCallsBlock.toggle) {
+          this.errorloadTotalCallsCard = true;
+        }
+      })
+      .catch(reason => {
+        this.callsLoading = true;
+        console.log(reason);
+      });
+
+    /***************** DON"T CHANGE THESE *************/
     this.loading = true;
     this.mockMainCards = [{}, {}, {}, {}, {}, {}];
     this.mockSelfServiceMiniCards = [{}, {}, {}, {}];
@@ -53,10 +183,33 @@ export class OverviewComponent implements OnInit, AfterContentInit {
     this.overviewsrc
       .getOverviewData()
       .then(data => {
+        this.loadselfServiceAdoptionCard = false;
+        this.loadMedicareStarRatingCard = false;
+
+        this.errorloadselfServiceAdoptionCard = false;
+        this.errorloadMedicareStarRatingCard = false;
+
         this.loading = false;
         this.overviewItems = JSON.parse(JSON.stringify(data));
+        console.log(this.overviewItems[0]);
         this.mainCards = this.overviewItems[0];
+
+        this.selfServiceAdoptionBlock = this.mainCards[0];
+        this.medicareStarRatingBlock = this.mainCards[1];
+
+        if (this.selfServiceAdoptionBlock.data != null && this.selfServiceAdoptionBlock.toggle) {
+          this.loadselfServiceAdoptionCard = true;
+        } else if (this.selfServiceAdoptionBlock.status != null && this.selfServiceAdoptionBlock.toggle) {
+          this.errorloadselfServiceAdoptionCard = true;
+        }
+        if (this.medicareStarRatingBlock.data != null && this.medicareStarRatingBlock.toggle) {
+          this.loadMedicareStarRatingCard = true;
+        } else if (this.medicareStarRatingBlock.status != null && this.medicareStarRatingBlock.toggle) {
+          this.errorloadMedicareStarRatingCard = true;
+        }
+
         this.selfServiceMiniCards = this.overviewItems[1];
+        console.log(this.overviewItems[0]);
       })
       .catch(reason => {
         this.loading = true;

@@ -1,14 +1,11 @@
 @import '~src/scss/variables.scss';
 @import '~src/scss/mixins';
 .breadcrumb-top-padding {
-  @include margin(12px, 0, 12px, 0);
+  @include margin(8px, 0, 12px, 0);
   box-sizing: border-box;
   font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
   width: 961px;
-  .filter-div {
-    overflow: auto;
-    line-height: 0;
-  }
+
   .filter_bg {
     height: 40px;
     width: 100px;
@@ -17,6 +14,8 @@
     border-radius: 2px;
     float: right;
     cursor: pointer;
+    margin-right: 7px;
+
     .filter_title {
       color: $blue;
       font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
@@ -37,6 +36,7 @@
   .filter_bg:focus {
     background-color: #196ecf;
     color: #ffffff;
+    box-shadow: 0 4px 0px 0 rgba(0, 0, 0, 0.15);
     .filter_title {
       color: #ffffff;
     }
@@ -56,11 +56,29 @@
   }
 }
 
-.page-title {
-  flex-basis: 100%;
-  font-size: 36px;
-  @include padding(16px, 0, 20px, 0);
-  line-height: 40px;
+.appeals-content {
+  display: flex;
+  justify-content: left;
+  width: 1000px;
+  margin: auto;
+  flex-wrap: wrap;
+  .cust-width-title {
+    width: 961px;
+    font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+    color: $black-rock;
+    margin-left: 10px;
+  }
+  .page-title {
+    flex-basis: 100%;
+    font-size: 36px;
+    @include padding(16px, 0, 20px, 0);
+    line-height: 40px;
+    font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+  }
+  .filter-div {
+    overflow: auto;
+    line-height: 0;
+  }
 }
 
 .time-period {
@@ -76,7 +94,7 @@
 }
 .time--period {
   .filterchips {
-    width: 857px;
+    width: 845px;
     float: left;
     .horizontal-align {
       display: inline-block;
@@ -116,7 +134,7 @@
 .full-display {
   float: left;
   width: 100%;
-  padding-bottom: 39px;
+  padding-bottom: 20px; // centre aligned to card
 }
 
 .overturn-reason-block {
@@ -136,7 +154,7 @@
 
 .appeals-overturned-bar-chart {
   padding-bottom: 16px;
-  padding-left: 89px;
+  padding-left: 75px; // centre aligned to card
 }
 
 .reason-time {

@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { CareDeliveryPageModule } from '../../components/care-delivery-page/care-delivery-page.module';
 import { environment } from '../../../environments/environment';
 import { HttpHeaders, HttpClient, HttpParams } from '@angular/common/http';
-import { map, retry, catchError } from 'rxjs/operators';
+import { map, catchError } from 'rxjs/operators';
 import { combineLatest, of } from 'rxjs';
 
 @Injectable({
@@ -32,13 +32,19 @@ export class PriorAuthService {
     const executiveURL = this.APP_URL + this.EXECUTIVE_SERVICE_PATH + parameters[0];
 
     return this.http.get(executiveURL, { params: eparams, headers: myHeader }).pipe(
-      retry(2),
       map(res => JSON.parse(JSON.stringify(res))),
       catchError(err => of(JSON.parse(JSON.stringify(err))))
     );
   }
 
-  public getPriorAuthDateRange(timeRange: string, allTin: boolean, allLOB: boolean, isAllSS: boolean, ...parameters) {
+  public getPriorAuthDateRange(
+    timeRange: string,
+    allTin: boolean,
+    allLOB: boolean,
+    isAllSS: boolean,
+    isDecisionType: boolean,
+    ...parameters
+  ) {
     this.currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
     this.authBearer = this.currentUser[0].PedAccessToken;
     const myHeader = new HttpHeaders({
@@ -127,9 +133,12 @@ export class PriorAuthService {
         params = params.append('mAndRLob', parameters[8]);
       }
     }
-
     if (isAllSS) {
       params = params.append('allNotApprovedSettings', parameters[9]);
+    }
+    if (isDecisionType) {
+      params = params.append('decisionType', parameters[10]);
+      params = params.append('decisionValue', parameters[11]);
     }
 
     return this.http.post(url, params, { headers: myHeader }).pipe(
