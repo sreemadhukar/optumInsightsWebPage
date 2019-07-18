@@ -30,7 +30,7 @@ export class NonPaymentSharedService {
       if (
         this.timeFrame === 'Last 12 Months' ||
         this.timeFrame === 'Last 6 Months' ||
-        this.timeFrame === 'Year To Date'
+        this.timeFrame === 'Year to Date'
       ) {
         if (this.timeFrame === 'Last 12 Months') {
           if (this.tin !== 'All' && this.lob !== 'All') {
@@ -48,21 +48,18 @@ export class NonPaymentSharedService {
           } else {
             parameters = [this.providerKey, { TimeFilter: 'Last12Months' }];
           }
-        } else if (this.timeFrame === 'Year To Date') {
+        } else if (this.timeFrame === 'Year to Date') {
           if (this.tin !== 'All' && this.lob !== 'All') {
             parameters = [
               this.providerKey,
-              { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'YearToDate', Tin: this.tin }
+              { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'YTD', Tin: this.tin }
             ];
           } else if (this.tin !== 'All') {
-            parameters = [this.providerKey, { TimeFilter: 'YearToDate', Tin: this.tin }];
+            parameters = [this.providerKey, { TimeFilter: 'YTD', Tin: this.tin }];
           } else if (this.lob !== 'All') {
-            parameters = [
-              this.providerKey,
-              { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'YearToDate' }
-            ];
+            parameters = [this.providerKey, { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'YTD' }];
           } else {
-            parameters = [this.providerKey, { TimeFilter: 'YearToDate' }];
+            parameters = [this.providerKey, { TimeFilter: 'YTD' }];
           }
         } else if (this.timeFrame === 'Last 6 Months') {
           if (this.tin !== 'All' && this.lob !== 'All') {

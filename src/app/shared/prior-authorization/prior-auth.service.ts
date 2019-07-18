@@ -226,7 +226,7 @@ export class PriorAuthSharedService {
                   type: 'singleBarChart',
                   title: 'Top Reasons for Prior Authorizations Not Approved',
                   data: {
-                    barHeight: 40,
+                    barHeight: 48,
                     barData: PriorAuthNotApprovedReasons[i].Count,
                     barSummation: barScaleMax,
                     barText: PriorAuthNotApprovedReasons[i].Reason,
@@ -742,7 +742,7 @@ export class PriorAuthSharedService {
                   type: 'singleBarChart',
                   title: 'Top Reasons for Prior Authorizations Not Approved',
                   data: {
-                    barHeight: 40,
+                    barHeight: 48,
                     barData: PriorAuthNotApprovedReasons[i].Count,
                     barSummation: barScaleMax,
                     barText: PriorAuthNotApprovedReasons[i].Reason,
