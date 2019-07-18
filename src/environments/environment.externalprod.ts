@@ -1,21 +1,19 @@
-// import { EnvironmentConfig } from './i.config';
-
 /**
  * Base Environment Configuration Instance
  * MAINTAIN ALPHABETIC ORDER
  */
 export const environment: any = {
-  apiProxyUrl: 'https://gateway-core.optum.com/api/pdr/uhci/v1/',
+  apiProxyUrl: '/uhci/prd2/',
   originUrl: '/',
   apiUrls: {
     ExecutiveSummaryPath: 'providersystems/',
-    ProviderSystemClaimsAgg: 'agg-claims/search/v2.0/',
-    ProviderSystemClaimsSummary: 'claims/search/v2.0/',
+    ProviderSystemClaimsAgg: 'agg-claims/search/',
+    ProviderSystemClaimsSummary: 'claims/search/',
     ProviderSystemPriorAuth: 'PriorAuthSummary/',
-    SsoTokenPath: 'myinsightOptumIdHandshake',
+    SsoTokenPath: 'myinsightOptumIdHandshake/v2.0',
     SsoRedirectUri:
-      'https://sso.uhc.com/ext/as/authorization.oauth2?pfidpadapterid=OptumIdOIDCStage&client_id=PED42235&response_' +
-      'type=code&redirect_uri=https://uhcinsights.uhc.com/login&scope=openid+profile+email&state=PED&prompt=none',
+      'https://sso.uhc.com/ext/as/authorization.oauth2?pfidpadapterid=OptumIdOIDC&client_id=PED42235&' +
+      'response_type=code&redirect_uri=https://uhcinsights.uhc.com/login&scope=openid+profile+email&state=PED&prompt=none',
     linkLoginPage: 'https://provider.linkhealth.com',
     ProvTinList: 'provider-tins/',
     LayerSevenPath: 'myinsightLayerSevenHandshake',
@@ -38,8 +36,8 @@ export const environment: any = {
     selectedRole: '',
     token: ''
   },
-  production: false,
-  staging: true,
+  production: true,
+  staging: false,
   sessionTimeOutKey: '',
   sessionTimeOutWarningKey: '',
   idleTimeOut: 360,
@@ -52,6 +50,6 @@ export const environment: any = {
   storagePrefix: '',
   errorMessage: 'empty',
   clickStreamUrl: '//assets.adobedtm.com/launch-ENacdc6d1acf734bcd95703e446bd1de1d-development.min.js',
-  internalAccess: true,
+  internalAccess: false,
   toggleTrendingSummary: false
 };
