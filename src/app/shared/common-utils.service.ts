@@ -23,23 +23,43 @@ export class CommonUtilsService {
       return (fnumber / 1000).toFixed(1).replace(/\.0$/, '') + 'K';
     }
     if (fnumber < 1000) {
-      return fnumber.toFixed(1).replace(/\.0$/, '');
+      return fnumber.toFixed(2).replace(/\.0$/, '');
     }
     return fnumber;
   }
-  public last30DaysTrend(last30: number, previousLast30: number): Object {
+  public trendNegativeMeansGood(last30: number, previousLast30: number): Object {
     const temp = ((last30 - previousLast30) / previousLast30) * 100;
     let value = '';
     const suffix = '%';
     let tempSign;
-    if (temp > 0) {
-      tempSign = 'up';
+    if (temp >= 1) {
+      tempSign = 'down'; // green color
       value = '+' + temp.toFixed() + suffix;
-    } else if (temp === 0) {
+    } else if (temp < 1 && temp >= 0) {
       tempSign = 'neutral';
       value = 'No Change';
     } else {
-      tempSign = 'down';
+      tempSign = 'up'; // red color
+      value = temp.toFixed() + suffix;
+    }
+    return {
+      sign: tempSign,
+      data: value
+    };
+  }
+  public trendNegativeMeansBad(last30: number, previousLast30: number): Object {
+    const temp = ((last30 - previousLast30) / previousLast30) * 100;
+    let value = '';
+    const suffix = '%';
+    let tempSign;
+    if (temp >= 1) {
+      tempSign = 'up'; // red color
+      value = '+' + temp.toFixed() + suffix;
+    } else if (temp < 1 && temp >= 0) {
+      tempSign = 'neutral';
+      value = 'No Change';
+    } else {
+      tempSign = 'down'; // green color
       value = temp.toFixed() + suffix;
     }
     return {

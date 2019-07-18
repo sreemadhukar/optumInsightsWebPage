@@ -119,7 +119,9 @@ export class CallsSharedService {
                       ],
                       centerNumber: this.common.nondecimalFormatter(totalCalls.Total),
                       color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'],
-                      gdata: ['card-inner', 'callsByCallType']
+                      gdata: ['card-inner', 'callsByCallType'],
+                      labels: ['Eligibilty and Benefits', 'Claims', 'Prior Authorizations', 'Others'],
+                      hover: true
                       // sdata: this.sdataTrend[0]
                     },
                     {
@@ -157,7 +159,9 @@ export class CallsSharedService {
                       ],
                       centerNumber: this.common.nondecimalFormatter(totalCalls.Total) + ' ' + ' Hrs',
                       color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'],
-                      gdata: ['card-inner', 'talkTimeByCallType']
+                      gdata: ['card-inner', 'talkTimeByCallType'],
+                      labels: ['Eligibilty and Benefits', 'Claims', 'Prior Authorizations', 'Others'],
+                      hover: true
                       // sdata: this.sdataTrend[1]
                     },
                     {
