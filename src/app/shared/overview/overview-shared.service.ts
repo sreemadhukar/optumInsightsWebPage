@@ -17,6 +17,7 @@ export class OverviewSharedService {
   private providerKey: number;
   private baseTimePeriod = 'Last30Days';
   private previousTimePeriod = 'PreviousLast30Days';
+  private priorAuthTrend;
   constructor(
     private overviewService: OverviewService,
     private common: CommonUtilsService,
@@ -40,10 +41,6 @@ export class OverviewSharedService {
         this.timeFrame = 'Last 12 Months';
         parameters = [this.providerKey, true];
       }
-
-      this.trendsService.getTrendingMetrics([this.providerKey]).subscribe(data => {
-        console.log(data);
-      });
 
       this.overviewService.getOverviewData(...parameters).subscribe(([providerSystems, claims]) => {
         // console.log('providerSystem', providerSystems);
@@ -925,8 +922,35 @@ export class OverviewSharedService {
         allNotApprovedSettings: true
       };
 
-      this.overviewService.getOverviewPriorAuth(parameters).subscribe(priorAuth => {
-        console.log(priorAuth);
+      this.overviewService.getOverviewPriorAuth(parameters).subscribe(([priorAuth, trends]) => {
+        let PAOverviewTrends: object;
+
+        if (
+          trends &&
+          trends.hasOwnProperty('TrendingMetricsCounts') &&
+          trends.TrendingMetricsCounts.hasOwnProperty('PAApprovedCountTrendPer')
+        ) {
+          const dataPoint = trends.TrendingMetricsCounts.PAApprovedCountTrendPer[0].toFixed(1) + '%';
+          if (trends.TrendingMetricsCounts.PAApprovedCountTrendPer[0] < 0) {
+            PAOverviewTrends = {
+              sign: 'down',
+              data: dataPoint
+            };
+          } else {
+            PAOverviewTrends = {
+              sign: 'up',
+              data: dataPoint
+            };
+          }
+        } else {
+          PAOverviewTrends = {
+            sign: '',
+            data: ''
+          };
+        }
+
+        console.log(PAOverviewTrends);
+
         let cPriorAuth: object;
         if (
           priorAuth &&
@@ -956,10 +980,7 @@ export class OverviewSharedService {
               color: ['#3381FF', '#D7DCE1'],
               gdata: ['card-inner', 'priorAuthCardD3Donut']
             },
-            sdata: {
-              sign: '',
-              data: ''
-            },
+            sdata: PAOverviewTrends,
             timeperiod: 'Last 6 Months'
           };
         } else {
