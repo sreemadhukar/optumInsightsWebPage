@@ -93,7 +93,9 @@ export class ProviderSearchComponent implements OnInit, AfterViewInit {
       (<HTMLElement>document.querySelector('.mat-autocomplete-panel')).style.height = '0';
     }
     if (this.stateCtrl.value && this.stateCtrl.value !== '') {
-      (<HTMLElement>document.querySelector('.mat-autocomplete-panel')).style.height = 'auto';
+      if (document.querySelector('.mat-autocomplete-panel')) {
+        (<HTMLElement>document.querySelector('.mat-autocomplete-panel')).style.height = 'auto';
+      }
       for (let i = 0; i < this.states.length; i++) {
         if (!this.states[i].HealthCareOrganizationName.toLowerCase().startsWith(this.stateCtrl.value.toLowerCase())) {
           this.nomatchFlag = false;

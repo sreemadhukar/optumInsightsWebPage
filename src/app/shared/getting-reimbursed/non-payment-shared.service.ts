@@ -83,6 +83,7 @@ export class NonPaymentSharedService {
 
         this.nonPaymentService.getNonPaymentData(...parameters).subscribe(
           ([nonPaymentData1]) => {
+            console.log(nonPaymentData1);
             let claimsNotPaid: Object;
             let claimsNotPaidRate: Object;
             if (
@@ -90,25 +91,45 @@ export class NonPaymentSharedService {
               nonPaymentData1.All != null &&
               nonPaymentData1.All.hasOwnProperty('ClaimsLobSummary') &&
               nonPaymentData1.All.ClaimsLobSummary.length &&
-              nonPaymentData1.All.ClaimsLobSummary[0].hasOwnProperty('ClaimsDenied') &&
-              nonPaymentData1.hasOwnProperty('Cs') &&
-              nonPaymentData1.Cs.hasOwnProperty('ClaimsLobSummary') &&
-              nonPaymentData1.Cs.ClaimsLobSummary.length &&
-              nonPaymentData1.Cs.ClaimsLobSummary[0].hasOwnProperty('ClaimsDenied') &&
-              nonPaymentData1.hasOwnProperty('Ei') &&
-              nonPaymentData1.Ei.hasOwnProperty('ClaimsLobSummary') &&
-              nonPaymentData1.Ei.ClaimsLobSummary.length &&
-              nonPaymentData1.Ei.ClaimsLobSummary[0].hasOwnProperty('ClaimsDenied') &&
-              nonPaymentData1.hasOwnProperty('Mr') &&
-              nonPaymentData1.Mr.hasOwnProperty('ClaimsLobSummary') &&
-              nonPaymentData1.Mr.ClaimsLobSummary.length &&
-              nonPaymentData1.Mr.ClaimsLobSummary[0].hasOwnProperty('ClaimsDenied')
+              nonPaymentData1.All.ClaimsLobSummary[0].hasOwnProperty('ClaimsDenied')
             ) {
-              const nonPaidData = [
-                nonPaymentData1.Mr.ClaimsLobSummary[0].ClaimsDenied,
-                nonPaymentData1.Cs.ClaimsLobSummary[0].ClaimsDenied,
-                nonPaymentData1.Ei.ClaimsLobSummary[0].ClaimsDenied
-              ];
+              const nonPaidData = [];
+              if (nonPaymentData1.hasOwnProperty('Mr') && nonPaymentData1.Mr != null) {
+                if (
+                  nonPaymentData1.Mr.hasOwnProperty('ClaimsLobSummary') &&
+                  nonPaymentData1.Mr.ClaimsLobSummary.length &&
+                  nonPaymentData1.Mr.ClaimsLobSummary[0].hasOwnProperty('ClaimsDenied')
+                ) {
+                  nonPaidData.push(nonPaymentData1.Mr.ClaimsLobSummary[0].ClaimsDenied);
+                }
+              }
+              if (nonPaymentData1.hasOwnProperty('Cs') && nonPaymentData1.Cs != null) {
+                if (
+                  nonPaymentData1.Cs.hasOwnProperty('ClaimsLobSummary') &&
+                  nonPaymentData1.Cs.ClaimsLobSummary.length &&
+                  nonPaymentData1.Cs.ClaimsLobSummary[0].hasOwnProperty('ClaimsDenied')
+                ) {
+                  nonPaidData.push(nonPaymentData1.Cs.ClaimsLobSummary[0].ClaimsDenied);
+                }
+              }
+              if (nonPaymentData1.hasOwnProperty('Ei') && nonPaymentData1.Ei != null) {
+                if (
+                  nonPaymentData1.Ei.hasOwnProperty('ClaimsLobSummary') &&
+                  nonPaymentData1.Ei.ClaimsLobSummary.length &&
+                  nonPaymentData1.Ei.ClaimsLobSummary[0].hasOwnProperty('ClaimsDenied')
+                ) {
+                  nonPaidData.push(nonPaymentData1.Ei.ClaimsLobSummary[0].ClaimsDenied);
+                }
+              }
+              if (nonPaymentData1.hasOwnProperty('Un') && nonPaymentData1.Un != null) {
+                if (
+                  nonPaymentData1.Un.hasOwnProperty('ClaimsLobSummary') &&
+                  nonPaymentData1.Un.ClaimsLobSummary.length &&
+                  nonPaymentData1.Un.ClaimsLobSummary[0].hasOwnProperty('ClaimsDenied')
+                ) {
+                  nonPaidData.push(nonPaymentData1.Un.ClaimsLobSummary[0].ClaimsDenied);
+                }
+              }
               claimsNotPaid = {
                 category: 'app-card',
                 type: 'donutWithLabel',
@@ -120,18 +141,18 @@ export class NonPaymentSharedService {
                     this.common.nFormatter(nonPaymentData1.All.ClaimsLobSummary[0].ClaimsDenied) > 0
                       ? '< $1'
                       : '$' + this.common.nFormatter(nonPaymentData1.All.ClaimsLobSummary[0].ClaimsDenied),
-                  color: ['#3381FF', '#80B0FF', '#003DA1'],
+                  color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'],
                   gdata: ['card-inner', 'claimsNotPaid'],
                   sdata: {
                     sign: '',
                     data: ''
                   },
-                  labels: ['Medicare & Retirement', 'Community & State', 'Employer & Individual'],
+                  labels: ['Medicare & Retirement', 'Community & State', 'Employer & Individual', 'Uncategorized'],
                   hover: true
                 },
                 besideData: {
-                  labels: ['Medicare & Retirement', 'Community & State', 'Employer & Individual'],
-                  color: ['#3381FF', '#80B0FF', '#003DA1']
+                  labels: ['Medicare & Retirement', 'Community & State', 'Employer & Individual', 'Uncategorized'],
+                  color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC']
                 },
                 timeperiod: this.timeFrame
               };
@@ -229,25 +250,45 @@ export class NonPaymentSharedService {
               nonPaymentData1.All != null &&
               nonPaymentData1.All.hasOwnProperty('ClaimsLobSummary') &&
               nonPaymentData1.All.ClaimsLobSummary.length &&
-              nonPaymentData1.All.ClaimsLobSummary[0].hasOwnProperty('ClaimsDenied') &&
-              nonPaymentData1.hasOwnProperty('Cs') &&
-              nonPaymentData1.Cs.hasOwnProperty('ClaimsLobSummary') &&
-              nonPaymentData1.Cs.ClaimsLobSummary.length &&
-              nonPaymentData1.Cs.ClaimsLobSummary[0].hasOwnProperty('ClaimsDenied') &&
-              nonPaymentData1.hasOwnProperty('Ei') &&
-              nonPaymentData1.Ei.hasOwnProperty('ClaimsLobSummary') &&
-              nonPaymentData1.Ei.ClaimsLobSummary.length &&
-              nonPaymentData1.Ei.ClaimsLobSummary[0].hasOwnProperty('ClaimsDenied') &&
-              nonPaymentData1.hasOwnProperty('Mr') &&
-              nonPaymentData1.Mr.hasOwnProperty('ClaimsLobSummary') &&
-              nonPaymentData1.Mr.ClaimsLobSummary.length &&
-              nonPaymentData1.Mr.ClaimsLobSummary[0].hasOwnProperty('ClaimsDenied')
+              nonPaymentData1.All.ClaimsLobSummary[0].hasOwnProperty('ClaimsDenied')
             ) {
-              const nonPaidData = [
-                nonPaymentData1.Mr.ClaimsLobSummary[0].ClaimsDenied,
-                nonPaymentData1.Cs.ClaimsLobSummary[0].ClaimsDenied,
-                nonPaymentData1.Ei.ClaimsLobSummary[0].ClaimsDenied
-              ];
+              const nonPaidData = [];
+              if (nonPaymentData1.hasOwnProperty('Mr') && nonPaymentData1.Mr != null) {
+                if (
+                  nonPaymentData1.Mr.hasOwnProperty('ClaimsLobSummary') &&
+                  nonPaymentData1.Mr.ClaimsLobSummary.length &&
+                  nonPaymentData1.Mr.ClaimsLobSummary[0].hasOwnProperty('ClaimsDenied')
+                ) {
+                  nonPaidData.push(nonPaymentData1.Mr.ClaimsLobSummary[0].ClaimsDenied);
+                }
+              }
+              if (nonPaymentData1.hasOwnProperty('Cs') && nonPaymentData1.Cs != null) {
+                if (
+                  nonPaymentData1.Cs.hasOwnProperty('ClaimsLobSummary') &&
+                  nonPaymentData1.Cs.ClaimsLobSummary.length &&
+                  nonPaymentData1.Cs.ClaimsLobSummary[0].hasOwnProperty('ClaimsDenied')
+                ) {
+                  nonPaidData.push(nonPaymentData1.Cs.ClaimsLobSummary[0].ClaimsDenied);
+                }
+              }
+              if (nonPaymentData1.hasOwnProperty('Ei') && nonPaymentData1.Ei != null) {
+                if (
+                  nonPaymentData1.Ei.hasOwnProperty('ClaimsLobSummary') &&
+                  nonPaymentData1.Ei.ClaimsLobSummary.length &&
+                  nonPaymentData1.Ei.ClaimsLobSummary[0].hasOwnProperty('ClaimsDenied')
+                ) {
+                  nonPaidData.push(nonPaymentData1.Ei.ClaimsLobSummary[0].ClaimsDenied);
+                }
+              }
+              if (nonPaymentData1.hasOwnProperty('Un') && nonPaymentData1.Un != null) {
+                if (
+                  nonPaymentData1.Un.hasOwnProperty('ClaimsLobSummary') &&
+                  nonPaymentData1.Un.ClaimsLobSummary.length &&
+                  nonPaymentData1.Un.ClaimsLobSummary[0].hasOwnProperty('ClaimsDenied')
+                ) {
+                  nonPaidData.push(nonPaymentData1.Un.ClaimsLobSummary[0].ClaimsDenied);
+                }
+              }
               claimsNotPaid = {
                 category: 'app-card',
                 type: 'donutWithLabel',
@@ -259,18 +300,18 @@ export class NonPaymentSharedService {
                     this.common.nFormatter(nonPaymentData1[lobData].ClaimsLobSummary[0].ClaimsDenied) > 0
                       ? '< $1'
                       : '$' + this.common.nFormatter(nonPaymentData1[lobData].ClaimsLobSummary[0].ClaimsDenied),
-                  color: ['#3381FF', '#80B0FF', '#003DA1'],
+                  color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'],
                   gdata: ['card-inner', 'claimsNotPaid'],
                   sdata: {
                     sign: '',
                     data: ''
                   },
-                  labels: ['Medicare & Retirement', 'Community & State', 'Employer & Individual'],
+                  labels: ['Medicare & Retirement', 'Community & State', 'Employer & Individual', 'Uncategorized'],
                   hover: true
                 },
                 besideData: {
-                  labels: ['Medicare & Retirement', 'Community & State', 'Employer & Individual'],
-                  color: ['#3381FF', '#80B0FF', '#003DA1']
+                  labels: ['Medicare & Retirement', 'Community & State', 'Employer & Individual', 'Uncategorized'],
+                  color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC']
                 },
                 timeperiod: this.timeFrame
               };
