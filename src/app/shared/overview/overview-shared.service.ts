@@ -1032,8 +1032,7 @@ export class OverviewSharedService {
           };
           if (trendIssueResolution === null) {
             cIR.sdata = nullTrend;
-          }
-          else {
+          } else {
             cIR.sdata = trendIssueResolution;
           }
           resolve(cIR);
