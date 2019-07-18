@@ -45,29 +45,6 @@ export class OverviewSharedService {
       this.overviewService.getOverviewData(...parameters).subscribe(([providerSystems, claims, trends]) => {
         // console.log('providerSystem', providerSystems);
 
-        let PAOverviewTrends: object;
-        if (
-          trends &&
-          trends.hasOwnProperty('TendingMtrics') &&
-          trends.TendingMtrics.hasOwnProperty('PaApprovedCount')
-        ) {
-          const dataPoint = trends.TendingMtrics.PaApprovedCount.toFixed(1) + '%';
-          if (trends.TendingMtrics.PaApprovedCount < 0) {
-            PAOverviewTrends = {
-              sign: 'down',
-              data: dataPoint
-            };
-          } else {
-            PAOverviewTrends = {
-              sign: 'up',
-              data: dataPoint
-            };
-          }
-        } else {
-          PAOverviewTrends = null;
-        }
-        console.log(PAOverviewTrends);
-
         /* code changed by Ranjith kumar Ankam - 04-Jul-2019*/
         /*this.createPriorAuthObject(providerSystems)
           .then(cPriorAuth => {
