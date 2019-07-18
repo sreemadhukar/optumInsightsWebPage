@@ -14,7 +14,7 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
   @Input() chartOptions: any = {};
   @Input() donutType: string;
 
-  constructor() {}
+  constructor() { }
 
   @HostListener('window:resize', ['$event'])
   onResize(event) {
@@ -57,7 +57,7 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
     }
 
     function wrap(textObject, pixelWidth, uniqueID, fontSize) {
-      textObject.each(function() {
+      textObject.each(function () {
         let word,
           line = [];
         const textLabel = d3.select(this),
@@ -73,8 +73,17 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
           .text(null)
           .append('tspan')
           .attr('x', 12.5)
-          .attr('y', y)
-          .attr('dy', dy + 'em');
+          .attr('y', y);
+
+        if (!Number.isNaN(dy)) {
+          tspan = textLabel
+            .text(null)
+            .append('tspan')
+            .attr('x', 12.5)
+            .attr('y', y)
+            .attr('dy', dy + 'em');
+        }
+
         let i = 0;
         let dyMultiplier = 1;
         while ((word = words.pop())) {
@@ -144,7 +153,7 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
       .startAngle(0)
       .endAngle(2 * Math.PI)
       .padAngle(0.01)
-      .value(function(d) {
+      .value(function (d) {
         return d.value;
       });
 
@@ -337,17 +346,17 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
 
     if (transition) {
       g.append('path')
-        .style('fill', function(d) {
+        .style('fill', function (d) {
           return donutColor(d.data.value);
         })
         .transition()
-        .delay(function(d, i) {
+        .delay(function (d, i) {
           return i * 700;
         })
         .duration(1000)
-        .attrTween('d', function(d) {
+        .attrTween('d', function (d) {
           const i = d3.interpolate(d.startAngle, d.endAngle);
-          return function(t) {
+          return function (t) {
             text.text(chartOptions.centerNumber);
             text.text();
             d.endAngle = i(t);
@@ -357,7 +366,7 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
     } else {
       g.append('path')
         .attr('d', arc)
-        .style('fill', function(d) {
+        .style('fill', function (d) {
           return donutColor(d.data.value);
         });
 
@@ -378,7 +387,7 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
       const boxWidth = '109px';
       const boxHeight = '63px';
 
-      g.on('mouseenter', function(d) {
+      g.on('mouseenter', function (d) {
         const hoverTextLength = getTextWidth(d.data.label, 14, 'Arial');
 
         divHover.style('height', boxHeight).style('width', boxWidth);
@@ -423,14 +432,14 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
           .style('font-family', 'UHCSans-Regular')
           .text(topFunctions.nFormatter(d.value, 1));
       })
-        .on('mousemove', function(d) {
+        .on('mousemove', function (d) {
           divHover
             .transition()
             .duration(10)
             .style('opacity', 1);
           divHover.style('left', d3.event.layerX + 15 + 'px').style('top', d3.event.layerY - 40 + 'px');
         })
-        .on('mouseleave', function(d) {
+        .on('mouseleave', function (d) {
           divHover
             .transition()
             .duration(10)
