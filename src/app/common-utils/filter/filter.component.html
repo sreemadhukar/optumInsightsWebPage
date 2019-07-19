@@ -121,8 +121,6 @@
         </mat-radio-group>
       </div>
     </div>
-    <!-- Prior Auth Type -->
-    <!-- Disabled PA Type for now
     <!-- Prior Auth Type
     <div class="line"></div>
     <div class="titleData">
@@ -155,58 +153,56 @@
       </div>
     </div>
     -->
-    <!--
+
+    <!-- Service Category -->
     <div class="line"></div>
     <div class="titleData">
       <div class="title">Service Category</div>
       <div class="chevron">
         <mat-icon
           class="icon-display"
-          *ngIf="!paservicecategoryarrowmark"
-          (click)="clickArrowMark('paservicecategory')"
+          *ngIf="!sctypearrowmark"
+          (click)="clickArrowMark('sctype')"
           svgIcon="arrowdn"
         ></mat-icon>
         <mat-icon
           class="icon-display"
-          *ngIf="paservicecategoryarrowmark"
-          (click)="clickArrowMark('paservicecategory')"
+          *ngIf="sctypearrowmark"
+          (click)="clickArrowMark('sctype')"
           svgIcon="arrowup"
         ></mat-icon>
       </div>
     </div>
-
     <div class="lobgrp">
-      <div *ngIf="paServiceCategoryArrayData.length == 0">
-        <label id="radio-group-label" class="label-data">{{ paServiceCategoryData }}</label>
+      <div>
+        <label class="label-data">{{ scTypeData }}</label>
       </div>
-      <div *ngIf="paServiceCategoryArrayData.length && taxArrayData.length < 4">
-        <label id="radio-group-label" class="label-data">{{ paServiceCategoryData }}</label>
-      </div>
-      <div *ngIf="paServiceCategoryArrayData.length >= 4">
-        <label id="radio-group-label" class="label-data">{{ paServiceCategoryArrayData.length }} Selected</label>
-      </div>
-      <div *ngIf="paservicecategoryarrowmark" class="label-cls">
-        <div *ngIf="!inputDisplay">
-          <mat-icon matPrefix class="nav-menu-icons input-search" svgIcon="search"></mat-icon>
+      <div class="select-option-data" *ngIf="sctypearrowmark">
+        <mat-form-field appearance="outline">
           <input
             type="text"
-            class="input-class"
-            (input)="focusFunction($event.target.value)"
-            [ngModel]="taxValue"
-            placeholderPAserviceCategory="Search for a Service Category"
-            onfocus="this.placeholderPAserviceCategory=''"
+            matInput
+            [matAutocomplete]="auto"
+            [formControl]="serviceCategoryCtrl"
+            [(ngModel)]="selectedmetric"
+            placeholder="Search for Service Category"
           />
-        </div>
-        <app-multi-select
-          *ngIf="inputDisplay"
-          [tinsData]="tinsData"
-          [tinValue]="taxValue"
-          [taxData]="taxData"
-          (taxArray)="taxArrayFunction($event)"
-        ></app-multi-select>
+          <mat-icon matPrefix class="nav-menu-icons" svgIcon="search"></mat-icon>
+          <mat-autocomplete #auto="matAutocomplete" (optionSelected)="scArrayFunction($event.option.value)">
+            <mat-option *ngFor="let servicecategory of (filteredOptions | async)" [value]="servicecategory">
+              <!-- <span class="highlight" [innerHTML]="servicecategory | highlight: toHighlight"></span> -->
+              {{ servicecategory }}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+
+        <!-- <mat-radio-group class="radio-group" [(ngModel)]="scTypeData">
+          <mat-radio-button class="radio-button" *ngFor="let patype of priorauthdecisiontype" [value]="patype">
+            {{ patype }}
+          </mat-radio-button>
+        </mat-radio-group> -->
       </div>
     </div>
-    -->
   </div>
 
   <div class="line1"></div>
