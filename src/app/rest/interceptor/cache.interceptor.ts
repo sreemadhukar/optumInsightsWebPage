@@ -12,7 +12,8 @@ export class CacheInterceptor implements HttpInterceptor {
   constructor(private cache: RequestCacheService) {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler) {
-    const url = req.body === null && req.method !== 'POST' ? req.url : req.url + JSON.stringify(req.body);
+    const url =
+      req.body === null && req.method !== 'POST' ? req.urlWithParams : req.urlWithParams + JSON.stringify(req.body);
     const cachedResponse = this.cache.get(url);
     return cachedResponse ? of(cachedResponse) : this.sendRequest(req, next);
   }
@@ -21,7 +22,10 @@ export class CacheInterceptor implements HttpInterceptor {
     return next.handle(req).pipe(
       tap(event => {
         if (event instanceof HttpResponse && JSON.parse(sessionStorage.getItem('cache'))) {
-          const url = req.body === null && req.method !== 'POST' ? req.url : req.url + JSON.stringify(req.body);
+          const url =
+            req.body === null && req.method !== 'POST'
+              ? req.urlWithParams
+              : req.urlWithParams + JSON.stringify(req.body);
           this.cache.set(url, event, TTL);
         }
       })
