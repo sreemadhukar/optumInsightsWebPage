@@ -102,121 +102,125 @@ export class OverviewComponent implements OnInit, AfterContentInit {
       toggle: true,
       type: "donut"
     }*/
-    this.claimsLoading = true;
+    this.overviewsrc.getAllTrends().then(trendData => {
+      this.trendsData = trendData;
 
-    /* SERVICE CALL TO GET CLAIMS CARDS DATA */
-    this.overviewsrc
-      .getClaimsCards()
-      .then(data => {
-        this.loadClaimsPaidCard = false;
-        this.loadClaimsYieldCard = false;
+      this.claimsLoading = true;
 
-        this.errorloadClaimsPaidCard = false;
-        this.errorloadClaimsYieldCard = false;
+      /* SERVICE CALL TO GET CLAIMS CARDS DATA */
+      this.overviewsrc
+        .getClaimsCards()
+        .then(data => {
+          this.loadClaimsPaidCard = false;
+          this.loadClaimsYieldCard = false;
 
-        this.claimsLoading = false;
-        this.claimsPaidBlock = data[0];
-        this.claimsYieldBlock = data[1];
-        if (this.claimsPaidBlock.data != null && this.claimsPaidBlock.toggle) {
-          this.loadClaimsPaidCard = true;
-        } else if (this.claimsPaidBlock.status != null && this.claimsPaidBlock.toggle) {
-          this.errorloadClaimsPaidCard = true;
-        }
-        if (this.claimsYieldBlock.data != null && this.claimsYieldBlock.toggle) {
-          this.loadClaimsYieldCard = true;
-        } else if (this.claimsYieldBlock.status != null && this.claimsYieldBlock.toggle) {
-          this.errorloadClaimsYieldCard = true;
-        }
-        console.log(this.claimsPaidBlock);
-        console.log(this.claimsYieldBlock);
-      })
-      .catch(reason => {
-        this.claimsLoading = true;
-        console.log(reason);
-      });
+          this.errorloadClaimsPaidCard = false;
+          this.errorloadClaimsYieldCard = false;
 
-    /* SERVICE CALL TO GET DATA FOR PRIOR AUTH CARD */
-    this.priorAuthLoading = true;
-    this.overviewsrc
-      .getPriorAuthCardData()
-      .then(data => {
-        this.loadPrioirAuthCard = false;
-        this.errorloadPrioirAuthCard = false;
-        this.priorAuthLoading = false;
-        this.priorAuthBlock = data;
-        if (this.priorAuthBlock.data != null && this.priorAuthBlock.toggle) {
-          this.loadPrioirAuthCard = true;
-        } else if (this.priorAuthBlock.status != null && this.priorAuthBlock.toggle) {
-          this.errorloadPrioirAuthCard = true;
-        }
-      })
-      .catch(reason => {
-        this.priorAuthLoading = true;
-        console.log(reason);
-      });
+          this.claimsLoading = false;
+          this.claimsPaidBlock = data[0];
+          this.claimsYieldBlock = data[1];
+          if (this.claimsPaidBlock.data != null && this.claimsPaidBlock.toggle) {
+            this.loadClaimsPaidCard = true;
+          } else if (this.claimsPaidBlock.status != null && this.claimsPaidBlock.toggle) {
+            this.errorloadClaimsPaidCard = true;
+          }
+          if (this.claimsYieldBlock.data != null && this.claimsYieldBlock.toggle) {
+            this.loadClaimsYieldCard = true;
+          } else if (this.claimsYieldBlock.status != null && this.claimsYieldBlock.toggle) {
+            this.errorloadClaimsYieldCard = true;
+          }
+          console.log(this.claimsPaidBlock);
+          console.log(this.claimsYieldBlock);
+        })
+        .catch(reason => {
+          this.claimsLoading = true;
+          console.log(reason);
+        });
 
-    /* SERVICE CALL TO GET DATA FOR CALLS CARD */
-    this.callsLoading = true;
-    this.overviewsrc
-      .getTotalCallsCardData()
-      .then(data => {
-        this.callsLoading = false;
-        this.loadTotalCallsCard = false;
-        this.errorloadTotalCallsCard = false;
-        this.totalCallsBlock = data;
-        if (this.totalCallsBlock.data != null && this.totalCallsBlock.toggle) {
-          this.loadTotalCallsCard = true;
-        } else if (this.totalCallsBlock.status != null && this.totalCallsBlock.toggle) {
-          this.errorloadTotalCallsCard = true;
-        }
-      })
-      .catch(reason => {
-        this.callsLoading = true;
-        console.log(reason);
-      });
+      /* SERVICE CALL TO GET DATA FOR PRIOR AUTH CARD */
+      this.priorAuthLoading = true;
+      this.overviewsrc
+        .getPriorAuthCardData(this.trendsData)
+        .then(data => {
+          this.loadPrioirAuthCard = false;
+          this.errorloadPrioirAuthCard = false;
+          this.priorAuthLoading = false;
+          this.priorAuthBlock = data;
+          if (this.priorAuthBlock.data != null && this.priorAuthBlock.toggle) {
+            this.loadPrioirAuthCard = true;
+          } else if (this.priorAuthBlock.status != null && this.priorAuthBlock.toggle) {
+            this.errorloadPrioirAuthCard = true;
+          }
+        })
+        .catch(reason => {
+          this.priorAuthLoading = true;
+          console.log(reason);
+        });
 
-    /***************** DON"T CHANGE THESE *************/
-    this.loading = true;
-    this.mockMainCards = [{}, {}, {}, {}, {}, {}];
-    this.mockSelfServiceMiniCards = [{}, {}, {}, {}];
-    this.overviewItems = [];
-    this.mainCards = [];
-    this.selfServiceMiniCards = [];
-    this.overviewsrc
-      .getOverviewData()
-      .then(data => {
-        this.loadselfServiceAdoptionCard = false;
-        this.loadMedicareStarRatingCard = false;
+      /* SERVICE CALL TO GET DATA FOR CALLS CARD */
+      this.callsLoading = true;
+      this.overviewsrc
+        .getTotalCallsCardData()
+        .then(data => {
+          this.callsLoading = false;
+          this.loadTotalCallsCard = false;
+          this.errorloadTotalCallsCard = false;
+          this.totalCallsBlock = data;
+          if (this.totalCallsBlock.data != null && this.totalCallsBlock.toggle) {
+            this.loadTotalCallsCard = true;
+          } else if (this.totalCallsBlock.status != null && this.totalCallsBlock.toggle) {
+            this.errorloadTotalCallsCard = true;
+          }
+        })
+        .catch(reason => {
+          this.callsLoading = true;
+          console.log(reason);
+        });
 
-        this.errorloadselfServiceAdoptionCard = false;
-        this.errorloadMedicareStarRatingCard = false;
+      /***************** DON"T CHANGE THESE *************/
+      this.loading = true;
+      this.mockMainCards = [{}, {}, {}, {}, {}, {}];
+      this.mockSelfServiceMiniCards = [{}, {}, {}, {}];
+      this.overviewItems = [];
+      this.mainCards = [];
+      this.selfServiceMiniCards = [];
+      this.overviewsrc
+        .getOverviewData()
+        .then(data => {
+          this.loadselfServiceAdoptionCard = false;
+          this.loadMedicareStarRatingCard = false;
 
-        this.loading = false;
-        this.overviewItems = JSON.parse(JSON.stringify(data));
-        console.log(this.overviewItems[0]);
-        this.mainCards = this.overviewItems[0];
+          this.errorloadselfServiceAdoptionCard = false;
+          this.errorloadMedicareStarRatingCard = false;
 
-        this.selfServiceAdoptionBlock = this.mainCards[0];
-        this.medicareStarRatingBlock = this.mainCards[1];
+          this.loading = false;
+          this.overviewItems = JSON.parse(JSON.stringify(data));
+          console.log(this.overviewItems[0]);
+          this.mainCards = this.overviewItems[0];
 
-        if (this.selfServiceAdoptionBlock.data != null && this.selfServiceAdoptionBlock.toggle) {
-          this.loadselfServiceAdoptionCard = true;
-        } else if (this.selfServiceAdoptionBlock.status != null && this.selfServiceAdoptionBlock.toggle) {
-          this.errorloadselfServiceAdoptionCard = true;
-        }
-        if (this.medicareStarRatingBlock.data != null && this.medicareStarRatingBlock.toggle) {
-          this.loadMedicareStarRatingCard = true;
-        } else if (this.medicareStarRatingBlock.status != null && this.medicareStarRatingBlock.toggle) {
-          this.errorloadMedicareStarRatingCard = true;
-        }
+          this.selfServiceAdoptionBlock = this.mainCards[0];
+          this.medicareStarRatingBlock = this.mainCards[1];
 
-        this.selfServiceMiniCards = this.overviewItems[1];
-        console.log(this.overviewItems[0]);
-      })
-      .catch(reason => {
-        this.loading = true;
-        console.log(reason);
-      });
+          if (this.selfServiceAdoptionBlock.data != null && this.selfServiceAdoptionBlock.toggle) {
+            this.loadselfServiceAdoptionCard = true;
+          } else if (this.selfServiceAdoptionBlock.status != null && this.selfServiceAdoptionBlock.toggle) {
+            this.errorloadselfServiceAdoptionCard = true;
+          }
+          if (this.medicareStarRatingBlock.data != null && this.medicareStarRatingBlock.toggle) {
+            this.loadMedicareStarRatingCard = true;
+          } else if (this.medicareStarRatingBlock.status != null && this.medicareStarRatingBlock.toggle) {
+            this.errorloadMedicareStarRatingCard = true;
+          }
+
+          this.selfServiceMiniCards = this.overviewItems[1];
+          console.log(this.overviewItems[0]);
+        })
+        .catch(reason => {
+          this.loading = true;
+          console.log(reason);
+        });
+    });
 
     const userInfo = JSON.parse(sessionStorage.getItem('loggedUser'));
     this.userName =

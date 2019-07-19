@@ -907,7 +907,7 @@ export class OverviewSharedService {
   }
 
   /* function to get PRIOR AUTH CARD seperately i overview page - RANJITH KUMAR ANKAM - 17th JULY 2019 */
-  getPriorAuthCardData() {
+  getPriorAuthCardData(trends) {
     return new Promise((resolve, reject) => {
       const parameters = {
         providerkey: this.providerKey,
@@ -917,10 +917,9 @@ export class OverviewSharedService {
         allNotApprovedSettings: true
       };
 
-      this.overviewService.getOverviewPriorAuth(parameters).subscribe(([priorAuth, trends]) => {
+      this.overviewService.getOverviewPriorAuth(parameters).subscribe(priorAuth => {
+        /*
         let PAOverviewTrends: object;
-        console.log(trends);
-
         if (
           trends &&
           trends.hasOwnProperty('TendingMtrics') &&
@@ -941,6 +940,7 @@ export class OverviewSharedService {
         } else {
           PAOverviewTrends = null;
         }
+        */
 
         let cPriorAuth: object;
         if (
@@ -971,7 +971,7 @@ export class OverviewSharedService {
               color: ['#3381FF', '#D7DCE1'],
               gdata: ['card-inner', 'priorAuthCardD3Donut']
             },
-            sdata: PAOverviewTrends,
+            sdata: trends,
             timeperiod: 'Last 6 Months'
           };
         } else {
@@ -1055,6 +1055,36 @@ export class OverviewSharedService {
           }
           resolve(cIR);
         });
+      });
+    });
+  }
+
+  getAllTrends() {
+    this.providerKey = this.session.providerKeyData();
+    return new Promise(resolve => {
+      this.trendsService.getTrendingMetrics([this.providerKey]).subscribe(trends => {
+        let PAOverviewTrends: object;
+        if (
+          trends &&
+          trends.hasOwnProperty('TendingMtrics') &&
+          trends.TendingMtrics.hasOwnProperty('PaApprovedCount')
+        ) {
+          const dataPoint = trends.TendingMtrics.PaApprovedCount.toFixed(1) + '%';
+          if (trends.TendingMtrics.PaApprovedCount < 0) {
+            PAOverviewTrends = {
+              sign: 'down',
+              data: dataPoint
+            };
+          } else {
+            PAOverviewTrends = {
+              sign: 'up',
+              data: dataPoint
+            };
+          }
+        } else {
+          PAOverviewTrends = null;
+        }
+        resolve(PAOverviewTrends);
       });
     });
   }

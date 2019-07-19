@@ -88,13 +88,12 @@ export class OverviewService {
     const trendsURL = this.APP_URL + this.TRENDING_METRICS_PATH + parameters.providerkey;
     const priorURL = this.APP_URL + this.PRIOR_AUTH_SERVICE_PATH + parameters.providerkey;
 
-    /*
     return this.http.post(priorURL, params).pipe(
       map(res => JSON.parse(JSON.stringify(res[0]))),
       catchError(err => of(JSON.parse(JSON.stringify(err))))
     );
-    */
 
+    /*
     return combineLatest(
       this.http.post(priorURL, params).pipe(
         map(res => JSON.parse(JSON.stringify(res[0]))),
@@ -106,6 +105,7 @@ export class OverviewService {
         catchError(err => of(JSON.parse(JSON.stringify(err))))
       )
     );
+     */
   }
 
   public getOverviewTotalCalls(parameters) {
