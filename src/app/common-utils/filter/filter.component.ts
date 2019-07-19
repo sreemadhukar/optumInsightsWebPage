@@ -276,7 +276,6 @@ export class FilterComponent implements OnInit {
     }
   }
   taxArrayFunction(data) {
-    alert(data);
     let tempArray = [];
     if (data) {
       this.taxData = data;
