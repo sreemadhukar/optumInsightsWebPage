@@ -334,7 +334,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
   signOut() {
     this.authService.logout();
     if (!environment.internalAccess) {
-      this.document.location.href = 'https://provider-stage.linkhealth.com/';
+      this.document.location.href = environment.apiUrls.linkLoginPage;
     }
   }
   public close() {
