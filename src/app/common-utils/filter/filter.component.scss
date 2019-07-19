@@ -194,6 +194,11 @@
   background-color: #ffffff;
   box-shadow: 0 2px 4px 0 #ffffff;
 }
+::ng-deep .mat-option {
+  padding: 7.5px 0 7.5px 12px !important;
+  height: 32px !important;
+  line-height: 32px !important;
+}
 ::ng-deep.mat-button-focus-overlay {
   background-color: #ffffff;
 }
@@ -203,6 +208,7 @@
 ::ng-deep .mat-form-field {
   width: 100%;
 }
+
 ::ng-deep .mat-autocomplete-panel:not([class*='mat-elevation-z']) {
   box-sizing: border-box;
   border: 1px solid #196ecf;
