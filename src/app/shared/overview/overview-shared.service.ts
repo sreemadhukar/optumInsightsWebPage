@@ -42,7 +42,7 @@ export class OverviewSharedService {
         parameters = [this.providerKey, true];
       }
 
-      this.overviewService.getOverviewData(...parameters).subscribe(([providerSystems, claims, trends]) => {
+      this.overviewService.getOverviewData(...parameters).subscribe(([providerSystems, claims]) => {
         // console.log('providerSystem', providerSystems);
 
         /* code changed by Ranjith kumar Ankam - 04-Jul-2019*/
