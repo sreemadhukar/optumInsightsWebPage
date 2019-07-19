@@ -42,9 +42,12 @@
           <br />
           <div class="glossary-metric-content-div">
             <div class="glossary-definition">
-              <span *ngIf="allmetricsdefinitionShort[i] && allmetrics && this.readmoreFlag[i]"
-                >{{ allmetricsdefinitionShort[i] }}<br /></span
-              >{{ glossary.BusinessGlossary.ProviderDashboardName.Definition }}
+              <span
+                *ngIf="allmetricsdefinitionShort[i] && allmetrics && this.readmoreFlag[i]"
+                [innerHTML]="allmetricsdefinitionShort[i]"
+                ><br
+              /></span>
+              <div [innerHTML]="glossary.BusinessGlossary.ProviderDashboardName.Definition"></div>
             </div>
             <!-- <div>
       <a class="go-to-metric-location">
