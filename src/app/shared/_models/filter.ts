@@ -4,4 +4,5 @@ export class Filter {
   public tax: Array<string>;
   public serviceSetting?: string;
   public priorAuthType?: string;
+  public scType?: string;
 }

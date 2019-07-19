@@ -16,6 +16,7 @@
     border-radius: 2px;
     float: right;
     cursor: pointer;
+    margin-right: 1px;
     .filter_title {
       color: $blue;
       font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
@@ -273,7 +274,6 @@
       }
       .time--period {
         .filterchips {
-          width: 850px;
           float: left;
           .horizontal-align {
             display: inline-block;

@@ -52,8 +52,15 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
           .text(null)
           .append('tspan')
           .attr('x', 10)
-          .attr('y', y)
-          .attr('dy', dy + 'em');
+          .attr('y', y);
+        if (!Number.isNaN(dy)) {
+          tspan = text
+            .text(null)
+            .append('tspan')
+            .attr('x', 10)
+            .attr('y', y)
+            .attr('dy', dy + 'em');
+        }
         let i = 0;
         let dyMultiplier = 1;
         while ((word = words.pop())) {

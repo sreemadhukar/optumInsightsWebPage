@@ -47,14 +47,15 @@
       <app-card *ngIf="item.data != null" class="cards" [chartData]="item"> </app-card>
       <app-error-card *ngIf="item.status != null" class="cards" [data]="item"></app-error-card>
     </div>
+
     <!-- Claims Non - Payment Trend  Starts Here -->
-    <div class="non-payment-trend-block">
+    <div class="non-payment-trend-block" *ngIf="dataLoaded">
       <app-common-header
         [title]="trendTitle"
         class="full-display bottom-margin-block"
         (helpIconClicked)="helpIconClick($event)"
       ></app-common-header>
-      <div class="full-display" *ngIf="dataLoaded">
+      <div class="full-display">
         <app-line-graph [chartOptions]="monthlyLineGraph"></app-line-graph>
         <!--div class="timeperiod-block">
           <p class="timeperiod-text">{{ timePeriod }}</p>

@@ -15,6 +15,7 @@ export class OverviewService {
   private EXECUTIVE_SERVICE_PATH: string = environment.apiUrls.ExecutiveSummaryPath;
   private PRIOR_AUTH_SERVICE_PATH: string = environment.apiUrls.PriorAuth;
   private CALLS_SERVICE_PATH: string = environment.apiUrls.CallsTrend;
+  private TRENDING_METRICS_PATH: string = environment.apiUrls.TrendingMetrics;
 
   constructor(private http: HttpClient) {}
 
@@ -36,6 +37,7 @@ export class OverviewService {
 
     const executiveURL = this.APP_URL + this.EXECUTIVE_SERVICE_PATH + parameters[0];
     const claimsURL = this.APP_URL + this.CLAIMS_SERVICE_PATH + parameters[0] + '?requestType=PAYMENT_METRICS';
+
     return combineLatest(
       this.http.get(executiveURL, { params: eparams }).pipe(
         map(res => JSON.parse(JSON.stringify(res))),
@@ -70,17 +72,35 @@ export class OverviewService {
   }
 
   public getOverviewPriorAuth(parameters) {
+    // Adding trends api
     let params = new HttpParams();
     params = params.append('last6Months', parameters.last6Months);
     params = params.append('allProviderTins', parameters.allProviderTins);
     params = params.append('allLob', parameters.allLob);
     params = params.append('allNotApprovedSettings', parameters.allNotApprovedSettings);
 
+    const paramsTrends = new HttpParams();
+    const trendsURL = this.APP_URL + this.TRENDING_METRICS_PATH + parameters.providerkey;
     const priorURL = this.APP_URL + this.PRIOR_AUTH_SERVICE_PATH + parameters.providerkey;
+
     return this.http.post(priorURL, params).pipe(
       map(res => JSON.parse(JSON.stringify(res[0]))),
       catchError(err => of(JSON.parse(JSON.stringify(err))))
     );
+
+    /*
+    return combineLatest(
+      this.http.post(priorURL, params).pipe(
+        map(res => JSON.parse(JSON.stringify(res[0]))),
+        catchError(err => of(JSON.parse(JSON.stringify(err))))
+      ),
+
+      this.http.get(trendsURL).pipe(
+        map(res => JSON.parse(JSON.stringify(res))),
+        catchError(err => of(JSON.parse(JSON.stringify(err))))
+      )
+    );
+     */
   }
 
   public getOverviewTotalCalls(parameters) {
