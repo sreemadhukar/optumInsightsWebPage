@@ -5,15 +5,19 @@
   float: left;
   width: 100%;
   box-sizing: border-box;
+  .header-title {
+    color: $blue;
+    font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+    font-size: 18px;
+    padding: 16px;
+    line-height: 22px;
+    text-align: left;
+  }
+  .title-padding {
+    padding-bottom: 4px;
+  }
 }
-.header-title {
-  color: $blue;
-  font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
-  font-size: 18px;
-  padding: 16px;
-  line-height: 22px;
-  text-align: left;
-}
+
 .handClicked {
   cursor: pointer;
 }
