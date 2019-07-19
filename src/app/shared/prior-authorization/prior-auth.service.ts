@@ -226,7 +226,7 @@ export class PriorAuthSharedService {
                   type: 'singleBarChart',
                   title: 'Top Reasons for Prior Authorizations Not Approved',
                   data: {
-                    barHeight: 40,
+                    barHeight: 48,
                     barData: PriorAuthNotApprovedReasons[i].Count,
                     barSummation: barScaleMax,
                     barText: PriorAuthNotApprovedReasons[i].Reason,
@@ -448,7 +448,7 @@ export class PriorAuthSharedService {
         iseAndILobBool = false;
         ismAndRLobBool = false;
       }
-      if (LOB === 'Employee & Individual') {
+      if (LOB === 'Employer & Individual') {
         iscAndSLobBool = false;
         iseAndILobBool = true;
         ismAndRLobBool = false;
@@ -742,7 +742,7 @@ export class PriorAuthSharedService {
                   type: 'singleBarChart',
                   title: 'Top Reasons for Prior Authorizations Not Approved',
                   data: {
-                    barHeight: 40,
+                    barHeight: 48,
                     barData: PriorAuthNotApprovedReasons[i].Count,
                     barSummation: barScaleMax,
                     barText: PriorAuthNotApprovedReasons[i].Reason,

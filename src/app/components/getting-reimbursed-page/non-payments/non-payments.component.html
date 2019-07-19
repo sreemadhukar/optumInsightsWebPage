@@ -81,7 +81,7 @@
             [class.extra-margin-top-8]="i != 0"
             [class.extra-margin-bottom-16]="section[i]"
             class="bar-graphs-content"
-            (click)="section[i] = !section[i]"
+            (click)="section[i] = !section[i]; reasonsCollapose(i)"
           >
             <div class="bar-graph-inside-left-block">
               <div class="bar-graph-inside-left-block-content">

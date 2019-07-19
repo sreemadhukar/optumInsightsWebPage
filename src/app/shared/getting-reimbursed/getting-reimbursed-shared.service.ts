@@ -10,7 +10,7 @@ import { NonPaymentSharedService } from './non-payment-shared.service';
   providedIn: GettingReimbursedModule
 })
 export class GettingReimbursedSharedService {
-  public nonPaymentData1: any = null;
+  public nonPaymentData: any = null;
   private tin: string;
   private lob: string;
   private timeFrame: string;
@@ -51,102 +51,55 @@ export class GettingReimbursedSharedService {
       return 'Dec';
     }
   }
-  public getNonPaymentData() {
+
+  /** code starts here for shared NonPayment Data */
+  /** Actually we have to used this nonPayment service in for Non-Payment cards that's why we
+   * need to call the Non-Payment API in Getting Reimbursed Summary page as well
+   */
+  public sharedNonPaymentData() {
     /** Non Payment Service Code starts here */
     /** code for two donuts  Claims Not Paid and Claims Non-payment Rate */
-    this.nonPaymentService
-      .getNonPayment()
-      .then(nonPayment => {
-        if (typeof nonPayment === null || typeof nonPayment === undefined) {
-          this.nonPaymentData1 = null;
-        } else {
-          this.nonPaymentData1 = JSON.parse(JSON.stringify(nonPayment));
-        }
-      })
-      .catch(reason => {
-        this.nonPaymentData1 = null;
-        console.log('Calls Service Error ', reason);
-      });
-
-    /** code ends here */
+    let tempNonPaymentData: any;
+    return new Promise(resolve => {
+      this.nonPaymentService
+        .getNonPayment()
+        .then(nonPayment => {
+          if (typeof nonPayment === null || typeof nonPayment === undefined) {
+            tempNonPaymentData = null;
+          } else {
+            tempNonPaymentData = JSON.parse(JSON.stringify(nonPayment));
+          }
+          resolve(tempNonPaymentData);
+        })
+        .catch(reason => {
+          console.log('NonPayment Shared Function | Getting Reimbursed | Error ', reason);
+        });
+    });
   }
-  public getGettingReimbursedData() {
-    this.tin = this.session.filterObjValue.tax.toString().replace('-', '');
-    this.lob = this.session.filterObjValue.lob;
-    this.timeFrame = this.session.filterObjValue.timeFrame;
-    this.providerKey = this.session.providerKeyData();
+  /** code ends here for shared NonPayment Data */
+
+  /** The below function will return the data for the Getting Reimbursed page,
+   * In the main function getGettingReimbursedData() , we will call the sharedGettingReimbursedData(parameters)
+   * after calling the sharedNonPaymentData() so that we get the nonPayment data first.
+   */
+  public sharedGettingReimbursedData(parameters) {
+    let appeals: object;
+    let payments: object;
+    let nonpayments: object;
+    let submissions: object;
+    let claimsSubmitted: object;
+    let claimsTAT: object;
+    let appealsSubmitted: object;
+    let appealsOverturned: object;
+    let claimsNotPaid: object;
+    let claimsNotPaidRate: object;
+    let claimsPaid: object;
+    let claimsPaidRate: object;
     const summaryData: Array<object> = [];
     return new Promise(resolve => {
-      let parameters;
-      let appeals: object;
-      let payments: object;
-      let nonpayments: object;
-      let submissions: object;
-      let claimsSubmitted: object;
-      let claimsTAT: object;
-      let appealsSubmitted: object;
-      let appealsOverturned: object;
-      let claimsNotPaid: object;
-      let claimsNotPaidRate: object;
-      let claimsPaid: object;
-      let claimsPaidRate: object;
-
-      if (
-        this.timeFrame === 'Last 12 Months' ||
-        this.timeFrame === 'Last 6 Months' ||
-        this.timeFrame === 'Year To Date'
-      ) {
-        if (this.timeFrame === 'Last 12 Months') {
-          if (this.tin !== 'All' && this.lob !== 'All') {
-            parameters = [
-              this.providerKey,
-              { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Last12Months', Tin: this.tin }
-            ];
-          } else if (this.tin !== 'All') {
-            parameters = [this.providerKey, { TimeFilter: 'Last12Months', Tin: this.tin }];
-          } else if (this.lob !== 'All') {
-            parameters = [
-              this.providerKey,
-              { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Last12Months' }
-            ];
-          } else {
-            parameters = [this.providerKey, { TimeFilter: 'Last12Months' }];
-          }
-        } else if (this.timeFrame === 'Year To Date') {
-          if (this.tin !== 'All' && this.lob !== 'All') {
-            parameters = [
-              this.providerKey,
-              { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'YearToDate', Tin: this.tin }
-            ];
-          } else if (this.tin !== 'All') {
-            parameters = [this.providerKey, { TimeFilter: 'YearToDate', Tin: this.tin }];
-          } else if (this.lob !== 'All') {
-            parameters = [
-              this.providerKey,
-              { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'YearToDate' }
-            ];
-          } else {
-            parameters = [this.providerKey, { TimeFilter: 'YearToDate' }];
-          }
-        } else if (this.timeFrame === 'Last 6 Months') {
-          if (this.tin !== 'All' && this.lob !== 'All') {
-            parameters = [
-              this.providerKey,
-              { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Last6Months', Tin: this.tin }
-            ];
-          } else if (this.tin !== 'All') {
-            parameters = [this.providerKey, { TimeFilter: 'Last6Months', Tin: this.tin }];
-          } else if (this.lob !== 'All') {
-            parameters = [
-              this.providerKey,
-              { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Last6Months' }
-            ];
-          } else {
-            parameters = [this.providerKey, { TimeFilter: 'Last6Months' }];
-          }
-        }
-        this.getNonPaymentData();
-        this.gettingReimbursedService.getGettingReimbursedData(...parameters).subscribe(([claimsData, appealsData]) => {
+      this.gettingReimbursedService.getGettingReimbursedData(...parameters).subscribe(
+        ([claimsData, appealsData]) => {
+          console.log(claimsData);
           const lobFullData = this.common.matchFullLobWithData(this.lob);
           const lobData = this.common.matchLobWithData(this.lob);
           if (claimsData != null && claimsData.hasOwnProperty('status')) {
@@ -306,25 +259,60 @@ export class GettingReimbursedSharedService {
               claimsData[lobData] != null &&
               claimsData[lobData].hasOwnProperty('ClaimsLobSummary') &&
               claimsData[lobData].ClaimsLobSummary.length &&
-              claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('AmountPaid') &&
-              claimsData.hasOwnProperty('Cs') &&
-              claimsData.Cs.hasOwnProperty('ClaimsLobSummary') &&
-              claimsData.Cs.ClaimsLobSummary.length &&
-              claimsData.Cs.ClaimsLobSummary[0].hasOwnProperty('AmountPaid') &&
-              claimsData.hasOwnProperty('Ei') &&
-              claimsData.Ei.hasOwnProperty('ClaimsLobSummary') &&
-              claimsData.Ei.ClaimsLobSummary.length &&
-              claimsData.Ei.ClaimsLobSummary[0].hasOwnProperty('AmountPaid') &&
-              claimsData.hasOwnProperty('Mr') &&
-              claimsData.Mr.hasOwnProperty('ClaimsLobSummary') &&
-              claimsData.Mr.ClaimsLobSummary.length &&
-              claimsData.Mr.ClaimsLobSummary[0].hasOwnProperty('AmountPaid')
+              claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('AmountPaid')
             ) {
-              const paidData = [
-                claimsData.Mr.ClaimsLobSummary[0].AmountPaid,
-                claimsData.Cs.ClaimsLobSummary[0].AmountPaid,
-                claimsData.Ei.ClaimsLobSummary[0].AmountPaid
-              ];
+              let colorcodes;
+              if (lobData === 'All') {
+                colorcodes = ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'];
+              } else if (lobData === 'Mr') {
+                colorcodes = ['#3381FF'];
+              } else if (lobData === 'Cs') {
+                colorcodes = ['#80B0FF'];
+              } else if (lobData === 'Ei') {
+                colorcodes = ['#003DA1'];
+              } else {
+                colorcodes = ['#00B8CC'];
+              }
+              const paidData = [];
+              if (claimsData.hasOwnProperty('Mr') && claimsData.Mr != null) {
+                if (
+                  claimsData.Mr.hasOwnProperty('ClaimsLobSummary') &&
+                  claimsData.Mr.ClaimsLobSummary.length &&
+                  claimsData.Mr.ClaimsLobSummary[0].hasOwnProperty('AmountPaid')
+                ) {
+                  paidData.push(claimsData.Mr.ClaimsLobSummary[0].AmountPaid);
+                }
+              }
+              if (claimsData.hasOwnProperty('Cs') && claimsData.Cs != null) {
+                if (
+                  claimsData.Cs.hasOwnProperty('ClaimsLobSummary') &&
+                  claimsData.Cs.ClaimsLobSummary.length &&
+                  claimsData.Cs.ClaimsLobSummary[0].hasOwnProperty('AmountPaid')
+                ) {
+                  paidData.push(claimsData.Cs.ClaimsLobSummary[0].AmountPaid);
+                }
+              }
+              if (claimsData.hasOwnProperty('Ei') && claimsData.Ei != null) {
+                if (
+                  claimsData.Ei.hasOwnProperty('ClaimsLobSummary') &&
+                  claimsData.Ei.ClaimsLobSummary.length &&
+                  claimsData.Ei.ClaimsLobSummary[0].hasOwnProperty('AmountPaid')
+                ) {
+                  paidData.push(claimsData.Ei.ClaimsLobSummary[0].AmountPaid);
+                }
+              }
+              if (claimsData.hasOwnProperty('Un') && claimsData.Un != null) {
+                if (
+                  claimsData.Un.hasOwnProperty('ClaimsLobSummary') &&
+                  claimsData.Un.ClaimsLobSummary.length &&
+                  claimsData.Un.ClaimsLobSummary[0].hasOwnProperty('AmountPaid')
+                ) {
+                  paidData.push(claimsData.Un.ClaimsLobSummary[0].AmountPaid);
+                }
+              }
+              if (lobData !== 'All') {
+                paidData.push(0);
+              }
               claimsPaid = {
                 category: 'app-card',
                 type: 'donutWithLabel',
@@ -336,23 +324,23 @@ export class GettingReimbursedSharedService {
                     this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].AmountPaid) > 0
                       ? '< $1'
                       : '$' + this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].AmountPaid),
-                  color: ['#3381FF', '#80B0FF', '#003DA1'],
+                  color: colorcodes,
                   gdata: ['card-inner', 'claimsPaid'],
                   sdata: {
                     sign: '',
                     data: ''
                   },
-                  labels: ['Medicare & Retirement', 'Community & State', 'Employer & Individual'],
+                  labels: ['Medicare & Retirement', 'Community & State', 'Employer & Individual', 'Uncategorized'],
                   hover: true
                 },
                 besideData: {
-                  labels: ['Medicare & Retirement', 'Community & State', 'Employer & Individual'],
-                  color: ['#3381FF', '#80B0FF', '#003DA1']
+                  labels: ['Medicare & Retirement', 'Community & State', 'Employer & Individual', 'Uncategorized'],
+                  color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC']
                 },
                 timeperiod: this.timeFrame
               };
               // AUTHOR: MADHUKAR - claims paid shows no color if the value is 0
-              if (!paidData[0] && !paidData[1] && !paidData[2]) {
+              if (!paidData[0] && !paidData[1] && !paidData[2] && !paidData[3]) {
                 claimsPaid = {
                   category: 'app-card',
                   type: 'donutWithLabel',
@@ -370,12 +358,12 @@ export class GettingReimbursedSharedService {
                       sign: 'down',
                       data: '-2.8%'
                     },
-                    labels: ['Medicare &  Retirement', 'Community & State', 'Employer & Individual'],
+                    labels: ['Medicare &  Retirement', 'Community & State', 'Employer & Individual', 'Uncategorized'],
                     hover: true
                   },
                   besideData: {
-                    labels: ['Medicare & Retirement', 'Community & State', 'Employer & Individual'],
-                    color: ['#3381FF', '#80B0FF', '#003DA1']
+                    labels: ['Medicare & Retirement', 'Community & State', 'Employer & Individual', 'Uncategorized'],
+                    color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC']
                   },
                   timeperiod: this.timeFrame
                 };
@@ -392,11 +380,11 @@ export class GettingReimbursedSharedService {
               };
             }
             if (
-              this.nonPaymentData1 !== null &&
-              this.nonPaymentData1[0] !== null &&
-              this.nonPaymentData1[0].data !== null
+              this.nonPaymentData !== null &&
+              this.nonPaymentData[0] !== null &&
+              this.nonPaymentData[0].data !== null
             ) {
-              claimsNotPaid = this.nonPaymentData1[0];
+              claimsNotPaid = this.nonPaymentData[0];
             } else {
               claimsNotPaid = {
                 category: 'app-card',
@@ -408,12 +396,8 @@ export class GettingReimbursedSharedService {
                 timeperiod: null
               };
             }
-            if (
-              this.nonPaymentData1 !== null &&
-              this.nonPaymentData1[1] != null &&
-              this.nonPaymentData1[1].data != null
-            ) {
-              claimsNotPaidRate = this.nonPaymentData1[1];
+            if (this.nonPaymentData !== null && this.nonPaymentData[1] != null && this.nonPaymentData[1].data != null) {
+              claimsNotPaidRate = this.nonPaymentData[1];
             } else {
               claimsNotPaidRate = {
                 category: 'app-card',
@@ -477,7 +461,6 @@ export class GettingReimbursedSharedService {
               timeperiod: null
             };
           } else if (appealsData != null) {
-            console.log('am here', lobFullData);
             if (
               appealsData.hasOwnProperty('LineOfBusiness') &&
               appealsData.LineOfBusiness.hasOwnProperty(lobFullData) &&
@@ -548,7 +531,10 @@ export class GettingReimbursedSharedService {
               appealsData.LineOfBusiness.hasOwnProperty(lobFullData) &&
               appealsData.LineOfBusiness[lobFullData].hasOwnProperty('OverTurnCount') &&
               appealsData.LineOfBusiness[lobFullData].hasOwnProperty('AdminAppeals') &&
-              appealsData.LineOfBusiness[lobFullData].hasOwnProperty('ClinicalAppeals')
+              appealsData.LineOfBusiness[lobFullData].hasOwnProperty('ClinicalAppeals') &&
+              appealsData.LineOfBusiness[lobFullData].OverTurnCount &&
+              appealsData.LineOfBusiness[lobFullData].AdminAppeals &&
+              appealsData.LineOfBusiness[lobFullData].ClinicalAppeals
             ) {
               const submitted =
                 appealsData.LineOfBusiness[lobFullData].AdminAppeals +
@@ -595,7 +581,97 @@ export class GettingReimbursedSharedService {
           if (summaryData.length) {
             resolve(summaryData);
           }
-        });
+        },
+        err => {
+          console.log('Getting Reimbursed Shared Data', err);
+        }
+      );
+    });
+  }
+  public getGettingReimbursedData() {
+    this.tin = this.session.filterObjValue.tax.toString().replace('-', '');
+    this.lob = this.session.filterObjValue.lob;
+    this.timeFrame = this.session.filterObjValue.timeFrame;
+    this.providerKey = this.session.providerKeyData();
+    const summaryData: Array<object> = [];
+    return new Promise(resolve => {
+      let parameters;
+      let appeals: object;
+      let payments: object;
+      let nonpayments: object;
+      let submissions: object;
+      let claimsSubmitted: object;
+      let claimsTAT: object;
+      let appealsSubmitted: object;
+      let appealsOverturned: object;
+      let claimsNotPaid: object;
+      let claimsNotPaidRate: object;
+      let claimsPaid: object;
+      let claimsPaidRate: object;
+      let gettingReimbursedData: any;
+
+      if (
+        this.timeFrame === 'Last 12 Months' ||
+        this.timeFrame === 'Last 6 Months' ||
+        this.timeFrame === 'Year to Date'
+      ) {
+        if (this.timeFrame === 'Last 12 Months') {
+          if (this.tin !== 'All' && this.lob !== 'All') {
+            parameters = [
+              this.providerKey,
+              { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Last12Months', Tin: this.tin }
+            ];
+          } else if (this.tin !== 'All') {
+            parameters = [this.providerKey, { TimeFilter: 'Last12Months', Tin: this.tin }];
+          } else if (this.lob !== 'All') {
+            parameters = [
+              this.providerKey,
+              { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Last12Months' }
+            ];
+          } else {
+            parameters = [this.providerKey, { TimeFilter: 'Last12Months' }];
+          }
+        } else if (this.timeFrame === 'Year to Date') {
+          if (this.tin !== 'All' && this.lob !== 'All') {
+            parameters = [
+              this.providerKey,
+              { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'YTD', Tin: this.tin }
+            ];
+          } else if (this.tin !== 'All') {
+            parameters = [this.providerKey, { TimeFilter: 'YTD', Tin: this.tin }];
+          } else if (this.lob !== 'All') {
+            parameters = [this.providerKey, { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'YTD' }];
+          } else {
+            parameters = [this.providerKey, { TimeFilter: 'YTD' }];
+          }
+        } else if (this.timeFrame === 'Last 6 Months') {
+          if (this.tin !== 'All' && this.lob !== 'All') {
+            parameters = [
+              this.providerKey,
+              { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Last6Months', Tin: this.tin }
+            ];
+          } else if (this.tin !== 'All') {
+            parameters = [this.providerKey, { TimeFilter: 'Last6Months', Tin: this.tin }];
+          } else if (this.lob !== 'All') {
+            parameters = [
+              this.providerKey,
+              { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Last6Months' }
+            ];
+          } else {
+            parameters = [this.providerKey, { TimeFilter: 'Last6Months' }];
+          }
+        }
+
+        /** We used promise so that we get the data in synchronous manner  */
+        this.sharedNonPaymentData()
+          .then(nonPayment => {
+            this.nonPaymentData = nonPayment;
+            return this.sharedGettingReimbursedData(parameters);
+          })
+          .then(data => {
+            gettingReimbursedData = data;
+            resolve(gettingReimbursedData);
+          });
       } else {
         const lobFullData = this.common.matchFullLobWithData(this.lob);
         if (this.tin !== 'All' && this.lob !== 'All') {
@@ -772,25 +848,45 @@ export class GettingReimbursedSharedService {
                 claimsData[lobData] != null &&
                 claimsData[lobData].hasOwnProperty('ClaimsLobSummary') &&
                 claimsData[lobData].ClaimsLobSummary.length &&
-                claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('AmountPaid') &&
-                claimsData.hasOwnProperty('Cs') &&
-                claimsData.Cs.hasOwnProperty('ClaimsLobSummary') &&
-                claimsData.Cs.ClaimsLobSummary.length &&
-                claimsData.Cs.ClaimsLobSummary[0].hasOwnProperty('AmountPaid') &&
-                claimsData.hasOwnProperty('Ei') &&
-                claimsData.Ei.hasOwnProperty('ClaimsLobSummary') &&
-                claimsData.Ei.ClaimsLobSummary.length &&
-                claimsData.Ei.ClaimsLobSummary[0].hasOwnProperty('AmountPaid') &&
-                claimsData.hasOwnProperty('Mr') &&
-                claimsData.Mr.hasOwnProperty('ClaimsLobSummary') &&
-                claimsData.Mr.ClaimsLobSummary.length &&
-                claimsData.Mr.ClaimsLobSummary[0].hasOwnProperty('AmountPaid')
+                claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('AmountPaid')
               ) {
-                const paidData = [
-                  claimsData.Mr.ClaimsLobSummary[0].AmountPaid,
-                  claimsData.Cs.ClaimsLobSummary[0].AmountPaid,
-                  claimsData.Ei.ClaimsLobSummary[0].AmountPaid
-                ];
+                const paidData = [];
+                if (claimsData.hasOwnProperty('Mr') && claimsData.Mr != null) {
+                  if (
+                    claimsData.Mr.hasOwnProperty('ClaimsLobSummary') &&
+                    claimsData.Mr.ClaimsLobSummary.length &&
+                    claimsData.Mr.ClaimsLobSummary[0].hasOwnProperty('AmountPaid')
+                  ) {
+                    paidData.push(claimsData.Mr.ClaimsLobSummary[0].AmountPaid);
+                  }
+                }
+                if (claimsData.hasOwnProperty('Cs') && claimsData.Cs != null) {
+                  if (
+                    claimsData.Cs.hasOwnProperty('ClaimsLobSummary') &&
+                    claimsData.Cs.ClaimsLobSummary.length &&
+                    claimsData.Cs.ClaimsLobSummary[0].hasOwnProperty('AmountPaid')
+                  ) {
+                    paidData.push(claimsData.Cs.ClaimsLobSummary[0].AmountPaid);
+                  }
+                }
+                if (claimsData.hasOwnProperty('Ei') && claimsData.Ei != null) {
+                  if (
+                    claimsData.Ei.hasOwnProperty('ClaimsLobSummary') &&
+                    claimsData.Ei.ClaimsLobSummary.length &&
+                    claimsData.Ei.ClaimsLobSummary[0].hasOwnProperty('AmountPaid')
+                  ) {
+                    paidData.push(claimsData.Ei.ClaimsLobSummary[0].AmountPaid);
+                  }
+                }
+                if (claimsData.hasOwnProperty('Un') && claimsData.Un != null) {
+                  if (
+                    claimsData.Un.hasOwnProperty('ClaimsLobSummary') &&
+                    claimsData.Un.ClaimsLobSummary.length &&
+                    claimsData.Un.ClaimsLobSummary[0].hasOwnProperty('AmountPaid')
+                  ) {
+                    paidData.push(claimsData.Un.ClaimsLobSummary[0].AmountPaid);
+                  }
+                }
                 claimsPaid = {
                   category: 'app-card',
                   type: 'donutWithLabel',
@@ -802,18 +898,18 @@ export class GettingReimbursedSharedService {
                       this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].AmountPaid) > 0
                         ? '< $1'
                         : '$' + this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].AmountPaid),
-                    color: ['#3381FF', '#80B0FF', '#003DA1'],
+                    color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'],
                     gdata: ['card-inner', 'claimsPaid'],
                     sdata: {
                       sign: '',
                       data: ''
                     },
-                    labels: ['Medicare & Retirement', 'Community & State', 'Employer & Individual'],
+                    labels: ['Medicare & Retirement', 'Community & State', 'Employer & Individual', 'Uncategorized'],
                     hover: true
                   },
                   besideData: {
-                    labels: ['Medicare & Retirement', 'Community & State', 'Employer & Individual'],
-                    color: ['#3381FF', '#80B0FF', '#003DA1']
+                    labels: ['Medicare & Retirement', 'Community & State', 'Employer & Individual', 'Uncategorized'],
+                    color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC']
                   },
                   timeperiod: this.timeFrame
                 };
@@ -829,11 +925,11 @@ export class GettingReimbursedSharedService {
                 };
               }
               if (
-                this.nonPaymentData1 !== null &&
-                this.nonPaymentData1[0] !== null &&
-                this.nonPaymentData1[0].data !== null
+                this.nonPaymentData !== null &&
+                this.nonPaymentData[0] !== null &&
+                this.nonPaymentData[0].data !== null
               ) {
-                claimsNotPaid = this.nonPaymentData1[0];
+                claimsNotPaid = this.nonPaymentData[0];
               } else {
                 claimsNotPaid = {
                   category: 'app-card',
@@ -846,11 +942,11 @@ export class GettingReimbursedSharedService {
                 };
               }
               if (
-                this.nonPaymentData1 !== null &&
-                this.nonPaymentData1[1] != null &&
-                this.nonPaymentData1[1].data != null
+                this.nonPaymentData !== null &&
+                this.nonPaymentData[1] != null &&
+                this.nonPaymentData[1].data != null
               ) {
-                claimsNotPaidRate = this.nonPaymentData1[1];
+                claimsNotPaidRate = this.nonPaymentData[1];
               } else {
                 claimsNotPaidRate = {
                   category: 'app-card',
@@ -1220,7 +1316,6 @@ export class GettingReimbursedSharedService {
             const trendTimePeriod = element.ReportingPeriod;
             const trendTimePeriodArr = trendTimePeriod.split('-');
             const trendTimePeriodFinal = trendTimePeriodArr[1];
-            // console.log(tpFinal);
             filter_data_claimSummary.push({
               name: this.ReturnMonthlyString(trendTimePeriodFinal),
               value: trendMonthValue,
@@ -1419,8 +1514,6 @@ export class GettingReimbursedSharedService {
       }*/
 
       this.gettingReimbursedService.getPaymentIntegrityData(parameters).subscribe(r => {
-        console.log(r);
-
         if (r !== null && r !== '') {
           const result: any = r;
           const output: any = {};
@@ -1495,9 +1588,9 @@ export class GettingReimbursedSharedService {
   }
 
   getclaimsPaidData() {
-    this.tin = this.session.tin;
-    this.lob = this.session.lob;
-    this.timeFrame = 'Last 6 Months'; // this.session.timeFrame;
+    this.tin = this.session.filterObjValue.tax.toString().replace('-', '');
+    this.lob = this.session.filterObjValue.lob;
+    this.timeFrame = this.session.filterObjValue.timeFrame; // 'Last 6 Months'; // this.session.timeFrame;
     this.providerKey = this.session.providerKeyData();
     const timeperiod = '';
 

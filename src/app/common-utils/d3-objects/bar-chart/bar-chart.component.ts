@@ -96,7 +96,7 @@ export class BarChartComponent implements OnInit, AfterViewInit {
 
     let barHeight = 48;
     if (chartOptions.barHeight) {
-      barHeight = chartOptions.barHeight + 8;
+      barHeight = chartOptions.barHeight; // bar height to be 48
     }
 
     const margin = { top: 25, right: 10, bottom: 5, left: 10 };
@@ -109,7 +109,7 @@ export class BarChartComponent implements OnInit, AfterViewInit {
       .attr('width', width + margin.left + margin.right)
       .attr('height', height + margin.top + margin.bottom)
       .append('g')
-      .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
+      .attr('transform', 'translate(' + (margin.left + 6) + ',' + (margin.top + 5) + ')');
 
     let xScaleConstant;
     if (chartOptions.starObject) {
@@ -128,7 +128,7 @@ export class BarChartComponent implements OnInit, AfterViewInit {
       const PCORStarXCoordinateMultiplier = 17.5;
 
       for (let i = 0; i < PCORStars; i++) {
-        const xCoordinate = 20 + PCORStarXCoordinateMultiplier * i;
+        const xCoordinate = 16 + PCORStarXCoordinateMultiplier * i;
         chart
           .append('g')
           .attr('transform', 'translate(' + xCoordinate + ',' + -20 + ')')
@@ -140,15 +140,18 @@ export class BarChartComponent implements OnInit, AfterViewInit {
               '10.472136 5.26687371 16 6.11145618 12 10.2111456 12.9442719 16'
           );
       }
+      // This belongs to PCOR
       chart
         .append('text')
-        .attr('x', 28 + xScale(chartOptions.barData))
+        .attr('x', 20 + 16 + xScale(chartOptions.barData))
+        // 20 will make this text attached with bar graph and moving 16px from right is the requirement
         .attr('y', (height + 20) / 2)
         .attr('fill', '#2D2D39')
         .attr('font-size', '20')
+        .attr('text-align', 'right')
         .style('text-anchor', 'start')
         .style('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
-        .text(formatDy(chartOptions.barData));
+        .text(chartOptions.barData);
 
       chart
         .append('rect')
@@ -192,7 +195,9 @@ export class BarChartComponent implements OnInit, AfterViewInit {
 
       // Shift text object up for 2+ line reasons
       if (textWithHover.selectAll('tspan').size() > 1) {
-        d3.select('#' + uniqueText).attr('transform', 'translate(' + 0 + ',' + -7.5 + ')');
+        d3.select('#' + uniqueText)
+          .attr('transform', 'translate(' + 0 + ',' + -7.5 + ')')
+          .attr('cursor', 'pointer');
       }
 
       // where we should enable the hover object to exist
@@ -220,7 +225,7 @@ export class BarChartComponent implements OnInit, AfterViewInit {
           .select(this.renderChart)
           .append('div')
           .attr('class', 'tooltip')
-          .style('height', '100px')
+          .style('height', 'auto')
           .style('width', '438px')
           .style('opacity', 0)
           .style('border-radius', 0);
@@ -250,14 +255,14 @@ export class BarChartComponent implements OnInit, AfterViewInit {
               .transition()
               .duration(10)
               .style('opacity', 1);
-            div.style('left', d3.event.layerX - 219 + 'px').style('top', d3.event.layerY - 110 + 'px');
+            div.style('left', d3.event.layerX - 14 + 'px').style('top', d3.event.layerY - 130 + 'px');
           })
           .on('mousemove', function(d) {
             div
               .transition()
               .duration(10)
               .style('opacity', 1);
-            div.style('left', d3.event.layerX - 219 + 'px').style('top', d3.event.layerY - 110 + 'px');
+            div.style('left', d3.event.layerX - 14 + 'px').style('top', d3.event.layerY - 130 + 'px');
           })
           .on('mouseleave', function(d) {
             div
@@ -268,14 +273,15 @@ export class BarChartComponent implements OnInit, AfterViewInit {
       }
       chart
         .append('text')
-        .attr('x', xScale(chartOptions.barSummation / 1.5))
-        .attr('y', (height + 20) / 2)
+        .attr('x', xScale(chartOptions.barSummation / 1.358))
+        .attr('y', (barHeight + 4) / 2)
         .attr('fill', '#2D2D39')
-        .attr('font-size', '22')
-        .style('text-anchor', 'start')
+        .attr('font-size', '20')
+        .attr('float', 'right')
+        .style('text-anchor', 'end')
         .style('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
 
-        .text(chartOptions.barData);
+        .text(formatDy(chartOptions.barData));
     }
   }
 }
