@@ -13,12 +13,13 @@ import {
 import { MatIconRegistry, PageEvent } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 import { GettingReimbursedSharedService } from '../../../shared/getting-reimbursed/getting-reimbursed-shared.service';
-import { MatPaginator, MatTableDataSource, MatSort } from '@angular/material';
 import { GlossaryExpandService } from '../../../shared/glossary-expand.service';
 import { SessionService } from 'src/app/shared/session.service';
 import { StorageService } from '../../../shared/storage-service.service';
 import { Router } from '@angular/router';
 import { FilterExpandService } from '../../../shared/filter-expand.service';
+import { CommonUtilsService } from '../../../shared/common-utils.service';
+import { NonPaymentSharedService } from '../../../shared/getting-reimbursed/non-payment-shared.service';
 
 @Component({
   selector: 'app-non-payments',
@@ -29,27 +30,18 @@ import { FilterExpandService } from '../../../shared/filter-expand.service';
 export class NonPaymentsComponent implements OnInit, AfterViewChecked {
   title = 'Top Reasons for Claims Non-Payment';
   trendTitle = 'Claims Non-Payment Trend';
-  facilityTitle = 'Claims Non-Payments by Facility';
-  timePeriod = 'Last 6 Months';
   section: any = [];
+  timePeriod: string;
+  lob: string;
+  taxID: Array<string>;
   @Output() filterIconClicked = new EventEmitter();
-  summaryItems: any;
   subscription: any;
   pageTitle: String = '';
-  currentSummary: Array<Object> = [{}];
+  nonPaymentData1: Array<Object> = [{}];
   currentTabTitle: String = '';
   monthlyLineGraph: any = [{}];
-  recordsMorethan10 = true;
-  showPagination = true;
-  displayedColumns: string[] = ['facilityName'];
-  pageNumber = 1;
-  totalPages = 0;
-  totalRecords: any = 0;
-  top5ReasonsDataArray: any;
-  top5Reasons: any = [];
-  facilityData: any;
-  dataSource: MatTableDataSource<any>;
-  show = false;
+
+  show = true;
   dataLoaded = false;
   type: any;
   loadingOne: boolean;
@@ -57,8 +49,6 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
   loadingTwo: boolean;
   mockCardTwo: any;
 
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
   barChartsArray = [
     {
       title: 'Need More Information',
@@ -208,8 +198,11 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
     private glossaryExpandService: GlossaryExpandService,
     private filterExpandService: FilterExpandService,
     private session: SessionService,
-    private router: Router
+    private router: Router,
+    private filtermatch: CommonUtilsService,
+    private nonPaymentService: NonPaymentSharedService
   ) {
+    const filData = this.session.getFilChangeEmitter().subscribe(() => this.ngOnInit());
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.ngOnInit());
     /** INITIALIZING SVG ICONS TO USE IN DESIGN - ANGULAR MATERIAL */
 
@@ -218,7 +211,7 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-add-24px.svg')
     );
     iconRegistry.addSvgIcon(
-      'close',
+      'close-bar',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-remove-24px.svg')
     );
     iconRegistry.addSvgIcon(
@@ -233,21 +226,44 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
       'filter',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-filter_list-24px.svg')
     );
+    iconRegistry.addSvgIcon(
+      'close',
+      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-close-24px.svg')
+    );
     this.pageTitle = 'Claims Non-Payments';
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.ngOnInit());
   }
 
   ngOnInit() {
+    this.nonPaymentData1 = [];
+    this.timePeriod = this.session.filterObjValue.timeFrame;
+    if (this.session.filterObjValue.lob !== 'All') {
+      this.lob = this.filtermatch.matchLobWithLobData(this.session.filterObjValue.lob);
+    } else {
+      this.lob = '';
+    }
+    if (this.session.filterObjValue.tax.length > 0 && this.session.filterObjValue.tax[0] !== 'All') {
+      this.taxID = this.session.filterObjValue.tax;
+      if (this.taxID.length > 3) {
+        this.taxID = [this.taxID.length + ' Selected'];
+      }
+    } else {
+      this.taxID = [];
+    }
+    this.gettingReimbursedSharedService.getTins().then(tins => {
+      console.log(tins);
+    });
     this.loadingOne = false;
     this.mockCardOne = [{}];
     this.loadingTwo = false;
     this.mockCardTwo = [{}];
     // this.timePeriod = this.session.timeFrame; // uncomment it
-    this.gettingReimbursedSharedService.getGettingReimbursedData().then(completeData => {
-      this.summaryItems = JSON.parse(JSON.stringify(completeData));
-      this.currentSummary = this.summaryItems[2].data;
-      this.currentTabTitle = this.summaryItems[2].title;
+
+    /** code for two donuts  Claims Not Paid and Claims Non-payment Rate */
+    this.nonPaymentService.getNonPayment().then(nonPayment => {
+      this.nonPaymentData1 = JSON.parse(JSON.stringify(nonPayment));
     });
+
     this.monthlyLineGraph.chartId = 'non-payment-trend-block';
     this.monthlyLineGraph.titleData = [{}];
     this.monthlyLineGraph.generalData = [
@@ -272,70 +288,23 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
 
     this.monthlyLineGraph.generalData2 = [];
     this.monthlyLineGraph.chartData2 = [];
-    this.top5ReasonsDataArray = undefined;
-    this.displayedColumns = ['facilityName'];
-    this.top5Reasons = [{}];
-    this.gettingReimbursedSharedService.getTopReasonsforClaimsNonPayments().then(topReasons => {
-      this.top5ReasonsDataArray = topReasons;
-      this.top5ReasonsDataArray.forEach(element => {
-        this.displayedColumns.push(element.Claimdenialcategorylevel1shortname);
-        this.top5Reasons.push(element.Claimdenialcategorylevel1shortname);
-      });
-    });
-    this.facilityData = null;
-    this.totalRecords = null;
-    this.gettingReimbursedSharedService
-      .getClaimsNonPaymentsbyFacilityData(this.top5Reasons)
-      .then(claimsNonpaymentsData => {
-        this.facilityData = claimsNonpaymentsData;
-        if (this.facilityData.length === 0) {
-          this.showPagination = false;
-        }
-        this.dataSource = new MatTableDataSource(this.facilityData);
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sortingDataAccessor = (item, property) => {
-          switch (property) {
-            case 'facilityName':
-              return item.facilityName + item.tin;
-            default:
-              return item[property];
-          }
-        };
-        this.dataSource.sort = this.sort;
-        this.totalRecords = this.facilityData.length;
-
-        if (this.facilityData.length <= 10) {
-          this.recordsMorethan10 = false;
-        } else {
-          this.totalPages = Math.ceil(this.totalRecords / 10);
-        }
-      });
-  }
-  syncPrimaryPaginator(event: PageEvent) {
-    this.pageNumber = event.pageIndex + 1;
-  }
-  changePagination(event) {
-    this.paginator.pageSize = Number(event.target.value);
-    this.paginator.page.emit({
-      previousPageIndex: 2,
-      pageIndex: 1,
-      pageSize: event.target.value,
-      length: this.paginator.length
-    });
-    this.paginator.firstPage();
-    this.pageNumber = 1;
-    this.totalPages = this.paginator.getNumberOfPages();
-  }
-  changePage() {
-    (this.paginator.pageIndex = this.pageNumber - 1), // number of the page you want to jump.
-      this.paginator.page.next({
-        pageIndex: this.pageNumber - 1,
-        pageSize: this.paginator.pageSize,
-        length: this.paginator.length
-      });
-  }
+  } // ngOnInit Ends here
   helpIconClick(title) {
     this.glossaryExpandService.setMessage(title);
+  }
+  /** This function is used for collapse of Top Reasons For Non Payment
+   * section is an array of boolean variable
+   * The functionlaity in html code is like when we click on + and - icon, boolean value of true
+   * is pushed in section array.
+   * So this function is marking false for all those indexes in the section array except for the
+   * clicked one which we captured in the variable x
+   */
+  reasonsCollapose(x: Number) {
+    for (let i = 0; i < this.section.length; i++) {
+      if (i !== x) {
+        this.section[i] = false;
+      }
+    }
   }
 
   sortHeader(event) {
@@ -360,5 +329,22 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
   }
   openFilter() {
     this.filterExpandService.setURL(this.router.url);
+  }
+  removeFilter(type, value) {
+    if (type === 'lob') {
+      this.lob = '';
+      this.session.store({ timeFrame: this.timePeriod, lob: 'All', tax: this.session.filterObjValue.tax });
+    } else if (type === 'tax' && !value.includes('Selected')) {
+      this.taxID = this.session.filterObjValue.tax.filter(id => id !== value);
+      if (this.taxID.length > 0) {
+        this.session.store({ timeFrame: this.timePeriod, lob: this.session.filterObjValue.lob, tax: this.taxID });
+      } else {
+        this.session.store({ timeFrame: this.timePeriod, lob: this.session.filterObjValue.lob, tax: ['All'] });
+        this.taxID = [];
+      }
+    } else if (type === 'tax' && value.includes('Selected')) {
+      this.session.store({ timeFrame: this.timePeriod, lob: this.session.filterObjValue.lob, tax: ['All'] });
+      this.taxID = [];
+    }
   }
 }

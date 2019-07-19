@@ -28,6 +28,18 @@ export class BarChartComponent implements OnInit, AfterViewInit {
   }
 
   doBarChart(chartOptions: any, transition: number) {
+    function formatDy(dy: number): string {
+      if (dy === 0) {
+        return '0.0M';
+      } else if (dy < 999) {
+        return dy.toFixed(0);
+      } else if (dy < 999999) {
+        return (dy / 1000).toFixed(1) + 'K';
+      } else if (dy) {
+        return (dy / 1000000).toFixed(1) + 'M';
+      }
+    }
+
     function getTextWidth(text, fontSize, fontFace) {
       const canvas = document.createElement('canvas');
       const context = canvas.getContext('2d');
@@ -82,11 +94,11 @@ export class BarChartComponent implements OnInit, AfterViewInit {
       .selectAll('*')
       .remove();
 
-    let barHeight = 68;
+    let barHeight = 48;
     if (chartOptions.barHeight) {
-      barHeight = chartOptions.barHeight + 8;
+      barHeight = chartOptions.barHeight; // bar height to be 48
     }
-    console.log('d3bar height' + barHeight);
+
     const margin = { top: 25, right: 10, bottom: 5, left: 10 };
     const width = preWidth - margin.left - margin.right;
     const height = barHeight * 1.5 - margin.top - margin.bottom;
@@ -97,40 +109,29 @@ export class BarChartComponent implements OnInit, AfterViewInit {
       .attr('width', width + margin.left + margin.right)
       .attr('height', height + margin.top + margin.bottom)
       .append('g')
-      .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
+      .attr('transform', 'translate(' + (margin.left + 6) + ',' + (margin.top + 5) + ')');
+
+    let xScaleConstant;
+    if (chartOptions.starObject) {
+      xScaleConstant = width - 60;
+    } else {
+      xScaleConstant = width / 2;
+    }
 
     const xScale = d3
       .scaleLinear()
       .domain([0, chartOptions.barSummation])
-      .range([0, width / 2]);
+      .range([0, xScaleConstant]);
 
-    chart
-      .append('rect')
-      .attr('x', xScale(chartOptions.barSummation) - 100)
-      .attr('y', 0)
-      .attr('width', xScale(chartOptions.barData))
-      .attr('height', barHeight)
-      .attr('fill', chartOptions.color[0].color1);
-
-    if (chartOptions.color.length === 2) {
-      chart
-        .append('rect')
-        .attr('x', xScale(chartOptions.barData))
-        .attr('y', 0)
-        .attr('width', xScale(chartOptions.barSummation) - xScale(chartOptions.barData))
-        .attr('height', barHeight)
-        .attr('fill', chartOptions.color[1].color2);
-    }
-
-    if (chartOptions.PCORStarCount > 1) {
-      const PCORStars = chartOptions.PCORStarCount;
+    if (chartOptions.starObject) {
+      const PCORStars = chartOptions.starCount;
       const PCORStarXCoordinateMultiplier = 17.5;
 
       for (let i = 0; i < PCORStars; i++) {
-        const xCoordinate = 10 + PCORStarXCoordinateMultiplier * i + xScale(chartOptions.barSummation);
+        const xCoordinate = 20 + PCORStarXCoordinateMultiplier * i;
         chart
           .append('g')
-          .attr('transform', 'translate(' + xCoordinate + ',' + -10 + ')')
+          .attr('transform', 'translate(' + xCoordinate + ',' + -20 + ')')
           .append('polygon')
           .attr('fill', '#3381FF')
           .attr(
@@ -139,7 +140,43 @@ export class BarChartComponent implements OnInit, AfterViewInit {
               '10.472136 5.26687371 16 6.11145618 12 10.2111456 12.9442719 16'
           );
       }
+      chart
+        .append('text')
+        .attr('x', 28 + xScale(chartOptions.barData))
+        .attr('y', (height + 20) / 2)
+        .attr('fill', '#2D2D39')
+        .attr('font-size', '20')
+        .attr('text-align', 'right')
+        .style('text-anchor', 'start')
+        .style('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
+        .text(chartOptions.barData);
+
+      chart
+        .append('rect')
+        .attr('x', 20)
+        .attr('y', 5)
+        .attr('width', xScale(chartOptions.barData))
+        .attr('height', barHeight)
+        .attr('fill', chartOptions.color[0].color1);
     } else {
+      chart
+        .append('rect')
+        .attr('x', xScale(chartOptions.barSummation) - 100)
+        .attr('y', 0)
+        .attr('width', xScale(chartOptions.barData))
+        .attr('height', barHeight)
+        .attr('fill', chartOptions.color[0].color1);
+
+      if (chartOptions.color.length === 2) {
+        chart
+          .append('rect')
+          .attr('x', xScale(chartOptions.barData))
+          .attr('y', 0)
+          .attr('width', xScale(chartOptions.barSummation) - xScale(chartOptions.barData))
+          .attr('height', barHeight)
+          .attr('fill', chartOptions.color[1].color2);
+      }
+
       const uniqueText = 'reasonText' + this.renderChart.slice(1);
       const tspanID = uniqueText + 'tspan';
       const textWithHover = chart
@@ -150,14 +187,15 @@ export class BarChartComponent implements OnInit, AfterViewInit {
         .attr('fill', '#2D2D39')
         .attr('font-size', '16')
         .attr('text-anchor', 'start')
-        .attr('font-family', 'UHCSans-Medium')
-        .attr('font-weight', '500')
+        .attr('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
         .text(chartOptions.barText)
         .call(wrap, 250, tspanID, 16);
 
       // Shift text object up for 2+ line reasons
       if (textWithHover.selectAll('tspan').size() > 1) {
-        d3.select('#' + uniqueText).attr('transform', 'translate(' + 0 + ',' + -7.5 + ')');
+        d3.select('#' + uniqueText)
+          .attr('transform', 'translate(' + 0 + ',' + -7.5 + ')')
+          .attr('cursor', 'pointer');
       }
 
       // where we should enable the hover object to exist
@@ -185,7 +223,7 @@ export class BarChartComponent implements OnInit, AfterViewInit {
           .select(this.renderChart)
           .append('div')
           .attr('class', 'tooltip')
-          .style('height', '116px')
+          .style('height', 'auto')
           .style('width', '438px')
           .style('opacity', 0)
           .style('border-radius', 0);
@@ -203,8 +241,7 @@ export class BarChartComponent implements OnInit, AfterViewInit {
           .attr('fill', '#2D2D39')
           .attr('font-size', '14')
           .attr('text-anchor', 'start')
-          .attr('font-family', 'UHCSans-SemiBold')
-          .attr('font-weight', '600')
+          .attr('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
           .text(chartOptions.barText)
           .call(wrap, 420, tspanID + 'hover', 14);
 
@@ -216,14 +253,14 @@ export class BarChartComponent implements OnInit, AfterViewInit {
               .transition()
               .duration(10)
               .style('opacity', 1);
-            div.style('left', d3.event.layerX - 219 + 'px').style('top', d3.event.layerY - 130 + 'px');
+            div.style('left', d3.event.layerX - 14 + 'px').style('top', d3.event.layerY - 130 + 'px');
           })
           .on('mousemove', function(d) {
             div
               .transition()
               .duration(10)
               .style('opacity', 1);
-            div.style('left', d3.event.layerX - 219 + 'px').style('top', d3.event.layerY - 130 + 'px');
+            div.style('left', d3.event.layerX - 14 + 'px').style('top', d3.event.layerY - 130 + 'px');
           })
           .on('mouseleave', function(d) {
             div
@@ -232,17 +269,17 @@ export class BarChartComponent implements OnInit, AfterViewInit {
               .style('opacity', 0);
           });
       }
-    }
+      chart
+        .append('text')
+        .attr('x', xScale(chartOptions.barSummation / 1.358))
+        .attr('y', (height + 20) / 2)
+        .attr('fill', '#2D2D39')
+        .attr('font-size', '20')
+        .attr('float', 'right')
+        .style('text-anchor', 'end')
+        .style('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
 
-    chart
-      .append('text')
-      .attr('x', xScale(chartOptions.barSummation / 1.5))
-      .attr('y', (height + 20) / 2)
-      .attr('fill', '#2D2D39')
-      .attr('font-size', '22')
-      .style('text-anchor', 'start')
-      .style('font-family', 'UHCSans-SemiBold')
-      .style('font-weight', '600')
-      .text(chartOptions.barData);
+        .text(formatDy(chartOptions.barData));
+    }
   }
 }

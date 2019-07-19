@@ -2,13 +2,19 @@
  * Author: Ranjith kumar Ankam
  * Created Date: 03-Apr-2019
  *  -->
+<app-uhc-loader *ngIf="loading"></app-uhc-loader>
+
 <div [ngClass]="{ 'dark-theme': isDarkTheme | async }">
   <div class="example-container example-is-mobile" color="primary">
     <mat-toolbar color="primary" class="example-toolbar" [class.display-none]="makeAbsolute">
       <!--<button mat-icon-button (click)="srnav.toggle()">-->
       <!--<mat-icon>filter</mat-icon>-->
       <!--</button>-->
-      <app-header [class.display-none]="makeAbsolute" (hamburgerDisplay)="hamburgerDisplay($event)"></app-header>
+      <app-header
+        [class.display-none]="makeAbsolute"
+        class="sticky"
+        (hamburgerDisplay)="hamburgerDisplay($event)"
+      ></app-header>
     </mat-toolbar>
     <mat-sidenav-container class="example-sidenav-container" color="primary" (backdropClick)="close()">
       <!-- SIDE NAVIGATION BAR  fixedTopGap="65"-->
@@ -30,7 +36,7 @@
         <div class="health-system-representation-block">
           <p class="representing-label">You are representing</p>
           <p class="health-system-name">{{ healthSystemName }}</p>
-          <p class="change-provider" (click)="openDialog()">Change Provider</p>
+          <p class="change-provider" *ngIf="disableChangeProvider" (click)="openDialog()">Change Provider</p>
         </div>
         <!-- END OF HEALTHSYSTEM REPRESENTATION BLOCK -->
 
@@ -98,7 +104,10 @@
         <!-- SIGNOUT BLOCK -->
         <div class="signout-block">
           <p class="signout-label" (click)="signOut()">
-            <a> <mat-icon class="nav-menu-icons" svgIcon="sign-out"></mat-icon>Sign Out </a>
+            <a>
+              <mat-icon class="nav-menu-icons" svgIcon="sign-out"></mat-icon
+              ><span class="sign-out-text">Sign Out </span></a
+            >
           </p>
         </div>
         <!-- END OF SIGNOUT BLOCK -->
@@ -113,22 +122,28 @@
         position="end"
         [fixedInViewport]="true"
         [opened]="glossaryFlag || filterFlag"
-        disableClose
+        id="side-nav-glossary"
       >
-        <div style="width: 418px;">
-          <div class="" [ngClass]="{ sidemargin: glossaryFlag, 'sidemargin-filter': filterFlag }">
-            <div *ngIf="glossaryFlag">
-              <mat-icon class="icon-left" svgIcon="closeGlossary" (click)="closeGlossary()">
-                <div class="h-3-title">Knowledge Center</div>
-              </mat-icon>
+        <div style="width: 418px; min-height: 96%;">
+          <div [ngClass]="{ sidemargin: glossaryFlag, 'sidemargin-filter': filterFlag }">
+            <div *ngIf="glossaryFlag" class="mat-details">
+              <div class="h-3-title-filter">
+                <div class="close-icon-style">
+                  <mat-icon class="icon-left-filter" svgIcon="closeGlossary" (click)="closeGlossary()"> </mat-icon>
+                </div>
+                <div class="filter-text">Knowledge Center</div>
+              </div>
             </div>
-            <div *ngIf="filterFlag">
-              <mat-icon class="icon-left-filter" svgIcon="closeFilter" (click)="closeFilter()">
-                <div class="h-3-title-filter">Filters</div>
-              </mat-icon>
+            <div *ngIf="filterFlag" class="mat-details">
+              <div class="h-3-title-filter">
+                <div class="close-icon-style">
+                  <mat-icon class="icon-left-filter" svgIcon="closeFilter" (click)="closeFilter()"> </mat-icon>
+                </div>
+                <div class="filter-text">Filters</div>
+              </div>
             </div>
-            <app-glossary *ngIf="glossaryTitle" [title]="glossaryTitle"></app-glossary>
-            <app-filter *ngIf="filterFlag" (filterFlag)="filterFlagChange($event)"></app-filter>
+            <app-glossary *ngIf="glossaryFlag && glossaryTitle" [title]="glossaryTitle"></app-glossary>
+            <app-filter *ngIf="filterFlag" [filterurl]="filterurl" (filterFlag)="filterFlagChange($event)"></app-filter>
           </div>
         </div>
       </mat-sidenav>
@@ -139,6 +154,6 @@
         <router-outlet></router-outlet>
       </mat-sidenav-content>
     </mat-sidenav-container>
-    <app-footer class="footer-block" [class.display-none]="makeAbsolute"></app-footer>
+    <app-footer-common class="footer-block" [class.display-none]="makeAbsolute"></app-footer-common>
   </div>
 </div>

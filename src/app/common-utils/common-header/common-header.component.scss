@@ -8,12 +8,11 @@
 }
 .header-title {
   color: $blue;
-  font-family: 'UHCSans-SemiBold', 'Arial';
+  font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
   font-size: 18px;
-  padding: 16px 11px 16px 11px;
+  padding: 16px;
   line-height: 22px;
   text-align: left;
-  float: left;
 }
 .handClicked {
   cursor: pointer;
@@ -23,7 +22,7 @@
 }
 .details {
   color: $strom-grey;
-  font-family: 'UHCSans-SemiBold', 'Arial';
+  font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
   /*font-size: 18px;
   line-height: 22px;*/
   display: flex;
@@ -50,4 +49,10 @@
 
 .non-small-card-header-title {
   color: $black-rock !important;
+  word-break: break-word;
+  // width: 375px; title should come in single line w.rt to Prior Auth Page
+}
+.half-card-header-title {
+  word-break: break-word;
+  width: 350px;
 }

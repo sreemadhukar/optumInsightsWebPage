@@ -8,17 +8,17 @@
   border-width: 1px;
   border-color: #e0e0e0;
   z-index: 999;
+  max-width: 1610px;
   .menu-div {
     @include padding(0, 0, 0, 0);
     .menu-icon {
       margin: 0;
       color: #196ecf;
       background-color: none;
-      @include padding(20px, 0px, 22px, 40px);
-    }
-    .menu-icon:hover {
+      @include padding(26px, 0px, 22px, 40px);
     }
   }
+
   .header-logo-div {
     padding: 18px 0 18px 33px;
 
@@ -42,7 +42,7 @@
     height: 25px;
     color: $strom-grey;
     font-size: 16px;
-    font-weight: 600;
+    font-family: 'UHCSans-SemiBold', 'Helvetica', 'Arial', 'sans-serif';
     letter-spacing: 0.2px;
     line-height: 22px;
     text-align: right;
@@ -50,8 +50,7 @@
 
     .user-name {
       line-height: 31px;
-      font-family: 'UHCSans-Medium', 'Helvetica', 'Arial';
-      font-weight: 500;
+      font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
     }
     .user-expand-more {
       line-height: 26px;

@@ -52,17 +52,15 @@
       margin: 3% 7% 0 7%;
 
       .notifier {
-        font-family: 'UHCSans-Medium', 'sans-serif', 'Arial';
+        font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
         font-size: 28px;
-        font-weight: 600;
         line-height: 32px;
       }
       .content {
         font-size: 16px;
-        font-weight: 500;
         letter-spacing: 0.2px;
         line-height: 22px;
-        font-family: 'UHCSans-Medium', 'sans-serif', 'Arial';
+        font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
         margin-top: 2%;
       }
 
@@ -76,9 +74,8 @@
         display: inline-flex;
         width: 100%;
         div {
-          font-family: 'UHCSans-Medium', 'sans-serif', 'Arial';
+          font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
           font-size: 14px;
-          font-weight: 500;
           letter-spacing: 0.2px;
           line-height: 18px;
           margin: 5px 10px;
@@ -97,10 +94,10 @@
 
       header {
         color: #333333;
-        font-family: 'UHCSans-SemiBold';
+        font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
         font-size: 2.2rem;
         text-align: left;
-        font-weight: 400;
+
         line-height: normal;
         padding-bottom: 15px;
       }
@@ -112,7 +109,7 @@
         form {
           header {
             font-size: 28px;
-            font-weight: 600;
+            font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
             line-height: 32px;
           }
           .form-group {
@@ -124,9 +121,8 @@
               display: inline-block;
               max-width: 100%;
               margin-bottom: 5px;
-              font-family: 'UHCSans-Medium', 'sans-serif', 'Arial';
+              font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
               font-size: 14px;
-              font-weight: 500;
               letter-spacing: 0.2px;
               line-height: 18px;
             }
@@ -146,7 +142,7 @@
               padding: 6px 12px;
               margin-bottom: 0;
               font-size: 14px;
-              font-weight: 400;
+
               line-height: 1.42857143;
               text-align: center;
               white-space: nowrap;
@@ -168,9 +164,8 @@
 
             .invalid-feedback {
               div {
-                font-family: 'UHCSans-Medium', 'sans-serif', 'Arial';
+                font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
                 font-size: 14px;
-                font-weight: 500;
                 letter-spacing: 0.2px;
                 line-height: 18px;
                 color: $red-dark;
@@ -190,30 +185,53 @@
           color: #333333;
           font-size: 1rem;
           text-align: left;
-          font-weight: 400;
           line-height: normal;
           padding-top: 19px;
-          font-family: 'UHCSans-Medium', 'sans-serif', 'Arial';
+          font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
           span {
-            font-family: 'UHCSans-Medium', 'sans-serif', 'Arial';
+            font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
           }
         }
         .head {
           font-size: 28px;
-          font-weight: 600;
           line-height: 32px;
-          font-family: 'UHCSans-SemiBold';
+          font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
         }
       }
     }
 
     footer {
       font-size: 14px;
-      font-weight: 500;
       letter-spacing: 0.2px;
       line-height: 18px;
       margin: 0 3% 10% 7%;
-      font-family: 'UHCSans-Medium', 'sans-serif', 'Arial';
+      font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
     }
   }
+}
+
+button {
+  float: right;
+  margin: -15px -25px 0 0;
+}
+button:focus {
+  outline: none;
+}
+.provider-close-icon {
+  border: 0;
+  box-shadow: none;
+  background: #ffffff;
+  color: #757588;
+  padding: 5px 0 5px 5px;
+  &:hover {
+    border-radius: 2px;
+    background-color: #d7dce1;
+    cursor: pointer;
+    color: #2d2d39;
+  }
+}
+.btn {
+  margin: 5px;
+  color: $white;
+  background: $blue;
 }

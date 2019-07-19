@@ -51,7 +51,7 @@ import { StorageService } from '../../shared/storage-service.service';
     ])
   ]
 })
-export class HeaderComponent implements AfterViewInit, OnDestroy {
+export class HeaderComponent implements OnInit, OnDestroy {
   @Input() isDarkTheme: Observable<boolean>;
   @Input() button: boolean;
   @Output() hamburgerDisplay = new EventEmitter<boolean>();
@@ -59,7 +59,7 @@ export class HeaderComponent implements AfterViewInit, OnDestroy {
   public state: any;
   public mobileQuery: boolean;
   public menuIcon = 'menu';
-  public username: string;
+  public username = '';
   subscription: Subscription;
 
   constructor(
@@ -108,13 +108,16 @@ export class HeaderComponent implements AfterViewInit, OnDestroy {
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Content/round-clear-24px.svg')
     );
 
-    this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.ngAfterViewInit());
+    this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.ngOnInit());
   }
 
-  ngAfterViewInit() {
+  ngOnInit() {
     this.isDarkTheme = this.themeService.isDarkTheme;
     const userInfo = JSON.parse(sessionStorage.getItem('loggedUser'));
-    this.username = userInfo.FirstName;
+    setTimeout(() => {
+      this.username = userInfo.FirstName;
+      this.username = userInfo.FirstName;
+    }, 5000);
   }
   /*angular theme */
 

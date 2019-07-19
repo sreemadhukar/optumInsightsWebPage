@@ -6,7 +6,7 @@
 
   .card-inner-large {
     background-color: $white;
-    width: 961px;
+    width: 954px;
     // height: 519px;
     position: relative;
     overflow: hidden;
@@ -29,13 +29,12 @@
     border-radius: 2px;
   }
   .full-width-block {
-    padding-top: 41px;
+    padding-top: 40px;
   }
   .header-properties {
     color: #2d2d39;
-    font-family: 'UHCSans-Medium', 'sans-serif', 'Arial';
+    font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
     font-size: 18px;
-    font-weight: 600;
     line-height: 22px;
     padding-left: 16px;
     padding-top: 16px;

@@ -118,6 +118,10 @@ export class RotatingArrowObjectComponent implements OnInit, AfterViewInit {
         circleColor = '#FFE6F0';
         textColor = '#B10C00';
         arrowLink = 'src/assets/images/trend-down.svg';
+      } else if (chartOptions.sdata.sign === 'neutral') {
+        circleColor = '#e0e0e0';
+        textColor = '#2d2d39';
+        arrowLink = 'src/assets/images/flat-no-change.svg';
       }
 
       chart
@@ -140,9 +144,8 @@ export class RotatingArrowObjectComponent implements OnInit, AfterViewInit {
         .attr('x', width / 2.25)
         .attr('y', height / 1.5)
         .style('font-size', '16px')
-        .style('font-weight', '500')
         .style('fill', textColor)
-        .style('font-family', 'UHCSans-Medium')
+        .style('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
         .style('text-anchor', 'start')
         .text(chartOptions.sdata.data);
     }
@@ -153,9 +156,8 @@ export class RotatingArrowObjectComponent implements OnInit, AfterViewInit {
       .attr('y', height / 2)
       .attr('x', width / 2)
       .style('font-size', '41px')
-      .style('font-weight', '500')
       .style('fill', '#2D2D39')
-      .style('font-family', 'UHCSans-Medium')
+      .style('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
       .style('letter-spacing', '-0.5px')
       .text(chartOptions.centerNumber);
   }

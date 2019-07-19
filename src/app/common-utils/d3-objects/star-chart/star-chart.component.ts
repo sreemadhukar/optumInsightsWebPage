@@ -4,7 +4,7 @@ import * as d3 from 'd3';
 @Component({
   selector: 'app-star-chart',
   templateUrl: './star-chart.component.html',
-  styleUrls: ['./star-chart.component.less'],
+  styleUrls: ['./star-chart.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
 export class StarChartComponent implements OnInit, AfterViewInit {
@@ -17,12 +17,12 @@ export class StarChartComponent implements OnInit, AfterViewInit {
   @Input() starType: string;
 
   constructor() {}
-
+  /*
   @HostListener('window:resize', ['$event'])
   onResize(event) {
     this.doStarComponent(this.chartOptions, this.customWidth, this.customHeight);
   }
-
+*/
   ngOnInit() {
     this.renderChart = '#' + this.chartOptions.gdata[1];
   }
@@ -48,39 +48,70 @@ export class StarChartComponent implements OnInit, AfterViewInit {
     if (customHeight > 0) {
       height = customHeight - margin.left - margin.right;
     }
+    let centerTextFontSize;
+    let centerTextHeight;
     if (this.starType === 'app-card') {
       width = 212;
-      height = 212;
+      height = 320;
+      centerTextFontSize = 41;
+      centerTextHeight = 185;
+
+      const svg = d3
+        .select(this.renderChart)
+        .append('svg')
+        .attr('width', width + margin.left + margin.right)
+        .attr('height', height + margin.top + margin.bottom)
+        .append('g')
+        .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
+
+      svg
+        .append('svg:image')
+        .attr('x', 5)
+        .attr('y', 70)
+        .attr('width', 200) // 200 by 170 suggested by UX for PCOR
+        .attr('height', 190)
+        .attr('xlink:href', 'src/assets/images/star.png');
+
+      svg
+        .append('text')
+        .attr('x', (width + margin.left + margin.right) / 2)
+        .attr('y', centerTextHeight)
+        .attr('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
+        .attr('fill', '#FFFFFF')
+        .attr('font-size', centerTextFontSize)
+        .attr('text-anchor', 'middle')
+        .text(chartOptions.centerNumber);
     } else if (this.starType === 'small-card') {
       width = 120;
       height = 120;
+      centerTextFontSize = 22;
+      centerTextHeight = width / 2 + 10;
+
+      const svg = d3
+        .select(this.renderChart)
+        .append('svg')
+        .attr('width', width + margin.left + margin.right)
+        .attr('height', height + margin.top + margin.bottom)
+        .append('g')
+        .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
+
+      svg
+        .append('svg:image')
+        .attr('x', 0)
+        .attr('y', 0)
+        .attr('width', width)
+        .attr('height', height)
+        .attr('xlink:href', 'src/assets/images/star.png');
+
+      svg
+        .append('text')
+        .attr('x', (width + margin.left + margin.right) / 2)
+        .attr('y', centerTextHeight)
+        .attr('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
+        .attr('fill', '#FFFFFF')
+        .attr('font-size', centerTextFontSize)
+        .attr('text-anchor', 'middle')
+        .text(chartOptions.centerNumber);
     }
-
-    const svg = d3
-      .select(this.renderChart)
-      .append('svg')
-      .attr('width', width + margin.left + margin.right)
-      .attr('height', height + margin.top + margin.bottom)
-      .append('g')
-      .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
-
-    svg
-      .append('svg:image')
-      .attr('x', 0)
-      .attr('y', 0)
-      .attr('width', width)
-      .attr('height', height)
-      .attr('xlink:href', 'src/assets/images/star.png');
-
-    svg
-      .append('text')
-      .attr('x', (width + margin.left + margin.right) / 2)
-      .attr('y', width / 2 + 10)
-      .attr('font-family', 'UHCSans-Regular')
-      .attr('fill', '#FFFFFF')
-      .attr('font-size', '22')
-      .attr('font-weight', '600')
-      .attr('text-anchor', 'middle')
-      .text(chartOptions.centerNumber);
   }
 }

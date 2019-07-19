@@ -15,7 +15,9 @@ import {
   ViewChild,
   QueryList,
   OnDestroy,
-  Input
+  AfterViewChecked,
+  Input,
+  Inject
 } from '@angular/core';
 import { MatExpansionPanel, MatDialog, MatSidenav } from '@angular/material';
 import { BreakpointObserver } from '@angular/cdk/layout';
@@ -31,7 +33,8 @@ import { GlossaryExpandService } from '../../shared/glossary-expand.service';
 import { Subscription } from 'rxjs';
 import { PriorAuthSharedService } from 'src/app/shared/prior-authorization/prior-auth.service';
 import { FilterExpandService } from '../../shared/filter-expand.service';
-import { Location } from '@angular/common';
+import { DOCUMENT, Location } from '@angular/common';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-hamburger-menu',
@@ -39,14 +42,12 @@ import { Location } from '@angular/common';
   styleUrls: ['./hamburger-menu.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy {
+export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy, AfterViewChecked {
   _allExpandState = false;
+  loading = false;
   isDarkTheme: Observable<boolean>;
   @ViewChildren(MatExpansionPanel) viewPanels: QueryList<MatExpansionPanel>;
   @ViewChild('srnav') srnav: MatSidenav;
-  public healthSystemName = JSON.parse(sessionStorage.getItem('currentUser'))
-    ? JSON.parse(sessionStorage.getItem('currentUser'))[0]['HealthCareOrganizationName']
-    : '';
   public makeAbsolute: boolean;
   public sideNavFlag = true;
   subscription: any;
@@ -58,6 +59,8 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
   clickFilterIcon: Subscription;
   public mobileQuery: boolean;
   public PCORFlag: any;
+  public healthSystemName: string;
+  disableChangeProvider: boolean = environment.internalAccess;
   /*** Array of Navigation Category List ***/
   public navCategories = [
     { icon: 'home', name: 'Overview', path: '/OverviewPage', disabled: false },
@@ -78,11 +81,11 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
       children: [{ name: 'Prior Authorizations', path: '/CareDelivery/priorAuth' }]
     },
     {
-      icon: 'issue-resolution',
-      name: 'Issue Resolution',
+      icon: 'service-interaction',
+      name: 'Service Interaction',
       children: [
-        { name: 'Self Service', path: '/IssueResolution/SelfService' },
-        { name: 'Calls', path: '/IssueResolution/Calls' }
+        { name: 'Self Service', path: '/ServiceInteraction/SelfService' },
+        { name: 'Calls', path: '/ServiceInteraction/Calls' }
       ]
     }
   ];
@@ -104,14 +107,19 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
     private glossaryExpandService: GlossaryExpandService,
     private filterExpandService: FilterExpandService,
     private priorAuthShared: PriorAuthSharedService,
-    private location: Location
+    private location: Location,
+    @Inject(DOCUMENT) private document: any
   ) {
     this.glossaryFlag = false;
     this.filterFlag = false;
     // to disable the header/footer/body when not authenticated
     router.events.subscribe(event => {
       if (event instanceof NavigationStart) {
-        this.makeAbsolute = !(authService.isLoggedIn() && !(event.url === '' || event.url.indexOf('/login') >= 0));
+        this.makeAbsolute = !(
+          authService.isLoggedIn() &&
+          !(event.url === '' || event.url === '/ProviderSearch' || event.url.indexOf('/login') >= 0)
+        );
+        this.loading = true;
       }
       // PLEASE DON'T MODIFY THIS
     });
@@ -130,7 +138,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-favorite-24px.svg')
     );
     iconRegistry.addSvgIcon(
-      'issue-resolution',
+      'service-interaction',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-stars-24px.svg')
     );
     iconRegistry.addSvgIcon(
@@ -151,14 +159,15 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
     );
   }
   ngOnInit() {
+    this.loading = false;
     this.PCORFlag = false;
     this.isDarkTheme = this.themeService.isDarkTheme;
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => {
       this.healthSystemName = JSON.parse(sessionStorage.getItem('currentUser'))[0]['HealthCareOrganizationName'];
     });
-
-    this.checkStorage.getNavChangeEmitter().subscribe(() => {
+    if (sessionStorage.getItem('currentUser')) {
       this.priorAuthShared.getPCORData().then(data => {
+        console.log(data);
         if (this.PCORFlag === data) {
           // Do nothing because its the same state
         } else {
@@ -179,13 +188,44 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
             );
             if (this.location.path() === '/CareDelivery/PatientCareOpportunity') {
               this.router.navigateByUrl('/OverviewPage');
-              this.collapseExpansionPanels(2);
+              this.togglePanels(false, NaN);
             }
             this.PCORFlag = data;
           }
         }
       });
-    });
+
+      this.checkStorage.getNavChangeEmitter().subscribe(() => {
+        this.priorAuthShared.getPCORData().then(data => {
+          console.log(data);
+          if (this.PCORFlag === data) {
+            // Do nothing because its the same state
+          } else {
+            // Flag changed
+            if (data) {
+              this.navCategories[2].children.push({
+                name: 'Patient Care Opportunity',
+                path: '/CareDelivery/PatientCareOpportunity'
+              });
+              this.PCORFlag = data;
+            } else {
+              this.navCategories[2].children.splice(
+                this.navCategories[2].children.indexOf({
+                  name: 'Patient Care Opportunity',
+                  path: '/CareDelivery/PatientCareOpportunity'
+                }),
+                1
+              );
+              if (this.location.path() === '/CareDelivery/PatientCareOpportunity') {
+                this.router.navigateByUrl('/OverviewPage');
+                this.togglePanels(false, NaN);
+              }
+              this.PCORFlag = data;
+            }
+          }
+        });
+      });
+    }
 
     this.clickHelpIcon = this.glossaryExpandService.message.subscribe(
       data => {
@@ -201,11 +241,20 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
       data => {
         this.filterFlag = true;
         this.filterurl = data;
+        console.log(data);
       },
       err => {
         console.log('Error, clickHelpIcon , inside Hamburger', err);
       }
     );
+
+    setTimeout(() => {
+      const user = JSON.parse(sessionStorage.getItem('currentUser'));
+      this.healthSystemName =
+        user && user[0].hasOwnProperty('HealthCareOrganizationName')
+          ? user[0]['HealthCareOrganizationName']
+          : user[0]['Healthcareorganizationname'];
+    }, 10000);
   }
 
   ngOnDestroy() {
@@ -234,6 +283,17 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
       this.renderer.setStyle(listItem, 'padding', '0px');
     });
   }
+  ngAfterViewChecked() {
+    // console.log(this.elementRef.nativeElement.querySelectorAll('*[href="/CareDelivery/PatientCareOpportunity"]'));
+    try {
+      const PCORNavMenu = this.elementRef.nativeElement.querySelectorAll(
+        '*[href="/CareDelivery/PatientCareOpportunity"]'
+      )[0];
+      PCORNavMenu.style.height = 'auto';
+      PCORNavMenu.style.padding = '8px 0 8px 27px';
+      PCORNavMenu.style.width = 'auto';
+    } catch (error) {}
+  }
   hamburgerDisplay(input: boolean) {
     this.sideNavFlag = input;
     // alert(this.sideNavFlag);
@@ -244,7 +304,8 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
   }
   /** FUNCTIONS TO COLLAPSE LEFT MENU **/
   collapseExpansionPanels(id) {
-    this.allExpandState(false, id - 1);
+    window.scrollTo(300, 0);
+    // this.allExpandState(false, id - 1);
   }
 
   openDialog(): void {
@@ -270,9 +331,17 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
 
   signOut() {
     this.authService.logout();
+    if (!environment.internalAccess) {
+      this.document.location.href = 'https://provider-stage.linkhealth.com/';
+    }
   }
   public close() {
-    this.srnav.disableClose = true;
+    if (this.filterFlag) {
+      this.filterFlag = false;
+    }
+    if (this.glossaryFlag) {
+      this.glossaryFlag = false;
+    }
   }
   private allExpandState(value: boolean, id) {
     this._allExpandState = value;

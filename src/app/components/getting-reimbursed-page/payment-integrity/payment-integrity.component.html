@@ -5,11 +5,41 @@
       <div class="page-title">
         {{ pageTitle }}
       </div>
-      <app-mock-data-warning-message class="warning-block"></app-mock-data-warning-message>
-      <div class="time--period">
-        <button class="btn btn-rounded" disabled>
-          <span>Time Period: </span><span class="font-weight-semibold pl-4">Last 6 Months </span>
-        </button>
+      <!--<app-mock-data-warning-message class="warning-block"></app-mock-data-warning-message>-->
+      <div class="breadcrumb-top-padding filter-div">
+        <div class="time--period ">
+          <div class="filterchips">
+            <div class="horizontal-align">
+              <button class="btn btn-rounded" disabled>
+                <span>Time Period: </span><span class="text-semibold pl-4">{{ timePeriod }} </span>
+              </button>
+            </div>
+            <div class="horizontal-align" *ngFor="let tax of taxID">
+              <button class="btn btn-rounded" disabled>
+                <span>Tax ID: </span><span class="text-semibold pl-4">{{ tax }} </span>
+                <div class="close-btn">
+                  <mat-icon class="icon-display" (click)="removeFilter('tax', tax)" svgIcon="close"></mat-icon>
+                </div>
+              </button>
+            </div>
+            <div class="horizontal-align" *ngIf="lob">
+              <button class="btn btn-rounded" disabled>
+                <span>Line of Business: </span><span class="text-semibold pl-4">{{ lob }} </span>
+                <div class="close-btn">
+                  <mat-icon
+                    class="icon-display"
+                    (click)="removeFilter('lob', session.filterObjValue.lob)"
+                    svgIcon="close"
+                  ></mat-icon>
+                </div>
+              </button>
+            </div>
+          </div>
+          <div class="filter_bg" (click)="openFilter()">
+            <mat-icon matPrefix class="nav-menu-icons" class="filter_icon" svgIcon="filter"></mat-icon>
+            <div class="filter_title">Filters</div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -43,7 +73,8 @@
         <div class="pull-left">
           <div class="medical-records-returned-block">
             <div class="mr-returned-bar-block">
-              <p class="mr-returned-text">Medical Records Returned to UHC</p>
+              <!--<p class="mr-returned-text">Medical Records Returned to UHC</p>-->
+              <p class="mr-returned-text">Medical Records Received by UHC</p>
               <div
                 class="medical-records-returned-bar"
                 [class.zero-data-bar]="cardData.MedicalRecordsReturned == 0"
@@ -53,7 +84,8 @@
           </div>
           <div class="medical-records-not-returned-block">
             <div class="mr-not-returned-bar-block mr-returned-bar-block">
-              <p class="mr-not-returned-text mr-returned-text">Medical Records Not Returned to UHC</p>
+              <!--<p class="mr-not-returned-text mr-returned-text">Medical Records Not Returned to UHC</p>-->
+              <p class="mr-not-returned-text mr-returned-text">Medical Records Not Received by UHC</p>
               <div class="mr-not-returned-bar-text-block">
                 <div
                   class="medical-records-not-returned-bar"
@@ -61,8 +93,13 @@
                   [style.width.px]="cardData.notReturnedWidth"
                 ></div>
                 <div class="financial-ooportunity-block">
-                  <p class="financial-value">{{ cardData.OutStandingAmount }}</p>
-                  <p class="financial-trend">{{ cardData.OutStandingAmountVariance }}*</p>
+                  <div class="financial-ooportunity-numbers-block">
+                    <p class="financial-value">{{ cardData.OutStandingAmount }}</p>
+                    <mat-icon class="pi-trend-icons" svgIcon="{{ cardData.OutStandingAmountVarianceIcon }}"></mat-icon>
+                    <p class="financial-trend" [style.color]="cardData.OutStandingAmountVarianceColor">
+                      {{ cardData.OutStandingAmountVariance }}*
+                    </p>
+                  </div>
                   <p class="financial-opportunity">Financial Opportunity</p>
                 </div>
               </div>
