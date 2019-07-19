@@ -552,7 +552,7 @@ export class PriorAuthSharedService {
               // const data = providerSystems.PriorAuthorizations.LineOfBusiness.All;
               if (isAllLobBool && !isServiceCategory) {
                 data = providerSystems.PriorAuthorizations.LineOfBusiness.All;
-              } else if (!isAllLobBool) {
+              } else if (!isAllLobBool && !isServiceCategory) {
                 if (iscAndSLobBool) {
                   data = providerSystems.PriorAuthorizations.LineOfBusiness.CommunityAndState;
                 } else if (iseAndILobBool) {
@@ -970,7 +970,7 @@ export class PriorAuthSharedService {
             if (isAllLobBool && !isServiceCategory) {
               countDataOne = paTrendOne.All;
               countDataTwo = paTrendTwo.All;
-            } else if (!isAllLobBool) {
+            } else if (!isAllLobBool && !isServiceCategory) {
               if (iscAndSLobBool) {
                 countDataOne = paTrendOne.CommunityAndState;
                 countDataTwo = paTrendTwo.CommunityAndState;
