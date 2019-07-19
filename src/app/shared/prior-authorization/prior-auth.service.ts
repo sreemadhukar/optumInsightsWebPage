@@ -400,7 +400,6 @@ export class PriorAuthSharedService {
     const serviceSetting = filterParameters.serviceSetting;
     const paDecisionType = filterParameters.priorAuthType;
     const paServiceCategory = this.common.convertServiceCategoryOneWord(filterParameters.scType);
-    console.log(paServiceCategory);
 
     // Default parameters
     let timeRange = 'rolling12';
@@ -549,9 +548,8 @@ export class PriorAuthSharedService {
               providerSystems.hasOwnProperty('PriorAuthorizations') &&
               providerSystems.PriorAuthorizations.hasOwnProperty('LineOfBusiness')
             ) {
-              let data;
+              let data = [];
               // const data = providerSystems.PriorAuthorizations.LineOfBusiness.All;
-              console.log(isAllLobBool, isServiceCategory);
               if (isAllLobBool && !isServiceCategory) {
                 data = providerSystems.PriorAuthorizations.LineOfBusiness.All;
               } else if (!isAllLobBool) {
@@ -563,7 +561,9 @@ export class PriorAuthSharedService {
                   data = providerSystems.PriorAuthorizations.LineOfBusiness.MedicareAndRetirement;
                 }
               } else if (isServiceCategory) {
-                data = providerSystems.PriorAuthorizations.LineOfBusiness[paServiceCategoryString];
+                if (providerSystems.PriorAuthorizations.LineOfBusiness.hasOwnProperty(paServiceCategoryString)) {
+                  data = providerSystems.PriorAuthorizations.LineOfBusiness[paServiceCategoryString];
+                }
               }
               // This array format can allow us to make strings into object names ^^^
 
@@ -948,122 +948,146 @@ export class PriorAuthSharedService {
           ...priorAuthAPIParameters
         )
         .subscribe(([one, two]) => {
-          const paTrendOne = one.PriorAuthorizations.LineOfBusiness;
-          const paTrendTwo = two.PriorAuthorizations.LineOfBusiness;
+          let paTrendOne;
+          let paTrendTwo;
 
           let countDataOne;
           let countDataTwo;
 
-          if (isAllLobBool && !isServiceCategory) {
-            countDataOne = paTrendOne.All;
-            countDataTwo = paTrendTwo.All;
-          } else if (!isAllLobBool) {
-            if (iscAndSLobBool) {
-              countDataOne = paTrendOne.CommunityAndState;
-              countDataTwo = paTrendTwo.CommunityAndState;
-            } else if (iseAndILobBool) {
-              countDataOne = paTrendOne.EmployerAndIndividual;
-              countDataTwo = paTrendTwo.EmployerAndIndividual;
-            } else if (ismAndRLobBool) {
-              countDataOne = paTrendOne.MedicareAndRetirement;
-              countDataTwo = paTrendTwo.MedicareAndRetirement;
+          let sDataObjectOne;
+          let sDataObjectTwo;
+
+          if (
+            one.PriorAuthorizations !== null &&
+            one.hasOwnProperty('PriorAuthorizations') &&
+            one.PriorAuthorizations.hasOwnProperty('LineOfBusiness') &&
+            two.PriorAuthorizations !== null &&
+            two.hasOwnProperty('PriorAuthorizations') &&
+            two.PriorAuthorizations.hasOwnProperty('LineOfBusiness')
+          ) {
+            paTrendOne = one.PriorAuthorizations.LineOfBusiness;
+            paTrendTwo = two.PriorAuthorizations.LineOfBusiness;
+            if (isAllLobBool && !isServiceCategory) {
+              countDataOne = paTrendOne.All;
+              countDataTwo = paTrendTwo.All;
+            } else if (!isAllLobBool) {
+              if (iscAndSLobBool) {
+                countDataOne = paTrendOne.CommunityAndState;
+                countDataTwo = paTrendTwo.CommunityAndState;
+              } else if (iseAndILobBool) {
+                countDataOne = paTrendOne.EmployerAndIndividual;
+                countDataTwo = paTrendTwo.EmployerAndIndividual;
+              } else if (ismAndRLobBool) {
+                countDataOne = paTrendOne.MedicareAndRetirement;
+                countDataTwo = paTrendTwo.MedicareAndRetirement;
+              }
+            } else if (isServiceCategory) {
+              if (
+                paTrendOne.hasOwnProperty(paServiceCategoryString) &&
+                paTrendTwo.hasOwnProperty(paServiceCategoryString)
+              ) {
+                countDataOne = paTrendOne[paServiceCategoryString];
+                countDataTwo = paTrendTwo[paServiceCategoryString];
+              }
             }
-          } else if (isServiceCategory) {
-            countDataOne = paTrendOne[paServiceCategoryString];
-            countDataTwo = paTrendTwo[paServiceCategoryString];
-          }
 
-          let PAApprovedCountOne;
-          let PANotApprovedCountOne;
-          let PANotPendingCountOne;
-          let PANotCancelledCountOne;
+            let PAApprovedCountOne;
+            let PANotApprovedCountOne;
+            let PANotPendingCountOne;
+            let PANotCancelledCountOne;
 
-          let PAApprovedCountTwo;
-          let PANotApprovedCountTwo;
-          let PANotPendingCountTwo;
-          let PANotCancelledCountTwo;
+            let PAApprovedCountTwo;
+            let PANotApprovedCountTwo;
+            let PANotPendingCountTwo;
+            let PANotCancelledCountTwo;
 
-          if (isAllSSFlagBool) {
-            PAApprovedCountOne = countDataOne.PriorAuthApprovedCount;
-            PANotApprovedCountOne = countDataOne.PriorAuthNotApprovedCount;
-            PANotPendingCountOne = countDataOne.PriorAuthPendingCount;
-            PANotCancelledCountOne = countDataOne.PriorAuthCancelledCount;
-            PAApprovedCountTwo = countDataTwo.PriorAuthApprovedCount;
-            PANotApprovedCountTwo = countDataTwo.PriorAuthNotApprovedCount;
-            PANotPendingCountTwo = countDataTwo.PriorAuthPendingCount;
-            PANotCancelledCountTwo = countDataTwo.PriorAuthCancelledCount;
-          } else {
-            if (serviceSetting === 'Inpatient') {
-              PAApprovedCountOne = countDataOne.InpatientFacilityApprovedCount;
-              PANotApprovedCountOne = countDataOne.InpatientFacilityNotApprovedCount;
-              PANotCancelledCountOne = countDataOne.InpatientFacilityCancelledCount;
-              PANotPendingCountOne = countDataOne.InpatientFacilityPendingCount;
-              PAApprovedCountTwo = countDataTwo.InpatientFacilityApprovedCount;
-              PANotApprovedCountTwo = countDataTwo.InpatientFacilityNotApprovedCount;
-              PANotCancelledCountTwo = countDataTwo.InpatientFacilityCancelledCount;
-              PANotPendingCountTwo = countDataTwo.InpatientFacilityPendingCount;
-            } else if (serviceSetting === 'Outpatient') {
-              PAApprovedCountOne = countDataOne.OutpatientApprovedCount;
-              PANotApprovedCountOne = countDataOne.OutpatientNotApprovedCount;
-              PANotCancelledCountOne = countDataOne.OutpatientCancelledCount;
-              PANotPendingCountOne = countDataOne.OutpatientPendingCount;
-              PAApprovedCountTwo = countDataTwo;
-              PANotApprovedCountTwo = countDataTwo;
-              PANotCancelledCountTwo = countDataTwo;
-              PANotPendingCountTwo = countDataTwo;
-            } else if (serviceSetting === 'Outpatient Facility') {
-              PAApprovedCountOne = countDataOne.OutpatientFacilityApprovedCount;
-              PANotApprovedCountOne = countDataOne.OutpatientFacilityNotApprovedCount;
-              PANotCancelledCountOne = countDataOne.OutpatientFacilityCancelledCount;
-              PANotPendingCountOne = countDataOne.OutpatientFacilityPendingCount;
-              PAApprovedCountTwo = countDataTwo.OutpatientFacilityApprovedCount;
-              PANotApprovedCountTwo = countDataTwo.OutpatientFacilityNotApprovedCount;
-              PANotCancelledCountTwo = countDataTwo.OutpatientFacilityCancelledCount;
-              PANotPendingCountTwo = countDataTwo.OutpatientFacilityPendingCount;
+            if (isAllSSFlagBool) {
+              PAApprovedCountOne = countDataOne.PriorAuthApprovedCount;
+              PANotApprovedCountOne = countDataOne.PriorAuthNotApprovedCount;
+              PANotPendingCountOne = countDataOne.PriorAuthPendingCount;
+              PANotCancelledCountOne = countDataOne.PriorAuthCancelledCount;
+              PAApprovedCountTwo = countDataTwo.PriorAuthApprovedCount;
+              PANotApprovedCountTwo = countDataTwo.PriorAuthNotApprovedCount;
+              PANotPendingCountTwo = countDataTwo.PriorAuthPendingCount;
+              PANotCancelledCountTwo = countDataTwo.PriorAuthCancelledCount;
+            } else {
+              if (serviceSetting === 'Inpatient') {
+                PAApprovedCountOne = countDataOne.InpatientFacilityApprovedCount;
+                PANotApprovedCountOne = countDataOne.InpatientFacilityNotApprovedCount;
+                PANotCancelledCountOne = countDataOne.InpatientFacilityCancelledCount;
+                PANotPendingCountOne = countDataOne.InpatientFacilityPendingCount;
+                PAApprovedCountTwo = countDataTwo.InpatientFacilityApprovedCount;
+                PANotApprovedCountTwo = countDataTwo.InpatientFacilityNotApprovedCount;
+                PANotCancelledCountTwo = countDataTwo.InpatientFacilityCancelledCount;
+                PANotPendingCountTwo = countDataTwo.InpatientFacilityPendingCount;
+              } else if (serviceSetting === 'Outpatient') {
+                PAApprovedCountOne = countDataOne.OutpatientApprovedCount;
+                PANotApprovedCountOne = countDataOne.OutpatientNotApprovedCount;
+                PANotCancelledCountOne = countDataOne.OutpatientCancelledCount;
+                PANotPendingCountOne = countDataOne.OutpatientPendingCount;
+                PAApprovedCountTwo = countDataTwo;
+                PANotApprovedCountTwo = countDataTwo;
+                PANotCancelledCountTwo = countDataTwo;
+                PANotPendingCountTwo = countDataTwo;
+              } else if (serviceSetting === 'Outpatient Facility') {
+                PAApprovedCountOne = countDataOne.OutpatientFacilityApprovedCount;
+                PANotApprovedCountOne = countDataOne.OutpatientFacilityNotApprovedCount;
+                PANotCancelledCountOne = countDataOne.OutpatientFacilityCancelledCount;
+                PANotPendingCountOne = countDataOne.OutpatientFacilityPendingCount;
+                PAApprovedCountTwo = countDataTwo.OutpatientFacilityApprovedCount;
+                PANotApprovedCountTwo = countDataTwo.OutpatientFacilityNotApprovedCount;
+                PANotCancelledCountTwo = countDataTwo.OutpatientFacilityCancelledCount;
+                PANotPendingCountTwo = countDataTwo.OutpatientFacilityPendingCount;
+              }
             }
-          }
 
-          const PARequestedCountOne = PAApprovedCountOne + PANotApprovedCountOne;
-          const PAApprovalRateOne = PAApprovedCountOne / PARequestedCountOne;
-          const PARequestedCountTwo = PAApprovedCountTwo + PANotApprovedCountTwo;
-          const PAApprovalRateTwo = PAApprovedCountTwo / PARequestedCountTwo;
+            const PARequestedCountOne = PAApprovedCountOne + PANotApprovedCountOne;
+            const PAApprovalRateOne = PAApprovedCountOne / PARequestedCountOne;
+            const PARequestedCountTwo = PAApprovedCountTwo + PANotApprovedCountTwo;
+            const PAApprovalRateTwo = PAApprovedCountTwo / PARequestedCountTwo;
 
-          const PARequestedTrend = ((PARequestedCountTwo - PARequestedCountOne) / PARequestedCountOne) * 100;
-          const PAApprovalRateTrend = ((PAApprovalRateTwo - PAApprovalRateOne) / PAApprovalRateOne) * 100;
+            const PARequestedTrend = ((PARequestedCountTwo - PARequestedCountOne) / PARequestedCountOne) * 100;
+            const PAApprovalRateTrend = ((PAApprovalRateTwo - PAApprovalRateOne) / PAApprovalRateOne) * 100;
 
-          let trendLineOne;
-          let trendLineTwo;
+            let trendLineOne;
+            let trendLineTwo;
 
-          if (PARequestedTrend < 0) {
-            trendLineOne = 'down';
+            if (PARequestedTrend < 0) {
+              trendLineOne = 'down';
+            } else {
+              trendLineOne = 'up';
+            }
+
+            if (PAApprovalRateTrend < 0) {
+              trendLineTwo = 'down';
+            } else {
+              trendLineTwo = 'up';
+            }
+
+            sDataObjectOne = {
+              data: PARequestedTrend.toFixed(1) + '%',
+              sign: trendLineOne
+            };
+            sDataObjectTwo = {
+              data: PAApprovalRateTrend.toFixed(1) + '%',
+              sign: trendLineTwo
+            };
           } else {
-            trendLineOne = 'up';
+            sDataObjectOne = {
+              data: '',
+              sign: ''
+            };
+            sDataObjectTwo = {
+              data: '',
+              sign: ''
+            };
           }
-
-          if (PAApprovalRateTrend < 0) {
-            trendLineTwo = 'down';
-          } else {
-            trendLineTwo = 'up';
-          }
-
-          const sDataObjectOne = {
-            data: PARequestedTrend.toFixed(1) + '%',
-            sign: trendLineOne
-          };
-          const sDataObjectTwo = {
-            data: PAApprovalRateTrend.toFixed(1) + '%',
-            sign: trendLineTwo
-          };
-
           resolve([sDataObjectOne, sDataObjectTwo]);
         });
     });
   }
 
   getPriorAuthDataCombined(filterParameters) {
-    console.log(this.common.convertServiceCategoryOneWord('Unproven, Experimental, Investigational'));
-    console.log(filterParameters);
-
     return new Promise(resolve => {
       this.getPriorAuthDataFiltered(filterParameters)
         .then(data => {
@@ -1071,8 +1095,9 @@ export class PriorAuthSharedService {
           return this.getPriorAuthTrendData(filterParameters);
         })
         .then(data => {
-          // this.priorAuthDataCombined[0][0].data['sdata'] = data[0];
-          this.priorAuthDataCombined[0][1].data['sdata'] = data[1];
+          if (this.priorAuthDataCombined[0].length > 0) {
+            this.priorAuthDataCombined[0][1].data['sdata'] = data[1];
+          }
           resolve(this.priorAuthDataCombined);
         })
         .catch(reason => {
