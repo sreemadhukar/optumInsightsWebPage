@@ -8,8 +8,6 @@ export class RequestCacheService {
   private cache = new Map<string, [Date, HttpResponse<any>]>();
 
   get(key): HttpResponse<any> {
-    console.log(key);
-    console.log(this.cache);
     const tuple = this.cache.get(key);
     if (!tuple) {
       return null;
