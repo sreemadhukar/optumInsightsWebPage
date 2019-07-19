@@ -28,7 +28,8 @@ export const environment: any = {
     RepeatContact: 'repeat-contacts/search/',
     PaymentIntegrity: 'pi-metrics/',
     NonPayment: 'claim-metrics/',
-    CallsTrend: 'provider-calls/'
+    CallsTrend: 'provider-calls/',
+    TrendingMetrics: 'trending-metrics/'
   },
   headerKeys: {
     selectedCompany: '',
