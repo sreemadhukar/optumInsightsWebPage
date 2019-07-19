@@ -47,7 +47,11 @@ export class CallsService {
     });
 
     let params = new HttpParams();
-    params = params.append('timeFilter', parameters[1].TimeFilter);
+    if (parameters[1].TimeFilter === 'CalendarYear') {
+      params = params.append('timeFilter', parameters[1].TimeFilterText);
+    } else {
+      params = params.append('timeFilter', parameters[1].TimeFilter);
+    }
     const executiveURL = this.APP_URL + this.CALLS_SERVICE_PATH + parameters[0];
     return combineLatest(
       this.http.get(executiveURL, { params: params, headers: myHeader }).pipe(
