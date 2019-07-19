@@ -87,6 +87,7 @@
       font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
       color: $black-rock;
       margin-left: 10px;
+      margin-bottom: -12px;
 
       ol {
         @include margin(0, 0, 16px, 0);

@@ -27,6 +27,7 @@ export class NonPaymentSharedService {
     this.providerKey = this.session.providerKeyData();
     return new Promise(resolve => {
       let parameters;
+      console.log(this.timeFrame);
       if (
         this.timeFrame === 'Last 12 Months' ||
         this.timeFrame === 'Last 6 Months' ||
@@ -213,6 +214,7 @@ export class NonPaymentSharedService {
           }
         );
       } else {
+        console.log(this.timeFrame);
         const lobData = this.common.matchLobWithCapsData(this.lob);
         if (this.tin !== 'All' && this.lob !== 'All') {
           parameters = [
@@ -241,6 +243,7 @@ export class NonPaymentSharedService {
         } else {
           parameters = [this.providerKey, { TimeFilter: 'CalendarYear', TimeFilterText: this.timeFrame }];
         }
+        console.log(parameters[1]);
         this.nonPaymentService.getNonPaymentData(...parameters).subscribe(
           ([nonPaymentData1]) => {
             let claimsNotPaid: Object;
