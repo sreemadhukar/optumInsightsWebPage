@@ -16,7 +16,6 @@ import { ProviderSharedService } from './shared/provider/provider-shared.service
 import { ThemeService } from './shared/theme.service';
 import { PriorAuthService } from './rest/prior-auth/prior-auth.service';
 import { PriorAuthSharedService } from './shared/prior-authorization/prior-auth.service';
-import { TrendingMetricsService } from './rest/trending/trending-metrics.service';
 import { HttpInterceptorService } from './rest/interceptor/http-interceptor.service';
 import { CacheInterceptor } from './rest/interceptor/cache.interceptor';
 
@@ -40,7 +39,6 @@ import { CacheInterceptor } from './rest/interceptor/cache.interceptor';
     ThemeService,
     PriorAuthService,
     PriorAuthSharedService,
-    TrendingMetricsService,
     { provide: HTTP_INTERCEPTORS, useClass: HttpInterceptorService, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: CacheInterceptor, multi: true }
   ],
