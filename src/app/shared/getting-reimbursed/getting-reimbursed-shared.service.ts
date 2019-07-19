@@ -82,6 +82,443 @@ export class GettingReimbursedSharedService {
    * In the main function getGettingReimbursedData() , we will call the sharedGettingReimbursedData(parameters)
    * after calling the sharedNonPaymentData() so that we get the nonPayment data first.
    */
+  public sharedGettingReimbursedYearWiseData(parameters) {
+    let appeals: object;
+    let payments: object;
+    let nonpayments: object;
+    let submissions: object;
+    let claimsSubmitted: object;
+    let claimsTAT: object;
+    let appealsSubmitted: object;
+    let appealsOverturned: object;
+    let claimsNotPaid: object;
+    let claimsNotPaidRate: object;
+    let claimsPaid: object;
+    let claimsPaidRate: object;
+    const summaryData: Array<object> = [];
+    return new Promise(resolve => {
+      this.gettingReimbursedService
+        .getGettingReimbursedYearWiseData(...parameters)
+        .subscribe(([claimsData, appealsData]) => {
+          const lobFullData = this.common.matchFullLobWithData(this.lob);
+          const lobData = this.common.matchLobWithData(this.lob);
+          if (claimsData != null && claimsData.hasOwnProperty('status')) {
+            claimsSubmitted = {
+              category: 'app-card',
+              type: 'donutWithLabel',
+              status: claimsData.status,
+              title: 'Total Claims Submitted',
+              data: null,
+              besideData: null,
+              timeperiod: null
+            };
+            claimsTAT = {
+              category: 'app-card',
+              type: 'rotateWithLabel',
+              status: claimsData.status,
+              title: 'Claims Average Turnaround Time to Payment',
+              data: null,
+              besideData: null,
+              timeperiod: null
+            };
+            claimsPaid = {
+              category: 'app-card',
+              type: 'donutWithLabel',
+              status: claimsData.status,
+              title: 'Claims Paid',
+              data: null,
+              besideData: null,
+              bottomData: null,
+              timeperiod: null
+            };
+            claimsPaidRate = {
+              category: 'app-card',
+              type: 'donut',
+              status: claimsData.status,
+              title: 'Claims Yield',
+              data: null,
+              timeperiod: null
+            };
+            claimsNotPaid = {
+              category: 'app-card',
+              type: 'donutWithLabel',
+              status: claimsData.status,
+              title: 'Claims Not Paid',
+              data: null,
+              besideData: null,
+              bottomData: null,
+              timeperiod: null
+            };
+            claimsNotPaidRate = {
+              category: 'app-card',
+              type: 'donut',
+              status: claimsData.status,
+              title: 'Claims Non-Payment Rate',
+              data: null,
+              timeperiod: null
+            };
+          } else if (claimsData != null) {
+            if (
+              claimsData.hasOwnProperty(lobData) &&
+              claimsData[lobData] != null &&
+              claimsData[lobData].hasOwnProperty('ClaimsLobSummary') &&
+              claimsData[lobData].ClaimsLobSummary.length &&
+              claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('ClaimsPaid') &&
+              claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('ClaimsDenied') &&
+              claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('ClaimsSubmitted')
+            ) {
+              claimsSubmitted = {
+                category: 'app-card',
+                type: 'donutWithLabel',
+                title: 'Total Claims Submitted',
+                data: {
+                  graphValues: [
+                    claimsData[lobData].ClaimsLobSummary[0].ClaimsPaid,
+                    claimsData[lobData].ClaimsLobSummary[0].ClaimsDenied
+                  ],
+                  centerNumber: this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].ClaimsSubmitted),
+                  color: ['#3381FF', '#80B0FF'],
+                  gdata: ['card-inner', 'totalClaimsSubmitted'],
+                  sdata: {
+                    sign: '',
+                    data: ''
+                  }
+                },
+                besideData: {
+                  labels: ['Paid', 'Not Paid'],
+                  color: ['#3381FF', '#80B0FF']
+                },
+                timeperiod: this.timeFrame
+              };
+            } else {
+              claimsSubmitted = {
+                category: 'app-card',
+                type: 'donutWithLabel',
+                title: null,
+                data: null,
+                besideData: null,
+                timeperiod: this.timeFrame
+              };
+            }
+            if (
+              claimsData.hasOwnProperty(lobData) &&
+              claimsData[lobData] != null &&
+              claimsData[lobData].hasOwnProperty('ClaimsLobSummary') &&
+              claimsData[lobData].ClaimsLobSummary.length &&
+              claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('ClaimsAvgTat') &&
+              claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('DosToReceived') &&
+              claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('ReceivedToPaid')
+            ) {
+              claimsTAT = {
+                category: 'app-card',
+                type: 'rotateWithLabel',
+                title: 'Claims Average Turnaround Time to Payment',
+                data: {
+                  centerNumber: claimsData[lobData].ClaimsLobSummary[0].ClaimsAvgTat,
+                  color: ['#3381FF', '#3381FF'],
+                  gdata: ['card-inner', 'claimsAverageTurnAround'],
+                  sdata: {
+                    sign: 'down',
+                    data: '-1.2%'
+                  }
+                },
+                besideData: {
+                  verticalData: [
+                    { values: claimsData[lobData].ClaimsLobSummary[0].DosToReceived, labels: 'DOS to Received' },
+                    { values: claimsData[lobData].ClaimsLobSummary[0].ReceivedToPaid, labels: 'Received to Paid' }
+                  ]
+                },
+                timeperiod: this.timeFrame
+              };
+            } else {
+              claimsTAT = {
+                category: 'app-card',
+                type: 'rotateWithLabel',
+                title: 'Claims Average Turnaround Time to Payment',
+                data: null,
+                besideData: null,
+                timeperiod: this.timeFrame
+              };
+            }
+            if (
+              claimsData.hasOwnProperty(lobData) &&
+              claimsData[lobData] != null &&
+              claimsData[lobData].hasOwnProperty('ClaimsLobSummary') &&
+              claimsData[lobData].ClaimsLobSummary.length &&
+              claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('AmountPaid')
+            ) {
+              const paidData = [];
+              if (claimsData.hasOwnProperty('Mr') && claimsData.Mr != null) {
+                if (
+                  claimsData.Mr.hasOwnProperty('ClaimsLobSummary') &&
+                  claimsData.Mr.ClaimsLobSummary.length &&
+                  claimsData.Mr.ClaimsLobSummary[0].hasOwnProperty('AmountPaid')
+                ) {
+                  paidData.push(claimsData.Mr.ClaimsLobSummary[0].AmountPaid);
+                }
+              }
+              if (claimsData.hasOwnProperty('Cs') && claimsData.Cs != null) {
+                if (
+                  claimsData.Cs.hasOwnProperty('ClaimsLobSummary') &&
+                  claimsData.Cs.ClaimsLobSummary.length &&
+                  claimsData.Cs.ClaimsLobSummary[0].hasOwnProperty('AmountPaid')
+                ) {
+                  paidData.push(claimsData.Cs.ClaimsLobSummary[0].AmountPaid);
+                }
+              }
+              if (claimsData.hasOwnProperty('Ei') && claimsData.Ei != null) {
+                if (
+                  claimsData.Ei.hasOwnProperty('ClaimsLobSummary') &&
+                  claimsData.Ei.ClaimsLobSummary.length &&
+                  claimsData.Ei.ClaimsLobSummary[0].hasOwnProperty('AmountPaid')
+                ) {
+                  paidData.push(claimsData.Ei.ClaimsLobSummary[0].AmountPaid);
+                }
+              }
+              if (claimsData.hasOwnProperty('Un') && claimsData.Un != null) {
+                if (
+                  claimsData.Un.hasOwnProperty('ClaimsLobSummary') &&
+                  claimsData.Un.ClaimsLobSummary.length &&
+                  claimsData.Un.ClaimsLobSummary[0].hasOwnProperty('AmountPaid')
+                ) {
+                  paidData.push(claimsData.Un.ClaimsLobSummary[0].AmountPaid);
+                }
+              }
+              claimsPaid = {
+                category: 'app-card',
+                type: 'donutWithLabel',
+                title: 'Claims Paid',
+                data: {
+                  graphValues: paidData,
+                  centerNumber:
+                    this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].AmountPaid) < 1 &&
+                    this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].AmountPaid) > 0
+                      ? '< $1'
+                      : '$' + this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].AmountPaid),
+                  color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'],
+                  gdata: ['card-inner', 'claimsPaid'],
+                  sdata: {
+                    sign: '',
+                    data: ''
+                  },
+                  labels: ['Medicare & Retirement', 'Community & State', 'Employer & Individual', 'Uncategorized'],
+                  hover: true
+                },
+                besideData: {
+                  labels: ['Medicare & Retirement', 'Community & State', 'Employer & Individual', 'Uncategorized'],
+                  color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC']
+                },
+                timeperiod: this.timeFrame
+              };
+            } else {
+              claimsPaid = {
+                category: 'app-card',
+                type: 'donutWithLabel',
+                title: null,
+                data: null,
+                besideData: null,
+                bottomData: null,
+                timeperiod: null
+              };
+            }
+            if (
+              this.nonPaymentData !== null &&
+              this.nonPaymentData[0] !== null &&
+              this.nonPaymentData[0].data !== null
+            ) {
+              claimsNotPaid = this.nonPaymentData[0];
+            } else {
+              claimsNotPaid = {
+                category: 'app-card',
+                type: 'donutWithLabel',
+                title: null,
+                data: null,
+                besideData: null,
+                bottomData: null,
+                timeperiod: null
+              };
+            }
+            if (this.nonPaymentData !== null && this.nonPaymentData[1] != null && this.nonPaymentData[1].data != null) {
+              claimsNotPaidRate = this.nonPaymentData[1];
+            } else {
+              claimsNotPaidRate = {
+                category: 'app-card',
+                type: 'donut',
+                title: null,
+                data: null,
+                timeperiod: null
+              };
+            }
+            if (
+              claimsData.hasOwnProperty(lobData) &&
+              claimsData[lobData] != null &&
+              claimsData[lobData].hasOwnProperty('ClaimsLobSummary') &&
+              claimsData[lobData].ClaimsLobSummary.length &&
+              claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('ClaimsYieldRate') &&
+              claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('ClaimsNonPaymentRate')
+            ) {
+              claimsPaidRate = {
+                category: 'app-card',
+                type: 'donut',
+                title: 'Claims Yield',
+                data: {
+                  graphValues: [
+                    claimsData[lobData].ClaimsLobSummary[0].ClaimsYieldRate,
+                    claimsData[lobData].ClaimsLobSummary[0].ClaimsNonPaymentRate
+                  ],
+                  centerNumber: claimsData[lobData].ClaimsLobSummary[0].ClaimsYieldRate.toFixed() + '%',
+                  color: ['#3381FF', '#D7DCE1'],
+                  gdata: ['card-inner', 'claimsYield'],
+                  sdata: null
+                },
+                timeperiod: this.timeFrame
+              };
+            } else {
+              claimsPaidRate = {
+                category: 'app-card',
+                type: 'donut',
+                title: null,
+                data: null,
+                timeperiod: null
+              };
+            }
+          }
+          if (appealsData != null && appealsData.hasOwnProperty('status')) {
+            appealsSubmitted = {
+              category: 'app-card',
+              type: 'donutWithLabelBottom',
+              status: appealsData.status,
+              title: 'Claims Appeals Submitted',
+              data: null,
+              besideData: null,
+              bottomData: null,
+              timeperiod: null
+            };
+            appealsOverturned = {
+              category: 'app-card',
+              type: 'donut',
+              status: appealsData.status,
+              title: 'Claims Appeals Overturned',
+              data: null,
+              timeperiod: null
+            };
+          } else if (appealsData != null) {
+            if (
+              appealsData.hasOwnProperty('LineOfBusiness') &&
+              appealsData.LineOfBusiness.hasOwnProperty(lobFullData) &&
+              appealsData.LineOfBusiness.hasOwnProperty('CommunityAndState') &&
+              appealsData.LineOfBusiness.hasOwnProperty('EmployerAndIndividual') &&
+              appealsData.LineOfBusiness.hasOwnProperty('MedicareAndRetirement') &&
+              appealsData.LineOfBusiness[lobFullData].hasOwnProperty('AdminAppeals') &&
+              appealsData.LineOfBusiness[lobFullData].hasOwnProperty('ClinicalAppeals') &&
+              appealsData.LineOfBusiness.CommunityAndState.hasOwnProperty('AdminAppeals') &&
+              appealsData.LineOfBusiness.CommunityAndState.hasOwnProperty('ClinicalAppeals') &&
+              appealsData.LineOfBusiness.EmployerAndIndividual.hasOwnProperty('AdminAppeals') &&
+              appealsData.LineOfBusiness.EmployerAndIndividual.hasOwnProperty('ClinicalAppeals') &&
+              appealsData.LineOfBusiness.MedicareAndRetirement.hasOwnProperty('AdminAppeals') &&
+              appealsData.LineOfBusiness.MedicareAndRetirement.hasOwnProperty('ClinicalAppeals')
+            ) {
+              const submittedData = [
+                appealsData.LineOfBusiness.MedicareAndRetirement.AdminAppeals +
+                  appealsData.LineOfBusiness.MedicareAndRetirement.ClinicalAppeals,
+                appealsData.LineOfBusiness.CommunityAndState.AdminAppeals +
+                  appealsData.LineOfBusiness.CommunityAndState.ClinicalAppeals,
+                appealsData.LineOfBusiness.EmployerAndIndividual.AdminAppeals +
+                  appealsData.LineOfBusiness.EmployerAndIndividual.ClinicalAppeals
+              ];
+              appealsSubmitted = {
+                category: 'app-card',
+                type: 'donutWithLabelBottom',
+                title: 'Claims Appeals Submitted',
+                data: {
+                  graphValues: submittedData,
+                  centerNumber: this.common.nFormatter(
+                    appealsData.LineOfBusiness[lobFullData].AdminAppeals +
+                      appealsData.LineOfBusiness[lobFullData].ClinicalAppeals
+                  ),
+                  color: ['#3381FF', '#80B0FF', '#003DA1'],
+                  gdata: ['card-inner', 'claimsAppealSubmitted'],
+                  sdata: {
+                    sign: '',
+                    data: ''
+                  },
+                  labels: ['Medicare & Retirement', 'Community & State', 'Employer & Individual'],
+                  hover: true
+                },
+                besideData: {
+                  labels: ['Medicare & Retirement', 'Community & State', 'Employer & Individual'],
+                  color: ['#3381FF', '#80B0FF', '#003DA1']
+                },
+                bottomData: {
+                  horizontalData: [
+                    { values: appealsData.LineOfBusiness[lobFullData].AdminAppeals, labels: 'Admin' },
+                    { values: appealsData.LineOfBusiness[lobFullData].ClinicalAppeals, labels: 'Clinical' }
+                  ]
+                },
+                timeperiod: this.timeFrame
+              };
+            } else {
+              appealsSubmitted = {
+                category: 'app-card',
+                type: 'donutWithLabelBottom',
+                title: null,
+                data: null,
+                besideData: null,
+                bottomData: null,
+                timeperiod: null
+              };
+            }
+            if (
+              appealsData.hasOwnProperty('LineOfBusiness') &&
+              appealsData.LineOfBusiness.hasOwnProperty(lobFullData) &&
+              appealsData.LineOfBusiness[lobFullData].hasOwnProperty('OverTurnCount') &&
+              appealsData.LineOfBusiness[lobFullData].hasOwnProperty('AdminAppeals') &&
+              appealsData.LineOfBusiness[lobFullData].hasOwnProperty('ClinicalAppeals')
+            ) {
+              const submitted =
+                appealsData.LineOfBusiness[lobFullData].AdminAppeals +
+                appealsData.LineOfBusiness[lobFullData].ClinicalAppeals;
+              const overturnedData = [
+                appealsData.LineOfBusiness[lobFullData].OverTurnCount,
+                submitted - appealsData.LineOfBusiness[lobFullData].OverTurnCount
+              ];
+              appealsOverturned = {
+                category: 'app-card',
+                type: 'donut',
+                title: 'Claims Appeals Overturned',
+                data: {
+                  graphValues: overturnedData,
+                  centerNumber: this.common.nFormatter(appealsData.LineOfBusiness[lobFullData].OverTurnCount),
+                  color: ['#3381FF', '#D7DCE1'],
+                  gdata: ['card-inner', 'claimsAppealOverturned'],
+                  sdata: null
+                },
+                timeperiod: this.timeFrame
+              };
+            } else {
+              appealsOverturned = {
+                category: 'app-card',
+                type: 'donut',
+                title: null,
+                data: null,
+                timeperiod: null
+              };
+            }
+          }
+          submissions = { id: 1, title: 'Claims Submissions', data: [claimsSubmitted, claimsTAT] };
+          payments = { id: 2, title: 'Claims Payments', data: [claimsPaid, claimsPaidRate] };
+          nonpayments = { id: 3, title: 'Claims Non-Payments', data: [claimsNotPaid, claimsNotPaidRate] };
+          appeals = { id: 4, title: 'Claims Appeals', data: [appealsSubmitted, appealsOverturned] };
+          summaryData[0] = submissions;
+          summaryData[1] = payments;
+          summaryData[2] = nonpayments;
+          summaryData[3] = appeals;
+          if (summaryData.length) {
+            resolve(summaryData);
+          }
+        });
+    });
+  }
   public sharedGettingReimbursedData(parameters) {
     let appeals: object;
     let payments: object;
@@ -622,18 +1059,6 @@ export class GettingReimbursedSharedService {
     const summaryData: Array<object> = [];
     return new Promise(resolve => {
       let parameters;
-      let appeals: object;
-      let payments: object;
-      let nonpayments: object;
-      let submissions: object;
-      let claimsSubmitted: object;
-      let claimsTAT: object;
-      let appealsSubmitted: object;
-      let appealsOverturned: object;
-      let claimsNotPaid: object;
-      let claimsNotPaidRate: object;
-      let claimsPaid: object;
-      let claimsPaidRate: object;
       let gettingReimbursedData: any;
 
       if (
@@ -699,7 +1124,6 @@ export class GettingReimbursedSharedService {
             resolve(gettingReimbursedData);
           });
       } else {
-        const lobFullData = this.common.matchFullLobWithData(this.lob);
         if (this.tin !== 'All' && this.lob !== 'All') {
           parameters = [
             this.providerKey,
@@ -727,455 +1151,14 @@ export class GettingReimbursedSharedService {
         } else {
           parameters = [this.providerKey, { TimeFilter: 'CalendarYear', TimeFilterText: this.timeFrame }];
         }
-        this.gettingReimbursedService
-          .getGettingReimbursedYearWiseData(...parameters)
-          .subscribe(([claimsData, appealsData]) => {
-            const lobData = this.common.matchLobWithData(this.lob);
-            if (claimsData != null && claimsData.hasOwnProperty('status')) {
-              claimsSubmitted = {
-                category: 'app-card',
-                type: 'donutWithLabel',
-                status: claimsData.status,
-                title: 'Total Claims Submitted',
-                data: null,
-                besideData: null,
-                timeperiod: null
-              };
-              claimsTAT = {
-                category: 'app-card',
-                type: 'rotateWithLabel',
-                status: claimsData.status,
-                title: 'Claims Average Turnaround Time to Payment',
-                data: null,
-                besideData: null,
-                timeperiod: null
-              };
-              claimsPaid = {
-                category: 'app-card',
-                type: 'donutWithLabel',
-                status: claimsData.status,
-                title: 'Claims Paid',
-                data: null,
-                besideData: null,
-                bottomData: null,
-                timeperiod: null
-              };
-              claimsPaidRate = {
-                category: 'app-card',
-                type: 'donut',
-                status: claimsData.status,
-                title: 'Claims Yield',
-                data: null,
-                timeperiod: null
-              };
-              claimsNotPaid = {
-                category: 'app-card',
-                type: 'donutWithLabel',
-                status: claimsData.status,
-                title: 'Claims Not Paid',
-                data: null,
-                besideData: null,
-                bottomData: null,
-                timeperiod: null
-              };
-              claimsNotPaidRate = {
-                category: 'app-card',
-                type: 'donut',
-                status: claimsData.status,
-                title: 'Claims Non-Payment Rate',
-                data: null,
-                timeperiod: null
-              };
-            } else if (claimsData != null) {
-              if (
-                claimsData.hasOwnProperty(lobData) &&
-                claimsData[lobData] != null &&
-                claimsData[lobData].hasOwnProperty('ClaimsLobSummary') &&
-                claimsData[lobData].ClaimsLobSummary.length &&
-                claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('ClaimsPaid') &&
-                claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('ClaimsDenied') &&
-                claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('ClaimsSubmitted')
-              ) {
-                claimsSubmitted = {
-                  category: 'app-card',
-                  type: 'donutWithLabel',
-                  title: 'Total Claims Submitted',
-                  data: {
-                    graphValues: [
-                      claimsData[lobData].ClaimsLobSummary[0].ClaimsPaid,
-                      claimsData[lobData].ClaimsLobSummary[0].ClaimsDenied
-                    ],
-                    centerNumber: this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].ClaimsSubmitted),
-                    color: ['#3381FF', '#80B0FF'],
-                    gdata: ['card-inner', 'totalClaimsSubmitted'],
-                    sdata: {
-                      sign: '',
-                      data: ''
-                    }
-                  },
-                  besideData: {
-                    labels: ['Paid', 'Not Paid'],
-                    color: ['#3381FF', '#80B0FF']
-                  },
-                  timeperiod: this.timeFrame
-                };
-              } else {
-                claimsSubmitted = {
-                  category: 'app-card',
-                  type: 'donutWithLabel',
-                  title: null,
-                  data: null,
-                  besideData: null,
-                  timeperiod: this.timeFrame
-                };
-              }
-              if (
-                claimsData.hasOwnProperty(lobData) &&
-                claimsData[lobData] != null &&
-                claimsData[lobData].hasOwnProperty('ClaimsLobSummary') &&
-                claimsData[lobData].ClaimsLobSummary.length &&
-                claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('ClaimsAvgTat') &&
-                claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('DosToReceived') &&
-                claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('ReceivedToPaid')
-              ) {
-                claimsTAT = {
-                  category: 'app-card',
-                  type: 'rotateWithLabel',
-                  title: 'Claims Average Turnaround Time to Payment',
-                  data: {
-                    centerNumber: claimsData[lobData].ClaimsLobSummary[0].ClaimsAvgTat,
-                    color: ['#3381FF', '#3381FF'],
-                    gdata: ['card-inner', 'claimsAverageTurnAround'],
-                    sdata: {
-                      sign: 'down',
-                      data: '-1.2%'
-                    }
-                  },
-                  besideData: {
-                    verticalData: [
-                      { values: claimsData[lobData].ClaimsLobSummary[0].DosToReceived, labels: 'DOS to Received' },
-                      { values: claimsData[lobData].ClaimsLobSummary[0].ReceivedToPaid, labels: 'Received to Paid' }
-                    ]
-                  },
-                  timeperiod: this.timeFrame
-                };
-              } else {
-                claimsTAT = {
-                  category: 'app-card',
-                  type: 'rotateWithLabel',
-                  title: 'Claims Average Turnaround Time to Payment',
-                  data: null,
-                  besideData: null,
-                  timeperiod: this.timeFrame
-                };
-              }
-              if (
-                claimsData.hasOwnProperty(lobData) &&
-                claimsData[lobData] != null &&
-                claimsData[lobData].hasOwnProperty('ClaimsLobSummary') &&
-                claimsData[lobData].ClaimsLobSummary.length &&
-                claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('AmountPaid')
-              ) {
-                const paidData = [];
-                if (claimsData.hasOwnProperty('Mr') && claimsData.Mr != null) {
-                  if (
-                    claimsData.Mr.hasOwnProperty('ClaimsLobSummary') &&
-                    claimsData.Mr.ClaimsLobSummary.length &&
-                    claimsData.Mr.ClaimsLobSummary[0].hasOwnProperty('AmountPaid')
-                  ) {
-                    paidData.push(claimsData.Mr.ClaimsLobSummary[0].AmountPaid);
-                  }
-                }
-                if (claimsData.hasOwnProperty('Cs') && claimsData.Cs != null) {
-                  if (
-                    claimsData.Cs.hasOwnProperty('ClaimsLobSummary') &&
-                    claimsData.Cs.ClaimsLobSummary.length &&
-                    claimsData.Cs.ClaimsLobSummary[0].hasOwnProperty('AmountPaid')
-                  ) {
-                    paidData.push(claimsData.Cs.ClaimsLobSummary[0].AmountPaid);
-                  }
-                }
-                if (claimsData.hasOwnProperty('Ei') && claimsData.Ei != null) {
-                  if (
-                    claimsData.Ei.hasOwnProperty('ClaimsLobSummary') &&
-                    claimsData.Ei.ClaimsLobSummary.length &&
-                    claimsData.Ei.ClaimsLobSummary[0].hasOwnProperty('AmountPaid')
-                  ) {
-                    paidData.push(claimsData.Ei.ClaimsLobSummary[0].AmountPaid);
-                  }
-                }
-                if (claimsData.hasOwnProperty('Un') && claimsData.Un != null) {
-                  if (
-                    claimsData.Un.hasOwnProperty('ClaimsLobSummary') &&
-                    claimsData.Un.ClaimsLobSummary.length &&
-                    claimsData.Un.ClaimsLobSummary[0].hasOwnProperty('AmountPaid')
-                  ) {
-                    paidData.push(claimsData.Un.ClaimsLobSummary[0].AmountPaid);
-                  }
-                }
-                claimsPaid = {
-                  category: 'app-card',
-                  type: 'donutWithLabel',
-                  title: 'Claims Paid',
-                  data: {
-                    graphValues: paidData,
-                    centerNumber:
-                      this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].AmountPaid) < 1 &&
-                      this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].AmountPaid) > 0
-                        ? '< $1'
-                        : '$' + this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].AmountPaid),
-                    color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'],
-                    gdata: ['card-inner', 'claimsPaid'],
-                    sdata: {
-                      sign: '',
-                      data: ''
-                    },
-                    labels: ['Medicare & Retirement', 'Community & State', 'Employer & Individual', 'Uncategorized'],
-                    hover: true
-                  },
-                  besideData: {
-                    labels: ['Medicare & Retirement', 'Community & State', 'Employer & Individual', 'Uncategorized'],
-                    color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC']
-                  },
-                  timeperiod: this.timeFrame
-                };
-              } else {
-                claimsPaid = {
-                  category: 'app-card',
-                  type: 'donutWithLabel',
-                  title: null,
-                  data: null,
-                  besideData: null,
-                  bottomData: null,
-                  timeperiod: null
-                };
-              }
-              if (
-                this.nonPaymentData !== null &&
-                this.nonPaymentData[0] !== null &&
-                this.nonPaymentData[0].data !== null
-              ) {
-                claimsNotPaid = this.nonPaymentData[0];
-              } else {
-                claimsNotPaid = {
-                  category: 'app-card',
-                  type: 'donutWithLabel',
-                  title: null,
-                  data: null,
-                  besideData: null,
-                  bottomData: null,
-                  timeperiod: null
-                };
-              }
-              if (
-                this.nonPaymentData !== null &&
-                this.nonPaymentData[1] != null &&
-                this.nonPaymentData[1].data != null
-              ) {
-                claimsNotPaidRate = this.nonPaymentData[1];
-              } else {
-                claimsNotPaidRate = {
-                  category: 'app-card',
-                  type: 'donut',
-                  title: null,
-                  data: null,
-                  timeperiod: null
-                };
-              }
-              if (
-                claimsData.hasOwnProperty(lobData) &&
-                claimsData[lobData] != null &&
-                claimsData[lobData].hasOwnProperty('ClaimsLobSummary') &&
-                claimsData[lobData].ClaimsLobSummary.length &&
-                claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('ClaimsYieldRate') &&
-                claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('ClaimsNonPaymentRate')
-              ) {
-                claimsPaidRate = {
-                  category: 'app-card',
-                  type: 'donut',
-                  title: 'Claims Yield',
-                  data: {
-                    graphValues: [
-                      claimsData[lobData].ClaimsLobSummary[0].ClaimsYieldRate,
-                      claimsData[lobData].ClaimsLobSummary[0].ClaimsNonPaymentRate
-                    ],
-                    centerNumber: claimsData[lobData].ClaimsLobSummary[0].ClaimsYieldRate.toFixed() + '%',
-                    color: ['#3381FF', '#D7DCE1'],
-                    gdata: ['card-inner', 'claimsYield'],
-                    sdata: null
-                  },
-                  timeperiod: this.timeFrame
-                };
-              } else {
-                claimsPaidRate = {
-                  category: 'app-card',
-                  type: 'donut',
-                  title: null,
-                  data: null,
-                  timeperiod: null
-                };
-              }
-            }
-            if (appealsData != null && appealsData.hasOwnProperty('status')) {
-              appealsSubmitted = {
-                category: 'app-card',
-                type: 'donutWithLabelBottom',
-                status: appealsData.status,
-                title: 'Claims Appeals Submitted',
-                data: null,
-                besideData: null,
-                bottomData: null,
-                timeperiod: null
-              };
-              appealsOverturned = {
-                category: 'app-card',
-                type: 'donut',
-                status: appealsData.status,
-                title: 'Claims Appeals Overturned',
-                data: null,
-                timeperiod: null
-              };
-            } else if (appealsData != null) {
-              if (
-                appealsData.hasOwnProperty('LineOfBusiness') &&
-                appealsData.LineOfBusiness.hasOwnProperty(lobFullData) &&
-                appealsData.LineOfBusiness[lobFullData].hasOwnProperty('AdminAppeals') &&
-                appealsData.LineOfBusiness[lobFullData].hasOwnProperty('ClinicalAppeals')
-              ) {
-                const submittedData = [];
-                if (
-                  appealsData.LineOfBusiness.hasOwnProperty('MedicareAndRetirement') &&
-                  appealsData.LineOfBusiness.MedicareAndRetirement != null
-                ) {
-                  if (
-                    appealsData.LineOfBusiness.MedicareAndRetirement.hasOwnProperty('AdminAppeals') &&
-                    appealsData.LineOfBusiness.MedicareAndRetirement.hasOwnProperty('ClinicalAppeals')
-                  ) {
-                    submittedData.push(
-                      appealsData.LineOfBusiness.MedicareAndRetirement.AdminAppeals +
-                        appealsData.LineOfBusiness.MedicareAndRetirement.ClinicalAppeals
-                    );
-                  }
-                }
-                if (
-                  appealsData.LineOfBusiness.hasOwnProperty('CommunityAndState') &&
-                  appealsData.LineOfBusiness.CommunityAndState != null
-                ) {
-                  if (
-                    appealsData.LineOfBusiness.CommunityAndState.hasOwnProperty('AdminAppeals') &&
-                    appealsData.LineOfBusiness.CommunityAndState.hasOwnProperty('ClinicalAppeals')
-                  ) {
-                    submittedData.push(
-                      appealsData.LineOfBusiness.CommunityAndState.AdminAppeals +
-                        appealsData.LineOfBusiness.CommunityAndState.ClinicalAppeals
-                    );
-                  }
-                }
-                if (
-                  appealsData.LineOfBusiness.hasOwnProperty('EmployerAndIndividual') &&
-                  appealsData.LineOfBusiness.EmployerAndIndividual != null
-                ) {
-                  if (
-                    appealsData.LineOfBusiness.EmployerAndIndividual.hasOwnProperty('AdminAppeals') &&
-                    appealsData.LineOfBusiness.EmployerAndIndividual.hasOwnProperty('ClinicalAppeals')
-                  ) {
-                    submittedData.push(
-                      appealsData.LineOfBusiness.EmployerAndIndividual.AdminAppeals +
-                        appealsData.LineOfBusiness.EmployerAndIndividual.ClinicalAppeals
-                    );
-                  }
-                }
-                appealsSubmitted = {
-                  category: 'app-card',
-                  type: 'donutWithLabelBottom',
-                  title: 'Claims Appeals Submitted',
-                  data: {
-                    graphValues: submittedData,
-                    centerNumber: this.common.nFormatter(
-                      appealsData.LineOfBusiness[lobFullData].AdminAppeals +
-                        appealsData.LineOfBusiness[lobFullData].ClinicalAppeals
-                    ),
-                    color: ['#3381FF', '#80B0FF', '#003DA1'],
-                    gdata: ['card-inner', 'claimsAppealSubmitted'],
-                    sdata: {
-                      sign: '',
-                      data: ''
-                    },
-                    labels: ['Medicare & Retirement', 'Community & State', 'Employer & Individual'],
-                    hover: true
-                  },
-                  besideData: {
-                    labels: ['Medicare & Retirement', 'Community & State', 'Employer & Individual'],
-                    color: ['#3381FF', '#80B0FF', '#003DA1']
-                  },
-                  bottomData: {
-                    horizontalData: [
-                      { values: appealsData.LineOfBusiness[lobFullData].AdminAppeals, labels: 'Admin' },
-                      { values: appealsData.LineOfBusiness[lobFullData].ClinicalAppeals, labels: 'Clinical' }
-                    ]
-                  },
-                  timeperiod: this.timeFrame
-                };
-              } else {
-                appealsSubmitted = {
-                  category: 'app-card',
-                  type: 'donutWithLabelBottom',
-                  title: null,
-                  data: null,
-                  besideData: null,
-                  bottomData: null,
-                  timeperiod: null
-                };
-              }
-              if (
-                appealsData.hasOwnProperty('LineOfBusiness') &&
-                appealsData.LineOfBusiness.hasOwnProperty(lobFullData) &&
-                appealsData.LineOfBusiness[lobFullData].hasOwnProperty('OverTurnCount') &&
-                appealsData.LineOfBusiness[lobFullData].hasOwnProperty('AdminAppeals') &&
-                appealsData.LineOfBusiness[lobFullData].hasOwnProperty('ClinicalAppeals')
-              ) {
-                const submitted =
-                  appealsData.LineOfBusiness[lobFullData].AdminAppeals +
-                  appealsData.LineOfBusiness[lobFullData].ClinicalAppeals;
-                const overturnedData = [
-                  appealsData.LineOfBusiness[lobFullData].OverTurnCount,
-                  submitted - appealsData.LineOfBusiness[lobFullData].OverTurnCount
-                ];
-                appealsOverturned = {
-                  category: 'app-card',
-                  type: 'donut',
-                  title: 'Claims Appeals Overturned',
-                  data: {
-                    graphValues: overturnedData,
-                    centerNumber: this.common.nFormatter(appealsData.LineOfBusiness[lobFullData].OverTurnCount),
-                    color: ['#3381FF', '#D7DCE1'],
-                    gdata: ['card-inner', 'claimsAppealOverturned'],
-                    sdata: null
-                  },
-                  timeperiod: this.timeFrame
-                };
-              } else {
-                appealsOverturned = {
-                  category: 'app-card',
-                  type: 'donut',
-                  title: null,
-                  data: null,
-                  timeperiod: null
-                };
-              }
-            }
-            submissions = { id: 1, title: 'Claims Submissions', data: [claimsSubmitted, claimsTAT] };
-            payments = { id: 2, title: 'Claims Payments', data: [claimsPaid, claimsPaidRate] };
-            nonpayments = { id: 3, title: 'Claims Non-Payments', data: [claimsNotPaid, claimsNotPaidRate] };
-            appeals = { id: 4, title: 'Claims Appeals', data: [appealsSubmitted, appealsOverturned] };
-            summaryData[0] = submissions;
-            summaryData[1] = payments;
-            summaryData[2] = nonpayments;
-            summaryData[3] = appeals;
-
-            if (summaryData.length) {
-              resolve(summaryData);
-            }
+        this.sharedNonPaymentData()
+          .then(nonPayment => {
+            this.nonPaymentData = nonPayment;
+            return this.sharedGettingReimbursedYearWiseData(parameters);
+          })
+          .then(data => {
+            gettingReimbursedData = data;
+            resolve(gettingReimbursedData);
           });
       }
     });
