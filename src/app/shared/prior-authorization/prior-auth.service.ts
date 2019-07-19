@@ -399,8 +399,8 @@ export class PriorAuthSharedService {
     const LOB = filterParameters.lob;
     const serviceSetting = filterParameters.serviceSetting;
     const paDecisionType = filterParameters.priorAuthType;
-    const paServiceCategory = 'All';
-    // console.log(filterParamteres);
+    const paServiceCategory = this.common.convertServiceCategoryOneWord(filterParameters.scType);
+    console.log(paServiceCategory);
 
     // Default parameters
     let timeRange = 'rolling12';
@@ -551,9 +551,10 @@ export class PriorAuthSharedService {
             ) {
               let data;
               // const data = providerSystems.PriorAuthorizations.LineOfBusiness.All;
-              if (isAllLobBool) {
+              console.log(isAllLobBool, isServiceCategory);
+              if (isAllLobBool && !isServiceCategory) {
                 data = providerSystems.PriorAuthorizations.LineOfBusiness.All;
-              } else {
+              } else if (!isAllLobBool) {
                 if (iscAndSLobBool) {
                   data = providerSystems.PriorAuthorizations.LineOfBusiness.CommunityAndState;
                 } else if (iseAndILobBool) {
@@ -561,7 +562,10 @@ export class PriorAuthSharedService {
                 } else if (ismAndRLobBool) {
                   data = providerSystems.PriorAuthorizations.LineOfBusiness.MedicareAndRetirement;
                 }
+              } else if (isServiceCategory) {
+                data = providerSystems.PriorAuthorizations.LineOfBusiness[paServiceCategoryString];
               }
+              // This array format can allow us to make strings into object names ^^^
 
               let PAApprovedCount;
               let PANotApprovedCount;
@@ -799,7 +803,7 @@ export class PriorAuthSharedService {
     const LOB = filterParameters.lob;
     const serviceSetting = filterParameters.serviceSetting;
     const paDecisionType = filterParameters.priorAuthType;
-    const paServiceCategory = 'All';
+    const paServiceCategory = filterParameters.scType;
 
     // Default parameters
     // need to configure time range for last 30 and last 31-60 days
@@ -842,7 +846,7 @@ export class PriorAuthSharedService {
         iseAndILobBool = false;
         ismAndRLobBool = false;
       }
-      if (LOB === 'Employee & Individual') {
+      if (LOB === 'Employer & Individual') {
         iscAndSLobBool = false;
         iseAndILobBool = true;
         ismAndRLobBool = false;
@@ -950,10 +954,10 @@ export class PriorAuthSharedService {
           let countDataOne;
           let countDataTwo;
 
-          if (isAllLobBool) {
+          if (isAllLobBool && !isServiceCategory) {
             countDataOne = paTrendOne.All;
             countDataTwo = paTrendTwo.All;
-          } else {
+          } else if (!isAllLobBool) {
             if (iscAndSLobBool) {
               countDataOne = paTrendOne.CommunityAndState;
               countDataTwo = paTrendTwo.CommunityAndState;
@@ -964,6 +968,9 @@ export class PriorAuthSharedService {
               countDataOne = paTrendOne.MedicareAndRetirement;
               countDataTwo = paTrendTwo.MedicareAndRetirement;
             }
+          } else if (isServiceCategory) {
+            countDataOne = paTrendOne[paServiceCategoryString];
+            countDataTwo = paTrendTwo[paServiceCategoryString];
           }
 
           let PAApprovedCountOne;
@@ -1055,6 +1062,7 @@ export class PriorAuthSharedService {
 
   getPriorAuthDataCombined(filterParameters) {
     console.log(this.common.convertServiceCategoryOneWord('Unproven, Experimental, Investigational'));
+    console.log(filterParameters);
 
     return new Promise(resolve => {
       this.getPriorAuthDataFiltered(filterParameters)

@@ -48,7 +48,8 @@ export class PriorAuthComponent implements OnInit {
         timeFrame: this.timePeriod,
         lob: this.session.filterObjValue.lob,
         tax: ['All'],
-        serviceSetting: this.session.filterObjValue.serviceSetting
+        serviceSetting: this.session.filterObjValue.serviceSetting,
+        scType: this.session.filterObjValue.scType
       });
       // this.ngOnInit();
     });
@@ -89,6 +90,13 @@ export class PriorAuthComponent implements OnInit {
     } else {
       this.priorAuthType = 'All';
       this.filterParameters.priorAuthType = 'All';
+    }
+    if (this.session.filterObjValue.scType) {
+      this.filterParameters.scType = this.session.filterObjValue.scType;
+      // this.scTypeData = this.session.filterObjValue.scType;
+    } else {
+      // this.scTypeData = this.priorauthservicecategory[0];
+      this.filterParameters.scType = 'All';
     }
     this.pageTitle = 'Prior Authorizations';
     this.loading = true;
@@ -151,7 +159,8 @@ export class PriorAuthComponent implements OnInit {
         lob: 'All',
         tax: this.session.filterObjValue.tax,
         serviceSetting: this.session.filterObjValue.serviceSetting,
-        priorAuthType: this.session.filterObjValue.priorAuthType
+        priorAuthType: this.session.filterObjValue.priorAuthType,
+        scType: this.session.filterObjValue.scType
       });
     } else if (type === 'tax' && !value.includes('Selected')) {
       this.taxID = this.session.filterObjValue.tax.filter(id => id !== value);
@@ -161,7 +170,8 @@ export class PriorAuthComponent implements OnInit {
           lob: this.session.filterObjValue.lob,
           tax: this.taxID,
           serviceSetting: this.session.filterObjValue.serviceSetting,
-          priorAuthType: this.session.filterObjValue.priorAuthType
+          priorAuthType: this.session.filterObjValue.priorAuthType,
+          scType: this.session.filterObjValue.scType
         });
       } else {
         this.session.store({
@@ -169,7 +179,8 @@ export class PriorAuthComponent implements OnInit {
           lob: this.session.filterObjValue.lob,
           tax: ['All'],
           serviceSetting: this.session.filterObjValue.serviceSetting,
-          priorAuthType: this.session.filterObjValue.priorAuthType
+          priorAuthType: this.session.filterObjValue.priorAuthType,
+          scType: this.session.filterObjValue.scType
         });
         this.taxID = [];
       }
@@ -179,7 +190,8 @@ export class PriorAuthComponent implements OnInit {
         lob: this.session.filterObjValue.lob,
         tax: ['All'],
         serviceSetting: this.session.filterObjValue.serviceSetting,
-        priorAuthType: this.session.filterObjValue.priorAuthType
+        priorAuthType: this.session.filterObjValue.priorAuthType,
+        scType: this.session.filterObjValue.scType
       });
       this.taxID = [];
     } else if (type === 'serviceSetting') {
@@ -189,7 +201,8 @@ export class PriorAuthComponent implements OnInit {
         lob: this.session.filterObjValue.lob,
         tax: this.session.filterObjValue.tax,
         serviceSetting: 'All',
-        priorAuthType: this.session.filterObjValue.priorAuthType
+        priorAuthType: this.session.filterObjValue.priorAuthType,
+        scType: this.session.filterObjValue.scType
       });
     } else if (type === 'priorAuthType') {
       this.priorAuthType = 'All';
@@ -198,7 +211,18 @@ export class PriorAuthComponent implements OnInit {
         lob: this.session.filterObjValue.lob,
         tax: this.session.filterObjValue.tax,
         serviceSetting: this.session.filterObjValue.serviceSetting,
-        priorAuthType: 'All'
+        priorAuthType: 'All',
+        scType: this.session.filterObjValue.scType
+      });
+    } else if (type === 'paserviceCategoty') {
+      // add var
+      this.session.store({
+        timeFrame: this.timePeriod,
+        lob: this.session.filterObjValue.lob,
+        tax: this.session.filterObjValue.tax,
+        serviceSetting: this.session.filterObjValue.serviceSetting,
+        priorAuthType: this.session.filterObjValue.priorAuthType,
+        scType: 'All'
       });
     }
   }
