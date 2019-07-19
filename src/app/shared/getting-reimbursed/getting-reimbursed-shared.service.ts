@@ -99,7 +99,6 @@ export class GettingReimbursedSharedService {
     return new Promise(resolve => {
       this.gettingReimbursedService.getGettingReimbursedData(...parameters).subscribe(
         ([claimsData, appealsData]) => {
-          console.log(claimsData);
           const lobFullData = this.common.matchFullLobWithData(this.lob);
           const lobData = this.common.matchLobWithData(this.lob);
           if (claimsData != null && claimsData.hasOwnProperty('status')) {
@@ -464,26 +463,52 @@ export class GettingReimbursedSharedService {
             if (
               appealsData.hasOwnProperty('LineOfBusiness') &&
               appealsData.LineOfBusiness.hasOwnProperty(lobFullData) &&
-              appealsData.LineOfBusiness.hasOwnProperty('CommunityAndState') &&
-              appealsData.LineOfBusiness.hasOwnProperty('EmployerAndIndividual') &&
-              appealsData.LineOfBusiness.hasOwnProperty('MedicareAndRetirement') &&
               appealsData.LineOfBusiness[lobFullData].hasOwnProperty('AdminAppeals') &&
-              appealsData.LineOfBusiness[lobFullData].hasOwnProperty('ClinicalAppeals') &&
-              appealsData.LineOfBusiness.CommunityAndState.hasOwnProperty('AdminAppeals') &&
-              appealsData.LineOfBusiness.CommunityAndState.hasOwnProperty('ClinicalAppeals') &&
-              appealsData.LineOfBusiness.EmployerAndIndividual.hasOwnProperty('AdminAppeals') &&
-              appealsData.LineOfBusiness.EmployerAndIndividual.hasOwnProperty('ClinicalAppeals') &&
-              appealsData.LineOfBusiness.MedicareAndRetirement.hasOwnProperty('AdminAppeals') &&
-              appealsData.LineOfBusiness.MedicareAndRetirement.hasOwnProperty('ClinicalAppeals')
+              appealsData.LineOfBusiness[lobFullData].hasOwnProperty('ClinicalAppeals')
             ) {
-              const submittedData = [
-                appealsData.LineOfBusiness.MedicareAndRetirement.AdminAppeals +
-                  appealsData.LineOfBusiness.MedicareAndRetirement.ClinicalAppeals,
-                appealsData.LineOfBusiness.CommunityAndState.AdminAppeals +
-                  appealsData.LineOfBusiness.CommunityAndState.ClinicalAppeals,
-                appealsData.LineOfBusiness.EmployerAndIndividual.AdminAppeals +
-                  appealsData.LineOfBusiness.EmployerAndIndividual.ClinicalAppeals
-              ];
+              const submittedData = [];
+              if (
+                appealsData.LineOfBusiness.hasOwnProperty('MedicareAndRetirement') &&
+                appealsData.LineOfBusiness.MedicareAndRetirement != null
+              ) {
+                if (
+                  appealsData.LineOfBusiness.MedicareAndRetirement.hasOwnProperty('AdminAppeals') &&
+                  appealsData.LineOfBusiness.MedicareAndRetirement.hasOwnProperty('ClinicalAppeals')
+                ) {
+                  submittedData.push(
+                    appealsData.LineOfBusiness.MedicareAndRetirement.AdminAppeals +
+                      appealsData.LineOfBusiness.MedicareAndRetirement.ClinicalAppeals
+                  );
+                }
+              }
+              if (
+                appealsData.LineOfBusiness.hasOwnProperty('CommunityAndState') &&
+                appealsData.LineOfBusiness.CommunityAndState != null
+              ) {
+                if (
+                  appealsData.LineOfBusiness.CommunityAndState.hasOwnProperty('AdminAppeals') &&
+                  appealsData.LineOfBusiness.CommunityAndState.hasOwnProperty('ClinicalAppeals')
+                ) {
+                  submittedData.push(
+                    appealsData.LineOfBusiness.CommunityAndState.AdminAppeals +
+                      appealsData.LineOfBusiness.CommunityAndState.ClinicalAppeals
+                  );
+                }
+              }
+              if (
+                appealsData.LineOfBusiness.hasOwnProperty('EmployerAndIndividual') &&
+                appealsData.LineOfBusiness.EmployerAndIndividual != null
+              ) {
+                if (
+                  appealsData.LineOfBusiness.EmployerAndIndividual.hasOwnProperty('AdminAppeals') &&
+                  appealsData.LineOfBusiness.EmployerAndIndividual.hasOwnProperty('ClinicalAppeals')
+                ) {
+                  submittedData.push(
+                    appealsData.LineOfBusiness.EmployerAndIndividual.AdminAppeals +
+                      appealsData.LineOfBusiness.EmployerAndIndividual.ClinicalAppeals
+                  );
+                }
+              }
               appealsSubmitted = {
                 category: 'app-card',
                 type: 'donutWithLabelBottom',
@@ -578,6 +603,7 @@ export class GettingReimbursedSharedService {
           summaryData[1] = payments;
           summaryData[2] = nonpayments;
           summaryData[3] = appeals;
+
           if (summaryData.length) {
             resolve(summaryData);
           }
@@ -1013,26 +1039,52 @@ export class GettingReimbursedSharedService {
               if (
                 appealsData.hasOwnProperty('LineOfBusiness') &&
                 appealsData.LineOfBusiness.hasOwnProperty(lobFullData) &&
-                appealsData.LineOfBusiness.hasOwnProperty('CommunityAndState') &&
-                appealsData.LineOfBusiness.hasOwnProperty('EmployerAndIndividual') &&
-                appealsData.LineOfBusiness.hasOwnProperty('MedicareAndRetirement') &&
                 appealsData.LineOfBusiness[lobFullData].hasOwnProperty('AdminAppeals') &&
-                appealsData.LineOfBusiness[lobFullData].hasOwnProperty('ClinicalAppeals') &&
-                appealsData.LineOfBusiness.CommunityAndState.hasOwnProperty('AdminAppeals') &&
-                appealsData.LineOfBusiness.CommunityAndState.hasOwnProperty('ClinicalAppeals') &&
-                appealsData.LineOfBusiness.EmployerAndIndividual.hasOwnProperty('AdminAppeals') &&
-                appealsData.LineOfBusiness.EmployerAndIndividual.hasOwnProperty('ClinicalAppeals') &&
-                appealsData.LineOfBusiness.MedicareAndRetirement.hasOwnProperty('AdminAppeals') &&
-                appealsData.LineOfBusiness.MedicareAndRetirement.hasOwnProperty('ClinicalAppeals')
+                appealsData.LineOfBusiness[lobFullData].hasOwnProperty('ClinicalAppeals')
               ) {
-                const submittedData = [
-                  appealsData.LineOfBusiness.MedicareAndRetirement.AdminAppeals +
-                    appealsData.LineOfBusiness.MedicareAndRetirement.ClinicalAppeals,
-                  appealsData.LineOfBusiness.CommunityAndState.AdminAppeals +
-                    appealsData.LineOfBusiness.CommunityAndState.ClinicalAppeals,
-                  appealsData.LineOfBusiness.EmployerAndIndividual.AdminAppeals +
-                    appealsData.LineOfBusiness.EmployerAndIndividual.ClinicalAppeals
-                ];
+                const submittedData = [];
+                if (
+                  appealsData.LineOfBusiness.hasOwnProperty('MedicareAndRetirement') &&
+                  appealsData.LineOfBusiness.MedicareAndRetirement != null
+                ) {
+                  if (
+                    appealsData.LineOfBusiness.MedicareAndRetirement.hasOwnProperty('AdminAppeals') &&
+                    appealsData.LineOfBusiness.MedicareAndRetirement.hasOwnProperty('ClinicalAppeals')
+                  ) {
+                    submittedData.push(
+                      appealsData.LineOfBusiness.MedicareAndRetirement.AdminAppeals +
+                        appealsData.LineOfBusiness.MedicareAndRetirement.ClinicalAppeals
+                    );
+                  }
+                }
+                if (
+                  appealsData.LineOfBusiness.hasOwnProperty('CommunityAndState') &&
+                  appealsData.LineOfBusiness.CommunityAndState != null
+                ) {
+                  if (
+                    appealsData.LineOfBusiness.CommunityAndState.hasOwnProperty('AdminAppeals') &&
+                    appealsData.LineOfBusiness.CommunityAndState.hasOwnProperty('ClinicalAppeals')
+                  ) {
+                    submittedData.push(
+                      appealsData.LineOfBusiness.CommunityAndState.AdminAppeals +
+                        appealsData.LineOfBusiness.CommunityAndState.ClinicalAppeals
+                    );
+                  }
+                }
+                if (
+                  appealsData.LineOfBusiness.hasOwnProperty('EmployerAndIndividual') &&
+                  appealsData.LineOfBusiness.EmployerAndIndividual != null
+                ) {
+                  if (
+                    appealsData.LineOfBusiness.EmployerAndIndividual.hasOwnProperty('AdminAppeals') &&
+                    appealsData.LineOfBusiness.EmployerAndIndividual.hasOwnProperty('ClinicalAppeals')
+                  ) {
+                    submittedData.push(
+                      appealsData.LineOfBusiness.EmployerAndIndividual.AdminAppeals +
+                        appealsData.LineOfBusiness.EmployerAndIndividual.ClinicalAppeals
+                    );
+                  }
+                }
                 appealsSubmitted = {
                   category: 'app-card',
                   type: 'donutWithLabelBottom',
@@ -1120,6 +1172,7 @@ export class GettingReimbursedSharedService {
             summaryData[1] = payments;
             summaryData[2] = nonpayments;
             summaryData[3] = appeals;
+
             if (summaryData.length) {
               resolve(summaryData);
             }
