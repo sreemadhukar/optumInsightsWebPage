@@ -48,11 +48,12 @@ export class CallsService {
 
     let params = new HttpParams();
     if (parameters[1].TimeFilter === 'CalendarYear') {
-      params = params.append('timeFilter', parameters[1].TimeFilterText);
+      params = params.append('TimeFilter', parameters[1].TimeFilterText);
     } else {
-      params = params.append('timeFilter', parameters[1].TimeFilter);
+      params = params.append('TimeFilter', parameters[1].TimeFilter);
     }
-    const executiveURL = this.APP_URL + this.CALLS_SERVICE_PATH + parameters[0];
+    const executiveURL = this.APP_URL + this.CALLS_TREND_PATH + parameters[0];
+    console.log(executiveURL, params);
     return combineLatest(
       this.http.get(executiveURL, { params: params, headers: myHeader }).pipe(
         map(res => res),
