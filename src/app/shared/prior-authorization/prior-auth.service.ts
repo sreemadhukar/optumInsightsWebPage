@@ -548,7 +548,7 @@ export class PriorAuthSharedService {
               providerSystems.hasOwnProperty('PriorAuthorizations') &&
               providerSystems.PriorAuthorizations.hasOwnProperty('LineOfBusiness')
             ) {
-              let data = [];
+              let data;
               // const data = providerSystems.PriorAuthorizations.LineOfBusiness.All;
               if (isAllLobBool && !isServiceCategory) {
                 data = providerSystems.PriorAuthorizations.LineOfBusiness.All;
