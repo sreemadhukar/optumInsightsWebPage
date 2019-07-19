@@ -168,6 +168,56 @@
       </div>
     </div>
     -->
+
+    <!-- Service Category -->
+    <div class="line"></div>
+    <div class="titleData">
+      <div class="title">Service Category</div>
+      <div class="chevron">
+        <mat-icon
+          class="icon-display"
+          *ngIf="!sctypearrowmark"
+          (click)="clickArrowMark('sctype')"
+          svgIcon="arrowdn"
+        ></mat-icon>
+        <mat-icon
+          class="icon-display"
+          *ngIf="sctypearrowmark"
+          (click)="clickArrowMark('sctype')"
+          svgIcon="arrowup"
+        ></mat-icon>
+      </div>
+    </div>
+    <div class="lobgrp">
+      <div>
+        <label class="label-data">{{ scTypeData }}</label>
+      </div>
+      <div class="select-option-data" *ngIf="sctypearrowmark">
+        <mat-form-field appearance="outline">
+          <input
+            type="text"
+            matInput
+            [matAutocomplete]="auto"
+            [formControl]="serviceCategoryCtrl"
+            [(ngModel)]="selectedmetric"
+            placeholder="Search for Service Category"
+          />
+          <mat-icon matPrefix class="nav-menu-icons" svgIcon="search"></mat-icon>
+          <mat-autocomplete #auto="matAutocomplete" (optionSelected)="scArrayFunction($event.option.value)">
+            <mat-option *ngFor="let servicecategory of (filteredOptions | async)" [value]="servicecategory">
+              <!-- <span class="highlight" [innerHTML]="servicecategory | highlight: toHighlight"></span> -->
+              {{ servicecategory }}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+
+        <!-- <mat-radio-group class="radio-group" [(ngModel)]="scTypeData">
+          <mat-radio-button class="radio-button" *ngFor="let patype of priorauthdecisiontype" [value]="patype">
+            {{ patype }}
+          </mat-radio-button>
+        </mat-radio-group> -->
+      </div>
+    </div>
   </div>
 
   <div class="line1"></div>
