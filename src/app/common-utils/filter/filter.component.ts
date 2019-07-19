@@ -190,11 +190,6 @@ export class FilterComponent implements OnInit {
       } else {
         this.priorAuthTypeData = this.priorauthdecisiontype[0];
       }
-      if (this.session.filterObjValue.priorAuthType) {
-        this.priorAuthTypeData = this.session.filterObjValue.priorAuthType;
-      } else {
-        this.priorAuthTypeData = this.priorauthdecisiontype[0];
-      }
       if (this.session.filterObjValue.scType) {
         this.scTypeData = this.session.filterObjValue.scType;
       } else {
@@ -281,7 +276,6 @@ export class FilterComponent implements OnInit {
     }
   }
   taxArrayFunction(data) {
-    alert(data);
     let tempArray = [];
     if (data) {
       this.taxData = data;

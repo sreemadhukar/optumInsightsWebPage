@@ -11,6 +11,7 @@ export class PriorAuthSharedService {
   private priorAuthData: Array<object> = [];
   private timeFrame: string;
   private providerKey: number;
+  private priorAuthDataCombined: any;
 
   constructor(
     private priorAuthService: PriorAuthService,
@@ -130,9 +131,18 @@ export class PriorAuthSharedService {
       const isAlllob = true;
       const isAllSS = true;
       const isDecisionType = false;
+      const isServiceCategory = false;
 
       this.priorAuthService
-        .getPriorAuthDateRange(timeRange, isAllTin, isAlllob, isAllSS, isDecisionType, ...newParameters)
+        .getPriorAuthDateRange(
+          timeRange,
+          isAllTin,
+          isAlllob,
+          isAllSS,
+          isDecisionType,
+          isServiceCategory,
+          ...newParameters
+        )
         .subscribe(
           providerSystems => {
             let PACount = [];
@@ -381,15 +391,15 @@ export class PriorAuthSharedService {
     });
   }
 
-  getPriorAuthDataFiltered(filterParamteres) {
+  getPriorAuthDataFiltered(filterParameters) {
     this.providerKey = this.session.providerKeyData();
 
-    const timePeriod = filterParamteres.timeFrame;
-    const TIN = filterParamteres.tax[0];
-    const LOB = filterParamteres.lob;
-    const serviceSetting = filterParamteres.serviceSetting;
-    const paDecisionType = filterParamteres.priorAuthType;
-    // console.log(filterParamteres);
+    const timePeriod = filterParameters.timeFrame;
+    const TIN = filterParameters.tax[0];
+    const LOB = filterParameters.lob;
+    const serviceSetting = filterParameters.serviceSetting;
+    const paDecisionType = filterParameters.priorAuthType;
+    const paServiceCategory = this.common.convertServiceCategoryOneWord(filterParameters.scType);
 
     // Default parameters
     let timeRange = 'rolling12';
@@ -405,6 +415,8 @@ export class PriorAuthSharedService {
     let isAllSSFlagBool = true; // Only if we need all reasons; most commands will already give all 3 so just have to filter
     let isDecisionType = false;
     const decisionValue = paDecisionType;
+    let isServiceCategory = false;
+    let paServiceCategoryString = '';
 
     // configurations for time period
     if (timePeriod === 'Last 12 Months') {
@@ -482,6 +494,14 @@ export class PriorAuthSharedService {
       isDecisionType = false;
     }
 
+    if (paServiceCategory !== 'All') {
+      isServiceCategory = true;
+      paServiceCategoryString = paServiceCategory;
+    } else {
+      isServiceCategory = false;
+      paServiceCategoryString = '';
+    }
+
     return new Promise(resolve => {
       // const newParameters = [this.providerKey, true, true, true, false, true, false, false, false, true];
 
@@ -497,7 +517,9 @@ export class PriorAuthSharedService {
         ismAndRLobBool,
         isAllSSFlagBool,
         isDecisionType,
-        decisionValue
+        decisionValue,
+        isServiceCategory,
+        paServiceCategoryString
       ];
       // Parameters key
       // zero - provider key
@@ -505,6 +527,7 @@ export class PriorAuthSharedService {
       // three/four - all tin flag/specific tin
       // five-eight - all lob/cAndSLob/eAndILob/mAndRLob flag
       // nine - all service setting flag
+      // ten/eleven - pa decision type with a bool with adiminstrative/clinical
 
       this.priorAuthService
         .getPriorAuthDateRange(
@@ -513,6 +536,7 @@ export class PriorAuthSharedService {
           isAllLobBool,
           isAllSSFlagBool,
           isDecisionType,
+          isServiceCategory,
           ...priorAuthAPIParameters
         )
         .subscribe(
@@ -524,11 +548,11 @@ export class PriorAuthSharedService {
               providerSystems.hasOwnProperty('PriorAuthorizations') &&
               providerSystems.PriorAuthorizations.hasOwnProperty('LineOfBusiness')
             ) {
-              let data;
+              let data = [];
               // const data = providerSystems.PriorAuthorizations.LineOfBusiness.All;
-              if (isAllLobBool) {
+              if (isAllLobBool && !isServiceCategory) {
                 data = providerSystems.PriorAuthorizations.LineOfBusiness.All;
-              } else {
+              } else if (!isAllLobBool && !isServiceCategory) {
                 if (iscAndSLobBool) {
                   data = providerSystems.PriorAuthorizations.LineOfBusiness.CommunityAndState;
                 } else if (iseAndILobBool) {
@@ -536,7 +560,12 @@ export class PriorAuthSharedService {
                 } else if (ismAndRLobBool) {
                   data = providerSystems.PriorAuthorizations.LineOfBusiness.MedicareAndRetirement;
                 }
+              } else if (isServiceCategory) {
+                if (providerSystems.PriorAuthorizations.LineOfBusiness.hasOwnProperty(paServiceCategoryString)) {
+                  data = providerSystems.PriorAuthorizations.LineOfBusiness[paServiceCategoryString];
+                }
               }
+              // This array format can allow us to make strings into object names ^^^
 
               let PAApprovedCount;
               let PANotApprovedCount;
@@ -763,6 +792,319 @@ export class PriorAuthSharedService {
             console.log('Prior Auth Error', err);
           }
         );
+    });
+  }
+
+  // For overview page
+  // will need to make parameters configurable
+  getPriorAuthTrendData(filterParameters) {
+    this.providerKey = this.session.providerKeyData();
+    const TIN = filterParameters.tax[0];
+    const LOB = filterParameters.lob;
+    const serviceSetting = filterParameters.serviceSetting;
+    const paDecisionType = filterParameters.priorAuthType;
+    const paServiceCategory = filterParameters.scType;
+
+    // Default parameters
+    // need to configure time range for last 30 and last 31-60 days
+    const timeRange = 'customDateRange';
+    let timeRangeAPIParameter;
+    let timeRangeAdditionalData;
+    let isAllTinBool = true;
+    let specificTin = '';
+    let isAllLobBool = true;
+    let iscAndSLobBool = false;
+    let iseAndILobBool = false;
+    let ismAndRLobBool = false;
+    let isAllSSFlagBool = true; // Only if we need all reasons; most commands will already give all 3 so just have to filter
+    const isDecisionType = false;
+    const decisionValue = 'All';
+    let isServiceCategory = false;
+    let paServiceCategoryString = '';
+
+    let tinNumberFormatted;
+
+    if (TIN === 'All') {
+      isAllTinBool = true;
+      specificTin = '';
+    } else {
+      isAllTinBool = false;
+      specificTin = TIN.replace(/\D/g, '');
+      tinNumberFormatted = parseInt(specificTin, 10);
+      specificTin = tinNumberFormatted;
+    }
+
+    if (LOB === 'All') {
+      isAllLobBool = true;
+      iscAndSLobBool = false;
+      iseAndILobBool = false;
+      ismAndRLobBool = false;
+    } else {
+      isAllLobBool = false;
+      if (LOB === 'Community & State') {
+        iscAndSLobBool = true;
+        iseAndILobBool = false;
+        ismAndRLobBool = false;
+      }
+      if (LOB === 'Employer & Individual') {
+        iscAndSLobBool = false;
+        iseAndILobBool = true;
+        ismAndRLobBool = false;
+      }
+      if (LOB === 'Medicare & Retirement') {
+        iscAndSLobBool = false;
+        iseAndILobBool = false;
+        ismAndRLobBool = true;
+      }
+    }
+
+    if (serviceSetting === 'All') {
+      isAllSSFlagBool = true;
+    } else {
+      isAllSSFlagBool = false;
+    }
+
+    if (paServiceCategory !== 'All') {
+      isServiceCategory = true;
+      paServiceCategoryString = paServiceCategory;
+    } else {
+      isServiceCategory = false;
+      paServiceCategoryString = '';
+    }
+
+    // timeRangeAPIParameter needs to be the last 30th date...
+    const yesterday = (d => new Date(d.setDate(d.getDate() - 1)))(new Date());
+    const last30thDay = (d => new Date(d.setDate(d.getDate() - 31)))(new Date());
+    let startDateString;
+    let endDateString;
+    if (last30thDay.getDate() < 10) {
+      startDateString = '0' + last30thDay.getDate();
+    } else {
+      startDateString = last30thDay.getDate();
+    }
+    if (yesterday.getDate() < 10) {
+      endDateString = '0' + yesterday.getDate();
+    } else {
+      endDateString = yesterday.getDate();
+    }
+    timeRangeAPIParameter =
+      last30thDay.getFullYear() + '-' + this.ReturnMonthlyCountString(last30thDay.getMonth()) + '-' + startDateString;
+    timeRangeAdditionalData =
+      yesterday.getFullYear() + '-' + this.ReturnMonthlyCountString(yesterday.getMonth()) + '-' + endDateString;
+
+    const last31stDay = (d => new Date(d.setDate(d.getDate() - 32)))(new Date());
+    const last60thDay = (d => new Date(d.setDate(d.getDate() - 60)))(new Date());
+    let startDateStringTwo;
+    let endDateStringTwo;
+    if (last60thDay.getDate() < 10) {
+      startDateStringTwo = '0' + last60thDay.getDate();
+    } else {
+      startDateStringTwo = last60thDay.getDate();
+    }
+    if (last31stDay.getDate() < 10) {
+      endDateStringTwo = '0' + last31stDay.getDate();
+    } else {
+      endDateStringTwo = last31stDay.getDate();
+    }
+
+    const timeRangeAPIParameterTwo =
+      last60thDay.getFullYear() +
+      '-' +
+      this.ReturnMonthlyCountString(last60thDay.getMonth()) +
+      '-' +
+      startDateStringTwo;
+    const timeRangeAdditionalDataTwo =
+      last31stDay.getFullYear() + '-' + this.ReturnMonthlyCountString(last31stDay.getMonth()) + '-' + endDateStringTwo;
+
+    return new Promise(resolve => {
+      const priorAuthAPIParameters = [
+        this.providerKey,
+        timeRangeAPIParameter,
+        timeRangeAdditionalData,
+        isAllTinBool,
+        specificTin,
+        isAllLobBool,
+        iscAndSLobBool,
+        iseAndILobBool,
+        ismAndRLobBool,
+        isAllSSFlagBool,
+        isDecisionType,
+        decisionValue,
+        isServiceCategory,
+        paServiceCategoryString,
+        timeRangeAPIParameterTwo,
+        timeRangeAdditionalDataTwo
+      ];
+
+      // the return object will change depending on LOB/service setting
+      this.priorAuthService
+        .getPriorAuthTrend(
+          timeRange,
+          isAllTinBool,
+          isAllLobBool,
+          isAllSSFlagBool,
+          isDecisionType,
+          isServiceCategory,
+          ...priorAuthAPIParameters
+        )
+        .subscribe(([one, two]) => {
+          let paTrendOne;
+          let paTrendTwo;
+
+          let countDataOne;
+          let countDataTwo;
+
+          let sDataObjectOne;
+          let sDataObjectTwo;
+
+          if (
+            one.PriorAuthorizations !== null &&
+            one.hasOwnProperty('PriorAuthorizations') &&
+            one.PriorAuthorizations.hasOwnProperty('LineOfBusiness') &&
+            two.PriorAuthorizations !== null &&
+            two.hasOwnProperty('PriorAuthorizations') &&
+            two.PriorAuthorizations.hasOwnProperty('LineOfBusiness')
+          ) {
+            paTrendOne = one.PriorAuthorizations.LineOfBusiness;
+            paTrendTwo = two.PriorAuthorizations.LineOfBusiness;
+            if (isAllLobBool && !isServiceCategory) {
+              countDataOne = paTrendOne.All;
+              countDataTwo = paTrendTwo.All;
+            } else if (!isAllLobBool && !isServiceCategory) {
+              if (iscAndSLobBool) {
+                countDataOne = paTrendOne.CommunityAndState;
+                countDataTwo = paTrendTwo.CommunityAndState;
+              } else if (iseAndILobBool) {
+                countDataOne = paTrendOne.EmployerAndIndividual;
+                countDataTwo = paTrendTwo.EmployerAndIndividual;
+              } else if (ismAndRLobBool) {
+                countDataOne = paTrendOne.MedicareAndRetirement;
+                countDataTwo = paTrendTwo.MedicareAndRetirement;
+              }
+            } else if (isServiceCategory) {
+              if (
+                paTrendOne.hasOwnProperty(paServiceCategoryString) &&
+                paTrendTwo.hasOwnProperty(paServiceCategoryString)
+              ) {
+                countDataOne = paTrendOne[paServiceCategoryString];
+                countDataTwo = paTrendTwo[paServiceCategoryString];
+              }
+            }
+
+            let PAApprovedCountOne;
+            let PANotApprovedCountOne;
+            let PANotPendingCountOne;
+            let PANotCancelledCountOne;
+
+            let PAApprovedCountTwo;
+            let PANotApprovedCountTwo;
+            let PANotPendingCountTwo;
+            let PANotCancelledCountTwo;
+
+            if (isAllSSFlagBool) {
+              PAApprovedCountOne = countDataOne.PriorAuthApprovedCount;
+              PANotApprovedCountOne = countDataOne.PriorAuthNotApprovedCount;
+              PANotPendingCountOne = countDataOne.PriorAuthPendingCount;
+              PANotCancelledCountOne = countDataOne.PriorAuthCancelledCount;
+              PAApprovedCountTwo = countDataTwo.PriorAuthApprovedCount;
+              PANotApprovedCountTwo = countDataTwo.PriorAuthNotApprovedCount;
+              PANotPendingCountTwo = countDataTwo.PriorAuthPendingCount;
+              PANotCancelledCountTwo = countDataTwo.PriorAuthCancelledCount;
+            } else {
+              if (serviceSetting === 'Inpatient') {
+                PAApprovedCountOne = countDataOne.InpatientFacilityApprovedCount;
+                PANotApprovedCountOne = countDataOne.InpatientFacilityNotApprovedCount;
+                PANotCancelledCountOne = countDataOne.InpatientFacilityCancelledCount;
+                PANotPendingCountOne = countDataOne.InpatientFacilityPendingCount;
+                PAApprovedCountTwo = countDataTwo.InpatientFacilityApprovedCount;
+                PANotApprovedCountTwo = countDataTwo.InpatientFacilityNotApprovedCount;
+                PANotCancelledCountTwo = countDataTwo.InpatientFacilityCancelledCount;
+                PANotPendingCountTwo = countDataTwo.InpatientFacilityPendingCount;
+              } else if (serviceSetting === 'Outpatient') {
+                PAApprovedCountOne = countDataOne.OutpatientApprovedCount;
+                PANotApprovedCountOne = countDataOne.OutpatientNotApprovedCount;
+                PANotCancelledCountOne = countDataOne.OutpatientCancelledCount;
+                PANotPendingCountOne = countDataOne.OutpatientPendingCount;
+                PAApprovedCountTwo = countDataTwo;
+                PANotApprovedCountTwo = countDataTwo;
+                PANotCancelledCountTwo = countDataTwo;
+                PANotPendingCountTwo = countDataTwo;
+              } else if (serviceSetting === 'Outpatient Facility') {
+                PAApprovedCountOne = countDataOne.OutpatientFacilityApprovedCount;
+                PANotApprovedCountOne = countDataOne.OutpatientFacilityNotApprovedCount;
+                PANotCancelledCountOne = countDataOne.OutpatientFacilityCancelledCount;
+                PANotPendingCountOne = countDataOne.OutpatientFacilityPendingCount;
+                PAApprovedCountTwo = countDataTwo.OutpatientFacilityApprovedCount;
+                PANotApprovedCountTwo = countDataTwo.OutpatientFacilityNotApprovedCount;
+                PANotCancelledCountTwo = countDataTwo.OutpatientFacilityCancelledCount;
+                PANotPendingCountTwo = countDataTwo.OutpatientFacilityPendingCount;
+              }
+            }
+
+            const PARequestedCountOne = PAApprovedCountOne + PANotApprovedCountOne;
+            const PAApprovalRateOne = PAApprovedCountOne / PARequestedCountOne;
+            const PARequestedCountTwo = PAApprovedCountTwo + PANotApprovedCountTwo;
+            const PAApprovalRateTwo = PAApprovedCountTwo / PARequestedCountTwo;
+
+            const PARequestedTrend = ((PARequestedCountTwo - PARequestedCountOne) / PARequestedCountOne) * 100;
+            const PAApprovalRateTrend = ((PAApprovalRateTwo - PAApprovalRateOne) / PAApprovalRateOne) * 100;
+
+            let trendLineOne;
+            let trendLineTwo;
+
+            if (PARequestedTrend < 0) {
+              trendLineOne = 'down';
+            } else {
+              trendLineOne = 'up';
+            }
+
+            if (PAApprovalRateTrend < 0) {
+              trendLineTwo = 'down';
+            } else {
+              trendLineTwo = 'up';
+            }
+
+            sDataObjectOne = {
+              data: PARequestedTrend.toFixed(1) + '%',
+              sign: trendLineOne
+            };
+            sDataObjectTwo = {
+              data: PAApprovalRateTrend.toFixed(1) + '%',
+              sign: trendLineTwo
+            };
+          } else {
+            sDataObjectOne = {
+              data: '',
+              sign: ''
+            };
+            sDataObjectTwo = {
+              data: '',
+              sign: ''
+            };
+          }
+          resolve([sDataObjectOne, sDataObjectTwo]);
+        });
+    });
+  }
+
+  getPriorAuthDataCombined(filterParameters) {
+    return new Promise(resolve => {
+      this.getPriorAuthDataFiltered(filterParameters)
+        .then(data => {
+          this.priorAuthDataCombined = data;
+          return this.getPriorAuthTrendData(filterParameters);
+        })
+        .then(data => {
+          if (this.priorAuthDataCombined[0].length > 0) {
+            this.priorAuthDataCombined[0][1].data['sdata'] = data[1];
+          }
+          resolve(this.priorAuthDataCombined);
+        })
+        .catch(reason => {
+          this.priorAuthDataCombined[0][1].data['sdata'] = null;
+          resolve(this.priorAuthDataCombined);
+          console.log('Prior Auth Service Error ', reason);
+        });
     });
   }
 }

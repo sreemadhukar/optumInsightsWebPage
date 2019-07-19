@@ -6,6 +6,7 @@ import { CommonUtilsService } from '../common-utils.service';
 import { SessionService } from '../session.service';
 import { AuthorizationService } from '../../auth/_service/authorization.service';
 import { CallsTrendService } from './../service-interaction/calls-trend.service';
+import { TrendingMetricsService } from '../../rest/trending/trending-metrics.service';
 
 @Injectable({
   providedIn: OverviewPageModule
@@ -16,12 +17,14 @@ export class OverviewSharedService {
   private providerKey: number;
   private baseTimePeriod = 'Last30Days';
   private previousTimePeriod = 'PreviousLast30Days';
+  private priorAuthTrend;
   constructor(
     private overviewService: OverviewService,
     private common: CommonUtilsService,
     private session: SessionService,
     private toggle: AuthorizationService,
-    private callsTrendService: CallsTrendService
+    private callsTrendService: CallsTrendService,
+    private trendsService: TrendingMetricsService
   ) {}
   getOverviewData() {
     this.timeFrame = this.session.timeFrame;
@@ -931,7 +934,7 @@ export class OverviewSharedService {
   }
 
   /* function to get PRIOR AUTH CARD seperately i overview page - RANJITH KUMAR ANKAM - 17th JULY 2019 */
-  getPriorAuthCardData() {
+  getPriorAuthCardData(trends) {
     return new Promise((resolve, reject) => {
       const parameters = {
         providerkey: this.providerKey,
@@ -942,7 +945,30 @@ export class OverviewSharedService {
       };
 
       this.overviewService.getOverviewPriorAuth(parameters).subscribe(priorAuth => {
-        console.log(priorAuth);
+        /*
+        let PAOverviewTrends: object;
+        if (
+          trends &&
+          trends.hasOwnProperty('TendingMtrics') &&
+          trends.TendingMtrics.hasOwnProperty('PaApprovedCount')
+        ) {
+          const dataPoint = trends.TendingMtrics.PaApprovedCount.toFixed(1) + '%';
+          if (trends.TendingMtrics.PaApprovedCount < 0) {
+            PAOverviewTrends = {
+              sign: 'down',
+              data: dataPoint
+            };
+          } else {
+            PAOverviewTrends = {
+              sign: 'up',
+              data: dataPoint
+            };
+          }
+        } else {
+          PAOverviewTrends = null;
+        }
+        */
+
         let cPriorAuth: object;
         if (
           priorAuth &&
@@ -972,7 +998,7 @@ export class OverviewSharedService {
               color: ['#3381FF', '#D7DCE1'],
               gdata: ['card-inner', 'priorAuthCardD3Donut']
             },
-            sdata: null,
+            sdata: trends,
             timeperiod: 'Last 6 Months'
           };
         } else {
@@ -1056,6 +1082,36 @@ export class OverviewSharedService {
           }
           resolve(cIR);
         });
+      });
+    });
+  }
+
+  getAllTrends() {
+    this.providerKey = this.session.providerKeyData();
+    return new Promise(resolve => {
+      this.trendsService.getTrendingMetrics([this.providerKey]).subscribe(trends => {
+        let PAOverviewTrends: object;
+        if (
+          trends &&
+          trends.hasOwnProperty('TendingMtrics') &&
+          trends.TendingMtrics.hasOwnProperty('PaApprovedCount')
+        ) {
+          const dataPoint = trends.TendingMtrics.PaApprovedCount.toFixed(1) + '%';
+          if (trends.TendingMtrics.PaApprovedCount < 0) {
+            PAOverviewTrends = {
+              sign: 'down',
+              data: dataPoint
+            };
+          } else {
+            PAOverviewTrends = {
+              sign: 'up',
+              data: dataPoint
+            };
+          }
+        } else {
+          PAOverviewTrends = null;
+        }
+        resolve(PAOverviewTrends);
       });
     });
   }
