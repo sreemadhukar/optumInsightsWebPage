@@ -140,6 +140,11 @@
     }
   }
 }
+.titleDisplay {
+  font-style: italic;
+  color: lightgray;
+  font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+}
 .titleDisable {
   pointer-events: none;
   cursor: pointer;
