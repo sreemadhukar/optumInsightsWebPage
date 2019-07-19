@@ -1018,7 +1018,7 @@ export class OverviewSharedService {
         // resolve(cIR);
 
         this.createTotalCallsTrend().then(trendIssueResolution => {
-        const nullTrend =  {
+          const nullTrend = {
             sign: '',
             data: ''
           };
