@@ -29,6 +29,22 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit {
     this.doBarGraph(this.chartOptions.chartData, this.transition);
   }
 
+  nFormatter(fnumber) {
+    if (fnumber >= 1000000000) {
+      return (fnumber / 1000000000).toFixed(1).replace(/\.0$/, '') + 'B';
+    }
+    if (fnumber >= 1000000) {
+      return (fnumber / 1000000).toFixed(1).replace(/\.0$/, '') + 'M';
+    }
+    if (fnumber >= 1000) {
+      return (fnumber / 1000).toFixed(1).replace(/\.0$/, '') + 'K';
+    }
+    if (fnumber < 1000) {
+      return fnumber.toFixed(2).replace(/\.0$/, '');
+    }
+    return fnumber;
+  }
+
   formatDynamicAbbreviation(tickNumber: number, tickValue: number, prefix: string) {
     // zero is false and one is true
     const q = tickValue;
@@ -197,7 +213,7 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit {
       .attr('font-size', '20')
       .style('text-anchor', 'end')
       .style('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
-      .text('$' + this.common.nFormatter(this.chartOptions.chartData[0]));
+      .text('$' + this.nFormatter(this.chartOptions.chartData[0]));
 
     chart
       .append('text')
@@ -217,7 +233,7 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit {
       .attr('font-size', '20')
       .style('text-anchor', 'end')
       .style('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
-      .text('$' + this.common.nFormatter(this.chartOptions.chartData[1]));
+      .text('$' + this.nFormatter(this.chartOptions.chartData[1]));
 
     chart
       .append('text')
@@ -237,7 +253,7 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit {
       .attr('font-size', '20')
       .style('text-anchor', 'end')
       .style('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
-      .text('$' + this.common.nFormatter(this.chartOptions.chartData[2]));
+      .text('$' + this.nFormatter(this.chartOptions.chartData[2]));
 
     chart
       .append('text')
@@ -257,7 +273,7 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit {
       .attr('font-size', '20')
       .style('text-anchor', 'end')
       .style('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
-      .text('$' + this.common.nFormatter(this.chartOptions.chartData[3]));
+      .text('$' + this.nFormatter(this.chartOptions.chartData[3]));
 
     chart
       .append('text')

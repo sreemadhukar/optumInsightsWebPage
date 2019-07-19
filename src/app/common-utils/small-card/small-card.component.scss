@@ -24,6 +24,9 @@
     }
     .full-width {
       width: 100%;
+      justify-content: center;
+      display: flex;
+      margin-bottom: 16px;
     }
     .trend-details {
       float: left;
@@ -68,7 +71,7 @@
         position: absolute;
         height: 20px;
         width: 20px;
-        top: 5px;
+        top: 6px;
         left: 5px;
       }
       .trend-image-down {
