@@ -29,6 +29,7 @@ export class PriorAuthComponent implements OnInit {
   taxID: Array<string>;
   serviceSetting: string;
   priorAuthType: string;
+  scType: string;
   filterParameters: any;
   constructor(
     private checkStorage: StorageService,
@@ -92,10 +93,11 @@ export class PriorAuthComponent implements OnInit {
       this.filterParameters.priorAuthType = 'All';
     }
     if (this.session.filterObjValue.scType) {
-      this.filterParameters.scType = this.session.filterObjValue.scType;
+      this.scType = this.session.filterObjValue.scType;
       // this.scTypeData = this.session.filterObjValue.scType;
     } else {
       // this.scTypeData = this.priorauthservicecategory[0];
+      this.scType = 'All';
       this.filterParameters.scType = 'All';
     }
     this.pageTitle = 'Prior Authorizations';
@@ -216,6 +218,16 @@ export class PriorAuthComponent implements OnInit {
       });
     } else if (type === 'paserviceCategoty') {
       // add var
+      this.session.store({
+        timeFrame: this.timePeriod,
+        lob: this.session.filterObjValue.lob,
+        tax: this.session.filterObjValue.tax,
+        serviceSetting: this.session.filterObjValue.serviceSetting,
+        priorAuthType: this.session.filterObjValue.priorAuthType,
+        scType: 'All'
+      });
+    } else if (type === 'scType') {
+      this.scType = 'All';
       this.session.store({
         timeFrame: this.timePeriod,
         lob: this.session.filterObjValue.lob,

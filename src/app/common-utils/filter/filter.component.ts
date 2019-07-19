@@ -190,17 +190,20 @@ export class FilterComponent implements OnInit {
       } else {
         this.priorAuthTypeData = this.priorauthdecisiontype[0];
       }
+      if (this.session.filterObjValue.priorAuthType) {
+        this.priorAuthTypeData = this.session.filterObjValue.priorAuthType;
+      } else {
+        this.priorAuthTypeData = this.priorauthdecisiontype[0];
+      }
       if (this.session.filterObjValue.scType) {
         this.scTypeData = this.session.filterObjValue.scType;
       } else {
         this.scTypeData = this.priorauthservicecategory[0];
       }
-      if (this.priorauthservicecategory.length) {
-        this.filteredOptions = this.serviceCategoryCtrl.valueChanges.pipe(
-          startWith(''),
-          map(value => (value ? this._filter(value) : null))
-        );
-      }
+      this.filteredOptions = this.serviceCategoryCtrl.valueChanges.pipe(
+        startWith(''),
+        map(value => (value.length >= 1 ? this._filter(value) : []))
+      );
     } else {
       this.priorAuthorizationCustomFilterBool = false;
     }
@@ -300,6 +303,8 @@ export class FilterComponent implements OnInit {
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
 
-    return this.priorauthservicecategory.filter(servicecategory => servicecategory.toLowerCase().includes(filterValue));
+    return this.priorauthservicecategory.filter(
+      servicecategory => servicecategory.toLowerCase().indexOf(filterValue.toLowerCase()) === 0
+    );
   }
 }
