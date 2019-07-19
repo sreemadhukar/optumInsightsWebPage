@@ -197,7 +197,8 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
       chartOptions.sdata != undefined &&
       chartOptions.sdata != null &&
       chartOptions.sdata.sign != undefined &&
-      chartOptions.sdata.sign != null
+      chartOptions.sdata.sign != null &&
+      chartOptions.sdata.sign !== ''
     ) {
       if (chartOptions.sdata.sign === 'up') {
         chart
@@ -468,7 +469,7 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
           .transition()
           .duration(10)
           .style('opacity', 1);
-        divHover.style('left', d3.event.layerX + 15 + 'px').style('top', d3.event.layerY - 40 + 'px');
+        divHover.style('left', d3.event.layerX + 7.5 + 'px').style('top', d3.event.layerY - 35 + 'px');
 
         let textLineOneY = '25px';
         let textLineTwoY = '47px';
@@ -507,7 +508,7 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
             .transition()
             .duration(10)
             .style('opacity', 1);
-          divHover.style('left', d3.event.layerX + 15 + 'px').style('top', d3.event.layerY - 40 + 'px');
+          divHover.style('left', d3.event.layerX + 7.5 + 'px').style('top', d3.event.layerY - 35 + 'px');
         })
         .on('mouseleave', function(d) {
           divHover
