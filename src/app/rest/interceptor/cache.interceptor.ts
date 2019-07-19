@@ -20,7 +20,7 @@ export class CacheInterceptor implements HttpInterceptor {
   sendRequest(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     return next.handle(req).pipe(
       tap(event => {
-        if (event instanceof HttpResponse) {
+        if (event instanceof HttpResponse && JSON.parse(sessionStorage.getItem('cache'))) {
           const url = req.body === null && req.method !== 'POST' ? req.url : req.url + JSON.stringify(req.body);
           this.cache.set(url, event, TTL);
         }
