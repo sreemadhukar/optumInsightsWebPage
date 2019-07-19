@@ -99,8 +99,8 @@ export class ProviderSearchComponent implements OnInit, AfterViewInit {
       for (let i = 0; i < this.states.length; i++) {
         if (!this.states[i].HealthCareOrganizationName.toLowerCase().startsWith(this.stateCtrl.value.toLowerCase())) {
           this.nomatchFlag = false;
-          (<HTMLElement>document.querySelector('.mat-form-field-label')).style.color = 'red';
-          (<HTMLElement>document.querySelector('.mat-form-field-outline-thick')).style.color = 'red';
+          (<HTMLElement>document.querySelector('.mat-form-field-label')).style.color = '#B10C00';
+          (<HTMLElement>document.querySelector('.mat-form-field-outline-thick')).style.color = '#B10C00';
         } else {
           (<HTMLElement>document.querySelector('.mat-form-field-label')).style.color = '#196ECF';
           (<HTMLElement>document.querySelector('.mat-form-field-outline-thick')).style.color = '#196ECF';
