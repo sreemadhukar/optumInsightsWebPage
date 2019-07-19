@@ -537,43 +537,70 @@ export class OverviewSharedService {
         claims.All != null &&
         claims.All.hasOwnProperty('ClaimsLobSummary')
       ) {
-        if (
-          claims.All.ClaimsLobSummary[0].hasOwnProperty('AmountPaid') &&
-          claims.hasOwnProperty('Cs') &&
-          claims.Cs.hasOwnProperty('ClaimsLobSummary') &&
-          claims.Cs.ClaimsLobSummary[0].hasOwnProperty('AmountPaid') &&
-          claims.hasOwnProperty('Ei') &&
-          claims.Ei.hasOwnProperty('ClaimsLobSummary') &&
-          claims.Ei.ClaimsLobSummary[0].hasOwnProperty('AmountPaid') &&
-          claims.hasOwnProperty('Mr') &&
-          claims.Mr.hasOwnProperty('ClaimsLobSummary') &&
-          claims.Mr.ClaimsLobSummary[0].hasOwnProperty('AmountPaid')
-        ) {
-          const mrPercentage = claims.Mr.ClaimsLobSummary[0].AmountPaid;
-          const eiPercentage = claims.Ei.ClaimsLobSummary[0].AmountPaid;
-          const csPercentage = claims.Cs.ClaimsLobSummary[0].AmountPaid;
+        if (claims.All.ClaimsLobSummary[0].hasOwnProperty('AmountPaid')) {
+          // const mrPercentage = claims.Mr.ClaimsLobSummary[0].AmountPaid;
+          // const eiPercentage = claims.Ei.ClaimsLobSummary[0].AmountPaid;
+          // const csPercentage = claims.Cs.ClaimsLobSummary[0].AmountPaid;
+          const paidData = [];
+          if (claims.hasOwnProperty('Mr') && claims.Mr != null) {
+            if (
+              claims.Mr.hasOwnProperty('ClaimsLobSummary') &&
+              claims.Mr.ClaimsLobSummary.length &&
+              claims.Mr.ClaimsLobSummary[0].hasOwnProperty('AmountPaid')
+            ) {
+              paidData.push(claims.Mr.ClaimsLobSummary[0].AmountPaid);
+            }
+          }
+          if (claims.hasOwnProperty('Cs') && claims.Ei != null) {
+            if (
+              claims.Cs.hasOwnProperty('ClaimsLobSummary') &&
+              claims.Cs.ClaimsLobSummary.length &&
+              claims.Cs.ClaimsLobSummary[0].hasOwnProperty('AmountPaid')
+            ) {
+              paidData.push(claims.Cs.ClaimsLobSummary[0].AmountPaid);
+            }
+          }
+          if (claims.hasOwnProperty('Ei') && claims.Ei != null) {
+            if (
+              claims.Ei.hasOwnProperty('ClaimsLobSummary') &&
+              claims.Ei.ClaimsLobSummary.length &&
+              claims.Ei.ClaimsLobSummary[0].hasOwnProperty('AmountPaid')
+            ) {
+              paidData.push(claims.Ei.ClaimsLobSummary[0].AmountPaid);
+            }
+          }
+          if (claims.hasOwnProperty('Un') && claims.Un != null) {
+            if (
+              claims.Un.hasOwnProperty('ClaimsLobSummary') &&
+              claims.Un.ClaimsLobSummary.length &&
+              claims.Un.ClaimsLobSummary[0].hasOwnProperty('AmountPaid')
+            ) {
+              paidData.push(claims.Un.ClaimsLobSummary[0].AmountPaid);
+            }
+          }
+
           claimsPaid = {
             category: 'small-card',
             type: 'donut',
             title: 'Claims Paid',
             toggle: this.toggle.setToggles('Claims Paid', 'AtGlance', 'Overview', false),
             data: {
-              graphValues: [mrPercentage, csPercentage, eiPercentage],
+              graphValues: paidData,
               centerNumber:
                 this.common.nFormatter(claims.All.ClaimsLobSummary[0].AmountPaid) < 1 &&
                 this.common.nFormatter(claims.All.ClaimsLobSummary[0].AmountPaid) > 0
                   ? '< $1'
                   : '$' + this.common.nFormatter(claims.All.ClaimsLobSummary[0].AmountPaid),
-              color: ['#3381FF', '#80B0FF', '#003DA1'],
+              color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'],
               gdata: ['card-inner', 'claimsPaidCardD3Donut'],
-              labels: ['Medicare & Retirement', 'Community & State', 'Employer & Individual'],
+              labels: ['Medicare & Retirement', 'Community & State', 'Employer & Individual', 'Uncategorized'],
               hover: true
             },
             // sdata: claimsTrendObject,
             timeperiod: 'Last 6 Months'
           };
           // AUTHOR: MADHUKAR - claims paid shows no color if the value is 0
-          if (!mrPercentage && !eiPercentage && !csPercentage) {
+          if (!paidData) {
             claimsPaid = {
               category: 'small-card',
               type: 'donut',
@@ -1018,7 +1045,7 @@ export class OverviewSharedService {
         // resolve(cIR);
 
         this.createTotalCallsTrend().then(trendIssueResolution => {
-        const nullTrend =  {
+          const nullTrend = {
             sign: '',
             data: ''
           };

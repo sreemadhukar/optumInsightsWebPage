@@ -66,6 +66,15 @@ export class BarChartComponent implements OnInit, AfterViewInit {
           .attr('x', 15)
           .attr('y', y)
           .attr('dy', dy + 'em');
+
+        if (!Number.isNaN(dy)) {
+          tspan = text
+            .text(null)
+            .append('tspan')
+            .attr('x', 15)
+            .attr('y', y)
+            .attr('dy', dy + 'em');
+        }
         let i = 0;
         let dyMultiplier = 1;
         while ((word = words.pop())) {
