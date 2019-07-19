@@ -1,0 +1,154 @@
+<div class="page-overlay">
+  <div class="container" *ngIf="!blankScreen">
+    <header></header>
+    <div class="header">
+      <div class="notifier">User Profile form</div>
+      <div class="content"></div>
+      <div class="system-error" *ngIf="error">
+        <mat-icon svgIcon="error"></mat-icon>
+        <div>
+          Please try again.
+        </div>
+      </div>
+    </div>
+
+    <div class="body">
+      <div class="left-body">
+        <form *ngIf="userProfileForm" [formGroup]="userProfileForm">
+          <header>{{ headerMessage }}</header>
+
+          <!-- User ID -->
+          <span for="userId">User ID:</span>
+          <div class="form-group">
+            <input
+              type="text"
+              id="userId"
+              [readonly]="!editableUserId"
+              formControlName="userId"
+              [ngClass]="{ 'is-invalid': submitted && f.userId.errors }"
+              (keypress)="valueUpdated()"
+            />
+            <mat-icon class="input-icon" *ngIf="submitted && f.userId.errors" svgIcon="error"></mat-icon>
+            <div *ngIf="submitted && f.userId.errors" class="invalid-feedback">
+              <div *ngIf="f.userId.errors.required">Enter user ID.</div>
+            </div>
+          </div>
+
+          <!-- Provider Key -->
+          <div *ngIf="showProviderKey">
+            <span for="providerKey">Provider Key:</span>
+            <div class="form-group">
+              <input
+                type="text"
+                id="providerKey"
+                [readonly]="!editableProviderKey"
+                formControlName="providerKey"
+                [ngClass]="{ 'is-invalid': submitted && f.providerKey.errors }"
+                (keypress)="valueUpdated()"
+              />
+              <mat-icon class="input-icon" *ngIf="submitted && f.providerKey.errors" svgIcon="error"></mat-icon>
+              <div *ngIf="submitted && f.providerKey.errors" class="invalid-feedback">
+                <div *ngIf="f.providerKey.errors.required">Enter provider key.</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Provider Group -->
+          <div *ngIf="showProviderGroup">
+            <span for="providerGroup">Provider Group:</span>
+            <div class="form-group">
+              <input
+                type="text"
+                id="providerGroup"
+                [readonly]="!editableProviderGroup"
+                formControlName="providerGroup"
+                [ngClass]="{ 'is-invalid': submitted && f.providerGroup.errors }"
+                (keypress)="valueUpdated()"
+              />
+              <mat-icon class="input-icon" *ngIf="submitted && f.providerGroup.errors" svgIcon="error"></mat-icon>
+              <div *ngIf="submitted && f.providerGroup.errors" class="invalid-feedback">
+                <div *ngIf="f.providerGroup.errors.required">Enter provider group.</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- User Role -->
+          <div *ngIf="showUserRole">
+            <span for="userRole">User Role:</span>
+            <div class="form-group">
+              <input
+                type="text"
+                id="userRole"
+                [readonly]="!editableUserRole"
+                formControlName="userRole"
+                [ngClass]="{ 'is-invalid': submitted && f.userRole.errors }"
+                (keypress)="valueUpdated()"
+              />
+              <mat-icon class="input-icon" *ngIf="submitted && f.userRole.errors" svgIcon="error"></mat-icon>
+              <div *ngIf="submitted && f.userRole.errors" class="invalid-feedback">
+                <div *ngIf="f.userRole.errors.required">Enter user role.</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Module(s)-->
+          <div *ngIf="showModules">
+            <span>One or more modules:</span>
+            <div formArrayName="modules">
+              <div *ngFor="let module of userProfileForm.controls.modules.controls; let i = index">
+                <label class="form-check-label">
+                  <input [formControlName]="i" class="form-check-input" type="checkbox" />
+                  {{ modules[i].name }}
+                </label>
+              </div>
+            </div>
+
+            <div class="form-group"></div>
+          </div>
+
+          <!-- Persona -->
+          <div *ngIf="showPersona">
+            <span for="persona">Persona:</span>
+            <div class="form-group">
+              <input
+                type="persona"
+                id="persona"
+                formControlName="persona"
+                [ngClass]="{ 'is-invalid': submitted && f.persona.errors }"
+                (keypress)="valueUpdated()"
+              />
+              <mat-icon class="input-icon" *ngIf="submitted && f.persona.errors" svgIcon="error"></mat-icon>
+              <div *ngIf="submitted && f.persona.errors" class="invalid-feedback">
+                <div *ngIf="f.persona.errors.required">Enter persona.</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <button *ngIf="showSearchButton" [disabled]="loading" class="btn-bd-primary" (click)="onSearch()">
+              Search
+            </button>
+            <button *ngIf="showCreateButton" [disabled]="loading" class="btn-bd-primary" (click)="onCreate()">
+              Create
+            </button>
+            <button *ngIf="showUpdateButton" [disabled]="loading" class="btn-bd-primary" (click)="onUpdate()">
+              Update
+            </button>
+            <span>&ngsp;&ngsp;</span>
+            <button *ngIf="showCancelButton" [disabled]="loading" class="btn-bd-primary" (click)="onCancel()">
+              Cancel
+            </button>
+            <img
+              *ngIf="loading"
+              src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA=="
+            />
+          </div>
+        </form>
+      </div>
+    </div>
+    <footer>
+      <span class="ownLine">© 2019 UnitedHealth Group</span>
+    </footer>
+  </div>
+  <app-uhc-loader *ngIf="loading"></app-uhc-loader>
+</div>

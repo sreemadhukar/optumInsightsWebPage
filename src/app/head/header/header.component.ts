@@ -159,6 +159,10 @@ export class HeaderComponent implements AfterViewInit, OnDestroy {
     }
   }
 
+  administerUserProfile() {
+    this.router.navigate(['/Administration/UserProfile']);
+  }
+
   ngOnDestroy() {
     this.subscription.unsubscribe();
   }

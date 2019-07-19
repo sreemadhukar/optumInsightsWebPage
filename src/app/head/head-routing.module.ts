@@ -10,6 +10,14 @@ const routes: Routes = [
     loadChildren: '../auth/auth.module#AuthModule'
   },
   {
+    path: 'Administration',
+    loadChildren: '../components/administration-page/administration-page.module#AdministrationPageModule',
+    data: {
+      breadcrumb: 'Administration'
+    },
+    canActivate: [AuthGuard]
+  },
+  {
     path: 'OverviewPage',
     loadChildren: '../components/overview-page/overview-page.module#OverviewPageModule',
     canActivate: [AuthGuard]

@@ -1,0 +1,18 @@
+.user-profile-dialog-div {
+  padding: 10px;
+
+  &-header {
+    text-align: center;
+
+    button {
+      float: right;
+      margin: -15px -25px 0 0;
+    }
+  }
+
+  &-form {
+    mat-form-field {
+      width: 100%;
+    }
+  }
+}

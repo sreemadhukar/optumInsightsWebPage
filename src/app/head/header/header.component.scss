@@ -27,6 +27,15 @@
       width: 175px;
     }
   }
+  .administration-label {
+    color: $strom-grey;
+    font-family: 'UHCSans-SemiBold';
+    font-size: 16px;
+    letter-spacing: 0.2px;
+    line-height: 22px;
+    cursor: pointer;
+    padding: 2px 15px 20px 0;
+  }
   .user-div {
     margin-left: auto;
     display: flex;

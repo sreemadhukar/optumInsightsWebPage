@@ -13,6 +13,15 @@
 
     <div class="user-div">
       <!-- <mat-slide-toggle [checked]="isDarkTheme | async" labelPosition="before" (change)="toggleDarkTheme($event.checked)"></mat-slide-toggle> -->
+
+      <!-- Administration link -->
+      <p class="administration-label" (click)="administerUserProfile()">
+        <a>
+          <mat-icon class="nav-menu-icons" svgIcon="sign-out"></mat-icon>
+          Administration
+        </a>
+      </p>
+
       <div class="user-icon">
         <mat-icon class="nav-menu-icons" svgIcon="person"></mat-icon>
       </div>
