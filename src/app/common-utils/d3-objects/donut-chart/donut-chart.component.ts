@@ -469,7 +469,7 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
           .transition()
           .duration(10)
           .style('opacity', 1);
-        divHover.style('left', d3.event.layerX + 15 + 'px').style('top', d3.event.layerY - 40 + 'px');
+        divHover.style('left', d3.event.layerX + 7.5 + 'px').style('top', d3.event.layerY - 35 + 'px');
 
         let textLineOneY = '25px';
         let textLineTwoY = '47px';
@@ -508,7 +508,7 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
             .transition()
             .duration(10)
             .style('opacity', 1);
-          divHover.style('left', d3.event.layerX + 15 + 'px').style('top', d3.event.layerY - 40 + 'px');
+          divHover.style('left', d3.event.layerX + 7.5 + 'px').style('top', d3.event.layerY - 35 + 'px');
         })
         .on('mouseleave', function(d) {
           divHover

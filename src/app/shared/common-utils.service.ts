@@ -250,4 +250,17 @@ export class CommonUtilsService {
       return null;
     }
   }
+
+  public convertServiceCategoryOneWord(a) {
+    let word = a;
+    if (word.indexOf(' ') === 0) {
+      return word;
+    } else {
+      // A couple of the service categories have special char
+      word = word.replace('/', ' ');
+      word = word.replace(/[^a-zA-Z ]/g, '');
+      word = word.replace(/ /g, '_');
+      return word;
+    }
+  }
 }
