@@ -93,11 +93,10 @@ export class PriorAuthComponent implements OnInit {
       this.filterParameters.priorAuthType = 'All';
     }
     if (this.session.filterObjValue.scType) {
-      this.scType = this.session.filterObjValue.scType;
+      this.filterParameters.scType = this.session.filterObjValue.scType;
       // this.scTypeData = this.session.filterObjValue.scType;
     } else {
       // this.scTypeData = this.priorauthservicecategory[0];
-      this.scType = 'All';
       this.filterParameters.scType = 'All';
     }
     this.pageTitle = 'Prior Authorizations';
