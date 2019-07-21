@@ -38,6 +38,7 @@ export class CallsSharedService {
     this.providerKey = this.session.providerKeyData();
     return new Promise(resolve => {
       let parameters;
+
       if (
         this.timeFrame === 'Last 12 Months' ||
         this.timeFrame === 'Last 6 Months' ||

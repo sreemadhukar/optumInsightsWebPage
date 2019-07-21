@@ -250,10 +250,12 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
 
     setTimeout(() => {
       const user = JSON.parse(sessionStorage.getItem('currentUser'));
-      this.healthSystemName =
-        user && user[0].hasOwnProperty('HealthCareOrganizationName')
-          ? user[0]['HealthCareOrganizationName']
-          : user[0]['Healthcareorganizationname'];
+      if (user) {
+        this.healthSystemName =
+          user && user[0].hasOwnProperty('HealthCareOrganizationName')
+            ? user[0]['HealthCareOrganizationName']
+            : user[0]['Healthcareorganizationname'];
+      }
     }, 10000);
   }
 
@@ -332,7 +334,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
   signOut() {
     this.authService.logout();
     if (!environment.internalAccess) {
-      this.document.location.href = 'https://provider-stage.linkhealth.com/';
+      this.document.location.href = environment.apiUrls.linkLoginPage;
     }
   }
   public close() {
