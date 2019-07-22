@@ -131,8 +131,8 @@ export class BarChartComponent implements OnInit, AfterViewInit {
       xScaleConstant = width - 74; // For PCOR graph width should be 860
     } else {
       /** Following 2 variable are for Prior Auth Bar Grpah */
-      xScaleBarWidthConstant = width / 1.65; // 566    when width is 598 , it will touch the border of the the card
-      xScaleBarStartingPointConstant = width / 2.75; // 340
+      xScaleBarWidthConstant = width / 1.79; // 522    when width is 554 , it will touch the border of the the card
+      xScaleBarStartingPointConstant = width / 2.43; // 384
     }
     // console.log('Width', width); 934
     const xScale = d3
@@ -185,7 +185,7 @@ export class BarChartComponent implements OnInit, AfterViewInit {
     } else {
       chart
         .append('rect')
-        .attr('x', 340)
+        .attr('x', xScaleBarStartingPointConstant)
         .attr('y', 0)
         .attr('width', xScaleBarWidth(chartOptions.barData))
         .attr('height', barHeight)
@@ -296,7 +296,7 @@ export class BarChartComponent implements OnInit, AfterViewInit {
       // This if for Prior Auth
       chart
         .append('text')
-        .attr('x', xScaleBarStartingPointConstant - 24)
+        .attr('x', xScaleBarStartingPointConstant - 24) // text should be 24px from the bar
         .attr('y', (barHeight + 8) / 2)
         .attr('fill', '#2D2D39')
         .attr('font-size', '20')
