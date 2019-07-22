@@ -400,7 +400,6 @@ export class PriorAuthSharedService {
     const serviceSetting = filterParameters.serviceSetting;
     const paDecisionType = filterParameters.priorAuthType;
     const paServiceCategory = this.common.convertServiceCategoryOneWord(filterParameters.scType);
-    console.log('dfdf' + paServiceCategory);
     // Default parameters
     let timeRange = 'rolling12';
     let timeRangeAPIParameter;

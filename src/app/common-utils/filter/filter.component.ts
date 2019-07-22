@@ -89,7 +89,6 @@ export class FilterComponent implements OnInit {
     'Cardiac Rehabilitation',
     'Dialysis',
     'PAT Skilled Nursing',
-    'Mental Health',
     'Home and Community Based Services',
     'Ambulatory Surgical Center',
     'Facility Based Service',
