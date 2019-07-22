@@ -383,7 +383,7 @@ export class GettingReimbursedSharedService {
               };
             }
           }
-          if (appealsData != null && appealsData.hasOwnProperty('status')) {
+          if (appealsData != null && appealsData[0].hasOwnProperty('status')) {
             appealsSubmitted = {
               category: 'app-card',
               type: 'donutWithLabelBottom',
@@ -404,27 +404,27 @@ export class GettingReimbursedSharedService {
             };
           } else if (appealsData != null) {
             if (
-              appealsData.hasOwnProperty('LineOfBusiness') &&
-              appealsData.LineOfBusiness.hasOwnProperty(lobFullData) &&
-              appealsData.LineOfBusiness.hasOwnProperty('CommunityAndState') &&
-              appealsData.LineOfBusiness.hasOwnProperty('EmployerAndIndividual') &&
-              appealsData.LineOfBusiness.hasOwnProperty('MedicareAndRetirement') &&
-              appealsData.LineOfBusiness[lobFullData].hasOwnProperty('AdminAppeals') &&
-              appealsData.LineOfBusiness[lobFullData].hasOwnProperty('ClinicalAppeals') &&
-              appealsData.LineOfBusiness.CommunityAndState.hasOwnProperty('AdminAppeals') &&
-              appealsData.LineOfBusiness.CommunityAndState.hasOwnProperty('ClinicalAppeals') &&
-              appealsData.LineOfBusiness.EmployerAndIndividual.hasOwnProperty('AdminAppeals') &&
-              appealsData.LineOfBusiness.EmployerAndIndividual.hasOwnProperty('ClinicalAppeals') &&
-              appealsData.LineOfBusiness.MedicareAndRetirement.hasOwnProperty('AdminAppeals') &&
-              appealsData.LineOfBusiness.MedicareAndRetirement.hasOwnProperty('ClinicalAppeals')
+              appealsData[0].hasOwnProperty('LineOfBusiness') &&
+              appealsData[0].LineOfBusiness.hasOwnProperty(lobFullData) &&
+              appealsData[0].LineOfBusiness.hasOwnProperty('CommunityAndState') &&
+              appealsData[0].LineOfBusiness.hasOwnProperty('EmployerAndIndividual') &&
+              appealsData[0].LineOfBusiness.hasOwnProperty('MedicareAndRetirement') &&
+              appealsData[0].LineOfBusiness[lobFullData].hasOwnProperty('AdminAppeals') &&
+              appealsData[0].LineOfBusiness[lobFullData].hasOwnProperty('ClinicalAppeals') &&
+              appealsData[0].LineOfBusiness.CommunityAndState.hasOwnProperty('AdminAppeals') &&
+              appealsData[0].LineOfBusiness.CommunityAndState.hasOwnProperty('ClinicalAppeals') &&
+              appealsData[0].LineOfBusiness.EmployerAndIndividual.hasOwnProperty('AdminAppeals') &&
+              appealsData[0].LineOfBusiness.EmployerAndIndividual.hasOwnProperty('ClinicalAppeals') &&
+              appealsData[0].LineOfBusiness.MedicareAndRetirement.hasOwnProperty('AdminAppeals') &&
+              appealsData[0].LineOfBusiness.MedicareAndRetirement.hasOwnProperty('ClinicalAppeals')
             ) {
               const submittedData = [
-                appealsData.LineOfBusiness.MedicareAndRetirement.AdminAppeals +
-                  appealsData.LineOfBusiness.MedicareAndRetirement.ClinicalAppeals,
-                appealsData.LineOfBusiness.CommunityAndState.AdminAppeals +
-                  appealsData.LineOfBusiness.CommunityAndState.ClinicalAppeals,
-                appealsData.LineOfBusiness.EmployerAndIndividual.AdminAppeals +
-                  appealsData.LineOfBusiness.EmployerAndIndividual.ClinicalAppeals
+                appealsData[0].LineOfBusiness.MedicareAndRetirement.AdminAppeals +
+                  appealsData[0].LineOfBusiness.MedicareAndRetirement.ClinicalAppeals,
+                appealsData[0].LineOfBusiness.CommunityAndState.AdminAppeals +
+                  appealsData[0].LineOfBusiness.CommunityAndState.ClinicalAppeals,
+                appealsData[0].LineOfBusiness.EmployerAndIndividual.AdminAppeals +
+                  appealsData[0].LineOfBusiness.EmployerAndIndividual.ClinicalAppeals
               ];
               appealsSubmitted = {
                 category: 'app-card',
@@ -433,8 +433,8 @@ export class GettingReimbursedSharedService {
                 data: {
                   graphValues: submittedData,
                   centerNumber: this.common.nFormatter(
-                    appealsData.LineOfBusiness[lobFullData].AdminAppeals +
-                      appealsData.LineOfBusiness[lobFullData].ClinicalAppeals
+                    appealsData[0].LineOfBusiness[lobFullData].AdminAppeals +
+                      appealsData[0].LineOfBusiness[lobFullData].ClinicalAppeals
                   ),
                   color: ['#3381FF', '#80B0FF', '#003DA1'],
                   gdata: ['card-inner', 'claimsAppealSubmitted'],
@@ -451,8 +451,8 @@ export class GettingReimbursedSharedService {
                 },
                 bottomData: {
                   horizontalData: [
-                    { values: appealsData.LineOfBusiness[lobFullData].AdminAppeals, labels: 'Admin' },
-                    { values: appealsData.LineOfBusiness[lobFullData].ClinicalAppeals, labels: 'Clinical' }
+                    { values: appealsData[0].LineOfBusiness[lobFullData].AdminAppeals, labels: 'Admin' },
+                    { values: appealsData[0].LineOfBusiness[lobFullData].ClinicalAppeals, labels: 'Clinical' }
                   ]
                 },
                 timeperiod: this.timeFrame
@@ -469,18 +469,18 @@ export class GettingReimbursedSharedService {
               };
             }
             if (
-              appealsData.hasOwnProperty('LineOfBusiness') &&
-              appealsData.LineOfBusiness.hasOwnProperty(lobFullData) &&
-              appealsData.LineOfBusiness[lobFullData].hasOwnProperty('OverTurnCount') &&
-              appealsData.LineOfBusiness[lobFullData].hasOwnProperty('AdminAppeals') &&
-              appealsData.LineOfBusiness[lobFullData].hasOwnProperty('ClinicalAppeals')
+              appealsData[0].hasOwnProperty('LineOfBusiness') &&
+              appealsData[0].LineOfBusiness.hasOwnProperty(lobFullData) &&
+              appealsData[0].LineOfBusiness[lobFullData].hasOwnProperty('OverTurnCount') &&
+              appealsData[0].LineOfBusiness[lobFullData].hasOwnProperty('AdminAppeals') &&
+              appealsData[0].LineOfBusiness[lobFullData].hasOwnProperty('ClinicalAppeals')
             ) {
               const submitted =
-                appealsData.LineOfBusiness[lobFullData].AdminAppeals +
-                appealsData.LineOfBusiness[lobFullData].ClinicalAppeals;
+                appealsData[0].LineOfBusiness[lobFullData].AdminAppeals +
+                appealsData[0].LineOfBusiness[lobFullData].ClinicalAppeals;
               const overturnedData = [
-                appealsData.LineOfBusiness[lobFullData].OverTurnCount,
-                submitted - appealsData.LineOfBusiness[lobFullData].OverTurnCount
+                appealsData[0].LineOfBusiness[lobFullData].OverTurnCount,
+                submitted - appealsData[0].LineOfBusiness[lobFullData].OverTurnCount
               ];
               appealsOverturned = {
                 category: 'app-card',
@@ -488,7 +488,7 @@ export class GettingReimbursedSharedService {
                 title: 'Claims Appeals Overturned',
                 data: {
                   graphValues: overturnedData,
-                  centerNumber: this.common.nFormatter(appealsData.LineOfBusiness[lobFullData].OverTurnCount),
+                  centerNumber: this.common.nFormatter(appealsData[0].LineOfBusiness[lobFullData].OverTurnCount),
                   color: ['#3381FF', '#D7DCE1'],
                   gdata: ['card-inner', 'claimsAppealOverturned'],
                   sdata: null
@@ -877,7 +877,7 @@ export class GettingReimbursedSharedService {
               };
             }
           }
-          if (appealsData != null && appealsData.hasOwnProperty('status')) {
+          if (appealsData != null && appealsData[0].hasOwnProperty('status')) {
             appealsSubmitted = {
               category: 'app-card',
               type: 'donutWithLabelBottom',
@@ -898,51 +898,51 @@ export class GettingReimbursedSharedService {
             };
           } else if (appealsData != null) {
             if (
-              appealsData.hasOwnProperty('LineOfBusiness') &&
-              appealsData.LineOfBusiness.hasOwnProperty(lobFullData) &&
-              appealsData.LineOfBusiness[lobFullData].hasOwnProperty('AdminAppeals') &&
-              appealsData.LineOfBusiness[lobFullData].hasOwnProperty('ClinicalAppeals')
+              appealsData[0].hasOwnProperty('LineOfBusiness') &&
+              appealsData[0].LineOfBusiness.hasOwnProperty(lobFullData) &&
+              appealsData[0].LineOfBusiness[lobFullData].hasOwnProperty('AdminAppeals') &&
+              appealsData[0].LineOfBusiness[lobFullData].hasOwnProperty('ClinicalAppeals')
             ) {
               const submittedData = [];
               if (
-                appealsData.LineOfBusiness.hasOwnProperty('MedicareAndRetirement') &&
-                appealsData.LineOfBusiness.MedicareAndRetirement != null
+                appealsData[0].LineOfBusiness.hasOwnProperty('MedicareAndRetirement') &&
+                appealsData[0].LineOfBusiness.MedicareAndRetirement != null
               ) {
                 if (
-                  appealsData.LineOfBusiness.MedicareAndRetirement.hasOwnProperty('AdminAppeals') &&
-                  appealsData.LineOfBusiness.MedicareAndRetirement.hasOwnProperty('ClinicalAppeals')
+                  appealsData[0].LineOfBusiness.MedicareAndRetirement.hasOwnProperty('AdminAppeals') &&
+                  appealsData[0].LineOfBusiness.MedicareAndRetirement.hasOwnProperty('ClinicalAppeals')
                 ) {
                   submittedData.push(
-                    appealsData.LineOfBusiness.MedicareAndRetirement.AdminAppeals +
-                      appealsData.LineOfBusiness.MedicareAndRetirement.ClinicalAppeals
+                    appealsData[0].LineOfBusiness.MedicareAndRetirement.AdminAppeals +
+                      appealsData[0].LineOfBusiness.MedicareAndRetirement.ClinicalAppeals
                   );
                 }
               }
               if (
-                appealsData.LineOfBusiness.hasOwnProperty('CommunityAndState') &&
-                appealsData.LineOfBusiness.CommunityAndState != null
+                appealsData[0].LineOfBusiness.hasOwnProperty('CommunityAndState') &&
+                appealsData[0].LineOfBusiness.CommunityAndState != null
               ) {
                 if (
-                  appealsData.LineOfBusiness.CommunityAndState.hasOwnProperty('AdminAppeals') &&
-                  appealsData.LineOfBusiness.CommunityAndState.hasOwnProperty('ClinicalAppeals')
+                  appealsData[0].LineOfBusiness.CommunityAndState.hasOwnProperty('AdminAppeals') &&
+                  appealsData[0].LineOfBusiness.CommunityAndState.hasOwnProperty('ClinicalAppeals')
                 ) {
                   submittedData.push(
-                    appealsData.LineOfBusiness.CommunityAndState.AdminAppeals +
-                      appealsData.LineOfBusiness.CommunityAndState.ClinicalAppeals
+                    appealsData[0].LineOfBusiness.CommunityAndState.AdminAppeals +
+                      appealsData[0].LineOfBusiness.CommunityAndState.ClinicalAppeals
                   );
                 }
               }
               if (
-                appealsData.LineOfBusiness.hasOwnProperty('EmployerAndIndividual') &&
-                appealsData.LineOfBusiness.EmployerAndIndividual != null
+                appealsData[0].LineOfBusiness.hasOwnProperty('EmployerAndIndividual') &&
+                appealsData[0].LineOfBusiness.EmployerAndIndividual != null
               ) {
                 if (
-                  appealsData.LineOfBusiness.EmployerAndIndividual.hasOwnProperty('AdminAppeals') &&
-                  appealsData.LineOfBusiness.EmployerAndIndividual.hasOwnProperty('ClinicalAppeals')
+                  appealsData[0].LineOfBusiness.EmployerAndIndividual.hasOwnProperty('AdminAppeals') &&
+                  appealsData[0].LineOfBusiness.EmployerAndIndividual.hasOwnProperty('ClinicalAppeals')
                 ) {
                   submittedData.push(
-                    appealsData.LineOfBusiness.EmployerAndIndividual.AdminAppeals +
-                      appealsData.LineOfBusiness.EmployerAndIndividual.ClinicalAppeals
+                    appealsData[0].LineOfBusiness.EmployerAndIndividual.AdminAppeals +
+                      appealsData[0].LineOfBusiness.EmployerAndIndividual.ClinicalAppeals
                   );
                 }
               }
@@ -953,8 +953,8 @@ export class GettingReimbursedSharedService {
                 data: {
                   graphValues: submittedData,
                   centerNumber: this.common.nFormatter(
-                    appealsData.LineOfBusiness[lobFullData].AdminAppeals +
-                      appealsData.LineOfBusiness[lobFullData].ClinicalAppeals
+                    appealsData[0].LineOfBusiness[lobFullData].AdminAppeals +
+                      appealsData[0].LineOfBusiness[lobFullData].ClinicalAppeals
                   ),
                   color: ['#3381FF', '#80B0FF', '#003DA1'],
                   gdata: ['card-inner', 'claimsAppealSubmitted'],
@@ -971,8 +971,8 @@ export class GettingReimbursedSharedService {
                 },
                 bottomData: {
                   horizontalData: [
-                    { values: appealsData.LineOfBusiness[lobFullData].AdminAppeals, labels: 'Admin' },
-                    { values: appealsData.LineOfBusiness[lobFullData].ClinicalAppeals, labels: 'Clinical' }
+                    { values: appealsData[0].LineOfBusiness[lobFullData].AdminAppeals, labels: 'Admin' },
+                    { values: appealsData[0].LineOfBusiness[lobFullData].ClinicalAppeals, labels: 'Clinical' }
                   ]
                 },
                 timeperiod: this.timeFrame
@@ -989,21 +989,21 @@ export class GettingReimbursedSharedService {
               };
             }
             if (
-              appealsData.hasOwnProperty('LineOfBusiness') &&
-              appealsData.LineOfBusiness.hasOwnProperty(lobFullData) &&
-              appealsData.LineOfBusiness[lobFullData].hasOwnProperty('OverTurnCount') &&
-              appealsData.LineOfBusiness[lobFullData].hasOwnProperty('AdminAppeals') &&
-              appealsData.LineOfBusiness[lobFullData].hasOwnProperty('ClinicalAppeals') &&
-              appealsData.LineOfBusiness[lobFullData].OverTurnCount &&
-              appealsData.LineOfBusiness[lobFullData].AdminAppeals &&
-              appealsData.LineOfBusiness[lobFullData].ClinicalAppeals
+              appealsData[0].hasOwnProperty('LineOfBusiness') &&
+              appealsData[0].LineOfBusiness.hasOwnProperty(lobFullData) &&
+              appealsData[0].LineOfBusiness[lobFullData].hasOwnProperty('OverTurnCount') &&
+              appealsData[0].LineOfBusiness[lobFullData].hasOwnProperty('AdminAppeals') &&
+              appealsData[0].LineOfBusiness[lobFullData].hasOwnProperty('ClinicalAppeals') &&
+              appealsData[0].LineOfBusiness[lobFullData].OverTurnCount &&
+              appealsData[0].LineOfBusiness[lobFullData].AdminAppeals &&
+              appealsData[0].LineOfBusiness[lobFullData].ClinicalAppeals
             ) {
               const submitted =
-                appealsData.LineOfBusiness[lobFullData].AdminAppeals +
-                appealsData.LineOfBusiness[lobFullData].ClinicalAppeals;
+                appealsData[0].LineOfBusiness[lobFullData].AdminAppeals +
+                appealsData[0].LineOfBusiness[lobFullData].ClinicalAppeals;
               const overturnedData = [
-                appealsData.LineOfBusiness[lobFullData].OverTurnCount,
-                submitted - appealsData.LineOfBusiness[lobFullData].OverTurnCount
+                appealsData[0].LineOfBusiness[lobFullData].OverTurnCount,
+                submitted - appealsData[0].LineOfBusiness[lobFullData].OverTurnCount
               ];
               appealsOverturned = {
                 category: 'app-card',
@@ -1011,7 +1011,7 @@ export class GettingReimbursedSharedService {
                 title: 'Claims Appeals Overturned',
                 data: {
                   graphValues: overturnedData,
-                  centerNumber: this.common.nFormatter(appealsData.LineOfBusiness[lobFullData].OverTurnCount),
+                  centerNumber: this.common.nFormatter(appealsData[0].LineOfBusiness[lobFullData].OverTurnCount),
                   color: ['#3381FF', '#D7DCE1'],
                   gdata: ['card-inner', 'claimsAppealOverturned'],
                   sdata: null
@@ -1443,7 +1443,7 @@ export class GettingReimbursedSharedService {
         this.gettingReimbursedService.getGettingReimbursedData(...parameters).subscribe(([claimsData, appealsData]) => {
           const lobFullData = this.common.matchFullLobWithData(this.lob);
           const lobData = this.common.matchLobWithData(this.lob);
-          /*  if (appealsData != null && appealsData.hasOwnProperty('status')) {
+          /*  if (appealsData != null && appealsData[0].hasOwnProperty('status')) {
           appealsOverturnedRate = {
               category: 'app-card',
               type: 'donut',
@@ -1456,16 +1456,16 @@ export class GettingReimbursedSharedService {
             appealsData != null
           ) {
             if (
-              appealsData.hasOwnProperty('LineOfBusiness') &&
-              appealsData.LineOfBusiness.hasOwnProperty(lobFullData) &&
-              appealsData.LineOfBusiness[lobFullData].hasOwnProperty('OverTurnCount') &&
-              appealsData.LineOfBusiness[lobFullData].hasOwnProperty('AdminAppeals') &&
-              appealsData.LineOfBusiness[lobFullData].hasOwnProperty('ClinicalAppeals')
+              appealsData[0].hasOwnProperty('LineOfBusiness') &&
+              appealsData[0].LineOfBusiness.hasOwnProperty(lobFullData) &&
+              appealsData[0].LineOfBusiness[lobFullData].hasOwnProperty('OverTurnCount') &&
+              appealsData[0].LineOfBusiness[lobFullData].hasOwnProperty('AdminAppeals') &&
+              appealsData[0].LineOfBusiness[lobFullData].hasOwnProperty('ClinicalAppeals')
             ) {
               const submitted =
-                appealsData.LineOfBusiness[lobFullData].AdminAppeals +
-                appealsData.LineOfBusiness[lobFullData].ClinicalAppeals;
-              const overturned = appealsData.LineOfBusiness[lobFullData].OverTurnCount;
+                appealsData[0].LineOfBusiness[lobFullData].AdminAppeals +
+                appealsData[0].LineOfBusiness[lobFullData].ClinicalAppeals;
+              const overturned = appealsData[0].LineOfBusiness[lobFullData].OverTurnCount;
 
               const overturnRate = ((overturned / submitted) * 100).toFixed(0);
               const ornumber = Number(overturnRate);
@@ -1490,7 +1490,10 @@ export class GettingReimbursedSharedService {
               const reasonsVal2 = [{}];
               const barVal = [{}];
               const barTitle = [{}];
-              const getTopFiveReasons = appealsData.LineOfBusiness[lobFullData].ListReasonAndCount.sort(function(a, b) {
+              const getTopFiveReasons = appealsData[0].LineOfBusiness[lobFullData].ListReasonAndCount.sort(function(
+                a,
+                b
+              ) {
                 return b.Count - a.Count;
               }).slice(0, 5);
               let topFiveReasonTotal;
