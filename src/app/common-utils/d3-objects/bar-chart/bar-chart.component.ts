@@ -112,16 +112,25 @@ export class BarChartComponent implements OnInit, AfterViewInit {
       .attr('transform', 'translate(' + (margin.left + 6) + ',' + (margin.top + 5) + ')');
 
     let xScaleConstant;
+    let xScaleBarWidthConstant;
+    let xScaleBarStartingPointConstant;
+
     if (chartOptions.starObject) {
       xScaleConstant = width - 60;
     } else {
-      xScaleConstant = width / 2;
+      xScaleBarWidthConstant = width / 1.67; // 560
+      xScaleBarStartingPointConstant = width / 2.75; // 340
     }
-
+    console.log('Width', width);
     const xScale = d3
       .scaleLinear()
       .domain([0, chartOptions.barSummation])
       .range([0, xScaleConstant]);
+
+    const xScaleBarWidth = d3
+      .scaleLinear()
+      .domain([0, chartOptions.barSummation])
+      .range([0, xScaleBarWidthConstant]);
 
     if (chartOptions.starObject) {
       const PCORStars = chartOptions.starCount;
@@ -161,18 +170,18 @@ export class BarChartComponent implements OnInit, AfterViewInit {
     } else {
       chart
         .append('rect')
-        .attr('x', xScale(chartOptions.barSummation) - 100)
+        .attr('x', 340)
         .attr('y', 0)
-        .attr('width', xScale(chartOptions.barData))
+        .attr('width', xScaleBarWidth(chartOptions.barData))
         .attr('height', barHeight)
         .attr('fill', chartOptions.color[0].color1);
 
       if (chartOptions.color.length === 2) {
         chart
           .append('rect')
-          .attr('x', xScale(chartOptions.barData))
+          .attr('x', xScaleBarStartingPointConstant)
           .attr('y', 0)
-          .attr('width', xScale(chartOptions.barSummation) - xScale(chartOptions.barData))
+          .attr('width', xScaleBarWidth(chartOptions.barSummation) - xScaleBarWidth(chartOptions.barData))
           .attr('height', barHeight)
           .attr('fill', chartOptions.color[1].color2);
       }
@@ -269,10 +278,11 @@ export class BarChartComponent implements OnInit, AfterViewInit {
               .style('opacity', 0);
           });
       }
+      // This if for Prior Auth
       chart
         .append('text')
-        .attr('x', xScale(chartOptions.barSummation / 1.358))
-        .attr('y', (height + 20) / 2)
+        .attr('x', xScaleBarStartingPointConstant - 24)
+        .attr('y', (barHeight + 8) / 2)
         .attr('fill', '#2D2D39')
         .attr('font-size', '20')
         .attr('float', 'right')
