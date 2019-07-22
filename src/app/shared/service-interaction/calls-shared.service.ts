@@ -56,13 +56,17 @@ export class CallsSharedService {
       }
       this.sharedCallsData(parameters)
         .then(data => {
-          this.callsData = data;
-          return this.sharedCallsTrend();
+          if (data) {
+            this.callsData = data;
+            return this.sharedCallsTrend();
+          }
         })
         .then(data => {
-          this.callsData[0].data['sdata'] = data[0];
-          this.callsData[1].data['sdata'] = data[1];
-          resolve(this.callsData);
+          if (this.callsData && data) {
+            this.callsData[0].data['sdata'] = data[0];
+            this.callsData[1].data['sdata'] = data[1];
+            resolve(this.callsData);
+          }
         });
     });
   }

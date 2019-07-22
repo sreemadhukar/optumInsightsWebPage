@@ -203,7 +203,11 @@
             placeholder="Search for Service Category"
           />
           <mat-icon matPrefix class="nav-menu-icons" svgIcon="search"></mat-icon>
-          <mat-autocomplete #auto="matAutocomplete" (optionSelected)="scArrayFunction($event.option.value)">
+          <mat-autocomplete
+            #auto="matAutocomplete"
+            autoActiveFirstOption
+            (optionSelected)="scArrayFunction($event.option.value)"
+          >
             <mat-option *ngFor="let servicecategory of (filteredOptions | async)" [value]="servicecategory">
               <!-- <span class="highlight" [innerHTML]="servicecategory | highlight: toHighlight"></span> -->
               {{ servicecategory }}
