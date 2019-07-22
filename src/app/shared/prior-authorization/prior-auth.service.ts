@@ -1073,8 +1073,6 @@ export class PriorAuthSharedService {
               trendLineOne = 'up';
             }
 
-            console.log(PAApprovalRateTrend.toFixed(1));
-
             if (PAApprovalRateTrend.toFixed(1) === '0.0') {
               trendLineTwo = 'neutral';
             } else if (PAApprovalRateTrend < 0) {
