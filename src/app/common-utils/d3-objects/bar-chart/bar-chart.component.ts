@@ -119,7 +119,7 @@ export class BarChartComponent implements OnInit, AfterViewInit {
     /** Following 2 variable are for Prior Auth Bar Grpah */
 
     if (chartOptions.starObject) {
-      xScaleConstant = width - 60;
+      xScaleConstant = width - 74; // For PCOR graph width should be 860
     } else {
       /** Following 2 variable are for Prior Auth Bar Grpah */
       xScaleBarWidthConstant = width / 1.65; // 566    when width is 598 , it will touch the border of the the card
