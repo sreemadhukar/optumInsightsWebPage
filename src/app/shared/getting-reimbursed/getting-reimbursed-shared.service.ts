@@ -402,7 +402,7 @@ export class GettingReimbursedSharedService {
               data: null,
               timeperiod: null
             };
-          } else if (appealsData[0] != null) {
+          } else if (appealsData.length > 0 && appealsData[0] != null) {
             if (
               appealsData[0].hasOwnProperty('LineOfBusiness') &&
               appealsData[0].LineOfBusiness !== null &&
@@ -508,6 +508,25 @@ export class GettingReimbursedSharedService {
                 timeperiod: null
               };
             }
+          } else {
+            appealsSubmitted = {
+              category: 'app-card',
+              type: 'donutWithLabelBottom',
+              title: 'Claims Appeals Submitted',
+              status: 404,
+              data: null,
+              besideData: null,
+              bottomData: null,
+              timeperiod: null
+            };
+            appealsOverturned = {
+              category: 'app-card',
+              type: 'donut',
+              title: 'Claims Appeals Overturned',
+              status: 404,
+              data: null,
+              timeperiod: null
+            };
           }
           submissions = { id: 1, title: 'Claims Submissions', data: [claimsSubmitted, claimsTAT] };
           payments = { id: 2, title: 'Claims Payments', data: [claimsPaid, claimsPaidRate] };
@@ -900,7 +919,7 @@ export class GettingReimbursedSharedService {
               data: null,
               timeperiod: null
             };
-          } else if (appealsData[0] != null) {
+          } else if (appealsData.length > 0 && appealsData[0] != null) {
             if (
               appealsData[0].hasOwnProperty('LineOfBusiness') &&
               appealsData[0].LineOfBusiness !== null &&
@@ -1035,6 +1054,25 @@ export class GettingReimbursedSharedService {
                 timeperiod: null
               };
             }
+          } else {
+            appealsSubmitted = {
+              category: 'app-card',
+              type: 'donutWithLabelBottom',
+              title: 'Claims Appeals Submitted',
+              status: 404,
+              data: null,
+              besideData: null,
+              bottomData: null,
+              timeperiod: null
+            };
+            appealsOverturned = {
+              category: 'app-card',
+              type: 'donut',
+              title: 'Claims Appeals Overturned',
+              status: 404,
+              data: null,
+              timeperiod: null
+            };
           }
           submissions = { id: 1, title: 'Claims Submissions', data: [claimsSubmitted, claimsTAT] };
           payments = { id: 2, title: 'Claims Payments', data: [claimsPaid, claimsPaidRate] };
@@ -1382,7 +1420,7 @@ export class GettingReimbursedSharedService {
     });
   }
   public getappealsRateAndReasonData() {
-    this.tin = this.session.filterObjValue.tax.toString();
+    this.tin = this.session.filterObjValue.tax.toString().replace('-', '');
     this.lob = this.session.filterObjValue.lob;
     this.timeFrame = this.session.filterObjValue.timeFrame; // this.session.timeFrame;
     this.providerKey = this.session.providerKeyData();
@@ -1460,7 +1498,7 @@ export class GettingReimbursedSharedService {
               data: null,
               timeperiod: null
             };
-          } else if (appealsData[0] != null) {
+          } else if (appealsData.length > 0 && appealsData[0] != null) {
             if (
               appealsData[0].hasOwnProperty('LineOfBusiness') &&
               appealsData[0].LineOfBusiness !== null &&
@@ -1551,6 +1589,25 @@ export class GettingReimbursedSharedService {
                 timeperiod: null
               });
             }
+          } else {
+            appealsOverturnedRate = [
+              {
+                category: 'app-card',
+                type: 'donut',
+                status: 404,
+                title: 'Claims Appeals Overturned Rate',
+                data: null,
+                timeperiod: null
+              }
+            ];
+            reason.push({
+              category: 'app-card',
+              type: 'donut',
+              status: 404,
+              title: 'Top Claims Appeals Overturn Reasons',
+              data: null,
+              timeperiod: null
+            });
           }
           AOR = [appealsOverturnedRate, reason];
           resolve(AOR);
@@ -1601,7 +1658,7 @@ export class GettingReimbursedSharedService {
                 data: null,
                 timeperiod: null
               };
-            } else if (appealsData[0] !== null) {
+            } else if (appealsData.length > 0 && appealsData[0] !== null) {
               if (
                 appealsData[0].hasOwnProperty('LineOfBusiness') &&
                 appealsData[0].LineOfBusiness !== null &&
@@ -1692,6 +1749,25 @@ export class GettingReimbursedSharedService {
                   timeperiod: null
                 });
               }
+            } else {
+              appealsOverturnedRate = [
+                {
+                  category: 'app-card',
+                  type: 'donut',
+                  status: 404,
+                  title: 'Claims Appeals Overturned Rate',
+                  data: null,
+                  timeperiod: null
+                }
+              ];
+              reason.push({
+                category: 'app-card',
+                type: 'donut',
+                status: 404,
+                title: 'Top Claims Appeals Overturn Reasons',
+                data: null,
+                timeperiod: null
+              });
             }
             AOR = [appealsOverturnedRate, reason];
             resolve(AOR);
