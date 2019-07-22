@@ -197,7 +197,7 @@ export class FilterComponent implements OnInit {
       }
       this.filteredOptions = this.serviceCategoryCtrl.valueChanges.pipe(
         startWith(''),
-        map(value => (value.length >= 1 ? this._filter(value) : []))
+        map(value => this._filter(value))
       );
     } else {
       this.priorAuthorizationCustomFilterBool = false;
@@ -295,11 +295,11 @@ export class FilterComponent implements OnInit {
     tempArray = data.split(', ');
     this.scArrayData = tempArray.filter((el, i, a) => i === a.indexOf(el));
   }
-  private _filter(value: string): string[] {
+  _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
 
     return this.priorauthservicecategory.filter(
-      servicecategory => servicecategory.toLowerCase().indexOf(filterValue.toLowerCase()) === 0
+      servicecategory => servicecategory.toLowerCase().indexOf(filterValue) === 0
     );
   }
 }
