@@ -38,7 +38,22 @@ export class CallsSharedService {
     this.providerKey = this.session.providerKeyData();
     return new Promise(resolve => {
       let parameters;
-      parameters = [this.providerKey];
+
+      if (
+        this.timeFrame === 'Last 12 Months' ||
+        this.timeFrame === 'Last 6 Months' ||
+        this.timeFrame === 'Year to Date'
+      ) {
+        if (this.timeFrame === 'Last 12 Months') {
+          parameters = [this.providerKey, { TimeFilter: 'Last12Months' }];
+        } else if (this.timeFrame === 'Last 6 Months') {
+          parameters = [this.providerKey, { TimeFilter: 'Last6Months' }];
+        } else {
+          parameters = [this.providerKey, { TimeFilter: 'YTD' }];
+        }
+      } else {
+        parameters = [this.providerKey, { TimeFilter: 'CalendarYear', TimeFilterText: this.timeFrame }];
+      }
       this.sharedCallsData(parameters)
         .then(data => {
           this.callsData = data;

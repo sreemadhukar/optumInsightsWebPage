@@ -50,6 +50,7 @@ export class LoginStubComponent implements OnInit {
   }
 
   ngOnInit() {
+    sessionStorage.setItem('cache', JSON.stringify(false));
     if (!environment.production) {
       this.authService.getJwt().subscribe(data => {
         sessionStorage.setItem('token', JSON.stringify(data['token']));
@@ -89,12 +90,14 @@ export class LoginStubComponent implements OnInit {
               .CheckExternal(params.code, this.token)
               .then(value => {
                 this.authorise.getToggles().subscribe(value1 => {});
+                sessionStorage.setItem('cache', JSON.stringify(true));
                 this.router.navigate(['/OverviewPage']);
               })
               .catch(error => {
                 this.openErrorDialog();
               });
           } else if (this.authService.isLoggedIn()) {
+            sessionStorage.setItem('cache', JSON.stringify(true));
             this.router.navigate(['/OverviewPage']);
           } else {
             this.document.location.href = environment.apiUrls.SsoRedirectUri;
@@ -129,6 +132,7 @@ export class LoginStubComponent implements OnInit {
           this.authorise.getToggles().subscribe(value => {
             console.log(value);
           });
+          sessionStorage.setItem('cache', JSON.stringify(true));
           // this.openDialog();
           this.router.navigate(['/ProviderSearch']);
         },
@@ -168,7 +172,7 @@ export class LoginStubComponent implements OnInit {
 
     dialogErrorRef.afterClosed().subscribe(result => {
       if (!environment.internalAccess) {
-        this.document.location.href = 'https://provider-stage.linkhealth.com/';
+        this.document.location.href = environment.apiUrls.linkLoginPage;
       }
     });
   }

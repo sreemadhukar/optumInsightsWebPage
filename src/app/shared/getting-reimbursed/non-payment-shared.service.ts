@@ -83,7 +83,6 @@ export class NonPaymentSharedService {
 
         this.nonPaymentService.getNonPaymentData(...parameters).subscribe(
           ([nonPaymentData1]) => {
-            console.log(nonPaymentData1);
             let claimsNotPaid: Object;
             let claimsNotPaidRate: Object;
             if (
@@ -213,7 +212,7 @@ export class NonPaymentSharedService {
           }
         );
       } else {
-        const lobData = this.common.matchLobWithCapsData(this.lob);
+        const lobData = this.common.matchLobWithData(this.lob);
         if (this.tin !== 'All' && this.lob !== 'All') {
           parameters = [
             this.providerKey,

@@ -66,6 +66,15 @@ export class BarChartComponent implements OnInit, AfterViewInit {
           .attr('x', 15)
           .attr('y', y)
           .attr('dy', dy + 'em');
+
+        if (!Number.isNaN(dy)) {
+          tspan = text
+            .text(null)
+            .append('tspan')
+            .attr('x', 15)
+            .attr('y', y)
+            .attr('dy', dy + 'em');
+        }
         let i = 0;
         let dyMultiplier = 1;
         while ((word = words.pop())) {
@@ -141,7 +150,7 @@ export class BarChartComponent implements OnInit, AfterViewInit {
       const PCORStarXCoordinateMultiplier = 17.5;
 
       for (let i = 0; i < PCORStars; i++) {
-        const xCoordinate = 20 + PCORStarXCoordinateMultiplier * i;
+        const xCoordinate = 16 + PCORStarXCoordinateMultiplier * i;
         chart
           .append('g')
           .attr('transform', 'translate(' + xCoordinate + ',' + -20 + ')')
@@ -153,9 +162,11 @@ export class BarChartComponent implements OnInit, AfterViewInit {
               '10.472136 5.26687371 16 6.11145618 12 10.2111456 12.9442719 16'
           );
       }
+      // This belongs to PCOR
       chart
         .append('text')
-        .attr('x', 20 + 16 + xScale(chartOptions.barData)) // 16px from right
+        .attr('x', 20 + 16 + xScale(chartOptions.barData))
+        // 20 will make this text attached with bar graph and moving 16px from right is the requirement
         .attr('y', (height + 20) / 2)
         .attr('fill', '#2D2D39')
         .attr('font-size', '20')

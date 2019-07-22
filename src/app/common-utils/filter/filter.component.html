@@ -37,7 +37,14 @@
       <mat-icon class="icon-display" *ngIf="tarrowmark" (click)="clickArrowMark('tax')" svgIcon="arrowup"></mat-icon>
     </div>
   </div>
-  <div class="lobgrp" [ngClass]="{ titleDisable: filterurl === '/ServiceInteraction/Calls' }">
+  <div
+    class="lobgrp titleDisplay"
+    *ngIf="filterurl === '/ServiceInteraction/Calls'"
+    [ngClass]="{ titleDisable: filterurl === '/ServiceInteraction/Calls' }"
+  >
+    Not Available
+  </div>
+  <div class="lobgrp" *ngIf="filterurl !== '/ServiceInteraction/Calls'">
     <div *ngIf="taxArrayData.length == 0">
       <label id="radio-group-label" class="label-data">{{ taxData }}</label>
     </div>
@@ -69,6 +76,7 @@
     </div>
   </div>
   <div class="line"></div>
+
   <div class="titleData" [ngClass]="{ titleDisable: filterurl === '/ServiceInteraction/Calls' }">
     <div class="title">Line of Business</div>
     <div class="chevron">
@@ -76,7 +84,14 @@
       <mat-icon class="icon-display" *ngIf="arrowmark" (click)="clickArrowMark('lob')" svgIcon="arrowup"></mat-icon>
     </div>
   </div>
-  <div class="lobgrp" [ngClass]="{ titleDisable: filterurl === '/ServiceInteraction/Calls' }">
+  <div
+    class="lobgrp titleDisplay"
+    *ngIf="filterurl === '/ServiceInteraction/Calls'"
+    [ngClass]="{ titleDisable: filterurl === '/ServiceInteraction/Calls' }"
+  >
+    Not Available
+  </div>
+  <div class="lobgrp" *ngIf="filterurl !== '/ServiceInteraction/Calls'">
     <div>
       <label id="radio-group" class="label-data">{{ lobData }}</label>
     </div>
@@ -153,6 +168,56 @@
       </div>
     </div>
     -->
+
+    <!-- Service Category -->
+    <div class="line"></div>
+    <div class="titleData">
+      <div class="title">Service Category</div>
+      <div class="chevron">
+        <mat-icon
+          class="icon-display"
+          *ngIf="!sctypearrowmark"
+          (click)="clickArrowMark('sctype')"
+          svgIcon="arrowdn"
+        ></mat-icon>
+        <mat-icon
+          class="icon-display"
+          *ngIf="sctypearrowmark"
+          (click)="clickArrowMark('sctype')"
+          svgIcon="arrowup"
+        ></mat-icon>
+      </div>
+    </div>
+    <div class="lobgrp">
+      <div>
+        <label class="label-data">{{ scTypeData }}</label>
+      </div>
+      <div class="select-option-data" *ngIf="sctypearrowmark">
+        <mat-form-field appearance="outline">
+          <input
+            type="text"
+            matInput
+            [matAutocomplete]="auto"
+            [formControl]="serviceCategoryCtrl"
+            [(ngModel)]="selectedmetric"
+            placeholder="Search for Service Category"
+          />
+          <mat-icon matPrefix class="nav-menu-icons" svgIcon="search"></mat-icon>
+          <mat-autocomplete #auto="matAutocomplete" (optionSelected)="scArrayFunction($event.option.value)">
+            <mat-option *ngFor="let servicecategory of (filteredOptions | async)" [value]="servicecategory">
+              <!-- <span class="highlight" [innerHTML]="servicecategory | highlight: toHighlight"></span> -->
+              {{ servicecategory }}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+
+        <!-- <mat-radio-group class="radio-group" [(ngModel)]="scTypeData">
+          <mat-radio-button class="radio-button" *ngFor="let patype of priorauthdecisiontype" [value]="patype">
+            {{ patype }}
+          </mat-radio-button>
+        </mat-radio-group> -->
+      </div>
+    </div>
   </div>
 
   <div class="line1"></div>
