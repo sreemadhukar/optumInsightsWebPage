@@ -383,7 +383,7 @@ export class GettingReimbursedSharedService {
               };
             }
           }
-          if (appealsData != null && appealsData[0].hasOwnProperty('status')) {
+          if (appealsData != null && appealsData.hasOwnProperty('status')) {
             appealsSubmitted = {
               category: 'app-card',
               type: 'donutWithLabelBottom',
@@ -402,10 +402,10 @@ export class GettingReimbursedSharedService {
               data: null,
               timeperiod: null
             };
-          } else if (appealsData != null) {
+          } else if (appealsData[0] != null) {
             if (
               appealsData[0].hasOwnProperty('LineOfBusiness') &&
-              appealsData[0].LineOfBusiness &&
+              appealsData[0].LineOfBusiness !== null &&
               appealsData[0].LineOfBusiness.hasOwnProperty(lobFullData) &&
               appealsData[0].LineOfBusiness.hasOwnProperty('CommunityAndState') &&
               appealsData[0].LineOfBusiness.hasOwnProperty('EmployerAndIndividual') &&
@@ -462,7 +462,8 @@ export class GettingReimbursedSharedService {
               appealsSubmitted = {
                 category: 'app-card',
                 type: 'donutWithLabelBottom',
-                title: null,
+                title: 'Claims Appeals Submitted',
+                status: 404,
                 data: null,
                 besideData: null,
                 bottomData: null,
@@ -471,7 +472,7 @@ export class GettingReimbursedSharedService {
             }
             if (
               appealsData[0].hasOwnProperty('LineOfBusiness') &&
-              appealsData[0].LineOfBusiness &&
+              appealsData[0].LineOfBusiness !== null &&
               appealsData[0].LineOfBusiness.hasOwnProperty(lobFullData) &&
               appealsData[0].LineOfBusiness[lobFullData].hasOwnProperty('OverTurnCount') &&
               appealsData[0].LineOfBusiness[lobFullData].hasOwnProperty('AdminAppeals') &&
@@ -501,7 +502,8 @@ export class GettingReimbursedSharedService {
               appealsOverturned = {
                 category: 'app-card',
                 type: 'donut',
-                title: null,
+                title: 'Claims Appeals Overturned',
+                status: 404,
                 data: null,
                 timeperiod: null
               };
@@ -879,7 +881,7 @@ export class GettingReimbursedSharedService {
               };
             }
           }
-          if (appealsData != null && appealsData[0].hasOwnProperty('status')) {
+          if (appealsData != null && appealsData.hasOwnProperty('status')) {
             appealsSubmitted = {
               category: 'app-card',
               type: 'donutWithLabelBottom',
@@ -898,10 +900,10 @@ export class GettingReimbursedSharedService {
               data: null,
               timeperiod: null
             };
-          } else if (appealsData != null) {
+          } else if (appealsData[0] != null) {
             if (
               appealsData[0].hasOwnProperty('LineOfBusiness') &&
-              appealsData[0].LineOfBusiness &&
+              appealsData[0].LineOfBusiness !== null &&
               appealsData[0].LineOfBusiness.hasOwnProperty(lobFullData) &&
               appealsData[0].LineOfBusiness[lobFullData].hasOwnProperty('AdminAppeals') &&
               appealsData[0].LineOfBusiness[lobFullData].hasOwnProperty('ClinicalAppeals')
@@ -984,7 +986,8 @@ export class GettingReimbursedSharedService {
               appealsSubmitted = {
                 category: 'app-card',
                 type: 'donutWithLabelBottom',
-                title: null,
+                title: 'Claims Appeals Submitted',
+                status: '404',
                 data: null,
                 besideData: null,
                 bottomData: null,
@@ -993,7 +996,7 @@ export class GettingReimbursedSharedService {
             }
             if (
               appealsData[0].hasOwnProperty('LineOfBusiness') &&
-              appealsData[0].LineOfBusiness &&
+              appealsData[0].LineOfBusiness !== null &&
               appealsData[0].LineOfBusiness.hasOwnProperty(lobFullData) &&
               appealsData[0].LineOfBusiness[lobFullData].hasOwnProperty('OverTurnCount') &&
               appealsData[0].LineOfBusiness[lobFullData].hasOwnProperty('AdminAppeals') &&
@@ -1026,7 +1029,8 @@ export class GettingReimbursedSharedService {
               appealsOverturned = {
                 category: 'app-card',
                 type: 'donut',
-                title: null,
+                title: 'Claims Appeals Overturned',
+                status: '404',
                 data: null,
                 timeperiod: null
               };
@@ -1447,8 +1451,8 @@ export class GettingReimbursedSharedService {
         this.gettingReimbursedService.getGettingReimbursedData(...parameters).subscribe(([claimsData, appealsData]) => {
           const lobFullData = this.common.matchFullLobWithData(this.lob);
           const lobData = this.common.matchLobWithData(this.lob);
-          /*  if (appealsData != null && appealsData[0].hasOwnProperty('status')) {
-          appealsOverturnedRate = {
+          if (appealsData != null && appealsData.hasOwnProperty('status')) {
+            appealsOverturnedRate = {
               category: 'app-card',
               type: 'donut',
               status: appealsData.status,
@@ -1456,12 +1460,10 @@ export class GettingReimbursedSharedService {
               data: null,
               timeperiod: null
             };
-    } else*/ if (
-            appealsData != null
-          ) {
+          } else if (appealsData[0] != null) {
             if (
               appealsData[0].hasOwnProperty('LineOfBusiness') &&
-              appealsData[0].LineOfBusiness &&
+              appealsData[0].LineOfBusiness !== null &&
               appealsData[0].LineOfBusiness.hasOwnProperty(lobFullData) &&
               appealsData[0].LineOfBusiness[lobFullData].hasOwnProperty('OverTurnCount') &&
               appealsData[0].LineOfBusiness[lobFullData].hasOwnProperty('AdminAppeals') &&
@@ -1529,6 +1531,25 @@ export class GettingReimbursedSharedService {
                   gdata: ['app-card-structure', 'appealsOverturnedReason' + i]
                 });
               }
+            } else {
+              appealsOverturnedRate = [
+                {
+                  category: 'app-card',
+                  type: 'donut',
+                  status: 404,
+                  title: 'Claims Appeals Overturned Rate',
+                  data: null,
+                  timeperiod: null
+                }
+              ];
+              reason.push({
+                category: 'app-card',
+                type: 'donut',
+                status: 404,
+                title: 'Top Claims Appeals Overturn Reasons',
+                data: null,
+                timeperiod: null
+              });
             }
           }
           AOR = [appealsOverturnedRate, reason];
@@ -1571,21 +1592,19 @@ export class GettingReimbursedSharedService {
           .subscribe(([claimsData, appealsData]) => {
             const lobFullData = this.common.matchFullLobWithData(this.lob);
             const lobData = this.common.matchLobWithData(this.lob);
-            /*  if (appealsData != null && appealsData[0].hasOwnProperty('status')) {
-                  appealsOverturnedRate = {
-                      category: 'app-card',
-                      type: 'donut',
-                      status: appealsData.status,
-                      title: 'Claims Appeals Overturned Rate',
-                      data: null,
-                      timeperiod: null
-                    };
-            } else*/ if (
-              appealsData != null
-            ) {
+            if (appealsData !== null && appealsData.hasOwnProperty('status')) {
+              appealsOverturnedRate = {
+                category: 'app-card',
+                type: 'donut',
+                status: appealsData.status,
+                title: 'Claims Appeals Overturned Rate',
+                data: null,
+                timeperiod: null
+              };
+            } else if (appealsData[0] !== null) {
               if (
                 appealsData[0].hasOwnProperty('LineOfBusiness') &&
-                appealsData[0].LineOfBusiness &&
+                appealsData[0].LineOfBusiness !== null &&
                 appealsData[0].LineOfBusiness.hasOwnProperty(lobFullData) &&
                 appealsData[0].LineOfBusiness[lobFullData].hasOwnProperty('OverTurnCount') &&
                 appealsData[0].LineOfBusiness[lobFullData].hasOwnProperty('AdminAppeals') &&
@@ -1653,6 +1672,25 @@ export class GettingReimbursedSharedService {
                     gdata: ['app-card-structure', 'appealsOverturnedReason' + i]
                   });
                 }
+              } else {
+                appealsOverturnedRate = [
+                  {
+                    category: 'app-card',
+                    type: 'donut',
+                    status: 404,
+                    title: 'Claims Appeals Overturned Rate',
+                    data: null,
+                    timeperiod: null
+                  }
+                ];
+                reason.push({
+                  category: 'app-card',
+                  type: 'donut',
+                  status: 404,
+                  title: 'Top Claims Appeals Overturn Reasons',
+                  data: null,
+                  timeperiod: null
+                });
               }
             }
             AOR = [appealsOverturnedRate, reason];

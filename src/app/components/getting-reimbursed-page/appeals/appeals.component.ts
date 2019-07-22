@@ -74,6 +74,7 @@ export class AppealsComponent implements OnInit {
     this.mockCards = [{}, {}, {}, {}];
     this.currentSummary = [];
     this.overturnItem = [];
+    this.reasonDataAvailable = false;
     this.gettingReimbursedSharedService.getGettingReimbursedData().then(completeData => {
       this.loading = false;
       this.summaryItems = JSON.parse(JSON.stringify(completeData));
@@ -83,11 +84,13 @@ export class AppealsComponent implements OnInit {
 
     this.gettingReimbursedSharedService.getappealsRateAndReasonData().then(appealsRateData => {
       this.loading = false;
-      if (appealsRateData[1].length !== 0) {
+      if (appealsRateData[1].length !== 0 && !appealsRateData[1][0].status) {
         this.reasonDataAvailable = true;
       }
       this.overturnItem = appealsRateData[0];
-      this.reason = appealsRateData[1];
+      if (appealsRateData[1].length) {
+        this.reason = appealsRateData[1];
+      }
     });
   }
 
