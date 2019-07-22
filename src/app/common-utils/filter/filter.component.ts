@@ -264,6 +264,7 @@ export class FilterComponent implements OnInit {
         this.session.store({ timeFrame: this.timeframeData, lob: this.lobData, tax: [this.taxData] });
       }
     }
+    console.log(this.lobData);
     this.session.filterObjSubject.complete();
     this.filterFlag.emit(false);
   }

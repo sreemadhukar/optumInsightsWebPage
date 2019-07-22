@@ -72,6 +72,8 @@ export class AppealsComponent implements OnInit {
     }
     this.loading = true;
     this.mockCards = [{}, {}, {}, {}];
+    this.currentSummary = [];
+    this.overturnItem = [];
     this.gettingReimbursedSharedService.getGettingReimbursedData().then(completeData => {
       this.loading = false;
       this.summaryItems = JSON.parse(JSON.stringify(completeData));
