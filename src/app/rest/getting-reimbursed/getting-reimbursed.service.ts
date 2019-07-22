@@ -28,18 +28,9 @@ export class GettingReimbursedService {
       Authorization: 'Bearer ' + this.authBearer,
       Accept: '*/*'
     });
-    let aparams = new HttpParams();
-    if (parameters[1].TimeFilterText) {
-      aparams = aparams.append('TimeFilterText', parameters[1].TimeFilterText);
-    }
-    if (parameters[1].TimeFilter) {
-      aparams = aparams.append('TimeFilter', parameters[1].TimeFilter);
-    }
-    if (parameters[1].Tin) {
-      aparams = aparams.append('Tin', parameters[1].Tin);
-    }
-    if (parameters[1].Lob) {
-      aparams = aparams.append('Lob', parameters[1].Lob);
+    const appealsParams = parameters[1];
+    if (!appealsParams.Tin) {
+      appealsParams.AllProviderTins = true;
     }
     const claimsURL = this.APP_URL + this.CLAIMS_SERVICE_PATH + parameters[0] + '?requestType=PAYMENT_METRICS';
     const appealsURL = this.APP_URL + this.APPEALS_SERVICE_PATH + parameters[0];
@@ -49,32 +40,25 @@ export class GettingReimbursedService {
         map(res => JSON.parse(JSON.stringify(res[0]))),
         catchError(err => of(JSON.parse(JSON.stringify(err))))
       ),
-      this.http.post(appealsURL, aparams).pipe(
+      this.http.post(appealsURL, appealsParams).pipe(
         map(res => JSON.parse(JSON.stringify(res))),
         catchError(err => of(JSON.parse(JSON.stringify(err))))
       )
     );
   }
   public getGettingReimbursedData(...parameters) {
-    let aparams = new HttpParams();
-    if (parameters[1].TimeFilter) {
-      aparams = aparams.append('TimeFilter', parameters[1].TimeFilter);
-    }
-    if (parameters[1].Tin) {
-      aparams = aparams.append('Tin', parameters[1].Tin);
-    }
-    if (parameters[1].Lob) {
-      aparams = aparams.append('Lob', parameters[1].Lob);
+    const appealsParams = parameters[1];
+    if (!appealsParams.Tin) {
+      appealsParams.AllProviderTins = true;
     }
     const claimsURL = this.APP_URL + this.CLAIMS_SERVICE_PATH + parameters[0] + '?requestType=PAYMENT_METRICS';
     const appealsURL = this.APP_URL + this.APPEALS_SERVICE_PATH + parameters[0];
-    console.log(aparams);
     return combineLatest(
       this.http.post(claimsURL, parameters[1]).pipe(
         map(res => JSON.parse(JSON.stringify(res[0]))),
         catchError(err => of(JSON.parse(JSON.stringify(err))))
       ),
-      this.http.post(appealsURL, aparams).pipe(
+      this.http.post(appealsURL, appealsParams).pipe(
         map(res => JSON.parse(JSON.stringify(res))),
         catchError(err => of(JSON.parse(JSON.stringify(err))))
       )
