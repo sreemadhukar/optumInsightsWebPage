@@ -112,16 +112,20 @@ export class BarChartComponent implements OnInit, AfterViewInit {
       .attr('transform', 'translate(' + (margin.left + 6) + ',' + (margin.top + 5) + ')');
 
     let xScaleConstant;
+
+    /** Following 2 variable are for Prior Auth Bar Grpah */
     let xScaleBarWidthConstant;
     let xScaleBarStartingPointConstant;
+    /** Following 2 variable are for Prior Auth Bar Grpah */
 
     if (chartOptions.starObject) {
       xScaleConstant = width - 60;
     } else {
-      xScaleBarWidthConstant = width / 1.67; // 560
+      /** Following 2 variable are for Prior Auth Bar Grpah */
+      xScaleBarWidthConstant = width / 1.65; // 566    when width is 598 , it will touch the border of the the card
       xScaleBarStartingPointConstant = width / 2.75; // 340
     }
-    console.log('Width', width);
+    // console.log('Width', width); 934
     const xScale = d3
       .scaleLinear()
       .domain([0, chartOptions.barSummation])
@@ -151,7 +155,7 @@ export class BarChartComponent implements OnInit, AfterViewInit {
       }
       chart
         .append('text')
-        .attr('x', 28 + xScale(chartOptions.barData))
+        .attr('x', 20 + 16 + xScale(chartOptions.barData)) // 16px from right
         .attr('y', (height + 20) / 2)
         .attr('fill', '#2D2D39')
         .attr('font-size', '20')
