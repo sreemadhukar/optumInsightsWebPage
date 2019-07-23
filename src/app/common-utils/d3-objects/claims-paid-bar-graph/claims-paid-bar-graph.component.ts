@@ -12,6 +12,7 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit, OnCha
   public noTransition = 0;
   public renderChart: string;
   @Input() chartOptions: any = {};
+  initialized: any;
   public testID = 'claimsPaidBreakDown';
 
   constructor(private common: CommonUtilsService) {}
@@ -23,10 +24,13 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit, OnCha
 
   ngOnInit() {
     this.renderChart = '#' + this.testID;
+    this.initialized = true;
   }
 
   ngAfterViewInit() {
-    this.doBarGraph(this.chartOptions.chartData, this.transition);
+    if (this.initialized) {
+      this.doBarGraph(this.chartOptions.chartData, this.transition);
+    }
   }
 
   ngOnChanges() {
