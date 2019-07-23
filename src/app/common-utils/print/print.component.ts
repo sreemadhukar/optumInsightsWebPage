@@ -49,7 +49,6 @@ export class PrintComponent implements OnInit, OnDestroy {
 
     const userInfo = JSON.parse(sessionStorage.getItem('loggedUser'));
     this.username = userInfo.FirstName;
-
     const region = document.getElementById(this.printDivId);
     html2canvas(region).then(c => {});
     html2canvas(region).then(canvas => {
