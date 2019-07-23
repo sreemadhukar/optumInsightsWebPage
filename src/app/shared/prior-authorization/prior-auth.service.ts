@@ -478,14 +478,14 @@ export class PriorAuthSharedService {
       isAllTinBool = false;
       if (filterParameters.tax.length === 1) {
         tinNumberFormatted = parseInt(TIN.replace(/\D/g, ''), 10);
-        specificTin = tinNumberFormatted;
+        specificTin = tinNumberFormatted.toString();
       } else {
         const taxArray = filterParameters.tax;
         const taxArrayFormatted = [];
         for (let i = 0; i < taxArray.length; i++) {
           taxArrayFormatted.push(parseInt(taxArray[i].replace(/\D/g, ''), 10));
         }
-        specificTin = taxArrayFormatted.join(',');
+        specificTin = taxArrayFormatted.join(', ');
       }
     }
 
@@ -838,14 +838,14 @@ export class PriorAuthSharedService {
       isAllTinBool = false;
       if (filterParameters.tax.length === 1) {
         tinNumberFormatted = parseInt(TIN.replace(/\D/g, ''), 10);
-        specificTin = tinNumberFormatted;
+        specificTin = tinNumberFormatted.toString();
       } else {
         const taxArray = filterParameters.tax;
         const taxArrayFormatted = [];
         for (let i = 0; i < taxArray.length; i++) {
           taxArrayFormatted.push(parseInt(taxArray[i].replace(/\D/g, ''), 10));
         }
-        specificTin = taxArrayFormatted.join(',');
+        specificTin = taxArrayFormatted.join(', ');
       }
     }
 
