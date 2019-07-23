@@ -92,6 +92,10 @@
         </div>
         <app-error-card *ngIf="!reasonDataAvailable && !loading" class="cards" [data]="reason[0]"></app-error-card>
       </div>
+
+      <div *ngIf="!reasonDataAvailable && !loading">
+        <app-error-card *ngIf="reason[0].status" class="cards" [data]="reason[0]"></app-error-card>
+      </div>
     </div>
   </div>
 </div>
