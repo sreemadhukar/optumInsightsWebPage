@@ -13,6 +13,8 @@ import { Providers } from '../../shared/provider/provider.class';
 export class PrintComponent implements OnInit, OnDestroy {
   @Input() printDivId: string;
   @Input() printName: string;
+  @Input() printHeight: number;
+  @Input() printWidth: number;
 
   public providerName = '---';
   public providerData: any;
@@ -51,8 +53,8 @@ export class PrintComponent implements OnInit, OnDestroy {
     const region = document.getElementById(this.printDivId);
     html2canvas(region).then(c => {});
     html2canvas(region).then(canvas => {
-      canvas.style.width = '700';
-      canvas.style.height = '700';
+      canvas.style.width = this.printWidth;
+      canvas.style.height = this.printHeight;
       this.canvas = canvas;
       if (this.canvas) {
         this.popup(this.canvas);
