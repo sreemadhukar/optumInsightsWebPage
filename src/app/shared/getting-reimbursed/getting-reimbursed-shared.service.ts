@@ -1006,7 +1006,7 @@ export class GettingReimbursedSharedService {
                 category: 'app-card',
                 type: 'donutWithLabelBottom',
                 title: 'Claims Appeals Submitted',
-                status: '404',
+                status: 404,
                 data: null,
                 besideData: null,
                 bottomData: null,
@@ -1049,7 +1049,7 @@ export class GettingReimbursedSharedService {
                 category: 'app-card',
                 type: 'donut',
                 title: 'Claims Appeals Overturned',
-                status: '404',
+                status: 404,
                 data: null,
                 timeperiod: null
               };

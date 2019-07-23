@@ -77,6 +77,7 @@ export class AppealsComponent implements OnInit {
     this.reasonDataAvailable = false;
     this.gettingReimbursedSharedService.getGettingReimbursedData().then(completeData => {
       this.loading = false;
+      console.log(completeData);
       this.summaryItems = JSON.parse(JSON.stringify(completeData));
       this.currentSummary = this.summaryItems[3].data;
       this.currentTabTitle = this.summaryItems[3].title;
@@ -84,6 +85,7 @@ export class AppealsComponent implements OnInit {
 
     this.gettingReimbursedSharedService.getappealsRateAndReasonData().then(appealsRateData => {
       this.loading = false;
+      console.log(appealsRateData);
       if (appealsRateData[1].length !== 0 && !appealsRateData[1][0].status) {
         this.reasonDataAvailable = true;
       }
