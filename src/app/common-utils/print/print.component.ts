@@ -13,8 +13,8 @@ import { Providers } from '../../shared/provider/provider.class';
 export class PrintComponent implements OnInit, OnDestroy {
   @Input() printDivId: string;
   @Input() printName: string;
-  @Input() printHeight: number;
-  @Input() printWidth: number;
+  @Input() printHeight: any;
+  @Input() printWidth: any;
 
   public providerName = '---';
   public providerData: any;
