@@ -28,13 +28,13 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit, OnCha
   }
 
   ngAfterViewInit() {
-    if (this.initialized) {
-      this.doBarGraph(this.chartOptions.chartData, this.transition);
-    }
+    this.doBarGraph(this.chartOptions.chartData, this.transition);
   }
 
   ngOnChanges() {
-    this.doBarGraph(this.chartOptions.chartData, this.transition);
+    if (this.initialized) {
+      this.doBarGraph(this.chartOptions.chartData, this.transition);
+    }
   }
 
   nFormatter(fnumber) {
