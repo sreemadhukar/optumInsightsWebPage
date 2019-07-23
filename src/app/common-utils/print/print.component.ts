@@ -13,8 +13,8 @@ import { Providers } from '../../shared/provider/provider.class';
 export class PrintComponent implements OnInit, OnDestroy {
   @Input() printDivId: string;
   @Input() printName: string;
-  @Input() printHeight: number;
-  @Input() printWidth: number;
+  @Input() printHeight: any;
+  @Input() printWidth: any;
 
   public providerName = '---';
   public providerData: any;
@@ -49,7 +49,6 @@ export class PrintComponent implements OnInit, OnDestroy {
 
     const userInfo = JSON.parse(sessionStorage.getItem('loggedUser'));
     this.username = userInfo.FirstName;
-
     const region = document.getElementById(this.printDivId);
     html2canvas(region).then(c => {});
     html2canvas(region).then(canvas => {
