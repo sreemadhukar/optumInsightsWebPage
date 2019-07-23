@@ -27,8 +27,7 @@ export class OverviewComponent implements OnInit, AfterContentInit {
   claimsLoading = false;
   callsLoading = false;
   priorAuthLoading = false;
-
-  /***************** DONT CANGE THESE *************/
+  /***************** DONT CHANGE THESE *************/
   claimsPaidBlock: any;
   priorAuthBlock: any;
   selfServiceAdoptionBlock: any;
@@ -52,6 +51,8 @@ export class OverviewComponent implements OnInit, AfterContentInit {
   /***************** DONT CHANGE THESE *************/
 
   trendsData: any;
+  printHeight = 800;
+  printWidth = 700;
 
   constructor(
     private overviewsrc: OverviewSharedService,
