@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, HostListener, ViewEncapsulation, AfterViewInit } from '@angular/core';
+import { Component, OnInit, Input, HostListener, ViewEncapsulation, AfterViewInit, OnChanges } from '@angular/core';
 import * as d3 from 'd3';
 import { CommonUtilsService } from '../../../shared/common-utils.service';
 
@@ -7,7 +7,7 @@ import { CommonUtilsService } from '../../../shared/common-utils.service';
   templateUrl: './claims-paid-bar-graph.component.html',
   styleUrls: ['./claims-paid-bar-graph.component.scss']
 })
-export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit {
+export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit, OnChanges {
   public transition = 1;
   public noTransition = 0;
   public renderChart: string;
@@ -26,6 +26,10 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
+    this.doBarGraph(this.chartOptions.chartData, this.transition);
+  }
+
+  ngOnChanges() {
     this.doBarGraph(this.chartOptions.chartData, this.transition);
   }
 
