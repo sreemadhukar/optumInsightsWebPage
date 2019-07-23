@@ -1569,15 +1569,6 @@ export class GettingReimbursedSharedService {
                     gdata: ['app-card-structure', 'appealsOverturnedReason' + i]
                   });
                 }
-              } else {
-                reason.push({
-                  category: 'app-card',
-                  type: 'donut',
-                  status: 404,
-                  title: 'Top Claims Appeals Overturn Reasons',
-                  data: null,
-                  timeperiod: null
-                });
               }
             } else {
               appealsOverturnedRate = [
@@ -1739,15 +1730,6 @@ export class GettingReimbursedSharedService {
                       gdata: ['app-card-structure', 'appealsOverturnedReason' + i]
                     });
                   }
-                } else {
-                  reason.push({
-                    category: 'app-card',
-                    type: 'donut',
-                    status: 404,
-                    title: 'Top Claims Appeals Overturn Reasons',
-                    data: null,
-                    timeperiod: null
-                  });
                 }
               } else {
                 appealsOverturnedRate = [
