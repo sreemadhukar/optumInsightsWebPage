@@ -290,7 +290,7 @@ export class OverviewSharedService {
             color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'],
             gdata: ['card-inner', 'callsCardD3Donut'],
             hover: true,
-            labels: ['Claims', 'Benefits & Eligibility', 'Prior Authorizations', 'Others']
+            labels: ['Claims', 'Eligibilty and Benefits', 'Prior Authorizations', 'Others']
           },
           sdata: null,
           timeperiod: 'Last 6 Months'
@@ -1050,7 +1050,7 @@ export class OverviewSharedService {
               color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'],
               gdata: ['card-inner', 'callsCardD3Donut'],
               hover: true,
-              labels: ['Claims', 'Benefits & Eligibility', 'Prior Authorizations', 'Others']
+              labels: ['Claims', 'Eligibilty and Benefits', 'Prior Authorizations', 'Others']
             },
             sdata: {
               sign: '',
@@ -1092,12 +1092,15 @@ export class OverviewSharedService {
       this.trendsService.getTrendingMetrics([this.providerKey]).subscribe(trends => {
         let PAOverviewTrends: object;
         if (
-          trends &&
+          trends != undefined &&
+          trends != null &&
           trends.hasOwnProperty('TendingMtrics') &&
-          trends.TendingMtrics.hasOwnProperty('PaApprovedCount')
+          trends.TendingMtrics != null &&
+          trends.TendingMtrics.hasOwnProperty('PaApprovalRate') &&
+          trends.TendingMtrics.PaApprovalRate != null
         ) {
-          const dataPoint = trends.TendingMtrics.PaApprovedCount.toFixed(1) + '%';
-          if (trends.TendingMtrics.PaApprovedCount < 0) {
+          const dataPoint = trends.TendingMtrics.PaApprovalRate.toFixed(1) + '%';
+          if (trends.TendingMtrics.PaApprovalRate < 0) {
             PAOverviewTrends = {
               sign: 'down',
               data: dataPoint

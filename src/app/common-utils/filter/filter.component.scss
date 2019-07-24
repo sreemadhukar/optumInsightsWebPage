@@ -217,6 +217,7 @@
   box-shadow: 0 0 4px 0 rgba(25, 110, 207, 0.5), 0 4px 8px 0 rgba(0, 0, 0, 0.15);
   font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
   font-size: 16px;
+  height: 200px !important;
 }
 ::ng-deep .mat-option.mat-selected:not(.mat-option-multiple):not(.mat-option-disabled) {
   background-color: $blue;

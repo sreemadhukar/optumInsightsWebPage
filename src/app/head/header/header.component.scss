@@ -17,16 +17,16 @@
       height: 24px;
       width: 24px;
       margin: 0;
-      color: #196ecf;
+      color: $blue;
       background-color: none;
     }
     .menu-icon:hover {
-      color: #196ecf;
+      color: $blue;
       background-color: $hover-blue;
     }
     .menu-icon:active {
-      color: #196ecf;
-      background-color: $darker-alice-blue;
+      color: $blue;
+      background-color: $maya-blue;
     }
   }
   .header-logo-div {

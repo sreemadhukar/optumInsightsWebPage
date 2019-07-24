@@ -172,7 +172,7 @@ export class LoginStubComponent implements OnInit {
 
     dialogErrorRef.afterClosed().subscribe(result => {
       if (!environment.internalAccess) {
-        this.document.location.href = 'https://provider-stage.linkhealth.com/';
+        this.document.location.href = environment.apiUrls.linkLoginPage;
       }
     });
   }
