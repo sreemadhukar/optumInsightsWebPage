@@ -1091,7 +1091,14 @@ export class OverviewSharedService {
     return new Promise(resolve => {
       this.trendsService.getTrendingMetrics([this.providerKey]).subscribe(trends => {
         let PAOverviewTrends: object;
-        if (trends && trends.hasOwnProperty('TendingMtrics') && trends.TendingMtrics.hasOwnProperty('PaApprovalRate')) {
+        if (
+          trends != undefined &&
+          trends != null &&
+          trends.hasOwnProperty('TendingMtrics') &&
+          trends.TendingMtrics != null &&
+          trends.TendingMtrics.hasOwnProperty('PaApprovalRate') &&
+          trends.TendingMtrics.PaApprovalRate != null
+        ) {
           const dataPoint = trends.TendingMtrics.PaApprovalRate.toFixed(1) + '%';
           if (trends.TendingMtrics.PaApprovalRate < 0) {
             PAOverviewTrends = {
