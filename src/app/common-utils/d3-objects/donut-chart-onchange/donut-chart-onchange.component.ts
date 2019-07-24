@@ -284,7 +284,7 @@ export class DonutChartOnchangeComponent implements OnInit, AfterViewInit, OnCha
         });
 
       text.text(chartOptions.centerNumber);
-      text.text('');
+      text.text();
     }
 
     // chartOptions.hover
