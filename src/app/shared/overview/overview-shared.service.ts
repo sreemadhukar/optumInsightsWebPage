@@ -274,7 +274,7 @@ export class OverviewSharedService {
         cIR = {
           category: 'small-card',
           type: 'donut',
-          title: 'Total Calls',
+          title: 'Calls By Call Type',
           toggle: this.toggle.setToggles('Total Calls', 'AtGlance', 'Overview', false),
           data: {
             graphValues: [
@@ -984,7 +984,7 @@ export class OverviewSharedService {
           cIR = {
             category: 'small-card',
             type: 'donut',
-            title: 'Total Calls',
+            title: 'Calls By Call Type',
             toggle: this.toggle.setToggles('Total Calls', 'AtGlance', 'Overview', false),
             data: {
               graphValues: [
@@ -1018,7 +1018,7 @@ export class OverviewSharedService {
         // resolve(cIR);
 
         this.createTotalCallsTrend().then(trendIssueResolution => {
-        const nullTrend =  {
+          const nullTrend = {
             sign: '',
             data: ''
           };
