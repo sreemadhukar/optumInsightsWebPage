@@ -93,6 +93,9 @@ export class ProviderSearchComponent implements OnInit, AfterViewInit {
       (<HTMLElement>document.querySelector('.mat-autocomplete-panel')).style.height = '0';
     }
     if (this.stateCtrl.value && this.stateCtrl.value !== '') {
+      if (document.querySelector('.mat-autocomplete-hidden')) {
+        (<HTMLElement>document.querySelector('.mat-autocomplete-hidden')).style.visibility = 'visible';
+      }
       if (document.querySelector('.mat-autocomplete-panel')) {
         (<HTMLElement>document.querySelector('.mat-autocomplete-panel')).style.height = 'auto';
       }
@@ -110,6 +113,9 @@ export class ProviderSearchComponent implements OnInit, AfterViewInit {
       }
     }
     if (this.stateCtrl.value === '') {
+      if (document.querySelector('.mat-autocomplete-hidden')) {
+        (<HTMLElement>document.querySelector('.mat-autocomplete-hidden')).style.visibility = 'hidden';
+      }
       if (!(<HTMLElement>document.querySelector('.mat-focused'))) {
         (<HTMLElement>document.querySelector('.mat-form-field-label')).style.color = '#757588';
         (<HTMLElement>document.querySelector('.mat-form-field-outline-thick')).style.color = 'black';
