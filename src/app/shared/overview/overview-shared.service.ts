@@ -1091,14 +1091,22 @@ export class OverviewSharedService {
             trends.TendingMtrics.CallsTrendByQuesType != null
           ) {
             const dataPoint = trends.TendingMtrics.CallsTrendByQuesType.toFixed(1) + '%';
-            if (trends.TendingMtrics.CallsTrendByQuesType < 0) {
+            if (trends.TendingMtrics.CallsTrendByQuesType >= 1) {
               cIR.sdata = {
-                sign: 'up',
+                sign: 'up-red',
                 data: dataPoint
+              };
+            } else if (
+              trends.TendingMtrics.CallsTrendByQuesType < 1 &&
+              trends.TendingMtrics.CallsTrendByQuesType >= 0
+            ) {
+              cIR.sdata = {
+                sign: 'neutral',
+                data: 'No Change'
               };
             } else {
               cIR.sdata = {
-                sign: 'down',
+                sign: 'down-green',
                 data: dataPoint
               };
             }
