@@ -31,4 +31,38 @@ export class NonPaymentService {
       )
     );
   }
+
+  public getNonPaymentDataByMonth(...parameters) {
+    this.currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
+    this.authBearer = this.currentUser[0].PedAccessToken;
+    const myHeader = new HttpHeaders({
+      Authorization: 'Bearer ' + this.authBearer,
+      'Content-Type': 'application/json',
+      Accept: '*/*'
+    });
+    const nonPaymentURL = this.APP_URL + this.NON_PAYMENT + parameters[0] + '?requestType=NONPAYMENT_BYMONTH';
+    return combineLatest(
+      this.http.post(nonPaymentURL, parameters[1], { headers: myHeader }).pipe(
+        map(res => JSON.parse(JSON.stringify(res[0]))),
+        catchError(err => of(JSON.parse(JSON.stringify(err))))
+      )
+    );
+  }
+
+  public getNonPaymentDataTopReasons(...parameters) {
+    this.currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
+    this.authBearer = this.currentUser[0].PedAccessToken;
+    const myHeader = new HttpHeaders({
+      Authorization: 'Bearer ' + this.authBearer,
+      'Content-Type': 'application/json',
+      Accept: '*/*'
+    });
+    const nonPaymentURL = this.APP_URL + this.NON_PAYMENT + parameters[0] + '?requestType=NONPAYMENT_TOPCATEGORIES';
+    return combineLatest(
+      this.http.post(nonPaymentURL, parameters[1], { headers: myHeader }).pipe(
+        map(res => JSON.parse(JSON.stringify(res[0]))),
+        catchError(err => of(JSON.parse(JSON.stringify(err))))
+      )
+    );
+  }
 }
