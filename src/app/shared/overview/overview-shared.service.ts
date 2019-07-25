@@ -6,6 +6,7 @@ import { CommonUtilsService } from '../common-utils.service';
 import { SessionService } from '../session.service';
 import { AuthorizationService } from '../../auth/_service/authorization.service';
 import { CallsTrendService } from './../service-interaction/calls-trend.service';
+import { TrendingMetricsService } from '../../rest/trending/trending-metrics.service';
 
 @Injectable({
   providedIn: OverviewPageModule
@@ -16,12 +17,14 @@ export class OverviewSharedService {
   private providerKey: number;
   private baseTimePeriod = 'Last30Days';
   private previousTimePeriod = 'PreviousLast30Days';
+  private priorAuthTrend;
   constructor(
     private overviewService: OverviewService,
     private common: CommonUtilsService,
     private session: SessionService,
     private toggle: AuthorizationService,
-    private callsTrendService: CallsTrendService
+    private callsTrendService: CallsTrendService,
+    private trendsService: TrendingMetricsService
   ) {}
   getOverviewData() {
     this.timeFrame = this.session.timeFrame;
@@ -287,7 +290,7 @@ export class OverviewSharedService {
             color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'],
             gdata: ['card-inner', 'callsCardD3Donut'],
             hover: true,
-            labels: ['Claims', 'Benefits & Eligibility', 'Prior Authorizations', 'Others']
+            labels: ['Claims', 'Eligibilty and Benefits', 'Prior Authorizations', 'Others']
           },
           sdata: null,
           timeperiod: 'Last 6 Months'
@@ -537,43 +540,70 @@ export class OverviewSharedService {
         claims.All != null &&
         claims.All.hasOwnProperty('ClaimsLobSummary')
       ) {
-        if (
-          claims.All.ClaimsLobSummary[0].hasOwnProperty('AmountPaid') &&
-          claims.hasOwnProperty('Cs') &&
-          claims.Cs.hasOwnProperty('ClaimsLobSummary') &&
-          claims.Cs.ClaimsLobSummary[0].hasOwnProperty('AmountPaid') &&
-          claims.hasOwnProperty('Ei') &&
-          claims.Ei.hasOwnProperty('ClaimsLobSummary') &&
-          claims.Ei.ClaimsLobSummary[0].hasOwnProperty('AmountPaid') &&
-          claims.hasOwnProperty('Mr') &&
-          claims.Mr.hasOwnProperty('ClaimsLobSummary') &&
-          claims.Mr.ClaimsLobSummary[0].hasOwnProperty('AmountPaid')
-        ) {
-          const mrPercentage = claims.Mr.ClaimsLobSummary[0].AmountPaid;
-          const eiPercentage = claims.Ei.ClaimsLobSummary[0].AmountPaid;
-          const csPercentage = claims.Cs.ClaimsLobSummary[0].AmountPaid;
+        if (claims.All.ClaimsLobSummary[0].hasOwnProperty('AmountPaid')) {
+          // const mrPercentage = claims.Mr.ClaimsLobSummary[0].AmountPaid;
+          // const eiPercentage = claims.Ei.ClaimsLobSummary[0].AmountPaid;
+          // const csPercentage = claims.Cs.ClaimsLobSummary[0].AmountPaid;
+          const paidData = [];
+          if (claims.hasOwnProperty('Mr') && claims.Mr != null) {
+            if (
+              claims.Mr.hasOwnProperty('ClaimsLobSummary') &&
+              claims.Mr.ClaimsLobSummary.length &&
+              claims.Mr.ClaimsLobSummary[0].hasOwnProperty('AmountPaid')
+            ) {
+              paidData.push(claims.Mr.ClaimsLobSummary[0].AmountPaid);
+            }
+          }
+          if (claims.hasOwnProperty('Cs') && claims.Ei != null) {
+            if (
+              claims.Cs.hasOwnProperty('ClaimsLobSummary') &&
+              claims.Cs.ClaimsLobSummary.length &&
+              claims.Cs.ClaimsLobSummary[0].hasOwnProperty('AmountPaid')
+            ) {
+              paidData.push(claims.Cs.ClaimsLobSummary[0].AmountPaid);
+            }
+          }
+          if (claims.hasOwnProperty('Ei') && claims.Ei != null) {
+            if (
+              claims.Ei.hasOwnProperty('ClaimsLobSummary') &&
+              claims.Ei.ClaimsLobSummary.length &&
+              claims.Ei.ClaimsLobSummary[0].hasOwnProperty('AmountPaid')
+            ) {
+              paidData.push(claims.Ei.ClaimsLobSummary[0].AmountPaid);
+            }
+          }
+          if (claims.hasOwnProperty('Un') && claims.Un != null) {
+            if (
+              claims.Un.hasOwnProperty('ClaimsLobSummary') &&
+              claims.Un.ClaimsLobSummary.length &&
+              claims.Un.ClaimsLobSummary[0].hasOwnProperty('AmountPaid')
+            ) {
+              paidData.push(claims.Un.ClaimsLobSummary[0].AmountPaid);
+            }
+          }
+
           claimsPaid = {
             category: 'small-card',
             type: 'donut',
             title: 'Claims Paid',
             toggle: this.toggle.setToggles('Claims Paid', 'AtGlance', 'Overview', false),
             data: {
-              graphValues: [mrPercentage, csPercentage, eiPercentage],
+              graphValues: paidData,
               centerNumber:
                 this.common.nFormatter(claims.All.ClaimsLobSummary[0].AmountPaid) < 1 &&
                 this.common.nFormatter(claims.All.ClaimsLobSummary[0].AmountPaid) > 0
                   ? '< $1'
                   : '$' + this.common.nFormatter(claims.All.ClaimsLobSummary[0].AmountPaid),
-              color: ['#3381FF', '#80B0FF', '#003DA1'],
+              color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'],
               gdata: ['card-inner', 'claimsPaidCardD3Donut'],
-              labels: ['Medicare & Retirement', 'Community & State', 'Employer & Individual'],
+              labels: ['Medicare & Retirement', 'Community & State', 'Employer & Individual', 'Uncategorized'],
               hover: true
             },
             // sdata: claimsTrendObject,
             timeperiod: 'Last 6 Months'
           };
           // AUTHOR: MADHUKAR - claims paid shows no color if the value is 0
-          if (!mrPercentage && !eiPercentage && !csPercentage) {
+          if (!paidData) {
             claimsPaid = {
               category: 'small-card',
               type: 'donut',
@@ -904,7 +934,7 @@ export class OverviewSharedService {
   }
 
   /* function to get PRIOR AUTH CARD seperately i overview page - RANJITH KUMAR ANKAM - 17th JULY 2019 */
-  getPriorAuthCardData() {
+  getPriorAuthCardData(trends) {
     return new Promise((resolve, reject) => {
       const parameters = {
         providerkey: this.providerKey,
@@ -915,8 +945,31 @@ export class OverviewSharedService {
       };
 
       this.overviewService.getOverviewPriorAuth(parameters).subscribe(priorAuth => {
-        console.log(priorAuth);
-        let cPriorAuth: object;
+        /*
+        let PAOverviewTrends: object;
+        if (
+          trends &&
+          trends.hasOwnProperty('TendingMtrics') &&
+          trends.TendingMtrics.hasOwnProperty('PaApprovedCount')
+        ) {
+          const dataPoint = trends.TendingMtrics.PaApprovedCount.toFixed(1) + '%';
+          if (trends.TendingMtrics.PaApprovedCount < 0) {
+            PAOverviewTrends = {
+              sign: 'down',
+              data: dataPoint
+            };
+          } else {
+            PAOverviewTrends = {
+              sign: 'up',
+              data: dataPoint
+            };
+          }
+        } else {
+          PAOverviewTrends = null;
+        }
+        */
+
+        let cPriorAuth: any;
         if (
           priorAuth &&
           priorAuth.hasOwnProperty('PriorAuthorizations') &&
@@ -945,9 +998,32 @@ export class OverviewSharedService {
               color: ['#3381FF', '#D7DCE1'],
               gdata: ['card-inner', 'priorAuthCardD3Donut']
             },
-            sdata: null,
+            sdata: { sign: '', data: '' },
             timeperiod: 'Last 6 Months'
           };
+          if (
+            trends != undefined &&
+            trends != null &&
+            trends.hasOwnProperty('TendingMtrics') &&
+            trends.TendingMtrics != null &&
+            trends.TendingMtrics.hasOwnProperty('PaApprovalRate') &&
+            trends.TendingMtrics.PaApprovalRate != null
+          ) {
+            const dataPoint = trends.TendingMtrics.PaApprovalRate.toFixed(1) + '%';
+            if (trends.TendingMtrics.PaApprovalRate < 0) {
+              cPriorAuth.sdata = {
+                sign: 'down',
+                data: dataPoint
+              };
+            } else {
+              cPriorAuth.sdata = {
+                sign: 'up',
+                data: dataPoint
+              };
+            }
+          } else {
+            cPriorAuth.sdata = null;
+          }
         } else {
           cPriorAuth = {
             category: 'small-card',
@@ -965,7 +1041,7 @@ export class OverviewSharedService {
   }
 
   /* function to get TOTAL CALLS CARD seperately i overview page - RANJITH KUMAR ANKAM - 17th JULY 2019 */
-  getTotalCallsCardData() {
+  getTotalCallsCardData(trends) {
     return new Promise((resolve, reject) => {
       const parameters = {
         providerkey: this.providerKey,
@@ -997,7 +1073,7 @@ export class OverviewSharedService {
               color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'],
               gdata: ['card-inner', 'callsCardD3Donut'],
               hover: true,
-              labels: ['Claims', 'Benefits & Eligibility', 'Prior Authorizations', 'Others']
+              labels: ['Claims', 'Eligibilty and Benefits', 'Prior Authorizations', 'Others']
             },
             sdata: {
               sign: '',
@@ -1005,6 +1081,38 @@ export class OverviewSharedService {
             },
             timeperiod: 'Last 6 Months'
           };
+
+          if (
+            trends != undefined &&
+            trends != null &&
+            trends.hasOwnProperty('TendingMtrics') &&
+            trends.TendingMtrics != null &&
+            trends.TendingMtrics.hasOwnProperty('CallsTrendByQuesType') &&
+            trends.TendingMtrics.CallsTrendByQuesType != null
+          ) {
+            const dataPoint = trends.TendingMtrics.CallsTrendByQuesType.toFixed(1) + '%';
+            if (trends.TendingMtrics.CallsTrendByQuesType >= 1) {
+              cIR.sdata = {
+                sign: 'up-red',
+                data: dataPoint
+              };
+            } else if (
+              trends.TendingMtrics.CallsTrendByQuesType < 1 &&
+              trends.TendingMtrics.CallsTrendByQuesType >= 0
+            ) {
+              cIR.sdata = {
+                sign: 'neutral',
+                data: 'No Change'
+              };
+            } else {
+              cIR.sdata = {
+                sign: 'down-green',
+                data: dataPoint
+              };
+            }
+          } else {
+            cIR.sdata = null;
+          }
         } else {
           cIR = {
             category: 'small-card',
@@ -1015,9 +1123,9 @@ export class OverviewSharedService {
             timeperiod: null
           };
         }
-        // resolve(cIR);
+        resolve(cIR);
 
-        this.createTotalCallsTrend().then(trendIssueResolution => {
+        /*this.createTotalCallsTrend().then(trendIssueResolution => {
           const nullTrend = {
             sign: '',
             data: ''
@@ -1028,7 +1136,17 @@ export class OverviewSharedService {
             cIR.sdata = trendIssueResolution;
           }
           resolve(cIR);
-        });
+        });*/
+      });
+    });
+  }
+
+  getAllTrends() {
+    this.providerKey = this.session.providerKeyData();
+    return new Promise(resolve => {
+      this.trendsService.getTrendingMetrics([this.providerKey]).subscribe(trends => {
+        // resolve(PAOverviewTrends);
+        resolve(trends);
       });
     });
   }

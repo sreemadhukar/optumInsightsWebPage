@@ -23,7 +23,7 @@ export class CommonUtilsService {
       return (fnumber / 1000).toFixed(1).replace(/\.0$/, '') + 'K';
     }
     if (fnumber < 1000) {
-      return fnumber.toFixed(2).replace(/\.0$/, '');
+      return fnumber.toFixed(1).replace(/\.0$/, '');
     }
     return fnumber;
   }
@@ -248,6 +248,19 @@ export class CommonUtilsService {
       return 'December';
     } else {
       return null;
+    }
+  }
+
+  public convertServiceCategoryOneWord(a) {
+    let word = a;
+    if (word.indexOf(' ') === 0) {
+      return word;
+    } else {
+      // A couple of the service categories have special char
+      word = word.replace('/', ' ');
+      word = word.replace(/[^a-zA-Z ]/g, '');
+      word = word.replace(/ /g, '_');
+      return word;
     }
   }
 }

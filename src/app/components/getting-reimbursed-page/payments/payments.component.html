@@ -47,19 +47,22 @@
       <app-card *ngIf="item.data != null" class="cards" [chartData]="item"> </app-card>
       <app-error-card *ngIf="item.status != null" class="cards" [data]="item"></app-error-card>
     </div>
+
+    <!--Claims Paid Breakdown Graph Starts here -->
     <app-large-card [skeletonLarge]="loading" *ngIf="loading"></app-large-card>
-    <div class="claims-paid-content">
+    <div *ngIf="claimsPaidBreakBool" class="claims-paid-content">
       <app-common-header
         [title]="title"
         class="claims-header"
         (helpIconClicked)="helpIconClick($event)"
       ></app-common-header>
-      <app-claims-paid-bar-graph *ngIf="claimsPaidBreakBool" [chartOptions]="cData[0]"></app-claims-paid-bar-graph>
+      <app-claims-paid-bar-graph [chartOptions]="cData[0]"></app-claims-paid-bar-graph>
 
       <div class="timeperiod-block">
         <hr class="footer-border" />
         <p class="timeperiod-text">{{ timePeriod }}</p>
       </div>
     </div>
+    <!--Claims Paid Breakdown Graph Ends here -->
   </div>
 </div>

@@ -64,7 +64,29 @@
   flex-basis: 100%;
   font-size: 36px;
 }
-
+.rectangle-title {
+  height: 50px;
+  flex-basis: 100%;
+  border: 1px solid #ffd00d;
+  border-radius: 2px;
+  background-color: #fffcd9;
+  .image-align {
+    height: 20px;
+    width: 20px;
+    vertical-align: middle;
+    padding-right: 16px;
+  }
+  .attention-title {
+    height: 18px;
+    color: #2d2d39;
+    font-family: 'UHC Sans';
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.2px;
+    line-height: 18px;
+    padding: 16px 0 16px 24px;
+  }
+}
 .time-period {
   box-sizing: border-box;
   height: 33px;

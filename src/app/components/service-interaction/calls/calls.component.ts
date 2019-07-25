@@ -55,6 +55,7 @@ export class CallsComponent implements OnInit {
     }
     this.loading = true;
     this.mockCards = [{}, {}];
+    this.callsItems = [];
     this.callsServiceSrc
       .getCallsData()
       .then(data => {

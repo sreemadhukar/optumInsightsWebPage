@@ -66,6 +66,15 @@ export class BarChartComponent implements OnInit, AfterViewInit {
           .attr('x', 15)
           .attr('y', y)
           .attr('dy', dy + 'em');
+
+        if (!Number.isNaN(dy)) {
+          tspan = text
+            .text(null)
+            .append('tspan')
+            .attr('x', 15)
+            .attr('y', y)
+            .attr('dy', dy + 'em');
+        }
         let i = 0;
         let dyMultiplier = 1;
         while ((word = words.pop())) {
@@ -112,16 +121,29 @@ export class BarChartComponent implements OnInit, AfterViewInit {
       .attr('transform', 'translate(' + (margin.left + 6) + ',' + (margin.top + 5) + ')');
 
     let xScaleConstant;
-    if (chartOptions.starObject) {
-      xScaleConstant = width - 60;
-    } else {
-      xScaleConstant = width / 2;
-    }
 
+    /** Following 2 variable are for Prior Auth Bar Grpah */
+    let xScaleBarWidthConstant;
+    let xScaleBarStartingPointConstant;
+    /** Following 2 variable are for Prior Auth Bar Grpah */
+
+    if (chartOptions.starObject) {
+      xScaleConstant = width - 85; // For PCOR graph width should be 849
+    } else {
+      /** Following 2 variable are for Prior Auth Bar Grpah */
+      xScaleBarWidthConstant = width / 1.79; // 522    when width is 554 , it will touch the border of the the card
+      xScaleBarStartingPointConstant = width / 2.43; // 384
+    }
+    // console.log('Width', width); 934
     const xScale = d3
       .scaleLinear()
       .domain([0, chartOptions.barSummation])
       .range([0, xScaleConstant]);
+
+    const xScaleBarWidth = d3
+      .scaleLinear()
+      .domain([0, chartOptions.barSummation])
+      .range([0, xScaleBarWidthConstant]);
 
     if (chartOptions.starObject) {
       const PCORStars = chartOptions.starCount;
@@ -163,18 +185,18 @@ export class BarChartComponent implements OnInit, AfterViewInit {
     } else {
       chart
         .append('rect')
-        .attr('x', xScale(chartOptions.barSummation) - 100)
+        .attr('x', xScaleBarStartingPointConstant)
         .attr('y', 0)
-        .attr('width', xScale(chartOptions.barData))
+        .attr('width', xScaleBarWidth(chartOptions.barData))
         .attr('height', barHeight)
         .attr('fill', chartOptions.color[0].color1);
 
       if (chartOptions.color.length === 2) {
         chart
           .append('rect')
-          .attr('x', xScale(chartOptions.barData))
+          .attr('x', xScaleBarStartingPointConstant)
           .attr('y', 0)
-          .attr('width', xScale(chartOptions.barSummation) - xScale(chartOptions.barData))
+          .attr('width', xScaleBarWidth(chartOptions.barSummation) - xScaleBarWidth(chartOptions.barData))
           .attr('height', barHeight)
           .attr('fill', chartOptions.color[1].color2);
       }
@@ -271,10 +293,11 @@ export class BarChartComponent implements OnInit, AfterViewInit {
               .style('opacity', 0);
           });
       }
+      // This if for Prior Auth
       chart
         .append('text')
-        .attr('x', xScale(chartOptions.barSummation / 1.358))
-        .attr('y', (barHeight + 4) / 2)
+        .attr('x', xScaleBarStartingPointConstant - 24) // text should be 24px from the bar
+        .attr('y', (barHeight + 8) / 2)
         .attr('fill', '#2D2D39')
         .attr('font-size', '20')
         .attr('float', 'right')
