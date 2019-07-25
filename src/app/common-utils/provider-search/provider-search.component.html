@@ -19,7 +19,9 @@
           [ngClass]="{ remove: stateCtrl.value }"
         >
           <mat-option *ngFor="let state of (filteredStates | async)" [value]="state.HealthCareOrganizationName">
-            <span *ngIf="state.HealthCareOrganizationName">{{ state.HealthCareOrganizationName }}</span>
+            <span *ngIf="state.HealthCareOrganizationName"
+              ><b> {{ typedValue }} {{ state.HealthCareOrganizationName }} </b></span
+            >
           </mat-option>
           <div *ngIf="checkCondition()" [ngClass]="{ hidden: nomatchFlag }" class="no-result-found-div">
             <div class="no-result-found">No Results Found.</div>

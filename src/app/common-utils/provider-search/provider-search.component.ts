@@ -20,6 +20,7 @@ export class ProviderSearchComponent implements OnInit, AfterViewInit {
   states: Providers[];
   providerData: any;
   nomatchFlag: any;
+  typedValue: any;
 
   constructor(
     private fb: FormBuilder,
@@ -54,7 +55,6 @@ export class ProviderSearchComponent implements OnInit, AfterViewInit {
       startWith(''),
       map(state => (state ? this._filterStates(state) : null))
     );
-
     this.providerData = JSON.parse(sessionStorage.getItem('currentUser'));
     this.nomatchFlag = true;
   }
@@ -130,6 +130,8 @@ export class ProviderSearchComponent implements OnInit, AfterViewInit {
 
   private _filterStates(value: string): Providers[] {
     const filterValue = value.toLowerCase();
+    this.typedValue = filterValue;
+    console.log(this.typedValue);
     return this.states.filter(state => state.HealthCareOrganizationName.toLowerCase().indexOf(filterValue) === 0);
   }
 }
