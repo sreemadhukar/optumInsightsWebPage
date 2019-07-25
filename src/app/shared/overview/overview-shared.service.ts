@@ -290,7 +290,7 @@ export class OverviewSharedService {
             color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'],
             gdata: ['card-inner', 'callsCardD3Donut'],
             hover: true,
-            labels: ['Claims', 'Benefits & Eligibility', 'Prior Authorizations', 'Others']
+            labels: ['Claims', 'Eligibilty and Benefits', 'Prior Authorizations', 'Others']
           },
           sdata: null,
           timeperiod: 'Last 6 Months'
@@ -969,7 +969,7 @@ export class OverviewSharedService {
         }
         */
 
-        let cPriorAuth: object;
+        let cPriorAuth: any;
         if (
           priorAuth &&
           priorAuth.hasOwnProperty('PriorAuthorizations') &&
@@ -998,9 +998,32 @@ export class OverviewSharedService {
               color: ['#3381FF', '#D7DCE1'],
               gdata: ['card-inner', 'priorAuthCardD3Donut']
             },
-            sdata: trends,
+            sdata: { sign: '', data: '' },
             timeperiod: 'Last 6 Months'
           };
+          if (
+            trends != undefined &&
+            trends != null &&
+            trends.hasOwnProperty('TendingMtrics') &&
+            trends.TendingMtrics != null &&
+            trends.TendingMtrics.hasOwnProperty('PaApprovalRate') &&
+            trends.TendingMtrics.PaApprovalRate != null
+          ) {
+            const dataPoint = trends.TendingMtrics.PaApprovalRate.toFixed(1) + '%';
+            if (trends.TendingMtrics.PaApprovalRate < 0) {
+              cPriorAuth.sdata = {
+                sign: 'down',
+                data: dataPoint
+              };
+            } else {
+              cPriorAuth.sdata = {
+                sign: 'up',
+                data: dataPoint
+              };
+            }
+          } else {
+            cPriorAuth.sdata = null;
+          }
         } else {
           cPriorAuth = {
             category: 'small-card',
@@ -1018,7 +1041,7 @@ export class OverviewSharedService {
   }
 
   /* function to get TOTAL CALLS CARD seperately i overview page - RANJITH KUMAR ANKAM - 17th JULY 2019 */
-  getTotalCallsCardData() {
+  getTotalCallsCardData(trends) {
     return new Promise((resolve, reject) => {
       const parameters = {
         providerkey: this.providerKey,
@@ -1050,7 +1073,7 @@ export class OverviewSharedService {
               color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'],
               gdata: ['card-inner', 'callsCardD3Donut'],
               hover: true,
-              labels: ['Claims', 'Benefits & Eligibility', 'Prior Authorizations', 'Others']
+              labels: ['Claims', 'Eligibilty and Benefits', 'Prior Authorizations', 'Others']
             },
             sdata: {
               sign: '',
@@ -1058,6 +1081,38 @@ export class OverviewSharedService {
             },
             timeperiod: 'Last 6 Months'
           };
+
+          if (
+            trends != undefined &&
+            trends != null &&
+            trends.hasOwnProperty('TendingMtrics') &&
+            trends.TendingMtrics != null &&
+            trends.TendingMtrics.hasOwnProperty('CallsTrendByQuesType') &&
+            trends.TendingMtrics.CallsTrendByQuesType != null
+          ) {
+            const dataPoint = trends.TendingMtrics.CallsTrendByQuesType.toFixed(1) + '%';
+            if (trends.TendingMtrics.CallsTrendByQuesType >= 1) {
+              cIR.sdata = {
+                sign: 'up-red',
+                data: dataPoint
+              };
+            } else if (
+              trends.TendingMtrics.CallsTrendByQuesType < 1 &&
+              trends.TendingMtrics.CallsTrendByQuesType >= 0
+            ) {
+              cIR.sdata = {
+                sign: 'neutral',
+                data: 'No Change'
+              };
+            } else {
+              cIR.sdata = {
+                sign: 'down-green',
+                data: dataPoint
+              };
+            }
+          } else {
+            cIR.sdata = null;
+          }
         } else {
           cIR = {
             category: 'small-card',
@@ -1068,9 +1123,9 @@ export class OverviewSharedService {
             timeperiod: null
           };
         }
-        // resolve(cIR);
+        resolve(cIR);
 
-        this.createTotalCallsTrend().then(trendIssueResolution => {
+        /*this.createTotalCallsTrend().then(trendIssueResolution => {
           const nullTrend = {
             sign: '',
             data: ''
@@ -1081,7 +1136,7 @@ export class OverviewSharedService {
             cIR.sdata = trendIssueResolution;
           }
           resolve(cIR);
-        });
+        });*/
       });
     });
   }
@@ -1090,28 +1145,8 @@ export class OverviewSharedService {
     this.providerKey = this.session.providerKeyData();
     return new Promise(resolve => {
       this.trendsService.getTrendingMetrics([this.providerKey]).subscribe(trends => {
-        let PAOverviewTrends: object;
-        if (
-          trends &&
-          trends.hasOwnProperty('TendingMtrics') &&
-          trends.TendingMtrics.hasOwnProperty('PaApprovedCount')
-        ) {
-          const dataPoint = trends.TendingMtrics.PaApprovedCount.toFixed(1) + '%';
-          if (trends.TendingMtrics.PaApprovedCount < 0) {
-            PAOverviewTrends = {
-              sign: 'down',
-              data: dataPoint
-            };
-          } else {
-            PAOverviewTrends = {
-              sign: 'up',
-              data: dataPoint
-            };
-          }
-        } else {
-          PAOverviewTrends = null;
-        }
-        resolve(PAOverviewTrends);
+        // resolve(PAOverviewTrends);
+        resolve(trends);
       });
     });
   }

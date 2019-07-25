@@ -400,7 +400,6 @@ export class PriorAuthSharedService {
     const serviceSetting = filterParameters.serviceSetting;
     const paDecisionType = filterParameters.priorAuthType;
     const paServiceCategory = this.common.convertServiceCategoryOneWord(filterParameters.scType);
-
     // Default parameters
     let timeRange = 'rolling12';
     let timeRangeAPIParameter;
@@ -477,9 +476,17 @@ export class PriorAuthSharedService {
       specificTin = '';
     } else {
       isAllTinBool = false;
-      specificTin = TIN.replace(/\D/g, '');
-      tinNumberFormatted = parseInt(specificTin, 10);
-      specificTin = tinNumberFormatted;
+      if (filterParameters.tax.length === 1) {
+        tinNumberFormatted = parseInt(TIN.replace(/\D/g, ''), 10);
+        specificTin = tinNumberFormatted.toString();
+      } else {
+        const taxArray = filterParameters.tax;
+        const taxArrayFormatted = [];
+        for (let i = 0; i < taxArray.length; i++) {
+          taxArrayFormatted.push(parseInt(taxArray[i].replace(/\D/g, ''), 10));
+        }
+        specificTin = taxArrayFormatted.join(', ');
+      }
     }
 
     if (serviceSetting === 'All') {
@@ -829,9 +836,17 @@ export class PriorAuthSharedService {
       specificTin = '';
     } else {
       isAllTinBool = false;
-      specificTin = TIN.replace(/\D/g, '');
-      tinNumberFormatted = parseInt(specificTin, 10);
-      specificTin = tinNumberFormatted;
+      if (filterParameters.tax.length === 1) {
+        tinNumberFormatted = parseInt(TIN.replace(/\D/g, ''), 10);
+        specificTin = tinNumberFormatted.toString();
+      } else {
+        const taxArray = filterParameters.tax;
+        const taxArrayFormatted = [];
+        for (let i = 0; i < taxArray.length; i++) {
+          taxArrayFormatted.push(parseInt(taxArray[i].replace(/\D/g, ''), 10));
+        }
+        specificTin = taxArrayFormatted.join(', ');
+      }
     }
 
     if (LOB === 'All') {
@@ -1058,7 +1073,9 @@ export class PriorAuthSharedService {
               trendLineOne = 'up';
             }
 
-            if (PAApprovalRateTrend < 0) {
+            if (PAApprovalRateTrend.toFixed(1) === '0.0') {
+              trendLineTwo = 'neutral';
+            } else if (PAApprovalRateTrend < 0) {
               trendLineTwo = 'down';
             } else {
               trendLineTwo = 'up';
