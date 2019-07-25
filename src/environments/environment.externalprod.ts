@@ -7,8 +7,8 @@ export const environment: any = {
   originUrl: '/',
   apiUrls: {
     ExecutiveSummaryPath: 'providersystems/',
-    ProviderSystemClaimsAgg: 'agg-claims/search/',
-    ProviderSystemClaimsSummary: 'claims/search/',
+    ProviderSystemClaimsAgg: 'agg-claims/search/v2.0/',
+    ProviderSystemClaimsSummary: 'claims/search/v2.0/',
     ProviderSystemPriorAuth: 'PriorAuthSummary/',
     SsoTokenPath: 'myinsightOptumIdHandshake/v2.0',
     SsoRedirectUri:
