@@ -169,7 +169,7 @@ export class PriorAuthSharedService {
                 StandardTATConversion = '<1 Day';
               } else {
                 StandardTATConversion = (data.StandartPriorAuthTAT / 86400).toFixed(0);
-                if (StandardTATConversion === 1) {
+                if (StandardTATConversion === '1') {
                   TATDayLabel = StandardTATConversion + 'Day';
                 } else {
                   TATDayLabel = StandardTATConversion + 'Days';
@@ -179,7 +179,7 @@ export class PriorAuthSharedService {
                 UrgentTATConversion = '<1 Hour';
               } else {
                 UrgentTATConversion = (data.UrgentPriorAuthTAT / 3600).toFixed(0);
-                if (UrgentTATConversion === 1) {
+                if (UrgentTATConversion === '1') {
                   TATHourLabel = UrgentTATConversion + ' Hour';
                 } else {
                   TATHourLabel = UrgentTATConversion + ' Hours';
@@ -626,7 +626,7 @@ export class PriorAuthSharedService {
                 StandardTATConversion = '<1 Day';
               } else {
                 StandardTATConversion = (data.StandartPriorAuthTAT / 86400).toFixed(0);
-                if (StandardTATConversion === 1) {
+                if (StandardTATConversion === '1') {
                   TATDayLabel = StandardTATConversion + ' Day';
                 } else {
                   TATDayLabel = StandardTATConversion + ' Days';
@@ -636,7 +636,7 @@ export class PriorAuthSharedService {
                 UrgentTATConversion = '<1 Hour';
               } else {
                 UrgentTATConversion = (data.UrgentPriorAuthTAT / 3600).toFixed(0);
-                if (UrgentTATConversion === 1) {
+                if (UrgentTATConversion === '1') {
                   TATHourLabel = UrgentTATConversion + ' Hour';
                 } else {
                   TATHourLabel = UrgentTATConversion + ' Hours';
