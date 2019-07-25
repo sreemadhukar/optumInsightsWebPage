@@ -71,7 +71,7 @@ export class OverviewComponent implements OnInit, AfterContentInit {
       this.router.routeReuseStrategy.shouldReuseRoute = function() {
         return false;
       };
-      let currentUrl = this.router.url + '?';
+      const currentUrl = this.router.url + '?';
       this.router.navigateByUrl(currentUrl).then(() => {
         this.router.navigated = false;
         this.router.navigate([this.router.url]);
