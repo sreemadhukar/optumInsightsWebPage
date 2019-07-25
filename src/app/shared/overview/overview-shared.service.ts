@@ -1091,25 +1091,28 @@ export class OverviewSharedService {
     return new Promise(resolve => {
       this.trendsService.getTrendingMetrics([this.providerKey]).subscribe(trends => {
         let PAOverviewTrends: object;
+        const TrendObjects: object;
         if (
           trends != undefined &&
           trends != null &&
           trends.hasOwnProperty('TendingMtrics') &&
-          trends.TendingMtrics != null &&
-          trends.TendingMtrics.hasOwnProperty('PaApprovalRate') &&
-          trends.TendingMtrics.PaApprovalRate != null
+          trends.TendingMtrics != null
         ) {
-          const dataPoint = trends.TendingMtrics.PaApprovalRate.toFixed(1) + '%';
-          if (trends.TendingMtrics.PaApprovalRate < 0) {
-            PAOverviewTrends = {
-              sign: 'down',
-              data: dataPoint
-            };
+          if (trends.TendingMtrics.hasOwnProperty('PaApprovalRate') && trends.TendingMtrics.PaApprovalRate != null) {
+            const dataPoint = trends.TendingMtrics.PaApprovalRate.toFixed(1) + '%';
+            if (trends.TendingMtrics.PaApprovalRate < 0) {
+              PAOverviewTrends = {
+                sign: 'down',
+                data: dataPoint
+              };
+            } else {
+              PAOverviewTrends = {
+                sign: 'up',
+                data: dataPoint
+              };
+            }
           } else {
-            PAOverviewTrends = {
-              sign: 'up',
-              data: dataPoint
-            };
+            PAOverviewTrends = null;
           }
         } else {
           PAOverviewTrends = null;
