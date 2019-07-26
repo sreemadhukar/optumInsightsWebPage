@@ -1912,7 +1912,8 @@ export class GettingReimbursedSharedService {
           if (paymentData !== null) {
             paidBreakdown = [
               paymentData[lobData].ClaimsLobSummary[0].AmountBilled,
-              paymentData[lobData].ClaimsLobSummary[0].AmountActualAllowed,
+              paymentData[lobData].ClaimsLobSummary[0].AmountActualAllowed +
+                paymentData[lobData].ClaimsLobSummary[0].PatientResponsibleAmount,
               paymentData[lobData].ClaimsLobSummary[0].AmountDenied,
               paymentData[lobData].ClaimsLobSummary[0].AmountUHCPaid
             ];
