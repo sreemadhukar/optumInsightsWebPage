@@ -47,11 +47,11 @@ export class OverviewSharedService {
 
         /* code changed by Ranjith kumar Ankam - 04-Jul-2019*/
         /*this.createPriorAuthObject(providerSystems)
-          .then(cPriorAuth => {
-            // tempArray[1] = cPriorAuth;
-            tempArray[0] = cPriorAuth;
-            return this.createSelfServiceObject(providerSystems);
-          })*/
+         .then(cPriorAuth => {
+         // tempArray[1] = cPriorAuth;
+         tempArray[0] = cPriorAuth;
+         return this.createSelfServiceObject(providerSystems);
+         })*/
         this.createSelfServiceObject(providerSystems)
           .then(cSelfService => {
             // tempArray[2] = cSelfService;
@@ -62,28 +62,28 @@ export class OverviewSharedService {
             // tempArray[4] = cPcor;
             tempArray[1] = cPcor;
             /* return this.createTotalCallsObject(providerSystems);
-           })
-           .then(cIR => {
+             })
+             .then(cIR => {
              // tempArray[5] = cIR;
              tempArray[3] = cIR;
              return this.createClaimsPaidObject(claims);
-           })
-           .then(claimsPaid => {
+             })
+             .then(claimsPaid => {
              tempArray[0] = claimsPaid;
              return this.createClaimsYieldObject(claims);
-           })
-           .then(claimsYield => {
+             })
+             .then(claimsYield => {
              tempArray[3] = claimsYield;
              return this.getClaimsTrends(this.baseTimePeriod, this.previousTimePeriod);
-           })
-           .then(trendData => {
+             })
+             .then(trendData => {
              let trends: any;
              trends = trendData;
              tempArray[0]['sdata'] = trends.claimsPaidTrendObject;
              tempArray[3]['sdata'] = trends.claimsYieldTrendObject;
              return this.createTotalCallsTrend();
-           })
-           .then(trendIssueResolution => {
+             })
+             .then(trendIssueResolution => {
              // tempArray[5]['sdata'] = trendIssueResolution;
              tempArray[3]['sdata'] = trendIssueResolution;*/
             return this.reduceCallsandOperatingCostsMiniTile(providerSystems, oppurtunities);
@@ -807,32 +807,32 @@ export class OverviewSharedService {
           }
 
           /*
-                    if (
-                      latestClaimsYieldRate !== 0 &&
-                      previousClaimsYieldRate !== 0 &&
-                      latestClaimsYieldRate !== '0' &&
-                      previousClaimsYieldRate !== '0' &&
-                      latestClaimsYieldRate != undefined &&
-                      previousClaimsYieldRate != undefined
-                    ) {
-                      claimsYieldTrendValue = ((latestClaimsYieldRate - previousClaimsYieldRate) / previousClaimsYieldRate) * 100;
-                      if (claimsYieldTrendValue >= 0) {
-                        claimsYieldTrendObject.sign = 'up';
-                        claimsYieldTrendObject.data = '+' + claimsYieldTrendValue.toFixed(1) + '%';
-                      } else {
-                        claimsYieldTrendObject.sign = 'down';
-                        claimsYieldTrendObject.data = claimsYieldTrendValue.toFixed(1) + '%';
-                      }
-                    } else if (
-                      previousClaimsYieldRate === 0 ||
-                      previousClaimsYieldRate === '0' ||
-                      previousClaimsYieldRate == undefined ||
-                      previousClaimsYieldRate == undefined
-                    ) {
-                      claimsYieldTrendObject.sign = 'up';
-                      claimsYieldTrendObject.data = '+' + latestClaimsYieldRate + '%';
-                    }
-          */
+           if (
+           latestClaimsYieldRate !== 0 &&
+           previousClaimsYieldRate !== 0 &&
+           latestClaimsYieldRate !== '0' &&
+           previousClaimsYieldRate !== '0' &&
+           latestClaimsYieldRate != undefined &&
+           previousClaimsYieldRate != undefined
+           ) {
+           claimsYieldTrendValue = ((latestClaimsYieldRate - previousClaimsYieldRate) / previousClaimsYieldRate) * 100;
+           if (claimsYieldTrendValue >= 0) {
+           claimsYieldTrendObject.sign = 'up';
+           claimsYieldTrendObject.data = '+' + claimsYieldTrendValue.toFixed(1) + '%';
+           } else {
+           claimsYieldTrendObject.sign = 'down';
+           claimsYieldTrendObject.data = claimsYieldTrendValue.toFixed(1) + '%';
+           }
+           } else if (
+           previousClaimsYieldRate === 0 ||
+           previousClaimsYieldRate === '0' ||
+           previousClaimsYieldRate == undefined ||
+           previousClaimsYieldRate == undefined
+           ) {
+           claimsYieldTrendObject.sign = 'up';
+           claimsYieldTrendObject.data = '+' + latestClaimsYieldRate + '%';
+           }
+           */
           resolve({ claimsPaidTrendObject: claimsPaidTrendObject, claimsYieldTrendObject: claimsYieldTrendObject });
         });
     });
@@ -920,13 +920,13 @@ export class OverviewSharedService {
             tempArray[0]['sdata'] = trends.claimsPaidTrendObject;
             tempArray[1]['sdata'] = trends.claimsYieldTrendObject;
             /*tempArray[0]['sdata'] = {
-              sign: "down",
-              data: "-46%"
-            };
-            tempArray[1]['sdata'] = {
-              sign: "down",
-              data: "-46%"
-            };*/
+             sign: "down",
+             data: "-46%"
+             };
+             tempArray[1]['sdata'] = {
+             sign: "down",
+             data: "-46%"
+             };*/
             resolve(tempArray);
           });
       }); // end subscribing to REST call
@@ -946,28 +946,28 @@ export class OverviewSharedService {
 
       this.overviewService.getOverviewPriorAuth(parameters).subscribe(priorAuth => {
         /*
-        let PAOverviewTrends: object;
-        if (
-          trends &&
-          trends.hasOwnProperty('TendingMtrics') &&
-          trends.TendingMtrics.hasOwnProperty('PaApprovedCount')
-        ) {
-          const dataPoint = trends.TendingMtrics.PaApprovedCount.toFixed(1) + '%';
-          if (trends.TendingMtrics.PaApprovedCount < 0) {
-            PAOverviewTrends = {
-              sign: 'down',
-              data: dataPoint
-            };
-          } else {
-            PAOverviewTrends = {
-              sign: 'up',
-              data: dataPoint
-            };
-          }
-        } else {
-          PAOverviewTrends = null;
-        }
-        */
+         let PAOverviewTrends: object;
+         if (
+         trends &&
+         trends.hasOwnProperty('TendingMtrics') &&
+         trends.TendingMtrics.hasOwnProperty('PaApprovedCount')
+         ) {
+         const dataPoint = trends.TendingMtrics.PaApprovedCount.toFixed(1) + '%';
+         if (trends.TendingMtrics.PaApprovedCount < 0) {
+         PAOverviewTrends = {
+         sign: 'down',
+         data: dataPoint
+         };
+         } else {
+         PAOverviewTrends = {
+         sign: 'up',
+         data: dataPoint
+         };
+         }
+         } else {
+         PAOverviewTrends = null;
+         }
+         */
 
         let cPriorAuth: any;
         if (
@@ -1126,17 +1126,17 @@ export class OverviewSharedService {
         resolve(cIR);
 
         /*this.createTotalCallsTrend().then(trendIssueResolution => {
-          const nullTrend = {
-            sign: '',
-            data: ''
-          };
-          if (trendIssueResolution === null) {
-            cIR.sdata = nullTrend;
-          } else {
-            cIR.sdata = trendIssueResolution;
-          }
-          resolve(cIR);
-        });*/
+         const nullTrend = {
+         sign: '',
+         data: ''
+         };
+         if (trendIssueResolution === null) {
+         cIR.sdata = nullTrend;
+         } else {
+         cIR.sdata = trendIssueResolution;
+         }
+         resolve(cIR);
+         });*/
       });
     });
   }
