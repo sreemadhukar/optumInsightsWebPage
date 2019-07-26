@@ -1,4 +1,5 @@
 import { Component, OnInit, AfterContentInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { OverviewSharedService } from '../../../shared/overview/overview-shared.service';
 import { SessionService } from '../../../shared/session.service';
 import { StorageService } from '../../../shared/storage-service.service';
@@ -59,13 +60,23 @@ export class OverviewComponent implements OnInit, AfterContentInit {
     private checkStorage: StorageService,
     private session: SessionService,
     private iconRegistry: MatIconRegistry,
+    private router: Router,
     sanitizer: DomSanitizer
   ) {
     this.pagesubTitle = 'Your Insights at a glance.';
     this.opportunities = 'Opportunities';
     this.opportunitiesQuestion = 'How much can online self service save you?';
     this.welcomeMessage = '';
-    this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.ngOnInit());
+    this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => {
+      this.router.routeReuseStrategy.shouldReuseRoute = function() {
+        return false;
+      };
+      const currentUrl = this.router.url + '?';
+      this.router.navigateByUrl(currentUrl).then(() => {
+        this.router.navigated = false;
+        this.router.navigate([this.router.url]);
+      });
+    });
     /** INITIALIZING SVG ICONS TO USE IN DESIGN - ANGULAR MATERIAL */
     iconRegistry.addSvgIcon(
       'arrow',
