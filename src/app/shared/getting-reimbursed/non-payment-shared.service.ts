@@ -83,7 +83,6 @@ export class NonPaymentSharedService {
 
         this.nonPaymentService.getNonPaymentData(...parameters).subscribe(
           ([nonPaymentData1]) => {
-            console.log(nonPaymentData1);
             let claimsNotPaid: Object;
             let claimsNotPaidRate: Object;
             if (
@@ -91,43 +90,43 @@ export class NonPaymentSharedService {
               nonPaymentData1.All != null &&
               nonPaymentData1.All.hasOwnProperty('ClaimsLobSummary') &&
               nonPaymentData1.All.ClaimsLobSummary.length &&
-              nonPaymentData1.All.ClaimsLobSummary[0].hasOwnProperty('ClaimsDenied')
+              nonPaymentData1.All.ClaimsLobSummary[0].hasOwnProperty('AmountDenied')
             ) {
               const nonPaidData = [];
               if (nonPaymentData1.hasOwnProperty('Mr') && nonPaymentData1.Mr != null) {
                 if (
                   nonPaymentData1.Mr.hasOwnProperty('ClaimsLobSummary') &&
                   nonPaymentData1.Mr.ClaimsLobSummary.length &&
-                  nonPaymentData1.Mr.ClaimsLobSummary[0].hasOwnProperty('ClaimsDenied')
+                  nonPaymentData1.Mr.ClaimsLobSummary[0].hasOwnProperty('AmountDenied')
                 ) {
-                  nonPaidData.push(nonPaymentData1.Mr.ClaimsLobSummary[0].ClaimsDenied);
+                  nonPaidData.push(nonPaymentData1.Mr.ClaimsLobSummary[0].AmountDenied);
                 }
               }
               if (nonPaymentData1.hasOwnProperty('Cs') && nonPaymentData1.Cs != null) {
                 if (
                   nonPaymentData1.Cs.hasOwnProperty('ClaimsLobSummary') &&
                   nonPaymentData1.Cs.ClaimsLobSummary.length &&
-                  nonPaymentData1.Cs.ClaimsLobSummary[0].hasOwnProperty('ClaimsDenied')
+                  nonPaymentData1.Cs.ClaimsLobSummary[0].hasOwnProperty('AmountDenied')
                 ) {
-                  nonPaidData.push(nonPaymentData1.Cs.ClaimsLobSummary[0].ClaimsDenied);
+                  nonPaidData.push(nonPaymentData1.Cs.ClaimsLobSummary[0].AmountDenied);
                 }
               }
               if (nonPaymentData1.hasOwnProperty('Ei') && nonPaymentData1.Ei != null) {
                 if (
                   nonPaymentData1.Ei.hasOwnProperty('ClaimsLobSummary') &&
                   nonPaymentData1.Ei.ClaimsLobSummary.length &&
-                  nonPaymentData1.Ei.ClaimsLobSummary[0].hasOwnProperty('ClaimsDenied')
+                  nonPaymentData1.Ei.ClaimsLobSummary[0].hasOwnProperty('AmountDenied')
                 ) {
-                  nonPaidData.push(nonPaymentData1.Ei.ClaimsLobSummary[0].ClaimsDenied);
+                  nonPaidData.push(nonPaymentData1.Ei.ClaimsLobSummary[0].AmountDenied);
                 }
               }
               if (nonPaymentData1.hasOwnProperty('Un') && nonPaymentData1.Un != null) {
                 if (
                   nonPaymentData1.Un.hasOwnProperty('ClaimsLobSummary') &&
                   nonPaymentData1.Un.ClaimsLobSummary.length &&
-                  nonPaymentData1.Un.ClaimsLobSummary[0].hasOwnProperty('ClaimsDenied')
+                  nonPaymentData1.Un.ClaimsLobSummary[0].hasOwnProperty('AmountDenied')
                 ) {
-                  nonPaidData.push(nonPaymentData1.Un.ClaimsLobSummary[0].ClaimsDenied);
+                  nonPaidData.push(nonPaymentData1.Un.ClaimsLobSummary[0].AmountDenied);
                 }
               }
               claimsNotPaid = {
@@ -137,10 +136,10 @@ export class NonPaymentSharedService {
                 data: {
                   graphValues: nonPaidData,
                   centerNumber:
-                    this.common.nFormatter(nonPaymentData1.All.ClaimsLobSummary[0].ClaimsDenied) < 1 &&
-                    this.common.nFormatter(nonPaymentData1.All.ClaimsLobSummary[0].ClaimsDenied) > 0
+                    this.common.nFormatter(nonPaymentData1.All.ClaimsLobSummary[0].AmountDenied) < 1 &&
+                    this.common.nFormatter(nonPaymentData1.All.ClaimsLobSummary[0].AmountDenied) > 0
                       ? '< $1'
-                      : '$' + this.common.nFormatter(nonPaymentData1.All.ClaimsLobSummary[0].ClaimsDenied),
+                      : '$' + this.common.nFormatter(nonPaymentData1.All.ClaimsLobSummary[0].AmountDenied),
                   color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'],
                   gdata: ['card-inner', 'claimsNotPaid'],
                   sdata: {
@@ -213,7 +212,7 @@ export class NonPaymentSharedService {
           }
         );
       } else {
-        const lobData = this.common.matchLobWithCapsData(this.lob);
+        const lobData = this.common.matchLobWithData(this.lob);
         if (this.tin !== 'All' && this.lob !== 'All') {
           parameters = [
             this.providerKey,
@@ -250,43 +249,43 @@ export class NonPaymentSharedService {
               nonPaymentData1.All != null &&
               nonPaymentData1.All.hasOwnProperty('ClaimsLobSummary') &&
               nonPaymentData1.All.ClaimsLobSummary.length &&
-              nonPaymentData1.All.ClaimsLobSummary[0].hasOwnProperty('ClaimsDenied')
+              nonPaymentData1.All.ClaimsLobSummary[0].hasOwnProperty('AmountDenied')
             ) {
               const nonPaidData = [];
               if (nonPaymentData1.hasOwnProperty('Mr') && nonPaymentData1.Mr != null) {
                 if (
                   nonPaymentData1.Mr.hasOwnProperty('ClaimsLobSummary') &&
                   nonPaymentData1.Mr.ClaimsLobSummary.length &&
-                  nonPaymentData1.Mr.ClaimsLobSummary[0].hasOwnProperty('ClaimsDenied')
+                  nonPaymentData1.Mr.ClaimsLobSummary[0].hasOwnProperty('AmountDenied')
                 ) {
-                  nonPaidData.push(nonPaymentData1.Mr.ClaimsLobSummary[0].ClaimsDenied);
+                  nonPaidData.push(nonPaymentData1.Mr.ClaimsLobSummary[0].AmountDenied);
                 }
               }
               if (nonPaymentData1.hasOwnProperty('Cs') && nonPaymentData1.Cs != null) {
                 if (
                   nonPaymentData1.Cs.hasOwnProperty('ClaimsLobSummary') &&
                   nonPaymentData1.Cs.ClaimsLobSummary.length &&
-                  nonPaymentData1.Cs.ClaimsLobSummary[0].hasOwnProperty('ClaimsDenied')
+                  nonPaymentData1.Cs.ClaimsLobSummary[0].hasOwnProperty('AmountDenied')
                 ) {
-                  nonPaidData.push(nonPaymentData1.Cs.ClaimsLobSummary[0].ClaimsDenied);
+                  nonPaidData.push(nonPaymentData1.Cs.ClaimsLobSummary[0].AmountDenied);
                 }
               }
               if (nonPaymentData1.hasOwnProperty('Ei') && nonPaymentData1.Ei != null) {
                 if (
                   nonPaymentData1.Ei.hasOwnProperty('ClaimsLobSummary') &&
                   nonPaymentData1.Ei.ClaimsLobSummary.length &&
-                  nonPaymentData1.Ei.ClaimsLobSummary[0].hasOwnProperty('ClaimsDenied')
+                  nonPaymentData1.Ei.ClaimsLobSummary[0].hasOwnProperty('AmountDenied')
                 ) {
-                  nonPaidData.push(nonPaymentData1.Ei.ClaimsLobSummary[0].ClaimsDenied);
+                  nonPaidData.push(nonPaymentData1.Ei.ClaimsLobSummary[0].AmountDenied);
                 }
               }
               if (nonPaymentData1.hasOwnProperty('Un') && nonPaymentData1.Un != null) {
                 if (
                   nonPaymentData1.Un.hasOwnProperty('ClaimsLobSummary') &&
                   nonPaymentData1.Un.ClaimsLobSummary.length &&
-                  nonPaymentData1.Un.ClaimsLobSummary[0].hasOwnProperty('ClaimsDenied')
+                  nonPaymentData1.Un.ClaimsLobSummary[0].hasOwnProperty('AmountDenied')
                 ) {
-                  nonPaidData.push(nonPaymentData1.Un.ClaimsLobSummary[0].ClaimsDenied);
+                  nonPaidData.push(nonPaymentData1.Un.ClaimsLobSummary[0].AmountDenied);
                 }
               }
               claimsNotPaid = {
@@ -296,10 +295,10 @@ export class NonPaymentSharedService {
                 data: {
                   graphValues: nonPaidData,
                   centerNumber:
-                    this.common.nFormatter(nonPaymentData1[lobData].ClaimsLobSummary[0].ClaimsDenied) < 1 &&
-                    this.common.nFormatter(nonPaymentData1[lobData].ClaimsLobSummary[0].ClaimsDenied) > 0
+                    this.common.nFormatter(nonPaymentData1[lobData].ClaimsLobSummary[0].AmountDenied) < 1 &&
+                    this.common.nFormatter(nonPaymentData1[lobData].ClaimsLobSummary[0].AmountDenied) > 0
                       ? '< $1'
-                      : '$' + this.common.nFormatter(nonPaymentData1[lobData].ClaimsLobSummary[0].ClaimsDenied),
+                      : '$' + this.common.nFormatter(nonPaymentData1[lobData].ClaimsLobSummary[0].AmountDenied),
                   color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'],
                   gdata: ['card-inner', 'claimsNotPaid'],
                   sdata: {

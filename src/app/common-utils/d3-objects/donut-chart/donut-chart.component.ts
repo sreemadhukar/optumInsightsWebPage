@@ -197,7 +197,8 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
       chartOptions.sdata != undefined &&
       chartOptions.sdata != null &&
       chartOptions.sdata.sign != undefined &&
-      chartOptions.sdata.sign != null
+      chartOptions.sdata.sign != null &&
+      chartOptions.sdata.sign !== ''
     ) {
       if (chartOptions.sdata.sign === 'up') {
         chart
@@ -341,7 +342,7 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
       } else if (chartOptions.sdata.sign === 'neutral') {
         chart
           .append('circle')
-          .attr('cx', -39)
+          .attr('cx', -24)
           .attr('cy', 29)
           .attr('r', 16)
           .attr('fill', '#e0e0e0');
@@ -349,7 +350,7 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
         if (chartOptions.hasOwnProperty('graphScreen') && chartOptions.graphScreen === 'PI') {
           chart
             .append('svg:image')
-            .attr('x', -50)
+            .attr('x', -36)
             .attr('y', 19)
             .attr('width', '20px')
             .attr('height', '20px')
@@ -357,7 +358,7 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
         } else {
           chart
             .append('svg:image')
-            .attr('x', -50)
+            .attr('x', -34)
             .attr('y', 19)
             .attr('width', '20px')
             .attr('height', '20px')
@@ -366,7 +367,7 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
 
         chart
           .append('text')
-          .attr('x', -15)
+          .attr('x', 0)
           .attr('y', 32)
           .style('font-size', '14px')
           .style('fill', '#2d2d39')
@@ -468,7 +469,7 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
           .transition()
           .duration(10)
           .style('opacity', 1);
-        divHover.style('left', d3.event.layerX + 15 + 'px').style('top', d3.event.layerY - 40 + 'px');
+        divHover.style('left', d3.event.layerX + 7.5 + 'px').style('top', d3.event.layerY - 35 + 'px');
 
         let textLineOneY = '25px';
         let textLineTwoY = '47px';
@@ -507,7 +508,7 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
             .transition()
             .duration(10)
             .style('opacity', 1);
-          divHover.style('left', d3.event.layerX + 15 + 'px').style('top', d3.event.layerY - 40 + 'px');
+          divHover.style('left', d3.event.layerX + 7.5 + 'px').style('top', d3.event.layerY - 35 + 'px');
         })
         .on('mouseleave', function(d) {
           divHover
