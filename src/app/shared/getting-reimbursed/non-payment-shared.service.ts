@@ -14,6 +14,7 @@ export class NonPaymentSharedService {
   public timeFrame: string;
   private tin: string;
   private lob: string;
+  private paramtersCategories: any;
   constructor(
     private nonPaymentService: NonPaymentService,
     private common: CommonUtilsService,
@@ -367,10 +368,100 @@ export class NonPaymentSharedService {
             resolve(this.summaryData);
           },
           err => {
-            console.log('Calls Error Data', err);
+            console.log('Non Payments Donut Error Data', err);
           }
         );
       }
     });
+  } // end funtion
+
+  getParmaeterCategories() {
+    if (
+      this.timeFrame === 'Last 12 Months' ||
+      this.timeFrame === 'Last 6 Months' ||
+      this.timeFrame === 'Year to Date'
+    ) {
+      if (this.timeFrame === 'Last 12 Months') {
+        if (this.tin !== 'All' && this.lob !== 'All') {
+          this.paramtersCategories = [
+            this.providerKey,
+            { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Last12Months', Tin: this.tin }
+          ];
+        } else if (this.tin !== 'All') {
+          this.paramtersCategories = [this.providerKey, { TimeFilter: 'Last12Months', Tin: this.tin }];
+        } else if (this.lob !== 'All') {
+          this.paramtersCategories = [
+            this.providerKey,
+            { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Last12Months' }
+          ];
+        } else {
+          this.paramtersCategories = [this.providerKey, { TimeFilter: 'Last12Months' }];
+        }
+      } else if (this.timeFrame === 'Year to Date') {
+        if (this.tin !== 'All' && this.lob !== 'All') {
+          this.paramtersCategories = [
+            this.providerKey,
+            { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'YTD', Tin: this.tin }
+          ];
+        } else if (this.tin !== 'All') {
+          this.paramtersCategories = [this.providerKey, { TimeFilter: 'YTD', Tin: this.tin }];
+        } else if (this.lob !== 'All') {
+          this.paramtersCategories = [
+            this.providerKey,
+            { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'YTD' }
+          ];
+        } else {
+          this.paramtersCategories = [this.providerKey, { TimeFilter: 'YTD' }];
+        }
+      } else if (this.timeFrame === 'Last 6 Months') {
+        if (this.tin !== 'All' && this.lob !== 'All') {
+          this.paramtersCategories = [
+            this.providerKey,
+            { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Last6Months', Tin: this.tin }
+          ];
+        } else if (this.tin !== 'All') {
+          this.paramtersCategories = [this.providerKey, { TimeFilter: 'Last6Months', Tin: this.tin }];
+        } else if (this.lob !== 'All') {
+          this.paramtersCategories = [
+            this.providerKey,
+            { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Last6Months' }
+          ];
+        } else {
+          this.paramtersCategories = [this.providerKey, { TimeFilter: 'Last6Months' }];
+        }
+      }
+    }
   }
+
+  public getNonPaymentCategories() {
+    this.timeFrame = this.session.filterObjValue.timeFrame;
+    this.providerKey = this.session.providerKeyData();
+
+    // Assign the paramater variable
+    this.getParmaeterCategories();
+    return new Promise(resolve => {
+      this.sharedTopCategories(this.paramtersCategories).then(data => {
+        console.log('Non Payment data', data);
+        // this.callsData = data;
+        return resolve(data);
+      });
+    });
+  } // end getNonPaymentCategories function
+
+  public sharedTopCategories(parameters) {
+    this.timeFrame = this.session.filterObjValue.timeFrame;
+    return new Promise(resolve => {
+      /** Get Calls Trend Data */
+      this.nonPaymentService.getNonPaymentTopCategories(...parameters).subscribe(
+        ([topCategories]) => {
+          console.log('shared NonPayment', topCategories);
+          resolve(topCategories);
+        },
+        error => {
+          console.log('Non payment Data Error ', error);
+        }
+      );
+      /** Ends Shared Top Categories Data */
+    });
+  } // end sharedTopCategories Function
 }
