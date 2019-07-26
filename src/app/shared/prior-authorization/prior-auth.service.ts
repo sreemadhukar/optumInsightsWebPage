@@ -1109,7 +1109,17 @@ export class PriorAuthSharedService {
       this.getPriorAuthDataFiltered(filterParameters)
         .then(data => {
           this.priorAuthDataCombined = data;
-          return this.getPriorAuthTrendData(filterParameters);
+          const emptyPATrends = [
+            {
+              data: '',
+              sign: ''
+            },
+            {
+              data: '',
+              sign: ''
+            }
+          ];
+          return emptyPATrends;
         })
         .then(data => {
           if (this.priorAuthDataCombined[0].length > 0) {
