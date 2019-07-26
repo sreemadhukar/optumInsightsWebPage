@@ -3,6 +3,7 @@ import { PriorAuthService } from '../../rest/prior-auth/prior-auth.service';
 import { CareDeliveryPageModule } from '../../components/care-delivery-page/care-delivery-page.module';
 import { CommonUtilsService } from '../common-utils.service';
 import { SessionService } from '../session.service';
+import { TrendingMetricsService } from '../../rest/trending/trending-metrics.service';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +17,8 @@ export class PriorAuthSharedService {
   constructor(
     private priorAuthService: PriorAuthService,
     private session: SessionService,
-    private common: CommonUtilsService
+    private common: CommonUtilsService,
+    private trendsService: TrendingMetricsService
   ) {}
 
   nFormatter(num, digits) {
@@ -1104,12 +1106,72 @@ export class PriorAuthSharedService {
     });
   }
 
-  getPriorAuthDataCombined(filterParameters) {
+  isDefaultFilters(filterParameters) {
+    if (
+      filterParameters.lob === 'All' &&
+      filterParameters.priorAuthType === 'All' &&
+      filterParameters.scType === 'All' &&
+      filterParameters.serviceSetting === 'All' &&
+      filterParameters.tax[0] === 'All' &&
+      filterParameters.timeFrame === 'Last 6 Months'
+    ) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  getPriorAuthDataCombined(filterParameters, OverviewTrends, providerKey) {
     return new Promise(resolve => {
       this.getPriorAuthDataFiltered(filterParameters)
         .then(data => {
           this.priorAuthDataCombined = data;
-          return this.getPriorAuthTrendData(filterParameters);
+
+          console.log(OverviewTrends);
+          // Check if we can transfer the trend from overview
+          // If no trends, resort to PA trend api
+          // TODO: switching providers
+          if (
+            OverviewTrends.hasOwnProperty('ProviderSysKey') &&
+            OverviewTrends.ProviderSysKey === providerKey &&
+            OverviewTrends.hasOwnProperty('TendingMtrics') &&
+            OverviewTrends.TendingMtrics.hasOwnProperty('PaApprovalRate') &&
+            OverviewTrends.TendingMtrics.PaApprovalRate !== null &&
+            this.isDefaultFilters(filterParameters)
+          ) {
+            const PAApprovalTrendData = OverviewTrends.TendingMtrics.PaApprovalRate;
+
+            // let trendLineOne;
+            let trendLineTwo;
+
+            // Going to leave empty object for consistency
+            // and we can add more data from trend api if we want
+            if (PAApprovalTrendData.toFixed(1) === '0.0') {
+              trendLineTwo = 'neutral';
+            } else if (PAApprovalTrendData < 0) {
+              trendLineTwo = 'down';
+            } else {
+              trendLineTwo = 'up';
+            }
+            const sDataObjectOne = {
+              data: '',
+              sign: ''
+            };
+            const sDataObjectTwo = {
+              data: PAApprovalTrendData.toFixed(1) + '%',
+              sign: trendLineTwo
+            };
+            return [sDataObjectOne, sDataObjectTwo];
+          } else if (
+            OverviewTrends.hasOwnProperty('ProviderSysKey') &&
+            OverviewTrends.ProviderSysKey !== providerKey &&
+            this.isDefaultFilters(filterParameters)
+          ) {
+            // if we switch providers and the filters are default
+            return this.getDefaultPriorAuthTrends();
+          } else {
+            return this.getPriorAuthTrendData(filterParameters);
+          }
         })
         .then(data => {
           if (this.priorAuthDataCombined[0].length > 0) {
@@ -1122,6 +1184,55 @@ export class PriorAuthSharedService {
           resolve(this.priorAuthDataCombined);
           console.log('Prior Auth Service Error ', reason);
         });
+    });
+  }
+
+  getDefaultPriorAuthTrends() {
+    this.providerKey = this.session.providerKeyData();
+    return new Promise(resolve => {
+      this.trendsService.getTrendingMetrics([this.providerKey]).subscribe(trends => {
+        if (
+          trends != undefined &&
+          trends != null &&
+          trends.hasOwnProperty('TendingMtrics') &&
+          trends.TendingMtrics != null &&
+          trends.TendingMtrics.hasOwnProperty('PaApprovalRate') &&
+          trends.TendingMtrics.PaApprovalRate !== null
+        ) {
+          const PAApprovalTrendData = trends.TendingMtrics.PaApprovalRate;
+          // let trendLineOne;
+          let trendLineTwo;
+          // Going to leave empty object for consistency
+          // and we can add more data from trend api if we want
+          if (PAApprovalTrendData.toFixed(1) === '0.0') {
+            trendLineTwo = 'neutral';
+          } else if (PAApprovalTrendData < 0) {
+            trendLineTwo = 'down';
+          } else {
+            trendLineTwo = 'up';
+          }
+          const sDataObjectOne = {
+            data: '',
+            sign: ''
+          };
+          const sDataObjectTwo = {
+            data: PAApprovalTrendData.toFixed(1) + '%',
+            sign: trendLineTwo
+          };
+          resolve([sDataObjectOne, sDataObjectTwo]);
+        } else {
+          resolve([
+            {
+              data: '',
+              sign: ''
+            },
+            {
+              data: '',
+              sign: ''
+            }
+          ]);
+        }
+      });
     });
   }
 }

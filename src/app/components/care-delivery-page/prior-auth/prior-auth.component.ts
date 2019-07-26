@@ -65,7 +65,9 @@ export class PriorAuthComponent implements OnInit {
   }
 
   ngOnInit() {
+    const trendData = JSON.parse(localStorage.getItem('Trends'));
     this.filterParameters = this.session.filterObjValue;
+    const providerKey = this.session.providerKeyData();
     this.timePeriod = this.session.filterObjValue.timeFrame;
     if (this.session.filterObjValue.lob !== 'All') {
       this.lob = this.filtermatch.matchLobWithLobData(this.session.filterObjValue.lob);
@@ -125,7 +127,7 @@ export class PriorAuthComponent implements OnInit {
     });
     */
 
-    this.priorAuthShared.getPriorAuthDataCombined(this.filterParameters).then(
+    this.priorAuthShared.getPriorAuthDataCombined(this.filterParameters, trendData, providerKey).then(
       data => {
         this.loading = false;
         this.summaryItems = data[0];

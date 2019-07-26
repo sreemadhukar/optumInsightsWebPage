@@ -168,8 +168,6 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     //   console.log(sessionStorage.getItem('currentUser'))
     //   if (sessionStorage.getItem('currentUser')) {
     this.priorAuthShared.getPCORData().then(data => {
-      console.log(data);
-      console.log('yes');
       if (this.PCORFlag === data) {
         // Do nothing because its the same state
       } else {
