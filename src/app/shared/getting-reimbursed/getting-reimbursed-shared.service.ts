@@ -1877,15 +1877,17 @@ export class GettingReimbursedSharedService {
     this.timeFrame = this.session.filterObjValue.timeFrame; // 'Last 6 Months'; // this.session.timeFrame;
     this.providerKey = this.session.providerKeyData();
     const timeperiod = '';
-
     // let paidArray:  Array<Object> = [];
-
     return new Promise((resolve, reject) => {
       let parameters;
+      let tinParam;
       parameters = [this.providerKey];
+      if (this.tin !== 'All') {
+        tinParam = this.tin;
+      }
       let paidBreakdown = [];
       let paidArray: Array<Object> = [];
-      this.gettingReimbursedService.getPaymentData(parameters).subscribe(paymentData => {
+      this.gettingReimbursedService.getPaymentData(parameters, tinParam).subscribe(paymentData => {
         const lobFullData = this.common.matchFullLobWithData(this.lob);
         const lobData = this.common.matchLobWithData(this.lob);
         if (paymentData !== null) {

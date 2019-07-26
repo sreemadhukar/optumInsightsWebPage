@@ -117,10 +117,11 @@ export class GettingReimbursedService {
     return this.http.get(piURL, { params: params });
   }
 
-  public getPaymentData(parameters) {
+  public getPaymentData(parameters, tinParam) {
     const params = new HttpParams();
     const bParam = {
-      TimeFilter: 'Last6Months'
+      TimeFilter: 'Last6Months',
+      Tin: tinParam
     };
 
     const claimsURL = this.APP_URL + this.CLAIMS_SERVICE_PATH + parameters + '?requestType=PAYMENT_METRICS';
