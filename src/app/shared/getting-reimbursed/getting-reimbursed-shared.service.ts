@@ -1874,31 +1874,52 @@ export class GettingReimbursedSharedService {
   getclaimsPaidData() {
     this.tin = this.session.filterObjValue.tax.toString().replace('-', '');
     this.lob = this.session.filterObjValue.lob;
-    this.timeFrame = this.session.filterObjValue.timeFrame; // 'Last 6 Months'; // this.session.timeFrame;
+    this.timeFrame = this.session.filterObjValue.timeFrame;
+    console.log(this.timeFrame);
+    // 'Last 6 Months'; // this.session.timeFrame;
     this.providerKey = this.session.providerKeyData();
     const timeperiod = '';
-
     // let paidArray:  Array<Object> = [];
-
     return new Promise((resolve, reject) => {
       let parameters;
+      let tinParam;
+      let timeFilter;
+      let TimeFilterText;
+      if (this.timeFrame === 'Last 6 Months') {
+        timeFilter = 'Last6Months';
+      } else if (this.timeFrame === 'Last 12 Months') {
+        timeFilter = 'Last12Months';
+      } else if (this.timeFrame === 'Year to Date') {
+        timeFilter = 'YTD';
+      } else if (this.timeFrame === '2018') {
+        timeFilter = 'CalendarYear';
+        TimeFilterText = '2018';
+      } else if (this.timeFrame === '2017') {
+        timeFilter = 'CalendarYear';
+        TimeFilterText = '2017';
+      }
       parameters = [this.providerKey];
+      if (this.tin !== 'All') {
+        tinParam = this.tin;
+      }
       let paidBreakdown = [];
       let paidArray: Array<Object> = [];
-      this.gettingReimbursedService.getPaymentData(parameters).subscribe(paymentData => {
-        const lobFullData = this.common.matchFullLobWithData(this.lob);
-        const lobData = this.common.matchLobWithData(this.lob);
-        if (paymentData !== null) {
-          paidBreakdown = [
-            paymentData[lobData].ClaimsLobSummary[0].AmountBilled,
-            paymentData[lobData].ClaimsLobSummary[0].AmountActualAllowed,
-            paymentData[lobData].ClaimsLobSummary[0].AmountDenied,
-            paymentData[lobData].ClaimsLobSummary[0].AmountUHCPaid
-          ];
-        }
-        paidArray = [paidBreakdown];
-        resolve(paidArray);
-      });
+      this.gettingReimbursedService
+        .getPaymentData(parameters, tinParam, timeFilter, TimeFilterText)
+        .subscribe(paymentData => {
+          const lobFullData = this.common.matchFullLobWithData(this.lob);
+          const lobData = this.common.matchLobWithData(this.lob);
+          if (paymentData !== null) {
+            paidBreakdown = [
+              paymentData[lobData].ClaimsLobSummary[0].AmountBilled,
+              paymentData[lobData].ClaimsLobSummary[0].AmountActualAllowed,
+              paymentData[lobData].ClaimsLobSummary[0].AmountDenied,
+              paymentData[lobData].ClaimsLobSummary[0].AmountUHCPaid
+            ];
+          }
+          paidArray = [paidBreakdown];
+          resolve(paidArray);
+        });
     });
   }
 
