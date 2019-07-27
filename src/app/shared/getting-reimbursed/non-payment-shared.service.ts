@@ -15,6 +15,7 @@ export class NonPaymentSharedService {
   private tin: string;
   private lob: string;
   private paramtersCategories: any;
+  private topReasonsData: Array<object> = [];
   constructor(
     private nonPaymentService: NonPaymentService,
     private common: CommonUtilsService,
@@ -436,16 +437,16 @@ export class NonPaymentSharedService {
   public getNonPaymentCategories() {
     this.timeFrame = this.session.filterObjValue.timeFrame;
     this.providerKey = this.session.providerKeyData();
-
+    this.topReasonsData = [];
     // Assign the paramater variable
     this.getParmaeterCategories();
     return new Promise(resolve => {
       this.sharedTopCategories(this.paramtersCategories)
         .then(topReasons => {
-          console.log('Top Reasons', topReasons); // Ascending values
-          const temp = JSON.parse(JSON.stringify(topReasons));
           const reasonsParamter: Array<string> = [];
-          for (let i = 0; i < temp.length; i++) {
+          console.log('Top Reasons', topReasons); // Ascending values
+          this.topReasonsData = JSON.parse(JSON.stringify(topReasons));
+          for (let i = 0; i < this.topReasonsData.length; i++) {
             reasonsParamter.push(topReasons[i].reasons);
           }
           return this.sharedTopSubCategories(this.paramtersCategories, reasonsParamter);
@@ -466,15 +467,17 @@ export class NonPaymentSharedService {
         paramtersSubCategory[1]['denialCategory'] = reasonsParameter[i];
         this.nonPaymentService.getNonPaymentSubCategories(paramtersSubCategory).subscribe(
           ([subCategory]) => {
+            let tempArray2: any = [];
+            tempArray2 = subCategory.All.DenialCategory;
             // tempArray2 = subCategory.All.DenialCategory.filter(
             //   x => typeof x.Claimdenialcategorylevel1shortname !== null || x.Claimdenialcategorylevel1shortname !== null
             // );
             // console.log('temp array 2', tempArray2);
-            console.log('SubCategories', subCategory, reasonsParameter[i]);
-            tempArray.push({
-              reasons: subCategory.All.DenialCategory[i].Claimdenialcategorylevel1shortname,
-              amount: this.common.nFormatter(subCategory.All.DenialCategory[i].DenialAmount)
-            }); // Becomes ascending here
+            console.log('SubCategories', tempArray2, reasonsParameter[i]);
+            // tempArray.push({
+            //   reasons: subCategory.All.DenialCategory[i].Claimdenialcategorylevel1shortname,
+            //   amount: this.common.nFormatter(subCategory.All.DenialCategory[i].DenialAmount)
+            // }); // Becomes ascending here
           },
           error => {
             console.log('Error Shared Top Sub Categories', error);
@@ -492,7 +495,8 @@ export class NonPaymentSharedService {
         ([topCategories]) => {
           const topReasons: Array<object> = [];
           let tempArray: any;
-          tempArray = topCategories.All.DenialCategory.filter(x => x.Claimdenialcategorylevel1shortname !== 'UNKNOWN');
+          // tempArray = topCategories.All.DenialCategory.filter(x => x.Claimdenialcategorylevel1shortname !== 'UNKNOWN');
+          tempArray = topCategories.All.DenialCategory;
           if (topCategories.All.DenialCategory > 5) {
             tempArray
               .sort(function(a, b) {
@@ -506,8 +510,9 @@ export class NonPaymentSharedService {
           }
           for (let i = 0; i < tempArray.length; i++) {
             topReasons.push({
-              reasons: tempArray[i].Claimdenialcategorylevel1shortname,
-              amount: this.common.nFormatter(tempArray[i].DenialAmount)
+              title: tempArray[i].Claimdenialcategorylevel1shortname,
+              value: this.common.nFormatter(tempArray[i].DenialAmount),
+              numeric: tempArray[i].DenialAmount
             }); // Becomes ascending here
           }
           resolve(topReasons);
