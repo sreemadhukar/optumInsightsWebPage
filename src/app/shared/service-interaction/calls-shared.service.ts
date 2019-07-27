@@ -54,20 +54,21 @@ export class CallsSharedService {
       } else {
         parameters = [this.providerKey, { TimeFilter: 'CalendarYear', TimeFilterText: this.timeFrame }];
       }
-      this.sharedCallsData(parameters)
-        .then(data => {
-          if (data) {
-            this.callsData = data;
-            return this.sharedCallsTrend();
-          }
-        })
-        .then(data => {
-          if (this.callsData && data) {
-            this.callsData[0].data['sdata'] = data[0];
-            this.callsData[1].data['sdata'] = data[1];
-            resolve(this.callsData);
-          }
-        });
+      this.sharedCallsData(parameters).then(data => {
+        if (data) {
+          this.callsData = data;
+          resolve(this.callsData);
+          //     return this.sharedCallsTrend();
+          //   }
+          // })
+          // .then(data => {
+          //   if (this.callsData && data) {
+          //     this.callsData[0].data['sdata'] = data[0];
+          //     this.callsData[1].data['sdata'] = data[1];
+          //     resolve(this.callsData);
+          //   }
+        }
+      });
     });
   }
   sharedCallsTrend() {
