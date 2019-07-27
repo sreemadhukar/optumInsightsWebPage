@@ -5,7 +5,6 @@ import { OverviewPageModule } from '../../components/overview-page/overview-page
 import { CommonUtilsService } from '../common-utils.service';
 import { SessionService } from '../session.service';
 import { AuthorizationService } from '../../auth/_service/authorization.service';
-import { CallsTrendService } from './../service-interaction/calls-trend.service';
 import { TrendingMetricsService } from '../../rest/trending/trending-metrics.service';
 
 @Injectable({
@@ -23,7 +22,6 @@ export class OverviewSharedService {
     private common: CommonUtilsService,
     private session: SessionService,
     private toggle: AuthorizationService,
-    private callsTrendService: CallsTrendService,
     private trendsService: TrendingMetricsService
   ) {}
   getOverviewData() {
@@ -245,17 +243,19 @@ export class OverviewSharedService {
   }
 
   createTotalCallsTrend() {
-    let trendIR: Object;
+    // let trendIR: Object;
+    const trendIR = null;
     return new Promise((resolve, reject) => {
-      this.callsTrendService
-        .getCallsTrendData()
-        .then(data => {
-          trendIR = data[0];
-          resolve(trendIR);
-        })
-        .catch(reason => {
-          console.log('Calls Service Error ', reason);
-        });
+      // this.callsTrendService
+      //   .getCallsTrendData()
+      //   .then(data => {
+      //     trendIR = data[0];
+      //     resolve(trendIR);
+      //   })
+      //   .catch(reason => {
+      //     console.log('Calls Service Error ', reason);
+      //   });
+      resolve(null);
     });
   }
   /* function to create Total Calls Tile in Overview Page -  Ranjith kumar Ankam - 04-Jul-2019*/
@@ -286,7 +286,9 @@ export class OverviewSharedService {
               providerSystems.ResolvingIssues.Calls.CallVolByQuesType.PriorAuth,
               providerSystems.ResolvingIssues.Calls.CallVolByQuesType.Others
             ],
-            centerNumber: this.common.nFormatter(providerSystems.ResolvingIssues.Calls.CallVolByQuesType.Total),
+            centerNumber: this.common.nondecimalFormatter(
+              providerSystems.ResolvingIssues.Calls.CallVolByQuesType.Total
+            ),
             color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'],
             gdata: ['card-inner', 'callsCardD3Donut'],
             hover: true,
@@ -1069,7 +1071,7 @@ export class OverviewSharedService {
                 calls.CallVolByQuesType.PriorAuth,
                 calls.CallVolByQuesType.Others
               ],
-              centerNumber: this.common.nFormatter(calls.CallVolByQuesType.Total),
+              centerNumber: this.common.nondecimalFormatter(calls.CallVolByQuesType.Total),
               color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'],
               gdata: ['card-inner', 'callsCardD3Donut'],
               hover: true,
