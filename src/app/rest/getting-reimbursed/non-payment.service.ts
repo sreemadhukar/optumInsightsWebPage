@@ -23,7 +23,7 @@ export class NonPaymentService {
       'Content-Type': 'application/json',
       Accept: '*/*'
     });
-    const nonPaymentURL = this.APP_URL + this.NON_PAYMENT + parameters[0] + '?requestType=NONPAYMENT_METRICS';
+    const nonPaymentURL = this.APP_URL + this.NON_PAYMENT + parameters[0] + '?requestType=PAYMENT_METRICS';
     return combineLatest(
       this.http.post(nonPaymentURL, parameters[1], { headers: myHeader }).pipe(
         map(res => JSON.parse(JSON.stringify(res[0]))),

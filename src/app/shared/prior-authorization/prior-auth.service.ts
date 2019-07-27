@@ -163,15 +163,29 @@ export class PriorAuthSharedService {
               const PAApprovalRate = PAApprovedCount / PARequestedCount;
               let StandardTATConversion;
               let UrgentTATConversion;
+              let TATDayLabel;
+              let TATHourLabel;
               if (data.StandartPriorAuthTAT / 86400 < 1) {
                 StandardTATConversion = '<1';
+                TATDayLabel = StandardTATConversion + 'Day';
               } else {
                 StandardTATConversion = (data.StandartPriorAuthTAT / 86400).toFixed(0);
+                if (StandardTATConversion === '1') {
+                  TATDayLabel = StandardTATConversion + 'Day';
+                } else {
+                  TATDayLabel = StandardTATConversion + 'Days';
+                }
               }
               if (data.UrgentPriorAuthTAT / 3600 < 1) {
                 UrgentTATConversion = '<1';
+                TATHourLabel = UrgentTATConversion + ' Hour';
               } else {
                 UrgentTATConversion = (data.UrgentPriorAuthTAT / 3600).toFixed(0);
+                if (UrgentTATConversion === '1') {
+                  TATHourLabel = UrgentTATConversion + ' Hour';
+                } else {
+                  TATHourLabel = UrgentTATConversion + ' Hours';
+                }
               }
 
               PACount = [
@@ -206,8 +220,8 @@ export class PriorAuthSharedService {
                   besideData: {
                     verticalData: [
                       { title: 'Average Turnaround Time' },
-                      { values: StandardTATConversion + ' Days', labels: 'Standard' },
-                      { values: UrgentTATConversion + ' Hours', labels: 'Urgent' }
+                      { values: TATDayLabel, labels: 'Standard' },
+                      { values: TATHourLabel, labels: 'Urgent' }
                     ]
                   },
 
@@ -608,15 +622,29 @@ export class PriorAuthSharedService {
 
               let StandardTATConversion;
               let UrgentTATConversion;
+              let TATDayLabel;
+              let TATHourLabel;
               if (data.StandartPriorAuthTAT / 86400 < 1) {
                 StandardTATConversion = '<1';
+                TATDayLabel = StandardTATConversion + ' Day';
               } else {
                 StandardTATConversion = (data.StandartPriorAuthTAT / 86400).toFixed(0);
+                if (StandardTATConversion === '1') {
+                  TATDayLabel = StandardTATConversion + ' Day';
+                } else {
+                  TATDayLabel = StandardTATConversion + ' Days';
+                }
               }
               if (data.UrgentPriorAuthTAT / 3600 < 1) {
                 UrgentTATConversion = '<1';
+                TATHourLabel = UrgentTATConversion + ' Hour';
               } else {
                 UrgentTATConversion = (data.UrgentPriorAuthTAT / 3600).toFixed(0);
+                if (UrgentTATConversion === '1') {
+                  TATHourLabel = UrgentTATConversion + ' Hour';
+                } else {
+                  TATHourLabel = UrgentTATConversion + ' Hours';
+                }
               }
 
               PACount = [
@@ -651,8 +679,8 @@ export class PriorAuthSharedService {
                   besideData: {
                     verticalData: [
                       { title: 'Average Turnaround Time' },
-                      { values: StandardTATConversion + ' Days', labels: 'Standard' },
-                      { values: UrgentTATConversion + ' Hours', labels: 'Urgent' }
+                      { values: TATDayLabel, labels: 'Standard' },
+                      { values: TATHourLabel, labels: 'Urgent' }
                     ]
                   },
 
@@ -1109,7 +1137,17 @@ export class PriorAuthSharedService {
       this.getPriorAuthDataFiltered(filterParameters)
         .then(data => {
           this.priorAuthDataCombined = data;
-          return this.getPriorAuthTrendData(filterParameters);
+          const emptyPATrends = [
+            {
+              data: '',
+              sign: ''
+            },
+            {
+              data: '',
+              sign: ''
+            }
+          ];
+          return emptyPATrends;
         })
         .then(data => {
           if (this.priorAuthDataCombined[0].length > 0) {
