@@ -444,15 +444,15 @@ export class NonPaymentSharedService {
       this.sharedTopCategories(this.paramtersCategories)
         .then(topReasons => {
           const reasonsParamter: Array<string> = [];
-          console.log('Top Reasons', topReasons); // Ascending values
           this.topReasonsData = JSON.parse(JSON.stringify(topReasons));
+          console.log('Top Reasons', this.topReasonsData); // Ascending values
           for (let i = 0; i < this.topReasonsData.length; i++) {
-            reasonsParamter.push(topReasons[i].reasons);
+            reasonsParamter.push(topReasons[i].title);
           }
           return this.sharedTopSubCategories(this.paramtersCategories, reasonsParamter);
         })
         .then(subCategory => {
-          console.log('subCategory', subCategory);
+          console.log('Top Reasons', this.topReasonsData); // Ascending values
           return resolve(subCategory);
         });
     });
@@ -473,7 +473,28 @@ export class NonPaymentSharedService {
             //   x => typeof x.Claimdenialcategorylevel1shortname !== null || x.Claimdenialcategorylevel1shortname !== null
             // );
             // console.log('temp array 2', tempArray2);
-            console.log('SubCategories', tempArray2, reasonsParameter[i]);
+            // console.log('SubCategories', tempArray2, reasonsParameter[i]);
+            if (tempArray2 > 5) {
+              tempArray2
+                .sort(function(a, b) {
+                  return b.Claimdenialcategorylevel1shortname - a.Claimdenialcategorylevel1shortname;
+                })
+                .slice(0, 5); // Descending
+            } else {
+              tempArray2.sort(function(a, b) {
+                return b.Claimdenialcategorylevel1shortname - a.Claimdenialcategorylevel1shortname;
+              }); // Descending
+            }
+
+            const inder = this.topReasonsData.find((o: any, j) => {
+              if (o.title === reasonsParameter[i]) {
+                this.topReasonsData[j]['top5'] = tempArray2;
+                return true;
+              }
+              console.log('checking', o, j);
+              return true;
+            });
+            console.log('inder', inder);
             // tempArray.push({
             //   reasons: subCategory.All.DenialCategory[i].Claimdenialcategorylevel1shortname,
             //   amount: this.common.nFormatter(subCategory.All.DenialCategory[i].DenialAmount)
