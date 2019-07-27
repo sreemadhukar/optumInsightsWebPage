@@ -286,7 +286,9 @@ export class OverviewSharedService {
               providerSystems.ResolvingIssues.Calls.CallVolByQuesType.PriorAuth,
               providerSystems.ResolvingIssues.Calls.CallVolByQuesType.Others
             ],
-            centerNumber: this.common.nFormatter(providerSystems.ResolvingIssues.Calls.CallVolByQuesType.Total),
+            centerNumber: this.common.nondecimalFormatter(
+              providerSystems.ResolvingIssues.Calls.CallVolByQuesType.Total
+            ),
             color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'],
             gdata: ['card-inner', 'callsCardD3Donut'],
             hover: true,
@@ -1069,7 +1071,7 @@ export class OverviewSharedService {
                 calls.CallVolByQuesType.PriorAuth,
                 calls.CallVolByQuesType.Others
               ],
-              centerNumber: this.common.nFormatter(calls.CallVolByQuesType.Total),
+              centerNumber: this.common.nondecimalFormatter(calls.CallVolByQuesType.Total),
               color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'],
               gdata: ['card-inner', 'callsCardD3Donut'],
               hover: true,
