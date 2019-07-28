@@ -211,7 +211,7 @@ export class NonPaymentSharedService {
             resolve(this.summaryData);
           },
           err => {
-            console.log('Calls Error Data', err);
+            console.log('Non Payment Page , Error for two donuts Data', err);
           }
         );
       } else {
@@ -432,37 +432,36 @@ export class NonPaymentSharedService {
           this.paramtersCategories = [this.providerKey, { TimeFilter: 'Last6Months' }];
         }
       }
-    }
-    // else {
-    //   const lobData = this.common.matchLobWithData(this.lob);
-    //   if (this.tin !== 'All' && this.lob !== 'All') {
-    //     this.paramtersCategories = [
-    //       this.providerKey,
-    //       {
-    //         Lob: this.common.matchLobWithCapsData(this.lob),
-    //         TimeFilter: 'CalendarYear',
-    //         TimeFilterText: this.timeFrame,
-    //         Tin: this.tin
-    //       }
-    //     ];
-    //   } else if (this.tin !== 'All') {
-    //     this.paramtersCategories = [
-    //       this.providerKey,
-    //       { TimeFilter: 'CalendarYear', TimeFilterText: this.timeFrame, Tin: this.tin }
-    //     ];
-    //   } else if (this.lob !== 'All') {
-    //     this.paramtersCategories = [
-    //       this.providerKey,
-    //       {
-    //         Lob: this.common.matchLobWithCapsData(this.lob),
-    //         TimeFilter: 'CalendarYear',
-    //         TimeFilterText: this.timeFrame
-    //       }
-    //     ];
-    //   } else {
-    //     this.paramtersCategories = [this.providerKey, { TimeFilter: 'CalendarYear', TimeFilterText: this.timeFrame }];
-    //   }
-    // } // End If else structure
+    } else {
+      const lobData = this.common.matchLobWithData(this.lob);
+      if (this.tin !== 'All' && this.lob !== 'All') {
+        this.paramtersCategories = [
+          this.providerKey,
+          {
+            Lob: this.common.matchLobWithCapsData(this.lob),
+            TimeFilter: 'CalendarYear',
+            TimeFilterText: this.timeFrame,
+            Tin: this.tin
+          }
+        ];
+      } else if (this.tin !== 'All') {
+        this.paramtersCategories = [
+          this.providerKey,
+          { TimeFilter: 'CalendarYear', TimeFilterText: this.timeFrame, Tin: this.tin }
+        ];
+      } else if (this.lob !== 'All') {
+        this.paramtersCategories = [
+          this.providerKey,
+          {
+            Lob: this.common.matchLobWithCapsData(this.lob),
+            TimeFilter: 'CalendarYear',
+            TimeFilterText: this.timeFrame
+          }
+        ];
+      } else {
+        this.paramtersCategories = [this.providerKey, { TimeFilter: 'CalendarYear', TimeFilterText: this.timeFrame }];
+      }
+    } // End If else structure
   } // end getParmaeterCategories() function for Top Reasons Categories
 
   public getNonPaymentCategories() {
@@ -475,7 +474,6 @@ export class NonPaymentSharedService {
       this.sharedTopCategories(this.paramtersCategories)
         .then(topReasons => {
           this.topReasonsData = JSON.parse(JSON.stringify(topReasons)); // Values descending here
-          console.log('Top Reasons', topReasons);
           const subCategoryReasons: any = [];
           for (let i = 0; i < 5; i++) {
             let x = JSON.parse(JSON.stringify(this.paramtersCategories)); // deep copy
@@ -483,11 +481,9 @@ export class NonPaymentSharedService {
             subCategoryReasons.push(x);
             x = [];
           }
-          console.log('Temp Reasons', subCategoryReasons);
           return this.sharedTopSubCategories(subCategoryReasons);
         })
         .then(finalData => {
-          console.log('Final Data', finalData); // Descending Values
           return resolve(finalData);
         });
     });
@@ -516,16 +512,14 @@ export class NonPaymentSharedService {
           this.topReasonsData[4]['top5'] = fifth.All.DenialCategory;
           for (let i = 0; i < this.topReasonsData.length; i++) {
             const p = this.topReasonsData[i]['top5'];
-            console.log('er', p);
             for (let j = 0; j < p.length; j++) {
               p[j].text = p[j]['Claimdenialcategorylevel1shortname'];
               p[j].valueNumeric = p[j]['DenialAmount'];
-              p[j].value = this.common.nFormatter(p[j]['DenialAmount']);
+              p[j].value = '$' + this.common.nFormatter(p[j]['DenialAmount']);
               delete p[j].Claimdenialcategorylevel1shortname;
               delete p[j].DenialAmount;
             }
           }
-          console.log('Final Data', this.topReasonsData);
           resolve(this.topReasonsData);
         },
         error => {
@@ -559,7 +553,7 @@ export class NonPaymentSharedService {
           for (let i = 0; i < tempArray.length; i++) {
             topReasons.push({
               title: tempArray[i].Claimdenialcategorylevel1shortname,
-              value: this.common.nFormatter(tempArray[i].DenialAmount),
+              value: '$' + this.common.nFormatter(tempArray[i].DenialAmount),
               numeric: tempArray[i].DenialAmount
             });
           }

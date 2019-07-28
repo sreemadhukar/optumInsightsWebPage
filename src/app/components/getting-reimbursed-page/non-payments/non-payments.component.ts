@@ -41,6 +41,7 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
   currentTabTitle: String = '';
   monthlyLineGraph: any = [{}];
 
+  topReasonsCategoryDisplay = true;
   dataLoaded = false;
   type: any;
   loadingOne: boolean;
@@ -269,13 +270,13 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
     this.nonPaymentService.getNonPaymentCategories().then(
       topCategories => {
         this.barChartsArray = topCategories;
-        console.log('Top Categories COmpoent', topCategories);
       },
       error => {
         this.barChartsArray = null;
         console.log('Error Top Categories COmpoent', error);
       }
     );
+    /** End code for Top Categories */
 
     this.monthlyLineGraph.chartId = 'non-payment-trend-block';
     this.monthlyLineGraph.titleData = [{}];
