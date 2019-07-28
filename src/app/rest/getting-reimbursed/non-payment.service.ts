@@ -56,9 +56,27 @@ export class NonPaymentService {
       'Content-Type': 'application/json',
       Accept: '*/*'
     });
-    const nonPaymentURL = this.APP_URL + this.NON_PAYMENT + parameters[0] + '?requestType=NONPAYMENT_TOPSUBCATEGORIES';
+    console.log('ERest', parameters);
+    const nonPaymentURL =
+      this.APP_URL + this.NON_PAYMENT + parameters[0][0] + '?requestType=NONPAYMENT_TOPSUBCATEGORIES';
     return combineLatest(
-      this.http.post(nonPaymentURL, parameters[1], { headers: myHeader }).pipe(
+      this.http.post(nonPaymentURL, parameters[0][1], { headers: myHeader }).pipe(
+        map(res => JSON.parse(JSON.stringify(res[0]))),
+        catchError(err => of(JSON.parse(JSON.stringify(err))))
+      ),
+      this.http.post(nonPaymentURL, parameters[1][1], { headers: myHeader }).pipe(
+        map(res => JSON.parse(JSON.stringify(res[0]))),
+        catchError(err => of(JSON.parse(JSON.stringify(err))))
+      ),
+      this.http.post(nonPaymentURL, parameters[2][1], { headers: myHeader }).pipe(
+        map(res => JSON.parse(JSON.stringify(res[0]))),
+        catchError(err => of(JSON.parse(JSON.stringify(err))))
+      ),
+      this.http.post(nonPaymentURL, parameters[3][1], { headers: myHeader }).pipe(
+        map(res => JSON.parse(JSON.stringify(res[0]))),
+        catchError(err => of(JSON.parse(JSON.stringify(err))))
+      ),
+      this.http.post(nonPaymentURL, parameters[4][1], { headers: myHeader }).pipe(
         map(res => JSON.parse(JSON.stringify(res[0]))),
         catchError(err => of(JSON.parse(JSON.stringify(err))))
       )

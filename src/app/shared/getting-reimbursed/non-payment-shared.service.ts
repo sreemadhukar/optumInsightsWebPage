@@ -443,80 +443,107 @@ export class NonPaymentSharedService {
     return new Promise(resolve => {
       this.sharedTopCategories(this.paramtersCategories)
         .then(topReasons => {
-          const reasonsParamter: Array<string> = [];
-          this.topReasonsData = JSON.parse(JSON.stringify(topReasons));
-          console.log('Top Reasons', this.topReasonsData); // Ascending values
-          for (let i = 0; i < this.topReasonsData.length; i++) {
-            reasonsParamter.push(topReasons[i].title);
+          this.topReasonsData = JSON.parse(JSON.stringify(topReasons)); // Values descending here
+          console.log('Top Reasons', topReasons);
+          const subCategoryReasons: any = [];
+          for (let i = 0; i < 5; i++) {
+            let x = JSON.parse(JSON.stringify(this.paramtersCategories)); // deep copy
+            x[1]['denialCategory'] = this.topReasonsData[i]['title'];
+            subCategoryReasons.push(x);
+            x = [];
           }
-          return this.sharedTopSubCategories(this.paramtersCategories, reasonsParamter);
+          console.log('Temp Reasons', subCategoryReasons);
+          return this.sharedTopSubCategories(subCategoryReasons);
         })
         .then(finalData => {
-          console.log('Top Reasons', finalData); // Ascending values
+          console.log('Final Data', finalData); // Descending Values
           return resolve(finalData);
         });
     });
   } // end getNonPaymentCategories function
 
-  public sharedTopSubCategories(paramtersSubCategory, reasonsParameter) {
+  public sharedTopSubCategories(paramtersSubCategory) {
     this.timeFrame = this.session.filterObjValue.timeFrame;
-    const tempArray: any = this.topReasonsData;
     return new Promise(resolve => {
-      for (let i = 0; i < reasonsParameter.length; i++) {
-        let tempArray2: any = [];
-        paramtersSubCategory[1]['denialCategory'] = reasonsParameter[i];
-        this.nonPaymentService.getNonPaymentSubCategories(paramtersSubCategory).subscribe(
-          ([subCategory]) => {
-            tempArray2 = subCategory.All.DenialCategory;
-            // tempArray2 = subCategory.All.DenialCategory.filter(
-            //   x => typeof x.Claimdenialcategorylevel1shortname !== null || x.Claimdenialcategorylevel1shortname !== null
-            // );
-            // console.log('temp array 2', tempArray2);
-            // console.log('SubCategories', tempArray2, reasonsParameter[i]);
-            if (tempArray2 > 5) {
-              tempArray2
-                .sort(function(a, b) {
-                  return b.Claimdenialcategorylevel1shortname - a.Claimdenialcategorylevel1shortname;
-                })
-                .slice(0, 5); // Descending
-            } else {
-              tempArray2.sort(function(a, b) {
-                return b.Claimdenialcategorylevel1shortname - a.Claimdenialcategorylevel1shortname;
-              }); // Descending
-            }
-            for (let m = 0; m < tempArray.length; m++) {
-              if (tempArray[m].title === reasonsParameter[m]) {
-                this.topReasonsData[m]['top5'] = tempArray2;
-                console.log('reas', reasonsParameter[m]);
-                break;
-              }
-            }
-            console.log('SubCategories', tempArray2, reasonsParameter[i]);
-            // this.topReasonsData.find((o: any, j) => {
-            //   if (o.title === reasonsParameter[i]) {
-            //     this.topReasonsData[j]['top5'] = tempArray2;
-            //     return true;
-            //   }
-            //   console.log('checking', o, j);
-            //   return true;
-            // });
-            // tempArray.push({
-            //   reasons: subCategory.All.DenialCategory[i].Claimdenialcategorylevel1shortname,
-            //   amount: this.common.nFormatter(subCategory.All.DenialCategory[i].DenialAmount)
-            // }); // Becomes ascending here
-          },
-          error => {
-            console.log('Error Shared Top Sub Categories', error);
+      this.nonPaymentService.getNonPaymentSubCategories(paramtersSubCategory).subscribe(
+        ([first, second, third, fourth, fifth]) => {
+          console.log('5 parameters', first, second, third, fourth, fifth);
+
+          if (first.All.DenialCategory > 5) {
+            first.All.DenialCategory.sort(function(a, b) {
+              return b.DenialAmount - a.DenialAmount;
+            }).slice(0, 5);
+          } else {
+            first.All.DenialCategory.sort(function(a, b) {
+              return b.DenialAmount - a.DenialAmount;
+            });
           }
-        );
-      }
+          this.topReasonsData[0]['top5'] = first.All.DenialCategory;
+          this.topReasonsData[1]['top5'] = second.All.DenialCategory;
+          this.topReasonsData[2]['top5'] = third.All.DenialCategory;
+          this.topReasonsData[3]['top5'] = fourth.All.DenialCategory;
+          this.topReasonsData[4]['top5'] = fifth.All.DenialCategory;
+          for (let i = 0; i < this.topReasonsData.length; i++) {
+            const p = this.topReasonsData[i]['top5'].All.DenialCategory;
+            for (let j = 0; j < p.length; j++) {
+              p[i].text = p[i]['Claimdenialcategorylevel1shortname'];
+              delete p[i].Claimdenialcategorylevel1shortname;
+            }
+          }
+          console.log('Final Data', this.topReasonsData);
+          resolve(this.topReasonsData);
+          // for (let m = 0; m < 5; m++){
+          //   this.topReasonsData[m].top5.
+          // }
+          // tempArray2 = subCategory.All.DenialCategory;
+          // tempArray2 = subCategory.All.DenialCategory.filter(
+          //   x => typeof x.Claimdenialcategorylevel1shortname !== null || x.Claimdenialcategorylevel1shortname !== null
+          // );
+          // console.log('temp array 2', tempArray2);
+          // console.log('SubCategories', tempArray2, reasonsParameter[i]);
+          // if (tempArray2 > 5) {
+          //   tempArray2
+          //     .sort(function(a, b) {
+          //       return b.Claimdenialcategorylevel1shortname - a.Claimdenialcategorylevel1shortname;
+          //     })
+          //     .slice(0, 5); // Descending
+          // } else {
+          //   tempArray2.sort(function(a, b) {
+          //     return b.Claimdenialcategorylevel1shortname - a.Claimdenialcategorylevel1shortname;
+          //   }); // Descending
+          // }
+          // for (let m = 0; m < tempArray.length; m++) {
+          //   if (tempArray[m].title === reasonsParameter[m]) {
+          //     this.topReasonsData[m]['top5'] = tempArray2;
+          //     console.log('reas', reasonsParameter[m]);
+          //     break;
+          //   }
+          // }
+          // console.log('SubCategories', tempArray2, reasonsParameter[i]);
+          // this.topReasonsData.find((o: any, j) => {
+          //   if (o.title === reasonsParameter[i]) {
+          //     this.topReasonsData[j]['top5'] = tempArray2;
+          //     return true;
+          //   }
+          //   console.log('checking', o, j);
+          //   return true;
+          // });
+          // tempArray.push({
+          //   reasons: subCategory.All.DenialCategory[i].Claimdenialcategorylevel1shortname,
+          //   amount: this.common.nFormatter(subCategory.All.DenialCategory[i].DenialAmount)
+          // }); // Becomes ascending here
+        },
+        error => {
+          console.log('Error Shared Top Sub Categories', error);
+        }
+      );
       resolve(this.topReasonsData);
     });
   }
   public sharedTopCategories(parameters) {
     this.timeFrame = this.session.filterObjValue.timeFrame;
     return new Promise(resolve => {
-      /** Get Calls Trend Data */
+      /** Get Top 5 Categories Data */
       this.nonPaymentService.getNonPaymentTopCategories(...parameters).subscribe(
         ([topCategories]) => {
           const topReasons: Array<object> = [];
@@ -526,12 +553,12 @@ export class NonPaymentSharedService {
           if (topCategories.All.DenialCategory > 5) {
             tempArray
               .sort(function(a, b) {
-                return b.Claimdenialcategorylevel1shortname - a.Claimdenialcategorylevel1shortname;
+                return b.DenialAmount - a.DenialAmount;
               })
               .slice(0, 5); // Descending
           } else {
             tempArray.sort(function(a, b) {
-              return b.Claimdenialcategorylevel1shortname - a.Claimdenialcategorylevel1shortname;
+              return b.DenialAmount - a.DenialAmount;
             }); // Descending
           }
           for (let i = 0; i < tempArray.length; i++) {
@@ -539,7 +566,7 @@ export class NonPaymentSharedService {
               title: tempArray[i].Claimdenialcategorylevel1shortname,
               value: this.common.nFormatter(tempArray[i].DenialAmount),
               numeric: tempArray[i].DenialAmount
-            }); // Becomes ascending here
+            });
           }
           resolve(topReasons);
         },
