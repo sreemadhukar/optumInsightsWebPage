@@ -136,8 +136,13 @@
   width: 100%;
   padding-bottom: 20px; // centre aligned to card
 }
+.appeals-cards-block {
+  display: flex;
+  flex-wrap: wrap;
+}
 
 .overturn-reason-block {
+  margin: 12px;
   height: 443px;
   width: 464px;
   border-radius: 2px;
