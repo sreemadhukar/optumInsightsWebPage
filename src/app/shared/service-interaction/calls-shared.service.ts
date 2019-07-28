@@ -67,6 +67,8 @@ export class CallsSharedService {
           //     this.callsData[1].data['sdata'] = data[1];
           //     resolve(this.callsData);
           //   }
+        } else {
+          resolve(null);
         }
       });
     });
