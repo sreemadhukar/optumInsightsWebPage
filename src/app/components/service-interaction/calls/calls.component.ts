@@ -59,19 +59,6 @@ export class CallsComponent implements OnInit {
     this.callsServiceSrc
       .getCallsData()
       .then(data => {
-        if (data == null) {
-          const temp = {
-            category: 'app-card',
-            type: 'donut',
-            status: 'No Data',
-            title: null,
-            data: null,
-            timeperiod: null
-          };
-          this.callsItems.push(temp);
-          this.callsItems.push(temp);
-        }
-        console.log('Datat', data);
         this.loading = false;
         this.callsItems = data;
       })
