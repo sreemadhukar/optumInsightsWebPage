@@ -75,21 +75,24 @@ export class AppealsComponent implements OnInit {
     this.currentSummary = [];
     this.overturnItem = [];
     this.reasonDataAvailable = false;
-    this.gettingReimbursedSharedService.getGettingReimbursedData().then(completeData => {
+    /*this.gettingReimbursedSharedService.getGettingReimbursedData().then(completeData => {
       this.loading = false;
       this.summaryItems = JSON.parse(JSON.stringify(completeData));
       this.currentSummary = this.summaryItems[3].data;
       this.currentTabTitle = this.summaryItems[3].title;
-    });
+    });*/
 
     this.gettingReimbursedSharedService.getappealsRateAndReasonData().then(appealsRateData => {
+      console.log(appealsRateData);
+      let AppealsCards: any;
+      AppealsCards = appealsRateData;
       this.loading = false;
-      if (appealsRateData[1].length !== 0 && !appealsRateData[1][0].status) {
+      if (appealsRateData[3].length !== 0 && !appealsRateData[3][0].status) {
         this.reasonDataAvailable = true;
       }
-      this.overturnItem = appealsRateData[0];
-      if (appealsRateData[1].length) {
-        this.reason = appealsRateData[1];
+      this.overturnItem = AppealsCards;
+      if (appealsRateData[3].length) {
+        this.reason = appealsRateData[3];
       }
     });
   }
