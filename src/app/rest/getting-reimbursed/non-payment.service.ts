@@ -23,7 +23,23 @@ export class NonPaymentService {
       'Content-Type': 'application/json',
       Accept: '*/*'
     });
-    const nonPaymentURL = this.APP_URL + this.NON_PAYMENT + parameters[0] + '?requestType=NONPAYMENT_METRICS';
+    const nonPaymentURL = this.APP_URL + this.NON_PAYMENT + parameters[0] + '?requestType=PAYMENT_METRICS';
+    return combineLatest(
+      this.http.post(nonPaymentURL, parameters[1], { headers: myHeader }).pipe(
+        map(res => JSON.parse(JSON.stringify(res[0]))),
+        catchError(err => of(JSON.parse(JSON.stringify(err))))
+      )
+    );
+  }
+  public getNonPaymentTopCategories(...parameters) {
+    this.currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
+    this.authBearer = this.currentUser[0].PedAccessToken;
+    const myHeader = new HttpHeaders({
+      Authorization: 'Bearer ' + this.authBearer,
+      'Content-Type': 'application/json',
+      Accept: '*/*'
+    });
+    const nonPaymentURL = this.APP_URL + this.NON_PAYMENT + parameters[0] + '?requestType=NONPAYMENT_TOPCATEGORIES';
     return combineLatest(
       this.http.post(nonPaymentURL, parameters[1], { headers: myHeader }).pipe(
         map(res => JSON.parse(JSON.stringify(res[0]))),
@@ -32,7 +48,7 @@ export class NonPaymentService {
     );
   }
 
-  public getNonPaymentDataByMonth(...parameters) {
+  public getNonPaymentSubCategories(parameters) {
     this.currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
     this.authBearer = this.currentUser[0].PedAccessToken;
     const myHeader = new HttpHeaders({
@@ -40,27 +56,26 @@ export class NonPaymentService {
       'Content-Type': 'application/json',
       Accept: '*/*'
     });
-    console.log('Hiiiii' + parameters[0]);
-    const nonPaymentURL2 = this.APP_URL + this.NON_PAYMENT + parameters[0] + '?requestType=NONPAYMENT_BYMONTH';
+    const nonPaymentURL =
+      this.APP_URL + this.NON_PAYMENT + parameters[0][0] + '?requestType=NONPAYMENT_TOPSUBCATEGORIES';
     return combineLatest(
-      this.http.post(nonPaymentURL2, parameters[1], { headers: myHeader }).pipe(
+      this.http.post(nonPaymentURL, parameters[0][1], { headers: myHeader }).pipe(
         map(res => JSON.parse(JSON.stringify(res[0]))),
         catchError(err => of(JSON.parse(JSON.stringify(err))))
-      )
-    );
-  }
-
-  public getNonPaymentDataTopReasons(...parameters) {
-    this.currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
-    this.authBearer = this.currentUser[0].PedAccessToken;
-    const myHeader = new HttpHeaders({
-      Authorization: 'Bearer ' + this.authBearer,
-      'Content-Type': 'application/json',
-      Accept: '*/*'
-    });
-    const nonPaymentURL3 = this.APP_URL + this.NON_PAYMENT + parameters[0] + '?requestType=NONPAYMENT_TOPCATEGORIES';
-    return combineLatest(
-      this.http.post(nonPaymentURL3, parameters[1], { headers: myHeader }).pipe(
+      ),
+      this.http.post(nonPaymentURL, parameters[1][1], { headers: myHeader }).pipe(
+        map(res => JSON.parse(JSON.stringify(res[0]))),
+        catchError(err => of(JSON.parse(JSON.stringify(err))))
+      ),
+      this.http.post(nonPaymentURL, parameters[2][1], { headers: myHeader }).pipe(
+        map(res => JSON.parse(JSON.stringify(res[0]))),
+        catchError(err => of(JSON.parse(JSON.stringify(err))))
+      ),
+      this.http.post(nonPaymentURL, parameters[3][1], { headers: myHeader }).pipe(
+        map(res => JSON.parse(JSON.stringify(res[0]))),
+        catchError(err => of(JSON.parse(JSON.stringify(err))))
+      ),
+      this.http.post(nonPaymentURL, parameters[4][1], { headers: myHeader }).pipe(
         map(res => JSON.parse(JSON.stringify(res[0]))),
         catchError(err => of(JSON.parse(JSON.stringify(err))))
       )

@@ -41,14 +41,15 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
   currentTabTitle: String = '';
   monthlyLineGraph: any = [{}];
 
-  show = true;
+  topReasonsCategoryDisplay = true;
   dataLoaded = false;
   type: any;
   loadingOne: boolean;
   mockCardOne: any;
   loadingTwo: boolean;
   mockCardTwo: any;
-
+  barChartsArray: any = [];
+  /*
   barChartsArray = [
     {
       title: 'Need More Information',
@@ -186,7 +187,7 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
       ]
     }
   ];
-
+  */
   constructor(
     private checkStorage: StorageService,
     private iconRegistry: MatIconRegistry,
@@ -263,6 +264,19 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
     this.nonPaymentService.getNonPayment().then(nonPayment => {
       this.nonPaymentData1 = JSON.parse(JSON.stringify(nonPayment));
     });
+    /** Ends here */
+
+    /** code for Top Categories*/
+    this.nonPaymentService.getNonPaymentCategories().then(
+      topCategories => {
+        this.barChartsArray = topCategories;
+      },
+      error => {
+        this.barChartsArray = null;
+        console.log('Error Top Categories COmpoent', error);
+      }
+    );
+    /** End code for Top Categories */
 
     this.monthlyLineGraph.chartId = 'non-payment-trend-block';
     this.monthlyLineGraph.titleData = [{}];
