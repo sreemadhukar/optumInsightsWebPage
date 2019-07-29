@@ -56,7 +56,7 @@ export class NonPaymentService {
       'Content-Type': 'application/json',
       Accept: '*/*'
     });
-    console.log('Parameters', parameters);
+    // console.log('Parameters', parameters);
     const nonPaymentURL =
       this.APP_URL + this.NON_PAYMENT + parameters[0][0] + '?requestType=NONPAYMENT_TOPSUBCATEGORIES';
     const apiCall = parameters.map(param => this.http.post(nonPaymentURL, param[1], { headers: myHeader }));
