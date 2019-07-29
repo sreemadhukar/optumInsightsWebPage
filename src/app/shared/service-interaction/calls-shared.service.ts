@@ -21,10 +21,11 @@ export class CallsSharedService {
     private callsTrendService: CallsTrendService
   ) {}
 
-  public issueResolution(title: String, data: any, besideData: any, timeperiod?: String | null): Object {
+  public issueResolution(status: any, title: String, data: any, besideData: any, timeperiod?: String | null): Object {
     const temp: Object = {
       category: 'app-card',
       type: 'donutWithLabel',
+      status: status,
       title: title,
       data: data,
       besideData: besideData,
@@ -114,7 +115,7 @@ export class CallsSharedService {
     }
     let callsByCallType;
     let talkTimeByCallType;
-    let tempArray: Array<object> = [];
+    const tempArray: Array<object> = [];
     return new Promise(resolve => {
       this.callsService.getCallsData(...parameters).subscribe(
         ([providerSystems]) => {
@@ -128,6 +129,7 @@ export class CallsSharedService {
                 const totalCalls = providerSystems.CallVolByQuesType;
                 try {
                   callsByCallType = this.issueResolution(
+                    null,
                     'Calls By Call Type',
                     {
                       graphValueName: ['Eligibilty and Benefits', 'Claims', 'Prior Authorizations', 'Others'],
@@ -152,12 +154,12 @@ export class CallsSharedService {
                   );
                 } catch (Error) {
                   console.log('Error in Calls Page | Question Type By Call Type', Error);
-                  callsByCallType = this.issueResolution(null, null, null);
+                  callsByCallType = this.issueResolution(null, null, null, null);
                 }
               }
             } catch (Error) {
               console.log('Calls Page Error CallVolByQuesType', Error);
-              callsByCallType = this.issueResolution(null, null, null);
+              callsByCallType = this.issueResolution(null, null, null, null);
             }
             try {
               if (
@@ -168,6 +170,7 @@ export class CallsSharedService {
                 const totalCalls = providerSystems.CallTalkTimeByQuesType;
                 try {
                   talkTimeByCallType = this.issueResolution(
+                    null,
                     'Talk Time By Call Type',
                     {
                       graphValueName: ['Eligibilty and Benefits', 'Claims', 'Prior Authorizations', 'Others'],
@@ -192,17 +195,20 @@ export class CallsSharedService {
                   );
                 } catch (Error) {
                   console.log('Error in Calls Page | TalkTime By Call Type', Error);
-                  talkTimeByCallType = this.issueResolution(null, null, null);
+                  talkTimeByCallType = this.issueResolution(null, null, null, null);
                 }
               } // end if else blocl
             } catch (Error) {
               console.log('Calls Page Error CallTalkTimeByQuesType', Error);
-              talkTimeByCallType = this.issueResolution(null, null, null);
+              talkTimeByCallType = this.issueResolution(null, null, null, null);
             }
             tempArray[0] = callsByCallType;
             tempArray[1] = talkTimeByCallType;
           } else {
-            tempArray = null;
+            callsByCallType = this.issueResolution(404, null, null, null);
+            talkTimeByCallType = this.issueResolution(404, null, null, null);
+            tempArray[0] = callsByCallType;
+            tempArray[1] = talkTimeByCallType;
           }
           resolve(tempArray);
         },
