@@ -34,7 +34,6 @@ import 'core-js/es6/map';
 import 'core-js/es6/weak-map';
 import 'core-js/es6/set';
 
-
 /** ES7 Additions. **/
 import 'core-js/es7/symbol';
 import 'core-js/es7/object';

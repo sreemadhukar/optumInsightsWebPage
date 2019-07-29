@@ -277,7 +277,7 @@ export class OverviewSharedService {
         cIR = {
           category: 'small-card',
           type: 'donut',
-          title: 'Total Calls',
+          title: 'Calls By Call Type',
           toggle: this.toggle.setToggles('Total Calls', 'AtGlance', 'Overview', false),
           data: {
             graphValues: [
@@ -919,8 +919,8 @@ export class OverviewSharedService {
           .then(trendData => {
             let trends: any;
             trends = trendData;
-            tempArray[0]['sdata'] = trends.claimsPaidTrendObject;
-            tempArray[1]['sdata'] = trends.claimsYieldTrendObject;
+            // tempArray[0]['sdata'] = trends.claimsPaidTrendObject;
+            // tempArray[1]['sdata'] = trends.claimsYieldTrendObject;
             /*tempArray[0]['sdata'] = {
              sign: "down",
              data: "-46%"
@@ -1062,7 +1062,7 @@ export class OverviewSharedService {
           cIR = {
             category: 'small-card',
             type: 'donut',
-            title: 'Total Calls',
+            title: 'Calls By Call Type',
             toggle: this.toggle.setToggles('Total Calls', 'AtGlance', 'Overview', false),
             data: {
               graphValues: [

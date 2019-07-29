@@ -92,6 +92,7 @@ export class SelectProviderComponent implements OnInit {
   }
 
   providerSelect(event: MatAutocompleteSelectedEvent) {
+    this.router.navigate(['/OverviewPage']);
     const provider = this.providerData[0];
     const data = this.states.find(prov => prov.HealthCareOrganizationName === event.option.value);
     if (this.providerData[0].hasOwnProperty('Providersyskey')) {
@@ -101,7 +102,6 @@ export class SelectProviderComponent implements OnInit {
     } else {
       this.storage.store('currentUser', [Object.assign(provider, data)]);
     }
-    this.router.navigate(['/OverviewPage']);
   }
 
   private _filterStates(value: string): Providers[] {
