@@ -33,6 +33,8 @@ export class NonPaymentSharedService {
       if (
         this.timeFrame === 'Last 12 Months' ||
         this.timeFrame === 'Last 6 Months' ||
+        this.timeFrame === 'Last 3 Months' ||
+        this.timeFrame === 'Last 30 Days' ||
         this.timeFrame === 'Year to Date'
       ) {
         if (this.timeFrame === 'Last 12 Months') {
@@ -50,6 +52,38 @@ export class NonPaymentSharedService {
             ];
           } else {
             parameters = [this.providerKey, { TimeFilter: 'Last12Months' }];
+          }
+        } else if (this.timeFrame === 'Last 3 Months') {
+          if (this.tin !== 'All' && this.lob !== 'All') {
+            parameters = [
+              this.providerKey,
+              { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Last3Months', Tin: this.tin }
+            ];
+          } else if (this.tin !== 'All') {
+            parameters = [this.providerKey, { TimeFilter: 'Last3Months', Tin: this.tin }];
+          } else if (this.lob !== 'All') {
+            parameters = [
+              this.providerKey,
+              { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Last3Months' }
+            ];
+          } else {
+            parameters = [this.providerKey, { TimeFilter: 'Last3Months' }];
+          }
+        } else if (this.timeFrame === 'Last 30 Days') {
+          if (this.tin !== 'All' && this.lob !== 'All') {
+            parameters = [
+              this.providerKey,
+              { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Last30Days', Tin: this.tin }
+            ];
+          } else if (this.tin !== 'All') {
+            parameters = [this.providerKey, { TimeFilter: 'Last30Days', Tin: this.tin }];
+          } else if (this.lob !== 'All') {
+            parameters = [
+              this.providerKey,
+              { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Last30Days' }
+            ];
+          } else {
+            parameters = [this.providerKey, { TimeFilter: 'Last30Days' }];
           }
         } else if (this.timeFrame === 'Year to Date') {
           if (this.tin !== 'All' && this.lob !== 'All') {
@@ -81,7 +115,6 @@ export class NonPaymentSharedService {
             parameters = [this.providerKey, { TimeFilter: 'Last6Months' }];
           }
         }
-
         // let nonPayment: object;
 
         this.nonPaymentService.getNonPaymentData(...parameters).subscribe(
@@ -385,6 +418,8 @@ export class NonPaymentSharedService {
     if (
       this.timeFrame === 'Last 12 Months' ||
       this.timeFrame === 'Last 6 Months' ||
+      this.timeFrame === 'Last 3 Months' ||
+      this.timeFrame === 'Last 30 Days' ||
       this.timeFrame === 'Year to Date'
     ) {
       if (this.timeFrame === 'Last 12 Months') {
@@ -435,6 +470,36 @@ export class NonPaymentSharedService {
         } else {
           this.paramtersCategories = [this.providerKey, { TimeFilter: 'Last6Months' }];
         }
+      } else if (this.timeFrame === 'Last 3 Months') {
+        if (this.tin !== 'All' && this.lob !== 'All') {
+          this.paramtersCategories = [
+            this.providerKey,
+            { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Last3Months', Tin: this.tin }
+          ];
+        } else if (this.tin !== 'All') {
+          this.paramtersCategories = [this.providerKey, { TimeFilter: 'Last3Months', Tin: this.tin }];
+        } else if (this.lob !== 'All') {
+          this.paramtersCategories = [
+            this.providerKey,
+            { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Last3Months' }
+          ];
+        } else {
+          this.paramtersCategories = [this.providerKey, { TimeFilter: 'Last3Months' }];
+        }
+      } else if (this.timeFrame === 'Last 30 Days') {
+        if (this.tin !== 'All' && this.lob !== 'All') {
+          this.paramtersCategories = [
+            this.providerKey,
+            { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Last30Days', Tin: this.tin }
+          ];
+        } else if (this.tin !== 'All') {
+          this.paramtersCategories = [this.providerKey, { TimeFilter: 'Last30Days', Tin: this.tin }];
+        } else if (this.lob !== 'All') {
+          this.paramtersCategories = [
+            this.providerKey,
+            { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Last30Days' }
+          ];
+        }
       }
     } else {
       const lobData = this.common.matchLobWithData(this.lob);
@@ -477,9 +542,10 @@ export class NonPaymentSharedService {
     return new Promise(resolve => {
       this.sharedTopCategories(this.paramtersCategories)
         .then(topReasons => {
+          console.log('Top Reaons', topReasons);
           this.topReasonsData = JSON.parse(JSON.stringify(topReasons)); // Values descending here
           const subCategoryReasons: any = [];
-          for (let i = 0; i < 5; i++) {
+          for (let i = 0; i < this.topReasonsData.length; i++) {
             let x = JSON.parse(JSON.stringify(this.paramtersCategories)); // deep copy
             x[1]['denialCategory'] = this.topReasonsData[i]['title'];
             subCategoryReasons.push(x);
@@ -503,24 +569,11 @@ export class NonPaymentSharedService {
     this.timeFrame = this.session.filterObjValue.timeFrame;
     return new Promise(resolve => {
       this.nonPaymentService.getNonPaymentSubCategories(paramtersSubCategory).subscribe(
-        ([first, second, third, fourth, fifth]) => {
-          console.log('5 parameters', first, second, third, fourth, fifth);
-
-          if (first.All.DenialCategory > 5) {
-            first.All.DenialCategory.sort(function(a, b) {
-              return b.DenialAmount - a.DenialAmount;
-            }).slice(0, 5);
-          } else {
-            first.All.DenialCategory.sort(function(a, b) {
-              return b.DenialAmount - a.DenialAmount;
-            });
-          }
-          this.topReasonsData[0]['top5'] = first.All.DenialCategory;
-          this.topReasonsData[1]['top5'] = second.All.DenialCategory;
-          this.topReasonsData[2]['top5'] = third.All.DenialCategory;
-          this.topReasonsData[3]['top5'] = fourth.All.DenialCategory;
-          this.topReasonsData[4]['top5'] = fifth.All.DenialCategory;
+        data => {
+          const mappedData = data.map(item => item[0]);
+          console.log('5 parameters', mappedData);
           for (let i = 0; i < this.topReasonsData.length; i++) {
+            this.topReasonsData[i]['top5'] = mappedData[i].All.DenialCategory;
             const p = this.topReasonsData[i]['top5'];
             for (let j = 0; j < p.length; j++) {
               p[j].text = p[j]['Claimdenialcategorylevel1shortname'];
