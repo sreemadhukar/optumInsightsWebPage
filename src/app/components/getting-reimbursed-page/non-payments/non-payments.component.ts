@@ -258,6 +258,7 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
     this.mockCardOne = [{}];
     this.loadingTwo = false;
     this.mockCardTwo = [{}];
+
     // this.timePeriod = this.session.timeFrame; // uncomment it
 
     /** code for two donuts  Claims Not Paid and Claims Non-payment Rate */

@@ -495,7 +495,6 @@ export class NonPaymentSharedService {
       this.nonPaymentService.getNonPaymentSubCategories(paramtersSubCategory).subscribe(
         data => {
           const mappedData = data.map(item => item[0]);
-          console.log(data, 'Mapped Data');
           for (let i = 0; i < mappedData.length; i++) {
             this.topReasonsData[i]['top5'] = mappedData[i].All.DenialCategory;
             const p = this.topReasonsData[i]['top5']; // shallow copy , will the original array as well
@@ -507,7 +506,6 @@ export class NonPaymentSharedService {
               delete p[j].DenialAmount;
             }
           }
-          console.log('Top Reasons', this.topReasonsData);
           resolve(this.topReasonsData);
         },
         error => {
