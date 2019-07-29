@@ -583,43 +583,58 @@ export class GettingReimbursedSharedService {
               const labelsData = [];
               const colorsData = [];
               if (appealsData[0].LineOfBusiness.hasOwnProperty('MedicareAndRetirement')) {
+                let sum = 0;
                 if (
                   appealsData[0].LineOfBusiness.MedicareAndRetirement.hasOwnProperty('AdminAppeals') &&
-                  appealsData[0].LineOfBusiness.MedicareAndRetirement.hasOwnProperty('ClinicalAppeals')
+                  appealsData[0].LineOfBusiness.MedicareAndRetirement.AdminAppeals != null
                 ) {
-                  submittedData.push(
-                    appealsData[0].LineOfBusiness.MedicareAndRetirement.AdminAppeals +
-                      appealsData[0].LineOfBusiness.MedicareAndRetirement.ClinicalAppeals
-                  );
-                  labelsData.push('Medicare & Retirement');
-                  colorsData.push('#3381FF');
+                  sum += appealsData[0].LineOfBusiness.MedicareAndRetirement.AdminAppeals;
                 }
+                if (
+                  appealsData[0].LineOfBusiness.MedicareAndRetirement.hasOwnProperty('ClinicalAppeals') &&
+                  appealsData[0].LineOfBusiness.MedicareAndRetirement.ClinicalAppeals != null
+                ) {
+                  sum += appealsData[0].LineOfBusiness.MedicareAndRetirement.ClinicalAppeals;
+                }
+                submittedData.push(sum);
+                labelsData.push('Medicare & Retirement');
+                colorsData.push('#3381FF');
               }
               if (appealsData[0].LineOfBusiness.hasOwnProperty('CommunityAndState')) {
+                let sum = 0;
                 if (
                   appealsData[0].LineOfBusiness.CommunityAndState.hasOwnProperty('AdminAppeals') &&
-                  appealsData[0].LineOfBusiness.CommunityAndState.hasOwnProperty('ClinicalAppeals')
+                  appealsData[0].LineOfBusiness.CommunityAndState.AdminAppeals != null
                 ) {
-                  submittedData.push(
-                    appealsData[0].LineOfBusiness.CommunityAndState.AdminAppeals +
-                      appealsData[0].LineOfBusiness.CommunityAndState.ClinicalAppeals
-                  );
-                  labelsData.push('Community & State');
-                  colorsData.push('#80B0FF');
+                  sum += appealsData[0].LineOfBusiness.CommunityAndState.AdminAppeals;
                 }
+                if (
+                  appealsData[0].LineOfBusiness.CommunityAndState.hasOwnProperty('ClinicalAppeals') &&
+                  appealsData[0].LineOfBusiness.CommunityAndState.ClinicalAppeals != null
+                ) {
+                  sum += appealsData[0].LineOfBusiness.CommunityAndState.ClinicalAppeals;
+                }
+                submittedData.push(sum);
+                labelsData.push('Community & State');
+                colorsData.push('#80B0FF');
               }
               if (appealsData[0].LineOfBusiness.hasOwnProperty('EmployerAndIndividual')) {
+                let sum = 0;
                 if (
                   appealsData[0].LineOfBusiness.EmployerAndIndividual.hasOwnProperty('AdminAppeals') &&
-                  appealsData[0].LineOfBusiness.EmployerAndIndividual.hasOwnProperty('ClinicalAppeals')
+                  appealsData[0].LineOfBusiness.EmployerAndIndividual.AdminAppeals != null
                 ) {
-                  submittedData.push(
-                    appealsData[0].LineOfBusiness.EmployerAndIndividual.AdminAppeals +
-                      appealsData[0].LineOfBusiness.EmployerAndIndividual.ClinicalAppeals
-                  );
-                  labelsData.push('Employer & Individual');
-                  colorsData.push('#003DA1');
+                  sum += appealsData[0].LineOfBusiness.EmployerAndIndividual.AdminAppeals;
                 }
+                if (
+                  appealsData[0].LineOfBusiness.EmployerAndIndividual.hasOwnProperty('ClinicalAppeals') &&
+                  appealsData[0].LineOfBusiness.EmployerAndIndividual.ClinicalAppeals != null
+                ) {
+                  sum += appealsData[0].LineOfBusiness.EmployerAndIndividual.ClinicalAppeals;
+                }
+                submittedData.push(sum);
+                labelsData.push('Employer & Individual');
+                colorsData.push('#003DA1');
               }
               appealsSubmitted = {
                 category: 'app-card',
@@ -1834,6 +1849,15 @@ export class GettingReimbursedSharedService {
                     gdata: ['app-card-structure', 'appealsOverturnedReason' + i]
                   });
                 }
+              } else {
+                reason.push({
+                  category: 'app-card',
+                  type: 'donut',
+                  status: 404,
+                  title: 'Top Claims Appeals Overturn Reasons',
+                  data: null,
+                  timeperiod: null
+                });
               }
             } else {
               appealsOverturnedRate = {
@@ -1989,6 +2013,15 @@ export class GettingReimbursedSharedService {
                     gdata: ['app-card-structure', 'appealsOverturnedReason' + i]
                   });
                 }
+              } else {
+                reason.push({
+                  category: 'app-card',
+                  type: 'donut',
+                  status: 404,
+                  title: 'Top Claims Appeals Overturn Reasons',
+                  data: null,
+                  timeperiod: null
+                });
               }
             } else {
               appealsOverturnedRate = {
@@ -2234,49 +2267,64 @@ export class GettingReimbursedSharedService {
           appealsData[0].LineOfBusiness.hasOwnProperty('MedicareAndRetirement') &&
           appealsData[0].LineOfBusiness.MedicareAndRetirement != null
         ) {
+          let sum = 0;
           if (
             appealsData[0].LineOfBusiness.MedicareAndRetirement.hasOwnProperty('AdminAppeals') &&
-            appealsData[0].LineOfBusiness.MedicareAndRetirement.hasOwnProperty('ClinicalAppeals')
+            appealsData[0].LineOfBusiness.MedicareAndRetirement.AdminAppeals != null
           ) {
-            submittedData.push(
-              appealsData[0].LineOfBusiness.MedicareAndRetirement.AdminAppeals +
-                appealsData[0].LineOfBusiness.MedicareAndRetirement.ClinicalAppeals
-            );
-            labelsData.push('Medicare & Retirement');
-            colorsData.push('#3381FF');
+            sum += appealsData[0].LineOfBusiness.MedicareAndRetirement.AdminAppeals;
           }
+          if (
+            appealsData[0].LineOfBusiness.MedicareAndRetirement.hasOwnProperty('ClinicalAppeals') &&
+            appealsData[0].LineOfBusiness.MedicareAndRetirement.ClinicalAppeals != null
+          ) {
+            sum += appealsData[0].LineOfBusiness.MedicareAndRetirement.ClinicalAppeals;
+          }
+          submittedData.push(sum);
+          labelsData.push('Medicare & Retirement');
+          colorsData.push('#3381FF');
         }
         if (
           appealsData[0].LineOfBusiness.hasOwnProperty('CommunityAndState') &&
           appealsData[0].LineOfBusiness.CommunityAndState != null
         ) {
+          let sum = 0;
           if (
             appealsData[0].LineOfBusiness.CommunityAndState.hasOwnProperty('AdminAppeals') &&
-            appealsData[0].LineOfBusiness.CommunityAndState.hasOwnProperty('ClinicalAppeals')
+            appealsData[0].LineOfBusiness.CommunityAndState.AdminAppeals != null
           ) {
-            submittedData.push(
-              appealsData[0].LineOfBusiness.CommunityAndState.AdminAppeals +
-                appealsData[0].LineOfBusiness.CommunityAndState.ClinicalAppeals
-            );
-            labelsData.push('Community & State');
-            colorsData.push('#80B0FF');
+            sum += appealsData[0].LineOfBusiness.CommunityAndState.AdminAppeals;
           }
+          if (
+            appealsData[0].LineOfBusiness.CommunityAndState.hasOwnProperty('ClinicalAppeals') &&
+            appealsData[0].LineOfBusiness.CommunityAndState.ClinicalAppeals != null
+          ) {
+            sum += appealsData[0].LineOfBusiness.CommunityAndState.ClinicalAppeals;
+          }
+          submittedData.push(sum);
+          labelsData.push('Community & State');
+          colorsData.push('#80B0FF');
         }
         if (
           appealsData[0].LineOfBusiness.hasOwnProperty('EmployerAndIndividual') &&
           appealsData[0].LineOfBusiness.EmployerAndIndividual != null
         ) {
+          let sum = 0;
           if (
             appealsData[0].LineOfBusiness.EmployerAndIndividual.hasOwnProperty('AdminAppeals') &&
-            appealsData[0].LineOfBusiness.EmployerAndIndividual.hasOwnProperty('ClinicalAppeals')
+            appealsData[0].LineOfBusiness.EmployerAndIndividual.AdminAppeals != null
           ) {
-            submittedData.push(
-              appealsData[0].LineOfBusiness.EmployerAndIndividual.AdminAppeals +
-                appealsData[0].LineOfBusiness.EmployerAndIndividual.ClinicalAppeals
-            );
-            labelsData.push('Employer & Individual');
-            colorsData.push('#003DA1');
+            sum += appealsData[0].LineOfBusiness.EmployerAndIndividual.AdminAppeals;
           }
+          if (
+            appealsData[0].LineOfBusiness.EmployerAndIndividual.hasOwnProperty('ClinicalAppeals') &&
+            appealsData[0].LineOfBusiness.EmployerAndIndividual.ClinicalAppeals != null
+          ) {
+            sum += appealsData[0].LineOfBusiness.EmployerAndIndividual.ClinicalAppeals;
+          }
+          submittedData.push(sum);
+          labelsData.push('Employer & Individual');
+          colorsData.push('#003DA1');
         }
         appealsSubmitted = {
           category: 'app-card',
