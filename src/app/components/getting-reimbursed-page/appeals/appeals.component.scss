@@ -136,10 +136,15 @@
   width: 100%;
   padding-bottom: 20px; // centre aligned to card
 }
+.appeals-cards-block {
+  display: flex;
+  flex-wrap: wrap;
+}
 
 .overturn-reason-block {
+  margin: 12px;
   height: 443px;
-  width: 468px;
+  width: 464px;
   border-radius: 2px;
   background-color: $white;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
@@ -149,7 +154,11 @@
 
 .overturn-margin {
   position: relative;
-  padding: 12px;
+}
+
+.overturn-margin-padding {
+  position: relative;
+  padding: 0 12px;
 }
 
 .appeals-overturned-bar-chart {

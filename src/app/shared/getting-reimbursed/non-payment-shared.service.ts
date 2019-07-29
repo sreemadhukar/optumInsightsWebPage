@@ -14,12 +14,15 @@ export class NonPaymentSharedService {
   public timeFrame: string;
   private tin: string;
   private lob: string;
+  private paramtersCategories: any;
+  private topReasonsData: Array<object> = [];
   constructor(
     private nonPaymentService: NonPaymentService,
     private common: CommonUtilsService,
     private session: SessionService,
     private toggle: AuthorizationService
   ) {}
+  // The getNonPayment() function fetches data for Claims Not Paid and Claims Non-Payment Rate
   public getNonPayment() {
     this.tin = this.session.filterObjValue.tax.toString().replace('-', '');
     this.lob = this.session.filterObjValue.lob;
@@ -208,7 +211,7 @@ export class NonPaymentSharedService {
             resolve(this.summaryData);
           },
           err => {
-            console.log('Calls Error Data', err);
+            console.log('Non Payment Page , Error for two donuts Data', err);
           }
         );
       } else {
@@ -367,10 +370,178 @@ export class NonPaymentSharedService {
             resolve(this.summaryData);
           },
           err => {
-            console.log('Calls Error Data', err);
+            console.log('Non Payments Donut Error Data', err);
           }
         );
       }
     });
+  } // end funtion getNonPayment()
+
+  getParmaeterCategories() {
+    if (
+      this.timeFrame === 'Last 12 Months' ||
+      this.timeFrame === 'Last 6 Months' ||
+      this.timeFrame === 'Year to Date'
+    ) {
+      if (this.timeFrame === 'Last 12 Months') {
+        if (this.tin !== 'All' && this.lob !== 'All') {
+          this.paramtersCategories = [
+            this.providerKey,
+            { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Last12Months', Tin: this.tin }
+          ];
+        } else if (this.tin !== 'All') {
+          this.paramtersCategories = [this.providerKey, { TimeFilter: 'Last12Months', Tin: this.tin }];
+        } else if (this.lob !== 'All') {
+          this.paramtersCategories = [
+            this.providerKey,
+            { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Last12Months' }
+          ];
+        } else {
+          this.paramtersCategories = [this.providerKey, { TimeFilter: 'Last12Months' }];
+        }
+      } else if (this.timeFrame === 'Year to Date') {
+        if (this.tin !== 'All' && this.lob !== 'All') {
+          this.paramtersCategories = [
+            this.providerKey,
+            { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'YTD', Tin: this.tin }
+          ];
+        } else if (this.tin !== 'All') {
+          this.paramtersCategories = [this.providerKey, { TimeFilter: 'YTD', Tin: this.tin }];
+        } else if (this.lob !== 'All') {
+          this.paramtersCategories = [
+            this.providerKey,
+            { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'YTD' }
+          ];
+        } else {
+          this.paramtersCategories = [this.providerKey, { TimeFilter: 'YTD' }];
+        }
+      } else if (this.timeFrame === 'Last 6 Months') {
+        if (this.tin !== 'All' && this.lob !== 'All') {
+          this.paramtersCategories = [
+            this.providerKey,
+            { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Last6Months', Tin: this.tin }
+          ];
+        } else if (this.tin !== 'All') {
+          this.paramtersCategories = [this.providerKey, { TimeFilter: 'Last6Months', Tin: this.tin }];
+        } else if (this.lob !== 'All') {
+          this.paramtersCategories = [
+            this.providerKey,
+            { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Last6Months' }
+          ];
+        } else {
+          this.paramtersCategories = [this.providerKey, { TimeFilter: 'Last6Months' }];
+        }
+      }
+    } else {
+      const lobData = this.common.matchLobWithData(this.lob);
+      if (this.tin !== 'All' && this.lob !== 'All') {
+        this.paramtersCategories = [
+          this.providerKey,
+          {
+            Lob: this.common.matchLobWithCapsData(this.lob),
+            TimeFilter: 'CalendarYear',
+            TimeFilterText: this.timeFrame,
+            Tin: this.tin
+          }
+        ];
+      } else if (this.tin !== 'All') {
+        this.paramtersCategories = [
+          this.providerKey,
+          { TimeFilter: 'CalendarYear', TimeFilterText: this.timeFrame, Tin: this.tin }
+        ];
+      } else if (this.lob !== 'All') {
+        this.paramtersCategories = [
+          this.providerKey,
+          {
+            Lob: this.common.matchLobWithCapsData(this.lob),
+            TimeFilter: 'CalendarYear',
+            TimeFilterText: this.timeFrame
+          }
+        ];
+      } else {
+        this.paramtersCategories = [this.providerKey, { TimeFilter: 'CalendarYear', TimeFilterText: this.timeFrame }];
+      }
+    } // End If else structure
+  } // end getParmaeterCategories() function for Top Reasons Categories
+
+  public getNonPaymentCategories() {
+    this.timeFrame = this.session.filterObjValue.timeFrame;
+    this.providerKey = this.session.providerKeyData();
+    this.topReasonsData = [];
+    // Assign the paramater variable
+    this.getParmaeterCategories();
+    return new Promise(resolve => {
+      this.sharedTopCategories(this.paramtersCategories)
+        .then(topReasons => {
+          this.topReasonsData = JSON.parse(JSON.stringify(topReasons)); // Values descending here
+          const subCategoryReasons: any = [];
+          for (let i = 0; i < this.topReasonsData.length; i++) {
+            let x = JSON.parse(JSON.stringify(this.paramtersCategories)); // deep copy
+            x[1]['denialCategory'] = this.topReasonsData[i]['title'];
+            subCategoryReasons.push(x);
+            x = [];
+          }
+          return this.sharedTopSubCategories(subCategoryReasons);
+        })
+        .then(finalData => {
+          return resolve(finalData);
+        });
+    });
+  } // end getNonPaymentCategories function
+
+  public sharedTopSubCategories(paramtersSubCategory) {
+    this.timeFrame = this.session.filterObjValue.timeFrame;
+    return new Promise(resolve => {
+      this.nonPaymentService.getNonPaymentSubCategories(paramtersSubCategory).subscribe(
+        data => {
+          const mappedData = data.map(item => item[0]);
+          for (let i = 0; i < mappedData.length; i++) {
+            this.topReasonsData[i]['top5'] = mappedData[i].All.DenialCategory;
+            const p = this.topReasonsData[i]['top5']; // shallow copy , will the original array as well
+            for (let j = 0; j < p.length; j++) {
+              p[j].text = p[j]['Claimdenialcategorylevel1shortname'];
+              p[j].valueNumeric = p[j]['DenialAmount'];
+              p[j].value = '$' + this.common.nFormatter(p[j]['DenialAmount']);
+              delete p[j].Claimdenialcategorylevel1shortname;
+              delete p[j].DenialAmount;
+            }
+          }
+          resolve(this.topReasonsData);
+        },
+        error => {
+          console.log('Error Shared Top Sub Categories', error);
+        }
+      );
+      resolve(this.topReasonsData);
+    });
   }
+  public sharedTopCategories(parameters) {
+    this.timeFrame = this.session.filterObjValue.timeFrame;
+    return new Promise(resolve => {
+      /** Get Top 5 Categories Data */
+      this.nonPaymentService.getNonPaymentTopCategories(...parameters).subscribe(
+        ([topCategories]) => {
+          const topReasons: Array<object> = [];
+          let tempArray: any;
+          // tempArray = topCategories.All.DenialCategory.filter(x => x.Claimdenialcategorylevel1shortname !== 'UNKNOWN');
+          tempArray = topCategories.All.DenialCategory.sort(function(a, b) {
+            return b.DenialAmount - a.DenialAmount;
+          });
+
+          for (let i = 0; i < tempArray.length; i++) {
+            topReasons.push({
+              title: tempArray[i].Claimdenialcategorylevel1shortname,
+              value: '$' + this.common.nFormatter(tempArray[i].DenialAmount),
+              numeric: tempArray[i].DenialAmount
+            });
+          }
+          resolve(topReasons);
+        },
+        error => {
+          console.log('Non payment Data Error ', error);
+        }
+      );
+      /** Ends Shared Top Categories Data */
+    });
+  } // end sharedTopCategories Function
 }
