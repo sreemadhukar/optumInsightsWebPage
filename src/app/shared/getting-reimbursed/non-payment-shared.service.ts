@@ -614,22 +614,23 @@ export class NonPaymentSharedService {
     this.providerKey = this.session.providerKeyData();
     this.topReasonsData = [];
     // Assign the paramater variable
+    this.paramtersCategories = [];
     this.getParmaeterCategories();
     return new Promise(resolve => {
       this.sharedTopCategories(this.paramtersCategories)
         .then(topReasons => {
-          this.topReasonsData = JSON.parse(JSON.stringify(topReasons)); // Values descending here
+          const p = JSON.parse(JSON.stringify(topReasons)); // Values descending here
           const subCategoryReasons: any = [];
-          for (let i = 0; i < this.topReasonsData.length; i++) {
+          for (let i = 0; i < p.length; i++) {
             let x = JSON.parse(JSON.stringify(this.paramtersCategories)); // deep copy
-            x[1]['denialCategory'] = this.topReasonsData[i]['title'];
+            x[1]['denialCategory'] = p[i]['title'];
             subCategoryReasons.push(x);
             x = [];
           }
           if (topReasons === null) {
             return null;
           }
-          return this.sharedTopSubCategories(subCategoryReasons);
+          return this.sharedTopSubCategories(subCategoryReasons, p);
         })
         .then(finalData => {
           if (finalData === null) {
@@ -640,7 +641,7 @@ export class NonPaymentSharedService {
     });
   } // end getNonPaymentCategories function
 
-  public sharedTopSubCategories(paramtersSubCategory) {
+  public sharedTopSubCategories(paramtersSubCategory, arrayTemp) {
     this.timeFrame = this.session.filterObjValue.timeFrame;
     return new Promise(resolve => {
       this.nonPaymentService.getNonPaymentSubCategories(paramtersSubCategory).subscribe(
@@ -648,7 +649,7 @@ export class NonPaymentSharedService {
           const mappedData = data.map(item => item[0]);
           // console.log('5 parameters', mappedData);
           for (let i = 0; i < this.topReasonsData.length; i++) {
-            this.topReasonsData[i]['top5'] = mappedData[i].All.DenialCategory;
+            arrayTemp[i]['top5'] = mappedData[i].All.DenialCategory;
             const p = this.topReasonsData[i]['top5'];
             for (let j = 0; j < p.length; j++) {
               p[j].text = p[j]['Claimdenialcategorylevel1shortname'];
@@ -658,14 +659,13 @@ export class NonPaymentSharedService {
               delete p[j].DenialAmount;
             }
           }
-          resolve(this.topReasonsData);
+          resolve(arrayTemp);
         },
         error => {
           resolve(null);
           console.log('Error Shared Top Sub Categories', error);
         }
       );
-      resolve(this.topReasonsData);
     });
   }
   public sharedTopCategories(parameters) {

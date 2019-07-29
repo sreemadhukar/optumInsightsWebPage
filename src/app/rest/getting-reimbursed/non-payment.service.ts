@@ -39,6 +39,7 @@ export class NonPaymentService {
       'Content-Type': 'application/json',
       Accept: '*/*'
     });
+    console.log('Paramters', parameters);
     const nonPaymentURL = this.APP_URL + this.NON_PAYMENT + parameters[0] + '?requestType=NONPAYMENT_TOPCATEGORIES';
     return combineLatest(
       this.http.post(nonPaymentURL, parameters[1], { headers: myHeader }).pipe(
