@@ -2,11 +2,9 @@
 
 @Library("com.optum.jenkins.pipeline.library@v0.1.24") _
 
-String dockerHost = 'docker.optum.com'
-String namespace = 'fspeddeply'
+String dockerHost = 'docker.repo1.uhc.com'
+String namespace = 'uhcinsights'
 String tagBase = "$dockerHost/$namespace"
-
-String stgWebRepo = 'pedweb_stg'
 
 String oseUiHost= "https://ocp-ctc-dmz-stg.optum.com"
 String oseInterHost= "https://ocp-ctc-core.optum.com"
@@ -35,16 +33,24 @@ pipeline {
         label 'docker-nodejs-slave'
       }
       steps {
-        glDockerImageBuildPush tag: "$tagBase/$stgWebRepo:uhcstage",
-          repository: "$stgWebRepo",
-          namespace: "$namespace",
+        glDockerImageBuildPush tag: "$tagBase/ui_stg:uhcstage",
+          dockerHost: 'docker.repo1.uhc.com',
           dockerCredentialsId: "$env.DOCKER_CREDENTIALS_ID",
           extraBuildOptions: "--build-arg env_var=externalstage"
-        glDockerImageBuildPush tag: "$tagBase/$stgWebRepo:stage2",
-          repository: "$stgWebRepo",
-          namespace: "$namespace",
+        glDockerImageBuildPush tag: "$tagBase/ui_stg_internal:stage2",
+          dockerHost: 'docker.repo1.uhc.com',
           dockerCredentialsId: "$env.DOCKER_CREDENTIALS_ID",
           extraBuildOptions: "--build-arg env_var=stage"
+        glDockerImageTag sourceTag: "$tagBase/ui_stg:uhcstage",
+                         destTag: "$tagBase/ui_stg:${env.BUILD_NUMBER}"
+        glDockerImagePush dockerCredentialsId: "${env.DOCKER_CREDENTIALS_ID}", 
+                     tag:"$tagBase/ui_stg:${env.BUILD_NUMBER}",
+                     dockerHost: 'docker.repo1.uhc.com'
+        glDockerImageTag sourceTag: "$tagBase/ui_stg_internal:stage2",
+                         destTag: "$tagBase/ui_stg_internal:${env.BUILD_NUMBER}"
+        glDockerImagePush dockerCredentialsId: "${env.DOCKER_CREDENTIALS_ID}", 
+                     tag:"$tagBase/ui_stg_internal:${env.BUILD_NUMBER}",
+                     dockerHost: 'docker.repo1.uhc.com'
       }
     }
 
@@ -57,13 +63,13 @@ pipeline {
           ocpUrl: "$oseUiHost",
           project: "$oseUiProject",
           serviceName: "$stageUiPod",
-          dockerImage: "$tagBase/$stgWebRepo:uhcstage",
+          dockerImage: "$tagBase/ui_stg:uhcstage",
           port: '8000'
         glOpenshiftDeploy credentials: "$env.OPENSHIFT_CREDENTIALS_ID",
           ocpUrl: "$oseInterHost",
           project: "$oseInterProject",
           serviceName: "$interUiPod",
-          dockerImage: "$tagBase/$stgWebRepo:stage2",
+          dockerImage: "$tagBase/ui_stg_internal:stage2",
           port: '8000'
 
       }

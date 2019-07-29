@@ -251,9 +251,7 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
     } else {
       this.taxID = [];
     }
-    this.gettingReimbursedSharedService.getTins().then(tins => {
-      console.log(tins);
-    });
+    this.gettingReimbursedSharedService.getTins().then(tins => {});
     this.loadingOne = false;
     this.mockCardOne = [{}];
     this.loadingTwo = false;
