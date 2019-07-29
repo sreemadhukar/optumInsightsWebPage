@@ -4,6 +4,7 @@ import { NonPaymentService } from './../../rest/getting-reimbursed/non-payment.s
 import { CommonUtilsService } from '../common-utils.service';
 import { SessionService } from '../session.service';
 import { AuthorizationService } from '../../auth/_service/authorization.service';
+import { GettingReimbursedService } from '../../rest/getting-reimbursed/getting-reimbursed.service';
 
 @Injectable({
   providedIn: GettingReimbursedModule
@@ -17,6 +18,7 @@ export class NonPaymentSharedService {
   private paramtersCategories: any;
   private topReasonsData: Array<object> = [];
   constructor(
+    private gettingReimbursedService: GettingReimbursedService,
     private nonPaymentService: NonPaymentService,
     private common: CommonUtilsService,
     private session: SessionService,
