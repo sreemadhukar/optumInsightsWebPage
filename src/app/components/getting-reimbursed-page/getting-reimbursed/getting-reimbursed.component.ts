@@ -30,6 +30,7 @@ export class GettingReimbursedComponent implements OnInit {
   loading: boolean;
   mockCards: any;
   previousSelectedTab: any = 0;
+  currTabDetailButtonName: any;
   constructor(
     private gettingReimbursedSharedService: GettingReimbursedSharedService,
     private checkStorage: StorageService,
@@ -129,6 +130,16 @@ export class GettingReimbursedComponent implements OnInit {
         this.loading = false;
         console.log('Getting Reimbursed Summary page', reason.message);
       });
+
+    /*   if (this.currentTabTitle === 'Claims Submissions') {
+         this.currTabDetailButtonName = '';
+      } else if (this.currentTabTitle === 'Claims Payments') {
+        this.currTabDetailButtonName = 'Payments Details';
+      } else if (this.currentTabTitle === 'Claims Non-Payments') {
+        this.currTabDetailButtonName = 'Non-Payments Details';
+      } else if (this.currentTabTitle === 'Claims Appeals') {
+        this.currTabDetailButtonName = 'Appeals Details';
+      } */
   }
   openFilter() {
     this.filterExpandService.setURL(this.router.url);
