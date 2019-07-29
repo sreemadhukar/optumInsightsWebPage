@@ -490,6 +490,9 @@ export class NonPaymentSharedService {
   } // end funtion getNonPayment()
 
   getParmaeterCategories() {
+    this.timeFrame = this.session.filterObjValue.timeFrame;
+    this.providerKey = this.session.providerKeyData();
+    // this.paramtersCategories = [];
     if (
       this.timeFrame === 'Last 12 Months' ||
       this.timeFrame === 'Last 6 Months' ||
@@ -562,6 +565,7 @@ export class NonPaymentSharedService {
           this.paramtersCategories = [this.providerKey, { TimeFilter: 'Last3Months' }];
         }
       } else if (this.timeFrame === 'Last 30 Days') {
+        console.log('Hero', this.timeFrame);
         if (this.tin !== 'All' && this.lob !== 'All') {
           this.paramtersCategories = [
             this.providerKey,
@@ -574,6 +578,8 @@ export class NonPaymentSharedService {
             this.providerKey,
             { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Last30Days' }
           ];
+        } else {
+          this.paramtersCategories = [this.providerKey, { TimeFilter: 'Last30Days' }];
         }
       }
     } else {
@@ -609,9 +615,6 @@ export class NonPaymentSharedService {
   } // end getParmaeterCategories() function for Top Reasons Categories
 
   public getNonPaymentCategories() {
-    this.timeFrame = this.session.filterObjValue.timeFrame;
-    this.providerKey = this.session.providerKeyData();
-
     // Assign the paramater variable
     this.paramtersCategories = [];
     this.getParmaeterCategories();
