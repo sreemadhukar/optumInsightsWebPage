@@ -53,32 +53,78 @@ export class GettingReimbursedSharedService {
   }
 
   /** Function to show hovers labels as per Lob**/
-  public returnHoverLabels() {
-    if (this.session.filterObjValue.lob === 'All') {
-      return ['Medicare & Retirement', 'Community & State', 'Employer & Individual', 'Uncategorized'];
-    } else if (this.session.filterObjValue.lob === 'Community & State') {
-      return ['Community & State'];
-    } else if (this.session.filterObjValue.lob === 'Employer & Individual') {
-      return ['Employer & Individual'];
-    } else if (this.session.filterObjValue.lob === 'Medicare & Retirement') {
-      return ['Medicare & Retirement'];
-    } else if (this.session.filterObjValue.lob === 'Uncategorized') {
-      return ['Uncategorized'];
+  public returnHoverLabels(cardData) {
+    const hoverLabels = [];
+    if (cardData !== null) {
+      if (this.session.filterObjValue.lob === 'All') {
+        if (cardData.hasOwnProperty('Mr')) {
+          hoverLabels.push('Medicare & Retirement');
+        }
+        if (cardData.hasOwnProperty('Cs')) {
+          hoverLabels.push('Community & State');
+        }
+        if (cardData.hasOwnProperty('Ei')) {
+          hoverLabels.push('Employer & Individual');
+        }
+        if (cardData.hasOwnProperty('Un')) {
+          hoverLabels.push('Uncategorized');
+        }
+      } else if (this.session.filterObjValue.lob === 'Medicare & Retirement') {
+        if (cardData.hasOwnProperty('Mr')) {
+          hoverLabels.push('Medicare & Retirement');
+        }
+      } else if (this.session.filterObjValue.lob === 'Community & State') {
+        if (cardData.hasOwnProperty('Cs')) {
+          hoverLabels.push('Community & State');
+        }
+      } else if (this.session.filterObjValue.lob === 'Employer & Individual') {
+        if (cardData.hasOwnProperty('Ei')) {
+          hoverLabels.push('Employer & Individual');
+        }
+      } else if (this.session.filterObjValue.lob === 'Uncategorized') {
+        if (cardData.hasOwnProperty('Un')) {
+          hoverLabels.push('Uncategorized');
+        }
+      }
+      return hoverLabels;
     }
   }
 
   /** Function to show hovers colors as per Lob**/
-  public returnLobColor() {
-    if (this.session.filterObjValue.lob === 'All') {
-      return ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'];
-    } else if (this.session.filterObjValue.lob === 'Community & State') {
-      return ['#80B0FF'];
-    } else if (this.session.filterObjValue.lob === 'Employer & Individual') {
-      return ['#003DA1'];
-    } else if (this.session.filterObjValue.lob === 'Medicare & Retirement') {
-      return ['#3381FF'];
-    } else if (this.session.filterObjValue.lob === 'Uncategorized') {
-      return ['#00B8CC'];
+  public returnLobColor(cardData) {
+    const hoverColors = [];
+    if (cardData !== null) {
+      if (this.session.filterObjValue.lob === 'All') {
+        if (cardData.hasOwnProperty('Mr')) {
+          hoverColors.push('#3381FF');
+        }
+        if (cardData.hasOwnProperty('Cs')) {
+          hoverColors.push('#80B0FF');
+        }
+        if (cardData.hasOwnProperty('Ei')) {
+          hoverColors.push('#003DA1');
+        }
+        if (cardData.hasOwnProperty('Un')) {
+          hoverColors.push('#00B8CC');
+        }
+      } else if (this.session.filterObjValue.lob === 'Medicare & Retirement') {
+        if (cardData.hasOwnProperty('Mr')) {
+          hoverColors.push('#3381FF');
+        }
+      } else if (this.session.filterObjValue.lob === 'Community & State') {
+        if (cardData.hasOwnProperty('Cs')) {
+          hoverColors.push('#80B0FF');
+        }
+      } else if (this.session.filterObjValue.lob === 'Employer & Individual') {
+        if (cardData.hasOwnProperty('Ei')) {
+          hoverColors.push('#003DA1');
+        }
+      } else if (this.session.filterObjValue.lob === 'Uncategorized') {
+        if (cardData.hasOwnProperty('Un')) {
+          hoverColors.push('#00B8CC');
+        }
+      }
+      return hoverColors;
     }
   }
   /** code starts here for shared NonPayment Data */
@@ -324,13 +370,13 @@ export class GettingReimbursedSharedService {
                     this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].AmountPaid) > 0
                       ? '< $1'
                       : '$' + this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].AmountPaid),
-                  color: this.returnLobColor(),
+                  color: this.returnLobColor(claimsData),
                   gdata: ['card-inner', 'claimsPaid'],
                   sdata: {
                     sign: '',
                     data: ''
                   },
-                  labels: this.returnHoverLabels(),
+                  labels: this.returnHoverLabels(claimsData),
                   hover: true
                 },
                 besideData: {
@@ -405,13 +451,13 @@ export class GettingReimbursedSharedService {
                     this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].AmountDenied) > 0
                       ? '< $1'
                       : '$' + this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].AmountDenied),
-                  color: this.returnLobColor(),
+                  color: this.returnLobColor(claimsData),
                   gdata: ['card-inner', 'claimsPaid'],
                   sdata: {
                     sign: '',
                     data: ''
                   },
-                  labels: this.returnHoverLabels(),
+                  labels: this.returnHoverLabels(claimsData),
                   hover: true
                 },
                 besideData: {
@@ -705,7 +751,6 @@ export class GettingReimbursedSharedService {
     return new Promise(resolve => {
       this.gettingReimbursedService.getGettingReimbursedData(...parameters).subscribe(
         ([claimsData, appealsData]) => {
-          console.log(this.session.filterObjValue.lob);
           const lobFullData = this.common.matchFullLobWithData(this.lob);
           const lobData = this.common.matchLobWithData(this.lob);
           if (claimsData != null && claimsData.hasOwnProperty('status')) {
@@ -930,13 +975,13 @@ export class GettingReimbursedSharedService {
                     this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].AmountPaid) > 0
                       ? '< $1'
                       : '$' + this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].AmountPaid),
-                  color: this.returnLobColor(), // colorcodes,
+                  color: this.returnLobColor(claimsData), // colorcodes,
                   gdata: ['card-inner', 'claimsPaid'],
                   sdata: {
                     sign: '',
                     data: ''
                   },
-                  labels: this.returnHoverLabels(),
+                  labels: this.returnHoverLabels(claimsData),
                   hover: true
                 },
                 besideData: {
@@ -958,13 +1003,13 @@ export class GettingReimbursedSharedService {
                       this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].AmountPaid) > 0
                         ? '< $1'
                         : '$' + this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].AmountPaid),
-                    color: this.returnLobColor(),
+                    color: this.returnLobColor(claimsData),
                     gdata: ['card-inner', 'claimsPaid'],
                     sdata: {
                       sign: 'down',
                       data: '-2.8%'
                     },
-                    labels: this.returnHoverLabels(),
+                    labels: this.returnHoverLabels(claimsData),
                     hover: true
                   },
                   besideData: {
@@ -1040,13 +1085,13 @@ export class GettingReimbursedSharedService {
                     this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].AmountPaid) > 0
                       ? '< $1'
                       : '$' + this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].AmountPaid),
-                  color: this.returnLobColor(),
+                  color: this.returnLobColor(claimsData),
                   gdata: ['card-inner', 'claimsPaid'],
                   sdata: {
                     sign: '',
                     data: ''
                   },
-                  labels: this.returnHoverLabels(),
+                  labels: this.returnHoverLabels(claimsData),
                   hover: true
                 },
                 besideData: {
@@ -1121,13 +1166,13 @@ export class GettingReimbursedSharedService {
                     this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].AmountDenied) > 0
                       ? '< $1'
                       : '$' + this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].AmountDenied),
-                  color: this.returnLobColor(),
+                  color: this.returnLobColor(claimsData),
                   gdata: ['card-inner', 'claimsPaid'],
                   sdata: {
                     sign: '',
                     data: ''
                   },
-                  labels: this.returnHoverLabels(),
+                  labels: this.returnHoverLabels(claimsData),
                   hover: true
                 },
                 besideData: {
@@ -2088,7 +2133,6 @@ export class GettingReimbursedSharedService {
     this.tin = this.session.filterObjValue.tax.toString().replace('-', '');
     this.lob = this.session.filterObjValue.lob;
     this.timeFrame = this.session.filterObjValue.timeFrame;
-    console.log(this.timeFrame);
     // 'Last 6 Months'; // this.session.timeFrame;
     this.providerKey = this.session.providerKeyData();
     const timeperiod = '';

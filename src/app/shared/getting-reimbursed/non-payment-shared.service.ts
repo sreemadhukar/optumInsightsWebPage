@@ -24,35 +24,80 @@ export class NonPaymentSharedService {
   ) {}
 
   /** Function to show hovers labels as per Lob**/
-  public returnHoverLabels() {
-    if (this.session.filterObjValue.lob === 'All') {
-      return ['Medicare & Retirement', 'Community & State', 'Employer & Individual', 'Uncategorized'];
-    } else if (this.session.filterObjValue.lob === 'Community & State') {
-      return ['Community & State'];
-    } else if (this.session.filterObjValue.lob === 'Employer & Individual') {
-      return ['Employer & Individual'];
-    } else if (this.session.filterObjValue.lob === 'Medicare & Retirement') {
-      return ['Medicare & Retirement'];
-    } else if (this.session.filterObjValue.lob === 'Uncategorized') {
-      return ['Uncategorized'];
+  public returnHoverLabels(cardData) {
+    const hoverLabels = [];
+    if (cardData !== null) {
+      if (this.session.filterObjValue.lob === 'All') {
+        if (cardData.hasOwnProperty('Mr')) {
+          hoverLabels.push('Medicare & Retirement');
+        }
+        if (cardData.hasOwnProperty('Cs')) {
+          hoverLabels.push('Community & State');
+        }
+        if (cardData.hasOwnProperty('Ei')) {
+          hoverLabels.push('Employer & Individual');
+        }
+        if (cardData.hasOwnProperty('Un')) {
+          hoverLabels.push('Uncategorized');
+        }
+      } else if (this.session.filterObjValue.lob === 'Medicare & Retirement') {
+        if (cardData.hasOwnProperty('Mr')) {
+          hoverLabels.push('Medicare & Retirement');
+        }
+      } else if (this.session.filterObjValue.lob === 'Community & State') {
+        if (cardData.hasOwnProperty('Cs')) {
+          hoverLabels.push('Community & State');
+        }
+      } else if (this.session.filterObjValue.lob === 'Employer & Individual') {
+        if (cardData.hasOwnProperty('Ei')) {
+          hoverLabels.push('Employer & Individual');
+        }
+      } else if (this.session.filterObjValue.lob === 'Uncategorized') {
+        if (cardData.hasOwnProperty('Un')) {
+          hoverLabels.push('Uncategorized');
+        }
+      }
+      return hoverLabels;
     }
   }
 
   /** Function to show hovers colors as per Lob**/
-  public returnLobColor() {
-    if (this.session.filterObjValue.lob === 'All') {
-      return ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'];
-    } else if (this.session.filterObjValue.lob === 'Community & State') {
-      return ['#80B0FF'];
-    } else if (this.session.filterObjValue.lob === 'Employer & Individual') {
-      return ['#003DA1'];
-    } else if (this.session.filterObjValue.lob === 'Medicare & Retirement') {
-      return ['#3381FF'];
-    } else if (this.session.filterObjValue.lob === 'Uncategorized') {
-      return ['#00B8CC'];
+  public returnLobColor(cardData) {
+    const hoverColors = [];
+    if (cardData !== null) {
+      if (this.session.filterObjValue.lob === 'All') {
+        if (cardData.hasOwnProperty('Mr')) {
+          hoverColors.push('#3381FF');
+        }
+        if (cardData.hasOwnProperty('Cs')) {
+          hoverColors.push('#80B0FF');
+        }
+        if (cardData.hasOwnProperty('Ei')) {
+          hoverColors.push('#003DA1');
+        }
+        if (cardData.hasOwnProperty('Un')) {
+          hoverColors.push('#00B8CC');
+        }
+      } else if (this.session.filterObjValue.lob === 'Medicare & Retirement') {
+        if (cardData.hasOwnProperty('Mr')) {
+          hoverColors.push('#3381FF');
+        }
+      } else if (this.session.filterObjValue.lob === 'Community & State') {
+        if (cardData.hasOwnProperty('Cs')) {
+          hoverColors.push('#80B0FF');
+        }
+      } else if (this.session.filterObjValue.lob === 'Employer & Individual') {
+        if (cardData.hasOwnProperty('Ei')) {
+          hoverColors.push('#003DA1');
+        }
+      } else if (this.session.filterObjValue.lob === 'Uncategorized') {
+        if (cardData.hasOwnProperty('Un')) {
+          hoverColors.push('#00B8CC');
+        }
+      }
+      return hoverColors;
     }
   }
-
   // The getNonPayment() function fetches data for Claims Not Paid and Claims Non-Payment Rate
   public getNonPayment() {
     this.tin = this.session.filterObjValue.tax.toString().replace('-', '');
@@ -174,13 +219,13 @@ export class NonPaymentSharedService {
                     this.common.nFormatter(nonPaymentData1.All.ClaimsLobSummary[0].AmountDenied) > 0
                       ? '< $1'
                       : '$' + this.common.nFormatter(nonPaymentData1.All.ClaimsLobSummary[0].AmountDenied),
-                  color: this.returnLobColor(),
+                  color: this.returnLobColor(nonPaymentData1),
                   gdata: ['card-inner', 'claimsNotPaid'],
                   sdata: {
                     sign: '',
                     data: ''
                   },
-                  labels: this.returnHoverLabels(),
+                  labels: this.returnHoverLabels(nonPaymentData1),
                   hover: true
                 },
                 besideData: {
@@ -333,13 +378,13 @@ export class NonPaymentSharedService {
                     this.common.nFormatter(nonPaymentData1[lobData].ClaimsLobSummary[0].AmountDenied) > 0
                       ? '< $1'
                       : '$' + this.common.nFormatter(nonPaymentData1[lobData].ClaimsLobSummary[0].AmountDenied),
-                  color: this.returnLobColor(),
+                  color: this.returnLobColor(nonPaymentData1),
                   gdata: ['card-inner', 'claimsNotPaid'],
                   sdata: {
                     sign: '',
                     data: ''
                   },
-                  labels: this.returnHoverLabels(),
+                  labels: this.returnHoverLabels(nonPaymentData1),
                   hover: true
                 },
                 besideData: {
