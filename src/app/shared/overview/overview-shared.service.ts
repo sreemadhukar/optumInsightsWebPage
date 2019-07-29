@@ -919,8 +919,8 @@ export class OverviewSharedService {
           .then(trendData => {
             let trends: any;
             trends = trendData;
-            tempArray[0]['sdata'] = trends.claimsPaidTrendObject;
-            tempArray[1]['sdata'] = trends.claimsYieldTrendObject;
+            // tempArray[0]['sdata'] = trends.claimsPaidTrendObject;
+            // tempArray[1]['sdata'] = trends.claimsYieldTrendObject;
             /*tempArray[0]['sdata'] = {
              sign: "down",
              data: "-46%"
