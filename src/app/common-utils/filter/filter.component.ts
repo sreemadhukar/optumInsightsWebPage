@@ -39,7 +39,15 @@ export class FilterComponent implements OnInit {
 
   @Output() filterFlag = new EventEmitter();
   @Input() filterurl;
-  public timeframes = ['Last 6 Months', 'Last 12 Months', 'Year to Date', '2018', '2017'];
+  public timeframes = [
+    'Last 30 Days',
+    'Last 3 Months',
+    'Last 6 Months',
+    'Last 12 Months',
+    'Year to Date',
+    '2018',
+    '2017'
+  ];
   public lobs = ['All', 'Community & State', 'Employer & Individual', 'Medicare & Retirement'];
   public servicesettings = ['All', 'Inpatient', 'Outpatient', 'Outpatient Facility'];
   public priorauthdecisiontype = ['All', 'Administrative', 'Clinical'];
@@ -279,7 +287,6 @@ export class FilterComponent implements OnInit {
         });
       }
     }
-    console.log(this.lobData);
     this.session.filterObjSubject.complete();
     this.filterFlag.emit(false);
   }

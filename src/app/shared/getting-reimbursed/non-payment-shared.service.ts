@@ -475,7 +475,7 @@ export class NonPaymentSharedService {
         .then(topReasons => {
           this.topReasonsData = JSON.parse(JSON.stringify(topReasons)); // Values descending here
           const subCategoryReasons: any = [];
-          for (let i = 0; i < this.topReasonsData.length; i++) {
+          for (let i = 0; i < 5; i++) {
             let x = JSON.parse(JSON.stringify(this.paramtersCategories)); // deep copy
             x[1]['denialCategory'] = this.topReasonsData[i]['title'];
             subCategoryReasons.push(x);
@@ -493,11 +493,25 @@ export class NonPaymentSharedService {
     this.timeFrame = this.session.filterObjValue.timeFrame;
     return new Promise(resolve => {
       this.nonPaymentService.getNonPaymentSubCategories(paramtersSubCategory).subscribe(
-        data => {
-          const mappedData = data.map(item => item[0]);
-          for (let i = 0; i < mappedData.length; i++) {
-            this.topReasonsData[i]['top5'] = mappedData[i].All.DenialCategory;
-            const p = this.topReasonsData[i]['top5']; // shallow copy , will the original array as well
+        ([first, second, third, fourth, fifth]) => {
+          console.log('5 parameters', first, second, third, fourth, fifth);
+
+          if (first.All.DenialCategory > 5) {
+            first.All.DenialCategory.sort(function(a, b) {
+              return b.DenialAmount - a.DenialAmount;
+            }).slice(0, 5);
+          } else {
+            first.All.DenialCategory.sort(function(a, b) {
+              return b.DenialAmount - a.DenialAmount;
+            });
+          }
+          this.topReasonsData[0]['top5'] = first.All.DenialCategory;
+          this.topReasonsData[1]['top5'] = second.All.DenialCategory;
+          this.topReasonsData[2]['top5'] = third.All.DenialCategory;
+          this.topReasonsData[3]['top5'] = fourth.All.DenialCategory;
+          this.topReasonsData[4]['top5'] = fifth.All.DenialCategory;
+          for (let i = 0; i < this.topReasonsData.length; i++) {
+            const p = this.topReasonsData[i]['top5'];
             for (let j = 0; j < p.length; j++) {
               p[j].text = p[j]['Claimdenialcategorylevel1shortname'];
               p[j].valueNumeric = p[j]['DenialAmount'];
@@ -524,10 +538,18 @@ export class NonPaymentSharedService {
           const topReasons: Array<object> = [];
           let tempArray: any;
           // tempArray = topCategories.All.DenialCategory.filter(x => x.Claimdenialcategorylevel1shortname !== 'UNKNOWN');
-          tempArray = topCategories.All.DenialCategory.sort(function(a, b) {
-            return b.DenialAmount - a.DenialAmount;
-          });
-
+          tempArray = topCategories.All.DenialCategory;
+          if (topCategories.All.DenialCategory > 5) {
+            tempArray
+              .sort(function(a, b) {
+                return b.DenialAmount - a.DenialAmount;
+              })
+              .slice(0, 5); // Descending
+          } else {
+            tempArray.sort(function(a, b) {
+              return b.DenialAmount - a.DenialAmount;
+            }); // Descending
+          }
           for (let i = 0; i < tempArray.length; i++) {
             topReasons.push({
               title: tempArray[i].Claimdenialcategorylevel1shortname,
