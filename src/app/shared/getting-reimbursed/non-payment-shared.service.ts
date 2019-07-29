@@ -22,6 +22,37 @@ export class NonPaymentSharedService {
     private session: SessionService,
     private toggle: AuthorizationService
   ) {}
+
+  /** Function to show hovers labels as per Lob**/
+  public returnHoverLabels() {
+    if (this.session.filterObjValue.lob === 'All') {
+      return ['Medicare & Retirement', 'Community & State', 'Employer & Individual', 'Uncategorized'];
+    } else if (this.session.filterObjValue.lob === 'Community & State') {
+      return ['Community & State'];
+    } else if (this.session.filterObjValue.lob === 'Employer & Individual') {
+      return ['Employer & Individual'];
+    } else if (this.session.filterObjValue.lob === 'Medicare & Retirement') {
+      return ['Medicare & Retirement'];
+    } else if (this.session.filterObjValue.lob === 'Uncategorized') {
+      return ['Uncategorized'];
+    }
+  }
+
+  /** Function to show hovers colors as per Lob**/
+  public returnLobColor() {
+    if (this.session.filterObjValue.lob === 'All') {
+      return ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'];
+    } else if (this.session.filterObjValue.lob === 'Community & State') {
+      return ['#80B0FF'];
+    } else if (this.session.filterObjValue.lob === 'Employer & Individual') {
+      return ['#003DA1'];
+    } else if (this.session.filterObjValue.lob === 'Medicare & Retirement') {
+      return ['#3381FF'];
+    } else if (this.session.filterObjValue.lob === 'Uncategorized') {
+      return ['#00B8CC'];
+    }
+  }
+
   // The getNonPayment() function fetches data for Claims Not Paid and Claims Non-Payment Rate
   public getNonPayment() {
     this.tin = this.session.filterObjValue.tax.toString().replace('-', '');
@@ -143,13 +174,13 @@ export class NonPaymentSharedService {
                     this.common.nFormatter(nonPaymentData1.All.ClaimsLobSummary[0].AmountDenied) > 0
                       ? '< $1'
                       : '$' + this.common.nFormatter(nonPaymentData1.All.ClaimsLobSummary[0].AmountDenied),
-                  color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'],
+                  color: this.returnLobColor(),
                   gdata: ['card-inner', 'claimsNotPaid'],
                   sdata: {
                     sign: '',
                     data: ''
                   },
-                  labels: ['Medicare & Retirement', 'Community & State', 'Employer & Individual', 'Uncategorized'],
+                  labels: this.returnHoverLabels(),
                   hover: true
                 },
                 besideData: {
@@ -302,13 +333,13 @@ export class NonPaymentSharedService {
                     this.common.nFormatter(nonPaymentData1[lobData].ClaimsLobSummary[0].AmountDenied) > 0
                       ? '< $1'
                       : '$' + this.common.nFormatter(nonPaymentData1[lobData].ClaimsLobSummary[0].AmountDenied),
-                  color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'],
+                  color: this.returnLobColor(),
                   gdata: ['card-inner', 'claimsNotPaid'],
                   sdata: {
                     sign: '',
                     data: ''
                   },
-                  labels: ['Medicare & Retirement', 'Community & State', 'Employer & Individual', 'Uncategorized'],
+                  labels: this.returnHoverLabels(),
                   hover: true
                 },
                 besideData: {
