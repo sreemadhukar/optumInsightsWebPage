@@ -15,7 +15,6 @@ export class NonPaymentSharedService {
   private tin: string;
   private lob: string;
   private paramtersCategories: any;
-  private topReasonsData: Array<object> = [];
   constructor(
     private nonPaymentService: NonPaymentService,
     private common: CommonUtilsService,
@@ -612,7 +611,7 @@ export class NonPaymentSharedService {
   public getNonPaymentCategories() {
     this.timeFrame = this.session.filterObjValue.timeFrame;
     this.providerKey = this.session.providerKeyData();
-    this.topReasonsData = [];
+
     // Assign the paramater variable
     this.paramtersCategories = [];
     this.getParmaeterCategories();
@@ -620,7 +619,6 @@ export class NonPaymentSharedService {
       this.sharedTopCategories(this.paramtersCategories)
         .then(topReasons => {
           try {
-            console.log('Top Reason', topReasons);
             const p = JSON.parse(JSON.stringify(topReasons)); // Values descending here
             const subCategoryReasons: any = [];
             for (let i = 0; i < p.length; i++) {
@@ -652,10 +650,11 @@ export class NonPaymentSharedService {
       this.nonPaymentService.getNonPaymentSubCategories(paramtersSubCategory).subscribe(
         data => {
           const mappedData = data.map(item => item[0]);
+
           // console.log('5 parameters', mappedData);
-          for (let i = 0; i < this.topReasonsData.length; i++) {
+          for (let i = 0; i < arrayTemp.length; i++) {
             arrayTemp[i]['top5'] = mappedData[i].All.DenialCategory;
-            const p = this.topReasonsData[i]['top5'];
+            const p = arrayTemp[i]['top5'];
             for (let j = 0; j < p.length; j++) {
               p[j].text = p[j]['Claimdenialcategorylevel1shortname'];
               p[j].valueNumeric = p[j]['DenialAmount'];
@@ -679,9 +678,7 @@ export class NonPaymentSharedService {
       /** Get Top 5 Categories Data */
       this.nonPaymentService.getNonPaymentTopCategories(...parameters).subscribe(
         ([topCategories]) => {
-          console.log('Top', topCategories);
           try {
-            console.log('Top Reaons', topCategories.All.DenialCategory);
             const topReasons: Array<object> = [];
             let tempArray: any;
             // tempArray = topCategories.All.DenialCategory.filter(x => x.Claimdenialcategorylevel1shortname !== 'UNKNOWN');
