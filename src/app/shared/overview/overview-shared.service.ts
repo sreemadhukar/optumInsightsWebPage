@@ -5,7 +5,6 @@ import { OverviewPageModule } from '../../components/overview-page/overview-page
 import { CommonUtilsService } from '../common-utils.service';
 import { SessionService } from '../session.service';
 import { AuthorizationService } from '../../auth/_service/authorization.service';
-import { CallsTrendService } from './../service-interaction/calls-trend.service';
 import { TrendingMetricsService } from '../../rest/trending/trending-metrics.service';
 
 @Injectable({
@@ -23,7 +22,6 @@ export class OverviewSharedService {
     private common: CommonUtilsService,
     private session: SessionService,
     private toggle: AuthorizationService,
-    private callsTrendService: CallsTrendService,
     private trendsService: TrendingMetricsService
   ) {}
   getOverviewData() {
@@ -47,11 +45,11 @@ export class OverviewSharedService {
 
         /* code changed by Ranjith kumar Ankam - 04-Jul-2019*/
         /*this.createPriorAuthObject(providerSystems)
-          .then(cPriorAuth => {
-            // tempArray[1] = cPriorAuth;
-            tempArray[0] = cPriorAuth;
-            return this.createSelfServiceObject(providerSystems);
-          })*/
+         .then(cPriorAuth => {
+         // tempArray[1] = cPriorAuth;
+         tempArray[0] = cPriorAuth;
+         return this.createSelfServiceObject(providerSystems);
+         })*/
         this.createSelfServiceObject(providerSystems)
           .then(cSelfService => {
             // tempArray[2] = cSelfService;
@@ -62,28 +60,28 @@ export class OverviewSharedService {
             // tempArray[4] = cPcor;
             tempArray[1] = cPcor;
             /* return this.createTotalCallsObject(providerSystems);
-           })
-           .then(cIR => {
+             })
+             .then(cIR => {
              // tempArray[5] = cIR;
              tempArray[3] = cIR;
              return this.createClaimsPaidObject(claims);
-           })
-           .then(claimsPaid => {
+             })
+             .then(claimsPaid => {
              tempArray[0] = claimsPaid;
              return this.createClaimsYieldObject(claims);
-           })
-           .then(claimsYield => {
+             })
+             .then(claimsYield => {
              tempArray[3] = claimsYield;
              return this.getClaimsTrends(this.baseTimePeriod, this.previousTimePeriod);
-           })
-           .then(trendData => {
+             })
+             .then(trendData => {
              let trends: any;
              trends = trendData;
              tempArray[0]['sdata'] = trends.claimsPaidTrendObject;
              tempArray[3]['sdata'] = trends.claimsYieldTrendObject;
              return this.createTotalCallsTrend();
-           })
-           .then(trendIssueResolution => {
+             })
+             .then(trendIssueResolution => {
              // tempArray[5]['sdata'] = trendIssueResolution;
              tempArray[3]['sdata'] = trendIssueResolution;*/
             return this.reduceCallsandOperatingCostsMiniTile(providerSystems, oppurtunities);
@@ -245,17 +243,19 @@ export class OverviewSharedService {
   }
 
   createTotalCallsTrend() {
-    let trendIR: Object;
+    // let trendIR: Object;
+    const trendIR = null;
     return new Promise((resolve, reject) => {
-      this.callsTrendService
-        .getCallsTrendData()
-        .then(data => {
-          trendIR = data[0];
-          resolve(trendIR);
-        })
-        .catch(reason => {
-          console.log('Calls Service Error ', reason);
-        });
+      // this.callsTrendService
+      //   .getCallsTrendData()
+      //   .then(data => {
+      //     trendIR = data[0];
+      //     resolve(trendIR);
+      //   })
+      //   .catch(reason => {
+      //     console.log('Calls Service Error ', reason);
+      //   });
+      resolve(null);
     });
   }
   /* function to create Total Calls Tile in Overview Page -  Ranjith kumar Ankam - 04-Jul-2019*/
@@ -277,7 +277,7 @@ export class OverviewSharedService {
         cIR = {
           category: 'small-card',
           type: 'donut',
-          title: 'Total Calls',
+          title: 'Calls By Call Type',
           toggle: this.toggle.setToggles('Total Calls', 'AtGlance', 'Overview', false),
           data: {
             graphValues: [
@@ -286,7 +286,9 @@ export class OverviewSharedService {
               providerSystems.ResolvingIssues.Calls.CallVolByQuesType.PriorAuth,
               providerSystems.ResolvingIssues.Calls.CallVolByQuesType.Others
             ],
-            centerNumber: this.common.nFormatter(providerSystems.ResolvingIssues.Calls.CallVolByQuesType.Total),
+            centerNumber: this.common.nondecimalFormatter(
+              providerSystems.ResolvingIssues.Calls.CallVolByQuesType.Total
+            ),
             color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'],
             gdata: ['card-inner', 'callsCardD3Donut'],
             hover: true,
@@ -807,32 +809,32 @@ export class OverviewSharedService {
           }
 
           /*
-                    if (
-                      latestClaimsYieldRate !== 0 &&
-                      previousClaimsYieldRate !== 0 &&
-                      latestClaimsYieldRate !== '0' &&
-                      previousClaimsYieldRate !== '0' &&
-                      latestClaimsYieldRate != undefined &&
-                      previousClaimsYieldRate != undefined
-                    ) {
-                      claimsYieldTrendValue = ((latestClaimsYieldRate - previousClaimsYieldRate) / previousClaimsYieldRate) * 100;
-                      if (claimsYieldTrendValue >= 0) {
-                        claimsYieldTrendObject.sign = 'up';
-                        claimsYieldTrendObject.data = '+' + claimsYieldTrendValue.toFixed(1) + '%';
-                      } else {
-                        claimsYieldTrendObject.sign = 'down';
-                        claimsYieldTrendObject.data = claimsYieldTrendValue.toFixed(1) + '%';
-                      }
-                    } else if (
-                      previousClaimsYieldRate === 0 ||
-                      previousClaimsYieldRate === '0' ||
-                      previousClaimsYieldRate == undefined ||
-                      previousClaimsYieldRate == undefined
-                    ) {
-                      claimsYieldTrendObject.sign = 'up';
-                      claimsYieldTrendObject.data = '+' + latestClaimsYieldRate + '%';
-                    }
-          */
+           if (
+           latestClaimsYieldRate !== 0 &&
+           previousClaimsYieldRate !== 0 &&
+           latestClaimsYieldRate !== '0' &&
+           previousClaimsYieldRate !== '0' &&
+           latestClaimsYieldRate != undefined &&
+           previousClaimsYieldRate != undefined
+           ) {
+           claimsYieldTrendValue = ((latestClaimsYieldRate - previousClaimsYieldRate) / previousClaimsYieldRate) * 100;
+           if (claimsYieldTrendValue >= 0) {
+           claimsYieldTrendObject.sign = 'up';
+           claimsYieldTrendObject.data = '+' + claimsYieldTrendValue.toFixed(1) + '%';
+           } else {
+           claimsYieldTrendObject.sign = 'down';
+           claimsYieldTrendObject.data = claimsYieldTrendValue.toFixed(1) + '%';
+           }
+           } else if (
+           previousClaimsYieldRate === 0 ||
+           previousClaimsYieldRate === '0' ||
+           previousClaimsYieldRate == undefined ||
+           previousClaimsYieldRate == undefined
+           ) {
+           claimsYieldTrendObject.sign = 'up';
+           claimsYieldTrendObject.data = '+' + latestClaimsYieldRate + '%';
+           }
+           */
           resolve({ claimsPaidTrendObject: claimsPaidTrendObject, claimsYieldTrendObject: claimsYieldTrendObject });
         });
     });
@@ -920,13 +922,13 @@ export class OverviewSharedService {
             tempArray[0]['sdata'] = trends.claimsPaidTrendObject;
             tempArray[1]['sdata'] = trends.claimsYieldTrendObject;
             /*tempArray[0]['sdata'] = {
-              sign: "down",
-              data: "-46%"
-            };
-            tempArray[1]['sdata'] = {
-              sign: "down",
-              data: "-46%"
-            };*/
+             sign: "down",
+             data: "-46%"
+             };
+             tempArray[1]['sdata'] = {
+             sign: "down",
+             data: "-46%"
+             };*/
             resolve(tempArray);
           });
       }); // end subscribing to REST call
@@ -946,30 +948,30 @@ export class OverviewSharedService {
 
       this.overviewService.getOverviewPriorAuth(parameters).subscribe(priorAuth => {
         /*
-        let PAOverviewTrends: object;
-        if (
-          trends &&
-          trends.hasOwnProperty('TendingMtrics') &&
-          trends.TendingMtrics.hasOwnProperty('PaApprovedCount')
-        ) {
-          const dataPoint = trends.TendingMtrics.PaApprovedCount.toFixed(1) + '%';
-          if (trends.TendingMtrics.PaApprovedCount < 0) {
-            PAOverviewTrends = {
-              sign: 'down',
-              data: dataPoint
-            };
-          } else {
-            PAOverviewTrends = {
-              sign: 'up',
-              data: dataPoint
-            };
-          }
-        } else {
-          PAOverviewTrends = null;
-        }
-        */
+         let PAOverviewTrends: object;
+         if (
+         trends &&
+         trends.hasOwnProperty('TendingMtrics') &&
+         trends.TendingMtrics.hasOwnProperty('PaApprovedCount')
+         ) {
+         const dataPoint = trends.TendingMtrics.PaApprovedCount.toFixed(1) + '%';
+         if (trends.TendingMtrics.PaApprovedCount < 0) {
+         PAOverviewTrends = {
+         sign: 'down',
+         data: dataPoint
+         };
+         } else {
+         PAOverviewTrends = {
+         sign: 'up',
+         data: dataPoint
+         };
+         }
+         } else {
+         PAOverviewTrends = null;
+         }
+         */
 
-        let cPriorAuth: object;
+        let cPriorAuth: any;
         if (
           priorAuth &&
           priorAuth.hasOwnProperty('PriorAuthorizations') &&
@@ -998,9 +1000,32 @@ export class OverviewSharedService {
               color: ['#3381FF', '#D7DCE1'],
               gdata: ['card-inner', 'priorAuthCardD3Donut']
             },
-            sdata: trends,
+            sdata: { sign: '', data: '' },
             timeperiod: 'Last 6 Months'
           };
+          if (
+            trends != undefined &&
+            trends != null &&
+            trends.hasOwnProperty('TendingMtrics') &&
+            trends.TendingMtrics != null &&
+            trends.TendingMtrics.hasOwnProperty('PaApprovalRate') &&
+            trends.TendingMtrics.PaApprovalRate != null
+          ) {
+            const dataPoint = trends.TendingMtrics.PaApprovalRate.toFixed(1) + '%';
+            if (trends.TendingMtrics.PaApprovalRate < 0) {
+              cPriorAuth.sdata = {
+                sign: 'down',
+                data: dataPoint
+              };
+            } else {
+              cPriorAuth.sdata = {
+                sign: 'up',
+                data: dataPoint
+              };
+            }
+          } else {
+            cPriorAuth.sdata = null;
+          }
         } else {
           cPriorAuth = {
             category: 'small-card',
@@ -1018,7 +1043,7 @@ export class OverviewSharedService {
   }
 
   /* function to get TOTAL CALLS CARD seperately i overview page - RANJITH KUMAR ANKAM - 17th JULY 2019 */
-  getTotalCallsCardData() {
+  getTotalCallsCardData(trends) {
     return new Promise((resolve, reject) => {
       const parameters = {
         providerkey: this.providerKey,
@@ -1037,7 +1062,7 @@ export class OverviewSharedService {
           cIR = {
             category: 'small-card',
             type: 'donut',
-            title: 'Total Calls',
+            title: 'Calls By Call Type',
             toggle: this.toggle.setToggles('Total Calls', 'AtGlance', 'Overview', false),
             data: {
               graphValues: [
@@ -1046,7 +1071,7 @@ export class OverviewSharedService {
                 calls.CallVolByQuesType.PriorAuth,
                 calls.CallVolByQuesType.Others
               ],
-              centerNumber: this.common.nFormatter(calls.CallVolByQuesType.Total),
+              centerNumber: this.common.nondecimalFormatter(calls.CallVolByQuesType.Total),
               color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'],
               gdata: ['card-inner', 'callsCardD3Donut'],
               hover: true,
@@ -1058,6 +1083,38 @@ export class OverviewSharedService {
             },
             timeperiod: 'Last 6 Months'
           };
+
+          if (
+            trends != undefined &&
+            trends != null &&
+            trends.hasOwnProperty('TendingMtrics') &&
+            trends.TendingMtrics != null &&
+            trends.TendingMtrics.hasOwnProperty('CallsTrendByQuesType') &&
+            trends.TendingMtrics.CallsTrendByQuesType != null
+          ) {
+            const dataPoint = trends.TendingMtrics.CallsTrendByQuesType.toFixed(1) + '%';
+            if (trends.TendingMtrics.CallsTrendByQuesType >= 1) {
+              cIR.sdata = {
+                sign: 'up-red',
+                data: dataPoint
+              };
+            } else if (
+              trends.TendingMtrics.CallsTrendByQuesType < 1 &&
+              trends.TendingMtrics.CallsTrendByQuesType >= 0
+            ) {
+              cIR.sdata = {
+                sign: 'neutral',
+                data: 'No Change'
+              };
+            } else {
+              cIR.sdata = {
+                sign: 'down-green',
+                data: dataPoint
+              };
+            }
+          } else {
+            cIR.sdata = null;
+          }
         } else {
           cIR = {
             category: 'small-card',
@@ -1068,20 +1125,20 @@ export class OverviewSharedService {
             timeperiod: null
           };
         }
-        // resolve(cIR);
+        resolve(cIR);
 
-        this.createTotalCallsTrend().then(trendIssueResolution => {
-          const nullTrend = {
-            sign: '',
-            data: ''
-          };
-          if (trendIssueResolution === null) {
-            cIR.sdata = nullTrend;
-          } else {
-            cIR.sdata = trendIssueResolution;
-          }
-          resolve(cIR);
-        });
+        /*this.createTotalCallsTrend().then(trendIssueResolution => {
+         const nullTrend = {
+         sign: '',
+         data: ''
+         };
+         if (trendIssueResolution === null) {
+         cIR.sdata = nullTrend;
+         } else {
+         cIR.sdata = trendIssueResolution;
+         }
+         resolve(cIR);
+         });*/
       });
     });
   }
@@ -1090,28 +1147,8 @@ export class OverviewSharedService {
     this.providerKey = this.session.providerKeyData();
     return new Promise(resolve => {
       this.trendsService.getTrendingMetrics([this.providerKey]).subscribe(trends => {
-        let PAOverviewTrends: object;
-        if (
-          trends &&
-          trends.hasOwnProperty('TendingMtrics') &&
-          trends.TendingMtrics.hasOwnProperty('PaApprovedCount')
-        ) {
-          const dataPoint = trends.TendingMtrics.PaApprovedCount.toFixed(1) + '%';
-          if (trends.TendingMtrics.PaApprovedCount < 0) {
-            PAOverviewTrends = {
-              sign: 'down',
-              data: dataPoint
-            };
-          } else {
-            PAOverviewTrends = {
-              sign: 'up',
-              data: dataPoint
-            };
-          }
-        } else {
-          PAOverviewTrends = null;
-        }
-        resolve(PAOverviewTrends);
+        // resolve(PAOverviewTrends);
+        resolve(trends);
       });
     });
   }

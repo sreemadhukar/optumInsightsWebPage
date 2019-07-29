@@ -62,7 +62,6 @@
   overflow-y: hidden;
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
   background-color: $alice-blue;
   @include padding(16px, 0, 64px, 0);
 
