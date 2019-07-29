@@ -41,14 +41,15 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
   currentTabTitle: String = '';
   monthlyLineGraph: any = [{}];
 
-  show = true;
+  topReasonsCategoryDisplay = true;
   dataLoaded = false;
   type: any;
   loadingOne: boolean;
   mockCardOne: any;
   loadingTwo: boolean;
   mockCardTwo: any;
-
+  barChartsArray: any = [];
+  /*
   barChartsArray = [
     {
       title: 'Need More Information',
@@ -186,7 +187,7 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
       ]
     }
   ];
-
+  */
   constructor(
     private checkStorage: StorageService,
     private iconRegistry: MatIconRegistry,
@@ -250,19 +251,31 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
     } else {
       this.taxID = [];
     }
-    this.gettingReimbursedSharedService.getTins().then(tins => {
-      console.log(tins);
-    });
+    this.gettingReimbursedSharedService.getTins().then(tins => {});
     this.loadingOne = false;
     this.mockCardOne = [{}];
     this.loadingTwo = false;
     this.mockCardTwo = [{}];
+
     // this.timePeriod = this.session.timeFrame; // uncomment it
 
     /** code for two donuts  Claims Not Paid and Claims Non-payment Rate */
     this.nonPaymentService.getNonPayment().then(nonPayment => {
       this.nonPaymentData1 = JSON.parse(JSON.stringify(nonPayment));
     });
+    /** Ends here */
+
+    /** code for Top Categories*/
+    this.nonPaymentService.getNonPaymentCategories().then(
+      topCategories => {
+        this.barChartsArray = topCategories;
+      },
+      error => {
+        this.barChartsArray = null;
+        console.log('Error Top Categories COmpoent', error);
+      }
+    );
+    /** End code for Top Categories */
 
     this.monthlyLineGraph.chartId = 'non-payment-trend-block';
     this.monthlyLineGraph.titleData = [{}];
@@ -280,11 +293,11 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
 
     this.monthlyLineGraph.chartData = [];
     this.dataLoaded = false;
-    this.gettingReimbursedSharedService.getclaimsNonPaymentTrendData().then(trendData => {
+    /* this.nonPaymentService.getclaimsNonPaymentTrendData().then(trendData => {
       this.monthlyLineGraph.chartData = trendData;
-      // console.log('**********' , trendData);
+      console.log('**********', trendData);
       this.dataLoaded = true;
-    });
+    });*/
 
     this.monthlyLineGraph.generalData2 = [];
     this.monthlyLineGraph.chartData2 = [];

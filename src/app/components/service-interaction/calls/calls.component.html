@@ -51,8 +51,9 @@
       <app-card class="cards" [skeleton]="loading" *ngIf="loading"> </app-card>
     </div>
     <div *ngFor="let item of callsItems">
-      <app-card *ngIf="item.data != null" class="cards" [chartData]="item"> </app-card>
-      <app-error-card *ngIf="item.status != null" class="cards" [data]="item"></app-error-card>
+      <app-card *ngIf="item != null && item.data != null" class="cards" [chartData]="item"> </app-card>
+
+      <app-error-card *ngIf="item != null && item.status != null" class="cards" [data]="item"></app-error-card>
     </div>
   </div>
 </div>
