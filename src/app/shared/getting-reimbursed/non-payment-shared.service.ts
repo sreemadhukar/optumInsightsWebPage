@@ -272,7 +272,7 @@ export class NonPaymentSharedService {
                 category: 'app-card',
                 type: 'donutWithLabel',
                 status: 404,
-                title: null,
+                title: 'Claims Not Paid',
                 data: null,
                 besideData: null,
                 bottomData: null,
@@ -312,7 +312,7 @@ export class NonPaymentSharedService {
                 category: 'app-card',
                 type: 'donut',
                 status: 404,
-                title: null,
+                title: 'Claims Non-Payment Rate',
                 data: null,
                 timeperiod: null
               };
@@ -433,7 +433,7 @@ export class NonPaymentSharedService {
                 category: 'app-card',
                 type: 'donutWithLabel',
                 status: 404,
-                title: null,
+                title: 'Claims Not Paid',
                 data: null,
                 besideData: null,
                 bottomData: null,
@@ -473,7 +473,7 @@ export class NonPaymentSharedService {
                 category: 'app-card',
                 type: 'donut',
                 status: 404,
-                title: null,
+                title: 'Claims Non-Payment Rate',
                 data: null,
                 timeperiod: null
               };
