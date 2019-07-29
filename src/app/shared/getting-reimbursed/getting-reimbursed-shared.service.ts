@@ -1110,6 +1110,8 @@ export class GettingReimbursedSharedService {
       if (
         this.timeFrame === 'Last 12 Months' ||
         this.timeFrame === 'Last 6 Months' ||
+        this.timeFrame === 'Last 3 Months' ||
+        this.timeFrame === 'Last 30 Days' ||
         this.timeFrame === 'Year to Date'
       ) {
         if (this.timeFrame === 'Last 12 Months') {
@@ -1127,6 +1129,38 @@ export class GettingReimbursedSharedService {
             ];
           } else {
             parameters = [this.providerKey, { TimeFilter: 'Last12Months' }];
+          }
+        } else if (this.timeFrame === 'Last 3 Months') {
+          if (this.tin !== 'All' && this.lob !== 'All') {
+            parameters = [
+              this.providerKey,
+              { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Last3Months', Tin: this.tin }
+            ];
+          } else if (this.tin !== 'All') {
+            parameters = [this.providerKey, { TimeFilter: 'Last3Months', Tin: this.tin }];
+          } else if (this.lob !== 'All') {
+            parameters = [
+              this.providerKey,
+              { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Last3Months' }
+            ];
+          } else {
+            parameters = [this.providerKey, { TimeFilter: 'Last3Months' }];
+          }
+        } else if (this.timeFrame === 'Last 30 Days') {
+          if (this.tin !== 'All' && this.lob !== 'All') {
+            parameters = [
+              this.providerKey,
+              { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Last30Days', Tin: this.tin }
+            ];
+          } else if (this.tin !== 'All') {
+            parameters = [this.providerKey, { TimeFilter: 'Last30Days', Tin: this.tin }];
+          } else if (this.lob !== 'All') {
+            parameters = [
+              this.providerKey,
+              { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Last30Days' }
+            ];
+          } else {
+            parameters = [this.providerKey, { TimeFilter: 'Last30Days' }];
           }
         } else if (this.timeFrame === 'Year to Date') {
           if (this.tin !== 'All' && this.lob !== 'All') {
@@ -1213,10 +1247,9 @@ export class GettingReimbursedSharedService {
   /* function to get Top Reasons for Claims Non Payments - Ranjith kumar Ankam*/
   public getTopReasonsforClaimsNonPayments() {
     return new Promise((resolve, reject) => {
-      this.tin = this.session.tin;
-      this.lob = this.session.lob;
-      // this.timeFrame = this.session.timeFrame;
-      this.timeFrame = 'Last 6 Months'; // need to remove this, and uncomment above line
+      this.tin = this.session.filterObjValue.tax.toString().replace('-', '');
+      this.lob = this.session.filterObjValue.lob;
+      this.timeFrame = this.session.filterObjValue.timeFrame;
       this.providerKey = this.session.providerKeyData();
       const parameters = {
         providerkey: this.providerKey,
@@ -1228,10 +1261,13 @@ export class GettingReimbursedSharedService {
         monthly: false
       };
       if (this.timeFrame === 'Last 12 Months') {
-        this.timeFrame = 'Last 6 Months';
-        parameters.timeperiod = 'last6months';
+        parameters.timeperiod = 'last12months';
+      } else if (this.timeFrame === 'Last 30 Days') {
+        parameters.timeperiod = 'Last30Days';
       } else if (this.timeFrame === 'Last 6 Months') {
         parameters.timeperiod = 'last6months';
+      } else if (this.timeFrame === 'Last 3 Months') {
+        parameters.timeperiod = 'last3months';
       } else if (this.timeFrame === 'Year To Date') {
         parameters.ytd = true;
       }
@@ -1267,10 +1303,9 @@ export class GettingReimbursedSharedService {
   /* function to get Claims Non Payments by Facility Data - Ranjith kumar Ankam*/
   public getClaimsNonPaymentsbyFacilityData(top5Reasons) {
     return new Promise((resolve, reject) => {
-      this.tin = this.session.tin;
-      this.lob = this.session.lob;
-      // this.timeFrame = this.session.timeFrame;
-      this.timeFrame = 'Last 6 Months'; // need to remove this, and uncomment above line
+      this.tin = this.session.filterObjValue.tax.toString().replace('-', '');
+      this.lob = this.session.filterObjValue.lob;
+      this.timeFrame = this.session.filterObjValue.timeFrame;
       this.providerKey = this.session.providerKeyData();
       this.gettingReimbursedService.getTins(this.providerKey).subscribe(tins => {
         const providerTins = tins;
@@ -1287,10 +1322,13 @@ export class GettingReimbursedSharedService {
         const response: any = [];
 
         if (this.timeFrame === 'Last 12 Months') {
-          this.timeFrame = 'Last 6 Months';
           parameters.timeperiod = 'Last12Months';
+        } else if (this.timeFrame === 'Last 30 Days') {
+          parameters.timeperiod = 'Last30Days';
         } else if (this.timeFrame === 'Last 6 Months') {
           parameters.timeperiod = 'last6months';
+        } else if (this.timeFrame === 'Last 3 Months') {
+          parameters.timeperiod = 'last3months';
         } else if (this.timeFrame === 'Year To Date') {
           parameters.ytd = true;
         }
@@ -1353,10 +1391,9 @@ export class GettingReimbursedSharedService {
 
   public getclaimsNonPaymentTrendData() {
     return new Promise((resolve, reject) => {
-      this.tin = this.session.tin;
-      this.lob = this.session.lob;
-      // this.timeFrame = 'Last 12 Months'; // this.timeFrame = this.session.timeFrame;
-      this.timeFrame = 'Last 6 Months';
+      this.tin = this.session.filterObjValue.tax.toString().replace('-', '');
+      this.lob = this.session.filterObjValue.lob;
+      this.timeFrame = this.session.filterObjValue.timeFrame;
       this.providerKey = this.session.providerKeyData();
       this.gettingReimbursedService.getTins(this.providerKey).subscribe(tins => {
         const providerTins = tins;
@@ -1374,10 +1411,13 @@ export class GettingReimbursedSharedService {
         const response: any = [];
 
         if (this.timeFrame === 'Last 12 Months') {
-          this.timeFrame = 'Last 6 Months';
           parameters.timeperiod = 'Last12Months';
+        } else if (this.timeFrame === 'Last 30 Days') {
+          parameters.timeperiod = 'Last30Days';
         } else if (this.timeFrame === 'Last 6 Months') {
           parameters.timeperiod = 'last6months';
+        } else if (this.timeFrame === 'Last 3 Months') {
+          parameters.timeperiod = 'last3months';
         } else if (this.timeFrame === 'Year To Date') {
           parameters.ytd = true;
         }
@@ -1433,6 +1473,8 @@ export class GettingReimbursedSharedService {
       if (
         this.timeFrame === 'Last 12 Months' ||
         this.timeFrame === 'Last 6 Months' ||
+        this.timeFrame === 'Last 3 Months' ||
+        this.timeFrame === 'Last 30 Days' ||
         this.timeFrame === 'Year To Date'
       ) {
         if (this.timeFrame === 'Last 12 Months') {
@@ -1450,6 +1492,38 @@ export class GettingReimbursedSharedService {
             ];
           } else {
             parameters = [this.providerKey, { TimeFilter: 'Last12Months', AllProviderTins: 'true' }];
+          }
+        } else if (this.timeFrame === 'Last 3 Months') {
+          if (this.tin !== 'All' && this.lob !== 'All') {
+            parameters = [
+              this.providerKey,
+              { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Last3Months', Tin: this.tin }
+            ];
+          } else if (this.tin !== 'All') {
+            parameters = [this.providerKey, { TimeFilter: 'Last3Months', Tin: this.tin }];
+          } else if (this.lob !== 'All') {
+            parameters = [
+              this.providerKey,
+              { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Last3Months' }
+            ];
+          } else {
+            parameters = [this.providerKey, { TimeFilter: 'Last3Months', AllProviderTins: 'true' }];
+          }
+        } else if (this.timeFrame === 'Last 30 Days') {
+          if (this.tin !== 'All' && this.lob !== 'All') {
+            parameters = [
+              this.providerKey,
+              { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Last30Days', Tin: this.tin }
+            ];
+          } else if (this.tin !== 'All') {
+            parameters = [this.providerKey, { TimeFilter: 'Last30Days', Tin: this.tin }];
+          } else if (this.lob !== 'All') {
+            parameters = [
+              this.providerKey,
+              { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Last30Days' }
+            ];
+          } else {
+            parameters = [this.providerKey, { TimeFilter: 'Last30Days', AllProviderTins: 'true' }];
           }
         } else if (this.timeFrame === 'Year To Date') {
           if (this.tin !== 'All' && this.lob !== 'All') {
