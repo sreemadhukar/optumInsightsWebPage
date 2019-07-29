@@ -650,7 +650,6 @@ export class NonPaymentSharedService {
       this.nonPaymentService.getNonPaymentSubCategories(paramtersSubCategory).subscribe(
         data => {
           const mappedData = data.map(item => item[0]);
-
           // console.log('5 parameters', mappedData);
           for (let i = 0; i < arrayTemp.length; i++) {
             arrayTemp[i]['top5'] = mappedData[i].All.DenialCategory;
