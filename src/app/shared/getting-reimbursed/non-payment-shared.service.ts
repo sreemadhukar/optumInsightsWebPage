@@ -162,6 +162,7 @@ export class NonPaymentSharedService {
               claimsNotPaid = {
                 category: 'app-card',
                 type: 'donutWithLabel',
+                status: 404,
                 title: null,
                 data: null,
                 besideData: null,
@@ -201,6 +202,7 @@ export class NonPaymentSharedService {
               claimsNotPaidRate = {
                 category: 'app-card',
                 type: 'donut',
+                status: 404,
                 title: null,
                 data: null,
                 timeperiod: null
@@ -321,6 +323,7 @@ export class NonPaymentSharedService {
               claimsNotPaid = {
                 category: 'app-card',
                 type: 'donutWithLabel',
+                status: 404,
                 title: null,
                 data: null,
                 besideData: null,
@@ -360,6 +363,7 @@ export class NonPaymentSharedService {
               claimsNotPaidRate = {
                 category: 'app-card',
                 type: 'donut',
+                status: 404,
                 title: null,
                 data: null,
                 timeperiod: null
@@ -481,9 +485,15 @@ export class NonPaymentSharedService {
             subCategoryReasons.push(x);
             x = [];
           }
+          if (topReasons === null) {
+            return null;
+          }
           return this.sharedTopSubCategories(subCategoryReasons);
         })
         .then(finalData => {
+          if (finalData === null) {
+            return resolve(null);
+          }
           return resolve(finalData);
         });
     });
@@ -523,6 +533,7 @@ export class NonPaymentSharedService {
           resolve(this.topReasonsData);
         },
         error => {
+          resolve(null);
           console.log('Error Shared Top Sub Categories', error);
         }
       );
@@ -538,7 +549,7 @@ export class NonPaymentSharedService {
           const topReasons: Array<object> = [];
           let tempArray: any;
           // tempArray = topCategories.All.DenialCategory.filter(x => x.Claimdenialcategorylevel1shortname !== 'UNKNOWN');
-          tempArray = topCategories.All.DenialCategory;
+          tempArray = JSON.parse(JSON.stringify(topCategories.All.DenialCategory));
           if (topCategories.All.DenialCategory > 5) {
             tempArray
               .sort(function(a, b) {
@@ -560,6 +571,7 @@ export class NonPaymentSharedService {
           resolve(topReasons);
         },
         error => {
+          resolve(null);
           console.log('Non payment Data Error ', error);
         }
       );
