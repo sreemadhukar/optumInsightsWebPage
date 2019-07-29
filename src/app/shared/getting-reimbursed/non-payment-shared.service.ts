@@ -565,7 +565,6 @@ export class NonPaymentSharedService {
           this.paramtersCategories = [this.providerKey, { TimeFilter: 'Last3Months' }];
         }
       } else if (this.timeFrame === 'Last 30 Days') {
-        console.log('Hero', this.timeFrame);
         if (this.tin !== 'All' && this.lob !== 'All') {
           this.paramtersCategories = [
             this.providerKey,
