@@ -40,6 +40,7 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
   nonPaymentData1: Array<Object> = [{}];
   currentTabTitle: String = '';
   monthlyLineGraph: any = [{}];
+  loadingTopReasons: boolean;
 
   topReasonsCategoryDisplay = true;
   dataLoaded = false;
@@ -237,6 +238,7 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
 
   ngOnInit() {
     this.nonPaymentData1 = [];
+    this.loadingTopReasons = true;
     this.timePeriod = this.session.filterObjValue.timeFrame;
     if (this.session.filterObjValue.lob !== 'All') {
       this.lob = this.filtermatch.matchLobWithLobData(this.session.filterObjValue.lob);
@@ -271,9 +273,11 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
     /** Ends here */
 
     /** code for Top Categories*/
+
     this.topReasonsCategoryDisplay = false;
     this.nonPaymentService.getNonPaymentCategories().then(
       topCategories => {
+        this.loadingTopReasons = false;
         this.topReasonsCategoryDisplay = true;
         this.barChartsArray = topCategories;
         if (topCategories === null) {

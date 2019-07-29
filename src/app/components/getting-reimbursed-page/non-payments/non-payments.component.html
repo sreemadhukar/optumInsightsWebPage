@@ -65,7 +65,8 @@
     <!-- Claims Non - Payment Trend Ends Here -->
 
     <!-- Top reasons for Claims Start here -->
-    <div class="top-reasons-for-claims-non-payment-block" *ngIf="topReasonsCategoryDisplay">
+    <app-large-card [skeletonLarge]="loadingTopReasons" *ngIf="loadingTopReasons"></app-large-card>
+    <div class="top-reasons-for-claims-non-payment-block" *ngIf="topReasonsCategoryDisplay && !loadingTopReaons">
       <app-common-header
         [title]="title"
         class="full-display"
