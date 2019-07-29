@@ -16,6 +16,7 @@
     border-radius: 2px;
     float: right;
     cursor: pointer;
+    margin-right: 1px;
     .filter_title {
       color: $blue;
       font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
@@ -36,6 +37,7 @@
   .filter_bg:focus {
     background-color: #196ecf;
     color: #ffffff;
+    box-shadow: 0 4px 0px 0 rgba(0, 0, 0, 0.15);
     .filter_title {
       color: #ffffff;
     }
@@ -272,7 +274,6 @@
       }
       .time--period {
         .filterchips {
-          width: 857px;
           float: left;
           .horizontal-align {
             display: inline-block;

@@ -24,7 +24,6 @@ export class SessionService {
   public get filterObjValue(): Filter {
     return this.filterObjSubject.value;
   }
-
   public store(data: any): void {
     this.filterObjSubject.next(data);
     this.emitChangeEvent();

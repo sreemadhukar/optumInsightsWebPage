@@ -118,6 +118,10 @@ export class RotatingArrowObjectComponent implements OnInit, AfterViewInit {
         circleColor = '#FFE6F0';
         textColor = '#B10C00';
         arrowLink = 'src/assets/images/trend-down.svg';
+      } else if (chartOptions.sdata.sign === 'neutral') {
+        circleColor = '#e0e0e0';
+        textColor = '#2d2d39';
+        arrowLink = 'src/assets/images/flat-no-change.svg';
       }
 
       chart

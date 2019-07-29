@@ -4,10 +4,6 @@
   @include margin(12px, 0, 12px, 0);
   box-sizing: border-box;
 
-  .filter-div {
-    overflow: auto;
-    line-height: 0;
-  }
   .filter_bg {
     height: 40px;
     width: 100px;
@@ -16,6 +12,8 @@
     border-radius: 2px;
     float: right;
     cursor: pointer;
+    margin-right: 7px;
+
     .filter_title {
       color: $blue;
       font-family: 'UHCSans-SemiBold', 'Arial';
@@ -36,6 +34,7 @@
   .filter_bg:focus {
     background-color: #196ecf;
     color: #ffffff;
+    box-shadow: 0 4px 0px 0 rgba(0, 0, 0, 0.15);
     .filter_title {
       color: #ffffff;
     }
@@ -60,7 +59,6 @@
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
   @include padding(16px, 0, 64px, 0);
   .main-content {
     display: -webkit-box;
@@ -69,7 +67,9 @@
     display: -webkit-flex;
     display: flex;
     -webkit-flex-flow: row wrap;
-    justify-content: center;
+    justify-content: left;
+    width: 1000px;
+    margin: auto;
     flex-wrap: wrap;
     .height1Separator {
       height: 0;
@@ -86,6 +86,9 @@
       width: 961px;
       font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
       color: $black-rock;
+      margin-left: 10px;
+      margin-bottom: -12px;
+
       ol {
         @include margin(0, 0, 16px, 0);
       }
@@ -107,7 +110,7 @@
       }
       .time--period {
         .filterchips {
-          width: 857px;
+          width: 845px;
           float: left;
           .horizontal-align {
             display: inline-block;
@@ -140,6 +143,10 @@
           }
         }
       }
+    }
+    .filter-div {
+      overflow: auto;
+      line-height: 0;
     }
   }
   @media only screen and (max-width: 1024px) {

@@ -1,10 +1,10 @@
 <app-feedback></app-feedback>
 <div class="gettingReimburse-body">
-  <div class="gettingReimburse-content">
-    <div>
+  <div class="nonPayment-content">
+    <div class="nonPayment-content-cust">
       <app-breadcrumbs></app-breadcrumbs>
       <div class="page-title">{{ pageTitle }}</div>
-      <app-mock-data-warning-message *ngIf="show"></app-mock-data-warning-message>
+      <!--<app-mock-data-warning-message *ngIf="show"></app-mock-data-warning-message>-->
       <div class="breadcrumb-top-padding filter-div">
         <div class="time--period ">
           <div class="filterchips">
@@ -47,14 +47,15 @@
       <app-card *ngIf="item.data != null" class="cards" [chartData]="item"> </app-card>
       <app-error-card *ngIf="item.status != null" class="cards" [data]="item"></app-error-card>
     </div>
+
     <!-- Claims Non - Payment Trend  Starts Here -->
-    <div class="non-payment-trend-block">
+    <div class="non-payment-trend-block" *ngIf="dataLoaded">
       <app-common-header
         [title]="trendTitle"
         class="full-display bottom-margin-block"
         (helpIconClicked)="helpIconClick($event)"
       ></app-common-header>
-      <div class="full-display" *ngIf="dataLoaded">
+      <div class="full-display">
         <app-line-graph [chartOptions]="monthlyLineGraph"></app-line-graph>
         <!--div class="timeperiod-block">
           <p class="timeperiod-text">{{ timePeriod }}</p>
@@ -81,7 +82,7 @@
             [class.extra-margin-top-8]="i != 0"
             [class.extra-margin-bottom-16]="section[i]"
             class="bar-graphs-content"
-            (click)="section[i] = !section[i]"
+            (click)="section[i] = !section[i]; reasonsCollapose(i)"
           >
             <div class="bar-graph-inside-left-block">
               <div class="bar-graph-inside-left-block-content">

@@ -3,7 +3,10 @@ import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 import { SessionService } from '../../shared/session.service';
 import { Location } from '@angular/common';
-
+import { FormControl } from '@angular/forms';
+import { Observable } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
+import { MatInput } from '@angular/material';
 @Component({
   selector: 'app-filter',
   templateUrl: './filter.component.html',
@@ -12,23 +15,86 @@ import { Location } from '@angular/common';
 export class FilterComponent implements OnInit {
   public lobData: string;
   public serviceSettingData: string;
+  public priorAuthTypeData: string;
   public arrowmark: boolean;
   public taxData: string;
   public tarrowmark: boolean;
   public tiarrowmark: boolean;
   public ssarrowmark: boolean;
+  public patypearrowmark: boolean;
   public tinsData: any;
   public taxValue: string;
   public inputDisplay = false;
-  public serviceSettingDisplay = false;
+  // prior auth has 3 unique filters so make one bool
+  public priorAuthorizationCustomFilterBool = false;
   public taxArrayData = [];
+  public scArrayData = [];
   public timeframeData: any;
   public filterData: any;
+  public scTypeData: string;
+  public sctypearrowmark: boolean;
+  filteredOptions: Observable<any[]>;
+  public serviceCategoryCtrl = new FormControl();
+
   @Output() filterFlag = new EventEmitter();
   @Input() filterurl;
   public timeframes = ['Last 6 Months', 'Last 12 Months', 'Year to Date', '2018', '2017'];
-  public lobs = ['All', 'Community & State', 'Employee & Individual', 'Medicare & Retirement'];
+  public lobs = ['All', 'Community & State', 'Employer & Individual', 'Medicare & Retirement'];
   public servicesettings = ['All', 'Inpatient', 'Outpatient', 'Outpatient Facility'];
+  public priorauthdecisiontype = ['All', 'Administrative', 'Clinical'];
+  public priorauthservicecategory = [
+    'All',
+    'Medical',
+    'Surgical',
+    'Maternity',
+    'Transplant',
+    'Cosmetic / Reconstructive',
+    'Mental Health',
+    'Ambulance Air/Water',
+    'Chiropractic',
+    'Dental',
+    'Diagnostic Testing',
+    'Durable Medical Equipment',
+    'Hospice',
+    'Imaging',
+    'Infertility Benefit Interpretation',
+    'Infusion Services',
+    'Lab',
+    'Long Term Care',
+    'Medications',
+    'NICU',
+    'Occupational Therapy',
+    'Orthotics',
+    'Pain Management',
+    'Pharmacy',
+    'Physical Therapy',
+    'Podiatry',
+    'Private Duty Nursing',
+    'Prosthetics',
+    'Rehabilitation',
+    'Respiratory Therapy',
+    'Skilled Nursing',
+    'Speech Therapy',
+    'Substance Use Disorder',
+    'Supplies',
+    'Therapy Services',
+    'Transport',
+    'Unproven, Experimental, Investigational',
+    'Transplant Services',
+    'Vision',
+    'Well Baby (eNtf Only)',
+    'Home Services',
+    'Long Term Acute Care',
+    'Intensive Service Delivery',
+    'Cardiac Rehabilitation',
+    'Dialysis',
+    'PAT Skilled Nursing',
+    'Home and Community Based Services',
+    'Ambulatory Surgical Center',
+    'Facility Based Service',
+    'Custodial',
+    'Weight Management'
+  ];
   constructor(
     private iconRegistry: MatIconRegistry,
     sanitizer: DomSanitizer,
@@ -54,6 +120,8 @@ export class FilterComponent implements OnInit {
     this.tarrowmark = false;
     this.tiarrowmark = false;
     this.ssarrowmark = false;
+    this.patypearrowmark = false;
+    this.sctypearrowmark = false;
     iconRegistry.addSvgIcon(
       'arrowdn',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-keyboard_arrow_down-24px.svg')
@@ -69,16 +137,40 @@ export class FilterComponent implements OnInit {
       this.arrowmark = false;
       this.taxValue = '';
       this.tiarrowmark = false;
+      this.ssarrowmark = false;
+      this.patypearrowmark = false;
+      this.sctypearrowmark = false;
     } else if (value === 'lob') {
       this.arrowmark = !this.arrowmark;
       this.tarrowmark = false;
       this.tiarrowmark = false;
+      this.ssarrowmark = false;
+      this.patypearrowmark = false;
+      this.sctypearrowmark = false;
     } else if (value === 'timeframe') {
       this.tiarrowmark = !this.tiarrowmark;
       this.arrowmark = false;
       this.tarrowmark = false;
+      this.ssarrowmark = false;
+      this.patypearrowmark = false;
+      this.sctypearrowmark = false;
     } else if (value === 'servicesetting') {
       this.ssarrowmark = !this.ssarrowmark;
+      this.arrowmark = false;
+      this.tarrowmark = false;
+      this.tiarrowmark = false;
+      this.patypearrowmark = false;
+      this.sctypearrowmark = false;
+    } else if (value === 'priorauthtype') {
+      this.patypearrowmark = !this.patypearrowmark;
+      this.ssarrowmark = false;
+      this.arrowmark = false;
+      this.tarrowmark = false;
+      this.tiarrowmark = false;
+      this.sctypearrowmark = false;
+    } else if (value === 'sctype') {
+      this.sctypearrowmark = !this.sctypearrowmark;
+      this.ssarrowmark = false;
       this.arrowmark = false;
       this.tarrowmark = false;
       this.tiarrowmark = false;
@@ -86,16 +178,29 @@ export class FilterComponent implements OnInit {
   }
   ngOnInit() {
     if (this.location.path() === '/CareDelivery/priorAuth') {
-      this.serviceSettingDisplay = true;
+      this.priorAuthorizationCustomFilterBool = true;
       if (this.session.filterObjValue.serviceSetting) {
         this.serviceSettingData = this.session.filterObjValue.serviceSetting;
       } else {
         this.serviceSettingData = this.servicesettings[0];
       }
+      if (this.session.filterObjValue.priorAuthType) {
+        this.priorAuthTypeData = this.session.filterObjValue.priorAuthType;
+      } else {
+        this.priorAuthTypeData = this.priorauthdecisiontype[0];
+      }
+      if (this.session.filterObjValue.scType) {
+        this.scTypeData = this.session.filterObjValue.scType;
+      } else {
+        this.scTypeData = this.priorauthservicecategory[0];
+      }
+      this.filteredOptions = this.serviceCategoryCtrl.valueChanges.pipe(
+        startWith(''),
+        map(value => this._filter(value))
+      );
     } else {
-      this.serviceSettingDisplay = false;
+      this.priorAuthorizationCustomFilterBool = false;
     }
-    console.log(this.serviceSettingDisplay);
     this.lobData = this.session.filterObjValue.lob;
     this.session.getTins().then(data => {
       this.tinsData = data;
@@ -107,18 +212,21 @@ export class FilterComponent implements OnInit {
       });
     });
   }
+
   resetFilter() {
     this.session.filterObjValue.lob = this.lobData = this.lobs[0];
     this.session.filterObjValue.timeFrame = this.timeframeData = this.timeframes[0];
     this.session.filterObjValue.tax = ['All'];
     this.taxData = 'All';
-    if (this.serviceSettingDisplay) {
+    if (this.priorAuthorizationCustomFilterBool) {
       this.session.filterObjValue.serviceSetting = this.servicesettings[0];
       this.session.store({
         timeFrame: this.timeframes[0],
         lob: this.lobs[0],
         tax: ['All'],
-        serviceSetting: this.servicesettings[0]
+        serviceSetting: this.servicesettings[0],
+        priorAuthType: this.priorauthdecisiontype[0],
+        scType: this.priorauthservicecategory[0]
       });
     } else {
       this.session.store({ timeFrame: this.timeframes[0], lob: this.lobs[0], tax: ['All'] });
@@ -128,29 +236,34 @@ export class FilterComponent implements OnInit {
   applyFilter() {
     if (this.taxArrayData.length > 0) {
       //  this.session.filterObjValue.tax = this.taxArrayData;
-      if (this.serviceSettingDisplay) {
+      if (this.priorAuthorizationCustomFilterBool) {
         this.session.store({
           timeFrame: this.timeframeData,
           lob: this.lobData,
           tax: this.taxArrayData,
-          serviceSetting: this.serviceSettingData
+          serviceSetting: this.serviceSettingData,
+          priorAuthType: this.priorAuthTypeData,
+          scType: this.scTypeData
         });
       } else {
         this.session.store({ timeFrame: this.timeframeData, lob: this.lobData, tax: this.taxArrayData });
       }
     } else {
       // this.session.filterObjValue.tax = [this.taxData];
-      if (this.serviceSettingDisplay) {
+      if (this.priorAuthorizationCustomFilterBool) {
         this.session.store({
           timeFrame: this.timeframeData,
           lob: this.lobData,
           tax: [this.taxData],
-          serviceSetting: this.serviceSettingData
+          serviceSetting: this.serviceSettingData,
+          priorAuthType: this.priorAuthTypeData,
+          scType: this.scTypeData
         });
       } else {
         this.session.store({ timeFrame: this.timeframeData, lob: this.lobData, tax: [this.taxData] });
       }
     }
+    console.log(this.lobData);
     this.session.filterObjSubject.complete();
     this.filterFlag.emit(false);
   }
@@ -170,5 +283,23 @@ export class FilterComponent implements OnInit {
 
     tempArray = data.split(', ');
     this.taxArrayData = tempArray.filter((el, i, a) => i === a.indexOf(el));
+  }
+  scArrayFunction(data) {
+    let tempArray = [];
+    if (data) {
+      this.scTypeData = data;
+    } else {
+      this.scTypeData = 'All';
+    }
+
+    tempArray = data.split(', ');
+    this.scArrayData = tempArray.filter((el, i, a) => i === a.indexOf(el));
+  }
+  _filter(value: string): string[] {
+    const filterValue = value.toLowerCase();
+
+    return this.priorauthservicecategory.filter(
+      servicecategory => servicecategory.toLowerCase().indexOf(filterValue) === 0
+    );
   }
 }

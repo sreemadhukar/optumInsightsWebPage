@@ -4,7 +4,7 @@ import { ServiceInteractionModule } from '../../components/service-interaction/s
 import { SessionService } from '../session.service';
 import { CommonUtilsService } from '../common-utils.service';
 
-@Injectable()
+@Injectable({ providedIn: ServiceInteractionModule })
 export class CallsTrendService {
   private previousTrend: String = 'PreviousLast30Days';
   private lastTrend: String = 'Last30Days';
@@ -35,11 +35,11 @@ export class CallsTrendService {
             typeof lastTrend === 'object' &&
             typeof previousLast === 'object'
           ) {
-            sdataQuestionType = this.common.last30DaysTrend(
+            sdataQuestionType = this.common.trendNegativeMeansGood(
               lastTrend.CallVolByQuesType.Total,
               previousLast.CallVolByQuesType.Total
             );
-            sdataTalkTime = this.common.last30DaysTrend(
+            sdataTalkTime = this.common.trendNegativeMeansGood(
               lastTrend.CallTalkTimeByQuesType.Total,
               previousLast.CallTalkTimeByQuesType.Total
             );

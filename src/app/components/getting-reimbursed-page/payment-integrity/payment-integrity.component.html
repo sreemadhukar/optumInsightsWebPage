@@ -6,7 +6,7 @@
         {{ pageTitle }}
       </div>
       <!--<app-mock-data-warning-message class="warning-block"></app-mock-data-warning-message>-->
-      <div class="breadcrumb-top-padding filter-div">
+      <div class="breadcrumb-top-padding filter-div" *ngIf="false">
         <div class="time--period ">
           <div class="filterchips">
             <div class="horizontal-align">
@@ -73,7 +73,8 @@
         <div class="pull-left">
           <div class="medical-records-returned-block">
             <div class="mr-returned-bar-block">
-              <p class="mr-returned-text">Medical Records Returned to UHC</p>
+              <!--<p class="mr-returned-text">Medical Records Returned to UHC</p>-->
+              <p class="mr-returned-text">Medical Records Received by UHC</p>
               <div
                 class="medical-records-returned-bar"
                 [class.zero-data-bar]="cardData.MedicalRecordsReturned == 0"
@@ -83,7 +84,8 @@
           </div>
           <div class="medical-records-not-returned-block">
             <div class="mr-not-returned-bar-block mr-returned-bar-block">
-              <p class="mr-not-returned-text mr-returned-text">Medical Records Not Returned to UHC</p>
+              <!--<p class="mr-not-returned-text mr-returned-text">Medical Records Not Returned to UHC</p>-->
+              <p class="mr-not-returned-text mr-returned-text">Medical Records Not Received by UHC</p>
               <div class="mr-not-returned-bar-text-block">
                 <div
                   class="medical-records-not-returned-bar"

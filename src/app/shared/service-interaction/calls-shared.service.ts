@@ -34,24 +34,46 @@ export class CallsSharedService {
   }
 
   public getCallsData() {
-    this.timeFrame = 'Last 6 Months';
+    this.timeFrame = this.session.filterObjValue.timeFrame;
     this.providerKey = this.session.providerKeyData();
     return new Promise(resolve => {
       let parameters;
-      parameters = [this.providerKey];
-      this.sharedCallsData(parameters)
-        .then(data => {
+
+      if (
+        this.timeFrame === 'Last 12 Months' ||
+        this.timeFrame === 'Last 6 Months' ||
+        this.timeFrame === 'Year to Date'
+      ) {
+        if (this.timeFrame === 'Last 12 Months') {
+          parameters = [this.providerKey, { TimeFilter: 'Last12Months' }];
+        } else if (this.timeFrame === 'Last 6 Months') {
+          parameters = [this.providerKey, { TimeFilter: 'Last6Months' }];
+        } else {
+          parameters = [this.providerKey, { TimeFilter: 'YTD' }];
+        }
+      } else {
+        parameters = [this.providerKey, { TimeFilter: 'CalendarYear', TimeFilterText: this.timeFrame }];
+      }
+      this.sharedCallsData(parameters).then(data => {
+        if (data) {
           this.callsData = data;
-          return this.sharedCallsTrend();
-        })
-        .then(data => {
-          this.callsData[0].data['sdata'] = data[0];
-          this.callsData[1].data['sdata'] = data[1];
           resolve(this.callsData);
-        });
+          //     return this.sharedCallsTrend();
+          //   }
+          // })
+          // .then(data => {
+          //   if (this.callsData && data) {
+          //     this.callsData[0].data['sdata'] = data[0];
+          //     this.callsData[1].data['sdata'] = data[1];
+          //     resolve(this.callsData);
+          //   }
+        }
+      });
     });
   }
   sharedCallsTrend() {
+    this.timeFrame = this.session.filterObjValue.timeFrame;
+
     return new Promise(resolve => {
       /** Get Calls Trend Data */
       this.callsTrendService
@@ -73,11 +95,28 @@ export class CallsSharedService {
     });
   }
   sharedCallsData(parameters) {
+    this.timeFrame = this.session.filterObjValue.timeFrame;
+
+    if (
+      this.timeFrame === 'Last 12 Months' ||
+      this.timeFrame === 'Last 6 Months' ||
+      this.timeFrame === 'Year to Date'
+    ) {
+      if (this.timeFrame === 'Last 12 Months') {
+        parameters = [this.providerKey, { TimeFilter: 'Last12Months' }];
+      } else if (this.timeFrame === 'Last 6 Months') {
+        parameters = [this.providerKey, { TimeFilter: 'Last6Months' }];
+      } else {
+        parameters = [this.providerKey, { TimeFilter: 'YTD' }];
+      }
+    } else {
+      parameters = [this.providerKey, { TimeFilter: 'CalendarYear', TimeFilterText: this.timeFrame }];
+    }
     let callsByCallType;
     let talkTimeByCallType;
     let tempArray: Array<object> = [];
     return new Promise(resolve => {
-      this.callsService.getCallsData(parameters).subscribe(
+      this.callsService.getCallsData(...parameters).subscribe(
         ([providerSystems]) => {
           if (providerSystems != null) {
             try {
@@ -98,9 +137,11 @@ export class CallsSharedService {
                         totalCalls.PriorAuth,
                         totalCalls.Others
                       ],
-                      centerNumber: this.common.nFormatter(totalCalls.Total),
+                      centerNumber: this.common.nondecimalFormatter(totalCalls.Total),
                       color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'],
-                      gdata: ['card-inner', 'callsByCallType']
+                      gdata: ['card-inner', 'callsByCallType'],
+                      labels: ['Eligibilty and Benefits', 'Claims', 'Prior Authorizations', 'Others'],
+                      hover: true
                       // sdata: this.sdataTrend[0]
                     },
                     {
@@ -136,9 +177,11 @@ export class CallsSharedService {
                         totalCalls.PriorAuth,
                         totalCalls.Others
                       ],
-                      centerNumber: this.common.nFormatter(totalCalls.Total) + 'Hrs',
+                      centerNumber: this.common.nondecimalFormatter(totalCalls.Total) + ' ' + ' Hrs',
                       color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'],
-                      gdata: ['card-inner', 'talkTimeByCallType']
+                      gdata: ['card-inner', 'talkTimeByCallType'],
+                      labels: ['Eligibilty and Benefits', 'Claims', 'Prior Authorizations', 'Others'],
+                      hover: true
                       // sdata: this.sdataTrend[1]
                     },
                     {
