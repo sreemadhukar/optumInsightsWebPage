@@ -52,6 +52,81 @@ export class GettingReimbursedSharedService {
     }
   }
 
+  /** Function to show hovers labels as per Lob**/
+  public returnHoverLabels(cardData) {
+    const hoverLabels = [];
+    if (cardData !== null) {
+      if (this.session.filterObjValue.lob === 'All') {
+        if (cardData.hasOwnProperty('Mr')) {
+          hoverLabels.push('Medicare & Retirement');
+        }
+        if (cardData.hasOwnProperty('Cs')) {
+          hoverLabels.push('Community & State');
+        }
+        if (cardData.hasOwnProperty('Ei')) {
+          hoverLabels.push('Employer & Individual');
+        }
+        if (cardData.hasOwnProperty('Un')) {
+          hoverLabels.push('Uncategorized');
+        }
+      } else if (this.session.filterObjValue.lob === 'Medicare & Retirement') {
+        if (cardData.hasOwnProperty('Mr')) {
+          hoverLabels.push('Medicare & Retirement');
+        }
+      } else if (this.session.filterObjValue.lob === 'Community & State') {
+        if (cardData.hasOwnProperty('Cs')) {
+          hoverLabels.push('Community & State');
+        }
+      } else if (this.session.filterObjValue.lob === 'Employer & Individual') {
+        if (cardData.hasOwnProperty('Ei')) {
+          hoverLabels.push('Employer & Individual');
+        }
+      } else if (this.session.filterObjValue.lob === 'Uncategorized') {
+        if (cardData.hasOwnProperty('Un')) {
+          hoverLabels.push('Uncategorized');
+        }
+      }
+      return hoverLabels;
+    }
+  }
+
+  /** Function to show hovers colors as per Lob**/
+  public returnLobColor(cardData) {
+    const hoverColors = [];
+    if (cardData !== null) {
+      if (this.session.filterObjValue.lob === 'All') {
+        if (cardData.hasOwnProperty('Mr')) {
+          hoverColors.push('#3381FF');
+        }
+        if (cardData.hasOwnProperty('Cs')) {
+          hoverColors.push('#80B0FF');
+        }
+        if (cardData.hasOwnProperty('Ei')) {
+          hoverColors.push('#003DA1');
+        }
+        if (cardData.hasOwnProperty('Un')) {
+          hoverColors.push('#00B8CC');
+        }
+      } else if (this.session.filterObjValue.lob === 'Medicare & Retirement') {
+        if (cardData.hasOwnProperty('Mr')) {
+          hoverColors.push('#3381FF');
+        }
+      } else if (this.session.filterObjValue.lob === 'Community & State') {
+        if (cardData.hasOwnProperty('Cs')) {
+          hoverColors.push('#80B0FF');
+        }
+      } else if (this.session.filterObjValue.lob === 'Employer & Individual') {
+        if (cardData.hasOwnProperty('Ei')) {
+          hoverColors.push('#003DA1');
+        }
+      } else if (this.session.filterObjValue.lob === 'Uncategorized') {
+        if (cardData.hasOwnProperty('Un')) {
+          hoverColors.push('#00B8CC');
+        }
+      }
+      return hoverColors;
+    }
+  }
   /** code starts here for shared NonPayment Data */
   /** Actually we have to used this nonPayment service in for Non-Payment cards that's why we
    * need to call the Non-Payment API in Getting Reimbursed Summary page as well
@@ -295,13 +370,13 @@ export class GettingReimbursedSharedService {
                     this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].AmountPaid) > 0
                       ? '< $1'
                       : '$' + this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].AmountPaid),
-                  color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'],
+                  color: this.returnLobColor(claimsData),
                   gdata: ['card-inner', 'claimsPaid'],
                   sdata: {
                     sign: '',
                     data: ''
                   },
-                  labels: ['Medicare & Retirement', 'Community & State', 'Employer & Individual', 'Uncategorized'],
+                  labels: this.returnHoverLabels(claimsData),
                   hover: true
                 },
                 besideData: {
@@ -376,13 +451,13 @@ export class GettingReimbursedSharedService {
                     this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].AmountDenied) > 0
                       ? '< $1'
                       : '$' + this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].AmountDenied),
-                  color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'],
+                  color: this.returnLobColor(claimsData),
                   gdata: ['card-inner', 'claimsPaid'],
                   sdata: {
                     sign: '',
                     data: ''
                   },
-                  labels: ['Medicare & Retirement', 'Community & State', 'Employer & Individual', 'Uncategorized'],
+                  labels: this.returnHoverLabels(claimsData),
                   hover: true
                 },
                 besideData: {
@@ -586,8 +661,18 @@ export class GettingReimbursedSharedService {
                 },
                 bottomData: {
                   horizontalData: [
-                    { values: appealsData[0].LineOfBusiness[lobFullData].AdminAppeals, labels: 'Admin' },
-                    { values: appealsData[0].LineOfBusiness[lobFullData].ClinicalAppeals, labels: 'Clinical' }
+                    {
+                      values: appealsData[0].LineOfBusiness[lobFullData].AdminAppeals
+                        ? appealsData[0].LineOfBusiness[lobFullData].AdminAppeals
+                        : 0,
+                      labels: 'Admin'
+                    },
+                    {
+                      values: appealsData[0].LineOfBusiness[lobFullData].ClinicalAppeals
+                        ? appealsData[0].LineOfBusiness[lobFullData].ClinicalAppeals
+                        : 0,
+                      labels: 'Clinical'
+                    }
                   ]
                 },
                 timeperiod: this.timeFrame
@@ -625,7 +710,9 @@ export class GettingReimbursedSharedService {
                 title: 'Claims Appeals Overturned',
                 data: {
                   graphValues: overturnedData,
-                  centerNumber: this.common.nFormatter(appealsData[0].LineOfBusiness[lobFullData].OverTurnCount),
+                  centerNumber: appealsData[0].LineOfBusiness[lobFullData].OverTurnCount
+                    ? this.common.nFormatter(appealsData[0].LineOfBusiness[lobFullData].OverTurnCount)
+                    : 0,
                   color: ['#3381FF', '#D7DCE1'],
                   gdata: ['card-inner', 'claimsAppealOverturned'],
                   sdata: null
@@ -915,13 +1002,13 @@ export class GettingReimbursedSharedService {
                     this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].AmountPaid) > 0
                       ? '< $1'
                       : '$' + this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].AmountPaid),
-                  color: colorcodes,
+                  color: this.returnLobColor(claimsData), // colorcodes,
                   gdata: ['card-inner', 'claimsPaid'],
                   sdata: {
                     sign: '',
                     data: ''
                   },
-                  labels: ['Medicare & Retirement', 'Community & State', 'Employer & Individual', 'Uncategorized'],
+                  labels: this.returnHoverLabels(claimsData),
                   hover: true
                 },
                 besideData: {
@@ -943,13 +1030,13 @@ export class GettingReimbursedSharedService {
                       this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].AmountPaid) > 0
                         ? '< $1'
                         : '$' + this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].AmountPaid),
-                    color: ['#D7DCE1', '#D7DCE1'],
+                    color: this.returnLobColor(claimsData),
                     gdata: ['card-inner', 'claimsPaid'],
                     sdata: {
                       sign: 'down',
                       data: '-2.8%'
                     },
-                    labels: ['Medicare &  Retirement', 'Community & State', 'Employer & Individual', 'Uncategorized'],
+                    labels: this.returnHoverLabels(claimsData),
                     hover: true
                   },
                   besideData: {
@@ -1025,13 +1112,13 @@ export class GettingReimbursedSharedService {
                     this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].AmountPaid) > 0
                       ? '< $1'
                       : '$' + this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].AmountPaid),
-                  color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'],
+                  color: this.returnLobColor(claimsData),
                   gdata: ['card-inner', 'claimsPaid'],
                   sdata: {
                     sign: '',
                     data: ''
                   },
-                  labels: ['Medicare & Retirement', 'Community & State', 'Employer & Individual', 'Uncategorized'],
+                  labels: this.returnHoverLabels(claimsData),
                   hover: true
                 },
                 besideData: {
@@ -1106,13 +1193,13 @@ export class GettingReimbursedSharedService {
                     this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].AmountDenied) > 0
                       ? '< $1'
                       : '$' + this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].AmountDenied),
-                  color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'],
+                  color: this.returnLobColor(claimsData),
                   gdata: ['card-inner', 'claimsPaid'],
                   sdata: {
                     sign: '',
                     data: ''
                   },
-                  labels: ['Medicare & Retirement', 'Community & State', 'Employer & Individual', 'Uncategorized'],
+                  labels: this.returnHoverLabels(claimsData),
                   hover: true
                 },
                 besideData: {
@@ -1710,9 +1797,9 @@ export class GettingReimbursedSharedService {
               appealsData[0].hasOwnProperty('LineOfBusiness') &&
               appealsData[0].LineOfBusiness !== null &&
               appealsData[0].LineOfBusiness.hasOwnProperty(lobFullData) &&
-              appealsData[0].LineOfBusiness[lobFullData].hasOwnProperty('OverTurnCount') != null &&
-              appealsData[0].LineOfBusiness[lobFullData].hasOwnProperty('AdminAppeals') != null &&
-              appealsData[0].LineOfBusiness[lobFullData].hasOwnProperty('ClinicalAppeals') != null
+              appealsData[0].LineOfBusiness[lobFullData].hasOwnProperty('OverTurnCount') &&
+              appealsData[0].LineOfBusiness[lobFullData].hasOwnProperty('AdminAppeals') &&
+              appealsData[0].LineOfBusiness[lobFullData].hasOwnProperty('ClinicalAppeals')
             ) {
               const submitted =
                 appealsData[0].LineOfBusiness[lobFullData].AdminAppeals +
@@ -1874,9 +1961,9 @@ export class GettingReimbursedSharedService {
               appealsData[0].hasOwnProperty('LineOfBusiness') &&
               appealsData[0].LineOfBusiness !== null &&
               appealsData[0].LineOfBusiness.hasOwnProperty(lobFullData) &&
-              appealsData[0].LineOfBusiness[lobFullData].hasOwnProperty('OverTurnCount') != null &&
-              appealsData[0].LineOfBusiness[lobFullData].hasOwnProperty('AdminAppeals') != null &&
-              appealsData[0].LineOfBusiness[lobFullData].hasOwnProperty('ClinicalAppeals') != null
+              appealsData[0].LineOfBusiness[lobFullData].hasOwnProperty('OverTurnCount') &&
+              appealsData[0].LineOfBusiness[lobFullData].hasOwnProperty('AdminAppeals') &&
+              appealsData[0].LineOfBusiness[lobFullData].hasOwnProperty('ClinicalAppeals')
             ) {
               const submitted =
                 appealsData[0].LineOfBusiness[lobFullData].AdminAppeals +
@@ -1899,43 +1986,57 @@ export class GettingReimbursedSharedService {
                 },
                 timeperiod: this.timeFrame
               };
-              if (appealsData[0].LineOfBusiness[lobFullData].ListReasonAndCount.length > 0) {
-                const reasonsVal1 = [{}];
-                const reasonsVal2 = [{}];
-                const barVal = [{}];
-                const barTitle = [{}];
-                const getTopFiveReasons = appealsData[0].LineOfBusiness[lobFullData].ListReasonAndCount.sort(function(
-                  a,
-                  b
-                ) {
-                  return b.Count - a.Count;
-                }).slice(0, 5);
-                let topFiveReasonTotal;
-                for (let i = 0; i < getTopFiveReasons.length; i++) {
-                  if (i === 0) {
-                    topFiveReasonTotal = getTopFiveReasons[i].Count;
-                  } else {
-                    topFiveReasonTotal = topFiveReasonTotal + getTopFiveReasons[i].Count;
+              if (
+                appealsData[0].LineOfBusiness[lobFullData].hasOwnProperty('ListReasonAndCount') &&
+                appealsData[0].LineOfBusiness[lobFullData].ListReasonAndCount != null
+              ) {
+                if (appealsData[0].LineOfBusiness[lobFullData].ListReasonAndCount.length > 0) {
+                  const reasonsVal1 = [{}];
+                  const reasonsVal2 = [{}];
+                  const barVal = [{}];
+                  const barTitle = [{}];
+                  const getTopFiveReasons = appealsData[0].LineOfBusiness[lobFullData].ListReasonAndCount.sort(function(
+                    a,
+                    b
+                  ) {
+                    return b.Count - a.Count;
+                  }).slice(0, 5);
+                  let topFiveReasonTotal;
+                  for (let i = 0; i < getTopFiveReasons.length; i++) {
+                    if (i === 0) {
+                      topFiveReasonTotal = getTopFiveReasons[i].Count;
+                    } else {
+                      topFiveReasonTotal = topFiveReasonTotal + getTopFiveReasons[i].Count;
+                    }
                   }
-                }
-                for (let a = 0; a < getTopFiveReasons.length; a++) {
-                  reasonsVal1[a] = getTopFiveReasons[a].Count;
-                  const value1 = Number(reasonsVal1[a]);
-                  reasonsVal2[a] = topFiveReasonTotal - getTopFiveReasons[a].Count;
-                  barVal[a] =
-                    Number(((getTopFiveReasons[a].Count / topFiveReasonTotal) * 100).toFixed()) >= 1
-                      ? ((getTopFiveReasons[a].Count / topFiveReasonTotal) * 100).toFixed() + '%'
-                      : '<1%';
-                  barTitle[a] = getTopFiveReasons[a].Reason;
-                }
-                for (let i = 0; i <= getTopFiveReasons.length; i++) {
+                  for (let a = 0; a < getTopFiveReasons.length; a++) {
+                    reasonsVal1[a] = getTopFiveReasons[a].Count;
+                    const value1 = Number(reasonsVal1[a]);
+                    reasonsVal2[a] = topFiveReasonTotal - getTopFiveReasons[a].Count;
+                    barVal[a] =
+                      Number(((getTopFiveReasons[a].Count / topFiveReasonTotal) * 100).toFixed()) >= 1
+                        ? ((getTopFiveReasons[a].Count / topFiveReasonTotal) * 100).toFixed() + '%'
+                        : '<1%';
+                    barTitle[a] = getTopFiveReasons[a].Reason;
+                  }
+                  for (let i = 0; i <= getTopFiveReasons.length; i++) {
+                    reason.push({
+                      type: 'bar chart',
+                      graphValues: [reasonsVal1[i], reasonsVal2[i]],
+                      barText: barTitle[i],
+                      barValue: barVal[i],
+                      color: ['#3381FF', '#FFFFFF', '#E0E0E0'],
+                      gdata: ['app-card-structure', 'appealsOverturnedReason' + i]
+                    });
+                  }
+                } else {
                   reason.push({
-                    type: 'bar chart',
-                    graphValues: [reasonsVal1[i], reasonsVal2[i]],
-                    barText: barTitle[i],
-                    barValue: barVal[i],
-                    color: ['#3381FF', '#FFFFFF', '#E0E0E0'],
-                    gdata: ['app-card-structure', 'appealsOverturnedReason' + i]
+                    category: 'app-card',
+                    type: 'donut',
+                    status: 404,
+                    title: 'Top Claims Appeals Overturn Reasons',
+                    data: null,
+                    timeperiod: null
                   });
                 }
               } else {
@@ -2091,7 +2192,6 @@ export class GettingReimbursedSharedService {
     this.tin = this.session.filterObjValue.tax.toString().replace('-', '');
     this.lob = this.session.filterObjValue.lob;
     this.timeFrame = this.session.filterObjValue.timeFrame;
-    console.log(this.timeFrame);
     // 'Last 6 Months'; // this.session.timeFrame;
     this.providerKey = this.session.providerKeyData();
     const timeperiod = '';
@@ -2277,8 +2377,18 @@ export class GettingReimbursedSharedService {
           },
           bottomData: {
             horizontalData: [
-              { values: appealsData[0].LineOfBusiness[lobFullData].AdminAppeals, labels: 'Admin' },
-              { values: appealsData[0].LineOfBusiness[lobFullData].ClinicalAppeals, labels: 'Clinical' }
+              {
+                values: appealsData[0].LineOfBusiness[lobFullData].AdminAppeals
+                  ? appealsData[0].LineOfBusiness[lobFullData].AdminAppeals
+                  : 0,
+                labels: 'Admin'
+              },
+              {
+                values: appealsData[0].LineOfBusiness[lobFullData].ClinicalAppeals
+                  ? appealsData[0].LineOfBusiness[lobFullData].ClinicalAppeals
+                  : 0,
+                labels: 'Clinical'
+              }
             ]
           },
           timeperiod: this.timeFrame
