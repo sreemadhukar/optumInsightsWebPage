@@ -262,19 +262,31 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
     // this.timePeriod = this.session.timeFrame; // uncomment it
 
     /** code for two donuts  Claims Not Paid and Claims Non-payment Rate */
-    this.nonPaymentService.getNonPayment().then(nonPayment => {
-      this.nonPaymentData1 = JSON.parse(JSON.stringify(nonPayment));
-    });
+    this.nonPaymentService.getNonPayment().then(
+      nonPayment => {
+        this.nonPaymentData1 = JSON.parse(JSON.stringify(nonPayment));
+      },
+      err => {
+        console.log('Non Payment Component Two Donuts', err);
+      }
+    );
     /** Ends here */
 
     /** code for Top Categories*/
+    this.topReasonsCategoryDisplay = false;
     this.nonPaymentService.getNonPaymentCategories().then(
       topCategories => {
-        this.barChartsArray = topCategories;
+        if (this.barChartsArray > 0) {
+          this.topReasonsCategoryDisplay = true;
+          this.barChartsArray = topCategories;
+        } else {
+          this.topReasonsCategoryDisplay = false;
+        }
       },
       error => {
+        this.topReasonsCategoryDisplay = false;
         this.barChartsArray = null;
-        console.log('Error Top Categories COmpoent', error);
+        console.log('Non Payment Component Error Top Categories', error);
       }
     );
     /** End code for Top Categories */
