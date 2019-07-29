@@ -66,6 +66,11 @@
 
     <!-- Top reasons for Claims Start here -->
     <app-large-card [skeletonLarge]="loadingTopReasons" *ngIf="loadingTopReasons"></app-large-card>
+    <!-- <app-error-card
+      *ngIf="reasonsNoData != null && reasonsNoData.status != null"
+      class="cards"
+      [data]="reasonsNoData"
+    ></app-error-card> -->
     <div class="top-reasons-for-claims-non-payment-block" *ngIf="topReasonsCategoryDisplay && !loadingTopReaons">
       <app-common-header
         [title]="title"

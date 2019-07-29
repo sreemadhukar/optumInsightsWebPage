@@ -50,6 +50,7 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
   loadingTwo: boolean;
   mockCardTwo: any;
   barChartsArray: any = [];
+  reasonsNoData: object = null;
   /*
   barChartsArray = [
     {
@@ -282,6 +283,14 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
         this.barChartsArray = topCategories;
         if (topCategories === null) {
           this.topReasonsCategoryDisplay = false;
+          this.reasonsNoData = {
+            category: 'large-card',
+            type: 'donut',
+            status: 404,
+            title: 'Claims Non-Payment Rate',
+            data: null,
+            timeperiod: null
+          };
         }
       },
       error => {
