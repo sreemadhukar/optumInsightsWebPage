@@ -436,6 +436,10 @@ export class PriorAuthSharedService {
       timeRange = 'rolling12';
     } else if (timePeriod === 'Last 6 Months') {
       timeRange = 'last6Months';
+    } else if (timePeriod === 'Last 3 Months') {
+      timeRange = 'last3Months';
+    } else if (timePeriod === 'Last 30 Days') {
+      timeRange = 'last30Days';
     } else if (timePeriod === 'Year to Date') {
       timeRange = 'customDateRange';
       const yesterday = (d => new Date(d.setDate(d.getDate() - 1)))(new Date());
