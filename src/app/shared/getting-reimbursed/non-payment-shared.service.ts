@@ -490,6 +490,9 @@ export class NonPaymentSharedService {
   } // end funtion getNonPayment()
 
   getParmaeterCategories() {
+    this.timeFrame = this.session.filterObjValue.timeFrame;
+    this.providerKey = this.session.providerKeyData();
+    // this.paramtersCategories = [];
     if (
       this.timeFrame === 'Last 12 Months' ||
       this.timeFrame === 'Last 6 Months' ||
@@ -574,6 +577,8 @@ export class NonPaymentSharedService {
             this.providerKey,
             { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Last30Days' }
           ];
+        } else {
+          this.paramtersCategories = [this.providerKey, { TimeFilter: 'Last30Days' }];
         }
       }
     } else {
@@ -609,9 +614,6 @@ export class NonPaymentSharedService {
   } // end getParmaeterCategories() function for Top Reasons Categories
 
   public getNonPaymentCategories() {
-    this.timeFrame = this.session.filterObjValue.timeFrame;
-    this.providerKey = this.session.providerKeyData();
-
     // Assign the paramater variable
     this.paramtersCategories = [];
     this.getParmaeterCategories();
@@ -650,10 +652,10 @@ export class NonPaymentSharedService {
       this.nonPaymentService.getNonPaymentSubCategories(paramtersSubCategory).subscribe(
         data => {
           const mappedData = data.map(item => item[0]);
-          // console.log('5 parameters', mappedData);
           for (let i = 0; i < arrayTemp.length; i++) {
-            arrayTemp[i]['top5'] = mappedData[i].All.DenialCategory;
+            arrayTemp[i]['top5'] = JSON.parse(JSON.stringify(mappedData[i].All.DenialCategory));
             const p = arrayTemp[i]['top5'];
+            // console.log('5 parameters', mappedData[i].All.DenialCategory);
             for (let j = 0; j < p.length; j++) {
               p[j].text = p[j]['Claimdenialcategorylevel1shortname'];
               p[j].valueNumeric = p[j]['DenialAmount'];
