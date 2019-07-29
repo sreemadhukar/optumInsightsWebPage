@@ -84,6 +84,7 @@ export class AppealsComponent implements OnInit {
 
     this.gettingReimbursedSharedService.getappealsRateAndReasonData().then(appealsRateData => {
       console.log(appealsRateData);
+
       let AppealsCards: any;
       AppealsCards = appealsRateData;
       this.loading = false;
@@ -91,7 +92,7 @@ export class AppealsComponent implements OnInit {
         this.reasonDataAvailable = true;
       }
       this.overturnItem = AppealsCards;
-      if (appealsRateData[3].length) {
+      if (appealsRateData[3].length !== 0) {
         this.reason = appealsRateData[3];
       }
     });
