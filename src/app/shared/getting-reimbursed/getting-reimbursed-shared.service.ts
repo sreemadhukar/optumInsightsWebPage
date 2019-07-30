@@ -1321,7 +1321,7 @@ export class GettingReimbursedSharedService {
     });
   }
   public getGettingReimbursedData() {
-    this.tin = this.session.filterObjValue.tax.toString().replace('-', '');
+    this.tin = this.session.filterObjValue.tax.toString().replace(/-/g, '');
     this.lob = this.session.filterObjValue.lob;
     this.timeFrame = this.session.filterObjValue.timeFrame;
     this.providerKey = this.session.providerKeyData();
@@ -1468,7 +1468,7 @@ export class GettingReimbursedSharedService {
   /* function to get Top Reasons for Claims Non Payments - Ranjith kumar Ankam*/
   public getTopReasonsforClaimsNonPayments() {
     return new Promise((resolve, reject) => {
-      this.tin = this.session.filterObjValue.tax.toString().replace('-', '');
+      this.tin = this.session.filterObjValue.tax.toString().replace(/-/g, '');
       this.lob = this.session.filterObjValue.lob;
       this.timeFrame = this.session.filterObjValue.timeFrame;
       this.providerKey = this.session.providerKeyData();
@@ -1524,7 +1524,7 @@ export class GettingReimbursedSharedService {
   /* function to get Claims Non Payments by Facility Data - Ranjith kumar Ankam*/
   public getClaimsNonPaymentsbyFacilityData(top5Reasons) {
     return new Promise((resolve, reject) => {
-      this.tin = this.session.filterObjValue.tax.toString().replace('-', '');
+      this.tin = this.session.filterObjValue.tax.toString().replace(/-/g, '');
       this.lob = this.session.filterObjValue.lob;
       this.timeFrame = this.session.filterObjValue.timeFrame;
       this.providerKey = this.session.providerKeyData();
@@ -1612,7 +1612,7 @@ export class GettingReimbursedSharedService {
 
   public getclaimsNonPaymentTrendData() {
     return new Promise((resolve, reject) => {
-      this.tin = this.session.filterObjValue.tax.toString().replace('-', '');
+      this.tin = this.session.filterObjValue.tax.toString().replace(/-/g, '');
       this.lob = this.session.filterObjValue.lob;
       this.timeFrame = this.session.filterObjValue.timeFrame;
       this.providerKey = this.session.providerKeyData();
@@ -1681,7 +1681,7 @@ export class GettingReimbursedSharedService {
     });
   }
   public getappealsRateAndReasonData() {
-    this.tin = this.session.filterObjValue.tax.toString().replace('-', '');
+    this.tin = this.session.filterObjValue.tax.toString().replace(/-/g, '');
     this.lob = this.session.filterObjValue.lob;
     this.timeFrame = this.session.filterObjValue.timeFrame; // this.session.timeFrame;
     this.providerKey = this.session.providerKeyData();
@@ -2187,7 +2187,7 @@ export class GettingReimbursedSharedService {
   }
 
   getclaimsPaidData() {
-    this.tin = this.session.filterObjValue.tax.toString().replace('-', '');
+    this.tin = this.session.filterObjValue.tax.toString().replace(/-/g, '');
     this.lob = this.session.filterObjValue.lob;
     this.timeFrame = this.session.filterObjValue.timeFrame;
     // 'Last 6 Months'; // this.session.timeFrame;
