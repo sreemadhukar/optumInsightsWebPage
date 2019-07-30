@@ -1698,7 +1698,7 @@ export class GettingReimbursedSharedService {
         this.timeFrame === 'Last 6 Months' ||
         this.timeFrame === 'Last 3 Months' ||
         this.timeFrame === 'Last 30 Days' ||
-        this.timeFrame === 'Year To Date'
+        this.timeFrame === 'Year to Date'
       ) {
         if (this.timeFrame === 'Last 12 Months') {
           if (this.tin !== 'All' && this.lob !== 'All') {
@@ -1748,7 +1748,7 @@ export class GettingReimbursedSharedService {
           } else {
             parameters = [this.providerKey, { TimeFilter: 'Last30Days', AllProviderTins: 'true' }];
           }
-        } else if (this.timeFrame === 'Year To Date') {
+        } else if (this.timeFrame === 'Year to Date') {
           if (this.tin !== 'All' && this.lob !== 'All') {
             parameters = [
               this.providerKey,
