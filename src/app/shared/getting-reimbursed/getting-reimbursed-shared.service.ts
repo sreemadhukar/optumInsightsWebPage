@@ -1329,7 +1329,6 @@ export class GettingReimbursedSharedService {
     return new Promise(resolve => {
       let parameters;
       let gettingReimbursedData: any;
-
       if (
         this.timeFrame === 'Last 12 Months' ||
         this.timeFrame === 'Last 6 Months' ||
@@ -1415,7 +1414,6 @@ export class GettingReimbursedSharedService {
             parameters = [this.providerKey, { TimeFilter: 'Last6Months' }];
           }
         }
-
         /** We used promise so that we get the data in synchronous manner  */
         this.sharedNonPaymentData()
           .then(nonPayment => {
