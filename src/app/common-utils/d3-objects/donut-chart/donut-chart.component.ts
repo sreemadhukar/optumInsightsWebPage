@@ -400,11 +400,15 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
 
     if (chartOptions.hasOwnProperty('labels')) {
       for (let i = 0; i < chartOptions.graphValues.length; i++) {
-        donutData.push({ value: chartOptions.graphValues[i], label: chartOptions.labels[i] });
+        donutData.push({
+          value: chartOptions.graphValues[i],
+          label: chartOptions.labels[i],
+          color: chartOptions.color[i]
+        });
       }
     } else {
       for (let i = 0; i < chartOptions.graphValues.length; i++) {
-        donutData.push({ value: chartOptions.graphValues[i] });
+        donutData.push({ value: chartOptions.graphValues[i], color: chartOptions.color[i] });
       }
     }
 
@@ -418,7 +422,8 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
     if (transition) {
       g.append('path')
         .style('fill', function(d) {
-          return donutColor(d.data.value);
+          // return donutColor(d.data.value);
+          return donutColor(d.data.color);
         })
         .transition()
         .delay(function(d, i) {
@@ -438,7 +443,8 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
       g.append('path')
         .attr('d', arc)
         .style('fill', function(d) {
-          return donutColor(d.data.value);
+          // return donutColor(d.data.value);
+          return donutColor(d.data.color);
         });
 
       text.text(chartOptions.centerNumber);

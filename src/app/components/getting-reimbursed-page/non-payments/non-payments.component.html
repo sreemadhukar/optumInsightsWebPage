@@ -4,7 +4,6 @@
     <div class="nonPayment-content-cust">
       <app-breadcrumbs></app-breadcrumbs>
       <div class="page-title">{{ pageTitle }}</div>
-      <!--<app-mock-data-warning-message *ngIf="show"></app-mock-data-warning-message>-->
       <div class="breadcrumb-top-padding filter-div">
         <div class="time--period ">
           <div class="filterchips">
@@ -64,9 +63,14 @@
       <app-common-footer [timePeriod]="timePeriod" class="width-100 time-period-trend"></app-common-footer>
     </div>
     <!-- Claims Non - Payment Trend Ends Here -->
-
     <!-- Top reasons for Claims Start here -->
-    <div class="top-reasons-for-claims-non-payment-block" *ngIf="show">
+    <app-large-card [skeletonLarge]="loadingTopReasons" *ngIf="loadingTopReasons"></app-large-card>
+    <!-- <app-error-card
+      *ngIf="reasonsNoData != null && reasonsNoData.status != null"
+      class="cards"
+      [data]="reasonsNoData"
+    ></app-error-card> -->
+    <div class="top-reasons-for-claims-non-payment-block" *ngIf="topReasonsCategoryDisplay && !loadingTopReasons">
       <app-common-header
         [title]="title"
         class="full-display"

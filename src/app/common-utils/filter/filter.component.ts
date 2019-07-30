@@ -38,7 +38,15 @@ export class FilterComponent implements OnInit {
 
   @Output() filterFlag = new EventEmitter();
   @Input() filterurl;
-  public timeframes = ['Last 6 Months', 'Last 12 Months', 'Year to Date', '2018', '2017'];
+  public timeframes = [
+    'Last 30 Days',
+    'Last 3 Months',
+    'Last 6 Months',
+    'Last 12 Months',
+    'Year to Date',
+    '2018',
+    '2017'
+  ];
   public lobs = ['All', 'Community & State', 'Employer & Individual', 'Medicare & Retirement'];
   public servicesettings = ['All', 'Inpatient', 'Outpatient', 'Outpatient Facility'];
   public priorauthdecisiontype = ['All', 'Administrative', 'Clinical'];
@@ -215,7 +223,7 @@ export class FilterComponent implements OnInit {
 
   resetFilter() {
     this.session.filterObjValue.lob = this.lobData = this.lobs[0];
-    this.session.filterObjValue.timeFrame = this.timeframeData = this.timeframes[0];
+    this.session.filterObjValue.timeFrame = this.timeframeData = this.timeframes[2];
     this.session.filterObjValue.tax = ['All'];
     this.taxData = 'All';
     if (this.priorAuthorizationCustomFilterBool) {
@@ -229,7 +237,7 @@ export class FilterComponent implements OnInit {
         scType: this.priorauthservicecategory[0]
       });
     } else {
-      this.session.store({ timeFrame: this.timeframes[0], lob: this.lobs[0], tax: ['All'] });
+      this.session.store({ timeFrame: this.timeframes[2], lob: this.lobs[0], tax: ['All'] });
     }
     this.filterFlag.emit(false);
   }
@@ -263,7 +271,6 @@ export class FilterComponent implements OnInit {
         this.session.store({ timeFrame: this.timeframeData, lob: this.lobData, tax: [this.taxData] });
       }
     }
-    console.log(this.lobData);
     this.session.filterObjSubject.complete();
     this.filterFlag.emit(false);
   }
