@@ -99,7 +99,7 @@ export class NonPaymentSharedService {
   }
   // The getNonPayment() function fetches data for Claims Not Paid and Claims Non-Payment Rate
   public getNonPayment() {
-    this.tin = this.session.filterObjValue.tax.toString().replace('-', '');
+    this.tin = this.session.filterObjValue.tax.toString().replace(/-/g, '');
     this.lob = this.session.filterObjValue.lob;
     this.timeFrame = this.session.filterObjValue.timeFrame;
     this.providerKey = this.session.providerKeyData();
