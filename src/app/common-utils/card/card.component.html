@@ -38,8 +38,12 @@ Date Created: 17-Apr-2019
             "
           ></app-donut-chart>
         </div>
+        <!-- need to add div for tat -->
         <div
-          *ngIf="chartData.title == 'Prior Authorization Approval Rate'"
+          *ngIf="
+            chartData.title == 'Prior Authorization Approval Rate' &&
+            chartData.besideData.verticalData[1].trends === undefined
+          "
           class="pa-approved-rate-vertical-data-block"
         >
           <ul>
@@ -47,6 +51,40 @@ Date Created: 17-Apr-2019
               <p class="donut-graph-title" *ngIf="d.title == 'Average Turnaround Time'">{{ d.title }}</p>
               <p class="donut-graph-label-value">{{ d.values }}</p>
               <p class="donut-graph-label">{{ d.labels }}</p>
+              <hr *ngIf="i + 1 < chartData.besideData.verticalData.length && d.values" class="pa-avg-tat-hr-line" />
+            </li>
+          </ul>
+        </div>
+        <!-- need to add div for tat -->
+        <div
+          *ngIf="chartData.title == 'Prior Authorization Approval Rate' && chartData.besideData.verticalData[1].trends"
+          class="pa-approved-rate-vertical-data-block-trends"
+        >
+          <ul>
+            <li *ngFor="let d of chartData.besideData.verticalData; let i = index">
+              <p class="donut-graph-title" *ngIf="d.title == 'Average Turnaround Time'">{{ d.title }}</p>
+              <p class="donut-graph-label-value">{{ d.values }}</p>
+              <p class="donut-graph-label">{{ d.labels }}</p>
+              <div *ngIf="d.trends !== undefined && !d.title">
+                <span class="trend" *ngIf="d.trends.sign === 'down'">
+                  <img
+                    class="trend-image  trend-image-down"
+                    src="/src/assets/images/up-negative-no-circle.svg"
+                    alt="trend-up"
+                  />
+                  <div class="trend-value-down">{{ d.trends.data }}</div>
+                </span>
+
+                <span class="trend" *ngIf="d.trends.sign === 'up'">
+                  <img
+                    class="trend-image trend-image-up"
+                    src="/src/assets/images/down-positive-no-circle.svg"
+                    alt="trend-down"
+                  />
+                  <div class="trend-value-up">{{ d.trends.data }}</div>
+                </span>
+              </div>
+
               <hr *ngIf="i + 1 < chartData.besideData.verticalData.length && d.values" class="pa-avg-tat-hr-line" />
             </li>
           </ul>

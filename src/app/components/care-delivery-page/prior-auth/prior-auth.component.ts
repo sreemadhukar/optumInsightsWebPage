@@ -129,6 +129,7 @@ export class PriorAuthComponent implements OnInit {
       data => {
         this.loading = false;
         this.summaryItems = data[0];
+        console.log(this.summaryItems);
         this.reasonItems = data[1];
       },
       error => {

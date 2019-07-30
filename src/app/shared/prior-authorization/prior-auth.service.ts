@@ -1239,6 +1239,10 @@ export class PriorAuthSharedService {
         .then(data => {
           if (this.priorAuthDataCombined[0].length > 0) {
             this.priorAuthDataCombined[0][1].data['sdata'] = data[1];
+            this.priorAuthDataCombined[0][1].besideData.verticalData[1].trends = data[2];
+            this.priorAuthDataCombined[0][1].besideData.verticalData[2].trends = data[3];
+
+            console.log(this.priorAuthDataCombined[0][1].besideData.verticalData);
           }
           resolve(this.priorAuthDataCombined);
         })

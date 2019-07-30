@@ -235,7 +235,137 @@
       width: 60px;
     }
   }
+  /* TAT trends styles */
+  .pa-approved-rate-vertical-data-block-trends {
+    float: left;
+    padding-top: 10px; // top-bottom centre
+    width: 135px;
+    text-align: center;
+    padding-left: 29px;
+    line-height: 15px;
+    .donut-graph-title {
+      color: $strom-grey;
+      font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+      font-size: 16px;
+      letter-spacing: 0.2px;
+      line-height: 22px;
+      text-align: center;
+      padding-bottom: 16px;
+    }
+    .donut-graph-label-value {
+      color: $black-rock;
+      font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+      font-size: 20px;
+      line-height: 22px;
+      text-align: center;
+    }
+    .donut-graph-label {
+      color: $strom-grey;
+      font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+      font-size: 16px;
+      letter-spacing: 0.2px;
+      line-height: 22px;
+      text-align: center;
+    }
+    .pa-avg-tat-hr-line {
+      margin-top: 10px;
+      margin-bottom: 10px;
+      width: 60px;
+    }
+  }
   /* Css for Labels Ends here*/
+  /* Trends css*/
+  .trend-details {
+    float: left;
+    /*padding: 10% 0;*/
+    display: flex;
+    margin-top: 48px;
+    margin-left: 18px;
+
+    .trend-value {
+      font-size: 14px;
+      letter-spacing: 0.2px;
+      line-height: 18px;
+      font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+      /*display: inline;
+      vertical-align: middle;*/
+      margin-left: 8px;
+      margin-top: 7px;
+    }
+
+    .trend {
+      position: relative;
+      display: block;
+      width: 32px;
+      height: 32px;
+      border-radius: 50px;
+      -moz-border-radius: 50px;
+      -webkit-border-radius: 50%;
+      overflow: hidden;
+    }
+
+    .down {
+      background-color: color(red, light);
+    }
+    .neutral {
+      background-color: $gainsboro;
+    }
+    .up {
+      background-color: color(green, light);
+    }
+
+    .trend-image {
+      position: absolute;
+      height: 20px;
+      width: 20px;
+      top: 6px;
+      left: 5px;
+    }
+    .trend-image-down {
+      background-color: color(red, light);
+    }
+    .trend-image-up {
+      background-color: color(green, light);
+    }
+    .trend-image-neutral {
+      background-color: $gainsboro;
+    }
+
+    .trend-value-neutral {
+      color: $black-rock;
+    }
+    .trend-style-tat {
+      line-height: 15px;
+    }
+
+    .flex-box {
+      display: flex;
+    }
+  }
+
+  .trend-value-down {
+    color: color(red, dark);
+    font-size: 14px;
+    letter-spacing: 0.2px;
+    line-height: 18px;
+    font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+    display: inline;
+    /*vertical-align: middle;*/
+    margin-left: 8px;
+    margin-top: 7px;
+  }
+
+  .trend-value-up {
+    color: $brand-green-hover;
+    font-size: 14px;
+    letter-spacing: 0.2px;
+    line-height: 18px;
+    font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+    display: inline;
+    /*vertical-align: middle;*/
+    margin-left: 8px;
+    margin-top: 7px;
+  }
 
   /*PCOR*/
 
