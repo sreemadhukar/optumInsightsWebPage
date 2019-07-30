@@ -439,6 +439,8 @@ export class PriorAuthSharedService {
     } else if (timePeriod === 'Last 3 Months') {
       timeRange = 'last3Months';
     } else if (timePeriod === 'Last 30 Days') {
+      timeRange = 'last30days';
+      /*
       timeRange = 'customDateRange';
       const yesterday = (d => new Date(d.setDate(d.getDate() - 1)))(new Date());
       const thirtyFirstDay = (d => new Date(d.setDate(d.getDate() - 31)))(new Date());
@@ -470,6 +472,7 @@ export class PriorAuthSharedService {
         this.ReturnMonthlyCountString(thirtyFirstDay.getMonth()) +
         '-' +
         endDateStringThirtyFirstDay;
+        */
     } else if (timePeriod === 'Year to Date') {
       timeRange = 'customDateRange';
       const yesterday = (d => new Date(d.setDate(d.getDate() - 1)))(new Date());
@@ -1033,6 +1036,8 @@ export class PriorAuthSharedService {
 
           let sDataObjectOne;
           let sDataObjectTwo;
+          let sDataObjectThree;
+          let sDataObjectFour;
 
           if (
             one.PriorAuthorizations !== null &&
@@ -1126,8 +1131,20 @@ export class PriorAuthSharedService {
             const PARequestedTrend = ((PARequestedCountTwo - PARequestedCountOne) / PARequestedCountOne) * 100;
             const PAApprovalRateTrend = ((PAApprovalRateTwo - PAApprovalRateOne) / PAApprovalRateOne) * 100;
 
+            const TATStandardOne = countDataOne.StandartPriorAuthTAT / 86400;
+            const TATStandardTwo = countDataTwo.StandartPriorAuthTAT / 86400;
+            const TATUrgentOne = countDataOne.UrgentPriorAuthTAT / 3600;
+            const TATUrgentTwo = countDataTwo.UrgentPriorAuthTAT / 3600;
+
+            const TATStandardTrend = ((TATStandardTwo - TATStandardOne) / TATStandardOne) * 100;
+            const TATUrgentTrend = ((TATUrgentTwo - TATUrgentOne) / TATUrgentOne) * 100;
+
+            console.log(TATStandardTrend, TATUrgentTrend);
+
             let trendLineOne;
             let trendLineTwo;
+            let trendLineThree;
+            let trendLineFour;
 
             if (PARequestedTrend < 0) {
               trendLineOne = 'down';
@@ -1143,6 +1160,22 @@ export class PriorAuthSharedService {
               trendLineTwo = 'up';
             }
 
+            if (TATStandardTrend.toFixed(1) === '0.0') {
+              trendLineThree = 'neutral';
+            } else if (TATStandardTrend < 0) {
+              trendLineThree = 'down';
+            } else {
+              trendLineThree = 'up';
+            }
+
+            if (TATUrgentTrend.toFixed(1) === '0.0') {
+              trendLineFour = 'neutral';
+            } else if (TATUrgentTrend < 0) {
+              trendLineFour = 'down';
+            } else {
+              trendLineFour = 'up';
+            }
+
             sDataObjectOne = {
               data: PARequestedTrend.toFixed(1) + '%',
               sign: trendLineOne
@@ -1150,6 +1183,15 @@ export class PriorAuthSharedService {
             sDataObjectTwo = {
               data: PAApprovalRateTrend.toFixed(1) + '%',
               sign: trendLineTwo
+            };
+
+            sDataObjectThree = {
+              data: TATStandardTrend.toFixed(1) + '%',
+              sign: trendLineThree
+            };
+            sDataObjectFour = {
+              data: TATUrgentTrend.toFixed(1) + '%',
+              sign: trendLineFour
             };
           } else {
             sDataObjectOne = {
@@ -1160,8 +1202,16 @@ export class PriorAuthSharedService {
               data: '',
               sign: ''
             };
+            sDataObjectThree = {
+              data: '',
+              sign: ''
+            };
+            sDataObjectFour = {
+              data: '',
+              sign: ''
+            };
           }
-          resolve([sDataObjectOne, sDataObjectTwo]);
+          resolve([sDataObjectOne, sDataObjectTwo, sDataObjectThree, sDataObjectFour]);
         });
     });
   }
@@ -1171,6 +1221,7 @@ export class PriorAuthSharedService {
       this.getPriorAuthDataFiltered(filterParameters)
         .then(data => {
           this.priorAuthDataCombined = data;
+          /*
           const emptyPATrends = [
             {
               data: '',
@@ -1181,7 +1232,9 @@ export class PriorAuthSharedService {
               sign: ''
             }
           ];
-          return emptyPATrends;
+          */
+          // return emptyPATrends;
+          return this.getPriorAuthTrendData(filterParameters);
         })
         .then(data => {
           if (this.priorAuthDataCombined[0].length > 0) {
