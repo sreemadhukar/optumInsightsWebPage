@@ -1799,28 +1799,42 @@ export class GettingReimbursedSharedService {
               appealsData[0].LineOfBusiness[lobFullData].hasOwnProperty('AdminAppeals') &&
               appealsData[0].LineOfBusiness[lobFullData].hasOwnProperty('ClinicalAppeals')
             ) {
-              const submitted =
-                appealsData[0].LineOfBusiness[lobFullData].AdminAppeals +
-                appealsData[0].LineOfBusiness[lobFullData].ClinicalAppeals;
-              const overturned = appealsData[0].LineOfBusiness[lobFullData].OverTurnCount;
+              if (appealsData[0].LineOfBusiness[lobFullData].OverTurnCount != null) {
+                const submitted =
+                  appealsData[0].LineOfBusiness[lobFullData].AdminAppeals +
+                  appealsData[0].LineOfBusiness[lobFullData].ClinicalAppeals;
+                const overturned = appealsData[0].LineOfBusiness[lobFullData].OverTurnCount;
 
-              const overturnRate = ((overturned / submitted) * 100).toFixed(0);
-              const ornumber = Number(overturnRate);
+                const overturnRate = ((overturned / submitted) * 100).toFixed(0);
+                const ornumber = Number(overturnRate);
 
-              appealsOverturnedRate = {
-                category: 'app-card',
-                type: 'donut',
-                title: 'Claims Appeals Overturned Rate',
-                data: {
-                  graphValues: [overturnRate, 100 - ornumber],
-                  centerNumber: overturnRate + '%',
-                  color: ['#3381FF', '#E0E0E0'],
-                  gdata: ['card-inner', 'claimsAppealOverturnedRate'],
-                  sdata: null
-                },
-                timeperiod: this.timeFrame
-              };
-              if (appealsData[0].LineOfBusiness[lobFullData].ListReasonAndCount.length > 0) {
+                appealsOverturnedRate = {
+                  category: 'app-card',
+                  type: 'donut',
+                  title: 'Claims Appeals Overturned Rate',
+                  data: {
+                    graphValues: [overturnRate, 100 - ornumber],
+                    centerNumber: overturnRate + '%',
+                    color: ['#3381FF', '#E0E0E0'],
+                    gdata: ['card-inner', 'claimsAppealOverturnedRate'],
+                    sdata: null
+                  },
+                  timeperiod: this.timeFrame
+                };
+              } else {
+                appealsOverturnedRate = {
+                  category: 'app-card',
+                  type: 'donut',
+                  status: 404,
+                  title: 'Claims Appeals Overturned Rate',
+                  data: null,
+                  timeperiod: null
+                };
+              }
+              if (
+                appealsData[0].LineOfBusiness[lobFullData].hasOwnProperty('ListReasonAndCount') &&
+                appealsData[0].LineOfBusiness[lobFullData].ListReasonAndCount.length > 0
+              ) {
                 const reasonsVal1 = [{}];
                 const reasonsVal2 = [{}];
                 const barVal = [{}];
@@ -1963,27 +1977,38 @@ export class GettingReimbursedSharedService {
               appealsData[0].LineOfBusiness[lobFullData].hasOwnProperty('AdminAppeals') &&
               appealsData[0].LineOfBusiness[lobFullData].hasOwnProperty('ClinicalAppeals')
             ) {
-              const submitted =
-                appealsData[0].LineOfBusiness[lobFullData].AdminAppeals +
-                appealsData[0].LineOfBusiness[lobFullData].ClinicalAppeals;
-              const overturned = appealsData[0].LineOfBusiness[lobFullData].OverTurnCount;
+              if (appealsData[0].LineOfBusiness[lobFullData].OverTurnCount != null) {
+                const submitted =
+                  appealsData[0].LineOfBusiness[lobFullData].AdminAppeals +
+                  appealsData[0].LineOfBusiness[lobFullData].ClinicalAppeals;
+                const overturned = appealsData[0].LineOfBusiness[lobFullData].OverTurnCount;
 
-              const overturnRate = ((overturned / submitted) * 100).toFixed(0);
-              const ornumber = Number(overturnRate);
+                const overturnRate = ((overturned / submitted) * 100).toFixed(0);
+                const ornumber = Number(overturnRate);
 
-              appealsOverturnedRate = {
-                category: 'app-card',
-                type: 'donut',
-                title: 'Claims Appeals Overturned Rate',
-                data: {
-                  graphValues: [overturnRate, 100 - ornumber],
-                  centerNumber: overturnRate + '%',
-                  color: ['#3381FF', '#E0E0E0'],
-                  gdata: ['card-inner', 'claimsAppealOverturnedRate'],
-                  sdata: null
-                },
-                timeperiod: this.timeFrame
-              };
+                appealsOverturnedRate = {
+                  category: 'app-card',
+                  type: 'donut',
+                  title: 'Claims Appeals Overturned Rate',
+                  data: {
+                    graphValues: [overturnRate, 100 - ornumber],
+                    centerNumber: overturnRate + '%',
+                    color: ['#3381FF', '#E0E0E0'],
+                    gdata: ['card-inner', 'claimsAppealOverturnedRate'],
+                    sdata: null
+                  },
+                  timeperiod: this.timeFrame
+                };
+              } else {
+                appealsOverturnedRate = {
+                  category: 'app-card',
+                  type: 'donut',
+                  status: 404,
+                  title: 'Claims Appeals Overturned Rate',
+                  data: null,
+                  timeperiod: null
+                };
+              }
               if (
                 appealsData[0].LineOfBusiness[lobFullData].hasOwnProperty('ListReasonAndCount') &&
                 appealsData[0].LineOfBusiness[lobFullData].ListReasonAndCount != null
@@ -2409,12 +2434,11 @@ export class GettingReimbursedSharedService {
         appealsData[0].LineOfBusiness.hasOwnProperty(lobFullData) &&
         appealsData[0].LineOfBusiness[lobFullData].hasOwnProperty('OverTurnCount') &&
         appealsData[0].LineOfBusiness[lobFullData].hasOwnProperty('AdminAppeals') &&
-        appealsData[0].LineOfBusiness[lobFullData].hasOwnProperty('ClinicalAppeals')
+        appealsData[0].LineOfBusiness[lobFullData].hasOwnProperty('ClinicalAppeals') &&
+        appealsData[0].LineOfBusiness[lobFullData].OverTurnCount != null
       ) {
-        let sumOverturned = 0;
-        if (appealsData[0].LineOfBusiness[lobFullData].OverTurnCount != null) {
-          sumOverturned = appealsData[0].LineOfBusiness[lobFullData].OverTurnCount;
-        }
+        const sumOverturned = appealsData[0].LineOfBusiness[lobFullData].OverTurnCount;
+
         let sum = 0;
         if (appealsData[0].LineOfBusiness[lobFullData].AdminAppeals != null) {
           sum += appealsData[0].LineOfBusiness[lobFullData].AdminAppeals;
