@@ -2409,25 +2409,28 @@ export class GettingReimbursedSharedService {
         appealsData[0].LineOfBusiness.hasOwnProperty(lobFullData) &&
         appealsData[0].LineOfBusiness[lobFullData].hasOwnProperty('OverTurnCount') &&
         appealsData[0].LineOfBusiness[lobFullData].hasOwnProperty('AdminAppeals') &&
-        appealsData[0].LineOfBusiness[lobFullData].hasOwnProperty('ClinicalAppeals') &&
-        appealsData[0].LineOfBusiness[lobFullData].OverTurnCount != null &&
-        appealsData[0].LineOfBusiness[lobFullData].AdminAppeals != null &&
-        appealsData[0].LineOfBusiness[lobFullData].ClinicalAppeals != null
+        appealsData[0].LineOfBusiness[lobFullData].hasOwnProperty('ClinicalAppeals')
       ) {
-        const submitted =
-          appealsData[0].LineOfBusiness[lobFullData].AdminAppeals +
-          appealsData[0].LineOfBusiness[lobFullData].ClinicalAppeals;
-        const overturnedData = [
-          appealsData[0].LineOfBusiness[lobFullData].OverTurnCount,
-          submitted - appealsData[0].LineOfBusiness[lobFullData].OverTurnCount
-        ];
+        let sumOverturned = 0;
+        if (appealsData[0].LineOfBusiness[lobFullData].OverTurnCount != null) {
+          sumOverturned = appealsData[0].LineOfBusiness[lobFullData].OverTurnCount;
+        }
+        let sum = 0;
+        if (appealsData[0].LineOfBusiness[lobFullData].AdminAppeals != null) {
+          sum += appealsData[0].LineOfBusiness[lobFullData].AdminAppeals;
+        }
+        if (appealsData[0].LineOfBusiness[lobFullData].ClinicalAppeals != null) {
+          sum += appealsData[0].LineOfBusiness[lobFullData].ClinicalAppeals;
+        }
+        const submitted = sum;
+        const overturnedData = [sumOverturned, submitted - sumOverturned];
         appealsOverturned = {
           category: 'app-card',
           type: 'donut',
           title: 'Claims Appeals Overturned',
           data: {
             graphValues: overturnedData,
-            centerNumber: this.common.nFormatter(appealsData[0].LineOfBusiness[lobFullData].OverTurnCount),
+            centerNumber: this.common.nFormatter(sumOverturned),
             color: ['#3381FF', '#D7DCE1'],
             gdata: ['card-inner', 'claimsAppealOverturned'],
             sdata: null
