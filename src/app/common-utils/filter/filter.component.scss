@@ -138,6 +138,11 @@
       color: #2d2d39;
       margin-bottom: 15px;
     }
+    .lobDisable {
+      pointer-events: none !important;
+      cursor: pointer !important;
+      color: lightgray !important;
+    }
   }
 }
 .titleDisplay {
