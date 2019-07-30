@@ -2187,6 +2187,131 @@ export class GettingReimbursedSharedService {
       });
     });
   }
+  getParmaeterCategories() {
+    this.timeFrame = this.session.filterObjValue.timeFrame;
+    this.providerKey = this.session.providerKeyData();
+    let paramtersCategories = [];
+    // paramtersCategories = [];
+    if (
+      this.timeFrame === 'Last 12 Months' ||
+      this.timeFrame === 'Last 6 Months' ||
+      this.timeFrame === 'Last 3 Months' ||
+      this.timeFrame === 'Last 30 Days' ||
+      this.timeFrame === 'Year to Date'
+    ) {
+      if (this.timeFrame === 'Last 12 Months') {
+        if (this.tin !== 'All' && this.lob !== 'All') {
+          paramtersCategories = [
+            this.providerKey,
+            { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Last12Months', Tin: this.tin }
+          ];
+        } else if (this.tin !== 'All') {
+          paramtersCategories = [this.providerKey, { TimeFilter: 'Last12Months', Tin: this.tin }];
+        } else if (this.lob !== 'All') {
+          paramtersCategories = [
+            this.providerKey,
+            { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Last12Months' }
+          ];
+        } else {
+          paramtersCategories = [this.providerKey, { TimeFilter: 'Last12Months' }];
+        }
+      } else if (this.timeFrame === 'Year to Date') {
+        if (this.tin !== 'All' && this.lob !== 'All') {
+          paramtersCategories = [
+            this.providerKey,
+            { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'YTD', Tin: this.tin }
+          ];
+        } else if (this.tin !== 'All') {
+          paramtersCategories = [this.providerKey, { TimeFilter: 'YTD', Tin: this.tin }];
+        } else if (this.lob !== 'All') {
+          paramtersCategories = [
+            this.providerKey,
+            { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'YTD' }
+          ];
+        } else {
+          paramtersCategories = [this.providerKey, { TimeFilter: 'YTD' }];
+        }
+      } else if (this.timeFrame === 'Last 6 Months') {
+        if (this.tin !== 'All' && this.lob !== 'All') {
+          paramtersCategories = [
+            this.providerKey,
+            { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Last6Months', Tin: this.tin }
+          ];
+        } else if (this.tin !== 'All') {
+          paramtersCategories = [this.providerKey, { TimeFilter: 'Last6Months', Tin: this.tin }];
+        } else if (this.lob !== 'All') {
+          paramtersCategories = [
+            this.providerKey,
+            { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Last6Months' }
+          ];
+        } else {
+          paramtersCategories = [this.providerKey, { TimeFilter: 'Last6Months' }];
+        }
+      } else if (this.timeFrame === 'Last 3 Months') {
+        if (this.tin !== 'All' && this.lob !== 'All') {
+          paramtersCategories = [
+            this.providerKey,
+            { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Last3Months', Tin: this.tin }
+          ];
+        } else if (this.tin !== 'All') {
+          paramtersCategories = [this.providerKey, { TimeFilter: 'Last3Months', Tin: this.tin }];
+        } else if (this.lob !== 'All') {
+          paramtersCategories = [
+            this.providerKey,
+            { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Last3Months' }
+          ];
+        } else {
+          paramtersCategories = [this.providerKey, { TimeFilter: 'Last3Months' }];
+        }
+      } else if (this.timeFrame === 'Last 30 Days') {
+        if (this.tin !== 'All' && this.lob !== 'All') {
+          paramtersCategories = [
+            this.providerKey,
+            { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Last30Days', Tin: this.tin }
+          ];
+        } else if (this.tin !== 'All') {
+          paramtersCategories = [this.providerKey, { TimeFilter: 'Last30Days', Tin: this.tin }];
+        } else if (this.lob !== 'All') {
+          paramtersCategories = [
+            this.providerKey,
+            { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Last30Days' }
+          ];
+        } else {
+          paramtersCategories = [this.providerKey, { TimeFilter: 'Last30Days' }];
+        }
+      }
+    } else {
+      const lobData = this.common.matchLobWithData(this.lob);
+      if (this.tin !== 'All' && this.lob !== 'All') {
+        paramtersCategories = [
+          this.providerKey,
+          {
+            Lob: this.common.matchLobWithCapsData(this.lob),
+            TimeFilter: 'CalendarYear',
+            TimeFilterText: this.timeFrame,
+            Tin: this.tin
+          }
+        ];
+      } else if (this.tin !== 'All') {
+        paramtersCategories = [
+          this.providerKey,
+          { TimeFilter: 'CalendarYear', TimeFilterText: this.timeFrame, Tin: this.tin }
+        ];
+      } else if (this.lob !== 'All') {
+        paramtersCategories = [
+          this.providerKey,
+          {
+            Lob: this.common.matchLobWithCapsData(this.lob),
+            TimeFilter: 'CalendarYear',
+            TimeFilterText: this.timeFrame
+          }
+        ];
+      } else {
+        paramtersCategories = [this.providerKey, { TimeFilter: 'CalendarYear', TimeFilterText: this.timeFrame }];
+      }
+    } // End If else structure
+    return paramtersCategories;
+  } // end getParmaeterCategories() function for Top Reasons Categories
 
   getclaimsPaidData() {
     this.tin = this.session.filterObjValue.tax.toString().replace('-', '');
@@ -2194,48 +2319,27 @@ export class GettingReimbursedSharedService {
     this.timeFrame = this.session.filterObjValue.timeFrame;
     // 'Last 6 Months'; // this.session.timeFrame;
     this.providerKey = this.session.providerKeyData();
-    const timeperiod = '';
+    let parameters = [];
+    parameters = this.getParmaeterCategories();
     // let paidArray:  Array<Object> = [];
     return new Promise((resolve, reject) => {
-      let parameters;
-      let tinParam;
-      let timeFilter;
-      let TimeFilterText;
-      if (this.timeFrame === 'Last 6 Months') {
-        timeFilter = 'Last6Months';
-      } else if (this.timeFrame === 'Last 12 Months') {
-        timeFilter = 'Last12Months';
-      } else if (this.timeFrame === 'Year to Date') {
-        timeFilter = 'YTD';
-      } else if (this.timeFrame === '2018') {
-        timeFilter = 'CalendarYear';
-        TimeFilterText = '2018';
-      } else if (this.timeFrame === '2017') {
-        timeFilter = 'CalendarYear';
-        TimeFilterText = '2017';
-      }
-      parameters = [this.providerKey];
-      if (this.tin !== 'All') {
-        tinParam = this.tin;
-      }
       let paidBreakdown = [];
       let paidArray: Array<Object> = [];
-      this.gettingReimbursedService
-        .getPaymentData(parameters, tinParam, timeFilter, TimeFilterText)
-        .subscribe(paymentData => {
-          const lobFullData = this.common.matchFullLobWithData(this.lob);
-          const lobData = this.common.matchLobWithData(this.lob);
-          if (paymentData !== null) {
-            paidBreakdown = [
-              paymentData[lobData].ClaimsLobSummary[0].AmountBilled,
-              paymentData[lobData].ClaimsLobSummary[0].AmountActualAllowed,
-              paymentData[lobData].ClaimsLobSummary[0].AmountDenied,
-              paymentData[lobData].ClaimsLobSummary[0].AmountUHCPaid
-            ];
-          }
-          paidArray = [paidBreakdown];
-          resolve(paidArray);
-        });
+      this.gettingReimbursedService.getPaymentData(...parameters).subscribe(paymentDatafetch => {
+        const paymentData = JSON.parse(JSON.stringify(paymentDatafetch[0]));
+        const lobFullData = this.common.matchFullLobWithData(this.lob);
+        const lobData = this.common.matchLobWithData(this.lob);
+        if (paymentData !== null) {
+          paidBreakdown = [
+            paymentData[lobData].ClaimsLobSummary[0].AmountBilled,
+            paymentData[lobData].ClaimsLobSummary[0].AmountActualAllowed,
+            paymentData[lobData].ClaimsLobSummary[0].AmountDenied,
+            paymentData[lobData].ClaimsLobSummary[0].AmountUHCPaid
+          ];
+        }
+        paidArray = [paidBreakdown];
+        resolve(paidArray);
+      });
     });
   }
 
