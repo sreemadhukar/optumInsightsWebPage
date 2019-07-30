@@ -1489,7 +1489,7 @@ export class GettingReimbursedSharedService {
         parameters.timeperiod = 'last6months';
       } else if (this.timeFrame === 'Last 3 Months') {
         parameters.timeperiod = 'last3months';
-      } else if (this.timeFrame === 'Year To Date') {
+      } else if (this.timeFrame === 'Year to Date') {
         parameters.ytd = true;
       }
       this.gettingReimbursedService.getClaimsNonPaymentsData(parameters).subscribe(data => {
@@ -1550,7 +1550,7 @@ export class GettingReimbursedSharedService {
           parameters.timeperiod = 'last6months';
         } else if (this.timeFrame === 'Last 3 Months') {
           parameters.timeperiod = 'last3months';
-        } else if (this.timeFrame === 'Year To Date') {
+        } else if (this.timeFrame === 'Year to Date') {
           parameters.ytd = true;
         }
         if (this.tin !== 'All') {
@@ -1639,7 +1639,7 @@ export class GettingReimbursedSharedService {
           parameters.timeperiod = 'last6months';
         } else if (this.timeFrame === 'Last 3 Months') {
           parameters.timeperiod = 'last3months';
-        } else if (this.timeFrame === 'Year To Date') {
+        } else if (this.timeFrame === 'Year to Date') {
           parameters.ytd = true;
         }
         if (this.tin !== 'All') {
