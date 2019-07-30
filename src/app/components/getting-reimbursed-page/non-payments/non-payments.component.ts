@@ -40,6 +40,7 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
   nonPaymentData1: Array<Object> = [{}];
   currentTabTitle: String = '';
   monthlyLineGraph: any = [{}];
+  loadingTopReasons: boolean;
 
   topReasonsCategoryDisplay = true;
   dataLoaded = false;
@@ -49,6 +50,7 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
   loadingTwo: boolean;
   mockCardTwo: any;
   barChartsArray: any = [];
+  reasonsNoData: object = null;
   /*
   barChartsArray = [
     {
@@ -237,6 +239,7 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
 
   ngOnInit() {
     this.nonPaymentData1 = [];
+    this.loadingTopReasons = true;
     this.timePeriod = this.session.filterObjValue.timeFrame;
     if (this.session.filterObjValue.lob !== 'All') {
       this.lob = this.filtermatch.matchLobWithLobData(this.session.filterObjValue.lob);
@@ -251,9 +254,7 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
     } else {
       this.taxID = [];
     }
-    this.gettingReimbursedSharedService.getTins().then(tins => {
-      console.log(tins);
-    });
+    this.gettingReimbursedSharedService.getTins().then(tins => {});
     this.loadingOne = false;
     this.mockCardOne = [{}];
     this.loadingTwo = false;
@@ -262,19 +263,40 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
     // this.timePeriod = this.session.timeFrame; // uncomment it
 
     /** code for two donuts  Claims Not Paid and Claims Non-payment Rate */
-    this.nonPaymentService.getNonPayment().then(nonPayment => {
-      this.nonPaymentData1 = JSON.parse(JSON.stringify(nonPayment));
-    });
+    this.nonPaymentService.getNonPayment().then(
+      nonPayment => {
+        this.nonPaymentData1 = JSON.parse(JSON.stringify(nonPayment));
+      },
+      err => {
+        console.log('Non Payment Component Two Donuts', err);
+      }
+    );
     /** Ends here */
 
     /** code for Top Categories*/
+
+    this.topReasonsCategoryDisplay = false;
     this.nonPaymentService.getNonPaymentCategories().then(
       topCategories => {
+        this.loadingTopReasons = false;
+        this.topReasonsCategoryDisplay = true;
         this.barChartsArray = topCategories;
+        if (topCategories === null) {
+          this.topReasonsCategoryDisplay = false;
+          this.reasonsNoData = {
+            category: 'large-card',
+            type: 'donut',
+            status: 404,
+            title: 'Claims Non-Payment Rate',
+            data: null,
+            timeperiod: null
+          };
+        }
       },
       error => {
+        this.topReasonsCategoryDisplay = false;
         this.barChartsArray = null;
-        console.log('Error Top Categories COmpoent', error);
+        console.log('Non Payment Component Error Top Categories', error);
       }
     );
     /** End code for Top Categories */

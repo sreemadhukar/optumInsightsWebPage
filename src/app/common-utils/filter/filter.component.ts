@@ -28,7 +28,6 @@ export class FilterComponent implements OnInit {
   // prior auth has 3 unique filters so make one bool
   public priorAuthorizationCustomFilterBool = false;
   public taxArrayData = [];
-  public taxArrayDataWithoutSymbols = [];
   public scArrayData = [];
   public timeframeData: any;
   public filterData: any;
@@ -48,7 +47,7 @@ export class FilterComponent implements OnInit {
     '2018',
     '2017'
   ];
-  public lobs = ['All', 'Community & State', 'Employer & Individual', 'Medicare & Retirement'];
+  public lobs = ['All', 'Community & State', 'Employer & Individual', 'Medicare & Retirement', 'Un Categorized'];
   public servicesettings = ['All', 'Inpatient', 'Outpatient', 'Outpatient Facility'];
   public priorauthdecisiontype = ['All', 'Administrative', 'Clinical'];
   public priorauthservicecategory = [
@@ -114,12 +113,11 @@ export class FilterComponent implements OnInit {
     this.lobData = this.session.filterObjValue.lob;
     this.arrowmark = false;
     if (this.session.filterObjValue.tax.length > 1) {
-      this.taxData = this.session.filterObjValue.taxwithSymbols.join(', ');
+      this.taxData = this.session.filterObjValue.tax.join(', ');
       this.inputDisplay = true;
-      this.taxArrayData = this.session.filterObjValue.taxwithSymbols;
-      this.taxArrayDataWithoutSymbols = this.session.filterObjValue.tax;
+      this.taxArrayData = this.session.filterObjValue.tax;
     } else if (this.session.filterObjValue.tax.length === 1) {
-      this.taxData = this.session.filterObjValue.taxwithSymbols[0];
+      this.taxData = this.session.filterObjValue.tax[0];
       if (this.session.filterObjValue.tax[0] !== 'All') {
         this.inputDisplay = true;
       } else {
@@ -225,10 +223,8 @@ export class FilterComponent implements OnInit {
 
   resetFilter() {
     this.session.filterObjValue.lob = this.lobData = this.lobs[0];
-    this.session.filterObjValue.timeFrame = this.timeframeData = this.timeframes[0];
+    this.session.filterObjValue.timeFrame = this.timeframeData = this.timeframes[2];
     this.session.filterObjValue.tax = ['All'];
-    this.session.filterObjValue.taxwithSymbols = ['All'];
-
     this.taxData = 'All';
     if (this.priorAuthorizationCustomFilterBool) {
       this.session.filterObjValue.serviceSetting = this.servicesettings[0];
@@ -241,7 +237,7 @@ export class FilterComponent implements OnInit {
         scType: this.priorauthservicecategory[0]
       });
     } else {
-      this.session.store({ timeFrame: this.timeframes[0], lob: this.lobs[0], tax: ['All'] });
+      this.session.store({ timeFrame: this.timeframes[2], lob: this.lobs[0], tax: ['All'] });
     }
     this.filterFlag.emit(false);
   }
@@ -252,19 +248,13 @@ export class FilterComponent implements OnInit {
         this.session.store({
           timeFrame: this.timeframeData,
           lob: this.lobData,
-          taxwithSymbols: this.taxArrayData,
-          tax: this.taxArrayDataWithoutSymbols,
+          tax: this.taxArrayData,
           serviceSetting: this.serviceSettingData,
           priorAuthType: this.priorAuthTypeData,
           scType: this.scTypeData
         });
       } else {
-        this.session.store({
-          timeFrame: this.timeframeData,
-          lob: this.lobData,
-          taxwithSymbols: this.taxArrayData,
-          tax: this.taxArrayDataWithoutSymbols
-        });
+        this.session.store({ timeFrame: this.timeframeData, lob: this.lobData, tax: this.taxArrayData });
       }
     } else {
       // this.session.filterObjValue.tax = [this.taxData];
@@ -273,18 +263,12 @@ export class FilterComponent implements OnInit {
           timeFrame: this.timeframeData,
           lob: this.lobData,
           tax: [this.taxData],
-          taxwithSymbols: [this.taxData],
           serviceSetting: this.serviceSettingData,
           priorAuthType: this.priorAuthTypeData,
           scType: this.scTypeData
         });
       } else {
-        this.session.store({
-          timeFrame: this.timeframeData,
-          lob: this.lobData,
-          tax: [this.taxData],
-          taxwithSymbols: [this.taxData]
-        });
+        this.session.store({ timeFrame: this.timeframeData, lob: this.lobData, tax: [this.taxData] });
       }
     }
     this.session.filterObjSubject.complete();
@@ -306,12 +290,6 @@ export class FilterComponent implements OnInit {
 
     tempArray = data.split(', ');
     this.taxArrayData = tempArray.filter((el, i, a) => i === a.indexOf(el));
-    const baseArray = [];
-
-    tempArray.forEach(element => {
-      baseArray.push(element.replace('-', ''));
-    });
-    this.taxArrayDataWithoutSymbols = baseArray.filter((el, i, a) => i === a.indexOf(el));
   }
   scArrayFunction(data) {
     let tempArray = [];
