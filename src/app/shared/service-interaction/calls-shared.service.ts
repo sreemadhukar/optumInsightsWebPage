@@ -69,8 +69,32 @@ export class CallsSharedService {
         })
         .then(data => {
           if (data !== undefined && data !== null && data) {
-            this.callsData[0].data['sdata'] = data[0];
-            this.callsData[1].data['sdata'] = data[1];
+            const dataPoint1 = data[0].toFixed(1) + '%';
+            const dataPoint2 = data[1].toFixed(1) + '%';
+            if (data >= 1) {
+              this.callsData[0].data.sdata = {
+                sign: 'up-red',
+                data: dataPoint1
+              };
+              this.callsData[1].data.sdata = {
+                sign: 'up-red',
+                data: dataPoint2
+              };
+            } else if (data < 1 && data >= 0) {
+              this.callsData[0].data.sdata = {
+                sign: 'neutral',
+                data: 'No Change'
+              };
+            } else {
+              this.callsData[0].data.sdata = {
+                sign: 'down-green',
+                data: dataPoint1
+              };
+              this.callsData[1].data.sdata = {
+                sign: 'down-green',
+                data: dataPoint2
+              };
+            }
           }
           resolve(this.callsData);
         });
@@ -138,8 +162,11 @@ export class CallsSharedService {
                       color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'],
                       gdata: ['card-inner', 'callsByCallType'],
                       labels: ['Eligibilty and Benefits', 'Claims', 'Prior Authorizations', 'Others'],
-                      hover: true
-                      // sdata: this.callsTrend1
+                      hover: true,
+                      sdata: {
+                        sign: '',
+                        data: ''
+                      }
                     },
                     {
                       labels: ['Eligibilty and Benefits', 'Claims', 'Prior Authorizations', 'Others'],
@@ -179,8 +206,11 @@ export class CallsSharedService {
                       color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'],
                       gdata: ['card-inner', 'talkTimeByCallType'],
                       labels: ['Eligibilty and Benefits', 'Claims', 'Prior Authorizations', 'Others'],
-                      hover: true
-                      // sdata: this.callsTrend2
+                      hover: true,
+                      sdata: {
+                        sign: '',
+                        data: ''
+                      }
                     },
                     {
                       labels: ['Eligibilty and Benefits', 'Claims', 'Prior Authorizations', 'Others'],
