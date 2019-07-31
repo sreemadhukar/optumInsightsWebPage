@@ -672,6 +672,7 @@ export class NonPaymentSharedService {
               dataWithSubCategory[j].value = '$' + this.common.nFormatter(dataWithSubCategory[j]['DenialAmount']);
               delete dataWithSubCategory[j].Claimdenialcategorylevel1shortname;
               delete dataWithSubCategory[j].DenialAmount;
+              topReasons[i]['top5'] = dataWithSubCategory.filter(item => item.value !== '$0');
             }
           }
           resolve(topReasons);
