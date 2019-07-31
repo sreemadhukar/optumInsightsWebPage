@@ -27,6 +27,28 @@ export class CommonUtilsService {
     }
     return fnumber;
   }
+
+  public negativeMeansGood(trendNumber: number) {
+    const value = trendNumber.toFixed(1);
+    let temp: object = {};
+    if (trendNumber >= 1) {
+      temp = {
+        sign: 'up-red',
+        data: value
+      };
+    } else if (trendNumber < 1 && trendNumber >= 0) {
+      temp = {
+        sign: 'neutral',
+        data: 'No Change'
+      };
+    } else {
+      temp = {
+        sign: 'down-green',
+        data: value
+      };
+    }
+    return temp;
+  }
   public trendNegativeMeansGood(last30: number, previousLast30: number): Object {
     const temp = ((last30 - previousLast30) / previousLast30) * 100;
     let value = '';

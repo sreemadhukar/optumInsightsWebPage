@@ -3,7 +3,7 @@ import { CallsService } from '../../rest/service-interaction/calls.service';
 import { ServiceInteractionModule } from '../../components/service-interaction/service-interaction.module';
 import { SessionService } from '../session.service';
 import { CommonUtilsService } from '../common-utils.service';
-import { CallsTrendService } from './calls-trend.service';
+import { TrendingMetricsService } from '../../rest/trending/trending-metrics.service';
 
 @Injectable({ providedIn: ServiceInteractionModule })
 export class CallsSharedService {
@@ -18,7 +18,7 @@ export class CallsSharedService {
     private callsService: CallsService,
     private session: SessionService,
     private common: CommonUtilsService,
-    private callsTrendService: CallsTrendService
+    private trendsService: TrendingMetricsService
   ) {}
 
   public issueResolution(status: any, title: String, data: any, besideData: any, timeperiod?: String | null): Object {
@@ -61,21 +61,18 @@ export class CallsSharedService {
       } else {
         parameters = [this.providerKey, { TimeFilter: 'CalendarYear', TimeFilterText: this.timeFrame }];
       }
-      this.sharedCallsData(parameters).then(data => {
-        if (data) {
+      this.sharedCallsData(parameters)
+        .then(data => {
           this.callsData = data;
-          resolve(this.callsData);
-          //     return this.sharedCallsTrend();
-          //   }
-          // })
-          // .then(data => {
-          //   if (this.callsData && data) {
-          //     this.callsData[0].data['sdata'] = data[0];
-          //     this.callsData[1].data['sdata'] = data[1];
-          //     resolve(this.callsData);
-          //   }
-        }
-      });
+          return this.sharedCallsTrend();
+        })
+        .then(data => {
+          if (this.callsData && data) {
+            this.callsData[0].data['sdata'] = data[0];
+            this.callsData[1].data['sdata'] = data[1];
+            resolve(this.callsData);
+          }
+        });
     });
   }
   sharedCallsTrend() {
@@ -83,25 +80,42 @@ export class CallsSharedService {
 
     return new Promise(resolve => {
       /** Get Calls Trend Data */
-      this.callsTrendService
-        .getCallsTrendData()
-        .then(data => {
-          this.sdataTrend = data;
-          if (typeof this.sdataTrend[0] === null && typeof this.sdataTrend[1] === null) {
-            this.sdataTrend[0] = null;
-            this.sdataTrend[1] = null;
+      this.providerKey = this.session.providerKeyData();
+      this.trendsService.getTrendingMetrics([this.providerKey]).subscribe(
+        trends => {
+          const preparedData: any = [];
+          if (
+            trends != undefined &&
+            trends != null &&
+            trends.hasOwnProperty('TendingMtrics') &&
+            trends.TendingMtrics != null &&
+            trends.TendingMtrics.hasOwnProperty('CallsTrendByQuesType') &&
+            trends.TendingMtrics.CallsTrendByQuesType != null
+          ) {
+            const t = this.common.negativeMeansGood(trends.TendingMtrics.CallsTrendByQuesType);
+            preparedData.push(t);
           }
-          resolve(this.sdataTrend);
-        })
-        .catch(reason => {
-          this.sdataTrend[0] = null;
-          this.sdataTrend[1] = null;
-          console.log('Calls Service Error ', reason);
-        });
-      /** Ends Get Calls Trend Data */
+          if (
+            trends != undefined &&
+            trends != null &&
+            trends.hasOwnProperty('TendingMtrics') &&
+            trends.TendingMtrics != null &&
+            trends.TendingMtrics.hasOwnProperty('CcllTalkTimeByQuesType') &&
+            trends.TendingMtrics.CcllTalkTimeByQuesType != null
+          ) {
+            const t = this.common.negativeMeansGood(trends.TendingMtrics.CcllTalkTimeByQuesType);
+            preparedData.push(t);
+          }
+          resolve(preparedData);
+        },
+        error => {
+          console.log('Trend data', error);
+        }
+      );
     });
   }
-  sharedCallsData(parameters) {
+
+  public sharedCallsData(parameters) {
     this.timeFrame = this.session.filterObjValue.timeFrame;
 
     if (
