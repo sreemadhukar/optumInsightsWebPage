@@ -80,6 +80,7 @@
       <div *ngFor="let data of mockCards; let i = index">
         <app-card class="cards" [skeleton]="loading" *ngIf="loading"> </app-card>
       </div>
+      <app-clarify-claims-message></app-clarify-claims-message>
     </div>
   </div>
 </div>
