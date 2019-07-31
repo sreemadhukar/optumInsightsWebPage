@@ -22,7 +22,6 @@ export class CallsComponent implements OnInit {
   loading: boolean;
   mockCards: any;
   subscription: any;
-  callsDataAvailable = false;
   constructor(
     private checkStorage: StorageService,
     private callsServiceSrc: CallsSharedService,
@@ -57,21 +56,16 @@ export class CallsComponent implements OnInit {
     this.loading = true;
     this.mockCards = [{}, {}];
     this.callsItems = [];
-    this.callsDataAvailable = false;
 
     this.callsServiceSrc
       .getCallsData()
       .then(data => {
         this.loading = false;
         this.callsItems = data;
-        if (this.callsItems.length !== 0) {
-          this.callsDataAvailable = true;
-        }
       })
       .catch(reason => {
         console.log('Calls Service Error ', reason);
         this.loading = false;
-        this.callsDataAvailable = true;
       });
   }
   openFilter() {

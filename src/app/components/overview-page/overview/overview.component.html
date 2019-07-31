@@ -3,16 +3,17 @@
 <div class="overview-body" color="primary" id="print-overview">
   <div class="overview-content">
     <div class="cards cust-width-title">
-      <div class="page-title">{{ pageTitle }}</div>
-      <div class="page-subtitle">{{ pagesubTitle }}</div>
+      <div class="page-title" id="page-title">{{ pageTitle }}</div>
+      <div class="page-subtitle" id="page-subtitle">{{ pagesubTitle }}</div>
     </div>
     <div class="cards cust-width-blank">
-      <!--<app-print-->
-      <!--[printDivId]="'print-overview'"-->
-      <!--[printName]="'Overview Page'"-->
-      <!--[printHeight]="printHeight"-->
-      <!--[printWidth]="printWidth"-->
-      <!--&gt;</app-print>-->
+      <app-print
+        [printDivId]="'print-overview'"
+        [printName]="'Overview Page'"
+        [printHeight]="printHeight"
+        [printWidth]="printWidth"
+      >
+      </app-print>
     </div>
     <div class="height1Separator"></div>
 

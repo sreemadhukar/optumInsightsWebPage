@@ -3,7 +3,8 @@ import { CallsService } from '../../rest/service-interaction/calls.service';
 import { ServiceInteractionModule } from '../../components/service-interaction/service-interaction.module';
 import { SessionService } from '../session.service';
 import { CommonUtilsService } from '../common-utils.service';
-import { CallsTrendService } from './calls-trend.service';
+import { TrendingMetricsService } from '../../rest/trending/trending-metrics.service';
+// import { CallsTrendService } from './calls-trend.service';
 
 @Injectable({ providedIn: ServiceInteractionModule })
 export class CallsSharedService {
@@ -13,12 +14,14 @@ export class CallsSharedService {
   private callsData: any;
   private timeFrame: string;
   private providerKey: number;
+  private callsTrend1: any;
+  private callsTrend2: any;
 
   constructor(
     private callsService: CallsService,
     private session: SessionService,
     private common: CommonUtilsService,
-    private callsTrendService: CallsTrendService
+    private trendsService: TrendingMetricsService
   ) {}
 
   public issueResolution(status: any, title: String, data: any, besideData: any, timeperiod?: String | null): Object {
@@ -55,46 +58,38 @@ export class CallsSharedService {
       } else {
         parameters = [this.providerKey, { TimeFilter: 'CalendarYear', TimeFilterText: this.timeFrame }];
       }
-      this.sharedCallsData(parameters).then(data => {
-        if (data) {
-          this.callsData = data;
+      this.sharedCallsData(parameters)
+        .then(data => {
+          if (data) {
+            this.callsData = data;
+            return this.getCallsTrends();
+          } else {
+            return null;
+          }
+        })
+        .then(data => {
+          if (data !== undefined && data !== null && data) {
+            this.callsData[0].data['sdata'] = data[0];
+            this.callsData[1].data['sdata'] = data[1];
+          }
           resolve(this.callsData);
-          //     return this.sharedCallsTrend();
-          //   }
-          // })
-          // .then(data => {
-          //   if (this.callsData && data) {
-          //     this.callsData[0].data['sdata'] = data[0];
-          //     this.callsData[1].data['sdata'] = data[1];
-          //     resolve(this.callsData);
-          //   }
-        }
+        });
+    });
+  }
+
+  getCallsTrends() {
+    this.timeFrame = this.session.filterObjValue.timeFrame;
+    this.providerKey = this.session.providerKeyData();
+    return new Promise(resolve => {
+      this.trendsService.getTrendingMetrics([this.providerKey]).subscribe(trends => {
+        const callsArray = [];
+        callsArray.push(trends.TendingMtrics.CallsTrendByQuesType);
+        callsArray.push(trends.TendingMtrics.CcllTalkTimeByQuesType);
+        resolve(callsArray);
       });
     });
   }
-  sharedCallsTrend() {
-    this.timeFrame = this.session.filterObjValue.timeFrame;
 
-    return new Promise(resolve => {
-      /** Get Calls Trend Data */
-      this.callsTrendService
-        .getCallsTrendData()
-        .then(data => {
-          this.sdataTrend = data;
-          if (typeof this.sdataTrend[0] === null && typeof this.sdataTrend[1] === null) {
-            this.sdataTrend[0] = null;
-            this.sdataTrend[1] = null;
-          }
-          resolve(this.sdataTrend);
-        })
-        .catch(reason => {
-          this.sdataTrend[0] = null;
-          this.sdataTrend[1] = null;
-          console.log('Calls Service Error ', reason);
-        });
-      /** Ends Get Calls Trend Data */
-    });
-  }
   sharedCallsData(parameters) {
     this.timeFrame = this.session.filterObjValue.timeFrame;
 
@@ -144,7 +139,7 @@ export class CallsSharedService {
                       gdata: ['card-inner', 'callsByCallType'],
                       labels: ['Eligibilty and Benefits', 'Claims', 'Prior Authorizations', 'Others'],
                       hover: true
-                      // sdata: this.sdataTrend[0]
+                      // sdata: this.callsTrend1
                     },
                     {
                       labels: ['Eligibilty and Benefits', 'Claims', 'Prior Authorizations', 'Others'],
@@ -185,7 +180,7 @@ export class CallsSharedService {
                       gdata: ['card-inner', 'talkTimeByCallType'],
                       labels: ['Eligibilty and Benefits', 'Claims', 'Prior Authorizations', 'Others'],
                       hover: true
-                      // sdata: this.sdataTrend[1]
+                      // sdata: this.callsTrend2
                     },
                     {
                       labels: ['Eligibilty and Benefits', 'Claims', 'Prior Authorizations', 'Others'],

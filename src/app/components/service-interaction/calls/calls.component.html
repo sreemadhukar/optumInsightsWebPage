@@ -52,7 +52,6 @@
     </div>
     <div *ngFor="let item of callsItems">
       <app-card *ngIf="item != null && item.data != null" class="cards" [chartData]="item"> </app-card>
-
       <app-error-card *ngIf="item != null && item.status != null" class="cards" [data]="item"></app-error-card>
     </div>
   </div>

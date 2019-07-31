@@ -36,6 +36,10 @@ export class PrintComponent implements OnInit, OnDestroy {
       'print-icon',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/print-icon.svg')
     );
+    iconRegistry.addSvgIcon(
+      'person',
+      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Content/round-person-24px.svg')
+    );
   }
 
   ngOnInit() {
@@ -100,11 +104,15 @@ export class PrintComponent implements OnInit, OnDestroy {
                                 </head>
       <div class="header-logo-div">
       <a routerLink="/">
-        <img class="Uhc-logo" src="/src/assets/images/UHC Logo@2x.png" alt="UHC Logo" />
+        <img class="Uhc-logo" src='/src/assets/images/UHC Logo@2x.png' alt="UHC Logo" />
       </a>
-      <div class="provider-name">${this.username}</div>
+      <div class="provider-name">
+      <img class="person-logo" src='/src/assets/images/person.png' alt="Person Logo" />
+      ${this.username}</div>
           </div>
               </html>`);
+    // popupWin.document.getElementById('page-title').style.display = 'none';
+    // popupWin.document.getElementById('page-subtitle').style.display = 'none';
     popupWin.document.body.appendChild(canvas);
     popupWin.print();
     popupWin.close();
