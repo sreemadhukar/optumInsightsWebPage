@@ -77,6 +77,13 @@ export class GettingReimbursedComponent implements OnInit {
     //    event.target.classList.add('active');
   }
   ngOnInit() {
+    if (
+      this.session.filterObjValue.timeFrame === 'Last 12 Months' ||
+      this.session.filterObjValue.timeFrame === '2017' ||
+      this.session.filterObjValue.timeFrame === '2018'
+    ) {
+      this.session.filterObjValue.timeFrame = 'Last 6 Months';
+    } // temporary change for claims
     this.timePeriod = this.session.filterObjValue.timeFrame;
     if (this.session.filterObjValue.lob !== 'All') {
       this.lob = this.filtermatch.matchLobWithLobData(this.session.filterObjValue.lob);
