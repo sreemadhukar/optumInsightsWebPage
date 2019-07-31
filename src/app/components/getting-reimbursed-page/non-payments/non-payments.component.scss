@@ -327,6 +327,7 @@
       margin-top: 16px;
       padding: 16px;
       box-sizing: border-box;
+      position: relative;
     }
     .top-5-text {
       color: $black-rock;
@@ -341,6 +342,9 @@
       font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
       font-size: 18px;
       line-height: 22px;
+      position: absolute;
+      bottom: 8.4px;
+      left: 16px;
     }
     .hide-bottom-arrow-block {
       width: 25px;
