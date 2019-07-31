@@ -12,9 +12,10 @@ export class NonPaymentSharedService {
   public providerKey;
   public summaryData: Array<object> = [];
   public timeFrame: string;
+  public paramtersCategories: any;
   private tin: string;
   private lob: string;
-  private paramtersCategories: any;
+
   constructor(
     private nonPaymentService: NonPaymentService,
     private common: CommonUtilsService,
@@ -610,18 +611,18 @@ export class NonPaymentSharedService {
 
   public getNonPaymentCategories() {
     // Assign the paramater variable
-    let paramtersCategories = [];
-    paramtersCategories = this.getParmaeterCategories();
-    paramtersCategories[1]['Count'] = 7;
+    this.paramtersCategories = [];
+    this.paramtersCategories = this.getParmaeterCategories();
+    this.paramtersCategories[1]['Count'] = 7;
     this.getParmaeterCategories();
     return new Promise(resolve => {
-      this.sharedTopCategories(paramtersCategories)
+      this.sharedTopCategories(this.paramtersCategories)
         .then(topReasons => {
           try {
             const p = JSON.parse(JSON.stringify(topReasons)); // Values descending here
             const subCategoryReasons: any = [];
             for (let i = 0; i < p.length; i++) {
-              let x = JSON.parse(JSON.stringify(paramtersCategories)); // deep copy
+              let x = JSON.parse(JSON.stringify(this.paramtersCategories)); // deep copy
               x[1]['denialCategory'] = p[i]['title'];
               subCategoryReasons.push(x);
               x = [];

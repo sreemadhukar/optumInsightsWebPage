@@ -117,9 +117,11 @@ export class CallsSharedService {
     return new Promise(resolve => {
       this.trendsService.getTrendingMetrics([this.providerKey]).subscribe(trends => {
         const callsArray = [];
-        callsArray.push(trends.TendingMtrics.CallsTrendByQuesType);
-        callsArray.push(trends.TendingMtrics.CcllTalkTimeByQuesType);
-        resolve(callsArray);
+        if (trends !== undefined && trends !== null && trends) {
+          callsArray.push(trends.TendingMtrics.CallsTrendByQuesType);
+          callsArray.push(trends.TendingMtrics.CcllTalkTimeByQuesType);
+          resolve(callsArray);
+        }
       });
     });
   }
