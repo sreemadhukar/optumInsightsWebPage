@@ -139,6 +139,8 @@ export class LoginStubComponent implements OnInit {
         error => {
           this.error = true;
           this.loading = false;
+          this.blankScreen = false;
+          this.submitted = false;
         }
       );
     }

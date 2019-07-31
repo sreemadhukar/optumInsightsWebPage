@@ -116,7 +116,6 @@ export class OverviewComponent implements OnInit, AfterContentInit {
     }*/
     this.overviewsrc.getAllTrends().then(trendData => {
       this.trendsData = trendData;
-      console.log(this.trendsData);
       this.claimsLoading = true;
 
       /* SERVICE CALL TO GET CLAIMS CARDS DATA */
@@ -169,7 +168,6 @@ export class OverviewComponent implements OnInit, AfterContentInit {
           this.priorAuthLoading = true;
           console.log(reason);
         });
-
       /* SERVICE CALL TO GET DATA FOR CALLS CARD */
       this.callsLoading = true;
       this.overviewsrc

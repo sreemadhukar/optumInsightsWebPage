@@ -138,6 +138,11 @@
       color: #2d2d39;
       margin-bottom: 15px;
     }
+    .lobDisable {
+      pointer-events: none !important;
+      cursor: pointer !important;
+      color: lightgray !important;
+    }
   }
 }
 .titleDisplay {
@@ -239,4 +244,9 @@
 
 ::ng-deep .mat-option-text {
   font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+}
+
+.disable-radio-button {
+  pointer-events: none;
+  color: lightgray !important;
 }

@@ -4,7 +4,7 @@ import { ServiceInteractionModule } from '../../components/service-interaction/s
 import { SessionService } from '../session.service';
 import { CommonUtilsService } from '../common-utils.service';
 
-@Injectable()
+@Injectable({ providedIn: ServiceInteractionModule })
 export class CallsTrendService {
   private previousTrend: String = 'PreviousLast30Days';
   private lastTrend: String = 'Last30Days';

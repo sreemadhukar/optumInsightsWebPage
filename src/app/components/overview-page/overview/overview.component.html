@@ -7,12 +7,12 @@
       <div class="page-subtitle">{{ pagesubTitle }}</div>
     </div>
     <div class="cards cust-width-blank">
-      <app-print
-        [printDivId]="'print-overview'"
-        [printName]="'Overview Page'"
-        [printHeight]="printHeight"
-        [printWidth]="printWidth"
-      ></app-print>
+      <!--<app-print-->
+      <!--[printDivId]="'print-overview'"-->
+      <!--[printName]="'Overview Page'"-->
+      <!--[printHeight]="printHeight"-->
+      <!--[printWidth]="printWidth"-->
+      <!--&gt;</app-print>-->
     </div>
     <div class="height1Separator"></div>
 
@@ -63,6 +63,7 @@
     <div *ngFor="let data of mockMainCards; let i = index">
       <app-small-card class="cards" [skeleton]="loading" *ngIf="loading"> </app-small-card>
     </div>-->
+    <app-clarify-claims-message></app-clarify-claims-message>
   </div>
 
   <div class="overview-content">
