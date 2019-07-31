@@ -22,20 +22,6 @@
       <label id="radio-group-label" class="label-data">{{ timeframeData }}</label>
     </div>
 
-    <!--<div *ngIf="filterurl === '/GettingReimbursed/Payments' || filterurl === '/GettingReimbursed/NonPayments'">
-      <div class="select-option-data" *ngIf="tiarrowmark">
-        <mat-radio-group class="radio-group" [(ngModel)]="timeframeData">
-          <mat-radio-button
-            class="radio-button"
-            *ngFor="let timeframe of disabledForClaimsTimeFilter"
-            [value]="timeframe"
-          >
-            {{ timeframe }}
-          </mat-radio-button>
-        </mat-radio-group>
-      </div>
-    </div> -->
-
     <div>
       <div class="select-option-data" *ngIf="tiarrowmark">
         <mat-radio-group class="radio-group" [(ngModel)]="timeframeData">
