@@ -14,6 +14,8 @@ export class NonPaymentSharedService {
   public timeFrame: string;
   private tin: string;
   private lob: string;
+  private categoriesFetchCount = 7;
+  private subCategoriesFetchCount = 15;
   private paramtersCategories: any;
   constructor(
     private nonPaymentService: NonPaymentService,
@@ -612,7 +614,7 @@ export class NonPaymentSharedService {
     // Assign the paramater variable
     let paramtersCategories = [];
     paramtersCategories = this.getParmaeterCategories();
-    paramtersCategories[1]['Count'] = 7;
+    paramtersCategories[1]['Count'] = this.categoriesFetchCount;
     this.getParmaeterCategories();
     return new Promise(resolve => {
       this.sharedTopCategories(paramtersCategories)
@@ -623,6 +625,7 @@ export class NonPaymentSharedService {
             for (let i = 0; i < p.length; i++) {
               let x = JSON.parse(JSON.stringify(paramtersCategories)); // deep copy
               x[1]['denialCategory'] = p[i]['title'];
+              x[1]['Count'] = this.subCategoriesFetchCount;
               subCategoryReasons.push(x);
               x = [];
             }
@@ -658,9 +661,9 @@ export class NonPaymentSharedService {
             topReasons[i]['top5'].sort(function(a, b) {
               return b.DenialAmount - a.DenialAmount;
             }); // sort the array in Descending order , if we do a.DenialAmount - b.DenialAmount, it becomes ascending
-            if (topReasons[i]['top5'].length > 5) {
-              topReasons[i]['top5'].slice(0, 5); // Slice the top Sub Categories 5 arrays
-            }
+            // if (topReasons[i]['top5'].length > 5) {
+            //   topReasons[i]['top5'].slice(0, 5); // Slice the top Sub Categories 5 arrays
+            // }
             const dataWithSubCategory = topReasons[i]['top5']; // shallow copy
             // console.log('5 parameters', mappedData[i].All.DenialCategory);
             for (let j = 0; j < dataWithSubCategory.length; j++) {
