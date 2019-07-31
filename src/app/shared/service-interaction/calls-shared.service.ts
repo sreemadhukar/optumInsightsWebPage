@@ -85,6 +85,10 @@ export class CallsSharedService {
                 sign: 'neutral',
                 data: 'No Change'
               };
+              this.callsData[1].data.sdata = {
+                sign: 'neutral',
+                data: 'No Change'
+              };
             } else {
               this.callsData[0].data.sdata = {
                 sign: 'down-green',
