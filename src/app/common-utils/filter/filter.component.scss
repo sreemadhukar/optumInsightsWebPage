@@ -245,3 +245,8 @@
 ::ng-deep .mat-option-text {
   font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
 }
+
+.disable-radio-button {
+  pointer-events: none;
+  color: lightgray !important;
+}

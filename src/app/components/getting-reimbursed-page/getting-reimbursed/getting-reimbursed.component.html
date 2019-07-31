@@ -48,6 +48,7 @@
                 *ngFor="let item of tabOptions; let i = index"
                 (click)="matOptionClicked(i, $event)"
                 [ngClass]="{ active: previousSelectedTab === i }"
+                attr.id="{{ item.title }}"
               >
                 <span>
                   {{ item.title }}
