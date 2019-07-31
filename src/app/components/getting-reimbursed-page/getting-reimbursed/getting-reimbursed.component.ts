@@ -30,6 +30,7 @@ export class GettingReimbursedComponent implements OnInit {
   loading: boolean;
   mockCards: any;
   previousSelectedTab: any = 0;
+  filterUrl = '/GettingReimbursed/Payments';
   constructor(
     private gettingReimbursedSharedService: GettingReimbursedSharedService,
     private checkStorage: StorageService,
@@ -68,6 +69,11 @@ export class GettingReimbursedComponent implements OnInit {
     }
     myTabs[i].classList.add('active');
     this.previousSelectedTab = i;
+    if (myTabs[i].id !== 'Appeals') {
+      this.filterUrl = '/GettingReimbursed/Payments';
+    } else {
+      this.filterUrl = this.router.url;
+    }
     //    event.target.classList.add('active');
   }
   ngOnInit() {
@@ -131,7 +137,8 @@ export class GettingReimbursedComponent implements OnInit {
       });
   }
   openFilter() {
-    this.filterExpandService.setURL(this.router.url);
+    // this.filterExpandService.setURL(this.router.url);
+    this.filterExpandService.setURL(this.filterUrl);
   }
   removeFilter(type, value) {
     if (type === 'lob') {
