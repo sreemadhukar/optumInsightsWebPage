@@ -73,7 +73,10 @@
     width: 1000px;
     margin: auto;
     flex-wrap: wrap;
-
+    .message-left-margin {
+      margin-top: 10px;
+      margin-left: -10px;
+    }
     .height1Separator {
       height: 0;
       width: 1200px;
