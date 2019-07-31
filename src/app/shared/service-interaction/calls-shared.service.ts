@@ -68,6 +68,7 @@ export class CallsSharedService {
         .then(data => {
           if (data) {
             this.callsData = data;
+            console.log(this.callsData);
             return this.getCallsTrends();
           } else {
             return null;
