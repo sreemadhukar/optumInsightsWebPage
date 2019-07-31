@@ -3,7 +3,7 @@ import { GettingReimbursedModule } from '../../components/getting-reimbursed-pag
 import { environment } from '../../../environments/environment';
 import { HttpHeaders, HttpClient, HttpParams } from '@angular/common/http';
 import { map, catchError } from 'rxjs/operators';
-import { combineLatest, of, forkJoin } from 'rxjs';
+import { combineLatest, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -39,6 +39,7 @@ export class NonPaymentService {
       'Content-Type': 'application/json',
       Accept: '*/*'
     });
+
     const nonPaymentURL = this.APP_URL + this.NON_PAYMENT + parameters[0] + '?requestType=NONPAYMENT_TOPCATEGORIES';
     return combineLatest(
       this.http.post(nonPaymentURL, parameters[1], { headers: myHeader }).pipe(
@@ -56,9 +57,32 @@ export class NonPaymentService {
       'Content-Type': 'application/json',
       Accept: '*/*'
     });
+    // console.log('Parameters', parameters);
     const nonPaymentURL =
       this.APP_URL + this.NON_PAYMENT + parameters[0][0] + '?requestType=NONPAYMENT_TOPSUBCATEGORIES';
     const apiCall = parameters.map(param => this.http.post(nonPaymentURL, param[1], { headers: myHeader }));
-    return forkJoin(apiCall); // This will return the array when we subscribe to the function
+    return combineLatest(apiCall);
+    // return combineLatest(
+    //   this.http.post(nonPaymentURL, parameters[0][1], { headers: myHeader }).pipe(
+    //     map(res => JSON.parse(JSON.stringify(res[0]))),
+    //     catchError(err => of(JSON.parse(JSON.stringify(err))))
+    //   ),
+    //   this.http.post(nonPaymentURL, parameters[1][1], { headers: myHeader }).pipe(
+    //     map(res => JSON.parse(JSON.stringify(res[0]))),
+    //     catchError(err => of(JSON.parse(JSON.stringify(err))))
+    //   ),
+    //   this.http.post(nonPaymentURL, parameters[2][1], { headers: myHeader }).pipe(
+    //     map(res => JSON.parse(JSON.stringify(res[0]))),
+    //     catchError(err => of(JSON.parse(JSON.stringify(err))))
+    //   ),
+    //   this.http.post(nonPaymentURL, parameters[3][1], { headers: myHeader }).pipe(
+    //     map(res => JSON.parse(JSON.stringify(res[0]))),
+    //     catchError(err => of(JSON.parse(JSON.stringify(err))))
+    //   ),
+    //   this.http.post(nonPaymentURL, parameters[4][1], { headers: myHeader }).pipe(
+    //     map(res => JSON.parse(JSON.stringify(res[0]))),
+    //     catchError(err => of(JSON.parse(JSON.stringify(err))))
+    //   )
+    // );
   }
 }

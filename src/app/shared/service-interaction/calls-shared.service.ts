@@ -46,10 +46,16 @@ export class CallsSharedService {
       if (
         this.timeFrame === 'Last 12 Months' ||
         this.timeFrame === 'Last 6 Months' ||
+        this.timeFrame === 'Last 3 Months' ||
+        this.timeFrame === 'Last 30 Days' ||
         this.timeFrame === 'Year to Date'
       ) {
         if (this.timeFrame === 'Last 12 Months') {
           parameters = [this.providerKey, { TimeFilter: 'Last12Months' }];
+        } else if (this.timeFrame === 'Last 3 Months') {
+          parameters = [this.providerKey, { TimeFilter: 'Last3Months' }];
+        } else if (this.timeFrame === 'Last 30 Days') {
+          parameters = [this.providerKey, { TimeFilter: 'Last30Days' }];
         } else if (this.timeFrame === 'Last 6 Months') {
           parameters = [this.providerKey, { TimeFilter: 'Last6Months' }];
         } else {
@@ -124,10 +130,16 @@ export class CallsSharedService {
     if (
       this.timeFrame === 'Last 12 Months' ||
       this.timeFrame === 'Last 6 Months' ||
+      this.timeFrame === 'Last 3 Months' ||
+      this.timeFrame === 'Last 30 Days' ||
       this.timeFrame === 'Year to Date'
     ) {
       if (this.timeFrame === 'Last 12 Months') {
         parameters = [this.providerKey, { TimeFilter: 'Last12Months' }];
+      } else if (this.timeFrame === 'Last 3 Months') {
+        parameters = [this.providerKey, { TimeFilter: 'Last3Months' }];
+      } else if (this.timeFrame === 'Last 30 Days') {
+        parameters = [this.providerKey, { TimeFilter: 'Last30Days' }];
       } else if (this.timeFrame === 'Last 6 Months') {
         parameters = [this.providerKey, { TimeFilter: 'Last6Months' }];
       } else {

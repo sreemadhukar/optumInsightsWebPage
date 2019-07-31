@@ -63,9 +63,14 @@
       <app-common-footer [timePeriod]="timePeriod" class="width-100 time-period-trend"></app-common-footer>
     </div>
     <!-- Claims Non - Payment Trend Ends Here -->
-
     <!-- Top reasons for Claims Start here -->
-    <div class="top-reasons-for-claims-non-payment-block" *ngIf="topReasonsCategoryDisplay">
+    <app-large-card [skeletonLarge]="loadingTopReasons" *ngIf="loadingTopReasons"></app-large-card>
+    <!-- <app-error-card
+      *ngIf="reasonsNoData != null && reasonsNoData.status != null"
+      class="cards"
+      [data]="reasonsNoData"
+    ></app-error-card> -->
+    <div class="top-reasons-for-claims-non-payment-block" *ngIf="topReasonsCategoryDisplay && !loadingTopReasons">
       <app-common-header
         [title]="title"
         class="full-display"
@@ -118,5 +123,6 @@
       </div>
     </div>
     <!-- Top Reasons for Claims Ends here -->
+    <app-clarify-claims-message></app-clarify-claims-message>
   </div>
 </div>
