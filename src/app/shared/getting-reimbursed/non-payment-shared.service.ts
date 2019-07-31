@@ -612,6 +612,7 @@ export class NonPaymentSharedService {
     // Assign the paramater variable
     let paramtersCategories = [];
     paramtersCategories = this.getParmaeterCategories();
+    paramtersCategories[1]['Count'] = 7;
     this.getParmaeterCategories();
     return new Promise(resolve => {
       this.sharedTopCategories(paramtersCategories)
