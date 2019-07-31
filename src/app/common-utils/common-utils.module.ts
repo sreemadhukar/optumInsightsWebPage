@@ -31,6 +31,7 @@ import { MultiSelectComponent } from './multi-select/multi-select.component';
 import { DonutChartOnchangeComponent } from './d3-objects/donut-chart-onchange/donut-chart-onchange.component';
 import { MatIconModule } from '@angular/material';
 import { PrintComponent } from './print/print.component';
+import { ClarifyClaimsMessageComponent } from './clarify-claims-message/clarify-claims-message.component';
 
 @NgModule({
   imports: [CommonModule, FormsModule, ReactiveFormsModule, HeadMaterialModule, RouterModule, MatIconModule],
@@ -56,7 +57,8 @@ import { PrintComponent } from './print/print.component';
     FilterComponent,
     MedBarChartComponent,
     DonutChartComponent,
-    PrintComponent
+    PrintComponent,
+    ClarifyClaimsMessageComponent
   ],
   declarations: [
     MiniTileComponent,
@@ -85,7 +87,8 @@ import { PrintComponent } from './print/print.component';
     MedBarChartComponent,
     MultiSelectComponent,
     DonutChartOnchangeComponent,
-    PrintComponent
+    PrintComponent,
+    ClarifyClaimsMessageComponent
   ],
   entryComponents: [ProviderSearchComponent]
 })
