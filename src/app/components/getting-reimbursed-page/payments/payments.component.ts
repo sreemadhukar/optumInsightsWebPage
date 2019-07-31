@@ -60,6 +60,13 @@ export class PaymentsComponent implements OnInit {
 
   ngOnInit() {
     this.payments = [];
+    if (
+      this.session.filterObjValue.timeFrame === 'Last 12 Months' ||
+      this.session.filterObjValue.timeFrame === '2017' ||
+      this.session.filterObjValue.timeFrame === '2018'
+    ) {
+      this.session.filterObjValue.timeFrame = 'Last 6 Months';
+    } // temporary change for claims
     this.claimsPaidTimePeriod = this.session.filterObjValue.timeFrame;
     this.claimsPaidBreakBool = false;
     this.loading = true;
