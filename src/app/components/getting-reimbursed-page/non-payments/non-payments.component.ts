@@ -288,6 +288,7 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
         this.loadingTopReasons = false;
         this.topReasonsCategoryDisplay = true;
         this.barChartsArray = topCategories;
+        console.log(this.barChartsArray);
         if (topCategories === null) {
           this.topReasonsCategoryDisplay = false;
           this.reasonsNoData = {
