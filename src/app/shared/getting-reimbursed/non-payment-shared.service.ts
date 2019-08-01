@@ -688,7 +688,14 @@ export class NonPaymentSharedService {
             const dataWithSubCategory = topReasons[i]['top5']; // shallow copy
             // console.log('5 parameters', mappedData[i].All.DenialCategory);
             for (let j = 0; j < dataWithSubCategory.length; j++) {
-              dataWithSubCategory[j].text = dataWithSubCategory[j]['Claimdenialcategorylevel1shortname'];
+              if (
+                dataWithSubCategory[j]['Claimdenialcategorylevel1shortname'] !== undefined &&
+                dataWithSubCategory[j]['Claimdenialcategorylevel1shortname'] !== null
+              ) {
+                dataWithSubCategory[j].text = dataWithSubCategory[j]['Claimdenialcategorylevel1shortname'];
+              } else {
+                dataWithSubCategory[j].text = topReasons[i]['title'];
+              }
               dataWithSubCategory[j].valueNumeric = dataWithSubCategory[j]['DenialAmount'];
               dataWithSubCategory[j].value = '$' + this.common.nFormatter(dataWithSubCategory[j]['DenialAmount']);
               delete dataWithSubCategory[j].Claimdenialcategorylevel1shortname;
