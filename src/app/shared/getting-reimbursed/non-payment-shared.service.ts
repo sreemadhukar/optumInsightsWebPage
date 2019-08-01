@@ -656,7 +656,10 @@ export class NonPaymentSharedService {
           for (let i = 0; i < topReasons.length; i++) {
             topReasons[i]['top5'] = JSON.parse(JSON.stringify(mappedData[i].All.DenialCategory)); // deep copy
             topReasons[i]['top5'].filter(
-              x => x.Claimdenialcategorylevel1shortname !== 'UNKNOWN' && x.Claimdenialcategorylevel1shortname !== 'Paid'
+              x =>
+                x.Claimdenialcategorylevel1shortname !== 'UNKNOWN' &&
+                x.Claimdenialcategorylevel1shortname !== 'Paid' &&
+                x.DenialAmount !== 0
             );
             topReasons[i]['top5'].sort(function(a, b) {
               return b.DenialAmount - a.DenialAmount;
@@ -672,7 +675,6 @@ export class NonPaymentSharedService {
               dataWithSubCategory[j].value = '$' + this.common.nFormatter(dataWithSubCategory[j]['DenialAmount']);
               delete dataWithSubCategory[j].Claimdenialcategorylevel1shortname;
               delete dataWithSubCategory[j].DenialAmount;
-              topReasons[i]['top5'] = dataWithSubCategory.filter(item => item.value !== '$0');
             }
           }
           resolve(topReasons);
