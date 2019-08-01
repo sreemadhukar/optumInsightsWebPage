@@ -658,7 +658,7 @@ export class NonPaymentSharedService {
               x =>
                 x.Claimdenialcategorylevel1shortname !== 'UNKNOWN' &&
                 x.Claimdenialcategorylevel1shortname !== 'Paid' &&
-                x.DenialAmount !== 0
+                x.DenialAmount > 0
             );
             topReasons[i]['top5'].sort(function(a, b) {
               return b.DenialAmount - a.DenialAmount;
