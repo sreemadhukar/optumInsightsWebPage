@@ -15,8 +15,7 @@ export class NonPaymentSharedService {
   private tin: string;
   private lob: string;
   private categoriesFetchCount = 7;
-  private subCategoriesFetchCount = 15;
-  private paramtersCategories: any;
+  private subCategoriesFetchCount = 7;
   constructor(
     private nonPaymentService: NonPaymentService,
     private common: CommonUtilsService,
@@ -655,7 +654,7 @@ export class NonPaymentSharedService {
           const mappedData = data.map(item => item[0]);
           for (let i = 0; i < topReasons.length; i++) {
             topReasons[i]['top5'] = JSON.parse(JSON.stringify(mappedData[i].All.DenialCategory)); // deep copy
-            topReasons[i]['top5'].filter(
+            topReasons[i]['top5'] = topReasons[i]['top5'].filter(
               x =>
                 x.Claimdenialcategorylevel1shortname !== 'UNKNOWN' &&
                 x.Claimdenialcategorylevel1shortname !== 'Paid' &&
@@ -664,9 +663,9 @@ export class NonPaymentSharedService {
             topReasons[i]['top5'].sort(function(a, b) {
               return b.DenialAmount - a.DenialAmount;
             }); // sort the array in Descending order , if we do a.DenialAmount - b.DenialAmount, it becomes ascending
-            // if (topReasons[i]['top5'].length > 5) {
-            //   topReasons[i]['top5'].slice(0, 5); // Slice the top Sub Categories 5 arrays
-            // }
+            if (topReasons[i]['top5'].length > 5) {
+              //   topReasons[i]['top5'].slice(0, 5); // Slice the top Sub Categories 5 arrays
+            }
             const dataWithSubCategory = topReasons[i]['top5']; // shallow copy
             // console.log('5 parameters', mappedData[i].All.DenialCategory);
             for (let j = 0; j < dataWithSubCategory.length; j++) {
