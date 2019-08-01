@@ -63,8 +63,9 @@
     <div *ngFor="let data of mockMainCards; let i = index">
       <app-small-card class="cards" [skeleton]="loading" *ngIf="loading"> </app-small-card>
     </div>-->
+    <app-clarify-claims-message></app-clarify-claims-message>
   </div>
-  <app-clarify-claims-message></app-clarify-claims-message>
+
   <div class="overview-content">
     <div class="self-service-heading">
       <div class="cards cust-width-title">
