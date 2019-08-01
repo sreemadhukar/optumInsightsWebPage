@@ -74,7 +74,11 @@ export class OverviewComponent implements OnInit, AfterContentInit {
       const currentUrl = this.router.url + '?';
       this.router.navigateByUrl(currentUrl).then(() => {
         this.router.navigated = false;
-        this.router.navigate([this.router.url]);
+        if (this.router.url === '/ProviderSearch') {
+          this.router.navigate(['/OverviewPage']);
+        } else {
+          this.router.navigate([this.router.url]);
+        }
       });
     });
     /** INITIALIZING SVG ICONS TO USE IN DESIGN - ANGULAR MATERIAL */
