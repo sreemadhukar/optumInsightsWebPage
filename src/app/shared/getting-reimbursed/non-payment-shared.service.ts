@@ -724,4 +724,17 @@ export class NonPaymentSharedService {
       /** Ends Shared Top Categories Data */
     });
   } // end sharedTopCategories Function
+
+  public sharedTrendByMonth() {
+    let paramters = [];
+    paramters = this.getParmaeterCategories();
+    this.timeFrame = this.session.filterObjValue.timeFrame;
+    return new Promise(resolve => {
+      /** Get Top 5 Categories Data */
+      this.nonPaymentService.getNonPaymentTrendByMonth(...paramters).subscribe(trendByMonthData => {
+        console.log('trendByMonthDatashared', trendByMonthData);
+        resolve(trendByMonthData);
+      });
+    });
+  }
 }
