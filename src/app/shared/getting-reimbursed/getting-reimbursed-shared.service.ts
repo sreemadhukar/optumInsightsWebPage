@@ -2200,7 +2200,7 @@ export class GettingReimbursedSharedService {
             },
             besideData: {
               color: ['#3381FF', '#D7DCE1'],
-              labels: ['Pre-Payment Records Requested', 'Claims Submitted']
+              labels: ['Pre-Payment Medical Records Requested', 'Claims Submitted']
             }
           };
           resolve(output);
