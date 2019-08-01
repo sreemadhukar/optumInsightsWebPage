@@ -658,7 +658,7 @@ export class NonPaymentSharedService {
               x =>
                 x.Claimdenialcategorylevel1shortname !== 'UNKNOWN' &&
                 x.Claimdenialcategorylevel1shortname !== 'Paid' &&
-                x.DenialAmount !== 0
+                x.DenialAmount > 0
             );
             topReasons[i]['top5'].sort(function(a, b) {
               return b.DenialAmount - a.DenialAmount;
@@ -696,7 +696,10 @@ export class NonPaymentSharedService {
             let tempArray: any = [];
             tempArray = JSON.parse(JSON.stringify(topCategories.All.DenialCategory)); // deep copy
             tempArray = tempArray.filter(
-              x => x.Claimdenialcategorylevel1shortname !== 'UNKNOWN' && x.Claimdenialcategorylevel1shortname !== 'Paid'
+              x =>
+                x.Claimdenialcategorylevel1shortname !== 'UNKNOWN' &&
+                x.Claimdenialcategorylevel1shortname !== 'Paid' &&
+                x.DenialAmount > 0
             ); // shallow copy
             tempArray.sort(function(a, b) {
               return b.DenialAmount - a.DenialAmount;
