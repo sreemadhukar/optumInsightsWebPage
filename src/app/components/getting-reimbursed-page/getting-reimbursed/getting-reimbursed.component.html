@@ -48,6 +48,7 @@
                 *ngFor="let item of tabOptions; let i = index"
                 (click)="matOptionClicked(i, $event)"
                 [ngClass]="{ active: previousSelectedTab === i }"
+                attr.id="{{ item.title }}"
               >
                 <span>
                   {{ item.title }}
@@ -80,6 +81,7 @@
       <div *ngFor="let data of mockCards; let i = index">
         <app-card class="cards" [skeleton]="loading" *ngIf="loading"> </app-card>
       </div>
+      <app-clarify-claims-message></app-clarify-claims-message>
     </div>
   </div>
 </div>

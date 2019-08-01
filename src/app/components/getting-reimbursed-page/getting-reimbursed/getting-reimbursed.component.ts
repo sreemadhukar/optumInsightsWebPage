@@ -30,6 +30,7 @@ export class GettingReimbursedComponent implements OnInit {
   loading: boolean;
   mockCards: any;
   previousSelectedTab: any = 0;
+  filterUrl = '/GettingReimbursed/Payments';
   constructor(
     private gettingReimbursedSharedService: GettingReimbursedSharedService,
     private checkStorage: StorageService,
@@ -68,9 +69,21 @@ export class GettingReimbursedComponent implements OnInit {
     }
     myTabs[i].classList.add('active');
     this.previousSelectedTab = i;
+    if (myTabs[i].id !== 'Appeals') {
+      this.filterUrl = '/GettingReimbursed/Payments';
+    } else {
+      this.filterUrl = this.router.url;
+    }
     //    event.target.classList.add('active');
   }
   ngOnInit() {
+    if (
+      this.session.filterObjValue.timeFrame === 'Last 12 Months' ||
+      this.session.filterObjValue.timeFrame === '2017' ||
+      this.session.filterObjValue.timeFrame === '2018'
+    ) {
+      this.session.filterObjValue.timeFrame = 'Last 6 Months';
+    } // temporary change for claims
     this.timePeriod = this.session.filterObjValue.timeFrame;
     if (this.session.filterObjValue.lob !== 'All') {
       this.lob = this.filtermatch.matchLobWithLobData(this.session.filterObjValue.lob);
@@ -131,7 +144,8 @@ export class GettingReimbursedComponent implements OnInit {
       });
   }
   openFilter() {
-    this.filterExpandService.setURL(this.router.url);
+    // this.filterExpandService.setURL(this.router.url);
+    this.filterExpandService.setURL(this.filterUrl);
   }
   removeFilter(type, value) {
     if (type === 'lob') {

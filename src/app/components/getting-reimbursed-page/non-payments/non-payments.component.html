@@ -108,11 +108,15 @@
             <div class="bottom-shadow">
               <div class="hide-bottom-arrow-block"></div>
             </div>
-            <h3 class="inner-blocks-header">Top Reason for Need More Information</h3>
+            <h3 class="inner-blocks-header">
+              Top Reason{{ barchart.top5.length === 1 ? '' : 's' }} for {{ barchart.title }}
+            </h3>
             <div *ngFor="let inside of barchart.top5; let j = index">
-              <div [class.extra-margin-left-4]="j == 0" class="top-5-block">
-                <p class="top-5-text">{{ inside.text }}</p>
-                <p class="top-5-value">{{ inside.value }}</p>
+              <div *ngIf="j < 5">
+                <div [class.extra-margin-left-4]="j == 0" class="top-5-block">
+                  <p class="top-5-text">{{ inside.text }}</p>
+                  <p class="top-5-value">{{ inside.value }}</p>
+                </div>
               </div>
             </div>
           </div>
@@ -123,5 +127,6 @@
       </div>
     </div>
     <!-- Top Reasons for Claims Ends here -->
+    <app-clarify-claims-message></app-clarify-claims-message>
   </div>
 </div>
