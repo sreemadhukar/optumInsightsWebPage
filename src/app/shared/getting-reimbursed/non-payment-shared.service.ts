@@ -14,7 +14,8 @@ export class NonPaymentSharedService {
   public timeFrame: string;
   private tin: string;
   private lob: string;
-  private paramtersCategories: any;
+  private categoriesFetchCount = 7;
+  private subCategoriesFetchCount = 7;
   constructor(
     private nonPaymentService: NonPaymentService,
     private common: CommonUtilsService,
@@ -612,7 +613,7 @@ export class NonPaymentSharedService {
     // Assign the paramater variable
     let paramtersCategories = [];
     paramtersCategories = this.getParmaeterCategories();
-    paramtersCategories[1]['Count'] = 7;
+    paramtersCategories[1]['Count'] = this.categoriesFetchCount;
     this.getParmaeterCategories();
     return new Promise(resolve => {
       this.sharedTopCategories(paramtersCategories)
@@ -623,6 +624,7 @@ export class NonPaymentSharedService {
             for (let i = 0; i < p.length; i++) {
               let x = JSON.parse(JSON.stringify(paramtersCategories)); // deep copy
               x[1]['denialCategory'] = p[i]['title'];
+              x[1]['Count'] = this.subCategoriesFetchCount;
               subCategoryReasons.push(x);
               x = [];
             }
@@ -652,8 +654,11 @@ export class NonPaymentSharedService {
           const mappedData = data.map(item => item[0]);
           for (let i = 0; i < topReasons.length; i++) {
             topReasons[i]['top5'] = JSON.parse(JSON.stringify(mappedData[i].All.DenialCategory)); // deep copy
-            topReasons[i]['top5'].filter(
-              x => x.Claimdenialcategorylevel1shortname !== 'UNKNOWN' && x.Claimdenialcategorylevel1shortname !== 'Paid'
+            topReasons[i]['top5'] = topReasons[i]['top5'].filter(
+              x =>
+                x.Claimdenialcategorylevel1shortname !== 'UNKNOWN' &&
+                x.Claimdenialcategorylevel1shortname !== 'Paid' &&
+                x.DenialAmount !== 0
             );
             topReasons[i]['top5'].sort(function(a, b) {
               return b.DenialAmount - a.DenialAmount;
