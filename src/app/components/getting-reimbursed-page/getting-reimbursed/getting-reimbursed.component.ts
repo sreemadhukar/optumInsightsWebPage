@@ -30,6 +30,7 @@ export class GettingReimbursedComponent implements OnInit {
   loading: boolean;
   mockCards: any;
   previousSelectedTab: any = 0;
+  showDOSmessage = true;
   filterUrl = '/GettingReimbursed/Payments';
   constructor(
     private gettingReimbursedSharedService: GettingReimbursedSharedService,
@@ -71,8 +72,10 @@ export class GettingReimbursedComponent implements OnInit {
     this.previousSelectedTab = i;
     if (myTabs[i].id !== 'Appeals') {
       this.filterUrl = '/GettingReimbursed/Payments';
+      this.showDOSmessage = true;
     } else {
       this.filterUrl = this.router.url;
+      this.showDOSmessage = false;
     }
     //    event.target.classList.add('active');
   }
