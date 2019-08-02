@@ -755,41 +755,28 @@ export class NonPaymentSharedService {
     }
   }
 
-  /* public sharedTrendByMonth() {
-    let paramters = [];
-    paramters = this.getParmaeterCategories();
-    this.timeFrame = this.session.filterObjValue.timeFrame;
-    return new Promise(resolve => {
-      this.nonPaymentService.getNonPaymentTrendByMonth(...paramters).subscribe(trendByMonthData => {
-        console.log('trendByMonthDatashared', trendByMonthData);
-        resolve(trendByMonthData);
-      });
-    });
-  }*/
   public sharedTrendByMonth() {
     let paramters = [];
     paramters = this.getParmaeterCategories();
     this.timeFrame = this.session.filterObjValue.timeFrame;
-    this.nonPaymentBy = this.session.nonPaymentBy;
-    return new Promise(resolve => {
+    return new Promise((resolve, reject) => {
       this.nonPaymentService.getNonPaymentTrendByMonth(paramters).subscribe(nonPaymentsTrendData => {
         const lobData = this.lob;
         const filter_data_claimSummary = [];
-        let trendMonthValue = '';
         nonPaymentsTrendData.forEach(element => {
-          if (this.nonPaymentBy === 'dollar') {
-            trendMonthValue = element.All.ClaimsLobSummary[0].AmountDenied;
-          } else if (this.nonPaymentBy === 'volume') {
-            trendMonthValue = element.All.ClaimsLobSummary[0].ClaimsDenied;
+          let monthlyData = [];
+          monthlyData = element.All.ClaimsLobSummary;
+          for (let i = 0; i < monthlyData.length; i++) {
+            const trendMonthValue = monthlyData[i].AmountDenied;
+            const trendTimePeriod = monthlyData[i].DenialMonth;
+            const trendTimePeriodArr = trendTimePeriod.split('-');
+            const trendTimePeriodFinal = trendTimePeriodArr[1];
+            filter_data_claimSummary.push({
+              name: this.ReturnMonthlyString(trendTimePeriodFinal),
+              value: trendMonthValue,
+              month: trendTimePeriod
+            });
           }
-          const trendTimePeriod = element.ReportingPeriod;
-          const trendTimePeriodArr = trendTimePeriod.split('-');
-          const trendTimePeriodFinal = trendTimePeriodArr[1];
-          filter_data_claimSummary.push({
-            name: this.ReturnMonthlyString(trendTimePeriodFinal),
-            value: trendMonthValue,
-            month: trendTimePeriod
-          });
         });
         filter_data_claimSummary.sort(function(a, b) {
           let dateA: any;
@@ -797,9 +784,6 @@ export class NonPaymentSharedService {
           let dateB: any;
           dateB = new Date(b.month);
           return dateA - dateB; // sort by date ascending
-        });
-        filter_data_claimSummary.forEach(function(v) {
-          delete v.month;
         });
         resolve(filter_data_claimSummary);
       });

@@ -325,15 +325,14 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
 
     this.monthlyLineGraph.chartData = [];
     this.dataLoaded = false;
-    this.gettingReimbursedSharedService.getclaimsNonPaymentTrendData().then(trendData => {
+    this.nonPaymentService.sharedTrendByMonth().then(trendData => {
       this.monthlyLineGraph.chartData = trendData;
-      console.log('**********component', trendData);
       this.dataLoaded = true;
     });
-
     this.monthlyLineGraph.generalData2 = [];
     this.monthlyLineGraph.chartData2 = [];
   } // ngOnInit Ends here
+
   helpIconClick(title) {
     this.glossaryExpandService.setMessage(title);
   }
