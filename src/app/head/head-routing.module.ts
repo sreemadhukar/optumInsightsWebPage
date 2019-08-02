@@ -13,7 +13,6 @@ const routes: Routes = [
     path: 'login',
     loadChildren: '../auth/auth.module#AuthModule'
   },
-
   {
     path: 'OverviewPage',
     loadChildren: '../components/overview-page/overview-page.module#OverviewPageModule',
@@ -42,7 +41,7 @@ const routes: Routes = [
   },
   {
     path: 'ServiceInteraction',
-    loadChildren: '../components/issue-resolution-page/issue-resolution-page.module#IssueResolutionPageModule',
+    loadChildren: '../components/service-interaction/service-interaction.module#ServiceInteractionModule',
     data: {
       breadcrumb: 'Service Interaction'
     },

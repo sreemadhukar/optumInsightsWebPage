@@ -1,5 +1,9 @@
 @import '~src/scss/variables.scss';
 
+.breadcrumb {
+  padding: 16px 0px 0px 0px;
+}
+
 .breadcrumb li {
   display: inline;
   font-size: 14px;

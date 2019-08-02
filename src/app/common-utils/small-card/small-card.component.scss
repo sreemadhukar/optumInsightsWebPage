@@ -24,6 +24,9 @@
     }
     .full-width {
       width: 100%;
+      justify-content: center;
+      display: flex;
+      margin-bottom: 16px;
     }
     .trend-details {
       float: left;
@@ -57,6 +60,9 @@
       .down {
         background-color: color(red, light);
       }
+      .neutral {
+        background-color: $gainsboro;
+      }
       .up {
         background-color: color(green, light);
       }
@@ -65,22 +71,29 @@
         position: absolute;
         height: 20px;
         width: 20px;
-        top: 5px;
+        top: 6px;
         left: 5px;
       }
       .trend-image-down {
         background-color: color(red, light);
       }
+      .trend-image-up {
+        background-color: color(green, light);
+      }
+      .trend-image-neutral {
+        background-color: $gainsboro;
+      }
+
       .trend-value-down {
         color: color(red, dark);
+      }
+      .trend-value-neutral {
+        color: $black-rock;
       }
       .trend-value-up {
         color: $brand-green-hover;
       }
 
-      .trend-image-up {
-        background-color: color(green, light);
-      }
       .flex-box {
         display: flex;
       }
@@ -89,9 +102,11 @@
   .full-display-block {
     float: left;
     width: 100%;
+    margin-top: -4px;
   }
   .small-star-chart {
     margin-left: 92px;
+    height: 145px;
   }
   // @media screen and (max-width: 1331px) {
   //   .card-inner {
@@ -99,7 +114,24 @@
   //   }
   // }
 }
-
+.small-card-footer {
+  .common-footer {
+    /*position: absolute;
+    width: 94%;
+    bottom: 0;
+    width: 100%;
+    text-align: left;*/
+    height: 40px;
+    .timePeriod {
+      padding: 7px 16px 13px 16px;
+      color: rgb(117, 117, 136);
+      font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+      font-size: 14px;
+      letter-spacing: 0.2px;
+      line-height: 20px;
+    }
+  }
+}
 .card-skeleton-small-card:empty {
   margin: auto;
   width: 304px;

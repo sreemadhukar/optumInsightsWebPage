@@ -7,12 +7,15 @@
         }}<mat-icon class="nav-menu-icons icondata-display" (click)="onRemove(selected)" svgIcon="cross"></mat-icon
       ></span>
     </div>
-    <input #inputValue [formControl]="searchControl" [ngModel]="tinValue" autofocus />
+    <input #inputValue [formControl]="searchControl" placeholder="Search for a Tax ID" [ngModel]="tinValue" autofocus />
     <div *ngFor="let items of fileterdArray" class="list">
-      <button (click)="selectedItem(items)">{{ items.Tin }}</button>
-      <span *ngIf="items.checked"
-        ><mat-icon matPrefix class="nav-menu-icons done-icon-display" svgIcon="done"></mat-icon
-      ></span>
+      <button (click)="selectedItem(items)">
+        <b>{{ items.Tin }}</b
+        ><br /><span class="list-name"> {{ items.Tinname }} </span>
+      </button>
+      <span *ngIf="items.checked" class="icon-div">
+        <mat-icon matPrefix class="nav-menu-icons done-icon-display" svgIcon="done"></mat-icon>
+      </span>
     </div>
   </div>
 </div>

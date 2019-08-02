@@ -26,9 +26,9 @@ export class HttpInterceptorService implements HttpInterceptor {
           : currentUser[0].PedAccessToken;
       if (token) {
         request = request.clone({ headers: request.headers.set('Authorization', 'Bearer ' + token) });
-//         request = request.clone({
-//           headers: request.headers.set('PedAccessToken', 'Bearer ' + currentUser[0].PedAccessToken)
-//         });
+        request = request.clone({
+          headers: request.headers.set('PedAccessToken', 'Bearer ' + currentUser[0].PedAccessToken)
+        });
       }
     }
     request = request.clone({ headers: request.headers.set('Accept', '*/*') });

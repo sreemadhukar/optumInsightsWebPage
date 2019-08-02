@@ -28,10 +28,17 @@ export class AuthenticationService {
   }
 
   public getSsoToken(codeId: string, token: string): Observable<any> {
-    const myHeader = new HttpHeaders({
-      Authorization: 'Bearer ' + token,
-      Accept: '*/*'
-    });
+    let myHeader;
+    if (token === 'isProd') {
+      myHeader = new HttpHeaders({
+        Accept: '*/*'
+      });
+    } else {
+      myHeader = new HttpHeaders({
+        Authorization: 'Bearer ' + token,
+        Accept: '*/*'
+      });
+    }
     let params = new HttpParams();
     params = params.append('code', codeId);
     const url = this.APP_URL + this.SERVICE_PATH;
@@ -57,6 +64,7 @@ export class AuthenticationService {
   public logout() {
     sessionStorage.removeItem('currentUser');
     sessionStorage.removeItem('loggedUser');
+    sessionStorage.setItem('cache', JSON.stringify(false));
     if (environment.internalAccess) {
       this.router.navigate(['']);
     }

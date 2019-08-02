@@ -30,6 +30,9 @@ export class DonutChartOnchangeComponent implements OnInit, AfterViewInit, OnCha
     this.doDonutChart(this.chartOptions, this.transition);
   }
   ngOnChanges() {
+    if (this.renderChart === undefined) {
+      this.renderChart = '#' + this.chartOptions.gdata[1];
+    }
     this.doDonutChart(this.chartOptions, this.noTransition);
     this.renderChart = '#' + this.chartOptions.gdata[1];
   }
@@ -217,6 +220,25 @@ export class DonutChartOnchangeComponent implements OnInit, AfterViewInit, OnCha
           .style('text-anchor', 'start')
           .text(chartOptions.sdata.data);
       }
+    } else {
+      if (this.donutType === 'app-card') {
+        text = chart
+          .append('text')
+          .attr('text-anchor', 'middle')
+          .attr('y', 14)
+          .style('font-size', '41px')
+          .style('fill', '#2d2d39')
+          .style('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
+          .style('vertical-align', 'middle');
+      } else if (this.donutType === 'small-card') {
+        text = chart
+          .append('text')
+          .attr('text-anchor', 'middle')
+          .attr('y', 8)
+          .style('font-size', '22px')
+          .style('fill', '#2d2d39')
+          .style('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'");
+      }
     }
 
     const donutData = [];
@@ -265,7 +287,7 @@ export class DonutChartOnchangeComponent implements OnInit, AfterViewInit, OnCha
         });
 
       text.text(chartOptions.centerNumber);
-      text.text();
+      // text.text();
     }
 
     // chartOptions.hover

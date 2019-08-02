@@ -1,12 +1,12 @@
+@import '~src/scss/variables.scss';
 .provider-search {
   padding: 10px;
-
   &-header {
     text-align: center;
-
+    padding-right: 9px;
     button {
       float: right;
-      margin: -15px -25px 0 0;
+      margin: -30px -38px 0 0;
     }
     button:focus {
       outline: none;
@@ -15,21 +15,19 @@
       border: 0;
       box-shadow: none;
       background: #ffffff;
-      color: #757588;
-      padding: 5px 0 5px 5px;
+      color: $strom-grey;
+      padding: 8px 1px 8px 8px;
       &:hover {
         border-radius: 2px;
         background-color: #d7dce1;
         cursor: pointer;
-        color: #2d2d39;
+        color: $black-rock;
       }
     }
   }
-
   &-form {
     mat-form-field {
       width: 100%;
-
       //input {
       //  box-sizing: border-box;
       //  height: 41px;
@@ -58,4 +56,63 @@
   text-align: center;
   padding: 18px 0;
   cursor: pointer;
+}
+
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-flex {
+  padding: 0 4px;
+}
+
+::ng-deep .mat-form-field-outline-start {
+  width: 33.5px !important;
+}
+
+::ng-deep .mat-form-field-flex {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  padding-left: 8.5px !important;
+  padding-right: 0 !important;
+}
+
+::ng-deep.mat-autocomplete-hidden {
+  // visibility: visible !important;
+}
+
+.remove {
+  height: 0;
+}
+
+.hidden {
+  visibility: hidden;
+  height: 0;
+}
+
+.no-result-found-div {
+  padding-top: 13px;
+  padding-left: 12px;
+  padding-right: 30px;
+}
+
+.no-result-found {
+  color: #2d2d39;
+  font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  letter-spacing: 0.2px;
+  line-height: 22px;
+  padding-bottom: 8px;
+}
+
+.no-result-found-text {
+  color: #2d2d39;
+  font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  letter-spacing: 0.2px;
+  line-height: 18px;
+}
+
+.noDataicon {
+  color: #b10c00;
+}
+
+.searchicon {
+  color: #757588;
 }

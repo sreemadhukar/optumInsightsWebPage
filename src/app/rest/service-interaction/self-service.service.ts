@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { HttpHeaders, HttpClient, HttpParams } from '@angular/common/http';
-import { IssueResolutionPageModule } from '../../components/issue-resolution-page/issue-resolution-page.module';
-import { map, retry, catchError } from 'rxjs/operators';
+import { ServiceInteractionModule } from '../../components/service-interaction/service-interaction.module';
+import { map, catchError } from 'rxjs/operators';
 import { combineLatest, of } from 'rxjs';
-@Injectable({ providedIn: IssueResolutionPageModule })
+@Injectable({ providedIn: ServiceInteractionModule })
 export class SelfServiceService {
   public currentUser: any;
   public combined: any;
@@ -25,10 +25,8 @@ export class SelfServiceService {
     eparams = eparams.append('filter', 'executive');
 
     const executiveURL = this.APP_URL + this.EXECUTIVE_SERVICE_PATH + parameters[0];
-    console.log('Self Service', executiveURL, eparams);
     return combineLatest(
       this.http.get(executiveURL, { params: eparams, headers: myHeader }).pipe(
-        retry(2),
         map(res => res),
         catchError(err => of(err))
       )

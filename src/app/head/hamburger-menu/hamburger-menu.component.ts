@@ -165,9 +165,11 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => {
       this.healthSystemName = JSON.parse(sessionStorage.getItem('currentUser'))[0]['HealthCareOrganizationName'];
     });
-
+    //   console.log(sessionStorage.getItem('currentUser'))
+    //   if (sessionStorage.getItem('currentUser')) {
     this.priorAuthShared.getPCORData().then(data => {
       console.log(data);
+      console.log('yes');
       if (this.PCORFlag === data) {
         // Do nothing because its the same state
       } else {
@@ -225,6 +227,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
         }
       });
     });
+    //   }
 
     this.clickHelpIcon = this.glossaryExpandService.message.subscribe(
       data => {
@@ -240,18 +243,21 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
       data => {
         this.filterFlag = true;
         this.filterurl = data;
+        console.log(data);
       },
       err => {
         console.log('Error, clickHelpIcon , inside Hamburger', err);
       }
     );
-     setTimeout(() => {
+    setTimeout(() => {
       const user = JSON.parse(sessionStorage.getItem('currentUser'));
-      this.healthSystemName =
-        user && user[0].hasOwnProperty('HealthCareOrganizationName')
-          ? user[0]['HealthCareOrganizationName']
-          : user[0]['Healthcareorganizationname'];
-    }, 6000);
+      if (user) {
+        this.healthSystemName =
+          user && user[0].hasOwnProperty('HealthCareOrganizationName')
+            ? user[0]['HealthCareOrganizationName']
+            : user[0]['Healthcareorganizationname'];
+      }
+    }, 10000);
   }
 
   ngOnDestroy() {
@@ -301,7 +307,8 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
   }
   /** FUNCTIONS TO COLLAPSE LEFT MENU **/
   collapseExpansionPanels(id) {
-    this.allExpandState(false, id - 1);
+    window.scrollTo(300, 0);
+    // this.allExpandState(false, id - 1);
   }
 
   openDialog(): void {
@@ -328,7 +335,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
   signOut() {
     this.authService.logout();
     if (!environment.internalAccess) {
-      this.document.location.href = 'https://provider-stage.linkhealth.com/';
+      this.document.location.href = environment.apiUrls.linkLoginPage;
     }
   }
   public close() {
