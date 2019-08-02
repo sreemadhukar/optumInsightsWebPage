@@ -334,7 +334,7 @@ export class LineGraphComponent implements OnInit {
       .scalePoint()
       .domain(
         chartData.map(function(d) {
-          console.log('d.name', d.name);
+          console.log('d.name', d);
           return d.name;
         })
       ) // input

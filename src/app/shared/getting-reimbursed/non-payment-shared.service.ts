@@ -14,8 +14,10 @@ export class NonPaymentSharedService {
   public timeFrame: string;
   private tin: string;
   private lob: string;
+  private nonPaymentBy: string;
   private categoriesFetchCount = 7;
   private subCategoriesFetchCount = 7;
+
   constructor(
     private nonPaymentService: NonPaymentService,
     private common: CommonUtilsService,
@@ -725,15 +727,81 @@ export class NonPaymentSharedService {
     });
   } // end sharedTopCategories Function
 
-  public sharedTrendByMonth() {
+  public ReturnMonthlyString(a) {
+    if (a === '01') {
+      return 'Jan';
+    } else if (a === '02') {
+      return 'Feb';
+    } else if (a === '03') {
+      return 'Mar';
+    } else if (a === '04') {
+      return 'Apr';
+    } else if (a === '05') {
+      return 'May';
+    } else if (a === '06') {
+      return 'Jun';
+    } else if (a === '07') {
+      return 'Jul';
+    } else if (a === '08') {
+      return 'Aug';
+    } else if (a === '09') {
+      return 'Sep';
+    } else if (a === '10') {
+      return 'Oct';
+    } else if (a === '11') {
+      return 'Nov';
+    } else if (a === '12') {
+      return 'Dec';
+    }
+  }
+
+  /* public sharedTrendByMonth() {
     let paramters = [];
     paramters = this.getParmaeterCategories();
     this.timeFrame = this.session.filterObjValue.timeFrame;
     return new Promise(resolve => {
-      /** Get Top 5 Categories Data */
       this.nonPaymentService.getNonPaymentTrendByMonth(...paramters).subscribe(trendByMonthData => {
         console.log('trendByMonthDatashared', trendByMonthData);
         resolve(trendByMonthData);
+      });
+    });
+  }*/
+  public sharedTrendByMonth() {
+    let paramters = [];
+    paramters = this.getParmaeterCategories();
+    this.timeFrame = this.session.filterObjValue.timeFrame;
+    this.nonPaymentBy = this.session.nonPaymentBy;
+    return new Promise(resolve => {
+      this.nonPaymentService.getNonPaymentTrendByMonth(paramters).subscribe(nonPaymentsTrendData => {
+        const lobData = this.lob;
+        const filter_data_claimSummary = [];
+        let trendMonthValue = '';
+        nonPaymentsTrendData.forEach(element => {
+          if (this.nonPaymentBy === 'dollar') {
+            trendMonthValue = element.All.ClaimsLobSummary[0].AmountDenied;
+          } else if (this.nonPaymentBy === 'volume') {
+            trendMonthValue = element.All.ClaimsLobSummary[0].ClaimsDenied;
+          }
+          const trendTimePeriod = element.ReportingPeriod;
+          const trendTimePeriodArr = trendTimePeriod.split('-');
+          const trendTimePeriodFinal = trendTimePeriodArr[1];
+          filter_data_claimSummary.push({
+            name: this.ReturnMonthlyString(trendTimePeriodFinal),
+            value: trendMonthValue,
+            month: trendTimePeriod
+          });
+        });
+        filter_data_claimSummary.sort(function(a, b) {
+          let dateA: any;
+          dateA = new Date(a.month);
+          let dateB: any;
+          dateB = new Date(b.month);
+          return dateA - dateB; // sort by date ascending
+        });
+        filter_data_claimSummary.forEach(function(v) {
+          delete v.month;
+        });
+        resolve(filter_data_claimSummary);
       });
     });
   }
