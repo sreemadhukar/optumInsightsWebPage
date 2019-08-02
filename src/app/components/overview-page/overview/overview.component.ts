@@ -74,7 +74,11 @@ export class OverviewComponent implements OnInit, AfterContentInit {
       const currentUrl = this.router.url + '?';
       this.router.navigateByUrl(currentUrl).then(() => {
         this.router.navigated = false;
-        this.router.navigate([this.router.url]);
+        if (this.router.url === '/ProviderSearch') {
+          this.router.navigate(['/OverviewPage']);
+        } else {
+          this.router.navigate([this.router.url]);
+        }
       });
     });
     /** INITIALIZING SVG ICONS TO USE IN DESIGN - ANGULAR MATERIAL */
@@ -116,13 +120,10 @@ export class OverviewComponent implements OnInit, AfterContentInit {
     }*/
     this.overviewsrc.getAllTrends().then(trendData => {
       this.trendsData = trendData;
-      console.log(this.trendsData);
-      // temporary switch off of trend in calls : Srikar Bobbiganipalli
+        // temporary switch off of trend in calls : Srikar Bobbiganipalli
       if (this.trendsData && this.trendsData.hasOwnProperty('TendingMtrics')) {
         this.trendsData.TendingMtrics.CcllTalkTimeByQuesType = undefined;
         this.trendsData.TendingMtrics.CallsTrendByQuesType = undefined;
-        this.trendsData.TendingMtrics.PaApprovalRate = undefined;
-        this.trendsData.TendingMtrics.PaApprovedCount = undefined;
       }
       this.claimsLoading = true;
 

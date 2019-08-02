@@ -104,7 +104,7 @@ export class SelfSharedService {
             } // End try catch for Adoption Rate
             try {
               linkEdiRation = this.utilizationObjectMethod(
-                'LINK & EDI to Call Ratio',
+                'Link & EDI to Call Ratio',
                 {
                   graphValueName: ['Diabetic Patients', 'Completed'],
                   graphValues: [utilization.LinkAdoptionRate * 100, 100 - utilization.LinkAdoptionRate * 100],

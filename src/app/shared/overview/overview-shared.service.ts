@@ -242,22 +242,6 @@ export class OverviewSharedService {
     });
   }
 
-  createTotalCallsTrend() {
-    // let trendIR: Object;
-    const trendIR = null;
-    return new Promise((resolve, reject) => {
-      // this.callsTrendService
-      //   .getCallsTrendData()
-      //   .then(data => {
-      //     trendIR = data[0];
-      //     resolve(trendIR);
-      //   })
-      //   .catch(reason => {
-      //     console.log('Calls Service Error ', reason);
-      //   });
-      resolve(null);
-    });
-  }
   /* function to create Total Calls Tile in Overview Page -  Ranjith kumar Ankam - 04-Jul-2019*/
   createTotalCallsObject(providerSystems) {
     let cIR: Object;
@@ -1126,19 +1110,6 @@ export class OverviewSharedService {
           };
         }
         resolve(cIR);
-
-        /*this.createTotalCallsTrend().then(trendIssueResolution => {
-         const nullTrend = {
-         sign: '',
-         data: ''
-         };
-         if (trendIssueResolution === null) {
-         cIR.sdata = nullTrend;
-         } else {
-         cIR.sdata = trendIssueResolution;
-         }
-         resolve(cIR);
-         });*/
       });
     });
   }

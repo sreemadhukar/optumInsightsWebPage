@@ -47,7 +47,8 @@ export class FilterComponent implements OnInit {
     '2018',
     '2017'
   ];
-  public lobs = ['All', 'Community & State', 'Employer & Individual', 'Medicare & Retirement'];
+
+  public lobs = ['All', 'Community & State', 'Employer & Individual', 'Medicare & Retirement', 'Un Categorized'];
   public servicesettings = ['All', 'Inpatient', 'Outpatient', 'Outpatient Facility'];
   public priorauthdecisiontype = ['All', 'Administrative', 'Clinical'];
   public priorauthservicecategory = [
