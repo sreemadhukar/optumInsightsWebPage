@@ -58,7 +58,11 @@ export class SessionService {
   public getTins() {
     return new Promise((resolve, reject) => {
       if (sessionStorage.getItem('currentUser')) {
-        this.providerkey = JSON.parse(sessionStorage.getItem('currentUser'))[0]['ProviderKey'];
+        if (environment.internalAccess) {
+          this.providerkey = JSON.parse(sessionStorage.getItem('currentUser'))[0]['ProviderKey'];
+        } else {
+          this.providerkey = JSON.parse(sessionStorage.getItem('currentUser'))[0]['Providersyskey'];
+        }
         this.gettingReimbursedService.getTins(this.providerkey).subscribe(tins => {
           const providerTins = tins;
           resolve(providerTins);
