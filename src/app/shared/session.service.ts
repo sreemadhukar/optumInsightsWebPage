@@ -58,7 +58,7 @@ export class SessionService {
   public getTins() {
     return new Promise((resolve, reject) => {
       if (sessionStorage.getItem('currentUser')) {
-        if (JSON.parse(sessionStorage.getItem('currentUser'))[0]['ProviderKey']) {
+        if (environment.internalAccess) {
           this.providerkey = JSON.parse(sessionStorage.getItem('currentUser'))[0]['ProviderKey'];
         } else {
           this.providerkey = JSON.parse(sessionStorage.getItem('currentUser'))[0]['Providersyskey'];
