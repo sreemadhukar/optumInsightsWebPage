@@ -8,9 +8,7 @@
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-
   /* header css starts here*/
-
   .header-div {
     background-color: $white;
     height: 72px;
@@ -21,7 +19,6 @@
     z-index: 999;
     .header-logo-div {
       padding: 18px 0 18px 33px;
-
       .Uhc-logo {
         height: 36px;
         width: 175px;
@@ -38,7 +35,6 @@
       line-height: 22px;
       text-align: right;
       padding: 25px 32px 20px 0;
-
       .user-name {
         line-height: 31px;
         font-family: 'UHCSans-Medium', 'Helvetica', 'Arial', 'sans-serif';
@@ -48,12 +44,10 @@
       }
     }
   }
-
   /* header css ends here*/
   .select-provider {
     margin: 160px auto 0 auto;
     width: 30%;
-
     .select-provider-header {
       font-family: 'UHCSans-SemiBold', 'sans-serif', 'Arial', 'Helvetica Neue';
       color: #2d2d39;
@@ -66,21 +60,18 @@
       }
     }
     .provider-icon-color {
-      color: #2d2d39 !important;
+      color: #757588 !important;
     }
     &-header {
       text-align: center;
-
       button {
         float: right;
         margin: -15px -25px 0 0;
       }
     }
-
     &-form {
       mat-form-field {
         width: 100%;
-
         //input {
         //  box-sizing: border-box;
         //  height: 41px;
@@ -114,7 +105,56 @@
     height: 36vh;
   }
 }
+
 // To adjust the input field on center aligned
 ::ng-deep .mat-form-field-appearance-outline .mat-form-field-infix {
   padding: 0.6em 0 1em 0 !important;
+}
+
+.view-allProviders {
+  width: 100%;
+  color: #196ecf;
+  font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+  font-size: 18px;
+  letter-spacing: 0.2px;
+  line-height: 22px;
+  text-align: center;
+  padding: 18px 0;
+  cursor: pointer;
+}
+
+.hidden {
+  visibility: hidden;
+  height: 0;
+}
+
+.no-result-found-div {
+  padding-top: 13px;
+  padding-left: 12px;
+  padding-right: 30px;
+}
+
+.no-result-found {
+  color: #2d2d39;
+  font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  letter-spacing: 0.2px;
+  line-height: 22px;
+  padding-bottom: 8px;
+}
+
+.no-result-found-text {
+  color: #2d2d39;
+  font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  letter-spacing: 0.2px;
+  line-height: 18px;
+}
+
+.noDataicon {
+  color: #b10c00;
+}
+
+.searchicon {
+  color: #757588;
 }
