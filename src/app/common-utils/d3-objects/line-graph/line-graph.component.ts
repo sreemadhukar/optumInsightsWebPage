@@ -334,13 +334,10 @@ export class LineGraphComponent implements OnInit {
       .scalePoint()
       .domain(
         chartData.map(function(d) {
-          console.log('d.name', d);
           return d.name;
         })
       ) // input
       .range([25, width - 25]);
-
-    console.log('highestValue', highestValue);
 
     const yScale = d3
       .scaleLinear()
@@ -383,7 +380,7 @@ export class LineGraphComponent implements OnInit {
       .attr('id', 'forlolCalculations')
       .attr('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
       .attr('font-size', '14px')
-      .text(chartData[0].name)
+      .text(chartData.name)
       .style('fill', '#2D2D39');
 
     const text_element1 = chart.select('#forlolCalculations');
@@ -391,10 +388,9 @@ export class LineGraphComponent implements OnInit {
     var textWidth1 = text_element1.node().getComputedTextLength();
 
     chart.select('#forlolCalculations').remove();
-    console.log('chartData[0]', chartData[0]);
-    if (chartData[0].length === 4) {
+    if (chartData.length === 4) {
       textWidth1 = textWidth1 / 2;
-    } else if (chartData[0].length === 3) {
+    } else if (chartData.length === 3) {
       textWidth1 = textWidth1 * 1.25;
     }
 
@@ -434,7 +430,6 @@ export class LineGraphComponent implements OnInit {
       });
 
     d3.select('#forYCalculations').remove();
-    console.log('preYArray', preYArray);
     for (let y = 0; y < preYArray.length; y++) {
       preYArray[y] = preYArray[y].replace(/,/g, '');
     }
@@ -442,9 +437,6 @@ export class LineGraphComponent implements OnInit {
     const preArrayOfNumbers = preYArray.map(Number);
     const numberOfTicks = preArrayOfNumbers.length;
     const highestTickValue = preArrayOfNumbers[numberOfTicks - 1];
-    console.log('preArrayOfNumbers', preArrayOfNumbers);
-    console.log('numberOfTicks', numberOfTicks);
-    console.log('highestTickValue', highestTickValue);
 
     chart
       .append('g')
@@ -505,9 +497,9 @@ export class LineGraphComponent implements OnInit {
       var textWidth2 = text_element2.node().getComputedTextLength();
       chart.select('#forlolCalculations2').remove();
 
-      if (chartData2[0].name.length === 4) {
+      if (chartData2.name.length === 4) {
         textWidth2 = textWidth2 / 2;
-      } else if (chartData2[0].name.length === 3) {
+      } else if (chartData2.name.length === 3) {
         textWidth2 = textWidth2 * 1.25;
       }
 
