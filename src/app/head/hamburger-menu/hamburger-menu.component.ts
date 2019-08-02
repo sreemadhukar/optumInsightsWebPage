@@ -249,7 +249,6 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
         console.log('Error, clickHelpIcon , inside Hamburger', err);
       }
     );
-
     setTimeout(() => {
       const user = JSON.parse(sessionStorage.getItem('currentUser'));
       if (user) {
