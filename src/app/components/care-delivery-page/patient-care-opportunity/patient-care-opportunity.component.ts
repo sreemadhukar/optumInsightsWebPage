@@ -30,6 +30,7 @@ export class PatientCareOpportunityComponent implements OnInit {
   hideAllObjects: boolean;
   ratingClicked: number;
   starMeasure: any;
+  qualityTitle: String = 'Quality Star Rating';
   constructor(
     private priorAuthService: PriorAuthService,
     private sessionService: SessionService,

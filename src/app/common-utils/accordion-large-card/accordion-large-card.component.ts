@@ -9,14 +9,12 @@ import { GlossaryExpandService } from '../../shared/glossary-expand.service';
 })
 export class AccordionLargeCardComponent implements OnInit, AfterViewInit {
   @Input() data;
-  @Input() qualityMesaureStarData: any;
-  @Input() skeletonLarge;
+  @Input() title;
   section: any = [];
-  @Input() x;
   @Output() ratingClick: EventEmitter<any> = new EventEmitter<any>();
   type: any;
   public chartData: any;
-
+  public cardTitle: String;
   qualityMeasureList = [
     {
       startitle: 'One Star Quality Measures',
@@ -83,25 +81,19 @@ export class AccordionLargeCardComponent implements OnInit, AfterViewInit {
     this.glossaryExpandService.setMessage(title);
   }
 
-  ngOnInit() {
-    this.chartData = JSON.parse(JSON.stringify(this.data[0]));
-    console.log('app-large-card' + this.chartData);
-  }
+  ngOnInit() {}
   ngAfterViewInit() {
-    this.chartData = JSON.parse(JSON.stringify(this.data));
+    this.chartData = JSON.parse(JSON.stringify(this.data[0]));
+    this.cardTitle = this.data[0].title;
     console.log('app-large-card' + this.chartData);
+    console.log('app-large-card' + this.cardTitle);
   }
   reasonsCollapose(x: Number) {
-    this.x = x;
     for (let i = 0; i < this.section.length; i++) {
       if (i !== x) {
         this.section[i] = false;
       }
     }
-    // this.ratingClick.emit({
-    //   starCountNo: this.starCountNo,
-    //   rating: x
-    // });
   }
 
   sortHeader(event) {
