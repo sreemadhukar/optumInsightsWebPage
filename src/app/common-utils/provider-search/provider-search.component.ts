@@ -124,6 +124,10 @@ export class ProviderSearchComponent implements OnInit, AfterViewInit {
         (<HTMLElement>document.querySelector('.mat-form-field-label')).style.color = '#196ECF';
       }
     }
+    if (this.stateCtrl.value === '') {
+      this.nomatchFlag = true;
+      (<HTMLElement>document.querySelector('.mat-form-field-outline-thick')).style.color = '#196ECF';
+    }
 
     // madhukar
 

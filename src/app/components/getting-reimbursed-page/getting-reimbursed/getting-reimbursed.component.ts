@@ -31,6 +31,7 @@ export class GettingReimbursedComponent implements OnInit {
   mockCards: any;
   previousSelectedTab: any = 0;
   currTabDetailButtonName: any;
+  showDOSmessage = true;
   filterUrl = '/GettingReimbursed/Payments';
   buttonName: any;
   detailClickUrl = '';
@@ -101,8 +102,10 @@ export class GettingReimbursedComponent implements OnInit {
     this.previousSelectedTab = i;
     if (myTabs[i].id !== 'Appeals') {
       this.filterUrl = '/GettingReimbursed/Payments';
+      this.showDOSmessage = true;
     } else {
       this.filterUrl = this.router.url;
+      this.showDOSmessage = false;
     }
     //    event.target.classList.add('active');
   }

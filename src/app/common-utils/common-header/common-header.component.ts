@@ -33,13 +33,13 @@ export class CommonHeaderComponent implements OnInit {
   }
 
   titleClicked(title) {
-    if (title === 'Claims Paid') {
+    if (title === 'Claims Paid*') {
       this.routhPath = '/GettingReimbursed/Payments';
     } else if (title === 'Prior Authorization Approval') {
       this.routhPath = '/CareDelivery/priorAuth';
     } else if (title === 'Self Service Adoption Rate') {
       this.routhPath = '/ServiceInteraction/SelfService';
-    } else if (title === 'Claims Yield') {
+    } else if (title === 'Claims Yield*') {
       this.routhPath = '/GettingReimbursed/Payments';
     } else if (title === 'Medicare Star Rating') {
       this.routhPath = '/CareDelivery/PatientCareOpportunity';
