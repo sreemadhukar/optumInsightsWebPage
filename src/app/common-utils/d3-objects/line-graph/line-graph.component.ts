@@ -388,9 +388,9 @@ export class LineGraphComponent implements OnInit {
     var textWidth1 = text_element1.node().getComputedTextLength();
 
     chart.select('#forlolCalculations').remove();
-    if (chartData.length === 4) {
+    if (chartData.name.length === 4) {
       textWidth1 = textWidth1 / 2;
-    } else if (chartData.length === 3) {
+    } else if (chartData.name.length === 3) {
       textWidth1 = textWidth1 * 1.25;
     }
 
