@@ -100,13 +100,55 @@ export class PCORSharedService {
 
       this.patientCareOpportunityService.getPCORQualityMeasureData([this.providerKey]).subscribe(
         qualitydta => {
-          console.log(qualitydta);
-          resolve(qualitydta);
+          const tempArray = [];
+          if (qualitydta.hasOwnProperty('oneStarMeasureCount')) {
+            const x = {
+              label: 'One Star Quality Measure',
+              count: qualitydta.oneStarMeasureCount.Count,
+              data: qualitydta.oneStarMeasureCount.Data
+            };
+            tempArray.push(x);
+          }
+          if (qualitydta.hasOwnProperty('twoStarMeasureCount')) {
+            const x = {
+              label: 'Two Star Quality Measure',
+              count: qualitydta.twoStarMeasureCount.Count,
+              data: qualitydta.twoStarMeasureCount.Data
+            };
+            tempArray.push(x);
+          }
+          if (qualitydta.hasOwnProperty('threeStarMeasureCount')) {
+            const x = {
+              label: 'Three Star Quality Measure',
+              count: qualitydta.threeStarMeasureCount.Count,
+              data: qualitydta.threeStarMeasureCount.Data
+            };
+            tempArray.push(x);
+          }
+          if (qualitydta.hasOwnProperty('fourStarMeasureCount')) {
+            const x = {
+              label: 'Four Star Quality Measure',
+              count: qualitydta.fourStarMeasureCount.Count,
+              data: qualitydta.fourStarMeasureCount.Data
+            };
+            tempArray.push(x);
+          }
+          if (qualitydta.hasOwnProperty('fiveStarMeasureCount')) {
+            const x = {
+              label: 'Five Star Quality Measure',
+              count: qualitydta.fiveStarMeasureCount.Count,
+              data: qualitydta.fiveStarMeasureCount.Data
+            };
+            tempArray.push(x);
+          }
+
+          console.log(tempArray);
+          resolve(tempArray);
         },
         err => {
           console.log('PCOR Error', err);
         }
-      );
-    });
+      ); // end observable
+    }); // end promise
   }
 }
