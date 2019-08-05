@@ -230,7 +230,7 @@ export class FilterComponent implements OnInit {
     if (this.priorAuthorizationCustomFilterBool) {
       this.session.filterObjValue.serviceSetting = this.servicesettings[0];
       this.session.store({
-        timeFrame: this.timeframes[0],
+        timeFrame: this.timeframes[2],
         lob: this.lobs[0],
         tax: ['All'],
         serviceSetting: this.servicesettings[0],
