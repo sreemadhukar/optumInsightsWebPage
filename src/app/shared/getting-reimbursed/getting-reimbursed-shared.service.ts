@@ -639,6 +639,25 @@ export class GettingReimbursedSharedService {
                 labelsData.push('Employer & Individual');
                 colorsData.push('#003DA1');
               }
+
+              if (appealsData[0].LineOfBusiness.hasOwnProperty('Uncategorized')) {
+                let sum = 0;
+                if (
+                  appealsData[0].LineOfBusiness.Uncategorized.hasOwnProperty('AdminAppeals') &&
+                  appealsData[0].LineOfBusiness.Uncategorized.AdminAppeals != null
+                ) {
+                  sum += appealsData[0].LineOfBusiness.Uncategorized.AdminAppeals;
+                }
+                if (
+                  appealsData[0].LineOfBusiness.Uncategorized.hasOwnProperty('ClinicalAppeals') &&
+                  appealsData[0].LineOfBusiness.Uncategorized.ClinicalAppeals != null
+                ) {
+                  sum += appealsData[0].LineOfBusiness.Uncategorized.ClinicalAppeals;
+                }
+                submittedData.push(sum);
+                labelsData.push('Uncategorized');
+                colorsData.push('#00B8CC');
+              }
               appealsSubmitted = {
                 category: 'app-card',
                 type: 'donutWithLabelBottom',
@@ -659,8 +678,8 @@ export class GettingReimbursedSharedService {
                   hover: true
                 },
                 besideData: {
-                  labels: ['Medicare & Retirement', 'Community & State', 'Employer & Individual'],
-                  color: ['#3381FF', '#80B0FF', '#003DA1']
+                  labels: ['Medicare & Retirement', 'Community & State', 'Employer & Individual', 'Uncategorized'],
+                  color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC']
                 },
                 bottomData: {
                   horizontalData: [
@@ -2510,6 +2529,25 @@ export class GettingReimbursedSharedService {
           labelsData.push('Employer & Individual');
           colorsData.push('#003DA1');
         }
+
+        if (appealsData[0].LineOfBusiness.hasOwnProperty('Uncategorized')) {
+          let sum = 0;
+          if (
+            appealsData[0].LineOfBusiness.Uncategorized.hasOwnProperty('AdminAppeals') &&
+            appealsData[0].LineOfBusiness.Uncategorized.AdminAppeals != null
+          ) {
+            sum += appealsData[0].LineOfBusiness.Uncategorized.AdminAppeals;
+          }
+          if (
+            appealsData[0].LineOfBusiness.Uncategorized.hasOwnProperty('ClinicalAppeals') &&
+            appealsData[0].LineOfBusiness.Uncategorized.ClinicalAppeals != null
+          ) {
+            sum += appealsData[0].LineOfBusiness.Uncategorized.ClinicalAppeals;
+          }
+          submittedData.push(sum);
+          labelsData.push('Uncategorized');
+          colorsData.push('#00B8CC');
+        }
         appealsSubmitted = {
           category: 'app-card',
           type: 'donutWithLabelBottom',
@@ -2530,8 +2568,8 @@ export class GettingReimbursedSharedService {
             hover: true
           },
           besideData: {
-            labels: ['Medicare & Retirement', 'Community & State', 'Employer & Individual'],
-            color: ['#3381FF', '#80B0FF', '#003DA1']
+            labels: ['Medicare & Retirement', 'Community & State', 'Employer & Individual', 'Uncategorized'],
+            color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC']
           },
           bottomData: {
             horizontalData: [
