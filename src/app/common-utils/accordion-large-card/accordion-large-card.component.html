@@ -42,7 +42,7 @@
                 <div class="accor-content-space">
                   <h3 class="list-title">{{ listitem.maintitle }}</h3>
                   <div class="stars-count-div">
-                    <div class="no-stars-count" *ngIf="listitem.starRating == 1">
+                    <div class="no-stars-count" *ngIf="data[0].data.starCount == 1">
                       <i class="star-blue"></i>
                       <i class="star-grey"></i>
                       <i class="star-grey"></i>
@@ -50,7 +50,7 @@
                       <i class="star-grey"></i>
                     </div>
 
-                    <div class="no-stars-count" *ngIf="listitem.starRating == 2">
+                    <div class="no-stars-count" *ngIf="data[0].data.starCount == 2">
                       <i class="star-blue"></i>
                       <i class="star-blue"></i>
                       <i class="star-grey"></i>
@@ -58,7 +58,7 @@
                       <i class="star-grey"></i>
                     </div>
 
-                    <div class="no-stars-count" *ngIf="listitem.starRating == 3">
+                    <div class="no-stars-count" *ngIf="data[0].data.starCount == 3">
                       <i class="star-blue"></i>
                       <i class="star-blue"></i>
                       <i class="star-blue"></i>
@@ -66,7 +66,7 @@
                       <i class="star-grey"></i>
                     </div>
 
-                    <div class="no-stars-count" *ngIf="listitem.starRating == 4">
+                    <div class="no-stars-count" *ngIf="data[0].data.starCount == 4">
                       <i class="star-blue"></i>
                       <i class="star-blue"></i>
                       <i class="star-blue"></i>
@@ -74,7 +74,7 @@
                       <i class="star-grey"></i>
                     </div>
 
-                    <div class="no-stars-count" *ngIf="listitem.starRating == 5">
+                    <div class="no-stars-count" *ngIf="data[0].data.starCount == 5">
                       <i class="star-blue"></i>
                       <i class="star-blue"></i>
                       <i class="star-blue"></i>

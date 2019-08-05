@@ -22,6 +22,6 @@
 
     <!-- <app-accordion-large-card [skeletonLarge]="loading" *ngIf="loading"></app-accordion-large-card> -->
 
-    <app-accordion-large-card [data]="StarRatings" *ngIf="StarRatings.length > 1"></app-accordion-large-card>
+    <app-accordion-large-card [data]="StarRatings" (ratingClick)="ratingComponentClick(i)"></app-accordion-large-card>
   </div>
 </div>

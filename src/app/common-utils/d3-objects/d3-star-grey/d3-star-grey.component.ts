@@ -7,7 +7,7 @@ import * as d3 from 'd3';
   styleUrls: ['./d3-star-grey.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class D3StarGreyComponent implements OnInit, AfterViewInit, OnChanges {
+export class D3StarGreyComponent implements OnInit, AfterViewInit {
   public width: any;
   public height: any;
   public renderChart: string;
@@ -20,19 +20,19 @@ export class D3StarGreyComponent implements OnInit, AfterViewInit, OnChanges {
   }
 
   ngAfterViewInit() {
-    this.doStarComponent(this.chartOptions.chartData, this.chartOptions.generalData);
+    this.doStarComponent(this.chartOptions.chartData, this.chartOptions.gdata[1]);
   }
 
   onSystemChange() {
-    this.doStarComponent(this.chartOptions.chartData, this.chartOptions.generalData);
+    this.doStarComponent(this.chartOptions.chartData, this.chartOptions.gdata[1]);
   }
 
   onResize(event) {
-    this.doStarComponent(this.chartOptions.chartData, this.chartOptions.generalData);
+    this.doStarComponent(this.chartOptions.chartData, this.chartOptions.gdata[1]);
   }
 
-  doStarComponent(chartData: any, generalData: any) {
-    const preWidth = document.getElementsByClassName(generalData[0].parentDiv)[0].clientWidth;
+  doStarComponent(chartData: any, gdata: any) {
+    const preWidth = document.getElementsByClassName(gdata[1].parentDiv)[0].clientWidth;
     d3.select(this.renderChart)
       .selectAll('*')
       .remove();

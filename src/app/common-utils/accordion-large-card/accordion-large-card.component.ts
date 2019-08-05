@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ElementRef, Renderer2 } from '@angular/core';
+import { Component, OnInit, Input, Output, ElementRef, Renderer2, EventEmitter, AfterViewInit } from '@angular/core';
 import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 import { GlossaryExpandService } from '../../shared/glossary-expand.service';
@@ -7,13 +7,15 @@ import { GlossaryExpandService } from '../../shared/glossary-expand.service';
   templateUrl: './accordion-large-card.component.html',
   styleUrls: ['./accordion-large-card.component.scss']
 })
-export class AccordionLargeCardComponent implements OnInit {
+export class AccordionLargeCardComponent implements OnInit, AfterViewInit {
   @Input() data;
-  @Input() title;
-  @Input() timePeriod;
+  @Input() qualityMesaureStarData: any;
   @Input() skeletonLarge;
   section: any = [];
+  @Input() x;
+  @Output() ratingClick: EventEmitter<any> = new EventEmitter<any>();
   type: any;
+  public chartData: any;
 
   qualityMeasureList = [
     {
@@ -28,7 +30,7 @@ export class AccordionLargeCardComponent implements OnInit {
       startitle: 'One Star Quality Measures',
       maintitle: 'C08-Adult BMI Assessment',
       cmsweight: 1,
-      starRating: 1,
+      starRating: 5,
       description:
         'The percent of women 50-74 years of age who had a mammogram to screen for breast cancer in last 27 reported months.'
     },
@@ -81,13 +83,25 @@ export class AccordionLargeCardComponent implements OnInit {
     this.glossaryExpandService.setMessage(title);
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.chartData = JSON.parse(JSON.stringify(this.data[0]));
+    console.log('app-large-card' + this.chartData);
+  }
+  ngAfterViewInit() {
+    this.chartData = JSON.parse(JSON.stringify(this.data));
+    console.log('app-large-card' + this.chartData);
+  }
   reasonsCollapose(x: Number) {
+    this.x = x;
     for (let i = 0; i < this.section.length; i++) {
       if (i !== x) {
         this.section[i] = false;
       }
     }
+    // this.ratingClick.emit({
+    //   starCountNo: this.starCountNo,
+    //   rating: x
+    // });
   }
 
   sortHeader(event) {
