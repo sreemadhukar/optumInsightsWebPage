@@ -10,7 +10,8 @@
     "format:fix": "pretty-quick --staged",
     "format:check": "prettier --config ./.prettierrc --list-different \"src/{app,environments,assets}/**/*{.ts,.js,.json,.css,.scss}\"",
     "precommit": "run-s format:fix lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "sonarqube-scanner": "node_modules/sonarqube-scanner/dist/bin/sonar-scanner"
   },
   "private": true,
   "dependencies": {
@@ -67,6 +68,7 @@
     "prettier": "^1.16.4",
     "pretty-quick": "^1.10.0",
     "protractor": "~5.4.0",
+    "sonarqube-scanner": "~2.4.0",
     "ts-node": "~7.0.0",
     "tslint": "~5.11.0",
     "typescript": "~2.9.2"

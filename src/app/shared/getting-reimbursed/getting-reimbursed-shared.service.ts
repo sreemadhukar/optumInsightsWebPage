@@ -752,6 +752,22 @@ export class GettingReimbursedSharedService {
               timeperiod: null
             };
           }
+
+          /** REMOVE LATER (ONCE PDP ISSUE SOLVED) ***/
+          claimsPaidRate = {
+            category: 'app-card',
+            type: 'donut',
+            title: null,
+            data: null,
+            timeperiod: null
+          };
+          claimsNotPaidRate = {
+            category: 'app-card',
+            type: 'donut',
+            title: null,
+            data: null,
+            timeperiod: null
+          };
           submissions = { id: 1, title: 'Claims Submissions', data: [claimsSubmitted, claimsTAT] };
           payments = { id: 2, title: 'Claims Payments', data: [claimsPaid, claimsPaidRate] };
           nonpayments = { id: 3, title: 'Claims Non-Payments', data: [claimsNotPaid, claimsNotPaidRate] };
@@ -860,7 +876,7 @@ export class GettingReimbursedSharedService {
                 ),
                 data: {
                   graphValues: [
-                    claimsData[lobData].ClaimsLobSummary[0].AmountPaid,
+                    claimsData[lobData].ClaimsLobSummary[0].ClaimsPaid,
                     claimsData[lobData].ClaimsLobSummary[0].ClaimsDenied
                   ],
                   centerNumber: this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].ClaimsSubmitted),
@@ -1298,6 +1314,21 @@ export class GettingReimbursedSharedService {
             }
           }
 
+          /** REMOVE LATER (ONCE PDP ISSUE SOLVED) ***/
+          claimsPaidRate = {
+            category: 'app-card',
+            type: 'donut',
+            title: null,
+            data: null,
+            timeperiod: null
+          };
+          claimsNotPaidRate = {
+            category: 'app-card',
+            type: 'donut',
+            title: null,
+            data: null,
+            timeperiod: null
+          };
           submissions = { id: 1, title: 'Claims Submissions', data: [claimsSubmitted, claimsTAT] };
           payments = { id: 2, title: 'Claims Payments', data: [claimsPaid, claimsPaidRate] };
           nonpayments = { id: 3, title: 'Claims Non-Payments', data: [claimsNotPaid, claimsNotPaidRate] };
@@ -2207,7 +2238,7 @@ export class GettingReimbursedSharedService {
             },
             besideData: {
               color: ['#3381FF', '#D7DCE1'],
-              labels: ['Pre-Payment Records Requested', 'Claims Submitted']
+              labels: ['Pre-Payment Medical Records Requested', 'Claims Submitted']
             }
           };
           resolve(output);
