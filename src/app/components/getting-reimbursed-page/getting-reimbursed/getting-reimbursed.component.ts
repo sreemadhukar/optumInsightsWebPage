@@ -30,8 +30,12 @@ export class GettingReimbursedComponent implements OnInit {
   loading: boolean;
   mockCards: any;
   previousSelectedTab: any = 0;
+  currTabDetailButtonName: any;
   showDOSmessage = true;
   filterUrl = '/GettingReimbursed/Payments';
+  buttonName: any;
+  detailClickUrl = '';
+  buttonNumber: any;
   constructor(
     private gettingReimbursedSharedService: GettingReimbursedSharedService,
     private checkStorage: StorageService,
@@ -57,10 +61,36 @@ export class GettingReimbursedComponent implements OnInit {
     );
   }
 
+  onDetailsButtonClick(i: number, event: any) {
+    if (i === 0) {
+      this.detailClickUrl = '';
+    } else if (i === 1) {
+      this.detailClickUrl = '/GettingReimbursed/Payments';
+    } else if (i === 2) {
+      this.detailClickUrl = '/GettingReimbursed/NonPayments';
+    } else if (i === 3) {
+      this.detailClickUrl = '/GettingReimbursed/Appeals';
+    }
+    this.router.navigate([this.detailClickUrl]);
+  }
+
   getTabOptionsTitle(i: number) {
     return this.tabOptionsTitle[i];
   }
   matOptionClicked(i: number, event: any) {
+    if (i === 0) {
+      this.buttonName = '';
+      this.buttonNumber = 0;
+    } else if (i === 1) {
+      this.buttonName = 'Payments Details';
+      this.buttonNumber = 1;
+    } else if (i === 2) {
+      this.buttonName = 'Non-Payments Details';
+      this.buttonNumber = 2;
+    } else if (i === 3) {
+      this.buttonName = 'Appeals Details';
+      this.buttonNumber = 3;
+    }
     this.currentSummary = [];
     this.currentSummary = this.summaryItems[i].data;
     this.currentTabTitle = this.summaryItems[i].title;
@@ -145,6 +175,16 @@ export class GettingReimbursedComponent implements OnInit {
         this.loading = false;
         console.log('Getting Reimbursed Summary page', reason.message);
       });
+
+    /*   if (this.currentTabTitle === 'Claims Submissions') {
+         this.currTabDetailButtonName = '';
+      } else if (this.currentTabTitle === 'Claims Payments') {
+        this.currTabDetailButtonName = 'Payments Details';
+      } else if (this.currentTabTitle === 'Claims Non-Payments') {
+        this.currTabDetailButtonName = 'Non-Payments Details';
+      } else if (this.currentTabTitle === 'Claims Appeals') {
+        this.currTabDetailButtonName = 'Appeals Details';
+      } */
   }
   openFilter() {
     // this.filterExpandService.setURL(this.router.url);
