@@ -19,33 +19,7 @@ export class AccordionLargeCardComponent implements OnInit {
   public qualityPcorData: any;
   public qualitySubTitle: String;
   public qualityStarCount: Number;
-  qualityMeasureList = [
-    {
-      startitle: 'One Star Quality Measures',
-      maintitle: 'C07-Adult BMI Assessment',
-      cmsweight: 1,
-      starRating: 1,
-      description:
-        'The percent of women 50-74 years of age who had a mammogram to screen for breast cancer in last 27 reported months.'
-    },
-    {
-      startitle: 'One Star Quality Measures',
-      maintitle: 'C08-Adult BMI Assessment',
-      cmsweight: 1,
-      starRating: 5,
-      description:
-        'The percent of women 50-74 years of age who had a mammogram to screen for breast cancer in last 27 reported months.'
-    },
-    {
-      startitle: 'One Star Quality Measures',
-      maintitle: 'C08-Adult BMI Assessment',
-      cmsweight: 1,
-      starRating: 2,
-      description:
-        'Measure Description:  Lorem ipsum dolor sit amet, consectetur adipiscing elit' +
-        'Praesent id lorem sit amet enim feugiat malesuada. Mauris in aliquet nunc.'
-    }
-  ];
+
   constructor(
     private iconRegistry: MatIconRegistry,
     sanitizer: DomSanitizer,
