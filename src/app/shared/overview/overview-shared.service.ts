@@ -1023,7 +1023,7 @@ export class OverviewSharedService {
                 sign: 'up',
                 data: dataPoint
               };
-            } else if (temp == 0) {
+            } else if (temp === 0) {
               cPriorAuth.sdata = {
                 sign: 'neutral',
                 data: 'No Change'
