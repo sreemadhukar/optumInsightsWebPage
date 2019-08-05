@@ -119,7 +119,7 @@ Date Created: 17-Apr-2019
         </div>
         <div class="claims-appeals-submitted-beside-data-block">
           <ul class="app-card-list-labels">
-            <li *ngFor="let c of chartData.besideData.color; let i = index">
+            <li class="label-color-indicators" *ngFor="let c of chartData.besideData.color; let i = index">
               <div class="label-dots" style.background-color="{{ c }}"></div>
             </li>
           </ul>
