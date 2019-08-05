@@ -17,7 +17,11 @@ export const environment: any = {
   originUrl: 'https://pedintui-pedstg.ocp-ctc-dmz-stg.optum.com/',
   */
   // *In Local use dev3
+<<<<<<< HEAD
   apiProxyUrl: 'https://gateway-stage-core.optum.com/api/devtwo/pdr/uhci/v1/',
+=======
+  apiProxyUrl: 'https://gateway-stage-core.optum.com/api/devfour/pdr/uhci/v1/',
+>>>>>>> dev
   originUrl: 'https://pedintui-pedstg.ocp-ctc-dmz-stg.optum.com/',
   // apiProxyUrl: 'https://nginx-pedtst.ocp-ctc-core-nonprod.optum.com/',
   // originUrl: 'https://pedintui-pedstg.ocp-ctc-dmz-stg.optum.com/',
