@@ -28,7 +28,7 @@
               criteria or try a different search.
             </div>
           </div>
-          <div *ngIf="stateCtrl.value" class="view-allProviders" (click)="provider()">View All Providers</div>
+          <!-- uncomment when view all providers page is available    <div *ngIf="stateCtrl.value" class="view-allProviders" (click)="provider()">View All Providers</div> -->
         </mat-autocomplete>
         <mat-icon *ngIf="!nomatchFlag" matSuffix class="nav-menu-icons noDataicon" svgIcon="noData"></mat-icon>
       </mat-form-field>
