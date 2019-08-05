@@ -30,11 +30,10 @@ export class GettingReimbursedComponent implements OnInit {
   loading: boolean;
   mockCards: any;
   previousSelectedTab: any = 0;
-  currTabDetailButtonName: any;
   showDOSmessage = true;
   filterUrl = '/GettingReimbursed/Payments';
   buttonName: any;
-  detailClickUrl = '';
+  detailClickUrl = '/GettingReimbursed';
   buttonNumber: any;
   constructor(
     private gettingReimbursedSharedService: GettingReimbursedSharedService,
@@ -63,7 +62,7 @@ export class GettingReimbursedComponent implements OnInit {
 
   onDetailsButtonClick(i: number, event: any) {
     if (i === 0) {
-      this.detailClickUrl = '';
+      this.detailClickUrl = '/GettingReimbursed';
     } else if (i === 1) {
       this.detailClickUrl = '/GettingReimbursed/Payments';
     } else if (i === 2) {
@@ -175,16 +174,6 @@ export class GettingReimbursedComponent implements OnInit {
         this.loading = false;
         console.log('Getting Reimbursed Summary page', reason.message);
       });
-
-    /*   if (this.currentTabTitle === 'Claims Submissions') {
-         this.currTabDetailButtonName = '';
-      } else if (this.currentTabTitle === 'Claims Payments') {
-        this.currTabDetailButtonName = 'Payments Details';
-      } else if (this.currentTabTitle === 'Claims Non-Payments') {
-        this.currTabDetailButtonName = 'Non-Payments Details';
-      } else if (this.currentTabTitle === 'Claims Appeals') {
-        this.currTabDetailButtonName = 'Appeals Details';
-      } */
   }
   openFilter() {
     // this.filterExpandService.setURL(this.router.url);
