@@ -97,7 +97,7 @@ export class CallsSharedService {
             trends.TendingMtrics.CallsTrendByQuesType != null
           ) {
             const t = this.common.negativeMeansGood(trends.TendingMtrics.CallsTrendByQuesType);
-            preparedData.push(['QuestionType', t]);
+            preparedData.push(['QuestionType', t + '%']);
           }
           if (
             trends != undefined &&
@@ -108,7 +108,7 @@ export class CallsSharedService {
             trends.TendingMtrics.CcllTalkTimeByQuesType != null
           ) {
             const t = this.common.negativeMeansGood(trends.TendingMtrics.CcllTalkTimeByQuesType);
-            preparedData.push(['TalkTime', t]);
+            preparedData.push(['TalkTime', t + '%']);
           }
           resolve(preparedData);
         },
