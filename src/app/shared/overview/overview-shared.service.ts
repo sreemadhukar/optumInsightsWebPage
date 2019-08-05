@@ -178,7 +178,7 @@ export class OverviewSharedService {
             gdata: ['card-inner', 'selfServiceCardD3Donut']
           },
           sdata: null,
-          timeperiod: '90 Days Period'
+          timeperiod: 'Last 3 Months'
         };
       } else {
         cSelfService = {
@@ -1023,7 +1023,7 @@ export class OverviewSharedService {
                 sign: 'up',
                 data: dataPoint
               };
-            } else if (temp == 0) {
+            } else if (temp === 0) {
               cPriorAuth.sdata = {
                 sign: 'neutral',
                 data: 'No Change'
