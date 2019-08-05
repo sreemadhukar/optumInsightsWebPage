@@ -71,9 +71,11 @@
         <!--       <button *ngFor="let option of tabOptions; let i = index" (click)="matOptionClicked(i)">{{ option }}</button>-->
         <div class="page-subtitle">
           {{ currentTabTitle }}
-          <button *ngIf="currentTabTitle != 'Claims Submissions'" class="details-button">
-            {{ currTabDetailButtonName }}
-          </button>
+          <div *ngIf="currentTabTitle != 'Claims Submissions'">
+            <button (click)="onDetailsButtonClick(buttonNumber, $event)" class="details-button">
+              {{ buttonName }}
+            </button>
+          </div>
         </div>
         <div class="height1Separator"></div>
         <div class="getting-reimbursed-cards" *ngFor="let item of currentSummary">
