@@ -178,7 +178,7 @@ export class OverviewSharedService {
             gdata: ['card-inner', 'selfServiceCardD3Donut']
           },
           sdata: null,
-          timeperiod: '90 Days Period'
+          timeperiod: 'Last 3 Months'
         };
       } else {
         cSelfService = {
