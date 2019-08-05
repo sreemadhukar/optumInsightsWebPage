@@ -587,7 +587,7 @@ export class OverviewSharedService {
           claimsPaid = {
             category: 'small-card',
             type: 'donut',
-            title: 'Claims Paid',
+            title: 'Claims Paid*',
             toggle: this.toggle.setToggles('Claims Paid', 'AtGlance', 'Overview', false),
             data: {
               graphValues: paidData,
@@ -609,7 +609,7 @@ export class OverviewSharedService {
             claimsPaid = {
               category: 'small-card',
               type: 'donut',
-              title: 'Claims Paid',
+              title: 'Claims Paid*',
               toggle: this.toggle.setToggles('Claims Paid', 'AtGlance', 'Overview', false),
               data: {
                 graphValues: [0, 100],
@@ -663,7 +663,7 @@ export class OverviewSharedService {
           claimsYield = {
             category: 'small-card',
             type: 'donut',
-            title: 'Claims Yield',
+            title: 'Claims Yield*',
             toggle: this.toggle.setToggles('Claims Yield', 'AtGlance', 'Overview', false),
             data: {
               graphValues: [
