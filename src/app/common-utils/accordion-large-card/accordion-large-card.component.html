@@ -35,14 +35,14 @@
           <div class="bottom-shadow">
             <div class="hide-bottom-arrow-block"></div>
           </div>
-          <h3 class="inner-blocks-header">One Star Quality Measure</h3>
+          <h3 class="inner-blocks-header">{{ qualitySubTitle }}</h3>
           <div class="top-5-block">
-            <div *ngFor="let listitem of qualityMeasureList; let j = index">
+            <div *ngFor="let listitem of qualityPcorData; let j = index">
               <div class="horizontal-line">
                 <div class="accor-content-space">
-                  <h3 class="list-title">{{ listitem.maintitle }}</h3>
+                  <h3 class="list-title">{{ listitem.Name }}</h3>
                   <div class="stars-count-div">
-                    <div class="no-stars-count" *ngIf="data[0].data.starCount == 1">
+                    <div class="no-stars-count" *ngIf="qualityStarCount == 1">
                       <i class="star-blue"></i>
                       <i class="star-grey"></i>
                       <i class="star-grey"></i>
@@ -50,7 +50,7 @@
                       <i class="star-grey"></i>
                     </div>
 
-                    <div class="no-stars-count" *ngIf="data[0].data.starCount == 2">
+                    <div class="no-stars-count" *ngIf="qualityStarCount == 2">
                       <i class="star-blue"></i>
                       <i class="star-blue"></i>
                       <i class="star-grey"></i>
@@ -58,7 +58,7 @@
                       <i class="star-grey"></i>
                     </div>
 
-                    <div class="no-stars-count" *ngIf="data[0].data.starCount == 3">
+                    <div class="no-stars-count" *ngIf="qualityStarCount == 3">
                       <i class="star-blue"></i>
                       <i class="star-blue"></i>
                       <i class="star-blue"></i>
@@ -66,7 +66,7 @@
                       <i class="star-grey"></i>
                     </div>
 
-                    <div class="no-stars-count" *ngIf="data[0].data.starCount == 4">
+                    <div class="no-stars-count" *ngIf="qualityStarCount == 4">
                       <i class="star-blue"></i>
                       <i class="star-blue"></i>
                       <i class="star-blue"></i>
@@ -74,17 +74,17 @@
                       <i class="star-grey"></i>
                     </div>
 
-                    <div class="no-stars-count" *ngIf="data[0].data.starCount == 5">
+                    <div class="no-stars-count" *ngIf="qualityStarCount == 5">
                       <i class="star-blue"></i>
                       <i class="star-blue"></i>
                       <i class="star-blue"></i>
                       <i class="star-blue"></i>
                       <i class="star-blue"></i>
                     </div>
-                    <div class="cms-weight">CMS Weight: {{ listitem.cmsweight }}</div>
+                    <div class="cms-weight">CMS Weight: {{ listitem.CMSWeight }}</div>
                   </div>
 
-                  <div class="description-content"><label>Measure Description:</label> {{ listitem.description }}</div>
+                  <div class="description-content"><label>Measure Description:</label> {{ listitem.Description }}</div>
                 </div>
               </div>
             </div>

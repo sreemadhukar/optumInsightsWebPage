@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, ElementRef, Renderer2, EventEmitter, AfterViewInit } from '@angular/core';
+import { Component, OnInit, Input, Output, ElementRef, Renderer2, EventEmitter } from '@angular/core';
 import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 import { GlossaryExpandService } from '../../shared/glossary-expand.service';
@@ -7,14 +7,18 @@ import { GlossaryExpandService } from '../../shared/glossary-expand.service';
   templateUrl: './accordion-large-card.component.html',
   styleUrls: ['./accordion-large-card.component.scss']
 })
-export class AccordionLargeCardComponent implements OnInit, AfterViewInit {
+export class AccordionLargeCardComponent implements OnInit {
   @Input() data;
   @Input() title;
+  @Input() qualityMeasure;
   section: any = [];
   @Output() ratingClick: EventEmitter<any> = new EventEmitter<any>();
   type: any;
   public chartData: any;
   public cardTitle: String;
+  public qualityPcorData: any;
+  public qualitySubTitle: String;
+  public qualityStarCount: Number;
   qualityMeasureList = [
     {
       startitle: 'One Star Quality Measures',
@@ -82,17 +86,17 @@ export class AccordionLargeCardComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {}
-  ngAfterViewInit() {
-    this.chartData = JSON.parse(JSON.stringify(this.data[0]));
-    this.cardTitle = this.data[0].title;
-    console.log('app-large-card' + this.chartData);
-    console.log('app-large-card' + this.cardTitle);
-  }
-  reasonsCollapose(x: Number) {
+  reasonsCollapose(x: any) {
     for (let i = 0; i < this.section.length; i++) {
       if (i !== x) {
         this.section[i] = false;
       }
+    }
+    const check = 5 - x;
+    if (check === this.qualityMeasure[x].star) {
+      this.qualityStarCount = this.qualityMeasure[x].star;
+      this.qualitySubTitle = this.qualityMeasure[x].label;
+      this.qualityPcorData = this.qualityMeasure[x].data;
     }
   }
 

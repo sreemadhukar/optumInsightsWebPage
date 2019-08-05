@@ -101,44 +101,53 @@ export class PCORSharedService {
       this.patientCareOpportunityService.getPCORQualityMeasureData([this.providerKey]).subscribe(
         qualitydta => {
           const tempArray = [];
-          if (qualitydta.hasOwnProperty('oneStarMeasureCount')) {
+          if (qualitydta.hasOwnProperty('fiveStarMeasureCount')) {
             const x = {
-              label: 'One Star Quality Measure',
-              count: qualitydta.oneStarMeasureCount.Count,
-              data: qualitydta.oneStarMeasureCount.Data
-            };
-            tempArray.push(x);
-          }
-          if (qualitydta.hasOwnProperty('twoStarMeasureCount')) {
-            const x = {
-              label: 'Two Star Quality Measure',
-              count: qualitydta.twoStarMeasureCount.Count,
-              data: qualitydta.twoStarMeasureCount.Data
-            };
-            tempArray.push(x);
-          }
-          if (qualitydta.hasOwnProperty('threeStarMeasureCount')) {
-            const x = {
-              label: 'Three Star Quality Measure',
-              count: qualitydta.threeStarMeasureCount.Count,
-              data: qualitydta.threeStarMeasureCount.Data
+              star: 5,
+              label: 'Five Star Quality Measure',
+              count: qualitydta.fiveStarMeasureCount.Count,
+              data: qualitydta.fiveStarMeasureCount.Data
             };
             tempArray.push(x);
           }
           if (qualitydta.hasOwnProperty('fourStarMeasureCount')) {
             const x = {
+              star: 4,
               label: 'Four Star Quality Measure',
               count: qualitydta.fourStarMeasureCount.Count,
               data: qualitydta.fourStarMeasureCount.Data
             };
             tempArray.push(x);
           }
-          if (qualitydta.hasOwnProperty('fiveStarMeasureCount')) {
+          if (qualitydta.hasOwnProperty('threeStarMeasureCount')) {
             const x = {
-              label: 'Five Star Quality Measure',
-              count: qualitydta.fiveStarMeasureCount.Count,
-              data: qualitydta.fiveStarMeasureCount.Data
+              star: 3,
+              label: 'Three Star Quality Measure',
+              count: qualitydta.threeStarMeasureCount.Count,
+              data: qualitydta.threeStarMeasureCount.Data
             };
+            tempArray.push(x);
+          }
+          if (qualitydta.hasOwnProperty('twoStarMeasureCount')) {
+            const x = {
+              star: 2,
+              label: 'Two Star Quality Measure',
+              count: qualitydta.twoStarMeasureCount.Count,
+              data: qualitydta.twoStarMeasureCount.Data
+            };
+            tempArray.push(x);
+          }
+          if (qualitydta.hasOwnProperty('oneStarMeasureCount')) {
+            const x = {
+              star: 1,
+              label: 'One Star Quality Measure',
+              count: qualitydta.oneStarMeasureCount.Count,
+              data: qualitydta.oneStarMeasureCount.Data
+            };
+
+            tempArray.sort(function(a, b) {
+              return b.sort - a.sort;
+            }); // sort descending order
             tempArray.push(x);
           }
 
