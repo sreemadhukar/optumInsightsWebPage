@@ -203,7 +203,7 @@ export class GettingReimbursedSharedService {
               category: 'app-card',
               type: 'donutWithLabel',
               status: claimsData.status,
-              title: 'Claims Paid',
+              title: 'Claims Paid*',
               data: null,
               besideData: null,
               bottomData: null,
@@ -213,7 +213,7 @@ export class GettingReimbursedSharedService {
               category: 'app-card',
               type: 'donut',
               status: claimsData.status,
-              title: 'Claims Yield',
+              title: 'Claims Yield*',
               data: null,
               timeperiod: null
             };
@@ -365,7 +365,7 @@ export class GettingReimbursedSharedService {
               claimsPaid = {
                 category: 'app-card',
                 type: 'donutWithLabel',
-                title: 'Claims Paid',
+                title: 'Claims Paid*',
                 data: {
                   graphValues: paidData,
                   centerNumber:
@@ -532,7 +532,7 @@ export class GettingReimbursedSharedService {
               claimsPaidRate = {
                 category: 'app-card',
                 type: 'donut',
-                title: 'Claims Yield',
+                title: 'Claims Yield*',
                 data: {
                   graphValues: [
                     claimsData[lobData].ClaimsLobSummary[0].ClaimsYieldRate,
@@ -806,7 +806,7 @@ export class GettingReimbursedSharedService {
               category: 'app-card',
               type: 'donutWithLabel',
               status: claimsData.status,
-              title: 'Claims Paid',
+              title: 'Claims Paid*',
               data: null,
               besideData: null,
               bottomData: null,
@@ -816,7 +816,7 @@ export class GettingReimbursedSharedService {
               category: 'app-card',
               type: 'donut',
               status: claimsData.status,
-              title: 'Claims Yield',
+              title: 'Claims Yield*',
               data: null,
               timeperiod: null
             };
@@ -997,7 +997,7 @@ export class GettingReimbursedSharedService {
               claimsPaid = {
                 category: 'app-card',
                 type: 'donutWithLabel',
-                title: 'Claims Paid',
+                title: 'Claims Paid*',
                 data: {
                   graphValues: paidData,
                   centerNumber:
@@ -1025,7 +1025,7 @@ export class GettingReimbursedSharedService {
                 claimsPaid = {
                   category: 'app-card',
                   type: 'donutWithLabel',
-                  title: 'Claims Paid',
+                  title: 'Claims Paid*',
                   data: {
                     graphValues: [0, 100],
                     centerNumber:
@@ -1107,7 +1107,7 @@ export class GettingReimbursedSharedService {
               claimsPaid = {
                 category: 'app-card',
                 type: 'donutWithLabel',
-                title: 'Claims Paid',
+                title: 'Claims Paid*',
                 data: {
                   graphValues: paidData,
                   centerNumber:
@@ -1274,7 +1274,7 @@ export class GettingReimbursedSharedService {
               claimsPaidRate = {
                 category: 'app-card',
                 type: 'donut',
-                title: 'Claims Yield',
+                title: 'Claims Yield*',
                 data: {
                   graphValues: [
                     claimsData[lobData].ClaimsLobSummary[0].ClaimsYieldRate,
