@@ -29,7 +29,7 @@ export class CommonUtilsService {
   }
 
   public negativeMeansGood(trendNumber: number) {
-    const value = trendNumber.toFixed(1);
+    const value = trendNumber.toFixed(1) + '%';
     let temp: object = {};
     if (trendNumber >= 1) {
       temp = {
