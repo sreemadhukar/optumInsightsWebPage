@@ -1001,37 +1001,38 @@ export class OverviewSharedService {
               gdata: ['card-inner', 'priorAuthCardD3Donut']
             },
             sdata: { sign: '', data: '' },
+
             timeperiod: 'Last 6 Months'
           };
-          if (
-            trends != undefined &&
-            trends != null &&
-            trends.hasOwnProperty('TendingMtrics') &&
-            trends.TendingMtrics != null &&
-            trends.TendingMtrics.hasOwnProperty('PaApprovalRate') &&
-            trends.TendingMtrics.PaApprovalRate != null
-          ) {
-            const dataPoint = trends.TendingMtrics.PaApprovalRate.toFixed(1) + '%';
-            const temp = trends.TendingMtrics.PaApprovalRate.toFixed(1);
-            if (temp < 0) {
-              cPriorAuth.sdata = {
-                sign: 'down',
-                data: dataPoint
-              };
-            } else if (temp > 0) {
-              cPriorAuth.sdata = {
-                sign: 'up',
-                data: dataPoint
-              };
-            } else if (temp === 0) {
-              cPriorAuth.sdata = {
-                sign: 'neutral',
-                data: 'No Change'
-              };
-            }
-          } else {
-            cPriorAuth.sdata = null;
-          }
+          // if (
+          //   trends != undefined &&
+          //   trends != null &&
+          //   trends.hasOwnProperty('TendingMtrics') &&
+          //   trends.TendingMtrics != null &&
+          //   trends.TendingMtrics.hasOwnProperty('PaApprovalRate') &&
+          //   trends.TendingMtrics.PaApprovalRate != null
+          // ) {
+          //   const dataPoint = trends.TendingMtrics.PaApprovalRate.toFixed(1) + '%';
+          //   const temp = trends.TendingMtrics.PaApprovalRate.toFixed(1);
+          //   if (temp < 0) {
+          //     cPriorAuth.sdata = {
+          //       sign: 'down',
+          //       data: dataPoint
+          //     };
+          //   } else if (temp > 0) {
+          //     cPriorAuth.sdata = {
+          //       sign: 'up',
+          //       data: dataPoint
+          //     };
+          //   } else if (temp == 0) {
+          //     cPriorAuth.sdata = {
+          //       sign: 'neutral',
+          //       data: 'No Change'
+          //     };
+          //   }
+          // } else {
+          //   cPriorAuth.sdata = null;
+          // }
         } else {
           cPriorAuth = {
             category: 'small-card',
