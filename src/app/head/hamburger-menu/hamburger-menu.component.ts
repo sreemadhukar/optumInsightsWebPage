@@ -279,8 +279,13 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     });
     Array.from(listItems).forEach(listItem => {
       this.renderer.setStyle(listItem, 'height', 'auto');
-      this.renderer.setStyle(listItem, 'padding', '8px 12px 8px 43px');
+      this.renderer.setStyle(listItem, 'padding', '8px 12px 8px 16px');
       this.renderer.setStyle(listItem, 'width', 'auto');
+      if (!listItem.classList.contains('nav-no-child-category')) {
+        this.renderer.setStyle(listItem, 'marginLeft', '26px');
+      } else {
+        this.renderer.setStyle(listItem, 'marginLeft', 0);
+      }
     });
     Array.from(listItemBody).forEach(listItem => {
       this.renderer.setStyle(listItem, 'padding', '0px');
