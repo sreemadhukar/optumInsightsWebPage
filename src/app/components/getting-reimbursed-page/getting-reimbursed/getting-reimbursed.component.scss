@@ -14,6 +14,7 @@
     float: right;
     cursor: pointer;
     margin-right: 15px;
+
     .filter_title {
       color: $blue;
       font-family: 'UHCSans-SemiBold', 'Arial';
@@ -33,7 +34,7 @@
   .filter_bg:hover,
   .filter_bg:focus {
     background-color: #196ecf;
-    box-shadow: 0 4px 0px 0 rgba(0, 0, 0, 0.15);
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
     color: #ffffff;
     .filter_title {
       color: #ffffff;
