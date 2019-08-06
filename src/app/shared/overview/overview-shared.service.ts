@@ -1000,6 +1000,7 @@ export class OverviewSharedService {
               color: ['#3381FF', '#D7DCE1'],
               gdata: ['card-inner', 'priorAuthCardD3Donut']
             },
+            sdata: null,
 
             timeperiod: 'Last 6 Months'
           };
