@@ -48,7 +48,7 @@ export class FilterComponent implements OnInit {
     '2017'
   ];
 
-  public lobs = ['All', 'Community & State', 'Employer & Individual', 'Medicare & Retirement', 'Un Categorized'];
+  public lobs = ['All', 'Community & State', 'Employer & Individual', 'Medicare & Retirement', 'Uncategorized'];
   public servicesettings = ['All', 'Inpatient', 'Outpatient', 'Outpatient Facility'];
   public priorauthdecisiontype = ['All', 'Administrative', 'Clinical'];
   public priorauthservicecategory = [
@@ -230,7 +230,7 @@ export class FilterComponent implements OnInit {
     if (this.priorAuthorizationCustomFilterBool) {
       this.session.filterObjValue.serviceSetting = this.servicesettings[0];
       this.session.store({
-        timeFrame: this.timeframes[0],
+        timeFrame: this.timeframes[2],
         lob: this.lobs[0],
         tax: ['All'],
         serviceSetting: this.servicesettings[0],
