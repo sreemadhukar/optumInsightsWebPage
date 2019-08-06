@@ -79,7 +79,7 @@ export class LineGraphComponent implements OnInit {
   doLineGraph(chartData: any, chartData2: any, titleData: any, generalData: any, generalData2: any) {
     function formatDy(dy: number): string {
       if (dy === 0) {
-        return '0.0M';
+        return '0';
       } else if (dy < 999) {
         return dy.toFixed(0);
       } else if (dy < 999999) {
