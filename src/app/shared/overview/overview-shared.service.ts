@@ -178,7 +178,7 @@ export class OverviewSharedService {
             gdata: ['card-inner', 'selfServiceCardD3Donut']
           },
           sdata: null,
-          timeperiod: '90 Days Period'
+          timeperiod: 'Last 3 Months'
         };
       } else {
         cSelfService = {
@@ -242,6 +242,22 @@ export class OverviewSharedService {
     });
   }
 
+  createTotalCallsTrend() {
+    // let trendIR: Object;
+    const trendIR = null;
+    return new Promise((resolve, reject) => {
+      // this.callsTrendService
+      //   .getCallsTrendData()
+      //   .then(data => {
+      //     trendIR = data[0];
+      //     resolve(trendIR);
+      //   })
+      //   .catch(reason => {
+      //     console.log('Calls Service Error ', reason);
+      //   });
+      resolve(null);
+    });
+  }
   /* function to create Total Calls Tile in Overview Page -  Ranjith kumar Ankam - 04-Jul-2019*/
   createTotalCallsObject(providerSystems) {
     let cIR: Object;
@@ -996,15 +1012,21 @@ export class OverviewSharedService {
             trends.TendingMtrics.PaApprovalRate != null
           ) {
             const dataPoint = trends.TendingMtrics.PaApprovalRate.toFixed(1) + '%';
-            if (trends.TendingMtrics.PaApprovalRate < 0) {
+            const temp = trends.TendingMtrics.PaApprovalRate.toFixed(1);
+            if (temp < 0) {
               cPriorAuth.sdata = {
                 sign: 'down',
                 data: dataPoint
               };
-            } else {
+            } else if (temp > 0) {
               cPriorAuth.sdata = {
                 sign: 'up',
                 data: dataPoint
+              };
+            } else if (temp === 0) {
+              cPriorAuth.sdata = {
+                sign: 'neutral',
+                data: 'No Change'
               };
             }
           } else {
@@ -1110,6 +1132,19 @@ export class OverviewSharedService {
           };
         }
         resolve(cIR);
+
+        /*this.createTotalCallsTrend().then(trendIssueResolution => {
+         const nullTrend = {
+         sign: '',
+         data: ''
+         };
+         if (trendIssueResolution === null) {
+         cIR.sdata = nullTrend;
+         } else {
+         cIR.sdata = trendIssueResolution;
+         }
+         resolve(cIR);
+         });*/
       });
     });
   }
