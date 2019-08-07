@@ -78,7 +78,6 @@
         margin-top: 15px;
       }
       .filter-div {
-        overflow: auto;
         line-height: 0;
       }
       .time--period {
@@ -133,12 +132,12 @@
           font-size: 36px;
           @include padding(16px, 0, 20px, 0);
           line-height: 40px;
+          font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
         }
         .page-subtitle {
           flex-basis: 100%;
           font-size: 36px;
           line-height: 32px;
-          padding-top: 10px;
           display: flex;
           flex-direction: row;
           position: relative;
@@ -173,8 +172,9 @@
           clear: left;
           width: 98.5%;
           line-height: 25px;
-          margin-bottom: 12px;
+          margin-bottom: 24px;
           padding-top: 24px;
+
           .nav-tabs {
             display: flex;
             border-radius: 2px;
