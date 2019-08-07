@@ -37,7 +37,7 @@
   .filter_bg:focus {
     background-color: #196ecf;
     color: #ffffff;
-    box-shadow: 0 4px 0px 0 rgba(0, 0, 0, 0.15);
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
     .filter_title {
       color: #ffffff;
     }
@@ -75,7 +75,6 @@
     flex-wrap: wrap;
     .message-left-margin {
       margin-top: 10px;
-      margin-left: -10px;
     }
     .height1Separator {
       height: 0;
@@ -88,6 +87,7 @@
       box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
       float: left;
       margin-top: 12px;
+      margin-left: 12px;
     }
     .full-display {
       float: left;
@@ -259,6 +259,7 @@
       width: 961px;
       font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
       color: $black-rock;
+      margin-left: 10px;
       ol {
         @include margin(0, 0, 16px, 0);
       }

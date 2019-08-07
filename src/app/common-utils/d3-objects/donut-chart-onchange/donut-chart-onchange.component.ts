@@ -297,7 +297,7 @@ export class DonutChartOnchangeComponent implements OnInit, AfterViewInit, OnCha
         .append('div')
         .attr('class', 'tooltipDonut')
         .style('opacity', 0)
-        .style('border-radius', 0);
+        .style('border-radius', '2px');
 
       const svg2 = divHover.append('svg');
       const boxWidth = '109px';

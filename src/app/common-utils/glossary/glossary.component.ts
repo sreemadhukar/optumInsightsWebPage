@@ -33,6 +33,7 @@ export class GlossaryComponent implements OnInit {
   @Input() title;
   constructor(private glossaryService: GlossaryService) {}
   ngOnInit() {
+    console.log(this.title);
     this.options = [];
     this.glossarySelected = [];
     this.glossaryService.getBusinessGlossaryData().subscribe(response => {

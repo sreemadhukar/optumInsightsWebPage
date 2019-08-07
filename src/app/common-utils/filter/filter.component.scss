@@ -199,6 +199,12 @@
   background-color: #ffffff;
   box-shadow: 0 2px 4px 0 #ffffff;
 }
+::ng-deep .resetbtn:hover {
+  text-decoration: underline;
+}
+::ng-deep .applybtn:hover {
+  background-color: #007000;
+}
 ::ng-deep .mat-option {
   padding: 7.5px 0 7.5px 12px !important;
   height: 32px !important;
