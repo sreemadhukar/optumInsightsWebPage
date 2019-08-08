@@ -4,6 +4,8 @@
   </div>
   <div
     class="header-title"
+    [class.title-width]="title === 'Medicare & Retirement Annual Care Visits Completion Rate'"
+    [class.title-padding]="title === 'Top Reasons for Prior Authorizations Not Approved'"
     [class.common-header]="cardType === 'error-card'"
     [class.non-small-card-header-title]="typeOfCard != 'smallCard'"
   >

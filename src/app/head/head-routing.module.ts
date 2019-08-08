@@ -3,11 +3,14 @@ import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from '../auth/_guards/auth.guard';
 import { TermsOfUseComponent } from './terms-of-use/terms-of-use.component';
 import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component';
-import { SelectProviderComponent } from './../components/select-provider/select-provider.component';
 
 const routes: Routes = [
   {
     path: '',
+    loadChildren: '../auth/auth.module#AuthModule'
+  },
+  {
+    path: 'login',
     loadChildren: '../auth/auth.module#AuthModule'
   },
   {
@@ -38,7 +41,7 @@ const routes: Routes = [
   },
   {
     path: 'ServiceInteraction',
-    loadChildren: '../components/issue-resolution-page/issue-resolution-page.module#IssueResolutionPageModule',
+    loadChildren: '../components/service-interaction/service-interaction.module#ServiceInteractionModule',
     data: {
       breadcrumb: 'Service Interaction'
     },
@@ -51,10 +54,6 @@ const routes: Routes = [
   {
     path: 'PrivacyPolicy',
     component: PrivacyPolicyComponent
-  },
-  {
-    path: 'SelectProvider',
-    component: SelectProviderComponent
   },
   { path: '**', redirectTo: '' }
 ];

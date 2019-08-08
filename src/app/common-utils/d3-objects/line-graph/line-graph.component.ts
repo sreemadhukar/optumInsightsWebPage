@@ -79,7 +79,7 @@ export class LineGraphComponent implements OnInit {
   doLineGraph(chartData: any, chartData2: any, titleData: any, generalData: any, generalData2: any) {
     function formatDy(dy: number): string {
       if (dy === 0) {
-        return '0.0M';
+        return '0';
       } else if (dy < 999) {
         return dy.toFixed(0);
       } else if (dy < 999999) {
@@ -265,7 +265,7 @@ export class LineGraphComponent implements OnInit {
       .select(this.renderChart)
       .append('svg')
       .attr('width', width + margin.left + margin.right)
-      .attr('height', 560 /*height - margin.top - margin.bottom*/)
+      .attr('height', 420 /*height - margin.top - margin.bottom*/)
       .style('background-color', generalData[0].backgroundColor)
       .append('g')
       .attr('transform', 'translate(' + (margin.left - 7) + ',' + 5 + ')');
@@ -275,13 +275,14 @@ export class LineGraphComponent implements OnInit {
       .attr('class', 'tooltip')
       .style('opacity', 0);*/
 
-    const shiftTooltip = -155;
+    const shiftTooltip = -130;
 
     if (generalData[0].tooltipBoolean === true) {
       // tslint:disable-next-line:no-var-keyword
       var tooltipVar = d3
         .select(this.renderChart)
         .append('div')
+        .classed('tooltipBlockClass', true)
         .classed('tooltipClass', false)
         .classed('tooltipClassLeft', false)
         .classed('hidden', true);
@@ -341,7 +342,7 @@ export class LineGraphComponent implements OnInit {
     const yScale = d3
       .scaleLinear()
       .domain([0, highestValue]) // input
-      .range([height, 0])
+      .range([350, 0])
       .nice(3); // output
 
     // tslint:disable-next-line:no-var-keyword
@@ -366,7 +367,7 @@ export class LineGraphComponent implements OnInit {
       .append('g')
       .attr('class', 'tick_hidden')
       .attr('id', 'forCalculation')
-      .attr('transform', 'translate(0,' + (height + 10) + ')')
+      .attr('transform', 'translate(0,' + 360 /*(height - 60)*/ + ')')
       .call(
         d3
           .axisBottom(xScale3)
@@ -377,21 +378,19 @@ export class LineGraphComponent implements OnInit {
     chart
       .append('text')
       .attr('id', 'forlolCalculations')
-      .attr('font-family', 'UHCSans-Medium')
+      .attr('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
       .attr('font-size', '14px')
-      .text(chartData[0].name)
-      .style('fill', '#2D2D39')
-      .style('font-weight', '600');
+      .text(chartData.name)
+      .style('fill', '#2D2D39');
 
     const text_element1 = chart.select('#forlolCalculations');
     // tslint:disable-next-line:no-var-keyword
     var textWidth1 = text_element1.node().getComputedTextLength();
 
     chart.select('#forlolCalculations').remove();
-
-    if (chartData[0].name.length === 4) {
+    if (chartData.length === 4) {
       textWidth1 = textWidth1 / 2;
-    } else if (chartData[0].name.length === 3) {
+    } else if (chartData.length === 3) {
       textWidth1 = textWidth1 * 1.25;
     }
 
@@ -431,7 +430,6 @@ export class LineGraphComponent implements OnInit {
       });
 
     d3.select('#forYCalculations').remove();
-
     for (let y = 0; y < preYArray.length; y++) {
       preYArray[y] = preYArray[y].replace(/,/g, '');
     }
@@ -499,9 +497,9 @@ export class LineGraphComponent implements OnInit {
       var textWidth2 = text_element2.node().getComputedTextLength();
       chart.select('#forlolCalculations2').remove();
 
-      if (chartData2[0].name.length === 4) {
+      if (chartData2.name.length === 4) {
         textWidth2 = textWidth2 / 2;
-      } else if (chartData2[0].name.length === 3) {
+      } else if (chartData2.name.length === 3) {
         textWidth2 = textWidth2 * 1.25;
       }
 
@@ -609,18 +607,70 @@ export class LineGraphComponent implements OnInit {
         .attr('d', area);
     }*/
 
-    /*const RectBarOne = chart
+    const RectBarOne = chart
       .selectAll('.rect-bar')
       .data(data)
       .enter()
       .append('rect')
       .style('fill', '#E3F0FD')
+      .style('opacity', 0)
       .attr('class', 'rect-bar')
-      .attr('id', 'RectLineOne')
       .attr('x', function(d) {
         return d.xCoordinate - 22;
       })
-      .attr('y', 113.5);*/
+      .attr('id', function(d) {
+        return 'rect-id-' + d.x;
+      })
+      .attr('y', 0)
+      .on('mouseover', d => {
+        const RectBar = chart.selectAll('#rect-id-' + d.x);
+        RectBar.transition()
+          .duration(200)
+          .style('opacity', 1)
+          .style('cursor', 'pointer');
+        const RectBarDot = chart.selectAll('#dot-id-' + d.x);
+        RectBarDot.transition()
+          .duration(200)
+          .style('opacity', 1);
+
+        tooltipVar
+          .transition()
+          .duration(200)
+          .style('opacity', 1);
+        const topMar = yScale(d.y) + 39 + 'px';
+        if (d3.event.layerX + 213 < width + margin.left + margin.right) {
+          tooltipVar
+            .html(tooltipText(d, this.yearComparison, axisPrefix))
+            .classed('hidden', false)
+            .classed('tooltipClass', true)
+            .classed('tooltipClassLeft', false)
+            .style('left', d.xCoordinate + 56 + 'px')
+            .style('top', topMar);
+        } else {
+          tooltipVar
+            .html(tooltipText(d, this.yearComparison, axisPrefix))
+            .classed('hidden', false)
+            .classed('tooltipClass', false)
+            .classed('tooltipClassLeft', true)
+            .style('left', d.xCoordinate + 56 + shiftTooltip + 'px')
+            .style('top', topMar);
+        }
+      })
+      .on('mouseout', function(d) {
+        const RectBar = chart.selectAll('#rect-id-' + d.x);
+        RectBar.transition()
+          .duration(200)
+          .style('opacity', 0);
+        const RectBarDot = chart.selectAll('#dot-id-' + d.x);
+        RectBarDot.transition()
+          .duration(200)
+          .style('opacity', 0);
+
+        tooltipVar
+          .transition()
+          .duration(500)
+          .style('opacity', 0);
+      });
 
     const DotOne = chart
       .selectAll('.dot')
@@ -628,62 +678,20 @@ export class LineGraphComponent implements OnInit {
       .enter()
       .append('circle')
       .style('fill', '#3381FF')
+      .style('opacity', 0)
       .attr('class', 'dot')
-      .attr('id', 'LineOneDot')
+      .attr('id', function(d) {
+        return 'dot-id-' + d.x;
+      })
       .attr('cx', function(d) {
         return d.xCoordinate;
       })
       .attr('cy', function(d) {
         return yScale(d.y);
       })
-      .attr('r', 6)
-      .on('mouseover', d => {
-        tooltipVar
-          .transition()
-          .duration(200)
-          .style('opacity', 1);
-        if (d3.event.layerX + 213 < width + margin.left + margin.right) {
-          tooltipVar
-            .html(tooltipText(d, this.yearComparison, axisPrefix))
-            .classed('hidden', false)
-            .classed('tooltipClass', true)
-            .classed('tooltipClassLeft', false)
-            .style('left', d3.event.layerX + 23 + 'px')
-            .style('top', d3.event.layerY + -20 + 'px');
-        } else {
-          tooltipVar
-            .html(tooltipText(d, this.yearComparison, axisPrefix))
-            .classed('hidden', false)
-            .classed('tooltipClass', false)
-            .classed('tooltipClassLeft', true)
-            .style('left', d3.event.layerX + 23 + shiftTooltip + 'px')
-            .style('top', d3.event.layerY + -20 + 'px');
-        }
-      })
-      .on('mouseout', function(d) {
-        tooltipVar
-          .transition()
-          .duration(500)
-          .style('opacity', 0);
-      });
+      .attr('r', 6);
 
     if (1) {
-      DotOne.on('mouseenter', function(d) {
-        DotOne.transition()
-          .duration(200)
-          .style('opacity', 1);
-        const showDot = DotOne.transition()
-          .duration(200)
-          .style('opacity', 1);
-      }).on('mouseleave', function(d) {
-        DotOne.transition()
-          .duration(500)
-          .style('opacity', 0);
-        const hideDot = DotOne.transition()
-          .duration(500)
-          .style('opacity', 0);
-      });
-
       chart
         .append('path')
         .datum(data)
@@ -742,10 +750,9 @@ export class LineGraphComponent implements OnInit {
     chart
       .append('text')
       .attr('id', 'forTextCalculations')
-      .attr('font-family', 'UHCSans-Regular')
+      .attr('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
       .attr('font-size', '15px')
-      .text(titleData[0].title)
-      .style('font-weight', '600');
+      .text(titleData[0].title);
 
     let text_element = chart.select('#forTextCalculations');
     let textWidth = text_element.node().getComputedTextLength();
@@ -757,9 +764,8 @@ export class LineGraphComponent implements OnInit {
       .attr('x', xScalePath(1) - textWidth / 2)
       .attr('y', -125)
       .style('font-size', '15px')
-      .style('font-family', 'UHCSans-Regular')
+      .style('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
       .style('fill', '#2D2D39')
-      .style('font-weight', '600')
       .text(titleData[0].title);
 
     // Start custom box
@@ -797,10 +803,9 @@ export class LineGraphComponent implements OnInit {
       chart
         .append('text')
         .attr('id', 'forTextCalculations')
-        .attr('font-family', 'UHCSans-Regular')
+        .attr('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
         .attr('font-size', '22px')
-        .text(titleData[0].topTitleBoxNumber + ' ' + titleData[0].topTitleBoxNumberType)
-        .style('font-weight', '500');
+        .text(titleData[0].topTitleBoxNumber + ' ' + titleData[0].topTitleBoxNumberType);
 
       text_element = chart.select('#forTextCalculations');
       textWidth = text_element.node().getComputedTextLength();
@@ -812,18 +817,16 @@ export class LineGraphComponent implements OnInit {
         .attr('x', xScalePath(1) - textWidth / 2)
         .attr('y', -75)
         .style('font-size', '22px')
-        .style('font-family', 'UHCSans-Regular')
+        .style('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
         .style('fill', '#2D2D39')
-        .style('font-weight', '500')
         .text(titleData[0].topTitleBoxNumber + ' ' + titleData[0].topTitleBoxNumberType);
 
       chart
         .append('text')
         .attr('id', 'forTextCalculations')
-        .attr('font-family', 'UHCSans-Regular')
+        .attr('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
         .attr('font-size', '15px')
-        .text(titleData[0].percentageValue + '% ' + titleData[0].percentageValueType)
-        .style('font-weight', '500');
+        .text(titleData[0].percentageValue + '% ' + titleData[0].percentageValueType);
 
       text_element = chart.select('#forTextCalculations');
       textWidth = text_element.node().getComputedTextLength();
@@ -835,9 +838,8 @@ export class LineGraphComponent implements OnInit {
         .attr('x', xScalePath(1) - textWidth / 2)
         .attr('y', -55)
         .style('font-size', '15px')
-        .style('font-family', 'UHCSans-Regular')
+        .style('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
         .style('fill', '#21B01E')
-        .style('font-weight', '500')
         .text(titleData[0].percentageValue + '% ' + titleData[0].percentageValueType);
 
       const polygonPoint = xScalePath(1) - textWidth / 2 - 7.5;

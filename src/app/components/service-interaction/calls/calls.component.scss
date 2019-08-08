@@ -1,0 +1,180 @@
+@import '~src/scss/variables.scss';
+@import '~src/scss/mixins';
+@import '~src/scss/my-custom-theme';
+.breadcrumb-top-padding {
+  @include margin(12px, 0, 12px, 0);
+  box-sizing: border-box;
+  font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+
+  .filter-div {
+    overflow: auto;
+    line-height: 0;
+  }
+  .filter_bg {
+    height: 40px;
+    width: 100px;
+    box-sizing: border-box;
+    border: 1px solid $blue;
+    border-radius: 2px;
+    float: right;
+    cursor: pointer;
+    margin-right: 7px;
+
+    .filter_title {
+      color: $blue;
+      font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+      font-size: 16px;
+      letter-spacing: 0.2px;
+      line-height: 22px;
+      text-align: center;
+      margin: 9px 0;
+      float: left;
+    }
+    .filter_icon {
+      color: $blue;
+      margin: 7px 10px;
+      float: left;
+    }
+  }
+  .filter_bg:hover,
+  .filter_bg:focus {
+    background-color: #196ecf;
+    color: #ffffff;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
+    .filter_title {
+      color: #ffffff;
+    }
+    .filter_icon {
+      color: #ffffff;
+    }
+  }
+  .filter_bg:active {
+    background-color: #003da1;
+    color: #ffffff;
+    .filter_title {
+      color: #ffffff;
+    }
+    .filter_icon {
+      color: #ffffff;
+    }
+  }
+}
+
+.page-title {
+  flex-basis: 100%;
+  font-size: 36px;
+}
+.rectangle-title {
+  height: 50px;
+  flex-basis: 100%;
+  border: 1px solid #ffd00d;
+  border-radius: 2px;
+  background-color: #fffcd9;
+  .image-align {
+    height: 20px;
+    width: 20px;
+    vertical-align: middle;
+    padding-right: 16px;
+  }
+  .attention-title {
+    height: 18px;
+    color: #2d2d39;
+    font-family: 'UHC Sans';
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.2px;
+    line-height: 18px;
+    padding: 16px 0 16px 24px;
+  }
+}
+.time-period {
+  box-sizing: border-box;
+  height: 33px;
+  width: 230px;
+  border: 1px solid $heather;
+  border-radius: 16px;
+  background-color: $gainsboro;
+  line-height: 30px;
+  padding-left: 7px;
+  float: left;
+}
+.time--period {
+  .filterchips {
+    width: 845px;
+    float: left;
+    .horizontal-align {
+      display: inline-block;
+      margin: 5px 17px 5px 0;
+      .btn-rounded {
+        height: 34px;
+        padding: 0.355rem 0.78125rem;
+      }
+    }
+    button {
+      span:first-child {
+        font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+      }
+      span.text-semibold {
+        font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+      }
+    }
+    .close-btn {
+      display: inherit;
+      position: relative;
+      cursor: pointer;
+      width: 24px;
+      height: 24px;
+      display: inline-block;
+      vertical-align: middle;
+      padding: 0 0 0 8px;
+      margin-top: -1px;
+      .icon-display {
+        color: #757588;
+      }
+    }
+  }
+}
+.title-left-padding {
+  padding-left: 15px;
+}
+
+.calls-body {
+  overflow-x: hidden;
+  overflow-y: hidden;
+  display: flex;
+  flex-direction: column;
+  @include padding(16px, 0, 64px, 0);
+  background-color: $alice-blue;
+  .calls-content {
+    display: flex;
+    -webkit-flex-flow: row wrap;
+    justify-content: left;
+    width: 1000px;
+    margin: auto;
+    flex-wrap: wrap;
+
+    .height1Separator {
+      height: 0;
+      width: 1200px;
+    }
+    & > .cards {
+      text-align: left;
+    }
+    .cust-width-title {
+      width: 961px;
+      font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+      color: $black-rock;
+      margin-left: 10px;
+
+      .page-title {
+        flex-basis: 100%;
+        font-size: 36px;
+        @include padding(16px, 0, 20px, 0);
+        line-height: 40px;
+      }
+    }
+  }
+  @media only screen and (max-width: 1024px) {
+    @include padding(16px, 0, 16px, 0);
+  }
+}

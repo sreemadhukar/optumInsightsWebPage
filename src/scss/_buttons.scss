@@ -6,23 +6,19 @@
 //
 // Base styles
 //
+@import '~src/scss/mixins/_buttons';
+@import '~src/scss/mixins/_hover';
+@import '~src/scss/mixins/_box-shadows';
+@import '~src/scss/variables';
 
 .btn {
   display: inline-block;
-  font-weight: $btn-font-weight;
   text-align: center;
   white-space: nowrap;
   vertical-align: middle;
   user-select: none;
   border: $btn-border-width solid transparent;
-  @include button-size(
-    $btn-padding-y,
-    $btn-padding-x,
-    $font-size-base,
-    $btn-line-height,
-    $btn-border-radius,
-    $font-family-base
-  );
+  @include button-size($btn-padding-y, $btn-padding-x, $font-size-base, $btn-line-height, $btn-border-radius);
 
   // Share hover and focus styles
   @include hover-focus {
@@ -87,7 +83,7 @@ fieldset:disabled a.btn {
 
   &:focus,
   &.focus {
-    text-decoration: $link-hover-decoration;
+    //text-decoration: $link-hover-decoration;
     border-color: transparent;
     box-shadow: none;
   }

@@ -1,27 +1,30 @@
 @import '~src/scss/variables.scss';
-.line {
+@import '~src/scss/_buttons.scss';
+.filter {
+  margin-top: 6px;
+}
+.line-top,
+.line,
+.line1 {
   background-color: #fff;
-  height: 16px;
   display: flex;
   border-bottom: solid;
   border-width: 1px;
   border-color: #b3babc;
   z-index: 999;
 }
-.line1 {
-  background-color: #fff;
+.line {
   height: 16px;
-  display: flex;
-  border-bottom: solid;
-  border-width: 1px;
+}
+.line1 {
+  height: 16px;
   border-color: #e0e0e0;
-  z-index: 999;
   width: 418px;
   margin-left: -32px !important;
 }
 ::ng-deep .mat-radio-label-content {
   margin: 5px;
-  font-family: 'UHCSans-Medium', 'Arial' !important;
+  font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
   font-size: 16px;
 }
 ::ng-deep .mat-radio-button.mat-accent.mat-radio-checked ::ng-deep .mat-radio-outer-circle {
@@ -37,7 +40,7 @@
   width: 354px;
   display: inline-block;
   .title {
-    width: 322px;
+    width: 300px;
     color: #2d2d39;
     font-family: 'UHCSans-SemiBold', 'Arial';
     font-size: 18px;
@@ -45,16 +48,22 @@
     margin: 15px 0 8px 0;
     float: left;
   }
-  .icon-display {
-    width: 32px;
+  .chevron {
+    height: 40px;
+    width: 40px;
+    cursor: pointer;
     float: right;
-    height: 32px;
-    margin-top: 15px;
-    color: #2d2d39;
+    .icon-display {
+      width: 32px;
+      height: 32px;
+      margin-top: 7.5px;
+      color: #2d2d39;
+    }
   }
 }
 .lobgrp {
   width: 100%;
+  display: inline-block;
   .label-cls {
     margin-top: 16px;
     .input-search {
@@ -74,7 +83,7 @@
   ::placeholder {
     /* Firefox, Chrome, Opera */
     color: #757588;
-    font-family: 'UHCSans-Medium';
+    font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
     font-size: 16px;
     letter-spacing: 0.2px;
   }
@@ -82,7 +91,7 @@
   :-ms-input-placeholder {
     /* Internet Explorer 10-11 */
     color: #757588;
-    font-family: 'UHCSans-Medium';
+    font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
     font-size: 16px;
     letter-spacing: 0.2px;
   }
@@ -90,56 +99,64 @@
   ::-ms-input-placeholder {
     /* Microsoft Edge */
     color: #757588;
-    font-family: 'UHCSans-Medium';
+    font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
     font-size: 16px;
     letter-spacing: 0.2px;
   }
   .label-data {
     width: 100%;
     color: #757588;
-    font-family: 'UHC Sans';
+    font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
     font-size: 16px;
-    font-weight: 500;
     letter-spacing: 0.2px;
     line-height: 22px;
   }
   .select-option-data {
-    .radio-group {
+    .radio-group,
+    .radio-group-ss {
       width: 100%;
       float: left;
       display: flex;
       flex-direction: column;
-      margin: 15px 0;
+      margin: 15px 0 0 0;
     }
     .radio-button {
       color: #2d2d39;
       margin-bottom: 15px;
     }
+    .lobDisable {
+      pointer-events: none !important;
+      cursor: pointer !important;
+      color: lightgray !important;
+    }
   }
 }
-.applybtn {
-  box-sizing: border-box;
-  height: 41px;
-  width: 50%;
-  border: 1px solid #0d880b;
-  border-radius: 2px;
-  background-color: #0d880b;
-  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
-  color: #ffffff;
-  font-family: 'UHCSans-SemiBold', 'Arial';
-  font-size: 16px;
+.titleDisplay {
+  font-style: italic;
+  color: lightgray;
+  font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
 }
+.titleDisable {
+  pointer-events: none;
+  cursor: pointer;
+  .title {
+    color: lightgray;
+  }
+  .chevron {
+    .icon-display {
+      color: lightgray;
+    }
+  }
+  .label-data {
+    color: lightgray;
+  }
+}
+.applybtn,
 .resetbtn {
   box-sizing: border-box;
   height: 41px;
   width: 50%;
-  border: 1px solid #ffffff;
-  border-radius: 2px;
-  background-color: #ffffff;
-  box-shadow: 0 2px 4px 0 #ffffff;
-  color: $blue;
   font-family: 'UHCSans-SemiBold', 'Arial';
-  font-size: 16px;
 }
 .btn-display {
   margin-top: 24px;
@@ -151,6 +168,54 @@
   background-color: #ffffff;
   box-shadow: 0 2px 4px 0 #ffffff;
 }
+::ng-deep .mat-option {
+  padding: 7.5px 0 7.5px 12px !important;
+  height: 32px !important;
+  line-height: 32px !important;
+}
 ::ng-deep.mat-button-focus-overlay {
   background-color: #ffffff;
+}
+::ng-deep .mat-autocomplete-panel {
+  max-height: 0% !important;
+}
+::ng-deep .mat-form-field {
+  width: 100%;
+}
+
+::ng-deep .mat-autocomplete-panel:not([class*='mat-elevation-z']) {
+  box-sizing: border-box;
+  border: 1px solid #196ecf;
+  border-radius: 2px;
+  background-color: #ffffff;
+  box-shadow: 0 0 4px 0 rgba(25, 110, 207, 0.5), 0 4px 8px 0 rgba(0, 0, 0, 0.15);
+  font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  height: 200px !important;
+}
+::ng-deep .mat-option.mat-selected:not(.mat-option-multiple):not(.mat-option-disabled) {
+  background-color: $blue;
+  color: $white;
+}
+::ng-deep .mat-option:hover:not(.mat-option-disabled),
+.mat-option:focus:not(.mat-option-disabled) {
+  background-color: $blue;
+  color: $white;
+  font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+  font-size: 16px;
+}
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-infix {
+  padding: 10px 0 16px 0;
+}
+::ng-deep .mat-form-field-appearance-outline.mat-focused ::ng-deep .mat-form-field-outline-thick {
+  color: $blue;
+}
+
+::ng-deep .mat-option-text {
+  font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+}
+
+.disable-radio-button {
+  pointer-events: none;
+  color: lightgray !important;
 }

@@ -1,15 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject, ViewChild, TemplateRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { CookieService } from 'ngx-cookie-service';
 import { ExternalService } from '../_service/external.service';
 import { environment } from '../../../environments/environment';
 import { AuthenticationService } from '../_service/authentication.service';
 import { InternalService } from '../_service/internal.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ProviderSharedService } from '../../shared/provider/provider-shared.service';
 import { MatDialog, MatIconRegistry } from '@angular/material';
 import { ProviderSearchComponent } from '../../common-utils/provider-search/provider-search.component';
 import { DomSanitizer } from '@angular/platform-browser';
 import { AuthorizationService } from '../_service/authorization.service';
+import { DOCUMENT } from '@angular/common';
 
 @Component({
   selector: 'app-login-stub',
@@ -25,6 +27,8 @@ export class LoginStubComponent implements OnInit {
   error = false;
   blankScreen = false;
   id: any;
+  token: string;
+  @ViewChild('errorDialog') errorDialog: TemplateRef<any>;
 
   constructor(
     private external: ExternalService,
@@ -36,7 +40,10 @@ export class LoginStubComponent implements OnInit {
     private dialog: MatDialog,
     private iconRegistry: MatIconRegistry,
     private sanitizer: DomSanitizer,
-    private authorise: AuthorizationService
+    private authorise: AuthorizationService,
+    private cookieService: CookieService,
+    private route: ActivatedRoute,
+    @Inject(DOCUMENT) private document: any
   ) {
     iconRegistry.addSvgIcon(
       'error',
@@ -45,9 +52,16 @@ export class LoginStubComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.authService.getJwt().subscribe(data => {
-      sessionStorage.setItem('token', JSON.stringify(data['token']));
-    });
+    sessionStorage.setItem('cache', JSON.stringify(false));
+    if (!environment.production) {
+      this.authService.getJwt().subscribe(data => {
+        sessionStorage.setItem('token', JSON.stringify(data['token']));
+        this.token = data['token'];
+      });
+    } else {
+      this.cookieService.deleteAll('/');
+      this.token = 'isProd';
+    }
     this.loading = true;
     this.id = setTimeout(() => {
       this.loading = false;
@@ -61,7 +75,7 @@ export class LoginStubComponent implements OnInit {
       password: ['', Validators.required]
     });
 
-    this.returnUrl = '/OverviewPage';
+    this.returnUrl = '/ProviderSearch';
     if (this.isInternal) {
       if (this.authService.isLoggedIn()) {
         this.router.navigate([this.returnUrl]);
@@ -72,7 +86,29 @@ export class LoginStubComponent implements OnInit {
         });
       }
     } else {
-      this.external.CheckExternal();
+      if (this.route.queryParams) {
+        this.route.queryParams.subscribe(params => {
+          if (params.code && !this.authService.isLoggedIn()) {
+            this.external
+              .CheckExternal(params.code, this.token)
+              .then(value => {
+                this.authorise.getToggles().subscribe(value1 => {});
+                sessionStorage.setItem('cache', JSON.stringify(true));
+                this.router.navigate(['/OverviewPage']);
+              })
+              .catch(error => {
+                this.openErrorDialog();
+              });
+          } else if (this.authService.isLoggedIn()) {
+            sessionStorage.setItem('cache', JSON.stringify(true));
+            this.router.navigate(['/OverviewPage']);
+          } else {
+            this.document.location.href = environment.apiUrls.SsoRedirectUri;
+          }
+        });
+      } else {
+        this.document.location.href = environment.apiUrls.SsoRedirectUri;
+      }
     }
   }
 
@@ -85,24 +121,32 @@ export class LoginStubComponent implements OnInit {
   }
 
   onSubmit() {
+    this.blankScreen = true;
     this.submitted = true;
     this.loading = true;
     if (this.loginForm.invalid) {
+      this.blankScreen = false;
       return;
+    } else {
+      this.internalService.login(this.f.username.value, this.f.password.value).subscribe(
+        () => {
+          this.blankScreen = true;
+          this.loading = false;
+          this.authorise.getToggles().subscribe(value => {
+            console.log(value);
+          });
+          sessionStorage.setItem('cache', JSON.stringify(true));
+          // this.openDialog();
+          this.router.navigate(['/ProviderSearch']);
+        },
+        error => {
+          this.error = true;
+          this.loading = false;
+          this.blankScreen = false;
+          this.submitted = false;
+        }
+      );
     }
-    this.internalService.login(this.f.username.value, this.f.password.value).subscribe(
-      () => {
-        this.loading = false;
-        this.authorise.getToggles().subscribe(value => {
-          console.log(value);
-        });
-        this.openDialog();
-      },
-      error => {
-        this.error = true;
-        this.loading = false;
-      }
-    );
   }
 
   openDialog(): void {
@@ -119,6 +163,22 @@ export class LoginStubComponent implements OnInit {
         this.blankScreen = false;
       }
       this.router.navigate([this.returnUrl]);
+    });
+  }
+
+  openErrorDialog(): void {
+    this.blankScreen = true;
+    const dialogErrorRef = this.dialog.open(this.errorDialog, {
+      width: '550px',
+      height: '212px',
+      disableClose: true,
+      panelClass: 'custom'
+    });
+
+    dialogErrorRef.afterClosed().subscribe(result => {
+      if (!environment.internalAccess) {
+        this.document.location.href = environment.apiUrls.linkLoginPage;
+      }
     });
   }
 }

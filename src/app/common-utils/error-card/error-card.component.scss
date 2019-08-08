@@ -27,9 +27,8 @@
     position: relative;
     padding: 16px 20px 0 20px;
     color: $black-rock;
-    font-family: 'UHCSans-Medium', 'sans-serif', 'Arial';
+    font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
     font-size: 16px;
-    font-weight: 500;
     line-height: 22px;
     text-align: left;
     letter-spacing: 0.2px;
@@ -45,9 +44,8 @@
     }
     .errorSubTitle {
       color: $black-rock;
-      font-family: 'UHCSans-Medium', 'sans-serif', 'Arial';
+      font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
       font-size: 14px;
-      font-weight: 500;
       letter-spacing: 0.2px;
       line-height: 22px;
       text-align: center;
@@ -82,6 +80,10 @@
   border-radius: 2px;
 }
 
+.app-card-structure-with-more-height {
+  height: 442px !important;
+}
+
 .app-card-structure {
   position: relative;
   background-color: $white;
@@ -107,9 +109,8 @@
     }
     .errorSubTitle {
       color: $black-rock;
-      font-family: 'UHCSans-Medium', 'sans-serif', 'Arial';
+      font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
       font-size: 16px;
-      font-weight: 500;
       letter-spacing: 0.2px;
       line-height: 22px;
       text-align: center;
@@ -159,9 +160,8 @@
       }
       .errorSubTitle {
         color: $black-rock;
-        font-family: 'UHCSans-Medium', 'sans-serif', 'Arial';
+        font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
         font-size: 14px;
-        font-weight: 500;
         letter-spacing: 0.2px;
         line-height: 18px;
         text-align: center;

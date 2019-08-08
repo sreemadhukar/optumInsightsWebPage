@@ -1,0 +1,37 @@
+<app-feedback></app-feedback>
+<div class="selfService-body">
+  <div class="selfService-content">
+    <div class="cards cust-width-title">
+      <app-breadcrumbs></app-breadcrumbs>
+      <div class="page-title">{{ pageTitle }}</div>
+      <!-- <div class="page-subtitle">{{ currentTabTitle }}</div> -->
+    </div>
+    <div class="height1Separator"></div>
+    <div *ngFor="let data of mockCards; let i = index">
+      <app-card class="cards mt-0" [skeleton]="loading" *ngIf="loading"> </app-card>
+    </div>
+    <div *ngFor="let item of selfServiceItems">
+      <app-card *ngIf="item.data != null" class="cards" [chartData]="item"> </app-card>
+      <app-error-card *ngIf="item.status != null" class="cards" [data]="item"></app-error-card>
+    </div>
+    <!-- starts opportunites here -->
+    <div class="opportunity-content">
+      <div class="self-service-heading">
+        <div class="cards cust-width-title">
+          <div class="title-opportunity">{{ opportunities }}</div>
+          <div class="page-question">{{ opportunitiesQuestion }}</div>
+        </div>
+        <div class="cards cust-width-blank cust-width-title"></div>
+      </div>
+      <div class="height1Separator"></div>
+      <div *ngFor="let data of mockSelfServiceMiniCards; let i = index">
+        <app-mini-tile class="cards" [skeleton]="loading" *ngIf="loading"> </app-mini-tile>
+      </div>
+      <div *ngFor="let item of selfServiceMiniCards; let i = index">
+        <app-mini-tile *ngIf="item.data != null && item.toggle" class="cards" [data]="item"> </app-mini-tile>
+        <app-error-card *ngIf="item.status != null && item.toggle" [data]="item"></app-error-card>
+      </div>
+    </div>
+    <!-- ends Opportunities here-->
+  </div>
+</div>

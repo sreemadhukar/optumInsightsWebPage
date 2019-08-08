@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { CookieService } from 'ngx-cookie-service';
 
 import { AppComponent } from './app.component';
 import { HeadModule } from './head/head.module';
@@ -17,10 +18,10 @@ import { ThemeService } from './shared/theme.service';
 import { PriorAuthService } from './rest/prior-auth/prior-auth.service';
 import { PriorAuthSharedService } from './shared/prior-authorization/prior-auth.service';
 import { HttpInterceptorService } from './rest/interceptor/http-interceptor.service';
-import { SelectProviderComponent } from './components/select-provider/select-provider.component';
+import { CacheInterceptor } from './rest/interceptor/cache.interceptor';
 
 @NgModule({
-  declarations: [AppComponent, SelectProviderComponent],
+  declarations: [AppComponent],
   imports: [
     HttpClientModule,
     BrowserModule,
@@ -37,9 +38,11 @@ import { SelectProviderComponent } from './components/select-provider/select-pro
     ProviderService,
     ProviderSharedService,
     ThemeService,
+    CookieService,
     PriorAuthService,
     PriorAuthSharedService,
-    { provide: HTTP_INTERCEPTORS, useClass: HttpInterceptorService, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: HttpInterceptorService, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: CacheInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
 })

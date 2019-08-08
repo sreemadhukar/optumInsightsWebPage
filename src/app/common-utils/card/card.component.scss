@@ -2,7 +2,7 @@
 .app-card-structure {
   position: relative;
   background-color: $white;
-  width: 468px;
+  width: 464px;
   height: 356px;
   margin: 12px;
   line-height: 75px;
@@ -55,9 +55,8 @@
   .app-card-list-labels {
     display: block;
     color: $black-rock;
-    font-family: 'UHCSans-Medium';
+    font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
     font-size: 14px;
-    font-weight: 500;
     letter-spacing: 0.2px;
     line-height: 18px;
     float: left;
@@ -65,7 +64,7 @@
   .app-card-list-labels > li {
     margin-bottom: 16px;
     margin-right: 8px;
-    font-family: 'UHCSans-Medium';
+    font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
   }
   .label-dots {
     height: 16px;
@@ -90,8 +89,12 @@
   .claims-paid-beside-data-block,
   .claims-appeals-submitted-beside-data-block {
     float: left;
-    margin-top: 94px;
+    /*margin-top: 94px;*/
+    margin-top: 60px;
     margin-left: 24px;
+  }
+  .label-color-indicators {
+    margin-bottom: 18px !important;
   }
   .full-width-block {
     float: left;
@@ -129,9 +132,8 @@
   }
   .rotate-graph-label-value {
     color: $black-rock;
-    font-family: 'UHCSans-Medium', 'sans-serif', 'Arial';
+    font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
     font-size: 20px;
-    font-weight: 600;
     line-height: 22px;
     text-align: center;
   }
@@ -139,7 +141,6 @@
     color: $strom-grey;
     font-family: 'UHCSans-Medium', 'sans-serif', 'Arial';
     font-size: 16px;
-    font-weight: 500;
     letter-spacing: 0.2px;
     line-height: 22px;
     text-align: center;
@@ -159,17 +160,15 @@
   }
   .bottom-label-value {
     color: $black-rock;
-    font-family: 'UHCSans-SemiBold';
+    font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
     font-size: 20px;
-    font-weight: 600;
     line-height: 22px;
     margin-bottom: 4px;
   }
   .bottom-label {
     color: $strom-grey;
-    font-family: 'UHCSans-Medium', 'sans-serif', 'Arial';
+    font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
     font-size: 16px;
-    font-weight: 500;
     letter-spacing: 0.2px;
     line-height: 22px;
   }
@@ -202,15 +201,14 @@
   }
   .pa-approved-rate-vertical-data-block {
     float: left;
-    padding-top: 10px;
+    padding-top: 35px; // top-bottom centre
     width: 135px;
     text-align: center;
     padding-left: 29px;
     .donut-graph-title {
       color: $strom-grey;
-      font-family: 'UHCSans-Medium';
+      font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
       font-size: 16px;
-      font-weight: 500;
       letter-spacing: 0.2px;
       line-height: 22px;
       text-align: center;
@@ -218,17 +216,15 @@
     }
     .donut-graph-label-value {
       color: $black-rock;
-      font-family: 'UHCSans-SemiBold';
+      font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
       font-size: 20px;
-      font-weight: 600;
       line-height: 22px;
       text-align: center;
     }
     .donut-graph-label {
       color: $strom-grey;
-      font-family: 'UHCSans-Medium';
+      font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
       font-size: 16px;
-      font-weight: 500;
       letter-spacing: 0.2px;
       line-height: 22px;
       text-align: center;
@@ -251,9 +247,8 @@
     padding-left: 29px;
     .donut-graph-title {
       color: $strom-grey;
-      font-family: 'UHCSans-Medium';
+      font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
       font-size: 16px;
-      font-weight: 500;
       letter-spacing: 0.2px;
       line-height: 22px;
       text-align: center;
@@ -261,17 +256,15 @@
     }
     .donut-graph-label-value {
       color: $black-rock;
-      font-family: 'UHCSans-SemiBold';
+      font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
       font-size: 20px;
-      font-weight: 600;
       line-height: 22px;
       text-align: center;
     }
     .donut-graph-label {
       color: $strom-grey;
-      font-family: 'UHCSans-Medium';
+      font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
       font-size: 16px;
-      font-weight: 500;
       letter-spacing: 0.2px;
       line-height: 22px;
       text-align: center;
@@ -293,9 +286,8 @@
   padding-top: 30px;
   .small-bar-chart-value {
     color: #2d2d39;
-    font-family: 'UHCSans-Medium', 'sans-serif', 'Arial';
+    font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
     font-size: 41px;
-    font-weight: 500;
     letter-spacing: -0.5px;
     line-height: 48px;
   }
@@ -310,17 +302,12 @@
     linear-gradient(100deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.5) 50%, rgba(255, 255, 255, 0) 80%),
     linear-gradient(lightgray 20px, transparent 0), linear-gradient(lightgray 20px, transparent 0),
     linear-gradient(lightgray 20px, transparent 0), linear-gradient(lightgray 20px, transparent 0);
-
   background-repeat: no-repeat;
-
   background-size: 100px 200px, /* circle */ 50px 356px, /* highlight */ 150px 200px, 250px 200px, 300px 200px,
     250px 200px;
-
   background-position: 10px 125px, /* circle */ 0 0, /* highlight */ 120px 100px, 120px 150px, 120px 200px, 120px 250px;
-
   animation: shine 1s infinite;
 }
-
 @keyframes shine {
   to {
     background-position: 10px 125px, 100% 0, /* move highlight to right */ 120px 100px, 120px 150px, 120px 200px,
@@ -330,7 +317,7 @@
 .med-star-chart {
   margin-left: 125px;
 }
-/* tabs css starts here*/
+/* tabs css starts here */
 .mat--tabs {
   width: 100%;
   line-height: 25px;
@@ -338,10 +325,9 @@
     display: flex;
     border-radius: 2px;
     list-style-type: none;
-    font-family: 'UHCSans-SemiBold', 'Arial';
+    font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
     color: $strom-grey;
     font-size: 16px;
-
     > li {
       flex-basis: 100%;
       background-color: $white;
@@ -350,19 +336,15 @@
       padding: 10px 20px;
       text-align: center;
       font-size: 16px;
-
       cursor: pointer;
       > span {
         font-size: 16px;
-        font-weight: 600;
+        font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
         letter-spacing: 0.2px;
         &:hover {
         }
       }
-
-      &.active,
-      &.active:hover,
-      &.active:focus {
+      &.active {
         // background-color: mat-color($accent);
         color: $blue;
         border-bottom: 4px solid $blue;
@@ -370,15 +352,20 @@
         text-align: center;
         text-decoration: none;
       }
-
+      &:hover,
+      &:focus {
+        border-bottom: 4px solid $blue;
+        border-radius: 2px 2px 0 0;
+        text-align: center;
+        text-decoration: none;
+      }
       .nav-values {
         color: #2d2d39;
         font-size: 18px;
-        font-family: 'UHCSans-Medium', 'sans-serif', 'Arial';
-        font-weight: 600;
+        font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
         .metrics {
           font-size: 14px;
-          font-weight: 500;
+          font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
           letter-spacing: 0.2px;
           line-height: 18px;
         }
@@ -392,4 +379,4 @@
     }
   }
 }
-/* ends tabs css ends here*/
+/* ends tabs css ends here */

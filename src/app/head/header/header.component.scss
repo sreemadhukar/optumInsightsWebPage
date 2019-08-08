@@ -8,20 +8,29 @@
   border-width: 1px;
   border-color: #e0e0e0;
   z-index: 999;
+  max-width: 1610px;
   .menu-div {
-    @include padding(0, 0, 0, 0);
+    @include padding(17px, 0px, 22px, 34px);
     .menu-icon {
+      border-radius: 2px;
+      padding: 6px;
+      height: 24px;
+      width: 24px;
       margin: 0;
-      color: #196ecf;
+      color: $blue;
       background-color: none;
-      @include padding(20px, 0px, 22px, 40px);
     }
     .menu-icon:hover {
+      color: $blue;
+      background-color: $hover-blue;
+    }
+    .menu-icon:active {
+      color: $blue;
+      background-color: $maya-blue;
     }
   }
   .header-logo-div {
     padding: 18px 0 18px 33px;
-
     .Uhc-logo {
       height: 36px;
       width: 175px;
@@ -33,16 +42,14 @@
     height: 25px;
     color: $strom-grey;
     font-size: 16px;
-    font-weight: 600;
+    font-family: 'UHCSans-SemiBold', 'Helvetica', 'Arial', 'sans-serif';
     letter-spacing: 0.2px;
     line-height: 22px;
     text-align: right;
     padding: 25px 32px 20px 0;
-
     .user-name {
       line-height: 31px;
-      font-family: 'UHCSans-Medium', 'Helvetica', 'Arial';
-      font-weight: 500;
+      font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
     }
     .user-expand-more {
       line-height: 26px;

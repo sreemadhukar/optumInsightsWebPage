@@ -1,29 +1,33 @@
 @import '~src/scss/variables.scss';
 @import '~src/scss/mixins';
 .breadcrumb-top-padding {
-  @include padding(20px, 0, 15px, 0);
-  @include margin(0, 0, 0, 11px);
+  @include margin(12px, 0, 12px, 0);
   box-sizing: border-box;
-  width: 961px;
+
+  clear: left;
   .filter_bg {
+    height: 40px;
+    width: 100px;
     box-sizing: border-box;
     border: 1px solid $blue;
     border-radius: 2px;
     float: right;
+    margin-right: 7px !important;
     cursor: pointer;
+
     .filter_title {
       color: $blue;
-      font-family: 'UHCSans-SemiBold', 'Arial';
+      font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
       font-size: 16px;
       letter-spacing: 0.2px;
       line-height: 22px;
       text-align: center;
-      margin: 12.5px 12.5px 8.5px 0;
+      margin: 9px 0;
       float: left;
     }
     .filter_icon {
       color: $blue;
-      margin: 9.5px 14px 9.5px 14px;
+      margin: 7px 10px;
       float: left;
     }
   }
@@ -31,6 +35,7 @@
   .filter_bg:focus {
     background-color: #196ecf;
     color: #ffffff;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
     .filter_title {
       color: #ffffff;
     }
@@ -38,7 +43,6 @@
       color: #ffffff;
     }
   }
-
   .filter_bg:active {
     background-color: #003da1;
     color: #ffffff;
@@ -53,21 +57,76 @@
 
 .gettingReimburse-body {
   background-color: $alice-blue;
-  overflow-x: hidden;
-  @include padding(30px, 30px, 30px, 30px);
-  .gettingReimburse-content {
+  font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+  overflow: hidden;
+  @include padding(16px, 0, 64px, 0);
+  .nonPayment-content {
     display: -webkit-box;
     display: -moz-box;
     display: -ms-flexbox;
     display: -webkit-flex;
     display: flex;
-
     -webkit-flex-flow: row wrap;
-    justify-content: center;
+    justify-content: left;
+    width: 1000px;
+    margin: auto;
     flex-wrap: wrap;
 
-    .top-reasons-for-claims-non-payment-block {
+    & > .cards {
+      text-align: left;
+    }
+
+    .nonPayment-content-cust {
+      font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+      color: $black-rock;
+      margin-left: 10px;
       width: 961px;
+      .page-title {
+        flex-basis: 100%;
+        font-size: 36px;
+        @include padding(16px, 0, 20px, 0);
+        line-height: 40px;
+      }
+      .time--period {
+        .filterchips {
+          width: 830px;
+          float: left;
+          .horizontal-align {
+            display: inline-block;
+            margin: 5px 17px 5px 0;
+            .btn-rounded {
+              height: 34px;
+              padding: 0.355rem 0.78125rem;
+            }
+          }
+          button {
+            span:first-child {
+              font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+            }
+            span.text-semibold {
+              font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+            }
+          }
+          .close-btn {
+            display: inherit;
+            position: relative;
+            cursor: pointer;
+            width: 24px;
+            height: 24px;
+            display: inline-block;
+            vertical-align: middle;
+            padding: 0 0 0 8px;
+            margin-top: -1px;
+            .icon-display {
+              color: #757588;
+            }
+          }
+        }
+      }
+    }
+
+    .top-reasons-for-claims-non-payment-block {
+      width: 954px;
       border-radius: 2px;
       background-color: $white;
       box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
@@ -113,9 +172,8 @@
     }
     .bar-graph-title {
       color: $black-rock;
-      font-family: 'UHCSans-Medium', 'sans-serif', 'Arial';
+      font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
       font-size: 16px;
-      font-weight: 500;
       letter-spacing: 0.2px;
       line-height: 22px;
       float: left;
@@ -123,9 +181,8 @@
     }
     .bar-graph-value {
       color: $black-rock;
-      font-family: 'UHCSans-Medium', 'sans-serif', 'Arial';
+      font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
       font-size: 20px;
-      font-weight: 600;
       line-height: 22px;
       float: right;
     }
@@ -154,15 +211,15 @@
     }
     .bar-graph-block-icon {
       float: left;
-      margin-top: -2px;
+      /*margin-top: -2px;*/
       margin-left: 8px;
+      height: 20px;
+      width: 20px;
     }
-
     .full-display {
       float: left;
       width: 100%;
     }
-
     .inner-block {
       position: relative;
       background: $alice-blue;
@@ -190,22 +247,46 @@
     .page-title {
       flex-basis: 100%;
       font-size: 36px;
+      @include padding(16px, 0, 32px, 0);
       line-height: 40px;
-      margin-bottom: 24px;
-      margin-top: 16px;
+      font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+      color: $black-rock;
     }
-    .time-period {
-      box-sizing: border-box;
-      height: 33px;
-      width: 230px;
-      border: 1px solid $heather;
-      border-radius: 16px;
-      background-color: $gainsboro;
-      line-height: 30px;
-      padding-left: 7px;
-      float: left;
+    .time--period {
+      .filterchips {
+        width: 830px;
+        float: left;
+        .horizontal-align {
+          display: inline-block;
+          margin: 5px 17px 5px 0;
+          .btn-rounded {
+            height: 34px;
+            padding: 0.355rem 0.78125rem;
+          }
+        }
+        button {
+          span:first-child {
+            font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+          }
+          span.text-semibold {
+            font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+          }
+        }
+        .close-btn {
+          display: inherit;
+          position: relative;
+          cursor: pointer;
+          height: 24px;
+          display: inline-block;
+          vertical-align: middle;
+          padding: 0 0 0 8px;
+          margin-top: -1px;
+          .icon-display {
+            color: #757588;
+          }
+        }
+      }
     }
-
     .bottom-shadow {
       height: 1px;
       background: $alice-blue;
@@ -225,15 +306,14 @@
       margin-left: 24px;
       box-shadow: -2px -2px 4px 0 rgba(0, 0, 0, 0.15) inset;
     }
-
     .inner-blocks-header {
       color: $black-rock;
-      font-family: 'UHCSans-Medium', 'sans-serif', 'Arial';
+      font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
       font-size: 16px;
-      font-weight: 600;
       letter-spacing: 0.2px;
-      line-height: 22px;
-      margin-top: 25px;
+      /*line-height: 22px;*/
+      line-height: unset;
+      margin-top: 24px;
       margin-left: 4px;
     }
     .top-5-block {
@@ -247,22 +327,24 @@
       margin-top: 16px;
       padding: 16px;
       box-sizing: border-box;
+      position: relative;
     }
     .top-5-text {
       color: $black-rock;
-      font-family: $font-family-UHC;
+      font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
       font-size: 16px;
-      font-weight: 500;
       letter-spacing: 0.2px;
       line-height: 22px;
     }
     .top-5-value {
       margin-top: 16px;
       color: $black-rock;
-      font-family: $font-family-UHC;
+      font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
       font-size: 18px;
-      font-weight: 600;
       line-height: 22px;
+      position: absolute;
+      bottom: 8.4px;
+      left: 16px;
     }
     .hide-bottom-arrow-block {
       width: 25px;
@@ -273,9 +355,7 @@
       top: 1px;
       border-radius: 20px;
     }
-
     // Claims Non Payment Trend Css Begins
-
     .non-payment-trend-block {
       width: 961px;
       // height: 450px;
@@ -284,8 +364,12 @@
       box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
       margin: 12px;
       float: left;
+      position: relative;
     }
 
+    .bottom-margin-block {
+      margin-bottom: 15px;
+    }
     .timeperiod-block {
       border-top: 1px solid #efefef;
       position: absolute;
@@ -293,230 +377,22 @@
       width: 961px;
       z-index: 99999;
     }
-
     .timeperiod-text {
       position: inherit;
       padding: 9px 20px 9px 16px;
       color: $strom-grey;
-      font-family: 'UHCSans-Medium', 'Arial';
+      font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
       font-size: 14px;
-      font-weight: 500;
       letter-spacing: 0.2px;
       line-height: 17px;
       height: 30px;
       // margin-top: 5px;
     }
-
     .time-period-trend {
       float: left;
     }
-    // Claims Non Payment Trend CSs Ends
-
-    .claims-non-payments-by-facility-block {
-      width: 961px;
-      border-radius: 2px;
-      background-color: $white;
-      box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
-      margin: 12px;
-      float: left;
-      position: relative;
-      .top-pagination {
-        position: absolute;
-        right: 56px;
-        top: 15.5px;
-        color: $black-rock;
-        font-family: 'UHCSans-Medium';
-        font-size: 14px;
-        font-weight: 500;
-        letter-spacing: 0.2px;
-        line-height: 18px;
-      }
-      .top-pagination-dropdown {
-        width: 72px;
-        border: 1px solid $heather;
-        border-radius: 2px;
-        background-color: $white;
-        box-sizing: border-box;
-        height: 41px;
-        color: $strom-grey;
-        font-family: 'UHCSans-Medium';
-        font-size: 16px;
-        font-weight: 500;
-        letter-spacing: 0.2px;
-        line-height: 22px;
-        padding: 9px 12.5px;
-        margin-left: 7.5px;
-        margin-right: 7.5px;
-      }
-      .padding-bottom-15 {
-        padding-bottom: 15.5px;
-      }
-      .facility-tble-time-period {
-        padding-bottom: 16px;
-        float: left;
-        padding-top: 24px;
-      }
-      .jump-to-page-number {
-        box-sizing: border-box;
-        height: 41px;
-        width: 51px;
-        border: 1px solid $heather;
-        border-radius: 2px;
-        background-color: $white;
-        padding: 8px 4px;
-        text-align: center;
-        color: $strom-grey;
-      }
-      .bottom-pagination {
-        position: absolute;
-        right: 114px;
-        padding-top: 15.5px;
-        color: $black-rock;
-        font-family: 'UHCSans-Medium', 'sans-serif', 'Arial';
-        font-size: 14px;
-        font-weight: 500;
-        letter-spacing: 0.2px;
-        line-height: 18px;
-      }
-      .bottom-pagination-arrows {
-        position: absolute;
-        right: 0;
-      }
-      .common-footer {
-        border-top: none !important;
-      }
-
-      .claims-non-payments-by-facility-table {
-        float: left;
-        width: 961px;
-        table {
-          width: 100%;
-        }
-        .mat-row {
-          height: 60px !important;
-        }
-        .mat-header-row {
-          height: 72px !important;
-          border-top: 1px solid $gainsboro;
-        }
-        .mat-header-cell,
-        .mat-table-cell {
-          padding: 0px !important;
-          vertical-align: middle;
-        }
-        td.mat-cell:first-of-type,
-        td.mat-footer-cell:first-of-type,
-        th.mat-header-cell:first-of-type {
-          padding-left: 32px !important;
-          border-left: none;
-          width: auto !important;
-          box-sizing: border-box;
-        }
-        .mat-table-cell,
-        .mat-table-header-cell {
-          padding-left: 16.5px !important;
-          color: $black-rock;
-          font-family: 'UHCSans-Medium', 'sans-serif', 'Arial';
-          font-size: 14px;
-          font-weight: 500;
-          letter-spacing: 0.2px;
-          line-height: 18px;
-          width: 146px !important;
-          box-sizing: border-box;
-        }
-        .table-facility-tin {
-          font-weight: 500;
-          font-family: 'UHCSans-Medium', 'sans-serif', 'Arial';
-        }
-        .table-facility-healthsystem {
-          font-weight: 600;
-          font-family: 'UHCSans-Medium', 'sans-serif', 'Arial';
-        }
-        mat-row,
-        mat-header-row,
-        mat-footer-row,
-        th.mat-header-cell,
-        td.mat-cell,
-        td.mat-footer-cell {
-          border-bottom-color: $gainsboro;
-          border-left: 1px solid $gainsboro;
-        }
-        .mat-row:nth-child(even) {
-          background-color: $white;
-        }
-
-        .mat-row:nth-child(odd) {
-          background-color: $alice-blue;
-        }
-        .mat-row:hover {
-          background-color: $darker-alice-blue;
-          cursor: pointer;
-        }
-        .mat-table-header-cell {
-          font-weight: 600 !important;
-        }
-        .mat-sort-header-button {
-          text-align: left !important;
-          position: relative;
-          width: 100%;
-        }
-        .mat-paginator-page-size,
-        .mat-paginator-range-label {
-          display: none;
-        }
-        .mat-paginator-navigation-previous,
-        .mat-paginator-navigation-next {
-          border: none !important;
-        }
-        .mat-paginator-navigation-next {
-          margin-left: 6px;
-        }
-        .mat-icon-button[disabled][disabled] > .mat-button-wrapper > .mat-paginator-icon {
-          border: 1px solid $heather;
-          color: $strom-grey;
-        }
-        .mat-paginator-icon {
-          width: 41px;
-          padding: 8px;
-          border: 1px solid $blue;
-          border-radius: 2px;
-          color: $blue;
-          box-sizing: border-box;
-        }
-        .mat-paginator-container {
-          min-height: 0;
-          height: auto;
-        }
-        .mat-paginator-range-actions {
-          padding-top: 15.5px;
-        }
-        .mat-sort-header-arrow {
-          display: none;
-        }
-        .sort-header-asc {
-          position: absolute;
-          right: 12px;
-          margin-top: -3px;
-          /*bottom: 2px;*/
-        }
-        .sort-header-desc {
-          position: absolute;
-          right: 12px;
-          margin-top: 3px;
-        }
-        .table-headers {
-          width: 90px;
-        }
-        .sort-header-icon {
-          color: $strom-grey;
-        }
-        .active-sort {
-          color: $black-rock;
-        }
-      }
-    }
   }
-  @media only screen and (min-width: 1024px) {
-    @include padding(30px, 16px, 30px, 16px);
+  @media only screen and (max-width: 1024px) {
+    @include padding(16px, 0, 16px, 0);
   }
 }

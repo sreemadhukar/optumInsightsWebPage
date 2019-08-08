@@ -52,8 +52,15 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
           .text(null)
           .append('tspan')
           .attr('x', 10)
-          .attr('y', y)
-          .attr('dy', dy + 'em');
+          .attr('y', y);
+        if (!Number.isNaN(dy)) {
+          tspan = text
+            .text(null)
+            .append('tspan')
+            .attr('x', 10)
+            .attr('y', y)
+            .attr('dy', dy + 'em');
+        }
         let i = 0;
         let dyMultiplier = 1;
         while ((word = words.pop())) {
@@ -108,14 +115,22 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
       .append('rect')
       .attr('x', 10)
       .attr('y', 20)
-      .attr('width', xScale(chartOptions.graphValues[0]))
+      .attr('width', function() {
+        if (typeof chartOptions.graphValues[0] !== 'undefined') {
+          return xScale(chartOptions.graphValues[0]);
+        }
+      })
       .attr('height', 24)
       .style('padding-bottom', 16)
       .attr('fill', chartOptions.color[0]);
 
     chart
       .append('rect')
-      .attr('x', 10 + xScale(chartOptions.graphValues[0]))
+      .attr('x', function() {
+        if (typeof chartOptions.graphValues[0] !== 'undefined') {
+          return 10 + xScale(chartOptions.graphValues[0]);
+        }
+      })
       .attr('y', 20)
       .attr('width', 2)
       .attr('height', 24)
@@ -123,11 +138,19 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
 
     chart
       .append('rect')
-      .attr('x', 12 + xScale(chartOptions.graphValues[0]))
+      .attr('x', function() {
+        if (typeof chartOptions.graphValues[0] !== 'undefined') {
+          return 12 + xScale(chartOptions.graphValues[0]);
+        }
+      })
       .attr('y', 20)
       .attr('rx', 2)
       .attr('ry', 2)
-      .attr('width', xScale(chartOptions.graphValues[1]) + 1)
+      .attr('width', function() {
+        if (typeof chartOptions.graphValues[0] !== 'undefined') {
+          return xScale(chartOptions.graphValues[1]) + 1;
+        }
+      })
       .attr('height', 24)
       .attr('fill', chartOptions.color[2]);
 
@@ -140,8 +163,7 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
       .attr('fill', '#2D2D39')
       .attr('font-size', '16')
       .attr('text-anchor', 'start')
-      .attr('font-family', 'UHCSans-Medium')
-      .attr('font-weight', '500')
+      .attr('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
       .text(chartOptions.barText)
       .call(wrap, 250, tspanID, 16);
 
@@ -187,8 +209,7 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
         .attr('fill', '#2D2D39')
         .attr('font-size', '14')
         .attr('text-anchor', 'start')
-        .attr('font-family', 'UHCSans-SemiBold')
-        .attr('font-weight', '600')
+        .attr('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
         .text(chartOptions.barText)
         // .call(wrap, 250, tspanID, 16);
         .call(wrap, 250, tspanID + 'hover', 14);
@@ -225,8 +246,7 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
       .attr('fill', '#2D2D39')
       .attr('font-size', '16')
       .attr('text-anchor', 'start')
-      .attr('font-family', 'UHCSans-Medium')
-      .attr('font-weight', '500')
+      .attr('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
       .text(chartOptions.barValue);
   }
 }
