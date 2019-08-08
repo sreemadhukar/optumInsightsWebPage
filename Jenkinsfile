@@ -82,11 +82,16 @@ pipeline {
                 label 'docker-nodejs-slave'
             }
             steps {
-                glDockerImageBuildPush tag: "$tagBase/$qaWebRepo:devone",
-                        repository: "$devWebRepo",
-                        namespace: "$namespace",
+                glDockerImageBuildPush tag: "$tagBase/ui_devone:devone",
+                        dockerHost: 'docker.repo1.uhc.com',
                         dockerCredentialsId: "$env.DOCKER_CREDENTIALS_ID",
                         extraBuildOptions: "--build-arg env_var=devone"
+              
+                 glDockerImageTag sourceTag: "$tagBase/ui_devone:devone",
+                                 destTag: "$tagBase/ui_devone:${env.BUILD_NUMBER}"
+                 glDockerImagePush dockerCredentialsId: "${env.DOCKER_CREDENTIALS_ID}", 
+                     tag:"$tagBase/ui_devone:${env.BUILD_NUMBER}",
+                     dockerHost: 'docker.repo1.uhc.com'
             }
         }
 
@@ -103,7 +108,7 @@ pipeline {
                         ocpUrl: "$oseHost",
                         project: "$oseDevProject",
                         serviceName: "$devOneUiPod",
-                        dockerImage: "$tagBase/$devWebRepo:devone",
+                        dockerImage: "$tagBase/ui_devone:devone",
                         port: '8000'
 
             }
@@ -118,11 +123,16 @@ pipeline {
                 label 'docker-nodejs-slave'
             }
             steps {
-                glDockerImageBuildPush tag: "$tagBase/$devWebRepo:devtwo",
-                        repository: "$devWebRepo",
-                        namespace: "$namespace",
+                glDockerImageBuildPush tag: "$tagBase/ui_devtwo:devtwo",
+                        dockerHost: 'docker.repo1.uhc.com',
                         dockerCredentialsId: "$env.DOCKER_CREDENTIALS_ID",
                         extraBuildOptions: "--build-arg env_var=devtwo"
+              
+                 glDockerImageTag sourceTag: "$tagBase/ui_devtwo:devtwo",
+                                 destTag: "$tagBase/ui_devtwo:${env.BUILD_NUMBER}"
+                 glDockerImagePush dockerCredentialsId: "${env.DOCKER_CREDENTIALS_ID}", 
+                     tag:"$tagBase/ui_devtwo:${env.BUILD_NUMBER}",
+                     dockerHost: 'docker.repo1.uhc.com'
             }
         }
 
@@ -139,7 +149,7 @@ pipeline {
                         ocpUrl: "$oseHost",
                         project: "$oseDevProject",
                         serviceName: "$devTwoUiPod",
-                        dockerImage: "$tagBase/$devWebRepo:devtwo",
+                        dockerImage: "$tagBase/ui_devtwo:devtwo",
                         port: '8000'
             }
         }
@@ -194,11 +204,16 @@ pipeline {
                 label 'docker-nodejs-slave'
             }
             steps {
-                glDockerImageBuildPush tag: "$tagBase/$devWebRepo:devfour",
-                        repository: "$devWebRepo",
-                        namespace: "$namespace",
+                glDockerImageBuildPush tag: "$tagBase/ui_devfour:devfour",
+                        dockerHost: 'docker.repo1.uhc.com',
                         dockerCredentialsId: "$env.DOCKER_CREDENTIALS_ID",
                         extraBuildOptions: "--build-arg env_var=devfour"
+              
+                 glDockerImageTag sourceTag: "$tagBase/ui_devfour:devfour",
+                                 destTag: "$tagBase/ui_devfour:${env.BUILD_NUMBER}"
+                 glDockerImagePush dockerCredentialsId: "${env.DOCKER_CREDENTIALS_ID}", 
+                     tag:"$tagBase/ui_devfour:${env.BUILD_NUMBER}",
+                     dockerHost: 'docker.repo1.uhc.com'
             }
         }
 
@@ -215,7 +230,7 @@ pipeline {
                         ocpUrl: "$oseHost",
                         project: "$oseDevProject",
                         serviceName: "$devFourUiPod",
-                        dockerImage: "$tagBase/$devWebRepo:devfour",
+                        dockerImage: "$tagBase/ui_devfour:devfour",
                         port: '8000'
             }
         }
