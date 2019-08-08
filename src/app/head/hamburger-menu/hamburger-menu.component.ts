@@ -298,8 +298,9 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
         '*[href="/CareDelivery/PatientCareOpportunity"]'
       )[0];
       PCORNavMenu.style.height = 'auto';
-      PCORNavMenu.style.padding = '8px 0 8px 27px';
+      PCORNavMenu.style.padding = '8px 5px 8px 0';
       PCORNavMenu.style.width = 'auto';
+      PCORNavMenu.style.marginLeft = '26px';
     } catch (error) {}
   }
   hamburgerDisplay(input: boolean) {
