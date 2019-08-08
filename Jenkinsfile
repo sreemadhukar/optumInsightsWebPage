@@ -32,7 +32,7 @@ pipeline {
     }
     
     stages{
-    stage('Web: Build and Deploy Docker Image to DTR - QaOne') {
+    stage('Web: Build and Deploy Docker Image to DTR - dev') {
             when {
                 beforeAgent true
                 branch 'dev'
@@ -54,7 +54,7 @@ pipeline {
             }
         }
 
-        stage('OSE Deployment Web - QaOne') {
+        stage('OSE Deployment Web - dev') {
             when {
                 beforeAgent true
                 branch 'dev'
