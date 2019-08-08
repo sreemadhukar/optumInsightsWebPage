@@ -38,15 +38,15 @@ pipeline {
                 label 'docker-nodejs-slave'
             }
             steps {
-                glDockerImageBuildPush tag: "$tagBase/ui_int:qaone",
+                glDockerImageBuildPush tag: "$tagBase/ui_dev:qaone",
                         dockerHost: 'docker.repo1.uhc.com',
                         dockerCredentialsId: "$env.DOCKER_CREDENTIALS_ID",
                         extraBuildOptions: "--build-arg env_var=dev"
               
-                 glDockerImageTag sourceTag: "$tagBase/ui_int:qaone",
-                                 destTag: "$tagBase/ui_int:${env.BUILD_NUMBER}"
+                 glDockerImageTag sourceTag: "$tagBase/ui_dev:qaone",
+                                 destTag: "$tagBase/ui_dev:${env.BUILD_NUMBER}"
                  glDockerImagePush dockerCredentialsId: "${env.DOCKER_CREDENTIALS_ID}", 
-                     tag:"$tagBase/ui_int:${env.BUILD_NUMBER}",
+                     tag:"$tagBase/ui_dev:${env.BUILD_NUMBER}",
                      dockerHost: 'docker.repo1.uhc.com'
             }
         }
@@ -64,7 +64,7 @@ pipeline {
                         ocpUrl: "$oseHost",
                         project: "$oseQaProject",
                         serviceName: "$qaOneUiPod",
-                        dockerImage: "$tagBase/ui_int:qaone",
+                        dockerImage: "$tagBase/ui_dev:qaone",
                         port: '8000'
 
             }
