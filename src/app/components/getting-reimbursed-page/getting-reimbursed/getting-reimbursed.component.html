@@ -69,17 +69,24 @@
         </div>
 
         <!--       <button *ngFor="let option of tabOptions; let i = index" (click)="matOptionClicked(i)">{{ option }}</button>-->
-        <div class="page-subtitle">{{ currentTabTitle }}</div>
-      </div>
-      <div class="height1Separator"></div>
-      <div class="getting-reimbursed-cards" *ngFor="let item of currentSummary">
-        <app-card *ngIf="item.data != null && item.type != 'rotateWithLabel'" class="cards" [chartData]="item">
-        </app-card>
-        <app-error-card *ngIf="item.status != null" class="cards" [data]="item"></app-error-card>
-      </div>
+        <div class="page-subtitle">
+          {{ currentTabTitle }}
+          <div *ngIf="currentTabTitle != 'Claims Submissions'">
+            <button (click)="onDetailsButtonClick(buttonNumber, $event)" class="details-button">
+              {{ buttonName }}
+            </button>
+          </div>
+        </div>
+        <div class="height1Separator"></div>
+        <div class="getting-reimbursed-cards" *ngFor="let item of currentSummary">
+          <app-card *ngIf="item.data != null && item.type != 'rotateWithLabel'" class="cards" [chartData]="item">
+          </app-card>
+          <app-error-card *ngIf="item.status != null" class="cards" [data]="item"></app-error-card>
+        </div>
 
-      <div *ngFor="let data of mockCards; let i = index">
-        <app-card class="cards" [skeleton]="loading" *ngIf="loading"> </app-card>
+        <div *ngFor="let data of mockCards; let i = index">
+          <app-card class="cards" [skeleton]="loading" *ngIf="loading"> </app-card>
+        </div>
       </div>
       <app-clarify-claims-message *ngIf="showDOSmessage"></app-clarify-claims-message>
     </div>
