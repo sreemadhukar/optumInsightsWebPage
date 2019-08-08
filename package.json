@@ -41,6 +41,7 @@
     "jsencrypt": "^3.0.0-rc.1",
     "jsonwebtoken": "^8.5.1",
     "ng": "0.0.0",
+    "ngx-cookie-service": "^2.2.0",
     "path": "^0.12.7",
     "rxjs": "~6.2.0",
     "serve": "^11.1.0",
