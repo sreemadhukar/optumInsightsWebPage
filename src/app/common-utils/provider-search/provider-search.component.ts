@@ -93,12 +93,17 @@ export class ProviderSearchComponent implements OnInit, AfterViewInit {
       (<HTMLElement>document.querySelector('.mat-autocomplete-panel')).style.height = '0';
     }
     if (this.stateCtrl.value && this.stateCtrl.value !== '') {
-      (<HTMLElement>document.querySelector('.mat-autocomplete-panel')).style.height = 'auto';
+      if (document.querySelector('.mat-autocomplete-hidden')) {
+        (<HTMLElement>document.querySelector('.mat-autocomplete-hidden')).style.visibility = 'visible';
+      }
+      if (document.querySelector('.mat-autocomplete-panel')) {
+        (<HTMLElement>document.querySelector('.mat-autocomplete-panel')).style.height = 'auto';
+      }
       for (let i = 0; i < this.states.length; i++) {
         if (!this.states[i].HealthCareOrganizationName.toLowerCase().startsWith(this.stateCtrl.value.toLowerCase())) {
           this.nomatchFlag = false;
-          (<HTMLElement>document.querySelector('.mat-form-field-label')).style.color = 'red';
-          (<HTMLElement>document.querySelector('.mat-form-field-outline-thick')).style.color = 'red';
+          (<HTMLElement>document.querySelector('.mat-form-field-label')).style.color = '#B10C00';
+          (<HTMLElement>document.querySelector('.mat-form-field-outline-thick')).style.color = '#B10C00';
         } else {
           (<HTMLElement>document.querySelector('.mat-form-field-label')).style.color = '#196ECF';
           (<HTMLElement>document.querySelector('.mat-form-field-outline-thick')).style.color = '#196ECF';
@@ -108,6 +113,9 @@ export class ProviderSearchComponent implements OnInit, AfterViewInit {
       }
     }
     if (this.stateCtrl.value === '') {
+      if (document.querySelector('.mat-autocomplete-hidden')) {
+        (<HTMLElement>document.querySelector('.mat-autocomplete-hidden')).style.visibility = 'hidden';
+      }
       if (!(<HTMLElement>document.querySelector('.mat-focused'))) {
         (<HTMLElement>document.querySelector('.mat-form-field-label')).style.color = '#757588';
         (<HTMLElement>document.querySelector('.mat-form-field-outline-thick')).style.color = 'black';
@@ -115,6 +123,10 @@ export class ProviderSearchComponent implements OnInit, AfterViewInit {
         (<HTMLElement>document.querySelector('.mat-form-field-outline-thick')).style.color = '#196ECF';
         (<HTMLElement>document.querySelector('.mat-form-field-label')).style.color = '#196ECF';
       }
+    }
+    if (this.stateCtrl.value === '') {
+      this.nomatchFlag = true;
+      (<HTMLElement>document.querySelector('.mat-form-field-outline-thick')).style.color = '#196ECF';
     }
 
     // madhukar

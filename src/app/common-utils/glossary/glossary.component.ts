@@ -33,10 +33,14 @@ export class GlossaryComponent implements OnInit {
   @Input() title;
   constructor(private glossaryService: GlossaryService) {}
   ngOnInit() {
+    console.log(this.title);
     this.options = [];
     this.glossarySelected = [];
     this.glossaryService.getBusinessGlossaryData().subscribe(response => {
       this.glossaryList = JSON.parse(JSON.stringify(response));
+      if (this.title === 'Medicare Star Rating') {
+        this.title = 'Medicare & Retirement Average Star Rating';
+      }
       if (this.glossaryList) {
         for (let i = 0; i < this.glossaryList.length; i++) {
           this.readmoreFlag[i] = true;

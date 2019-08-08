@@ -27,19 +27,62 @@ export class CommonUtilsService {
     }
     return fnumber;
   }
-  public last30DaysTrend(last30: number, previousLast30: number): Object {
+
+  public negativeMeansGood(trendNumber: number) {
+    const value = trendNumber.toFixed(1) + '%';
+    let temp: object = {};
+    if (trendNumber >= 1) {
+      temp = {
+        sign: 'up-red',
+        data: value
+      };
+    } else if (trendNumber < 1 && trendNumber >= 0) {
+      temp = {
+        sign: 'neutral',
+        data: 'No Change'
+      };
+    } else {
+      temp = {
+        sign: 'down-green',
+        data: value
+      };
+    }
+    return temp;
+  }
+  public trendNegativeMeansGood(last30: number, previousLast30: number): Object {
     const temp = ((last30 - previousLast30) / previousLast30) * 100;
     let value = '';
     const suffix = '%';
     let tempSign;
-    if (temp > 0) {
-      tempSign = 'up';
+    if (temp >= 1) {
+      tempSign = 'up-red'; // red color
       value = '+' + temp.toFixed() + suffix;
-    } else if (temp === 0) {
+    } else if (temp < 1 && temp >= 0) {
       tempSign = 'neutral';
       value = 'No Change';
     } else {
-      tempSign = 'down';
+      tempSign = 'down-green'; // green color
+      value = temp.toFixed() + suffix;
+    }
+
+    return {
+      sign: tempSign,
+      data: value
+    };
+  }
+  public trendNegativeMeansBad(last30: number, previousLast30: number): Object {
+    const temp = ((last30 - previousLast30) / previousLast30) * 100;
+    let value = '';
+    const suffix = '%';
+    let tempSign;
+    if (temp >= 1) {
+      tempSign = 'up'; // green color
+      value = '+' + temp.toFixed() + suffix;
+    } else if (temp < 1 && temp >= 0) {
+      tempSign = 'neutral';
+      value = 'No Change';
+    } else {
+      tempSign = 'down'; // red color
       value = temp.toFixed() + suffix;
     }
     return {
@@ -58,7 +101,7 @@ export class CommonUtilsService {
   public matchLobWithData(lob) {
     if (lob === 'All') {
       return 'All';
-    } else if (lob === 'Employee & Individual') {
+    } else if (lob === 'Employer & Individual') {
       return 'Ei';
     } else if (lob === 'Medicare & Retirement') {
       return 'Mr';
@@ -69,7 +112,7 @@ export class CommonUtilsService {
   public matchLobWithCapsData(lob) {
     if (lob === 'All') {
       return 'All';
-    } else if (lob === 'Employee & Individual') {
+    } else if (lob === 'Employer & Individual') {
       return 'EI';
     } else if (lob === 'Medicare & Retirement') {
       return 'MR';
@@ -80,7 +123,7 @@ export class CommonUtilsService {
   public matchLobWithLobData(lob) {
     if (lob === 'All') {
       return 'All';
-    } else if (lob === 'Employee & Individual') {
+    } else if (lob === 'Employer & Individual') {
       return 'E&I';
     } else if (lob === 'Medicare & Retirement') {
       return 'M&R';
@@ -114,7 +157,7 @@ export class CommonUtilsService {
   public matchFullLobWithData(lob) {
     if (lob === 'All') {
       return 'ALL';
-    } else if (lob === 'Employee & Individual') {
+    } else if (lob === 'Employer & Individual') {
       return 'EmployerAndIndividual';
     } else if (lob === 'Medicare & Retirement') {
       return 'MedicareAndRetirement';
@@ -227,6 +270,19 @@ export class CommonUtilsService {
       return 'December';
     } else {
       return null;
+    }
+  }
+
+  public convertServiceCategoryOneWord(a) {
+    let word = a;
+    if (word.indexOf(' ') === 0) {
+      return word;
+    } else {
+      // A couple of the service categories have special char
+      word = word.replace('/', ' ');
+      word = word.replace(/[^a-zA-Z ]/g, '');
+      word = word.replace(/ /g, '_');
+      return word;
     }
   }
 }

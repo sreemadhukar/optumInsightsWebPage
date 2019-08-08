@@ -7,7 +7,12 @@
       <div class="page-subtitle">{{ pagesubTitle }}</div>
     </div>
     <div class="cards cust-width-blank">
-      <app-print [printDivId]="'print-overview'" [printName]="'Overview Page'"></app-print>
+      <!--<app-print-->
+      <!--[printDivId]="'print-overview'"-->
+      <!--[printName]="'Overview Page'"-->
+      <!--[printHeight]="printHeight"-->
+      <!--[printWidth]="printWidth"-->
+      <!--&gt;</app-print>-->
     </div>
     <div class="height1Separator"></div>
 
@@ -31,10 +36,10 @@
     <app-small-card class="cards" [skeleton]="loading" *ngIf="loading"> </app-small-card>
     <app-error-card *ngIf="errorloadselfServiceAdoptionCard" class="cards" [data]="item"></app-error-card>
 
-    <app-small-card class="cards" *ngIf="loadClaimsYieldCard && !claimsLoading" class="cards" [data]="claimsYieldBlock">
+    <!--<app-small-card class="cards" *ngIf="loadClaimsYieldCard && !claimsLoading" class="cards" [data]="claimsYieldBlock">
     </app-small-card>
     <app-small-card class="cards" [skeleton]="claimsLoading" *ngIf="claimsLoading"> </app-small-card>
-    <app-error-card *ngIf="errorloadClaimsYieldCard" class="cards" [data]="item"></app-error-card>
+    <app-error-card *ngIf="errorloadClaimsYieldCard" class="cards" [data]="item"></app-error-card>-->
 
     <app-small-card
       class="cards"
@@ -58,6 +63,7 @@
     <div *ngFor="let data of mockMainCards; let i = index">
       <app-small-card class="cards" [skeleton]="loading" *ngIf="loading"> </app-small-card>
     </div>-->
+    <app-clarify-claims-message></app-clarify-claims-message>
   </div>
 
   <div class="overview-content">

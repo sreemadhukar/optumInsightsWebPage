@@ -40,15 +40,18 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
   nonPaymentData1: Array<Object> = [{}];
   currentTabTitle: String = '';
   monthlyLineGraph: any = [{}];
+  loadingTopReasons: boolean;
 
-  show = true;
+  topReasonsCategoryDisplay = true;
   dataLoaded = false;
   type: any;
   loadingOne: boolean;
   mockCardOne: any;
   loadingTwo: boolean;
   mockCardTwo: any;
-
+  barChartsArray: any = [];
+  reasonsNoData: object = null;
+  /*
   barChartsArray = [
     {
       title: 'Need More Information',
@@ -186,7 +189,7 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
       ]
     }
   ];
-
+  */
   constructor(
     private checkStorage: StorageService,
     private iconRegistry: MatIconRegistry,
@@ -236,6 +239,14 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
 
   ngOnInit() {
     this.nonPaymentData1 = [];
+    this.loadingTopReasons = true;
+    if (
+      this.session.filterObjValue.timeFrame === 'Last 12 Months' ||
+      this.session.filterObjValue.timeFrame === '2017' ||
+      this.session.filterObjValue.timeFrame === '2018'
+    ) {
+      this.session.filterObjValue.timeFrame = 'Last 6 Months';
+    } // temporary change for claims
     this.timePeriod = this.session.filterObjValue.timeFrame;
     if (this.session.filterObjValue.lob !== 'All') {
       this.lob = this.filtermatch.matchLobWithLobData(this.session.filterObjValue.lob);
@@ -250,19 +261,53 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
     } else {
       this.taxID = [];
     }
-    this.gettingReimbursedSharedService.getTins().then(tins => {
-      console.log(tins);
-    });
+    this.gettingReimbursedSharedService.getTins().then(tins => {});
     this.loadingOne = false;
     this.mockCardOne = [{}];
     this.loadingTwo = false;
     this.mockCardTwo = [{}];
+
     // this.timePeriod = this.session.timeFrame; // uncomment it
 
     /** code for two donuts  Claims Not Paid and Claims Non-payment Rate */
-    this.nonPaymentService.getNonPayment().then(nonPayment => {
-      this.nonPaymentData1 = JSON.parse(JSON.stringify(nonPayment));
-    });
+    this.nonPaymentService.getNonPayment().then(
+      nonPayment => {
+        this.nonPaymentData1 = JSON.parse(JSON.stringify(nonPayment));
+      },
+      err => {
+        console.log('Non Payment Component Two Donuts', err);
+      }
+    );
+    /** Ends here */
+
+    /** code for Top Categories*/
+
+    this.topReasonsCategoryDisplay = false;
+    this.nonPaymentService.getNonPaymentCategories().then(
+      topCategories => {
+        this.loadingTopReasons = false;
+        this.topReasonsCategoryDisplay = true;
+        this.barChartsArray = topCategories;
+        console.log(this.barChartsArray);
+        if (topCategories === null) {
+          this.topReasonsCategoryDisplay = false;
+          this.reasonsNoData = {
+            category: 'large-card',
+            type: 'donut',
+            status: 404,
+            title: 'Claims Non-Payment Rate',
+            data: null,
+            timeperiod: null
+          };
+        }
+      },
+      error => {
+        this.topReasonsCategoryDisplay = false;
+        this.barChartsArray = null;
+        console.log('Non Payment Component Error Top Categories', error);
+      }
+    );
+    /** End code for Top Categories */
 
     this.monthlyLineGraph.chartId = 'non-payment-trend-block';
     this.monthlyLineGraph.titleData = [{}];
@@ -280,17 +325,30 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
 
     this.monthlyLineGraph.chartData = [];
     this.dataLoaded = false;
-    this.gettingReimbursedSharedService.getclaimsNonPaymentTrendData().then(trendData => {
+    this.nonPaymentService.sharedTrendByMonth().then(trendData => {
       this.monthlyLineGraph.chartData = trendData;
-      // console.log('**********' , trendData);
       this.dataLoaded = true;
     });
-
     this.monthlyLineGraph.generalData2 = [];
     this.monthlyLineGraph.chartData2 = [];
   } // ngOnInit Ends here
+
   helpIconClick(title) {
     this.glossaryExpandService.setMessage(title);
+  }
+  /** This function is used for collapse of Top Reasons For Non Payment
+   * section is an array of boolean variable
+   * The functionlaity in html code is like when we click on + and - icon, boolean value of true
+   * is pushed in section array.
+   * So this function is marking false for all those indexes in the section array except for the
+   * clicked one which we captured in the variable x
+   */
+  reasonsCollapose(x: Number) {
+    for (let i = 0; i < this.section.length; i++) {
+      if (i !== x) {
+        this.section[i] = false;
+      }
+    }
   }
 
   sortHeader(event) {

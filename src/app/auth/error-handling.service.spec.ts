@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 
-import { CallsTrendService } from './calls-trend.service';
+import { ErrorHandlingService } from './error-handling.service';
 
-describe('CallsTrendService', () => {
+describe('ErrorHandlingService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: CallsTrendService = TestBed.get(CallsTrendService);
+    const service: ErrorHandlingService = TestBed.get(ErrorHandlingService);
     expect(service).toBeTruthy();
   });
 });

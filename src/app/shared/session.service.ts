@@ -2,6 +2,7 @@ import { Injectable, EventEmitter } from '@angular/core';
 import { GettingReimbursedService } from '../rest/getting-reimbursed/getting-reimbursed.service';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Filter } from './_models/filter';
+import { environment } from '../../environments/environment';
 import { share } from 'rxjs/operators';
 
 @Injectable({
@@ -17,7 +18,12 @@ export class SessionService {
   public filterObj: Observable<Filter>;
   public filterObjSubject: BehaviorSubject<Filter>;
   constructor(private gettingReimbursedService: GettingReimbursedService) {
-    this.filterObjSubject = new BehaviorSubject<Filter>({ timeFrame: 'Last 6 Months', lob: 'All', tax: ['All'] });
+    this.filterObjSubject = new BehaviorSubject<Filter>({
+      timeFrame: 'Last 6 Months',
+      lob: 'All',
+      tax: ['All'],
+      taxwithSymbols: ['All']
+    });
     this.filterObj = this.filterObjSubject.asObservable().pipe(share());
   }
   public get filterObjValue(): Filter {
@@ -37,9 +43,11 @@ export class SessionService {
   }
 
   public providerKeyData() {
-    if (sessionStorage.getItem('currentUser')) {
+    if (sessionStorage.getItem('currentUser') && environment.internalAccess) {
       console.log(JSON.parse(sessionStorage.getItem('currentUser'))[0]['ProviderKey']);
       return JSON.parse(sessionStorage.getItem('currentUser'))[0]['ProviderKey'];
+    } else if (sessionStorage.getItem('currentUser') && !environment.internalAccess) {
+      return JSON.parse(sessionStorage.getItem('currentUser'))[0]['Providersyskey'];
     }
   }
   public sessionStorage(value: string, item: string) {
@@ -50,7 +58,11 @@ export class SessionService {
   public getTins() {
     return new Promise((resolve, reject) => {
       if (sessionStorage.getItem('currentUser')) {
-        this.providerkey = JSON.parse(sessionStorage.getItem('currentUser'))[0]['ProviderKey'];
+        if (environment.internalAccess) {
+          this.providerkey = JSON.parse(sessionStorage.getItem('currentUser'))[0]['ProviderKey'];
+        } else {
+          this.providerkey = JSON.parse(sessionStorage.getItem('currentUser'))[0]['Providersyskey'];
+        }
         this.gettingReimbursedService.getTins(this.providerkey).subscribe(tins => {
           const providerTins = tins;
           resolve(providerTins);

@@ -30,6 +30,9 @@ export class DonutChartOnchangeComponent implements OnInit, AfterViewInit, OnCha
     this.doDonutChart(this.chartOptions, this.transition);
   }
   ngOnChanges() {
+    if (this.renderChart === undefined) {
+      this.renderChart = '#' + this.chartOptions.gdata[1];
+    }
     this.doDonutChart(this.chartOptions, this.noTransition);
     this.renderChart = '#' + this.chartOptions.gdata[1];
   }
@@ -284,7 +287,7 @@ export class DonutChartOnchangeComponent implements OnInit, AfterViewInit, OnCha
         });
 
       text.text(chartOptions.centerNumber);
-      text.text();
+      // text.text();
     }
 
     // chartOptions.hover
@@ -294,7 +297,7 @@ export class DonutChartOnchangeComponent implements OnInit, AfterViewInit, OnCha
         .append('div')
         .attr('class', 'tooltipDonut')
         .style('opacity', 0)
-        .style('border-radius', 0);
+        .style('border-radius', '2px');
 
       const svg2 = divHover.append('svg');
       const boxWidth = '109px';

@@ -17,7 +17,7 @@ export const environment: any = {
   originUrl: 'https://pedintui-pedstg.ocp-ctc-dmz-stg.optum.com/',
   */
   // *In Local use dev3
-  apiProxyUrl: 'https://gateway-stage-core.optum.com/api/devone/pdr/uhci/v1/',
+  apiProxyUrl: 'https://gateway-stage-core.optum.com/api/stage/pdr/uhci/v1/',
   originUrl: 'https://pedintui-pedstg.ocp-ctc-dmz-stg.optum.com/',
   // apiProxyUrl: 'https://nginx-pedtst.ocp-ctc-core-nonprod.optum.com/',
   // originUrl: 'https://pedintui-pedstg.ocp-ctc-dmz-stg.optum.com/',
@@ -45,7 +45,8 @@ export const environment: any = {
     Calls: 'issue-resolutions/',
     PaymentIntegrity: 'pi-metrics/',
     NonPayment: 'claim-metrics/',
-    CallsTrend: 'provider-calls/'
+    CallsTrend: 'provider-calls/',
+    TrendingMetrics: 'trending-metrics/'
   },
   headerKeys: {
     selectedCompany: '',

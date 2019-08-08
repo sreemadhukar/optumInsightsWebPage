@@ -5,11 +5,9 @@
   $accent: map-get($theme, accent);
   $background: map-get($theme, background);
   $background-color: mat-color($background);
-
   .overview-body {
     @include mat-elevation(2);
     background-color: mat-color($accent);
-
     overflow: hidden;
     @include padding(30px, 0, 64px, 0);
     .overview-content {
@@ -22,9 +20,9 @@
       justify-content: left;
       flex-wrap: wrap;
       padding-left: 40px;
-      width: 1000px;
+      max-width: 1000px;
+      width: 100%;
       margin: auto;
-
       .self-service-heading {
         display: flex;
         padding-top: 30px;
@@ -34,18 +32,15 @@
         height: 0;
         width: 1200px;
       }
-
       & > .cards {
         text-align: left;
         line-height: 75px;
       }
-
       .cust-width-title {
         width: 450px;
         margin-left: 10px;
         font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
         color: $black-rock;
-
         .page-title {
           flex-basis: 100%;
           font-size: 36px;
@@ -60,13 +55,11 @@
           margin-bottom: 16px;
           color: $black-rock;
         }
-
         .page-subtitle {
           flex-basis: 100%;
           font-size: 28px;
           line-height: 50px;
         }
-
         .page-question {
           flex-basis: 100%;
           font-size: 22px;
@@ -99,7 +92,7 @@
       }
       @media (max-width: 1300px) {
         .cust-width-blank {
-          width: 437px;
+          min-width: 437px;
         }
       }
     }

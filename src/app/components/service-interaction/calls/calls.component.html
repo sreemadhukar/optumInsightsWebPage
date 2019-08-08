@@ -1,9 +1,15 @@
 <app-feedback></app-feedback>
 <div class="calls-body">
   <div class="calls-content">
-    <div class="cust-width-title ">
+    <div class="cards cust-width-title ">
       <app-breadcrumbs></app-breadcrumbs>
       <div class="page-title">{{ pageTitle }}</div>
+      <!--<div class="rectangle-title">-->
+      <!--<div class="attention-title">-->
+      <!--<img class="image-align" src="/src/assets/images/warning-icon.svg" />-->
+      <!--<b>Attention:</b> Tax ID and Line of Business filters are not available for Calls.-->
+      <!--</div>-->
+      <!--</div>-->
       <div class="breadcrumb-top-padding filter-div">
         <div class="time--period ">
           <div class="filterchips">
@@ -45,8 +51,9 @@
       <app-card class="cards" [skeleton]="loading" *ngIf="loading"> </app-card>
     </div>
     <div *ngFor="let item of callsItems">
-      <app-card *ngIf="item.data != null" class="cards" [chartData]="item"> </app-card>
-      <app-error-card *ngIf="item.status != null" class="cards" [data]="item"></app-error-card>
+      <app-card *ngIf="item != null && item.data != null" class="cards" [chartData]="item"> </app-card>
+
+      <app-error-card *ngIf="item != null && item.status != null" class="cards" [data]="item"></app-error-card>
     </div>
   </div>
 </div>

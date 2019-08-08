@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, HostListener, ViewEncapsulation, AfterViewInit } from '@angular/core';
+import { Component, OnInit, Input, HostListener, ViewEncapsulation, AfterViewInit, OnChanges } from '@angular/core';
 import * as d3 from 'd3';
 import { CommonUtilsService } from '../../../shared/common-utils.service';
 
@@ -7,11 +7,12 @@ import { CommonUtilsService } from '../../../shared/common-utils.service';
   templateUrl: './claims-paid-bar-graph.component.html',
   styleUrls: ['./claims-paid-bar-graph.component.scss']
 })
-export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit {
+export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit, OnChanges {
   public transition = 1;
   public noTransition = 0;
   public renderChart: string;
   @Input() chartOptions: any = {};
+  initialized: any;
   public testID = 'claimsPaidBreakDown';
 
   constructor(private common: CommonUtilsService) {}
@@ -23,10 +24,33 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     this.renderChart = '#' + this.testID;
+    this.initialized = true;
   }
 
   ngAfterViewInit() {
     this.doBarGraph(this.chartOptions.chartData, this.transition);
+  }
+
+  ngOnChanges() {
+    if (this.initialized) {
+      this.doBarGraph(this.chartOptions.chartData, this.transition);
+    }
+  }
+
+  nFormatter(fnumber) {
+    if (fnumber >= 1000000000) {
+      return (fnumber / 1000000000).toFixed(1).replace(/\.0$/, '') + 'B';
+    }
+    if (fnumber >= 1000000) {
+      return (fnumber / 1000000).toFixed(1).replace(/\.0$/, '') + 'M';
+    }
+    if (fnumber >= 1000) {
+      return (fnumber / 1000).toFixed(1).replace(/\.0$/, '') + 'K';
+    }
+    if (fnumber < 1000) {
+      return fnumber.toFixed(2).replace(/\.0$/, '');
+    }
+    return fnumber;
   }
 
   formatDynamicAbbreviation(tickNumber: number, tickValue: number, prefix: string) {
@@ -197,7 +221,7 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit {
       .attr('font-size', '20')
       .style('text-anchor', 'end')
       .style('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
-      .text('$' + this.common.nFormatter(this.chartOptions.chartData[0]));
+      .text('$' + this.nFormatter(this.chartOptions.chartData[0]));
 
     chart
       .append('text')
@@ -217,7 +241,7 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit {
       .attr('font-size', '20')
       .style('text-anchor', 'end')
       .style('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
-      .text('$' + this.common.nFormatter(this.chartOptions.chartData[1]));
+      .text('$' + this.nFormatter(this.chartOptions.chartData[1]));
 
     chart
       .append('text')
@@ -237,7 +261,7 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit {
       .attr('font-size', '20')
       .style('text-anchor', 'end')
       .style('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
-      .text('$' + this.common.nFormatter(this.chartOptions.chartData[2]));
+      .text('$' + this.nFormatter(this.chartOptions.chartData[2]));
 
     chart
       .append('text')
@@ -257,7 +281,7 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit {
       .attr('font-size', '20')
       .style('text-anchor', 'end')
       .style('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
-      .text('$' + this.common.nFormatter(this.chartOptions.chartData[3]));
+      .text('$' + this.nFormatter(this.chartOptions.chartData[3]));
 
     chart
       .append('text')

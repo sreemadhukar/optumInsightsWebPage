@@ -38,7 +38,8 @@ export class SelectProviderComponent implements OnInit {
   filteredStates: Observable<Providers[]>;
   states: Providers[];
   providerData: any;
-
+  providerSelectedFlag = true;
+  nomatchFlag = true;
   public username: string;
 
   constructor(
@@ -57,6 +58,10 @@ export class SelectProviderComponent implements OnInit {
     iconRegistry.addSvgIcon(
       'search',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/round-search-24px.svg')
+    );
+    iconRegistry.addSvgIcon(
+      'noData',
+      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Alert/round-error_outline-24px.svg')
     );
 
     if (!this.states) {
@@ -91,7 +96,41 @@ export class SelectProviderComponent implements OnInit {
     this.username = userInfo.FirstName;
   }
 
+  public checkCondition() {
+    if (document.querySelector('.mat-autocomplete-panel')) {
+      (<HTMLElement>document.querySelector('.mat-autocomplete-panel')).style.height = '0';
+    }
+    console.log('madhukar');
+    if (this.stateCtrl.value && this.stateCtrl.value !== '') {
+      if (document.querySelector('.mat-autocomplete-hidden')) {
+        (<HTMLElement>document.querySelector('.mat-autocomplete-hidden')).style.visibility = 'visible';
+      }
+      if (document.querySelector('.mat-autocomplete-panel')) {
+        (<HTMLElement>document.querySelector('.mat-autocomplete-panel')).style.height = 'auto';
+      }
+      for (let i = 0; i < this.states.length; i++) {
+        if (!this.states[i].HealthCareOrganizationName.toLowerCase().startsWith(this.stateCtrl.value.toLowerCase())) {
+          this.nomatchFlag = false;
+          (<HTMLElement>document.querySelector('.mat-form-field-outline-thick')).style.color = '#B10C00';
+        } else {
+          (<HTMLElement>document.querySelector('.mat-form-field-outline-thick')).style.color = '#196ECF';
+          this.nomatchFlag = true;
+          break;
+        }
+      }
+    }
+    if (this.stateCtrl.value === '') {
+      this.nomatchFlag = true;
+      (<HTMLElement>document.querySelector('.mat-form-field-outline-thick')).style.color = '#196ECF';
+    }
+    return true;
+  }
+  provider() {
+    this.router.navigate(['/ProviderSearch']);
+  }
+  // madhukar
   providerSelect(event: MatAutocompleteSelectedEvent) {
+    this.providerSelectedFlag = false;
     const provider = this.providerData[0];
     const data = this.states.find(prov => prov.HealthCareOrganizationName === event.option.value);
     if (this.providerData[0].hasOwnProperty('Providersyskey')) {

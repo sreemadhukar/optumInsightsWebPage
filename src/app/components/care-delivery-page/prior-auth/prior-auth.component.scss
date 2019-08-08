@@ -34,7 +34,7 @@
   .filter_bg:focus {
     background-color: #196ecf;
     color: #ffffff;
-    box-shadow: 0 4px 0px 0 rgba(0, 0, 0, 0.15);
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
     .filter_title {
       color: #ffffff;
     }
@@ -87,6 +87,7 @@
       font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
       color: $black-rock;
       margin-left: 10px;
+      margin-bottom: -12px;
 
       ol {
         @include margin(0, 0, 16px, 0);

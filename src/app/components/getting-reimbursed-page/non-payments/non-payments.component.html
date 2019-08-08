@@ -4,7 +4,6 @@
     <div class="nonPayment-content-cust">
       <app-breadcrumbs></app-breadcrumbs>
       <div class="page-title">{{ pageTitle }}</div>
-      <app-mock-data-warning-message *ngIf="show"></app-mock-data-warning-message>
       <div class="breadcrumb-top-padding filter-div">
         <div class="time--period ">
           <div class="filterchips">
@@ -47,14 +46,15 @@
       <app-card *ngIf="item.data != null" class="cards" [chartData]="item"> </app-card>
       <app-error-card *ngIf="item.status != null" class="cards" [data]="item"></app-error-card>
     </div>
+
     <!-- Claims Non - Payment Trend  Starts Here -->
-    <div class="non-payment-trend-block">
+    <div class="non-payment-trend-block" *ngIf="dataLoaded">
       <app-common-header
         [title]="trendTitle"
         class="full-display bottom-margin-block"
         (helpIconClicked)="helpIconClick($event)"
       ></app-common-header>
-      <div class="full-display" *ngIf="dataLoaded">
+      <div class="full-display">
         <app-line-graph [chartOptions]="monthlyLineGraph"></app-line-graph>
         <!--div class="timeperiod-block">
           <p class="timeperiod-text">{{ timePeriod }}</p>
@@ -63,9 +63,14 @@
       <app-common-footer [timePeriod]="timePeriod" class="width-100 time-period-trend"></app-common-footer>
     </div>
     <!-- Claims Non - Payment Trend Ends Here -->
-
     <!-- Top reasons for Claims Start here -->
-    <div class="top-reasons-for-claims-non-payment-block" *ngIf="show">
+    <app-large-card [skeletonLarge]="loadingTopReasons" *ngIf="loadingTopReasons"></app-large-card>
+    <!-- <app-error-card
+      *ngIf="reasonsNoData != null && reasonsNoData.status != null"
+      class="cards"
+      [data]="reasonsNoData"
+    ></app-error-card> -->
+    <div class="top-reasons-for-claims-non-payment-block" *ngIf="topReasonsCategoryDisplay && !loadingTopReasons">
       <app-common-header
         [title]="title"
         class="full-display"
@@ -81,7 +86,7 @@
             [class.extra-margin-top-8]="i != 0"
             [class.extra-margin-bottom-16]="section[i]"
             class="bar-graphs-content"
-            (click)="section[i] = !section[i]"
+            (click)="section[i] = !section[i]; reasonsCollapose(i)"
           >
             <div class="bar-graph-inside-left-block">
               <div class="bar-graph-inside-left-block-content">
@@ -103,11 +108,15 @@
             <div class="bottom-shadow">
               <div class="hide-bottom-arrow-block"></div>
             </div>
-            <h3 class="inner-blocks-header">Top Reason for Need More Information</h3>
+            <h3 class="inner-blocks-header">
+              Top Reason{{ barchart.top5.length === 1 ? '' : 's' }} for {{ barchart.title }}
+            </h3>
             <div *ngFor="let inside of barchart.top5; let j = index">
-              <div [class.extra-margin-left-4]="j == 0" class="top-5-block">
-                <p class="top-5-text">{{ inside.text }}</p>
-                <p class="top-5-value">{{ inside.value }}</p>
+              <div *ngIf="j < 5">
+                <div [class.extra-margin-left-4]="j == 0" class="top-5-block">
+                  <p class="top-5-text">{{ inside.text }}</p>
+                  <p class="top-5-value">{{ inside.value }}</p>
+                </div>
               </div>
             </div>
           </div>
@@ -118,5 +127,6 @@
       </div>
     </div>
     <!-- Top Reasons for Claims Ends here -->
+    <app-clarify-claims-message></app-clarify-claims-message>
   </div>
 </div>
