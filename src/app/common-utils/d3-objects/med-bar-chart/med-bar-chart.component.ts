@@ -118,8 +118,6 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
       .attr('width', function() {
         if (typeof chartOptions.graphValues[0] !== 'undefined') {
           return xScale(chartOptions.graphValues[0]);
-        } else {
-          return 0;
         }
       })
       .attr('height', 24)
@@ -131,8 +129,6 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
       .attr('x', function() {
         if (typeof chartOptions.graphValues[0] !== 'undefined') {
           return 10 + xScale(chartOptions.graphValues[0]);
-        } else {
-          return 10;
         }
       })
       .attr('y', 20)
@@ -145,8 +141,6 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
       .attr('x', function() {
         if (typeof chartOptions.graphValues[0] !== 'undefined') {
           return 12 + xScale(chartOptions.graphValues[0]);
-        } else {
-          return 12;
         }
       })
       .attr('y', 20)
@@ -155,8 +149,6 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
       .attr('width', function() {
         if (typeof chartOptions.graphValues[0] !== 'undefined') {
           return xScale(chartOptions.graphValues[1]) + 1;
-        } else {
-          return 1;
         }
       })
       .attr('height', 24)
