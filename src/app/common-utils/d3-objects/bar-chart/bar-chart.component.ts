@@ -4,7 +4,7 @@ import * as d3 from 'd3';
 @Component({
   selector: 'app-bar-chart',
   templateUrl: './bar-chart.component.html',
-  styleUrls: ['./bar-chart.component.less'],
+  styleUrls: ['./bar-chart.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
 export class BarChartComponent implements OnInit, AfterViewInit {
@@ -251,11 +251,11 @@ export class BarChartComponent implements OnInit, AfterViewInit {
           .style('height', 'auto')
           .style('width', '438px')
           .style('opacity', 0)
-          .style('border-radius', 0);
+          .style('border-radius', '2px');
 
         const svg2 = div
           .append('svg')
-          .attr('height', '116px')
+          .attr('height', 20 * tspanArray.length + 'px')
           .attr('width', '438px');
 
         // need to make id clean

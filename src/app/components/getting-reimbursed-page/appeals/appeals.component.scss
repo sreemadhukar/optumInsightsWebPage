@@ -3,7 +3,7 @@
 .breadcrumb-top-padding {
   @include margin(12px, 0, 1px, 0);
   box-sizing: border-box;
-  font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+
   width: 961px;
 
   .filter_bg {
@@ -36,7 +36,7 @@
   .filter_bg:focus {
     background-color: #196ecf;
     color: #ffffff;
-    box-shadow: 0 4px 0px 0 rgba(0, 0, 0, 0.15);
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
     .filter_title {
       color: #ffffff;
     }

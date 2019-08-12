@@ -64,7 +64,6 @@ export class CardComponent implements OnInit {
         }
       ];
     }
-    console.log(this.medicareData, this.medicareBesideData);
   }
 
   constructor(private glossaryExpandService: GlossaryExpandService) {

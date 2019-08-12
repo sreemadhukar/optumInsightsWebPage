@@ -67,15 +67,16 @@ export class CallsSharedService {
           return this.sharedCallsTrend();
         })
         .then(data => {
-          if (this.callsData && data) {
-            if (data[0][0] === 'QuestionType') {
-              this.callsData[0].data['sdata'] = data[0][1];
+          const temp = JSON.parse(JSON.stringify(data));
+          if (this.callsData && data && temp != undefined && temp != null && temp.length > 0) {
+            if (temp[0][0] === 'QuestionType') {
+              this.callsData[0].data['sdata'] = temp[0][1];
             }
-            if (data[1][0] === 'TalkTime') {
-              this.callsData[1].data['sdata'] = data[1][1];
+            if (temp[1][0] === 'TalkTime') {
+              this.callsData[1].data['sdata'] = temp[1][1];
             }
-            resolve(this.callsData);
           }
+          resolve(this.callsData);
         });
     });
   }
@@ -87,7 +88,7 @@ export class CallsSharedService {
       this.providerKey = this.session.providerKeyData();
       this.trendsService.getTrendingMetrics([this.providerKey]).subscribe(
         trends => {
-          const preparedData: any = [];
+          const preparedData: Array<Object> = [];
           if (
             trends != undefined &&
             trends != null &&

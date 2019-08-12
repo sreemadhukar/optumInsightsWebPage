@@ -14,7 +14,7 @@
     border-radius: 2px;
     float: right;
     cursor: pointer;
-    margin-right: 7px;
+    margin-right: 7px !important;
 
     .filter_title {
       color: $blue;
@@ -36,7 +36,7 @@
   .filter_bg:focus {
     background-color: #196ecf;
     color: #ffffff;
-    box-shadow: 0 4px 0px 0 rgba(0, 0, 0, 0.15);
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
     .filter_title {
       color: #ffffff;
     }
@@ -96,7 +96,7 @@
       }
       .time--period {
         .filterchips {
-          width: 845px;
+          width: 830px;
           float: left;
           .horizontal-align {
             display: inline-block;

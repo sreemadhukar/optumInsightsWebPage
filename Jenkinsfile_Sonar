@@ -16,7 +16,7 @@ pipeline {
     stages {    
     stage('Run Sonar Scan for UI - non-prod internal') {
             agent {
-                label 'docker-kitchensink-slave'
+                label 'docker-nodejs-slave'
             }
             steps {
                 withCredentials([string(credentialsId:"${env.NPM_ID}", variable:'NPM_AUTH_KEY')]){
