@@ -43,29 +43,16 @@ pipeline {
                 label 'docker-nodejs-slave'
             }
             steps {
-                glDockerImageBuildPush tag: "$tagBase/ui_prd",
+                glDockerImageBuildPush tag: "$tagBase/ui_prd2",
                    dockerHost: 'docker.repo1.uhc.com',
                    dockerCredentialsId: "$env.DOCKER_CREDENTIALS_ID",
                    extraBuildOptions: "--build-arg env_var=externalprod"
           
-                glDockerImageBuildPush tag: "$tagBase/ui_prd_internal:pedui2",
+                glDockerImageBuildPush tag: "$tagBase/ui_prd_internal:myin",
                    dockerHost: 'docker.repo1.uhc.com',
                    dockerCredentialsId: "$env.DOCKER_CREDENTIALS_ID",
                    extraBuildOptions: "--build-arg env_var=prod"
           
-                glDockerImageTag sourceTag: "$tagBase/ui_prd:latest",
-                         destTag: "$tagBase/ui_prd:${env.BUILD_NUMBER}"
-                         
-                glDockerImagePush dockerCredentialsId: "${env.DOCKER_CREDENTIALS_ID}", 
-                     tag:"$tagBase/ui_prd:${env.BUILD_NUMBER}",
-                     dockerHost: 'docker.repo1.uhc.com'
-                     
-                glDockerImageTag sourceTag: "$tagBase/ui_prd_internal:pedui2",
-                         destTag: "$tagBase/ui_prd_internal:${env.BUILD_NUMBER}"
-                         
-                glDockerImagePush dockerCredentialsId: "${env.DOCKER_CREDENTIALS_ID}", 
-                     tag:"$tagBase/ui_prd_internal:${env.BUILD_NUMBER}",
-                     dockerHost: 'docker.repo1.uhc.com'
             }
         }
 
@@ -77,8 +64,8 @@ pipeline {
                 glOpenshiftDeploy credentials: "$env.OPENSHIFT_CREDENTIALS_ID",
                         ocpUrl: "https://ocp-elr-dmz.optum.com",
                         project: 'pedprd',
-                        serviceName: 'peduiuhc',
-                        dockerImage: '$tagBase/ui_prd:latest',
+                        serviceName: 'pedui',
+                        dockerImage: '$tagBase/ui_prd2:latest',
                         port: '8000'
 
             }
@@ -92,14 +79,14 @@ pipeline {
                 glOpenshiftDeploy credentials: "$env.OPENSHIFT_CREDENTIALS_ID",
                         ocpUrl: "https://ocp-ctc-dmz.optum.com",
                         project: 'pedprddr',
-                        serviceName: 'peduiuhc',
-                        dockerImage: '$tagBase/ui_prd:latest',
+                        serviceName: 'pedui',
+                        dockerImage: '$tagBase/ui_prd2:latest',
                         port: '8000'
                 glOpenshiftDeploy credentials: "$env.OPENSHIFT_CREDENTIALS_ID",
                         ocpUrl: "https://ocp-ctc-core.optum.com",
                         project: 'ped-internal',
-                        serviceName: 'pedui2',
-                        dockerImage: '$tagBase/ui_prd_internal:pedui2',
+                        serviceName: 'myinsights',
+                        dockerImage: '$tagBase/ui_prd_internal:myin',
                         port: '8000'
 
             }
@@ -109,7 +96,7 @@ pipeline {
     post {
         always {
             echo 'Email Notification'
-            emailext body: "UI release deployment is completed with $currentBuild.currentResult \n\n" +
+            emailext body: "UI parallel release deployment is completed with $currentBuild.currentResult \n\n" +
                     "Please check following production projects for more details \n" +
                     "Prd Url: https://ocp-elr-dmz.optum.com \n" +
                     "Dr Url: https://ocp-ctc-dmz.optum.com \n\n" +
