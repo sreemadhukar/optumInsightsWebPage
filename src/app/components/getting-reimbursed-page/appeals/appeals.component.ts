@@ -77,6 +77,7 @@ export class AppealsComponent implements OnInit {
     this.reasonDataAvailable = false;
 
     this.gettingReimbursedSharedService.getappealsRateAndReasonData().then(appealsRateData => {
+      console.log(appealsRateData);
       let AppealsCards: any;
       AppealsCards = appealsRateData;
       this.loading = false;

@@ -557,6 +557,27 @@ export class PriorAuthSharedService {
       paServiceCategoryString = '';
     }
 
+    const appCardPriorAuthError = [
+      {
+        category: 'app-card',
+        type: 'donutWithLabel',
+        status: 404,
+        title: 'Prior Authorization Requested',
+        data: null,
+        besideData: null,
+        timeperiod: null
+      },
+      {
+        category: 'app-card',
+        type: 'donutWithLabel',
+        status: 404,
+        title: 'Prior Authorization Approval Rate',
+        data: null,
+        besideData: null,
+        timeperiod: null
+      }
+    ];
+
     return new Promise(resolve => {
       // const newParameters = [this.providerKey, true, true, true, false, true, false, false, false, true];
 
@@ -680,49 +701,52 @@ export class PriorAuthSharedService {
                   TATHourLabel = UrgentTATConversion + ' Hours';
                 }
               }
-
-              PACount = [
-                {
-                  category: 'app-card',
-                  type: 'donutWithLabel',
-                  title: 'Prior Authorization Requested',
-                  data: {
-                    graphValues: [PAApprovedCount, PANotApprovedCount, PANotPendingCount, PANotCancelledCount],
-                    centerNumber: this.nFormatter(PARequestedCount, 1),
-                    color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'],
-                    labels: ['Approved', 'Not Approved', 'Pending', 'Canceled'],
-                    gdata: ['card-inner', 'PARequested'],
-                    hover: true
+              // Add checker for if PA requested is zero
+              if (PARequestedCount === 0) {
+                PACount = appCardPriorAuthError;
+              } else {
+                PACount = [
+                  {
+                    category: 'app-card',
+                    type: 'donutWithLabel',
+                    title: 'Prior Authorization Requested',
+                    data: {
+                      graphValues: [PAApprovedCount, PANotApprovedCount, PANotPendingCount, PANotCancelledCount],
+                      centerNumber: this.nFormatter(PARequestedCount, 1),
+                      color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'],
+                      labels: ['Approved', 'Not Approved', 'Pending', 'Canceled'],
+                      gdata: ['card-inner', 'PARequested'],
+                      hover: true
+                    },
+                    besideData: {
+                      labels: ['Approved', 'Not Approved', 'Pending', 'Canceled'],
+                      color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC']
+                    },
+                    timeperiod: timePeriod
                   },
-                  besideData: {
-                    labels: ['Approved', 'Not Approved', 'Pending', 'Canceled'],
-                    color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC']
-                  },
-                  timeperiod: timePeriod
-                },
-                {
-                  category: 'app-card',
-                  type: 'donutWithLabel',
-                  title: 'Prior Authorization Approval Rate',
-                  data: {
-                    graphValues: [PAApprovalRate, 1 - PAApprovalRate],
-                    centerNumber: (PAApprovalRate * 100).toFixed(0) + '%',
-                    color: ['#3381FF', '#E0E0E0'],
-                    gdata: ['card-inner', 'PAApprovalRate']
-                  },
-                  besideData: {
-                    verticalData: [
-                      { title: 'Average Turnaround Time' },
-                      { values: TATDayLabel, labels: 'Standard' },
-                      { values: TATHourLabel, labels: 'Urgent' }
-                    ]
-                  },
-
-                  timeperiod: timePeriod
-                }
-              ];
+                  {
+                    category: 'app-card',
+                    type: 'donutWithLabel',
+                    title: 'Prior Authorization Approval Rate',
+                    data: {
+                      graphValues: [PAApprovalRate, 1 - PAApprovalRate],
+                      centerNumber: (PAApprovalRate * 100).toFixed(0) + '%',
+                      color: ['#3381FF', '#E0E0E0'],
+                      gdata: ['card-inner', 'PAApprovalRate']
+                    },
+                    besideData: {
+                      verticalData: [
+                        { title: 'Average Turnaround Time' },
+                        { values: TATDayLabel, labels: 'Standard' },
+                        { values: TATHourLabel, labels: 'Urgent' }
+                      ]
+                    },
+                    timeperiod: timePeriod
+                  }
+                ];
+              }
             } else {
-              PACount = [];
+              PACount = appCardPriorAuthError;
             }
 
             let PriorAuthNotApprovedReasons = [];
@@ -851,7 +875,19 @@ export class PriorAuthSharedService {
                 });
               }
             } else {
-              PriorAuthBarGraphParamaters = [];
+              // PriorAuthBarGraphParamaters = [];
+              // PriorAuthBarGraphParamaters = appCardPriorAuthError;
+              PriorAuthBarGraphParamaters = [
+                {
+                  category: 'large-card',
+                  type: 'donutWithLabel',
+                  status: 404,
+                  title: 'Top Reasons for Prior Authorizations Not Approved',
+                  data: null,
+                  besideData: null,
+                  timeperiod: null
+                }
+              ];
             }
 
             const PAData = [PACount, PriorAuthBarGraphParamaters];
@@ -1190,7 +1226,7 @@ export class PriorAuthSharedService {
           resolve(this.priorAuthDataCombined);
         })
         .catch(reason => {
-          this.priorAuthDataCombined[0][1].data['sdata'] = null;
+          // this.priorAuthDataCombined[0][1].data['sdata'] = null;
           resolve(this.priorAuthDataCombined);
           console.log('Prior Auth Service Error ', reason);
         });
