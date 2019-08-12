@@ -20,7 +20,7 @@ pipeline {
 
     stages {
 
-        /**stage('Web: Build and Deploy Docker Image to DTR') {
+        stage('Web: Build and Deploy Docker Image to DTR') {
             agent {
                 label 'docker-nodejs-slave'
             }
@@ -51,19 +51,19 @@ pipeline {
                         port: '8000'
 
             }
-        }**/
+        }
 
        stage('OSE Deployment Web DR') {
        agent {
                 label 'docker-maven-slave'
             }
             steps {
-                /**glOpenshiftDeploy credentials: "$env.OPENSHIFT_CREDENTIALS_ID",
+                glOpenshiftDeploy credentials: "$env.OPENSHIFT_CREDENTIALS_ID",
                         ocpUrl: "https://ocp-ctc-dmz.optum.com",
                         project: 'pedprddr',
                         serviceName: 'pedui',
                         dockerImage: '$tagBase/ui_prd2:latest',
-                        port: '8000'**/
+                        port: '8000'
                 glOpenshiftDeploy credentials: "$env.OPENSHIFT_CREDENTIALS_ID",
                         ocpUrl: "https://ocp-ctc-core.optum.com",
                         project: 'ped-internal',
