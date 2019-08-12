@@ -1,8 +1,11 @@
 @import '~src/scss/variables.scss';
+@import '~src/scss/_buttons.scss';
 .filter {
   margin-top: 6px;
 }
-.line-top {
+.line-top,
+.line,
+.line1 {
   background-color: #fff;
   display: flex;
   border-bottom: solid;
@@ -11,22 +14,11 @@
   z-index: 999;
 }
 .line {
-  background-color: #fff;
-  display: flex;
-  border-bottom: solid;
-  border-width: 1px;
-  border-color: #b3babc;
-  z-index: 999;
   height: 16px;
 }
 .line1 {
-  background-color: #fff;
   height: 16px;
-  display: flex;
-  border-bottom: solid;
-  border-width: 1px;
   border-color: #e0e0e0;
-  z-index: 999;
   width: 418px;
   margin-left: -32px !important;
 }
@@ -120,13 +112,7 @@
     line-height: 22px;
   }
   .select-option-data {
-    .radio-group {
-      width: 100%;
-      float: left;
-      display: flex;
-      flex-direction: column;
-      margin: 15px 0 0 0;
-    }
+    .radio-group,
     .radio-group-ss {
       width: 100%;
       float: left;
@@ -165,29 +151,12 @@
     color: lightgray;
   }
 }
-.applybtn {
-  box-sizing: border-box;
-  height: 41px;
-  width: 50%;
-  border: 1px solid #0d880b;
-  border-radius: 2px;
-  background-color: #0d880b;
-  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
-  color: #ffffff;
-  font-family: 'UHCSans-SemiBold', 'Arial';
-  font-size: 16px;
-}
+.applybtn,
 .resetbtn {
   box-sizing: border-box;
   height: 41px;
   width: 50%;
-  border: 1px solid #ffffff;
-  border-radius: 2px;
-  background-color: #ffffff;
-  box-shadow: 0 2px 4px 0 #ffffff;
-  color: $blue;
   font-family: 'UHCSans-SemiBold', 'Arial';
-  font-size: 16px;
 }
 .btn-display {
   margin-top: 24px;
@@ -198,12 +167,6 @@
 .resetbtn:focus {
   background-color: #ffffff;
   box-shadow: 0 2px 4px 0 #ffffff;
-}
-::ng-deep .resetbtn:hover {
-  text-decoration: underline;
-}
-::ng-deep .applybtn:hover {
-  background-color: #007000;
 }
 ::ng-deep .mat-option {
   padding: 7.5px 0 7.5px 12px !important;
