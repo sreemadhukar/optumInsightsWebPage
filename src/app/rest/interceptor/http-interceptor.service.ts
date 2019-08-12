@@ -34,7 +34,7 @@ export class HttpInterceptorService implements HttpInterceptor {
     request = request.clone({ headers: request.headers.set('Accept', '*/*') });
 
     return next.handle(request).pipe(
-      retry(2),
+      retry(0),
       map((event: HttpEvent<any>) => {
         /*if (event instanceof HttpResponse) {
           console.log('event--->>>', event);
