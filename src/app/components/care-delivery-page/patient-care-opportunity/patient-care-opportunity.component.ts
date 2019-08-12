@@ -45,17 +45,6 @@ export class PatientCareOpportunityComponent implements OnInit {
       this.summaryItems = JSON.parse(JSON.stringify(data));
       this.StarRatings = this.summaryItems[2];
       const item = this.StarRatings[0];
-
-      const x = item.data.starCount;
-      for (let i = 0; i <= 5; i++) {
-        if (i === x) {
-          console.log('xxx' + i);
-        } else {
-        }
-      }
-
-      console.log('summary' + this.summaryItems[2]);
-      console.log(x);
     });
   }
   ngOnInit() {

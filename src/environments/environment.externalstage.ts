@@ -31,7 +31,7 @@ export const environment: any = {
     NonPayment: 'claim-metrics/',
     CallsTrend: 'provider-calls/',
     TrendingMetrics: 'trending-metrics/',
-    PCORQualityMeasure: 'pcor-qltyMsr/search/'
+    PCORQualityMeasure: 'pcor-metrics/'
   },
   headerKeys: {
     selectedCompany: '',

@@ -11,6 +11,7 @@ export class AccordionLargeCardComponent implements OnInit {
   @Input() data;
   @Input() title;
   @Input() qualityMeasure;
+  @Input() skeletonLarge;
   section: any = [];
   @Output() ratingClick: EventEmitter<any> = new EventEmitter<any>();
   type: any;
@@ -66,9 +67,11 @@ export class AccordionLargeCardComponent implements OnInit {
         this.section[i] = false;
       }
     }
+
     const check = 5 - x;
     if (check === this.qualityMeasure[x].star) {
       this.qualityStarCount = this.qualityMeasure[x].star;
+
       this.qualitySubTitle = this.qualityMeasure[x].label;
       this.qualityPcorData = this.qualityMeasure[x].data;
     }
