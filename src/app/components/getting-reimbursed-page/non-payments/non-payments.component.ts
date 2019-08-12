@@ -42,15 +42,14 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
   monthlyLineGraph: any = [{}];
   loadingTopReasons: boolean;
 
-  topReasonsCategoryDisplay = true;
-  dataLoaded = false;
+  topReasonsCategoryDisplay = false;
+  trendMonthDisplay = false;
   type: any;
   loadingOne: boolean;
   mockCardOne: any;
   loadingTwo: boolean;
   mockCardTwo: any;
-  barChartsArray: any = [];
-  reasonsNoData: object = null;
+  barChartsArray: any;
   /*
   barChartsArray = [
     {
@@ -288,18 +287,18 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
         this.loadingTopReasons = false;
         this.topReasonsCategoryDisplay = true;
         this.barChartsArray = topCategories;
-        console.log(this.barChartsArray);
         if (topCategories === null) {
           this.topReasonsCategoryDisplay = false;
-          this.reasonsNoData = {
+          this.barChartsArray = {
             category: 'large-card',
             type: 'donut',
             status: 404,
-            title: 'Claims Non-Payment Rate',
+            title: 'Top Reasons for Claims Non-Payment',
             data: null,
             timeperiod: null
           };
         }
+        console.log('this.barChartsArray', this.barChartsArray);
       },
       error => {
         this.topReasonsCategoryDisplay = false;
@@ -324,11 +323,25 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
     ];
 
     this.monthlyLineGraph.chartData = [];
-    this.dataLoaded = false;
+    this.trendMonthDisplay = false;
+    // This is for line graph
     this.nonPaymentService.sharedTrendByMonth().then(trendData => {
-      this.monthlyLineGraph.chartData = trendData;
-      this.dataLoaded = true;
+      if (trendData === null) {
+        this.trendMonthDisplay = false;
+        this.monthlyLineGraph = {
+          category: 'large-card',
+          type: 'donut',
+          status: 404,
+          title: 'Claims Non-Payment Trend',
+          data: null,
+          timeperiod: null
+        };
+      } else {
+        this.monthlyLineGraph.chartData = trendData;
+        this.trendMonthDisplay = true;
+      }
     });
+
     this.monthlyLineGraph.generalData2 = [];
     this.monthlyLineGraph.chartData2 = [];
   } // ngOnInit Ends here
