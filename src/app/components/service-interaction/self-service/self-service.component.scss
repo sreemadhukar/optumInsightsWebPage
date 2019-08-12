@@ -1,19 +1,23 @@
 @import '~src/scss/variables.scss';
 @import '~src/scss/mixins';
 @import '~src/scss/my-custom-theme';
+
 .selfService-body {
   overflow-x: hidden;
   overflow-y: hidden;
   display: flex;
   flex-direction: column;
-  @include padding(16px, 0, 64px, 0);
+  @include padding(28px, 0, 64px, 0);
+  // at other pages padding-top is 16px but due to unknown reason at this page breadcrumb margin is not working
   background-color: $alice-blue;
+
   .selfService-content {
     display: flex;
-    flex-wrap: wrap;
+    -webkit-flex-flow: row wrap;
     justify-content: left;
     width: 1000px;
     margin: auto;
+    flex-wrap: wrap;
 
     .height1Separator {
       height: 0;
