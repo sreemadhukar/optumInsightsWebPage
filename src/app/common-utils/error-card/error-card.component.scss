@@ -1,8 +1,8 @@
 @import '~src/scss/variables.scss';
 @import '~src/scss/mixins';
-.card-structure {
-  position: relative;
-  display: inline-flex;
+.large-card-structure {
+  width: 961px !important;
+  height: 420px !important;
 }
 
 .common-header {

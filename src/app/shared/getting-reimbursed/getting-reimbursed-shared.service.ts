@@ -7,7 +7,7 @@ import { SessionService } from '../session.service';
 import { AuthorizationService } from '../../auth/_service/authorization.service';
 import { NonPaymentSharedService } from './non-payment-shared.service';
 import { NonPaymentService } from '../../rest/getting-reimbursed/non-payment.service';
-
+import { of } from 'rxjs';
 @Injectable({
   providedIn: GettingReimbursedModule
 })
@@ -2194,77 +2194,94 @@ export class GettingReimbursedSharedService {
         parameters.timeperiod = 'last6months';
       }*/
 
-      this.gettingReimbursedService.getPaymentIntegrityData(parameters).subscribe(r => {
-        if (r !== null && r !== '') {
-          const result: any = r;
-          const output: any = {};
-          let returnedWidth = 4;
-          let notReturnedWidth = 4;
+      this.gettingReimbursedService.getPaymentIntegrityData(parameters).subscribe(
+        r => {
+          if ((r !== null && typeof r !== 'string') || r !== 'OK') {
+            const result: any = r;
+            const output: any = {};
+            let returnedWidth = 4;
+            let notReturnedWidth = 4;
 
-          if (result.MedicalRecordsReturned > result.MedicalRecordsOutstanding) {
-            returnedWidth = 382;
-            if (result.MedicalRecordsOutstanding !== 0) {
-              notReturnedWidth = (result.MedicalRecordsOutstanding * 382) / result.MedicalRecordsReturned;
+            if (result.MedicalRecordsReturned > result.MedicalRecordsOutstanding) {
+              returnedWidth = 382;
+              if (result.MedicalRecordsOutstanding !== 0) {
+                notReturnedWidth = (result.MedicalRecordsOutstanding * 382) / result.MedicalRecordsReturned;
+              }
+            } else {
+              notReturnedWidth = 382;
+              if (result.MedicalRecordsReturned !== 0) {
+                returnedWidth = (result.MedicalRecordsReturned * 382) / result.MedicalRecordsOutstanding;
+              }
             }
-          } else {
-            notReturnedWidth = 382;
-            if (result.MedicalRecordsReturned !== 0) {
-              returnedWidth = (result.MedicalRecordsReturned * 382) / result.MedicalRecordsOutstanding;
+
+            output.returnedWidth = returnedWidth;
+            output.notReturnedWidth = notReturnedWidth;
+            output.MedicalRecordsOutstanding = this.common.nFormatter(result.MedicalRecordsOutstanding);
+            output.MedicalRecordsRequested = this.common.nFormatter(result.MedicalRecordsRequested);
+            output.MedicalRecordsReturned = this.common.nFormatter(result.MedicalRecordsReturned);
+            output.OutStandingAmount = '$' + this.common.nFormatter(result.OutStandingAmount);
+
+            if (Math.round(result.OutStandingAmountVariance) > 0) {
+              output.OutStandingAmountVarianceColor = '#B10C00';
+              output.OutStandingAmountVariance = '+' + Math.round(result.OutStandingAmountVariance * 10) / 10 + '%';
+              output.OutStandingAmountVarianceIcon = 'up-red-trend-icon';
+            } else {
+              output.OutStandingAmountVarianceColor = '#007000';
+              output.OutStandingAmountVariance = Math.round(result.OutStandingAmountVariance * 10) / 10 + '%';
+              output.OutStandingAmountVarianceIcon = 'down-green-trend-icon';
             }
-          }
 
-          output.returnedWidth = returnedWidth;
-          output.notReturnedWidth = notReturnedWidth;
-          output.MedicalRecordsOutstanding = this.common.nFormatter(result.MedicalRecordsOutstanding);
-          output.MedicalRecordsRequested = this.common.nFormatter(result.MedicalRecordsRequested);
-          output.MedicalRecordsReturned = this.common.nFormatter(result.MedicalRecordsReturned);
-          output.OutStandingAmount = '$' + this.common.nFormatter(result.OutStandingAmount);
-
-          if (Math.round(result.OutStandingAmountVariance) > 0) {
-            output.OutStandingAmountVarianceColor = '#B10C00';
-            output.OutStandingAmountVariance = '+' + Math.round(result.OutStandingAmountVariance * 10) / 10 + '%';
-            output.OutStandingAmountVarianceIcon = 'up-red-trend-icon';
-          } else {
-            output.OutStandingAmountVarianceColor = '#007000';
-            output.OutStandingAmountVariance = Math.round(result.OutStandingAmountVariance * 10) / 10 + '%';
-            output.OutStandingAmountVarianceIcon = 'down-green-trend-icon';
-          }
-
-          output.RecordsRequestedVariance =
-            Math.round(result.RecordsRequestedVariance) > 0
-              ? '+' + Math.round(result.RecordsRequestedVariance * 10) / 10 + '%'
-              : Math.round(result.RecordsRequestedVariance * 10) / 10 + '%';
-          output.VarianceStartDate =
-            this.getMonthname(result.VarianceStartDate) + ' ' + this.getFullyear(result.VarianceStartDate);
-          output.VarianceEndDate =
-            this.getMonthname(result.VarianceEndDate) + ' ' + this.getFullyear(result.VarianceEndDate);
-          output.timeperiod = this.timeFrame;
-          let sData: any = {};
-          if (result.RecordsRequestedVariance > 0) {
-            sData = { sign: 'down', data: output.RecordsRequestedVariance + '*' };
-          } else {
-            sData = { sign: 'up', data: output.RecordsRequestedVariance + '*' };
-          }
-          output.piDonutData = {
-            timeperiod: this.timeFrame,
-            donutData: {
-              centerNumber: this.common.nFormatter(result.MedicalRecordsRequested),
-              color: ['#3381FF', '#D7DCE1'],
-              gdata: ['card-inner', 'piCard'],
-              graphValues: [result.MedicalRecordsRequested, result.TotalClaimsSubmitted],
-              sdata: sData,
-              graphScreen: 'PI'
-            },
-            besideData: {
-              color: ['#3381FF', '#D7DCE1'],
-              labels: ['Pre-Payment Medical Records Requested', 'Claims Submitted']
+            output.RecordsRequestedVariance =
+              Math.round(result.RecordsRequestedVariance) > 0
+                ? '+' + Math.round(result.RecordsRequestedVariance * 10) / 10 + '%'
+                : Math.round(result.RecordsRequestedVariance * 10) / 10 + '%';
+            output.VarianceStartDate =
+              this.getMonthname(result.VarianceStartDate) + ' ' + this.getFullyear(result.VarianceStartDate);
+            output.VarianceEndDate =
+              this.getMonthname(result.VarianceEndDate) + ' ' + this.getFullyear(result.VarianceEndDate);
+            output.timeperiod = this.timeFrame;
+            let sData: any = {};
+            if (result.RecordsRequestedVariance > 0) {
+              sData = { sign: 'down', data: output.RecordsRequestedVariance + '*' };
+            } else {
+              sData = { sign: 'up', data: output.RecordsRequestedVariance + '*' };
             }
-          };
-          resolve(output);
-        } else {
-          resolve(null);
+            output.piDonutData = {
+              timeperiod: this.timeFrame,
+              donutData: {
+                centerNumber: this.common.nFormatter(result.MedicalRecordsRequested),
+                color: ['#3381FF', '#D7DCE1'],
+                gdata: ['card-inner', 'piCard'],
+                graphValues: [result.MedicalRecordsRequested, result.TotalClaimsSubmitted],
+                sdata: sData,
+                graphScreen: 'PI'
+              },
+              besideData: {
+                color: ['#3381FF', '#D7DCE1'],
+                labels: ['Pre-Payment Medical Records Requested', 'Claims Submitted']
+              }
+            };
+            resolve(output);
+          } else if (typeof r === 'string' || r === 'OK') {
+            const temp = {
+              category: 'large-card',
+              type: 'donutWithLabelBottom',
+              status: 500,
+              title: 'Claims Payment Integrity',
+              data: null,
+              besideData: null,
+              bottomData: null,
+              timeperiod: null
+            };
+            resolve(temp);
+          } else {
+            resolve(null);
+          }
+        },
+        error => {
+          console.log('error Payment Integrity', error);
         }
-      });
+      );
     });
   }
   getParmaeterCategories() {
