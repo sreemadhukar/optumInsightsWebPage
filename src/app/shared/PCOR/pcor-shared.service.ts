@@ -151,7 +151,6 @@ export class PCORSharedService {
             tempArray.push(x);
           }
 
-          console.log(tempArray);
           resolve(tempArray);
         },
         err => {

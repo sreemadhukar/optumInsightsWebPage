@@ -28,7 +28,6 @@ export class PatientCareOpportunityService {
     const params = new HttpParams();
 
     const PCORQualityMeasureURL = this.APP_URL + this.PCOR_SERVICE_PATH + parameters[0];
-    console.log(PCORQualityMeasureURL);
     return this.http.get(PCORQualityMeasureURL, { params, headers: myHeader }).pipe(
       map(res => JSON.parse(JSON.stringify(res))),
 

@@ -192,7 +192,6 @@ export class BarChartComponent implements OnInit, AfterViewInit {
         .attr('fill', chartOptions.color[0].color1);
 
       if (chartOptions.color.length === 2) {
-        alert(chartOptions.color.length);
         chart
           .append('rect')
           .attr('x', xScaleBarStartingPointConstant)
