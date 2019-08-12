@@ -719,7 +719,6 @@ export class NonPaymentSharedService {
       /** Get Top 5 Categories Data */
       this.nonPaymentService.getNonPaymentTopCategories(...parameters).subscribe(
         ([topCategories]) => {
-          console.log('topCatogries', topCategories);
           try {
             const topReasons: Array<object> = [];
             let tempArray: any = [];

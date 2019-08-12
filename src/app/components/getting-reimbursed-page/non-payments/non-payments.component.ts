@@ -298,7 +298,6 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
             timeperiod: null
           };
         }
-        console.log('this.barChartsArray', this.barChartsArray);
       },
       error => {
         this.topReasonsCategoryDisplay = false;
