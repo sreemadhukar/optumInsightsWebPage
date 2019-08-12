@@ -1223,7 +1223,7 @@ export class PriorAuthSharedService {
           return emptyPATrends;
         })
         .then(data => {
-          if (this.priorAuthDataCombined[0].length > 0) {
+          if (this.priorAuthDataCombined[0].length > 0 && this.priorAuthDataCombined[0].data !== null) {
             this.priorAuthDataCombined[0][1].data['sdata'] = data[1];
           }
           resolve(this.priorAuthDataCombined);
