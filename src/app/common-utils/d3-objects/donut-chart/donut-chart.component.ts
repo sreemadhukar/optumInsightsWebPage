@@ -487,6 +487,9 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
         }
         const uniqueText = 'labelText' + d.data.label;
         const tspanID = uniqueText + 'tspan';
+        chartOptions.gdata[1] === 'claimsPaid' || chartOptions.gdata[1] === 'claimsNotPaid'
+          ? (this.textOnHover = '$' + topFunctions.nFormatter(d.value, 1))
+          : (this.textOnHover = topFunctions.nFormatter(d.value, 1));
         svg2
           .append('text')
           .attr('id', uniqueText)
@@ -507,7 +510,7 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
           .style('font-size', '14px')
           .style('fill', '#757588')
           .style('font-family', 'UHCSans-Regular')
-          .text(topFunctions.nFormatter(d.value, 1));
+          .text(this.textOnHover);
       })
         .on('mousemove', function(d) {
           divHover

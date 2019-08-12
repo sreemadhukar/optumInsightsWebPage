@@ -240,6 +240,13 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
   ngOnInit() {
     this.nonPaymentData1 = [];
     this.loadingTopReasons = true;
+    if (
+      this.session.filterObjValue.timeFrame === 'Last 12 Months' ||
+      this.session.filterObjValue.timeFrame === '2017' ||
+      this.session.filterObjValue.timeFrame === '2018'
+    ) {
+      this.session.filterObjValue.timeFrame = 'Last 6 Months';
+    } // temporary change for claims
     this.timePeriod = this.session.filterObjValue.timeFrame;
     if (this.session.filterObjValue.lob !== 'All') {
       this.lob = this.filtermatch.matchLobWithLobData(this.session.filterObjValue.lob);
@@ -281,6 +288,7 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
         this.loadingTopReasons = false;
         this.topReasonsCategoryDisplay = true;
         this.barChartsArray = topCategories;
+        console.log(this.barChartsArray);
         if (topCategories === null) {
           this.topReasonsCategoryDisplay = false;
           this.reasonsNoData = {
@@ -317,15 +325,14 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
 
     this.monthlyLineGraph.chartData = [];
     this.dataLoaded = false;
-    /* this.nonPaymentService.getclaimsNonPaymentTrendData().then(trendData => {
+    this.nonPaymentService.sharedTrendByMonth().then(trendData => {
       this.monthlyLineGraph.chartData = trendData;
-      console.log('**********', trendData);
       this.dataLoaded = true;
-    });*/
-
+    });
     this.monthlyLineGraph.generalData2 = [];
     this.monthlyLineGraph.chartData2 = [];
   } // ngOnInit Ends here
+
   helpIconClick(title) {
     this.glossaryExpandService.setMessage(title);
   }

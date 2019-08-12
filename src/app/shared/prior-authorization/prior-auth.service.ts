@@ -1126,31 +1126,31 @@ export class PriorAuthSharedService {
             const PARequestedTrend = ((PARequestedCountTwo - PARequestedCountOne) / PARequestedCountOne) * 100;
             const PAApprovalRateTrend = ((PAApprovalRateTwo - PAApprovalRateOne) / PAApprovalRateOne) * 100;
 
-            let trendLineOne;
-            let trendLineTwo;
+            // let trendLineOne;
+            // let trendLineTwo;
 
-            if (PARequestedTrend < 0) {
-              trendLineOne = 'down';
-            } else {
-              trendLineOne = 'up';
-            }
+            // if (PARequestedTrend < 0) {
+            //   trendLineOne = 'down';
+            // } else {
+            //   trendLineOne = 'up';
+            // }
 
-            if (PAApprovalRateTrend.toFixed(1) === '0.0') {
-              trendLineTwo = 'neutral';
-            } else if (PAApprovalRateTrend < 0) {
-              trendLineTwo = 'down';
-            } else {
-              trendLineTwo = 'up';
-            }
+            // if (PAApprovalRateTrend.toFixed(1) === '0.0') {
+            //   trendLineTwo = 'neutral';
+            // } else if (PAApprovalRateTrend < 0) {
+            //   trendLineTwo = 'down';
+            // } else {
+            //   trendLineTwo = 'up';
+            // }
 
-            sDataObjectOne = {
-              data: PARequestedTrend.toFixed(1) + '%',
-              sign: trendLineOne
-            };
-            sDataObjectTwo = {
-              data: PAApprovalRateTrend.toFixed(1) + '%',
-              sign: trendLineTwo
-            };
+            // sDataObjectOne = {
+            //   data: PARequestedTrend.toFixed(1) + '%',
+            //   sign: trendLineOne
+            // };
+            // sDataObjectTwo = {
+            //   data: PAApprovalRateTrend.toFixed(1) + '%',
+            //   sign: trendLineTwo
+            // };
           } else {
             sDataObjectOne = {
               data: '',

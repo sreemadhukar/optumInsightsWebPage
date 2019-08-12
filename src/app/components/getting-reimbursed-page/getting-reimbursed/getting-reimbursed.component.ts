@@ -30,6 +30,11 @@ export class GettingReimbursedComponent implements OnInit {
   loading: boolean;
   mockCards: any;
   previousSelectedTab: any = 0;
+  showDOSmessage = true;
+  filterUrl = '/GettingReimbursed/Payments';
+  buttonName: any;
+  detailClickUrl = '/GettingReimbursed';
+  buttonNumber: any;
   constructor(
     private gettingReimbursedSharedService: GettingReimbursedSharedService,
     private checkStorage: StorageService,
@@ -55,10 +60,36 @@ export class GettingReimbursedComponent implements OnInit {
     );
   }
 
+  onDetailsButtonClick(i: number, event: any) {
+    if (i === 0) {
+      this.detailClickUrl = '/GettingReimbursed';
+    } else if (i === 1) {
+      this.detailClickUrl = '/GettingReimbursed/Payments';
+    } else if (i === 2) {
+      this.detailClickUrl = '/GettingReimbursed/NonPayments';
+    } else if (i === 3) {
+      this.detailClickUrl = '/GettingReimbursed/Appeals';
+    }
+    this.router.navigate([this.detailClickUrl]);
+  }
+
   getTabOptionsTitle(i: number) {
     return this.tabOptionsTitle[i];
   }
   matOptionClicked(i: number, event: any) {
+    if (i === 0) {
+      this.buttonName = '';
+      this.buttonNumber = 0;
+    } else if (i === 1) {
+      this.buttonName = 'Payments Details';
+      this.buttonNumber = 1;
+    } else if (i === 2) {
+      this.buttonName = 'Non-Payments Details';
+      this.buttonNumber = 2;
+    } else if (i === 3) {
+      this.buttonName = 'Appeals Details';
+      this.buttonNumber = 3;
+    }
     this.currentSummary = [];
     this.currentSummary = this.summaryItems[i].data;
     this.currentTabTitle = this.summaryItems[i].title;
@@ -68,9 +99,23 @@ export class GettingReimbursedComponent implements OnInit {
     }
     myTabs[i].classList.add('active');
     this.previousSelectedTab = i;
+    if (myTabs[i].id !== 'Appeals') {
+      this.filterUrl = '/GettingReimbursed/Payments';
+      this.showDOSmessage = true;
+    } else {
+      this.filterUrl = this.router.url;
+      this.showDOSmessage = false;
+    }
     //    event.target.classList.add('active');
   }
   ngOnInit() {
+    if (
+      this.session.filterObjValue.timeFrame === 'Last 12 Months' ||
+      this.session.filterObjValue.timeFrame === '2017' ||
+      this.session.filterObjValue.timeFrame === '2018'
+    ) {
+      this.session.filterObjValue.timeFrame = 'Last 6 Months';
+    } // temporary change for claims
     this.timePeriod = this.session.filterObjValue.timeFrame;
     if (this.session.filterObjValue.lob !== 'All') {
       this.lob = this.filtermatch.matchLobWithLobData(this.session.filterObjValue.lob);
@@ -131,7 +176,8 @@ export class GettingReimbursedComponent implements OnInit {
       });
   }
   openFilter() {
-    this.filterExpandService.setURL(this.router.url);
+    // this.filterExpandService.setURL(this.router.url);
+    this.filterExpandService.setURL(this.filterUrl);
   }
   removeFilter(type, value) {
     if (type === 'lob') {

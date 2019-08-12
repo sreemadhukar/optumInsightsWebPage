@@ -79,7 +79,7 @@ export class LineGraphComponent implements OnInit {
   doLineGraph(chartData: any, chartData2: any, titleData: any, generalData: any, generalData2: any) {
     function formatDy(dy: number): string {
       if (dy === 0) {
-        return '0.0M';
+        return '0';
       } else if (dy < 999) {
         return dy.toFixed(0);
       } else if (dy < 999999) {
@@ -380,7 +380,7 @@ export class LineGraphComponent implements OnInit {
       .attr('id', 'forlolCalculations')
       .attr('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
       .attr('font-size', '14px')
-      .text(chartData[0].name)
+      .text(chartData.name)
       .style('fill', '#2D2D39');
 
     const text_element1 = chart.select('#forlolCalculations');
@@ -388,10 +388,9 @@ export class LineGraphComponent implements OnInit {
     var textWidth1 = text_element1.node().getComputedTextLength();
 
     chart.select('#forlolCalculations').remove();
-
-    if (chartData[0].name.length === 4) {
+    if (chartData.length === 4) {
       textWidth1 = textWidth1 / 2;
-    } else if (chartData[0].name.length === 3) {
+    } else if (chartData.length === 3) {
       textWidth1 = textWidth1 * 1.25;
     }
 
@@ -431,7 +430,6 @@ export class LineGraphComponent implements OnInit {
       });
 
     d3.select('#forYCalculations').remove();
-
     for (let y = 0; y < preYArray.length; y++) {
       preYArray[y] = preYArray[y].replace(/,/g, '');
     }
@@ -499,9 +497,9 @@ export class LineGraphComponent implements OnInit {
       var textWidth2 = text_element2.node().getComputedTextLength();
       chart.select('#forlolCalculations2').remove();
 
-      if (chartData2[0].name.length === 4) {
+      if (chartData2.name.length === 4) {
         textWidth2 = textWidth2 / 2;
-      } else if (chartData2[0].name.length === 3) {
+      } else if (chartData2.name.length === 3) {
         textWidth2 = textWidth2 * 1.25;
       }
 

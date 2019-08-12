@@ -14,6 +14,7 @@
     float: right;
     cursor: pointer;
     margin-right: 15px;
+
     .filter_title {
       color: $blue;
       font-family: 'UHCSans-SemiBold', 'Arial';
@@ -33,7 +34,7 @@
   .filter_bg:hover,
   .filter_bg:focus {
     background-color: #196ecf;
-    box-shadow: 0 4px 0px 0 rgba(0, 0, 0, 0.15);
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
     color: #ffffff;
     .filter_title {
       color: #ffffff;
@@ -67,8 +68,9 @@
 
     .gettingReimburse-content {
       display: flex;
-      // -webkit-flex-flow: row wrap;
-      justify-content: center;
+      justify-content: left;
+      width: 1000px;
+      margin: auto;
       flex-wrap: wrap;
 
       .getting-reimbursed-cards {
@@ -77,12 +79,11 @@
         margin-top: 15px;
       }
       .filter-div {
-        overflow: auto;
         line-height: 0;
       }
       .time--period {
         .filterchips {
-          width: 840px;
+          width: 830px;
           float: left;
           .horizontal-align {
             display: inline-block;
@@ -126,26 +127,56 @@
         width: 961px;
         font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
         color: $black-rock;
+        margin-left: 10px;
 
         .page-title {
           flex-basis: 100%;
           font-size: 36px;
           @include padding(16px, 0, 20px, 0);
           line-height: 40px;
+          font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
         }
         .page-subtitle {
           flex-basis: 100%;
           font-size: 36px;
           line-height: 32px;
-          padding-top: 10px;
+          display: flex;
+          flex-direction: row;
+          position: relative;
+
+          .details-button {
+            padding: 10px 23px 10px 23px;
+            border-radius: 2px;
+            color: white;
+            background: #196ecf;
+            text-align: center;
+            border: 1px solid #196ecf;
+            font-size: 16px;
+            box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
+            position: absolute;
+            right: 16px;
+            letter-spacing: 0.2px;
+            font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+          }
+
+          .details-button:hover {
+            cursor: pointer;
+            background-color: $blue-base;
+            color: white;
+          }
+          .details-button:active {
+            background-color: white;
+            color: #196ecf;
+          }
         }
         /* tabs css starts here*/
         .container--tabs {
           clear: left;
           width: 98.5%;
           line-height: 25px;
-          margin-bottom: 12px;
+          margin-bottom: 24px;
           padding-top: 24px;
+
           .nav-tabs {
             display: flex;
             border-radius: 2px;

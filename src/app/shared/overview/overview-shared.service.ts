@@ -178,7 +178,7 @@ export class OverviewSharedService {
             gdata: ['card-inner', 'selfServiceCardD3Donut']
           },
           sdata: null,
-          timeperiod: '90 Days Period'
+          timeperiod: 'Last 3 Months'
         };
       } else {
         cSelfService = {
@@ -587,7 +587,7 @@ export class OverviewSharedService {
           claimsPaid = {
             category: 'small-card',
             type: 'donut',
-            title: 'Claims Paid',
+            title: 'Claims Paid*',
             toggle: this.toggle.setToggles('Claims Paid', 'AtGlance', 'Overview', false),
             data: {
               graphValues: paidData,
@@ -609,7 +609,7 @@ export class OverviewSharedService {
             claimsPaid = {
               category: 'small-card',
               type: 'donut',
-              title: 'Claims Paid',
+              title: 'Claims Paid*',
               toggle: this.toggle.setToggles('Claims Paid', 'AtGlance', 'Overview', false),
               data: {
                 graphValues: [0, 100],
@@ -663,7 +663,7 @@ export class OverviewSharedService {
           claimsYield = {
             category: 'small-card',
             type: 'donut',
-            title: 'Claims Yield',
+            title: 'Claims Yield*',
             toggle: this.toggle.setToggles('Claims Yield', 'AtGlance', 'Overview', false),
             data: {
               graphValues: [
@@ -1000,32 +1000,39 @@ export class OverviewSharedService {
               color: ['#3381FF', '#D7DCE1'],
               gdata: ['card-inner', 'priorAuthCardD3Donut']
             },
-            sdata: { sign: '', data: '' },
+            sdata: null,
+
             timeperiod: 'Last 6 Months'
           };
-          if (
-            trends != undefined &&
-            trends != null &&
-            trends.hasOwnProperty('TendingMtrics') &&
-            trends.TendingMtrics != null &&
-            trends.TendingMtrics.hasOwnProperty('PaApprovalRate') &&
-            trends.TendingMtrics.PaApprovalRate != null
-          ) {
-            const dataPoint = trends.TendingMtrics.PaApprovalRate.toFixed(1) + '%';
-            if (trends.TendingMtrics.PaApprovalRate < 0) {
-              cPriorAuth.sdata = {
-                sign: 'down',
-                data: dataPoint
-              };
-            } else {
-              cPriorAuth.sdata = {
-                sign: 'up',
-                data: dataPoint
-              };
-            }
-          } else {
-            cPriorAuth.sdata = null;
-          }
+          // if (
+          //   trends != undefined &&
+          //   trends != null &&
+          //   trends.hasOwnProperty('TendingMtrics') &&
+          //   trends.TendingMtrics != null &&
+          //   trends.TendingMtrics.hasOwnProperty('PaApprovalRate') &&
+          //   trends.TendingMtrics.PaApprovalRate != null
+          // ) {
+          //   const dataPoint = trends.TendingMtrics.PaApprovalRate.toFixed(1) + '%';
+          //   const temp = trends.TendingMtrics.PaApprovalRate.toFixed(1);
+          //   if (temp < 0) {
+          //     cPriorAuth.sdata = {
+          //       sign: 'down',
+          //       data: dataPoint
+          //     };
+          //   } else if (temp > 0) {
+          //     cPriorAuth.sdata = {
+          //       sign: 'up',
+          //       data: dataPoint
+          //     };
+          //   } else if (temp == 0) {
+          //     cPriorAuth.sdata = {
+          //       sign: 'neutral',
+          //       data: 'No Change'
+          //     };
+          //   }
+          // } else {
+          //   cPriorAuth.sdata = null;
+          // }
         } else {
           cPriorAuth = {
             category: 'small-card',
