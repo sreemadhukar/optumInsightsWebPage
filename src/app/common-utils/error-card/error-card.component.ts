@@ -28,9 +28,7 @@ export class ErrorCardComponent implements OnInit {
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-help_outline-24px.svg')
     );
   }
-  ngOnInit() {
-    console.log('Error', this.data);
-  }
+  ngOnInit() {}
   helpIconClick(title) {
     this.glossaryExpandService.setMessage(title);
   }

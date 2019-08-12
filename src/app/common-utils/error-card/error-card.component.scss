@@ -1,9 +1,5 @@
 @import '~src/scss/variables.scss';
 @import '~src/scss/mixins';
-.large-card-structure {
-  width: 961px !important;
-  height: 420px !important;
-}
 
 .common-header {
   .header-container {
@@ -134,6 +130,55 @@
   }
 }
 
+.large-card-structure {
+  position: relative;
+  background-color: $white;
+  width: 961px;
+  height: 400px;
+  margin: 10px;
+  line-height: 75px;
+  font-size: 30px;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
+  border-radius: 2px;
+
+  .full-width-block {
+    float: left;
+    width: 100%;
+    text-align: center;
+    padding-top: 55px;
+    .errorTitle {
+      color: $black-rock;
+      font-family: 'UHCSans-SemiBold';
+      font-size: 18px;
+      line-height: 22px;
+      text-align: center;
+    }
+    .errorSubTitle {
+      color: $black-rock;
+      font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+      font-size: 16px;
+      letter-spacing: 0.2px;
+      line-height: 22px;
+      text-align: center;
+    }
+    .img-align {
+      display: inline-block;
+      box-sizing: border-box;
+      height: 97px;
+      width: 97px;
+      border: 1px solid #bb880a;
+      border-radius: 48px;
+      background-color: #fffcd9;
+    }
+    .image-align {
+      vertical-align: middle;
+      height: 48px;
+    }
+    .data-title {
+      padding-top: 24px;
+    }
+  }
+}
 .small-card-structure {
   position: relative;
 

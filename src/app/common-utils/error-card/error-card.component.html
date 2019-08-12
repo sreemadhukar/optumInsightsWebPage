@@ -1,7 +1,7 @@
 <div
   [class.card-structure]="data.category === 'mini-tile'"
   [class.small-card-structure]="data.category === 'small-card'"
-  [class.app-card-structure]="data.category === 'app-card' || data.category === 'large-card'"
+  [class.app-card-structure]="data.category === 'app-card'"
   [class.large-card-structure]="data.category === 'large-card'"
   [class.app-card-structure-with-more-height]="
     data.category === 'app-card' &&
@@ -11,10 +11,7 @@
       data.title == 'Top Claims Appeals Overturn Reasons')
   "
 >
-  <div
-    [class.card-inner]="data.category === 'mini-tile' || data.category === 'small-card'"
-    [class.card-inner-large]="data.category === 'large-card'"
-  >
+  <div [class.card-inner]="data.category === 'mini-tile' || data.category === 'small-card'">
     <div [class.self-service-title]="data.category === 'mini-tile'" *ngIf="data.category === 'mini-tile'">
       {{ data.title }}
     </div>

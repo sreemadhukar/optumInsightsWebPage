@@ -78,7 +78,6 @@ export class PaymentIntegrityComponent implements OnInit {
     this.gettingReimbursedSharedService
       .getPaymentIntegrityData()
       .then(r => {
-        console.log('COmponent', r);
         this.loading = false;
         const temp = JSON.parse(JSON.stringify(r));
         if (temp && temp.hasOwnProperty('status') && temp.status) {
