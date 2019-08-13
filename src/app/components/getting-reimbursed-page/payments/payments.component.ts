@@ -86,11 +86,12 @@ export class PaymentsComponent implements OnInit {
     }
     this.mockCards = [{}, {}];
     this.gettingReimbursedSharedService
-      .getGettingReimbursedData()
+      .sharedPaymentsData()
       .then(completeData => {
+        console.log(completeData);
         this.loading = false;
         this.paymentsItems = JSON.parse(JSON.stringify(completeData));
-        this.payments = this.paymentsItems[1].data;
+        this.payments = this.paymentsItems[0].data;
       })
       .catch(reason => {
         this.loading = false;
