@@ -856,7 +856,8 @@ export class PriorAuthSharedService {
               }
             }
 
-            if (PriorAuthNotApprovedReasons.length > 0) {
+            // if (!isServiceCategory) {
+            if (PriorAuthNotApprovedReasons.length > 0 && !isServiceCategory) {
               PriorAuthNotApprovedReasons.sort(function(a, b) {
                 return b.Count - a.Count;
               });
@@ -877,6 +878,13 @@ export class PriorAuthSharedService {
                   timeperiod: timePeriod
                 });
               }
+            } else if (isServiceCategory) {
+              // Hide reasons for service category
+              PriorAuthBarGraphParamaters = [
+                {
+                  data: null
+                }
+              ];
             } else {
               // PriorAuthBarGraphParamaters = [];
               // PriorAuthBarGraphParamaters = appCardPriorAuthError;
