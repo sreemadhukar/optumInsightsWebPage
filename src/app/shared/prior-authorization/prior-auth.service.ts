@@ -880,6 +880,11 @@ export class PriorAuthSharedService {
               }
             } else if (isServiceCategory) {
               // Hide reasons for service category
+              PriorAuthBarGraphParamaters = [
+                {
+                  data: null
+                }
+              ];
             } else {
               // PriorAuthBarGraphParamaters = [];
               // PriorAuthBarGraphParamaters = appCardPriorAuthError;
