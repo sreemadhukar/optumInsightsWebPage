@@ -59,7 +59,11 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [
+    RouterModule.forRoot(routes, {
+      scrollPositionRestoration: 'enabled' // Add options right here , to scroll to top whenever navigaion is changed
+    })
+  ],
   exports: [RouterModule]
 })
 export class HeadRoutingModule {}
