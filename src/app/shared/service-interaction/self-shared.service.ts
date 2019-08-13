@@ -100,7 +100,14 @@ export class SelfSharedService {
                 this.timeFrame
               );
             } catch (Error) {
-              adoptionRate = this.utilizationObjectMethod(null, null, null);
+              adoptionRate = {
+                category: 'app-card',
+                type: 'donut',
+                title: 'Self Service Adoption Rate',
+                status: 500,
+                data: null,
+                timeperiod: null
+              };
             } // End try catch for Adoption Rate
             try {
               linkEdiRation = this.utilizationObjectMethod(
@@ -120,7 +127,14 @@ export class SelfSharedService {
                 this.timeFrame
               );
             } catch (Error) {
-              linkEdiRation = this.utilizationObjectMethod(null, null, null);
+              linkEdiRation = {
+                category: 'app-card',
+                type: 'donut',
+                title: 'Link & EDI to Call Ratio',
+                status: 500,
+                data: null,
+                timeperiod: null
+              };
             } // End try catch for Link & EDI Ration
             try {
               paperLessDelivery = this.utilizationObjectMethod(
@@ -138,12 +152,40 @@ export class SelfSharedService {
                 this.timeFrame
               );
             } catch (Error) {
-              paperLessDelivery = this.utilizationObjectMethod(null, null, null);
+              paperLessDelivery = {
+                category: 'app-card',
+                type: 'donut',
+                title: 'Paperless Delivery',
+                status: 500,
+                data: null,
+                timeperiod: null
+              };
             } // End try catch for PaperlessDelivery
           } else {
-            adoptionRate = this.utilizationObjectMethod(null, null, null);
-            linkEdiRation = this.utilizationObjectMethod(null, null, null);
-            paperLessDelivery = this.utilizationObjectMethod(null, null, null);
+            adoptionRate = {
+              category: 'app-card',
+              type: 'donut',
+              title: 'Self Service Adoption Rate',
+              status: 500,
+              data: null,
+              timeperiod: null
+            };
+            linkEdiRation = {
+              category: 'app-card',
+              type: 'donut',
+              title: 'Link & EDI to Call Ratio',
+              status: 500,
+              data: null,
+              timeperiod: null
+            };
+            paperLessDelivery = {
+              category: 'app-card',
+              type: 'donut',
+              title: 'Paperless Delivery',
+              status: 500,
+              data: null,
+              timeperiod: null
+            };
           } // End if Data not found Utilization Object
           if (
             providerSystems.hasOwnProperty('SelfServiceInquiries') &&
