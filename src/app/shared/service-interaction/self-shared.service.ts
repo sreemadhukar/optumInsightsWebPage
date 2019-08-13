@@ -230,7 +230,8 @@ export class SelfSharedService {
               console.log('Overview Page, Self Service, Data not found for Calls and Operating Cost');
               oppurtunities.push({
                 category: 'mini-tile',
-                title: null,
+                title: 'Reduce Calls and Operating Costs by:',
+                status: 500,
                 data: null,
                 fdata: null
               });
@@ -238,7 +239,8 @@ export class SelfSharedService {
           } else {
             oppurtunities.push({
               category: 'mini-tile',
-              title: null,
+              title: 'Reduce Calls and Operating Costs by:',
+              status: 500,
               data: null,
               fdata: null
             });
@@ -278,7 +280,8 @@ export class SelfSharedService {
               console.log('Overview Page, Self Service, Data not found for Save Yours Staff Time');
               oppurtunities.push({
                 category: 'mini-tile',
-                title: null,
+                title: "Save Your Staff's Time by:" + '\n\xa0',
+                status: 500,
                 data: null,
                 fdata: null
               });
@@ -286,7 +289,8 @@ export class SelfSharedService {
           } else {
             oppurtunities.push({
               category: 'mini-tile',
-              title: null,
+              title: "Save Your Staff's Time by:" + '\n\xa0',
+              status: 500,
               data: null,
               fdata: null
             });
@@ -328,7 +332,8 @@ export class SelfSharedService {
           } else {
             oppurtunities.push({
               category: 'mini-tile',
-              title: null,
+              title: 'Reduce Claim Processing Time by:',
+              status: 500,
               data: null,
               fdata: null
             });
@@ -380,7 +385,8 @@ export class SelfSharedService {
           } else {
             oppurtunities.push({
               category: 'mini-tile',
-              title: null,
+              title: 'Reduce Reconsideration Processing by:',
+              status: 500,
               data: null,
               fdata: null
             });
