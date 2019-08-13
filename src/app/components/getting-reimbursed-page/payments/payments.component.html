@@ -50,6 +50,7 @@
 
     <!--Claims Paid Breakdown Graph Starts here -->
     <app-large-card [skeletonLarge]="loading" *ngIf="loading"></app-large-card>
+    <app-error-card *ngIf="cData[0].status != null" [data]="cData[0]"></app-error-card>
     <div *ngIf="claimsPaidBreakBool" class="claims-paid-content">
       <app-common-header
         [title]="title"
