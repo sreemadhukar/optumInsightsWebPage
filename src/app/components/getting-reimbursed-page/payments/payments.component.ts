@@ -86,11 +86,10 @@ export class PaymentsComponent implements OnInit {
     } else {
       this.taxID = [];
     }
-    this.mockCards = [{}, {}];
+    this.mockCards = [{}];
     this.gettingReimbursedSharedService
       .sharedPaymentsData()
       .then(completeData => {
-        console.log(completeData);
         this.loading = false;
         this.paymentsItems = JSON.parse(JSON.stringify(completeData));
         this.payments = this.paymentsItems[0].data;
@@ -110,7 +109,6 @@ export class PaymentsComponent implements OnInit {
       payData => {
         this.loadingClaimsBreakdown = false;
         try {
-          console.log('Inder', payData);
           this.paymentArray = payData[0];
           this.cData = [];
           for (let p = 0; p < 1; p++) {

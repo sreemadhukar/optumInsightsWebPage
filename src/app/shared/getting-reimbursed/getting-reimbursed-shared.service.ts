@@ -2458,9 +2458,8 @@ export class GettingReimbursedSharedService {
       let paidBreakdown = [];
       let paidArray: Array<Object> = [];
       this.gettingReimbursedService.getPaymentData(...parameters).subscribe(paymentDatafetch => {
-        console.log('payment breakdon', paymentDatafetch);
         try {
-          const paymentData = JSON.parse(JSON.stringify(paymentDatafetch[0]));
+          const paymentData = JSON.parse(JSON.stringify(paymentDatafetch));
           const lobFullData = this.common.matchFullLobWithData(this.lob);
           const lobData = this.common.matchLobWithData(this.lob);
           if (paymentData !== null) {
