@@ -1376,6 +1376,8 @@ export class GettingReimbursedSharedService {
   public sharedPaymentsData() {
     let payments: object;
     let parameters: object;
+    let claimsSubmitted: object;
+    let claimsTAT: object;
     let claimsPaid: object;
     let claimsPaidRate: object;
     this.tin = this.session.filterObjValue.tax.toString().replace(/-/g, '');
