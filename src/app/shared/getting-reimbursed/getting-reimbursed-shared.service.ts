@@ -1659,7 +1659,8 @@ export class GettingReimbursedSharedService {
               claimsPaid = {
                 category: 'app-card',
                 type: 'donutWithLabel',
-                title: null,
+                status: 404,
+                title: 'Claims Paid*',
                 data: null,
                 besideData: null,
                 bottomData: null,
@@ -1740,7 +1741,8 @@ export class GettingReimbursedSharedService {
               claimsPaid = {
                 category: 'app-card',
                 type: 'donutWithLabel',
-                title: null,
+                status: 404,
+                title: 'Claims Paid*',
                 data: null,
                 besideData: null,
                 bottomData: null,
@@ -1821,7 +1823,8 @@ export class GettingReimbursedSharedService {
               claimsPaidRate = {
                 category: 'app-card',
                 type: 'donut',
-                title: null,
+                title: 'Claims Yield*',
+                status: 404,
                 data: null,
                 timeperiod: null
               };

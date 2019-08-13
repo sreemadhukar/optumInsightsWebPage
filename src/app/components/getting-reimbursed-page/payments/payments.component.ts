@@ -26,6 +26,7 @@ export class PaymentsComponent implements OnInit {
   userName: String = '';
   showClaimsPaid: Boolean = false;
   loading: boolean;
+  loadingClaimsBreakdown: boolean;
   mockCards: any;
   // timePeriod = 'Last 6 Months';
   paymentArray: Array<object>;
@@ -70,6 +71,7 @@ export class PaymentsComponent implements OnInit {
     this.claimsPaidTimePeriod = this.session.filterObjValue.timeFrame;
     this.claimsPaidBreakBool = false;
     this.loading = true;
+    this.loadingClaimsBreakdown = true;
     this.timePeriod = this.session.filterObjValue.timeFrame;
     if (this.session.filterObjValue.lob !== 'All') {
       this.lob = this.filtermatch.matchLobWithLobData(this.session.filterObjValue.lob);
@@ -106,10 +108,9 @@ export class PaymentsComponent implements OnInit {
     // this.claimsPaidBreakBool = false;
     this.gettingReimbursedSharedService.getclaimsPaidData().then(
       payData => {
-        this.loading = false;
+        this.loadingClaimsBreakdown = false;
         try {
           console.log('Inder', payData);
-          this.loading = false;
           this.paymentArray = payData[0];
           this.cData = [];
           for (let p = 0; p < 1; p++) {
@@ -120,6 +121,7 @@ export class PaymentsComponent implements OnInit {
           }
           this.claimsPaidBreakBool = true;
         } catch (Error) {
+          this.loadingClaimsBreakdown = false;
           this.cData.push(payData);
           this.claimsPaidBreakBool = false;
         }
@@ -127,6 +129,7 @@ export class PaymentsComponent implements OnInit {
       err => {
         console.log('Claims Breakdown Payment Page', err);
         this.claimsPaidBreakBool = false;
+        this.loadingClaimsBreakdown = false;
       }
     );
   } // end ngOnInit()
