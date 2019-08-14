@@ -193,7 +193,6 @@ export class GettingReimbursedSharedService {
             claimsTAT = {
               category: 'app-card',
               type: 'rotateWithLabel',
-              status: 404,
               title: 'Claims Average Turnaround Time to Payment',
               data: null,
               besideData: null,
@@ -272,7 +271,8 @@ export class GettingReimbursedSharedService {
               claimsSubmitted = {
                 category: 'app-card',
                 type: 'donutWithLabel',
-                title: null,
+                title: 'Total Claims Submitted',
+                status: 404,
                 data: null,
                 besideData: null,
                 timeperiod: this.timeFrame
@@ -392,7 +392,8 @@ export class GettingReimbursedSharedService {
               claimsPaid = {
                 category: 'app-card',
                 type: 'donutWithLabel',
-                title: null,
+                title: 'Claims Paid*',
+                status: 404,
                 data: null,
                 besideData: null,
                 bottomData: null,
@@ -473,7 +474,8 @@ export class GettingReimbursedSharedService {
               claimsNotPaid = {
                 category: 'app-card',
                 type: 'donutWithLabel',
-                title: null,
+                title: 'Claims Not Paid',
+                status: 404,
                 data: null,
                 besideData: null,
                 bottomData: null,
@@ -514,7 +516,8 @@ export class GettingReimbursedSharedService {
               claimsNotPaidRate = {
                 category: 'app-card',
                 type: 'donutWithLabel',
-                title: null,
+                title: 'Claims Non-Payment Rate',
+                status: 404,
                 data: null,
                 besideData: null,
                 bottomData: null,
@@ -549,7 +552,8 @@ export class GettingReimbursedSharedService {
               claimsPaidRate = {
                 category: 'app-card',
                 type: 'donut',
-                title: null,
+                title: 'Claims Yield*',
+                status: 404,
                 data: null,
                 timeperiod: null
               };
@@ -559,7 +563,7 @@ export class GettingReimbursedSharedService {
             appealsSubmitted = {
               category: 'app-card',
               type: 'donutWithLabelBottom',
-              status: appealsData.status,
+              status: 404,
               title: 'Claims Appeals Submitted',
               data: null,
               besideData: null,
@@ -569,7 +573,7 @@ export class GettingReimbursedSharedService {
             appealsOverturned = {
               category: 'app-card',
               type: 'donut',
-              status: appealsData.status,
+              status: 404,
               title: 'Claims Appeals Overturned',
               data: null,
               timeperiod: null
@@ -831,7 +835,6 @@ export class GettingReimbursedSharedService {
             claimsTAT = {
               category: 'app-card',
               type: 'rotateWithLabel',
-              status: 404,
               title: 'Claims Average Turnaround Time to Payment',
               data: null,
               besideData: null,
@@ -918,7 +921,8 @@ export class GettingReimbursedSharedService {
               claimsSubmitted = {
                 category: 'app-card',
                 type: 'donutWithLabel',
-                title: null,
+                title: 'Total Claims Submitted',
+                status: 404,
                 data: null,
                 besideData: null,
                 timeperiod: this.timeFrame
@@ -1088,7 +1092,8 @@ export class GettingReimbursedSharedService {
               claimsPaid = {
                 category: 'app-card',
                 type: 'donutWithLabel',
-                title: null,
+                title: 'Claims Paid*',
+                status: 404,
                 data: null,
                 besideData: null,
                 bottomData: null,
@@ -1169,7 +1174,8 @@ export class GettingReimbursedSharedService {
               claimsPaid = {
                 category: 'app-card',
                 type: 'donutWithLabel',
-                title: null,
+                title: 'Claims Paid*',
+                status: 404,
                 data: null,
                 besideData: null,
                 bottomData: null,
@@ -1250,7 +1256,8 @@ export class GettingReimbursedSharedService {
               claimsNotPaid = {
                 category: 'app-card',
                 type: 'donutWithLabel',
-                title: null,
+                title: 'Claims Not Paid',
+                status: 404,
                 data: null,
                 besideData: null,
                 bottomData: null,
@@ -1291,7 +1298,8 @@ export class GettingReimbursedSharedService {
               claimsNotPaidRate = {
                 category: 'app-card',
                 type: 'donutWithLabel',
-                title: null,
+                title: 'Claims Non-Payment Rate',
+                status: 404,
                 data: null,
                 besideData: null,
                 bottomData: null,
@@ -1326,7 +1334,8 @@ export class GettingReimbursedSharedService {
               claimsPaidRate = {
                 category: 'app-card',
                 type: 'donut',
-                title: null,
+                title: 'Claims Yield*',
+                status: 404,
                 data: null,
                 timeperiod: null
               };
@@ -1516,7 +1525,6 @@ export class GettingReimbursedSharedService {
             claimsTAT = {
               category: 'app-card',
               type: 'rotateWithLabel',
-              status: 404,
               title: 'Claims Average Turnaround Time to Payment',
               data: null,
               besideData: null,
