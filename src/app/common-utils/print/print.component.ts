@@ -102,7 +102,9 @@ export class PrintComponent implements OnInit, OnDestroy {
       <a routerLink="/">
         <img class="Uhc-logo" src="/src/assets/images/UHC Logo@2x.png" alt="UHC Logo" />
       </a>
-      <div class="provider-name">${this.username}</div>
+      <div class="provider-name">
+      <img class="person-logo" src="/src/assets/images/Person.png" alt="Person Logo" />
+      ${this.username}</div>
           </div>
               </html>`);
     popupWin.document.body.appendChild(canvas);

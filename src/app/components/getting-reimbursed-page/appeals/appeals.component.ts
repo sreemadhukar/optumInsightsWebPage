@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { GettingReimbursedSharedService } from '../../../shared/getting-reimbursed/getting-reimbursed-shared.service';
+import { AppealsSharedService } from '../../../shared/getting-reimbursed/appeals/appeals-shared.service';
 import { StorageService } from '../../../shared/storage-service.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { GlossaryExpandService } from 'src/app/shared/glossary-expand.service';
@@ -32,7 +32,7 @@ export class AppealsComponent implements OnInit {
   mockCards: any;
   reasonDataAvailable = false;
   constructor(
-    private gettingReimbursedSharedService: GettingReimbursedSharedService,
+    private appealsSharedService: AppealsSharedService,
     private iconRegistry: MatIconRegistry,
     private checkStorage: StorageService,
     sanitizer: DomSanitizer,
@@ -76,7 +76,7 @@ export class AppealsComponent implements OnInit {
     this.overturnItem = [];
     this.reasonDataAvailable = false;
 
-    this.gettingReimbursedSharedService.getappealsRateAndReasonData().then(appealsRateData => {
+    this.appealsSharedService.getappealsRateAndReasonData().then(appealsRateData => {
       let AppealsCards: any;
       AppealsCards = appealsRateData;
       this.loading = false;

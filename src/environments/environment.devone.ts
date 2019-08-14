@@ -5,31 +5,17 @@
  * MAINTAIN ALPHABETIC ORDER
  */
 export const environment: any = {
-  /*
-  Pointing to QA1 environment
-   apiProxyUrl: 'https://gateway-stage-core.optum.com/api/qaone/pdr/uhci/v1/',
-   originUrl: 'https://pedui1-pedtst.ocp-ctc-core-nonprod.optum.com/',
-   https://pedui1-pedtst.ocp-ctc-core-nonprod.optum.co
-   */
-  /*
-  QA1 pointing to INT environment to interact with INT API
-  apiProxyUrl: 'https://gateway-stage-core.optum.com/api/int/pdr/uhci/v1/',
-  originUrl: 'https://pedintui-pedstg.ocp-ctc-dmz-stg.optum.com/',
-  */
-  // *In Local use dev3
-  apiProxyUrl: 'https://gateway-stage-core.optum.com/api/devthree/pdr/uhci/v1/',
-  originUrl: 'https://pedintui-pedstg.ocp-ctc-dmz-stg.optum.com/',
-  // apiProxyUrl: 'https://nginx-pedtst.ocp-ctc-core-nonprod.optum.com/',
-  // originUrl: 'https://pedintui-pedstg.ocp-ctc-dmz-stg.optum.com/',
+  apiProxyUrl: 'https://gateway-stage-core.optum.com/api/devone/pdr/uhci/v1/',
+  originUrl: '/',
   apiUrls: {
     ExecutiveSummaryPath: 'providersystems/',
     ProviderSystemClaimsAgg: 'agg-claims/search/v2.0/',
-    ProviderSystemClaimsSummary: 'claim-metrics/',
+    ProviderSystemClaimsSummary: 'claims/search/v2.0/',
     ProviderSystemPriorAuth: 'PriorAuthSummary/',
     SsoTokenPath: 'myinsightOptumIdHandshake',
     SsoRedirectUri:
       'https://stage-sso.uhc.com/ext/as/authorization.oauth2?pfidpadapterid=OptumIdOIDCStage&client_id=PED42235&response_' +
-      'type=code&redirect_uri=https://pedui1-pedtst.ocp-ctc-core-nonprod.optum.com/login&scope=openid+profile+email&state=PED&prompt=none',
+      'type=code&redirect_uri=https://pedui1-peddev.ocp-ctc-core-nonprod.optum.com/login&scope=openid+profile+email&state=PED&prompt=none',
     linkLoginPage: 'https://provider-stage.linkhealth.com',
     ProvTinList: 'provider-tins/',
     LayerSevenPath: 'myinsightLayerSevenHandshake',
