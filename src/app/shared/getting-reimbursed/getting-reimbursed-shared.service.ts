@@ -193,7 +193,6 @@ export class GettingReimbursedSharedService {
             claimsTAT = {
               category: 'app-card',
               type: 'rotateWithLabel',
-              status: 404,
               title: 'Claims Average Turnaround Time to Payment',
               data: null,
               besideData: null,
@@ -272,7 +271,8 @@ export class GettingReimbursedSharedService {
               claimsSubmitted = {
                 category: 'app-card',
                 type: 'donutWithLabel',
-                title: null,
+                title: 'Total Claims Submitted',
+                status: 404,
                 data: null,
                 besideData: null,
                 timeperiod: this.timeFrame
@@ -392,7 +392,8 @@ export class GettingReimbursedSharedService {
               claimsPaid = {
                 category: 'app-card',
                 type: 'donutWithLabel',
-                title: null,
+                title: 'Claims Paid*',
+                status: 404,
                 data: null,
                 besideData: null,
                 bottomData: null,
@@ -473,7 +474,8 @@ export class GettingReimbursedSharedService {
               claimsNotPaid = {
                 category: 'app-card',
                 type: 'donutWithLabel',
-                title: null,
+                title: 'Claims Not Paid',
+                status: 404,
                 data: null,
                 besideData: null,
                 bottomData: null,
@@ -514,7 +516,8 @@ export class GettingReimbursedSharedService {
               claimsNotPaidRate = {
                 category: 'app-card',
                 type: 'donutWithLabel',
-                title: null,
+                title: 'Claims Non-Payment Rate',
+                status: 404,
                 data: null,
                 besideData: null,
                 bottomData: null,
@@ -549,7 +552,8 @@ export class GettingReimbursedSharedService {
               claimsPaidRate = {
                 category: 'app-card',
                 type: 'donut',
-                title: null,
+                title: 'Claims Yield*',
+                status: 404,
                 data: null,
                 timeperiod: null
               };
@@ -559,7 +563,7 @@ export class GettingReimbursedSharedService {
             appealsSubmitted = {
               category: 'app-card',
               type: 'donutWithLabelBottom',
-              status: appealsData.status,
+              status: 404,
               title: 'Claims Appeals Submitted',
               data: null,
               besideData: null,
@@ -569,7 +573,7 @@ export class GettingReimbursedSharedService {
             appealsOverturned = {
               category: 'app-card',
               type: 'donut',
-              status: appealsData.status,
+              status: 404,
               title: 'Claims Appeals Overturned',
               data: null,
               timeperiod: null
@@ -831,7 +835,6 @@ export class GettingReimbursedSharedService {
             claimsTAT = {
               category: 'app-card',
               type: 'rotateWithLabel',
-              status: 404,
               title: 'Claims Average Turnaround Time to Payment',
               data: null,
               besideData: null,
@@ -918,7 +921,8 @@ export class GettingReimbursedSharedService {
               claimsSubmitted = {
                 category: 'app-card',
                 type: 'donutWithLabel',
-                title: null,
+                title: 'Total Claims Submitted',
+                status: 404,
                 data: null,
                 besideData: null,
                 timeperiod: this.timeFrame
@@ -1088,7 +1092,8 @@ export class GettingReimbursedSharedService {
               claimsPaid = {
                 category: 'app-card',
                 type: 'donutWithLabel',
-                title: null,
+                title: 'Claims Paid*',
+                status: 404,
                 data: null,
                 besideData: null,
                 bottomData: null,
@@ -1169,7 +1174,8 @@ export class GettingReimbursedSharedService {
               claimsPaid = {
                 category: 'app-card',
                 type: 'donutWithLabel',
-                title: null,
+                title: 'Claims Paid*',
+                status: 404,
                 data: null,
                 besideData: null,
                 bottomData: null,
@@ -1250,7 +1256,8 @@ export class GettingReimbursedSharedService {
               claimsNotPaid = {
                 category: 'app-card',
                 type: 'donutWithLabel',
-                title: null,
+                title: 'Claims Not Paid',
+                status: 404,
                 data: null,
                 besideData: null,
                 bottomData: null,
@@ -1291,7 +1298,8 @@ export class GettingReimbursedSharedService {
               claimsNotPaidRate = {
                 category: 'app-card',
                 type: 'donutWithLabel',
-                title: null,
+                title: 'Claims Non-Payment Rate',
+                status: 404,
                 data: null,
                 besideData: null,
                 bottomData: null,
@@ -1326,7 +1334,8 @@ export class GettingReimbursedSharedService {
               claimsPaidRate = {
                 category: 'app-card',
                 type: 'donut',
-                title: null,
+                title: 'Claims Yield*',
+                status: 404,
                 data: null,
                 timeperiod: null
               };
@@ -1516,7 +1525,6 @@ export class GettingReimbursedSharedService {
             claimsTAT = {
               category: 'app-card',
               type: 'rotateWithLabel',
-              status: 404,
               title: 'Claims Average Turnaround Time to Payment',
               data: null,
               besideData: null,
@@ -1997,222 +2005,12 @@ export class GettingReimbursedSharedService {
     });
   }
 
-  /* function to get Top Reasons for Claims Non Payments - Ranjith kumar Ankam*/
-  public getTopReasonsforClaimsNonPayments() {
-    return new Promise((resolve, reject) => {
-      this.tin = this.session.filterObjValue.tax.toString().replace(/-/g, '');
-      this.lob = this.session.filterObjValue.lob;
-      this.timeFrame = this.session.filterObjValue.timeFrame;
-      this.providerKey = this.session.providerKeyData();
-      const parameters = {
-        providerkey: this.providerKey,
-        timeperiod: '',
-        ytd: false,
-        tin: '',
-        startDate: '',
-        endDate: '',
-        monthly: false
-      };
-      if (this.timeFrame === 'Last 12 Months') {
-        parameters.timeperiod = 'last12months';
-      } else if (this.timeFrame === 'Last 30 Days') {
-        parameters.timeperiod = 'Last30Days';
-      } else if (this.timeFrame === 'Last 6 Months') {
-        parameters.timeperiod = 'last6months';
-      } else if (this.timeFrame === 'Last 3 Months') {
-        parameters.timeperiod = 'last3months';
-      } else if (this.timeFrame === 'Year to Date') {
-        parameters.ytd = true;
-      }
-      this.gettingReimbursedService.getClaimsNonPaymentsData(parameters).subscribe(data => {
-        const result = [];
-        if (data[0].All !== null) {
-          data[0].All.DenialCategory.forEach(element => {
-            if (element.Claimdenialcategorylevel1shortname !== '') {
-              result.push({
-                Claimdenialcategorylevel1shortname: this.sentenceCase(element.Claimdenialcategorylevel1shortname),
-                DenialAmount: element.DenialAmount
-              });
-            }
-          });
-          result.sort((a, b) => parseFloat(b.DenialAmount) - parseFloat(a.DenialAmount));
-          resolve(result.slice(0, 5));
-        } else {
-          resolve(result);
-        }
-      });
-    });
-  }
-
   public getTins() {
     return new Promise((resolve, reject) => {
       this.providerKey = this.session.providerKeyData();
       this.gettingReimbursedService.getTins(this.providerKey).subscribe(tins => {
         const providerTins = tins;
         resolve(providerTins);
-      });
-    });
-  }
-  /* function to get Claims Non Payments by Facility Data - Ranjith kumar Ankam*/
-  public getClaimsNonPaymentsbyFacilityData(top5Reasons) {
-    return new Promise((resolve, reject) => {
-      this.tin = this.session.filterObjValue.tax.toString().replace(/-/g, '');
-      this.lob = this.session.filterObjValue.lob;
-      this.timeFrame = this.session.filterObjValue.timeFrame;
-      this.providerKey = this.session.providerKeyData();
-      this.gettingReimbursedService.getTins(this.providerKey).subscribe(tins => {
-        const providerTins = tins;
-        const parameters = {
-          providerkey: this.providerKey,
-          timeperiod: '',
-          ytd: false,
-          tin: '0',
-          startDate: '',
-          endDate: '',
-          monthly: false
-        };
-        const output: any = [];
-        const response: any = [];
-
-        if (this.timeFrame === 'Last 12 Months') {
-          parameters.timeperiod = 'Last12Months';
-        } else if (this.timeFrame === 'Last 30 Days') {
-          parameters.timeperiod = 'Last30Days';
-        } else if (this.timeFrame === 'Last 6 Months') {
-          parameters.timeperiod = 'last6months';
-        } else if (this.timeFrame === 'Last 3 Months') {
-          parameters.timeperiod = 'last3months';
-        } else if (this.timeFrame === 'Year to Date') {
-          parameters.ytd = true;
-        }
-        if (this.tin !== 'All') {
-          parameters.tin = this.tin;
-        }
-
-        this.gettingReimbursedService.getClaimsNonPaymentsData(parameters).subscribe(nonPaymentsByFacilitydata => {
-          this.nonPaymentBy = this.session.nonPaymentBy;
-          nonPaymentsByFacilitydata.forEach(element => {
-            const indObject: any = {};
-            indObject.tin = element.Tin;
-            providerTins.forEach(tin => {
-              if (element.Tin === tin.Tin) {
-                indObject.tinname = this.sentenceCase(tin.Tinname);
-              }
-            });
-            const reasons = [];
-            if (element.All !== null) {
-              element.All.DenialCategory.forEach(top5 => {
-                if (top5Reasons.includes(this.sentenceCase(top5.Claimdenialcategorylevel1shortname))) {
-                  if (this.nonPaymentBy === 'dollar') {
-                    reasons.push({
-                      denialCategory: this.sentenceCase(top5.Claimdenialcategorylevel1shortname),
-                      val: '$' + this.common.nFormatter(top5.DenialAmount)
-                    });
-                  } else if (this.nonPaymentBy === 'volume') {
-                    reasons.push({
-                      denialCategory: this.sentenceCase(top5.Claimdenialcategorylevel1shortname),
-                      val: this.common.nFormatter(top5.DenialCount)
-                    });
-                  } else if (this.nonPaymentBy === 'average') {
-                    reasons.push({
-                      denialCategory: this.sentenceCase(top5.Claimdenialcategorylevel1shortname),
-                      val: '$' + this.common.nFormatter(top5.DenialCount / top5.DenialCount)
-                    });
-                  }
-                }
-              });
-            } else {
-              resolve([]);
-            }
-            indObject.reasons = reasons;
-            output.push(indObject);
-          });
-          output.forEach(element => {
-            const result: any = {};
-            result.tin = element.tin;
-            result.facilityName = element.tinname;
-            element.reasons.forEach(el => {
-              result[el.denialCategory] = el.val;
-            });
-            response.push(result);
-          });
-          resolve(response);
-        });
-      });
-    });
-  }
-
-  public getclaimsNonPaymentTrendData() {
-    return new Promise((resolve, reject) => {
-      this.tin = this.session.filterObjValue.tax.toString().replace(/-/g, '');
-      this.lob = this.session.filterObjValue.lob;
-      this.timeFrame = this.session.filterObjValue.timeFrame;
-      this.providerKey = this.session.providerKeyData();
-      this.gettingReimbursedService.getTins(this.providerKey).subscribe(tins => {
-        const providerTins = tins;
-        const parameters = {
-          providerkey: this.providerKey,
-          timeperiod: '',
-          ytd: false,
-          tin: '',
-          startDate: '',
-          endDate: '',
-          monthly: true
-        };
-        this.nonPaymentBy = 'dollar';
-        const output: any = [];
-        const response: any = [];
-
-        if (this.timeFrame === 'Last 12 Months') {
-          parameters.timeperiod = 'Last12Months';
-        } else if (this.timeFrame === 'Last 30 Days') {
-          parameters.timeperiod = 'Last30Days';
-        } else if (this.timeFrame === 'Last 6 Months') {
-          parameters.timeperiod = 'last6months';
-        } else if (this.timeFrame === 'Last 3 Months') {
-          parameters.timeperiod = 'last3months';
-        } else if (this.timeFrame === 'Year to Date') {
-          parameters.ytd = true;
-        }
-        if (this.tin !== 'All') {
-          parameters.tin = this.tin;
-        }
-
-        let paramters = [];
-        paramters = this.getParmaeterCategories();
-        this.timeFrame = this.session.filterObjValue.timeFrame;
-        this.nonPaymentService.getNonPaymentTrendByMonth(paramters).subscribe(nonPaymentsTrendData => {
-          const lobData = this.lob;
-          const filter_data_claimSummary = [];
-          nonPaymentsTrendData.forEach(element => {
-            /*if (this.nonPaymentBy === 'dollar') {
-              trendMonthValue = element.All.ClaimsLobSummary[0].AmountDenied;
-            } else if (this.nonPaymentBy === 'volume') {
-              trendMonthValue = element.All.ClaimsLobSummary[0].ClaimsDenied;
-            }*/
-            let monthlyData = [];
-            monthlyData = element.All.ClaimsLobSummary;
-            for (let i = 0; i < monthlyData.length; i++) {
-              const trendMonthValue = monthlyData[i].AmountDenied;
-              const trendTimePeriod = monthlyData[i].DenialMonth;
-              const trendTimePeriodArr = trendTimePeriod.split('-');
-              const trendTimePeriodFinal = trendTimePeriodArr[1];
-              filter_data_claimSummary.push({
-                name: this.ReturnMonthlyString(trendTimePeriodFinal),
-                value: trendMonthValue,
-                month: trendTimePeriod
-              });
-            }
-          });
-          filter_data_claimSummary.sort(function(a, b) {
-            let dateA: any;
-            dateA = new Date(a.month);
-            let dateB: any;
-            dateB = new Date(b.month);
-            return dateA - dateB; // sort by date ascending
-          });
-          resolve(filter_data_claimSummary);
-        });
       });
     });
   }
