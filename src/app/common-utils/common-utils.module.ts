@@ -30,6 +30,11 @@ import { MedBarChartComponent } from './d3-objects/med-bar-chart/med-bar-chart.c
 import { MultiSelectComponent } from './multi-select/multi-select.component';
 import { DonutChartOnchangeComponent } from './d3-objects/donut-chart-onchange/donut-chart-onchange.component';
 import { MatIconModule } from '@angular/material';
+import { PrintComponent } from './print/print.component';
+import { ClarifyClaimsMessageComponent } from './clarify-claims-message/clarify-claims-message.component';
+import { AccordionLargeCardComponent } from './accordion-large-card/accordion-large-card.component';
+import { D3StarBlueComponent } from './d3-objects/d3-star-blue/d3-star-blue.component';
+import { D3StarGreyComponent } from './d3-objects/d3-star-grey/d3-star-grey.component';
 
 @NgModule({
   imports: [CommonModule, FormsModule, ReactiveFormsModule, HeadMaterialModule, RouterModule, MatIconModule],
@@ -54,7 +59,10 @@ import { MatIconModule } from '@angular/material';
     HighlightPipe,
     FilterComponent,
     MedBarChartComponent,
-    DonutChartComponent
+    DonutChartComponent,
+    PrintComponent,
+    ClarifyClaimsMessageComponent,
+    AccordionLargeCardComponent
   ],
   declarations: [
     MiniTileComponent,
@@ -82,7 +90,12 @@ import { MatIconModule } from '@angular/material';
     FilterComponent,
     MedBarChartComponent,
     MultiSelectComponent,
-    DonutChartOnchangeComponent
+    DonutChartOnchangeComponent,
+    PrintComponent,
+    ClarifyClaimsMessageComponent,
+    AccordionLargeCardComponent,
+    D3StarBlueComponent,
+    D3StarGreyComponent
   ],
   entryComponents: [ProviderSearchComponent]
 })

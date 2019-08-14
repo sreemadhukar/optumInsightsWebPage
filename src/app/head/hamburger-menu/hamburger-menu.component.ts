@@ -165,9 +165,11 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => {
       this.healthSystemName = JSON.parse(sessionStorage.getItem('currentUser'))[0]['HealthCareOrganizationName'];
     });
-
+    //   console.log(sessionStorage.getItem('currentUser'))
+    //   if (sessionStorage.getItem('currentUser')) {
     this.priorAuthShared.getPCORData().then(data => {
       console.log(data);
+      console.log('yes');
       if (this.PCORFlag === data) {
         // Do nothing because its the same state
       } else {
@@ -225,6 +227,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
         }
       });
     });
+    //   }
 
     this.clickHelpIcon = this.glossaryExpandService.message.subscribe(
       data => {
@@ -240,6 +243,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
       data => {
         this.filterFlag = true;
         this.filterurl = data;
+        console.log(data);
       },
       err => {
         console.log('Error, clickHelpIcon , inside Hamburger', err);
@@ -247,10 +251,12 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     );
     setTimeout(() => {
       const user = JSON.parse(sessionStorage.getItem('currentUser'));
-      this.healthSystemName =
-        user && user[0].hasOwnProperty('HealthCareOrganizationName')
-          ? user[0]['HealthCareOrganizationName']
-          : user[0]['Healthcareorganizationname'];
+      if (user) {
+        this.healthSystemName =
+          user && user[0].hasOwnProperty('HealthCareOrganizationName')
+            ? user[0]['HealthCareOrganizationName']
+            : user[0]['Healthcareorganizationname'];
+      }
     }, 10000);
   }
 
@@ -273,8 +279,13 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     });
     Array.from(listItems).forEach(listItem => {
       this.renderer.setStyle(listItem, 'height', 'auto');
-      this.renderer.setStyle(listItem, 'padding', '8px 12px 8px 43px');
+      this.renderer.setStyle(listItem, 'padding', '8px 12px 8px 16px');
       this.renderer.setStyle(listItem, 'width', 'auto');
+      if (!listItem.classList.contains('nav-no-child-category')) {
+        this.renderer.setStyle(listItem, 'marginLeft', '26px');
+      } else {
+        this.renderer.setStyle(listItem, 'marginLeft', 0);
+      }
     });
     Array.from(listItemBody).forEach(listItem => {
       this.renderer.setStyle(listItem, 'padding', '0px');
@@ -287,8 +298,9 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
         '*[href="/CareDelivery/PatientCareOpportunity"]'
       )[0];
       PCORNavMenu.style.height = 'auto';
-      PCORNavMenu.style.padding = '8px 0 8px 27px';
+      PCORNavMenu.style.padding = '8px 5px 8px 0';
       PCORNavMenu.style.width = 'auto';
+      PCORNavMenu.style.marginLeft = '26px';
     } catch (error) {}
   }
   hamburgerDisplay(input: boolean) {
@@ -301,7 +313,8 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
   }
   /** FUNCTIONS TO COLLAPSE LEFT MENU **/
   collapseExpansionPanels(id) {
-    this.allExpandState(false, id - 1);
+    window.scrollTo(300, 0);
+    // this.allExpandState(false, id - 1);
   }
 
   openDialog(): void {
@@ -328,7 +341,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
   signOut() {
     this.authService.logout();
     if (!environment.internalAccess) {
-      this.document.location.href = 'https://provider-stage.linkhealth.com/';
+      this.document.location.href = environment.apiUrls.linkLoginPage;
     }
   }
   public close() {

@@ -29,7 +29,11 @@ export const environment: any = {
     PriorAuth: 'prior-authorizations/search/',
     RepeatContact: 'repeat-contacts/search/',
     Calls: 'issue-resolutions/',
-    PaymentIntegrity: 'pi-metrics/'
+    PaymentIntegrity: 'pi-metrics/',
+    NonPayment: 'claim-metrics/',
+    CallsTrend: 'provider-calls/',
+    TrendingMetrics: 'trending-metrics/',
+    PCORQualityMeasure: 'pcor-metrics/'
   },
   headerKeys: {
     selectedCompany: '',

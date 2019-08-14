@@ -6,11 +6,13 @@
  */
 export const environment: any = {
   apiProxyUrl: 'https://gateway-stage-core.optum.com/api/int/pdr/uhci/v1/',
-  originUrl: 'https://pedintui-pedstg.ocp-ctc-dmz-stg.optum.com/',
+  originUrl: '/',
   apiUrls: {
     ExecutiveSummaryPath: 'providersystems/',
     ProviderSystemClaimsAgg: 'agg-claims/search/v2.0/',
-    ProviderSystemClaimsSummary: 'claims/search/v2.0/',
+    // ProviderSystemClaimsSummary: 'claims/search/v2.0/',
+
+    ProviderSystemClaimsSummary: 'claim-metrics/',
     ProviderSystemPriorAuth: 'PriorAuthSummary/',
     SsoTokenPath: 'myinsightOptumIdHandshake',
     SsoRedirectUri:
@@ -29,7 +31,11 @@ export const environment: any = {
     PriorAuth: 'prior-authorizations/search/',
     RepeatContact: 'repeat-contacts/search/',
     Calls: 'issue-resolutions/',
-    PaymentIntegrity: 'pi-metrics/'
+    PaymentIntegrity: 'pi-metrics/',
+    NonPayment: 'claim-metrics/',
+    CallsTrend: 'provider-calls/',
+    TrendingMetrics: 'trending-metrics/',
+    PCORQualityMeasure: 'pcor-metrics/'
   },
   headerKeys: {
     selectedCompany: '',

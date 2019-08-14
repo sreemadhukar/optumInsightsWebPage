@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { GettingReimbursedModule } from '../../components/getting-reimbursed-page/getting-reimbursed.module';
 import { environment } from '../../../environments/environment';
 import { HttpHeaders, HttpClient, HttpParams } from '@angular/common/http';
-import { map, retry, catchError } from 'rxjs/operators';
+import { map, catchError } from 'rxjs/operators';
 import { combineLatest, of } from 'rxjs';
 
 @Injectable({
@@ -22,68 +22,45 @@ export class GettingReimbursedService {
 
   constructor(private http: HttpClient) {}
   public getGettingReimbursedYearWiseData(...parameters) {
-    this.currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
-    this.authBearer = this.currentUser[0].PedAccessToken;
-    const myHeader = new HttpHeaders({
-      Authorization: 'Bearer ' + this.authBearer,
-      Accept: '*/*'
-    });
-    let cparams = new HttpParams();
-    if (parameters.length > 1 && parameters[1]) {
-      cparams = cparams.append('monthly', parameters[1]);
-      cparams = cparams.append('startDate', parameters[2]);
-      cparams = cparams.append('endDate', parameters[3]);
-    }
-
-    let eparams = new HttpParams();
-    if (parameters.length > 4 && parameters[4] !== null && parameters[4] !== undefined) {
-      eparams = eparams.append('ReportingPeriod', parameters[4]);
-    }
-    if (parameters.length > 5 && parameters[5] !== null && parameters[5] !== undefined) {
-      eparams = eparams.append('TIN', parameters[5]);
-      cparams = cparams.append('TIN', parameters[5]);
-    }
-    const aggClaimsURL = this.APP_URL + this.AGG_CLAIMS_SERVICE_PATH + parameters[0];
-    const appealsURL = this.APP_URL + this.APPEALS_SERVICE_PATH + parameters[0];
+    const claimsURL = this.APP_URL + this.CLAIMS_SERVICE_PATH + parameters[0] + '?requestType=PAYMENT_METRICS';
     return combineLatest(
-      this.http.post(aggClaimsURL, eparams, { headers: myHeader }).pipe(
-        retry(2),
+      this.http.post(claimsURL, parameters[1]).pipe(
         map(res => JSON.parse(JSON.stringify(res[0]))),
         catchError(err => of(JSON.parse(JSON.stringify(err))))
       ),
-      this.http.get(appealsURL, { params: cparams, headers: myHeader }).pipe(
-        retry(2),
-        map(res => JSON.parse(JSON.stringify(res))),
-        catchError(err => of(JSON.parse(JSON.stringify(err))))
-      )
+      this.appealsData(...parameters)
     );
   }
-  public getGettingReimbursedData(...parameters) {
-    let cparams = new HttpParams();
-    const aparams = new HttpParams();
-    if (parameters.length > 1 && parameters[1]) {
-      cparams = cparams.append('timeFilter', 'last6months');
-    } else if (parameters.length > 2 && parameters[2]) {
-      cparams = cparams.append('YTD', parameters[2]);
-    }
-    if (parameters.length > 3 && parameters[3] !== null && parameters[3] !== undefined) {
-      cparams = cparams.append('TIN', parameters[3]);
+
+  public appealsData(...parameters) {
+    const appealsParams = parameters[1];
+    if (!appealsParams.Tin) {
+      appealsParams.AllProviderTins = true;
     }
 
-    const claimsURL = this.APP_URL + this.CLAIMS_SERVICE_PATH + parameters[0];
     const appealsURL = this.APP_URL + this.APPEALS_SERVICE_PATH + parameters[0];
+    return this.http.post(appealsURL, appealsParams).pipe(
+      map(res => JSON.parse(JSON.stringify(res))),
+      catchError(err => of(JSON.parse(JSON.stringify(err))))
+    );
+  }
 
+  public getGettingReimbursedData(...parameters) {
+    const claimsURL = this.APP_URL + this.CLAIMS_SERVICE_PATH + parameters[0] + '?requestType=PAYMENT_METRICS';
     return combineLatest(
-      this.http.post(claimsURL, cparams).pipe(
-        retry(2),
+      this.http.post(claimsURL, parameters[1]).pipe(
         map(res => JSON.parse(JSON.stringify(res[0]))),
         catchError(err => of(JSON.parse(JSON.stringify(err))))
       ),
-      this.http.get(appealsURL, { params: aparams }).pipe(
-        retry(2),
-        map(res => JSON.parse(JSON.stringify(res))),
-        catchError(err => of(JSON.parse(JSON.stringify(err))))
-      )
+      this.appealsData(...parameters)
+    );
+  }
+
+  public getPaymentsData(parameters) {
+    const claimsURL = this.APP_URL + this.CLAIMS_SERVICE_PATH + parameters[0] + '?requestType=PAYMENT_METRICS';
+    return this.http.post(claimsURL, parameters[1]).pipe(
+      map(res => JSON.parse(JSON.stringify(res[0]))),
+      catchError(err => of(JSON.parse(JSON.stringify(err))))
     );
   }
 
@@ -93,7 +70,6 @@ export class GettingReimbursedService {
     const tinsURL = this.APP_URL + this.TINS_SERVICE_PATH + providerKey;
 
     return this.http.get(tinsURL, { params: params }).pipe(
-      retry(2),
       map(res => res),
       catchError(err => of(err))
     );
@@ -123,7 +99,6 @@ export class GettingReimbursedService {
 */
     const claimsURL = this.APP_URL + this.CLAIMS_SERVICE_PATH + parameters.providerkey;
     return this.http.post(claimsURL, params).pipe(
-      retry(2),
       map(res => res),
       catchError(err => of(err))
     );
@@ -138,6 +113,24 @@ export class GettingReimbursedService {
     if (parameters.timeperiod !== '') {
       params = params.append('timeFilter', parameters.timeperiod);
     }
-    return this.http.get(piURL, { params: params });
+    return this.http.get(piURL, { params: params }).pipe(
+      map(res => res),
+      catchError(err => of(err))
+    );
+  }
+
+  public getPaymentData(...parameters) {
+    this.currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
+    this.authBearer = this.currentUser[0].PedAccessToken;
+    const myHeader = new HttpHeaders({
+      Authorization: 'Bearer ' + this.authBearer,
+      'Content-Type': 'application/json',
+      Accept: '*/*'
+    });
+    const nonPaymentURL = this.APP_URL + this.CLAIMS_SERVICE_PATH + parameters[0] + '?requestType=PAYMENT_METRICS';
+    return this.http.post(nonPaymentURL, parameters[1], { headers: myHeader }).pipe(
+      map(res => JSON.parse(JSON.stringify(res[0]))),
+      catchError(err => of(JSON.parse(JSON.stringify(err))))
+    );
   }
 }

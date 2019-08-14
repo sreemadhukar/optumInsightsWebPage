@@ -9,4 +9,8 @@ export class PrivacyPolicyComponent implements OnInit {
   constructor() {}
 
   ngOnInit() {}
+
+  scrollToElement($element): void {
+    $element.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'nearest' });
+  }
 }

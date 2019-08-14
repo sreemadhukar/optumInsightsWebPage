@@ -11,11 +11,15 @@
     line-height: 0;
   }
   .filter_bg {
+    height: 40px;
+    width: 100px;
     box-sizing: border-box;
     border: 1px solid $blue;
     border-radius: 2px;
     float: right;
     cursor: pointer;
+    margin-right: 7px;
+
     .filter_title {
       color: $blue;
       font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
@@ -23,12 +27,12 @@
       letter-spacing: 0.2px;
       line-height: 22px;
       text-align: center;
-      margin: 9px 12px;
+      margin: 9px 0;
       float: left;
     }
     .filter_icon {
       color: $blue;
-      margin: 9px 12px;
+      margin: 7px 10px;
       float: left;
     }
   }
@@ -36,6 +40,7 @@
   .filter_bg:focus {
     background-color: #196ecf;
     color: #ffffff;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
     .filter_title {
       color: #ffffff;
     }
@@ -59,7 +64,29 @@
   flex-basis: 100%;
   font-size: 36px;
 }
-
+.rectangle-title {
+  height: 50px;
+  flex-basis: 100%;
+  border: 1px solid #ffd00d;
+  border-radius: 2px;
+  background-color: #fffcd9;
+  .image-align {
+    height: 20px;
+    width: 20px;
+    vertical-align: middle;
+    padding-right: 16px;
+  }
+  .attention-title {
+    height: 18px;
+    color: #2d2d39;
+    font-family: 'UHC Sans';
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.2px;
+    line-height: 18px;
+    padding: 16px 0 16px 24px;
+  }
+}
 .time-period {
   box-sizing: border-box;
   height: 33px;
@@ -72,16 +99,38 @@
   float: left;
 }
 .time--period {
-  .horizontal-align {
-    display: inline-block;
-    margin: 5px 0;
-  }
-  button {
-    span:first-child {
-      font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+  .filterchips {
+    width: 845px;
+    float: left;
+    .horizontal-align {
+      display: inline-block;
+      margin: 5px 17px 5px 0;
+      .btn-rounded {
+        height: 34px;
+        padding: 0.355rem 0.78125rem;
+      }
     }
-    span.text-semibold {
-      font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+    button {
+      span:first-child {
+        font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+      }
+      span.text-semibold {
+        font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+      }
+    }
+    .close-btn {
+      display: inherit;
+      position: relative;
+      cursor: pointer;
+      width: 24px;
+      height: 24px;
+      display: inline-block;
+      vertical-align: middle;
+      padding: 0 0 0 8px;
+      margin-top: -1px;
+      .icon-display {
+        color: #757588;
+      }
     }
   }
 }
@@ -90,18 +139,20 @@
 }
 
 .calls-body {
-  @include mat-elevation(2);
   overflow-x: hidden;
   overflow-y: hidden;
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
   @include padding(16px, 0, 64px, 0);
+  background-color: $alice-blue;
   .calls-content {
     display: flex;
     -webkit-flex-flow: row wrap;
-    justify-content: center;
+    justify-content: left;
+    width: 1000px;
+    margin: auto;
     flex-wrap: wrap;
+
     .height1Separator {
       height: 0;
       width: 1200px;
@@ -113,7 +164,7 @@
       width: 961px;
       font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
       color: $black-rock;
-      margin-left: 12px;
+      margin-left: 10px;
 
       .page-title {
         flex-basis: 100%;

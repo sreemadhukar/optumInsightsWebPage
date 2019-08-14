@@ -1,95 +1,81 @@
 @import '~src/scss/variables.scss';
 @import '~src/scss/mixins';
 @import '~src/scss/my-custom-theme';
+
 .selfService-body {
-  .calls-operating-structure {
-    position: relative;
-    margin-left: 10px;
-    margin-top: 10px;
-    .card-inner {
-      background-color: #ffffff;
-      width: 960px;
-      height: 350px;
-      box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
-      border-radius: 2px;
+  overflow-x: hidden;
+  overflow-y: hidden;
+  display: flex;
+  flex-direction: column;
+  @include padding(28px, 0, 64px, 0);
+  // at other pages padding-top is 16px but due to unknown reason at this page breadcrumb margin is not working
+  background-color: $alice-blue;
 
-      .call-operation-footer {
-        float: left;
-        width: 100%;
-        padding-top: 35px;
+  .selfService-content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: left;
+    width: 1000px;
+    margin: auto;
+
+    .height1Separator {
+      height: 0;
+      width: 1200px;
+    }
+
+    & > .cards {
+      text-align: left;
+    }
+
+    .cust-width-title {
+      width: 450px;
+      margin-left: 10px;
+      font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+      color: $black-rock;
+      margin-top: -12px;
+
+      .page-title {
+        flex-basis: 100%;
+        font-size: 36px;
+        @include padding(16px, 0, 20px, 0);
+        line-height: 40px;
+      }
+      .title-opportunity {
+        flex-basis: 100%;
+        font-size: 28px;
+        line-height: 1;
+        margin-bottom: 16px;
+        color: $black-rock;
       }
 
-      .calls-operatin-body {
-        padding-top: 20px;
-        /* tabs css starts here*/
-        .container--tabs {
-          float: left;
-          width: 30%;
-          line-height: 22px;
-          font-size: 16px;
-          .nav-tabs {
-            display: inline-block;
-            border-radius: 2px;
-            list-style-type: none;
-            font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
-            color: $strom-grey;
-
-            > li {
-              background-color: $white;
-              padding: 12px 20px;
-              cursor: pointer;
-              > span {
-                font-size: 16px;
-                font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
-                letter-spacing: 0.2px;
-                &:hover {
-                }
-              }
-
-              &.active,
-              &.active:hover,
-              &.active:focus {
-                cursor: pointer;
-                border-left: 4px solid #196ecf;
-                text-decoration: none;
-              }
-            }
-          }
-        }
-        /* ends tabs css ends here*/
-        .calls-operating-section1 {
-          border-left: 1px solid #e0e0e0;
-          font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
-          float: left;
-          width: 25%;
-          padding: 0 4%;
-          .labelsCallsOperating {
-            color: $strom-grey;
-            font-size: 16px;
-            font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
-            letter-spacing: 0.2px;
-            line-height: 22px;
-
-            .cost-value {
-              color: #2d2d39;
-              display: block;
-              font-size: 41px;
-              font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
-              letter-spacing: -0.5px;
-              line-height: 48px;
-              padding-top: 10px;
-            }
-          }
-          .paddingLabels {
-            padding-top: 50px;
-          }
-        }
-        .calls-operating-section2 {
-          padding: 30px 0;
-          float: left;
-          width: 32%;
-        }
+      .page-question {
+        flex-basis: 100%;
+        font-size: 22px;
+        line-height: 1;
+        margin-bottom: 8px;
       }
+    }
+    .opportunity-content {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: left;
+      .self-service-heading {
+        display: flex;
+        padding-top: 30px;
+      }
+    }
+
+    .cust-width-blank {
+      width: 487px;
+      margin-left: 20px;
+    }
+    @media (max-width: 1300px) {
+      .cust-width-blank {
+        width: 437px;
+      }
+    }
+    @media only screen and (max-width: 1024px) {
+      @include padding(16px, 0, 16px, 0);
     }
   }
 }
