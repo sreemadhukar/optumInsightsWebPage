@@ -135,6 +135,12 @@ height: 45px;*/
   float: left;
   margin-left: 16px;
 }
+.bar-graphs-nohover {
+  padding: 0 8px 8px 30px;
+  float: left;
+  pointer-events: none;
+}
+
 .bar-graphs-content {
   padding: 0 8px 8px 0;
   float: left;
@@ -193,6 +199,16 @@ height: 45px;*/
   height: 20px;
   width: 20px;
 }
+.bar-graph-icon-hide {
+  float: left;
+  /*margin-top: -2px;*/
+  margin-left: 8px;
+  height: 20px;
+  width: 20px;
+  display: none;
+  pointer-events: none;
+}
+
 .full-display {
   float: left;
   width: 100%;

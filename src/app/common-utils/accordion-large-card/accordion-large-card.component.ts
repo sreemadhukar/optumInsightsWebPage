@@ -13,6 +13,7 @@ export class AccordionLargeCardComponent implements OnInit {
   @Input() qualityMeasure;
   @Input() skeletonLarge;
   section: any = [];
+  hideplus: boolean;
   @Output() ratingClick: EventEmitter<any> = new EventEmitter<any>();
   type: any;
   public chartData: any;
@@ -20,7 +21,7 @@ export class AccordionLargeCardComponent implements OnInit {
   public qualityPcorData: any;
   public qualitySubTitle: String;
   public qualityStarCount: Number;
-
+  showPlus: boolean;
   constructor(
     private iconRegistry: MatIconRegistry,
     sanitizer: DomSanitizer,
@@ -74,6 +75,14 @@ export class AccordionLargeCardComponent implements OnInit {
 
       this.qualitySubTitle = this.qualityMeasure[x].label;
       this.qualityPcorData = this.qualityMeasure[x].data;
+
+      if (this.qualityMeasure[x].count === 0) {
+        for (let i = 0; i < this.section.length; i++) {
+          if (i === x) {
+            this.section[i] = false;
+          }
+        }
+      }
     }
   }
 

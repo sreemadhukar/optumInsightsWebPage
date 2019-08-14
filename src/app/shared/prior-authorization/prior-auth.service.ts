@@ -373,7 +373,7 @@ export class PriorAuthSharedService {
           ];
 
           const barScaleMax = Math.max(...PCORRatings);
-          console.log('scale' + barScaleMax);
+
           const MandRStarRatingCard = [];
 
           for (let i = 0; i < PCORRatings.length; i++) {

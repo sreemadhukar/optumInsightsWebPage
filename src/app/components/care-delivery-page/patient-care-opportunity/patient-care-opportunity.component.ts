@@ -44,7 +44,6 @@ export class PatientCareOpportunityComponent implements OnInit {
     this.priorAuthShared.getPCORMandRData().then(data => {
       this.summaryItems = JSON.parse(JSON.stringify(data));
       this.StarRatings = this.summaryItems[2];
-      const item = this.StarRatings[0];
     });
   }
   ngOnInit() {

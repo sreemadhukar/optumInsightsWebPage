@@ -101,13 +101,16 @@ export class PCORSharedService {
       this.patientCareOpportunityService.getPCORQualityMeasureData([this.providerKey]).subscribe(
         qualitydta => {
           const tempArray = [];
+
           if (qualitydta.hasOwnProperty('fiveStarMeasureCount')) {
+            console.log(tempArray);
             const x = {
               star: 5,
               label: 'Five Star Quality Measure',
               count: qualitydta.fiveStarMeasureCount.Count,
               data: qualitydta.fiveStarMeasureCount.Data
             };
+
             tempArray.push(x);
           }
           if (qualitydta.hasOwnProperty('fourStarMeasureCount')) {
@@ -145,9 +148,6 @@ export class PCORSharedService {
               data: qualitydta.oneStarMeasureCount.Data
             };
 
-            tempArray.sort(function(a, b) {
-              return b.sort - a.sort;
-            }); // sort descending order
             tempArray.push(x);
           }
 
