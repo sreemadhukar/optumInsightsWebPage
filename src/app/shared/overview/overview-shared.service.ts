@@ -353,7 +353,7 @@ export class OverviewSharedService {
           oppurtunities.push({
             category: 'mini-tile',
             title: 'Reduce Calls and Operating Costs by:',
-            status: 500,
+            status: null,
             data: null,
             fdata: null
           });
@@ -362,7 +362,7 @@ export class OverviewSharedService {
         oppurtunities.push({
           category: 'mini-tile',
           title: 'Reduce Calls and Operating Costs by:',
-          status: 500,
+          status: null,
           data: null,
           fdata: null
         });
@@ -412,7 +412,7 @@ export class OverviewSharedService {
           oppurtunities.push({
             category: 'mini-tile',
             title: "Save Your Staff's Time by:" + '\n\xa0',
-            status: 500,
+            status: null,
             data: null,
             fdata: null
           });
@@ -421,7 +421,7 @@ export class OverviewSharedService {
         oppurtunities.push({
           category: 'mini-tile',
           title: "Save Your Staff's Time by:" + '\n\xa0',
-          status: 500,
+          status: null,
           data: null,
           fdata: null
         });
@@ -475,7 +475,7 @@ export class OverviewSharedService {
         oppurtunities.push({
           category: 'mini-tile',
           title: 'Reduce Claim Processing Time by:',
-          status: 500,
+          status: null,
           data: null,
           fdata: null
         });
@@ -529,7 +529,7 @@ export class OverviewSharedService {
         oppurtunities.push({
           category: 'mini-tile',
           title: 'Reduce Reconsideration Processing by:',
-          status: 500,
+          status: null,
           data: null,
           fdata: null
         });
