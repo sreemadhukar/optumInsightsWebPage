@@ -91,7 +91,7 @@
     </div>
 
     <app-large-card [skeletonLarge]="loading" *ngIf="loading"></app-large-card>
-    <app-large-card [data]="reasonItems" *ngIf="reasonItems.length > 1"></app-large-card>
+    <app-large-card [data]="reasonItems" *ngIf="!loading && reasonItems[0].data != null"></app-large-card>
 
     <app-error-card
       *ngIf="reasonItems[0].data == null && reasonItems[0].status != null"

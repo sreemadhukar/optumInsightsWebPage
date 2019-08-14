@@ -856,7 +856,8 @@ export class PriorAuthSharedService {
               }
             }
 
-            if (PriorAuthNotApprovedReasons.length > 0) {
+            // if (!isServiceCategory) {
+            if (PriorAuthNotApprovedReasons.length > 0 && !isServiceCategory) {
               PriorAuthNotApprovedReasons.sort(function(a, b) {
                 return b.Count - a.Count;
               });
@@ -877,6 +878,13 @@ export class PriorAuthSharedService {
                   timeperiod: timePeriod
                 });
               }
+            } else if (isServiceCategory) {
+              // Hide reasons for service category
+              PriorAuthBarGraphParamaters = [
+                {
+                  data: null
+                }
+              ];
             } else {
               // PriorAuthBarGraphParamaters = [];
               // PriorAuthBarGraphParamaters = appCardPriorAuthError;
@@ -1223,7 +1231,7 @@ export class PriorAuthSharedService {
           return emptyPATrends;
         })
         .then(data => {
-          if (this.priorAuthDataCombined[0].length > 0 && this.priorAuthDataCombined[0].data !== null) {
+          if (this.priorAuthDataCombined[0].length > 0 && this.priorAuthDataCombined[0][0].data !== null) {
             this.priorAuthDataCombined[0][1].data['sdata'] = data[1];
           }
           resolve(this.priorAuthDataCombined);

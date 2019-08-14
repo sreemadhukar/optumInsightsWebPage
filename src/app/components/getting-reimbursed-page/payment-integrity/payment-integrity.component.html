@@ -45,6 +45,12 @@
 
     <div class="height1Separator"></div>
     <app-large-card [skeletonLarge]="loading" *ngIf="loading"></app-large-card>
+    <app-error-card
+      *ngIf="!loading && !piDataloaded && cardData != null && cardData.status != null"
+      class="cards"
+      [data]="cardData"
+    ></app-error-card>
+
     <div class="pi-medical-record-coding-review-block card-inner" *ngIf="piDataloaded">
       <app-common-header
         [title]="title"
@@ -112,7 +118,7 @@
         <app-common-footer [timePeriod]="cardData.timeperiod" class="width-100"></app-common-footer>
       </div>
     </div>
-    <div class="message-left-margin">
+    <div *ngIf="piDataloaded" class="message-left-margin">
       <app-clarify-claims-message></app-clarify-claims-message>
     </div>
   </div>

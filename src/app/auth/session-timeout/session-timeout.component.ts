@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { Idle } from '@ng-idle/core';
-import { DOCUMENT } from '@angular/platform-browser';
+import { DOCUMENT } from '@angular/common';
 import { environment } from '../../../environments/environment';
 import { LogoutService } from '../_service/logout.service';
 

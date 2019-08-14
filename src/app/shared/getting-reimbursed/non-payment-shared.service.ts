@@ -790,31 +790,35 @@ export class NonPaymentSharedService {
     this.timeFrame = this.session.filterObjValue.timeFrame;
     return new Promise((resolve, reject) => {
       this.nonPaymentService.getNonPaymentTrendByMonth(paramters).subscribe(nonPaymentsTrendData => {
-        const lobData = this.lob;
-        const filter_data_claimSummary = [];
-        nonPaymentsTrendData.forEach(element => {
-          let monthlyData = [];
-          monthlyData = element.All.ClaimsLobSummary;
-          for (let i = 0; i < monthlyData.length; i++) {
-            const trendMonthValue = monthlyData[i].AmountDenied;
-            const trendTimePeriod = monthlyData[i].DenialMonth;
-            const trendTimePeriodArr = trendTimePeriod.split('-');
-            const trendTimePeriodFinal = trendTimePeriodArr[1];
-            filter_data_claimSummary.push({
-              name: this.ReturnMonthlyString(trendTimePeriodFinal),
-              value: trendMonthValue,
-              month: trendTimePeriod
-            });
-          }
-        });
-        filter_data_claimSummary.sort(function(a, b) {
-          let dateA: any;
-          dateA = new Date(a.month);
-          let dateB: any;
-          dateB = new Date(b.month);
-          return dateA - dateB; // sort by date ascending
-        });
-        resolve(filter_data_claimSummary);
+        try {
+          const lobData = this.lob;
+          const filter_data_claimSummary = [];
+          nonPaymentsTrendData.forEach(element => {
+            let monthlyData = [];
+            monthlyData = element.All.ClaimsLobSummary;
+            for (let i = 0; i < monthlyData.length; i++) {
+              const trendMonthValue = monthlyData[i].AmountDenied;
+              const trendTimePeriod = monthlyData[i].DenialMonth;
+              const trendTimePeriodArr = trendTimePeriod.split('-');
+              const trendTimePeriodFinal = trendTimePeriodArr[1];
+              filter_data_claimSummary.push({
+                name: this.ReturnMonthlyString(trendTimePeriodFinal),
+                value: trendMonthValue,
+                month: trendTimePeriod
+              });
+            }
+          });
+          filter_data_claimSummary.sort(function(a, b) {
+            let dateA: any;
+            dateA = new Date(a.month);
+            let dateB: any;
+            dateB = new Date(b.month);
+            return dateA - dateB; // sort by date ascending
+          });
+          resolve(filter_data_claimSummary);
+        } catch (Error) {
+          resolve(null);
+        }
       });
     });
   }

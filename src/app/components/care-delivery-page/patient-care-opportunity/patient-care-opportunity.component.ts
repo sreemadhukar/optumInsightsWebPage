@@ -66,7 +66,6 @@ export class PatientCareOpportunityComponent implements OnInit {
         this.MRACVCompletionData = this.summaryItems[1];
         this.currentTabTitle = this.summaryItems[1].title;
         this.StarRatings = this.summaryItems[2];
-        console.log(this.StarRatings);
       },
       error => {
         this.hideAllObjects = false;
