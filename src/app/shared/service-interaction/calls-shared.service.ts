@@ -67,15 +67,16 @@ export class CallsSharedService {
           return this.sharedCallsTrend();
         })
         .then(data => {
-          if (this.callsData && data) {
-            if (data[0][0] === 'QuestionType') {
-              this.callsData[0].data['sdata'] = data[0][1];
+          const temp = JSON.parse(JSON.stringify(data));
+          if (this.callsData && data && temp != undefined && temp != null && temp.length > 0) {
+            if (temp[0][0] === 'QuestionType') {
+              this.callsData[0].data['sdata'] = temp[0][1];
             }
-            if (data[1][0] === 'TalkTime') {
-              this.callsData[1].data['sdata'] = data[1][1];
+            if (temp[1][0] === 'TalkTime') {
+              this.callsData[1].data['sdata'] = temp[1][1];
             }
-            resolve(this.callsData);
           }
+          resolve(this.callsData);
         });
     });
   }
@@ -87,7 +88,7 @@ export class CallsSharedService {
       this.providerKey = this.session.providerKeyData();
       this.trendsService.getTrendingMetrics([this.providerKey]).subscribe(
         trends => {
-          const preparedData: any = [];
+          const preparedData: Array<Object> = [];
           if (
             trends != undefined &&
             trends != null &&
@@ -169,7 +170,10 @@ export class CallsSharedService {
                         totalCalls.PriorAuth,
                         totalCalls.Others
                       ],
-                      centerNumber: this.common.nondecimalFormatter(totalCalls.Total),
+                      centerNumber:
+                        this.common.nondecimalFormatter(totalCalls.Total) < 1
+                          ? '< 1'
+                          : this.common.nondecimalFormatter(totalCalls.Total),
                       color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'],
                       gdata: ['card-inner', 'callsByCallType'],
                       labels: ['Eligibilty and Benefits', 'Claims', 'Prior Authorizations', 'Others'],
@@ -210,7 +214,10 @@ export class CallsSharedService {
                         totalCalls.PriorAuth,
                         totalCalls.Others
                       ],
-                      centerNumber: this.common.nondecimalFormatter(totalCalls.Total) + ' ' + ' Hrs',
+                      centerNumber:
+                        this.common.nondecimalFormatter(totalCalls.Total) < 1
+                          ? '< 1 Hrs'
+                          : this.common.nondecimalFormatter(totalCalls.Total) + ' Hrs',
                       color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'],
                       gdata: ['card-inner', 'talkTimeByCallType'],
                       labels: ['Eligibilty and Benefits', 'Claims', 'Prior Authorizations', 'Others'],

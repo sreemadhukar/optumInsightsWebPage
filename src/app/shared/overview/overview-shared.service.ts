@@ -178,7 +178,7 @@ export class OverviewSharedService {
             gdata: ['card-inner', 'selfServiceCardD3Donut']
           },
           sdata: null,
-          timeperiod: '90 Days Period'
+          timeperiod: 'Last 3 Months'
         };
       } else {
         cSelfService = {
@@ -242,6 +242,22 @@ export class OverviewSharedService {
     });
   }
 
+  createTotalCallsTrend() {
+    // let trendIR: Object;
+    const trendIR = null;
+    return new Promise((resolve, reject) => {
+      // this.callsTrendService
+      //   .getCallsTrendData()
+      //   .then(data => {
+      //     trendIR = data[0];
+      //     resolve(trendIR);
+      //   })
+      //   .catch(reason => {
+      //     console.log('Calls Service Error ', reason);
+      //   });
+      resolve(null);
+    });
+  }
   /* function to create Total Calls Tile in Overview Page -  Ranjith kumar Ankam - 04-Jul-2019*/
   createTotalCallsObject(providerSystems) {
     let cIR: Object;
@@ -336,7 +352,8 @@ export class OverviewSharedService {
           console.log('Overview Page, Self Service, Data not found for Calls and Operating Cost');
           oppurtunities.push({
             category: 'mini-tile',
-            title: null,
+            title: 'Reduce Calls and Operating Costs by:',
+            status: null,
             data: null,
             fdata: null
           });
@@ -344,7 +361,8 @@ export class OverviewSharedService {
       } else {
         oppurtunities.push({
           category: 'mini-tile',
-          title: null,
+          title: 'Reduce Calls and Operating Costs by:',
+          status: null,
           data: null,
           fdata: null
         });
@@ -393,7 +411,8 @@ export class OverviewSharedService {
           console.log('Overview Page, Self Service, Data not found for Save Yours Staff Time');
           oppurtunities.push({
             category: 'mini-tile',
-            title: null,
+            title: "Save Your Staff's Time by:" + '\n\xa0',
+            status: null,
             data: null,
             fdata: null
           });
@@ -401,7 +420,8 @@ export class OverviewSharedService {
       } else {
         oppurtunities.push({
           category: 'mini-tile',
-          title: null,
+          title: "Save Your Staff's Time by:" + '\n\xa0',
+          status: null,
           data: null,
           fdata: null
         });
@@ -454,7 +474,8 @@ export class OverviewSharedService {
       } else {
         oppurtunities.push({
           category: 'mini-tile',
-          title: null,
+          title: 'Reduce Claim Processing Time by:',
+          status: null,
           data: null,
           fdata: null
         });
@@ -507,7 +528,8 @@ export class OverviewSharedService {
       } else {
         oppurtunities.push({
           category: 'mini-tile',
-          title: null,
+          title: 'Reduce Reconsideration Processing by:',
+          status: null,
           data: null,
           fdata: null
         });
@@ -571,7 +593,7 @@ export class OverviewSharedService {
           claimsPaid = {
             category: 'small-card',
             type: 'donut',
-            title: 'Claims Paid',
+            title: 'Claims Paid*',
             toggle: this.toggle.setToggles('Claims Paid', 'AtGlance', 'Overview', false),
             data: {
               graphValues: paidData,
@@ -593,7 +615,7 @@ export class OverviewSharedService {
             claimsPaid = {
               category: 'small-card',
               type: 'donut',
-              title: 'Claims Paid',
+              title: 'Claims Paid*',
               toggle: this.toggle.setToggles('Claims Paid', 'AtGlance', 'Overview', false),
               data: {
                 graphValues: [0, 100],
@@ -647,7 +669,7 @@ export class OverviewSharedService {
           claimsYield = {
             category: 'small-card',
             type: 'donut',
-            title: 'Claims Yield',
+            title: 'Claims Yield*',
             toggle: this.toggle.setToggles('Claims Yield', 'AtGlance', 'Overview', false),
             data: {
               graphValues: [
@@ -984,32 +1006,39 @@ export class OverviewSharedService {
               color: ['#3381FF', '#D7DCE1'],
               gdata: ['card-inner', 'priorAuthCardD3Donut']
             },
-            sdata: { sign: '', data: '' },
+            sdata: null,
+
             timeperiod: 'Last 6 Months'
           };
-          if (
-            trends != undefined &&
-            trends != null &&
-            trends.hasOwnProperty('TendingMtrics') &&
-            trends.TendingMtrics != null &&
-            trends.TendingMtrics.hasOwnProperty('PaApprovalRate') &&
-            trends.TendingMtrics.PaApprovalRate != null
-          ) {
-            const dataPoint = trends.TendingMtrics.PaApprovalRate.toFixed(1) + '%';
-            if (trends.TendingMtrics.PaApprovalRate < 0) {
-              cPriorAuth.sdata = {
-                sign: 'down',
-                data: dataPoint
-              };
-            } else {
-              cPriorAuth.sdata = {
-                sign: 'up',
-                data: dataPoint
-              };
-            }
-          } else {
-            cPriorAuth.sdata = null;
-          }
+          // if (
+          //   trends != undefined &&
+          //   trends != null &&
+          //   trends.hasOwnProperty('TendingMtrics') &&
+          //   trends.TendingMtrics != null &&
+          //   trends.TendingMtrics.hasOwnProperty('PaApprovalRate') &&
+          //   trends.TendingMtrics.PaApprovalRate != null
+          // ) {
+          //   const dataPoint = trends.TendingMtrics.PaApprovalRate.toFixed(1) + '%';
+          //   const temp = trends.TendingMtrics.PaApprovalRate.toFixed(1);
+          //   if (temp < 0) {
+          //     cPriorAuth.sdata = {
+          //       sign: 'down',
+          //       data: dataPoint
+          //     };
+          //   } else if (temp > 0) {
+          //     cPriorAuth.sdata = {
+          //       sign: 'up',
+          //       data: dataPoint
+          //     };
+          //   } else if (temp == 0) {
+          //     cPriorAuth.sdata = {
+          //       sign: 'neutral',
+          //       data: 'No Change'
+          //     };
+          //   }
+          // } else {
+          //   cPriorAuth.sdata = null;
+          // }
         } else {
           cPriorAuth = {
             category: 'small-card',
@@ -1110,6 +1139,19 @@ export class OverviewSharedService {
           };
         }
         resolve(cIR);
+
+        /*this.createTotalCallsTrend().then(trendIssueResolution => {
+         const nullTrend = {
+         sign: '',
+         data: ''
+         };
+         if (trendIssueResolution === null) {
+         cIR.sdata = nullTrend;
+         } else {
+         cIR.sdata = trendIssueResolution;
+         }
+         resolve(cIR);
+         });*/
       });
     });
   }

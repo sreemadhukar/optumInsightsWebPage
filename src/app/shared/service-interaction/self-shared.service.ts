@@ -100,7 +100,14 @@ export class SelfSharedService {
                 this.timeFrame
               );
             } catch (Error) {
-              adoptionRate = this.utilizationObjectMethod(null, null, null);
+              adoptionRate = {
+                category: 'app-card',
+                type: 'donut',
+                title: 'Self Service Adoption Rate',
+                status: 500,
+                data: null,
+                timeperiod: null
+              };
             } // End try catch for Adoption Rate
             try {
               linkEdiRation = this.utilizationObjectMethod(
@@ -120,7 +127,14 @@ export class SelfSharedService {
                 this.timeFrame
               );
             } catch (Error) {
-              linkEdiRation = this.utilizationObjectMethod(null, null, null);
+              linkEdiRation = {
+                category: 'app-card',
+                type: 'donut',
+                title: 'Link & EDI to Call Ratio',
+                status: 500,
+                data: null,
+                timeperiod: null
+              };
             } // End try catch for Link & EDI Ration
             try {
               paperLessDelivery = this.utilizationObjectMethod(
@@ -138,12 +152,40 @@ export class SelfSharedService {
                 this.timeFrame
               );
             } catch (Error) {
-              paperLessDelivery = this.utilizationObjectMethod(null, null, null);
+              paperLessDelivery = {
+                category: 'app-card',
+                type: 'donut',
+                title: 'Paperless Delivery',
+                status: 500,
+                data: null,
+                timeperiod: null
+              };
             } // End try catch for PaperlessDelivery
           } else {
-            adoptionRate = this.utilizationObjectMethod(null, null, null);
-            linkEdiRation = this.utilizationObjectMethod(null, null, null);
-            paperLessDelivery = this.utilizationObjectMethod(null, null, null);
+            adoptionRate = {
+              category: 'app-card',
+              type: 'donut',
+              title: 'Self Service Adoption Rate',
+              status: 500,
+              data: null,
+              timeperiod: null
+            };
+            linkEdiRation = {
+              category: 'app-card',
+              type: 'donut',
+              title: 'Link & EDI to Call Ratio',
+              status: 500,
+              data: null,
+              timeperiod: null
+            };
+            paperLessDelivery = {
+              category: 'app-card',
+              type: 'donut',
+              title: 'Paperless Delivery',
+              status: 500,
+              data: null,
+              timeperiod: null
+            };
           } // End if Data not found Utilization Object
           if (
             providerSystems.hasOwnProperty('SelfServiceInquiries') &&
@@ -188,7 +230,8 @@ export class SelfSharedService {
               console.log('Overview Page, Self Service, Data not found for Calls and Operating Cost');
               oppurtunities.push({
                 category: 'mini-tile',
-                title: null,
+                title: 'Reduce Calls and Operating Costs by:',
+                status: 500,
                 data: null,
                 fdata: null
               });
@@ -196,7 +239,8 @@ export class SelfSharedService {
           } else {
             oppurtunities.push({
               category: 'mini-tile',
-              title: null,
+              title: 'Reduce Calls and Operating Costs by:',
+              status: 500,
               data: null,
               fdata: null
             });
@@ -236,7 +280,8 @@ export class SelfSharedService {
               console.log('Overview Page, Self Service, Data not found for Save Yours Staff Time');
               oppurtunities.push({
                 category: 'mini-tile',
-                title: null,
+                title: "Save Your Staff's Time by:" + '\n\xa0',
+                status: 500,
                 data: null,
                 fdata: null
               });
@@ -244,7 +289,8 @@ export class SelfSharedService {
           } else {
             oppurtunities.push({
               category: 'mini-tile',
-              title: null,
+              title: "Save Your Staff's Time by:" + '\n\xa0',
+              status: 500,
               data: null,
               fdata: null
             });
@@ -286,7 +332,8 @@ export class SelfSharedService {
           } else {
             oppurtunities.push({
               category: 'mini-tile',
-              title: null,
+              title: 'Reduce Claim Processing Time by:',
+              status: 500,
               data: null,
               fdata: null
             });
@@ -338,7 +385,8 @@ export class SelfSharedService {
           } else {
             oppurtunities.push({
               category: 'mini-tile',
-              title: null,
+              title: 'Reduce Reconsideration Processing by:',
+              status: 500,
               data: null,
               fdata: null
             });
