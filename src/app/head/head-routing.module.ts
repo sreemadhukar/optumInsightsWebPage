@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from '../auth/_guards/auth.guard';
 import { TermsOfUseComponent } from './terms-of-use/terms-of-use.component';
 import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component';
+import { SiteMapComponent } from './site-map/site-map.component';
 
 const routes: Routes = [
   {
@@ -54,6 +55,10 @@ const routes: Routes = [
   {
     path: 'PrivacyPolicy',
     component: PrivacyPolicyComponent
+  },
+  {
+    path: 'SiteMap',
+    component: SiteMapComponent
   },
   { path: '**', redirectTo: '' }
 ];
