@@ -1097,7 +1097,7 @@ export class OverviewSharedService {
             },
             timeperiod: 'Last 6 Months'
           };
-
+          /*
           if (
             trends != undefined &&
             trends != null &&
@@ -1129,6 +1129,9 @@ export class OverviewSharedService {
           } else {
             cIR.sdata = null;
           }
+          */
+          // Hiding Calls trends
+          cIR.sdata = null;
         } else {
           cIR = {
             category: 'small-card',
