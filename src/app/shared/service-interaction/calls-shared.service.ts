@@ -170,7 +170,10 @@ export class CallsSharedService {
                         totalCalls.PriorAuth,
                         totalCalls.Others
                       ],
-                      centerNumber: this.common.nondecimalFormatter(totalCalls.Total),
+                      centerNumber:
+                        this.common.nondecimalFormatter(totalCalls.Total) < 1
+                          ? '< 1'
+                          : this.common.nondecimalFormatter(totalCalls.Total),
                       color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'],
                       gdata: ['card-inner', 'callsByCallType'],
                       labels: ['Eligibilty and Benefits', 'Claims', 'Prior Authorizations', 'Others'],
@@ -211,7 +214,10 @@ export class CallsSharedService {
                         totalCalls.PriorAuth,
                         totalCalls.Others
                       ],
-                      centerNumber: this.common.nondecimalFormatter(totalCalls.Total) + ' ' + ' Hrs',
+                      centerNumber:
+                        this.common.nondecimalFormatter(totalCalls.Total) < 1
+                          ? '< 1 Hrs'
+                          : this.common.nondecimalFormatter(totalCalls.Total) + ' Hrs',
                       color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'],
                       gdata: ['card-inner', 'talkTimeByCallType'],
                       labels: ['Eligibilty and Benefits', 'Claims', 'Prior Authorizations', 'Others'],
