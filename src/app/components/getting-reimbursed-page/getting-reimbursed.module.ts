@@ -12,12 +12,13 @@ import { NonPaymentSharedService } from '../../shared/getting-reimbursed/non-pay
 import { GettingReimbursedService } from '../../rest/getting-reimbursed/getting-reimbursed.service';
 
 import { AppealsComponent } from './appeals/appeals.component';
+import { AppealsSharedService } from '../../shared/getting-reimbursed/appeals/appeals-shared.service';
 import { PaymentIntegrityComponent } from './payment-integrity/payment-integrity.component';
 import { NonPaymentsComponent } from './non-payments/non-payments.component';
 import { PaymentsComponent } from './payments/payments.component';
 @NgModule({
   imports: [CommonModule, GettingReimbursedRoutingModule, CommonUtilsModule, HeadMaterialModule, FormsModule],
-  providers: [GettingReimbursedService, GettingReimbursedSharedService, NonPaymentSharedService],
+  providers: [GettingReimbursedService, GettingReimbursedSharedService, NonPaymentSharedService, AppealsSharedService],
 
   declarations: [
     GettingReimbursedComponent,

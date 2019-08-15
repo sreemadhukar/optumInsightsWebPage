@@ -21,6 +21,7 @@
     <app-common-header
       [cardType]="'error-card'"
       [title]="data.title"
+      (helpIconClicked)="helpIconClick($event)"
       *ngIf="data.category !== 'mini-tile'"
     ></app-common-header>
     <div

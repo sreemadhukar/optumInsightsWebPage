@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { PriorAuthService } from '../../../rest/prior-auth/prior-auth.service';
+import { PatientCareOpportunityService } from '../../../rest/PCOR/patient-care-opportunity.service';
 import { SessionService } from '../../../shared/session.service';
 import { StorageService } from '../../../shared/storage-service.service';
 import { PriorAuthSharedService } from '../../../shared/prior-authorization/prior-auth.service';
-
+import { PCORSharedService } from '../../../shared/PCOR/pcor-shared.service';
 @Component({
   selector: 'app-patient-care-opportunity',
   templateUrl: './patient-care-opportunity.component.html',
@@ -12,6 +13,7 @@ import { PriorAuthSharedService } from '../../../shared/prior-authorization/prio
 export class PatientCareOpportunityComponent implements OnInit {
   subscription: any;
   summaryItems: any;
+  qualityMeasureData: any;
   pageTitle: String = '';
   loading: boolean;
   MRAStarData: any;
@@ -26,15 +28,24 @@ export class PatientCareOpportunityComponent implements OnInit {
   currentSummary: Array<Object> = [{}];
   currentTabTitle: String = '';
   hideAllObjects: boolean;
+  ratingClicked: number;
+  starMeasure: any;
+  qualityTitle: String = 'Quality Star Rating';
   constructor(
     private priorAuthService: PriorAuthService,
     private sessionService: SessionService,
     private checkStorage: StorageService,
-    private priorAuthShared: PriorAuthSharedService
+    private priorAuthShared: PriorAuthSharedService,
+    private pcorSharedService: PCORSharedService
   ) {
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.ngOnInit());
   }
-
+  public ratingComponentClick(clickObj: any): void {
+    this.priorAuthShared.getPCORMandRData().then(data => {
+      this.summaryItems = JSON.parse(JSON.stringify(data));
+      this.StarRatings = this.summaryItems[2];
+    });
+  }
   ngOnInit() {
     this.pageTitle = 'Patient Care Opportunity–Medicare & Retirement';
     this.loading = true;
@@ -42,6 +53,7 @@ export class PatientCareOpportunityComponent implements OnInit {
     this.mockCards = [{}, {}];
     this.MRAStarData = [{}];
     this.summaryItems = [{}];
+    this.qualityMeasureData = [{}];
     this.MRACVCompletionData = [{}];
     this.StarRatings = [{}];
     this.PCORTabData = true;
@@ -59,5 +71,9 @@ export class PatientCareOpportunityComponent implements OnInit {
         this.hideAllObjects = false;
       }
     );
+    this.pcorSharedService.getQualityMeasureData().then(qdata => {
+      this.qualityMeasureData = JSON.parse(JSON.stringify(qdata));
+      // console.log(this.qualityMeasureData);
+    });
   }
 }

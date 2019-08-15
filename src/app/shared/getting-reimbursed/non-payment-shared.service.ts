@@ -14,8 +14,10 @@ export class NonPaymentSharedService {
   public timeFrame: string;
   private tin: string;
   private lob: string;
+  private nonPaymentBy: string;
   private categoriesFetchCount = 7;
   private subCategoriesFetchCount = 7;
+
   constructor(
     private nonPaymentService: NonPaymentService,
     private common: CommonUtilsService,
@@ -683,7 +685,7 @@ export class NonPaymentSharedService {
               return b.DenialAmount - a.DenialAmount;
             }); // sort the array in Descending order , if we do a.DenialAmount - b.DenialAmount, it becomes ascending
             if (topReasons[i]['top5'].length > 5) {
-              topReasons[i]['top5'].slice(0, 5); // Slice the top Sub Categories 5 arrays
+              topReasons[i]['top5'] = topReasons[i]['top5'].slice(0, 5); // Slice the top Sub Categories 5 arrays
             }
             const dataWithSubCategory = topReasons[i]['top5']; // shallow copy
             // console.log('5 parameters', mappedData[i].All.DenialCategory);
@@ -731,7 +733,7 @@ export class NonPaymentSharedService {
               return b.DenialAmount - a.DenialAmount;
             }); // sort the array in Descending order , if we do a.DenialAmount - b.DenialAmount, it becomes ascending
             if (tempArray.length > 5) {
-              tempArray.slice(0, 5); // Slice the top 5 arrays
+              tempArray = tempArray.slice(0, 5); // Slice the top 5 arrays
             }
             for (let i = 0; i < tempArray.length; i++) {
               topReasons.push({
@@ -753,4 +755,71 @@ export class NonPaymentSharedService {
       /** Ends Shared Top Categories Data */
     });
   } // end sharedTopCategories Function
+
+  public ReturnMonthlyString(a) {
+    if (a === '01') {
+      return 'Jan';
+    } else if (a === '02') {
+      return 'Feb';
+    } else if (a === '03') {
+      return 'Mar';
+    } else if (a === '04') {
+      return 'Apr';
+    } else if (a === '05') {
+      return 'May';
+    } else if (a === '06') {
+      return 'Jun';
+    } else if (a === '07') {
+      return 'Jul';
+    } else if (a === '08') {
+      return 'Aug';
+    } else if (a === '09') {
+      return 'Sep';
+    } else if (a === '10') {
+      return 'Oct';
+    } else if (a === '11') {
+      return 'Nov';
+    } else if (a === '12') {
+      return 'Dec';
+    }
+  }
+
+  public sharedTrendByMonth() {
+    let paramters = [];
+    paramters = this.getParmaeterCategories();
+    this.timeFrame = this.session.filterObjValue.timeFrame;
+    return new Promise((resolve, reject) => {
+      this.nonPaymentService.getNonPaymentTrendByMonth(paramters).subscribe(nonPaymentsTrendData => {
+        try {
+          const lobData = this.lob;
+          const filter_data_claimSummary = [];
+          nonPaymentsTrendData.forEach(element => {
+            let monthlyData = [];
+            monthlyData = element.All.ClaimsLobSummary;
+            for (let i = 0; i < monthlyData.length; i++) {
+              const trendMonthValue = monthlyData[i].AmountDenied;
+              const trendTimePeriod = monthlyData[i].DenialMonth;
+              const trendTimePeriodArr = trendTimePeriod.split('-');
+              const trendTimePeriodFinal = trendTimePeriodArr[1];
+              filter_data_claimSummary.push({
+                name: this.ReturnMonthlyString(trendTimePeriodFinal),
+                value: trendMonthValue,
+                month: trendTimePeriod
+              });
+            }
+          });
+          filter_data_claimSummary.sort(function(a, b) {
+            let dateA: any;
+            dateA = new Date(a.month);
+            let dateB: any;
+            dateB = new Date(b.month);
+            return dateA - dateB; // sort by date ascending
+          });
+          resolve(filter_data_claimSummary);
+        } catch (Error) {
+          resolve(null);
+        }
+      });
+    });
+  }
 }

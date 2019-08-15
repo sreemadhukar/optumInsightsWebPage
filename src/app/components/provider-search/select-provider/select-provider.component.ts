@@ -125,6 +125,9 @@ export class SelectProviderComponent implements OnInit {
     }
     return true;
   }
+  provider() {
+    this.router.navigate(['/ProviderSearch']);
+  }
   // madhukar
   providerSelect(event: MatAutocompleteSelectedEvent) {
     this.providerSelectedFlag = false;
