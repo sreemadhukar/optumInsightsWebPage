@@ -1065,6 +1065,7 @@ export class OverviewSharedService {
       let cIR: any;
       this.overviewService.getOverviewTotalCalls(parameters).subscribe(calls => {
         if (
+          calls &&
           calls.hasOwnProperty('CallVolByQuesType') &&
           calls.CallVolByQuesType.hasOwnProperty('Total') &&
           calls.CallVolByQuesType.hasOwnProperty('Claims') &&
