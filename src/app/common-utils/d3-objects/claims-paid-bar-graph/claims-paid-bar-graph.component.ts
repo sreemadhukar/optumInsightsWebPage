@@ -332,7 +332,9 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit, OnCha
       .selectAll('.tick>text')
       .nodes()
       .map(function(t) {
-        return t.innerHTML;
+        const tagString = new XMLSerializer().serializeToString(t);
+        const mySubString = tagString.substring(tagString.indexOf('>') + 1, tagString.indexOf('</'));
+        return mySubString;
       });
 
     d3.select('#forCalculations').remove();

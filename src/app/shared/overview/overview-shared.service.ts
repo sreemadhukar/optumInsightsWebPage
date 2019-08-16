@@ -603,7 +603,7 @@ export class OverviewSharedService {
               paidData.push(claims.Mr.ClaimsLobSummary[0].AmountPaid);
             }
           }
-          if (claims.hasOwnProperty('Cs') && claims.Ei != null) {
+          if (claims.hasOwnProperty('Cs') && claims.Cs != null) {
             if (
               claims.Cs.hasOwnProperty('ClaimsLobSummary') &&
               claims.Cs.ClaimsLobSummary.length &&
