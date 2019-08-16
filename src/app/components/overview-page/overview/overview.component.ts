@@ -124,6 +124,11 @@ export class OverviewComponent implements OnInit, AfterContentInit {
     }*/
     this.overviewsrc.getAllTrends().then(trendData => {
       this.trendsData = trendData;
+        // temporary switch off of trend in calls : Srikar Bobbiganipalli
+      if (this.trendsData && this.trendsData.hasOwnProperty('TendingMtrics')) {
+        this.trendsData.TendingMtrics.CcllTalkTimeByQuesType = undefined;
+        this.trendsData.TendingMtrics.CallsTrendByQuesType = undefined;
+      }
       this.claimsLoading = true;
 
       /* SERVICE CALL TO GET CLAIMS CARDS DATA */
