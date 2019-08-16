@@ -30,6 +30,7 @@ export class SelfSharedService {
       toggle: toggle,
       timeperiod: this.timeFrame
     };
+    console.log('temp', temp);
     return temp;
   }
 
