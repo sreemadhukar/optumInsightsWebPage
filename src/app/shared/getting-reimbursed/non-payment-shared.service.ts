@@ -321,15 +321,15 @@ export class NonPaymentSharedService {
             } // end if else
             this.summaryData = [];
 
-            /** REMOVE LATER (ONCE PDP ISSUE SOLVED) ***/
-
-            claimsNotPaidRate = {
-              category: 'app-card',
-              type: 'donut',
-              title: null,
-              data: null,
-              timeperiod: null
-            };
+            // /** REMOVE LATER (ONCE PDP ISSUE SOLVED) ***/
+            //
+            // claimsNotPaidRate = {
+            //   category: 'app-card',
+            //   type: 'donut',
+            //   title: null,
+            //   data: null,
+            //   timeperiod: null
+            // };
             this.summaryData.push(claimsNotPaid, claimsNotPaidRate);
             resolve(this.summaryData);
           },
@@ -491,15 +491,15 @@ export class NonPaymentSharedService {
               };
             } // end if else
             this.summaryData = [];
-            /** REMOVE LATER (ONCE PDP ISSUE SOLVED) ***/
-
-            claimsNotPaidRate = {
-              category: 'app-card',
-              type: 'donut',
-              title: null,
-              data: null,
-              timeperiod: null
-            };
+            // /** REMOVE LATER (ONCE PDP ISSUE SOLVED) ***/
+            //
+            // claimsNotPaidRate = {
+            //   category: 'app-card',
+            //   type: 'donut',
+            //   title: null,
+            //   data: null,
+            //   timeperiod: null
+            // };
             this.summaryData.push(claimsNotPaid, claimsNotPaidRate);
             resolve(this.summaryData);
           },
@@ -685,7 +685,7 @@ export class NonPaymentSharedService {
               return b.DenialAmount - a.DenialAmount;
             }); // sort the array in Descending order , if we do a.DenialAmount - b.DenialAmount, it becomes ascending
             if (topReasons[i]['top5'].length > 5) {
-              topReasons[i]['top5'].slice(0, 5); // Slice the top Sub Categories 5 arrays
+              topReasons[i]['top5'] = topReasons[i]['top5'].slice(0, 5); // Slice the top Sub Categories 5 arrays
             }
             const dataWithSubCategory = topReasons[i]['top5']; // shallow copy
             // console.log('5 parameters', mappedData[i].All.DenialCategory);
@@ -733,7 +733,7 @@ export class NonPaymentSharedService {
               return b.DenialAmount - a.DenialAmount;
             }); // sort the array in Descending order , if we do a.DenialAmount - b.DenialAmount, it becomes ascending
             if (tempArray.length > 5) {
-              tempArray.slice(0, 5); // Slice the top 5 arrays
+              tempArray = tempArray.slice(0, 5); // Slice the top 5 arrays
             }
             for (let i = 0; i < tempArray.length; i++) {
               topReasons.push({

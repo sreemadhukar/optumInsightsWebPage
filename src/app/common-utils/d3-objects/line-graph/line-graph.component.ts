@@ -346,6 +346,8 @@ export class LineGraphComponent implements OnInit {
       .nice(3); // output
 
     // tslint:disable-next-line:no-var-keyword
+
+    /*
     let area = d3
       .area()
       .x(function(d, i) {
@@ -355,6 +357,7 @@ export class LineGraphComponent implements OnInit {
       .y1(function(d) {
         return yScale(d.y);
       });
+      */
 
     // tslint:disable-next-line:no-var-keyword
     const ydata = [];
@@ -583,6 +586,7 @@ export class LineGraphComponent implements OnInit {
         .style('stroke', generalData2[0].barColor);
     } */
     // tslint:disable-next-line:no-var-keyword
+    /*
     area = d3
       .area()
       .x(function(d, i) {
@@ -598,6 +602,8 @@ export class LineGraphComponent implements OnInit {
       .datum(data)
       .attr('class', 'area')
       .attr('d', area);
+
+    */
 
     /*if (this.chartOptions.chartData2 != undefined && this.chartOptions.chartData2.length > 0) {
       chart
