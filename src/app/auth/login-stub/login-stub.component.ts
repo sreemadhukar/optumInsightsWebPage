@@ -135,6 +135,9 @@ export class LoginStubComponent implements OnInit {
           this.authorise.getToggles().subscribe(value => {
             console.log(value);
           });
+          this.authorise.getHeac(this.f.username.value).subscribe(value => {
+            console.log(value);
+          });
           sessionStorage.setItem('cache', JSON.stringify(true));
           // this.openDialog();
           this.router.navigate(['/ProviderSearch']);
