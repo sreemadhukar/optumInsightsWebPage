@@ -32,9 +32,22 @@ import { DonutChartOnchangeComponent } from './d3-objects/donut-chart-onchange/d
 import { MatIconModule } from '@angular/material';
 import { PrintComponent } from './print/print.component';
 import { ClarifyClaimsMessageComponent } from './clarify-claims-message/clarify-claims-message.component';
+import { AccordionLargeCardComponent } from './accordion-large-card/accordion-large-card.component';
+import { D3StarBlueComponent } from './d3-objects/d3-star-blue/d3-star-blue.component';
+import { D3StarGreyComponent } from './d3-objects/d3-star-grey/d3-star-grey.component';
+import { HeacSmallCardComponent } from './heac-small-card/heac-small-card.component';
+import { PipesModule } from '../pipes/pipes.module';
 
 @NgModule({
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, HeadMaterialModule, RouterModule, MatIconModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    HeadMaterialModule,
+    RouterModule,
+    MatIconModule,
+    PipesModule
+  ],
   exports: [
     MiniTileComponent,
     CardComponent,
@@ -58,7 +71,9 @@ import { ClarifyClaimsMessageComponent } from './clarify-claims-message/clarify-
     MedBarChartComponent,
     DonutChartComponent,
     PrintComponent,
-    ClarifyClaimsMessageComponent
+    ClarifyClaimsMessageComponent,
+    AccordionLargeCardComponent,
+    HeacSmallCardComponent
   ],
   declarations: [
     MiniTileComponent,
@@ -88,7 +103,11 @@ import { ClarifyClaimsMessageComponent } from './clarify-claims-message/clarify-
     MultiSelectComponent,
     DonutChartOnchangeComponent,
     PrintComponent,
-    ClarifyClaimsMessageComponent
+    ClarifyClaimsMessageComponent,
+    AccordionLargeCardComponent,
+    D3StarBlueComponent,
+    D3StarGreyComponent,
+    HeacSmallCardComponent
   ],
   entryComponents: [ProviderSearchComponent]
 })

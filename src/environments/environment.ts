@@ -46,7 +46,8 @@ export const environment: any = {
     PaymentIntegrity: 'pi-metrics/',
     NonPayment: 'claim-metrics/',
     CallsTrend: 'provider-calls/',
-    TrendingMetrics: 'trending-metrics/'
+    TrendingMetrics: 'trending-metrics/',
+    PCORQualityMeasure: 'pcor-metrics/'
   },
   headerKeys: {
     selectedCompany: '',

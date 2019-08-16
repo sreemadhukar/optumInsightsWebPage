@@ -40,7 +40,7 @@ export class SelfServiceComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.mockCards = [{}, {}, {}, {}, {}, {}];
+    this.mockCards = [{}, {}, {}];
     this.mockSelfServiceMiniCards = [{}, {}, {}, {}];
     this.selfServiceMiniCards = [];
     this.loading = true;

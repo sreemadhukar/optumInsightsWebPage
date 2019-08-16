@@ -11,6 +11,7 @@
         class="site-map-sub-category-items"
         routerLink="{{ subcategory.path }}"
         *ngFor="let subcategory of category.children"
+        [ngClass]="{ 'site-map-sub-category-items-selected': category.children.name === 'Site Map' }"
       >
         {{ subcategory.name }}
       </div>
