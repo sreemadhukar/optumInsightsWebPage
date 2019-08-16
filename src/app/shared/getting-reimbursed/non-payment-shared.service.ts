@@ -321,15 +321,15 @@ export class NonPaymentSharedService {
             } // end if else
             this.summaryData = [];
 
-            /** REMOVE LATER (ONCE PDP ISSUE SOLVED) ***/
-
-            claimsNotPaidRate = {
-              category: 'app-card',
-              type: 'donut',
-              title: null,
-              data: null,
-              timeperiod: null
-            };
+            // /** REMOVE LATER (ONCE PDP ISSUE SOLVED) ***/
+            //
+            // claimsNotPaidRate = {
+            //   category: 'app-card',
+            //   type: 'donut',
+            //   title: null,
+            //   data: null,
+            //   timeperiod: null
+            // };
             this.summaryData.push(claimsNotPaid, claimsNotPaidRate);
             resolve(this.summaryData);
           },
@@ -491,15 +491,15 @@ export class NonPaymentSharedService {
               };
             } // end if else
             this.summaryData = [];
-            /** REMOVE LATER (ONCE PDP ISSUE SOLVED) ***/
-
-            claimsNotPaidRate = {
-              category: 'app-card',
-              type: 'donut',
-              title: null,
-              data: null,
-              timeperiod: null
-            };
+            // /** REMOVE LATER (ONCE PDP ISSUE SOLVED) ***/
+            //
+            // claimsNotPaidRate = {
+            //   category: 'app-card',
+            //   type: 'donut',
+            //   title: null,
+            //   data: null,
+            //   timeperiod: null
+            // };
             this.summaryData.push(claimsNotPaid, claimsNotPaidRate);
             resolve(this.summaryData);
           },

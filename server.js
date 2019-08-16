@@ -19,6 +19,7 @@ var apiProxy = httpProxy.createProxyServer();
 var apiForwardingUrl = 'https://pedapigateway-pedprddr.ocp-ctc-dmz.optum.com';
 var sessionSecret = '7dX03633CEuFJaf25ot5HlSPOZYQ6E9Y';
 var key = 'PvU8koWDqgbqZNin5aBj00RtRHWze7pC';
+var heac = require('./src/assets/mock-data/heac.json');
 
 app.all('/uhci/prd2/*', function(req, res) {
   apiProxy.web(req, res, { target: apiForwardingUrl, changeOrigin: true, secure: false }, function(e) {
@@ -42,6 +43,13 @@ app.get('/api/getJwt', cors(), function(req, res) {
     token: token
   });
 });
+
+app.get('/api/getHeac/:MsId', cors(), function(req, res) {
+  res.status(200).json({
+    heac: include(heac.user, req.params.MsId)
+  });
+});
+
 app.get('*', function(req, res) {
   res.sendFile(path.join(__dirname, 'index.html'));
 });
@@ -56,6 +64,10 @@ const handleExceptions = (exception, res) => {
     }
   });
 };
+
+function include(arr, obj) {
+  return arr.indexOf(obj) != -1;
+}
 
 // Start Server
 app.listen(port, function() {

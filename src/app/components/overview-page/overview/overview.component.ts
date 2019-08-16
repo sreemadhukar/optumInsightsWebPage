@@ -49,6 +49,7 @@ export class OverviewComponent implements OnInit, AfterContentInit {
   errorloadselfServiceAdoptionCard = false;
   errorloadMedicareStarRatingCard = false;
   errorloadTotalCallsCard = false;
+  isHeac = false;
   /***************** DONT CHANGE THESE *************/
 
   trendsData: any;
@@ -88,6 +89,9 @@ export class OverviewComponent implements OnInit, AfterContentInit {
     );
   }
   ngOnInit() {
+    // Temporary Heac ability
+    const heac = JSON.parse(sessionStorage.getItem('heac'));
+    this.isHeac = heac && heac.heac === true ? true : false;
     /***************** DELETE LATER *************/
     /*this.claimsPaidBlock = {
       category: "small-card",
