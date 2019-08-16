@@ -129,7 +129,8 @@ export class SelfSharedService {
                   gdata: ['card-inner', 'linkAndEdiCallRatio'],
                   sdata: null
                 },
-                this.toggle.setToggles('Link & EDI to Call Ratio', 'Self Service', 'Service Interaction', false)
+                this.toggle.setToggles('Link and EDI to Call Ratio', 'Self Service', 'Service Interaction', false)
+                // I used 'and' instead of '&' because special character was failing in doing comparison
               );
             } catch (Error) {
               linkEdiRation = {
