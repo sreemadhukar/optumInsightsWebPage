@@ -12,8 +12,8 @@
     "Opportunities": {
       "Reduce Calls and Operating Costs by:": true,
       "Save Your Staff's Time by:": true,
-      "Reduce Claim Processing Time by:": true,
-      "Reduce Reconsideration Processing by:": true
+      "Reduce Claim Processing Time by:": false,
+      "Reduce Reconsideration Processing by:": false
     }
   },
   "Getting Reimbursed": {
@@ -86,8 +86,8 @@
       "Paperless Delivery": true,
       "Reduce Calls and Operating Costs by:": true,
       "Save Your Staff's Time by:": true,
-      "Reduce Claim Processing Time by:": true,
-      "Reduce Reconsideration Processing by:": true
+      "Reduce Claim Processing Time by:": false,
+      "Reduce Reconsideration Processing by:": false
     },
     "Calls": {
       "navLink": true,

@@ -157,11 +157,10 @@
 
 .heac-data-block {
   width: 50%;
-  margin: 8px 0;
   .heac-label {
     display: flex;
     width: 114%;
-    margin: 8px 0;
+    margin: 7px 0;
     &-dots {
       height: 12px;
       width: 12px;
@@ -182,5 +181,5 @@
 
 .heac-donut-chart {
   width: 50%;
-  margin: 9px 19px;
+  margin-left: 19px;
 }
