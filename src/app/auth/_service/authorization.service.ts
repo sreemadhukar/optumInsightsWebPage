@@ -13,8 +13,8 @@ export class AuthorizationService {
 
   constructor(public http: HttpClient) {}
 
-  getToggles() {
-    const url = 'src/assets/user-controls/authorise.json';
+  getToggles(param) {
+    const url = 'src/assets/user-controls/' + param + '.json';
     const myHeader = new HttpHeaders();
     myHeader.set('Accept', '*/*');
     const params = new HttpParams();
