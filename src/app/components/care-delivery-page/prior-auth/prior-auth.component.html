@@ -22,16 +22,12 @@
               </button>
             </div>
             <div class="horizontal-align" *ngIf="lob">
-              <button class="btn btn-rounded" disabled>
+              <div class="btn btn-rounded" disabled>
                 <span>Line of Business: </span><span class="text-semibold pl-4">{{ lob }} </span>
-                <div class="close-btn">
-                  <mat-icon
-                    class="icon-display"
-                    (click)="removeFilter('lob', session.filterObjValue.lob)"
-                    svgIcon="close"
-                  ></mat-icon>
+                <div class="close-btn" (click)="removeFilter('lob', session.filterObjValue.lob)">
+                  <mat-icon class="icon-display" svgIcon="close"></mat-icon>
                 </div>
-              </button>
+              </div>
             </div>
             <div class="horizontal-align" *ngIf="serviceSetting !== 'All'">
               <button class="btn btn-rounded" disabled>
