@@ -384,13 +384,28 @@ export class OverviewSharedService {
         providerSystems.SelfServiceInquiries.ALL.SelfService.hasOwnProperty('PhoneCallTime')
       ) {
         try {
+          let totalCalltime = providerSystems.SelfServiceInquiries.ALL.SelfService.TotalCallTime;
+          let suffixHourPerDay;
+          if (totalCalltime < 1 && totalCalltime > 0) {
+            totalCalltime = '< 1';
+            suffixHourPerDay = ' Hour/day';
+          } else if (totalCalltime.toFixed(0) === 1) {
+            totalCalltime = totalCalltime.toFixed(0);
+            suffixHourPerDay = ' Hour/day';
+          } else if (totalCalltime.toFixed(0) === 0) {
+            totalCalltime = totalCalltime.toFixed(0);
+            suffixHourPerDay = '';
+          } else {
+            totalCalltime = this.common.nondecimalFormatter(totalCalltime);
+            suffixHourPerDay = ' Hours/day';
+          }
+
           oppurtunities.push({
             category: 'mini-tile',
             title: "Save Your Staff's Time by:" + '\n\xa0',
             toggle: this.toggle.setToggles("Save Your Staff's Time by:", 'Opportunities', 'Overview', false),
             data: {
-              centerNumber:
-                providerSystems.SelfServiceInquiries.ALL.SelfService.TotalCallTime.toFixed(0) + ' Hours/day',
+              centerNumber: totalCalltime + suffixHourPerDay,
               gdata: []
             },
             fdata: {

@@ -280,19 +280,19 @@ export class SelfSharedService {
             if (providerSystems.SelfServiceInquiries.ALL.SelfService.hasOwnProperty('TotalCallTime')) {
               try {
                 let totalCalltime = providerSystems.SelfServiceInquiries.ALL.SelfService.TotalCallTime;
-                let suffix;
+                let suffixHourPerDay;
                 if (totalCalltime < 1 && totalCalltime > 0) {
                   totalCalltime = '< 1';
-                  suffix = ' Hour/day';
+                  suffixHourPerDay = ' Hour/day';
                 } else if (totalCalltime.toFixed(0) === 1) {
                   totalCalltime = totalCalltime.toFixed(0);
-                  suffix = ' Hour/day';
+                  suffixHourPerDay = ' Hour/day';
                 } else if (totalCalltime.toFixed(0) === 0) {
                   totalCalltime = totalCalltime.toFixed(0);
-                  suffix = '';
+                  suffixHourPerDay = '';
                 } else {
                   totalCalltime = this.common.nondecimalFormatter(totalCalltime);
-                  suffix = ' Hours/day';
+                  suffixHourPerDay = ' Hours/day';
                 }
 
                 oppurtunities.push({
@@ -305,7 +305,7 @@ export class SelfSharedService {
                     false
                   ),
                   data: {
-                    centerNumber: totalCalltime + suffix,
+                    centerNumber: totalCalltime + suffixHourPerDay,
                     gdata: []
                   },
                   fdata: {
@@ -361,15 +361,15 @@ export class SelfSharedService {
                 let processingTime =
                   providerSystems.SelfServiceInquiries.ALL.SelfService.AveragePaperClaimProcessingTime.toFixed(0) -
                   providerSystems.SelfServiceInquiries.ALL.SelfService.AverageClaimProcessingTime.toFixed(0);
-                let suffix;
+                let suffixDay;
                 if (processingTime <= 0) {
                   processingTime = 0;
-                  suffix = '';
+                  suffixDay = '';
                 } else if (processingTime === 1) {
-                  suffix = ' Day';
+                  suffixDay = ' Day';
                 } else {
                   processingTime = this.common.nondecimalFormatter(processingTime);
-                  suffix = ' Days';
+                  suffixDay = ' Days';
                 }
                 oppurtunities.push({
                   category: 'mini-tile',
@@ -381,7 +381,7 @@ export class SelfSharedService {
                     false
                   ),
                   data: {
-                    centerNumber: processingTime + suffix,
+                    centerNumber: processingTime + suffixDay,
                     gdata: []
                   },
                   fdata: {
