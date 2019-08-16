@@ -105,6 +105,7 @@ export class PaymentsComponent implements OnInit {
     ];
 
     // this.claimsPaidBreakBool = false;
+
     this.gettingReimbursedSharedService.getclaimsPaidData().then(
       payData => {
         this.loadingClaimsBreakdown = false;

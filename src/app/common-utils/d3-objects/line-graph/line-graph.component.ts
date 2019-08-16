@@ -429,7 +429,9 @@ export class LineGraphComponent implements OnInit {
       .selectAll('.tick>text')
       .nodes()
       .map(function(t) {
-        return t.innerHTML;
+        const tagString = new XMLSerializer().serializeToString(t);
+        const mySubString = tagString.substring(tagString.indexOf('>') + 1, tagString.indexOf('</'));
+        return mySubString;
       });
 
     d3.select('#forYCalculations').remove();
@@ -531,6 +533,7 @@ export class LineGraphComponent implements OnInit {
         }
       } */
       /* Ends Data for tooltip */
+      /*
       chart
         .append('g')
         .attr('visibility', 'hidden')
@@ -556,6 +559,7 @@ export class LineGraphComponent implements OnInit {
       }
 
       const preArrayOfNumbers2 = preYArray2.map(Number);
+      */
       // tslint:disable-next-line:no-var-keyword
       // var numberOfTicks2 = preArrayOfNumbers2.length;
       // tslint:disable-next-line:no-var-keyword

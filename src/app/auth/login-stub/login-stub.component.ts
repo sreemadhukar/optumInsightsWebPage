@@ -92,7 +92,9 @@ export class LoginStubComponent implements OnInit {
             this.external
               .CheckExternal(params.code, this.token)
               .then(value => {
-                this.authorise.getToggles().subscribe(value1 => {});
+                this.authorise.getToggles('external-authorise').subscribe(value1 => {
+                  console.log(value1);
+                });
                 sessionStorage.setItem('cache', JSON.stringify(true));
                 this.router.navigate(['/OverviewPage']);
               })
@@ -132,7 +134,7 @@ export class LoginStubComponent implements OnInit {
         () => {
           this.blankScreen = true;
           this.loading = false;
-          this.authorise.getToggles().subscribe(value => {
+          this.authorise.getToggles('authorise').subscribe(value => {
             console.log(value);
           });
           if (environment.internalAccess) {
