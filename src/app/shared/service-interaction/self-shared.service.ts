@@ -360,28 +360,32 @@ export class SelfSharedService {
               providerSystems.SelfServiceInquiries.ALL.SelfService.hasOwnProperty('AverageClaimProcessingTime')
             ) {
               try {
-                let processingTime =
+                let processingTime;
+                const checkProcessingTime =
                   providerSystems.SelfServiceInquiries.ALL.SelfService.AveragePaperClaimProcessingTime.toFixed(0) -
                   providerSystems.SelfServiceInquiries.ALL.SelfService.AverageClaimProcessingTime.toFixed(0);
                 let suffixDay;
-                if (processingTime <= 0) {
+                if (checkProcessingTime <= 0) {
                   processingTime = 0;
                   suffixDay = '';
-                } else if (processingTime === 1) {
+                } else if (checkProcessingTime === 1) {
+                  processingTime = checkProcessingTime;
                   suffixDay = ' Day';
                 } else {
-                  processingTime = this.common.nondecimalFormatter(processingTime);
+                  processingTime = this.common.nondecimalFormatter(checkProcessingTime);
                   suffixDay = ' Days';
                 }
                 oppurtunities.push({
                   category: 'mini-tile',
                   title: 'Reduce Claim Processing Time by:',
-                  toggle: this.toggle.setToggles(
-                    'Reduce Claim Processing Time by:',
-                    'Self Service',
-                    'Service Interaction',
-                    false
-                  ),
+                  toggle:
+                    checkProcessingTime >= 0 ||
+                    this.toggle.setToggles(
+                      'Reduce Claim Processing Time by:',
+                      'Self Service',
+                      'Service Interaction',
+                      false
+                    ),
                   data: {
                     centerNumber: processingTime + suffixDay,
                     gdata: []
@@ -442,28 +446,32 @@ export class SelfSharedService {
               providerSystems.SelfServiceInquiries.ALL.SelfService['AverageReconsideredProcessingTime'] !== null
             ) {
               try {
-                let avgProcessingTime =
+                const checkAvgProcessingTime =
                   providerSystems.SelfServiceInquiries.ALL.SelfService.AveragePaperReconsideredProcessingTime.toFixed() -
                   providerSystems.SelfServiceInquiries.ALL.SelfService.AverageReconsideredProcessingTime.toFixed();
+                let avgProcessingTime;
                 let suffixDay;
-                if (avgProcessingTime <= 0) {
+                if (checkAvgProcessingTime <= 0) {
                   avgProcessingTime = 0;
                   suffixDay = '';
-                } else if (avgProcessingTime === 1) {
+                } else if (checkAvgProcessingTime === 1) {
+                  avgProcessingTime = checkAvgProcessingTime;
                   suffixDay = ' Day';
                 } else {
-                  avgProcessingTime = this.common.nondecimalFormatter(avgProcessingTime);
+                  avgProcessingTime = this.common.nondecimalFormatter(checkAvgProcessingTime);
                   suffixDay = ' Days';
                 }
                 oppurtunities.push({
                   category: 'mini-tile',
                   title: 'Reduce Reconsideration Processing by:',
-                  toggle: this.toggle.setToggles(
-                    'Reduce Reconsideration Processing by:',
-                    'Self Service',
-                    'Service Interaction',
-                    false
-                  ),
+                  toggle:
+                    checkAvgProcessingTime >= 0 ||
+                    this.toggle.setToggles(
+                      'Reduce Reconsideration Processing by:',
+                      'Self Service',
+                      'Service Interaction',
+                      false
+                    ),
                   data: {
                     centerNumber: avgProcessingTime + suffixDay,
                     gdata: []
