@@ -130,6 +130,7 @@ export class SelfSharedService {
                   sdata: null
                 },
                 this.toggle.setToggles('Link and EDI to Call Ratio', 'Self Service', 'Service Interaction', false)
+                // I used 'and' instead of '&' because special character was failing in doing comparison
               );
             } catch (Error) {
               linkEdiRation = {
