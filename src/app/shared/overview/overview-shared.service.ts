@@ -460,23 +460,27 @@ export class OverviewSharedService {
         providerSystems.SelfServiceInquiries.ALL.SelfService.hasOwnProperty('AverageClaimProcessingTime') &&
         providerSystems.SelfServiceInquiries.ALL.SelfService.AverageClaimProcessingTime != null
       ) {
-        let processingTime =
+        let processingTime;
+        const checkProcessingTime =
           providerSystems.SelfServiceInquiries.ALL.SelfService.AveragePaperClaimProcessingTime.toFixed(0) -
           providerSystems.SelfServiceInquiries.ALL.SelfService.AverageClaimProcessingTime.toFixed(0);
         let suffixDay;
-        if (processingTime <= 0) {
+        if (checkProcessingTime <= 0) {
           processingTime = 0;
           suffixDay = '';
-        } else if (processingTime === 1) {
+        } else if (checkProcessingTime === 1) {
+          processingTime = checkProcessingTime;
           suffixDay = ' Day';
         } else {
-          processingTime = this.common.nondecimalFormatter(processingTime);
+          processingTime = this.common.nondecimalFormatter(checkProcessingTime);
           suffixDay = ' Days';
         }
         oppurtunities.push({
           category: 'mini-tile',
           title: 'Reduce Claim Processing Time by:',
-          toggle: this.toggle.setToggles('Reduce Claim Processing Time by:', 'Opportunities', 'Overview', false),
+          toggle:
+            checkProcessingTime >= 0 ||
+            this.toggle.setToggles('Reduce Claim Processing Time by:', 'Opportunities', 'Overview', false),
           data: {
             centerNumber: processingTime + suffixDay,
             gdata: []
@@ -523,25 +527,29 @@ export class OverviewSharedService {
         providerSystems.SelfServiceInquiries.ALL.SelfService.AveragePaperReconsideredProcessingTime !== null &&
         providerSystems.SelfServiceInquiries.ALL.SelfService.AverageReconsideredProcessingTime !== null
       ) {
-        let avgPaperProcessingTime =
+        let avgPaperProcessTime;
+        const checkAvgPaperProcessTime =
           providerSystems.SelfServiceInquiries.ALL.SelfService.AveragePaperReconsideredProcessingTime.toFixed() -
           providerSystems.SelfServiceInquiries.ALL.SelfService.AverageReconsideredProcessingTime.toFixed();
         let suffixDay;
-        if (avgPaperProcessingTime <= 0) {
-          avgPaperProcessingTime = 0;
+        if (checkAvgPaperProcessTime <= 0) {
+          avgPaperProcessTime = 0;
           suffixDay = '';
-        } else if (avgPaperProcessingTime === 1) {
+        } else if (checkAvgPaperProcessTime === 1) {
+          avgPaperProcessTime = checkAvgPaperProcessTime;
           suffixDay = ' Day';
         } else {
-          avgPaperProcessingTime = this.common.nondecimalFormatter(avgPaperProcessingTime);
+          avgPaperProcessTime = this.common.nondecimalFormatter(checkAvgPaperProcessTime);
           suffixDay = ' Days';
         }
         oppurtunities.push({
           category: 'mini-tile',
           title: 'Reduce Reconsideration Processing by:',
-          toggle: this.toggle.setToggles('Reduce Reconsideration Processing by:', 'Opportunities', 'Overview', false),
+          toggle:
+            checkAvgPaperProcessTime >= 0 ||
+            this.toggle.setToggles('Reduce Reconsideration Processing by:', 'Opportunities', 'Overview', false),
           data: {
-            centerNumber: avgPaperProcessingTime + suffixDay,
+            centerNumber: avgPaperProcessTime + suffixDay,
             gdata: []
           },
           fdata: {
@@ -595,7 +603,7 @@ export class OverviewSharedService {
               paidData.push(claims.Mr.ClaimsLobSummary[0].AmountPaid);
             }
           }
-          if (claims.hasOwnProperty('Cs') && claims.Ei != null) {
+          if (claims.hasOwnProperty('Cs') && claims.Cs != null) {
             if (
               claims.Cs.hasOwnProperty('ClaimsLobSummary') &&
               claims.Cs.ClaimsLobSummary.length &&
