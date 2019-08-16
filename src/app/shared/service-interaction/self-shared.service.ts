@@ -362,7 +362,7 @@ export class SelfSharedService {
                   providerSystems.SelfServiceInquiries.ALL.SelfService.AveragePaperClaimProcessingTime.toFixed(0) -
                   providerSystems.SelfServiceInquiries.ALL.SelfService.AverageClaimProcessingTime.toFixed(0);
                 let suffix;
-                if (processingTime < 0) {
+                if (processingTime <= 0) {
                   processingTime = 0;
                   suffix = '';
                 } else if (processingTime === 1) {
@@ -444,7 +444,7 @@ export class SelfSharedService {
                   providerSystems.SelfServiceInquiries.ALL.SelfService.AveragePaperReconsideredProcessingTime.toFixed() -
                   providerSystems.SelfServiceInquiries.ALL.SelfService.AverageReconsideredProcessingTime.toFixed();
                 let suffixDay;
-                if (avgProcessingTime < 0) {
+                if (avgProcessingTime <= 0) {
                   avgProcessingTime = 0;
                   suffixDay = '';
                 } else if (avgProcessingTime === 1) {
