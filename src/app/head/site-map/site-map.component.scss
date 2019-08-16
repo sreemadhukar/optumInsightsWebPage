@@ -24,6 +24,7 @@
     font-size: 22px;
     line-height: 28px;
     padding-bottom: 24px;
+    outline: 0;
   }
   .stip-map-header {
     padding-top: 13px;
@@ -50,9 +51,11 @@
       font-size: 16px;
       letter-spacing: 0.2px;
       line-height: 22px;
+      outline: 0;
     }
     .site-map-sub-category-items-selected {
-      color: #2d2d39;
+      cursor: context-menu;
+      color: #2d2d39 !important;
       font-family: 'UHCSans-Medium';
       font-size: 16px;
       letter-spacing: 0.2px;
