@@ -11,8 +11,12 @@
       <app-card class="cards mt-0" [skeleton]="loading" *ngIf="loading"> </app-card>
     </div>
     <div *ngFor="let item of selfServiceItems">
-      <app-card *ngIf="item.data != null" class="cards" [chartData]="item"> </app-card>
-      <app-error-card *ngIf="item.status != null" class="cards" [data]="item"></app-error-card>
+      <app-card *ngIf="!loading && item.data != null && item.toggle" class="cards" [chartData]="item"> </app-card>
+      <app-error-card
+        *ngIf="!loading && item.status != null && item.toggle"
+        class="cards"
+        [data]="item"
+      ></app-error-card>
     </div>
     <!-- starts opportunites here -->
     <div class="opportunity-content">
