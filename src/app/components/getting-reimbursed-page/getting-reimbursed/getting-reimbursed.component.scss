@@ -140,7 +140,6 @@
         .page-subtitle {
           flex-basis: 100%;
           font-size: 28px;
-          line-height: 32px;
           display: flex;
           flex-direction: row;
           position: relative;
@@ -148,6 +147,7 @@
           width: 98.5%;
           .page-subtitle-heading {
             margin-top: 4px;
+            line-height: 32px;
           }
 
           .details-button {
