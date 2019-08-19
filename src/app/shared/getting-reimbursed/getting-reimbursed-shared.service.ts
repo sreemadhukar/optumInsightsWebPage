@@ -275,6 +275,7 @@ export class GettingReimbursedSharedService {
                 type: 'donutWithLabel',
                 title: 'Total Number of Claims Submitted*',
                 data: null,
+                status: 404,
                 besideData: null,
                 timeperiod: this.timeFrame
               };
@@ -315,6 +316,7 @@ export class GettingReimbursedSharedService {
                 type: 'rotateWithLabel',
                 title: 'Claims Average Turnaround Time to Payment*',
                 data: null,
+                status: 404,
                 besideData: null,
                 timeperiod: this.timeFrame
               };
@@ -396,6 +398,7 @@ export class GettingReimbursedSharedService {
                 type: 'donutWithLabel',
                 title: 'Claims Paid*',
                 data: null,
+                status: 404,
                 besideData: null,
                 bottomData: null,
                 timeperiod: null
@@ -478,6 +481,7 @@ export class GettingReimbursedSharedService {
                 type: 'donutWithLabel',
                 title: 'Claims Not Paid*',
                 data: null,
+                status: 404,
                 besideData: null,
                 bottomData: null,
                 timeperiod: null
@@ -519,6 +523,7 @@ export class GettingReimbursedSharedService {
                 type: 'donutWithLabel',
                 title: 'Claims Non-Payment Rate*',
                 data: null,
+                status: 404,
                 besideData: null,
                 bottomData: null,
                 timeperiod: null
