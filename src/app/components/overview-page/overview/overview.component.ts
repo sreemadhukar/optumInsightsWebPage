@@ -75,6 +75,7 @@ export class OverviewComponent implements OnInit, AfterContentInit {
       const currentUrl = this.router.url + '?';
       this.router.navigateByUrl(currentUrl).then(() => {
         this.router.navigated = false;
+        console.log('rounter', this.router.url);
         if (this.router.url === '/ProviderSearch') {
           this.router.navigate(['/OverviewPage']);
         } else {
@@ -149,8 +150,6 @@ export class OverviewComponent implements OnInit, AfterContentInit {
           } else if (this.claimsYieldBlock.status != null && this.claimsYieldBlock.toggle) {
             this.errorloadClaimsYieldCard = true;
           }
-          console.log(this.claimsPaidBlock);
-          console.log(this.claimsYieldBlock);
         })
         .catch(reason => {
           this.claimsLoading = true;
@@ -214,7 +213,6 @@ export class OverviewComponent implements OnInit, AfterContentInit {
 
           this.loading = false;
           this.overviewItems = JSON.parse(JSON.stringify(data));
-          console.log(this.overviewItems[0]);
           this.mainCards = this.overviewItems[0];
 
           this.selfServiceAdoptionBlock = this.mainCards[0];
@@ -232,7 +230,6 @@ export class OverviewComponent implements OnInit, AfterContentInit {
           }
 
           this.selfServiceMiniCards = this.overviewItems[1];
-          console.log(this.overviewItems[0]);
         })
         .catch(reason => {
           this.loading = true;
