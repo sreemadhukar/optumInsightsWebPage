@@ -6,7 +6,12 @@ import { OverviewComponent } from './../overview/overview.component';
   styleUrls: ['./p-overview.component.scss']
 })
 export class POverviewComponent implements OnInit {
+  public pagesubTitle;
+  public pageTitle;
   constructor(private overviewComponent: OverviewComponent) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.pageTitle = this.overviewComponent.pageTitle;
+    this.pagesubTitle = this.overviewComponent.pagesubTitle;
+  }
 }
