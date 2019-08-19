@@ -56,6 +56,8 @@ export class OverviewComponent implements OnInit, AfterContentInit {
   printHeight = 800;
   printWidth = 700;
 
+  public printStyle: boolean; // this variable is used to distinguish between normal page and print page
+
   constructor(
     private overviewsrc: OverviewSharedService,
     private checkStorage: StorageService,
@@ -68,6 +70,9 @@ export class OverviewComponent implements OnInit, AfterContentInit {
     this.opportunities = 'Opportunities';
     this.opportunitiesQuestion = 'How much can online self service save you?';
     this.welcomeMessage = '';
+    if (this.router.url.includes('print-')) {
+      this.printStyle = true;
+    }
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => {
       this.router.routeReuseStrategy.shouldReuseRoute = function() {
         return false;
@@ -75,6 +80,7 @@ export class OverviewComponent implements OnInit, AfterContentInit {
       const currentUrl = this.router.url + '?';
       this.router.navigateByUrl(currentUrl).then(() => {
         this.router.navigated = false;
+        console.log('rounter', this.router.url);
         if (this.router.url === '/ProviderSearch') {
           this.router.navigate(['/OverviewPage']);
         } else {
@@ -154,8 +160,6 @@ export class OverviewComponent implements OnInit, AfterContentInit {
           } else if (this.claimsYieldBlock.status != null && this.claimsYieldBlock.toggle) {
             this.errorloadClaimsYieldCard = true;
           }
-          console.log(this.claimsPaidBlock);
-          console.log(this.claimsYieldBlock);
         })
         .catch(reason => {
           this.claimsLoading = true;
@@ -219,7 +223,6 @@ export class OverviewComponent implements OnInit, AfterContentInit {
 
           this.loading = false;
           this.overviewItems = JSON.parse(JSON.stringify(data));
-          console.log(this.overviewItems[0]);
           this.mainCards = this.overviewItems[0];
 
           this.selfServiceAdoptionBlock = this.mainCards[0];
@@ -237,7 +240,6 @@ export class OverviewComponent implements OnInit, AfterContentInit {
           }
 
           this.selfServiceMiniCards = this.overviewItems[1];
-          console.log(this.overviewItems[0]);
         })
         .catch(reason => {
           this.loading = true;
@@ -250,7 +252,12 @@ export class OverviewComponent implements OnInit, AfterContentInit {
       this.session.sessionStorage('loggedUser', 'LastName') +
       ' ' +
       this.session.sessionStorage('loggedUser', 'FirstName');
-    this.pageTitle = 'Hello, ' + userInfo.FirstName + '.';
+
+    if (this.printStyle) {
+      this.pageTitle = 'Overview (1 of 1)';
+    } else {
+      this.pageTitle = 'Hello, ' + userInfo.FirstName + '.';
+    }
   }
 
   ngAfterContentInit() {}
