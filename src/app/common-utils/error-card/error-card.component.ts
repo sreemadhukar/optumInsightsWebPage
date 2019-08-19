@@ -12,7 +12,7 @@ export class ErrorCardComponent implements OnInit {
   public errorCodes = [
     { code: 501, title: 'Data Could Not Be Retrieved', message: 'Sorry. Please try again later' },
     { code: 503, message: '' },
-    { code: 500, message: '' },
+    { code: 500, title: 'Data Not Available' },
     { code: 404, title: 'Data Not Available', message: 'Sorry. Please change your filter settings' },
     { code: 403, message: '' }
   ];
