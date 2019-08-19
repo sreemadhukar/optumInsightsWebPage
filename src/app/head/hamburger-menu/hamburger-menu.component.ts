@@ -49,6 +49,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
   @ViewChildren(MatExpansionPanel) viewPanels: QueryList<MatExpansionPanel>;
   @ViewChild('srnav') srnav: MatSidenav;
   public makeAbsolute: boolean;
+  public bgWhite: boolean;
   public sideNavFlag = true;
   subscription: any;
   public glossaryFlag: boolean;
@@ -117,8 +118,14 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
       if (event instanceof NavigationStart) {
         this.makeAbsolute = !(
           authService.isLoggedIn() &&
-          !(event.url === '' || event.url === '/ProviderSearch' || event.url.indexOf('/login') >= 0)
+          !(
+            event.url === '' ||
+            event.url === '/ProviderSearch' ||
+            event.url.includes('print-') ||
+            event.url.indexOf('/login') >= 0
+          )
         );
+        this.bgWhite = !(authService.isLoggedIn() && !event.url.includes('print-'));
         this.loading = true;
       }
       // PLEASE DON'T MODIFY THIS
