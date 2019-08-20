@@ -81,13 +81,13 @@ export class GettingReimbursedComponent implements OnInit {
       this.buttonName = '';
       this.buttonNumber = 0;
     } else if (i === 1) {
-      this.buttonName = 'Payments Details';
+      this.buttonName = 'More Payment Metrics';
       this.buttonNumber = 1;
     } else if (i === 2) {
-      this.buttonName = 'Non-Payments Details';
+      this.buttonName = 'More Non-Payment Metrics';
       this.buttonNumber = 2;
     } else if (i === 3) {
-      this.buttonName = 'Appeals Details';
+      this.buttonName = 'More Appeals Metrics';
       this.buttonNumber = 3;
     }
     this.currentSummary = [];

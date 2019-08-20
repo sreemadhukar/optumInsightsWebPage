@@ -23,7 +23,9 @@ export class CommonUtilsService {
       return (fnumber / 1000).toFixed(1).replace(/\.0$/, '') + 'K';
     }
     if (fnumber < 1000) {
-      return fnumber.toFixed(1).replace(/\.0$/, '');
+      return parseFloat(fnumber)
+        .toFixed(1)
+        .replace(/\.0$/, '');
     }
     return fnumber;
   }
@@ -54,10 +56,12 @@ export class CommonUtilsService {
     let value = '';
     const suffix = '%';
     let tempSign;
-    if (temp >= 1) {
+    // if (temp >= 1) {
+    if (temp >= 0) {
       tempSign = 'up-red'; // red color
       value = '+' + temp.toFixed() + suffix;
-    } else if (temp < 1 && temp >= 0) {
+      // } else if (temp < 1 && temp >= 0) {
+    } else if (temp === 0) {
       tempSign = 'neutral';
       value = 'No Change';
     } else {
@@ -75,10 +79,12 @@ export class CommonUtilsService {
     let value = '';
     const suffix = '%';
     let tempSign;
-    if (temp >= 1) {
+    // if (temp >= 1) {
+    if (temp >= 0) {
       tempSign = 'up'; // green color
       value = '+' + temp.toFixed() + suffix;
-    } else if (temp < 1 && temp >= 0) {
+      // } else if (temp < 1 && temp >= 0) {
+    } else if (temp === 0) {
       tempSign = 'neutral';
       value = 'No Change';
     } else {

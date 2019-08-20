@@ -346,6 +346,8 @@ export class LineGraphComponent implements OnInit {
       .nice(3); // output
 
     // tslint:disable-next-line:no-var-keyword
+
+    /*
     let area = d3
       .area()
       .x(function(d, i) {
@@ -355,6 +357,7 @@ export class LineGraphComponent implements OnInit {
       .y1(function(d) {
         return yScale(d.y);
       });
+      */
 
     // tslint:disable-next-line:no-var-keyword
     const ydata = [];
@@ -426,7 +429,9 @@ export class LineGraphComponent implements OnInit {
       .selectAll('.tick>text')
       .nodes()
       .map(function(t) {
-        return t.innerHTML;
+        const tagString = new XMLSerializer().serializeToString(t);
+        const mySubString = tagString.substring(tagString.indexOf('>') + 1, tagString.indexOf('</'));
+        return mySubString;
       });
 
     d3.select('#forYCalculations').remove();
@@ -528,6 +533,7 @@ export class LineGraphComponent implements OnInit {
         }
       } */
       /* Ends Data for tooltip */
+      /*
       chart
         .append('g')
         .attr('visibility', 'hidden')
@@ -553,6 +559,7 @@ export class LineGraphComponent implements OnInit {
       }
 
       const preArrayOfNumbers2 = preYArray2.map(Number);
+      */
       // tslint:disable-next-line:no-var-keyword
       // var numberOfTicks2 = preArrayOfNumbers2.length;
       // tslint:disable-next-line:no-var-keyword
@@ -583,6 +590,7 @@ export class LineGraphComponent implements OnInit {
         .style('stroke', generalData2[0].barColor);
     } */
     // tslint:disable-next-line:no-var-keyword
+    /*
     area = d3
       .area()
       .x(function(d, i) {
@@ -598,6 +606,8 @@ export class LineGraphComponent implements OnInit {
       .datum(data)
       .attr('class', 'area')
       .attr('d', area);
+
+    */
 
     /*if (this.chartOptions.chartData2 != undefined && this.chartOptions.chartData2.length > 0) {
       chart
