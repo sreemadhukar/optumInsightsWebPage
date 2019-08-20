@@ -194,7 +194,7 @@ export class GettingReimbursedSharedService {
             claimsTAT = {
               category: 'app-card',
               type: 'rotateWithLabel',
-              status: 404,
+              status: null,
               title: 'Claims Average Turnaround Time to Payment*',
               data: null,
               besideData: null,
@@ -322,7 +322,7 @@ export class GettingReimbursedSharedService {
                 type: 'rotateWithLabel',
                 title: 'Claims Average Turnaround Time to Payment*',
                 data: null,
-                status: 404,
+                status: null,
                 besideData: null,
                 timeperiod: this.timeFrame
               };
@@ -849,7 +849,7 @@ export class GettingReimbursedSharedService {
             claimsTAT = {
               category: 'app-card',
               type: 'rotateWithLabel',
-              status: 404,
+              status: null,
               title: 'Claims Average Turnaround Time to Payment*',
               data: null,
               besideData: null,
@@ -992,7 +992,7 @@ export class GettingReimbursedSharedService {
                 type: 'rotateWithLabel',
                 title: 'Claims Average Turnaround Time to Payment*',
                 data: null,
-                status: 404,
+                status: null,
                 besideData: null,
                 timeperiod: this.timeFrame
               };
