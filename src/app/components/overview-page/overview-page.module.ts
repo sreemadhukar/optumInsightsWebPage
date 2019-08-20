@@ -10,7 +10,7 @@ import { CommonUtilsModule } from './../../common-utils/common-utils.module';
 
 @NgModule({
   imports: [CommonModule, OverviewPageRoutingModule, HeadMaterialModule, CommonUtilsModule],
-  providers: [OverviewService, OverviewSharedService],
+  providers: [OverviewService, OverviewSharedService, OverviewComponent],
   declarations: [OverviewComponent]
 })
 export class OverviewPageModule {}

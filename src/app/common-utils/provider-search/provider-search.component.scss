@@ -76,7 +76,12 @@
 ::ng-deep.mat-autocomplete-hidden {
   // visibility: visible !important;
 }
-
+::ng-deep .mat-option {
+  font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+}
+::ng-deep .mat-option-text {
+  font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+}
 .remove {
   height: 0;
 }
@@ -107,6 +112,9 @@
   font-size: 14px;
   letter-spacing: 0.2px;
   line-height: 18px;
+  .match-font {
+    font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+  }
 }
 
 .noDataicon {
