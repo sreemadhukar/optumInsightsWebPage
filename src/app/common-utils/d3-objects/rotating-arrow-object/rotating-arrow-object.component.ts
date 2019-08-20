@@ -44,27 +44,17 @@ export class RotatingArrowObjectComponent implements OnInit, AfterViewInit {
       height = customHeight;
     }
 
-    // Make an SVG Container
-    /* const svgContainer = d3.select('body').append('svg')
-                                     .attr('width', 200)
-                                     .attr('height', 200);
-
- // Draw the Circle
- const circle = svgContainer.append("circle")
-                          .attr("cx", 30)
-                          .attr("cy", 30)
-                         .attr("r", 20);*/
-
     const chart = d3
       .select(this.renderChart)
       .append('svg')
       .attr('width', width)
       .attr('height', height)
       .append('g')
-      .attr('transform', 'translate(' + 0 + ',' + 0 + ')')
+      .attr('transform', 'translate(' + 0 + ',' + 0 + ')');
 
-      /* .append('path')
-     .attr(
+    chart
+      .append('path')
+      .attr(
         'd',
         'M13.3745958,70.6781358 C16.0246394,63.1778965 21.4761761,65.1040763 29.7292061,76.4566752 ' +
           'C26.4076614,85.8574191 24.689995,95.8052714 24.689995,106 C24.689995,154.962553 64.381987,194.654545 ' +
@@ -78,12 +68,8 @@ export class RotatingArrowObjectComponent implements OnInit, AfterViewInit {
           'L85.1707893,5.79807155 C84.8755765,4.74611129 85.4792075,3.65191999 86.5265088,3.3405827 C94.0180556,1.11352757 ' +
           '102.957399,0 113.34454,0 C171.886724,0 219.34454,47.4578165 219.34454,106 C219.34454,114.964497 218.229728,123.789785 ' +
           '216.047392,132.326622 Z'
-      )*/
-      // .attr( 'd', 'M 125 41.66 A 83.34 83.34 0 1 1 25 75')
-      .append('circle')
-      .attr('stroke', '#3381FF')
-      .attr('stroke-width', '16')
-      .attr('fill', 'none');
+      )
+      .attr('fill', '#3381FF');
 
     chart
       .append('path')
