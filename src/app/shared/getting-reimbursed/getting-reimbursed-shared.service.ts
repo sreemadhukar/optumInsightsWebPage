@@ -2096,7 +2096,7 @@ export class GettingReimbursedSharedService {
                 if (gettingReimbursedData[2].data[0].data.centerNumberOriginal) {
                   newClaimsNotPaid = gettingReimbursedData[2].data[0].data.centerNumberOriginal;
                   const oldClaimsNotPaid = claimsData[lobData].ClaimsLobSummary[0].AmountDenied;
-                  gettingReimbursedData[2].data[0].data.sdata = this.common.trendNegativeMeansBad(
+                  gettingReimbursedData[2].data[0].data.sdata = this.common.trendNegativeMeansGood(
                     newClaimsNotPaid,
                     oldClaimsNotPaid
                   );
@@ -2120,7 +2120,7 @@ export class GettingReimbursedSharedService {
                 const oldClaimsAppealsSubmitted =
                   appealsData[0].LineOfBusiness[lobFullData].AdminAppeals +
                   appealsData[0].LineOfBusiness[lobFullData].ClinicalAppeals;
-                gettingReimbursedData[3].data[0].data.sdata = this.common.trendNegativeMeansBad(
+                gettingReimbursedData[3].data[0].data.sdata = this.common.trendNegativeMeansGood(
                   newClaimsAppealsSubmitted,
                   oldClaimsAppealsSubmitted
                 );
