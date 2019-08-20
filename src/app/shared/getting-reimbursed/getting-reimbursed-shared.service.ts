@@ -304,8 +304,14 @@ export class GettingReimbursedSharedService {
                 },
                 besideData: {
                   verticalData: [
-                    { values: claimsData[lobData].ClaimsLobSummary[0].DosToReceived, labels: 'DOS to Received' },
-                    { values: claimsData[lobData].ClaimsLobSummary[0].ReceivedToPaid, labels: 'Received to Paid' }
+                    {
+                      values: claimsData[lobData].ClaimsLobSummary[0].DosToReceived + ' Days',
+                      labels: 'Date of Service to Received'
+                    },
+                    {
+                      values: claimsData[lobData].ClaimsLobSummary[0].ReceivedToPaid + ' Days',
+                      labels: 'Received to Processed'
+                    }
                   ]
                 },
                 timeperiod: this.timeFrame
@@ -968,8 +974,14 @@ export class GettingReimbursedSharedService {
                 },
                 besideData: {
                   verticalData: [
-                    { values: claimsData[lobData].ClaimsLobSummary[0].DosToReceived, labels: 'DOS to Received' },
-                    { values: claimsData[lobData].ClaimsLobSummary[0].ReceivedToPaid, labels: 'Received to Paid' }
+                    {
+                      values: claimsData[lobData].ClaimsLobSummary[0].DosToReceived + ' Days',
+                      labels: 'Date of Service to Received'
+                    },
+                    {
+                      values: claimsData[lobData].ClaimsLobSummary[0].ReceivedToPaid + ' Days',
+                      labels: 'Received to Processed'
+                    }
                   ]
                 },
                 timeperiod: this.timeFrame
