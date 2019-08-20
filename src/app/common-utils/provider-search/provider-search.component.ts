@@ -140,6 +140,10 @@ export class ProviderSearchComponent implements OnInit, AfterViewInit {
 
   private _filterStates(value: string): Providers[] {
     const filterValue = value.toLowerCase();
-    return this.states.filter(state => state.HealthCareOrganizationName.toLowerCase().indexOf(filterValue) === 0);
+    const filteredSet = this.states.filter(
+      state => state.HealthCareOrganizationName.toLowerCase().indexOf(filterValue) === 0
+    );
+    filteredSet.sort((a, b) => a.HealthCareOrganizationName.localeCompare(b.HealthCareOrganizationName));
+    return filteredSet;
   }
 }
