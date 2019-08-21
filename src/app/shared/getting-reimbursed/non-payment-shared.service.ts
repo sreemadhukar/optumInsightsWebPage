@@ -246,7 +246,7 @@ export class NonPaymentSharedService {
               claimsNotPaid = {
                 category: 'app-card',
                 type: 'donutWithLabel',
-                title: 'Claims Not Paid',
+                title: 'Claims Not Paid*',
                 data: {
                   graphValues: nonPaidData,
                   centerNumber:
@@ -274,7 +274,7 @@ export class NonPaymentSharedService {
                 category: 'app-card',
                 type: 'donutWithLabel',
                 status: 404,
-                title: 'Claims Not Paid',
+                title: 'Claims Not Paid*',
                 data: null,
                 besideData: null,
                 bottomData: null,
@@ -417,7 +417,7 @@ export class NonPaymentSharedService {
               claimsNotPaid = {
                 category: 'app-card',
                 type: 'donutWithLabel',
-                title: 'Claims Not Paid',
+                title: 'Claims Not Paid*',
                 data: {
                   graphValues: nonPaidData,
                   centerNumber:
@@ -445,7 +445,7 @@ export class NonPaymentSharedService {
                 category: 'app-card',
                 type: 'donutWithLabel',
                 status: 404,
-                title: 'Claims Not Paid',
+                title: 'Claims Not Paid*',
                 data: null,
                 besideData: null,
                 bottomData: null,
