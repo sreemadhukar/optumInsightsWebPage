@@ -439,11 +439,11 @@ export class PriorAuthSharedService {
     } else if (timePeriod === 'Last 3 Months') {
       timeRange = 'last3Months';
     } else if (timePeriod === 'Last 30 Days') {
-      timeRange = 'last30Days';
-      /*
+      // timeRange = 'last30Days';
+
       timeRange = 'customDateRange';
       const yesterday = (d => new Date(d.setDate(d.getDate() - 1)))(new Date());
-      const thirtyFirstDay = (d => new Date(d.setDate(d.getDate() - 31)))(new Date());
+      const thirtyFirstDay = (d => new Date(d.setDate(d.getDate() - 15)))(new Date());
 
       let endDateStringYesterday;
       let endDateStringThirtyFirstDay;
@@ -455,9 +455,9 @@ export class PriorAuthSharedService {
       }
 
       if (thirtyFirstDay.getDate() < 10) {
-        endDateStringThirtyFirstDay = '0' + yesterday.getDate();
+        endDateStringThirtyFirstDay = '0' + thirtyFirstDay.getDate();
       } else {
-        endDateStringThirtyFirstDay = yesterday.getDate();
+        endDateStringThirtyFirstDay = thirtyFirstDay.getDate();
       }
 
       timeRangeAdditionalData =
@@ -472,7 +472,6 @@ export class PriorAuthSharedService {
         this.ReturnMonthlyCountString(thirtyFirstDay.getMonth()) +
         '-' +
         endDateStringThirtyFirstDay;
-      */
     } else if (timePeriod === 'Year to Date') {
       timeRange = 'customDateRange';
       const yesterday = (d => new Date(d.setDate(d.getDate() - 1)))(new Date());

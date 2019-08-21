@@ -264,7 +264,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
             ? user[0]['HealthCareOrganizationName']
             : user[0]['Healthcareorganizationname'];
       }
-    }, 10000);
+    }, 1);
   }
 
   ngOnDestroy() {
