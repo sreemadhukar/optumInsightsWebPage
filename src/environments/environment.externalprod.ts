@@ -3,7 +3,7 @@
  * MAINTAIN ALPHABETIC ORDER
  */
 export const environment: any = {
-  apiProxyUrl: '/uhci/prd2/',
+  apiProxyUrl: '/uhci/prd/',
   originUrl: '/',
   apiUrls: {
     ExecutiveSummaryPath: 'providersystems/',
