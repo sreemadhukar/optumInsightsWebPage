@@ -175,8 +175,6 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     //   console.log(sessionStorage.getItem('currentUser'))
     //   if (sessionStorage.getItem('currentUser')) {
     this.priorAuthShared.getPCORData().then(data => {
-      console.log(data);
-      console.log('yes');
       if (this.PCORFlag === data) {
         // Do nothing because its the same state
       } else {
@@ -206,7 +204,6 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
 
     this.checkStorage.getNavChangeEmitter().subscribe(() => {
       this.priorAuthShared.getPCORData().then(data => {
-        console.log(data);
         if (this.PCORFlag === data) {
           // Do nothing because its the same state
         } else {
@@ -250,7 +247,6 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
       data => {
         this.filterFlag = true;
         this.filterurl = data;
-        console.log(data);
       },
       err => {
         console.log('Error, clickHelpIcon , inside Hamburger', err);
@@ -264,7 +260,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
             ? user[0]['HealthCareOrganizationName']
             : user[0]['Healthcareorganizationname'];
       }
-    }, 10000);
+    }, 1);
   }
 
   ngOnDestroy() {
