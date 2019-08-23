@@ -54,7 +54,7 @@ export class PaymentIntegrityComponent implements OnInit {
       'close',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-close-24px.svg')
     );
-    this.pageTitle = 'Claims Payment Integrity';
+    this.pageTitle = 'Claims Payment Integrity*';
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.ngOnInit());
   }
 
