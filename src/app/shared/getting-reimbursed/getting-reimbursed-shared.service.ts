@@ -1537,7 +1537,7 @@ export class GettingReimbursedSharedService {
           parameters = [this.providerKey, { TimeFilter: 'CalendarYear', TimeFilterText: this.timeFrame }];
         }
       }
-      this.gettingReimbursedService.getPaymentData(parameters).subscribe(
+      this.gettingReimbursedService.getPaymentsData(parameters).subscribe(
         claimsData => {
           const lobData = this.common.matchLobWithData(this.lob);
           if (claimsData != null && claimsData.hasOwnProperty('status')) {
