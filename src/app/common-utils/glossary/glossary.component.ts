@@ -33,6 +33,19 @@ export class GlossaryComponent implements OnInit {
   @Input() title;
   constructor(private glossaryService: GlossaryService) {}
   ngOnInit() {
+    setTimeout(function() {
+      console.log(
+        document.body.getBoundingClientRect().right -
+          30 -
+          document.getElementById('metrics-div').getBoundingClientRect().right
+      );
+      document.getElementById('view-all-metrics-button-position-div').style.right =
+        (
+          document.body.getBoundingClientRect().right -
+          32 -
+          document.getElementById('metrics-div').getBoundingClientRect().right
+        ).toString() + 'px';
+    }, 400);
     console.log(this.title);
     this.options = [];
     this.glossarySelected = [];
@@ -167,7 +180,7 @@ export class GlossaryComponent implements OnInit {
   }
   @HostListener('window:scroll', ['$event'])
   checkScroll() {
-    if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 80) {
+    if (window.innerHeight + document.documentElement.scrollTop >= document.body.offsetHeight - 80) {
       this.viewallmetricsbuttonposition = false;
     } else {
       this.viewallmetricsbuttonposition = true;
