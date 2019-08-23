@@ -124,6 +124,10 @@ export class ProviderSearchComponent implements OnInit, AfterViewInit {
         (<HTMLElement>document.querySelector('.mat-form-field-label')).style.color = '#196ECF';
       }
     }
+    if (this.stateCtrl.value === '') {
+      this.nomatchFlag = true;
+      (<HTMLElement>document.querySelector('.mat-form-field-outline-thick')).style.color = '#196ECF';
+    }
 
     // madhukar
 
@@ -136,6 +140,10 @@ export class ProviderSearchComponent implements OnInit, AfterViewInit {
 
   private _filterStates(value: string): Providers[] {
     const filterValue = value.toLowerCase();
-    return this.states.filter(state => state.HealthCareOrganizationName.toLowerCase().indexOf(filterValue) === 0);
+    const filteredSet = this.states.filter(
+      state => state.HealthCareOrganizationName.toLowerCase().indexOf(filterValue) === 0
+    );
+    filteredSet.sort((a, b) => a.HealthCareOrganizationName.localeCompare(b.HealthCareOrganizationName));
+    return filteredSet;
   }
 }

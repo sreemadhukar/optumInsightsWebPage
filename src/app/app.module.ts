@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { CookieService } from 'ngx-cookie-service';
 
 import { AppComponent } from './app.component';
 import { HeadModule } from './head/head.module';
@@ -37,6 +38,7 @@ import { CacheInterceptor } from './rest/interceptor/cache.interceptor';
     ProviderService,
     ProviderSharedService,
     ThemeService,
+    CookieService,
     PriorAuthService,
     PriorAuthSharedService,
     { provide: HTTP_INTERCEPTORS, useClass: HttpInterceptorService, multi: true },

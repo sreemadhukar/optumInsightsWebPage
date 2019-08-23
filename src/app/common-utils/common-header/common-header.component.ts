@@ -29,17 +29,23 @@ export class CommonHeaderComponent implements OnInit {
     this.typeOfCard = this.cardType;
   }
   helpFunctionClicked() {
-    this.helpIconClicked.emit(this.title);
+    // Might have to remove special char for glossary to work properly
+    if (this.title.charAt(this.title.length - 1) === '*') {
+      const newTitle = this.title.substring(0, this.title.length - 1);
+      this.helpIconClicked.emit(newTitle);
+    } else {
+      this.helpIconClicked.emit(this.title);
+    }
   }
 
   titleClicked(title) {
-    if (title === 'Claims Paid') {
+    if (title === 'Claims Paid*') {
       this.routhPath = '/GettingReimbursed/Payments';
     } else if (title === 'Prior Authorization Approval') {
       this.routhPath = '/CareDelivery/priorAuth';
     } else if (title === 'Self Service Adoption Rate') {
       this.routhPath = '/ServiceInteraction/SelfService';
-    } else if (title === 'Claims Yield') {
+    } else if (title === 'Claims Yield*') {
       this.routhPath = '/GettingReimbursed/Payments';
     } else if (title === 'Medicare Star Rating') {
       this.routhPath = '/CareDelivery/PatientCareOpportunity';

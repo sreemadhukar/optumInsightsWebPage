@@ -15,7 +15,7 @@ import { CommonUtilsService } from '../../../shared/common-utils.service';
   styleUrls: ['./payments.component.scss']
 })
 export class PaymentsComponent implements OnInit {
-  title = 'Claims Paid Breakdown';
+  title = 'Claims Paid Breakdown*';
   public claimsPaidTimePeriod;
   claimsPaidBreakBool: Boolean = false;
   subscription: any;
@@ -26,6 +26,7 @@ export class PaymentsComponent implements OnInit {
   userName: String = '';
   showClaimsPaid: Boolean = false;
   loading: boolean;
+  loadingClaimsBreakdown: boolean;
   mockCards: any;
   // timePeriod = 'Last 6 Months';
   paymentArray: Array<object>;
@@ -70,6 +71,7 @@ export class PaymentsComponent implements OnInit {
     this.claimsPaidTimePeriod = this.session.filterObjValue.timeFrame;
     this.claimsPaidBreakBool = false;
     this.loading = true;
+    this.loadingClaimsBreakdown = true;
     this.timePeriod = this.session.filterObjValue.timeFrame;
     if (this.session.filterObjValue.lob !== 'All') {
       this.lob = this.filtermatch.matchLobWithLobData(this.session.filterObjValue.lob);
@@ -84,13 +86,13 @@ export class PaymentsComponent implements OnInit {
     } else {
       this.taxID = [];
     }
-    this.mockCards = [{}, {}];
+    this.mockCards = [{}];
     this.gettingReimbursedSharedService
-      .getGettingReimbursedData()
+      .sharedPaymentsData()
       .then(completeData => {
         this.loading = false;
         this.paymentsItems = JSON.parse(JSON.stringify(completeData));
-        this.payments = this.paymentsItems[1].data;
+        this.payments = this.paymentsItems[0].data;
       })
       .catch(reason => {
         this.loading = false;
@@ -103,22 +105,30 @@ export class PaymentsComponent implements OnInit {
     ];
 
     // this.claimsPaidBreakBool = false;
+
     this.gettingReimbursedSharedService.getclaimsPaidData().then(
       payData => {
-        this.claimsPaidBreakBool = true;
-        this.loading = false;
-        this.paymentArray = payData[0];
-        this.cData = [];
-        for (let p = 0; p < 1; p++) {
-          this.cData.push({
-            chartData: [this.paymentArray[0], this.paymentArray[1], this.paymentArray[2], this.paymentArray[3]],
-            gdata: ['card-inner', 'claimsPaidBreakDown']
-          });
+        this.loadingClaimsBreakdown = false;
+        try {
+          this.paymentArray = payData[0];
+          this.cData = [];
+          for (let p = 0; p < 1; p++) {
+            this.cData.push({
+              chartData: [this.paymentArray[0], this.paymentArray[1], this.paymentArray[2], this.paymentArray[3]],
+              gdata: ['card-inner', 'claimsPaidBreakDown']
+            });
+          }
+          this.claimsPaidBreakBool = true;
+        } catch (Error) {
+          this.loadingClaimsBreakdown = false;
+          this.cData.push(payData);
+          this.claimsPaidBreakBool = false;
         }
       },
       err => {
         console.log('Claims Breakdown Payment Page', err);
         this.claimsPaidBreakBool = false;
+        this.loadingClaimsBreakdown = false;
       }
     );
   } // end ngOnInit()

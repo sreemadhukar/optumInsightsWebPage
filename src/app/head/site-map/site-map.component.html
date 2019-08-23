@@ -1,0 +1,20 @@
+<div class="site-map-content">
+  <div class="breadcrums-div">
+    <span class="breadcrums">UHC Insights Site Map </span>
+  </div>
+  <div class="stip-map-header">UHC Insights Site Map</div>
+  <div class="site-map-overview-header" routerLink="/OverviewPage">Overview</div>
+  <div *ngFor="let category of navCategories; let rowIndex = index">
+    <div class="sub-category-container" [ngClass]="{ 'container-margin': rowIndex !== 3 }">
+      <span class="site-map-category-header">{{ category.name }}</span>
+      <div
+        class="site-map-sub-category-items"
+        routerLink="{{ subcategory.path }}"
+        *ngFor="let subcategory of category.children"
+        [ngClass]="{ 'site-map-sub-category-items-selected': subcategory.name === 'Site Map' }"
+      >
+        {{ subcategory.name }}
+      </div>
+    </div>
+  </div>
+</div>

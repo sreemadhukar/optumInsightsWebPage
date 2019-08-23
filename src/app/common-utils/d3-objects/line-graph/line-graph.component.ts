@@ -79,7 +79,7 @@ export class LineGraphComponent implements OnInit {
   doLineGraph(chartData: any, chartData2: any, titleData: any, generalData: any, generalData2: any) {
     function formatDy(dy: number): string {
       if (dy === 0) {
-        return '0.0M';
+        return '0';
       } else if (dy < 999) {
         return dy.toFixed(0);
       } else if (dy < 999999) {
@@ -346,6 +346,8 @@ export class LineGraphComponent implements OnInit {
       .nice(3); // output
 
     // tslint:disable-next-line:no-var-keyword
+
+    /*
     let area = d3
       .area()
       .x(function(d, i) {
@@ -355,6 +357,7 @@ export class LineGraphComponent implements OnInit {
       .y1(function(d) {
         return yScale(d.y);
       });
+      */
 
     // tslint:disable-next-line:no-var-keyword
     const ydata = [];
@@ -380,7 +383,7 @@ export class LineGraphComponent implements OnInit {
       .attr('id', 'forlolCalculations')
       .attr('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
       .attr('font-size', '14px')
-      .text(chartData[0].name)
+      .text(chartData.name)
       .style('fill', '#2D2D39');
 
     const text_element1 = chart.select('#forlolCalculations');
@@ -388,10 +391,9 @@ export class LineGraphComponent implements OnInit {
     var textWidth1 = text_element1.node().getComputedTextLength();
 
     chart.select('#forlolCalculations').remove();
-
-    if (chartData[0].name.length === 4) {
+    if (chartData.length === 4) {
       textWidth1 = textWidth1 / 2;
-    } else if (chartData[0].name.length === 3) {
+    } else if (chartData.length === 3) {
       textWidth1 = textWidth1 * 1.25;
     }
 
@@ -427,11 +429,12 @@ export class LineGraphComponent implements OnInit {
       .selectAll('.tick>text')
       .nodes()
       .map(function(t) {
-        return t.innerHTML;
+        const tagString = new XMLSerializer().serializeToString(t);
+        const mySubString = tagString.substring(tagString.indexOf('>') + 1, tagString.indexOf('</'));
+        return mySubString;
       });
 
     d3.select('#forYCalculations').remove();
-
     for (let y = 0; y < preYArray.length; y++) {
       preYArray[y] = preYArray[y].replace(/,/g, '');
     }
@@ -499,9 +502,9 @@ export class LineGraphComponent implements OnInit {
       var textWidth2 = text_element2.node().getComputedTextLength();
       chart.select('#forlolCalculations2').remove();
 
-      if (chartData2[0].name.length === 4) {
+      if (chartData2.name.length === 4) {
         textWidth2 = textWidth2 / 2;
-      } else if (chartData2[0].name.length === 3) {
+      } else if (chartData2.name.length === 3) {
         textWidth2 = textWidth2 * 1.25;
       }
 
@@ -530,6 +533,7 @@ export class LineGraphComponent implements OnInit {
         }
       } */
       /* Ends Data for tooltip */
+      /*
       chart
         .append('g')
         .attr('visibility', 'hidden')
@@ -555,6 +559,7 @@ export class LineGraphComponent implements OnInit {
       }
 
       const preArrayOfNumbers2 = preYArray2.map(Number);
+      */
       // tslint:disable-next-line:no-var-keyword
       // var numberOfTicks2 = preArrayOfNumbers2.length;
       // tslint:disable-next-line:no-var-keyword
@@ -585,6 +590,7 @@ export class LineGraphComponent implements OnInit {
         .style('stroke', generalData2[0].barColor);
     } */
     // tslint:disable-next-line:no-var-keyword
+    /*
     area = d3
       .area()
       .x(function(d, i) {
@@ -600,6 +606,8 @@ export class LineGraphComponent implements OnInit {
       .datum(data)
       .attr('class', 'area')
       .attr('d', area);
+
+    */
 
     /*if (this.chartOptions.chartData2 != undefined && this.chartOptions.chartData2.length > 0) {
       chart

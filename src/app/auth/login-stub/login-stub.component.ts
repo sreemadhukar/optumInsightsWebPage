@@ -1,5 +1,6 @@
 import { Component, OnInit, Inject, ViewChild, TemplateRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { CookieService } from 'ngx-cookie-service';
 import { ExternalService } from '../_service/external.service';
 import { environment } from '../../../environments/environment';
 import { AuthenticationService } from '../_service/authentication.service';
@@ -40,6 +41,7 @@ export class LoginStubComponent implements OnInit {
     private iconRegistry: MatIconRegistry,
     private sanitizer: DomSanitizer,
     private authorise: AuthorizationService,
+    private cookieService: CookieService,
     private route: ActivatedRoute,
     @Inject(DOCUMENT) private document: any
   ) {
@@ -57,6 +59,7 @@ export class LoginStubComponent implements OnInit {
         this.token = data['token'];
       });
     } else {
+      this.cookieService.deleteAll('/');
       this.token = 'isProd';
     }
     this.loading = true;
@@ -89,7 +92,9 @@ export class LoginStubComponent implements OnInit {
             this.external
               .CheckExternal(params.code, this.token)
               .then(value => {
-                this.authorise.getToggles().subscribe(value1 => {});
+                this.authorise.getToggles('external-authorise').subscribe(value1 => {
+                  console.log(value1);
+                });
                 sessionStorage.setItem('cache', JSON.stringify(true));
                 this.router.navigate(['/OverviewPage']);
               })
@@ -129,9 +134,14 @@ export class LoginStubComponent implements OnInit {
         () => {
           this.blankScreen = true;
           this.loading = false;
-          this.authorise.getToggles().subscribe(value => {
+          this.authorise.getToggles('authorise').subscribe(value => {
             console.log(value);
           });
+          if (environment.internalAccess) {
+            this.authorise.getHeac(this.f.username.value).subscribe(value => {
+              console.log(value);
+            });
+          }
           sessionStorage.setItem('cache', JSON.stringify(true));
           // this.openDialog();
           this.router.navigate(['/ProviderSearch']);
