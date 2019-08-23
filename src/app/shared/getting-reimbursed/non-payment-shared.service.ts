@@ -246,7 +246,7 @@ export class NonPaymentSharedService {
               claimsNotPaid = {
                 category: 'app-card',
                 type: 'donutWithLabel',
-                title: 'Claims Not Paid',
+                title: 'Claims Not Paid*',
                 data: {
                   graphValues: nonPaidData,
                   centerNumber:
@@ -274,7 +274,7 @@ export class NonPaymentSharedService {
                 category: 'app-card',
                 type: 'donutWithLabel',
                 status: 404,
-                title: 'Claims Not Paid',
+                title: 'Claims Not Paid*',
                 data: null,
                 besideData: null,
                 bottomData: null,
@@ -321,15 +321,15 @@ export class NonPaymentSharedService {
             } // end if else
             this.summaryData = [];
 
-            /** REMOVE LATER (ONCE PDP ISSUE SOLVED) ***/
-
-            claimsNotPaidRate = {
-              category: 'app-card',
-              type: 'donut',
-              title: null,
-              data: null,
-              timeperiod: null
-            };
+            // /** REMOVE LATER (ONCE PDP ISSUE SOLVED) ***/
+            //
+            // claimsNotPaidRate = {
+            //   category: 'app-card',
+            //   type: 'donut',
+            //   title: null,
+            //   data: null,
+            //   timeperiod: null
+            // };
             this.summaryData.push(claimsNotPaid, claimsNotPaidRate);
             resolve(this.summaryData);
           },
@@ -417,7 +417,7 @@ export class NonPaymentSharedService {
               claimsNotPaid = {
                 category: 'app-card',
                 type: 'donutWithLabel',
-                title: 'Claims Not Paid',
+                title: 'Claims Not Paid*',
                 data: {
                   graphValues: nonPaidData,
                   centerNumber:
@@ -445,7 +445,7 @@ export class NonPaymentSharedService {
                 category: 'app-card',
                 type: 'donutWithLabel',
                 status: 404,
-                title: 'Claims Not Paid',
+                title: 'Claims Not Paid*',
                 data: null,
                 besideData: null,
                 bottomData: null,
@@ -491,15 +491,15 @@ export class NonPaymentSharedService {
               };
             } // end if else
             this.summaryData = [];
-            /** REMOVE LATER (ONCE PDP ISSUE SOLVED) ***/
-
-            claimsNotPaidRate = {
-              category: 'app-card',
-              type: 'donut',
-              title: null,
-              data: null,
-              timeperiod: null
-            };
+            // /** REMOVE LATER (ONCE PDP ISSUE SOLVED) ***/
+            //
+            // claimsNotPaidRate = {
+            //   category: 'app-card',
+            //   type: 'donut',
+            //   title: null,
+            //   data: null,
+            //   timeperiod: null
+            // };
             this.summaryData.push(claimsNotPaid, claimsNotPaidRate);
             resolve(this.summaryData);
           },

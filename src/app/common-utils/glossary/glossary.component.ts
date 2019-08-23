@@ -40,7 +40,14 @@ export class GlossaryComponent implements OnInit {
       this.glossaryList = JSON.parse(JSON.stringify(response));
       if (this.title === 'Medicare Star Rating') {
         this.title = 'Medicare & Retirement Average Star Rating';
+      } else if (this.title === 'Claims Appeals Overturned Rate') {
+        this.title = 'Claim Appeals Overturn Rate';
+      } else if (this.title === 'Top Claims Appeals Overturn Reasons') {
+        this.title = 'Top Claim Appeals Overturn Reasons';
+      } else if (this.title === 'Claims Appeals Overturned') {
+        this.title = 'Claim Appeals Overturned';
       }
+
       if (this.glossaryList) {
         for (let i = 0; i < this.glossaryList.length; i++) {
           this.readmoreFlag[i] = true;
