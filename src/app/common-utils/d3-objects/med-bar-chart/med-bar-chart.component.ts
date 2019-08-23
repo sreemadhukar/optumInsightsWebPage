@@ -1,9 +1,10 @@
-import { Component, OnInit, Input, HostListener, AfterViewInit } from '@angular/core';
+import { Component, OnInit, Input, HostListener, ViewEncapsulation, AfterViewInit } from '@angular/core';
 import * as d3 from 'd3';
 @Component({
   selector: 'app-med-bar-chart',
   templateUrl: './med-bar-chart.component.html',
-  styleUrls: ['./med-bar-chart.component.scss']
+  styleUrls: ['./med-bar-chart.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class MedBarChartComponent implements OnInit, AfterViewInit {
   public renderChart: string;
@@ -53,11 +54,12 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
           .append('tspan')
           .attr('x', 10)
           .attr('y', y);
+
         if (!Number.isNaN(dy)) {
           tspan = text
             .text(null)
             .append('tspan')
-            .attr('x', 10)
+            .attr('x', 1)
             .attr('y', y)
             .attr('dy', dy + 'em');
         }
@@ -158,6 +160,7 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
     const tspanID = uniqueText + 'tspan';
     const textWithHover = chart
       .append('text')
+      .attr('id', uniqueText)
       .attr('x', 10)
       .attr('y', 12)
       .attr('fill', '#2D2D39')
@@ -169,38 +172,32 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
 
     // where we should enable the hover object to exist
     if (textWithHover.selectAll('tspan').size() > 1) {
+      d3.select('#' + uniqueText).attr('cursor', 'pointer');
+
       const tspanArray = textWithHover.selectAll('tspan').nodes();
       const tspanArrayIDs = [];
-      const replacementtspan = tspanArray[1];
+      const replacementtspan = tspanArray[0];
+      d3.select(replacementtspan).text(replacementtspan.textContent + '...');
+
       for (let i = 0; i < tspanArray.length; i++) {
         tspanArrayIDs.push(tspanArray[i].id);
       }
-
       for (let i = tspanArrayIDs.length - 1; i > 0; i--) {
         d3.select('#' + tspanArrayIDs[i]).remove();
       }
 
-      d3.select('#' + uniqueText)
-        .append('tspan')
-        .attr('x', replacementtspan.getAttribute('x'))
-        .attr('y', replacementtspan.getAttribute('y'))
-        .attr('dy', replacementtspan.getAttribute('dy'))
-        .attr('id', replacementtspan.id + 'new')
-        .text(replacementtspan.textContent + '...');
-
       const div = d3
         .select(this.renderChart)
         .append('div')
-        .attr('class', 'tooltip')
-        .style('height', '116px')
-        .style('width', '438px')
-        .style('opacity', 0)
-        .style('border-radius', 0);
+        .attr('class', 'tooltip-bar')
+        .style('height', 'auto')
+        .style('width', '253px')
+        .style('opacity', 0);
 
       const svg2 = div
         .append('svg')
-        .attr('height', '116px')
-        .attr('width', '438px');
+        .attr('height', 30 * tspanArray.length + 'px')
+        .attr('width', '253px');
 
       svg2
         .append('text')
@@ -222,14 +219,16 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
             .transition()
             .duration(10)
             .style('opacity', 1);
-          div.style('left', d3.event.layerX - 219 + 'px').style('top', d3.event.layerY - 130 + 'px');
+          div.style('left', d3.event.layerX - 25 + 'px').style('top', d3.event.layerY - 85 + 'px');
+          // div.style('left', '100px').style('bottom', '70px');
         })
         .on('mousemove', function(d) {
           div
             .transition()
             .duration(10)
             .style('opacity', 1);
-          div.style('left', d3.event.layerX - 219 + 'px').style('top', d3.event.layerY - 130 + 'px');
+          div.style('left', d3.event.layerX - 25 + 'px').style('top', d3.event.layerY - 85 + 'px');
+          // div.style('left', '100px').style('bottom', '70px');
         })
         .on('mouseleave', function(d) {
           div
