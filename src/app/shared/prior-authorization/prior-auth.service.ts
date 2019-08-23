@@ -408,6 +408,8 @@ export class PriorAuthSharedService {
   getPriorAuthDataFiltered(filterParameters) {
     this.providerKey = this.session.providerKeyData();
 
+    console.log(this.session.timeFrame);
+    console.log(filterParameters);
     const timePeriod = filterParameters.timeFrame;
     const TIN = filterParameters.tax[0];
     const LOB = filterParameters.lob;
