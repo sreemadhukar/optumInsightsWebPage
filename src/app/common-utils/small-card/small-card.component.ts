@@ -3,8 +3,7 @@ import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 import { GlossaryExpandService } from '../../shared/glossary-expand.service';
 import { Subscription } from 'rxjs';
-import { Router, NavigationStart } from '@angular/router';
-import { AuthenticationService } from '../../auth/_service/authentication.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-small-card',
@@ -33,8 +32,7 @@ export class SmallCardComponent implements OnInit {
     private iconRegistry: MatIconRegistry,
     sanitizer: DomSanitizer,
     private glossaryExpandService: GlossaryExpandService,
-    private router: Router,
-    private authService: AuthenticationService
+    private router: Router
   ) {
     if (this.router.url.includes('print-')) {
       this.printStyle = true;

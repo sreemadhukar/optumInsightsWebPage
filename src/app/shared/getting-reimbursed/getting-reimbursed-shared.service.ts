@@ -186,7 +186,7 @@ export class GettingReimbursedSharedService {
               category: 'app-card',
               type: 'donutWithLabel',
               status: 404,
-              title: 'Total Number of Claims Submitted*',
+              title: 'Total Number of Claims Submitted',
               data: null,
               besideData: null,
               timeperiod: null
@@ -194,8 +194,8 @@ export class GettingReimbursedSharedService {
             claimsTAT = {
               category: 'app-card',
               type: 'rotateWithLabel',
-              status: 404,
-              title: 'Claims Average Turnaround Time to Payment*',
+              status: null,
+              title: 'Claims Average Turnaround Time to Payment',
               data: null,
               besideData: null,
               timeperiod: null
@@ -204,7 +204,7 @@ export class GettingReimbursedSharedService {
               category: 'app-card',
               type: 'donutWithLabel',
               status: 404,
-              title: 'Claims Paid*',
+              title: 'Claims Paid',
               data: null,
               besideData: null,
               bottomData: null,
@@ -214,7 +214,7 @@ export class GettingReimbursedSharedService {
               category: 'app-card',
               type: 'donut',
               status: 404,
-              title: 'Claims Yield*',
+              title: 'Claims Yield',
               data: null,
               timeperiod: null
             };
@@ -222,7 +222,7 @@ export class GettingReimbursedSharedService {
               category: 'app-card',
               type: 'donutWithLabel',
               status: 404,
-              title: 'Claims Not Paid*',
+              title: 'Claims Not Paid',
               data: null,
               besideData: null,
               bottomData: null,
@@ -232,7 +232,7 @@ export class GettingReimbursedSharedService {
               category: 'app-card',
               type: 'donut',
               status: 404,
-              title: 'Claims Non-Payment Rate*',
+              title: 'Claims Non-Payment Rate',
               data: null,
               timeperiod: null
             };
@@ -273,7 +273,7 @@ export class GettingReimbursedSharedService {
               claimsSubmitted = {
                 category: 'app-card',
                 type: 'donutWithLabel',
-                title: 'Total Number of Claims Submitted*',
+                title: 'Total Number of Claims Submitted',
                 data: null,
                 status: 404,
                 besideData: null,
@@ -292,7 +292,7 @@ export class GettingReimbursedSharedService {
               claimsTAT = {
                 category: 'app-card',
                 type: 'rotateWithLabel',
-                title: 'Claims Average Turnaround Time to Payment*',
+                title: 'Claims Average Turnaround Time to Payment',
                 data: {
                   centerNumber: claimsData[lobData].ClaimsLobSummary[0].ClaimsAvgTat,
                   color: ['#3381FF', '#3381FF'],
@@ -304,8 +304,14 @@ export class GettingReimbursedSharedService {
                 },
                 besideData: {
                   verticalData: [
-                    { values: claimsData[lobData].ClaimsLobSummary[0].DosToReceived, labels: 'DOS to Received' },
-                    { values: claimsData[lobData].ClaimsLobSummary[0].ReceivedToPaid, labels: 'Received to Paid' }
+                    {
+                      values: claimsData[lobData].ClaimsLobSummary[0].DosToReceived + ' Days',
+                      labels: 'Date of Service to Received'
+                    },
+                    {
+                      values: claimsData[lobData].ClaimsLobSummary[0].ReceivedToPaid + ' Days',
+                      labels: 'Received to Processed'
+                    }
                   ]
                 },
                 timeperiod: this.timeFrame
@@ -314,9 +320,9 @@ export class GettingReimbursedSharedService {
               claimsTAT = {
                 category: 'app-card',
                 type: 'rotateWithLabel',
-                title: 'Claims Average Turnaround Time to Payment*',
+                title: 'Claims Average Turnaround Time to Payment',
                 data: null,
-                status: 404,
+                status: null,
                 besideData: null,
                 timeperiod: this.timeFrame
               };
@@ -368,7 +374,7 @@ export class GettingReimbursedSharedService {
               claimsPaid = {
                 category: 'app-card',
                 type: 'donutWithLabel',
-                title: 'Claims Paid*',
+                title: 'Claims Paid',
                 data: {
                   graphValues: paidData,
                   centerNumber:
@@ -396,7 +402,7 @@ export class GettingReimbursedSharedService {
               claimsPaid = {
                 category: 'app-card',
                 type: 'donutWithLabel',
-                title: 'Claims Paid*',
+                title: 'Claims Paid',
                 data: null,
                 status: 404,
                 besideData: null,
@@ -451,7 +457,7 @@ export class GettingReimbursedSharedService {
               claimsNotPaid = {
                 category: 'app-card',
                 type: 'donutWithLabel',
-                title: 'Claims Not Paid*',
+                title: 'Claims Not Paid',
                 data: {
                   graphValues: notPaidData,
                   centerNumber:
@@ -479,7 +485,7 @@ export class GettingReimbursedSharedService {
               claimsNotPaid = {
                 category: 'app-card',
                 type: 'donutWithLabel',
-                title: 'Claims Not Paid*',
+                title: 'Claims Not Paid',
                 data: null,
                 status: 404,
                 besideData: null,
@@ -500,7 +506,7 @@ export class GettingReimbursedSharedService {
               claimsNotPaidRate = {
                 category: 'app-card',
                 type: 'donut',
-                title: 'Claims Non-Payment Rate*',
+                title: 'Claims Non-Payment Rate',
                 data: {
                   graphValues: [
                     claimsData[lobData].ClaimsLobSummary[0].ClaimsNonPaymentRate,
@@ -521,7 +527,7 @@ export class GettingReimbursedSharedService {
               claimsNotPaidRate = {
                 category: 'app-card',
                 type: 'donutWithLabel',
-                title: 'Claims Non-Payment Rate*',
+                title: 'Claims Non-Payment Rate',
                 data: null,
                 status: 404,
                 besideData: null,
@@ -540,7 +546,7 @@ export class GettingReimbursedSharedService {
               claimsPaidRate = {
                 category: 'app-card',
                 type: 'donut',
-                title: 'Claims Yield*',
+                title: 'Claims Yield',
                 data: {
                   graphValues: [
                     claimsData[lobData].ClaimsLobSummary[0].ClaimsYieldRate,
@@ -557,7 +563,7 @@ export class GettingReimbursedSharedService {
               claimsPaidRate = {
                 category: 'app-card',
                 type: 'donut',
-                title: 'Claims Yield*',
+                title: 'Claims Yield',
                 data: null,
                 timeperiod: null
               };
@@ -568,7 +574,7 @@ export class GettingReimbursedSharedService {
               category: 'app-card',
               type: 'donutWithLabelBottom',
               status: 404,
-              title: 'Claims Appeals Submitted*',
+              title: 'Claims Appeals Submitted',
               data: null,
               besideData: null,
               bottomData: null,
@@ -799,9 +805,9 @@ export class GettingReimbursedSharedService {
             data: null,
             timeperiod: null
           };*/
-          submissions = { id: 1, title: 'Claims Submissions', data: [claimsSubmitted, claimsTAT] };
-          payments = { id: 2, title: 'Claims Payments', data: [claimsPaid, claimsPaidRate] };
-          nonpayments = { id: 3, title: 'Claims Non-Payments', data: [claimsNotPaid, claimsNotPaidRate] };
+          submissions = { id: 1, title: 'Claims Submissions*', data: [claimsSubmitted, claimsTAT] };
+          payments = { id: 2, title: 'Claims Payments*', data: [claimsPaid, claimsPaidRate] };
+          nonpayments = { id: 3, title: 'Claims Non-Payments*', data: [claimsNotPaid, claimsNotPaidRate] };
           appeals = { id: 4, title: 'Claims Appeals', data: [appealsSubmitted, appealsOverturned] };
           summaryData[0] = submissions;
           summaryData[1] = payments;
@@ -835,7 +841,7 @@ export class GettingReimbursedSharedService {
               category: 'app-card',
               type: 'donutWithLabel',
               status: 404,
-              title: 'Total Number of Claims Submitted*',
+              title: 'Total Number of Claims Submitted',
               data: null,
               besideData: null,
               timeperiod: null
@@ -843,8 +849,8 @@ export class GettingReimbursedSharedService {
             claimsTAT = {
               category: 'app-card',
               type: 'rotateWithLabel',
-              status: 404,
-              title: 'Claims Average Turnaround Time to Payment*',
+              status: null,
+              title: 'Claims Average Turnaround Time to Payment',
               data: null,
               besideData: null,
               timeperiod: null
@@ -853,7 +859,7 @@ export class GettingReimbursedSharedService {
               category: 'app-card',
               type: 'donutWithLabel',
               status: 404,
-              title: 'Claims Paid*',
+              title: 'Claims Paid',
               data: null,
               besideData: null,
               bottomData: null,
@@ -863,7 +869,7 @@ export class GettingReimbursedSharedService {
               category: 'app-card',
               type: 'donut',
               status: 404,
-              title: 'Claims Yield*',
+              title: 'Claims Yield',
               data: null,
               timeperiod: null
             };
@@ -871,7 +877,7 @@ export class GettingReimbursedSharedService {
               category: 'app-card',
               type: 'donutWithLabel',
               status: 404,
-              title: 'Claims Not Paid*',
+              title: 'Claims Not Paid',
               data: null,
               besideData: null,
               bottomData: null,
@@ -881,7 +887,7 @@ export class GettingReimbursedSharedService {
               category: 'app-card',
               type: 'donut',
               status: 404,
-              title: 'Claims Non-Payment Rate*',
+              title: 'Claims Non-Payment Rate',
               data: null,
               timeperiod: null
             };
@@ -898,7 +904,7 @@ export class GettingReimbursedSharedService {
               claimsSubmitted = {
                 category: 'app-card',
                 type: 'donutWithLabel',
-                title: 'Total Number of Claims Submitted*',
+                title: 'Total Number of Claims Submitted',
                 toggle: this.toggle.setToggles(
                   'Total Number of Claims Submitted',
                   'Claims Submissions',
@@ -931,7 +937,7 @@ export class GettingReimbursedSharedService {
               claimsSubmitted = {
                 category: 'app-card',
                 type: 'donutWithLabel',
-                title: 'Total Number of Claims Submitted*',
+                title: 'Total Number of Claims Submitted',
                 data: null,
                 status: 404,
                 besideData: null,
@@ -950,7 +956,7 @@ export class GettingReimbursedSharedService {
               claimsTAT = {
                 category: 'app-card',
                 type: 'rotateWithLabel',
-                title: 'Claims Average Turnaround Time to Payment*',
+                title: 'Claims Average Turnaround Time to Payment',
                 toggle: this.toggle.setToggles(
                   'Claims Average Turnaround Time to Payment',
                   'Claims Submissions',
@@ -968,8 +974,14 @@ export class GettingReimbursedSharedService {
                 },
                 besideData: {
                   verticalData: [
-                    { values: claimsData[lobData].ClaimsLobSummary[0].DosToReceived, labels: 'DOS to Received' },
-                    { values: claimsData[lobData].ClaimsLobSummary[0].ReceivedToPaid, labels: 'Received to Paid' }
+                    {
+                      values: claimsData[lobData].ClaimsLobSummary[0].DosToReceived + ' Days',
+                      labels: 'Date of Service to Received'
+                    },
+                    {
+                      values: claimsData[lobData].ClaimsLobSummary[0].ReceivedToPaid + ' Days',
+                      labels: 'Received to Processed'
+                    }
                   ]
                 },
                 timeperiod: this.timeFrame
@@ -978,9 +990,9 @@ export class GettingReimbursedSharedService {
               claimsTAT = {
                 category: 'app-card',
                 type: 'rotateWithLabel',
-                title: 'Claims Average Turnaround Time to Payment*',
+                title: 'Claims Average Turnaround Time to Payment',
                 data: null,
-                status: 404,
+                status: null,
                 besideData: null,
                 timeperiod: this.timeFrame
               };
@@ -1047,7 +1059,7 @@ export class GettingReimbursedSharedService {
               claimsPaid = {
                 category: 'app-card',
                 type: 'donutWithLabel',
-                title: 'Claims Paid*',
+                title: 'Claims Paid',
                 data: {
                   graphValues: paidData,
                   centerNumber:
@@ -1076,7 +1088,7 @@ export class GettingReimbursedSharedService {
                 claimsPaid = {
                   category: 'app-card',
                   type: 'donutWithLabel',
-                  title: 'Claims Paid*',
+                  title: 'Claims Paid',
                   data: {
                     graphValues: [0, 100],
                     centerNumber:
@@ -1105,7 +1117,7 @@ export class GettingReimbursedSharedService {
               claimsPaid = {
                 category: 'app-card',
                 type: 'donutWithLabel',
-                title: 'Claims Paid*',
+                title: 'Claims Paid',
                 data: null,
                 status: 404,
                 besideData: null,
@@ -1160,7 +1172,7 @@ export class GettingReimbursedSharedService {
               claimsPaid = {
                 category: 'app-card',
                 type: 'donutWithLabel',
-                title: 'Claims Paid*',
+                title: 'Claims Paid',
                 data: {
                   graphValues: paidData,
                   centerNumber:
@@ -1188,7 +1200,7 @@ export class GettingReimbursedSharedService {
               claimsPaid = {
                 category: 'app-card',
                 type: 'donutWithLabel',
-                title: 'Claims Paid*',
+                title: 'Claims Paid',
                 data: null,
                 status: 404,
                 besideData: null,
@@ -1243,7 +1255,7 @@ export class GettingReimbursedSharedService {
               claimsNotPaid = {
                 category: 'app-card',
                 type: 'donutWithLabel',
-                title: 'Claims Not Paid*',
+                title: 'Claims Not Paid',
                 data: {
                   graphValues: notPaidData,
                   centerNumber:
@@ -1271,7 +1283,7 @@ export class GettingReimbursedSharedService {
               claimsNotPaid = {
                 category: 'app-card',
                 type: 'donutWithLabel',
-                title: 'Claims Not Paid*',
+                title: 'Claims Not Paid',
                 data: null,
                 status: 404,
                 besideData: null,
@@ -1292,7 +1304,7 @@ export class GettingReimbursedSharedService {
               claimsNotPaidRate = {
                 category: 'app-card',
                 type: 'donut',
-                title: 'Claims Non-Payment Rate*',
+                title: 'Claims Non-Payment Rate',
                 data: {
                   graphValues: [
                     claimsData[lobData].ClaimsLobSummary[0].ClaimsNonPaymentRate,
@@ -1313,7 +1325,7 @@ export class GettingReimbursedSharedService {
               claimsNotPaidRate = {
                 category: 'app-card',
                 type: 'donutWithLabel',
-                title: 'Claims Non-Payment Rate*',
+                title: 'Claims Non-Payment Rate',
                 data: null,
                 status: 404,
                 besideData: null,
@@ -1332,7 +1344,7 @@ export class GettingReimbursedSharedService {
               claimsPaidRate = {
                 category: 'app-card',
                 type: 'donut',
-                title: 'Claims Yield*',
+                title: 'Claims Yield',
                 data: {
                   graphValues: [
                     claimsData[lobData].ClaimsLobSummary[0].ClaimsYieldRate,
@@ -1350,7 +1362,7 @@ export class GettingReimbursedSharedService {
                 category: 'app-card',
                 type: 'donut',
                 status: 404,
-                title: 'Claims Yield*',
+                title: 'Claims Yield',
                 data: null,
                 timeperiod: null
               };
@@ -1372,9 +1384,9 @@ export class GettingReimbursedSharedService {
             data: null,
             timeperiod: null
           };*/
-          submissions = { id: 1, title: 'Claims Submissions', data: [claimsSubmitted, claimsTAT] };
-          payments = { id: 2, title: 'Claims Payments', data: [claimsPaid, claimsPaidRate] };
-          nonpayments = { id: 3, title: 'Claims Non-Payments', data: [claimsNotPaid, claimsNotPaidRate] };
+          submissions = { id: 1, title: 'Claims Submissions*', data: [claimsSubmitted, claimsTAT] };
+          payments = { id: 2, title: 'Claims Payments*', data: [claimsPaid, claimsPaidRate] };
+          nonpayments = { id: 3, title: 'Claims Non-Payments*', data: [claimsNotPaid, claimsNotPaidRate] };
           const appealsSubmitted = this.createAppealsDonuts(appealsData, lobFullData).appealsSubmitted;
           const appealsOverturned = this.createAppealsDonuts(appealsData, lobFullData).appealsOverturned;
           appeals = {
@@ -1550,7 +1562,7 @@ export class GettingReimbursedSharedService {
               category: 'app-card',
               type: 'donutWithLabel',
               status: 404,
-              title: 'Claims Paid*',
+              title: 'Claims Paid',
               data: null,
               besideData: null,
               bottomData: null,
@@ -1560,7 +1572,7 @@ export class GettingReimbursedSharedService {
               category: 'app-card',
               type: 'donut',
               status: 404,
-              title: 'Claims Yield*',
+              title: 'Claims Yield',
               data: null,
               timeperiod: null
             };
@@ -1627,7 +1639,7 @@ export class GettingReimbursedSharedService {
               claimsPaid = {
                 category: 'app-card',
                 type: 'donutWithLabel',
-                title: 'Claims Paid*',
+                title: 'Claims Paid',
                 data: {
                   graphValues: paidData,
                   centerNumber:
@@ -1655,7 +1667,7 @@ export class GettingReimbursedSharedService {
                 claimsPaid = {
                   category: 'app-card',
                   type: 'donutWithLabel',
-                  title: 'Claims Paid*',
+                  title: 'Claims Paid',
                   data: {
                     graphValues: [0, 100],
                     centerNumber:
@@ -1684,7 +1696,7 @@ export class GettingReimbursedSharedService {
                 category: 'app-card',
                 type: 'donutWithLabel',
                 status: 404,
-                title: 'Claims Paid*',
+                title: 'Claims Paid',
                 data: null,
                 besideData: null,
                 bottomData: null,
@@ -1738,7 +1750,7 @@ export class GettingReimbursedSharedService {
               claimsPaid = {
                 category: 'app-card',
                 type: 'donutWithLabel',
-                title: 'Claims Paid*',
+                title: 'Claims Paid',
                 data: {
                   graphValues: paidData,
                   centerNumber:
@@ -1766,7 +1778,7 @@ export class GettingReimbursedSharedService {
                 category: 'app-card',
                 type: 'donutWithLabel',
                 status: 404,
-                title: 'Claims Paid*',
+                title: 'Claims Paid',
                 data: null,
                 besideData: null,
                 bottomData: null,
@@ -1830,7 +1842,7 @@ export class GettingReimbursedSharedService {
               claimsPaidRate = {
                 category: 'app-card',
                 type: 'donut',
-                title: 'Claims Yield*',
+                title: 'Claims Yield',
                 data: {
                   graphValues: [
                     claimsData[lobData].ClaimsLobSummary[0].ClaimsYieldRate,
@@ -1847,7 +1859,7 @@ export class GettingReimbursedSharedService {
               claimsPaidRate = {
                 category: 'app-card',
                 type: 'donut',
-                title: 'Claims Yield*',
+                title: 'Claims Yield',
                 status: 404,
                 data: null,
                 timeperiod: null
@@ -2053,84 +2065,83 @@ export class GettingReimbursedSharedService {
         baseTimePeriod = 'PreviousYTD';
       }
       parameters[1].TimeFilter = baseTimePeriod;
-      this.gettingReimbursedService.getGettingReimbursedData(...parameters).subscribe(([claimsData, appealsData]) => {
-        const lobFullData = this.common.matchFullLobWithData(this.lob);
-        const lobData = this.common.matchLobWithData(this.lob);
-
-        if (claimsData != null && !claimsData.hasOwnProperty('status')) {
-          if (
-            claimsData.hasOwnProperty(lobData) &&
-            claimsData[lobData] != null &&
-            claimsData[lobData].hasOwnProperty('ClaimsLobSummary') &&
-            claimsData[lobData].ClaimsLobSummary.length
-          ) {
-            if (claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('ClaimsSubmitted')) {
-              let newClaimsSubmitted = 0;
-              if (gettingReimbursedData[0].data[0].data) {
-                if (gettingReimbursedData[0].data[0].data.centerNumberOriginal) {
-                  newClaimsSubmitted = gettingReimbursedData[0].data[0].data.centerNumberOriginal;
-                  const oldClaimsSubmitted = claimsData[lobData].ClaimsLobSummary[0].ClaimsSubmitted;
-                  gettingReimbursedData[0].data[0].data.sdata = this.common.trendNegativeMeansBad(
-                    newClaimsSubmitted,
-                    oldClaimsSubmitted
-                  );
-                }
-              }
-            }
-            if (claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('AmountPaid')) {
-              let newClaimsPaid = 0;
-              if (gettingReimbursedData[1].data[0].data) {
-                if (gettingReimbursedData[1].data[0].data.centerNumberOriginal) {
-                  newClaimsPaid = gettingReimbursedData[1].data[0].data.centerNumberOriginal;
-                  const oldClaimsPaid = claimsData[lobData].ClaimsLobSummary[0].AmountPaid;
-                  gettingReimbursedData[1].data[0].data.sdata = this.common.trendNegativeMeansBad(
-                    newClaimsPaid,
-                    oldClaimsPaid
-                  );
-                }
-              }
-            }
-            if (claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('AmountDenied')) {
-              let newClaimsNotPaid = 0;
-              if (gettingReimbursedData[2].data[0].data) {
-                if (gettingReimbursedData[2].data[0].data.centerNumberOriginal) {
-                  newClaimsNotPaid = gettingReimbursedData[2].data[0].data.centerNumberOriginal;
-                  const oldClaimsNotPaid = claimsData[lobData].ClaimsLobSummary[0].AmountDenied;
-                  gettingReimbursedData[2].data[0].data.sdata = this.common.trendNegativeMeansBad(
-                    newClaimsNotPaid,
-                    oldClaimsNotPaid
-                  );
-                }
-              }
-            }
-          }
-        }
-        if (appealsData != null && !appealsData.hasOwnProperty('status') && appealsData[0] != null) {
-          if (
-            appealsData[0].hasOwnProperty('LineOfBusiness') &&
-            appealsData[0].LineOfBusiness !== null &&
-            appealsData[0].LineOfBusiness.hasOwnProperty(lobFullData) &&
-            appealsData[0].LineOfBusiness[lobFullData].hasOwnProperty('AdminAppeals') &&
-            appealsData[0].LineOfBusiness[lobFullData].hasOwnProperty('ClinicalAppeals')
-          ) {
-            let newClaimsAppealsSubmitted = 0;
-            if (gettingReimbursedData[3].data[0].data) {
-              if (gettingReimbursedData[3].data[0].data.centerNumberOriginal) {
-                newClaimsAppealsSubmitted = gettingReimbursedData[3].data[0].data.centerNumberOriginal;
-                const oldClaimsAppealsSubmitted =
-                  appealsData[0].LineOfBusiness[lobFullData].AdminAppeals +
-                  appealsData[0].LineOfBusiness[lobFullData].ClinicalAppeals;
-                gettingReimbursedData[3].data[0].data.sdata = this.common.trendNegativeMeansBad(
-                  newClaimsAppealsSubmitted,
-                  oldClaimsAppealsSubmitted
-                );
-              }
-            }
-          }
-        }
-
-        resolve(gettingReimbursedData);
-      });
+      /* this.gettingReimbursedService.getGettingReimbursedData(...parameters).subscribe(([claimsData, appealsData]) => {
+         const lobFullData = this.common.matchFullLobWithData(this.lob);
+         const lobData = this.common.matchLobWithData(this.lob);
+                  if (claimsData != null && !claimsData.hasOwnProperty('status')) {
+           if (
+             claimsData.hasOwnProperty(lobData) &&
+             claimsData[lobData] != null &&
+             claimsData[lobData].hasOwnProperty('ClaimsLobSummary') &&
+             claimsData[lobData].ClaimsLobSummary.length
+           ) {
+             if (claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('ClaimsSubmitted')) {
+               let newClaimsSubmitted = 0;
+               if (gettingReimbursedData[0].data[0].data) {
+                 if (gettingReimbursedData[0].data[0].data.centerNumberOriginal) {
+                   newClaimsSubmitted = gettingReimbursedData[0].data[0].data.centerNumberOriginal;
+                   const oldClaimsSubmitted = claimsData[lobData].ClaimsLobSummary[0].ClaimsSubmitted;
+                   gettingReimbursedData[0].data[0].data.sdata = this.common.trendNegativeMeansBad(
+                     newClaimsSubmitted,
+                     oldClaimsSubmitted
+                   );
+                 }
+               }
+             }
+             if (claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('AmountPaid')) {
+               let newClaimsPaid = 0;
+               if (gettingReimbursedData[1].data[0].data) {
+                 if (gettingReimbursedData[1].data[0].data.centerNumberOriginal) {
+                   newClaimsPaid = gettingReimbursedData[1].data[0].data.centerNumberOriginal;
+                   const oldClaimsPaid = claimsData[lobData].ClaimsLobSummary[0].AmountPaid;
+                   gettingReimbursedData[1].data[0].data.sdata = this.common.trendNegativeMeansBad(
+                     newClaimsPaid,
+                     oldClaimsPaid
+                   );
+                 }
+               }
+             }
+             if (claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('AmountDenied')) {
+               let newClaimsNotPaid = 0;
+               if (gettingReimbursedData[2].data[0].data) {
+                 if (gettingReimbursedData[2].data[0].data.centerNumberOriginal) {
+                   newClaimsNotPaid = gettingReimbursedData[2].data[0].data.centerNumberOriginal;
+                   const oldClaimsNotPaid = claimsData[lobData].ClaimsLobSummary[0].AmountDenied;
+                   gettingReimbursedData[2].data[0].data.sdata = this.common.trendNegativeMeansGood(
+                     newClaimsNotPaid,
+                     oldClaimsNotPaid
+                   );
+                 }
+               }
+             }
+           }
+         }
+         if (appealsData != null && !appealsData.hasOwnProperty('status') && appealsData[0] != null) {
+           if (
+             appealsData[0].hasOwnProperty('LineOfBusiness') &&
+             appealsData[0].LineOfBusiness !== null &&
+             appealsData[0].LineOfBusiness.hasOwnProperty(lobFullData) &&
+             appealsData[0].LineOfBusiness[lobFullData].hasOwnProperty('AdminAppeals') &&
+             appealsData[0].LineOfBusiness[lobFullData].hasOwnProperty('ClinicalAppeals')
+           ) {
+             let newClaimsAppealsSubmitted = 0;
+             if (gettingReimbursedData[3].data[0].data) {
+               if (gettingReimbursedData[3].data[0].data.centerNumberOriginal) {
+                 newClaimsAppealsSubmitted = gettingReimbursedData[3].data[0].data.centerNumberOriginal;
+                 const oldClaimsAppealsSubmitted =
+                   appealsData[0].LineOfBusiness[lobFullData].AdminAppeals +
+                   appealsData[0].LineOfBusiness[lobFullData].ClinicalAppeals;
+                 gettingReimbursedData[3].data[0].data.sdata = this.common.trendNegativeMeansGood(
+                   newClaimsAppealsSubmitted,
+                   oldClaimsAppealsSubmitted
+                 );
+               }
+             }
+           }
+         }
+                  resolve(gettingReimbursedData);
+       });*/
+      resolve(gettingReimbursedData);
     });
   }
 
@@ -2405,7 +2416,7 @@ export class GettingReimbursedSharedService {
             category: 'large-card',
             type: 'donut',
             status: 404,
-            title: 'Claims Paid Breakdown*',
+            title: 'Claims Paid Breakdown',
             data: null,
             timeperiod: null
           };

@@ -56,6 +56,8 @@ export class OverviewComponent implements OnInit, AfterContentInit {
   printHeight = 800;
   printWidth = 700;
 
+  public printStyle: boolean; // this variable is used to distinguish between normal page and print page
+
   constructor(
     private overviewsrc: OverviewSharedService,
     private checkStorage: StorageService,
@@ -68,6 +70,9 @@ export class OverviewComponent implements OnInit, AfterContentInit {
     this.opportunities = 'Opportunities';
     this.opportunitiesQuestion = 'How much can online self service save you?';
     this.welcomeMessage = '';
+    if (this.router.url.includes('print-')) {
+      this.printStyle = true;
+    }
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => {
       this.router.routeReuseStrategy.shouldReuseRoute = function() {
         return false;
@@ -242,7 +247,12 @@ export class OverviewComponent implements OnInit, AfterContentInit {
       this.session.sessionStorage('loggedUser', 'LastName') +
       ' ' +
       this.session.sessionStorage('loggedUser', 'FirstName');
-    this.pageTitle = 'Hello, ' + userInfo.FirstName + '.';
+
+    if (this.printStyle) {
+      this.pageTitle = 'Overview (1 of 1)';
+    } else {
+      this.pageTitle = 'Hello, ' + userInfo.FirstName + '.';
+    }
   }
 
   ngAfterContentInit() {}

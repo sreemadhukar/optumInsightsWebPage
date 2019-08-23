@@ -30,7 +30,6 @@ export class SelfSharedService {
       toggle: toggle,
       timeperiod: this.timeFrame
     };
-    console.log('temp', temp);
     return temp;
   }
 
@@ -87,7 +86,7 @@ export class SelfSharedService {
             const utilization = providerSystems.SelfServiceInquiries.ALL.Utilizations;
             try {
               adoptionRate = this.utilizationObjectMethod(
-                'Self-Service Adoption Rate',
+                'Self Service Adoption Rate',
                 {
                   graphValueName: ['Total Patients', 'Completed'],
                   graphValues: [
