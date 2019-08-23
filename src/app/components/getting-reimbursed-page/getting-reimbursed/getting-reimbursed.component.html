@@ -54,13 +54,13 @@
                   {{ item.title }}
                   <div class="nav-values">
                     {{ item.value1 }}
-                    <span
+                    <!--<span
                       *ngIf="item.sdata != null"
                       class="metrics"
                       [ngClass]="item.sdata.sign === 'up' ? 'upgreen' : 'downred'"
                     >
                       {{ item.sdata.value }}
-                    </span>
+                    </span>-->
                   </div>
                 </span>
               </li>
@@ -70,8 +70,8 @@
 
         <!--       <button *ngFor="let option of tabOptions; let i = index" (click)="matOptionClicked(i)">{{ option }}</button>-->
         <div class="page-subtitle">
-          {{ currentTabTitle }}
-          <div *ngIf="currentTabTitle != 'Claims Submissions'">
+          <p class="page-subtitle-heading">{{ currentTabTitle }}</p>
+          <div *ngIf="currentTabTitle != '' && currentTabTitle != 'Claims Submissions*'">
             <button (click)="onDetailsButtonClick(buttonNumber, $event)" class="details-button">
               {{ buttonName }}
             </button>

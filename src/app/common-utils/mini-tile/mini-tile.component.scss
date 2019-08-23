@@ -77,6 +77,10 @@
     color: #80b0ff;
   }
 }
+.print-card-inner {
+  box-shadow: none;
+  border: 1px solid #2d2d39;
+}
 
 // @media screen and (max-width: 1331px) {
 //   .card-inner {

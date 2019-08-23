@@ -47,7 +47,7 @@ export class PaymentsComponent implements OnInit {
     private filtermatch: CommonUtilsService
   ) {
     const filData = this.session.getFilChangeEmitter().subscribe(() => this.ngOnInit());
-    this.pageTitle = 'Claims Payments';
+    this.pageTitle = 'Claims Payments*';
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.ngOnInit());
     iconRegistry.addSvgIcon(
       'filter',
@@ -105,6 +105,7 @@ export class PaymentsComponent implements OnInit {
     ];
 
     // this.claimsPaidBreakBool = false;
+
     this.gettingReimbursedSharedService.getclaimsPaidData().then(
       payData => {
         this.loadingClaimsBreakdown = false;

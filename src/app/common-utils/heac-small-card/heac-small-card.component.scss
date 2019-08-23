@@ -24,9 +24,8 @@
     }
     .full-width {
       width: 100%;
-      justify-content: center;
-      display: flex;
       margin-bottom: 16px;
+      display: flex;
     }
     .trend-details {
       float: left;
@@ -99,10 +98,6 @@
       }
     }
   }
-  .print-card-inner {
-    box-shadow: none;
-    border: 1px solid #2d2d39;
-  }
   .full-display-block {
     float: left;
     width: 100%;
@@ -158,4 +153,33 @@
   to {
     background-position: 10px 75px, 100% 0, /* move highlight to right */ 120px 100px, 120px 137.5px;
   }
+}
+
+.heac-data-block {
+  width: 50%;
+  .heac-label {
+    display: flex;
+    width: 114%;
+    margin: 7px 0;
+    &-dots {
+      height: 12px;
+      width: 12px;
+      border-radius: 50%;
+      margin: 0 4px;
+    }
+    &-data {
+      width: 108px;
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: 0.2px;
+      line-height: 18px;
+      margin: 0 4px;
+      font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+    }
+  }
+}
+
+.heac-donut-chart {
+  width: 50%;
+  margin-left: 19px;
 }

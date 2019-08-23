@@ -1,19 +1,19 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { POverviewComponent } from './p-overview.component';
+import { HeacSmallCardComponent } from './heac-small-card.component';
 
-describe('POverviewComponent', () => {
-  let component: POverviewComponent;
-  let fixture: ComponentFixture<POverviewComponent>;
+describe('HeacSmallCardComponent', () => {
+  let component: HeacSmallCardComponent;
+  let fixture: ComponentFixture<HeacSmallCardComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [POverviewComponent]
+      declarations: [HeacSmallCardComponent]
     }).compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(POverviewComponent);
+    fixture = TestBed.createComponent(HeacSmallCardComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
