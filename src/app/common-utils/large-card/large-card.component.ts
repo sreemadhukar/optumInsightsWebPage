@@ -26,7 +26,7 @@ export class LargeCardComponent implements OnInit {
   }
 
   helpIconClick(title) {
-    this.glossaryExpandService.setMessage(title);
+    this.glossaryExpandService.setMessage(title, this.data[0].MetricID);
   }
 
   ngOnInit() {}

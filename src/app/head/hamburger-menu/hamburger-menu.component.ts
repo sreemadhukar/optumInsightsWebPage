@@ -54,6 +54,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
   subscription: any;
   public glossaryFlag: boolean;
   public glossaryTitle: string = null;
+  public glossaryMetricID: string;
   public filterFlag: boolean;
   public filterurl: string = null;
   clickHelpIcon: Subscription;
@@ -236,7 +237,8 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     this.clickHelpIcon = this.glossaryExpandService.message.subscribe(
       data => {
         this.glossaryFlag = true;
-        this.glossaryTitle = data;
+        this.glossaryTitle = data.value;
+        this.glossaryMetricID = data.MetricID;
       },
       err => {
         console.log('Error, clickHelpIcon , inside Hamburger', err);

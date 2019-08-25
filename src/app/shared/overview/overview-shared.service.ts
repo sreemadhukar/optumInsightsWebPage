@@ -126,6 +126,7 @@ export class OverviewSharedService {
           category: 'small-card',
           type: 'donut',
           title: 'Prior Authorization Approval',
+          MetricID: ' ',
           toggle: this.toggle.setToggles('Prior Authorization Approval', 'AtGlance', 'Overview', false),
           data: {
             graphValues: [approvedRate, 1 - approvedRate],
@@ -166,6 +167,7 @@ export class OverviewSharedService {
           category: 'small-card',
           type: 'donut',
           title: 'Self Service Adoption Rate',
+          MetricID: '305',
           toggle: this.toggle.setToggles('Self Service Adoption Rate', 'AtGlance', 'Overview', false),
           data: {
             graphValues: [
@@ -214,6 +216,7 @@ export class OverviewSharedService {
           category: 'small-card',
           type: 'star',
           title: 'Medicare Star Rating',
+          MetricID: '200',
           toggle: this.toggle.setToggles('Medicare Star Rating', 'AtGlance', 'Overview', false),
           data: {
             graphValues: [
@@ -278,6 +281,7 @@ export class OverviewSharedService {
           category: 'small-card',
           type: 'donut',
           title: 'Calls By Call Type',
+          MetricID: '303',
           toggle: this.toggle.setToggles('Total Calls', 'AtGlance', 'Overview', false),
           data: {
             graphValues: [
@@ -327,6 +331,7 @@ export class OverviewSharedService {
           oppurtunities.push({
             category: 'mini-tile',
             title: 'Reduce Calls and Operating Costs by:',
+            MetricID: '308',
             toggle: this.toggle.setToggles('Reduce Calls and Operating Costs by:', 'Opportunities', 'Overview', false),
             data: {
               centerNumber:
@@ -353,6 +358,7 @@ export class OverviewSharedService {
           oppurtunities.push({
             category: 'mini-tile',
             title: 'Reduce Calls and Operating Costs by:',
+            MetricID: '308',
             status: null,
             data: null,
             fdata: null
@@ -362,6 +368,7 @@ export class OverviewSharedService {
         oppurtunities.push({
           category: 'mini-tile',
           title: 'Reduce Calls and Operating Costs by:',
+          MetricID: '308',
           status: null,
           data: null,
           fdata: null
@@ -403,6 +410,7 @@ export class OverviewSharedService {
           oppurtunities.push({
             category: 'mini-tile',
             title: "Save Your Staff's Time by:" + '\n\xa0',
+            MetricID: '307',
             toggle: this.toggle.setToggles("Save Your Staff's Time by:", 'Opportunities', 'Overview', false),
             data: {
               centerNumber: totalCalltime + suffixHourPerDay,
@@ -427,6 +435,7 @@ export class OverviewSharedService {
           oppurtunities.push({
             category: 'mini-tile',
             title: "Save Your Staff's Time by:" + '\n\xa0',
+            MetricID: '307',
             status: null,
             data: null,
             fdata: null
@@ -436,6 +445,7 @@ export class OverviewSharedService {
         oppurtunities.push({
           category: 'mini-tile',
           title: "Save Your Staff's Time by:" + '\n\xa0',
+          MetricID: '307',
           status: null,
           data: null,
           fdata: null
@@ -478,6 +488,7 @@ export class OverviewSharedService {
         oppurtunities.push({
           category: 'mini-tile',
           title: 'Reduce Claim Processing Time by:',
+          MetricID: '309',
           toggle:
             checkProcessingTime >= 0 ||
             this.toggle.setToggles('Reduce Claim Processing Time by:', 'Opportunities', 'Overview', false),
@@ -503,6 +514,7 @@ export class OverviewSharedService {
         oppurtunities.push({
           category: 'mini-tile',
           title: 'Reduce Claim Processing Time by:',
+          MetricID: '309',
           status: null,
           data: null,
           fdata: null
@@ -545,6 +557,7 @@ export class OverviewSharedService {
         oppurtunities.push({
           category: 'mini-tile',
           title: 'Reduce Reconsideration Processing by:',
+          MetricID: '306',
           toggle:
             checkAvgPaperProcessTime >= 0 ||
             this.toggle.setToggles('Reduce Reconsideration Processing by:', 'Opportunities', 'Overview', false),
@@ -570,6 +583,7 @@ export class OverviewSharedService {
         oppurtunities.push({
           category: 'mini-tile',
           title: 'Reduce Reconsideration Processing by:',
+          MetricID: '306',
           status: null,
           data: null,
           fdata: null
@@ -635,6 +649,7 @@ export class OverviewSharedService {
             category: 'small-card',
             type: 'donut',
             title: 'Claims Paid*',
+            MetricID: '103',
             toggle: this.toggle.setToggles('Claims Paid', 'AtGlance', 'Overview', false),
             data: {
               graphValues: paidData,
@@ -657,6 +672,7 @@ export class OverviewSharedService {
               category: 'small-card',
               type: 'donut',
               title: 'Claims Paid*',
+              MetricID: '103',
               toggle: this.toggle.setToggles('Claims Paid', 'AtGlance', 'Overview', false),
               data: {
                 graphValues: [0, 100],
@@ -711,6 +727,7 @@ export class OverviewSharedService {
             category: 'small-card',
             type: 'donut',
             title: 'Claims Yield*',
+            MetricID: '104',
             toggle: this.toggle.setToggles('Claims Yield', 'AtGlance', 'Overview', false),
             data: {
               graphValues: [
@@ -1040,6 +1057,7 @@ export class OverviewSharedService {
             category: 'small-card',
             type: 'donut',
             title: 'Prior Authorization Approval',
+            MetricID: '',
             toggle: this.toggle.setToggles('Prior Authorization Approval', 'AtGlance', 'Overview', false),
             data: {
               graphValues: [approvedRate, 1 - approvedRate],
@@ -1118,6 +1136,7 @@ export class OverviewSharedService {
             category: 'small-card',
             type: 'donut',
             title: 'Calls By Call Type',
+            MetricID: '303',
             toggle: this.toggle.setToggles('Total Calls', 'AtGlance', 'Overview', false),
             data: {
               graphValues: [
