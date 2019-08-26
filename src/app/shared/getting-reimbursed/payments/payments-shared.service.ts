@@ -476,13 +476,13 @@ export class PaymentsSharedService {
           }
 
           /** REMOVE LATER (ONCE PDP ISSUE SOLVED) ***/
-          claimsPaidRate = {
-            category: 'app-card',
-            type: 'donut',
-            title: null,
-            data: null,
-            timeperiod: null
-          };
+          // claimsPaidRate = {
+          //   category: 'app-card',
+          //   type: 'donut',
+          //   title: null,
+          //   data: null,
+          //   timeperiod: null
+          // };
           payments = { id: 1, title: 'Claims Payments', data: [claimsPaid, claimsPaidRate] };
           summaryData[0] = payments;
 
