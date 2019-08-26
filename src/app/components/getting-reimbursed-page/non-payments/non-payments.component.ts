@@ -294,6 +294,7 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
             type: 'donut',
             status: 404,
             title: 'Top Reasons for Claims Non-Payment',
+            MetricID: '100',
             data: null,
             timeperiod: null
           };
@@ -332,6 +333,7 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
           type: 'donut',
           status: 404,
           title: 'Claims Non-Payment Trend',
+          MetricID: 'NA',
           data: null,
           timeperiod: null
         };
@@ -346,7 +348,12 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
   } // ngOnInit Ends here
 
   helpIconClick(title) {
-    this.glossaryExpandService.setMessage(title);
+    if (title === 'Top Reasons for Claims Non-Payment') {
+      this.glossaryExpandService.setMessage(title, '100');
+    }
+    if (title === 'Claims Non-Payment Trend') {
+      this.glossaryExpandService.setMessage(title, 'NA');
+    }
   }
   /** This function is used for collapse of Top Reasons For Non Payment
    * section is an array of boolean variable

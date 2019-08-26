@@ -16,6 +16,7 @@ import { CommonUtilsService } from '../../../shared/common-utils.service';
 })
 export class PaymentsComponent implements OnInit {
   title = 'Claims Paid Breakdown';
+  MetricID = 'NA';
   public claimsPaidTimePeriod;
   claimsPaidBreakBool: Boolean = false;
   subscription: any;
@@ -134,7 +135,7 @@ export class PaymentsComponent implements OnInit {
   } // end ngOnInit()
 
   helpIconClick(title) {
-    this.glossaryExpandService.setMessage(title);
+    this.glossaryExpandService.setMessage(title, this.MetricID);
   }
   openFilter() {
     this.filterExpandService.setURL(this.router.url);
