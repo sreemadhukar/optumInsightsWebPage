@@ -210,12 +210,12 @@ export class CallsSharedService {
                   );
                 } catch (Error) {
                   console.log('Error in Calls Page | Question Type By Call Type', Error);
-                  callsByCallType = this.issueResolution(null, null, null, null);
+                  callsByCallType = this.issueResolution(null, null, null, null, null);
                 }
               }
             } catch (Error) {
               console.log('Calls Page Error CallVolByQuesType', Error);
-              callsByCallType = this.issueResolution(null, null, null, null);
+              callsByCallType = this.issueResolution(null, null, null, null, null);
             }
             try {
               if (
@@ -255,18 +255,18 @@ export class CallsSharedService {
                   );
                 } catch (Error) {
                   console.log('Error in Calls Page | TalkTime By Call Type', Error);
-                  talkTimeByCallType = this.issueResolution(null, null, null, null);
+                  talkTimeByCallType = this.issueResolution(null, null, null, null, null);
                 }
               } // end if else blocl
             } catch (Error) {
               console.log('Calls Page Error CallTalkTimeByQuesType', Error);
-              talkTimeByCallType = this.issueResolution(null, null, null, null);
+              talkTimeByCallType = this.issueResolution(null, null, null, null, null);
             }
             tempArray[0] = callsByCallType;
             tempArray[1] = talkTimeByCallType;
           } else {
-            callsByCallType = this.issueResolution(404, null, null, null);
-            talkTimeByCallType = this.issueResolution(404, null, null, null);
+            callsByCallType = this.issueResolution(404, null, null, null, null);
+            talkTimeByCallType = this.issueResolution(404, null, null, null, null);
             tempArray[0] = callsByCallType;
             tempArray[1] = talkTimeByCallType;
           }

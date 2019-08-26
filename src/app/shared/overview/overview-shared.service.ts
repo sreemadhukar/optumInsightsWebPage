@@ -126,7 +126,7 @@ export class OverviewSharedService {
           category: 'small-card',
           type: 'donut',
           title: 'Prior Authorization Approval',
-          MetricID: ' ',
+          MetricID: 'NA',
           toggle: this.toggle.setToggles('Prior Authorization Approval', 'AtGlance', 'Overview', false),
           data: {
             graphValues: [approvedRate, 1 - approvedRate],
