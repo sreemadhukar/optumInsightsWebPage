@@ -174,7 +174,7 @@ export class GlossaryComponent implements OnInit {
   }
   @HostListener('window:scroll', ['$event'])
   checkScroll() {
-    if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 80) {
+    if (window.innerHeight + document.documentElement.scrollTop >= document.body.offsetHeight - 80) {
       this.viewallmetricsbuttonposition = false;
     } else {
       this.viewallmetricsbuttonposition = true;
