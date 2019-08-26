@@ -110,15 +110,17 @@ export class PaymentsComponent implements OnInit {
       payData => {
         this.loadingClaimsBreakdown = false;
         try {
-          this.paymentArray = payData[0];
-          this.cData = [];
-          for (let p = 0; p < 1; p++) {
-            this.cData.push({
-              chartData: [this.paymentArray[0], this.paymentArray[1], this.paymentArray[2], this.paymentArray[3]],
-              gdata: ['card-inner', 'claimsPaidBreakDown']
-            });
+          if (payData) {
+            this.paymentArray = payData[0];
+            this.cData = [];
+            for (let p = 0; p < 1; p++) {
+              this.cData.push({
+                chartData: [this.paymentArray[0], this.paymentArray[1], this.paymentArray[2], this.paymentArray[3]],
+                gdata: ['card-inner', 'claimsPaidBreakDown']
+              });
+            }
+            this.claimsPaidBreakBool = true;
           }
-          this.claimsPaidBreakBool = true;
         } catch (Error) {
           this.loadingClaimsBreakdown = false;
           this.cData.push(payData);
