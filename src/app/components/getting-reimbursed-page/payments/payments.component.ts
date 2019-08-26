@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatIconRegistry, PageEvent } from '@angular/material';
-import { GettingReimbursedSharedService } from '../../../shared/getting-reimbursed/getting-reimbursed-shared.service';
+import { PaymentsSharedService } from '../../../shared/getting-reimbursed/payments/payments-shared.service';
 import { GlossaryExpandService } from '../../../shared/glossary-expand.service';
 import { SessionService } from 'src/app/shared/session.service';
 import { StorageService } from '../../../shared/storage-service.service';
@@ -36,7 +36,7 @@ export class PaymentsComponent implements OnInit {
   taxID: Array<string>;
   constructor(
     private checkStorage: StorageService,
-    private gettingReimbursedSharedService: GettingReimbursedSharedService,
+    private paymentsSharedService: PaymentsSharedService,
     private glossaryExpandService: GlossaryExpandService,
     private filterExpandService: FilterExpandService,
     private session: SessionService,
@@ -85,7 +85,7 @@ export class PaymentsComponent implements OnInit {
       this.taxID = [];
     }
     this.mockCards = [{}, {}];
-    this.gettingReimbursedSharedService
+    this.paymentsSharedService
       .sharedPaymentsData()
       .then(completeData => {
         console.log(completeData);
@@ -104,7 +104,7 @@ export class PaymentsComponent implements OnInit {
     ];
 
     // this.claimsPaidBreakBool = false;
-    this.gettingReimbursedSharedService.getclaimsPaidData().then(
+    this.paymentsSharedService.getclaimsPaidData().then(
       payData => {
         this.claimsPaidBreakBool = true;
         this.loading = false;
