@@ -476,13 +476,13 @@ export class PaymentsSharedService {
           }
 
           /** REMOVE LATER (ONCE PDP ISSUE SOLVED) ***/
-          claimsPaidRate = {
-            category: 'app-card',
-            type: 'donut',
-            title: null,
-            data: null,
-            timeperiod: null
-          };
+          // claimsPaidRate = {
+          //   category: 'app-card',
+          //   type: 'donut',
+          //   title: null,
+          //   data: null,
+          //   timeperiod: null
+          // };
           payments = { id: 1, title: 'Claims Payments', data: [claimsPaid, claimsPaidRate] };
           summaryData[0] = payments;
 
@@ -496,7 +496,7 @@ export class PaymentsSharedService {
       );
     });
   }
-  getParmaeterCategories() {
+  getParameterCategories() {
     let parameters = [];
     this.timeFrame = this.session.filterObjValue.timeFrame;
     this.providerKey = this.session.providerKeyData();
@@ -622,26 +622,41 @@ export class PaymentsSharedService {
     // 'Last 6 Months'; // this.session.timeFrame;
     this.providerKey = this.session.providerKeyData();
     let parameters = [];
-    parameters = this.getParmaeterCategories();
+    parameters = this.getParameterCategories();
     // let paidArray:  Array<Object> = [];
     return new Promise((resolve, reject) => {
       let paidBreakdown = [];
       let paidArray: Array<Object> = [];
       this.gettingReimbursedService.getPaymentData(...parameters).subscribe(paymentDatafetch => {
-        const paymentData = JSON.parse(JSON.stringify(paymentDatafetch[0]));
-        const lobFullData = this.common.matchFullLobWithData(this.lob);
-        const lobData = this.common.matchLobWithData(this.lob);
-        if (paymentData !== null) {
-          paidBreakdown = [
-            paymentData[lobData].ClaimsLobSummary[0].AmountBilled,
-            paymentData[lobData].ClaimsLobSummary[0].AmountActualAllowed +
-              paymentData[lobData].ClaimsLobSummary[0].PatientResponsibleAmount,
-            paymentData[lobData].ClaimsLobSummary[0].AmountDenied,
-            paymentData[lobData].ClaimsLobSummary[0].AmountUHCPaid
-          ];
+        try {
+          const paymentData = JSON.parse(JSON.stringify(paymentDatafetch));
+          const lobData = this.common.matchLobWithData(this.lob);
+          if (paymentData !== null) {
+            paidBreakdown = [
+              paymentData[lobData].ClaimsLobSummary[0].AmountBilled,
+              paymentData[lobData].ClaimsLobSummary[0].AmountActualAllowed +
+                paymentData[lobData].ClaimsLobSummary[0].PatientResponsibleAmount,
+              paymentData[lobData].ClaimsLobSummary[0].AmountDenied,
+              paymentData[lobData].ClaimsLobSummary[0].AmountUHCPaid
+            ];
+          }
+          paidArray = [paidBreakdown];
+          resolve(paidArray);
+        } catch (Error) {
+          const temp = {
+            category: 'large-card',
+            type: 'donutWithLabelBottom',
+            status: 500,
+            title: 'Claims Paid Breakdown',
+            MetricID: 'NA',
+            data: null,
+            besideData: null,
+            bottomData: null,
+            timeperiod: null
+          };
+          resolve(temp);
+          console.log('Claims breakdown issue', Error);
         }
-        paidArray = [paidBreakdown];
-        resolve(paidArray);
       });
     });
   }
