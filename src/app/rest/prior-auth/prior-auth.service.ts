@@ -244,4 +244,18 @@ export class PriorAuthService {
     );
  */
   }
+
+  getPriorAuthDataNew(parameters) {
+    this.currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
+    this.authBearer = this.currentUser[0].PedAccessToken;
+    const myHeader = new HttpHeaders({
+      Authorization: 'Bearer ' + this.authBearer,
+      Accept: '*/*'
+    });
+
+    const options = new RequestOptions({});
+
+    const params = new HttpParams();
+    const url = this.APP_URL + this.SERVICE_PATH + parameters[0];
+  }
 }
