@@ -16,7 +16,12 @@
         (hamburgerDisplay)="hamburgerDisplay($event)"
       ></app-header>
     </mat-toolbar>
-    <mat-sidenav-container class="example-sidenav-container" color="primary" (backdropClick)="close()">
+    <mat-sidenav-container
+      class="example-sidenav-container"
+      [class.bg-white]="bgWhite"
+      color="primary"
+      (backdropClick)="close()"
+    >
       <!-- SIDE NAVIGATION BAR  fixedTopGap="65"-->
       <mat-sidenav
         class="side-navigation"
@@ -123,6 +128,7 @@
         [fixedInViewport]="true"
         [opened]="glossaryFlag || filterFlag"
         id="side-nav-glossary"
+        [disableClose]="true"
       >
         <div style="width: 418px; min-height: 96%;">
           <div [ngClass]="{ sidemargin: glossaryFlag, 'sidemargin-filter': filterFlag }">

@@ -113,7 +113,10 @@ export class GettingReimbursedService {
     if (parameters.timeperiod !== '') {
       params = params.append('timeFilter', parameters.timeperiod);
     }
-    return this.http.get(piURL, { params: params });
+    return this.http.get(piURL, { params: params }).pipe(
+      map(res => res),
+      catchError(err => of(err))
+    );
   }
 
   public getPaymentData(...parameters) {

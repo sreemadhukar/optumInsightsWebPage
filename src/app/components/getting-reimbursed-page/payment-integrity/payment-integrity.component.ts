@@ -54,7 +54,7 @@ export class PaymentIntegrityComponent implements OnInit {
       'close',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-close-24px.svg')
     );
-    this.pageTitle = 'Claims Payment Integrity';
+    this.pageTitle = 'Claims Payment Integrity*';
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.ngOnInit());
   }
 
@@ -75,16 +75,29 @@ export class PaymentIntegrityComponent implements OnInit {
     }
     this.piDataloaded = false;
     this.loading = true;
-    this.gettingReimbursedSharedService.getPaymentIntegrityData().then(r => {
-      if (r != null) {
-        this.cardData = r;
+    this.gettingReimbursedSharedService
+      .getPaymentIntegrityData()
+      .then(r => {
         this.loading = false;
-        this.piDataloaded = true;
-      } else {
+        const temp = JSON.parse(JSON.stringify(r));
+        if (temp && temp.hasOwnProperty('status') && temp.status) {
+          this.cardData = temp;
+        } else {
+          if (r != null) {
+            this.cardData = r;
+            this.piDataloaded = true;
+          } else {
+            this.loading = false;
+            this.piDataloaded = false;
+          }
+        }
+      })
+      .catch(error => {
         this.loading = false;
-      }
-    });
+        this.piDataloaded = false;
+      });
   }
+
   helpIconClick(title) {
     this.glossaryExpandService.setMessage(title);
   }

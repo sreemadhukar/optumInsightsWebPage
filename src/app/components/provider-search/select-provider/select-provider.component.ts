@@ -100,7 +100,6 @@ export class SelectProviderComponent implements OnInit {
     if (document.querySelector('.mat-autocomplete-panel')) {
       (<HTMLElement>document.querySelector('.mat-autocomplete-panel')).style.height = '0';
     }
-    console.log('madhukar');
     if (this.stateCtrl.value && this.stateCtrl.value !== '') {
       if (document.querySelector('.mat-autocomplete-hidden')) {
         (<HTMLElement>document.querySelector('.mat-autocomplete-hidden')).style.visibility = 'visible';
@@ -145,6 +144,10 @@ export class SelectProviderComponent implements OnInit {
 
   private _filterStates(value: string): Providers[] {
     const filterValue = value.toLowerCase();
-    return this.states.filter(state => state.HealthCareOrganizationName.toLowerCase().indexOf(filterValue) === 0);
+    const filteredSet = this.states.filter(
+      state => state.HealthCareOrganizationName.toLowerCase().indexOf(filterValue) === 0
+    );
+    filteredSet.sort((a, b) => a.HealthCareOrganizationName.localeCompare(b.HealthCareOrganizationName));
+    return filteredSet;
   }
 }

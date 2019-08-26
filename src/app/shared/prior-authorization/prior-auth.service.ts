@@ -440,6 +440,39 @@ export class PriorAuthSharedService {
       timeRange = 'last3Months';
     } else if (timePeriod === 'Last 30 Days') {
       timeRange = 'last30Days';
+      /*
+      timeRange = 'customDateRange';
+      const yesterday = (d => new Date(d.setDate(d.getDate() - 1)))(new Date());
+      const thirtyFirstDay = (d => new Date(d.setDate(d.getDate() - 15)))(new Date());
+
+      let endDateStringYesterday;
+      let endDateStringThirtyFirstDay;
+
+      if (yesterday.getDate() < 10) {
+        endDateStringYesterday = '0' + yesterday.getDate();
+      } else {
+        endDateStringYesterday = yesterday.getDate();
+      }
+
+      if (thirtyFirstDay.getDate() < 10) {
+        endDateStringThirtyFirstDay = '0' + thirtyFirstDay.getDate();
+      } else {
+        endDateStringThirtyFirstDay = thirtyFirstDay.getDate();
+      }
+
+      timeRangeAdditionalData =
+        yesterday.getFullYear() +
+        '-' +
+        this.ReturnMonthlyCountString(yesterday.getMonth()) +
+        '-' +
+        endDateStringYesterday;
+      timeRangeAPIParameter =
+        thirtyFirstDay.getFullYear() +
+        '-' +
+        this.ReturnMonthlyCountString(thirtyFirstDay.getMonth()) +
+        '-' +
+        endDateStringThirtyFirstDay;
+        */
     } else if (timePeriod === 'Year to Date') {
       timeRange = 'customDateRange';
       const yesterday = (d => new Date(d.setDate(d.getDate() - 1)))(new Date());
@@ -526,6 +559,27 @@ export class PriorAuthSharedService {
       isServiceCategory = false;
       paServiceCategoryString = '';
     }
+
+    const appCardPriorAuthError = [
+      {
+        category: 'app-card',
+        type: 'donutWithLabel',
+        status: 404,
+        title: 'Prior Authorization Requested',
+        data: null,
+        besideData: null,
+        timeperiod: null
+      },
+      {
+        category: 'app-card',
+        type: 'donutWithLabel',
+        status: 404,
+        title: 'Prior Authorization Approval Rate',
+        data: null,
+        besideData: null,
+        timeperiod: null
+      }
+    ];
 
     return new Promise(resolve => {
       // const newParameters = [this.providerKey, true, true, true, false, true, false, false, false, true];
@@ -650,49 +704,52 @@ export class PriorAuthSharedService {
                   TATHourLabel = UrgentTATConversion + ' Hours';
                 }
               }
-
-              PACount = [
-                {
-                  category: 'app-card',
-                  type: 'donutWithLabel',
-                  title: 'Prior Authorization Requested',
-                  data: {
-                    graphValues: [PAApprovedCount, PANotApprovedCount, PANotPendingCount, PANotCancelledCount],
-                    centerNumber: this.nFormatter(PARequestedCount, 1),
-                    color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'],
-                    labels: ['Approved', 'Not Approved', 'Pending', 'Canceled'],
-                    gdata: ['card-inner', 'PARequested'],
-                    hover: true
+              // Add checker for if PA requested is zero
+              if (PARequestedCount === 0) {
+                PACount = appCardPriorAuthError;
+              } else {
+                PACount = [
+                  {
+                    category: 'app-card',
+                    type: 'donutWithLabel',
+                    title: 'Prior Authorization Requested',
+                    data: {
+                      graphValues: [PAApprovedCount, PANotApprovedCount, PANotPendingCount, PANotCancelledCount],
+                      centerNumber: this.nFormatter(PARequestedCount, 1),
+                      color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'],
+                      labels: ['Approved', 'Not Approved', 'Pending', 'Canceled'],
+                      gdata: ['card-inner', 'PARequested'],
+                      hover: true
+                    },
+                    besideData: {
+                      labels: ['Approved', 'Not Approved', 'Pending', 'Canceled'],
+                      color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC']
+                    },
+                    timeperiod: timePeriod
                   },
-                  besideData: {
-                    labels: ['Approved', 'Not Approved', 'Pending', 'Canceled'],
-                    color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC']
-                  },
-                  timeperiod: timePeriod
-                },
-                {
-                  category: 'app-card',
-                  type: 'donutWithLabel',
-                  title: 'Prior Authorization Approval Rate',
-                  data: {
-                    graphValues: [PAApprovalRate, 1 - PAApprovalRate],
-                    centerNumber: (PAApprovalRate * 100).toFixed(0) + '%',
-                    color: ['#3381FF', '#E0E0E0'],
-                    gdata: ['card-inner', 'PAApprovalRate']
-                  },
-                  besideData: {
-                    verticalData: [
-                      { title: 'Average Turnaround Time' },
-                      { values: TATDayLabel, labels: 'Standard' },
-                      { values: TATHourLabel, labels: 'Urgent' }
-                    ]
-                  },
-
-                  timeperiod: timePeriod
-                }
-              ];
+                  {
+                    category: 'app-card',
+                    type: 'donutWithLabel',
+                    title: 'Prior Authorization Approval Rate',
+                    data: {
+                      graphValues: [PAApprovalRate, 1 - PAApprovalRate],
+                      centerNumber: (PAApprovalRate * 100).toFixed(0) + '%',
+                      color: ['#3381FF', '#E0E0E0'],
+                      gdata: ['card-inner', 'PAApprovalRate']
+                    },
+                    besideData: {
+                      verticalData: [
+                        { title: 'Average Turnaround Time' },
+                        { values: TATDayLabel, labels: 'Standard' },
+                        { values: TATHourLabel, labels: 'Urgent' }
+                      ]
+                    },
+                    timeperiod: timePeriod
+                  }
+                ];
+              }
             } else {
-              PACount = [];
+              PACount = appCardPriorAuthError;
             }
 
             let PriorAuthNotApprovedReasons = [];
@@ -799,7 +856,8 @@ export class PriorAuthSharedService {
               }
             }
 
-            if (PriorAuthNotApprovedReasons.length > 0) {
+            // if (!isServiceCategory) {
+            if (PriorAuthNotApprovedReasons.length > 0 && !isServiceCategory) {
               PriorAuthNotApprovedReasons.sort(function(a, b) {
                 return b.Count - a.Count;
               });
@@ -820,8 +878,27 @@ export class PriorAuthSharedService {
                   timeperiod: timePeriod
                 });
               }
+            } else if (isServiceCategory) {
+              // Hide reasons for service category
+              PriorAuthBarGraphParamaters = [
+                {
+                  data: null
+                }
+              ];
             } else {
-              PriorAuthBarGraphParamaters = [];
+              // PriorAuthBarGraphParamaters = [];
+              // PriorAuthBarGraphParamaters = appCardPriorAuthError;
+              PriorAuthBarGraphParamaters = [
+                {
+                  category: 'large-card',
+                  type: 'donutWithLabel',
+                  status: 404,
+                  title: 'Top Reasons for Prior Authorizations Not Approved',
+                  data: null,
+                  besideData: null,
+                  timeperiod: null
+                }
+              ];
             }
 
             const PAData = [PACount, PriorAuthBarGraphParamaters];
@@ -1154,13 +1231,13 @@ export class PriorAuthSharedService {
           return emptyPATrends;
         })
         .then(data => {
-          if (this.priorAuthDataCombined[0].length > 0) {
+          if (this.priorAuthDataCombined[0].length > 0 && this.priorAuthDataCombined[0][0].data !== null) {
             this.priorAuthDataCombined[0][1].data['sdata'] = data[1];
           }
           resolve(this.priorAuthDataCombined);
         })
         .catch(reason => {
-          this.priorAuthDataCombined[0][1].data['sdata'] = null;
+          // this.priorAuthDataCombined[0][1].data['sdata'] = null;
           resolve(this.priorAuthDataCombined);
           console.log('Prior Auth Service Error ', reason);
         });

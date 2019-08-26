@@ -5,8 +5,9 @@ import { GettingReimbursedService } from '../../rest/getting-reimbursed/getting-
 import { CommonUtilsService } from '../common-utils.service';
 import { SessionService } from '../session.service';
 import { AuthorizationService } from '../../auth/_service/authorization.service';
-import { NonPaymentSharedService } from './non-payment-shared.service';
+import { NonPaymentSharedService } from './non-payments/non-payment-shared.service';
 import { NonPaymentService } from '../../rest/getting-reimbursed/non-payment.service';
+import { of } from 'rxjs';
 
 @Injectable({
   providedIn: GettingReimbursedModule
@@ -109,8 +110,8 @@ export class GettingReimbursedSharedService {
             claimsSubmitted = {
               category: 'app-card',
               type: 'donutWithLabel',
-              status: claimsData.status,
-              title: 'Total Claims Submitted',
+              status: 404,
+              title: 'Total Number of Claims Submitted',
               data: null,
               besideData: null,
               timeperiod: null
@@ -118,7 +119,7 @@ export class GettingReimbursedSharedService {
             claimsTAT = {
               category: 'app-card',
               type: 'rotateWithLabel',
-              status: claimsData.status,
+              status: null,
               title: 'Claims Average Turnaround Time to Payment',
               data: null,
               besideData: null,
@@ -127,8 +128,8 @@ export class GettingReimbursedSharedService {
             claimsPaid = {
               category: 'app-card',
               type: 'donutWithLabel',
-              status: claimsData.status,
-              title: 'Claims Paid*',
+              status: 404,
+              title: 'Claims Paid',
               data: null,
               besideData: null,
               bottomData: null,
@@ -137,15 +138,15 @@ export class GettingReimbursedSharedService {
             claimsPaidRate = {
               category: 'app-card',
               type: 'donut',
-              status: claimsData.status,
-              title: 'Claims Yield*',
+              status: 404,
+              title: 'Claims Yield',
               data: null,
               timeperiod: null
             };
             claimsNotPaid = {
               category: 'app-card',
               type: 'donutWithLabel',
-              status: claimsData.status,
+              status: 404,
               title: 'Claims Not Paid',
               data: null,
               besideData: null,
@@ -155,7 +156,7 @@ export class GettingReimbursedSharedService {
             claimsNotPaidRate = {
               category: 'app-card',
               type: 'donut',
-              status: claimsData.status,
+              status: 404,
               title: 'Claims Non-Payment Rate',
               data: null,
               timeperiod: null
@@ -173,7 +174,7 @@ export class GettingReimbursedSharedService {
               claimsSubmitted = {
                 category: 'app-card',
                 type: 'donutWithLabel',
-                title: 'Total Claims Submitted',
+                title: 'Total Number of Claims Submitted*',
                 data: {
                   graphValues: [
                     claimsData[lobData].ClaimsLobSummary[0].ClaimsPaid,
@@ -197,8 +198,9 @@ export class GettingReimbursedSharedService {
               claimsSubmitted = {
                 category: 'app-card',
                 type: 'donutWithLabel',
-                title: null,
+                title: 'Total Number of Claims Submitted',
                 data: null,
+                status: 404,
                 besideData: null,
                 timeperiod: this.timeFrame
               };
@@ -227,8 +229,14 @@ export class GettingReimbursedSharedService {
                 },
                 besideData: {
                   verticalData: [
-                    { values: claimsData[lobData].ClaimsLobSummary[0].DosToReceived, labels: 'DOS to Received' },
-                    { values: claimsData[lobData].ClaimsLobSummary[0].ReceivedToPaid, labels: 'Received to Paid' }
+                    {
+                      values: claimsData[lobData].ClaimsLobSummary[0].DosToReceived + ' Days',
+                      labels: 'Date of Service to Received'
+                    },
+                    {
+                      values: claimsData[lobData].ClaimsLobSummary[0].ReceivedToPaid + ' Days',
+                      labels: 'Received to Processed'
+                    }
                   ]
                 },
                 timeperiod: this.timeFrame
@@ -239,6 +247,7 @@ export class GettingReimbursedSharedService {
                 type: 'rotateWithLabel',
                 title: 'Claims Average Turnaround Time to Payment',
                 data: null,
+                status: null,
                 besideData: null,
                 timeperiod: this.timeFrame
               };
@@ -290,7 +299,7 @@ export class GettingReimbursedSharedService {
               claimsPaid = {
                 category: 'app-card',
                 type: 'donutWithLabel',
-                title: 'Claims Paid*',
+                title: 'Claims Paid',
                 data: {
                   graphValues: paidData,
                   centerNumber:
@@ -298,6 +307,7 @@ export class GettingReimbursedSharedService {
                     this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].AmountPaid) > 0
                       ? '< $1'
                       : '$' + this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].AmountPaid),
+                  centerNumberOriginal: claimsData[lobData].ClaimsLobSummary[0].AmountPaid,
                   color: this.common.returnLobColor(claimsData),
                   gdata: ['card-inner', 'claimsPaid'],
                   sdata: {
@@ -317,8 +327,9 @@ export class GettingReimbursedSharedService {
               claimsPaid = {
                 category: 'app-card',
                 type: 'donutWithLabel',
-                title: null,
+                title: 'Claims Paid',
                 data: null,
+                status: 404,
                 besideData: null,
                 bottomData: null,
                 timeperiod: null
@@ -379,6 +390,7 @@ export class GettingReimbursedSharedService {
                     this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].AmountDenied) > 0
                       ? '< $1'
                       : '$' + this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].AmountDenied),
+                  centerNumberOriginal: claimsData[lobData].ClaimsLobSummary[0].AmountDenied,
                   color: this.common.returnLobColor(claimsData),
                   gdata: ['card-inner', 'claimsPaid'],
                   sdata: {
@@ -398,8 +410,9 @@ export class GettingReimbursedSharedService {
               claimsNotPaid = {
                 category: 'app-card',
                 type: 'donutWithLabel',
-                title: null,
+                title: 'Claims Not Paid',
                 data: null,
+                status: 404,
                 besideData: null,
                 bottomData: null,
                 timeperiod: null
@@ -439,8 +452,9 @@ export class GettingReimbursedSharedService {
               claimsNotPaidRate = {
                 category: 'app-card',
                 type: 'donutWithLabel',
-                title: null,
+                title: 'Claims Non-Payment Rate',
                 data: null,
+                status: 404,
                 besideData: null,
                 bottomData: null,
                 timeperiod: null
@@ -457,7 +471,7 @@ export class GettingReimbursedSharedService {
               claimsPaidRate = {
                 category: 'app-card',
                 type: 'donut',
-                title: 'Claims Yield*',
+                title: 'Claims Yield',
                 data: {
                   graphValues: [
                     claimsData[lobData].ClaimsLobSummary[0].ClaimsYieldRate,
@@ -474,7 +488,7 @@ export class GettingReimbursedSharedService {
               claimsPaidRate = {
                 category: 'app-card',
                 type: 'donut',
-                title: null,
+                title: 'Claims Yield',
                 data: null,
                 timeperiod: null
               };
@@ -484,7 +498,7 @@ export class GettingReimbursedSharedService {
             appealsSubmitted = {
               category: 'app-card',
               type: 'donutWithLabelBottom',
-              status: appealsData.status,
+              status: 404,
               title: 'Claims Appeals Submitted',
               data: null,
               besideData: null,
@@ -494,7 +508,7 @@ export class GettingReimbursedSharedService {
             appealsOverturned = {
               category: 'app-card',
               type: 'donut',
-              status: appealsData.status,
+              status: 404,
               title: 'Claims Appeals Overturned',
               data: null,
               timeperiod: null
@@ -593,6 +607,9 @@ export class GettingReimbursedSharedService {
                     appealsData[0].LineOfBusiness[lobFullData].AdminAppeals +
                       appealsData[0].LineOfBusiness[lobFullData].ClinicalAppeals
                   ),
+                  centerNumberOriginal:
+                    appealsData[0].LineOfBusiness[lobFullData].AdminAppeals +
+                    appealsData[0].LineOfBusiness[lobFullData].ClinicalAppeals,
                   color: colorsData,
                   gdata: ['card-inner', 'claimsAppealSubmitted'],
                   sdata: {
@@ -660,6 +677,7 @@ export class GettingReimbursedSharedService {
                   centerNumber: appealsData[0].LineOfBusiness[lobFullData].OverTurnCount
                     ? this.common.nFormatter(appealsData[0].LineOfBusiness[lobFullData].OverTurnCount)
                     : 0,
+                  centerNumberOriginal: appealsData[0].LineOfBusiness[lobFullData].OverTurnCount,
                   color: ['#3381FF', '#D7DCE1'],
                   gdata: ['card-inner', 'claimsAppealOverturned'],
                   sdata: null
@@ -698,7 +716,7 @@ export class GettingReimbursedSharedService {
           }
 
           /** REMOVE LATER (ONCE PDP ISSUE SOLVED) ***/
-          claimsPaidRate = {
+          /*claimsPaidRate = {
             category: 'app-card',
             type: 'donut',
             title: null,
@@ -711,10 +729,10 @@ export class GettingReimbursedSharedService {
             title: null,
             data: null,
             timeperiod: null
-          };
-          submissions = { id: 1, title: 'Claims Submissions', data: [claimsSubmitted, claimsTAT] };
-          payments = { id: 2, title: 'Claims Payments', data: [claimsPaid, claimsPaidRate] };
-          nonpayments = { id: 3, title: 'Claims Non-Payments', data: [claimsNotPaid, claimsNotPaidRate] };
+          };*/
+          submissions = { id: 1, title: 'Claims Submissions*', data: [claimsSubmitted, claimsTAT] };
+          payments = { id: 2, title: 'Claims Payments*', data: [claimsPaid, claimsPaidRate] };
+          nonpayments = { id: 3, title: 'Claims Non-Payments*', data: [claimsNotPaid, claimsNotPaidRate] };
           appeals = { id: 4, title: 'Claims Appeals', data: [appealsSubmitted, appealsOverturned] };
           summaryData[0] = submissions;
           summaryData[1] = payments;
@@ -747,8 +765,8 @@ export class GettingReimbursedSharedService {
             claimsSubmitted = {
               category: 'app-card',
               type: 'donutWithLabel',
-              status: claimsData.status,
-              title: 'Total Claims Submitted',
+              status: 404,
+              title: 'Total Number of Claims Submitted',
               data: null,
               besideData: null,
               timeperiod: null
@@ -756,7 +774,7 @@ export class GettingReimbursedSharedService {
             claimsTAT = {
               category: 'app-card',
               type: 'rotateWithLabel',
-              status: claimsData.status,
+              status: null,
               title: 'Claims Average Turnaround Time to Payment',
               data: null,
               besideData: null,
@@ -765,8 +783,8 @@ export class GettingReimbursedSharedService {
             claimsPaid = {
               category: 'app-card',
               type: 'donutWithLabel',
-              status: claimsData.status,
-              title: 'Claims Paid*',
+              status: 404,
+              title: 'Claims Paid',
               data: null,
               besideData: null,
               bottomData: null,
@@ -775,15 +793,15 @@ export class GettingReimbursedSharedService {
             claimsPaidRate = {
               category: 'app-card',
               type: 'donut',
-              status: claimsData.status,
-              title: 'Claims Yield*',
+              status: 404,
+              title: 'Claims Yield',
               data: null,
               timeperiod: null
             };
             claimsNotPaid = {
               category: 'app-card',
               type: 'donutWithLabel',
-              status: claimsData.status,
+              status: 404,
               title: 'Claims Not Paid',
               data: null,
               besideData: null,
@@ -793,7 +811,7 @@ export class GettingReimbursedSharedService {
             claimsNotPaidRate = {
               category: 'app-card',
               type: 'donut',
-              status: claimsData.status,
+              status: 404,
               title: 'Claims Non-Payment Rate',
               data: null,
               timeperiod: null
@@ -811,9 +829,9 @@ export class GettingReimbursedSharedService {
               claimsSubmitted = {
                 category: 'app-card',
                 type: 'donutWithLabel',
-                title: 'Total Claims Submitted',
+                title: 'Total Number of Claims Submitted',
                 toggle: this.toggle.setToggles(
-                  'Total Claims Submitted',
+                  'Total Number of Claims Submitted',
                   'Claims Submissions',
                   'Getting Reimbursed',
                   true
@@ -824,6 +842,7 @@ export class GettingReimbursedSharedService {
                     claimsData[lobData].ClaimsLobSummary[0].ClaimsDenied
                   ],
                   centerNumber: this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].ClaimsSubmitted),
+                  centerNumberOriginal: claimsData[lobData].ClaimsLobSummary[0].ClaimsSubmitted,
                   color: ['#3381FF', '#80B0FF'],
                   gdata: ['card-inner', 'totalClaimsSubmitted'],
                   sdata: {
@@ -843,8 +862,9 @@ export class GettingReimbursedSharedService {
               claimsSubmitted = {
                 category: 'app-card',
                 type: 'donutWithLabel',
-                title: null,
+                title: 'Total Number of Claims Submitted',
                 data: null,
+                status: 404,
                 besideData: null,
                 timeperiod: this.timeFrame
               };
@@ -879,8 +899,14 @@ export class GettingReimbursedSharedService {
                 },
                 besideData: {
                   verticalData: [
-                    { values: claimsData[lobData].ClaimsLobSummary[0].DosToReceived, labels: 'DOS to Received' },
-                    { values: claimsData[lobData].ClaimsLobSummary[0].ReceivedToPaid, labels: 'Received to Paid' }
+                    {
+                      values: claimsData[lobData].ClaimsLobSummary[0].DosToReceived + ' Days',
+                      labels: 'Date of Service to Received'
+                    },
+                    {
+                      values: claimsData[lobData].ClaimsLobSummary[0].ReceivedToPaid + ' Days',
+                      labels: 'Received to Processed'
+                    }
                   ]
                 },
                 timeperiod: this.timeFrame
@@ -891,6 +917,7 @@ export class GettingReimbursedSharedService {
                 type: 'rotateWithLabel',
                 title: 'Claims Average Turnaround Time to Payment',
                 data: null,
+                status: null,
                 besideData: null,
                 timeperiod: this.timeFrame
               };
@@ -957,7 +984,7 @@ export class GettingReimbursedSharedService {
               claimsPaid = {
                 category: 'app-card',
                 type: 'donutWithLabel',
-                title: 'Claims Paid*',
+                title: 'Claims Paid',
                 data: {
                   graphValues: paidData,
                   centerNumber:
@@ -965,6 +992,7 @@ export class GettingReimbursedSharedService {
                     this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].AmountPaid) > 0
                       ? '< $1'
                       : '$' + this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].AmountPaid),
+                  centerNumberOriginal: claimsData[lobData].ClaimsLobSummary[0].AmountPaid,
                   color: this.common.returnLobColor(claimsData), // colorcodes,
                   gdata: ['card-inner', 'claimsPaid'],
                   sdata: {
@@ -985,7 +1013,7 @@ export class GettingReimbursedSharedService {
                 claimsPaid = {
                   category: 'app-card',
                   type: 'donutWithLabel',
-                  title: 'Claims Paid*',
+                  title: 'Claims Paid',
                   data: {
                     graphValues: [0, 100],
                     centerNumber:
@@ -993,6 +1021,7 @@ export class GettingReimbursedSharedService {
                       this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].AmountPaid) > 0
                         ? '< $1'
                         : '$' + this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].AmountPaid),
+                    centerNumberOriginal: claimsData[lobData].ClaimsLobSummary[0].AmountPaid,
                     color: this.common.returnLobColor(claimsData),
                     gdata: ['card-inner', 'claimsPaid'],
                     sdata: {
@@ -1013,8 +1042,9 @@ export class GettingReimbursedSharedService {
               claimsPaid = {
                 category: 'app-card',
                 type: 'donutWithLabel',
-                title: null,
+                title: 'Claims Paid',
                 data: null,
+                status: 404,
                 besideData: null,
                 bottomData: null,
                 timeperiod: null
@@ -1067,7 +1097,7 @@ export class GettingReimbursedSharedService {
               claimsPaid = {
                 category: 'app-card',
                 type: 'donutWithLabel',
-                title: 'Claims Paid*',
+                title: 'Claims Paid',
                 data: {
                   graphValues: paidData,
                   centerNumber:
@@ -1075,6 +1105,7 @@ export class GettingReimbursedSharedService {
                     this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].AmountPaid) > 0
                       ? '< $1'
                       : '$' + this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].AmountPaid),
+                  centerNumberOriginal: claimsData[lobData].ClaimsLobSummary[0].AmountPaid,
                   color: this.common.returnLobColor(claimsData),
                   gdata: ['card-inner', 'claimsPaid'],
                   sdata: {
@@ -1094,8 +1125,9 @@ export class GettingReimbursedSharedService {
               claimsPaid = {
                 category: 'app-card',
                 type: 'donutWithLabel',
-                title: null,
+                title: 'Claims Paid',
                 data: null,
+                status: 404,
                 besideData: null,
                 bottomData: null,
                 timeperiod: null
@@ -1156,6 +1188,7 @@ export class GettingReimbursedSharedService {
                     this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].AmountDenied) > 0
                       ? '< $1'
                       : '$' + this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].AmountDenied),
+                  centerNumberOriginal: claimsData[lobData].ClaimsLobSummary[0].AmountDenied,
                   color: this.common.returnLobColor(claimsData),
                   gdata: ['card-inner', 'claimsPaid'],
                   sdata: {
@@ -1175,8 +1208,9 @@ export class GettingReimbursedSharedService {
               claimsNotPaid = {
                 category: 'app-card',
                 type: 'donutWithLabel',
-                title: null,
+                title: 'Claims Not Paid',
                 data: null,
+                status: 404,
                 besideData: null,
                 bottomData: null,
                 timeperiod: null
@@ -1216,8 +1250,9 @@ export class GettingReimbursedSharedService {
               claimsNotPaidRate = {
                 category: 'app-card',
                 type: 'donutWithLabel',
-                title: null,
+                title: 'Claims Non-Payment Rate',
                 data: null,
+                status: 404,
                 besideData: null,
                 bottomData: null,
                 timeperiod: null
@@ -1234,7 +1269,7 @@ export class GettingReimbursedSharedService {
               claimsPaidRate = {
                 category: 'app-card',
                 type: 'donut',
-                title: 'Claims Yield*',
+                title: 'Claims Yield',
                 data: {
                   graphValues: [
                     claimsData[lobData].ClaimsLobSummary[0].ClaimsYieldRate,
@@ -1251,7 +1286,8 @@ export class GettingReimbursedSharedService {
               claimsPaidRate = {
                 category: 'app-card',
                 type: 'donut',
-                title: null,
+                status: 404,
+                title: 'Claims Yield',
                 data: null,
                 timeperiod: null
               };
@@ -1259,7 +1295,7 @@ export class GettingReimbursedSharedService {
           }
 
           /** REMOVE LATER (ONCE PDP ISSUE SOLVED) ***/
-          claimsPaidRate = {
+          /*claimsPaidRate = {
             category: 'app-card',
             type: 'donut',
             title: null,
@@ -1272,10 +1308,10 @@ export class GettingReimbursedSharedService {
             title: null,
             data: null,
             timeperiod: null
-          };
-          submissions = { id: 1, title: 'Claims Submissions', data: [claimsSubmitted, claimsTAT] };
-          payments = { id: 2, title: 'Claims Payments', data: [claimsPaid, claimsPaidRate] };
-          nonpayments = { id: 3, title: 'Claims Non-Payments', data: [claimsNotPaid, claimsNotPaidRate] };
+          };*/
+          submissions = { id: 1, title: 'Claims Submissions*', data: [claimsSubmitted, claimsTAT] };
+          payments = { id: 2, title: 'Claims Payments*', data: [claimsPaid, claimsPaidRate] };
+          nonpayments = { id: 3, title: 'Claims Non-Payments*', data: [claimsNotPaid, claimsNotPaidRate] };
           const appealsSubmitted = this.createAppealsDonuts(appealsData, lobFullData).appealsSubmitted;
           const appealsOverturned = this.createAppealsDonuts(appealsData, lobFullData).appealsOverturned;
           appeals = {
@@ -1298,7 +1334,6 @@ export class GettingReimbursedSharedService {
       );
     });
   }
-
   public getGettingReimbursedData() {
     this.tin = this.session.filterObjValue.tax.toString().replace(/-/g, '');
     this.lob = this.session.filterObjValue.lob;
@@ -1401,7 +1436,11 @@ export class GettingReimbursedSharedService {
           })
           .then(data => {
             gettingReimbursedData = data;
-            resolve(gettingReimbursedData);
+            console.log(gettingReimbursedData);
+            return this.calculateSummaryTrends(parameters, gettingReimbursedData);
+          })
+          .then(data => {
+            resolve(data);
           });
       } else {
         if (this.tin !== 'All' && this.lob !== 'All') {
@@ -1436,58 +1475,119 @@ export class GettingReimbursedSharedService {
             this.nonPaymentData = nonPayment;
             return this.sharedGettingReimbursedYearWiseData(parameters);
           })
-          .then(data => {
+          /*.then(data => {
             gettingReimbursedData = data;
             resolve(gettingReimbursedData);
+          });
+*/
+          .then(data => {
+            gettingReimbursedData = data;
+            // console.log(gettingReimbursedData);
+            return this.calculateSummaryTrends(parameters, gettingReimbursedData);
+          })
+          .then(data => {
+            resolve(data);
           });
       }
     });
   }
 
-  /* function to get Top Reasons for Claims Non Payments - Ranjith kumar Ankam*/
-  public getTopReasonsforClaimsNonPayments() {
+  calculateSummaryTrends(parameters, gettingReimbursedData) {
     return new Promise((resolve, reject) => {
-      this.tin = this.session.filterObjValue.tax.toString().replace(/-/g, '');
-      this.lob = this.session.filterObjValue.lob;
-      this.timeFrame = this.session.filterObjValue.timeFrame;
-      this.providerKey = this.session.providerKeyData();
-      const parameters = {
-        providerkey: this.providerKey,
-        timeperiod: '',
-        ytd: false,
-        tin: '',
-        startDate: '',
-        endDate: '',
-        monthly: false
-      };
+      let baseTimePeriod: any;
       if (this.timeFrame === 'Last 12 Months') {
-        parameters.timeperiod = 'last12months';
-      } else if (this.timeFrame === 'Last 30 Days') {
-        parameters.timeperiod = 'Last30Days';
-      } else if (this.timeFrame === 'Last 6 Months') {
-        parameters.timeperiod = 'last6months';
-      } else if (this.timeFrame === 'Last 3 Months') {
-        parameters.timeperiod = 'last3months';
-      } else if (this.timeFrame === 'Year to Date') {
-        parameters.ytd = true;
+        baseTimePeriod = 'PreviousLast12Months';
       }
-      this.gettingReimbursedService.getClaimsNonPaymentsData(parameters).subscribe(data => {
-        const result = [];
-        if (data[0].All !== null) {
-          data[0].All.DenialCategory.forEach(element => {
-            if (element.Claimdenialcategorylevel1shortname !== '') {
-              result.push({
-                Claimdenialcategorylevel1shortname: this.sentenceCase(element.Claimdenialcategorylevel1shortname),
-                DenialAmount: element.DenialAmount
-              });
-            }
-          });
-          result.sort((a, b) => parseFloat(b.DenialAmount) - parseFloat(a.DenialAmount));
-          resolve(result.slice(0, 5));
-        } else {
-          resolve(result);
-        }
-      });
+      if (this.timeFrame === 'Last 6 Months') {
+        baseTimePeriod = 'PreviousLast6Months';
+      }
+      if (this.timeFrame === 'Last 3 Months') {
+        baseTimePeriod = 'PreviousLast3Months';
+      }
+      if (this.timeFrame === 'Last 30 Days') {
+        baseTimePeriod = 'PreviousLast30Days';
+      }
+      if (this.timeFrame === 'Year to Date') {
+        baseTimePeriod = 'PreviousYTD';
+      }
+      parameters[1].TimeFilter = baseTimePeriod;
+      /* this.gettingReimbursedService.getGettingReimbursedData(...parameters).subscribe(([claimsData, appealsData]) => {
+         const lobFullData = this.common.matchFullLobWithData(this.lob);
+         const lobData = this.common.matchLobWithData(this.lob);
+                  if (claimsData != null && !claimsData.hasOwnProperty('status')) {
+           if (
+             claimsData.hasOwnProperty(lobData) &&
+             claimsData[lobData] != null &&
+             claimsData[lobData].hasOwnProperty('ClaimsLobSummary') &&
+             claimsData[lobData].ClaimsLobSummary.length
+           ) {
+             if (claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('ClaimsSubmitted')) {
+               let newClaimsSubmitted = 0;
+               if (gettingReimbursedData[0].data[0].data) {
+                 if (gettingReimbursedData[0].data[0].data.centerNumberOriginal) {
+                   newClaimsSubmitted = gettingReimbursedData[0].data[0].data.centerNumberOriginal;
+                   const oldClaimsSubmitted = claimsData[lobData].ClaimsLobSummary[0].ClaimsSubmitted;
+                   gettingReimbursedData[0].data[0].data.sdata = this.common.trendNegativeMeansBad(
+                     newClaimsSubmitted,
+                     oldClaimsSubmitted
+                   );
+                 }
+               }
+             }
+             if (claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('AmountPaid')) {
+               let newClaimsPaid = 0;
+               if (gettingReimbursedData[1].data[0].data) {
+                 if (gettingReimbursedData[1].data[0].data.centerNumberOriginal) {
+                   newClaimsPaid = gettingReimbursedData[1].data[0].data.centerNumberOriginal;
+                   const oldClaimsPaid = claimsData[lobData].ClaimsLobSummary[0].AmountPaid;
+                   gettingReimbursedData[1].data[0].data.sdata = this.common.trendNegativeMeansBad(
+                     newClaimsPaid,
+                     oldClaimsPaid
+                   );
+                 }
+               }
+             }
+             if (claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('AmountDenied')) {
+               let newClaimsNotPaid = 0;
+               if (gettingReimbursedData[2].data[0].data) {
+                 if (gettingReimbursedData[2].data[0].data.centerNumberOriginal) {
+                   newClaimsNotPaid = gettingReimbursedData[2].data[0].data.centerNumberOriginal;
+                   const oldClaimsNotPaid = claimsData[lobData].ClaimsLobSummary[0].AmountDenied;
+                   gettingReimbursedData[2].data[0].data.sdata = this.common.trendNegativeMeansGood(
+                     newClaimsNotPaid,
+                     oldClaimsNotPaid
+                   );
+                 }
+               }
+             }
+           }
+         }
+         if (appealsData != null && !appealsData.hasOwnProperty('status') && appealsData[0] != null) {
+           if (
+             appealsData[0].hasOwnProperty('LineOfBusiness') &&
+             appealsData[0].LineOfBusiness !== null &&
+             appealsData[0].LineOfBusiness.hasOwnProperty(lobFullData) &&
+             appealsData[0].LineOfBusiness[lobFullData].hasOwnProperty('AdminAppeals') &&
+             appealsData[0].LineOfBusiness[lobFullData].hasOwnProperty('ClinicalAppeals')
+           ) {
+             let newClaimsAppealsSubmitted = 0;
+             if (gettingReimbursedData[3].data[0].data) {
+               if (gettingReimbursedData[3].data[0].data.centerNumberOriginal) {
+                 newClaimsAppealsSubmitted = gettingReimbursedData[3].data[0].data.centerNumberOriginal;
+                 const oldClaimsAppealsSubmitted =
+                   appealsData[0].LineOfBusiness[lobFullData].AdminAppeals +
+                   appealsData[0].LineOfBusiness[lobFullData].ClinicalAppeals;
+                 gettingReimbursedData[3].data[0].data.sdata = this.common.trendNegativeMeansGood(
+                   newClaimsAppealsSubmitted,
+                   oldClaimsAppealsSubmitted
+                 );
+               }
+             }
+           }
+         }
+                  resolve(gettingReimbursedData);
+       });*/
+      resolve(gettingReimbursedData);
     });
   }
 
@@ -1497,169 +1597,6 @@ export class GettingReimbursedSharedService {
       this.gettingReimbursedService.getTins(this.providerKey).subscribe(tins => {
         const providerTins = tins;
         resolve(providerTins);
-      });
-    });
-  }
-  /* function to get Claims Non Payments by Facility Data - Ranjith kumar Ankam*/
-  public getClaimsNonPaymentsbyFacilityData(top5Reasons) {
-    return new Promise((resolve, reject) => {
-      this.tin = this.session.filterObjValue.tax.toString().replace(/-/g, '');
-      this.lob = this.session.filterObjValue.lob;
-      this.timeFrame = this.session.filterObjValue.timeFrame;
-      this.providerKey = this.session.providerKeyData();
-      this.gettingReimbursedService.getTins(this.providerKey).subscribe(tins => {
-        const providerTins = tins;
-        const parameters = {
-          providerkey: this.providerKey,
-          timeperiod: '',
-          ytd: false,
-          tin: '0',
-          startDate: '',
-          endDate: '',
-          monthly: false
-        };
-        const output: any = [];
-        const response: any = [];
-
-        if (this.timeFrame === 'Last 12 Months') {
-          parameters.timeperiod = 'Last12Months';
-        } else if (this.timeFrame === 'Last 30 Days') {
-          parameters.timeperiod = 'Last30Days';
-        } else if (this.timeFrame === 'Last 6 Months') {
-          parameters.timeperiod = 'last6months';
-        } else if (this.timeFrame === 'Last 3 Months') {
-          parameters.timeperiod = 'last3months';
-        } else if (this.timeFrame === 'Year to Date') {
-          parameters.ytd = true;
-        }
-        if (this.tin !== 'All') {
-          parameters.tin = this.tin;
-        }
-
-        this.gettingReimbursedService.getClaimsNonPaymentsData(parameters).subscribe(nonPaymentsByFacilitydata => {
-          this.nonPaymentBy = this.session.nonPaymentBy;
-          nonPaymentsByFacilitydata.forEach(element => {
-            const indObject: any = {};
-            indObject.tin = element.Tin;
-            providerTins.forEach(tin => {
-              if (element.Tin === tin.Tin) {
-                indObject.tinname = this.sentenceCase(tin.Tinname);
-              }
-            });
-            const reasons = [];
-            if (element.All !== null) {
-              element.All.DenialCategory.forEach(top5 => {
-                if (top5Reasons.includes(this.sentenceCase(top5.Claimdenialcategorylevel1shortname))) {
-                  if (this.nonPaymentBy === 'dollar') {
-                    reasons.push({
-                      denialCategory: this.sentenceCase(top5.Claimdenialcategorylevel1shortname),
-                      val: '$' + this.common.nFormatter(top5.DenialAmount)
-                    });
-                  } else if (this.nonPaymentBy === 'volume') {
-                    reasons.push({
-                      denialCategory: this.sentenceCase(top5.Claimdenialcategorylevel1shortname),
-                      val: this.common.nFormatter(top5.DenialCount)
-                    });
-                  } else if (this.nonPaymentBy === 'average') {
-                    reasons.push({
-                      denialCategory: this.sentenceCase(top5.Claimdenialcategorylevel1shortname),
-                      val: '$' + this.common.nFormatter(top5.DenialCount / top5.DenialCount)
-                    });
-                  }
-                }
-              });
-            } else {
-              resolve([]);
-            }
-            indObject.reasons = reasons;
-            output.push(indObject);
-          });
-          output.forEach(element => {
-            const result: any = {};
-            result.tin = element.tin;
-            result.facilityName = element.tinname;
-            element.reasons.forEach(el => {
-              result[el.denialCategory] = el.val;
-            });
-            response.push(result);
-          });
-          resolve(response);
-        });
-      });
-    });
-  }
-
-  public getclaimsNonPaymentTrendData() {
-    return new Promise((resolve, reject) => {
-      this.tin = this.session.filterObjValue.tax.toString().replace(/-/g, '');
-      this.lob = this.session.filterObjValue.lob;
-      this.timeFrame = this.session.filterObjValue.timeFrame;
-      this.providerKey = this.session.providerKeyData();
-      this.gettingReimbursedService.getTins(this.providerKey).subscribe(tins => {
-        const providerTins = tins;
-        const parameters = {
-          providerkey: this.providerKey,
-          timeperiod: '',
-          ytd: false,
-          tin: '',
-          startDate: '',
-          endDate: '',
-          monthly: true
-        };
-        this.nonPaymentBy = 'dollar';
-        const output: any = [];
-        const response: any = [];
-
-        if (this.timeFrame === 'Last 12 Months') {
-          parameters.timeperiod = 'Last12Months';
-        } else if (this.timeFrame === 'Last 30 Days') {
-          parameters.timeperiod = 'Last30Days';
-        } else if (this.timeFrame === 'Last 6 Months') {
-          parameters.timeperiod = 'last6months';
-        } else if (this.timeFrame === 'Last 3 Months') {
-          parameters.timeperiod = 'last3months';
-        } else if (this.timeFrame === 'Year to Date') {
-          parameters.ytd = true;
-        }
-        if (this.tin !== 'All') {
-          parameters.tin = this.tin;
-        }
-
-        let paramters = [];
-        paramters = this.getParmaeterCategories();
-        this.timeFrame = this.session.filterObjValue.timeFrame;
-        this.nonPaymentService.getNonPaymentTrendByMonth(paramters).subscribe(nonPaymentsTrendData => {
-          const lobData = this.lob;
-          const filter_data_claimSummary = [];
-          nonPaymentsTrendData.forEach(element => {
-            /*if (this.nonPaymentBy === 'dollar') {
-              trendMonthValue = element.All.ClaimsLobSummary[0].AmountDenied;
-            } else if (this.nonPaymentBy === 'volume') {
-              trendMonthValue = element.All.ClaimsLobSummary[0].ClaimsDenied;
-            }*/
-            let monthlyData = [];
-            monthlyData = element.All.ClaimsLobSummary;
-            for (let i = 0; i < monthlyData.length; i++) {
-              const trendMonthValue = monthlyData[i].AmountDenied;
-              const trendTimePeriod = monthlyData[i].DenialMonth;
-              const trendTimePeriodArr = trendTimePeriod.split('-');
-              const trendTimePeriodFinal = trendTimePeriodArr[1];
-              filter_data_claimSummary.push({
-                name: this.ReturnMonthlyString(trendTimePeriodFinal),
-                value: trendMonthValue,
-                month: trendTimePeriod
-              });
-            }
-          });
-          filter_data_claimSummary.sort(function(a, b) {
-            let dateA: any;
-            dateA = new Date(a.month);
-            let dateB: any;
-            dateB = new Date(b.month);
-            return dateA - dateB; // sort by date ascending
-          });
-          resolve(filter_data_claimSummary);
-        });
       });
     });
   }
@@ -1683,77 +1620,94 @@ export class GettingReimbursedSharedService {
         parameters.timeperiod = 'last6months';
       }*/
 
-      this.gettingReimbursedService.getPaymentIntegrityData(parameters).subscribe(r => {
-        if (r !== null && r !== '') {
-          const result: any = r;
-          const output: any = {};
-          let returnedWidth = 4;
-          let notReturnedWidth = 4;
+      this.gettingReimbursedService.getPaymentIntegrityData(parameters).subscribe(
+        r => {
+          if ((r !== null && typeof r !== 'string') || r !== 'OK') {
+            const result: any = r;
+            const output: any = {};
+            let returnedWidth = 4;
+            let notReturnedWidth = 4;
 
-          if (result.MedicalRecordsReturned > result.MedicalRecordsOutstanding) {
-            returnedWidth = 382;
-            if (result.MedicalRecordsOutstanding !== 0) {
-              notReturnedWidth = (result.MedicalRecordsOutstanding * 382) / result.MedicalRecordsReturned;
+            if (result.MedicalRecordsReturned > result.MedicalRecordsOutstanding) {
+              returnedWidth = 382;
+              if (result.MedicalRecordsOutstanding !== 0) {
+                notReturnedWidth = (result.MedicalRecordsOutstanding * 382) / result.MedicalRecordsReturned;
+              }
+            } else {
+              notReturnedWidth = 382;
+              if (result.MedicalRecordsReturned !== 0) {
+                returnedWidth = (result.MedicalRecordsReturned * 382) / result.MedicalRecordsOutstanding;
+              }
             }
-          } else {
-            notReturnedWidth = 382;
-            if (result.MedicalRecordsReturned !== 0) {
-              returnedWidth = (result.MedicalRecordsReturned * 382) / result.MedicalRecordsOutstanding;
+
+            output.returnedWidth = returnedWidth;
+            output.notReturnedWidth = notReturnedWidth;
+            output.MedicalRecordsOutstanding = this.common.nFormatter(result.MedicalRecordsOutstanding);
+            output.MedicalRecordsRequested = this.common.nFormatter(result.MedicalRecordsRequested);
+            output.MedicalRecordsReturned = this.common.nFormatter(result.MedicalRecordsReturned);
+            output.OutStandingAmount = '$' + this.common.nFormatter(result.OutStandingAmount);
+
+            if (Math.round(result.OutStandingAmountVariance) > 0) {
+              output.OutStandingAmountVarianceColor = '#B10C00';
+              output.OutStandingAmountVariance = '+' + Math.round(result.OutStandingAmountVariance * 10) / 10 + '%';
+              output.OutStandingAmountVarianceIcon = 'up-red-trend-icon';
+            } else {
+              output.OutStandingAmountVarianceColor = '#007000';
+              output.OutStandingAmountVariance = Math.round(result.OutStandingAmountVariance * 10) / 10 + '%';
+              output.OutStandingAmountVarianceIcon = 'down-green-trend-icon';
             }
-          }
 
-          output.returnedWidth = returnedWidth;
-          output.notReturnedWidth = notReturnedWidth;
-          output.MedicalRecordsOutstanding = this.common.nFormatter(result.MedicalRecordsOutstanding);
-          output.MedicalRecordsRequested = this.common.nFormatter(result.MedicalRecordsRequested);
-          output.MedicalRecordsReturned = this.common.nFormatter(result.MedicalRecordsReturned);
-          output.OutStandingAmount = '$' + this.common.nFormatter(result.OutStandingAmount);
-
-          if (Math.round(result.OutStandingAmountVariance) > 0) {
-            output.OutStandingAmountVarianceColor = '#B10C00';
-            output.OutStandingAmountVariance = '+' + Math.round(result.OutStandingAmountVariance * 10) / 10 + '%';
-            output.OutStandingAmountVarianceIcon = 'up-red-trend-icon';
-          } else {
-            output.OutStandingAmountVarianceColor = '#007000';
-            output.OutStandingAmountVariance = Math.round(result.OutStandingAmountVariance * 10) / 10 + '%';
-            output.OutStandingAmountVarianceIcon = 'down-green-trend-icon';
-          }
-
-          output.RecordsRequestedVariance =
-            Math.round(result.RecordsRequestedVariance) > 0
-              ? '+' + Math.round(result.RecordsRequestedVariance * 10) / 10 + '%'
-              : Math.round(result.RecordsRequestedVariance * 10) / 10 + '%';
-          output.VarianceStartDate =
-            this.getMonthname(result.VarianceStartDate) + ' ' + this.getFullyear(result.VarianceStartDate);
-          output.VarianceEndDate =
-            this.getMonthname(result.VarianceEndDate) + ' ' + this.getFullyear(result.VarianceEndDate);
-          output.timeperiod = this.timeFrame;
-          let sData: any = {};
-          if (result.RecordsRequestedVariance > 0) {
-            sData = { sign: 'down', data: output.RecordsRequestedVariance + '*' };
-          } else {
-            sData = { sign: 'up', data: output.RecordsRequestedVariance + '*' };
-          }
-          output.piDonutData = {
-            timeperiod: this.timeFrame,
-            donutData: {
-              centerNumber: this.common.nFormatter(result.MedicalRecordsRequested),
-              color: ['#3381FF', '#D7DCE1'],
-              gdata: ['card-inner', 'piCard'],
-              graphValues: [result.MedicalRecordsRequested, result.TotalClaimsSubmitted],
-              sdata: sData,
-              graphScreen: 'PI'
-            },
-            besideData: {
-              color: ['#3381FF', '#D7DCE1'],
-              labels: ['Pre-Payment Medical Records Requested', 'Claims Submitted']
+            output.RecordsRequestedVariance =
+              Math.round(result.RecordsRequestedVariance) > 0
+                ? '+' + Math.round(result.RecordsRequestedVariance * 10) / 10 + '%'
+                : Math.round(result.RecordsRequestedVariance * 10) / 10 + '%';
+            output.VarianceStartDate =
+              this.getMonthname(result.VarianceStartDate) + ' ' + this.getFullyear(result.VarianceStartDate);
+            output.VarianceEndDate =
+              this.getMonthname(result.VarianceEndDate) + ' ' + this.getFullyear(result.VarianceEndDate);
+            output.timeperiod = this.timeFrame;
+            let sData: any = {};
+            if (result.RecordsRequestedVariance > 0) {
+              sData = { sign: 'down', data: output.RecordsRequestedVariance + '*' };
+            } else {
+              sData = { sign: 'up', data: output.RecordsRequestedVariance + '*' };
             }
-          };
-          resolve(output);
-        } else {
-          resolve(null);
+            output.piDonutData = {
+              timeperiod: this.timeFrame,
+              donutData: {
+                centerNumber: this.common.nFormatter(result.MedicalRecordsRequested),
+                color: ['#3381FF', '#D7DCE1'],
+                gdata: ['card-inner', 'piCard'],
+                graphValues: [result.MedicalRecordsRequested, result.TotalClaimsSubmitted],
+                sdata: sData,
+                graphScreen: 'PI'
+              },
+              besideData: {
+                color: ['#3381FF', '#D7DCE1'],
+                labels: ['Pre-Payment Medical Records Requested', 'Claims Submitted']
+              }
+            };
+            resolve(output);
+          } else if (typeof r === 'string' || r === 'OK') {
+            const temp = {
+              category: 'large-card',
+              type: 'donutWithLabelBottom',
+              status: 500,
+              title: 'Claims Payment Integrity',
+              data: null,
+              besideData: null,
+              bottomData: null,
+              timeperiod: null
+            };
+            resolve(temp);
+          } else {
+            resolve(null);
+          }
+        },
+        error => {
+          console.log('error Payment Integrity', error);
         }
-      });
+      );
     });
   }
   getParmaeterCategories() {
@@ -1891,6 +1845,7 @@ export class GettingReimbursedSharedService {
     const d = new Date(dt);
     return d.getFullYear();
   }
+
   public createAppealsDonuts(appealsData, lobFullData) {
     let appealsSubmitted = {};
     let appealsOverturned = {};
@@ -1898,7 +1853,7 @@ export class GettingReimbursedSharedService {
       appealsSubmitted = {
         category: 'app-card',
         type: 'donutWithLabelBottom',
-        status: appealsData.status,
+        status: 404,
         title: 'Claims Appeals Submitted',
         data: null,
         besideData: null,
@@ -1908,7 +1863,7 @@ export class GettingReimbursedSharedService {
       appealsOverturned = {
         category: 'app-card',
         type: 'donut',
-        status: appealsData.status,
+        status: 404,
         title: 'Claims Appeals Overturned',
         data: null,
         timeperiod: null
@@ -2016,6 +1971,9 @@ export class GettingReimbursedSharedService {
               appealsData[0].LineOfBusiness[lobFullData].AdminAppeals +
                 appealsData[0].LineOfBusiness[lobFullData].ClinicalAppeals
             ),
+            centerNumberOriginal:
+              appealsData[0].LineOfBusiness[lobFullData].AdminAppeals +
+              appealsData[0].LineOfBusiness[lobFullData].ClinicalAppeals,
             color: colorsData,
             gdata: ['card-inner', 'claimsAppealSubmitted'],
             sdata: {
@@ -2086,6 +2044,7 @@ export class GettingReimbursedSharedService {
           data: {
             graphValues: overturnedData,
             centerNumber: this.common.nFormatter(sumOverturned),
+            centerNumberOriginal: sumOverturned,
             color: ['#3381FF', '#D7DCE1'],
             gdata: ['card-inner', 'claimsAppealOverturned'],
             sdata: null

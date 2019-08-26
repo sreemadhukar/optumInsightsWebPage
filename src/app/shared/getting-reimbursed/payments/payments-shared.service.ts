@@ -4,9 +4,6 @@ import { GettingReimbursedModule } from '../../../components/getting-reimbursed-
 import { GettingReimbursedService } from '../../../rest/getting-reimbursed/getting-reimbursed.service';
 import { CommonUtilsService } from '../../common-utils.service';
 import { SessionService } from '../../session.service';
-import { AuthorizationService } from '../../../auth/_service/authorization.service';
-import { NonPaymentSharedService } from './../non-payment-shared.service';
-import { NonPaymentService } from '../../../rest/getting-reimbursed/non-payment.service';
 
 @Injectable({
   providedIn: GettingReimbursedModule
@@ -21,10 +18,7 @@ export class PaymentsSharedService {
   constructor(
     private gettingReimbursedService: GettingReimbursedService,
     private common: CommonUtilsService,
-    private session: SessionService,
-    private toggle: AuthorizationService,
-    private nonPaymentSharedService: NonPaymentSharedService,
-    private nonPaymentService: NonPaymentService
+    private session: SessionService
   ) {}
   public sharedPaymentsData() {
     let payments: object;
