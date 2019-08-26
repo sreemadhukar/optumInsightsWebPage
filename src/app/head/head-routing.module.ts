@@ -54,6 +54,11 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
+    path: 'KnowYourProvider',
+    loadChildren: '../components/know-your-provider/know-your-provider.module#KnowYourProviderModule',
+    canActivate: [AuthGuard]
+  },
+  {
     path: 'TermsofUse',
     component: TermsOfUseComponent
   },
