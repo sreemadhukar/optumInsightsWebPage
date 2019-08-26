@@ -15,7 +15,7 @@ import { CommonUtilsService } from '../../../shared/common-utils.service';
   styleUrls: ['./payments.component.scss']
 })
 export class PaymentsComponent implements OnInit {
-  title = 'Claims Paid Breakdown*';
+  title = 'Claims Paid Breakdown';
   MetricID = 'NA';
   public claimsPaidTimePeriod;
   claimsPaidBreakBool: Boolean = false;
