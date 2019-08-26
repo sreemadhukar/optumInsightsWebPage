@@ -1072,37 +1072,6 @@ export class PriorAuthSharedService {
     });
   }
 
-  getPriorAuthDataCombined(filterParameters) {
-    return new Promise(resolve => {
-      this.getPriorAuthDataFiltered(filterParameters)
-        .then(data => {
-          this.priorAuthDataCombined = data;
-          const emptyPATrends = [
-            {
-              data: '',
-              sign: ''
-            },
-            {
-              data: '',
-              sign: ''
-            }
-          ];
-          return emptyPATrends;
-        })
-        .then(data => {
-          if (this.priorAuthDataCombined[0].length > 0 && this.priorAuthDataCombined[0][0].data !== null) {
-            this.priorAuthDataCombined[0][1].data['sdata'] = data[1];
-          }
-          resolve(this.priorAuthDataCombined);
-        })
-        .catch(reason => {
-          // this.priorAuthDataCombined[0][1].data['sdata'] = null;
-          resolve(this.priorAuthDataCombined);
-          console.log('Prior Auth Service Error ', reason);
-        });
-    });
-  }
-
   getNewPAData(filterParameters) {
     this.providerKey = this.session.providerKeyData();
 
@@ -1459,6 +1428,37 @@ export class PriorAuthSharedService {
 
           const PAData = [PACount, PriorAuthBarGraphParameters];
           resolve(PAData);
+        });
+    });
+  }
+
+  getPriorAuthDataCombined(filterParameters) {
+    return new Promise(resolve => {
+      this.getNewPAData(filterParameters)
+        .then(data => {
+          this.priorAuthDataCombined = data;
+          const emptyPATrends = [
+            {
+              data: '',
+              sign: ''
+            },
+            {
+              data: '',
+              sign: ''
+            }
+          ];
+          return emptyPATrends;
+        })
+        .then(data => {
+          if (this.priorAuthDataCombined[0].length > 0 && this.priorAuthDataCombined[0][0].data !== null) {
+            this.priorAuthDataCombined[0][1].data['sdata'] = data[1];
+          }
+          resolve(this.priorAuthDataCombined);
+        })
+        .catch(reason => {
+          // this.priorAuthDataCombined[0][1].data['sdata'] = null;
+          resolve(this.priorAuthDataCombined);
+          console.log('Prior Auth Service Error ', reason);
         });
     });
   }
