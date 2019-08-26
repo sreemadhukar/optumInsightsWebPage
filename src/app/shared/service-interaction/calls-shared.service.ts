@@ -21,12 +21,20 @@ export class CallsSharedService {
     private trendsService: TrendingMetricsService
   ) {}
 
-  public issueResolution(status: any, title: String, data: any, besideData: any, timeperiod?: String | null): Object {
+  public issueResolution(
+    status: any,
+    title: String,
+    MetricID: String,
+    data: any,
+    besideData: any,
+    timeperiod?: String | null
+  ): Object {
     const temp: Object = {
       category: 'app-card',
       type: 'donutWithLabel',
       status: status,
       title: title,
+      MetricID: MetricID,
       data: data,
       besideData: besideData,
       timeperiod: timeperiod
@@ -175,6 +183,7 @@ export class CallsSharedService {
                   callsByCallType = this.issueResolution(
                     null,
                     'Calls By Call Type',
+                    '303',
                     {
                       graphValueName: ['Eligibilty and Benefits', 'Claims', 'Prior Authorizations', 'Others'],
                       graphValues: [
@@ -219,6 +228,7 @@ export class CallsSharedService {
                   talkTimeByCallType = this.issueResolution(
                     null,
                     'Talk Time By Call Type',
+                    '304',
                     {
                       graphValueName: ['Eligibilty and Benefits', 'Claims', 'Prior Authorizations', 'Others'],
                       graphValues: [

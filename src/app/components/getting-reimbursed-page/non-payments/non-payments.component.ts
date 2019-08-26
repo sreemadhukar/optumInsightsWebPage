@@ -294,6 +294,7 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
             type: 'donut',
             status: 404,
             title: 'Top Reasons for Claims Non-Payment',
+            MetricID: '100',
             data: null,
             timeperiod: null
           };
@@ -332,6 +333,7 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
           type: 'donut',
           status: 404,
           title: 'Claims Non-Payment Trend',
+          MetricID: 'NA',
           data: null,
           timeperiod: null
         };

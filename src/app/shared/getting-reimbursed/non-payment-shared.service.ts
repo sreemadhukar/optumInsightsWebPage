@@ -247,6 +247,7 @@ export class NonPaymentSharedService {
                 category: 'app-card',
                 type: 'donutWithLabel',
                 title: 'Claims Not Paid',
+                MetricID: '107',
                 data: {
                   graphValues: nonPaidData,
                   centerNumber:
@@ -275,6 +276,7 @@ export class NonPaymentSharedService {
                 type: 'donutWithLabel',
                 status: 404,
                 title: 'Claims Not Paid',
+                MetricID: '107',
                 data: null,
                 besideData: null,
                 bottomData: null,
@@ -293,6 +295,7 @@ export class NonPaymentSharedService {
                 category: 'app-card',
                 type: 'donut',
                 title: 'Claims Non-Payment Rate',
+                MetricID: '108',
                 data: {
                   graphValues: [
                     nonPaymentData1.All.ClaimsLobSummary[0].ClaimsNonPaymentRate,
@@ -315,6 +318,7 @@ export class NonPaymentSharedService {
                 type: 'donut',
                 status: 404,
                 title: 'Claims Non-Payment Rate',
+                MetricID: '108',
                 data: null,
                 timeperiod: null
               };
@@ -418,6 +422,7 @@ export class NonPaymentSharedService {
                 category: 'app-card',
                 type: 'donutWithLabel',
                 title: 'Claims Not Paid',
+                MetricID: '107',
                 data: {
                   graphValues: nonPaidData,
                   centerNumber:
@@ -446,6 +451,7 @@ export class NonPaymentSharedService {
                 type: 'donutWithLabel',
                 status: 404,
                 title: 'Claims Not Paid',
+                MetricID: '107',
                 data: null,
                 besideData: null,
                 bottomData: null,
@@ -464,6 +470,7 @@ export class NonPaymentSharedService {
                 category: 'app-card',
                 type: 'donut',
                 title: 'Claims Non-Payment Rate',
+                MetricID: '108',
                 data: {
                   graphValues: [
                     nonPaymentData1[lobData].ClaimsLobSummary[0].ClaimsNonPaymentRate,
@@ -486,6 +493,7 @@ export class NonPaymentSharedService {
                 type: 'donut',
                 status: 404,
                 title: 'Claims Non-Payment Rate',
+                MetricID: '108',
                 data: null,
                 timeperiod: null
               };
