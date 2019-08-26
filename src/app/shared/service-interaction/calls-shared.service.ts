@@ -21,12 +21,20 @@ export class CallsSharedService {
     private trendsService: TrendingMetricsService
   ) {}
 
-  public issueResolution(status: any, title: String, data: any, besideData: any, timeperiod?: String | null): Object {
+  public issueResolution(
+    status: any,
+    title: String,
+    MetricID: String,
+    data: any,
+    besideData: any,
+    timeperiod?: String | null
+  ): Object {
     const temp: Object = {
       category: 'app-card',
       type: 'donutWithLabel',
       status: status,
       title: title,
+      MetricID: MetricID,
       data: data,
       besideData: besideData,
       timeperiod: timeperiod
@@ -175,6 +183,7 @@ export class CallsSharedService {
                   callsByCallType = this.issueResolution(
                     null,
                     'Calls By Call Type',
+                    '303',
                     {
                       graphValueName: ['Eligibilty and Benefits', 'Claims', 'Prior Authorizations', 'Others'],
                       graphValues: [
@@ -201,12 +210,12 @@ export class CallsSharedService {
                   );
                 } catch (Error) {
                   console.log('Error in Calls Page | Question Type By Call Type', Error);
-                  callsByCallType = this.issueResolution(null, null, null, null);
+                  callsByCallType = this.issueResolution(null, null, null, null, null);
                 }
               }
             } catch (Error) {
               console.log('Calls Page Error CallVolByQuesType', Error);
-              callsByCallType = this.issueResolution(null, null, null, null);
+              callsByCallType = this.issueResolution(null, null, null, null, null);
             }
             try {
               if (
@@ -219,6 +228,7 @@ export class CallsSharedService {
                   talkTimeByCallType = this.issueResolution(
                     null,
                     'Talk Time By Call Type',
+                    '304',
                     {
                       graphValueName: ['Eligibilty and Benefits', 'Claims', 'Prior Authorizations', 'Others'],
                       graphValues: [
@@ -245,18 +255,18 @@ export class CallsSharedService {
                   );
                 } catch (Error) {
                   console.log('Error in Calls Page | TalkTime By Call Type', Error);
-                  talkTimeByCallType = this.issueResolution(null, null, null, null);
+                  talkTimeByCallType = this.issueResolution(null, null, null, null, null);
                 }
               } // end if else blocl
             } catch (Error) {
               console.log('Calls Page Error CallTalkTimeByQuesType', Error);
-              talkTimeByCallType = this.issueResolution(null, null, null, null);
+              talkTimeByCallType = this.issueResolution(null, null, null, null, null);
             }
             tempArray[0] = callsByCallType;
             tempArray[1] = talkTimeByCallType;
           } else {
-            callsByCallType = this.issueResolution(404, null, null, null);
-            talkTimeByCallType = this.issueResolution(404, null, null, null);
+            callsByCallType = this.issueResolution(404, null, null, null, null);
+            talkTimeByCallType = this.issueResolution(404, null, null, null, null);
             tempArray[0] = callsByCallType;
             tempArray[1] = talkTimeByCallType;
           }

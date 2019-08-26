@@ -148,7 +148,11 @@
                 <div class="filter-text">Filters</div>
               </div>
             </div>
-            <app-glossary *ngIf="glossaryFlag && glossaryTitle" [title]="glossaryTitle"></app-glossary>
+            <app-glossary
+              *ngIf="glossaryFlag && glossaryTitle"
+              [title]="glossaryTitle"
+              [MetricID]="glossaryMetricID"
+            ></app-glossary>
             <app-filter *ngIf="filterFlag" [filterurl]="filterurl" (filterFlag)="filterFlagChange($event)"></app-filter>
           </div>
         </div>
