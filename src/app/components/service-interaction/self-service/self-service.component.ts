@@ -40,7 +40,7 @@ export class SelfServiceComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.mockCards = [{}, {}, {}, {}, {}, {}];
+    this.mockCards = [{}, {}, {}];
     this.mockSelfServiceMiniCards = [{}, {}, {}, {}];
     this.selfServiceMiniCards = [];
     this.loading = true;
@@ -54,6 +54,6 @@ export class SelfServiceComponent implements OnInit {
       .catch(reason => console.log('Self Service Page Service Error ', reason));
   } // ngOnit funtion ends here
   helpIconClick(title) {
-    this.glossaryExpandService.setMessage(title);
+    // this.glossaryExpandService.setMessage(title, this.MetricID);
   }
 }

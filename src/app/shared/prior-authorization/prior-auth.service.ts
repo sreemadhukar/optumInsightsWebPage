@@ -193,6 +193,7 @@ export class PriorAuthSharedService {
                   category: 'app-card',
                   type: 'donutWithLabel',
                   title: 'Prior Authorization Requested',
+                  MetricID: '201',
                   data: {
                     graphValues: [PAApprovedCount, PANotApprovedCount, PANotPendingCount, PANotCancelledCount],
                     centerNumber: this.nFormatter(PARequestedCount, 1),
@@ -211,6 +212,7 @@ export class PriorAuthSharedService {
                   category: 'app-card',
                   type: 'donutWithLabel',
                   title: 'Prior Authorization Approval Rate',
+                  MetricID: '203',
                   data: {
                     graphValues: [PAApprovalRate, 1 - PAApprovalRate],
                     centerNumber: (PAApprovalRate * 100).toFixed(0) + '%',
@@ -249,6 +251,7 @@ export class PriorAuthSharedService {
                 PriorAuthBarGraphParamaters.push({
                   type: 'singleBarChart',
                   title: 'Top Reasons for Prior Authorizations Not Approved',
+                  MetricID: '202',
                   data: {
                     barHeight: 48,
                     barData: PriorAuthNotApprovedReasons[i].Count,
@@ -299,6 +302,7 @@ export class PriorAuthSharedService {
               category: 'app-card',
               type: 'star',
               title: 'Medicare & Retirement Average Star Rating',
+              MetricID: '200',
               data: {
                 graphValues: [PCORMandRData.AverageStarRating],
                 centerNumber: PCORMandRData.AverageStarRating,
@@ -314,6 +318,7 @@ export class PriorAuthSharedService {
               category: 'app-card',
               type: 'donutWithLabelandTab',
               title: 'Medicare & Retirement Annual Care Visits Completion Rate',
+              MetricID: '205',
               data: {
                 All: {
                   graphValues: [totalAllCompletionRate, 1 - totalAllCompletionRate],
@@ -380,6 +385,7 @@ export class PriorAuthSharedService {
             MandRStarRatingCard.push({
               type: 'singleBarChart',
               title: 'Quality Star Ratings',
+              MetricID: '206',
               data: {
                 barHeight: 48,
                 barData: PCORRatings[i],
@@ -443,7 +449,7 @@ export class PriorAuthSharedService {
       /*
       timeRange = 'customDateRange';
       const yesterday = (d => new Date(d.setDate(d.getDate() - 1)))(new Date());
-      const thirtyFirstDay = (d => new Date(d.setDate(d.getDate() - 31)))(new Date());
+      const thirtyFirstDay = (d => new Date(d.setDate(d.getDate() - 15)))(new Date());
 
       let endDateStringYesterday;
       let endDateStringThirtyFirstDay;
@@ -455,9 +461,9 @@ export class PriorAuthSharedService {
       }
 
       if (thirtyFirstDay.getDate() < 10) {
-        endDateStringThirtyFirstDay = '0' + yesterday.getDate();
+        endDateStringThirtyFirstDay = '0' + thirtyFirstDay.getDate();
       } else {
-        endDateStringThirtyFirstDay = yesterday.getDate();
+        endDateStringThirtyFirstDay = thirtyFirstDay.getDate();
       }
 
       timeRangeAdditionalData =
@@ -472,7 +478,7 @@ export class PriorAuthSharedService {
         this.ReturnMonthlyCountString(thirtyFirstDay.getMonth()) +
         '-' +
         endDateStringThirtyFirstDay;
-      */
+        */
     } else if (timePeriod === 'Year to Date') {
       timeRange = 'customDateRange';
       const yesterday = (d => new Date(d.setDate(d.getDate() - 1)))(new Date());
@@ -566,6 +572,7 @@ export class PriorAuthSharedService {
         type: 'donutWithLabel',
         status: 404,
         title: 'Prior Authorization Requested',
+        MetricID: '201',
         data: null,
         besideData: null,
         timeperiod: null
@@ -575,6 +582,7 @@ export class PriorAuthSharedService {
         type: 'donutWithLabel',
         status: 404,
         title: 'Prior Authorization Approval Rate',
+        MetricID: '203',
         data: null,
         besideData: null,
         timeperiod: null
@@ -713,6 +721,7 @@ export class PriorAuthSharedService {
                     category: 'app-card',
                     type: 'donutWithLabel',
                     title: 'Prior Authorization Requested',
+                    MetricID: '201',
                     data: {
                       graphValues: [PAApprovedCount, PANotApprovedCount, PANotPendingCount, PANotCancelledCount],
                       centerNumber: this.nFormatter(PARequestedCount, 1),
@@ -731,6 +740,7 @@ export class PriorAuthSharedService {
                     category: 'app-card',
                     type: 'donutWithLabel',
                     title: 'Prior Authorization Approval Rate',
+                    MetricID: '203',
                     data: {
                       graphValues: [PAApprovalRate, 1 - PAApprovalRate],
                       centerNumber: (PAApprovalRate * 100).toFixed(0) + '%',
@@ -856,7 +866,8 @@ export class PriorAuthSharedService {
               }
             }
 
-            if (PriorAuthNotApprovedReasons.length > 0) {
+            // if (!isServiceCategory) {
+            if (PriorAuthNotApprovedReasons.length > 0 && !isServiceCategory) {
               PriorAuthNotApprovedReasons.sort(function(a, b) {
                 return b.Count - a.Count;
               });
@@ -866,6 +877,7 @@ export class PriorAuthSharedService {
                 PriorAuthBarGraphParamaters.push({
                   type: 'singleBarChart',
                   title: 'Top Reasons for Prior Authorizations Not Approved',
+                  MetricID: '202',
                   data: {
                     barHeight: 48,
                     barData: PriorAuthNotApprovedReasons[i].Count,
@@ -877,6 +889,13 @@ export class PriorAuthSharedService {
                   timeperiod: timePeriod
                 });
               }
+            } else if (isServiceCategory) {
+              // Hide reasons for service category
+              PriorAuthBarGraphParamaters = [
+                {
+                  data: null
+                }
+              ];
             } else {
               // PriorAuthBarGraphParamaters = [];
               // PriorAuthBarGraphParamaters = appCardPriorAuthError;
@@ -886,6 +905,7 @@ export class PriorAuthSharedService {
                   type: 'donutWithLabel',
                   status: 404,
                   title: 'Top Reasons for Prior Authorizations Not Approved',
+                  MetricID: '202',
                   data: null,
                   besideData: null,
                   timeperiod: null
@@ -1223,7 +1243,7 @@ export class PriorAuthSharedService {
           return emptyPATrends;
         })
         .then(data => {
-          if (this.priorAuthDataCombined[0].length > 0 && this.priorAuthDataCombined[0].data !== null) {
+          if (this.priorAuthDataCombined[0].length > 0 && this.priorAuthDataCombined[0][0].data !== null) {
             this.priorAuthDataCombined[0][1].data['sdata'] = data[1];
           }
           resolve(this.priorAuthDataCombined);

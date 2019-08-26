@@ -21,12 +21,20 @@ export class CallsSharedService {
     private trendsService: TrendingMetricsService
   ) {}
 
-  public issueResolution(status: any, title: String, data: any, besideData: any, timeperiod?: String | null): Object {
+  public issueResolution(
+    status: any,
+    title: String,
+    MetricID: String,
+    data: any,
+    besideData: any,
+    timeperiod?: String | null
+  ): Object {
     const temp: Object = {
       category: 'app-card',
       type: 'donutWithLabel',
       status: status,
       title: title,
+      MetricID: MetricID,
       data: data,
       besideData: besideData,
       timeperiod: timeperiod
@@ -69,11 +77,24 @@ export class CallsSharedService {
         .then(data => {
           const temp = JSON.parse(JSON.stringify(data));
           if (this.callsData && data && temp != undefined && temp != null && temp.length > 0) {
+            // console.log(temp[0][1]) for QuestionType
+            // console.log(temp[1][1]) for TalkTime
+            // Removing Calls Trend Line
+            const emptyTrends = [
+              {
+                data: '',
+                sign: ''
+              },
+              {
+                data: '',
+                sign: ''
+              }
+            ];
             if (temp[0][0] === 'QuestionType') {
-              this.callsData[0].data['sdata'] = temp[0][1];
+              this.callsData[0].data['sdata'] = emptyTrends[0];
             }
             if (temp[1][0] === 'TalkTime') {
-              this.callsData[1].data['sdata'] = temp[1][1];
+              this.callsData[1].data['sdata'] = emptyTrends[1];
             }
           }
           resolve(this.callsData);
@@ -162,6 +183,7 @@ export class CallsSharedService {
                   callsByCallType = this.issueResolution(
                     null,
                     'Calls By Call Type',
+                    '303',
                     {
                       graphValueName: ['Eligibilty and Benefits', 'Claims', 'Prior Authorizations', 'Others'],
                       graphValues: [
@@ -170,7 +192,10 @@ export class CallsSharedService {
                         totalCalls.PriorAuth,
                         totalCalls.Others
                       ],
-                      centerNumber: this.common.nondecimalFormatter(totalCalls.Total),
+                      centerNumber:
+                        this.common.nondecimalFormatter(totalCalls.Total) < 1
+                          ? '< 1'
+                          : this.common.nondecimalFormatter(totalCalls.Total),
                       color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'],
                       gdata: ['card-inner', 'callsByCallType'],
                       labels: ['Eligibilty and Benefits', 'Claims', 'Prior Authorizations', 'Others'],
@@ -185,12 +210,12 @@ export class CallsSharedService {
                   );
                 } catch (Error) {
                   console.log('Error in Calls Page | Question Type By Call Type', Error);
-                  callsByCallType = this.issueResolution(null, null, null, null);
+                  callsByCallType = this.issueResolution(null, null, null, null, null);
                 }
               }
             } catch (Error) {
               console.log('Calls Page Error CallVolByQuesType', Error);
-              callsByCallType = this.issueResolution(null, null, null, null);
+              callsByCallType = this.issueResolution(null, null, null, null, null);
             }
             try {
               if (
@@ -203,6 +228,7 @@ export class CallsSharedService {
                   talkTimeByCallType = this.issueResolution(
                     null,
                     'Talk Time By Call Type',
+                    '304',
                     {
                       graphValueName: ['Eligibilty and Benefits', 'Claims', 'Prior Authorizations', 'Others'],
                       graphValues: [
@@ -211,7 +237,10 @@ export class CallsSharedService {
                         totalCalls.PriorAuth,
                         totalCalls.Others
                       ],
-                      centerNumber: this.common.nondecimalFormatter(totalCalls.Total) + ' ' + ' Hrs',
+                      centerNumber:
+                        this.common.nondecimalFormatter(totalCalls.Total) < 1
+                          ? '< 1 Hrs'
+                          : this.common.nondecimalFormatter(totalCalls.Total) + ' Hrs',
                       color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'],
                       gdata: ['card-inner', 'talkTimeByCallType'],
                       labels: ['Eligibilty and Benefits', 'Claims', 'Prior Authorizations', 'Others'],
@@ -226,18 +255,18 @@ export class CallsSharedService {
                   );
                 } catch (Error) {
                   console.log('Error in Calls Page | TalkTime By Call Type', Error);
-                  talkTimeByCallType = this.issueResolution(null, null, null, null);
+                  talkTimeByCallType = this.issueResolution(null, null, null, null, null);
                 }
               } // end if else blocl
             } catch (Error) {
               console.log('Calls Page Error CallTalkTimeByQuesType', Error);
-              talkTimeByCallType = this.issueResolution(null, null, null, null);
+              talkTimeByCallType = this.issueResolution(null, null, null, null, null);
             }
             tempArray[0] = callsByCallType;
             tempArray[1] = talkTimeByCallType;
           } else {
-            callsByCallType = this.issueResolution(404, null, null, null);
-            talkTimeByCallType = this.issueResolution(404, null, null, null);
+            callsByCallType = this.issueResolution(404, null, null, null, null);
+            talkTimeByCallType = this.issueResolution(404, null, null, null, null);
             tempArray[0] = callsByCallType;
             tempArray[1] = talkTimeByCallType;
           }

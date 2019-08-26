@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from '../auth/_guards/auth.guard';
 import { TermsOfUseComponent } from './terms-of-use/terms-of-use.component';
 import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component';
+import { SiteMapComponent } from './site-map/site-map.component';
 
 const routes: Routes = [
   {
@@ -48,6 +49,11 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
+    path: 'AcoPage',
+    loadChildren: '../components/ACO/aco.module#AcoModule',
+    canActivate: [AuthGuard]
+  },
+  {
     path: 'TermsofUse',
     component: TermsOfUseComponent
   },
@@ -55,11 +61,19 @@ const routes: Routes = [
     path: 'PrivacyPolicy',
     component: PrivacyPolicyComponent
   },
+  {
+    path: 'SiteMap',
+    component: SiteMapComponent
+  },
   { path: '**', redirectTo: '' }
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [
+    RouterModule.forRoot(routes, {
+      scrollPositionRestoration: 'enabled' // Add options right here , to scroll to top whenever navigaion is changed
+    })
+  ],
   exports: [RouterModule]
 })
 export class HeadRoutingModule {}

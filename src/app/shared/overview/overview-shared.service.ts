@@ -126,6 +126,7 @@ export class OverviewSharedService {
           category: 'small-card',
           type: 'donut',
           title: 'Prior Authorization Approval',
+          MetricID: 'NA',
           toggle: this.toggle.setToggles('Prior Authorization Approval', 'AtGlance', 'Overview', false),
           data: {
             graphValues: [approvedRate, 1 - approvedRate],
@@ -166,6 +167,7 @@ export class OverviewSharedService {
           category: 'small-card',
           type: 'donut',
           title: 'Self Service Adoption Rate',
+          MetricID: '305',
           toggle: this.toggle.setToggles('Self Service Adoption Rate', 'AtGlance', 'Overview', false),
           data: {
             graphValues: [
@@ -214,6 +216,7 @@ export class OverviewSharedService {
           category: 'small-card',
           type: 'star',
           title: 'Medicare Star Rating',
+          MetricID: '200',
           toggle: this.toggle.setToggles('Medicare Star Rating', 'AtGlance', 'Overview', false),
           data: {
             graphValues: [
@@ -278,6 +281,7 @@ export class OverviewSharedService {
           category: 'small-card',
           type: 'donut',
           title: 'Calls By Call Type',
+          MetricID: '303',
           toggle: this.toggle.setToggles('Total Calls', 'AtGlance', 'Overview', false),
           data: {
             graphValues: [
@@ -327,6 +331,7 @@ export class OverviewSharedService {
           oppurtunities.push({
             category: 'mini-tile',
             title: 'Reduce Calls and Operating Costs by:',
+            MetricID: '308',
             toggle: this.toggle.setToggles('Reduce Calls and Operating Costs by:', 'Opportunities', 'Overview', false),
             data: {
               centerNumber:
@@ -352,7 +357,9 @@ export class OverviewSharedService {
           console.log('Overview Page, Self Service, Data not found for Calls and Operating Cost');
           oppurtunities.push({
             category: 'mini-tile',
-            title: null,
+            title: 'Reduce Calls and Operating Costs by:',
+            MetricID: '308',
+            status: null,
             data: null,
             fdata: null
           });
@@ -360,7 +367,9 @@ export class OverviewSharedService {
       } else {
         oppurtunities.push({
           category: 'mini-tile',
-          title: null,
+          title: 'Reduce Calls and Operating Costs by:',
+          MetricID: '308',
+          status: null,
           data: null,
           fdata: null
         });
@@ -382,13 +391,29 @@ export class OverviewSharedService {
         providerSystems.SelfServiceInquiries.ALL.SelfService.hasOwnProperty('PhoneCallTime')
       ) {
         try {
+          let totalCalltime = providerSystems.SelfServiceInquiries.ALL.SelfService.TotalCallTime;
+          let suffixHourPerDay;
+          if (totalCalltime < 1 && totalCalltime > 0) {
+            totalCalltime = '< 1';
+            suffixHourPerDay = ' Hour/day';
+          } else if (totalCalltime.toFixed(0) === 1) {
+            totalCalltime = totalCalltime.toFixed(0);
+            suffixHourPerDay = ' Hour/day';
+          } else if (totalCalltime.toFixed(0) === 0) {
+            totalCalltime = totalCalltime.toFixed(0);
+            suffixHourPerDay = '';
+          } else {
+            totalCalltime = this.common.nondecimalFormatter(totalCalltime);
+            suffixHourPerDay = ' Hours/day';
+          }
+
           oppurtunities.push({
             category: 'mini-tile',
             title: "Save Your Staff's Time by:" + '\n\xa0',
+            MetricID: '307',
             toggle: this.toggle.setToggles("Save Your Staff's Time by:", 'Opportunities', 'Overview', false),
             data: {
-              centerNumber:
-                providerSystems.SelfServiceInquiries.ALL.SelfService.TotalCallTime.toFixed(0) + ' Hours/day',
+              centerNumber: totalCalltime + suffixHourPerDay,
               gdata: []
             },
             fdata: {
@@ -409,7 +434,9 @@ export class OverviewSharedService {
           console.log('Overview Page, Self Service, Data not found for Save Yours Staff Time');
           oppurtunities.push({
             category: 'mini-tile',
-            title: null,
+            title: "Save Your Staff's Time by:" + '\n\xa0',
+            MetricID: '307',
+            status: null,
             data: null,
             fdata: null
           });
@@ -417,7 +444,9 @@ export class OverviewSharedService {
       } else {
         oppurtunities.push({
           category: 'mini-tile',
-          title: null,
+          title: "Save Your Staff's Time by:" + '\n\xa0',
+          MetricID: '307',
+          status: null,
           data: null,
           fdata: null
         });
@@ -441,16 +470,30 @@ export class OverviewSharedService {
         providerSystems.SelfServiceInquiries.ALL.SelfService.hasOwnProperty('AverageClaimProcessingTime') &&
         providerSystems.SelfServiceInquiries.ALL.SelfService.AverageClaimProcessingTime != null
       ) {
+        let processingTime;
+        const checkProcessingTime =
+          providerSystems.SelfServiceInquiries.ALL.SelfService.AveragePaperClaimProcessingTime.toFixed(0) -
+          providerSystems.SelfServiceInquiries.ALL.SelfService.AverageClaimProcessingTime.toFixed(0);
+        let suffixDay;
+        if (checkProcessingTime <= 0) {
+          processingTime = 0;
+          suffixDay = '';
+        } else if (checkProcessingTime === 1) {
+          processingTime = checkProcessingTime;
+          suffixDay = ' Day';
+        } else {
+          processingTime = this.common.nondecimalFormatter(checkProcessingTime);
+          suffixDay = ' Days';
+        }
         oppurtunities.push({
           category: 'mini-tile',
           title: 'Reduce Claim Processing Time by:',
-          toggle: this.toggle.setToggles('Reduce Claim Processing Time by:', 'Opportunities', 'Overview', false),
+          MetricID: '309',
+          toggle:
+            checkProcessingTime >= 0 ||
+            this.toggle.setToggles('Reduce Claim Processing Time by:', 'Opportunities', 'Overview', false),
           data: {
-            centerNumber:
-              (
-                providerSystems.SelfServiceInquiries.ALL.SelfService.AveragePaperClaimProcessingTime.toFixed() -
-                providerSystems.SelfServiceInquiries.ALL.SelfService.AverageClaimProcessingTime.toFixed()
-              ).toFixed() + ' Days',
+            centerNumber: processingTime + suffixDay,
             gdata: []
           },
           fdata: {
@@ -470,7 +513,9 @@ export class OverviewSharedService {
       } else {
         oppurtunities.push({
           category: 'mini-tile',
-          title: null,
+          title: 'Reduce Claim Processing Time by:',
+          MetricID: '309',
+          status: null,
           data: null,
           fdata: null
         });
@@ -494,16 +539,30 @@ export class OverviewSharedService {
         providerSystems.SelfServiceInquiries.ALL.SelfService.AveragePaperReconsideredProcessingTime !== null &&
         providerSystems.SelfServiceInquiries.ALL.SelfService.AverageReconsideredProcessingTime !== null
       ) {
+        let avgPaperProcessTime;
+        const checkAvgPaperProcessTime =
+          providerSystems.SelfServiceInquiries.ALL.SelfService.AveragePaperReconsideredProcessingTime.toFixed() -
+          providerSystems.SelfServiceInquiries.ALL.SelfService.AverageReconsideredProcessingTime.toFixed();
+        let suffixDay;
+        if (checkAvgPaperProcessTime <= 0) {
+          avgPaperProcessTime = 0;
+          suffixDay = '';
+        } else if (checkAvgPaperProcessTime === 1) {
+          avgPaperProcessTime = checkAvgPaperProcessTime;
+          suffixDay = ' Day';
+        } else {
+          avgPaperProcessTime = this.common.nondecimalFormatter(checkAvgPaperProcessTime);
+          suffixDay = ' Days';
+        }
         oppurtunities.push({
           category: 'mini-tile',
           title: 'Reduce Reconsideration Processing by:',
-          toggle: this.toggle.setToggles('Reduce Reconsideration Processing by:', 'Opportunities', 'Overview', false),
+          MetricID: '306',
+          toggle:
+            checkAvgPaperProcessTime >= 0 ||
+            this.toggle.setToggles('Reduce Reconsideration Processing by:', 'Opportunities', 'Overview', false),
           data: {
-            centerNumber:
-              (
-                providerSystems.SelfServiceInquiries.ALL.SelfService.AveragePaperReconsideredProcessingTime.toFixed() -
-                providerSystems.SelfServiceInquiries.ALL.SelfService.AverageReconsideredProcessingTime.toFixed()
-              ).toFixed() + ' Days',
+            centerNumber: avgPaperProcessTime + suffixDay,
             gdata: []
           },
           fdata: {
@@ -523,7 +582,9 @@ export class OverviewSharedService {
       } else {
         oppurtunities.push({
           category: 'mini-tile',
-          title: null,
+          title: 'Reduce Reconsideration Processing by:',
+          MetricID: '306',
+          status: null,
           data: null,
           fdata: null
         });
@@ -556,7 +617,7 @@ export class OverviewSharedService {
               paidData.push(claims.Mr.ClaimsLobSummary[0].AmountPaid);
             }
           }
-          if (claims.hasOwnProperty('Cs') && claims.Ei != null) {
+          if (claims.hasOwnProperty('Cs') && claims.Cs != null) {
             if (
               claims.Cs.hasOwnProperty('ClaimsLobSummary') &&
               claims.Cs.ClaimsLobSummary.length &&
@@ -588,6 +649,7 @@ export class OverviewSharedService {
             category: 'small-card',
             type: 'donut',
             title: 'Claims Paid*',
+            MetricID: '103',
             toggle: this.toggle.setToggles('Claims Paid', 'AtGlance', 'Overview', false),
             data: {
               graphValues: paidData,
@@ -610,6 +672,7 @@ export class OverviewSharedService {
               category: 'small-card',
               type: 'donut',
               title: 'Claims Paid*',
+              MetricID: '103',
               toggle: this.toggle.setToggles('Claims Paid', 'AtGlance', 'Overview', false),
               data: {
                 graphValues: [0, 100],
@@ -664,6 +727,7 @@ export class OverviewSharedService {
             category: 'small-card',
             type: 'donut',
             title: 'Claims Yield*',
+            MetricID: '104',
             toggle: this.toggle.setToggles('Claims Yield', 'AtGlance', 'Overview', false),
             data: {
               graphValues: [
@@ -993,6 +1057,7 @@ export class OverviewSharedService {
             category: 'small-card',
             type: 'donut',
             title: 'Prior Authorization Approval',
+            MetricID: '',
             toggle: this.toggle.setToggles('Prior Authorization Approval', 'AtGlance', 'Overview', false),
             data: {
               graphValues: [approvedRate, 1 - approvedRate],
@@ -1059,6 +1124,7 @@ export class OverviewSharedService {
       let cIR: any;
       this.overviewService.getOverviewTotalCalls(parameters).subscribe(calls => {
         if (
+          calls &&
           calls.hasOwnProperty('CallVolByQuesType') &&
           calls.CallVolByQuesType.hasOwnProperty('Total') &&
           calls.CallVolByQuesType.hasOwnProperty('Claims') &&
@@ -1070,6 +1136,7 @@ export class OverviewSharedService {
             category: 'small-card',
             type: 'donut',
             title: 'Calls By Call Type',
+            MetricID: '303',
             toggle: this.toggle.setToggles('Total Calls', 'AtGlance', 'Overview', false),
             data: {
               graphValues: [
@@ -1090,7 +1157,7 @@ export class OverviewSharedService {
             },
             timeperiod: 'Last 6 Months'
           };
-
+          /*
           if (
             trends != undefined &&
             trends != null &&
@@ -1122,6 +1189,9 @@ export class OverviewSharedService {
           } else {
             cIR.sdata = null;
           }
+          */
+          // Hiding Calls trends
+          cIR.sdata = null;
         } else {
           cIR = {
             category: 'small-card',
