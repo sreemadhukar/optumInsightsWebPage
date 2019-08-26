@@ -19,7 +19,7 @@ import { StorageService } from '../../../shared/storage-service.service';
 import { Router } from '@angular/router';
 import { FilterExpandService } from '../../../shared/filter-expand.service';
 import { CommonUtilsService } from '../../../shared/common-utils.service';
-import { NonPaymentSharedService } from '../../../shared/getting-reimbursed/non-payment-shared.service';
+import { NonPaymentSharedService } from '../../../shared/getting-reimbursed/non-payments/non-payment-shared.service';
 
 @Component({
   selector: 'app-non-payments',
