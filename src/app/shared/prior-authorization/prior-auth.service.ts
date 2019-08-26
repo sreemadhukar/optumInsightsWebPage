@@ -1257,4 +1257,119 @@ export class PriorAuthSharedService {
         });
     });
   }
+
+  getNewPAData(filterParameters) {
+    this.providerKey = this.session.providerKeyData();
+
+    // Save Parameters from Filter Session
+    const timePeriod = filterParameters.timeFrame;
+    const TIN = filterParameters.tax[0];
+    const LOB = filterParameters.lob;
+    const serviceSetting = filterParameters.serviceSetting;
+    const paDecisionType = filterParameters.priorAuthType; // We don't need decision type for now
+    const paServiceCategory = this.common.convertServiceCategoryOneWord(filterParameters.scType);
+
+    // Time Range
+    let timeRange;
+    let timeFilterAdditionalInfo = null;
+
+    if (timePeriod === 'Last 12 Months') {
+      timeRange = 'rolling12';
+    } else if (timePeriod === 'Last 6 Months') {
+      timeRange = 'last6Months';
+    } else if (timePeriod === 'Last 3 Months') {
+      timeRange = 'last3Months';
+    } else if (timePeriod === 'Last 30 Days') {
+      timeRange = 'last30Days';
+    } else if (timePeriod === 'Year to Date') {
+      timeRange = 'startAndEndDates';
+
+      const yesterday = (d => new Date(d.setDate(d.getDate() - 1)))(new Date());
+      const startDateFinal = yesterday.getFullYear() + '-01-01';
+
+      let endDateString;
+      if (yesterday.getDate() < 10) {
+        endDateString = '0' + yesterday.getDate();
+      } else {
+        endDateString = yesterday.getDate();
+      }
+      const endDateFinal =
+        yesterday.getFullYear() + '-' + this.ReturnMonthlyCountString(yesterday.getMonth()) + '-' + endDateString;
+
+      timeFilterAdditionalInfo = startDateFinal + ', ' + endDateFinal;
+    } else {
+      // for Calendar Year
+      timeRange = 'calenderYear';
+      timeFilterAdditionalInfo = timePeriod;
+    }
+
+    // TIN
+    let isAllTinBool;
+    let specificTin;
+
+    if (TIN === 'All') {
+      isAllTinBool = true;
+      specificTin = null;
+    } else {
+      isAllTinBool = false;
+      if (filterParameters.tax.length === 1) {
+        specificTin = parseInt(TIN.replace(/\D/g, ''), 10).toString();
+      } else {
+        const taxArray = filterParameters.tax;
+        const taxArrayFormatted = [];
+        for (let i = 0; i < taxArray.length; i++) {
+          taxArrayFormatted.push(parseInt(taxArray[i].replace(/\D/g, ''), 10));
+        }
+        specificTin = taxArrayFormatted.join(', ');
+      }
+    }
+
+    // LOB
+    let lobString;
+    if (LOB === 'All') {
+      lobString = 'allLob';
+    } else if (LOB === 'Community & State') {
+      lobString = 'cAndSLob';
+    } else if (LOB === 'Employer & Individual') {
+      lobString = 'eAndILob';
+    } else if (LOB === 'Medicare & Retirement') {
+      lobString = 'mAndRLob';
+    }
+
+    // Service Setting
+    let isAllSSFlagBool;
+    if (serviceSetting === 'All') {
+      isAllSSFlagBool = true;
+    } else {
+      isAllSSFlagBool = false;
+    }
+
+    let isServiceCategory;
+    let paServiceCategoryString;
+    if (paServiceCategory !== 'All') {
+      isServiceCategory = true;
+      paServiceCategoryString = paServiceCategory;
+    } else {
+      isServiceCategory = false;
+      paServiceCategoryString = null;
+    }
+
+    const requestBody = {
+      tin: specificTin,
+      lob: lobString,
+      allNotApprovedSettings: isAllSSFlagBool,
+      decisionType: false,
+      decisionValue: null,
+      serviceCategory: isServiceCategory,
+      serviceCategoryValue: paServiceCategoryString,
+      timeFilter: timeRange,
+      timeFilterText: timeFilterAdditionalInfo
+    };
+
+    return new Promise(resolve => {
+      this.priorAuthService.getPriorAuthDataNew([this.providerKey, isAllTinBool], requestBody).subscribe(data => {
+        resolve(data);
+      });
+    });
+  }
 }
