@@ -98,6 +98,7 @@ export class OverviewComponent implements OnInit, AfterContentInit {
     // Temporary Heac ability
     const heac = JSON.parse(sessionStorage.getItem('heac'));
     this.isHeac = heac && heac.heac === true ? true : false;
+    this.checkStorage.emitEvent('overviewPage');
     /***************** DELETE LATER *************/
     /*this.claimsPaidBlock = {
       category: "small-card",
