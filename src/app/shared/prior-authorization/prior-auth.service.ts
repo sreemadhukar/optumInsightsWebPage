@@ -1113,8 +1113,8 @@ export class PriorAuthSharedService {
       timeFilterAdditionalInfo = startDateFinal + ', ' + endDateFinal;
     } else {
       // for Calendar Year
-      timeRange = 'calenderYear';
-      timeFilterAdditionalInfo = timePeriod;
+      timeRange = 'startAndEndDates';
+      timeFilterAdditionalInfo = timePeriod + '-01-01, ' + timePeriod + '-12-31';
     }
 
     // TIN
@@ -1215,6 +1215,7 @@ export class PriorAuthSharedService {
             providerSystems.PriorAuthorizations.hasOwnProperty('LineOfBusiness')
           ) {
             let data;
+            console.log(providerSystems);
             // const data = providerSystems.PriorAuthorizations.LineOfBusiness.All;
             if (lobString === 'allLob' && !isServiceCategory) {
               data = providerSystems.PriorAuthorizations.LineOfBusiness.All;
