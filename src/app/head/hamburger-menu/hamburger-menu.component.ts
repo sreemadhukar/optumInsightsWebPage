@@ -176,8 +176,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     this.loading = false;
     this.PCORFlag = false;
     this.isDarkTheme = this.themeService.isDarkTheme;
-    
-      this.eventEmitter.getEvent().subscribe(val => {
+    this.eventEmitter.getEvent().subscribe(val => {
       this.isKop = val.value;
     });
     this.checkStorage.getEvent().subscribe(value => {
