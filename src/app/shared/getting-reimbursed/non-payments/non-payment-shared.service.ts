@@ -4,7 +4,7 @@ import { NonPaymentService } from './../../../rest/getting-reimbursed/non-paymen
 import { CommonUtilsService } from '../../common-utils.service';
 import { SessionService } from '../../session.service';
 import { AuthorizationService } from '../../../auth/_service/authorization.service';
-import { GlossaryMetricidService } from '../glossary-metricid.service';
+import { GlossaryMetricidService } from '../../glossary-metricid.service';
 
 @Injectable({
   providedIn: GettingReimbursedModule
