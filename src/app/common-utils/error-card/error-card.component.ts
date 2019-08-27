@@ -30,6 +30,6 @@ export class ErrorCardComponent implements OnInit {
   }
   ngOnInit() {}
   helpIconClick(title) {
-    this.glossaryExpandService.setMessage(title);
+    this.glossaryExpandService.setMessage(title, this.data.MetricID);
   }
 }

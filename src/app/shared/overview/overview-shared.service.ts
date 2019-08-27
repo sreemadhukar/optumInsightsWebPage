@@ -126,6 +126,7 @@ export class OverviewSharedService {
           category: 'small-card',
           type: 'donut',
           title: 'Prior Authorization Approval',
+          MetricID: 'NA',
           toggle: this.toggle.setToggles('Prior Authorization Approval', 'AtGlance', 'Overview', false),
           data: {
             graphValues: [approvedRate, 1 - approvedRate],
@@ -155,6 +156,29 @@ export class OverviewSharedService {
   createSelfServiceObject(providerSystems) {
     return new Promise((resolve, reject) => {
       let cSelfService: object;
+      let timeSelfService: string;
+      if (
+        providerSystems.hasOwnProperty('SelfServiceInquiries') &&
+        providerSystems.SelfServiceInquiries != null &&
+        providerSystems.SelfServiceInquiries.hasOwnProperty('ALL') &&
+        providerSystems.SelfServiceInquiries.ALL.hasOwnProperty('ReportingPeriodStartDate') &&
+        providerSystems.SelfServiceInquiries.ALL.hasOwnProperty('ReportingPeriodEndDate')
+      ) {
+        try {
+          const startDate: string = this.common.dateFormat(
+            providerSystems.SelfServiceInquiries.ALL.ReportingPeriodStartDate
+          );
+          const endDate: string = this.common.dateFormat(
+            providerSystems.SelfServiceInquiries.ALL.ReportingPeriodEndDate
+          );
+          timeSelfService = startDate + ' - ' + endDate;
+        } catch (Error) {
+          timeSelfService = null;
+          console.log('Error in Self Service TimePeriod', timeSelfService);
+        }
+      } else {
+        timeSelfService = null;
+      }
       if (
         providerSystems.hasOwnProperty('SelfServiceInquiries') &&
         providerSystems.SelfServiceInquiries != null &&
@@ -162,24 +186,29 @@ export class OverviewSharedService {
         providerSystems.SelfServiceInquiries.ALL.hasOwnProperty('Utilizations') &&
         providerSystems.SelfServiceInquiries.ALL.Utilizations.hasOwnProperty('OverallLinkAdoptionRate')
       ) {
-        cSelfService = {
-          category: 'small-card',
-          type: 'donut',
-          title: 'Self Service Adoption Rate',
-          toggle: this.toggle.setToggles('Self Service Adoption Rate', 'AtGlance', 'Overview', false),
-          data: {
-            graphValues: [
-              providerSystems.SelfServiceInquiries.ALL.Utilizations.OverallLinkAdoptionRate,
-              1 - providerSystems.SelfServiceInquiries.ALL.Utilizations.OverallLinkAdoptionRate
-            ],
-            centerNumber:
-              (providerSystems.SelfServiceInquiries.ALL.Utilizations.OverallLinkAdoptionRate * 100).toFixed(0) + '%',
-            color: ['#3381FF', '#D7DCE1'],
-            gdata: ['card-inner', 'selfServiceCardD3Donut']
-          },
-          sdata: null,
-          timeperiod: 'Last 3 Months'
-        };
+        try {
+          cSelfService = {
+            category: 'small-card',
+            type: 'donut',
+            title: 'Self Service Adoption Rate',
+            MetricID: '305',
+            toggle: this.toggle.setToggles('Self Service Adoption Rate', 'AtGlance', 'Overview', false),
+            data: {
+              graphValues: [
+                providerSystems.SelfServiceInquiries.ALL.Utilizations.OverallLinkAdoptionRate,
+                1 - providerSystems.SelfServiceInquiries.ALL.Utilizations.OverallLinkAdoptionRate
+              ],
+              centerNumber:
+                (providerSystems.SelfServiceInquiries.ALL.Utilizations.OverallLinkAdoptionRate * 100).toFixed(0) + '%',
+              color: ['#3381FF', '#D7DCE1'],
+              gdata: ['card-inner', 'selfServiceCardD3Donut']
+            },
+            sdata: null,
+            timeperiod: 'Last 3 Months'
+          };
+        } catch (Error) {
+          console.log('Error | Self Service Adoption Rate', Error);
+        }
       } else {
         cSelfService = {
           category: 'small-card',
@@ -214,6 +243,7 @@ export class OverviewSharedService {
           category: 'small-card',
           type: 'star',
           title: 'Medicare Star Rating',
+          MetricID: '200',
           toggle: this.toggle.setToggles('Medicare Star Rating', 'AtGlance', 'Overview', false),
           data: {
             graphValues: [
@@ -278,6 +308,7 @@ export class OverviewSharedService {
           category: 'small-card',
           type: 'donut',
           title: 'Calls By Call Type',
+          MetricID: '303',
           toggle: this.toggle.setToggles('Total Calls', 'AtGlance', 'Overview', false),
           data: {
             graphValues: [
@@ -327,6 +358,7 @@ export class OverviewSharedService {
           oppurtunities.push({
             category: 'mini-tile',
             title: 'Reduce Calls and Operating Costs by:',
+            MetricID: '308',
             toggle: this.toggle.setToggles('Reduce Calls and Operating Costs by:', 'Opportunities', 'Overview', false),
             data: {
               centerNumber:
@@ -353,6 +385,7 @@ export class OverviewSharedService {
           oppurtunities.push({
             category: 'mini-tile',
             title: 'Reduce Calls and Operating Costs by:',
+            MetricID: '308',
             status: null,
             data: null,
             fdata: null
@@ -362,6 +395,7 @@ export class OverviewSharedService {
         oppurtunities.push({
           category: 'mini-tile',
           title: 'Reduce Calls and Operating Costs by:',
+          MetricID: '308',
           status: null,
           data: null,
           fdata: null
@@ -403,6 +437,7 @@ export class OverviewSharedService {
           oppurtunities.push({
             category: 'mini-tile',
             title: "Save Your Staff's Time by:" + '\n\xa0',
+            MetricID: '307',
             toggle: this.toggle.setToggles("Save Your Staff's Time by:", 'Opportunities', 'Overview', false),
             data: {
               centerNumber: totalCalltime + suffixHourPerDay,
@@ -427,6 +462,7 @@ export class OverviewSharedService {
           oppurtunities.push({
             category: 'mini-tile',
             title: "Save Your Staff's Time by:" + '\n\xa0',
+            MetricID: '307',
             status: null,
             data: null,
             fdata: null
@@ -436,6 +472,7 @@ export class OverviewSharedService {
         oppurtunities.push({
           category: 'mini-tile',
           title: "Save Your Staff's Time by:" + '\n\xa0',
+          MetricID: '307',
           status: null,
           data: null,
           fdata: null
@@ -478,6 +515,7 @@ export class OverviewSharedService {
         oppurtunities.push({
           category: 'mini-tile',
           title: 'Reduce Claim Processing Time by:',
+          MetricID: '309',
           toggle:
             checkProcessingTime >= 0 ||
             this.toggle.setToggles('Reduce Claim Processing Time by:', 'Opportunities', 'Overview', false),
@@ -503,6 +541,7 @@ export class OverviewSharedService {
         oppurtunities.push({
           category: 'mini-tile',
           title: 'Reduce Claim Processing Time by:',
+          MetricID: '309',
           status: null,
           data: null,
           fdata: null
@@ -545,6 +584,7 @@ export class OverviewSharedService {
         oppurtunities.push({
           category: 'mini-tile',
           title: 'Reduce Reconsideration Processing by:',
+          MetricID: '306',
           toggle:
             checkAvgPaperProcessTime >= 0 ||
             this.toggle.setToggles('Reduce Reconsideration Processing by:', 'Opportunities', 'Overview', false),
@@ -570,6 +610,7 @@ export class OverviewSharedService {
         oppurtunities.push({
           category: 'mini-tile',
           title: 'Reduce Reconsideration Processing by:',
+          MetricID: '306',
           status: null,
           data: null,
           fdata: null
@@ -635,6 +676,7 @@ export class OverviewSharedService {
             category: 'small-card',
             type: 'donut',
             title: 'Claims Paid*',
+            MetricID: '103',
             toggle: this.toggle.setToggles('Claims Paid', 'AtGlance', 'Overview', false),
             data: {
               graphValues: paidData,
@@ -657,6 +699,7 @@ export class OverviewSharedService {
               category: 'small-card',
               type: 'donut',
               title: 'Claims Paid*',
+              MetricID: '103',
               toggle: this.toggle.setToggles('Claims Paid', 'AtGlance', 'Overview', false),
               data: {
                 graphValues: [0, 100],
@@ -711,6 +754,7 @@ export class OverviewSharedService {
             category: 'small-card',
             type: 'donut',
             title: 'Claims Yield*',
+            MetricID: '104',
             toggle: this.toggle.setToggles('Claims Yield', 'AtGlance', 'Overview', false),
             data: {
               graphValues: [
@@ -1040,6 +1084,7 @@ export class OverviewSharedService {
             category: 'small-card',
             type: 'donut',
             title: 'Prior Authorization Approval',
+            MetricID: '',
             toggle: this.toggle.setToggles('Prior Authorization Approval', 'AtGlance', 'Overview', false),
             data: {
               graphValues: [approvedRate, 1 - approvedRate],
@@ -1118,6 +1163,7 @@ export class OverviewSharedService {
             category: 'small-card',
             type: 'donut',
             title: 'Calls By Call Type',
+            MetricID: '303',
             toggle: this.toggle.setToggles('Total Calls', 'AtGlance', 'Overview', false),
             data: {
               graphValues: [

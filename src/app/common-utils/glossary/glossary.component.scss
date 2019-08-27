@@ -3,6 +3,7 @@
 ::ng-deep .mat-autocomplete-panel {
   max-height: 0% !important;
 }
+
 ::ng-deep .mat-form-field-appearance-outline .mat-form-field-infix {
   padding: 8px 0 16px 0;
 }
@@ -184,6 +185,7 @@
 .absolute {
   position: absolute;
   bottom: 0;
+  right: 0 !important;
 }
 
 .fixed {
@@ -199,7 +201,7 @@
 .view-all-metrics-button-div {
   background: #ffffff;
   margin-left: -24px;
-  padding-left: 33px;
+  padding-left: 31px;
   padding-right: 32px;
   padding-bottom: 25px;
   padding-top: 25px;
