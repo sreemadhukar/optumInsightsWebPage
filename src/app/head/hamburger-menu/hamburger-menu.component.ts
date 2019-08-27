@@ -35,8 +35,8 @@ import { PriorAuthSharedService } from 'src/app/shared/prior-authorization/prior
 import { FilterExpandService } from '../../shared/filter-expand.service';
 import { DOCUMENT, Location } from '@angular/common';
 import { environment } from '../../../environments/environment';
+import { EventEmitterService } from 'src/app/shared/know-our-provider/event-emitter.service';
 import { SessionService } from '../../shared/session.service';
-import { EventEmitterService } from 'src/app/shared/know-your-provider/event-emitter.service';
 
 @Component({
   selector: 'app-hamburger-menu',
@@ -133,6 +133,10 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
         );
         this.bgWhite = !(authService.isLoggedIn() && !event.url.includes('print-'));
         this.loading = true;
+        const heac = JSON.parse(sessionStorage.getItem('heac'));
+        if (event.url === '/KnowOurProvider' && !heac.heac) {
+          router.navigate(['/ProviderSearch']);
+        }
       }
       // PLEASE DON'T MODIFY THIS
     });
@@ -171,13 +175,13 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-search-24px.svg')
     );
   }
+
   ngOnInit() {
     this.isKop = false;
     this.loading = false;
     this.PCORFlag = false;
     this.isDarkTheme = this.themeService.isDarkTheme;
-    
-      this.eventEmitter.getEvent().subscribe(val => {
+    this.eventEmitter.getEvent().subscribe(val => {
       this.isKop = val.value;
     });
     this.checkStorage.getEvent().subscribe(value => {
@@ -325,7 +329,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
   //     disableClose: true
   //   });
   //   dialogRef.afterClosed().subscribe(result => {
-  //     this.router.navigateByUrl('/KnowYourProvider');
+  //     this.router.navigateByUrl('/KnowOurProvider');
   //   });
   // }
 

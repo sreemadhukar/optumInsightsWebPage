@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { KopOverviewComponent } from './kop-overview/kop-overview.component';
-import { KnowYourProviderRoutingModule } from './know-your-provider-routing.module';
+import { KnowOurProviderRoutingModule } from './know-our-provider-routing.module';
 
 @NgModule({
-  imports: [CommonModule, KnowYourProviderRoutingModule],
+  imports: [CommonModule, KnowOurProviderRoutingModule],
   declarations: [KopOverviewComponent]
 })
-export class KnowYourProviderModule {}
+export class KnowOurProviderModule {}

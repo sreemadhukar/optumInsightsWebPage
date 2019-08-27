@@ -36,6 +36,15 @@
       width: 175px;
     }
   }
+  .kop-div {
+    color: $black;
+    font-size: 18px;
+    font-family: 'UHCSans-Medium', 'Helvetica', 'Arial', 'sans-serif';
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    margin: 25px 0;
+  }
   .user-div {
     margin-left: auto;
     display: flex;
