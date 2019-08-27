@@ -57,6 +57,11 @@ export class ProviderSearchComponent implements OnInit, AfterViewInit {
 
     this.providerData = JSON.parse(sessionStorage.getItem('currentUser'));
     this.nomatchFlag = true;
+
+    // To close the provider dialog box on clicking outside
+    this.dialogRef.backdropClick().subscribe(() => {
+      this.dialogRef.close();
+    });
   }
 
   ngAfterViewInit() {
