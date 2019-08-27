@@ -158,6 +158,29 @@ export class OverviewSharedService {
   createSelfServiceObject(providerSystems) {
     return new Promise((resolve, reject) => {
       let cSelfService: object;
+      let timeSelfService: string;
+      if (
+        providerSystems.hasOwnProperty('SelfServiceInquiries') &&
+        providerSystems.SelfServiceInquiries != null &&
+        providerSystems.SelfServiceInquiries.hasOwnProperty('ALL') &&
+        providerSystems.SelfServiceInquiries.ALL.hasOwnProperty('ReportingPeriodStartDate') &&
+        providerSystems.SelfServiceInquiries.ALL.hasOwnProperty('ReportingPeriodEndDate')
+      ) {
+        try {
+          const startDate: string = this.common.dateFormat(
+            providerSystems.SelfServiceInquiries.ALL.ReportingPeriodStartDate
+          );
+          const endDate: string = this.common.dateFormat(
+            providerSystems.SelfServiceInquiries.ALL.ReportingPeriodEndDate
+          );
+          timeSelfService = startDate + ' - ' + endDate;
+        } catch (Error) {
+          timeSelfService = null;
+          console.log('Error in Self Service TimePeriod', timeSelfService);
+        }
+      } else {
+        timeSelfService = null;
+      }
       if (
         providerSystems.hasOwnProperty('SelfServiceInquiries') &&
         providerSystems.SelfServiceInquiries != null &&
@@ -165,25 +188,29 @@ export class OverviewSharedService {
         providerSystems.SelfServiceInquiries.ALL.hasOwnProperty('Utilizations') &&
         providerSystems.SelfServiceInquiries.ALL.Utilizations.hasOwnProperty('OverallLinkAdoptionRate')
       ) {
-        cSelfService = {
-          category: 'small-card',
-          type: 'donut',
-          title: 'Self Service Adoption Rate',
-          MetricID: this.MetricidService.MetricIDs.SelfServiceAdoptionRate,
-          toggle: this.toggle.setToggles('Self Service Adoption Rate', 'AtGlance', 'Overview', false),
-          data: {
-            graphValues: [
-              providerSystems.SelfServiceInquiries.ALL.Utilizations.OverallLinkAdoptionRate,
-              1 - providerSystems.SelfServiceInquiries.ALL.Utilizations.OverallLinkAdoptionRate
-            ],
-            centerNumber:
-              (providerSystems.SelfServiceInquiries.ALL.Utilizations.OverallLinkAdoptionRate * 100).toFixed(0) + '%',
-            color: ['#3381FF', '#D7DCE1'],
-            gdata: ['card-inner', 'selfServiceCardD3Donut']
-          },
-          sdata: null,
-          timeperiod: 'Last 3 Months'
-        };
+        try {
+          cSelfService = {
+            category: 'small-card',
+            type: 'donut',
+            title: 'Self Service Adoption Rate',
+            MetricID: this.MetricidService.MetricIDs.SelfServiceAdoptionRate,
+            toggle: this.toggle.setToggles('Self Service Adoption Rate', 'AtGlance', 'Overview', false),
+            data: {
+              graphValues: [
+                providerSystems.SelfServiceInquiries.ALL.Utilizations.OverallLinkAdoptionRate,
+                1 - providerSystems.SelfServiceInquiries.ALL.Utilizations.OverallLinkAdoptionRate
+              ],
+              centerNumber:
+                (providerSystems.SelfServiceInquiries.ALL.Utilizations.OverallLinkAdoptionRate * 100).toFixed(0) + '%',
+              color: ['#3381FF', '#D7DCE1'],
+              gdata: ['card-inner', 'selfServiceCardD3Donut']
+            },
+            sdata: null,
+            timeperiod: 'Last 3 Months'
+          };
+        } catch (Error) {
+          console.log('Error | Self Service Adoption Rate', Error);
+        }
       } else {
         cSelfService = {
           category: 'small-card',

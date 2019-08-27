@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatIconRegistry, PageEvent } from '@angular/material';
-import { GettingReimbursedSharedService } from '../../../shared/getting-reimbursed/getting-reimbursed-shared.service';
+import { PaymentsSharedService } from '../../../shared/getting-reimbursed/payments/payments-shared.service';
 import { GlossaryExpandService } from '../../../shared/glossary-expand.service';
 import { SessionService } from 'src/app/shared/session.service';
 import { StorageService } from '../../../shared/storage-service.service';
@@ -38,7 +38,7 @@ export class PaymentsComponent implements OnInit {
   taxID: Array<string>;
   constructor(
     private checkStorage: StorageService,
-    private gettingReimbursedSharedService: GettingReimbursedSharedService,
+    private paymentsSharedService: PaymentsSharedService,
     private glossaryExpandService: GlossaryExpandService,
     private filterExpandService: FilterExpandService,
     private session: SessionService,
@@ -88,7 +88,7 @@ export class PaymentsComponent implements OnInit {
       this.taxID = [];
     }
     this.mockCards = [{}];
-    this.gettingReimbursedSharedService
+    this.paymentsSharedService
       .sharedPaymentsData()
       .then(completeData => {
         this.loading = false;
@@ -106,20 +106,21 @@ export class PaymentsComponent implements OnInit {
     ];
 
     // this.claimsPaidBreakBool = false;
-
-    this.gettingReimbursedSharedService.getclaimsPaidData().then(
+    this.paymentsSharedService.getclaimsPaidData().then(
       payData => {
         this.loadingClaimsBreakdown = false;
         try {
-          this.paymentArray = payData[0];
-          this.cData = [];
-          for (let p = 0; p < 1; p++) {
-            this.cData.push({
-              chartData: [this.paymentArray[0], this.paymentArray[1], this.paymentArray[2], this.paymentArray[3]],
-              gdata: ['card-inner', 'claimsPaidBreakDown']
-            });
+          if (payData) {
+            this.paymentArray = payData[0];
+            this.cData = [];
+            for (let p = 0; p < 1; p++) {
+              this.cData.push({
+                chartData: [this.paymentArray[0], this.paymentArray[1], this.paymentArray[2], this.paymentArray[3]],
+                gdata: ['card-inner', 'claimsPaidBreakDown']
+              });
+            }
+            this.claimsPaidBreakBool = true;
           }
-          this.claimsPaidBreakBool = true;
         } catch (Error) {
           this.loadingClaimsBreakdown = false;
           this.cData.push(payData);

@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { GettingReimbursedModule } from '../../components/getting-reimbursed-page/getting-reimbursed.module';
-import { NonPaymentService } from './../../rest/getting-reimbursed/non-payment.service';
-import { CommonUtilsService } from '../common-utils.service';
-import { SessionService } from '../session.service';
-import { AuthorizationService } from '../../auth/_service/authorization.service';
+import { GettingReimbursedModule } from '../../../components/getting-reimbursed-page/getting-reimbursed.module';
+import { NonPaymentService } from './../../../rest/getting-reimbursed/non-payment.service';
+import { CommonUtilsService } from '../../common-utils.service';
+import { SessionService } from '../../session.service';
+import { AuthorizationService } from '../../../auth/_service/authorization.service';
 import { GlossaryMetricidService } from '../glossary-metricid.service';
 
 @Injectable({

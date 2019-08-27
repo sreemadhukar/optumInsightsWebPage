@@ -50,6 +50,15 @@ export class SessionService {
       return JSON.parse(sessionStorage.getItem('currentUser'))[0]['Providersyskey'];
     }
   }
+
+  public getHealthCareOrgName() {
+    if (sessionStorage.getItem('currentUser') && environment.internalAccess) {
+      return JSON.parse(sessionStorage.getItem('currentUser'))[0]['HealthCareOrganizationName'];
+    } else if (sessionStorage.getItem('currentUser') && !environment.internalAccess) {
+      return JSON.parse(sessionStorage.getItem('currentUser'))[0]['Healthcareorganizationname'];
+    }
+  }
+
   public sessionStorage(value: string, item: string) {
     if (sessionStorage.getItem(value)) {
       return JSON.parse(sessionStorage.getItem(value))[item];
