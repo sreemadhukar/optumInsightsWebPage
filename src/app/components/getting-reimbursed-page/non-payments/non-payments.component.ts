@@ -20,6 +20,7 @@ import { Router } from '@angular/router';
 import { FilterExpandService } from '../../../shared/filter-expand.service';
 import { CommonUtilsService } from '../../../shared/common-utils.service';
 import { NonPaymentSharedService } from '../../../shared/getting-reimbursed/non-payment-shared.service';
+import { GlossaryMetricidService } from '../../../shared/glossary-metricid.service';
 
 @Component({
   selector: 'app-non-payments',
@@ -190,6 +191,7 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
   ];
   */
   constructor(
+    public MetricidService: GlossaryMetricidService,
     private checkStorage: StorageService,
     private iconRegistry: MatIconRegistry,
     private elementRef: ElementRef,
@@ -294,7 +296,7 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
             type: 'donut',
             status: 404,
             title: 'Top Reasons for Claims Non-Payment',
-            MetricID: '100',
+            MetricID: this.MetricidService.MetricIDs.TopReasonsforClaimsNonPayment,
             data: null,
             timeperiod: null
           };
@@ -333,7 +335,7 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
           type: 'donut',
           status: 404,
           title: 'Claims Non-Payment Trend',
-          MetricID: 'NA',
+          MetricID: this.MetricidService.MetricIDs.ClaimsNonPaymentTrend,
           data: null,
           timeperiod: null
         };
@@ -349,10 +351,10 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
 
   helpIconClick(title) {
     if (title === 'Top Reasons for Claims Non-Payment') {
-      this.glossaryExpandService.setMessage(title, '100');
+      this.glossaryExpandService.setMessage(title, this.MetricidService.MetricIDs.TopReasonsforClaimsNonPayment);
     }
     if (title === 'Claims Non-Payment Trend') {
-      this.glossaryExpandService.setMessage(title, 'NA');
+      this.glossaryExpandService.setMessage(title, this.MetricidService.MetricIDs.ClaimsNonPaymentTrend);
     }
   }
   /** This function is used for collapse of Top Reasons For Non Payment

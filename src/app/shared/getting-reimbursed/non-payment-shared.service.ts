@@ -4,6 +4,7 @@ import { NonPaymentService } from './../../rest/getting-reimbursed/non-payment.s
 import { CommonUtilsService } from '../common-utils.service';
 import { SessionService } from '../session.service';
 import { AuthorizationService } from '../../auth/_service/authorization.service';
+import { GlossaryMetricidService } from '../glossary-metricid.service';
 
 @Injectable({
   providedIn: GettingReimbursedModule
@@ -19,6 +20,7 @@ export class NonPaymentSharedService {
   private subCategoriesFetchCount = 7;
 
   constructor(
+    private MetricidService: GlossaryMetricidService,
     private nonPaymentService: NonPaymentService,
     private common: CommonUtilsService,
     private session: SessionService,
@@ -247,7 +249,7 @@ export class NonPaymentSharedService {
                 category: 'app-card',
                 type: 'donutWithLabel',
                 title: 'Claims Not Paid',
-                MetricID: '107',
+                MetricID: this.MetricidService.MetricIDs.ClaimsNotPaid,
                 data: {
                   graphValues: nonPaidData,
                   centerNumber:
@@ -276,7 +278,7 @@ export class NonPaymentSharedService {
                 type: 'donutWithLabel',
                 status: 404,
                 title: 'Claims Not Paid',
-                MetricID: '107',
+                MetricID: this.MetricidService.MetricIDs.ClaimsNotPaid,
                 data: null,
                 besideData: null,
                 bottomData: null,
@@ -295,7 +297,7 @@ export class NonPaymentSharedService {
                 category: 'app-card',
                 type: 'donut',
                 title: 'Claims Non-Payment Rate',
-                MetricID: '108',
+                MetricID: this.MetricidService.MetricIDs.ClaimsNonPaymentRate,
                 data: {
                   graphValues: [
                     nonPaymentData1.All.ClaimsLobSummary[0].ClaimsNonPaymentRate,
@@ -318,7 +320,7 @@ export class NonPaymentSharedService {
                 type: 'donut',
                 status: 404,
                 title: 'Claims Non-Payment Rate',
-                MetricID: '108',
+                MetricID: this.MetricidService.MetricIDs.ClaimsNonPaymentRate,
                 data: null,
                 timeperiod: null
               };
@@ -422,7 +424,7 @@ export class NonPaymentSharedService {
                 category: 'app-card',
                 type: 'donutWithLabel',
                 title: 'Claims Not Paid',
-                MetricID: '107',
+                MetricID: this.MetricidService.MetricIDs.ClaimsNotPaid,
                 data: {
                   graphValues: nonPaidData,
                   centerNumber:
@@ -451,7 +453,7 @@ export class NonPaymentSharedService {
                 type: 'donutWithLabel',
                 status: 404,
                 title: 'Claims Not Paid',
-                MetricID: '107',
+                MetricID: this.MetricidService.MetricIDs.ClaimsNotPaid,
                 data: null,
                 besideData: null,
                 bottomData: null,
@@ -470,7 +472,7 @@ export class NonPaymentSharedService {
                 category: 'app-card',
                 type: 'donut',
                 title: 'Claims Non-Payment Rate',
-                MetricID: '108',
+                MetricID: this.MetricidService.MetricIDs.ClaimsNonPaymentRate,
                 data: {
                   graphValues: [
                     nonPaymentData1[lobData].ClaimsLobSummary[0].ClaimsNonPaymentRate,
@@ -493,7 +495,7 @@ export class NonPaymentSharedService {
                 type: 'donut',
                 status: 404,
                 title: 'Claims Non-Payment Rate',
-                MetricID: '108',
+                MetricID: this.MetricidService.MetricIDs.ClaimsNonPaymentRate,
                 data: null,
                 timeperiod: null
               };
