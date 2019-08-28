@@ -21,6 +21,7 @@ export class PaymentIntegrityComponent implements OnInit {
   lob: string;
   taxID: Array<string>;
   title = 'Payment Integrity: Medical Record Coding Review';
+  MetricID = 'NA';
   subscription: any;
   cardData: any;
   piDataloaded = false;
@@ -120,7 +121,7 @@ export class PaymentIntegrityComponent implements OnInit {
   }
 
   helpIconClick(title) {
-    this.glossaryExpandService.setMessage(title);
+    this.glossaryExpandService.setMessage(title, this.MetricID);
   }
   openFilter() {
     this.filterExpandService.setURL(this.router.url);

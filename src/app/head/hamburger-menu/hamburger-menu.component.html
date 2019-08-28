@@ -38,15 +38,14 @@
         </div>
         <!-- END OF UHC LOGO BLOCK -->
         <!-- HEALTHSYSTEM REPRESENTATION BLOCK -->
-        <div class="health-system-representation-block">
+        <div class="health-system-representation-block" *ngIf="!isKop">
           <p class="representing-label">You are representing</p>
           <p class="health-system-name">{{ healthSystemName }}</p>
           <p class="change-provider" *ngIf="disableChangeProvider" (click)="openDialog()">Change Provider</p>
         </div>
         <!-- END OF HEALTHSYSTEM REPRESENTATION BLOCK -->
-
         <!-- MENU CATEGORIES BLOCK -->
-        <div class="nav-mat-list-items">
+        <div class="nav-mat-list-items" *ngIf="!isKop">
           <mat-nav-list
             *ngFor="let category of navCategories; let rowIndex = index"
             [ngClass]="
@@ -106,6 +105,10 @@
         </div>
         <!-- END OF MENU CATEGORIES BLOCK -->
 
+        <div *ngIf="isKop" class="simulate-external-view">
+          <button class="simulate-external-view-btn btn btn-secondary" mat-button>Simulate External View</button>
+        </div>
+
         <!-- SIGNOUT BLOCK -->
         <div class="signout-block">
           <p class="signout-label" (click)="signOut()">
@@ -128,6 +131,7 @@
         [fixedInViewport]="true"
         [opened]="glossaryFlag || filterFlag"
         id="side-nav-glossary"
+        [disableClose]="true"
       >
         <div style="width: 418px; min-height: 96%;">
           <div [ngClass]="{ sidemargin: glossaryFlag, 'sidemargin-filter': filterFlag }">
@@ -147,7 +151,11 @@
                 <div class="filter-text">Filters</div>
               </div>
             </div>
-            <app-glossary *ngIf="glossaryFlag && glossaryTitle" [title]="glossaryTitle"></app-glossary>
+            <app-glossary
+              *ngIf="glossaryFlag && glossaryTitle"
+              [title]="glossaryTitle"
+              [MetricID]="glossaryMetricID"
+            ></app-glossary>
             <app-filter *ngIf="filterFlag" [filterurl]="filterurl" (filterFlag)="filterFlagChange($event)"></app-filter>
           </div>
         </div>

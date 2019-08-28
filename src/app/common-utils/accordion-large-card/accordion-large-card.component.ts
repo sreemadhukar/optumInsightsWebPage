@@ -58,7 +58,7 @@ export class AccordionLargeCardComponent implements OnInit {
   }
 
   helpIconClick(title) {
-    this.glossaryExpandService.setMessage(title);
+    this.glossaryExpandService.setMessage(title, this.data.MetricID);
   }
 
   ngOnInit() {}

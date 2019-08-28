@@ -28,6 +28,7 @@ export class AppealsComponent implements OnInit {
   overturnReasonItem: any;
   reason: any;
   title = 'Top Claims Appeals Overturn Reasons';
+  MetricID = '102';
   loading: boolean;
   mockCards: any;
   reasonDataAvailable = false;
@@ -96,7 +97,9 @@ export class AppealsComponent implements OnInit {
   }
 
   helpIconClick(title) {
-    this.glossaryExpandService.setMessage(title);
+    if (title === 'Top Claims Appeals Overturn Reasons') {
+      this.glossaryExpandService.setMessage(title, this.MetricID);
+    }
   }
   openFilter() {
     this.filterExpandService.setURL(this.router.url);

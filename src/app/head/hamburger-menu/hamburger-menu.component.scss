@@ -5,6 +5,8 @@
 
 @import '~src/scss/variables.scss';
 @import '~src/scss/mixins';
+@import '~src/scss/buttons';
+
 .example-container {
   background-color: #f1f4f7;
   flex-direction: column;
@@ -405,4 +407,12 @@ app-header {
 .mat-drawer-inner-container {
   overflow: unset !important;
   height: 97% !important;
+}
+
+.simulate-external-view {
+  padding: 38px 26px 28px;
+  border-bottom: 1px solid #e0e0e0;
+  &-btn {
+    border: 1px solid $blue !important;
+  }
 }
