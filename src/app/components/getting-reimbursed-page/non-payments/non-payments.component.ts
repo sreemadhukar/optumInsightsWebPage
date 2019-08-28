@@ -204,8 +204,8 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
     private filtermatch: CommonUtilsService,
     private nonPaymentService: NonPaymentSharedService
   ) {
-    const filData = this.session.getFilChangeEmitter().subscribe(() => this.ngOnInit());
-    this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.ngOnInit());
+    const filData = this.session.getFilChangeEmitter().subscribe(() => this.filtermatch.urlResuseStrategy());
+    this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.filtermatch.urlResuseStrategy());
     /** INITIALIZING SVG ICONS TO USE IN DESIGN - ANGULAR MATERIAL */
 
     iconRegistry.addSvgIcon(

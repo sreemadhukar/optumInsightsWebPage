@@ -42,9 +42,13 @@ export class AppealsComponent implements OnInit {
     private router: Router,
     private filtermatch: CommonUtilsService
   ) {
-    const filData = this.session.getFilChangeEmitter().subscribe(() => this.ngOnInit());
+    // const filData = this.session.getFilChangeEmitter().subscribe(() => this.ngOnInit());
+    const filData = this.session.getFilChangeEmitter().subscribe(() => this.filtermatch.urlResuseStrategy());
     this.pageTitle = 'Claims Appeals';
-    this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.ngOnInit());
+    // this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.ngOnInit());
+    this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => {
+      this.filtermatch.urlResuseStrategy();
+    });
     iconRegistry.addSvgIcon(
       'filter',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-filter_list-24px.svg')
@@ -84,6 +88,7 @@ export class AppealsComponent implements OnInit {
         this.reasonDataAvailable = true;
       }
       this.overturnItem = AppealsCards;
+      console.log(this.overturnItem);
       if (appealsRateData[3].length !== 0) {
         this.reason = appealsRateData[3];
       }
