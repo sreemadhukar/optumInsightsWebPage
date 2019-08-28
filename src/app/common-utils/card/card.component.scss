@@ -1,4 +1,7 @@
 @import '~src/scss/variables.scss';
+.app-card-structure-for-smart-edits-claims-returned {
+  height: 494px !important;
+}
 .app-card-structure {
   position: relative;
   background-color: $white;
@@ -123,6 +126,21 @@
   .PCOR-annual-rate-donut-with-label-tab {
     float: left;
     padding: 40px 0px 25px 53px;
+  }
+  .smart-edits-claims-returned {
+    float: left;
+    padding: 100px 24px 88px 52px;
+  }
+  .smart-edits-claims-returned-beside-data-block {
+    float: left;
+    padding-top: 145px;
+  }
+
+  .smart-edits-claims-labels {
+    width: 118px;
+  }
+  .smart-edits-claims-label-icons {
+    margin-bottom: 36px !important;
   }
   .claims-paid-donut-with-label,
   .claims-appeals-submitted-donut-with-label,

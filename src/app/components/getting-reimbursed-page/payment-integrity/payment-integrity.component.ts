@@ -26,6 +26,7 @@ export class PaymentIntegrityComponent implements OnInit {
   cardData: any;
   piDataloaded = false;
   loading: boolean;
+  smartEditClaimsReturned: any;
   constructor(
     private glossaryExpandService: GlossaryExpandService,
     private checkStorage: StorageService,
@@ -38,7 +39,7 @@ export class PaymentIntegrityComponent implements OnInit {
     private filtermatch: CommonUtilsService
   ) {
     /** INITIALIZING SVG ICONS TO USE IN DESIGN - ANGULAR MATERIAL */
-    const filData = this.session.getFilChangeEmitter().subscribe(() => this.ngOnInit());
+    const filData = this.session.getFilChangeEmitter().subscribe(() => this.filtermatch.urlResuseStrategy());
     iconRegistry.addSvgIcon(
       'down-green-trend-icon',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/down-positive-no-circle.svg')
@@ -56,7 +57,7 @@ export class PaymentIntegrityComponent implements OnInit {
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-close-24px.svg')
     );
     this.pageTitle = 'Claims Payment Integrity*';
-    this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.ngOnInit());
+    this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.filtermatch.urlResuseStrategy());
   }
 
   ngOnInit() {
@@ -97,6 +98,26 @@ export class PaymentIntegrityComponent implements OnInit {
         this.loading = false;
         this.piDataloaded = false;
       });
+
+    this.smartEditClaimsReturned = {
+      category: 'app-card',
+      data: {
+        centerNumber: '2.1K',
+        color: ['#3381FF', '#80B0FF', '#00B8CC'],
+        gdata: ['card-inner', 'smartEditsClaimsReturned'],
+        graphValues: [1000, 500, 600],
+        hover: true,
+        labels: ['Repaired & Resubmitted', 'Resubmitted Without Changes', 'No Action Taken']
+      },
+      timeperiod: this.session.filterObjValue.timeFrame,
+      title: 'Smart Edits Claims Returned',
+      toggle: true,
+      type: 'donutWithLabel',
+      besideData: {
+        labels: ['Repaired & Resubmitted', 'Resubmitted Without Changes', 'No Action Taken'],
+        color: ['#3381FF', '#80B0FF', '#00B8CC']
+      }
+    };
   }
 
   helpIconClick(title) {
