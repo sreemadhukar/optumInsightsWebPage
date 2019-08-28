@@ -3,6 +3,7 @@ import { PriorAuthService } from '../../rest/prior-auth/prior-auth.service';
 import { CareDeliveryPageModule } from '../../components/care-delivery-page/care-delivery-page.module';
 import { CommonUtilsService } from '../common-utils.service';
 import { SessionService } from '../session.service';
+import { GlossaryMetricidService } from '../glossary-metricid.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +15,7 @@ export class PriorAuthSharedService {
   private priorAuthDataCombined: any;
 
   constructor(
+    private MetricidService: GlossaryMetricidService,
     private priorAuthService: PriorAuthService,
     private session: SessionService,
     private common: CommonUtilsService
@@ -193,7 +195,7 @@ export class PriorAuthSharedService {
                   category: 'app-card',
                   type: 'donutWithLabel',
                   title: 'Prior Authorization Requested',
-                  MetricID: '201',
+                  MetricID: this.MetricidService.MetricIDs.PriorAuthorizationRequested,
                   data: {
                     graphValues: [PAApprovedCount, PANotApprovedCount, PANotPendingCount, PANotCancelledCount],
                     centerNumber: this.nFormatter(PARequestedCount, 1),
@@ -212,7 +214,7 @@ export class PriorAuthSharedService {
                   category: 'app-card',
                   type: 'donutWithLabel',
                   title: 'Prior Authorization Approval Rate',
-                  MetricID: '203',
+                  MetricID: this.MetricidService.MetricIDs.PriorAuthorizationApprovalRate,
                   data: {
                     graphValues: [PAApprovalRate, 1 - PAApprovalRate],
                     centerNumber: (PAApprovalRate * 100).toFixed(0) + '%',
@@ -251,7 +253,7 @@ export class PriorAuthSharedService {
                 PriorAuthBarGraphParamaters.push({
                   type: 'singleBarChart',
                   title: 'Top Reasons for Prior Authorizations Not Approved',
-                  MetricID: '202',
+                  MetricID: this.MetricidService.MetricIDs.TopReasonsforPriorAuthorizationsNotApproved,
                   data: {
                     barHeight: 48,
                     barData: PriorAuthNotApprovedReasons[i].Count,
@@ -302,7 +304,7 @@ export class PriorAuthSharedService {
               category: 'app-card',
               type: 'star',
               title: 'Medicare & Retirement Average Star Rating',
-              MetricID: '200',
+              MetricID: this.MetricidService.MetricIDs.MedicareStarRating,
               data: {
                 graphValues: [PCORMandRData.AverageStarRating],
                 centerNumber: PCORMandRData.AverageStarRating,
@@ -318,7 +320,7 @@ export class PriorAuthSharedService {
               category: 'app-card',
               type: 'donutWithLabelandTab',
               title: 'Medicare & Retirement Annual Care Visits Completion Rate',
-              MetricID: '205',
+              MetricID: this.MetricidService.MetricIDs.MedicareRetirementAnnualCareVisitsCompletionRateDiabetic,
               data: {
                 All: {
                   graphValues: [totalAllCompletionRate, 1 - totalAllCompletionRate],
@@ -385,7 +387,7 @@ export class PriorAuthSharedService {
             MandRStarRatingCard.push({
               type: 'singleBarChart',
               title: 'Quality Star Ratings',
-              MetricID: '206',
+              MetricID: this.MetricidService.MetricIDs.QualityStarRatings,
               data: {
                 barHeight: 48,
                 barData: PCORRatings[i],
@@ -572,7 +574,7 @@ export class PriorAuthSharedService {
         type: 'donutWithLabel',
         status: 404,
         title: 'Prior Authorization Requested',
-        MetricID: '201',
+        MetricID: this.MetricidService.MetricIDs.PriorAuthorizationRequested,
         data: null,
         besideData: null,
         timeperiod: null
@@ -582,7 +584,7 @@ export class PriorAuthSharedService {
         type: 'donutWithLabel',
         status: 404,
         title: 'Prior Authorization Approval Rate',
-        MetricID: '203',
+        MetricID: this.MetricidService.MetricIDs.PriorAuthorizationApprovalRate,
         data: null,
         besideData: null,
         timeperiod: null
@@ -721,7 +723,7 @@ export class PriorAuthSharedService {
                     category: 'app-card',
                     type: 'donutWithLabel',
                     title: 'Prior Authorization Requested',
-                    MetricID: '201',
+                    MetricID: this.MetricidService.MetricIDs.PriorAuthorizationRequested,
                     data: {
                       graphValues: [PAApprovedCount, PANotApprovedCount, PANotPendingCount, PANotCancelledCount],
                       centerNumber: this.nFormatter(PARequestedCount, 1),
@@ -740,7 +742,7 @@ export class PriorAuthSharedService {
                     category: 'app-card',
                     type: 'donutWithLabel',
                     title: 'Prior Authorization Approval Rate',
-                    MetricID: '203',
+                    MetricID: this.MetricidService.MetricIDs.PriorAuthorizationApprovalRate,
                     data: {
                       graphValues: [PAApprovalRate, 1 - PAApprovalRate],
                       centerNumber: (PAApprovalRate * 100).toFixed(0) + '%',
@@ -877,7 +879,7 @@ export class PriorAuthSharedService {
                 PriorAuthBarGraphParamaters.push({
                   type: 'singleBarChart',
                   title: 'Top Reasons for Prior Authorizations Not Approved',
-                  MetricID: '202',
+                  MetricID: this.MetricidService.MetricIDs.TopReasonsforPriorAuthorizationsNotApproved,
                   data: {
                     barHeight: 48,
                     barData: PriorAuthNotApprovedReasons[i].Count,
@@ -905,7 +907,7 @@ export class PriorAuthSharedService {
                   type: 'donutWithLabel',
                   status: 404,
                   title: 'Top Reasons for Prior Authorizations Not Approved',
-                  MetricID: '202',
+                  MetricID: this.MetricidService.MetricIDs.TopReasonsforPriorAuthorizationsNotApproved,
                   data: null,
                   besideData: null,
                   timeperiod: null
