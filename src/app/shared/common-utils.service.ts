@@ -1,5 +1,6 @@
 /* @author gmounika */
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { SessionService } from './session.service';
 
 @Injectable({
@@ -11,7 +12,7 @@ export class CommonUtilsService {
   public currentYearMinusTwo = (this.currentYear - 2).toString();
   public currentYearMinusThree = (this.currentYear - 3).toString();
 
-  constructor(private session: SessionService) {}
+  constructor(private router: Router, private session: SessionService) {}
 
   public nFormatter(fnumber) {
     if (fnumber >= 1000000000) {
@@ -365,5 +366,20 @@ export class CommonUtilsService {
       word = word.replace(/ /g, '_');
       return word;
     }
+  }
+
+  urlResuseStrategy() {
+    this.router.routeReuseStrategy.shouldReuseRoute = function() {
+      return false;
+    };
+    const currentUrl = this.router.url + '?';
+    this.router.navigateByUrl(currentUrl).then(() => {
+      this.router.navigated = false;
+      if (this.router.url === '/ProviderSearch') {
+        this.router.navigate(['/OverviewPage']);
+      } else {
+        this.router.navigate([this.router.url]);
+      }
+    });
   }
 }
