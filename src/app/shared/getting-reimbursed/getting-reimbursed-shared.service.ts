@@ -1753,9 +1753,9 @@ export class GettingReimbursedSharedService {
             output.timeperiod = this.timeFrame;
             let sData: any = {};
             if (result.RecordsRequestedVariance > 0) {
-              sData = { sign: 'down', data: output.RecordsRequestedVariance + '*' };
+              sData = { sign: 'down', data: output.RecordsRequestedVariance + ' †' };
             } else {
-              sData = { sign: 'up', data: output.RecordsRequestedVariance + '*' };
+              sData = { sign: 'up', data: output.RecordsRequestedVariance + ' †' };
             }
             output.piDonutData = {
               timeperiod: this.timeFrame,
