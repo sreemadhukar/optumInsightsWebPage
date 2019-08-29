@@ -21,12 +21,14 @@ export class PaymentIntegrityComponent implements OnInit {
   lob: string;
   taxID: Array<string>;
   title = 'Payment Integrity: Medical Record Coding Review';
+  smartEditsReasonTitle = 'Smart Edits Returned Claims Top Reasons';
   MetricID = 'NA';
   subscription: any;
   cardData: any;
   piDataloaded = false;
   loading: boolean;
   smartEditClaimsReturned: any;
+  claimsTopReason: any = [];
   constructor(
     private glossaryExpandService: GlossaryExpandService,
     private checkStorage: StorageService,
@@ -118,6 +120,29 @@ export class PaymentIntegrityComponent implements OnInit {
         color: ['#3381FF', '#80B0FF', '#00B8CC']
       }
     };
+
+    // **** Smart Edits Claims Top Reasons Starts here**** //
+    const reasonsVal1 = [22, 19, 16, 12, 5];
+    const reasonsVal2 = [78, 81, 84, 88, 95];
+    const barTitle = [
+      'NDC Unlisted Denials',
+      'Replacement Code Denial',
+      'ProTech, Incorrect Modifier',
+      'Missing Texas Taxonomy Codes Reason Text Is Too Long',
+      'Add-On Codes'
+    ];
+    const barVal = [22, 19, 16, 12, 5];
+    for (let i = 0; i <= 4; i++) {
+      this.claimsTopReason.push({
+        type: 'bar chart',
+        graphValues: [reasonsVal1[i], reasonsVal2[i]],
+        barText: barTitle[i],
+        barValue: barVal[i],
+        color: ['#3381FF', '#FFFFFF', '#E0E0E0'],
+        gdata: ['app-card-structure', 'smartEditsTopClaimsReason' + i]
+      });
+    }
+    // **** Smart Edits Claims Top Reasons Starts here**** //
   }
 
   helpIconClick(title) {
