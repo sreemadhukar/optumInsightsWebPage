@@ -1030,11 +1030,8 @@ export class OverviewSharedService {
   getPriorAuthCardData(trends) {
     return new Promise((resolve, reject) => {
       const parameters = {
-        providerkey: this.providerKey,
-        last6Months: true,
-        allProviderTins: true,
-        allLob: true,
-        allNotApprovedSettings: true
+        providerKey: this.providerKey,
+        allProviderTins: true
       };
 
       this.overviewService.getOverviewPriorAuth(parameters).subscribe(priorAuth => {
