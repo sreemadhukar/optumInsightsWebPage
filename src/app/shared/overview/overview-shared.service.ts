@@ -1184,7 +1184,7 @@ export class OverviewSharedService {
             },
             timeperiod: 'Last 6 Months'
           };
-          /*
+
           if (
             trends != undefined &&
             trends != null &&
@@ -1194,6 +1194,7 @@ export class OverviewSharedService {
             trends.TendingMtrics.CallsTrendByQuesType != null
           ) {
             const dataPoint = trends.TendingMtrics.CallsTrendByQuesType.toFixed(1) + '%';
+            console.log('dataPoint' + dataPoint);
             if (trends.TendingMtrics.CallsTrendByQuesType >= 1) {
               cIR.sdata = {
                 sign: 'up-red',
@@ -1216,9 +1217,8 @@ export class OverviewSharedService {
           } else {
             cIR.sdata = null;
           }
-          */
           // Hiding Calls trends
-          cIR.sdata = null;
+          // cIR.sdata = null;
         } else {
           cIR = {
             category: 'small-card',
