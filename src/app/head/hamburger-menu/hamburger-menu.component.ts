@@ -36,6 +36,7 @@ import { FilterExpandService } from '../../shared/filter-expand.service';
 import { DOCUMENT, Location } from '@angular/common';
 import { environment } from '../../../environments/environment';
 import { SessionService } from '../../shared/session.service';
+import { EventEmitterService } from 'src/app/shared/know-your-provider/event-emitter.service';
 
 @Component({
   selector: 'app-hamburger-menu',
@@ -63,6 +64,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
   public mobileQuery: boolean;
   public PCORFlag: any;
   public healthSystemName: string;
+  public isKop: boolean;
   disableChangeProvider: boolean = environment.internalAccess;
   /*** Array of Navigation Category List ***/
   public navCategories = [
@@ -112,6 +114,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     private priorAuthShared: PriorAuthSharedService,
     private location: Location,
     private sessionService: SessionService,
+    private eventEmitter: EventEmitterService,
     @Inject(DOCUMENT) private document: any
   ) {
     this.glossaryFlag = false;
@@ -169,16 +172,19 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     );
   }
   ngOnInit() {
+    this.isKop = false;
     this.loading = false;
     this.PCORFlag = false;
     this.isDarkTheme = this.themeService.isDarkTheme;
+    this.eventEmitter.getEvent().subscribe(val => {
+      this.isKop = val.value;
+    });
     this.checkStorage.getEvent().subscribe(value => {
       if (value.value === 'overviewPage') {
         this.healthSystemName = this.sessionService.getHealthCareOrgName();
         this.checkPA();
       }
     });
-
     this.clickHelpIcon = this.glossaryExpandService.message.subscribe(
       data => {
         this.glossaryFlag = true;
@@ -310,6 +316,17 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     this.filterFlag = false;
     this.filterurl = null;
   }
+
+  // selectProvider(): void {
+  //   const dialogRef = this.dialog.open(ProviderSearchComponent, {
+  //     width: '550px',
+  //     height: '212px',
+  //     disableClose: true
+  //   });
+  //   dialogRef.afterClosed().subscribe(result => {
+  //     this.router.navigateByUrl('/KnowYourProvider');
+  //   });
+  // }
 
   signOut() {
     this.authService.logout();

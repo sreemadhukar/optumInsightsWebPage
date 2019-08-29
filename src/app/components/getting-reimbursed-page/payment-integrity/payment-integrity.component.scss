@@ -318,6 +318,44 @@
       }
     }
   }
+
+  .overturn-reason-block {
+    margin: 12px;
+    height: 494px;
+    width: 464px;
+    border-radius: 2px;
+    background-color: $white;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
+    float: left;
+    position: relative;
+  }
+  .reason-time {
+    width: 468px;
+    // margin-top: 372px;
+    padding: 10px 20px 10px 16px;
+    color: $strom-grey;
+    font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    letter-spacing: 0.2px;
+    line-height: 20px;
+  }
+  .common-footer {
+    position: absolute;
+    bottom: 0px;
+    // margin-top: 319px;
+    border-top: 1px solid #efefef;
+  }
+  .appeals-overturned-bar-chart {
+    padding-bottom: 16px;
+    padding-left: 75px; // centre aligned to card
+  }
+
+  .top-reason-one {
+    margin-top: 80px;
+  }
+  .top-reason-other {
+    margin-left: 16px;
+  }
   @media only screen and (max-width: 1024px) {
     @include padding(16px, 0, 16px, 0);
   }

@@ -19,6 +19,7 @@ String devOneUiPod = 'pedui1'
 String devTwoUiPod = 'pedui2'
 String devThreeUiPod = 'pedui3'
 String devFourUiPod = 'pedui4'
+String devFiveUiPod = 'pedui5'
 
 pipeline {
     agent none
@@ -231,6 +232,46 @@ pipeline {
                         project: "$oseDevProject",
                         serviceName: "$devFourUiPod",
                         dockerImage: "$tagBase/ui_devfour:devfour",
+                        port: '8000'
+            }
+        }
+      
+      stage('Web: Build and Deploy Docker Image to DTR - devFive') {
+            when {
+                beforeAgent true
+                branch 'devFive'
+            }
+            agent {
+                label 'docker-nodejs-slave'
+            }
+            steps {
+                glDockerImageBuildPush tag: "$tagBase/ui_devfive:devfive",
+                        dockerHost: 'docker.repo1.uhc.com',
+                        dockerCredentialsId: "$env.DOCKER_CREDENTIALS_ID",
+                        extraBuildOptions: "--build-arg env_var=devfive"
+              
+                 glDockerImageTag sourceTag: "$tagBase/ui_devfive:devfive",
+                                 destTag: "$tagBase/ui_devfive:${env.BUILD_NUMBER}"
+                 glDockerImagePush dockerCredentialsId: "${env.DOCKER_CREDENTIALS_ID}", 
+                     tag:"$tagBase/ui_devfive:${env.BUILD_NUMBER}",
+                     dockerHost: 'docker.repo1.uhc.com'
+            }
+        }
+
+        stage('OSE Deployment Web - devFive') {
+            when {
+                beforeAgent true
+                branch 'devFive'
+            }
+            agent {
+                label 'docker-maven-slave'
+            }
+            steps {
+                glOpenshiftDeploy credentials: "$env.OPENSHIFT_CREDENTIALS_ID",
+                        ocpUrl: "$oseHost",
+                        project: "$oseDevProject",
+                        serviceName: "$devFiveUiPod",
+                        dockerImage: "$tagBase/ui_devfive:devfive",
                         port: '8000'
             }
         }
