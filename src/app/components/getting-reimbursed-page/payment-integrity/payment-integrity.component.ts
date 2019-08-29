@@ -131,7 +131,7 @@ export class PaymentIntegrityComponent implements OnInit {
       'Missing Texas Taxonomy Codes Reason Text Is Too Long',
       'Add-On Codes'
     ];
-    const barVal = [22, 19, 16, 12, 5];
+    const barVal = ['22%', '19%', '16%', '12%', '5%'];
     for (let i = 0; i <= 4; i++) {
       this.claimsTopReason.push({
         type: 'bar chart',
