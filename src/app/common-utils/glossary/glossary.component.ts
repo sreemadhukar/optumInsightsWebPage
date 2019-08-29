@@ -54,7 +54,10 @@ export class GlossaryComponent implements OnInit {
           this.glossaryList[i].BusinessGlossary.ProviderDashboardName.metricData = this.glossaryList[
             i
           ].BusinessGlossary.ProviderDashboardName.Metric.replace(/[^a-zA-Z]/g, '');
-          if (this.glossaryList[i].BusinessGlossary.ProviderDashboardName.MetricId === this.MetricID && this.MetricID) {
+          if (
+            this.glossaryList[i].BusinessGlossary.ProviderDashboardName.MetricID === Number(this.MetricID) &&
+            this.MetricID
+          ) {
             this.glossarySelected.push(this.glossaryList[i]);
           }
         }
