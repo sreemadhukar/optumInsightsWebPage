@@ -28,6 +28,7 @@ export class LoginStubComponent implements OnInit {
   blankScreen = false;
   id: any;
   token: string;
+  isKop = false;
   @ViewChild('errorDialog') errorDialog: TemplateRef<any>;
 
   constructor(
@@ -144,7 +145,21 @@ export class LoginStubComponent implements OnInit {
           }
           sessionStorage.setItem('cache', JSON.stringify(true));
           // this.openDialog();
-          this.router.navigate(['/ProviderSearch']);
+
+          if (environment.internalAccess) {
+            this.authorise.getHeac(this.f.username.value).subscribe(value => {
+              console.log(value);
+              const heac = JSON.parse(sessionStorage.getItem('heac'));
+              this.isKop = heac && heac.heac === true ? true : false;
+              if (this.isKop === true) {
+                this.router.navigate(['/KnowYourProvider']);
+              } else {
+                this.router.navigate(['/ProviderSearch']);
+              }
+            });
+          } else {
+            this.router.navigate(['/ProviderSearch']);
+          }
         },
         error => {
           this.error = true;

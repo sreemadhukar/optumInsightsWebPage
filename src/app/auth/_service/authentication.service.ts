@@ -65,6 +65,7 @@ export class AuthenticationService {
   public logout() {
     sessionStorage.removeItem('currentUser');
     sessionStorage.removeItem('loggedUser');
+    sessionStorage.removeItem('heac');
     sessionStorage.setItem('cache', JSON.stringify(false));
     if (environment.internalAccess) {
       this.router.navigate(['']);
