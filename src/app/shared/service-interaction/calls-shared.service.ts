@@ -77,8 +77,8 @@ export class CallsSharedService {
         .then(data => {
           const temp = JSON.parse(JSON.stringify(data));
           if (this.callsData && data && temp != undefined && temp != null && temp.length > 0) {
-            // console.log(temp[0][1]) for QuestionType
-            // console.log(temp[1][1]) for TalkTime
+            console.log(temp[0][1]); // for QuestionType
+            console.log(temp[1][1]); // for TalkTime
             // Removing Calls Trend Line
             const emptyTrends = [
               {
@@ -91,10 +91,10 @@ export class CallsSharedService {
               }
             ];
             if (temp[0][0] === 'QuestionType') {
-              this.callsData[0].data['sdata'] = emptyTrends[0];
+              this.callsData[0].data['sdata'] = temp[0][1];
             }
             if (temp[1][0] === 'TalkTime') {
-              this.callsData[1].data['sdata'] = emptyTrends[1];
+              this.callsData[1].data['sdata'] = temp[1][1];
             }
           }
           resolve(this.callsData);
