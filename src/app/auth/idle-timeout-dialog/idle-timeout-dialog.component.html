@@ -1,0 +1,17 @@
+<div>
+  <h1 mat-dialog-title class="session-warning-title">Are you still here?</h1>
+  <div mat-dialog-content>
+    <p class="session-warning-message">
+      In order to keep your information safe, you will be logged out after 30 minutes of inactivity.
+    </p>
+    <p class="session-warning-message session-elapse-time-message">
+      Your current session will expire in <span class="session-elapse-time">{{ timeLeftSeconds | minuteSeconds }}</span>
+    </p>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-button (click)="onLogoutClick()" class="log-me-out-btn session-warning-buttons">Log Me Out</button>
+    <button mat-button (click)="onNoClick()" class="keep-me-signed-btn session-warning-buttons">
+      Keep Me Signed In
+    </button>
+  </div>
+</div>
