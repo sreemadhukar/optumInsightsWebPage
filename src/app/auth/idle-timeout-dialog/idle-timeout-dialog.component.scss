@@ -1,12 +1,13 @@
 @import '~src/scss/variables.scss';
 @import '~src/scss/mixins';
 @import '~src/scss/my-custom-theme';
-.mat-dialog-container {
-  width: 550px;
+
+.session-warning-modal {
+  /*width: 550px;
   border-radius: 2px;
   background-color: #ffffff;
-  box-shadow: 0 20px 40px 0 rgba(0, 0, 0, 0.15);
-  padding: 48px 80px;
+  box-shadow: 0 20px 40px 0 rgba(0, 0, 0, 0.15);*/
+  padding: 24px 56px;
 }
 .session-warning-title {
   width: 390px;
