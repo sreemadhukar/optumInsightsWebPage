@@ -321,18 +321,6 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     this.filterFlag = false;
     this.filterurl = null;
   }
-
-  // selectProvider(): void {
-  //   const dialogRef = this.dialog.open(ProviderSearchComponent, {
-  //     width: '550px',
-  //     height: '212px',
-  //     disableClose: true
-  //   });
-  //   dialogRef.afterClosed().subscribe(result => {
-  //     this.router.navigateByUrl('/KnowOurProvider');
-  //   });
-  // }
-
   signOut() {
     this.authService.logout();
     if (!environment.internalAccess) {
