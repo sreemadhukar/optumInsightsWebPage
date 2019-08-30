@@ -6,6 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./aco-page.component.scss']
 })
 export class AcoPageComponent implements OnInit {
+  loading = true;
   constructor() {}
 
   ngOnInit() {}
