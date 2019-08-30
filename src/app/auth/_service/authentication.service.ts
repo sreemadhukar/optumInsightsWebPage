@@ -6,6 +6,7 @@ import { map } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 import { User } from '../_models/user';
 import { Router } from '@angular/router';
+import { DOCUMENT } from '@angular/common';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +19,7 @@ export class AuthenticationService {
   private currentUserSubject: BehaviorSubject<User>;
   private currentUser: Observable<User>;
 
-  constructor(public http: HttpClient, private router: Router) {
+  constructor(public http: HttpClient, private router: Router, @Inject(DOCUMENT) private document: any) {
     this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(sessionStorage.getItem('currentUser')));
     this.currentUser = this.currentUserSubject.asObservable();
   }
@@ -61,12 +62,19 @@ export class AuthenticationService {
     );
   }
 
-  public logout() {
+  public logout(expired = 0) {
     sessionStorage.removeItem('currentUser');
     sessionStorage.removeItem('loggedUser');
+    sessionStorage.removeItem('heac');
     sessionStorage.setItem('cache', JSON.stringify(false));
     if (environment.internalAccess) {
-      this.router.navigate(['']);
+      if (expired) {
+        this.router.navigate([''], { queryParams: { sessionExpired: true } });
+      } else {
+        this.router.navigate(['']);
+      }
+    } else if (!environment.internalAccess) {
+      this.document.location.href = environment.apiUrls.SsoLogoutUrl;
     }
   }
 

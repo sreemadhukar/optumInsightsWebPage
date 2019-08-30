@@ -35,6 +35,8 @@ import { PriorAuthSharedService } from 'src/app/shared/prior-authorization/prior
 import { FilterExpandService } from '../../shared/filter-expand.service';
 import { DOCUMENT, Location } from '@angular/common';
 import { environment } from '../../../environments/environment';
+import { EventEmitterService } from 'src/app/shared/know-our-provider/event-emitter.service';
+import { SessionService } from '../../shared/session.service';
 
 @Component({
   selector: 'app-hamburger-menu',
@@ -51,9 +53,11 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
   public makeAbsolute: boolean;
   public bgWhite: boolean;
   public sideNavFlag = true;
+  public AcoFlag = false;
   subscription: any;
   public glossaryFlag: boolean;
   public glossaryTitle: string = null;
+  public glossaryMetricID: string;
   public filterFlag: boolean;
   public filterurl: string = null;
   clickHelpIcon: Subscription;
@@ -61,6 +65,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
   public mobileQuery: boolean;
   public PCORFlag: any;
   public healthSystemName: string;
+  public isKop: boolean;
   disableChangeProvider: boolean = environment.internalAccess;
   /*** Array of Navigation Category List ***/
   public navCategories = [
@@ -90,7 +95,6 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
       ]
     }
   ];
-
   fillerNav = Array.from({ length: 50 }, (_, i) => `Nav Item ${i + 1}`);
 
   /** CONSTRUCTOR **/
@@ -109,13 +113,19 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     private filterExpandService: FilterExpandService,
     private priorAuthShared: PriorAuthSharedService,
     private location: Location,
+    private sessionService: SessionService,
+    private eventEmitter: EventEmitterService,
     @Inject(DOCUMENT) private document: any
   ) {
+    if (window.location.href.includes('AcoPage')) {
+      this.AcoFlag = true;
+    }
     this.glossaryFlag = false;
     this.filterFlag = false;
     // to disable the header/footer/body when not authenticated
     router.events.subscribe(event => {
       if (event instanceof NavigationStart) {
+        this.healthSystemName = this.sessionService.getHealthCareOrgName();
         this.makeAbsolute = !(
           authService.isLoggedIn() &&
           !(
@@ -127,6 +137,10 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
         );
         this.bgWhite = !(authService.isLoggedIn() && !event.url.includes('print-'));
         this.loading = true;
+        const heac = JSON.parse(sessionStorage.getItem('heac'));
+        if (event.url === '/KnowOurProvider' && !heac.heac) {
+          router.navigate(['/ProviderSearch']);
+        }
       }
       // PLEASE DON'T MODIFY THIS
     });
@@ -165,15 +179,47 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-search-24px.svg')
     );
   }
+
   ngOnInit() {
+    this.isKop = false;
     this.loading = false;
     this.PCORFlag = false;
     this.isDarkTheme = this.themeService.isDarkTheme;
-    this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => {
-      this.healthSystemName = JSON.parse(sessionStorage.getItem('currentUser'))[0]['HealthCareOrganizationName'];
+    this.eventEmitter.getEvent().subscribe(val => {
+      this.isKop = val.value;
     });
-    //   console.log(sessionStorage.getItem('currentUser'))
-    //   if (sessionStorage.getItem('currentUser')) {
+    this.checkStorage.getEvent().subscribe(value => {
+      if (value.value === 'overviewPage') {
+        this.healthSystemName = this.sessionService.getHealthCareOrgName();
+        this.checkPA();
+      }
+    });
+    this.clickHelpIcon = this.glossaryExpandService.message.subscribe(
+      data => {
+        this.glossaryFlag = true;
+        this.glossaryTitle = data.value;
+        this.glossaryMetricID = data.MetricID;
+      },
+      err => {
+        console.log('Error, clickHelpIcon , inside Hamburger', err);
+      }
+    );
+
+    this.clickFilterIcon = this.filterExpandService.url.subscribe(
+      data => {
+        this.filterFlag = true;
+        this.filterurl = data;
+      },
+      err => {
+        console.log('Error, clickHelpIcon , inside Hamburger', err);
+      }
+    );
+    setTimeout(() => {
+      this.healthSystemName = this.sessionService.getHealthCareOrgName();
+    }, 1);
+  }
+
+  checkPA() {
     this.priorAuthShared.getPCORData().then(data => {
       if (this.PCORFlag === data) {
         // Do nothing because its the same state
@@ -201,68 +247,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
         }
       }
     });
-
-    this.checkStorage.getNavChangeEmitter().subscribe(() => {
-      this.priorAuthShared.getPCORData().then(data => {
-        if (this.PCORFlag === data) {
-          // Do nothing because its the same state
-        } else {
-          // Flag changed
-          if (data) {
-            this.navCategories[2].children.push({
-              name: 'Patient Care Opportunity',
-              path: '/CareDelivery/PatientCareOpportunity'
-            });
-            this.PCORFlag = data;
-          } else {
-            this.navCategories[2].children.splice(
-              this.navCategories[2].children.indexOf({
-                name: 'Patient Care Opportunity',
-                path: '/CareDelivery/PatientCareOpportunity'
-              }),
-              1
-            );
-            if (this.location.path() === '/CareDelivery/PatientCareOpportunity') {
-              this.router.navigateByUrl('/OverviewPage');
-              this.togglePanels(false, NaN);
-            }
-            this.PCORFlag = data;
-          }
-        }
-      });
-    });
-    //   }
-
-    this.clickHelpIcon = this.glossaryExpandService.message.subscribe(
-      data => {
-        this.glossaryFlag = true;
-        this.glossaryTitle = data;
-      },
-      err => {
-        console.log('Error, clickHelpIcon , inside Hamburger', err);
-      }
-    );
-
-    this.clickFilterIcon = this.filterExpandService.url.subscribe(
-      data => {
-        this.filterFlag = true;
-        this.filterurl = data;
-      },
-      err => {
-        console.log('Error, clickHelpIcon , inside Hamburger', err);
-      }
-    );
-    setTimeout(() => {
-      const user = JSON.parse(sessionStorage.getItem('currentUser'));
-      if (user) {
-        this.healthSystemName =
-          user && user[0].hasOwnProperty('HealthCareOrganizationName')
-            ? user[0]['HealthCareOrganizationName']
-            : user[0]['Healthcareorganizationname'];
-      }
-    }, 1);
   }
-
   ngOnDestroy() {
     this.clickHelpIcon.unsubscribe();
     this.glossaryFlag = false;
@@ -340,7 +325,6 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     this.filterFlag = false;
     this.filterurl = null;
   }
-
   signOut() {
     this.authService.logout();
     if (!environment.internalAccess) {

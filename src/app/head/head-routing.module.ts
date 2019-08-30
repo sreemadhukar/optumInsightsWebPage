@@ -49,6 +49,16 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
+    path: 'AcoPage',
+    loadChildren: '../components/ACO/aco.module#AcoModule',
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'KnowOurProvider',
+    loadChildren: '../components/know-our-provider/know-our-provider.module#KnowOurProviderModule',
+    canActivate: [AuthGuard]
+  },
+  {
     path: 'TermsofUse',
     component: TermsOfUseComponent
   },
