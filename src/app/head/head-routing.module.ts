@@ -54,8 +54,8 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
-    path: 'KnowYourProvider',
-    loadChildren: '../components/know-your-provider/know-your-provider.module#KnowYourProviderModule',
+    path: 'KnowOurProvider',
+    loadChildren: '../components/know-our-provider/know-our-provider.module#KnowOurProviderModule',
     canActivate: [AuthGuard]
   },
   {

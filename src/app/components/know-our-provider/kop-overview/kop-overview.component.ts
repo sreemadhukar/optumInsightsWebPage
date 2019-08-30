@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { EventEmitterService } from 'src/app/shared/know-your-provider/event-emitter.service';
+import { EventEmitterService } from 'src/app/shared/know-our-provider/event-emitter.service';
 import { Subscription } from 'rxjs';
 
 @Component({
