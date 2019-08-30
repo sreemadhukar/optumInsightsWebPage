@@ -14,6 +14,7 @@
         [class.display-none]="makeAbsolute"
         class="sticky"
         (hamburgerDisplay)="hamburgerDisplay($event)"
+        [isKop]="isKop"
       ></app-header>
     </mat-toolbar>
     <mat-sidenav-container
@@ -38,15 +39,16 @@
         </div>
         <!-- END OF UHC LOGO BLOCK -->
         <!-- HEALTHSYSTEM REPRESENTATION BLOCK -->
-        <div class="health-system-representation-block">
+        <div class="health-system-representation-block" *ngIf="!isKop">
           <p class="representing-label">You are representing</p>
           <p class="health-system-name">{{ healthSystemName }}</p>
-          <p class="change-provider" *ngIf="disableChangeProvider" (click)="openDialog()">Change Provider</p>
+          <p class="change-provider" *ngIf="disableChangeProvider && !AcoFlag" (click)="openDialog()">
+            Change Provider
+          </p>
         </div>
         <!-- END OF HEALTHSYSTEM REPRESENTATION BLOCK -->
-
         <!-- MENU CATEGORIES BLOCK -->
-        <div class="nav-mat-list-items">
+        <div class="nav-mat-list-items" *ngIf="!isKop && !AcoFlag">
           <mat-nav-list
             *ngFor="let category of navCategories; let rowIndex = index"
             [ngClass]="
@@ -105,6 +107,10 @@
           </mat-nav-list>
         </div>
         <!-- END OF MENU CATEGORIES BLOCK -->
+
+        <div *ngIf="isKop" class="simulate-external-view">
+          <button class="simulate-external-view-btn btn btn-secondary" mat-button>Simulate External View</button>
+        </div>
 
         <!-- SIGNOUT BLOCK -->
         <div class="signout-block">

@@ -47,9 +47,9 @@ export class PaymentsComponent implements OnInit {
     private iconRegistry: MatIconRegistry,
     private filtermatch: CommonUtilsService
   ) {
-    const filData = this.session.getFilChangeEmitter().subscribe(() => this.ngOnInit());
+    const filData = this.session.getFilChangeEmitter().subscribe(() => this.filtermatch.urlResuseStrategy());
     this.pageTitle = 'Claims Payments*';
-    this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.ngOnInit());
+    this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.filtermatch.urlResuseStrategy());
     iconRegistry.addSvgIcon(
       'filter',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-filter_list-24px.svg')
