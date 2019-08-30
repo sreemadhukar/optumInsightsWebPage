@@ -1,3 +1,24 @@
-<p>
-  aco-page works!
-</p>
+<div class="aco-body">
+  <div class="aco-content">
+    <div class="aco-head">
+      <div class="aco-title">{{ pageTitle }}</div>
+      <div class="aco-sub-title">Your ACO Insights at a glance.</div>
+    </div>
+    <div class="aco-tab-div">
+      <div class="aco-tab-header">Employer & Individual</div>
+      <div class="aco-tab-date">M2Q4 Apr 1, 2018–Mar 31, 2019</div>
+    </div>
+    <div class="aco-main-cards">
+      <app-small-card class="cards" [skeleton]="loading"> </app-small-card>
+      <app-small-card class="cards" [skeleton]="loading"> </app-small-card>
+      <app-small-card class="cards" [skeleton]="loading"> </app-small-card>
+      <div class="MPT-div">*MPT – Minimum Performance Threshold</div>
+    </div>
+    <div class="aco-sub-head">Key Performance Indicators Per 1,000 Members</div>
+    <div class="aco-performance-cards">
+      <app-small-card class="cards" [skeleton]="loading"> </app-small-card>
+      <app-small-card class="cards" [skeleton]="loading"> </app-small-card>
+      <app-small-card class="cards" [skeleton]="loading"> </app-small-card>
+    </div>
+  </div>
+</div>
