@@ -227,7 +227,11 @@ export class SelfSharedService {
             providerSystems.SelfServiceInquiries.hasOwnProperty('ALL') &&
             providerSystems.SelfServiceInquiries.ALL.hasOwnProperty('SelfService')
           ) {
-            if (providerSystems.SelfServiceInquiries.ALL.SelfService.hasOwnProperty('TotalCallCost')) {
+            if (
+              providerSystems.SelfServiceInquiries.ALL.SelfService.hasOwnProperty('TotalCallCost') &&
+              providerSystems.SelfServiceInquiries.ALL.SelfService.hasOwnProperty('TotalSelfServiceCost') &&
+              providerSystems.SelfServiceInquiries.ALL.SelfService.hasOwnProperty('TotalPhoneCost')
+            ) {
               try {
                 let totalCallCost = providerSystems.SelfServiceInquiries.ALL.SelfService.TotalCallCost;
                 totalCallCost = this.common.nFormatter(totalCallCost);
