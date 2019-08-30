@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { SessionService } from '../../../shared/session.service';
 
 @Component({
   selector: 'app-aco-page',
@@ -7,7 +8,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AcoPageComponent implements OnInit {
   loading = true;
-  constructor() {}
+  public pageTitle: any;
+  constructor(private session: SessionService) {
+    const userInfo = JSON.parse(sessionStorage.getItem('loggedUser'));
+    this.pageTitle = 'Hello, ' + userInfo.FirstName + '.';
+  }
 
   ngOnInit() {}
 }

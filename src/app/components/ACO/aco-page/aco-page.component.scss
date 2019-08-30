@@ -51,7 +51,7 @@
       }
       .aco-tab-date {
         color: #757588;
-        font-family: 'UHC Sans';
+        font-family: 'UHCSans-Medium';
         font-size: 14px;
         letter-spacing: 0.2px;
         line-height: 18px;
@@ -67,12 +67,31 @@
       justify-content: left;
       flex-wrap: wrap;
       width: 100%;
+      .MPT-div {
+        color: #2d2d39;
+        font-family: 'UHCSans-Medium';
+        font-size: 14px;
+        letter-spacing: 0.2px;
+        line-height: 18px;
+        padding-top: 6px;
+        padding-left: 10px;
+      }
+      padding-bottom: 32px;
     }
     .aco-sub-head {
       color: #2d2d39;
       font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
       font-size: 28px;
       line-height: 32px;
+      width: 100%;
+    }
+    .aco-performance-cards {
+      display: -webkit-box;
+      display: -moz-box;
+      display: -ms-flexbox;
+      display: -webkit-flex;
+      display: flex;
+      width: 100%;
     }
   }
 }
