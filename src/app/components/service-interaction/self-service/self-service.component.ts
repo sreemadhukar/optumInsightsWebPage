@@ -3,6 +3,7 @@ import { SelfSharedService } from '../../../shared/service-interaction/self-shar
 import { SessionService } from '../../../shared/session.service';
 import { StorageService } from '../../../shared/storage-service.service';
 import { GlossaryExpandService } from '../../../shared/glossary-expand.service';
+import { CommonUtilsService } from 'src/app/shared/common-utils.service';
 
 @Component({
   selector: 'app-self-service',
@@ -30,13 +31,14 @@ export class SelfServiceComponent implements OnInit {
     private selfServiceSrc: SelfSharedService,
     private checkStorage: StorageService,
     private session: SessionService,
-    private glossaryExpandService: GlossaryExpandService
+    private glossaryExpandService: GlossaryExpandService,
+    private filtermatch: CommonUtilsService
   ) {
     this.pageTitle = 'Self Service';
     this.opportunities = 'Opportunities';
     this.opportunitiesQuestion = 'How much can online self service save you?';
 
-    this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.ngOnInit());
+    this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.filtermatch.urlResuseStrategy());
   }
 
   ngOnInit() {
@@ -54,6 +56,6 @@ export class SelfServiceComponent implements OnInit {
       .catch(reason => console.log('Self Service Page Service Error ', reason));
   } // ngOnit funtion ends here
   helpIconClick(title) {
-    this.glossaryExpandService.setMessage(title);
+    // this.glossaryExpandService.setMessage(title, this.MetricID);
   }
 }
