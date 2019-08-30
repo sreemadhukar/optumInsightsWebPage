@@ -19,17 +19,16 @@
     <div *ngFor="let item of MRACVCompletionData; let i = index">
       <app-card *ngIf="item.data != null" class="cards" [chartData]="item" [tabData]="PCORTabData"> </app-card>
     </div>
-    <!--
-        <app-accordion-large-card
-          [title]="qualityTitle"
-          [qualityMeasure]="qualityMeasureData"
-          [data]="StarRatings"
-          (ratingClick)="ratingComponentClick(i)"
-          *ngIf="!loading"
-        ></app-accordion-large-card>
-        <app-accordion-large-card [skeletonLarge]="loading" *ngIf="loading"></app-accordion-large-card>
-        -->
+    <app-accordion-large-card
+      [title]="qualityTitle"
+      [qualityMeasure]="qualityMeasureData"
+      [data]="StarRatings"
+      (ratingClick)="ratingComponentClick(i)"
+      *ngIf="!loading"
+    ></app-accordion-large-card>
+    <app-accordion-large-card [skeletonLarge]="loading" *ngIf="loading"></app-accordion-large-card>
+
     <app-large-card [skeletonLarge]="loading" *ngIf="loading"></app-large-card>
-    <app-large-card [data]="StarRatings" *ngIf="StarRatings.length > 1"></app-large-card>
+    <!-- <app-large-card [data]="StarRatings" *ngIf="StarRatings.length > 1"></app-large-card> -->
   </div>
 </div>
