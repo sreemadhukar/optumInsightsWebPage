@@ -84,6 +84,11 @@
           color: $red-dark;
         }
       }
+
+      .session-timeout-msg {
+        margin-top: 18px;
+        display: flex;
+      }
     }
 
     .body {
