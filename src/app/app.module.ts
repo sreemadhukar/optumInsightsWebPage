@@ -19,6 +19,8 @@ import { PriorAuthService } from './rest/prior-auth/prior-auth.service';
 import { PriorAuthSharedService } from './shared/prior-authorization/prior-auth.service';
 import { HttpInterceptorService } from './rest/interceptor/http-interceptor.service';
 import { CacheInterceptor } from './rest/interceptor/cache.interceptor';
+import { NPSSharedService } from './shared/nps/nps.service';
+import { NPSService } from './rest/nps/nps.service';
 
 @NgModule({
   declarations: [AppComponent],
@@ -41,6 +43,8 @@ import { CacheInterceptor } from './rest/interceptor/cache.interceptor';
     CookieService,
     PriorAuthService,
     PriorAuthSharedService,
+    NPSService,
+    NPSSharedService,
     { provide: HTTP_INTERCEPTORS, useClass: HttpInterceptorService, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: CacheInterceptor, multi: true }
   ],

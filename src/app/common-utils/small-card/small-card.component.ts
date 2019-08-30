@@ -5,6 +5,12 @@ import { GlossaryExpandService } from '../../shared/glossary-expand.service';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 
+export interface SmallCardOptions {
+  titlecolor: string;
+  titleFontFamily: string;
+  titleFontWeight: string;
+}
+
 @Component({
   selector: 'app-small-card',
   templateUrl: './small-card.component.html',
@@ -13,6 +19,7 @@ import { Router } from '@angular/router';
 export class SmallCardComponent implements OnInit {
   @Input() data;
   @Input() skeleton;
+  @Input() options: SmallCardOptions;
   subscription: Subscription;
   public printStyle: boolean;
   /*

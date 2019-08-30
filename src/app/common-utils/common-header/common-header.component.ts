@@ -3,6 +3,12 @@ import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 
+export interface CommonHeaderOptions {
+  titleColor: string;
+  titleFontFamily: string;
+  titleFontWeight: string;
+}
+
 @Component({
   selector: 'app-common-header',
   templateUrl: './common-header.component.html',
@@ -13,6 +19,7 @@ export class CommonHeaderComponent implements OnInit {
   @Input() title: String;
   @Output() helpIconClicked = new EventEmitter();
   @Input() cardType: String;
+  @Input() options: CommonHeaderOptions;
   titleHeader: String = null;
   typeOfCard: String = null;
   routhPath: string;

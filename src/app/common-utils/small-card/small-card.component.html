@@ -3,8 +3,25 @@
     <app-common-header
       [cardType]="'smallCard'"
       [title]="data.title"
+      [options]="options"
       (helpIconClicked)="helpIconClick($event)"
     ></app-common-header>
+
+    <div *ngIf="data.quarter" class="cards-display-block">
+      <div
+        *ngFor="let card of data.cards"
+        class="data-card"
+        [style.color]="card.color"
+        [style.border]="card.border"
+        [style.box-shadow]="card.boxShadow"
+        [style.background-color]="card.backgroundColor"
+      >
+        <div class="highlighted">{{ card.highlightedValue }}</div>
+        <div class="caption-text">{{ card.captionText }}</div>
+        <div class="target">{{ card.targetValue }}</div>
+      </div>
+    </div>
+
     <div
       *ngIf="data.type == 'donut' && data.data != null"
       [ngClass]="data.sdata != null ? 'chart-details-donut' : 'full-width'"

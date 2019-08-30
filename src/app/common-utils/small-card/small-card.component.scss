@@ -32,8 +32,8 @@
       float: left;
       /*padding: 10% 0;*/
       display: flex;
-      margin-top: 48px;
-      margin-left: 18px;
+      // margin-top: 48px;
+      margin-left: 70px;
 
       .trend-value {
         font-size: 14px;
@@ -107,6 +107,41 @@
     float: left;
     width: 100%;
     margin-top: -4px;
+  }
+  .cards-display-block {
+    width: 100%;
+    margin-top: -4px;
+    display: flex;
+    .data-card {
+      text-align: center;
+      font-family: 'UHC Sans';
+      color: white;
+      margin: 10px auto;
+      width: 120px;
+      padding-bottom: 25px;
+      border-radius: 10px;
+      .highlighted {
+        padding: 5px 0;
+        height: 45px;
+        font-size: 58px;
+        font-weight: 500;
+        line-height: 60px;
+      }
+      .caption-text {
+        font-size: 14px;
+        font-weight: 500;
+        height: 14px;
+        letter-spacing: 0.17px;
+        line-height: 50px;
+      }
+      .target {
+        padding: 5px 0;
+        font-size: 14px;
+        font-weight: 600;
+        height: 14px;
+        line-height: 50px;
+      }
+    }
   }
   .small-star-chart {
     margin-left: 92px;
