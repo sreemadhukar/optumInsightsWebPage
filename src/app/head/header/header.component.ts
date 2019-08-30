@@ -79,6 +79,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
     // this.mobileQuery = this.breakpointObserver.isMatched('(max-width: 1024px)');
     router.events.subscribe(event => {
       if (event instanceof NavigationStart) {
+        const userInfo = JSON.parse(sessionStorage.getItem('loggedUser'));
+        this.username = userInfo.FirstName;
         this.mobileQuery = this.breakpointObserver.isMatched('(max-width: 1279px)');
         // alert(this.mobileQuery);
         if (!this.mobileQuery) {

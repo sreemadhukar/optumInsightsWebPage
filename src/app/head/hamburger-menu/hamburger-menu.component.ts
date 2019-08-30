@@ -125,6 +125,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     // to disable the header/footer/body when not authenticated
     router.events.subscribe(event => {
       if (event instanceof NavigationStart) {
+        this.healthSystemName = this.sessionService.getHealthCareOrgName();
         this.makeAbsolute = !(
           authService.isLoggedIn() &&
           !(
