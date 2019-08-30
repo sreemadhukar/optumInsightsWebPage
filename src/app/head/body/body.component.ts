@@ -16,9 +16,9 @@ export class BodyComponent implements OnInit, AfterViewInit {
     const s = this.document.createElement('script');
     s.type = 'text/javascript';
     s.src = url;
-    const __this = this; //to store the current instance to call
-    //afterScriptAdded function on onload event of
-    //script.
+    const __this = this; // to store the current instance to call
+    // afterScriptAdded function on onload event of
+    // script.
 
     s.onload = function() {
       __this.afterScriptAdded();
