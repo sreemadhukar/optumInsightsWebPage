@@ -5,6 +5,7 @@ import { GettingReimbursedService } from '../../../rest/getting-reimbursed/getti
 import { CommonUtilsService } from '../../common-utils.service';
 import { SessionService } from '../../session.service';
 import { AuthorizationService } from '../../../auth/_service/authorization.service';
+import { GlossaryMetricidService } from '../../glossary-metricid.service';
 
 @Injectable({
   providedIn: GettingReimbursedModule
@@ -17,6 +18,7 @@ export class AppealsSharedService {
   private providerKey: number;
   private nonPaymentBy: string;
   constructor(
+    private MetricidService: GlossaryMetricidService,
     private gettingReimbursedService: GettingReimbursedService,
     private common: CommonUtilsService,
     private session: SessionService,
@@ -37,6 +39,7 @@ export class AppealsSharedService {
             type: 'donutWithLabelBottom',
             status: appealsData.status,
             title: 'Claims Appeals Submitted',
+            MetricID: this.MetricidService.MetricIDs.ClaimsAppealsSubmitted,
             data: null,
             besideData: null,
             bottomData: null,
@@ -47,6 +50,7 @@ export class AppealsSharedService {
             type: 'donut',
             status: appealsData.status,
             title: 'Claims Appeals Overturned',
+            MetricID: this.MetricidService.MetricIDs.ClaimAppealsOverturned,
             data: null,
             timeperiod: null
           };
@@ -138,6 +142,7 @@ export class AppealsSharedService {
               category: 'app-card',
               type: 'donutWithLabelBottom',
               title: 'Claims Appeals Submitted',
+              MetricID: this.MetricidService.MetricIDs.ClaimsAppealsSubmitted,
               data: {
                 graphValues: submittedData,
                 centerNumber: this.common.nFormatter(
@@ -180,6 +185,7 @@ export class AppealsSharedService {
               category: 'app-card',
               type: 'donutWithLabelBottom',
               title: 'Claims Appeals Submitted',
+              MetricID: this.MetricidService.MetricIDs.ClaimsAppealsSubmitted,
               status: 404,
               data: null,
               besideData: null,
@@ -206,6 +212,7 @@ export class AppealsSharedService {
               category: 'app-card',
               type: 'donut',
               title: 'Claims Appeals Overturned',
+              MetricID: this.MetricidService.MetricIDs.ClaimAppealsOverturned,
               data: {
                 graphValues: overturnedData,
                 centerNumber: appealsData[0].LineOfBusiness[lobFullData].OverTurnCount
@@ -222,6 +229,7 @@ export class AppealsSharedService {
               category: 'app-card',
               type: 'donut',
               title: 'Claims Appeals Overturned',
+              MetricID: this.MetricidService.MetricIDs.ClaimAppealsOverturned,
               status: 404,
               data: null,
               timeperiod: null
@@ -232,6 +240,7 @@ export class AppealsSharedService {
             category: 'app-card',
             type: 'donutWithLabelBottom',
             title: 'Claims Appeals Submitted',
+            MetricID: this.MetricidService.MetricIDs.ClaimsAppealsSubmitted,
             status: 404,
             data: null,
             besideData: null,
@@ -242,13 +251,19 @@ export class AppealsSharedService {
             category: 'app-card',
             type: 'donut',
             title: 'Claims Appeals Overturned',
+            MetricID: this.MetricidService.MetricIDs.ClaimAppealsOverturned,
             status: 404,
             data: null,
             timeperiod: null
           };
         }
 
-        appeals = { id: 1, title: 'Claims Appeals', data: [appealsSubmitted, appealsOverturned] };
+        appeals = {
+          id: 1,
+          title: 'Claims Appeals',
+          MetricID: this.MetricidService.MetricIDs.ClaimsAppeals,
+          data: [appealsSubmitted, appealsOverturned]
+        };
         summaryData[0] = appeals;
         if (summaryData.length) {
           resolve(summaryData);
@@ -363,6 +378,7 @@ export class AppealsSharedService {
               type: 'donut',
               status: appealsData.status,
               title: 'Claims Appeals Overturned Rate',
+              MetricID: this.MetricidService.MetricIDs.ClaimAppealsOverturnRate,
               data: null,
               timeperiod: null
             };
@@ -388,6 +404,7 @@ export class AppealsSharedService {
                   category: 'app-card',
                   type: 'donut',
                   title: 'Claims Appeals Overturned Rate',
+                  MetricID: this.MetricidService.MetricIDs.ClaimAppealsOverturnRate,
                   data: {
                     graphValues: [overturnRate, 100 - ornumber],
                     centerNumber: overturnRate + '%',
@@ -403,6 +420,7 @@ export class AppealsSharedService {
                   type: 'donut',
                   status: 404,
                   title: 'Claims Appeals Overturned Rate',
+                  MetricID: this.MetricidService.MetricIDs.ClaimAppealsOverturnRate,
                   data: null,
                   timeperiod: null
                 };
@@ -455,6 +473,7 @@ export class AppealsSharedService {
                   type: 'donut',
                   status: 404,
                   title: 'Top Claims Appeals Overturn Reasons',
+                  MetricID: this.MetricidService.MetricIDs.TopClaimAppealsOverturnReasons,
                   data: null,
                   timeperiod: null
                 });
@@ -465,6 +484,7 @@ export class AppealsSharedService {
                 type: 'donut',
                 status: 404,
                 title: 'Claims Appeals Overturned Rate',
+                MetricID: this.MetricidService.MetricIDs.ClaimAppealsOverturnRate,
                 data: null,
                 timeperiod: null
               };
@@ -473,6 +493,7 @@ export class AppealsSharedService {
                 type: 'donut',
                 status: 404,
                 title: 'Top Claims Appeals Overturn Reasons',
+                MetricID: this.MetricidService.MetricIDs.TopClaimAppealsOverturnReasons,
                 data: null,
                 timeperiod: null
               });
@@ -483,6 +504,7 @@ export class AppealsSharedService {
               type: 'donut',
               status: 404,
               title: 'Claims Appeals Overturned Rate',
+              MetricID: this.MetricidService.MetricIDs.ClaimAppealsOverturnRate,
               data: null,
               timeperiod: null
             };
@@ -491,6 +513,7 @@ export class AppealsSharedService {
               type: 'donut',
               status: 404,
               title: 'Top Claims Appeals Overturn Reasons',
+              MetricID: this.MetricidService.MetricIDs.TopClaimAppealsOverturnReasons,
               data: null,
               timeperiod: null
             });
@@ -541,6 +564,7 @@ export class AppealsSharedService {
               type: 'donut',
               status: appealsData.status,
               title: 'Claims Appeals Overturned Rate',
+              MetricID: this.MetricidService.MetricIDs.ClaimAppealsOverturnRate,
               data: null,
               timeperiod: null
             };
@@ -566,6 +590,7 @@ export class AppealsSharedService {
                   category: 'app-card',
                   type: 'donut',
                   title: 'Claims Appeals Overturned Rate',
+                  MetricID: this.MetricidService.MetricIDs.ClaimAppealsOverturnRate,
                   data: {
                     graphValues: [overturnRate, 100 - ornumber],
                     centerNumber: overturnRate + '%',
@@ -581,6 +606,7 @@ export class AppealsSharedService {
                   type: 'donut',
                   status: 404,
                   title: 'Claims Appeals Overturned Rate',
+                  MetricID: this.MetricidService.MetricIDs.ClaimAppealsOverturnRate,
                   data: null,
                   timeperiod: null
                 };
@@ -634,6 +660,7 @@ export class AppealsSharedService {
                     type: 'donut',
                     status: 404,
                     title: 'Top Claims Appeals Overturn Reasons',
+                    MetricID: this.MetricidService.MetricIDs.TopClaimAppealsOverturnReasons,
                     data: null,
                     timeperiod: null
                   });
@@ -644,6 +671,7 @@ export class AppealsSharedService {
                   type: 'donut',
                   status: 404,
                   title: 'Top Claims Appeals Overturn Reasons',
+                  MetricID: this.MetricidService.MetricIDs.TopClaimAppealsOverturnReasons,
                   data: null,
                   timeperiod: null
                 });
@@ -654,6 +682,7 @@ export class AppealsSharedService {
                 type: 'donut',
                 status: 404,
                 title: 'Claims Appeals Overturned Rate',
+                MetricID: this.MetricidService.MetricIDs.ClaimAppealsOverturnRate,
                 data: null,
                 timeperiod: null
               };
@@ -662,6 +691,7 @@ export class AppealsSharedService {
                 type: 'donut',
                 status: 404,
                 title: 'Top Claims Appeals Overturn Reasons',
+                MetricID: this.MetricidService.MetricIDs.TopClaimAppealsOverturnReasons,
                 data: null,
                 timeperiod: null
               });
@@ -672,6 +702,7 @@ export class AppealsSharedService {
               type: 'donut',
               status: 404,
               title: 'Claims Appeals Overturned Rate',
+              MetricID: this.MetricidService.MetricIDs.ClaimAppealsOverturnRate,
               data: null,
               timeperiod: null
             };
@@ -680,6 +711,7 @@ export class AppealsSharedService {
               type: 'donut',
               status: 404,
               title: 'Top Claims Appeals Overturn Reasons',
+              MetricID: this.MetricidService.MetricIDs.TopClaimAppealsOverturnReasons,
               data: null,
               timeperiod: null
             });
@@ -702,6 +734,7 @@ export class AppealsSharedService {
         type: 'donutWithLabelBottom',
         status: appealsData.status,
         title: 'Claims Appeals Submitted',
+        MetricID: this.MetricidService.MetricIDs.ClaimsAppealsSubmitted,
         data: null,
         besideData: null,
         bottomData: null,
@@ -712,6 +745,7 @@ export class AppealsSharedService {
         type: 'donut',
         status: appealsData.status,
         title: 'Claims Appeals Overturned',
+        MetricID: this.MetricidService.MetricIDs.ClaimAppealsOverturned,
         data: null,
         timeperiod: null
       };
@@ -812,6 +846,7 @@ export class AppealsSharedService {
           category: 'app-card',
           type: 'donutWithLabelBottom',
           title: 'Claims Appeals Submitted',
+          MetricID: this.MetricidService.MetricIDs.ClaimsAppealsSubmitted,
           data: {
             graphValues: submittedData,
             centerNumber: this.common.nFormatter(
@@ -854,6 +889,7 @@ export class AppealsSharedService {
           category: 'app-card',
           type: 'donutWithLabelBottom',
           title: 'Claims Appeals Submitted',
+          MetricID: this.MetricidService.MetricIDs.ClaimsAppealsSubmitted,
           status: 404,
           data: null,
           besideData: null,
@@ -885,6 +921,7 @@ export class AppealsSharedService {
           category: 'app-card',
           type: 'donut',
           title: 'Claims Appeals Overturned',
+          MetricID: this.MetricidService.MetricIDs.ClaimAppealsOverturned,
           data: {
             graphValues: overturnedData,
             centerNumber: this.common.nFormatter(sumOverturned),
@@ -899,6 +936,7 @@ export class AppealsSharedService {
           category: 'app-card',
           type: 'donut',
           title: 'Claims Appeals Overturned',
+          MetricID: this.MetricidService.MetricIDs.ClaimAppealsOverturned,
           status: 404,
           data: null,
           timeperiod: null
@@ -909,6 +947,7 @@ export class AppealsSharedService {
         category: 'app-card',
         type: 'donutWithLabelBottom',
         title: 'Claims Appeals Submitted',
+        MetricID: this.MetricidService.MetricIDs.ClaimsAppealsSubmitted,
         status: 404,
         data: null,
         besideData: null,
@@ -919,6 +958,7 @@ export class AppealsSharedService {
         category: 'app-card',
         type: 'donut',
         title: 'Claims Appeals Overturned',
+        MetricID: this.MetricidService.MetricIDs.ClaimAppealsOverturned,
         status: 404,
         data: null,
         timeperiod: null
