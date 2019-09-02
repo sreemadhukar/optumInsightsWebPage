@@ -7,6 +7,7 @@ import { SessionService } from '../session.service';
 import { AuthorizationService } from '../../auth/_service/authorization.service';
 import { NonPaymentSharedService } from './non-payments/non-payment-shared.service';
 import { NonPaymentService } from '../../rest/getting-reimbursed/non-payment.service';
+import { GlossaryMetricidService } from '../glossary-metricid.service';
 import { of } from 'rxjs';
 
 @Injectable({
@@ -20,6 +21,7 @@ export class GettingReimbursedSharedService {
   private providerKey: number;
   private nonPaymentBy: string;
   constructor(
+    private MetricidService: GlossaryMetricidService,
     private gettingReimbursedService: GettingReimbursedService,
     private common: CommonUtilsService,
     private session: SessionService,
@@ -112,7 +114,7 @@ export class GettingReimbursedSharedService {
               type: 'donutWithLabel',
               status: 404,
               title: 'Total Number of Claims Submitted',
-              MetricID: 'NA',
+              MetricID: this.MetricidService.MetricIDs.TotalNumberofClaimsSubmitted,
               data: null,
               besideData: null,
               timeperiod: null
@@ -121,8 +123,8 @@ export class GettingReimbursedSharedService {
               category: 'app-card',
               type: 'rotateWithLabel',
               status: null,
-              title: 'Claims Average Turnaround Time to Payment',
-              MetricID: 'NA',
+              title: 'Average Days for Claims Processing',
+              MetricID: this.MetricidService.MetricIDs.ClaimsAverageTurnaroundTimetoPayment,
               data: null,
               besideData: null,
               timeperiod: null
@@ -132,7 +134,7 @@ export class GettingReimbursedSharedService {
               type: 'donutWithLabel',
               status: 404,
               title: 'Claims Paid',
-              MetricID: '103',
+              MetricID: this.MetricidService.MetricIDs.ClaimsPaid,
               data: null,
               besideData: null,
               bottomData: null,
@@ -143,7 +145,7 @@ export class GettingReimbursedSharedService {
               type: 'donut',
               status: 404,
               title: 'Claims Yield',
-              MetricID: '104',
+              MetricID: this.MetricidService.MetricIDs.ClaimsYield,
               data: null,
               timeperiod: null
             };
@@ -152,7 +154,7 @@ export class GettingReimbursedSharedService {
               type: 'donutWithLabel',
               status: 404,
               title: 'Claims Not Paid',
-              MetricID: '107',
+              MetricID: this.MetricidService.MetricIDs.ClaimsNotPaid,
               data: null,
               besideData: null,
               bottomData: null,
@@ -163,7 +165,7 @@ export class GettingReimbursedSharedService {
               type: 'donut',
               status: 404,
               title: 'Claims Non-Payment Rate',
-              MetricID: '108',
+              MetricID: this.MetricidService.MetricIDs.ClaimsNonPaymentRate,
               data: null,
               timeperiod: null
             };
@@ -181,7 +183,7 @@ export class GettingReimbursedSharedService {
                 category: 'app-card',
                 type: 'donutWithLabel',
                 title: 'Total Number of Claims Submitted*',
-                MetricID: 'NA',
+                MetricID: this.MetricidService.MetricIDs.TotalNumberofClaimsSubmitted,
                 data: {
                   graphValues: [
                     claimsData[lobData].ClaimsLobSummary[0].ClaimsPaid,
@@ -206,7 +208,7 @@ export class GettingReimbursedSharedService {
                 category: 'app-card',
                 type: 'donutWithLabel',
                 title: 'Total Number of Claims Submitted',
-                MetricID: 'NA',
+                MetricID: this.MetricidService.MetricIDs.TotalNumberofClaimsSubmitted,
                 data: null,
                 status: 404,
                 besideData: null,
@@ -225,10 +227,10 @@ export class GettingReimbursedSharedService {
               claimsTAT = {
                 category: 'app-card',
                 type: 'rotateWithLabel',
-                title: 'Claims Average Turnaround Time to Payment',
-                MetricID: 'NA',
+                title: 'Average Days for Claims Processing',
+                MetricID: this.MetricidService.MetricIDs.ClaimsAverageTurnaroundTimetoPayment,
                 data: {
-                  centerNumber: claimsData[lobData].ClaimsLobSummary[0].ClaimsAvgTat,
+                  centerNumber: 0 + ' days', // claimsData[lobData].ClaimsLobSummary[0].ClaimsAvgTat,
                   color: ['#3381FF', '#3381FF'],
                   gdata: ['card-inner', 'claimsAverageTurnAround'],
                   sdata: {
@@ -239,11 +241,11 @@ export class GettingReimbursedSharedService {
                 besideData: {
                   verticalData: [
                     {
-                      values: claimsData[lobData].ClaimsLobSummary[0].DosToReceived + ' Days',
+                      values: 0 + ' Days', // claimsData[lobData].ClaimsLobSummary[0].DosToReceived + ' Days',
                       labels: 'Date of Service to Received'
                     },
                     {
-                      values: claimsData[lobData].ClaimsLobSummary[0].ReceivedToPaid + ' Days',
+                      values: 0 + ' Days', // claimsData[lobData].ClaimsLobSummary[0].ReceivedToPaid + ' Days',
                       labels: 'Received to Processed'
                     }
                   ]
@@ -254,8 +256,8 @@ export class GettingReimbursedSharedService {
               claimsTAT = {
                 category: 'app-card',
                 type: 'rotateWithLabel',
-                title: 'Claims Average Turnaround Time to Payment',
-                MetricID: 'NA',
+                title: 'Average Days for Claims Processing',
+                MetricID: this.MetricidService.MetricIDs.ClaimsAverageTurnaroundTimetoPayment,
                 data: null,
                 status: null,
                 besideData: null,
@@ -310,7 +312,7 @@ export class GettingReimbursedSharedService {
                 category: 'app-card',
                 type: 'donutWithLabel',
                 title: 'Claims Paid',
-                MetricID: '103',
+                MetricID: this.MetricidService.MetricIDs.ClaimsPaid,
                 data: {
                   graphValues: paidData,
                   centerNumber:
@@ -339,7 +341,7 @@ export class GettingReimbursedSharedService {
                 category: 'app-card',
                 type: 'donutWithLabel',
                 title: 'Claims Paid',
-                MetricID: '103',
+                MetricID: this.MetricidService.MetricIDs.ClaimsPaid,
                 data: null,
                 status: 404,
                 besideData: null,
@@ -395,7 +397,7 @@ export class GettingReimbursedSharedService {
                 category: 'app-card',
                 type: 'donutWithLabel',
                 title: 'Claims Not Paid',
-                MetricID: '107',
+                MetricID: this.MetricidService.MetricIDs.ClaimsNotPaid,
                 data: {
                   graphValues: notPaidData,
                   centerNumber:
@@ -424,7 +426,7 @@ export class GettingReimbursedSharedService {
                 category: 'app-card',
                 type: 'donutWithLabel',
                 title: 'Claims Not Paid',
-                MetricID: '107',
+                MetricID: this.MetricidService.MetricIDs.ClaimsNotPaid,
                 data: null,
                 status: 404,
                 besideData: null,
@@ -446,7 +448,7 @@ export class GettingReimbursedSharedService {
                 category: 'app-card',
                 type: 'donut',
                 title: 'Claims Non-Payment Rate',
-                MetricID: '108',
+                MetricID: this.MetricidService.MetricIDs.ClaimsNonPaymentRate,
                 data: {
                   graphValues: [
                     claimsData[lobData].ClaimsLobSummary[0].ClaimsNonPaymentRate,
@@ -468,7 +470,7 @@ export class GettingReimbursedSharedService {
                 category: 'app-card',
                 type: 'donutWithLabel',
                 title: 'Claims Non-Payment Rate',
-                MetricID: '108',
+                MetricID: this.MetricidService.MetricIDs.ClaimsNonPaymentRate,
                 data: null,
                 status: 404,
                 besideData: null,
@@ -488,7 +490,7 @@ export class GettingReimbursedSharedService {
                 category: 'app-card',
                 type: 'donut',
                 title: 'Claims Yield',
-                MetricID: '104',
+                MetricID: this.MetricidService.MetricIDs.ClaimsYield,
                 data: {
                   graphValues: [
                     claimsData[lobData].ClaimsLobSummary[0].ClaimsYieldRate,
@@ -506,7 +508,7 @@ export class GettingReimbursedSharedService {
                 category: 'app-card',
                 type: 'donut',
                 title: 'Claims Yield',
-                MetricID: '104',
+                MetricID: this.MetricidService.MetricIDs.ClaimsYield,
                 data: null,
                 timeperiod: null
               };
@@ -518,7 +520,7 @@ export class GettingReimbursedSharedService {
               type: 'donutWithLabelBottom',
               status: 404,
               title: 'Claims Appeals Submitted',
-              MetricID: '105',
+              MetricID: this.MetricidService.MetricIDs.ClaimsAppealsSubmitted,
               data: null,
               besideData: null,
               bottomData: null,
@@ -529,7 +531,7 @@ export class GettingReimbursedSharedService {
               type: 'donut',
               status: 404,
               title: 'Claims Appeals Overturned',
-              MetricID: '106',
+              MetricID: this.MetricidService.MetricIDs.ClaimAppealsOverturned,
               data: null,
               timeperiod: null
             };
@@ -621,7 +623,7 @@ export class GettingReimbursedSharedService {
                 category: 'app-card',
                 type: 'donutWithLabelBottom',
                 title: 'Claims Appeals Submitted',
-                MetricID: '105',
+                MetricID: this.MetricidService.MetricIDs.ClaimsAppealsSubmitted,
                 data: {
                   graphValues: submittedData,
                   centerNumber: this.common.nFormatter(
@@ -667,7 +669,7 @@ export class GettingReimbursedSharedService {
                 category: 'app-card',
                 type: 'donutWithLabelBottom',
                 title: 'Claims Appeals Submitted',
-                MetricID: '105',
+                MetricID: this.MetricidService.MetricIDs.ClaimsAppealsSubmitted,
                 status: 404,
                 data: null,
                 besideData: null,
@@ -694,7 +696,7 @@ export class GettingReimbursedSharedService {
                 category: 'app-card',
                 type: 'donut',
                 title: 'Claims Appeals Overturned',
-                MetricID: '106',
+                MetricID: this.MetricidService.MetricIDs.ClaimAppealsOverturned,
                 data: {
                   graphValues: overturnedData,
                   centerNumber: appealsData[0].LineOfBusiness[lobFullData].OverTurnCount
@@ -712,7 +714,7 @@ export class GettingReimbursedSharedService {
                 category: 'app-card',
                 type: 'donut',
                 title: 'Claims Appeals Overturned',
-                MetricID: '106',
+                MetricID: this.MetricidService.MetricIDs.ClaimAppealsOverturned,
                 status: 404,
                 data: null,
                 timeperiod: null
@@ -723,7 +725,7 @@ export class GettingReimbursedSharedService {
               category: 'app-card',
               type: 'donutWithLabelBottom',
               title: 'Claims Appeals Submitted',
-              MetricID: '105',
+              MetricID: this.MetricidService.MetricIDs.ClaimsAppealsSubmitted,
               status: 404,
               data: null,
               besideData: null,
@@ -734,7 +736,7 @@ export class GettingReimbursedSharedService {
               category: 'app-card',
               type: 'donut',
               title: 'Claims Appeals Overturned',
-              MetricID: '106',
+              MetricID: this.MetricidService.MetricIDs.ClaimAppealsOverturned,
               status: 404,
               data: null,
               timeperiod: null
@@ -756,15 +758,30 @@ export class GettingReimbursedSharedService {
             data: null,
             timeperiod: null
           };*/
-          submissions = { id: 1, title: 'Claims Submissions*', MetricID: 'NA', data: [claimsSubmitted, claimsTAT] };
-          payments = { id: 2, title: 'Claims Payments*', MetricID: 'NA', data: [claimsPaid, claimsPaidRate] };
+          submissions = {
+            id: 1,
+            title: 'Claims Submissions*',
+            MetricID: this.MetricidService.MetricIDs.ClaimsSubmissions,
+            data: [claimsSubmitted, claimsTAT]
+          };
+          payments = {
+            id: 2,
+            title: 'Claims Payments*',
+            MetricID: this.MetricidService.MetricIDs.ClaimsPayments,
+            data: [claimsPaid, claimsPaidRate]
+          };
           nonpayments = {
             id: 3,
             title: 'Claims Non-Payments*',
-            MetricID: 'NA',
+            MetricID: this.MetricidService.MetricIDs.ClaimsNonPayments,
             data: [claimsNotPaid, claimsNotPaidRate]
           };
-          appeals = { id: 4, title: 'Claims Appeals', MetricID: 'NA', data: [appealsSubmitted, appealsOverturned] };
+          appeals = {
+            id: 4,
+            title: 'Claims Appeals',
+            MetricID: this.MetricidService.MetricIDs.ClaimsAppeals,
+            data: [appealsSubmitted, appealsOverturned]
+          };
           summaryData[0] = submissions;
           summaryData[1] = payments;
           summaryData[2] = nonpayments;
@@ -798,7 +815,7 @@ export class GettingReimbursedSharedService {
               type: 'donutWithLabel',
               status: 404,
               title: 'Total Number of Claims Submitted',
-              MetricID: 'NA',
+              MetricID: this.MetricidService.MetricIDs.TotalNumberofClaimsSubmitted,
               data: null,
               besideData: null,
               timeperiod: null
@@ -807,8 +824,8 @@ export class GettingReimbursedSharedService {
               category: 'app-card',
               type: 'rotateWithLabel',
               status: null,
-              title: 'Claims Average Turnaround Time to Payment',
-              MetricID: 'NA',
+              title: 'Average Days for Claims Processing',
+              MetricID: this.MetricidService.MetricIDs.ClaimsAverageTurnaroundTimetoPayment,
               data: null,
               besideData: null,
               timeperiod: null
@@ -818,7 +835,7 @@ export class GettingReimbursedSharedService {
               type: 'donutWithLabel',
               status: 404,
               title: 'Claims Paid',
-              MetricID: '103',
+              MetricID: this.MetricidService.MetricIDs.ClaimsPaid,
               data: null,
               besideData: null,
               bottomData: null,
@@ -829,7 +846,7 @@ export class GettingReimbursedSharedService {
               type: 'donut',
               status: 404,
               title: 'Claims Yield',
-              MetricID: '104',
+              MetricID: this.MetricidService.MetricIDs.ClaimsYield,
               data: null,
               timeperiod: null
             };
@@ -838,7 +855,7 @@ export class GettingReimbursedSharedService {
               type: 'donutWithLabel',
               status: 404,
               title: 'Claims Not Paid',
-              MetricID: '107',
+              MetricID: this.MetricidService.MetricIDs.ClaimsNotPaid,
               data: null,
               besideData: null,
               bottomData: null,
@@ -849,7 +866,7 @@ export class GettingReimbursedSharedService {
               type: 'donut',
               status: 404,
               title: 'Claims Non-Payment Rate',
-              MetricID: '108',
+              MetricID: this.MetricidService.MetricIDs.ClaimsNonPaymentRate,
               data: null,
               timeperiod: null
             };
@@ -867,7 +884,7 @@ export class GettingReimbursedSharedService {
                 category: 'app-card',
                 type: 'donutWithLabel',
                 title: 'Total Number of Claims Submitted',
-                MetricID: 'NA',
+                MetricID: this.MetricidService.MetricIDs.TotalNumberofClaimsSubmitted,
                 toggle: this.toggle.setToggles(
                   'Total Number of Claims Submitted',
                   'Claims Submissions',
@@ -901,7 +918,7 @@ export class GettingReimbursedSharedService {
                 category: 'app-card',
                 type: 'donutWithLabel',
                 title: 'Total Number of Claims Submitted',
-                MetricID: 'NA',
+                MetricID: this.MetricidService.MetricIDs.TotalNumberofClaimsSubmitted,
                 data: null,
                 status: 404,
                 besideData: null,
@@ -920,16 +937,16 @@ export class GettingReimbursedSharedService {
               claimsTAT = {
                 category: 'app-card',
                 type: 'rotateWithLabel',
-                title: 'Claims Average Turnaround Time to Payment',
-                MetricID: 'NA',
+                title: 'Average Days for Claims Processing',
+                MetricID: this.MetricidService.MetricIDs.ClaimsAverageTurnaroundTimetoPayment,
                 toggle: this.toggle.setToggles(
-                  'Claims Average Turnaround Time to Payment',
+                  'Average Days for Claims Processing',
                   'Claims Submissions',
                   'Getting Reimbursed',
                   true
                 ),
                 data: {
-                  centerNumber: claimsData[lobData].ClaimsLobSummary[0].ClaimsAvgTat,
+                  centerNumber: 0 + ' days', // claimsData[lobData].ClaimsLobSummary[0].ClaimsAvgTat,
                   color: ['#3381FF', '#3381FF'],
                   gdata: ['card-inner', 'claimsAverageTurnAround'],
                   sdata: {
@@ -940,11 +957,11 @@ export class GettingReimbursedSharedService {
                 besideData: {
                   verticalData: [
                     {
-                      values: claimsData[lobData].ClaimsLobSummary[0].DosToReceived + ' Days',
+                      values: 0 + ' Days', // claimsData[lobData].ClaimsLobSummary[0].DosToReceived + ' Days',
                       labels: 'Date of Service to Received'
                     },
                     {
-                      values: claimsData[lobData].ClaimsLobSummary[0].ReceivedToPaid + ' Days',
+                      values: 0 + ' Days', // claimsData[lobData].ClaimsLobSummary[0].ReceivedToPaid + ' Days',
                       labels: 'Received to Processed'
                     }
                   ]
@@ -955,11 +972,30 @@ export class GettingReimbursedSharedService {
               claimsTAT = {
                 category: 'app-card',
                 type: 'rotateWithLabel',
-                title: 'Claims Average Turnaround Time to Payment',
-                MetricID: 'NA',
-                data: null,
+                title: 'Average Days for Claims Processing',
+                MetricID: this.MetricidService.MetricIDs.ClaimsAverageTurnaroundTimetoPayment,
                 status: null,
-                besideData: null,
+                data: {
+                  centerNumber: 0 + ' days', // claimsData[lobData].ClaimsLobSummary[0].ClaimsAvgTat,
+                  color: ['#3381FF', '#3381FF'],
+                  gdata: ['card-inner', 'claimsAverageTurnAround'],
+                  sdata: {
+                    sign: 'down',
+                    data: '-1.2%'
+                  }
+                },
+                besideData: {
+                  verticalData: [
+                    {
+                      values: 0 + ' Days', // claimsData[lobData].ClaimsLobSummary[0].DosToReceived + ' Days',
+                      labels: 'Date of Service to Received'
+                    },
+                    {
+                      values: 0 + ' Days', // claimsData[lobData].ClaimsLobSummary[0].ReceivedToPaid + ' Days',
+                      labels: 'Received to Processed'
+                    }
+                  ]
+                },
                 timeperiod: this.timeFrame
               };
             }
@@ -1026,7 +1062,7 @@ export class GettingReimbursedSharedService {
                 category: 'app-card',
                 type: 'donutWithLabel',
                 title: 'Claims Paid',
-                MetricID: '103',
+                MetricID: this.MetricidService.MetricIDs.ClaimsPaid,
                 data: {
                   graphValues: paidData,
                   centerNumber:
@@ -1056,7 +1092,7 @@ export class GettingReimbursedSharedService {
                   category: 'app-card',
                   type: 'donutWithLabel',
                   title: 'Claims Paid',
-                  MetricID: '103',
+                  MetricID: this.MetricidService.MetricIDs.ClaimsPaid,
                   data: {
                     graphValues: [0, 100],
                     centerNumber:
@@ -1086,7 +1122,7 @@ export class GettingReimbursedSharedService {
                 category: 'app-card',
                 type: 'donutWithLabel',
                 title: 'Claims Paid',
-                MetricID: '103',
+                MetricID: this.MetricidService.MetricIDs.ClaimsPaid,
                 data: null,
                 status: 404,
                 besideData: null,
@@ -1142,7 +1178,7 @@ export class GettingReimbursedSharedService {
                 category: 'app-card',
                 type: 'donutWithLabel',
                 title: 'Claims Paid',
-                MetricID: '103',
+                MetricID: this.MetricidService.MetricIDs.ClaimsPaid,
                 data: {
                   graphValues: paidData,
                   centerNumber:
@@ -1171,7 +1207,7 @@ export class GettingReimbursedSharedService {
                 category: 'app-card',
                 type: 'donutWithLabel',
                 title: 'Claims Paid',
-                MetricID: '103',
+                MetricID: this.MetricidService.MetricIDs.ClaimsPaid,
                 data: null,
                 status: 404,
                 besideData: null,
@@ -1227,7 +1263,7 @@ export class GettingReimbursedSharedService {
                 category: 'app-card',
                 type: 'donutWithLabel',
                 title: 'Claims Not Paid',
-                MetricID: '107',
+                MetricID: this.MetricidService.MetricIDs.ClaimsNotPaid,
                 data: {
                   graphValues: notPaidData,
                   centerNumber:
@@ -1256,7 +1292,7 @@ export class GettingReimbursedSharedService {
                 category: 'app-card',
                 type: 'donutWithLabel',
                 title: 'Claims Not Paid',
-                MetricID: '107',
+                MetricID: this.MetricidService.MetricIDs.ClaimsNotPaid,
                 data: null,
                 status: 404,
                 besideData: null,
@@ -1278,7 +1314,7 @@ export class GettingReimbursedSharedService {
                 category: 'app-card',
                 type: 'donut',
                 title: 'Claims Non-Payment Rate',
-                MetricID: '108',
+                MetricID: this.MetricidService.MetricIDs.ClaimsNonPaymentRate,
                 data: {
                   graphValues: [
                     claimsData[lobData].ClaimsLobSummary[0].ClaimsNonPaymentRate,
@@ -1300,7 +1336,7 @@ export class GettingReimbursedSharedService {
                 category: 'app-card',
                 type: 'donutWithLabel',
                 title: 'Claims Non-Payment Rate',
-                MetricID: '108',
+                MetricID: this.MetricidService.MetricIDs.ClaimsNonPaymentRate,
                 data: null,
                 status: 404,
                 besideData: null,
@@ -1320,7 +1356,7 @@ export class GettingReimbursedSharedService {
                 category: 'app-card',
                 type: 'donut',
                 title: 'Claims Yield',
-                MetricID: '104',
+                MetricID: this.MetricidService.MetricIDs.ClaimsYield,
                 data: {
                   graphValues: [
                     claimsData[lobData].ClaimsLobSummary[0].ClaimsYieldRate,
@@ -1339,7 +1375,7 @@ export class GettingReimbursedSharedService {
                 type: 'donut',
                 status: 404,
                 title: 'Claims Yield',
-                MetricID: '104',
+                MetricID: this.MetricidService.MetricIDs.ClaimsYield,
                 data: null,
                 timeperiod: null
               };
@@ -1361,12 +1397,22 @@ export class GettingReimbursedSharedService {
             data: null,
             timeperiod: null
           };*/
-          submissions = { id: 1, title: 'Claims Submissions*', MetricID: 'NA', data: [claimsSubmitted, claimsTAT] };
-          payments = { id: 2, title: 'Claims Payments*', MetricID: 'NA', data: [claimsPaid, claimsPaidRate] };
+          submissions = {
+            id: 1,
+            title: 'Claims Submissions*',
+            MetricID: this.MetricidService.MetricIDs.ClaimsSubmissions,
+            data: [claimsSubmitted, claimsTAT]
+          };
+          payments = {
+            id: 2,
+            title: 'Claims Payments*',
+            MetricID: this.MetricidService.MetricIDs.ClaimsPayments,
+            data: [claimsPaid, claimsPaidRate]
+          };
           nonpayments = {
             id: 3,
             title: 'Claims Non-Payments*',
-            MetricID: 'NA',
+            MetricID: this.MetricidService.MetricIDs.ClaimsNonPayments,
             data: [claimsNotPaid, claimsNotPaidRate]
           };
           const appealsSubmitted = this.createAppealsDonuts(appealsData, lobFullData).appealsSubmitted;
@@ -1374,7 +1420,7 @@ export class GettingReimbursedSharedService {
           appeals = {
             id: 4,
             title: 'Claims Appeals',
-            MetricID: 'NA',
+            MetricID: this.MetricidService.MetricIDs.ClaimsAppeals,
             data: [appealsSubmitted, appealsOverturned]
           };
           summaryData[0] = submissions;
@@ -1726,9 +1772,9 @@ export class GettingReimbursedSharedService {
             output.timeperiod = this.timeFrame;
             let sData: any = {};
             if (result.RecordsRequestedVariance > 0) {
-              sData = { sign: 'down', data: output.RecordsRequestedVariance + '*' };
+              sData = { sign: 'down', data: output.RecordsRequestedVariance + ' †' };
             } else {
-              sData = { sign: 'up', data: output.RecordsRequestedVariance + '*' };
+              sData = { sign: 'up', data: output.RecordsRequestedVariance + ' †' };
             }
             output.piDonutData = {
               timeperiod: this.timeFrame,
@@ -1752,7 +1798,7 @@ export class GettingReimbursedSharedService {
               type: 'donutWithLabelBottom',
               status: 500,
               title: 'Claims Payment Integrity',
-              MetricID: 'NA',
+              MetricID: this.MetricidService.MetricIDs.ClaimsPaymentIntegrity,
               data: null,
               besideData: null,
               bottomData: null,
@@ -1914,7 +1960,7 @@ export class GettingReimbursedSharedService {
         type: 'donutWithLabelBottom',
         status: 404,
         title: 'Claims Appeals Submitted',
-        MetricID: '105',
+        MetricID: this.MetricidService.MetricIDs.ClaimsAppealsSubmitted,
         data: null,
         besideData: null,
         bottomData: null,
@@ -1925,7 +1971,7 @@ export class GettingReimbursedSharedService {
         type: 'donut',
         status: 404,
         title: 'Claims Appeals Overturned',
-        MetricID: '106',
+        MetricID: this.MetricidService.MetricIDs.ClaimAppealsOverturned,
         data: null,
         timeperiod: null
       };
@@ -2026,7 +2072,7 @@ export class GettingReimbursedSharedService {
           category: 'app-card',
           type: 'donutWithLabelBottom',
           title: 'Claims Appeals Submitted',
-          MetricID: '105',
+          MetricID: this.MetricidService.MetricIDs.ClaimsAppealsSubmitted,
           data: {
             graphValues: submittedData,
             centerNumber: this.common.nFormatter(
@@ -2072,7 +2118,7 @@ export class GettingReimbursedSharedService {
           category: 'app-card',
           type: 'donutWithLabelBottom',
           title: 'Claims Appeals Submitted',
-          MetricID: '105',
+          MetricID: this.MetricidService.MetricIDs.ClaimsAppealsSubmitted,
           status: 404,
           data: null,
           besideData: null,
@@ -2104,7 +2150,7 @@ export class GettingReimbursedSharedService {
           category: 'app-card',
           type: 'donut',
           title: 'Claims Appeals Overturned',
-          MetricID: '106',
+          MetricID: this.MetricidService.MetricIDs.ClaimAppealsOverturned,
           data: {
             graphValues: overturnedData,
             centerNumber: this.common.nFormatter(sumOverturned),
@@ -2120,7 +2166,7 @@ export class GettingReimbursedSharedService {
           category: 'app-card',
           type: 'donut',
           title: 'Claims Appeals Overturned',
-          MetricID: '106',
+          MetricID: this.MetricidService.MetricIDs.ClaimAppealsOverturned,
           status: 404,
           data: null,
           timeperiod: null
@@ -2131,7 +2177,7 @@ export class GettingReimbursedSharedService {
         category: 'app-card',
         type: 'donutWithLabelBottom',
         title: 'Claims Appeals Submitted',
-        MetricID: '105',
+        MetricID: this.MetricidService.MetricIDs.ClaimsAppealsSubmitted,
         status: 404,
         data: null,
         besideData: null,
@@ -2142,7 +2188,7 @@ export class GettingReimbursedSharedService {
         category: 'app-card',
         type: 'donut',
         title: 'Claims Appeals Overturned',
-        MetricID: '106',
+        MetricID: this.MetricidService.MetricIDs.ClaimAppealsOverturned,
         status: 404,
         data: null,
         timeperiod: null
