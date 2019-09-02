@@ -19,7 +19,8 @@
       "title": "Combined Total NPS",
       "sdata": {
         "sign": "up",
-        "data": "Posivite Trending"
+        "data": "Posivite Trending",
+        "trendStyle2": true
       },
       "cards": [
         {
@@ -49,7 +50,8 @@
       "title": "Physician NPS",
       "sdata": {
         "sign": "up",
-        "data": "Posivite Trending"
+        "data": "Posivite Trending",
+        "trendStyle2": true
       },
       "cards": [
         {
@@ -78,7 +80,8 @@
       "title": "Practice Manager NPS",
       "sdata": {
         "sign": "up",
-        "data": "Posivite Trending"
+        "data": "Posivite Trending",
+        "trendStyle2": true
       },
       "cards": [
         {

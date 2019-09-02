@@ -17,7 +17,7 @@
       Time Period : <span> {{ npsSummary.heading }}</span>
     </div>
 
-    <div class="overview-section">
+    <div class="overview-section" *ngIf="npsLoaded">
       <div class="section-header">
         <div class="cards section-header-part">
           <div class="title">{{ npsSummary.title }}</div>
@@ -32,30 +32,9 @@
         </div>
       </div>
       <div class="height1Separator"></div>
-      <app-small-card
-        class="cards"
-        *ngIf="npsLoaded"
-        class="cards"
-        [options]="npsCardOptions"
-        [data]="npsSummary.all.data"
-      >
-      </app-small-card>
-      <app-small-card
-        class="cards"
-        *ngIf="npsLoaded"
-        class="cards"
-        [options]="npsCardOptions"
-        [data]="npsSummary.pm.data"
-      >
-      </app-small-card>
-      <app-small-card
-        class="cards"
-        *ngIf="npsLoaded"
-        class="cards"
-        [options]="npsCardOptions"
-        [data]="npsSummary.md.data"
-      >
-      </app-small-card>
+      <app-small-card class="cards" [options]="npsCardOptions" [data]="npsSummary.all.data"> </app-small-card>
+      <app-small-card class="cards" [options]="npsCardOptions" [data]="npsSummary.pm.data"> </app-small-card>
+      <app-small-card class="cards" [options]="npsCardOptions" [data]="npsSummary.md.data"> </app-small-card>
     </div>
 
     <!-- <app-heac-small-card

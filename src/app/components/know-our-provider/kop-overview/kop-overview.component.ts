@@ -21,7 +21,7 @@ export class KopOverviewComponent implements OnInit, OnDestroy {
     titleFontWeight: '600',
     titleColor: '#2D2D39'
   };
-  public npsSummary: any;
+  public npsSummary: any = {};
 
   constructor(private eventEmitter: EventEmitterService, private npsSharedService: NPSSharedService) {}
 

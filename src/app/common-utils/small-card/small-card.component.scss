@@ -32,8 +32,7 @@
       float: left;
       /*padding: 10% 0;*/
       display: flex;
-      // margin-top: 48px;
-      margin-left: 70px;
+      margin-top: 48px;
 
       .trend-value {
         font-size: 14px;
@@ -97,6 +96,10 @@
       .flex-box {
         display: flex;
       }
+    }
+    .trend-details.trend2 {
+      margin: 0;
+      margin-left: 70px;
     }
   }
   .print-card-inner {

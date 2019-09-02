@@ -31,7 +31,7 @@
     <div *ngIf="data.type == 'star' && data.data != null" class="chart-details small-star-chart">
       <app-star-chart [starType]="'small-card'" [chartOptions]="data.data"></app-star-chart>
     </div>
-    <div *ngIf="data.sdata != null" class="trend-details">
+    <div *ngIf="data.sdata != null" class="trend-details" [class.trend2]="data.sdata.trendStyle2">
       <div *ngIf="data.sdata.sign === 'down'" class="flex-box">
         <span class="trend" [class.down]="data.sdata.sign === 'down'">
           <img class="trend-image trend-image-down" src="/src/assets/images/trend-down.svg" alt="trend-down" />

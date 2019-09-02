@@ -4,9 +4,9 @@
   </div>
   <div
     class="header-title"
-    [style.color]="options.titleColor"
-    [style.font-weight]="options.titleFontWeight"
-    [style.font-family]="options.titleFontFamily"
+    [style.color]="options && options.titleColor"
+    [style.font-weight]="options && options.titleFontWeight"
+    [style.font-family]="options && options.titleFontFamily"
     [class.title-width]="title === 'Medicare & Retirement Annual Care Visits Completion Rate'"
     [class.title-padding]="title === 'Top Reasons for Prior Authorizations Not Approved'"
     [class.common-header]="cardType === 'error-card'"
