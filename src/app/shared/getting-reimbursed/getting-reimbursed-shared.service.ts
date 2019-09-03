@@ -750,14 +750,18 @@ export class GettingReimbursedSharedService {
             title: null,
             data: null,
             timeperiod: null
-          };
+          };*/
+
+          /** REMOVE LATER (ONCE PDP ISSUE SOLVED) ***/
           claimsNotPaidRate = {
             category: 'app-card',
             type: 'donut',
             title: null,
             data: null,
             timeperiod: null
-          };*/
+          };
+
+
           submissions = {
             id: 1,
             title: 'Claims Submissions*',
@@ -1389,14 +1393,18 @@ export class GettingReimbursedSharedService {
             title: null,
             data: null,
             timeperiod: null
-          };
+          };*/
+
+          /** REMOVE LATER (ONCE PDP ISSUE SOLVED) ***/
           claimsNotPaidRate = {
             category: 'app-card',
             type: 'donut',
             title: null,
             data: null,
             timeperiod: null
-          };*/
+          };
+
+          
           submissions = {
             id: 1,
             title: 'Claims Submissions*',
