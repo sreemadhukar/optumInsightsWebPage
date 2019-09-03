@@ -23,7 +23,7 @@ export class ExternalService {
 
   public CheckExternal(code, token) {
     return new Promise((resolve, rej) => {
-      this.authService.logout();
+      // this.authService.logout();
       return this.authService.getSsoToken(code, token).subscribe(
         ssoTokenData => {
           if (typeof ssoTokenData !== 'undefined' && ssoTokenData !== null && ssoTokenData.length !== 0) {
