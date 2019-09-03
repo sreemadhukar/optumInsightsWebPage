@@ -73,20 +73,6 @@ export class OverviewService {
 
   public getOverviewPriorAuth(parameters) {
     // Adding trends api
-    let params = new HttpParams();
-    params = params.append('last6Months', parameters.last6Months);
-    params = params.append('allProviderTins', parameters.allProviderTins);
-    params = params.append('allLob', parameters.allLob);
-    params = params.append('allNotApprovedSettings', parameters.allNotApprovedSettings);
-
-    const paramsTrends = new HttpParams();
-    const trendsURL = this.APP_URL + this.TRENDING_METRICS_PATH + parameters.providerkey;
-    const priorURL = this.APP_URL + this.PRIOR_AUTH_SERVICE_PATH + parameters.providerkey;
-
-    return this.http.post(priorURL, params).pipe(
-      map(res => JSON.parse(JSON.stringify(res[0]))),
-      catchError(err => of(JSON.parse(JSON.stringify(err))))
-    );
 
     /*
     return combineLatest(
@@ -101,6 +87,28 @@ export class OverviewService {
       )
     );
      */
+
+    // Sample template
+    const requestBodyTemplate = {
+      tin: null,
+      lob: 'allLob',
+      allNotApprovedSettings: true,
+      decisionType: false,
+      decisionValue: null,
+      serviceCategory: false,
+      serviceCategoryValue: null,
+      timeFilter: 'last6Months',
+      timeFilterText: null
+    };
+
+    const url = this.APP_URL + this.PRIOR_AUTH_SERVICE_PATH + parameters.providerKey;
+    let params = new HttpParams();
+    params = params.append('allProviderTins', parameters.allProviderTins);
+
+    return this.http.post(url, requestBodyTemplate, { params: params }).pipe(
+      map(res => JSON.parse(JSON.stringify(res[0]))),
+      catchError(err => of(JSON.parse(JSON.stringify(err))))
+    );
   }
 
   public getOverviewTotalCalls(parameters) {
