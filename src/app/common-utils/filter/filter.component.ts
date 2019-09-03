@@ -260,6 +260,7 @@ export class FilterComponent implements OnInit {
     } else {
       // this.session.filterObjValue.tax = [this.taxData];
       if (this.priorAuthorizationCustomFilterBool) {
+        console.log(this.timeframeData);
         this.session.store({
           timeFrame: this.timeframeData,
           lob: this.lobData,
