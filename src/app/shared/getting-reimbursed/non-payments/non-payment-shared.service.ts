@@ -25,7 +25,7 @@ export class NonPaymentSharedService {
     private common: CommonUtilsService,
     private session: SessionService,
     private toggle: AuthorizationService
-  ) {}
+  ) { }
 
   /** Function to show hovers labels as per Lob**/
   public returnHoverLabels(cardData) {
@@ -254,7 +254,7 @@ export class NonPaymentSharedService {
                   graphValues: nonPaidData,
                   centerNumber:
                     this.common.nFormatter(nonPaymentData1.All.ClaimsLobSummary[0].AmountDenied) < 1 &&
-                    this.common.nFormatter(nonPaymentData1.All.ClaimsLobSummary[0].AmountDenied) > 0
+                      this.common.nFormatter(nonPaymentData1.All.ClaimsLobSummary[0].AmountDenied) > 0
                       ? '< $1'
                       : '$' + this.common.nFormatter(nonPaymentData1.All.ClaimsLobSummary[0].AmountDenied),
                   color: this.returnLobColor(nonPaymentData1),
@@ -305,7 +305,7 @@ export class NonPaymentSharedService {
                   ],
                   centerNumber:
                     nonPaymentData1.All.ClaimsLobSummary[0].ClaimsNonPaymentRate < 1 &&
-                    nonPaymentData1.All.ClaimsLobSummary[0].ClaimsNonPaymentRate > 0
+                      nonPaymentData1.All.ClaimsLobSummary[0].ClaimsNonPaymentRate > 0
                       ? '< 1%'
                       : nonPaymentData1.All.ClaimsLobSummary[0].ClaimsNonPaymentRate + '%',
                   color: ['#3381FF', '#D7DCE1'],
@@ -328,7 +328,6 @@ export class NonPaymentSharedService {
             this.summaryData = [];
 
             /** REMOVE LATER (ONCE PDP ISSUE SOLVED) ***/
-            
             claimsNotPaidRate = {
               category: 'app-card',
               type: 'donut',
@@ -429,7 +428,7 @@ export class NonPaymentSharedService {
                   graphValues: nonPaidData,
                   centerNumber:
                     this.common.nFormatter(nonPaymentData1[lobData].ClaimsLobSummary[0].AmountDenied) < 1 &&
-                    this.common.nFormatter(nonPaymentData1[lobData].ClaimsLobSummary[0].AmountDenied) > 0
+                      this.common.nFormatter(nonPaymentData1[lobData].ClaimsLobSummary[0].AmountDenied) > 0
                       ? '< $1'
                       : '$' + this.common.nFormatter(nonPaymentData1[lobData].ClaimsLobSummary[0].AmountDenied),
                   color: this.returnLobColor(nonPaymentData1),
@@ -480,7 +479,7 @@ export class NonPaymentSharedService {
                   ],
                   centerNumber:
                     nonPaymentData1[lobData].ClaimsLobSummary[0].ClaimsNonPaymentRate < 1 &&
-                    nonPaymentData1[lobData].ClaimsLobSummary[0].ClaimsNonPaymentRate > 0
+                      nonPaymentData1[lobData].ClaimsLobSummary[0].ClaimsNonPaymentRate > 0
                       ? '< 1%'
                       : nonPaymentData1[lobData].ClaimsLobSummary[0].ClaimsNonPaymentRate + '%',
                   color: ['#3381FF', '#D7DCE1'],
@@ -501,8 +500,8 @@ export class NonPaymentSharedService {
               };
             } // end if else
             this.summaryData = [];
+
             /** REMOVE LATER (ONCE PDP ISSUE SOLVED) ***/
-            
             claimsNotPaidRate = {
               category: 'app-card',
               type: 'donut',
@@ -691,7 +690,7 @@ export class NonPaymentSharedService {
                 x.Claimdenialcategorylevel1shortname !== 'Paid' &&
                 x.DenialAmount > 0
             );
-            topReasons[i]['top5'].sort(function(a, b) {
+            topReasons[i]['top5'].sort(function (a, b) {
               return b.DenialAmount - a.DenialAmount;
             }); // sort the array in Descending order , if we do a.DenialAmount - b.DenialAmount, it becomes ascending
             if (topReasons[i]['top5'].length > 5) {
@@ -739,7 +738,7 @@ export class NonPaymentSharedService {
                 x.Claimdenialcategorylevel1shortname !== 'Paid' &&
                 x.DenialAmount > 0
             ); // shallow copy
-            tempArray.sort(function(a, b) {
+            tempArray.sort(function (a, b) {
               return b.DenialAmount - a.DenialAmount;
             }); // sort the array in Descending order , if we do a.DenialAmount - b.DenialAmount, it becomes ascending
             if (tempArray.length > 5) {
@@ -818,7 +817,7 @@ export class NonPaymentSharedService {
               });
             }
           });
-          filter_data_claimSummary.sort(function(a, b) {
+          filter_data_claimSummary.sort(function (a, b) {
             let dateA: any;
             dateA = new Date(a.month);
             let dateB: any;
