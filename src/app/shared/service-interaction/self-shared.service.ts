@@ -4,6 +4,7 @@ import { ServiceInteractionModule } from '../../components/service-interaction/s
 import { CommonUtilsService } from '../common-utils.service';
 import { SessionService } from '../session.service';
 import { AuthorizationService } from '../../auth/_service/authorization.service';
+import { GlossaryMetricidService } from '../glossary-metricid.service';
 
 @Injectable({ providedIn: ServiceInteractionModule })
 export class SelfSharedService {
@@ -11,6 +12,7 @@ export class SelfSharedService {
   private timeFrame: string;
   private providerKey: number;
   constructor(
+    private MetricidService: GlossaryMetricidService,
     private selfService: SelfServiceService,
     private session: SessionService,
     private common: CommonUtilsService,
@@ -21,11 +23,12 @@ export class SelfSharedService {
    * The data is corresponding to Utilization Object that we have inside like this
    * SelfServiceInquiries -> ALL -> Utilizations
    */
-  public utilizationObjectMethod(title: String, data: any, toggle?: Boolean): Object {
+  public utilizationObjectMethod(title: String, MetricID: String, data: any, toggle?: Boolean): Object {
     const temp: Object = {
       category: 'app-card',
       type: 'donut',
       title: title,
+      MetricID: MetricID,
       data: data,
       toggle: toggle,
       timeperiod: this.timeFrame
@@ -87,6 +90,7 @@ export class SelfSharedService {
             try {
               adoptionRate = this.utilizationObjectMethod(
                 'Self Service Adoption Rate',
+                this.MetricidService.MetricIDs.SelfServiceAdoptionRate,
                 {
                   graphValueName: ['Total Patients', 'Completed'],
                   graphValues: [
@@ -106,6 +110,7 @@ export class SelfSharedService {
                 category: 'app-card',
                 type: 'donut',
                 title: 'Self-Service Adoption Rate',
+                MetricID: this.MetricidService.MetricIDs.SelfServiceAdoptionRate,
                 status: 500,
                 toggle: this.toggle.setToggles(
                   'Self-Service Adoption Rate',
@@ -120,6 +125,7 @@ export class SelfSharedService {
             try {
               linkEdiRation = this.utilizationObjectMethod(
                 'Link & EDI to Call Ratio',
+                this.MetricidService.MetricIDs.LinkEDItoCallRatio,
                 {
                   graphValueName: ['Diabetic Patients', 'Completed'],
                   graphValues: [utilization.LinkAdoptionRate * 100, 100 - utilization.LinkAdoptionRate * 100],
@@ -136,6 +142,7 @@ export class SelfSharedService {
                 category: 'app-card',
                 type: 'donut',
                 title: 'Link & EDI to Call Ratio',
+                MetricID: this.MetricidService.MetricIDs.LinkEDItoCallRatio,
                 status: 500,
                 toggle: this.toggle.setToggles(
                   'Link & EDI to Call Ratio',
@@ -150,6 +157,7 @@ export class SelfSharedService {
             try {
               paperLessDelivery = this.utilizationObjectMethod(
                 'Paperless Delivery',
+                this.MetricidService.MetricIDs.PaperlessDelivery,
                 {
                   graphValues: [
                     utilization.PaperAndPostageAdoptionRate * 100,
@@ -167,6 +175,7 @@ export class SelfSharedService {
                 category: 'app-card',
                 type: 'donut',
                 title: 'Paperless Delivery',
+                MetricID: this.MetricidService.MetricIDs.PaperlessDelivery,
                 status: 500,
                 toggle: this.toggle.setToggles('Paperless Delivery', 'Self Service', 'Service Interaction', false),
                 data: null,
@@ -178,6 +187,7 @@ export class SelfSharedService {
               category: 'app-card',
               type: 'donut',
               title: 'Self-Service Adoption Rate',
+              MetricID: this.MetricidService.MetricIDs.SelfServiceAdoptionRate,
               status: 500,
               toggle: this.toggle.setToggles(
                 'Self-Service Adoption Rate',
@@ -192,6 +202,7 @@ export class SelfSharedService {
               category: 'app-card',
               type: 'donut',
               title: 'Link & EDI to Call Ratio',
+              MetricID: this.MetricidService.MetricIDs.LinkEDItoCallRatio,
               status: 500,
               toggle: this.toggle.setToggles('Link & EDI to Call Ratio', 'Self Service', 'Service Interaction', false),
               data: null,
@@ -201,6 +212,7 @@ export class SelfSharedService {
               category: 'app-card',
               type: 'donut',
               title: 'Paperless Delivery',
+              MetricID: this.MetricidService.MetricIDs.PaperlessDelivery,
               status: 500,
               toggle: this.toggle.setToggles('Paperless Delivery', 'Self Service', 'Service Interaction', false),
               data: null,
@@ -215,7 +227,11 @@ export class SelfSharedService {
             providerSystems.SelfServiceInquiries.hasOwnProperty('ALL') &&
             providerSystems.SelfServiceInquiries.ALL.hasOwnProperty('SelfService')
           ) {
-            if (providerSystems.SelfServiceInquiries.ALL.SelfService.hasOwnProperty('TotalCallCost')) {
+            if (
+              providerSystems.SelfServiceInquiries.ALL.SelfService.hasOwnProperty('TotalCallCost') &&
+              providerSystems.SelfServiceInquiries.ALL.SelfService.hasOwnProperty('TotalSelfServiceCost') &&
+              providerSystems.SelfServiceInquiries.ALL.SelfService.hasOwnProperty('TotalPhoneCost')
+            ) {
               try {
                 let totalCallCost = providerSystems.SelfServiceInquiries.ALL.SelfService.TotalCallCost;
                 totalCallCost = this.common.nFormatter(totalCallCost);
@@ -223,6 +239,7 @@ export class SelfSharedService {
                 oppurtunities.push({
                   category: 'mini-tile',
                   title: 'Reduce Calls and Operating Costs by:',
+                  MetricID: this.MetricidService.MetricIDs.ReduceCallsOperatingCostsBy,
                   toggle: this.toggle.setToggles(
                     'Reduce Calls and Operating Costs by:',
                     'Self Service',
@@ -252,6 +269,7 @@ export class SelfSharedService {
                 oppurtunities.push({
                   category: 'mini-tile',
                   title: 'Reduce Calls and Operating Costs by:',
+                  MetricID: this.MetricidService.MetricIDs.ReduceCallsOperatingCostsBy,
                   status: 500,
                   toggle: this.toggle.setToggles(
                     'Reduce Calls and Operating Costs by:',
@@ -267,6 +285,7 @@ export class SelfSharedService {
               oppurtunities.push({
                 category: 'mini-tile',
                 title: 'Reduce Calls and Operating Costs by:',
+                MetricID: this.MetricidService.MetricIDs.ReduceCallsOperatingCostsBy,
                 status: 500,
                 toggle: this.toggle.setToggles(
                   'Reduce Calls and Operating Costs by:',
@@ -299,6 +318,7 @@ export class SelfSharedService {
                 oppurtunities.push({
                   category: 'mini-tile',
                   title: "Save Your Staff's Time by:" + '\n\xa0',
+                  MetricID: this.MetricidService.MetricIDs.SaveyourStaffsTimeBy,
                   toggle: this.toggle.setToggles(
                     "Save Your Staff's Time by:",
                     'Self Service',
@@ -328,6 +348,7 @@ export class SelfSharedService {
                 oppurtunities.push({
                   category: 'mini-tile',
                   title: "Save Your Staff's Time by:" + '\n\xa0',
+                  MetricID: this.MetricidService.MetricIDs.SaveyourStaffsTimeBy,
                   status: 500,
                   toggle: this.toggle.setToggles(
                     "Save Your Staff's Time by:",
@@ -343,6 +364,7 @@ export class SelfSharedService {
               oppurtunities.push({
                 category: 'mini-tile',
                 title: "Save Your Staff's Time by:" + '\n\xa0',
+                MetricID: this.MetricidService.MetricIDs.SaveyourStaffsTimeBy,
                 status: 500,
                 toggle: this.toggle.setToggles(
                   "Save Your Staff's Time by:",
@@ -377,6 +399,7 @@ export class SelfSharedService {
                 oppurtunities.push({
                   category: 'mini-tile',
                   title: 'Reduce Claim Processing Time by:',
+                  MetricID: this.MetricidService.MetricIDs.ReduceClaimProcessingTimeBy,
                   toggle:
                     checkProcessingTime >= 0 ||
                     this.toggle.setToggles(
@@ -408,6 +431,7 @@ export class SelfSharedService {
                 oppurtunities.push({
                   category: 'mini-tile',
                   title: 'Reduce Claim Processing Time by:',
+                  MetricID: this.MetricidService.MetricIDs.ReduceClaimProcessingTimeBy,
                   status: 500,
                   toggle: this.toggle.setToggles(
                     'Reduce Claim Processing Time by:',
@@ -423,6 +447,7 @@ export class SelfSharedService {
               oppurtunities.push({
                 category: 'mini-tile',
                 title: 'Reduce Claim Processing Time by:',
+                MetricID: this.MetricidService.MetricIDs.ReduceClaimProcessingTimeBy,
                 status: 500,
                 toggle: this.toggle.setToggles(
                   'Reduce Claim Processing Time by:',
@@ -463,6 +488,7 @@ export class SelfSharedService {
                 oppurtunities.push({
                   category: 'mini-tile',
                   title: 'Reduce Reconsideration Processing by:',
+                  MetricID: this.MetricidService.MetricIDs.ReduceReconsiderationProcessingBy,
                   toggle:
                     checkAvgProcessingTime >= 0 ||
                     this.toggle.setToggles(
@@ -496,6 +522,7 @@ export class SelfSharedService {
                 oppurtunities.push({
                   category: 'mini-tile',
                   title: 'Reduce Reconsideration Processing by:',
+                  MetricID: this.MetricidService.MetricIDs.ReduceReconsiderationProcessingBy,
                   status: 500,
                   toggle: this.toggle.setToggles(
                     'Reduce Reconsideration Processing by:',
@@ -511,6 +538,7 @@ export class SelfSharedService {
               oppurtunities.push({
                 category: 'mini-tile',
                 title: 'Reduce Reconsideration Processing by:',
+                MetricID: this.MetricidService.MetricIDs.ReduceReconsiderationProcessingBy,
                 status: 500,
                 toggle: this.toggle.setToggles(
                   'Reduce Reconsideration Processing by:',
@@ -526,6 +554,7 @@ export class SelfSharedService {
             oppurtunities.push({
               category: 'mini-tile',
               title: 'Reduce Calls and Operating Costs by:',
+              MetricID: this.MetricidService.MetricIDs.ReduceCallsOperatingCostsBy,
               status: 500,
               toggle: this.toggle.setToggles(
                 'Reduce Calls and Operating Costs by:',
@@ -540,6 +569,7 @@ export class SelfSharedService {
             oppurtunities.push({
               category: 'mini-tile',
               title: "Save Your Staff's Time by:" + '\n\xa0',
+              MetricID: this.MetricidService.MetricIDs.SaveyourStaffsTimeBy,
               status: 500,
               toggle: this.toggle.setToggles(
                 "Save Your Staff's Time by:",
@@ -554,6 +584,7 @@ export class SelfSharedService {
             oppurtunities.push({
               category: 'mini-tile',
               title: 'Reduce Claim Processing Time by:',
+              MetricID: this.MetricidService.MetricIDs.ReduceClaimProcessingTimeBy,
               status: 500,
               toggle: this.toggle.setToggles(
                 'Reduce Claim Processing Time by:',
@@ -568,6 +599,7 @@ export class SelfSharedService {
             oppurtunities.push({
               category: 'mini-tile',
               title: 'Reduce Reconsideration Processing by:',
+              MetricID: this.MetricidService.MetricIDs.ReduceReconsiderationProcessingBy,
               status: 500,
               toggle: this.toggle.setToggles(
                 'Reduce Reconsideration Processing by:',

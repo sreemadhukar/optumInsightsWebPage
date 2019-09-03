@@ -26,6 +26,7 @@ import { ThemeService } from '../../shared/theme.service';
 import { Observable, Subscription } from 'rxjs';
 import { CommonUtilsService } from '../../shared/common-utils.service';
 import { StorageService } from '../../shared/storage-service.service';
+import { EventEmitterService } from '../../shared/know-our-provider/event-emitter.service';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -54,6 +55,7 @@ import { StorageService } from '../../shared/storage-service.service';
 export class HeaderComponent implements OnInit, OnDestroy {
   @Input() isDarkTheme: Observable<boolean>;
   @Input() button: boolean;
+  @Input() isKop: boolean;
   @Output() hamburgerDisplay = new EventEmitter<boolean>();
   public sideNavFlag = false;
   public state: any;
@@ -71,11 +73,14 @@ export class HeaderComponent implements OnInit, OnDestroy {
     private themeService: ThemeService,
     private router: Router,
     private utils: CommonUtilsService,
-    private checkStorage: StorageService
+    private checkStorage: StorageService,
+    private eventEmitter: EventEmitterService
   ) {
     // this.mobileQuery = this.breakpointObserver.isMatched('(max-width: 1024px)');
     router.events.subscribe(event => {
       if (event instanceof NavigationStart) {
+        const userInfo = JSON.parse(sessionStorage.getItem('loggedUser'));
+        this.username = userInfo.FirstName;
         this.mobileQuery = this.breakpointObserver.isMatched('(max-width: 1279px)');
         // alert(this.mobileQuery);
         if (!this.mobileQuery) {
@@ -113,13 +118,16 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.isDarkTheme = this.themeService.isDarkTheme;
-    const userInfo = JSON.parse(sessionStorage.getItem('loggedUser'));
-    if (userInfo) {
-      setTimeout(() => {
+    this.eventEmitter.getEvent().subscribe(val => {
+      const userInfo = JSON.parse(sessionStorage.getItem('loggedUser'));
+      this.username = userInfo.FirstName;
+    });
+    this.checkStorage.getEvent().subscribe(value => {
+      if (value.value === 'overviewPage') {
+        const userInfo = JSON.parse(sessionStorage.getItem('loggedUser'));
         this.username = userInfo.FirstName;
-        this.username = userInfo.FirstName;
-      }, 5000);
-    }
+      }
+    });
   }
   /*angular theme */
 

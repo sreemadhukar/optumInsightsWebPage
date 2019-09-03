@@ -33,8 +33,8 @@ export class RotatingArrowObjectComponent implements OnInit, AfterViewInit {
       .selectAll('*')
       .remove();
 
-    let width = 212;
-    let height = 212;
+    let width = 230;
+    let height = 220;
 
     if (customWidth > 0) {
       width = customWidth;
@@ -44,15 +44,25 @@ export class RotatingArrowObjectComponent implements OnInit, AfterViewInit {
       height = customHeight;
     }
 
+    const tatCircleLink = 'src/assets/images/TATCirclewithArrow.png';
+
     const chart = d3
       .select(this.renderChart)
       .append('svg')
       .attr('width', width)
-      .attr('height', height)
+      .attr('height', 220)
       .append('g')
-      .attr('transform', 'translate(' + 0 + ',' + 0 + ')');
+      .attr('transform', 'translate(' + -10 + ',' + 20 + ')');
 
     chart
+      .append('svg:image')
+      .attr('x', 10)
+      .attr('y', 0)
+      .attr('width', '200px')
+      .attr('height', '200px')
+      .attr('xlink:href', tatCircleLink);
+
+    /*   chart
       .append('path')
       .attr(
         'd',
@@ -103,7 +113,7 @@ export class RotatingArrowObjectComponent implements OnInit, AfterViewInit {
         'transform',
         'translate(198.992281, 145.554508) scale(-1, 1) rotate(157.000000) translate(-198.992281, -145.554508) '
       )
-      .attr('fill', '#3381FF');
+      .attr('fill', '#3381FF');*/
 
     let circleColor;
     let textColor;
@@ -124,14 +134,14 @@ export class RotatingArrowObjectComponent implements OnInit, AfterViewInit {
         arrowLink = 'src/assets/images/flat-no-change.svg';
       }
 
-      chart
+      /* chart
         .append('circle')
         .attr('cx', width / 3)
         .attr('cy', height / 1.55)
         .attr('r', 16)
         .attr('fill', circleColor);
 
-      chart
+    chart
         .append('svg:image')
         .attr('x', width / 3.4)
         .attr('y', height / 1.7)
@@ -147,14 +157,14 @@ export class RotatingArrowObjectComponent implements OnInit, AfterViewInit {
         .style('fill', textColor)
         .style('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
         .style('text-anchor', 'start')
-        .text(chartOptions.sdata.data);
+        .text(chartOptions.sdata.data);*/
     }
 
     chart
       .append('text')
       .attr('text-anchor', 'middle')
-      .attr('y', height / 2)
-      .attr('x', width / 2)
+      .attr('y', 115)
+      .attr('x', 115)
       .style('font-size', '41px')
       .style('fill', '#2D2D39')
       .style('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")

@@ -68,7 +68,8 @@
           <li *ngFor="let c of cardData.piDonutData.besideData.labels; let i = index">{{ c }}</li>
         </ul>
         <p class="date-range-text">
-          *Positive/ negative trend comparison is {{ cardData.VarianceEndDate }} vs. {{ cardData.VarianceStartDate }}
+          &dagger; Positive/ negative trend comparison is {{ cardData.VarianceEndDate }} vs.
+          {{ cardData.VarianceStartDate }}
         </p>
       </div>
       <div class="bar-chart-block">
@@ -103,7 +104,7 @@
                     <p class="financial-value">{{ cardData.OutStandingAmount }}</p>
                     <mat-icon class="pi-trend-icons" svgIcon="{{ cardData.OutStandingAmountVarianceIcon }}"></mat-icon>
                     <p class="financial-trend" [style.color]="cardData.OutStandingAmountVarianceColor">
-                      {{ cardData.OutStandingAmountVariance }}*
+                      {{ cardData.OutStandingAmountVariance }} &dagger;
                     </p>
                   </div>
                   <p class="financial-opportunity">Financial Opportunity</p>
@@ -118,6 +119,46 @@
         <app-common-footer [timePeriod]="cardData.timeperiod" class="width-100"></app-common-footer>
       </div>
     </div>
+    <div>
+      <app-card class="cards" [chartData]="smartEditClaimsReturned"></app-card>
+    </div>
+
+    <!-- Smart Edits  Top Informational Reasons STARTS HERE -->
+    <div *ngIf="smartEditsReasonsBool">
+      <app-card class="cards" [skeleton]="loading" *ngIf="loading"> </app-card>
+      <div class="overturn-reason-block">
+        <app-common-header
+          [title]="smartEditsReasonTitle"
+          class="full-display"
+          (helpIconClicked)="helpIconClick($event)"
+        ></app-common-header>
+        <!--div *ngFor="let r of reason; let i = index"-->
+        <div class="top-reason-one">
+          <div *ngIf="claimsTopReason.length >= 1" class="appeals-overturned-bar-chart ">
+            <app-med-bar-chart class="top-reason-one" [chartOptions]="claimsTopReason[0]"></app-med-bar-chart>
+          </div>
+        </div>
+        <div *ngIf="claimsTopReason.length >= 2" class="appeals-overturned-bar-chart ">
+          <app-med-bar-chart class="top-reason-other" [chartOptions]="claimsTopReason[1]"></app-med-bar-chart>
+        </div>
+        <div *ngIf="claimsTopReason.length >= 3" class="appeals-overturned-bar-chart ">
+          <app-med-bar-chart class="top-reason-other" [chartOptions]="claimsTopReason[2]"></app-med-bar-chart>
+        </div>
+        <div *ngIf="claimsTopReason.length >= 4" class="appeals-overturned-bar-chart ">
+          <app-med-bar-chart class="top-reason-other" [chartOptions]="claimsTopReason[3]"></app-med-bar-chart>
+        </div>
+        <div *ngIf="claimsTopReason.length >= 5" class="appeals-overturned-bar-chart">
+          <app-med-bar-chart class="top-reason-other" [chartOptions]="claimsTopReason[4]"></app-med-bar-chart>
+        </div>
+        <!--/div-->
+        <div class="common-footer">
+          <div class="reason-time">{{ timePeriod }}</div>
+        </div>
+        <!--app-common-footer [timePeriod]="timePeriod" class="reason-time"></app-common-footer-->
+      </div>
+    </div>
+    <!-- Smart Edits  Top Informational Reasons STARTS HERE -->
+
     <div *ngIf="piDataloaded" class="message-left-margin">
       <app-clarify-claims-message></app-clarify-claims-message>
     </div>
