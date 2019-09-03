@@ -108,7 +108,7 @@ export class PCORSharedService {
             const x = {
               star: 5,
               label: 'Five Star Quality Measure',
-              count: qualitydta.fourStarMeasureCount.Count,
+              count: qualitydta.fiveStarMeasureCount.Count,
               data: []
             };
             x.data = temp.filter(item => item.QualityRating === x.star);
