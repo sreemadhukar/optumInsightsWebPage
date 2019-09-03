@@ -119,7 +119,7 @@
         <app-common-footer [timePeriod]="cardData.timeperiod" class="width-100"></app-common-footer>
       </div>
     </div>
-    <div>
+    <div *ngIf="showSmartEditsClaimsReturned">
       <app-card class="cards" [chartData]="smartEditClaimsReturned"></app-card>
     </div>
 

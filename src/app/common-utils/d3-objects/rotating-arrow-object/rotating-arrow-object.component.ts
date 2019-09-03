@@ -52,7 +52,7 @@ export class RotatingArrowObjectComponent implements OnInit, AfterViewInit {
       .attr('width', width)
       .attr('height', 220)
       .append('g')
-      .attr('transform', 'translate(' + -10 + ',' + 20 + ')');
+      .attr('transform', 'translate(' + -10 + ',' + -5 + ')');
 
     chart
       .append('svg:image')
