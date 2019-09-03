@@ -97,7 +97,7 @@
         display: flex;
       }
     }
-    .trend-details.trend2 {
+    .trend-details.trend-nps {
       margin: 0;
       margin-left: 70px;
     }
@@ -117,7 +117,7 @@
     display: flex;
     .data-card {
       text-align: center;
-      font-family: 'UHC Sans';
+      font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
       color: white;
       margin: 10px auto;
       width: 120px;
@@ -127,23 +127,37 @@
         padding: 5px 0;
         height: 45px;
         font-size: 58px;
-        font-weight: 500;
         line-height: 60px;
       }
       .caption-text {
+        font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
         font-size: 14px;
-        font-weight: 500;
         height: 14px;
         letter-spacing: 0.17px;
         line-height: 50px;
       }
       .target {
-        padding: 5px 0;
+        padding-top: 5px;
         font-size: 14px;
-        font-weight: 600;
         height: 14px;
         line-height: 50px;
       }
+    }
+    .data-card.card-nps-quarter-current {
+      background: none;
+      border: 2px solid $dodger-blue;
+      color: $black-rock;
+    }
+    .data-card.card-nps-quarter-prev {
+      border: 2px solid $iris-blue;
+      color: $black-rock;
+      background: none;
+      box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
+    }
+    .data-card.card-nps-quarter-highlight {
+      border: none;
+      color: $white;
+      background: $dodger-blue;
     }
   }
   .small-star-chart {

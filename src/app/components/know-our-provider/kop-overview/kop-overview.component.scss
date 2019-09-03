@@ -22,18 +22,17 @@
     width: 100%;
     margin: auto;
     .overview-subheading {
-      font-family: 'UHC Sans';
-      background: #e0e0e0;
-      border: 1px solid #b3babc;
+      font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+      background: $gainsboro;
+      border: 1px solid $heather;
       border-radius: 16px;
       border: 1px solid rgb(205, 211, 213);
       font-size: 14px;
-      font-weight: 500;
       letter-spacing: 0.2px;
       padding: 8px 10px;
     }
     .overview-subheading span {
-      font-weight: 600;
+      font-family: 'UHCSans-Bold', Helvetica, Arial, sans-serif;
     }
     .overview-section {
       display: flex;
@@ -41,18 +40,17 @@
       .section-header {
         display: flex;
         padding-top: 30px;
-        font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+        font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
         color: $black-rock;
         .section-header-part {
           .title {
-            font-family: 'UHC Sans';
+            font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
             flex-basis: 100%;
             font-size: 28px;
             line-height: 1;
             margin-bottom: 16px;
             color: $black-rock;
             height: 32px;
-            font-weight: 600;
           }
         }
         .section-header-part2 {
@@ -68,10 +66,10 @@
               margin: 0 5px;
             }
             .circle.color1 {
-              background: #3381ff;
+              background: $dodger-blue;
             }
             .circle.color2 {
-              background: #90eef0;
+              background: $serenity-blue;
             }
             li {
               list-style-type: none;
@@ -95,8 +93,7 @@
     }
     .cust-width-title {
       width: 50%;
-      // margin-left: 10px;
-      // font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+      margin-left: 0px;
       color: $black-rock;
       .page-title {
         flex-basis: 100%;
@@ -104,7 +101,7 @@
         line-height: 2;
         margin-bottom: 16px;
         color: $black-rock;
-        font-family: 'UHC Sans';
+        font-family: 'UHCSans-Regular', Helvetica, Arial, sans-serif;
       }
       .title-opportunity {
         flex-basis: 100%;

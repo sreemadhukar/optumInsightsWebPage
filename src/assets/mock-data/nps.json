@@ -20,25 +20,20 @@
       "sdata": {
         "sign": "up",
         "data": "Posivite Trending",
-        "trendStyle2": true
+        "trendStyleNPS": true
       },
       "cards": [
         {
           "highlightedValue": 25,
-          "border": "none",
-          "boxShadow": "",
-          "color": "#FFFFFF",
-          "backgroundColor": "#3381FF",
+          "highlightQuarter": true,
+          "currentQuarter": true,
           "targetValue": 14,
           "captionText": "2019 Target"
         },
         {
           "highlightedValue": 18,
-          "border": "2px solid #00B8CC",
-          "boxShadow": "0 2px 4px 0 #000000;",
-          "color": "#2D2D39",
-          "backgrounColor": "none",
           "targetValue": 14,
+          "prevQuarter": true,
           "captionText": "2018 Target"
         }
       ]
@@ -51,23 +46,18 @@
       "sdata": {
         "sign": "up",
         "data": "Posivite Trending",
-        "trendStyle2": true
+        "trendStyleNPS": true
       },
       "cards": [
         {
           "highlightedValue": 25,
-          "border": "2px solid #3381FF",
-          "boxShadow": "",
-          "color": "#2D2D39",
+          "currentQuarter": true,
           "targetValue": 14,
           "captionText": "2019 Target"
         },
         {
           "highlightedValue": 18,
-          "border": "2px solid #00B8CC",
-          "boxShadow": "0 2px 4px 0 #000000;",
-          "color": "#2D2D39",
-          "backgrounColor": "none",
+          "prevQuarter": true,
           "targetValue": 14,
           "captionText": "2018 Target"
         }
@@ -81,23 +71,18 @@
       "sdata": {
         "sign": "up",
         "data": "Posivite Trending",
-        "trendStyle2": true
+        "trendStyleNPS": true
       },
       "cards": [
         {
           "highlightedValue": 25,
-          "border": "2px solid #3381FF",
-          "boxShadow": "",
-          "color": "#2D2D39",
+          "currentQuarter": true,
           "targetValue": 14,
           "captionText": "2019 Target"
         },
         {
           "highlightedValue": 18,
-          "border": "2px solid #00B8CC",
-          "boxShadow": "0 2px 4px 0 #000000;",
-          "color": "#2D2D39",
-          "backgrounColor": "none",
+          "prevQuarter": true,
           "targetValue": 14,
           "captionText": "2018 Target"
         }

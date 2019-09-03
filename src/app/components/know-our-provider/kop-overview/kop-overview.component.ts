@@ -17,9 +17,7 @@ export class KopOverviewComponent implements OnInit, OnDestroy {
   // NPS SECTION
   public npsLoaded: Boolean = false;
   public npsCardOptions: any = {
-    titleFontFamily: 'UHC Sans',
-    titleFontWeight: '600',
-    titleColor: '#2D2D39'
+    npsHeader: true
   };
   public npsSummary: any = {};
 

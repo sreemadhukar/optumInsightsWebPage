@@ -11,10 +11,9 @@
       <div
         *ngFor="let card of data.cards"
         class="data-card"
-        [style.color]="card.color"
-        [style.border]="card.border"
-        [style.box-shadow]="card.boxShadow"
-        [style.background-color]="card.backgroundColor"
+        [class.card-nps-quarter-current]="card.currentQuarter"
+        [class.card-nps-quarter-prev]="card.prevQuarter"
+        [class.card-nps-quarter-highlight]="card.highlightQuarter"
       >
         <div class="highlighted">{{ card.highlightedValue }}</div>
         <div class="caption-text">{{ card.captionText }}</div>
@@ -31,7 +30,7 @@
     <div *ngIf="data.type == 'star' && data.data != null" class="chart-details small-star-chart">
       <app-star-chart [starType]="'small-card'" [chartOptions]="data.data"></app-star-chart>
     </div>
-    <div *ngIf="data.sdata != null" class="trend-details" [class.trend2]="data.sdata.trendStyle2">
+    <div *ngIf="data.sdata != null" class="trend-details" [class.trend-nps]="data.sdata.trendStyleNPS">
       <div *ngIf="data.sdata.sign === 'down'" class="flex-box">
         <span class="trend" [class.down]="data.sdata.sign === 'down'">
           <img class="trend-image trend-image-down" src="/src/assets/images/trend-down.svg" alt="trend-down" />

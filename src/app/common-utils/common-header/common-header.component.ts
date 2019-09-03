@@ -4,9 +4,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 
 export interface CommonHeaderOptions {
-  titleColor: string;
-  titleFontFamily: string;
-  titleFontWeight: string;
+  npsHeader: boolean;
 }
 
 @Component({
