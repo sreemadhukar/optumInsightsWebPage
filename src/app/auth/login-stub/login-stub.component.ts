@@ -32,7 +32,7 @@ export class LoginStubComponent implements OnInit {
   showWarning = false;
   sessionTimedoutMessage: any = {
     note: 'Due to inactivity, we have logged you out.',
-    message: 'To return to your UHC Insights, please sign in below.'
+    message: 'To return to UHC Insights, please sign in below.'
   };
   @ViewChild('errorDialog') errorDialog: TemplateRef<any>;
 
