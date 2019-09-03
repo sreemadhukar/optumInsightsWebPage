@@ -761,7 +761,6 @@ export class GettingReimbursedSharedService {
             timeperiod: null
           };
 
-
           submissions = {
             id: 1,
             title: 'Claims Submissions*',
@@ -1403,8 +1402,6 @@ export class GettingReimbursedSharedService {
             data: null,
             timeperiod: null
           };
-
-          
           submissions = {
             id: 1,
             title: 'Claims Submissions*',
