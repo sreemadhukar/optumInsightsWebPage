@@ -137,9 +137,9 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
         this.bgWhite = !(authService.isLoggedIn() && !event.url.includes('print-'));
         this.loading = true;
         const heac = JSON.parse(sessionStorage.getItem('heac'));
-        // if (event.url === '/KnowOurProvider' && !heac.heac) {
-        // router.navigate(['/ProviderSearch']);
-        // }
+        if (event.url === '/KnowOurProvider' && !heac.heac) {
+          router.navigate(['/ProviderSearch']);
+        }
       }
       // PLEASE DON'T MODIFY THIS
     });
