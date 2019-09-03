@@ -25,7 +25,7 @@ export class KopOverviewComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.eventEmitter.emitEvent(true);
-    const userInfo = JSON.parse(sessionStorage.getItem('loggedUser'));
+    const userInfo = JSON.parse(sessionStorage.getItem('loggedUser')) || {};
     this.pageTitle = 'Hello, ' + userInfo.FirstName + '.';
 
     this.npsSharedService.getNPSSummary((data: any) => {
