@@ -34,7 +34,7 @@ export class RotatingArrowObjectComponent implements OnInit, AfterViewInit {
       .remove();
 
     let width = 230;
-    let height = 212;
+    let height = 220;
 
     if (customWidth > 0) {
       width = customWidth;
@@ -44,22 +44,22 @@ export class RotatingArrowObjectComponent implements OnInit, AfterViewInit {
       height = customHeight;
     }
 
-    const tatCircleLink = 'src/assets/images/tat-circle-with-arrow.svg';
+    const tatCircleLink = 'src/assets/images/TATCirclewithArrow.png';
 
     const chart = d3
       .select(this.renderChart)
       .append('svg')
       .attr('width', width)
-      .attr('height', height)
+      .attr('height', 220)
       .append('g')
-      .attr('transform', 'translate(' + -30 + ',' + -30 + ')');
+      .attr('transform', 'translate(' + -10 + ',' + 20 + ')');
 
     chart
       .append('svg:image')
       .attr('x', 10)
       .attr('y', 0)
-      .attr('width', '260px')
-      .attr('height', '275px')
+      .attr('width', '200px')
+      .attr('height', '200px')
       .attr('xlink:href', tatCircleLink);
 
     /*   chart
@@ -163,8 +163,8 @@ export class RotatingArrowObjectComponent implements OnInit, AfterViewInit {
     chart
       .append('text')
       .attr('text-anchor', 'middle')
-      .attr('y', 150)
-      .attr('x', 140)
+      .attr('y', 115)
+      .attr('x', 115)
       .style('font-size', '41px')
       .style('fill', '#2D2D39')
       .style('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
