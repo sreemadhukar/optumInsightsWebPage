@@ -28,7 +28,7 @@ export class GettingReimbursedSharedService {
     private toggle: AuthorizationService,
     private nonPaymentSharedService: NonPaymentSharedService,
     private nonPaymentService: NonPaymentService
-  ) { }
+  ) {}
 
   public ReturnMonthlyString(a) {
     if (a === '01') {
@@ -317,7 +317,7 @@ export class GettingReimbursedSharedService {
                   graphValues: paidData,
                   centerNumber:
                     this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].AmountPaid) < 1 &&
-                      this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].AmountPaid) > 0
+                    this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].AmountPaid) > 0
                       ? '< $1'
                       : '$' + this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].AmountPaid),
                   centerNumberOriginal: claimsData[lobData].ClaimsLobSummary[0].AmountPaid,
@@ -402,7 +402,7 @@ export class GettingReimbursedSharedService {
                   graphValues: notPaidData,
                   centerNumber:
                     this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].AmountDenied) < 1 &&
-                      this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].AmountDenied) > 0
+                    this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].AmountDenied) > 0
                       ? '< $1'
                       : '$' + this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].AmountDenied),
                   centerNumberOriginal: claimsData[lobData].ClaimsLobSummary[0].AmountDenied,
@@ -456,7 +456,7 @@ export class GettingReimbursedSharedService {
                   ],
                   centerNumber:
                     claimsData[lobData].ClaimsLobSummary[0].ClaimsNonPaymentRate < 1 &&
-                      claimsData[lobData].ClaimsLobSummary[0].ClaimsNonPaymentRate > 0
+                    claimsData[lobData].ClaimsLobSummary[0].ClaimsNonPaymentRate > 0
                       ? '< 1%'
                       : claimsData[lobData].ClaimsLobSummary[0].ClaimsNonPaymentRate + '%',
                   color: ['#3381FF', '#D7DCE1'],
@@ -628,7 +628,7 @@ export class GettingReimbursedSharedService {
                   graphValues: submittedData,
                   centerNumber: this.common.nFormatter(
                     appealsData[0].LineOfBusiness[lobFullData].AdminAppeals +
-                    appealsData[0].LineOfBusiness[lobFullData].ClinicalAppeals
+                      appealsData[0].LineOfBusiness[lobFullData].ClinicalAppeals
                   ),
                   centerNumberOriginal:
                     appealsData[0].LineOfBusiness[lobFullData].AdminAppeals +
@@ -1071,7 +1071,7 @@ export class GettingReimbursedSharedService {
                   graphValues: paidData,
                   centerNumber:
                     this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].AmountPaid) < 1 &&
-                      this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].AmountPaid) > 0
+                    this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].AmountPaid) > 0
                       ? '< $1'
                       : '$' + this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].AmountPaid),
                   centerNumberOriginal: claimsData[lobData].ClaimsLobSummary[0].AmountPaid,
@@ -1101,7 +1101,7 @@ export class GettingReimbursedSharedService {
                     graphValues: [0, 100],
                     centerNumber:
                       this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].AmountPaid) < 1 &&
-                        this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].AmountPaid) > 0
+                      this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].AmountPaid) > 0
                         ? '< $1'
                         : '$' + this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].AmountPaid),
                     centerNumberOriginal: claimsData[lobData].ClaimsLobSummary[0].AmountPaid,
@@ -1187,7 +1187,7 @@ export class GettingReimbursedSharedService {
                   graphValues: paidData,
                   centerNumber:
                     this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].AmountPaid) < 1 &&
-                      this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].AmountPaid) > 0
+                    this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].AmountPaid) > 0
                       ? '< $1'
                       : '$' + this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].AmountPaid),
                   centerNumberOriginal: claimsData[lobData].ClaimsLobSummary[0].AmountPaid,
@@ -1272,7 +1272,7 @@ export class GettingReimbursedSharedService {
                   graphValues: notPaidData,
                   centerNumber:
                     this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].AmountDenied) < 1 &&
-                      this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].AmountDenied) > 0
+                    this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].AmountDenied) > 0
                       ? '< $1'
                       : '$' + this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].AmountDenied),
                   centerNumberOriginal: claimsData[lobData].ClaimsLobSummary[0].AmountDenied,
@@ -1326,7 +1326,7 @@ export class GettingReimbursedSharedService {
                   ],
                   centerNumber:
                     claimsData[lobData].ClaimsLobSummary[0].ClaimsNonPaymentRate < 1 &&
-                      claimsData[lobData].ClaimsLobSummary[0].ClaimsNonPaymentRate > 0
+                    claimsData[lobData].ClaimsLobSummary[0].ClaimsNonPaymentRate > 0
                       ? '< 1%'
                       : claimsData[lobData].ClaimsLobSummary[0].ClaimsNonPaymentRate + '%',
                   color: ['#3381FF', '#D7DCE1'],
@@ -1403,7 +1403,6 @@ export class GettingReimbursedSharedService {
             data: null,
             timeperiod: null
           };
-
           submissions = {
             id: 1,
             title: 'Claims Submissions*',
@@ -1942,7 +1941,7 @@ export class GettingReimbursedSharedService {
   } // end getParmaeterCategories() function for Top Reasons Categories
 
   public sentenceCase(str) {
-    return str.replace(/\w\S*/g, function (txt) {
+    return str.replace(/\w\S*/g, function(txt) {
       return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
     });
   }
@@ -2084,7 +2083,7 @@ export class GettingReimbursedSharedService {
             graphValues: submittedData,
             centerNumber: this.common.nFormatter(
               appealsData[0].LineOfBusiness[lobFullData].AdminAppeals +
-              appealsData[0].LineOfBusiness[lobFullData].ClinicalAppeals
+                appealsData[0].LineOfBusiness[lobFullData].ClinicalAppeals
             ),
             centerNumberOriginal:
               appealsData[0].LineOfBusiness[lobFullData].AdminAppeals +
