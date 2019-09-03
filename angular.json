@@ -22,7 +22,15 @@
             "stylePreprocessorOptions": {
               "includePaths": ["src/scss"]
             },
-            "styles": [{ "input": "src/styles.scss" }, "src/theme.scss"],
+            "styles": [
+              {
+                "input": "node_modules/@progress/kendo-theme-default/dist/all.css"
+              },
+              {
+                "input": "src/styles.scss"
+              },
+              "src/theme.scss"
+            ],
             "scripts": ["src/modernizr.js"]
           },
           "configurations": {
@@ -276,7 +284,12 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "src/tsconfig.spec.json",
             "karmaConfig": "src/karma.conf.js",
-            "styles": ["src/styles.scss"],
+            "styles": [
+              {
+                "input": "node_modules/@progress/kendo-theme-default/dist/all.css"
+              },
+              "src/styles.scss"
+            ],
             "scripts": ["src/modernizr.js"],
             "assets": ["src/favicon.ico", "src/assets"]
           }

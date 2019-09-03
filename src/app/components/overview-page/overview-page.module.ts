@@ -8,8 +8,10 @@ import { OverviewSharedService } from '../../shared/overview/overview-shared.ser
 import { HeadMaterialModule } from '../../head/head.material.module';
 import { CommonUtilsModule } from './../../common-utils/common-utils.module';
 
+import { PDFExportModule } from '@progress/kendo-angular-pdf-export';
+
 @NgModule({
-  imports: [CommonModule, OverviewPageRoutingModule, HeadMaterialModule, CommonUtilsModule],
+  imports: [CommonModule, OverviewPageRoutingModule, HeadMaterialModule, CommonUtilsModule, PDFExportModule],
   providers: [OverviewService, OverviewSharedService, OverviewComponent],
   declarations: [OverviewComponent]
 })

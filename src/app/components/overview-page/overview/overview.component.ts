@@ -6,7 +6,8 @@ import { StorageService } from '../../../shared/storage-service.service';
 import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 import { CommonUtilsService } from 'src/app/shared/common-utils.service';
-
+import * as jspdf from 'jspdf';
+import html2canvas from 'html2canvas';
 @Component({
   selector: 'app-overview',
   templateUrl: './overview.component.html',
@@ -81,6 +82,28 @@ export class OverviewComponent implements OnInit {
       'arrow',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-keyboard_arrow_right-24px.svg')
     );
+  }
+  captureScreen() {
+    this.router.navigateByUrl('/OverviewPage/print-overview');
+  }
+  print() {
+    const data = document.getElementById('print-overview');
+    html2canvas(data).then(canvas => {
+      // Few necessary setting options
+      const imgWidth = 208;
+      const pageHeight = 295;
+      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+      const heightLeft = imgHeight;
+
+      const contentDataURL = canvas.toDataURL('image/png');
+      const pdf = new jspdf('p', 'mm', 'a4'); // A4 size page of PDF
+      const position = 0;
+      pdf.addImage(contentDataURL, 'PNG', 0, position, imgWidth, imgHeight);
+      pdf.save('MYPdf.pdf'); // Generated PDF
+      setTimeout(function() {
+        this.router.navigateByUrl('/OverviewPage');
+      }, 3000);
+    });
   }
   ngOnInit() {
     // Temporary Heac ability
@@ -241,6 +264,11 @@ export class OverviewComponent implements OnInit {
       this.pageTitle = 'Overview (1 of 1)';
     } else {
       this.pageTitle = 'Hello, ' + userInfo.FirstName + '.';
+    }
+    if (this.router.url.includes('print-')) {
+      setTimeout(function() {
+        window.print();
+      }, 5000);
     }
   }
 }

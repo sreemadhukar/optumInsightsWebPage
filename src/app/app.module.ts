@@ -19,6 +19,7 @@ import { PriorAuthService } from './rest/prior-auth/prior-auth.service';
 import { PriorAuthSharedService } from './shared/prior-authorization/prior-auth.service';
 import { HttpInterceptorService } from './rest/interceptor/http-interceptor.service';
 import { CacheInterceptor } from './rest/interceptor/cache.interceptor';
+import { PDFExportModule } from '@progress/kendo-angular-pdf-export';
 
 @NgModule({
   declarations: [AppComponent],
@@ -32,7 +33,8 @@ import { CacheInterceptor } from './rest/interceptor/cache.interceptor';
     CommonUtilsModule,
     RestModule,
     PipesModule,
-    AuthModule
+    AuthModule,
+    PDFExportModule
   ],
   providers: [
     ProviderService,

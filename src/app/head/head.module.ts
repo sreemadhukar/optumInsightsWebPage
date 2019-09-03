@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
 import { FooterModule } from './../components/footer/footer.module';
 import { BodyComponent } from './body/body.component';
 import { HeaderComponent } from './header/header.component';
@@ -15,8 +14,13 @@ import { TermsOfUseComponent } from './terms-of-use/terms-of-use.component';
 import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component';
 import { SiteMapComponent } from './site-map/site-map.component';
 
+import { PDFExportModule } from '@progress/kendo-angular-pdf-export';
+// import { IntlModule } from '@progress/kendo-angular-intl';
+// import { NumericTextBoxModule } from '@progress/kendo-angular-inputs';
+// import { ButtonsModule } from '@progress/kendo-angular-buttons';
+
 @NgModule({
-  imports: [CommonModule, HeadRoutingModule, HeadMaterialModule, CommonUtilsModule, FooterModule],
+  imports: [CommonModule, HeadRoutingModule, HeadMaterialModule, CommonUtilsModule, FooterModule, PDFExportModule],
   exports: [BodyComponent, HeaderComponent],
   declarations: [
     HeaderComponent,
