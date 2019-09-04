@@ -61,7 +61,9 @@
     },
     "Claims Payment Integrity": {
       "navLink": true,
-      "Payment Integrity: Medical Record Coding Review": true
+      "Payment Integrity: Medical Record Coding Review": true,
+      "Smart Edits Claims Returned": true,
+      "Smart Edits Returned Claims Top Reasons": true
     }
   },
   "Care Delivery": {
