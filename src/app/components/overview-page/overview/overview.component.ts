@@ -84,7 +84,8 @@ export class OverviewComponent implements OnInit {
     );
   }
   captureScreen() {
-    this.router.navigateByUrl('/OverviewPage/print-overview');
+    // this.router.navigate(['/OverviewPage/print-overview']);
+    this.print();
   }
   print() {
     const data = document.getElementById('print-overview');
