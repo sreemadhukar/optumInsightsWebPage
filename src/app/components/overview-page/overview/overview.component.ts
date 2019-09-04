@@ -84,8 +84,10 @@ export class OverviewComponent implements OnInit {
     );
   }
   captureScreen() {
-    // this.router.navigate(['/OverviewPage/print-overview']);
-    this.print();
+    this.router.navigate(['/OverviewPage/print-overview']);
+    setTimeout(function() {
+      this.print();
+    }, 5000);
   }
   print() {
     const data = document.getElementById('print-overview');
@@ -266,10 +268,10 @@ export class OverviewComponent implements OnInit {
     } else {
       this.pageTitle = 'Hello, ' + userInfo.FirstName + '.';
     }
-    if (this.router.url.includes('print-')) {
-      setTimeout(function() {
-        window.print();
-      }, 5000);
-    }
+    // if (this.router.url.includes('print-')) {
+    //   setTimeout(function() {
+    //     window.print();
+    //   }, 5000);
+    // }
   }
 }
