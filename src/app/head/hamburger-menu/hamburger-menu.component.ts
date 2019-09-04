@@ -37,6 +37,7 @@ import { DOCUMENT, Location } from '@angular/common';
 import { environment } from '../../../environments/environment';
 import { EventEmitterService } from 'src/app/shared/know-our-provider/event-emitter.service';
 import { SessionService } from '../../shared/session.service';
+import { AcoEventEmitterService } from '../../shared/ACO/aco-event-emitter.service';
 
 @Component({
   selector: 'app-hamburger-menu',
@@ -53,7 +54,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
   public makeAbsolute: boolean;
   public bgWhite: boolean;
   public sideNavFlag = true;
-  public AcoFlag = false;
+  public AcoFlag: boolean;
   subscription: any;
   public glossaryFlag: boolean;
   public glossaryTitle: string = null;
@@ -115,11 +116,9 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     private location: Location,
     private sessionService: SessionService,
     private eventEmitter: EventEmitterService,
+    private acoEventEmitter: AcoEventEmitterService,
     @Inject(DOCUMENT) private document: any
   ) {
-    if (window.location.href.includes('AcoPage')) {
-      this.AcoFlag = true;
-    }
     this.glossaryFlag = false;
     this.filterFlag = false;
     // to disable the header/footer/body when not authenticated
@@ -181,10 +180,14 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
   }
 
   ngOnInit() {
+    this.AcoFlag = false;
     this.isKop = false;
     this.loading = false;
     this.PCORFlag = false;
     this.isDarkTheme = this.themeService.isDarkTheme;
+    this.acoEventEmitter.getEvent().subscribe(value => {
+      this.AcoFlag = value.value;
+    });
     this.eventEmitter.getEvent().subscribe(val => {
       this.isKop = val.value;
     });
