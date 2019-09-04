@@ -119,12 +119,12 @@
         <app-common-footer [timePeriod]="cardData.timeperiod" class="width-100"></app-common-footer>
       </div>
     </div>
-    <div>
+    <div *ngIf="showSmartEditsClaimsReturned">
       <app-card class="cards" [chartData]="smartEditClaimsReturned"></app-card>
     </div>
 
     <!-- Smart Edits  Top Informational Reasons STARTS HERE -->
-    <div>
+    <div *ngIf="smartEditsReasonsBool">
       <app-card class="cards" [skeleton]="loading" *ngIf="loading"> </app-card>
       <div class="overturn-reason-block">
         <app-common-header
