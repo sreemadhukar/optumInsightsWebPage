@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { AcoEventEmitterService } from '../../../shared/ACO/aco-event-emitter.service';
 import { SessionService } from '../../../shared/session.service';
 
 @Component({
@@ -6,13 +7,19 @@ import { SessionService } from '../../../shared/session.service';
   templateUrl: './aco-page.component.html',
   styleUrls: ['./aco-page.component.scss']
 })
-export class AcoPageComponent implements OnInit {
+export class AcoPageComponent implements OnInit, OnDestroy {
   loading = true;
   public pageTitle: any;
-  constructor(private session: SessionService) {
+  public pageSubTitle = 'Your ACO Insights at a glance.';
+  constructor(private session: SessionService, private acoEventEmitter: AcoEventEmitterService) {
     const userInfo = JSON.parse(sessionStorage.getItem('loggedUser'));
     this.pageTitle = 'Hello, ' + userInfo.FirstName + '.';
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.acoEventEmitter.emitEvent(true);
+  }
+  ngOnDestroy(): void {
+    this.acoEventEmitter.emitEvent(false);
+  }
 }
