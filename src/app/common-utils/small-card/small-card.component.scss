@@ -99,8 +99,12 @@
     }
     .trend-details.trend-nps {
       margin: 0;
+      padding: 10px 0;
       margin-left: 70px;
     }
+  }
+  .card-inner.nps {
+    height: 249px;
   }
   .print-card-inner {
     box-shadow: none;
@@ -112,9 +116,9 @@
     margin-top: -4px;
   }
   .cards-display-block {
-    width: 100%;
     margin-top: -4px;
     display: flex;
+    padding: 0 24px;
     .data-card {
       text-align: center;
       font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
@@ -134,6 +138,7 @@
         font-size: 14px;
         height: 14px;
         letter-spacing: 0.17px;
+        color: $strom-grey;
         line-height: 50px;
       }
       .target {
@@ -147,17 +152,21 @@
       background: none;
       border: 2px solid $dodger-blue;
       color: $black-rock;
+      margin-right: 6px;
     }
     .data-card.card-nps-quarter-prev {
       border: 2px solid $iris-blue;
       color: $black-rock;
       background: none;
-      box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
+      margin-left: 6px;
     }
     .data-card.card-nps-quarter-highlight {
       border: none;
       color: $white;
       background: $dodger-blue;
+      .caption-text {
+        color: $white;
+      }
     }
   }
   .small-star-chart {
@@ -169,6 +178,9 @@
   //     width: 287px;
   //   }
   // }
+}
+.small-card-structure.nps {
+  margin-left: -10px;
 }
 .small-card-footer {
   .common-footer {

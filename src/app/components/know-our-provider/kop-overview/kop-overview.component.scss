@@ -21,18 +21,19 @@
     max-width: 1000px;
     width: 100%;
     margin: auto;
+
+    font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
     .overview-subheading {
-      font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
       background: $gainsboro;
       border: 1px solid $heather;
       border-radius: 16px;
       border: 1px solid rgb(205, 211, 213);
       font-size: 14px;
       letter-spacing: 0.2px;
-      padding: 8px 10px;
+      padding: 8px 14px;
     }
     .overview-subheading span {
-      font-family: 'UHCSans-Bold', Helvetica, Arial, sans-serif;
+      font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
     }
     .overview-section {
       display: flex;
@@ -40,7 +41,6 @@
       .section-header {
         display: flex;
         padding-top: 30px;
-        font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
         color: $black-rock;
         .section-header-part {
           .title {
@@ -62,7 +62,7 @@
               width: 14px;
               border-radius: 10px;
               display: inline-block;
-              vertical-align: bottom;
+              vertical-align: middle;
               margin: 0 5px;
             }
             .circle.color1 {

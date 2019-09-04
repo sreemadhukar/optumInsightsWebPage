@@ -1,5 +1,5 @@
-<div *ngIf="data != null" class="small-card-structure">
-  <div class="card-inner" [class.print-card-inner]="printStyle">
+<div *ngIf="data != null" class="small-card-structure" [class.nps]="data.quarter">
+  <div class="card-inner" [class.nps]="data.quarter" [class.print-card-inner]="printStyle">
     <app-common-header
       [cardType]="'smallCard'"
       [title]="data.title"
