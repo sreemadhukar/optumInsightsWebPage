@@ -137,6 +137,11 @@ export class PriorAuthComponent implements OnInit {
     );
 
     /*
+    this.priorAuthShared.getNewPAData(this.filterParameters).then(data => {
+      console.log(data);
+    });
+
+
     this.priorAuthShared.getPriorAuthData().then(
       data => {
         this.loading = false;

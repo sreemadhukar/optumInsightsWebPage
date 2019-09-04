@@ -14,6 +14,7 @@
         [class.display-none]="makeAbsolute"
         class="sticky"
         (hamburgerDisplay)="hamburgerDisplay($event)"
+        [isKop]="isKop"
       ></app-header>
     </mat-toolbar>
     <mat-sidenav-container
@@ -41,11 +42,13 @@
         <div class="health-system-representation-block" *ngIf="!isKop">
           <p class="representing-label">You are representing</p>
           <p class="health-system-name">{{ healthSystemName }}</p>
-          <p class="change-provider" *ngIf="disableChangeProvider" (click)="openDialog()">Change Provider</p>
+          <p class="change-provider" *ngIf="disableChangeProvider && !AcoFlag" (click)="openDialog()">
+            Change Provider
+          </p>
         </div>
         <!-- END OF HEALTHSYSTEM REPRESENTATION BLOCK -->
         <!-- MENU CATEGORIES BLOCK -->
-        <div class="nav-mat-list-items" *ngIf="!isKop">
+        <div class="nav-mat-list-items" *ngIf="!isKop && !AcoFlag">
           <mat-nav-list
             *ngFor="let category of navCategories; let rowIndex = index"
             [ngClass]="

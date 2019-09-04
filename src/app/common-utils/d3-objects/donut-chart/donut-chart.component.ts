@@ -464,10 +464,15 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
 
       let boxWidth = '113px';
       const boxHeight = '63px';
+      let textWidth = 84;
 
       g.on('mouseenter', function(d) {
         if (d.data.label === 'Resubmitted Without Changes') {
-          boxWidth = '200px';
+          boxWidth = '150px';
+          textWidth = 129;
+        } else {
+          boxWidth = '113px';
+          textWidth = 84;
         }
         const hoverTextLength = getTextWidth(d.data.label, 14, 'Arial');
 
@@ -484,8 +489,8 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
         let textLineOneY = '25px';
         let textLineTwoY = '47px';
         const lengthToShift = getTextWidth(d.data.label, 14, 'Arial');
-        // console.log(lengthToShift);
-        if (lengthToShift >= 84) {
+
+        if (lengthToShift >= textWidth) {
           textLineOneY = '17px';
           textLineTwoY = '55px';
         }
@@ -506,7 +511,7 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
           .style('fill', '#2D2D39')
           .style('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
           .text(d.data.label)
-          .call(wrap, 84, tspanID, 14);
+          .call(wrap, textWidth, tspanID, 14);
 
         svg2
           .append('text')

@@ -20,6 +20,8 @@ import { PriorAuthSharedService } from './shared/prior-authorization/prior-auth.
 import { HttpInterceptorService } from './rest/interceptor/http-interceptor.service';
 import { CacheInterceptor } from './rest/interceptor/cache.interceptor';
 import { PDFExportModule } from '@progress/kendo-angular-pdf-export';
+import { UserIdleModule } from 'angular-user-idle';
+import { IdleTimeoutDialogComponent } from './auth/idle-timeout-dialog/idle-timeout-dialog.component';
 
 @NgModule({
   declarations: [AppComponent],
@@ -34,7 +36,11 @@ import { PDFExportModule } from '@progress/kendo-angular-pdf-export';
     RestModule,
     PipesModule,
     AuthModule,
-    PDFExportModule
+    PDFExportModule,
+    // Optionally you can set time for `idle`, `timeout` and `ping` in seconds.
+    // Default values: `idle` is 600 (10 minutes), `timeout` is 300 (5 minutes)
+    // and `ping` is 120 (2 minutes).
+    UserIdleModule.forRoot({ idle: 1800, timeout: 180, ping: 1 })
   ],
   providers: [
     ProviderService,
@@ -46,6 +52,7 @@ import { PDFExportModule } from '@progress/kendo-angular-pdf-export';
     { provide: HTTP_INTERCEPTORS, useClass: HttpInterceptorService, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: CacheInterceptor, multi: true }
   ],
+  entryComponents: [IdleTimeoutDialogComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

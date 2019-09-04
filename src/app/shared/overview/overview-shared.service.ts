@@ -188,6 +188,26 @@ export class OverviewSharedService {
         providerSystems.SelfServiceInquiries.ALL.hasOwnProperty('Utilizations') &&
         providerSystems.SelfServiceInquiries.ALL.Utilizations.hasOwnProperty('OverallLinkAdoptionRate')
       ) {
+        let selfServiceTime;
+        if (
+          providerSystems.SelfServiceInquiries.ALL.hasOwnProperty('ReportingPeriodStartDate') &&
+          providerSystems.SelfServiceInquiries.ALL.hasOwnProperty('ReportingPeriodEndDate')
+        ) {
+          try {
+            const startDate: string = this.common.dateFormat(
+              providerSystems.SelfServiceInquiries.ALL.ReportingPeriodStartDate
+            );
+            const endDate: string = this.common.dateFormat(
+              providerSystems.SelfServiceInquiries.ALL.ReportingPeriodEndDate
+            );
+            selfServiceTime = startDate + ' - ' + endDate;
+          } catch (Error) {
+            selfServiceTime = null;
+            console.log('Error in Overview | Self Service TimePeriod', Error);
+          }
+        } else {
+          selfServiceTime = null;
+        }
         try {
           cSelfService = {
             category: 'small-card',
@@ -206,7 +226,7 @@ export class OverviewSharedService {
               gdata: ['card-inner', 'selfServiceCardD3Donut']
             },
             sdata: null,
-            timeperiod: 'Last 3 Months'
+            timeperiod: selfServiceTime
           };
         } catch (Error) {
           console.log('Error | Self Service Adoption Rate', Error);
@@ -1032,11 +1052,8 @@ export class OverviewSharedService {
   getPriorAuthCardData(trends) {
     return new Promise((resolve, reject) => {
       const parameters = {
-        providerkey: this.providerKey,
-        last6Months: true,
-        allProviderTins: true,
-        allLob: true,
-        allNotApprovedSettings: true
+        providerKey: this.providerKey,
+        allProviderTins: true
       };
 
       this.overviewService.getOverviewPriorAuth(parameters).subscribe(priorAuth => {
@@ -1186,7 +1203,7 @@ export class OverviewSharedService {
             },
             timeperiod: 'Last 6 Months'
           };
-          /*
+
           if (
             trends != undefined &&
             trends != null &&
@@ -1196,6 +1213,7 @@ export class OverviewSharedService {
             trends.TendingMtrics.CallsTrendByQuesType != null
           ) {
             const dataPoint = trends.TendingMtrics.CallsTrendByQuesType.toFixed(1) + '%';
+            console.log('dataPoint' + dataPoint);
             if (trends.TendingMtrics.CallsTrendByQuesType >= 1) {
               cIR.sdata = {
                 sign: 'up-red',
@@ -1218,9 +1236,8 @@ export class OverviewSharedService {
           } else {
             cIR.sdata = null;
           }
-          */
           // Hiding Calls trends
-          cIR.sdata = null;
+          // cIR.sdata = null;
         } else {
           cIR = {
             category: 'small-card',

@@ -8,4 +8,4 @@ const routes: Routes = [{ path: '', component: KopOverviewComponent }];
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class KnowYourProviderRoutingModule {}
+export class KnowOurProviderRoutingModule {}

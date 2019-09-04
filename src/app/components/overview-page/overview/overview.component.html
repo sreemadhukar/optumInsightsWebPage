@@ -19,18 +19,14 @@
       &gt;</app-print> -->
     </div>
     <div class="height1Separator"></div>
-    <app-small-card
-      class="cards"
-      *ngIf="loadClaimsPaidCard && !claimsLoading && !isHeac"
-      class="cards"
-      [data]="claimsPaidBlock"
-    >
+
+    <app-small-card class="cards" *ngIf="loadClaimsPaidCard && !claimsLoading" class="cards" [data]="claimsPaidBlock">
     </app-small-card>
-    <app-heac-small-card
+    <!-- <app-heac-small-card
       *ngIf="loadClaimsPaidCard && !claimsLoading && isHeac"
       class="cards"
       [data]="claimsPaidBlock"
-    ></app-heac-small-card>
+    ></app-heac-small-card> -->
     <app-small-card class="cards" [skeleton]="claimsLoading" *ngIf="claimsLoading"> </app-small-card>
     <app-error-card *ngIf="errorloadClaimsPaidCard" class="cards" [data]="item"></app-error-card>
 
@@ -64,20 +60,15 @@
     <app-small-card class="cards" [skeleton]="loading" *ngIf="loading"> </app-small-card>
     <app-error-card *ngIf="errorloadMedicareStarRatingCard" class="cards" [data]="item"></app-error-card>
 
-    <app-small-card
-      class="cards"
-      *ngIf="loadTotalCallsCard && !callsLoading && !isHeac"
-      class="cards"
-      [data]="totalCallsBlock"
-    >
+    <app-small-card class="cards" *ngIf="loadTotalCallsCard && !callsLoading" class="cards" [data]="totalCallsBlock">
     </app-small-card>
-    <app-heac-small-card
+    <!-- <app-heac-small-card
       class="cards"
       *ngIf="loadTotalCallsCard && !callsLoading && isHeac"
       class="cards"
       [data]="totalCallsBlock"
     >
-    </app-heac-small-card>
+    </app-heac-small-card> -->
     <app-small-card class="cards" [skeleton]="callsLoading" *ngIf="callsLoading"> </app-small-card>
     <app-error-card *ngIf="errorloadTotalCallsCard" class="cards" [data]="item"></app-error-card>
 
