@@ -31,7 +31,6 @@ export class PaymentIntegrityComponent implements OnInit {
   claimsTopReason: any = [];
   smartEditsReasonsBool = false;
   showSmartEditsClaimsReturned = false;
-
   constructor(
     private glossaryExpandService: GlossaryExpandService,
     private checkStorage: StorageService,
