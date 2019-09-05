@@ -14,6 +14,7 @@ import html2canvas from 'html2canvas';
   styleUrls: ['./overview.component.scss']
 })
 export class OverviewComponent implements OnInit {
+  printRoute: string;
   overviewItems: any;
   mainCards: any;
   mockMainCards: any;
@@ -23,6 +24,7 @@ export class OverviewComponent implements OnInit {
   pagesubTitle: String = '';
   userName: String = '';
   opportunities: String = '';
+  selfServiceLink: String = '';
   opportunitiesQuestion: String = '';
   welcomeMessage: String = '';
   subscription: any;
@@ -69,6 +71,8 @@ export class OverviewComponent implements OnInit {
     private filtermatch: CommonUtilsService,
     sanitizer: DomSanitizer
   ) {
+    this.printRoute = '/OverviewPage/print-overview';
+    this.selfServiceLink = 'Self Service Details';
     this.pagesubTitle = 'Your Insights at a glance.';
     this.opportunities = 'Opportunities';
     this.opportunitiesQuestion = 'How much can online self service save you?';
@@ -93,7 +97,7 @@ export class OverviewComponent implements OnInit {
     const data = document.getElementById('print-overview');
     html2canvas(data).then(canvas => {
       // Few necessary setting options
-      const imgWidth = 208;
+      const imgWidth = 608;
       const pageHeight = 295;
       const imgHeight = (canvas.height * imgWidth) / canvas.width;
       const heightLeft = imgHeight;
@@ -108,6 +112,11 @@ export class OverviewComponent implements OnInit {
       }, 3000);
     });
   }
+  printDownload(value) {
+    this.printStyle = true;
+    console.log('Overview Print Emit', value);
+  }
+
   ngOnInit() {
     // Temporary Heac ability
     const heac = JSON.parse(sessionStorage.getItem('heac'));
@@ -145,6 +154,11 @@ export class OverviewComponent implements OnInit {
     }*/
     this.overviewsrc.getAllTrends().then(trendData => {
       this.trendsData = trendData;
+      // temporary switch off of trend in calls : Srikar Bobbiganipalli
+      if (this.trendsData && this.trendsData.hasOwnProperty('TendingMtrics')) {
+        this.trendsData.TendingMtrics.CcllTalkTimeByQuesType = undefined;
+        this.trendsData.TendingMtrics.CallsTrendByQuesType = undefined;
+      }
       this.claimsLoading = true;
 
       /* SERVICE CALL TO GET CLAIMS CARDS DATA */
