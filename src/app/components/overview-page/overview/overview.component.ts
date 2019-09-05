@@ -88,7 +88,7 @@ export class OverviewComponent implements OnInit {
     );
   }
   captureScreen() {
-    this.router.navigate(['/OverviewPage/print-overview']);
+    // this.router.navigate(['/OverviewPage/print-overview']);
     setTimeout(function() {
       this.print();
     }, 5000);
@@ -97,7 +97,7 @@ export class OverviewComponent implements OnInit {
     const data = document.getElementById('print-overview');
     html2canvas(data).then(canvas => {
       // Few necessary setting options
-      const imgWidth = 608;
+      const imgWidth = 208;
       const pageHeight = 295;
       const imgHeight = (canvas.height * imgWidth) / canvas.width;
       const heightLeft = imgHeight;
@@ -107,14 +107,15 @@ export class OverviewComponent implements OnInit {
       const position = 0;
       pdf.addImage(contentDataURL, 'PNG', 0, position, imgWidth, imgHeight);
       pdf.save('MYPdf.pdf'); // Generated PDF
-      // setTimeout(function() {
-      //   this.router.navigateByUrl('/OverviewPage');
-      // }, 3000);
+      setTimeout(function() {
+        this.router.navigate(['/OverviewPage']);
+      }, 3000);
     });
   }
   printDownload(value) {
     this.printStyle = true;
-    this.print();
+    this.captureScreen();
+    // this.print();
     console.log('Overview Print Emit', value);
   }
 
