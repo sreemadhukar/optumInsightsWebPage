@@ -328,7 +328,6 @@ export class NonPaymentSharedService {
             this.summaryData = [];
 
             /** REMOVE LATER (ONCE PDP ISSUE SOLVED) ***/
-
             claimsNotPaidRate = {
               category: 'app-card',
               type: 'donut',
@@ -502,7 +501,6 @@ export class NonPaymentSharedService {
             } // end if else
             this.summaryData = [];
             /** REMOVE LATER (ONCE PDP ISSUE SOLVED) ***/
-
             claimsNotPaidRate = {
               category: 'app-card',
               type: 'donut',
