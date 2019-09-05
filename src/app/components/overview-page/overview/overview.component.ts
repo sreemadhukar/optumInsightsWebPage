@@ -13,6 +13,7 @@ import { CommonUtilsService } from 'src/app/shared/common-utils.service';
   styleUrls: ['./overview.component.scss']
 })
 export class OverviewComponent implements OnInit {
+  printRoute: string;
   overviewItems: any;
   mainCards: any;
   mockMainCards: any;
@@ -22,6 +23,7 @@ export class OverviewComponent implements OnInit {
   pagesubTitle: String = '';
   userName: String = '';
   opportunities: String = '';
+  selfServiceLink: string = '';
   opportunitiesQuestion: String = '';
   welcomeMessage: String = '';
   subscription: any;
@@ -68,6 +70,8 @@ export class OverviewComponent implements OnInit {
     private filtermatch: CommonUtilsService,
     sanitizer: DomSanitizer
   ) {
+    this.printRoute = '/OverviewPage/print-overview';
+    this.selfServiceLink = 'Self Service Details';
     this.pagesubTitle = 'Your Insights at a glance.';
     this.opportunities = 'Opportunities';
     this.opportunitiesQuestion = 'How much can online self service save you?';
@@ -81,6 +85,10 @@ export class OverviewComponent implements OnInit {
       'arrow',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-keyboard_arrow_right-24px.svg')
     );
+  }
+  printDownload(value) {
+    this.printStyle = true;
+    console.log('Overview Print Emit', value);
   }
   ngOnInit() {
     // Temporary Heac ability
