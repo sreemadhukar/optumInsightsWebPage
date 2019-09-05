@@ -138,7 +138,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
           )
         );
         this.bgWhite = !(authService.isLoggedIn() && !event.url.includes('print-'));
-        this.showPrintHeader = !(authService.isLoggedIn() && !event.url.includes('print-'));
+        this.showPrintHeader = event.url.includes('print-');
         this.loading = true;
         const heac = JSON.parse(sessionStorage.getItem('heac'));
         if (event.url === '/KnowOurProvider' && !heac.heac) {
@@ -184,15 +184,6 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
   }
 
   ngOnInit() {
-    if (this.router.url.includes('print-')) {
-      this.bgWhite = true;
-      this.showPrintHeader = true;
-    } else {
-      this.bgWhite = false;
-      this.showPrintHeader = false;
-    }
-    console.log('bgWhite', this.bgWhite);
-
     this.AcoFlag = false;
     this.isKop = false;
     this.loading = false;

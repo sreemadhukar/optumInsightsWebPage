@@ -23,7 +23,7 @@ export class OverviewComponent implements OnInit {
   pagesubTitle: String = '';
   userName: String = '';
   opportunities: String = '';
-  selfServiceLink: string = '';
+  selfServiceLink: String = '';
   opportunitiesQuestion: String = '';
   welcomeMessage: String = '';
   subscription: any;
