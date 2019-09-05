@@ -107,13 +107,14 @@ export class OverviewComponent implements OnInit {
       const position = 0;
       pdf.addImage(contentDataURL, 'PNG', 0, position, imgWidth, imgHeight);
       pdf.save('MYPdf.pdf'); // Generated PDF
-      setTimeout(function() {
-        this.router.navigateByUrl('/OverviewPage');
-      }, 3000);
+      // setTimeout(function() {
+      //   this.router.navigateByUrl('/OverviewPage');
+      // }, 3000);
     });
   }
   printDownload(value) {
     this.printStyle = true;
+    this.print();
     console.log('Overview Print Emit', value);
   }
 

@@ -21,6 +21,7 @@ export class PrintComponent implements OnInit {
 
   ngOnInit() {}
   printIconClick() {
+    console.log('Print coompnent');
     this.router.navigate([this.route]);
     this.printClick.emit('Overview');
   }
