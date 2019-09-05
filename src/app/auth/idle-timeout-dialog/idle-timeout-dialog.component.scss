@@ -36,7 +36,7 @@
 }
 .log-me-out-btn {
   color: $blue;
-  background: #fff !important;
+  background: #fff;
 }
 .keep-me-signed-btn {
   background-color: $blue;
@@ -56,4 +56,10 @@
   width: 184.09px;
   border: 1px solid $blue !important;
   border-radius: 2px !important;
+}
+
+.session-warning-buttons:hover {
+  cursor: pointer;
+  background-color: $blue-base;
+  color: #fff;
 }

@@ -154,94 +154,34 @@ export class PriorAuthService {
     );
   }
 
-  public getPriorAuthTrend(
-    timeRange: string,
-    allTin: boolean,
-    allLOB: boolean,
-    isAllSS: boolean,
-    isDecisionType: boolean,
-    isServiceCategory: boolean,
-    ...parameters
-  ) {
+  getPriorAuthDataNew(parameters, requestBody) {
     this.currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
     this.authBearer = this.currentUser[0].PedAccessToken;
     const myHeader = new HttpHeaders({
       Authorization: 'Bearer ' + this.authBearer,
       Accept: '*/*'
     });
-    const opts = { headers: myHeader };
 
-    let paramsone = new HttpParams();
-    let paramstwo = new HttpParams();
-    const urlone = this.APP_URL + this.SERVICE_PATH + parameters[0];
-    const urltwo = this.APP_URL + this.SERVICE_PATH + parameters[0];
+    // Sample template
+    const requestBodyTemplate = {
+      tin: null,
+      lob: 'allLob',
+      allNotApprovedSettings: true,
+      decisionType: false,
+      decisionValue: null,
+      serviceCategory: false,
+      serviceCategoryValue: null,
+      timeFilter: 'last6Months',
+      timeFilterText: null
+    };
 
-    // we can generate the past 31-60 days here...
-    if (timeRange === 'customDateRange') {
-      paramsone = paramsone.append('startDate', parameters[1]);
-      paramsone = paramsone.append('endDate', parameters[2]);
-      // add 31-60 day here
-      paramstwo = paramstwo.append('startDate', parameters[14]);
-      paramstwo = paramstwo.append('endDate', parameters[15]);
-      if (allTin) {
-        paramsone = paramsone.append('allProviderTins', parameters[3]);
-        paramstwo = paramstwo.append('allProviderTins', parameters[3]);
-      } else {
-        paramsone = paramsone.append('allProviderTins', parameters[3]);
-        paramstwo = paramstwo.append('allProviderTins', parameters[3]);
-        if (parameters[4] !== false) {
-          paramsone = paramsone.append('providerTin', parameters[4]);
-          paramstwo = paramstwo.append('providerTin', parameters[4]);
-        }
-      }
-      /*lob  */
-      if (allLOB) {
-        paramsone = paramsone.append('allLob', parameters[5]);
-        paramstwo = paramstwo.append('allLob', parameters[5]);
-      } else {
-        paramsone = paramsone.append('cAndSLob', parameters[6]);
-        paramsone = paramsone.append('eAndILob', parameters[7]);
-        paramsone = paramsone.append('mAndRLob', parameters[8]);
-        paramstwo = paramstwo.append('cAndSLob', parameters[6]);
-        paramstwo = paramstwo.append('eAndILob', parameters[7]);
-        paramstwo = paramstwo.append('mAndRLob', parameters[8]);
-      }
-    }
-    if (isAllSS) {
-      paramsone = paramsone.append('allNotApprovedSettings', parameters[9]);
-      paramstwo = paramstwo.append('allNotApprovedSettings', parameters[9]);
-    }
-    if (isDecisionType) {
-      paramsone = paramsone.append('decisionType', parameters[10]);
-      paramsone = paramsone.append('decisionValue', parameters[11]);
-      paramstwo = paramstwo.append('decisionType', parameters[10]);
-      paramstwo = paramstwo.append('decisionValue', parameters[11]);
-    }
+    const url = this.APP_URL + this.SERVICE_PATH + parameters[0];
+    let params = new HttpParams();
+    params = params.append('allProviderTins', parameters[1]);
 
-    if (isServiceCategory) {
-      paramsone = paramsone.append('serviceCategory', parameters[12]);
-      paramsone = paramsone.append('serviceCategoryValue', parameters[13]);
-      paramstwo = paramstwo.append('serviceCategory', parameters[12]);
-      paramstwo = paramstwo.append('serviceCategoryValue', parameters[13]);
-    }
-    // serviceCategory=true&serviceCategoryValue=Medical
-
-    return combineLatest(
-      this.http.post(urlone, paramsone, { headers: myHeader }).pipe(
-        map(res => JSON.parse(JSON.stringify(res[0]))),
-        catchError(err => of(JSON.parse(JSON.stringify(err))))
-      ),
-      this.http.post(urltwo, paramstwo, { headers: myHeader }).pipe(
-        map(res => JSON.parse(JSON.stringify(res[0]))),
-        catchError(err => of(JSON.parse(JSON.stringify(err))))
-      )
-    );
-
-    /*
-    return this.http.post(urlone, paramsone, { headers: myHeader }).pipe(
+    return this.http.post(url, requestBody, { headers: myHeader, params: params }).pipe(
       map(res => JSON.parse(JSON.stringify(res[0]))),
       catchError(err => of(JSON.parse(JSON.stringify(err))))
     );
- */
   }
 }
