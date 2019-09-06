@@ -41,12 +41,16 @@
           <div class="bottom-shadow">
             <div class="hide-bottom-arrow-block"></div>
           </div>
+
           <h3 class="inner-blocks-header">{{ qualitySubTitle }}</h3>
           <div class="top-5-block">
             <div *ngFor="let listitem of qualityPcorData; let j = index">
               <div class="horizontal-line">
                 <div class="accor-content-space">
-                  <h3 class="list-title">{{ listitem.Name }}</h3>
+                  <div>
+                    <div>-</div>
+                    <h3 class="list-title">{{ listitem.Name }}</h3>
+                  </div>
                   <div class="stars-count-div">
                     <div class="no-stars-count" *ngIf="qualityStarCount == 1">
                       <i class="star-blue"></i>
