@@ -15,6 +15,11 @@ const routes: Routes = [
     loadChildren: '../auth/auth.module#AuthModule'
   },
   {
+    path: 'OverviewPageAdvocate',
+    loadChildren: '../components/advocate/advocate.module#AdvocateModule',
+    canActivate: [AuthGuard]
+  },
+  {
     path: 'OverviewPage',
     loadChildren: '../components/overview-page/overview-page.module#OverviewPageModule',
     canActivate: [AuthGuard]
