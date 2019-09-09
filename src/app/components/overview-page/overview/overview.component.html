@@ -7,12 +7,7 @@
       <div class="page-subtitle">{{ pagesubTitle }}</div>
     </div>
     <div class="cards cust-width-blank">
-      <!-- <app-print
-      [printDivId]="'print-overview'"
-      [printName]="'Overview Page'"
-      [printHeight]="printHeight"
-      [printWidth]="printWidth">
-      &gt;</app-print> -->
+      <!-- <app-print *ngIf="!printStyle" [route]="printRoute" (printClick)="printDownload($event)"> </app-print> -->
     </div>
     <div class="height1Separator"></div>
 
@@ -85,9 +80,9 @@
         <div class="page-question">{{ opportunitiesQuestion }}</div>
       </div>
       <div class="cards cust-width-blank cust-width-title">
-        <div class="page-question self-service-link">
+        <div *ngIf="!printStyle" class="page-question self-service-link">
           <a href="/ServiceInteraction/SelfService"
-            >Self Service Details
+            >{{ selfServiceLink }}
             <mat-icon class="icon-display" svgIcon="arrow"></mat-icon>
           </a>
         </div>
