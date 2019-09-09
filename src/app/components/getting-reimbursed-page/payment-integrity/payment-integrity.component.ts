@@ -167,7 +167,7 @@ export class PaymentIntegrityComponent implements OnInit {
         graphValues: [rVal1[i], rVal2[i]],
         barText: bTitle[i],
         barValue: bVal[i],
-        color: ['#3381FF', '#FFFFFF', '#E0E0E0'],
+        color: ['#80B0FF', '#FFFFFF', '#E0E0E0'],
         gdata: ['app-card-structure', 'smartEditsTopInfoReason' + i]
       });
     }
