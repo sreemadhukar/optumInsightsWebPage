@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, ErrorHandler, Injectable } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -19,6 +19,21 @@ import { PriorAuthService } from './rest/prior-auth/prior-auth.service';
 import { PriorAuthSharedService } from './shared/prior-authorization/prior-auth.service';
 import { HttpInterceptorService } from './rest/interceptor/http-interceptor.service';
 import { CacheInterceptor } from './rest/interceptor/cache.interceptor';
+
+import * as Sentry from '@sentry/browser';
+
+Sentry.init({
+  dsn: 'https://7e13d6cf37934bd883bf96417f8641dd@sentry.io/1545884'
+});
+
+@Injectable()
+export class SentryErrorHandler implements ErrorHandler {
+  constructor() {}
+  handleError(error) {
+    const eventId = Sentry.captureException(error.originalError || error);
+    Sentry.showReportDialog({ eventId });
+  }
+}
 
 @NgModule({
   declarations: [AppComponent],
@@ -42,7 +57,8 @@ import { CacheInterceptor } from './rest/interceptor/cache.interceptor';
     PriorAuthService,
     PriorAuthSharedService,
     { provide: HTTP_INTERCEPTORS, useClass: HttpInterceptorService, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: CacheInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: CacheInterceptor, multi: true },
+    { provide: ErrorHandler, useClass: SentryErrorHandler }
   ],
   bootstrap: [AppComponent]
 })
