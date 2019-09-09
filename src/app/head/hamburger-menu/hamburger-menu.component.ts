@@ -19,7 +19,7 @@ import {
   Input,
   Inject
 } from '@angular/core';
-import { MatExpansionPanel, MatDialog, MatSidenav } from '@angular/material';
+import { MatExpansionPanel, MatDialog, MatSidenav, MatDialogConfig } from '@angular/material';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -338,6 +338,29 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
       this.glossaryFlag = false;
     }
   }
+
+  /**
+   * Open ProviderSearchComponent with setting the,
+   * data and after action action
+   */
+  openSimulateViewDialog(): void {
+    const dialogConfig = new MatDialogConfig();
+
+    // Set label for the container label and pass after selection trigger function
+    dialogConfig.data = {
+      valueSelected: () => this.router.navigateByUrl('/OverviewPage'),
+      containreLabel: 'View as a Provider'
+    };
+
+    // Set Styling
+    dialogConfig.width = '550px';
+    dialogConfig.height = '212px';
+    dialogConfig.disableClose = true;
+
+    // Call the dialog open method
+    this.dialog.open(ProviderSearchComponent, dialogConfig);
+  }
+
   private allExpandState(value: boolean, id) {
     this._allExpandState = value;
     this.togglePanels(value, id);
@@ -357,5 +380,6 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
       }
     });
   }
+
   /** END OF FUNCTIONS TO COLLAPSE LEFT MENU **/
 }
