@@ -165,8 +165,11 @@ export class LoginStubComponent implements OnInit {
               console.log(value);
               const heac = JSON.parse(sessionStorage.getItem('heac'));
               this.isKop = heac && heac.heac === true ? true : false;
+              const acoUser = JSON.parse(sessionStorage.getItem('loggedUser'));
               if (this.isKop === true) {
                 this.router.navigate(['/KnowOurProvider']);
+              } else if (acoUser.MsId === 'gmounik7' || acoUser.MsId === 'tmadhuka') {
+                this.router.navigate(['/AcoPage']);
               } else {
                 this.router.navigate(['/ProviderSearch']);
               }
