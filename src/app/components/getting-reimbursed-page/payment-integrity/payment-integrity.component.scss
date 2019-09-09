@@ -317,12 +317,45 @@
         }
       }
     }
+
+    .smart-edits-bar-chart-block {
+      float: left;
+      padding: 81px 40px 117px 40px;
+    }
+    .less-than-five-days-block {
+      float: left;
+      display: flex;
+      flex-flow: row;
+    }
+    .less-than-five-days-bar {
+      height: 48px;
+      width: 340px;
+      border-radius: 0 2px 2px 0;
+      background-color: $dodger-blue;
+      margin-top: 8px;
+    }
+    .more-than-five-days-block {
+      float: left;
+      margin-top: 24px;
+    }
+    .more-than-five-days-bar {
+      height: 48px;
+      width: 132px;
+      border-radius: 0 2px 2px 0;
+      background-color: #fc6431;
+      margin-top: 8px;
+    }
+    .smart-edits-pull-left {
+      float: left;
+      display: flex;
+      flex-flow: column;
+    }
   }
 
   .overturn-reason-block {
     margin: 12px;
     height: 494px;
-    width: 464px;
+    width: 468px;
     border-radius: 2px;
     background-color: $white;
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
