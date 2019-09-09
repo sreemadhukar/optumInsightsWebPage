@@ -132,124 +132,166 @@ export class PriorAuthSharedService {
       this.priorAuthService.getPriorAuthData(...parametersExecutive).subscribe(
         data => {
           const PCORData = data.PatientCareOpportunity;
-          // Reporting Date will be used for all three cards
-          const PCORMRdate = PCORData.ReportingPeriod;
-          const PCORMRmonth = this.generateMonth(parseInt(PCORMRdate.substr(0, 2)) - 1);
-          const PCORMRday = parseInt(PCORMRdate.substr(3, 2));
-          const PCORMRyear = PCORMRdate.substr(6, 4);
-          const PCORRMReportingDate = PCORMRmonth + ' ' + PCORMRday + ', ' + PCORMRyear;
+          if (PCORData !== null) {
+            // Reporting Date will be used for all three cards
+            const PCORMRdate = PCORData.ReportingPeriod;
+            const PCORMRmonth = this.generateMonth(parseInt(PCORMRdate.substr(0, 2)) - 1);
+            const PCORMRday = parseInt(PCORMRdate.substr(3, 2));
+            const PCORMRyear = PCORMRdate.substr(6, 4);
+            const PCORRMReportingDate = PCORMRmonth + ' ' + PCORMRday + ', ' + PCORMRyear;
 
-          const PCORMandRData = PCORData.LineOfBusiness.MedicareAndRetirement;
+            const PCORMandRData = PCORData.LineOfBusiness.MedicareAndRetirement;
 
-          const totalAllCompletionRate = PCORMandRData.TotalACVs / PCORMandRData.TotalPatientCount;
-          const totalDiabeticCompletionRate = PCORMandRData.TotalDiabeticACVs / PCORMandRData.TotalDiabeticPatients;
+            const totalAllCompletionRate = PCORMandRData.TotalACVs / PCORMandRData.TotalPatientCount;
+            const totalDiabeticCompletionRate = PCORMandRData.TotalDiabeticACVs / PCORMandRData.TotalDiabeticPatients;
 
-          const MandRAvgStarRatingCard = [
-            {
-              category: 'app-card',
-              type: 'star',
-              title: 'Medicare & Retirement Average Star Rating',
-              MetricID: this.MetricidService.MetricIDs.MedicareStarRating,
-              data: {
-                graphValues: [PCORMandRData.AverageStarRating],
-                centerNumber: PCORMandRData.AverageStarRating,
-                color: ['#00A8F7', '#D7DCE1', '#FFFFFF'],
-                gdata: ['card-inner', 'pcorCardD3Star']
-              },
-              sdata: null,
-              timeperiod: 'Data represents claims processed as of ' + PCORRMReportingDate
-            }
-          ];
-          const MandRACVCard = [
-            {
-              category: 'app-card',
-              type: 'donutWithLabelandTab',
-              title: 'Medicare & Retirement Annual Care Visits Completion Rate',
-              MetricID: this.MetricidService.MetricIDs.MedicareRetirementAnnualCareVisitsCompletionRateDiabetic,
-              data: {
-                All: {
-                  graphValues: [totalAllCompletionRate, 1 - totalAllCompletionRate],
-                  centerNumber: (totalAllCompletionRate * 100).toFixed(0) + '%',
-                  color: ['#3381FF', '#E0E0E0'],
-                  gdata: ['card-inner', 'PCORACVAll']
+            const MandRAvgStarRatingCard = [
+              {
+                category: 'app-card',
+                type: 'star',
+                title: 'Medicare & Retirement Average Star Rating',
+                MetricID: this.MetricidService.MetricIDs.MedicareStarRating,
+                data: {
+                  graphValues: [PCORMandRData.AverageStarRating],
+                  centerNumber: PCORMandRData.AverageStarRating,
+                  color: ['#00A8F7', '#D7DCE1', '#FFFFFF'],
+                  gdata: ['card-inner', 'pcorCardD3Star']
                 },
-                Diabetic: {
-                  graphValues: [totalDiabeticCompletionRate, 1 - totalDiabeticCompletionRate],
-                  centerNumber: (totalDiabeticCompletionRate * 100).toFixed(0) + '%',
-                  color: ['#3381FF', '#E0E0E0'],
-                  gdata: ['card-inner', 'PCORACVDiabetic']
-                }
-              },
-              sdata: {
-                sign: null,
-                data: null
-              },
-              besideData: {
-                All: {
-                  verticalData: [
-                    { title: '' },
-                    {
-                      values: PCORMandRData.TotalPatientCount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','),
-                      labels: 'Total Patients'
-                    },
-                    {
-                      values: PCORMandRData.TotalACVs.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','),
-                      labels: 'Completed'
-                    }
-                  ]
+                sdata: null,
+                timeperiod: 'Data represents claims processed as of ' + PCORRMReportingDate
+              }
+            ];
+            const MandRACVCard = [
+              {
+                category: 'app-card',
+                type: 'donutWithLabelandTab',
+                title: 'Medicare & Retirement Annual Care Visits Completion Rate',
+                MetricID: this.MetricidService.MetricIDs.MedicareRetirementAnnualCareVisitsCompletionRateDiabetic,
+                data: {
+                  All: {
+                    graphValues: [totalAllCompletionRate, 1 - totalAllCompletionRate],
+                    centerNumber: (totalAllCompletionRate * 100).toFixed(0) + '%',
+                    color: ['#3381FF', '#E0E0E0'],
+                    gdata: ['card-inner', 'PCORACVAll']
+                  },
+                  Diabetic: {
+                    graphValues: [totalDiabeticCompletionRate, 1 - totalDiabeticCompletionRate],
+                    centerNumber: (totalDiabeticCompletionRate * 100).toFixed(0) + '%',
+                    color: ['#3381FF', '#E0E0E0'],
+                    gdata: ['card-inner', 'PCORACVDiabetic']
+                  }
                 },
-                Diabetic: {
-                  verticalData: [
-                    { title: '' },
-                    {
-                      values: PCORMandRData.TotalDiabeticPatients.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','),
-                      labels: 'Total Patients'
-                    },
-                    {
-                      values: PCORMandRData.TotalDiabeticACVs.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','),
-                      labels: 'Completed'
-                    }
-                  ]
-                }
-              },
-              timeperiod: 'Data represents claims processed as of ' + PCORRMReportingDate
+                sdata: {
+                  sign: null,
+                  data: null
+                },
+                besideData: {
+                  All: {
+                    verticalData: [
+                      { title: '' },
+                      {
+                        values: PCORMandRData.TotalPatientCount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','),
+                        labels: 'Total Patients'
+                      },
+                      {
+                        values: PCORMandRData.TotalACVs.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','),
+                        labels: 'Completed'
+                      }
+                    ]
+                  },
+                  Diabetic: {
+                    verticalData: [
+                      { title: '' },
+                      {
+                        values: PCORMandRData.TotalDiabeticPatients.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','),
+                        labels: 'Total Patients'
+                      },
+                      {
+                        values: PCORMandRData.TotalDiabeticACVs.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','),
+                        labels: 'Completed'
+                      }
+                    ]
+                  }
+                },
+                timeperiod: 'Data represents claims processed as of ' + PCORRMReportingDate
+              }
+            ];
+
+            const PCORRatings = [
+              PCORMandRData['5StarMeasureCount'],
+              PCORMandRData['4StarMeasureCount'],
+              PCORMandRData['3StarMeasureCount'],
+              PCORMandRData['2StarMeasureCount'],
+              PCORMandRData['1StarMeasureCount']
+            ];
+
+            const barScaleMax = Math.max(...PCORRatings);
+
+            const MandRStarRatingCard = [];
+
+            for (let i = 0; i < PCORRatings.length; i++) {
+              MandRStarRatingCard.push({
+                type: 'singleBarChart',
+                title: 'Quality Star Ratings',
+                MetricID: this.MetricidService.MetricIDs.QualityStarRatings,
+                data: {
+                  barHeight: 48,
+                  barData: PCORRatings[i],
+                  barSummation: barScaleMax,
+                  barText: PCORRatings[i],
+                  color: [{ color1: '#3381FF' }],
+                  gdata: ['card-inner-large', 'PCORreasonBar' + i],
+                  starObject: true,
+                  starCount: 5 - i
+                },
+                timeperiod: 'Data represents claims processed as of ' + PCORRMReportingDate
+              });
             }
-          ];
 
-          const PCORRatings = [
-            PCORMandRData['5StarMeasureCount'],
-            PCORMandRData['4StarMeasureCount'],
-            PCORMandRData['3StarMeasureCount'],
-            PCORMandRData['2StarMeasureCount'],
-            PCORMandRData['1StarMeasureCount']
-          ];
+            const PCORCards = [MandRAvgStarRatingCard, MandRACVCard, MandRStarRatingCard];
 
-          const barScaleMax = Math.max(...PCORRatings);
+            resolve(PCORCards);
+          } else {
+            const PCORErrorCardOne = [
+              {
+                category: 'app-card',
+                type: 'donutWithLabel',
+                status: 404,
+                title: 'Medicare & Retirement Average Star Rating',
+                MetricID: this.MetricidService.MetricIDs.MedicareStarRating,
+                data: null,
+                besideData: null,
+                timeperiod: null
+              }
+            ];
+            const PCORErrorCardTwo = [
+              {
+                category: 'app-card',
+                type: 'donutWithLabel',
+                status: 404,
+                title: 'Medicare & Retirement Annual Care Visits Completion Rate',
+                MetricID: this.MetricidService.MetricIDs.MedicareRetirementAnnualCareVisitsCompletionRateDiabetic,
+                data: null,
+                besideData: null,
+                timeperiod: null
+              }
+            ];
+            const PCORErrorCardLarge = [
+              {
+                category: 'large-card',
+                type: 'donutWithLabel',
+                status: 404,
+                title: 'Quality Star Ratings',
+                MetricID: this.MetricidService.MetricIDs.QualityStarRatings,
+                data: null,
+                besideData: null,
+                timeperiod: null
+              }
+            ];
 
-          const MandRStarRatingCard = [];
-
-          for (let i = 0; i < PCORRatings.length; i++) {
-            MandRStarRatingCard.push({
-              type: 'singleBarChart',
-              title: 'Quality Star Ratings',
-              MetricID: this.MetricidService.MetricIDs.QualityStarRatings,
-              data: {
-                barHeight: 48,
-                barData: PCORRatings[i],
-                barSummation: barScaleMax,
-                barText: PCORRatings[i],
-                color: [{ color1: '#3381FF' }],
-                gdata: ['card-inner-large', 'PCORreasonBar' + i],
-                starObject: true,
-                starCount: 5 - i
-              },
-              timeperiod: 'Data represents claims processed as of ' + PCORRMReportingDate
-            });
+            const PCORErrorCards = [PCORErrorCardOne, PCORErrorCardTwo, PCORErrorCardLarge];
+            resolve(PCORErrorCards);
           }
-
-          const PCORCards = [MandRAvgStarRatingCard, MandRACVCard, MandRStarRatingCard];
-
-          resolve(PCORCards);
         },
         err => {
           console.log('PCOR Error', err);
