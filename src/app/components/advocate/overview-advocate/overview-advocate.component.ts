@@ -16,9 +16,7 @@ export class OverviewAdvocateComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.userName =
-      this.session.sessionStorage('loggedUser', 'LastName') +
-      ' ' +
-      this.session.sessionStorage('loggedUser', 'FirstName');
+    this.userName = this.session.sessionStorage('loggedUser', 'FirstName');
+    this.pageTitle = 'Welcome, ' + this.userName;
   }
 }
