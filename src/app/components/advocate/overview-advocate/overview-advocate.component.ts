@@ -157,9 +157,4 @@ export class OverviewAdvocateComponent implements OnInit {
       this.taxID = [];
     }
   }
-
-  //   ngOnInit() {
-
-  //   }
-  // }
 }
