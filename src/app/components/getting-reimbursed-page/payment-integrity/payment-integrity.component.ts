@@ -22,6 +22,7 @@ export class PaymentIntegrityComponent implements OnInit {
   taxID: Array<string>;
   title = 'Payment Integrity: Medical Record Coding Review';
   smartEditsReasonTitle = 'Smart Edits Returned Claims Top Reasons';
+  smartEditsRepairedAndResubmittedTitle = 'Smart Edits Repaired & Resubmitted Response Time';
   MetricID = 'NA';
   subscription: any;
   cardData: any;
@@ -30,7 +31,9 @@ export class PaymentIntegrityComponent implements OnInit {
   smartEditClaimsReturned: any;
   claimsTopReason: any = [];
   smartEditsReasonsBool = false;
-  showSmartEditsClaimsReturned = false;
+  showSmartEditsClaimsReturned = true;
+  showSmartEditsRepairedandResubmitted = true;
+
   constructor(
     private glossaryExpandService: GlossaryExpandService,
     private checkStorage: StorageService,
