@@ -7,6 +7,10 @@ import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { MatInput } from '@angular/material';
+
+export interface FilterData {
+  title: string;
+}
 @Component({
   selector: 'app-filter',
   templateUrl: './filter.component.html',
@@ -30,7 +34,8 @@ export class FilterComponent implements OnInit {
   public taxArrayData = [];
   public scArrayData = [];
   public timeframeData: any;
-  public filterData: any;
+  public selectedFilter: any;
+  // public filterData: any;
   public scTypeData: string;
   public sctypearrowmark: boolean;
   filteredOptions: Observable<any[]>;
@@ -38,6 +43,8 @@ export class FilterComponent implements OnInit {
 
   @Output() filterFlag = new EventEmitter();
   @Input() filterurl;
+  @Input() kopFilter;
+  @Input() filterData: FilterData[] = [];
   public timeframes = [
     'Last 30 Days',
     'Last 3 Months',
@@ -220,6 +227,8 @@ export class FilterComponent implements OnInit {
         }
       });
     });
+
+    this.selectedFilter = this.filterData && this.filterData.length > 0 ? this.filterData[0].title : '';
   }
 
   resetFilter() {

@@ -23,17 +23,94 @@
     margin: auto;
 
     font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
-    .overview-subheading {
-      background: $gainsboro;
-      border: 1px solid $heather;
-      border-radius: 16px;
-      border: 1px solid rgb(205, 211, 213);
-      font-size: 14px;
-      letter-spacing: 0.2px;
-      padding: 8px 14px;
-    }
-    .overview-subheading span {
-      font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+
+    .breadcrumb-top-padding {
+      @include margin(0, 0, 0, 0);
+      box-sizing: border-box;
+
+      .filter_bg {
+        height: 40px;
+        width: 100px;
+        box-sizing: border-box;
+        border: 1px solid $blue;
+        border-radius: 2px;
+        float: right;
+        cursor: pointer;
+        margin-right: 7px;
+
+        .filter_title {
+          color: $blue;
+          font-family: 'UHCSans-SemiBold', 'Arial';
+          font-size: 16px;
+          letter-spacing: 0.2px;
+          line-height: 22px;
+          text-align: center;
+          margin: 9px 0;
+          float: left;
+        }
+        .filter_icon {
+          color: $blue;
+          margin: 7px 10px;
+          float: left;
+        }
+      }
+      .filter_bg:hover,
+      .filter_bg:focus {
+        background-color: #196ecf;
+        color: #ffffff;
+        box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
+        .filter_title {
+          color: #ffffff;
+        }
+        .filter_icon {
+          color: #ffffff;
+        }
+      }
+      .filter_bg:active {
+        background-color: #003da1;
+        color: #ffffff;
+        .filter_title {
+          color: #ffffff;
+        }
+        .filter_icon {
+          color: #ffffff;
+        }
+      }
+      .time--period {
+        .filterchips {
+          width: 845px;
+          float: left;
+          .horizontal-align {
+            display: inline-block;
+            margin: 5px 17px 5px 0;
+            .btn-rounded {
+              height: 34px;
+              padding: 0.355rem 0.78125rem;
+            }
+          }
+          button {
+            span:first-child {
+              font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+            }
+            span.text-semibold {
+              font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+            }
+          }
+          .close-btn {
+            display: inherit;
+            position: relative;
+            cursor: pointer;
+            height: 24px;
+            display: inline-block;
+            vertical-align: middle;
+            padding: 0 0 0 8px;
+            margin-top: -1px;
+            .icon-display {
+              color: #757588;
+            }
+          }
+        }
+      }
     }
     .overview-section {
       display: flex;

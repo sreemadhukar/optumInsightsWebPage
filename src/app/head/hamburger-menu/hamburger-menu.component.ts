@@ -96,6 +96,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     }
   ];
   fillerNav = Array.from({ length: 50 }, (_, i) => `Nav Item ${i + 1}`);
+  filterData: any[] = [];
 
   /** CONSTRUCTOR **/
   constructor(
@@ -207,7 +208,12 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     this.clickFilterIcon = this.filterExpandService.url.subscribe(
       data => {
         this.filterFlag = true;
-        this.filterurl = data;
+        if (typeof data === 'string') {
+          this.filterurl = data;
+        } else {
+          this.isKop = data.kopFilter;
+          this.filterData = data.filterData;
+        }
       },
       err => {
         console.log('Error, clickHelpIcon , inside Hamburger', err);

@@ -1,4 +1,4 @@
-<div class="filter">
+<div class="filter" *ngIf="!kopFilter">
   <div class="line-top"></div>
   <div class="titleData">
     <div class="title">Time Period</div>
@@ -244,5 +244,31 @@
   <div class="btn-display">
     <button type="reset" class="resetbtn btn btn-link" mat-button (click)="resetFilter()">Reset All Filters</button>
     <button type="submit" class="applybtn btn btn-primary2" mat-button (click)="applyFilter()">Apply Filters</button>
+  </div>
+</div>
+
+<div class="filter" *ngIf="kopFilter">
+  <div class="line-top"></div>
+  <div class="titleData">
+    <div class="title">Time Period</div>
+  </div>
+  <div class="lobgrp">
+    <div>
+      <label id="radio-group-label" class="label-data">{{ selectedFilter }}</label>
+    </div>
+
+    <div>
+      <div class="select-option-data" *ngIf="tiarrowmark || kopFilter">
+        <mat-radio-group class="radio-group" [(ngModel)]="selectedFilter">
+          <mat-radio-button
+            class="radio-button"
+            *ngFor="let filterItem of filterData; let i = index"
+            [value]="filterItem.title"
+          >
+            {{ filterItem.title }}
+          </mat-radio-button>
+        </mat-radio-group>
+      </div>
+    </div>
   </div>
 </div>
