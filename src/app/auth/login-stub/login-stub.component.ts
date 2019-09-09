@@ -28,6 +28,12 @@ export class LoginStubComponent implements OnInit {
   blankScreen = false;
   id: any;
   token: string;
+  isKop = false;
+  showWarning = false;
+  sessionTimedoutMessage: any = {
+    note: 'Due to inactivity, we have logged you out.',
+    message: 'To return to UHC Insights, please sign in below.'
+  };
   @ViewChild('errorDialog') errorDialog: TemplateRef<any>;
 
   constructor(
@@ -67,6 +73,15 @@ export class LoginStubComponent implements OnInit {
       this.loading = false;
       this.initLogin();
     }, 3000);
+
+    const queryParams = this.route.snapshot.queryParams;
+
+    // do something with the parameters
+    if (queryParams.sessionExpired) {
+      this.showWarning = true;
+    } else {
+      this.showWarning = false;
+    }
   }
 
   initLogin() {
@@ -144,7 +159,21 @@ export class LoginStubComponent implements OnInit {
           }
           sessionStorage.setItem('cache', JSON.stringify(true));
           // this.openDialog();
-          this.router.navigate(['/ProviderSearch']);
+
+          if (environment.internalAccess) {
+            this.authorise.getHeac(this.f.username.value).subscribe(value => {
+              console.log(value);
+              const heac = JSON.parse(sessionStorage.getItem('heac'));
+              this.isKop = heac && heac.heac === true ? true : false;
+              if (this.isKop === true) {
+                this.router.navigate(['/KnowOurProvider']);
+              } else {
+                this.router.navigate(['/ProviderSearch']);
+              }
+            });
+          } else {
+            this.router.navigate(['/ProviderSearch']);
+          }
         },
         error => {
           this.error = true;

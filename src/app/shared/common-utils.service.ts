@@ -1,5 +1,7 @@
 /* @author gmounika */
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
+import { SessionService } from './session.service';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +12,7 @@ export class CommonUtilsService {
   public currentYearMinusTwo = (this.currentYear - 2).toString();
   public currentYearMinusThree = (this.currentYear - 3).toString();
 
-  constructor() {}
+  constructor(private router: Router, private session: SessionService) {}
 
   public nFormatter(fnumber) {
     if (fnumber >= 1000000000) {
@@ -279,6 +281,80 @@ export class CommonUtilsService {
     }
   }
 
+  /** Function to show hovers labels as per Lob**/
+  public returnHoverLabels(cardData) {
+    const hoverLabels = [];
+    if (cardData !== null) {
+      if (this.session.filterObjValue.lob === 'All') {
+        if (cardData.hasOwnProperty('Mr')) {
+          hoverLabels.push('Medicare & Retirement');
+        }
+        if (cardData.hasOwnProperty('Cs')) {
+          hoverLabels.push('Community & State');
+        }
+        if (cardData.hasOwnProperty('Ei')) {
+          hoverLabels.push('Employer & Individual');
+        }
+        if (cardData.hasOwnProperty('Un')) {
+          hoverLabels.push('Uncategorized');
+        }
+      } else if (this.session.filterObjValue.lob === 'Medicare & Retirement') {
+        if (cardData.hasOwnProperty('Mr')) {
+          hoverLabels.push('Medicare & Retirement');
+        }
+      } else if (this.session.filterObjValue.lob === 'Community & State') {
+        if (cardData.hasOwnProperty('Cs')) {
+          hoverLabels.push('Community & State');
+        }
+      } else if (this.session.filterObjValue.lob === 'Employer & Individual') {
+        if (cardData.hasOwnProperty('Ei')) {
+          hoverLabels.push('Employer & Individual');
+        }
+      } else if (this.session.filterObjValue.lob === 'Uncategorized') {
+        if (cardData.hasOwnProperty('Un')) {
+          hoverLabels.push('Uncategorized');
+        }
+      }
+      return hoverLabels;
+    }
+  }
+  /** Function to show hovers colors as per Lob**/
+  public returnLobColor(cardData) {
+    const hoverColors = [];
+    if (cardData !== null) {
+      if (this.session.filterObjValue.lob === 'All') {
+        if (cardData.hasOwnProperty('Mr')) {
+          hoverColors.push('#3381FF');
+        }
+        if (cardData.hasOwnProperty('Cs')) {
+          hoverColors.push('#80B0FF');
+        }
+        if (cardData.hasOwnProperty('Ei')) {
+          hoverColors.push('#003DA1');
+        }
+        if (cardData.hasOwnProperty('Un')) {
+          hoverColors.push('#00B8CC');
+        }
+      } else if (this.session.filterObjValue.lob === 'Medicare & Retirement') {
+        if (cardData.hasOwnProperty('Mr')) {
+          hoverColors.push('#3381FF');
+        }
+      } else if (this.session.filterObjValue.lob === 'Community & State') {
+        if (cardData.hasOwnProperty('Cs')) {
+          hoverColors.push('#80B0FF');
+        }
+      } else if (this.session.filterObjValue.lob === 'Employer & Individual') {
+        if (cardData.hasOwnProperty('Ei')) {
+          hoverColors.push('#003DA1');
+        }
+      } else if (this.session.filterObjValue.lob === 'Uncategorized') {
+        if (cardData.hasOwnProperty('Un')) {
+          hoverColors.push('#00B8CC');
+        }
+      }
+      return hoverColors;
+    }
+  }
   public convertServiceCategoryOneWord(a) {
     let word = a;
     if (word.indexOf(' ') === 0) {
@@ -290,5 +366,20 @@ export class CommonUtilsService {
       word = word.replace(/ /g, '_');
       return word;
     }
+  }
+
+  urlResuseStrategy() {
+    this.router.routeReuseStrategy.shouldReuseRoute = function() {
+      return false;
+    };
+    const currentUrl = this.router.url + '?';
+    this.router.navigateByUrl(currentUrl).then(() => {
+      this.router.navigated = false;
+      if (this.router.url === '/ProviderSearch') {
+        this.router.navigate(['/OverviewPage']);
+      } else {
+        this.router.navigate([this.router.url]);
+      }
+    });
   }
 }

@@ -1,0 +1,97 @@
+@import '~src/scss/variables.scss';
+@import '~src/scss/mixins';
+@import '~src/scss/my-custom-theme';
+@mixin title-theme($theme) {
+  $accent: map-get($theme, accent);
+  $background: map-get($theme, background);
+  $background-color: mat-color($background);
+}
+
+.aco-body {
+  @include mat-elevation(2);
+  // background-color: mat-color($accent);
+  overflow: hidden;
+  @include padding(39px, 0, 64px, 0);
+  .aco-content {
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-flow: row wrap;
+    justify-content: left;
+    flex-wrap: wrap;
+    padding-left: 40px;
+    max-width: 1000px;
+    width: 100%;
+    margin: auto;
+    .aco-head {
+      width: 100%;
+      color: #2d2d39;
+      font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+      padding-bottom: 24px;
+      .aco-title {
+        font-size: 36px;
+        line-height: 40px;
+        padding-bottom: 32px;
+      }
+      .aco-sub-title {
+        font-size: 28px;
+        line-height: 32px;
+      }
+    }
+    .aco-tab-div {
+      width: 100%;
+      .aco-tab-header {
+        color: #2d2d39;
+        font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+        font-size: 18px;
+        line-height: 22px;
+        padding-bottom: 8px;
+      }
+      .aco-tab-date {
+        color: #757588;
+        font-family: 'UHCSans-Medium';
+        font-size: 14px;
+        letter-spacing: 0.2px;
+        line-height: 18px;
+      }
+    }
+    .aco-main-cards {
+      display: -webkit-box;
+      display: -moz-box;
+      display: -ms-flexbox;
+      display: -webkit-flex;
+      display: flex;
+      -webkit-flex-flow: row wrap;
+      justify-content: left;
+      flex-wrap: wrap;
+      width: 100%;
+      .MPT-div {
+        color: #2d2d39;
+        font-family: 'UHCSans-Medium';
+        font-size: 14px;
+        letter-spacing: 0.2px;
+        line-height: 18px;
+        padding-top: 6px;
+        padding-left: 10px;
+      }
+      padding-bottom: 32px;
+    }
+    .aco-sub-head {
+      color: #2d2d39;
+      font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+      font-size: 28px;
+      line-height: 32px;
+      width: 100%;
+    }
+    .aco-performance-cards {
+      display: -webkit-box;
+      display: -moz-box;
+      display: -ms-flexbox;
+      display: -webkit-flex;
+      display: flex;
+      width: 100%;
+    }
+  }
+}

@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
+import { Component, OnInit, Output, HostListener, EventEmitter, Input } from '@angular/core';
 import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 import { SessionService } from '../../shared/session.service';
@@ -260,6 +260,7 @@ export class FilterComponent implements OnInit {
     } else {
       // this.session.filterObjValue.tax = [this.taxData];
       if (this.priorAuthorizationCustomFilterBool) {
+        console.log(this.timeframeData);
         this.session.store({
           timeFrame: this.timeframeData,
           lob: this.lobData,
@@ -309,5 +310,9 @@ export class FilterComponent implements OnInit {
     return this.priorauthservicecategory.filter(
       servicecategory => servicecategory.toLowerCase().indexOf(filterValue) === 0
     );
+  }
+  @HostListener('document:keydown.escape', ['$event'])
+  handleKeyboardEvent(event: KeyboardEvent) {
+    this.filterFlag.emit(false);
   }
 }

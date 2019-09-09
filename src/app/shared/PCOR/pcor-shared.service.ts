@@ -102,24 +102,29 @@ export class PCORSharedService {
         qualitydta => {
           const tempArray = [];
 
+          const temp = JSON.parse(JSON.stringify(qualitydta.fiveStarMeasureCount.Data));
+
           if (qualitydta.hasOwnProperty('fiveStarMeasureCount')) {
-            console.log(tempArray);
             const x = {
               star: 5,
               label: 'Five Star Quality Measure',
               count: qualitydta.fiveStarMeasureCount.Count,
-              data: qualitydta.fiveStarMeasureCount.Data
+              data: []
             };
-
+            x.data = temp.filter(item => item.QualityRating === x.star);
             tempArray.push(x);
+
+            console.log(tempArray);
           }
+
           if (qualitydta.hasOwnProperty('fourStarMeasureCount')) {
             const x = {
               star: 4,
               label: 'Four Star Quality Measure',
               count: qualitydta.fourStarMeasureCount.Count,
-              data: qualitydta.fourStarMeasureCount.Data
+              data: []
             };
+            x.data = temp.filter(item => item.QualityRating === x.star);
             tempArray.push(x);
           }
           if (qualitydta.hasOwnProperty('threeStarMeasureCount')) {
@@ -127,8 +132,9 @@ export class PCORSharedService {
               star: 3,
               label: 'Three Star Quality Measure',
               count: qualitydta.threeStarMeasureCount.Count,
-              data: qualitydta.threeStarMeasureCount.Data
+              data: []
             };
+            x.data = temp.filter(item => item.QualityRating === x.star);
             tempArray.push(x);
           }
           if (qualitydta.hasOwnProperty('twoStarMeasureCount')) {
@@ -136,8 +142,9 @@ export class PCORSharedService {
               star: 2,
               label: 'Two Star Quality Measure',
               count: qualitydta.twoStarMeasureCount.Count,
-              data: qualitydta.twoStarMeasureCount.Data
+              data: []
             };
+            x.data = temp.filter(item => item.QualityRating === x.star);
             tempArray.push(x);
           }
           if (qualitydta.hasOwnProperty('oneStarMeasureCount')) {
@@ -145,9 +152,9 @@ export class PCORSharedService {
               star: 1,
               label: 'One Star Quality Measure',
               count: qualitydta.oneStarMeasureCount.Count,
-              data: qualitydta.oneStarMeasureCount.Data
+              data: []
             };
-
+            x.data = temp.filter(item => item.QualityRating === x.star);
             tempArray.push(x);
           }
 
