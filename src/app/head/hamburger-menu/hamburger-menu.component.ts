@@ -17,7 +17,8 @@ import {
   OnDestroy,
   AfterViewChecked,
   Input,
-  Inject
+  Inject,
+  NgZone
 } from '@angular/core';
 import { MatExpansionPanel, MatDialog, MatSidenav } from '@angular/material';
 import { BreakpointObserver } from '@angular/cdk/layout';
@@ -118,6 +119,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     private sessionService: SessionService,
     private eventEmitter: EventEmitterService,
     private acoEventEmitter: AcoEventEmitterService,
+    private zone: NgZone,
     @Inject(DOCUMENT) private document: any
   ) {
     this.glossaryFlag = false;
@@ -128,6 +130,11 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     router.events.subscribe(event => {
       if (event instanceof NavigationStart) {
         this.healthSystemName = this.sessionService.getHealthCareOrgName();
+        this.checkPA();
+        if (event.url === '/CareDelivery/PatientCareOpportunity' && !this.PCORFlag) {
+          this.zone.run(() => this.router.navigateByUrl('/OverviewPage')).then();
+          this.togglePanels(false, NaN);
+        }
         this.makeAbsolute = !(
           authService.isLoggedIn() &&
           !(
@@ -223,6 +230,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     );
     setTimeout(() => {
       this.healthSystemName = this.sessionService.getHealthCareOrgName();
+      this.checkPA();
     }, 1);
   }
 
@@ -246,10 +254,6 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
             }),
             1
           );
-          if (this.location.path() === '/CareDelivery/PatientCareOpportunity') {
-            this.router.navigateByUrl('/OverviewPage');
-            this.togglePanels(false, NaN);
-          }
           this.PCORFlag = data;
         }
       }
@@ -287,7 +291,6 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     });
   }
   ngAfterViewChecked() {
-    // console.log(this.elementRef.nativeElement.querySelectorAll('*[href="/CareDelivery/PatientCareOpportunity"]'));
     try {
       const PCORNavMenu = this.elementRef.nativeElement.querySelectorAll(
         '*[href="/CareDelivery/PatientCareOpportunity"]'
