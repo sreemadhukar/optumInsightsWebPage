@@ -62,6 +62,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
   public filterurl: string = null;
   clickHelpIcon: Subscription;
   clickFilterIcon: Subscription;
+  clickFilterIconCustom: Subscription;
   public mobileQuery: boolean;
   public PCORFlag: any;
   public healthSystemName: string;
@@ -97,6 +98,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
   ];
   fillerNav = Array.from({ length: 50 }, (_, i) => `Nav Item ${i + 1}`);
   filterData: any[] = [];
+  customFilter = false;
 
   /** CONSTRUCTOR **/
   constructor(
@@ -208,11 +210,19 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     this.clickFilterIcon = this.filterExpandService.url.subscribe(
       data => {
         this.filterFlag = true;
-        if (typeof data === 'string') {
-          this.filterurl = data;
-        } else {
-          this.isKop = data.kopFilter;
-          this.filterData = data.filterData;
+        this.filterurl = data;
+      },
+      err => {
+        console.log('Error, clickHelpIcon , inside Hamburger', err);
+      }
+    );
+    this.clickFilterIconCustom = this.filterExpandService.filterData.subscribe(
+      data => {
+        this.filterFlag = true;
+        if (data) {
+          const { filterData = [], customFilter } = data;
+          this.filterData = filterData;
+          this.customFilter = customFilter;
         }
       },
       err => {
@@ -260,6 +270,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     this.filterFlag = false;
     this.filterurl = null;
     this.clickFilterIcon.unsubscribe();
+    this.clickFilterIconCustom.unsubscribe();
   }
   /*** used to apply the CSS for dynamically generated elements ***/
   public ngAfterViewInit(): void {

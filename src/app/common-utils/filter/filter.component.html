@@ -1,4 +1,4 @@
-<div class="filter" *ngIf="!kopFilter">
+<div class="filter" *ngIf="!customFilter">
   <div class="line-top"></div>
   <div class="titleData">
     <div class="title">Time Period</div>
@@ -247,7 +247,7 @@
   </div>
 </div>
 
-<div class="filter" *ngIf="kopFilter">
+<div class="filter" *ngIf="customFilter">
   <div class="line-top"></div>
   <div class="titleData">
     <div class="title">Time Period</div>
@@ -258,7 +258,7 @@
     </div>
 
     <div>
-      <div class="select-option-data" *ngIf="tiarrowmark || kopFilter">
+      <div class="select-option-data" *ngIf="tiarrowmark || customFilter">
         <mat-radio-group class="radio-group" [(ngModel)]="selectedFilter">
           <mat-radio-button
             class="radio-button"

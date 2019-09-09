@@ -43,7 +43,7 @@ export class FilterComponent implements OnInit {
 
   @Output() filterFlag = new EventEmitter();
   @Input() filterurl;
-  @Input() kopFilter;
+  @Input() customFilter;
   @Input() filterData: FilterData[] = [];
   public timeframes = [
     'Last 30 Days',

@@ -5,6 +5,7 @@ import { NPSSharedService } from 'src/app/shared/nps/nps.service';
 import { FilterExpandService } from 'src/app/shared/filter-expand.service';
 import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-kop-overview',
@@ -35,6 +36,7 @@ export class KopOverviewComponent implements OnInit, OnDestroy {
     private filterExpandService: FilterExpandService,
     private iconRegistry: MatIconRegistry,
     private sanitizer: DomSanitizer,
+    private router: Router,
     private npsSharedService: NPSSharedService
   ) {
     iconRegistry.addSvgIcon(
@@ -59,6 +61,7 @@ export class KopOverviewComponent implements OnInit, OnDestroy {
   }
 
   openFilter() {
-    this.filterExpandService.setURL({ kopFilter: true, filterData: this.filterData });
+    this.filterExpandService.setURL(this.router.url);
+    this.filterExpandService.setData({ customFilter: true, filterData: this.filterData });
   }
 }
