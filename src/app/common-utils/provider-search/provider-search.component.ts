@@ -65,9 +65,9 @@ export class ProviderSearchComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    if (!this.states) {
-      this.providerSharedService.providersList().subscribe(value => (this.states = value));
-    }
+    // if (!this.states) {
+    //   this.providerSharedService.providersList().subscribe(value => (this.states = value));
+    // }
 
     this.filteredStates = this.stateCtrl.valueChanges.pipe(
       startWith(''),
