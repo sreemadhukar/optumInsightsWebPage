@@ -1,0 +1,65 @@
+@import '~src/scss/variables.scss';
+@import '~src/scss/mixins';
+@import '~src/scss/my-custom-theme';
+
+.session-warning-modal {
+  /*width: 550px;
+  border-radius: 2px;
+  background-color: #ffffff;
+  box-shadow: 0 20px 40px 0 rgba(0, 0, 0, 0.15);*/
+  padding: 24px 56px;
+}
+.session-warning-title {
+  width: 390px;
+  color: $black-rock;
+  font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+  font-size: 28px;
+  line-height: 32px;
+  text-align: center;
+  margin-bottom: 12px;
+}
+.session-warning-message {
+  width: 390px;
+  color: $black-rock;
+  font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  letter-spacing: 0.2px;
+  line-height: 22px;
+  text-align: center;
+  margin-bottom: 21px;
+}
+.session-elapse-time-message {
+}
+.session-elapse-time {
+  font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+  font-size: 28px;
+}
+.log-me-out-btn {
+  color: $blue;
+  background: #fff;
+}
+.keep-me-signed-btn {
+  background-color: $blue;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
+  color: #ffffff;
+  margin-left: 13px !important;
+}
+
+.session-warning-buttons {
+  font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  letter-spacing: 0.2px !important;
+  line-height: 22px !important;
+  text-align: center !important;
+  box-sizing: border-box !important;
+  height: 41px;
+  width: 184.09px;
+  border: 1px solid $blue !important;
+  border-radius: 2px !important;
+}
+
+.session-warning-buttons:hover {
+  cursor: pointer;
+  background-color: $blue-base;
+  color: #fff;
+}

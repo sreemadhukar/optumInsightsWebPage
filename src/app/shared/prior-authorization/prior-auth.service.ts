@@ -3,6 +3,7 @@ import { PriorAuthService } from '../../rest/prior-auth/prior-auth.service';
 import { CareDeliveryPageModule } from '../../components/care-delivery-page/care-delivery-page.module';
 import { CommonUtilsService } from '../common-utils.service';
 import { SessionService } from '../session.service';
+import { GlossaryMetricidService } from '../glossary-metricid.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +15,7 @@ export class PriorAuthSharedService {
   private priorAuthDataCombined: any;
 
   constructor(
+    private MetricidService: GlossaryMetricidService,
     private priorAuthService: PriorAuthService,
     private session: SessionService,
     private common: CommonUtilsService
@@ -121,161 +123,6 @@ export class PriorAuthSharedService {
     });
   }
 
-  public getPriorAuthData() {
-    this.providerKey = this.session.providerKeyData();
-    this.priorAuthData = [];
-    return new Promise(resolve => {
-      const newParameters = [this.providerKey, true, true, true, false, true, false, false, false, true];
-      const timeRange = 'rolling12';
-      const isAllTin = true;
-      const isAlllob = true;
-      const isAllSS = true;
-      const isDecisionType = false;
-      const isServiceCategory = false;
-
-      this.priorAuthService
-        .getPriorAuthDateRange(
-          timeRange,
-          isAllTin,
-          isAlllob,
-          isAllSS,
-          isDecisionType,
-          isServiceCategory,
-          ...newParameters
-        )
-        .subscribe(
-          providerSystems => {
-            let PACount = [];
-            let PriorAuthBarGraphParamaters = [];
-            if (
-              providerSystems.PriorAuthorizations !== null &&
-              providerSystems.hasOwnProperty('PriorAuthorizations') &&
-              providerSystems.PriorAuthorizations.hasOwnProperty('LineOfBusiness') &&
-              providerSystems.PriorAuthorizations.LineOfBusiness.hasOwnProperty('All') &&
-              providerSystems.PriorAuthorizations.LineOfBusiness.All.hasOwnProperty('PriorAuthApprovedCount')
-            ) {
-              const data = providerSystems.PriorAuthorizations.LineOfBusiness.All;
-              const PAApprovedCount = data.PriorAuthApprovedCount;
-              const PANotApprovedCount = data.PriorAuthNotApprovedCount;
-              const PANotPendingCount = data.PriorAuthPendingCount;
-              const PANotCancelledCount = data.PriorAuthCancelledCount;
-              const PARequestedCount = PAApprovedCount + PANotApprovedCount;
-              const PAApprovalRate = PAApprovedCount / PARequestedCount;
-              let StandardTATConversion;
-              let UrgentTATConversion;
-              let TATDayLabel;
-              let TATHourLabel;
-              if (data.StandartPriorAuthTAT / 86400 < 1) {
-                StandardTATConversion = '<1';
-                TATDayLabel = StandardTATConversion + 'Day';
-              } else {
-                StandardTATConversion = (data.StandartPriorAuthTAT / 86400).toFixed(0);
-                if (StandardTATConversion === '1') {
-                  TATDayLabel = StandardTATConversion + 'Day';
-                } else {
-                  TATDayLabel = StandardTATConversion + 'Days';
-                }
-              }
-              if (data.UrgentPriorAuthTAT / 3600 < 1) {
-                UrgentTATConversion = '<1';
-                TATHourLabel = UrgentTATConversion + ' Hour';
-              } else {
-                UrgentTATConversion = (data.UrgentPriorAuthTAT / 3600).toFixed(0);
-                if (UrgentTATConversion === '1') {
-                  TATHourLabel = UrgentTATConversion + ' Hour';
-                } else {
-                  TATHourLabel = UrgentTATConversion + ' Hours';
-                }
-              }
-
-              PACount = [
-                {
-                  category: 'app-card',
-                  type: 'donutWithLabel',
-                  title: 'Prior Authorization Requested',
-                  MetricID: '201',
-                  data: {
-                    graphValues: [PAApprovedCount, PANotApprovedCount, PANotPendingCount, PANotCancelledCount],
-                    centerNumber: this.nFormatter(PARequestedCount, 1),
-                    color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'],
-                    labels: ['Approved', 'Not Approved', 'Pending', 'Canceled'],
-                    gdata: ['card-inner', 'PARequested'],
-                    hover: true
-                  },
-                  besideData: {
-                    labels: ['Approved', 'Not Approved', 'Pending', 'Canceled'],
-                    color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC']
-                  },
-                  timeperiod: 'Last 6 Months'
-                },
-                {
-                  category: 'app-card',
-                  type: 'donutWithLabel',
-                  title: 'Prior Authorization Approval Rate',
-                  MetricID: '203',
-                  data: {
-                    graphValues: [PAApprovalRate, 1 - PAApprovalRate],
-                    centerNumber: (PAApprovalRate * 100).toFixed(0) + '%',
-                    color: ['#3381FF', '#E0E0E0'],
-                    gdata: ['card-inner', 'PAApprovalRate']
-                  },
-                  besideData: {
-                    verticalData: [
-                      { title: 'Average Turnaround Time' },
-                      { values: TATDayLabel, labels: 'Standard' },
-                      { values: TATHourLabel, labels: 'Urgent' }
-                    ]
-                  },
-
-                  timeperiod: 'Last 6 Months'
-                }
-              ];
-            } else {
-              PACount = [];
-            }
-
-            // if (providerSystems.All.NotApproved.AllNotApprovedSettings !== null) {
-            if (
-              providerSystems.All !== null &&
-              providerSystems.hasOwnProperty('All') &&
-              providerSystems.All.hasOwnProperty('NotApproved') &&
-              providerSystems.All.NotApproved.hasOwnProperty('AllNotApprovedSettings')
-            ) {
-              const PriorAuthNotApprovedReasons = providerSystems.All.NotApproved.AllNotApprovedSettings;
-              PriorAuthNotApprovedReasons.sort(function(a, b) {
-                return b.Count - a.Count;
-              });
-
-              const barScaleMax = PriorAuthNotApprovedReasons[0].Count;
-              for (let i = 0; i < PriorAuthNotApprovedReasons.length; i++) {
-                PriorAuthBarGraphParamaters.push({
-                  type: 'singleBarChart',
-                  title: 'Top Reasons for Prior Authorizations Not Approved',
-                  MetricID: '202',
-                  data: {
-                    barHeight: 48,
-                    barData: PriorAuthNotApprovedReasons[i].Count,
-                    barSummation: barScaleMax,
-                    barText: PriorAuthNotApprovedReasons[i].Reason,
-                    color: [{ color1: '#3381FF' }],
-                    gdata: ['card-inner-large', 'reasonBar' + i]
-                  },
-                  timeperiod: 'Last 6 Months'
-                });
-              }
-            } else {
-              PriorAuthBarGraphParamaters = [];
-            }
-            const PAData = [PACount, PriorAuthBarGraphParamaters];
-            resolve(PAData);
-          },
-          err => {
-            console.log('Prior Auth Error', err);
-          }
-        );
-    });
-  }
-
   getPCORMandRData() {
     this.providerKey = this.session.providerKeyData();
     this.priorAuthData = [];
@@ -302,7 +149,7 @@ export class PriorAuthSharedService {
               category: 'app-card',
               type: 'star',
               title: 'Medicare & Retirement Average Star Rating',
-              MetricID: '200',
+              MetricID: this.MetricidService.MetricIDs.MedicareStarRating,
               data: {
                 graphValues: [PCORMandRData.AverageStarRating],
                 centerNumber: PCORMandRData.AverageStarRating,
@@ -318,7 +165,7 @@ export class PriorAuthSharedService {
               category: 'app-card',
               type: 'donutWithLabelandTab',
               title: 'Medicare & Retirement Annual Care Visits Completion Rate',
-              MetricID: '205',
+              MetricID: this.MetricidService.MetricIDs.MedicareRetirementAnnualCareVisitsCompletionRateDiabetic,
               data: {
                 All: {
                   graphValues: [totalAllCompletionRate, 1 - totalAllCompletionRate],
@@ -385,7 +232,7 @@ export class PriorAuthSharedService {
             MandRStarRatingCard.push({
               type: 'singleBarChart',
               title: 'Quality Star Ratings',
-              MetricID: '206',
+              MetricID: this.MetricidService.MetricIDs.QualityStarRatings,
               data: {
                 barHeight: 48,
                 barData: PCORRatings[i],
@@ -411,33 +258,21 @@ export class PriorAuthSharedService {
     });
   }
 
-  getPriorAuthDataFiltered(filterParameters) {
+  getNewPAData(filterParameters) {
     this.providerKey = this.session.providerKeyData();
 
+    // Save Parameters from Filter Session
     const timePeriod = filterParameters.timeFrame;
     const TIN = filterParameters.tax[0];
     const LOB = filterParameters.lob;
     const serviceSetting = filterParameters.serviceSetting;
-    const paDecisionType = filterParameters.priorAuthType;
+    const paDecisionType = filterParameters.priorAuthType; // We don't need decision type for now
     const paServiceCategory = this.common.convertServiceCategoryOneWord(filterParameters.scType);
-    // Default parameters
-    let timeRange = 'rolling12';
-    let timeRangeAPIParameter;
-    let timeRangeAdditionalData;
-    let isAllTinBool = true;
-    let specificTin = '';
-    let tinNumberFormatted;
-    let isAllLobBool = true;
-    let iscAndSLobBool = false;
-    let iseAndILobBool = false;
-    let ismAndRLobBool = false;
-    let isAllSSFlagBool = true; // Only if we need all reasons; most commands will already give all 3 so just have to filter
-    let isDecisionType = false;
-    const decisionValue = paDecisionType;
-    let isServiceCategory = false;
-    let paServiceCategoryString = '';
 
-    // configurations for time period
+    // Time Range
+    let timeRange;
+    let timeFilterAdditionalInfo = null;
+
     if (timePeriod === 'Last 12 Months') {
       timeRange = 'rolling12';
     } else if (timePeriod === 'Last 6 Months') {
@@ -446,96 +281,39 @@ export class PriorAuthSharedService {
       timeRange = 'last3Months';
     } else if (timePeriod === 'Last 30 Days') {
       timeRange = 'last30Days';
-      /*
-      timeRange = 'customDateRange';
-      const yesterday = (d => new Date(d.setDate(d.getDate() - 1)))(new Date());
-      const thirtyFirstDay = (d => new Date(d.setDate(d.getDate() - 15)))(new Date());
-
-      let endDateStringYesterday;
-      let endDateStringThirtyFirstDay;
-
-      if (yesterday.getDate() < 10) {
-        endDateStringYesterday = '0' + yesterday.getDate();
-      } else {
-        endDateStringYesterday = yesterday.getDate();
-      }
-
-      if (thirtyFirstDay.getDate() < 10) {
-        endDateStringThirtyFirstDay = '0' + thirtyFirstDay.getDate();
-      } else {
-        endDateStringThirtyFirstDay = thirtyFirstDay.getDate();
-      }
-
-      timeRangeAdditionalData =
-        yesterday.getFullYear() +
-        '-' +
-        this.ReturnMonthlyCountString(yesterday.getMonth()) +
-        '-' +
-        endDateStringYesterday;
-      timeRangeAPIParameter =
-        thirtyFirstDay.getFullYear() +
-        '-' +
-        this.ReturnMonthlyCountString(thirtyFirstDay.getMonth()) +
-        '-' +
-        endDateStringThirtyFirstDay;
-        */
     } else if (timePeriod === 'Year to Date') {
-      timeRange = 'customDateRange';
+      timeRange = 'startAndEndDates';
+
       const yesterday = (d => new Date(d.setDate(d.getDate() - 1)))(new Date());
-      timeRangeAPIParameter = yesterday.getFullYear() + '-01-01';
+      const startDateFinal = yesterday.getFullYear() + '-01-01';
+
       let endDateString;
       if (yesterday.getDate() < 10) {
         endDateString = '0' + yesterday.getDate();
       } else {
         endDateString = yesterday.getDate();
       }
-      timeRangeAdditionalData =
+      const endDateFinal =
         yesterday.getFullYear() + '-' + this.ReturnMonthlyCountString(yesterday.getMonth()) + '-' + endDateString;
+
+      timeFilterAdditionalInfo = startDateFinal + ', ' + endDateFinal;
     } else {
-      // for year values
-      timeRange = 'customDateRange';
-      timeRangeAPIParameter = timePeriod + '-01-01'; // start date
-      timeRangeAdditionalData = timePeriod + '-12-31'; // end date
+      // for Calendar Year
+      timeRange = 'startAndEndDates';
+      timeFilterAdditionalInfo = timePeriod + '-01-01, ' + timePeriod + '-12-31';
     }
 
-    if (timeRange !== 'customDateRange') {
-      timeRangeAPIParameter = true;
-      timeRangeAdditionalData = true;
-    }
-
-    // configurations for lob
-    if (LOB === 'All') {
-      isAllLobBool = true;
-      iscAndSLobBool = false;
-      iseAndILobBool = false;
-      ismAndRLobBool = false;
-    } else {
-      isAllLobBool = false;
-      if (LOB === 'Community & State') {
-        iscAndSLobBool = true;
-        iseAndILobBool = false;
-        ismAndRLobBool = false;
-      }
-      if (LOB === 'Employer & Individual') {
-        iscAndSLobBool = false;
-        iseAndILobBool = true;
-        ismAndRLobBool = false;
-      }
-      if (LOB === 'Medicare & Retirement') {
-        iscAndSLobBool = false;
-        iseAndILobBool = false;
-        ismAndRLobBool = true;
-      }
-    }
+    // TIN
+    let isAllTinBool;
+    let specificTin;
 
     if (TIN === 'All') {
       isAllTinBool = true;
-      specificTin = '';
+      specificTin = null;
     } else {
       isAllTinBool = false;
       if (filterParameters.tax.length === 1) {
-        tinNumberFormatted = parseInt(TIN.replace(/\D/g, ''), 10);
-        specificTin = tinNumberFormatted.toString();
+        specificTin = parseInt(TIN.replace(/\D/g, ''), 10).toString();
       } else {
         const taxArray = filterParameters.tax;
         const taxArrayFormatted = [];
@@ -546,25 +324,47 @@ export class PriorAuthSharedService {
       }
     }
 
+    // LOB
+    let lobString;
+    if (LOB === 'All') {
+      lobString = 'allLob';
+    } else if (LOB === 'Community & State') {
+      lobString = 'cAndSLob';
+    } else if (LOB === 'Employer & Individual') {
+      lobString = 'eAndILob';
+    } else if (LOB === 'Medicare & Retirement') {
+      lobString = 'mAndRLob';
+    }
+
+    // Service Setting
+    let isAllSSFlagBool;
     if (serviceSetting === 'All') {
       isAllSSFlagBool = true;
     } else {
       isAllSSFlagBool = false;
     }
 
-    if (decisionValue !== 'All') {
-      isDecisionType = true;
-    } else {
-      isDecisionType = false;
-    }
-
+    let isServiceCategory;
+    let paServiceCategoryString;
     if (paServiceCategory !== 'All') {
       isServiceCategory = true;
       paServiceCategoryString = paServiceCategory;
     } else {
       isServiceCategory = false;
-      paServiceCategoryString = '';
+      paServiceCategoryString = null;
     }
+
+    const requestBody = {
+      tin: specificTin,
+      lob: lobString,
+      allNotApprovedSettings: isAllSSFlagBool,
+      decisionType: false,
+      decisionValue: null,
+      serviceCategory: isServiceCategory,
+      serviceCategoryValue: paServiceCategoryString,
+      timeFilter: timeRange,
+      timeFilterText: timeFilterAdditionalInfo
+    };
 
     const appCardPriorAuthError = [
       {
@@ -572,7 +372,7 @@ export class PriorAuthSharedService {
         type: 'donutWithLabel',
         status: 404,
         title: 'Prior Authorization Requested',
-        MetricID: '201',
+        MetricID: this.MetricidService.MetricIDs.PriorAuthorizationRequested,
         data: null,
         besideData: null,
         timeperiod: null
@@ -582,7 +382,7 @@ export class PriorAuthSharedService {
         type: 'donutWithLabel',
         status: 404,
         title: 'Prior Authorization Approval Rate',
-        MetricID: '203',
+        MetricID: this.MetricidService.MetricIDs.PriorAuthorizationApprovalRate,
         data: null,
         besideData: null,
         timeperiod: null
@@ -590,644 +390,240 @@ export class PriorAuthSharedService {
     ];
 
     return new Promise(resolve => {
-      // const newParameters = [this.providerKey, true, true, true, false, true, false, false, false, true];
-
-      const priorAuthAPIParameters = [
-        this.providerKey,
-        timeRangeAPIParameter,
-        timeRangeAdditionalData,
-        isAllTinBool,
-        specificTin,
-        isAllLobBool,
-        iscAndSLobBool,
-        iseAndILobBool,
-        ismAndRLobBool,
-        isAllSSFlagBool,
-        isDecisionType,
-        decisionValue,
-        isServiceCategory,
-        paServiceCategoryString
-      ];
-      // Parameters key
-      // zero - provider key
-      // one/two - time period data
-      // three/four - all tin flag/specific tin
-      // five-eight - all lob/cAndSLob/eAndILob/mAndRLob flag
-      // nine - all service setting flag
-      // ten/eleven - pa decision type with a bool with adiminstrative/clinical
-
       this.priorAuthService
-        .getPriorAuthDateRange(
-          timeRange,
-          isAllTinBool,
-          isAllLobBool,
-          isAllSSFlagBool,
-          isDecisionType,
-          isServiceCategory,
-          ...priorAuthAPIParameters
-        )
-        .subscribe(
-          providerSystems => {
-            let PACount = [];
-            let PriorAuthBarGraphParamaters = [];
-            if (
-              providerSystems.PriorAuthorizations !== null &&
-              providerSystems.hasOwnProperty('PriorAuthorizations') &&
-              providerSystems.PriorAuthorizations.hasOwnProperty('LineOfBusiness')
-            ) {
-              let data;
-              // const data = providerSystems.PriorAuthorizations.LineOfBusiness.All;
-              if (isAllLobBool && !isServiceCategory) {
-                data = providerSystems.PriorAuthorizations.LineOfBusiness.All;
-              } else if (!isAllLobBool && !isServiceCategory) {
-                if (iscAndSLobBool) {
-                  data = providerSystems.PriorAuthorizations.LineOfBusiness.CommunityAndState;
-                } else if (iseAndILobBool) {
-                  data = providerSystems.PriorAuthorizations.LineOfBusiness.EmployerAndIndividual;
-                } else if (ismAndRLobBool) {
-                  data = providerSystems.PriorAuthorizations.LineOfBusiness.MedicareAndRetirement;
-                }
-              } else if (isServiceCategory) {
-                if (providerSystems.PriorAuthorizations.LineOfBusiness.hasOwnProperty(paServiceCategoryString)) {
-                  data = providerSystems.PriorAuthorizations.LineOfBusiness[paServiceCategoryString];
-                }
-              }
-              // This array format can allow us to make strings into object names ^^^
-
-              let PAApprovedCount;
-              let PANotApprovedCount;
-              let PANotPendingCount;
-              let PANotCancelledCount;
-
-              if (isAllSSFlagBool) {
-                PAApprovedCount = data.PriorAuthApprovedCount;
-                PANotApprovedCount = data.PriorAuthNotApprovedCount;
-                PANotPendingCount = data.PriorAuthPendingCount;
-                PANotCancelledCount = data.PriorAuthCancelledCount;
-              } else {
-                if (serviceSetting === 'Inpatient') {
-                  PAApprovedCount = data.InpatientFacilityApprovedCount;
-                  PANotApprovedCount = data.InpatientFacilityNotApprovedCount;
-                  PANotCancelledCount = data.InpatientFacilityCancelledCount;
-                  PANotPendingCount = data.InpatientFacilityPendingCount;
-                } else if (serviceSetting === 'Outpatient') {
-                  PAApprovedCount = data.OutpatientApprovedCount;
-                  PANotApprovedCount = data.OutpatientNotApprovedCount;
-                  PANotCancelledCount = data.OutpatientCancelledCount;
-                  PANotPendingCount = data.OutpatientPendingCount;
-                } else if (serviceSetting === 'Outpatient Facility') {
-                  PAApprovedCount = data.OutpatientFacilityApprovedCount;
-                  PANotApprovedCount = data.OutpatientFacilityNotApprovedCount;
-                  PANotCancelledCount = data.OutpatientFacilityCancelledCount;
-                  PANotPendingCount = data.OutpatientFacilityPendingCount;
-                }
-              }
-
-              const PARequestedCount = PAApprovedCount + PANotApprovedCount;
-              const PAApprovalRate = PAApprovedCount / PARequestedCount;
-
-              let StandardTATConversion;
-              let UrgentTATConversion;
-              let TATDayLabel;
-              let TATHourLabel;
-              if (data.StandartPriorAuthTAT / 86400 < 1) {
-                StandardTATConversion = '<1';
-                TATDayLabel = StandardTATConversion + ' Day';
-              } else {
-                StandardTATConversion = (data.StandartPriorAuthTAT / 86400).toFixed(0);
-                if (StandardTATConversion === '1') {
-                  TATDayLabel = StandardTATConversion + ' Day';
-                } else {
-                  TATDayLabel = StandardTATConversion + ' Days';
-                }
-              }
-              if (data.UrgentPriorAuthTAT / 3600 < 1) {
-                UrgentTATConversion = '<1';
-                TATHourLabel = UrgentTATConversion + ' Hour';
-              } else {
-                UrgentTATConversion = (data.UrgentPriorAuthTAT / 3600).toFixed(0);
-                if (UrgentTATConversion === '1') {
-                  TATHourLabel = UrgentTATConversion + ' Hour';
-                } else {
-                  TATHourLabel = UrgentTATConversion + ' Hours';
-                }
-              }
-              // Add checker for if PA requested is zero
-              if (PARequestedCount === 0) {
-                PACount = appCardPriorAuthError;
-              } else {
-                PACount = [
-                  {
-                    category: 'app-card',
-                    type: 'donutWithLabel',
-                    title: 'Prior Authorization Requested',
-                    MetricID: '201',
-                    data: {
-                      graphValues: [PAApprovedCount, PANotApprovedCount, PANotPendingCount, PANotCancelledCount],
-                      centerNumber: this.nFormatter(PARequestedCount, 1),
-                      color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'],
-                      labels: ['Approved', 'Not Approved', 'Pending', 'Canceled'],
-                      gdata: ['card-inner', 'PARequested'],
-                      hover: true
-                    },
-                    besideData: {
-                      labels: ['Approved', 'Not Approved', 'Pending', 'Canceled'],
-                      color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC']
-                    },
-                    timeperiod: timePeriod
-                  },
-                  {
-                    category: 'app-card',
-                    type: 'donutWithLabel',
-                    title: 'Prior Authorization Approval Rate',
-                    MetricID: '203',
-                    data: {
-                      graphValues: [PAApprovalRate, 1 - PAApprovalRate],
-                      centerNumber: (PAApprovalRate * 100).toFixed(0) + '%',
-                      color: ['#3381FF', '#E0E0E0'],
-                      gdata: ['card-inner', 'PAApprovalRate']
-                    },
-                    besideData: {
-                      verticalData: [
-                        { title: 'Average Turnaround Time' },
-                        { values: TATDayLabel, labels: 'Standard' },
-                        { values: TATHourLabel, labels: 'Urgent' }
-                      ]
-                    },
-                    timeperiod: timePeriod
-                  }
-                ];
-              }
-            } else {
-              PACount = appCardPriorAuthError;
-            }
-
-            let PriorAuthNotApprovedReasons = [];
-
-            if (isAllLobBool) {
-              if (
-                providerSystems.All !== null &&
-                providerSystems.hasOwnProperty('All') &&
-                providerSystems.All.hasOwnProperty('NotApproved')
-              ) {
-                if (isAllSSFlagBool && providerSystems.All.NotApproved.hasOwnProperty('AllNotApprovedSettings')) {
-                  PriorAuthNotApprovedReasons = providerSystems.All.NotApproved.AllNotApprovedSettings;
-                } else if (
-                  serviceSetting === 'Inpatient' &&
-                  providerSystems.All.NotApproved.hasOwnProperty('InPatient')
-                ) {
-                  PriorAuthNotApprovedReasons = providerSystems.All.NotApproved.InPatient;
-                } else if (
-                  serviceSetting === 'Outpatient' &&
-                  providerSystems.All.NotApproved.hasOwnProperty('OutPatient')
-                ) {
-                  PriorAuthNotApprovedReasons = providerSystems.All.NotApproved.OutPatient;
-                } else if (
-                  serviceSetting === 'Outpatient Facility' &&
-                  providerSystems.All.NotApproved.hasOwnProperty('OutPatientFacility')
-                ) {
-                  PriorAuthNotApprovedReasons = providerSystems.All.NotApproved.OutPatientFacility;
-                }
-              }
-            } else if (iscAndSLobBool) {
-              if (
-                providerSystems.Cs !== null &&
-                providerSystems.hasOwnProperty('Cs') &&
-                providerSystems.Cs.hasOwnProperty('NotApproved')
-              ) {
-                if (isAllSSFlagBool && providerSystems.Cs.NotApproved.hasOwnProperty('AllNotApprovedSettings')) {
-                  PriorAuthNotApprovedReasons = providerSystems.Cs.NotApproved.AllNotApprovedSettings;
-                } else if (
-                  serviceSetting === 'Inpatient' &&
-                  providerSystems.Cs.NotApproved.hasOwnProperty('InPatient')
-                ) {
-                  PriorAuthNotApprovedReasons = providerSystems.Cs.NotApproved.InPatient;
-                } else if (
-                  serviceSetting === 'Outpatient' &&
-                  providerSystems.Cs.NotApproved.hasOwnProperty('OutPatient')
-                ) {
-                  PriorAuthNotApprovedReasons = providerSystems.Cs.NotApproved.OutPatient;
-                } else if (
-                  serviceSetting === 'Outpatient Facility' &&
-                  providerSystems.Cs.NotApproved.hasOwnProperty('OutPatientFacility')
-                ) {
-                  PriorAuthNotApprovedReasons = providerSystems.Cs.NotApproved.OutPatientFacility;
-                }
-              }
-            } else if (iseAndILobBool) {
-              if (
-                providerSystems.Ei !== null &&
-                providerSystems.hasOwnProperty('Ei') &&
-                providerSystems.Ei.hasOwnProperty('NotApproved')
-              ) {
-                if (isAllSSFlagBool && providerSystems.Ei.NotApproved.hasOwnProperty('AllNotApprovedSettings')) {
-                  PriorAuthNotApprovedReasons = providerSystems.Ei.NotApproved.AllNotApprovedSettings;
-                } else if (
-                  serviceSetting === 'Inpatient' &&
-                  providerSystems.Ei.NotApproved.hasOwnProperty('InPatient')
-                ) {
-                  PriorAuthNotApprovedReasons = providerSystems.Ei.NotApproved.InPatient;
-                } else if (
-                  serviceSetting === 'Outpatient' &&
-                  providerSystems.Ei.NotApproved.hasOwnProperty('OutPatient')
-                ) {
-                  PriorAuthNotApprovedReasons = providerSystems.Ei.NotApproved.OutPatient;
-                } else if (
-                  serviceSetting === 'Outpatient Facility' &&
-                  providerSystems.Ei.NotApproved.hasOwnProperty('OutPatientFacility')
-                ) {
-                  PriorAuthNotApprovedReasons = providerSystems.Ei.NotApproved.OutPatientFacility;
-                }
-              }
-            } else if (ismAndRLobBool) {
-              if (
-                providerSystems.Mr !== null &&
-                providerSystems.hasOwnProperty('Mr') &&
-                providerSystems.Mr.hasOwnProperty('NotApproved')
-              ) {
-                if (isAllSSFlagBool && providerSystems.Mr.NotApproved.hasOwnProperty('AllNotApprovedSettings')) {
-                  PriorAuthNotApprovedReasons = providerSystems.Mr.NotApproved.AllNotApprovedSettings;
-                } else if (
-                  serviceSetting === 'Inpatient' &&
-                  providerSystems.Mr.NotApproved.hasOwnProperty('InPatient')
-                ) {
-                  PriorAuthNotApprovedReasons = providerSystems.Mr.NotApproved.InPatient;
-                } else if (
-                  serviceSetting === 'Outpatient' &&
-                  providerSystems.Mr.NotApproved.hasOwnProperty('OutPatient')
-                ) {
-                  PriorAuthNotApprovedReasons = providerSystems.Mr.NotApproved.OutPatient;
-                } else if (
-                  serviceSetting === 'Outpatient Facility' &&
-                  providerSystems.Mr.NotApproved.hasOwnProperty('OutPatientFacility')
-                ) {
-                  PriorAuthNotApprovedReasons = providerSystems.Mr.NotApproved.OutPatientFacility;
-                }
-              }
-            }
-
-            // if (!isServiceCategory) {
-            if (PriorAuthNotApprovedReasons.length > 0 && !isServiceCategory) {
-              PriorAuthNotApprovedReasons.sort(function(a, b) {
-                return b.Count - a.Count;
-              });
-
-              const barScaleMax = PriorAuthNotApprovedReasons[0].Count;
-              for (let i = 0; i < PriorAuthNotApprovedReasons.length; i++) {
-                PriorAuthBarGraphParamaters.push({
-                  type: 'singleBarChart',
-                  title: 'Top Reasons for Prior Authorizations Not Approved',
-                  MetricID: '202',
-                  data: {
-                    barHeight: 48,
-                    barData: PriorAuthNotApprovedReasons[i].Count,
-                    barSummation: barScaleMax,
-                    barText: PriorAuthNotApprovedReasons[i].Reason,
-                    color: [{ color1: '#3381FF' }],
-                    gdata: ['card-inner-large', 'reasonBar' + i]
-                  },
-                  timeperiod: timePeriod
-                });
-              }
-            } else if (isServiceCategory) {
-              // Hide reasons for service category
-              PriorAuthBarGraphParamaters = [
-                {
-                  data: null
-                }
-              ];
-            } else {
-              // PriorAuthBarGraphParamaters = [];
-              // PriorAuthBarGraphParamaters = appCardPriorAuthError;
-              PriorAuthBarGraphParamaters = [
-                {
-                  category: 'large-card',
-                  type: 'donutWithLabel',
-                  status: 404,
-                  title: 'Top Reasons for Prior Authorizations Not Approved',
-                  MetricID: '202',
-                  data: null,
-                  besideData: null,
-                  timeperiod: null
-                }
-              ];
-            }
-
-            const PAData = [PACount, PriorAuthBarGraphParamaters];
-            resolve(PAData);
-          },
-          err => {
-            console.log('Prior Auth Error', err);
-          }
-        );
-    });
-  }
-
-  // For overview page
-  // will need to make parameters configurable
-  getPriorAuthTrendData(filterParameters) {
-    this.providerKey = this.session.providerKeyData();
-    const TIN = filterParameters.tax[0];
-    const LOB = filterParameters.lob;
-    const serviceSetting = filterParameters.serviceSetting;
-    const paDecisionType = filterParameters.priorAuthType;
-    const paServiceCategory = filterParameters.scType;
-
-    // Default parameters
-    // need to configure time range for last 30 and last 31-60 days
-    const timeRange = 'customDateRange';
-    let timeRangeAPIParameter;
-    let timeRangeAdditionalData;
-    let isAllTinBool = true;
-    let specificTin = '';
-    let isAllLobBool = true;
-    let iscAndSLobBool = false;
-    let iseAndILobBool = false;
-    let ismAndRLobBool = false;
-    let isAllSSFlagBool = true; // Only if we need all reasons; most commands will already give all 3 so just have to filter
-    const isDecisionType = false;
-    const decisionValue = 'All';
-    let isServiceCategory = false;
-    let paServiceCategoryString = '';
-
-    let tinNumberFormatted;
-
-    if (TIN === 'All') {
-      isAllTinBool = true;
-      specificTin = '';
-    } else {
-      isAllTinBool = false;
-      if (filterParameters.tax.length === 1) {
-        tinNumberFormatted = parseInt(TIN.replace(/\D/g, ''), 10);
-        specificTin = tinNumberFormatted.toString();
-      } else {
-        const taxArray = filterParameters.tax;
-        const taxArrayFormatted = [];
-        for (let i = 0; i < taxArray.length; i++) {
-          taxArrayFormatted.push(parseInt(taxArray[i].replace(/\D/g, ''), 10));
-        }
-        specificTin = taxArrayFormatted.join(', ');
-      }
-    }
-
-    if (LOB === 'All') {
-      isAllLobBool = true;
-      iscAndSLobBool = false;
-      iseAndILobBool = false;
-      ismAndRLobBool = false;
-    } else {
-      isAllLobBool = false;
-      if (LOB === 'Community & State') {
-        iscAndSLobBool = true;
-        iseAndILobBool = false;
-        ismAndRLobBool = false;
-      }
-      if (LOB === 'Employer & Individual') {
-        iscAndSLobBool = false;
-        iseAndILobBool = true;
-        ismAndRLobBool = false;
-      }
-      if (LOB === 'Medicare & Retirement') {
-        iscAndSLobBool = false;
-        iseAndILobBool = false;
-        ismAndRLobBool = true;
-      }
-    }
-
-    if (serviceSetting === 'All') {
-      isAllSSFlagBool = true;
-    } else {
-      isAllSSFlagBool = false;
-    }
-
-    if (paServiceCategory !== 'All') {
-      isServiceCategory = true;
-      paServiceCategoryString = paServiceCategory;
-    } else {
-      isServiceCategory = false;
-      paServiceCategoryString = '';
-    }
-
-    // timeRangeAPIParameter needs to be the last 30th date...
-    const yesterday = (d => new Date(d.setDate(d.getDate() - 1)))(new Date());
-    const last30thDay = (d => new Date(d.setDate(d.getDate() - 31)))(new Date());
-    let startDateString;
-    let endDateString;
-    if (last30thDay.getDate() < 10) {
-      startDateString = '0' + last30thDay.getDate();
-    } else {
-      startDateString = last30thDay.getDate();
-    }
-    if (yesterday.getDate() < 10) {
-      endDateString = '0' + yesterday.getDate();
-    } else {
-      endDateString = yesterday.getDate();
-    }
-    timeRangeAPIParameter =
-      last30thDay.getFullYear() + '-' + this.ReturnMonthlyCountString(last30thDay.getMonth()) + '-' + startDateString;
-    timeRangeAdditionalData =
-      yesterday.getFullYear() + '-' + this.ReturnMonthlyCountString(yesterday.getMonth()) + '-' + endDateString;
-
-    const last31stDay = (d => new Date(d.setDate(d.getDate() - 32)))(new Date());
-    const last60thDay = (d => new Date(d.setDate(d.getDate() - 60)))(new Date());
-    let startDateStringTwo;
-    let endDateStringTwo;
-    if (last60thDay.getDate() < 10) {
-      startDateStringTwo = '0' + last60thDay.getDate();
-    } else {
-      startDateStringTwo = last60thDay.getDate();
-    }
-    if (last31stDay.getDate() < 10) {
-      endDateStringTwo = '0' + last31stDay.getDate();
-    } else {
-      endDateStringTwo = last31stDay.getDate();
-    }
-
-    const timeRangeAPIParameterTwo =
-      last60thDay.getFullYear() +
-      '-' +
-      this.ReturnMonthlyCountString(last60thDay.getMonth()) +
-      '-' +
-      startDateStringTwo;
-    const timeRangeAdditionalDataTwo =
-      last31stDay.getFullYear() + '-' + this.ReturnMonthlyCountString(last31stDay.getMonth()) + '-' + endDateStringTwo;
-
-    return new Promise(resolve => {
-      const priorAuthAPIParameters = [
-        this.providerKey,
-        timeRangeAPIParameter,
-        timeRangeAdditionalData,
-        isAllTinBool,
-        specificTin,
-        isAllLobBool,
-        iscAndSLobBool,
-        iseAndILobBool,
-        ismAndRLobBool,
-        isAllSSFlagBool,
-        isDecisionType,
-        decisionValue,
-        isServiceCategory,
-        paServiceCategoryString,
-        timeRangeAPIParameterTwo,
-        timeRangeAdditionalDataTwo
-      ];
-
-      // the return object will change depending on LOB/service setting
-      this.priorAuthService
-        .getPriorAuthTrend(
-          timeRange,
-          isAllTinBool,
-          isAllLobBool,
-          isAllSSFlagBool,
-          isDecisionType,
-          isServiceCategory,
-          ...priorAuthAPIParameters
-        )
-        .subscribe(([one, two]) => {
-          let paTrendOne;
-          let paTrendTwo;
-
-          let countDataOne;
-          let countDataTwo;
-
-          let sDataObjectOne;
-          let sDataObjectTwo;
-
+        .getPriorAuthDataNew([this.providerKey, isAllTinBool], requestBody)
+        .subscribe(providerSystems => {
+          let PACount = [];
+          let PriorAuthBarGraphParameters = [];
+          let PANotApprovedReasonBool;
           if (
-            one.PriorAuthorizations !== null &&
-            one.hasOwnProperty('PriorAuthorizations') &&
-            one.PriorAuthorizations.hasOwnProperty('LineOfBusiness') &&
-            two.PriorAuthorizations !== null &&
-            two.hasOwnProperty('PriorAuthorizations') &&
-            two.PriorAuthorizations.hasOwnProperty('LineOfBusiness')
+            providerSystems.PriorAuthorizations !== null &&
+            providerSystems.hasOwnProperty('PriorAuthorizations') &&
+            providerSystems.PriorAuthorizations.hasOwnProperty('LineOfBusiness')
           ) {
-            paTrendOne = one.PriorAuthorizations.LineOfBusiness;
-            paTrendTwo = two.PriorAuthorizations.LineOfBusiness;
-            if (isAllLobBool && !isServiceCategory) {
-              countDataOne = paTrendOne.All;
-              countDataTwo = paTrendTwo.All;
-            } else if (!isAllLobBool && !isServiceCategory) {
-              if (iscAndSLobBool) {
-                countDataOne = paTrendOne.CommunityAndState;
-                countDataTwo = paTrendTwo.CommunityAndState;
-              } else if (iseAndILobBool) {
-                countDataOne = paTrendOne.EmployerAndIndividual;
-                countDataTwo = paTrendTwo.EmployerAndIndividual;
-              } else if (ismAndRLobBool) {
-                countDataOne = paTrendOne.MedicareAndRetirement;
-                countDataTwo = paTrendTwo.MedicareAndRetirement;
+            let data;
+            // const data = providerSystems.PriorAuthorizations.LineOfBusiness.All;
+            if (lobString === 'allLob' && !isServiceCategory) {
+              data = providerSystems.PriorAuthorizations.LineOfBusiness.All;
+            } else if (lobString !== 'allLob' && !isServiceCategory) {
+              if (lobString === 'cAndSLob') {
+                data = providerSystems.PriorAuthorizations.LineOfBusiness.CommunityAndState;
+              } else if (lobString === 'eAndILob') {
+                data = providerSystems.PriorAuthorizations.LineOfBusiness.EmployerAndIndividual;
+              } else if (lobString === 'mAndRLob') {
+                data = providerSystems.PriorAuthorizations.LineOfBusiness.MedicareAndRetirement;
               }
             } else if (isServiceCategory) {
-              if (
-                paTrendOne.hasOwnProperty(paServiceCategoryString) &&
-                paTrendTwo.hasOwnProperty(paServiceCategoryString)
-              ) {
-                countDataOne = paTrendOne[paServiceCategoryString];
-                countDataTwo = paTrendTwo[paServiceCategoryString];
+              if (providerSystems.PriorAuthorizations.LineOfBusiness.hasOwnProperty(paServiceCategoryString)) {
+                data = providerSystems.PriorAuthorizations.LineOfBusiness[paServiceCategoryString];
               }
             }
 
-            let PAApprovedCountOne;
-            let PANotApprovedCountOne;
-            let PANotPendingCountOne;
-            let PANotCancelledCountOne;
-
-            let PAApprovedCountTwo;
-            let PANotApprovedCountTwo;
-            let PANotPendingCountTwo;
-            let PANotCancelledCountTwo;
+            let PAApprovedCount;
+            let PANotApprovedCount;
+            let PANotPendingCount;
+            let PANotCancelledCount;
 
             if (isAllSSFlagBool) {
-              PAApprovedCountOne = countDataOne.PriorAuthApprovedCount;
-              PANotApprovedCountOne = countDataOne.PriorAuthNotApprovedCount;
-              PANotPendingCountOne = countDataOne.PriorAuthPendingCount;
-              PANotCancelledCountOne = countDataOne.PriorAuthCancelledCount;
-              PAApprovedCountTwo = countDataTwo.PriorAuthApprovedCount;
-              PANotApprovedCountTwo = countDataTwo.PriorAuthNotApprovedCount;
-              PANotPendingCountTwo = countDataTwo.PriorAuthPendingCount;
-              PANotCancelledCountTwo = countDataTwo.PriorAuthCancelledCount;
+              PAApprovedCount = data.PriorAuthApprovedCount;
+              PANotApprovedCount = data.PriorAuthNotApprovedCount;
+              PANotPendingCount = data.PriorAuthPendingCount;
+              PANotCancelledCount = data.PriorAuthCancelledCount;
             } else {
               if (serviceSetting === 'Inpatient') {
-                PAApprovedCountOne = countDataOne.InpatientFacilityApprovedCount;
-                PANotApprovedCountOne = countDataOne.InpatientFacilityNotApprovedCount;
-                PANotCancelledCountOne = countDataOne.InpatientFacilityCancelledCount;
-                PANotPendingCountOne = countDataOne.InpatientFacilityPendingCount;
-                PAApprovedCountTwo = countDataTwo.InpatientFacilityApprovedCount;
-                PANotApprovedCountTwo = countDataTwo.InpatientFacilityNotApprovedCount;
-                PANotCancelledCountTwo = countDataTwo.InpatientFacilityCancelledCount;
-                PANotPendingCountTwo = countDataTwo.InpatientFacilityPendingCount;
+                PAApprovedCount = data.InpatientFacilityApprovedCount;
+                PANotApprovedCount = data.InpatientFacilityNotApprovedCount;
+                PANotCancelledCount = data.InpatientFacilityCancelledCount;
+                PANotPendingCount = data.InpatientFacilityPendingCount;
               } else if (serviceSetting === 'Outpatient') {
-                PAApprovedCountOne = countDataOne.OutpatientApprovedCount;
-                PANotApprovedCountOne = countDataOne.OutpatientNotApprovedCount;
-                PANotCancelledCountOne = countDataOne.OutpatientCancelledCount;
-                PANotPendingCountOne = countDataOne.OutpatientPendingCount;
-                PAApprovedCountTwo = countDataTwo;
-                PANotApprovedCountTwo = countDataTwo;
-                PANotCancelledCountTwo = countDataTwo;
-                PANotPendingCountTwo = countDataTwo;
+                PAApprovedCount = data.OutpatientApprovedCount;
+                PANotApprovedCount = data.OutpatientNotApprovedCount;
+                PANotCancelledCount = data.OutpatientCancelledCount;
+                PANotPendingCount = data.OutpatientPendingCount;
               } else if (serviceSetting === 'Outpatient Facility') {
-                PAApprovedCountOne = countDataOne.OutpatientFacilityApprovedCount;
-                PANotApprovedCountOne = countDataOne.OutpatientFacilityNotApprovedCount;
-                PANotCancelledCountOne = countDataOne.OutpatientFacilityCancelledCount;
-                PANotPendingCountOne = countDataOne.OutpatientFacilityPendingCount;
-                PAApprovedCountTwo = countDataTwo.OutpatientFacilityApprovedCount;
-                PANotApprovedCountTwo = countDataTwo.OutpatientFacilityNotApprovedCount;
-                PANotCancelledCountTwo = countDataTwo.OutpatientFacilityCancelledCount;
-                PANotPendingCountTwo = countDataTwo.OutpatientFacilityPendingCount;
+                PAApprovedCount = data.OutpatientFacilityApprovedCount;
+                PANotApprovedCount = data.OutpatientFacilityNotApprovedCount;
+                PANotCancelledCount = data.OutpatientFacilityCancelledCount;
+                PANotPendingCount = data.OutpatientFacilityPendingCount;
               }
             }
 
-            const PARequestedCountOne = PAApprovedCountOne + PANotApprovedCountOne;
-            const PAApprovalRateOne = PAApprovedCountOne / PARequestedCountOne;
-            const PARequestedCountTwo = PAApprovedCountTwo + PANotApprovedCountTwo;
-            const PAApprovalRateTwo = PAApprovedCountTwo / PARequestedCountTwo;
+            const PARequestedCount = PAApprovedCount + PANotApprovedCount;
+            const PAApprovalRate = PAApprovedCount / PARequestedCount;
+            PANotApprovedReasonBool = PAApprovalRate === 1;
 
-            const PARequestedTrend = ((PARequestedCountTwo - PARequestedCountOne) / PARequestedCountOne) * 100;
-            const PAApprovalRateTrend = ((PAApprovalRateTwo - PAApprovalRateOne) / PAApprovalRateOne) * 100;
-
-            // let trendLineOne;
-            // let trendLineTwo;
-
-            // if (PARequestedTrend < 0) {
-            //   trendLineOne = 'down';
-            // } else {
-            //   trendLineOne = 'up';
-            // }
-
-            // if (PAApprovalRateTrend.toFixed(1) === '0.0') {
-            //   trendLineTwo = 'neutral';
-            // } else if (PAApprovalRateTrend < 0) {
-            //   trendLineTwo = 'down';
-            // } else {
-            //   trendLineTwo = 'up';
-            // }
-
-            // sDataObjectOne = {
-            //   data: PARequestedTrend.toFixed(1) + '%',
-            //   sign: trendLineOne
-            // };
-            // sDataObjectTwo = {
-            //   data: PAApprovalRateTrend.toFixed(1) + '%',
-            //   sign: trendLineTwo
-            // };
+            let StandardTATConversion;
+            let UrgentTATConversion;
+            let TATDayLabel;
+            let TATHourLabel;
+            if (data.StandartPriorAuthTAT / 86400 < 1) {
+              StandardTATConversion = '<1';
+              TATDayLabel = StandardTATConversion + ' Day';
+            } else {
+              StandardTATConversion = (data.StandartPriorAuthTAT / 86400).toFixed(0);
+              if (StandardTATConversion === '1') {
+                TATDayLabel = StandardTATConversion + ' Day';
+              } else {
+                TATDayLabel = StandardTATConversion + ' Days';
+              }
+            }
+            if (data.UrgentPriorAuthTAT / 3600 < 1) {
+              UrgentTATConversion = '<1';
+              TATHourLabel = UrgentTATConversion + ' Hour';
+            } else {
+              UrgentTATConversion = (data.UrgentPriorAuthTAT / 3600).toFixed(0);
+              if (UrgentTATConversion === '1') {
+                TATHourLabel = UrgentTATConversion + ' Hour';
+              } else {
+                TATHourLabel = UrgentTATConversion + ' Hours';
+              }
+            }
+            // Add checker for if PA requested is zero
+            if (PARequestedCount === 0) {
+              PACount = appCardPriorAuthError;
+            } else {
+              PACount = [
+                {
+                  category: 'app-card',
+                  type: 'donutWithLabel',
+                  title: 'Prior Authorization Requested',
+                  MetricID: this.MetricidService.MetricIDs.PriorAuthorizationRequested,
+                  data: {
+                    graphValues: [PAApprovedCount, PANotApprovedCount, PANotPendingCount, PANotCancelledCount],
+                    centerNumber: this.nFormatter(PARequestedCount, 1),
+                    color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'],
+                    labels: ['Approved', 'Not Approved', 'Pending', 'Canceled'],
+                    gdata: ['card-inner', 'PARequested'],
+                    hover: true
+                  },
+                  besideData: {
+                    labels: ['Approved', 'Not Approved', 'Pending', 'Canceled'],
+                    color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC']
+                  },
+                  timeperiod: timePeriod
+                },
+                {
+                  category: 'app-card',
+                  type: 'donutWithLabel',
+                  title: 'Prior Authorization Approval Rate',
+                  MetricID: this.MetricidService.MetricIDs.PriorAuthorizationApprovalRate,
+                  data: {
+                    graphValues: [PAApprovalRate, 1 - PAApprovalRate],
+                    centerNumber: (PAApprovalRate * 100).toFixed(0) + '%',
+                    color: ['#3381FF', '#E0E0E0'],
+                    gdata: ['card-inner', 'PAApprovalRate']
+                  },
+                  besideData: {
+                    verticalData: [
+                      { title: 'Average Turnaround Time' },
+                      { values: TATDayLabel, labels: 'Standard' },
+                      { values: TATHourLabel, labels: 'Urgent' }
+                    ]
+                  },
+                  timeperiod: timePeriod
+                }
+              ];
+            }
           } else {
-            sDataObjectOne = {
-              data: '',
-              sign: ''
-            };
-            sDataObjectTwo = {
-              data: '',
-              sign: ''
-            };
+            PACount = appCardPriorAuthError;
           }
-          resolve([sDataObjectOne, sDataObjectTwo]);
+
+          let PriorAuthNotApprovedReasons = [];
+
+          let lobStringFormatted;
+          if (LOB === 'All') {
+            lobStringFormatted = 'All';
+          } else if (LOB === 'Community & State') {
+            lobStringFormatted = 'Cs';
+          } else if (LOB === 'Employer & Individual') {
+            lobStringFormatted = 'Ei';
+          } else if (LOB === 'Medicare & Retirement') {
+            lobStringFormatted = 'Mr';
+          }
+
+          if (
+            providerSystems[lobStringFormatted] !== null &&
+            providerSystems.hasOwnProperty(lobStringFormatted) &&
+            providerSystems[lobStringFormatted].hasOwnProperty('NotApproved')
+          ) {
+            if (
+              isAllSSFlagBool &&
+              providerSystems[lobStringFormatted].NotApproved.hasOwnProperty('AllNotApprovedSettings')
+            ) {
+              PriorAuthNotApprovedReasons = providerSystems[lobStringFormatted].NotApproved.AllNotApprovedSettings;
+            } else if (
+              serviceSetting === 'Inpatient' &&
+              providerSystems[lobStringFormatted].NotApproved.hasOwnProperty('InPatient')
+            ) {
+              PriorAuthNotApprovedReasons = providerSystems[lobStringFormatted].NotApproved.InPatient;
+            } else if (
+              serviceSetting === 'Outpatient' &&
+              providerSystems[lobStringFormatted].NotApproved.hasOwnProperty('OutPatient')
+            ) {
+              PriorAuthNotApprovedReasons = providerSystems[lobStringFormatted].NotApproved.OutPatient;
+            } else if (
+              serviceSetting === 'Outpatient Facility' &&
+              providerSystems[lobStringFormatted].NotApproved.hasOwnProperty('OutPatientFacility')
+            ) {
+              PriorAuthNotApprovedReasons = providerSystems[lobStringFormatted].NotApproved.OutPatientFacility;
+            }
+          }
+
+          // if (!isServiceCategory) {
+          if (PriorAuthNotApprovedReasons.length > 0 && !isServiceCategory) {
+            PriorAuthNotApprovedReasons.sort(function(a, b) {
+              return b.Count - a.Count;
+            });
+
+            const barScaleMax = PriorAuthNotApprovedReasons[0].Count;
+            for (let i = 0; i < PriorAuthNotApprovedReasons.length; i++) {
+              PriorAuthBarGraphParameters.push({
+                type: 'singleBarChart',
+                title: 'Top Reasons for Prior Authorizations Not Approved',
+                MetricID: this.MetricidService.MetricIDs.TopReasonsforPriorAuthorizationsNotApproved,
+                data: {
+                  barHeight: 48,
+                  barData: PriorAuthNotApprovedReasons[i].Count,
+                  barSummation: barScaleMax,
+                  barText: PriorAuthNotApprovedReasons[i].Reason,
+                  color: [{ color1: '#3381FF' }],
+                  gdata: ['card-inner-large', 'reasonBar' + i]
+                },
+                timeperiod: timePeriod
+              });
+            }
+          } else if (isServiceCategory || PANotApprovedReasonBool) {
+            // Hide reasons for service category
+            // Also hide reasons if its a 100 percent approval rate
+            PriorAuthBarGraphParameters = [
+              {
+                data: null
+              }
+            ];
+          } else {
+            PriorAuthBarGraphParameters = [
+              {
+                category: 'large-card',
+                type: 'donutWithLabel',
+                status: 404,
+                title: 'Top Reasons for Prior Authorizations Not Approved',
+                MetricID: this.MetricidService.MetricIDs.TopReasonsforPriorAuthorizationsNotApproved,
+                data: null,
+                besideData: null,
+                timeperiod: null
+              }
+            ];
+          }
+
+          const PAData = [PACount, PriorAuthBarGraphParameters];
+          resolve(PAData);
         });
     });
   }
 
   getPriorAuthDataCombined(filterParameters) {
     return new Promise(resolve => {
-      this.getPriorAuthDataFiltered(filterParameters)
+      this.getNewPAData(filterParameters)
         .then(data => {
           this.priorAuthDataCombined = data;
           const emptyPATrends = [

@@ -5,6 +5,7 @@ import { SessionService } from '../../../shared/session.service';
 import { StorageService } from '../../../shared/storage-service.service';
 import { PriorAuthSharedService } from '../../../shared/prior-authorization/prior-auth.service';
 import { PCORSharedService } from '../../../shared/PCOR/pcor-shared.service';
+import { CommonUtilsService } from 'src/app/shared/common-utils.service';
 @Component({
   selector: 'app-patient-care-opportunity',
   templateUrl: './patient-care-opportunity.component.html',
@@ -36,9 +37,10 @@ export class PatientCareOpportunityComponent implements OnInit {
     private sessionService: SessionService,
     private checkStorage: StorageService,
     private priorAuthShared: PriorAuthSharedService,
-    private pcorSharedService: PCORSharedService
+    private pcorSharedService: PCORSharedService,
+    private filtermatch: CommonUtilsService
   ) {
-    this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.ngOnInit());
+    this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.filtermatch.urlResuseStrategy());
   }
   public ratingComponentClick(clickObj: any): void {
     this.priorAuthShared.getPCORMandRData().then(data => {

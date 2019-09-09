@@ -41,7 +41,7 @@ export class PriorAuthComponent implements OnInit {
     sanitizer: DomSanitizer,
     private filtermatch: CommonUtilsService
   ) {
-    const filData = this.session.getFilChangeEmitter().subscribe(() => this.ngOnInit());
+    const filData = this.session.getFilChangeEmitter().subscribe(() => this.filtermatch.urlResuseStrategy());
     this.pagesubTitle = '';
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => {
       // changing the session will trigger ngoninit
@@ -137,6 +137,11 @@ export class PriorAuthComponent implements OnInit {
     );
 
     /*
+    this.priorAuthShared.getNewPAData(this.filterParameters).then(data => {
+      console.log(data);
+    });
+
+
     this.priorAuthShared.getPriorAuthData().then(
       data => {
         this.loading = false;

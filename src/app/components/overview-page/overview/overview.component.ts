@@ -1,17 +1,19 @@
-import { Component, OnInit, AfterContentInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { OverviewSharedService } from '../../../shared/overview/overview-shared.service';
 import { SessionService } from '../../../shared/session.service';
 import { StorageService } from '../../../shared/storage-service.service';
 import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
+import { CommonUtilsService } from 'src/app/shared/common-utils.service';
 
 @Component({
   selector: 'app-overview',
   templateUrl: './overview.component.html',
   styleUrls: ['./overview.component.scss']
 })
-export class OverviewComponent implements OnInit, AfterContentInit {
+export class OverviewComponent implements OnInit {
+  printRoute: string;
   overviewItems: any;
   mainCards: any;
   mockMainCards: any;
@@ -21,6 +23,7 @@ export class OverviewComponent implements OnInit, AfterContentInit {
   pagesubTitle: String = '';
   userName: String = '';
   opportunities: String = '';
+  selfServiceLink: String = '';
   opportunitiesQuestion: String = '';
   welcomeMessage: String = '';
   subscription: any;
@@ -64,8 +67,11 @@ export class OverviewComponent implements OnInit, AfterContentInit {
     private session: SessionService,
     private iconRegistry: MatIconRegistry,
     private router: Router,
+    private filtermatch: CommonUtilsService,
     sanitizer: DomSanitizer
   ) {
+    this.printRoute = '/OverviewPage/print-overview';
+    this.selfServiceLink = 'Self Service Details';
     this.pagesubTitle = 'Your Insights at a glance.';
     this.opportunities = 'Opportunities';
     this.opportunitiesQuestion = 'How much can online self service save you?';
@@ -73,26 +79,16 @@ export class OverviewComponent implements OnInit, AfterContentInit {
     if (this.router.url.includes('print-')) {
       this.printStyle = true;
     }
-    this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => {
-      this.router.routeReuseStrategy.shouldReuseRoute = function() {
-        return false;
-      };
-      const currentUrl = this.router.url + '?';
-      this.router.navigateByUrl(currentUrl).then(() => {
-        this.router.navigated = false;
-        console.log('rounter', this.router.url);
-        if (this.router.url === '/ProviderSearch') {
-          this.router.navigate(['/OverviewPage']);
-        } else {
-          this.router.navigate([this.router.url]);
-        }
-      });
-    });
+    this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.filtermatch.urlResuseStrategy());
     /** INITIALIZING SVG ICONS TO USE IN DESIGN - ANGULAR MATERIAL */
     iconRegistry.addSvgIcon(
       'arrow',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-keyboard_arrow_right-24px.svg')
     );
+  }
+  printDownload(value) {
+    this.printStyle = true;
+    console.log('Overview Print Emit', value);
   }
   ngOnInit() {
     // Temporary Heac ability
@@ -131,6 +127,11 @@ export class OverviewComponent implements OnInit, AfterContentInit {
     }*/
     this.overviewsrc.getAllTrends().then(trendData => {
       this.trendsData = trendData;
+      // temporary switch off of trend in calls : Srikar Bobbiganipalli
+      /*if (this.trendsData && this.trendsData.hasOwnProperty('TendingMtrics')) {
+        this.trendsData.TendingMtrics.CcllTalkTimeByQuesType = undefined;
+        this.trendsData.TendingMtrics.CallsTrendByQuesType = undefined;
+      }*/
       this.claimsLoading = true;
 
       /* SERVICE CALL TO GET CLAIMS CARDS DATA */
@@ -255,6 +256,4 @@ export class OverviewComponent implements OnInit, AfterContentInit {
       this.pageTitle = 'Hello, ' + userInfo.FirstName + '.';
     }
   }
-
-  ngAfterContentInit() {}
 }
