@@ -317,12 +317,45 @@
         }
       }
     }
+
+    .smart-edits-bar-chart-block {
+      float: left;
+      padding: 81px 40px 117px 40px;
+    }
+    .less-than-five-days-block {
+      float: left;
+      display: flex;
+      flex-flow: row;
+    }
+    .less-than-five-days-bar {
+      height: 48px;
+      width: 340px;
+      border-radius: 0 2px 2px 0;
+      background-color: $dodger-blue;
+      margin-top: 8px;
+    }
+    .more-than-five-days-block {
+      float: left;
+      margin-top: 24px;
+    }
+    .more-than-five-days-bar {
+      height: 48px;
+      width: 132px;
+      border-radius: 0 2px 2px 0;
+      background-color: #fc6431;
+      margin-top: 8px;
+    }
+    .smart-edits-pull-left {
+      float: left;
+      display: flex;
+      flex-flow: column;
+    }
   }
 
   .overturn-reason-block {
     margin: 12px;
     height: 494px;
-    width: 464px;
+    width: 468px;
     border-radius: 2px;
     background-color: $white;
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
@@ -356,6 +389,28 @@
   .top-reason-other {
     margin-left: 16px;
   }
+
+  .top-reason-one-informational {
+    margin-top: 61px;
+  }
+  .smart-edits-vol-label {
+    padding-left: 90px;
+    padding-top: 55px;
+    text-align: left;
+    font-size: 16px;
+    letter-spacing: 0.2px;
+    color: $black-rock;
+    font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+  }
+  .smart-edits-vol-num {
+    font-family: 'UHCSans-Regular', Helvetica, Arial, sans-serif;
+    padding-left: 195px;
+    margin-top: -15px;
+    font-size: 16px;
+    letter-spacing: 0.2px;
+    color: $black-rock;
+  }
+
   @media only screen and (max-width: 1024px) {
     @include padding(16px, 0, 16px, 0);
   }
