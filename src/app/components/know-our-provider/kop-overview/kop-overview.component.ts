@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { EventEmitterService } from 'src/app/shared/know-our-provider/event-emitter.service';
 import { Subscription } from 'rxjs';
 import { NPSSharedService } from 'src/app/shared/nps/nps.service';
+import { KopInsightsService } from 'src/app/shared/know-our-provider/kop-insights.service';
 
 @Component({
   selector: 'app-kop-overview',
@@ -21,7 +22,13 @@ export class KopOverviewComponent implements OnInit, OnDestroy {
   };
   public npsSummary: any = {};
 
-  constructor(private eventEmitter: EventEmitterService, private npsSharedService: NPSSharedService) {}
+  public kopInsightsData: any = {};
+
+  constructor(
+    private eventEmitter: EventEmitterService,
+    private npsSharedService: NPSSharedService,
+    private kopInsightsService: KopInsightsService
+  ) {}
 
   ngOnInit() {
     this.eventEmitter.emitEvent(true);
@@ -31,6 +38,9 @@ export class KopOverviewComponent implements OnInit, OnDestroy {
     this.npsSharedService.getNPSSummary((data: any) => {
       this.npsSummary = data;
       this.npsLoaded = true;
+    });
+    this.kopInsightsService.getKopInsightsData((data: any) => {
+      this.kopInsightsData = data;
     });
   }
 

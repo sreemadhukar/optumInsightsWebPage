@@ -37,6 +37,7 @@ import { D3StarBlueComponent } from './d3-objects/d3-star-blue/d3-star-blue.comp
 import { D3StarGreyComponent } from './d3-objects/d3-star-grey/d3-star-grey.component';
 import { HeacSmallCardComponent } from './heac-small-card/heac-small-card.component';
 import { PipesModule } from '../pipes/pipes.module';
+import { LargeCardKopComponent } from './large-card-kop/large-card-kop.component';
 
 @NgModule({
   imports: [
@@ -73,7 +74,8 @@ import { PipesModule } from '../pipes/pipes.module';
     PrintComponent,
     ClarifyClaimsMessageComponent,
     AccordionLargeCardComponent,
-    HeacSmallCardComponent
+    HeacSmallCardComponent,
+    LargeCardKopComponent
   ],
   declarations: [
     MiniTileComponent,
@@ -107,7 +109,8 @@ import { PipesModule } from '../pipes/pipes.module';
     AccordionLargeCardComponent,
     D3StarBlueComponent,
     D3StarGreyComponent,
-    HeacSmallCardComponent
+    HeacSmallCardComponent,
+    LargeCardKopComponent
   ],
   entryComponents: [ProviderSearchComponent]
 })
