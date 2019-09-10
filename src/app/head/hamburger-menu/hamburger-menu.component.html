@@ -109,7 +109,9 @@
         <!-- END OF MENU CATEGORIES BLOCK -->
 
         <div *ngIf="isKop" class="simulate-external-view">
-          <button class="simulate-external-view-btn btn btn-secondary" mat-button>Simulate External View</button>
+          <button class="simulate-external-view-btn btn btn-secondary" (click)="openSimulateViewDialog()" mat-button>
+            Simulate External View
+          </button>
         </div>
 
         <!-- SIGNOUT BLOCK -->
