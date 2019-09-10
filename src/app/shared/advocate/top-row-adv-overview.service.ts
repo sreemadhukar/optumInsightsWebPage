@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
+import { TopRowAdvOverviewService } from './../../rest/advocate/top-row-adv-overview.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class TopRowAdvOverviewService {
-  constructor() {}
+export class TopRowAdvOverviewSharedService {
+  constructor(private topRowService: TopRowAdvOverviewService) {}
 }
