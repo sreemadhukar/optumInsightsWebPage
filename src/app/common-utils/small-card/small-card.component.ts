@@ -13,6 +13,7 @@ import { Router } from '@angular/router';
 export class SmallCardComponent implements OnInit {
   @Input() data;
   @Input() skeleton;
+  @Input() options: any;
   subscription: Subscription;
   public printStyle: boolean;
   /*
