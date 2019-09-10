@@ -19,7 +19,7 @@ import {
   Input,
   Inject
 } from '@angular/core';
-import { MatExpansionPanel, MatDialog, MatSidenav } from '@angular/material';
+import { MatExpansionPanel, MatDialog, MatSidenav, MatDialogConfig } from '@angular/material';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -37,6 +37,7 @@ import { DOCUMENT, Location } from '@angular/common';
 import { environment } from '../../../environments/environment';
 import { EventEmitterService } from 'src/app/shared/know-our-provider/event-emitter.service';
 import { SessionService } from '../../shared/session.service';
+import { AcoEventEmitterService } from '../../shared/ACO/aco-event-emitter.service';
 
 @Component({
   selector: 'app-hamburger-menu',
@@ -52,8 +53,9 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
   @ViewChild('srnav') srnav: MatSidenav;
   public makeAbsolute: boolean;
   public bgWhite: boolean;
+  public showPrintHeader: boolean;
   public sideNavFlag = true;
-  public AcoFlag = false;
+  public AcoFlag: boolean;
   subscription: any;
   public glossaryFlag: boolean;
   public glossaryTitle: string = null;
@@ -118,16 +120,17 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     private location: Location,
     private sessionService: SessionService,
     private eventEmitter: EventEmitterService,
+    private acoEventEmitter: AcoEventEmitterService,
     @Inject(DOCUMENT) private document: any
   ) {
-    if (window.location.href.includes('AcoPage')) {
-      this.AcoFlag = true;
-    }
     this.glossaryFlag = false;
     this.filterFlag = false;
+    this.bgWhite = false;
+    this.showPrintHeader = false;
     // to disable the header/footer/body when not authenticated
     router.events.subscribe(event => {
       if (event instanceof NavigationStart) {
+        this.healthSystemName = this.sessionService.getHealthCareOrgName();
         this.makeAbsolute = !(
           authService.isLoggedIn() &&
           !(
@@ -138,6 +141,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
           )
         );
         this.bgWhite = !(authService.isLoggedIn() && !event.url.includes('print-'));
+        this.showPrintHeader = event.url.includes('print-');
         this.loading = true;
         const heac = JSON.parse(sessionStorage.getItem('heac'));
         if (event.url === '/KnowOurProvider' && !heac.heac) {
@@ -183,10 +187,14 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
   }
 
   ngOnInit() {
+    this.AcoFlag = false;
     this.isKop = false;
     this.loading = false;
     this.PCORFlag = false;
     this.isDarkTheme = this.themeService.isDarkTheme;
+    this.acoEventEmitter.getEvent().subscribe(value => {
+      this.AcoFlag = value.value;
+    });
     this.eventEmitter.getEvent().subscribe(val => {
       this.isKop = val.value;
     });
@@ -355,6 +363,29 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
       this.glossaryFlag = false;
     }
   }
+
+  /**
+   * Open ProviderSearchComponent with setting the,
+   * data and after action action
+   */
+  openSimulateViewDialog(): void {
+    const dialogConfig = new MatDialogConfig();
+
+    // Set label for the container label and pass after selection trigger function
+    dialogConfig.data = {
+      valueSelected: () => this.router.navigateByUrl('/OverviewPage'),
+      containreLabel: 'View as a Provider'
+    };
+
+    // Set Styling
+    dialogConfig.width = '550px';
+    dialogConfig.height = '212px';
+    dialogConfig.disableClose = true;
+
+    // Call the dialog open method
+    this.dialog.open(ProviderSearchComponent, dialogConfig);
+  }
+
   private allExpandState(value: boolean, id) {
     this._allExpandState = value;
     this.togglePanels(value, id);
@@ -374,5 +405,6 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
       }
     });
   }
+
   /** END OF FUNCTIONS TO COLLAPSE LEFT MENU **/
 }

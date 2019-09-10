@@ -6,12 +6,12 @@
 
 <div [ngClass]="{ 'dark-theme': isDarkTheme | async }">
   <div class="example-container example-is-mobile" color="primary">
-    <mat-toolbar color="primary" class="example-toolbar" [class.display-none]="makeAbsolute">
+    <mat-toolbar color="primary" class="example-toolbar" [class.display-none]="!showPrintHeader && makeAbsolute">
       <!--<button mat-icon-button (click)="srnav.toggle()">-->
       <!--<mat-icon>filter</mat-icon>-->
       <!--</button>-->
       <app-header
-        [class.display-none]="makeAbsolute"
+        [class.display-none]="!showPrintHeader && makeAbsolute"
         class="sticky"
         (hamburgerDisplay)="hamburgerDisplay($event)"
         [isKop]="isKop"
@@ -109,7 +109,9 @@
         <!-- END OF MENU CATEGORIES BLOCK -->
 
         <div *ngIf="isKop" class="simulate-external-view">
-          <button class="simulate-external-view-btn btn btn-secondary" mat-button>Simulate External View</button>
+          <button class="simulate-external-view-btn btn btn-secondary" (click)="openSimulateViewDialog()" mat-button>
+            Simulate External View
+          </button>
         </div>
 
         <!-- SIGNOUT BLOCK -->

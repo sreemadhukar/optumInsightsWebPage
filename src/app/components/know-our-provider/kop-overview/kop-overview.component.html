@@ -48,71 +48,17 @@
       <app-small-card class="cards" [options]="npsCardOptions" [data]="npsSummary.all.data"> </app-small-card>
       <app-small-card class="cards" [options]="npsCardOptions" [data]="npsSummary.pm.data"> </app-small-card>
       <app-small-card class="cards" [options]="npsCardOptions" [data]="npsSummary.md.data"> </app-small-card>
+      <div class="height1Separator"></div>
+
+      <div class="kop-insights">Insights</div>
+      <div>
+        <app-large-card-kop [data]="kopInsightsData.networkParticipation.data"></app-large-card-kop>
+        <app-large-card-kop [data]="kopInsightsData.careDelivery.data"></app-large-card-kop>
+        <app-large-card-kop [data]="kopInsightsData.reimbursement.data"></app-large-card-kop>
+        <app-large-card-kop [data]="kopInsightsData.issueResolution.data"></app-large-card-kop>
+        <app-large-card-kop [data]="kopInsightsData.engagement.data"></app-large-card-kop>
+      </div>
     </div>
-
-    <!-- <app-heac-small-card
-      *ngIf="loadClaimsPaidCard && !claimsLoading && isHeac"
-      class="cards"
-      [data]="claimsPaidBlock"
-    ></app-heac-small-card>
-    <app-small-card class="cards" [skeleton]="claimsLoading" *ngIf="claimsLoading"> </app-small-card>
-    <app-error-card *ngIf="errorloadClaimsPaidCard" class="cards" [data]="item"></app-error-card>
-
-    <app-small-card class="cards" *ngIf="loadPrioirAuthCard && !priorAuthLoading" class="cards" [data]="priorAuthBlock">
-    </app-small-card>
-    <app-small-card class="cards" [skeleton]="priorAuthLoading" *ngIf="priorAuthLoading"> </app-small-card>
-    <app-error-card *ngIf="errorloadPrioirAuthCard" class="cards" [data]="item"></app-error-card>
-
-    <app-small-card
-      class="cards"
-      *ngIf="loadselfServiceAdoptionCard && !loading"
-      class="cards"
-      [data]="selfServiceAdoptionBlock"
-    >
-    </app-small-card>
-    <app-small-card class="cards" [skeleton]="loading" *ngIf="loading"> </app-small-card>
-    <app-error-card *ngIf="errorloadselfServiceAdoptionCard" class="cards" [data]="item"></app-error-card>
-
-    <app-small-card class="cards" *ngIf="loadClaimsYieldCard && !claimsLoading" class="cards" [data]="claimsYieldBlock">
-    </app-small-card>
-    <app-small-card class="cards" [skeleton]="claimsLoading" *ngIf="claimsLoading"> </app-small-card>
-    <app-error-card *ngIf="errorloadClaimsYieldCard" class="cards" [data]="item"></app-error-card>
-
-    <app-small-card
-      class="cards"
-      *ngIf="loadMedicareStarRatingCard && !loading"
-      class="cards"
-      [data]="medicareStarRatingBlock"
-    >
-    </app-small-card>
-    <app-small-card class="cards" [skeleton]="loading" *ngIf="loading"> </app-small-card>
-    <app-error-card *ngIf="errorloadMedicareStarRatingCard" class="cards" [data]="item"></app-error-card>
-
-    <app-small-card
-      class="cards"
-      *ngIf="loadTotalCallsCard && !callsLoading && !isHeac"
-      class="cards"
-      [data]="totalCallsBlock"
-    >
-    </app-small-card>
-    <app-heac-small-card
-      class="cards"
-      *ngIf="loadTotalCallsCard && !callsLoading && isHeac"
-      class="cards"
-      [data]="totalCallsBlock"
-    >
-    </app-heac-small-card>
-    <app-small-card class="cards" [skeleton]="callsLoading" *ngIf="callsLoading"> </app-small-card>
-    <app-error-card *ngIf="errorloadTotalCallsCard" class="cards" [data]="item"></app-error-card> -->
-
-    <!--<div *ngFor="let item of mainCards; let i = index">
-      <app-small-card *ngIf="item.data != null && item.toggle" class="cards" [data]="item"> </app-small-card>
-      <app-error-card *ngIf="item.status != null && item.toggle" class="cards" [data]="item"></app-error-card>
-    </div>
-    <div *ngFor="let data of mockMainCards; let i = index">
-      <app-small-card class="cards" [skeleton]="loading" *ngIf="loading"> </app-small-card>
-    </div>-->
-    <!-- <app-clarify-claims-message></app-clarify-claims-message> -->
   </div>
 </div>
 

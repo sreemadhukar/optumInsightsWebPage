@@ -6,6 +6,7 @@ import { FilterExpandService } from 'src/app/shared/filter-expand.service';
 import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
+import { KopInsightsService } from 'src/app/shared/know-our-provider/kop-insights.service';
 
 @Component({
   selector: 'app-kop-overview',
@@ -30,6 +31,7 @@ export class KopOverviewComponent implements OnInit, OnDestroy {
     npsHeader: true
   };
   public npsSummary: any = {};
+  public kopInsightsData: any = {};
 
   constructor(
     private eventEmitter: EventEmitterService,
@@ -37,7 +39,8 @@ export class KopOverviewComponent implements OnInit, OnDestroy {
     private iconRegistry: MatIconRegistry,
     private sanitizer: DomSanitizer,
     private router: Router,
-    private npsSharedService: NPSSharedService
+    private npsSharedService: NPSSharedService,
+    private kopInsightsService: KopInsightsService
   ) {
     iconRegistry.addSvgIcon(
       'filter',
@@ -53,6 +56,9 @@ export class KopOverviewComponent implements OnInit, OnDestroy {
     this.npsSharedService.getNPSSummary((data: any) => {
       this.npsSummary = data;
       this.npsLoaded = true;
+    });
+    this.kopInsightsService.getKopInsightsData((data: any) => {
+      this.kopInsightsData = data;
     });
   }
 
