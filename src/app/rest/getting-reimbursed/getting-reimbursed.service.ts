@@ -75,35 +75,6 @@ export class GettingReimbursedService {
     );
   }
 
-  /* Function to get Claims Non payments by Facility Data - Ranjith kumar Ankam */
-  public getClaimsNonPaymentsData(parameters) {
-    let params = new HttpParams();
-
-    params = params.append('monthly', parameters.monthly);
-    params = params.append('YTD', parameters.ytd);
-    if (parameters.timeperiod !== '') {
-      params = params.append('timeFilter', parameters.timeperiod);
-    }
-    if (parameters.tin !== '') {
-      params = params.append('TIN', parameters.tin);
-    }
-    if (parameters.startDate !== '') {
-      params = params.append('startDate', parameters.startDate);
-    }
-    if (parameters.endDate !== '') {
-      params = params.append('endDate', parameters.endDate);
-    }
-    /*if (parameters.rolling12 !== '') {
-      params = params.append('rolling12', parameters.rolling12);
-    }
-*/
-    const claimsURL = this.APP_URL + this.CLAIMS_SERVICE_PATH + parameters.providerkey;
-    return this.http.post(claimsURL, params).pipe(
-      map(res => res),
-      catchError(err => of(err))
-    );
-  }
-
   /* Function to get Payment Integrity Data - Ranjith kumar Ankam */
 
   public getPaymentIntegrityData(parameters) {
