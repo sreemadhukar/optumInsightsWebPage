@@ -161,7 +161,13 @@
               [title]="glossaryTitle"
               [MetricID]="glossaryMetricID"
             ></app-glossary>
-            <app-filter *ngIf="filterFlag" [filterurl]="filterurl" (filterFlag)="filterFlagChange($event)"></app-filter>
+            <app-filter
+              *ngIf="filterFlag"
+              [filterurl]="filterurl"
+              [filterData]="filterData"
+              [customFilter]="customFilter"
+              (filterFlag)="filterFlagChange($event)"
+            ></app-filter>
           </div>
         </div>
       </mat-sidenav>

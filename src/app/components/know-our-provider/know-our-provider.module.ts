@@ -3,9 +3,10 @@ import { CommonModule } from '@angular/common';
 import { KopOverviewComponent } from './kop-overview/kop-overview.component';
 import { KnowOurProviderRoutingModule } from './know-our-provider-routing.module';
 import { CommonUtilsModule } from 'src/app/common-utils/common-utils.module';
+import { HeadMaterialModule } from 'src/app/head/head.material.module';
 
 @NgModule({
-  imports: [CommonModule, KnowOurProviderRoutingModule, CommonUtilsModule],
+  imports: [CommonModule, KnowOurProviderRoutingModule, HeadMaterialModule, CommonUtilsModule],
   declarations: [KopOverviewComponent]
 })
 export class KnowOurProviderModule {}
