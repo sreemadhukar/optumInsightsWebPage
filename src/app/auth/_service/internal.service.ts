@@ -10,6 +10,7 @@ import { JSEncrypt } from 'jsencrypt';
   providedIn: 'root'
 })
 export class InternalService {
+  public userRole: any;
   private APP_URL: string = environment.apiProxyUrl;
   private SERVICE_PATH: string = environment.apiUrls.LDAPAuth;
   private sso: any;
@@ -41,6 +42,8 @@ export class InternalService {
               });
               sessionStorage.setItem('currentUser', JSON.stringify(this.sso));
               sessionStorage.setItem('loggedUser', JSON.stringify(user));
+              console.log(JSON.stringify(user));
+              this.userRole = user['UserRole'];
               return user;
             } else {
               //    this.loader = false;

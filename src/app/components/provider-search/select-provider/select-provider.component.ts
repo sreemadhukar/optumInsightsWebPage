@@ -8,6 +8,7 @@ import { Providers } from './../../../shared/provider/provider.class';
 import { MatIconRegistry, MatAutocompleteSelectedEvent } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 import { StorageService } from './../../../shared/storage-service.service';
+import { InternalService } from './../../../auth/_service/internal.service';
 
 import {
   AfterViewInit,
@@ -48,6 +49,7 @@ export class SelectProviderComponent implements OnInit {
     private iconRegistry: MatIconRegistry,
     private storage: StorageService,
     private router: Router,
+    private internalService: InternalService,
     sanitizer: DomSanitizer
   ) {
     iconRegistry.addSvgIcon(
@@ -127,19 +129,34 @@ export class SelectProviderComponent implements OnInit {
   provider() {
     this.router.navigate(['/ProviderSearch']);
   }
-  // madhukar
+
   providerSelect(event: MatAutocompleteSelectedEvent) {
-    this.providerSelectedFlag = false;
-    const provider = this.providerData[0];
-    const data = this.states.find(prov => prov.HealthCareOrganizationName === event.option.value);
-    if (this.providerData[0].hasOwnProperty('Providersyskey')) {
-      provider.healthcareorganizationname = data.HealthCareOrganizationName;
-      provider.ProviderKey = data.ProviderKey;
-      this.storage.store('currentUser', [provider]);
+    console.log('this.internalService.userRole', this.internalService.userRole[0]);
+    if ((this.internalService.userRole[0] = 'UHCI_Advocate_Dev')) {
+      this.providerSelectedFlag = false;
+      const provider = this.providerData[0];
+      const data = this.states.find(prov => prov.HealthCareOrganizationName === event.option.value);
+      if (this.providerData[0].hasOwnProperty('Providersyskey')) {
+        provider.healthcareorganizationname = data.HealthCareOrganizationName;
+        provider.ProviderKey = data.ProviderKey;
+        this.storage.store('currentUser', [provider]);
+      } else {
+        this.storage.store('currentUser', [Object.assign(provider, data)]);
+      }
+      this.router.navigate(['/GettingReimbursed']);
     } else {
-      this.storage.store('currentUser', [Object.assign(provider, data)]);
+      this.providerSelectedFlag = false;
+      const provider = this.providerData[0];
+      const data = this.states.find(prov => prov.HealthCareOrganizationName === event.option.value);
+      if (this.providerData[0].hasOwnProperty('Providersyskey')) {
+        provider.healthcareorganizationname = data.HealthCareOrganizationName;
+        provider.ProviderKey = data.ProviderKey;
+        this.storage.store('currentUser', [provider]);
+      } else {
+        this.storage.store('currentUser', [Object.assign(provider, data)]);
+      }
+      this.router.navigate(['/OverviewPage']);
     }
-    this.router.navigate(['/OverviewPage']);
   }
 
   private _filterStates(value: string): Providers[] {
