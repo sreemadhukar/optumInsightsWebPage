@@ -184,16 +184,16 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
   }
 
   ngOnInit() {
+    // Role based access for Advocates Overview page
     if (JSON.parse(sessionStorage.getItem('loggedUser'))) {
       let userRole;
       userRole = JSON.parse(sessionStorage.getItem('loggedUser')).UserRole;
-      if (
-        userRole.includes('UHCI_Advocate_Dev') ||
-        userRole.includes('UHCI_Advocate') ||
-        userRole.includes('UHCI_Advocate_Test')
-      ) {
-        this.navCategories[0].path = '/OverviewPageAdvocate';
-      }
+      userRole.forEach(item => {
+        if (item.includes('UHCI_Advocate')) {
+          this.navCategories[0].path = '/OverviewPageAdvocate';
+          return true;
+        }
+      });
     }
 
     this.AcoFlag = false;

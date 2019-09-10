@@ -79,8 +79,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
     // this.mobileQuery = this.breakpointObserver.isMatched('(max-width: 1024px)');
     router.events.subscribe(event => {
       if (event instanceof NavigationStart) {
-        const userInfo = JSON.parse(sessionStorage.getItem('loggedUser'));
-        this.username = userInfo.FirstName;
+        if (JSON.parse(sessionStorage.getItem('loggedUser'))) {
+          const userInfo = JSON.parse(sessionStorage.getItem('loggedUser'));
+          this.username = userInfo.FirstName;
+        }
         this.mobileQuery = this.breakpointObserver.isMatched('(max-width: 1279px)');
         // alert(this.mobileQuery);
         if (!this.mobileQuery) {
@@ -119,13 +121,17 @@ export class HeaderComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.isDarkTheme = this.themeService.isDarkTheme;
     this.eventEmitter.getEvent().subscribe(val => {
-      const userInfo = JSON.parse(sessionStorage.getItem('loggedUser'));
-      this.username = userInfo.FirstName;
+      if (JSON.parse(sessionStorage.getItem('loggedUser'))) {
+        const userInfo = JSON.parse(sessionStorage.getItem('loggedUser'));
+        this.username = userInfo.FirstName;
+      }
     });
     this.checkStorage.getEvent().subscribe(value => {
       if (value.value === 'overviewPage') {
-        const userInfo = JSON.parse(sessionStorage.getItem('loggedUser'));
-        this.username = userInfo.FirstName;
+        if (JSON.parse(sessionStorage.getItem('loggedUser'))) {
+          const userInfo = JSON.parse(sessionStorage.getItem('loggedUser'));
+          this.username = userInfo.FirstName;
+        }
       }
     });
   }
