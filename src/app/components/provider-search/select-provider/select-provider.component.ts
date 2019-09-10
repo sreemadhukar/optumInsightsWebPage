@@ -139,7 +139,22 @@ export class SelectProviderComponent implements OnInit {
     } else {
       this.storage.store('currentUser', [Object.assign(provider, data)]);
     }
-    this.router.navigate(['/OverviewPage']);
+
+    // Role based access for Advocates Overview page
+    if (JSON.parse(sessionStorage.getItem('loggedUser'))) {
+      let userRole;
+      userRole = JSON.parse(sessionStorage.getItem('loggedUser')).UserRole;
+      let userRoleAdvocate = false;
+      userRole.forEach(item => {
+        if (item.includes('UHCI_Advocate')) {
+          userRoleAdvocate = true;
+          this.router.navigate(['/OverviewPageAdvocate']);
+        }
+      });
+      if (!userRoleAdvocate) {
+        this.router.navigate(['/OverviewPage']);
+      }
+    }
   }
 
   private _filterStates(value: string): Providers[] {
