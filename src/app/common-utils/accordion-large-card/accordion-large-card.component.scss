@@ -1,5 +1,5 @@
 @import '~src/scss/variables.scss';
-
+@import '~src/scss/mixins';
 .card-structure {
   position: relative;
   float: left;
@@ -109,6 +109,13 @@
 .bar-graph-inside-left-block {
   float: left;
   line-height: 115px;
+}
+.sub-item-content {
+  float: left;
+  padding: 16px 0 0 32px;
+  .display-inline-block {
+    display: inline-block;
+  }
 }
 .bar-graph-inside-left-block-content {
   float: left;
@@ -276,9 +283,15 @@ height: 45px;*/
   display: inline-block;
 }
 .accor-content-space {
-  padding: 16px 0 0 32px;
-  width: 910px;
+  width: 890px;
+  .bar-graph-block-icon {
+    @include margin(0, 13px, 0, 0);
+  }
+  .bar-graph-inside-right-block {
+    @include padding(0, 0, 0, 69px);
+  }
 }
+
 .top-5-text {
   color: $black-rock;
   font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
@@ -306,10 +319,9 @@ height: 45px;*/
   color: #2d2d39;
   font-size: 22px;
   font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
-  display: block;
+  display: inline-block;
   width: 100%;
   height: 100%;
-  margin-bottom: 10px;
 }
 .no-stars-count {
   vertical-align: middle;
@@ -320,23 +332,30 @@ height: 45px;*/
   color: $black-rock;
   font-size: 16px;
   letter-spacing: 0.2px;
-  padding-left: 15px;
+
   vertical-align: middle;
   line-height: 24px;
   .cms-weight-style {
     font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
     display: inline-block;
+    padding-left: 10px;
   }
   .cms-number {
-    font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+    font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
     display: inline-block;
-    padding-left: 16px;
+    padding-left: 5px;
+  }
+  .verticalLine {
+    border-right: 1px solid #2d2d39;
+    padding: 0 10px 0 10px;
+    height: 16px;
+    line-height: 16px;
   }
 }
 .description-content {
   letter-spacing: 0.2px;
   line-height: 22px;
-  padding: 10px 0 19px 0;
+  padding: 10px 0 25px 0;
   color: $black-rock;
   font-size: 16px;
   .measure-desc {
@@ -347,6 +366,67 @@ height: 45px;*/
     font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
     padding-left: 5px;
   }
+  .accord-sub-title {
+    color: #2d2d39;
+    font-family: 'UHCSans-Bold', Helvetica, Arial, sans-serif;
+    font-size: 16px;
+    letter-spacing: 0.2px;
+    line-height: 22px;
+    padding-right: 49px;
+  }
+  .sub-title-2 {
+    padding-left: 47px;
+  }
+  .vertical-line2 {
+    box-sizing: border-box;
+    height: 90px;
+    width: 1px;
+    border-right: 1px solid #979797;
+  }
+  .height-90 {
+    height: 90px;
+  }
+
+  .sub-accor-text1 {
+    font-size: 32px;
+    margin: 30px 0 47px 0;
+    color: $dodger-blue;
+    line-height: 32px;
+    font-family: 'UHCSans-Bold', Helvetica, Arial, sans-serif;
+  }
+  .sub-accor-text2 {
+    font-size: 32px;
+    font-family: 'UHCSans-Bold', Helvetica, Arial, sans-serif;
+    margin: 8px 0 47px 47px;
+    color: $dodger-blue;
+    line-height: 32px;
+  }
+  .sub-accor-text3 {
+    font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+    color: #333333;
+    line-height: 22px;
+    font-size: 32px;
+  }
+  .sub-last-text {
+    @extend .sub-accor-text3;
+    margin: 30px 0 47px 47px;
+  }
+  .sub-row2-first {
+    @extend .sub-accor-text3;
+    margin: 24px 0 47px 0;
+  }
+  .sub-accor-row2 {
+    @extend .sub-accor-text3;
+    margin: 24px 0 26px 47px;
+  }
+  .mt-47 {
+    margin-top: 47px;
+  }
+}
+.horizontal-line {
+  overflow: hidden;
+  position: relative;
+  height: 100%;
 }
 .horizontal-line::after {
   content: ' ';
@@ -445,4 +525,23 @@ height: 45px;*/
 }
 .full-width {
   width: 100%;
+}
+.flex-row-container {
+  background: $white;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  margin-top: 24px;
+}
+.flex-row-container > .flex-row-item1 {
+  flex-grow: 1;
+  flex: 1 1 25%;
+}
+.flex-row-container > .flex-row-item2 {
+  flex-grow: 1;
+  flex: 1 1 35%;
+}
+.flex-row-item {
+  background: $white;
 }

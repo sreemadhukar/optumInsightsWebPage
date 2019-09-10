@@ -75,7 +75,7 @@ export class PatientCareOpportunityComponent implements OnInit {
     );
     this.pcorSharedService.getQualityMeasureData().then(qdata => {
       this.qualityMeasureData = JSON.parse(JSON.stringify(qdata));
-      // console.log(this.qualityMeasureData);
+      console.log(this.qualityMeasureData);
     });
   }
 }
