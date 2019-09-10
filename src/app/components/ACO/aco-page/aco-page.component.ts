@@ -9,6 +9,7 @@ import { AcoSharedService } from '../../../shared/ACO/aco-shared.service';
 })
 export class AcoPageComponent implements OnInit, OnDestroy {
   loading = true;
+  public acoPageData: Array<object>;
   public pageTitle: any;
   public pageSubTitle = 'Your ACO Insights at a glance.';
   constructor(
@@ -23,7 +24,8 @@ export class AcoPageComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.acoEventEmitter.emitEvent(true);
     this.acoSharedService.acoData().then(data => {
-      console.log(data);
+      this.acoPageData = JSON.parse(JSON.stringify(data));
+      console.log(this.acoPageData);
     });
   }
   ngOnDestroy(): void {

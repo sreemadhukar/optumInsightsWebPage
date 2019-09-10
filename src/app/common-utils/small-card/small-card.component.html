@@ -5,11 +5,23 @@
       [title]="data.title"
       (helpIconClicked)="helpIconClick($event)"
     ></app-common-header>
+    <div class="card-size" *ngIf="data.type == 'textWithLabel' && data.data != null">
+      <div class="centernumber">{{ data.data.centerNumber }}</div>
+      <div class="label">{{ data.data.labels }}</div>
+      <div class="btmLabel">{{ data.bottomData.labels }}</div>
+    </div>
     <div
       *ngIf="data.type == 'donut' && data.data != null"
       [ngClass]="data.sdata != null ? 'chart-details-donut' : 'full-width'"
     >
       <app-donut-chart [donutType]="'small-card'" [chartOptions]="data.data"></app-donut-chart>
+    </div>
+    <div
+      *ngIf="data.type == 'donutWithLabel' && data.data != null"
+      [ngClass]="data.sdata != null ? 'chart-details-donut' : 'full-width'"
+    >
+      <app-donut-chart [donutType]="'small-card'" [chartOptions]="data.data"></app-donut-chart>
+      <div class="sideLabel">{{ data.data.sdata.label }}</div>
     </div>
     <div *ngIf="data.type == 'star' && data.data != null" class="chart-details small-star-chart">
       <app-star-chart [starType]="'small-card'" [chartOptions]="data.data"></app-star-chart>

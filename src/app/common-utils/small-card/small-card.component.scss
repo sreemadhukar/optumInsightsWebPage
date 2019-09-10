@@ -98,6 +98,43 @@
         display: flex;
       }
     }
+    .sideLabel {
+      color: #757588;
+      display: flex;
+      margin: 50px 0 0 13px;
+      font-family: 'UHCSans-Medium';
+      font-size: 14px;
+      letter-spacing: 0.2px;
+      line-height: 18px;
+      text-align: center;
+    }
+    .card-size {
+      height: 200px;
+      .centernumber {
+        color: #2d2d39;
+        font-family: 'UHCSans-Semibold';
+        font-size: 36px;
+        letter-spacing: -0.92px;
+        line-height: 43px;
+        text-align: center;
+      }
+      .label {
+        color: #757588;
+        font-family: 'UHCSans-Medium';
+        font-size: 16px;
+        letter-spacing: 0.2px;
+        line-height: 22px;
+        text-align: center;
+      }
+      .btmLabel {
+        color: #21b01e;
+        font-family: 'UHCSans-Medium';
+        font-size: 14px;
+        line-height: 18px;
+        text-align: center;
+        margin-top: 16px;
+      }
+    }
   }
   .print-card-inner {
     box-shadow: none;
