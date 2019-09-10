@@ -188,12 +188,16 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     if (JSON.parse(sessionStorage.getItem('loggedUser'))) {
       let userRole;
       userRole = JSON.parse(sessionStorage.getItem('loggedUser')).UserRole;
+      let userRoleAdvocate = false;
       userRole.forEach(item => {
         if (item.includes('UHCI_Advocate')) {
-          this.navCategories[0].path = '/OverviewPageAdvocate';
+          userRoleAdvocate = true;
           return true;
         }
       });
+      if (userRoleAdvocate) {
+        this.navCategories[0].path = '/OverviewPageAdvocate';
+      }
     }
 
     this.AcoFlag = false;
