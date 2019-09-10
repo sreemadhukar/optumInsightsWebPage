@@ -132,7 +132,8 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
         this.healthSystemName = this.sessionService.getHealthCareOrgName();
         this.checkPA();
         if (event.url === '/CareDelivery/PatientCareOpportunity' && !this.PCORFlag) {
-          this.zone.run(() => this.router.navigateByUrl('/OverviewPage')).then();
+          // this.zone.run(() => this.router.navigateByUrl('/OverviewPage')).then();
+          this.router.navigateByUrl('/OverviewPage');
           this.togglePanels(false, NaN);
         }
         this.makeAbsolute = !(
@@ -256,7 +257,8 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
           );
           this.PCORFlag = data;
           if (this.location.path() === '/CareDelivery/PatientCareOpportunity') {
-            this.zone.run(() => this.router.navigateByUrl('/OverviewPage')).then();
+            // this.zone.run(() => this.router.navigateByUrl('/OverviewPage')).then();
+            this.router.navigateByUrl('/OverviewPage');
             this.togglePanels(false, NaN);
           }
         }
