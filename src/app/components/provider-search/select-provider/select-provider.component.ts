@@ -139,10 +139,19 @@ export class SelectProviderComponent implements OnInit {
     } else {
       this.storage.store('currentUser', [Object.assign(provider, data)]);
     }
-    let userRole;
-    userRole = JSON.parse(sessionStorage.getItem('loggedUser'));
-    if (userRole.UserRole.includes('UHCI_Advocate_Dev')) {
-      this.router.navigate(['/OverviewPageAdvocate']);
+
+    if (JSON.parse(sessionStorage.getItem('loggedUser'))) {
+      let userRole;
+      userRole = JSON.parse(sessionStorage.getItem('loggedUser')).UserRole;
+      if (
+        userRole.includes('UHCI_Advocate_Dev') ||
+        userRole.includes('UHCI_Advocate') ||
+        userRole.includes('UHCI_Advocate_Test')
+      ) {
+        this.router.navigate(['/OverviewPageAdvocate']);
+      } else {
+        this.router.navigate(['/OverviewPage']);
+      }
     } else {
       this.router.navigate(['/OverviewPage']);
     }
