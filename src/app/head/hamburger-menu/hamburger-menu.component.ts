@@ -131,11 +131,12 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
       if (event instanceof NavigationStart) {
         this.healthSystemName = this.sessionService.getHealthCareOrgName();
         this.checkPA();
-        if (event.url === '/CareDelivery/PatientCareOpportunity' && !this.PCORFlag) {
-          // this.zone.run(() => this.router.navigateByUrl('/OverviewPage')).then();
-          this.router.navigateByUrl('/OverviewPage');
-          this.togglePanels(false, NaN);
-        }
+        this.checkPCOR().then(data => {
+          if (event.url === '/CareDelivery/PatientCareOpportunity' && data) {
+            this.router.navigateByUrl('/OverviewPage');
+            this.togglePanels(false, NaN);
+          }
+        });
         this.makeAbsolute = !(
           authService.isLoggedIn() &&
           !(
@@ -264,6 +265,16 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
         }
       }
     });
+  }
+  checkPCOR() {
+    return Promise.resolve(
+      (() => {
+        // code here
+        this.priorAuthShared.getPCORData().then(data => {
+          return data;
+        });
+      })()
+    );
   }
   ngOnDestroy() {
     this.clickHelpIcon.unsubscribe();
