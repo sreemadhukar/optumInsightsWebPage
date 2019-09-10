@@ -139,7 +139,13 @@ export class SelectProviderComponent implements OnInit {
     } else {
       this.storage.store('currentUser', [Object.assign(provider, data)]);
     }
-    this.router.navigate(['/OverviewPage']);
+    let userRole;
+    userRole = JSON.parse(sessionStorage.getItem('loggedUser'));
+    if (userRole.UserRole.includes('UHCI_Advocate_Dev')) {
+      this.router.navigate(['/OverviewPageAdvocate']);
+    } else {
+      this.router.navigate(['/OverviewPage']);
+    }
   }
 
   private _filterStates(value: string): Providers[] {
