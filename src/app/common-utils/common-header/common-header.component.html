@@ -4,6 +4,7 @@
   </div>
   <div
     class="header-title"
+    [class.nps-header]="options && options.npsHeader"
     [class.title-width]="title === 'Medicare & Retirement Annual Care Visits Completion Rate'"
     [class.title-padding]="title === 'Top Reasons for Prior Authorizations Not Approved'"
     [class.common-header]="cardType === 'error-card'"
