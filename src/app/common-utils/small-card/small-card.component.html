@@ -6,6 +6,14 @@
       [options]="options"
       (helpIconClicked)="helpIconClick($event)"
     ></app-common-header>
+    <div class="card-size" *ngIf="data.type == 'bar' && data.fdata != null">
+      <div class="bar-graph">
+        <div class="title">PCP</div>
+        <app-mini-bar-chart class="bar-chart" [chartOptions]="data.fdata"></app-mini-bar-chart>
+        <div class="title1">Speclialist</div>
+      </div>
+      <div class="side-label">MPT Not Defined</div>
+    </div>
     <div class="card-size" *ngIf="data.type == 'textWithLabel' && data.data != null">
       <div class="centernumber">{{ data.data.centerNumber }}</div>
       <div class="label">{{ data.data.labels }}</div>

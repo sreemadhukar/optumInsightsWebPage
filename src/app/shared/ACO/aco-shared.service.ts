@@ -47,7 +47,17 @@ export class AcoSharedService {
             ratioPCP = {
               category: 'app-small-card',
               type: 'bar',
-              title: 'Ratio of PCP to Specialist Office Visits'
+              title: 'Ratio of PCP to Specialist Office Visits',
+              fdata: {
+                type: 'bar chart',
+                graphValues: [
+                  data.LineOfBusiness[this.lob].ratioPCPtoSpecOV.Target,
+                  data.LineOfBusiness[this.lob].ratioPCPtoSpecOV.Actual
+                ],
+                color: ['#003DA1', '#FFFFFF', '#00B8CC'],
+                gdata: ['bar-chart', 'ratiopcp']
+              },
+              timeperiod: 'Rolling 30 Days'
             };
             rxGeneric = {
               category: 'app-small-card',
@@ -84,7 +94,16 @@ export class AcoSharedService {
             ratioPCP = {
               category: 'app-small-card',
               type: 'bar',
-              title: 'Ratio of PCP to Specialist Office Visits'
+              title: 'Ratio of PCP to Specialist Office Visits',
+              fdata: {
+                type: 'bar chart',
+                graphValues: [
+                  data.LineOfBusiness[this.lob].ratioPCPtoSpecOV.Target,
+                  data.LineOfBusiness[this.lob].ratioPCPtoSpecOV.Actual
+                ],
+                color: ['#003DA1', '#FFFFFF', '#00B8CC'],
+                gdata: ['small-card-structure', 'ratiopcp']
+              }
             };
             rxGeneric = {
               category: 'app-small-card',

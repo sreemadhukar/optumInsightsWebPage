@@ -69,6 +69,6 @@ export const environment: any = {
   storagePrefix: '',
   errorMessage: 'empty',
   clickStreamUrl: '//assets.adobedtm.com/launch-ENacdc6d1acf734bcd95703e446bd1de1d-development.min.js',
-  internalAccess: false,
+  internalAccess: true,
   toggleTrendingSummary: false
 };

@@ -107,6 +107,36 @@
       line-height: 18px;
       text-align: center;
     }
+    .side-label {
+      color: #757588;
+      font-family: 'UHCSans-Medium';
+      font-size: 14px;
+      letter-spacing: 0.2px;
+      line-height: 18px;
+      text-align: left;
+      margin-left: 53px;
+    }
+    .bar-graph {
+      display: flex;
+      float: left;
+      margin: 0 16px;
+      .bar-chart {
+        width: 180px;
+        margin-left: -10px;
+      }
+      .title {
+        color: #2d2d39;
+        font-family: 'UHCSans-Medium';
+        font-size: 16px;
+        letter-spacing: 0.2px;
+        line-height: 40px;
+        text-align: right;
+      }
+      .title1 {
+        @extend .title;
+        margin-left: 5px;
+      }
+    }
     .card-size {
       height: 200px;
       .centernumber {

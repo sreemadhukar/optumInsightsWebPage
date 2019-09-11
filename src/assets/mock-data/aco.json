@@ -32,7 +32,7 @@
         "Actual": 11220.11879730964
       },
       "ratioPCPtoSpecOV": {
-        "Target": "N/A",
+        "Target": 1,
         "Actual": 1.32
       },
       "RxGenericCompliance": {

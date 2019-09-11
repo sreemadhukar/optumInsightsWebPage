@@ -25,7 +25,6 @@ export class AcoPageComponent implements OnInit, OnDestroy {
     this.acoEventEmitter.emitEvent(true);
     this.acoSharedService.acoData().then(data => {
       this.acoPageData = JSON.parse(JSON.stringify(data));
-      console.log(this.acoPageData);
     });
   }
   ngOnDestroy(): void {
