@@ -22,6 +22,7 @@ export class AcoSharedService {
 
   public acoData() {
     let acoSummary: object;
+    let rxScripts: object;
     let acoPage: Array<object>;
     return new Promise(resolve => {
       this.acoservice.getAcoData().subscribe(data => {
@@ -41,8 +42,18 @@ export class AcoSharedService {
             },
             timeperiod: 'Rolling 30 Days'
           };
+          rxScripts = {
+            category: 'app-card',
+            type: 'barActualTargetNumbers',
+            title: 'Rx Script',
+            data: {
+              actual: data.LineOfBusiness[this.lob].RxScriptsPer1000.Actual.toFixed(2),
+              target: data.LineOfBusiness[this.lob].RxScriptsPer1000.Target.toFixed(2)
+            },
+            timeperiod: 'Rolling 30 Days'
+          };
         }
-        acoPage = [acoSummary];
+        acoPage = [acoSummary, rxScripts];
         resolve(acoPage);
       });
     });

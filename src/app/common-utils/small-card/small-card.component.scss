@@ -10,7 +10,6 @@
     font-size: 30px;
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
     border-radius: 2px;
-
     .chart-details-donut {
       /*width: 50%;
       float: left;
@@ -33,7 +32,6 @@
       /*padding: 10% 0;*/
       display: flex;
       margin-top: 48px;
-
       .trend-value {
         font-size: 14px;
         letter-spacing: 0.2px;
@@ -44,7 +42,6 @@
         margin-left: 8px;
         margin-top: 7px;
       }
-
       .trend {
         position: relative;
         display: block;
@@ -55,7 +52,6 @@
         -webkit-border-radius: 50%;
         overflow: hidden;
       }
-
       .down {
         background-color: color(red, light);
       }
@@ -65,7 +61,6 @@
       .up {
         background-color: color(green, light);
       }
-
       .trend-image {
         position: absolute;
         height: 20px;
@@ -82,7 +77,6 @@
       .trend-image-neutral {
         background-color: $gainsboro;
       }
-
       .trend-value-down {
         color: color(red, dark);
       }
@@ -92,7 +86,6 @@
       .trend-value-up {
         color: $brand-green-hover;
       }
-
       .flex-box {
         display: flex;
       }
@@ -179,9 +172,11 @@
   //   }
   // }
 }
+
 .small-card-structure.nps {
   margin-left: -10px;
 }
+
 .small-card-footer {
   .common-footer {
     /*position: absolute;
@@ -200,21 +195,17 @@
     }
   }
 }
+
 .card-skeleton-small-card:empty {
   margin: auto;
   width: 304px;
   height: 237px;
-
   background-image: radial-gradient(circle 50px at 50px 50px, lightgray 99%, transparent 0),
     linear-gradient(100deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.5) 50%, rgba(255, 255, 255, 0) 80%),
     linear-gradient(lightgray 20px, transparent 0), linear-gradient(lightgray 20px, transparent 0);
-
   background-repeat: no-repeat;
-
   background-size: 100px 200px, /* circle */ 20px 304px, /* highlight */ 150px 200px, 150px 200px;
-
   background-position: 10px 75px, /* circle */ 0 0, /* highlight */ 120px 100px, 120px 137.5px;
-
   animation: shine-small-card 1s infinite;
 }
 
@@ -222,4 +213,45 @@
   to {
     background-position: 10px 75px, 100% 0, /* move highlight to right */ 120px 100px, 120px 137.5px;
   }
+}
+
+// Aco cards - Target and actuals
+.target-actual-card {
+  font-family: 'UHCSans-Medium';
+  color: #2d2d39;
+  font-size: 16px;
+  letter-spacing: 0.2px;
+  line-height: 22px;
+  padding: 16px;
+}
+
+.target-div-padding {
+  padding-top: 30px;
+}
+
+.actual-div-padding {
+  padding-top: 19px;
+  padding-bottom: 16px;
+}
+
+.target-actual-div {
+  width: 100%;
+  display: flex;
+}
+
+.target-actual-bar-div {
+  height: 16px;
+  width: 151px;
+  padding-left: 8px;
+  padding-right: 8px;
+  padding-top: 3px;
+  padding-bottom: 3px;
+}
+
+.target-actual-bar {
+  height: 16px;
+  width: 100%;
+  margin: 0;
+  border-radius: 2px;
+  background-color: #003da1;
 }

@@ -80,7 +80,24 @@
         </div>
       </div>
     </div>
-    <div *ngIf="data.timeperiod" class="full-display-block">
+
+    <div *ngIf="data.type == 'barActualTargetNumbers' && data.data != null" class="target-actual-card">
+      <div class="target-actual-div target-div-padding">
+        <label>Target</label>
+        <div class="target-actual-bar-div" id="targetbardiv">
+          <div class="target-actual-bar target-bar" id="targetbar"></div>
+        </div>
+        <label>{{ this.data.data.target }}</label>
+      </div>
+      <div class="target-actual-div actual-div-padding">
+        <label>Actual</label>
+        <div class="target-actual-bar-div" id="actualbardiv">
+          <div class="target-actual-bar actual-bar" id="actualbar"></div>
+        </div>
+        <label>{{ this.data.data.actual }}</label>
+      </div>
+    </div>
+    <div *ngIf="!data.timeperiod" class="full-display-block">
       <app-common-footer [timePeriod]="data.timeperiod"></app-common-footer>
     </div>
   </div>
