@@ -38,7 +38,7 @@ import { environment } from '../../../environments/environment';
 import { EventEmitterService } from 'src/app/shared/know-our-provider/event-emitter.service';
 import { SessionService } from '../../shared/session.service';
 import { AcoEventEmitterService } from '../../shared/ACO/aco-event-emitter.service';
-
+import { FilterCloseService } from './../../shared/filters/filter-close.service';
 @Component({
   selector: 'app-hamburger-menu',
   templateUrl: './hamburger-menu.component.html',
@@ -64,6 +64,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
   public filterurl: string = null;
   clickHelpIcon: Subscription;
   clickFilterIcon: Subscription;
+  filterClose: Subscription;
   public mobileQuery: boolean;
   public PCORFlag: any;
   public healthSystemName: string;
@@ -113,6 +114,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     private checkStorage: StorageService,
     private glossaryExpandService: GlossaryExpandService,
     private filterExpandService: FilterExpandService,
+    private filterCloseService: FilterCloseService,
     private priorAuthShared: PriorAuthSharedService,
     private location: Location,
     private sessionService: SessionService,
@@ -137,6 +139,21 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
             event.url.indexOf('/login') >= 0
           )
         );
+        /*
+        for login, providerSearch screen , filters has no role to play, so for them Filters should be close,
+         we are calling it explicity because suppose user clicks on Filter and filter drawer opens up, now logout
+         occures, user will land to the login screen with filter drawer opened, so that is the issue,
+         To tackle that we have service which we imported at app.component so when user's timesout it will publish the
+         the value, which we subscribed using Subject 'filterClose'.
+
+         For consider any further cases , i have writter following if condition as well.
+         */
+
+        if (this.makeAbsolute) {
+          console.log('filter not visible');
+          this.closeGlossary();
+          this.filterFlagChange(false);
+        }
         this.bgWhite = !(authService.isLoggedIn() && !event.url.includes('print-'));
         this.showPrintHeader = event.url.includes('print-');
         this.loading = true;
@@ -219,6 +236,24 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
         this.checkPA();
       }
     });
+    /*
+        for login page filters has no role to play, so for them Filters should be close,
+         we are calling it explicity because suppose user clicks on Filter and filter drawer opens up, now logout
+         occures, user will land to the login screen with filter drawer opened, so that is the issue,
+         To tackle that we have service which we imported at app.component so when user's timesout it will publish the
+         the value, which we subscribed using Subject 'filterClose'.
+    */
+    this.filterClose = this.filterCloseService.filterClose.subscribe(
+      boolData => {
+        console.log('Filter closed subscription');
+        this.closeGlossary();
+        this.filterFlagChange(boolData);
+      },
+      err => {
+        console.log('Error, filterclose on timeout , inside Hamburger', err);
+      }
+    );
+
     this.clickHelpIcon = this.glossaryExpandService.message.subscribe(
       data => {
         this.glossaryFlag = true;
