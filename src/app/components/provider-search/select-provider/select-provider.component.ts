@@ -149,6 +149,8 @@ export class SelectProviderComponent implements OnInit {
         userRoleAdvocate = userRole.some(item => item.includes('UHCI_Advocate'));
         if (!userRoleAdvocate) {
           this.router.navigate(['/OverviewPage']);
+        } else {
+          this.router.navigate(['/OverviewPageAdvocate']);
         }
       }
     } catch (Error) {
