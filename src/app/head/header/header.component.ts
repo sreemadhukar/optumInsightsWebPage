@@ -62,6 +62,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   public mobileQuery: boolean;
   public menuIcon = 'menu';
   public username = '';
+  public advDropdownBool = false;
   subscription: Subscription;
 
   constructor(
@@ -118,6 +119,16 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.ngOnInit());
   }
 
+  advocateUserClick() {
+    this.advDropdownBool = !this.advDropdownBool;
+  }
+  advViewClicked(value: string) {
+    if (value === 'myView') {
+      this.router.navigate(['/OverviewPageAdvocate']);
+    } else if (value === 'userView') {
+      this.router.navigate(['/OverviewPage']);
+    }
+  }
   ngOnInit() {
     this.isDarkTheme = this.themeService.isDarkTheme;
     this.eventEmitter.getEvent().subscribe(val => {
