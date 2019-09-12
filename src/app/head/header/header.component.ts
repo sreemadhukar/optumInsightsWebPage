@@ -119,8 +119,27 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.ngOnInit());
   }
 
+  advocateRole(): boolean {
+    try {
+      if (JSON.parse(sessionStorage.getItem('loggedUser'))) {
+        let userRole;
+        userRole = JSON.parse(sessionStorage.getItem('loggedUser')).UserRole;
+        let userRoleAdvocate = false;
+        userRoleAdvocate = userRole.some(item => item.includes('UHCI_Advocate'));
+        return userRoleAdvocate;
+      } else {
+        return false;
+      }
+    } catch (Error) {
+      return false;
+    }
+  }
   advocateUserClick() {
-    this.advDropdownBool = !this.advDropdownBool;
+    if (this.advocateRole()) {
+      this.advDropdownBool = !this.advDropdownBool;
+    } else {
+      this.advDropdownBool = false;
+    }
   }
   advViewClicked(value: string) {
     if (value === 'myView') {
