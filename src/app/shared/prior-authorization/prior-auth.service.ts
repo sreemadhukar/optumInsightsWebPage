@@ -395,13 +395,13 @@ export class PriorAuthSharedService {
         .subscribe(providerSystems => {
           let PACount = [];
           let PriorAuthBarGraphParameters = [];
+          let PANotApprovedReasonBool;
           if (
             providerSystems.PriorAuthorizations !== null &&
             providerSystems.hasOwnProperty('PriorAuthorizations') &&
             providerSystems.PriorAuthorizations.hasOwnProperty('LineOfBusiness')
           ) {
             let data;
-            console.log(providerSystems);
             // const data = providerSystems.PriorAuthorizations.LineOfBusiness.All;
             if (lobString === 'allLob' && !isServiceCategory) {
               data = providerSystems.PriorAuthorizations.LineOfBusiness.All;
@@ -450,6 +450,7 @@ export class PriorAuthSharedService {
 
             const PARequestedCount = PAApprovedCount + PANotApprovedCount;
             const PAApprovalRate = PAApprovedCount / PARequestedCount;
+            PANotApprovedReasonBool = PAApprovalRate === 1;
 
             let StandardTATConversion;
             let UrgentTATConversion;
@@ -591,8 +592,9 @@ export class PriorAuthSharedService {
                 timeperiod: timePeriod
               });
             }
-          } else if (isServiceCategory) {
+          } else if (isServiceCategory || PANotApprovedReasonBool) {
             // Hide reasons for service category
+            // Also hide reasons if its a 100 percent approval rate
             PriorAuthBarGraphParameters = [
               {
                 data: null

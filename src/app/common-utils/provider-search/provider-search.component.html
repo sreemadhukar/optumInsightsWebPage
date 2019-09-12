@@ -7,7 +7,7 @@
     <h2 mat-dialog-title>{{ containreLabel }}</h2>
   </div>
   <mat-dialog-content>
-    <form class="provider-search-form">
+    <form class="provider-search-form" *ngIf="filteredStates">
       <mat-form-field appearance="outline">
         <mat-label>Search Providers</mat-label>
         <input matInput [matAutocomplete]="auto" [formControl]="stateCtrl" id="test" />
