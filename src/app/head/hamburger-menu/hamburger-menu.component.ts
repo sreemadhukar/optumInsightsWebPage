@@ -140,6 +140,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
         this.bgWhite = !(authService.isLoggedIn() && !event.url.includes('print-'));
         this.showPrintHeader = event.url.includes('print-');
         this.loading = true;
+        // Role based access for Advocates Overview page
         this.advocateRole();
         const heac = JSON.parse(sessionStorage.getItem('heac'));
         if (event.url === '/KnowOurProvider' && !heac.heac) {
@@ -201,10 +202,8 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
         }
       }
     } catch (Error) {}
-    console.log('hamburger', this.navCategories[0]);
   }
   ngOnInit() {
-    // Role based access for Advocates Overview page
     this.AcoFlag = false;
     this.isKop = false;
     this.loading = false;
