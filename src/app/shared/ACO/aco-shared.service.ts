@@ -6,7 +6,7 @@ import { SessionService } from '../session.service';
 import { AuthorizationService } from '../../auth/_service/authorization.service';
 import { GlossaryMetricidService } from '../glossary-metricid.service';
 import { of } from 'rxjs';
-import { environment } from '../../../environments/environment.stage';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -50,6 +50,7 @@ export class AcoSharedService {
               title: 'Ratio of PCP to Specialist Office Visits',
               fdata: {
                 type: 'bar chart',
+                page: 'ACO',
                 graphValues: [
                   data.LineOfBusiness[this.lob].ratioPCPtoSpecOV.Target,
                   data.LineOfBusiness[this.lob].ratioPCPtoSpecOV.Actual
