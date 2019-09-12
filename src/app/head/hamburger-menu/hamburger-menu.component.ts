@@ -140,6 +140,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
         this.bgWhite = !(authService.isLoggedIn() && !event.url.includes('print-'));
         this.showPrintHeader = event.url.includes('print-');
         this.loading = true;
+        this.advocateRole();
         const heac = JSON.parse(sessionStorage.getItem('heac'));
         if (event.url === '/KnowOurProvider' && !heac.heac) {
           router.navigate(['/ProviderSearch']);
@@ -183,8 +184,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     );
   }
 
-  ngOnInit() {
-    // Role based access for Advocates Overview page
+  advocateRole() {
     try {
       if (JSON.parse(sessionStorage.getItem('loggedUser'))) {
         let userRole;
@@ -193,7 +193,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
         userRole.forEach(item => {
           if (item.includes('UHCI_Advocate')) {
             userRoleAdvocate = true;
-            return true;
+            return;
           }
         });
         if (userRoleAdvocate) {
@@ -201,7 +201,10 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
         }
       }
     } catch (Error) {}
-
+    console.log('hamburger', this.navCategories[0]);
+  }
+  ngOnInit() {
+    // Role based access for Advocates Overview page
     this.AcoFlag = false;
     this.isKop = false;
     this.loading = false;
