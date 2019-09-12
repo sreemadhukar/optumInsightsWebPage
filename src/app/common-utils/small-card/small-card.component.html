@@ -6,6 +6,22 @@
       [options]="options"
       (helpIconClicked)="helpIconClick($event)"
     ></app-common-header>
+    <div class="card-size" *ngIf="data.type == 'bar' && data.fdata != null">
+      <div class="bar-graph">
+        <div class="title">PCP</div>
+        <app-mini-bar-chart class="bar-chart" [chartOptions]="data.fdata"></app-mini-bar-chart>
+        <div class="title1">Speclialist</div>
+      </div>
+      <div class="side-label">MPT Not Defined</div>
+    </div>
+    <div class="card-size" *ngIf="data.type == 'textWithLabel' && data.data != null">
+      <div class="centernumber">{{ data.data.centerNumber }}</div>
+      <div class="label">{{ data.data.labels }}</div>
+      <div class="btmLabel">
+        <mat-icon class="tick-icon" svgIcon="tick"></mat-icon>
+        <div class="label">{{ data.bottomData.labels }}</div>
+      </div>
+    </div>
 
     <div *ngIf="data.quarter" class="cards-display-block">
       <div
@@ -26,6 +42,13 @@
       [ngClass]="data.sdata != null ? 'chart-details-donut' : 'full-width'"
     >
       <app-donut-chart [donutType]="'small-card'" [chartOptions]="data.data"></app-donut-chart>
+    </div>
+    <div
+      *ngIf="data.type == 'donutWithLabel' && data.data != null"
+      [ngClass]="data.sdata != null ? 'chart-details-donut' : 'full-width'"
+    >
+      <app-donut-chart [donutType]="'small-card'" [chartOptions]="data.data"></app-donut-chart>
+      <div class="sideLabel">{{ data.data.sdata.label }}</div>
     </div>
     <div *ngIf="data.type == 'star' && data.data != null" class="chart-details small-star-chart">
       <app-star-chart [starType]="'small-card'" [chartOptions]="data.data"></app-star-chart>

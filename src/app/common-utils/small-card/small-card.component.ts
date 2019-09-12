@@ -44,6 +44,10 @@ export class SmallCardComponent implements OnInit {
       'help',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-help_outline-24px.svg')
     );
+    iconRegistry.addSvgIcon(
+      'tick',
+      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/round-tick.svg')
+    );
   }
 
   helpIconClick(title) {

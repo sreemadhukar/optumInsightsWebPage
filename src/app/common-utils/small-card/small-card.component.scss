@@ -90,6 +90,81 @@
         display: flex;
       }
     }
+    .sideLabel {
+      color: #757588;
+      display: flex;
+      margin: 50px 0 0 13px;
+      font-family: 'UHCSans-Medium';
+      font-size: 14px;
+      letter-spacing: 0.2px;
+      line-height: 18px;
+      text-align: center;
+    }
+    .side-label {
+      color: #757588;
+      font-family: 'UHCSans-Medium';
+      font-size: 14px;
+      letter-spacing: 0.2px;
+      line-height: 18px;
+      text-align: left;
+      margin-left: 53px;
+    }
+    .bar-graph {
+      display: flex;
+      float: left;
+      margin: 0 16px;
+      .bar-chart {
+        width: 180px;
+        margin-left: -10px;
+      }
+      .title {
+        color: #2d2d39;
+        font-family: 'UHCSans-Medium';
+        font-size: 16px;
+        letter-spacing: 0.2px;
+        line-height: 40px;
+        text-align: right;
+      }
+      .title1 {
+        @extend .title;
+        margin-left: 5px;
+      }
+    }
+    .card-size {
+      height: 200px;
+      .centernumber {
+        color: #2d2d39;
+        font-family: 'UHCSans-Semibold';
+        font-size: 36px;
+        letter-spacing: -0.92px;
+        line-height: 43px;
+        text-align: center;
+      }
+      .label {
+        color: #757588;
+        font-family: 'UHCSans-Medium';
+        font-size: 16px;
+        letter-spacing: 0.2px;
+        line-height: 22px;
+        text-align: center;
+      }
+      .btmLabel {
+        line-height: 0;
+        margin-top: 16px;
+        display: flex;
+        margin-left: 49px;
+        .tick-icon {
+          height: 20px;
+        }
+        .label {
+          color: #21b01e;
+          font-family: 'UHCSans-Medium';
+          font-size: 14px;
+          text-align: center;
+          margin-left: 5px;
+        }
+      }
+    }
     .trend-details.trend-nps {
       margin: 0;
       padding: 10px 0;
