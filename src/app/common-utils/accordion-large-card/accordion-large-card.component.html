@@ -47,9 +47,9 @@
               <div class="horizontal-line">
                 <div class="accor-content-space">
                   <div
-                    [class.extra-margin-top-8]="i != 0"
+                    [class.extra-margin-bottom-24]="subsection[j]"
                     [class.bar-graphs-nohover]="item.data.barText == 0"
-                    [class.bar-graphs-content]="item.data.barText != 0"
+                    [class.bar-graphs-sub-content]="item.data.barText != 0"
                     (click)="subsection[j] = !subsection[j]; subItemsCollapose(j)"
                   >
                     <div class="sub-item-content">
@@ -68,102 +68,104 @@
                         </div>
                       </div>
                     </div>
-                  </div>
 
-                  <div class="bar-graph-inside-right-block">
-                    <div class="stars-count-div">
-                      <div class="no-stars-count" *ngIf="qualityStarCount == 1">
-                        <i class="star-blue"></i>
-                        <i class="star-grey"></i>
-                        <i class="star-grey"></i>
-                        <i class="star-grey"></i>
-                        <i class="star-grey"></i>
+                    <div class="bar-graph-inside-right-block">
+                      <div class="stars-count-div">
+                        <div class="no-stars-count" *ngIf="qualityStarCount == 1">
+                          <i class="star-blue"></i>
+                          <i class="star-grey"></i>
+                          <i class="star-grey"></i>
+                          <i class="star-grey"></i>
+                          <i class="star-grey"></i>
+                        </div>
+
+                        <div class="no-stars-count" *ngIf="qualityStarCount == 2">
+                          <i class="star-blue"></i>
+                          <i class="star-blue"></i>
+                          <i class="star-grey"></i>
+                          <i class="star-grey"></i>
+                          <i class="star-grey"></i>
+                        </div>
+
+                        <div class="no-stars-count" *ngIf="qualityStarCount == 3">
+                          <i class="star-blue"></i>
+                          <i class="star-blue"></i>
+                          <i class="star-blue"></i>
+                          <i class="star-grey"></i>
+                          <i class="star-grey"></i>
+                        </div>
+
+                        <div class="no-stars-count" *ngIf="qualityStarCount == 4">
+                          <i class="star-blue"></i>
+                          <i class="star-blue"></i>
+                          <i class="star-blue"></i>
+                          <i class="star-blue"></i>
+                          <i class="star-grey"></i>
+                        </div>
+
+                        <div class="no-stars-count" *ngIf="qualityStarCount == 5">
+                          <i class="star-blue"></i>
+                          <i class="star-blue"></i>
+                          <i class="star-blue"></i>
+                          <i class="star-blue"></i>
+                          <i class="star-blue"></i>
+                        </div>
+                        <div class="cms-weight-div">
+                          <div class="cms-weight-style">CMS Weight:</div>
+                          <div class="cms-number verticalLine">{{ listitem.CMSWeight }}</div>
+                          <div class="cms-weight-style">CMS Weighted Quality Rating:</div>
+                          <div class="cms-number">{{ listitem.CMSWeightQualityRating }}</div>
+                        </div>
                       </div>
 
-                      <div class="no-stars-count" *ngIf="qualityStarCount == 2">
-                        <i class="star-blue"></i>
-                        <i class="star-blue"></i>
-                        <i class="star-grey"></i>
-                        <i class="star-grey"></i>
-                        <i class="star-grey"></i>
-                      </div>
-
-                      <div class="no-stars-count" *ngIf="qualityStarCount == 3">
-                        <i class="star-blue"></i>
-                        <i class="star-blue"></i>
-                        <i class="star-blue"></i>
-                        <i class="star-grey"></i>
-                        <i class="star-grey"></i>
-                      </div>
-
-                      <div class="no-stars-count" *ngIf="qualityStarCount == 4">
-                        <i class="star-blue"></i>
-                        <i class="star-blue"></i>
-                        <i class="star-blue"></i>
-                        <i class="star-blue"></i>
-                        <i class="star-grey"></i>
-                      </div>
-
-                      <div class="no-stars-count" *ngIf="qualityStarCount == 5">
-                        <i class="star-blue"></i>
-                        <i class="star-blue"></i>
-                        <i class="star-blue"></i>
-                        <i class="star-blue"></i>
-                        <i class="star-blue"></i>
-                      </div>
-                      <div class="cms-weight-div">
-                        <div class="cms-weight-style">CMS Weight:</div>
-                        <div class="cms-number verticalLine">{{ listitem.CMSWeight }}</div>
-                        <div class="cms-weight-style">CMS Weighted Quality Rating:</div>
-                        <div class="cms-number">{{ listitem.CMSWeightQualityRating }}</div>
+                      <div class="description-content">
+                        <span class="measure-desc">Measure Description:</span>
+                        <span class="measure-content">{{ listitem.Description }}</span>
                       </div>
                     </div>
+                  </div>
+                  <div class="sub-accor-content" *ngIf="subsection[j]">
+                    <!-- sub accordion-->
+                    <div class="flex-row-container">
+                      <div class="flex-row-item1  vertical-line2 ">
+                        <h3 class="accord-sub-title">5 STAR Threshold % Target</h3>
+                        <div class="sub-accor-text1">≥ {{ listitem['5StarThresholdTarget'] }}</div>
+                      </div>
 
-                    <div class="description-content">
-                      <span class="measure-desc">Measure Description:</span>
-                      <span class="measure-content">{{ listitem.Description }}</span>
-                      <!-- sub accordion-->
-                      <div class="flex-row-container" *ngIf="subsection[j]">
-                        <div class="flex-row-item1  vertical-line2 ">
-                          <h3 class="accord-sub-title">5 STAR Threshold % Target</h3>
-                          <div class="sub-accor-text1">≥ {{ listitem['5StarThresholdTarget'] }}</div>
+                      <div class="flex-row-item2 vertical-line2 ">
+                        <h3 class="accord-sub-title sub-title-2">
+                          # of Members to Achieve 5 <br />
+                          STAR Threshold
+                        </h3>
+                        <div class="sub-accor-text2">
+                          {{ listitem.NumberMemberAchieve5StarThreshold }}
                         </div>
+                      </div>
 
-                        <div class="flex-row-item2 vertical-line2 ">
-                          <h3 class="accord-sub-title sub-title-2">
-                            # of Members to Achieve 5 <br />
-                            STAR Threshold
-                          </h3>
-                          <div class="sub-accor-text2">
-                            {{ listitem.NumberMemberAchieve5StarThreshold }}
-                          </div>
+                      <div class="flex-row-item1 height-90">
+                        <h3 class="accord-sub-title sub-title-2">Current Rate</h3>
+                        <div class="sub-last-text">
+                          {{ currentRateCalc }}
+                          <!-- {{listitem.NonCompliantMembersCount}} -->
                         </div>
+                      </div>
 
-                        <div class="flex-row-item1 height-90">
-                          <h3 class="accord-sub-title sub-title-2">Current Rate</h3>
-                          <div class="sub-last-text">
-                            {{ currentRateCalc }}
-                            <!-- {{listitem.NonCompliantMembersCount}} -->
-                          </div>
+                      <div class="flex-row-item1  vertical-line2 mt-47">
+                        <h3 class="accord-sub-title">Eligible Members</h3>
+                        <div class="sub-row2-first">{{ listitem.EligibleMemberCount }}</div>
+                      </div>
+
+                      <div class="flex-row-item2 vertical-line2 mt-47">
+                        <h3 class="accord-sub-title sub-title-2">Non-compliant members</h3>
+                        <div class="sub-accor-row2">
+                          {{ listitem.NonCompliantMemberCount }}
                         </div>
+                      </div>
 
-                        <div class="flex-row-item1  vertical-line2 mt-47">
-                          <h3 class="accord-sub-title">Eligible Members</h3>
-                          <div class="sub-row2-first">{{ listitem.EligibleMemberCount }}</div>
-                        </div>
-
-                        <div class="flex-row-item2 vertical-line2 mt-47">
-                          <h3 class="accord-sub-title sub-title-2">Non-compliant members</h3>
-                          <div class="sub-accor-row2">
-                            {{ listitem.NonCompliantMemberCount }}
-                          </div>
-                        </div>
-
-                        <div class="flex-row-item1 height-90 mt-47">
-                          <h3 class="accord-sub-title sub-title-2">Compliant Members</h3>
-                          <div class="sub-accor-row2">
-                            {{ listitem.CompliantMemberCount }}
-                          </div>
+                      <div class="flex-row-item1 height-90 mt-47">
+                        <h3 class="accord-sub-title sub-title-2">Compliant Members</h3>
+                        <div class="sub-accor-row2">
+                          {{ listitem.CompliantMemberCount }}
                         </div>
                       </div>
                     </div>
