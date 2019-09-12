@@ -150,7 +150,6 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
          */
 
         if (this.makeAbsolute) {
-          console.log('filter not visible');
           this.closeGlossary();
           this.filterFlagChange(false);
         }
@@ -247,7 +246,6 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     */
     this.filterClose = this.filterCloseService.filterClose.subscribe(
       boolData => {
-        console.log('Filter closed subscription');
         this.closeGlossary();
         this.filterFlagChange(boolData);
       },
