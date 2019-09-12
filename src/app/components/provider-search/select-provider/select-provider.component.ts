@@ -146,14 +146,11 @@ export class SelectProviderComponent implements OnInit {
         let userRole;
         userRole = JSON.parse(sessionStorage.getItem('loggedUser')).UserRole;
         let userRoleAdvocate = false;
-        userRole.forEach(item => {
-          if (item.includes('UHCI_Advocate')) {
-            userRoleAdvocate = true;
-            this.router.navigate(['/OverviewPageAdvocate']);
-          }
-        });
+        userRoleAdvocate = userRole.some(item => item.includes('UHCI_Advocate'));
         if (!userRoleAdvocate) {
           this.router.navigate(['/OverviewPage']);
+        } else {
+          this.router.navigate(['/OverviewPageAdvocate']);
         }
       }
     } catch (Error) {
