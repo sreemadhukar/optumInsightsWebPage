@@ -6,7 +6,7 @@ import { FilterExpandService } from '../../../shared/filter-expand.service';
 import { CommonUtilsService } from '../../../shared/common-utils.service';
 import { SessionService } from 'src/app/shared/session.service';
 import { StorageService } from '../../../shared/storage-service.service';
-import { TopRowAdvOverviewSharedService } from '../../../shared/advocate/top-row-adv-overview.service';
+import { TopRowAdvOverviewSharedService } from '../../../shared/advocate/top-row-adv-overview-shared.service';
 
 @Component({
   selector: 'app-overview-advocate',
@@ -129,7 +129,6 @@ export class OverviewAdvocateComponent implements OnInit {
     this.topRowService
       .getPaymentShared()
       .then(paymentData => {
-        console.log(paymentData);
         this.paymentCards = JSON.parse(JSON.stringify(paymentData));
         this.paymentLoading = false;
       })

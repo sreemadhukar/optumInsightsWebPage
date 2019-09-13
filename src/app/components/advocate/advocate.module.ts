@@ -6,7 +6,7 @@ import { OverviewAdvocateComponent } from './overview-advocate/overview-advocate
 import { TopRowAdvOverviewComponent } from './top-row-adv-overview/top-row-adv-overview.component';
 import { AdvocateRoutingModule } from './advocate-routing.module';
 import { FilterAdvocateComponent } from './filter-advocate/filter-advocate.component';
-import { TopRowAdvOverviewSharedService } from '../../shared/advocate/top-row-adv-overview.service';
+import { TopRowAdvOverviewSharedService } from '../../shared/advocate/top-row-adv-overview-shared.service';
 @NgModule({
   imports: [CommonModule, AdvocateRoutingModule, CommonUtilsModule, HeadMaterialModule],
   declarations: [OverviewAdvocateComponent, TopRowAdvOverviewComponent, FilterAdvocateComponent],
