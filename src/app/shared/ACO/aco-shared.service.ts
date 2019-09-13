@@ -26,7 +26,10 @@ export class AcoSharedService {
     let rxScripts: object;
     let rxGeneric: object;
     let ratioPCP: object;
+    let acuteAdmits: object;
     let acoPage: Array<object>;
+    let acoPageKeyPerformance: Array<object>;
+    let acoPageMainCard: Array<object>;
     return new Promise(resolve => {
       this.acoservice.getAcoData().subscribe(data => {
         if (environment.internalAccess) {
@@ -41,16 +44,6 @@ export class AcoSharedService {
             bottomData: {
               labels: '4 of 5 Measures Meet MPT*',
               color: '#21B01E'
-            },
-            timeperiod: 'Rolling 30 Days'
-          };
-          rxScripts = {
-            category: 'app-card',
-            type: 'barActualTargetNumbers',
-            title: 'Rx Script',
-            data: {
-              actual: data.LineOfBusiness[this.lob].RxScriptsPer1000.Actual.toFixed(2),
-              target: data.LineOfBusiness[this.lob].RxScriptsPer1000.Target.toFixed(2)
             },
             timeperiod: 'Rolling 30 Days'
           };
@@ -84,6 +77,26 @@ export class AcoSharedService {
               sdata: {
                 label: 'MPT Not Defined'
               }
+            },
+            timeperiod: 'Rolling 30 Days'
+          };
+          rxScripts = {
+            category: 'app-card',
+            type: 'barActualTargetNumbers',
+            title: 'Rx Script',
+            data: {
+              actual: data.LineOfBusiness[this.lob].RxScriptsPer1000.Actual.toFixed(2),
+              target: data.LineOfBusiness[this.lob].RxScriptsPer1000.Target.toFixed(2)
+            },
+            timeperiod: 'Rolling 30 Days'
+          };
+          acuteAdmits = {
+            category: 'app-card',
+            type: 'barActualTargetNumbers',
+            title: 'Acute Admits',
+            data: {
+              actual: data.LineOfBusiness[this.lob].acuteAdmitsPer1000.Actual.toFixed(2),
+              target: data.LineOfBusiness[this.lob].acuteAdmitsPer1000.Target.toFixed(2)
             },
             timeperiod: 'Rolling 30 Days'
           };
@@ -132,9 +145,30 @@ export class AcoSharedService {
               }
             }
           };
+          rxScripts = {
+            category: 'app-card',
+            type: 'barActualTargetNumbers',
+            title: 'Rx Script',
+            data: {
+              actual: data.LineOfBusiness[this.lob].RxScriptsPer1000.Actual.toFixed(2),
+              target: data.LineOfBusiness[this.lob].RxScriptsPer1000.Target.toFixed(2)
+            },
+            timeperiod: 'Rolling 30 Days'
+          };
+          acuteAdmits = {
+            category: 'app-card',
+            type: 'barActualTargetNumbers',
+            title: 'Acute Admits',
+            data: {
+              actual: data.LineOfBusiness[this.lob].acuteAdmitsPer1000.Actual.toFixed(2),
+              target: data.LineOfBusiness[this.lob].acuteAdmitsPer1000.Target.toFixed(2)
+            },
+            timeperiod: 'Rolling 30 Days'
+          };
         }
-
-        acoPage = [acoSummary, ratioPCP, rxGeneric, rxScripts];
+        acoPageKeyPerformance = [acuteAdmits, rxScripts];
+        acoPageMainCard = [acoSummary, ratioPCP, rxGeneric];
+        acoPage = [acoPageMainCard, acoPageKeyPerformance];
         resolve(acoPage);
       });
     });

@@ -106,18 +106,18 @@
 
     <div *ngIf="data.type == 'barActualTargetNumbers' && data.data != null" class="target-actual-card">
       <div class="target-actual-div target-div-padding">
-        <label>Target</label>
+        <label class="target-lable">MPT</label>
         <div class="target-actual-bar-div" id="targetbardiv">
-          <div class="target-actual-bar target-bar" id="targetbar"></div>
+          <div class="target-actual-bar target-bar" [id]="'target' + index"></div>
         </div>
         <label>{{ this.data.data.target }}</label>
       </div>
       <div class="target-actual-div actual-div-padding">
         <label>Actual</label>
         <div class="target-actual-bar-div" id="actualbardiv">
-          <div class="target-actual-bar actual-bar" id="actualbar"></div>
+          <div class="target-actual-bar actual-bar" [id]="'actual' + index"></div>
         </div>
-        <label>{{ this.data.data.actual }}</label>
+        <label>{{ this.data.data.actual }}{{ id }}</label>
       </div>
     </div>
     <div *ngIf="!data.timeperiod" class="full-display-block">
