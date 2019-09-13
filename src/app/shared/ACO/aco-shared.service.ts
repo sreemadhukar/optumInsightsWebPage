@@ -111,7 +111,7 @@ export class AcoSharedService {
                 actual: data.LineOfBusiness[this.lob].nonParSpecialistReferrals.Actual.toFixed(4),
                 target: data.LineOfBusiness[this.lob].nonParSpecialistReferrals.Target.toFixed(4)
               },
-              timeperiod: 'Rolling 30 Days'
+              timeperiod: 'Contract Year to Date'
             };
           } else {
             acoSummary = {
