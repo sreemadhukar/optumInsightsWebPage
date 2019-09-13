@@ -47,7 +47,7 @@ export class AcoSharedService {
                 labels: '4 of 5 Measures Meet MPT*',
                 color: '#21B01E'
               },
-              timeperiod: 'Rolling 30 Days'
+              timeperiod: 'Contract Year to Date'
             };
             ratioPCP = {
               category: 'app-small-card',
@@ -63,7 +63,7 @@ export class AcoSharedService {
                 color: ['#003DA1', '#FFFFFF', '#00B8CC'],
                 gdata: ['bar-chart', 'ratiopcp']
               },
-              timeperiod: 'Rolling 30 Days'
+              timeperiod: 'Contract Year to Date'
             };
             rxGeneric = {
               category: 'app-small-card',
@@ -81,7 +81,7 @@ export class AcoSharedService {
                   label: 'MPT Not Defined'
                 }
               },
-              timeperiod: 'Rolling 30 Days'
+              timeperiod: 'Contract Year to Date'
             };
             rxScripts = {
               category: 'app-card',
@@ -91,7 +91,7 @@ export class AcoSharedService {
                 actual: data.LineOfBusiness[this.lob].RxScriptsPer1000.Actual.toFixed(2),
                 target: data.LineOfBusiness[this.lob].RxScriptsPer1000.Target.toFixed(2)
               },
-              timeperiod: 'Rolling 30 Days'
+              timeperiod: 'Contract Year to Date'
             };
             acuteAdmits = {
               category: 'app-card',
@@ -101,7 +101,7 @@ export class AcoSharedService {
                 actual: data.LineOfBusiness[this.lob].acuteAdmitsPer1000.Actual.toFixed(2),
                 target: data.LineOfBusiness[this.lob].acuteAdmitsPer1000.Target.toFixed(2)
               },
-              timeperiod: 'Rolling 30 Days'
+              timeperiod: 'Contract Year to Date'
             };
             nonParticipatingSpecialistReferrals = {
               category: 'app-card',
