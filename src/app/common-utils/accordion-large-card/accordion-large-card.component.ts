@@ -103,11 +103,7 @@ export class AccordionLargeCardComponent implements OnInit {
       this.qualitySubTitle = this.qualityMeasure[x].label;
       this.qualityPcorData = this.qualityMeasure[x].data;
       this.subsection[0] = true;
-      this.compliantMemberCount = this.qualityPcorData[x].CompliantMemberCount;
-      this.eligibleMemberCount = this.qualityPcorData[x].EligibleMemberCount;
-      this.currentRateCalc = this.common.nFormatter(
-        ((this.compliantMemberCount / this.eligibleMemberCount) * 100).toFixed(0) + '%'
-      );
+
       if (this.qualityMeasure[x].count === 0) {
         for (let i = 0; i < this.section.length; i++) {
           if (i === x) {
@@ -116,6 +112,12 @@ export class AccordionLargeCardComponent implements OnInit {
         }
       }
     }
+
+    this.compliantMemberCount = this.qualityPcorData[x].CompliantMemberCount;
+    this.eligibleMemberCount = this.qualityPcorData[x].EligibleMemberCount;
+    this.currentRateCalc = this.common.nFormatter(
+      ((this.compliantMemberCount / this.eligibleMemberCount) * 100).toFixed(0) + '%'
+    );
   }
   subItemsCollapose(x: any) {
     for (let i = 0; i < this.subsection.length; i++) {
@@ -123,6 +125,11 @@ export class AccordionLargeCardComponent implements OnInit {
         this.subsection[i] = false;
       }
     }
+    this.compliantMemberCount = this.qualityPcorData[x].CompliantMemberCount;
+    this.eligibleMemberCount = this.qualityPcorData[x].EligibleMemberCount;
+    this.currentRateCalc = this.common.nFormatter(
+      ((this.compliantMemberCount / this.eligibleMemberCount) * 100).toFixed(0) + '%'
+    );
   }
   sortHeader(event) {
     const listItems = this.elementRef.nativeElement.querySelectorAll('.sort-header-icon') as HTMLElement[];
