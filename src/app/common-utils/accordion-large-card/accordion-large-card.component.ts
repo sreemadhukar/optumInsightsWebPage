@@ -112,12 +112,12 @@ export class AccordionLargeCardComponent implements OnInit {
         }
       }
     }
-
-    this.compliantMemberCount = this.qualityPcorData[x].CompliantMemberCount;
-    this.eligibleMemberCount = this.qualityPcorData[x].EligibleMemberCount;
+    this.compliantMemberCount = this.qualityPcorData[0].CompliantMemberCount;
+    this.eligibleMemberCount = this.qualityPcorData[0].EligibleMemberCount;
     this.currentRateCalc = this.common.nFormatter(
       ((this.compliantMemberCount / this.eligibleMemberCount) * 100).toFixed(0) + '%'
     );
+    console.log('main' + this.qualityPcorData[0].CompliantMemberCount, this.qualityPcorData[0].EligibleMemberCount);
   }
   subItemsCollapose(x: any) {
     for (let i = 0; i < this.subsection.length; i++) {
@@ -125,11 +125,13 @@ export class AccordionLargeCardComponent implements OnInit {
         this.subsection[i] = false;
       }
     }
+
     this.compliantMemberCount = this.qualityPcorData[x].CompliantMemberCount;
     this.eligibleMemberCount = this.qualityPcorData[x].EligibleMemberCount;
     this.currentRateCalc = this.common.nFormatter(
       ((this.compliantMemberCount / this.eligibleMemberCount) * 100).toFixed(0) + '%'
     );
+    console.log('sub' + this.currentRateCalc);
   }
   sortHeader(event) {
     const listItems = this.elementRef.nativeElement.querySelectorAll('.sort-header-icon') as HTMLElement[];
