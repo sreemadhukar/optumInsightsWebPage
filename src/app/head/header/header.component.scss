@@ -9,6 +9,19 @@
   border-color: #e0e0e0;
   z-index: 999;
   max-width: 1610px;
+
+  .dropdown-body {
+    height: auto;
+    width: auto;
+    position: absolute;
+    background-color: white;
+    right: 0;
+    top: 72px;
+    color: #000;
+    padding: 20px;
+    cursor: pointer;
+  }
+
   .menu-div {
     @include padding(17px, 0px, 22px, 34px);
     .menu-icon {
@@ -30,7 +43,8 @@
     }
   }
   .header-logo-div {
-    padding: 18px 0 18px 33px;
+    padding: 18px 0 18px 57px;
+    //  padding: 18px 0 18px 33px; before adding PI sub menu undo when toggled off
     .Uhc-logo {
       height: 36px;
       width: 175px;
