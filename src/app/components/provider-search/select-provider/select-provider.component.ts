@@ -141,19 +141,20 @@ export class SelectProviderComponent implements OnInit {
     }
 
     // Role based access for Advocates Overview page
-    if (JSON.parse(sessionStorage.getItem('loggedUser'))) {
-      let userRole;
-      userRole = JSON.parse(sessionStorage.getItem('loggedUser')).UserRole;
-      let userRoleAdvocate = false;
-      userRole.forEach(item => {
-        if (item.includes('UHCI_Advocate')) {
-          userRoleAdvocate = true;
+    try {
+      if (JSON.parse(sessionStorage.getItem('loggedUser'))) {
+        let userRole;
+        userRole = JSON.parse(sessionStorage.getItem('loggedUser')).UserRole;
+        let userRoleAdvocate = false;
+        userRoleAdvocate = userRole.some(item => item.includes('UHCI_Advocate'));
+        if (!userRoleAdvocate) {
+          this.router.navigate(['/OverviewPage']);
+        } else {
           this.router.navigate(['/OverviewPageAdvocate']);
         }
-      });
-      if (!userRoleAdvocate) {
-        this.router.navigate(['/OverviewPage']);
       }
+    } catch (Error) {
+      this.router.navigate(['/OverviewPage']);
     }
   }
 

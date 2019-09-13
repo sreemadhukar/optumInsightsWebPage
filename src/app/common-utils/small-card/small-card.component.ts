@@ -12,10 +12,13 @@ import { Router } from '@angular/router';
 })
 export class SmallCardComponent implements OnInit {
   @Input() data;
+  @Input() index;
   @Input() skeleton;
   @Input() options: any;
   subscription: Subscription;
   public printStyle: boolean;
+  public TargetActualAvarage: any;
+  public TargetActualFlag = true;
   /*
   _card: Object = {};
   data: Object = {};
@@ -52,5 +55,44 @@ export class SmallCardComponent implements OnInit {
   helpIconClick(title) {
     this.glossaryExpandService.setMessage(this.data.title, this.data.MetricID);
   }
-  ngOnInit() {}
+  ngOnInit() {
+    this.targetactualcard();
+  }
+
+  public targetactualcard() {
+    setTimeout(() => {
+      if (this.data) {
+        if (document.getElementById('actual' + this.index)) {
+          if (
+            (<HTMLElement>document.getElementById('actual' + this.index)).offsetWidth >
+            (<HTMLElement>document.getElementById('target' + this.index)).offsetWidth
+          ) {
+            (<HTMLElement>document.getElementById('actualbardiv')).style.width =
+              (<HTMLElement>document.getElementById('target' + this.index)).offsetWidth.toString() + 'px';
+          } else {
+            (<HTMLElement>document.getElementById('targetbardiv')).style.width =
+              (<HTMLElement>document.getElementById('actual' + this.index)).offsetWidth.toString() + 'px';
+          }
+        }
+        if (this.data.type && this.data.type === 'barActualTargetNumbers') {
+          this.TargetActualAvarage = ((this.data.data.actual / this.data.data.target) * 100).toFixed(2);
+          if (this.TargetActualAvarage <= 100) {
+            this.TargetActualAvarage = this.TargetActualAvarage.toString() + '%';
+            if (document.getElementById('actual' + this.index)) {
+              (<HTMLElement>document.getElementById('actual' + this.index)).style.width = this.TargetActualAvarage;
+              (<HTMLElement>document.getElementById('actual' + this.index)).style.backgroundColor = '#00B8CC';
+            }
+          } else {
+            this.TargetActualFlag = false;
+            this.TargetActualAvarage = ((this.data.data.target / this.data.data.actual) * 100).toFixed(2);
+            this.TargetActualAvarage = this.TargetActualAvarage.toString() + '%';
+            if (document.getElementById('actual' + this.index) && document.getElementById('target' + this.index)) {
+              (<HTMLElement>document.getElementById('target' + this.index)).style.width = this.TargetActualAvarage;
+              (<HTMLElement>document.getElementById('actual' + this.index)).style.backgroundColor = '#E91B18';
+            }
+          }
+        }
+      }
+    }, 200);
+  }
 }

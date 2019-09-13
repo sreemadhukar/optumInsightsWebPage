@@ -10,6 +10,7 @@ import { environment } from '../../../../environments/environment';
   styleUrls: ['./aco-page.component.scss']
 })
 export class AcoPageComponent implements OnInit, OnDestroy {
+  public acoPageKeyPerformanceData: object;
   loading = true;
   public acoPageData: Array<object>;
   public pageTitle: any;
@@ -27,7 +28,8 @@ export class AcoPageComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.acoEventEmitter.emitEvent(true);
     this.acoSharedService.acoData().then(data => {
-      this.acoPageData = JSON.parse(JSON.stringify(data));
+      this.acoPageKeyPerformanceData = data[1];
+      this.acoPageData = JSON.parse(JSON.stringify(data[0]));
     });
   }
   ngOnDestroy(): void {

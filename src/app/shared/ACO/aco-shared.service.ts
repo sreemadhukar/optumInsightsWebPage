@@ -23,9 +23,13 @@ export class AcoSharedService {
 
   public acoData() {
     let acoSummary: object;
+    let rxScripts: object;
     let rxGeneric: object;
     let ratioPCP: object;
+    let acuteAdmits: object;
     let acoPage: Array<object>;
+    let acoPageKeyPerformance: Array<object>;
+    let acoPageMainCard: Array<object>;
     return new Promise(resolve => {
       this.acoservice.getAcoData().subscribe(data => {
         if (data.hasOwnProperty('LineOfBusiness')) {
@@ -78,6 +82,26 @@ export class AcoSharedService {
               },
               timeperiod: 'Rolling 30 Days'
             };
+            rxScripts = {
+              category: 'app-card',
+              type: 'barActualTargetNumbers',
+              title: 'Rx Script',
+              data: {
+                actual: data.LineOfBusiness[this.lob].RxScriptsPer1000.Actual.toFixed(2),
+                target: data.LineOfBusiness[this.lob].RxScriptsPer1000.Target.toFixed(2)
+              },
+              timeperiod: 'Rolling 30 Days'
+            };
+            acuteAdmits = {
+              category: 'app-card',
+              type: 'barActualTargetNumbers',
+              title: 'Acute Admits',
+              data: {
+                actual: data.LineOfBusiness[this.lob].acuteAdmitsPer1000.Actual.toFixed(2),
+                target: data.LineOfBusiness[this.lob].acuteAdmitsPer1000.Target.toFixed(2)
+              },
+              timeperiod: 'Rolling 30 Days'
+            };
           } else {
             acoSummary = {
               category: 'app-small-card',
@@ -123,11 +147,32 @@ export class AcoSharedService {
                 }
               }
             };
+            rxScripts = {
+              category: 'app-card',
+              type: 'barActualTargetNumbers',
+              title: 'Rx Script',
+              data: {
+                actual: data.LineOfBusiness[this.lob].RxScriptsPer1000.Actual.toFixed(2),
+                target: data.LineOfBusiness[this.lob].RxScriptsPer1000.Target.toFixed(2)
+              },
+              timeperiod: 'Rolling 30 Days'
+            };
+            acuteAdmits = {
+              category: 'app-card',
+              type: 'barActualTargetNumbers',
+              title: 'Acute Admits',
+              data: {
+                actual: data.LineOfBusiness[this.lob].acuteAdmitsPer1000.Actual.toFixed(2),
+                target: data.LineOfBusiness[this.lob].acuteAdmitsPer1000.Target.toFixed(2)
+              },
+              timeperiod: 'Rolling 30 Days'
+            };
           }
-
-          acoPage = [acoSummary, ratioPCP, rxGeneric];
-          resolve(acoPage);
         }
+        acoPageKeyPerformance = [acuteAdmits, rxScripts];
+        acoPageMainCard = [acoSummary, ratioPCP, rxGeneric];
+        acoPage = [acoPageMainCard, acoPageKeyPerformance];
+        resolve(acoPage);
       });
     });
   }
