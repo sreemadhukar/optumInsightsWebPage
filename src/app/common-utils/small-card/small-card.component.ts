@@ -18,6 +18,7 @@ export class SmallCardComponent implements OnInit {
   subscription: Subscription;
   public printStyle: boolean;
   public TargetActualAvarage: any;
+  public TargetActualFlag = true;
   /*
   _card: Object = {};
   data: Object = {};
@@ -82,6 +83,7 @@ export class SmallCardComponent implements OnInit {
               (<HTMLElement>document.getElementById('actual' + this.index)).style.backgroundColor = '#00B8CC';
             }
           } else {
+            this.TargetActualFlag = false;
             this.TargetActualAvarage = ((this.data.data.target / this.data.data.actual) * 100).toFixed(2);
             this.TargetActualAvarage = this.TargetActualAvarage.toString() + '%';
             if (document.getElementById('actual' + this.index) && document.getElementById('target' + this.index)) {

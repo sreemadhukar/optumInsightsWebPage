@@ -338,3 +338,33 @@
 .target-bar {
   background-color: #003da1;
 }
+
+.target-actual-positive {
+  display: flex;
+  margin-left: 49px;
+  .tick-icon {
+    height: 20px;
+  }
+  .label {
+    color: #21b01e;
+    font-family: 'UHCSans-Medium';
+    font-size: 14px;
+    text-align: center;
+    margin-left: 5px;
+  }
+}
+
+.target-actual-negative {
+  display: flex;
+  margin-left: 49px;
+  .tick-icon {
+    height: 20px;
+  }
+  .label {
+    color: #e91b18;
+    font-family: 'UHCSans-Medium';
+    font-size: 14px;
+    text-align: center;
+    margin-left: 5px;
+  }
+}
