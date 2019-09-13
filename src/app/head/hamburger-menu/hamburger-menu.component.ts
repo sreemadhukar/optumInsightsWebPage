@@ -272,12 +272,10 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
   }
   /*** used to apply the CSS for dynamically generated elements ***/
   public ngAfterViewInit(): void {
-    // const subListItems = this.elementRef.nativeElement.querySelectorAll('.nav-sub-menu-category') as HTMLElement[];
     const listItems = this.elementRef.nativeElement.querySelectorAll('.mat-list-item') as HTMLElement[];
     const listItemContents = this.elementRef.nativeElement.querySelectorAll('.mat-list-item-content') as HTMLElement[];
     const listItemBody = this.elementRef.nativeElement.querySelectorAll('.mat-expansion-panel-body') as HTMLElement[];
 
-    console.log(listItems);
     Array.from(listItemContents).forEach(listItem => {
       this.renderer.setStyle(listItem, 'padding', '0px');
       this.renderer.setStyle(listItem, 'height', 'auto');
@@ -285,9 +283,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     Array.from(listItems).forEach(listItem => {
       this.renderer.setStyle(listItem, 'height', 'auto');
       this.renderer.setStyle(listItem, 'padding', '8px 12px 8px 16px');
-      //  this.renderer.setStyle(subListItems, 'padding', '8px 12px 8px 32px');
       this.renderer.setStyle(listItem, 'width', 'auto');
-      //  this.renderer.setStyle(subListItems, 'width', '150px');
       if (!listItem.classList.contains('nav-no-child-category')) {
         this.renderer.setStyle(listItem, 'marginLeft', '26px');
       } else {

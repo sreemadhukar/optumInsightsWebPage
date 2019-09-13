@@ -96,7 +96,6 @@ export class SmartEditsComponent implements OnInit {
         gdata: ['app-card-structure', 'smartEditsTopClaimsReason' + i]
       });
     }
-    console.log(this.claimsTopReason[0]);
     // **** Smart Edits Claims Top Reasons Ends here**** //
 
     // **** Smart Edits Top Informational Reasons starts here****//
@@ -121,9 +120,6 @@ export class SmartEditsComponent implements OnInit {
       });
     }
     // **** Smart Edits Top Informational Reasons starts here****//
-    console.log(this.claimsInfoTopReason);
-    console.log(this.claimsInfoTopReason[0]);
-    console.log(this.claimsTopReason);
   }
 
   helpIconClick(title) {
