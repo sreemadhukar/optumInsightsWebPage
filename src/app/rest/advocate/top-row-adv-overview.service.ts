@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { AdvocateModule } from '../../components/advocate/advocate.module';
 import { environment } from '../../../environments/environment';
 import { HttpHeaders, HttpClient, HttpParams } from '@angular/common/http';
 import { map, catchError } from 'rxjs/operators';
@@ -25,7 +24,10 @@ export class TopRowAdvOverviewService {
     });
     const nonPaymentURL = this.APP_URL + this.CLAIMS_SERVICE_PATH + parameters[0] + '?requestType=PAYMENT_METRICS';
     return this.http.post(nonPaymentURL, parameters[1], { headers: myHeader }).pipe(
-      map(res => JSON.parse(JSON.stringify(res[0]))),
+      map(res => {
+        console.log(res);
+        return JSON.parse(JSON.stringify(res[0]));
+      }),
       catchError(err => of(JSON.parse(JSON.stringify(err))))
     );
   }
