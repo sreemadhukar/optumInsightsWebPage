@@ -2,6 +2,8 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AcoEventEmitterService } from '../../../shared/ACO/aco-event-emitter.service';
 import { SessionService } from '../../../shared/session.service';
 import { AcoSharedService } from '../../../shared/ACO/aco-shared.service';
+import { environment } from '../../../../environments/environment';
+
 @Component({
   selector: 'app-aco-page',
   templateUrl: './aco-page.component.html',
@@ -13,6 +15,7 @@ export class AcoPageComponent implements OnInit, OnDestroy {
   public acoPageData: Array<object>;
   public pageTitle: any;
   public pageSubTitle = 'Your ACO Insights at a glance.';
+  isInternal: boolean = environment.internalAccess;
   constructor(
     private session: SessionService,
     private acoEventEmitter: AcoEventEmitterService,

@@ -6,7 +6,9 @@
     </div>
     <div class="aco-tab-div">
       <div class="aco-tab-header">Employer & Individual</div>
-      <div class="aco-tab-date">M2Q4 Apr 1, 2018–Mar 31, 2019</div>
+      <div *ngIf="isInternal">
+        <div class="aco-tab-date">M2Q4 Apr 1, 2018–Mar 31, 2019</div>
+      </div>
     </div>
     <div class="aco-main-cards">
       <div *ngFor="let acoPageCard of acoPageData">
