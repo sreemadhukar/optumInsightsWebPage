@@ -27,6 +27,7 @@ export class AcoSharedService {
     let rxGeneric: object;
     let ratioPCP: object;
     let acuteAdmits: object;
+    let nonParticipatingSpecialistReferrals: object;
     let acoPage: Array<object>;
     let acoPageKeyPerformance: Array<object>;
     let acoPageMainCard: Array<object>;
@@ -102,6 +103,16 @@ export class AcoSharedService {
               },
               timeperiod: 'Rolling 30 Days'
             };
+            nonParticipatingSpecialistReferrals = {
+              category: 'app-card',
+              type: 'barActualTargetPercentage',
+              title: 'Non-Participating Specialist Referrals',
+              data: {
+                actual: data.LineOfBusiness[this.lob].nonParSpecialistReferrals.Actual.toFixed(4),
+                target: data.LineOfBusiness[this.lob].nonParSpecialistReferrals.Target.toFixed(4)
+              },
+              timeperiod: 'Rolling 30 Days'
+            };
           } else {
             acoSummary = {
               category: 'app-small-card',
@@ -154,8 +165,7 @@ export class AcoSharedService {
               data: {
                 actual: data.LineOfBusiness[this.lob].RxScriptsPer1000.Actual.toFixed(2),
                 target: data.LineOfBusiness[this.lob].RxScriptsPer1000.Target.toFixed(2)
-              },
-              timeperiod: 'Rolling 30 Days'
+              }
             };
             acuteAdmits = {
               category: 'app-card',
@@ -164,12 +174,20 @@ export class AcoSharedService {
               data: {
                 actual: data.LineOfBusiness[this.lob].acuteAdmitsPer1000.Actual.toFixed(2),
                 target: data.LineOfBusiness[this.lob].acuteAdmitsPer1000.Target.toFixed(2)
-              },
-              timeperiod: 'Rolling 30 Days'
+              }
+            };
+            nonParticipatingSpecialistReferrals = {
+              category: 'app-card',
+              type: 'barActualTargetPercentage',
+              title: 'Non-Participating Specialist Referrals',
+              data: {
+                actual: data.LineOfBusiness[this.lob].nonParSpecialistReferrals.Actual.toFixed(4),
+                target: data.LineOfBusiness[this.lob].nonParSpecialistReferrals.Target.toFixed(4)
+              }
             };
           }
         }
-        acoPageKeyPerformance = [acuteAdmits, rxScripts];
+        acoPageKeyPerformance = [acuteAdmits, rxScripts, nonParticipatingSpecialistReferrals];
         acoPageMainCard = [acoSummary, ratioPCP, rxGeneric];
         acoPage = [acoPageMainCard, acoPageKeyPerformance];
         resolve(acoPage);

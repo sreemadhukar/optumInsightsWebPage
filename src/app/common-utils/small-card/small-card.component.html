@@ -104,17 +104,20 @@
       </div>
     </div>
 
-    <div *ngIf="data.type == 'barActualTargetNumbers' && data.data != null" class="target-actual-card">
-      <div class="target-actual-div target-div-padding">
+    <div
+      *ngIf="(data.type == 'barActualTargetNumbers' || data.type == 'barActualTargetPercentage') && data.data != null"
+      class="target-actual-card"
+    >
+      <div class="target-actual-div target-div-padding" [id]="'target-actual-div' + index">
         <label class="target-lable">MPT</label>
-        <div class="target-actual-bar-div" id="targetbardiv">
+        <div class="target-actual-bar-div" [id]="'targetbardiv' + index">
           <div class="target-actual-bar target-bar" [id]="'target' + index"></div>
         </div>
         <label>{{ this.data.data.target }}</label>
       </div>
       <div class="target-actual-div actual-div-padding">
         <label>Actual</label>
-        <div class="target-actual-bar-div" id="actualbardiv">
+        <div class="target-actual-bar-div" [id]="'actualbardiv' + index">
           <div class="target-actual-bar actual-bar" [id]="'actual' + index"></div>
         </div>
         <label>{{ this.data.data.actual }}</label>
@@ -125,12 +128,12 @@
           <div class="label">Meets MPT</div>
         </div>
         <div class="target-actual-negative" *ngIf="!TargetActualFlag">
-          <mat-icon class="tick-icon" svgIcon="tick"></mat-icon>
+          <mat-icon class="tick-icon" svgIcon="cross"></mat-icon>
           <div class="label">Does Not Meet MPT</div>
         </div>
       </div>
     </div>
-    <div *ngIf="!data.timeperiod" class="full-display-block">
+    <div *ngIf="data.timeperiod" class="full-display-block">
       <app-common-footer [timePeriod]="data.timeperiod"></app-common-footer>
     </div>
   </div>
