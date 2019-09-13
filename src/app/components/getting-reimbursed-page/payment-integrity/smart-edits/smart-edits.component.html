@@ -46,14 +46,14 @@
     <!--CARDS GO HERE-->
     <!-- Smart Edits Claims Returned Card Starts here -->
     <!--div *ngIf="showSmartEditsClaimsReturned"-->
-    <app-card class="cards" [skeleton]="loading" *ngIf="loading"> </app-card>
+    <!--app-card class="cards" [skeleton]="loading" *ngIf="loading"> </app-card-->
     <app-card class="cards" [chartData]="smartEditClaimsReturned"></app-card>
     <!--/div-->
 
     <!-- Smart Edits Claims Returned Card Ends here -->
     <!-- Smart Edits Repaired & Resubmitted Response Time Card Starts here -->
     <!--div *ngIf="showSmartEditsRepairedandResubmitted"-->
-    <app-card class="cards" [skeleton]="loading" *ngIf="loading"> </app-card>
+    <!--app-card class="cards" [skeleton]="loading" *ngIf="loading"> </app-card-->
     <div class="overturn-reason-block">
       <app-common-header
         [title]="smartEditsRepairedAndResubmittedTitle"
@@ -92,7 +92,7 @@
 
     <!-- Smart Edits Claims Top Reasons STARTS HERE -->
     <!--div *ngIf="smartEditsReasonsBool"-->
-    <app-card class="cards" [skeleton]="loading" *ngIf="loading"> </app-card>
+    <!--app-card class="cards" [skeleton]="loading" *ngIf="loading"> </app-card-->
     <div class="overturn-reason-block">
       <app-common-header
         [title]="smartEditsReasonTitle"
@@ -125,7 +125,7 @@
 
     <!-- Smart Edits  Top Informational Reasons STARTS HERE -->
     <div>
-      <app-card class="cards" [skeleton]="loading" *ngIf="loading"> </app-card>
+      <!--app-card class="cards" [skeleton]="loading" *ngIf="loading"> </app-card-->
       <div class="overturn-reason-block">
         <app-common-header
           [title]="smartEditsInformationalTitle"

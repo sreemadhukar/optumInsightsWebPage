@@ -43,7 +43,7 @@ app.get('/api/getJwt', cors(), function(req, res) {
     token: token
   });
 });
-
+ 
 app.get('/api/getHeac/:MsId', cors(), function(req, res) {
   res.status(200).json({
     heac: include(heac.user, req.params.MsId)
