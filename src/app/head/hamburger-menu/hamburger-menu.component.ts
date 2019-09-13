@@ -81,7 +81,14 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
         { name: 'Payments', path: '/GettingReimbursed/Payments' },
         { name: 'Non-Payments', path: '/GettingReimbursed/NonPayments' },
         { name: 'Appeals', path: '/GettingReimbursed/Appeals' },
-        { name: 'Payment Integrity', path: '/GettingReimbursed/PaymentIntegrity' }
+        // { name: 'Payment Integrity', path: '/GettingReimbursed/PaymentIntegrity' }
+        {
+          name: 'Payment Integrity',
+          children: [
+            { name: 'Medical Records Coding Review', path: '/GettingReimbursed/PaymentIntegrity' },
+            { name: 'Smart Edits', path: '/GettingReimbursed/SmartEdits' }
+          ]
+        }
       ]
     },
     {
@@ -316,6 +323,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     const listItems = this.elementRef.nativeElement.querySelectorAll('.mat-list-item') as HTMLElement[];
     const listItemContents = this.elementRef.nativeElement.querySelectorAll('.mat-list-item-content') as HTMLElement[];
     const listItemBody = this.elementRef.nativeElement.querySelectorAll('.mat-expansion-panel-body') as HTMLElement[];
+
     Array.from(listItemContents).forEach(listItem => {
       this.renderer.setStyle(listItem, 'padding', '0px');
       this.renderer.setStyle(listItem, 'height', 'auto');
