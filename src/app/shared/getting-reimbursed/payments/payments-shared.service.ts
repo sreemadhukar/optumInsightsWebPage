@@ -23,8 +23,6 @@ export class PaymentsSharedService {
   public sharedPaymentsData() {
     let payments: object;
     let parameters: object;
-    let claimsSubmitted: object;
-    let claimsTAT: object;
     let claimsPaid: object;
     let claimsPaidRate: object;
     this.tin = this.session.filterObjValue.tax.toString().replace(/-/g, '');
@@ -151,24 +149,6 @@ export class PaymentsSharedService {
         claimsData => {
           const lobData = this.common.matchLobWithData(this.lob);
           if (claimsData != null && claimsData.hasOwnProperty('status')) {
-            claimsSubmitted = {
-              category: 'app-card',
-              type: 'donutWithLabel',
-              status: claimsData.status,
-              title: 'Total Claims Submitted',
-              data: null,
-              besideData: null,
-              timeperiod: null
-            };
-            claimsTAT = {
-              category: 'app-card',
-              type: 'rotateWithLabel',
-              status: claimsData.status,
-              title: 'Claims Average Turnaround Time to Payment',
-              data: null,
-              besideData: null,
-              timeperiod: null
-            };
             claimsPaid = {
               category: 'app-card',
               type: 'donutWithLabel',
