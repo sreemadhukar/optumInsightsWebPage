@@ -228,7 +228,11 @@ export class TopRowAdvOverviewSharedService {
       this.topRowService.getPaymentData(...parameters).subscribe(
         paymentData => {
           const paymentDataResolve = [];
-          paymentDataResolve.push(this.claimsPaidMethod(paymentData), this.claimsNotPaidMethod(paymentData));
+          paymentDataResolve.push(
+            this.claimsPaidMethod(paymentData),
+            this.claimsNotPaidMethod(paymentData),
+            this.totalClaimsSubmittedMethod(paymentData)
+          );
           resolve(paymentDataResolve);
         },
         err => {
@@ -236,6 +240,56 @@ export class TopRowAdvOverviewSharedService {
         }
       );
     });
+  }
+  public totalClaimsSubmittedMethod(paymentData): Object {
+    let claimsSubmitted: Object;
+    const lobData = this.common.matchLobWithData(this.lob);
+    if (
+      paymentData.hasOwnProperty(lobData) &&
+      paymentData[lobData] != null &&
+      paymentData[lobData].hasOwnProperty('ClaimsLobSummary') &&
+      paymentData[lobData].ClaimsLobSummary.length &&
+      paymentData[lobData].ClaimsLobSummary[0].hasOwnProperty('ClaimsPaid') &&
+      paymentData[lobData].ClaimsLobSummary[0].hasOwnProperty('ClaimsDenied') &&
+      paymentData[lobData].ClaimsLobSummary[0].hasOwnProperty('ClaimsSubmitted')
+    ) {
+      claimsSubmitted = {
+        category: 'app-card',
+        type: 'donutWithLabel',
+        title: 'Total Number of Claims Submitted*',
+        MetricID: this.MetricidService.MetricIDs.TotalNumberofClaimsSubmitted,
+        data: {
+          graphValues: [
+            paymentData[lobData].ClaimsLobSummary[0].ClaimsPaid,
+            paymentData[lobData].ClaimsLobSummary[0].ClaimsDenied
+          ],
+          centerNumber: this.common.nFormatter(paymentData[lobData].ClaimsLobSummary[0].ClaimsSubmitted),
+          color: ['#3381FF', '#80B0FF'],
+          gdata: ['card-inner', 'totalClaimsSubmitted'],
+          sdata: {
+            sign: '',
+            data: ''
+          }
+        },
+        besideData: {
+          labels: ['Paid', 'Not Paid'],
+          color: ['#3381FF', '#80B0FF']
+        },
+        timeperiod: this.timeFrame
+      };
+    } else {
+      claimsSubmitted = {
+        category: 'app-card',
+        type: 'donutWithLabel',
+        title: 'Total Number of Claims Submitted',
+        MetricID: this.MetricidService.MetricIDs.TotalNumberofClaimsSubmitted,
+        data: null,
+        status: 404,
+        besideData: null,
+        timeperiod: this.timeFrame
+      };
+    }
+    return claimsSubmitted;
   }
   public claimsPaidMethod(paymentData): Object {
     let claimsPaid: Object;

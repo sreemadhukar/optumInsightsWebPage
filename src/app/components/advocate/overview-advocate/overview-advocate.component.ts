@@ -42,7 +42,6 @@ export class OverviewAdvocateComponent implements OnInit {
     this.pagesubTitle = 'Your Insights at a glance.';
 
     const filData = this.session.getFilChangeEmitter().subscribe(() => this.filtermatch.urlResuseStrategy());
-    this.pageTitle = 'Calls';
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.filtermatch.urlResuseStrategy());
     iconRegistry.addSvgIcon(
       'filter',
