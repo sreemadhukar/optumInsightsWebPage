@@ -74,13 +74,14 @@ app-header {
 /************ CSS RELATED TO ONLY LEFT HAMBURGER MENU *************/
 
 .side-navigation {
-  width: 256px;
+  width: 286px; // previously 256px -- width before PI Sub menu undo when toggled off
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
   //  background-color: $white;
 }
 
 .health-system-representation-block {
-  @include padding(16px, 12px, 0px, 32px);
+  @include padding(16px, 12px, 0px, 56px);
+  // @include padding(16px, 12px, 0px, 32px); before adding PI Sub Menu undo when toggled off
   border-bottom: 1px solid $gainsboro;
 }
 
@@ -134,7 +135,8 @@ app-header {
 }
 
 .signout-block {
-  padding: 16px 0 0 33px;
+  padding: 16px 0 0 40px;
+  // padding: 16px 0 0 33px; before PI sub menu uncomment when smart edits is toggled off
 }
 
 .signout-label {
@@ -196,7 +198,7 @@ app-header {
   letter-spacing: 0.2px;
   margin-top: 4px !important;
   line-height: 18px;
-  margin-left: 30px !important;
+  margin-left: 38px !important; // previously 30px befor PI sub menu undo when toggled off
 }
 
 .mat-expansion-panel-body {
@@ -244,7 +246,9 @@ app-header {
   background: $darker-alice-blue !important;
   color: $blue !important;
 }
-
+.second-level-link {
+  padding-left: 32px !important;
+}
 .nav-no-child-category:hover,
 .mat-expansion-panel-header:hover,
 .mat-expanded,
@@ -304,6 +308,11 @@ app-header {
   fill: $blue !important;
 }
 
+.sub-menu-sub-header {
+  margin-left: 26px !important;
+  padding-left: 16px !important;
+  height: 18px !important;
+}
 .display-none {
   display: none !important;
 }
