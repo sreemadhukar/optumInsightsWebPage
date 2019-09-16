@@ -6,6 +6,7 @@ import { FilterExpandService } from '../../../shared/filter-expand.service';
 import { CommonUtilsService } from '../../../shared/common-utils.service';
 import { SessionService } from 'src/app/shared/session.service';
 import { StorageService } from '../../../shared/storage-service.service';
+import { TopRowAdvOverviewSharedService } from '../../../shared/advocate/top-row-adv-overview-shared.service';
 
 @Component({
   selector: 'app-overview-advocate',
@@ -20,12 +21,13 @@ export class OverviewAdvocateComponent implements OnInit {
   timePeriod: string;
   lob: string;
   taxID: Array<string>;
-  loading: boolean;
   mockCards: any;
   subscription: any;
   claimsSubmitted: any;
   claimsPaid: any;
   claimsNotPaid: any;
+  paymentCards: Array<Object>;
+  paymentLoading: boolean;
   constructor(
     private checkStorage: StorageService,
     private filterExpandService: FilterExpandService,
@@ -33,13 +35,13 @@ export class OverviewAdvocateComponent implements OnInit {
     private iconRegistry: MatIconRegistry,
     sanitizer: DomSanitizer,
     private session: SessionService,
-    private filtermatch: CommonUtilsService
+    private filtermatch: CommonUtilsService,
+    private topRowService: TopRowAdvOverviewSharedService
   ) {
     this.pageTitle = 'Welcome, ' + this.userName;
     this.pagesubTitle = 'Your Insights at a glance.';
 
     const filData = this.session.getFilChangeEmitter().subscribe(() => this.filtermatch.urlResuseStrategy());
-    this.pageTitle = 'Calls';
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.filtermatch.urlResuseStrategy());
     iconRegistry.addSvgIcon(
       'filter',
@@ -120,7 +122,23 @@ export class OverviewAdvocateComponent implements OnInit {
     };
   }
 
+  paymentData() {
+    this.paymentLoading = true;
+    this.mockCards = [{}, {}];
+
+    this.topRowService
+      .getPaymentShared()
+      .then(paymentData => {
+        this.paymentCards = JSON.parse(JSON.stringify(paymentData));
+        this.paymentLoading = false;
+      })
+      .catch(reason => {
+        this.paymentLoading = false;
+        console.log('Adovate Overview page Payment', reason);
+      });
+  }
   ngOnInit() {
+    this.paymentData();
     this.userName = this.session.sessionStorage('loggedUser', 'FirstName');
     this.pageTitle = 'Welcome, ' + this.userName;
 
@@ -135,11 +153,6 @@ export class OverviewAdvocateComponent implements OnInit {
     } else {
       this.taxID = ['All'];
     }
-    this.loading = true;
-    this.mockCards = [{}, {}];
-    this.topRowItems = [];
-    this.topRowItems = [this.claimsNotPaid, this.claimsPaid, this.claimsSubmitted];
-    this.loading = false;
   }
   openFilter() {
     this.filterExpandService.setURL(this.router.url);

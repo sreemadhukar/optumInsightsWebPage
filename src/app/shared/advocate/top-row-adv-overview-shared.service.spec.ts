@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 
-import { TopRowAdvOverviewService } from './top-row-adv-overview.service';
+import { TopRowAdvOverviewSharedService } from './top-row-adv-overview.service';
 
 describe('TopRowAdvOverviewService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: TopRowAdvOverviewService = TestBed.get(TopRowAdvOverviewService);
+    const service: TopRowAdvOverviewSharedService = TestBed.get(TopRowAdvOverviewSharedService);
     expect(service).toBeTruthy();
   });
 });
