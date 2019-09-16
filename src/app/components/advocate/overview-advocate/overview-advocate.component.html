@@ -45,7 +45,7 @@
       <app-small-card class="cards" [skeleton]="loading" *ngIf="paymentLoading"> </app-small-card>
     </div>
     <div *ngFor="let item of paymentCards">
-      <app-small-card *ngIf="item != null && item.data != null" class="cards" [chartData]="item"> </app-small-card>
+      <app-small-card *ngIf="item != null && item.data != null" class="cards" [data]="item"> </app-small-card>
       <app-error-card *ngIf="item != null && item.status != null" class="cards" [data]="item"></app-error-card>
     </div>
   </div>

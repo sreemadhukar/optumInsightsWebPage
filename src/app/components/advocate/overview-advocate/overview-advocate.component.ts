@@ -51,75 +51,6 @@ export class OverviewAdvocateComponent implements OnInit {
       'close',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-close-24px.svg')
     );
-    this.claimsSubmitted = {
-      category: 'app-card',
-      type: 'donutWithLabel',
-      title: 'Claims Paid',
-      MetricID: 211,
-      data: {
-        graphValues: [34, 10, 40, 5],
-        centerNumber: '$ 9.5K',
-        color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'],
-        gdata: ['card-inner', 'claimsSubmittedTotal'],
-        sdata: {
-          sign: '',
-          data: ''
-        },
-        labels: ['Medicare & Retirement', 'Community & State', 'Employer & Individual', 'Uncategorized'],
-        hover: true
-      },
-      besideData: {
-        labels: ['Medicare & Retirement', 'Community & State', 'Employer & Individual', 'Uncategorized'],
-        color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC']
-      },
-      timeperiod: 'Last 6 Months'
-    };
-    this.claimsPaid = {
-      category: 'app-card',
-      type: 'donutWithLabel',
-      title: 'Claims Paid',
-      MetricID: 211,
-      data: {
-        graphValues: [10, 20, 30, 5],
-        centerNumber: '$ 59.5K',
-        color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'],
-        gdata: ['card-inner', 'claimsPaid'],
-        sdata: {
-          sign: '',
-          data: ''
-        },
-        labels: ['Medicare & Retirement', 'Community & State', 'Employer & Individual', 'Uncategorized'],
-        hover: true
-      },
-      besideData: {
-        labels: ['Medicare & Retirement', 'Community & State', 'Employer & Individual', 'Uncategorized'],
-        color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC']
-      },
-      timeperiod: 'Last 6 Months'
-    };
-    this.claimsNotPaid = {
-      category: 'app-card',
-      type: 'donutWithLabel',
-      title: 'Claims Not Paid',
-      MetricID: 211,
-      data: {
-        graphValues: [10, 20, 30, 5],
-        centerNumber: '$ 39.5K',
-        color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'],
-        gdata: ['card-inner', 'claimsNotPaid'],
-        sdata: {
-          sign: '',
-          data: ''
-        },
-        labels: ['Medicare & Retirement', 'Community & State', 'Employer & Individual', 'Uncategorized'],
-        hover: true
-      },
-      besideData: {
-        labels: ['Medicare & Retirement', 'Community & State', 'Employer & Individual', 'Uncategorized'],
-        color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC']
-      },
-      timeperiod: 'Last 6 Months'
-    };
   }
 
   paymentData() {
@@ -129,7 +60,10 @@ export class OverviewAdvocateComponent implements OnInit {
     this.topRowService
       .getPaymentShared()
       .then(paymentData => {
-        this.paymentCards = JSON.parse(JSON.stringify(paymentData));
+        let temp;
+        temp = JSON.parse(JSON.stringify(paymentData));
+        temp = temp.data;
+        this.paymentCards = temp;
         this.paymentLoading = false;
       })
       .catch(reason => {
