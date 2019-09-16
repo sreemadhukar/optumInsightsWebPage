@@ -229,9 +229,9 @@ export class TopRowAdvOverviewSharedService {
         paymentData => {
           const paymentDataResolve = [];
           paymentDataResolve.push(
+            this.totalClaimsSubmittedMethod(paymentData),
             this.claimsPaidMethod(paymentData),
-            this.claimsNotPaidMethod(paymentData),
-            this.totalClaimsSubmittedMethod(paymentData)
+            this.claimsNotPaidMethod(paymentData)
           );
           resolve(paymentDataResolve);
         },
@@ -256,7 +256,7 @@ export class TopRowAdvOverviewSharedService {
       claimsSubmitted = {
         category: 'small-card',
         type: 'donutWithLabel',
-        title: 'Total Number of Claims Submitted',
+        title: 'Claims Submitted',
         MetricID: this.MetricidService.MetricIDs.TotalNumberofClaimsSubmitted,
         data: {
           graphValues: [
@@ -355,12 +355,12 @@ export class TopRowAdvOverviewSharedService {
             labels: ['Medicare & Retirement', 'Community & State', 'Employer & Individual', 'Uncategorized'],
             color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC']
           },
-          sdata: {
-            sign: '',
-            data: ''
-          },
           labels: this.returnHoverLabels(paymentData),
           hover: true
+        },
+        sdata: {
+          sign: '',
+          data: ''
         },
         timeperiod: this.timeFrame
       };
