@@ -31,7 +31,17 @@
       <app-star-chart [starType]="'small-card'" [chartOptions]="data.data"></app-star-chart>
     </div>
     <div *ngIf="data.type == 'donutWithLabel'">
-      <div class="beside-data-block">
+      <div *ngIf="data.title == 'Claims Submitted'" class="total-claims-beside-data-block">
+        <ul class="app-card-list-labels">
+          <li class="label-color-indicators" *ngFor="let c of data.data.besideData.color; let i = index">
+            <div class="label-dots" style.background-color="{{ c }}"></div>
+          </li>
+        </ul>
+        <ul class="app-card-list-labels">
+          <li *ngFor="let c of data.data.besideData.labels; let i = index">{{ c }}</li>
+        </ul>
+      </div>
+      <div *ngIf="data.title != 'Claims Submitted'" class="beside-data-block">
         <ul class="app-card-list-labels">
           <li class="label-color-indicators" *ngFor="let c of data.data.besideData.color; let i = index">
             <div class="label-dots" style.background-color="{{ c }}"></div>
