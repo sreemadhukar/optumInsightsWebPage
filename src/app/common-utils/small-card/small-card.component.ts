@@ -50,6 +50,7 @@ export class SmallCardComponent implements OnInit {
     this.glossaryExpandService.setMessage(this.data.title, this.data.MetricID);
   }
   ngOnInit() {
-    this.besideData = this.data.besideData;
+    console.log('ht', this.data);
+    // this.besideData = this.data.besideData;
   }
 }

@@ -60,10 +60,7 @@ export class OverviewAdvocateComponent implements OnInit {
     this.topRowService
       .getPaymentShared()
       .then(paymentData => {
-        let temp;
-        temp = JSON.parse(JSON.stringify(paymentData));
-        temp = temp.data;
-        this.paymentCards = temp;
+        this.paymentCards = JSON.parse(JSON.stringify(paymentData));
         this.paymentLoading = false;
       })
       .catch(reason => {

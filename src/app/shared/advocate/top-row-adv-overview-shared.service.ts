@@ -266,14 +266,14 @@ export class TopRowAdvOverviewSharedService {
           centerNumber: this.common.nFormatter(paymentData[lobData].ClaimsLobSummary[0].ClaimsSubmitted),
           color: ['#3381FF', '#80B0FF'],
           gdata: ['card-inner', 'totalClaimsSubmitted'],
-          sdata: {
-            sign: '',
-            data: ''
-          },
           besideData: {
             labels: ['Paid', 'Not Paid'],
             color: ['#3381FF', '#80B0FF']
           }
+        },
+        sdata: {
+          sign: '',
+          data: ''
         },
         timeperiod: this.timeFrame
       };
@@ -351,13 +351,13 @@ export class TopRowAdvOverviewSharedService {
               : '$' + this.common.nFormatter(paymentData.All.ClaimsLobSummary[0].AmountPaid),
           color: this.returnLobColor(paymentData),
           gdata: ['card-inner', 'claimsPaid'],
-          sdata: {
-            sign: '',
-            data: ''
-          },
           besideData: {
             labels: ['Medicare & Retirement', 'Community & State', 'Employer & Individual', 'Uncategorized'],
             color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC']
+          },
+          sdata: {
+            sign: '',
+            data: ''
           },
           labels: this.returnHoverLabels(paymentData),
           hover: true
@@ -439,16 +439,16 @@ export class TopRowAdvOverviewSharedService {
               : '$' + this.common.nFormatter(paymentData.All.ClaimsLobSummary[0].AmountDenied),
           color: this.returnLobColor(paymentData),
           gdata: ['card-inner', 'claimsNotPaid'],
-          sdata: {
-            sign: '',
-            data: ''
-          },
           besideData: {
             labels: ['Medicare & Retirement', 'Community & State', 'Employer & Individual', 'Uncategorized'],
             color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC']
           },
           labels: this.returnHoverLabels(paymentData),
           hover: true
+        },
+        sdata: {
+          sign: '',
+          data: ''
         },
         timeperiod: this.timeFrame
       };
