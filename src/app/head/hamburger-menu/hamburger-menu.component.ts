@@ -236,6 +236,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     this.clickFilterIcon = this.filterExpandService.url.subscribe(
       data => {
         this.filterFlag = true;
+        this.customFilter = false;
         this.filterurl = data;
       },
       err => {
@@ -246,9 +247,10 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
       data => {
         this.filterFlag = true;
         if (data) {
-          const { filterData = [], customFilter } = data;
+          const { filterData = [], customFilter, url } = data;
           this.filterData = filterData;
           this.customFilter = customFilter;
+          this.filterurl = url;
         }
       },
       err => {
