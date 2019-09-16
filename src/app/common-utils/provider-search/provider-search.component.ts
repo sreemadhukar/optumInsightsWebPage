@@ -31,7 +31,7 @@ export class ProviderSearchComponent implements OnInit, AfterViewInit {
   nomatchFlag: any;
 
   // Set default value for the container title label
-  containreLabel = DEFAULT_CONTAINER_LABEL;
+  containerLabel = DEFAULT_CONTAINER_LABEL;
 
   // Set default function, trigres after selecting provider value
   valueSelected = DEFAULT_SELECTED_ACTION;
@@ -61,7 +61,7 @@ export class ProviderSearchComponent implements OnInit, AfterViewInit {
     );
 
     // Set optional label value from parent component
-    this.containreLabel = get(this.data, ['containreLabel'], this.containreLabel);
+    this.containerLabel = get(this.data, ['containerLabel'], this.containerLabel);
 
     // Set optional function value from parent component that trigres after value selected
     this.valueSelected = get(this.data, ['valueSelected'], this.valueSelected);
