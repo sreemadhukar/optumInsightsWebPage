@@ -352,7 +352,7 @@ export class TopRowAdvOverviewSharedService {
           color: this.returnLobColor(paymentData),
           gdata: ['card-inner', 'claimsPaid'],
           besideData: {
-            labels: ['Medicare & Retirement', 'Community & State', 'Employer & Individual', 'Uncategorized'],
+            labels: ['M&R', 'C&S', 'E&I', 'Uncategorized'],
             color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC']
           },
           labels: this.returnHoverLabels(paymentData),
@@ -440,7 +440,7 @@ export class TopRowAdvOverviewSharedService {
           color: this.returnLobColor(paymentData),
           gdata: ['card-inner', 'claimsNotPaid'],
           besideData: {
-            labels: ['Medicare & Retirement', 'Community & State', 'Employer & Individual', 'Uncategorized'],
+            labels: ['M&R', 'C&S', 'E&I', 'Uncategorized'],
             color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC']
           },
           labels: this.returnHoverLabels(paymentData),
