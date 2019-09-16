@@ -7,6 +7,7 @@ import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { KopInsightsService } from 'src/app/shared/know-our-provider/kop-insights.service';
+import { SessionService } from 'src/app/shared/session.service';
 
 @Component({
   selector: 'app-kop-overview',
@@ -18,12 +19,7 @@ export class KopOverviewComponent implements OnInit, OnDestroy {
 
   // HEADER SECTION
   public pageTitle: string;
-  public filterData: any[] = [
-    { title: 'Last Completed Quarter', key: 1 },
-    { title: 'Year To Date', key: 2 },
-    { title: 'Quarter over Quarter', key: 3 },
-    { title: 'Total Last Year', key: 4 }
-  ];
+  public filterData: any[] = [];
 
   // NPS SECTION
   public npsLoaded: Boolean = false;
@@ -31,11 +27,13 @@ export class KopOverviewComponent implements OnInit, OnDestroy {
     npsHeader: true
   };
   public npsSummary: any = {};
+  public currentFilter: any = {};
   public kopInsightsData: any = {};
 
   constructor(
     private eventEmitter: EventEmitterService,
     private filterExpandService: FilterExpandService,
+    private sessionService: SessionService,
     private iconRegistry: MatIconRegistry,
     private sanitizer: DomSanitizer,
     private router: Router,
@@ -53,12 +51,25 @@ export class KopOverviewComponent implements OnInit, OnDestroy {
     const userInfo = JSON.parse(sessionStorage.getItem('loggedUser')) || {};
     this.pageTitle = 'Hello, ' + userInfo.FirstName + '.';
 
-    this.npsSharedService.getNPSSummary((data: any) => {
-      this.npsSummary = data;
-      this.npsLoaded = true;
-    });
+    this.filterData = this.npsSharedService.filters;
+    this.currentFilter = this.filterData.filter(element => element.selected)[0];
+    this.getNPSData();
+
     this.kopInsightsService.getKopInsightsData((data: any) => {
       this.kopInsightsData = data;
+    });
+
+    this.sessionService.getFilChangeEmitter().subscribe((data: any) => {
+      const { selectedFilter } = data;
+
+      this.filterData.forEach((filterDataItem: any) => {
+        filterDataItem.selected = false;
+        if (filterDataItem.title === selectedFilter) {
+          filterDataItem.selected = true;
+          this.currentFilter = filterDataItem;
+        }
+      });
+      this.getNPSData();
     });
   }
 
@@ -67,7 +78,15 @@ export class KopOverviewComponent implements OnInit, OnDestroy {
   }
 
   openFilter() {
-    this.filterExpandService.setURL(this.router.url);
-    this.filterExpandService.setData({ customFilter: true, filterData: this.filterData });
+    this.filterExpandService.setData({ url: this.router.url, customFilter: true, filterData: this.filterData });
+  }
+
+  getNPSData() {
+    this.npsSharedService.getNPSSummary({ filter: this.currentFilter.params }, (data: any) => {
+      if (data) {
+        this.npsSummary = data;
+        this.npsLoaded = true;
+      }
+    });
   }
 }

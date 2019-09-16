@@ -10,6 +10,7 @@ import { MatInput } from '@angular/material';
 
 export interface FilterData {
   title: string;
+  selected: boolean;
 }
 @Component({
   selector: 'app-filter',
@@ -227,8 +228,7 @@ export class FilterComponent implements OnInit {
         }
       });
     });
-
-    this.selectedFilter = this.filterData && this.filterData.length > 0 ? this.filterData[0].title : '';
+    this.selectedFilter = this.filterData.filter(element => element.selected)[0].title;
   }
 
   resetFilter() {
@@ -236,50 +236,77 @@ export class FilterComponent implements OnInit {
     this.session.filterObjValue.timeFrame = this.timeframeData = this.timeframes[2];
     this.session.filterObjValue.tax = ['All'];
     this.taxData = 'All';
-    if (this.priorAuthorizationCustomFilterBool) {
-      this.session.filterObjValue.serviceSetting = this.servicesettings[0];
+
+    if (this.customFilter) {
+      this.filterData.forEach((filterDataItem: FilterData, index: number) => {
+        filterDataItem.selected = false;
+        if (index === 0) {
+          this.selectedFilter = filterDataItem.title;
+          filterDataItem.selected = true;
+        }
+      });
       this.session.store({
-        timeFrame: this.timeframes[2],
-        lob: this.lobs[0],
-        tax: ['All'],
-        serviceSetting: this.servicesettings[0],
-        priorAuthType: this.priorauthdecisiontype[0],
-        scType: this.priorauthservicecategory[0]
+        timeFrame: this.timeframeData,
+        selectedFilter: this.selectedFilter,
+        lob: this.lobData,
+        tax: [this.taxData]
       });
     } else {
-      this.session.store({ timeFrame: this.timeframes[2], lob: this.lobs[0], tax: ['All'] });
+      if (this.priorAuthorizationCustomFilterBool) {
+        this.session.filterObjValue.serviceSetting = this.servicesettings[0];
+        this.session.store({
+          timeFrame: this.timeframes[2],
+          lob: this.lobs[0],
+          tax: ['All'],
+          serviceSetting: this.servicesettings[0],
+          priorAuthType: this.priorauthdecisiontype[0],
+          scType: this.priorauthservicecategory[0]
+        });
+      } else {
+        this.session.store({ timeFrame: this.timeframes[2], lob: this.lobs[0], tax: ['All'] });
+      }
     }
+
     this.filterFlag.emit(false);
   }
   applyFilter() {
-    if (this.taxArrayData.length > 0) {
-      //  this.session.filterObjValue.tax = this.taxArrayData;
-      if (this.priorAuthorizationCustomFilterBool) {
-        this.session.store({
-          timeFrame: this.timeframeData,
-          lob: this.lobData,
-          tax: this.taxArrayData,
-          serviceSetting: this.serviceSettingData,
-          priorAuthType: this.priorAuthTypeData,
-          scType: this.scTypeData
-        });
-      } else {
-        this.session.store({ timeFrame: this.timeframeData, lob: this.lobData, tax: this.taxArrayData });
-      }
+    if (this.customFilter) {
+      this.session.store({
+        timeFrame: this.timeframeData,
+        selectedFilter: this.selectedFilter,
+        lob: this.lobData,
+        tax: [this.taxData]
+      });
     } else {
-      // this.session.filterObjValue.tax = [this.taxData];
-      if (this.priorAuthorizationCustomFilterBool) {
-        console.log(this.timeframeData);
-        this.session.store({
-          timeFrame: this.timeframeData,
-          lob: this.lobData,
-          tax: [this.taxData],
-          serviceSetting: this.serviceSettingData,
-          priorAuthType: this.priorAuthTypeData,
-          scType: this.scTypeData
-        });
+      if (this.taxArrayData.length > 0) {
+        //  this.session.filterObjValue.tax = this.taxArrayData;
+        if (this.priorAuthorizationCustomFilterBool) {
+          this.session.store({
+            timeFrame: this.timeframeData,
+            lob: this.lobData,
+            tax: this.taxArrayData,
+            serviceSetting: this.serviceSettingData,
+            priorAuthType: this.priorAuthTypeData,
+            scType: this.scTypeData
+          });
+        } else {
+          this.session.store({ timeFrame: this.timeframeData, lob: this.lobData, tax: this.taxArrayData });
+        }
       } else {
-        this.session.store({ timeFrame: this.timeframeData, lob: this.lobData, tax: [this.taxData] });
+        // this.session.filterObjValue.tax = [this.taxData];
+        if (this.priorAuthorizationCustomFilterBool) {
+          console.log(this.timeframeData);
+          this.session.store({
+            timeFrame: this.timeframeData,
+            lob: this.lobData,
+            tax: [this.taxData],
+            serviceSetting: this.serviceSettingData,
+            priorAuthType: this.priorAuthTypeData,
+            scType: this.scTypeData
+          });
+        } else {
+          this.session.store({ timeFrame: this.timeframeData, lob: this.lobData, tax: [this.taxData] });
+        }
       }
     }
     this.session.filterObjSubject.complete();

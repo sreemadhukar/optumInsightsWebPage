@@ -11,6 +11,7 @@
       <div
         *ngFor="let card of data.cards"
         class="data-card"
+        [class.card-nps-single]="data.singleCard"
         [class.card-nps-quarter-current]="card.currentQuarter"
         [class.card-nps-quarter-prev]="card.prevQuarter"
         [class.card-nps-quarter-highlight]="card.highlightQuarter"
