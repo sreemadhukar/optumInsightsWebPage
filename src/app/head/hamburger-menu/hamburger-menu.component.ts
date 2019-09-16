@@ -393,8 +393,11 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
 
     // Set label for the container label and pass after selection trigger function
     dialogConfig.data = {
-      valueSelected: () => this.router.navigateByUrl('/OverviewPage'),
-      containreLabel: 'View as a Provider'
+      valueSelected: () => {
+        // Reloading targeted route, for resetting the css
+        window.location.href = '/OverviewPage';
+      },
+      containerLabel: 'View as a Provider'
     };
 
     // Set Styling
