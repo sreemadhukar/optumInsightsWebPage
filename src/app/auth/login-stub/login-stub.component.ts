@@ -58,6 +58,7 @@ export class LoginStubComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.dialog.closeAll();
     sessionStorage.setItem('cache', JSON.stringify(false));
     if (!environment.production) {
       this.authService.getJwt().subscribe(data => {
