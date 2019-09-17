@@ -25,11 +25,20 @@
     </div>
     <div *ngIf="advDropdownBool">
       <div class="dropdown-body">
-        <div (click)="advViewClicked('myView')">
-          My View
+        <div (click)="advViewClicked('myView')" class="drop-item">
+          My Advocate View
         </div>
-        <div (click)="advViewClicked('userView')">
-          External View
+        <div (click)="advViewClicked('userView')" class="drop-item">
+          Simulate External View
+        </div>
+        <div class="drop-item">
+          Profile
+        </div>
+        <div class="drop-item">
+          Preferences
+        </div>
+        <div class="drop-item">
+          Settings
         </div>
       </div>
     </div>
