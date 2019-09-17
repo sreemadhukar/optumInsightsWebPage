@@ -58,6 +58,7 @@ export class LoginStubComponent implements OnInit {
   }
 
   ngOnInit() {
+    // to close all opened dialogbox at after logout at login page
     this.dialog.closeAll();
     sessionStorage.setItem('cache', JSON.stringify(false));
     if (!environment.production) {
