@@ -124,7 +124,7 @@ export class OverviewAdvocateComponent implements OnInit {
 
   paymentData() {
     this.paymentLoading = true;
-    this.mockCards = [{}, {}];
+    this.mockCards = [{}, {}, {}];
 
     this.topRowService
       .getPaymentShared()
