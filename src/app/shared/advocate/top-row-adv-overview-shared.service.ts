@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { TopRowAdvOverviewService } from './../../rest/advocate/top-row-adv-overview.service';
+import { TopRowAdvOverviewService } from '../../rest/advocate/top-row-adv-overview.service';
 import { AdvocateModule } from '../../components/advocate/advocate.module';
-import { CommonUtilsService } from './../common-utils.service';
-import { SessionService } from './../session.service';
-import { AuthorizationService } from './../../auth/_service/authorization.service';
-import { GlossaryMetricidService } from './../glossary-metricid.service';
+import { CommonUtilsService } from '../common-utils.service';
+import { SessionService } from '../session.service';
+import { AuthorizationService } from '../../auth/_service/authorization.service';
+import { GlossaryMetricidService } from '../glossary-metricid.service';
 
 @Injectable({
   providedIn: AdvocateModule
@@ -229,9 +229,9 @@ export class TopRowAdvOverviewSharedService {
         paymentData => {
           const paymentDataResolve = [];
           paymentDataResolve.push(
+            this.totalClaimsSubmittedMethod(paymentData),
             this.claimsPaidMethod(paymentData),
-            this.claimsNotPaidMethod(paymentData),
-            this.totalClaimsSubmittedMethod(paymentData)
+            this.claimsNotPaidMethod(paymentData)
           );
           resolve(paymentDataResolve);
         },
@@ -254,9 +254,9 @@ export class TopRowAdvOverviewSharedService {
       paymentData[lobData].ClaimsLobSummary[0].hasOwnProperty('ClaimsSubmitted')
     ) {
       claimsSubmitted = {
-        category: 'app-card',
+        category: 'small-card',
         type: 'donutWithLabel',
-        title: 'Total Number of Claims Submitted',
+        title: 'Claims Submitted',
         MetricID: this.MetricidService.MetricIDs.TotalNumberofClaimsSubmitted,
         data: {
           graphValues: [
@@ -266,22 +266,22 @@ export class TopRowAdvOverviewSharedService {
           centerNumber: this.common.nFormatter(paymentData[lobData].ClaimsLobSummary[0].ClaimsSubmitted),
           color: ['#3381FF', '#80B0FF'],
           gdata: ['card-inner', 'totalClaimsSubmitted'],
-          sdata: {
-            sign: '',
-            data: ''
+          besideData: {
+            labels: ['Paid', 'Not Paid'],
+            color: ['#3381FF', '#80B0FF']
           }
         },
-        besideData: {
-          labels: ['Paid', 'Not Paid'],
-          color: ['#3381FF', '#80B0FF']
+        sdata: {
+          sign: '',
+          data: ''
         },
         timeperiod: this.timeFrame
       };
     } else {
       claimsSubmitted = {
-        category: 'app-card',
+        category: 'small-card',
         type: 'donutWithLabel',
-        title: 'Total Number of Claims Submitted',
+        title: 'Claims Submitted',
         MetricID: this.MetricidService.MetricIDs.TotalNumberofClaimsSubmitted,
         data: null,
         status: 404,
@@ -338,7 +338,7 @@ export class TopRowAdvOverviewSharedService {
         }
       }
       claimsPaid = {
-        category: 'app-card',
+        category: 'small-card',
         type: 'donutWithLabel',
         title: 'Claims Paid',
         MetricID: this.MetricidService.MetricIDs.ClaimsPaid,
@@ -351,22 +351,22 @@ export class TopRowAdvOverviewSharedService {
               : '$' + this.common.nFormatter(paymentData.All.ClaimsLobSummary[0].AmountPaid),
           color: this.returnLobColor(paymentData),
           gdata: ['card-inner', 'claimsPaid'],
-          sdata: {
-            sign: '',
-            data: ''
+          besideData: {
+            labels: ['M&R', 'C&S', 'E&I', 'Uncategorized'],
+            color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC']
           },
           labels: this.returnHoverLabels(paymentData),
           hover: true
         },
-        besideData: {
-          labels: ['Medicare & Retirement', 'Community & State', 'Employer & Individual', 'Uncategorized'],
-          color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC']
+        sdata: {
+          sign: '',
+          data: ''
         },
         timeperiod: this.timeFrame
       };
     } else {
       claimsPaid = {
-        category: 'app-card',
+        category: 'small-card',
         type: 'donutWithLabel',
         status: 404,
         title: 'Claims Not Paid',
@@ -426,7 +426,7 @@ export class TopRowAdvOverviewSharedService {
         }
       }
       claimsNotPaid = {
-        category: 'app-card',
+        category: 'small-card',
         type: 'donutWithLabel',
         title: 'Claims Not Paid',
         MetricID: this.MetricidService.MetricIDs.ClaimsNotPaid,
@@ -439,22 +439,22 @@ export class TopRowAdvOverviewSharedService {
               : '$' + this.common.nFormatter(paymentData.All.ClaimsLobSummary[0].AmountDenied),
           color: this.returnLobColor(paymentData),
           gdata: ['card-inner', 'claimsNotPaid'],
-          sdata: {
-            sign: '',
-            data: ''
+          besideData: {
+            labels: ['M&R', 'C&S', 'E&I', 'Uncategorized'],
+            color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC']
           },
           labels: this.returnHoverLabels(paymentData),
           hover: true
         },
-        besideData: {
-          labels: ['Medicare & Retirement', 'Community & State', 'Employer & Individual', 'Uncategorized'],
-          color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC']
+        sdata: {
+          sign: '',
+          data: ''
         },
         timeperiod: this.timeFrame
       };
     } else {
       claimsNotPaid = {
-        category: 'app-card',
+        category: 'small-card',
         type: 'donutWithLabel',
         status: 404,
         title: 'Claims Not Paid',
