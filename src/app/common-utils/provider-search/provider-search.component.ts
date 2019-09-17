@@ -8,7 +8,6 @@ import { Providers } from '../../shared/provider/provider.class';
 import { MatIconRegistry, MatDialogRef, MatAutocompleteSelectedEvent, MatAutocompleteModule } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 import { StorageService } from '../../shared/storage-service.service';
-import { FilterCloseService } from './../../shared/filters/filter-close.service';
 
 @Component({
   selector: 'app-provider-search',
@@ -21,7 +20,7 @@ export class ProviderSearchComponent implements OnInit, AfterViewInit {
   states: Providers[];
   providerData: any;
   nomatchFlag: any;
-  filterClose: any;
+
   constructor(
     private fb: FormBuilder,
     private providerSharedService: ProviderSharedService,
@@ -29,7 +28,6 @@ export class ProviderSearchComponent implements OnInit, AfterViewInit {
     private storage: StorageService,
     private dialogRef: MatDialogRef<ProviderSearchComponent>,
     private router: Router,
-    private filterCloseService: FilterCloseService,
     sanitizer: DomSanitizer
   ) {
     iconRegistry.addSvgIcon(
@@ -48,14 +46,6 @@ export class ProviderSearchComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
-    this.filterClose = this.filterCloseService.filterClose.subscribe(
-      boolData => {
-        this.dialogRef.close();
-      },
-      err => {
-        console.log('Error, filterclose on timeout , inside provider search', err);
-      }
-    );
     if (!this.states) {
       this.providerSharedService.providersList().subscribe(value => (this.states = value));
     }
