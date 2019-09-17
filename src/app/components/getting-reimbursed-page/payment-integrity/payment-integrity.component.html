@@ -203,7 +203,7 @@
     <!-- Smart Edits Repaired & Resubmitted Response Time Card Ends here -->
 
     <!-- Smart Edits  Top Informational Reasons STARTS HERE -->
-    <div>
+    <div *ngIf="showSmartEditsTopInfoReason">
       <app-card class="cards" [skeleton]="loading" *ngIf="loading"> </app-card>
       <div class="overturn-reason-block">
         <app-common-header

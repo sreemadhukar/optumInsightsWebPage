@@ -41,8 +41,8 @@
       </div>
     </div>
     <div class="height1Separator"></div>
-    <div *ngFor="let data of mockCards; let i = index">
-      <app-small-card class="cards" [skeleton]="loading" *ngIf="paymentLoading"> </app-small-card>
+    <div *ngFor="let data of topRowMockCards; let i = index">
+      <app-small-card class="cards" [skeleton]="paymentLoading" *ngIf="paymentLoading"> </app-small-card>
     </div>
     <div *ngFor="let item of paymentCards">
       <app-small-card *ngIf="item != null && item.data != null" class="cards" [data]="item"> </app-small-card>

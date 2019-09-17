@@ -21,7 +21,7 @@ export class OverviewAdvocateComponent implements OnInit {
   timePeriod: string;
   lob: string;
   taxID: Array<string>;
-  mockCards: any;
+  topRowMockCards: any;
   subscription: any;
   claimsSubmitted: any;
   claimsPaid: any;
@@ -55,7 +55,7 @@ export class OverviewAdvocateComponent implements OnInit {
 
   paymentData() {
     this.paymentLoading = true;
-    this.mockCards = [{}, {}];
+    this.topRowMockCards = [{}, {}, {}];
 
     this.topRowService
       .getPaymentShared()

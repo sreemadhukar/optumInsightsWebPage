@@ -281,7 +281,7 @@ export class TopRowAdvOverviewSharedService {
       claimsSubmitted = {
         category: 'small-card',
         type: 'donutWithLabel',
-        title: 'Total Number of Claims Submitted',
+        title: 'Claims Submitted',
         MetricID: this.MetricidService.MetricIDs.TotalNumberofClaimsSubmitted,
         data: null,
         status: 404,
