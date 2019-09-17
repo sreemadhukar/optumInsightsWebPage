@@ -218,6 +218,41 @@
   animation: shine-small-card 1s infinite;
 }
 
+.beside-data-block {
+  float: left;
+  margin-top: 10px;
+  margin-left: 10px;
+}
+
+.total-claims-beside-data-block {
+  float: left;
+  margin-top: 40px;
+  margin-left: 10px;
+}
+
+.app-card-list-labels {
+  display: block;
+  color: $black-rock;
+  font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  letter-spacing: 0.2px;
+  line-height: 18px;
+  float: left;
+}
+.app-card-list-labels > li {
+  margin-bottom: 16px;
+  margin-right: 8px;
+  font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+}
+.label-dots {
+  height: 16px;
+  width: 16px;
+  border-radius: 50%;
+}
+.label-color-indicators {
+  margin-bottom: 18px !important;
+}
+
 @keyframes shine-small-card {
   to {
     background-position: 10px 75px, 100% 0, /* move highlight to right */ 120px 100px, 120px 137.5px;

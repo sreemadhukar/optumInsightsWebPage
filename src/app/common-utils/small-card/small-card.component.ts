@@ -51,6 +51,5 @@ export class SmallCardComponent implements OnInit {
   }
   ngOnInit() {
     console.log('ht', this.data);
-    // this.besideData = this.data.besideData;
   }
 }
