@@ -262,6 +262,26 @@ app-header {
   }
 }
 
+.sub-menu-sub-header {
+  .sub-menu-expansion-header {
+    color: $strom-grey !important;
+  }
+  .mat-expansion-indicator::after {
+    color: $strom-grey !important;
+  }
+}
+
+.child-nav-menu-expansion-panel {
+  .mat-expanded {
+    .sub-menu-expansion-header {
+      color: $blue !important;
+    }
+    .mat-expansion-indicator::after {
+      color: $blue !important;
+    }
+  }
+}
+
 .nav-no-child-category:hover,
 .mat-expansion-panel-header:hover,
 .signout-label:hover {

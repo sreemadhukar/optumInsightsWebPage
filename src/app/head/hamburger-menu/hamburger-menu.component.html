@@ -81,7 +81,7 @@
               <mat-nav-list *ngFor="let subcategory of category.children">
                 <mat-expansion-panel
                   *ngIf="subcategory.children"
-                  class=" nav-menu-expansion-panel mat-elevation-z0"
+                  class=" nav-menu-expansion-panel mat-elevation-z0 child-nav-menu-expansion-panel"
                   [expanded]="_allExpandState"
                   [disabled]="subcategory.disabled"
                   [class.pointer-none]="subcategory.disabled"
@@ -92,7 +92,7 @@
                     [expandedHeight]="'18px'"
                     style="font-size:14px"
                   >
-                    <mat-panel-title>
+                    <mat-panel-title class="sub-menu-expansion-header">
                       <!--<img src="{{ category.icon }}" class="nav-menu-icons" />-->{{ subcategory.name }}
                     </mat-panel-title>
                   </mat-expansion-panel-header>
