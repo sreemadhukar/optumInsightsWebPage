@@ -270,7 +270,9 @@ export class TopRowAdvOverviewSharedService {
           besideData: {
             labels: ['Paid', 'Not Paid'],
             color: ['#3381FF', '#80B0FF']
-          }
+          },
+          labels: ['Paid', 'Not Paid'],
+          hover: true
         },
         sdata: {
           sign: '',
