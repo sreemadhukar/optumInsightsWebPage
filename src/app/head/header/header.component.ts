@@ -62,6 +62,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   public mobileQuery: boolean;
   public menuIcon = 'menu';
   public username = '';
+  public advDropdownBool = false;
   subscription: Subscription;
 
   constructor(
@@ -79,8 +80,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
     // this.mobileQuery = this.breakpointObserver.isMatched('(max-width: 1024px)');
     router.events.subscribe(event => {
       if (event instanceof NavigationStart) {
-        const userInfo = JSON.parse(sessionStorage.getItem('loggedUser'));
-        this.username = userInfo.FirstName;
+        if (JSON.parse(sessionStorage.getItem('loggedUser'))) {
+          const userInfo = JSON.parse(sessionStorage.getItem('loggedUser'));
+          this.username = userInfo.FirstName;
+        }
         this.mobileQuery = this.breakpointObserver.isMatched('(max-width: 1279px)');
         // alert(this.mobileQuery);
         if (!this.mobileQuery) {
@@ -116,16 +119,49 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.ngOnInit());
   }
 
+  advocateRole(): boolean {
+    try {
+      if (JSON.parse(sessionStorage.getItem('loggedUser'))) {
+        let userRole;
+        userRole = JSON.parse(sessionStorage.getItem('loggedUser')).UserRole;
+        let userRoleAdvocate = false;
+        userRoleAdvocate = userRole.some(item => item.includes('UHCI_Advocate'));
+        return userRoleAdvocate;
+      } else {
+        return false;
+      }
+    } catch (Error) {
+      return false;
+    }
+  }
+  advocateUserClick() {
+    if (this.advocateRole()) {
+      this.advDropdownBool = !this.advDropdownBool;
+    } else {
+      this.advDropdownBool = false;
+    }
+  }
+  advViewClicked(value: string) {
+    if (value === 'myView') {
+      this.router.navigate(['/OverviewPageAdvocate']);
+    } else if (value === 'userView') {
+      this.router.navigate(['/OverviewPage']);
+    }
+  }
   ngOnInit() {
     this.isDarkTheme = this.themeService.isDarkTheme;
     this.eventEmitter.getEvent().subscribe(val => {
-      const userInfo = JSON.parse(sessionStorage.getItem('loggedUser'));
-      this.username = userInfo.FirstName;
+      if (JSON.parse(sessionStorage.getItem('loggedUser'))) {
+        const userInfo = JSON.parse(sessionStorage.getItem('loggedUser'));
+        this.username = userInfo.FirstName;
+      }
     });
     this.checkStorage.getEvent().subscribe(value => {
       if (value.value === 'overviewPage') {
-        const userInfo = JSON.parse(sessionStorage.getItem('loggedUser'));
-        this.username = userInfo.FirstName;
+        if (JSON.parse(sessionStorage.getItem('loggedUser'))) {
+          const userInfo = JSON.parse(sessionStorage.getItem('loggedUser'));
+          this.username = userInfo.FirstName;
+        }
       }
     });
   }
