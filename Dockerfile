@@ -1,6 +1,6 @@
 FROM keymetrics/pm2:latest-alpine as builder
 
-COPY package*.json ./
+COPY package.json ./
 
 COPY .npmrc ./
 
