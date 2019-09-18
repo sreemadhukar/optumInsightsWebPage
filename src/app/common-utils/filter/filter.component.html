@@ -186,6 +186,7 @@
     -->
 
     <!-- Service Category -->
+    <!--
     <div class="line"></div>
     <div class="titleData">
       <div class="title">Service Category</div>
@@ -225,19 +226,19 @@
             (optionSelected)="scArrayFunction($event.option.value)"
           >
             <mat-option *ngFor="let servicecategory of (filteredOptions | async)" [value]="servicecategory">
-              <!-- <span class="highlight" [innerHTML]="servicecategory | highlight: toHighlight"></span> -->
               {{ servicecategory }}
             </mat-option>
           </mat-autocomplete>
         </mat-form-field>
 
-        <!-- <mat-radio-group class="radio-group" [(ngModel)]="scTypeData">
+        <mat-radio-group class="radio-group" [(ngModel)]="scTypeData">
           <mat-radio-button class="radio-button" *ngFor="let patype of priorauthdecisiontype" [value]="patype">
             {{ patype }}
           </mat-radio-button>
-        </mat-radio-group> -->
+        </mat-radio-group>
       </div>
     </div>
+    -->
   </div>
 
   <div class="line1"></div>

@@ -203,7 +203,7 @@
     <!-- Smart Edits Repaired & Resubmitted Response Time Card Ends here -->
 
     <!-- Smart Edits  Top Informational Reasons STARTS HERE -->
-    <div>
+    <div *ngIf="showSmartEditsTopInfoReason">
       <app-card class="cards" [skeleton]="loading" *ngIf="loading"> </app-card>
       <div class="overturn-reason-block">
         <app-common-header
@@ -231,7 +231,7 @@
         </div>
         <div>
           <p class="smart-edits-vol-label">Total Volume:</p>
-          <p class="smart-edits-vol-num">2497</p>
+          <p class="smart-edits-vol-num">2,497</p>
         </div>
         <!--/div-->
         <div class="common-footer">

@@ -95,36 +95,6 @@ export class OverviewComponent implements OnInit {
     const heac = JSON.parse(sessionStorage.getItem('heac'));
     this.isHeac = heac && heac.heac === true ? true : false;
     this.checkStorage.emitEvent('overviewPage');
-    /***************** DELETE LATER *************/
-    /*this.claimsPaidBlock = {
-      category: "small-card",
-      data: {
-        centerNumber: "$3434.6M",
-        color: ["#3381FF", "#80B0FF", "#003DA1"],
-        gdata: ["card-inner", "claimsPaidCardD3Donutss"],
-        graphValues: [13440154.46, 65374225.25, 114778212.67]
-      },
-      sdata: {},
-      timeperiod: "Last 6 Months",
-      title: "Claims Paidss",
-      toggle: true,
-      type: "donut"
-    };
-
-    this.claimsYieldBlock = {
-      category: "small-card",
-      data: {
-        centerNumber: "55%",
-        color: ["#3381FF", "#D7DCE1"],
-        gdata: ["card-inner", "claimsYieldCardD3Donutss"],
-        graphValues: [100, 0]
-      },
-      sdata: {},
-      timeperiod: "Last 6 Months",
-      title: "Claims Yieldss",
-      toggle: true,
-      type: "donut"
-    }*/
     this.overviewsrc.getAllTrends().then(trendData => {
       this.trendsData = trendData;
       // temporary switch off of trend in calls : Srikar Bobbiganipalli

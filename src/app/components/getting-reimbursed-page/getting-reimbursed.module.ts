@@ -17,6 +17,7 @@ import { AppealsSharedService } from '../../shared/getting-reimbursed/appeals/ap
 import { PaymentIntegrityComponent } from './payment-integrity/payment-integrity.component';
 import { NonPaymentsComponent } from './non-payments/non-payments.component';
 import { PaymentsComponent } from './payments/payments.component';
+import { SmartEditsComponent } from './payment-integrity/smart-edits/smart-edits.component';
 @NgModule({
   imports: [CommonModule, GettingReimbursedRoutingModule, CommonUtilsModule, HeadMaterialModule, FormsModule],
   providers: [
@@ -32,7 +33,8 @@ import { PaymentsComponent } from './payments/payments.component';
     AppealsComponent,
     PaymentIntegrityComponent,
     NonPaymentsComponent,
-    PaymentsComponent
+    PaymentsComponent,
+    SmartEditsComponent
   ]
 })
 export class GettingReimbursedModule {}
