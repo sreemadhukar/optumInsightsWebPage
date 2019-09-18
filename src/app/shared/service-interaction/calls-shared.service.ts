@@ -4,6 +4,7 @@ import { ServiceInteractionModule } from '../../components/service-interaction/s
 import { SessionService } from '../session.service';
 import { CommonUtilsService } from '../common-utils.service';
 import { TrendingMetricsService } from '../../rest/trending/trending-metrics.service';
+import { AuthorizationService } from '../../auth/_service/authorization.service';
 
 @Injectable({ providedIn: ServiceInteractionModule })
 export class CallsSharedService {
@@ -18,14 +19,16 @@ export class CallsSharedService {
     private callsService: CallsService,
     private session: SessionService,
     private common: CommonUtilsService,
+    private toggle: AuthorizationService,
     private trendsService: TrendingMetricsService
   ) {}
 
   public issueResolution(
-    status: any,
+    status: number,
     title: String,
     MetricID: String,
     data: any,
+    toggle: boolean,
     besideData: any,
     timeperiod?: String | null
   ): Object {
@@ -36,6 +39,7 @@ export class CallsSharedService {
       title: title,
       MetricID: MetricID,
       data: data,
+      toggle: toggle,
       besideData: besideData,
       timeperiod: timeperiod
     };
@@ -189,6 +193,7 @@ export class CallsSharedService {
                       hover: true
                       // sdata: this.sdataTrend[0]
                     },
+                    this.toggle.setToggles('Calls by Call Type', 'Calls', 'Service Interaction', false),
                     {
                       labels: ['Eligibilty and Benefits', 'Claims', 'Prior Authorizations', 'Others'],
                       color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC']
@@ -197,12 +202,12 @@ export class CallsSharedService {
                   );
                 } catch (Error) {
                   console.log('Error in Calls Page | Question Type By Call Type', Error);
-                  callsByCallType = this.issueResolution(null, null, null, null, null);
+                  callsByCallType = this.issueResolution(404, null, null, null, null, null);
                 }
               }
             } catch (Error) {
               console.log('Calls Page Error CallVolByQuesType', Error);
-              callsByCallType = this.issueResolution(null, null, null, null, null);
+              callsByCallType = this.issueResolution(404, null, null, null, null, null);
             }
             try {
               if (
@@ -234,6 +239,7 @@ export class CallsSharedService {
                       hover: true
                       // sdata: this.sdataTrend[1]
                     },
+                    this.toggle.setToggles('Talk Time By Call Type', 'Calls', 'Service Interaction', false),
                     {
                       labels: ['Eligibilty and Benefits', 'Claims', 'Prior Authorizations', 'Others'],
                       color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC']
@@ -242,18 +248,18 @@ export class CallsSharedService {
                   );
                 } catch (Error) {
                   console.log('Error in Calls Page | TalkTime By Call Type', Error);
-                  talkTimeByCallType = this.issueResolution(null, null, null, null, null);
+                  talkTimeByCallType = this.issueResolution(404, null, null, null, null, null);
                 }
               } // end if else blocl
             } catch (Error) {
               console.log('Calls Page Error CallTalkTimeByQuesType', Error);
-              talkTimeByCallType = this.issueResolution(null, null, null, null, null);
+              talkTimeByCallType = this.issueResolution(404, null, null, null, null, null);
             }
             tempArray[0] = callsByCallType;
             tempArray[1] = talkTimeByCallType;
           } else {
-            callsByCallType = this.issueResolution(404, null, null, null, null);
-            talkTimeByCallType = this.issueResolution(404, null, null, null, null);
+            callsByCallType = this.issueResolution(404, null, null, null, null, null);
+            talkTimeByCallType = this.issueResolution(404, null, null, null, null, null);
             tempArray[0] = callsByCallType;
             tempArray[1] = talkTimeByCallType;
           }

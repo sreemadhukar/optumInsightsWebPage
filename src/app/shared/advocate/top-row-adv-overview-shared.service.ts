@@ -257,6 +257,7 @@ export class TopRowAdvOverviewSharedService {
         category: 'small-card',
         type: 'donutWithLabel',
         title: 'Claims Submitted',
+        toggle: this.toggle.setToggles('Claims Submitted', 'TopRow', 'OverviewAdvocate', false),
         MetricID: this.MetricidService.MetricIDs.TotalNumberofClaimsSubmitted,
         data: {
           graphValues: [
@@ -341,6 +342,7 @@ export class TopRowAdvOverviewSharedService {
         category: 'small-card',
         type: 'donutWithLabel',
         title: 'Claims Paid',
+        toggle: this.toggle.setToggles('Claims Paid', 'TopRow', 'OverviewAdvocate', false),
         MetricID: this.MetricidService.MetricIDs.ClaimsPaid,
         data: {
           graphValues: nonPaidData,
@@ -430,6 +432,7 @@ export class TopRowAdvOverviewSharedService {
         type: 'donutWithLabel',
         title: 'Claims Not Paid',
         MetricID: this.MetricidService.MetricIDs.ClaimsNotPaid,
+        toggle: this.toggle.setToggles('Claims Not Paid', 'TopRow', 'OverviewAdvocate', false),
         data: {
           graphValues: nonPaidData,
           centerNumber:
