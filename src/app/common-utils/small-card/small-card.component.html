@@ -105,10 +105,10 @@
           </div>
         </div>
       </div>
-      <div *ngIf="data.timeperiod" class="full-display-block">
-        <app-common-footer [timePeriod]="data.timeperiod"></app-common-footer>
-      </div>
     </div>
+  <div *ngIf="data.timeperiod" class="full-display-block">
+     <app-common-footer [timePeriod]="data.timeperiod"></app-common-footer>
+  </div>    
   </div>
 
   <div *ngIf="skeleton" class="small-card-structure">
