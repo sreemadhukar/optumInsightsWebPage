@@ -34,7 +34,8 @@ export class PaymentIntegrityComponent implements OnInit {
   smartEditsReasonsBool = false;
   showSmartEditsClaimsReturned = false;
   smartEditsInformationalTitle = 'Smart Edits Top Informational Reasons';
-  showSmartEditsRepairedandResubmitted = true;
+  showSmartEditsRepairedandResubmitted = false;
+  showSmartEditsTopInfoReason = false;
 
   constructor(
     private glossaryExpandService: GlossaryExpandService,

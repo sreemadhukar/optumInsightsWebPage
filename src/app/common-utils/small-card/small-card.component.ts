@@ -19,6 +19,7 @@ export class SmallCardComponent implements OnInit {
   public printStyle: boolean;
   public TargetActualAvarage: any;
   public TargetActualFlag = true;
+  public besideData: any;
   /*
   _card: Object = {};
   data: Object = {};

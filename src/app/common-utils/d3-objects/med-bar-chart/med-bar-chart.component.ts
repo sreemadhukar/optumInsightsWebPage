@@ -86,7 +86,7 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
         }
       });
     }
-    const preWidth = 464; // document.getElementsByClassName(this.chartOptions.gdata[0])[0].clientWidth;
+    const preWidth = document.getElementsByClassName(this.chartOptions.gdata[0])[0].clientWidth; // 464;
     // Change Pre width to dynamic value after toggle off
     d3.select(this.renderChart)
       .selectAll('*')

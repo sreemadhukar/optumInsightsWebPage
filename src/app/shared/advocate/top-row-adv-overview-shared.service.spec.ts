@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { TopRowAdvOverviewSharedService } from './top-row-adv-overview.service';
+import { TopRowAdvOverviewSharedService } from './top-row-adv-overview-shared.service';
 
 describe('TopRowAdvOverviewService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
