@@ -25,7 +25,7 @@ export class SmartEditsComponent implements OnInit {
   claimsInfoTopReason = [];
   smartEditsInformationalTitle = 'Smart Edits Top Informational Reasons';
   subscription: any;
-
+  showSmartEdits = false;
   constructor(
     private glossaryExpandService: GlossaryExpandService,
     public MetricidService: GlossaryMetricidService,
