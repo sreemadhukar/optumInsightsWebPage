@@ -31,6 +31,7 @@ export class AcoSharedService {
     let acoPage: Array<object>;
     let acoPageKeyPerformance: Array<object>;
     let acoPageMainCard: Array<object>;
+    let emergencyVisits: Array<object>;
     return new Promise(resolve => {
       this.acoservice.getAcoData().subscribe(data => {
         if (data.hasOwnProperty('LineOfBusiness')) {
@@ -113,6 +114,16 @@ export class AcoSharedService {
               },
               timeperiod: 'Contract Year to Date'
             };
+            emergencyVisits = {
+              category: 'app-card',
+              type: 'barActualTargetNumbers',
+              title: 'Emergency Visits',
+              data: {
+                actual: data.LineOfBusiness[this.lob].emergencyVisitsPer1000.Actual.toFixed(2),
+                target: data.LineOfBusiness[this.lob].emergencyVisitsPer1000.Target.toFixed(2)
+              },
+              timeperiod: 'Contract Year to Date'
+            };
           } else {
             acoSummary = {
               category: 'app-small-card',
@@ -185,9 +196,18 @@ export class AcoSharedService {
                 target: data.LineOfBusiness[this.lob].nonParSpecialistReferrals.Target.toFixed(4)
               }
             };
+            emergencyVisits = {
+              category: 'app-card',
+              type: 'barActualTargetNumbers',
+              title: 'Emergency Visits',
+              data: {
+                actual: data.LineOfBusiness[this.lob].emergencyVisitsPer1000.Actual.toFixed(2),
+                target: data.LineOfBusiness[this.lob].emergencyVisitsPer1000.Target.toFixed(2)
+              }
+            };
           }
         }
-        acoPageKeyPerformance = [acuteAdmits, rxScripts, nonParticipatingSpecialistReferrals];
+        acoPageKeyPerformance = [acuteAdmits, emergencyVisits, nonParticipatingSpecialistReferrals, rxScripts];
         acoPageMainCard = [acoSummary, ratioPCP, rxGeneric];
         acoPage = [acoPageMainCard, acoPageKeyPerformance];
         resolve(acoPage);
