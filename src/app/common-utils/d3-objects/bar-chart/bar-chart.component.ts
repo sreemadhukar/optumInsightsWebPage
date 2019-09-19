@@ -271,20 +271,25 @@ export class BarChartComponent implements OnInit, AfterViewInit {
 
         const label = d3.select('#' + uniqueText).selectAll('*');
 
+        let tooltipLabelAdjustor = 120;
+        if (tspanArray.length === 3) {
+          tooltipLabelAdjustor = 80;
+        }
+
         label
           .on('mouseenter', function(d) {
             div
               .transition()
               .duration(10)
               .style('opacity', 1);
-            div.style('left', d3.event.layerX - 14 + 'px').style('top', d3.event.layerY - 130 + 'px');
+            div.style('left', d3.event.layerX - 38 + 'px').style('top', d3.event.layerY - tooltipLabelAdjustor + 'px');
           })
           .on('mousemove', function(d) {
             div
               .transition()
               .duration(10)
               .style('opacity', 1);
-            div.style('left', d3.event.layerX - 14 + 'px').style('top', d3.event.layerY - 130 + 'px');
+            div.style('left', d3.event.layerX - 38 + 'px').style('top', d3.event.layerY - tooltipLabelAdjustor + 'px');
           })
           .on('mouseleave', function(d) {
             div
