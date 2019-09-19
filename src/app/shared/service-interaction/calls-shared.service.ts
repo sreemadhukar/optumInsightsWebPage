@@ -75,7 +75,10 @@ export class CallsSharedService {
       }
       this.sharedCallsData(parameters)
         .then(data => {
-          this.callsData = data;
+          this.callsData = JSON.parse(JSON.stringify(data));
+          if (this.callsData[0].data === null && this.callsData[1].data === null) {
+            resolve(this.callsData);
+          }
           return this.sharedCallsTrend();
         })
         .then(data => {
@@ -102,6 +105,8 @@ export class CallsSharedService {
         trends => {
           const trendData: Array<Object> = [];
           if (
+            this.callsData[0].data != null &&
+            this.callsData[1].data != null &&
             trends != undefined &&
             trends != null &&
             trends.hasOwnProperty('TendingMtrics') &&
@@ -113,6 +118,8 @@ export class CallsSharedService {
             trendData.push(['QuestionType', t]);
           }
           if (
+            this.callsData[0].data != null &&
+            this.callsData[1].data != null &&
             trends != undefined &&
             trends != null &&
             trends.hasOwnProperty('TendingMtrics') &&
