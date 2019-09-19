@@ -4,7 +4,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { FilterExpandService } from '../../../shared/filter-expand.service';
 import { CommonUtilsService } from '../../../shared/common-utils.service';
-import { SessionService } from 'src/app/shared/session.service';
+import { SessionService } from '../../../../../src/app/shared/session.service';
 import { StorageService } from '../../../shared/storage-service.service';
 import { TopRowAdvOverviewSharedService } from '../../../shared/advocate/top-row-adv-overview-shared.service';
 

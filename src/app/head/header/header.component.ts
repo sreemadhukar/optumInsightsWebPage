@@ -148,7 +148,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
       this.router.navigate(['/OverviewPage']);
     }
   }
+
   ngOnInit() {
+
     this.isDarkTheme = this.themeService.isDarkTheme;
     this.eventEmitter.getEvent().subscribe(val => {
       if (JSON.parse(sessionStorage.getItem('loggedUser'))) {
