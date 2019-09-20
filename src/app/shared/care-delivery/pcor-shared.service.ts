@@ -15,30 +15,33 @@ export class PcorSharedService {
 
       this.pcorService.getPCORQualityMeasureData([this.providerKey]).subscribe(
         data => {
-          console.log('Quaility start', data);
-          const preparedData = [];
-          const capitalize = s => {
-            if (typeof s !== 'string') {
-              return '';
+          let preparedData: Array<Object> = [];
+          if (data) {
+            // Captilize the first alphabet of the string
+            const capitalize = s => {
+              if (typeof s !== 'string') {
+                return '';
+              }
+              return s.charAt(0).toUpperCase() + s.slice(1);
+            };
+            const completeData = JSON.parse(JSON.stringify(data.fiveStarMeasureCount.Data));
+            const template = ['zero', 'one', 'two', 'three', 'four', 'five'];
+            for (let i = 5; i > 0; i--) {
+              const metricName = template[i] + 'StarMeasureCount';
+              if (data.hasOwnProperty(metricName)) {
+                const m = {
+                  star: i,
+                  label: capitalize(template[i]) + ' Star Quality Measure',
+                  count: completeData.filter(item => item.QualityRating === i).length,
+                  data: completeData.filter(item => item.QualityRating === i)
+                };
+                preparedData.push(m);
+              }
             }
-            return s.charAt(0).toUpperCase() + s.slice(1);
-          };
-          const completeData = JSON.parse(JSON.stringify(data.fiveStarMeasureCount.Data));
-          const countData = JSON.parse(JSON.stringify(data.fiveStarMeasureCount.Count));
-          const template = ['zero', 'one', 'two', 'three', 'four', 'five'];
-          for (let i = 5; i > 0; i--) {
-            const metricName = template[i] + 'StarMeasureCount';
-            if (data.hasOwnProperty(metricName)) {
-              const m = {
-                star: i,
-                label: capitalize(template[i]) + ' Star Quality Measure',
-                count: countData,
-                data: completeData.filter(item => item.QualityRating === i)
-              };
-              preparedData.push(m);
-            }
+          } else {
+            preparedData = null;
           }
-          console.log('pre', preparedData);
+          console.log('PCOR Shared Prepared Data', preparedData);
           resolve(preparedData);
         },
         err => {
@@ -46,5 +49,5 @@ export class PcorSharedService {
         }
       ); // end observable
     }); // end promise
-  }
-}
+  } // end getQualityMeasureData method
+} // end PcorSharedService class

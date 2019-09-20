@@ -10,14 +10,15 @@ import { CommonUtilsService } from 'src/app/shared/common-utils.service';
 })
 export class PatientCareOpportunityComponent implements OnInit {
   subscription: any;
-  summaryItems: any;
+  pcorData: any;
   qualityMeasureData: any;
   pageTitle: String = '';
   loading: boolean;
+  pcorBoolean: boolean;
   pcorLoading: boolean;
   MRAStarData: any;
   MRACVCompletionData: any;
-  StarRatings: any;
+  starRatings: any;
   mockCards: any;
   PCORTabData: boolean;
   tabOptions: Array<Object> = [];
@@ -40,49 +41,58 @@ export class PatientCareOpportunityComponent implements OnInit {
   }
   public ratingComponentClick(clickObj: any): void {
     this.priorAuthShared.getPCORMandRData().then(data => {
-      this.summaryItems = JSON.parse(JSON.stringify(data));
-      this.StarRatings = this.summaryItems[2];
+      this.pcorData = JSON.parse(JSON.stringify(data));
+      this.starRatings = this.pcorData[2];
     });
   }
   ngOnInit() {
     this.pageTitle = 'Patient Care Opportunity–Medicare & Retirement';
     this.loading = true;
     this.pcorLoading = true;
+    this.pcorBoolean = false;
     this.hideAllObjects = true;
     this.mockCards = [{}, {}];
     this.MRAStarData = [{}];
-    this.summaryItems = [{}];
+    this.pcorData = [{}];
     this.qualityMeasureData = [{}];
     this.MRACVCompletionData = [{}];
-    this.StarRatings = [{}];
+    this.starRatings = [{}];
     this.PCORTabData = true;
 
     this.priorAuthShared
       .getPCORMandRData()
       .then(data => {
         this.loading = false;
-        this.summaryItems = JSON.parse(JSON.stringify(data));
-        this.MRAStarData = this.summaryItems[0];
-        this.MRACVCompletionData = this.summaryItems[1];
-        this.currentTabTitle = this.summaryItems[1].title;
-        this.StarRatings = this.summaryItems[2];
-        console.log('Star', this.StarRatings);
+        if (data) {
+          this.pcorBoolean = true;
+          this.pcorData = JSON.parse(JSON.stringify(data));
+          this.MRAStarData = this.pcorData[0];
+          this.MRACVCompletionData = this.pcorData[1];
+          this.currentTabTitle = this.pcorData[1].title;
+          this.starRatings = this.pcorData[2];
+        }
       })
       .catch(error => {
         console.log('PCOR', error);
         this.loading = false;
+        this.pcorBoolean = false;
       });
 
     this.pcorService
       .getQualityMeasureData()
       .then(qdata => {
-        this.qualityMeasureData = JSON.parse(JSON.stringify(qdata));
         this.pcorLoading = false;
-        console.log('Quaility star component', this.qualityMeasureData);
+        if (qdata) {
+          this.loading = false;
+          this.pcorBoolean = true;
+          this.qualityMeasureData = JSON.parse(JSON.stringify(qdata));
+        }
       })
       .catch(error => {
         console.log('PCOR quality star', error);
         this.pcorLoading = false;
+        this.pcorBoolean = false;
+        this.loading = false;
       });
   }
 }
