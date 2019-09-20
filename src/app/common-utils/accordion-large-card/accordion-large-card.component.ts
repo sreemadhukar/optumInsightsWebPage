@@ -103,7 +103,7 @@ export class AccordionLargeCardComponent implements OnInit {
       this.qualityStarCount = this.qualityMeasure[x].star;
 
       this.qualitySubTitle = this.qualityMeasure[x].label;
-      this.qualityPcorData = this.qualityMeasure[x].data;
+      this.qualityPcorData = this.qualityMeasure[x].insideData;
       this.subsection[0] = true;
 
       if (this.qualityMeasure[x].count === 0) {

@@ -33,11 +33,11 @@ export class PcorSharedService {
                   star: i,
                   label: capitalize(template[i]) + ' Star Quality Measure',
                   count: completeData.filter(item => item.QualityRating === i).length,
-                  data: completeData.filter(item => item.QualityRating === i)
+                  insideData: completeData.filter(item => item.QualityRating === i)
                 };
                 preparedData.push(m);
-              }
-            }
+              } // end if structure
+            } // end for loop
           } else {
             preparedData = null;
           }

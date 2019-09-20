@@ -64,7 +64,6 @@ export class PatientCareOpportunityComponent implements OnInit {
       .then(data => {
         this.loading = false;
         if (data) {
-          this.pcorBoolean = true;
           this.pcorData = JSON.parse(JSON.stringify(data));
           this.MRAStarData = this.pcorData[0];
           this.MRACVCompletionData = this.pcorData[1];
