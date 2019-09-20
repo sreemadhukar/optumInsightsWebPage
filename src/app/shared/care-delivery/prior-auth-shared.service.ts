@@ -6,7 +6,7 @@ import { SessionService } from '../session.service';
 import { GlossaryMetricidService } from '../glossary-metricid.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: CareDeliveryPageModule
 })
 export class PriorAuthSharedService {
   private priorAuthData: Array<object> = [];
@@ -248,7 +248,7 @@ export class PriorAuthSharedService {
           }
 
           const PCORCards = [MandRAvgStarRatingCard, MandRACVCard, MandRStarRatingCard];
-          console.log('PCOR cards', PCORCards);
+
           resolve(PCORCards);
         },
         err => {

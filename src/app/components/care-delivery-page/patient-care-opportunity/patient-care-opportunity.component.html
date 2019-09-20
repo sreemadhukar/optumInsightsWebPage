@@ -25,11 +25,11 @@
       [qualityMeasure]="qualityMeasureData"
       [data]="StarRatings"
       (ratingClick)="ratingComponentClick(i)"
-      *ngIf="!loading"
+      *ngIf="!pcorLoading"
     ></app-accordion-large-card>
-    <app-accordion-large-card [skeletonLarge]="loading" *ngIf="loading"></app-accordion-large-card>
+    <app-accordion-large-card [skeletonLarge]="pcorLoading" *ngIf="pcorLoading"></app-accordion-large-card>
 
-    <app-large-card [skeletonLarge]="loading" *ngIf="loading"></app-large-card>
+    <app-large-card [skeletonLarge]="pcorLoading" *ngIf="pcorLoading"></app-large-card>
     <!-- <app-large-card [data]="StarRatings" *ngIf="StarRatings.length > 1"></app-large-card> -->
   </div>
 </div>

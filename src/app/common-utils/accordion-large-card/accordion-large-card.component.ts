@@ -87,7 +87,9 @@ export class AccordionLargeCardComponent implements OnInit {
     }
     return (num / si[i].value).toFixed(digits).replace(rx, '$1') + si[i].symbol;
   }
-  ngOnInit() {}
+  ngOnInit() {
+    console.log('this.data accprdian', this.data);
+  }
   reasonsCollapose(x: any) {
     this.subsection = [];
     for (let i = 0; i < this.section.length; i++) {

@@ -1,10 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { PriorAuthService } from '../../../rest/prior-auth/prior-auth.service';
-import { PatientCareOpportunityService } from '../../../rest/PCOR/patient-care-opportunity.service';
-import { SessionService } from '../../../shared/session.service';
 import { StorageService } from '../../../shared/storage-service.service';
 import { PriorAuthSharedService } from '../../../shared/prior-authorization/prior-auth.service';
-import { PCORSharedService } from '../../../shared/PCOR/pcor-shared.service';
+import { PcorSharedService } from '../../../shared/care-delivery/pcor-shared.service';
 import { CommonUtilsService } from 'src/app/shared/common-utils.service';
 @Component({
   selector: 'app-patient-care-opportunity',
@@ -17,6 +14,7 @@ export class PatientCareOpportunityComponent implements OnInit {
   qualityMeasureData: any;
   pageTitle: String = '';
   loading: boolean;
+  pcorLoading: boolean;
   MRAStarData: any;
   MRACVCompletionData: any;
   StarRatings: any;
@@ -33,11 +31,9 @@ export class PatientCareOpportunityComponent implements OnInit {
   starMeasure: any;
   qualityTitle: String = 'Quality Star Rating';
   constructor(
-    private priorAuthService: PriorAuthService,
-    private sessionService: SessionService,
     private checkStorage: StorageService,
     private priorAuthShared: PriorAuthSharedService,
-    private pcorSharedService: PCORSharedService,
+    private pcorService: PcorSharedService,
     private filtermatch: CommonUtilsService
   ) {
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.filtermatch.urlResuseStrategy());
@@ -51,6 +47,7 @@ export class PatientCareOpportunityComponent implements OnInit {
   ngOnInit() {
     this.pageTitle = 'Patient Care Opportunity–Medicare & Retirement';
     this.loading = true;
+    this.pcorLoading = true;
     this.hideAllObjects = true;
     this.mockCards = [{}, {}];
     this.MRAStarData = [{}];
@@ -60,22 +57,32 @@ export class PatientCareOpportunityComponent implements OnInit {
     this.StarRatings = [{}];
     this.PCORTabData = true;
 
-    this.priorAuthShared.getPCORMandRData().then(
-      data => {
+    this.priorAuthShared
+      .getPCORMandRData()
+      .then(data => {
         this.loading = false;
         this.summaryItems = JSON.parse(JSON.stringify(data));
         this.MRAStarData = this.summaryItems[0];
         this.MRACVCompletionData = this.summaryItems[1];
         this.currentTabTitle = this.summaryItems[1].title;
         this.StarRatings = this.summaryItems[2];
-      },
-      error => {
-        this.hideAllObjects = false;
-      }
-    );
-    this.pcorSharedService.getQualityMeasureData().then(qdata => {
-      this.qualityMeasureData = JSON.parse(JSON.stringify(qdata));
-      // console.log(this.qualityMeasureData);
-    });
+        console.log('Star', this.StarRatings);
+      })
+      .catch(error => {
+        console.log('PCOR', error);
+        this.loading = false;
+      });
+
+    this.pcorService
+      .getQualityMeasureData()
+      .then(qdata => {
+        this.qualityMeasureData = JSON.parse(JSON.stringify(qdata));
+        this.pcorLoading = false;
+        console.log('Quaility star component', this.qualityMeasureData);
+      })
+      .catch(error => {
+        console.log('PCOR quality star', error);
+        this.pcorLoading = false;
+      });
   }
 }
