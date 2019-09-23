@@ -291,18 +291,13 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
   bar PCOR will be hidden
   */
   insertPCORnav() {
-    if (
-      this.navCategories[2].children.indexOf({
-        name: 'Patient Care Opportunity',
-        path: '/CareDelivery/PatientCareOpportunity'
-      }) === -1
-    ) {
+    if (!this.navCategories[2].children.some(i => i.name === 'Patient Care Opportunity')) {
       this.navCategories[2].children.push({
         name: 'Patient Care Opportunity',
         path: '/CareDelivery/PatientCareOpportunity'
       });
       const temp = { isPCOR: true };
-      // sessionStorage.setItem('pcor', JSON.stringify(temp));
+      sessionStorage.setItem('pcor', JSON.stringify(temp));
       return true;
     }
   }
@@ -312,7 +307,9 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
       data => {
         const PCORData = data.PatientCareOpportunity;
         if (PCORData === null) {
-          // sessionStorage.removeItem('pcor');
+          try {
+            sessionStorage.removeItem('pcor');
+          } catch (err) {}
         } else {
           this.insertPCORnav();
         }
