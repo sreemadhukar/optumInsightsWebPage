@@ -37,8 +37,7 @@ export class KopOverviewComponent implements OnInit, OnDestroy {
     private iconRegistry: MatIconRegistry,
     private sanitizer: DomSanitizer,
     private router: Router,
-    private npsSharedService: NPSSharedService,
-    private kopInsightsService: KopInsightsService
+    private npsSharedService: NPSSharedService
   ) {
     iconRegistry.addSvgIcon(
       'filter',
@@ -54,10 +53,6 @@ export class KopOverviewComponent implements OnInit, OnDestroy {
     this.filterData = this.npsSharedService.filters;
     this.currentFilter = this.filterData.filter(element => element.selected)[0];
     this.getNPSData();
-
-    this.kopInsightsService.getKopInsightsData((data: any) => {
-      this.kopInsightsData = data;
-    });
 
     this.sessionService.getFilChangeEmitter().subscribe((data: any) => {
       const { selectedFilter } = data;
@@ -84,7 +79,12 @@ export class KopOverviewComponent implements OnInit, OnDestroy {
   getNPSData() {
     this.npsSharedService.getNPSSummary({ filter: this.currentFilter.params }, (data: any) => {
       if (data) {
-        this.npsSummary = data;
+        this.npsSummary = data.nps;
+        this.kopInsightsData.networkParticipation = data.networkParticipation;
+        this.kopInsightsData.careDelivery = data.careDelivery;
+        this.kopInsightsData.reimbursement = data.reimbursement;
+        this.kopInsightsData.issueResolution = data.issueResolution;
+        this.kopInsightsData.engagement = data.engagement;
         this.npsLoaded = true;
       }
     });

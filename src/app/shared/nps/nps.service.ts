@@ -65,54 +65,106 @@ export class NPSSharedService {
   constructor(private npsRestService: NPSService) {}
 
   public getNPSSummary(params: NPSParams, callback: any) {
-    const { rules } = this.filters.filter((filterItem: any) => filterItem.selected)[0];
+    const { rules, title: currentFilter } = this.filters.filter((filterItem: any) => filterItem.selected)[0];
     const {
       nps: { singleCard, timeFrameText, quarterFormat }
     } = rules;
 
     const result = {
-      title: 'Provider NPS Summary',
-      timeFrame: '',
-      quarters: [],
-      all: {
-        data: {
-          quarter: true,
-          singleCard,
-          title: 'Combined Total NPS',
-          sdata: {
-            sign: 'up',
-            data: 'Positive Trending',
-            trendStyleNPS: true
-          },
-          cards: []
+      nps: {
+        title: 'Provider NPS Summary',
+        timeFrame: '',
+        quarters: [],
+        all: {
+          data: {
+            quarter: true,
+            singleCard,
+            title: 'Combined Total NPS',
+            sdata: {
+              sign: 'up',
+              data: 'Positive Trending',
+              trendStyleNPS: true
+            },
+            cards: []
+          }
+        },
+        md: {
+          data: {
+            quarter: true,
+            singleCard,
+            title: 'Physician NPS',
+            sdata: {
+              sign: 'up',
+              data: 'Positive Trending',
+              trendStyleNPS: true
+            },
+            cards: []
+          }
+        },
+        pm: {
+          data: {
+            quarter: true,
+            singleCard,
+            title: 'Practice Manager NPS',
+            sdata: {
+              sign: 'up',
+              data: 'Positive Trending',
+              trendStyleNPS: true
+            },
+            cards: []
+          }
         }
       },
-      md: {
-        data: {
-          quarter: true,
-          singleCard,
-          title: 'Physician NPS',
-          sdata: {
-            sign: 'up',
-            data: 'Positive Trending',
-            trendStyleNPS: true
-          },
-          cards: []
-        }
+      careDelivery: {
+        data: [
+          {
+            title: 'Care Delivery',
+            timeperiod: '',
+            chartData: [
+              {
+                title: 'hours',
+                caption: 'Avg.Prior Auth turnaround time',
+                sdata: {
+                  sign: 'up',
+                  data: 'Positive Trending'
+                }
+              },
+              {
+                title: 'K',
+                caption: 'Prior Auths requested',
+                sdata: {
+                  sign: 'up',
+                  data: 'Positive Trending'
+                }
+              },
+              {
+                key: 'LinkPriorAuthNPS',
+                subKey: 'LinkPriorAuthNPSValue',
+                title: '',
+                caption: 'Link Prior Auth NPS',
+                sdata: {
+                  sign: 'up',
+                  data: 'Positive Trending'
+                }
+              },
+              {
+                key: 'EaseOfMedicalAuth',
+                subKey: 'EaseOfMedicalAuthValue',
+                title: '%',
+                caption: 'Ease of Medical Prior Auth (excl radiology)',
+                sdata: {
+                  sign: 'up',
+                  data: 'Positive Trending'
+                }
+              }
+            ]
+          }
+        ]
       },
-      pm: {
-        data: {
-          quarter: true,
-          singleCard,
-          title: 'Practice Manager NPS',
-          sdata: {
-            sign: 'up',
-            data: 'Positive Trending',
-            trendStyleNPS: true
-          },
-          cards: []
-        }
-      }
+      networkParticipation: { data: [] },
+      reimbursement: { data: [] },
+      issueResolution: { data: [] },
+      engagement: { data: [] }
     };
     const paramsArray = this.getNPSParameters(params);
 
@@ -133,20 +185,23 @@ export class NPSSharedService {
               PracticeManagerTargetNPSValue = 0
             }
           },
+          CareDelivery,
           Quarter
         } = element;
 
+        let timeFrame = '';
         if (timeFrameText === 'Quarter and Year') {
-          result.timeFrame = 'Q' + Quarter + ' ' + year;
+          timeFrame = 'Q' + Quarter + ' ' + year;
         } else if (timeFrameText === 'Year') {
-          result.timeFrame = year;
+          timeFrame = year;
         } else if (timeFrameText === 'Quarter vs Quarter') {
           if (index === 0) {
-            result.timeFrame = 'Q' + Quarter + ' ' + year + ' v. ';
+            timeFrame = 'Q' + Quarter + ' ' + year + ' v. ';
           } else {
-            result.timeFrame += 'Q' + Quarter + ' ' + year;
+            timeFrame = result.nps.timeFrame + 'Q' + Quarter + ' ' + year;
           }
         }
+        result.nps.timeFrame = timeFrame;
 
         if (!singleCard) {
           let quarter = '';
@@ -159,7 +214,7 @@ export class NPSSharedService {
               quarter = '';
             }
           }
-          result.quarters.push({
+          result.nps.quarters.push({
             year,
             color: 'color' + (index + 1),
             quarter
@@ -174,7 +229,7 @@ export class NPSSharedService {
           prevQuarter = false;
           highlightQuarter = true;
         }
-        result.all.data.cards.push({
+        result.nps.all.data.cards.push({
           highlightedValue: parseInt(TotalNPSValue),
           targetValue: parseInt(CombinedTargetNPSValue),
           highlightQuarter,
@@ -182,19 +237,28 @@ export class NPSSharedService {
           prevQuarter,
           captionText: year + ' Target'
         });
-        result.pm.data.cards.push({
+        result.nps.pm.data.cards.push({
           highlightedValue: parseInt(PracticeManagerNPSValue),
           currentQuarter,
           prevQuarter,
           targetValue: parseInt(PracticeManagerTargetNPSValue),
           captionText: year + ' Target'
         });
-        result.md.data.cards.push({
+        result.nps.md.data.cards.push({
           highlightedValue: parseInt(PhysicianNPSValue),
           currentQuarter,
           prevQuarter,
           targetValue: parseInt(PhysicianTargetNPSValue),
           captionText: year + ' Target'
+        });
+
+        result.careDelivery.data[0].timeperiod = currentFilter + '(' + timeFrame + ')';
+        result.careDelivery.data[0].chartData.forEach((chartDataElement: any) => {
+          const key = chartDataElement.key;
+          if (CareDelivery[key]) {
+            const subKey = chartDataElement.subKey;
+            chartDataElement.title = parseInt(CareDelivery[key][subKey]) + ' ' + chartDataElement.title;
+          }
         });
       });
       return callback(result);

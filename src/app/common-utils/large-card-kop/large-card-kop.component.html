@@ -1,4 +1,4 @@
-<div class="card-structure" *ngIf="!skeletonLarge">
+<div class="card-structure" *ngIf="data[0] && !skeletonLarge">
   <div class="card-inner-large">
     <app-common-header
       [title]="data[0].title"
@@ -7,7 +7,66 @@
     ></app-common-header>
     <div class="card-inner-large-content">
       <ul class="kop-insights-data" *ngFor="let item of data[0].chartData; let i = index">
-        <li>{{ item.description }}</li>
+        <div class="highlighted-value">
+          {{ item.title }}
+        </div>
+        <div class="caption">
+          {{ item.caption }}
+        </div>
+        <div *ngIf="item.sdata != null" class="trend-details trend-nps">
+          <div *ngIf="item.sdata.sign === 'down'" class="flex-box">
+            <span class="trend" [class.down]="item.sdata.sign === 'down'">
+              <img class="trend-image trend-image-down" src="/src/assets/images/trend-down.svg" alt="trend-down" />
+            </span>
+            <div class="trend-value trend-value-down">
+              {{ item.sdata.data }}
+            </div>
+          </div>
+          <div *ngIf="item.sdata.sign === 'up'" class="flex-box">
+            <span class="trend" [class.up]="item.sdata.sign === 'up'">
+              <img class="trend-image  trend-image-up" src="/src/assets/images/trend-up.svg" alt="trend-up" />
+            </span>
+            <div class="trend-value trend-value-up">
+              {{ item.sdata.data }}
+            </div>
+          </div>
+          <div *ngIf="item.sdata.sign === 'down-green'" class="flex-box">
+            <span class="trend" [class.up]="item.sdata.sign === 'down-green'">
+              <img
+                class="trend-image trend-image-up"
+                src="/src/assets/images/down-positive-no-circle.svg"
+                alt="trend-down"
+              />
+            </span>
+            <div class="trend-value trend-value-up">
+              {{ item.sdata.data }}
+            </div>
+          </div>
+          <div *ngIf="item.sdata.sign === 'up-red'" class="flex-box">
+            <span class="trend" [class.down]="item.sdata.sign === 'up-red'">
+              <img
+                class="trend-image  trend-image-down"
+                src="/src/assets/images/up-negative-no-circle.svg"
+                alt="trend-up"
+              />
+            </span>
+            <div class="trend-value trend-value-down">
+              {{ item.sdata.data }}
+            </div>
+          </div>
+          <div *ngIf="item.sdata.sign === 'neutral'" class="flex-box">
+            <span class="trend" [class.neutral]="item.sdata.sign === 'neutral'">
+              <img
+                class="trend-image trend-image-neutral"
+                src="/src/assets/images/flat-no-change.svg"
+                alt="no-change"
+              />
+            </span>
+            <div class="trend-value trend-value-neutral">
+              {{ item.sdata.data }}
+            </div>
+          </div>
+        </div>
       </ul>
     </div>
     <div class="full-width-block" *ngIf="data[0].timeperiod">
