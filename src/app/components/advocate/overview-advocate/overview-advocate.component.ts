@@ -7,7 +7,7 @@ import { CommonUtilsService } from '../../../shared/common-utils.service';
 import { SessionService } from 'src/app/shared/session.service';
 import { StorageService } from '../../../shared/storage-service.service';
 import { TopRowAdvOverviewSharedService } from '../../../shared/advocate/top-row-adv-overview-shared.service';
-import { AdvocateEventEmitterService } from '../../../shared/advocate/advocate-event-emitter.service';
+
 @Component({
   selector: 'app-overview-advocate',
   templateUrl: './overview-advocate.component.html',
@@ -36,8 +36,7 @@ export class OverviewAdvocateComponent implements OnInit {
     sanitizer: DomSanitizer,
     private session: SessionService,
     private filtermatch: CommonUtilsService,
-    private topRowService: TopRowAdvOverviewSharedService,
-    private advEventEmitter: AdvocateEventEmitterService
+    private topRowService: TopRowAdvOverviewSharedService
   ) {
     this.pageTitle = 'Welcome, ' + this.userName;
     this.pagesubTitle = 'Your Insights at a glance.';
@@ -70,7 +69,7 @@ export class OverviewAdvocateComponent implements OnInit {
       });
   }
   ngOnInit() {
-    this.advEventEmitter.emitEvent(true);
+    this.checkStorage.emitEvent('overviewPage');
     this.paymentData();
     this.userName = this.session.sessionStorage('loggedUser', 'FirstName');
     this.pageTitle = 'Welcome, ' + this.userName;

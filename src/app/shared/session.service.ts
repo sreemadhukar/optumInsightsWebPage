@@ -77,18 +77,6 @@ export class SessionService {
     }
   }
 
-  public checkPcorSession() {
-    let pcorBool = false;
-    try {
-      if (JSON.parse(sessionStorage.getItem('pcor')) && JSON.parse(sessionStorage.getItem('pcor')).isPCOR) {
-        pcorBool = JSON.parse(sessionStorage.getItem('pcor')).isPCOR;
-      }
-      return pcorBool;
-    } catch (err) {
-      console.log('adovate role session service', err);
-      return pcorBool;
-    }
-  }
   public sessionStorage(value: string, item: string) {
     if (sessionStorage.getItem(value)) {
       return JSON.parse(sessionStorage.getItem(value))[item];

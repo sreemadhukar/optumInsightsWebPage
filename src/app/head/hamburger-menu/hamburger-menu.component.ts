@@ -231,7 +231,6 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     this.eventEmitter.getEvent().subscribe(val => {
       this.isKop = val.value;
     });
-
     this.checkStorage.getEvent().subscribe(value => {
       if (value.value === 'overviewPage') {
         this.healthSystemName = this.sessionService.getHealthCareOrgName();
@@ -239,7 +238,6 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
         this.checkPcorData();
       }
     });
-    // console.log('isPCOR', this.sessionService.checkPcorSession());
     /*
         for login page filters has no role to play, so for them Filters should be close,
          we are calling it explicity because suppose user clicks on Filter and filter drawer opens up, now logout
@@ -298,7 +296,6 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
       });
       const temp = { isPCOR: true };
       sessionStorage.setItem('pcor', JSON.stringify(temp));
-      return true;
     }
   }
   checkPcorData() {
