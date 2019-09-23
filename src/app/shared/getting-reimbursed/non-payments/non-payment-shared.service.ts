@@ -7,7 +7,7 @@ import { AuthorizationService } from '../../../auth/_service/authorization.servi
 import { GlossaryMetricidService } from '../../glossary-metricid.service';
 
 @Injectable({
-  providedIn: GettingReimbursedModule
+  providedIn: 'root'
 })
 export class NonPaymentSharedService {
   public providerKey;

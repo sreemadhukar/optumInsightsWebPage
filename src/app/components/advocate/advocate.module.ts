@@ -7,9 +7,11 @@ import { TopRowAdvOverviewComponent } from './top-row-adv-overview/top-row-adv-o
 import { AdvocateRoutingModule } from './advocate-routing.module';
 import { FilterAdvocateComponent } from './filter-advocate/filter-advocate.component';
 import { TopRowAdvOverviewSharedService } from '../../shared/advocate/top-row-adv-overview-shared.service';
+import { NonPaymentSharedService } from '../../shared/getting-reimbursed/non-payments/non-payment-shared.service';
+
 @NgModule({
   imports: [CommonModule, AdvocateRoutingModule, CommonUtilsModule, HeadMaterialModule],
   declarations: [OverviewAdvocateComponent, TopRowAdvOverviewComponent, FilterAdvocateComponent],
-  providers: [TopRowAdvOverviewSharedService]
+  providers: [TopRowAdvOverviewSharedService, NonPaymentSharedService]
 })
 export class AdvocateModule {}

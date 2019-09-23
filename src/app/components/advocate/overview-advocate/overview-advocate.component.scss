@@ -180,6 +180,42 @@
       }
     }
   }
+
+  .appeals-trend-block {
+    width: 961px;
+    // height: 450px;
+    border-radius: 2px;
+    background-color: #ffffff;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
+    margin: 12px;
+    float: left;
+    position: relative;
+  }
+
+  .bottom-margin-block {
+    margin-bottom: 15px;
+  }
+  .timeperiod-block {
+    border-top: 1px solid #efefef;
+    position: absolute;
+    margin-top: 35px;
+    width: 961px;
+    z-index: 99999;
+  }
+  .timeperiod-text {
+    position: inherit;
+    padding: 9px 20px 9px 16px;
+    color: $strom-grey;
+    font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    letter-spacing: 0.2px;
+    line-height: 17px;
+    height: 30px;
+    // margin-top: 5px;
+  }
+  .time-period-trend {
+    float: left;
+  }
   @media only screen and (max-width: 1024px) {
     @include padding(16px, 0, 16px, 0);
   }
