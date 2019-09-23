@@ -309,6 +309,9 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
         if (PCORData === null) {
           try {
             sessionStorage.removeItem('pcor');
+            this.navCategories[2].children = this.navCategories[2].children.filter(
+              i => i.name !== 'Patient Care Opportunity'
+            );
           } catch (err) {}
         } else {
           this.insertPCORnav();
