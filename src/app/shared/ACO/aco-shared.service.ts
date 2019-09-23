@@ -31,7 +31,7 @@ export class AcoSharedService {
     let acoPage: Array<object>;
     let acoPageKeyPerformance: Array<object>;
     let acoPageMainCard: Array<object>;
-    let emergencyVisits: Array<object>;
+    let emergencyVisits: object;
     return new Promise(resolve => {
       this.acoservice.getAcoData().subscribe(data => {
         if (data.hasOwnProperty('LineOfBusiness')) {

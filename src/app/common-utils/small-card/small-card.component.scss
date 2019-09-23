@@ -15,7 +15,7 @@
       float: left;
       padding-left: 15px;*/
       float: left;
-      padding-left: 42px;
+      padding-left: 20px;
       margin-bottom: 16px;
     }
     .chart-details {
@@ -29,9 +29,9 @@
     }
     .trend-details {
       float: left;
-      /*padding: 10% 0;*/
       display: flex;
       margin-top: 48px;
+      margin-left: 10px;
       .trend-value {
         font-size: 14px;
         letter-spacing: 0.2px;
@@ -306,16 +306,19 @@
   line-height: 18px;
   float: left;
 }
+
 .app-card-list-labels > li {
   margin-bottom: 16px;
   margin-right: 8px;
   font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
 }
+
 .label-dots {
   height: 16px;
   width: 16px;
   border-radius: 50%;
 }
+
 .label-color-indicators {
   margin-bottom: 18px !important;
 }
