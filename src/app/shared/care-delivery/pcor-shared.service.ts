@@ -202,8 +202,12 @@ export class PcorSharedService {
               } // end if structure
             } // end for loop for sub-category
 
-            // We can also fetch the Top Level Categry info via this code
             /*
+            We can also fetch the Top Level Categry i.e star count info via this code
+            but the loading of 'Quality Star' card is slow , because then it will load
+            data at once. So right now we can fetch 'Star Count' from executive api onlt
+            In future we can use this code if found useful
+
             const barScaleMax = Math.max(...barCountArray);
             for (let i = subCategory.length; i > 0; i--) {
               category.push({
