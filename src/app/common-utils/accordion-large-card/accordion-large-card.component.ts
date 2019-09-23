@@ -28,6 +28,8 @@ export class AccordionLargeCardComponent implements OnInit {
   public eligibleMemberCount: any;
   public currentRateCalc: any;
   public currentRate: any;
+  public cmsWeightdata: any;
+  public ascendPCORDtata: any;
   showPlus: boolean;
   constructor(
     private iconRegistry: MatIconRegistry,
@@ -95,13 +97,34 @@ export class AccordionLargeCardComponent implements OnInit {
         this.section[i] = false;
       }
     }
+    // function SortByName(x:any,y:any) {
+    //     return ((x.Name == y.Name) ? 0 : ((x.Name > y.Name) ? 1 : -1 ));
+    //   };
 
     const check = 5 - x;
     if (check === this.qualityMeasure[x].star) {
+      const ref = {
+        3: 0,
+        2: 1,
+        1: 2,
+        0: 3
+      };
+
       this.qualityStarCount = this.qualityMeasure[x].star;
+      this.qualityPcorData = this.qualityMeasure[x].data;
+      // .sort((a, b) => ref[a.CMSWeight] - ref[b.CMSWeight]);
+      // console.log(this.qualityPcorData);
+
+      // this.qualityPcorData.sort((a, b) => ref[a.Name] - ref[b.Name]);
+
+      this.ascendPCORDtata = this.qualityPcorData.sort((a, b) =>
+        a.CMSWeight < b.CMSWeight ? 1 : a.CMSWeight === b.CMSWeight ? (a.Name < b.Name ? 1 : -1) : -1
+      );
+
+      console.log('dfdfdf' + this.ascendPCORDtata);
 
       this.qualitySubTitle = this.qualityMeasure[x].label;
-      this.qualityPcorData = this.qualityMeasure[x].data;
+
       this.subsection[0] = true;
 
       if (this.qualityMeasure[x].count === 0) {
@@ -112,12 +135,12 @@ export class AccordionLargeCardComponent implements OnInit {
         }
       }
     }
-    this.compliantMemberCount = this.qualityPcorData[0].CompliantMemberCount;
-    this.eligibleMemberCount = this.qualityPcorData[0].EligibleMemberCount;
+
+    this.compliantMemberCount = this.ascendPCORDtata[0].CompliantMemberCount;
+    this.eligibleMemberCount = this.ascendPCORDtata[0].EligibleMemberCount;
     this.currentRateCalc = this.common.nFormatter(
       ((this.compliantMemberCount / this.eligibleMemberCount) * 100).toFixed(0) + '%'
     );
-    console.log('main' + this.qualityPcorData[0].CompliantMemberCount, this.qualityPcorData[0].EligibleMemberCount);
   }
   subItemsCollapose(x: any) {
     for (let i = 0; i < this.subsection.length; i++) {
@@ -126,12 +149,12 @@ export class AccordionLargeCardComponent implements OnInit {
       }
     }
 
-    this.compliantMemberCount = this.qualityPcorData[x].CompliantMemberCount;
-    this.eligibleMemberCount = this.qualityPcorData[x].EligibleMemberCount;
+    this.compliantMemberCount = this.ascendPCORDtata[x].CompliantMemberCount;
+    this.eligibleMemberCount = this.ascendPCORDtata[x].EligibleMemberCount;
     this.currentRateCalc = this.common.nFormatter(
       ((this.compliantMemberCount / this.eligibleMemberCount) * 100).toFixed(0) + '%'
     );
-    console.log('sub' + this.currentRateCalc);
+    console.log(this.currentRateCalc);
   }
   sortHeader(event) {
     const listItems = this.elementRef.nativeElement.querySelectorAll('.sort-header-icon') as HTMLElement[];
