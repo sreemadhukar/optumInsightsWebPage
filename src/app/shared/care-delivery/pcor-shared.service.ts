@@ -9,7 +9,6 @@ import { AuthorizationService } from '../../auth/_service/authorization.service'
   providedIn: CareDeliveryPageModule
 })
 export class PcorSharedService {
-  private providerKey: number;
   constructor(
     private MetricidService: GlossaryMetricidService,
     private pcorService: PcorService,
@@ -23,15 +22,32 @@ export class PcorSharedService {
    * 2. Medicare & Retirement Annual Care Visits Completion Rate
    * 3. Quality Star top level information i.e. star count only
    */
-
-  public getMRData() {
-    this.providerKey = this.session.providerKeyData();
+  public checkPCORData() {
     return new Promise(resolve => {
-      const parametersExecutive = [this.providerKey, true];
-
+      const parametersExecutive = [this.session.providerKeyData(), true];
       this.pcorService.getExecutiveData(...parametersExecutive).subscribe(
         data => {
-          console.log('Prior auth', data);
+          const PCORData = data.PatientCareOpportunity;
+          let PCORChecker;
+          if (PCORData === null) {
+            PCORChecker = false;
+          } else {
+            PCORChecker = true;
+          }
+          resolve(PCORChecker);
+        },
+        err => {
+          console.log('check for PCOR data Error', err);
+        }
+      );
+    });
+  }
+
+  public getMRData() {
+    return new Promise(resolve => {
+      const parametersExecutive = [this.session.providerKeyData(), true];
+      this.pcorService.getExecutiveData(...parametersExecutive).subscribe(
+        data => {
           if (data) {
             const PCORData = data.PatientCareOpportunity;
             // Reporting Date will be used for all three cards
@@ -169,9 +185,7 @@ export class PcorSharedService {
 
   public getQualityMeasureData() {
     return new Promise(resolve => {
-      this.providerKey = this.session.providerKeyData();
-
-      this.pcorService.getPCORQualityMeasureData([this.providerKey]).subscribe(
+      this.pcorService.getPCORQualityMeasureData([this.session.providerKeyData()]).subscribe(
         data => {
           console.log('Original Data', data);
           let preparedData: Array<any> = [];

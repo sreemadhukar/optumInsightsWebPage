@@ -38,6 +38,7 @@ import { environment } from '../../../environments/environment';
 import { EventEmitterService } from 'src/app/shared/know-our-provider/event-emitter.service';
 import { SessionService } from '../../shared/session.service';
 import { AcoEventEmitterService } from '../../shared/ACO/aco-event-emitter.service';
+import { AdvocateEventEmitterService } from '../../shared/advocate/advocate-event-emitter.service';
 import { FilterCloseService } from './../../shared/filters/filter-close.service';
 @Component({
   selector: 'app-hamburger-menu',
@@ -66,7 +67,6 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
   clickFilterIcon: Subscription;
   filterClose: Subscription;
   public mobileQuery: boolean;
-  public PCORFlag: any;
   public healthSystemName: string;
   public isKop: boolean;
   disableChangeProvider: boolean = environment.internalAccess;
@@ -128,6 +128,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     private sessionService: SessionService,
     private eventEmitter: EventEmitterService,
     private acoEventEmitter: AcoEventEmitterService,
+    private advEventEmitter: AdvocateEventEmitterService,
     @Inject(DOCUMENT) private document: any
   ) {
     this.glossaryFlag = false;
@@ -165,7 +166,6 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
         this.showPrintHeader = event.url.includes('print-');
         this.loading = true;
         // Role based access for Advocates Overview page
-        this.advocateRole();
         const heac = JSON.parse(sessionStorage.getItem('heac'));
         if (event.url === '/KnowOurProvider' && !heac.heac) {
           router.navigate(['/ProviderSearch']);
@@ -209,24 +209,10 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     );
   }
 
-  advocateRole() {
-    try {
-      if (JSON.parse(sessionStorage.getItem('loggedUser'))) {
-        let userRole;
-        userRole = JSON.parse(sessionStorage.getItem('loggedUser')).UserRole;
-        let userRoleAdvocate = false;
-        userRoleAdvocate = userRole.some(item => item.includes('UHCI_Advocate'));
-        if (userRoleAdvocate) {
-          this.navCategories[0].path = '/OverviewPageAdvocate';
-        }
-      }
-    } catch (Error) {}
-  }
   ngOnInit() {
     this.AcoFlag = false;
     this.isKop = false;
     this.loading = false;
-    this.PCORFlag = false;
     this.isDarkTheme = this.themeService.isDarkTheme;
     this.acoEventEmitter.getEvent().subscribe(value => {
       this.AcoFlag = value.value;
@@ -234,10 +220,22 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     this.eventEmitter.getEvent().subscribe(val => {
       this.isKop = val.value;
     });
+    this.advEventEmitter.getEvent().subscribe(
+      val => {
+        if (val.value) {
+          this.advocateRole();
+          this.checkPcorData();
+        }
+      },
+      err => {
+        console.log('Error in Advocate event emitter hamburger', err);
+      }
+    );
+
     this.checkStorage.getEvent().subscribe(value => {
       if (value.value === 'overviewPage') {
         this.healthSystemName = this.sessionService.getHealthCareOrgName();
-        this.checkPA();
+        this.checkPcorData();
       }
     });
     /*
@@ -282,34 +280,39 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     }, 1);
   }
 
-  checkPA() {
-    this.priorAuthShared.getPCORData().then(data => {
-      if (this.PCORFlag === data) {
-        // Do nothing because its the same state
-      } else {
-        // Flag changed
+  advocateRole() {
+    try {
+      if (JSON.parse(sessionStorage.getItem('loggedUser'))) {
+        let userRole;
+        userRole = JSON.parse(sessionStorage.getItem('loggedUser')).UserRole;
+        let userRoleAdvocate = false;
+        userRoleAdvocate = userRole.some(item => item.includes('UHCI_Advocate'));
+        if (userRoleAdvocate) {
+          this.navCategories[0].path = '/OverviewPageAdvocate';
+        }
+      }
+    } catch (Error) {
+      console.log('Advocate role function error in hamburger', Error);
+    }
+  }
+
+  /* To check whether we have data for the PCOR or not, if we don't have data for PCOR then in the navigation
+  bar PCOR will be hidden
+  */
+  checkPcorData() {
+    this.priorAuthShared.getPCORData().then(
+      data => {
         if (data) {
           this.navCategories[2].children.push({
             name: 'Patient Care Opportunity',
             path: '/CareDelivery/PatientCareOpportunity'
           });
-          this.PCORFlag = data;
-        } else {
-          this.navCategories[2].children.splice(
-            this.navCategories[2].children.indexOf({
-              name: 'Patient Care Opportunity',
-              path: '/CareDelivery/PatientCareOpportunity'
-            }),
-            1
-          );
-          if (this.location.path() === '/CareDelivery/PatientCareOpportunity') {
-            this.router.navigateByUrl('/OverviewPage');
-            this.togglePanels(false, NaN);
-          }
-          this.PCORFlag = data;
         }
+      },
+      err => {
+        console.log('Error in check Pcor Data in hamburger', err);
       }
-    });
+    );
   }
   ngOnDestroy() {
     this.clickHelpIcon.unsubscribe();
