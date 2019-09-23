@@ -40,6 +40,7 @@ import { SessionService } from '../../shared/session.service';
 import { AcoEventEmitterService } from '../../shared/ACO/aco-event-emitter.service';
 import { AdvocateEventEmitterService } from '../../shared/advocate/advocate-event-emitter.service';
 import { FilterCloseService } from './../../shared/filters/filter-close.service';
+import { PcorService } from '../../rest/care-delivery/pcor.service';
 @Component({
   selector: 'app-hamburger-menu',
   templateUrl: './hamburger-menu.component.html',
@@ -123,7 +124,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     private glossaryExpandService: GlossaryExpandService,
     private filterExpandService: FilterExpandService,
     private filterCloseService: FilterCloseService,
-    private priorAuthShared: PriorAuthSharedService,
+    private pcorService: PcorService,
     private location: Location,
     private sessionService: SessionService,
     private eventEmitter: EventEmitterService,
@@ -165,7 +166,17 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
         this.bgWhite = !(authService.isLoggedIn() && !event.url.includes('print-'));
         this.showPrintHeader = event.url.includes('print-');
         this.loading = true;
+
         // Role based access for Advocates Overview page
+        if (this.sessionService.checkAdvocateRole()) {
+          this.navCategories[0].path = '/OverviewPageAdvocate';
+        }
+        if (JSON.parse(sessionStorage.getItem('pcor'))) {
+          const pcorBoolean = JSON.parse(sessionStorage.getItem('pcor')).isPCOR;
+          if (pcorBoolean) {
+            this.insertPCORnav();
+          }
+        }
         const heac = JSON.parse(sessionStorage.getItem('heac'));
         if (event.url === '/KnowOurProvider' && !heac.heac) {
           router.navigate(['/ProviderSearch']);
@@ -220,24 +231,15 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     this.eventEmitter.getEvent().subscribe(val => {
       this.isKop = val.value;
     });
-    this.advEventEmitter.getEvent().subscribe(
-      val => {
-        if (val.value) {
-          this.advocateRole();
-          this.checkPcorData();
-        }
-      },
-      err => {
-        console.log('Error in Advocate event emitter hamburger', err);
-      }
-    );
 
     this.checkStorage.getEvent().subscribe(value => {
       if (value.value === 'overviewPage') {
         this.healthSystemName = this.sessionService.getHealthCareOrgName();
+        // Check whether we have PCOR Data or not, if yes then include the PCOR option in navigation bar
         this.checkPcorData();
       }
     });
+    // console.log('isPCOR', this.sessionService.checkPcorSession());
     /*
         for login page filters has no role to play, so for them Filters should be close,
          we are calling it explicity because suppose user clicks on Filter and filter drawer opens up, now logout
@@ -281,39 +283,46 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
   }
 
   advocateRole() {
-    try {
-      if (JSON.parse(sessionStorage.getItem('loggedUser'))) {
-        let userRole;
-        userRole = JSON.parse(sessionStorage.getItem('loggedUser')).UserRole;
-        let userRoleAdvocate = false;
-        userRoleAdvocate = userRole.some(item => item.includes('UHCI_Advocate'));
-        if (userRoleAdvocate) {
-          this.navCategories[0].path = '/OverviewPageAdvocate';
-        }
-      }
-    } catch (Error) {
-      console.log('Advocate role function error in hamburger', Error);
-    }
+    this.sessionService.checkAdvocateRole();
+    this.navCategories[0].path = '/OverviewPageAdvocate';
   }
 
   /* To check whether we have data for the PCOR or not, if we don't have data for PCOR then in the navigation
   bar PCOR will be hidden
   */
+  insertPCORnav() {
+    if (
+      this.navCategories[2].children.indexOf({
+        name: 'Patient Care Opportunity',
+        path: '/CareDelivery/PatientCareOpportunity'
+      }) === -1
+    ) {
+      this.navCategories[2].children.push({
+        name: 'Patient Care Opportunity',
+        path: '/CareDelivery/PatientCareOpportunity'
+      });
+      const temp = { isPCOR: true };
+      // sessionStorage.setItem('pcor', JSON.stringify(temp));
+      return true;
+    }
+  }
   checkPcorData() {
-    this.priorAuthShared.getPCORData().then(
+    const parametersExecutive = [this.sessionService.providerKeyData(), true];
+    this.pcorService.getExecutiveData(...parametersExecutive).subscribe(
       data => {
-        if (data) {
-          this.navCategories[2].children.push({
-            name: 'Patient Care Opportunity',
-            path: '/CareDelivery/PatientCareOpportunity'
-          });
+        const PCORData = data.PatientCareOpportunity;
+        if (PCORData === null) {
+          // sessionStorage.removeItem('pcor');
+        } else {
+          this.insertPCORnav();
         }
       },
       err => {
-        console.log('Error in check Pcor Data in hamburger', err);
+        console.log('check for PCOR data Error', err);
       }
     );
   }
+
   ngOnDestroy() {
     this.clickHelpIcon.unsubscribe();
     this.glossaryFlag = false;

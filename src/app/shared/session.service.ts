@@ -59,6 +59,36 @@ export class SessionService {
     }
   }
 
+  public checkAdvocateRole() {
+    let userRoleAdvocate = false;
+    try {
+      if (
+        JSON.parse(sessionStorage.getItem('loggedUser')) &&
+        JSON.parse(sessionStorage.getItem('loggedUser')).UserRole
+      ) {
+        let userRole;
+        userRole = JSON.parse(sessionStorage.getItem('loggedUser')).UserRole;
+        userRoleAdvocate = userRole.some(item => item.includes('UHCI_Advocate'));
+      }
+      return userRoleAdvocate;
+    } catch (err) {
+      console.log('adovate role session service', err);
+      return userRoleAdvocate;
+    }
+  }
+
+  public checkPcorSession() {
+    let pcorBool = false;
+    try {
+      if (JSON.parse(sessionStorage.getItem('pcor')) && JSON.parse(sessionStorage.getItem('pcor')).isPCOR) {
+        pcorBool = JSON.parse(sessionStorage.getItem('pcor')).isPCOR;
+      }
+      return pcorBool;
+    } catch (err) {
+      console.log('adovate role session service', err);
+      return pcorBool;
+    }
+  }
   public sessionStorage(value: string, item: string) {
     if (sessionStorage.getItem(value)) {
       return JSON.parse(sessionStorage.getItem(value))[item];

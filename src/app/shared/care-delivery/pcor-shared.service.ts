@@ -22,26 +22,6 @@ export class PcorSharedService {
    * 2. Medicare & Retirement Annual Care Visits Completion Rate
    * 3. Quality Star top level information i.e. star count only
    */
-  public checkPCORData() {
-    return new Promise(resolve => {
-      const parametersExecutive = [this.session.providerKeyData(), true];
-      this.pcorService.getExecutiveData(...parametersExecutive).subscribe(
-        data => {
-          const PCORData = data.PatientCareOpportunity;
-          let PCORChecker;
-          if (PCORData === null) {
-            PCORChecker = false;
-          } else {
-            PCORChecker = true;
-          }
-          resolve(PCORChecker);
-        },
-        err => {
-          console.log('check for PCOR data Error', err);
-        }
-      );
-    });
-  }
 
   public getMRData() {
     return new Promise(resolve => {
