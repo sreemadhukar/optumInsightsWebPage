@@ -97,5 +97,9 @@
       </div>
       <!--<app-clarify-claims-message></app-clarify-claims-message>-->
     </div>
+
+    <!-- Average Days for Appeals Processing Card begins here -->
+    <app-card *ngIf="appealsTAT != null && appealsTAT.data != null" class="cards" [chartData]="appealsTAT"></app-card>
+    <!-- Average Days for Appeals Processing Card Ends here -->
   </div>
 </div>

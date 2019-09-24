@@ -19,6 +19,9 @@ export class GlossaryMetricidService {
       TotalClaimsSubmitted: '109',
       ActualAllowed: '110',
       ExpectedAllowed: '111',
+      ClaimsPaidBreakdown: '112',
+      PaymentIntegrityMedicalRecordCodingReview: '113',
+      ClaimsSubmitted: '114',
       MedicareStarRating: '200',
       PriorAuthorizationRequested: '201',
       TopReasonsforPriorAuthorizationsNotApproved: '202',
@@ -43,7 +46,6 @@ export class GlossaryMetricidService {
       ClaimsNonPayments: 'NA',
       ClaimsAppeals: 'NA',
       ClaimsPaymentIntegrity: 'NA',
-      ClaimsPaidBreakdown: 'NA',
       PriorAuthorizationApproval: 'NA',
       ClaimsNonPaymentTrend: 'NA'
     };
