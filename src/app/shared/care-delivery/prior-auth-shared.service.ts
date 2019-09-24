@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { PriorAuthService } from '../../rest/prior-auth/prior-auth.service';
+import { PriorAuthService } from '../../rest/care-delivery/prior-auth.service';
 import { CareDeliveryPageModule } from '../../components/care-delivery-page/care-delivery-page.module';
 import { CommonUtilsService } from '../common-utils.service';
 import { SessionService } from '../session.service';
@@ -26,7 +26,7 @@ export class PriorAuthSharedService {
       { value: 1, symbol: '' },
       { value: 1e3, symbol: 'K' },
       { value: 1e6, symbol: 'M' },
-      { value: 1e9, symbol: 'G' },
+      { value: 1e9, symbol: 'B' },
       { value: 1e12, symbol: 'T' },
       { value: 1e15, symbol: 'P' },
       { value: 1e18, symbol: 'E' }

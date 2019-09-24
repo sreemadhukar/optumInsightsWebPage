@@ -171,13 +171,13 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
         if (this.sessionService.checkAdvocateRole()) {
           this.navCategories[0].path = '/OverviewPageAdvocate';
         }
-        this.checkPcorData();
-        // if (JSON.parse(sessionStorage.getItem('pcor'))) {
-        //   const pcorBoolean = JSON.parse(sessionStorage.getItem('pcor')).isPCOR;
-        //   if (pcorBoolean) {
-        //     this.insertPCORnav();
-        //   }
-        // }
+        // this.checkPcorData();
+        if (JSON.parse(sessionStorage.getItem('pcor'))) {
+          const pcorBoolean = JSON.parse(sessionStorage.getItem('pcor')).isPCOR;
+          if (pcorBoolean) {
+            this.insertPCORnav();
+          }
+        }
         const heac = JSON.parse(sessionStorage.getItem('heac'));
         if (event.url === '/KnowOurProvider' && !heac.heac) {
           router.navigate(['/ProviderSearch']);
