@@ -38,7 +38,6 @@ import { environment } from '../../../environments/environment';
 import { EventEmitterService } from 'src/app/shared/know-our-provider/event-emitter.service';
 import { SessionService } from '../../shared/session.service';
 import { AcoEventEmitterService } from '../../shared/ACO/aco-event-emitter.service';
-import { AdvocateEventEmitterService } from '../../shared/advocate/advocate-event-emitter.service';
 import { FilterCloseService } from './../../shared/filters/filter-close.service';
 import { PcorService } from '../../rest/care-delivery/pcor.service';
 @Component({
@@ -129,7 +128,6 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     private sessionService: SessionService,
     private eventEmitter: EventEmitterService,
     private acoEventEmitter: AcoEventEmitterService,
-    private advEventEmitter: AdvocateEventEmitterService,
     @Inject(DOCUMENT) private document: any
   ) {
     this.glossaryFlag = false;
