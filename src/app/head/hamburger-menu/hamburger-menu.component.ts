@@ -172,11 +172,8 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
           this.navCategories[0].path = '/OverviewPageAdvocate';
         }
         // this.checkPcorData();
-        if (JSON.parse(sessionStorage.getItem('pcor'))) {
-          const pcorBoolean = JSON.parse(sessionStorage.getItem('pcor')).isPCOR;
-          if (pcorBoolean) {
-            this.insertPCORnav();
-          }
+        if (this.sessionService.isPCORData()) {
+          this.insertPCORnav();
         }
         const heac = JSON.parse(sessionStorage.getItem('heac'));
         if (event.url === '/KnowOurProvider' && !heac.heac) {
@@ -295,8 +292,6 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
         name: 'Patient Care Opportunity',
         path: '/CareDelivery/PatientCareOpportunity'
       });
-      const temp = { isPCOR: true };
-      sessionStorage.setItem('pcor', JSON.stringify(temp));
     }
   }
   checkPcorData() {
@@ -320,6 +315,8 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
             }
           } catch (err) {}
         } else {
+          const temp = { isPCOR: true };
+          sessionStorage.setItem('pcor', JSON.stringify(temp));
           this.insertPCORnav();
         }
       },
