@@ -101,7 +101,10 @@ export class AccordionLargeCardComponent implements OnInit {
       this.qualityStarCount = this.qualityMeasure[x].star;
 
       this.qualitySubTitle = this.qualityMeasure[x].label;
-      this.qualityPcorData = this.qualityMeasure[x].data;
+      this.qualityPcorData = this.qualityMeasure[x].data.sort((a, b) =>
+        a.CMSWeight < b.CMSWeight ? 1 : a.CMSWeight === b.CMSWeight ? (a.Name < b.Name ? 1 : -1) : -1
+      );
+      console.log(this.qualityPcorData);
       this.subsection[0] = true;
 
       if (this.qualityMeasure[x].count === 0) {
