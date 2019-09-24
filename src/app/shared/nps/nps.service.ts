@@ -77,6 +77,7 @@ export class NPSSharedService {
         quarters: [],
         all: {
           data: {
+            type: 'nps',
             quarter: true,
             singleCard,
             title: 'Combined Total NPS',
@@ -90,6 +91,7 @@ export class NPSSharedService {
         },
         md: {
           data: {
+            type: 'nps',
             quarter: true,
             singleCard,
             title: 'Physician NPS',
@@ -103,6 +105,7 @@ export class NPSSharedService {
         },
         pm: {
           data: {
+            type: 'nps',
             quarter: true,
             singleCard,
             title: 'Practice Manager NPS',

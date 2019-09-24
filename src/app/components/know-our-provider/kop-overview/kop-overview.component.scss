@@ -17,7 +17,8 @@
     -webkit-flex-flow: row wrap;
     justify-content: left;
     flex-wrap: wrap;
-    padding-left: 40px;
+    padding-left: 30px;
+    padding-right: 30px;
     max-width: 1000px;
     width: 100%;
     margin: auto;
@@ -78,7 +79,7 @@
       }
       .time--period {
         .filterchips {
-          width: 845px;
+          width: 815px;
           float: left;
           .horizontal-align {
             display: inline-block;
