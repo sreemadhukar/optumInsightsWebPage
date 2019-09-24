@@ -1,72 +1,41 @@
 import { Component, OnInit } from '@angular/core';
 import { GlossaryExpandService } from 'src/app/shared/glossary-expand.service';
-import { StorageService } from '../../../shared/storage-service.service';
-import { GettingReimbursedSharedService } from 'src/app/shared/getting-reimbursed/getting-reimbursed-shared.service';
-import { MatIconRegistry } from '@angular/material';
-import { DomSanitizer } from '@angular/platform-browser';
+import { GlossaryMetricidService } from '../../../../shared/glossary-metricid.service';
 import { Router } from '@angular/router';
-import { FilterExpandService } from '../../../shared/filter-expand.service';
-import { CommonUtilsService } from '../../../shared/common-utils.service';
+import { FilterExpandService } from '../../../../shared/filter-expand.service';
 import { SessionService } from 'src/app/shared/session.service';
+import { CommonUtilsService } from '../../../../shared/common-utils.service';
+import { StorageService } from '../../../../shared/storage-service.service';
 
 @Component({
-  selector: 'app-payment-integrity',
-  templateUrl: './payment-integrity.component.html',
-  styleUrls: ['./payment-integrity.component.scss']
+  selector: 'app-smart-edits',
+  templateUrl: './smart-edits.component.html',
+  styleUrls: ['./smart-edits.component.scss']
 })
-export class PaymentIntegrityComponent implements OnInit {
+export class SmartEditsComponent implements OnInit {
   pageTitle: String = '';
-  currentTabTitle: String = '';
-  timePeriod: string;
+  metricId = 'NA';
   lob: string;
   taxID: Array<string>;
-  title = 'Payment Integrity: Medical Record Coding Review';
-  smartEditsReasonTitle = 'Smart Edits Returned Claims Top Reasons';
-  smartEditsRepairedAndResubmittedTitle = 'Smart Edits Repaired & Resubmitted Response Time';
-  MetricID = 'NA';
-  subscription: any;
-  cardData: any;
-  piDataloaded = false;
-  loading: boolean;
+  timePeriod: string;
   smartEditClaimsReturned: any;
-  claimsTopReason: any = [];
-  claimsInfoTopReason: any = [];
-  smartEditsReasonsBool = false;
-  showSmartEditsClaimsReturned = false;
+  smartEditsRepairedAndResubmittedTitle = 'Smart Edits Repaired & Resubmitted Response Time';
+  smartEditsReasonTitle = 'Smart Edits Returned Claims Top Reasons';
+  claimsTopReason = [];
+  claimsInfoTopReason = [];
   smartEditsInformationalTitle = 'Smart Edits Top Informational Reasons';
-  showSmartEditsRepairedandResubmitted = false;
-  showSmartEditsTopInfoReason = false;
-
+  subscription: any;
+  showSmartEdits = false;
   constructor(
     private glossaryExpandService: GlossaryExpandService,
-    private checkStorage: StorageService,
-    private iconRegistry: MatIconRegistry,
-    sanitizer: DomSanitizer,
-    private gettingReimbursedSharedService: GettingReimbursedSharedService,
+    public MetricidService: GlossaryMetricidService,
     private filterExpandService: FilterExpandService,
-    private session: SessionService,
     private router: Router,
+    private session: SessionService,
+    private checkStorage: StorageService,
     private filtermatch: CommonUtilsService
   ) {
-    /** INITIALIZING SVG ICONS TO USE IN DESIGN - ANGULAR MATERIAL */
-    const filData = this.session.getFilChangeEmitter().subscribe(() => this.filtermatch.urlResuseStrategy());
-    iconRegistry.addSvgIcon(
-      'down-green-trend-icon',
-      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/down-positive-no-circle.svg')
-    );
-    iconRegistry.addSvgIcon(
-      'up-red-trend-icon',
-      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/up-negative-no-circle.svg')
-    );
-    iconRegistry.addSvgIcon(
-      'filter',
-      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-filter_list-24px.svg')
-    );
-    iconRegistry.addSvgIcon(
-      'close',
-      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-close-24px.svg')
-    );
-    this.pageTitle = 'Claims Payment Integrity*';
+    this.pageTitle = 'Smart Edits*';
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.filtermatch.urlResuseStrategy());
   }
 
@@ -85,29 +54,6 @@ export class PaymentIntegrityComponent implements OnInit {
     } else {
       this.taxID = [];
     }
-    this.piDataloaded = false;
-    this.loading = true;
-    this.gettingReimbursedSharedService
-      .getPaymentIntegrityData()
-      .then(r => {
-        this.loading = false;
-        const temp = JSON.parse(JSON.stringify(r));
-        if (temp && temp.hasOwnProperty('status') && temp.status) {
-          this.cardData = temp;
-        } else {
-          if (r != null) {
-            this.cardData = r;
-            this.piDataloaded = true;
-          } else {
-            this.loading = false;
-            this.piDataloaded = false;
-          }
-        }
-      })
-      .catch(error => {
-        this.loading = false;
-        this.piDataloaded = false;
-      });
 
     this.smartEditClaimsReturned = {
       category: 'app-card',
@@ -150,7 +96,8 @@ export class PaymentIntegrityComponent implements OnInit {
         gdata: ['app-card-structure', 'smartEditsTopClaimsReason' + i]
       });
     }
-    // **** Smart Edits Claims Top Reasons Starts here**** //
+    // **** Smart Edits Claims Top Reasons Ends here**** //
+
     // **** Smart Edits Top Informational Reasons starts here****//
     const rVal1 = [22, 19, 16, 12, 5];
     const rVal2 = [78, 81, 84, 88, 95];
@@ -176,7 +123,7 @@ export class PaymentIntegrityComponent implements OnInit {
   }
 
   helpIconClick(title) {
-    this.glossaryExpandService.setMessage(title, this.MetricID);
+    this.glossaryExpandService.setMessage(title, this.metricId);
   }
   openFilter() {
     this.filterExpandService.setURL(this.router.url);

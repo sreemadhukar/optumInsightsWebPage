@@ -76,6 +76,7 @@ export class NPSSharedService {
       quarters: [],
       all: {
         data: {
+          type: 'nps',
           quarter: true,
           singleCard,
           title: 'Combined Total NPS',
@@ -89,6 +90,7 @@ export class NPSSharedService {
       },
       md: {
         data: {
+          type: 'nps',
           quarter: true,
           singleCard,
           title: 'Physician NPS',
@@ -102,6 +104,7 @@ export class NPSSharedService {
       },
       pm: {
         data: {
+          type: 'nps',
           quarter: true,
           singleCard,
           title: 'Practice Manager NPS',
@@ -126,7 +129,12 @@ export class NPSSharedService {
           ProviderNpsSummary: {
             PhysicianNPSSummary: { PhysicianNPSValue },
             PracticeManagerNPSSummary: { PracticeManagerNPSValue },
-            TotalNPSSummary: { TotalNPSValue }
+            TotalNPSSummary: { TotalNPSValue },
+            TargetNPSSummary: {
+              CombinedTargetNPSValue = 0,
+              PhysicianTargetNPSValue = 0,
+              PracticeManagerTargetNPSValue = 0
+            }
           },
           Quarter
         } = element;
@@ -171,24 +179,24 @@ export class NPSSharedService {
         }
         result.all.data.cards.push({
           highlightedValue: parseInt(TotalNPSValue),
+          targetValue: parseInt(CombinedTargetNPSValue),
           highlightQuarter,
           currentQuarter,
           prevQuarter,
-          targetValue: 14,
           captionText: year + ' Target'
         });
         result.pm.data.cards.push({
           highlightedValue: parseInt(PracticeManagerNPSValue),
           currentQuarter,
           prevQuarter,
-          targetValue: 14,
+          targetValue: parseInt(PracticeManagerTargetNPSValue),
           captionText: year + ' Target'
         });
         result.md.data.cards.push({
           highlightedValue: parseInt(PhysicianNPSValue),
           currentQuarter,
           prevQuarter,
-          targetValue: 14,
+          targetValue: parseInt(PhysicianTargetNPSValue),
           captionText: year + ' Target'
         });
       });
