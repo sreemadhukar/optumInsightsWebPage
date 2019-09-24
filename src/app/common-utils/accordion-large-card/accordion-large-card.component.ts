@@ -104,7 +104,6 @@ export class AccordionLargeCardComponent implements OnInit {
       this.qualityPcorData = this.qualityMeasure[x].insideData.sort((a, b) =>
         a.CMSWeight < b.CMSWeight ? 1 : a.CMSWeight === b.CMSWeight ? (a.Name < b.Name ? 1 : -1) : -1
       );
-
       this.subsection[0] = true;
 
       if (this.qualityMeasure[x].count === 0) {
@@ -133,7 +132,6 @@ export class AccordionLargeCardComponent implements OnInit {
     this.currentRateCalc = this.common.nFormatter(
       ((this.compliantMemberCount / this.eligibleMemberCount) * 100).toFixed(0) + '%'
     );
-    console.log('sub' + this.currentRateCalc);
   }
   sortHeader(event) {
     const listItems = this.elementRef.nativeElement.querySelectorAll('.sort-header-icon') as HTMLElement[];
