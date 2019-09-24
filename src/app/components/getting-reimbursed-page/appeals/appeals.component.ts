@@ -33,6 +33,7 @@ export class AppealsComponent implements OnInit {
   mockCards: any;
   reasonDataAvailable = false;
   appealsTAT: object;
+  showAppealsTAT = false;
   constructor(
     private appealsSharedService: AppealsSharedService,
     private iconRegistry: MatIconRegistry,

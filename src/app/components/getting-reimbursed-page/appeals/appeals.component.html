@@ -99,7 +99,9 @@
     </div>
 
     <!-- Average Days for Appeals Processing Card begins here -->
-    <app-card *ngIf="appealsTAT != null" class="cards" [chartData]="appealsTAT"></app-card>
+    <div *ngIf="showAppealsTAT">
+      <app-card *ngIf="appealsTAT != null" class="cards" [chartData]="appealsTAT"></app-card>
+    </div>
     <!-- Average Days for Appeals Processing Card Ends here -->
   </div>
 </div>
