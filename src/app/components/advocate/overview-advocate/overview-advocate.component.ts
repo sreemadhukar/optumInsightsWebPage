@@ -69,6 +69,7 @@ export class OverviewAdvocateComponent implements OnInit {
       });
   }
   ngOnInit() {
+    this.checkStorage.emitEvent('overviewPage');
     this.paymentData();
     this.userName = this.session.sessionStorage('loggedUser', 'FirstName');
     this.pageTitle = 'Welcome, ' + this.userName;
