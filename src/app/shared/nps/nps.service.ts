@@ -17,6 +17,9 @@ export class NPSSharedService {
         nps: {
           timeFrameText: 'Quarter and Year',
           singleCard: true
+        },
+        careDelivery: {
+          singleCard: true
         }
       }
     },
@@ -28,6 +31,9 @@ export class NPSSharedService {
       rules: {
         nps: {
           timeFrameText: 'Year',
+          singleCard: true
+        },
+        careDelivery: {
           singleCard: true
         }
       }
@@ -41,6 +47,9 @@ export class NPSSharedService {
         nps: {
           timeFrameText: 'Quarter vs Quarter',
           quarterFormat: 'Quarter and Year',
+          singleCard: false
+        },
+        careDelivery: {
           singleCard: false
         }
       }
@@ -58,6 +67,9 @@ export class NPSSharedService {
           dependent: {
             key: 2
           }
+        },
+        careDelivery: {
+          singleCard: false
         }
       }
     }
@@ -67,7 +79,8 @@ export class NPSSharedService {
   public getNPSSummary(params: NPSParams, callback: any) {
     const { rules, title: currentFilter } = this.filters.filter((filterItem: any) => filterItem.selected)[0];
     const {
-      nps: { singleCard, timeFrameText, quarterFormat }
+      nps: { singleCard, timeFrameText, quarterFormat },
+      careDelivery: { singleCard: careDelivery_singleCard }
     } = rules;
 
     const result = {
@@ -119,50 +132,65 @@ export class NPSSharedService {
         }
       },
       careDelivery: {
-        data: [
-          {
-            title: 'Care Delivery',
-            timeperiod: '',
-            chartData: [
-              {
-                title: 'hours',
-                caption: 'Avg.Prior Auth turnaround time',
-                sdata: {
-                  sign: 'up',
-                  data: 'Positive Trending'
-                }
-              },
-              {
-                title: 'K',
-                caption: 'Prior Auths requested',
-                sdata: {
-                  sign: 'up',
-                  data: 'Positive Trending'
-                }
-              },
-              {
-                key: 'LinkPriorAuthNPS',
-                subKey: 'LinkPriorAuthNPSValue',
-                title: '',
-                caption: 'Link Prior Auth NPS',
-                sdata: {
-                  sign: 'up',
-                  data: 'Positive Trending'
-                }
-              },
-              {
-                key: 'EaseOfMedicalAuth',
-                subKey: 'EaseOfMedicalAuthValue',
-                title: '%',
-                caption: 'Ease of Medical Prior Auth (excl radiology)',
-                sdata: {
-                  sign: 'up',
-                  data: 'Positive Trending'
-                }
+        data: {
+          title: 'Care Delivery',
+          timeperiod: '',
+          chartData: [
+            {
+              quarters: [],
+              key: 'PriorAuthTurnTime',
+              subKey: 'PriorAuthTurnTimeValue',
+              units: 'hours',
+              caption: 'Avg.Prior Auth turnaround time',
+              singleCard: careDelivery_singleCard,
+              report: false,
+              sdata: {
+                sign: 'up',
+                data: 'Positive Trending'
               }
-            ]
-          }
-        ]
+            },
+            {
+              quarters: [],
+              key: 'PriorAuthRequested',
+              subKey: 'PriorAuthRequestedValue',
+              units: 'K',
+              singleCard: careDelivery_singleCard,
+              caption: 'Prior Auths requested',
+              report: false,
+              sdata: {
+                sign: 'up',
+                data: 'Positive Trending'
+              }
+            },
+            {
+              quarters: [],
+              type: 'hollowbox',
+              key: 'LinkPriorAuthNPS',
+              subKey: 'LinkPriorAuthNPSValue',
+              singleCard: careDelivery_singleCard,
+              units: '',
+              report: true,
+              caption: 'Link Prior Auth NPS',
+              sdata: {
+                sign: 'up',
+                data: 'Positive Trending'
+              }
+            },
+            {
+              quarters: [],
+              key: 'EaseOfMedicalAuth',
+              subKey: 'EaseOfMedicalAuthValue',
+              singleCard: careDelivery_singleCard,
+              units: '%',
+              report: true,
+              caption: 'Ease of Medical Prior Auth (excl radiology)',
+              sdata: {
+                sign: 'up',
+                data: 'Positive Trending'
+              }
+            }
+          ]
+        }
       },
       networkParticipation: { data: [] },
       reimbursement: { data: [] },
@@ -255,12 +283,26 @@ export class NPSSharedService {
           captionText: year + ' Target'
         });
 
-        result.careDelivery.data[0].timeperiod = currentFilter + '(' + timeFrame + ')';
-        result.careDelivery.data[0].chartData.forEach((chartDataElement: any) => {
+        result.careDelivery.data.timeperiod = currentFilter + ' (' + timeFrame + ')';
+        result.careDelivery.data.chartData.forEach((chartDataElement: any) => {
           const key = chartDataElement.key;
+          const subKey = chartDataElement.subKey;
+
           if (CareDelivery[key]) {
-            const subKey = chartDataElement.subKey;
-            chartDataElement.title = parseInt(CareDelivery[key][subKey]) + ' ' + chartDataElement.title;
+            const value = parseInt(CareDelivery[key][subKey]);
+            if (careDelivery_singleCard) {
+              chartDataElement.quarters.push({ title: value + '' + chartDataElement.units });
+            } else {
+              chartDataElement.report = false;
+              chartDataElement.quarters.push({ title: value, currentQuarter });
+            }
+          } else {
+            if (careDelivery_singleCard) {
+              chartDataElement.quarters.push({ title: 0 + ' ' + chartDataElement.units });
+            } else {
+              chartDataElement.report = false;
+              chartDataElement.quarters.push({ title: 0 });
+            }
           }
         });
       });

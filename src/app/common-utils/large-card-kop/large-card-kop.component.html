@@ -1,14 +1,23 @@
-<div class="card-structure" *ngIf="data[0] && !skeletonLarge">
+<div class="card-structure" *ngIf="data && !skeletonLarge">
   <div class="card-inner-large">
     <app-common-header
-      [title]="data[0].title"
+      [title]="data.title"
       class="full-display"
       (helpIconClicked)="helpIconClick($event)"
     ></app-common-header>
     <div class="card-inner-large-content">
-      <ul class="kop-insights-data" *ngFor="let item of data[0].chartData; let i = index">
-        <div class="highlighted-value">
-          {{ item.title }}
+      <ul class="kop-insights-data" *ngFor="let item of data.chartData; let i = index">
+        <div *ngIf="item.singleCard" class="highlighted-value">
+          {{ item.quarters[0].title }}
+        </div>
+        <div *ngIf="!item.singleCard && item.type === 'hollowbox'" class="highlighted-boxes">
+          <div
+            *ngFor="let quarter of item.quarters"
+            class="highlighted-box"
+            [class.current-quarter]="quarter.currentQuarter"
+          >
+            {{ quarter.title }}
+          </div>
         </div>
         <div class="caption">
           {{ item.caption }}
@@ -67,10 +76,15 @@
             </div>
           </div>
         </div>
+        <div class="report-box" *ngIf="item.report">
+          <div class="report-content">
+            Touchpoint -Top Box % (9-10)
+          </div>
+        </div>
       </ul>
     </div>
-    <div class="full-width-block" *ngIf="data[0].timeperiod">
-      <app-common-footer [timePeriod]="data[0].timeperiod"></app-common-footer>
+    <div class="full-width-block" *ngIf="data.timeperiod">
+      <app-common-footer [timePeriod]="data.timeperiod"></app-common-footer>
     </div>
   </div>
 </div>
