@@ -6,7 +6,7 @@ import { SessionService } from '../session.service';
 import { GlossaryMetricidService } from '../glossary-metricid.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: CareDeliveryPageModule
 })
 export class PriorAuthSharedService {
   private priorAuthData: Array<object> = [];
@@ -131,7 +131,6 @@ export class PriorAuthSharedService {
 
       this.priorAuthService.getPriorAuthData(...parametersExecutive).subscribe(
         data => {
-          console.log('Prior auth', data);
           if (data) {
             const PCORData = data.PatientCareOpportunity;
             // Reporting Date will be used for all three cards
@@ -140,6 +139,7 @@ export class PriorAuthSharedService {
             const PCORMRday = parseInt(PCORMRdate.substr(3, 2));
             const PCORMRyear = PCORMRdate.substr(6, 4);
             const PCORRMReportingDate = PCORMRmonth + ' ' + PCORMRday + ', ' + PCORMRyear;
+
             const PCORMandRData = PCORData.LineOfBusiness.MedicareAndRetirement;
 
             const totalAllCompletionRate = PCORMandRData.TotalACVs / PCORMandRData.TotalPatientCount;
@@ -247,10 +247,9 @@ export class PriorAuthSharedService {
                 timeperiod: 'Data represents claims processed as of ' + PCORRMReportingDate
               });
             }
-
             const PCORCards = [MandRAvgStarRatingCard, MandRACVCard, MandRStarRatingCard];
+            console.log('Proc cards', PCORCards);
             resolve(PCORCards);
-            console.log('PCOR cards', PCORCards);
           } else {
             resolve(null);
           }
