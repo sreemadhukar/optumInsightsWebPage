@@ -84,6 +84,7 @@ export class ProviderSearchComponent implements OnInit, AfterViewInit {
     } else {
       this.storage.store('currentUser', [Object.assign(provider, data)]);
     }
+    this.storage.emitEvent('overviewPage');
     console.log('storage', this.storage);
     this.dialogRef.close();
   }

@@ -38,7 +38,6 @@ import { environment } from '../../../environments/environment';
 import { EventEmitterService } from 'src/app/shared/know-our-provider/event-emitter.service';
 import { SessionService } from '../../shared/session.service';
 import { AcoEventEmitterService } from '../../shared/ACO/aco-event-emitter.service';
-import { AdvocateEventEmitterService } from '../../shared/advocate/advocate-event-emitter.service';
 import { FilterCloseService } from './../../shared/filters/filter-close.service';
 import { PcorService } from '../../rest/care-delivery/pcor.service';
 @Component({
@@ -129,7 +128,6 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     private sessionService: SessionService,
     private eventEmitter: EventEmitterService,
     private acoEventEmitter: AcoEventEmitterService,
-    private advEventEmitter: AdvocateEventEmitterService,
     @Inject(DOCUMENT) private document: any
   ) {
     this.glossaryFlag = false;
@@ -171,13 +169,10 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
         if (this.sessionService.checkAdvocateRole()) {
           this.navCategories[0].path = '/OverviewPageAdvocate';
         }
-        this.checkPcorData();
-        // if (JSON.parse(sessionStorage.getItem('pcor'))) {
-        //   const pcorBoolean = JSON.parse(sessionStorage.getItem('pcor')).isPCOR;
-        //   if (pcorBoolean) {
-        //     this.insertPCORnav();
-        //   }
-        // }
+        // this.checkPcorData();
+        if (this.sessionService.isPCORData()) {
+          this.insertPCORnav();
+        }
         const heac = JSON.parse(sessionStorage.getItem('heac'));
         if (event.url === '/KnowOurProvider' && !heac.heac) {
           router.navigate(['/ProviderSearch']);
@@ -295,8 +290,6 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
         name: 'Patient Care Opportunity',
         path: '/CareDelivery/PatientCareOpportunity'
       });
-      const temp = { isPCOR: true };
-      sessionStorage.setItem('pcor', JSON.stringify(temp));
     }
   }
   checkPcorData() {
@@ -320,6 +313,8 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
             }
           } catch (err) {}
         } else {
+          const temp = { isPCOR: true };
+          sessionStorage.setItem('pcor', JSON.stringify(temp));
           this.insertPCORnav();
         }
       },
