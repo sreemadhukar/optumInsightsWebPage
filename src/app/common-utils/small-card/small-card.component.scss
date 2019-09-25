@@ -97,11 +97,6 @@
         display: flex;
       }
     }
-    .trend-details.trend-nps {
-      margin: 0;
-      padding: 10px 0;
-      margin-left: 70px;
-    }
   }
   .card-inner.nps {
     height: 249px;
@@ -178,6 +173,10 @@
   .small-star-chart {
     margin-left: 92px;
     height: 145px;
+  }
+  .trend-container {
+    display: block;
+    margin-top: 10px;
   }
   // @media screen and (max-width: 1331px) {
   //   .card-inner {

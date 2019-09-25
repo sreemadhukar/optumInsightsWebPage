@@ -84,7 +84,7 @@ export class NPSSharedService {
     } = rules;
 
     const result = {
-      nps: {
+      npsSummary: {
         title: 'Provider NPS Summary',
         timeFrame: '',
         quarters: [],
@@ -237,10 +237,10 @@ export class NPSSharedService {
           if (index === 0) {
             timeFrame = 'Q' + Quarter + ' ' + year + ' v. ';
           } else {
-            timeFrame = result.nps.timeFrame + 'Q' + Quarter + ' ' + year;
+            timeFrame = result.npsSummary.timeFrame + 'Q' + Quarter + ' ' + year;
           }
         }
-        result.nps.timeFrame = timeFrame;
+        result.npsSummary.timeFrame = timeFrame;
 
         if (!singleCard) {
           let quarter = '';
@@ -253,7 +253,7 @@ export class NPSSharedService {
               quarter = '';
             }
           }
-          result.nps.quarters.push({
+          result.npsSummary.quarters.push({
             year,
             color: 'color' + (index + 1),
             quarter
@@ -268,7 +268,7 @@ export class NPSSharedService {
           prevQuarter = false;
           highlightQuarter = true;
         }
-        result.nps.all.data.cards.push({
+        result.npsSummary.all.data.cards.push({
           highlightedValue: parseInt(TotalNPSValue),
           targetValue: parseInt(CombinedTargetNPSValue),
           highlightQuarter,
@@ -276,14 +276,14 @@ export class NPSSharedService {
           prevQuarter,
           captionText: year + ' Target'
         });
-        result.nps.pm.data.cards.push({
+        result.npsSummary.pm.data.cards.push({
           highlightedValue: parseInt(PracticeManagerNPSValue),
           currentQuarter,
           prevQuarter,
           targetValue: parseInt(PracticeManagerTargetNPSValue),
           captionText: year + ' Target'
         });
-        result.nps.md.data.cards.push({
+        result.npsSummary.md.data.cards.push({
           highlightedValue: parseInt(PhysicianNPSValue),
           currentQuarter,
           prevQuarter,

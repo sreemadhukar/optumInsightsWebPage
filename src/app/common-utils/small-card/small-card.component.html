@@ -34,11 +34,7 @@
 
     <!-- trend starts here-->
 
-    <div
-      *ngIf="data.type == 'donut' && data.sdata != null"
-      class="trend-details"
-      [class.trend-nps]="data.sdata.trendStyleNPS"
-    >
+    <div *ngIf="data.type == 'donut' && data.sdata != null" class="trend-details">
       <div *ngIf="data.sdata.sign === 'down'" class="flex-box">
         <span class="trend" [class.down]="data.sdata.sign === 'down'">
           <img class="trend-image trend-image-down" src="/src/assets/images/trend-down.svg" alt="trend-down" />
@@ -87,6 +83,10 @@
           {{ data.sdata.data }}
         </div>
       </div>
+    </div>
+
+    <div *ngIf="data.type === 'nps'">
+      <app-trends class="trend-container" [data]="data"></app-trends>
     </div>
     <!-- end trends on right hand side-->
 

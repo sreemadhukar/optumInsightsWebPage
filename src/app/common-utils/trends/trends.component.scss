@@ -1,15 +1,12 @@
 @import '~src/scss/variables.scss';
 .trend-details {
   display: flex;
-  margin: 25px 20px;
 
   .trend-value {
     font-size: 14px;
     letter-spacing: 0.2px;
     line-height: 18px;
     font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
-    /*display: inline;
-    vertical-align: middle;*/
     margin-left: 8px;
     margin-top: 7px;
     &-down {
@@ -64,10 +61,6 @@
 
   .flex-box {
     display: flex;
+    margin: auto;
   }
-}
-.trend-details.trend-nps {
-  margin: 0;
-  padding: 10px 0;
-  margin-left: 70px;
 }

@@ -1,4 +1,4 @@
-<div *ngIf="data.sdata != null" class="trend-details" [class.trend-nps]="data.sdata.trendStyleNPS">
+<div *ngIf="data.sdata != null" class="trend-details">
   <div *ngIf="data.sdata.sign === 'down'" class="flex-box">
     <span class="trend" [class.down]="data.sdata.sign === 'down'">
       <img class="trend-image trend-image-down" src="/src/assets/images/trend-down.svg" alt="trend-down" />

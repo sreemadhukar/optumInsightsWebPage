@@ -39,7 +39,7 @@
         <div class="caption">
           {{ item.caption }}
         </div>
-        <app-trends [data]="item"></app-trends>
+        <app-trends class="trend-container" [data]="item"></app-trends>
         <div class="report-box" *ngIf="item.report">
           <div class="report-content">
             Touchpoint -Top Box % (9-10)
