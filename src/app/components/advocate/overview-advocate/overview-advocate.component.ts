@@ -7,6 +7,8 @@ import { CommonUtilsService } from '../../../shared/common-utils.service';
 import { SessionService } from 'src/app/shared/session.service';
 import { StorageService } from '../../../shared/storage-service.service';
 import { TopRowAdvOverviewSharedService } from '../../../shared/advocate/top-row-adv-overview-shared.service';
+import { NonPaymentSharedService } from '../../../shared/getting-reimbursed/non-payments/non-payment-shared.service';
+import { GlossaryMetricidService } from '../../../shared/glossary-metricid.service';
 
 @Component({
   selector: 'app-overview-advocate',
@@ -20,6 +22,7 @@ export class OverviewAdvocateComponent implements OnInit {
   topRowItems: any;
   timePeriod: string;
   lob: string;
+  trendTitle = 'Non-Payment Trend';
   taxID: Array<string>;
   topRowMockCards: any;
   subscription: any;
@@ -28,6 +31,8 @@ export class OverviewAdvocateComponent implements OnInit {
   claimsNotPaid: any;
   paymentCards: Array<Object>;
   paymentLoading: boolean;
+  monthlyLineGraph: any = [{}];
+  trendMonthDisplay = false;
   constructor(
     private checkStorage: StorageService,
     private filterExpandService: FilterExpandService,
@@ -36,7 +41,9 @@ export class OverviewAdvocateComponent implements OnInit {
     sanitizer: DomSanitizer,
     private session: SessionService,
     private filtermatch: CommonUtilsService,
-    private topRowService: TopRowAdvOverviewSharedService
+    private topRowService: TopRowAdvOverviewSharedService,
+    private nonPaymentService: NonPaymentSharedService,
+    public MetricidService: GlossaryMetricidService
   ) {
     this.pageTitle = 'Welcome, ' + this.userName;
     this.pagesubTitle = 'Your Insights at a glance.';
@@ -85,6 +92,43 @@ export class OverviewAdvocateComponent implements OnInit {
     } else {
       this.taxID = ['All'];
     }
+    this.monthlyLineGraph.chartId = 'non-payment-trend-block';
+    this.monthlyLineGraph.titleData = [{}];
+    this.monthlyLineGraph.generalData = [
+      {
+        width: 500,
+        backgroundColor: 'null',
+        barGraphNumberSize: 18,
+        barColor: '#196ECF',
+        parentDiv: 'non-payment-trend-block',
+        tooltipBoolean: true,
+        hideYAxis: false
+      }
+    ];
+
+    this.monthlyLineGraph.chartData = [];
+    this.trendMonthDisplay = false;
+    // This is for line graph
+    this.nonPaymentService.sharedTrendByMonth().then(trendData => {
+      if (trendData === null) {
+        this.trendMonthDisplay = false;
+        this.monthlyLineGraph = {
+          category: 'large-card',
+          type: 'donut',
+          status: 404,
+          title: 'Claims Non-Payment Trend',
+          MetricID: this.MetricidService.MetricIDs.ClaimsNonPaymentTrend,
+          data: null,
+          timeperiod: null
+        };
+      } else {
+        this.monthlyLineGraph.chartData = trendData;
+        this.trendMonthDisplay = true;
+      }
+    });
+
+    this.monthlyLineGraph.generalData2 = [];
+    this.monthlyLineGraph.chartData2 = [];
   }
   openFilter() {
     this.filterExpandService.setURL(this.router.url);
