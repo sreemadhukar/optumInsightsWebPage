@@ -56,8 +56,6 @@ export class OverviewComponent implements OnInit {
   /***************** DONT CHANGE THESE *************/
 
   trendsData: any;
-  printHeight = 800;
-  printWidth = 700;
 
   public printStyle: boolean; // this variable is used to distinguish between normal page and print page
 
