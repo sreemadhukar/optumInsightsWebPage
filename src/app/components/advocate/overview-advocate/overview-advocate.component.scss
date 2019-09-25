@@ -183,7 +183,7 @@
 
   .appeals-trend-block {
     width: 961px;
-    height: 322px;
+    // height: 322px;
     border-radius: 2px;
     background-color: #ffffff;
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
@@ -218,7 +218,7 @@
   }
 
   .total-appeals{
-    height: 50px;	
+    height: 150px;	
     color: #2D2D39;	
     font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;	
     font-size: 56px;
@@ -246,17 +246,14 @@
    display: flex;
   }
 
-  .lob-set {
-    height: 92px;	
-    width: 98px;
-  }
-
   .lob-values {
     height: 14px;
     font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
     color: #2D2D39;	
-    font-size: 14px;	
-    line-height: 22px;
+    font-size: 14px;
+    padding-left: 12px;
+    padding-top: 26px;
+
   }
 
   @media only screen and (max-width: 1024px) {

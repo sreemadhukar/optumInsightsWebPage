@@ -68,7 +68,14 @@
         (helpIconClicked)="helpIconClick($event)"
       ></app-common-header>
       <div class="full-display">
-        <div class="total-appeals">{{totalAppeals}}</div>
+        <div class="total-appeals">{{totalAppeals}}
+
+                <div class="lob-values" *ngIf ="mi">M&R ({{mi}})</div>
+                <div class="lob-values" *ngIf ="cs">C&S ({{cs}})</div>
+                <div class="lob-values" *ngIf ="ei">E&I ({{ei}})</div>
+                <div class="lob-values" *ngIf ="other">Other ({{other}})</div>
+
+        </div>
         
         <div class="display-flex">
          <div>
@@ -87,16 +94,9 @@
                 <span>{{clinicalAppeals}}</span>
                 </div>
                 </div></div>
-
-                <div class="lob-set">
-                  <div class="lob-values" *ngIf ="mi">M&R ({{mi}})</div>
-                  <div class="lob-values" *ngIf ="cs">C&S ({{cs}})</div>
-                  <div class="lob-values" *ngIf ="ei">E&I ({{ei}})</div>
-                  <div class="lob-values" *ngIf ="other">Other ({{other}})</div>
-
-                </div>
+                
         
-        <div><app-multi-line-graph [chartOptions]="monthlyLineGraph"></app-multi-line-graph></div>
+        <app-multi-line-graph [chartOptions]="monthlyLineGraph"></app-multi-line-graph>
         <!--div class="timeperiod-block">
           <p class="timeperiod-text">{{ timePeriod }}</p>
         </div-->
