@@ -79,6 +79,18 @@ export class SessionService {
     }
   }
 
+  public isPCORData() {
+    let pcorBoolean = false;
+    try {
+      if (JSON.parse(sessionStorage.getItem('pcor'))) {
+        pcorBoolean = JSON.parse(sessionStorage.getItem('pcor')).isPCOR;
+      }
+      return pcorBoolean;
+    } catch (err) {
+      console.log('');
+      return pcorBoolean;
+    }
+  }
   public sessionStorage(value: string, item: string) {
     if (sessionStorage.getItem(value)) {
       return JSON.parse(sessionStorage.getItem(value))[item];
