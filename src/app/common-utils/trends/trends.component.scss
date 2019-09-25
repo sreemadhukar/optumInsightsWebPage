@@ -1,0 +1,73 @@
+@import '~src/scss/variables.scss';
+.trend-details {
+  display: flex;
+  margin: 25px 20px;
+
+  .trend-value {
+    font-size: 14px;
+    letter-spacing: 0.2px;
+    line-height: 18px;
+    font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+    /*display: inline;
+    vertical-align: middle;*/
+    margin-left: 8px;
+    margin-top: 7px;
+    &-down {
+      color: color(red, dark);
+    }
+    &-neutral {
+      color: $black-rock;
+    }
+    &-up {
+      color: $brand-green-hover;
+    }
+  }
+
+  .trend {
+    position: relative;
+    display: block;
+    width: 32px;
+    height: 32px;
+    border-radius: 50px;
+    -moz-border-radius: 50px;
+    -webkit-border-radius: 50%;
+    overflow: hidden;
+  }
+
+  .down {
+    background-color: color(red, light);
+  }
+  .neutral {
+    background-color: $gainsboro;
+  }
+  .up {
+    background-color: color(green, light);
+  }
+
+  .trend-image {
+    position: absolute;
+    height: 20px;
+    width: 20px;
+    top: 6px;
+    left: 5px;
+
+    &-down {
+      background-color: color(red, light);
+    }
+    &-up {
+      background-color: color(green, light);
+    }
+    &-neutral {
+      background-color: $gainsboro;
+    }
+  }
+
+  .flex-box {
+    display: flex;
+  }
+}
+.trend-details.trend-nps {
+  margin: 0;
+  padding: 10px 0;
+  margin-left: 70px;
+}
