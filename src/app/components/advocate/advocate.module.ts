@@ -8,10 +8,11 @@ import { AdvocateRoutingModule } from './advocate-routing.module';
 import { FilterAdvocateComponent } from './filter-advocate/filter-advocate.component';
 import { TopRowAdvOverviewSharedService } from '../../shared/advocate/top-row-adv-overview-shared.service';
 import { NonPaymentSharedService } from '../../shared/getting-reimbursed/non-payments/non-payment-shared.service';
+import { OverviewAdvocateSharedService } from '../../shared/advocate/overview-advocate-shared.service';
 
 @NgModule({
   imports: [CommonModule, AdvocateRoutingModule, CommonUtilsModule, HeadMaterialModule],
   declarations: [OverviewAdvocateComponent, TopRowAdvOverviewComponent, FilterAdvocateComponent],
-  providers: [TopRowAdvOverviewSharedService, NonPaymentSharedService]
+  providers: [TopRowAdvOverviewSharedService, NonPaymentSharedService, OverviewAdvocateSharedService]
 })
 export class AdvocateModule {}

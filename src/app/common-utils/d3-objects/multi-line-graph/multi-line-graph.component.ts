@@ -250,7 +250,7 @@ export class MultiLineGraphComponent implements OnInit {
       );
     }*/
 
-    const preWidth = 961; // document.getElementById(generalData[0].parentDiv).clientWidth;
+    const preWidth = 621; // document.getElementById(generalData[0].parentDiv).clientWidth;
 
     let topMarginSubtract = 150;
     if (titleData[0].topTitleBoxNumber) {

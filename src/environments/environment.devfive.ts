@@ -32,7 +32,8 @@ export const environment: any = {
     PaymentIntegrity: 'pi-metrics/',
     NonPayment: 'claim-metrics/',
     CallsTrend: 'provider-calls/',
-    TrendingMetrics: 'trending-metrics/'
+    TrendingMetrics: 'trending-metrics/',
+    AppealsTrend: 'appeals-trend/'
   },
   headerKeys: {
     selectedCompany: '',

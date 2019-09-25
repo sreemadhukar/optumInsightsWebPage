@@ -68,12 +68,40 @@
         (helpIconClicked)="helpIconClick($event)"
       ></app-common-header>
       <div class="full-display">
-        <app-multi-line-graph [chartOptions]="monthlyLineGraph"></app-multi-line-graph>
+        <div class="total-appeals">{{totalAppeals}}</div>
+        
+        <div class="display-flex">
+         <div>
+        <div class="sub-appeals">
+        <span>Admin</span>
+        </div>
+        <div class="sub-appeals-values">
+          <span>{{adminAppeals}}</span>
+          </div>
+          </div>
+          <div>
+              <div class="sub-appeals">
+              <span>Clinical</span>
+              </div>
+              <div class="sub-appeals-values">
+                <span>{{clinicalAppeals}}</span>
+                </div>
+                </div></div>
+
+                <div class="lob-set">
+                  <div class="lob-values" *ngIf ="mi">M&R ({{mi}})</div>
+                  <div class="lob-values" *ngIf ="cs">C&S ({{cs}})</div>
+                  <div class="lob-values" *ngIf ="ei">E&I ({{ei}})</div>
+                  <div class="lob-values" *ngIf ="other">Other ({{other}})</div>
+
+                </div>
+        
+        <div><app-multi-line-graph [chartOptions]="monthlyLineGraph"></app-multi-line-graph></div>
         <!--div class="timeperiod-block">
           <p class="timeperiod-text">{{ timePeriod }}</p>
         </div-->
       </div>
-      <app-common-footer [timePeriod]="timePeriod" class="width-100 time-period-trend"></app-common-footer>
+      <app-common-footer [timePeriod]="timePeriod"></app-common-footer>
     </div>
     <!-- Claims appeals Trend Ends Here -->
 

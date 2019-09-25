@@ -9,6 +9,7 @@ import { StorageService } from '../../../shared/storage-service.service';
 import { TopRowAdvOverviewSharedService } from '../../../shared/advocate/top-row-adv-overview-shared.service';
 import { GlossaryMetricidService } from '../../../shared/glossary-metricid.service';
 import { NonPaymentSharedService } from '../../../shared/getting-reimbursed/non-payments/non-payment-shared.service';
+import { OverviewAdvocateSharedService } from '../../../shared/advocate/overview-advocate-shared.service';
 
 @Component({
   selector: 'app-overview-advocate',
@@ -33,6 +34,15 @@ export class OverviewAdvocateComponent implements OnInit {
   monthlyLineGraph: any = [{}];
   trendMonthDisplay = false;
   trendTitle = 'Claims Appeals Submitted';
+  appealsloading: boolean;
+  appealsmockCards: any;
+  totalAppeals: any;
+  adminAppeals: any;
+  clinicalAppeals: any;
+  mi: any;
+  cs: any;
+  ei: any;
+  other: any;
   constructor(
     private checkStorage: StorageService,
     private filterExpandService: FilterExpandService,
@@ -44,6 +54,7 @@ export class OverviewAdvocateComponent implements OnInit {
     private topRowService: TopRowAdvOverviewSharedService,
     private nonPaymentService: NonPaymentSharedService,
     public MetricidService: GlossaryMetricidService,
+    public overviewAdvocateSharedService: OverviewAdvocateSharedService
   ) {
     this.pageTitle = 'Welcome, ' + this.userName;
     this.pagesubTitle = 'Your Insights at a glance.';
@@ -75,26 +86,53 @@ export class OverviewAdvocateComponent implements OnInit {
         console.log('Adovate Overview page Payment', reason);
       });
   }
-  ngOnInit() {
-    this.paymentData();
-    this.userName = this.session.sessionStorage('loggedUser', 'FirstName');
-    this.pageTitle = 'Welcome, ' + this.userName;
 
-    this.timePeriod = this.session.filterObjValue.timeFrame;
+  appealsLeftData() {
+    this.appealsloading = true;
+    this.appealsmockCards = [{}, {}, {}, {}];
 
-    this.lob = this.filtermatch.matchLobWithLobData(this.session.filterObjValue.lob);
-    if (this.session.filterObjValue.tax.length > 0 && this.session.filterObjValue.tax[0] !== 'All') {
-      this.taxID = this.session.filterObjValue.tax;
-      if (this.taxID.length > 3) {
-        this.taxID = [this.taxID.length + ' Selected'];
+    this.overviewAdvocateSharedService.getAppealsLeftShared().then(appealsLeftData => {
+      let AppealsLeftData: any;
+      AppealsLeftData = appealsLeftData;
+      this.totalAppeals = AppealsLeftData[0].LineOfBusiness.ALL.AdminAppeals + AppealsLeftData[0].LineOfBusiness.ALL.ClinicalAppeals;
+      this.adminAppeals = AppealsLeftData[0].LineOfBusiness.ALL.AdminAppeals;
+      this.clinicalAppeals = AppealsLeftData[0].LineOfBusiness.ALL.ClinicalAppeals;
+
+      if (AppealsLeftData[0].LineOfBusiness.MedicareAndRetirement) {
+      this.mi = AppealsLeftData[0].LineOfBusiness.MedicareAndRetirement.AdminAppeals +
+                AppealsLeftData[0].LineOfBusiness.MedicareAndRetirement.ClinicalAppeals;
       }
-    } else {
-      this.taxID = ['All'];
-    }
 
+      if (AppealsLeftData[0].LineOfBusiness.CommunityAndState) {
+      this.cs = AppealsLeftData[0].LineOfBusiness.CommunityAndState.AdminAppeals +
+                AppealsLeftData[0].LineOfBusiness.CommunityAndState.ClinicalAppeals;
+      }
 
+      if (AppealsLeftData[0].LineOfBusiness.EmployerAndIndividual) {
+      this.ei = AppealsLeftData[0].LineOfBusiness.EmployerAndIndividual.AdminAppeals +
+                AppealsLeftData[0].LineOfBusiness.EmployerAndIndividual.ClinicalAppeals;
+      }
 
+      if (AppealsLeftData[0].LineOfBusiness.Other) {
+      this.other = AppealsLeftData[0].LineOfBusiness.Other.AdminAppeals +
+                   AppealsLeftData[0].LineOfBusiness.Other.ClinicalAppeals;
+      }
+      this.appealsloading = false;
+    });
 
+  }
+
+  appealsTrendByMonthData() {
+
+    this.overviewAdvocateSharedService.getAppealsTrendByMonthShared().then(appealsTrendData => {
+      let AppealsTrendData: any;
+      AppealsTrendData = appealsTrendData;
+      console.log('AppealsTrendData------------->' , AppealsTrendData);
+    });
+
+  }
+
+  appealsRightData() {
     this.monthlyLineGraph.chartId = 'appeals-trend-block';
     this.monthlyLineGraph.titleData = [{}];
     this.monthlyLineGraph.generalData = [
@@ -116,7 +154,7 @@ export class OverviewAdvocateComponent implements OnInit {
       if (trendData === null) {
         this.trendMonthDisplay = false;
         this.monthlyLineGraph = {
-          category: 'large-card',
+          category: 'small-card',
           type: 'donut',
           status: 404,
           title: 'Claims Appeals Submitted',
@@ -132,7 +170,30 @@ export class OverviewAdvocateComponent implements OnInit {
 
     this.monthlyLineGraph.generalData2 = [];
     this.monthlyLineGraph.chartData2 = [];
+
   }
+
+  ngOnInit() {
+    this.paymentData();
+    this.appealsLeftData();
+    this.appealsRightData();
+    this.appealsTrendByMonthData();
+    this.userName = this.session.sessionStorage('loggedUser', 'FirstName');
+    this.pageTitle = 'Welcome, ' + this.userName;
+
+    this.timePeriod = this.session.filterObjValue.timeFrame;
+
+    this.lob = this.filtermatch.matchLobWithLobData(this.session.filterObjValue.lob);
+    if (this.session.filterObjValue.tax.length > 0 && this.session.filterObjValue.tax[0] !== 'All') {
+      this.taxID = this.session.filterObjValue.tax;
+      if (this.taxID.length > 3) {
+        this.taxID = [this.taxID.length + ' Selected'];
+      }
+    } else {
+      this.taxID = ['All'];
+    }
+  }
+
   openFilter() {
     this.filterExpandService.setURL(this.router.url);
   }

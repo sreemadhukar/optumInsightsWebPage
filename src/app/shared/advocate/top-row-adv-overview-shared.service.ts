@@ -7,7 +7,7 @@ import { AuthorizationService } from '../../auth/_service/authorization.service'
 import { GlossaryMetricidService } from '../glossary-metricid.service';
 
 @Injectable({
-  providedIn: AdvocateModule
+  providedIn: 'root'
 })
 export class TopRowAdvOverviewSharedService {
   public timeFrame;
