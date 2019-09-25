@@ -110,6 +110,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
   fillerNav = Array.from({ length: 50 }, (_, i) => `Nav Item ${i + 1}`);
   filterData: any[] = [];
   customFilter = false;
+  fromKOP = false;
 
   /** CONSTRUCTOR **/
   constructor(
@@ -298,6 +299,12 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     setTimeout(() => {
       this.healthSystemName = this.sessionService.getHealthCareOrgName();
     }, 1);
+
+    // Show butter bar to navigate back to KOP
+    this.fromKOP = sessionStorage.getItem('fromKOP') === 'YES';
+
+    // Remove to render again
+    sessionStorage.removeItem('fromKOP');
   }
 
   checkPA() {
@@ -337,6 +344,8 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     this.filterurl = null;
     this.clickFilterIcon.unsubscribe();
     this.clickFilterIconCustom.unsubscribe();
+    sessionStorage.removeItem('fromKOP');
+    this.fromKOP = false;
   }
   /*** used to apply the CSS for dynamically generated elements ***/
   public ngAfterViewInit(): void {
@@ -424,6 +433,25 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
   }
 
   /**
+   * Reset fromKOP flag,false
+   * and Remvoe fromKOP
+   */
+  closeButterBar() {
+    this.fromKOP = false;
+    sessionStorage.removeItem('fromKOP');
+  }
+
+  /**
+   * Navigate Back to KOP,
+   * Clean fromKOP storage
+   */
+  navigateToKOP() {
+    sessionStorage.removeItem('fromKOP');
+    this.fromKOP = false;
+    window.location.href = '/KnowOurProvider';
+  }
+
+  /**
    * Open ProviderSearchComponent with setting the,
    * data and after action action
    */
@@ -433,6 +461,9 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     // Set label for the container label and pass after selection trigger function
     dialogConfig.data = {
       valueSelected: () => {
+        // Setting Value redirect, remind flag to local storage
+        sessionStorage.setItem('fromKOP', 'YES');
+
         // Reloading targeted route, for resetting the css
         window.location.href = '/OverviewPage';
       },
