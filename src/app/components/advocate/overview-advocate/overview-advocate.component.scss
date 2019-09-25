@@ -10,7 +10,7 @@
     overflow: auto;
     line-height: 0;
   }
-  
+
   .filter_bg {
     height: 40px;
     width: 100px;
@@ -217,43 +217,46 @@
     float: left;
   }
 
-  .total-appeals{
-    height: 150px;	
-    color: #2D2D39;	
-    font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;	
+  .total-appeals {
+    height: 150px;
+    color: #2d2d39;
+    font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
     font-size: 56px;
     line-height: 67px;
     padding-left: 18px;
   }
 
-  .sub-appeals {	
+  .sub-appeals {
     padding-left: 50px;
     padding-top: 15px;
     font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
     color: #757588;
     font-size: 14px;
-    letter-spacing: 0.17px;	
+    letter-spacing: 0.17px;
     line-height: 22px;
   }
   .sub-appeals-values {
     padding-left: 50px;
     font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
-    color: #2D2D39;	
-    font-size: 18px;	
+    color: #2d2d39;
+    font-size: 18px;
     line-height: 22px;
   }
   .display-flex {
-   display: flex;
+    display: flex;
   }
 
   .lob-values {
     height: 14px;
     font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
-    color: #2D2D39;	
+    color: #2d2d39;
     font-size: 14px;
     padding-left: 12px;
     padding-top: 26px;
+  }
 
+  #appeals-trend-block {
+    margin-top: 12px;
   }
 
   @media only screen and (max-width: 1024px) {

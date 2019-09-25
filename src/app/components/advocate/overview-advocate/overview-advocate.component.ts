@@ -10,6 +10,7 @@ import { TopRowAdvOverviewSharedService } from '../../../shared/advocate/top-row
 import { GlossaryMetricidService } from '../../../shared/glossary-metricid.service';
 import { NonPaymentSharedService } from '../../../shared/getting-reimbursed/non-payments/non-payment-shared.service';
 import { OverviewAdvocateSharedService } from '../../../shared/advocate/overview-advocate-shared.service';
+import { GlossaryExpandService } from '../../../shared/glossary-expand.service';
 
 @Component({
   selector: 'app-overview-advocate',
@@ -54,7 +55,8 @@ export class OverviewAdvocateComponent implements OnInit {
     private topRowService: TopRowAdvOverviewSharedService,
     private nonPaymentService: NonPaymentSharedService,
     public MetricidService: GlossaryMetricidService,
-    public overviewAdvocateSharedService: OverviewAdvocateSharedService
+    public overviewAdvocateSharedService: OverviewAdvocateSharedService,
+    private glossaryExpandService: GlossaryExpandService
   ) {
     this.pageTitle = 'Welcome, ' + this.userName;
     this.pagesubTitle = 'Your Insights at a glance.';
@@ -94,42 +96,44 @@ export class OverviewAdvocateComponent implements OnInit {
     this.overviewAdvocateSharedService.getAppealsLeftShared().then(appealsLeftData => {
       let AppealsLeftData: any;
       AppealsLeftData = appealsLeftData;
-      this.totalAppeals = AppealsLeftData[0].LineOfBusiness.ALL.AdminAppeals + AppealsLeftData[0].LineOfBusiness.ALL.ClinicalAppeals;
+      this.totalAppeals =
+        AppealsLeftData[0].LineOfBusiness.ALL.AdminAppeals + AppealsLeftData[0].LineOfBusiness.ALL.ClinicalAppeals;
       this.adminAppeals = AppealsLeftData[0].LineOfBusiness.ALL.AdminAppeals;
       this.clinicalAppeals = AppealsLeftData[0].LineOfBusiness.ALL.ClinicalAppeals;
 
       if (AppealsLeftData[0].LineOfBusiness.MedicareAndRetirement) {
-      this.mi = AppealsLeftData[0].LineOfBusiness.MedicareAndRetirement.AdminAppeals +
-                AppealsLeftData[0].LineOfBusiness.MedicareAndRetirement.ClinicalAppeals;
+        this.mi =
+          AppealsLeftData[0].LineOfBusiness.MedicareAndRetirement.AdminAppeals +
+          AppealsLeftData[0].LineOfBusiness.MedicareAndRetirement.ClinicalAppeals;
       }
 
       if (AppealsLeftData[0].LineOfBusiness.CommunityAndState) {
-      this.cs = AppealsLeftData[0].LineOfBusiness.CommunityAndState.AdminAppeals +
-                AppealsLeftData[0].LineOfBusiness.CommunityAndState.ClinicalAppeals;
+        this.cs =
+          AppealsLeftData[0].LineOfBusiness.CommunityAndState.AdminAppeals +
+          AppealsLeftData[0].LineOfBusiness.CommunityAndState.ClinicalAppeals;
       }
 
       if (AppealsLeftData[0].LineOfBusiness.EmployerAndIndividual) {
-      this.ei = AppealsLeftData[0].LineOfBusiness.EmployerAndIndividual.AdminAppeals +
-                AppealsLeftData[0].LineOfBusiness.EmployerAndIndividual.ClinicalAppeals;
+        this.ei =
+          AppealsLeftData[0].LineOfBusiness.EmployerAndIndividual.AdminAppeals +
+          AppealsLeftData[0].LineOfBusiness.EmployerAndIndividual.ClinicalAppeals;
       }
 
       if (AppealsLeftData[0].LineOfBusiness.Other) {
-      this.other = AppealsLeftData[0].LineOfBusiness.Other.AdminAppeals +
-                   AppealsLeftData[0].LineOfBusiness.Other.ClinicalAppeals;
+        this.other =
+          AppealsLeftData[0].LineOfBusiness.Other.AdminAppeals +
+          AppealsLeftData[0].LineOfBusiness.Other.ClinicalAppeals;
       }
       this.appealsloading = false;
     });
-
   }
 
   appealsTrendByMonthData() {
-
     this.overviewAdvocateSharedService.getAppealsTrendByMonthShared().then(appealsTrendData => {
       let AppealsTrendData: any;
       AppealsTrendData = appealsTrendData;
-      console.log('AppealsTrendData------------->' , AppealsTrendData);
+      console.log('AppealsTrendData------------->', AppealsTrendData);
     });
-
   }
 
   appealsRightData() {
@@ -170,7 +174,6 @@ export class OverviewAdvocateComponent implements OnInit {
 
     this.monthlyLineGraph.generalData2 = [];
     this.monthlyLineGraph.chartData2 = [];
-
   }
 
   ngOnInit() {
@@ -192,6 +195,10 @@ export class OverviewAdvocateComponent implements OnInit {
     } else {
       this.taxID = ['All'];
     }
+  }
+
+  helpIconClick(title) {
+    this.glossaryExpandService.setMessage(title, this.MetricidService.MetricIDs);
   }
 
   openFilter() {

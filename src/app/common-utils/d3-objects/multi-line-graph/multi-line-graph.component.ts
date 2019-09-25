@@ -11,10 +11,7 @@ import * as d3 from 'd3';
     '(window:resize)': 'onResize($event)'
   }
 })
-
-
 export class MultiLineGraphComponent implements OnInit {
-
   public width: any;
   public height: any;
   public renderChart: string;
@@ -42,10 +39,11 @@ export class MultiLineGraphComponent implements OnInit {
     return this._changeTimeFrame;
   }
 
-  constructor() { }
+  constructor() {}
 
   ngOnInit() {
     this.renderChart = '#' + this.chartOptions.chartId;
+    console.log(this.chartOptions);
   }
 
   // tslint:disable-next-line:use-life-cycle-interface
@@ -226,29 +224,29 @@ export class MultiLineGraphComponent implements OnInit {
         );
       }
     }
-    /*function tooltipText2(d, year, prefix) {
-      return (
-        "<div class='lineLabelHover'>" +
-        d.x +
-        // tslint:disable-next-line:max-line-length
-        "&nbsp; Trend Details</div><hr class='hr_cust_margin'><div class='details-label'>
-        <span class='circle_label_sm circle1'></span>&nbsp;&nbsp;&nbsp;" +
-        d.x +
-        '&nbsp;&nbsp;' +
-        year[0] +
-        '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' +
-        prefix +
-        formatDy(d.y_lastYear) +
-        "<hr class='hr_cust_margin hr_opacity'><span class='circle_label_sm circle2'></span>&nbsp;&nbsp;&nbsp;" +
-        d.x +
-        '&nbsp;&nbsp;' +
-        year[1] +
-        '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' +
-        prefix +
-        formatDy(d.y) +
-        '%</div></div>'
-      );
-    }*/
+    // function tooltipText2(d, year, prefix) {
+    //   return (
+    //     "<div class='lineLabelHover'>" +
+    //     d.x +
+    //     // tslint:disable-next-line:max-line-length
+    //     "&nbsp; Trend Details</div><hr class='hr_cust_margin'><div class='details-label'>
+    //     <span class='circle_label_sm circle1'></span>&nbsp;&nbsp;&nbsp;" +
+    //     d.x +
+    //     '&nbsp;&nbsp;' +
+    //     year[0] +
+    //     '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' +
+    //     prefix +
+    //     formatDy(d.y_lastYear) +
+    //     "<hr class='hr_cust_margin hr_opacity'><span class='circle_label_sm circle2'></span>&nbsp;&nbsp;&nbsp;" +
+    //     d.x +
+    //     '&nbsp;&nbsp;' +
+    //     year[1] +
+    //     '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' +
+    //     prefix +
+    //     formatDy(d.y) +
+    //     '%</div></div>'
+    //   );
+    // }
 
     const preWidth = 621; // document.getElementById(generalData[0].parentDiv).clientWidth;
 
@@ -268,7 +266,7 @@ export class MultiLineGraphComponent implements OnInit {
       .select(this.renderChart)
       .append('svg')
       .attr('width', width + margin.left + margin.right)
-      .attr('height', 420 /*height - margin.top - margin.bottom*/)
+      .attr('height', 280 /*height - margin.top - margin.bottom*/)
       .style('background-color', generalData[0].backgroundColor)
       .append('g')
       .attr('transform', 'translate(' + (margin.left - 7) + ',' + 5 + ')');
@@ -345,7 +343,7 @@ export class MultiLineGraphComponent implements OnInit {
     const yScale = d3
       .scaleLinear()
       .domain([0, highestValue]) // input
-      .range([350, 0])
+      .range([180, 0])
       .nice(3); // output
 
     // tslint:disable-next-line:no-var-keyword
@@ -373,11 +371,11 @@ export class MultiLineGraphComponent implements OnInit {
       .append('g')
       .attr('class', 'tick_hidden')
       .attr('id', 'forCalculation')
-      .attr('transform', 'translate(0,' + 360 /*(height - 60)*/ + ')')
+      .attr('transform', 'translate(0,' + 200 /*(height - 60)*/ + ')')
       .call(
         d3
           .axisBottom(xScale3)
-          .tickSize(5, 0, 0)
+          .tickSize(0, 0, 0)
           .tickSizeOuter([0])
       );
 
@@ -488,7 +486,7 @@ export class MultiLineGraphComponent implements OnInit {
         })
       );
       // tslint:disable-next-line:no-var-keyword
-      /* var data2 = [];
+      const data2 = [];
       for (let x = 0; x < lengthOfData2; x++) {
         data2.push({ y: chartData2[x].value });
       }
@@ -498,25 +496,25 @@ export class MultiLineGraphComponent implements OnInit {
         .attr('font-family', 'UHCSans-Regular')
         .attr('font-size', '14px')
         .text(chartData2[0].name)
-        .style('font-weight', '600');*/
+        .style('font-weight', '600');
 
       const text_element2 = chart.select('#forlolCalculations2');
       // tslint:disable-next-line:no-var-keyword
-      var textWidth2 = text_element2.node().getComputedTextLength();
+      const textWidth2 = text_element2.node().getComputedTextLength();
       chart.select('#forlolCalculations2').remove();
 
-      if (chartData2.name.length === 4) {
-        textWidth2 = textWidth2 / 2;
-      } else if (chartData2.name.length === 3) {
-        textWidth2 = textWidth2 * 1.25;
-      }
+      // if (chartData2.name.length === 4) {
+      //   textWidth2 = textWidth2 / 2;
+      // } else if (chartData2.name.length === 3) {
+      //   textWidth2 = textWidth2 * 1.25;
+      // }
 
       /* Starts Data for tooltip */
       /*if (this.chartOptions.chartData2 != undefined && this.chartOptions.chartData2.length > 0) {
         // tslint:disable-next-line:no-var-keyword
-        let data2 = [];
-        // tslint:disable-next-line:no-var-keyword
-        let data = [];
+        // const data2 = [];
+         // tslint:disable-next-line:no-var-keyword
+        var data = [];
         for (let v = 0; v < lengthOfData; v++) {
           data.push({
             y: chartData[v].value,
@@ -534,9 +532,9 @@ export class MultiLineGraphComponent implements OnInit {
             x_lastYear: chartData[u].name
           });
         }
-      } */
+      }
       /* Ends Data for tooltip */
-      /*
+
       chart
         .append('g')
         .attr('visibility', 'hidden')
@@ -562,14 +560,14 @@ export class MultiLineGraphComponent implements OnInit {
       }
 
       const preArrayOfNumbers2 = preYArray2.map(Number);
-      */
+
       // tslint:disable-next-line:no-var-keyword
-      // var numberOfTicks2 = preArrayOfNumbers2.length;
+      const numberOfTicks2 = preArrayOfNumbers2.length;
       // tslint:disable-next-line:no-var-keyword
-      // var highestTickValue2 = preArrayOfNumbers2[numberOfTicks2 - 1];
+      const highestTickValue2 = preArrayOfNumbers2[numberOfTicks2 - 1];
     } // end if structure of chartData2
 
-    /*  if (this.chartOptions.chartData2 != undefined && this.chartOptions.chartData2.length > 0) {
+    if (this.chartOptions.chartData2 != undefined && this.chartOptions.chartData2.length > 0) {
       chart
         .append('g')
         .attr('class', 'tick_hidden_y')
@@ -581,17 +579,8 @@ export class MultiLineGraphComponent implements OnInit {
             .ticks(3)
             .tickFormat(formatDynamicAbbreviation(numberOfTicks2, highestTickValue2, axisPrefix))
         );
-    }*/
+    }
 
-    /* if (this.chartOptions.chartData2 != undefined && this.chartOptions.chartData2.length > 0) {
-      chart
-        .append('path')
-        .datum(data2)
-        .attr('class', 'line2')
-        .attr('d', line)
-        .style('fill', 'none')
-        .style('stroke', generalData2[0].barColor);
-    } */
     // tslint:disable-next-line:no-var-keyword
     /*
     area = d3
@@ -712,10 +701,46 @@ export class MultiLineGraphComponent implements OnInit {
         .attr('d', line)
         .attr('id', 'LineOne')
         .style('fill', 'none')
-        .style('stroke', generalData[0].barColor);
+        .style('stroke', generalData[0].barColor)
+        .style('stroke-width', '2');
     }
 
-    /*  if (this.chartOptions.chartData2 != undefined && this.chartOptions.chartData2.length > 0) {
+    // Dark line
+    /* if (this.chartOptions.chartData2 != undefined && this.chartOptions.chartData2.length > 0) {
+      chart
+        .append('path')
+        .datum(data2)
+        .attr('class', 'line2')
+        .attr('d', line)
+        .style('fill', 'none')
+        .style('stroke', generalData2[0].barColor)
+        .style('stroke-width', 4);
+    }*/
+    // Dotted line
+    /* if (this.chartOptions.chartData2 != undefined && this.chartOptions.chartData2.length > 0) {
+       chart
+         .append('path')
+         .datum(data2)
+         .attr('class', 'line3')
+         .attr('d', line)
+         .style('fill', 'none')
+         .style('stroke', generalData3[0].barColor)
+         .style('stroke-dasharray', '2, 2')
+         .style('stroke-width', '2');
+     }*/
+    // Dashed line
+    /* if (this.chartOptions.chartData2 != undefined && this.chartOptions.chartData2.length > 0) {
+       chart
+         .append('path')
+         .datum(data2)
+         .attr('class', 'line4')
+         .attr('d', line)
+         .style('fill', 'none')
+         .style('stroke-dasharray', '7, 7')
+         .style('stroke-width', '2');
+     }*/
+
+    /* if (this.chartOptions.chartData2 != undefined && this.chartOptions.chartData2.length > 0) {
       chart
         .selectAll('.dot2')
         .data(data2)
@@ -758,7 +783,8 @@ export class MultiLineGraphComponent implements OnInit {
             .duration(500)
             .style('opacity', 0);
         });
-    } */
+    }
+    */
 
     chart
       .append('text')
@@ -882,4 +908,3 @@ export class MultiLineGraphComponent implements OnInit {
     } // end if structure o titleData[0].averagePeerPerformance
   } // end dolineGraph Function
 } // export class ends here
-
