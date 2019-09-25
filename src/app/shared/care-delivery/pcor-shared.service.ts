@@ -32,7 +32,7 @@ export class PcorSharedService {
             const PCORData = data.PatientCareOpportunity;
             // Reporting Date will be used for all three cards
             const PCORMRdate = PCORData.ReportingPeriod;
-            const PCORMRmonth = this.common.generateMonth(parseInt(PCORMRdate.substr(0, 2)) - 1);
+            const PCORMRmonth = this.common.ReturnMonthlyString(PCORMRdate.substr(0, 2));
             const PCORMRday = parseInt(PCORMRdate.substr(3, 2));
             const PCORMRyear = PCORMRdate.substr(6, 4);
             const PCORRMReportingDate = PCORMRmonth + ' ' + PCORMRday + ', ' + PCORMRyear;
