@@ -138,12 +138,14 @@ export class NPSSharedService {
           chartData: [
             {
               quarters: [],
+              cardType: 'horizontalBar',
               key: 'PriorAuthTurnTime',
               subKey: 'PriorAuthTurnTimeValue',
               units: 'hours',
-              caption: 'Avg.Prior Auth turnaround time',
+              caption: 'Avg. Prior Auth turnaround time',
               singleCard: careDelivery_singleCard,
               report: false,
+              color: ['#3381FF', '#80B0FF'],
               sdata: {
                 sign: 'up',
                 data: 'Positive Trending'
@@ -151,12 +153,14 @@ export class NPSSharedService {
             },
             {
               quarters: [],
+              cardType: 'verticalBar',
               key: 'PriorAuthRequested',
               subKey: 'PriorAuthRequestedValue',
               units: 'K',
               singleCard: careDelivery_singleCard,
-              caption: 'Prior Auths requested',
+              caption: 'Prior auths requested',
               report: false,
+              color: ['#3381FF', '#80B0FF'],
               sdata: {
                 sign: 'up',
                 data: 'Positive Trending'
@@ -164,7 +168,7 @@ export class NPSSharedService {
             },
             {
               quarters: [],
-              type: 'hollowbox',
+              cardType: 'hollowbox',
               key: 'LinkPriorAuthNPS',
               subKey: 'LinkPriorAuthNPSValue',
               singleCard: careDelivery_singleCard,
@@ -178,12 +182,16 @@ export class NPSSharedService {
             },
             {
               quarters: [],
+              cardType: 'miniDonut',
               key: 'EaseOfMedicalAuth',
               subKey: 'EaseOfMedicalAuthValue',
               singleCard: careDelivery_singleCard,
+              centerNumber: 23,
+              graphValues: [1, 1],
               units: '%',
               report: true,
               caption: 'Ease of Medical Prior Auth (excl radiology)',
+              color: ['#3381FF', '#E0E0E0'],
               sdata: {
                 sign: 'up',
                 data: 'Positive Trending'

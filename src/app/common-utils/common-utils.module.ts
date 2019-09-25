@@ -38,6 +38,10 @@ import { D3StarGreyComponent } from './d3-objects/d3-star-grey/d3-star-grey.comp
 import { HeacSmallCardComponent } from './heac-small-card/heac-small-card.component';
 import { PipesModule } from '../pipes/pipes.module';
 import { LargeCardKopComponent } from './large-card-kop/large-card-kop.component';
+import { TrendsComponent } from './trends/trends.component';
+import { DonutChartsComponent } from './kop-cards/donut-charts/donut-charts.component';
+import { HorizontalChartsComponent } from './kop-cards/horizontal-charts/horizontal-charts.component';
+import { VerticalBarChartsComponent } from './kop-cards/vertical-bar-charts/vertical-bar-charts.component';
 
 @NgModule({
   imports: [
@@ -75,7 +79,11 @@ import { LargeCardKopComponent } from './large-card-kop/large-card-kop.component
     ClarifyClaimsMessageComponent,
     AccordionLargeCardComponent,
     HeacSmallCardComponent,
-    LargeCardKopComponent
+    LargeCardKopComponent,
+    TrendsComponent,
+    DonutChartsComponent,
+    HorizontalChartsComponent,
+    VerticalBarChartsComponent
   ],
   declarations: [
     MiniTileComponent,
@@ -110,7 +118,11 @@ import { LargeCardKopComponent } from './large-card-kop/large-card-kop.component
     D3StarBlueComponent,
     D3StarGreyComponent,
     HeacSmallCardComponent,
-    LargeCardKopComponent
+    LargeCardKopComponent,
+    TrendsComponent,
+    DonutChartsComponent,
+    HorizontalChartsComponent,
+    VerticalBarChartsComponent
   ],
   entryComponents: [ProviderSearchComponent]
 })

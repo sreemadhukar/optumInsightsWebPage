@@ -20,95 +20,27 @@
       display: flex;
       flex-direction: row;
       justify-content: space-evenly;
-
-      .trend-details {
-        display: flex;
-        margin: 25px 20px;
-
-        .trend-value {
-          font-size: 14px;
-          letter-spacing: 0.2px;
-          line-height: 18px;
-          font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
-          /*display: inline;
-          vertical-align: middle;*/
-          margin-left: 8px;
-          margin-top: 7px;
-        }
-
-        .trend {
-          position: relative;
-          display: block;
-          width: 32px;
-          height: 32px;
-          border-radius: 50px;
-          -moz-border-radius: 50px;
-          -webkit-border-radius: 50%;
-          overflow: hidden;
-        }
-
-        .down {
-          background-color: color(red, light);
-        }
-        .neutral {
-          background-color: $gainsboro;
-        }
-        .up {
-          background-color: color(green, light);
-        }
-
-        .trend-image {
-          position: absolute;
-          height: 20px;
-          width: 20px;
-          top: 6px;
-          left: 5px;
-        }
-        .trend-image-down {
-          background-color: color(red, light);
-        }
-        .trend-image-up {
-          background-color: color(green, light);
-        }
-        .trend-image-neutral {
-          background-color: $gainsboro;
-        }
-
-        .trend-value-down {
-          color: color(red, dark);
-        }
-        .trend-value-neutral {
-          color: $black-rock;
-        }
-        .trend-value-up {
-          color: $brand-green-hover;
-        }
-
-        .flex-box {
-          display: flex;
-        }
-      }
-      .report-box {
-        font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
-        width: 100%;
-        height: 24px;
-        position: relative;
-      }
-      .report-content {
-        position: absolute;
-        margin: auto;
-        left: 0;
-        right: 0;
-        color: $black-rock;
-        font-size: 12px;
-        letter-spacing: 0.2px;
-        line-height: 14px;
-        text-align: center;
-        border-radius: 4px;
-        background-color: $alice-blue;
-        padding: 5px 0;
-        margin: 0 15px;
-      }
+    }
+    .report-box {
+      font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+      width: 100%;
+      height: 24px;
+      position: relative;
+    }
+    .report-content {
+      position: absolute;
+      margin: auto;
+      left: 0;
+      right: 0;
+      color: $black-rock;
+      font-size: 12px;
+      letter-spacing: 0.2px;
+      line-height: 14px;
+      text-align: center;
+      border-radius: 4px;
+      background-color: $alice-blue;
+      padding: 5px 0;
+      margin: 0 15px;
     }
   }
   .card-inner-large-skeleton {
@@ -217,5 +149,10 @@
       border: 2px solid $iris-blue;
       border: 2px solid $dodger-blue;
     }
+  }
+
+  .mini-donut-chart {
+    display: inline-flex;
+    margin: 0 10px;
   }
 }

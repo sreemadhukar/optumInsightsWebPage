@@ -7,75 +7,39 @@
     ></app-common-header>
     <div class="card-inner-large-content">
       <ul class="kop-insights-data" *ngFor="let item of data.chartData; let i = index">
-        <div *ngIf="item.singleCard" class="highlighted-value">
-          {{ item.quarters[0].title }}
-        </div>
-        <div *ngIf="!item.singleCard && item.type === 'hollowbox'" class="highlighted-boxes">
-          <div
-            *ngFor="let quarter of item.quarters"
-            class="highlighted-box"
-            [class.current-quarter]="quarter.currentQuarter"
-          >
-            {{ quarter.title }}
+        <div *ngIf="!item.singleCard; then switchCharts; else singleCardTemplate"></div>
+        <ng-template #switchCharts>
+          <div [ngSwitch]="item.cardType">
+            <div *ngSwitchCase="'horizontalBar'">
+              <app-horizontal-charts></app-horizontal-charts>
+            </div>
+            <div *ngSwitchCase="'verticalBar'">
+              <app-vertical-bar-charts></app-vertical-bar-charts>
+            </div>
+            <div *ngSwitchCase="'hollowbox'" class="highlighted-boxes">
+              <div
+                *ngFor="let quarter of item.quarters"
+                class="highlighted-box"
+                [class.current-quarter]="quarter.currentQuarter"
+              >
+                {{ quarter.title }}
+              </div>
+            </div>
+            <div *ngSwitchCase="'miniDonut'" class="mini-donut-chart">
+              <app-donut-charts [chartData]="item"></app-donut-charts>
+              <app-donut-charts [chartData]="item"></app-donut-charts>
+            </div>
           </div>
-        </div>
+        </ng-template>
+        <ng-template #singleCardTemplate>
+          <div class="highlighted-value">
+            {{ item.quarters[0].title }}
+          </div>
+        </ng-template>
         <div class="caption">
           {{ item.caption }}
         </div>
-        <div *ngIf="item.sdata != null" class="trend-details trend-nps">
-          <div *ngIf="item.sdata.sign === 'down'" class="flex-box">
-            <span class="trend" [class.down]="item.sdata.sign === 'down'">
-              <img class="trend-image trend-image-down" src="/src/assets/images/trend-down.svg" alt="trend-down" />
-            </span>
-            <div class="trend-value trend-value-down">
-              {{ item.sdata.data }}
-            </div>
-          </div>
-          <div *ngIf="item.sdata.sign === 'up'" class="flex-box">
-            <span class="trend" [class.up]="item.sdata.sign === 'up'">
-              <img class="trend-image  trend-image-up" src="/src/assets/images/trend-up.svg" alt="trend-up" />
-            </span>
-            <div class="trend-value trend-value-up">
-              {{ item.sdata.data }}
-            </div>
-          </div>
-          <div *ngIf="item.sdata.sign === 'down-green'" class="flex-box">
-            <span class="trend" [class.up]="item.sdata.sign === 'down-green'">
-              <img
-                class="trend-image trend-image-up"
-                src="/src/assets/images/down-positive-no-circle.svg"
-                alt="trend-down"
-              />
-            </span>
-            <div class="trend-value trend-value-up">
-              {{ item.sdata.data }}
-            </div>
-          </div>
-          <div *ngIf="item.sdata.sign === 'up-red'" class="flex-box">
-            <span class="trend" [class.down]="item.sdata.sign === 'up-red'">
-              <img
-                class="trend-image  trend-image-down"
-                src="/src/assets/images/up-negative-no-circle.svg"
-                alt="trend-up"
-              />
-            </span>
-            <div class="trend-value trend-value-down">
-              {{ item.sdata.data }}
-            </div>
-          </div>
-          <div *ngIf="item.sdata.sign === 'neutral'" class="flex-box">
-            <span class="trend" [class.neutral]="item.sdata.sign === 'neutral'">
-              <img
-                class="trend-image trend-image-neutral"
-                src="/src/assets/images/flat-no-change.svg"
-                alt="no-change"
-              />
-            </span>
-            <div class="trend-value trend-value-neutral">
-              {{ item.sdata.data }}
-            </div>
-          </div>
-        </div>
+        <app-trends [data]="item"></app-trends>
         <div class="report-box" *ngIf="item.report">
           <div class="report-content">
             Touchpoint -Top Box % (9-10)

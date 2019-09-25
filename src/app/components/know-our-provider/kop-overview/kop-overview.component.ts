@@ -6,7 +6,6 @@ import { FilterExpandService } from 'src/app/shared/filter-expand.service';
 import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
-import { KopInsightsService } from 'src/app/shared/know-our-provider/kop-insights.service';
 import { SessionService } from 'src/app/shared/session.service';
 
 @Component({
