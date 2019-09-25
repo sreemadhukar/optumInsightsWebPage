@@ -31,7 +31,6 @@ import { ProviderSearchComponent } from '../../common-utils/provider-search/prov
 import { StorageService } from '../../shared/storage-service.service';
 import { GlossaryExpandService } from '../../shared/glossary-expand.service';
 import { Subscription } from 'rxjs';
-import { PriorAuthSharedService } from 'src/app/shared/prior-authorization/prior-auth.service';
 import { FilterExpandService } from '../../shared/filter-expand.service';
 import { DOCUMENT, Location } from '@angular/common';
 import { environment } from '../../../environments/environment';
