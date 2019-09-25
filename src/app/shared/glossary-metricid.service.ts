@@ -20,7 +20,7 @@ export class GlossaryMetricidService {
       ActualAllowed: '110',
       ExpectedAllowed: '111',
       ClaimsPaidBreakdown: '112',
-      PaymentIntegrityMedicalRecordCodingReview: '113',
+      ClaimsPaymentIntegrity: '113',
       ClaimsSubmitted: '114',
       MedicareStarRating: '200',
       PriorAuthorizationRequested: '201',
@@ -45,7 +45,6 @@ export class GlossaryMetricidService {
       ClaimsPayments: 'NA',
       ClaimsNonPayments: 'NA',
       ClaimsAppeals: 'NA',
-      ClaimsPaymentIntegrity: 'NA',
       PriorAuthorizationApproval: 'NA',
       ClaimsNonPaymentTrend: 'NA'
     };
