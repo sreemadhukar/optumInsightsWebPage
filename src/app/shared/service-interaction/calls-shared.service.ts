@@ -87,13 +87,11 @@ export class CallsSharedService {
         })
         .then(data => {
           const trendsData = JSON.parse(JSON.stringify(data));
-          if (trendsData.length) {
-            if (trendsData[0][0] === 'QuestionType') {
-              this.callsData[0].data['sdata'] = trendsData[0][1];
-            }
-            if (trendsData[1][0] === 'TalkTime') {
-              this.callsData[1].data['sdata'] = trendsData[1][1];
-            }
+          if (trendsData[0][0] === 'QuestionType') {
+            this.callsData[0].data['sdata'] = trendsData[0][1];
+          }
+          if (trendsData[1][0] === 'TalkTime') {
+            this.callsData[1].data['sdata'] = trendsData[1][1];
           }
           resolve(this.callsData);
         });
@@ -112,10 +110,14 @@ export class CallsSharedService {
           if (trendMetrics) {
             try {
               trendData.push(['QuestionType', this.common.negativeMeansGood(trendMetrics.CallsTrendByQuesType)]);
-            } catch (err) {}
+            } catch (err) {
+              trendData.push(['QuestionType', null]);
+            }
             try {
               trendData.push(['TalkTime', this.common.negativeMeansGood(trendMetrics.CcllTalkTimeByQuesType)]);
-            } catch (err) {}
+            } catch (err) {
+              trendData.push(['TalkTime', null]);
+            }
           }
           resolve(trendData);
         },
