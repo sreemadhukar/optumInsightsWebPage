@@ -171,12 +171,8 @@ export class CallsSharedService {
         ([providerSystems]) => {
           if (providerSystems != null) {
             try {
-              if (
-                providerSystems.CallVolByQuesType != null &&
-                providerSystems.CallVolByQuesType != undefined &&
-                providerSystems.hasOwnProperty('CallVolByQuesType')
-              ) {
-                const totalCalls = providerSystems.CallVolByQuesType;
+              const totalCalls = (providerSystems || {}).CallVolByQuesType;
+              if (totalCalls) {
                 try {
                   callsByCallType = this.issueResolution(
                     null,
@@ -217,12 +213,8 @@ export class CallsSharedService {
               callsByCallType = this.issueResolution(404, null, null, null, null, null);
             }
             try {
-              if (
-                providerSystems.CallTalkTimeByQuesType != undefined &&
-                providerSystems.CallTalkTimeByQuesType != null &&
-                providerSystems.hasOwnProperty('CallTalkTimeByQuesType')
-              ) {
-                const totalCalls = providerSystems.CallTalkTimeByQuesType;
+              const totalTalkTime = (providerSystems || {}).CallTalkTimeByQuesType;
+              if (totalTalkTime) {
                 try {
                   talkTimeByCallType = this.issueResolution(
                     null,
@@ -231,15 +223,15 @@ export class CallsSharedService {
                     {
                       graphValueName: ['Eligibilty and Benefits', 'Claims', 'Prior Authorizations', 'Others'],
                       graphValues: [
-                        totalCalls.BenefitsEligibility,
-                        totalCalls.Claims,
-                        totalCalls.PriorAuth,
-                        totalCalls.Others
+                        totalTalkTime.BenefitsEligibility,
+                        totalTalkTime.Claims,
+                        totalTalkTime.PriorAuth,
+                        totalTalkTime.Others
                       ],
                       centerNumber:
-                        this.common.nondecimalFormatter(totalCalls.Total) < 1
+                        this.common.nondecimalFormatter(totalTalkTime.Total) < 1
                           ? '< 1 Hrs'
-                          : this.common.nondecimalFormatter(totalCalls.Total) + ' Hrs',
+                          : this.common.nondecimalFormatter(totalTalkTime.Total) + ' Hrs',
                       color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'],
                       gdata: ['card-inner', 'talkTimeByCallType'],
                       labels: ['Eligibilty and Benefits', 'Claims', 'Prior Authorizations', 'Others'],
