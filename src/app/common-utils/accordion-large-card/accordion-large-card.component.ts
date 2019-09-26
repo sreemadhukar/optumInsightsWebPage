@@ -102,7 +102,7 @@ export class AccordionLargeCardComponent implements OnInit {
 
       this.qualitySubTitle = this.qualityMeasure[x].label;
       this.qualityPcorData = this.qualityMeasure[x].insideData.sort((a, b) =>
-        a.CMSWeight < b.CMSWeight ? 1 : a.CMSWeight === b.CMSWeight ? (a.Name < b.Name ? 1 : -1) : -1
+        a.CMSWeight < b.CMSWeight ? 1 : a.CMSWeight === b.CMSWeight ? (a.Name > b.Name ? 1 : -1) : -1
       );
       this.subsection[0] = true;
 
