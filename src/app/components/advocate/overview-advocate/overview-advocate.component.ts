@@ -154,8 +154,9 @@ export class OverviewAdvocateComponent implements OnInit {
     this.monthlyLineGraph.chartData = [];
     this.trendMonthDisplay = false;
     // This is for line graph
-    this.nonPaymentService.sharedTrendByMonth().then(trendData => {
-      if (trendData === null) {
+    this.overviewAdvocateSharedService.getAppealsTrendByMonthShared().then(appealsTrendData => {
+     // AppealsTrendData = appealsTrendData;
+      if (appealsTrendData === null) {
         this.trendMonthDisplay = false;
         this.monthlyLineGraph = {
           category: 'small-card',
@@ -167,13 +168,17 @@ export class OverviewAdvocateComponent implements OnInit {
           timeperiod: null
         };
       } else {
-        this.monthlyLineGraph.chartData = trendData;
+        console.log(appealsTrendData);
+        this.monthlyLineGraph.chartData = appealsTrendData[0];
+        this.monthlyLineGraph.chartData1 = appealsTrendData[1];
+        this.monthlyLineGraph.chartData2 = appealsTrendData[2];
+        this.monthlyLineGraph.chartData3 = appealsTrendData[3];
         this.trendMonthDisplay = true;
       }
     });
 
-    this.monthlyLineGraph.generalData2 = [];
-    this.monthlyLineGraph.chartData2 = [];
+    this.monthlyLineGraph.generalData2 = this.monthlyLineGraph.generalData;
+    // this.monthlyLineGraph.chartData2 = [];
   }
 
   ngOnInit() {

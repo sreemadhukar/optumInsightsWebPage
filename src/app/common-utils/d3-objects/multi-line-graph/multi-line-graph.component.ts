@@ -50,7 +50,9 @@ export class MultiLineGraphComponent implements OnInit {
   ngAfterViewInit() {
     this.doLineGraph(
       this.chartOptions.chartData,
+      this.chartOptions.chartData1,
       this.chartOptions.chartData2,
+      this.chartOptions.chartData3,
       this.chartOptions.titleData,
       this.chartOptions.generalData,
       this.chartOptions.generalData2
@@ -60,7 +62,9 @@ export class MultiLineGraphComponent implements OnInit {
   onResize(event) {
     this.doLineGraph(
       this.chartOptions.chartData,
+      this.chartOptions.chartData1,
       this.chartOptions.chartData2,
+      this.chartOptions.chartData3,
       this.chartOptions.titleData,
       this.chartOptions.generalData,
       this.chartOptions.generalData2
@@ -70,14 +74,16 @@ export class MultiLineGraphComponent implements OnInit {
   onSystemChange() {
     this.doLineGraph(
       this.chartOptions.chartData,
+      this.chartOptions.chartData1,
       this.chartOptions.chartData2,
+      this.chartOptions.chartData3,
       this.chartOptions.titleData,
       this.chartOptions.generalData,
       this.chartOptions.generalData2
     );
   }
 
-  doLineGraph(chartData: any, chartData2: any, titleData: any, generalData: any, generalData2: any) {
+  doLineGraph(chartData: any, chartData1: any, chartData2: any, chartData3: any, titleData: any, generalData: any, generalData2: any) {
     function formatDy(dy: number): string {
       if (dy === 0) {
         return '0';
@@ -303,9 +309,23 @@ export class MultiLineGraphComponent implements OnInit {
       })
     );
     // tslint:disable-next-line:no-var-keyword
+    const highestValue1 = Math.max.apply(
+      Math,
+      chartData1.map(function(o) {
+        return o.value;
+      })
+    );
+    // tslint:disable-next-line:no-var-keyword
     const highestValue2 = Math.max.apply(
       Math,
       chartData2.map(function(o) {
+        return o.value;
+      })
+    );
+    // tslint:disable-next-line:no-var-keyword
+    const highestValue3 = Math.max.apply(
+      Math,
+      chartData3.map(function(o) {
         return o.value;
       })
     );
@@ -707,39 +727,39 @@ export class MultiLineGraphComponent implements OnInit {
     }
 
     // Dark line
-    /* if (this.chartOptions.chartData2 != undefined && this.chartOptions.chartData2.length > 0) {
+     if (this.chartOptions.chartData1 != undefined && this.chartOptions.chartData1.length > 0) {
       chart
         .append('path')
-        .datum(data2)
+        .datum(data)
         .attr('class', 'line2')
         .attr('d', line)
         .style('fill', 'none')
         .style('stroke', generalData2[0].barColor)
         .style('stroke-width', 4);
-    }*/
+    }
     // Dotted line
-    /* if (this.chartOptions.chartData2 != undefined && this.chartOptions.chartData2.length > 0) {
+     if (this.chartOptions.chartData2 != undefined && this.chartOptions.chartData2.length > 0) {
        chart
          .append('path')
-         .datum(data2)
+         .datum(data)
          .attr('class', 'line3')
          .attr('d', line)
          .style('fill', 'none')
-         .style('stroke', generalData3[0].barColor)
+         .style('stroke', generalData2[0].barColor)
          .style('stroke-dasharray', '2, 2')
          .style('stroke-width', '2');
-     }*/
+     }
     // Dashed line
-    /* if (this.chartOptions.chartData2 != undefined && this.chartOptions.chartData2.length > 0) {
+     if (this.chartOptions.chartData3 != undefined && this.chartOptions.chartData3.length > 0) {
        chart
          .append('path')
-         .datum(data2)
+         .datum(data)
          .attr('class', 'line4')
          .attr('d', line)
          .style('fill', 'none')
          .style('stroke-dasharray', '7, 7')
          .style('stroke-width', '2');
-     }*/
+     }
 
     /* if (this.chartOptions.chartData2 != undefined && this.chartOptions.chartData2.length > 0) {
       chart
