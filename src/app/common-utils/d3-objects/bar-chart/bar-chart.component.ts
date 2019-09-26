@@ -254,7 +254,7 @@ export class BarChartComponent implements OnInit, AfterViewInit {
 
         const svg2 = div
           .append('svg')
-          .attr('height', 17.5 * tspanArray.length + 'px')
+          .attr('height', 20 * tspanArray.length + 'px')
           .attr('width', '438px');
 
         // need to make id clean
@@ -271,13 +271,11 @@ export class BarChartComponent implements OnInit, AfterViewInit {
 
         const label = d3.select('#' + uniqueText).selectAll('*');
 
-        console.log(tspanArray.length);
-
         let tooltipLabelAdjustor = 120;
         if (tspanArray.length === 3) {
           tooltipLabelAdjustor = 80;
-        } else if (tspanArray.length === 3) {
-          tooltipLabelAdjustor = 40;
+        } else if (tspanArray.length === 8) {
+          tooltipLabelAdjustor = 160;
         }
 
         label
