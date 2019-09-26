@@ -108,19 +108,15 @@ export class CallsSharedService {
       this.trendsService.getTrendingMetrics([this.providerKey]).subscribe(
         trends => {
           const trendData: any = [];
-          const check: Object = {};
-          const totalCallsTrend = ((trends || {}).TendingMtrics || {}).CallsTrendByQuesType;
-          if (this.callsData[0].data != null && totalCallsTrend) {
-            trendData.push(['QuestionType', this.common.negativeMeansGood(totalCallsTrend)]);
-            check['QuestionType'] = this.common.negativeMeansGood(totalCallsTrend);
+          const trendMetrics = (trends || {}).TendingMtrics;
+          if (trendMetrics) {
+            try {
+              trendData.push(['QuestionType', this.common.negativeMeansGood(trendMetrics.CallsTrendByQuesType)]);
+            } catch (err) {}
+            try {
+              trendData.push(['TalkTime', this.common.negativeMeansGood(trendMetrics.CcllTalkTimeByQuesType)]);
+            } catch (err) {}
           }
-
-          const talktimeTrends = trends.TendingMtrics.CcllTalkTimeByQuesType;
-          if (this.callsData[1].data != null && talktimeTrends) {
-            trendData.push(['TalkTime', this.common.negativeMeansGood(talktimeTrends)]);
-            check['TalkTime'] = this.common.negativeMeansGood(talktimeTrends);
-          }
-          console.log('checkCalls', check);
           resolve(trendData);
         },
         error => {
