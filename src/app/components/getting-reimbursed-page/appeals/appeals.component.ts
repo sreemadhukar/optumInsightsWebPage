@@ -99,12 +99,12 @@ export class AppealsComponent implements OnInit {
     this.appealsTAT = {
       category: 'app-card',
       type: 'rotateWithLabel',
-      title: 'Average Days for Appeals Processing',
+      title: 'Average Appeals Turn Around Time',
       MetricID: 'NA',
       data: {
         centerNumber: 0 + ' days',
         color: ['#3381FF', '#3381FF'],
-        gdata: ['card-inner', 'claimsAverageTurnAround'],
+        gdata: ['card-inner', 'appealsAverageTurnAround'],
         sdata: {
           sign: 'down',
           data: '-1.2%'
