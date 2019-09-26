@@ -14,6 +14,7 @@ export class CommonFooterComponent implements OnInit {
 
   ngOnInit() {
     if (this.timePeriod === 'Last 6 Months') {
+      const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
       const today = new Date();
       const dd = String(today.getDate()).padStart(2, '0');
       const mm = String(today.getMonth() + 1).padStart(2, '0'); // January is 0!
@@ -23,7 +24,18 @@ export class CommonFooterComponent implements OnInit {
         mmlast6 = String(today.getMonth() + 12 - 5).padStart(2, '0'); // January is 0!
         yyyy = today.getFullYear() - 1;
       }
-      this.timePeriodFooter = mm + '/' + dd + '/' + yyyy + ' - ' + mmlast6 + '/' + dd + '/' + yyyy;
+      this.timePeriodFooter =
+        monthNames[parseInt(mm) - 1] +
+        ' ' +
+        dd +
+        ',' +
+        yyyy +
+        ' - ' +
+        monthNames[parseInt(mmlast6) - 1] +
+        ' ' +
+        dd +
+        ',' +
+        yyyy;
     } else {
       this.timePeriodFooter = this.timePeriod;
     }
