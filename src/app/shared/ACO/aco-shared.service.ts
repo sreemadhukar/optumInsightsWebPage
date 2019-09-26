@@ -27,11 +27,12 @@ export class AcoSharedService {
     let rxGeneric: object;
     let ratioPCP: object;
     let acuteAdmits: object;
+    let emergencyVisits: object;
+    let acuteBedDays: object;
     let nonParticipatingSpecialistReferrals: object;
     let acoPage: Array<object>;
     let acoPageKeyPerformance: Array<object>;
     let acoPageMainCard: Array<object>;
-    let emergencyVisits: object;
     return new Promise(resolve => {
       this.acoservice.getAcoData().subscribe(data => {
         if (data.hasOwnProperty('LineOfBusiness')) {
@@ -124,6 +125,16 @@ export class AcoSharedService {
               },
               timeperiod: 'Contract Year to Date'
             };
+            acuteBedDays = {
+              category: 'app-card',
+              type: 'barActualTargetNumbers',
+              title: 'Acute Bed Days',
+              data: {
+                actual: data.LineOfBusiness[this.lob].acuteBedDaysPer1000.Actual.toFixed(2),
+                target: data.LineOfBusiness[this.lob].acuteBedDaysPer1000.Target.toFixed(2)
+              },
+              timeperiod: 'Contract Year to Date'
+            };
           } else {
             acoSummary = {
               category: 'app-small-card',
@@ -205,9 +216,24 @@ export class AcoSharedService {
                 target: data.LineOfBusiness[this.lob].emergencyVisitsPer1000.Target.toFixed(2)
               }
             };
+            acuteBedDays = {
+              category: 'app-card',
+              type: 'barActualTargetNumbers',
+              title: 'Acute Bed Days',
+              data: {
+                actual: data.LineOfBusiness[this.lob].acuteBedDaysPer1000.Actual.toFixed(2),
+                target: data.LineOfBusiness[this.lob].acuteBedDaysPer1000.Target.toFixed(2)
+              }
+            };
           }
         }
-        acoPageKeyPerformance = [acuteAdmits, emergencyVisits, nonParticipatingSpecialistReferrals, rxScripts];
+        acoPageKeyPerformance = [
+          acuteAdmits,
+          acuteBedDays,
+          emergencyVisits,
+          nonParticipatingSpecialistReferrals,
+          rxScripts
+        ];
         acoPageMainCard = [acoSummary, ratioPCP, rxGeneric];
         acoPage = [acoPageMainCard, acoPageKeyPerformance];
         resolve(acoPage);

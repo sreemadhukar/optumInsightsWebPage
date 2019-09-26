@@ -97,6 +97,8 @@ export class SmallCardComponent implements OnInit {
               (<HTMLElement>document.getElementById('actual' + this.index)).style.backgroundColor = '#E91B18';
             }
           }
+          this.data.data.target = numberWithCommas(this.data.data.target);
+          this.data.data.actual = numberWithCommas(this.data.data.actual);
         } else if (this.data.type && this.data.type === 'barActualTargetPercentage') {
           console.log('test');
           if (document.getElementById('actual' + this.index) && document.getElementById('target' + this.index)) {
@@ -123,5 +125,10 @@ export class SmallCardComponent implements OnInit {
         }
       }
     }, 200);
+    function numberWithCommas(x) {
+      const parts = x.toString().split('.');
+      parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+      return parts.join('.');
+    }
   }
 }
