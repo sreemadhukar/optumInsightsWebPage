@@ -274,6 +274,8 @@ export class BarChartComponent implements OnInit, AfterViewInit {
         let tooltipLabelAdjustor = 120;
         if (tspanArray.length === 3) {
           tooltipLabelAdjustor = 80;
+        } else if (tspanArray.length === 8) {
+          tooltipLabelAdjustor = 160;
         }
 
         label
