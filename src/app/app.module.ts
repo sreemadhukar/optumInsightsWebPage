@@ -15,8 +15,6 @@ import { AuthModule } from './auth/auth.module';
 import { ProviderService } from './rest/provider/provider.service';
 import { ProviderSharedService } from './shared/provider/provider-shared.service';
 import { ThemeService } from './shared/theme.service';
-import { PriorAuthService } from './rest/prior-auth/prior-auth.service';
-import { PriorAuthSharedService } from './shared/prior-authorization/prior-auth.service';
 import { HttpInterceptorService } from './rest/interceptor/http-interceptor.service';
 import { CacheInterceptor } from './rest/interceptor/cache.interceptor';
 import { NPSSharedService } from './shared/nps/nps.service';
@@ -47,8 +45,6 @@ import { IdleTimeoutDialogComponent } from './auth/idle-timeout-dialog/idle-time
     ProviderSharedService,
     ThemeService,
     CookieService,
-    PriorAuthService,
-    PriorAuthSharedService,
     NPSService,
     NPSSharedService,
     { provide: HTTP_INTERCEPTORS, useClass: HttpInterceptorService, multi: true },

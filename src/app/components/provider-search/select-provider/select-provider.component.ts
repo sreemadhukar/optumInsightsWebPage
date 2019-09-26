@@ -141,7 +141,6 @@ export class SelectProviderComponent implements OnInit {
     } else {
       this.storage.store('currentUser', [Object.assign(provider, data)]);
     }
-
     // Role based access for Advocates Overview page
     if (this.sessionService.checkAdvocateRole()) {
       this.router.navigate(['/OverviewPageAdvocate']);
