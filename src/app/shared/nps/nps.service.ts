@@ -186,8 +186,7 @@ export class NPSSharedService {
               key: 'EaseOfMedicalAuth',
               subKey: 'EaseOfMedicalAuthValue',
               singleCard: careDelivery_singleCard,
-              centerNumber: 23,
-              graphValues: [1, 1],
+              graphValues: [],
               units: '%',
               report: true,
               caption: 'Ease of Medical Prior Auth (excl radiology)',
@@ -302,7 +301,7 @@ export class NPSSharedService {
               chartDataElement.quarters.push({ title: value + '' + chartDataElement.units });
             } else {
               chartDataElement.report = false;
-              chartDataElement.quarters.push({ title: value, currentQuarter });
+              chartDataElement.quarters.push({ title: value, currentQuarter, id: index });
             }
           } else {
             if (careDelivery_singleCard) {
