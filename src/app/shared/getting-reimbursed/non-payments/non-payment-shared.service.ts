@@ -5,9 +5,10 @@ import { CommonUtilsService } from '../../common-utils.service';
 import { SessionService } from '../../session.service';
 import { AuthorizationService } from '../../../auth/_service/authorization.service';
 import { GlossaryMetricidService } from '../../glossary-metricid.service';
+import { AdvocateModule } from '../../../components/advocate/advocate.module';
 
 @Injectable({
-  providedIn: GettingReimbursedModule
+  providedIn: 'root'
 })
 export class NonPaymentSharedService {
   public providerKey;
