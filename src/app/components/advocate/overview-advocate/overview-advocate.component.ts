@@ -162,7 +162,7 @@ export class OverviewAdvocateComponent implements OnInit {
           type: 'donut',
           status: 404,
           title: 'Claims Appeals Submitted',
-          MetricID: this.MetricidService.MetricIDs.ClaimsNonPaymentTrend,
+          MetricID: this.MetricidService.MetricIDs.ClaimsAppealsSubmittedTrend,
           data: null,
           timeperiod: null
         };

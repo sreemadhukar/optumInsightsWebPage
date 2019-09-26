@@ -567,6 +567,7 @@ export class MultiLineGraphComponent implements OnInit {
       const highestTickValue2 = preArrayOfNumbers2[numberOfTicks2 - 1];
     } // end if structure of chartData2
 
+
     if (this.chartOptions.chartData2 != undefined && this.chartOptions.chartData2.length > 0) {
       chart
         .append('g')
@@ -577,7 +578,7 @@ export class MultiLineGraphComponent implements OnInit {
             .tickSize(5, 0, 0)
             .tickSizeOuter([0])
             .ticks(3)
-            .tickFormat(formatDynamicAbbreviation(numberOfTicks2, highestTickValue2, axisPrefix))
+           // .tickFormat(formatDynamicAbbreviation(numberOfTicks2, highestTickValue2, axisPrefix))
         );
     }
 
