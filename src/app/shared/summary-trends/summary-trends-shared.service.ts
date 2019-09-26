@@ -1,22 +1,21 @@
 import { Injectable } from '@angular/core';
-import { SummaryTrendsService } from 'src/app/rest/summary-trends/summary-trends.service';
 import { SessionService } from '../session.service';
+import { SummaryTrendsService } from '../../rest/summary-trends/summary-trends.service';
+import { formatDate } from '@angular/common';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SummaryTrendsSharedService {
   private metric: string;
-  private date: string;
+  private date: any;
   constructor(private summarytrends: SummaryTrendsService, private session: SessionService) {}
 
   public sharedSummaryTrends() {
     return new Promise((resolve, reject) => {
       this.metric = this.session.filterObjValue.metric;
-      this.date = this.session.filterObjValue.date;
-
-      this.metric = 'GettingReimbursed';
-      this.date = '2019-09-23';
+      this.date = formatDate(this.session.filterObjValue.date, 'yyyy-MM-dd', 'en');
+      // this.date = '2019-09-25';
       const params = { metricName: this.metric, searchDate: this.date };
       this.summarytrends.summaryTrendsData(params).subscribe(data => {
         const result: any = { dataSource: [], displayedColumns: [] };
@@ -25,101 +24,156 @@ export class SummaryTrendsSharedService {
             data.forEach(element => {
               result.dataSource.push({
                 ProviderName: element.ProviderOrganisationName,
-                ClaimsYield: element.ClaimsYieldUHCVarince,
-                AmountPaid: element.TotalClaimsPaidUHCVarince,
-                AmountDenied: element.TotalClaimsNotPaidUHCVarince,
-                ActualAllowed: element.ActualAllowedVarince,
-                ClaimsSubmitted: element.TotalClaimsSubmittedUHCVarince
+                ClaimsPaidByUHC: element.ClaimsPaidByUHC,
+                ClaimsYield: element.ClaimsYield,
+                TotalClaimsSubmitted: element.TotalClaimsSubmitted,
+                TotalClaimsPaid: element.TotalClaimsPaid,
+                TotalClaimsNotPaid: element.TotalClaimsNotPaid,
+                TotalBilled: element.TotalBilled,
+                ActualAllowed: element.ActualAllowed,
+                AmountExpectedAllowed: element.AmountExpectedAllowed,
+                DeniedAmount: element.DeniedAmount,
+
+                ClaimsPaidByUHCVarince: element.ClaimsPaidByUHCVarince,
+                ClaimsYieldVarince: element.ClaimsYieldVarince,
+                TotalClaimsSubmittedVarince: element.TotalClaimsSubmittedVarince,
+                TotalClaimsPaidVarince: element.TotalClaimsPaidVarince,
+                TotalClaimsNotPaidVarince: element.TotalClaimsNotPaidVarince,
+                TotalBilledVarince: element.TotalBilledVarince,
+                ActualAllowedVarince: element.ActualAllowedVarince,
+                AmountExpectedAllowedVarince: element.AmountExpectedAllowedVarince,
+                DeniedAmountVarince: element.DeniedAmountVarince
               });
             });
-            console.log(data);
             result.displayedColumns = [
               'ProviderName',
+              'ClaimsPaidByUHC',
               'ClaimsYield',
-              'AmountPaid',
-              'AmountDenied',
+              'TotalClaimsSubmitted',
+              'TotalClaimsPaid',
+              'TotalClaimsNotPaid',
+              'TotalBilled',
               'ActualAllowed',
-              'ClaimsSubmitted'
+              'AmountExpectedAllowed',
+              'DeniedAmount'
             ];
           } else if (this.metric === 'Appeals') {
             data.forEach(element => {
               result.dataSource.push({
                 ProviderName: element.ProviderOrganisationName,
-                ClaimsYield: element.ClaimsYieldUHCVarince,
-                AmountPaid: element.TotalClaimsPaidUHCVarince,
-                AmountDenied: element.TotalClaimsNotPaidUHCVarince,
-                ActualAllowed: element.ActualAllowedVarince,
-                ClaimsSubmitted: element.TotalClaimsSubmittedUHCVarince
+                TotalAppeals: element.TotalAppeals,
+                AdminAppeals: element.AdminAppeals,
+                ClinicalAppeals: element.ClinicalAppeals,
+                OverTurnCount: element.OverTurnCount,
+                TotalAppealsVarince: element.TotalAppealsVarince,
+                AdminAppealsVarince: element.AdminAppealsVarince,
+                ClinicalAppealsVarince: element.ClinicalAppealsVarince,
+                OverTurnCountVarince: element.OverTurnCountVarince
               });
             });
-            console.log(data);
             result.displayedColumns = [
               'ProviderName',
-              'ClaimsYield',
-              'AmountPaid',
-              'AmountDenied',
-              'ActualAllowed',
-              'ClaimsSubmitted'
+              'TotalAppeals',
+              'AdminAppeals',
+              'ClinicalAppeals',
+              'OverTurnCount'
             ];
           } else if (this.metric === 'IssueResolution') {
             data.forEach(element => {
               result.dataSource.push({
                 ProviderName: element.ProviderOrganisationName,
-                ClaimsYield: element.ClaimsYieldUHCVarince,
-                AmountPaid: element.TotalClaimsPaidUHCVarince,
-                AmountDenied: element.TotalClaimsNotPaidUHCVarince,
-                ActualAllowed: element.ActualAllowedVarince,
-                ClaimsSubmitted: element.TotalClaimsSubmittedUHCVarince
+                TotalCallsByType: element.TotalCallsByType,
+                TotalTalkTimeByCallType: element.TotalTalkTimeByCallType,
+                TotalCallsByTypeVarince: element.TotalCallsByTypeVarince,
+                TotalTalkTimeByCallTypeVarince: element.TotalTalkTimeByCallTypeVarince
               });
             });
-            console.log(data);
-            result.displayedColumns = [
-              'ProviderName',
-              'ClaimsYield',
-              'AmountPaid',
-              'AmountDenied',
-              'ActualAllowed',
-              'ClaimsSubmitted'
-            ];
+            result.displayedColumns = ['ProviderName', 'TotalCallsByType', 'TotalTalkTimeByCallType'];
           } else if (this.metric === 'SelfService') {
             data.forEach(element => {
               result.dataSource.push({
                 ProviderName: element.ProviderOrganisationName,
-                ClaimsYield: element.ClaimsYieldUHCVarince,
-                AmountPaid: element.TotalClaimsPaidUHCVarince,
-                AmountDenied: element.TotalClaimsNotPaidUHCVarince,
-                ActualAllowed: element.ActualAllowedVarince,
-                ClaimsSubmitted: element.TotalClaimsSubmittedUHCVarince
+                LinkAndEdiCallRatio: element.LinkAndEdiCallRatio,
+                ReconsiderationProcessing: element.ReconsiderationProcessing,
+                ClaimProcessingTimeByMail: element.ClaimProcessingTimeByMail,
+                TotalCallTime: element.TotalCallTime,
+                ClaimProcessingTimeBySelfService: element.ClaimProcessingTimeBySelfService,
+                ProcessingTimePerReconsiderationByMail: element.ProcessingTimePerReconsiderationByMail,
+                CallsAndOperatingCost: element.CallsAndOperatingCost,
+                ClaimProcessingTime: element.ClaimProcessingTime,
+                SelfServiceAdoptionRate: element.SelfServiceAdoptionRate,
+                PaperLessDocument: element.PaperLessDocument,
+                ProcessingTimePerReconsiderationBySelfService: element.ProcessingTimePerReconsiderationBySelfService,
+                LinkAndEdiCallRatioVarince: element.LinkAndEdiCallRatioVarince,
+                ReconsiderationProcessingVarince: element.ReconsiderationProcessingVarince,
+                ClaimProcessingTimeByMailVarince: element.ClaimProcessingTimeByMailVarince,
+                TotalCallTimeVarince: element.TotalCallTimeVarince,
+                ClaimProcessingTimeBySelfServiceVarince: element.ClaimProcessingTimeBySelfServiceVarince,
+                ProcessingTimePerReconsiderationByMailVarince: element.ProcessingTimePerReconsiderationByMailVarince,
+                CallsAndOperatingCostVarince: element.CallsAndOperatingCostVarince,
+                ClaimProcessingTimeVarince: element.ClaimProcessingTimeVarince,
+                SelfServiceAdoptionRateVarince: element.SelfServiceAdoptionRateVarince,
+                PaperLessDocumentVarince: element.PaperLessDocumentVarince,
+                ProcessingTimePerReconsiderationBySelfServiceVarince:
+                  element.ProcessingTimePerReconsiderationBySelfServiceVarince
               });
             });
-            console.log(data);
             result.displayedColumns = [
               'ProviderName',
-              'ClaimsYield',
-              'AmountPaid',
-              'AmountDenied',
-              'ActualAllowed',
-              'ClaimsSubmitted'
+              'LinkAndEdiCallRatio',
+              'ReconsiderationProcessing',
+              'ClaimProcessingTimeByMail',
+              'TotalCallTime',
+              'ClaimProcessingTimeBySelfService',
+              'ProcessingTimePerReconsiderationByMail',
+              'CallsAndOperatingCost',
+              'ClaimProcessingTime',
+              'SelfServiceAdoptionRate',
+              'PaperLessDocument',
+              'ProcessingTimePerReconsiderationBySelfService'
             ];
           } else if (this.metric === 'PriorAuthorization') {
             data.forEach(element => {
               result.dataSource.push({
                 ProviderName: element.ProviderOrganisationName,
-                ClaimsYield: element.ClaimsYieldUHCVarince,
-                AmountPaid: element.TotalClaimsPaidUHCVarince,
-                AmountDenied: element.TotalClaimsNotPaidUHCVarince,
-                ActualAllowed: element.ActualAllowedVarince,
-                ClaimsSubmitted: element.TotalClaimsSubmittedUHCVarince
+                PriorAuthApprovedCount: element.PriorAuthApprovedCount,
+                PriorAuthNotApprovedCount: element.PriorAuthNotApprovedCount,
+                InPatientFacilityApprovalRate: element.InPatientFacilityApprovalRate,
+                OutPatientFacilityApprovalRate: element.OutPatientFacilityApprovalRate,
+                PriorAuthPendingCount: element.PriorAuthPendingCount,
+                AverageTat: element.AverageTat,
+                UrgentTat: element.UrgentTat,
+                TotalPaRequested: element.TotalPaRequested,
+                PriorAuthCancelledCount: element.PriorAuthCancelledCount,
+                PaApprovalRate: element.PaApprovalRate,
+                OutPatientApprovalRate: element.OutPatientApprovalRate,
+
+                PriorAuthApprovedCountVarince: element.PriorAuthApprovedCountVarince,
+                PriorAuthNotApprovedCountVarince: element.PriorAuthNotApprovedCountVarince,
+                InPatientFacilityApprovalRateVarince: element.InPatientFacilityApprovalRateVarince,
+                OutPatientFacilityApprovalRateVarince: element.OutPatientFacilityApprovalRateVarince,
+                PriorAuthPendingCountVarince: element.PriorAuthPendingCountVarince,
+                AverageTatVarince: element.AverageTatVarince,
+                UrgentTatVarince: element.UrgentTatVarince,
+                TotalPaRequestedVarince: element.TotalPaRequestedVarince,
+                PriorAuthCancelledCountVarince: element.PriorAuthCancelledCountVarince,
+                PaApprovalRateVarince: element.PaApprovalRateVarince,
+                OutPatientApprovalRateVarince: element.OutPatientApprovalRateVarince
               });
             });
-            console.log(data);
             result.displayedColumns = [
               'ProviderName',
-              'ClaimsYield',
-              'AmountPaid',
-              'AmountDenied',
-              'ActualAllowed',
-              'ClaimsSubmitted'
+              'PriorAuthApprovedCount',
+              'PriorAuthNotApprovedCount',
+              'InPatientFacilityApprovalRate',
+              'OutPatientFacilityApprovalRate',
+              'PriorAuthPendingCount',
+              'AverageTat',
+              'UrgentTat',
+              'TotalPaRequested',
+              'PriorAuthCancelledCount',
+              'PaApprovalRate',
+              'OutPatientApprovalRate'
             ];
           }
         }

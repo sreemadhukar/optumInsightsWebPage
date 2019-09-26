@@ -6,6 +6,6 @@ export class Filter {
   public serviceSetting?: string;
   public priorAuthType?: string;
   public scType?: string;
-  public date?: string;
+  public date?: Date;
   public metric?: string;
 }

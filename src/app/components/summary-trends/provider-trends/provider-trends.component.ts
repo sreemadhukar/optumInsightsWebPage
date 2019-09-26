@@ -1,9 +1,12 @@
 import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { MatPaginator } from '@angular/material';
-import { SummaryTrendsSharedService } from 'src/app/shared/summary-trends/summary-trends-shared.service';
-import { SessionService } from 'src/app/shared/session.service';
+import { MatPaginator, MatIconRegistry } from '@angular/material';
+import { SummaryTrendsSharedService } from '../../../shared/summary-trends/summary-trends-shared.service';
+import { SessionService } from '../../../shared/session.service';
+import { DomSanitizer } from '@angular/platform-browser';
+import { FilterExpandService } from 'src/app/shared/filter-expand.service';
+import { CommonUtilsService } from 'src/app/shared/common-utils.service';
 
 @Component({
   selector: 'app-provider-trends',
@@ -16,12 +19,38 @@ export class ProviderTrendsComponent implements OnInit {
   data = [];
   displayedColumns: string[] = [];
   dataSource: any;
-
-  @ViewChild(MatSort) sort: MatSort;
+  data_date: any;
+  metric: any;
+  loading = true;
+  previous_date: any = new Date();
+  filterUrl = '/AdminSummaryTrends';
   @ViewChild(MatPaginator) paginator: MatPaginator;
-  constructor(private summaryTrends: SummaryTrendsSharedService, private session: SessionService) {}
+  @ViewChild(MatSort) sort: MatSort;
+  constructor(
+    private summaryTrends: SummaryTrendsSharedService,
+    private session: SessionService,
+    private iconRegistry: MatIconRegistry,
+    sanitizer: DomSanitizer,
+    private filterExpandService: FilterExpandService,
+    private common: CommonUtilsService
+  ) {
+    const filData = this.session.getFilChangeEmitter().subscribe(() => this.common.urlResuseStrategy());
+    iconRegistry.addSvgIcon(
+      'filter',
+      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-filter_list-24px.svg')
+    );
+    iconRegistry.addSvgIcon('trending_up', sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/trend-up.svg'));
+    iconRegistry.addSvgIcon(
+      'trending_down',
+      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/trend-down.svg')
+    );
+  }
   ngOnInit() {
     this.getSummaryData();
+    this.data_date = this.session.filterObjValue.date;
+    this.metric = this.session.filterObjValue.metric;
+    const newDate = this.data_date;
+    this.previous_date = this.previous_date.setDate(newDate.getDate() - 1).toString();
   }
 
   getSummaryData() {
@@ -34,10 +63,28 @@ export class ProviderTrendsComponent implements OnInit {
         this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.paginator;
       }
+      this.loading = false;
     });
   }
 
   formattingText(text) {
     return text.replace(/([a-z])([A-Z])/g, '$1 $2');
+  }
+
+  openFilter() {
+    // this.filterExpandService.setURL(this.router.url);
+    this.filterExpandService.setURL(this.filterUrl);
+  }
+
+  getData(item) {
+    return item + 'Varince';
+  }
+
+  formatNumber(num) {
+    if (num) {
+      return this.common.nFormatter(num);
+    } else {
+      return 0;
+    }
   }
 }
