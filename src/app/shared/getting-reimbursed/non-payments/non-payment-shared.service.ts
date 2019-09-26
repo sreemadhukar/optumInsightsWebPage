@@ -203,8 +203,7 @@ export class NonPaymentSharedService {
             let claimsNotPaid: Object;
             let claimsNotPaidRate: Object;
             if (
-              nonPaymentData1.hasOwnProperty('All') &&
-              nonPaymentData1.All != null &&
+              (nonPaymentData1 || {}).All &&
               nonPaymentData1.All.hasOwnProperty('ClaimsLobSummary') &&
               nonPaymentData1.All.ClaimsLobSummary.length &&
               nonPaymentData1.All.ClaimsLobSummary[0].hasOwnProperty('AmountDenied')
@@ -287,8 +286,7 @@ export class NonPaymentSharedService {
               };
             }
             if (
-              nonPaymentData1.hasOwnProperty('All') &&
-              nonPaymentData1.All != null &&
+              (nonPaymentData1 || {}).All &&
               nonPaymentData1.All.hasOwnProperty('ClaimsLobSummary') &&
               nonPaymentData1.All.ClaimsLobSummary.length &&
               nonPaymentData1.All.ClaimsLobSummary[0].hasOwnProperty('ClaimsYieldRate') &&
@@ -377,8 +375,7 @@ export class NonPaymentSharedService {
             let claimsNotPaid: Object;
             let claimsNotPaidRate: Object;
             if (
-              nonPaymentData1.hasOwnProperty('All') &&
-              nonPaymentData1.All != null &&
+              (nonPaymentData1 || {}).All &&
               nonPaymentData1.All.hasOwnProperty('ClaimsLobSummary') &&
               nonPaymentData1.All.ClaimsLobSummary.length &&
               nonPaymentData1.All.ClaimsLobSummary[0].hasOwnProperty('AmountDenied')

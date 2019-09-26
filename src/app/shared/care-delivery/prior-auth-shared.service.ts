@@ -99,30 +99,6 @@ export class PriorAuthSharedService {
     }
   }
 
-  public getPCORData() {
-    this.providerKey = this.session.providerKeyData();
-    this.priorAuthData = [];
-    return new Promise(resolve => {
-      const parametersExecutive = [this.providerKey, true];
-
-      this.priorAuthService.getPriorAuthData(...parametersExecutive).subscribe(
-        data => {
-          const PCORData = data.PatientCareOpportunity;
-          let PCORChecker;
-          if (PCORData === null) {
-            PCORChecker = false;
-          } else {
-            PCORChecker = true;
-          }
-          resolve(PCORChecker);
-        },
-        err => {
-          console.log('PCOR Error', err);
-        }
-      );
-    });
-  }
-
   getNewPAData(filterParameters) {
     this.providerKey = this.session.providerKeyData();
 
@@ -261,11 +237,7 @@ export class PriorAuthSharedService {
           let PACount = [];
           let PriorAuthBarGraphParameters = [];
           let PANotApprovedReasonBool;
-          if (
-            providerSystems.PriorAuthorizations !== null &&
-            providerSystems.hasOwnProperty('PriorAuthorizations') &&
-            providerSystems.PriorAuthorizations.hasOwnProperty('LineOfBusiness')
-          ) {
+          if (((providerSystems || {}).PriorAuthorizations || {}).LineOfBusiness) {
             let data;
             // const data = providerSystems.PriorAuthorizations.LineOfBusiness.All;
             if (lobString === 'allLob' && !isServiceCategory) {
