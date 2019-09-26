@@ -10,7 +10,7 @@
     overflow: auto;
     line-height: 0;
   }
-  
+
   .filter_bg {
     height: 40px;
     width: 100px;
@@ -60,7 +60,15 @@
     }
   }
 }
-
+.non-payment-trend-block {
+  width: 950px;
+  border-radius: 2px;
+  background-color: #ffffff;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
+  margin: 12px;
+  float: left;
+  position: relative;
+}
 .page-title {
   flex-basis: 100%;
   font-size: 36px;

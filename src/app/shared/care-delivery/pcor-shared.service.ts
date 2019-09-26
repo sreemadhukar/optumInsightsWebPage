@@ -28,7 +28,7 @@ export class PcorSharedService {
       const parametersExecutive = [this.session.providerKeyData(), true];
       this.pcorService.getExecutiveData(...parametersExecutive).subscribe(
         data => {
-          if (data) {
+          if ((data || {}).PatientCareOpportunity) {
             const PCORData = data.PatientCareOpportunity;
             // Reporting Date will be used for all three cards
             const PCORMRdate = PCORData.ReportingPeriod;
