@@ -9,6 +9,7 @@ import { StorageService } from '../../../shared/storage-service.service';
 import { TopRowAdvOverviewSharedService } from '../../../shared/advocate/top-row-adv-overview-shared.service';
 import { NonPaymentSharedService } from '../../../shared/getting-reimbursed/non-payments/non-payment-shared.service';
 import { GlossaryMetricidService } from '../../../shared/glossary-metricid.service';
+import { GlossaryExpandService } from '../../../shared/glossary-expand.service';
 
 @Component({
   selector: 'app-overview-advocate',
@@ -43,7 +44,8 @@ export class OverviewAdvocateComponent implements OnInit {
     private filtermatch: CommonUtilsService,
     private topRowService: TopRowAdvOverviewSharedService,
     private nonPaymentService: NonPaymentSharedService,
-    public MetricidService: GlossaryMetricidService
+    public MetricidService: GlossaryMetricidService,
+    private glossaryExpandService: GlossaryExpandService
   ) {
     this.pageTitle = 'Welcome, ' + this.userName;
     this.pagesubTitle = 'Your Insights at a glance.';
@@ -129,6 +131,11 @@ export class OverviewAdvocateComponent implements OnInit {
 
     this.monthlyLineGraph.generalData2 = [];
     this.monthlyLineGraph.chartData2 = [];
+  }
+  helpIconClick(title) {
+    if (title === 'Non-Payment Trend') {
+      this.glossaryExpandService.setMessage(title, this.MetricidService.MetricIDs.ClaimsNonPaymentTrend);
+    }
   }
   openFilter() {
     this.filterExpandService.setURL(this.router.url);
