@@ -10,16 +10,32 @@
       <!--<button mat-icon-button (click)="srnav.toggle()">-->
       <!--<mat-icon>filter</mat-icon>-->
       <!--</button>-->
+      <div *ngIf="fromKOP" class="butter-bar align-horizonal">
+        <div class="cross-icon">
+          <mat-icon class="hover-pointer" svgIcon="closeGlossary" (click)="closeButterBar()"></mat-icon>
+        </div>
+        <div class="exit-text" style="width: 35%">
+          <span class="exit-provider-text" (click)="navigateToKOP()">Exit Provider View</span>
+        </div>
+        <div style="width: 60%" class="exit-text">
+          <span
+            >You are viewing as
+            <span class="provider-text">{{ healthSystemName }}</span>
+          </span>
+        </div>
+      </div>
       <app-header
         [class.display-none]="!showPrintHeader && makeAbsolute"
         class="sticky"
         (hamburgerDisplay)="hamburgerDisplay($event)"
         [isKop]="isKop"
+        [ngClass]="fromKOP ? 'top-40' : 'top-0'"
       ></app-header>
     </mat-toolbar>
     <mat-sidenav-container
       class="example-sidenav-container"
       [class.bg-white]="bgWhite"
+      [ngClass]="fromKOP ? 'top-40' : 'top-0'"
       color="primary"
       (backdropClick)="close()"
     >
@@ -31,6 +47,7 @@
         [fixedInViewport]="true"
         [opened]="!(!sideNavFlag || makeAbsolute)"
         [class.display-none]="makeAbsolute"
+        [ngClass]="fromKOP ? 'top-40' : 'top-0'"
         color="primary"
       >
         <!-- UHC LOGO BLOCK -->
