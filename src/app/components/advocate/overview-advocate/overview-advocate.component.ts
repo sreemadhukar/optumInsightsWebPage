@@ -11,6 +11,8 @@ import { GlossaryMetricidService } from '../../../shared/glossary-metricid.servi
 import { NonPaymentSharedService } from '../../../shared/getting-reimbursed/non-payments/non-payment-shared.service';
 import { OverviewAdvocateSharedService } from '../../../shared/advocate/overview-advocate-shared.service';
 import { GlossaryExpandService } from '../../../shared/glossary-expand.service';
+import { AppealsData } from '../appeals-data';
+import { GeneralData } from '../general-data';
 
 @Component({
   selector: 'app-overview-advocate',
@@ -40,6 +42,7 @@ export class OverviewAdvocateComponent implements OnInit {
   totalAppeals: any;
   adminAppeals: any;
   clinicalAppeals: any;
+  appealsLineGraph: AppealsData;
   mi: any;
   cs: any;
   ei: any;
@@ -136,56 +139,62 @@ export class OverviewAdvocateComponent implements OnInit {
     });
   }
 
-  appealsRightData() {
-    this.monthlyLineGraph.chartId = 'appeals-trend-block';
-    this.monthlyLineGraph.titleData = [{}];
-    this.monthlyLineGraph.generalData = [
-      {
-        width: 500,
-        backgroundColor: 'null',
-        barGraphNumberSize: 18,
-        barColor: '#196ECF',
-        parentDiv: 'appeals-trend-block',
-        tooltipBoolean: true,
-        hideYAxis: false
-      }
-    ];
-
-    this.monthlyLineGraph.chartData = [];
-    this.trendMonthDisplay = false;
-    // This is for line graph
+  getAppealsData() {
     this.overviewAdvocateSharedService.getAppealsTrendByMonthShared().then(appealsTrendData => {
-     // AppealsTrendData = appealsTrendData;
-      if (appealsTrendData === null) {
-        this.trendMonthDisplay = false;
-        this.monthlyLineGraph = {
-          category: 'small-card',
-          type: 'donut',
-          status: 404,
-          title: 'Claims Appeals Submitted',
-          MetricID: this.MetricidService.MetricIDs.ClaimsAppealsSubmittedTrend,
-          data: null,
-          timeperiod: null
-        };
-      } else {
-        console.log(appealsTrendData);
-        this.monthlyLineGraph.chartData = appealsTrendData[0];
-        this.monthlyLineGraph.chartData1 = appealsTrendData[1];
-        this.monthlyLineGraph.chartData2 = appealsTrendData[2];
-        this.monthlyLineGraph.chartData3 = appealsTrendData[3];
-        this.trendMonthDisplay = true;
-      }
+      this.appealsLineGraph = new AppealsData(appealsTrendData, GeneralData, 'appeals-trend-block');
     });
-
-    this.monthlyLineGraph.generalData2 = this.monthlyLineGraph.generalData;
-    // this.monthlyLineGraph.chartData2 = [];
   }
+
+  // appealsRightData() {
+  //   this.monthlyLineGraph.chartId = 'appeals-trend-block';
+  //   this.monthlyLineGraph.titleData = [{}];
+  //   this.monthlyLineGraph.generalData = [
+  //     {
+  //       width: 500,
+  //       backgroundColor: 'null',
+  //       barGraphNumberSize: 18,
+  //       barColor: '#196ECF',
+  //       parentDiv: 'appeals-trend-block',
+  //       tooltipBoolean: true,
+  //       hideYAxis: false
+  //     }
+  //   ];
+  //
+  //   this.monthlyLineGraph.chartData = [];
+  //   this.trendMonthDisplay = false;
+  //   // This is for line graph
+  //   this.overviewAdvocateSharedService.getAppealsTrendByMonthShared().then(appealsTrendData => {
+  //    // AppealsTrendData = appealsTrendData;
+  //     if (appealsTrendData === null) {
+  //       this.trendMonthDisplay = false;
+  //       this.monthlyLineGraph = {
+  //         category: 'small-card',
+  //         type: 'donut',
+  //         status: 404,
+  //         title: 'Claims Appeals Submitted',
+  //         MetricID: this.MetricidService.MetricIDs.ClaimsAppealsSubmittedTrend,
+  //         data: null,
+  //         timeperiod: null
+  //       };
+  //     } else {
+  //       this.monthlyLineGraph.chartData = appealsTrendData[0];
+  //       this.monthlyLineGraph.chartData1 = appealsTrendData[1];
+  //       this.monthlyLineGraph.chartData2 = appealsTrendData[2];
+  //       this.monthlyLineGraph.chartData3 = appealsTrendData[3];
+  //       this.trendMonthDisplay = true;
+  //     }
+  //   });
+  //
+  //   this.monthlyLineGraph.generalData2 = this.monthlyLineGraph.generalData;
+  //   // this.monthlyLineGraph.chartData2 = [];
+  // }
 
   ngOnInit() {
     this.paymentData();
     this.appealsLeftData();
-    this.appealsRightData();
+    // this.appealsRightData();
     this.appealsTrendByMonthData();
+    this.getAppealsData();
     this.userName = this.session.sessionStorage('loggedUser', 'FirstName');
     this.pageTitle = 'Welcome, ' + this.userName;
 

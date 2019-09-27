@@ -9,10 +9,16 @@ import { FilterAdvocateComponent } from './filter-advocate/filter-advocate.compo
 import { TopRowAdvOverviewSharedService } from '../../shared/advocate/top-row-adv-overview-shared.service';
 import { NonPaymentSharedService } from '../../shared/getting-reimbursed/non-payments/non-payment-shared.service';
 import { OverviewAdvocateSharedService } from '../../shared/advocate/overview-advocate-shared.service';
+import { LargeCardAdvocateComponent } from './large-card-advocate/large-card-advocate.component';
 
 @NgModule({
   imports: [CommonModule, AdvocateRoutingModule, CommonUtilsModule, HeadMaterialModule],
-  declarations: [OverviewAdvocateComponent, TopRowAdvOverviewComponent, FilterAdvocateComponent],
+  declarations: [
+    OverviewAdvocateComponent,
+    TopRowAdvOverviewComponent,
+    FilterAdvocateComponent,
+    LargeCardAdvocateComponent
+  ],
   providers: [TopRowAdvOverviewSharedService, NonPaymentSharedService, OverviewAdvocateSharedService]
 })
 export class AdvocateModule {}

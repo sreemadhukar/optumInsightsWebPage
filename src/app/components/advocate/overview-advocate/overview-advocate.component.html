@@ -54,14 +54,13 @@
       ></app-error-card>
     </div>
 
-
     <!-- Claims appeals Trend  Starts Here -->
     <app-error-card
       *ngIf="!trendMonthDisplay && monthlyLineGraph != null && monthlyLineGraph.status != null"
       class="cards"
       [data]="monthlyLineGraph"
     ></app-error-card>
-    <div class="appeals-trend-block" *ngIf="trendMonthDisplay">
+    <div class="appeals-trend-block" *ngIf="appealsLineGraph">
       <app-common-header
         [title]="trendTitle"
         class="full-display bottom-margin-block"
@@ -111,8 +110,5 @@
       <app-common-footer [timePeriod]="timePeriod"></app-common-footer>
     </div>
     <!-- Claims appeals Trend Ends Here -->
-
-
-
   </div>
 </div>

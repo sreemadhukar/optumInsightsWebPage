@@ -43,47 +43,54 @@ export class MultiLineGraphComponent implements OnInit {
 
   ngOnInit() {
     this.renderChart = '#' + this.chartOptions.chartId;
-    console.log(this.chartOptions);
   }
 
   // tslint:disable-next-line:use-life-cycle-interface
   ngAfterViewInit() {
     this.doLineGraph(
-      this.chartOptions.chartData,
-      this.chartOptions.chartData1,
-      this.chartOptions.chartData2,
-      this.chartOptions.chartData3,
+      this.chartOptions.lineOne.chartData,
+      this.chartOptions.lineTwo.chartData,
+      this.chartOptions.lineThree.chartData,
+      this.chartOptions.lineFour.chartData,
       this.chartOptions.titleData,
-      this.chartOptions.generalData,
-      this.chartOptions.generalData2
+      this.chartOptions.lineOne.generalData,
+      this.chartOptions.lineTwo.generalData
     );
   }
 
   onResize(event) {
     this.doLineGraph(
-      this.chartOptions.chartData,
-      this.chartOptions.chartData1,
-      this.chartOptions.chartData2,
-      this.chartOptions.chartData3,
+      this.chartOptions.lineOne.chartData,
+      this.chartOptions.lineTwo.chartData,
+      this.chartOptions.lineThree.chartData,
+      this.chartOptions.lineFour.chartData,
       this.chartOptions.titleData,
-      this.chartOptions.generalData,
-      this.chartOptions.generalData2
+      this.chartOptions.lineOne.generalData,
+      this.chartOptions.lineTwo.generalData
     );
   }
 
   onSystemChange() {
     this.doLineGraph(
-      this.chartOptions.chartData,
-      this.chartOptions.chartData1,
-      this.chartOptions.chartData2,
-      this.chartOptions.chartData3,
+      this.chartOptions.lineOne.chartData,
+      this.chartOptions.lineTwo.chartData,
+      this.chartOptions.lineThree.chartData,
+      this.chartOptions.lineFour.chartData,
       this.chartOptions.titleData,
-      this.chartOptions.generalData,
-      this.chartOptions.generalData2
+      this.chartOptions.lineOne.generalData,
+      this.chartOptions.lineTwo.generalData
     );
   }
 
-  doLineGraph(chartData: any, chartData1: any, chartData2: any, chartData3: any, titleData: any, generalData: any, generalData2: any) {
+  doLineGraph(
+    chartData: any,
+    chartData1: any,
+    chartData2: any,
+    chartData3: any,
+    titleData: any,
+    generalData: any,
+    generalData2: any
+  ) {
     function formatDy(dy: number): string {
       if (dy === 0) {
         return '0';
@@ -254,7 +261,7 @@ export class MultiLineGraphComponent implements OnInit {
     //   );
     // }
 
-    const preWidth = 621; // document.getElementById(generalData[0].parentDiv).clientWidth;
+    const preWidth = 621; // document.getElementById(generalData.parentDiv).clientWidth;
 
     let topMarginSubtract = 150;
     if (titleData[0].topTitleBoxNumber) {
@@ -284,7 +291,7 @@ export class MultiLineGraphComponent implements OnInit {
 
     const shiftTooltip = -130;
 
-    if (generalData[0].tooltipBoolean === true) {
+    if (generalData.tooltipBoolean === true) {
       // tslint:disable-next-line:no-var-keyword
       var tooltipVar = d3
         .select(this.renderChart)
@@ -480,7 +487,7 @@ export class MultiLineGraphComponent implements OnInit {
     chart.selectAll('.tick:first-of-type line').attr('opacity', '1');
 
     if (1) {
-      if (!generalData[0].hideYAxis) {
+      if (!generalData.hideYAxis) {
         chart
           .append('g')
           .attr('class', 'tick_hidden_y')
@@ -496,7 +503,7 @@ export class MultiLineGraphComponent implements OnInit {
       }
     }
 
-    if (this.chartOptions.chartData2 != undefined && this.chartOptions.chartData2.length > 0) {
+    if (this.chartOptions.lineTwo.chartData != undefined && this.chartOptions.lineTwo.chartData.length > 0) {
       const lengthOfData2 = chartData2.length;
       // tslint:disable-next-line:no-shadowed-variable
       const highestValue2 = Math.max.apply(
@@ -587,8 +594,7 @@ export class MultiLineGraphComponent implements OnInit {
       const highestTickValue2 = preArrayOfNumbers2[numberOfTicks2 - 1];
     } // end if structure of chartData2
 
-
-    if (this.chartOptions.chartData2 != undefined && this.chartOptions.chartData2.length > 0) {
+    if (this.chartOptions.lineTwo.chartData != undefined && this.chartOptions.lineTwo.chartData.length > 0) {
       chart
         .append('g')
         .attr('class', 'tick_hidden_y')
@@ -598,7 +604,7 @@ export class MultiLineGraphComponent implements OnInit {
             .tickSize(5, 0, 0)
             .tickSizeOuter([0])
             .ticks(3)
-           // .tickFormat(formatDynamicAbbreviation(numberOfTicks2, highestTickValue2, axisPrefix))
+          // .tickFormat(formatDynamicAbbreviation(numberOfTicks2, highestTickValue2, axisPrefix))
         );
     }
 
@@ -714,7 +720,7 @@ export class MultiLineGraphComponent implements OnInit {
       })
       .attr('r', 6);
 
-    if (1) {
+    if (this.chartOptions.lineOne.chartData != undefined && this.chartOptions.lineOne.chartData.length > 0) {
       chart
         .append('path')
         .datum(data)
@@ -722,12 +728,12 @@ export class MultiLineGraphComponent implements OnInit {
         .attr('d', line)
         .attr('id', 'LineOne')
         .style('fill', 'none')
-        .style('stroke', generalData[0].barColor)
+        .style('stroke', generalData.barColor)
         .style('stroke-width', '2');
     }
 
     // Dark line
-     if (this.chartOptions.chartData1 != undefined && this.chartOptions.chartData1.length > 0) {
+    if (this.chartOptions.lineTwo.chartData != undefined && this.chartOptions.lineTwo.chartData.length > 0) {
       chart
         .append('path')
         .datum(data)
@@ -738,28 +744,28 @@ export class MultiLineGraphComponent implements OnInit {
         .style('stroke-width', 4);
     }
     // Dotted line
-     if (this.chartOptions.chartData2 != undefined && this.chartOptions.chartData2.length > 0) {
-       chart
-         .append('path')
-         .datum(data)
-         .attr('class', 'line3')
-         .attr('d', line)
-         .style('fill', 'none')
-         .style('stroke', generalData2[0].barColor)
-         .style('stroke-dasharray', '2, 2')
-         .style('stroke-width', '2');
-     }
+    if (this.chartOptions.lineThree.chartData != undefined && this.chartOptions.lineThree.chartData.length > 0) {
+      chart
+        .append('path')
+        .datum(data)
+        .attr('class', 'line3')
+        .attr('d', line)
+        .style('fill', 'none')
+        .style('stroke', generalData2[0].barColor)
+        .style('stroke-dasharray', '2, 2')
+        .style('stroke-width', '2');
+    }
     // Dashed line
-     if (this.chartOptions.chartData3 != undefined && this.chartOptions.chartData3.length > 0) {
-       chart
-         .append('path')
-         .datum(data)
-         .attr('class', 'line4')
-         .attr('d', line)
-         .style('fill', 'none')
-         .style('stroke-dasharray', '7, 7')
-         .style('stroke-width', '2');
-     }
+    if (this.chartOptions.lineFour.chartData != undefined && this.chartOptions.lineFour.chartData.length > 0) {
+      chart
+        .append('path')
+        .datum(data)
+        .attr('class', 'line4')
+        .attr('d', line)
+        .style('fill', 'none')
+        .style('stroke-dasharray', '7, 7')
+        .style('stroke-width', '2');
+    }
 
     /* if (this.chartOptions.chartData2 != undefined && this.chartOptions.chartData2.length > 0) {
       chart
