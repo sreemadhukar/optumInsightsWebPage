@@ -272,7 +272,7 @@ export class MultiLineGraphComponent implements OnInit {
       .select(this.renderChart)
       .append('svg')
       .attr('width', width + margin.left + margin.right)
-      .attr('height', 280 /*height - margin.top - margin.bottom*/)
+      .attr('height', 250 /*height - margin.top - margin.bottom*/)
       .style('background-color', generalData[0].backgroundColor)
       .append('g')
       .attr('transform', 'translate(' + (margin.left - 7) + ',' + 5 + ')');

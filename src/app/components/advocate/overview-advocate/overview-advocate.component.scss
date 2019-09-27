@@ -183,7 +183,7 @@
 
   .appeals-trend-block {
     width: 961px;
-    // height: 322px;
+    // height: 387px;
     border-radius: 2px;
     background-color: #ffffff;
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
@@ -222,41 +222,103 @@
     color: #2d2d39;
     font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
     font-size: 56px;
-    line-height: 67px;
-    padding-left: 18px;
+    padding-left: 32px;
   }
 
+  .appeal-set {
+    height: 44px;	
+    width: 40px;
+    padding-bottom: 16px;
+    padding-top: 20px;
+  }
   .sub-appeals {
-    padding-left: 50px;
-    padding-top: 15px;
+    padding-left: 12px;
     font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
     color: #757588;
     font-size: 14px;
-    letter-spacing: 0.17px;
-    line-height: 22px;
+    letter-spacing: 0.17px;  
   }
   .sub-appeals-values {
-    padding-left: 50px;
+    padding-left: 12px;
     font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
     color: #2d2d39;
     font-size: 18px;
-    line-height: 22px;
+    padding-bottom: 10px;  
   }
+ .dash-bottom {
+  border-bottom: 1px solid #b3babc;
+  width: 50px;
+  margin-left: 10px;
+}
   .display-flex {
     display: flex;
   }
 
+  .display-inline {
+    display: inline-block;
+  }
+
   .lob-values {
-    height: 14px;
+    
     font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
     color: #2d2d39;
     font-size: 14px;
     padding-left: 12px;
-    padding-top: 26px;
+    padding-right: 30px;
+    display: inline-block;
   }
 
   #appeals-trend-block {
     margin-top: 12px;
+  }
+
+  .mr-img {	
+      box-sizing: border-box;
+      height: 2px;
+      width: 33px;
+      border: 2px solid #3381FF;
+      box-shadow: 0 2px 4px 0 rgba(0,0,0,0.5);
+      display: inline-block;
+  }
+
+  .cs-img {	
+      box-sizing: border-box;
+      height: 1px;
+      width: 32px;
+      border: 2px solid #80B0FF;
+      box-shadow: 0 2px 4px 0 rgba(0,0,0,0.5);
+      display: inline-block;
+  }
+
+  .ei-img {	
+      box-sizing: border-box;
+      height: 1px;
+      width: 32px;
+      border: 2px dotted #003DA1;
+      box-shadow: 0 2px 4px 0 rgba(0,0,0,0.5);
+      display: inline-block;
+  }
+
+  .other-img {	
+      box-sizing: border-box;
+      height: 1px;
+      width: 32px;
+      border: 2px dashed #00B8CC;
+      box-shadow: 0 2px 4px 0 rgba(0,0,0,0.5);
+      display: inline-block;
+  }
+
+  .line-graph-padding {
+    padding-left: 100px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+
+  .lob-set {
+      height: 14px;
+      width: 438px;
+      float: right;
+      padding-right: 60px;
   }
 
   @media only screen and (max-width: 1024px) {

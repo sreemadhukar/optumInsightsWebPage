@@ -70,33 +70,40 @@
       <div class="full-display">
         <div class="total-appeals">{{totalAppeals}}
 
-                <div class="lob-values" *ngIf ="mi">M&R ({{mi}})</div>
-                <div class="lob-values" *ngIf ="cs">C&S ({{cs}})</div>
-                <div class="lob-values" *ngIf ="ei">E&I ({{ei}})</div>
-                <div class="lob-values" *ngIf ="other">Other ({{other}})</div>
 
+            <div>
+                <div class="appeal-set">
+                    <div class="sub-appeals-values">
+                        {{adminAppeals}}
+                        </div>
+               <div class="sub-appeals">
+               Admin
+               </div>
+                 </div>
+                 <div class="dash-bottom"></div>
+
+                 <div class="appeal-set">
+                     <div class="sub-appeals-values">
+                       {{clinicalAppeals}}
+                       </div>
+                       <div class="sub-appeals">
+                          Clinical
+                          </div>
+                       </div></div>
         </div>
-        
-        <div class="display-flex">
-         <div>
-        <div class="sub-appeals">
-        <span>Admin</span>
-        </div>
-        <div class="sub-appeals-values">
-          <span>{{adminAppeals}}</span>
-          </div>
-          </div>
-          <div>
-              <div class="sub-appeals">
-              <span>Clinical</span>
-              </div>
-              <div class="sub-appeals-values">
-                <span>{{clinicalAppeals}}</span>
-                </div>
-                </div></div>
                 
-        
+        <div class="line-graph-padding">
         <app-multi-line-graph [chartOptions]="monthlyLineGraph"></app-multi-line-graph>
+
+        <div class="lob-set">
+           <div class="mr-img"></div><div class="lob-values" *ngIf ="mi">M&R ({{mi}}) </div>
+            <div class="cs-img"></div><div class="lob-values" *ngIf ="cs">C&S ({{cs}}) </div>
+            <div class="ei-img"></div><div class="lob-values" *ngIf ="ei">E&I ({{ei}}) </div>
+            <div *ngIf ="other" class="other-img"></div><div class="lob-values" *ngIf ="other">Other ({{other}})</div>
+          </div>
+        </div>
+
+             
         <!--div class="timeperiod-block">
           <p class="timeperiod-text">{{ timePeriod }}</p>
         </div-->
