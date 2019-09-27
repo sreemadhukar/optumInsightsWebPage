@@ -6,7 +6,7 @@
       (helpIconClicked)="helpIconClick($event)"
     ></app-common-header>
     <div class="card-inner-large-content">
-      <ul class="kop-insights-data" *ngFor="let item of data.chartData; let i = index">
+      <div class="kop-insights-data" *ngFor="let item of data.chartData; let i = index">
         <div *ngIf="!item.singleCard; then switchCharts; else singleCardTemplate"></div>
         <ng-template #switchCharts>
           <div [ngSwitch]="item.cardType">
@@ -26,8 +26,9 @@
               </div>
             </div>
             <div *ngSwitchCase="'miniDonut'" class="mini-donut-chart">
-              <app-donut-charts [chartData]="item"></app-donut-charts>
-              <app-donut-charts [chartData]="item"></app-donut-charts>
+              <div *ngFor="let quarter of item.quarters">
+                <app-donut-charts [chartData]="item" [quarter]="quarter"></app-donut-charts>
+              </div>
             </div>
           </div>
         </ng-template>
@@ -45,7 +46,7 @@
             Touchpoint -Top Box % (9-10)
           </div>
         </div>
-      </ul>
+      </div>
     </div>
     <div class="full-width-block" *ngIf="data.timeperiod">
       <app-common-footer [timePeriod]="data.timeperiod"></app-common-footer>

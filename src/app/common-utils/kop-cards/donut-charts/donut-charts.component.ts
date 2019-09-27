@@ -10,6 +10,8 @@ export class DonutChartsComponent implements OnInit, AfterViewInit {
   public transition = 1;
   public noTransition = 0;
   public renderChart: string;
+  public color: any = [];
+  @Input() quarter: any;
   @Input() chartData: any = {};
   @Input() donutType: string;
 
@@ -17,17 +19,17 @@ export class DonutChartsComponent implements OnInit, AfterViewInit {
 
   @HostListener('window:resize', ['$event'])
   onResize(event) {
-    this.doDonutChart(this.chartData, this.noTransition);
+    this.doDonutChart(this.chartData, this.quarter, this.noTransition);
   }
   ngOnInit() {
-    this.renderChart = '#test';
+    this.renderChart = '#miniDonut' + this.quarter.id;
   }
 
   ngAfterViewInit() {
-    this.doDonutChart(this.chartData, this.transition);
+    this.doDonutChart(this.chartData, this.quarter, this.transition);
   }
 
-  doDonutChart(chartData: any, transition: number) {
+  doDonutChart(chartData: any, quarter: any, transition: number) {
     function getTextWidth(txt, fontSize, fontFace) {
       const canvas = document.createElement('canvas');
       const context = canvas.getContext('2d');
@@ -99,7 +101,6 @@ export class DonutChartsComponent implements OnInit, AfterViewInit {
     let height = width - margin.top - margin.bottom;
 
     let radius = Math.min(width, height) / 1.5;
-    const donutColor = d3.scaleOrdinal().range(chartData.color);
     let circleThickness = 15;
     width = 72;
     height = 72;
@@ -145,25 +146,32 @@ export class DonutChartsComponent implements OnInit, AfterViewInit {
       .append('text')
       .attr('text-anchor', 'middle')
       .attr('y', 8)
-      .style('font-size', '14px')
+      .style('font-size', '16px')
       .style('fill', '#2d2d39')
-      .style('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'");
+      .style('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'");
 
     const donutData = [];
-
-    if (chartData.hasOwnProperty('labels')) {
-      for (let i = 0; i < chartData.graphValues.length; i++) {
-        donutData.push({
-          value: chartData.graphValues[i],
-          label: chartData.labels[i],
-          color: chartData.color[i]
-        });
-      }
-    } else {
-      for (let i = 0; i < chartData.graphValues.length; i++) {
-        donutData.push({ value: chartData.graphValues[i], color: chartData.color[i] });
-      }
+    if (quarter.id === 0) {
+      this.color = ['#3381FF', '#E0E0E0'];
+    } else if (quarter.id === 1) {
+      this.color = ['#00B8CC', '#E0E0E0'];
     }
+    const donutColor = d3.scaleOrdinal().range(this.color);
+    const graphValues = [quarter.title.toFixed(), 100 - quarter.title.toFixed()];
+
+    // if (chartData.hasOwnProperty('labels')) {
+    //   for (let i = 0; i < chartData.graphValues.length; i++) {
+    //     donutData.push({
+    //       value: chartData.graphValues[i],
+    //       label: chartData.labels[i],
+    //       color: chartData.color[i]
+    //     });
+    //   }
+    // } else {
+    for (let i = 0; i < graphValues.length; i++) {
+      donutData.push({ value: graphValues[i], color: this.color[i] });
+    }
+    // }
 
     const g = chart
       .selectAll('.arc')
@@ -175,7 +183,6 @@ export class DonutChartsComponent implements OnInit, AfterViewInit {
     if (transition) {
       g.append('path')
         .style('fill', function(d) {
-          // return donutColor(d.data.value);
           return donutColor(d.data.color);
         })
         .transition()
@@ -186,7 +193,7 @@ export class DonutChartsComponent implements OnInit, AfterViewInit {
         .attrTween('d', function(d) {
           const i = d3.interpolate(d.startAngle, d.endAngle);
           return function(t) {
-            text.text(chartData.centerNumber);
+            text.text(quarter.title + '%');
             text.text();
             d.endAngle = i(t);
             return arc(d);
@@ -196,11 +203,10 @@ export class DonutChartsComponent implements OnInit, AfterViewInit {
       g.append('path')
         .attr('d', arc)
         .style('fill', function(d) {
-          // return donutColor(d.data.value);
           return donutColor(d.data.color);
         });
 
-      text.text(chartData.centerNumber);
+      text.text(quarter.title + '%');
       text.text();
     }
   }
