@@ -45,7 +45,6 @@ export class RotatingArrowObjectComponent implements OnInit, AfterViewInit {
     }
 
     const tatCircleLink = 'src/assets/images/TATCirclewithArrow.png';
-    console.log(chartOptions.gdata[1]);
 
     if (chartOptions.gdata[1] === 'appealsAverageTurnAround') {
       const chart = d3
