@@ -118,6 +118,28 @@ Date Created: 17-Apr-2019
         </div>
       </div>
 
+      <!-- ONLY DONUT WITH BOTTOM DATA ONLY-->
+      <div *ngIf="chartData.type == 'donutWithBottomLabelOnly'">
+        <div class="chart-details-donut">
+          <app-donut-chart
+            [donutType]="'app-card'"
+            class="only-donut-block"
+            [chartOptions]="chartData.data"
+          ></app-donut-chart>
+        </div>
+        <div class="full-width-block flex-display align-center bottom-labels-block">
+          <div
+            *ngFor="let d of chartData.bottomData.horizontalData; let i = index"
+            [class.right-padding]="i + 1 < chartData.bottomData.horizontalData.length"
+            [class.left-padding-with-border]="i != 0"
+            class="text-align-center"
+          >
+            <p class="bottom-label-value">{{ d.values }}</p>
+            <p class="bottom-label">{{ d.labels }}</p>
+          </div>
+        </div>
+      </div>
+
       <!-- DONUT WITH LABEL BOTTOM-->
       <div *ngIf="chartData.type == 'donutWithLabelBottom'">
         <div class="chart-details-donut">
