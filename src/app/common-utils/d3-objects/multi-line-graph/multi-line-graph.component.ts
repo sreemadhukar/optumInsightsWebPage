@@ -280,7 +280,7 @@ export class MultiLineGraphComponent implements OnInit {
       .append('svg')
       .attr('width', width + margin.left + margin.right)
       .attr('height', 250 /*height - margin.top - margin.bottom*/)
-      .style('background-color', generalData[0].backgroundColor)
+      .style('background-color', generalData.backgroundColor)
       .append('g')
       .attr('transform', 'translate(' + (margin.left - 7) + ',' + 5 + ')');
     /* const div = d3
@@ -307,29 +307,24 @@ export class MultiLineGraphComponent implements OnInit {
         .attr('class', 'displayNone');
     }
 
-    const lengthOfData = chartData.length;
-    // tslint:disable-next-line:no-var-keyword
-    var highestValue = Math.max.apply(
+    let highestValue = Math.max.apply(
       Math,
       chartData.map(function(o) {
         return o.value;
       })
     );
-    // tslint:disable-next-line:no-var-keyword
     const highestValue1 = Math.max.apply(
       Math,
       chartData1.map(function(o) {
         return o.value;
       })
     );
-    // tslint:disable-next-line:no-var-keyword
     const highestValue2 = Math.max.apply(
       Math,
       chartData2.map(function(o) {
         return o.value;
       })
     );
-    // tslint:disable-next-line:no-var-keyword
     const highestValue3 = Math.max.apply(
       Math,
       chartData3.map(function(o) {
@@ -337,27 +332,29 @@ export class MultiLineGraphComponent implements OnInit {
       })
     );
     let axisPrefix = '';
-
     if (highestValue !== 0) {
-      axisPrefix = '$';
-    } else {
       axisPrefix = '';
     }
+    const highestValueArray = [highestValue, highestValue1, highestValue2, highestValue3];
+    highestValue = Math.max.apply(
+      Math,
+      highestValueArray.map(function(o) {
+        return o;
+      })
+    );
 
-    if (highestValue < highestValue2) {
-      highestValue = highestValue2;
-    }
-
+    const lengthOfData = chartData.length;
+    const lengthOfData1 = chartData1.length;
+    const lengthOfData2 = chartData2.length;
+    const lengthOfData3 = chartData3.length;
     const xScale = d3
       .scaleLinear()
       .domain([0, lengthOfData - 1]) // input
       .range([25, width - 25]);
-
     const xScalePath = d3
       .scaleLinear()
       .domain([0, 2]) // input
       .range([0, width]);
-
     const xScale3 = d3
       .scalePoint()
       .domain(
@@ -366,33 +363,17 @@ export class MultiLineGraphComponent implements OnInit {
         })
       ) // input
       .range([25, width - 25]);
-
     const yScale = d3
       .scaleLinear()
       .domain([0, highestValue]) // input
       .range([180, 0])
       .nice(3); // output
 
-    // tslint:disable-next-line:no-var-keyword
-
-    /*
-    let area = d3
-      .area()
-      .x(function(d, i) {
-        return xScale(i);
-      })
-      .y0(height)
-      .y1(function(d) {
-        return yScale(d.y);
-      });
-      */
-
-    // tslint:disable-next-line:no-var-keyword
-    const ydata = [];
-
-    for (let a = 0; a < lengthOfData; a++) {
-      ydata.push({ y: chartData[a].value });
-    }
+    // const ydata = [];
+    //
+    // for (let a = 0; a < lengthOfData; a++) {
+    //   ydata.push({ y: chartData[a].value });
+    // }
 
     chart
       .append('g')
@@ -425,11 +406,23 @@ export class MultiLineGraphComponent implements OnInit {
       textWidth1 = textWidth1 * 1.25;
     }
 
-    // tslint:disable-next-line:prefer-const
-    let data = [];
+    const data = [];
     for (let l = 0; l < lengthOfData; l++) {
       data.push({ y: chartData[l].value, xCoordinate: xScale(l), x: chartData[l].name });
     }
+    const data1 = [];
+    for (let l = 0; l < lengthOfData1; l++) {
+      data1.push({ y: chartData1[l].value, xCoordinate: xScale(l), x: chartData1[l].name });
+    }
+    const data2 = [];
+    for (let l = 0; l < lengthOfData2; l++) {
+      data2.push({ y: chartData2[l].value, xCoordinate: xScale(l), x: chartData2[l].name });
+    }
+    const data3 = [];
+    for (let l = 0; l < lengthOfData3; l++) {
+      data3.push({ y: chartData3[l].value, xCoordinate: xScale(l), x: chartData3[l].name });
+    }
+
     const line = d3
       .line()
       .x(function(d) {
@@ -504,19 +497,6 @@ export class MultiLineGraphComponent implements OnInit {
     }
 
     if (this.chartOptions.lineTwo.chartData != undefined && this.chartOptions.lineTwo.chartData.length > 0) {
-      const lengthOfData2 = chartData2.length;
-      // tslint:disable-next-line:no-shadowed-variable
-      const highestValue2 = Math.max.apply(
-        Math,
-        chartData2.map(function(o) {
-          return o.value;
-        })
-      );
-      // tslint:disable-next-line:no-var-keyword
-      const data2 = [];
-      for (let x = 0; x < lengthOfData2; x++) {
-        data2.push({ y: chartData2[x].value });
-      }
       chart
         .append('text')
         .attr('id', 'forlolCalculations2')
@@ -585,56 +565,10 @@ export class MultiLineGraphComponent implements OnInit {
       for (let c = 0; c < preYArray2.length; c++) {
         preYArray2[c] = preYArray2[c].replace(/,/g, '');
       }
-
       const preArrayOfNumbers2 = preYArray2.map(Number);
-
-      // tslint:disable-next-line:no-var-keyword
       const numberOfTicks2 = preArrayOfNumbers2.length;
-      // tslint:disable-next-line:no-var-keyword
       const highestTickValue2 = preArrayOfNumbers2[numberOfTicks2 - 1];
     } // end if structure of chartData2
-
-    if (this.chartOptions.lineTwo.chartData != undefined && this.chartOptions.lineTwo.chartData.length > 0) {
-      chart
-        .append('g')
-        .attr('class', 'tick_hidden_y')
-        .call(
-          d3
-            .axisLeft(yScale)
-            .tickSize(5, 0, 0)
-            .tickSizeOuter([0])
-            .ticks(3)
-          // .tickFormat(formatDynamicAbbreviation(numberOfTicks2, highestTickValue2, axisPrefix))
-        );
-    }
-
-    // tslint:disable-next-line:no-var-keyword
-    /*
-    area = d3
-      .area()
-      .x(function(d, i) {
-        return d.xCoordinate;
-      })
-      .y0(height)
-      .y1(function(d) {
-        return yScale(d.y);
-      });
-
-    chart
-      .append('path')
-      .datum(data)
-      .attr('class', 'area')
-      .attr('d', area);
-
-    */
-
-    /*if (this.chartOptions.chartData2 != undefined && this.chartOptions.chartData2.length > 0) {
-      chart
-        .append('path')
-        .datum(data2)
-        .attr('class', 'area2')
-        .attr('d', area);
-    }*/
 
     const RectBarOne = chart
       .selectAll('.rect-bar')
@@ -736,22 +670,22 @@ export class MultiLineGraphComponent implements OnInit {
     if (this.chartOptions.lineTwo.chartData != undefined && this.chartOptions.lineTwo.chartData.length > 0) {
       chart
         .append('path')
-        .datum(data)
+        .datum(data1)
         .attr('class', 'line2')
         .attr('d', line)
         .style('fill', 'none')
-        .style('stroke', generalData2[0].barColor)
+        .style('stroke', generalData2.barColor)
         .style('stroke-width', 4);
     }
     // Dotted line
     if (this.chartOptions.lineThree.chartData != undefined && this.chartOptions.lineThree.chartData.length > 0) {
       chart
         .append('path')
-        .datum(data)
+        .datum(data2)
         .attr('class', 'line3')
         .attr('d', line)
         .style('fill', 'none')
-        .style('stroke', generalData2[0].barColor)
+        .style('stroke', generalData2.barColor)
         .style('stroke-dasharray', '2, 2')
         .style('stroke-width', '2');
     }
@@ -759,7 +693,7 @@ export class MultiLineGraphComponent implements OnInit {
     if (this.chartOptions.lineFour.chartData != undefined && this.chartOptions.lineFour.chartData.length > 0) {
       chart
         .append('path')
-        .datum(data)
+        .datum(data3)
         .attr('class', 'line4')
         .attr('d', line)
         .style('fill', 'none')
