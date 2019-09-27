@@ -47,6 +47,8 @@ export class OverviewAdvocateComponent implements OnInit {
   cs: any;
   ei: any;
   other: any;
+  routhPath: string;
+
   constructor(
     private checkStorage: StorageService,
     private filterExpandService: FilterExpandService,
@@ -59,7 +61,8 @@ export class OverviewAdvocateComponent implements OnInit {
     private nonPaymentService: NonPaymentSharedService,
     public MetricidService: GlossaryMetricidService,
     public overviewAdvocateSharedService: OverviewAdvocateSharedService,
-    private glossaryExpandService: GlossaryExpandService
+    private glossaryExpandService: GlossaryExpandService,
+
   ) {
     this.pageTitle = 'Welcome, ' + this.userName;
     this.pagesubTitle = 'Your Insights at a glance.';
@@ -137,6 +140,11 @@ export class OverviewAdvocateComponent implements OnInit {
       AppealsTrendData = appealsTrendData;
       console.log('AppealsTrendData------------->', AppealsTrendData);
     });
+  }
+
+  appealsOverviewDetails() {
+    this.routhPath = '/GettingReimbursed/Appeals';
+    this.router.navigate([this.routhPath]);
   }
 
   getAppealsData() {

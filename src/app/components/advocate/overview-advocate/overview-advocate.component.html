@@ -107,7 +107,20 @@
           <p class="timeperiod-text">{{ timePeriod }}</p>
         </div-->
       </div>
-      <app-common-footer [timePeriod]="timePeriod"></app-common-footer>
+      
+      <hr class="footer-border" />
+      <div class="common-footer">
+        <div class="timePeriod">
+          {{ timePeriod }}
+          <div class="appeals-button" (click)="appealsOverviewDetails()">
+              Appeals Overview&nbsp;>
+            </div>
+        </div>
+        
+      </div>
+
+
+
     </div>
     <!-- Claims appeals Trend Ends Here -->
   </div>

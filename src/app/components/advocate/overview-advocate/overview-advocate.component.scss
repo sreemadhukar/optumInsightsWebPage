@@ -218,7 +218,7 @@
   }
 
   .total-appeals {
-    height: 150px;
+    // height: 150px;
     color: #2d2d39;
     font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
     font-size: 56px;
@@ -320,6 +320,40 @@
       float: right;
       padding-right: 60px;
   }
+
+  .footer-border {
+    border-top: 1px solid #e0e0e0;
+    margin: 0;
+    padding: 0;
+    height: 1px;
+  }
+  .common-footer {
+    height: 40px;
+
+    .timePeriod {
+      padding: 11px 16px 11px 16px;
+      color: rgb(117, 117, 136);
+      font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+      font-size: 14px;
+      letter-spacing: 0.2px;
+      line-height: 18px;
+      text-align: right;
+      display: inline-block;
+
+    .appeals-button {
+      color: #196ECF;
+      font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+      font-size: 16px;
+      letter-spacing: 0.2px;
+      line-height: 22px;
+      text-align: right;
+      display: inline-block;
+      padding-left: 700px;
+      cursor: pointer;
+    }
+  }
+
+}
 
   @media only screen and (max-width: 1024px) {
     @include padding(16px, 0, 16px, 0);
