@@ -54,49 +54,49 @@
       ></app-error-card>
     </div>
 
-
     <!-- Claims appeals Trend  Starts Here -->
     <app-error-card
       *ngIf="!trendMonthDisplay && monthlyLineGraph != null && monthlyLineGraph.status != null"
       class="cards"
       [data]="monthlyLineGraph"
     ></app-error-card>
-    <div class="appeals-trend-block" *ngIf="trendMonthDisplay">
+    <div class="appeals-trend-block" *ngIf="appealsLineGraph">
       <app-common-header
         [title]="trendTitle"
         class="full-display bottom-margin-block"
         (helpIconClicked)="helpIconClick($event)"
       ></app-common-header>
       <div class="full-display">
-        <div class="total-appeals">{{totalAppeals}}
+        <div class="total-appeals">
+          {{ totalAppeals }}
 
-                <div class="lob-values" *ngIf ="mi">M&R ({{mi}})</div>
-                <div class="lob-values" *ngIf ="cs">C&S ({{cs}})</div>
-                <div class="lob-values" *ngIf ="ei">E&I ({{ei}})</div>
-                <div class="lob-values" *ngIf ="other">Other ({{other}})</div>
-
+          <div class="lob-values" *ngIf="mi">M&R ({{ mi }})</div>
+          <div class="lob-values" *ngIf="cs">C&S ({{ cs }})</div>
+          <div class="lob-values" *ngIf="ei">E&I ({{ ei }})</div>
+          <div class="lob-values" *ngIf="other">Other ({{ other }})</div>
         </div>
-        
+
         <div class="display-flex">
-         <div>
-        <div class="sub-appeals">
-        <span>Admin</span>
-        </div>
-        <div class="sub-appeals-values">
-          <span>{{adminAppeals}}</span>
-          </div>
+          <div>
+            <div class="sub-appeals">
+              <span>Admin</span>
+            </div>
+            <div class="sub-appeals-values">
+              <span>{{ adminAppeals }}</span>
+            </div>
           </div>
           <div>
-              <div class="sub-appeals">
+            <div class="sub-appeals">
               <span>Clinical</span>
-              </div>
-              <div class="sub-appeals-values">
-                <span>{{clinicalAppeals}}</span>
-                </div>
-                </div></div>
-                
-        
-        <app-multi-line-graph [chartOptions]="monthlyLineGraph"></app-multi-line-graph>
+            </div>
+            <div class="sub-appeals-values">
+              <span>{{ clinicalAppeals }}</span>
+            </div>
+          </div>
+        </div>
+
+        <app-large-card-advocate [appealsLineGraph]="appealsLineGraph"></app-large-card-advocate>
+        <!--<app-multi-line-graph [chartOptions]="monthlyLineGraph"></app-multi-line-graph>-->
         <!--div class="timeperiod-block">
           <p class="timeperiod-text">{{ timePeriod }}</p>
         </div-->
@@ -104,8 +104,5 @@
       <app-common-footer [timePeriod]="timePeriod"></app-common-footer>
     </div>
     <!-- Claims appeals Trend Ends Here -->
-
-
-
   </div>
 </div>
