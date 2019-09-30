@@ -62,20 +62,20 @@ export class SessionService {
   }
 
   public checkAdvocateRole(): boolean {
-    let userRoleAdvocate = false;
+    let userRole = false;
     try {
       if (
         JSON.parse(sessionStorage.getItem('loggedUser')) &&
-        JSON.parse(sessionStorage.getItem('loggedUser')).UserRole
+        JSON.parse(sessionStorage.getItem('loggedUser')).UserPersonas
       ) {
-        let userRole;
-        userRole = JSON.parse(sessionStorage.getItem('loggedUser')).UserPersonas;
-        userRoleAdvocate = userRole.some(item => item.UserRole.includes('UHCI_Advocate'));
+        userRole = JSON.parse(sessionStorage.getItem('loggedUser')).UserPersonas.some(item =>
+          item.UserRole.includes('Advocate')
+        );
       }
-      return userRoleAdvocate;
+      return userRole;
     } catch (err) {
       console.log('adovate role session service', err);
-      return userRoleAdvocate;
+      return userRole;
     }
   }
 
