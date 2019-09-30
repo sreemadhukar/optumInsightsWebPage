@@ -29,12 +29,14 @@ export class CommonFooterComponent implements OnInit {
         ' ' +
         dd +
         ',' +
+        ' ' +
         yyyy +
         ' - ' +
         monthNames[parseInt(mmlast6) - 1] +
         ' ' +
         dd +
         ',' +
+        ' ' +
         yyyy;
     } else {
       this.timePeriodFooter = this.timePeriod;
