@@ -26,6 +26,7 @@ export class OverviewAdvocateComponent implements OnInit {
   topRowItems: any;
   timePeriod: string;
   lob: string;
+  trendTitle = 'Non-Payment Trend';
   taxID: Array<string>;
   topRowMockCards: any;
   subscription: any;
@@ -36,7 +37,7 @@ export class OverviewAdvocateComponent implements OnInit {
   paymentLoading: boolean;
   monthlyLineGraph: any = [{}];
   trendMonthDisplay = false;
-  trendTitle = 'Claims Appeals Submitted';
+  trendTitleForClaims = 'Claims Appeals Submitted';
   appealsloading: boolean;
   appealsmockCards: any;
   totalAppeals: any;
@@ -171,6 +172,7 @@ export class OverviewAdvocateComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.checkStorage.emitEvent('overviewPage');
     this.paymentData();
     this.appealsLeftData();
     this.appealsTrendByMonthData();
@@ -189,9 +191,50 @@ export class OverviewAdvocateComponent implements OnInit {
     } else {
       this.taxID = ['All'];
     }
+    this.monthlyLineGraph.chartId = 'non-payment-trend-block';
+    this.monthlyLineGraph.titleData = [{}];
+    this.monthlyLineGraph.generalData = [
+      {
+        width: 500,
+        backgroundColor: 'null',
+        barGraphNumberSize: 18,
+        barColor: '#196ECF',
+        parentDiv: 'non-payment-trend-block',
+        tooltipBoolean: true,
+        hideYAxis: false
+      }
+    ];
+
+    this.monthlyLineGraph.chartData = [];
+    this.trendMonthDisplay = false;
+    // This is for line graph
+    this.nonPaymentService.sharedTrendByMonth().then(trendData => {
+      if (trendData === null) {
+        this.trendMonthDisplay = false;
+        this.monthlyLineGraph = {
+          category: 'large-card',
+          type: 'donut',
+          status: 404,
+          title: 'Claims Non-Payment Trend',
+          MetricID: this.MetricidService.MetricIDs.ClaimsNonPaymentTrend,
+          data: null,
+          timeperiod: null
+        };
+      } else {
+        this.monthlyLineGraph.chartData = trendData;
+        this.trendMonthDisplay = true;
+      }
+    });
+
+    this.monthlyLineGraph.generalData2 = [];
+    this.monthlyLineGraph.chartData2 = [];
   }
 
+
   helpIconClick(title) {
+    if (title === 'Non-Payment Trend') {
+      this.glossaryExpandService.setMessage(title, this.MetricidService.MetricIDs.ClaimsNonPaymentTrend);
+    }
     this.glossaryExpandService.setMessage(title, this.MetricidService.MetricIDs);
   }
 
