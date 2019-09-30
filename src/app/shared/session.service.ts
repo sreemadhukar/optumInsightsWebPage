@@ -22,7 +22,9 @@ export class SessionService {
       timeFrame: 'Last 6 Months',
       lob: 'All',
       tax: ['All'],
-      taxwithSymbols: ['All']
+      taxwithSymbols: ['All'],
+      date: new Date(),
+      metric: 'GettingReimbursed'
     });
     this.filterObj = this.filterObjSubject.asObservable().pipe(share());
   }

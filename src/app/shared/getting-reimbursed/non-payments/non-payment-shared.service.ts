@@ -5,9 +5,10 @@ import { CommonUtilsService } from '../../common-utils.service';
 import { SessionService } from '../../session.service';
 import { AuthorizationService } from '../../../auth/_service/authorization.service';
 import { GlossaryMetricidService } from '../../glossary-metricid.service';
+import { AdvocateModule } from '../../../components/advocate/advocate.module';
 
 @Injectable({
-  providedIn: GettingReimbursedModule
+  providedIn: 'root'
 })
 export class NonPaymentSharedService {
   public providerKey;
@@ -202,8 +203,7 @@ export class NonPaymentSharedService {
             let claimsNotPaid: Object;
             let claimsNotPaidRate: Object;
             if (
-              nonPaymentData1.hasOwnProperty('All') &&
-              nonPaymentData1.All != null &&
+              (nonPaymentData1 || {}).All &&
               nonPaymentData1.All.hasOwnProperty('ClaimsLobSummary') &&
               nonPaymentData1.All.ClaimsLobSummary.length &&
               nonPaymentData1.All.ClaimsLobSummary[0].hasOwnProperty('AmountDenied')
@@ -286,8 +286,7 @@ export class NonPaymentSharedService {
               };
             }
             if (
-              nonPaymentData1.hasOwnProperty('All') &&
-              nonPaymentData1.All != null &&
+              (nonPaymentData1 || {}).All &&
               nonPaymentData1.All.hasOwnProperty('ClaimsLobSummary') &&
               nonPaymentData1.All.ClaimsLobSummary.length &&
               nonPaymentData1.All.ClaimsLobSummary[0].hasOwnProperty('ClaimsYieldRate') &&
@@ -376,8 +375,7 @@ export class NonPaymentSharedService {
             let claimsNotPaid: Object;
             let claimsNotPaidRate: Object;
             if (
-              nonPaymentData1.hasOwnProperty('All') &&
-              nonPaymentData1.All != null &&
+              (nonPaymentData1 || {}).All &&
               nonPaymentData1.All.hasOwnProperty('ClaimsLobSummary') &&
               nonPaymentData1.All.ClaimsLobSummary.length &&
               nonPaymentData1.All.ClaimsLobSummary[0].hasOwnProperty('AmountDenied')
