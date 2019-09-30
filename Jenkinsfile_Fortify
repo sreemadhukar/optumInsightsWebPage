@@ -1,0 +1,59 @@
+#!/usr/bin/env groovy
+
+//@Library("com.optum.jenkins.pipeline.library@master") _
+@Library("com.optum.jenkins.pipeline.library@v0.1.24") _
+
+String dockerHost = 'docker.optum.com'
+String webRepo = 'pedweb_prd'
+String namespace = 'fspeddeply'
+String webuiDir = 'webui'
+String tagBase = "$dockerHost/$namespace"
+
+pipeline {
+    agent none
+    environment {
+        DOCKER_CREDENTIALS_ID = 'deploy_id'
+        DEVOPS_METRICS_ENABLED = 'false'
+        OPENSHIFT_CREDENTIALS_ID = 'deploy_id'
+        GIT_CREDENTIALS_ID = 'deploy_id'
+        SONAR_CREDENTIALS_ID = 'Sonar_ID'
+    }
+    
+    stages {
+    
+    stage('Run Fortify Scan') {
+            agent {
+                label 'docker-kitchensink-slave'
+            }
+            
+        steps { 
+        glFortifyScan fortifyBuildName:"MyInsightsUI",
+                        scarCredentialsId:"$env.SONAR_CREDENTIALS_ID",
+                        scarUploadToken:"34b797bc-9d7a-4a7c-85c5-12ef5d3f13e7",
+                        scarProjectName:"ProviderExternalDashboard_UHGWM110-019413",
+                        scarProjectVersion:18606,
+                        criticalThreshold:15,
+                        highThreshold:15,
+                        mediumThreshold:50,
+                        lowThreshold:200,
+                        fortifyJdkVersion:"1.8",
+                        uploadToScar:true
+              }
+           }
+        }
+        
+      post {
+        always {
+            echo 'Email Notification'
+            emailext body: "UI production fortify cloud scan is completed with $currentBuild.currentResult on account of weekly schedule trigger \n\n" +
+                    "Please check following Jenkins build for more details and to find out the number of critical, high, medium and low issues  \n" +
+                    "${env.JOB_URL} \n\n" +
+                    "This weekly fortify scan is uploaded to SCAR cloud portal which can be accessed using the link \n"+
+                    "https://scar.uhc.com/ssc/login.jsp#!/ \n\n"+
+                    "Note: The scan results will be available in the above portal only to users that are part of the following global group. Request the same through secure \n"+
+                    "ped_fortify_users",
+                    subject: "Weekly UI Cloud Fortify Scan",
+                    to: 'myinsights_devops_DL@ds.uhc.com'
+                    }
+                 }
+              }

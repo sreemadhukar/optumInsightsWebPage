@@ -14,9 +14,14 @@ import { MatInput } from '@angular/material';
 })
 export class FilterComponent implements OnInit {
   public lobData: string;
+  public metricData: string;
+  public data_date: any;
+  public initial_data_date: any;
   public serviceSettingData: string;
   public priorAuthTypeData: string;
   public arrowmark: boolean;
+  public metricarrowmark: boolean;
+  public datearrowmark: boolean;
   public taxData: string;
   public tarrowmark: boolean;
   public tiarrowmark: boolean;
@@ -49,6 +54,7 @@ export class FilterComponent implements OnInit {
   ];
 
   public lobs = ['All', 'Community & State', 'Employer & Individual', 'Medicare & Retirement', 'Uncategorized'];
+  public metrics = ['GettingReimbursed', 'Appeals', 'IssueResolution', 'SelfService', 'PriorAuthorization'];
   public servicesettings = ['All', 'Inpatient', 'Outpatient', 'Outpatient Facility'];
   public priorauthdecisiontype = ['All', 'Administrative', 'Clinical'];
   public priorauthservicecategory = [
@@ -112,6 +118,9 @@ export class FilterComponent implements OnInit {
   ) {
     this.timeframeData = this.session.filterObjValue.timeFrame;
     this.lobData = this.session.filterObjValue.lob;
+    this.metricData = this.session.filterObjValue.metric;
+    this.data_date = this.session.filterObjValue.date;
+    this.initial_data_date = this.session.filterObjValue.date;
     this.arrowmark = false;
     if (this.session.filterObjValue.tax.length > 1) {
       this.taxData = this.session.filterObjValue.tax.join(', ');
@@ -183,6 +192,12 @@ export class FilterComponent implements OnInit {
       this.arrowmark = false;
       this.tarrowmark = false;
       this.tiarrowmark = false;
+    } else if (value === 'metric') {
+      this.metricarrowmark = !this.metricarrowmark;
+      this.datearrowmark = false;
+    } else if (value === 'date') {
+      this.datearrowmark = !this.datearrowmark;
+      this.metricarrowmark = false;
     }
   }
   ngOnInit() {
@@ -235,10 +250,18 @@ export class FilterComponent implements OnInit {
         tax: ['All'],
         serviceSetting: this.servicesettings[0],
         priorAuthType: this.priorauthdecisiontype[0],
-        scType: this.priorauthservicecategory[0]
+        scType: this.priorauthservicecategory[0],
+        date: new Date(),
+        metric: 'GettingReimbursed'
       });
     } else {
-      this.session.store({ timeFrame: this.timeframes[2], lob: this.lobs[0], tax: ['All'] });
+      this.session.store({
+        timeFrame: this.timeframes[2],
+        lob: this.lobs[0],
+        tax: ['All'],
+        date: new Date(),
+        metric: 'GettingReimbursed'
+      });
     }
     this.filterFlag.emit(false);
   }
@@ -252,26 +275,44 @@ export class FilterComponent implements OnInit {
           tax: this.taxArrayData,
           serviceSetting: this.serviceSettingData,
           priorAuthType: this.priorAuthTypeData,
-          scType: this.scTypeData
+          scType: this.scTypeData,
+          date: this.data_date,
+          metric: this.metricData
         });
       } else {
-        this.session.store({ timeFrame: this.timeframeData, lob: this.lobData, tax: this.taxArrayData });
+        this.session.store({
+          timeFrame: this.timeframeData,
+          lob: this.lobData,
+          tax: this.taxArrayData,
+          date: this.data_date,
+          metric: this.metricData
+        });
       }
     } else {
       // this.session.filterObjValue.tax = [this.taxData];
       if (this.priorAuthorizationCustomFilterBool) {
+        console.log(this.timeframeData);
         this.session.store({
           timeFrame: this.timeframeData,
           lob: this.lobData,
           tax: [this.taxData],
           serviceSetting: this.serviceSettingData,
           priorAuthType: this.priorAuthTypeData,
-          scType: this.scTypeData
+          scType: this.scTypeData,
+          date: this.data_date,
+          metric: this.metricData
         });
       } else {
-        this.session.store({ timeFrame: this.timeframeData, lob: this.lobData, tax: [this.taxData] });
+        this.session.store({
+          timeFrame: this.timeframeData,
+          lob: this.lobData,
+          tax: [this.taxData],
+          date: this.data_date,
+          metric: this.metricData
+        });
       }
     }
+
     this.session.filterObjSubject.complete();
     this.filterFlag.emit(false);
   }
@@ -313,5 +354,9 @@ export class FilterComponent implements OnInit {
   @HostListener('document:keydown.escape', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent) {
     this.filterFlag.emit(false);
+  }
+
+  formattingText(text) {
+    return text.replace(/([a-z])([A-Z])/g, '$1 $2');
   }
 }

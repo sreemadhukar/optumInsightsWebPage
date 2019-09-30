@@ -22,6 +22,7 @@ export class PaymentIntegrityComponent implements OnInit {
   taxID: Array<string>;
   title = 'Payment Integrity: Medical Record Coding Review';
   smartEditsReasonTitle = 'Smart Edits Returned Claims Top Reasons';
+  smartEditsRepairedAndResubmittedTitle = 'Smart Edits Repaired & Resubmitted Response Time';
   MetricID = 'NA';
   subscription: any;
   cardData: any;
@@ -29,7 +30,13 @@ export class PaymentIntegrityComponent implements OnInit {
   loading: boolean;
   smartEditClaimsReturned: any;
   claimsTopReason: any = [];
+  claimsInfoTopReason: any = [];
   smartEditsReasonsBool = false;
+  showSmartEditsClaimsReturned = false;
+  smartEditsInformationalTitle = 'Smart Edits Top Informational Reasons';
+  showSmartEditsRepairedandResubmitted = false;
+  showSmartEditsTopInfoReason = false;
+
   constructor(
     private glossaryExpandService: GlossaryExpandService,
     private checkStorage: StorageService,
@@ -144,6 +151,28 @@ export class PaymentIntegrityComponent implements OnInit {
       });
     }
     // **** Smart Edits Claims Top Reasons Starts here**** //
+    // **** Smart Edits Top Informational Reasons starts here****//
+    const rVal1 = [22, 19, 16, 12, 5];
+    const rVal2 = [78, 81, 84, 88, 95];
+    const bTitle = [
+      'Credentials Expiring in 90 Days',
+      'Modifier 52 Documentation Required',
+      'Always Therapy GN Modifier',
+      'Consultation Services Policy Update',
+      'CMS 1500 Reimburdement Policy Rules'
+    ];
+    const bVal = ['22%', '19%', '16%', '12%', '5%'];
+    for (let i = 0; i <= 4; i++) {
+      this.claimsInfoTopReason.push({
+        type: 'bar chart',
+        graphValues: [rVal1[i], rVal2[i]],
+        barText: bTitle[i],
+        barValue: bVal[i],
+        color: ['#80B0FF', '#FFFFFF', '#E0E0E0'],
+        gdata: ['app-card-structure', 'smartEditsTopInfoReason' + i]
+      });
+    }
+    // **** Smart Edits Top Informational Reasons starts here****//
   }
 
   helpIconClick(title) {

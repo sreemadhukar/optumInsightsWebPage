@@ -8,6 +8,7 @@ import { Providers } from './../../../shared/provider/provider.class';
 import { MatIconRegistry, MatAutocompleteSelectedEvent } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 import { StorageService } from './../../../shared/storage-service.service';
+import { SessionService } from '../../../shared/session.service';
 
 import {
   AfterViewInit,
@@ -48,6 +49,7 @@ export class SelectProviderComponent implements OnInit {
     private iconRegistry: MatIconRegistry,
     private storage: StorageService,
     private router: Router,
+    private sessionService: SessionService,
     sanitizer: DomSanitizer
   ) {
     iconRegistry.addSvgIcon(
@@ -139,7 +141,12 @@ export class SelectProviderComponent implements OnInit {
     } else {
       this.storage.store('currentUser', [Object.assign(provider, data)]);
     }
-    this.router.navigate(['/OverviewPage']);
+    // Role based access for Advocates Overview page
+    if (this.sessionService.checkAdvocateRole()) {
+      this.router.navigate(['/OverviewPageAdvocate']);
+    } else {
+      this.router.navigate(['/OverviewPage']);
+    }
   }
 
   private _filterStates(value: string): Providers[] {

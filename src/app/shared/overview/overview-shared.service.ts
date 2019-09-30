@@ -1052,11 +1052,8 @@ export class OverviewSharedService {
   getPriorAuthCardData(trends) {
     return new Promise((resolve, reject) => {
       const parameters = {
-        providerkey: this.providerKey,
-        last6Months: true,
-        allProviderTins: true,
-        allLob: true,
-        allNotApprovedSettings: true
+        providerKey: this.providerKey,
+        allProviderTins: true
       };
 
       this.overviewService.getOverviewPriorAuth(parameters).subscribe(priorAuth => {
@@ -1094,7 +1091,10 @@ export class OverviewSharedService {
           priorAuth.PriorAuthorizations.LineOfBusiness.All.hasOwnProperty('PriorAuthApprovedCount') &&
           priorAuth.PriorAuthorizations.LineOfBusiness.All.hasOwnProperty('PriorAuthNotApprovedCount') &&
           priorAuth.PriorAuthorizations.LineOfBusiness.All.hasOwnProperty('PriorAuthPendingCount') &&
-          priorAuth.PriorAuthorizations.LineOfBusiness.All.hasOwnProperty('PriorAuthCancelledCount')
+          priorAuth.PriorAuthorizations.LineOfBusiness.All.hasOwnProperty('PriorAuthCancelledCount') &&
+          priorAuth.PriorAuthorizations.LineOfBusiness.All.PriorAuthApprovedCount +
+            priorAuth.PriorAuthorizations.LineOfBusiness.All.PriorAuthNotApprovedCount >
+            0
         ) {
           const priorAuthRequested =
             priorAuth.PriorAuthorizations.LineOfBusiness.All.PriorAuthApprovedCount +

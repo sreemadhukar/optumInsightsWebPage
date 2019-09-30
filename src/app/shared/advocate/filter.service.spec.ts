@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 
-import { PriorAuthSharedService } from './prior-auth.service';
+import { FilterService } from './filter.service';
 
-describe('PriorAuthService', () => {
+describe('FilterService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: PriorAuthSharedService = TestBed.get(PriorAuthSharedService);
+    const service: FilterService = TestBed.get(FilterService);
     expect(service).toBeTruthy();
   });
 });

@@ -46,23 +46,95 @@ export class RotatingArrowObjectComponent implements OnInit, AfterViewInit {
 
     const tatCircleLink = 'src/assets/images/TATCirclewithArrow.png';
 
-    const chart = d3
-      .select(this.renderChart)
-      .append('svg')
-      .attr('width', width)
-      .attr('height', 220)
-      .append('g')
-      .attr('transform', 'translate(' + -10 + ',' + -6 + ')');
+    if (chartOptions.gdata[1] === 'appealsAverageTurnAround') {
+      const chart = d3
+        .select(this.renderChart)
+        .append('svg')
+        .attr('width', 350)
+        .attr('height', 220)
+        .append('g')
+        .attr('transform', 'translate(' + 55 + ',' + -6 + ')');
+
+      chart
+        .append('svg:image')
+        .attr('x', 10)
+        .attr('y', 0)
+        .attr('width', '220px')
+        .attr('height', '220px')
+        .attr('xlink:href', tatCircleLink);
+
+      let circleColor;
+      let textColor;
+      let arrowLink;
+      if (chartOptions.sdata) {
+        if (chartOptions.sdata.sign === 'up') {
+          circleColor = '#E1FADF';
+          textColor = '#007000';
+          arrowLink = 'src/assets/images/trend-up.svg';
+        } else if (chartOptions.sdata.sign === 'down') {
+          circleColor = '#FFE6F0';
+          textColor = '#B10C00';
+          arrowLink = 'src/assets/images/trend-down.svg';
+        } else if (chartOptions.sdata.sign === 'neutral') {
+          circleColor = '#e0e0e0';
+          textColor = '#2d2d39';
+          arrowLink = 'src/assets/images/flat-no-change.svg';
+        }
+
+        /* chart
+        .append('circle')
+        .attr('cx', width / 3)
+        .attr('cy', height / 1.55)
+        .attr('r', 16)
+        .attr('fill', circleColor);
 
     chart
-      .append('svg:image')
-      .attr('x', 10)
-      .attr('y', 0)
-      .attr('width', '220px')
-      .attr('height', '220px')
-      .attr('xlink:href', tatCircleLink);
+        .append('svg:image')
+        .attr('x', width / 3.4)
+        .attr('y', height / 1.7)
+        .attr('width', '20px')
+        .attr('height', '20px')
+        .attr('xlink:href', arrowLink);
 
-    /*   chart
+      chart
+        .append('text')
+        .attr('x', width / 2.25)
+        .attr('y', height / 1.5)
+        .style('font-size', '16px')
+        .style('fill', textColor)
+        .style('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
+        .style('text-anchor', 'start')
+        .text(chartOptions.sdata.data);*/
+      }
+
+      chart
+        .append('text')
+        .attr('text-anchor', 'middle')
+        .attr('y', 125)
+        .attr('x', 125)
+        .style('font-size', '41px')
+        .style('fill', '#2D2D39')
+        .style('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
+        .style('letter-spacing', '-0.5px')
+        .text(chartOptions.centerNumber);
+    } else {
+      const chart = d3
+        .select(this.renderChart)
+        .append('svg')
+        .attr('width', width)
+        .attr('height', 220)
+        .append('g')
+        .attr('transform', 'translate(' + -10 + ',' + -6 + ')');
+
+      chart
+        .append('svg:image')
+        .attr('x', 10)
+        .attr('y', 0)
+        .attr('width', '220px')
+        .attr('height', '220px')
+        .attr('xlink:href', tatCircleLink);
+
+      /*   chart
       .append('path')
       .attr(
         'd',
@@ -115,26 +187,26 @@ export class RotatingArrowObjectComponent implements OnInit, AfterViewInit {
       )
       .attr('fill', '#3381FF');*/
 
-    let circleColor;
-    let textColor;
-    let arrowLink;
+      let circleColor;
+      let textColor;
+      let arrowLink;
 
-    if (chartOptions.sdata) {
-      if (chartOptions.sdata.sign === 'up') {
-        circleColor = '#E1FADF';
-        textColor = '#007000';
-        arrowLink = 'src/assets/images/trend-up.svg';
-      } else if (chartOptions.sdata.sign === 'down') {
-        circleColor = '#FFE6F0';
-        textColor = '#B10C00';
-        arrowLink = 'src/assets/images/trend-down.svg';
-      } else if (chartOptions.sdata.sign === 'neutral') {
-        circleColor = '#e0e0e0';
-        textColor = '#2d2d39';
-        arrowLink = 'src/assets/images/flat-no-change.svg';
-      }
+      if (chartOptions.sdata) {
+        if (chartOptions.sdata.sign === 'up') {
+          circleColor = '#E1FADF';
+          textColor = '#007000';
+          arrowLink = 'src/assets/images/trend-up.svg';
+        } else if (chartOptions.sdata.sign === 'down') {
+          circleColor = '#FFE6F0';
+          textColor = '#B10C00';
+          arrowLink = 'src/assets/images/trend-down.svg';
+        } else if (chartOptions.sdata.sign === 'neutral') {
+          circleColor = '#e0e0e0';
+          textColor = '#2d2d39';
+          arrowLink = 'src/assets/images/flat-no-change.svg';
+        }
 
-      /* chart
+        /* chart
         .append('circle')
         .attr('cx', width / 3)
         .attr('cy', height / 1.55)
@@ -158,17 +230,17 @@ export class RotatingArrowObjectComponent implements OnInit, AfterViewInit {
         .style('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
         .style('text-anchor', 'start')
         .text(chartOptions.sdata.data);*/
+      }
+      chart
+        .append('text')
+        .attr('text-anchor', 'middle')
+        .attr('y', 125)
+        .attr('x', 125)
+        .style('font-size', '41px')
+        .style('fill', '#2D2D39')
+        .style('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
+        .style('letter-spacing', '-0.5px')
+        .text(chartOptions.centerNumber);
     }
-
-    chart
-      .append('text')
-      .attr('text-anchor', 'middle')
-      .attr('y', 125)
-      .attr('x', 125)
-      .style('font-size', '41px')
-      .style('fill', '#2D2D39')
-      .style('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
-      .style('letter-spacing', '-0.5px')
-      .text(chartOptions.centerNumber);
   }
 }

@@ -21,7 +21,7 @@ var sessionSecret = 'STwHkLYUwN1L5rc3yqdkuthRvczrBupc';
 var key = 'Q9gRpXWjVm5GXethNxG60utGMGW7NpsO';
 var heac = require('./src/assets/mock-data/heac.json');
 
-app.all('/uhci/prd2/*', function(req, res) {
+app.all('/uhci/prd/*', function(req, res) {
   apiProxy.web(req, res, { target: apiForwardingUrl, changeOrigin: true, secure: false }, function(e) {
     handleExceptions(e, res);
   });
@@ -43,7 +43,7 @@ app.get('/api/getJwt', cors(), function(req, res) {
     token: token
   });
 });
-
+ 
 app.get('/api/getHeac/:MsId', cors(), function(req, res) {
   res.status(200).json({
     heac: include(heac.user, req.params.MsId)

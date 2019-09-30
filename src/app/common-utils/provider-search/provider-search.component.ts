@@ -65,9 +65,9 @@ export class ProviderSearchComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    if (!this.states) {
-      this.providerSharedService.providersList().subscribe(value => (this.states = value));
-    }
+    // if (!this.states) {
+    //   this.providerSharedService.providersList().subscribe(value => (this.states = value));
+    // }
 
     this.filteredStates = this.stateCtrl.valueChanges.pipe(
       startWith(''),
@@ -84,7 +84,7 @@ export class ProviderSearchComponent implements OnInit, AfterViewInit {
     } else {
       this.storage.store('currentUser', [Object.assign(provider, data)]);
     }
-    console.log('storage', this.storage);
+    this.storage.emitEvent('overviewPage');
     this.dialogRef.close();
   }
 

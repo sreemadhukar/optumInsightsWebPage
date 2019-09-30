@@ -1,36 +1,30 @@
 import { Injectable } from '@angular/core';
-import { CareDeliveryPageModule } from '../../components/care-delivery-page/care-delivery-page.module';
 import { environment } from '../../../environments/environment';
 import { HttpHeaders, HttpClient, HttpParams } from '@angular/common/http';
 import { map, catchError } from 'rxjs/operators';
-import { combineLatest, Observable, of, forkJoin } from 'rxjs';
+import { combineLatest, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
-export class PatientCareOpportunityService {
+export class TopRowAdvOverviewService {
   public currentUser: any;
   public combined: any;
   private authBearer: any;
   private APP_URL: string = environment.apiProxyUrl;
-  private EXECUTIVE_SERVICE_PATH: string = environment.apiUrls.ExecutiveSummaryPath;
-  private PCOR_SERVICE_PATH: string = environment.apiUrls.PCORQualityMeasure;
+  private CLAIMS_SERVICE_PATH: string = environment.apiUrls.ProviderSystemClaimsSummary;
   constructor(private http: HttpClient) {}
-
-  public getPCORQualityMeasureData(...parameters) {
+  public getPaymentData(...parameters) {
     this.currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
     this.authBearer = this.currentUser[0].PedAccessToken;
     const myHeader = new HttpHeaders({
       Authorization: 'Bearer ' + this.authBearer,
+      'Content-Type': 'application/json',
       Accept: '*/*'
     });
-
-    const params = new HttpParams();
-
-    const PCORQualityMeasureURL = this.APP_URL + this.PCOR_SERVICE_PATH + parameters[0];
-    return this.http.get(PCORQualityMeasureURL, { params, headers: myHeader }).pipe(
-      map(res => JSON.parse(JSON.stringify(res))),
-
+    const nonPaymentURL = this.APP_URL + this.CLAIMS_SERVICE_PATH + parameters[0] + '?requestType=PAYMENT_METRICS';
+    return this.http.post(nonPaymentURL, parameters[1], { headers: myHeader }).pipe(
+      map(res => JSON.parse(JSON.stringify(res[0]))),
       catchError(err => of(JSON.parse(JSON.stringify(err))))
     );
   }
