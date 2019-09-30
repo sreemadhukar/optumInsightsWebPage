@@ -1,6 +1,5 @@
 /* @author Sparsh Kumar */
 import { Injectable } from '@angular/core';
-import { CareDeliveryPageModule } from '../../components/care-delivery-page/care-delivery-page.module';
 import { environment } from '../../../environments/environment';
 import { HttpHeaders, HttpClient, HttpParams } from '@angular/common/http';
 import { map, catchError } from 'rxjs/operators';
