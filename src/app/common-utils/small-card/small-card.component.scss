@@ -16,7 +16,7 @@
       float: left;
       padding-left: 15px;*/
       float: left;
-      padding-left: 42px;
+      padding-left: 20px;
       margin-bottom: 16px;
     }
     .chart-details {
@@ -30,9 +30,9 @@
     }
     .trend-details {
       float: left;
-      /*padding: 10% 0;*/
       display: flex;
       margin-top: 48px;
+      margin-left: 10px;
 
       .trend-value {
         font-size: 14px;
@@ -96,11 +96,6 @@
       .flex-box {
         display: flex;
       }
-    }
-    .trend-details.trend-nps {
-      margin: 0;
-      padding: 10px 0;
-      margin-left: 70px;
     }
   }
   .card-inner.nps {
@@ -178,6 +173,10 @@
   .small-star-chart {
     margin-left: 92px;
     height: 145px;
+  }
+  .trend-container {
+    display: block;
+    margin-top: 10px;
   }
   // @media screen and (max-width: 1331px) {
   //   .card-inner {

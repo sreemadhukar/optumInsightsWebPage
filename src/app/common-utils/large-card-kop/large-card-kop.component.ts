@@ -12,7 +12,6 @@ export class LargeCardKopComponent implements OnInit {
   @Input() title;
   @Input() timePeriod;
   @Input() skeletonLarge;
-
   constructor(
     private iconRegistry: MatIconRegistry,
     sanitizer: DomSanitizer,

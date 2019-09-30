@@ -1,12 +1,11 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { EventEmitterService } from 'src/app/shared/know-our-provider/event-emitter.service';
 import { Subscription } from 'rxjs';
-import { NPSSharedService } from 'src/app/shared/nps/nps.service';
+import { KOPSharedService } from 'src/app/shared/kop/kop.service';
 import { FilterExpandService } from 'src/app/shared/filter-expand.service';
 import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
-import { KopInsightsService } from 'src/app/shared/know-our-provider/kop-insights.service';
 import { SessionService } from 'src/app/shared/session.service';
 
 @Component({
@@ -37,8 +36,7 @@ export class KopOverviewComponent implements OnInit, OnDestroy {
     private iconRegistry: MatIconRegistry,
     private sanitizer: DomSanitizer,
     private router: Router,
-    private npsSharedService: NPSSharedService,
-    private kopInsightsService: KopInsightsService
+    private kopSharedService: KOPSharedService
   ) {
     iconRegistry.addSvgIcon(
       'filter',
@@ -51,13 +49,9 @@ export class KopOverviewComponent implements OnInit, OnDestroy {
     const userInfo = JSON.parse(sessionStorage.getItem('loggedUser')) || {};
     this.pageTitle = 'Hello, ' + userInfo.FirstName + '.';
 
-    this.filterData = this.npsSharedService.filters;
+    this.filterData = this.kopSharedService.filters;
     this.currentFilter = this.filterData.filter(element => element.selected)[0];
     this.getNPSData();
-
-    this.kopInsightsService.getKopInsightsData((data: any) => {
-      this.kopInsightsData = data;
-    });
 
     this.sessionService.getFilChangeEmitter().subscribe((data: any) => {
       const { selectedFilter } = data;
@@ -82,9 +76,9 @@ export class KopOverviewComponent implements OnInit, OnDestroy {
   }
 
   getNPSData() {
-    this.npsSharedService.getNPSSummary({ filter: this.currentFilter.params }, (data: any) => {
+    this.kopSharedService.getSummary({ filter: this.currentFilter }, (data: any) => {
       if (data) {
-        this.npsSummary = data;
+        this.kopInsightsData = data;
         this.npsLoaded = true;
       }
     });

@@ -1,17 +1,63 @@
-<div class="card-structure" *ngIf="!skeletonLarge">
+<div class="card-structure" *ngIf="data && !skeletonLarge">
   <div class="card-inner-large">
     <app-common-header
-      [title]="data[0].title"
+      [title]="data.title"
       class="full-display"
       (helpIconClicked)="helpIconClick($event)"
     ></app-common-header>
     <div class="card-inner-large-content">
-      <ul class="kop-insights-data" *ngFor="let item of data[0].chartData; let i = index">
-        <li>{{ item.description }}</li>
-      </ul>
+      <div class="kop-insights-data" *ngFor="let item of data.chartData; let i = index">
+        <div *ngIf="!item.singleCard; then switchCharts; else singleCardTemplate"></div>
+        <ng-template #switchCharts>
+          <div [ngSwitch]="item.cardType">
+            <div *ngSwitchCase="'horizontalBar'">
+              <app-horizontal-charts></app-horizontal-charts>
+            </div>
+            <div *ngSwitchCase="'verticalBar'">
+              <app-vertical-bar-charts></app-vertical-bar-charts>
+            </div>
+            <div *ngSwitchCase="'hollowbox'" class="highlighted-boxes">
+              <div
+                *ngFor="let quarter of item.quarters"
+                class="highlighted-box"
+                [class.current-quarter]="quarter.currentQuarter"
+              >
+                {{ quarter.title }}
+              </div>
+            </div>
+            <div *ngSwitchCase="'miniDonut'" class="mini-donut-chart">
+              <div *ngFor="let quarter of item.quarters">
+                <app-donut-charts [chartData]="item" [quarter]="quarter"></app-donut-charts>
+              </div>
+            </div>
+          </div>
+        </ng-template>
+        <ng-template #singleCardTemplate>
+          <div class="highlighted-value">
+            {{ item.quarters[0]?.title }}
+          </div>
+        </ng-template>
+        <div class="caption">
+          {{ item.caption }}
+        </div>
+        <app-trends class="trend-container" [data]="item"></app-trends>
+        <div class="report-box" *ngIf="item.report">
+          <div class="report-content">
+            Touchpoint -Top Box % (9-10)
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="full-width-block" *ngIf="data[0].timeperiod">
-      <app-common-footer [timePeriod]="data[0].timeperiod"></app-common-footer>
+    <div class="full-width-block" *ngIf="timePeriod">
+      <app-common-footer
+        [timePeriod]="
+          timePeriod.title
+            .concat(' ')
+            .concat('(')
+            .concat(timePeriod.timeFrame | timeperiod)
+            .concat(')')
+        "
+      ></app-common-footer>
     </div>
   </div>
 </div>

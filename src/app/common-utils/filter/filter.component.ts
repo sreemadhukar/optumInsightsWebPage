@@ -219,15 +219,19 @@ export class FilterComponent implements OnInit {
       this.priorAuthorizationCustomFilterBool = false;
     }
     this.lobData = this.session.filterObjValue.lob;
-    this.session.getTins().then(data => {
-      this.tinsData = data;
-      this.tinsData.forEach(value => {
-        value['checked'] = false;
-        if (this.taxArrayData.includes(value['Tin'])) {
-          value['checked'] = true;
-        }
+    // Custom filter is for KOP.This service is not triggered because
+    // no provider is selected by default in KOP
+    if (!this.customFilter) {
+      this.session.getTins().then(data => {
+        this.tinsData = data;
+        this.tinsData.forEach(value => {
+          value['checked'] = false;
+          if (this.taxArrayData.includes(value['Tin'])) {
+            value['checked'] = true;
+          }
+        });
       });
-    });
+    }
     this.selectedFilter = this.filterData.filter(element => element.selected)[0].title;
   }
 

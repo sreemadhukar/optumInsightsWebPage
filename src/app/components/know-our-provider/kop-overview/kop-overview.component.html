@@ -20,7 +20,9 @@
           <div class="horizontal-align">
             <button class="btn btn-rounded" disabled>
               <span>Time Period: </span
-              ><span class="text-semibold pl-4">{{ currentFilter.title }} ({{ npsSummary.timeFrame }}) </span>
+              ><span *ngIf="npsLoaded" class="text-semibold pl-4"
+                >{{ kopInsightsData.timePeriod.title }} ({{ kopInsightsData.timePeriod.timeFrame | timeperiod }})
+              </span>
             </button>
           </div>
         </div>
@@ -34,30 +36,36 @@
     <div class="overview-section" *ngIf="npsLoaded">
       <div class="section-header">
         <div class="cards section-header-part">
-          <div class="title">{{ npsSummary.title }}</div>
+          <div class="title">{{ kopInsightsData.npsSummary.title }}</div>
         </div>
         <div class="cards section-header-part2">
           <ul class="quarterslist">
-            <li *ngFor="let quarter of npsSummary.quarters">
+            <li *ngFor="let quarter of kopInsightsData.timePeriod.quarters">
               <div class="circle" [ngClass]="quarter.color"></div>
-              {{ quarter.quarter }} {{ quarter.year }}
+              {{ quarter | quarterpipe }}
             </li>
           </ul>
         </div>
       </div>
       <div class="height1Separator"></div>
-      <app-small-card class="cards" [options]="npsCardOptions" [data]="npsSummary.all.data"> </app-small-card>
-      <app-small-card class="cards" [options]="npsCardOptions" [data]="npsSummary.pm.data"> </app-small-card>
-      <app-small-card class="cards" [options]="npsCardOptions" [data]="npsSummary.md.data"> </app-small-card>
-      <div class="height1Separator"></div>
+      <app-small-card
+        class="cards"
+        [options]="npsCardOptions"
+        *ngFor="let npsItem of kopInsightsData.npsSummary.data"
+        [data]="npsItem"
+      >
+      </app-small-card>
 
       <div class="kop-insights">Insights</div>
       <div>
-        <app-large-card-kop [data]="kopInsightsData.networkParticipation.data"></app-large-card-kop>
-        <app-large-card-kop [data]="kopInsightsData.careDelivery.data"></app-large-card-kop>
-        <app-large-card-kop [data]="kopInsightsData.reimbursement.data"></app-large-card-kop>
-        <app-large-card-kop [data]="kopInsightsData.issueResolution.data"></app-large-card-kop>
-        <app-large-card-kop [data]="kopInsightsData.engagement.data"></app-large-card-kop>
+        <!-- <app-large-card-kop [data]="kopInsightsData.networkParticipation.data"></app-large-card-kop> -->
+        <app-large-card-kop
+          [data]="kopInsightsData.careDelivery"
+          [timePeriod]="kopInsightsData.timePeriod"
+        ></app-large-card-kop>
+        <!-- <app-large-card-kop [data]="kopInsightsData.reimbursement.data"></app-large-card-kop> -->
+        <!-- <app-large-card-kop [data]="kopInsightsData.issueResolution.data"></app-large-card-kop> -->
+        <!-- <app-large-card-kop [data]="kopInsightsData.engagement.data"></app-large-card-kop> -->
       </div>
     </div>
   </div>
