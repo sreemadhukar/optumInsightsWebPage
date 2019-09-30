@@ -14,25 +14,43 @@ export class CommonFooterComponent implements OnInit {
 
   ngOnInit() {
     if (this.timePeriod === 'Last 6 Months') {
-      const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+      const month = [
+        { monthNames: 'Jan', monthlastdate: 31 },
+        { monthNames: 'Feb', monthlastdate: 28 },
+        { monthNames: 'Mar', monthlastdate: 31 },
+        { monthNames: 'Apr', monthlastdate: 30 },
+        { monthNames: 'May', monthlastdate: 31 },
+        { monthNames: 'Jun', monthlastdate: 31 },
+        { monthNames: 'Jul', monthlastdate: 30 },
+        { monthNames: 'Aug', monthlastdate: 31 },
+        { monthNames: 'Sep', monthlastdate: 30 },
+        { monthNames: 'Oct', monthlastdate: 31 },
+        { monthNames: 'Nov', monthlastdate: 30 },
+        { monthNames: 'Dec', monthlastdate: 31 }
+      ];
       const today = new Date();
       const dd = String(today.getDate()).padStart(2, '0');
       const mm = String(today.getMonth() + 1).padStart(2, '0'); // January is 0!
       let mmlast6 = String(today.getMonth() - 5).padStart(2, '0'); // January is 0!
-      let yyyy = today.getFullYear();
+      const yyyy = today.getFullYear();
+      let yyyylast6 = today.getFullYear();
+      let ddlast6 = String(today.getDate()).padStart(2, '0');
       if (parseInt(mm) < 6) {
         mmlast6 = String(today.getMonth() + 12 - 5).padStart(2, '0'); // January is 0!
-        yyyy = today.getFullYear() - 1;
+        yyyylast6 = today.getFullYear() - 1;
+      }
+      if (parseInt(dd) > month[parseInt(mmlast6) - 1].monthlastdate) {
+        ddlast6 = String(month[parseInt(mmlast6) - 1].monthlastdate);
       }
       this.timePeriodFooter =
-        monthNames[parseInt(mm) - 1] +
+        month[parseInt(mmlast6) - 1].monthNames +
         ' ' +
-        dd +
+        ddlast6 +
         ',' +
         ' ' +
-        yyyy +
+        yyyylast6 +
         ' - ' +
-        monthNames[parseInt(mmlast6) - 1] +
+        month[parseInt(mm) - 1].monthNames +
         ' ' +
         dd +
         ',' +
