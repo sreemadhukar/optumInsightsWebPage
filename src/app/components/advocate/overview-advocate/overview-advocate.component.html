@@ -56,10 +56,11 @@
 
     <!-- Claims appeals Trend  Starts Here -->
     <app-error-card
-      *ngIf="!trendMonthDisplay && monthlyLineGraph != null && monthlyLineGraph.status != null"
+      *ngIf="appealsLineGraphData.status !=null"
       class="cards"
-      [data]="monthlyLineGraph"
+      [data]="appealsLineGraphData"
     ></app-error-card>
+    <app-large-card [skeletonLarge]="appealsLineGraphloading" *ngIf="appealsLineGraphloading"></app-large-card>
     <div class="appeals-trend-block" *ngIf="appealsLineGraph">
       <app-common-header
         [title]="trendTitle"

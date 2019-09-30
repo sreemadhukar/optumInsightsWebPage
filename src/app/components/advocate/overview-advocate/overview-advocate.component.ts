@@ -48,6 +48,8 @@ export class OverviewAdvocateComponent implements OnInit {
   ei: any;
   other: any;
   routhPath: string;
+  appealsLineGraphloading: boolean;
+  appealsLineGraphData: {};
 
   constructor(
     private checkStorage: StorageService,
@@ -102,6 +104,7 @@ export class OverviewAdvocateComponent implements OnInit {
     this.overviewAdvocateSharedService.getAppealsLeftShared().then(appealsLeftData => {
       let AppealsLeftData: any;
       AppealsLeftData = appealsLeftData;
+      if (AppealsLeftData[0].LineOfBusiness != null && AppealsLeftData[0].LineOfBusiness) {
       this.totalAppeals =
         AppealsLeftData[0].LineOfBusiness.ALL.AdminAppeals + AppealsLeftData[0].LineOfBusiness.ALL.ClinicalAppeals;
       this.adminAppeals = AppealsLeftData[0].LineOfBusiness.ALL.AdminAppeals;
@@ -131,15 +134,9 @@ export class OverviewAdvocateComponent implements OnInit {
           AppealsLeftData[0].LineOfBusiness.Other.ClinicalAppeals;
       }
       this.appealsloading = false;
+    }
     });
-  }
 
-  appealsTrendByMonthData() {
-    this.overviewAdvocateSharedService.getAppealsTrendByMonthShared().then(appealsTrendData => {
-      let AppealsTrendData: any;
-      AppealsTrendData = appealsTrendData;
-      console.log('AppealsTrendData------------->', AppealsTrendData);
-    });
   }
 
   appealsOverviewDetails() {
@@ -147,62 +144,37 @@ export class OverviewAdvocateComponent implements OnInit {
     this.router.navigate([this.routhPath]);
   }
 
-  getAppealsData() {
+  appealsTrendByMonthData() {
+    this.appealsLineGraphData = {};
     this.overviewAdvocateSharedService.getAppealsTrendByMonthShared().then(appealsTrendData => {
-      this.appealsLineGraph = new AppealsData(appealsTrendData, GeneralData, 'appeals-trend-block');
+      this.appealsLineGraphloading = false;
+
+      console.log(((appealsTrendData['M&R'].length) || (appealsTrendData['C&S'].length) ||
+      (appealsTrendData['E&I'].length) || (appealsTrendData['Other'].length)));
+
+    if (((appealsTrendData['M&R'].length) || (appealsTrendData['C&S'].length) ||
+      (appealsTrendData['E&I'].length) || (appealsTrendData['Other'].length)) === 0) {
+        this.appealsLineGraphData = {
+          category: 'large-card',
+          type: 'donut',
+          status: 404,
+          title: 'Claims Appeals Submitted',
+          MetricID: this.MetricidService.MetricIDs.ClaimsAppealsSubmittedTrend,
+          data: null,
+          timeperiod: null
+        };
+       } else {
+        this.appealsLineGraphData = appealsTrendData;
+        this.appealsLineGraph = new AppealsData(appealsTrendData, GeneralData, 'appeals-trend-block');
+       }
     });
   }
-
-  // appealsRightData() {
-  //   this.monthlyLineGraph.chartId = 'appeals-trend-block';
-  //   this.monthlyLineGraph.titleData = [{}];
-  //   this.monthlyLineGraph.generalData = [
-  //     {
-  //       width: 500,
-  //       backgroundColor: 'null',
-  //       barGraphNumberSize: 18,
-  //       barColor: '#196ECF',
-  //       parentDiv: 'appeals-trend-block',
-  //       tooltipBoolean: true,
-  //       hideYAxis: false
-  //     }
-  //   ];
-  //
-  //   this.monthlyLineGraph.chartData = [];
-  //   this.trendMonthDisplay = false;
-  //   // This is for line graph
-  //   this.overviewAdvocateSharedService.getAppealsTrendByMonthShared().then(appealsTrendData => {
-  //    // AppealsTrendData = appealsTrendData;
-  //     if (appealsTrendData === null) {
-  //       this.trendMonthDisplay = false;
-  //       this.monthlyLineGraph = {
-  //         category: 'small-card',
-  //         type: 'donut',
-  //         status: 404,
-  //         title: 'Claims Appeals Submitted',
-  //         MetricID: this.MetricidService.MetricIDs.ClaimsAppealsSubmittedTrend,
-  //         data: null,
-  //         timeperiod: null
-  //       };
-  //     } else {
-  //       this.monthlyLineGraph.chartData = appealsTrendData[0];
-  //       this.monthlyLineGraph.chartData1 = appealsTrendData[1];
-  //       this.monthlyLineGraph.chartData2 = appealsTrendData[2];
-  //       this.monthlyLineGraph.chartData3 = appealsTrendData[3];
-  //       this.trendMonthDisplay = true;
-  //     }
-  //   });
-  //
-  //   this.monthlyLineGraph.generalData2 = this.monthlyLineGraph.generalData;
-  //   // this.monthlyLineGraph.chartData2 = [];
-  // }
 
   ngOnInit() {
     this.paymentData();
     this.appealsLeftData();
-    // this.appealsRightData();
     this.appealsTrendByMonthData();
-    this.getAppealsData();
+    this.appealsLineGraphloading = true;
     this.userName = this.session.sessionStorage('loggedUser', 'FirstName');
     this.pageTitle = 'Welcome, ' + this.userName;
 
