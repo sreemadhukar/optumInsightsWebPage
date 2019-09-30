@@ -27,6 +27,8 @@ import { Observable, Subscription } from 'rxjs';
 import { CommonUtilsService } from '../../shared/common-utils.service';
 import { StorageService } from '../../shared/storage-service.service';
 import { EventEmitterService } from '../../shared/know-our-provider/event-emitter.service';
+import { SessionService } from '../../shared/session.service';
+
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -64,6 +66,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   public username = '';
   public advDropdownBool = false;
   subscription: Subscription;
+  public healthSystemName: string;
 
   constructor(
     private breakpointObserver: BreakpointObserver,
@@ -75,7 +78,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
     private router: Router,
     private utils: CommonUtilsService,
     private checkStorage: StorageService,
-    private eventEmitter: EventEmitterService
+    private eventEmitter: EventEmitterService,
+    private sessionService: SessionService,
   ) {
     // this.mobileQuery = this.breakpointObserver.isMatched('(max-width: 1024px)');
     router.events.subscribe(event => {
@@ -148,7 +152,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
       this.router.navigate(['/OverviewPage']);
     }
   }
+
   ngOnInit() {
+
+    this.advDropdownBool = false;
+    this.healthSystemName = this.sessionService.getHealthCareOrgName();
     this.isDarkTheme = this.themeService.isDarkTheme;
     this.eventEmitter.getEvent().subscribe(val => {
       if (JSON.parse(sessionStorage.getItem('loggedUser'))) {

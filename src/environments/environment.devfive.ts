@@ -33,7 +33,9 @@ export const environment: any = {
     NonPayment: 'claim-metrics/',
     CallsTrend: 'provider-calls/',
     TrendingMetrics: 'trending-metrics/',
+    AppealsTrend: 'appeals-trend/',
     AdminSummaryTrends: 'admintrends/'
+
   },
   headerKeys: {
     selectedCompany: '',
