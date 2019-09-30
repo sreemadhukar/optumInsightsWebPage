@@ -61,7 +61,7 @@ export class SessionService {
     }
   }
 
-  public checkAdvocateRole() {
+  public checkAdvocateRole(): boolean {
     let userRoleAdvocate = false;
     try {
       if (
@@ -69,8 +69,8 @@ export class SessionService {
         JSON.parse(sessionStorage.getItem('loggedUser')).UserRole
       ) {
         let userRole;
-        userRole = JSON.parse(sessionStorage.getItem('loggedUser')).UserRole;
-        userRoleAdvocate = userRole.some(item => item.includes('UHCI_Advocate'));
+        userRole = JSON.parse(sessionStorage.getItem('loggedUser')).UserPersonas;
+        userRoleAdvocate = userRole.some(item => item.UserRole.includes('UHCI_Advocate'));
       }
       return userRoleAdvocate;
     } catch (err) {
