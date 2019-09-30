@@ -79,7 +79,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     private utils: CommonUtilsService,
     private checkStorage: StorageService,
     private eventEmitter: EventEmitterService,
-    private sessionService: SessionService,
+    private sessionService: SessionService
   ) {
     // this.mobileQuery = this.breakpointObserver.isMatched('(max-width: 1024px)');
     router.events.subscribe(event => {
@@ -123,23 +123,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.ngOnInit());
   }
 
-  advocateRole(): boolean {
-    try {
-      if (JSON.parse(sessionStorage.getItem('loggedUser'))) {
-        let userRole;
-        userRole = JSON.parse(sessionStorage.getItem('loggedUser')).UserRole;
-        let userRoleAdvocate = false;
-        userRoleAdvocate = userRole.some(item => item.includes('UHCI_Advocate'));
-        return userRoleAdvocate;
-      } else {
-        return false;
-      }
-    } catch (Error) {
-      return false;
-    }
-  }
   advocateUserClick() {
-    if (this.advocateRole()) {
+    if (this.sessionService.checkAdvocateRole()) {
       this.advDropdownBool = !this.advDropdownBool;
     } else {
       this.advDropdownBool = false;
@@ -154,7 +139,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-
     this.advDropdownBool = false;
     this.healthSystemName = this.sessionService.getHealthCareOrgName();
     this.isDarkTheme = this.themeService.isDarkTheme;
