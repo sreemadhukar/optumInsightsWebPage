@@ -54,15 +54,30 @@
       ></app-error-card>
     </div>
 
+    <!-- Claims Non - Payment Trend  Starts Here -->
+    <div class="non-payment-trend-block" *ngIf="trendMonthDisplay">
+      <app-common-header
+        [title]="trendTitle"
+        class="full-display bottom-margin-block"
+        (helpIconClicked)="helpIconClick($event)"
+      ></app-common-header>
+      <app-line-graph [chartOptions]="monthlyLineGraph"></app-line-graph>
+      <!--div class="timeperiod-block">
+          <p class="timeperiod-text">{{ timePeriod }}</p>
+        </div-->
+      <app-common-footer [timePeriod]="timePeriod" class="width-100 time-period-trend"></app-common-footer>
+    </div>
+    <!-- Claims Non - Payment Trend Ends Here -->
+
     <!-- Claims appeals Trend  Starts Here -->
     <app-error-card
-      *ngIf="appealsLineGraphData.status !=null"
+      *ngIf="appealsLineGraphData.status != null"
       class="cards"
       [data]="appealsLineGraphData"
     ></app-error-card>
     <app-large-card [skeletonLarge]="appealsLineGraphloading" *ngIf="appealsLineGraphloading"></app-large-card>
     <div class="appeals-trend-block" *ngIf="appealsLineGraph">
-    <!-- Claims Non - Payment Trend  Starts Here -->
+      <!-- Claims Non - Payment Trend  Starts Here -->
       <app-common-header
         [title]="trendTitleForClaims"
         class="full-display bottom-margin-block"
@@ -95,7 +110,6 @@
         </div>
 
         <div class="line-graph-padding">
-          <!--<app-multi-line-graph [chartOptions]="monthlyLineGraph"></app-multi-line-graph>-->
           <app-large-card-advocate [appealsLineGraph]="appealsLineGraph"></app-large-card-advocate>
 
           <div class="lob-set">
@@ -127,26 +141,10 @@
     </div>
     <!-- Claims appeals Trend Ends Here -->
 
-
-
     <app-error-card
       *ngIf="!trendMonthDisplay && monthlyLineGraph != null && monthlyLineGraph.status != null"
       class="cards"
       [data]="monthlyLineGraph"
     ></app-error-card>
-    <div class="non-payment-trend-block" *ngIf="trendMonthDisplay">
-      <app-common-header
-        [title]="trendTitle"
-        class="full-display bottom-margin-block"
-        (helpIconClicked)="helpIconClick($event)"
-      ></app-common-header>
-        <app-line-graph [chartOptions]="monthlyLineGraph"></app-line-graph>
-        <!--div class="timeperiod-block">
-            <p class="timeperiod-text">{{ timePeriod }}</p>
-          </div-->
-      </div>
-      <app-common-footer [timePeriod]="timePeriod" class="width-100 time-period-trend"></app-common-footer>
-    </div>
-    <!-- Claims Non - Payment Trend Ends Here -->
   </div>
 </div>
