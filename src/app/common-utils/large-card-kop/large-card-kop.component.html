@@ -48,8 +48,16 @@
         </div>
       </div>
     </div>
-    <div class="full-width-block" *ngIf="data.timeperiod">
-      <app-common-footer [timePeriod]="data.timeperiod"></app-common-footer>
+    <div class="full-width-block" *ngIf="timePeriod">
+      <app-common-footer
+        [timePeriod]="
+          timePeriod.title
+            .concat(' ')
+            .concat('(')
+            .concat(timePeriod.timeFrame | timeperiod)
+            .concat(')')
+        "
+      ></app-common-footer>
     </div>
   </div>
 </div>
