@@ -21,7 +21,7 @@
             <button class="btn btn-rounded" disabled>
               <span>Time Period: </span
               ><span *ngIf="npsLoaded" class="text-semibold pl-4"
-                >{{ currentFilter.title }} ({{ kopInsightsData.npsSummary.timeFrame }})
+                >{{ kopInsightsData.timePeriod.title }} ({{ kopInsightsData.timePeriod.timeFrame | timeperiod }})
               </span>
             </button>
           </div>
@@ -40,26 +40,26 @@
         </div>
         <div class="cards section-header-part2">
           <ul class="quarterslist">
-            <li *ngFor="let quarter of kopInsightsData.npsSummary.quarters">
+            <li *ngFor="let quarter of kopInsightsData.timePeriod.quarters">
               <div class="circle" [ngClass]="quarter.color"></div>
-              {{ quarter.quarter }} {{ quarter.year }}
+              {{ quarter | quarterpipe }}
             </li>
           </ul>
         </div>
       </div>
       <div class="height1Separator"></div>
-      <app-small-card class="cards" [options]="npsCardOptions" [data]="kopInsightsData.npsSummary.all.data">
+      <app-small-card
+        class="cards"
+        [options]="npsCardOptions"
+        *ngFor="let npsItem of kopInsightsData.npsSummary.data"
+        [data]="npsItem"
+      >
       </app-small-card>
-      <app-small-card class="cards" [options]="npsCardOptions" [data]="kopInsightsData.npsSummary.pm.data">
-      </app-small-card>
-      <app-small-card class="cards" [options]="npsCardOptions" [data]="kopInsightsData.npsSummary.md.data">
-      </app-small-card>
-      <div class="height1Separator"></div>
 
       <div class="kop-insights">Insights</div>
       <div>
         <!-- <app-large-card-kop [data]="kopInsightsData.networkParticipation.data"></app-large-card-kop> -->
-        <app-large-card-kop [data]="kopInsightsData.careDelivery.data"></app-large-card-kop>
+        <app-large-card-kop [data]="kopInsightsData.careDelivery"></app-large-card-kop>
         <!-- <app-large-card-kop [data]="kopInsightsData.reimbursement.data"></app-large-card-kop> -->
         <!-- <app-large-card-kop [data]="kopInsightsData.issueResolution.data"></app-large-card-kop> -->
         <!-- <app-large-card-kop [data]="kopInsightsData.engagement.data"></app-large-card-kop> -->
