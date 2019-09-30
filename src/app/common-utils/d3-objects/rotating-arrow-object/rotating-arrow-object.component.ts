@@ -231,7 +231,6 @@ export class RotatingArrowObjectComponent implements OnInit, AfterViewInit {
         .style('text-anchor', 'start')
         .text(chartOptions.sdata.data);*/
       }
-
       chart
         .append('text')
         .attr('text-anchor', 'middle')
