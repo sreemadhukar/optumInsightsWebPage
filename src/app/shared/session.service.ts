@@ -22,7 +22,9 @@ export class SessionService {
       timeFrame: 'Last 6 Months',
       lob: 'All',
       tax: ['All'],
-      taxwithSymbols: ['All']
+      taxwithSymbols: ['All'],
+      date: new Date(),
+      metric: 'GettingReimbursed'
     });
     this.filterObj = this.filterObjSubject.asObservable().pipe(share());
   }
@@ -59,6 +61,36 @@ export class SessionService {
     }
   }
 
+  public checkAdvocateRole() {
+    let userRoleAdvocate = false;
+    try {
+      if (
+        JSON.parse(sessionStorage.getItem('loggedUser')) &&
+        JSON.parse(sessionStorage.getItem('loggedUser')).UserRole
+      ) {
+        let userRole;
+        userRole = JSON.parse(sessionStorage.getItem('loggedUser')).UserRole;
+        userRoleAdvocate = userRole.some(item => item.includes('UHCI_Advocate'));
+      }
+      return userRoleAdvocate;
+    } catch (err) {
+      console.log('adovate role session service', err);
+      return userRoleAdvocate;
+    }
+  }
+
+  public isPCORData() {
+    let pcorBoolean = false;
+    try {
+      if (JSON.parse(sessionStorage.getItem('pcor'))) {
+        pcorBoolean = JSON.parse(sessionStorage.getItem('pcor')).isPCOR;
+      }
+      return pcorBoolean;
+    } catch (err) {
+      console.log('');
+      return pcorBoolean;
+    }
+  }
   public sessionStorage(value: string, item: string) {
     if (sessionStorage.getItem(value)) {
       return JSON.parse(sessionStorage.getItem(value))[item];

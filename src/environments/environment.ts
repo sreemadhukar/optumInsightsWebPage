@@ -18,7 +18,7 @@ export const environment: any = {
   // *In Local use dev3
   // apiProxyUrl: 'https://nginx-pedtst.ocp-ctc-core-nonprod.optum.com/',
   // originUrl: 'https://pedintui-pedstg.ocp-ctc-dmz-stg.optum.com/',
-  apiProxyUrl: 'https://gateway-stage-core.optum.com/api/devthree/pdr/uhci/v1/',
+  apiProxyUrl: 'https://gateway-stage-core.optum.com/api/devone/pdr/uhci/v1/',
   originUrl: 'https://pedui1-pedtst.ocp-ctc-core-nonprod.optum.com/',
   apiUrls: {
     ExecutiveSummaryPath: 'providersystems/',
@@ -49,7 +49,11 @@ export const environment: any = {
     CallsTrend: 'provider-calls/',
     TrendingMetrics: 'trending-metrics/',
     PCORQualityMeasure: 'pcor-metrics/',
+<<<<<<< HEAD
     AppealsTrend: 'appeals-trend/'
+=======
+    AdminSummaryTrends: 'admintrends/'
+>>>>>>> dev
   },
   headerKeys: {
     selectedCompany: '',
