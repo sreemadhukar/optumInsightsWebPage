@@ -45,7 +45,8 @@ export class GlossaryMetricidService {
       ClaimsNonPayments: 'NA',
       ClaimsAppeals: 'NA',
       PriorAuthorizationApproval: 'NA',
-      ClaimsNonPaymentTrend: 'NA'
+      ClaimsNonPaymentTrend: 'NA',
+      ClaimsAppealsSubmittedTrend: 'NA'
     };
   }
 }
