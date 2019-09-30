@@ -50,7 +50,7 @@ export class OverviewAdvocateComponent implements OnInit {
   other: any;
   routhPath: string;
   appealsLineGraphloading: boolean;
-  appealsLineGraphData: {};
+  appealsLineGraphData: any;
 
   constructor(
     private checkStorage: StorageService,
@@ -64,8 +64,7 @@ export class OverviewAdvocateComponent implements OnInit {
     private nonPaymentService: NonPaymentSharedService,
     public MetricidService: GlossaryMetricidService,
     public overviewAdvocateSharedService: OverviewAdvocateSharedService,
-    private glossaryExpandService: GlossaryExpandService,
-
+    private glossaryExpandService: GlossaryExpandService
   ) {
     this.pageTitle = 'Welcome, ' + this.userName;
     this.pagesubTitle = 'Your Insights at a glance.';
@@ -106,38 +105,37 @@ export class OverviewAdvocateComponent implements OnInit {
       let AppealsLeftData: any;
       AppealsLeftData = appealsLeftData;
       if (AppealsLeftData[0].LineOfBusiness != null && AppealsLeftData[0].LineOfBusiness) {
-      this.totalAppeals =
-        AppealsLeftData[0].LineOfBusiness.ALL.AdminAppeals + AppealsLeftData[0].LineOfBusiness.ALL.ClinicalAppeals;
-      this.adminAppeals = AppealsLeftData[0].LineOfBusiness.ALL.AdminAppeals;
-      this.clinicalAppeals = AppealsLeftData[0].LineOfBusiness.ALL.ClinicalAppeals;
+        this.totalAppeals =
+          AppealsLeftData[0].LineOfBusiness.ALL.AdminAppeals + AppealsLeftData[0].LineOfBusiness.ALL.ClinicalAppeals;
+        this.adminAppeals = AppealsLeftData[0].LineOfBusiness.ALL.AdminAppeals;
+        this.clinicalAppeals = AppealsLeftData[0].LineOfBusiness.ALL.ClinicalAppeals;
 
-      if (AppealsLeftData[0].LineOfBusiness.MedicareAndRetirement) {
-        this.mi =
-          AppealsLeftData[0].LineOfBusiness.MedicareAndRetirement.AdminAppeals +
-          AppealsLeftData[0].LineOfBusiness.MedicareAndRetirement.ClinicalAppeals;
-      }
+        if (AppealsLeftData[0].LineOfBusiness.MedicareAndRetirement) {
+          this.mi =
+            AppealsLeftData[0].LineOfBusiness.MedicareAndRetirement.AdminAppeals +
+            AppealsLeftData[0].LineOfBusiness.MedicareAndRetirement.ClinicalAppeals;
+        }
 
-      if (AppealsLeftData[0].LineOfBusiness.CommunityAndState) {
-        this.cs =
-          AppealsLeftData[0].LineOfBusiness.CommunityAndState.AdminAppeals +
-          AppealsLeftData[0].LineOfBusiness.CommunityAndState.ClinicalAppeals;
-      }
+        if (AppealsLeftData[0].LineOfBusiness.CommunityAndState) {
+          this.cs =
+            AppealsLeftData[0].LineOfBusiness.CommunityAndState.AdminAppeals +
+            AppealsLeftData[0].LineOfBusiness.CommunityAndState.ClinicalAppeals;
+        }
 
-      if (AppealsLeftData[0].LineOfBusiness.EmployerAndIndividual) {
-        this.ei =
-          AppealsLeftData[0].LineOfBusiness.EmployerAndIndividual.AdminAppeals +
-          AppealsLeftData[0].LineOfBusiness.EmployerAndIndividual.ClinicalAppeals;
-      }
+        if (AppealsLeftData[0].LineOfBusiness.EmployerAndIndividual) {
+          this.ei =
+            AppealsLeftData[0].LineOfBusiness.EmployerAndIndividual.AdminAppeals +
+            AppealsLeftData[0].LineOfBusiness.EmployerAndIndividual.ClinicalAppeals;
+        }
 
-      if (AppealsLeftData[0].LineOfBusiness.Other) {
-        this.other =
-          AppealsLeftData[0].LineOfBusiness.Other.AdminAppeals +
-          AppealsLeftData[0].LineOfBusiness.Other.ClinicalAppeals;
+        if (AppealsLeftData[0].LineOfBusiness.Other) {
+          this.other =
+            AppealsLeftData[0].LineOfBusiness.Other.AdminAppeals +
+            AppealsLeftData[0].LineOfBusiness.Other.ClinicalAppeals;
+        }
+        this.appealsloading = false;
       }
-      this.appealsloading = false;
-    }
     });
-
   }
 
   appealsOverviewDetails() {
@@ -150,11 +148,19 @@ export class OverviewAdvocateComponent implements OnInit {
     this.overviewAdvocateSharedService.getAppealsTrendByMonthShared().then(appealsTrendData => {
       this.appealsLineGraphloading = false;
 
-      console.log(((appealsTrendData['M&R'].length) || (appealsTrendData['C&S'].length) ||
-      (appealsTrendData['E&I'].length) || (appealsTrendData['Other'].length)));
+      console.log(
+        appealsTrendData['M&R'].length ||
+          appealsTrendData['C&S'].length ||
+          appealsTrendData['E&I'].length ||
+          appealsTrendData['Other'].length
+      );
 
-    if (((appealsTrendData['M&R'].length) || (appealsTrendData['C&S'].length) ||
-      (appealsTrendData['E&I'].length) || (appealsTrendData['Other'].length)) === 0) {
+      if (
+        (appealsTrendData['M&R'].length ||
+          appealsTrendData['C&S'].length ||
+          appealsTrendData['E&I'].length ||
+          appealsTrendData['Other'].length) === 0
+      ) {
         this.appealsLineGraphData = {
           category: 'large-card',
           type: 'donut',
@@ -164,10 +170,10 @@ export class OverviewAdvocateComponent implements OnInit {
           data: null,
           timeperiod: null
         };
-       } else {
+      } else {
         this.appealsLineGraphData = appealsTrendData;
         this.appealsLineGraph = new AppealsData(appealsTrendData, GeneralData, 'appeals-trend-block');
-       }
+      }
     });
   }
 
@@ -229,7 +235,6 @@ export class OverviewAdvocateComponent implements OnInit {
     this.monthlyLineGraph.generalData2 = [];
     this.monthlyLineGraph.chartData2 = [];
   }
-
 
   helpIconClick(title) {
     if (title === 'Non-Payment Trend') {
