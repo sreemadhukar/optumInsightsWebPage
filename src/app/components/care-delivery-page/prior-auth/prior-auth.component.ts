@@ -105,25 +105,6 @@ export class PriorAuthComponent implements OnInit {
     this.reasonItems = [{}];
     this.summaryItems = [{}];
     this.mockCards = [{}, {}];
-    // console.log(this.filterParameters);
-
-    /*
-    this.priorAuthShared.getPriorAuthDataFiltered(this.filterParameters).then(
-      data => {
-        this.loading = false;
-        this.summaryItems = data[0];
-        this.reasonItems = data[1];
-      },
-      error => {
-        this.hideAllObjects = false;
-      }
-    );
-
-
-    this.priorAuthShared.getPriorAuthTrendData(this.filterParameters).then(data => {
-      console.log(data);
-    });
-    */
 
     this.priorAuthShared.getPriorAuthDataCombined(this.filterParameters).then(
       data => {
@@ -135,24 +116,6 @@ export class PriorAuthComponent implements OnInit {
         this.hideAllObjects = false;
       }
     );
-
-    /*
-    this.priorAuthShared.getNewPAData(this.filterParameters).then(data => {
-      console.log(data);
-    });
-
-
-    this.priorAuthShared.getPriorAuthData().then(
-      data => {
-        this.loading = false;
-        this.summaryItems = data[0];
-        this.reasonItems = data[1];
-      },
-      error => {
-        this.hideAllObjects = false;
-      }
-    );
-    */
   }
   openFilter() {
     this.filterExpandService.setURL(this.router.url);
