@@ -99,6 +99,7 @@ export class AppealsComponent implements OnInit {
     this.appealsSharedService.getappealsTatandDevidedOverturnData().then(appealsRateData => {
       this.appealsTAT = appealsRateData;
       this.showAppealsTAT = true;
+      console.log('ApeealsTAT');
     });
 
     /*this.appealsTAT = {
