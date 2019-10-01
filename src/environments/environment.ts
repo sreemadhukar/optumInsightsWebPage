@@ -50,7 +50,8 @@ export const environment: any = {
     TrendingMetrics: 'trending-metrics/',
     PCORQualityMeasure: 'pcor-metrics/',
     AppealsTrend: 'appeals-trend/',
-    AdminSummaryTrends: 'admintrends/'
+    AdminSummaryTrends: 'admintrends/',
+    AppealsFHIR: 'appeals/v2.0/'
   },
   headerKeys: {
     selectedCompany: '',

@@ -96,7 +96,12 @@ export class AppealsComponent implements OnInit {
       }
     });
 
-    this.appealsTAT = {
+    this.appealsSharedService.getappealsTatandDevidedOverturnData().then(appealsRateData => {
+      this.appealsTAT = appealsRateData;
+      this.showAppealsTAT = true;
+    });
+
+    /*this.appealsTAT = {
       category: 'app-card',
       type: 'rotateWithLabel',
       title: 'Average Appeals Turn Around Time',
@@ -123,7 +128,7 @@ export class AppealsComponent implements OnInit {
         ]
       },
       timeperiod: this.session.filterObjValue.timeFrame
-    };
+    };*/
   }
 
   helpIconClick(title) {
