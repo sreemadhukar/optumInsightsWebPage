@@ -12,24 +12,26 @@
   width: 100%;
   text-align: left;*/
   height: 40px;
+  display: flex;
   .timePeriod {
-    // padding: 8px 16px 129px 16px;
-    padding: 11px 16px 11px 16px;
-    color: rgb(117, 117, 136);
-    font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+    padding: 11px 16px;
+    color: #757588;
+    font-family: UHCSans-Medium,Helvetica,Arial,sans-serif;
     font-size: 14px;
-    letter-spacing: 0.2px;
+    letter-spacing: .2px;
     line-height: 18px;
+    text-align: left;
+    display: block;
   }
    .link-button {
-      color: #196ecf;
-      font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
-      font-size: 16px;
-      letter-spacing: 0.2px;
-      line-height: 22px;
-      text-align: right;
-      display: inline-block;
-      padding-left: 690px;
-      cursor: pointer;
+    color: #196ecf;
+    font-family: UHCSans-Medium,Helvetica,Arial,sans-serif;
+    font-size: 16px;
+    letter-spacing: .2px;
+    line-height: 22px;
+    text-align: right;
+    display: block;
+    cursor: pointer;
+    padding: 8px 16px;
     }
 }
