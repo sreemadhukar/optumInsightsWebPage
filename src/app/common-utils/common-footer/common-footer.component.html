@@ -3,5 +3,6 @@
   <div class="timePeriod">
     {{ timePeriod }}
   </div>
-  <div class="link-button" *ngIf="linkName" (click)="linkFunction()">{{ linkName }}&nbsp;></div>
+  <div class="link-button" *ngIf="linkName" (click)="linkFunction()">{{ linkName }}</div>
+  <mat-icon svgIcon="chevron_right" class="link-button"></mat-icon>
 </div>
