@@ -401,7 +401,7 @@ export class AppealsSharedService {
                 const ornumber = Number(overturnRate);
                 appealsOverturnedRate = {
                   category: 'app-card',
-                  type: 'donutWithBottomLabelOnly',
+                  type: 'donut',
                   title: 'Claims Appeals Overturned Rate',
                   MetricID: this.MetricidService.MetricIDs.ClaimAppealsOverturnRate,
                   data: {
@@ -603,7 +603,7 @@ export class AppealsSharedService {
 
                 appealsOverturnedRate = {
                   category: 'app-card',
-                  type: 'donutWithBottomLabelOnly',
+                  type: 'donut',
                   title: 'Claims Appeals Overturned Rate',
                   MetricID: this.MetricidService.MetricIDs.ClaimAppealsOverturnRate,
                   data: {
