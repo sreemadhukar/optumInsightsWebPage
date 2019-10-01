@@ -107,7 +107,7 @@ export class GettingReimbursedService {
   }
 
   public getAppealsWrapperData(parameters) {
-    const appURL = this.APP_URL + this.APEEALS_FHIR_API_PATH + parameters.providerkey;
+    const appURL = this.APP_URL + this.APEEALS_FHIR_API_PATH + parameters[0];
     const appealsParams = parameters[1];
     if (!appealsParams.TimeFilter) {
       appealsParams.TimeFilter = parameters.TimeFilter;
