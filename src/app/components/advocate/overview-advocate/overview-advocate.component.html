@@ -65,7 +65,12 @@
       <!--div class="timeperiod-block">
           <p class="timeperiod-text">{{ timePeriod }}</p>
         </div-->
-      <app-common-footer [timePeriod]="timePeriod" class="width-100 time-period-trend"></app-common-footer>
+      <app-common-footer
+        [timePeriod]="timePeriod"
+        [linkName]="'Non-Payment Details'"
+        [routePath]="'/GettingReimbursed/NonPayments'"
+        class="width-100 time-period-trend"
+      ></app-common-footer>
     </div>
     <!-- Claims Non - Payment Trend Ends Here -->
 
@@ -128,16 +133,12 @@
           <p class="timeperiod-text">{{ timePeriod }}</p>
         </div-->
       </div>
-
-      <hr class="footer-border" />
-      <div class="common-footer">
-        <div class="timePeriod">
-          {{ timePeriod }}
-          <div class="appeals-button" (click)="appealsOverviewDetails()">
-            Appeals Overview&nbsp;>
-          </div>
-        </div>
-      </div>
+      <app-common-footer
+        [timePeriod]="timePeriod"
+        [linkName]="'Appeals Overview'"
+        [routePath]="'/GettingReimbursed/Appeals'"
+        class="width-100 time-period-trend"
+      ></app-common-footer>
     </div>
     <!-- Claims appeals Trend Ends Here -->
 

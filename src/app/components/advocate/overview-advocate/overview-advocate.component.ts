@@ -138,11 +138,6 @@ export class OverviewAdvocateComponent implements OnInit {
     });
   }
 
-  appealsOverviewDetails() {
-    this.routhPath = '/GettingReimbursed/Appeals';
-    this.router.navigate([this.routhPath]);
-  }
-
   appealsTrendByMonthData() {
     this.appealsLineGraphData = {};
     this.overviewAdvocateSharedService.getAppealsTrendByMonthShared().then(appealsTrendData => {
