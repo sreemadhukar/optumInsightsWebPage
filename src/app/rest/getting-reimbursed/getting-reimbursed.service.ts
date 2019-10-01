@@ -111,9 +111,6 @@ export class GettingReimbursedService {
     const appealsParams = parameters[1];
     if (!appealsParams.TimeFilter) {
       appealsParams.TimeFilter = parameters.TimeFilter;
-      appealsParams.Lob = '';
-      appealsParams.TimeFilterText = '';
-      appealsParams.Tin = '';
     }
     return this.http.post(appURL, appealsParams).pipe(
       map(res => JSON.parse(JSON.stringify(res))),

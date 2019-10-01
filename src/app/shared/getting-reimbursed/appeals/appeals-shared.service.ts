@@ -1005,19 +1005,7 @@ export class AppealsSharedService {
       parameters = [this.providerKey, { TimeFilter: 'Last6Months' }];
       let appealsTAT;
       this.gettingReimbursedService.getAppealsWrapperData(parameters).subscribe(appealsData => {
-        if (appealsData != null && appealsData.hasOwnProperty('status')) {
-          appealsTAT = {
-            category: 'app-card',
-            type: 'rotateWithLabel',
-            status: appealsData.status,
-            title: 'Average Appeals Turn Around Time',
-            MetricID: 'NA',
-            data: null,
-            besideData: null,
-            bottomData: null,
-            timeperiod: null
-          };
-        } else if (appealsData == null) {
+        if (appealsData == null) {
           appealsTAT = {
             category: 'app-card',
             type: 'rotateWithLabel',
