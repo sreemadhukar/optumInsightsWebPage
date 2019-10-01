@@ -1002,7 +1002,7 @@ export class AppealsSharedService {
     return new Promise((resolve, reject) => {
       this.providerKey = this.session.providerKeyData();
       let parameters;
-      parameters = [this.providerKey];
+      parameters = [this.providerKey, { TimeFilter: 'Last6Months' }];
       let appealsTAT;
       this.gettingReimbursedService.getAppealsWrapperData(parameters).subscribe(appealsData => {
         if (appealsData != null && appealsData.hasOwnProperty('status')) {

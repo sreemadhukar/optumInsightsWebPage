@@ -109,8 +109,8 @@ export class GettingReimbursedService {
   public getAppealsWrapperData(parameters) {
     const appURL = this.APP_URL + this.APEEALS_FHIR_API_PATH + parameters.providerkey;
     const appealsParams = parameters[1];
-    if (!appealsParams.Tin) {
-      appealsParams.AllProviderTins = true;
+    if (!appealsParams.TimeFilter) {
+      appealsParams.TimeFilter = parameters.TimeFilter;
     }
     return this.http.post(appURL, appealsParams).pipe(
       map(res => JSON.parse(JSON.stringify(res))),
