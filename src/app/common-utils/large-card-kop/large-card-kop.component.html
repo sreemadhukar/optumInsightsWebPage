@@ -41,9 +41,14 @@
           {{ item.caption }}
         </div>
         <app-trends class="trend-container" [data]="item"></app-trends>
-        <div class="report-box" *ngIf="item.report">
+        <div class="report-box" *ngIf="item.report && item.cardType === 'hollowbox'">
           <div class="report-content">
-            Touchpoint -Top Box % (9-10)
+            Touchpoint - Top Box % (9-10)
+          </div>
+        </div>
+        <div class="report-box" *ngIf="item.report && item.cardType === 'miniDonut'">
+          <div class="report-content">
+            Relationship - Top Box % (9-10)
           </div>
         </div>
       </div>

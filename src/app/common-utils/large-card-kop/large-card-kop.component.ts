@@ -25,10 +25,8 @@ export class LargeCardKopComponent implements OnInit {
   }
 
   helpIconClick(title) {
-    if (this.data[0].MetricID) {
-      this.glossaryExpandService.setMessage(title, this.data[0].MetricID);
-    } else if (this.data.MetricID) {
-      this.glossaryExpandService.setMessage(title, this.data.MetricID);
+    if (this.data) {
+      this.glossaryExpandService.setMessage(this.data.title, this.data.MetricID);
     }
   }
 
