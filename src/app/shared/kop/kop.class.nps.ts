@@ -52,14 +52,14 @@ export class NPSSummary {
       if (index === 0) {
         highlightQuarter = true;
       }
-      highlightedValue = Math.ceil(TotalNPSValue);
-      targetValue = Math.ceil(CombinedTargetNPSValue);
+      highlightedValue = Math.round(TotalNPSValue);
+      targetValue = Math.round(CombinedTargetNPSValue);
     } else if (survey === 'md') {
-      highlightedValue = Math.ceil(PhysicianNPSValue);
-      targetValue = Math.ceil(PhysicianTargetNPSValue);
+      highlightedValue = Math.round(PhysicianNPSValue);
+      targetValue = Math.round(PhysicianTargetNPSValue);
     } else if (survey === 'pm') {
-      highlightedValue = Math.ceil(PracticeManagerNPSValue);
-      targetValue = Math.ceil(PracticeManagerTargetNPSValue);
+      highlightedValue = Math.round(PracticeManagerNPSValue);
+      targetValue = Math.round(PracticeManagerTargetNPSValue);
     }
     return {
       highlightedValue,
