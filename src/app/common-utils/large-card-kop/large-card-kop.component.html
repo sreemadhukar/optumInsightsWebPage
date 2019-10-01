@@ -19,7 +19,7 @@
             <div *ngSwitchCase="'hollowbox'" class="highlighted-boxes">
               <div
                 *ngFor="let quarter of item.quarters"
-                class="highlighted-box"
+                class="highlighted-box-{{ quarter.id }}"
                 [class.current-quarter]="quarter.currentQuarter"
               >
                 {{ quarter.title }}

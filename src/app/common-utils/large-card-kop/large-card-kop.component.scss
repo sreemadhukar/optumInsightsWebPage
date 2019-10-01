@@ -138,9 +138,9 @@
     width: 100%;
     display: flex;
     margin-bottom: 23px;
-    .highlighted-box {
+    .highlighted-box-0,
+    .highlighted-box-1 {
       text-align: center;
-      border: 2px solid $iris-blue;
       border-radius: 10px;
       height: 30px;
       line-height: 30px;
@@ -150,14 +150,16 @@
       color: $black-rock;
       font-size: 24px;
     }
-    .highlighted-box.current-quarter {
-      border: 2px solid $iris-blue;
+    .highlighted-box-0.current-quarter {
       border: 2px solid $dodger-blue;
+    }
+    .highlighted-box-1.current-quarter {
+      border: 2px solid $iris-blue;
     }
   }
 
   .mini-donut-chart {
     display: inline-flex;
-    margin: 0 10px 6px;
+    margin: 0 13px 6px;
   }
 }
