@@ -20,8 +20,8 @@ export class CommonFooterComponent implements OnInit {
         { monthNames: 'Mar', monthlastdate: 31 },
         { monthNames: 'Apr', monthlastdate: 30 },
         { monthNames: 'May', monthlastdate: 31 },
-        { monthNames: 'Jun', monthlastdate: 31 },
-        { monthNames: 'Jul', monthlastdate: 30 },
+        { monthNames: 'Jun', monthlastdate: 30 },
+        { monthNames: 'Jul', monthlastdate: 31 },
         { monthNames: 'Aug', monthlastdate: 31 },
         { monthNames: 'Sep', monthlastdate: 30 },
         { monthNames: 'Oct', monthlastdate: 31 },
@@ -35,6 +35,9 @@ export class CommonFooterComponent implements OnInit {
       const yyyy = today.getFullYear();
       let yyyylast6 = today.getFullYear();
       let ddlast6 = String(today.getDate()).padStart(2, '0');
+      if (yyyylast6 % 4 === 0) {
+        month[1].monthlastdate = 29;
+      }
       if (parseInt(mm) < 6) {
         mmlast6 = String(today.getMonth() + 12 - 5).padStart(2, '0'); // January is 0!
         yyyylast6 = today.getFullYear() - 1;
