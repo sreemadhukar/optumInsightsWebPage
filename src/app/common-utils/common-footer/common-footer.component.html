@@ -1,6 +1,7 @@
 <hr class="footer-border" />
 <div class="common-footer">
   <div class="timePeriod">
-    {{ timePeriodFooter }}
+    {{ timePeriod }}
   </div>
+  <div class="link-button" *ngIf="linkName" (click)="linkFunction()">{{ linkName }}&nbsp;></div>
 </div>
