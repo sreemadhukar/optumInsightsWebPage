@@ -36,7 +36,9 @@ export const environment: any = {
     CallsTrend: 'provider-calls/',
     TrendingMetrics: 'trending-metrics/',
     PCORQualityMeasure: 'pcor-metrics/',
-    NPSSummary: 'kop-metrics/'
+    NPSSummary: 'kop-metrics/',
+    AppealsTrend: 'appeals-trend/',
+    AdminSummaryTrends: 'admintrends/'
   },
   headerKeys: {
     selectedCompany: '',
