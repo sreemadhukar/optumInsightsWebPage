@@ -399,7 +399,6 @@ export class AppealsSharedService {
 
                 const overturnRate = ((overturned / submitted) * 100).toFixed(0);
                 const ornumber = Number(overturnRate);
-
                 appealsOverturnedRate = {
                   category: 'app-card',
                   type: 'donut',
@@ -411,6 +410,22 @@ export class AppealsSharedService {
                     color: ['#3381FF', '#E0E0E0'],
                     gdata: ['card-inner', 'claimsAppealOverturnedRate'],
                     sdata: null
+                  },
+                  bottomData: {
+                    horizontalData: [
+                      {
+                        values: 1000 /*appealsData[0].LineOfBusiness[lobFullData].AdminAppeals
+                        ? appealsData[0].LineOfBusiness[lobFullData].AdminAppeals
+                        : 0,*/,
+                        labels: 'Admin'
+                      },
+                      {
+                        values: 1200 /*appealsData[0].LineOfBusiness[lobFullData].ClinicalAppeals
+                        ? appealsData[0].LineOfBusiness[lobFullData].ClinicalAppeals
+                        : 0,*/,
+                        labels: 'Clinical'
+                      }
+                    ]
                   },
                   timeperiod: this.timeFrame
                 };
@@ -597,6 +612,22 @@ export class AppealsSharedService {
                     color: ['#3381FF', '#E0E0E0'],
                     gdata: ['card-inner', 'claimsAppealOverturnedRate'],
                     sdata: null
+                  },
+                  bottomData: {
+                    horizontalData: [
+                      {
+                        values: 1000 /*appealsData[0].LineOfBusiness[lobFullData].AdminAppeals
+                          ? appealsData[0].LineOfBusiness[lobFullData].AdminAppeals
+                          : 0*/,
+                        labels: 'Admin'
+                      },
+                      {
+                        values: 1200 /* appealsData[0].LineOfBusiness[lobFullData].ClinicalAppeals
+                          ? appealsData[0].LineOfBusiness[lobFullData].ClinicalAppeals
+                          : 0*/,
+                        labels: 'Clinical'
+                      }
+                    ]
                   },
                   timeperiod: this.timeFrame
                 };
