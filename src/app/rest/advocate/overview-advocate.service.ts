@@ -20,7 +20,6 @@ export class OverviewAdvocateService {
   constructor(private http: HttpClient) {}
 
   public appealsData(...parameters) {
-
     const appealsParams = parameters[1];
     if (!appealsParams.Tin) {
       appealsParams.AllProviderTins = true;
@@ -34,7 +33,6 @@ export class OverviewAdvocateService {
   }
 
   public appealsDataTrendByMonth(...parameters) {
-
     const appealsParams = parameters[1];
     if (!appealsParams.Tin) {
       appealsParams.AllProviderTins = true;

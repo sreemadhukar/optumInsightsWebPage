@@ -13,13 +13,11 @@ export class CommonFooterComponent implements OnInit {
   @Input() linkName: String;
   @Input() routePath: String;
 
-  constructor(private router: Router,
-              private iconRegistry: MatIconRegistry,
-              private sanitizer: DomSanitizer) {
-   iconRegistry.addSvgIcon(
-        'chevron_right',
-        sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Navigation/baseline-chevron_right-24px.svg')
-      );
+  constructor(private router: Router, private iconRegistry: MatIconRegistry, private sanitizer: DomSanitizer) {
+    iconRegistry.addSvgIcon(
+      'chevron_right',
+      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Navigation/baseline-chevron_right-24px.svg')
+    );
   }
 
   ngOnInit() {}

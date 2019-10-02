@@ -1,0 +1,77 @@
+{
+  "networkParticipation": {
+    "data": [
+      {
+        "title": "Network Participation",
+        "timeperiod": "Quarter on Quarter (Q2 2019 v. Q2 2018)",
+        "MetricID": 10,
+        "chartData": [
+          { "description": "Data" },
+          { "description": "Data" },
+          { "description": "Data" },
+          { "description": "Data" }
+        ]
+      }
+    ]
+  },
+  "careDelivery": {
+    "data": [
+      {
+        "title": "Care Delivery",
+        "timeperiod": "Quarter on Quarter (Q2 2019 v. Q2 2018)",
+        "MetricID": 10,
+        "chartData": [
+          { "description": "Data" },
+          { "description": "Data" },
+          { "description": "Data" },
+          { "description": "Data" }
+        ]
+      }
+    ]
+  },
+  "reimbursement": {
+    "data": [
+      {
+        "title": "Reimbursement",
+        "timeperiod": "Quarter on Quarter (Q2 2019 v. Q2 2018)",
+        "MetricID": 10,
+        "chartData": [
+          { "description": "Data" },
+          { "description": "Data" },
+          { "description": "Data" },
+          { "description": "Data" }
+        ]
+      }
+    ]
+  },
+  "issueResolution": {
+    "data": [
+      {
+        "title": "Issue Resolution",
+        "timeperiod": "Quarter on Quarter (Q2 2019 v. Q2 2018)",
+        "MetricID": 10,
+        "chartData": [
+          { "description": "Data" },
+          { "description": "Data" },
+          { "description": "Data" },
+          { "description": "Data" }
+        ]
+      }
+    ]
+  },
+  "engagement": {
+    "data": [
+      {
+        "title": "Engagement",
+        "timeperiod": "Quarter on Quarter (Q2 2019 v. Q2 2018)",
+        "MetricID": 10,
+        "chartData": [
+          { "description": "Data" },
+          { "description": "Data" },
+          { "description": "Data" },
+          { "description": "Data" }
+        ]
+      }
+    ]
+  }
+}
