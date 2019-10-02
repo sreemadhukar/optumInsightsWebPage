@@ -42,6 +42,7 @@ import { TrendsComponent } from './trends/trends.component';
 import { DonutChartsComponent } from './kop-cards/donut-charts/donut-charts.component';
 import { HorizontalChartsComponent } from './kop-cards/horizontal-charts/horizontal-charts.component';
 import { VerticalBarChartsComponent } from './kop-cards/vertical-bar-charts/vertical-bar-charts.component';
+import { KopFiltersComponent } from './kop-filters/kop-filters.component';
 
 @NgModule({
   imports: [
@@ -83,7 +84,8 @@ import { VerticalBarChartsComponent } from './kop-cards/vertical-bar-charts/vert
     TrendsComponent,
     DonutChartsComponent,
     HorizontalChartsComponent,
-    VerticalBarChartsComponent
+    VerticalBarChartsComponent,
+    KopFiltersComponent
   ],
   declarations: [
     MiniTileComponent,
@@ -122,7 +124,8 @@ import { VerticalBarChartsComponent } from './kop-cards/vertical-bar-charts/vert
     TrendsComponent,
     DonutChartsComponent,
     HorizontalChartsComponent,
-    VerticalBarChartsComponent
+    VerticalBarChartsComponent,
+    KopFiltersComponent
   ],
   entryComponents: [ProviderSearchComponent]
 })
