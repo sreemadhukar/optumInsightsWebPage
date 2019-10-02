@@ -26,19 +26,11 @@
     <div *ngIf="advDropdownBool">
       <div class="dropdown-body">
         <div (click)="advViewClicked('myView')" class="drop-item">
-          My Advocate View
+          <span class="per-item">My Advocate View</span>
         </div>
         <div (click)="advViewClicked('userView')" class="drop-item">
-          Simulate External View
-        </div>
-        <div class="drop-item">
-          Profile
-        </div>
-        <div class="drop-item">
-          Preferences
-        </div>
-        <div class="drop-item">
-          Settings
+          <span class="provider-padding per-item">{{ healthSystemName }}</span>
+          <span class="tiny-provider">See what the provider sees</span>
         </div>
       </div>
     </div>

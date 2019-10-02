@@ -43,6 +43,7 @@ import { DonutChartsComponent } from './kop-cards/donut-charts/donut-charts.comp
 import { HorizontalChartsComponent } from './kop-cards/horizontal-charts/horizontal-charts.component';
 import { VerticalBarChartsComponent } from './kop-cards/vertical-bar-charts/vertical-bar-charts.component';
 import { KopFiltersComponent } from './kop-filters/kop-filters.component';
+import { MultiLineGraphComponent } from './d3-objects/multi-line-graph/multi-line-graph.component';
 
 @NgModule({
   imports: [
@@ -85,7 +86,8 @@ import { KopFiltersComponent } from './kop-filters/kop-filters.component';
     DonutChartsComponent,
     HorizontalChartsComponent,
     VerticalBarChartsComponent,
-    KopFiltersComponent
+    KopFiltersComponent,
+    MultiLineGraphComponent
   ],
   declarations: [
     MiniTileComponent,
@@ -125,7 +127,8 @@ import { KopFiltersComponent } from './kop-filters/kop-filters.component';
     DonutChartsComponent,
     HorizontalChartsComponent,
     VerticalBarChartsComponent,
-    KopFiltersComponent
+    KopFiltersComponent,
+    MultiLineGraphComponent
   ],
   entryComponents: [ProviderSearchComponent]
 })
