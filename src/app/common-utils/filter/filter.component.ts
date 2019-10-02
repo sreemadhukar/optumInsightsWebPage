@@ -35,7 +35,6 @@ export class FilterComponent implements OnInit {
   public taxArrayData = [];
   public scArrayData = [];
   public timeframeData: any;
-  public selectedFilter: any;
   // public filterData: any;
   public scTypeData: string;
   public sctypearrowmark: boolean;
@@ -44,7 +43,6 @@ export class FilterComponent implements OnInit {
 
   @Output() filterFlag = new EventEmitter();
   @Input() filterurl;
-  @Input() customFilter;
   @Input() filterData: FilterData[] = [];
   public timeframes = [
     'Last 30 Days',
@@ -219,20 +217,15 @@ export class FilterComponent implements OnInit {
       this.priorAuthorizationCustomFilterBool = false;
     }
     this.lobData = this.session.filterObjValue.lob;
-    // Custom filter is for KOP.This service is not triggered because
-    // no provider is selected by default in KOP
-    if (!this.customFilter) {
-      this.session.getTins().then(data => {
-        this.tinsData = data;
-        this.tinsData.forEach(value => {
-          value['checked'] = false;
-          if (this.taxArrayData.includes(value['Tin'])) {
-            value['checked'] = true;
-          }
-        });
+    this.session.getTins().then(data => {
+      this.tinsData = data;
+      this.tinsData.forEach(value => {
+        value['checked'] = false;
+        if (this.taxArrayData.includes(value['Tin'])) {
+          value['checked'] = true;
+        }
       });
-    }
-    this.selectedFilter = this.filterData.filter(element => element.selected)[0].title;
+    });
   }
 
   resetFilter() {
@@ -240,77 +233,50 @@ export class FilterComponent implements OnInit {
     this.session.filterObjValue.timeFrame = this.timeframeData = this.timeframes[2];
     this.session.filterObjValue.tax = ['All'];
     this.taxData = 'All';
-
-    if (this.customFilter) {
-      this.filterData.forEach((filterDataItem: FilterData, index: number) => {
-        filterDataItem.selected = false;
-        if (index === 0) {
-          this.selectedFilter = filterDataItem.title;
-          filterDataItem.selected = true;
-        }
-      });
+    if (this.priorAuthorizationCustomFilterBool) {
+      this.session.filterObjValue.serviceSetting = this.servicesettings[0];
       this.session.store({
-        timeFrame: this.timeframeData,
-        selectedFilter: this.selectedFilter,
-        lob: this.lobData,
-        tax: [this.taxData]
+        timeFrame: this.timeframes[2],
+        lob: this.lobs[0],
+        tax: ['All'],
+        serviceSetting: this.servicesettings[0],
+        priorAuthType: this.priorauthdecisiontype[0],
+        scType: this.priorauthservicecategory[0]
       });
     } else {
-      if (this.priorAuthorizationCustomFilterBool) {
-        this.session.filterObjValue.serviceSetting = this.servicesettings[0];
-        this.session.store({
-          timeFrame: this.timeframes[2],
-          lob: this.lobs[0],
-          tax: ['All'],
-          serviceSetting: this.servicesettings[0],
-          priorAuthType: this.priorauthdecisiontype[0],
-          scType: this.priorauthservicecategory[0]
-        });
-      } else {
-        this.session.store({ timeFrame: this.timeframes[2], lob: this.lobs[0], tax: ['All'] });
-      }
+      this.session.store({ timeFrame: this.timeframes[2], lob: this.lobs[0], tax: ['All'] });
     }
-
     this.filterFlag.emit(false);
   }
   applyFilter() {
-    if (this.customFilter) {
-      this.session.store({
-        timeFrame: this.timeframeData,
-        selectedFilter: this.selectedFilter,
-        lob: this.lobData,
-        tax: [this.taxData]
-      });
-    } else {
-      if (this.taxArrayData.length > 0) {
-        //  this.session.filterObjValue.tax = this.taxArrayData;
-        if (this.priorAuthorizationCustomFilterBool) {
-          this.session.store({
-            timeFrame: this.timeframeData,
-            lob: this.lobData,
-            tax: this.taxArrayData,
-            serviceSetting: this.serviceSettingData,
-            priorAuthType: this.priorAuthTypeData,
-            scType: this.scTypeData
-          });
-        } else {
-          this.session.store({ timeFrame: this.timeframeData, lob: this.lobData, tax: this.taxArrayData });
-        }
+    if (this.taxArrayData.length > 0) {
+      //  this.session.filterObjValue.tax = this.taxArrayData;
+      if (this.priorAuthorizationCustomFilterBool) {
+        this.session.store({
+          timeFrame: this.timeframeData,
+          lob: this.lobData,
+          tax: this.taxArrayData,
+          serviceSetting: this.serviceSettingData,
+          priorAuthType: this.priorAuthTypeData,
+          scType: this.scTypeData
+        });
       } else {
-        // this.session.filterObjValue.tax = [this.taxData];
-        if (this.priorAuthorizationCustomFilterBool) {
-          console.log(this.timeframeData);
-          this.session.store({
-            timeFrame: this.timeframeData,
-            lob: this.lobData,
-            tax: [this.taxData],
-            serviceSetting: this.serviceSettingData,
-            priorAuthType: this.priorAuthTypeData,
-            scType: this.scTypeData
-          });
-        } else {
-          this.session.store({ timeFrame: this.timeframeData, lob: this.lobData, tax: [this.taxData] });
-        }
+        this.session.store({ timeFrame: this.timeframeData, lob: this.lobData, tax: this.taxArrayData });
+      }
+    } else {
+      // this.session.filterObjValue.tax = [this.taxData];
+      if (this.priorAuthorizationCustomFilterBool) {
+        console.log(this.timeframeData);
+        this.session.store({
+          timeFrame: this.timeframeData,
+          lob: this.lobData,
+          tax: [this.taxData],
+          serviceSetting: this.serviceSettingData,
+          priorAuthType: this.priorAuthTypeData,
+          scType: this.scTypeData
+        });
+      } else {
+        this.session.store({ timeFrame: this.timeframeData, lob: this.lobData, tax: [this.taxData] });
       }
     }
     this.session.filterObjSubject.complete();

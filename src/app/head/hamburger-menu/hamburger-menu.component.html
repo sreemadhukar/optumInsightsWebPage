@@ -212,12 +212,18 @@
               [MetricID]="glossaryMetricID"
             ></app-glossary>
             <app-filter
-              *ngIf="filterFlag"
+              *ngIf="filterFlag && !isKop"
+              [filterurl]="filterurl"
+              [filterData]="filterData"
+              (filterFlag)="filterFlagChange($event)"
+            ></app-filter>
+            <app-kop-filters
+              *ngIf="filterFlag && isKop"
               [filterurl]="filterurl"
               [filterData]="filterData"
               [customFilter]="customFilter"
               (filterFlag)="filterFlagChange($event)"
-            ></app-filter>
+            ></app-kop-filters>
           </div>
         </div>
       </mat-sidenav>
