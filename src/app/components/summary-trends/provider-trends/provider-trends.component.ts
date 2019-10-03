@@ -44,6 +44,10 @@ export class ProviderTrendsComponent implements OnInit {
       'trending_down',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/trend-down.svg')
     );
+    iconRegistry.addSvgIcon(
+      'trending_flat',
+      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/trending_flat-24px.svg')
+    );
   }
   ngOnInit() {
     this.getSummaryData();

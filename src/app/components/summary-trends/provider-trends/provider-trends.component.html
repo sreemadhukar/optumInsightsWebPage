@@ -13,7 +13,8 @@
               <button class="btn btn-rounded" disabled>
                 <span>Time Period: </span
                 ><span class="text-semibold pl-4"
-                  >{{ previous_date | date: 'yyyy-MM-dd' }} vs {{ data_date | date: 'yyyy-MM-dd' }}
+                  >{{ previous_date | date: 'yyyy-MM-dd' }} vs
+                  {{ data_date | date: 'yyyy-MM-dd' }}
                 </span>
               </button>
             </div>
@@ -52,10 +53,16 @@
               svgIcon="trending_down"
             ></mat-icon>
             <mat-icon
-              *ngIf="element[getData(item)] >= 0"
+              *ngIf="element[getData(item)] > 0"
               matPrefix
               class="nav-menu-icons trend-icon"
               svgIcon="trending_up"
+            ></mat-icon>
+            <mat-icon
+              *ngIf="element[getData(item)] === 0"
+              matPrefix
+              class="nav-menu-icons trend-icon"
+              svgIcon="trending_flat"
             ></mat-icon>
             {{ i != 0 ? '(' + formatNumber(element[getData(item)]) + ')' : '' }}
           </td>
