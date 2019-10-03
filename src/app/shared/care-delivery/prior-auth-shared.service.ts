@@ -161,6 +161,7 @@ export class PriorAuthSharedService {
           let PACount = [];
           let PriorAuthBarGraphParameters = [];
           let PANotApprovedReasonBool;
+          let PANotApprovedCountChecker;
           if (((providerSystems || {}).PriorAuthorizations || {}).LineOfBusiness) {
             let data;
             // const data = providerSystems.PriorAuthorizations.LineOfBusiness.All;
@@ -212,6 +213,7 @@ export class PriorAuthSharedService {
             const PARequestedCount = PAApprovedCount + PANotApprovedCount;
             const PAApprovalRate = PAApprovedCount / PARequestedCount;
             PANotApprovedReasonBool = PAApprovalRate === 1;
+            PANotApprovedCountChecker = PAApprovedCount;
 
             let StandardTATConversion;
             let UrgentTATConversion;
@@ -377,7 +379,7 @@ export class PriorAuthSharedService {
                 timeperiod: timePeriod
               });
             }
-          } else if (isServiceCategory || PANotApprovedReasonBool || !PANotApprovedCount) {
+          } else if (isServiceCategory || PANotApprovedReasonBool || !PANotApprovedCountChecker) {
             // Hide reasons for service category
             // Also hide reasons if its a 100 percent approval rate
             // And hide if not approved count is zero
