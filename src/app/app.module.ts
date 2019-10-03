@@ -17,8 +17,8 @@ import { ProviderSharedService } from './shared/provider/provider-shared.service
 import { ThemeService } from './shared/theme.service';
 import { HttpInterceptorService } from './rest/interceptor/http-interceptor.service';
 import { CacheInterceptor } from './rest/interceptor/cache.interceptor';
-import { NPSSharedService } from './shared/nps/nps.service';
-import { NPSService } from './rest/nps/nps.service';
+import { KOPSharedService } from './shared/kop/kop.service';
+import { KopService } from './rest/kop/kop.service';
 import { UserIdleModule } from 'angular-user-idle';
 import { IdleTimeoutDialogComponent } from './auth/idle-timeout-dialog/idle-timeout-dialog.component';
 
@@ -45,8 +45,8 @@ import { IdleTimeoutDialogComponent } from './auth/idle-timeout-dialog/idle-time
     ProviderSharedService,
     ThemeService,
     CookieService,
-    NPSService,
-    NPSSharedService,
+    KopService,
+    KOPSharedService,
     { provide: HTTP_INTERCEPTORS, useClass: HttpInterceptorService, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: CacheInterceptor, multi: true }
   ],
