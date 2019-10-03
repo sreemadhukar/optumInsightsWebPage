@@ -228,6 +228,33 @@ export class CommonUtilsService {
     }
     return monthString != null ? monthString.substring(0, 3) : null;
   }
+  public ReturnMonthlyCountString(a) {
+    if (a === 0) {
+      return '01';
+    } else if (a === 1) {
+      return '02';
+    } else if (a === 2) {
+      return '03';
+    } else if (a === 3) {
+      return '04';
+    } else if (a === 4) {
+      return '05';
+    } else if (a === 5) {
+      return '06';
+    } else if (a === 6) {
+      return '07';
+    } else if (a === 7) {
+      return '08';
+    } else if (a === 8) {
+      return '09';
+    } else if (a === 9) {
+      return '10';
+    } else if (a === 10) {
+      return '11';
+    } else if (a === 11) {
+      return '12';
+    }
+  }
   public dateFormat(timeStamp: string): string {
     const date1 = timeStamp.split(' '); // "2019-02-01 06:00:00"
     const x = date1[0].split('-'); // "2019-02-01"

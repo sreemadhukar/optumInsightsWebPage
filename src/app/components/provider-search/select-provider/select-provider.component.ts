@@ -8,6 +8,7 @@ import { Providers } from './../../../shared/provider/provider.class';
 import { MatIconRegistry, MatAutocompleteSelectedEvent } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 import { StorageService } from './../../../shared/storage-service.service';
+import { SessionService } from '../../../shared/session.service';
 
 import {
   AfterViewInit,
@@ -48,6 +49,7 @@ export class SelectProviderComponent implements OnInit {
     private iconRegistry: MatIconRegistry,
     private storage: StorageService,
     private router: Router,
+    private sessionService: SessionService,
     sanitizer: DomSanitizer
   ) {
     iconRegistry.addSvgIcon(
@@ -139,21 +141,10 @@ export class SelectProviderComponent implements OnInit {
     } else {
       this.storage.store('currentUser', [Object.assign(provider, data)]);
     }
-
     // Role based access for Advocates Overview page
-    try {
-      if (JSON.parse(sessionStorage.getItem('loggedUser'))) {
-        let userRole;
-        userRole = JSON.parse(sessionStorage.getItem('loggedUser')).UserRole;
-        let userRoleAdvocate = false;
-        userRoleAdvocate = userRole.some(item => item.includes('UHCI_Advocate'));
-        if (!userRoleAdvocate) {
-          this.router.navigate(['/OverviewPage']);
-        } else {
-          this.router.navigate(['/OverviewPageAdvocate']);
-        }
-      }
-    } catch (Error) {
+    if (this.sessionService.checkAdvocateRole()) {
+      this.router.navigate(['/OverviewPageAdvocate']);
+    } else {
       this.router.navigate(['/OverviewPage']);
     }
   }

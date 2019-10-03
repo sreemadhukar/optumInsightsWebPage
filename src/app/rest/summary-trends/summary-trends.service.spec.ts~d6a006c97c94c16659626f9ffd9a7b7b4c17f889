@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 
-import { PCORSharedService } from './pcor-shared.service';
+import { SummaryTrendsService } from './summary-trends.service';
 
-describe('PCORSharedService', () => {
+describe('SummaryTrendsService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: PCORSharedService = TestBed.get(PCORSharedService);
+    const service: SummaryTrendsService = TestBed.get(SummaryTrendsService);
     expect(service).toBeTruthy();
   });
 });
