@@ -147,8 +147,12 @@ export class PaymentsSharedService {
           parameters = [this.providerKey, { TimeFilter: 'CalendarYear', TimeFilterText: this.timeFrame }];
         }
       }
+      if (parameters[1].hasOwnProperty('Lob')) {
+        delete parameters[1].Lob;
+      }
       this.gettingReimbursedService.getPaymentsData(parameters).subscribe(
         claimsData => {
+          console.log(claimsData);
           const lobData = this.common.matchLobWithData(this.lob);
           if (claimsData != null && claimsData.hasOwnProperty('status')) {
             claimsSubmitted = {
@@ -214,7 +218,11 @@ export class PaymentsSharedService {
                   claimsData.Mr.ClaimsLobSummary.length &&
                   claimsData.Mr.ClaimsLobSummary[0].hasOwnProperty('AmountPaid')
                 ) {
-                  paidData.push(claimsData.Mr.ClaimsLobSummary[0].AmountPaid);
+                  if (lobData === 'Mr') {
+                    paidData.unshift(claimsData.Mr.ClaimsLobSummary[0].AmountPaid);
+                  } else {
+                    paidData.push(claimsData.Mr.ClaimsLobSummary[0].AmountPaid);
+                  }
                 }
               }
               if (claimsData.hasOwnProperty('Cs') && claimsData.Cs != null) {
@@ -223,7 +231,11 @@ export class PaymentsSharedService {
                   claimsData.Cs.ClaimsLobSummary.length &&
                   claimsData.Cs.ClaimsLobSummary[0].hasOwnProperty('AmountPaid')
                 ) {
-                  paidData.push(claimsData.Cs.ClaimsLobSummary[0].AmountPaid);
+                  if (lobData === 'Cs') {
+                    paidData.unshift(claimsData.Cs.ClaimsLobSummary[0].AmountPaid);
+                  } else {
+                    paidData.push(claimsData.Cs.ClaimsLobSummary[0].AmountPaid);
+                  }
                 }
               }
               if (claimsData.hasOwnProperty('Ei') && claimsData.Ei != null) {
@@ -232,7 +244,11 @@ export class PaymentsSharedService {
                   claimsData.Ei.ClaimsLobSummary.length &&
                   claimsData.Ei.ClaimsLobSummary[0].hasOwnProperty('AmountPaid')
                 ) {
-                  paidData.push(claimsData.Ei.ClaimsLobSummary[0].AmountPaid);
+                  if (lobData === 'Ei') {
+                    paidData.unshift(claimsData.Ei.ClaimsLobSummary[0].AmountPaid);
+                  } else {
+                    paidData.push(claimsData.Ei.ClaimsLobSummary[0].AmountPaid);
+                  }
                 }
               }
               if (claimsData.hasOwnProperty('Un') && claimsData.Un != null) {
@@ -241,7 +257,11 @@ export class PaymentsSharedService {
                   claimsData.Un.ClaimsLobSummary.length &&
                   claimsData.Un.ClaimsLobSummary[0].hasOwnProperty('AmountPaid')
                 ) {
-                  paidData.push(claimsData.Un.ClaimsLobSummary[0].AmountPaid);
+                  if (lobData === 'Un') {
+                    paidData.unshift(claimsData.Un.ClaimsLobSummary[0].AmountPaid);
+                  } else {
+                    paidData.push(claimsData.Un.ClaimsLobSummary[0].AmountPaid);
+                  }
                 }
               }
               if (lobData !== 'All') {
@@ -327,7 +347,11 @@ export class PaymentsSharedService {
                   claimsData.Mr.ClaimsLobSummary.length &&
                   claimsData.Mr.ClaimsLobSummary[0].hasOwnProperty('AmountPaid')
                 ) {
-                  paidData.push(claimsData.Mr.ClaimsLobSummary[0].AmountPaid);
+                  if (lobData === 'Mr') {
+                    paidData.unshift(claimsData.Mr.ClaimsLobSummary[0].AmountPaid);
+                  } else {
+                    paidData.push(claimsData.Mr.ClaimsLobSummary[0].AmountPaid);
+                  }
                 }
               }
               if (claimsData.hasOwnProperty('Cs') && claimsData.Cs != null) {
@@ -336,7 +360,11 @@ export class PaymentsSharedService {
                   claimsData.Cs.ClaimsLobSummary.length &&
                   claimsData.Cs.ClaimsLobSummary[0].hasOwnProperty('AmountPaid')
                 ) {
-                  paidData.push(claimsData.Cs.ClaimsLobSummary[0].AmountPaid);
+                  if (lobData === 'Cs') {
+                    paidData.unshift(claimsData.Cs.ClaimsLobSummary[0].AmountPaid);
+                  } else {
+                    paidData.push(claimsData.Cs.ClaimsLobSummary[0].AmountPaid);
+                  }
                 }
               }
               if (claimsData.hasOwnProperty('Ei') && claimsData.Ei != null) {
@@ -345,7 +373,11 @@ export class PaymentsSharedService {
                   claimsData.Ei.ClaimsLobSummary.length &&
                   claimsData.Ei.ClaimsLobSummary[0].hasOwnProperty('AmountPaid')
                 ) {
-                  paidData.push(claimsData.Ei.ClaimsLobSummary[0].AmountPaid);
+                  if (lobData === 'Ei') {
+                    paidData.unshift(claimsData.Ei.ClaimsLobSummary[0].AmountPaid);
+                  } else {
+                    paidData.push(claimsData.Ei.ClaimsLobSummary[0].AmountPaid);
+                  }
                 }
               }
               if (claimsData.hasOwnProperty('Un') && claimsData.Un != null) {
@@ -354,7 +386,11 @@ export class PaymentsSharedService {
                   claimsData.Un.ClaimsLobSummary.length &&
                   claimsData.Un.ClaimsLobSummary[0].hasOwnProperty('AmountPaid')
                 ) {
-                  paidData.push(claimsData.Un.ClaimsLobSummary[0].AmountPaid);
+                  if (lobData === 'Un') {
+                    paidData.unshift(claimsData.Un.ClaimsLobSummary[0].AmountPaid);
+                  } else {
+                    paidData.push(claimsData.Un.ClaimsLobSummary[0].AmountPaid);
+                  }
                 }
               }
               claimsPaid = {
