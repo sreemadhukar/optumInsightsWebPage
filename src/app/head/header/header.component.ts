@@ -27,6 +27,8 @@ import { Observable, Subscription } from 'rxjs';
 import { CommonUtilsService } from '../../shared/common-utils.service';
 import { StorageService } from '../../shared/storage-service.service';
 import { EventEmitterService } from '../../shared/know-our-provider/event-emitter.service';
+import { SessionService } from '../../shared/session.service';
+
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -62,7 +64,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
   public mobileQuery: boolean;
   public menuIcon = 'menu';
   public username = '';
+  public advDropdownBool = false;
   subscription: Subscription;
+  public healthSystemName: string;
 
   constructor(
     private breakpointObserver: BreakpointObserver,
@@ -74,13 +78,16 @@ export class HeaderComponent implements OnInit, OnDestroy {
     private router: Router,
     private utils: CommonUtilsService,
     private checkStorage: StorageService,
-    private eventEmitter: EventEmitterService
+    private eventEmitter: EventEmitterService,
+    private sessionService: SessionService
   ) {
     // this.mobileQuery = this.breakpointObserver.isMatched('(max-width: 1024px)');
     router.events.subscribe(event => {
       if (event instanceof NavigationStart) {
-        const userInfo = JSON.parse(sessionStorage.getItem('loggedUser'));
-        this.username = userInfo.FirstName;
+        if (JSON.parse(sessionStorage.getItem('loggedUser'))) {
+          const userInfo = JSON.parse(sessionStorage.getItem('loggedUser'));
+          this.username = userInfo.FirstName;
+        }
         this.mobileQuery = this.breakpointObserver.isMatched('(max-width: 1279px)');
         // alert(this.mobileQuery);
         if (!this.mobileQuery) {
@@ -116,16 +123,37 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.ngOnInit());
   }
 
+  advocateUserClick() {
+    if (this.sessionService.checkAdvocateRole()) {
+      this.advDropdownBool = !this.advDropdownBool;
+    } else {
+      this.advDropdownBool = false;
+    }
+  }
+  advViewClicked(value: string) {
+    if (value === 'myView') {
+      this.router.navigate(['/OverviewPageAdvocate']);
+    } else if (value === 'userView') {
+      this.router.navigate(['/OverviewPage']);
+    }
+  }
+
   ngOnInit() {
+    this.advDropdownBool = false;
+    this.healthSystemName = this.sessionService.getHealthCareOrgName();
     this.isDarkTheme = this.themeService.isDarkTheme;
     this.eventEmitter.getEvent().subscribe(val => {
-      const userInfo = JSON.parse(sessionStorage.getItem('loggedUser'));
-      this.username = userInfo.FirstName;
+      if (JSON.parse(sessionStorage.getItem('loggedUser'))) {
+        const userInfo = JSON.parse(sessionStorage.getItem('loggedUser'));
+        this.username = userInfo.FirstName;
+      }
     });
     this.checkStorage.getEvent().subscribe(value => {
       if (value.value === 'overviewPage') {
-        const userInfo = JSON.parse(sessionStorage.getItem('loggedUser'));
-        this.username = userInfo.FirstName;
+        if (JSON.parse(sessionStorage.getItem('loggedUser'))) {
+          const userInfo = JSON.parse(sessionStorage.getItem('loggedUser'));
+          this.username = userInfo.FirstName;
+        }
       }
     });
   }

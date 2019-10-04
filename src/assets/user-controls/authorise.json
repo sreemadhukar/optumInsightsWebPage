@@ -16,6 +16,14 @@
       "Reduce Reconsideration Processing by:": false
     }
   },
+  "OverviewAdvocate": {
+    "navLink": true,
+    "TopRow": {
+      "Claims Paid": true,
+      "Claims Not Paid": true,
+      "Claims Submitted": true
+    }
+  },
   "Getting Reimbursed": {
     "Summary": {
       "navLink": true,

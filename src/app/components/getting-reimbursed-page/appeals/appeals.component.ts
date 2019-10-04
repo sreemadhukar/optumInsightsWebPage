@@ -32,6 +32,8 @@ export class AppealsComponent implements OnInit {
   loading: boolean;
   mockCards: any;
   reasonDataAvailable = false;
+  appealsTAT: object;
+  showAppealsTAT = false;
   constructor(
     private appealsSharedService: AppealsSharedService,
     private iconRegistry: MatIconRegistry,
@@ -89,11 +91,39 @@ export class AppealsComponent implements OnInit {
         this.reasonDataAvailable = true;
       }
       this.overturnItem = AppealsCards;
-      console.log(this.overturnItem);
       if (appealsRateData[3].length !== 0) {
         this.reason = appealsRateData[3];
       }
     });
+
+    this.appealsTAT = {
+      category: 'app-card',
+      type: 'rotateWithLabel',
+      title: 'Average Appeals Turn Around Time',
+      MetricID: 'NA',
+      data: {
+        centerNumber: 0 + ' days',
+        color: ['#3381FF', '#3381FF'],
+        gdata: ['card-inner', 'appealsAverageTurnAround'],
+        sdata: {
+          sign: 'down',
+          data: '-1.2%'
+        }
+      },
+      besideData: {
+        verticalData: [
+          {
+            values: 0 + ' Days',
+            labels: 'Date of Service to Received'
+          },
+          {
+            values: 0 + ' Days',
+            labels: 'Received to Processed'
+          }
+        ]
+      },
+      timeperiod: this.session.filterObjValue.timeFrame
+    };
   }
 
   helpIconClick(title) {

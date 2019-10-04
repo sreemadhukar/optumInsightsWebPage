@@ -13,6 +13,7 @@ import { CommonUtilsService } from 'src/app/shared/common-utils.service';
   styleUrls: ['./overview.component.scss']
 })
 export class OverviewComponent implements OnInit {
+  printRoute: string;
   overviewItems: any;
   mainCards: any;
   mockMainCards: any;
@@ -22,6 +23,7 @@ export class OverviewComponent implements OnInit {
   pagesubTitle: String = '';
   userName: String = '';
   opportunities: String = '';
+  selfServiceLink: String = '';
   opportunitiesQuestion: String = '';
   welcomeMessage: String = '';
   subscription: any;
@@ -54,8 +56,6 @@ export class OverviewComponent implements OnInit {
   /***************** DONT CHANGE THESE *************/
 
   trendsData: any;
-  printHeight = 800;
-  printWidth = 700;
 
   public printStyle: boolean; // this variable is used to distinguish between normal page and print page
 
@@ -68,6 +68,8 @@ export class OverviewComponent implements OnInit {
     private filtermatch: CommonUtilsService,
     sanitizer: DomSanitizer
   ) {
+    this.printRoute = '/OverviewPage/print-overview';
+    this.selfServiceLink = 'Self Service Details';
     this.pagesubTitle = 'Your Insights at a glance.';
     this.opportunities = 'Opportunities';
     this.opportunitiesQuestion = 'How much can online self service save you?';
@@ -82,48 +84,22 @@ export class OverviewComponent implements OnInit {
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-keyboard_arrow_right-24px.svg')
     );
   }
+  printDownload(value) {
+    this.printStyle = true;
+    console.log('Overview Print Emit', value);
+  }
   ngOnInit() {
     // Temporary Heac ability
     const heac = JSON.parse(sessionStorage.getItem('heac'));
     this.isHeac = heac && heac.heac === true ? true : false;
     this.checkStorage.emitEvent('overviewPage');
-    /***************** DELETE LATER *************/
-    /*this.claimsPaidBlock = {
-      category: "small-card",
-      data: {
-        centerNumber: "$3434.6M",
-        color: ["#3381FF", "#80B0FF", "#003DA1"],
-        gdata: ["card-inner", "claimsPaidCardD3Donutss"],
-        graphValues: [13440154.46, 65374225.25, 114778212.67]
-      },
-      sdata: {},
-      timeperiod: "Last 6 Months",
-      title: "Claims Paidss",
-      toggle: true,
-      type: "donut"
-    };
-
-    this.claimsYieldBlock = {
-      category: "small-card",
-      data: {
-        centerNumber: "55%",
-        color: ["#3381FF", "#D7DCE1"],
-        gdata: ["card-inner", "claimsYieldCardD3Donutss"],
-        graphValues: [100, 0]
-      },
-      sdata: {},
-      timeperiod: "Last 6 Months",
-      title: "Claims Yieldss",
-      toggle: true,
-      type: "donut"
-    }*/
     this.overviewsrc.getAllTrends().then(trendData => {
       this.trendsData = trendData;
       // temporary switch off of trend in calls : Srikar Bobbiganipalli
-      if (this.trendsData && this.trendsData.hasOwnProperty('TendingMtrics')) {
+      /*if (this.trendsData && this.trendsData.hasOwnProperty('TendingMtrics')) {
         this.trendsData.TendingMtrics.CcllTalkTimeByQuesType = undefined;
         this.trendsData.TendingMtrics.CallsTrendByQuesType = undefined;
-      }
+      }*/
       this.claimsLoading = true;
 
       /* SERVICE CALL TO GET CLAIMS CARDS DATA */
