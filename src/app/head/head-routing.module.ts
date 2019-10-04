@@ -4,6 +4,7 @@ import { AuthGuard } from '../auth/_guards/auth.guard';
 import { TermsOfUseComponent } from './terms-of-use/terms-of-use.component';
 import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component';
 import { SiteMapComponent } from './site-map/site-map.component';
+import { CustomPreloadingStrategy } from './custom-preloading';
 
 const routes: Routes = [
   {
@@ -28,7 +29,9 @@ const routes: Routes = [
     path: 'GettingReimbursed',
     loadChildren: '../components/getting-reimbursed-page/getting-reimbursed.module#GettingReimbursedModule',
     data: {
-      breadcrumb: 'Getting Reimbursed'
+      breadcrumb: 'Getting Reimbursed',
+      preload: true,
+      delay: true
     },
     canActivate: [AuthGuard]
   },
@@ -36,7 +39,9 @@ const routes: Routes = [
     path: 'CareDelivery',
     loadChildren: '../components/care-delivery-page/care-delivery-page.module#CareDeliveryPageModule',
     data: {
-      breadcrumb: 'Care Delivery'
+      breadcrumb: 'Care Delivery',
+      preload: true,
+      delay: true
     },
     canActivate: [AuthGuard]
   },
@@ -49,7 +54,9 @@ const routes: Routes = [
     path: 'ServiceInteraction',
     loadChildren: '../components/service-interaction/service-interaction.module#ServiceInteractionModule',
     data: {
-      breadcrumb: 'Service Interaction'
+      breadcrumb: 'Service Interaction',
+      preload: true,
+      delay: true
     },
     canActivate: [AuthGuard]
   },
@@ -86,7 +93,8 @@ const routes: Routes = [
 @NgModule({
   imports: [
     RouterModule.forRoot(routes, {
-      scrollPositionRestoration: 'enabled' // Add options right here , to scroll to top whenever navigaion is changed
+      scrollPositionRestoration: 'enabled', // Add options right here , to scroll to top whenever navigaion is changed
+      preloadingStrategy: CustomPreloadingStrategy
     })
   ],
   exports: [RouterModule]
