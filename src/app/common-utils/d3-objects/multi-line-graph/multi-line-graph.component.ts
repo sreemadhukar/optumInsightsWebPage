@@ -657,6 +657,7 @@ export class MultiLineGraphComponent implements OnInit {
       })
       .attr('r', 6);
 
+    // Dark line
     if (this.chartOptions.lineOne.chartData != undefined && this.chartOptions.lineOne.chartData.length > 0) {
       chart
         .append('path')
@@ -665,11 +666,10 @@ export class MultiLineGraphComponent implements OnInit {
         .attr('d', line)
         .attr('id', 'LineOne')
         .style('fill', 'none')
-        .style('stroke', generalData.barColor)
-        .style('stroke-width', '2');
+        .style('stroke', this.chartOptions.lineOne.generalData.barColor)
+        .style('stroke-width', '4');
     }
-
-    // Dark line
+    // Dotted line
     if (this.chartOptions.lineTwo.chartData != undefined && this.chartOptions.lineTwo.chartData.length > 0) {
       chart
         .append('path')
@@ -678,10 +678,11 @@ export class MultiLineGraphComponent implements OnInit {
         .attr('d', line)
         .attr('id', 'LineTwo')
         .style('fill', 'none')
-        .style('stroke', generalData2.barColor)
-        .style('stroke-width', 4);
+        .style('stroke', this.chartOptions.lineTwo.generalData.barColor)
+        .style('stroke-dasharray', '4, 3')
+        .style('stroke-width', '3');
     }
-    // Dotted line
+    // Line
     if (this.chartOptions.lineThree.chartData != undefined && this.chartOptions.lineThree.chartData.length > 0) {
       chart
         .append('path')
@@ -690,8 +691,7 @@ export class MultiLineGraphComponent implements OnInit {
         .attr('d', line)
         .attr('id', 'LineThree')
         .style('fill', 'none')
-        .style('stroke', generalData2.barColor)
-        .style('stroke-dasharray', '2, 2')
+        .style('stroke', this.chartOptions.lineThree.generalData.barColor)
         .style('stroke-width', '2');
     }
     // Dashed line
@@ -703,6 +703,7 @@ export class MultiLineGraphComponent implements OnInit {
         .attr('d', line)
         .attr('id', 'LineFour')
         .style('fill', 'none')
+        .style('stroke', this.chartOptions.lineFour.generalData.barColor)
         .style('stroke-dasharray', '7, 7')
         .style('stroke-width', '2');
     }
