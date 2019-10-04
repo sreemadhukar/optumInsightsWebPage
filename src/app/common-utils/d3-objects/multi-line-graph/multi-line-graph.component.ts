@@ -542,7 +542,7 @@ export class MultiLineGraphComponent implements OnInit {
       }
       /* Ends Data for tooltip */
 
-      chart
+      /* chart
         .append('g')
         .attr('visibility', 'hidden')
         .attr('id', 'forYCalculations2')
@@ -568,7 +568,10 @@ export class MultiLineGraphComponent implements OnInit {
       const preArrayOfNumbers2 = preYArray2.map(Number);
       const numberOfTicks2 = preArrayOfNumbers2.length;
       const highestTickValue2 = preArrayOfNumbers2[numberOfTicks2 - 1];
-    } // end if structure of chartData2
+      */
+    }
+
+    // end if structure of chartData2
 
     // const RectBarOne = chart
     //   .selectAll('.rect-bar')
@@ -673,6 +676,7 @@ export class MultiLineGraphComponent implements OnInit {
         .datum(data1)
         .attr('class', 'line2')
         .attr('d', line)
+        .attr('id', 'LineTwo')
         .style('fill', 'none')
         .style('stroke', generalData2.barColor)
         .style('stroke-width', 4);
@@ -684,6 +688,7 @@ export class MultiLineGraphComponent implements OnInit {
         .datum(data2)
         .attr('class', 'line3')
         .attr('d', line)
+        .attr('id', 'LineThree')
         .style('fill', 'none')
         .style('stroke', generalData2.barColor)
         .style('stroke-dasharray', '2, 2')
@@ -696,6 +701,7 @@ export class MultiLineGraphComponent implements OnInit {
         .datum(data3)
         .attr('class', 'line4')
         .attr('d', line)
+        .attr('id', 'LineFour')
         .style('fill', 'none')
         .style('stroke-dasharray', '7, 7')
         .style('stroke-width', '2');
