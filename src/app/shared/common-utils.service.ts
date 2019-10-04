@@ -331,63 +331,23 @@ export class CommonUtilsService {
         if (cardData.hasOwnProperty('Mr')) {
           hoverLabels.push('Medicare & Retirement');
         }
-        if (cardData.hasOwnProperty('Cs')) {
-          hoverLabels.push('Community & State');
-        }
-        if (cardData.hasOwnProperty('Ei')) {
-          hoverLabels.push('Employer & Individual');
-        }
-        if (cardData.hasOwnProperty('Un')) {
-          hoverLabels.push('Uncategorized');
-        }
       } else if (this.session.filterObjValue.lob === 'Community & State') {
         if (cardData.hasOwnProperty('Cs')) {
           hoverLabels.push('Community & State');
-        }
-        if (cardData.hasOwnProperty('Mr')) {
-          hoverLabels.push('Medicare & Retirement');
-        }
-        if (cardData.hasOwnProperty('Ei')) {
-          hoverLabels.push('Employer & Individual');
-        }
-        if (cardData.hasOwnProperty('Un')) {
-          hoverLabels.push('Uncategorized');
         }
       } else if (this.session.filterObjValue.lob === 'Employer & Individual') {
         if (cardData.hasOwnProperty('Ei')) {
           hoverLabels.push('Employer & Individual');
         }
-        if (cardData.hasOwnProperty('Mr')) {
-          hoverLabels.push('Medicare & Retirement');
-        }
-        if (cardData.hasOwnProperty('Cs')) {
-          hoverLabels.push('Community & State');
-        }
-        if (cardData.hasOwnProperty('Un')) {
-          hoverLabels.push('Uncategorized');
-        }
       } else if (this.session.filterObjValue.lob === 'Uncategorized') {
         if (cardData.hasOwnProperty('Un')) {
           hoverLabels.push('Uncategorized');
-        }
-        if (cardData.hasOwnProperty('Mr')) {
-          hoverLabels.push('Medicare & Retirement');
-        }
-        if (cardData.hasOwnProperty('Cs')) {
-          hoverLabels.push('Community & State');
-        }
-        if (cardData.hasOwnProperty('Ei')) {
-          hoverLabels.push('Employer & Individual');
         }
       }
       return hoverLabels;
     }
   }
   /** Function to show hovers colors as per Lob**/
-  // #1256C4 disabled mr
-  // #5486D9 disabled cs
-  // #082D6A disabled ei
-  // #027F8D disabled un
   public returnLobColor(cardData) {
     const hoverColors = [];
     if (cardData !== null) {
@@ -407,54 +367,22 @@ export class CommonUtilsService {
       } else if (this.session.filterObjValue.lob === 'Medicare & Retirement') {
         if (cardData.hasOwnProperty('Mr')) {
           hoverColors.push('#3381FF');
-        }
-        if (cardData.hasOwnProperty('Cs')) {
-          hoverColors.push('#5486D9');
-        }
-        if (cardData.hasOwnProperty('Ei')) {
-          hoverColors.push('#082D6A');
-        }
-        if (cardData.hasOwnProperty('Un')) {
-          hoverColors.push('#027F8D');
+          hoverColors.push('#D7DCE1');
         }
       } else if (this.session.filterObjValue.lob === 'Community & State') {
         if (cardData.hasOwnProperty('Cs')) {
           hoverColors.push('#80B0FF');
-        }
-        if (cardData.hasOwnProperty('Mr')) {
-          hoverColors.push('#1256C4');
-        }
-        if (cardData.hasOwnProperty('Ei')) {
-          hoverColors.push('#082D6A');
-        }
-        if (cardData.hasOwnProperty('Un')) {
-          hoverColors.push('#027F8D');
+          hoverColors.push('#D7DCE1');
         }
       } else if (this.session.filterObjValue.lob === 'Employer & Individual') {
         if (cardData.hasOwnProperty('Ei')) {
           hoverColors.push('#003DA1');
-        }
-        if (cardData.hasOwnProperty('Mr')) {
-          hoverColors.push('#1256C4');
-        }
-        if (cardData.hasOwnProperty('Cs')) {
-          hoverColors.push('#5486D9');
-        }
-        if (cardData.hasOwnProperty('Un')) {
-          hoverColors.push('#027F8D');
+          hoverColors.push('#D7DCE1');
         }
       } else if (this.session.filterObjValue.lob === 'Uncategorized') {
         if (cardData.hasOwnProperty('Un')) {
           hoverColors.push('#00B8CC');
-        }
-        if (cardData.hasOwnProperty('Mr')) {
-          hoverColors.push('#1256C4');
-        }
-        if (cardData.hasOwnProperty('Cs')) {
-          hoverColors.push('#5486D9');
-        }
-        if (cardData.hasOwnProperty('Ei')) {
-          hoverColors.push('#082D6A');
+          hoverColors.push('#D7DCE1');
         }
       }
       return hoverColors;

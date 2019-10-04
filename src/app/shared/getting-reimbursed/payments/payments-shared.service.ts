@@ -152,7 +152,6 @@ export class PaymentsSharedService {
       }
       this.gettingReimbursedService.getPaymentsData(parameters).subscribe(
         claimsData => {
-          console.log(claimsData);
           const lobData = this.common.matchLobWithData(this.lob);
           if (claimsData != null && claimsData.hasOwnProperty('status')) {
             claimsSubmitted = {
@@ -216,56 +215,46 @@ export class PaymentsSharedService {
                 if (
                   claimsData.Mr.hasOwnProperty('ClaimsLobSummary') &&
                   claimsData.Mr.ClaimsLobSummary.length &&
-                  claimsData.Mr.ClaimsLobSummary[0].hasOwnProperty('AmountPaid')
+                  claimsData.Mr.ClaimsLobSummary[0].hasOwnProperty('AmountPaid') &&
+                  (lobData === 'All' || lobData === 'Mr')
                 ) {
-                  if (lobData === 'Mr') {
-                    paidData.unshift(claimsData.Mr.ClaimsLobSummary[0].AmountPaid);
-                  } else {
-                    paidData.push(claimsData.Mr.ClaimsLobSummary[0].AmountPaid);
-                  }
+                  paidData.push(claimsData.Mr.ClaimsLobSummary[0].AmountPaid);
                 }
               }
               if (claimsData.hasOwnProperty('Cs') && claimsData.Cs != null) {
                 if (
                   claimsData.Cs.hasOwnProperty('ClaimsLobSummary') &&
                   claimsData.Cs.ClaimsLobSummary.length &&
-                  claimsData.Cs.ClaimsLobSummary[0].hasOwnProperty('AmountPaid')
+                  claimsData.Cs.ClaimsLobSummary[0].hasOwnProperty('AmountPaid') &&
+                  (lobData === 'All' || lobData === 'Cs')
                 ) {
-                  if (lobData === 'Cs') {
-                    paidData.unshift(claimsData.Cs.ClaimsLobSummary[0].AmountPaid);
-                  } else {
-                    paidData.push(claimsData.Cs.ClaimsLobSummary[0].AmountPaid);
-                  }
+                  paidData.push(claimsData.Cs.ClaimsLobSummary[0].AmountPaid);
                 }
               }
               if (claimsData.hasOwnProperty('Ei') && claimsData.Ei != null) {
                 if (
                   claimsData.Ei.hasOwnProperty('ClaimsLobSummary') &&
                   claimsData.Ei.ClaimsLobSummary.length &&
-                  claimsData.Ei.ClaimsLobSummary[0].hasOwnProperty('AmountPaid')
+                  claimsData.Ei.ClaimsLobSummary[0].hasOwnProperty('AmountPaid') &&
+                  (lobData === 'All' || lobData === 'Ei')
                 ) {
-                  if (lobData === 'Ei') {
-                    paidData.unshift(claimsData.Ei.ClaimsLobSummary[0].AmountPaid);
-                  } else {
-                    paidData.push(claimsData.Ei.ClaimsLobSummary[0].AmountPaid);
-                  }
+                  paidData.push(claimsData.Ei.ClaimsLobSummary[0].AmountPaid);
                 }
               }
               if (claimsData.hasOwnProperty('Un') && claimsData.Un != null) {
                 if (
                   claimsData.Un.hasOwnProperty('ClaimsLobSummary') &&
                   claimsData.Un.ClaimsLobSummary.length &&
-                  claimsData.Un.ClaimsLobSummary[0].hasOwnProperty('AmountPaid')
+                  claimsData.Un.ClaimsLobSummary[0].hasOwnProperty('AmountPaid') &&
+                  (lobData === 'All' || lobData === 'Un')
                 ) {
-                  if (lobData === 'Un') {
-                    paidData.unshift(claimsData.Un.ClaimsLobSummary[0].AmountPaid);
-                  } else {
-                    paidData.push(claimsData.Un.ClaimsLobSummary[0].AmountPaid);
-                  }
+                  paidData.push(claimsData.Un.ClaimsLobSummary[0].AmountPaid);
                 }
               }
               if (lobData !== 'All') {
-                paidData.push(0);
+                paidData.push(
+                  claimsData.All.ClaimsLobSummary[0].AmountPaid - claimsData[lobData].ClaimsLobSummary[0].AmountPaid
+                );
               }
               claimsPaid = {
                 category: 'app-card',
@@ -341,57 +330,51 @@ export class PaymentsSharedService {
               claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('AmountPaid')
             ) {
               const paidData = [];
+              console.log(lobData);
               if (claimsData.hasOwnProperty('Mr') && claimsData.Mr != null) {
                 if (
                   claimsData.Mr.hasOwnProperty('ClaimsLobSummary') &&
                   claimsData.Mr.ClaimsLobSummary.length &&
-                  claimsData.Mr.ClaimsLobSummary[0].hasOwnProperty('AmountPaid')
+                  claimsData.Mr.ClaimsLobSummary[0].hasOwnProperty('AmountPaid') &&
+                  (lobData === 'All' || lobData === 'Mr')
                 ) {
-                  if (lobData === 'Mr') {
-                    paidData.unshift(claimsData.Mr.ClaimsLobSummary[0].AmountPaid);
-                  } else {
-                    paidData.push(claimsData.Mr.ClaimsLobSummary[0].AmountPaid);
-                  }
+                  paidData.push(claimsData.Mr.ClaimsLobSummary[0].AmountPaid);
                 }
               }
               if (claimsData.hasOwnProperty('Cs') && claimsData.Cs != null) {
                 if (
                   claimsData.Cs.hasOwnProperty('ClaimsLobSummary') &&
                   claimsData.Cs.ClaimsLobSummary.length &&
-                  claimsData.Cs.ClaimsLobSummary[0].hasOwnProperty('AmountPaid')
+                  claimsData.Cs.ClaimsLobSummary[0].hasOwnProperty('AmountPaid') &&
+                  (lobData === 'All' || lobData === 'Cs')
                 ) {
-                  if (lobData === 'Cs') {
-                    paidData.unshift(claimsData.Cs.ClaimsLobSummary[0].AmountPaid);
-                  } else {
-                    paidData.push(claimsData.Cs.ClaimsLobSummary[0].AmountPaid);
-                  }
+                  paidData.push(claimsData.Cs.ClaimsLobSummary[0].AmountPaid);
                 }
               }
               if (claimsData.hasOwnProperty('Ei') && claimsData.Ei != null) {
                 if (
                   claimsData.Ei.hasOwnProperty('ClaimsLobSummary') &&
                   claimsData.Ei.ClaimsLobSummary.length &&
-                  claimsData.Ei.ClaimsLobSummary[0].hasOwnProperty('AmountPaid')
+                  claimsData.Ei.ClaimsLobSummary[0].hasOwnProperty('AmountPaid') &&
+                  (lobData === 'All' || lobData === 'Ei')
                 ) {
-                  if (lobData === 'Ei') {
-                    paidData.unshift(claimsData.Ei.ClaimsLobSummary[0].AmountPaid);
-                  } else {
-                    paidData.push(claimsData.Ei.ClaimsLobSummary[0].AmountPaid);
-                  }
+                  paidData.push(claimsData.Ei.ClaimsLobSummary[0].AmountPaid);
                 }
               }
               if (claimsData.hasOwnProperty('Un') && claimsData.Un != null) {
                 if (
                   claimsData.Un.hasOwnProperty('ClaimsLobSummary') &&
                   claimsData.Un.ClaimsLobSummary.length &&
-                  claimsData.Un.ClaimsLobSummary[0].hasOwnProperty('AmountPaid')
+                  claimsData.Un.ClaimsLobSummary[0].hasOwnProperty('AmountPaid') &&
+                  (lobData === 'All' || lobData === 'Un')
                 ) {
-                  if (lobData === 'Un') {
-                    paidData.unshift(claimsData.Un.ClaimsLobSummary[0].AmountPaid);
-                  } else {
-                    paidData.push(claimsData.Un.ClaimsLobSummary[0].AmountPaid);
-                  }
+                  paidData.push(claimsData.Un.ClaimsLobSummary[0].AmountPaid);
                 }
+              }
+              if (lobData !== 'All') {
+                paidData.push(
+                  claimsData.All.ClaimsLobSummary[0].AmountPaid - claimsData[lobData].ClaimsLobSummary[0].AmountPaid
+                );
               }
               claimsPaid = {
                 category: 'app-card',
