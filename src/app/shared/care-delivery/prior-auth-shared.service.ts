@@ -161,6 +161,7 @@ export class PriorAuthSharedService {
           let PACount = [];
           let PriorAuthBarGraphParameters = [];
           let PANotApprovedReasonBool;
+          let PANotApprovedCountChecker;
           if (((providerSystems || {}).PriorAuthorizations || {}).LineOfBusiness) {
             let data;
             // const data = providerSystems.PriorAuthorizations.LineOfBusiness.All;
@@ -212,6 +213,7 @@ export class PriorAuthSharedService {
             const PARequestedCount = PAApprovedCount + PANotApprovedCount;
             const PAApprovalRate = PAApprovedCount / PARequestedCount;
             PANotApprovedReasonBool = PAApprovalRate === 1;
+            PANotApprovedCountChecker = PAApprovedCount;
 
             let StandardTATConversion;
             let UrgentTATConversion;
@@ -241,7 +243,31 @@ export class PriorAuthSharedService {
             }
             // Add checker for if PA requested is zero
             if (PARequestedCount === 0) {
-              PACount = appCardPriorAuthError;
+              if (PANotPendingCount + PANotCancelledCount > 0) {
+                PACount = [
+                  {
+                    category: 'app-card',
+                    type: 'donutWithLabel',
+                    title: 'Prior Authorization Requested',
+                    MetricID: this.MetricidService.MetricIDs.PriorAuthorizationRequested,
+                    data: {
+                      graphValues: [PAApprovedCount, PANotApprovedCount, PANotPendingCount, PANotCancelledCount],
+                      centerNumber: this.common.nFormatter(PARequestedCount),
+                      color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'],
+                      labels: ['Approved', 'Not Approved', 'Pending', 'Canceled'],
+                      gdata: ['card-inner', 'PARequested'],
+                      hover: true
+                    },
+                    besideData: {
+                      labels: ['Approved', 'Not Approved', 'Pending', 'Canceled'],
+                      color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC']
+                    },
+                    timeperiod: timePeriod
+                  }
+                ];
+              } else {
+                PACount = appCardPriorAuthError;
+              }
             } else {
               PACount = [
                 {
@@ -353,9 +379,10 @@ export class PriorAuthSharedService {
                 timeperiod: timePeriod
               });
             }
-          } else if (isServiceCategory || PANotApprovedReasonBool) {
+          } else if (isServiceCategory || PANotApprovedReasonBool || !PANotApprovedCountChecker) {
             // Hide reasons for service category
             // Also hide reasons if its a 100 percent approval rate
+            // And hide if not approved count is zero
             PriorAuthBarGraphParameters = [
               {
                 data: null
@@ -401,7 +428,7 @@ export class PriorAuthSharedService {
         })
         .then(data => {
           if (this.priorAuthDataCombined[0].length > 0 && this.priorAuthDataCombined[0][0].data !== null) {
-            this.priorAuthDataCombined[0][1].data['sdata'] = data[1];
+            // this.priorAuthDataCombined[0][1].data['sdata'] = data[1];
           }
           resolve(this.priorAuthDataCombined);
         })
