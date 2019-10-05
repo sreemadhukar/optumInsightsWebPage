@@ -93,7 +93,8 @@ const routes: Routes = [
 @NgModule({
   imports: [
     RouterModule.forRoot(routes, {
-      scrollPositionRestoration: 'enabled' // Add options right here , to scroll to top whenever navigaion is changed
+      scrollPositionRestoration: 'enabled', // Add options right here , to scroll to top whenever navigaion is changed
+      preloadingStrategy: CustomPreloadingStrategy
     })
   ],
   exports: [RouterModule]
