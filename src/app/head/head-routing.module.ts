@@ -11,7 +11,7 @@ const routes: Routes = [
     path: '',
     loadChildren: '../auth/auth.module#AuthModule',
     data: {
-      preload: false,
+      preload: true,
       delay: false
     }
   },
@@ -19,7 +19,7 @@ const routes: Routes = [
     path: 'login',
     loadChildren: '../auth/auth.module#AuthModule',
     data: {
-      preload: false,
+      preload: true,
       delay: false
     }
   },
@@ -36,8 +36,8 @@ const routes: Routes = [
     path: 'OverviewPage',
     loadChildren: '../components/overview-page/overview-page.module#OverviewPageModule',
     data: {
-      preload: false,
-      delay: false
+      preload: true,
+      delay: true
     },
     canActivate: [AuthGuard]
   },
