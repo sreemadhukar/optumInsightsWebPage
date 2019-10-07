@@ -7,6 +7,7 @@ var jwt = require('jsonwebtoken');
 var cors = require('cors');
 var compression = require('compression');
 var helmet = require('helmet');
+const puppeteer = require('puppeteer');
 
 var port = process.env.PORT || 8000;
 console.log(`Worker ${process.pid} started...`);
@@ -52,6 +53,23 @@ app.get('/api/getJwt', function(req, res) {
   );
   res.status(200).json({
     token: token
+  });
+});
+
+async function printPDF() {
+  const browser = await puppeteer.launch({ headless: true });
+  const page = await browser.newPage();
+  await page.goto('https://blog.risingstack.com', { waitUntil: 'networkidle0' });
+  const pdf = await page.pdf({ format: 'A4' });
+
+  await browser.close();
+  return pdf;
+}
+
+app.get('/api/generatePdf', function(req, res) {
+  printPDF.then(pdf => {
+    res.set({ 'Content-Type': 'application/pdf', 'Content-Length': pdf.length });
+    res.send(pdf);
   });
 });
 
