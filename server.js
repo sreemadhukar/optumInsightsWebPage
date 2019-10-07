@@ -7,6 +7,7 @@ var jwt = require('jsonwebtoken');
 var cors = require('cors');
 var compression = require('compression');
 var helmet = require('helmet');
+const puppeteer = require('puppeteer');
 
 var port = process.env.PORT || 8000;
 console.log(`Worker ${process.pid} started...`);
@@ -21,7 +22,7 @@ var sessionSecret = 'STwHkLYUwN1L5rc3yqdkuthRvczrBupc';
 var key = 'Q9gRpXWjVm5GXethNxG60utGMGW7NpsO';
 var heac = require('./src/assets/mock-data/heac.json');
 
-app.all('/uhci/prd2/*', function(req, res) {
+app.all('/uhci/prd/*', function(req, res) {
   apiProxy.web(req, res, { target: apiForwardingUrl, changeOrigin: true, secure: false }, function(e) {
     handleExceptions(e, res);
   });
@@ -31,7 +32,18 @@ app.use((error, req, res, next) => {
   handleExceptions(error, res);
 });
 
-app.get('/api/getJwt', cors(), function(req, res) {
+var whitelist = ['*.optum.com', '*.uhc.com'];
+var corsOptions = {
+  origin: function(origin, callback) {
+    if (whitelist.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  }
+};
+
+app.get('/api/getJwt', function(req, res) {
   let token = jwt.sign(
     {
       exp: Math.floor(Date.now() / 1000) + 60 * 60,
@@ -44,7 +56,24 @@ app.get('/api/getJwt', cors(), function(req, res) {
   });
 });
 
-app.get('/api/getHeac/:MsId', cors(), function(req, res) {
+async function printPDF() {
+  const browser = await puppeteer.launch({ headless: true });
+  const page = await browser.newPage();
+  await page.goto('https://blog.risingstack.com', { waitUntil: 'networkidle0' });
+  const pdf = await page.pdf({ format: 'A4' });
+
+  await browser.close();
+  return pdf;
+}
+
+app.get('/api/generatePdf', function(req, res) {
+  printPDF.then(pdf => {
+    res.set({ 'Content-Type': 'application/pdf', 'Content-Length': pdf.length });
+    res.send(pdf);
+  });
+});
+
+app.get('/api/getHeac/:MsId', function(req, res) {
   res.status(200).json({
     heac: include(heac.user, req.params.MsId)
   });

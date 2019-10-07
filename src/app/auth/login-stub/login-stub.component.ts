@@ -29,6 +29,11 @@ export class LoginStubComponent implements OnInit {
   id: any;
   token: string;
   isKop = false;
+  showWarning = false;
+  sessionTimedoutMessage: any = {
+    note: 'Due to inactivity, we have logged you out.',
+    message: 'To return to UHC Insights, please sign in below.'
+  };
   @ViewChild('errorDialog') errorDialog: TemplateRef<any>;
 
   constructor(
@@ -53,6 +58,8 @@ export class LoginStubComponent implements OnInit {
   }
 
   ngOnInit() {
+    // to close all opened dialogbox at after logout at login page
+    this.dialog.closeAll();
     sessionStorage.setItem('cache', JSON.stringify(false));
     if (!environment.production) {
       this.authService.getJwt().subscribe(data => {
@@ -68,6 +75,15 @@ export class LoginStubComponent implements OnInit {
       this.loading = false;
       this.initLogin();
     }, 3000);
+
+    const queryParams = this.route.snapshot.queryParams;
+
+    // do something with the parameters
+    if (queryParams.sessionExpired) {
+      this.showWarning = true;
+    } else {
+      this.showWarning = false;
+    }
   }
 
   initLogin() {
@@ -152,7 +168,7 @@ export class LoginStubComponent implements OnInit {
               const heac = JSON.parse(sessionStorage.getItem('heac'));
               this.isKop = heac && heac.heac === true ? true : false;
               if (this.isKop === true) {
-                this.router.navigate(['/KnowYourProvider']);
+                this.router.navigate(['/KnowOurProvider']);
               } else {
                 this.router.navigate(['/ProviderSearch']);
               }

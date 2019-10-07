@@ -58,9 +58,7 @@ export class SelfSharedService {
       this.selfService.getSelfServiceData(...parameters).subscribe(
         ([providerSystems]) => {
           if (
-            providerSystems.hasOwnProperty('SelfServiceInquiries') &&
-            providerSystems.SelfServiceInquiries != null &&
-            providerSystems.SelfServiceInquiries.hasOwnProperty('ALL') &&
+            ((providerSystems || {}).SelfServiceInquiries || {}).ALL &&
             providerSystems.SelfServiceInquiries.ALL.hasOwnProperty('ReportingPeriodStartDate') &&
             providerSystems.SelfServiceInquiries.ALL.hasOwnProperty('ReportingPeriodEndDate')
           ) {
@@ -80,13 +78,8 @@ export class SelfSharedService {
             this.timeFrame = null;
           }
 
-          if (
-            providerSystems.hasOwnProperty('SelfServiceInquiries') &&
-            providerSystems.SelfServiceInquiries != null &&
-            providerSystems.SelfServiceInquiries.hasOwnProperty('ALL') &&
-            providerSystems.SelfServiceInquiries.ALL.hasOwnProperty('Utilizations')
-          ) {
-            const utilization = providerSystems.SelfServiceInquiries.ALL.Utilizations;
+          const utilization = (((providerSystems || {}).SelfServiceInquiries || {}).ALL || {}).Utilizations;
+          if (utilization) {
             try {
               adoptionRate = this.utilizationObjectMethod(
                 'Self Service Adoption Rate',
@@ -191,8 +184,8 @@ export class SelfSharedService {
               status: 500,
               toggle: this.toggle.setToggles(
                 'Self-Service Adoption Rate',
-                'Service Interaction',
                 'Self Service',
+                'Service Interaction',
                 false
               ),
               data: null,
@@ -204,7 +197,12 @@ export class SelfSharedService {
               title: 'Link & EDI to Call Ratio',
               MetricID: this.MetricidService.MetricIDs.LinkEDItoCallRatio,
               status: 500,
-              toggle: this.toggle.setToggles('Link & EDI to Call Ratio', 'Self Service', 'Service Interaction', false),
+              toggle: this.toggle.setToggles(
+                'Link and EDI to Call Ratio',
+                'Self Service',
+                'Service Interaction',
+                false
+              ),
               data: null,
               timeperiod: null
             };
@@ -221,15 +219,15 @@ export class SelfSharedService {
           } // End if Data not found Utilization Object
 
           /********* Opportunites sections starts from here *********** */
-          if (
-            providerSystems.hasOwnProperty('SelfServiceInquiries') &&
-            providerSystems.SelfServiceInquiries != null &&
-            providerSystems.SelfServiceInquiries.hasOwnProperty('ALL') &&
-            providerSystems.SelfServiceInquiries.ALL.hasOwnProperty('SelfService')
-          ) {
-            if (providerSystems.SelfServiceInquiries.ALL.SelfService.hasOwnProperty('TotalCallCost')) {
+          const selfService = (((providerSystems || {}).SelfServiceInquiries || {}).ALL || {}).SelfService;
+          if (selfService) {
+            if (
+              selfService.hasOwnProperty('TotalCallCost') &&
+              selfService.hasOwnProperty('TotalSelfServiceCost') &&
+              selfService.hasOwnProperty('TotalPhoneCost')
+            ) {
               try {
-                let totalCallCost = providerSystems.SelfServiceInquiries.ALL.SelfService.TotalCallCost;
+                let totalCallCost = selfService.TotalCallCost;
                 totalCallCost = this.common.nFormatter(totalCallCost);
 
                 oppurtunities.push({
@@ -248,10 +246,7 @@ export class SelfSharedService {
                   },
                   fdata: {
                     type: 'bar chart',
-                    graphValues: [
-                      providerSystems.SelfServiceInquiries.ALL.SelfService.TotalSelfServiceCost.toFixed(),
-                      providerSystems.SelfServiceInquiries.ALL.SelfService.TotalPhoneCost.toFixed()
-                    ],
+                    graphValues: [selfService.TotalSelfServiceCost.toFixed(), selfService.TotalPhoneCost.toFixed()],
                     concatString: '$',
                     color: ['#3381FF', '#FFFFFF', '#80B0FF'],
                     graphValuesTitle: 'Avg. Transaction Costs',
@@ -293,9 +288,9 @@ export class SelfSharedService {
                 fdata: null
               });
             } // end if else for Reduce Calls and Operating Costs by:
-            if (providerSystems.SelfServiceInquiries.ALL.SelfService.hasOwnProperty('TotalCallTime')) {
+            if (selfService.hasOwnProperty('TotalCallTime')) {
               try {
-                let totalCalltime = providerSystems.SelfServiceInquiries.ALL.SelfService.TotalCallTime;
+                let totalCalltime = selfService.TotalCallTime;
                 let suffixHourPerDay;
                 if (totalCalltime < 1 && totalCalltime > 0) {
                   totalCalltime = '< 1';
@@ -327,10 +322,7 @@ export class SelfSharedService {
                   },
                   fdata: {
                     type: 'bar chart',
-                    graphValues: [
-                      providerSystems.SelfServiceInquiries.ALL.SelfService.SelfServiceCallTime.toFixed(0),
-                      providerSystems.SelfServiceInquiries.ALL.SelfService.PhoneCallTime.toFixed(0)
-                    ],
+                    graphValues: [selfService.SelfServiceCallTime.toFixed(0), selfService.PhoneCallTime.toFixed(0)],
                     concatString: 'hours',
                     color: ['#3381FF', '#FFFFFF', '#80B0FF'],
                     graphValuesTitle: 'Avg. Processing Times',
@@ -373,14 +365,14 @@ export class SelfSharedService {
               });
             } // end if else for Save Your Staff's Time by:
             if (
-              providerSystems.SelfServiceInquiries.ALL.SelfService.hasOwnProperty('AveragePaperClaimProcessingTime') &&
-              providerSystems.SelfServiceInquiries.ALL.SelfService.hasOwnProperty('AverageClaimProcessingTime')
+              selfService.hasOwnProperty('AveragePaperClaimProcessingTime') &&
+              selfService.hasOwnProperty('AverageClaimProcessingTime')
             ) {
               try {
                 let processingTime;
                 const checkProcessingTime =
-                  providerSystems.SelfServiceInquiries.ALL.SelfService.AveragePaperClaimProcessingTime.toFixed(0) -
-                  providerSystems.SelfServiceInquiries.ALL.SelfService.AverageClaimProcessingTime.toFixed(0);
+                  selfService.AveragePaperClaimProcessingTime.toFixed(0) -
+                  selfService.AverageClaimProcessingTime.toFixed(0);
                 let suffixDay;
                 if (checkProcessingTime <= 0) {
                   processingTime = 0;
@@ -411,8 +403,8 @@ export class SelfSharedService {
                   fdata: {
                     type: 'bar chart',
                     graphValues: [
-                      providerSystems.SelfServiceInquiries.ALL.SelfService.AverageClaimProcessingTime.toFixed(0),
-                      providerSystems.SelfServiceInquiries.ALL.SelfService.AveragePaperClaimProcessingTime.toFixed(0)
+                      selfService.AverageClaimProcessingTime.toFixed(0),
+                      selfService.AveragePaperClaimProcessingTime.toFixed(0)
                     ],
                     concatString: 'Days',
                     color: ['#3381FF', '#FFFFFF', '#80B0FF'],
@@ -456,19 +448,15 @@ export class SelfSharedService {
               });
             } // end if else for 'Reduce Claim Processing Time by:'
             if (
-              providerSystems.SelfServiceInquiries.ALL.SelfService.hasOwnProperty(
-                'AveragePaperReconsideredProcessingTime'
-              ) &&
-              providerSystems.SelfServiceInquiries.ALL.SelfService.hasOwnProperty(
-                'AverageReconsideredProcessingTime'
-              ) &&
-              providerSystems.SelfServiceInquiries.ALL.SelfService['AveragePaperReconsideredProcessingTime'] !== null &&
-              providerSystems.SelfServiceInquiries.ALL.SelfService['AverageReconsideredProcessingTime'] !== null
+              selfService.hasOwnProperty('AveragePaperReconsideredProcessingTime') &&
+              selfService.hasOwnProperty('AverageReconsideredProcessingTime') &&
+              selfService['AveragePaperReconsideredProcessingTime'] !== null &&
+              selfService['AverageReconsideredProcessingTime'] !== null
             ) {
               try {
                 const checkAvgProcessingTime =
-                  providerSystems.SelfServiceInquiries.ALL.SelfService.AveragePaperReconsideredProcessingTime.toFixed() -
-                  providerSystems.SelfServiceInquiries.ALL.SelfService.AverageReconsideredProcessingTime.toFixed();
+                  selfService.AveragePaperReconsideredProcessingTime.toFixed() -
+                  selfService.AverageReconsideredProcessingTime.toFixed();
                 let avgProcessingTime;
                 let suffixDay;
                 if (checkAvgProcessingTime <= 0) {
@@ -500,10 +488,8 @@ export class SelfSharedService {
                   fdata: {
                     type: 'bar chart',
                     graphValues: [
-                      providerSystems.SelfServiceInquiries.ALL.SelfService.AverageReconsideredProcessingTime.toFixed(0),
-                      providerSystems.SelfServiceInquiries.ALL.SelfService.AveragePaperReconsideredProcessingTime.toFixed(
-                        0
-                      )
+                      selfService.AverageReconsideredProcessingTime.toFixed(0),
+                      selfService.AveragePaperReconsideredProcessingTime.toFixed(0)
                     ],
                     concatString: 'Days',
                     color: ['#3381FF', '#FFFFFF', '#80B0FF'],

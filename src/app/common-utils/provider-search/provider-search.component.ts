@@ -1,13 +1,22 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, Inject } from '@angular/core';
 import { FormBuilder, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { ProviderSharedService } from '../../shared/provider/provider-shared.service';
 import { Providers } from '../../shared/provider/provider.class';
-import { MatIconRegistry, MatDialogRef, MatAutocompleteSelectedEvent, MatAutocompleteModule } from '@angular/material';
+import {
+  MatIconRegistry,
+  MatDialogRef,
+  MatAutocompleteSelectedEvent,
+  MatAutocompleteModule,
+  MAT_DIALOG_DATA
+} from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 import { StorageService } from '../../shared/storage-service.service';
+import get from 'lodash.get';
+const DEFAULT_SELECTED_ACTION = () => {};
+const DEFAULT_CONTAINER_LABEL = 'Select an organization to represent';
 
 @Component({
   selector: 'app-provider-search',
@@ -21,6 +30,12 @@ export class ProviderSearchComponent implements OnInit, AfterViewInit {
   providerData: any;
   nomatchFlag: any;
 
+  // Set default value for the container title label
+  containerLabel = DEFAULT_CONTAINER_LABEL;
+
+  // Set default function, trigres after selecting provider value
+  valueSelected = DEFAULT_SELECTED_ACTION;
+
   constructor(
     private fb: FormBuilder,
     private providerSharedService: ProviderSharedService,
@@ -28,7 +43,8 @@ export class ProviderSearchComponent implements OnInit, AfterViewInit {
     private storage: StorageService,
     private dialogRef: MatDialogRef<ProviderSearchComponent>,
     private router: Router,
-    sanitizer: DomSanitizer
+    sanitizer: DomSanitizer,
+    @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     iconRegistry.addSvgIcon(
       'cross',
@@ -43,6 +59,12 @@ export class ProviderSearchComponent implements OnInit, AfterViewInit {
       'noData',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Alert/round-error_outline-24px.svg')
     );
+
+    // Set optional label value from parent component
+    this.containerLabel = get(this.data, ['containerLabel'], this.containerLabel);
+
+    // Set optional function value from parent component that trigres after value selected
+    this.valueSelected = get(this.data, ['valueSelected'], this.valueSelected);
   }
 
   ngOnInit() {
@@ -65,9 +87,9 @@ export class ProviderSearchComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    if (!this.states) {
-      this.providerSharedService.providersList().subscribe(value => (this.states = value));
-    }
+    // if (!this.states) {
+    //   this.providerSharedService.providersList().subscribe(value => (this.states = value));
+    // }
 
     this.filteredStates = this.stateCtrl.valueChanges.pipe(
       startWith(''),
@@ -84,8 +106,9 @@ export class ProviderSearchComponent implements OnInit, AfterViewInit {
     } else {
       this.storage.store('currentUser', [Object.assign(provider, data)]);
     }
-    console.log('storage', this.storage);
+    this.storage.emitEvent('overviewPage');
     this.dialogRef.close();
+    this.valueSelected();
   }
 
   close() {

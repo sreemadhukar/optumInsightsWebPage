@@ -26,6 +26,9 @@ import { ThemeService } from '../../shared/theme.service';
 import { Observable, Subscription } from 'rxjs';
 import { CommonUtilsService } from '../../shared/common-utils.service';
 import { StorageService } from '../../shared/storage-service.service';
+import { EventEmitterService } from '../../shared/know-our-provider/event-emitter.service';
+import { SessionService } from '../../shared/session.service';
+
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -54,13 +57,16 @@ import { StorageService } from '../../shared/storage-service.service';
 export class HeaderComponent implements OnInit, OnDestroy {
   @Input() isDarkTheme: Observable<boolean>;
   @Input() button: boolean;
+  @Input() isKop: boolean;
   @Output() hamburgerDisplay = new EventEmitter<boolean>();
   public sideNavFlag = false;
   public state: any;
   public mobileQuery: boolean;
   public menuIcon = 'menu';
   public username = '';
+  public advDropdownBool = false;
   subscription: Subscription;
+  public healthSystemName: string;
 
   constructor(
     private breakpointObserver: BreakpointObserver,
@@ -71,11 +77,17 @@ export class HeaderComponent implements OnInit, OnDestroy {
     private themeService: ThemeService,
     private router: Router,
     private utils: CommonUtilsService,
-    private checkStorage: StorageService
+    private checkStorage: StorageService,
+    private eventEmitter: EventEmitterService,
+    private sessionService: SessionService
   ) {
     // this.mobileQuery = this.breakpointObserver.isMatched('(max-width: 1024px)');
     router.events.subscribe(event => {
       if (event instanceof NavigationStart) {
+        if (JSON.parse(sessionStorage.getItem('loggedUser'))) {
+          const userInfo = JSON.parse(sessionStorage.getItem('loggedUser'));
+          this.username = userInfo.FirstName;
+        }
         this.mobileQuery = this.breakpointObserver.isMatched('(max-width: 1279px)');
         // alert(this.mobileQuery);
         if (!this.mobileQuery) {
@@ -111,12 +123,36 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.ngOnInit());
   }
 
+  advocateUserClick() {
+    if (this.sessionService.checkAdvocateRole()) {
+      this.advDropdownBool = !this.advDropdownBool;
+    } else {
+      this.advDropdownBool = false;
+    }
+  }
+  advViewClicked(value: string) {
+    if (value === 'myView') {
+      this.router.navigate(['/OverviewPageAdvocate']);
+    } else if (value === 'userView') {
+      this.router.navigate(['/OverviewPage']);
+    }
+  }
   ngOnInit() {
+    this.advDropdownBool = false;
+    this.healthSystemName = this.sessionService.getHealthCareOrgName();
     this.isDarkTheme = this.themeService.isDarkTheme;
-    this.checkStorage.getEvent().subscribe(value => {
-      if (value.value === 'overviewPage') {
+    this.eventEmitter.getEvent().subscribe(val => {
+      if (JSON.parse(sessionStorage.getItem('loggedUser'))) {
         const userInfo = JSON.parse(sessionStorage.getItem('loggedUser'));
         this.username = userInfo.FirstName;
+      }
+    });
+    this.checkStorage.getEvent().subscribe(value => {
+      if (value.value === 'overviewPage') {
+        if (JSON.parse(sessionStorage.getItem('loggedUser'))) {
+          const userInfo = JSON.parse(sessionStorage.getItem('loggedUser'));
+          this.username = userInfo.FirstName;
+        }
       }
     });
   }

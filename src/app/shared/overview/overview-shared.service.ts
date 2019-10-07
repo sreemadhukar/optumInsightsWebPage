@@ -188,6 +188,26 @@ export class OverviewSharedService {
         providerSystems.SelfServiceInquiries.ALL.hasOwnProperty('Utilizations') &&
         providerSystems.SelfServiceInquiries.ALL.Utilizations.hasOwnProperty('OverallLinkAdoptionRate')
       ) {
+        let selfServiceTime;
+        if (
+          providerSystems.SelfServiceInquiries.ALL.hasOwnProperty('ReportingPeriodStartDate') &&
+          providerSystems.SelfServiceInquiries.ALL.hasOwnProperty('ReportingPeriodEndDate')
+        ) {
+          try {
+            const startDate: string = this.common.dateFormat(
+              providerSystems.SelfServiceInquiries.ALL.ReportingPeriodStartDate
+            );
+            const endDate: string = this.common.dateFormat(
+              providerSystems.SelfServiceInquiries.ALL.ReportingPeriodEndDate
+            );
+            selfServiceTime = startDate + ' - ' + endDate;
+          } catch (Error) {
+            selfServiceTime = null;
+            console.log('Error in Overview | Self Service TimePeriod', Error);
+          }
+        } else {
+          selfServiceTime = null;
+        }
         try {
           cSelfService = {
             category: 'small-card',
@@ -206,7 +226,7 @@ export class OverviewSharedService {
               gdata: ['card-inner', 'selfServiceCardD3Donut']
             },
             sdata: null,
-            timeperiod: 'Last 3 Months'
+            timeperiod: selfServiceTime
           };
         } catch (Error) {
           console.log('Error | Self Service Adoption Rate', Error);
@@ -1071,7 +1091,10 @@ export class OverviewSharedService {
           priorAuth.PriorAuthorizations.LineOfBusiness.All.hasOwnProperty('PriorAuthApprovedCount') &&
           priorAuth.PriorAuthorizations.LineOfBusiness.All.hasOwnProperty('PriorAuthNotApprovedCount') &&
           priorAuth.PriorAuthorizations.LineOfBusiness.All.hasOwnProperty('PriorAuthPendingCount') &&
-          priorAuth.PriorAuthorizations.LineOfBusiness.All.hasOwnProperty('PriorAuthCancelledCount')
+          priorAuth.PriorAuthorizations.LineOfBusiness.All.hasOwnProperty('PriorAuthCancelledCount') &&
+          priorAuth.PriorAuthorizations.LineOfBusiness.All.PriorAuthApprovedCount +
+            priorAuth.PriorAuthorizations.LineOfBusiness.All.PriorAuthNotApprovedCount >
+            0
         ) {
           const priorAuthRequested =
             priorAuth.PriorAuthorizations.LineOfBusiness.All.PriorAuthApprovedCount +

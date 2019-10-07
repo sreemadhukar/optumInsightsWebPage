@@ -62,13 +62,18 @@ export class AuthenticationService {
     );
   }
 
-  public logout() {
+  public logout(expired = 0) {
     sessionStorage.removeItem('currentUser');
     sessionStorage.removeItem('loggedUser');
     sessionStorage.removeItem('heac');
+    sessionStorage.removeItem('pcor');
     sessionStorage.setItem('cache', JSON.stringify(false));
     if (environment.internalAccess) {
-      this.router.navigate(['']);
+      if (expired) {
+        this.router.navigate([''], { queryParams: { sessionExpired: true } });
+      } else {
+        this.router.navigate(['']);
+      }
     } else if (!environment.internalAccess) {
       this.document.location.href = environment.apiUrls.SsoLogoutUrl;
     }
