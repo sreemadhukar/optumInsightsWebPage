@@ -110,10 +110,15 @@
 }
 ::ng-deep .mat-option-text {
   font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+  cursor: auto;
 }
 // To adjust the input field on center aligned
 ::ng-deep .mat-form-field-appearance-outline .mat-form-field-infix {
   padding: 0.4em 0 1em 0 !important;
+}
+
+::ng-deep .mat-form-field {
+  cursor: auto;
 }
 
 .view-allProviders {
