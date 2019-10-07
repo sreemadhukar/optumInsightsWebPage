@@ -330,7 +330,6 @@ export class PaymentsSharedService {
               claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('AmountPaid')
             ) {
               const paidData = [];
-              console.log(lobData);
               if (claimsData.hasOwnProperty('Mr') && claimsData.Mr != null) {
                 if (
                   claimsData.Mr.hasOwnProperty('ClaimsLobSummary') &&
@@ -397,8 +396,8 @@ export class PaymentsSharedService {
                   hover: true
                 },
                 besideData: {
-                  labels: ['Medicare & Retirement', 'Community & State', 'Employer & Individual', 'Uncategorized'],
-                  color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC']
+                  labels: this.common.LOBSideLabels(lobData),
+                  color: this.common.LOBSideLabelColors(lobData)
                 },
                 timeperiod: this.timeFrame
               };

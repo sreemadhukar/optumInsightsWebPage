@@ -59,7 +59,12 @@ Date Created: 17-Apr-2019
           [class.pa-requested-beside-data-block]="chartData.title == 'Prior Authorization Requested'"
           [class.pa-approval-rate-beside-data-block]="chartData.title == 'Prior Authorization Approval Rate'"
           [class.claims-paid-beside-data-block]="
-            chartData.title == 'Claims Paid' || chartData.title == 'Claims Not Paid'
+            (chartData.title == 'Claims Paid' || chartData.title == 'Claims Not Paid') &&
+            chartData.data.labels.length === 4
+          "
+          [class.claims-paid-beside-data-block-one-lob]="
+            (chartData.title == 'Claims Paid' || chartData.title == 'Claims Not Paid') &&
+            chartData.data.labels.length === 1
           "
           [class.calls-beside-data-block]="
             chartData.title == 'Calls By Call Type' || chartData.title == 'Talk Time By Call Type'
@@ -247,7 +252,12 @@ Date Created: 17-Apr-2019
           [class.pa-requested-beside-data-block]="chartData.title == 'Prior Authorization Requested'"
           [class.pa-approval-rate-beside-data-block]="chartData.title == 'Prior Authorization Approval Rate'"
           [class.claims-paid-beside-data-block]="
-            chartData.title == 'Claims Paid' || chartData.title == 'Claims Not Paid'
+            (chartData.title == 'Claims Paid' || chartData.title == 'Claims Not Paid') &&
+            chartData.data.labels.length === 4
+          "
+          [class.claims-paid-beside-data-block-one-lob]="
+            (chartData.title == 'Claims Paid' || chartData.title == 'Claims Not Paid') &&
+            chartData.data.labels.length === 1
           "
           [class.calls-beside-data-block]="
             chartData.title == 'Calls By Call Type' || chartData.title == 'Talk Time By Call Type'

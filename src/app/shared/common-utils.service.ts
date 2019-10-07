@@ -415,4 +415,42 @@ export class CommonUtilsService {
       }
     });
   }
+
+  /*
+ labels: ['Medicare & Retirement', 'Community & State', 'Employer & Individual', 'Uncategorized'],
+ color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC']
+* */
+
+  public LOBSideLabels(LOBType) {
+    const lobLabels = [];
+    if (LOBType === 'Mr' || LOBType === 'All') {
+      lobLabels.push('Medicare & Retirement');
+    }
+    if (LOBType === 'Cs' || LOBType === 'All') {
+      lobLabels.push('Community & State');
+    }
+    if (LOBType === 'Ei' || LOBType === 'All') {
+      lobLabels.push('Employer & Individual');
+    }
+    if (LOBType === 'Un' || LOBType === 'All') {
+      lobLabels.push('Uncategorized');
+    }
+    return lobLabels;
+  }
+  public LOBSideLabelColors(LOBType) {
+    const lobColorLabels = [];
+    if (LOBType === 'Mr' || LOBType === 'All') {
+      lobColorLabels.push('#3381FF');
+    }
+    if (LOBType === 'Cs' || LOBType === 'All') {
+      lobColorLabels.push('#80B0FF');
+    }
+    if (LOBType === 'Ei' || LOBType === 'All') {
+      lobColorLabels.push('#003DA1');
+    }
+    if (LOBType === 'Un' || LOBType === 'All') {
+      lobColorLabels.push('#00B8CC');
+    }
+    return lobColorLabels;
+  }
 }

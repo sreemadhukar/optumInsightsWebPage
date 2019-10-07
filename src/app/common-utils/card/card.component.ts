@@ -74,6 +74,7 @@ export class CardComponent implements OnInit {
     this.glossaryExpandService.setMessage(title, this.chartData.MetricID);
   }
   ngOnInit() {
+    console.log(this.chartData);
     if (this.tabData) {
       this.medicareBesideData = [
         {
