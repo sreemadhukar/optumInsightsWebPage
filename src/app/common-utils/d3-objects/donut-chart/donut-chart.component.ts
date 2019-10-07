@@ -13,7 +13,7 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
   public noTransition = 0;
   public renderChart: string;
   public printStyle: boolean;
-  public donutDuration = 1000;
+
   @Input() chartOptions: any = {};
   @Input() donutType: string;
 
@@ -24,15 +24,16 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
     this.doDonutChart(this.chartOptions, this.noTransition);
   }
   ngOnInit() {
-    if (this.router.url.includes('print-')) {
-      this.printStyle = true;
-      this.donutDuration = 0;
-    }
     this.renderChart = '#' + this.chartOptions.gdata[1];
   }
 
   ngAfterViewInit() {
-    this.doDonutChart(this.chartOptions, this.transition);
+    if (this.router.url.includes('print-')) {
+      this.printStyle = true;
+      this.doDonutChart(this.chartOptions, this.noTransition);
+    } else {
+      this.doDonutChart(this.chartOptions, this.transition);
+    }
   }
 
   nFormatter(num, digits) {
@@ -436,7 +437,7 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
         .delay(function(d, i) {
           return i * 700;
         })
-        .duration(this.donutDuration)
+        .duration(1000)
         .attrTween('d', function(d) {
           const i = d3.interpolate(d.startAngle, d.endAngle);
           return function(t) {
