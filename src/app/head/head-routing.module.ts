@@ -36,8 +36,8 @@ const routes: Routes = [
     path: 'OverviewPage',
     loadChildren: '../components/overview-page/overview-page.module#OverviewPageModule',
     data: {
-      preload: true,
-      delay: true
+      preload: false,
+      delay: false
     },
     canActivate: [AuthGuard]
   },
@@ -47,7 +47,7 @@ const routes: Routes = [
     data: {
       breadcrumb: 'Getting Reimbursed',
       preload: true,
-      delay: false
+      delay: true
     },
     canActivate: [AuthGuard]
   },
@@ -57,7 +57,7 @@ const routes: Routes = [
     data: {
       breadcrumb: 'Care Delivery',
       preload: true,
-      delay: false
+      delay: true
     },
     canActivate: [AuthGuard]
   },
@@ -76,7 +76,7 @@ const routes: Routes = [
     data: {
       breadcrumb: 'Service Interaction',
       preload: true,
-      delay: false
+      delay: true
     },
     canActivate: [AuthGuard]
   },
@@ -100,7 +100,7 @@ const routes: Routes = [
     component: TermsOfUseComponent,
     data: {
       preload: true,
-      delay: false
+      delay: true
     }
   },
   {
@@ -108,7 +108,7 @@ const routes: Routes = [
     component: PrivacyPolicyComponent,
     data: {
       preload: true,
-      delay: false
+      delay: true
     }
   },
   {
@@ -116,7 +116,7 @@ const routes: Routes = [
     component: SiteMapComponent,
     data: {
       preload: true,
-      delay: false
+      delay: true
     }
   },
   { path: '**', redirectTo: '' }
