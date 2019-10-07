@@ -47,7 +47,7 @@ const routes: Routes = [
     data: {
       breadcrumb: 'Getting Reimbursed',
       preload: true,
-      delay: true
+      delay: false
     },
     canActivate: [AuthGuard]
   },
@@ -57,7 +57,7 @@ const routes: Routes = [
     data: {
       breadcrumb: 'Care Delivery',
       preload: true,
-      delay: true
+      delay: false
     },
     canActivate: [AuthGuard]
   },
@@ -117,6 +117,7 @@ const routes: Routes = [
       preloadingStrategy: CustomPreloadingStrategy
     })
   ],
-  exports: [RouterModule]
+  exports: [RouterModule],
+  providers: [CustomPreloadingStrategy]
 })
 export class HeadRoutingModule {}
