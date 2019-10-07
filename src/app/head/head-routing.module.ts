@@ -9,20 +9,36 @@ import { CustomPreloadingStrategy } from './custom-preloading';
 const routes: Routes = [
   {
     path: '',
-    loadChildren: '../auth/auth.module#AuthModule'
+    loadChildren: '../auth/auth.module#AuthModule',
+    data: {
+      preload: true,
+      delay: true
+    }
   },
   {
     path: 'login',
-    loadChildren: '../auth/auth.module#AuthModule'
+    loadChildren: '../auth/auth.module#AuthModule',
+    data: {
+      preload: true,
+      delay: true
+    }
   },
   {
     path: 'OverviewPageAdvocate',
     loadChildren: '../components/advocate/advocate.module#AdvocateModule',
+    data: {
+      preload: false,
+      delay: true
+    },
     canActivate: [AuthGuard]
   },
   {
     path: 'OverviewPage',
     loadChildren: '../components/overview-page/overview-page.module#OverviewPageModule',
+    data: {
+      preload: false,
+      delay: true
+    },
     canActivate: [AuthGuard]
   },
   {
@@ -48,7 +64,11 @@ const routes: Routes = [
   {
     path: 'ProviderSearch',
     loadChildren: '../components/provider-search/provider-search.module#ProviderSearchModule',
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
+    data: {
+      preload: true,
+      delay: true
+    }
   },
   {
     path: 'ServiceInteraction',
