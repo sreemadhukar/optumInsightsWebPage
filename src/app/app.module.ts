@@ -21,9 +21,10 @@ import { KOPSharedService } from './shared/kop/kop.service';
 import { KopService } from './rest/kop/kop.service';
 import { UserIdleModule } from 'angular-user-idle';
 import { IdleTimeoutDialogComponent } from './auth/idle-timeout-dialog/idle-timeout-dialog.component';
+import { PrintOverviewComponent } from './src/app/components/overview-page/print-overview/print-overview.component';
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, PrintOverviewComponent],
   imports: [
     HttpClientModule,
     BrowserModule,
