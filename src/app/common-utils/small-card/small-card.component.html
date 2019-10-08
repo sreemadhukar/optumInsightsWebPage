@@ -123,7 +123,7 @@
     </div>
   </div>
 </div>
-<div *ngIf="skeleton" class="small-card-structure">
+<div *ngIf="skeleton && !printStyle" class="small-card-structure">
   <div class="card-inner" [class.print-card-inner]="printStyle">
     <div class="full-width-block">
       <div class="card-skeleton-small-card"></div>

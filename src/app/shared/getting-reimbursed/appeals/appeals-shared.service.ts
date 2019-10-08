@@ -414,15 +414,15 @@ export class AppealsSharedService {
                   bottomData: {
                     horizontalData: [
                       {
-                        values: 1000 /*appealsData[0].LineOfBusiness[lobFullData].AdminAppeals
-                        ? appealsData[0].LineOfBusiness[lobFullData].AdminAppeals
-                        : 0,*/,
+                        values: appealsData[0].LineOfBusiness[lobFullData].AdminAppeals
+                          ? appealsData[0].LineOfBusiness[lobFullData].AdminAppeals
+                          : 0,
                         labels: 'Admin'
                       },
                       {
-                        values: 1200 /*appealsData[0].LineOfBusiness[lobFullData].ClinicalAppeals
-                        ? appealsData[0].LineOfBusiness[lobFullData].ClinicalAppeals
-                        : 0,*/,
+                        values: appealsData[0].LineOfBusiness[lobFullData].ClinicalAppeals
+                          ? appealsData[0].LineOfBusiness[lobFullData].ClinicalAppeals
+                          : 0,
                         labels: 'Clinical'
                       }
                     ]
@@ -440,47 +440,49 @@ export class AppealsSharedService {
                   timeperiod: null
                 };
               }
-              if (
-                appealsData[0].LineOfBusiness[lobFullData].hasOwnProperty('ListReasonAndCount') &&
-                appealsData[0].LineOfBusiness[lobFullData].ListReasonAndCount.length > 0
-              ) {
-                const reasonsVal1 = [{}];
-                const reasonsVal2 = [{}];
-                const barVal = [{}];
-                const barTitle = [{}];
-                const getTopFiveReasons = appealsData[0].LineOfBusiness[lobFullData].ListReasonAndCount.sort(function(
-                  a,
-                  b
+              if (appealsData[0].LineOfBusiness[lobFullData].ListReasonAndCount !== null) {
+                if (
+                  appealsData[0].LineOfBusiness[lobFullData].hasOwnProperty('ListReasonAndCount') &&
+                  appealsData[0].LineOfBusiness[lobFullData].ListReasonAndCount.length > 0
                 ) {
-                  return b.Count - a.Count;
-                }).slice(0, 5);
-                let topFiveReasonTotal;
-                for (let i = 0; i < getTopFiveReasons.length; i++) {
-                  if (i === 0) {
-                    topFiveReasonTotal = getTopFiveReasons[i].Count;
-                  } else {
-                    topFiveReasonTotal = topFiveReasonTotal + getTopFiveReasons[i].Count;
+                  const reasonsVal1 = [{}];
+                  const reasonsVal2 = [{}];
+                  const barVal = [{}];
+                  const barTitle = [{}];
+                  const getTopFiveReasons = appealsData[0].LineOfBusiness[lobFullData].ListReasonAndCount.sort(function(
+                    a,
+                    b
+                  ) {
+                    return b.Count - a.Count;
+                  }).slice(0, 5);
+                  let topFiveReasonTotal;
+                  for (let i = 0; i < getTopFiveReasons.length; i++) {
+                    if (i === 0) {
+                      topFiveReasonTotal = getTopFiveReasons[i].Count;
+                    } else {
+                      topFiveReasonTotal = topFiveReasonTotal + getTopFiveReasons[i].Count;
+                    }
                   }
-                }
-                for (let a = 0; a < getTopFiveReasons.length; a++) {
-                  reasonsVal1[a] = getTopFiveReasons[a].Count;
-                  const value1 = Number(reasonsVal1[a]);
-                  reasonsVal2[a] = topFiveReasonTotal - getTopFiveReasons[a].Count;
-                  barVal[a] =
-                    Number(((getTopFiveReasons[a].Count / topFiveReasonTotal) * 100).toFixed()) >= 1
-                      ? ((getTopFiveReasons[a].Count / topFiveReasonTotal) * 100).toFixed() + '%'
-                      : '<1%';
-                  barTitle[a] = getTopFiveReasons[a].Reason;
-                }
-                for (let i = 0; i <= getTopFiveReasons.length; i++) {
-                  reason.push({
-                    type: 'bar chart',
-                    graphValues: [reasonsVal1[i], reasonsVal2[i]],
-                    barText: barTitle[i],
-                    barValue: barVal[i],
-                    color: ['#3381FF', '#FFFFFF', '#E0E0E0'],
-                    gdata: ['app-card-structure', 'appealsOverturnedReason' + i]
-                  });
+                  for (let a = 0; a < getTopFiveReasons.length; a++) {
+                    reasonsVal1[a] = getTopFiveReasons[a].Count;
+                    const value1 = Number(reasonsVal1[a]);
+                    reasonsVal2[a] = topFiveReasonTotal - getTopFiveReasons[a].Count;
+                    barVal[a] =
+                      Number(((getTopFiveReasons[a].Count / topFiveReasonTotal) * 100).toFixed()) >= 1
+                        ? ((getTopFiveReasons[a].Count / topFiveReasonTotal) * 100).toFixed() + '%'
+                        : '<1%';
+                    barTitle[a] = getTopFiveReasons[a].Reason;
+                  }
+                  for (let i = 0; i <= getTopFiveReasons.length; i++) {
+                    reason.push({
+                      type: 'bar chart',
+                      graphValues: [reasonsVal1[i], reasonsVal2[i]],
+                      barText: barTitle[i],
+                      barValue: barVal[i],
+                      color: ['#3381FF', '#FFFFFF', '#E0E0E0'],
+                      gdata: ['app-card-structure', 'appealsOverturnedReason' + i]
+                    });
+                  }
                 }
               } else {
                 reason.push({
