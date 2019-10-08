@@ -171,6 +171,7 @@ export class OverviewAdvocateSharedService {
           const csData = [];
           const eiData = [];
           const other = [];
+          // for (let element; element < appealsTrendData.length; element++) {
           appealsTrendData.forEach(element => {
             const monthlyMrData = [];
             const monthlyCsData = [];
