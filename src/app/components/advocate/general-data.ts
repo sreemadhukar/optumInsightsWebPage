@@ -26,7 +26,7 @@ export const GeneralData: any = {
     tooltipBoolean: true,
     hideYAxis: false
   },
-  'Others': {
+  Others: {
     width: 500,
     backgroundColor: 'null',
     barGraphNumberSize: 18,

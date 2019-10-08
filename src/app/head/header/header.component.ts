@@ -137,7 +137,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
       this.router.navigate(['/OverviewPage']);
     }
   }
-
   ngOnInit() {
     this.advDropdownBool = false;
     this.healthSystemName = this.sessionService.getHealthCareOrgName();

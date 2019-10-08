@@ -13,93 +13,61 @@
       &gt;</app-print> -->
     </div>
     <div class="height1Separator"></div>
-    <div class="overview-subheading">
-      Time Period: <span> {{ npsSummary.heading }} &nbsp;</span>
+
+    <div class="breadcrumb-top-padding filter-div">
+      <div class="time--period ">
+        <div class="filterchips">
+          <div class="horizontal-align">
+            <button class="btn btn-rounded" disabled>
+              <span>Time Period: </span
+              ><span *ngIf="npsLoaded" class="text-semibold pl-4"
+                >{{ kopInsightsData.timePeriod.title }} ({{ kopInsightsData.timePeriod.timeFrame | timeperiod }})
+              </span>
+            </button>
+          </div>
+        </div>
+        <div class="filter_bg" (click)="openFilter()">
+          <mat-icon matPrefix class="nav-menu-icons" class="filter_icon" svgIcon="filter"></mat-icon>
+          <div class="filter_title">Filters</div>
+        </div>
+      </div>
     </div>
 
     <div class="overview-section" *ngIf="npsLoaded">
       <div class="section-header">
         <div class="cards section-header-part">
-          <div class="title">{{ npsSummary.title }}</div>
+          <div class="title">{{ kopInsightsData.npsSummary.title }}</div>
         </div>
         <div class="cards section-header-part2">
           <ul class="quarterslist">
-            <li *ngFor="let quarter of npsSummary.quarters">
+            <li *ngFor="let quarter of kopInsightsData.timePeriod.quarters">
               <div class="circle" [ngClass]="quarter.color"></div>
-              {{ quarter.quarter }} {{ quarter.year }}
+              {{ quarter | quarterpipe }}
             </li>
           </ul>
         </div>
       </div>
       <div class="height1Separator"></div>
-      <app-small-card class="cards" [options]="npsCardOptions" [data]="npsSummary.all.data"> </app-small-card>
-      <app-small-card class="cards" [options]="npsCardOptions" [data]="npsSummary.pm.data"> </app-small-card>
-      <app-small-card class="cards" [options]="npsCardOptions" [data]="npsSummary.md.data"> </app-small-card>
+      <app-small-card
+        class="cards"
+        [options]="npsCardOptions"
+        *ngFor="let npsItem of kopInsightsData.npsSummary.data"
+        [data]="npsItem"
+      >
+      </app-small-card>
+
+      <div class="kop-insights">Insights</div>
+      <div>
+        <!-- <app-large-card-kop [data]="kopInsightsData.networkParticipation.data"></app-large-card-kop> -->
+        <app-large-card-kop
+          [data]="kopInsightsData.careDelivery"
+          [timePeriod]="kopInsightsData.timePeriod"
+        ></app-large-card-kop>
+        <!-- <app-large-card-kop [data]="kopInsightsData.reimbursement.data"></app-large-card-kop> -->
+        <!-- <app-large-card-kop [data]="kopInsightsData.issueResolution.data"></app-large-card-kop> -->
+        <!-- <app-large-card-kop [data]="kopInsightsData.engagement.data"></app-large-card-kop> -->
+      </div>
     </div>
-
-    <!-- <app-heac-small-card
-      *ngIf="loadClaimsPaidCard && !claimsLoading && isHeac"
-      class="cards"
-      [data]="claimsPaidBlock"
-    ></app-heac-small-card>
-    <app-small-card class="cards" [skeleton]="claimsLoading" *ngIf="claimsLoading"> </app-small-card>
-    <app-error-card *ngIf="errorloadClaimsPaidCard" class="cards" [data]="item"></app-error-card>
-
-    <app-small-card class="cards" *ngIf="loadPrioirAuthCard && !priorAuthLoading" class="cards" [data]="priorAuthBlock">
-    </app-small-card>
-    <app-small-card class="cards" [skeleton]="priorAuthLoading" *ngIf="priorAuthLoading"> </app-small-card>
-    <app-error-card *ngIf="errorloadPrioirAuthCard" class="cards" [data]="item"></app-error-card>
-
-    <app-small-card
-      class="cards"
-      *ngIf="loadselfServiceAdoptionCard && !loading"
-      class="cards"
-      [data]="selfServiceAdoptionBlock"
-    >
-    </app-small-card>
-    <app-small-card class="cards" [skeleton]="loading" *ngIf="loading"> </app-small-card>
-    <app-error-card *ngIf="errorloadselfServiceAdoptionCard" class="cards" [data]="item"></app-error-card>
-
-    <app-small-card class="cards" *ngIf="loadClaimsYieldCard && !claimsLoading" class="cards" [data]="claimsYieldBlock">
-    </app-small-card>
-    <app-small-card class="cards" [skeleton]="claimsLoading" *ngIf="claimsLoading"> </app-small-card>
-    <app-error-card *ngIf="errorloadClaimsYieldCard" class="cards" [data]="item"></app-error-card>
-
-    <app-small-card
-      class="cards"
-      *ngIf="loadMedicareStarRatingCard && !loading"
-      class="cards"
-      [data]="medicareStarRatingBlock"
-    >
-    </app-small-card>
-    <app-small-card class="cards" [skeleton]="loading" *ngIf="loading"> </app-small-card>
-    <app-error-card *ngIf="errorloadMedicareStarRatingCard" class="cards" [data]="item"></app-error-card>
-
-    <app-small-card
-      class="cards"
-      *ngIf="loadTotalCallsCard && !callsLoading && !isHeac"
-      class="cards"
-      [data]="totalCallsBlock"
-    >
-    </app-small-card>
-    <app-heac-small-card
-      class="cards"
-      *ngIf="loadTotalCallsCard && !callsLoading && isHeac"
-      class="cards"
-      [data]="totalCallsBlock"
-    >
-    </app-heac-small-card>
-    <app-small-card class="cards" [skeleton]="callsLoading" *ngIf="callsLoading"> </app-small-card>
-    <app-error-card *ngIf="errorloadTotalCallsCard" class="cards" [data]="item"></app-error-card> -->
-
-    <!--<div *ngFor="let item of mainCards; let i = index">
-      <app-small-card *ngIf="item.data != null && item.toggle" class="cards" [data]="item"> </app-small-card>
-      <app-error-card *ngIf="item.status != null && item.toggle" class="cards" [data]="item"></app-error-card>
-    </div>
-    <div *ngFor="let data of mockMainCards; let i = index">
-      <app-small-card class="cards" [skeleton]="loading" *ngIf="loading"> </app-small-card>
-    </div>-->
-    <!-- <app-clarify-claims-message></app-clarify-claims-message> -->
   </div>
 </div>
 
