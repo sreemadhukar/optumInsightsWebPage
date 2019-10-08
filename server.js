@@ -43,7 +43,7 @@ var corsOptions = {
   }
 };
 
-app.get('/api/getJwt', function(req, res) {
+app.get('/api/getJwt', cors(), function(req, res) {
   let token = jwt.sign(
     {
       exp: Math.floor(Date.now() / 1000) + 60 * 60,
@@ -66,14 +66,14 @@ async function printPDF() {
   return pdf;
 }
 
-app.get('/api/generatePdf', function(req, res) {
+app.get('/api/generatePdf', cors(), function(req, res) {
   printPDF.then(pdf => {
     res.set({ 'Content-Type': 'application/pdf', 'Content-Length': pdf.length });
     res.send(pdf);
   });
 });
 
-app.get('/api/getHeac/:MsId', function(req, res) {
+app.get('/api/getHeac/:MsId', cors(), function(req, res) {
   res.status(200).json({
     heac: include(heac.user, req.params.MsId)
   });
