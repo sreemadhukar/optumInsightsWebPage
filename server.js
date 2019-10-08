@@ -7,7 +7,6 @@ var jwt = require('jsonwebtoken');
 var cors = require('cors');
 var compression = require('compression');
 var helmet = require('helmet');
-const puppeteer = require('puppeteer');
 
 var port = process.env.PORT || 8000;
 console.log(`Worker ${process.pid} started...`);
