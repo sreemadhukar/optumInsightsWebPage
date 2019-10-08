@@ -32,18 +32,7 @@ app.use((error, req, res, next) => {
   handleExceptions(error, res);
 });
 
-var whitelist = ['*.optum.com', '*.uhc.com'];
-var corsOptions = {
-  origin: function(origin, callback) {
-    if (whitelist.indexOf(origin) !== -1) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  }
-};
-
-app.get('/api/getJwt', function(req, res) {
+app.get('/api/getJwt', cors(), function(req, res) {
   let token = jwt.sign(
     {
       exp: Math.floor(Date.now() / 1000) + 60 * 60,
@@ -56,24 +45,7 @@ app.get('/api/getJwt', function(req, res) {
   });
 });
 
-async function printPDF() {
-  const browser = await puppeteer.launch({ headless: true });
-  const page = await browser.newPage();
-  await page.goto('https://blog.risingstack.com', { waitUntil: 'networkidle0' });
-  const pdf = await page.pdf({ format: 'A4' });
-
-  await browser.close();
-  return pdf;
-}
-
-app.get('/api/generatePdf', function(req, res) {
-  printPDF.then(pdf => {
-    res.set({ 'Content-Type': 'application/pdf', 'Content-Length': pdf.length });
-    res.send(pdf);
-  });
-});
-
-app.get('/api/getHeac/:MsId', function(req, res) {
+app.get('/api/getHeac/:MsId', cors(), function(req, res) {
   res.status(200).json({
     heac: include(heac.user, req.params.MsId)
   });
