@@ -67,7 +67,7 @@ async function printPDF() {
 }
 
 app.get('/api/generatePdf', cors(), function(req, res) {
-  printPDF.then(pdf => {
+  printPDF().then(pdf => {
     res.set({ 'Content-Type': 'application/pdf', 'Content-Length': pdf.length });
     res.send(pdf);
   });
