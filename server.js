@@ -57,21 +57,27 @@ app.get('/api/getJwt', cors(), function(req, res) {
 });
 
 async function printPDF() {
+ console.log('Started');
   const browser = await puppeteer.launch({
   executablePath: process.env.CHROMIUM_PATH,
   headless: true,
   args: ['--no-sandbox'], // This was important. Can't remember why
   });
+  console.log('browser started', browser);
   const page = await browser.newPage();
+  console.log('page start', page);
   await page.goto('https://blog.risingstack.com', { waitUntil: 'networkidle0' });
   const pdf = await page.pdf({ format: 'A4' });
+  console.log('page pdf', pdf);
 
   await browser.close();
   return pdf;
 }
 
 app.get('/api/generatePdf', cors(), function(req, res) {
+  console.log('call started', req);
   printPDF().then(pdf => {
+    console.log(pdf);
     res.set({ 'Content-Type': 'application/pdf', 'Content-Length': pdf.length });
     res.send(pdf);
   });
