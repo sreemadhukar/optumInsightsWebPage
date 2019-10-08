@@ -109,15 +109,20 @@ export class CallsSharedService {
           const trendMetrics = (trends || {}).TendingMtrics;
           if (trendMetrics) {
             try {
-              trendData.push(['QuestionType', this.common.negativeMeansGood(trendMetrics.CallsTrendByQuesType)]);
+              // trendData.push(['QuestionType', this.common.negativeMeansGood(trendMetrics.CallsTrendByQuesType)]);
+              trendData.push(['QuestionType', null]);
             } catch (err) {
               trendData.push(['QuestionType', null]);
             }
             try {
-              trendData.push(['TalkTime', this.common.negativeMeansGood(trendMetrics.CcllTalkTimeByQuesType)]);
+              trendData.push(['TalkTime', null]);
+              // trendData.push(['TalkTime', this.common.negativeMeansGood(trendMetrics.CcllTalkTimeByQuesType)]);
             } catch (err) {
               trendData.push(['TalkTime', null]);
             }
+          } else {
+            trendData.push(['QuestionType', null]);
+            trendData.push(['TalkTime', null]);
           }
           resolve(trendData);
         },
