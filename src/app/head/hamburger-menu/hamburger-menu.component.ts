@@ -302,12 +302,6 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     setTimeout(() => {
       this.healthSystemName = this.sessionService.getHealthCareOrgName();
     }, 1);
-
-    // Show butter bar to navigate back to KOP
-    this.fromKOP = sessionStorage.getItem('fromKOP') === 'YES';
-
-    // Remove to render again
-    sessionStorage.removeItem('fromKOP');
   }
 
   advocateRole() {
