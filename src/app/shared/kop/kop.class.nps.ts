@@ -44,20 +44,20 @@ export class NPSSummary {
       prevQuarter = false;
     }
 
-    let highlightedValue = 0;
-    let targetValue = 0;
+    let highlightedValue;
+    let targetValue;
     let highlightQuarter = false;
 
-    if (survey === 'all') {
+    if (survey === 'all' && TotalNPSValue && CombinedTargetNPSValue) {
       if (index === 0) {
         highlightQuarter = true;
       }
       highlightedValue = Math.round(TotalNPSValue);
       targetValue = Math.round(CombinedTargetNPSValue);
-    } else if (survey === 'md') {
+    } else if (survey === 'md' && TotalNPSValue && CombinedTargetNPSValue) {
       highlightedValue = Math.round(PhysicianNPSValue);
       targetValue = Math.round(PhysicianTargetNPSValue);
-    } else if (survey === 'pm') {
+    } else if (survey === 'pm' && TotalNPSValue && CombinedTargetNPSValue) {
       highlightedValue = Math.round(PracticeManagerNPSValue);
       targetValue = Math.round(PracticeManagerTargetNPSValue);
     }
