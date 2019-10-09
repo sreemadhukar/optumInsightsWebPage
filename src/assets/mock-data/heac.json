@@ -4,5 +4,18 @@
   },
   "Toggle": "HEAC",
   "roles": ["ROLE_USER"],
-  "user": ["ldunna", "smansoo4", "rvenugop", "lfeit1", "hblake", "adhiman4", "hsuresh1"]
+  "user": [
+    "ldunna",
+    "smansoo4",
+    "rvenugop",
+    "lfeit1",
+    "hblake",
+    "adhiman4",
+    "hsuresh1",
+    "htee",
+    "jrondo",
+    "bbuckli",
+    "sszabo",
+    "aparwat"
+  ]
 }

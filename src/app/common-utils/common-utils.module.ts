@@ -44,6 +44,7 @@ import { HorizontalChartsComponent } from './kop-cards/horizontal-charts/horizon
 import { VerticalBarChartsComponent } from './kop-cards/vertical-bar-charts/vertical-bar-charts.component';
 import { KopFiltersComponent } from './kop-filters/kop-filters.component';
 import { MultiLineGraphComponent } from './d3-objects/multi-line-graph/multi-line-graph.component';
+import { ErrorTemplateComponent } from './kop-cards/error-template/error-template.component';
 
 @NgModule({
   imports: [
@@ -128,7 +129,8 @@ import { MultiLineGraphComponent } from './d3-objects/multi-line-graph/multi-lin
     HorizontalChartsComponent,
     VerticalBarChartsComponent,
     KopFiltersComponent,
-    MultiLineGraphComponent
+    MultiLineGraphComponent,
+    ErrorTemplateComponent
   ],
   entryComponents: [ProviderSearchComponent]
 })
