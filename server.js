@@ -31,7 +31,7 @@ app.use((error, req, res, next) => {
   handleExceptions(error, res);
 });
 
-app.get('/api/getJwt', cors(), function(req, res) {
+app.get('/api/getJwt', function(req, res) {
   let token = jwt.sign(
     {
       exp: Math.floor(Date.now() / 1000) + 60 * 60,
@@ -44,7 +44,7 @@ app.get('/api/getJwt', cors(), function(req, res) {
   });
 });
 
-app.get('/api/getHeac/:MsId', cors(), function(req, res) {
+app.get('/api/getHeac/:MsId', function(req, res) {
   res.status(200).json({
     heac: include(heac.user, req.params.MsId)
   });
