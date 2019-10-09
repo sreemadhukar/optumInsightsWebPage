@@ -180,6 +180,16 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
         if (event.url === '/KnowOurProvider' && !heac.heac) {
           router.navigate(['/ProviderSearch']);
         }
+
+        // Check condtion for rendering butter bar
+        if (sessionStorage.getItem('fromKOP') === 'YES' && !this.makeAbsolute && event.url !== '/KnowOurProvider') {
+          setTimeout(() => {
+            this.fromKOP = true;
+          }, 500);
+        } else {
+          this.fromKOP = false;
+          sessionStorage.removeItem('fromKOP');
+        }
       }
       // PLEASE DON'T MODIFY THIS
     });
