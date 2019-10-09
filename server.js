@@ -16,7 +16,7 @@ app.use(helmet());
 app.use(express.static(path.join(__dirname, '.')));
 
 var apiProxy = httpProxy.createProxyServer();
-var apiForwardingUrl = 'https://gateway-stage-core.optum.com';
+var apiForwardingUrl = 'https://pedapigateway-pedprddr.ocp-ctc-dmz.optum.com';
 var sessionSecret = 'STwHkLYUwN1L5rc3yqdkuthRvczrBupc';
 var key = 'Q9gRpXWjVm5GXethNxG60utGMGW7NpsO';
 var heac = require('./src/assets/mock-data/heac.json');
