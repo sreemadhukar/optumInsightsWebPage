@@ -62,6 +62,14 @@ Date Created: 17-Apr-2019
             (chartData.title == 'Claims Paid' || chartData.title == 'Claims Not Paid') &&
             chartData.data.labels.length === 4
           "
+          [class.claims-paid-beside-data-block-three-lob]="
+            (chartData.title == 'Claims Paid' || chartData.title == 'Claims Not Paid') &&
+            chartData.data.labels.length === 3
+          "
+          [class.claims-paid-beside-data-block-two-lob]="
+            (chartData.title == 'Claims Paid' || chartData.title == 'Claims Not Paid') &&
+            chartData.data.labels.length === 2
+          "
           [class.claims-paid-beside-data-block-one-lob]="
             (chartData.title == 'Claims Paid' || chartData.title == 'Claims Not Paid') &&
             chartData.data.labels.length === 1

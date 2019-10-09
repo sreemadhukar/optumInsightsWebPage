@@ -143,7 +143,11 @@
         line-height: 50px;
       }
     }
-    .data-card.card-nps-single {
+    .kop-error-card {
+      margin: 10px auto;
+    }
+    .data-card.card-nps-single,
+    .kop-error-card.card-nps-single {
       margin: 10px auto !important;
     }
     .data-card.card-nps-quarter-current {

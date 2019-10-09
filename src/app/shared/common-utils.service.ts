@@ -330,18 +330,22 @@ export class CommonUtilsService {
       } else if (this.session.filterObjValue.lob === 'Medicare & Retirement') {
         if (cardData.hasOwnProperty('Mr')) {
           hoverLabels.push('Medicare & Retirement');
+          hoverLabels.push('Other Lines of Business');
         }
       } else if (this.session.filterObjValue.lob === 'Community & State') {
         if (cardData.hasOwnProperty('Cs')) {
           hoverLabels.push('Community & State');
+          hoverLabels.push('Other Lines of Business');
         }
       } else if (this.session.filterObjValue.lob === 'Employer & Individual') {
         if (cardData.hasOwnProperty('Ei')) {
           hoverLabels.push('Employer & Individual');
+          hoverLabels.push('Other Lines of Business');
         }
       } else if (this.session.filterObjValue.lob === 'Uncategorized') {
         if (cardData.hasOwnProperty('Un')) {
           hoverLabels.push('Uncategorized');
+          hoverLabels.push('Other Lines of Business');
         }
       }
       return hoverLabels;
@@ -435,6 +439,9 @@ export class CommonUtilsService {
     if (LOBType === 'Un' || LOBType === 'All') {
       lobLabels.push('Uncategorized');
     }
+    if (LOBType !== 'All') {
+      lobLabels.push('Other Lines of Business');
+    }
     return lobLabels;
   }
   public LOBSideLabelColors(LOBType) {
@@ -450,6 +457,9 @@ export class CommonUtilsService {
     }
     if (LOBType === 'Un' || LOBType === 'All') {
       lobColorLabels.push('#00B8CC');
+    }
+    if (LOBType !== 'All') {
+      lobColorLabels.push('#D7DCE1');
     }
     return lobColorLabels;
   }
