@@ -4,12 +4,24 @@
   max-height: 0% !important;
 }
 
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-infix {
+  padding: 8px 0 16px 0;
+}
+
 ::ng-deep .mat-autocomplete-panel:not([class*='mat-elevation-z']) {
   margin-top: 3px;
   border: 1px solid #e0e0e0;
   border-radius: 2px;
   background-color: #ffffff;
   box-shadow: 0 20px 40px 0 rgba(0, 0, 0, 0.15);
+}
+
+::ng-deep .mat-form-field-label-wrapper {
+  top: -1.1em;
+}
+
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-prefix {
+  top: 0.38em !important;
 }
 
 ::ng-deep .mat-form-field-appearance-outline.mat-focused ::ng-deep .mat-form-field-outline-thick {
@@ -173,6 +185,7 @@
 .absolute {
   position: absolute;
   bottom: 0;
+  right: 0 !important;
 }
 
 .fixed {
@@ -188,7 +201,7 @@
 .view-all-metrics-button-div {
   background: #ffffff;
   margin-left: -24px;
-  padding-left: 33px;
+  padding-left: 31px;
   padding-right: 32px;
   padding-bottom: 25px;
   padding-top: 25px;

@@ -49,8 +49,12 @@
     </div>
 
     <!--Claims Paid Breakdown Graph Starts here -->
-    <app-large-card [skeletonLarge]="loading" *ngIf="loading"></app-large-card>
-    <div *ngIf="claimsPaidBreakBool" class="claims-paid-content">
+    <app-large-card [skeletonLarge]="loading" *ngIf="loadingClaimsBreakdown"></app-large-card>
+    <app-error-card
+      *ngIf="!loadingClaimsBreakdown && !claimsPaidBreakBool && cData[0].status != null"
+      [data]="cData[0]"
+    ></app-error-card>
+    <div *ngIf="!loadingClaimsBreakdown && claimsPaidBreakBool" class="claims-paid-content">
       <app-common-header
         [title]="title"
         class="claims-header"
@@ -59,8 +63,7 @@
       <app-claims-paid-bar-graph [chartOptions]="cData[0]"></app-claims-paid-bar-graph>
 
       <div class="timeperiod-block">
-        <hr class="footer-border" />
-        <p class="timeperiod-text">{{ timePeriod }}</p>
+        <app-common-footer [timePeriod]="timePeriod"></app-common-footer>
       </div>
     </div>
     <!--Claims Paid Breakdown Graph Ends here -->

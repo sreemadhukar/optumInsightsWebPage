@@ -4,7 +4,7 @@ import * as d3 from 'd3';
 @Component({
   selector: 'app-bar-chart',
   templateUrl: './bar-chart.component.html',
-  styleUrls: ['./bar-chart.component.less'],
+  styleUrls: ['./bar-chart.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
 export class BarChartComponent implements OnInit, AfterViewInit {
@@ -128,7 +128,7 @@ export class BarChartComponent implements OnInit, AfterViewInit {
     /** Following 2 variable are for Prior Auth Bar Grpah */
 
     if (chartOptions.starObject) {
-      xScaleConstant = width - 85; // For PCOR graph width should be 849
+      xScaleConstant = width - 115; // For PCOR graph width should be 849
     } else {
       /** Following 2 variable are for Prior Auth Bar Grpah */
       xScaleBarWidthConstant = width / 1.79; // 522    when width is 554 , it will touch the border of the the card
@@ -250,11 +250,11 @@ export class BarChartComponent implements OnInit, AfterViewInit {
           .style('height', 'auto')
           .style('width', '438px')
           .style('opacity', 0)
-          .style('border-radius', 0);
+          .style('border-radius', '2px');
 
         const svg2 = div
           .append('svg')
-          .attr('height', '116px')
+          .attr('height', 20 * tspanArray.length + 'px')
           .attr('width', '438px');
 
         // need to make id clean
@@ -271,20 +271,27 @@ export class BarChartComponent implements OnInit, AfterViewInit {
 
         const label = d3.select('#' + uniqueText).selectAll('*');
 
+        let tooltipLabelAdjustor = 120;
+        if (tspanArray.length === 3) {
+          tooltipLabelAdjustor = 80;
+        } else if (tspanArray.length === 8) {
+          tooltipLabelAdjustor = 160;
+        }
+
         label
           .on('mouseenter', function(d) {
             div
               .transition()
               .duration(10)
               .style('opacity', 1);
-            div.style('left', d3.event.layerX - 14 + 'px').style('top', d3.event.layerY - 130 + 'px');
+            div.style('left', d3.event.layerX - 38 + 'px').style('top', d3.event.layerY - tooltipLabelAdjustor + 'px');
           })
           .on('mousemove', function(d) {
             div
               .transition()
               .duration(10)
               .style('opacity', 1);
-            div.style('left', d3.event.layerX - 14 + 'px').style('top', d3.event.layerY - 130 + 'px');
+            div.style('left', d3.event.layerX - 38 + 'px').style('top', d3.event.layerY - tooltipLabelAdjustor + 'px');
           })
           .on('mouseleave', function(d) {
             div

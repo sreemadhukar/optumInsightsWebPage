@@ -15,6 +15,7 @@ export const environment: any = {
       'https://sso.uhc.com/ext/as/authorization.oauth2?pfidpadapterid=OptumIdOIDC&client_id=PED42235&response_' +
       'type=code&redirect_uri=https://myinsights.uhc.com/login&scope=openid+profile+email&state=PED&prompt=none',
     linkLoginPage: 'https://provider.linkhealth.com',
+    SsoLogoutUrl: 'https://provider.linkhealth.com/api/link/session/signout&redirect=https://provider.linkhealth.com',
     ProvTinList: 'provider-tins/',
     LayerSevenPath: 'myinsightLayerSevenHandshake',
     URL: window.location.origin,
@@ -29,7 +30,11 @@ export const environment: any = {
     PaymentIntegrity: 'pi-metrics/',
     NonPayment: 'claim-metrics/',
     CallsTrend: 'provider-calls/',
-    TrendingMetrics: 'trending-metrics/'
+    TrendingMetrics: 'trending-metrics/',
+    PCORQualityMeasure: 'pcor-metrics/',
+    NPSSummary: 'kop-metrics/',
+    AppealsTrend: 'appeals-trend/',
+    AdminSummaryTrends: 'admintrends/'
   },
   headerKeys: {
     selectedCompany: '',

@@ -22,23 +22,13 @@ export class GettingReimbursedService {
 
   constructor(private http: HttpClient) {}
   public getGettingReimbursedYearWiseData(...parameters) {
-    /*const appealsParams = parameters[1];
-    if (!appealsParams.Tin) {
-      appealsParams.AllProviderTins = true;
-    }*/
     const claimsURL = this.APP_URL + this.CLAIMS_SERVICE_PATH + parameters[0] + '?requestType=PAYMENT_METRICS';
-    // const appealsURL = this.APP_URL + this.APPEALS_SERVICE_PATH + parameters[0];
-
     return combineLatest(
       this.http.post(claimsURL, parameters[1]).pipe(
         map(res => JSON.parse(JSON.stringify(res[0]))),
         catchError(err => of(JSON.parse(JSON.stringify(err))))
       ),
       this.appealsData(...parameters)
-      /*this.http.post(appealsURL, appealsParams).pipe(
-        map(res => JSON.parse(JSON.stringify(res))),
-        catchError(err => of(JSON.parse(JSON.stringify(err))))
-      )*/
     );
   }
 
@@ -56,22 +46,21 @@ export class GettingReimbursedService {
   }
 
   public getGettingReimbursedData(...parameters) {
-    /*const appealsParams = parameters[1];
-    if (!appealsParams.Tin) {
-      appealsParams.AllProviderTins = true;
-    }*/
     const claimsURL = this.APP_URL + this.CLAIMS_SERVICE_PATH + parameters[0] + '?requestType=PAYMENT_METRICS';
-    // const appealsURL = this.APP_URL + this.APPEALS_SERVICE_PATH + parameters[0];
     return combineLatest(
       this.http.post(claimsURL, parameters[1]).pipe(
         map(res => JSON.parse(JSON.stringify(res[0]))),
         catchError(err => of(JSON.parse(JSON.stringify(err))))
       ),
       this.appealsData(...parameters)
-      /*this.http.post(appealsURL, appealsParams).pipe(
-        map(res => JSON.parse(JSON.stringify(res))),
-        catchError(err => of(JSON.parse(JSON.stringify(err))))
-      )*/
+    );
+  }
+
+  public getPaymentsData(parameters) {
+    const claimsURL = this.APP_URL + this.CLAIMS_SERVICE_PATH + parameters[0] + '?requestType=PAYMENT_METRICS';
+    return this.http.post(claimsURL, parameters[1]).pipe(
+      map(res => JSON.parse(JSON.stringify(res[0]))),
+      catchError(err => of(JSON.parse(JSON.stringify(err))))
     );
   }
 
@@ -86,35 +75,6 @@ export class GettingReimbursedService {
     );
   }
 
-  /* Function to get Claims Non payments by Facility Data - Ranjith kumar Ankam */
-  public getClaimsNonPaymentsData(parameters) {
-    let params = new HttpParams();
-
-    params = params.append('monthly', parameters.monthly);
-    params = params.append('YTD', parameters.ytd);
-    if (parameters.timeperiod !== '') {
-      params = params.append('timeFilter', parameters.timeperiod);
-    }
-    if (parameters.tin !== '') {
-      params = params.append('TIN', parameters.tin);
-    }
-    if (parameters.startDate !== '') {
-      params = params.append('startDate', parameters.startDate);
-    }
-    if (parameters.endDate !== '') {
-      params = params.append('endDate', parameters.endDate);
-    }
-    /*if (parameters.rolling12 !== '') {
-      params = params.append('rolling12', parameters.rolling12);
-    }
-*/
-    const claimsURL = this.APP_URL + this.CLAIMS_SERVICE_PATH + parameters.providerkey;
-    return this.http.post(claimsURL, params).pipe(
-      map(res => res),
-      catchError(err => of(err))
-    );
-  }
-
   /* Function to get Payment Integrity Data - Ranjith kumar Ankam */
 
   public getPaymentIntegrityData(parameters) {
@@ -124,7 +84,10 @@ export class GettingReimbursedService {
     if (parameters.timeperiod !== '') {
       params = params.append('timeFilter', parameters.timeperiod);
     }
-    return this.http.get(piURL, { params: params });
+    return this.http.get(piURL, { params: params }).pipe(
+      map(res => res),
+      catchError(err => of(err))
+    );
   }
 
   public getPaymentData(...parameters) {
@@ -136,26 +99,9 @@ export class GettingReimbursedService {
       Accept: '*/*'
     });
     const nonPaymentURL = this.APP_URL + this.CLAIMS_SERVICE_PATH + parameters[0] + '?requestType=PAYMENT_METRICS';
-    return combineLatest(
-      this.http.post(nonPaymentURL, parameters[1], { headers: myHeader }).pipe(
-        map(res => JSON.parse(JSON.stringify(res[0]))),
-        catchError(err => of(JSON.parse(JSON.stringify(err))))
-      )
+    return this.http.post(nonPaymentURL, parameters[1], { headers: myHeader }).pipe(
+      map(res => JSON.parse(JSON.stringify(res[0]))),
+      catchError(err => of(JSON.parse(JSON.stringify(err))))
     );
   }
-
-  // public getPaymentData(parameters, tinParam, TimeFilter, TimeFilterText) {
-  //   const params = new HttpParams();
-  //   const bParam = {
-  //     TimeFilter: TimeFilter,
-  //     Tin: tinParam,
-  //     TimeFilterText: TimeFilterText
-  //   };
-
-  //   const claimsURL = this.APP_URL + this.CLAIMS_SERVICE_PATH + parameters + '?requestType=PAYMENT_METRICS';
-  //   return this.http.post(claimsURL, bParam).pipe(
-  //     map(res => JSON.parse(JSON.stringify(res[0]))),
-  //     catchError(err => of(JSON.parse(JSON.stringify(err))))
-  //   );
-  // }
 }

@@ -1,5 +1,6 @@
 import { Component, OnInit, Inject, ViewChild, TemplateRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { CookieService } from 'ngx-cookie-service';
 import { ExternalService } from '../_service/external.service';
 import { environment } from '../../../environments/environment';
 import { AuthenticationService } from '../_service/authentication.service';
@@ -27,6 +28,12 @@ export class LoginStubComponent implements OnInit {
   blankScreen = false;
   id: any;
   token: string;
+  isKop = false;
+  showWarning = false;
+  sessionTimedoutMessage: any = {
+    note: 'Due to inactivity, we have logged you out.',
+    message: 'To return to UHC Insights, please sign in below.'
+  };
   @ViewChild('errorDialog') errorDialog: TemplateRef<any>;
 
   constructor(
@@ -40,6 +47,7 @@ export class LoginStubComponent implements OnInit {
     private iconRegistry: MatIconRegistry,
     private sanitizer: DomSanitizer,
     private authorise: AuthorizationService,
+    private cookieService: CookieService,
     private route: ActivatedRoute,
     @Inject(DOCUMENT) private document: any
   ) {
@@ -50,6 +58,8 @@ export class LoginStubComponent implements OnInit {
   }
 
   ngOnInit() {
+    // to close all opened dialogbox at after logout at login page
+    this.dialog.closeAll();
     sessionStorage.setItem('cache', JSON.stringify(false));
     if (!environment.production) {
       this.authService.getJwt().subscribe(data => {
@@ -57,6 +67,7 @@ export class LoginStubComponent implements OnInit {
         this.token = data['token'];
       });
     } else {
+      this.cookieService.deleteAll('/');
       this.token = 'isProd';
     }
     this.loading = true;
@@ -64,6 +75,15 @@ export class LoginStubComponent implements OnInit {
       this.loading = false;
       this.initLogin();
     }, 3000);
+
+    const queryParams = this.route.snapshot.queryParams;
+
+    // do something with the parameters
+    if (queryParams.sessionExpired) {
+      this.showWarning = true;
+    } else {
+      this.showWarning = false;
+    }
   }
 
   initLogin() {
@@ -89,7 +109,9 @@ export class LoginStubComponent implements OnInit {
             this.external
               .CheckExternal(params.code, this.token)
               .then(value => {
-                this.authorise.getToggles().subscribe(value1 => {});
+                this.authorise.getToggles('external-authorise').subscribe(value1 => {
+                  console.log(value1);
+                });
                 sessionStorage.setItem('cache', JSON.stringify(true));
                 this.router.navigate(['/OverviewPage']);
               })
@@ -129,12 +151,31 @@ export class LoginStubComponent implements OnInit {
         () => {
           this.blankScreen = true;
           this.loading = false;
-          this.authorise.getToggles().subscribe(value => {
+          this.authorise.getToggles('authorise').subscribe(value => {
             console.log(value);
           });
+          if (environment.internalAccess) {
+            this.authorise.getHeac(this.f.username.value).subscribe(value => {
+              console.log(value);
+            });
+          }
           sessionStorage.setItem('cache', JSON.stringify(true));
           // this.openDialog();
-          this.router.navigate(['/ProviderSearch']);
+
+          if (environment.internalAccess) {
+            this.authorise.getHeac(this.f.username.value).subscribe(value => {
+              console.log(value);
+              const heac = JSON.parse(sessionStorage.getItem('heac'));
+              this.isKop = heac && heac.heac === true ? true : false;
+              if (this.isKop === true) {
+                this.router.navigate(['/KnowOurProvider']);
+              } else {
+                this.router.navigate(['/ProviderSearch']);
+              }
+            });
+          } else {
+            this.router.navigate(['/ProviderSearch']);
+          }
         },
         error => {
           this.error = true;

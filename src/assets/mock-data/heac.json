@@ -1,0 +1,8 @@
+{
+  "_id": {
+    "$oid": "5c19530fcf79484b44bd6450"
+  },
+  "Toggle": "HEAC",
+  "roles": ["ROLE_USER"],
+  "user": ["ldunna", "smansoo4", "rvenugop", "lfeit1", "hblake", "adhiman4", "hsuresh1"]
+}

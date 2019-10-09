@@ -8,6 +8,7 @@ import { Providers } from './../../../shared/provider/provider.class';
 import { MatIconRegistry, MatAutocompleteSelectedEvent } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 import { StorageService } from './../../../shared/storage-service.service';
+import { SessionService } from '../../../shared/session.service';
 
 import {
   AfterViewInit,
@@ -48,6 +49,7 @@ export class SelectProviderComponent implements OnInit {
     private iconRegistry: MatIconRegistry,
     private storage: StorageService,
     private router: Router,
+    private sessionService: SessionService,
     sanitizer: DomSanitizer
   ) {
     iconRegistry.addSvgIcon(
@@ -100,7 +102,6 @@ export class SelectProviderComponent implements OnInit {
     if (document.querySelector('.mat-autocomplete-panel')) {
       (<HTMLElement>document.querySelector('.mat-autocomplete-panel')).style.height = '0';
     }
-    console.log('madhukar');
     if (this.stateCtrl.value && this.stateCtrl.value !== '') {
       if (document.querySelector('.mat-autocomplete-hidden')) {
         (<HTMLElement>document.querySelector('.mat-autocomplete-hidden')).style.visibility = 'visible';
@@ -125,6 +126,9 @@ export class SelectProviderComponent implements OnInit {
     }
     return true;
   }
+  provider() {
+    this.router.navigate(['/ProviderSearch']);
+  }
   // madhukar
   providerSelect(event: MatAutocompleteSelectedEvent) {
     this.providerSelectedFlag = false;
@@ -137,11 +141,20 @@ export class SelectProviderComponent implements OnInit {
     } else {
       this.storage.store('currentUser', [Object.assign(provider, data)]);
     }
-    this.router.navigate(['/OverviewPage']);
+    // Role based access for Advocates Overview page
+    if (this.sessionService.checkAdvocateRole()) {
+      this.router.navigate(['/OverviewPageAdvocate']);
+    } else {
+      this.router.navigate(['/OverviewPage']);
+    }
   }
 
   private _filterStates(value: string): Providers[] {
     const filterValue = value.toLowerCase();
-    return this.states.filter(state => state.HealthCareOrganizationName.toLowerCase().indexOf(filterValue) === 0);
+    const filteredSet = this.states.filter(
+      state => state.HealthCareOrganizationName.toLowerCase().indexOf(filterValue) === 0
+    );
+    filteredSet.sort((a, b) => a.HealthCareOrganizationName.localeCompare(b.HealthCareOrganizationName));
+    return filteredSet;
   }
 }

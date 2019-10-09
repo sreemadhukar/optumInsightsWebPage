@@ -7,15 +7,19 @@ String namespace = 'uhcinsights'
 String tagBase = "$dockerHost/$namespace"
 
 String oseHost= "https://ocp-ctc-core-nonprod.optum.com"
+String oseIntHost= "https://ocp-ctc-dmz-stg.optum.com"
 
 String oseQaProject = 'pedtst'
 String oseDevProject = 'peddev'
+String oseInternalProject = 'ped-internal'
+String oseIntProject = 'pedstg'
 
 String qaOneUiPod = 'pedui1'
 String devOneUiPod = 'pedui1'
 String devTwoUiPod = 'pedui2'
 String devThreeUiPod = 'pedui3'
 String devFourUiPod = 'pedui4'
+String devFiveUiPod = 'pedui5'
 
 pipeline {
     agent none
@@ -29,7 +33,7 @@ pipeline {
     }
     
     stages{
-    stage('Web: Build and Deploy Docker Image to DTR - QaOne') {
+    stage('Web: Build and Deploy Docker Image to DTR - dev') {
             when {
                 beforeAgent true
                 branch 'dev'
@@ -38,20 +42,20 @@ pipeline {
                 label 'docker-nodejs-slave'
             }
             steps {
-                glDockerImageBuildPush tag: "$tagBase/ui_int:qaone",
+                glDockerImageBuildPush tag: "$tagBase/ui_dev:qaone",
                         dockerHost: 'docker.repo1.uhc.com',
                         dockerCredentialsId: "$env.DOCKER_CREDENTIALS_ID",
                         extraBuildOptions: "--build-arg env_var=dev"
               
-                 glDockerImageTag sourceTag: "$tagBase/ui_int:qaone",
-                                 destTag: "$tagBase/ui_int:${env.BUILD_NUMBER}"
+                 glDockerImageTag sourceTag: "$tagBase/ui_dev:qaone",
+                                 destTag: "$tagBase/ui_dev:${env.BUILD_NUMBER}"
                  glDockerImagePush dockerCredentialsId: "${env.DOCKER_CREDENTIALS_ID}", 
-                     tag:"$tagBase/ui_int:${env.BUILD_NUMBER}",
+                     tag:"$tagBase/ui_dev:${env.BUILD_NUMBER}",
                      dockerHost: 'docker.repo1.uhc.com'
             }
         }
 
-        stage('OSE Deployment Web - QaOne') {
+        stage('OSE Deployment Web - dev') {
             when {
                 beforeAgent true
                 branch 'dev'
@@ -64,7 +68,7 @@ pipeline {
                         ocpUrl: "$oseHost",
                         project: "$oseQaProject",
                         serviceName: "$qaOneUiPod",
-                        dockerImage: "$tagBase/ui_int:qaone",
+                        dockerImage: "$tagBase/ui_dev:qaone",
                         port: '8000'
 
             }
@@ -79,11 +83,16 @@ pipeline {
                 label 'docker-nodejs-slave'
             }
             steps {
-                glDockerImageBuildPush tag: "$tagBase/$qaWebRepo:devone",
-                        repository: "$devWebRepo",
-                        namespace: "$namespace",
+                glDockerImageBuildPush tag: "$tagBase/ui_devone:devone",
+                        dockerHost: 'docker.repo1.uhc.com',
                         dockerCredentialsId: "$env.DOCKER_CREDENTIALS_ID",
                         extraBuildOptions: "--build-arg env_var=devone"
+              
+                 glDockerImageTag sourceTag: "$tagBase/ui_devone:devone",
+                                 destTag: "$tagBase/ui_devone:${env.BUILD_NUMBER}"
+                 glDockerImagePush dockerCredentialsId: "${env.DOCKER_CREDENTIALS_ID}", 
+                     tag:"$tagBase/ui_devone:${env.BUILD_NUMBER}",
+                     dockerHost: 'docker.repo1.uhc.com'
             }
         }
 
@@ -100,7 +109,7 @@ pipeline {
                         ocpUrl: "$oseHost",
                         project: "$oseDevProject",
                         serviceName: "$devOneUiPod",
-                        dockerImage: "$tagBase/$devWebRepo:devone",
+                        dockerImage: "$tagBase/ui_devone:devone",
                         port: '8000'
 
             }
@@ -115,11 +124,16 @@ pipeline {
                 label 'docker-nodejs-slave'
             }
             steps {
-                glDockerImageBuildPush tag: "$tagBase/$devWebRepo:devtwo",
-                        repository: "$devWebRepo",
-                        namespace: "$namespace",
+                glDockerImageBuildPush tag: "$tagBase/ui_devtwo:devtwo",
+                        dockerHost: 'docker.repo1.uhc.com',
                         dockerCredentialsId: "$env.DOCKER_CREDENTIALS_ID",
                         extraBuildOptions: "--build-arg env_var=devtwo"
+              
+                 glDockerImageTag sourceTag: "$tagBase/ui_devtwo:devtwo",
+                                 destTag: "$tagBase/ui_devtwo:${env.BUILD_NUMBER}"
+                 glDockerImagePush dockerCredentialsId: "${env.DOCKER_CREDENTIALS_ID}", 
+                     tag:"$tagBase/ui_devtwo:${env.BUILD_NUMBER}",
+                     dockerHost: 'docker.repo1.uhc.com'
             }
         }
 
@@ -136,7 +150,7 @@ pipeline {
                         ocpUrl: "$oseHost",
                         project: "$oseDevProject",
                         serviceName: "$devTwoUiPod",
-                        dockerImage: "$tagBase/$devWebRepo:devtwo",
+                        dockerImage: "$tagBase/ui_devtwo:devtwo",
                         port: '8000'
             }
         }
@@ -191,11 +205,16 @@ pipeline {
                 label 'docker-nodejs-slave'
             }
             steps {
-                glDockerImageBuildPush tag: "$tagBase/$devWebRepo:devfour",
-                        repository: "$devWebRepo",
-                        namespace: "$namespace",
+                glDockerImageBuildPush tag: "$tagBase/ui_devfour:devfour",
+                        dockerHost: 'docker.repo1.uhc.com',
                         dockerCredentialsId: "$env.DOCKER_CREDENTIALS_ID",
                         extraBuildOptions: "--build-arg env_var=devfour"
+              
+                 glDockerImageTag sourceTag: "$tagBase/ui_devfour:devfour",
+                                 destTag: "$tagBase/ui_devfour:${env.BUILD_NUMBER}"
+                 glDockerImagePush dockerCredentialsId: "${env.DOCKER_CREDENTIALS_ID}", 
+                     tag:"$tagBase/ui_devfour:${env.BUILD_NUMBER}",
+                     dockerHost: 'docker.repo1.uhc.com'
             }
         }
 
@@ -212,11 +231,107 @@ pipeline {
                         ocpUrl: "$oseHost",
                         project: "$oseDevProject",
                         serviceName: "$devFourUiPod",
-                        dockerImage: "$tagBase/$devWebRepo:devfour",
+                        dockerImage: "$tagBase/ui_devfour:devfour",
                         port: '8000'
             }
         }
+      
+      stage('Web: Build and Deploy Docker Image to DTR - devFive') {
+            when {
+                beforeAgent true
+                branch 'devFive'
+            }
+            agent {
+                label 'docker-nodejs-slave'
+            }
+            steps {
+                glDockerImageBuildPush tag: "$tagBase/ui_devfive:devfive",
+                        dockerHost: 'docker.repo1.uhc.com',
+                        dockerCredentialsId: "$env.DOCKER_CREDENTIALS_ID",
+                        extraBuildOptions: "--build-arg env_var=devfive"
+              
+                 glDockerImageTag sourceTag: "$tagBase/ui_devfive:devfive",
+                                 destTag: "$tagBase/ui_devfive:${env.BUILD_NUMBER}"
+                 glDockerImagePush dockerCredentialsId: "${env.DOCKER_CREDENTIALS_ID}", 
+                     tag:"$tagBase/ui_devfive:${env.BUILD_NUMBER}",
+                     dockerHost: 'docker.repo1.uhc.com'
+            }
+        }
+
+        stage('OSE Deployment Web - devFive') {
+            when {
+                beforeAgent true
+                branch 'devFive'
+            }
+            agent {
+                label 'docker-maven-slave'
+            }
+            steps {
+                glOpenshiftDeploy credentials: "$env.OPENSHIFT_CREDENTIALS_ID",
+                        ocpUrl: "$oseHost",
+                        project: "$oseDevProject",
+                        serviceName: "$devFiveUiPod",
+                        dockerImage: "$tagBase/ui_devfive:devfive",
+                        port: '8000'
+            }
+        }
+      
+       stage('Web: Build and Deploy Docker Image to DTR - Int') {
+         when {
+                beforeAgent true
+                branch 'int'
+            }
+      agent {
+        label 'docker-nodejs-slave'
       }
+      steps {
+        glDockerImageBuildPush tag: "$tagBase/ui_int:int",
+          dockerHost: 'docker.repo1.uhc.com',
+          dockerCredentialsId: "$env.DOCKER_CREDENTIALS_ID",
+          extraBuildOptions: "--build-arg env_var=externalint"
+        glDockerImageBuildPush tag: "$tagBase/ui_int_internal:uhcinternal",
+          dockerHost: 'docker.repo1.uhc.com',
+          dockerCredentialsId: "$env.DOCKER_CREDENTIALS_ID",
+          extraBuildOptions: "--build-arg env_var=int"
+        glDockerImageTag sourceTag: "$tagBase/ui_int:int",
+                         destTag: "$tagBase/ui_int:${env.BUILD_NUMBER}"
+        glDockerImagePush dockerCredentialsId: "${env.DOCKER_CREDENTIALS_ID}", 
+                     tag:"$tagBase/ui_int:${env.BUILD_NUMBER}",
+                     dockerHost: 'docker.repo1.uhc.com'
+        glDockerImageTag sourceTag: "$tagBase/ui_int_internal:uhcinternal",
+                         destTag: "$tagBase/ui_int_internal:${env.BUILD_NUMBER}"
+        glDockerImagePush dockerCredentialsId: "${env.DOCKER_CREDENTIALS_ID}", 
+                     tag:"$tagBase/ui_int_internal:${env.BUILD_NUMBER}",
+                     dockerHost: 'docker.repo1.uhc.com'
+      }
+    }
+
+    stage('OSE Deployment Web - Int') {
+      when {
+                beforeAgent true
+                branch 'int'
+            }
+      agent {
+        label 'docker-maven-slave'
+      }
+      steps {
+        glOpenshiftDeploy credentials: "$env.OPENSHIFT_CREDENTIALS_ID",
+          ocpUrl: "$oseIntHost",
+          project: "$oseIntProject",
+          serviceName: "pedintui",
+          dockerImage: "$tagBase/ui_int:int",
+          port: '8000'
+        glOpenshiftDeploy credentials: "$env.OPENSHIFT_CREDENTIALS_ID",
+          ocpUrl: "$oseHost",
+          project: "$oseInternalProject",
+          serviceName: "pedintui",
+          dockerImage: "$tagBase/ui_int_internal:uhcinternal",
+          port: '8000'
+
+      }
+    }
+
+  }
       
     post {
         always {

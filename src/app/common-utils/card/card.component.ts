@@ -64,7 +64,6 @@ export class CardComponent implements OnInit {
         }
       ];
     }
-    console.log(this.medicareData, this.medicareBesideData);
   }
 
   constructor(private glossaryExpandService: GlossaryExpandService) {
@@ -72,7 +71,7 @@ export class CardComponent implements OnInit {
   }
 
   helpIconClick(title) {
-    this.glossaryExpandService.setMessage(title);
+    this.glossaryExpandService.setMessage(title, this.chartData.MetricID);
   }
   ngOnInit() {
     if (this.tabData) {

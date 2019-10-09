@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from '../auth/_guards/auth.guard';
 import { TermsOfUseComponent } from './terms-of-use/terms-of-use.component';
 import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component';
+import { SiteMapComponent } from './site-map/site-map.component';
 
 const routes: Routes = [
   {
@@ -12,6 +13,11 @@ const routes: Routes = [
   {
     path: 'login',
     loadChildren: '../auth/auth.module#AuthModule'
+  },
+  {
+    path: 'OverviewPageAdvocate',
+    loadChildren: '../components/advocate/advocate.module#AdvocateModule',
+    canActivate: [AuthGuard]
   },
   {
     path: 'OverviewPage',
@@ -48,6 +54,21 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
+    path: 'AcoPage',
+    loadChildren: '../components/ACO/aco.module#AcoModule',
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'KnowOurProvider',
+    loadChildren: '../components/know-our-provider/know-our-provider.module#KnowOurProviderModule',
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'AdminSummaryTrends',
+    loadChildren: '../components/summary-trends/summary-trends.module#SummaryTrendsModule',
+    canActivate: [AuthGuard]
+  },
+  {
     path: 'TermsofUse',
     component: TermsOfUseComponent
   },
@@ -55,11 +76,19 @@ const routes: Routes = [
     path: 'PrivacyPolicy',
     component: PrivacyPolicyComponent
   },
+  {
+    path: 'SiteMap',
+    component: SiteMapComponent
+  },
   { path: '**', redirectTo: '' }
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [
+    RouterModule.forRoot(routes, {
+      scrollPositionRestoration: 'enabled' // Add options right here , to scroll to top whenever navigaion is changed
+    })
+  ],
   exports: [RouterModule]
 })
 export class HeadRoutingModule {}

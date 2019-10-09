@@ -19,7 +19,7 @@ import { environment } from '../../../environments/environment';
 export class HttpInterceptorService implements HttpInterceptor {
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
-    if (currentUser) {
+    if (currentUser && request.url.indexOf(environment.originUrl + 'api/getHeac') === -1) {
       const token =
         !environment.internalAccess && environment.production
           ? currentUser[0].AccessToken

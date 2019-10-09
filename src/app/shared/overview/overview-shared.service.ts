@@ -6,6 +6,7 @@ import { CommonUtilsService } from '../common-utils.service';
 import { SessionService } from '../session.service';
 import { AuthorizationService } from '../../auth/_service/authorization.service';
 import { TrendingMetricsService } from '../../rest/trending/trending-metrics.service';
+import { GlossaryMetricidService } from '../glossary-metricid.service';
 
 @Injectable({
   providedIn: OverviewPageModule
@@ -18,6 +19,7 @@ export class OverviewSharedService {
   private previousTimePeriod = 'PreviousLast30Days';
   private priorAuthTrend;
   constructor(
+    private MetricidService: GlossaryMetricidService,
     private overviewService: OverviewService,
     private common: CommonUtilsService,
     private session: SessionService,
@@ -126,6 +128,7 @@ export class OverviewSharedService {
           category: 'small-card',
           type: 'donut',
           title: 'Prior Authorization Approval',
+          MetricID: this.MetricidService.MetricIDs.PriorAuthorizationApproval,
           toggle: this.toggle.setToggles('Prior Authorization Approval', 'AtGlance', 'Overview', false),
           data: {
             graphValues: [approvedRate, 1 - approvedRate],
@@ -155,6 +158,29 @@ export class OverviewSharedService {
   createSelfServiceObject(providerSystems) {
     return new Promise((resolve, reject) => {
       let cSelfService: object;
+      let timeSelfService: string;
+      if (
+        providerSystems.hasOwnProperty('SelfServiceInquiries') &&
+        providerSystems.SelfServiceInquiries != null &&
+        providerSystems.SelfServiceInquiries.hasOwnProperty('ALL') &&
+        providerSystems.SelfServiceInquiries.ALL.hasOwnProperty('ReportingPeriodStartDate') &&
+        providerSystems.SelfServiceInquiries.ALL.hasOwnProperty('ReportingPeriodEndDate')
+      ) {
+        try {
+          const startDate: string = this.common.dateFormat(
+            providerSystems.SelfServiceInquiries.ALL.ReportingPeriodStartDate
+          );
+          const endDate: string = this.common.dateFormat(
+            providerSystems.SelfServiceInquiries.ALL.ReportingPeriodEndDate
+          );
+          timeSelfService = startDate + ' - ' + endDate;
+        } catch (Error) {
+          timeSelfService = null;
+          console.log('Error in Self Service TimePeriod', timeSelfService);
+        }
+      } else {
+        timeSelfService = null;
+      }
       if (
         providerSystems.hasOwnProperty('SelfServiceInquiries') &&
         providerSystems.SelfServiceInquiries != null &&
@@ -162,24 +188,49 @@ export class OverviewSharedService {
         providerSystems.SelfServiceInquiries.ALL.hasOwnProperty('Utilizations') &&
         providerSystems.SelfServiceInquiries.ALL.Utilizations.hasOwnProperty('OverallLinkAdoptionRate')
       ) {
-        cSelfService = {
-          category: 'small-card',
-          type: 'donut',
-          title: 'Self Service Adoption Rate',
-          toggle: this.toggle.setToggles('Self Service Adoption Rate', 'AtGlance', 'Overview', false),
-          data: {
-            graphValues: [
-              providerSystems.SelfServiceInquiries.ALL.Utilizations.OverallLinkAdoptionRate,
-              1 - providerSystems.SelfServiceInquiries.ALL.Utilizations.OverallLinkAdoptionRate
-            ],
-            centerNumber:
-              (providerSystems.SelfServiceInquiries.ALL.Utilizations.OverallLinkAdoptionRate * 100).toFixed(0) + '%',
-            color: ['#3381FF', '#D7DCE1'],
-            gdata: ['card-inner', 'selfServiceCardD3Donut']
-          },
-          sdata: null,
-          timeperiod: '90 Days Period'
-        };
+        let selfServiceTime;
+        if (
+          providerSystems.SelfServiceInquiries.ALL.hasOwnProperty('ReportingPeriodStartDate') &&
+          providerSystems.SelfServiceInquiries.ALL.hasOwnProperty('ReportingPeriodEndDate')
+        ) {
+          try {
+            const startDate: string = this.common.dateFormat(
+              providerSystems.SelfServiceInquiries.ALL.ReportingPeriodStartDate
+            );
+            const endDate: string = this.common.dateFormat(
+              providerSystems.SelfServiceInquiries.ALL.ReportingPeriodEndDate
+            );
+            selfServiceTime = startDate + ' - ' + endDate;
+          } catch (Error) {
+            selfServiceTime = null;
+            console.log('Error in Overview | Self Service TimePeriod', Error);
+          }
+        } else {
+          selfServiceTime = null;
+        }
+        try {
+          cSelfService = {
+            category: 'small-card',
+            type: 'donut',
+            title: 'Self Service Adoption Rate',
+            MetricID: this.MetricidService.MetricIDs.SelfServiceAdoptionRate,
+            toggle: this.toggle.setToggles('Self Service Adoption Rate', 'AtGlance', 'Overview', false),
+            data: {
+              graphValues: [
+                providerSystems.SelfServiceInquiries.ALL.Utilizations.OverallLinkAdoptionRate,
+                1 - providerSystems.SelfServiceInquiries.ALL.Utilizations.OverallLinkAdoptionRate
+              ],
+              centerNumber:
+                (providerSystems.SelfServiceInquiries.ALL.Utilizations.OverallLinkAdoptionRate * 100).toFixed(0) + '%',
+              color: ['#3381FF', '#D7DCE1'],
+              gdata: ['card-inner', 'selfServiceCardD3Donut']
+            },
+            sdata: null,
+            timeperiod: selfServiceTime
+          };
+        } catch (Error) {
+          console.log('Error | Self Service Adoption Rate', Error);
+        }
       } else {
         cSelfService = {
           category: 'small-card',
@@ -214,6 +265,7 @@ export class OverviewSharedService {
           category: 'small-card',
           type: 'star',
           title: 'Medicare Star Rating',
+          MetricID: this.MetricidService.MetricIDs.MedicareStarRating,
           toggle: this.toggle.setToggles('Medicare Star Rating', 'AtGlance', 'Overview', false),
           data: {
             graphValues: [
@@ -242,6 +294,22 @@ export class OverviewSharedService {
     });
   }
 
+  createTotalCallsTrend() {
+    // let trendIR: Object;
+    const trendIR = null;
+    return new Promise((resolve, reject) => {
+      // this.callsTrendService
+      //   .getCallsTrendData()
+      //   .then(data => {
+      //     trendIR = data[0];
+      //     resolve(trendIR);
+      //   })
+      //   .catch(reason => {
+      //     console.log('Calls Service Error ', reason);
+      //   });
+      resolve(null);
+    });
+  }
   /* function to create Total Calls Tile in Overview Page -  Ranjith kumar Ankam - 04-Jul-2019*/
   createTotalCallsObject(providerSystems) {
     let cIR: Object;
@@ -262,6 +330,7 @@ export class OverviewSharedService {
           category: 'small-card',
           type: 'donut',
           title: 'Calls By Call Type',
+          MetricID: this.MetricidService.MetricIDs.CallsbyCallType,
           toggle: this.toggle.setToggles('Total Calls', 'AtGlance', 'Overview', false),
           data: {
             graphValues: [
@@ -311,6 +380,7 @@ export class OverviewSharedService {
           oppurtunities.push({
             category: 'mini-tile',
             title: 'Reduce Calls and Operating Costs by:',
+            MetricID: this.MetricidService.MetricIDs.ReduceCallsOperatingCostsBy,
             toggle: this.toggle.setToggles('Reduce Calls and Operating Costs by:', 'Opportunities', 'Overview', false),
             data: {
               centerNumber:
@@ -336,7 +406,9 @@ export class OverviewSharedService {
           console.log('Overview Page, Self Service, Data not found for Calls and Operating Cost');
           oppurtunities.push({
             category: 'mini-tile',
-            title: null,
+            title: 'Reduce Calls and Operating Costs by:',
+            MetricID: this.MetricidService.MetricIDs.ReduceCallsOperatingCostsBy,
+            status: null,
             data: null,
             fdata: null
           });
@@ -344,7 +416,9 @@ export class OverviewSharedService {
       } else {
         oppurtunities.push({
           category: 'mini-tile',
-          title: null,
+          title: 'Reduce Calls and Operating Costs by:',
+          MetricID: this.MetricidService.MetricIDs.ReduceCallsOperatingCostsBy,
+          status: null,
           data: null,
           fdata: null
         });
@@ -366,13 +440,29 @@ export class OverviewSharedService {
         providerSystems.SelfServiceInquiries.ALL.SelfService.hasOwnProperty('PhoneCallTime')
       ) {
         try {
+          let totalCalltime = providerSystems.SelfServiceInquiries.ALL.SelfService.TotalCallTime;
+          let suffixHourPerDay;
+          if (totalCalltime < 1 && totalCalltime > 0) {
+            totalCalltime = '< 1';
+            suffixHourPerDay = ' Hour/day';
+          } else if (totalCalltime.toFixed(0) === 1) {
+            totalCalltime = totalCalltime.toFixed(0);
+            suffixHourPerDay = ' Hour/day';
+          } else if (totalCalltime.toFixed(0) === 0) {
+            totalCalltime = totalCalltime.toFixed(0);
+            suffixHourPerDay = '';
+          } else {
+            totalCalltime = this.common.nondecimalFormatter(totalCalltime);
+            suffixHourPerDay = ' Hours/day';
+          }
+
           oppurtunities.push({
             category: 'mini-tile',
             title: "Save Your Staff's Time by:" + '\n\xa0',
+            MetricID: this.MetricidService.MetricIDs.SaveyourStaffsTimeBy,
             toggle: this.toggle.setToggles("Save Your Staff's Time by:", 'Opportunities', 'Overview', false),
             data: {
-              centerNumber:
-                providerSystems.SelfServiceInquiries.ALL.SelfService.TotalCallTime.toFixed(0) + ' Hours/day',
+              centerNumber: totalCalltime + suffixHourPerDay,
               gdata: []
             },
             fdata: {
@@ -393,7 +483,9 @@ export class OverviewSharedService {
           console.log('Overview Page, Self Service, Data not found for Save Yours Staff Time');
           oppurtunities.push({
             category: 'mini-tile',
-            title: null,
+            title: "Save Your Staff's Time by:" + '\n\xa0',
+            MetricID: this.MetricidService.MetricIDs.SaveyourStaffsTimeBy,
+            status: null,
             data: null,
             fdata: null
           });
@@ -401,7 +493,9 @@ export class OverviewSharedService {
       } else {
         oppurtunities.push({
           category: 'mini-tile',
-          title: null,
+          title: "Save Your Staff's Time by:" + '\n\xa0',
+          MetricID: this.MetricidService.MetricIDs.SaveyourStaffsTimeBy,
+          status: null,
           data: null,
           fdata: null
         });
@@ -425,16 +519,30 @@ export class OverviewSharedService {
         providerSystems.SelfServiceInquiries.ALL.SelfService.hasOwnProperty('AverageClaimProcessingTime') &&
         providerSystems.SelfServiceInquiries.ALL.SelfService.AverageClaimProcessingTime != null
       ) {
+        let processingTime;
+        const checkProcessingTime =
+          providerSystems.SelfServiceInquiries.ALL.SelfService.AveragePaperClaimProcessingTime.toFixed(0) -
+          providerSystems.SelfServiceInquiries.ALL.SelfService.AverageClaimProcessingTime.toFixed(0);
+        let suffixDay;
+        if (checkProcessingTime <= 0) {
+          processingTime = 0;
+          suffixDay = '';
+        } else if (checkProcessingTime === 1) {
+          processingTime = checkProcessingTime;
+          suffixDay = ' Day';
+        } else {
+          processingTime = this.common.nondecimalFormatter(checkProcessingTime);
+          suffixDay = ' Days';
+        }
         oppurtunities.push({
           category: 'mini-tile',
           title: 'Reduce Claim Processing Time by:',
-          toggle: this.toggle.setToggles('Reduce Claim Processing Time by:', 'Opportunities', 'Overview', false),
+          MetricID: this.MetricidService.MetricIDs.ReduceClaimProcessingTimeBy,
+          toggle:
+            checkProcessingTime >= 0 ||
+            this.toggle.setToggles('Reduce Claim Processing Time by:', 'Opportunities', 'Overview', false),
           data: {
-            centerNumber:
-              (
-                providerSystems.SelfServiceInquiries.ALL.SelfService.AveragePaperClaimProcessingTime.toFixed() -
-                providerSystems.SelfServiceInquiries.ALL.SelfService.AverageClaimProcessingTime.toFixed()
-              ).toFixed() + ' Days',
+            centerNumber: processingTime + suffixDay,
             gdata: []
           },
           fdata: {
@@ -454,7 +562,9 @@ export class OverviewSharedService {
       } else {
         oppurtunities.push({
           category: 'mini-tile',
-          title: null,
+          title: 'Reduce Claim Processing Time by:',
+          MetricID: this.MetricidService.MetricIDs.ReduceClaimProcessingTimeBy,
+          status: null,
           data: null,
           fdata: null
         });
@@ -478,16 +588,30 @@ export class OverviewSharedService {
         providerSystems.SelfServiceInquiries.ALL.SelfService.AveragePaperReconsideredProcessingTime !== null &&
         providerSystems.SelfServiceInquiries.ALL.SelfService.AverageReconsideredProcessingTime !== null
       ) {
+        let avgPaperProcessTime;
+        const checkAvgPaperProcessTime =
+          providerSystems.SelfServiceInquiries.ALL.SelfService.AveragePaperReconsideredProcessingTime.toFixed() -
+          providerSystems.SelfServiceInquiries.ALL.SelfService.AverageReconsideredProcessingTime.toFixed();
+        let suffixDay;
+        if (checkAvgPaperProcessTime <= 0) {
+          avgPaperProcessTime = 0;
+          suffixDay = '';
+        } else if (checkAvgPaperProcessTime === 1) {
+          avgPaperProcessTime = checkAvgPaperProcessTime;
+          suffixDay = ' Day';
+        } else {
+          avgPaperProcessTime = this.common.nondecimalFormatter(checkAvgPaperProcessTime);
+          suffixDay = ' Days';
+        }
         oppurtunities.push({
           category: 'mini-tile',
           title: 'Reduce Reconsideration Processing by:',
-          toggle: this.toggle.setToggles('Reduce Reconsideration Processing by:', 'Opportunities', 'Overview', false),
+          MetricID: this.MetricidService.MetricIDs.ReduceReconsiderationProcessingBy,
+          toggle:
+            checkAvgPaperProcessTime >= 0 ||
+            this.toggle.setToggles('Reduce Reconsideration Processing by:', 'Opportunities', 'Overview', false),
           data: {
-            centerNumber:
-              (
-                providerSystems.SelfServiceInquiries.ALL.SelfService.AveragePaperReconsideredProcessingTime.toFixed() -
-                providerSystems.SelfServiceInquiries.ALL.SelfService.AverageReconsideredProcessingTime.toFixed()
-              ).toFixed() + ' Days',
+            centerNumber: avgPaperProcessTime + suffixDay,
             gdata: []
           },
           fdata: {
@@ -507,7 +631,9 @@ export class OverviewSharedService {
       } else {
         oppurtunities.push({
           category: 'mini-tile',
-          title: null,
+          title: 'Reduce Reconsideration Processing by:',
+          MetricID: this.MetricidService.MetricIDs.ReduceReconsiderationProcessingBy,
+          status: null,
           data: null,
           fdata: null
         });
@@ -540,7 +666,7 @@ export class OverviewSharedService {
               paidData.push(claims.Mr.ClaimsLobSummary[0].AmountPaid);
             }
           }
-          if (claims.hasOwnProperty('Cs') && claims.Ei != null) {
+          if (claims.hasOwnProperty('Cs') && claims.Cs != null) {
             if (
               claims.Cs.hasOwnProperty('ClaimsLobSummary') &&
               claims.Cs.ClaimsLobSummary.length &&
@@ -571,7 +697,8 @@ export class OverviewSharedService {
           claimsPaid = {
             category: 'small-card',
             type: 'donut',
-            title: 'Claims Paid',
+            title: 'Claims Paid*',
+            MetricID: this.MetricidService.MetricIDs.ClaimsPaid,
             toggle: this.toggle.setToggles('Claims Paid', 'AtGlance', 'Overview', false),
             data: {
               graphValues: paidData,
@@ -593,7 +720,8 @@ export class OverviewSharedService {
             claimsPaid = {
               category: 'small-card',
               type: 'donut',
-              title: 'Claims Paid',
+              title: 'Claims Paid*',
+              MetricID: this.MetricidService.MetricIDs.ClaimsPaid,
               toggle: this.toggle.setToggles('Claims Paid', 'AtGlance', 'Overview', false),
               data: {
                 graphValues: [0, 100],
@@ -647,7 +775,8 @@ export class OverviewSharedService {
           claimsYield = {
             category: 'small-card',
             type: 'donut',
-            title: 'Claims Yield',
+            title: 'Claims Yield*',
+            MetricID: this.MetricidService.MetricIDs.ClaimsYield,
             toggle: this.toggle.setToggles('Claims Yield', 'AtGlance', 'Overview', false),
             data: {
               graphValues: [
@@ -923,11 +1052,8 @@ export class OverviewSharedService {
   getPriorAuthCardData(trends) {
     return new Promise((resolve, reject) => {
       const parameters = {
-        providerkey: this.providerKey,
-        last6Months: true,
-        allProviderTins: true,
-        allLob: true,
-        allNotApprovedSettings: true
+        providerKey: this.providerKey,
+        allProviderTins: true
       };
 
       this.overviewService.getOverviewPriorAuth(parameters).subscribe(priorAuth => {
@@ -965,7 +1091,10 @@ export class OverviewSharedService {
           priorAuth.PriorAuthorizations.LineOfBusiness.All.hasOwnProperty('PriorAuthApprovedCount') &&
           priorAuth.PriorAuthorizations.LineOfBusiness.All.hasOwnProperty('PriorAuthNotApprovedCount') &&
           priorAuth.PriorAuthorizations.LineOfBusiness.All.hasOwnProperty('PriorAuthPendingCount') &&
-          priorAuth.PriorAuthorizations.LineOfBusiness.All.hasOwnProperty('PriorAuthCancelledCount')
+          priorAuth.PriorAuthorizations.LineOfBusiness.All.hasOwnProperty('PriorAuthCancelledCount') &&
+          priorAuth.PriorAuthorizations.LineOfBusiness.All.PriorAuthApprovedCount +
+            priorAuth.PriorAuthorizations.LineOfBusiness.All.PriorAuthNotApprovedCount >
+            0
         ) {
           const priorAuthRequested =
             priorAuth.PriorAuthorizations.LineOfBusiness.All.PriorAuthApprovedCount +
@@ -977,6 +1106,7 @@ export class OverviewSharedService {
             category: 'small-card',
             type: 'donut',
             title: 'Prior Authorization Approval',
+            MetricID: this.MetricidService.MetricIDs.PriorAuthorizationApproval,
             toggle: this.toggle.setToggles('Prior Authorization Approval', 'AtGlance', 'Overview', false),
             data: {
               graphValues: [approvedRate, 1 - approvedRate],
@@ -984,32 +1114,39 @@ export class OverviewSharedService {
               color: ['#3381FF', '#D7DCE1'],
               gdata: ['card-inner', 'priorAuthCardD3Donut']
             },
-            sdata: { sign: '', data: '' },
+            sdata: null,
+
             timeperiod: 'Last 6 Months'
           };
-          if (
-            trends != undefined &&
-            trends != null &&
-            trends.hasOwnProperty('TendingMtrics') &&
-            trends.TendingMtrics != null &&
-            trends.TendingMtrics.hasOwnProperty('PaApprovalRate') &&
-            trends.TendingMtrics.PaApprovalRate != null
-          ) {
-            const dataPoint = trends.TendingMtrics.PaApprovalRate.toFixed(1) + '%';
-            if (trends.TendingMtrics.PaApprovalRate < 0) {
-              cPriorAuth.sdata = {
-                sign: 'down',
-                data: dataPoint
-              };
-            } else {
-              cPriorAuth.sdata = {
-                sign: 'up',
-                data: dataPoint
-              };
-            }
-          } else {
-            cPriorAuth.sdata = null;
-          }
+          // if (
+          //   trends != undefined &&
+          //   trends != null &&
+          //   trends.hasOwnProperty('TendingMtrics') &&
+          //   trends.TendingMtrics != null &&
+          //   trends.TendingMtrics.hasOwnProperty('PaApprovalRate') &&
+          //   trends.TendingMtrics.PaApprovalRate != null
+          // ) {
+          //   const dataPoint = trends.TendingMtrics.PaApprovalRate.toFixed(1) + '%';
+          //   const temp = trends.TendingMtrics.PaApprovalRate.toFixed(1);
+          //   if (temp < 0) {
+          //     cPriorAuth.sdata = {
+          //       sign: 'down',
+          //       data: dataPoint
+          //     };
+          //   } else if (temp > 0) {
+          //     cPriorAuth.sdata = {
+          //       sign: 'up',
+          //       data: dataPoint
+          //     };
+          //   } else if (temp == 0) {
+          //     cPriorAuth.sdata = {
+          //       sign: 'neutral',
+          //       data: 'No Change'
+          //     };
+          //   }
+          // } else {
+          //   cPriorAuth.sdata = null;
+          // }
         } else {
           cPriorAuth = {
             category: 'small-card',
@@ -1036,6 +1173,7 @@ export class OverviewSharedService {
       let cIR: any;
       this.overviewService.getOverviewTotalCalls(parameters).subscribe(calls => {
         if (
+          calls &&
           calls.hasOwnProperty('CallVolByQuesType') &&
           calls.CallVolByQuesType.hasOwnProperty('Total') &&
           calls.CallVolByQuesType.hasOwnProperty('Claims') &&
@@ -1047,6 +1185,7 @@ export class OverviewSharedService {
             category: 'small-card',
             type: 'donut',
             title: 'Calls By Call Type',
+            MetricID: this.MetricidService.MetricIDs.CallsbyCallType,
             toggle: this.toggle.setToggles('Total Calls', 'AtGlance', 'Overview', false),
             data: {
               graphValues: [
@@ -1077,6 +1216,7 @@ export class OverviewSharedService {
             trends.TendingMtrics.CallsTrendByQuesType != null
           ) {
             const dataPoint = trends.TendingMtrics.CallsTrendByQuesType.toFixed(1) + '%';
+            console.log('dataPoint' + dataPoint);
             if (trends.TendingMtrics.CallsTrendByQuesType >= 1) {
               cIR.sdata = {
                 sign: 'up-red',
@@ -1099,6 +1239,8 @@ export class OverviewSharedService {
           } else {
             cIR.sdata = null;
           }
+          // Hiding Calls trends
+          // cIR.sdata = null;
         } else {
           cIR = {
             category: 'small-card',
@@ -1110,6 +1252,19 @@ export class OverviewSharedService {
           };
         }
         resolve(cIR);
+
+        /*this.createTotalCallsTrend().then(trendIssueResolution => {
+         const nullTrend = {
+         sign: '',
+         data: ''
+         };
+         if (trendIssueResolution === null) {
+         cIR.sdata = nullTrend;
+         } else {
+         cIR.sdata = trendIssueResolution;
+         }
+         resolve(cIR);
+         });*/
       });
     });
   }

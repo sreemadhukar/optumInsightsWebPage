@@ -33,7 +33,7 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
       { value: 1, symbol: '' },
       { value: 1e3, symbol: 'K' },
       { value: 1e6, symbol: 'M' },
-      { value: 1e9, symbol: 'G' },
+      { value: 1e9, symbol: 'B' },
       { value: 1e12, symbol: 'T' },
       { value: 1e15, symbol: 'P' },
       { value: 1e18, symbol: 'E' }
@@ -461,10 +461,19 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
         .style('border-radius', 0);
 
       const svg2 = divHover.append('svg');
-      const boxWidth = '109px';
+
+      let boxWidth = '113px';
       const boxHeight = '63px';
+      let textWidth = 84;
 
       g.on('mouseenter', function(d) {
+        if (d.data.label === 'Resubmitted Without Changes') {
+          boxWidth = '150px';
+          textWidth = 129;
+        } else {
+          boxWidth = '113px';
+          textWidth = 84;
+        }
         const hoverTextLength = getTextWidth(d.data.label, 14, 'Arial');
 
         divHover.style('height', boxHeight).style('width', boxWidth);
@@ -480,13 +489,18 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
         let textLineOneY = '25px';
         let textLineTwoY = '47px';
         const lengthToShift = getTextWidth(d.data.label, 14, 'Arial');
-        // console.log(lengthToShift);
-        if (lengthToShift >= 84) {
+
+        if (lengthToShift >= textWidth) {
           textLineOneY = '17px';
           textLineTwoY = '55px';
         }
         const uniqueText = 'labelText' + d.data.label;
         const tspanID = uniqueText + 'tspan';
+        chartOptions.gdata[1] === 'claimsPaid' ||
+        chartOptions.gdata[1] === 'claimsNotPaid' ||
+        chartOptions.gdata[1] === 'claimsPaidCardD3Donut'
+          ? (this.textOnHover = '$' + topFunctions.nFormatter(d.value, 1))
+          : (this.textOnHover = topFunctions.nFormatter(d.value, 1));
         svg2
           .append('text')
           .attr('id', uniqueText)
@@ -497,7 +511,7 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
           .style('fill', '#2D2D39')
           .style('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
           .text(d.data.label)
-          .call(wrap, 84, tspanID, 14);
+          .call(wrap, textWidth, tspanID, 14);
 
         svg2
           .append('text')
@@ -507,7 +521,7 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
           .style('font-size', '14px')
           .style('fill', '#757588')
           .style('font-family', 'UHCSans-Regular')
-          .text(topFunctions.nFormatter(d.value, 1));
+          .text(this.textOnHover);
       })
         .on('mousemove', function(d) {
           divHover
