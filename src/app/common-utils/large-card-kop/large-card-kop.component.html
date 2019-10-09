@@ -43,7 +43,7 @@
 
         <div
           *ngIf="
-            (!item.singleCard && item.quarters[0]?.title != null) ||
+            (!item.singleCard && item.quarters[0]?.title !== null) ||
             item.quarters[1]?.title != null ||
             (item.singleCard && item.quarters[0]?.title != null)
           "
@@ -58,7 +58,7 @@
               (item.singleCard && item.quarters[0]?.title != null)
             "
           >
-            <app-trends class="trend-container" [data]="item"></app-trends>
+            <!-- <app-trends class="trend-container" [data]="item"></app-trends> -->
           </div>
           <div class="report-box" *ngIf="item.report && item.cardType === 'hollowbox'">
             <div class="report-content">
