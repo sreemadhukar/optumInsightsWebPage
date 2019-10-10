@@ -21,7 +21,7 @@ var sessionSecret = '7dX03633CEuFJaf25ot5HlSPOZYQ6E9Y';
 var key = 'PvU8koWDqgbqZNin5aBj00RtRHWze7pC';
 var heac = require('./src/assets/mock-data/heac.json');
 
-app.all('/uhci/prd/*', function(req, res) {
+app.all('/uhci/prd2/*', function(req, res) {
   apiProxy.web(req, res, { target: apiForwardingUrl, changeOrigin: true, secure: false }, function(e) {
     handleExceptions(e, res);
   });
