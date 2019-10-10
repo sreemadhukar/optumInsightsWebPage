@@ -162,7 +162,12 @@ Date Created: 17-Apr-2019
             class="claims-appeals-submitted-donut-with-label"
           ></app-donut-chart>
         </div>
-        <div class="claims-appeals-submitted-beside-data-block">
+        <div
+          [class.claims-appeals-submitted-beside-data-block]="chartData.besideData.labels.length === 4"
+          [class.claims-appeals-submitted-beside-data-block-three-lob]="chartData.besideData.labels.length === 3"
+          [class.claims-appeals-submitted-beside-data-block-two-lob]="chartData.besideData.labels.length === 2"
+          [class.claims-appeals-submitted-beside-data-block-one-lob]="chartData.besideData.labels.length === 1"
+        >
           <ul class="app-card-list-labels">
             <li class="label-color-indicators" *ngFor="let c of chartData.besideData.color; let i = index">
               <div class="label-dots" style.background-color="{{ c }}"></div>

@@ -28,81 +28,6 @@ export class NonPaymentSharedService {
     private toggle: AuthorizationService
   ) {}
 
-  /** Function to show hovers labels as per Lob**/
-  public returnHoverLabels(cardData) {
-    const hoverLabels = [];
-    if (cardData !== null) {
-      if (this.session.filterObjValue.lob === 'All') {
-        if (cardData.hasOwnProperty('Mr')) {
-          hoverLabels.push('Medicare & Retirement');
-        }
-        if (cardData.hasOwnProperty('Cs')) {
-          hoverLabels.push('Community & State');
-        }
-        if (cardData.hasOwnProperty('Ei')) {
-          hoverLabels.push('Employer & Individual');
-        }
-        if (cardData.hasOwnProperty('Un')) {
-          hoverLabels.push('Uncategorized');
-        }
-      } else if (this.session.filterObjValue.lob === 'Medicare & Retirement') {
-        if (cardData.hasOwnProperty('Mr')) {
-          hoverLabels.push('Medicare & Retirement');
-        }
-      } else if (this.session.filterObjValue.lob === 'Community & State') {
-        if (cardData.hasOwnProperty('Cs')) {
-          hoverLabels.push('Community & State');
-        }
-      } else if (this.session.filterObjValue.lob === 'Employer & Individual') {
-        if (cardData.hasOwnProperty('Ei')) {
-          hoverLabels.push('Employer & Individual');
-        }
-      } else if (this.session.filterObjValue.lob === 'Uncategorized') {
-        if (cardData.hasOwnProperty('Un')) {
-          hoverLabels.push('Uncategorized');
-        }
-      }
-      return hoverLabels;
-    }
-  }
-
-  /** Function to show hovers colors as per Lob**/
-  public returnLobColor(cardData) {
-    const hoverColors = [];
-    if (cardData !== null) {
-      if (this.session.filterObjValue.lob === 'All') {
-        if (cardData.hasOwnProperty('Mr')) {
-          hoverColors.push('#3381FF');
-        }
-        if (cardData.hasOwnProperty('Cs')) {
-          hoverColors.push('#80B0FF');
-        }
-        if (cardData.hasOwnProperty('Ei')) {
-          hoverColors.push('#003DA1');
-        }
-        if (cardData.hasOwnProperty('Un')) {
-          hoverColors.push('#00B8CC');
-        }
-      } else if (this.session.filterObjValue.lob === 'Medicare & Retirement') {
-        if (cardData.hasOwnProperty('Mr')) {
-          hoverColors.push('#3381FF');
-        }
-      } else if (this.session.filterObjValue.lob === 'Community & State') {
-        if (cardData.hasOwnProperty('Cs')) {
-          hoverColors.push('#80B0FF');
-        }
-      } else if (this.session.filterObjValue.lob === 'Employer & Individual') {
-        if (cardData.hasOwnProperty('Ei')) {
-          hoverColors.push('#003DA1');
-        }
-      } else if (this.session.filterObjValue.lob === 'Uncategorized') {
-        if (cardData.hasOwnProperty('Un')) {
-          hoverColors.push('#00B8CC');
-        }
-      }
-      return hoverColors;
-    }
-  }
   // The getNonPayment() function fetches data for Claims Not Paid and Claims Non-Payment Rate
   public getNonPayment() {
     this.tin = this.session.filterObjValue.tax.toString().replace(/-/g, '');
@@ -197,11 +122,15 @@ export class NonPaymentSharedService {
           }
         }
         // let nonPayment: object;
+        if (parameters[1].hasOwnProperty('Lob')) {
+          delete parameters[1].Lob;
+        }
 
         this.nonPaymentService.getNonPaymentData(...parameters).subscribe(
           ([nonPaymentData1]) => {
             let claimsNotPaid: Object;
             let claimsNotPaidRate: Object;
+            const LOBConvertor = this.common.matchLobWithData(this.lob);
             if (
               (nonPaymentData1 || {}).All &&
               nonPaymentData1.All.hasOwnProperty('ClaimsLobSummary') &&
@@ -213,7 +142,8 @@ export class NonPaymentSharedService {
                 if (
                   nonPaymentData1.Mr.hasOwnProperty('ClaimsLobSummary') &&
                   nonPaymentData1.Mr.ClaimsLobSummary.length &&
-                  nonPaymentData1.Mr.ClaimsLobSummary[0].hasOwnProperty('AmountDenied')
+                  nonPaymentData1.Mr.ClaimsLobSummary[0].hasOwnProperty('AmountDenied') &&
+                  (LOBConvertor === 'All' || LOBConvertor === 'Mr')
                 ) {
                   nonPaidData.push(nonPaymentData1.Mr.ClaimsLobSummary[0].AmountDenied);
                 }
@@ -222,7 +152,8 @@ export class NonPaymentSharedService {
                 if (
                   nonPaymentData1.Cs.hasOwnProperty('ClaimsLobSummary') &&
                   nonPaymentData1.Cs.ClaimsLobSummary.length &&
-                  nonPaymentData1.Cs.ClaimsLobSummary[0].hasOwnProperty('AmountDenied')
+                  nonPaymentData1.Cs.ClaimsLobSummary[0].hasOwnProperty('AmountDenied') &&
+                  (LOBConvertor === 'All' || LOBConvertor === 'Cs')
                 ) {
                   nonPaidData.push(nonPaymentData1.Cs.ClaimsLobSummary[0].AmountDenied);
                 }
@@ -231,7 +162,8 @@ export class NonPaymentSharedService {
                 if (
                   nonPaymentData1.Ei.hasOwnProperty('ClaimsLobSummary') &&
                   nonPaymentData1.Ei.ClaimsLobSummary.length &&
-                  nonPaymentData1.Ei.ClaimsLobSummary[0].hasOwnProperty('AmountDenied')
+                  nonPaymentData1.Ei.ClaimsLobSummary[0].hasOwnProperty('AmountDenied') &&
+                  (LOBConvertor === 'All' || LOBConvertor === 'Ei')
                 ) {
                   nonPaidData.push(nonPaymentData1.Ei.ClaimsLobSummary[0].AmountDenied);
                 }
@@ -240,11 +172,18 @@ export class NonPaymentSharedService {
                 if (
                   nonPaymentData1.Un.hasOwnProperty('ClaimsLobSummary') &&
                   nonPaymentData1.Un.ClaimsLobSummary.length &&
-                  nonPaymentData1.Un.ClaimsLobSummary[0].hasOwnProperty('AmountDenied')
+                  nonPaymentData1.Un.ClaimsLobSummary[0].hasOwnProperty('AmountDenied') &&
+                  (LOBConvertor === 'All' || LOBConvertor === 'Un')
                 ) {
                   nonPaidData.push(nonPaymentData1.Un.ClaimsLobSummary[0].AmountDenied);
                 }
               }
+              if (LOBConvertor !== 'All') {
+                const amountPaid = nonPaymentData1.All.ClaimsLobSummary[0].AmountDenied;
+                const amountPaidLOB = nonPaymentData1[LOBConvertor].ClaimsLobSummary[0].AmountDenied;
+                nonPaidData.push(amountPaid - amountPaidLOB);
+              }
+
               claimsNotPaid = {
                 category: 'app-card',
                 type: 'donutWithLabel',
@@ -253,22 +192,22 @@ export class NonPaymentSharedService {
                 data: {
                   graphValues: nonPaidData,
                   centerNumber:
-                    this.common.nFormatter(nonPaymentData1.All.ClaimsLobSummary[0].AmountDenied) < 1 &&
-                    this.common.nFormatter(nonPaymentData1.All.ClaimsLobSummary[0].AmountDenied) > 0
+                    this.common.nFormatter(nonPaymentData1[LOBConvertor].ClaimsLobSummary[0].AmountDenied) < 1 &&
+                    this.common.nFormatter(nonPaymentData1[LOBConvertor].ClaimsLobSummary[0].AmountDenied) > 0
                       ? '< $1'
-                      : '$' + this.common.nFormatter(nonPaymentData1.All.ClaimsLobSummary[0].AmountDenied),
-                  color: this.returnLobColor(nonPaymentData1),
+                      : '$' + this.common.nFormatter(nonPaymentData1[LOBConvertor].ClaimsLobSummary[0].AmountDenied),
+                  color: this.common.returnLobColor(nonPaymentData1),
                   gdata: ['card-inner', 'claimsNotPaid'],
                   sdata: {
                     sign: '',
                     data: ''
                   },
-                  labels: this.returnHoverLabels(nonPaymentData1),
+                  labels: this.common.returnHoverLabels(nonPaymentData1),
                   hover: true
                 },
                 besideData: {
-                  labels: ['Medicare & Retirement', 'Community & State', 'Employer & Individual', 'Uncategorized'],
-                  color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC']
+                  labels: this.common.LOBSideLabels(LOBConvertor),
+                  color: this.common.LOBSideLabelColors(LOBConvertor)
                 },
                 timeperiod: this.timeFrame
               };
@@ -370,10 +309,14 @@ export class NonPaymentSharedService {
         } else {
           parameters = [this.providerKey, { TimeFilter: 'CalendarYear', TimeFilterText: this.timeFrame }];
         }
+        if (parameters[1].hasOwnProperty('Lob')) {
+          delete parameters[1].Lob;
+        }
         this.nonPaymentService.getNonPaymentData(...parameters).subscribe(
           ([nonPaymentData1]) => {
             let claimsNotPaid: Object;
             let claimsNotPaidRate: Object;
+            const LOBConvertor = this.common.matchLobWithData(this.lob);
             if (
               (nonPaymentData1 || {}).All &&
               nonPaymentData1.All.hasOwnProperty('ClaimsLobSummary') &&
@@ -385,7 +328,8 @@ export class NonPaymentSharedService {
                 if (
                   nonPaymentData1.Mr.hasOwnProperty('ClaimsLobSummary') &&
                   nonPaymentData1.Mr.ClaimsLobSummary.length &&
-                  nonPaymentData1.Mr.ClaimsLobSummary[0].hasOwnProperty('AmountDenied')
+                  nonPaymentData1.Mr.ClaimsLobSummary[0].hasOwnProperty('AmountDenied') &&
+                  (LOBConvertor === 'All' || LOBConvertor === 'Mr')
                 ) {
                   nonPaidData.push(nonPaymentData1.Mr.ClaimsLobSummary[0].AmountDenied);
                 }
@@ -394,7 +338,8 @@ export class NonPaymentSharedService {
                 if (
                   nonPaymentData1.Cs.hasOwnProperty('ClaimsLobSummary') &&
                   nonPaymentData1.Cs.ClaimsLobSummary.length &&
-                  nonPaymentData1.Cs.ClaimsLobSummary[0].hasOwnProperty('AmountDenied')
+                  nonPaymentData1.Cs.ClaimsLobSummary[0].hasOwnProperty('AmountDenied') &&
+                  (LOBConvertor === 'All' || LOBConvertor === 'Cs')
                 ) {
                   nonPaidData.push(nonPaymentData1.Cs.ClaimsLobSummary[0].AmountDenied);
                 }
@@ -403,7 +348,8 @@ export class NonPaymentSharedService {
                 if (
                   nonPaymentData1.Ei.hasOwnProperty('ClaimsLobSummary') &&
                   nonPaymentData1.Ei.ClaimsLobSummary.length &&
-                  nonPaymentData1.Ei.ClaimsLobSummary[0].hasOwnProperty('AmountDenied')
+                  nonPaymentData1.Ei.ClaimsLobSummary[0].hasOwnProperty('AmountDenied') &&
+                  (LOBConvertor === 'All' || LOBConvertor === 'Ei')
                 ) {
                   nonPaidData.push(nonPaymentData1.Ei.ClaimsLobSummary[0].AmountDenied);
                 }
@@ -412,10 +358,17 @@ export class NonPaymentSharedService {
                 if (
                   nonPaymentData1.Un.hasOwnProperty('ClaimsLobSummary') &&
                   nonPaymentData1.Un.ClaimsLobSummary.length &&
-                  nonPaymentData1.Un.ClaimsLobSummary[0].hasOwnProperty('AmountDenied')
+                  nonPaymentData1.Un.ClaimsLobSummary[0].hasOwnProperty('AmountDenied')(
+                    LOBConvertor === 'All' || LOBConvertor === 'Un'
+                  )
                 ) {
                   nonPaidData.push(nonPaymentData1.Un.ClaimsLobSummary[0].AmountDenied);
                 }
+              }
+              if (LOBConvertor !== 'All') {
+                const amountPaid = nonPaymentData1.All.ClaimsLobSummary[0].AmountDenied;
+                const amountPaidLOB = nonPaymentData1[LOBConvertor].ClaimsLobSummary[0].AmountDenied;
+                nonPaidData.push(amountPaid - amountPaidLOB);
               }
               claimsNotPaid = {
                 category: 'app-card',
@@ -429,18 +382,18 @@ export class NonPaymentSharedService {
                     this.common.nFormatter(nonPaymentData1[lobData].ClaimsLobSummary[0].AmountDenied) > 0
                       ? '< $1'
                       : '$' + this.common.nFormatter(nonPaymentData1[lobData].ClaimsLobSummary[0].AmountDenied),
-                  color: this.returnLobColor(nonPaymentData1),
+                  color: this.common.returnLobColor(nonPaymentData1),
                   gdata: ['card-inner', 'claimsNotPaid'],
                   sdata: {
                     sign: '',
                     data: ''
                   },
-                  labels: this.returnHoverLabels(nonPaymentData1),
+                  labels: this.common.returnHoverLabels(nonPaymentData1),
                   hover: true
                 },
                 besideData: {
-                  labels: ['Medicare & Retirement', 'Community & State', 'Employer & Individual', 'Uncategorized'],
-                  color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC']
+                  labels: this.common.LOBSideLabels(LOBConvertor),
+                  color: this.common.LOBSideLabelColors(LOBConvertor)
                 },
                 timeperiod: this.timeFrame
               };
