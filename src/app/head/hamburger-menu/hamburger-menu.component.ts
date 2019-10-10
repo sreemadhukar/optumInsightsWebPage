@@ -19,7 +19,7 @@ import {
   Input,
   Inject
 } from '@angular/core';
-import { MatExpansionPanel, MatDialog, MatSidenav } from '@angular/material';
+import { MatExpansionPanel, MatDialog, MatSidenav, MatDialogConfig } from '@angular/material';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -64,6 +64,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
   public filterurl: string = null;
   clickHelpIcon: Subscription;
   clickFilterIcon: Subscription;
+  clickFilterIconCustom: Subscription;
   filterClose: Subscription;
   public mobileQuery: boolean;
   public healthSystemName: string;
@@ -106,6 +107,9 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     }
   ];
   fillerNav = Array.from({ length: 50 }, (_, i) => `Nav Item ${i + 1}`);
+  filterData: any[] = [];
+  customFilter = false;
+  fromKOP = false;
 
   /** CONSTRUCTOR **/
   constructor(
@@ -175,6 +179,16 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
         const heac = JSON.parse(sessionStorage.getItem('heac'));
         if (event.url === '/KnowOurProvider' && !heac.heac) {
           router.navigate(['/ProviderSearch']);
+        }
+
+        // Check condtion for rendering butter bar
+        if (sessionStorage.getItem('fromKOP') === 'YES' && !this.makeAbsolute && event.url !== '/KnowOurProvider') {
+          setTimeout(() => {
+            this.fromKOP = true;
+          }, 500);
+        } else {
+          this.fromKOP = false;
+          sessionStorage.removeItem('fromKOP');
         }
       }
       // PLEASE DON'T MODIFY THIS
@@ -264,7 +278,22 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     this.clickFilterIcon = this.filterExpandService.url.subscribe(
       data => {
         this.filterFlag = true;
+        this.customFilter = false;
         this.filterurl = data;
+      },
+      err => {
+        console.log('Error, clickHelpIcon , inside Hamburger', err);
+      }
+    );
+    this.clickFilterIconCustom = this.filterExpandService.filterData.subscribe(
+      data => {
+        this.filterFlag = true;
+        if (data) {
+          const { filterData = [], customFilter, url } = data;
+          this.filterData = filterData;
+          this.customFilter = customFilter;
+          this.filterurl = url;
+        }
       },
       err => {
         console.log('Error, clickHelpIcon , inside Hamburger', err);
@@ -330,6 +359,9 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     this.filterFlag = false;
     this.filterurl = null;
     this.clickFilterIcon.unsubscribe();
+    this.clickFilterIconCustom.unsubscribe();
+    sessionStorage.removeItem('fromKOP');
+    this.fromKOP = false;
   }
   /*** used to apply the CSS for dynamically generated elements ***/
   public ngAfterViewInit(): void {
@@ -415,6 +447,54 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
       this.glossaryFlag = false;
     }
   }
+
+  /**
+   * Reset fromKOP flag,false
+   * and Remvoe fromKOP
+   */
+  closeButterBar() {
+    this.fromKOP = false;
+    sessionStorage.removeItem('fromKOP');
+  }
+
+  /**
+   * Navigate Back to KOP,
+   * Clean fromKOP storage
+   */
+  navigateToKOP() {
+    sessionStorage.removeItem('fromKOP');
+    this.fromKOP = false;
+    window.location.href = '/KnowOurProvider';
+  }
+
+  /**
+   * Open ProviderSearchComponent with setting the,
+   * data and after action action
+   */
+  openSimulateViewDialog(): void {
+    const dialogConfig = new MatDialogConfig();
+
+    // Set label for the container label and pass after selection trigger function
+    dialogConfig.data = {
+      valueSelected: () => {
+        // Setting Value redirect, remind flag to local storage
+        sessionStorage.setItem('fromKOP', 'YES');
+
+        // Reloading targeted route, for resetting the css
+        window.location.href = '/OverviewPage';
+      },
+      containerLabel: 'View as a Provider'
+    };
+
+    // Set Styling
+    dialogConfig.width = '550px';
+    dialogConfig.height = '212px';
+    dialogConfig.disableClose = true;
+
+    // Call the dialog open method
+    this.dialog.open(ProviderSearchComponent, dialogConfig);
+  }
+
   private allExpandState(value: boolean, id) {
     this._allExpandState = value;
     this.togglePanels(value, id);
@@ -434,5 +514,6 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
       }
     });
   }
+
   /** END OF FUNCTIONS TO COLLAPSE LEFT MENU **/
 }

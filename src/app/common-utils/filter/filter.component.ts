@@ -7,6 +7,11 @@ import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { MatInput } from '@angular/material';
+
+export interface FilterData {
+  title: string;
+  selected: boolean;
+}
 @Component({
   selector: 'app-filter',
   templateUrl: './filter.component.html',
@@ -35,7 +40,7 @@ export class FilterComponent implements OnInit {
   public taxArrayData = [];
   public scArrayData = [];
   public timeframeData: any;
-  public filterData: any;
+  // public filterData: any;
   public scTypeData: string;
   public sctypearrowmark: boolean;
   filteredOptions: Observable<any[]>;
@@ -43,6 +48,7 @@ export class FilterComponent implements OnInit {
 
   @Output() filterFlag = new EventEmitter();
   @Input() filterurl;
+  @Input() filterData: FilterData[] = [];
   public timeframes = [
     'Last 30 Days',
     'Last 3 Months',

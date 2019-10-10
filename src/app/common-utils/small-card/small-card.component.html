@@ -10,14 +10,21 @@
     <div *ngIf="data.quarter" class="cards-display-block">
       <div
         *ngFor="let card of data.cards"
-        class="data-card"
+        [class.data-card]="card.highlightedValue != null"
+        [class.kop-error-card]="card.highlightedValue == null"
+        [class.card-nps-single]="data.singleCard"
         [class.card-nps-quarter-current]="card.currentQuarter"
         [class.card-nps-quarter-prev]="card.prevQuarter"
         [class.card-nps-quarter-highlight]="card.highlightQuarter"
       >
-        <div class="highlighted">{{ card.highlightedValue }}</div>
-        <div class="caption-text">{{ card.captionText }}</div>
-        <div class="target">{{ card.targetValue }}</div>
+        <div *ngIf="card.highlightedValue != null">
+          <div class="highlighted">{{ card.highlightedValue }}</div>
+          <div class="caption-text">{{ card.captionText }}</div>
+          <div class="target">{{ card.targetValue }}</div>
+        </div>
+        <div *ngIf="card.highlightedValue == null" class="kop-error-card-template">
+          <app-error-template></app-error-template>
+        </div>
       </div>
     </div>
 
@@ -33,11 +40,7 @@
 
     <!-- trend starts here-->
 
-    <div
-      *ngIf="data.type == 'donut' && data.sdata != null"
-      class="trend-details"
-      [class.trend-nps]="data.sdata.trendStyleNPS"
-    >
+    <div *ngIf="data.type == 'donut' && data.sdata != null" class="trend-details">
       <div *ngIf="data.sdata.sign === 'down'" class="flex-box">
         <span class="trend" [class.down]="data.sdata.sign === 'down'">
           <img class="trend-image trend-image-down" src="/src/assets/images/trend-down.svg" alt="trend-down" />
@@ -87,6 +90,10 @@
         </div>
       </div>
     </div>
+
+    <!-- <div *ngIf="data.type === 'nps' && data.cards[0].highlightedValue != null">
+      <app-trends class="trend-container" [data]="data"></app-trends>
+    </div> -->
     <!-- end trends on right hand side-->
 
     <div *ngIf="data.type == 'donutWithLabel'">
@@ -116,7 +123,7 @@
     </div>
   </div>
 </div>
-<div *ngIf="skeleton" class="small-card-structure">
+<div *ngIf="skeleton && !printStyle" class="small-card-structure">
   <div class="card-inner" [class.print-card-inner]="printStyle">
     <div class="full-width-block">
       <div class="card-skeleton-small-card"></div>

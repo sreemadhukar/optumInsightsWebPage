@@ -86,12 +86,14 @@ export class CallsSharedService {
           return this.sharedCallsTrend();
         })
         .then(data => {
-          const trendsData = JSON.parse(JSON.stringify(data));
-          if (trendsData[0][0] === 'QuestionType') {
-            this.callsData[0].data['sdata'] = trendsData[0][1];
-          }
-          if (trendsData[1][0] === 'TalkTime') {
-            this.callsData[1].data['sdata'] = trendsData[1][1];
+          if (data) {
+            const trendsData = JSON.parse(JSON.stringify(data));
+            if (trendsData[0][0] === 'QuestionType') {
+              this.callsData[0].data['sdata'] = trendsData[0][1];
+            }
+            if (trendsData[1][0] === 'TalkTime') {
+              this.callsData[1].data['sdata'] = trendsData[1][1];
+            }
           }
           resolve(this.callsData);
         });
@@ -105,21 +107,28 @@ export class CallsSharedService {
       this.providerKey = this.session.providerKeyData();
       this.trendsService.getTrendingMetrics([this.providerKey]).subscribe(
         trends => {
-          const trendData: any = [];
-          const trendMetrics = (trends || {}).TendingMtrics;
-          if (trendMetrics) {
-            try {
-              trendData.push(['QuestionType', this.common.negativeMeansGood(trendMetrics.CallsTrendByQuesType)]);
-            } catch (err) {
-              trendData.push(['QuestionType', null]);
+          if (trends) {
+            const trendData: any = [];
+            const trendMetrics = (trends || {}).TendingMtrics;
+            if (trendMetrics) {
+              try {
+                trendData.push(['QuestionType', null]);
+                // trendData.push(['QuestionType', this.common.negativeMeansGood(trendMetrics.CallsTrendByQuesType)]);
+              } catch (err) {
+                trendData.push(['QuestionType', null]);
+              }
+              try {
+                trendData.push(['TalkTime', null]);
+                // trendData.push(['TalkTime', this.common.negativeMeansGood(trendMetrics.CcllTalkTimeByQuesType)]);
+              } catch (err) {
+                trendData.push(['TalkTime', null]);
+              }
             }
-            try {
-              trendData.push(['TalkTime', this.common.negativeMeansGood(trendMetrics.CcllTalkTimeByQuesType)]);
-            } catch (err) {
-              trendData.push(['TalkTime', null]);
-            }
+            resolve(trendData);
+          } else {
+            const temp = null;
+            resolve(temp);
           }
-          resolve(trendData);
         },
         error => {
           console.log('Trend data', error);

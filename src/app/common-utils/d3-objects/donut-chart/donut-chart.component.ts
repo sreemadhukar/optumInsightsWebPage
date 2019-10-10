@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, HostListener, ViewEncapsulation, AfterViewInit } from '@angular/core';
 import * as d3 from 'd3';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-donut-chart',
@@ -11,10 +12,12 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
   public transition = 1;
   public noTransition = 0;
   public renderChart: string;
+  public printStyle: boolean;
+
   @Input() chartOptions: any = {};
   @Input() donutType: string;
 
-  constructor() {}
+  constructor(private router: Router) {}
 
   @HostListener('window:resize', ['$event'])
   onResize(event) {
@@ -25,7 +28,12 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    this.doDonutChart(this.chartOptions, this.transition);
+    if (this.router.url.includes('print-')) {
+      this.printStyle = true;
+      this.doDonutChart(this.chartOptions, this.noTransition);
+    } else {
+      this.doDonutChart(this.chartOptions, this.transition);
+    }
   }
 
   nFormatter(num, digits) {

@@ -10,7 +10,6 @@
     overflow: auto;
     line-height: 0;
   }
-
   .filter_bg {
     height: 40px;
     width: 100px;
@@ -285,7 +284,6 @@
     height: 1px;
     width: 33px;
     border: 2px solid #3381ff;
-    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
     display: inline-block;
   }
 
@@ -293,8 +291,7 @@
     box-sizing: border-box;
     height: 1px;
     width: 32px;
-    border: 2px solid #80b0ff;
-    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
+    border: 2px dotted #66aeff;
     display: inline-block;
   }
 
@@ -302,8 +299,7 @@
     box-sizing: border-box;
     height: 1px;
     width: 32px;
-    border: 2px dotted #003da1;
-    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
+    border: 1px solid #0034ae;
     display: inline-block;
   }
 
@@ -312,7 +308,6 @@
     height: 1px;
     width: 32px;
     border: 2px dashed #00b8cc;
-    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
     display: inline-block;
   }
 

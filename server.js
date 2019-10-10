@@ -31,17 +31,6 @@ app.use((error, req, res, next) => {
   handleExceptions(error, res);
 });
 
-var whitelist = ['*.optum.com', '*.uhc.com']
-var corsOptions = {
-  origin: function (origin, callback) {
-    if (whitelist.indexOf(origin) !== -1) {
-      callback(null, true)
-    } else {
-      callback(new Error('Not allowed by CORS'))
-    }
-  }
-}
-
 app.get('/api/getJwt', function(req, res) {
   let token = jwt.sign(
     {
@@ -54,7 +43,7 @@ app.get('/api/getJwt', function(req, res) {
     token: token
   });
 });
- 
+
 app.get('/api/getHeac/:MsId', function(req, res) {
   res.status(200).json({
     heac: include(heac.user, req.params.MsId)

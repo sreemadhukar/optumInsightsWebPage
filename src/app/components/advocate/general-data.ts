@@ -3,7 +3,7 @@ export const GeneralData: any = {
     width: 500,
     backgroundColor: 'null',
     barGraphNumberSize: 18,
-    barColor: '#196ECF',
+    barColor: '#0034AE',
     parentDiv: 'appeals-trend-block',
     tooltipBoolean: true,
     hideYAxis: false
@@ -12,7 +12,7 @@ export const GeneralData: any = {
     width: 500,
     backgroundColor: 'null',
     barGraphNumberSize: 18,
-    barColor: '#196ECF',
+    barColor: '#66AEFF',
     parentDiv: 'appeals-trend-block',
     tooltipBoolean: true,
     hideYAxis: false
@@ -21,16 +21,16 @@ export const GeneralData: any = {
     width: 500,
     backgroundColor: 'null',
     barGraphNumberSize: 18,
-    barColor: '#196ECF',
+    barColor: '#3381FF',
     parentDiv: 'appeals-trend-block',
     tooltipBoolean: true,
     hideYAxis: false
   },
-  'Others': {
+  Others: {
     width: 500,
     backgroundColor: 'null',
     barGraphNumberSize: 18,
-    barColor: '#196ECF',
+    barColor: '#00B8CC',
     parentDiv: 'appeals-trend-block',
     tooltipBoolean: true,
     hideYAxis: false
