@@ -242,6 +242,12 @@ export class PriorAuthSharedService {
               }
             }
             // Add checker for if PA requested is zero
+            const priorAuthorizationCounts = [
+              PAApprovedCount,
+              PANotApprovedCount,
+              PANotPendingCount,
+              PANotCancelledCount
+            ];
             if (PARequestedCount === 0) {
               if (PANotPendingCount + PANotCancelledCount > 0) {
                 PACount = [
@@ -251,7 +257,7 @@ export class PriorAuthSharedService {
                     title: 'Prior Authorization Requested',
                     MetricID: this.MetricidService.MetricIDs.PriorAuthorizationRequested,
                     data: {
-                      graphValues: [PAApprovedCount, PANotApprovedCount, PANotPendingCount, PANotCancelledCount],
+                      graphValues: priorAuthorizationCounts,
                       centerNumber: this.common.nFormatter(PARequestedCount),
                       color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'],
                       labels: ['Approved', 'Not Approved', 'Pending', 'Canceled'],
@@ -259,8 +265,8 @@ export class PriorAuthSharedService {
                       hover: true
                     },
                     besideData: {
-                      labels: ['Approved', 'Not Approved', 'Pending', 'Canceled'],
-                      color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC']
+                      labels: this.common.priorAuthSideLabel(priorAuthorizationCounts),
+                      color: this.common.priorAuthSideLabelColor(priorAuthorizationCounts)
                     },
                     timeperiod: timePeriod
                   }
@@ -276,7 +282,7 @@ export class PriorAuthSharedService {
                   title: 'Prior Authorization Requested',
                   MetricID: this.MetricidService.MetricIDs.PriorAuthorizationRequested,
                   data: {
-                    graphValues: [PAApprovedCount, PANotApprovedCount, PANotPendingCount, PANotCancelledCount],
+                    graphValues: priorAuthorizationCounts,
                     centerNumber: this.common.nFormatter(PARequestedCount),
                     color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'],
                     labels: ['Approved', 'Not Approved', 'Pending', 'Canceled'],
@@ -284,8 +290,8 @@ export class PriorAuthSharedService {
                     hover: true
                   },
                   besideData: {
-                    labels: ['Approved', 'Not Approved', 'Pending', 'Canceled'],
-                    color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC']
+                    labels: this.common.priorAuthSideLabel(priorAuthorizationCounts),
+                    color: this.common.priorAuthSideLabelColor(priorAuthorizationCounts)
                   },
                   timeperiod: timePeriod
                 },

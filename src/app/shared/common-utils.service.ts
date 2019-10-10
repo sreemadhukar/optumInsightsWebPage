@@ -473,4 +473,36 @@ export class CommonUtilsService {
     */
     return lobColorLabels;
   }
+  public priorAuthSideLabel(paData) {
+    const paSideLabels = [];
+    if (paData[0] > 0) {
+      paSideLabels.push('Approved');
+    }
+    if (paData[1] > 0) {
+      paSideLabels.push('Not Approved');
+    }
+    if (paData[2] > 0) {
+      paSideLabels.push('Pending');
+    }
+    if (paData[3] > 0) {
+      paSideLabels.push('Canceled');
+    }
+    return paSideLabels;
+  }
+  public priorAuthSideLabelColor(paData) {
+    const paSideLabelColors = [];
+    if (paData[0] > 0) {
+      paSideLabelColors.push('#3381FF');
+    }
+    if (paData[1] > 0) {
+      paSideLabelColors.push('#80B0FF');
+    }
+    if (paData[2] > 0) {
+      paSideLabelColors.push('#003DA1');
+    }
+    if (paData[3] > 0) {
+      paSideLabelColors.push('#00B8CC');
+    }
+    return paSideLabelColors;
+  }
 }

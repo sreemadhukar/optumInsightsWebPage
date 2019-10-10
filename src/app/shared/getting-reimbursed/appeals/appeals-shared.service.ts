@@ -786,7 +786,6 @@ export class AppealsSharedService {
         timeperiod: null
       };
     } else if (appealsData.length > 0 && appealsData[0] != null) {
-      console.log(lobFullData);
       if (
         appealsData[0].hasOwnProperty('LineOfBusiness') &&
         appealsData[0].LineOfBusiness !== null &&
@@ -910,6 +909,16 @@ export class AppealsSharedService {
           labelsData.push('Other Lines of Business');
           colorsData.push('#D7DCE1');
         }
+        const sideData = [];
+        if (lobFullData !== 'ALL') {
+          const labelsDataNew = labelsData.slice(0, -1);
+          const colorsDataNew = colorsData.slice(0, -1);
+          sideData[0] = labelsDataNew;
+          sideData[1] = colorsDataNew;
+        } else {
+          sideData[0] = labelsData;
+          sideData[1] = colorsData;
+        }
         appealsSubmitted = {
           category: 'app-card',
           type: 'donutWithLabelBottom',
@@ -931,8 +940,8 @@ export class AppealsSharedService {
             hover: true
           },
           besideData: {
-            labels: labelsData,
-            color: colorsData
+            labels: sideData[0],
+            color: sideData[1]
           },
           bottomData: {
             horizontalData: [

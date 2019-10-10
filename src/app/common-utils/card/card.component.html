@@ -56,7 +56,18 @@ Date Created: 17-Apr-2019
         <div
           [class.total-claims-beside-data-block]="chartData.title == 'Total Number of Claims Submitted'"
           [class.smart-edits-claims-returned-beside-data-block]="chartData.title == 'Smart Edits Claims Returned'"
-          [class.pa-requested-beside-data-block]="chartData.title == 'Prior Authorization Requested'"
+          [class.pa-requested-beside-data-block]="
+            chartData.title == 'Prior Authorization Requested' && chartData.besideData.labels.length === 4
+          "
+          [class.pa-requested-beside-data-block-three-lob]="
+            chartData.title == 'Prior Authorization Requested' && chartData.besideData.labels.length === 3
+          "
+          [class.pa-requested-beside-data-block-two-lob]="
+            chartData.title == 'Prior Authorization Requested' && chartData.besideData.labels.length === 2
+          "
+          [class.pa-requested-beside-data-block-one-lob]="
+            chartData.title == 'Prior Authorization Requested' && chartData.besideData.labels.length === 1
+          "
           [class.pa-approval-rate-beside-data-block]="chartData.title == 'Prior Authorization Approval Rate'"
           [class.claims-paid-beside-data-block]="
             (chartData.title == 'Claims Paid' || chartData.title == 'Claims Not Paid') &&
@@ -262,15 +273,22 @@ Date Created: 17-Apr-2019
 
         <div
           [class.total-claims-beside-data-block]="chartData.title == 'Total Number of Claims Submitted'"
-          [class.pa-requested-beside-data-block]="chartData.title == 'Prior Authorization Requested'"
           [class.pa-approval-rate-beside-data-block]="chartData.title == 'Prior Authorization Approval Rate'"
           [class.claims-paid-beside-data-block]="
             (chartData.title == 'Claims Paid' || chartData.title == 'Claims Not Paid') &&
-            chartData.data.labels.length === 4
+            chartData.besideData.labels.length === 4
+          "
+          [class.claims-paid-beside-data-block-three-lob]="
+            (chartData.title == 'Claims Paid' || chartData.title == 'Claims Not Paid') &&
+            chartData.besideData.labels.length === 3
+          "
+          [class.claims-paid-beside-data-block-two-lob]="
+            (chartData.title == 'Claims Paid' || chartData.title == 'Claims Not Paid') &&
+            chartData.besideData.labels.length === 2
           "
           [class.claims-paid-beside-data-block-one-lob]="
             (chartData.title == 'Claims Paid' || chartData.title == 'Claims Not Paid') &&
-            chartData.data.labels.length === 1
+            chartData.besideData.labels.length === 1
           "
           [class.calls-beside-data-block]="
             chartData.title == 'Calls By Call Type' || chartData.title == 'Talk Time By Call Type'
