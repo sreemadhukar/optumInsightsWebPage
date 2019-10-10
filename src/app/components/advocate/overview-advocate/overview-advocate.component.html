@@ -55,6 +55,11 @@
     </div>
 
     <!-- Claims Non - Payment Trend  Starts Here -->
+    <app-error-card
+      *ngIf="!trendMonthDisplay && monthlyLineGraph != null && monthlyLineGraph.status != null"
+      class="cards"
+      [data]="monthlyLineGraph"
+    ></app-error-card>
     <div class="non-payment-trend-block" *ngIf="trendMonthDisplay">
       <app-common-header
         [title]="trendTitle"
@@ -141,11 +146,5 @@
       ></app-common-footer>
     </div>
     <!-- Claims appeals Trend Ends Here -->
-
-    <app-error-card
-      *ngIf="!trendMonthDisplay && monthlyLineGraph != null && monthlyLineGraph.status != null"
-      class="cards"
-      [data]="monthlyLineGraph"
-    ></app-error-card>
   </div>
 </div>
