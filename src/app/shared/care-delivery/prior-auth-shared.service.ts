@@ -248,6 +248,7 @@ export class PriorAuthSharedService {
               PANotPendingCount,
               PANotCancelledCount
             ];
+            const priorAuthorizationLabels = ['Approved', 'Not Approved', 'Pending', 'Canceled'];
             if (PARequestedCount === 0) {
               if (PANotPendingCount + PANotCancelledCount > 0) {
                 PACount = [
@@ -265,8 +266,8 @@ export class PriorAuthSharedService {
                       hover: true
                     },
                     besideData: {
-                      labels: this.common.priorAuthSideLabel(priorAuthorizationCounts),
-                      color: this.common.priorAuthSideLabelColor(priorAuthorizationCounts)
+                      labels: this.common.sideLabelWords(priorAuthorizationCounts, priorAuthorizationLabels),
+                      color: this.common.sideLabelColor(priorAuthorizationCounts)
                     },
                     timeperiod: timePeriod
                   }
@@ -290,8 +291,8 @@ export class PriorAuthSharedService {
                     hover: true
                   },
                   besideData: {
-                    labels: this.common.priorAuthSideLabel(priorAuthorizationCounts),
-                    color: this.common.priorAuthSideLabelColor(priorAuthorizationCounts)
+                    labels: this.common.sideLabelWords(priorAuthorizationCounts, priorAuthorizationLabels),
+                    color: this.common.sideLabelColor(priorAuthorizationCounts)
                   },
                   timeperiod: timePeriod
                 },

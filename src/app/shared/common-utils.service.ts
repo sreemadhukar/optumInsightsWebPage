@@ -473,36 +473,36 @@ export class CommonUtilsService {
     */
     return lobColorLabels;
   }
-  public priorAuthSideLabel(paData) {
-    const paSideLabels = [];
-    if (paData[0] > 0) {
-      paSideLabels.push('Approved');
+  public sideLabelWords(data, labels) {
+    const sideLabels = [];
+    if (data[0] > 0) {
+      sideLabels.push(labels[0]);
     }
-    if (paData[1] > 0) {
-      paSideLabels.push('Not Approved');
+    if (data[1] > 0) {
+      sideLabels.push(labels[1]);
     }
-    if (paData[2] > 0) {
-      paSideLabels.push('Pending');
+    if (data[2] > 0) {
+      sideLabels.push(labels[2]);
     }
-    if (paData[3] > 0) {
-      paSideLabels.push('Canceled');
+    if (data[3] > 0) {
+      sideLabels.push(labels[3]);
     }
-    return paSideLabels;
+    return sideLabels;
   }
-  public priorAuthSideLabelColor(paData) {
-    const paSideLabelColors = [];
-    if (paData[0] > 0) {
-      paSideLabelColors.push('#3381FF');
+  public sideLabelColor(data) {
+    const sideLabelColors = [];
+    if (data[0] > 0) {
+      sideLabelColors.push('#3381FF');
     }
-    if (paData[1] > 0) {
-      paSideLabelColors.push('#80B0FF');
+    if (data[1] > 0) {
+      sideLabelColors.push('#80B0FF');
     }
-    if (paData[2] > 0) {
-      paSideLabelColors.push('#003DA1');
+    if (data[2] > 0) {
+      sideLabelColors.push('#003DA1');
     }
-    if (paData[3] > 0) {
-      paSideLabelColors.push('#00B8CC');
+    if (data[3] > 0) {
+      sideLabelColors.push('#00B8CC');
     }
-    return paSideLabelColors;
+    return sideLabelColors;
   }
 }
