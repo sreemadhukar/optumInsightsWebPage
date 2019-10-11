@@ -35,11 +35,10 @@ export class MultiSelectComponent implements OnInit {
     }
     this.searchControl = new FormControl('');
     this.searchControl.valueChanges.subscribe(query => {
-      this.fileterdArray = this.tinsData
-        .filter(function(tag) {
-          return tag.Tin.indexOf(query) >= 0;
-        })
-        .slice(0, 5);
+      this.fileterdArray = this.tinsData.filter(function(tag) {
+        return tag.Tin.indexOf(query) >= 0;
+      });
+      // .slice(0, 5);
     });
   }
 
