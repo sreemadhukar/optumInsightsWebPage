@@ -12,7 +12,7 @@ const routes: Routes = [
     loadChildren: '../auth/auth.module#AuthModule',
     data: {
       preload: true,
-      delay: true
+      delay: false
     }
   },
   {
@@ -20,7 +20,7 @@ const routes: Routes = [
     loadChildren: '../auth/auth.module#AuthModule',
     data: {
       preload: true,
-      delay: true
+      delay: false
     }
   },
   {
@@ -28,7 +28,7 @@ const routes: Routes = [
     loadChildren: '../components/advocate/advocate.module#AdvocateModule',
     data: {
       preload: false,
-      delay: true
+      delay: false
     },
     canActivate: [AuthGuard]
   },
@@ -37,7 +37,7 @@ const routes: Routes = [
     loadChildren: '../components/overview-page/overview-page.module#OverviewPageModule',
     data: {
       preload: false,
-      delay: true
+      delay: false
     },
     canActivate: [AuthGuard]
   },
@@ -67,7 +67,7 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     data: {
       preload: true,
-      delay: true
+      delay: false
     }
   },
   {
@@ -97,15 +97,27 @@ const routes: Routes = [
   },
   {
     path: 'TermsofUse',
-    component: TermsOfUseComponent
+    component: TermsOfUseComponent,
+    data: {
+      preload: true,
+      delay: true
+    }
   },
   {
     path: 'PrivacyPolicy',
-    component: PrivacyPolicyComponent
+    component: PrivacyPolicyComponent,
+    data: {
+      preload: true,
+      delay: true
+    }
   },
   {
     path: 'SiteMap',
-    component: SiteMapComponent
+    component: SiteMapComponent,
+    data: {
+      preload: true,
+      delay: true
+    }
   },
   { path: '**', redirectTo: '' }
 ];
@@ -117,6 +129,7 @@ const routes: Routes = [
       preloadingStrategy: CustomPreloadingStrategy
     })
   ],
-  exports: [RouterModule]
+  exports: [RouterModule],
+  providers: [CustomPreloadingStrategy]
 })
 export class HeadRoutingModule {}

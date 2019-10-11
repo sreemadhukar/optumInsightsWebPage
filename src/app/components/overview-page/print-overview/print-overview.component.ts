@@ -8,11 +8,11 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { CommonUtilsService } from 'src/app/shared/common-utils.service';
 
 @Component({
-  selector: 'app-overview',
-  templateUrl: './overview.component.html',
-  styleUrls: ['./overview.component.scss']
+  selector: 'app-print-overview',
+  templateUrl: './print-overview.component.html',
+  styleUrls: ['./print-overview.component.scss']
 })
-export class OverviewComponent implements OnInit {
+export class PrintOverviewComponent implements OnInit {
   printRoute: string;
   overviewItems: any;
   mainCards: any;
@@ -74,9 +74,8 @@ export class OverviewComponent implements OnInit {
     this.opportunities = 'Opportunities';
     this.opportunitiesQuestion = 'How much can online self service save you?';
     this.welcomeMessage = '';
-    if (this.router.url.includes('print-')) {
-      this.printStyle = true;
-    }
+
+    this.printStyle = true;
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.filtermatch.urlResuseStrategy());
     /** INITIALIZING SVG ICONS TO USE IN DESIGN - ANGULAR MATERIAL */
     iconRegistry.addSvgIcon(

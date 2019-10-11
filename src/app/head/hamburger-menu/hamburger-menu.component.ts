@@ -186,6 +186,16 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
         if (event.url === '/KnowOurProvider' && !heac.heac) {
           router.navigate(['/ProviderSearch']);
         }
+
+        // Check condtion for rendering butter bar
+        if (sessionStorage.getItem('fromKOP') === 'YES' && !this.makeAbsolute && event.url !== '/KnowOurProvider') {
+          setTimeout(() => {
+            this.fromKOP = true;
+          }, 500);
+        } else {
+          this.fromKOP = false;
+          sessionStorage.removeItem('fromKOP');
+        }
       }
       // PLEASE DON'T MODIFY THIS
     });
@@ -298,12 +308,6 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     setTimeout(() => {
       this.healthSystemName = this.sessionService.getHealthCareOrgName();
     }, 1);
-
-    // Show butter bar to navigate back to KOP
-    this.fromKOP = sessionStorage.getItem('fromKOP') === 'YES';
-
-    // Remove to render again
-    sessionStorage.removeItem('fromKOP');
   }
 
   advocateRole() {
