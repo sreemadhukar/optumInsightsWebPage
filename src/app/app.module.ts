@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { CookieService } from 'ngx-cookie-service';
-
+import { FormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { HeadModule } from './head/head.module';
 import { SharedModule } from './shared/shared.module';
@@ -21,6 +21,9 @@ import { KOPSharedService } from './shared/kop/kop.service';
 import { KopService } from './rest/kop/kop.service';
 import { UserIdleModule } from 'angular-user-idle';
 import { IdleTimeoutDialogComponent } from './auth/idle-timeout-dialog/idle-timeout-dialog.component';
+import { NgReduxModule, NgRedux } from '@angular-redux/store';
+import { FilterReducer, INITIAL_STATE } from './store/filter/reducer';
+import { IAppState } from './store/store';
 
 @NgModule({
   declarations: [AppComponent],
@@ -35,6 +38,7 @@ import { IdleTimeoutDialogComponent } from './auth/idle-timeout-dialog/idle-time
     RestModule,
     PipesModule,
     AuthModule,
+    NgReduxModule,
     // Optionally you can set time for `idle`, `timeout` and `ping` in seconds.
     // Default values: `idle` is 600 (10 minutes), `timeout` is 300 (5 minutes)
     // and `ping` is 120 (2 minutes).
@@ -53,4 +57,8 @@ import { IdleTimeoutDialogComponent } from './auth/idle-timeout-dialog/idle-time
   entryComponents: [IdleTimeoutDialogComponent],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule {
+  constructor(ngRedux: NgRedux<IAppState>) {
+    ngRedux.configureStore(FilterReducer, INITIAL_STATE);
+  }
+}

@@ -1,19 +1,19 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { FilterComponent } from './filter.component';
+import { UhciFiltersComponent } from './uhci-filters.component';
 
 describe('UhciFiltersComponent', () => {
-  let component: FilterComponent;
-  let fixture: ComponentFixture<FilterComponent>;
+  let component: UhciFiltersComponent;
+  let fixture: ComponentFixture<UhciFiltersComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [FilterComponent]
+      declarations: [UhciFiltersComponent]
     }).compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(FilterComponent);
+    fixture = TestBed.createComponent(UhciFiltersComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -7,6 +7,9 @@ import { Router } from '@angular/router';
 import { FilterExpandService } from '../../../shared/filter-expand.service';
 import { CommonUtilsService } from '../../../shared/common-utils.service';
 import { SessionService } from 'src/app/shared/session.service';
+import { CURRENT_PAGE } from '../../../store/filter/actions';
+import { NgRedux, select } from '@angular-redux/store';
+import { IAppState } from '../../../store/store';
 
 @Component({
   selector: 'app-getting-reimbursed',
@@ -35,6 +38,7 @@ export class GettingReimbursedComponent implements OnInit {
   buttonName: any;
   detailClickUrl = '/GettingReimbursed';
   buttonNumber: any;
+  @select() currentPage;
   constructor(
     private gettingReimbursedSharedService: GettingReimbursedSharedService,
     private checkStorage: StorageService,
@@ -43,7 +47,8 @@ export class GettingReimbursedComponent implements OnInit {
     private filterExpandService: FilterExpandService,
     private router: Router,
     private session: SessionService,
-    private filtermatch: CommonUtilsService
+    private filtermatch: CommonUtilsService,
+    private ngRedux: NgRedux<IAppState>
   ) {
     const filData = this.session.getFilChangeEmitter().subscribe(() => this.filtermatch.urlResuseStrategy());
     this.pageTitle = 'Getting Reimbursed';
@@ -109,6 +114,8 @@ export class GettingReimbursedComponent implements OnInit {
     //    event.target.classList.add('active');
   }
   ngOnInit() {
+    this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'Getting Reimbursed' });
+    console.log(this.currentPage);
     if (
       this.session.filterObjValue.timeFrame === 'Last 12 Months' ||
       this.session.filterObjValue.timeFrame === '2017' ||

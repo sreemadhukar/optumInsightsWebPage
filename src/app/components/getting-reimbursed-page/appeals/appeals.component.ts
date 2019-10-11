@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 import { FilterExpandService } from '../../../shared/filter-expand.service';
 import { CommonUtilsService } from '../../../shared/common-utils.service';
 import { SessionService } from 'src/app/shared/session.service';
+import { NgRedux, select } from '@angular-redux/store';
 
 @Component({
   selector: 'app-appeals',

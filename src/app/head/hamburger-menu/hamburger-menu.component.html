@@ -211,12 +211,7 @@
               [title]="glossaryTitle"
               [MetricID]="glossaryMetricID"
             ></app-glossary>
-            <app-filter
-              *ngIf="filterFlag && !isKop"
-              [filterurl]="filterurl"
-              [filterData]="filterData"
-              (filterFlag)="filterFlagChange($event)"
-            ></app-filter>
+            <app-uhci-filter></app-uhci-filter>
             <app-kop-filters
               *ngIf="filterFlag && isKop"
               [filterurl]="filterurl"
