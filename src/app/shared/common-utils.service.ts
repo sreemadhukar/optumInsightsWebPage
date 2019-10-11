@@ -115,6 +115,8 @@ export class CommonUtilsService {
       return 'Mr';
     } else if (lob === 'Community & State') {
       return 'Cs';
+    } else if (lob === 'Uncategorized') {
+      return 'Un';
     }
   }
   public matchLobWithCapsData(lob) {
@@ -328,18 +330,22 @@ export class CommonUtilsService {
       } else if (this.session.filterObjValue.lob === 'Medicare & Retirement') {
         if (cardData.hasOwnProperty('Mr')) {
           hoverLabels.push('Medicare & Retirement');
+          hoverLabels.push('Other Lines of Business');
         }
       } else if (this.session.filterObjValue.lob === 'Community & State') {
         if (cardData.hasOwnProperty('Cs')) {
           hoverLabels.push('Community & State');
+          hoverLabels.push('Other Lines of Business');
         }
       } else if (this.session.filterObjValue.lob === 'Employer & Individual') {
         if (cardData.hasOwnProperty('Ei')) {
           hoverLabels.push('Employer & Individual');
+          hoverLabels.push('Other Lines of Business');
         }
       } else if (this.session.filterObjValue.lob === 'Uncategorized') {
         if (cardData.hasOwnProperty('Un')) {
           hoverLabels.push('Uncategorized');
+          hoverLabels.push('Other Lines of Business');
         }
       }
       return hoverLabels;
@@ -365,18 +371,22 @@ export class CommonUtilsService {
       } else if (this.session.filterObjValue.lob === 'Medicare & Retirement') {
         if (cardData.hasOwnProperty('Mr')) {
           hoverColors.push('#3381FF');
+          hoverColors.push('#D7DCE1');
         }
       } else if (this.session.filterObjValue.lob === 'Community & State') {
         if (cardData.hasOwnProperty('Cs')) {
           hoverColors.push('#80B0FF');
+          hoverColors.push('#D7DCE1');
         }
       } else if (this.session.filterObjValue.lob === 'Employer & Individual') {
         if (cardData.hasOwnProperty('Ei')) {
           hoverColors.push('#003DA1');
+          hoverColors.push('#D7DCE1');
         }
       } else if (this.session.filterObjValue.lob === 'Uncategorized') {
         if (cardData.hasOwnProperty('Un')) {
           hoverColors.push('#00B8CC');
+          hoverColors.push('#D7DCE1');
         }
       }
       return hoverColors;
@@ -408,5 +418,91 @@ export class CommonUtilsService {
         this.router.navigate([this.router.url]);
       }
     });
+  }
+
+  /*
+ labels: ['Medicare & Retirement', 'Community & State', 'Employer & Individual', 'Uncategorized'],
+ color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC']
+* */
+
+  // ALL
+  // MedicareAndRetirement
+  // CommunityAndState
+  // EmployerAndIndividual
+  // Uncategorized
+
+  public LOBSideLabels(LOBType, dataSet?) {
+    const lobLabels = [];
+    if (LOBType === 'Mr' || LOBType === 'All' || LOBType === 'ALL' || LOBType === 'MedicareAndRetirement') {
+      lobLabels.push('Medicare & Retirement');
+    }
+    if (LOBType === 'Cs' || LOBType === 'All' || LOBType === 'ALL' || LOBType === 'CommunityAndState') {
+      lobLabels.push('Community & State');
+    }
+    if (LOBType === 'Ei' || LOBType === 'All' || LOBType === 'ALL' || LOBType === 'EmployerAndIndividual') {
+      lobLabels.push('Employer & Individual');
+    }
+    if (LOBType === 'Un' || LOBType === 'All' || LOBType === 'ALL' || LOBType === 'Uncategorized') {
+      lobLabels.push('Uncategorized');
+    }
+    /*
+    if (LOBType !== 'All') {
+      lobLabels.push('Other Lines of Business');
+    }
+    */
+    return lobLabels;
+  }
+  public LOBSideLabelColors(LOBType, dataSet?) {
+    const lobColorLabels = [];
+    if (LOBType === 'Mr' || LOBType === 'All' || LOBType === 'ALL' || LOBType === 'MedicareAndRetirement') {
+      lobColorLabels.push('#3381FF');
+    }
+    if (LOBType === 'Cs' || LOBType === 'All' || LOBType === 'ALL' || LOBType === 'CommunityAndState') {
+      lobColorLabels.push('#80B0FF');
+    }
+    if (LOBType === 'Ei' || LOBType === 'All' || LOBType === 'ALL' || LOBType === 'EmployerAndIndividual') {
+      lobColorLabels.push('#003DA1');
+    }
+    if (LOBType === 'Un' || LOBType === 'All' || LOBType === 'ALL' || LOBType === 'Uncategorized') {
+      lobColorLabels.push('#00B8CC');
+    }
+    /*
+    if (LOBType !== 'All') {
+      lobColorLabels.push('#D7DCE1');
+    }
+    */
+    return lobColorLabels;
+  }
+  public sideLabelWords(data, labels) {
+    const sideLabels = [];
+    if (data[0] > 0) {
+      sideLabels.push(labels[0]);
+    }
+    if (data[1] > 0) {
+      sideLabels.push(labels[1]);
+    }
+    if (data[2] > 0) {
+      sideLabels.push(labels[2]);
+    }
+    if (data[3] > 0) {
+      sideLabels.push(labels[3]);
+    }
+    return sideLabels;
+  }
+  public sideLabelColor(data) {
+    const sideLabelColors = [];
+    if (data[0] > 0) {
+      sideLabelColors.push('#3381FF');
+    }
+    if (data[1] > 0) {
+      sideLabelColors.push('#80B0FF');
+    }
+    if (data[2] > 0) {
+      sideLabelColors.push('#003DA1');
+    }
+    if (data[3] > 0) {
+      sideLabelColors.push('#00B8CC');
+    }
+    return sideLabelColors;
   }
 }
