@@ -367,8 +367,9 @@ export class AppealsSharedService {
             parameters = [this.providerKey, { TimeFilter: 'Last6Months', AllProviderTins: 'true' }];
           }
         }
-
-        // parameters = [this.providerKey];
+        if (parameters[1].hasOwnProperty('Lob')) {
+          delete parameters[1].Lob;
+        }
         this.gettingReimbursedService.appealsData(...parameters).subscribe(appealsData => {
           const lobFullData = this.common.matchFullLobWithData(this.lob);
           const lobData = this.common.matchLobWithData(this.lob);
@@ -414,15 +415,15 @@ export class AppealsSharedService {
                   bottomData: {
                     horizontalData: [
                       {
-                        values: 1000 /*appealsData[0].LineOfBusiness[lobFullData].AdminAppeals
-                        ? appealsData[0].LineOfBusiness[lobFullData].AdminAppeals
-                        : 0,*/,
+                        values: appealsData[0].LineOfBusiness[lobFullData].AdminAppeals
+                          ? appealsData[0].LineOfBusiness[lobFullData].AdminAppeals
+                          : 0,
                         labels: 'Admin'
                       },
                       {
-                        values: 1200 /*appealsData[0].LineOfBusiness[lobFullData].ClinicalAppeals
-                        ? appealsData[0].LineOfBusiness[lobFullData].ClinicalAppeals
-                        : 0,*/,
+                        values: appealsData[0].LineOfBusiness[lobFullData].ClinicalAppeals
+                          ? appealsData[0].LineOfBusiness[lobFullData].ClinicalAppeals
+                          : 0,
                         labels: 'Clinical'
                       }
                     ]
@@ -440,47 +441,49 @@ export class AppealsSharedService {
                   timeperiod: null
                 };
               }
-              if (
-                appealsData[0].LineOfBusiness[lobFullData].hasOwnProperty('ListReasonAndCount') &&
-                appealsData[0].LineOfBusiness[lobFullData].ListReasonAndCount.length > 0
-              ) {
-                const reasonsVal1 = [{}];
-                const reasonsVal2 = [{}];
-                const barVal = [{}];
-                const barTitle = [{}];
-                const getTopFiveReasons = appealsData[0].LineOfBusiness[lobFullData].ListReasonAndCount.sort(function(
-                  a,
-                  b
+              if (appealsData[0].LineOfBusiness[lobFullData].ListReasonAndCount !== null) {
+                if (
+                  appealsData[0].LineOfBusiness[lobFullData].hasOwnProperty('ListReasonAndCount') &&
+                  appealsData[0].LineOfBusiness[lobFullData].ListReasonAndCount.length > 0
                 ) {
-                  return b.Count - a.Count;
-                }).slice(0, 5);
-                let topFiveReasonTotal;
-                for (let i = 0; i < getTopFiveReasons.length; i++) {
-                  if (i === 0) {
-                    topFiveReasonTotal = getTopFiveReasons[i].Count;
-                  } else {
-                    topFiveReasonTotal = topFiveReasonTotal + getTopFiveReasons[i].Count;
+                  const reasonsVal1 = [{}];
+                  const reasonsVal2 = [{}];
+                  const barVal = [{}];
+                  const barTitle = [{}];
+                  const getTopFiveReasons = appealsData[0].LineOfBusiness[lobFullData].ListReasonAndCount.sort(function(
+                    a,
+                    b
+                  ) {
+                    return b.Count - a.Count;
+                  }).slice(0, 5);
+                  let topFiveReasonTotal;
+                  for (let i = 0; i < getTopFiveReasons.length; i++) {
+                    if (i === 0) {
+                      topFiveReasonTotal = getTopFiveReasons[i].Count;
+                    } else {
+                      topFiveReasonTotal = topFiveReasonTotal + getTopFiveReasons[i].Count;
+                    }
                   }
-                }
-                for (let a = 0; a < getTopFiveReasons.length; a++) {
-                  reasonsVal1[a] = getTopFiveReasons[a].Count;
-                  const value1 = Number(reasonsVal1[a]);
-                  reasonsVal2[a] = topFiveReasonTotal - getTopFiveReasons[a].Count;
-                  barVal[a] =
-                    Number(((getTopFiveReasons[a].Count / topFiveReasonTotal) * 100).toFixed()) >= 1
-                      ? ((getTopFiveReasons[a].Count / topFiveReasonTotal) * 100).toFixed() + '%'
-                      : '<1%';
-                  barTitle[a] = getTopFiveReasons[a].Reason;
-                }
-                for (let i = 0; i <= getTopFiveReasons.length; i++) {
-                  reason.push({
-                    type: 'bar chart',
-                    graphValues: [reasonsVal1[i], reasonsVal2[i]],
-                    barText: barTitle[i],
-                    barValue: barVal[i],
-                    color: ['#3381FF', '#FFFFFF', '#E0E0E0'],
-                    gdata: ['app-card-structure', 'appealsOverturnedReason' + i]
-                  });
+                  for (let a = 0; a < getTopFiveReasons.length; a++) {
+                    reasonsVal1[a] = getTopFiveReasons[a].Count;
+                    const value1 = Number(reasonsVal1[a]);
+                    reasonsVal2[a] = topFiveReasonTotal - getTopFiveReasons[a].Count;
+                    barVal[a] =
+                      Number(((getTopFiveReasons[a].Count / topFiveReasonTotal) * 100).toFixed()) >= 1
+                        ? ((getTopFiveReasons[a].Count / topFiveReasonTotal) * 100).toFixed() + '%'
+                        : '<1%';
+                    barTitle[a] = getTopFiveReasons[a].Reason;
+                  }
+                  for (let i = 0; i <= getTopFiveReasons.length; i++) {
+                    reason.push({
+                      type: 'bar chart',
+                      graphValues: [reasonsVal1[i], reasonsVal2[i]],
+                      barText: barTitle[i],
+                      barValue: barVal[i],
+                      color: ['#3381FF', '#FFFFFF', '#E0E0E0'],
+                      gdata: ['app-card-structure', 'appealsOverturnedReason' + i]
+                    });
+                  }
                 }
               } else {
                 reason.push({
@@ -569,7 +572,9 @@ export class AppealsSharedService {
             { TimeFilter: 'CalendarYear', TimeFilterText: this.timeFrame, AllProviderTins: 'true' }
           ];
         }
-        // parameters = [this.providerKey];
+        if (parameters[1].hasOwnProperty('Lob')) {
+          delete parameters[1].Lob;
+        }
         this.gettingReimbursedService.appealsData(...parameters).subscribe(appealsData => {
           const lobFullData = this.common.matchFullLobWithData(this.lob);
           const lobData = this.common.matchLobWithData(this.lob);
@@ -793,7 +798,8 @@ export class AppealsSharedService {
         const colorsData = [];
         if (
           appealsData[0].LineOfBusiness.hasOwnProperty('MedicareAndRetirement') &&
-          appealsData[0].LineOfBusiness.MedicareAndRetirement != null
+          appealsData[0].LineOfBusiness.MedicareAndRetirement != null &&
+          (lobFullData === 'ALL' || lobFullData === 'MedicareAndRetirement')
         ) {
           let sum = 0;
           if (
@@ -814,7 +820,8 @@ export class AppealsSharedService {
         }
         if (
           appealsData[0].LineOfBusiness.hasOwnProperty('CommunityAndState') &&
-          appealsData[0].LineOfBusiness.CommunityAndState != null
+          appealsData[0].LineOfBusiness.CommunityAndState != null &&
+          (lobFullData === 'ALL' || lobFullData === 'CommunityAndState')
         ) {
           let sum = 0;
           if (
@@ -835,7 +842,8 @@ export class AppealsSharedService {
         }
         if (
           appealsData[0].LineOfBusiness.hasOwnProperty('EmployerAndIndividual') &&
-          appealsData[0].LineOfBusiness.EmployerAndIndividual != null
+          appealsData[0].LineOfBusiness.EmployerAndIndividual != null &&
+          (lobFullData === 'ALL' || lobFullData === 'EmployerAndIndividual')
         ) {
           let sum = 0;
           if (
@@ -854,8 +862,11 @@ export class AppealsSharedService {
           labelsData.push('Employer & Individual');
           colorsData.push('#003DA1');
         }
-
-        if (appealsData[0].LineOfBusiness.hasOwnProperty('Uncategorized')) {
+        if (
+          appealsData[0].LineOfBusiness.hasOwnProperty('Uncategorized') &&
+          appealsData[0].LineOfBusiness.Uncategorized != null &&
+          (lobFullData === 'ALL' || lobFullData === 'Uncategorized')
+        ) {
           let sum = 0;
           if (
             appealsData[0].LineOfBusiness.Uncategorized.hasOwnProperty('AdminAppeals') &&
@@ -872,6 +883,41 @@ export class AppealsSharedService {
           submittedData.push(sum);
           labelsData.push('Uncategorized');
           colorsData.push('#00B8CC');
+        }
+        if (lobFullData !== 'ALL') {
+          let sum = 0;
+          if (
+            appealsData[0].LineOfBusiness.ALL.hasOwnProperty('AdminAppeals') &&
+            appealsData[0].LineOfBusiness.ALL.AdminAppeals != null &&
+            appealsData[0].LineOfBusiness[lobFullData].hasOwnProperty('AdminAppeals') &&
+            appealsData[0].LineOfBusiness[lobFullData].AdminAppeals != null
+          ) {
+            sum +=
+              appealsData[0].LineOfBusiness.ALL.AdminAppeals - appealsData[0].LineOfBusiness[lobFullData].AdminAppeals;
+          }
+          if (
+            appealsData[0].LineOfBusiness.ALL.hasOwnProperty('ClinicalAppeals') &&
+            appealsData[0].LineOfBusiness.ALL.ClinicalAppeals != null &&
+            appealsData[0].LineOfBusiness[lobFullData].hasOwnProperty('ClinicalAppeals') &&
+            appealsData[0].LineOfBusiness[lobFullData].ClinicalAppeals != null
+          ) {
+            sum +=
+              appealsData[0].LineOfBusiness.ALL.ClinicalAppeals -
+              appealsData[0].LineOfBusiness[lobFullData].ClinicalAppeals;
+          }
+          submittedData.push(sum);
+          labelsData.push('Other Lines of Business');
+          colorsData.push('#D7DCE1');
+        }
+        const sideData = [];
+        if (lobFullData !== 'ALL') {
+          const labelsDataNew = labelsData.slice(0, -1);
+          const colorsDataNew = colorsData.slice(0, -1);
+          sideData[0] = labelsDataNew;
+          sideData[1] = colorsDataNew;
+        } else {
+          sideData[0] = labelsData;
+          sideData[1] = colorsData;
         }
         appealsSubmitted = {
           category: 'app-card',
@@ -894,8 +940,8 @@ export class AppealsSharedService {
             hover: true
           },
           besideData: {
-            labels: ['Medicare & Retirement', 'Community & State', 'Employer & Individual', 'Uncategorized'],
-            color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC']
+            labels: sideData[0],
+            color: sideData[1]
           },
           bottomData: {
             horizontalData: [

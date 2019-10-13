@@ -14,7 +14,7 @@ import { CommonUtilsModule } from './../common-utils/common-utils.module';
 import { TermsOfUseComponent } from './terms-of-use/terms-of-use.component';
 import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component';
 import { SiteMapComponent } from './site-map/site-map.component';
-
+import { CustomPreloadingStrategy } from './custom-preloading';
 @NgModule({
   imports: [CommonModule, HeadRoutingModule, HeadMaterialModule, CommonUtilsModule, FooterModule],
   exports: [BodyComponent, HeaderComponent],
@@ -28,7 +28,8 @@ import { SiteMapComponent } from './site-map/site-map.component';
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+    CustomPreloadingStrategy
   ]
 })
 export class HeadModule {}

@@ -87,7 +87,7 @@ export class PaymentsComponent implements OnInit {
     } else {
       this.taxID = [];
     }
-    this.mockCards = [{}];
+    this.mockCards = [{}, {}];
     this.paymentsSharedService
       .sharedPaymentsData()
       .then(completeData => {
