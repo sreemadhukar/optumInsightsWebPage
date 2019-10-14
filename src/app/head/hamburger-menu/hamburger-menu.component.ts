@@ -104,8 +104,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
         { name: 'Self Service', path: '/ServiceInteraction/SelfService' },
         { name: 'Calls', path: '/ServiceInteraction/Calls' }
       ]
-    },
-    { icon: 'timeline', name: 'Summary Trends', path: '/AdminSummaryTrends', disabled: false }
+    }
   ];
   fillerNav = Array.from({ length: 50 }, (_, i) => `Nav Item ${i + 1}`);
   filterData: any[] = [];
@@ -241,6 +240,14 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
   }
 
   ngOnInit() {
+    if (!this.sessionService.checkAdvocateRole()) {
+      this.navCategories.push({
+        icon: 'timeline',
+        name: 'Summary Trends',
+        path: '/AdminSummaryTrends',
+        disabled: false
+      });
+    }
     this.AcoFlag = false;
     this.isKop = false;
     this.loading = false;
