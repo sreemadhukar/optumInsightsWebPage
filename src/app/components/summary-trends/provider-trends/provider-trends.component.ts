@@ -51,6 +51,14 @@ export class ProviderTrendsComponent implements OnInit, AfterViewChecked {
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/trend-down.svg')
     );
     iconRegistry.addSvgIcon(
+      'trending_up_red',
+      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/up-negative-no-circle.svg')
+    );
+    iconRegistry.addSvgIcon(
+      'trending_down_green',
+      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/down-positive-no-circle.svg')
+    );
+    iconRegistry.addSvgIcon(
       'trending_flat',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/trending_flat-24px.svg')
     );
@@ -156,5 +164,25 @@ export class ProviderTrendsComponent implements OnInit, AfterViewChecked {
     //   }
     //   this.loading = false;
     // });
+  }
+  checkColumn(item) {
+    if (
+      item === 'TotalClaimsNotPaid' ||
+      item === 'DeniedAmount' ||
+      item === 'NonPaymentRate' ||
+      item === 'TotalAppeals' ||
+      item === 'AdminAppeals' ||
+      item === 'ClinicalAppeals' ||
+      item === 'TotalCallsByType' ||
+      item === 'TotalTalkTimeByCallType' ||
+      item === 'PriorAuthNotApprovedCount' ||
+      item === 'TotalPaRequested' ||
+      item === 'UrgentTat' ||
+      item === 'PaApprovalRate'
+    ) {
+      return false;
+    } else {
+      return true;
+    }
   }
 }
