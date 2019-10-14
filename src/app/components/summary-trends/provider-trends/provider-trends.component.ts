@@ -1,7 +1,7 @@
-import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewEncapsulation, ChangeDetectorRef, AfterViewChecked } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { MatPaginator, MatIconRegistry } from '@angular/material';
+import { MatPaginator, MatIconRegistry, PageEvent } from '@angular/material';
 import { SummaryTrendsSharedService } from '../../../shared/summary-trends/summary-trends-shared.service';
 import { SessionService } from '../../../shared/session.service';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -14,8 +14,8 @@ import { CommonUtilsService } from 'src/app/shared/common-utils.service';
   styleUrls: ['./provider-trends.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class ProviderTrendsComponent implements OnInit {
-  pageTitle = 'Metrics Report';
+export class ProviderTrendsComponent implements OnInit, AfterViewChecked {
+  pageTitle = 'Summary Trends';
   data = [];
   displayedColumns: string[] = [];
   dataSource: any;
@@ -23,6 +23,11 @@ export class ProviderTrendsComponent implements OnInit {
   metric: any;
   loading = true;
   previous_date: any = new Date();
+  showPagination = true;
+  totalRecords: any = 0;
+  pageNumber = 1;
+  totalPages = 0;
+  pageSize = 10;
   filterUrl = '/AdminSummaryTrends';
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -32,7 +37,8 @@ export class ProviderTrendsComponent implements OnInit {
     private iconRegistry: MatIconRegistry,
     sanitizer: DomSanitizer,
     private filterExpandService: FilterExpandService,
-    private common: CommonUtilsService
+    private common: CommonUtilsService,
+    private cdRef: ChangeDetectorRef
   ) {
     const filData = this.session.getFilChangeEmitter().subscribe(() => this.common.urlResuseStrategy());
     iconRegistry.addSvgIcon(
@@ -44,6 +50,18 @@ export class ProviderTrendsComponent implements OnInit {
       'trending_down',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/trend-down.svg')
     );
+    iconRegistry.addSvgIcon(
+      'trending_up_red',
+      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/up-negative-no-circle.svg')
+    );
+    iconRegistry.addSvgIcon(
+      'trending_down_green',
+      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/down-positive-no-circle.svg')
+    );
+    iconRegistry.addSvgIcon(
+      'trending_flat',
+      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/trending_flat-24px.svg')
+    );
   }
   ngOnInit() {
     this.getSummaryData();
@@ -53,15 +71,22 @@ export class ProviderTrendsComponent implements OnInit {
     this.previous_date = this.previous_date.setDate(newDate.getDate() - 1).toString();
   }
 
+  ngAfterViewChecked() {
+    this.totalPages = this.paginator.getNumberOfPages();
+    // this.totalRecords = this.paginator.length;
+    this.cdRef.detectChanges();
+  }
   getSummaryData() {
-    this.summaryTrends.sharedSummaryTrends().then(r => {
+    this.summaryTrends.sharedSummaryTrends(1, 10, 'ProviderSysKey', 'ASC').then(r => {
       const result: any = r;
       if (result) {
         this.data = result.dataSource;
         this.displayedColumns = result.displayedColumns;
+        this.totalRecords = result.totalRecordsCount;
         this.dataSource = new MatTableDataSource(this.data);
         this.dataSource.sort = this.sort;
-        this.dataSource.paginator = this.paginator;
+        // this.dataSource.paginator = this.paginator;
+        this.paginator.length = result.totalRecordsCount;
       }
       this.loading = false;
     });
@@ -85,6 +110,79 @@ export class ProviderTrendsComponent implements OnInit {
       return this.common.nFormatter(num);
     } else {
       return 0;
+    }
+  }
+
+  syncPrimaryPaginator(event: PageEvent) {
+    // this.loading = true;
+    this.dataSource = [];
+    this.pageNumber = event.pageIndex + 1;
+    const pageSize = event.pageSize;
+    this.summaryTrends.sharedSummaryTrends(this.pageNumber, pageSize, 'ProviderSysKey', 'ASC').then(r => {
+      const result: any = r;
+      if (result) {
+        this.data = result.dataSource;
+        this.displayedColumns = result.displayedColumns;
+        // this.totalRecords = result.totalRecordsCount;
+        this.dataSource = new MatTableDataSource(this.data);
+        this.dataSource.sort = this.sort;
+      }
+      this.loading = false;
+    });
+  }
+  changePagination(event) {
+    this.paginator.pageSize = Number(event.target.value);
+    this.paginator.page.emit({
+      previousPageIndex: 2,
+      pageIndex: 1,
+      pageSize: event.target.value,
+      length: this.paginator.length
+    });
+    this.paginator.firstPage();
+    this.pageNumber = 1;
+    this.totalPages = this.paginator.getNumberOfPages();
+  }
+  changePage() {
+    (this.paginator.pageIndex = this.pageNumber - 1), // number of the page you want to jump.
+      this.paginator.page.next({
+        pageIndex: this.pageNumber - 1,
+        pageSize: this.paginator.pageSize,
+        length: this.paginator.length
+      });
+  }
+  sortData(event) {
+    // const column = event.active;
+    // const direction = event.direction;
+    // this.summaryTrends.sharedSummaryTrends(this.pageNumber, this.pageSize, column, direction.toUpperCase()).then(r => {
+    //   const result: any = r;
+    //   if (result) {
+    //     this.data = result.dataSource;
+    //     this.displayedColumns = result.displayedColumns;
+    //     // this.totalRecords = result.totalRecordsCount;
+    //     this.dataSource = new MatTableDataSource(this.data);
+    //     this.dataSource.sort = this.sort;
+    //   }
+    //   this.loading = false;
+    // });
+  }
+  checkColumn(item) {
+    if (
+      item === 'TotalClaimsNotPaid' ||
+      item === 'DeniedAmount' ||
+      item === 'NonPaymentRate' ||
+      item === 'TotalAppeals' ||
+      item === 'AdminAppeals' ||
+      item === 'ClinicalAppeals' ||
+      item === 'TotalCallsByType' ||
+      item === 'TotalTalkTimeByCallType' ||
+      item === 'PriorAuthNotApprovedCount' ||
+      item === 'TotalPaRequested' ||
+      item === 'UrgentTat' ||
+      item === 'PaApprovalRate'
+    ) {
+      return false;
+    } else {
+      return true;
     }
   }
 }

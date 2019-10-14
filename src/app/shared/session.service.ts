@@ -69,7 +69,7 @@ export class SessionService {
         JSON.parse(sessionStorage.getItem('loggedUser')).UserPersonas
       ) {
         userRole = JSON.parse(sessionStorage.getItem('loggedUser')).UserPersonas.some(item =>
-          item.UserRole.includes('Advocate')
+          item.UserRole.includes('UHCI_Advocate')
         );
       }
       return userRole;
