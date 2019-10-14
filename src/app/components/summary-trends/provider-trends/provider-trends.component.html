@@ -84,6 +84,10 @@
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
       </table>
+
+      <div class="grey-box" *ngIf="dataloading">
+        <mat-progress-spinner class="rotate-icon" [color]="color" [mode]="mode" [value]="value"> </mat-progress-spinner>
+      </div>
     </div>
     <!--<mat-paginator [pageSizeOptions]="[20, 50, 100]" showFirstLastButtons></mat-paginator>-->
     <div class="paginator-block">
