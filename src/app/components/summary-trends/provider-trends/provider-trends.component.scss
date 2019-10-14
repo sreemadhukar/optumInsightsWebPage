@@ -153,6 +153,7 @@
       float: left;
       overflow-x: auto;
       margin: 12px;
+      position: relative;
     }
     .mat-header-cell {
       font-size: 14px;
@@ -161,6 +162,8 @@
       line-height: 18px;
       color: $black-rock;
       padding: 10px;
+      padding-top: 16px;
+      padding-bottom: 16px;
       vertical-align: middle;
       font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
     }
@@ -356,4 +359,15 @@
 .mat-icon-button[disabled][disabled] > .mat-button-wrapper > .mat-paginator-icon {
   border: 1px solid #b3babc !important;
   color: #757588 !important;
+}
+.grey-box {
+  position: absolute;
+  width: 1220px;
+  height: 100%;
+  top: 0;
+  background: rgba(255, 255, 255, 0.5);
+}
+.rotate-icon {
+  top: 45%;
+  left: 45%;
 }
