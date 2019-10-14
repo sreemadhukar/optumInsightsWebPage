@@ -41,7 +41,14 @@
     </div>
 
     <div class="summary-trends-table-block">
-      <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8" (matSortChange)="sortData($event)">
+      <table
+        mat-table
+        [dataSource]="dataSource"
+        matSort
+        class="mat-elevation-z8"
+        (matSortChange)="sortData($event)"
+        [matSortDisableClear]="true"
+      >
         <!-- Position Column -->
         <ng-container *ngFor="let item of displayedColumns; let i = index" matColumnDef="{{ item }}">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ formattingText(item) }}</th>
