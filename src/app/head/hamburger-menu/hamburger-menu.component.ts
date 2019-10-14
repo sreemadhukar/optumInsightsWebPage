@@ -137,6 +137,14 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     this.filterFlag = false;
     this.bgWhite = false;
     this.showPrintHeader = false;
+    if (this.sessionService.checkProjectRole()) {
+      this.navCategories.push({
+        icon: 'timeline',
+        name: 'Summary Trends',
+        path: '/AdminSummaryTrends',
+        disabled: false
+      });
+    }
     // to disable the header/footer/body when not authenticated
     router.events.subscribe(event => {
       if (event instanceof NavigationStart) {
@@ -173,7 +181,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
           if (window.location.pathname === '/OverviewPage') {
             window.location.href = '/OverviewPageAdvocate';
           }
-        } else {
+        } else if (this.sessionService.checkProjectRole()) {
           if (window.location.pathname === '/OverviewPageAdvocate') {
             window.location.href = '/OverviewPage';
           }
@@ -240,14 +248,6 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
   }
 
   ngOnInit() {
-    if (!this.sessionService.checkAdvocateRole()) {
-      this.navCategories.push({
-        icon: 'timeline',
-        name: 'Summary Trends',
-        path: '/AdminSummaryTrends',
-        disabled: false
-      });
-    }
     this.AcoFlag = false;
     this.isKop = false;
     this.loading = false;
