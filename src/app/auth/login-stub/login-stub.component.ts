@@ -7,6 +7,7 @@ import { AuthenticationService } from '../_service/authentication.service';
 import { InternalService } from '../_service/internal.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProviderSharedService } from '../../shared/provider/provider-shared.service';
+import { SessionService } from '../../shared/session.service';
 import { MatDialog, MatIconRegistry } from '@angular/material';
 import { ProviderSearchComponent } from '../../common-utils/provider-search/provider-search.component';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -49,6 +50,7 @@ export class LoginStubComponent implements OnInit {
     private authorise: AuthorizationService,
     private cookieService: CookieService,
     private route: ActivatedRoute,
+    private sessionService: SessionService,
     @Inject(DOCUMENT) private document: any
   ) {
     iconRegistry.addSvgIcon(
@@ -95,7 +97,15 @@ export class LoginStubComponent implements OnInit {
     this.returnUrl = '/ProviderSearch';
     if (this.isInternal) {
       if (this.authService.isLoggedIn()) {
-        this.router.navigate([this.returnUrl]);
+        if (JSON.parse(sessionStorage.getItem('currentUser'))[0]['ProviderKey']) {
+          if (this.sessionService.checkAdvocateRole()) {
+            window.location.href = '/OverviewPageAdvocate';
+          } else {
+            window.location.href = '/OverviewPage';
+          }
+        } else {
+          this.router.navigate([this.returnUrl]);
+        }
       } else {
         this.internalService.getPublicKey();
         this.authService.getJwt().subscribe(data => {

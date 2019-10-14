@@ -9,8 +9,6 @@ import { GlossaryMetricidService } from '../glossary-metricid.service';
   providedIn: CareDeliveryPageModule
 })
 export class PriorAuthSharedService {
-  private priorAuthData: Array<object> = [];
-  private timeFrame: string;
   private providerKey: number;
   private priorAuthDataCombined: any;
 
@@ -20,84 +18,6 @@ export class PriorAuthSharedService {
     private session: SessionService,
     private common: CommonUtilsService
   ) {}
-
-  nFormatter(num, digits) {
-    const si = [
-      { value: 1, symbol: '' },
-      { value: 1e3, symbol: 'K' },
-      { value: 1e6, symbol: 'M' },
-      { value: 1e9, symbol: 'B' },
-      { value: 1e12, symbol: 'T' },
-      { value: 1e15, symbol: 'P' },
-      { value: 1e18, symbol: 'E' }
-    ];
-    const rx = /\.0+$|(\.[0-9]*[1-9])0+$/;
-    let i;
-    for (i = si.length - 1; i > 0; i--) {
-      if (num >= si[i].value) {
-        break;
-      }
-    }
-    return (num / si[i].value).toFixed(digits).replace(rx, '$1') + si[i].symbol;
-  }
-
-  public generateMonth(a) {
-    if (a === 0) {
-      return 'January';
-    } else if (a === 1) {
-      return 'February';
-    } else if (a === 2) {
-      return 'March';
-    } else if (a === 3) {
-      return 'April';
-    } else if (a === 4) {
-      return 'May';
-    } else if (a === 5) {
-      return 'June';
-    } else if (a === 6) {
-      return 'July';
-    } else if (a === 7) {
-      return 'August';
-    } else if (a === 8) {
-      return 'September';
-    } else if (a === 9) {
-      return 'October';
-    } else if (a === 10) {
-      return 'November';
-    } else if (a === 11) {
-      return 'December';
-    } else {
-      return null;
-    }
-  }
-
-  public ReturnMonthlyCountString(a) {
-    if (a === 0) {
-      return '01';
-    } else if (a === 1) {
-      return '02';
-    } else if (a === 2) {
-      return '03';
-    } else if (a === 3) {
-      return '04';
-    } else if (a === 4) {
-      return '05';
-    } else if (a === 5) {
-      return '06';
-    } else if (a === 6) {
-      return '07';
-    } else if (a === 7) {
-      return '08';
-    } else if (a === 8) {
-      return '09';
-    } else if (a === 9) {
-      return '10';
-    } else if (a === 10) {
-      return '11';
-    } else if (a === 11) {
-      return '12';
-    }
-  }
 
   getNewPAData(filterParameters) {
     this.providerKey = this.session.providerKeyData();
@@ -135,7 +55,11 @@ export class PriorAuthSharedService {
         endDateString = yesterday.getDate();
       }
       const endDateFinal =
-        yesterday.getFullYear() + '-' + this.ReturnMonthlyCountString(yesterday.getMonth()) + '-' + endDateString;
+        yesterday.getFullYear() +
+        '-' +
+        this.common.ReturnMonthlyCountString(yesterday.getMonth()) +
+        '-' +
+        endDateString;
 
       timeFilterAdditionalInfo = startDateFinal + ', ' + endDateFinal;
     } else {
@@ -237,6 +161,7 @@ export class PriorAuthSharedService {
           let PACount = [];
           let PriorAuthBarGraphParameters = [];
           let PANotApprovedReasonBool;
+          let PANotApprovedCountChecker;
           if (((providerSystems || {}).PriorAuthorizations || {}).LineOfBusiness) {
             let data;
             // const data = providerSystems.PriorAuthorizations.LineOfBusiness.All;
@@ -288,6 +213,7 @@ export class PriorAuthSharedService {
             const PARequestedCount = PAApprovedCount + PANotApprovedCount;
             const PAApprovalRate = PAApprovedCount / PARequestedCount;
             PANotApprovedReasonBool = PAApprovalRate === 1;
+            PANotApprovedCountChecker = PAApprovedCount;
 
             let StandardTATConversion;
             let UrgentTATConversion;
@@ -316,8 +242,39 @@ export class PriorAuthSharedService {
               }
             }
             // Add checker for if PA requested is zero
+            const priorAuthorizationCounts = [
+              PAApprovedCount,
+              PANotApprovedCount,
+              PANotPendingCount,
+              PANotCancelledCount
+            ];
+            const priorAuthorizationLabels = ['Approved', 'Not Approved', 'Pending', 'Canceled'];
             if (PARequestedCount === 0) {
-              PACount = appCardPriorAuthError;
+              if (PANotPendingCount + PANotCancelledCount > 0) {
+                PACount = [
+                  {
+                    category: 'app-card',
+                    type: 'donutWithLabel',
+                    title: 'Prior Authorization Requested',
+                    MetricID: this.MetricidService.MetricIDs.PriorAuthorizationRequested,
+                    data: {
+                      graphValues: priorAuthorizationCounts,
+                      centerNumber: this.common.nFormatter(PARequestedCount),
+                      color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'],
+                      labels: ['Approved', 'Not Approved', 'Pending', 'Canceled'],
+                      gdata: ['card-inner', 'PARequested'],
+                      hover: true
+                    },
+                    besideData: {
+                      labels: this.common.sideLabelWords(priorAuthorizationCounts, priorAuthorizationLabels),
+                      color: this.common.sideLabelColor(priorAuthorizationCounts)
+                    },
+                    timeperiod: timePeriod
+                  }
+                ];
+              } else {
+                PACount = appCardPriorAuthError;
+              }
             } else {
               PACount = [
                 {
@@ -326,16 +283,16 @@ export class PriorAuthSharedService {
                   title: 'Prior Authorization Requested',
                   MetricID: this.MetricidService.MetricIDs.PriorAuthorizationRequested,
                   data: {
-                    graphValues: [PAApprovedCount, PANotApprovedCount, PANotPendingCount, PANotCancelledCount],
-                    centerNumber: this.nFormatter(PARequestedCount, 1),
+                    graphValues: priorAuthorizationCounts,
+                    centerNumber: this.common.nFormatter(PARequestedCount),
                     color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'],
                     labels: ['Approved', 'Not Approved', 'Pending', 'Canceled'],
                     gdata: ['card-inner', 'PARequested'],
                     hover: true
                   },
                   besideData: {
-                    labels: ['Approved', 'Not Approved', 'Pending', 'Canceled'],
-                    color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC']
+                    labels: this.common.sideLabelWords(priorAuthorizationCounts, priorAuthorizationLabels),
+                    color: this.common.sideLabelColor(priorAuthorizationCounts)
                   },
                   timeperiod: timePeriod
                 },
@@ -429,9 +386,10 @@ export class PriorAuthSharedService {
                 timeperiod: timePeriod
               });
             }
-          } else if (isServiceCategory || PANotApprovedReasonBool) {
+          } else if (isServiceCategory || PANotApprovedReasonBool || !PANotApprovedCountChecker) {
             // Hide reasons for service category
             // Also hide reasons if its a 100 percent approval rate
+            // And hide if not approved count is zero
             PriorAuthBarGraphParameters = [
               {
                 data: null
@@ -477,7 +435,7 @@ export class PriorAuthSharedService {
         })
         .then(data => {
           if (this.priorAuthDataCombined[0].length > 0 && this.priorAuthDataCombined[0][0].data !== null) {
-            this.priorAuthDataCombined[0][1].data['sdata'] = data[1];
+            // this.priorAuthDataCombined[0][1].data['sdata'] = data[1];
           }
           resolve(this.priorAuthDataCombined);
         })

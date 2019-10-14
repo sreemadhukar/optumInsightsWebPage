@@ -1,4 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { Router } from '@angular/router';
+import { MatDialog, MatIconRegistry } from '@angular/material';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-common-footer',
@@ -7,37 +10,19 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class CommonFooterComponent implements OnInit {
   @Input() timePeriod: String;
+  @Input() linkName: String;
+  @Input() routePath: String;
 
-  timePeriodFooter: String = null;
+  constructor(private router: Router, private iconRegistry: MatIconRegistry, private sanitizer: DomSanitizer) {
+    iconRegistry.addSvgIcon(
+      'chevron_right',
+      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Navigation/baseline-chevron_right-24px.svg')
+    );
+  }
 
-  constructor() {}
+  ngOnInit() {}
 
-  ngOnInit() {
-    if (this.timePeriod === 'Last 6 Months') {
-      const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-      const today = new Date();
-      const dd = String(today.getDate()).padStart(2, '0');
-      const mm = String(today.getMonth() + 1).padStart(2, '0'); // January is 0!
-      let mmlast6 = String(today.getMonth() - 5).padStart(2, '0'); // January is 0!
-      let yyyy = today.getFullYear();
-      if (parseInt(mm) < 6) {
-        mmlast6 = String(today.getMonth() + 12 - 5).padStart(2, '0'); // January is 0!
-        yyyy = today.getFullYear() - 1;
-      }
-      this.timePeriodFooter =
-        monthNames[parseInt(mm) - 1] +
-        ' ' +
-        dd +
-        ',' +
-        yyyy +
-        ' - ' +
-        monthNames[parseInt(mmlast6) - 1] +
-        ' ' +
-        dd +
-        ',' +
-        yyyy;
-    } else {
-      this.timePeriodFooter = this.timePeriod;
-    }
+  linkFunction() {
+    this.router.navigate([this.routePath]);
   }
 }

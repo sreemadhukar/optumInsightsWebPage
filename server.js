@@ -16,7 +16,7 @@ app.use(helmet());
 app.use(express.static(path.join(__dirname, '.')));
 
 var apiProxy = httpProxy.createProxyServer();
-var apiForwardingUrl = 'https://gateway-stage-core.optum.com';
+var apiForwardingUrl = 'https://pedapigateway-pedprddr.ocp-ctc-dmz.optum.com';
 var sessionSecret = 'STwHkLYUwN1L5rc3yqdkuthRvczrBupc';
 var key = 'Q9gRpXWjVm5GXethNxG60utGMGW7NpsO';
 var heac = require('./src/assets/mock-data/heac.json');
@@ -43,7 +43,7 @@ app.get('/api/getJwt', cors(), function(req, res) {
     token: token
   });
 });
- 
+
 app.get('/api/getHeac/:MsId', cors(), function(req, res) {
   res.status(200).json({
     heac: include(heac.user, req.params.MsId)

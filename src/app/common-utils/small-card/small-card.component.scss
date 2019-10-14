@@ -217,6 +217,13 @@
         line-height: 50px;
       }
     }
+    .kop-error-card {
+      margin: 10px auto;
+    }
+    .data-card.card-nps-single,
+    .kop-error-card.card-nps-single {
+      margin: 10px auto !important;
+    }
     .data-card.card-nps-quarter-current {
       background: none;
       border: 2px solid $dodger-blue;
@@ -237,10 +244,17 @@
         color: $white;
       }
     }
+    .data-card.card-nps-quarter-highlight.card-nps-single {
+      border: 2px solid $dodger-blue;
+    }
   }
   .small-star-chart {
     margin-left: 92px;
     height: 145px;
+  }
+  .trend-container {
+    display: block;
+    margin-top: 10px;
   }
   // @media screen and (max-width: 1331px) {
   //   .card-inner {

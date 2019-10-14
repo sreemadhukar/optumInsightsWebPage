@@ -61,21 +61,21 @@ export class SessionService {
     }
   }
 
-  public checkAdvocateRole() {
-    let userRoleAdvocate = false;
+  public checkAdvocateRole(): boolean {
+    let userRole = false;
     try {
       if (
         JSON.parse(sessionStorage.getItem('loggedUser')) &&
-        JSON.parse(sessionStorage.getItem('loggedUser')).UserRole
+        JSON.parse(sessionStorage.getItem('loggedUser')).UserPersonas
       ) {
-        let userRole;
-        userRole = JSON.parse(sessionStorage.getItem('loggedUser')).UserRole;
-        userRoleAdvocate = userRole.some(item => item.includes('UHCI_Advocate'));
+        userRole = JSON.parse(sessionStorage.getItem('loggedUser')).UserPersonas.some(item =>
+          item.UserRole.includes('UHCI_Advocate')
+        );
       }
-      return userRoleAdvocate;
+      return userRole;
     } catch (err) {
       console.log('adovate role session service', err);
-      return userRoleAdvocate;
+      return userRole;
     }
   }
 
