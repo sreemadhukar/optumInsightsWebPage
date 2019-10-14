@@ -1,4 +1,4 @@
-// @import '~src/scss/variables.scss';
+@import '~src/scss/variables.scss';
 
 .widget {
   display: flex;
@@ -9,4 +9,190 @@
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
+}
+
+.tick_hidden path {
+  opacity: 0;
+}
+
+.tick_hidden line {
+  visibility: hidden;
+}
+
+.tick_hidden text {
+  font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  fill: #2e2c3a;
+  text-transform: capitalize;
+  margin-top: 17px;
+}
+
+.grid text {
+  font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  fill: #2f2a3c;
+}
+
+.grid line {
+  stroke: $heather;
+  stroke-opacity: 1;
+  stroke-width: 2px;
+  shape-rendering: crispEdges;
+}
+
+.grid path {
+  visibility: hidden;
+}
+
+.tick_hidden_y line {
+  visibility: hidden;
+}
+
+.tick_hidden_y path {
+  display: none;
+}
+
+.tick_hidden_y text {
+  font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  fill: $black-rock;
+}
+
+.dot {
+  border: 15px;
+  border-color: $dodger-blue;
+  position: relative;
+}
+.dot2 {
+  fill: $white;
+  stroke: rgba(213, 55, 4, 1);
+  border: 15px;
+  border-color: rgba(213, 55, 4, 1);
+}
+.rect-bar {
+  width: 48px;
+  height: 180px;
+  position: absolute;
+  z-index: 1;
+}
+
+.area {
+  fill: url('#area-gradient');
+  stroke-width: 0;
+  stroke: 0;
+}
+
+.area2 {
+  fill: url('#area-gradient2');
+  stroke-width: 0;
+}
+
+.hidden {
+  display: none;
+  visibility: hidden;
+  pointer-events: none;
+}
+.tooltipClass::before {
+  content: '';
+  position: absolute;
+  top: 10px;
+  right: 90px;
+  width: 0;
+  height: 0;
+  border-top: 10px solid transparent;
+  border-right: 10px solid $white;
+  border-bottom: 10px solid transparent;
+}
+.tooltipClass {
+  position: absolute;
+  width: auto;
+  height: auto;
+  padding: 10px 12px;
+  color: black;
+  font-family: $font-family-UHC;
+  background-color: $white;
+  border-radius: 2px;
+  pointer-events: none;
+  box-shadow: 0 10px 20px 0 rgba(0, 0, 0, 0.35);
+  z-index: 99;
+  opacity: 0.95;
+}
+
+.tooltipClassLeft::before {
+  content: '';
+  position: absolute;
+  top: 10px;
+  left: 90px;
+  width: 0;
+  height: 0;
+  border-top: 10px solid transparent;
+  border-left: 10px solid $white;
+  border-bottom: 10px solid transparent;
+}
+.tooltipClassLeft {
+  position: absolute;
+  width: auto;
+  height: auto;
+  padding: 10px 12px;
+  color: black;
+  font-family: $font-family-UHC;
+  background-color: $white;
+  border-radius: 2px;
+  pointer-events: none;
+  box-shadow: 0 10px 20px 0 rgba(0, 0, 0, 0.35);
+  z-index: 99;
+  opacity: 0.95;
+}
+
+.lineLabelHover {
+  font-size: 14px;
+  font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+  line-height: 18px;
+  padding-bottom: 5px;
+  color: $black-rock;
+}
+.details-label {
+  color: $strom-grey;
+  font-size: 14px;
+  font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+}
+.claim-yield-rate {
+  font-size: 14px;
+  font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+  letter-spacing: 0.23px;
+  line-height: 16px;
+}
+
+.circle_label_sm {
+  position: relative;
+  height: 10px;
+  width: 10px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.tooltip {
+  position: absolute;
+  text-align: center;
+  width: 213px;
+  height: 145px;
+  padding: 2px;
+  font-size: 12px;
+  font-family: $font-family-UHC;
+  background: $white;
+  border: 0;
+  border-radius: 8px;
+  pointer-events: none;
+}
+.circle {
+  border: 2px solid blue;
+  background-color: rgba(0, 168, 247, 0.25);
+}
+.circle2 {
+  border: 2px dashed #d53704;
+  background-color: rgba(255, 95, 14, 0.25);
+}
+
+.displayNone {
+  display: none;
 }

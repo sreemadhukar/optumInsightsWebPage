@@ -182,8 +182,13 @@ export class OverviewAdvocateComponent implements OnInit {
     this.pageTitle = 'Welcome, ' + this.userName;
 
     this.timePeriod = this.session.filterObjValue.timeFrame;
-
-    this.lob = this.filtermatch.matchLobWithLobData(this.session.filterObjValue.lob);
+    console.log(this.session.filterObjValue.lob);
+    if (this.session.filterObjValue.lob !== 'All') {
+      this.lob = this.filtermatch.matchLobWithLobData(this.session.filterObjValue.lob);
+    } else {
+      this.lob = '';
+    }
+    console.log(this.lob);
     if (this.session.filterObjValue.tax.length > 0 && this.session.filterObjValue.tax[0] !== 'All') {
       this.taxID = this.session.filterObjValue.tax;
       if (this.taxID.length > 3) {

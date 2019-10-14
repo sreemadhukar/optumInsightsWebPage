@@ -171,82 +171,83 @@ export class OverviewAdvocateSharedService {
           const csData = [];
           const eiData = [];
           const other = [];
-          // for (let element; element < appealsTrendData.length; element++) {
-          appealsTrendData.forEach(element => {
-            const monthlyMrData = [];
-            const monthlyCsData = [];
-            const monthlyEiData = [];
-            const monthlyOtherData = [];
+          if (appealsTrendData) {
+            appealsTrendData.forEach(element => {
+              const monthlyMrData = [];
+              const monthlyCsData = [];
+              const monthlyEiData = [];
+              const monthlyOtherData = [];
 
-            if (element.LineOfBusiness.MedicareAndRetirement) {
-              monthlyMrData.push(element.LineOfBusiness.MedicareAndRetirement);
-            }
-            if (element.LineOfBusiness.CommunityAndState) {
-              monthlyCsData.push(element.LineOfBusiness.CommunityAndState);
-            }
-            if (element.LineOfBusiness.EmployerAndIndividual) {
-              monthlyEiData.push(element.LineOfBusiness.EmployerAndIndividual);
-            }
-            if (element.LineOfBusiness.Other) {
-              monthlyOtherData.push(element.LineOfBusiness.Other);
-            }
-
-            if (monthlyMrData.length !== 0) {
-              for (let i = 0; i < monthlyMrData.length; i++) {
-                const trendMonthValue = monthlyMrData[i].AdminAppeals + monthlyMrData[i].ClinicalAppeals;
-                const trendTimePeriod = element.ReportingPeriod;
-                const monthName = trendTimePeriod.substr(4, 4);
-
-                mrData.push({
-                  name: monthName,
-                  value: trendMonthValue,
-                  month: trendTimePeriod
-                });
+              if (element.LineOfBusiness.MedicareAndRetirement) {
+                monthlyMrData.push(element.LineOfBusiness.MedicareAndRetirement);
               }
-            }
-
-            if (monthlyCsData.length !== 0) {
-              for (let i = 0; i < monthlyCsData.length; i++) {
-                const trendMonthValue = monthlyCsData[i].AdminAppeals + monthlyCsData[i].ClinicalAppeals;
-                const trendTimePeriod = element.ReportingPeriod;
-                const monthName = trendTimePeriod.substr(4, 4);
-
-                csData.push({
-                  name: monthName,
-                  value: trendMonthValue,
-                  month: trendTimePeriod
-                });
+              if (element.LineOfBusiness.CommunityAndState) {
+                monthlyCsData.push(element.LineOfBusiness.CommunityAndState);
               }
-            }
-
-            if (monthlyEiData.length !== 0) {
-              for (let i = 0; i < monthlyEiData.length; i++) {
-                const trendMonthValue = monthlyEiData[i].AdminAppeals + monthlyEiData[i].ClinicalAppeals;
-                const trendTimePeriod = element.ReportingPeriod;
-                const monthName = trendTimePeriod.substr(4, 4);
-
-                eiData.push({
-                  name: monthName,
-                  value: trendMonthValue,
-                  month: trendTimePeriod
-                });
+              if (element.LineOfBusiness.EmployerAndIndividual) {
+                monthlyEiData.push(element.LineOfBusiness.EmployerAndIndividual);
               }
-            }
-
-            if (monthlyOtherData.length !== 0) {
-              for (let i = 0; i < monthlyOtherData.length; i++) {
-                const trendMonthValue = monthlyOtherData[i].AdminAppeals + monthlyOtherData[i].ClinicalAppeals;
-                const trendTimePeriod = element.ReportingPeriod;
-                const monthName = trendTimePeriod.substr(4, 4);
-
-                other.push({
-                  name: monthName,
-                  value: trendMonthValue,
-                  month: trendTimePeriod
-                });
+              if (element.LineOfBusiness.Other) {
+                monthlyOtherData.push(element.LineOfBusiness.Other);
               }
-            }
-          });
+
+              if (monthlyMrData.length !== 0) {
+                for (let i = 0; i < monthlyMrData.length; i++) {
+                  const trendMonthValue = monthlyMrData[i].AdminAppeals + monthlyMrData[i].ClinicalAppeals;
+                  const trendTimePeriod = element.ReportingPeriod;
+                  const monthName = trendTimePeriod.substr(4, 4);
+
+                  mrData.push({
+                    name: monthName,
+                    value: trendMonthValue,
+                    month: trendTimePeriod
+                  });
+                }
+              }
+
+              if (monthlyCsData.length !== 0) {
+                for (let i = 0; i < monthlyCsData.length; i++) {
+                  const trendMonthValue = monthlyCsData[i].AdminAppeals + monthlyCsData[i].ClinicalAppeals;
+                  const trendTimePeriod = element.ReportingPeriod;
+                  const monthName = trendTimePeriod.substr(4, 4);
+
+                  csData.push({
+                    name: monthName,
+                    value: trendMonthValue,
+                    month: trendTimePeriod
+                  });
+                }
+              }
+
+              if (monthlyEiData.length !== 0) {
+                for (let i = 0; i < monthlyEiData.length; i++) {
+                  const trendMonthValue = monthlyEiData[i].AdminAppeals + monthlyEiData[i].ClinicalAppeals;
+                  const trendTimePeriod = element.ReportingPeriod;
+                  const monthName = trendTimePeriod.substr(4, 4);
+
+                  eiData.push({
+                    name: monthName,
+                    value: trendMonthValue,
+                    month: trendTimePeriod
+                  });
+                }
+              }
+
+              if (monthlyOtherData.length !== 0) {
+                for (let i = 0; i < monthlyOtherData.length; i++) {
+                  const trendMonthValue = monthlyOtherData[i].AdminAppeals + monthlyOtherData[i].ClinicalAppeals;
+                  const trendTimePeriod = element.ReportingPeriod;
+                  const monthName = trendTimePeriod.substr(4, 4);
+
+                  other.push({
+                    name: monthName,
+                    value: trendMonthValue,
+                    month: trendTimePeriod
+                  });
+                }
+              }
+            });
+          }
 
           mrData.sort(function(a, b) {
             let dateA: any;

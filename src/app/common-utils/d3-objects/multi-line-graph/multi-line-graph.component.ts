@@ -208,34 +208,13 @@ export class MultiLineGraphComponent implements OnInit {
       }
     } // ends formatDynamicAbbrevia function
 
-    function tooltipText(d, year, prefix) {
-      if (year == undefined || !year || year === '') {
-        return (
-          "<div class='lineLabelHover'>" +
-          "Claims Not <br> Paid</div><div class='details-label'>" +
-          prefix +
-          formatDy(d.y)
-        );
-      } else {
-        return (
-          "<div class='lineLabelHover'>" +
-          "&nbsp; Claims Not <br> Paid</div><div class='details-label'>&nbsp;&nbsp;&nbsp;" +
-          d.x +
-          '&nbsp;&nbsp;' +
-          year[0] +
-          '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' +
-          prefix +
-          formatDy(d.y) +
-          "<hr class='hr_cust_margin hr_opacity'><span class='circle_label_sm circle2'></span>&nbsp;&nbsp;&nbsp;" +
-          d.x +
-          '&nbsp;&nbsp;' +
-          year[1] +
-          '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' +
-          prefix +
-          formatDy(d.y_twoYearsAgo) +
-          '%</div></div>'
-        );
-      }
+    function tooltipText(d) {
+      return (
+        "<div class='lineLabelHover'>" +
+        " &nbsp;&nbsp;&nbsp;&nbsp; M&R &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div><div class='details-label'>" +
+        ' &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp' +
+        formatDy(d.y)
+      );
     }
     // function tooltipText2(d, year, prefix) {
     //   return (
@@ -283,13 +262,13 @@ export class MultiLineGraphComponent implements OnInit {
       .style('background-color', generalData.backgroundColor)
       .append('g')
       .attr('transform', 'translate(' + (margin.left - 7) + ',' + 5 + ')');
-    /* const div = d3
+    const div = d3
       .select(this.renderChart)
       .append('div')
       .attr('class', 'tooltip')
-      .style('opacity', 0);*/
+      .style('opacity', 0);
 
-    const shiftTooltip = -130;
+    const shiftTooltip = 100;
 
     if (generalData.tooltipBoolean === true) {
       // tslint:disable-next-line:no-var-keyword
@@ -517,13 +496,13 @@ export class MultiLineGraphComponent implements OnInit {
       // }
 
       /* Starts Data for tooltip */
-      /*if (this.chartOptions.chartData2 != undefined && this.chartOptions.chartData2.length > 0) {
+      if (this.chartOptions.chartData2 != undefined && this.chartOptions.chartData2.length > 0) {
         // tslint:disable-next-line:no-var-keyword
         // const data2 = [];
-         // tslint:disable-next-line:no-var-keyword
-        var data = [];
+        // tslint:disable-next-line:no-var-keyword
+        const datan = [];
         for (let v = 0; v < lengthOfData; v++) {
-          data.push({
+          datan.push({
             y: chartData[v].value,
             y_twoYearsAgo: chartData2[v].value,
             xCoordinate: xScale(v),
@@ -542,7 +521,7 @@ export class MultiLineGraphComponent implements OnInit {
       }
       /* Ends Data for tooltip */
 
-      /* chart
+      chart
         .append('g')
         .attr('visibility', 'hidden')
         .attr('id', 'forYCalculations2')
@@ -568,94 +547,9 @@ export class MultiLineGraphComponent implements OnInit {
       const preArrayOfNumbers2 = preYArray2.map(Number);
       const numberOfTicks2 = preArrayOfNumbers2.length;
       const highestTickValue2 = preArrayOfNumbers2[numberOfTicks2 - 1];
-      */
     }
 
     // end if structure of chartData2
-
-    // const RectBarOne = chart
-    //   .selectAll('.rect-bar')
-    //   .data(data)
-    //   .enter()
-    //   .append('rect')
-    //   .style('fill', '#E3F0FD')
-    //   .style('opacity', 0)
-    //   .attr('class', 'rect-bar')
-    //   .attr('x', function(d) {
-    //     return d.xCoordinate - 22;
-    //   })
-    //   .attr('id', function(d) {
-    //     return 'rect-id-' + d.x;
-    //   })
-    //   .attr('y', 0)
-    //   .on('mouseover', d => {
-    //     const RectBar = chart.selectAll('#rect-id-' + d.x);
-    //     RectBar.transition()
-    //       .duration(200)
-    //       .style('opacity', 1)
-    //       .style('cursor', 'pointer');
-    //     const RectBarDot = chart.selectAll('#dot-id-' + d.x);
-    //     RectBarDot.transition()
-    //       .duration(200)
-    //       .style('opacity', 1);
-
-    //     tooltipVar
-    //       .transition()
-    //       .duration(200)
-    //       .style('opacity', 1);
-    //     const topMar = yScale(d.y) + 39 + 'px';
-    //     if (d3.event.layerX + 213 < width + margin.left + margin.right) {
-    //       tooltipVar
-    //         .html(tooltipText(d, this.yearComparison, axisPrefix))
-    //         .classed('hidden', false)
-    //         .classed('tooltipClass', true)
-    //         .classed('tooltipClassLeft', false)
-    //         .style('left', d.xCoordinate + 56 + 'px')
-    //         .style('top', topMar);
-    //     } else {
-    //       tooltipVar
-    //         .html(tooltipText(d, this.yearComparison, axisPrefix))
-    //         .classed('hidden', false)
-    //         .classed('tooltipClass', false)
-    //         .classed('tooltipClassLeft', true)
-    //         .style('left', d.xCoordinate + 56 + shiftTooltip + 'px')
-    //         .style('top', topMar);
-    //     }
-    //   })
-    //   .on('mouseout', function(d) {
-    //     const RectBar = chart.selectAll('#rect-id-' + d.x);
-    //     RectBar.transition()
-    //       .duration(200)
-    //       .style('opacity', 0);
-    //     const RectBarDot = chart.selectAll('#dot-id-' + d.x);
-    //     RectBarDot.transition()
-    //       .duration(200)
-    //       .style('opacity', 0);
-
-    //     tooltipVar
-    //       .transition()
-    //       .duration(500)
-    //       .style('opacity', 0);
-    //   });
-
-    const DotOne = chart
-      .selectAll('.dot')
-      .data(data)
-      .enter()
-      .append('circle')
-      .style('fill', '#3381FF')
-      .style('opacity', 0)
-      .attr('class', 'dot')
-      .attr('id', function(d) {
-        return 'dot-id-' + d.x;
-      })
-      .attr('cx', function(d) {
-        return d.xCoordinate;
-      })
-      .attr('cy', function(d) {
-        return yScale(d.y);
-      })
-      .attr('r', 6);
 
     // Dark line
     if (this.chartOptions.lineOne.chartData != undefined && this.chartOptions.lineOne.chartData.length > 0) {
@@ -708,51 +602,101 @@ export class MultiLineGraphComponent implements OnInit {
         .style('stroke-width', '2');
     }
 
-    /* if (this.chartOptions.chartData2 != undefined && this.chartOptions.chartData2.length > 0) {
+    const RectBarOne = chart
+      .selectAll('.rect-bar')
+      .data(data)
+      .enter()
+      .append('rect')
+      .style('fill', '#E3F0FD')
+      .style('opacity', 0)
+      .attr('class', 'rect-bar')
+      .attr('x', function(d) {
+        return d.xCoordinate - 22;
+      })
+      .attr('id', function(d) {
+        return 'rect-id-' + d.x;
+      })
+      .attr('y', 0)
+      .on('mouseover', d => {
+        alert('Hiii');
+        const RectBar = chart.selectAll('#rect-id-' + d.x);
+        RectBar.transition()
+          .duration(200)
+          .style('opacity', 1)
+          .style('cursor', 'pointer');
+        const RectBarDot = chart.selectAll('#dot-id-' + d.x);
+        RectBarDot.transition()
+          .duration(200)
+          .style('opacity', 1);
+
+        tooltipVar
+          .transition()
+          .duration(200)
+          .style('opacity', 1);
+        const topMar = yScale(d.y) + 39 + 'px';
+        if (d3.event.layerX + 213 < width + margin.left + margin.right) {
+          tooltipVar
+            .html(tooltipText(d))
+            .classed('hidden', false)
+            .classed('tooltipClass', true)
+            .classed('tooltipClassLeft', false)
+            .style('left', d.xCoordinate + 56 + 'px')
+            .style('top', topMar);
+        } else {
+          tooltipVar
+            .html(tooltipText(d))
+            .classed('hidden', false)
+            .classed('tooltipClass', false)
+            .classed('tooltipClassLeft', true)
+            .style('left', d.xCoordinate + 56 + shiftTooltip + 'px')
+            .style('top', topMar);
+        }
+      })
+      .on('mouseout', function(d) {
+        const RectBar = chart.selectAll('#rect-id-' + d.x);
+        RectBar.transition()
+          .duration(200)
+          .style('opacity', 0);
+        const RectBarDot = chart.selectAll('#dot-id-' + d.x);
+        RectBarDot.transition()
+          .duration(200)
+          .style('opacity', 0);
+
+        tooltipVar
+          .transition()
+          .duration(500)
+          .style('opacity', 0);
+      });
+
+    const DotOne = chart
+      .selectAll('.dot')
+      .data(data)
+      .enter()
+      .append('circle')
+      .style('fill', '#3381FF')
+      .style('opacity', 0)
+      .attr('class', 'dot')
+      .attr('id', function(d) {
+        return 'dot-id-' + d.x;
+      })
+      .attr('cx', function(d) {
+        return d.xCoordinate;
+      })
+      .attr('cy', function(d) {
+        return yScale(d.y);
+      })
+      .attr('r', 6);
+
+    if (1) {
       chart
-        .selectAll('.dot2')
-        .data(data2)
-        .enter()
-        .append('circle')
-        .attr('class', 'dot2')
-        .attr('cx', function(d) {
-          return d.xCoordinate;
-        })
-        .attr('cy', function(d) {
-          return yScale(d.y);
-        })
-        .attr('r', 5)
-        .on('mouseover', d => {
-          tooltipVar
-            .transition()
-            .duration(200)
-            .style('opacity', 1);
-          if (d3.event.layerX + 213 < width + margin.left + margin.right) {
-            tooltipVar
-              .html(tooltipText2(d, this.yearComparison, axisPrefix))
-              .classed('hidden', false)
-              .classed('tooltipClass', true)
-              .classed('tooltipClassLeft', false)
-              .style('left', d3.event.layerX + 23 + 'px')
-              .style('top', d3.event.layerY + -20 + 'px');
-          } else {
-            tooltipVar
-              .html(tooltipText2(d, this.yearComparison, axisPrefix))
-              .classed('hidden', false)
-              .classed('tooltipClass', false)
-              .classed('tooltipClassLeft', true)
-              .style('left', d3.event.layerX + 23 + shiftTooltip + 'px')
-              .style('top', d3.event.layerY + -20 + 'px');
-          }
-        })
-        .on('mouseout', function(d) {
-          tooltipVar
-            .transition()
-            .duration(500)
-            .style('opacity', 0);
-        });
+        .append('path')
+        .datum(data)
+        .attr('class', 'line1')
+        .attr('d', line)
+        .attr('id', 'LineOne')
+        .style('fill', 'none')
+        .style('stroke', generalData.barColor);
     }
-    */
 
     chart
       .append('text')
