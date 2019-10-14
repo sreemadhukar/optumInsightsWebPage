@@ -167,10 +167,16 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
         this.bgWhite = !(authService.isLoggedIn() && !event.url.includes('print-'));
         this.showPrintHeader = event.url.includes('print-');
         this.loading = true;
-
         // Role based access for Advocates Overview page
         if (this.sessionService.checkAdvocateRole()) {
           this.navCategories[0].path = '/OverviewPageAdvocate';
+          if (window.location.pathname === '/OverviewPage') {
+            window.location.href = '/OverviewPageAdvocate';
+          }
+        } else {
+          if (window.location.pathname === '/OverviewPageAdvocate') {
+            window.location.href = '/OverviewPage';
+          }
         }
         // this.checkPcorData();
         if (this.sessionService.isPCORData()) {
@@ -179,6 +185,16 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
         const heac = JSON.parse(sessionStorage.getItem('heac'));
         if (event.url === '/KnowOurProvider' && !heac.heac) {
           router.navigate(['/ProviderSearch']);
+        }
+
+        // Check condtion for rendering butter bar
+        if (sessionStorage.getItem('fromKOP') === 'YES' && !this.makeAbsolute && event.url !== '/KnowOurProvider') {
+          setTimeout(() => {
+            this.fromKOP = true;
+          }, 500);
+        } else {
+          this.fromKOP = false;
+          sessionStorage.removeItem('fromKOP');
         }
       }
       // PLEASE DON'T MODIFY THIS
@@ -217,9 +233,21 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
       'search',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-search-24px.svg')
     );
+    iconRegistry.addSvgIcon(
+      'timeline',
+      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/timeline-24px.svg')
+    );
   }
 
   ngOnInit() {
+    if (!this.sessionService.checkAdvocateRole()) {
+      this.navCategories.push({
+        icon: 'timeline',
+        name: 'Summary Trends',
+        path: '/AdminSummaryTrends',
+        disabled: false
+      });
+    }
     this.AcoFlag = false;
     this.isKop = false;
     this.loading = false;
@@ -292,12 +320,6 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     setTimeout(() => {
       this.healthSystemName = this.sessionService.getHealthCareOrgName();
     }, 1);
-
-    // Show butter bar to navigate back to KOP
-    this.fromKOP = sessionStorage.getItem('fromKOP') === 'YES';
-
-    // Remove to render again
-    sessionStorage.removeItem('fromKOP');
   }
 
   advocateRole() {

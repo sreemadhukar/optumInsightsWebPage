@@ -66,7 +66,7 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit, OnCha
 
     if (maxTickValueStringLength === stepStringLength) {
       zeroOrOne = 0;
-    } else if (maxTickValueStringLength % 3 === 0 || maxTickValueStringLength % 5 === 0) {
+    } else if ([3, 6, 5, 9, 12].indexOf(maxTickValueStringLength) > -1) {
       zeroOrOne = 0;
     } else {
       zeroOrOne = 1;

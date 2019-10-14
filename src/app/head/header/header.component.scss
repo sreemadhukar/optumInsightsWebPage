@@ -122,3 +122,9 @@
     }
   }
 }
+.header-div::after {
+  content: '';
+  border-bottom: solid;
+  border-width: 1px;
+  border-color: rgb(224, 224, 224);
+}
