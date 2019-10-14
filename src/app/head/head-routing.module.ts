@@ -83,17 +83,29 @@ const routes: Routes = [
   {
     path: 'AcoPage',
     loadChildren: '../components/ACO/aco.module#AcoModule',
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
+    data: {
+      preload: false,
+      delay: false
+    }
   },
   {
     path: 'KnowOurProvider',
     loadChildren: '../components/know-our-provider/know-our-provider.module#KnowOurProviderModule',
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
+    data: {
+      preload: false,
+      delay: false
+    }
   },
   {
     path: 'AdminSummaryTrends',
     loadChildren: '../components/summary-trends/summary-trends.module#SummaryTrendsModule',
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
+    data: {
+      preload: false,
+      delay: false
+    }
   },
   {
     path: 'TermsofUse',

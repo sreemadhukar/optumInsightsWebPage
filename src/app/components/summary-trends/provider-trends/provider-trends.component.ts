@@ -29,6 +29,12 @@ export class ProviderTrendsComponent implements OnInit, AfterViewChecked {
   totalPages = 0;
   pageSize = 10;
   filterUrl = '/AdminSummaryTrends';
+  sortDirection = 'ASC';
+  sortColumn = 'ProviderSysKey';
+  color = 'primary';
+  mode = 'indeterminate';
+  value = 50;
+  dataloading = false;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   constructor(
@@ -77,7 +83,9 @@ export class ProviderTrendsComponent implements OnInit, AfterViewChecked {
     this.cdRef.detectChanges();
   }
   getSummaryData() {
-    this.summaryTrends.sharedSummaryTrends(1, 10, 'ProviderSysKey', 'ASC').then(r => {
+    this.sortColumn = 'ProviderSysKey';
+    this.sortDirection = 'ASC';
+    this.summaryTrends.sharedSummaryTrends(1, 10, this.sortColumn, this.sortDirection).then(r => {
       const result: any = r;
       if (result) {
         this.data = result.dataSource;
@@ -114,11 +122,10 @@ export class ProviderTrendsComponent implements OnInit, AfterViewChecked {
   }
 
   syncPrimaryPaginator(event: PageEvent) {
-    // this.loading = true;
-    this.dataSource = [];
+    this.dataloading = true;
     this.pageNumber = event.pageIndex + 1;
     const pageSize = event.pageSize;
-    this.summaryTrends.sharedSummaryTrends(this.pageNumber, pageSize, 'ProviderSysKey', 'ASC').then(r => {
+    this.summaryTrends.sharedSummaryTrends(this.pageNumber, pageSize, this.sortColumn, this.sortDirection).then(r => {
       const result: any = r;
       if (result) {
         this.data = result.dataSource;
@@ -127,7 +134,7 @@ export class ProviderTrendsComponent implements OnInit, AfterViewChecked {
         this.dataSource = new MatTableDataSource(this.data);
         this.dataSource.sort = this.sort;
       }
-      this.loading = false;
+      this.dataloading = false;
     });
   }
   changePagination(event) {
@@ -151,19 +158,29 @@ export class ProviderTrendsComponent implements OnInit, AfterViewChecked {
       });
   }
   sortData(event) {
-    // const column = event.active;
-    // const direction = event.direction;
-    // this.summaryTrends.sharedSummaryTrends(this.pageNumber, this.pageSize, column, direction.toUpperCase()).then(r => {
-    //   const result: any = r;
-    //   if (result) {
-    //     this.data = result.dataSource;
-    //     this.displayedColumns = result.displayedColumns;
-    //     // this.totalRecords = result.totalRecordsCount;
-    //     this.dataSource = new MatTableDataSource(this.data);
-    //     this.dataSource.sort = this.sort;
-    //   }
-    //   this.loading = false;
-    // });
+    this.dataloading = true;
+    let column = event.active;
+    const direction = event.direction;
+    if (column !== 'ProviderName') {
+      column = column + 'Varince';
+    } else {
+      column = 'ProviderOrganisationName';
+    }
+    this.sortDirection = direction.toUpperCase();
+    this.sortColumn = column;
+    this.summaryTrends
+      .sharedSummaryTrends(this.pageNumber, this.pageSize, this.sortColumn, this.sortDirection)
+      .then(r => {
+        const result: any = r;
+        if (result) {
+          this.data = result.dataSource;
+          this.displayedColumns = result.displayedColumns;
+          // this.totalRecords = result.totalRecordsCount;
+          this.dataSource = new MatTableDataSource(this.data);
+          // this.dataSource.sort = this.sort;
+        }
+        this.dataloading = false;
+      });
   }
   checkColumn(item) {
     if (
