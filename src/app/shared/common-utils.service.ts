@@ -257,10 +257,17 @@ export class CommonUtilsService {
       return '12';
     }
   }
+  public dayFormat(day: string) {
+    if (day[0] === '0') {
+      return day.slice(1);
+    } else {
+      return day;
+    }
+  }
   public dateFormat(timeStamp: string): string {
     const date1 = timeStamp.split(' '); // "2019-02-01 06:00:00"
     const x = date1[0].split('-'); // "2019-02-01"
-    const y = this.ReturnMonthlyString(x[1]) + ' ' + x[2] + ', ' + x[0]; // Feb 02, 2019
+    const y = this.ReturnMonthlyString(x[1]) + ' ' + this.dayFormat(x[2]) + ', ' + x[0]; // Feb 02, 2019
     return y;
   }
 
