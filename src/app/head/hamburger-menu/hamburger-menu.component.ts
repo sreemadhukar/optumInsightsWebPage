@@ -168,10 +168,16 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
         this.bgWhite = !(authService.isLoggedIn() && !event.url.includes('print-'));
         this.showPrintHeader = event.url.includes('print-');
         this.loading = true;
-
         // Role based access for Advocates Overview page
         if (this.sessionService.checkAdvocateRole()) {
           this.navCategories[0].path = '/OverviewPageAdvocate';
+          if (window.location.pathname === '/OverviewPage') {
+            window.location.href = '/OverviewPageAdvocate';
+          }
+        } else {
+          if (window.location.pathname === '/OverviewPageAdvocate') {
+            window.location.href = '/OverviewPage';
+          }
         }
         // this.checkPcorData();
         if (this.sessionService.isPCORData()) {
