@@ -79,6 +79,24 @@ export class SessionService {
     }
   }
 
+  public checkProjectRole(): boolean {
+    let userRole = false;
+    try {
+      if (
+        JSON.parse(sessionStorage.getItem('loggedUser')) &&
+        JSON.parse(sessionStorage.getItem('loggedUser')).UserPersonas
+      ) {
+        userRole = JSON.parse(sessionStorage.getItem('loggedUser')).UserPersonas.some(item =>
+          item.UserRole.includes('UHCI_Project')
+        );
+      }
+      return userRole;
+    } catch (err) {
+      console.log('adovate role session service', err);
+      return userRole;
+    }
+  }
+
   public isPCORData() {
     let pcorBoolean = false;
     try {
