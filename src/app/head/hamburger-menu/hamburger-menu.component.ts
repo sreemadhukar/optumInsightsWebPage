@@ -104,7 +104,8 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
         { name: 'Self Service', path: '/ServiceInteraction/SelfService' },
         { name: 'Calls', path: '/ServiceInteraction/Calls' }
       ]
-    }
+    },
+    { icon: 'timeline', name: 'Summary Trends', path: '/AdminSummaryTrends', disabled: false }
   ];
   fillerNav = Array.from({ length: 50 }, (_, i) => `Nav Item ${i + 1}`);
   filterData: any[] = [];
@@ -232,6 +233,10 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     iconRegistry.addSvgIcon(
       'search',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-search-24px.svg')
+    );
+    iconRegistry.addSvgIcon(
+      'timeline',
+      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/timeline-24px.svg')
     );
   }
 
