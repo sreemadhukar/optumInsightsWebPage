@@ -11,7 +11,7 @@ const routes: Routes = [
     path: '',
     loadChildren: '../auth/auth.module#AuthModule',
     data: {
-      preload: true,
+      preload: false,
       delay: false
     }
   },
@@ -19,7 +19,7 @@ const routes: Routes = [
     path: 'login',
     loadChildren: '../auth/auth.module#AuthModule',
     data: {
-      preload: true,
+      preload: false,
       delay: false
     }
   },
@@ -66,7 +66,7 @@ const routes: Routes = [
     loadChildren: '../components/provider-search/provider-search.module#ProviderSearchModule',
     canActivate: [AuthGuard],
     data: {
-      preload: true,
+      preload: false,
       delay: false
     }
   },
@@ -111,8 +111,8 @@ const routes: Routes = [
     path: 'TermsofUse',
     component: TermsOfUseComponent,
     data: {
-      preload: false,
-      delay: false
+      preload: true,
+      delay: true
     }
   },
   {

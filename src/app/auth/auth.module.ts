@@ -24,6 +24,6 @@ import { SharedModule } from '../shared/shared.module';
 })
 export class AuthModule {
   constructor() {
-    console.log('Login loaded');
+    console.log('Auth Login loaded');
   }
 }
