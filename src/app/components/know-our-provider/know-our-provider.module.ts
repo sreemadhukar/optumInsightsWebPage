@@ -10,4 +10,8 @@ import { PipesModule } from 'src/app/pipes/pipes.module';
   imports: [CommonModule, PipesModule, KnowOurProviderRoutingModule, HeadMaterialModule, CommonUtilsModule],
   declarations: [KopOverviewComponent]
 })
-export class KnowOurProviderModule {}
+export class KnowOurProviderModule {
+  constructor() {
+    console.log('KOP Loaded');
+  }
+}

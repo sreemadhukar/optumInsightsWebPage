@@ -7,4 +7,8 @@ import { FooterCommonComponent } from './footer-common/footer-common.component';
   exports: [FooterCommonComponent],
   declarations: [FooterCommonComponent]
 })
-export class FooterModule {}
+export class FooterModule {
+  constructor() {
+    console.log('Footer Loaded');
+  }
+}
