@@ -111,24 +111,24 @@ const routes: Routes = [
     path: 'TermsofUse',
     component: TermsOfUseComponent,
     data: {
-      preload: true,
-      delay: true
+      preload: false,
+      delay: false
     }
   },
   {
     path: 'PrivacyPolicy',
     component: PrivacyPolicyComponent,
     data: {
-      preload: true,
-      delay: true
+      preload: false,
+      delay: false
     }
   },
   {
     path: 'SiteMap',
     component: SiteMapComponent,
     data: {
-      preload: true,
-      delay: true
+      preload: false,
+      delay: false
     }
   },
   { path: '**', redirectTo: '' }
