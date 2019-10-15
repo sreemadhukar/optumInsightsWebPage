@@ -10,4 +10,8 @@ import { FormsModule } from '@angular/forms';
   imports: [CommonModule, SummaryTrendsRoutingModule, HeadMaterialModule, CommonUtilsModule, FormsModule],
   declarations: [ProviderTrendsComponent]
 })
-export class SummaryTrendsModule {}
+export class SummaryTrendsModule {
+  constructor() {
+    console.log('SummaryTrends Loaded');
+  }
+}
