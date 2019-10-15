@@ -206,8 +206,8 @@ export class NonPaymentSharedService {
                   hover: true
                 },
                 besideData: {
-                  labels: this.common.LOBSideLabels(LOBConvertor),
-                  color: this.common.LOBSideLabelColors(LOBConvertor)
+                  labels: this.common.LOBSideLabels(LOBConvertor, nonPaidData),
+                  color: this.common.LOBSideLabelColors(LOBConvertor, nonPaidData)
                 },
                 timeperiod: this.timeFrame
               };
@@ -392,8 +392,8 @@ export class NonPaymentSharedService {
                   hover: true
                 },
                 besideData: {
-                  labels: this.common.LOBSideLabels(LOBConvertor),
-                  color: this.common.LOBSideLabelColors(LOBConvertor)
+                  labels: this.common.LOBSideLabels(LOBConvertor, nonPaidData),
+                  color: this.common.LOBSideLabelColors(LOBConvertor, nonPaidData)
                 },
                 timeperiod: this.timeFrame
               };

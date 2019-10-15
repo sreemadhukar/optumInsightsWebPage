@@ -396,8 +396,8 @@ export class PaymentsSharedService {
                   hover: true
                 },
                 besideData: {
-                  labels: this.common.LOBSideLabels(lobData),
-                  color: this.common.LOBSideLabelColors(lobData)
+                  labels: this.common.LOBSideLabels(lobData, paidData),
+                  color: this.common.LOBSideLabelColors(lobData, paidData)
                 },
                 timeperiod: this.timeFrame
               };

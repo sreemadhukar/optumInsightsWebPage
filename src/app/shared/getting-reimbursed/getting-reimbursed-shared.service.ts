@@ -1218,8 +1218,8 @@ export class GettingReimbursedSharedService {
                   hover: true
                 },
                 besideData: {
-                  labels: this.common.LOBSideLabels(lobData),
-                  color: this.common.LOBSideLabelColors(lobData)
+                  labels: this.common.LOBSideLabels(lobData, paidData),
+                  color: this.common.LOBSideLabelColors(lobData, paidData)
                 },
                 timeperiod: this.timeFrame
               };
@@ -1312,8 +1312,8 @@ export class GettingReimbursedSharedService {
                   hover: true
                 },
                 besideData: {
-                  labels: this.common.LOBSideLabels(lobData),
-                  color: this.common.LOBSideLabelColors(lobData)
+                  labels: this.common.LOBSideLabels(lobData, notPaidData),
+                  color: this.common.LOBSideLabelColors(lobData, notPaidData)
                 },
                 timeperiod: this.timeFrame
               };
