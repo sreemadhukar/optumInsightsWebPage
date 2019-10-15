@@ -324,6 +324,7 @@ export class NonPaymentSharedService {
               nonPaymentData1.All.ClaimsLobSummary[0].hasOwnProperty('AmountDenied')
             ) {
               const nonPaidData = [];
+              const nonPaidLOBBoolean = [false, false, false, false];
               if (nonPaymentData1.hasOwnProperty('Mr') && nonPaymentData1.Mr != null) {
                 if (
                   nonPaymentData1.Mr.hasOwnProperty('ClaimsLobSummary') &&
@@ -332,6 +333,7 @@ export class NonPaymentSharedService {
                   (LOBConvertor === 'All' || LOBConvertor === 'Mr')
                 ) {
                   nonPaidData.push(nonPaymentData1.Mr.ClaimsLobSummary[0].AmountDenied);
+                  nonPaidLOBBoolean[0] = false;
                 }
               }
               if (nonPaymentData1.hasOwnProperty('Cs') && nonPaymentData1.Cs != null) {
@@ -342,6 +344,7 @@ export class NonPaymentSharedService {
                   (LOBConvertor === 'All' || LOBConvertor === 'Cs')
                 ) {
                   nonPaidData.push(nonPaymentData1.Cs.ClaimsLobSummary[0].AmountDenied);
+                  nonPaidLOBBoolean[1] = false;
                 }
               }
               if (nonPaymentData1.hasOwnProperty('Ei') && nonPaymentData1.Ei != null) {
@@ -352,6 +355,7 @@ export class NonPaymentSharedService {
                   (LOBConvertor === 'All' || LOBConvertor === 'Ei')
                 ) {
                   nonPaidData.push(nonPaymentData1.Ei.ClaimsLobSummary[0].AmountDenied);
+                  nonPaidLOBBoolean[2] = false;
                 }
               }
               if (nonPaymentData1.hasOwnProperty('Un') && nonPaymentData1.Un != null) {
@@ -363,6 +367,7 @@ export class NonPaymentSharedService {
                   )
                 ) {
                   nonPaidData.push(nonPaymentData1.Un.ClaimsLobSummary[0].AmountDenied);
+                  nonPaidLOBBoolean[3] = false;
                 }
               }
               if (LOBConvertor !== 'All') {
@@ -392,8 +397,8 @@ export class NonPaymentSharedService {
                   hover: true
                 },
                 besideData: {
-                  labels: this.common.LOBSideLabels(LOBConvertor, nonPaidData),
-                  color: this.common.LOBSideLabelColors(LOBConvertor, nonPaidData)
+                  labels: this.common.LOBSideLabels(LOBConvertor, nonPaidLOBBoolean),
+                  color: this.common.LOBSideLabelColors(LOBConvertor, nonPaidLOBBoolean)
                 },
                 timeperiod: this.timeFrame
               };

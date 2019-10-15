@@ -330,6 +330,7 @@ export class PaymentsSharedService {
               claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('AmountPaid')
             ) {
               const paidData = [];
+              const paidLOBBoolean = [false, false, false, false];
               if (claimsData.hasOwnProperty('Mr') && claimsData.Mr != null) {
                 if (
                   claimsData.Mr.hasOwnProperty('ClaimsLobSummary') &&
@@ -338,6 +339,7 @@ export class PaymentsSharedService {
                   (lobData === 'All' || lobData === 'Mr')
                 ) {
                   paidData.push(claimsData.Mr.ClaimsLobSummary[0].AmountPaid);
+                  paidLOBBoolean[0] = true;
                 }
               }
               if (claimsData.hasOwnProperty('Cs') && claimsData.Cs != null) {
@@ -348,6 +350,7 @@ export class PaymentsSharedService {
                   (lobData === 'All' || lobData === 'Cs')
                 ) {
                   paidData.push(claimsData.Cs.ClaimsLobSummary[0].AmountPaid);
+                  paidLOBBoolean[1] = true;
                 }
               }
               if (claimsData.hasOwnProperty('Ei') && claimsData.Ei != null) {
@@ -358,6 +361,7 @@ export class PaymentsSharedService {
                   (lobData === 'All' || lobData === 'Ei')
                 ) {
                   paidData.push(claimsData.Ei.ClaimsLobSummary[0].AmountPaid);
+                  paidLOBBoolean[2] = true;
                 }
               }
               if (claimsData.hasOwnProperty('Un') && claimsData.Un != null) {
@@ -368,6 +372,7 @@ export class PaymentsSharedService {
                   (lobData === 'All' || lobData === 'Un')
                 ) {
                   paidData.push(claimsData.Un.ClaimsLobSummary[0].AmountPaid);
+                  paidLOBBoolean[3] = true;
                 }
               }
               if (lobData !== 'All') {
@@ -396,8 +401,8 @@ export class PaymentsSharedService {
                   hover: true
                 },
                 besideData: {
-                  labels: this.common.LOBSideLabels(lobData, paidData),
-                  color: this.common.LOBSideLabelColors(lobData, paidData)
+                  labels: this.common.LOBSideLabels(lobData, paidLOBBoolean),
+                  color: this.common.LOBSideLabelColors(lobData, paidLOBBoolean)
                 },
                 timeperiod: this.timeFrame
               };
