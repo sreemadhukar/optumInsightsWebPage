@@ -137,6 +137,14 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     this.filterFlag = false;
     this.bgWhite = false;
     this.showPrintHeader = false;
+    if (this.sessionService.checkProjectRole()) {
+      this.navCategories.push({
+        icon: 'timeline',
+        name: 'Summary Trends',
+        path: '/AdminSummaryTrends',
+        disabled: false
+      });
+    }
     // to disable the header/footer/body when not authenticated
     router.events.subscribe(event => {
       if (event instanceof NavigationStart) {
@@ -167,10 +175,16 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
         this.bgWhite = !(authService.isLoggedIn() && !event.url.includes('print-'));
         this.showPrintHeader = event.url.includes('print-');
         this.loading = true;
-
         // Role based access for Advocates Overview page
         if (this.sessionService.checkAdvocateRole()) {
           this.navCategories[0].path = '/OverviewPageAdvocate';
+          if (window.location.pathname === '/OverviewPage') {
+            window.location.href = '/OverviewPageAdvocate';
+          }
+        } else if (this.sessionService.checkProjectRole()) {
+          if (window.location.pathname === '/OverviewPageAdvocate') {
+            window.location.href = '/OverviewPage';
+          }
         }
         // this.checkPcorData();
         if (this.sessionService.isPCORData()) {
@@ -226,6 +240,10 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     iconRegistry.addSvgIcon(
       'search',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-search-24px.svg')
+    );
+    iconRegistry.addSvgIcon(
+      'timeline',
+      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/timeline-24px.svg')
     );
   }
 
