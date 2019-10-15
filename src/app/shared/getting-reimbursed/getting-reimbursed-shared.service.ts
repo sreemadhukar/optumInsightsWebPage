@@ -1149,6 +1149,7 @@ export class GettingReimbursedSharedService {
               claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('AmountPaid')
             ) {
               const paidData = [];
+              const paidDataLOBBoolean = [false, false, false, false];
               if (claimsData.hasOwnProperty('Mr') && claimsData.Mr != null) {
                 if (
                   claimsData.Mr.hasOwnProperty('ClaimsLobSummary') &&
@@ -1157,6 +1158,7 @@ export class GettingReimbursedSharedService {
                   (lobData === 'All' || lobData === 'Mr')
                 ) {
                   paidData.push(claimsData.Mr.ClaimsLobSummary[0].AmountPaid);
+                  paidDataLOBBoolean[0] = true;
                 }
               }
               if (claimsData.hasOwnProperty('Cs') && claimsData.Cs != null) {
@@ -1167,6 +1169,7 @@ export class GettingReimbursedSharedService {
                   (lobData === 'All' || lobData === 'Cs')
                 ) {
                   paidData.push(claimsData.Cs.ClaimsLobSummary[0].AmountPaid);
+                  paidDataLOBBoolean[1] = true;
                 }
               }
               if (claimsData.hasOwnProperty('Ei') && claimsData.Ei != null) {
@@ -1177,6 +1180,7 @@ export class GettingReimbursedSharedService {
                   (lobData === 'All' || lobData === 'Ei')
                 ) {
                   paidData.push(claimsData.Ei.ClaimsLobSummary[0].AmountPaid);
+                  paidDataLOBBoolean[2] = true;
                 }
               }
               if (claimsData.hasOwnProperty('Un') && claimsData.Un != null) {
@@ -1187,6 +1191,7 @@ export class GettingReimbursedSharedService {
                   (lobData === 'All' || lobData === 'Un')
                 ) {
                   paidData.push(claimsData.Un.ClaimsLobSummary[0].AmountPaid);
+                  paidDataLOBBoolean[3] = true;
                 }
               }
               if (lobData !== 'All') {
@@ -1218,8 +1223,8 @@ export class GettingReimbursedSharedService {
                   hover: true
                 },
                 besideData: {
-                  labels: this.common.LOBSideLabels(lobData),
-                  color: this.common.LOBSideLabelColors(lobData)
+                  labels: this.common.LOBSideLabels(lobData, paidDataLOBBoolean),
+                  color: this.common.LOBSideLabelColors(lobData, paidDataLOBBoolean)
                 },
                 timeperiod: this.timeFrame
               };
@@ -1244,6 +1249,7 @@ export class GettingReimbursedSharedService {
               claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('AmountDenied')
             ) {
               const notPaidData = [];
+              const notPaidLOBBoolean = [false, false, false, false];
               if (claimsData.hasOwnProperty('Mr') && claimsData.Mr != null) {
                 if (
                   claimsData.Mr.hasOwnProperty('ClaimsLobSummary') &&
@@ -1252,6 +1258,7 @@ export class GettingReimbursedSharedService {
                   (lobData === 'All' || lobData === 'Mr')
                 ) {
                   notPaidData.push(claimsData.Mr.ClaimsLobSummary[0].AmountDenied);
+                  notPaidLOBBoolean[0] = true;
                 }
               }
               if (claimsData.hasOwnProperty('Cs') && claimsData.Cs != null) {
@@ -1262,6 +1269,7 @@ export class GettingReimbursedSharedService {
                   (lobData === 'All' || lobData === 'Cs')
                 ) {
                   notPaidData.push(claimsData.Cs.ClaimsLobSummary[0].AmountDenied);
+                  notPaidLOBBoolean[1] = true;
                 }
               }
               if (claimsData.hasOwnProperty('Ei') && claimsData.Ei != null) {
@@ -1272,6 +1280,7 @@ export class GettingReimbursedSharedService {
                   (lobData === 'All' || lobData === 'Ei')
                 ) {
                   notPaidData.push(claimsData.Ei.ClaimsLobSummary[0].AmountDenied);
+                  notPaidLOBBoolean[2] = true;
                 }
               }
               if (claimsData.hasOwnProperty('Un') && claimsData.Un != null) {
@@ -1282,6 +1291,7 @@ export class GettingReimbursedSharedService {
                   (lobData === 'All' || lobData === 'Un')
                 ) {
                   notPaidData.push(claimsData.Un.ClaimsLobSummary[0].AmountDenied);
+                  notPaidLOBBoolean[3] = true;
                 }
               }
               if (lobData !== 'All') {
@@ -1312,8 +1322,8 @@ export class GettingReimbursedSharedService {
                   hover: true
                 },
                 besideData: {
-                  labels: this.common.LOBSideLabels(lobData),
-                  color: this.common.LOBSideLabelColors(lobData)
+                  labels: this.common.LOBSideLabels(lobData, notPaidLOBBoolean),
+                  color: this.common.LOBSideLabelColors(lobData, notPaidLOBBoolean)
                 },
                 timeperiod: this.timeFrame
               };
