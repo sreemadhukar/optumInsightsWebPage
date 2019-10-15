@@ -10,9 +10,6 @@ export class CustomPreloadingStrategy implements PreloadingStrategy {
       );
       return loadRoute(route.data.delay);
     } else {
-      console.log(
-        'No preload Path ' + route.path + '. preload : ' + route.data['preload'] + '. delay : ' + route.data['delay']
-      );
       return of(null);
     }
   }
