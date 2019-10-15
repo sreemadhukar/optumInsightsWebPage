@@ -9,6 +9,6 @@ import { FooterCommonComponent } from './footer-common/footer-common.component';
 })
 export class FooterModule {
   constructor() {
-    console.log('Footer Loaded');
+    console.log('');
   }
 }
