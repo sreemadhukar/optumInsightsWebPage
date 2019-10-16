@@ -14,4 +14,8 @@ import { PrintOverviewComponent } from './print-overview/print-overview.componen
   providers: [OverviewService, OverviewSharedService, OverviewComponent],
   declarations: [OverviewComponent, PrintOverviewComponent]
 })
-export class OverviewPageModule {}
+export class OverviewPageModule {
+  constructor() {
+    console.log('Overview Loaded');
+  }
+}

@@ -22,4 +22,8 @@ import { SharedModule } from '../shared/shared.module';
   ],
   declarations: [LoginStubComponent, SessionTimeoutComponent, IdleTimeoutDialogComponent]
 })
-export class AuthModule {}
+export class AuthModule {
+  constructor() {
+    console.log('Auth Login loaded');
+  }
+}

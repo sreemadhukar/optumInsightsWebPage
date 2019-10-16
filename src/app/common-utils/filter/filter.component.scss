@@ -47,6 +47,7 @@
     line-height: 22px;
     margin: 15px 0 8px 0;
     float: left;
+    cursor: pointer;
   }
   .chevron {
     height: 40px;
@@ -73,7 +74,7 @@
     .input-class {
       box-sizing: border-box;
       height: 41px;
-      width: 355px;
+      width: 350px;
       border: 1px solid #b3babc;
       border-radius: 2px;
       background-color: #ffffff;
