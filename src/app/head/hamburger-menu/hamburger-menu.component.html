@@ -139,19 +139,21 @@
             </mat-expansion-panel>
 
             <!-- CATEGORY WHICH HAS NO SUB CATEGORIES -->
-            <a
-              (click)="collapseExpansionPanels()"
-              class="nav-no-child-category"
-              [routerLinkActiveOptions]="{ exact: true }"
-              mat-list-item
-              routerLink="{{ category.path }}"
-              routerLinkActive="active-link"
-              *ngIf="!category.children"
-            >
-              <!--<img
+            <div *ngIf="!category.disabled">
+              <a
+                (click)="collapseExpansionPanels()"
+                class="nav-no-child-category"
+                [routerLinkActiveOptions]="{ exact: true }"
+                mat-list-item
+                routerLink="{{ category.path }}"
+                routerLinkActive="active-link"
+                *ngIf="!category.children"
+              >
+                <!--<img
                class="nav-menu-icons" [src]="category.icon" />-->
-              <mat-icon class="nav-menu-icons" svgIcon="{{ category.icon }}"></mat-icon> {{ category.name }}
-            </a>
+                <mat-icon class="nav-menu-icons" svgIcon="{{ category.icon }}"></mat-icon> {{ category.name }}
+              </a>
+            </div>
           </mat-nav-list>
         </div>
         <!-- END OF MENU CATEGORIES BLOCK -->
