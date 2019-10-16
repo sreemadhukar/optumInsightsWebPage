@@ -1,6 +1,6 @@
 import { Injectable, EventEmitter } from '@angular/core';
 import { GettingReimbursedService } from '../rest/getting-reimbursed/getting-reimbursed.service';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { Filter } from './_models/filter';
 import { environment } from '../../environments/environment';
 import { share } from 'rxjs/operators';
@@ -61,7 +61,7 @@ export class SessionService {
     }
   }
 
-  public checkAdvocateRole(): boolean {
+  public checkAdvocateRole(): Observable<boolean> {
     let userRole = false;
     try {
       if (
@@ -72,14 +72,14 @@ export class SessionService {
           item.UserRole.includes('UHCI_Advocate')
         );
       }
-      return userRole;
+      return of(userRole);
     } catch (err) {
       console.log('adovate role session service', err);
-      return userRole;
+      return of(userRole);
     }
   }
 
-  public checkProjectRole(): boolean {
+  public checkProjectRole(): Observable<boolean> {
     let userRole = false;
     try {
       if (
@@ -90,10 +90,10 @@ export class SessionService {
           item.UserRole.includes('UHCI_Project')
         );
       }
-      return userRole;
+      return of(userRole);
     } catch (err) {
       console.log('adovate role session service', err);
-      return userRole;
+      return of(userRole);
     }
   }
 
