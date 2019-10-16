@@ -240,3 +240,6 @@ button:focus {
   color: $white;
   background: $blue;
 }
+.mat-drawer-backdrop.mat-drawer-shown {
+  visibility: hidden !important;
+}

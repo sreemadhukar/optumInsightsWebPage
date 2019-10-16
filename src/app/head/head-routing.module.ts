@@ -11,7 +11,7 @@ const routes: Routes = [
     path: '',
     loadChildren: '../auth/auth.module#AuthModule',
     data: {
-      preload: true,
+      preload: false,
       delay: false
     }
   },
@@ -19,7 +19,7 @@ const routes: Routes = [
     path: 'login',
     loadChildren: '../auth/auth.module#AuthModule',
     data: {
-      preload: true,
+      preload: false,
       delay: false
     }
   },
@@ -66,7 +66,7 @@ const routes: Routes = [
     loadChildren: '../components/provider-search/provider-search.module#ProviderSearchModule',
     canActivate: [AuthGuard],
     data: {
-      preload: true,
+      preload: false,
       delay: false
     }
   },
@@ -83,17 +83,29 @@ const routes: Routes = [
   {
     path: 'AcoPage',
     loadChildren: '../components/ACO/aco.module#AcoModule',
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
+    data: {
+      preload: false,
+      delay: false
+    }
   },
   {
     path: 'KnowOurProvider',
     loadChildren: '../components/know-our-provider/know-our-provider.module#KnowOurProviderModule',
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
+    data: {
+      preload: false,
+      delay: false
+    }
   },
   {
     path: 'AdminSummaryTrends',
     loadChildren: '../components/summary-trends/summary-trends.module#SummaryTrendsModule',
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
+    data: {
+      preload: false,
+      delay: false
+    }
   },
   {
     path: 'TermsofUse',
@@ -107,16 +119,16 @@ const routes: Routes = [
     path: 'PrivacyPolicy',
     component: PrivacyPolicyComponent,
     data: {
-      preload: true,
-      delay: true
+      preload: false,
+      delay: false
     }
   },
   {
     path: 'SiteMap',
     component: SiteMapComponent,
     data: {
-      preload: true,
-      delay: true
+      preload: false,
+      delay: false
     }
   },
   { path: '**', redirectTo: '' }

@@ -37,4 +37,8 @@ import { SmartEditsComponent } from './payment-integrity/smart-edits/smart-edits
     SmartEditsComponent
   ]
 })
-export class GettingReimbursedModule {}
+export class GettingReimbursedModule {
+  constructor() {
+    console.log('GettingReimbursed Loaded');
+  }
+}
