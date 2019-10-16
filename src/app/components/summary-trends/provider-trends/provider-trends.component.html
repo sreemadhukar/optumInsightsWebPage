@@ -41,7 +41,14 @@
     </div>
 
     <div class="summary-trends-table-block">
-      <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8" (matSortChange)="sortData($event)">
+      <table
+        mat-table
+        [dataSource]="dataSource"
+        matSort
+        class="mat-elevation-z8"
+        (matSortChange)="sortData($event)"
+        [matSortDisableClear]="true"
+      >
         <!-- Position Column -->
         <ng-container *ngFor="let item of displayedColumns; let i = index" matColumnDef="{{ item }}">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ formattingText(item) }}</th>
@@ -84,6 +91,10 @@
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
       </table>
+
+      <div class="grey-box" *ngIf="dataloading">
+        <mat-progress-spinner class="rotate-icon" [color]="color" [mode]="mode" [value]="value"> </mat-progress-spinner>
+      </div>
     </div>
     <!--<mat-paginator [pageSizeOptions]="[20, 50, 100]" showFirstLastButtons></mat-paginator>-->
     <div class="paginator-block">

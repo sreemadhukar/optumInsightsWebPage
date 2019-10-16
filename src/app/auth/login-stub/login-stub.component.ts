@@ -100,7 +100,7 @@ export class LoginStubComponent implements OnInit {
         if (JSON.parse(sessionStorage.getItem('currentUser'))[0]['ProviderKey']) {
           if (this.sessionService.checkAdvocateRole()) {
             window.location.href = '/OverviewPageAdvocate';
-          } else {
+          } else if (this.sessionService.checkProjectRole()) {
             window.location.href = '/OverviewPage';
           }
         } else {
