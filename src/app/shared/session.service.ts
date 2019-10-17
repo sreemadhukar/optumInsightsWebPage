@@ -79,6 +79,19 @@ export class SessionService {
     }
   }
 
+  public checkTrendAccess(): Observable<boolean> {
+    let trendAccess = false;
+    try {
+      if (JSON.parse(sessionStorage.getItem('trendAccess'))) {
+        trendAccess = JSON.parse(sessionStorage.getItem('trendAccess'));
+      }
+      return of(trendAccess);
+    } catch (err) {
+      console.log('trendAccess unAvailable', err);
+      return of(trendAccess);
+    }
+  }
+
   public checkProjectRole(): Observable<boolean> {
     let userRole = false;
     try {
