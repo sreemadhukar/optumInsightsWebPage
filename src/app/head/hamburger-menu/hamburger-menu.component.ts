@@ -111,7 +111,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
       icon: 'timeline',
       name: 'Summary Trends',
       path: '/AdminSummaryTrends',
-      disabled: false
+      disabled: true
     }
   ];
   fillerNav = Array.from({ length: 50 }, (_, i) => `Nav Item ${i + 1}`);
@@ -253,7 +253,6 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
   }
 
   ngOnInit() {
-    console.log(this.sessionService.checkTrendAccess());
     this.AcoFlag = false;
     this.isKop = false;
     this.loading = false;
@@ -343,6 +342,9 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
         path: '/CareDelivery/PatientCareOpportunity'
       });
     }
+  }
+  checkToggle(bool: boolean) {
+    return bool ? this.sessionService.checkTrendAccess() && environment.internalAccess : !bool;
   }
   checkPcorData() {
     const parametersExecutive = [this.sessionService.providerKeyData(), true];
