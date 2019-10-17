@@ -53,7 +53,7 @@ app.get('/api/getHeac/:MsId', cors(), function(req, res) {
 
 app.get('/api/getTrendAccess/:MsId', cors(), function(req, res) {
   res.status(200).json({
-    heac: include(trendAccess.user, req.params.MsId)
+    trendAccess: include(trendAccess.user, req.params.MsId)
   });
 });
 
