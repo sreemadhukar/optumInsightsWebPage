@@ -35,6 +35,8 @@ export class LoginStubComponent implements OnInit {
     note: 'Due to inactivity, we have logged you out.',
     message: 'To return to UHC Insights, please sign in below.'
   };
+  public checkAdv;
+  public checkPro;
   @ViewChild('errorDialog') errorDialog: TemplateRef<any>;
 
   constructor(
@@ -53,6 +55,8 @@ export class LoginStubComponent implements OnInit {
     private sessionService: SessionService,
     @Inject(DOCUMENT) private document: any
   ) {
+    this.checkAdv = this.sessionService.checkAdvocateRole();
+    this.checkPro = this.sessionService.checkProjectRole();
     iconRegistry.addSvgIcon(
       'error',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Alert/round-error_outline-24px.svg')
@@ -98,9 +102,9 @@ export class LoginStubComponent implements OnInit {
     if (this.isInternal) {
       if (this.authService.isLoggedIn()) {
         if (JSON.parse(sessionStorage.getItem('currentUser'))[0]['ProviderKey']) {
-          if (this.sessionService.checkAdvocateRole()) {
+          if (this.checkAdv.value) {
             window.location.href = '/OverviewPageAdvocate';
-          } else if (this.sessionService.checkProjectRole()) {
+          } else if (this.checkPro.value) {
             window.location.href = '/OverviewPage';
           }
         } else {
