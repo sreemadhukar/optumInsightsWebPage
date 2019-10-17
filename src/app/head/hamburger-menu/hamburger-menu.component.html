@@ -138,9 +138,8 @@
                 >
               </mat-nav-list>
             </mat-expansion-panel>
-
             <!-- CATEGORY WHICH HAS NO SUB CATEGORIES -->
-            <div *ngIf="!category.disabled">
+            <div *ngIf="checkToggle(category.disabled)">
               <a
                 (click)="collapseExpansionPanels()"
                 class="nav-no-child-category"
