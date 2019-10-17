@@ -140,7 +140,7 @@
             </mat-expansion-panel>
 
             <!-- CATEGORY WHICH HAS NO SUB CATEGORIES -->
-            <div *ngIf="!category.disabled">
+            <div *ngIf="sessionService.trendAccess">
               <a
                 (click)="collapseExpansionPanels()"
                 class="nav-no-child-category"

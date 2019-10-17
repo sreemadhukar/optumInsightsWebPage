@@ -17,6 +17,7 @@ export class SessionService {
   public nonPaymentBy = 'dollar';
   public filterObj: Observable<Filter>;
   public filterObjSubject: BehaviorSubject<Filter>;
+  public trendAccess = false;
   constructor(private gettingReimbursedService: GettingReimbursedService) {
     this.filterObjSubject = new BehaviorSubject<Filter>({
       timeFrame: 'Last 6 Months',
@@ -80,15 +81,14 @@ export class SessionService {
   }
 
   public checkTrendAccess(): Observable<boolean> {
-    let trendAccess = false;
     try {
       if (JSON.parse(sessionStorage.getItem('trendAccess'))) {
-        trendAccess = JSON.parse(sessionStorage.getItem('trendAccess'));
+        this.trendAccess = JSON.parse(sessionStorage.getItem('trendAccess')).trendAccess;
       }
-      return of(trendAccess);
+      return of(this.trendAccess);
     } catch (err) {
       console.log('trendAccess unAvailable', err);
-      return of(trendAccess);
+      return of(this.trendAccess);
     }
   }
 
