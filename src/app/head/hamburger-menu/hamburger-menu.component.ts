@@ -70,6 +70,8 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
   public healthSystemName: string;
   public isKop: boolean;
   disableChangeProvider: boolean = environment.internalAccess;
+  public checkAdv;
+  public checkPro;
   /*** Array of Navigation Category List ***/
   public navCategories = [
     { icon: 'home', name: 'Overview', path: '/OverviewPage', disabled: false },
@@ -104,6 +106,12 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
         { name: 'Self Service', path: '/ServiceInteraction/SelfService' },
         { name: 'Calls', path: '/ServiceInteraction/Calls' }
       ]
+    },
+    {
+      icon: 'timeline',
+      name: 'Summary Trends',
+      path: '/AdminSummaryTrends',
+      disabled: true
     }
   ];
   fillerNav = Array.from({ length: 50 }, (_, i) => `Nav Item ${i + 1}`);
@@ -128,7 +136,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     private filterCloseService: FilterCloseService,
     private pcorService: PcorService,
     private location: Location,
-    private sessionService: SessionService,
+    public sessionService: SessionService,
     private eventEmitter: EventEmitterService,
     private acoEventEmitter: AcoEventEmitterService,
     @Inject(DOCUMENT) private document: any
@@ -137,6 +145,11 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     this.filterFlag = false;
     this.bgWhite = false;
     this.showPrintHeader = false;
+    this.checkAdv = this.sessionService.checkAdvocateRole();
+    this.checkPro = this.sessionService.checkProjectRole();
+    if (this.checkAdv.value) {
+      this.navCategories = this.navCategories.filter(item => item.name !== 'Summary Trends');
+    }
     // to disable the header/footer/body when not authenticated
     router.events.subscribe(event => {
       if (event instanceof NavigationStart) {
@@ -167,10 +180,16 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
         this.bgWhite = !(authService.isLoggedIn() && !event.url.includes('print-'));
         this.showPrintHeader = event.url.includes('print-');
         this.loading = true;
-
         // Role based access for Advocates Overview page
-        if (this.sessionService.checkAdvocateRole()) {
+        if (this.checkAdv.value) {
           this.navCategories[0].path = '/OverviewPageAdvocate';
+          if (window.location.pathname === '/OverviewPage') {
+            window.location.href = '/OverviewPageAdvocate';
+          }
+        } else if (this.checkPro.Value) {
+          if (window.location.pathname === '/OverviewPageAdvocate') {
+            window.location.href = '/OverviewPage';
+          }
         }
         // this.checkPcorData();
         if (this.sessionService.isPCORData()) {
@@ -226,6 +245,10 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     iconRegistry.addSvgIcon(
       'search',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-search-24px.svg')
+    );
+    iconRegistry.addSvgIcon(
+      'timeline',
+      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/timeline-24px.svg')
     );
   }
 
@@ -320,6 +343,9 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
       });
     }
   }
+  checkToggle(bool: boolean) {
+    return bool ? this.sessionService.checkTrendAccess() && environment.internalAccess : !bool;
+  }
   checkPcorData() {
     const parametersExecutive = [this.sessionService.providerKeyData(), true];
     this.pcorService.getExecutiveData(...parametersExecutive).subscribe(
@@ -333,9 +359,9 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
             );
             if (this.router.url.includes('CareDelivery/PatientCareOpportunity')) {
               // Role based access for Advocates Overview page
-              if (this.sessionService.checkAdvocateRole()) {
+              if (this.checkAdv.value) {
                 this.router.navigate(['/OverviewPageAdvocate']);
-              } else {
+              } else if (this.checkPro.value) {
                 this.router.navigate(['/OverviewPage']);
               }
             }

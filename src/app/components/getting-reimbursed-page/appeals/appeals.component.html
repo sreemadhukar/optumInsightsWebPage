@@ -67,6 +67,11 @@
           <app-common-header
             [title]="title"
             class="full-display"
+            [class.one-reason]="reason.length == 2"
+            [class.two-reason]="reason.length == 3"
+            [class.three-reason]="reason.length == 4"
+            [class.four-reason]="reason.length == 5"
+            [class.five-reason]="reason.length == 6"
             (helpIconClicked)="helpIconClick($event)"
           ></app-common-header>
           <!--div *ngFor="let r of reason; let i = index"-->
