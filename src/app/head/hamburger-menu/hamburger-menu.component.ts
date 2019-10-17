@@ -111,7 +111,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
       icon: 'timeline',
       name: 'Summary Trends',
       path: '/AdminSummaryTrends',
-      disabled: !environment.internalAccess && !this.sessionService.checkTrendAccess
+      disabled: !environment.internalAccess && !this.sessionService.checkTrendAccess()
     }
   ];
   fillerNav = Array.from({ length: 50 }, (_, i) => `Nav Item ${i + 1}`);
