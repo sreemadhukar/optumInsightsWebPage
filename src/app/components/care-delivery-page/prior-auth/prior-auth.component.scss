@@ -98,10 +98,15 @@
         @include padding(16px, 0, 20px, 0);
         color: $black-rock;
       }
+      .page-title-subtitle {
+        padding-bottom: 0px;
+      }
       .page-subtitle {
         flex-basis: 100%;
-        font-size: 28px;
-        line-height: 50px;
+        font-size: 16px;
+        line-height: 22px;
+        @include padding(0, 0, 20px, 0);
+        color: $black-rock;
       }
       .page-question {
         flex-basis: 100%;
