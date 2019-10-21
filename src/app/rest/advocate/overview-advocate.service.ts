@@ -16,6 +16,8 @@ export class OverviewAdvocateService {
   private APP_URL: string = environment.apiProxyUrl;
   private APPEALS_SERVICE_PATH: string = environment.apiUrls.Appeals;
   private APPEALS_TREND_SERVICE_PATH: string = environment.apiUrls.AppealsTrend;
+  private CALLS_SERVICE_PATH: string = environment.apiUrls.Calls;
+  private CALLS_TREND_SERVICE_PATH: string = environment.apiUrls.CallsTrend;
 
   constructor(private http: HttpClient) {}
 
@@ -39,6 +41,31 @@ export class OverviewAdvocateService {
     }
     const appealsURL = this.APP_URL + this.APPEALS_TREND_SERVICE_PATH + parameters[0];
     return this.http.post(appealsURL, appealsParams).pipe(
+      map(res => JSON.parse(JSON.stringify(res))),
+      catchError(err => of(JSON.parse(JSON.stringify(err))))
+    );
+  }
+
+  public callsData(...parameters) {
+    const callsParams = parameters[1];
+    if (!callsParams.Tin) {
+      callsParams.AllProviderTins = true;
+    }
+
+    const callsURL = this.APP_URL + this.CALLS_SERVICE_PATH + parameters[0];
+    return this.http.get(callsURL, callsParams).pipe(
+      map(res => JSON.parse(JSON.stringify(res))),
+      catchError(err => of(JSON.parse(JSON.stringify(err))))
+    );
+  }
+
+  public callsDataTrendByMonth(...parameters) {
+    const callsParams = parameters[1];
+    if (!callsParams.Tin) {
+      callsParams.AllProviderTins = true;
+    }
+    const callsURL = this.APP_URL + this.CALLS_TREND_SERVICE_PATH + parameters[0];
+    return this.http.post(callsURL, callsParams).pipe(
       map(res => JSON.parse(JSON.stringify(res))),
       catchError(err => of(JSON.parse(JSON.stringify(err))))
     );

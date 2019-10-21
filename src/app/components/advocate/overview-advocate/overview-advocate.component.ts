@@ -51,6 +51,10 @@ export class OverviewAdvocateComponent implements OnInit {
   routhPath: string;
   appealsLineGraphloading: boolean;
   appealsLineGraphData: any;
+  callsLineGraphLoading: boolean;
+  trendTitleForCalls = 'Calls by Call Type';
+  totalCalls: any;
+  callsLoading: boolean;
 
   constructor(
     private checkStorage: StorageService,
@@ -172,12 +176,26 @@ export class OverviewAdvocateComponent implements OnInit {
     });
   }
 
+  totalCallsData() {
+    this.callsLoading = true;
+    this.overviewAdvocateSharedService.getTotalCallsShared().then(totalCallsData => {
+      if (totalCallsData) {
+        let callsLeftData;
+        callsLeftData = totalCallsData;
+        this.totalCalls = this.filtermatch.nondecimalFormatter(callsLeftData.CallVolByQuesType.Total);
+        this.callsLoading = false;
+      }
+    });
+  }
+
   ngOnInit() {
     this.checkStorage.emitEvent('overviewPage');
     this.paymentData();
     this.appealsLeftData();
     this.appealsTrendByMonthData();
+    this.totalCallsData();
     this.appealsLineGraphloading = true;
+    this.callsLineGraphLoading = true;
     this.userName = this.session.sessionStorage('loggedUser', 'FirstName');
     this.pageTitle = 'Welcome, ' + this.userName;
 

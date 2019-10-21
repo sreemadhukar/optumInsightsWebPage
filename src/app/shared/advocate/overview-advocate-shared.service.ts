@@ -4,6 +4,8 @@ import { SessionService } from '../session.service';
 import { AuthorizationService } from '../../auth/_service/authorization.service';
 import { GlossaryMetricidService } from '../glossary-metricid.service';
 import { OverviewAdvocateService } from '../../rest/advocate/overview-advocate.service';
+import { combineLatest, of } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -297,6 +299,22 @@ export class OverviewAdvocateSharedService {
         },
         err => {
           console.log('Advocate Page , Error for appeals trend cards', err);
+        }
+      );
+    });
+  }
+
+  public getTotalCallsShared() {
+    this.timeFrame = this.session.filterObjValue.timeFrame;
+    this.providerKey = this.session.providerKeyData();
+    return new Promise(resolve => {
+      const parameters = this.getParmaeterCategories();
+      this.overviewAdvocateService.callsData(...parameters).subscribe(
+        callsTotalData => {
+          resolve(callsTotalData);
+        },
+        err => {
+          console.log('Advocate Page , Error for calls card', err);
         }
       );
     });

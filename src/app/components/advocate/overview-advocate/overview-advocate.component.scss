@@ -188,7 +188,8 @@
     }
   }
 
-  .appeals-trend-block {
+  .appeals-trend-block,
+  .calls-trend-block {
     width: 961px;
     // height: 387px;
     border-radius: 2px;
@@ -322,6 +323,19 @@
     width: 438px;
     float: right;
     padding-right: 60px;
+  }
+
+  .total-calls {
+    height: 150px;
+    color: #2d2d39;
+    font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+    font-size: 56px;
+    padding-left: 32px;
+
+    &-sub-title {
+      color: $strom-grey;
+      font-size: 16px;
+    }
   }
 
   .footer-border {
