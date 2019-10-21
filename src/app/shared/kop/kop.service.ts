@@ -33,7 +33,7 @@ export class KOPSharedService {
     {
       title: 'Total Last Year',
       selected: false,
-      timeFrameFormat: 'Year',
+      timeFrameFormat: 'Last Year',
       quarterFormat: 'YTD',
       filters: ['YEAR_TO_DATE', 'TOTAL_LAST_YEAR']
     }

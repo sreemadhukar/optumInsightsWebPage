@@ -3,6 +3,7 @@
     <app-common-header
       [cardType]="'smallCard'"
       [title]="data.title"
+      [subtitle]="data.subtitle"
       [options]="options"
       (helpIconClicked)="helpIconClick($event)"
     ></app-common-header>
@@ -10,15 +11,21 @@
     <div *ngIf="data.quarter" class="cards-display-block">
       <div
         *ngFor="let card of data.cards"
-        class="data-card"
+        [class.data-card]="card.highlightedValue != null"
+        [class.kop-error-card]="card.highlightedValue == null"
         [class.card-nps-single]="data.singleCard"
         [class.card-nps-quarter-current]="card.currentQuarter"
         [class.card-nps-quarter-prev]="card.prevQuarter"
         [class.card-nps-quarter-highlight]="card.highlightQuarter"
       >
-        <div class="highlighted">{{ card.highlightedValue }}</div>
-        <div class="caption-text">{{ card.captionText }}</div>
-        <div class="target">{{ card.targetValue }}</div>
+        <div *ngIf="card.highlightedValue != null">
+          <div class="highlighted">{{ card.highlightedValue }}</div>
+          <div class="caption-text">{{ card.captionText }}</div>
+          <div class="target">{{ card.targetValue }}</div>
+        </div>
+        <div *ngIf="card.highlightedValue == null" class="kop-error-card-template">
+          <app-error-template></app-error-template>
+        </div>
       </div>
     </div>
 
@@ -85,9 +92,9 @@
       </div>
     </div>
 
-    <div *ngIf="data.type === 'nps'">
+    <!-- <div *ngIf="data.type === 'nps' && data.cards[0].highlightedValue != null">
       <app-trends class="trend-container" [data]="data"></app-trends>
-    </div>
+    </div> -->
     <!-- end trends on right hand side-->
 
     <div *ngIf="data.type == 'donutWithLabel'">

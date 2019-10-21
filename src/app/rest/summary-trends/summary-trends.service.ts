@@ -14,10 +14,10 @@ export class SummaryTrendsService {
   constructor(private http: HttpClient) {}
 
   public summaryTrendsData(params) {
-    const metric = params.metricName;
-    const searchDate = params.searchDate;
-    const URL = this.APP_URL + this.ADMIN_SUMMARY_TRENDS + '?metricName=' + metric + '&searchDate=' + searchDate;
-    return this.http.get(URL).pipe(
+    // const metric = params.metricName;
+    // const searchDate = params.searchDate;
+    const URL = this.APP_URL + this.ADMIN_SUMMARY_TRENDS;
+    return this.http.post(URL, params).pipe(
       map(res => JSON.parse(JSON.stringify(res))),
       catchError(err => of(JSON.parse(JSON.stringify(err))))
     );

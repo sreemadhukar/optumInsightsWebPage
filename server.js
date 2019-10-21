@@ -7,7 +7,6 @@ var jwt = require('jsonwebtoken');
 var cors = require('cors');
 var compression = require('compression');
 var helmet = require('helmet');
-const puppeteer = require('puppeteer');
 
 var port = process.env.PORT || 8000;
 console.log(`Worker ${process.pid} started...`);
@@ -17,10 +16,11 @@ app.use(helmet());
 app.use(express.static(path.join(__dirname, '.')));
 
 var apiProxy = httpProxy.createProxyServer();
-var apiForwardingUrl = 'https://gateway-stage-core.optum.com';
+var apiForwardingUrl = 'https://pedapigateway-pedprddr.ocp-ctc-dmz.optum.com';
 var sessionSecret = 'STwHkLYUwN1L5rc3yqdkuthRvczrBupc';
 var key = 'Q9gRpXWjVm5GXethNxG60utGMGW7NpsO';
 var heac = require('./src/assets/mock-data/heac.json');
+var trendAccess = require('./src/assets/mock-data/trendAccess.json');
 
 app.all('/uhci/prd/*', function(req, res) {
   apiProxy.web(req, res, { target: apiForwardingUrl, changeOrigin: true, secure: false }, function(e) {
@@ -31,17 +31,6 @@ app.all('/uhci/prd/*', function(req, res) {
 app.use((error, req, res, next) => {
   handleExceptions(error, res);
 });
-
-var whitelist = ['*.optum.com', '*.uhc.com'];
-var corsOptions = {
-  origin: function(origin, callback) {
-    if (whitelist.indexOf(origin) !== -1) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  }
-};
 
 app.get('/api/getJwt', cors(), function(req, res) {
   let token = jwt.sign(
@@ -56,37 +45,15 @@ app.get('/api/getJwt', cors(), function(req, res) {
   });
 });
 
-function printPDF() {
- console.log('Started');
-  const browser = puppeteer.launch({
-  executablePath: process.env.CHROMIUM_PATH,
-  headless: true,
-  args: ['--no-sandbox'], // This was important. Can't remember why
-  });
-  console.log('browser started', browser);
-  const page = browser.newPage();
-  console.log('page start', page);
-  page.goto('https://blog.risingstack.com', { waitUntil: 'networkidle0' });
-  const pdf = page.pdf({ format: 'A4' });
-  console.log('page pdf', pdf);
-
-  browser.close();
-  return pdf;
-}
-
-app.get('/api/generatePdf', cors(), function(req, res) {
-  console.log('call started');
-  console.log(printPDF());
-  printPDF().then(pdf => {
-    console.log(pdf);
-    res.set({ 'Content-Type': 'application/pdf', 'Content-Length': pdf.length });
-    res.send(pdf);
-  });
-});
-
 app.get('/api/getHeac/:MsId', cors(), function(req, res) {
   res.status(200).json({
     heac: include(heac.user, req.params.MsId)
+  });
+});
+
+app.get('/api/getTrendAccess/:MsId', cors(), function(req, res) {
+  res.status(200).json({
+    trendAccess: include(trendAccess.user, req.params.MsId)
   });
 });
 

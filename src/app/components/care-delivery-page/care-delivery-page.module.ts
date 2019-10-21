@@ -13,4 +13,8 @@ import { HeadMaterialModule } from 'src/app/head/head.material.module';
   providers: [PriorAuthSharedService, PcorSharedService],
   declarations: [PriorAuthComponent, PatientCareOpportunityComponent]
 })
-export class CareDeliveryPageModule {}
+export class CareDeliveryPageModule {
+  constructor() {
+    console.log('CareDelivery Loaded');
+  }
+}

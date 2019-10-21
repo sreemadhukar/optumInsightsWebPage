@@ -131,7 +131,7 @@ export class GettingReimbursedComponent implements OnInit {
       this.taxID = [];
     }
     this.loading = true;
-    this.mockCards = [{}, {}];
+    this.mockCards = [{}];
 
     this.gettingReimbursedSharedService
       .getGettingReimbursedData()
