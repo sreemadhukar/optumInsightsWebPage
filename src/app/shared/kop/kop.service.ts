@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { KopService } from 'src/app/rest/kop/kop.service';
 import { NPSSummary } from './kop.class.nps';
 import { CareDelivery } from './kop.class.caredelivery';
+import { NetworkParticipation } from './kop.class.networkparticipation';
 import { TimePeriod } from './kop.class.timeperiod';
 
 @Injectable({
@@ -62,7 +63,10 @@ export class KOPSharedService {
       const careDeliveryInstance = new CareDelivery({ records: response });
       const careDelivery = careDeliveryInstance.getData();
 
-      return callback({ npsSummary, timePeriod, careDelivery });
+      const networkParticipationInstance = new NetworkParticipation({ records: response });
+      const networkParticipation = networkParticipationInstance.getData();
+
+      return callback({ npsSummary, timePeriod, careDelivery, networkParticipation });
     });
   }
 
