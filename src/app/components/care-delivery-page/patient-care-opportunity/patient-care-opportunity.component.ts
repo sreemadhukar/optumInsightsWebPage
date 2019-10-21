@@ -46,7 +46,7 @@ export class PatientCareOpportunityComponent implements OnInit {
   }
   ngOnInit() {
     this.pageTitle = 'Patient Care Opportunity–Medicare & Retirement';
-    this.pageSubTitle = 'Source:  Health System Summary';
+    this.pageSubTitle = 'Health System Summary';
     this.loading = true;
     this.hideAllObjects = true;
     this.mockCards = [{}, {}];
