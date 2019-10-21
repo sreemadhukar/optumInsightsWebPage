@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, ErrorHandler } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -24,6 +24,7 @@ import { IdleTimeoutDialogComponent } from './auth/idle-timeout-dialog/idle-time
 import { NgReduxModule, NgRedux } from '@angular-redux/store';
 import { FilterReducer, INITIAL_STATE } from './store/filter/reducer';
 import { IAppState } from './store/store';
+import { RavenErrorHandler } from './components/error-handler/error-handler';
 
 @NgModule({
   declarations: [AppComponent],
@@ -52,7 +53,8 @@ import { IAppState } from './store/store';
     KopService,
     KOPSharedService,
     { provide: HTTP_INTERCEPTORS, useClass: HttpInterceptorService, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: CacheInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: CacheInterceptor, multi: true },
+    { provide: ErrorHandler, useClass: RavenErrorHandler }
   ],
   entryComponents: [IdleTimeoutDialogComponent],
   bootstrap: [AppComponent]

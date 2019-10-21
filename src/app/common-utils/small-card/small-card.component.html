@@ -3,6 +3,7 @@
     <app-common-header
       [cardType]="'smallCard'"
       [title]="data.title"
+      [subtitle]="data.subtitle"
       [options]="options"
       (helpIconClicked)="helpIconClick($event)"
     ></app-common-header>
@@ -91,9 +92,9 @@
       </div>
     </div>
 
-    <div *ngIf="data.type === 'nps' && data.cards[0].highlightedValue != null">
+    <!-- <div *ngIf="data.type === 'nps' && data.cards[0].highlightedValue != null">
       <app-trends class="trend-container" [data]="data"></app-trends>
-    </div>
+    </div> -->
     <!-- end trends on right hand side-->
 
     <div *ngIf="data.type == 'donutWithLabel'">

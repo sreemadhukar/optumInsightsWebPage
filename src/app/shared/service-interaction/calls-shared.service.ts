@@ -148,12 +148,19 @@ export class CallsSharedService {
             const totalCalls = (providerSystems || {}).CallVolByQuesType;
             if (totalCalls) {
               try {
+                const callsCounts = [
+                  totalCalls.BenefitsEligibility,
+                  totalCalls.Claims,
+                  totalCalls.PriorAuth,
+                  totalCalls.Others
+                ];
+                const callsLabels = ['Eligibility and Benefits', 'Claims', 'Prior Authorizations', 'Others'];
                 callsByCallType = this.issueResolution(
                   null,
                   'Calls By Call Type',
                   '303',
                   {
-                    graphValueName: ['Eligibilty and Benefits', 'Claims', 'Prior Authorizations', 'Others'],
+                    graphValueName: ['Eligibility and Benefits', 'Claims', 'Prior Authorizations', 'Others'],
                     graphValues: [
                       totalCalls.BenefitsEligibility,
                       totalCalls.Claims,
@@ -166,14 +173,14 @@ export class CallsSharedService {
                         : this.common.nondecimalFormatter(totalCalls.Total),
                     color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'],
                     gdata: ['card-inner', 'callsByCallType'],
-                    labels: ['Eligibilty and Benefits', 'Claims', 'Prior Authorizations', 'Others'],
+                    labels: ['Eligibility and Benefits', 'Claims', 'Prior Authorizations', 'Others'],
                     hover: true
                     // sdata: this.sdataTrend[0]
                   },
                   this.toggle.setToggles('Calls by Call Type', 'Calls', 'Service Interaction', false),
                   {
-                    labels: ['Eligibilty and Benefits', 'Claims', 'Prior Authorizations', 'Others'],
-                    color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC']
+                    labels: this.common.sideLabelWords(callsCounts, callsLabels),
+                    color: this.common.sideLabelColor(callsCounts)
                   },
                   this.timeFrame
                 );
@@ -188,12 +195,19 @@ export class CallsSharedService {
             const totalTalkTime = (providerSystems || {}).CallTalkTimeByQuesType;
             if (totalTalkTime) {
               try {
+                const talkTimeCounts = [
+                  totalTalkTime.BenefitsEligibility,
+                  totalTalkTime.Claims,
+                  totalTalkTime.PriorAuth,
+                  totalTalkTime.Others
+                ];
+                const talkTimeLabels = ['Eligibility and Benefits', 'Claims', 'Prior Authorizations', 'Others'];
                 talkTimeByCallType = this.issueResolution(
                   null,
                   'Talk Time By Call Type',
                   '304',
                   {
-                    graphValueName: ['Eligibilty and Benefits', 'Claims', 'Prior Authorizations', 'Others'],
+                    graphValueName: ['Eligibility and Benefits', 'Claims', 'Prior Authorizations', 'Others'],
                     graphValues: [
                       totalTalkTime.BenefitsEligibility,
                       totalTalkTime.Claims,
@@ -206,14 +220,14 @@ export class CallsSharedService {
                         : this.common.nondecimalFormatter(totalTalkTime.Total) + ' Hrs',
                     color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'],
                     gdata: ['card-inner', 'talkTimeByCallType'],
-                    labels: ['Eligibilty and Benefits', 'Claims', 'Prior Authorizations', 'Others'],
+                    labels: ['Eligibility and Benefits', 'Claims', 'Prior Authorizations', 'Others'],
                     hover: true
                     // sdata: this.sdataTrend[1]
                   },
                   this.toggle.setToggles('Talk Time By Call Type', 'Calls', 'Service Interaction', false),
                   {
-                    labels: ['Eligibilty and Benefits', 'Claims', 'Prior Authorizations', 'Others'],
-                    color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC']
+                    labels: this.common.sideLabelWords(talkTimeCounts, talkTimeLabels),
+                    color: this.common.sideLabelColor(talkTimeCounts)
                   },
                   this.timeFrame
                 );

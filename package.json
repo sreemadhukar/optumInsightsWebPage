@@ -52,6 +52,7 @@
     "path": "^0.12.7",
     "redux": "4.0.1",
     "redux-devtools-extension": "^2.13.8",
+    "raven-js": "3.22.2",
     "rxjs": "~6.2.0",
     "serve": "^11.1.0",
     "web-animations-js": "^2.3.2",

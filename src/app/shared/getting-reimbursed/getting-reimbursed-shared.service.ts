@@ -807,9 +807,13 @@ export class GettingReimbursedSharedService {
     let claimsPaid: object;
     let claimsPaidRate: object;
     const summaryData: Array<object> = [];
+    if (parameters[1].hasOwnProperty('Lob')) {
+      delete parameters[1].Lob;
+    }
     return new Promise(resolve => {
       this.gettingReimbursedService.getGettingReimbursedData(...parameters).subscribe(
         ([claimsData, appealsData]) => {
+          console.log(claimsData);
           const lobFullData = this.common.matchFullLobWithData(this.lob);
           const lobData = this.common.matchLobWithData(this.lob);
           if (claimsData != null && claimsData.hasOwnProperty('status')) {
@@ -1026,7 +1030,8 @@ export class GettingReimbursedSharedService {
                 if (
                   claimsData.Mr.hasOwnProperty('ClaimsLobSummary') &&
                   claimsData.Mr.ClaimsLobSummary.length &&
-                  claimsData.Mr.ClaimsLobSummary[0].hasOwnProperty('AmountPaid')
+                  claimsData.Mr.ClaimsLobSummary[0].hasOwnProperty('AmountPaid') &&
+                  (lobData === 'All' || lobData === 'Mr')
                 ) {
                   paidData.push(claimsData.Mr.ClaimsLobSummary[0].AmountPaid);
                 }
@@ -1035,7 +1040,8 @@ export class GettingReimbursedSharedService {
                 if (
                   claimsData.Cs.hasOwnProperty('ClaimsLobSummary') &&
                   claimsData.Cs.ClaimsLobSummary.length &&
-                  claimsData.Cs.ClaimsLobSummary[0].hasOwnProperty('AmountPaid')
+                  claimsData.Cs.ClaimsLobSummary[0].hasOwnProperty('AmountPaid') &&
+                  (lobData === 'All' || lobData === 'Cs')
                 ) {
                   paidData.push(claimsData.Cs.ClaimsLobSummary[0].AmountPaid);
                 }
@@ -1044,7 +1050,8 @@ export class GettingReimbursedSharedService {
                 if (
                   claimsData.Ei.hasOwnProperty('ClaimsLobSummary') &&
                   claimsData.Ei.ClaimsLobSummary.length &&
-                  claimsData.Ei.ClaimsLobSummary[0].hasOwnProperty('AmountPaid')
+                  claimsData.Ei.ClaimsLobSummary[0].hasOwnProperty('AmountPaid') &&
+                  (lobData === 'All' || lobData === 'Ei')
                 ) {
                   paidData.push(claimsData.Ei.ClaimsLobSummary[0].AmountPaid);
                 }
@@ -1053,7 +1060,8 @@ export class GettingReimbursedSharedService {
                 if (
                   claimsData.Un.hasOwnProperty('ClaimsLobSummary') &&
                   claimsData.Un.ClaimsLobSummary.length &&
-                  claimsData.Un.ClaimsLobSummary[0].hasOwnProperty('AmountPaid')
+                  claimsData.Un.ClaimsLobSummary[0].hasOwnProperty('AmountPaid') &&
+                  (lobData === 'All' || lobData === 'Un')
                 ) {
                   paidData.push(claimsData.Un.ClaimsLobSummary[0].AmountPaid);
                 }
@@ -1141,42 +1149,57 @@ export class GettingReimbursedSharedService {
               claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('AmountPaid')
             ) {
               const paidData = [];
+              const paidDataLOBBoolean = [false, false, false, false];
               if (claimsData.hasOwnProperty('Mr') && claimsData.Mr != null) {
                 if (
                   claimsData.Mr.hasOwnProperty('ClaimsLobSummary') &&
                   claimsData.Mr.ClaimsLobSummary.length &&
-                  claimsData.Mr.ClaimsLobSummary[0].hasOwnProperty('AmountPaid')
+                  claimsData.Mr.ClaimsLobSummary[0].hasOwnProperty('AmountPaid') &&
+                  (lobData === 'All' || lobData === 'Mr')
                 ) {
                   paidData.push(claimsData.Mr.ClaimsLobSummary[0].AmountPaid);
+                  paidDataLOBBoolean[0] = true;
                 }
               }
               if (claimsData.hasOwnProperty('Cs') && claimsData.Cs != null) {
                 if (
                   claimsData.Cs.hasOwnProperty('ClaimsLobSummary') &&
                   claimsData.Cs.ClaimsLobSummary.length &&
-                  claimsData.Cs.ClaimsLobSummary[0].hasOwnProperty('AmountPaid')
+                  claimsData.Cs.ClaimsLobSummary[0].hasOwnProperty('AmountPaid') &&
+                  (lobData === 'All' || lobData === 'Cs')
                 ) {
                   paidData.push(claimsData.Cs.ClaimsLobSummary[0].AmountPaid);
+                  paidDataLOBBoolean[1] = true;
                 }
               }
               if (claimsData.hasOwnProperty('Ei') && claimsData.Ei != null) {
                 if (
                   claimsData.Ei.hasOwnProperty('ClaimsLobSummary') &&
                   claimsData.Ei.ClaimsLobSummary.length &&
-                  claimsData.Ei.ClaimsLobSummary[0].hasOwnProperty('AmountPaid')
+                  claimsData.Ei.ClaimsLobSummary[0].hasOwnProperty('AmountPaid') &&
+                  (lobData === 'All' || lobData === 'Ei')
                 ) {
                   paidData.push(claimsData.Ei.ClaimsLobSummary[0].AmountPaid);
+                  paidDataLOBBoolean[2] = true;
                 }
               }
               if (claimsData.hasOwnProperty('Un') && claimsData.Un != null) {
                 if (
                   claimsData.Un.hasOwnProperty('ClaimsLobSummary') &&
                   claimsData.Un.ClaimsLobSummary.length &&
-                  claimsData.Un.ClaimsLobSummary[0].hasOwnProperty('AmountPaid')
+                  claimsData.Un.ClaimsLobSummary[0].hasOwnProperty('AmountPaid') &&
+                  (lobData === 'All' || lobData === 'Un')
                 ) {
                   paidData.push(claimsData.Un.ClaimsLobSummary[0].AmountPaid);
+                  paidDataLOBBoolean[3] = true;
                 }
               }
+              if (lobData !== 'All') {
+                paidData.push(
+                  claimsData.All.ClaimsLobSummary[0].AmountPaid - claimsData[lobData].ClaimsLobSummary[0].AmountPaid
+                );
+              }
+              // this is whats getting changed
               claimsPaid = {
                 category: 'app-card',
                 type: 'donutWithLabel',
@@ -1200,8 +1223,8 @@ export class GettingReimbursedSharedService {
                   hover: true
                 },
                 besideData: {
-                  labels: ['Medicare & Retirement', 'Community & State', 'Employer & Individual', 'Uncategorized'],
-                  color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC']
+                  labels: this.common.LOBSideLabels(lobData, paidDataLOBBoolean),
+                  color: this.common.LOBSideLabelColors(lobData, paidDataLOBBoolean)
                 },
                 timeperiod: this.timeFrame
               };
@@ -1226,41 +1249,55 @@ export class GettingReimbursedSharedService {
               claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('AmountDenied')
             ) {
               const notPaidData = [];
+              const notPaidLOBBoolean = [false, false, false, false];
               if (claimsData.hasOwnProperty('Mr') && claimsData.Mr != null) {
                 if (
                   claimsData.Mr.hasOwnProperty('ClaimsLobSummary') &&
                   claimsData.Mr.ClaimsLobSummary.length &&
-                  claimsData.Mr.ClaimsLobSummary[0].hasOwnProperty('AmountDenied')
+                  claimsData.Mr.ClaimsLobSummary[0].hasOwnProperty('AmountDenied') &&
+                  (lobData === 'All' || lobData === 'Mr')
                 ) {
                   notPaidData.push(claimsData.Mr.ClaimsLobSummary[0].AmountDenied);
+                  notPaidLOBBoolean[0] = true;
                 }
               }
               if (claimsData.hasOwnProperty('Cs') && claimsData.Cs != null) {
                 if (
                   claimsData.Cs.hasOwnProperty('ClaimsLobSummary') &&
                   claimsData.Cs.ClaimsLobSummary.length &&
-                  claimsData.Cs.ClaimsLobSummary[0].hasOwnProperty('AmountDenied')
+                  claimsData.Cs.ClaimsLobSummary[0].hasOwnProperty('AmountDenied') &&
+                  (lobData === 'All' || lobData === 'Cs')
                 ) {
                   notPaidData.push(claimsData.Cs.ClaimsLobSummary[0].AmountDenied);
+                  notPaidLOBBoolean[1] = true;
                 }
               }
               if (claimsData.hasOwnProperty('Ei') && claimsData.Ei != null) {
                 if (
                   claimsData.Ei.hasOwnProperty('ClaimsLobSummary') &&
                   claimsData.Ei.ClaimsLobSummary.length &&
-                  claimsData.Ei.ClaimsLobSummary[0].hasOwnProperty('AmountDenied')
+                  claimsData.Ei.ClaimsLobSummary[0].hasOwnProperty('AmountDenied') &&
+                  (lobData === 'All' || lobData === 'Ei')
                 ) {
                   notPaidData.push(claimsData.Ei.ClaimsLobSummary[0].AmountDenied);
+                  notPaidLOBBoolean[2] = true;
                 }
               }
               if (claimsData.hasOwnProperty('Un') && claimsData.Un != null) {
                 if (
                   claimsData.Un.hasOwnProperty('ClaimsLobSummary') &&
                   claimsData.Un.ClaimsLobSummary.length &&
-                  claimsData.Un.ClaimsLobSummary[0].hasOwnProperty('AmountDenied')
+                  claimsData.Un.ClaimsLobSummary[0].hasOwnProperty('AmountDenied') &&
+                  (lobData === 'All' || lobData === 'Un')
                 ) {
                   notPaidData.push(claimsData.Un.ClaimsLobSummary[0].AmountDenied);
+                  notPaidLOBBoolean[3] = true;
                 }
+              }
+              if (lobData !== 'All') {
+                notPaidData.push(
+                  claimsData.All.ClaimsLobSummary[0].AmountDenied - claimsData[lobData].ClaimsLobSummary[0].AmountDenied
+                );
               }
               claimsNotPaid = {
                 category: 'app-card',
@@ -1285,8 +1322,8 @@ export class GettingReimbursedSharedService {
                   hover: true
                 },
                 besideData: {
-                  labels: ['Medicare & Retirement', 'Community & State', 'Employer & Individual', 'Uncategorized'],
-                  color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC']
+                  labels: this.common.LOBSideLabels(lobData, notPaidLOBBoolean),
+                  color: this.common.LOBSideLabelColors(lobData, notPaidLOBBoolean)
                 },
                 timeperiod: this.timeFrame
               };
@@ -1993,7 +2030,8 @@ export class GettingReimbursedSharedService {
         const colorsData = [];
         if (
           appealsData[0].LineOfBusiness.hasOwnProperty('MedicareAndRetirement') &&
-          appealsData[0].LineOfBusiness.MedicareAndRetirement != null
+          appealsData[0].LineOfBusiness.MedicareAndRetirement != null &&
+          (lobFullData === 'ALL' || lobFullData === 'MedicareAndRetirement')
         ) {
           let sum = 0;
           if (
@@ -2014,7 +2052,8 @@ export class GettingReimbursedSharedService {
         }
         if (
           appealsData[0].LineOfBusiness.hasOwnProperty('CommunityAndState') &&
-          appealsData[0].LineOfBusiness.CommunityAndState != null
+          appealsData[0].LineOfBusiness.CommunityAndState != null &&
+          (lobFullData === 'ALL' || lobFullData === 'CommunityAndState')
         ) {
           let sum = 0;
           if (
@@ -2035,7 +2074,8 @@ export class GettingReimbursedSharedService {
         }
         if (
           appealsData[0].LineOfBusiness.hasOwnProperty('EmployerAndIndividual') &&
-          appealsData[0].LineOfBusiness.EmployerAndIndividual != null
+          appealsData[0].LineOfBusiness.EmployerAndIndividual != null &&
+          (lobFullData === 'ALL' || lobFullData === 'EmployerAndIndividual')
         ) {
           let sum = 0;
           if (
@@ -2055,7 +2095,11 @@ export class GettingReimbursedSharedService {
           colorsData.push('#003DA1');
         }
 
-        if (appealsData[0].LineOfBusiness.hasOwnProperty('Uncategorized')) {
+        if (
+          appealsData[0].LineOfBusiness.hasOwnProperty('Uncategorized') &&
+          appealsData[0].LineOfBusiness.Uncategorized != null &&
+          (lobFullData === 'ALL' || lobFullData === 'Uncategorized')
+        ) {
           let sum = 0;
           if (
             appealsData[0].LineOfBusiness.Uncategorized.hasOwnProperty('AdminAppeals') &&
@@ -2072,6 +2116,41 @@ export class GettingReimbursedSharedService {
           submittedData.push(sum);
           labelsData.push('Uncategorized');
           colorsData.push('#00B8CC');
+        }
+        if (lobFullData !== 'ALL') {
+          let sum = 0;
+          if (
+            appealsData[0].LineOfBusiness.ALL.hasOwnProperty('AdminAppeals') &&
+            appealsData[0].LineOfBusiness.ALL.AdminAppeals != null &&
+            appealsData[0].LineOfBusiness[lobFullData].hasOwnProperty('AdminAppeals') &&
+            appealsData[0].LineOfBusiness[lobFullData].AdminAppeals != null
+          ) {
+            sum +=
+              appealsData[0].LineOfBusiness.ALL.AdminAppeals - appealsData[0].LineOfBusiness[lobFullData].AdminAppeals;
+          }
+          if (
+            appealsData[0].LineOfBusiness.ALL.hasOwnProperty('ClinicalAppeals') &&
+            appealsData[0].LineOfBusiness.ALL.ClinicalAppeals != null &&
+            appealsData[0].LineOfBusiness[lobFullData].hasOwnProperty('ClinicalAppeals') &&
+            appealsData[0].LineOfBusiness[lobFullData].ClinicalAppeals != null
+          ) {
+            sum +=
+              appealsData[0].LineOfBusiness.ALL.ClinicalAppeals -
+              appealsData[0].LineOfBusiness[lobFullData].ClinicalAppeals;
+          }
+          submittedData.push(sum);
+          labelsData.push('Other Lines of Business');
+          colorsData.push('#D7DCE1');
+        }
+        const sideData = [];
+        if (lobFullData !== 'ALL') {
+          const labelsDataNew = labelsData.slice(0, -1);
+          const colorsDataNew = colorsData.slice(0, -1);
+          sideData[0] = labelsDataNew;
+          sideData[1] = colorsDataNew;
+        } else {
+          sideData[0] = labelsData;
+          sideData[1] = colorsData;
         }
         appealsSubmitted = {
           category: 'app-card',
@@ -2097,8 +2176,8 @@ export class GettingReimbursedSharedService {
             hover: true
           },
           besideData: {
-            labels: ['Medicare & Retirement', 'Community & State', 'Employer & Individual', 'Uncategorized'],
-            color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC']
+            labels: sideData[0],
+            color: sideData[1]
           },
           bottomData: {
             horizontalData: [

@@ -18,7 +18,7 @@ export const environment: any = {
   // *In Local use dev3
   // apiProxyUrl: 'https://nginx-pedtst.ocp-ctc-core-nonprod.optum.com/',
   // originUrl: 'https://pedintui-pedstg.ocp-ctc-dmz-stg.optum.com/',
-  apiProxyUrl: 'https://gateway-stage-core.optum.com/api/int/pdr/uhci/v1/',
+  apiProxyUrl: 'https://gateway-stage-core.optum.com/api/devthree/pdr/uhci/v1/',
   originUrl: 'https://pedui2-peddev.ocp-ctc-core-nonprod.optum.com/',
   apiUrls: {
     ExecutiveSummaryPath: 'providersystems/',
@@ -73,5 +73,6 @@ export const environment: any = {
   errorMessage: 'empty',
   clickStreamUrl: '//assets.adobedtm.com/launch-ENacdc6d1acf734bcd95703e446bd1de1d-development.min.js',
   internalAccess: true,
-  toggleTrendingSummary: false
+  toggleTrendingSummary: false,
+  sentryKey: 'https://238b4f0a54d44e6186fb9eeab3bb0f20@sentry-ped-internal.ocp-ctc-core.optum.com/2'
 };
