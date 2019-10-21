@@ -114,8 +114,7 @@ export class GettingReimbursedComponent implements OnInit {
     //    event.target.classList.add('active');
   }
   ngOnInit() {
-    this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'Getting Reimbursed' });
-    console.log(this.currentPage);
+    this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'gettingReimbursed' });
     if (
       this.session.filterObjValue.timeFrame === 'Last 12 Months' ||
       this.session.filterObjValue.timeFrame === '2017' ||

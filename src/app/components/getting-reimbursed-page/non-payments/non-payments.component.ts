@@ -21,6 +21,9 @@ import { FilterExpandService } from '../../../shared/filter-expand.service';
 import { CommonUtilsService } from '../../../shared/common-utils.service';
 import { GlossaryMetricidService } from '../../../shared/glossary-metricid.service';
 import { NonPaymentSharedService } from '../../../shared/getting-reimbursed/non-payments/non-payment-shared.service';
+import { NgRedux } from '@angular-redux/store';
+import { CURRENT_PAGE } from '../../../store/filter/actions';
+import { IAppState } from '../../../store/store';
 
 @Component({
   selector: 'app-non-payments',
@@ -204,7 +207,8 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
     private session: SessionService,
     private router: Router,
     private filtermatch: CommonUtilsService,
-    private nonPaymentService: NonPaymentSharedService
+    private nonPaymentService: NonPaymentSharedService,
+    private ngRedux: NgRedux<IAppState>
   ) {
     const filData = this.session.getFilChangeEmitter().subscribe(() => this.filtermatch.urlResuseStrategy());
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.filtermatch.urlResuseStrategy());
@@ -238,6 +242,7 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
   }
 
   ngOnInit() {
+    this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'nonPaymentsPage' });
     this.nonPaymentData1 = [];
     this.loadingTopReasons = true;
     if (

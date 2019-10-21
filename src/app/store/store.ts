@@ -1,10 +1,13 @@
-import { LobOptions } from '../head/uhci-filters/filter-settings/lob-options';
+import { TaxId } from '../head/uhci-filters/filter-settings/filter-options';
 
 export class IAppState {
   currentPage: string;
   timePeriod: string;
-  taxId: LobOptions[];
+  taxId: TaxId[];
   lineOfBusiness: string;
   serviceSetting: string;
   serviceCategory: string;
+  priorAuthType: string;
+  trendMetric: string;
+  trendDate: Date;
 }

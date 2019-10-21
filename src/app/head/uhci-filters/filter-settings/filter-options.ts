@@ -1,29 +1,3 @@
-import { LobOptions } from './lob-options';
-
-export class FilterOptions {
-  public timePeriod: 'last30Days' | 'Last3Months';
-  public taxId: LobOptions[] | null;
-  public lineOfBusiness: 'CS' | 'All';
-  public serviceSetting: string;
-
-  constructor() {}
-
-  getDefaultFilter() {
-    this.timePeriod = 'Last3Months';
-    this.taxId = null;
-    this.lineOfBusiness = 'All';
-    this.serviceSetting = null;
-    return {
-      timePeriod: this.timePeriod,
-      taxId: this.taxId,
-      lineOfBusiness: this.lineOfBusiness,
-      serviceSetting: this.serviceSetting
-    };
-  }
-
-  setFilter() {}
-}
-
 export const TimePeriod = [
   { name: 'Last30Days', value: 'Last 30 Days' },
   { name: 'Last3Months', value: 'Last 3 Months' },
@@ -49,56 +23,75 @@ export const ServiceSetting = [
   { name: 'MR', value: 'Outpatient Facility', disable: false }
 ];
 
-// export const ServiceCategory = [
-//   {name:'All', value: "All"
-//   'Medical',
-//   'Surgical',
-//   'Maternity',
-//   'Transplant',
-//   'Cosmetic / Reconstructive',
-//   'Mental Health',
-//   'Ambulance Air/Water',
-//   'Chiropractic',
-//   'Dental',
-//   'Diagnostic Testing',
-//   'Durable Medical Equipment',
-//   'Hospice',
-//   'Imaging',
-//   'Infertility Benefit Interpretation',
-//   'Infusion Services',
-//   'Lab',
-//   'Long Term Care',
-//   'Medications',
-//   'NICU',
-//   'Occupational Therapy',
-//   'Orthotics',
-//   'Pain Management',
-//   'Pharmacy',
-//   'Physical Therapy',
-//   'Podiatry',
-//   'Private Duty Nursing',
-//   'Prosthetics',
-//   'Rehabilitation',
-//   'Respiratory Therapy',
-//   'Skilled Nursing',
-//   'Speech Therapy',
-//   'Substance Use Disorder',
-//   'Supplies',
-//   'Therapy Services',
-//   'Transport',
-//   'Unproven, Experimental, Investigational',
-//   'Transplant Services',
-//   'Vision',
-//   'Well Baby (eNtf Only)',
-//   'Home Services',
-//   'Long Term Acute Care',
-//   'Intensive Service Delivery',
-//   'Cardiac Rehabilitation',
-//   'Dialysis',
-//   'PAT Skilled Nursing',
-//   'Home and Community Based Services',
-//   'Ambulatory Surgical Center',
-//   'Facility Based Service',
-//   'Custodial',
-//   'Weight Management'
-// ];
+export const ServiceCategory = [
+  { name: 'All', value: 'All' },
+  { name: 'Medical', value: 'Medical' },
+  { name: 'Surgical', value: 'Surgical' },
+  { name: 'Maternity', value: 'Maternity' },
+  { name: 'Transplant', value: 'Transplant' },
+  { name: 'Cosmetic', value: 'Cosmetic / Reconstructive' },
+  { name: 'MentalHealth', value: 'Mental Health' },
+  { name: 'AmbulanceAir', value: 'Ambulance Air/Water' },
+  { name: 'Chiropractic', value: 'Chiropractic' },
+  { name: 'Dental', value: 'Dental' },
+  { name: 'DiagnosticTesting', value: 'Diagnostic Testing' },
+  { name: 'MedicalEquipment', value: 'Durable Medical Equipment' },
+  { name: 'Hospice', value: 'Hospice' },
+  { name: 'Imaging', value: 'Imaging' },
+  { name: 'Infertility', value: 'Infertility Benefit Interpretation' },
+  { name: 'InfusionServices', value: 'Infusion Services' },
+  { name: 'Lab', value: 'Lab' },
+  { name: 'LongTermCare', value: 'Long Term Care' },
+  { name: 'Medications', value: 'Medications' },
+  { name: 'NICU', value: 'NICU' },
+  { name: 'OccupationalTherapy', value: 'Occupational Therapy' },
+  { name: 'Orthotics', value: 'Orthotics' },
+  { name: 'PainManagement', value: 'Pain Management' },
+  { name: 'Pharmacy', value: 'Pharmacy' },
+  { name: 'PhysicalTherapy', value: 'Physical Therapy' },
+  { name: 'Podiatry', value: 'Podiatry' },
+  { name: 'PrivateDutyNursing', value: 'Private Duty Nursing' },
+  { name: 'Prosthetics', value: 'Prosthetics' },
+  { name: 'Rehabilitation', value: 'Rehabilitation' },
+  { name: 'RespiratoryTherapy', value: 'Respiratory Therapy' },
+  { name: 'SkilledNursing', value: 'Skilled Nursing' },
+  { name: 'SpeechTherapy', value: 'Speech Therapy' },
+  { name: 'SubUseDisorder', value: 'Substance Use Disorder' },
+  { name: 'Supplies', value: 'Supplies' },
+  { name: 'TherapyServices', value: 'Therapy Services' },
+  { name: 'Transport', value: 'Transport' },
+  { name: 'UnprovenExpInvst', value: 'Unproven, Experimental, Investigational' },
+  { name: 'TransplantServices', value: 'Transplant Services' },
+  { name: 'Vision', value: 'Vision' },
+  { name: 'WellBaby', value: 'Well Baby (eNtf Only)' },
+  { name: 'HomeServices', value: 'Home Services' },
+  { name: 'AcuteCare', value: 'Long Term Acute Care' },
+  { name: 'ServiceDelivery', value: 'Intensive Service Delivery' },
+  { name: 'CardiacRehabilitation', value: 'Cardiac Rehabilitation' },
+  { name: 'Dialysis', value: 'Dialysis' },
+  { name: 'PATNursing', value: 'PAT Skilled Nursing' },
+  { name: 'HomeCommunityServices', value: 'Home and Community Based Services' },
+  { name: 'AmbulatorySurgical', value: 'Ambulatory Surgical Center' },
+  { name: 'FacilityService', value: 'Facility Based Service' },
+  { name: 'Custodial', value: 'Custodial' },
+  { name: 'WeightManagement', value: 'Weight Management' }
+];
+
+export const PriorAuthDecisionType = [
+  { name: 'All', value: 'All' },
+  { name: 'Administrative', value: 'Administrative' },
+  { name: 'Clinical', value: 'Clinical' }
+];
+
+export const TrendMetrics = [
+  { name: 'GettingReimbursed', value: 'Getting Reimbursed' },
+  { name: 'Appeals', value: 'Appeals' },
+  { name: 'IssueResolution', value: 'Issue Resolution' },
+  { name: 'SelfService', value: 'Self Service' },
+  { name: 'PriorAuthorization', value: 'Prior Authorization' }
+];
+
+export interface TaxId {
+  Tin: string;
+  Tinname: string;
+}

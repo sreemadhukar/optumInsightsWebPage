@@ -8,6 +8,9 @@ import { Router } from '@angular/router';
 import { FilterExpandService } from '../../../shared/filter-expand.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { CommonUtilsService } from '../../../shared/common-utils.service';
+import { NgRedux } from '@angular-redux/store';
+import { CURRENT_PAGE } from '../../../store/filter/actions';
+import { IAppState } from '../../../store/store';
 
 @Component({
   selector: 'app-payments',
@@ -45,7 +48,8 @@ export class PaymentsComponent implements OnInit {
     private router: Router,
     sanitizer: DomSanitizer,
     private iconRegistry: MatIconRegistry,
-    private filtermatch: CommonUtilsService
+    private filtermatch: CommonUtilsService,
+    private ngRedux: NgRedux<IAppState>
   ) {
     const filData = this.session.getFilChangeEmitter().subscribe(() => this.filtermatch.urlResuseStrategy());
     this.pageTitle = 'Claims Payments*';
@@ -61,6 +65,7 @@ export class PaymentsComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'paymentsPage' });
     this.payments = [];
     if (
       this.session.filterObjValue.timeFrame === 'Last 12 Months' ||

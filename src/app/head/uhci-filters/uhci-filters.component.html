@@ -1,286 +1,324 @@
 <div class="filter">
+  <!-- Time Period -->
   <div class="line-top"></div>
-  <div class="titleData">
-    <div class="title">Time Period</div>
-    <div class="chevron">
-      <mat-icon
-        class="icon-display"
-        svgIcon="arrowdn"
-        (click)="
-          toggleTimePeriod = !toggleTimePeriod; toggleTaxId = false; toggleLob = false; toggleServiceSetting = false
-        "
-        [class.arrow-toggle]="toggleTimePeriod"
-      ></mat-icon>
+  <ng-container *ngIf="selectedPage !== 'summaryTrendsPage'; else summaryTrends">
+    <div class="titleData">
+      <div class="title">Time Period</div>
+      <div class="chevron">
+        <mat-icon
+          class="icon-display"
+          svgIcon="arrowdn"
+          (click)="
+            toggleTimePeriod = !toggleTimePeriod;
+            toggleTaxId = false;
+            toggleLob = false;
+            toggleServiceSetting = false;
+            toggleServiceCategory = false;
+            togglePriorAuthType = false
+          "
+          [class.arrow-toggle]="toggleTimePeriod"
+        ></mat-icon>
+      </div>
     </div>
-  </div>
-  <div class="lobgrp">
-    <div>
-      <label id="radio-group-label" class="label-data">{{ selectedTimePeriod.value }}</label>
+    <div class="lobgrp">
+      <div>
+        <label id="radio-group-label" class="label-data">{{ selectedTimePeriod.value }}</label>
+      </div>
+      <div *ngIf="toggleTimePeriod">
+        <div class="select-option-data">
+          <mat-radio-group class="radio-group" name="test" [(ngModel)]="selectedTimePeriod">
+            <mat-radio-button
+              class="radio-button"
+              *ngFor="let timeFrame of timeFrames; let i = index"
+              [value]="timeFrame"
+            >
+              {{ timeFrame.value }}
+            </mat-radio-button>
+          </mat-radio-group>
+        </div>
+      </div>
     </div>
-    <div *ngIf="toggleTimePeriod">
-      <div class="select-option-data">
-        <mat-radio-group class="radio-group" name="test" [(ngModel)]="selectedTimePeriod">
+    <!--<div class="line" *ngIf="filterurl !== '/AdminSummaryTrends'"></div>-->
+    <!--<div-->
+    <!--class="titleData"-->
+    <!--[ngClass]="{ titleDisable: filterurl === '/ServiceInteraction/Calls' }"-->
+    <!--*ngIf="filterurl !== '/AdminSummaryTrends'"-->
+    <!--&gt;-->
+
+    <!-- Tax ID -->
+    <div class="line"></div>
+    <div class="titleData">
+      <div class="title">Tax ID</div>
+      <div class="chevron">
+        <mat-icon
+          class="icon-display"
+          svgIcon="arrowdn"
+          (click)="
+            toggleTaxId = !toggleTaxId;
+            toggleTimePeriod = false;
+            toggleLob = false;
+            toggleServiceSetting = false;
+            toggleServiceCategory = false;
+            togglePriorAuthType = false
+          "
+          [class.arrow-toggle]="toggleTaxId"
+        ></mat-icon>
+      </div>
+    </div>
+    <!--<div class="lobgrp titleDisplay">-->
+    <!--Not Available-->
+    <!--</div>-->
+    <div class="lobgrp">
+      <div>
+        <label id="radio-group-label" class="label-data">
+          <span *ngIf="selectedTaxIds.length < 4">
+            <span *ngFor="let taxId of selectedTaxIds; let i = index"
+              >{{ i != 0 && i > 0 ? ' , ' : '' }}{{ taxId.Tin }}</span
+            >
+          </span>
+          <span *ngIf="selectedTaxIds.length >= 4">{{ selectedTaxIds.length }} Selected</span>
+        </label>
+      </div>
+      <div class="label-cls" *ngIf="tinsData && toggleTaxId">
+        <app-filters-multi-select [tinsData]="tinsData" (taxArray)="selectedTaxId($event)"></app-filters-multi-select>
+      </div>
+    </div>
+
+    <!--Line of Business-->
+    <div class="line"></div>
+    <div class="titleData">
+      <div class="title">Line of Business</div>
+      <div class="chevron">
+        <mat-icon
+          class="icon-display"
+          svgIcon="arrowdn"
+          (click)="
+            toggleLob = !toggleLob;
+            toggleTimePeriod = false;
+            toggleTaxId = false;
+            toggleServiceSetting = false;
+            toggleServiceCategory = false;
+            togglePriorAuthType = false
+          "
+          [class.arrow-toggle]="toggleLob"
+        ></mat-icon>
+      </div>
+    </div>
+    <!--<div class="lobgrp titleDisplay"-->
+    <!--*ngIf="filterurl === '/ServiceInteraction/Calls'"-->
+    <!--[ngClass]="{ titleDisable: filterurl === '/ServiceInteraction/Calls' }"-->
+    <!--&gt;-->
+    <!--Not Available-->
+    <!--</div>-->
+    <div class="lobgrp">
+      <div>
+        <label id="radio-group" class="label-data">{{ selectedLob.value }}</label>
+      </div>
+      <div class="select-option-data" *ngIf="toggleLob">
+        <mat-radio-group class="radio-group" [(ngModel)]="selectedLob">
           <mat-radio-button
             class="radio-button"
-            *ngFor="let timeFrame of timeFrames; let i = index"
-            [value]="timeFrame"
+            *ngFor="let lob of lobs"
+            [class.lob-disable]="lob.disable"
+            [value]="lob"
           >
-            {{ timeFrame.value }}
+            {{ lob.value }}
           </mat-radio-button>
         </mat-radio-group>
       </div>
     </div>
-  </div>
-  <!--<div class="line" *ngIf="filterurl !== '/AdminSummaryTrends'"></div>-->
-  <!--<div-->
-  <!--class="titleData"-->
-  <!--[ngClass]="{ titleDisable: filterurl === '/ServiceInteraction/Calls' }"-->
-  <!--*ngIf="filterurl !== '/AdminSummaryTrends'"-->
-  <!--&gt;-->
-  <div class="line"></div>
-  <div class="titleData">
-    <div class="title">Tax ID</div>
-    <div class="chevron">
-      <mat-icon
-        class="icon-display"
-        svgIcon="arrowdn"
-        (click)="toggleTaxId = !toggleTaxId; toggleTimePeriod = false; toggleLob = false; toggleServiceSetting = false"
-        [class.arrow-toggle]="toggleTaxId"
-      ></mat-icon>
-    </div>
-  </div>
-  <!--<div class="lobgrp titleDisplay">-->
-  <!--Not Available-->
-  <!--</div>-->
-  <!--<div class="lobgrp">-->
-  <!--<div *ngIf="taxArrayData.length == 0">-->
-  <!--<label id="radio-group-label" class="label-data">{{ taxData }}</label>-->
-  <!--</div>-->
-  <!--<div *ngIf="taxArrayData.length && taxArrayData.length < 4">-->
-  <!--<label id="radio-group-label" class="label-data">{{ taxData }}</label>-->
-  <!--</div>-->
-  <!--<div *ngIf="taxArrayData.length >= 4">-->
-  <!--<label id="radio-group-label" class="label-data">{{ taxArrayData.length }} Selected</label>-->
-  <!--</div>-->
-  <!--<div *ngIf="tarrowmark" class="label-cls">-->
-  <!--<div *ngIf="!inputDisplay">-->
-  <!--<mat-icon matPrefix class="nav-menu-icons input-search" svgIcon="search"></mat-icon>-->
-  <!--<input-->
-  <!--type="text"-->
-  <!--class="input-class"-->
-  <!--(input)="focusFunction($event.target.value)"-->
-  <!--[ngModel]="taxValue"-->
-  <!--placeholder="Search for a Tax ID"-->
-  <!--onfocus="this.placeholder=''"-->
-  <!--/>-->
-  <!--</div>-->
-  <!--<app-multi-select-->
-  <!--*ngIf="inputDisplay"-->
-  <!--[tinsData]="tinsData"-->
-  <!--[tinValue]="taxValue"-->
-  <!--[taxData]="taxData"-->
-  <!--(taxArray)="taxArrayFunction($event)"-->
-  <!--&gt;</app-multi-select>-->
-  <!--</div>-->
-  <!--</div>-->
-  <div class="line"></div>
 
-  <div class="titleData">
-    <div class="title">Line of Business</div>
-    <div class="chevron">
-      <mat-icon
-        class="icon-display"
-        svgIcon="arrowdn"
-        (click)="toggleLob = !toggleLob; toggleTimePeriod = false; toggleTaxId = false; toggleServiceSetting = false"
-        [class.arrow-toggle]="toggleLob"
-      ></mat-icon>
+    <!--Service Setting (Only Prior Auth)-->
+    <div class="line"></div>
+    <div class="titleData">
+      <div class="title">Service Setting</div>
+      <div class="chevron">
+        <mat-icon
+          class="icon-display"
+          svgIcon="arrowdn"
+          (click)="
+            toggleServiceSetting = !toggleServiceSetting;
+            toggleTimePeriod = false;
+            toggleTaxId = false;
+            toggleLob = false;
+            toggleServiceCategory = false;
+            togglePriorAuthType = false
+          "
+          [class.arrow-toggle]="toggleServiceSetting"
+        ></mat-icon>
+      </div>
     </div>
-  </div>
-  <!--<div class="lobgrp titleDisplay"-->
-  <!--*ngIf="filterurl === '/ServiceInteraction/Calls'"-->
-  <!--[ngClass]="{ titleDisable: filterurl === '/ServiceInteraction/Calls' }"-->
-  <!--&gt;-->
-  <!--Not Available-->
-  <!--</div>-->
-  <div class="lobgrp">
-    <div>
-      <label id="radio-group" class="label-data">{{ selectedLob.value }}</label>
+    <div class="lobgrp">
+      <div>
+        <label id="radio-group-ss" class="label-data">{{ selectedServiceSetting.value }}</label>
+      </div>
+      <div class="select-option-data" *ngIf="toggleServiceSetting">
+        <mat-radio-group class="radio-group" [(ngModel)]="selectedServiceSetting">
+          <mat-radio-button class="radio-button" *ngFor="let ss of serviceSettings" [value]="ss">
+            {{ ss.value }}
+          </mat-radio-button>
+        </mat-radio-group>
+      </div>
     </div>
-    <div class="select-option-data" *ngIf="toggleLob">
-      <mat-radio-group class="radio-group" [(ngModel)]="selectedLob">
-        <mat-radio-button class="radio-button" *ngFor="let lob of lobs" [class.lob-disable]="lob.disable" [value]="lob">
-          {{ lob.value }}
-        </mat-radio-button>
-      </mat-radio-group>
+
+    <!--Prior Auth Type-->
+    <div class="line"></div>
+    <div class="titleData">
+      <div class="title">Prior Auth Type</div>
+      <div class="chevron">
+        <mat-icon
+          class="icon-display"
+          svgIcon="arrowdn"
+          (click)="
+            togglePriorAuthType = !togglePriorAuthType;
+            toggleTimePeriod = false;
+            toggleTaxId = false;
+            toggleLob = false;
+            toggleServiceSetting = false;
+            toggleServiceCategory = false
+          "
+          [class.arrow-toggle]="togglePriorAuthType"
+        ></mat-icon>
+      </div>
     </div>
-  </div>
-
-  <!--Only Prior Auth-->
-  <div class="line"></div>
-  <div class="titleData">
-    <div class="title">Service Setting</div>
-    <div class="chevron">
-      <mat-icon
-        class="icon-display"
-        svgIcon="arrowdn"
-        (click)="
-          toggleServiceSetting = !toggleServiceSetting; toggleTimePeriod = false; toggleTaxId = false; toggleLob = false
-        "
-        [class.arrow-toggle]="toggleServiceSetting"
-      ></mat-icon>
+    <div class="lobgrp">
+      <div>
+        <label class="label-data" *ngIf="selectedPriorAuthType">{{ selectedPriorAuthType.value }}</label>
+      </div>
+      <div class="select-option-data" *ngIf="togglePriorAuthType">
+        <mat-radio-group class="radio-group" [(ngModel)]="selectedPriorAuthType">
+          <mat-radio-button
+            class="radio-button"
+            *ngFor="let paType of priorAuthTypes"
+            [value]="paType"
+            [checked]="paType.value === selectedPriorAuthType.value"
+          >
+            {{ paType.value }}
+          </mat-radio-button>
+        </mat-radio-group>
+      </div>
     </div>
-  </div>
-  <div class="lobgrp">
-    <div>
-      <label id="radio-group-ss" class="label-data">{{ selectedServiceSetting.value }}</label>
+
+    <!--Service Category -->
+    <div class="line"></div>
+    <div class="titleData">
+      <div class="title">Service Category</div>
+      <div class="chevron">
+        <mat-icon
+          class="icon-display"
+          svgIcon="arrowdn"
+          (click)="
+            toggleServiceCategory = !toggleServiceCategory;
+            toggleTimePeriod = false;
+            toggleTaxId = false;
+            toggleLob = false;
+            toggleServiceSetting = false;
+            togglePriorAuthType = false
+          "
+          [class.arrow-toggle]="toggleServiceCategory"
+        ></mat-icon>
+      </div>
     </div>
-    <div class="select-option-data" *ngIf="toggleServiceSetting">
-      <mat-radio-group class="radio-group" [(ngModel)]="selectedServiceSetting">
-        <mat-radio-button class="radio-button" *ngFor="let ss of serviceSettings" [value]="ss">
-          {{ ss.value }}
-        </mat-radio-button>
-      </mat-radio-group>
+    <div class="lobgrp">
+      <div>
+        <label class="label-data" *ngIf="selectedService">{{ selectedService }} </label>
+      </div>
+      <div>
+        <label class="label-data" *ngIf="selectedPriorAuthType">{{ selectedPriorAuthType.value }}</label>
+      </div>
+      <div class="select-option-data" *ngIf="toggleServiceCategory">
+        <mat-form-field appearance="outline">
+          <input
+            type="text"
+            matInput
+            [matAutocomplete]="auto"
+            [formControl]="serviceCategoryForm"
+            [(ngModel)]="selectedService"
+            (ngModelChange)="categories = doFilter(selectedServiceCategory)"
+            (input)="selectedPriorAuthType = priorAuthInitialState"
+            placeholder="Search for Service Category"
+          />
+          <mat-icon matPrefix class="nav-menu-icons" svgIcon="search"></mat-icon>
+          <mat-autocomplete #auto="matAutocomplete" autoActiveFirstOption>
+            <mat-option
+              *ngFor="let serviceCategory of categories"
+              (onSelectionChange)="selectedPriorAuthType = priorAuthInitialState"
+              [value]="serviceCategory.value"
+            >
+              {{ serviceCategory.value }}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+        <mat-radio-group class="radio-group" [(ngModel)]="selectedPriorAuthType" (change)="selectedService = ''">
+          <mat-radio-button
+            class="radio-button"
+            *ngFor="let paType of priorAuthTypes"
+            [value]="paType"
+            [checked]="paType.value === selectedPriorAuthType.value"
+          >
+            {{ paType.value }}
+          </mat-radio-button>
+        </mat-radio-group>
+      </div>
     </div>
-  </div>
+  </ng-container>
 
-  <!--<div class="line"></div>-->
-  <!--<div class="titleData">-->
-  <!--<div class="title">Prior Auth Type</div>-->
-  <!--<div class="chevron">-->
-  <!--<mat-icon-->
-  <!--class="icon-display"-->
-  <!--svgIcon="arrowdn"-->
-  <!--(click)="toggleLob = !toggleLob; toggleTimePeriod = false; toggleTaxId = false; toggleServiceSetting = false"-->
-  <!--[class.arrow-toggle]="toggleLob"-->
-  <!--&gt;</mat-icon>-->
-  <!--</div>-->
-  <!--</div>-->
-  <!--<div class="lobgrp">-->
-  <!--<div>-->
-  <!--<label id="radio-group-patype" class="label-data">{{ priorAuthTypeData }}</label>-->
-  <!--</div>-->
-  <!--<div class="select-option-data" *ngIf="patypearrowmark">-->
-  <!--<mat-radio-group class="radio-group" [(ngModel)]="priorAuthTypeData">-->
-  <!--<mat-radio-button class="radio-button" *ngFor="let patype of priorauthdecisiontype" [value]="patype">-->
-  <!--{{ patype }}-->
-  <!--</mat-radio-button>-->
-  <!--</mat-radio-group>-->
-  <!--</div>-->
-  <!--</div>-->
+  <ng-template #summaryTrends>
+    <!--Metric-->
+    <div class="titleData">
+      <div class="title">Metric</div>
+      <div class="chevron">
+        <mat-icon
+          class="icon-display"
+          svgIcon="arrowdn"
+          (click)="toggleMetric = !toggleMetric; toggleDate = false"
+          [class.arrow-toggle]="toggleMetric"
+        ></mat-icon>
+      </div>
+    </div>
+    <div class="lobgrp" *ngIf="selectedPage === 'summaryTrendsPage'">
+      <div>
+        <label id="radio-group" class="label-data">{{ selectedTrendMetric.value }}</label>
+      </div>
+      <div class="select-option-data" *ngIf="toggleMetric">
+        <mat-radio-group class="radio-group" [(ngModel)]="selectedTrendMetric">
+          <mat-radio-button class="radio-button" *ngFor="let metric of trendMetricData" [value]="metric">
+            {{ metric.value }}
+          </mat-radio-button>
+        </mat-radio-group>
+      </div>
+    </div>
 
-  <!-- Service Category -->
-  <!--<div class="line"></div>-->
-  <!--<div class="titleData">-->
-  <!--<div class="title">Service Category</div>-->
-  <!--<div class="chevron">-->
-  <!--<mat-icon-->
-  <!--class="icon-display"-->
-  <!--svgIcon="arrowdn"-->
-  <!--(click)="toggleServiceCategory = !toggleServiceCategory; toggleTimePeriod = false; toggleTaxId = false;-->
-  <!--toggleLob = false; toggleServiceSetting = false"-->
-  <!--[class.arrow-toggle]="toggleServiceCategory"-->
-  <!--&gt;</mat-icon>-->
-  <!--</div>-->
-  <!--</div>-->
-  <!--<div class="lobgrp">-->
-  <!--<div>-->
-  <!--<label class="label-data">{{ selectedServiceCategory.value }}</label>-->
-  <!--</div>-->
-  <!--<div class="select-option-data" *ngIf="toggleServiceCategory">-->
-  <!--<mat-form-field appearance="outline">-->
-  <!--<input-->
-  <!--type="text"-->
-  <!--matInput-->
-  <!--[matAutocomplete]="auto"-->
-  <!--[formControl]="serviceCategoryCtrl"-->
-  <!--[(ngModel)]="selectedmetric"-->
-  <!--placeholder="Search for Service Category"-->
-  <!--/>-->
-  <!--<mat-icon matPrefix class="nav-menu-icons" svgIcon="search"></mat-icon>-->
-  <!--<mat-autocomplete-->
-  <!--#auto="matAutocomplete"-->
-  <!--autoActiveFirstOption-->
-  <!--(optionSelected)="scArrayFunction($event.option.value)"-->
-  <!--&gt;-->
-  <!--<mat-option *ngFor="let servicecategory of (filteredOptions | async)" [value]="servicecategory">-->
-  <!--{{ servicecategory }}-->
-  <!--</mat-option>-->
-  <!--</mat-autocomplete>-->
-  <!--</mat-form-field>-->
-
-  <!--<mat-radio-group class="radio-group" [(ngModel)]="scTypeData">-->
-  <!--<mat-radio-button class="radio-button" *ngFor="let patype of priorauthdecisiontype" [value]="patype">-->
-  <!--{{ patype }}-->
-  <!--</mat-radio-button>-->
-  <!--</mat-radio-group>-->
-  <!--</div>-->
-  <!--</div>-->
-  <!--</div>-->
-
-  <!--<div class="titleData" *ngIf="filterurl === '/AdminSummaryTrends'">-->
-  <!--<div class="title">Metric</div>-->
-  <!--<div class="chevron">-->
-  <!--<mat-icon-->
-  <!--class="icon-display"-->
-  <!--*ngIf="!metricarrowmark"-->
-  <!--(click)="clickArrowMark('metric')"-->
-  <!--svgIcon="arrowdn"-->
-  <!--&gt;</mat-icon>-->
-  <!--<mat-icon-->
-  <!--class="icon-display"-->
-  <!--*ngIf="metricarrowmark"-->
-  <!--(click)="clickArrowMark('metric')"-->
-  <!--svgIcon="arrowup"-->
-  <!--&gt;</mat-icon>-->
-  <!--</div>-->
-  <!--</div>-->
-
-  <!--<div class="lobgrp" *ngIf="filterurl === '/AdminSummaryTrends'">-->
-  <!--<div>-->
-  <!--<label id="radio-group" class="label-data">{{ formattingText(metricData) }}</label>-->
-  <!--</div>-->
-  <!--<div class="select-option-data" *ngIf="metricarrowmark">-->
-  <!--<mat-radio-group class="radio-group" [(ngModel)]="metricData">-->
-  <!--<mat-radio-button class="radio-button" *ngFor="let metric of metrics" [value]="metric">-->
-  <!--{{ formattingText(metric) }}-->
-  <!--</mat-radio-button>-->
-  <!--</mat-radio-group>-->
-  <!--</div>-->
-  <!--</div>-->
-  <!--<div class="line" *ngIf="filterurl === '/AdminSummaryTrends'"></div>-->
-  <!--<div class="titleData" *ngIf="filterurl === '/AdminSummaryTrends'">-->
-  <!--<div class="title">Date</div>-->
-  <!--<div class="chevron">-->
-  <!--<mat-icon-->
-  <!--class="icon-display"-->
-  <!--*ngIf="!datearrowmark"-->
-  <!--(click)="clickArrowMark('date')"-->
-  <!--svgIcon="arrowdn"-->
-  <!--&gt;</mat-icon>-->
-  <!--<mat-icon-->
-  <!--class="icon-display"-->
-  <!--*ngIf="datearrowmark"-->
-  <!--(click)="clickArrowMark('date')"-->
-  <!--svgIcon="arrowup"-->
-  <!--&gt;</mat-icon>-->
-  <!--</div>-->
-  <!--</div>-->
-  <!--<div class="lobgrp" *ngIf="filterurl === '/AdminSummaryTrends'">-->
-  <!--<div>-->
-  <!--<label id="radio-group-label" class="label-data">{{ initial_data_date | date: 'yyyy-MM-dd' }}</label>-->
-  <!--</div>-->
-  <!--<div *ngIf="datearrowmark" class="label-cls">-->
-  <!--<input-->
-  <!--matInput-->
-  <!--[matDatepicker]="picker1"-->
-  <!--class="input-class trends-date-picker"-->
-  <!--placeholder="Select Date"-->
-  <!--[(ngModel)]="data_date"-->
-  <!--/>-->
-  <!--<mat-datepicker-toggle matSuffix [for]="picker1" class="trends-dp-icon"></mat-datepicker-toggle>-->
-  <!--<mat-datepicker #picker1></mat-datepicker>-->
-  <!--</div>-->
-  <!--</div>-->
+    <!--Date-->
+    <div class="line"></div>
+    <div class="titleData">
+      <div class="title">Date</div>
+      <div class="chevron">
+        <mat-icon
+          class="icon-display"
+          svgIcon="arrowdn"
+          (click)="toggleDate = !toggleDate; toggleMetric = false"
+          [class.arrow-toggle]="toggleDate"
+        ></mat-icon>
+      </div>
+    </div>
+    <div class="lobgrp">
+      <div>
+        <label id="radio-group-label" class="label-data">{{ selectedDate | date: 'yyyy-MM-dd' }}</label>
+      </div>
+      <div *ngIf="toggleDate" class="label-cls">
+        <input
+          matInput
+          [matDatepicker]="picker1"
+          class="input-class trends-date-picker"
+          placeholder="Select Date"
+          [(ngModel)]="selectedDate"
+        />
+        <mat-datepicker-toggle matSuffix [for]="picker1" class="trends-dp-icon"></mat-datepicker-toggle>
+        <mat-datepicker #picker1></mat-datepicker>
+      </div>
+    </div>
+  </ng-template>
 
   <div class="line1"></div>
   <div class="btn-display">

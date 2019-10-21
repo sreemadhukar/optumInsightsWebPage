@@ -4,7 +4,6 @@ import { CommonModule } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { CookieService } from 'ngx-cookie-service';
-import { FormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { HeadModule } from './head/head.module';
 import { SharedModule } from './shared/shared.module';
@@ -17,8 +16,6 @@ import { ProviderSharedService } from './shared/provider/provider-shared.service
 import { ThemeService } from './shared/theme.service';
 import { HttpInterceptorService } from './rest/interceptor/http-interceptor.service';
 import { CacheInterceptor } from './rest/interceptor/cache.interceptor';
-import { KOPSharedService } from './shared/kop/kop.service';
-import { KopService } from './rest/kop/kop.service';
 import { UserIdleModule } from 'angular-user-idle';
 import { IdleTimeoutDialogComponent } from './auth/idle-timeout-dialog/idle-timeout-dialog.component';
 import { NgReduxModule, NgRedux } from '@angular-redux/store';
@@ -50,8 +47,6 @@ import { RavenErrorHandler } from './components/error-handler/error-handler';
     ProviderSharedService,
     ThemeService,
     CookieService,
-    KopService,
-    KOPSharedService,
     { provide: HTTP_INTERCEPTORS, useClass: HttpInterceptorService, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: CacheInterceptor, multi: true },
     { provide: ErrorHandler, useClass: RavenErrorHandler }

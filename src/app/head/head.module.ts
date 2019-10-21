@@ -17,6 +17,8 @@ import { SiteMapComponent } from './site-map/site-map.component';
 import { CustomPreloadingStrategy } from './custom-preloading';
 import { UhciFiltersComponent } from './uhci-filters/uhci-filters.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { KOPSharedService } from '../shared/kop/kop.service';
+import { KopService } from '../rest/kop/kop.service';
 
 @NgModule({
   imports: [
@@ -41,7 +43,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
-    CustomPreloadingStrategy
+    CustomPreloadingStrategy,
+    KopService,
+    KOPSharedService
   ]
 })
 export class HeadModule {}
