@@ -8,7 +8,9 @@ import {
   ServiceSetting,
   ServiceCategory,
   PriorAuthDecisionType,
-  TrendMetrics
+  TrendMetrics,
+  filterToggles,
+  MetricPropType
 } from './filter-settings/filter-options';
 import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -34,33 +36,26 @@ export class UhciFiltersComponent implements OnInit {
   @select() trendDate;
   @Output() filterFlag = new EventEmitter();
 
-  toggleTimePeriod = false;
-  toggleTaxId = false;
-  toggleLob = false;
-  toggleServiceSetting = false;
-  toggleServiceCategory = false;
-  togglePriorAuthType = false;
-  toggleMetric = false;
-  toggleDate = false;
   selectedPage: string;
   timeFrames = TimePeriod;
-  selectedTimePeriod: any;
+  selectedTimePeriod: MetricPropType;
   lobs = LineOfBusiness;
-  selectedLob: any;
+  selectedLob: MetricPropType;
   serviceSettings = ServiceSetting;
-  selectedServiceSetting: any;
+  selectedServiceSetting: MetricPropType;
   serviceCategories = ServiceCategory;
-  selectedServiceCategory: any;
+  selectedServiceCategory: MetricPropType;
   priorAuthTypes = PriorAuthDecisionType;
-  selectedPriorAuthType: any;
+  selectedPriorAuthType: MetricPropType;
   categories: any;
-  selectedService: any;
+  selectedService: string;
   tinsData: any;
-  priorAuthInitialState: any;
+  priorAuthInitialState: MetricPropType;
   selectedTaxIds: TaxId[];
   trendMetricData = TrendMetrics;
-  selectedTrendMetric: any;
+  selectedTrendMetric: MetricPropType;
   selectedDate: Date;
+  collapseToggle: any;
   public serviceCategoryForm = new FormControl();
 
   constructor(
@@ -74,6 +69,7 @@ export class UhciFiltersComponent implements OnInit {
       'arrowdn',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-keyboard_arrow_down-24px.svg')
     );
+    this.collapseToggle = filterToggles;
   }
 
   ngOnInit() {
@@ -150,5 +146,15 @@ export class UhciFiltersComponent implements OnInit {
 
   selectedTaxId(selectedTins) {
     this.selectedTaxIds = selectedTins;
+  }
+
+  toggle(collapseState) {
+    for (const key in this.collapseToggle) {
+      if (key === collapseState && this.collapseToggle.hasOwnProperty(key)) {
+        this.collapseToggle[key] = !this.collapseToggle[key];
+      } else {
+        this.collapseToggle[key] = false;
+      }
+    }
   }
 }

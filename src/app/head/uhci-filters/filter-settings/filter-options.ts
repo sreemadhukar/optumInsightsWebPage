@@ -91,7 +91,24 @@ export const TrendMetrics = [
   { name: 'PriorAuthorization', value: 'Prior Authorization' }
 ];
 
+export const filterToggles = {
+  toggleTimePeriod: false,
+  toggleTaxId: false,
+  toggleLob: false,
+  toggleServiceSetting: false,
+  toggleServiceCategory: false,
+  togglePriorAuthType: false,
+  toggleMetric: false,
+  toggleDate: false
+};
+
 export interface TaxId {
   Tin: string;
   Tinname: string;
+}
+
+export interface MetricPropType {
+  name: string;
+  value: string;
+  disable?: boolean;
 }

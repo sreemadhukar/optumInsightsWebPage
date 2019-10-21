@@ -8,15 +8,8 @@
         <mat-icon
           class="icon-display"
           svgIcon="arrowdn"
-          (click)="
-            toggleTimePeriod = !toggleTimePeriod;
-            toggleTaxId = false;
-            toggleLob = false;
-            toggleServiceSetting = false;
-            toggleServiceCategory = false;
-            togglePriorAuthType = false
-          "
-          [class.arrow-toggle]="toggleTimePeriod"
+          (click)="toggle('toggleTimePeriod')"
+          [class.arrow-toggle]="collapseToggle.toggleTimePeriod"
         ></mat-icon>
       </div>
     </div>
@@ -24,7 +17,7 @@
       <div>
         <label id="radio-group-label" class="label-data">{{ selectedTimePeriod.value }}</label>
       </div>
-      <div *ngIf="toggleTimePeriod">
+      <div *ngIf="collapseToggle.toggleTimePeriod">
         <div class="select-option-data">
           <mat-radio-group class="radio-group" name="test" [(ngModel)]="selectedTimePeriod">
             <mat-radio-button
@@ -53,15 +46,8 @@
         <mat-icon
           class="icon-display"
           svgIcon="arrowdn"
-          (click)="
-            toggleTaxId = !toggleTaxId;
-            toggleTimePeriod = false;
-            toggleLob = false;
-            toggleServiceSetting = false;
-            toggleServiceCategory = false;
-            togglePriorAuthType = false
-          "
-          [class.arrow-toggle]="toggleTaxId"
+          (click)="toggle('toggleTaxId')"
+          [class.arrow-toggle]="collapseToggle.toggleTaxId"
         ></mat-icon>
       </div>
     </div>
@@ -79,7 +65,7 @@
           <span *ngIf="selectedTaxIds.length >= 4">{{ selectedTaxIds.length }} Selected</span>
         </label>
       </div>
-      <div class="label-cls" *ngIf="tinsData && toggleTaxId">
+      <div class="label-cls" *ngIf="tinsData && collapseToggle.toggleTaxId">
         <app-filters-multi-select [tinsData]="tinsData" (taxArray)="selectedTaxId($event)"></app-filters-multi-select>
       </div>
     </div>
@@ -92,15 +78,8 @@
         <mat-icon
           class="icon-display"
           svgIcon="arrowdn"
-          (click)="
-            toggleLob = !toggleLob;
-            toggleTimePeriod = false;
-            toggleTaxId = false;
-            toggleServiceSetting = false;
-            toggleServiceCategory = false;
-            togglePriorAuthType = false
-          "
-          [class.arrow-toggle]="toggleLob"
+          (click)="toggle('toggleLob')"
+          [class.arrow-toggle]="collapseToggle.toggleLob"
         ></mat-icon>
       </div>
     </div>
@@ -114,7 +93,7 @@
       <div>
         <label id="radio-group" class="label-data">{{ selectedLob.value }}</label>
       </div>
-      <div class="select-option-data" *ngIf="toggleLob">
+      <div class="select-option-data" *ngIf="collapseToggle.toggleLob">
         <mat-radio-group class="radio-group" [(ngModel)]="selectedLob">
           <mat-radio-button
             class="radio-button"
@@ -136,15 +115,8 @@
         <mat-icon
           class="icon-display"
           svgIcon="arrowdn"
-          (click)="
-            toggleServiceSetting = !toggleServiceSetting;
-            toggleTimePeriod = false;
-            toggleTaxId = false;
-            toggleLob = false;
-            toggleServiceCategory = false;
-            togglePriorAuthType = false
-          "
-          [class.arrow-toggle]="toggleServiceSetting"
+          (click)="toggle('toggleServiceSetting')"
+          [class.arrow-toggle]="collapseToggle.toggleServiceSetting"
         ></mat-icon>
       </div>
     </div>
@@ -152,7 +124,7 @@
       <div>
         <label id="radio-group-ss" class="label-data">{{ selectedServiceSetting.value }}</label>
       </div>
-      <div class="select-option-data" *ngIf="toggleServiceSetting">
+      <div class="select-option-data" *ngIf="collapseToggle.toggleServiceSetting">
         <mat-radio-group class="radio-group" [(ngModel)]="selectedServiceSetting">
           <mat-radio-button class="radio-button" *ngFor="let ss of serviceSettings" [value]="ss">
             {{ ss.value }}
@@ -169,15 +141,8 @@
         <mat-icon
           class="icon-display"
           svgIcon="arrowdn"
-          (click)="
-            togglePriorAuthType = !togglePriorAuthType;
-            toggleTimePeriod = false;
-            toggleTaxId = false;
-            toggleLob = false;
-            toggleServiceSetting = false;
-            toggleServiceCategory = false
-          "
-          [class.arrow-toggle]="togglePriorAuthType"
+          (click)="toggle('togglePriorAuthType')"
+          [class.arrow-toggle]="collapseToggle.togglePriorAuthType"
         ></mat-icon>
       </div>
     </div>
@@ -185,7 +150,7 @@
       <div>
         <label class="label-data" *ngIf="selectedPriorAuthType">{{ selectedPriorAuthType.value }}</label>
       </div>
-      <div class="select-option-data" *ngIf="togglePriorAuthType">
+      <div class="select-option-data" *ngIf="collapseToggle.togglePriorAuthType">
         <mat-radio-group class="radio-group" [(ngModel)]="selectedPriorAuthType">
           <mat-radio-button
             class="radio-button"
@@ -207,15 +172,8 @@
         <mat-icon
           class="icon-display"
           svgIcon="arrowdn"
-          (click)="
-            toggleServiceCategory = !toggleServiceCategory;
-            toggleTimePeriod = false;
-            toggleTaxId = false;
-            toggleLob = false;
-            toggleServiceSetting = false;
-            togglePriorAuthType = false
-          "
-          [class.arrow-toggle]="toggleServiceCategory"
+          (click)="toggle('toggleServiceCategory')"
+          [class.arrow-toggle]="collapseToggle.toggleServiceCategory"
         ></mat-icon>
       </div>
     </div>
@@ -226,7 +184,7 @@
       <div>
         <label class="label-data" *ngIf="selectedPriorAuthType">{{ selectedPriorAuthType.value }}</label>
       </div>
-      <div class="select-option-data" *ngIf="toggleServiceCategory">
+      <div class="select-option-data" *ngIf="collapseToggle.toggleServiceCategory">
         <mat-form-field appearance="outline">
           <input
             type="text"
@@ -271,8 +229,8 @@
         <mat-icon
           class="icon-display"
           svgIcon="arrowdn"
-          (click)="toggleMetric = !toggleMetric; toggleDate = false"
-          [class.arrow-toggle]="toggleMetric"
+          (click)="toggle('toggleMetric')"
+          [class.arrow-toggle]="collapseToggle.toggleMetric"
         ></mat-icon>
       </div>
     </div>
@@ -280,7 +238,7 @@
       <div>
         <label id="radio-group" class="label-data">{{ selectedTrendMetric.value }}</label>
       </div>
-      <div class="select-option-data" *ngIf="toggleMetric">
+      <div class="select-option-data" *ngIf="collapseToggle.toggleMetric">
         <mat-radio-group class="radio-group" [(ngModel)]="selectedTrendMetric">
           <mat-radio-button class="radio-button" *ngFor="let metric of trendMetricData" [value]="metric">
             {{ metric.value }}
@@ -297,8 +255,8 @@
         <mat-icon
           class="icon-display"
           svgIcon="arrowdn"
-          (click)="toggleDate = !toggleDate; toggleMetric = false"
-          [class.arrow-toggle]="toggleDate"
+          (click)="toggle('toggleDate')"
+          [class.arrow-toggle]="collapseToggle.toggleDate"
         ></mat-icon>
       </div>
     </div>
@@ -306,7 +264,7 @@
       <div>
         <label id="radio-group-label" class="label-data">{{ selectedDate | date: 'yyyy-MM-dd' }}</label>
       </div>
-      <div *ngIf="toggleDate" class="label-cls">
+      <div *ngIf="collapseToggle.toggleDate" class="label-cls">
         <input
           matInput
           [matDatepicker]="picker1"

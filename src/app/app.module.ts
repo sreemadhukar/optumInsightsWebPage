@@ -22,6 +22,7 @@ import { NgReduxModule, NgRedux } from '@angular-redux/store';
 import { FilterReducer, INITIAL_STATE } from './store/filter/reducer';
 import { IAppState } from './store/store';
 import { RavenErrorHandler } from './components/error-handler/error-handler';
+import { loadState, saveState } from './store/filter/localStorage';
 
 @NgModule({
   declarations: [AppComponent],
@@ -56,6 +57,7 @@ import { RavenErrorHandler } from './components/error-handler/error-handler';
 })
 export class AppModule {
   constructor(ngRedux: NgRedux<IAppState>) {
-    ngRedux.configureStore(FilterReducer, INITIAL_STATE);
+    const persistedState = loadState();
+    ngRedux.configureStore(FilterReducer, persistedState, [saveState]);
   }
 }
