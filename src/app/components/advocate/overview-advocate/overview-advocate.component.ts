@@ -195,7 +195,7 @@ export class OverviewAdvocateComponent implements OnInit {
     this.appealsTrendByMonthData();
     this.totalCallsData();
     this.appealsLineGraphloading = true;
-    this.callsLineGraphLoading = true;
+    // this.callsLineGraphLoading = true;
     this.userName = this.session.sessionStorage('loggedUser', 'FirstName');
     this.pageTitle = 'Welcome, ' + this.userName;
 
