@@ -5,7 +5,7 @@
       "Claims Paid": true,
       "Prior Authorization Approval": true,
       "Self Service Adoption Rate": true,
-      "Claims Yield": true,
+      "Claims Yield": false,
       "Medicare Star Rating": true,
       "Total Calls": true
     },
@@ -35,7 +35,7 @@
       "Claims Payments": {
         "tile": true,
         "Claims Paid": true,
-        "Claims Yield": true
+        "Claims Yield": false
       },
       "Claims Non-Payments": {
         "tile": true,
@@ -51,7 +51,7 @@
     "Claims Payments": {
       "navLink": true,
       "Claims Paid": true,
-      "Claims Yield": true,
+      "Claims Yield": false,
       "Claims Paid Breakdown": true
     },
     "Claims Non-Payments": {
