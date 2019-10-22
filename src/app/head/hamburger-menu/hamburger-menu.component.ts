@@ -196,12 +196,12 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
           this.insertPCORnav();
         }
         const heac = JSON.parse(sessionStorage.getItem('heac'));
-        if (event.url === '/KnowOurProvider' && !heac.heac) {
+        if (event.url === '/NationalExecutive' && !heac.heac) {
           router.navigate(['/ProviderSearch']);
         }
 
         // Check condtion for rendering butter bar
-        if (sessionStorage.getItem('fromKOP') === 'YES' && !this.makeAbsolute && event.url !== '/KnowOurProvider') {
+        if (sessionStorage.getItem('fromKOP') === 'YES' && !this.makeAbsolute && event.url !== '/NationalExecutive') {
           setTimeout(() => {
             this.fromKOP = true;
           }, 500);
@@ -490,7 +490,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
   navigateToKOP() {
     sessionStorage.removeItem('fromKOP');
     this.fromKOP = false;
-    window.location.href = '/KnowOurProvider';
+    window.location.href = '/NationalExecutive';
   }
 
   /**

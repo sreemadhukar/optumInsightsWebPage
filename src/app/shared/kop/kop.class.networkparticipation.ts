@@ -16,7 +16,7 @@ export class NetworkParticipation {
 
   public createCard() {
     this.records.forEach((record, index) => {
-      const { NetworkParticipation: Network_Participation } = record;
+      const Network_Participation = record;
       this.data.chartData.forEach((chartDataElement: any) => {
         const key = chartDataElement.key;
         const subKey = chartDataElement.subKey;
