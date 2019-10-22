@@ -1667,7 +1667,9 @@ export class GettingReimbursedSharedService {
             claimsData[lobData].hasOwnProperty('ClaimsLobSummary') &&
             claimsData[lobData].ClaimsLobSummary.length
           ) {
-            if (claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('ClaimsSubmitted')) {
+            /*** Commenting following lines of code to remove Claims Submitted Trends from
+                 GR Submissions tab  ***/
+            /*  if (claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('ClaimsSubmitted')) {
               let newClaimsSubmitted = 0;
               if (gettingReimbursedData[0].data[0].data) {
                 if (gettingReimbursedData[0].data[0].data.centerNumberOriginal) {
@@ -1679,7 +1681,7 @@ export class GettingReimbursedSharedService {
                   );
                 }
               }
-            }
+           }*/
             if (claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('AmountPaid')) {
               let newClaimsPaid = 0;
               if (gettingReimbursedData[1].data[0].data) {
