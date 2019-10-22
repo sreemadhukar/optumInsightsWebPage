@@ -111,7 +111,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
       icon: 'timeline',
       name: 'Summary Trends',
       path: '/AdminSummaryTrends',
-      disabled: environment.internalAccess
+      disabled: true
     }
   ];
   fillerNav = Array.from({ length: 50 }, (_, i) => `Nav Item ${i + 1}`);
@@ -136,7 +136,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     private filterCloseService: FilterCloseService,
     private pcorService: PcorService,
     private location: Location,
-    private sessionService: SessionService,
+    public sessionService: SessionService,
     private eventEmitter: EventEmitterService,
     private acoEventEmitter: AcoEventEmitterService,
     @Inject(DOCUMENT) private document: any
@@ -342,6 +342,9 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
         path: '/CareDelivery/PatientCareOpportunity'
       });
     }
+  }
+  checkToggle(bool: boolean) {
+    return bool ? this.sessionService.checkTrendAccess() && environment.internalAccess : !bool;
   }
   checkPcorData() {
     const parametersExecutive = [this.sessionService.providerKeyData(), true];

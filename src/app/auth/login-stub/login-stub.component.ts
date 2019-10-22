@@ -172,6 +172,9 @@ export class LoginStubComponent implements OnInit {
             this.authorise.getHeac(this.f.username.value).subscribe(value => {
               console.log(value);
             });
+            this.authorise.getTrendAccess(this.f.username.value).subscribe(value => {
+              console.log(value);
+            });
           }
           sessionStorage.setItem('cache', JSON.stringify(true));
           // this.openDialog();
