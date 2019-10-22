@@ -148,13 +148,9 @@
     <!-- Claims appeals Trend Ends Here -->
 
     <!--Calls Trend Starts Here-->
-    <!--<app-error-card-->
-    <!--*ngIf="appealsLineGraphData.status != null"-->
-    <!--class="cards"-->
-    <!--[data]="appealsLineGraphData"-->
-    <!--&gt;</app-error-card>-->
-    <app-large-card [skeletonLarge]="callsLineGraphLoading" *ngIf="callsLineGraphLoading"></app-large-card>
-    <div class="calls-trend-block">
+    <app-error-card *ngIf="callsLineGraphData" class="cards" [data]="callsLineGraphData"></app-error-card>
+    <!--<app-large-card [skeletonLarge]="callsLineGraphLoading" *ngIf="callsLineGraphLoading"></app-large-card>-->
+    <div class="calls-trend-block" *ngIf="!callsLineGraphData">
       <app-common-header
         [title]="trendTitleForCalls"
         class="full-display bottom-margin-block"

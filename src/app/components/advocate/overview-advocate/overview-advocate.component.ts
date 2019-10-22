@@ -55,6 +55,7 @@ export class OverviewAdvocateComponent implements OnInit {
   trendTitleForCalls = 'Calls by Call Type';
   totalCalls: any;
   callsLoading: boolean;
+  callsLineGraphData: any;
 
   constructor(
     private checkStorage: StorageService,
@@ -179,10 +180,21 @@ export class OverviewAdvocateComponent implements OnInit {
   totalCallsData() {
     this.callsLoading = true;
     this.overviewAdvocateSharedService.getTotalCallsShared().then(totalCallsData => {
-      if (totalCallsData) {
+      if (totalCallsData[0] == null) {
+        this.callsLoading = false;
+        this.callsLineGraphData = {
+          category: 'large-card',
+          type: 'donut',
+          status: 404,
+          title: this.trendTitleForCalls,
+          MetricID: this.MetricidService.MetricIDs,
+          data: null,
+          timeperiod: null
+        };
+      } else {
         let callsLeftData;
         callsLeftData = totalCallsData;
-        this.totalCalls = this.filtermatch.nondecimalFormatter(callsLeftData.CallVolByQuesType.Total);
+        this.totalCalls = this.filtermatch.nondecimalFormatter(callsLeftData[0].CallVolByQuesType.Total);
         this.callsLoading = false;
       }
     });

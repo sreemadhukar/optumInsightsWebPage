@@ -1667,7 +1667,9 @@ export class GettingReimbursedSharedService {
             claimsData[lobData].hasOwnProperty('ClaimsLobSummary') &&
             claimsData[lobData].ClaimsLobSummary.length
           ) {
-            if (claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('ClaimsSubmitted')) {
+            /*** Commenting following lines of code to remove Claims Submitted Trends from
+                 GR Submissions tab  ***/
+            /*  if (claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('ClaimsSubmitted')) {
               let newClaimsSubmitted = 0;
               if (gettingReimbursedData[0].data[0].data) {
                 if (gettingReimbursedData[0].data[0].data.centerNumberOriginal) {
@@ -1679,8 +1681,10 @@ export class GettingReimbursedSharedService {
                   );
                 }
               }
-            }
-            if (claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('AmountPaid')) {
+           }*/
+            /*** Commenting following lines of code to remove Claims Paid Trend from
+                 GR Payments tab  ***/
+            /* if (claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('AmountPaid')) {
               let newClaimsPaid = 0;
               if (gettingReimbursedData[1].data[0].data) {
                 if (gettingReimbursedData[1].data[0].data.centerNumberOriginal) {
@@ -1692,8 +1696,10 @@ export class GettingReimbursedSharedService {
                   );
                 }
               }
-            }
-            if (claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('AmountDenied')) {
+            }*/
+            /*** Commenting following lines of code to remove Claims Not Paid Trend from
+                 GR Non-Payments tab  ***/
+            /* if (claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('AmountDenied')) {
               let newClaimsNotPaid = 0;
               if (gettingReimbursedData[2].data[0].data) {
                 if (gettingReimbursedData[2].data[0].data.centerNumberOriginal) {
@@ -1705,10 +1711,12 @@ export class GettingReimbursedSharedService {
                   );
                 }
               }
-            }
+            }*/
           }
         }
-        if (appealsData != null && !appealsData.hasOwnProperty('status') && appealsData[0] != null) {
+        /*** Commenting following lines of code to removeT Claims Appeals submitted Trend from
+                 GR Appeals tab  ***/
+        /* if (appealsData != null && !appealsData.hasOwnProperty('status') && appealsData[0] != null) {
           if (
             appealsData[0].hasOwnProperty('LineOfBusiness') &&
             appealsData[0].LineOfBusiness !== null &&
@@ -1730,13 +1738,12 @@ export class GettingReimbursedSharedService {
               }
             }
           }
-        }
+        }*/
         resolve(gettingReimbursedData);
       });
       // resolve(gettingReimbursedData);
     });
   }
-
   public getTins() {
     return new Promise((resolve, reject) => {
       this.providerKey = this.session.providerKeyData();
