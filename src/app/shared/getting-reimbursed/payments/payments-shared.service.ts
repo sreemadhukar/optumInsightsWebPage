@@ -190,7 +190,8 @@ export class PaymentsSharedService {
             claimsData[lobData].hasOwnProperty('ClaimsLobSummary') &&
             claimsData[lobData].ClaimsLobSummary.length
           ) {
-            if (claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('AmountPaid')) {
+            /** Commenting following lines of code to remove trends from  Payments page **/
+            /* if (claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('AmountPaid')) {
               let newClaimsPaid = 0;
               if (paymentsData[0].data) {
                 if (paymentsData[0].data.centerNumberOriginal) {
@@ -199,7 +200,7 @@ export class PaymentsSharedService {
                   paymentsData[0].data.sdata = this.common.trendNegativeMeansBad(newClaimsPaid, oldClaimsPaid);
                 }
               }
-            }
+            }*/
           }
         }
 
