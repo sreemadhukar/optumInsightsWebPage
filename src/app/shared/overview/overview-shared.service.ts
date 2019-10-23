@@ -984,7 +984,9 @@ export class OverviewSharedService {
             }
           }
 
-          if (claims.All.ClaimsLobSummary[0].hasOwnProperty('ClaimsYieldRate')) {
+          /** Commenting the following lines of code to remove trends from Clims Yield **/
+
+          /* if (claims.All.ClaimsLobSummary[0].hasOwnProperty('ClaimsYieldRate')) {
             let newClaimsPaid = 0;
             if (claimsYieldObj.data) {
               if (claimsYieldObj.data.centerNumberOriginal) {
@@ -993,7 +995,7 @@ export class OverviewSharedService {
                 claimsYieldObj.sdata = this.common.trendNegativeMeansBad(newClaimsPaid, oldClaimsPaid);
               }
             }
-          }
+          }*/
         }
         tempArray[0] = claimsPaidObj;
         tempArray[1] = claimsYieldObj;
