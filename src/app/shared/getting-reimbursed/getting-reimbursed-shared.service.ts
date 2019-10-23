@@ -9,6 +9,7 @@ import { NonPaymentSharedService } from './non-payments/non-payment-shared.servi
 import { NonPaymentService } from '../../rest/getting-reimbursed/non-payment.service';
 import { GlossaryMetricidService } from '../glossary-metricid.service';
 import { of } from 'rxjs';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: GettingReimbursedModule
@@ -492,7 +493,7 @@ export class GettingReimbursedSharedService {
                 type: 'donut',
                 title: 'Claims Yield',
                 MetricID: this.MetricidService.MetricIDs.ClaimsYield,
-                toggle: true,
+                toggle: !environment.internalAccess,
                 data: {
                   graphValues: [
                     claimsData[lobData].ClaimsLobSummary[0].ClaimsYieldRate,
@@ -1400,7 +1401,7 @@ export class GettingReimbursedSharedService {
                 type: 'donut',
                 title: 'Claims Yield',
                 MetricID: this.MetricidService.MetricIDs.ClaimsYield,
-                toggle: true,
+                toggle: !environment.internalAccess,
                 data: {
                   graphValues: [
                     claimsData[lobData].ClaimsLobSummary[0].ClaimsYieldRate,
