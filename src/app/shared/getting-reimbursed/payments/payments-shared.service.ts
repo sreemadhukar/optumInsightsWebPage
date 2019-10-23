@@ -506,7 +506,7 @@ export class PaymentsSharedService {
           //   data: null,
           //   timeperiod: null
           // };
-          payments = { id: 1, title: 'Claims Payments', data: [claimsPaid, claimsPaidRate] };
+          payments = { id: 1, title: 'Claims Payments', data: [claimsPaid] }; /*, claimsPaidRate] };*/
           summaryData[0] = payments;
 
           if (summaryData.length) {
