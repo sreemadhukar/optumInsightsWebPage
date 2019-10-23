@@ -230,7 +230,7 @@ export class GettingReimbursedSharedService {
                 title: 'Average Claims Turn Around Time',
                 MetricID: this.MetricidService.MetricIDs.ClaimsAverageTurnaroundTimetoPayment,
                 data: {
-                  centerNumber: 0 + ' days', // claimsData[lobData].ClaimsLobSummary[0].ClaimsAvgTat,
+                  centerNumber: claimsData[lobData].ClaimsLobSummary[0].ClaimsAvgTat + ' days', //  0 + ' days',
                   color: ['#3381FF', '#3381FF'],
                   gdata: ['card-inner', 'claimsAverageTurnAround'],
                   sdata: {
@@ -241,11 +241,11 @@ export class GettingReimbursedSharedService {
                 besideData: {
                   verticalData: [
                     {
-                      values: 0 + ' Days', // claimsData[lobData].ClaimsLobSummary[0].DosToReceived + ' Days',
+                      values: claimsData[lobData].ClaimsLobSummary[0].DosToReceived + ' Days', // 0 + ' Days',
                       labels: 'Date of Service to Received'
                     },
                     {
-                      values: 0 + ' Days', // claimsData[lobData].ClaimsLobSummary[0].ReceivedToPaid + ' Days',
+                      values: claimsData[lobData].ClaimsLobSummary[0].ReceivedToPaid + ' Days', // 0 + ' Days',
                       labels: 'Received to Processed'
                     }
                   ]
@@ -953,7 +953,7 @@ export class GettingReimbursedSharedService {
                   true
                 ),
                 data: {
-                  centerNumber: 0 + ' days', // claimsData[lobData].ClaimsLobSummary[0].ClaimsAvgTat,
+                  centerNumber: claimsData[lobData].ClaimsLobSummary[0].ClaimsAvgTat + ' days', // 0 + ' days',
                   color: ['#3381FF', '#3381FF'],
                   gdata: ['card-inner', 'claimsAverageTurnAround'],
                   sdata: {
@@ -964,11 +964,11 @@ export class GettingReimbursedSharedService {
                 besideData: {
                   verticalData: [
                     {
-                      values: 0 + ' Days', // claimsData[lobData].ClaimsLobSummary[0].DosToReceived + ' Days',
+                      values: claimsData[lobData].ClaimsLobSummary[0].DosToReceived + ' Days', // 0 + ' Days',
                       labels: 'Date of Service to Received'
                     },
                     {
-                      values: 0 + ' Days', // claimsData[lobData].ClaimsLobSummary[0].ReceivedToPaid + ' Days',
+                      values: claimsData[lobData].ClaimsLobSummary[0].ReceivedToPaid + ' Days', // 0 + ' Days',
                       labels: 'Received to Processed'
                     }
                   ]
@@ -983,7 +983,7 @@ export class GettingReimbursedSharedService {
                 MetricID: this.MetricidService.MetricIDs.ClaimsAverageTurnaroundTimetoPayment,
                 status: null,
                 data: {
-                  centerNumber: 0 + ' days', // claimsData[lobData].ClaimsLobSummary[0].ClaimsAvgTat,
+                  centerNumber: claimsData[lobData].ClaimsLobSummary[0].ClaimsAvgTat + ' days', //  0 + ' days',
                   color: ['#3381FF', '#3381FF'],
                   gdata: ['card-inner', 'claimsAverageTurnAround'],
                   sdata: {
@@ -994,11 +994,11 @@ export class GettingReimbursedSharedService {
                 besideData: {
                   verticalData: [
                     {
-                      values: 0 + ' Days', // claimsData[lobData].ClaimsLobSummary[0].DosToReceived + ' Days',
+                      values: claimsData[lobData].ClaimsLobSummary[0].DosToReceived + ' Days', //  0 + ' Days',
                       labels: 'Date of Service to Received'
                     },
                     {
-                      values: 0 + ' Days', // claimsData[lobData].ClaimsLobSummary[0].ReceivedToPaid + ' Days',
+                      values: claimsData[lobData].ClaimsLobSummary[0].ReceivedToPaid + ' Days', // 0 + ' Days',
                       labels: 'Received to Processed'
                     }
                   ]
@@ -1667,7 +1667,9 @@ export class GettingReimbursedSharedService {
             claimsData[lobData].hasOwnProperty('ClaimsLobSummary') &&
             claimsData[lobData].ClaimsLobSummary.length
           ) {
-            if (claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('ClaimsSubmitted')) {
+            /*** Commenting following lines of code to remove Claims Submitted Trends from
+                 GR Submissions tab  ***/
+            /*  if (claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('ClaimsSubmitted')) {
               let newClaimsSubmitted = 0;
               if (gettingReimbursedData[0].data[0].data) {
                 if (gettingReimbursedData[0].data[0].data.centerNumberOriginal) {
@@ -1679,8 +1681,10 @@ export class GettingReimbursedSharedService {
                   );
                 }
               }
-            }
-            if (claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('AmountPaid')) {
+           }*/
+            /*** Commenting following lines of code to remove Claims Paid Trend from
+                 GR Payments tab  ***/
+            /* if (claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('AmountPaid')) {
               let newClaimsPaid = 0;
               if (gettingReimbursedData[1].data[0].data) {
                 if (gettingReimbursedData[1].data[0].data.centerNumberOriginal) {
@@ -1692,8 +1696,10 @@ export class GettingReimbursedSharedService {
                   );
                 }
               }
-            }
-            if (claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('AmountDenied')) {
+            }*/
+            /*** Commenting following lines of code to remove Claims Not Paid Trend from
+                 GR Non-Payments tab  ***/
+            /* if (claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('AmountDenied')) {
               let newClaimsNotPaid = 0;
               if (gettingReimbursedData[2].data[0].data) {
                 if (gettingReimbursedData[2].data[0].data.centerNumberOriginal) {
@@ -1705,10 +1711,12 @@ export class GettingReimbursedSharedService {
                   );
                 }
               }
-            }
+            }*/
           }
         }
-        if (appealsData != null && !appealsData.hasOwnProperty('status') && appealsData[0] != null) {
+        /*** Commenting following lines of code to removeT Claims Appeals submitted Trend from
+                 GR Appeals tab  ***/
+        /* if (appealsData != null && !appealsData.hasOwnProperty('status') && appealsData[0] != null) {
           if (
             appealsData[0].hasOwnProperty('LineOfBusiness') &&
             appealsData[0].LineOfBusiness !== null &&
@@ -1730,13 +1738,12 @@ export class GettingReimbursedSharedService {
               }
             }
           }
-        }
+        }*/
         resolve(gettingReimbursedData);
       });
       // resolve(gettingReimbursedData);
     });
   }
-
   public getTins() {
     return new Promise((resolve, reject) => {
       this.providerKey = this.session.providerKeyData();

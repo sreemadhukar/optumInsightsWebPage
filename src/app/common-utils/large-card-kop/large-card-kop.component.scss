@@ -139,6 +139,9 @@
     width: 100%;
     display: flex;
     margin-bottom: 23px;
+    .hollow-box-container {
+      width: 100%;
+    }
     .highlighted-box-0,
     .highlighted-box-1 {
       text-align: center;
@@ -150,6 +153,9 @@
       margin: auto;
       color: $black-rock;
       font-size: 24px;
+    }
+    .error-card {
+      padding: 0;
     }
     .highlighted-box-0.current-quarter {
       border: 2px solid $dodger-blue;
