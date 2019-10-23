@@ -87,10 +87,12 @@ export class PatientCareOpportunityComponent implements OnInit {
       .getQualityMeasureData()
       .then(data => {
         const qdata = JSON.parse(JSON.stringify(data));
+
         if (qdata.length) {
           this.loading = false;
           this.qualityMeasureData = qdata[0];
         }
+        console.log('qdata' + qdata[0]);
       })
       .catch(error => {
         console.log('PCOR quality star', error);

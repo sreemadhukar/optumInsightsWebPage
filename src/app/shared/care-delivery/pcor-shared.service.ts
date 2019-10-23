@@ -177,19 +177,21 @@ export class PcorSharedService {
               }
               return s.charAt(0).toUpperCase() + s.slice(1);
             };
-            const completeData = JSON.parse(JSON.stringify(data.fiveStarMeasureCount.Data));
+
             const category: Array<Object> = [];
             const subCategory: Array<Object> = [];
             const template = ['zero', 'one', 'two', 'three', 'four', 'five'];
             const barCountArray = [];
+            let completeData;
             for (let i = 5; i > 0; i--) {
               const metricName = template[i] + 'StarMeasureCount';
               if (data.hasOwnProperty(metricName)) {
+                completeData = JSON.parse(JSON.stringify(data));
                 const m = {
                   star: i,
                   label: capitalize(template[i]) + ' Star Quality Measure',
-                  count: completeData.filter(item => item.QualityRating === i).length,
-                  insideData: completeData.filter(item => item.QualityRating === i)
+                  count: completeData[metricName].Count,
+                  insideData: completeData[metricName].Data
                 };
                 barCountArray.push(m.count);
                 subCategory.push(m);
