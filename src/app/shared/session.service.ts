@@ -22,7 +22,9 @@ export class SessionService {
       timeFrame: 'Last 6 Months',
       lob: 'All',
       tax: ['All'],
-      taxwithSymbols: ['All']
+      taxwithSymbols: ['All'],
+      date: new Date(),
+      metric: 'GettingReimbursed'
     });
     this.filterObj = this.filterObjSubject.asObservable().pipe(share());
   }
@@ -48,6 +50,45 @@ export class SessionService {
       return JSON.parse(sessionStorage.getItem('currentUser'))[0]['ProviderKey'];
     } else if (sessionStorage.getItem('currentUser') && !environment.internalAccess) {
       return JSON.parse(sessionStorage.getItem('currentUser'))[0]['Providersyskey'];
+    }
+  }
+
+  public getHealthCareOrgName() {
+    if (sessionStorage.getItem('currentUser') && environment.internalAccess) {
+      return JSON.parse(sessionStorage.getItem('currentUser'))[0]['HealthCareOrganizationName'];
+    } else if (sessionStorage.getItem('currentUser') && !environment.internalAccess) {
+      return JSON.parse(sessionStorage.getItem('currentUser'))[0]['Healthcareorganizationname'];
+    }
+  }
+
+  public checkAdvocateRole(): boolean {
+    let userRole = false;
+    try {
+      if (
+        JSON.parse(sessionStorage.getItem('loggedUser')) &&
+        JSON.parse(sessionStorage.getItem('loggedUser')).UserPersonas
+      ) {
+        userRole = JSON.parse(sessionStorage.getItem('loggedUser')).UserPersonas.some(item =>
+          item.UserRole.includes('Advocate')
+        );
+      }
+      return userRole;
+    } catch (err) {
+      console.log('adovate role session service', err);
+      return userRole;
+    }
+  }
+
+  public isPCORData() {
+    let pcorBoolean = false;
+    try {
+      if (JSON.parse(sessionStorage.getItem('pcor'))) {
+        pcorBoolean = JSON.parse(sessionStorage.getItem('pcor')).isPCOR;
+      }
+      return pcorBoolean;
+    } catch (err) {
+      console.log('');
+      return pcorBoolean;
     }
   }
   public sessionStorage(value: string, item: string) {

@@ -19,6 +19,8 @@ export const environment: any = {
       'https://stage-sso.uhc.com/ext/as/authorization.oauth2?pfidpadapterid=OptumIdOIDCStage&client_id=PED42235&response_' +
       'type=code&redirect_uri=https://pedui1-pedtst.ocp-ctc-core-nonprod.optum.com/login&scope=openid+profile+email&state=PED&prompt=none',
     linkLoginPage: 'https://provider-stage.linkhealth.com',
+    SsoLogoutUrl:
+      'https://provider-stage.linkhealth.com/api/link/session/signout&redirect=https://provider-stage.linkhealth.com',
     ProvTinList: 'provider-tins/',
     LayerSevenPath: 'myinsightLayerSevenHandshake',
     URL: window.location.origin,
@@ -35,7 +37,10 @@ export const environment: any = {
     NonPayment: 'claim-metrics/',
     CallsTrend: 'provider-calls/',
     TrendingMetrics: 'trending-metrics/',
-    PCORQualityMeasure: 'pcor-metrics/'
+    PCORQualityMeasure: 'pcor-metrics/',
+    AppealsTrend: 'appeals-trend/',
+    AdminSummaryTrends: 'admintrends/'
+
   },
   headerKeys: {
     selectedCompany: '',

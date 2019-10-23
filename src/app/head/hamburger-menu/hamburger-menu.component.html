@@ -6,14 +6,15 @@
 
 <div [ngClass]="{ 'dark-theme': isDarkTheme | async }">
   <div class="example-container example-is-mobile" color="primary">
-    <mat-toolbar color="primary" class="example-toolbar" [class.display-none]="makeAbsolute">
+    <mat-toolbar color="primary" class="example-toolbar" [class.display-none]="!showPrintHeader && makeAbsolute">
       <!--<button mat-icon-button (click)="srnav.toggle()">-->
       <!--<mat-icon>filter</mat-icon>-->
       <!--</button>-->
       <app-header
-        [class.display-none]="makeAbsolute"
+        [class.display-none]="!showPrintHeader && makeAbsolute"
         class="sticky"
         (hamburgerDisplay)="hamburgerDisplay($event)"
+        [isKop]="isKop"
       ></app-header>
     </mat-toolbar>
     <mat-sidenav-container
@@ -38,15 +39,16 @@
         </div>
         <!-- END OF UHC LOGO BLOCK -->
         <!-- HEALTHSYSTEM REPRESENTATION BLOCK -->
-        <div class="health-system-representation-block">
+        <div class="health-system-representation-block" *ngIf="!isKop">
           <p class="representing-label">You are representing</p>
           <p class="health-system-name">{{ healthSystemName }}</p>
-          <p class="change-provider" *ngIf="disableChangeProvider" (click)="openDialog()">Change Provider</p>
+          <p class="change-provider" *ngIf="disableChangeProvider && !AcoFlag" (click)="openDialog()">
+            Change Provider
+          </p>
         </div>
         <!-- END OF HEALTHSYSTEM REPRESENTATION BLOCK -->
-
         <!-- MENU CATEGORIES BLOCK -->
-        <div class="nav-mat-list-items">
+        <div class="nav-mat-list-items" *ngIf="!isKop && !AcoFlag">
           <mat-nav-list
             *ngFor="let category of navCategories; let rowIndex = index"
             [ngClass]="
@@ -76,16 +78,48 @@
                   <!--<img src="{{ category.icon }}" class="nav-menu-icons" />-->{{ category.name }}
                 </mat-panel-title>
               </mat-expansion-panel-header>
-              <a
-                class="nav-sub-category-items"
-                (click)="collapseExpansionPanels(rowIndex)"
-                [routerLinkActiveOptions]="{ exact: true }"
-                mat-list-item
-                routerLink="{{ subcategory.path }}"
-                routerLinkActive="active-link"
-                *ngFor="let subcategory of category.children"
-                >{{ subcategory.name }}</a
-              >
+              <mat-nav-list *ngFor="let subcategory of category.children">
+                <mat-expansion-panel
+                  *ngIf="subcategory.children"
+                  class=" nav-menu-expansion-panel mat-elevation-z0 child-nav-menu-expansion-panel"
+                  [expanded]="_allExpandState"
+                  [disabled]="subcategory.disabled"
+                  [class.pointer-none]="subcategory.disabled"
+                >
+                  <mat-expansion-panel-header
+                    class="sub-menu-sub-header nav-sub-category-items"
+                    [collapsedHeight]="'18px'"
+                    [expandedHeight]="'18px'"
+                    style="font-size:14px"
+                  >
+                    <mat-panel-title class="sub-menu-expansion-header">
+                      <!--<img src="{{ category.icon }}" class="nav-menu-icons" />-->{{ subcategory.name }}
+                    </mat-panel-title>
+                  </mat-expansion-panel-header>
+
+                  <a
+                    class="nav-sub-category-items second-level-link "
+                    (click)="collapseExpansionPanels(rowIndex)"
+                    [routerLinkActiveOptions]="{ exact: true }"
+                    mat-list-item
+                    routerLink="{{ supersubcategory.path }}"
+                    routerLinkActive="active-link"
+                    *ngFor="let supersubcategory of subcategory.children"
+                    >{{ supersubcategory.name }}</a
+                  >
+                </mat-expansion-panel>
+
+                <a
+                  *ngIf="!subcategory.children"
+                  class="nav-sub-category-items"
+                  (click)="collapseExpansionPanels(rowIndex)"
+                  [routerLinkActiveOptions]="{ exact: true }"
+                  mat-list-item
+                  routerLink="{{ subcategory.path }}"
+                  routerLinkActive="active-link"
+                  >{{ subcategory.name }}</a
+                >
+              </mat-nav-list>
             </mat-expansion-panel>
 
             <!-- CATEGORY WHICH HAS NO SUB CATEGORIES -->
@@ -99,20 +133,24 @@
               *ngIf="!category.children"
             >
               <!--<img
-              class="nav-menu-icons" [src]="category.icon" />-->
+               class="nav-menu-icons" [src]="category.icon" />-->
               <mat-icon class="nav-menu-icons" svgIcon="{{ category.icon }}"></mat-icon> {{ category.name }}
             </a>
           </mat-nav-list>
         </div>
         <!-- END OF MENU CATEGORIES BLOCK -->
 
+        <div *ngIf="isKop" class="simulate-external-view">
+          <button class="simulate-external-view-btn btn btn-secondary" mat-button>Simulate External View</button>
+        </div>
+
         <!-- SIGNOUT BLOCK -->
         <div class="signout-block">
           <p class="signout-label" (click)="signOut()">
             <a>
               <mat-icon class="nav-menu-icons" svgIcon="sign-out"></mat-icon
-              ><span class="sign-out-text">Sign Out </span></a
-            >
+              ><span class="sign-out-text">Sign Out </span>
+            </a>
           </p>
         </div>
         <!-- END OF SIGNOUT BLOCK -->
@@ -123,11 +161,13 @@
       <mat-sidenav
         #srnav
         [mode]="'over'"
+        [class.display-none]="makeAbsolute"
         class="sidenav-glossary"
         position="end"
         [fixedInViewport]="true"
         [opened]="glossaryFlag || filterFlag"
         id="side-nav-glossary"
+        [disableClose]="true"
       >
         <div style="width: 418px; min-height: 96%;">
           <div [ngClass]="{ sidemargin: glossaryFlag, 'sidemargin-filter': filterFlag }">
@@ -147,7 +187,11 @@
                 <div class="filter-text">Filters</div>
               </div>
             </div>
-            <app-glossary *ngIf="glossaryFlag && glossaryTitle" [title]="glossaryTitle"></app-glossary>
+            <app-glossary
+              *ngIf="glossaryFlag && glossaryTitle"
+              [title]="glossaryTitle"
+              [MetricID]="glossaryMetricID"
+            ></app-glossary>
             <app-filter *ngIf="filterFlag" [filterurl]="filterurl" (filterFlag)="filterFlagChange($event)"></app-filter>
           </div>
         </div>

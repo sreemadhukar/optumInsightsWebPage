@@ -57,12 +57,17 @@ export class ProviderSearchComponent implements OnInit, AfterViewInit {
 
     this.providerData = JSON.parse(sessionStorage.getItem('currentUser'));
     this.nomatchFlag = true;
+
+    // To close the provider dialog box on clicking outside
+    this.dialogRef.backdropClick().subscribe(() => {
+      this.dialogRef.close();
+    });
   }
 
   ngAfterViewInit() {
-    if (!this.states) {
-      this.providerSharedService.providersList().subscribe(value => (this.states = value));
-    }
+    // if (!this.states) {
+    //   this.providerSharedService.providersList().subscribe(value => (this.states = value));
+    // }
 
     this.filteredStates = this.stateCtrl.valueChanges.pipe(
       startWith(''),
@@ -79,7 +84,7 @@ export class ProviderSearchComponent implements OnInit, AfterViewInit {
     } else {
       this.storage.store('currentUser', [Object.assign(provider, data)]);
     }
-    console.log('storage', this.storage);
+    this.storage.emitEvent('overviewPage');
     this.dialogRef.close();
   }
 

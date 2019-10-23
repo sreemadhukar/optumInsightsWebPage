@@ -16,6 +16,14 @@
       "Reduce Reconsideration Processing by:": false
     }
   },
+  "OverviewAdvocate": {
+    "navLink": true,
+    "TopRow": {
+      "Claims Paid": true,
+      "Claims Not Paid": true,
+      "Claims Submitted": true
+    }
+  },
   "Getting Reimbursed": {
     "Summary": {
       "navLink": true,
@@ -32,7 +40,7 @@
       "Claims Non-Payments": {
         "tile": true,
         "Claims Not Paid": true,
-        "Claims Non-Payment Rate": true
+        "Claims Non-Payment Rate": false
       },
       "Claims Appeals": {
         "tile": true,
@@ -49,7 +57,7 @@
     "Claims Non-Payments": {
       "navLink": true,
       "Claims Not Paid": true,
-      "Claims Non-Payment Rate": true,
+      "Claims Non-Payment Rate": false,
       "Top Reasons for Claims Non-Payment": true
     },
     "Claims Appeals": {
@@ -61,7 +69,9 @@
     },
     "Claims Payment Integrity": {
       "navLink": true,
-      "Payment Integrity: Medical Record Coding Review": true
+      "Payment Integrity: Medical Record Coding Review": true,
+      "Smart Edits Claims Returned": false,
+      "Smart Edits Returned Claims Top Reasons": false
     }
   },
   "Care Delivery": {

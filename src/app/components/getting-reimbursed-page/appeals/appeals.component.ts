@@ -28,9 +28,12 @@ export class AppealsComponent implements OnInit {
   overturnReasonItem: any;
   reason: any;
   title = 'Top Claims Appeals Overturn Reasons';
+  MetricID = '102';
   loading: boolean;
   mockCards: any;
   reasonDataAvailable = false;
+  appealsTAT: object;
+  showAppealsTAT = false;
   constructor(
     private appealsSharedService: AppealsSharedService,
     private iconRegistry: MatIconRegistry,
@@ -42,9 +45,13 @@ export class AppealsComponent implements OnInit {
     private router: Router,
     private filtermatch: CommonUtilsService
   ) {
-    const filData = this.session.getFilChangeEmitter().subscribe(() => this.ngOnInit());
+    // const filData = this.session.getFilChangeEmitter().subscribe(() => this.ngOnInit());
+    const filData = this.session.getFilChangeEmitter().subscribe(() => this.filtermatch.urlResuseStrategy());
     this.pageTitle = 'Claims Appeals';
-    this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.ngOnInit());
+    // this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.ngOnInit());
+    this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => {
+      this.filtermatch.urlResuseStrategy();
+    });
     iconRegistry.addSvgIcon(
       'filter',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-filter_list-24px.svg')
@@ -88,10 +95,47 @@ export class AppealsComponent implements OnInit {
         this.reason = appealsRateData[3];
       }
     });
+
+    this.appealsSharedService.getappealsTatandDevidedOverturnData().then(appealsRateData => {
+      this.appealsTAT = appealsRateData;
+      this.showAppealsTAT = true;
+      console.log('ApeealsTAT');
+    });
+
+    /*this.appealsTAT = {
+      category: 'app-card',
+      type: 'rotateWithLabel',
+      title: 'Average Appeals Turn Around Time',
+      MetricID: 'NA',
+      data: {
+        centerNumber: 0 + ' days',
+        color: ['#3381FF', '#3381FF'],
+        gdata: ['card-inner', 'appealsAverageTurnAround'],
+        sdata: {
+          sign: 'down',
+          data: '-1.2%'
+        }
+      },
+      besideData: {
+        verticalData: [
+          {
+            values: 0 + ' Days',
+            labels: 'Date of Service to Received'
+          },
+          {
+            values: 0 + ' Days',
+            labels: 'Received to Processed'
+          }
+        ]
+      },
+      timeperiod: this.session.filterObjValue.timeFrame
+    };*/
   }
 
   helpIconClick(title) {
-    this.glossaryExpandService.setMessage(title);
+    if (title === 'Top Claims Appeals Overturn Reasons') {
+      this.glossaryExpandService.setMessage(title, this.MetricID);
+    }
   }
   openFilter() {
     this.filterExpandService.setURL(this.router.url);

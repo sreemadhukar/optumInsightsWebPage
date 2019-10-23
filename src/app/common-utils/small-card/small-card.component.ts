@@ -13,8 +13,10 @@ import { Router } from '@angular/router';
 export class SmallCardComponent implements OnInit {
   @Input() data;
   @Input() skeleton;
+  @Input() options: any;
   subscription: Subscription;
   public printStyle: boolean;
+  public besideData: any;
   /*
   _card: Object = {};
   data: Object = {};
@@ -45,7 +47,7 @@ export class SmallCardComponent implements OnInit {
   }
 
   helpIconClick(title) {
-    this.glossaryExpandService.setMessage(title);
+    this.glossaryExpandService.setMessage(this.data.title, this.data.MetricID);
   }
   ngOnInit() {}
 }

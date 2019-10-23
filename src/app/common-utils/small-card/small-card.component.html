@@ -1,12 +1,28 @@
-<div *ngIf="data != null" class="small-card-structure">
-  <div class="card-inner" [class.print-card-inner]="printStyle">
+<div *ngIf="data != null" class="small-card-structure" [class.nps]="data.quarter">
+  <div class="card-inner" [class.nps]="data.quarter" [class.print-card-inner]="printStyle">
     <app-common-header
       [cardType]="'smallCard'"
       [title]="data.title"
+      [options]="options"
       (helpIconClicked)="helpIconClick($event)"
     ></app-common-header>
+
+    <div *ngIf="data.quarter" class="cards-display-block">
+      <div
+        *ngFor="let card of data.cards"
+        class="data-card"
+        [class.card-nps-quarter-current]="card.currentQuarter"
+        [class.card-nps-quarter-prev]="card.prevQuarter"
+        [class.card-nps-quarter-highlight]="card.highlightQuarter"
+      >
+        <div class="highlighted">{{ card.highlightedValue }}</div>
+        <div class="caption-text">{{ card.captionText }}</div>
+        <div class="target">{{ card.targetValue }}</div>
+      </div>
+    </div>
+
     <div
-      *ngIf="data.type == 'donut' && data.data != null"
+      *ngIf="(data.type == 'donut' || data.type == 'donutWithLabel') && data.data != null"
       [ngClass]="data.sdata != null ? 'chart-details-donut' : 'full-width'"
     >
       <app-donut-chart [donutType]="'small-card'" [chartOptions]="data.data"></app-donut-chart>
@@ -14,7 +30,14 @@
     <div *ngIf="data.type == 'star' && data.data != null" class="chart-details small-star-chart">
       <app-star-chart [starType]="'small-card'" [chartOptions]="data.data"></app-star-chart>
     </div>
-    <div *ngIf="data.sdata != null" class="trend-details">
+
+    <!-- trend starts here-->
+
+    <div
+      *ngIf="data.type == 'donut' && data.sdata != null"
+      class="trend-details"
+      [class.trend-nps]="data.sdata.trendStyleNPS"
+    >
       <div *ngIf="data.sdata.sign === 'down'" class="flex-box">
         <span class="trend" [class.down]="data.sdata.sign === 'down'">
           <img class="trend-image trend-image-down" src="/src/assets/images/trend-down.svg" alt="trend-down" />
@@ -64,12 +87,35 @@
         </div>
       </div>
     </div>
+    <!-- end trends on right hand side-->
+
+    <div *ngIf="data.type == 'donutWithLabel'">
+      <div *ngIf="data.title == 'Claims Submitted'" class="total-claims-beside-data-block">
+        <ul class="app-card-list-labels">
+          <li class="label-color-indicators" *ngFor="let c of data.data.besideData.color; let i = index">
+            <div class="label-dots" style.background-color="{{ c }}"></div>
+          </li>
+        </ul>
+        <ul class="app-card-list-labels">
+          <li *ngFor="let c of data.data.besideData.labels; let i = index">{{ c }}</li>
+        </ul>
+      </div>
+      <div *ngIf="data.title != 'Claims Submitted'" class="beside-data-block">
+        <ul class="app-card-list-labels">
+          <li class="label-color-indicators" *ngFor="let c of data.data.besideData.color; let i = index">
+            <div class="label-dots" style.background-color="{{ c }}"></div>
+          </li>
+        </ul>
+        <ul class="app-card-list-labels">
+          <li *ngFor="let c of data.data.besideData.labels; let i = index">{{ c }}</li>
+        </ul>
+      </div>
+    </div>
     <div *ngIf="data.timeperiod" class="full-display-block">
       <app-common-footer [timePeriod]="data.timeperiod"></app-common-footer>
     </div>
   </div>
 </div>
-
 <div *ngIf="skeleton" class="small-card-structure">
   <div class="card-inner" [class.print-card-inner]="printStyle">
     <div class="full-width-block">

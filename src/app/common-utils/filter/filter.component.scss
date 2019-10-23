@@ -79,6 +79,13 @@
       background-color: #ffffff;
       padding-left: 48px;
     }
+    .trends-date-picker {
+      padding-left: 20px;
+    }
+    .trends-dp-icon {
+      position: absolute;
+      right: 40px;
+    }
   }
   ::placeholder {
     /* Firefox, Chrome, Opera */
@@ -218,4 +225,7 @@
 .disable-radio-button {
   pointer-events: none;
   color: lightgray !important;
+}
+.input-class {
+  font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
 }

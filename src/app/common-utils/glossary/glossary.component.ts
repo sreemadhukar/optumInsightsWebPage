@@ -31,9 +31,9 @@ export class GlossaryComponent implements OnInit {
   public toHighlight = '';
   public internal = environment.internalAccess;
   @Input() title;
+  @Input() MetricID;
   constructor(private glossaryService: GlossaryService) {}
   ngOnInit() {
-    console.log(this.title);
     this.options = [];
     this.glossarySelected = [];
     this.glossaryService.getBusinessGlossaryData().subscribe(response => {
@@ -55,11 +55,21 @@ export class GlossaryComponent implements OnInit {
             i
           ].BusinessGlossary.ProviderDashboardName.Metric.replace(/[^a-zA-Z]/g, '');
           if (
-            this.glossaryList[i].BusinessGlossary.ProviderDashboardName.Metric.toLowerCase().includes(
-              this.title.toLowerCase()
-            )
+            this.glossaryList[i].BusinessGlossary.ProviderDashboardName.MetricID === Number(this.MetricID) &&
+            this.MetricID
           ) {
             this.glossarySelected.push(this.glossaryList[i]);
+          }
+        }
+        if (this.glossarySelected.length === 0) {
+          for (let i = 0; i < this.glossaryList.length; i++) {
+            if (
+              this.glossaryList[i].BusinessGlossary.ProviderDashboardName.Metric.toLowerCase().includes(
+                this.title.toLowerCase()
+              )
+            ) {
+              this.glossarySelected.push(this.glossaryList[i]);
+            }
           }
         }
       }
@@ -174,7 +184,7 @@ export class GlossaryComponent implements OnInit {
   }
   @HostListener('window:scroll', ['$event'])
   checkScroll() {
-    if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 80) {
+    if (window.innerHeight + document.documentElement.scrollTop >= document.body.offsetHeight - 80) {
       this.viewallmetricsbuttonposition = false;
     } else {
       this.viewallmetricsbuttonposition = true;

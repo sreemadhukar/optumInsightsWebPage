@@ -231,7 +231,7 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit, OnCha
       .attr('font-size', '16')
       .style('text-anchor', 'start')
       .style('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
-      .text('Actual Allowed*');
+      .text('Actual Allowed †');
 
     chart
       .append('text')
@@ -291,7 +291,7 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit, OnCha
       .attr('font-size', '12')
       .style('text-anchor', 'end')
       .style('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
-      .text('*Includes Member Responsibility');
+      .text('† Includes Member Responsibility');
 
     chart
       .append('line')

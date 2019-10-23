@@ -1,10 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { PriorAuthService } from '../../../rest/prior-auth/prior-auth.service';
-import { PatientCareOpportunityService } from '../../../rest/PCOR/patient-care-opportunity.service';
-import { SessionService } from '../../../shared/session.service';
 import { StorageService } from '../../../shared/storage-service.service';
-import { PriorAuthSharedService } from '../../../shared/prior-authorization/prior-auth.service';
-import { PCORSharedService } from '../../../shared/PCOR/pcor-shared.service';
+import { PcorSharedService } from '../../../shared/care-delivery/pcor-shared.service';
+import { CommonUtilsService } from 'src/app/shared/common-utils.service';
 @Component({
   selector: 'app-patient-care-opportunity',
   templateUrl: './patient-care-opportunity.component.html',
@@ -12,13 +9,15 @@ import { PCORSharedService } from '../../../shared/PCOR/pcor-shared.service';
 })
 export class PatientCareOpportunityComponent implements OnInit {
   subscription: any;
-  summaryItems: any;
+  pcorData: any;
   qualityMeasureData: any;
   pageTitle: String = '';
   loading: boolean;
+  pcorBoolean: boolean;
+  pcorLoading: boolean;
   MRAStarData: any;
   MRACVCompletionData: any;
-  StarRatings: any;
+  starRatings: any;
   mockCards: any;
   PCORTabData: boolean;
   tabOptions: Array<Object> = [];
@@ -32,18 +31,16 @@ export class PatientCareOpportunityComponent implements OnInit {
   starMeasure: any;
   qualityTitle: String = 'Quality Star Rating';
   constructor(
-    private priorAuthService: PriorAuthService,
-    private sessionService: SessionService,
     private checkStorage: StorageService,
-    private priorAuthShared: PriorAuthSharedService,
-    private pcorSharedService: PCORSharedService
+    private pcorService: PcorSharedService,
+    private filtermatch: CommonUtilsService
   ) {
-    this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.ngOnInit());
+    this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.filtermatch.urlResuseStrategy());
   }
   public ratingComponentClick(clickObj: any): void {
-    this.priorAuthShared.getPCORMandRData().then(data => {
-      this.summaryItems = JSON.parse(JSON.stringify(data));
-      this.StarRatings = this.summaryItems[2];
+    this.pcorService.getMRData().then(data => {
+      this.pcorData = JSON.parse(JSON.stringify(data));
+      this.starRatings = this.pcorData[2];
     });
   }
   ngOnInit() {
@@ -52,28 +49,52 @@ export class PatientCareOpportunityComponent implements OnInit {
     this.hideAllObjects = true;
     this.mockCards = [{}, {}];
     this.MRAStarData = [{}];
-    this.summaryItems = [{}];
+    this.pcorData = [{}];
     this.qualityMeasureData = [{}];
     this.MRACVCompletionData = [{}];
-    this.StarRatings = [{}];
+    this.starRatings = [{}];
     this.PCORTabData = true;
 
-    this.priorAuthShared.getPCORMandRData().then(
-      data => {
+    /** The following service method is fetching data for
+     * 1. Medicare & Retirement Average Star Rating
+     * 2. Medicare & Retirement Annual Care Visits Completion Rate
+     * 3. Quality Star top level information i.e. star count only
+     */
+
+    this.pcorService
+      .getMRData()
+      .then(data => {
         this.loading = false;
-        this.summaryItems = JSON.parse(JSON.stringify(data));
-        this.MRAStarData = this.summaryItems[0];
-        this.MRACVCompletionData = this.summaryItems[1];
-        this.currentTabTitle = this.summaryItems[1].title;
-        this.StarRatings = this.summaryItems[2];
-      },
-      error => {
-        this.hideAllObjects = false;
-      }
-    );
-    this.pcorSharedService.getQualityMeasureData().then(qdata => {
-      this.qualityMeasureData = JSON.parse(JSON.stringify(qdata));
-      // console.log(this.qualityMeasureData);
-    });
+        if (data) {
+          this.pcorData = JSON.parse(JSON.stringify(data));
+          this.MRAStarData = this.pcorData[0];
+          this.MRACVCompletionData = this.pcorData[1];
+          this.currentTabTitle = this.pcorData[1].title;
+          this.starRatings = this.pcorData[2];
+        }
+      })
+      .catch(error => {
+        console.log('PCOR', error);
+        this.loading = false;
+      });
+
+    /** The following service method is fetching data for
+     * 3. Data corresponding to the Quality Star
+     *  i.e. the inside level information for the quality star i.e. subCategories
+     */
+
+    this.pcorService
+      .getQualityMeasureData()
+      .then(data => {
+        const qdata = JSON.parse(JSON.stringify(data));
+        if (qdata.length) {
+          this.loading = false;
+          this.qualityMeasureData = qdata[0];
+        }
+      })
+      .catch(error => {
+        console.log('PCOR quality star', error);
+        this.loading = false;
+      });
   }
 }
