@@ -4,6 +4,7 @@ import { GettingReimbursedModule } from '../../../components/getting-reimbursed-
 import { GettingReimbursedService } from '../../../rest/getting-reimbursed/getting-reimbursed.service';
 import { CommonUtilsService } from '../../common-utils.service';
 import { SessionService } from '../../session.service';
+import { environment } from '../../../../environments/environment';
 
 @Injectable({
   providedIn: GettingReimbursedModule
@@ -476,7 +477,7 @@ export class PaymentsSharedService {
                 category: 'app-card',
                 type: 'donut',
                 title: 'Claims Yield',
-                toggle: true,
+                toggle: !environment.internalAccess,
                 data: {
                   graphValues: [
                     claimsData[lobData].ClaimsLobSummary[0].ClaimsYieldRate,
