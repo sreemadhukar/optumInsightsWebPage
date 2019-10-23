@@ -37,7 +37,14 @@ import { D3StarBlueComponent } from './d3-objects/d3-star-blue/d3-star-blue.comp
 import { D3StarGreyComponent } from './d3-objects/d3-star-grey/d3-star-grey.component';
 import { HeacSmallCardComponent } from './heac-small-card/heac-small-card.component';
 import { PipesModule } from '../pipes/pipes.module';
+import { LargeCardKopComponent } from './large-card-kop/large-card-kop.component';
+import { TrendsComponent } from './trends/trends.component';
+import { DonutChartsComponent } from './kop-cards/donut-charts/donut-charts.component';
+import { HorizontalChartsComponent } from './kop-cards/horizontal-charts/horizontal-charts.component';
+import { VerticalBarChartsComponent } from './kop-cards/vertical-bar-charts/vertical-bar-charts.component';
+import { KopFiltersComponent } from './kop-filters/kop-filters.component';
 import { MultiLineGraphComponent } from './d3-objects/multi-line-graph/multi-line-graph.component';
+import { ErrorTemplateComponent } from './kop-cards/error-template/error-template.component';
 
 @NgModule({
   imports: [
@@ -75,6 +82,12 @@ import { MultiLineGraphComponent } from './d3-objects/multi-line-graph/multi-lin
     ClarifyClaimsMessageComponent,
     AccordionLargeCardComponent,
     HeacSmallCardComponent,
+    LargeCardKopComponent,
+    TrendsComponent,
+    DonutChartsComponent,
+    HorizontalChartsComponent,
+    VerticalBarChartsComponent,
+    KopFiltersComponent,
     MultiLineGraphComponent
   ],
   declarations: [
@@ -110,7 +123,14 @@ import { MultiLineGraphComponent } from './d3-objects/multi-line-graph/multi-lin
     D3StarBlueComponent,
     D3StarGreyComponent,
     HeacSmallCardComponent,
-    MultiLineGraphComponent
+    LargeCardKopComponent,
+    TrendsComponent,
+    DonutChartsComponent,
+    HorizontalChartsComponent,
+    VerticalBarChartsComponent,
+    KopFiltersComponent,
+    MultiLineGraphComponent,
+    ErrorTemplateComponent
   ],
   entryComponents: [ProviderSearchComponent]
 })

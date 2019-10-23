@@ -2,8 +2,11 @@
   <div class="main-content">
     <div class="cards cust-width-title">
       <app-breadcrumbs></app-breadcrumbs>
-      <div class="page-title">
+      <div class="page-title" [class.page-title-subtitle]="pageSubTitle.length > 0">
         {{ pageTitle }}
+      </div>
+      <div class="page-subtitle">
+        {{ pageSubTitle }}
       </div>
     </div>
 

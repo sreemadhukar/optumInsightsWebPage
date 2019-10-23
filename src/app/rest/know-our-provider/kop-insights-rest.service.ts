@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+
 @Injectable({
   providedIn: 'root'
 })
-export class NPSService {
+export class KopInsightsRestService {
   constructor(private http: HttpClient) {}
-  public getNPSSummary() {
-    return this.http.get('./src/assets/mock-data/nps.json');
+  public getKopData() {
+    return this.http.get('./src/assets/mock-data/kop-insights.json');
   }
 }

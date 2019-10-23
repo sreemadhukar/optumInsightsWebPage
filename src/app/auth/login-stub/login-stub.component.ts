@@ -7,6 +7,7 @@ import { AuthenticationService } from '../_service/authentication.service';
 import { InternalService } from '../_service/internal.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProviderSharedService } from '../../shared/provider/provider-shared.service';
+import { SessionService } from '../../shared/session.service';
 import { MatDialog, MatIconRegistry } from '@angular/material';
 import { ProviderSearchComponent } from '../../common-utils/provider-search/provider-search.component';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -34,6 +35,8 @@ export class LoginStubComponent implements OnInit {
     note: 'Due to inactivity, we have logged you out.',
     message: 'To return to UHC Insights, please sign in below.'
   };
+  public checkAdv;
+  public checkPro;
   @ViewChild('errorDialog') errorDialog: TemplateRef<any>;
 
   constructor(
@@ -49,8 +52,11 @@ export class LoginStubComponent implements OnInit {
     private authorise: AuthorizationService,
     private cookieService: CookieService,
     private route: ActivatedRoute,
+    private sessionService: SessionService,
     @Inject(DOCUMENT) private document: any
   ) {
+    this.checkAdv = this.sessionService.checkAdvocateRole();
+    this.checkPro = this.sessionService.checkProjectRole();
     iconRegistry.addSvgIcon(
       'error',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Alert/round-error_outline-24px.svg')
@@ -95,7 +101,15 @@ export class LoginStubComponent implements OnInit {
     this.returnUrl = '/ProviderSearch';
     if (this.isInternal) {
       if (this.authService.isLoggedIn()) {
-        this.router.navigate([this.returnUrl]);
+        if (JSON.parse(sessionStorage.getItem('currentUser'))[0]['ProviderKey']) {
+          if (this.checkAdv.value) {
+            window.location.href = '/OverviewPageAdvocate';
+          } else if (this.checkPro.value) {
+            window.location.href = '/OverviewPage';
+          }
+        } else {
+          this.router.navigate([this.returnUrl]);
+        }
       } else {
         this.internalService.getPublicKey();
         this.authService.getJwt().subscribe(data => {
@@ -158,6 +172,9 @@ export class LoginStubComponent implements OnInit {
             this.authorise.getHeac(this.f.username.value).subscribe(value => {
               console.log(value);
             });
+            this.authorise.getTrendAccess(this.f.username.value).subscribe(value => {
+              console.log(value);
+            });
           }
           sessionStorage.setItem('cache', JSON.stringify(true));
           // this.openDialog();
@@ -168,7 +185,7 @@ export class LoginStubComponent implements OnInit {
               const heac = JSON.parse(sessionStorage.getItem('heac'));
               this.isKop = heac && heac.heac === true ? true : false;
               if (this.isKop === true) {
-                this.router.navigate(['/KnowOurProvider']);
+                this.router.navigate(['/NationalExecutive']);
               } else {
                 this.router.navigate(['/ProviderSearch']);
               }
