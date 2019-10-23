@@ -44,6 +44,7 @@ export class SelectProviderComponent implements OnInit {
   public username: string;
   public checkAdv;
   public checkPro;
+  public checkExecutive;
   constructor(
     private fb: FormBuilder,
     private providerSharedService: ProviderSharedService,
@@ -55,6 +56,7 @@ export class SelectProviderComponent implements OnInit {
   ) {
     this.checkAdv = this.sessionService.checkAdvocateRole();
     this.checkPro = this.sessionService.checkProjectRole();
+    this.checkExecutive = this.sessionService.checkExecutiveRole();
     iconRegistry.addSvgIcon(
       'cross',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Content/round-clear-24px.svg')
@@ -149,6 +151,8 @@ export class SelectProviderComponent implements OnInit {
       window.location.href = '/OverviewPageAdvocate';
     } else if (this.checkPro.value) {
       window.location.href = '/OverviewPage';
+    } else if (this.checkExecutive.value) {
+      window.location.href = '/NationalExecutive';
     }
   }
 

@@ -37,6 +37,7 @@ export class LoginStubComponent implements OnInit {
   };
   public checkAdv;
   public checkPro;
+  public checkExecutive;
   @ViewChild('errorDialog') errorDialog: TemplateRef<any>;
 
   constructor(
@@ -57,6 +58,7 @@ export class LoginStubComponent implements OnInit {
   ) {
     this.checkAdv = this.sessionService.checkAdvocateRole();
     this.checkPro = this.sessionService.checkProjectRole();
+    this.checkExecutive = this.sessionService.checkExecutiveRole();
     iconRegistry.addSvgIcon(
       'error',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Alert/round-error_outline-24px.svg')
@@ -106,6 +108,8 @@ export class LoginStubComponent implements OnInit {
             window.location.href = '/OverviewPageAdvocate';
           } else if (this.checkPro.value) {
             window.location.href = '/OverviewPage';
+          } else if (this.checkExecutive.value) {
+            window.location.href = '/NationalExecutive';
           }
         } else {
           this.router.navigate([this.returnUrl]);
