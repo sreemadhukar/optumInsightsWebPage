@@ -51,6 +51,11 @@ export class OverviewAdvocateComponent implements OnInit {
   routhPath: string;
   appealsLineGraphloading: boolean;
   appealsLineGraphData: any;
+  callsLineGraphLoading: boolean;
+  trendTitleForCalls = 'Calls by Call Type';
+  totalCalls: any;
+  callsLoading: boolean;
+  callsLineGraphData: any;
 
   constructor(
     private checkStorage: StorageService,
@@ -138,11 +143,6 @@ export class OverviewAdvocateComponent implements OnInit {
     });
   }
 
-  appealsOverviewDetails() {
-    this.routhPath = '/GettingReimbursed/Appeals';
-    this.router.navigate([this.routhPath]);
-  }
-
   appealsTrendByMonthData() {
     this.appealsLineGraphData = {};
     this.overviewAdvocateSharedService.getAppealsTrendByMonthShared().then(appealsTrendData => {
@@ -177,12 +177,37 @@ export class OverviewAdvocateComponent implements OnInit {
     });
   }
 
+  totalCallsData() {
+    this.callsLoading = true;
+    this.overviewAdvocateSharedService.getTotalCallsShared().then(totalCallsData => {
+      if (totalCallsData[0] == null) {
+        this.callsLoading = false;
+        this.callsLineGraphData = {
+          category: 'large-card',
+          type: 'donut',
+          status: 404,
+          title: this.trendTitleForCalls,
+          MetricID: this.MetricidService.MetricIDs,
+          data: null,
+          timeperiod: null
+        };
+      } else {
+        let callsLeftData;
+        callsLeftData = totalCallsData;
+        this.totalCalls = this.filtermatch.nondecimalFormatter(callsLeftData[0].CallVolByQuesType.Total);
+        this.callsLoading = false;
+      }
+    });
+  }
+
   ngOnInit() {
     this.checkStorage.emitEvent('overviewPage');
     this.paymentData();
     this.appealsLeftData();
     this.appealsTrendByMonthData();
+    this.totalCallsData();
     this.appealsLineGraphloading = true;
+    // this.callsLineGraphLoading = true;
     this.userName = this.session.sessionStorage('loggedUser', 'FirstName');
     this.pageTitle = 'Welcome, ' + this.userName;
 

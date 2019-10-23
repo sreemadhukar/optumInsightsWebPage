@@ -67,7 +67,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   public advDropdownBool = false;
   subscription: Subscription;
   public healthSystemName: string;
-
+  public checkAdv;
+  public checkPro;
   constructor(
     private breakpointObserver: BreakpointObserver,
     public el: ElementRef,
@@ -81,6 +82,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
     private eventEmitter: EventEmitterService,
     private sessionService: SessionService
   ) {
+    this.checkAdv = this.sessionService.checkAdvocateRole();
+    this.checkPro = this.sessionService.checkProjectRole();
     // this.mobileQuery = this.breakpointObserver.isMatched('(max-width: 1024px)');
     router.events.subscribe(event => {
       if (event instanceof NavigationStart) {
@@ -124,7 +127,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   advocateUserClick() {
-    if (this.sessionService.checkAdvocateRole()) {
+    if (this.checkAdv.value) {
       this.advDropdownBool = !this.advDropdownBool;
     } else {
       this.advDropdownBool = false;
@@ -137,7 +140,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
       this.router.navigate(['/OverviewPage']);
     }
   }
-
   ngOnInit() {
     this.advDropdownBool = false;
     this.healthSystemName = this.sessionService.getHealthCareOrgName();

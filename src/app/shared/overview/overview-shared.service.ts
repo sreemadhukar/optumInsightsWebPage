@@ -15,8 +15,8 @@ export class OverviewSharedService {
   private overviewPageData: Array<object> = [];
   private timeFrame: string;
   private providerKey: number;
-  private baseTimePeriod = 'Last30Days';
-  private previousTimePeriod = 'PreviousLast30Days';
+  private baseTimePeriod = 'Last6Months';
+  private previousTimePeriod = 'PreviousLast6Months';
   private priorAuthTrend;
   constructor(
     private MetricidService: GlossaryMetricidService,
@@ -265,6 +265,7 @@ export class OverviewSharedService {
           category: 'small-card',
           type: 'star',
           title: 'Medicare Star Rating',
+          subtitle: 'Health System Summary',
           MetricID: this.MetricidService.MetricIDs.MedicareStarRating,
           toggle: this.toggle.setToggles('Medicare Star Rating', 'AtGlance', 'Overview', false),
           data: {
@@ -707,6 +708,7 @@ export class OverviewSharedService {
                 this.common.nFormatter(claims.All.ClaimsLobSummary[0].AmountPaid) > 0
                   ? '< $1'
                   : '$' + this.common.nFormatter(claims.All.ClaimsLobSummary[0].AmountPaid),
+              centerNumberOriginal: claims.All.ClaimsLobSummary[0].AmountPaid,
               color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'],
               gdata: ['card-inner', 'claimsPaidCardD3Donut'],
               labels: ['Medicare & Retirement', 'Community & State', 'Employer & Individual', 'Uncategorized'],
@@ -730,6 +732,7 @@ export class OverviewSharedService {
                   this.common.nFormatter(claims.All.ClaimsLobSummary[0].AmountPaid) > 0
                     ? '< $1'
                     : '$' + this.common.nFormatter(claims.All.ClaimsLobSummary[0].AmountPaid),
+                centerNumberOriginal: claims.All.ClaimsLobSummary[0].AmountPaid,
                 color: ['#D7DCE1', '#D7DCE1'],
                 gdata: ['card-inner', 'claimsPaidCardD3Donut']
               },
@@ -784,6 +787,7 @@ export class OverviewSharedService {
                 100 - claims.All.ClaimsLobSummary[0].ClaimsYieldRate
               ],
               centerNumber: claims.All.ClaimsLobSummary[0].ClaimsYieldRate.toFixed() + '%',
+              centerNumberOriginal: claims.All.ClaimsLobSummary[0].ClaimsYieldRate,
               color: ['#3381FF', '#D7DCE1'],
               gdata: ['card-inner', 'claimsYieldCardD3Donut']
             },
@@ -815,141 +819,188 @@ export class OverviewSharedService {
   }
 
   /* function to calculate Claims Paid & Claims YIeld Rate TRENDS -  Ranjith kumar Ankam - 04-Jul-2019*/
-  getClaimsTrends(baseTimePeriod, previousTimePeriod) {
+  // getClaimsTrends(baseTimePeriod, previousTimePeriod) {
+  //   return new Promise((resolve, reject) => {
+  //     /************************TRENDS********* */
+  //     let parameters = {
+  //       providerkey: this.providerKey,
+  //       // TimeFilter: 'Last30Days'
+  //       TimeFilter: baseTimePeriod
+  //     };
+  //     let latestClaimsPaid;
+  //     let latestClaimsYieldRate;
+  //     let previousClaimsPaid;
+  //     let previousClaimsYieldRate;
+  //     let claimsTrendValue;
+  //     const claimsPaidTrendObject: any = {};
+  //     let claimsYieldTrendValue;
+  //     const claimsYieldTrendObject: any = {};
+
+  //     this.getCurrentClaimsTrend(parameters)
+  //       .then(r => {
+  //         const latestClaimsTrendData: any = r;
+  //         latestClaimsPaid = latestClaimsTrendData.latestClaimsPaid;
+  //         latestClaimsYieldRate = latestClaimsTrendData.latestClaimsYieldRate;
+  //         parameters = {
+  //           providerkey: this.providerKey,
+  //           // TimeFilter: 'PreviousLast30Days'
+  //           TimeFilter: previousTimePeriod
+  //         };
+  //         return this.getPreviousClaimsTrend(parameters);
+  //       })
+  //       .then(r => {
+  //         const previousClaimsTrendData: any = r;
+  //         previousClaimsPaid = previousClaimsTrendData.previousClaimsPaid;
+  //         previousClaimsYieldRate = previousClaimsTrendData.previousClaimsYieldRate;
+  //         // console.log(latestClaimsPaid, previousClaimsPaid, latestClaimsYieldRate, previousClaimsYieldRate);
+  //         if (latestClaimsPaid !== 0 && latestClaimsPaid !== '0' && latestClaimsPaid != undefined) {
+  //           if (latestClaimsPaid === previousClaimsPaid) {
+  //             claimsPaidTrendObject.sign = '';
+  //             claimsPaidTrendObject.data = '';
+  //           } else if (previousClaimsPaid != undefined) {
+  //             claimsTrendValue = ((latestClaimsPaid - previousClaimsPaid) / previousClaimsPaid) * 100;
+  //             if (claimsTrendValue >= 0) {
+  //               claimsPaidTrendObject.sign = 'up';
+  //               claimsPaidTrendObject.data = '+' + claimsTrendValue.toFixed(1) + '%';
+  //             } else {
+  //               claimsPaidTrendObject.sign = 'down';
+  //               claimsPaidTrendObject.data = claimsTrendValue.toFixed(1) + '%';
+  //             }
+  //           } else {
+  //             claimsPaidTrendObject.sign = 'up';
+  //             claimsPaidTrendObject.data = '+' + latestClaimsPaid + '%';
+  //           }
+  //         } else if (previousClaimsPaid !== 0 || previousClaimsPaid !== '0' || previousClaimsPaid != undefined) {
+  //           if (latestClaimsPaid != undefined) {
+  //             claimsTrendValue = ((latestClaimsPaid - previousClaimsPaid) / previousClaimsPaid) * 100;
+  //             if (claimsTrendValue >= 0) {
+  //               claimsPaidTrendObject.sign = 'up';
+  //               claimsPaidTrendObject.data = '+' + claimsTrendValue.toFixed(1) + '%';
+  //             } else {
+  //               claimsPaidTrendObject.sign = 'down';
+  //               claimsPaidTrendObject.data = claimsTrendValue.toFixed(1) + '%';
+  //             }
+  //           }
+  //         } else {
+  //           claimsPaidTrendObject.sign = '';
+  //           claimsPaidTrendObject.data = '';
+  //         }
+
+  //         if (latestClaimsYieldRate !== 0 && latestClaimsYieldRate !== '0' && latestClaimsYieldRate != undefined) {
+  //           if (latestClaimsYieldRate === previousClaimsYieldRate) {
+  //             claimsYieldTrendObject.sign = '';
+  //             claimsYieldTrendObject.data = '';
+  //           } else if (previousClaimsYieldRate != undefined) {
+  //             claimsYieldTrendValue =
+  //               ((latestClaimsYieldRate - previousClaimsYieldRate) / previousClaimsYieldRate) * 100;
+  //             if (claimsYieldTrendValue >= 0) {
+  //               claimsYieldTrendObject.sign = 'up';
+  //               claimsYieldTrendObject.data = '+' + claimsYieldTrendValue.toFixed(1) + '%';
+  //             } else {
+  //               claimsYieldTrendObject.sign = 'down';
+  //               claimsYieldTrendObject.data = claimsYieldTrendValue.toFixed(1) + '%';
+  //             }
+  //           } else {
+  //             claimsYieldTrendObject.sign = 'up';
+  //             claimsYieldTrendObject.data = '+' + latestClaimsYieldRate + '%';
+  //           }
+  //         } else if (
+  //           previousClaimsYieldRate !== 0 ||
+  //           previousClaimsYieldRate !== '0' ||
+  //           previousClaimsYieldRate != undefined
+  //         ) {
+  //           if (latestClaimsYieldRate != undefined) {
+  //             claimsYieldTrendValue =
+  //               ((latestClaimsYieldRate - previousClaimsYieldRate) / previousClaimsYieldRate) * 100;
+  //             if (claimsYieldTrendValue >= 0) {
+  //               claimsYieldTrendObject.sign = 'up';
+  //               claimsYieldTrendObject.data = '+' + claimsYieldTrendValue.toFixed(1) + '%';
+  //             } else {
+  //               claimsYieldTrendObject.sign = 'down';
+  //               claimsYieldTrendObject.data = claimsYieldTrendValue.toFixed(1) + '%';
+  //             }
+  //           }
+  //         } else {
+  //           claimsYieldTrendObject.sign = '';
+  //           claimsYieldTrendObject.data = '';
+  //         }
+
+  //         /*
+  //          if (
+  //          latestClaimsYieldRate !== 0 &&
+  //          previousClaimsYieldRate !== 0 &&
+  //          latestClaimsYieldRate !== '0' &&
+  //          previousClaimsYieldRate !== '0' &&
+  //          latestClaimsYieldRate != undefined &&
+  //          previousClaimsYieldRate != undefined
+  //          ) {
+  //          claimsYieldTrendValue = ((latestClaimsYieldRate - previousClaimsYieldRate) / previousClaimsYieldRate) * 100;
+  //          if (claimsYieldTrendValue >= 0) {
+  //          claimsYieldTrendObject.sign = 'up';
+  //          claimsYieldTrendObject.data = '+' + claimsYieldTrendValue.toFixed(1) + '%';
+  //          } else {
+  //          claimsYieldTrendObject.sign = 'down';
+  //          claimsYieldTrendObject.data = claimsYieldTrendValue.toFixed(1) + '%';
+  //          }
+  //          } else if (
+  //          previousClaimsYieldRate === 0 ||
+  //          previousClaimsYieldRate === '0' ||
+  //          previousClaimsYieldRate == undefined ||
+  //          previousClaimsYieldRate == undefined
+  //          ) {
+  //          claimsYieldTrendObject.sign = 'up';
+  //          claimsYieldTrendObject.data = '+' + latestClaimsYieldRate + '%';
+  //          }
+  //          */
+  //         resolve({ claimsPaidTrendObject: claimsPaidTrendObject, claimsYieldTrendObject: claimsYieldTrendObject });
+  //       });
+  //   });
+  // }
+
+  /* function to calculate Claims Paid & Claims YIeld Rate TRENDS -  Ranjith kumar Ankam - 21-Oct-2019*/
+  getClaimsTrends(claimsPaidObj, claimsYieldObj) {
     return new Promise((resolve, reject) => {
-      /************************TRENDS********* */
-      let parameters = {
+      const tempArray: Array<object> = [];
+      const parameters = {
         providerkey: this.providerKey,
-        // TimeFilter: 'Last30Days'
-        TimeFilter: baseTimePeriod
+        TimeFilter: this.previousTimePeriod
       };
-      let latestClaimsPaid;
-      let latestClaimsYieldRate;
-      let previousClaimsPaid;
-      let previousClaimsYieldRate;
-      let claimsTrendValue;
-      const claimsPaidTrendObject: any = {};
-      let claimsYieldTrendValue;
-      const claimsYieldTrendObject: any = {};
 
-      this.getCurrentClaimsTrend(parameters)
-        .then(r => {
-          const latestClaimsTrendData: any = r;
-          latestClaimsPaid = latestClaimsTrendData.latestClaimsPaid;
-          latestClaimsYieldRate = latestClaimsTrendData.latestClaimsYieldRate;
-          parameters = {
-            providerkey: this.providerKey,
-            // TimeFilter: 'PreviousLast30Days'
-            TimeFilter: previousTimePeriod
-          };
-          return this.getPreviousClaimsTrend(parameters);
-        })
-        .then(r => {
-          const previousClaimsTrendData: any = r;
-          previousClaimsPaid = previousClaimsTrendData.previousClaimsPaid;
-          previousClaimsYieldRate = previousClaimsTrendData.previousClaimsYieldRate;
-          // console.log(latestClaimsPaid, previousClaimsPaid, latestClaimsYieldRate, previousClaimsYieldRate);
-          if (latestClaimsPaid !== 0 && latestClaimsPaid !== '0' && latestClaimsPaid != undefined) {
-            if (latestClaimsPaid === previousClaimsPaid) {
-              claimsPaidTrendObject.sign = '';
-              claimsPaidTrendObject.data = '';
-            } else if (previousClaimsPaid != undefined) {
-              claimsTrendValue = ((latestClaimsPaid - previousClaimsPaid) / previousClaimsPaid) * 100;
-              if (claimsTrendValue >= 0) {
-                claimsPaidTrendObject.sign = 'up';
-                claimsPaidTrendObject.data = '+' + claimsTrendValue.toFixed(1) + '%';
-              } else {
-                claimsPaidTrendObject.sign = 'down';
-                claimsPaidTrendObject.data = claimsTrendValue.toFixed(1) + '%';
-              }
-            } else {
-              claimsPaidTrendObject.sign = 'up';
-              claimsPaidTrendObject.data = '+' + latestClaimsPaid + '%';
-            }
-          } else if (previousClaimsPaid !== 0 || previousClaimsPaid !== '0' || previousClaimsPaid != undefined) {
-            if (latestClaimsPaid != undefined) {
-              claimsTrendValue = ((latestClaimsPaid - previousClaimsPaid) / previousClaimsPaid) * 100;
-              if (claimsTrendValue >= 0) {
-                claimsPaidTrendObject.sign = 'up';
-                claimsPaidTrendObject.data = '+' + claimsTrendValue.toFixed(1) + '%';
-              } else {
-                claimsPaidTrendObject.sign = 'down';
-                claimsPaidTrendObject.data = claimsTrendValue.toFixed(1) + '%';
+      this.overviewService.getOverviewClaimsTrend(parameters).subscribe(claims => {
+        if (
+          claims != null &&
+          claims.hasOwnProperty('All') &&
+          claims.All != null &&
+          claims.All.hasOwnProperty('ClaimsLobSummary')
+        ) {
+          if (claims.All.ClaimsLobSummary[0].hasOwnProperty('AmountPaid')) {
+            let newClaimsPaid = 0;
+            if (claimsPaidObj.data) {
+              if (claimsPaidObj.data.centerNumberOriginal) {
+                newClaimsPaid = claimsPaidObj.data.centerNumberOriginal;
+                const oldClaimsPaid = claims.All.ClaimsLobSummary[0].AmountPaid;
+                claimsPaidObj.sdata = this.common.trendNegativeMeansBad(newClaimsPaid, oldClaimsPaid);
               }
             }
-          } else {
-            claimsPaidTrendObject.sign = '';
-            claimsPaidTrendObject.data = '';
           }
 
-          if (latestClaimsYieldRate !== 0 && latestClaimsYieldRate !== '0' && latestClaimsYieldRate != undefined) {
-            if (latestClaimsYieldRate === previousClaimsYieldRate) {
-              claimsYieldTrendObject.sign = '';
-              claimsYieldTrendObject.data = '';
-            } else if (previousClaimsYieldRate != undefined) {
-              claimsYieldTrendValue =
-                ((latestClaimsYieldRate - previousClaimsYieldRate) / previousClaimsYieldRate) * 100;
-              if (claimsYieldTrendValue >= 0) {
-                claimsYieldTrendObject.sign = 'up';
-                claimsYieldTrendObject.data = '+' + claimsYieldTrendValue.toFixed(1) + '%';
-              } else {
-                claimsYieldTrendObject.sign = 'down';
-                claimsYieldTrendObject.data = claimsYieldTrendValue.toFixed(1) + '%';
-              }
-            } else {
-              claimsYieldTrendObject.sign = 'up';
-              claimsYieldTrendObject.data = '+' + latestClaimsYieldRate + '%';
-            }
-          } else if (
-            previousClaimsYieldRate !== 0 ||
-            previousClaimsYieldRate !== '0' ||
-            previousClaimsYieldRate != undefined
-          ) {
-            if (latestClaimsYieldRate != undefined) {
-              claimsYieldTrendValue =
-                ((latestClaimsYieldRate - previousClaimsYieldRate) / previousClaimsYieldRate) * 100;
-              if (claimsYieldTrendValue >= 0) {
-                claimsYieldTrendObject.sign = 'up';
-                claimsYieldTrendObject.data = '+' + claimsYieldTrendValue.toFixed(1) + '%';
-              } else {
-                claimsYieldTrendObject.sign = 'down';
-                claimsYieldTrendObject.data = claimsYieldTrendValue.toFixed(1) + '%';
-              }
-            }
-          } else {
-            claimsYieldTrendObject.sign = '';
-            claimsYieldTrendObject.data = '';
-          }
+          /** Commenting the following lines of code to remove trends from Clims Yield **/
 
-          /*
-           if (
-           latestClaimsYieldRate !== 0 &&
-           previousClaimsYieldRate !== 0 &&
-           latestClaimsYieldRate !== '0' &&
-           previousClaimsYieldRate !== '0' &&
-           latestClaimsYieldRate != undefined &&
-           previousClaimsYieldRate != undefined
-           ) {
-           claimsYieldTrendValue = ((latestClaimsYieldRate - previousClaimsYieldRate) / previousClaimsYieldRate) * 100;
-           if (claimsYieldTrendValue >= 0) {
-           claimsYieldTrendObject.sign = 'up';
-           claimsYieldTrendObject.data = '+' + claimsYieldTrendValue.toFixed(1) + '%';
-           } else {
-           claimsYieldTrendObject.sign = 'down';
-           claimsYieldTrendObject.data = claimsYieldTrendValue.toFixed(1) + '%';
-           }
-           } else if (
-           previousClaimsYieldRate === 0 ||
-           previousClaimsYieldRate === '0' ||
-           previousClaimsYieldRate == undefined ||
-           previousClaimsYieldRate == undefined
-           ) {
-           claimsYieldTrendObject.sign = 'up';
-           claimsYieldTrendObject.data = '+' + latestClaimsYieldRate + '%';
-           }
-           */
-          resolve({ claimsPaidTrendObject: claimsPaidTrendObject, claimsYieldTrendObject: claimsYieldTrendObject });
-        });
+          /* if (claims.All.ClaimsLobSummary[0].hasOwnProperty('ClaimsYieldRate')) {
+            let newClaimsPaid = 0;
+            if (claimsYieldObj.data) {
+              if (claimsYieldObj.data.centerNumberOriginal) {
+                newClaimsPaid = claimsYieldObj.data.centerNumberOriginal;
+                const oldClaimsPaid = claims.All.ClaimsLobSummary[0].ClaimsYieldRate;
+                claimsYieldObj.sdata = this.common.trendNegativeMeansBad(newClaimsPaid, oldClaimsPaid);
+              }
+            }
+          }*/
+        }
+        tempArray[0] = claimsPaidObj;
+        tempArray[1] = claimsYieldObj;
+        resolve(tempArray);
+      });
     });
   }
 
@@ -1016,7 +1067,7 @@ export class OverviewSharedService {
       const tempArray: Array<object> = [];
       const parameters = {
         providerkey: this.providerKey,
-        TimeFilter: 'Last6Months'
+        TimeFilter: this.baseTimePeriod
       };
 
       this.overviewService.getOverviewClaimsTrend(parameters).subscribe(claims => {
@@ -1027,7 +1078,9 @@ export class OverviewSharedService {
           })
           .then(claimsYield => {
             tempArray[1] = claimsYield;
-            return this.getClaimsTrends(this.baseTimePeriod, this.previousTimePeriod);
+
+            // return this.getClaimsTrends(this.baseTimePeriod, this.previousTimePeriod);
+            return this.getClaimsTrends(tempArray[0], tempArray[1]);
           })
           .then(trendData => {
             let trends: any;

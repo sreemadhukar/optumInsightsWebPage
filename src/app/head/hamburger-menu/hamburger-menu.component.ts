@@ -19,7 +19,7 @@ import {
   Input,
   Inject
 } from '@angular/core';
-import { MatExpansionPanel, MatDialog, MatSidenav } from '@angular/material';
+import { MatExpansionPanel, MatDialog, MatSidenav, MatDialogConfig } from '@angular/material';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -64,11 +64,14 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
   public filterurl: string = null;
   clickHelpIcon: Subscription;
   clickFilterIcon: Subscription;
+  clickFilterIconCustom: Subscription;
   filterClose: Subscription;
   public mobileQuery: boolean;
   public healthSystemName: string;
   public isKop: boolean;
   disableChangeProvider: boolean = environment.internalAccess;
+  public checkAdv;
+  public checkPro;
   /*** Array of Navigation Category List ***/
   public navCategories = [
     { icon: 'home', name: 'Overview', path: '/OverviewPage', disabled: false },
@@ -103,9 +106,18 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
         { name: 'Self Service', path: '/ServiceInteraction/SelfService' },
         { name: 'Calls', path: '/ServiceInteraction/Calls' }
       ]
+    },
+    {
+      icon: 'timeline',
+      name: 'Summary Trends',
+      path: '/AdminSummaryTrends',
+      disabled: true
     }
   ];
   fillerNav = Array.from({ length: 50 }, (_, i) => `Nav Item ${i + 1}`);
+  filterData: any[] = [];
+  customFilter = false;
+  fromKOP = false;
 
   /** CONSTRUCTOR **/
   constructor(
@@ -124,7 +136,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     private filterCloseService: FilterCloseService,
     private pcorService: PcorService,
     private location: Location,
-    private sessionService: SessionService,
+    public sessionService: SessionService,
     private eventEmitter: EventEmitterService,
     private acoEventEmitter: AcoEventEmitterService,
     @Inject(DOCUMENT) private document: any
@@ -133,6 +145,11 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     this.filterFlag = false;
     this.bgWhite = false;
     this.showPrintHeader = false;
+    this.checkAdv = this.sessionService.checkAdvocateRole();
+    this.checkPro = this.sessionService.checkProjectRole();
+    if (this.checkAdv.value) {
+      this.navCategories = this.navCategories.filter(item => item.name !== 'Summary Trends');
+    }
     // to disable the header/footer/body when not authenticated
     router.events.subscribe(event => {
       if (event instanceof NavigationStart) {
@@ -163,18 +180,34 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
         this.bgWhite = !(authService.isLoggedIn() && !event.url.includes('print-'));
         this.showPrintHeader = event.url.includes('print-');
         this.loading = true;
-
         // Role based access for Advocates Overview page
-        if (this.sessionService.checkAdvocateRole()) {
+        if (this.checkAdv.value) {
           this.navCategories[0].path = '/OverviewPageAdvocate';
+          if (window.location.pathname === '/OverviewPage') {
+            window.location.href = '/OverviewPageAdvocate';
+          }
+        } else if (this.checkPro.Value) {
+          if (window.location.pathname === '/OverviewPageAdvocate') {
+            window.location.href = '/OverviewPage';
+          }
         }
         // this.checkPcorData();
         if (this.sessionService.isPCORData()) {
           this.insertPCORnav();
         }
         const heac = JSON.parse(sessionStorage.getItem('heac'));
-        if (event.url === '/KnowOurProvider' && !heac.heac) {
+        if (event.url === '/NationalExecutive' && !heac.heac) {
           router.navigate(['/ProviderSearch']);
+        }
+
+        // Check condtion for rendering butter bar
+        if (sessionStorage.getItem('fromKOP') === 'YES' && !this.makeAbsolute && event.url !== '/NationalExecutive') {
+          setTimeout(() => {
+            this.fromKOP = true;
+          }, 500);
+        } else {
+          this.fromKOP = false;
+          sessionStorage.removeItem('fromKOP');
         }
       }
       // PLEASE DON'T MODIFY THIS
@@ -212,6 +245,10 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     iconRegistry.addSvgIcon(
       'search',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-search-24px.svg')
+    );
+    iconRegistry.addSvgIcon(
+      'timeline',
+      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/timeline-24px.svg')
     );
   }
 
@@ -264,7 +301,22 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     this.clickFilterIcon = this.filterExpandService.url.subscribe(
       data => {
         this.filterFlag = true;
+        this.customFilter = false;
         this.filterurl = data;
+      },
+      err => {
+        console.log('Error, clickHelpIcon , inside Hamburger', err);
+      }
+    );
+    this.clickFilterIconCustom = this.filterExpandService.filterData.subscribe(
+      data => {
+        this.filterFlag = true;
+        if (data) {
+          const { filterData = [], customFilter, url } = data;
+          this.filterData = filterData;
+          this.customFilter = customFilter;
+          this.filterurl = url;
+        }
       },
       err => {
         console.log('Error, clickHelpIcon , inside Hamburger', err);
@@ -291,6 +343,9 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
       });
     }
   }
+  checkToggle(bool: boolean) {
+    return bool ? this.sessionService.checkTrendAccess() && environment.internalAccess : !bool;
+  }
   checkPcorData() {
     const parametersExecutive = [this.sessionService.providerKeyData(), true];
     this.pcorService.getExecutiveData(...parametersExecutive).subscribe(
@@ -304,9 +359,9 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
             );
             if (this.router.url.includes('CareDelivery/PatientCareOpportunity')) {
               // Role based access for Advocates Overview page
-              if (this.sessionService.checkAdvocateRole()) {
+              if (this.checkAdv.value) {
                 this.router.navigate(['/OverviewPageAdvocate']);
-              } else {
+              } else if (this.checkPro.value) {
                 this.router.navigate(['/OverviewPage']);
               }
             }
@@ -330,6 +385,9 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     this.filterFlag = false;
     this.filterurl = null;
     this.clickFilterIcon.unsubscribe();
+    this.clickFilterIconCustom.unsubscribe();
+    sessionStorage.removeItem('fromKOP');
+    this.fromKOP = false;
   }
   /*** used to apply the CSS for dynamically generated elements ***/
   public ngAfterViewInit(): void {
@@ -415,6 +473,54 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
       this.glossaryFlag = false;
     }
   }
+
+  /**
+   * Reset fromKOP flag,false
+   * and Remvoe fromKOP
+   */
+  closeButterBar() {
+    this.fromKOP = false;
+    sessionStorage.removeItem('fromKOP');
+  }
+
+  /**
+   * Navigate Back to KOP,
+   * Clean fromKOP storage
+   */
+  navigateToKOP() {
+    sessionStorage.removeItem('fromKOP');
+    this.fromKOP = false;
+    window.location.href = '/NationalExecutive';
+  }
+
+  /**
+   * Open ProviderSearchComponent with setting the,
+   * data and after action action
+   */
+  openSimulateViewDialog(): void {
+    const dialogConfig = new MatDialogConfig();
+
+    // Set label for the container label and pass after selection trigger function
+    dialogConfig.data = {
+      valueSelected: () => {
+        // Setting Value redirect, remind flag to local storage
+        sessionStorage.setItem('fromKOP', 'YES');
+
+        // Reloading targeted route, for resetting the css
+        window.location.href = '/OverviewPage';
+      },
+      containerLabel: 'View as a Provider'
+    };
+
+    // Set Styling
+    dialogConfig.width = '550px';
+    dialogConfig.height = '212px';
+    dialogConfig.disableClose = true;
+
+    // Call the dialog open method
+    this.dialog.open(ProviderSearchComponent, dialogConfig);
+  }
+
   private allExpandState(value: boolean, id) {
     this._allExpandState = value;
     this.togglePanels(value, id);
@@ -434,5 +540,6 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
       }
     });
   }
+
   /** END OF FUNCTIONS TO COLLAPSE LEFT MENU **/
 }
