@@ -1043,4 +1043,61 @@ export class AppealsSharedService {
     }
     return { appealsSubmitted: appealsSubmitted, appealsOverturned: appealsOverturned };
   }
+
+  public getappealsTatandDevidedOverturnData() {
+    return new Promise((resolve, reject) => {
+      this.providerKey = this.session.providerKeyData();
+      let parameters;
+      parameters = [this.providerKey, { TimeFilter: 'Last6Months' }];
+      let appealsTAT;
+      this.gettingReimbursedService.getAppealsWrapperData(parameters).subscribe(appealsData => {
+        if (appealsData == null) {
+          appealsTAT = {
+            category: 'app-card',
+            type: 'rotateWithLabel',
+            status: appealsData.status,
+            title: 'Average Appeals Turn Around Time',
+            MetricID: 'NA',
+            data: null,
+            besideData: null,
+            bottomData: null,
+            timeperiod: null
+          };
+        } else if (appealsData != null) {
+          appealsTAT = {
+            category: 'app-card',
+            type: 'rotateWithLabel',
+            title: 'Average Appeals Turn Around Time',
+            MetricID: 'NA',
+            data: {
+              centerNumber:
+                appealsData.LineOfBusiness.ALL.TatdosToReceived +
+                appealsData.LineOfBusiness.ALL.TatreceivedToProcessed +
+                ' days',
+              color: ['#3381FF', '#3381FF'],
+              gdata: ['card-inner', 'appealsAverageTurnAround'],
+              sdata: {
+                sign: 'down',
+                data: '-1.2%'
+              }
+            },
+            besideData: {
+              verticalData: [
+                {
+                  values: appealsData.LineOfBusiness.ALL.TatdosToReceived + ' Days',
+                  labels: 'Date of Service to Received'
+                },
+                {
+                  values: appealsData.LineOfBusiness.ALL.TatreceivedToProcessed + ' Days',
+                  labels: 'Received to Processed'
+                }
+              ]
+            },
+            timeperiod: this.session.filterObjValue.timeFrame
+          };
+        }
+        resolve(appealsTAT);
+      });
+    });
+  }
 }
