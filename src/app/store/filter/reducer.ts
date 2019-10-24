@@ -1,5 +1,8 @@
 import { CURRENT_PAGE, APPLY_FILTER, RESET_FILTER, REMOVE_FILTER } from './actions';
 import { IAppState } from '../store';
+import { CreatePayloadService } from '../../shared/uhci-filters/create-payload.service';
+
+// const payloadService: any = new CreatePayloadService();
 
 export const INITIAL_STATE: IAppState = {
   currentPage: 'overviewPage',
@@ -21,6 +24,7 @@ export function FilterReducer(state = INITIAL_STATE, action) {
         currentPage: action.currentPage
       };
     case APPLY_FILTER:
+      //    payloadService.emitFilterEvent(state.currentPage);
       return {
         ...state,
         timePeriod: action.filterData.timePeriod,

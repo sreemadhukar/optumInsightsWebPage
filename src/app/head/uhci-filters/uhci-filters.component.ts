@@ -18,6 +18,7 @@ import { FormControl } from '@angular/forms';
 import { Location } from '@angular/common';
 import { SessionService } from '../../shared/session.service';
 import { TaxId } from './filter-settings/filter-options';
+import { CreatePayloadService } from '../../shared/uhci-filters/create-payload.service';
 
 @Component({
   selector: 'app-uhci-filter',
@@ -63,7 +64,8 @@ export class UhciFiltersComponent implements OnInit {
     private iconRegistry: MatIconRegistry,
     sanitizer: DomSanitizer,
     private location: Location,
-    private session: SessionService
+    private session: SessionService,
+    private createPayloadService: CreatePayloadService
   ) {
     iconRegistry.addSvgIcon(
       'arrowdn',
@@ -123,6 +125,7 @@ export class UhciFiltersComponent implements OnInit {
         trendDate: this.selectedDate
       }
     });
+    this.createPayloadService.emitFilterEvent(this.selectedPage);
     this.filterFlag.emit(false);
   }
 

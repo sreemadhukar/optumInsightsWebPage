@@ -24,6 +24,7 @@ import { NonPaymentSharedService } from '../../../shared/getting-reimbursed/non-
 import { NgRedux } from '@angular-redux/store';
 import { CURRENT_PAGE } from '../../../store/filter/actions';
 import { IAppState } from '../../../store/store';
+import { CreatePayloadService } from '../../../shared/uhci-filters/create-payload.service';
 
 @Component({
   selector: 'app-non-payments',
@@ -208,10 +209,11 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
     private router: Router,
     private filtermatch: CommonUtilsService,
     private nonPaymentService: NonPaymentSharedService,
-    private ngRedux: NgRedux<IAppState>
+    private ngRedux: NgRedux<IAppState>,
+    private createPayloadService: CreatePayloadService
   ) {
     const filData = this.session.getFilChangeEmitter().subscribe(() => this.filtermatch.urlResuseStrategy());
-    this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.filtermatch.urlResuseStrategy());
+    //  this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.filtermatch.urlResuseStrategy());
     /** INITIALIZING SVG ICONS TO USE IN DESIGN - ANGULAR MATERIAL */
 
     iconRegistry.addSvgIcon(
@@ -239,8 +241,15 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-close-24px.svg')
     );
     this.pageTitle = 'Claims Non-Payments*';
+    console.log(this.createPayloadService.payload);
+    this.createPayloadService.getEvent().subscribe(value => {
+      this.test(value);
+    });
   }
 
+  test(val) {
+    console.log('test', val);
+  }
   ngOnInit() {
     this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'nonPaymentsPage' });
     this.nonPaymentData1 = [];
