@@ -21,10 +21,11 @@ export class PaymentsSharedService {
     private session: SessionService
   ) {}
   public sharedPaymentsData() {
-    let payments: object;
     let parameters: object;
-    let claimsPaid: object;
-    let claimsPaidRate: object;
+    // let claimsSubmitted: object;
+    // let claimsTAT: object;
+    // let claimsPaid: object;
+    // let claimsPaidRate: object;
     this.tin = this.session.filterObjValue.tax.toString().replace(/-/g, '');
     this.lob = this.session.filterObjValue.lob;
     this.timeFrame = this.session.filterObjValue.timeFrame;
@@ -148,6 +149,71 @@ export class PaymentsSharedService {
       if (parameters[1].hasOwnProperty('Lob')) {
         delete parameters[1].Lob;
       }
+      this.getPaymentsData(parameters)
+        .then(paydata => {
+          return this.calculateTrends(parameters, paydata);
+        })
+        .then(data => {
+          const payments = { id: 1, title: 'Claims Payments', data: data };
+          summaryData[0] = payments;
+          resolve(summaryData);
+        });
+    });
+  }
+
+  calculateTrends(parameters, paymentsData) {
+    return new Promise((resolve, reject) => {
+      let baseTimePeriod: any;
+      if (this.timeFrame === 'Last 12 Months') {
+        baseTimePeriod = 'PreviousLast12Months';
+      }
+      if (this.timeFrame === 'Last 6 Months') {
+        baseTimePeriod = 'PreviousLast6Months';
+      }
+      if (this.timeFrame === 'Last 3 Months') {
+        baseTimePeriod = 'PreviousLast3Months';
+      }
+      if (this.timeFrame === 'Last 30 Days') {
+        baseTimePeriod = 'PreviousLast30Days';
+      }
+      if (this.timeFrame === 'Year to Date') {
+        baseTimePeriod = 'PreviousYTD';
+      }
+      parameters[1].TimeFilter = baseTimePeriod;
+
+      this.gettingReimbursedService.getPaymentsData(parameters).subscribe(claimsData => {
+        const lobData = this.common.matchLobWithData(this.lob);
+        if (claimsData != null && !claimsData.hasOwnProperty('status')) {
+          if (
+            claimsData.hasOwnProperty(lobData) &&
+            claimsData[lobData] != null &&
+            claimsData[lobData].hasOwnProperty('ClaimsLobSummary') &&
+            claimsData[lobData].ClaimsLobSummary.length
+          ) {
+            /** Commenting following lines of code to remove trends from  Payments page **/
+            /* if (claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('AmountPaid')) {
+              let newClaimsPaid = 0;
+              if (paymentsData[0].data) {
+                if (paymentsData[0].data.centerNumberOriginal) {
+                  newClaimsPaid = paymentsData[0].data.centerNumberOriginal;
+                  const oldClaimsPaid = claimsData[lobData].ClaimsLobSummary[0].AmountPaid;
+                  paymentsData[0].data.sdata = this.common.trendNegativeMeansBad(newClaimsPaid, oldClaimsPaid);
+                }
+              }
+            }*/
+          }
+        }
+
+        resolve(paymentsData);
+      });
+    });
+  }
+
+  getPaymentsData(parameters) {
+    return new Promise((resolve, reject) => {
+      const summaryData: Array<object> = [];
+      let claimsPaid: object;
+      let claimsPaidRate: object;
       this.gettingReimbursedService.getPaymentsData(parameters).subscribe(
         claimsData => {
           const lobData = this.common.matchLobWithData(this.lob);
@@ -247,6 +313,7 @@ export class PaymentsSharedService {
                     this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].AmountPaid) > 0
                       ? '< $1'
                       : '$' + this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].AmountPaid),
+                  centerNumberOriginal: claimsData[lobData].ClaimsLobSummary[0].AmountPaid,
                   color: this.common.returnLobColor(claimsData), // colorcodes,
                   gdata: ['card-inner', 'claimsPaid'],
                   sdata: {
@@ -275,6 +342,7 @@ export class PaymentsSharedService {
                       this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].AmountPaid) > 0
                         ? '< $1'
                         : '$' + this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].AmountPaid),
+                    centerNumberOriginal: claimsData[lobData].ClaimsLobSummary[0].AmountPaid,
                     color: this.common.returnLobColor(claimsData),
                     gdata: ['card-inner', 'claimsPaid'],
                     sdata: {
@@ -371,6 +439,7 @@ export class PaymentsSharedService {
                     this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].AmountPaid) > 0
                       ? '< $1'
                       : '$' + this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].AmountPaid),
+                  centerNumberOriginal: claimsData[lobData].ClaimsLobSummary[0].AmountPaid,
                   color: this.common.returnLobColor(claimsData),
                   gdata: ['card-inner', 'claimsPaid'],
                   sdata: {
@@ -486,9 +555,9 @@ export class PaymentsSharedService {
           //   data: null,
           //   timeperiod: null
           // };
-          payments = { id: 1, title: 'Claims Payments', data: [claimsPaid, claimsPaidRate] };
-          summaryData[0] = payments;
-
+          // payments = { id: 1, title: 'Claims Payments', data: [claimsPaid, claimsPaidRate] };
+          summaryData[0] = claimsPaid;
+          summaryData[1] = claimsPaidRate;
           if (summaryData.length) {
             resolve(summaryData);
           }
@@ -499,6 +568,7 @@ export class PaymentsSharedService {
       );
     });
   }
+
   getParameterCategories() {
     let parameters = [];
     this.timeFrame = this.session.filterObjValue.timeFrame;

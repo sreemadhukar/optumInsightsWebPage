@@ -42,7 +42,8 @@ export class SelectProviderComponent implements OnInit {
   providerSelectedFlag = true;
   nomatchFlag = true;
   public username: string;
-
+  public checkAdv;
+  public checkPro;
   constructor(
     private fb: FormBuilder,
     private providerSharedService: ProviderSharedService,
@@ -52,6 +53,8 @@ export class SelectProviderComponent implements OnInit {
     private sessionService: SessionService,
     sanitizer: DomSanitizer
   ) {
+    this.checkAdv = this.sessionService.checkAdvocateRole();
+    this.checkPro = this.sessionService.checkProjectRole();
     iconRegistry.addSvgIcon(
       'cross',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Content/round-clear-24px.svg')
@@ -142,10 +145,10 @@ export class SelectProviderComponent implements OnInit {
       this.storage.store('currentUser', [Object.assign(provider, data)]);
     }
     // Role based access for Advocates Overview page
-    if (this.sessionService.checkAdvocateRole()) {
-      this.router.navigate(['/OverviewPageAdvocate']);
-    } else {
-      this.router.navigate(['/OverviewPage']);
+    if (this.checkAdv.value) {
+      window.location.href = '/OverviewPageAdvocate';
+    } else if (this.checkPro.value) {
+      window.location.href = '/OverviewPage';
     }
   }
 

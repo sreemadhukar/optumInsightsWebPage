@@ -74,7 +74,8 @@ export class ProviderTrendsComponent implements OnInit, AfterViewChecked {
     this.data_date = this.session.filterObjValue.date;
     this.metric = this.session.filterObjValue.metric;
     const newDate = this.data_date;
-    this.previous_date = this.previous_date.setDate(newDate.getDate() - 1).toString();
+    this.previous_date = new Date(newDate.toString());
+    this.previous_date = this.previous_date.setDate(newDate.getDate() - 1);
   }
 
   ngAfterViewChecked() {
