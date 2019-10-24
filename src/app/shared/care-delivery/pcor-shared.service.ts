@@ -182,11 +182,10 @@ export class PcorSharedService {
             const subCategory: Array<Object> = [];
             const template = ['zero', 'one', 'two', 'three', 'four', 'five'];
             const barCountArray = [];
-            let completeData;
+            const completeData = JSON.parse(JSON.stringify(data));
             for (let i = 5; i > 0; i--) {
               const metricName = template[i] + 'StarMeasureCount';
               if (data.hasOwnProperty(metricName)) {
-                completeData = JSON.parse(JSON.stringify(data));
                 const m = {
                   star: i,
                   label: capitalize(template[i]) + ' Star Quality Measure',
