@@ -16,12 +16,12 @@ export class CareDelivery {
 
   public createCard() {
     this.records.forEach((record, index) => {
-      const { CareDelivery: Care_Delivery } = record;
+      const { CareDelivery: Care_Delivery = {} } = record;
       this.data.chartData.forEach((chartDataElement: any) => {
         const key = chartDataElement.key;
         const subKey = chartDataElement.subKey;
 
-        if (!Care_Delivery || !Care_Delivery[key]) {
+        if (!Care_Delivery[key]) {
           chartDataElement.report = false;
           chartDataElement.quarters.push({
             title: null,
@@ -29,9 +29,7 @@ export class CareDelivery {
             id: index,
             section: this.section
           });
-        }
-
-        if (Care_Delivery && Care_Delivery[key]) {
+        } else {
           const value = Care_Delivery[key][subKey] ? Math.round(Care_Delivery[key][subKey]) : null;
           if (this.singleCard && value !== null) {
             chartDataElement.quarters.push({ title: value + '' + chartDataElement.units });
