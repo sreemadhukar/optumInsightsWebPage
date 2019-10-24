@@ -202,11 +202,9 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
         if (this.sessionService.isPCORData()) {
           this.insertPCORnav();
         }
-        const heac = JSON.parse(sessionStorage.getItem('heac'));
-        if (event.url === '/NationalExecutive' && !heac.heac) {
+        if (event.url === '/NationalExecutive' && !this.checkExecutive.value) {
           router.navigate(['/ProviderSearch']);
         }
-
         // Check condtion for rendering butter bar
         if (sessionStorage.getItem('fromKOP') === 'YES' && !this.makeAbsolute && event.url !== '/NationalExecutive') {
           setTimeout(() => {

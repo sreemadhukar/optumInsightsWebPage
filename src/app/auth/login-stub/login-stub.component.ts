@@ -29,7 +29,6 @@ export class LoginStubComponent implements OnInit {
   blankScreen = false;
   id: any;
   token: string;
-  isKop = false;
   showWarning = false;
   sessionTimedoutMessage: any = {
     note: 'Due to inactivity, we have logged you out.',
@@ -106,10 +105,10 @@ export class LoginStubComponent implements OnInit {
         if (JSON.parse(sessionStorage.getItem('currentUser'))[0]['ProviderKey']) {
           if (this.checkAdv.value) {
             window.location.href = '/OverviewPageAdvocate';
-          } else if (this.checkPro.value) {
-            window.location.href = '/OverviewPage';
           } else if (this.checkExecutive.value) {
             window.location.href = '/NationalExecutive';
+          } else if (this.checkPro.value) {
+            window.location.href = '/OverviewPage';
           }
         } else {
           this.router.navigate([this.returnUrl]);
@@ -166,34 +165,19 @@ export class LoginStubComponent implements OnInit {
       return;
     } else {
       this.internalService.login(this.f.username.value, this.f.password.value).subscribe(
-        () => {
+        user => {
           this.blankScreen = true;
           this.loading = false;
           this.authorise.getToggles('authorise').subscribe(value => {
             console.log(value);
           });
           if (environment.internalAccess) {
-            this.authorise.getHeac(this.f.username.value).subscribe(value => {
-              console.log(value);
-            });
             this.authorise.getTrendAccess(this.f.username.value).subscribe(value => {
               console.log(value);
             });
           }
-          sessionStorage.setItem('cache', JSON.stringify(true));
-          // this.openDialog();
-
-          if (environment.internalAccess) {
-            this.authorise.getHeac(this.f.username.value).subscribe(value => {
-              console.log(value);
-              const heac = JSON.parse(sessionStorage.getItem('heac'));
-              this.isKop = heac && heac.heac === true ? true : false;
-              if (this.isKop === true) {
-                this.router.navigate(['/NationalExecutive']);
-              } else {
-                this.router.navigate(['/ProviderSearch']);
-              }
-            });
+          if (user && user['UserPersonas'].some(item => item.UserRole.includes('UHCI_Executive'))) {
+            this.router.navigate(['/NationalExecutive']);
           } else {
             this.router.navigate(['/ProviderSearch']);
           }
