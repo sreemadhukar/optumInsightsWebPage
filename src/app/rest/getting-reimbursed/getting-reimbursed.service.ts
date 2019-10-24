@@ -50,7 +50,8 @@ export class GettingReimbursedService {
   public claimsAppealsData(...parameters) {
     const appealsParam = parameters[1];
     const appealsURL =
-      'https://gateway-stage-core.optum.com/api/devone/pdr/uhci/v1/' +
+      this.APP_URL +
+      /* 'https://gateway-stage-core.optum.com/api/devone/pdr/uhci/v1/' +*/
       this.APPEALS_SERVICE +
       parameters[0] +
       '?requestType=APPEALS_MEASURE_DOR_HCO';
