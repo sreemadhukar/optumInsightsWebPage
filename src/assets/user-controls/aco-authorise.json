@@ -1,0 +1,101 @@
+{
+  "Overview": {
+    "navLink": false,
+    "AtGlance": {
+      "Claims Paid": false,
+      "Prior Authorization Approval": false,
+      "Self Service Adoption Rate": false,
+      "Claims Yield": false,
+      "Medicare Star Rating": false,
+      "Total Calls": false
+    },
+    "Opportunities": {
+      "Reduce Calls and Operating Costs by:": false,
+      "Save Your Staff's Time by:": false,
+      "Reduce Claim Processing Time by:": false,
+      "Reduce Reconsideration Processing by:": false
+    }
+  },
+  "Getting Reimbursed": {
+    "Summary": {
+      "navLink": false,
+      "Claims Submissions": {
+        "tile": false,
+        "Total Claims Submitted": false,
+        "Claims Average Turnaround Time to Payment": false
+      },
+      "Claims Payments": {
+        "tile": false,
+        "Claims Paid": false,
+        "Claims Yield": false
+      },
+      "Claims Non-Payments": {
+        "tile": false,
+        "Claims Not Paid": false,
+        "Claims Non-Payment Rate": false
+      },
+      "Claims Appeals": {
+        "tile": false,
+        "Claims Appeals Submitted": false,
+        "Claims Appeals Overturned": false
+      }
+    },
+    "Claims Payments": {
+      "navLink": false,
+      "Claims Paid": false,
+      "Claims Yield": false,
+      "Claims Paid Breakdown": false
+    },
+    "Claims Non-Payments": {
+      "navLink": false,
+      "Claims Not Paid": false,
+      "Claims Non-Payment Rate": false,
+      "Top Reasons for Claims Non-Payment": false
+    },
+    "Claims Appeals": {
+      "navLink": false,
+      "Claims Appeals Submitted": false,
+      "Claims Appeals Overturned": false,
+      "Claims Appeals Overturn Rate": false,
+      "Claims Appeals Overturn Reasons": false
+    },
+    "Claims Payment Integrity": {
+      "navLink": false,
+      "Payment Integrity: Medical Record Coding Review": false
+    }
+  },
+  "Care Delivery": {
+    "Prior Authorizations": {
+      "navLink": false,
+      "Prior Authorizations Requested": false,
+      "Prior Authorization Approval Rate": false,
+      "Top Reasons for Prior Authorizations Not Approved": false
+    },
+    "Patient Care Opportunity": {
+      "navLink": false,
+      "Medicare & Retirement Average Star Rating": false,
+      "Medicare & Retirement Annual Care Visits Completion Rate": false,
+      "Quality Measure Star Ratings": false
+    }
+  },
+  "Service Interaction": {
+    "Self Service": {
+      "navLink": false,
+      "Self-Service Adoption Rate": false,
+      "Link and EDI to Call Ratio": false,
+      "Paperless Delivery": false,
+      "Reduce Calls and Operating Costs by:": false,
+      "Save Your Staff's Time by:": false,
+      "Reduce Claim Processing Time by:": false,
+      "Reduce Reconsideration Processing by:": false
+    },
+    "Calls": {
+      "navLink": false,
+      "Calls by Call Type": false,
+      "Talk Time By Call Type": false
+    }
+  },
+  "ACO": {
+    "navLink": true
+  }
+}

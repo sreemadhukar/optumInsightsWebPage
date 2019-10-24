@@ -7,6 +7,22 @@
       [options]="options"
       (helpIconClicked)="helpIconClick($event)"
     ></app-common-header>
+    <div class="card-size" *ngIf="data.type == 'bar' && data.fdata != null">
+      <div class="bar-graph">
+        <div class="title">PCP</div>
+        <app-mini-bar-chart class="bar-chart" [chartOptions]="data.fdata"></app-mini-bar-chart>
+        <div class="title1">Speclialist</div>
+      </div>
+      <div class="side-label">MPT Not Defined</div>
+    </div>
+    <div class="card-size" *ngIf="data.type == 'textWithLabel' && data.data != null">
+      <div class="centernumber">{{ data.data.centerNumber }}</div>
+      <div class="label">{{ data.data.labels }}</div>
+      <div class="btmLabel">
+        <mat-icon class="tick-icon" svgIcon="tick"></mat-icon>
+        <div class="label">{{ data.bottomData.labels }}</div>
+      </div>
+    </div>
 
     <div *ngIf="data.quarter" class="cards-display-block">
       <div
@@ -34,6 +50,13 @@
       [ngClass]="data.sdata != null ? 'chart-details-donut' : 'full-width'"
     >
       <app-donut-chart [donutType]="'small-card'" [chartOptions]="data.data"></app-donut-chart>
+    </div>
+    <div
+      *ngIf="data.type == 'donutWithLabel' && data.data != null"
+      [ngClass]="data.sdata != null ? 'chart-details-donut' : 'full-width'"
+    >
+      <app-donut-chart [donutType]="'small-card'" [chartOptions]="data.data"></app-donut-chart>
+      <div class="sideLabel">{{ data.data.sdata.label }}</div>
     </div>
     <div *ngIf="data.type == 'star' && data.data != null" class="chart-details small-star-chart">
       <app-star-chart [starType]="'small-card'" [chartOptions]="data.data"></app-star-chart>
@@ -109,16 +132,47 @@
         </ul>
       </div>
       <div *ngIf="data.title != 'Claims Submitted'" class="beside-data-block">
-        <ul class="app-card-list-labels">
+        <ul class="app-card-list-labels" *ngIf="data.data.besideData && data.data.besideData.color">
           <li class="label-color-indicators" *ngFor="let c of data.data.besideData.color; let i = index">
             <div class="label-dots" style.background-color="{{ c }}"></div>
           </li>
         </ul>
-        <ul class="app-card-list-labels">
+        <ul class="app-card-list-labels" *ngIf="data.data.besideData">
           <li *ngFor="let c of data.data.besideData.labels; let i = index">{{ c }}</li>
         </ul>
       </div>
     </div>
+
+    <div
+      *ngIf="(data.type == 'barActualTargetNumbers' || data.type == 'barActualTargetPercentage') && data.data != null"
+      class="target-actual-card"
+    >
+      <div class="target-actual-div target-div-padding" [id]="'target-actual-div' + index">
+        <label class="target-lable">MPT</label>
+        <div class="target-actual-bar-div" [id]="'targetbardiv' + index">
+          <div class="target-actual-bar target-bar" [id]="'target' + index"></div>
+        </div>
+        <label>{{ this.data.data.target }}</label>
+      </div>
+      <div class="target-actual-div actual-div-padding">
+        <label>Actual</label>
+        <div class="target-actual-bar-div" [id]="'actualbardiv' + index">
+          <div class="target-actual-bar actual-bar" [id]="'actual' + index"></div>
+        </div>
+        <label>{{ this.data.data.actual }}</label>
+      </div>
+      <div class="target-actual-result-div">
+        <div class="target-actual-positive" *ngIf="TargetActualFlag">
+          <mat-icon class="tick-icon" svgIcon="tick"></mat-icon>
+          <div class="label">Meets MPT</div>
+        </div>
+        <div class="target-actual-negative" *ngIf="!TargetActualFlag">
+          <mat-icon class="tick-icon" svgIcon="cross"></mat-icon>
+          <div class="label">Does Not Meet MPT</div>
+        </div>
+      </div>
+    </div>
+    <!-- ends donut with labels-->
     <div *ngIf="data.timeperiod" class="full-display-block">
       <app-common-footer [timePeriod]="data.timeperiod"></app-common-footer>
     </div>

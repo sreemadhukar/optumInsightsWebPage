@@ -1,0 +1,85 @@
+{
+  "impactId ": "ID-000016819",
+  "practiceName": "DELAWARE ACO",
+  "reportYear": 2018,
+  "reportQuarter": "Q2",
+  "reportMeasureQuarter": "M3Q5",
+  "LineOfBusiness": {
+    "EI": {
+      "ACOSummary": 19032,
+      "SNFCostPerDay": {
+        "Target": 425.7529409481172,
+        "Actual": 446.3958583569405
+      },
+      "acuteAdmitsPer1000": {
+        "Target": 38.49545977477774,
+        "Actual": 40.292790837752136
+      },
+      "acuteBedDaysPer1000": {
+        "Target": 174.64383509547812,
+        "Actual": 175.75110565297
+      },
+      "emergencyVisitsPer1000": {
+        "Target": 194.68364345705012,
+        "Actual": 202.1858359990166
+      },
+      "nonParSpecialistReferrals": {
+        "Target": 0.07902186467969619,
+        "Actual": 0.0687836753410524
+      },
+      "RxScriptsPer1000": {
+        "Target": 11318.465826801448,
+        "Actual": 11220.11879730964
+      },
+      "ratioPCPtoSpecOV": {
+        "Target": 1,
+        "Actual": 1.32
+      },
+      "RxGenericCompliance": {
+        "Target": "N/A",
+        "Actual": 0.8457169999373968
+      },
+      "OPSurgeryCostPerVisit": {
+        "Target": 5174.306736077135,
+        "Actual": 5176.390577896138
+      },
+      "medicalMemberMonths": {
+        "Target": "N/A",
+        "Actual": 1713241
+      },
+      "specialistReferralsPMPM": {
+        "Target": 118.7228059625003,
+        "Actual": 118.22117418009607
+      },
+      "DRGAdjustedAcuteALOS": {
+        "Target": 2.6036392011023852,
+        "Actual": 2.669801074317513
+      },
+      "RxTargetVsSpend": {
+        "Target": "N/A",
+        "Actual": 520428.4529273063
+      },
+      "healthStatus": {
+        "Target": "N/A",
+        "Actual": 1.5013467888493908
+      },
+      "medicalTargetVsSpend": {
+        "Target": "N/A",
+        "Actual": 14428609.430621743
+      },
+      "acuteInpatientCostPerDay": {
+        "Target": 6981.938753445143,
+        "Actual": 7027.319191375737
+      },
+      "DRGWgtPerAdmit": {
+        "Target": "N/A",
+        "Actual": 1.7535080058224168
+      },
+      "acoClaimsDates": {
+        "claimStartDate": "2018-05-01",
+        "claimEndDate": "2018-08-01",
+        "claimPaidDate": "2018-07-30"
+      }
+    }
+  }
+}
