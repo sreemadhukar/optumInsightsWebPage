@@ -21,7 +21,7 @@ export class CareDelivery {
         const key = chartDataElement.key;
         const subKey = chartDataElement.subKey;
 
-        if (!Care_Delivery[key]) {
+        if (!Care_Delivery || !Care_Delivery[key]) {
           chartDataElement.report = false;
           chartDataElement.quarters.push({
             title: null,
@@ -31,7 +31,7 @@ export class CareDelivery {
           });
         }
 
-        if (Care_Delivery[key]) {
+        if (Care_Delivery && Care_Delivery[key]) {
           const value = Care_Delivery[key][subKey] ? Math.round(Care_Delivery[key][subKey]) : null;
           if (this.singleCard && value !== null) {
             chartDataElement.quarters.push({ title: value + '' + chartDataElement.units });

@@ -44,9 +44,12 @@
         </div>
       </div>
     </div>
-
-    <div
+    <!--     <div
       *ngIf="(data.type == 'donut' || data.type == 'donutWithLabel') && data.data != null"
+      [ngClass]="data.sdata != null ? 'chart-details-donut' : 'full-width'"
+    > -->
+    <div
+      *ngIf="data.type == 'donut' && data.data != null"
       [ngClass]="data.sdata != null ? 'chart-details-donut' : 'full-width'"
     >
       <app-donut-chart [donutType]="'small-card'" [chartOptions]="data.data"></app-donut-chart>

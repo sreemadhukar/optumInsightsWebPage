@@ -1,12 +1,12 @@
-export class NetworkParticipation {
+export class IssueResolution {
   public singleCard = false;
   public records: any;
   public data = {
-    title: 'Network Participation',
+    title: 'Issue Resolution',
     chartData: [],
     quarters: []
   };
-  private section = 'networkparticipation';
+  private section = 'issueresolution';
   constructor({ records }) {
     this.records = records;
     this.singleCard = records.length === 1 ? true : false;
@@ -16,11 +16,11 @@ export class NetworkParticipation {
 
   public createCard() {
     this.records.forEach((record, index) => {
-      const { NetworkParticipation: Network_Participation } = record;
+      const { IssueResolution: Issue_Resolution } = record;
       this.data.chartData.forEach((chartDataElement: any) => {
         const key = chartDataElement.key;
         const subKey = chartDataElement.subKey;
-        if (!Network_Participation || !Network_Participation[key]) {
+        if (!Issue_Resolution || !Issue_Resolution[key]) {
           chartDataElement.report = false;
           chartDataElement.quarters.push({
             title: null,
@@ -30,8 +30,8 @@ export class NetworkParticipation {
           });
         }
 
-        if (Network_Participation && Network_Participation[key]) {
-          const value = Network_Participation[key][subKey] ? Math.round(Network_Participation[key][subKey]) : null;
+        if (Issue_Resolution && Issue_Resolution[key]) {
+          const value = Issue_Resolution[key][subKey] ? Math.round(Issue_Resolution[key][subKey]) : null;
           if (this.singleCard && value !== null) {
             chartDataElement.quarters.push({ title: value + '' + chartDataElement.units });
           } else {
@@ -97,13 +97,13 @@ export class NetworkParticipation {
       {
         quarters: [],
         cardType: 'miniDonut',
-        key: 'EaseOfCredentialing',
-        subKey: 'EaseOfCredentialingValue',
+        key: 'OverallSATWithService',
+        subKey: 'OverallSATWithServiceValue',
         singleCard: this.singleCard,
         graphValues: [],
         units: '%',
         report: true,
-        caption: 'Ease of Credentialing',
+        caption: 'Overall satisfaction with service',
         color: ['#3381FF', '#E0E0E0'],
         sdata: {
           sign: 'up',
