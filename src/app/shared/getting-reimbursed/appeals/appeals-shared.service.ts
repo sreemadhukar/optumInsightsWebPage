@@ -30,7 +30,8 @@ export class AppealsSharedService {
     let appealsOverturned: object;
     const summaryData: Array<object> = [];
     return new Promise(resolve => {
-      this.gettingReimbursedService.appealsData(...parameters).subscribe(appealsData => {
+      /** Changed the function name from appealsData to claimsAppealsData for PDP API*/
+      this.gettingReimbursedService.claimsAppealsData(...parameters).subscribe(appealsData => {
         const lobFullData = this.common.matchFullLobWithData(this.lob);
         const lobData = this.common.matchLobWithData(this.lob);
         if (appealsData != null && appealsData.hasOwnProperty('status')) {
@@ -575,7 +576,8 @@ export class AppealsSharedService {
         if (parameters[1].hasOwnProperty('Lob')) {
           delete parameters[1].Lob;
         }
-        this.gettingReimbursedService.appealsData(...parameters).subscribe(appealsData => {
+        /** Changed the function name from appealsData to claimsAppealsData for PDP API*/
+        this.gettingReimbursedService.claimsAppealsData(...parameters).subscribe(appealsData => {
           const lobFullData = this.common.matchFullLobWithData(this.lob);
           const lobData = this.common.matchLobWithData(this.lob);
           if (appealsData !== null && appealsData.hasOwnProperty('status')) {
