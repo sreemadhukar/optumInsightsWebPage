@@ -25,10 +25,9 @@ export class SummaryTrendsSharedService {
         SortDirection: direction
       };
       this.summarytrends.summaryTrendsData(params).subscribe(data => {
+        console.log(data);
         const result: any = { dataSource: [], displayedColumns: [], totalRecordsCount: 0 };
-        if (data && data.TotalRecords && data.ResultSet) {
-          console.log(data);
-
+        if (data && data.ResultSet) {
           if (this.metric === 'GettingReimbursed') {
             data.ResultSet.forEach(element => {
               result.dataSource.push({
@@ -188,12 +187,26 @@ export class SummaryTrendsSharedService {
             ];
           }
         }
-        if (data.TotalRecords.length > 0) {
-          result.totalRecordsCount = data.TotalRecords[0].ProviderSysKey;
-        } else {
-          result.totalRecordsCount = 0;
-        }
+
         resolve(result);
+      });
+    });
+  }
+
+  public sharedSummaryTrendsCount() {
+    return new Promise((resolve, reject) => {
+      this.metric = this.session.filterObjValue.metric;
+      this.date = formatDate(this.session.filterObjValue.date, 'yyyy-MM-dd', 'en');
+      const params = {
+        MetricName: this.metric,
+        SearchDate: this.date
+      };
+      this.summarytrends.summaryTrendsCount(params).subscribe(data => {
+        if (data.TotalRecords.length > 0) {
+          resolve(data.TotalRecords[0].ProviderSysKey);
+        } else {
+          resolve(0);
+        }
       });
     });
   }

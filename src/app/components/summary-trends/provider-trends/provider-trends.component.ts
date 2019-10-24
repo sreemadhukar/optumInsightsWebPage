@@ -68,6 +68,14 @@ export class ProviderTrendsComponent implements OnInit, AfterViewChecked {
       'trending_flat',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/trending_flat-24px.svg')
     );
+
+    this.summaryTrends.sharedSummaryTrendsCount().then(r => {
+      const result: any = r;
+      if (result) {
+        this.totalRecords = result;
+        this.paginator.length = result;
+      }
+    });
   }
   ngOnInit() {
     this.getSummaryData();
@@ -88,14 +96,15 @@ export class ProviderTrendsComponent implements OnInit, AfterViewChecked {
     this.sortDirection = 'ASC';
     this.summaryTrends.sharedSummaryTrends(1, 10, this.sortColumn, this.sortDirection).then(r => {
       const result: any = r;
+      console.log(result);
       if (result) {
         this.data = result.dataSource;
         this.displayedColumns = result.displayedColumns;
-        this.totalRecords = result.totalRecordsCount;
+        // this.totalRecords = result.totalRecordsCount;
         this.dataSource = new MatTableDataSource(this.data);
         this.dataSource.sort = this.sort;
         // this.dataSource.paginator = this.paginator;
-        this.paginator.length = result.totalRecordsCount;
+        // this.paginator.length = result.totalRecordsCount;
       }
       this.loading = false;
     });
