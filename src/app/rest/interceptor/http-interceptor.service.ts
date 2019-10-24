@@ -17,7 +17,45 @@ import { environment } from '../../../environments/environment';
   providedIn: 'root'
 })
 export class HttpInterceptorService implements HttpInterceptor {
+  constructor() {}
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    // if (auth.hasAuthorization()) {
+    //   return this.getRequestWithAuthentication(request, next, auth);
+    // } else if (auth.hasAuthorizationRefresh() && request.url !== AUTHORIZE_URL) {
+    //   return auth.refreshToken().flatMap(
+    //     (res: any) => {
+    //       auth.saveTokens(res);
+    //       return this.getRequestWithAuthentication(request, next, auth);
+    //     }
+    //   ).catch(() => {
+    //     return next.handle(request);
+    //   });
+    // } else if (request.url === AUTHORIZE_URL) {
+    //   return next.handle(request);
+    // }
+
+    return this.getRequestWithAuthentication(request, next);
+
+    // return next.handle(request).pipe(
+    //   retry(2),
+    //   map((event: HttpEvent<any>) => {
+    //     /*if (event instanceof HttpResponse) {
+    //       console.log('event--->>>', event);
+    //     }*/
+    //     return event;
+    //   }),
+    //   catchError((error: HttpErrorResponse) => {
+    //     /*let data = {};
+    //     data = {
+    //       reason: error && error.error.reason ? error.error.reason : '',
+    //       status: error.status
+    //     };*/
+    //     return throwError(error);
+    //   })
+    // );
+  }
+
+  private getRequestWithAuthentication(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
     if (currentUser && request.url.indexOf(environment.originUrl + 'api/getHeac') === -1) {
       const token =
@@ -32,24 +70,6 @@ export class HttpInterceptorService implements HttpInterceptor {
       }
     }
     request = request.clone({ headers: request.headers.set('Accept', '*/*') });
-
-    return next.handle(request).pipe(
-      retry(2),
-      map((event: HttpEvent<any>) => {
-        /*if (event instanceof HttpResponse) {
-          console.log('event--->>>', event);
-        }*/
-        return event;
-      }),
-      catchError((error: HttpErrorResponse) => {
-        /*let data = {};
-        data = {
-          reason: error && error.error.reason ? error.error.reason : '',
-          status: error.status
-        };*/
-        return throwError(error);
-      })
-    );
+    return next.handle(request);
   }
-  constructor() {}
 }
