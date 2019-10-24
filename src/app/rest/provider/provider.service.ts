@@ -15,17 +15,11 @@ export class ProviderService {
   private SERVICE_PATH: string = environment.apiUrls.ProviderList;
   constructor(private http: HttpClient) {}
 
-  public getProvidersData() {
+  public getProvidersData(text) {
     if (JSON.parse(sessionStorage.getItem('currentUser'))) {
-      this.currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
-      this.authBearer = this.currentUser[0].PedAccessToken;
-      const myHeader = new HttpHeaders({
-        Authorization: 'Bearer ' + this.authBearer,
-        Accept: '*/*'
-      });
       const params = new HttpParams();
-      const url = this.APP_URL + this.SERVICE_PATH;
-      return this.http.post(url, params, { headers: myHeader }).pipe(
+      const url = this.APP_URL + this.SERVICE_PATH + '?providerName=' + text;
+      return this.http.post(url, params).pipe(
         map(res => JSON.parse(JSON.stringify(res))),
         catchError(err => of(JSON.parse(JSON.stringify(err))))
       );

@@ -22,16 +22,49 @@
     <div class="select-provider-header">
       <h2 mat-dialog-title>Select an organization to represent</h2>
     </div>
-    <form class="select-provider-form" *ngIf="filteredStates">
-      <mat-form-field appearance="outline">
-        <!-- <mat-label>Search Providers.</mat-label> -->
-        <input matInput placeholder="Enter an organization here." [matAutocomplete]="auto" [formControl]="stateCtrl" />
+    <form class="select-provider-form">
+      <!-- <mat-form-field appearance="outline"> -->
+      <!-- -->
+      <!-- <mat-label>Search Providers.</mat-label> -->
+      <!-- -->
+      <!-- <input matInput placeholder="Enter an organization here." [matAutocomplete]="auto" [formControl]="stateCtrl" />
         <mat-icon matPrefix class="nav-menu-icons provider-icon-color searchicon" svgIcon="search"></mat-icon>
         <mat-autocomplete #auto="matAutocomplete" (optionSelected)="providerSelect($event)">
           <mat-option *ngFor="let state of (filteredStates | async)" [value]="state.HealthCareOrganizationName">
             <span>{{ state.HealthCareOrganizationName }}</span></mat-option
           >
           <div *ngIf="checkCondition()" [ngClass]="{ hidden: nomatchFlag }" class="no-result-found-div">
+            <div class="no-result-found">No Results Found.</div>
+            <div class="no-result-found-text">
+              Your search –<span class="match-font"> {{ stateCtrl.value }} </span>– did not match any providers. Please
+              recheck your search criteria or try a different search.
+            </div>
+          </div> -->
+      <!-- -->
+      <!-- uncomment when view all providers page is available <div *ngIf="stateCtrl.value" class="view-allProviders" (click)="provider()">View All Providers</div> -->
+      <!-- -->
+      <!-- -->
+      <!-- <div class="view-allProviders" (click)="provider()">View All Providers</div> -->
+      <!-- -->
+      <!-- </mat-autocomplete>
+        <mat-icon *ngIf="!nomatchFlag" matSuffix class="nav-menu-icons noDataicon" svgIcon="noData"></mat-icon>
+      </mat-form-field> -->
+
+      <mat-form-field appearance="outline">
+        <!-- <mat-label>Search Providers.</mat-label> -->
+        <input
+          matInput
+          placeholder="Enter an organization here."
+          [matAutocomplete]="auto"
+          [formControl]="stateCtrl"
+          (keyup)="check($event.target.value)"
+        />
+        <mat-icon matPrefix class="nav-menu-icons provider-icon-color searchicon" svgIcon="search"></mat-icon>
+        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="providerSelect($event)">
+          <mat-option *ngFor="let state of states" [value]="state.HealthCareOrganizationName">
+            <span>{{ state.HealthCareOrganizationName }}</span></mat-option
+          >
+          <div *ngIf="noProviders" class="no-result-found-div">
             <div class="no-result-found">No Results Found.</div>
             <div class="no-result-found-text">
               Your search –<span class="match-font"> {{ stateCtrl.value }} </span>– did not match any providers. Please

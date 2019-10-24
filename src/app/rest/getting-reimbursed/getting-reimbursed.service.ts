@@ -20,6 +20,7 @@ export class GettingReimbursedService {
   private APPEALS_SERVICE: string = environment.apiUrls.AppealsNew; // new
   private TINS_SERVICE_PATH: string = environment.apiUrls.ProvTinList;
   private PAYMENT_INTEGRITY_PATH: string = environment.apiUrls.PaymentIntegrity;
+  private APEEALS_FHIR_API_PATH: string = environment.apiUrls.AppealsFHIR;
 
   constructor(private http: HttpClient) {}
   public getGettingReimbursedYearWiseData(...parameters) {
@@ -116,6 +117,18 @@ export class GettingReimbursedService {
     const nonPaymentURL = this.APP_URL + this.CLAIMS_SERVICE_PATH + parameters[0] + '?requestType=PAYMENT_METRICS';
     return this.http.post(nonPaymentURL, parameters[1], { headers: myHeader }).pipe(
       map(res => JSON.parse(JSON.stringify(res[0]))),
+      catchError(err => of(JSON.parse(JSON.stringify(err))))
+    );
+  }
+
+  public getAppealsWrapperData(parameters) {
+    const appURL = this.APP_URL + this.APEEALS_FHIR_API_PATH + parameters[0];
+    const appealsParams = parameters[1];
+    if (!appealsParams.TimeFilter) {
+      appealsParams.TimeFilter = parameters.TimeFilter;
+    }
+    return this.http.post(appURL, appealsParams).pipe(
+      map(res => JSON.parse(JSON.stringify(res))),
       catchError(err => of(JSON.parse(JSON.stringify(err))))
     );
   }
