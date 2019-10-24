@@ -774,7 +774,7 @@ export class GettingReimbursedSharedService {
             id: 2,
             title: 'Claims Payments*',
             MetricID: this.MetricidService.MetricIDs.ClaimsPayments,
-            data: [claimsPaid, claimsPaidRate]
+            data: [claimsPaid] /* , claimsPaidRate] commented to supress claims yield card*/
           };
           nonpayments = {
             id: 3,
@@ -1454,7 +1454,7 @@ export class GettingReimbursedSharedService {
             id: 2,
             title: 'Claims Payments*',
             MetricID: this.MetricidService.MetricIDs.ClaimsPayments,
-            data: [claimsPaid, claimsPaidRate]
+            data: [claimsPaid] /*, claimsPaidRate]  commented to supress claims yield card*/
           };
           nonpayments = {
             id: 3,
