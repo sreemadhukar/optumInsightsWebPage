@@ -20,7 +20,7 @@ export class IssueResolution {
       this.data.chartData.forEach((chartDataElement: any) => {
         const key = chartDataElement.key;
         const subKey = chartDataElement.subKey;
-        if (!Issue_Resolution[key]) {
+        if (!Issue_Resolution || !Issue_Resolution[key]) {
           chartDataElement.report = false;
           chartDataElement.quarters.push({
             title: null,
@@ -30,7 +30,7 @@ export class IssueResolution {
           });
         }
 
-        if (Issue_Resolution[key]) {
+        if (Issue_Resolution && Issue_Resolution[key]) {
           const value = Issue_Resolution[key][subKey] ? Math.round(Issue_Resolution[key][subKey]) : null;
           if (this.singleCard && value !== null) {
             chartDataElement.quarters.push({ title: value + '' + chartDataElement.units });
