@@ -272,6 +272,148 @@ export class AppealsSharedService {
       });
     });
   }
+
+  public getAppealsReasonData() {
+    this.tin = this.session.filterObjValue.tax.toString().replace(/-/g, '');
+    this.lob = this.session.filterObjValue.lob;
+    this.timeFrame = this.session.filterObjValue.timeFrame; // this.session.timeFrame;
+    this.providerKey = this.session.providerKeyData();
+    const reasonArray: Array<Object> = []; // change to let later
+    return new Promise((resolve, reject) => {
+      let parameters;
+      // let appealsOverturnedRate: Object;
+      const reason = [];
+
+      if (
+        this.timeFrame === 'Last 12 Months' ||
+        this.timeFrame === 'Last 6 Months' ||
+        this.timeFrame === 'Last 3 Months' ||
+        this.timeFrame === 'Last 30 Days' ||
+        this.timeFrame === 'Year to Date'
+      ) {
+        if (this.timeFrame === 'Last 12 Months') {
+          if (this.tin !== 'All' && this.lob !== 'All') {
+            parameters = [
+              this.providerKey,
+              { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Last12Months', Tin: this.tin }
+            ];
+          } else if (this.tin !== 'All') {
+            parameters = [this.providerKey, { TimeFilter: 'Last12Months', Tin: this.tin }];
+          } else if (this.lob !== 'All') {
+            parameters = [
+              this.providerKey,
+              { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Last12Months' }
+            ];
+          } else {
+            parameters = [this.providerKey, { TimeFilter: 'Last12Months', AllProviderTins: 'true' }];
+          }
+        } else if (this.timeFrame === 'Last 3 Months') {
+          if (this.tin !== 'All' && this.lob !== 'All') {
+            parameters = [
+              this.providerKey,
+              { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Last3Months', Tin: this.tin }
+            ];
+          } else if (this.tin !== 'All') {
+            parameters = [this.providerKey, { TimeFilter: 'Last3Months', Tin: this.tin }];
+          } else if (this.lob !== 'All') {
+            parameters = [
+              this.providerKey,
+              { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Last3Months' }
+            ];
+          } else {
+            parameters = [this.providerKey, { TimeFilter: 'Last3Months', AllProviderTins: 'true' }];
+          }
+        } else if (this.timeFrame === 'Last 30 Days') {
+          if (this.tin !== 'All' && this.lob !== 'All') {
+            parameters = [
+              this.providerKey,
+              { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Last30Days', Tin: this.tin }
+            ];
+          } else if (this.tin !== 'All') {
+            parameters = [this.providerKey, { TimeFilter: 'Last30Days', Tin: this.tin }];
+          } else if (this.lob !== 'All') {
+            parameters = [
+              this.providerKey,
+              { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Last30Days' }
+            ];
+          } else {
+            parameters = [this.providerKey, { TimeFilter: 'Last30Days', AllProviderTins: 'true' }];
+          }
+        } else if (this.timeFrame === 'Year to Date') {
+          if (this.tin !== 'All' && this.lob !== 'All') {
+            parameters = [
+              this.providerKey,
+              { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'YTD', Tin: this.tin }
+            ];
+          } else if (this.tin !== 'All') {
+            parameters = [this.providerKey, { TimeFilter: 'YTD', Tin: this.tin }];
+          } else if (this.lob !== 'All') {
+            parameters = [this.providerKey, { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'YTD' }];
+          } else {
+            parameters = [this.providerKey, { TimeFilter: 'YTD', AllProviderTins: 'true' }];
+          }
+        } else if (this.timeFrame === 'Last 6 Months') {
+          if (this.tin !== 'All' && this.lob !== 'All') {
+            parameters = [
+              this.providerKey,
+              { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Last6Months', Tin: this.tin }
+            ];
+          } else if (this.tin !== 'All') {
+            parameters = [this.providerKey, { TimeFilter: 'Last6Months', Tin: this.tin }];
+          } else if (this.lob !== 'All') {
+            parameters = [
+              this.providerKey,
+              { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Last6Months' }
+            ];
+          } else {
+            parameters = [this.providerKey, { TimeFilter: 'Last6Months', AllProviderTins: 'true' }];
+          }
+        }
+        if (parameters[1].hasOwnProperty('Lob')) {
+          delete parameters[1].Lob;
+        }
+        this.gettingReimbursedService.claimsAppealsReasonData(...parameters).subscribe(appealsReasonData => {
+          console.log(appealsReasonData);
+
+          if (appealsReasonData == null) {
+            reason.push({
+              category: 'app-card',
+              type: 'donut',
+              status: 404,
+              title: 'Top Claims Appeals Overturn Reasons',
+              MetricID: this.MetricidService.MetricIDs.TopClaimAppealsOverturnReasons,
+              data: null,
+              timeperiod: null
+            });
+          } else if (appealsReasonData !== null) {
+            const length = 5;
+            const reasonsVal1 = [33, 57, 22, 34, 16];
+            const reasonsVal2 = [77, 43, 78, 66, 84];
+            const barTitle = [
+              'Initially denied due to missing data that has since been received',
+              'Overturned due to UHG error',
+              'Business Process',
+              'A  Interpretation of policy-ZZ',
+              'A  Different policy (UHC, MCG, eviCore) used-ZZ'
+            ];
+            const barVal = ['33%', '57%', '22%', '34%', '16%'];
+            for (let i = 0; i <= length; i++) {
+              reason.push({
+                type: 'bar chart',
+                graphValues: [reasonsVal1[i], reasonsVal2[i]],
+                barText: barTitle[i],
+                barValue: barVal[i],
+                color: ['#3381FF', '#FFFFFF', '#E0E0E0'],
+                gdata: ['app-card-structure', 'appealsOverturnedReason' + i]
+              });
+            }
+          }
+        });
+      }
+      resolve(reason);
+    });
+  }
+
   public getappealsRateAndReasonData() {
     this.tin = this.session.filterObjValue.tax.toString().replace(/-/g, '');
     this.lob = this.session.filterObjValue.lob;

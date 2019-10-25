@@ -91,9 +91,14 @@ export class AppealsComponent implements OnInit {
         this.reasonDataAvailable = true;
       }
       this.overturnItem = AppealsCards;
-      if (appealsRateData[3].length !== 0) {
+      /* if (appealsRateData[3].length !== 0) {
         this.reason = appealsRateData[3];
-      }
+      }*/
+    });
+
+    this.appealsSharedService.getAppealsReasonData().then(appealsReasonData => {
+      console.log('Appeals Data reason' + appealsReasonData);
+      this.reason = appealsReasonData;
     });
 
     this.appealsSharedService.getappealsTatandDevidedOverturnData().then(appealsRateData => {

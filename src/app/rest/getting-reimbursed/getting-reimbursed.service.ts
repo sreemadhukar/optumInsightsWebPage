@@ -60,6 +60,20 @@ export class GettingReimbursedService {
       catchError(err => of(JSON.parse(JSON.stringify(err))))
     );
   }
+
+  public claimsAppealsReasonData(...parameters) {
+    const appealsParam = parameters[1];
+    const appealsURL =
+      this.APP_URL +
+      /* 'https://gateway-stage-core.optum.com/api/devone/pdr/uhci/v1/' +*/
+      this.APPEALS_SERVICE +
+      parameters[0] +
+      '?requestType=APPEALS_TOP_OVERTURNED_REASON_DOR_HCO';
+    return this.http.post(appealsURL, appealsParam).pipe(
+      map(res => JSON.parse(JSON.stringify(res))),
+      catchError(err => of(JSON.parse(JSON.stringify(err))))
+    );
+  }
   /** ----------------------------- */
 
   public getGettingReimbursedData(...parameters) {
