@@ -7,7 +7,7 @@ import { ProviderService } from '../../rest/provider/provider.service';
 })
 export class ProviderSharedService {
   constructor(private providerService: ProviderService) {}
-  public providersList() {
-    return this.providerService.getProvidersData();
+  public providersList(text) {
+    return this.providerService.getProvidersData(text);
   }
 }

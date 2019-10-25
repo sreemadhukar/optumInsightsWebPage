@@ -19,7 +19,7 @@ export const environment: any = {
   // apiProxyUrl: 'https://nginx-pedtst.ocp-ctc-core-nonprod.optum.com/',
   // originUrl: 'https://pedintui-pedstg.ocp-ctc-dmz-stg.optum.com/',
   apiProxyUrl: 'https://gateway-stage-core.optum.com/api/devone/pdr/uhci/v1/',
-  originUrl: 'https://pedui1-pedtst.ocp-ctc-core-nonprod.optum.com/',
+  originUrl: 'https://pedui2-peddev.ocp-ctc-core-nonprod.optum.com/',
   apiUrls: {
     ExecutiveSummaryPath: 'providersystems/',
     ProviderSystemClaimsAgg: 'agg-claims/search/v2.0/',
@@ -49,8 +49,10 @@ export const environment: any = {
     CallsTrend: 'provider-calls/',
     TrendingMetrics: 'trending-metrics/',
     PCORQualityMeasure: 'pcor-metrics/',
+    NPSSummary: 'kop-metrics/',
     AppealsTrend: 'appeals-trend/',
-    AdminSummaryTrends: 'admintrends/'
+    AdminSummaryTrends: 'admintrends/',
+    AdminSummaryTrendsCount: 'admintrendscount/'
   },
   headerKeys: {
     selectedCompany: '',
@@ -72,5 +74,6 @@ export const environment: any = {
   errorMessage: 'empty',
   clickStreamUrl: '//assets.adobedtm.com/launch-ENacdc6d1acf734bcd95703e446bd1de1d-development.min.js',
   internalAccess: true,
-  toggleTrendingSummary: false
+  toggleTrendingSummary: false,
+  sentryKey: 'https://238b4f0a54d44e6186fb9eeab3bb0f20@sentry-ped-internal.ocp-ctc-core.optum.com/2'
 };

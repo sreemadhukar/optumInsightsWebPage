@@ -80,7 +80,7 @@ app-header {
 }
 
 .health-system-representation-block {
-  @include padding(16px, 12px, 0px, 56px);
+  @include padding(20px, 12px, 0px, 56px);
   // @include padding(16px, 12px, 0px, 32px); before adding PI Sub Menu undo when toggled off
   border-bottom: 1px solid $gainsboro;
 }
@@ -112,7 +112,7 @@ app-header {
   letter-spacing: 0.2px;
   line-height: 18px;
   text-decoration: none;
-  margin: 9px 0;
+  margin: 9px 0 18px 0;
   cursor: pointer;
 }
 
@@ -430,7 +430,7 @@ app-header {
 
 .sticky {
   position: fixed;
-  top: 0;
+  top: 0px;
 }
 
 .mat-drawer-inner-container {
@@ -444,4 +444,55 @@ app-header {
   &-btn {
     border: 1px solid $blue !important;
   }
+}
+
+.butter-bar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background-color: #80dde6;
+  color: white;
+  height: 40px;
+}
+
+.exit-text {
+  font-family: 'UHCSans-Medium';
+  color: #2d2d39;
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: 0.2px;
+  padding-top: 0px;
+}
+
+.provider-text {
+  font-weight: bold;
+}
+
+.align-horizonal {
+  display: flex;
+  align-items: center;
+}
+
+.cross-icon {
+  width: 3%;
+  padding-top: 10px;
+  padding-left: 50px;
+  color: #2d2d39;
+}
+
+.top-40 {
+  top: 40px !important;
+}
+
+.top-0 {
+  top: 0;
+}
+
+.hover-pointer {
+  cursor: pointer;
+}
+
+.exit-provider-text:hover {
+  cursor: pointer;
+  text-decoration: underline;
 }

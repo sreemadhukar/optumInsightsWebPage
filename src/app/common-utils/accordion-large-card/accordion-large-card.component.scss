@@ -170,12 +170,12 @@ height: 45px;*/
   margin: 12px 0 12px 32px;
   float: left;
   cursor: pointer;
-  padding: 4px 0 13px 0;
+  padding: 4px 0 4px 0;
 }
 .bar-graphs-sub-content:hover {
   background: $darker-alice-blue;
   margin: 12px 0 12px 32px;
-  padding: 4px 0 13px 0;
+  padding: 4px 0 4px 0;
 
   .bar-graph-block-icon {
     color: $dodger-blue;
@@ -309,6 +309,9 @@ height: 45px;*/
   .extra-margin-bottom-24 {
     margin-bottom: 24px;
   }
+  .extra-margin-bottom-12 {
+    margin-bottom: 12px;
+  }
   .bar-graph-block-icon {
     @include margin(0, 13px, 0, 0);
   }
@@ -380,7 +383,7 @@ height: 45px;*/
 .description-content {
   letter-spacing: 0.2px;
   line-height: 22px;
-  padding: 10px 0 0 0;
+  padding: 0;
   color: $black-rock;
   font-size: 16px;
   .measure-desc {
@@ -568,7 +571,7 @@ height: 45px;*/
 }
 .flex-row-container > .flex-row-item1 {
   flex-grow: 1;
-  flex: 1 1 26%;
+  flex: 1 1 28%;
 }
 .flex-row-container > .flex-row-item2 {
   flex-grow: 1;

@@ -171,6 +171,7 @@ export class OverviewAdvocateSharedService {
           const csData = [];
           const eiData = [];
           const other = [];
+          // for (let element; element < appealsTrendData.length; element++) {
           appealsTrendData.forEach(element => {
             const monthlyMrData = [];
             const monthlyCsData = [];
@@ -296,6 +297,22 @@ export class OverviewAdvocateSharedService {
         },
         err => {
           console.log('Advocate Page , Error for appeals trend cards', err);
+        }
+      );
+    });
+  }
+
+  public getTotalCallsShared() {
+    this.timeFrame = this.session.filterObjValue.timeFrame;
+    this.providerKey = this.session.providerKeyData();
+    return new Promise(resolve => {
+      const parameters = this.getParmaeterCategories();
+      this.overviewAdvocateService.callsData(...parameters).subscribe(
+        callsTotalData => {
+          resolve(callsTotalData);
+        },
+        err => {
+          console.log('Advocate Page , Error for calls card', err);
         }
       );
     });
