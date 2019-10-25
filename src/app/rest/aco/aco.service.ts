@@ -26,7 +26,7 @@ export class AcoService {
       Authorization: 'Bearer ' + this.authBearer,
       Accept: '*/*'
     });
-console.log("post request");
+    console.log('post request');
     return this.http.post(acoURL, { headers: myHeader }).pipe(
       map(res => res),
       catchError(err => of(err))
