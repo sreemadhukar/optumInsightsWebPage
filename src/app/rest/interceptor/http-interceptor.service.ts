@@ -17,7 +17,9 @@ export class HttpInterceptorService implements HttpInterceptor {
     this.emitter.pipe().subscribe(text => (this.refreshtoken = text));
   }
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    // alert(this.refreshtoken);
     if (this.refreshtoken) {
+      this.emitter.emit(false);
       return next.handle(request);
     }
     if (!this.isTokenExpired(request)) {
@@ -25,7 +27,7 @@ export class HttpInterceptorService implements HttpInterceptor {
       return this.getRequestWithAuthentication(request, next);
     } else if (this.isTokenExpired(request) && !this.refreshtoken) {
       this.emitter.emit(true);
-
+      console.log('API token expired');
       // API call to get new refresh token & save in session
 
       return this.getRequestWithAuthentication(request, next);
@@ -46,6 +48,20 @@ export class HttpInterceptorService implements HttpInterceptor {
         });
       }
     }
+    //  let token = `eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWI
+    // iOiJpMGpLWVJwdGtmNTNkTDdNWlhjdEhRQ0ZraTRESUdOS3d6NTFKRis1Ymw5TW
+    // lWOWVMRkVHRzBsMTJjaFlnaElaNy85YjhJSktwUmUvUTQyR1hUa1hJVi9Kekl
+    // nazZMMHhEa3cxR05VVURsQWFOMlVORWkzaS9sWm5DWlpoYjJHSGw1ZGp3N1lHc
+    // zZoa0hObVBiSjZnYnNiYjRqenRlVE9UVnFjUWZ6K3J2Lzg9IiwiaXNzIjoiUTln
+    // UnBYV2pWbTVHWGV0aE54RzYwdXRHTUdXN05wc08iLCJleHAiOjE1NzE2NzU4ODcs
+    // ImF1dGhvcml0aWVzIjoiW1JPTEVfVVNFUl0ifQ.CDTyKhyxkesfw96jWR_yxvz5BCiLp7sM7VifHcEhyZ4`;
+
+    // if (token) {
+    //   request = request.clone({ headers: request.headers.set('Authorization', 'Bearer ' + token) });
+    //   request = request.clone({
+    //     headers: request.headers.set('PedAccessToken', 'Bearer ' + currentUser[0].PedAccessToken)
+    //   });
+    // }
     request = request.clone({ headers: request.headers.set('Accept', '*/*') });
     return next.handle(request);
   }
@@ -60,14 +76,13 @@ export class HttpInterceptorService implements HttpInterceptor {
           : currentUser[0].PedAccessToken;
     }
 
-    // token = `eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJp
-    // MGpLWVJwdGtmNTNkTDdNWlhjdEhRQ0ZraTRESUdOS3d6NTFKRis1Ymw5TWlWOW
-    // VMRkVHRzBsMTJjaFlnaElaNy85YjhJSktwUmUvUTQyR1hUa1hJVi9KeklnazZMM
-    // HhEa3cxR05VVURsQWFOMlVORWkzaS9sWm5DWlpoYjJHSGw1ZGp3N1lHczZoa0hOb
-    // VBiSjZnYnNiYjRqenRlVE9UVnFjUWZ6K3J2Lzg9IiwiaXNzIjoiUTlnUnBYV2pWb
-    // TVHWGV0aE54RzYwdXRHTUdXN05wc08iLCJleHAiOjE1NzE2NzU4ODcsImF1dGhvcm
-    // l0aWVzIjoiW1JPTEVfVVNFUl0ifQ.CDTyKhyxkesfw96jWR_yxvz5BCiLp7sM7Vif
-    // HcEhyZ4`;
+    // token = `eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiO
+    // iJpMGpLWVJwdGtmNTNkTDdNWlhjdEhRQ0ZraTRESUdOS3d6NTFKRis1
+    // Ymw5TWlWOWVMRkVHRzBsMTJjaFlnaElaNy85YjhJSktwUmUvUTQyR1hUa1hJVi
+    // 9KeklnazZMMHhEa3cxR05VVURsQWFOMlVORWkzaS9sWm5DWlpoYjJHSGw1ZGp3
+    // N1lHczZoa0hObVBiSjZnYnNiYjRqenRlVE9UVnFjUWZ6K3J2Lzg9IiwiaXNzIj
+    // oiUTlnUnBYV2pWbTVHWGV0aE54RzYwdXRHTUdXN05wc08iLCJleHAiOjE1NzE2NzU4O
+    // DcsImF1dGhvcml0aWVzIjoiW1JPTEVfVVNFUl0ifQ.CDTyKhyxkesfw96jWR_yxvz5BCiLp7sM7VifHcEhyZ4`;
 
     if (token) {
       const date = this.getTokenExpirationDate(token);
