@@ -57,19 +57,21 @@ export class CommonFooterComponent implements OnInit {
       //   let dd = String(today.getDate()).padStart(2, '0');
       // let ddlast6 = String(today.getDate()).padStart(2, '0');
       let ddlast6 = String(month[parseInt(mmlast6) - 1].monthlastdate);
-      if (this.title.includes('Prior')) {
-        mm = String(today.getMonth() + 1).padStart(2, '0');
-        mmlast6 = String(today.getMonth() - 5).padStart(2, '0');
-        yyyylast6 = today.getFullYear();
-        yyyy = today.getFullYear();
-        if (parseInt(mm) < 7) {
-          mmlast6 = String(today.getMonth() + 12 - 5).padStart(2, '0');
-          yyyylast6 = today.getFullYear() - 1;
-        }
-        dd = String(today.getDate() - 1).padStart(2, '0');
-        ddlast6 = String(today.getDate() - 1).padStart(2, '0');
-        if (parseInt(dd) > month[parseInt(mmlast6) - 1].monthlastdate) {
-          ddlast6 = String(month[parseInt(mmlast6) - 1].monthlastdate);
+      if (this.title) {
+        if (this.title.includes('Prior')) {
+          mm = String(today.getMonth() + 1).padStart(2, '0');
+          mmlast6 = String(today.getMonth() - 5).padStart(2, '0');
+          yyyylast6 = today.getFullYear();
+          yyyy = today.getFullYear();
+          if (parseInt(mm) < 7) {
+            mmlast6 = String(today.getMonth() + 12 - 5).padStart(2, '0');
+            yyyylast6 = today.getFullYear() - 1;
+          }
+          dd = String(today.getDate() - 1).padStart(2, '0');
+          ddlast6 = String(today.getDate() - 1).padStart(2, '0');
+          if (parseInt(dd) > month[parseInt(mmlast6) - 1].monthlastdate) {
+            ddlast6 = String(month[parseInt(mmlast6) - 1].monthlastdate);
+          }
         }
       }
 
