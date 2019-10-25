@@ -12,7 +12,7 @@ import { environment } from '../../../environments/environment';
   providedIn: 'root'
 })
 export class AcoSharedService {
-  private lob = 'EI';
+  private lob = 'EmployerAndIndividual';
   constructor(
     private MetricidService: GlossaryMetricidService,
     private acoservice: AcoService,
@@ -35,14 +35,14 @@ export class AcoSharedService {
     let acoPageMainCard: Array<object>;
     return new Promise(resolve => {
       this.acoservice.getAcoData().subscribe(data => {
-        if (data.hasOwnProperty('LineOfBusiness')) {
+        if (data.hasOwnProperty('LinesOfBusiness')) {
           if (environment.internalAccess) {
             acoSummary = {
               category: 'app-small-card',
               type: 'textWithLabel',
               title: 'ACO Summary',
               data: {
-                centerNumber: this.common.nFormatter(data.LineOfBusiness[this.lob].ACOSummary),
+                centerNumber: this.common.nFormatter(data.LinesOfBusiness[this.lob].AcoSummary),
                 labels: 'Attributed Members'
               },
               bottomData: {
@@ -59,8 +59,8 @@ export class AcoSharedService {
                 type: 'bar chart',
                 page: 'ACO',
                 graphValues: [
-                  data.LineOfBusiness[this.lob].ratioPCPtoSpecOV.Target,
-                  data.LineOfBusiness[this.lob].ratioPCPtoSpecOV.Actual
+                  data.LinesOfBusiness[this.lob].RatioPCPtoSpecOV.Target,
+                  data.LinesOfBusiness[this.lob].RatioPCPtoSpecOV.Actual
                 ],
                 color: ['#003DA1', '#FFFFFF', '#00B8CC'],
                 gdata: ['bar-chart', 'ratiopcp']
@@ -73,10 +73,10 @@ export class AcoSharedService {
               title: 'RX Generic Compliance',
               data: {
                 graphValues: [
-                  data.LineOfBusiness[this.lob].RxGenericCompliance.Actual * 100,
-                  100 - data.LineOfBusiness[this.lob].RxGenericCompliance.Actual * 100
+                  data.LinesOfBusiness[this.lob].RxGenericCompliance.Actual * 100,
+                  100 - data.LinesOfBusiness[this.lob].RxGenericCompliance.Actual * 100
                 ],
-                centerNumber: (data.LineOfBusiness[this.lob].RxGenericCompliance.Actual * 100).toFixed(2) + '%',
+                centerNumber: (data.LinesOfBusiness[this.lob].RxGenericCompliance.Actual * 100).toFixed(2) + '%',
                 color: ['#3381FF', '#D7DCE1'],
                 gdata: ['card-inner', 'claimsNonPaymentRate'],
                 sdata: {
@@ -90,8 +90,8 @@ export class AcoSharedService {
               type: 'barActualTargetNumbers',
               title: 'Rx Script',
               data: {
-                actual: data.LineOfBusiness[this.lob].RxScriptsPer1000.Actual.toFixed(2),
-                target: data.LineOfBusiness[this.lob].RxScriptsPer1000.Target.toFixed(2)
+                actual: data.LinesOfBusiness[this.lob].RxScriptsPerThousand.Actual.toFixed(2),
+                target: data.LinesOfBusiness[this.lob].RxScriptsPerThousand.Target.toFixed(2)
               },
               timeperiod: 'Contract Year to Date'
             };
@@ -100,8 +100,8 @@ export class AcoSharedService {
               type: 'barActualTargetNumbers',
               title: 'Acute Admits',
               data: {
-                actual: data.LineOfBusiness[this.lob].acuteAdmitsPer1000.Actual.toFixed(2),
-                target: data.LineOfBusiness[this.lob].acuteAdmitsPer1000.Target.toFixed(2)
+                actual: data.LinesOfBusiness[this.lob].AcuteAdmitsPerThousand.Actual.toFixed(2),
+                target: data.LinesOfBusiness[this.lob].AcuteAdmitsPerThousand.Target.toFixed(2)
               },
               timeperiod: 'Contract Year to Date'
             };
@@ -110,8 +110,8 @@ export class AcoSharedService {
               type: 'barActualTargetPercentage',
               title: 'Non-Participating Specialist Referrals',
               data: {
-                actual: data.LineOfBusiness[this.lob].nonParSpecialistReferrals.Actual.toFixed(4),
-                target: data.LineOfBusiness[this.lob].nonParSpecialistReferrals.Target.toFixed(4)
+                actual: data.LinesOfBusiness[this.lob].NonParSpecialistReferrals.Actual.toFixed(4),
+                target: data.LinesOfBusiness[this.lob].NonParSpecialistReferrals.Target.toFixed(4)
               },
               timeperiod: 'Contract Year to Date'
             };
@@ -120,8 +120,8 @@ export class AcoSharedService {
               type: 'barActualTargetNumbers',
               title: 'Emergency Visits',
               data: {
-                actual: data.LineOfBusiness[this.lob].emergencyVisitsPer1000.Actual.toFixed(2),
-                target: data.LineOfBusiness[this.lob].emergencyVisitsPer1000.Target.toFixed(2)
+                actual: data.LinesOfBusiness[this.lob].EmergencyVisitsPerThousand.Actual.toFixed(2),
+                target: data.LinesOfBusiness[this.lob].EmergencyVisitsPerThousand.Target.toFixed(2)
               },
               timeperiod: 'Contract Year to Date'
             };
@@ -130,8 +130,8 @@ export class AcoSharedService {
               type: 'barActualTargetNumbers',
               title: 'Acute Bed Days',
               data: {
-                actual: data.LineOfBusiness[this.lob].acuteBedDaysPer1000.Actual.toFixed(2),
-                target: data.LineOfBusiness[this.lob].acuteBedDaysPer1000.Target.toFixed(2)
+                actual: data.LinesOfBusiness[this.lob].AcuteBedDaysPerThousand.Actual.toFixed(2),
+                target: data.LinesOfBusiness[this.lob].AcuteBedDaysPerThousand.Target.toFixed(2)
               },
               timeperiod: 'Contract Year to Date'
             };
@@ -141,7 +141,7 @@ export class AcoSharedService {
               type: 'textWithLabel',
               title: 'ACO Summary',
               data: {
-                centerNumber: this.common.nFormatter(data.LineOfBusiness[this.lob].ACOSummary),
+                centerNumber: this.common.nFormatter(data.LinesOfBusiness[this.lob].AcoSummary),
                 labels: 'Attributed Members'
               },
               bottomData: {
@@ -156,8 +156,8 @@ export class AcoSharedService {
               fdata: {
                 type: 'bar chart',
                 graphValues: [
-                  data.LineOfBusiness[this.lob].ratioPCPtoSpecOV.Target,
-                  data.LineOfBusiness[this.lob].ratioPCPtoSpecOV.Actual
+                  data.LinesOfBusiness[this.lob].RatioPCPtoSpecOV.Target,
+                  data.LinesOfBusiness[this.lob].RatioPCPtoSpecOV.Actual
                 ],
                 color: ['#003DA1', '#FFFFFF', '#00B8CC'],
                 gdata: ['small-card-structure', 'ratiopcp']
@@ -169,10 +169,10 @@ export class AcoSharedService {
               title: 'RX Generic Compliance',
               data: {
                 graphValues: [
-                  data.LineOfBusiness[this.lob].RxGenericCompliance.Actual * 100,
-                  100 - data.LineOfBusiness[this.lob].RxGenericCompliance.Actual * 100
+                  data.LinesOfBusiness[this.lob].RxGenericCompliance.Actual * 100,
+                  100 - data.LinesOfBusiness[this.lob].RxGenericCompliance.Actual * 100
                 ],
-                centerNumber: (data.LineOfBusiness[this.lob].RxGenericCompliance.Actual * 100).toFixed(2) + '%',
+                centerNumber: (data.LinesOfBusiness[this.lob].RxGenericCompliance.Actual * 100).toFixed(2) + '%',
                 color: ['#3381FF', '#D7DCE1'],
                 gdata: ['card-inner', 'claimsNonPaymentRate'],
                 sdata: {
@@ -185,8 +185,8 @@ export class AcoSharedService {
               type: 'barActualTargetNumbers',
               title: 'Rx Script',
               data: {
-                actual: data.LineOfBusiness[this.lob].RxScriptsPer1000.Actual.toFixed(2),
-                target: data.LineOfBusiness[this.lob].RxScriptsPer1000.Target.toFixed(2)
+                actual: data.LinesOfBusiness[this.lob].RxScriptsPerThousand.Actual.toFixed(2),
+                target: data.LinesOfBusiness[this.lob].RxScriptsPerThousand.Target.toFixed(2)
               }
             };
             acuteAdmits = {
@@ -194,8 +194,8 @@ export class AcoSharedService {
               type: 'barActualTargetNumbers',
               title: 'Acute Admits',
               data: {
-                actual: data.LineOfBusiness[this.lob].acuteAdmitsPer1000.Actual.toFixed(2),
-                target: data.LineOfBusiness[this.lob].acuteAdmitsPer1000.Target.toFixed(2)
+                actual: data.LinesOfBusiness[this.lob].AcuteAdmitsPerThousand.Actual.toFixed(2),
+                target: data.LinesOfBusiness[this.lob].AcuteAdmitsPerThousand.Target.toFixed(2)
               }
             };
             nonParticipatingSpecialistReferrals = {
@@ -203,8 +203,8 @@ export class AcoSharedService {
               type: 'barActualTargetPercentage',
               title: 'Non-Participating Specialist Referrals',
               data: {
-                actual: data.LineOfBusiness[this.lob].nonParSpecialistReferrals.Actual.toFixed(4),
-                target: data.LineOfBusiness[this.lob].nonParSpecialistReferrals.Target.toFixed(4)
+                actual: data.LinesOfBusiness[this.lob].NonParSpecialistReferrals.Actual.toFixed(4),
+                target: data.LinesOfBusiness[this.lob].NonParSpecialistReferrals.Target.toFixed(4)
               }
             };
             emergencyVisits = {
@@ -212,8 +212,8 @@ export class AcoSharedService {
               type: 'barActualTargetNumbers',
               title: 'Emergency Visits',
               data: {
-                actual: data.LineOfBusiness[this.lob].emergencyVisitsPer1000.Actual.toFixed(2),
-                target: data.LineOfBusiness[this.lob].emergencyVisitsPer1000.Target.toFixed(2)
+                actual: data.LinesOfBusiness[this.lob].EmergencyVisitsPerThousand.Actual.toFixed(2),
+                target: data.LinesOfBusiness[this.lob].EmergencyVisitsPerThousand.Target.toFixed(2)
               }
             };
             acuteBedDays = {
@@ -221,8 +221,8 @@ export class AcoSharedService {
               type: 'barActualTargetNumbers',
               title: 'Acute Bed Days',
               data: {
-                actual: data.LineOfBusiness[this.lob].acuteBedDaysPer1000.Actual.toFixed(2),
-                target: data.LineOfBusiness[this.lob].acuteBedDaysPer1000.Target.toFixed(2)
+                actual: data.LinesOfBusiness[this.lob].AcuteBedDaysPerThousand.Actual.toFixed(2),
+                target: data.LinesOfBusiness[this.lob].AcuteBedDaysPerThousand.Target.toFixed(2)
               }
             };
           }

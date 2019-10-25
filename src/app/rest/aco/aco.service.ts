@@ -28,7 +28,7 @@ export class AcoService {
     });
     console.log('post request');
     return this.http.post(acoURL, { headers: myHeader }).pipe(
-      map(res => res),
+      map(res => res[0]),
       catchError(err => of(err))
     );
   }
