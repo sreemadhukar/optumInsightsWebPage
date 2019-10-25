@@ -35,8 +35,9 @@ export class AcoSharedService {
     let acoPageMainCard: Array<object>;
     return new Promise(resolve => {
       this.acoservice.getAcoData().subscribe(data => {
-        console.log(data.LinesOfBusiness);
+        console.log(data.LinesOfBusiness[this.lob]);
         if (data.hasOwnProperty('LinesOfBusiness')) {
+          console.log('am here');
           if (environment.internalAccess) {
             acoSummary = {
               category: 'app-small-card',
@@ -137,6 +138,7 @@ export class AcoSharedService {
               timeperiod: 'Contract Year to Date'
             };
           } else {
+            console.log('am here');
             acoSummary = {
               category: 'app-small-card',
               type: 'textWithLabel',
