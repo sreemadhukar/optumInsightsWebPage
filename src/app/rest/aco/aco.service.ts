@@ -19,7 +19,7 @@ export class AcoService {
   public getAcoData() {
     this.currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
     this.AcoId = this.currentUser[0]['AcoId'] ? this.currentUser[0]['AcoId'] : 'BRTO160120';
-    const acoURL = this.APP_URL + this.ACOMetrics_SERVICE_PATH + +'?requestType=ACO_COST_OF_CARE_METRICS';
+    const acoURL = this.APP_URL + this.ACOMetrics_SERVICE_PATH + this.AcoId + '?requestType=ACO_COST_OF_CARE_METRICS';
 
     const params = new HttpParams();
 
