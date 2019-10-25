@@ -49,7 +49,7 @@
     "ngx-cookie-service": "^2.2.0",
     "nyc": "^14.1.1",
     "path": "^0.12.7",
-    "raven-js": "^3.22.2",
+    "raven-js": "3.22.2",
     "rxjs": "~6.2.0",
     "serve": "^11.1.0",
     "web-animations-js": "^2.3.2",
