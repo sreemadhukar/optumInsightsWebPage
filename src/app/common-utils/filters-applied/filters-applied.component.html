@@ -32,7 +32,7 @@
           </div>
         </button>
       </div>
-      <div class="horizontal-align" *ngIf="selectedServiceSetting.value !== 'All'">
+      <div class="horizontal-align" *ngIf="selectedPage === 'priorAuthPage' && selectedServiceSetting.value !== 'All'">
         <button class="btn btn-rounded" disabled>
           <span>Service Setting: </span><span class="text-semibold pl-4"> {{ selectedServiceSetting.value }} </span>
           <div class="close-btn">
@@ -40,7 +40,7 @@
           </div>
         </button>
       </div>
-      <div class="horizontal-align" *ngIf="selectedPriorAuthType.value !== 'All'">
+      <div class="horizontal-align" *ngIf="selectedPage === 'priorAuthPage' && selectedPriorAuthType.value !== 'All'">
         <button class="btn btn-rounded" disabled>
           <span>Prior Auth Type: </span><span class="text-semibold pl-4"> {{ selectedPriorAuthType.value }} </span>
           <div class="close-btn">
@@ -48,7 +48,10 @@
           </div>
         </button>
       </div>
-      <div class="horizontal-align" *ngIf="selectedServiceCategory && selectedServiceCategory.value !== 'All'">
+      <div
+        class="horizontal-align"
+        *ngIf="selectedPage === 'priorAuthPage' && selectedServiceCategory && selectedServiceCategory.value !== 'All'"
+      >
         <button class="btn btn-rounded" disabled *ngIf="selectedServiceCategory">
           <span>Service Category: </span><span class="text-semibold pl-4"> {{ selectedServiceCategory.value }} </span>
           <div class="close-btn">

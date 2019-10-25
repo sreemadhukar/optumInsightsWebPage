@@ -23,6 +23,9 @@
             <mat-radio-button
               class="radio-button"
               *ngFor="let timeFrame of timeFrames; let i = index"
+              [class.disable-radio-button]="
+                (i == 3 || i == 5 || i == 6) && (selectedPage === 'paymentsPage' || selectedPage === 'nonPaymentsPage')
+              "
               [value]="timeFrame"
             >
               {{ timeFrame.value }}
@@ -31,16 +34,10 @@
         </div>
       </div>
     </div>
-    <!--<div class="line" *ngIf="filterurl !== '/AdminSummaryTrends'"></div>-->
-    <!--<div-->
-    <!--class="titleData"-->
-    <!--[ngClass]="{ titleDisable: filterurl === '/ServiceInteraction/Calls' }"-->
-    <!--*ngIf="filterurl !== '/AdminSummaryTrends'"-->
-    <!--&gt;-->
 
     <!-- Tax ID -->
     <div class="line"></div>
-    <div class="titleData">
+    <div class="titleData" [ngClass]="{ titleDisable: selectedPage === 'callsPage' }">
       <div class="title">Tax ID</div>
       <div class="chevron">
         <mat-icon
@@ -51,10 +48,14 @@
         ></mat-icon>
       </div>
     </div>
-    <!--<div class="lobgrp titleDisplay">-->
-    <!--Not Available-->
-    <!--</div>-->
-    <div class="lobgrp">
+    <div
+      class="lobgrp titleDisplay"
+      *ngIf="selectedPage === 'callsPage'"
+      [ngClass]="{ titleDisable: selectedPage === 'callsPage' }"
+    >
+      Not Available
+    </div>
+    <div class="lobgrp" *ngIf="selectedPage !== 'callsPage'">
       <div>
         <label id="radio-group-label" class="label-data">
           <span *ngIf="selectedTaxIds.length < 4">
@@ -72,7 +73,7 @@
 
     <!--Line of Business-->
     <div class="line"></div>
-    <div class="titleData">
+    <div class="titleData" [ngClass]="{ titleDisable: selectedPage === 'callsPage' }">
       <div class="title">Line of Business</div>
       <div class="chevron">
         <mat-icon
@@ -83,13 +84,14 @@
         ></mat-icon>
       </div>
     </div>
-    <!--<div class="lobgrp titleDisplay"-->
-    <!--*ngIf="filterurl === '/ServiceInteraction/Calls'"-->
-    <!--[ngClass]="{ titleDisable: filterurl === '/ServiceInteraction/Calls' }"-->
-    <!--&gt;-->
-    <!--Not Available-->
-    <!--</div>-->
-    <div class="lobgrp">
+    <div
+      class="lobgrp titleDisplay"
+      *ngIf="selectedPage === 'callsPage'"
+      [ngClass]="{ titleDisable: selectedPage === 'callsPage' }"
+    >
+      Not Available
+    </div>
+    <div class="lobgrp" *ngIf="selectedPage !== 'callsPage'">
       <div>
         <label id="radio-group" class="label-data">{{ selectedLob.value }}</label>
       </div>
@@ -107,116 +109,118 @@
       </div>
     </div>
 
-    <!--Service Setting (Only Prior Auth)-->
-    <div class="line"></div>
-    <div class="titleData">
-      <div class="title">Service Setting</div>
-      <div class="chevron">
-        <mat-icon
-          class="icon-display"
-          svgIcon="arrowdn"
-          (click)="toggle('toggleServiceSetting')"
-          [class.arrow-toggle]="collapseToggle.toggleServiceSetting"
-        ></mat-icon>
+    <div *ngIf="selectedPage === 'priorAuthPage'">
+      <!--Service Setting (Only Prior Auth)-->
+      <div class="line"></div>
+      <div class="titleData">
+        <div class="title">Service Setting</div>
+        <div class="chevron">
+          <mat-icon
+            class="icon-display"
+            svgIcon="arrowdn"
+            (click)="toggle('toggleServiceSetting')"
+            [class.arrow-toggle]="collapseToggle.toggleServiceSetting"
+          ></mat-icon>
+        </div>
       </div>
-    </div>
-    <div class="lobgrp">
-      <div>
-        <label id="radio-group-ss" class="label-data">{{ selectedServiceSetting.value }}</label>
+      <div class="lobgrp">
+        <div>
+          <label id="radio-group-ss" class="label-data">{{ selectedServiceSetting.value }}</label>
+        </div>
+        <div class="select-option-data" *ngIf="collapseToggle.toggleServiceSetting">
+          <mat-radio-group class="radio-group" [(ngModel)]="selectedServiceSetting">
+            <mat-radio-button class="radio-button" *ngFor="let ss of serviceSettings" [value]="ss">
+              {{ ss.value }}
+            </mat-radio-button>
+          </mat-radio-group>
+        </div>
       </div>
-      <div class="select-option-data" *ngIf="collapseToggle.toggleServiceSetting">
-        <mat-radio-group class="radio-group" [(ngModel)]="selectedServiceSetting">
-          <mat-radio-button class="radio-button" *ngFor="let ss of serviceSettings" [value]="ss">
-            {{ ss.value }}
-          </mat-radio-button>
-        </mat-radio-group>
-      </div>
-    </div>
 
-    <!--Prior Auth Type-->
-    <div class="line"></div>
-    <div class="titleData">
-      <div class="title">Prior Auth Type</div>
-      <div class="chevron">
-        <mat-icon
-          class="icon-display"
-          svgIcon="arrowdn"
-          (click)="toggle('togglePriorAuthType')"
-          [class.arrow-toggle]="collapseToggle.togglePriorAuthType"
-        ></mat-icon>
+      <!--Prior Auth Type-->
+      <div class="line"></div>
+      <div class="titleData">
+        <div class="title">Prior Auth Type</div>
+        <div class="chevron">
+          <mat-icon
+            class="icon-display"
+            svgIcon="arrowdn"
+            (click)="toggle('togglePriorAuthType')"
+            [class.arrow-toggle]="collapseToggle.togglePriorAuthType"
+          ></mat-icon>
+        </div>
       </div>
-    </div>
-    <div class="lobgrp">
-      <div>
-        <label class="label-data" *ngIf="selectedPriorAuthType">{{ selectedPriorAuthType.value }}</label>
-      </div>
-      <div class="select-option-data" *ngIf="collapseToggle.togglePriorAuthType">
-        <mat-radio-group class="radio-group" [(ngModel)]="selectedPriorAuthType">
-          <mat-radio-button
-            class="radio-button"
-            *ngFor="let paType of priorAuthTypes"
-            [value]="paType"
-            [checked]="paType.value === selectedPriorAuthType.value"
-          >
-            {{ paType.value }}
-          </mat-radio-button>
-        </mat-radio-group>
-      </div>
-    </div>
-
-    <!--Service Category -->
-    <div class="line"></div>
-    <div class="titleData">
-      <div class="title">Service Category</div>
-      <div class="chevron">
-        <mat-icon
-          class="icon-display"
-          svgIcon="arrowdn"
-          (click)="toggle('toggleServiceCategory')"
-          [class.arrow-toggle]="collapseToggle.toggleServiceCategory"
-        ></mat-icon>
-      </div>
-    </div>
-    <div class="lobgrp">
-      <div>
-        <label class="label-data" *ngIf="selectedService">{{ selectedService }} </label>
-      </div>
-      <div>
-        <label class="label-data" *ngIf="selectedPriorAuthType">{{ selectedPriorAuthType.value }}</label>
-      </div>
-      <div class="select-option-data" *ngIf="collapseToggle.toggleServiceCategory">
-        <mat-form-field appearance="outline">
-          <input
-            type="text"
-            matInput
-            [matAutocomplete]="auto"
-            [formControl]="serviceCategoryForm"
-            [(ngModel)]="selectedService"
-            (ngModelChange)="categories = doFilter(selectedServiceCategory)"
-            (input)="selectedPriorAuthType = priorAuthInitialState"
-            placeholder="Search for Service Category"
-          />
-          <mat-icon matPrefix class="nav-menu-icons" svgIcon="search"></mat-icon>
-          <mat-autocomplete #auto="matAutocomplete" autoActiveFirstOption>
-            <mat-option
-              *ngFor="let serviceCategory of categories"
-              (onSelectionChange)="selectedPriorAuthType = priorAuthInitialState"
-              [value]="serviceCategory.value"
+      <div class="lobgrp">
+        <div>
+          <label class="label-data" *ngIf="selectedPriorAuthType">{{ selectedPriorAuthType.value }}</label>
+        </div>
+        <div class="select-option-data" *ngIf="collapseToggle.togglePriorAuthType">
+          <mat-radio-group class="radio-group" [(ngModel)]="selectedPriorAuthType">
+            <mat-radio-button
+              class="radio-button"
+              *ngFor="let paType of priorAuthTypes"
+              [value]="paType"
+              [checked]="paType.value === selectedPriorAuthType.value"
             >
-              {{ serviceCategory.value }}
-            </mat-option>
-          </mat-autocomplete>
-        </mat-form-field>
-        <mat-radio-group class="radio-group" [(ngModel)]="selectedPriorAuthType" (change)="selectedService = ''">
-          <mat-radio-button
-            class="radio-button"
-            *ngFor="let paType of priorAuthTypes"
-            [value]="paType"
-            [checked]="paType.value === selectedPriorAuthType.value"
-          >
-            {{ paType.value }}
-          </mat-radio-button>
-        </mat-radio-group>
+              {{ paType.value }}
+            </mat-radio-button>
+          </mat-radio-group>
+        </div>
+      </div>
+
+      <!--Service Category -->
+      <div class="line"></div>
+      <div class="titleData">
+        <div class="title">Service Category</div>
+        <div class="chevron">
+          <mat-icon
+            class="icon-display"
+            svgIcon="arrowdn"
+            (click)="toggle('toggleServiceCategory')"
+            [class.arrow-toggle]="collapseToggle.toggleServiceCategory"
+          ></mat-icon>
+        </div>
+      </div>
+      <div class="lobgrp">
+        <div>
+          <label class="label-data" *ngIf="selectedService">{{ selectedService }} </label>
+        </div>
+        <div>
+          <label class="label-data" *ngIf="selectedPriorAuthType">{{ selectedPriorAuthType.value }}</label>
+        </div>
+        <div class="select-option-data" *ngIf="collapseToggle.toggleServiceCategory">
+          <mat-form-field appearance="outline">
+            <input
+              type="text"
+              matInput
+              [matAutocomplete]="auto"
+              [formControl]="serviceCategoryForm"
+              [(ngModel)]="selectedService"
+              (ngModelChange)="categories = doFilter(selectedServiceCategory)"
+              (input)="selectedPriorAuthType = priorAuthInitialState"
+              placeholder="Search for Service Category"
+            />
+            <mat-icon matPrefix class="nav-menu-icons" svgIcon="search"></mat-icon>
+            <mat-autocomplete #auto="matAutocomplete" autoActiveFirstOption>
+              <mat-option
+                *ngFor="let serviceCategory of categories"
+                (onSelectionChange)="selectedPriorAuthType = priorAuthInitialState"
+                [value]="serviceCategory.value"
+              >
+                {{ serviceCategory.value }}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+          <mat-radio-group class="radio-group" [(ngModel)]="selectedPriorAuthType" (change)="selectedService = ''">
+            <mat-radio-button
+              class="radio-button"
+              *ngFor="let paType of priorAuthTypes"
+              [value]="paType"
+              [checked]="paType.value === selectedPriorAuthType.value"
+            >
+              {{ paType.value }}
+            </mat-radio-button>
+          </mat-radio-group>
+        </div>
       </div>
     </div>
   </ng-container>

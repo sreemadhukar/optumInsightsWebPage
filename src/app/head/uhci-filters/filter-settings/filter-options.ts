@@ -1,11 +1,11 @@
 export const TimePeriod = [
-  { name: 'Last30Days', value: 'Last 30 Days' },
-  { name: 'Last3Months', value: 'Last 3 Months' },
-  { name: 'Last6Months', value: 'Last 6 Months' },
-  { name: 'Last12Months', value: 'Last 12 Months' },
-  { name: 'YTD', value: 'Year to Date' },
-  { name: '2018', value: '2018' },
-  { name: '2017', value: '2017' }
+  { name: 'Last30Days', value: 'Last 30 Days', disable: false },
+  { name: 'Last3Months', value: 'Last 3 Months', disable: false },
+  { name: 'Last6Months', value: 'Last 6 Months', disable: false },
+  { name: 'Last12Months', value: 'Last 12 Months', disable: false },
+  { name: 'YTD', value: 'Year to Date', disable: false },
+  { name: '2018', value: '2018', disable: false },
+  { name: '2017', value: '2017', disable: false }
 ];
 
 export const LineOfBusiness = [

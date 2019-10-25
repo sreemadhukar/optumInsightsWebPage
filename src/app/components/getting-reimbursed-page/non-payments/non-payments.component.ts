@@ -21,7 +21,7 @@ import { FilterExpandService } from '../../../shared/filter-expand.service';
 import { CommonUtilsService } from '../../../shared/common-utils.service';
 import { GlossaryMetricidService } from '../../../shared/glossary-metricid.service';
 import { NonPaymentSharedService } from '../../../shared/getting-reimbursed/non-payments/non-payment-shared.service';
-import { NgRedux } from '@angular-redux/store';
+import { NgRedux, select } from '@angular-redux/store';
 import { CURRENT_PAGE } from '../../../store/filter/actions';
 import { IAppState } from '../../../store/store';
 import { CreatePayloadService } from '../../../shared/uhci-filters/create-payload.service';

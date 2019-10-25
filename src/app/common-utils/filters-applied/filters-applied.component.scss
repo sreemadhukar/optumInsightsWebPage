@@ -38,20 +38,16 @@
     background-color: $blue;
     color: $white;
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
-    &-title {
-      color: $white;
-    }
-    &-icon {
+    .filter-title,
+    .filter-icon {
       color: $white;
     }
   }
   &-bg:active {
     background-color: $blue-base;
     color: $white;
-    &-title {
-      color: $white;
-    }
-    &-icon {
+    .filter-title,
+    .filter-icon {
       color: $white;
     }
   }
