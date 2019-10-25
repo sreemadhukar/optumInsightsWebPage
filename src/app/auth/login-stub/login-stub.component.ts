@@ -128,6 +128,7 @@ export class LoginStubComponent implements OnInit {
                 });
                 sessionStorage.setItem('cache', JSON.stringify(true));
                 const currentUserData = JSON.parse(JSON.stringify(sessionStorage.getItem('currentUser')));
+                console.log(currentUserData[0], currentUserData);
                 if (
                   (currentUserData.hasOwnProperty('AcoId') && currentUserData.AcoId !== '') ||
                   currentUserData.FirstName === 'Mounika'
