@@ -13,7 +13,7 @@ export class CommonFooterComponent implements OnInit {
   @Input() title: String;
   @Input() linkName: String;
   @Input() routePath: String;
-
+  timePeriodFooter: String;
   constructor(private router: Router, private iconRegistry: MatIconRegistry, private sanitizer: DomSanitizer) {
     iconRegistry.addSvgIcon(
       'chevron_right',
@@ -39,11 +39,12 @@ export class CommonFooterComponent implements OnInit {
       ];
       const today = new Date();
       let mm = String(today.getMonth()).padStart(2, '0'); // January is 0!
+      let yyyy = today.getFullYear();
       if (parseInt(mm) === 0) {
         mm = '12';
+        yyyy = today.getFullYear() - 1;
       }
       let mmlast6 = String(today.getMonth() - 6).padStart(2, '0'); // January is 0!
-      const yyyy = today.getFullYear();
       let yyyylast6 = today.getFullYear();
       if (yyyylast6 % 4 === 0) {
         month[1].monthlastdate = 29;
@@ -52,16 +53,26 @@ export class CommonFooterComponent implements OnInit {
         mmlast6 = String(today.getMonth() + 12 - 6).padStart(2, '0'); // January is 0!
         yyyylast6 = today.getFullYear() - 1;
       }
-      const dd = String(month[parseInt(mm) - 1].monthlastdate);
+      let dd = String(month[parseInt(mm) - 1].monthlastdate);
       //   let dd = String(today.getDate()).padStart(2, '0');
       // let ddlast6 = String(today.getDate()).padStart(2, '0');
-      const ddlast6 = String(month[parseInt(mmlast6) - 1].monthlastdate);
+      let ddlast6 = String(month[parseInt(mmlast6) - 1].monthlastdate);
       if (this.title.includes('Prior')) {
-        console.log('madhukar');
+        mm = String(today.getMonth() + 1).padStart(2, '0');
+        mmlast6 = String(today.getMonth() - 5).padStart(2, '0');
+        yyyylast6 = today.getFullYear();
+        yyyy = today.getFullYear();
+        if (parseInt(mm) < 7) {
+          mmlast6 = String(today.getMonth() + 12 - 5).padStart(2, '0');
+          yyyylast6 = today.getFullYear() - 1;
+        }
+        dd = String(today.getDate() - 1).padStart(2, '0');
+        ddlast6 = String(today.getDate() - 1).padStart(2, '0');
+        if (parseInt(dd) > month[parseInt(mmlast6) - 1].monthlastdate) {
+          ddlast6 = String(month[parseInt(mmlast6) - 1].monthlastdate);
+        }
       }
-      // if (parseInt(dd) > month[parseInt(mmlast6) - 1].monthlastdate) {
-      //   ddlast6 = String(month[parseInt(mmlast6) - 1].monthlastdate);
-      // }
+
       this.timePeriodFooter =
         month[parseInt(mmlast6) - 1].monthNames +
         ' ' +
