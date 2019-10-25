@@ -211,7 +211,7 @@ export class PaymentsSharedService {
 
   getPaymentsData(parameters) {
     return new Promise((resolve, reject) => {
-      let summaryData: Array<object> = [];
+      const summaryData: Array<object> = [];
       let claimsPaid: object;
       let claimsPaidRate: object;
       this.gettingReimbursedService.getPaymentsData(parameters).subscribe(
