@@ -767,12 +767,21 @@ export class GettingReimbursedSharedService {
             MetricID: this.MetricidService.MetricIDs.ClaimsSubmissions,
             data: [claimsSubmitted, claimsTAT]
           };
-          payments = {
-            id: 2,
-            title: 'Claims Payments*',
-            MetricID: this.MetricidService.MetricIDs.ClaimsPayments,
-            data: [claimsPaid, claimsPaidRate]
-          };
+          if (claimsData[lobData].ClaimsLobSummary[0].ClaimsYieldRate.toFixed() === 0) {
+            payments = {
+              id: 2,
+              title: 'Claims Payments*',
+              MetricID: this.MetricidService.MetricIDs.ClaimsPayments,
+              data: [claimsPaid]
+            };
+          } else {
+            payments = {
+              id: 2,
+              title: 'Claims Payments*',
+              MetricID: this.MetricidService.MetricIDs.ClaimsPayments,
+              data: [claimsPaid, claimsPaidRate]
+            };
+          }
           nonpayments = {
             id: 3,
             title: 'Claims Non-Payments*',
@@ -1445,12 +1454,21 @@ export class GettingReimbursedSharedService {
             MetricID: this.MetricidService.MetricIDs.ClaimsSubmissions,
             data: [claimsSubmitted, claimsTAT]
           };
-          payments = {
-            id: 2,
-            title: 'Claims Payments*',
-            MetricID: this.MetricidService.MetricIDs.ClaimsPayments,
-            data: [claimsPaid, claimsPaidRate]
-          };
+          if (claimsData[lobData].ClaimsLobSummary[0].ClaimsYieldRate.toFixed() === 0) {
+            payments = {
+              id: 2,
+              title: 'Claims Payments*',
+              MetricID: this.MetricidService.MetricIDs.ClaimsPayments,
+              data: [claimsPaid]
+            };
+          } else {
+            payments = {
+              id: 2,
+              title: 'Claims Payments*',
+              MetricID: this.MetricidService.MetricIDs.ClaimsPayments,
+              data: [claimsPaid, claimsPaidRate]
+            };
+          }
           nonpayments = {
             id: 3,
             title: 'Claims Non-Payments*',
