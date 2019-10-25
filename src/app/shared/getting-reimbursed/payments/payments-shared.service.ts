@@ -211,7 +211,7 @@ export class PaymentsSharedService {
 
   getPaymentsData(parameters) {
     return new Promise((resolve, reject) => {
-      let summaryData: Array<object> = [];
+      const summaryData: Array<object> = [];
       let claimsPaid: object;
       let claimsPaidRate: object;
       this.gettingReimbursedService.getPaymentsData(parameters).subscribe(
@@ -555,14 +555,10 @@ export class PaymentsSharedService {
           //   data: null,
           //   timeperiod: null
           // };
-          // payments = { id: 1, title: 'Claims Payments', data: [claimsPaid, claimsPaidRate] };
-          if (claimsData[lobData].ClaimsLobSummary[0].ClaimsYieldRate.toFixed() === 0) {
-            summaryData = [claimsPaid];
-          } else {
-            summaryData = [claimsPaid, claimsPaidRate];
-          }
-          // summaryData[0] = claimsPaid;
-          // summaryData[1] = claimsPaidRate;
+          const payments = { id: 1, title: 'Claims Payments', data: [claimsPaid] };
+          /*, claimsPaidRate] }; commented to supress claims yield card*/
+          summaryData[0] = payments;
+
           if (summaryData.length) {
             resolve(summaryData);
           }
