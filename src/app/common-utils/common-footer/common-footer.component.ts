@@ -23,23 +23,23 @@ export class CommonFooterComponent implements OnInit {
 
   ngOnInit() {
     if (this.timePeriod === 'Last 6 Months') {
-      const month = [
-        { monthNames: 'Jan', monthlastdate: 31 },
-        { monthNames: 'Feb', monthlastdate: 28 },
-        { monthNames: 'Mar', monthlastdate: 31 },
-        { monthNames: 'Apr', monthlastdate: 30 },
-        { monthNames: 'May', monthlastdate: 31 },
-        { monthNames: 'Jun', monthlastdate: 30 },
-        { monthNames: 'Jul', monthlastdate: 31 },
-        { monthNames: 'Aug', monthlastdate: 31 },
-        { monthNames: 'Sep', monthlastdate: 30 },
-        { monthNames: 'Oct', monthlastdate: 31 },
-        { monthNames: 'Nov', monthlastdate: 30 },
-        { monthNames: 'Dec', monthlastdate: 31 }
-      ];
       const today = new Date();
-      let mm = String(today.getMonth()).padStart(2, '0'); // January is 0!
       let yyyy = today.getFullYear();
+      const month = [
+        { monthNames: 'Jan', monthlastdate: this.getDaysInMonth(1, yyyy) },
+        { monthNames: 'Feb', monthlastdate: this.getDaysInMonth(2, yyyy) },
+        { monthNames: 'Mar', monthlastdate: this.getDaysInMonth(3, yyyy) },
+        { monthNames: 'Apr', monthlastdate: this.getDaysInMonth(4, yyyy) },
+        { monthNames: 'May', monthlastdate: this.getDaysInMonth(5, yyyy) },
+        { monthNames: 'Jun', monthlastdate: this.getDaysInMonth(6, yyyy) },
+        { monthNames: 'Jul', monthlastdate: this.getDaysInMonth(7, yyyy) },
+        { monthNames: 'Aug', monthlastdate: this.getDaysInMonth(8, yyyy) },
+        { monthNames: 'Sep', monthlastdate: this.getDaysInMonth(9, yyyy) },
+        { monthNames: 'Oct', monthlastdate: this.getDaysInMonth(10, yyyy) },
+        { monthNames: 'Nov', monthlastdate: this.getDaysInMonth(11, yyyy) },
+        { monthNames: 'Dec', monthlastdate: this.getDaysInMonth(12, yyyy) }
+      ];
+      let mm = String(today.getMonth()).padStart(2, '0'); // January is 0!
       if (parseInt(mm) === 0) {
         mm = '12';
         yyyy = today.getFullYear() - 1;
@@ -93,5 +93,12 @@ export class CommonFooterComponent implements OnInit {
   }
   linkFunction() {
     this.router.navigate([this.routePath]);
+  }
+  getDaysInMonth(month, year) {
+    // Here January is 1 based
+    // Day 0 is the last day in the previous month
+    return new Date(year, month, 0).getDate();
+    // Here January is 0 based
+    // return new Date(year, month+1, 0).getDate();
   }
 }
