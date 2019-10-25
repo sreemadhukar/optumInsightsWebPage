@@ -37,7 +37,8 @@ export const environment: any = {
     PCORQualityMeasure: 'pcor-metrics/',
     NPSSummary: 'kop-metrics/',
     AppealsTrend: 'appeals-trend/',
-    AdminSummaryTrends: 'admintrends/'
+    AdminSummaryTrends: 'admintrends/',
+    AdminSummaryTrendsCount: 'admintrendscount/'
   },
   headerKeys: {
     selectedCompany: '',
@@ -59,5 +60,6 @@ export const environment: any = {
   errorMessage: 'empty',
   clickStreamUrl: '//assets.adobedtm.com/launch-ENacdc6d1acf734bcd95703e446bd1de1d-development.min.js',
   internalAccess: true,
-  toggleTrendingSummary: false
+  toggleTrendingSummary: false,
+  sentryKey: 'https://2f1705a86c9343c98b6df3981f59e995@sentry-ped-internal.ocp-ctc-core.optum.com/5'
 };

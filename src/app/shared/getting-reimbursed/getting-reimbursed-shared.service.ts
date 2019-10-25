@@ -230,7 +230,7 @@ export class GettingReimbursedSharedService {
                 title: 'Average Claims Turn Around Time',
                 MetricID: this.MetricidService.MetricIDs.ClaimsAverageTurnaroundTimetoPayment,
                 data: {
-                  centerNumber: 0 + ' days', // claimsData[lobData].ClaimsLobSummary[0].ClaimsAvgTat,
+                  centerNumber: claimsData[lobData].ClaimsLobSummary[0].ClaimsAvgTat + ' days', //  0 + ' days',
                   color: ['#3381FF', '#3381FF'],
                   gdata: ['card-inner', 'claimsAverageTurnAround'],
                   sdata: {
@@ -241,11 +241,11 @@ export class GettingReimbursedSharedService {
                 besideData: {
                   verticalData: [
                     {
-                      values: 0 + ' Days', // claimsData[lobData].ClaimsLobSummary[0].DosToReceived + ' Days',
+                      values: claimsData[lobData].ClaimsLobSummary[0].DosToReceived + ' Days', // 0 + ' Days',
                       labels: 'Date of Service to Received'
                     },
                     {
-                      values: 0 + ' Days', // claimsData[lobData].ClaimsLobSummary[0].ReceivedToPaid + ' Days',
+                      values: claimsData[lobData].ClaimsLobSummary[0].ReceivedToPaid + ' Days', // 0 + ' Days',
                       labels: 'Received to Processed'
                     }
                   ]
@@ -953,7 +953,7 @@ export class GettingReimbursedSharedService {
                   true
                 ),
                 data: {
-                  centerNumber: 0 + ' days', // claimsData[lobData].ClaimsLobSummary[0].ClaimsAvgTat,
+                  centerNumber: claimsData[lobData].ClaimsLobSummary[0].ClaimsAvgTat + ' days', // 0 + ' days',
                   color: ['#3381FF', '#3381FF'],
                   gdata: ['card-inner', 'claimsAverageTurnAround'],
                   sdata: {
@@ -964,11 +964,11 @@ export class GettingReimbursedSharedService {
                 besideData: {
                   verticalData: [
                     {
-                      values: 0 + ' Days', // claimsData[lobData].ClaimsLobSummary[0].DosToReceived + ' Days',
+                      values: claimsData[lobData].ClaimsLobSummary[0].DosToReceived + ' Days', // 0 + ' Days',
                       labels: 'Date of Service to Received'
                     },
                     {
-                      values: 0 + ' Days', // claimsData[lobData].ClaimsLobSummary[0].ReceivedToPaid + ' Days',
+                      values: claimsData[lobData].ClaimsLobSummary[0].ReceivedToPaid + ' Days', // 0 + ' Days',
                       labels: 'Received to Processed'
                     }
                   ]
@@ -983,7 +983,7 @@ export class GettingReimbursedSharedService {
                 MetricID: this.MetricidService.MetricIDs.ClaimsAverageTurnaroundTimetoPayment,
                 status: null,
                 data: {
-                  centerNumber: 0 + ' days', // claimsData[lobData].ClaimsLobSummary[0].ClaimsAvgTat,
+                  centerNumber: claimsData[lobData].ClaimsLobSummary[0].ClaimsAvgTat + ' days', //  0 + ' days',
                   color: ['#3381FF', '#3381FF'],
                   gdata: ['card-inner', 'claimsAverageTurnAround'],
                   sdata: {
@@ -994,11 +994,11 @@ export class GettingReimbursedSharedService {
                 besideData: {
                   verticalData: [
                     {
-                      values: 0 + ' Days', // claimsData[lobData].ClaimsLobSummary[0].DosToReceived + ' Days',
+                      values: claimsData[lobData].ClaimsLobSummary[0].DosToReceived + ' Days', //  0 + ' Days',
                       labels: 'Date of Service to Received'
                     },
                     {
-                      values: 0 + ' Days', // claimsData[lobData].ClaimsLobSummary[0].ReceivedToPaid + ' Days',
+                      values: claimsData[lobData].ClaimsLobSummary[0].ReceivedToPaid + ' Days', // 0 + ' Days',
                       labels: 'Received to Processed'
                     }
                   ]
@@ -1744,7 +1744,6 @@ export class GettingReimbursedSharedService {
       // resolve(gettingReimbursedData);
     });
   }
-
   public getTins() {
     return new Promise((resolve, reject) => {
       this.providerKey = this.session.providerKeyData();

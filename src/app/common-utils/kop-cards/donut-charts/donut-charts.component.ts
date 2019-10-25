@@ -22,7 +22,7 @@ export class DonutChartsComponent implements OnInit, AfterViewInit {
     this.doDonutChart(this.chartData, this.quarter, this.noTransition);
   }
   ngOnInit() {
-    this.renderChart = '#miniDonut' + this.quarter.id;
+    this.renderChart = '#miniDonut' + this.quarter.section + this.quarter.id;
   }
 
   ngAfterViewInit() {

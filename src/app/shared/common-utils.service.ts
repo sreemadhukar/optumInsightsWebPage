@@ -59,7 +59,7 @@ export class CommonUtilsService {
     const suffix = '%';
     let tempSign;
     // if (temp >= 1) {
-    if (temp >= 0) {
+    if (temp > 0) {
       tempSign = 'up-red'; // red color
       value = '+' + temp.toFixed() + suffix;
       // } else if (temp < 1 && temp >= 0) {
@@ -82,7 +82,7 @@ export class CommonUtilsService {
     const suffix = '%';
     let tempSign;
     // if (temp >= 1) {
-    if (temp >= 0) {
+    if (temp > 0) {
       tempSign = 'up'; // green color
       value = '+' + temp.toFixed() + suffix;
       // } else if (temp < 1 && temp >= 0) {
