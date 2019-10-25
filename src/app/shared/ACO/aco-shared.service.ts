@@ -269,8 +269,9 @@ export class AcoSharedService {
           rxScripts
         ];
         acoPageMainCard = [acoSummary, ratioPCP, rxGeneric];
+        console.log(acoSummary, ratioPCP, rxGeneric);
         acoPage = [acoPageMainCard, acoPageKeyPerformance];
-        console.log(acoPageKeyPerformance, acoPage);
+        console.log(acoPageKeyPerformance);
         resolve(acoPage);
       });
     });
