@@ -97,14 +97,13 @@ export class AppealsComponent implements OnInit {
     });
 
     this.appealsSharedService.getAppealsReasonData().then(appealsReasonData => {
-      console.log('Appeals Data reason' + appealsReasonData);
+      this.reasonDataAvailable = true;
       this.reason = appealsReasonData;
     });
 
     this.appealsSharedService.getappealsTatandDevidedOverturnData().then(appealsRateData => {
       this.appealsTAT = appealsRateData;
       this.showAppealsTAT = true;
-      console.log('ApeealsTAT');
     });
 
     /*this.appealsTAT = {

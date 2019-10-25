@@ -281,7 +281,6 @@ export class AppealsSharedService {
     const reasonArray: Array<Object> = []; // change to let later
     return new Promise((resolve, reject) => {
       let parameters;
-      // let appealsOverturnedRate: Object;
       const reason = [];
 
       if (
@@ -373,9 +372,7 @@ export class AppealsSharedService {
           delete parameters[1].Lob;
         }
         this.gettingReimbursedService.claimsAppealsReasonData(...parameters).subscribe(appealsReasonData => {
-          console.log(appealsReasonData);
-
-          if (appealsReasonData == null) {
+          if (appealsReasonData === null) {
             reason.push({
               category: 'app-card',
               type: 'donut',
@@ -386,31 +383,40 @@ export class AppealsSharedService {
               timeperiod: null
             });
           } else if (appealsReasonData !== null) {
-            const length = 5;
-            const reasonsVal1 = [33, 57, 22, 34, 16];
-            const reasonsVal2 = [77, 43, 78, 66, 84];
-            const barTitle = [
-              'Initially denied due to missing data that has since been received',
-              'Overturned due to UHG error',
-              'Business Process',
-              'A  Interpretation of policy-ZZ',
-              'A  Different policy (UHC, MCG, eviCore) used-ZZ'
-            ];
-            const barVal = ['33%', '57%', '22%', '34%', '16%'];
-            for (let i = 0; i <= length; i++) {
+            const reasonsVal1 = [{}];
+            const reasonsVal2 = [{}];
+            const barTitle = [{}];
+            const barVal = [{}];
+            let overturnCountTotal = 0;
+            for (let y = 0; y < appealsReasonData.length; y++) {
+              if (y === 0) {
+                overturnCountTotal = appealsReasonData[y].Count;
+              } else {
+                overturnCountTotal = overturnCountTotal + appealsReasonData[y].Count;
+              }
+            }
+            for (let a = 0; a < appealsReasonData.length; a++) {
+              barTitle[a] = appealsReasonData[a].Reason;
+              reasonsVal1[a] = appealsReasonData[a].Count;
+              reasonsVal2[a] = overturnCountTotal - Number(reasonsVal1[a]);
+              barVal[a] = ((Number(reasonsVal1[a]) / overturnCountTotal) * 100).toFixed() + '%';
+            }
+
+            for (let i = 0; i < appealsReasonData.length; i++) {
               reason.push({
                 type: 'bar chart',
                 graphValues: [reasonsVal1[i], reasonsVal2[i]],
                 barText: barTitle[i],
                 barValue: barVal[i],
                 color: ['#3381FF', '#FFFFFF', '#E0E0E0'],
-                gdata: ['app-card-structure', 'appealsOverturnedReason' + i]
+                gdata: ['app-card-structure', 'appealsOverturnReason' + i]
               });
             }
           }
         });
+        const r = reason;
+        resolve(r);
       }
-      resolve(reason);
     });
   }
 
@@ -521,7 +527,7 @@ export class AppealsSharedService {
           if (appealsData != null && appealsData.hasOwnProperty('status')) {
             appealsOverturnedRate = {
               category: 'app-card',
-              type: 'donut',
+              type: 'donutWithBottomLabelOnly',
               status: appealsData.status,
               title: 'Claims Appeals Overturned Rate',
               MetricID: this.MetricidService.MetricIDs.ClaimAppealsOverturnRate,
@@ -547,7 +553,7 @@ export class AppealsSharedService {
                 const ornumber = Number(overturnRate);
                 appealsOverturnedRate = {
                   category: 'app-card',
-                  type: 'donut',
+                  type: 'donutWithBottomLabelOnly',
                   title: 'Claims Appeals Overturned Rate',
                   MetricID: this.MetricidService.MetricIDs.ClaimAppealsOverturnRate,
                   data: {
@@ -561,13 +567,23 @@ export class AppealsSharedService {
                     horizontalData: [
                       {
                         values: appealsData[0].LineOfBusiness[lobFullData].AdminAppeals
-                          ? appealsData[0].LineOfBusiness[lobFullData].AdminAppeals
+                          ? (
+                              (Number(appealsData[0].LineOfBusiness[lobFullData].AdminAppeals) /
+                                (Number(appealsData[0].LineOfBusiness[lobFullData].AdminAppeals) +
+                                  Number(appealsData[0].LineOfBusiness[lobFullData].ClinicalAppeals))) *
+                              100
+                            ).toFixed() + '%'
                           : 0,
                         labels: 'Admin'
                       },
                       {
                         values: appealsData[0].LineOfBusiness[lobFullData].ClinicalAppeals
-                          ? appealsData[0].LineOfBusiness[lobFullData].ClinicalAppeals
+                          ? (
+                              (Number(appealsData[0].LineOfBusiness[lobFullData].ClinicalAppeals) /
+                                (Number(appealsData[0].LineOfBusiness[lobFullData].AdminAppeals) +
+                                  Number(appealsData[0].LineOfBusiness[lobFullData].ClinicalAppeals))) *
+                              100
+                            ).toFixed() + '%'
                           : 0,
                         labels: 'Clinical'
                       }
@@ -578,7 +594,7 @@ export class AppealsSharedService {
               } else {
                 appealsOverturnedRate = {
                   category: 'app-card',
-                  type: 'donut',
+                  type: 'donutWithBottomLabelOnly',
                   status: 404,
                   title: 'Claims Appeals Overturned Rate',
                   MetricID: this.MetricidService.MetricIDs.ClaimAppealsOverturnRate,
@@ -644,7 +660,7 @@ export class AppealsSharedService {
             } else {
               appealsOverturnedRate = {
                 category: 'app-card',
-                type: 'donut',
+                type: 'donutWithBottomLabelOnly',
                 status: 404,
                 title: 'Claims Appeals Overturned Rate',
                 MetricID: this.MetricidService.MetricIDs.ClaimAppealsOverturnRate,
@@ -664,7 +680,7 @@ export class AppealsSharedService {
           } else {
             appealsOverturnedRate = {
               category: 'app-card',
-              type: 'donut',
+              type: 'donutWithBottomLabelOnly',
               status: 404,
               title: 'Claims Appeals Overturned Rate',
               MetricID: this.MetricidService.MetricIDs.ClaimAppealsOverturnRate,
@@ -727,7 +743,7 @@ export class AppealsSharedService {
           if (appealsData !== null && appealsData.hasOwnProperty('status')) {
             appealsOverturnedRate = {
               category: 'app-card',
-              type: 'donut',
+              type: 'donutWithBottomLabelOnly',
               status: appealsData.status,
               title: 'Claims Appeals Overturned Rate',
               MetricID: this.MetricidService.MetricIDs.ClaimAppealsOverturnRate,
@@ -754,7 +770,7 @@ export class AppealsSharedService {
 
                 appealsOverturnedRate = {
                   category: 'app-card',
-                  type: 'donut',
+                  type: 'donutWithBottomLabelOnly',
                   title: 'Claims Appeals Overturned Rate',
                   MetricID: this.MetricidService.MetricIDs.ClaimAppealsOverturnRate,
                   data: {
@@ -767,15 +783,25 @@ export class AppealsSharedService {
                   bottomData: {
                     horizontalData: [
                       {
-                        values: 1000 /*appealsData[0].LineOfBusiness[lobFullData].AdminAppeals
-                          ? appealsData[0].LineOfBusiness[lobFullData].AdminAppeals
-                          : 0*/,
+                        values: appealsData[0].LineOfBusiness[lobFullData].AdminAppeals
+                          ? (
+                              (Number(appealsData[0].LineOfBusiness[lobFullData].AdminAppeals) /
+                                (Number(appealsData[0].LineOfBusiness[lobFullData].AdminAppeals) +
+                                  Number(appealsData[0].LineOfBusiness[lobFullData].ClinicalAppeals))) *
+                              100
+                            ).toFixed() + '%'
+                          : 0,
                         labels: 'Admin'
                       },
                       {
-                        values: 1200 /* appealsData[0].LineOfBusiness[lobFullData].ClinicalAppeals
-                          ? appealsData[0].LineOfBusiness[lobFullData].ClinicalAppeals
-                          : 0*/,
+                        values: appealsData[0].LineOfBusiness[lobFullData].ClinicalAppeals
+                          ? (
+                              (Number(appealsData[0].LineOfBusiness[lobFullData].ClinicalAppeals) /
+                                (Number(appealsData[0].LineOfBusiness[lobFullData].AdminAppeals) +
+                                  Number(appealsData[0].LineOfBusiness[lobFullData].ClinicalAppeals))) *
+                              100
+                            ).toFixed() + '%'
+                          : 0,
                         labels: 'Clinical'
                       }
                     ]
@@ -785,7 +811,7 @@ export class AppealsSharedService {
               } else {
                 appealsOverturnedRate = {
                   category: 'app-card',
-                  type: 'donut',
+                  type: 'donutWithBottomLabelOnly',
                   status: 404,
                   title: 'Claims Appeals Overturned Rate',
                   MetricID: this.MetricidService.MetricIDs.ClaimAppealsOverturnRate,
@@ -861,7 +887,7 @@ export class AppealsSharedService {
             } else {
               appealsOverturnedRate = {
                 category: 'app-card',
-                type: 'donut',
+                type: 'donutWithBottomLabelOnly',
                 status: 404,
                 title: 'Claims Appeals Overturned Rate',
                 MetricID: this.MetricidService.MetricIDs.ClaimAppealsOverturnRate,
@@ -881,7 +907,7 @@ export class AppealsSharedService {
           } else {
             appealsOverturnedRate = {
               category: 'app-card',
-              type: 'donut',
+              type: 'donutWithBottomLabelOnly',
               status: 404,
               title: 'Claims Appeals Overturned Rate',
               MetricID: this.MetricidService.MetricIDs.ClaimAppealsOverturnRate,
