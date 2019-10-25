@@ -239,6 +239,7 @@ export class AcoSharedService {
         ];
         acoPageMainCard = [acoSummary, ratioPCP, rxGeneric];
         acoPage = [acoPageMainCard, acoPageKeyPerformance];
+        console.log(acoPageKeyPerformance, acoPage);
         resolve(acoPage);
       });
     });
