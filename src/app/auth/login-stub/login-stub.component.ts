@@ -127,12 +127,10 @@ export class LoginStubComponent implements OnInit {
                   console.log(value1);
                 });
                 sessionStorage.setItem('cache', JSON.stringify(true));
-                const currentUserData = JSON.parse(JSON.stringify(sessionStorage.getItem('currentUser')));
-                console.log('am here', currentUserData);
-                console.log('am here with 0', currentUserData[0].FirstName);
                 if (
-                  (currentUserData[0].hasOwnProperty('AcoId') && currentUserData[0].AcoId !== '') ||
-                  currentUserData[0].FirstName === 'Mounika'
+                  (JSON.parse(sessionStorage.getItem('currentUser'))[0].hasOwnProperty('AcoId') &&
+                    JSON.parse(sessionStorage.getItem('currentUser'))[0]['AcoId'] !== '') ||
+                  JSON.parse(sessionStorage.getItem('currentUser'))[0]['FirstName'] === 'Mounika'
                 ) {
                   this.router.navigate(['/AcoPage']);
                 } else {
@@ -144,11 +142,10 @@ export class LoginStubComponent implements OnInit {
               });
           } else if (this.authService.isLoggedIn()) {
             sessionStorage.setItem('cache', JSON.stringify(true));
-            const currentUserData = JSON.parse(JSON.stringify(sessionStorage.getItem('currentUser')));
-            console.log(currentUserData[0], currentUserData);
             if (
-              (currentUserData[0].hasOwnProperty('AcoId') && currentUserData[0].AcoId !== '') ||
-              currentUserData[0].FirstName === 'Mounika'
+              (JSON.parse(sessionStorage.getItem('currentUser'))[0].hasOwnProperty('AcoId') &&
+                JSON.parse(sessionStorage.getItem('currentUser'))[0]['AcoId'] !== '') ||
+              JSON.parse(sessionStorage.getItem('currentUser'))[0]['FirstName'] === 'Mounika'
             ) {
               this.router.navigate(['/AcoPage']);
             } else {
