@@ -127,14 +127,24 @@ export class LoginStubComponent implements OnInit {
                   console.log(value1);
                 });
                 sessionStorage.setItem('cache', JSON.stringify(true));
-                this.router.navigate(['/OverviewPage']);
+                const currentUserData = JSON.parse(JSON.stringify(sessionStorage.getItem('currentUser')));
+                if (currentUserData.hasOwnProperty('AcoId') && currentUserData.AcoId !== '') {
+                  this.router.navigate(['/AcoPage']);
+                } else {
+                  this.router.navigate(['/OverviewPage']);
+                }
               })
               .catch(error => {
                 this.openErrorDialog();
               });
           } else if (this.authService.isLoggedIn()) {
             sessionStorage.setItem('cache', JSON.stringify(true));
-            this.router.navigate(['/OverviewPage']);
+            const currentUserData = JSON.parse(JSON.stringify(sessionStorage.getItem('currentUser')));
+            if (currentUserData.hasOwnProperty('AcoId') && currentUserData.AcoId !== '') {
+              this.router.navigate(['/AcoPage']);
+            } else {
+              this.router.navigate(['/OverviewPage']);
+            }
           } else {
             this.document.location.href = environment.apiUrls.SsoRedirectUri;
           }
@@ -184,11 +194,8 @@ export class LoginStubComponent implements OnInit {
               console.log(value);
               const heac = JSON.parse(sessionStorage.getItem('heac'));
               this.isKop = heac && heac.heac === true ? true : false;
-              const acoUser = JSON.parse(sessionStorage.getItem('loggedUser'));
               if (this.isKop === true) {
                 this.router.navigate(['/NationalExecutive']);
-              } else if (acoUser.MsId === 'gmounik7' || acoUser.MsId === 'tmadhuka') {
-                this.router.navigate(['/AcoPage']);
               } else {
                 this.router.navigate(['/ProviderSearch']);
               }
