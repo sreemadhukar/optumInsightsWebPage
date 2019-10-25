@@ -772,7 +772,8 @@ export class OverviewSharedService {
         claims != null &&
         claims.hasOwnProperty('All') &&
         claims.All != null &&
-        claims.All.hasOwnProperty('ClaimsLobSummary')
+        claims.All.hasOwnProperty('ClaimsLobSummary') &&
+        claims.All.ClaimsLobSummary[0].ClaimsYieldRate.toFixed() !== 0
       ) {
         if (claims.All.ClaimsLobSummary[0].hasOwnProperty('ClaimsYieldRate')) {
           claimsYield = {
