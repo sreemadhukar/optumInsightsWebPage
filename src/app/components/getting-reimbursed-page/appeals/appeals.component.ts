@@ -91,15 +91,19 @@ export class AppealsComponent implements OnInit {
         this.reasonDataAvailable = true;
       }
       this.overturnItem = AppealsCards;
-      if (appealsRateData[3].length !== 0) {
+      /* if (appealsRateData[3].length !== 0) {
         this.reason = appealsRateData[3];
-      }
+      }*/
+    });
+
+    this.appealsSharedService.getAppealsReasonData().then(appealsReasonData => {
+      this.reasonDataAvailable = true;
+      this.reason = appealsReasonData;
     });
 
     this.appealsSharedService.getappealsTatandDevidedOverturnData().then(appealsRateData => {
       this.appealsTAT = appealsRateData;
       this.showAppealsTAT = true;
-      console.log('ApeealsTAT');
     });
 
     /*this.appealsTAT = {

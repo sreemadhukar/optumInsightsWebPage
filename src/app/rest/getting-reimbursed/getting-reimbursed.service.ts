@@ -18,6 +18,7 @@ export class GettingReimbursedService {
   private AGG_CLAIMS_SERVICE_PATH: string = environment.apiUrls.ProviderSystemClaimsAgg;
   private APPEALS_SERVICE_PATH: string = environment.apiUrls.Appeals; // old
   private APPEALS_SERVICE: string = environment.apiUrls.AppealsNew; // new
+  private APPEALS_OVERTURN: string = environment.apiUrls.AppealsOverturn;
   private TINS_SERVICE_PATH: string = environment.apiUrls.ProvTinList;
   private PAYMENT_INTEGRITY_PATH: string = environment.apiUrls.PaymentIntegrity;
   private APEEALS_FHIR_API_PATH: string = environment.apiUrls.AppealsFHIR;
@@ -49,12 +50,17 @@ export class GettingReimbursedService {
   /** function for Appeals PDP api */
   public claimsAppealsData(...parameters) {
     const appealsParam = parameters[1];
+    const appealsURL = this.APP_URL + this.APPEALS_SERVICE + parameters[0] + '?requestType=APPEALS_MEASURE_DOR_HCO';
+    return this.http.post(appealsURL, appealsParam).pipe(
+      map(res => JSON.parse(JSON.stringify(res))),
+      catchError(err => of(JSON.parse(JSON.stringify(err))))
+    );
+  }
+
+  public claimsAppealsReasonData(...parameters) {
+    const appealsParam = parameters[1];
     const appealsURL =
-      this.APP_URL +
-      /* 'https://gateway-stage-core.optum.com/api/devone/pdr/uhci/v1/' +*/
-      this.APPEALS_SERVICE +
-      parameters[0] +
-      '?requestType=APPEALS_MEASURE_DOR_HCO';
+      this.APP_URL + this.APPEALS_OVERTURN + parameters[0] + '?requestType=APPEALS_TOP_OVERTURNED_REASON_DOR_HCO';
     return this.http.post(appealsURL, appealsParam).pipe(
       map(res => JSON.parse(JSON.stringify(res))),
       catchError(err => of(JSON.parse(JSON.stringify(err))))
