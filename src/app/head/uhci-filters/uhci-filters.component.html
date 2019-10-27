@@ -23,9 +23,7 @@
             <mat-radio-button
               class="radio-button"
               *ngFor="let timeFrame of timeFrames; let i = index"
-              [class.disable-radio-button]="
-                (i == 3 || i == 5 || i == 6) && (selectedPage === 'paymentsPage' || selectedPage === 'nonPaymentsPage')
-              "
+              [class.disable-radio-button]="timeFrame.disable"
               [value]="timeFrame"
             >
               {{ timeFrame.value }}

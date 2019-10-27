@@ -77,7 +77,8 @@ export class UhciFiltersComponent implements OnInit {
   ngOnInit() {
     this.currentPage.subscribe(currentPage => (this.selectedPage = currentPage));
     this.timePeriod.subscribe(
-      timePeriod => (this.selectedTimePeriod = this.timeFrames.find(val => val.name === timePeriod))
+      timePeriod =>
+        (this.selectedTimePeriod = this.disableTimePeriod(this.timeFrames).find(val => val.name === timePeriod))
     );
     this.taxId.subscribe(taxId => (this.selectedTaxIds = taxId));
     this.lineOfBusiness.subscribe(
@@ -106,6 +107,22 @@ export class UhciFiltersComponent implements OnInit {
         });
       });
     });
+  }
+
+  disableTimePeriod(timeFrame) {
+    if (this.selectedPage === 'paymentsPage' || this.selectedPage === 'nonPaymentsPage') {
+      timeFrame.forEach(value => {
+        if (value.name === 'Last12Months' || value.name === '2018' || value.name === '2017') {
+          value.disable = true;
+        }
+      });
+    } else {
+      timeFrame.forEach(value => {
+        value.disable = false;
+      });
+    }
+    this.timeFrames = timeFrame;
+    return timeFrame;
   }
 
   applyFilters() {

@@ -1,8 +1,5 @@
 import { CURRENT_PAGE, APPLY_FILTER, RESET_FILTER, REMOVE_FILTER } from './actions';
 import { IAppState } from '../store';
-import { CreatePayloadService } from '../../shared/uhci-filters/create-payload.service';
-
-// const payloadService: any = new CreatePayloadService();
 
 export const INITIAL_STATE: IAppState = {
   currentPage: 'overviewPage',
@@ -16,15 +13,15 @@ export const INITIAL_STATE: IAppState = {
   trendDate: new Date()
 };
 
-export function FilterReducer(state = INITIAL_STATE, action) {
+export function FilterReducer(state, action) {
   switch (action.type) {
     case CURRENT_PAGE:
       return {
         ...state,
-        currentPage: action.currentPage
+        currentPage: action.currentPage,
+        timePeriod: switchTimePeriodValues(state.timePeriod, action.currentPage)
       };
     case APPLY_FILTER:
-      //    payloadService.emitFilterEvent(state.currentPage);
       return {
         ...state,
         timePeriod: action.filterData.timePeriod,
@@ -60,4 +57,22 @@ export function FilterReducer(state = INITIAL_STATE, action) {
     default:
       return state;
   }
+}
+
+function switchTimePeriodValues(timePeriod, currentPageAction) {
+  if (
+    currentPageAction === 'paymentsPage' ||
+    currentPageAction === 'nonPaymentsPage' ||
+    currentPageAction === 'gettingReimbursedSummary'
+  ) {
+    if (timePeriod === 'Last12Months' || timePeriod === '2018' || timePeriod === '2017') {
+      timePeriod = 'Last6Months';
+    }
+  } else {
+    const serializedState = JSON.parse(sessionStorage.getItem('state'));
+    if (serializedState && serializedState.timePeriod) {
+      timePeriod = serializedState.timePeriod;
+    }
+  }
+  return timePeriod;
 }
