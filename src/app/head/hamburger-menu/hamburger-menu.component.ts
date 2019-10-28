@@ -73,6 +73,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
   disableChangeProvider: boolean = environment.internalAccess;
   public checkAdv;
   public AcoName;
+  public AcoId;
   public checkPro;
   /*** Array of Navigation Category List ***/
   public navCategories = [
@@ -262,9 +263,13 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     this.isDarkTheme = this.themeService.isDarkTheme;
     this.currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
     this.AcoName = this.currentUser[0]['AcoName'];
-    this.acoEventEmitter.getEvent().subscribe(value => {
-      this.AcoFlag = value.value;
-    });
+    this.AcoId = this.currentUser[0]['AcoId'];
+    // this.acoEventEmitter.getEvent().subscribe(value => {
+    //   this.AcoFlag = value.value;
+    // });
+    if (this.AcoId !== '') {
+      this.AcoFlag = true;
+    }
     this.eventEmitter.getEvent().subscribe(val => {
       this.isKop = val.value;
     });
