@@ -58,15 +58,15 @@
         <!-- HEALTHSYSTEM REPRESENTATION BLOCK -->
         <div class="health-system-representation-block" *ngIf="!isKop">
           <p class="representing-label">You are representing</p>
-          <p class="health-system-name" *ngIf="AcoId == ''">{{ healthSystemName }}</p>
-          <p class="health-system-name" *ngIf="AcoId != ''">{{ AcoName }}</p>
+          <p class="health-system-name" *ngIf="!AcoFlag">{{ healthSystemName }}</p>
+          <p class="health-system-name" *ngIf="AcoFlag">{{ AcoName }}</p>
           <p class="change-provider" *ngIf="disableChangeProvider && !AcoFlag" (click)="openDialog()">
             Change Provider
           </p>
         </div>
         <!-- END OF HEALTHSYSTEM REPRESENTATION BLOCK -->
         <!-- MENU CATEGORIES BLOCK -->
-        <div class="nav-mat-list-items" *ngIf="!isKop && AcoId == ''">
+        <div class="nav-mat-list-items" *ngIf="!isKop && !AcoFlag">
           <mat-nav-list
             *ngFor="let category of navCategories; let rowIndex = index"
             [ngClass]="
