@@ -160,6 +160,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     if (this.AcoFlag) {
       this.AcoName = this.currentUser[0]['AcoName'];
     }
+    console.log(this.AcoFlag, this.AcoName);
     // to disable the header/footer/body when not authenticated
     router.events.subscribe(event => {
       if (event instanceof NavigationStart) {
