@@ -198,8 +198,8 @@ export class PcorSharedService {
                   count: completeData[metricName].Count,
                   insideData: completeData[metricName].Data.map(function(el) {
                     const temp = Object.assign({}, el);
-                    const matchStar = el.Name.match(new RegExp(asteriskCharacter, 'g')) || [];
-                    if (matchStar === '**') {
+                    const matchStar = el.Name.match(new RegExp(asteriskCharacter, 'g'));
+                    if (matchStar.includes('**')) {
                       temp.message = true;
                     } else {
                       temp.message = false;
