@@ -33,27 +33,64 @@ export class CreatePayloadService {
   private payloadEmit = new Subject<any>();
 
   constructor() {
-    this.currentPage.subscribe(value => (this.payload.currentPage = value));
+    this.currentPage.subscribe(value => {
+      this.initialState.currentPage = value;
+      this.changePayloadOnInit(this.initialState.currentPage);
+    });
     this.timePeriod.subscribe(value => {
-      this.payload.timePeriod = value;
+      this.initialState.timePeriod = value;
     });
-    this.taxId.subscribe(taxId => (this.payload.taxId = taxId));
-    this.lineOfBusiness.subscribe(lineOfBusiness => (this.payload.lineOfBusiness = lineOfBusiness));
-    this.serviceSetting.subscribe(serviceSetting => (this.payload.serviceSetting = serviceSetting));
+    this.taxId.subscribe(taxId => (this.initialState.taxId = taxId));
+    this.lineOfBusiness.subscribe(lineOfBusiness => (this.initialState.lineOfBusiness = lineOfBusiness));
+    this.serviceSetting.subscribe(serviceSetting => (this.initialState.serviceSetting = serviceSetting));
     this.priorAuthType.subscribe(priorAuthType => {
-      this.payload.priorAuthType = priorAuthType;
+      this.initialState.priorAuthType = priorAuthType;
     });
-    this.trendMetric.subscribe(trendMetric => (this.payload.trendMetric = trendMetric));
-    this.trendDate.subscribe(trendDate => (this.payload.trendDate = trendDate));
+    this.trendMetric.subscribe(trendMetric => (this.initialState.trendMetric = trendMetric));
+    this.trendDate.subscribe(trendDate => (this.initialState.trendDate = trendDate));
+  }
+
+  changePayloadOnInit(appliedPage) {
+    switch (appliedPage) {
+      case 'gettingReimbursedSummary':
+        this.payload = this.getPayloadForNonPayments(this.initialState);
+        break;
+      case 'nonPaymentsPage':
+        this.payload = this.getPayloadForNonPayments(this.initialState);
+        break;
+      case 'paymentsPage':
+        this.payload = this.getPayloadForNonPayments(this.initialState);
+        break;
+      case 'appealsPage':
+        this.payload = this.getPayloadForNonPayments(this.initialState);
+        break;
+    }
   }
 
   emitFilterEvent(appliedPage) {
     switch (appliedPage) {
+      case 'gettingReimbursedSummary':
+        this.payload = this.getPayloadForNonPayments(this.initialState);
+        this.payloadEmit.next({ value: this.getPayloadForNonPayments(this.initialState) });
+        break;
       case 'nonPaymentsPage':
-        console.log('emit', this.getPayloadForNonPayments(this.payload));
-        this.payloadEmit.next({ value: this.getPayloadForNonPayments(this.payload) });
+        this.payload = this.getPayloadForNonPayments(this.initialState);
+        this.payloadEmit.next({ value: this.getPayloadForNonPayments(this.initialState) });
+        break;
+      case 'paymentsPage':
+        this.payload = this.getPayloadForNonPayments(this.initialState);
+        this.payloadEmit.next({ value: this.getPayloadForNonPayments(this.initialState) });
+        break;
+      case 'appealsPage':
+        this.payload = this.getPayloadForNonPayments(this.initialState);
+        this.payloadEmit.next({ value: this.getPayloadForNonPayments(this.initialState) });
+        break;
     }
   }
+
+  // resetToInitialState() {
+  //   this.payloadEmit.next(this.initialPayload);
+  // }
 
   getEvent(): Observable<any> {
     return this.payloadEmit.asObservable();
@@ -75,8 +112,8 @@ export class CreatePayloadService {
     if (!_.isUndefined(data)) {
       if (data.taxId[0].Tin !== 'All') {
         let string = '';
-        data.taxId.forEach(taxId => {
-          string += taxId.Tin + ', ';
+        data.taxId.forEach((taxId, index) => {
+          string += taxId.Tin + (index !== data.taxId.length - 1 ? ',' : '');
         });
         data.taxId = string;
       } else {

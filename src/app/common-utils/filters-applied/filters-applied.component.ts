@@ -13,6 +13,7 @@ import {
 import { FilterExpandService } from '../../shared/filter-expand.service';
 import { TaxId } from '../../head/uhci-filters/filter-settings/filter-options';
 import { APPLY_FILTER, REMOVE_FILTER } from '../../store/filter/actions';
+import { CreatePayloadService } from '../../shared/uhci-filters/create-payload.service';
 
 @Component({
   selector: 'app-filters-applied',
@@ -45,7 +46,11 @@ export class FiltersAppliedComponent implements OnInit {
   selectedTrendMetric: any;
   selectedDate: Date;
   previousDate: any = new Date();
-  constructor(private filterExpandService: FilterExpandService, private ngRedux: NgRedux<IAppState>) {}
+  constructor(
+    private filterExpandService: FilterExpandService,
+    private createPayloadService: CreatePayloadService,
+    private ngRedux: NgRedux<IAppState>
+  ) {}
 
   ngOnInit() {
     this.currentPage.subscribe(currentPage => (this.selectedPage = currentPage));
@@ -121,5 +126,6 @@ export class FiltersAppliedComponent implements OnInit {
         this.ngRedux.dispatch({ type: REMOVE_FILTER, filterData: { priorAuthType: true } });
         break;
     }
+    this.createPayloadService.emitFilterEvent(this.selectedPage);
   }
 }

@@ -58,13 +58,19 @@
 
       <div class="kop-insights">Insights</div>
       <div>
-        <!-- <app-large-card-kop [data]="kopInsightsData.networkParticipation.data"></app-large-card-kop> -->
+        <app-large-card-kop
+          [data]="kopInsightsData.networkParticipation"
+          [timePeriod]="kopInsightsData.timePeriod"
+        ></app-large-card-kop>
         <app-large-card-kop
           [data]="kopInsightsData.careDelivery"
           [timePeriod]="kopInsightsData.timePeriod"
         ></app-large-card-kop>
         <!-- <app-large-card-kop [data]="kopInsightsData.reimbursement.data"></app-large-card-kop> -->
-        <!-- <app-large-card-kop [data]="kopInsightsData.issueResolution.data"></app-large-card-kop> -->
+        <app-large-card-kop
+          [data]="kopInsightsData.issueResolution"
+          [timePeriod]="kopInsightsData.timePeriod"
+        ></app-large-card-kop>
         <!-- <app-large-card-kop [data]="kopInsightsData.engagement.data"></app-large-card-kop> -->
       </div>
     </div>

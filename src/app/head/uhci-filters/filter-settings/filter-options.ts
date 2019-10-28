@@ -13,7 +13,7 @@ export const LineOfBusiness = [
   { name: 'CS', value: 'Community & State', disable: false },
   { name: 'EI', value: 'Employer & Individual', disable: false },
   { name: 'MR', value: 'Medicare & Retirement', disable: false },
-  { name: 'Uncategorized', value: 'Uncategorized', disable: true }
+  { name: 'Un', value: 'Uncategorized', disable: true }
 ];
 
 export const ServiceSetting = [

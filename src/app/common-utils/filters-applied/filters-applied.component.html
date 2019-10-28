@@ -6,7 +6,7 @@
           <span>Time Period: </span><span class="text-semibold pl-4"> {{ selectedTimePeriod.value }} </span>
         </button>
       </div>
-      <ng-container *ngIf="selectedTaxIds.length < 4">
+      <ng-container *ngIf="selectedPage !== 'callsPage' && selectedTaxIds.length < 4">
         <div class="horizontal-align" *ngFor="let taxId of selectedTaxIds">
           <button class="btn btn-rounded" disabled *ngIf="taxId.Tin !== 'All'">
             <span>Tax ID: </span><span class="text-semibold pl-4"> {{ taxId.Tin }} </span>
@@ -16,7 +16,7 @@
           </button>
         </div>
       </ng-container>
-      <div class="horizontal-align" *ngIf="selectedTaxIds.length >= 4">
+      <div class="horizontal-align" *ngIf="selectedPage !== 'callsPage' && selectedTaxIds.length >= 4">
         <button class="btn btn-rounded" disabled>
           <span>Tax ID: </span><span class="text-semibold pl-4"> {{ selectedTaxIds.length }} Selected </span>
           <div class="close-btn">
@@ -24,7 +24,7 @@
           </div>
         </button>
       </div>
-      <div class="horizontal-align" *ngIf="selectedLob.value !== 'All'">
+      <div class="horizontal-align" *ngIf="selectedPage !== 'callsPage' && selectedLob.value !== 'All'">
         <button class="btn btn-rounded" disabled>
           <span>Line of Business: </span><span class="text-semibold pl-4"> {{ selectedLob.value }} </span>
           <div class="close-btn">

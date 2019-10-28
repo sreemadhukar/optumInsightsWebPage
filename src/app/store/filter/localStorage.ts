@@ -10,6 +10,7 @@ export const saveState = state => {
     return function(action) {
       if (action.type === 'RESET_FILTER') {
         const serializedState = JSON.stringify(INITIAL_STATE);
+        console.log(INITIAL_STATE);
         sessionStorage.setItem('state', serializedState);
       } else if (action.type === 'APPLY_FILTER') {
         const serializedState = JSON.stringify(action.filterData);

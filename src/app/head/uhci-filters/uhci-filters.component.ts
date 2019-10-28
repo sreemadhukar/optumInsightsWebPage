@@ -149,6 +149,7 @@ export class UhciFiltersComponent implements OnInit {
   resetFilters() {
     this.ngRedux.dispatch({ type: RESET_FILTER });
     this.selectedService = '';
+    //   this.createPayloadService.resetToInitialState();
     this.filterFlag.emit(false);
   }
 
