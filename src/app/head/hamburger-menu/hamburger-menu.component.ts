@@ -261,11 +261,9 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     this.loading = false;
     this.isDarkTheme = this.themeService.isDarkTheme;
     this.currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
+    this.AcoName = this.currentUser[0]['AcoName'];
     this.acoEventEmitter.getEvent().subscribe(value => {
       this.AcoFlag = value.value;
-      if (this.AcoFlag) {
-        this.AcoName = this.currentUser[0]['AcoName'];
-      }
     });
     this.eventEmitter.getEvent().subscribe(val => {
       this.isKop = val.value;
