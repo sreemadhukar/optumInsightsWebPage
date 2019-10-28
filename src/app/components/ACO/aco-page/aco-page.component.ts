@@ -14,6 +14,9 @@ export class AcoPageComponent implements OnInit, OnDestroy {
   loading = true;
   public acoPageData: Array<object>;
   public pageTitle: any;
+  public contractSPeriod: Date;
+  public contractEPeriod: Date;
+  public quater: string;
   public pageSubTitle = 'Your ACO Insights at a glance.';
   isInternal: boolean = environment.internalAccess;
   constructor(
@@ -30,6 +33,9 @@ export class AcoPageComponent implements OnInit, OnDestroy {
     this.acoSharedService.acoData().then(data => {
       this.acoPageKeyPerformanceData = data[1];
       this.acoPageData = JSON.parse(JSON.stringify(data[0]));
+      this.contractSPeriod = data[2];
+      this.contractEPeriod = data[3];
+      this.quater = data[4];
     });
   }
   ngOnDestroy(): void {

@@ -7,7 +7,9 @@
     <div class="aco-tab-div">
       <div class="aco-tab-header">Employer & Individual</div>
       <div *ngIf="!isInternal">
-        <div class="aco-tab-date">M2Q4 Apr 1, 2018–Mar 31, 2019</div>
+        <div class="aco-tab-date">
+          {{ quater }} {{ contractSPeriod | date: 'MMM d, yyyy' }}–{{ contractEPeriod | date: 'MMM d, yyyy' }}
+        </div>
       </div>
     </div>
     <div class="aco-main-cards">

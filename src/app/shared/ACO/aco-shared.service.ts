@@ -33,13 +33,12 @@ export class AcoSharedService {
     let acoPage: Array<object>;
     let acoPageKeyPerformance: Array<object>;
     let acoPageMainCard: Array<object>;
-    let contractPeriod: Date;
+    let contractSTRPeriod: Date;
+    let contractENDPeriod: Date;
     return new Promise(resolve => {
       this.acoservice.getAcoData().subscribe(data => {
-        let convertedDateString = data.ReportMeasureQuarter.toLocaleString();
-        convertedDateString = convertedDateString.replace('at ', '');
-        contractPeriod = new Date(convertedDateString);
-        console.log(contractPeriod);
+        contractSTRPeriod = new Date(data.ContractEffDate);
+        contractENDPeriod = new Date(data.ContractEndDate);
         if (data.hasOwnProperty('LinesOfBusiness')) {
           if (environment.internalAccess) {
             if (data.LinesOfBusiness[this.lob].AcoSummary !== 'N/A') {
@@ -309,7 +308,13 @@ export class AcoSharedService {
           rxScripts
         ];
         acoPageMainCard = [acoSummary, ratioPCP, rxGeneric];
-        acoPage = [acoPageMainCard, acoPageKeyPerformance, contractPeriod];
+        acoPage = [
+          acoPageMainCard,
+          acoPageKeyPerformance,
+          contractSTRPeriod,
+          contractENDPeriod,
+          data.ReportMeasureQuarter
+        ];
         resolve(acoPage);
       });
     });
