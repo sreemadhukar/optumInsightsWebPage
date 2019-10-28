@@ -53,6 +53,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
   @ViewChild('srnav') srnav: MatSidenav;
   public makeAbsolute: boolean;
   public bgWhite: boolean;
+  public currentUser: any;
   public showPrintHeader: boolean;
   public sideNavFlag = true;
   public AcoFlag: boolean;
@@ -150,6 +151,8 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     if (this.checkAdv.value) {
       this.navCategories = this.navCategories.filter(item => item.name !== 'Summary Trends');
     }
+    this.currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
+    // this.AcoId = this.currentUser[0]['AcoId'];
     // to disable the header/footer/body when not authenticated
     router.events.subscribe(event => {
       if (event instanceof NavigationStart) {
