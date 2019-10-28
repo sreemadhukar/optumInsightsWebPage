@@ -197,7 +197,6 @@ export class LoginStubComponent implements OnInit {
 
           if (environment.internalAccess) {
             this.authorise.getHeac(this.f.username.value).subscribe(value => {
-              console.log(value);
               const heac = JSON.parse(sessionStorage.getItem('heac'));
               this.isKop = heac && heac.heac === true ? true : false;
               if (this.isKop === true) {
