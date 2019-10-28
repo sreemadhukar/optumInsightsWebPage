@@ -555,9 +555,10 @@ export class PaymentsSharedService {
           //   data: null,
           //   timeperiod: null
           // };
-          const payments = { id: 1, title: 'Claims Payments', data: [claimsPaid] };
+          //  const payments = { id: 1, title: 'Claims Payments', data: [claimsPaid, claimsPaidRate] };
           /*, claimsPaidRate] }; commented to supress claims yield card*/
-          summaryData[0] = payments;
+          summaryData[0] = claimsPaid;
+          //  summaryData[1] = claimsPaidRate; /*To Supress claims yield card*/
 
           if (summaryData.length) {
             resolve(summaryData);
