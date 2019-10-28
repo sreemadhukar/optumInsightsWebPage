@@ -147,20 +147,12 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     this.filterFlag = false;
     this.bgWhite = false;
     this.showPrintHeader = false;
-    this.AcoFlag = false;
     this.checkAdv = this.sessionService.checkAdvocateRole();
     this.checkPro = this.sessionService.checkProjectRole();
-    this.acoEventEmitter.getEvent().subscribe(value => {
-      this.AcoFlag = value.value;
-    });
     if (this.checkAdv.value) {
       this.navCategories = this.navCategories.filter(item => item.name !== 'Summary Trends');
     }
-    this.currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
-    if (this.AcoFlag) {
-      this.AcoName = this.currentUser[0]['AcoName'];
-    }
-    console.log(this.AcoFlag, this.AcoName);
+
     // to disable the header/footer/body when not authenticated
     router.events.subscribe(event => {
       if (event instanceof NavigationStart) {
@@ -268,8 +260,12 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     this.isKop = false;
     this.loading = false;
     this.isDarkTheme = this.themeService.isDarkTheme;
+    this.currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
     this.acoEventEmitter.getEvent().subscribe(value => {
       this.AcoFlag = value.value;
+      if (this.AcoFlag) {
+        this.AcoName = this.currentUser[0]['AcoName'];
+      }
     });
     this.eventEmitter.getEvent().subscribe(val => {
       this.isKop = val.value;
