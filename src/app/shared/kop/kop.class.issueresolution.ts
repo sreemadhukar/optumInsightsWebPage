@@ -16,11 +16,11 @@ export class IssueResolution {
 
   public createCard() {
     this.records.forEach((record, index) => {
-      const { IssueResolution: Issue_Resolution } = record;
+      const { IssueResolution: Issue_Resolution = {} } = record;
       this.data.chartData.forEach((chartDataElement: any) => {
         const key = chartDataElement.key;
         const subKey = chartDataElement.subKey;
-        if (!Issue_Resolution || !Issue_Resolution[key]) {
+        if (!Issue_Resolution[key]) {
           chartDataElement.report = false;
           chartDataElement.quarters.push({
             title: null,
@@ -28,9 +28,7 @@ export class IssueResolution {
             id: index,
             section: this.section
           });
-        }
-
-        if (Issue_Resolution && Issue_Resolution[key]) {
+        } else {
           const value = Issue_Resolution[key][subKey] ? Math.round(Issue_Resolution[key][subKey]) : null;
           if (this.singleCard && value !== null) {
             chartDataElement.quarters.push({ title: value + '' + chartDataElement.units });
