@@ -196,15 +196,10 @@ export class PcorSharedService {
                   star: i,
                   label: capitalize(template[i]) + ' Star Quality Measure',
                   count: completeData[metricName].Count,
-                  insideData: completeData[metricName].Data.map(function(el) {
-                    const temp = Object.assign({}, el);
-                    const matchStar = el.Name.match(new RegExp(asteriskCharacter, 'g'));
-                    if (matchStar.includes('**')) {
-                      temp.message = true;
-                    } else {
-                      temp.message = false;
-                    }
-                    return temp;
+                  insideData: completeData[metricName].Data.map(v => {
+                    return v.Name.match(new RegExp(asteriskCharacter, 'g'))
+                      ? { ...v, message: true }
+                      : { ...v, message: false };
                   })
                 };
                 barCountArray.push(m.count);
