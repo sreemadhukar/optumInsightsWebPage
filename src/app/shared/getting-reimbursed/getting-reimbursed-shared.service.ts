@@ -688,7 +688,6 @@ export class GettingReimbursedSharedService {
               appealsData[0].LineOfBusiness[lobFullData].hasOwnProperty('AdminAppeals') != null &&
               appealsData[0].LineOfBusiness[lobFullData].hasOwnProperty('ClinicalAppeals') != null
             ) {
-              debugger;
               const submitted =
                 appealsData[0].LineOfBusiness[lobFullData].AdminAppeals +
                 appealsData[0].LineOfBusiness[lobFullData].ClinicalAppeals;
@@ -1230,7 +1229,6 @@ export class GettingReimbursedSharedService {
                 timeperiod: this.timeFrame
               };
             } else {
-              debugger;
               claimsPaid = {
                 category: 'app-card',
                 type: 'donutWithLabel',
