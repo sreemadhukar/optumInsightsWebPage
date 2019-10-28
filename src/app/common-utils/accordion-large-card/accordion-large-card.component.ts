@@ -16,6 +16,7 @@ export class AccordionLargeCardComponent implements OnInit {
   @Input() skeletonLarge;
   section: any = [];
   subsection: any = [];
+  measureName: any = [];
   hideplus: boolean;
 
   @Output() ratingClick: EventEmitter<any> = new EventEmitter<any>();
@@ -29,12 +30,7 @@ export class AccordionLargeCardComponent implements OnInit {
   public eligibleMemberCount: any;
   public currentRateCalc: any;
   public currentRate: any;
-  public filterData: any = {};
-  public astricValue: any;
-
-  asterikMeasure: boolean;
   showPlus: boolean;
-  public searchAstrick: any;
   constructor(
     private iconRegistry: MatIconRegistry,
     sanitizer: DomSanitizer,
@@ -69,7 +65,6 @@ export class AccordionLargeCardComponent implements OnInit {
       'close',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-close-24px.svg')
     );
-    this.asterikMeasure = false;
   }
 
   helpIconClick(title) {
@@ -94,18 +89,14 @@ export class AccordionLargeCardComponent implements OnInit {
     }
     return (num / si[i].value).toFixed(digits).replace(rx, '$1') + si[i].symbol;
   }
-  ngOnInit() {
-    this.asterikMeasure = false;
-  }
+  ngOnInit() {}
   reasonsCollapose(x: any) {
     this.subsection = [];
-
     for (let i = 0; i < this.section.length; i++) {
       if (i !== x) {
         this.section[i] = false;
       }
     }
-
     const check = 5 - x;
     if (check === this.qualityMeasure[x].star) {
       this.qualityStarCount = this.qualityMeasure[x].star;
@@ -116,10 +107,6 @@ export class AccordionLargeCardComponent implements OnInit {
       );
       this.subsection[0] = true;
 
-      this.searchAstrick = 'C12 - Osteoporosis Management in Women who had a Fracture**';
-
-      // this.filterData= this.qualityPcorData.filter((datum)=>{datum.Name.indexOf(searchAstrick)!= -1 ? datum : null});
-
       if (this.qualityMeasure[x].count === 0) {
         for (let i = 0; i < this.section.length; i++) {
           if (i === x) {
@@ -128,7 +115,6 @@ export class AccordionLargeCardComponent implements OnInit {
         }
       }
     }
-
     this.compliantMemberCount = this.qualityPcorData[0].CompliantMemberCount;
     this.eligibleMemberCount = this.qualityPcorData[0].EligibleMemberCount;
     this.currentRateCalc = this.common.nFormatter(
@@ -141,39 +127,11 @@ export class AccordionLargeCardComponent implements OnInit {
         this.subsection[i] = false;
       }
     }
-
     this.compliantMemberCount = this.qualityPcorData[x].CompliantMemberCount;
     this.eligibleMemberCount = this.qualityPcorData[x].EligibleMemberCount;
     this.currentRateCalc = this.common.nFormatter(
       ((this.compliantMemberCount / this.eligibleMemberCount) * 100).toFixed(0) + '%'
     );
-    // this.filterData=this.qualityPcorData.filter(datum =>
-    //   {
-
-    //     const measureName= datum.Name;
-    //     let regStr  = /\**/;
-
-    //     let regex  = new RegExp(regStr);
-    //     const matchStar = measureName.match(regex);
-    //          console.log('search'+ matchStar) ;
-
-    //     if (matchStar) {
-    //       // this.questioncard = data[i];
-    //       // this.questionscard.push(this.questioncard);
-    //       this.asterikMeasure =true;
-    //    console.log(matchStar);
-    //   }
-    //   else
-    //   {
-    //     alert(matchStar);
-    //     this.asterikMeasure =false;
-    //   }
-
-    // //     for (let i = 0; i < x.length; i++) {
-
-    // // }
-
-    //   });
   }
   sortHeader(event) {
     const listItems = this.elementRef.nativeElement.querySelectorAll('.sort-header-icon') as HTMLElement[];

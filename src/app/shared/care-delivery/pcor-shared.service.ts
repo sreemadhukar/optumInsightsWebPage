@@ -183,6 +183,12 @@ export class PcorSharedService {
             const template = ['zero', 'one', 'two', 'three', 'four', 'five'];
             const barCountArray = [];
             const completeData = JSON.parse(JSON.stringify(data));
+            const escapeSpecialChars = function(string) {
+              return string.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+            };
+            const asteriskCharacter = escapeSpecialChars('**');
+
+            // ++ output of asterisk character is /*/*
             for (let i = 5; i > 0; i--) {
               const metricName = template[i] + 'StarMeasureCount';
               if (data.hasOwnProperty(metricName)) {
@@ -190,13 +196,21 @@ export class PcorSharedService {
                   star: i,
                   label: capitalize(template[i]) + ' Star Quality Measure',
                   count: completeData[metricName].Count,
-                  insideData: completeData[metricName].Data
+                  insideData: completeData[metricName].Data.map(function(el) {
+                    const temp = Object.assign({}, el);
+                    const matchStar = el.Name.match(new RegExp(asteriskCharacter, 'g')) || [];
+                    if (matchStar === '**') {
+                      temp.message = true;
+                    } else {
+                      temp.message = false;
+                    }
+                    return temp;
+                  })
                 };
                 barCountArray.push(m.count);
                 subCategory.push(m);
               } // end if structure
             } // end for loop for sub-category
-
             /*
             We can also fetch the Top Level Categry i.e star count info via this code
             but the loading of 'Quality Star' card is slow , because then it will load

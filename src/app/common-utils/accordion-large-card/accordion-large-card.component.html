@@ -169,13 +169,17 @@
                       </div>
                     </div>
 
-                    <div
+                    <!-- <div
                       class="HEDIS-measure-note"
                       *ngIf="
                         listitem.Name == 'C12 - Osteoporosis Management in Women who had a Fracture**' ||
                         listitem.Name == 'C16 - Controlling Blood Pressure**'
                       "
                     >
+                      ** Denotes an Adjusted HEDIS&reg; Measure
+                    </div> -->
+
+                    <div class="HEDIS-measure-note" *ngIf="listitem.message">
                       ** Denotes an Adjusted HEDIS&reg; Measure
                     </div>
                   </div>
