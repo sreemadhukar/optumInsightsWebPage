@@ -196,20 +196,26 @@ export class PcorSharedService {
                   star: i,
                   label: capitalize(template[i]) + ' Star Quality Measure',
                   count: completeData[metricName].Count,
-                  insideData: completeData[metricName].Data.map(function(el) {
-                    const temp = Object.assign({}, el);
-                    const matchStar = el.Name.match(new RegExp(asteriskCharacter, 'g'));
-                    if (matchStar.includes('**')) {
-                      temp.message = true;
-                    } else {
-                      temp.message = false;
-                    }
-                    return temp;
+                  insideData: completeData[metricName].Data.map(v => {
+                    return v.Name.match(new RegExp(asteriskCharacter, 'g')) > 1
+                      ? { ...v, message: true }
+                      : { ...v, message: false };
                   })
+                  // insideData: completeData[metricName].Data.map(function(el) {
+                  //   const temp = Object.assign({}, el);
+                  //   const matchStar = el.Name.match(new RegExp(asteriskCharacter, 'g'));
+                  //   if (matchStar) {
+                  //     temp.message = true;
+                  //   } else {
+                  //     temp.message = false;
+                  //   }
+                  //   return temp;
+                  // })
                 };
                 barCountArray.push(m.count);
                 subCategory.push(m);
               } // end if structure
+              arr.map(v => ({ ...v, isActive: v.value > 1 }));
             } // end for loop for sub-category
             /*
             We can also fetch the Top Level Categry i.e star count info via this code
