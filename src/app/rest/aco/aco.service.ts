@@ -18,7 +18,7 @@ export class AcoService {
   constructor(private http: HttpClient) {}
   public getAcoData() {
     this.currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
-    this.AcoId = this.currentUser[0]['AcoId'] ? this.currentUser[0]['AcoId'] : 'HOCR160308';
+    this.AcoId = this.currentUser[0]['AcoId'];
     const acoURL = this.APP_URL + this.ACOMetrics_SERVICE_PATH + this.AcoId + '?requestType=ACO_COST_OF_CARE_METRICS';
 
     this.authBearer = this.currentUser[0].PedAccessToken;

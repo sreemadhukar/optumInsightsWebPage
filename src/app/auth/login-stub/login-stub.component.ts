@@ -143,9 +143,8 @@ export class LoginStubComponent implements OnInit {
           } else if (this.authService.isLoggedIn()) {
             sessionStorage.setItem('cache', JSON.stringify(true));
             if (
-              (JSON.parse(sessionStorage.getItem('currentUser'))[0].hasOwnProperty('AcoId') &&
-                JSON.parse(sessionStorage.getItem('currentUser'))[0]['AcoId'] !== '') ||
-              JSON.parse(sessionStorage.getItem('currentUser'))[0]['FirstName'] === 'Mounika'
+              JSON.parse(sessionStorage.getItem('currentUser'))[0].hasOwnProperty('AcoId') &&
+              JSON.parse(sessionStorage.getItem('currentUser'))[0]['AcoId'] !== ''
             ) {
               this.router.navigate(['/AcoPage']);
             } else {
