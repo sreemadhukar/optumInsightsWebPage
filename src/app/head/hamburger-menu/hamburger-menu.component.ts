@@ -145,6 +145,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     this.filterFlag = false;
     this.bgWhite = false;
     this.showPrintHeader = false;
+    this.fromKOP = false;
     this.checkAdv = this.sessionService.checkAdvocateRole();
     this.checkPro = this.sessionService.checkProjectRole();
     if (this.checkAdv.value) {
@@ -201,13 +202,15 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
         }
 
         // Check condtion for rendering butter bar
-        if (sessionStorage.getItem('fromKOP') === 'YES' && !this.makeAbsolute && event.url !== '/NationalExecutive') {
-          setTimeout(() => {
-            this.fromKOP = true;
-          }, 500);
+        if (
+          sessionStorage.getItem('fromKOP') === 'YES' &&
+          !this.makeAbsolute &&
+          event.url !== '/NationalExecutive' &&
+          heac.heac
+        ) {
+          this.fromKOP = true;
         } else {
           this.fromKOP = false;
-          sessionStorage.removeItem('fromKOP');
         }
       }
       // PLEASE DON'T MODIFY THIS
