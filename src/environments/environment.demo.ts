@@ -34,7 +34,8 @@ export const environment: any = {
     PCORQualityMeasure: 'pcor-metrics/',
     NPSSummary: 'kop-metrics/',
     AppealsTrend: 'appeals-trend/',
-    AdminSummaryTrends: 'admintrends/'
+    AdminSummaryTrends: 'admintrends/',
+    AdminSummaryTrendsCount: 'admintrendscount/'
   },
   headerKeys: {
     selectedCompany: '',

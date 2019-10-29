@@ -146,6 +146,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     this.filterFlag = false;
     this.bgWhite = false;
     this.showPrintHeader = false;
+    this.fromKOP = false;
     this.checkAdv = this.sessionService.checkAdvocateRole();
     this.checkPro = this.sessionService.checkProjectRole();
     this.checkExecutive = this.sessionService.checkExecutiveRole();
@@ -188,31 +189,36 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
           if (window.location.pathname === '/OverviewPage') {
             window.location.href = '/OverviewPageAdvocate';
           }
-        } else if (this.checkPro.Value) {
-          if (window.location.pathname === '/OverviewPageAdvocate') {
-            window.location.href = '/OverviewPage';
-          }
-        } else if (this.checkExecutive.Value) {
+        } else if (this.checkPro.value || this.checkExecutive.value) {
           this.navCategories[0].path = '/NationalExecutive';
           if (window.location.pathname === '/OverviewPage' || window.location.pathname === '/ProviderSearch') {
             window.location.href = '/NationalExecutive';
           }
         }
+        // else if (this.checkPro.Value) {
+        //   if (window.location.pathname === '/OverviewPageAdvocate') {
+        //     window.location.href = '/OverviewPage';
+        //   }
+        // }
+
         // this.checkPcorData();
         if (this.sessionService.isPCORData()) {
           this.insertPCORnav();
         }
-        if (event.url === '/NationalExecutive' && !this.checkExecutive.value) {
+        if (event.url === '/NationalExecutive' && !(this.checkPro.value || this.checkExecutive.value)) {
           router.navigate(['/ProviderSearch']);
         }
         // Check condtion for rendering butter bar
-        if (sessionStorage.getItem('fromKOP') === 'YES' && !this.makeAbsolute && event.url !== '/NationalExecutive') {
-          setTimeout(() => {
-            this.fromKOP = true;
-          }, 500);
+        if (
+          (sessionStorage.getItem('fromKOP') === 'YES' &&
+            !this.makeAbsolute &&
+            event.url !== '/NationalExecutive' &&
+            this.checkPro.value) ||
+          this.checkExecutive.value
+        ) {
+          this.fromKOP = true;
         } else {
           this.fromKOP = false;
-          sessionStorage.removeItem('fromKOP');
         }
       }
       // PLEASE DON'T MODIFY THIS

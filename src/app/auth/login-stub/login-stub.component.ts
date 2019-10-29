@@ -105,11 +105,12 @@ export class LoginStubComponent implements OnInit {
         if (JSON.parse(sessionStorage.getItem('currentUser'))[0]['ProviderKey']) {
           if (this.checkAdv.value) {
             window.location.href = '/OverviewPageAdvocate';
-          } else if (this.checkExecutive.value) {
+          } else if (this.checkPro.value || this.checkExecutive.value) {
             window.location.href = '/NationalExecutive';
-          } else if (this.checkPro.value) {
-            window.location.href = '/OverviewPage';
           }
+          // else if (this.checkPro.value) {
+          //   window.location.href = '/OverviewPage';
+          // }
         } else {
           this.router.navigate([this.returnUrl]);
         }
@@ -177,6 +178,8 @@ export class LoginStubComponent implements OnInit {
             });
           }
           if (user && user['UserPersonas'].some(item => item.UserRole.includes('UHCI_Executive'))) {
+            this.router.navigate(['/NationalExecutive']);
+          } else if (user && user['UserPersonas'].some(item => item.UserRole.includes('UHCI_Project'))) {
             this.router.navigate(['/NationalExecutive']);
           } else {
             this.router.navigate(['/ProviderSearch']);
