@@ -56,7 +56,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
   public currentUser: any;
   public showPrintHeader: boolean;
   public sideNavFlag = true;
-  public AcoFlag: boolean;
+  public AcoFlag = false;
   subscription: any;
   public glossaryFlag: boolean;
   public glossaryTitle: string = null;
@@ -149,6 +149,8 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     this.showPrintHeader = false;
     this.checkAdv = this.sessionService.checkAdvocateRole();
     this.checkPro = this.sessionService.checkProjectRole();
+    this.currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
+    this.AcoName = this.currentUser[0]['AcoName'];
     if (this.checkAdv.value) {
       this.navCategories = this.navCategories.filter(item => item.name !== 'Summary Trends');
     }
@@ -256,12 +258,9 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
   }
 
   ngOnInit() {
-    this.AcoFlag = false;
     this.isKop = false;
     this.loading = false;
     this.isDarkTheme = this.themeService.isDarkTheme;
-    this.currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
-    this.AcoName = this.currentUser[0]['AcoName'];
     this.acoEventEmitter.getEvent().subscribe(value => {
       this.AcoFlag = value.value;
     });
