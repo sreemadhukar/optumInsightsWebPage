@@ -72,6 +72,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
   disableChangeProvider: boolean = environment.internalAccess;
   public checkAdv;
   public checkPro;
+  public checkExecutive;
   /*** Array of Navigation Category List ***/
   public navCategories = [
     { icon: 'home', name: 'Overview', path: '/OverviewPage', disabled: false },
@@ -148,6 +149,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     this.fromKOP = false;
     this.checkAdv = this.sessionService.checkAdvocateRole();
     this.checkPro = this.sessionService.checkProjectRole();
+    this.checkExecutive = this.sessionService.checkExecutiveRole();
     if (this.checkAdv.value) {
       this.navCategories = this.navCategories.filter(item => item.name !== 'Summary Trends');
     }
@@ -187,26 +189,32 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
           if (window.location.pathname === '/OverviewPage') {
             window.location.href = '/OverviewPageAdvocate';
           }
-        } else if (this.checkPro.Value) {
-          if (window.location.pathname === '/OverviewPageAdvocate') {
-            window.location.href = '/OverviewPage';
+        } else if (this.checkPro.value || this.checkExecutive.value) {
+          this.navCategories[0].path = '/NationalExecutive';
+          if (window.location.pathname === '/OverviewPage' || window.location.pathname === '/ProviderSearch') {
+            window.location.href = '/NationalExecutive';
           }
         }
+        // else if (this.checkPro.Value) {
+        //   if (window.location.pathname === '/OverviewPageAdvocate') {
+        //     window.location.href = '/OverviewPage';
+        //   }
+        // }
+
         // this.checkPcorData();
         if (this.sessionService.isPCORData()) {
           this.insertPCORnav();
         }
-        const heac = JSON.parse(sessionStorage.getItem('heac'));
-        if (event.url === '/NationalExecutive' && !heac.heac) {
+        if (event.url === '/NationalExecutive' && !(this.checkPro.value || this.checkExecutive.value)) {
           router.navigate(['/ProviderSearch']);
         }
-
         // Check condtion for rendering butter bar
         if (
-          sessionStorage.getItem('fromKOP') === 'YES' &&
-          !this.makeAbsolute &&
-          event.url !== '/NationalExecutive' &&
-          heac.heac
+          (sessionStorage.getItem('fromKOP') === 'YES' &&
+            !this.makeAbsolute &&
+            event.url !== '/NationalExecutive' &&
+            this.checkPro.value) ||
+          this.checkExecutive.value
         ) {
           this.fromKOP = true;
         } else {
