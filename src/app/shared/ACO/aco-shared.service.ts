@@ -35,7 +35,7 @@ export class AcoSharedService {
     let acoPageMainCard: Array<object>;
     let contractSTRPeriod: Date;
     let contractENDPeriod: Date;
-    let MPTData: number;
+    let MPTData = 0;
     return new Promise(resolve => {
       this.acoservice.getAcoData().subscribe(data => {
         contractSTRPeriod = new Date(data.ContractEffDate);
