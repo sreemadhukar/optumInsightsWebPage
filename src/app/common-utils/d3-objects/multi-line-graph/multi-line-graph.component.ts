@@ -375,6 +375,7 @@ export class MultiLineGraphComponent implements OnInit {
       .style('fill', '#2D2D39');
 
     const text_element1 = chart.select('#forlolCalculations');
+    console.log('text_element1', text_element1);
     // tslint:disable-next-line:no-var-keyword
     var textWidth1 = text_element1.node().getComputedTextLength();
 
@@ -400,6 +401,81 @@ export class MultiLineGraphComponent implements OnInit {
     const data3 = [];
     for (let l = 0; l < lengthOfData3; l++) {
       data3.push({ y: chartData3[l].value, xCoordinate: xScale(l), x: chartData3[l].name });
+    }
+
+    const line = d3
+      .line()
+      .x(function(d) {
+        return d.xCoordinate;
+      })
+      .y(function(d) {
+        return yScale(d.y);
+      })
+      .curve(d3.curveLinear);
+
+    chart
+      .append('g')
+      .attr('visibility', 'hidden')
+      .attr('id', 'forYCalculations')
+      .call(
+        d3
+          .axisLeft(yScale)
+          .tickSize(5, 0, 0)
+          .tickSizeOuter([0])
+          .ticks(3)
+      );
+
+    const preYArray = d3
+      .select('#forYCalculations')
+      .selectAll('.tick>text')
+      .nodes()
+      .map(function(t) {
+        const tagString = new XMLSerializer().serializeToString(t);
+        const mySubString = tagString.substring(tagString.indexOf('>') + 1, tagString.indexOf('</'));
+        return mySubString;
+      });
+
+    d3.select('#forYCalculations').remove();
+    for (let y = 0; y < preYArray.length; y++) {
+      preYArray[y] = preYArray[y].replace(/,/g, '');
+    }
+
+    const preArrayOfNumbers = preYArray.map(Number);
+    const numberOfTicks = preArrayOfNumbers.length;
+    const highestTickValue = preArrayOfNumbers[numberOfTicks - 1];
+
+    chart
+      .append('g')
+      .attr('class', 'grid')
+      .call(
+        d3
+          .axisLeft(yScale)
+          .ticks(3)
+          .tickSize(-width, 0, 0)
+          .tickFormat('')
+          .tickSizeOuter([0])
+      );
+
+    chart.selectAll('.tick:not(:first-of-type) line').attr('opacity', '.35');
+    chart.selectAll('.tick:first-of-type line').attr('opacity', '1');
+
+    if (1) {
+      alert();
+      if (!generalData.hideYAxis) {
+        alert();
+        chart
+          .append('g')
+          .attr('class', 'tick_hidden_y')
+          .attr('transform', 'translate( ' + width + ', 0 )')
+          .call(
+            d3
+              .axisRight(yScale)
+              .tickSize(5, 0, 0)
+              .tickSizeOuter([0])
+              .ticks(3)
+              .tickFormat(formatDynamicAbbreviation(numberOfTicks, highestTickValue, axisPrefix))
+          );
+      }
     }
 
     const RectBarOne = chart
@@ -487,79 +563,6 @@ export class MultiLineGraphComponent implements OnInit {
         return yScale(d.y);
       })
       .attr('r', 6);
-
-    const line = d3
-      .line()
-      .x(function(d) {
-        return d.xCoordinate;
-      })
-      .y(function(d) {
-        return yScale(d.y);
-      })
-      .curve(d3.curveLinear);
-
-    chart
-      .append('g')
-      .attr('visibility', 'hidden')
-      .attr('id', 'forYCalculations')
-      .call(
-        d3
-          .axisLeft(yScale)
-          .tickSize(5, 0, 0)
-          .tickSizeOuter([0])
-          .ticks(3)
-      );
-
-    const preYArray = d3
-      .select('#forYCalculations')
-      .selectAll('.tick>text')
-      .nodes()
-      .map(function(t) {
-        const tagString = new XMLSerializer().serializeToString(t);
-        const mySubString = tagString.substring(tagString.indexOf('>') + 1, tagString.indexOf('</'));
-        return mySubString;
-      });
-
-    d3.select('#forYCalculations').remove();
-    for (let y = 0; y < preYArray.length; y++) {
-      preYArray[y] = preYArray[y].replace(/,/g, '');
-    }
-
-    const preArrayOfNumbers = preYArray.map(Number);
-    const numberOfTicks = preArrayOfNumbers.length;
-    const highestTickValue = preArrayOfNumbers[numberOfTicks - 1];
-
-    chart
-      .append('g')
-      .attr('class', 'grid')
-      .call(
-        d3
-          .axisLeft(yScale)
-          .ticks(3)
-          .tickSize(-width, 0, 0)
-          .tickFormat('')
-          .tickSizeOuter([0])
-      );
-
-    chart.selectAll('.tick:not(:first-of-type) line').attr('opacity', '.35');
-    chart.selectAll('.tick:first-of-type line').attr('opacity', '1');
-
-    if (1) {
-      if (!generalData.hideYAxis) {
-        chart
-          .append('g')
-          .attr('class', 'tick_hidden_y')
-          .attr('transform', 'translate( ' + width + ', 0 )')
-          .call(
-            d3
-              .axisRight(yScale)
-              .tickSize(5, 0, 0)
-              .tickSizeOuter([0])
-              .ticks(3)
-              .tickFormat(formatDynamicAbbreviation(numberOfTicks, highestTickValue, axisPrefix))
-          );
-      }
-    }
 
     // Dark line
     if (this.chartOptions.lineOne.chartData != undefined && this.chartOptions.lineOne.chartData.length > 0) {
