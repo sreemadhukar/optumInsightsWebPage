@@ -487,7 +487,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
   navigateToKOP() {
     sessionStorage.removeItem('fromKOP');
     this.fromKOP = false;
-    window.location.href = '/NationalExecutive';
+    this.router.navigate(['/NationalExecutive']);
   }
 
   /**
@@ -502,7 +502,6 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
       valueSelected: () => {
         // Setting Value redirect, remind flag to local storage
         sessionStorage.setItem('fromKOP', 'YES');
-
         // Reloading targeted route, for resetting the css
         window.location.href = '/OverviewPage';
       },
