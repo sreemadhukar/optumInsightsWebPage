@@ -179,6 +179,8 @@ export class SelectProviderComponent implements OnInit {
       window.location.href = '/OverviewPageAdvocate';
     } else if (this.checkPro.value || this.checkExecutive.value) {
       window.location.href = '/OverviewPage';
+    } else {
+      window.location.href = '/OverviewPage';
     }
   }
 
