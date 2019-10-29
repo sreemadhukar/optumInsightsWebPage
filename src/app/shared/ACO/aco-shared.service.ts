@@ -35,6 +35,7 @@ export class AcoSharedService {
     let acoPageMainCard: Array<object>;
     let contractSTRPeriod: Date;
     let contractENDPeriod: Date;
+    let MPTData: number;
     return new Promise(resolve => {
       this.acoservice.getAcoData().subscribe(data => {
         contractSTRPeriod = new Date(data.ContractEffDate);
@@ -42,6 +43,72 @@ export class AcoSharedService {
         if (data.hasOwnProperty('LinesOfBusiness')) {
           if (environment.internalAccess) {
             if (data.LinesOfBusiness[this.lob].AcoSummary !== 'N/A') {
+              if (
+                data.LinesOfBusiness[this.lob].RatioPCPtoSpecOV.Target !== 'N/A' &&
+                data.LinesOfBusiness[this.lob].RatioPCPtoSpecOV.Actual !== 'N/A'
+              ) {
+                if (
+                  parseInt(data.LinesOfBusiness[this.lob].RatioPCPtoSpecOV.Target) >=
+                  data.LinesOfBusiness[this.lob].RatioPCPtoSpecOV.Actual
+                ) {
+                  MPTData++;
+                }
+              }
+              if (
+                data.LinesOfBusiness[this.lob].RxScriptsPerThousand.Actual !== 'N/A' &&
+                data.LinesOfBusiness[this.lob].RxScriptsPerThousand.Target !== 'N/A'
+              ) {
+                if (
+                  parseInt(data.LinesOfBusiness[this.lob].RxScriptsPerThousand.Target) >=
+                  data.LinesOfBusiness[this.lob].RxScriptsPerThousand.Actual
+                ) {
+                  MPTData++;
+                }
+              }
+              if (
+                data.LinesOfBusiness[this.lob].AcuteAdmitsPerThousand.Actual !== 'N/A' &&
+                data.LinesOfBusiness[this.lob].AcuteAdmitsPerThousand.Target !== 'N/A'
+              ) {
+                if (
+                  parseInt(data.LinesOfBusiness[this.lob].AcuteAdmitsPerThousand.Target) >=
+                  data.LinesOfBusiness[this.lob].AcuteAdmitsPerThousand.Actual
+                ) {
+                  MPTData++;
+                }
+              }
+              if (
+                data.LinesOfBusiness[this.lob].NonParSpecialistReferrals.Actual !== 'N/A' &&
+                data.LinesOfBusiness[this.lob].NonParSpecialistReferrals.Target !== 'N/A'
+              ) {
+                if (
+                  parseInt(data.LinesOfBusiness[this.lob].NonParSpecialistReferrals.Target) >=
+                  data.LinesOfBusiness[this.lob].NonParSpecialistReferrals.Actual
+                ) {
+                  MPTData++;
+                }
+              }
+              if (
+                data.LinesOfBusiness[this.lob].EmergencyVisitsPerThousand.Actual !== 'N/A' &&
+                data.LinesOfBusiness[this.lob].EmergencyVisitsPerThousand.Target !== 'N/A'
+              ) {
+                if (
+                  parseInt(data.LinesOfBusiness[this.lob].EmergencyVisitsPerThousand.Target) >=
+                  data.LinesOfBusiness[this.lob].EmergencyVisitsPerThousand.Actual
+                ) {
+                  MPTData++;
+                }
+              }
+              if (
+                data.LinesOfBusiness[this.lob].AcuteBedDaysPerThousand.Actual !== 'N/A' &&
+                data.LinesOfBusiness[this.lob].AcuteBedDaysPerThousand.Target !== 'N/A'
+              ) {
+                if (
+                  parseInt(data.LinesOfBusiness[this.lob].AcuteBedDaysPerThousand.Target) >=
+                  data.LinesOfBusiness[this.lob].AcuteBedDaysPerThousand.Actual
+                ) {
+                  MPTData++;
+                }
+              }
               acoSummary = {
                 category: 'app-small-card',
                 type: 'textWithLabel',
@@ -51,7 +118,7 @@ export class AcoSharedService {
                   labels: 'Attributed Members'
                 },
                 bottomData: {
-                  labels: '4 of 5 Measures Meet MPT*',
+                  labels: MPTData + ' of 5 Measures Meet MPT*',
                   color: '#21B01E'
                 },
                 timeperiod: 'Contract Year to Date'
@@ -175,6 +242,72 @@ export class AcoSharedService {
             }
           } else {
             if (data.LinesOfBusiness[this.lob].AcoSummary !== 'N/A') {
+              if (
+                data.LinesOfBusiness[this.lob].RatioPCPtoSpecOV.Target !== 'N/A' &&
+                data.LinesOfBusiness[this.lob].RatioPCPtoSpecOV.Actual !== 'N/A'
+              ) {
+                if (
+                  parseInt(data.LinesOfBusiness[this.lob].RatioPCPtoSpecOV.Target) >=
+                  data.LinesOfBusiness[this.lob].RatioPCPtoSpecOV.Actual
+                ) {
+                  MPTData++;
+                }
+              }
+              if (
+                data.LinesOfBusiness[this.lob].RxScriptsPerThousand.Actual !== 'N/A' &&
+                data.LinesOfBusiness[this.lob].RxScriptsPerThousand.Target !== 'N/A'
+              ) {
+                if (
+                  parseInt(data.LinesOfBusiness[this.lob].RxScriptsPerThousand.Target) >=
+                  data.LinesOfBusiness[this.lob].RxScriptsPerThousand.Actual
+                ) {
+                  MPTData++;
+                }
+              }
+              if (
+                data.LinesOfBusiness[this.lob].AcuteAdmitsPerThousand.Actual !== 'N/A' &&
+                data.LinesOfBusiness[this.lob].AcuteAdmitsPerThousand.Target !== 'N/A'
+              ) {
+                if (
+                  parseInt(data.LinesOfBusiness[this.lob].AcuteAdmitsPerThousand.Target) >=
+                  data.LinesOfBusiness[this.lob].AcuteAdmitsPerThousand.Actual
+                ) {
+                  MPTData++;
+                }
+              }
+              if (
+                data.LinesOfBusiness[this.lob].NonParSpecialistReferrals.Actual !== 'N/A' &&
+                data.LinesOfBusiness[this.lob].NonParSpecialistReferrals.Target !== 'N/A'
+              ) {
+                if (
+                  parseInt(data.LinesOfBusiness[this.lob].NonParSpecialistReferrals.Target) >=
+                  data.LinesOfBusiness[this.lob].NonParSpecialistReferrals.Actual
+                ) {
+                  MPTData++;
+                }
+              }
+              if (
+                data.LinesOfBusiness[this.lob].EmergencyVisitsPerThousand.Actual !== 'N/A' &&
+                data.LinesOfBusiness[this.lob].EmergencyVisitsPerThousand.Target !== 'N/A'
+              ) {
+                if (
+                  parseInt(data.LinesOfBusiness[this.lob].EmergencyVisitsPerThousand.Target) >=
+                  data.LinesOfBusiness[this.lob].EmergencyVisitsPerThousand.Actual
+                ) {
+                  MPTData++;
+                }
+              }
+              if (
+                data.LinesOfBusiness[this.lob].AcuteBedDaysPerThousand.Actual !== 'N/A' &&
+                data.LinesOfBusiness[this.lob].AcuteBedDaysPerThousand.Target !== 'N/A'
+              ) {
+                if (
+                  parseInt(data.LinesOfBusiness[this.lob].AcuteBedDaysPerThousand.Target) >=
+                  data.LinesOfBusiness[this.lob].AcuteBedDaysPerThousand.Actual
+                ) {
+                  MPTData++;
+                }
+              }
               acoSummary = {
                 category: 'app-small-card',
                 type: 'textWithLabel',
@@ -184,7 +317,7 @@ export class AcoSharedService {
                   labels: 'Attributed Members'
                 },
                 bottomData: {
-                  labels: '4 of 5 Measures Meet Target',
+                  labels: MPTData + ' of 5 Measures Meet Target',
                   color: '#21B01E'
                 }
               };
