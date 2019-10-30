@@ -52,6 +52,8 @@ export const environment: any = {
     NPSSummary: 'kop-metrics/',
     AppealsTrend: 'appeals-trend/',
     AdminSummaryTrends: 'admintrends/',
+    AppealsFHIR: 'appeals/v2.0/',
+    AppealsOverturn: 'appeal-overturn-reasons/',
     AdminSummaryTrendsCount: 'admintrendscount/'
   },
   headerKeys: {
