@@ -577,7 +577,7 @@ export class AppealsSharedService {
                         labels: 'Admin'
                       },
                       {
-                        values: appealsData[0].LineOfBusiness[lobFullData].ClinicalAppeals
+                        values: appealsData[0].LineOfBusiness[lobFullData].ClinicalOverTurnCount
                           ? (
                               (Number(appealsData[0].LineOfBusiness[lobFullData].ClinicalOverTurnCount) /
                                 (Number(appealsData[0].LineOfBusiness[lobFullData].AdminAppeals) +
