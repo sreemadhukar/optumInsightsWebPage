@@ -22,6 +22,20 @@ export class CommonFooterComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.last6Months();
+  }
+  linkFunction() {
+    this.router.navigate([this.routePath]);
+  }
+  getDaysInMonth(month, year) {
+    // Here January is 1 based
+    // Day 0 is the last day in the previous month
+    return new Date(year, month, 0).getDate();
+    // Here January is 0 based
+    // return new Date(year, month+1, 0).getDate();
+  }
+
+  last6Months() {
     if (this.timePeriod === 'Last 6 Months') {
       const today = new Date();
       let yyyy = today.getFullYear();
@@ -44,32 +58,34 @@ export class CommonFooterComponent implements OnInit {
         mm = '12';
         yyyy = today.getFullYear() - 1;
       }
-      let mmlast6 = String(today.getMonth() - 6).padStart(2, '0'); // January is 0!
+      let mmlast6 = String(today.getMonth() - 5).padStart(2, '0'); // January is 0!
       let yyyylast6 = today.getFullYear();
       if (yyyylast6 % 4 === 0) {
         month[1].monthlastdate = 29;
       }
-      if (parseInt(mm) < 6) {
-        mmlast6 = String(today.getMonth() + 12 - 6).padStart(2, '0'); // January is 0!
+      if (parseInt(mm) < 6 || parseInt(mm) === 12) {
+        mmlast6 = String(today.getMonth() + 12 - 5).padStart(2, '0'); // January is 0!
         yyyylast6 = today.getFullYear() - 1;
       }
       let dd = String(month[parseInt(mm) - 1].monthlastdate);
       //   let dd = String(today.getDate()).padStart(2, '0');
       // let ddlast6 = String(today.getDate()).padStart(2, '0');
-      let ddlast6 = String(month[parseInt(mmlast6) - 1].monthlastdate);
-      if (this.title.includes('Prior')) {
-        mm = String(today.getMonth() + 1).padStart(2, '0');
-        mmlast6 = String(today.getMonth() - 5).padStart(2, '0');
-        yyyylast6 = today.getFullYear();
-        yyyy = today.getFullYear();
-        if (parseInt(mm) < 7) {
-          mmlast6 = String(today.getMonth() + 12 - 5).padStart(2, '0');
-          yyyylast6 = today.getFullYear() - 1;
-        }
-        dd = String(today.getDate() - 1).padStart(2, '0');
-        ddlast6 = String(today.getDate() - 1).padStart(2, '0');
-        if (parseInt(dd) > month[parseInt(mmlast6) - 1].monthlastdate) {
-          ddlast6 = String(month[parseInt(mmlast6) - 1].monthlastdate);
+      let ddlast6 = String('01');
+      if (this.title) {
+        if (this.title.includes('Prior')) {
+          mm = String(today.getMonth() + 1).padStart(2, '0');
+          mmlast6 = String(today.getMonth() - 5).padStart(2, '0');
+          yyyylast6 = today.getFullYear();
+          yyyy = today.getFullYear();
+          if (parseInt(mm) < 7) {
+            mmlast6 = String(today.getMonth() + 12 - 5).padStart(2, '0');
+            yyyylast6 = today.getFullYear() - 1;
+          }
+          dd = String(today.getDate() - 1).padStart(2, '0');
+          ddlast6 = String(today.getDate() - 1).padStart(2, '0');
+          if (parseInt(dd) > month[parseInt(mmlast6) - 1].monthlastdate) {
+            ddlast6 = String(month[parseInt(mmlast6) - 1].monthlastdate);
+          }
         }
       }
 
@@ -90,15 +106,5 @@ export class CommonFooterComponent implements OnInit {
     } else {
       this.timePeriodFooter = this.timePeriod;
     }
-  }
-  linkFunction() {
-    this.router.navigate([this.routePath]);
-  }
-  getDaysInMonth(month, year) {
-    // Here January is 1 based
-    // Day 0 is the last day in the previous month
-    return new Date(year, month, 0).getDate();
-    // Here January is 0 based
-    // return new Date(year, month+1, 0).getDate();
   }
 }
