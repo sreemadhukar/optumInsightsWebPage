@@ -17,7 +17,7 @@ export class GettingReimbursedService {
   private CLAIMS_SERVICE_PATH: string = environment.apiUrls.ProviderSystemClaimsSummary;
   private AGG_CLAIMS_SERVICE_PATH: string = environment.apiUrls.ProviderSystemClaimsAgg;
   private APPEALS_SERVICE_PATH: string = environment.apiUrls.Appeals; // old
-  private APPEALS_SERVICE: string = environment.apiUrls.AppealsNew; // new
+  private APPEALS_SERVICE: string = environment.apiUrls.AppealsFHIR; // new
   private APPEALS_OVERTURN: string = environment.apiUrls.AppealsOverturn;
   private TINS_SERVICE_PATH: string = environment.apiUrls.ProvTinList;
   private PAYMENT_INTEGRITY_PATH: string = environment.apiUrls.PaymentIntegrity;
@@ -31,11 +31,11 @@ export class GettingReimbursedService {
         map(res => JSON.parse(JSON.stringify(res[0]))),
         catchError(err => of(JSON.parse(JSON.stringify(err))))
       ),
-      this.appealsData(...parameters)
+      this.claimsAppealsData(...parameters)
     );
   }
 
-  public appealsData(...parameters) {
+  /*  public appealsData(...parameters) {
     const appealsParams = parameters[1];
     if (!appealsParams.Tin) {
       appealsParams.AllProviderTins = true;
@@ -45,7 +45,7 @@ export class GettingReimbursedService {
       map(res => JSON.parse(JSON.stringify(res))),
       catchError(err => of(JSON.parse(JSON.stringify(err))))
     );
-  }
+  }*/
 
   /** function for Appeals PDP api */
   public claimsAppealsData(...parameters) {
@@ -75,7 +75,7 @@ export class GettingReimbursedService {
         map(res => JSON.parse(JSON.stringify(res[0]))),
         catchError(err => of(JSON.parse(JSON.stringify(err))))
       ),
-      this.appealsData(...parameters)
+      this.claimsAppealsData(...parameters)
     );
   }
 

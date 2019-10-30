@@ -35,7 +35,9 @@ export const environment: any = {
     TrendingMetrics: 'trending-metrics/',
     NPSSummary: 'kop-metrics/',
     AppealsTrend: 'appeals-trend/',
-    AdminSummaryTrends: 'admintrends/'
+    AdminSummaryTrends: 'admintrends/',
+    AppealsFHIR: 'appeals/v2.0/',
+    AppealsOverturn: 'appeal-overturn-reasons/'
   },
   headerKeys: {
     selectedCompany: '',
