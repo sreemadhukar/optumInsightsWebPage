@@ -605,6 +605,9 @@ export class NonPaymentSharedService {
         .then(topReasons => {
           try {
             const p = JSON.parse(JSON.stringify(topReasons)); // Values descending here
+            if (p === null || p.length <= 0) {
+              return null;
+            }
             const subCategoryReasons: any = [];
             for (let i = 0; i < p.length; i++) {
               let x = JSON.parse(JSON.stringify(paramtersCategories)); // deep copy
@@ -612,9 +615,6 @@ export class NonPaymentSharedService {
               x[1]['Count'] = this.subCategoriesFetchCount;
               subCategoryReasons.push(x);
               x = [];
-            }
-            if (topReasons === null) {
-              return null;
             }
             return this.sharedTopSubCategories(subCategoryReasons, p);
           } catch (Error) {
