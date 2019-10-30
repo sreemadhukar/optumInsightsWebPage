@@ -90,7 +90,7 @@ const routes: Routes = [
     }
   },
   {
-    path: 'KnowOurProvider',
+    path: 'NationalExecutive',
     loadChildren: '../components/know-our-provider/know-our-provider.module#KnowOurProviderModule',
     canActivate: [AuthGuard],
     data: {

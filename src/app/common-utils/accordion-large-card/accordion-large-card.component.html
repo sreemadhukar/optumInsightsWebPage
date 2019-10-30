@@ -46,7 +46,7 @@
               <div class="horizontal-line">
                 <div class="accor-content-space">
                   <div
-                    [class.extra-margin-bottom-24]="subsection[j]"
+                    [class.extra-margin-bottom-12]="subsection[j]"
                     [class.bar-graphs-nohover]="item.data.barText == 0"
                     [class.bar-graphs-sub-content]="item.data.barText != 0"
                     (click)="subsection[j] = !subsection[j]; subItemsCollapose(j)"
@@ -116,16 +116,15 @@
                           <div class="cms-number">{{ listitem.CMSWeightQualityRating }}</div>
                         </div>
                       </div>
-
-                      <div class="description-content">
-                        <span class="measure-desc">Measure Description:</span>
-                        <span class="measure-content">{{ listitem.Description }}</span>
-                      </div>
                     </div>
                   </div>
 
                   <div class="sub-accor-content" *ngIf="subsection[j]">
                     <!-- sub accordion-->
+                    <div class="description-content">
+                      <span class="measure-desc">Measure Description:</span>
+                      <span class="measure-content">{{ listitem.Description }}</span>
+                    </div>
                     <div class="flex-row-container">
                       <div class="flex-row-item1  vertical-line2 ">
                         <h3 class="accord-sub-title">5 STAR Threshold % Target</h3>
@@ -169,6 +168,9 @@
                         </div>
                       </div>
                     </div>
+                    <div class="HEDIS-measure-note" *ngIf="listitem.message">
+                      &#42;&#42; Denotes an Adjusted HEDIS&reg; Measure
+                    </div>
                   </div>
                 </div>
               </div>
@@ -179,7 +181,7 @@
     </div>
 
     <div class="full-width-block" *ngIf="data[0].timeperiod">
-      <app-common-footer [timePeriod]="data[0].timeperiod"></app-common-footer>
+      <app-common-footer [timePeriod]="data[0].timeperiod" [title]="data[0].title"></app-common-footer>
     </div>
   </div>
 </div>

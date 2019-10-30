@@ -13,7 +13,7 @@ export class ProviderService {
   private authBearer: any;
   private APP_URL: string = environment.apiProxyUrl;
   private SERVICE_PATH: string = environment.apiUrls.ProviderList;
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   public getProvidersData(text) {
     if (JSON.parse(sessionStorage.getItem('currentUser'))) {

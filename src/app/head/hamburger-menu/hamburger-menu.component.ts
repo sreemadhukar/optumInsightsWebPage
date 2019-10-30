@@ -72,6 +72,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
   disableChangeProvider: boolean = environment.internalAccess;
   public checkAdv;
   public checkPro;
+  public checkExecutive;
   /*** Array of Navigation Category List ***/
   public navCategories = [
     { icon: 'home', name: 'Overview', path: '/OverviewPage', disabled: false },
@@ -145,8 +146,10 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     this.filterFlag = false;
     this.bgWhite = false;
     this.showPrintHeader = false;
+    this.fromKOP = false;
     this.checkAdv = this.sessionService.checkAdvocateRole();
     this.checkPro = this.sessionService.checkProjectRole();
+    this.checkExecutive = this.sessionService.checkExecutiveRole();
     if (this.checkAdv.value) {
       this.navCategories = this.navCategories.filter(item => item.name !== 'Summary Trends');
     }
@@ -186,28 +189,22 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
           if (window.location.pathname === '/OverviewPage') {
             window.location.href = '/OverviewPageAdvocate';
           }
-        } else if (this.checkPro.Value) {
-          if (window.location.pathname === '/OverviewPageAdvocate') {
-            window.location.href = '/OverviewPage';
-          }
         }
         // this.checkPcorData();
         if (this.sessionService.isPCORData()) {
           this.insertPCORnav();
         }
-        const heac = JSON.parse(sessionStorage.getItem('heac'));
-        if (event.url === '/KnowOurProvider' && !heac.heac) {
-          router.navigate(['/ProviderSearch']);
-        }
-
         // Check condtion for rendering butter bar
-        if (sessionStorage.getItem('fromKOP') === 'YES' && !this.makeAbsolute && event.url !== '/KnowOurProvider') {
-          setTimeout(() => {
-            this.fromKOP = true;
-          }, 500);
+        if (
+          (sessionStorage.getItem('fromKOP') === 'YES' &&
+            !this.makeAbsolute &&
+            event.url !== '/NationalExecutive' &&
+            this.checkPro.value) ||
+          this.checkExecutive.value
+        ) {
+          this.fromKOP = true;
         } else {
           this.fromKOP = false;
-          sessionStorage.removeItem('fromKOP');
         }
       }
       // PLEASE DON'T MODIFY THIS
@@ -490,7 +487,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
   navigateToKOP() {
     sessionStorage.removeItem('fromKOP');
     this.fromKOP = false;
-    window.location.href = '/KnowOurProvider';
+    this.router.navigate(['/NationalExecutive']);
   }
 
   /**
@@ -505,7 +502,6 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
       valueSelected: () => {
         // Setting Value redirect, remind flag to local storage
         sessionStorage.setItem('fromKOP', 'YES');
-
         // Reloading targeted route, for resetting the css
         window.location.href = '/OverviewPage';
       },

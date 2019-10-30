@@ -13,6 +13,20 @@
     line-height: 22px;
     text-align: left;
   }
+  .sub-header-padding {
+    padding-bottom: 0;
+  }
+  .sub-header-title {
+    color: #757588;
+    font-family: UHCSans-Medium, Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    letter-spacing: 0.2px;
+    line-height: 18px;
+    text-align: left;
+    display: block;
+    flex: 8 0 0;
+    margin-bottom: -2px;
+  }
   .nps-header {
     color: $black-rock;
   }

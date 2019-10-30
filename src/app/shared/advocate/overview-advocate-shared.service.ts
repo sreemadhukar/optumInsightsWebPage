@@ -301,4 +301,20 @@ export class OverviewAdvocateSharedService {
       );
     });
   }
+
+  public getTotalCallsShared() {
+    this.timeFrame = this.session.filterObjValue.timeFrame;
+    this.providerKey = this.session.providerKeyData();
+    return new Promise(resolve => {
+      const parameters = this.getParmaeterCategories();
+      this.overviewAdvocateService.callsData(...parameters).subscribe(
+        callsTotalData => {
+          resolve(callsTotalData);
+        },
+        err => {
+          console.log('Advocate Page , Error for calls card', err);
+        }
+      );
+    });
+  }
 }
