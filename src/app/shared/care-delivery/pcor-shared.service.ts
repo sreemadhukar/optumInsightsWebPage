@@ -177,25 +177,35 @@ export class PcorSharedService {
               }
               return s.charAt(0).toUpperCase() + s.slice(1);
             };
-            const completeData = JSON.parse(JSON.stringify(data.fiveStarMeasureCount.Data));
+
             const category: Array<Object> = [];
             const subCategory: Array<Object> = [];
             const template = ['zero', 'one', 'two', 'three', 'four', 'five'];
             const barCountArray = [];
+            const completeData = JSON.parse(JSON.stringify(data));
+            const escapeSpecialChars = function(string) {
+              return string.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+            };
+            const asteriskCharacter = escapeSpecialChars('**');
+
+            // ++ output of asterisk character is /*/*
             for (let i = 5; i > 0; i--) {
               const metricName = template[i] + 'StarMeasureCount';
               if (data.hasOwnProperty(metricName)) {
                 const m = {
                   star: i,
                   label: capitalize(template[i]) + ' Star Quality Measure',
-                  count: completeData.filter(item => item.QualityRating === i).length,
-                  insideData: completeData.filter(item => item.QualityRating === i)
+                  count: completeData[metricName].Count,
+                  insideData: completeData[metricName].Data.map(v => {
+                    return v.Name.match(new RegExp(asteriskCharacter, 'g'))
+                      ? { ...v, message: true }
+                      : { ...v, message: false };
+                  })
                 };
                 barCountArray.push(m.count);
                 subCategory.push(m);
               } // end if structure
             } // end for loop for sub-category
-
             /*
             We can also fetch the Top Level Categry i.e star count info via this code
             but the loading of 'Quality Star' card is slow , because then it will load

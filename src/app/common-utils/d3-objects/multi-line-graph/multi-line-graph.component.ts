@@ -460,9 +460,7 @@ export class MultiLineGraphComponent implements OnInit {
     chart.selectAll('.tick:first-of-type line').attr('opacity', '1');
 
     if (1) {
-      alert();
       if (!generalData.hideYAxis) {
-        alert();
         chart
           .append('g')
           .attr('class', 'tick_hidden_y')
@@ -478,14 +476,90 @@ export class MultiLineGraphComponent implements OnInit {
       }
     }
 
+    const DotOne = chart
+      .selectAll('.multi-line-dot1')
+      .data(data)
+      .enter()
+      .append('circle')
+      .style('fill', this.chartOptions.lineOne.generalData.barColor)
+      .style('opacity', 0)
+      .attr('class', 'multi-line-dot1')
+      .attr('id', function(d) {
+        return 'dot-id1-' + d.x.replace(/\s/g, '');
+      })
+      .attr('cx', function(d) {
+        return d.xCoordinate;
+      })
+      .attr('cy', function(d) {
+        return yScale(d.y);
+      })
+      .attr('r', 6);
+
+    const DotTwo = chart
+      .selectAll('.multi-line-dot2')
+      .data(data1)
+      .enter()
+      .append('circle')
+      .style('fill', this.chartOptions.lineTwo.generalData.barColor)
+      .style('opacity', 0)
+      .attr('class', 'multi-line-dot2')
+      .attr('id', function(d) {
+        return 'dot-id2-' + d.x.replace(/\s/g, '');
+      })
+      .attr('cx', function(d) {
+        return d.xCoordinate;
+      })
+      .attr('cy', function(d) {
+        return yScale(d.y);
+      })
+      .attr('r', 6);
+
+    const DotThree = chart
+      .selectAll('.multi-line-dot3')
+      .data(data2)
+      .enter()
+      .append('circle')
+      .style('fill', this.chartOptions.lineThree.generalData.barColor)
+      .style('opacity', 0)
+      .attr('class', 'multi-line-dot3')
+      .attr('id', function(d) {
+        return 'dot-id3-' + d.x.replace(/\s/g, '');
+      })
+      .attr('cx', function(d) {
+        return d.xCoordinate;
+      })
+      .attr('cy', function(d) {
+        return yScale(d.y);
+      })
+      .attr('r', 6);
+
+    const DotFour = chart
+      .selectAll('.multi-line-dot4')
+      .data(data3)
+      .enter()
+      .append('circle')
+      .style('fill', this.chartOptions.lineFour.generalData.barColor)
+      .style('opacity', 0)
+      .attr('class', 'multi-line-dot4')
+      .attr('id', function(d) {
+        return 'dot-id4-' + d.x.replace(/\s/g, '');
+      })
+      .attr('cx', function(d) {
+        return d.xCoordinate;
+      })
+      .attr('cy', function(d) {
+        return yScale(d.y);
+      })
+      .attr('r', 6);
+
     const RectBarOne = chart
-      .selectAll('.rect-bar')
+      .selectAll('.multi-line-rect-bar')
       .data(data)
       .enter()
       .append('rect')
       .style('fill', '#E3F0FD')
       .style('opacity', 0)
-      .attr('class', 'rect-bar')
+      .attr('class', 'multi-line-rect-bar')
       .attr('x', function(d) {
         return d.xCoordinate - 22;
       })
@@ -494,19 +568,26 @@ export class MultiLineGraphComponent implements OnInit {
       })
       .attr('y', 0)
       .on('mouseover', d => {
-        const idname = 'rect-id-' + d.x.replace(/\s/g, '');
-        const RectBar = chart.selectAll(`rect[id=${idname}]`);
-        // console.log('RectBar for multi-graph', RectBar);
-        // console.log('multi-line graph ------------------->' , chart);
+        const RectBarId = 'rect-id-' + d.x.replace(/\s/g, ''),
+          RectBar = chart.selectAll(`rect[id=${RectBarId}]`),
+          DotId1 = 'dot-id1-' + d.x.replace(/\s/g, ''),
+          DotId2 = 'dot-id2-' + d.x.replace(/\s/g, ''),
+          DotId3 = 'dot-id3-' + d.x.replace(/\s/g, ''),
+          DotId4 = 'dot-id4-' + d.x.replace(/\s/g, ''),
+          RectBarDot1 = chart.selectAll(`circle[id=${DotId1}]`),
+          RectBarDot2 = chart.selectAll(`circle[id=${DotId2}]`),
+          RectBarDot3 = chart.selectAll(`circle[id=${DotId3}]`),
+          RectBarDot4 = chart.selectAll(`circle[id=${DotId4}]`);
         RectBar.transition()
           .duration(200)
           .style('opacity', 1)
           .style('cursor', 'pointer');
-        const RectBarDot = chart.selectAll('#dot-id-' + d.x);
-        RectBarDot.transition()
-          .duration(200)
-          .style('opacity', 1);
-
+        [RectBarDot1, RectBarDot2, RectBarDot3, RectBarDot4].forEach(dot => {
+          dot
+            .transition()
+            .duration(200)
+            .style('opacity', 1);
+        });
         tooltipVar
           .transition()
           .duration(200)
@@ -531,46 +612,38 @@ export class MultiLineGraphComponent implements OnInit {
         }
       })
       .on('mouseout', function(d) {
-        const RectBar = chart.selectAll('#rect-id-' + d.x);
+        const RectBarId = 'rect-id-' + d.x.replace(/\s/g, ''),
+          RectBar = chart.selectAll(`rect[id=${RectBarId}]`),
+          DotId1 = 'dot-id1-' + d.x.replace(/\s/g, ''),
+          DotId2 = 'dot-id2-' + d.x.replace(/\s/g, ''),
+          DotId3 = 'dot-id3-' + d.x.replace(/\s/g, ''),
+          DotId4 = 'dot-id4-' + d.x.replace(/\s/g, ''),
+          RectBarDot1 = chart.selectAll(`circle[id=${DotId1}]`),
+          RectBarDot2 = chart.selectAll(`circle[id=${DotId2}]`),
+          RectBarDot3 = chart.selectAll(`circle[id=${DotId3}]`),
+          RectBarDot4 = chart.selectAll(`circle[id=${DotId4}]`);
         RectBar.transition()
           .duration(200)
-          .style('opacity', 0);
-        const RectBarDot = chart.selectAll('#dot-id-' + d.x);
-        RectBarDot.transition()
-          .duration(200)
-          .style('opacity', 0);
-
+          .style('opacity', 0)
+          .style('cursor', 'pointer');
+        [RectBarDot1, RectBarDot2, RectBarDot3, RectBarDot4].forEach(dot => {
+          dot
+            .transition()
+            .duration(200)
+            .style('opacity', 0);
+        });
         tooltipVar
           .transition()
           .duration(500)
           .style('opacity', 0);
       });
 
-    const DotOne = chart
-      .selectAll('.dot')
-      .data(data1)
-      .enter()
-      .append('circle')
-      .style('fill', '#3381FF')
-      .style('opacity', 0)
-      .attr('class', 'dot')
-      .attr('id', function(d) {
-        return 'dot-id-' + d.x;
-      })
-      .attr('cx', function(d) {
-        return d.xCoordinate;
-      })
-      .attr('cy', function(d) {
-        return yScale(d.y);
-      })
-      .attr('r', 6);
-
     // Dark line
     if (this.chartOptions.lineOne.chartData != undefined && this.chartOptions.lineOne.chartData.length > 0) {
       chart
         .append('path')
         .datum(data)
-        .attr('class', 'line')
+        .attr('class', 'multi-line')
         .attr('d', line)
         .attr('id', 'LineOne')
         .style('fill', 'none')
@@ -582,7 +655,7 @@ export class MultiLineGraphComponent implements OnInit {
       chart
         .append('path')
         .datum(data1)
-        .attr('class', 'line2')
+        .attr('class', 'multi-line2')
         .attr('d', line)
         .attr('id', 'LineTwo')
         .style('fill', 'none')
@@ -595,7 +668,7 @@ export class MultiLineGraphComponent implements OnInit {
       chart
         .append('path')
         .datum(data2)
-        .attr('class', 'line3')
+        .attr('class', 'multi-line3')
         .attr('d', line)
         .attr('id', 'LineThree')
         .style('fill', 'none')
@@ -607,7 +680,7 @@ export class MultiLineGraphComponent implements OnInit {
       chart
         .append('path')
         .datum(data3)
-        .attr('class', 'line4')
+        .attr('class', 'multi-line4')
         .attr('d', line)
         .attr('id', 'LineFour')
         .style('fill', 'none')

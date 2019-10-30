@@ -11,17 +11,25 @@ export class SummaryTrendsSharedService {
   private date: any;
   constructor(private summarytrends: SummaryTrendsService, private session: SessionService) {}
 
-  public sharedSummaryTrends() {
+  public sharedSummaryTrends(pageNumber, pageSize, column, direction) {
     return new Promise((resolve, reject) => {
       this.metric = this.session.filterObjValue.metric;
       this.date = formatDate(this.session.filterObjValue.date, 'yyyy-MM-dd', 'en');
       // this.date = '2019-09-25';
-      const params = { metricName: this.metric, searchDate: this.date };
+      const params = {
+        MetricName: this.metric,
+        SearchDate: this.date,
+        PageNumber: pageNumber,
+        PageSize: pageSize,
+        SortColumn: column,
+        SortDirection: direction
+      };
       this.summarytrends.summaryTrendsData(params).subscribe(data => {
-        const result: any = { dataSource: [], displayedColumns: [] };
-        if (data) {
+        console.log(data);
+        const result: any = { dataSource: [], displayedColumns: [], totalRecordsCount: 0 };
+        if (data && data.ResultSet) {
           if (this.metric === 'GettingReimbursed') {
-            data.forEach(element => {
+            data.ResultSet.forEach(element => {
               result.dataSource.push({
                 ProviderName: element.ProviderOrganisationName,
                 ClaimsPaidByUHC: element.ClaimsPaidByUHC,
@@ -33,6 +41,7 @@ export class SummaryTrendsSharedService {
                 ActualAllowed: element.ActualAllowed,
                 AmountExpectedAllowed: element.AmountExpectedAllowed,
                 DeniedAmount: element.DeniedAmount,
+                NonPaymentRate: element.NonPaymentRate,
 
                 ClaimsPaidByUHCVarince: element.ClaimsPaidByUHCVarince,
                 ClaimsYieldVarince: element.ClaimsYieldVarince,
@@ -42,7 +51,8 @@ export class SummaryTrendsSharedService {
                 TotalBilledVarince: element.TotalBilledVarince,
                 ActualAllowedVarince: element.ActualAllowedVarince,
                 AmountExpectedAllowedVarince: element.AmountExpectedAllowedVarince,
-                DeniedAmountVarince: element.DeniedAmountVarince
+                DeniedAmountVarince: element.DeniedAmountVarince,
+                NonPaymentRateVarince: element.NonPaymentRateVarince
               });
             });
             result.displayedColumns = [
@@ -54,11 +64,11 @@ export class SummaryTrendsSharedService {
               'TotalClaimsNotPaid',
               'TotalBilled',
               'ActualAllowed',
-              'AmountExpectedAllowed',
-              'DeniedAmount'
+              'DeniedAmount',
+              'NonPaymentRate'
             ];
           } else if (this.metric === 'Appeals') {
-            data.forEach(element => {
+            data.ResultSet.forEach(element => {
               result.dataSource.push({
                 ProviderName: element.ProviderOrganisationName,
                 TotalAppeals: element.TotalAppeals,
@@ -79,7 +89,7 @@ export class SummaryTrendsSharedService {
               'OverTurnCount'
             ];
           } else if (this.metric === 'IssueResolution') {
-            data.forEach(element => {
+            data.ResultSet.forEach(element => {
               result.dataSource.push({
                 ProviderName: element.ProviderOrganisationName,
                 TotalCallsByType: element.TotalCallsByType,
@@ -90,7 +100,7 @@ export class SummaryTrendsSharedService {
             });
             result.displayedColumns = ['ProviderName', 'TotalCallsByType', 'TotalTalkTimeByCallType'];
           } else if (this.metric === 'SelfService') {
-            data.forEach(element => {
+            data.ResultSet.forEach(element => {
               result.dataSource.push({
                 ProviderName: element.ProviderOrganisationName,
                 LinkAndEdiCallRatio: element.LinkAndEdiCallRatio,
@@ -121,19 +131,19 @@ export class SummaryTrendsSharedService {
             result.displayedColumns = [
               'ProviderName',
               'LinkAndEdiCallRatio',
-              'ReconsiderationProcessing',
-              'ClaimProcessingTimeByMail',
-              'TotalCallTime',
-              'ClaimProcessingTimeBySelfService',
-              'ProcessingTimePerReconsiderationByMail',
-              'CallsAndOperatingCost',
-              'ClaimProcessingTime',
+              // 'ReconsiderationProcessing',
+              // 'ClaimProcessingTimeByMail',
+              // 'TotalCallTime',
+              // 'ClaimProcessingTimeBySelfService',
+              // 'ProcessingTimePerReconsiderationByMail',
+              // 'CallsAndOperatingCost',
+              // 'ClaimProcessingTime',
               'SelfServiceAdoptionRate',
-              'PaperLessDocument',
-              'ProcessingTimePerReconsiderationBySelfService'
+              'PaperLessDocument'
+              // 'ProcessingTimePerReconsiderationBySelfService'
             ];
           } else if (this.metric === 'PriorAuthorization') {
-            data.forEach(element => {
+            data.ResultSet.forEach(element => {
               result.dataSource.push({
                 ProviderName: element.ProviderOrganisationName,
                 PriorAuthApprovedCount: element.PriorAuthApprovedCount,
@@ -168,16 +178,35 @@ export class SummaryTrendsSharedService {
               'InPatientFacilityApprovalRate',
               'OutPatientFacilityApprovalRate',
               'PriorAuthPendingCount',
-              'AverageTat',
+              // 'AverageTat',
               'UrgentTat',
               'TotalPaRequested',
-              'PriorAuthCancelledCount',
+              // 'PriorAuthCancelledCount',
               'PaApprovalRate',
               'OutPatientApprovalRate'
             ];
           }
         }
+
         resolve(result);
+      });
+    });
+  }
+
+  public sharedSummaryTrendsCount() {
+    return new Promise((resolve, reject) => {
+      this.metric = this.session.filterObjValue.metric;
+      this.date = formatDate(this.session.filterObjValue.date, 'yyyy-MM-dd', 'en');
+      const params = {
+        MetricName: this.metric,
+        SearchDate: this.date
+      };
+      this.summarytrends.summaryTrendsCount(params).subscribe(data => {
+        if (data.TotalRecords.length > 0) {
+          resolve(data.TotalRecords[0].ProviderSysKey);
+        } else {
+          resolve(0);
+        }
       });
     });
   }

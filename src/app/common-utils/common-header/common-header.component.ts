@@ -15,11 +15,13 @@ export interface CommonHeaderOptions {
 })
 export class CommonHeaderComponent implements OnInit {
   @Input() title: String;
+  @Input() subtitle: String;
   @Output() helpIconClicked = new EventEmitter();
   @Input() cardType: String;
   @Input() options: CommonHeaderOptions;
   titleHeader: String = null;
   typeOfCard: String = null;
+  titleSubHeader: String = null;
   routhPath: string;
   constructor(private iconRegistry: MatIconRegistry, sanitizer: DomSanitizer, private router: Router) {
     /** INITIALIZING SVG ICONS TO USE IN DESIGN - ANGULAR MATERIAL */
@@ -32,6 +34,9 @@ export class CommonHeaderComponent implements OnInit {
   ngOnInit() {
     this.titleHeader = this.title;
     this.typeOfCard = this.cardType;
+    if (this.subtitle.length > 0) {
+      this.titleSubHeader = this.subtitle;
+    }
   }
   helpFunctionClicked() {
     // Might have to remove special char for glossary to work properly

@@ -17,12 +17,17 @@
               <app-vertical-bar-charts></app-vertical-bar-charts>
             </div>
             <div *ngSwitchCase="'hollowbox'" class="highlighted-boxes">
-              <div
-                *ngFor="let quarter of item.quarters"
-                class="highlighted-box-{{ quarter.id }}"
-                [class.current-quarter]="quarter.currentQuarter"
-              >
-                {{ quarter.title }}
+              <div class="hollow-box-container" *ngFor="let quarter of item.quarters">
+                <div
+                  *ngIf="quarter.title != null"
+                  class="highlighted-box-{{ quarter.id }}"
+                  [class.current-quarter]="quarter.currentQuarter"
+                >
+                  {{ quarter.title }}
+                </div>
+                <div *ngIf="quarter.title == null" class="error-card highlighted-box-{{ quarter.id }}">
+                  <app-error-template></app-error-template>
+                </div>
               </div>
             </div>
             <div *ngSwitchCase="'miniDonut'" class="mini-donut-chart">
@@ -43,7 +48,7 @@
 
         <div
           *ngIf="
-            (!item.singleCard && item.quarters[0]?.title != null) ||
+            (!item.singleCard && item.quarters[0]?.title !== null) ||
             item.quarters[1]?.title != null ||
             (item.singleCard && item.quarters[0]?.title != null)
           "
@@ -58,7 +63,7 @@
               (item.singleCard && item.quarters[0]?.title != null)
             "
           >
-            <app-trends class="trend-container" [data]="item"></app-trends>
+            <!-- <app-trends class="trend-container" [data]="item"></app-trends> -->
           </div>
           <div class="report-box" *ngIf="item.report && item.cardType === 'hollowbox'">
             <div class="report-content">
