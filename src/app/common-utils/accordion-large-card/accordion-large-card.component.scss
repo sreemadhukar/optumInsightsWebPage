@@ -397,7 +397,7 @@ height: 45px;*/
 }
 .sub-accor-content {
   clear: left;
-  margin: 0 0 24px 69px;
+  margin: 0 0 32px 69px;
   .mt-47 {
     margin-top: 47px;
   }
@@ -453,6 +453,14 @@ height: 45px;*/
   .sub-accor-row2 {
     @extend .sub-accor-text3;
     margin: 24px 0 26px 47px;
+  }
+  .HEDIS-measure-note {
+    color: $black-rock;
+    font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+    font-size: 16px;
+    letter-spacing: 0.2px;
+    line-height: 22px;
+    padding-top: 32px;
   }
 }
 .horizontal-line {

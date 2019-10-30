@@ -41,7 +41,8 @@ export const environment: any = {
     AppealsTrend: 'appeals-trend/',
     AdminSummaryTrends: 'admintrends/',
     AppealsFHIR: 'appeals/v2.0/',
-    AppealsOverturn: 'appeal-overturn-reasons/'
+    AppealsOverturn: 'appeal-overturn-reasons/',
+    AdminSummaryTrendsCount: 'admintrendscount/'
   },
   headerKeys: {
     selectedCompany: '',

@@ -168,6 +168,9 @@
                         </div>
                       </div>
                     </div>
+                    <div class="HEDIS-measure-note" *ngIf="listitem.message">
+                      &#42;&#42; Denotes an Adjusted HEDIS&reg; Measure
+                    </div>
                   </div>
                 </div>
               </div>
@@ -178,7 +181,7 @@
     </div>
 
     <div class="full-width-block" *ngIf="data[0].timeperiod">
-      <app-common-footer [timePeriod]="data[0].timeperiod"></app-common-footer>
+      <app-common-footer [timePeriod]="data[0].timeperiod" [title]="data[0].title"></app-common-footer>
     </div>
   </div>
 </div>

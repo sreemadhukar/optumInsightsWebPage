@@ -772,7 +772,8 @@ export class OverviewSharedService {
         claims != null &&
         claims.hasOwnProperty('All') &&
         claims.All != null &&
-        claims.All.hasOwnProperty('ClaimsLobSummary')
+        claims.All.hasOwnProperty('ClaimsLobSummary') &&
+        claims.All.ClaimsLobSummary[0].ClaimsYieldRate.toFixed() !== 0
       ) {
         if (claims.All.ClaimsLobSummary[0].hasOwnProperty('ClaimsYieldRate')) {
           claimsYield = {
@@ -973,19 +974,17 @@ export class OverviewSharedService {
           claims.All != null &&
           claims.All.hasOwnProperty('ClaimsLobSummary')
         ) {
-          if (claims.All.ClaimsLobSummary[0].hasOwnProperty('AmountPaid')) {
-            let newClaimsPaid = 0;
-            if (claimsPaidObj.data) {
-              if (claimsPaidObj.data.centerNumberOriginal) {
-                newClaimsPaid = claimsPaidObj.data.centerNumberOriginal;
-                const oldClaimsPaid = claims.All.ClaimsLobSummary[0].AmountPaid;
-                claimsPaidObj.sdata = this.common.trendNegativeMeansBad(newClaimsPaid, oldClaimsPaid);
-              }
-            }
-          }
-
+          // if (claims.All.ClaimsLobSummary[0].hasOwnProperty('AmountPaid')) {
+          //   let newClaimsPaid = 0;
+          //   if (claimsPaidObj.data) {
+          //     if (claimsPaidObj.data.centerNumberOriginal) {
+          //       newClaimsPaid = claimsPaidObj.data.centerNumberOriginal;
+          //       const oldClaimsPaid = claims.All.ClaimsLobSummary[0].AmountPaid;
+          //       claimsPaidObj.sdata = this.common.trendNegativeMeansBad(newClaimsPaid, oldClaimsPaid);
+          //     }
+          //   }
+          // }
           /** Commenting the following lines of code to remove trends from Clims Yield **/
-
           /* if (claims.All.ClaimsLobSummary[0].hasOwnProperty('ClaimsYieldRate')) {
             let newClaimsPaid = 0;
             if (claimsYieldObj.data) {
