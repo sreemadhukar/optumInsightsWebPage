@@ -566,9 +566,9 @@ export class AppealsSharedService {
                   bottomData: {
                     horizontalData: [
                       {
-                        values: appealsData[0].LineOfBusiness[lobFullData].AdminAppeals
+                        values: appealsData[0].LineOfBusiness[lobFullData].AdminOverTurnCount
                           ? (
-                              (Number(appealsData[0].LineOfBusiness[lobFullData].AdminAppeals) /
+                              (Number(appealsData[0].LineOfBusiness[lobFullData].AdminOverTurnCount) /
                                 (Number(appealsData[0].LineOfBusiness[lobFullData].AdminAppeals) +
                                   Number(appealsData[0].LineOfBusiness[lobFullData].ClinicalAppeals))) *
                               100
@@ -577,9 +577,9 @@ export class AppealsSharedService {
                         labels: 'Admin'
                       },
                       {
-                        values: appealsData[0].LineOfBusiness[lobFullData].ClinicalAppeals
+                        values: appealsData[0].LineOfBusiness[lobFullData].ClinicalOverTurnCount
                           ? (
-                              (Number(appealsData[0].LineOfBusiness[lobFullData].ClinicalAppeals) /
+                              (Number(appealsData[0].LineOfBusiness[lobFullData].ClinicalOverTurnCount) /
                                 (Number(appealsData[0].LineOfBusiness[lobFullData].AdminAppeals) +
                                   Number(appealsData[0].LineOfBusiness[lobFullData].ClinicalAppeals))) *
                               100
@@ -783,9 +783,9 @@ export class AppealsSharedService {
                   bottomData: {
                     horizontalData: [
                       {
-                        values: appealsData[0].LineOfBusiness[lobFullData].AdminAppeals
+                        values: appealsData[0].LineOfBusiness[lobFullData].AdminOverTurnCount
                           ? (
-                              (Number(appealsData[0].LineOfBusiness[lobFullData].AdminAppeals) /
+                              (Number(appealsData[0].LineOfBusiness[lobFullData].AdminOverTurnCount) /
                                 (Number(appealsData[0].LineOfBusiness[lobFullData].AdminAppeals) +
                                   Number(appealsData[0].LineOfBusiness[lobFullData].ClinicalAppeals))) *
                               100
@@ -794,9 +794,9 @@ export class AppealsSharedService {
                         labels: 'Admin'
                       },
                       {
-                        values: appealsData[0].LineOfBusiness[lobFullData].ClinicalAppeals
+                        values: appealsData[0].LineOfBusiness[lobFullData].ClinicalOverTurnCount
                           ? (
-                              (Number(appealsData[0].LineOfBusiness[lobFullData].ClinicalAppeals) /
+                              (Number(appealsData[0].LineOfBusiness[lobFullData].ClinicalOverTurnCount) /
                                 (Number(appealsData[0].LineOfBusiness[lobFullData].AdminAppeals) +
                                   Number(appealsData[0].LineOfBusiness[lobFullData].ClinicalAppeals))) *
                               100
