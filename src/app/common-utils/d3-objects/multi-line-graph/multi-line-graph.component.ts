@@ -490,12 +490,13 @@ export class MultiLineGraphComponent implements OnInit {
         return d.xCoordinate - 22;
       })
       .attr('id', function(d) {
-        return 'rect-id-' + d.x;
+        return 'rect-id-' + d.x.replace(/\s/g, '');
       })
       .attr('y', 0)
       .on('mouseover', d => {
-        const RectBar = chart.selectAll('#rect-id-' + d.x);
-        console.log('RectBar for multi-graph', RectBar);
+        const idname = 'rect-id-' + d.x.replace(/\s/g, '');
+        const RectBar = chart.selectAll(`rect[id=${idname}]`);
+        // console.log('RectBar for multi-graph', RectBar);
         // console.log('multi-line graph ------------------->' , chart);
         RectBar.transition()
           .duration(200)
