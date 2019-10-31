@@ -476,6 +476,92 @@ export class MultiLineGraphComponent implements OnInit {
       }
     }
 
+    const RectBarOne = chart
+      .selectAll('.multi-line-rect-bar')
+      .data(data)
+      .enter()
+      .append('rect')
+      .style('fill', '#E3F0FD')
+      .style('opacity', 0)
+      .attr('class', 'multi-line-rect-bar')
+      .attr('x', function(d) {
+        return d.xCoordinate - 22;
+      })
+      .attr('id', function(d) {
+        return 'rect-id-' + d.x.replace(/\s/g, '');
+      })
+      .attr('y', 0)
+      .on('mouseover', d => {
+        const RectBarId = 'rect-id-' + d.x.replace(/\s/g, ''),
+          RectBar = chart.selectAll(`rect[id=${RectBarId}]`),
+          DotId1 = 'dot-id1-' + d.x.replace(/\s/g, ''),
+          DotId2 = 'dot-id2-' + d.x.replace(/\s/g, ''),
+          DotId3 = 'dot-id3-' + d.x.replace(/\s/g, ''),
+          DotId4 = 'dot-id4-' + d.x.replace(/\s/g, ''),
+          RectBarDot1 = chart.selectAll(`circle[id=${DotId1}]`),
+          RectBarDot2 = chart.selectAll(`circle[id=${DotId2}]`),
+          RectBarDot3 = chart.selectAll(`circle[id=${DotId3}]`),
+          RectBarDot4 = chart.selectAll(`circle[id=${DotId4}]`);
+        RectBar.transition()
+          .duration(200)
+          .style('opacity', 1)
+          .style('cursor', 'pointer');
+        [RectBarDot1, RectBarDot2, RectBarDot3, RectBarDot4].forEach(dot => {
+          dot
+            .transition()
+            .duration(200)
+            .style('opacity', 1);
+        });
+        tooltipVar
+          .transition()
+          .duration(200)
+          .style('opacity', 1);
+        const topMar = yScale(d.y) + 39 + 'px';
+        if (d3.event.layerX + 213 < width + margin.left + margin.right) {
+          tooltipVar
+            .html(tooltipText(d))
+            .classed('hidden', false)
+            .classed('tooltipClass', true)
+            .classed('tooltipClassLeft', false)
+            .style('left', d.xCoordinate + 260 + 'px')
+            .style('top', topMar);
+        } else {
+          tooltipVar
+            .html(tooltipText(d))
+            .classed('hidden', false)
+            .classed('tooltipClass', false)
+            .classed('tooltipClassLeft', true)
+            .style('left', d.xCoordinate + 20 + shiftTooltip + 'px')
+            .style('top', topMar);
+        }
+      })
+      .on('mouseout', function(d) {
+        const RectBarId = 'rect-id-' + d.x.replace(/\s/g, ''),
+          RectBar = chart.selectAll(`rect[id=${RectBarId}]`),
+          DotId1 = 'dot-id1-' + d.x.replace(/\s/g, ''),
+          DotId2 = 'dot-id2-' + d.x.replace(/\s/g, ''),
+          DotId3 = 'dot-id3-' + d.x.replace(/\s/g, ''),
+          DotId4 = 'dot-id4-' + d.x.replace(/\s/g, ''),
+          RectBarDot1 = chart.selectAll(`circle[id=${DotId1}]`),
+          RectBarDot2 = chart.selectAll(`circle[id=${DotId2}]`),
+          RectBarDot3 = chart.selectAll(`circle[id=${DotId3}]`),
+          RectBarDot4 = chart.selectAll(`circle[id=${DotId4}]`);
+        RectBar.transition()
+          .duration(200)
+          .style('opacity', 0)
+          .style('cursor', 'pointer');
+        [RectBarDot1, RectBarDot2, RectBarDot3, RectBarDot4].forEach(dot => {
+          dot
+            .transition()
+            .duration(200)
+            .style('opacity', 0);
+        });
+        tooltipVar
+          .transition()
+          .duration(500)
+          .style('opacity', 0);
+      });
+
     const DotOne = chart
       .selectAll('.multi-line-dot1')
       .data(data)
@@ -551,92 +637,6 @@ export class MultiLineGraphComponent implements OnInit {
         return yScale(d.y);
       })
       .attr('r', 6);
-
-    const RectBarOne = chart
-      .selectAll('.multi-line-rect-bar')
-      .data(data)
-      .enter()
-      .append('rect')
-      .style('fill', '#E3F0FD')
-      .style('opacity', 0)
-      .attr('class', 'multi-line-rect-bar')
-      .attr('x', function(d) {
-        return d.xCoordinate - 22;
-      })
-      .attr('id', function(d) {
-        return 'rect-id-' + d.x.replace(/\s/g, '');
-      })
-      .attr('y', 0)
-      .on('mouseover', d => {
-        const RectBarId = 'rect-id-' + d.x.replace(/\s/g, ''),
-          RectBar = chart.selectAll(`rect[id=${RectBarId}]`),
-          DotId1 = 'dot-id1-' + d.x.replace(/\s/g, ''),
-          DotId2 = 'dot-id2-' + d.x.replace(/\s/g, ''),
-          DotId3 = 'dot-id3-' + d.x.replace(/\s/g, ''),
-          DotId4 = 'dot-id4-' + d.x.replace(/\s/g, ''),
-          RectBarDot1 = chart.selectAll(`circle[id=${DotId1}]`),
-          RectBarDot2 = chart.selectAll(`circle[id=${DotId2}]`),
-          RectBarDot3 = chart.selectAll(`circle[id=${DotId3}]`),
-          RectBarDot4 = chart.selectAll(`circle[id=${DotId4}]`);
-        RectBar.transition()
-          .duration(200)
-          .style('opacity', 1)
-          .style('cursor', 'pointer');
-        [RectBarDot1, RectBarDot2, RectBarDot3, RectBarDot4].forEach(dot => {
-          dot
-            .transition()
-            .duration(200)
-            .style('opacity', 1);
-        });
-        tooltipVar
-          .transition()
-          .duration(200)
-          .style('opacity', 1);
-        const topMar = yScale(d.y) + 39 + 'px';
-        if (d3.event.layerX + 213 < width + margin.left + margin.right) {
-          tooltipVar
-            .html(tooltipText(d))
-            .classed('hidden', false)
-            .classed('tooltipClass', true)
-            .classed('tooltipClassLeft', false)
-            .style('left', d.xCoordinate + 56 + 'px')
-            .style('top', topMar);
-        } else {
-          tooltipVar
-            .html(tooltipText(d))
-            .classed('hidden', false)
-            .classed('tooltipClass', false)
-            .classed('tooltipClassLeft', true)
-            .style('left', d.xCoordinate + 56 + shiftTooltip + 'px')
-            .style('top', topMar);
-        }
-      })
-      .on('mouseout', function(d) {
-        const RectBarId = 'rect-id-' + d.x.replace(/\s/g, ''),
-          RectBar = chart.selectAll(`rect[id=${RectBarId}]`),
-          DotId1 = 'dot-id1-' + d.x.replace(/\s/g, ''),
-          DotId2 = 'dot-id2-' + d.x.replace(/\s/g, ''),
-          DotId3 = 'dot-id3-' + d.x.replace(/\s/g, ''),
-          DotId4 = 'dot-id4-' + d.x.replace(/\s/g, ''),
-          RectBarDot1 = chart.selectAll(`circle[id=${DotId1}]`),
-          RectBarDot2 = chart.selectAll(`circle[id=${DotId2}]`),
-          RectBarDot3 = chart.selectAll(`circle[id=${DotId3}]`),
-          RectBarDot4 = chart.selectAll(`circle[id=${DotId4}]`);
-        RectBar.transition()
-          .duration(200)
-          .style('opacity', 0)
-          .style('cursor', 'pointer');
-        [RectBarDot1, RectBarDot2, RectBarDot3, RectBarDot4].forEach(dot => {
-          dot
-            .transition()
-            .duration(200)
-            .style('opacity', 0);
-        });
-        tooltipVar
-          .transition()
-          .duration(500)
-          .style('opacity', 0);
-      });
 
     // Dark line
     if (this.chartOptions.lineOne.chartData != undefined && this.chartOptions.lineOne.chartData.length > 0) {

@@ -35,6 +35,13 @@
   margin-top: 17px;
 }
 
+.dot2 {
+  fill: $white;
+  stroke: rgba(213, 55, 4, 1);
+  border: 15px;
+  border-color: rgba(213, 55, 4, 1);
+}
+
 .grid text {
   font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
   font-size: 14px;
@@ -64,6 +71,30 @@
   font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
   font-size: 14px;
   fill: $black-rock;
+}
+
+.multi-line-dot1 {
+  border: 15px;
+  border-color: $dodger-blue;
+  position: relative;
+}
+
+.multi-line-dot2 {
+  border: 15px;
+  border-color: $dodger-blue;
+  position: relative;
+}
+
+.multi-line-dot3 {
+  border: 15px;
+  border-color: $dodger-blue;
+  position: relative;
+}
+
+.multi-line-dot4 {
+  border: 15px;
+  border-color: $dodger-blue;
+  position: relative;
 }
 
 .hidden {
