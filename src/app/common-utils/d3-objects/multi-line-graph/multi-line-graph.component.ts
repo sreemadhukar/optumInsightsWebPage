@@ -366,7 +366,7 @@ export class MultiLineGraphComponent implements OnInit {
     const yScale = d3
       .scaleLinear()
       .domain([0, highestValue]) // input
-      .range([180, 0])
+      .range([90, 0])
       .nice(3); // output
 
     // const ydata = [];
