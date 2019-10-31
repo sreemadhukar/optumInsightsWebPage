@@ -21,15 +21,7 @@ import { KOPSharedService } from './shared/kop/kop.service';
 import { KopService } from './rest/kop/kop.service';
 import { UserIdleModule } from 'angular-user-idle';
 import { IdleTimeoutDialogComponent } from './auth/idle-timeout-dialog/idle-timeout-dialog.component';
-import * as Raven from 'raven-js';
-
-Raven.config('https://2e6628201e8043c89e8fac56d77c46aa@sentry-ped-internal.ocp-ctc-core.optum.com/1').install();
-
-export class RavenErrorHandler implements ErrorHandler {
-  handleError(err: any): void {
-    Raven.captureException(err);
-  }
-}
+import { RavenErrorHandler } from './components/error-handler/error-handler';
 
 @NgModule({
   declarations: [AppComponent],

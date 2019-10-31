@@ -1,12 +1,12 @@
-export class CareDelivery {
+export class Reimbursement {
   public singleCard = false;
   public records: any;
   public data = {
-    title: 'Care Delivery',
+    title: 'Reimbursement',
     chartData: [],
     quarters: []
   };
-  private section = 'caredelivery';
+  private section = 'reimbursement';
   constructor({ records }) {
     this.records = records;
     this.singleCard = records.length === 1 ? true : false;
@@ -16,12 +16,12 @@ export class CareDelivery {
 
   public createCard() {
     this.records.forEach((record, index) => {
-      const { CareDelivery: Care_Delivery = {} } = record;
+      const { Reimbursement: Reimbursement_Data = {} } = record;
       this.data.chartData.forEach((chartDataElement: any) => {
         const key = chartDataElement.key;
         const subKey = chartDataElement.subKey;
 
-        if (!Care_Delivery[key]) {
+        if (!Reimbursement_Data[key]) {
           chartDataElement.report = false;
           chartDataElement.quarters.push({
             title: null,
@@ -30,7 +30,7 @@ export class CareDelivery {
             section: this.section
           });
         } else {
-          const value = Care_Delivery[key][subKey] ? Math.round(Care_Delivery[key][subKey]) : null;
+          const value = Reimbursement_Data[key][subKey] ? Math.round(Reimbursement_Data[key][subKey]) : null;
           if (this.singleCard && value !== null) {
             chartDataElement.quarters.push({ title: value + '' + chartDataElement.units });
           } else {
@@ -96,13 +96,13 @@ export class CareDelivery {
       {
         quarters: [],
         cardType: 'miniDonut',
-        key: 'EaseOfMedicalAuth',
-        subKey: 'EaseOfMedicalAuthValue',
+        key: 'ClaimsProcessAccuracy',
+        subKey: 'ClaimsProcessAccuracyValue',
         singleCard: this.singleCard,
         graphValues: [],
         units: '%',
         report: true,
-        caption: 'Ease of Medical Prior Auth (excl radiology)',
+        caption: 'Claims processing accuracy',
         color: ['#3381FF', '#E0E0E0'],
         sdata: {
           sign: 'up',

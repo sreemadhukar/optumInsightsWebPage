@@ -52,12 +52,18 @@
 
       <mat-form-field appearance="outline">
         <!-- <mat-label>Search Providers.</mat-label> -->
-        <input matInput placeholder="Enter an organization here." [matAutocomplete]="auto" [formControl]="stateCtrl"
-          (keyup)="check($event.target.value)" />
+        <input
+          matInput
+          placeholder="Enter an organization here."
+          [matAutocomplete]="auto"
+          [formControl]="stateCtrl"
+          (keyup)="check($event.target.value)"
+        />
         <mat-icon matPrefix class="nav-menu-icons provider-icon-color searchicon" svgIcon="search"></mat-icon>
         <mat-autocomplete #auto="matAutocomplete" (optionSelected)="providerSelect($event)">
           <mat-option *ngFor="let state of states" [value]="state.HealthCareOrganizationName">
-            <span>{{ state.HealthCareOrganizationName }}</span></mat-option>
+            <span>{{ state.HealthCareOrganizationName }}</span></mat-option
+          >
           <div *ngIf="noProviders" class="no-result-found-div">
             <div class="no-result-found">No Results Found.</div>
             <div class="no-result-found-text">

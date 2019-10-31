@@ -44,7 +44,7 @@ export class SelectProviderComponent implements OnInit {
   public username: string;
   public checkAdv;
   public checkPro;
-
+  public checkExecutive;
   protected emitter = new EventEmitter<string>();
   public obs: Subscription;
   providersLoaded = false;
@@ -61,6 +61,7 @@ export class SelectProviderComponent implements OnInit {
   ) {
     this.checkAdv = this.sessionService.checkAdvocateRole();
     this.checkPro = this.sessionService.checkProjectRole();
+    this.checkExecutive = this.sessionService.checkExecutiveRole();
     iconRegistry.addSvgIcon(
       'cross',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Content/round-clear-24px.svg')
@@ -176,7 +177,9 @@ export class SelectProviderComponent implements OnInit {
     // Role based access for Advocates Overview page
     if (this.checkAdv.value) {
       window.location.href = '/OverviewPageAdvocate';
-    } else if (this.checkPro.value) {
+    } else if (this.checkPro.value || this.checkExecutive.value) {
+      window.location.href = '/OverviewPage';
+    } else {
       window.location.href = '/OverviewPage';
     }
   }
