@@ -2,7 +2,7 @@ export class NetworkParticipation {
   public singleCard = false;
   public records: any;
   public data = {
-    title: 'Network Participation',
+    title: 'Onboarding',
     chartData: [],
     quarters: []
   };
