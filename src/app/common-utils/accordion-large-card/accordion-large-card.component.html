@@ -24,10 +24,11 @@
                 svgIcon="open"></mat-icon>
               <mat-icon class="bar-graph-block-icon" *ngIf="section[i]" svgIcon="close-bar"></mat-icon> -->
 
-              <span
-                class="mat-expansion-indicator bar-graph-block-icon"
+              <mat-icon
+                class="bar-graph-block-icon"
+                svgIcon="carrot"
                 [@rotatedState]="section[i] ? 'rotated' : 'default'"
-              ></span>
+              ></mat-icon>
             </div>
           </div>
           <div class="bar-graph-inside-right-block" #barsParentBlock>
@@ -61,6 +62,7 @@
 
                           <mat-icon
                             class="bar-graph-block-icon"
+                            svgIcon="carrot"
                             [@rotatedState]="subsection[j] ? 'rotated' : 'default'"
                           ></mat-icon>
                         </div>
