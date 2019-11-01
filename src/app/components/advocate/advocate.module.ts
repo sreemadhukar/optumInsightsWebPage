@@ -21,4 +21,8 @@ import { LargeCardAdvocateComponent } from './large-card-advocate/large-card-adv
   ],
   providers: [TopRowAdvOverviewSharedService, NonPaymentSharedService, OverviewAdvocateSharedService]
 })
-export class AdvocateModule {}
+export class AdvocateModule {
+  constructor() {
+    console.log('Advocate Loaded');
+  }
+}

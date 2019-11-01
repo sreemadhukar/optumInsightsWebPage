@@ -55,6 +55,11 @@
     </div>
 
     <!-- Claims Non - Payment Trend  Starts Here -->
+    <app-error-card
+      *ngIf="!trendMonthDisplay && monthlyLineGraph != null && monthlyLineGraph.status != null"
+      class="cards"
+      [data]="monthlyLineGraph"
+    ></app-error-card>
     <div class="non-payment-trend-block" *ngIf="trendMonthDisplay">
       <app-common-header
         [title]="trendTitle"
@@ -142,10 +147,28 @@
     </div>
     <!-- Claims appeals Trend Ends Here -->
 
-    <app-error-card
-      *ngIf="!trendMonthDisplay && monthlyLineGraph != null && monthlyLineGraph.status != null"
-      class="cards"
-      [data]="monthlyLineGraph"
-    ></app-error-card>
+    <!--Calls Trend Starts Here-->
+    <app-error-card *ngIf="callsLineGraphData" class="cards" [data]="callsLineGraphData"></app-error-card>
+    <!--<app-large-card [skeletonLarge]="callsLineGraphLoading" *ngIf="callsLineGraphLoading"></app-large-card>-->
+    <div class="calls-trend-block" *ngIf="!callsLineGraphData">
+      <app-common-header
+        [title]="trendTitleForCalls"
+        class="full-display bottom-margin-block"
+        (helpIconClicked)="helpIconClick($event)"
+      ></app-common-header>
+      <div class="full-display">
+        <div class="total-calls">
+          {{ totalCalls }}
+          <div class="total-calls-sub-title">Total Calls</div>
+        </div>
+      </div>
+      <app-common-footer
+        [timePeriod]="timePeriod"
+        [linkName]="'Calls Overview'"
+        [routePath]="'/ServiceInteraction/Calls'"
+        class="width-100 time-period-trend"
+      ></app-common-footer>
+    </div>
+    <!-- Calls Trend Ends Here -->
   </div>
 </div>

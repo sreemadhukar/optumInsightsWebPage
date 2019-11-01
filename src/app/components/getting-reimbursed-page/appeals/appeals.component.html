@@ -9,12 +9,14 @@
           <div class="filterchips">
             <div class="horizontal-align">
               <button class="btn btn-rounded" disabled>
-                <span>Time Period: </span><span class="text-semibold pl-4">{{ timePeriod }} </span>
+                <span>Time Period: </span>
+                <span class="text-semibold pl-4">{{ timePeriod }} </span>
               </button>
             </div>
             <div class="horizontal-align" *ngFor="let tax of taxID">
               <button class="btn btn-rounded" disabled>
-                <span>Tax ID: </span><span class="text-semibold pl-4">{{ tax }} </span>
+                <span>Tax ID: </span>
+                <span class="text-semibold pl-4">{{ tax }} </span>
                 <div class="close-btn">
                   <mat-icon class="icon-display" (click)="removeFilter('tax', tax)" svgIcon="close"></mat-icon>
                 </div>
@@ -22,7 +24,8 @@
             </div>
             <div class="horizontal-align" *ngIf="lob">
               <button class="btn btn-rounded" disabled>
-                <span>Line of Business: </span><span class="text-semibold pl-4">{{ lob }} </span>
+                <span>Line of Business: </span>
+                <span class="text-semibold pl-4">{{ lob }} </span>
                 <div class="close-btn">
                   <mat-icon
                     class="icon-display"
@@ -67,10 +70,17 @@
           <app-common-header
             [title]="title"
             class="full-display"
+            [class.one-reason]="reason.length == 1"
+            [class.two-reason]="reason.length == 2"
+            [class.three-reason]="reason.length == 3"
+            [class.four-reason]="reason.length == 4"
+            [class.five-reason]="reason.length >= 5"
             (helpIconClicked)="helpIconClick($event)"
           ></app-common-header>
-          <!--div *ngFor="let r of reason; let i = index"-->
-          <div *ngIf="reason.length >= 1" class="appeals-overturned-bar-chart">
+          <div *ngFor="let r of reason; let i = index" class="appeals-overturned-bar-chart">
+            <app-med-bar-chart [chartOptions]="r"></app-med-bar-chart>
+          </div>
+          <!-- <div *ngIf="reason.length >= 1" class="appeals-overturned-bar-chart">
             <app-med-bar-chart [chartOptions]="reason[0]"></app-med-bar-chart>
           </div>
           <div *ngIf="reason.length >= 2" class="appeals-overturned-bar-chart">
@@ -84,10 +94,10 @@
           </div>
           <div *ngIf="reason.length >= 5" class="appeals-overturned-bar-chart">
             <app-med-bar-chart [chartOptions]="reason[4]"></app-med-bar-chart>
-          </div>
+          </div> -->
           <!--/div-->
           <div class="common-footer">
-            <app-common-footer [timePeriod]="timePeriod"></app-common-footer>
+            <app-common-footer [timePeriod]="timePeriod" [title]="title"></app-common-footer>
           </div>
           <!--app-common-footer [timePeriod]="timePeriod" class="reason-time"></app-common-footer-->
         </div>

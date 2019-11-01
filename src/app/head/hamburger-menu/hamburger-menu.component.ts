@@ -70,6 +70,9 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
   public healthSystemName: string;
   public isKop: boolean;
   disableChangeProvider: boolean = environment.internalAccess;
+  public checkAdv;
+  public checkPro;
+  public checkExecutive;
   /*** Array of Navigation Category List ***/
   public navCategories = [
     { icon: 'home', name: 'Overview', path: '/OverviewPage', disabled: false },
@@ -104,6 +107,12 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
         { name: 'Self Service', path: '/ServiceInteraction/SelfService' },
         { name: 'Calls', path: '/ServiceInteraction/Calls' }
       ]
+    },
+    {
+      icon: 'timeline',
+      name: 'Summary Trends',
+      path: '/AdminSummaryTrends',
+      disabled: true
     }
   ];
   fillerNav = Array.from({ length: 50 }, (_, i) => `Nav Item ${i + 1}`);
@@ -128,7 +137,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     private filterCloseService: FilterCloseService,
     private pcorService: PcorService,
     private location: Location,
-    private sessionService: SessionService,
+    public sessionService: SessionService,
     private eventEmitter: EventEmitterService,
     private acoEventEmitter: AcoEventEmitterService,
     @Inject(DOCUMENT) private document: any
@@ -137,6 +146,13 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     this.filterFlag = false;
     this.bgWhite = false;
     this.showPrintHeader = false;
+    this.fromKOP = false;
+    this.checkAdv = this.sessionService.checkAdvocateRole();
+    this.checkPro = this.sessionService.checkProjectRole();
+    this.checkExecutive = this.sessionService.checkExecutiveRole();
+    if (this.checkAdv.value) {
+      this.navCategories = this.navCategories.filter(item => item.name !== 'Summary Trends');
+    }
     // to disable the header/footer/body when not authenticated
     router.events.subscribe(event => {
       if (event instanceof NavigationStart) {
@@ -167,18 +183,28 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
         this.bgWhite = !(authService.isLoggedIn() && !event.url.includes('print-'));
         this.showPrintHeader = event.url.includes('print-');
         this.loading = true;
-
         // Role based access for Advocates Overview page
-        if (this.sessionService.checkAdvocateRole()) {
+        if (this.checkAdv.value) {
           this.navCategories[0].path = '/OverviewPageAdvocate';
+          if (window.location.pathname === '/OverviewPage') {
+            window.location.href = '/OverviewPageAdvocate';
+          }
         }
         // this.checkPcorData();
         if (this.sessionService.isPCORData()) {
           this.insertPCORnav();
         }
-        const heac = JSON.parse(sessionStorage.getItem('heac'));
-        if (event.url === '/KnowOurProvider' && !heac.heac) {
-          router.navigate(['/ProviderSearch']);
+        // Check condtion for rendering butter bar
+        if (
+          (sessionStorage.getItem('fromKOP') === 'YES' &&
+            !this.makeAbsolute &&
+            event.url !== '/NationalExecutive' &&
+            this.checkPro.value) ||
+          this.checkExecutive.value
+        ) {
+          this.fromKOP = true;
+        } else {
+          this.fromKOP = false;
         }
       }
       // PLEASE DON'T MODIFY THIS
@@ -216,6 +242,10 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     iconRegistry.addSvgIcon(
       'search',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-search-24px.svg')
+    );
+    iconRegistry.addSvgIcon(
+      'timeline',
+      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/timeline-24px.svg')
     );
   }
 
@@ -292,12 +322,6 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     setTimeout(() => {
       this.healthSystemName = this.sessionService.getHealthCareOrgName();
     }, 1);
-
-    // Show butter bar to navigate back to KOP
-    this.fromKOP = sessionStorage.getItem('fromKOP') === 'YES';
-
-    // Remove to render again
-    sessionStorage.removeItem('fromKOP');
   }
 
   advocateRole() {
@@ -316,6 +340,9 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
       });
     }
   }
+  checkToggle(bool: boolean) {
+    return bool ? this.sessionService.checkTrendAccess() && environment.internalAccess : !bool;
+  }
   checkPcorData() {
     const parametersExecutive = [this.sessionService.providerKeyData(), true];
     this.pcorService.getExecutiveData(...parametersExecutive).subscribe(
@@ -329,9 +356,9 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
             );
             if (this.router.url.includes('CareDelivery/PatientCareOpportunity')) {
               // Role based access for Advocates Overview page
-              if (this.sessionService.checkAdvocateRole()) {
+              if (this.checkAdv.value) {
                 this.router.navigate(['/OverviewPageAdvocate']);
-              } else {
+              } else if (this.checkPro.value) {
                 this.router.navigate(['/OverviewPage']);
               }
             }
@@ -460,7 +487,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
   navigateToKOP() {
     sessionStorage.removeItem('fromKOP');
     this.fromKOP = false;
-    window.location.href = '/KnowOurProvider';
+    this.router.navigate(['/NationalExecutive']);
   }
 
   /**
@@ -475,7 +502,6 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
       valueSelected: () => {
         // Setting Value redirect, remind flag to local storage
         sessionStorage.setItem('fromKOP', 'YES');
-
         // Reloading targeted route, for resetting the css
         window.location.href = '/OverviewPage';
       },

@@ -91,12 +91,22 @@ export class AppealsComponent implements OnInit {
         this.reasonDataAvailable = true;
       }
       this.overturnItem = AppealsCards;
-      if (appealsRateData[3].length !== 0) {
+      /* if (appealsRateData[3].length !== 0) {
         this.reason = appealsRateData[3];
-      }
+      }*/
     });
 
-    this.appealsTAT = {
+    this.appealsSharedService.getAppealsReasonData().then(appealsReasonData => {
+      this.reasonDataAvailable = true;
+      this.reason = appealsReasonData;
+    });
+
+    this.appealsSharedService.getappealsTatandDevidedOverturnData().then(appealsRateData => {
+      this.appealsTAT = appealsRateData;
+      this.showAppealsTAT = true;
+    });
+
+    /*this.appealsTAT = {
       category: 'app-card',
       type: 'rotateWithLabel',
       title: 'Average Appeals Turn Around Time',
@@ -123,7 +133,7 @@ export class AppealsComponent implements OnInit {
         ]
       },
       timeperiod: this.session.filterObjValue.timeFrame
-    };
+    };*/
   }
 
   helpIconClick(title) {

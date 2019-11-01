@@ -86,12 +86,14 @@ export class CallsSharedService {
           return this.sharedCallsTrend();
         })
         .then(data => {
-          const trendsData = JSON.parse(JSON.stringify(data));
-          if (trendsData[0][0] === 'QuestionType') {
-            this.callsData[0].data['sdata'] = trendsData[0][1];
-          }
-          if (trendsData[1][0] === 'TalkTime') {
-            this.callsData[1].data['sdata'] = trendsData[1][1];
+          if (data) {
+            const trendsData = JSON.parse(JSON.stringify(data));
+            if (trendsData[0][0] === 'QuestionType') {
+              this.callsData[0].data['sdata'] = trendsData[0][1];
+            }
+            if (trendsData[1][0] === 'TalkTime') {
+              this.callsData[1].data['sdata'] = trendsData[1][1];
+            }
           }
           resolve(this.callsData);
         });
@@ -105,26 +107,28 @@ export class CallsSharedService {
       this.providerKey = this.session.providerKeyData();
       this.trendsService.getTrendingMetrics([this.providerKey]).subscribe(
         trends => {
-          const trendData: any = [];
-          const trendMetrics = (trends || {}).TendingMtrics;
-          if (trendMetrics) {
-            try {
-              // trendData.push(['QuestionType', this.common.negativeMeansGood(trendMetrics.CallsTrendByQuesType)]);
-              trendData.push(['QuestionType', null]);
-            } catch (err) {
-              trendData.push(['QuestionType', null]);
+          if (trends) {
+            const trendData: any = [];
+            const trendMetrics = (trends || {}).TendingMtrics;
+            if (trendMetrics) {
+              try {
+                trendData.push(['QuestionType', null]);
+                // trendData.push(['QuestionType', this.common.negativeMeansGood(trendMetrics.CallsTrendByQuesType)]);
+              } catch (err) {
+                trendData.push(['QuestionType', null]);
+              }
+              try {
+                trendData.push(['TalkTime', null]);
+                // trendData.push(['TalkTime', this.common.negativeMeansGood(trendMetrics.CcllTalkTimeByQuesType)]);
+              } catch (err) {
+                trendData.push(['TalkTime', null]);
+              }
             }
-            try {
-              trendData.push(['TalkTime', null]);
-              // trendData.push(['TalkTime', this.common.negativeMeansGood(trendMetrics.CcllTalkTimeByQuesType)]);
-            } catch (err) {
-              trendData.push(['TalkTime', null]);
-            }
+            resolve(trendData);
           } else {
-            trendData.push(['QuestionType', null]);
-            trendData.push(['TalkTime', null]);
+            const temp = null;
+            resolve(temp);
           }
-          resolve(trendData);
         },
         error => {
           console.log('Trend data', error);
@@ -144,12 +148,19 @@ export class CallsSharedService {
             const totalCalls = (providerSystems || {}).CallVolByQuesType;
             if (totalCalls) {
               try {
+                const callsCounts = [
+                  totalCalls.BenefitsEligibility,
+                  totalCalls.Claims,
+                  totalCalls.PriorAuth,
+                  totalCalls.Others
+                ];
+                const callsLabels = ['Eligibility and Benefits', 'Claims', 'Prior Authorizations', 'Others'];
                 callsByCallType = this.issueResolution(
                   null,
                   'Calls By Call Type',
                   '303',
                   {
-                    graphValueName: ['Eligibilty and Benefits', 'Claims', 'Prior Authorizations', 'Others'],
+                    graphValueName: ['Eligibility and Benefits', 'Claims', 'Prior Authorizations', 'Others'],
                     graphValues: [
                       totalCalls.BenefitsEligibility,
                       totalCalls.Claims,
@@ -162,14 +173,14 @@ export class CallsSharedService {
                         : this.common.nondecimalFormatter(totalCalls.Total),
                     color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'],
                     gdata: ['card-inner', 'callsByCallType'],
-                    labels: ['Eligibilty and Benefits', 'Claims', 'Prior Authorizations', 'Others'],
+                    labels: ['Eligibility and Benefits', 'Claims', 'Prior Authorizations', 'Others'],
                     hover: true
                     // sdata: this.sdataTrend[0]
                   },
                   this.toggle.setToggles('Calls by Call Type', 'Calls', 'Service Interaction', false),
                   {
-                    labels: ['Eligibilty and Benefits', 'Claims', 'Prior Authorizations', 'Others'],
-                    color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC']
+                    labels: this.common.sideLabelWords(callsCounts, callsLabels),
+                    color: this.common.sideLabelColor(callsCounts)
                   },
                   this.timeFrame
                 );
@@ -184,12 +195,19 @@ export class CallsSharedService {
             const totalTalkTime = (providerSystems || {}).CallTalkTimeByQuesType;
             if (totalTalkTime) {
               try {
+                const talkTimeCounts = [
+                  totalTalkTime.BenefitsEligibility,
+                  totalTalkTime.Claims,
+                  totalTalkTime.PriorAuth,
+                  totalTalkTime.Others
+                ];
+                const talkTimeLabels = ['Eligibility and Benefits', 'Claims', 'Prior Authorizations', 'Others'];
                 talkTimeByCallType = this.issueResolution(
                   null,
                   'Talk Time By Call Type',
                   '304',
                   {
-                    graphValueName: ['Eligibilty and Benefits', 'Claims', 'Prior Authorizations', 'Others'],
+                    graphValueName: ['Eligibility and Benefits', 'Claims', 'Prior Authorizations', 'Others'],
                     graphValues: [
                       totalTalkTime.BenefitsEligibility,
                       totalTalkTime.Claims,
@@ -202,14 +220,14 @@ export class CallsSharedService {
                         : this.common.nondecimalFormatter(totalTalkTime.Total) + ' Hrs',
                     color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'],
                     gdata: ['card-inner', 'talkTimeByCallType'],
-                    labels: ['Eligibilty and Benefits', 'Claims', 'Prior Authorizations', 'Others'],
+                    labels: ['Eligibility and Benefits', 'Claims', 'Prior Authorizations', 'Others'],
                     hover: true
                     // sdata: this.sdataTrend[1]
                   },
                   this.toggle.setToggles('Talk Time By Call Type', 'Calls', 'Service Interaction', false),
                   {
-                    labels: ['Eligibilty and Benefits', 'Claims', 'Prior Authorizations', 'Others'],
-                    color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC']
+                    labels: this.common.sideLabelWords(talkTimeCounts, talkTimeLabels),
+                    color: this.common.sideLabelColor(talkTimeCounts)
                   },
                   this.timeFrame
                 );
