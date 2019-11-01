@@ -4,6 +4,7 @@ import { GettingReimbursedModule } from '../../../components/getting-reimbursed-
 import { GettingReimbursedService } from '../../../rest/getting-reimbursed/getting-reimbursed.service';
 import { CommonUtilsService } from '../../common-utils.service';
 import { SessionService } from '../../session.service';
+import { environment } from '../../../../environments/environment';
 
 @Injectable({
   providedIn: GettingReimbursedModule
@@ -520,10 +521,12 @@ export class PaymentsSharedService {
               claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('ClaimsYieldRate') &&
               claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('ClaimsNonPaymentRate')
             ) {
+              // used toggle: true as toggle functionality is not built properly : srikar bobbiganipalli
               claimsPaidRate = {
                 category: 'app-card',
                 type: 'donut',
                 title: 'Claims Yield',
+                toggle: !environment.internalAccess,
                 data: {
                   graphValues: [
                     claimsData[lobData].ClaimsLobSummary[0].ClaimsYieldRate,
