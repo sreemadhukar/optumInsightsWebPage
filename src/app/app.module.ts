@@ -21,7 +21,7 @@ import { KOPSharedService } from './shared/kop/kop.service';
 import { KopService } from './rest/kop/kop.service';
 import { UserIdleModule } from 'angular-user-idle';
 import { IdleTimeoutDialogComponent } from './auth/idle-timeout-dialog/idle-timeout-dialog.component';
-import { RavenErrorHandler } from './components/error-handler/error-handler';
+// import { RavenErrorHandler } from './components/error-handler/error-handler';
 
 @NgModule({
   declarations: [AppComponent],
@@ -49,8 +49,8 @@ import { RavenErrorHandler } from './components/error-handler/error-handler';
     KopService,
     KOPSharedService,
     { provide: HTTP_INTERCEPTORS, useClass: HttpInterceptorService, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: CacheInterceptor, multi: true },
-    { provide: ErrorHandler, useClass: RavenErrorHandler }
+    { provide: HTTP_INTERCEPTORS, useClass: CacheInterceptor, multi: true }
+    // { provide: ErrorHandler, useClass: RavenErrorHandler }
   ],
   entryComponents: [IdleTimeoutDialogComponent],
   bootstrap: [AppComponent]
