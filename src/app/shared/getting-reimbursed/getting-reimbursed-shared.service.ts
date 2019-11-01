@@ -765,7 +765,7 @@ export class GettingReimbursedSharedService {
             id: 1,
             title: 'Claims Submissions*',
             MetricID: this.MetricidService.MetricIDs.ClaimsSubmissions,
-            data: [claimsSubmitted, claimsTAT]
+            data: [claimsSubmitted] /*, claimsTAT]*/
           };
           payments = {
             id: 2,
@@ -981,28 +981,9 @@ export class GettingReimbursedSharedService {
                 type: 'rotateWithLabel',
                 title: 'Average Claims Turn Around Time',
                 MetricID: this.MetricidService.MetricIDs.ClaimsAverageTurnaroundTimetoPayment,
-                status: null,
-                data: {
-                  centerNumber: claimsData[lobData].ClaimsLobSummary[0].ClaimsAvgTat + ' days', //  0 + ' days',
-                  color: ['#3381FF', '#3381FF'],
-                  gdata: ['card-inner', 'claimsAverageTurnAround'],
-                  sdata: {
-                    sign: 'down',
-                    data: '-1.2%'
-                  }
-                },
-                besideData: {
-                  verticalData: [
-                    {
-                      values: claimsData[lobData].ClaimsLobSummary[0].DosToReceived + ' Days', //  0 + ' Days',
-                      labels: 'Date of Service to Received'
-                    },
-                    {
-                      values: claimsData[lobData].ClaimsLobSummary[0].ReceivedToPaid + ' Days', // 0 + ' Days',
-                      labels: 'Received to Processed'
-                    }
-                  ]
-                },
+                status: 404,
+                data: null,
+                besideData: null,
                 timeperiod: this.timeFrame
               };
             }
@@ -1443,7 +1424,7 @@ export class GettingReimbursedSharedService {
             id: 1,
             title: 'Claims Submissions*',
             MetricID: this.MetricidService.MetricIDs.ClaimsSubmissions,
-            data: [claimsSubmitted, claimsTAT]
+            data: [claimsSubmitted] /*, claimsTAT]*/
           };
           payments = {
             id: 2,
@@ -2003,7 +1984,7 @@ export class GettingReimbursedSharedService {
   public createAppealsDonuts(appealsData, lobFullData) {
     let appealsSubmitted = {};
     let appealsOverturned = {};
-    if (appealsData != null && appealsData.hasOwnProperty('status')) {
+    if (appealsData && appealsData.hasOwnProperty('status')) {
       appealsSubmitted = {
         category: 'app-card',
         type: 'donutWithLabelBottom',
@@ -2024,7 +2005,7 @@ export class GettingReimbursedSharedService {
         data: null,
         timeperiod: null
       };
-    } else if (appealsData.length > 0 && appealsData[0] != null) {
+    } else if (appealsData && appealsData[0] != null) {
       if (
         appealsData[0].hasOwnProperty('LineOfBusiness') &&
         appealsData[0].LineOfBusiness !== null &&
