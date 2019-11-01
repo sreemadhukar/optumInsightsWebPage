@@ -4,6 +4,7 @@ import { GettingReimbursedModule } from '../../../components/getting-reimbursed-
 import { GettingReimbursedService } from '../../../rest/getting-reimbursed/getting-reimbursed.service';
 import { CommonUtilsService } from '../../common-utils.service';
 import { SessionService } from '../../session.service';
+import { environment } from '../../../../environments/environment';
 
 @Injectable({
   providedIn: GettingReimbursedModule
@@ -518,7 +519,8 @@ export class PaymentsSharedService {
               claimsData[lobData].hasOwnProperty('ClaimsLobSummary') &&
               claimsData[lobData].ClaimsLobSummary.length &&
               claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('ClaimsYieldRate') &&
-              claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('ClaimsNonPaymentRate')
+              claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('ClaimsNonPaymentRate') &&
+              claimsData[lobData].ClaimsLobSummary[0].ClaimsYieldRate.toFixed() !== 0
             ) {
               claimsPaidRate = {
                 category: 'app-card',
@@ -558,7 +560,9 @@ export class PaymentsSharedService {
           //  const payments = { id: 1, title: 'Claims Payments', data: [claimsPaid, claimsPaidRate] };
           /*, claimsPaidRate] }; commented to supress claims yield card*/
           summaryData[0] = claimsPaid;
-          //  summaryData[1] = claimsPaidRate; /*To Supress claims yield card*/
+          if (environment.claimsYieldAccess) {
+            summaryData[1] = claimsPaidRate;
+          }
 
           if (summaryData.length) {
             resolve(summaryData);
