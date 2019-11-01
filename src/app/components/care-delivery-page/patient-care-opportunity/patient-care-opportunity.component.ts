@@ -12,6 +12,7 @@ export class PatientCareOpportunityComponent implements OnInit {
   pcorData: any;
   qualityMeasureData: any;
   pageTitle: String = '';
+  pageSubTitle: String = '';
   loading: boolean;
   pcorBoolean: boolean;
   pcorLoading: boolean;
@@ -45,6 +46,7 @@ export class PatientCareOpportunityComponent implements OnInit {
   }
   ngOnInit() {
     this.pageTitle = 'Patient Care Opportunity–Medicare & Retirement';
+    this.pageSubTitle = 'Health System Summary';
     this.loading = true;
     this.hideAllObjects = true;
     this.mockCards = [{}, {}];
@@ -87,10 +89,12 @@ export class PatientCareOpportunityComponent implements OnInit {
       .getQualityMeasureData()
       .then(data => {
         const qdata = JSON.parse(JSON.stringify(data));
+
         if (qdata.length) {
           this.loading = false;
           this.qualityMeasureData = qdata[0];
         }
+        console.log('qdata' + qdata[0]);
       })
       .catch(error => {
         console.log('PCOR quality star', error);

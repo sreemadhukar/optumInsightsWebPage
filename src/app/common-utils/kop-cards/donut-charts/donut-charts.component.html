@@ -1,3 +1,11 @@
-<div class="widget">
-  <div class="full-display" id="{{ 'miniDonut' + quarter.id }}"></div>
-</div>
+<div *ngIf="quarter.title != null; then donutChart; else errorCard"></div>
+
+<ng-template #donutChart>
+  <div class="widget">
+    <div class="full-display" id="{{ 'miniDonut' + quarter.section + quarter.id }}"></div>
+  </div>
+</ng-template>
+
+<ng-template #errorCard>
+  <app-error-template></app-error-template>
+</ng-template>

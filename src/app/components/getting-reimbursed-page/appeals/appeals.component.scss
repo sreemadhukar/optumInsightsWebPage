@@ -133,7 +133,22 @@
 .full-display {
   float: left;
   width: 100%;
-  padding-bottom: 20px; // centre aligned to card
+}
+
+.one-reason {
+  padding-bottom: 132.5px;
+}
+.two-reason {
+  padding-bottom: 107.5px;
+}
+.three-reason {
+  padding-bottom: 82.5px;
+}
+.four-reason {
+  padding-bottom: 57.5px;
+}
+.five-reason {
+  padding-bottom: 32.5px;
 }
 
 .appeals-cards-block {

@@ -43,8 +43,9 @@
     <div *ngFor="let data of mockCards; let i = index">
       <app-card class="cards" [skeleton]="loading" *ngIf="loading"> </app-card>
     </div>
+    <!--used item.toggle for temporary card removal, as toggle functionality is not built properly : srikar bobbiganipalli-->
     <div *ngFor="let item of payments">
-      <app-card *ngIf="item.data != null" class="cards" [chartData]="item"> </app-card>
+      <app-card *ngIf="item.data != null && !item.toggle" class="cards" [chartData]="item"> </app-card>
       <app-error-card *ngIf="item.status != null" class="cards" [data]="item"></app-error-card>
     </div>
 
@@ -63,7 +64,7 @@
       <app-claims-paid-bar-graph [chartOptions]="cData[0]"></app-claims-paid-bar-graph>
 
       <div class="timeperiod-block">
-        <app-common-footer [timePeriod]="timePeriod"></app-common-footer>
+        <app-common-footer [timePeriod]="timePeriod" [title]="title"></app-common-footer>
       </div>
     </div>
     <!--Claims Paid Breakdown Graph Ends here -->

@@ -20,6 +20,7 @@ var apiForwardingUrl = 'https://pedapigateway2-pedprddr.ocp-ctc-dmz.optum.com';
 var sessionSecret = '7dX03633CEuFJaf25ot5HlSPOZYQ6E9Y';
 var key = 'PvU8koWDqgbqZNin5aBj00RtRHWze7pC';
 var heac = require('./src/assets/mock-data/heac.json');
+var trendAccess = require('./src/assets/mock-data/trendAccess.json');
 
 app.all('/uhci/prd2/*', function(req, res) {
   apiProxy.web(req, res, { target: apiForwardingUrl, changeOrigin: true, secure: false }, function(e) {
@@ -30,17 +31,6 @@ app.all('/uhci/prd2/*', function(req, res) {
 app.use((error, req, res, next) => {
   handleExceptions(error, res);
 });
-
-var whitelist = ['*.optum.com', '*.uhc.com'];
-var corsOptions = {
-  origin: function(origin, callback) {
-    if (whitelist.indexOf(origin) !== -1) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  }
-};
 
 app.get('/api/getJwt', function(req, res) {
   let token = jwt.sign(
@@ -58,6 +48,12 @@ app.get('/api/getJwt', function(req, res) {
 app.get('/api/getHeac/:MsId', function(req, res) {
   res.status(200).json({
     heac: include(heac.user, req.params.MsId)
+  });
+});
+
+app.get('/api/getTrendAccess/:MsId', cors(), function(req, res) {
+  res.status(200).json({
+    trendAccess: include(trendAccess.user, req.params.MsId)
   });
 });
 

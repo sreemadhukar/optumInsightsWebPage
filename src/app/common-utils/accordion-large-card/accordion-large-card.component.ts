@@ -1,3 +1,4 @@
+import { filter } from 'rxjs/operators';
 import { Component, OnInit, Input, Output, ElementRef, Renderer2, EventEmitter } from '@angular/core';
 import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -15,6 +16,7 @@ export class AccordionLargeCardComponent implements OnInit {
   @Input() skeletonLarge;
   section: any = [];
   subsection: any = [];
+  measureName: any = [];
   hideplus: boolean;
 
   @Output() ratingClick: EventEmitter<any> = new EventEmitter<any>();
@@ -95,7 +97,6 @@ export class AccordionLargeCardComponent implements OnInit {
         this.section[i] = false;
       }
     }
-
     const check = 5 - x;
     if (check === this.qualityMeasure[x].star) {
       this.qualityStarCount = this.qualityMeasure[x].star;
@@ -126,7 +127,6 @@ export class AccordionLargeCardComponent implements OnInit {
         this.subsection[i] = false;
       }
     }
-
     this.compliantMemberCount = this.qualityPcorData[x].CompliantMemberCount;
     this.eligibleMemberCount = this.qualityPcorData[x].EligibleMemberCount;
     this.currentRateCalc = this.common.nFormatter(
