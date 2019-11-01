@@ -38,7 +38,7 @@ pipeline {
             }
         }**/
 
-        stage('Web: Build and Deploy Docker Image to DTR') {
+       /** stage('Web: Build and Deploy Docker Image to DTR') {
             agent {
                 label 'docker-nodejs-slave'
             }
@@ -57,7 +57,7 @@ pipeline {
                      dockerHost: 'docker.repo1.uhc.com'
                      
             }
-        }
+        }**/
 
         stage('OSE Deployment Web Prod') {
         agent {
