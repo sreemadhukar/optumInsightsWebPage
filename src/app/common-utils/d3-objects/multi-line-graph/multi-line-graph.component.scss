@@ -139,6 +139,7 @@
   border-left: 10px solid $white;
   border-bottom: 10px solid transparent;
 }
+
 .tooltipClassLeft {
   position: absolute;
   width: auto;
@@ -159,7 +160,8 @@
   font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
   line-height: 18px;
   padding-bottom: 5px;
-  color: $black-rock;
+  color: $strom-grey;
+  display: inline-block;
 }
 .details-label {
   color: $strom-grey;
@@ -205,4 +207,36 @@
 
 .displayNone {
   display: none;
+}
+
+.mr-img {
+  box-sizing: border-box;
+  height: 1px;
+  width: 30px;
+  border: 2px solid #3381ff;
+  display: inline-block;
+}
+
+.cs-img {
+  box-sizing: border-box;
+  height: 1px;
+  width: 30px;
+  border: 2px dotted #66aeff;
+  display: inline-block;
+}
+
+.ei-img {
+  box-sizing: border-box;
+  height: 1px;
+  width: 30px;
+  border: 1.2px solid #0034ae;
+  display: inline-block;
+}
+
+.other-img {
+  box-sizing: border-box;
+  height: 1px;
+  width: 30px;
+  border: 2px dashed #00b8cc;
+  display: inline-block;
 }

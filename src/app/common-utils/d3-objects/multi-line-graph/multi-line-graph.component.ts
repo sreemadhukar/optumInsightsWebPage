@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewEncapsulation, Input } from '@angular/core';
 import * as d3 from 'd3';
+import { forEach } from '@angular/router/src/utils/collection';
 
 @Component({
   selector: 'app-multi-line-graph',
@@ -20,6 +21,11 @@ export class MultiLineGraphComponent implements OnInit {
   public temp: any;
   public selectYear;
   public count = 1;
+  public monthlyData = [];
+  public y1;
+  public y2;
+  public y3;
+  public y4;
 
   @Input() yearComparison;
   @Input() chartOptions: any = {};
@@ -208,12 +214,22 @@ export class MultiLineGraphComponent implements OnInit {
       }
     } // ends formatDynamicAbbrevia function
 
-    function tooltipText(d) {
+    function tooltipText(y1, y2, y3, y4) {
       return (
         "<div class='lineLabelHover'>" +
-        " &nbsp;&nbsp;&nbsp;&nbsp; M&R &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div><div class='details-label'>" +
-        ' &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp' +
-        formatDy(d.y)
+        '<p><div class="mr-img"></div> M&R : ' +
+        y1 +
+        '</p>' +
+        '<p><div class="cs-img"></div> C&S : ' +
+        y2 +
+        '</p>' +
+        '<p><div class="ei-img"></div> E&I : ' +
+        y3 +
+        '</p>' +
+        '<p><div class="other-img"></div> Other : ' +
+        y4 +
+        '</p>' +
+        '</div>'
       );
     }
     // function tooltipText2(d, year, prefix) {
@@ -512,28 +528,45 @@ export class MultiLineGraphComponent implements OnInit {
             .duration(200)
             .style('opacity', 1);
         });
+
         tooltipVar
           .transition()
           .duration(200)
           .style('opacity', 1);
         const topMar = yScale(d.y) + 39 + 'px';
-        if (d3.event.layerX + 213 < width + margin.left + margin.right) {
-          tooltipVar
-            .html(tooltipText(d))
-            .classed('hidden', false)
-            .classed('tooltipClass', true)
-            .classed('tooltipClassLeft', false)
-            .style('left', d.xCoordinate + 260 + 'px')
-            .style('top', topMar);
-        } else {
-          tooltipVar
-            .html(tooltipText(d))
-            .classed('hidden', false)
-            .classed('tooltipClass', false)
-            .classed('tooltipClassLeft', true)
-            .style('left', d.xCoordinate + 20 + shiftTooltip + 'px')
-            .style('top', topMar);
-        }
+        console.log('data', data);
+        console.log('data1', data1);
+        console.log('data2', data2);
+        this.monthlyData = [data, data1, data2, data3];
+        console.log(this.monthlyData);
+        this.monthlyData.forEach(element => {
+          element.forEach(ele => {
+            // (ele.x === element[0].x === element[1].x === element[2].x === element[3].x) { // logic has to be added
+            if (ele.x === 'May ') {
+              this.y1 = element[0].y;
+              this.y2 = element[1].y;
+              this.y3 = element[2].y;
+              this.y4 = element[3].y;
+              if (d3.event.layerX + 213 < width + margin.left + margin.right) {
+                tooltipVar
+                  .html(tooltipText(this.y1, this.y2, this.y3, this.y4))
+                  .classed('hidden', false)
+                  .classed('tooltipClass', true)
+                  .classed('tooltipClassLeft', false)
+                  .style('left', d.xCoordinate + 310 + 'px')
+                  .style('top', topMar);
+              } else {
+                tooltipVar
+                  .html(tooltipText(this.y1, this.y2, this.y3, this.y4))
+                  .classed('hidden', false)
+                  .classed('tooltipClass', false)
+                  .classed('tooltipClassLeft', true)
+                  .style('left', d.xCoordinate + 5 + shiftTooltip + 'px')
+                  .style('top', topMar);
+              }
+            }
+          });
+        });
       })
       .on('mouseout', function(d) {
         const RectBarId = 'rect-id-' + d.x.replace(/\s/g, ''),
