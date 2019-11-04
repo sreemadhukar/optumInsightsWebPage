@@ -8,7 +8,7 @@
 @import '~src/scss/buttons';
 
 .example-container {
-  background-color: #f1f4f7;
+  position: relative;
   flex-direction: column;
   display: -webkit-flex;
   display: -ms-flexbox;
