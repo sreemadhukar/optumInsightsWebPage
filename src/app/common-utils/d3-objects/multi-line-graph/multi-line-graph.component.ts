@@ -534,9 +534,6 @@ export class MultiLineGraphComponent implements OnInit {
           .duration(200)
           .style('opacity', 1);
         const topMar = yScale(d.y) + 39 + 'px';
-        console.log('data', data);
-        console.log('data1', data1);
-        console.log('data2', data2);
         this.monthlyData = [data, data1, data2, data3];
         console.log(this.monthlyData);
         this.monthlyData.forEach(element => {

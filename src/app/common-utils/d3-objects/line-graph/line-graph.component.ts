@@ -452,8 +452,6 @@ export class LineGraphComponent implements OnInit {
       .attr('y', 0)
       .on('mouseover', d => {
         const RectBar = chart.selectAll('#rect-id-' + d.x);
-        console.log('RectBar for line-graph', RectBar);
-        // console.log('line-graph--------->' , chart);
         RectBar.transition()
           .duration(200)
           .style('opacity', 1)
