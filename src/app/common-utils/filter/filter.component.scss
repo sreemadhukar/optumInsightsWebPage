@@ -36,6 +36,9 @@
 ::ng-deep .mat-radio-outer-circle {
   border-color: #b3babc;
 }
+::ng-deep .mat-drawer-backdrop.mat-drawer-shown {
+  background: rgba(45, 45, 57, 0.5);
+}
 .titleData {
   width: 354px;
   display: inline-block;

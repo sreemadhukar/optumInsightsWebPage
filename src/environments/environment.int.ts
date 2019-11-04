@@ -20,7 +20,8 @@ export const environment: any = {
       'type=code&redirect_uri=https://pedui1-pedtst.ocp-ctc-core-nonprod.optum.com/login&scope=openid+profile+email&state=PED&prompt=none',
     linkLoginPage: 'https://provider-stage.linkhealth.com',
     SsoLogoutUrl:
-      'https://provider-stage.linkhealth.com/api/link/session/signout&redirect=https://provider-stage.linkhealth.com',
+      'https://api-stage.linkhealth.com/session/signout?redirect=https://provider-stage.linkhealth.com/' +
+      'content/odin/en/provider-dashboard/public/signout.html?logOut=true',
     ProvTinList: 'provider-tins/',
     LayerSevenPath: 'myinsightLayerSevenHandshake',
     URL: window.location.origin,
@@ -65,6 +66,7 @@ export const environment: any = {
   errorMessage: 'empty',
   clickStreamUrl: '//assets.adobedtm.com/launch-ENacdc6d1acf734bcd95703e446bd1de1d-development.min.js',
   internalAccess: true,
+  claimsYieldAccess: true,
   toggleTrendingSummary: false,
   sentryKey: 'https://8c2bdbcdd5444e6ca1255f7c999b84fe@sentry-ped-internal.ocp-ctc-core.optum.com/3'
 };
