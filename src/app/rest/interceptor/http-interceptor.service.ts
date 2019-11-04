@@ -16,9 +16,9 @@ export class HttpInterceptorService implements HttpInterceptor {
   constructor(public http: HttpClient) {
     this.emitter.pipe().subscribe(text => (this.refreshtoken = text));
   }
- 
- intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-	 const currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
+
+  intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    const currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
     if (currentUser && request.url.indexOf(environment.originUrl + 'api/getHeac') === -1) {
       const token =
         !environment.internalAccess && environment.production
@@ -31,10 +31,9 @@ export class HttpInterceptorService implements HttpInterceptor {
         });
       }
     }
-	
-	request = request.clone({ headers: request.headers.set('Accept', '*/*') });
+    request = request.clone({ headers: request.headers.set('Accept', '*/*') });
     return next.handle(request);
- }
+  }
 
   private getRequestWithAuthentication(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
@@ -50,7 +49,7 @@ export class HttpInterceptorService implements HttpInterceptor {
         });
       }
     }
-      request = request.clone({ headers: request.headers.set('Accept', '*/*') });
+    request = request.clone({ headers: request.headers.set('Accept', '*/*') });
     return next.handle(request);
   }
 
@@ -63,8 +62,6 @@ export class HttpInterceptorService implements HttpInterceptor {
           ? currentUser[0].AccessToken
           : currentUser[0].PedAccessToken;
     }
-
-  
     if (token) {
       const date = this.getTokenExpirationDate(token);
       if (date === undefined || date === null) {
