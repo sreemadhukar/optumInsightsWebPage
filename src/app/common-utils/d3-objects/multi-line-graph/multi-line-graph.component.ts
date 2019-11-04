@@ -23,6 +23,7 @@ export class MultiLineGraphComponent implements OnInit {
   public count = 1;
   public monthlyData = [];
   public monthValue;
+  public yCoordinates: any = [];
   public y1;
   public y2;
   public y3;
@@ -216,49 +217,14 @@ export class MultiLineGraphComponent implements OnInit {
     } // ends formatDynamicAbbrevia function
 
     function tooltipText(monthValue, y1, y2, y3, y4) {
-      return (
-        "<div class='lineLabelHover'>" +
-        '<p class="month-value">' +
-        monthValue +
-        '</p>' +
-        '<p><div class="tooltip-mr-img"></div> M&R : ' +
-        y1 +
-        '</p>' +
-        '<p><div class="tooltip-cs-img"></div> C&S : ' +
-        y2 +
-        '</p>' +
-        '<p><div class="tooltip-ei-img"></div> E&I : ' +
-        y3 +
-        '</p>' +
-        '<p><div class="tooltip-other-img"></div> Other : ' +
-        y4 +
-        '</p>' +
-        '</div>'
-      );
+      return `<div class="lineLabelHover">
+          ${monthValue ? `<p class="month-value">${monthValue}</p>` : ''}
+          ${y1 ? `<p><div class="tooltip-mr-img"></div> M&R : ${y1}</p>` : ''}
+          ${y2 ? `<p><div class="tooltip-cs-img"></div> C&S : ${y2}</p>` : ''}
+          ${y3 ? `<p><div class="tooltip-ei-img"></div> E&I : ${y3}</p>` : ''}
+          ${y4 ? `<p><div class="tooltip-other-img"></div> Other : ${y4}</p>` : ''}
+        </div>`;
     }
-    // function tooltipText2(d, year, prefix) {
-    //   return (
-    //     "<div class='lineLabelHover'>" +
-    //     d.x +
-    //     // tslint:disable-next-line:max-line-length
-    //     "&nbsp; Trend Details</div><hr class='hr_cust_margin'><div class='details-label'>
-    //     <span class='circle_label_sm circle1'></span>&nbsp;&nbsp;&nbsp;" +
-    //     d.x +
-    //     '&nbsp;&nbsp;' +
-    //     year[0] +
-    //     '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' +
-    //     prefix +
-    //     formatDy(d.y_lastYear) +
-    //     "<hr class='hr_cust_margin hr_opacity'><span class='circle_label_sm circle2'></span>&nbsp;&nbsp;&nbsp;" +
-    //     d.x +
-    //     '&nbsp;&nbsp;' +
-    //     year[1] +
-    //     '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' +
-    //     prefix +
-    //     formatDy(d.y) +
-    //     '%</div></div>'
-    //   );
-    // }
 
     const preWidth = 621; // document.getElementById(generalData.parentDiv).clientWidth;
 
@@ -395,7 +361,6 @@ export class MultiLineGraphComponent implements OnInit {
       .style('fill', '#2D2D39');
 
     const text_element1 = chart.select('#forlolCalculations');
-    console.log('text_element1', text_element1);
     // tslint:disable-next-line:no-var-keyword
     var textWidth1 = text_element1.node().getComputedTextLength();
 
@@ -538,31 +503,68 @@ export class MultiLineGraphComponent implements OnInit {
           .duration(200)
           .style('opacity', 1);
         const topMar = yScale(d.y) + 39 + 'px';
-        this.monthlyData = [data, data1, data2, data3];
-        this.monthlyData.forEach(element => {
-          this.monthValue = d.x;
-          this.y1 = element[0].y;
-          this.y2 = element[1].y;
-          this.y3 = element[2].y;
-          this.y4 = element[3].y;
-          if (d3.event.layerX + 213 < width + margin.left + margin.right) {
-            tooltipVar
-              .html(tooltipText(this.monthValue, this.y1, this.y2, this.y3, this.y4))
-              .classed('hidden', false)
-              .classed('tooltip-class', true)
-              .classed('tooltip-class-left', false)
-              .style('left', d.xCoordinate + 265 + 'px')
-              .style('top', topMar);
-          } else {
-            tooltipVar
-              .html(tooltipText(this.monthValue, this.y1, this.y2, this.y3, this.y4))
-              .classed('hidden', false)
-              .classed('tooltip-class', false)
-              .classed('tooltip-class-left', true)
-              .style('left', d.xCoordinate + 5 + shiftTooltip + 'px')
-              .style('top', topMar);
-          }
-        });
+        this.monthValue = d.x.replace(/\s/g, '');
+        if (data.length > 0) {
+          data.forEach(value => {
+            if (value.x.replace(/\s/g, '') === this.monthValue) {
+              this.yCoordinates[0] = value.y;
+            }
+          });
+        }
+        if (data1.length > 0) {
+          data1.forEach(value => {
+            if (value.x.replace(/\s/g, '') === this.monthValue) {
+              this.yCoordinates[1] = value.y;
+            }
+          });
+        }
+        if (data2.length > 0) {
+          data2.forEach(value => {
+            if (value.x.replace(/\s/g, '') === this.monthValue) {
+              this.yCoordinates[2] = value.y;
+            }
+          });
+        }
+        if (data3.length > 0) {
+          data3.forEach(value => {
+            if (value.x.replace(/\s/g, '') === this.monthValue) {
+              this.yCoordinates[3] = value.y;
+            }
+          });
+        }
+        if (d3.event.layerX + 213 < width + margin.left + margin.right) {
+          tooltipVar
+            .html(
+              tooltipText(
+                this.monthValue,
+                this.yCoordinates[0],
+                this.yCoordinates[1],
+                this.yCoordinates[2],
+                this.yCoordinates[3]
+              )
+            )
+            .classed('hidden', false)
+            .classed('tooltip-class', true)
+            .classed('tooltip-class-left', false)
+            .style('left', d.xCoordinate + 265 + 'px')
+            .style('top', topMar);
+        } else {
+          tooltipVar
+            .html(
+              tooltipText(
+                this.monthValue,
+                this.yCoordinates[0],
+                this.yCoordinates[1],
+                this.yCoordinates[2],
+                this.yCoordinates[3]
+              )
+            )
+            .classed('hidden', false)
+            .classed('tooltip-class', false)
+            .classed('tooltip-class-left', true)
+            .style('left', d.xCoordinate + 5 + shiftTooltip + 'px')
+            .style('top', topMar);
+        }
       })
       .on('mouseout', function(d) {
         const RectBarId = 'rect-id-' + d.x.replace(/\s/g, ''),
@@ -717,7 +719,5 @@ export class MultiLineGraphComponent implements OnInit {
         .style('stroke-dasharray', '7, 7')
         .style('stroke-width', '2');
     }
-
-    // end if structure o titleData[0].averagePeerPerformance
   } // end dolineGraph Function
 } // export class ends here
