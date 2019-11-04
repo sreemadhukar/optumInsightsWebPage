@@ -18,7 +18,8 @@ export const environment: any = {
   // *In Local use dev3
   // apiProxyUrl: 'https://nginx-pedtst.ocp-ctc-core-nonprod.optum.com/',
   // originUrl: 'https://pedintui-pedstg.ocp-ctc-dmz-stg.optum.com/',
-  apiProxyUrl: 'https://gateway-stage-core.optum.com/api/devone/pdr/uhci/v1/',
+  // apiProxyUrl: 'https://gateway-stage-core.optum.com/api/devone/pdr/uhci/v1/',
+  apiProxyUrl: 'https://pedapi5-peddev.ocp-ctc-core-nonprod.optum.com/',
   originUrl: 'https://pedui2-peddev.ocp-ctc-core-nonprod.optum.com/',
   apiUrls: {
     ExecutiveSummaryPath: 'providersystems/',
@@ -54,7 +55,8 @@ export const environment: any = {
     AdminSummaryTrends: 'admintrends/',
     AppealsFHIR: 'appeals/v2.0/',
     AppealsOverturn: 'appeal-overturn-reasons/',
-    AdminSummaryTrendsCount: 'admintrendscount/'
+    AdminSummaryTrendsCount: 'admintrendscount/',
+    RefreshToken: 'getRefreshToken/'
   },
   headerKeys: {
     selectedCompany: '',
