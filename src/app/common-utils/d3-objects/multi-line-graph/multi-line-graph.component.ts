@@ -22,6 +22,7 @@ export class MultiLineGraphComponent implements OnInit {
   public selectYear;
   public count = 1;
   public monthlyData = [];
+  public monthValue;
   public y1;
   public y2;
   public y3;
@@ -214,19 +215,22 @@ export class MultiLineGraphComponent implements OnInit {
       }
     } // ends formatDynamicAbbrevia function
 
-    function tooltipText(y1, y2, y3, y4) {
+    function tooltipText(monthValue, y1, y2, y3, y4) {
       return (
         "<div class='lineLabelHover'>" +
-        '<p><div class="mr-img"></div> M&R : ' +
+        '<p class="month-value">' +
+        monthValue +
+        '</p>' +
+        '<p><div class="tooltip-mr-img"></div> M&R : ' +
         y1 +
         '</p>' +
-        '<p><div class="cs-img"></div> C&S : ' +
+        '<p><div class="tooltip-cs-img"></div> C&S : ' +
         y2 +
         '</p>' +
-        '<p><div class="ei-img"></div> E&I : ' +
+        '<p><div class="tooltip-ei-img"></div> E&I : ' +
         y3 +
         '</p>' +
-        '<p><div class="other-img"></div> Other : ' +
+        '<p><div class="tooltip-other-img"></div> Other : ' +
         y4 +
         '</p>' +
         '</div>'
@@ -284,7 +288,7 @@ export class MultiLineGraphComponent implements OnInit {
       .attr('class', 'tooltip')
       .style('opacity', 0);
 
-    const shiftTooltip = 100;
+    const shiftTooltip = 85;
 
     if (generalData.tooltipBoolean === true) {
       // tslint:disable-next-line:no-var-keyword
@@ -534,38 +538,30 @@ export class MultiLineGraphComponent implements OnInit {
           .duration(200)
           .style('opacity', 1);
         const topMar = yScale(d.y) + 39 + 'px';
-        console.log('data', data);
-        console.log('data1', data1);
-        console.log('data2', data2);
         this.monthlyData = [data, data1, data2, data3];
-        console.log(this.monthlyData);
         this.monthlyData.forEach(element => {
-          element.forEach(ele => {
-            // (ele.x === element[0].x === element[1].x === element[2].x === element[3].x) { // logic has to be added
-            if (ele.x === 'May ') {
-              this.y1 = element[0].y;
-              this.y2 = element[1].y;
-              this.y3 = element[2].y;
-              this.y4 = element[3].y;
-              if (d3.event.layerX + 213 < width + margin.left + margin.right) {
-                tooltipVar
-                  .html(tooltipText(this.y1, this.y2, this.y3, this.y4))
-                  .classed('hidden', false)
-                  .classed('tooltipClass', true)
-                  .classed('tooltipClassLeft', false)
-                  .style('left', d.xCoordinate + 310 + 'px')
-                  .style('top', topMar);
-              } else {
-                tooltipVar
-                  .html(tooltipText(this.y1, this.y2, this.y3, this.y4))
-                  .classed('hidden', false)
-                  .classed('tooltipClass', false)
-                  .classed('tooltipClassLeft', true)
-                  .style('left', d.xCoordinate + 5 + shiftTooltip + 'px')
-                  .style('top', topMar);
-              }
-            }
-          });
+          this.monthValue = d.x;
+          this.y1 = element[0].y;
+          this.y2 = element[1].y;
+          this.y3 = element[2].y;
+          this.y4 = element[3].y;
+          if (d3.event.layerX + 213 < width + margin.left + margin.right) {
+            tooltipVar
+              .html(tooltipText(this.monthValue, this.y1, this.y2, this.y3, this.y4))
+              .classed('hidden', false)
+              .classed('tooltip-class', true)
+              .classed('tooltip-class-left', false)
+              .style('left', d.xCoordinate + 265 + 'px')
+              .style('top', topMar);
+          } else {
+            tooltipVar
+              .html(tooltipText(this.monthValue, this.y1, this.y2, this.y3, this.y4))
+              .classed('hidden', false)
+              .classed('tooltip-class', false)
+              .classed('tooltip-class-left', true)
+              .style('left', d.xCoordinate + 5 + shiftTooltip + 'px')
+              .style('top', topMar);
+          }
         });
       })
       .on('mouseout', function(d) {
