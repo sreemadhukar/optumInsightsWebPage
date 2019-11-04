@@ -288,7 +288,9 @@ export class AppealsSharedService {
         this.timeFrame === 'Last 6 Months' ||
         this.timeFrame === 'Last 3 Months' ||
         this.timeFrame === 'Last 30 Days' ||
-        this.timeFrame === 'Year to Date'
+        this.timeFrame === 'Year to Date' ||
+        this.timeFrame === '2017' ||
+        this.timeFrame === '2018'
       ) {
         if (this.timeFrame === 'Last 12 Months') {
           if (this.tin !== 'All' && this.lob !== 'All') {
@@ -351,6 +353,68 @@ export class AppealsSharedService {
           } else {
             parameters = [this.providerKey, { TimeFilter: 'YTD', AllProviderTins: 'true' }];
           }
+        } else if (this.timeFrame === '2018') {
+          if (this.tin !== 'All' && this.lob !== 'All') {
+            parameters = [
+              this.providerKey,
+              {
+                Lob: this.common.matchLobWithCapsData(this.lob),
+                TimeFilter: 'CalendarYear',
+                TimeFilterText: this.timeFrame,
+                Tin: this.tin
+              }
+            ];
+          } else if (this.tin !== 'All') {
+            parameters = [
+              this.providerKey,
+              { TimeFilter: 'CalendarYear', TimeFilterText: this.timeFrame, Tin: this.tin }
+            ];
+          } else if (this.lob !== 'All') {
+            parameters = [
+              this.providerKey,
+              {
+                Lob: this.common.matchLobWithCapsData(this.lob),
+                TimeFilter: 'CalendarYear',
+                TimeFilterText: this.timeFrame
+              }
+            ];
+          } else {
+            parameters = [
+              this.providerKey,
+              { TimeFilter: 'CalendarYear', TimeFilterText: this.timeFrame, AllProviderTins: 'true' }
+            ];
+          }
+        } else if (this.timeFrame === '2017') {
+          if (this.tin !== 'All' && this.lob !== 'All') {
+            parameters = [
+              this.providerKey,
+              {
+                Lob: this.common.matchLobWithCapsData(this.lob),
+                TimeFilter: 'CalendarYear',
+                TimeFilterText: this.timeFrame,
+                Tin: this.tin
+              }
+            ];
+          } else if (this.tin !== 'All') {
+            parameters = [
+              this.providerKey,
+              { TimeFilter: 'CalendarYear', TimeFilterText: this.timeFrame, Tin: this.tin }
+            ];
+          } else if (this.lob !== 'All') {
+            parameters = [
+              this.providerKey,
+              {
+                Lob: this.common.matchLobWithCapsData(this.lob),
+                TimeFilter: 'CalendarYear',
+                TimeFilterText: this.timeFrame
+              }
+            ];
+          } else {
+            parameters = [
+              this.providerKey,
+              { TimeFilter: 'CalendarYear', TimeFilterText: this.timeFrame, AllProviderTins: 'true' }
+            ];
+          }
         } else if (this.timeFrame === 'Last 6 Months') {
           if (this.tin !== 'All' && this.lob !== 'All') {
             parameters = [
@@ -372,7 +436,7 @@ export class AppealsSharedService {
           delete parameters[1].Lob;
         }
         this.gettingReimbursedService.claimsAppealsReasonData(...parameters).subscribe(appealsReasonData => {
-          if (appealsReasonData === null) {
+          if (!appealsReasonData) {
             reason.push({
               category: 'app-card',
               type: 'donut',
@@ -413,9 +477,9 @@ export class AppealsSharedService {
               });
             }
           }
+          const r = reason;
+          resolve(r);
         });
-        const r = reason;
-        resolve(r);
       }
     });
   }
@@ -524,7 +588,7 @@ export class AppealsSharedService {
         this.gettingReimbursedService.claimsAppealsData(...parameters).subscribe(appealsData => {
           const lobFullData = this.common.matchFullLobWithData(this.lob);
           const lobData = this.common.matchLobWithData(this.lob);
-          if (appealsData != null && appealsData.hasOwnProperty('status')) {
+          if (appealsData && appealsData.hasOwnProperty('status')) {
             appealsOverturnedRate = {
               category: 'app-card',
               type: 'donutWithBottomLabelOnly',
@@ -534,7 +598,7 @@ export class AppealsSharedService {
               data: null,
               timeperiod: null
             };
-          } else if (appealsData.length > 0 && appealsData[0] != null) {
+          } else if (appealsData && appealsData[0] != null) {
             if (
               appealsData[0].hasOwnProperty('LineOfBusiness') &&
               appealsData[0].LineOfBusiness !== null &&
@@ -936,7 +1000,7 @@ export class AppealsSharedService {
   public createAppealsDonuts(appealsData, lobFullData) {
     let appealsSubmitted = {};
     let appealsOverturned = {};
-    if (appealsData != null && appealsData.hasOwnProperty('status')) {
+    if (appealsData && appealsData.hasOwnProperty('status')) {
       appealsSubmitted = {
         category: 'app-card',
         type: 'donutWithLabelBottom',
@@ -957,7 +1021,7 @@ export class AppealsSharedService {
         data: null,
         timeperiod: null
       };
-    } else if (appealsData.length > 0 && appealsData[0] != null) {
+    } else if (appealsData && appealsData[0] != null) {
       if (
         appealsData[0].hasOwnProperty('LineOfBusiness') &&
         appealsData[0].LineOfBusiness !== null &&
