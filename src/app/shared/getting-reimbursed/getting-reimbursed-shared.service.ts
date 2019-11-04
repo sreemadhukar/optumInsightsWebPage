@@ -10,6 +10,7 @@ import { NonPaymentService } from '../../rest/getting-reimbursed/non-payment.ser
 import { GlossaryMetricidService } from '../glossary-metricid.service';
 import { of } from 'rxjs';
 import { environment } from '../../../environments/environment';
+
 @Injectable({
   providedIn: GettingReimbursedModule
 })
@@ -20,6 +21,7 @@ export class GettingReimbursedSharedService {
   private timeFrame: string;
   private providerKey: number;
   private nonPaymentBy: string;
+
   constructor(
     private MetricidService: GlossaryMetricidService,
     private gettingReimbursedService: GettingReimbursedService,
@@ -63,7 +65,7 @@ export class GettingReimbursedSharedService {
    * need to call the Non-Payment API in Getting Reimbursed Summary page as well
    */
   public sharedNonPaymentData() {
-    /** Non Payment Service Code starts here */
+    /** Non Payment Service Code starts here ********/
     /** code for two donuts  Claims Not Paid and Claims Non-payment Rate */
     let tempNonPaymentData: any;
     return new Promise(resolve => {
@@ -122,7 +124,7 @@ export class GettingReimbursedSharedService {
             claimsTAT = {
               category: 'app-card',
               type: 'rotateWithLabel',
-              status: null,
+              status: 404,
               title: 'Average Claims Turn Around Time',
               MetricID: this.MetricidService.MetricIDs.ClaimsAverageTurnaroundTimetoPayment,
               data: null,
@@ -230,7 +232,7 @@ export class GettingReimbursedSharedService {
                 title: 'Average Claims Turn Around Time',
                 MetricID: this.MetricidService.MetricIDs.ClaimsAverageTurnaroundTimetoPayment,
                 data: {
-                  centerNumber: claimsData[lobData].ClaimsLobSummary[0].ClaimsAvgTat + ' days', //  0 + ' days',
+                  centerNumber: claimsData[lobData].ClaimsLobSummary[0].ClaimsAvgTat + ' days',
                   color: ['#3381FF', '#3381FF'],
                   gdata: ['card-inner', 'claimsAverageTurnAround'],
                   sdata: {
@@ -241,11 +243,11 @@ export class GettingReimbursedSharedService {
                 besideData: {
                   verticalData: [
                     {
-                      values: claimsData[lobData].ClaimsLobSummary[0].DosToReceived + ' Days', // 0 + ' Days',
+                      values: claimsData[lobData].ClaimsLobSummary[0].AvgDosToReceived + ' Days',
                       labels: 'Date of Service to Received'
                     },
                     {
-                      values: claimsData[lobData].ClaimsLobSummary[0].ReceivedToPaid + ' Days', // 0 + ' Days',
+                      values: claimsData[lobData].ClaimsLobSummary[0].AvgReceivedToPaid + ' Days',
                       labels: 'Received to Processed'
                     }
                   ]
@@ -487,11 +489,13 @@ export class GettingReimbursedSharedService {
               claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('ClaimsNonPaymentRate') &&
               claimsData[lobData].ClaimsLobSummary[0].ClaimsYieldRate.toFixed() !== 0
             ) {
+              // used toggle: true as toggle functionality is not built properly : srikar bobbiganipalli
               claimsPaidRate = {
                 category: 'app-card',
                 type: 'donut',
                 title: 'Claims Yield',
                 MetricID: this.MetricidService.MetricIDs.ClaimsYield,
+                toggle: !environment.internalAccess,
                 data: {
                   graphValues: [
                     claimsData[lobData].ClaimsLobSummary[0].ClaimsYieldRate,
@@ -840,7 +844,7 @@ export class GettingReimbursedSharedService {
             claimsTAT = {
               category: 'app-card',
               type: 'rotateWithLabel',
-              status: null,
+              status: 404,
               title: 'Average Claims Turn Around Time',
               MetricID: this.MetricidService.MetricIDs.ClaimsAverageTurnaroundTimetoPayment,
               data: null,
@@ -963,7 +967,7 @@ export class GettingReimbursedSharedService {
                   true
                 ),
                 data: {
-                  centerNumber: claimsData[lobData].ClaimsLobSummary[0].ClaimsAvgTat + ' days', // 0 + ' days',
+                  centerNumber: claimsData[lobData].ClaimsLobSummary[0].ClaimsAvgTat + ' days',
                   color: ['#3381FF', '#3381FF'],
                   gdata: ['card-inner', 'claimsAverageTurnAround'],
                   sdata: {
@@ -974,11 +978,11 @@ export class GettingReimbursedSharedService {
                 besideData: {
                   verticalData: [
                     {
-                      values: claimsData[lobData].ClaimsLobSummary[0].DosToReceived + ' Days', // 0 + ' Days',
+                      values: claimsData[lobData].ClaimsLobSummary[0].AvgDosToReceived + ' Days',
                       labels: 'Date of Service to Received'
                     },
                     {
-                      values: claimsData[lobData].ClaimsLobSummary[0].ReceivedToPaid + ' Days', // 0 + ' Days',
+                      values: claimsData[lobData].ClaimsLobSummary[0].AvgReceivedToPaid + ' Days',
                       labels: 'Received to Processed'
                     }
                   ]
@@ -989,31 +993,12 @@ export class GettingReimbursedSharedService {
               claimsTAT = {
                 category: 'app-card',
                 type: 'rotateWithLabel',
+                status: 404,
                 title: 'Average Claims Turn Around Time',
                 MetricID: this.MetricidService.MetricIDs.ClaimsAverageTurnaroundTimetoPayment,
-                status: null,
-                data: {
-                  centerNumber: claimsData[lobData].ClaimsLobSummary[0].ClaimsAvgTat + ' days', //  0 + ' days',
-                  color: ['#3381FF', '#3381FF'],
-                  gdata: ['card-inner', 'claimsAverageTurnAround'],
-                  sdata: {
-                    sign: 'down',
-                    data: '-1.2%'
-                  }
-                },
-                besideData: {
-                  verticalData: [
-                    {
-                      values: claimsData[lobData].ClaimsLobSummary[0].DosToReceived + ' Days', //  0 + ' Days',
-                      labels: 'Date of Service to Received'
-                    },
-                    {
-                      values: claimsData[lobData].ClaimsLobSummary[0].ReceivedToPaid + ' Days', // 0 + ' Days',
-                      labels: 'Received to Processed'
-                    }
-                  ]
-                },
-                timeperiod: this.timeFrame
+                data: null,
+                besideData: null,
+                timeperiod: null
               };
             }
             if (
@@ -1403,11 +1388,13 @@ export class GettingReimbursedSharedService {
               claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('ClaimsNonPaymentRate') &&
               claimsData[lobData].ClaimsLobSummary[0].ClaimsYieldRate.toFixed() !== 0
             ) {
+              // used toggle: true as toggle functionality is not built properly : srikar bobbiganipalli
               claimsPaidRate = {
                 category: 'app-card',
                 type: 'donut',
                 title: 'Claims Yield',
                 MetricID: this.MetricidService.MetricIDs.ClaimsYield,
+                toggle: !environment.internalAccess,
                 data: {
                   graphValues: [
                     claimsData[lobData].ClaimsLobSummary[0].ClaimsYieldRate,
@@ -2023,7 +2010,7 @@ export class GettingReimbursedSharedService {
   public createAppealsDonuts(appealsData, lobFullData) {
     let appealsSubmitted = {};
     let appealsOverturned = {};
-    if (appealsData != null && appealsData.hasOwnProperty('status')) {
+    if (appealsData && appealsData.hasOwnProperty('status')) {
       appealsSubmitted = {
         category: 'app-card',
         type: 'donutWithLabelBottom',
@@ -2044,7 +2031,7 @@ export class GettingReimbursedSharedService {
         data: null,
         timeperiod: null
       };
-    } else if (appealsData.length > 0 && appealsData[0] != null) {
+    } else if (appealsData && appealsData[0] != null) {
       if (
         appealsData[0].hasOwnProperty('LineOfBusiness') &&
         appealsData[0].LineOfBusiness !== null &&
