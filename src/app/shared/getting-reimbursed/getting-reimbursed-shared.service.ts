@@ -21,6 +21,7 @@ export class GettingReimbursedSharedService {
   private timeFrame: string;
   private providerKey: number;
   private nonPaymentBy: string;
+
   constructor(
     private MetricidService: GlossaryMetricidService,
     private gettingReimbursedService: GettingReimbursedService,
@@ -64,7 +65,7 @@ export class GettingReimbursedSharedService {
    * need to call the Non-Payment API in Getting Reimbursed Summary page as well
    */
   public sharedNonPaymentData() {
-    /** Non Payment Service Code starts here */
+    /** Non Payment Service Code starts here ********/
     /** code for two donuts  Claims Not Paid and Claims Non-payment Rate */
     let tempNonPaymentData: any;
     return new Promise(resolve => {
