@@ -10,6 +10,7 @@ import { NonPaymentService } from '../../rest/getting-reimbursed/non-payment.ser
 import { GlossaryMetricidService } from '../glossary-metricid.service';
 import { of } from 'rxjs';
 import { environment } from '../../../environments/environment';
+
 @Injectable({
   providedIn: GettingReimbursedModule
 })
@@ -487,11 +488,13 @@ export class GettingReimbursedSharedService {
               claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('ClaimsNonPaymentRate') &&
               claimsData[lobData].ClaimsLobSummary[0].ClaimsYieldRate.toFixed() !== 0
             ) {
+              // used toggle: true as toggle functionality is not built properly : srikar bobbiganipalli
               claimsPaidRate = {
                 category: 'app-card',
                 type: 'donut',
                 title: 'Claims Yield',
                 MetricID: this.MetricidService.MetricIDs.ClaimsYield,
+                toggle: !environment.internalAccess,
                 data: {
                   graphValues: [
                     claimsData[lobData].ClaimsLobSummary[0].ClaimsYieldRate,
@@ -1384,11 +1387,13 @@ export class GettingReimbursedSharedService {
               claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('ClaimsNonPaymentRate') &&
               claimsData[lobData].ClaimsLobSummary[0].ClaimsYieldRate.toFixed() !== 0
             ) {
+              // used toggle: true as toggle functionality is not built properly : srikar bobbiganipalli
               claimsPaidRate = {
                 category: 'app-card',
                 type: 'donut',
                 title: 'Claims Yield',
                 MetricID: this.MetricidService.MetricIDs.ClaimsYield,
+                toggle: !environment.internalAccess,
                 data: {
                   graphValues: [
                     claimsData[lobData].ClaimsLobSummary[0].ClaimsYieldRate,
@@ -2004,7 +2009,7 @@ export class GettingReimbursedSharedService {
   public createAppealsDonuts(appealsData, lobFullData) {
     let appealsSubmitted = {};
     let appealsOverturned = {};
-    if (appealsData != null && appealsData.hasOwnProperty('status')) {
+    if (appealsData && appealsData.hasOwnProperty('status')) {
       appealsSubmitted = {
         category: 'app-card',
         type: 'donutWithLabelBottom',
@@ -2025,7 +2030,7 @@ export class GettingReimbursedSharedService {
         data: null,
         timeperiod: null
       };
-    } else if (appealsData.length > 0 && appealsData[0] != null) {
+    } else if (appealsData && appealsData[0] != null) {
       if (
         appealsData[0].hasOwnProperty('LineOfBusiness') &&
         appealsData[0].LineOfBusiness !== null &&
