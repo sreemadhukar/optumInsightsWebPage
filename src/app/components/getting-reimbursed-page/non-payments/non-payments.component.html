@@ -76,8 +76,13 @@
           >
             <div class="bar-graph-inside-left-block">
               <div class="bar-graph-inside-left-block-content">
-                <mat-icon class="bar-graph-block-icon" *ngIf="!section[i]" svgIcon="open"></mat-icon>
-                <mat-icon class="bar-graph-block-icon" *ngIf="section[i]" svgIcon="close-bar"></mat-icon>
+                <!-- <mat-icon class="bar-graph-block-icon" *ngIf="!section[i]" svgIcon="open"></mat-icon>
+                <mat-icon class="bar-graph-block-icon" *ngIf="section[i]" svgIcon="close-bar"></mat-icon> -->
+                <mat-icon
+                  class="bar-graph-block-icon"
+                  svgIcon="carrot"
+                  [@rotatedState]="section[i] ? 'rotated' : 'default'"
+                ></mat-icon>
                 <p class="bar-graph-title">{{ barchart.title }}</p>
                 <p class="bar-graph-value">{{ barchart.value }}</p>
               </div>

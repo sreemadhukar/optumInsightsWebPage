@@ -9,7 +9,7 @@ import { NonPaymentSharedService } from './non-payments/non-payment-shared.servi
 import { NonPaymentService } from '../../rest/getting-reimbursed/non-payment.service';
 import { GlossaryMetricidService } from '../glossary-metricid.service';
 import { of } from 'rxjs';
-
+import { environment } from '../../../environments/environment';
 @Injectable({
   providedIn: GettingReimbursedModule
 })
@@ -484,7 +484,8 @@ export class GettingReimbursedSharedService {
               claimsData[lobData].hasOwnProperty('ClaimsLobSummary') &&
               claimsData[lobData].ClaimsLobSummary.length &&
               claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('ClaimsYieldRate') &&
-              claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('ClaimsNonPaymentRate')
+              claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('ClaimsNonPaymentRate') &&
+              claimsData[lobData].ClaimsLobSummary[0].ClaimsYieldRate.toFixed() !== 0
             ) {
               claimsPaidRate = {
                 category: 'app-card',
@@ -767,12 +768,21 @@ export class GettingReimbursedSharedService {
             MetricID: this.MetricidService.MetricIDs.ClaimsSubmissions,
             data: [claimsSubmitted, claimsTAT]
           };
-          payments = {
-            id: 2,
-            title: 'Claims Payments*',
-            MetricID: this.MetricidService.MetricIDs.ClaimsPayments,
-            data: [claimsPaid] /* , claimsPaidRate] commented to supress claims yield card*/
-          };
+          if (environment.claimsYieldAccess) {
+            payments = {
+              id: 2,
+              title: 'Claims Payments*',
+              MetricID: this.MetricidService.MetricIDs.ClaimsPayments,
+              data: [claimsPaid, claimsPaidRate]
+            };
+          } else {
+            payments = {
+              id: 2,
+              title: 'Claims Payments*',
+              MetricID: this.MetricidService.MetricIDs.ClaimsPayments,
+              data: [claimsPaid]
+            };
+          }
           nonpayments = {
             id: 3,
             title: 'Claims Non-Payments*',
@@ -1390,7 +1400,8 @@ export class GettingReimbursedSharedService {
               claimsData[lobData].hasOwnProperty('ClaimsLobSummary') &&
               claimsData[lobData].ClaimsLobSummary.length &&
               claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('ClaimsYieldRate') &&
-              claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('ClaimsNonPaymentRate')
+              claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('ClaimsNonPaymentRate') &&
+              claimsData[lobData].ClaimsLobSummary[0].ClaimsYieldRate.toFixed() !== 0
             ) {
               claimsPaidRate = {
                 category: 'app-card',
@@ -1445,12 +1456,21 @@ export class GettingReimbursedSharedService {
             MetricID: this.MetricidService.MetricIDs.ClaimsSubmissions,
             data: [claimsSubmitted, claimsTAT]
           };
-          payments = {
-            id: 2,
-            title: 'Claims Payments*',
-            MetricID: this.MetricidService.MetricIDs.ClaimsPayments,
-            data: [claimsPaid] /*, claimsPaidRate]  commented to supress claims yield card*/
-          };
+          if (environment.claimsYieldAccess) {
+            payments = {
+              id: 2,
+              title: 'Claims Payments*',
+              MetricID: this.MetricidService.MetricIDs.ClaimsPayments,
+              data: [claimsPaid, claimsPaidRate]
+            };
+          } else {
+            payments = {
+              id: 2,
+              title: 'Claims Payments*',
+              MetricID: this.MetricidService.MetricIDs.ClaimsPayments,
+              data: [claimsPaid]
+            };
+          }
           nonpayments = {
             id: 3,
             title: 'Claims Non-Payments*',

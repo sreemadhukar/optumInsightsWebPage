@@ -6,6 +6,7 @@ import { StorageService } from '../../../shared/storage-service.service';
 import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 import { CommonUtilsService } from 'src/app/shared/common-utils.service';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-overview',
@@ -53,6 +54,8 @@ export class OverviewComponent implements OnInit {
   errorloadMedicareStarRatingCard = false;
   errorloadTotalCallsCard = false;
   isHeac = false;
+
+  displayClaimsYield: boolean = environment.claimsYieldAccess;
   /***************** DONT CHANGE THESE *************/
 
   trendsData: any;
