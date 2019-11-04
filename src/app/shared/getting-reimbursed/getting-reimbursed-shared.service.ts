@@ -122,7 +122,7 @@ export class GettingReimbursedSharedService {
             claimsTAT = {
               category: 'app-card',
               type: 'rotateWithLabel',
-              status: null,
+              status: 404,
               title: 'Average Claims Turn Around Time',
               MetricID: this.MetricidService.MetricIDs.ClaimsAverageTurnaroundTimetoPayment,
               data: null,
@@ -230,7 +230,7 @@ export class GettingReimbursedSharedService {
                 title: 'Average Claims Turn Around Time',
                 MetricID: this.MetricidService.MetricIDs.ClaimsAverageTurnaroundTimetoPayment,
                 data: {
-                  centerNumber: claimsData[lobData].ClaimsLobSummary[0].ClaimsAvgTat + ' days', //  0 + ' days',
+                  centerNumber: claimsData[lobData].ClaimsLobSummary[0].ClaimsAvgTat + ' days',
                   color: ['#3381FF', '#3381FF'],
                   gdata: ['card-inner', 'claimsAverageTurnAround'],
                   sdata: {
@@ -241,11 +241,11 @@ export class GettingReimbursedSharedService {
                 besideData: {
                   verticalData: [
                     {
-                      values: claimsData[lobData].ClaimsLobSummary[0].DosToReceived + ' Days', // 0 + ' Days',
+                      values: claimsData[lobData].ClaimsLobSummary[0].AvgDosToReceived + ' Days',
                       labels: 'Date of Service to Received'
                     },
                     {
-                      values: claimsData[lobData].ClaimsLobSummary[0].ReceivedToPaid + ' Days', // 0 + ' Days',
+                      values: claimsData[lobData].ClaimsLobSummary[0].AvgReceivedToPaid + ' Days',
                       labels: 'Received to Processed'
                     }
                   ]
@@ -840,7 +840,7 @@ export class GettingReimbursedSharedService {
             claimsTAT = {
               category: 'app-card',
               type: 'rotateWithLabel',
-              status: null,
+              status: 404,
               title: 'Average Claims Turn Around Time',
               MetricID: this.MetricidService.MetricIDs.ClaimsAverageTurnaroundTimetoPayment,
               data: null,
@@ -963,7 +963,7 @@ export class GettingReimbursedSharedService {
                   true
                 ),
                 data: {
-                  centerNumber: claimsData[lobData].ClaimsLobSummary[0].ClaimsAvgTat + ' days', // 0 + ' days',
+                  centerNumber: claimsData[lobData].ClaimsLobSummary[0].ClaimsAvgTat + ' days',
                   color: ['#3381FF', '#3381FF'],
                   gdata: ['card-inner', 'claimsAverageTurnAround'],
                   sdata: {
@@ -974,11 +974,11 @@ export class GettingReimbursedSharedService {
                 besideData: {
                   verticalData: [
                     {
-                      values: claimsData[lobData].ClaimsLobSummary[0].DosToReceived + ' Days', // 0 + ' Days',
+                      values: claimsData[lobData].ClaimsLobSummary[0].AvgDosToReceived + ' Days',
                       labels: 'Date of Service to Received'
                     },
                     {
-                      values: claimsData[lobData].ClaimsLobSummary[0].ReceivedToPaid + ' Days', // 0 + ' Days',
+                      values: claimsData[lobData].ClaimsLobSummary[0].AvgReceivedToPaid + ' Days',
                       labels: 'Received to Processed'
                     }
                   ]
@@ -989,31 +989,12 @@ export class GettingReimbursedSharedService {
               claimsTAT = {
                 category: 'app-card',
                 type: 'rotateWithLabel',
+                status: 404,
                 title: 'Average Claims Turn Around Time',
                 MetricID: this.MetricidService.MetricIDs.ClaimsAverageTurnaroundTimetoPayment,
-                status: null,
-                data: {
-                  centerNumber: claimsData[lobData].ClaimsLobSummary[0].ClaimsAvgTat + ' days', //  0 + ' days',
-                  color: ['#3381FF', '#3381FF'],
-                  gdata: ['card-inner', 'claimsAverageTurnAround'],
-                  sdata: {
-                    sign: 'down',
-                    data: '-1.2%'
-                  }
-                },
-                besideData: {
-                  verticalData: [
-                    {
-                      values: claimsData[lobData].ClaimsLobSummary[0].DosToReceived + ' Days', //  0 + ' Days',
-                      labels: 'Date of Service to Received'
-                    },
-                    {
-                      values: claimsData[lobData].ClaimsLobSummary[0].ReceivedToPaid + ' Days', // 0 + ' Days',
-                      labels: 'Received to Processed'
-                    }
-                  ]
-                },
-                timeperiod: this.timeFrame
+                data: null,
+                besideData: null,
+                timeperiod: null
               };
             }
             if (
