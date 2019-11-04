@@ -33,7 +33,7 @@ export const environment: any = {
     PaymentIntegrity: 'pi-metrics/',
     NonPayment: 'claim-metrics/',
     CallsTrend: 'provider-calls/',
-    TrendingMetrics: 'trending-metric',
+    TrendingMetrics: 'trending-metrics/',
     PCORQualityMeasure: 'pcor-metrics/',
     NPSSummary: 'kop-metrics/',
     AppealsTrend: 'appeals-trend/',
