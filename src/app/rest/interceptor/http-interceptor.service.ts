@@ -86,7 +86,7 @@ export class HttpInterceptorService implements HttpInterceptor {
 
     if (token) {
       const date = this.getTokenExpirationDate(token);
-      if (date === undefined) {
+      if (date === undefined || date === null) {
         return false;
       }
       return !(date.valueOf() > new Date().valueOf());
