@@ -219,10 +219,10 @@ export class MultiLineGraphComponent implements OnInit {
     function tooltipText(monthValue, y1, y2, y3, y4) {
       return `<div class="lineLabelHover">
           ${monthValue ? `<p class="month-value">${monthValue}</p>` : ''}
-          ${y1 ? `<p><div class="tooltip-mr-img"></div> M&R : ${y1}</p>` : ''}
-          ${y2 ? `<p><div class="tooltip-cs-img"></div> C&S : ${y2}</p>` : ''}
-          ${y3 ? `<p><div class="tooltip-ei-img"></div> E&I : ${y3}</p>` : ''}
-          ${y4 ? `<p><div class="tooltip-other-img"></div> Other : ${y4}</p>` : ''}
+          ${y1 != null ? `<p><div class="tooltip-mr-img"></div> M&R : ${y1}</p>` : ''}
+          ${y2 != null ? `<p><div class="tooltip-cs-img"></div> C&S : ${y2}</p>` : ''}
+          ${y3 != null ? `<p><div class="tooltip-ei-img"></div> E&I : ${y3}</p>` : ''}
+          ${y4 != null ? `<p><div class="tooltip-other-img"></div> Other : ${y4}</p>` : ''}
         </div>`;
     }
 
