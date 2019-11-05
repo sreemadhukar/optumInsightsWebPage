@@ -5,6 +5,8 @@ import { CommonUtilsService } from '../common-utils.service';
 import { SessionService } from '../session.service';
 import { AuthorizationService } from '../../auth/_service/authorization.service';
 import { GlossaryMetricidService } from '../glossary-metricid.service';
+import { GettingReimbursedPayload } from '../getting-reimbursed/payload.class';
+import * as _ from 'lodash';
 
 @Injectable({
   providedIn: 'root'
@@ -22,216 +24,28 @@ export class TopRowAdvOverviewSharedService {
     private toggle: AuthorizationService
   ) {}
   /** Function to show hovers labels as per Lob**/
-  public returnHoverLabels(cardData) {
-    const hoverLabels = [];
-    if (cardData !== null) {
-      if (this.session.filterObjValue.lob === 'All') {
-        if (cardData.hasOwnProperty('Mr')) {
-          hoverLabels.push('Medicare & Retirement');
-        }
-        if (cardData.hasOwnProperty('Cs')) {
-          hoverLabels.push('Community & State');
-        }
-        if (cardData.hasOwnProperty('Ei')) {
-          hoverLabels.push('Employer & Individual');
-        }
-        if (cardData.hasOwnProperty('Un')) {
-          hoverLabels.push('Uncategorized');
-        }
-      } else if (this.session.filterObjValue.lob === 'Medicare & Retirement') {
-        if (cardData.hasOwnProperty('Mr')) {
-          hoverLabels.push('Medicare & Retirement');
-        }
-      } else if (this.session.filterObjValue.lob === 'Community & State') {
-        if (cardData.hasOwnProperty('Cs')) {
-          hoverLabels.push('Community & State');
-        }
-      } else if (this.session.filterObjValue.lob === 'Employer & Individual') {
-        if (cardData.hasOwnProperty('Ei')) {
-          hoverLabels.push('Employer & Individual');
-        }
-      } else if (this.session.filterObjValue.lob === 'Uncategorized') {
-        if (cardData.hasOwnProperty('Un')) {
-          hoverLabels.push('Uncategorized');
-        }
-      }
-      return hoverLabels;
-    }
-  }
 
-  /** Function to show hovers colors as per Lob**/
-  public returnLobColor(cardData) {
-    const hoverColors = [];
-    if (cardData !== null) {
-      if (this.session.filterObjValue.lob === 'All') {
-        if (cardData.hasOwnProperty('Mr')) {
-          hoverColors.push('#3381FF');
-        }
-        if (cardData.hasOwnProperty('Cs')) {
-          hoverColors.push('#80B0FF');
-        }
-        if (cardData.hasOwnProperty('Ei')) {
-          hoverColors.push('#003DA1');
-        }
-        if (cardData.hasOwnProperty('Un')) {
-          hoverColors.push('#00B8CC');
-        }
-      } else if (this.session.filterObjValue.lob === 'Medicare & Retirement') {
-        if (cardData.hasOwnProperty('Mr')) {
-          hoverColors.push('#3381FF');
-        }
-      } else if (this.session.filterObjValue.lob === 'Community & State') {
-        if (cardData.hasOwnProperty('Cs')) {
-          hoverColors.push('#80B0FF');
-        }
-      } else if (this.session.filterObjValue.lob === 'Employer & Individual') {
-        if (cardData.hasOwnProperty('Ei')) {
-          hoverColors.push('#003DA1');
-        }
-      } else if (this.session.filterObjValue.lob === 'Uncategorized') {
-        if (cardData.hasOwnProperty('Un')) {
-          hoverColors.push('#00B8CC');
-        }
-      }
-      return hoverColors;
-    }
-  }
-
-  getParmaeterCategories() {
+  getParameterCategories(param) {
     let parameters = [];
-    this.tin = this.session.filterObjValue.tax.toString().replace(/-/g, '');
-    this.lob = this.session.filterObjValue.lob;
-    this.timeFrame = this.session.filterObjValue.timeFrame;
     this.providerKey = this.session.providerKeyData();
-    if (
-      this.timeFrame === 'Last 12 Months' ||
-      this.timeFrame === 'Last 6 Months' ||
-      this.timeFrame === 'Last 3 Months' ||
-      this.timeFrame === 'Last 30 Days' ||
-      this.timeFrame === 'Year to Date'
-    ) {
-      if (this.timeFrame === 'Last 12 Months') {
-        if (this.tin !== 'All' && this.lob !== 'All') {
-          parameters = [
-            this.providerKey,
-            { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Last12Months', Tin: this.tin }
-          ];
-        } else if (this.tin !== 'All') {
-          parameters = [this.providerKey, { TimeFilter: 'Last12Months', Tin: this.tin }];
-        } else if (this.lob !== 'All') {
-          parameters = [
-            this.providerKey,
-            { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Last12Months' }
-          ];
-        } else {
-          parameters = [this.providerKey, { TimeFilter: 'Last12Months' }];
-        }
-      } else if (this.timeFrame === 'Year to Date') {
-        if (this.tin !== 'All' && this.lob !== 'All') {
-          parameters = [
-            this.providerKey,
-            { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'YTD', Tin: this.tin }
-          ];
-        } else if (this.tin !== 'All') {
-          parameters = [this.providerKey, { TimeFilter: 'YTD', Tin: this.tin }];
-        } else if (this.lob !== 'All') {
-          parameters = [this.providerKey, { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'YTD' }];
-        } else {
-          parameters = [this.providerKey, { TimeFilter: 'YTD' }];
-        }
-      } else if (this.timeFrame === 'Last 6 Months') {
-        if (this.tin !== 'All' && this.lob !== 'All') {
-          parameters = [
-            this.providerKey,
-            { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Last6Months', Tin: this.tin }
-          ];
-        } else if (this.tin !== 'All') {
-          parameters = [this.providerKey, { TimeFilter: 'Last6Months', Tin: this.tin }];
-        } else if (this.lob !== 'All') {
-          parameters = [
-            this.providerKey,
-            { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Last6Months' }
-          ];
-        } else {
-          parameters = [this.providerKey, { TimeFilter: 'Last6Months' }];
-        }
-      } else if (this.timeFrame === 'Last 3 Months') {
-        if (this.tin !== 'All' && this.lob !== 'All') {
-          parameters = [
-            this.providerKey,
-            { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Last3Months', Tin: this.tin }
-          ];
-        } else if (this.tin !== 'All') {
-          parameters = [this.providerKey, { TimeFilter: 'Last3Months', Tin: this.tin }];
-        } else if (this.lob !== 'All') {
-          parameters = [
-            this.providerKey,
-            { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Last3Months' }
-          ];
-        } else {
-          parameters = [this.providerKey, { TimeFilter: 'Last3Months' }];
-        }
-      } else if (this.timeFrame === 'Last 30 Days') {
-        if (this.tin !== 'All' && this.lob !== 'All') {
-          parameters = [
-            this.providerKey,
-            { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Last30Days', Tin: this.tin }
-          ];
-        } else if (this.tin !== 'All') {
-          parameters = [this.providerKey, { TimeFilter: 'Last30Days', Tin: this.tin }];
-        } else if (this.lob !== 'All') {
-          parameters = [
-            this.providerKey,
-            { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Last30Days' }
-          ];
-        } else {
-          parameters = [this.providerKey, { TimeFilter: 'Last30Days' }];
-        }
-      }
-    } else {
-      const lobData = this.common.matchLobWithData(this.lob);
-      if (this.tin !== 'All' && this.lob !== 'All') {
-        parameters = [
-          this.providerKey,
-          {
-            Lob: this.common.matchLobWithCapsData(this.lob),
-            TimeFilter: 'CalendarYear',
-            TimeFilterText: this.timeFrame,
-            Tin: this.tin
-          }
-        ];
-      } else if (this.tin !== 'All') {
-        parameters = [this.providerKey, { TimeFilter: 'CalendarYear', TimeFilterText: this.timeFrame, Tin: this.tin }];
-      } else if (this.lob !== 'All') {
-        parameters = [
-          this.providerKey,
-          {
-            Lob: this.common.matchLobWithCapsData(this.lob),
-            TimeFilter: 'CalendarYear',
-            TimeFilterText: this.timeFrame
-          }
-        ];
-      } else {
-        parameters = [this.providerKey, { TimeFilter: 'CalendarYear', TimeFilterText: this.timeFrame }];
-      }
-    } // End If else structure
+    parameters = [this.providerKey, new GettingReimbursedPayload(param)];
     return parameters;
-  } // end getParmaeterCategories() function for Top Reasons Categories
+  }
 
   // The getNonPayment() function fetches data for Claims Not Paid and Claims Non-Payment Rate
-  public getPaymentShared() {
-    this.timeFrame = this.session.filterObjValue.timeFrame;
-
+  public getPaymentShared(param) {
+    this.timeFrame = this.common.getTimePeriodFilterValue(param.timePeriod);
+    this.lob = param.lineOfBusiness ? _.startCase(param.lineOfBusiness.toLowerCase()) : 'All';
     this.providerKey = this.session.providerKeyData();
     return new Promise(resolve => {
-      const parameters = this.getParmaeterCategories();
+      const parameters = this.getParameterCategories(param);
       this.topRowService.getPaymentData(...parameters).subscribe(
         paymentData => {
           const paymentDataResolve = [];
           paymentDataResolve.push(
-            this.totalClaimsSubmittedMethod(paymentData),
-            this.claimsPaidMethod(paymentData),
-            this.claimsNotPaidMethod(paymentData)
+            this.totalClaimsSubmittedMethod(param, paymentData),
+            this.claimsPaidMethod(param, paymentData),
+            this.claimsNotPaidMethod(param, paymentData)
           );
           resolve(paymentDataResolve);
         },
@@ -241,9 +55,9 @@ export class TopRowAdvOverviewSharedService {
       );
     });
   }
-  public totalClaimsSubmittedMethod(paymentData): Object {
+  public totalClaimsSubmittedMethod(param, paymentData): Object {
     let claimsSubmitted: Object;
-    const lobData = this.common.matchLobWithData(this.lob);
+    const lobData = param.lineOfBusiness ? _.startCase(param.lineOfBusiness.toLowerCase()) : 'All';
     if (
       paymentData.hasOwnProperty(lobData) &&
       paymentData[lobData] != null &&
@@ -294,7 +108,8 @@ export class TopRowAdvOverviewSharedService {
     }
     return claimsSubmitted;
   }
-  public claimsPaidMethod(paymentData): Object {
+  public claimsPaidMethod(param, paymentData): Object {
+    const lobData = param.lineOfBusiness ? _.startCase(param.lineOfBusiness.toLowerCase()) : 'All';
     let claimsPaid: Object;
     if (
       (paymentData || {}).All &&
@@ -352,13 +167,13 @@ export class TopRowAdvOverviewSharedService {
             this.common.nFormatter(paymentData.All.ClaimsLobSummary[0].AmountPaid) > 0
               ? '< $1'
               : '$' + this.common.nFormatter(paymentData.All.ClaimsLobSummary[0].AmountPaid),
-          color: this.returnLobColor(paymentData),
+          color: this.common.returnLobColor(paymentData, lobData),
           gdata: ['card-inner', 'claimsPaid'],
           besideData: {
             labels: ['M&R', 'C&S', 'E&I', 'Uncategorized'],
             color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC']
           },
-          labels: this.returnHoverLabels(paymentData),
+          labels: this.common.returnHoverLabels(paymentData, lobData),
           hover: true
         },
         sdata: {
@@ -382,7 +197,8 @@ export class TopRowAdvOverviewSharedService {
     }
     return claimsPaid;
   }
-  public claimsNotPaidMethod(paymentData): Object {
+  public claimsNotPaidMethod(param, paymentData): Object {
+    const lobData = param.lineOfBusiness ? _.startCase(param.lineOfBusiness.toLowerCase()) : 'All';
     let claimsNotPaid: Object;
     if (
       (paymentData || {}).All &&
@@ -440,13 +256,13 @@ export class TopRowAdvOverviewSharedService {
             this.common.nFormatter(paymentData.All.ClaimsLobSummary[0].AmountDenied) > 0
               ? '< $1'
               : '$' + this.common.nFormatter(paymentData.All.ClaimsLobSummary[0].AmountDenied),
-          color: this.returnLobColor(paymentData),
+          color: this.common.returnLobColor(paymentData, lobData),
           gdata: ['card-inner', 'claimsNotPaid'],
           besideData: {
             labels: ['M&R', 'C&S', 'E&I', 'Uncategorized'],
             color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC']
           },
-          labels: this.returnHoverLabels(paymentData),
+          labels: this.common.returnHoverLabels(paymentData, lobData),
           hover: true
         },
         sdata: {
