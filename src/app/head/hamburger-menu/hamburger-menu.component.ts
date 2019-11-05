@@ -341,13 +341,13 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     //   });
     // }
     if (!this.navCategories.some(i => i.name === 'Patient Care Opportunity')) {
-      this.navCategories[4] = {
+      this.navCategories[3] = {
         icon: 'care-delivery',
         name: 'Patient Care Opportunity ',
         path: '/CareDelivery/PatientCareOpportunity',
         disabled: false
       };
-      this.navCategories[5] = {
+      this.navCategories[4] = {
         icon: 'service-interaction',
         name: 'Service Interaction',
         children: [
@@ -355,14 +355,14 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
           { name: 'Calls', path: '/ServiceInteraction/Calls' }
         ]
       };
-      this.navCategories[6] = {
+      this.navCategories[5] = {
         icon: 'timeline',
         name: 'Summary Trends',
         path: '/AdminSummaryTrends',
         disabled: true
       };
     } else {
-      this.navCategories[4] = {
+      this.navCategories[3] = {
         icon: 'service-interaction',
         name: 'Service Interaction',
         children: [
@@ -370,7 +370,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
           { name: 'Calls', path: '/ServiceInteraction/Calls' }
         ]
       };
-      this.navCategories[5] = {
+      this.navCategories[4] = {
         icon: 'timeline',
         name: 'Summary Trends',
         path: '/AdminSummaryTrends',
