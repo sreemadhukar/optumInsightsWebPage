@@ -119,14 +119,6 @@ export class PatientCareOpportunityComponent implements OnInit {
     this.PCORTabData = true;
     this.customFormatting = [
       {
-        name: 'D10 - Medication Adherence for Diabetes Medications',
-        format: 'newLine'
-      },
-      {
-        name: 'DMC15 - Hospitalizations for Potentially Preventable Complications',
-        format: 'newLine'
-      },
-      {
         name: 'C13 - Diabetes Care - Eye Exam',
         format: 'bulletPoint'
       },
@@ -143,6 +135,14 @@ export class PatientCareOpportunityComponent implements OnInit {
         name: 'D14',
         format: 'newLine'
       },
+       {
+       name: 'D10 - Medication Adherence for Diabetes Medications',
+       format: 'newLine'
+       },
+       {
+       name: 'DMC15 - Hospitalizations for Potentially Preventable Complications',
+       format: 'newLine'
+       },
       Will add once ETL change
       */
     ];
