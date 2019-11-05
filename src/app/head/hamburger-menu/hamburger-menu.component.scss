@@ -152,6 +152,16 @@ app-header {
     vertical-align: bottom;
   }
 }
+.navCategoryItem {
+  /*padding-left: 32px !important;*/
+  color: $strom-grey;
+  font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  letter-spacing: 0.2px;
+  margin-top: 4px !important;
+  line-height: 18px;
+  margin-left: 38px !important; // previously 30px befor PI sub menu undo when toggled off
+}
 
 .firstNavCategory {
   margin-top: 15px !important;
@@ -160,6 +170,7 @@ app-header {
   font-size: 16px !important;
   letter-spacing: 0.2px;
   line-height: 18px;
+  margin-top: 20px !important;
 }
 
 .mat-expansion-panel-content,
@@ -190,17 +201,6 @@ app-header {
   /*padding-left: 32px !important;*/
 }
 
-.navCategoryItem {
-  /*padding-left: 32px !important;*/
-  color: $strom-grey;
-  font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
-  font-size: 14px;
-  letter-spacing: 0.2px;
-  margin-top: 4px !important;
-  line-height: 18px;
-  margin-left: 38px !important; // previously 30px befor PI sub menu undo when toggled off
-}
-
 .mat-expansion-panel-body {
   padding: 0px !important;
 }
@@ -226,7 +226,7 @@ app-header {
   color: $strom-grey !important;
   font-size: 16px !important;
   letter-spacing: 0.2px;
-  margin-top: 16px;
+  /*margin-top: 16px;*/
 }
 
 .nav-sub-category-items {
