@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewEncapsulation, Input } from '@angular/core';
 import * as d3 from 'd3';
+import { forEach } from '@angular/router/src/utils/collection';
 
 @Component({
   selector: 'app-multi-line-graph',
@@ -20,6 +21,13 @@ export class MultiLineGraphComponent implements OnInit {
   public temp: any;
   public selectYear;
   public count = 1;
+  public monthlyData = [];
+  public monthValue;
+  public yCoordinates: any = [];
+  public y1;
+  public y2;
+  public y3;
+  public y4;
 
   @Input() yearComparison;
   @Input() chartOptions: any = {};
@@ -208,58 +216,15 @@ export class MultiLineGraphComponent implements OnInit {
       }
     } // ends formatDynamicAbbrevia function
 
-    function tooltipText(d, year, prefix) {
-      if (year == undefined || !year || year === '') {
-        return (
-          "<div class='lineLabelHover'>" +
-          "Claims Not <br> Paid</div><div class='details-label'>" +
-          prefix +
-          formatDy(d.y)
-        );
-      } else {
-        return (
-          "<div class='lineLabelHover'>" +
-          "&nbsp; Claims Not <br> Paid</div><div class='details-label'>&nbsp;&nbsp;&nbsp;" +
-          d.x +
-          '&nbsp;&nbsp;' +
-          year[0] +
-          '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' +
-          prefix +
-          formatDy(d.y) +
-          "<hr class='hr_cust_margin hr_opacity'><span class='circle_label_sm circle2'></span>&nbsp;&nbsp;&nbsp;" +
-          d.x +
-          '&nbsp;&nbsp;' +
-          year[1] +
-          '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' +
-          prefix +
-          formatDy(d.y_twoYearsAgo) +
-          '%</div></div>'
-        );
-      }
+    function tooltipText(monthValue, y1, y2, y3, y4) {
+      return `<div class="lineLabelHover">
+          ${monthValue ? `<p class="month-value">${monthValue}</p>` : ''}
+          ${y1 != null ? `<p><div class="tooltip-mr-img"></div> M&R : (${y1})</p>` : ''}
+          ${y2 != null ? `<p><div class="tooltip-cs-img"></div> C&S : (${y2})</p>` : ''}
+          ${y3 != null ? `<p><div class="tooltip-ei-img"></div> E&I : (${y3})</p>` : ''}
+          ${y4 != null ? `<p><div class="tooltip-other-img"></div> Other : (${y4})</p>` : ''}
+        </div>`;
     }
-    // function tooltipText2(d, year, prefix) {
-    //   return (
-    //     "<div class='lineLabelHover'>" +
-    //     d.x +
-    //     // tslint:disable-next-line:max-line-length
-    //     "&nbsp; Trend Details</div><hr class='hr_cust_margin'><div class='details-label'>
-    //     <span class='circle_label_sm circle1'></span>&nbsp;&nbsp;&nbsp;" +
-    //     d.x +
-    //     '&nbsp;&nbsp;' +
-    //     year[0] +
-    //     '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' +
-    //     prefix +
-    //     formatDy(d.y_lastYear) +
-    //     "<hr class='hr_cust_margin hr_opacity'><span class='circle_label_sm circle2'></span>&nbsp;&nbsp;&nbsp;" +
-    //     d.x +
-    //     '&nbsp;&nbsp;' +
-    //     year[1] +
-    //     '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' +
-    //     prefix +
-    //     formatDy(d.y) +
-    //     '%</div></div>'
-    //   );
-    // }
 
     const preWidth = 621; // document.getElementById(generalData.parentDiv).clientWidth;
 
@@ -283,13 +248,13 @@ export class MultiLineGraphComponent implements OnInit {
       .style('background-color', generalData.backgroundColor)
       .append('g')
       .attr('transform', 'translate(' + (margin.left - 7) + ',' + 5 + ')');
-    /* const div = d3
+    const div = d3
       .select(this.renderChart)
       .append('div')
       .attr('class', 'tooltip')
-      .style('opacity', 0);*/
+      .style('opacity', 0);
 
-    const shiftTooltip = -130;
+    const shiftTooltip = 85;
 
     if (generalData.tooltipBoolean === true) {
       // tslint:disable-next-line:no-var-keyword
@@ -496,158 +461,205 @@ export class MultiLineGraphComponent implements OnInit {
       }
     }
 
-    if (this.chartOptions.lineTwo.chartData != undefined && this.chartOptions.lineTwo.chartData.length > 0) {
-      chart
-        .append('text')
-        .attr('id', 'forlolCalculations2')
-        .attr('font-family', 'UHCSans-Regular')
-        .attr('font-size', '14px')
-        .text(chartData2[0].name)
-        .style('font-weight', '600');
-
-      const text_element2 = chart.select('#forlolCalculations2');
-      // tslint:disable-next-line:no-var-keyword
-      const textWidth2 = text_element2.node().getComputedTextLength();
-      chart.select('#forlolCalculations2').remove();
-
-      // if (chartData2.name.length === 4) {
-      //   textWidth2 = textWidth2 / 2;
-      // } else if (chartData2.name.length === 3) {
-      //   textWidth2 = textWidth2 * 1.25;
-      // }
-
-      /* Starts Data for tooltip */
-      /*if (this.chartOptions.chartData2 != undefined && this.chartOptions.chartData2.length > 0) {
-        // tslint:disable-next-line:no-var-keyword
-        // const data2 = [];
-         // tslint:disable-next-line:no-var-keyword
-        var data = [];
-        for (let v = 0; v < lengthOfData; v++) {
-          data.push({
-            y: chartData[v].value,
-            y_twoYearsAgo: chartData2[v].value,
-            xCoordinate: xScale(v),
-            x: chartData[v].name
-          });
-        }
-        for (let u = 0; u < lengthOfData2; u++) {
-          data2.push({
-            y: chartData2[u].value,
-            y_lastYear: chartData[u].value,
-            xCoordinate: xScale(u),
-            x: chartData2[u].name,
-            x_lastYear: chartData[u].name
-          });
-        }
-      }
-      /* Ends Data for tooltip */
-
-      /* chart
-        .append('g')
-        .attr('visibility', 'hidden')
-        .attr('id', 'forYCalculations2')
-        .call(
-          d3
-            .axisLeft(yScale)
-            .tickSize(5, 0, 0)
-            .tickSizeOuter([0])
-            .ticks(3)
-        );
-      const preYArray2 = d3
-        .select('#forYCalculations2')
-        .selectAll('.tick>text')
-        .nodes()
-        .map(function(t) {
-          return t.innerHTML;
+    const RectBarOne = chart
+      .selectAll('.multi-line-rect-bar')
+      .data(data)
+      .enter()
+      .append('rect')
+      .style('fill', '#E3F0FD')
+      .style('opacity', 0)
+      .attr('class', 'multi-line-rect-bar')
+      .attr('x', function(d) {
+        return d.xCoordinate - 22;
+      })
+      .attr('id', function(d) {
+        return 'rect-id-' + d.x.replace(/\s/g, '');
+      })
+      .attr('y', 0)
+      .on('mouseover', d => {
+        const RectBarId = 'rect-id-' + d.x.replace(/\s/g, ''),
+          RectBar = chart.selectAll(`rect[id=${RectBarId}]`),
+          DotId1 = 'dot-id1-' + d.x.replace(/\s/g, ''),
+          DotId2 = 'dot-id2-' + d.x.replace(/\s/g, ''),
+          DotId3 = 'dot-id3-' + d.x.replace(/\s/g, ''),
+          DotId4 = 'dot-id4-' + d.x.replace(/\s/g, ''),
+          RectBarDot1 = chart.selectAll(`circle[id=${DotId1}]`),
+          RectBarDot2 = chart.selectAll(`circle[id=${DotId2}]`),
+          RectBarDot3 = chart.selectAll(`circle[id=${DotId3}]`),
+          RectBarDot4 = chart.selectAll(`circle[id=${DotId4}]`);
+        RectBar.transition()
+          .duration(200)
+          .style('opacity', 1)
+          .style('cursor', 'pointer');
+        [RectBarDot1, RectBarDot2, RectBarDot3, RectBarDot4].forEach(dot => {
+          dot
+            .transition()
+            .duration(200)
+            .style('opacity', 1);
         });
 
-      d3.select('#forYCalculations2').remove();
-      for (let c = 0; c < preYArray2.length; c++) {
-        preYArray2[c] = preYArray2[c].replace(/,/g, '');
-      }
-      const preArrayOfNumbers2 = preYArray2.map(Number);
-      const numberOfTicks2 = preArrayOfNumbers2.length;
-      const highestTickValue2 = preArrayOfNumbers2[numberOfTicks2 - 1];
-      */
-    }
-
-    // end if structure of chartData2
-
-    // const RectBarOne = chart
-    //   .selectAll('.rect-bar')
-    //   .data(data)
-    //   .enter()
-    //   .append('rect')
-    //   .style('fill', '#E3F0FD')
-    //   .style('opacity', 0)
-    //   .attr('class', 'rect-bar')
-    //   .attr('x', function(d) {
-    //     return d.xCoordinate - 22;
-    //   })
-    //   .attr('id', function(d) {
-    //     return 'rect-id-' + d.x;
-    //   })
-    //   .attr('y', 0)
-    //   .on('mouseover', d => {
-    //     const RectBar = chart.selectAll('#rect-id-' + d.x);
-    //     RectBar.transition()
-    //       .duration(200)
-    //       .style('opacity', 1)
-    //       .style('cursor', 'pointer');
-    //     const RectBarDot = chart.selectAll('#dot-id-' + d.x);
-    //     RectBarDot.transition()
-    //       .duration(200)
-    //       .style('opacity', 1);
-
-    //     tooltipVar
-    //       .transition()
-    //       .duration(200)
-    //       .style('opacity', 1);
-    //     const topMar = yScale(d.y) + 39 + 'px';
-    //     if (d3.event.layerX + 213 < width + margin.left + margin.right) {
-    //       tooltipVar
-    //         .html(tooltipText(d, this.yearComparison, axisPrefix))
-    //         .classed('hidden', false)
-    //         .classed('tooltipClass', true)
-    //         .classed('tooltipClassLeft', false)
-    //         .style('left', d.xCoordinate + 56 + 'px')
-    //         .style('top', topMar);
-    //     } else {
-    //       tooltipVar
-    //         .html(tooltipText(d, this.yearComparison, axisPrefix))
-    //         .classed('hidden', false)
-    //         .classed('tooltipClass', false)
-    //         .classed('tooltipClassLeft', true)
-    //         .style('left', d.xCoordinate + 56 + shiftTooltip + 'px')
-    //         .style('top', topMar);
-    //     }
-    //   })
-    //   .on('mouseout', function(d) {
-    //     const RectBar = chart.selectAll('#rect-id-' + d.x);
-    //     RectBar.transition()
-    //       .duration(200)
-    //       .style('opacity', 0);
-    //     const RectBarDot = chart.selectAll('#dot-id-' + d.x);
-    //     RectBarDot.transition()
-    //       .duration(200)
-    //       .style('opacity', 0);
-
-    //     tooltipVar
-    //       .transition()
-    //       .duration(500)
-    //       .style('opacity', 0);
-    //   });
+        tooltipVar
+          .transition()
+          .duration(200)
+          .style('opacity', 1);
+        const topMar = yScale(d.y) + 39 + 'px';
+        this.monthValue = d.x.replace(/\s/g, '');
+        if (data.length > 0) {
+          data.forEach(value => {
+            if (value.x.replace(/\s/g, '') === this.monthValue) {
+              this.yCoordinates[0] = value.y;
+            }
+          });
+        }
+        if (data1.length > 0) {
+          data1.forEach(value => {
+            if (value.x.replace(/\s/g, '') === this.monthValue) {
+              this.yCoordinates[1] = value.y;
+            }
+          });
+        }
+        if (data2.length > 0) {
+          data2.forEach(value => {
+            if (value.x.replace(/\s/g, '') === this.monthValue) {
+              this.yCoordinates[2] = value.y;
+            }
+          });
+        }
+        if (data3.length > 0) {
+          data3.forEach(value => {
+            if (value.x.replace(/\s/g, '') === this.monthValue) {
+              this.yCoordinates[3] = value.y;
+            }
+          });
+        }
+        if (d3.event.layerX + 213 < width + margin.left + margin.right) {
+          tooltipVar
+            .html(
+              tooltipText(
+                this.monthValue,
+                this.yCoordinates[0],
+                this.yCoordinates[1],
+                this.yCoordinates[2],
+                this.yCoordinates[3]
+              )
+            )
+            .classed('hidden', false)
+            .classed('tooltip-class', true)
+            .classed('tooltip-class-left', false)
+            .style('left', d.xCoordinate + 265 + 'px')
+            .style('top', topMar);
+        } else {
+          tooltipVar
+            .html(
+              tooltipText(
+                this.monthValue,
+                this.yCoordinates[0],
+                this.yCoordinates[1],
+                this.yCoordinates[2],
+                this.yCoordinates[3]
+              )
+            )
+            .classed('hidden', false)
+            .classed('tooltip-class', false)
+            .classed('tooltip-class-left', true)
+            .style('left', d.xCoordinate + 5 + shiftTooltip + 'px')
+            .style('top', topMar);
+        }
+      })
+      .on('mouseout', function(d) {
+        const RectBarId = 'rect-id-' + d.x.replace(/\s/g, ''),
+          RectBar = chart.selectAll(`rect[id=${RectBarId}]`),
+          DotId1 = 'dot-id1-' + d.x.replace(/\s/g, ''),
+          DotId2 = 'dot-id2-' + d.x.replace(/\s/g, ''),
+          DotId3 = 'dot-id3-' + d.x.replace(/\s/g, ''),
+          DotId4 = 'dot-id4-' + d.x.replace(/\s/g, ''),
+          RectBarDot1 = chart.selectAll(`circle[id=${DotId1}]`),
+          RectBarDot2 = chart.selectAll(`circle[id=${DotId2}]`),
+          RectBarDot3 = chart.selectAll(`circle[id=${DotId3}]`),
+          RectBarDot4 = chart.selectAll(`circle[id=${DotId4}]`);
+        RectBar.transition()
+          .duration(200)
+          .style('opacity', 0)
+          .style('cursor', 'pointer');
+        [RectBarDot1, RectBarDot2, RectBarDot3, RectBarDot4].forEach(dot => {
+          dot
+            .transition()
+            .duration(200)
+            .style('opacity', 0);
+        });
+        tooltipVar
+          .transition()
+          .duration(500)
+          .style('opacity', 0);
+      });
 
     const DotOne = chart
-      .selectAll('.dot')
+      .selectAll('.multi-line-dot1')
       .data(data)
       .enter()
       .append('circle')
-      .style('fill', '#3381FF')
+      .style('fill', this.chartOptions.lineOne.generalData.barColor)
       .style('opacity', 0)
-      .attr('class', 'dot')
+      .attr('class', 'multi-line-dot1')
       .attr('id', function(d) {
-        return 'dot-id-' + d.x;
+        return 'dot-id1-' + d.x.replace(/\s/g, '');
+      })
+      .attr('cx', function(d) {
+        return d.xCoordinate;
+      })
+      .attr('cy', function(d) {
+        return yScale(d.y);
+      })
+      .attr('r', 6);
+
+    const DotTwo = chart
+      .selectAll('.multi-line-dot2')
+      .data(data1)
+      .enter()
+      .append('circle')
+      .style('fill', this.chartOptions.lineTwo.generalData.barColor)
+      .style('opacity', 0)
+      .attr('class', 'multi-line-dot2')
+      .attr('id', function(d) {
+        return 'dot-id2-' + d.x.replace(/\s/g, '');
+      })
+      .attr('cx', function(d) {
+        return d.xCoordinate;
+      })
+      .attr('cy', function(d) {
+        return yScale(d.y);
+      })
+      .attr('r', 6);
+
+    const DotThree = chart
+      .selectAll('.multi-line-dot3')
+      .data(data2)
+      .enter()
+      .append('circle')
+      .style('fill', this.chartOptions.lineThree.generalData.barColor)
+      .style('opacity', 0)
+      .attr('class', 'multi-line-dot3')
+      .attr('id', function(d) {
+        return 'dot-id3-' + d.x.replace(/\s/g, '');
+      })
+      .attr('cx', function(d) {
+        return d.xCoordinate;
+      })
+      .attr('cy', function(d) {
+        return yScale(d.y);
+      })
+      .attr('r', 6);
+
+    const DotFour = chart
+      .selectAll('.multi-line-dot4')
+      .data(data3)
+      .enter()
+      .append('circle')
+      .style('fill', this.chartOptions.lineFour.generalData.barColor)
+      .style('opacity', 0)
+      .attr('class', 'multi-line-dot4')
+      .attr('id', function(d) {
+        return 'dot-id4-' + d.x.replace(/\s/g, '');
       })
       .attr('cx', function(d) {
         return d.xCoordinate;
@@ -662,7 +674,7 @@ export class MultiLineGraphComponent implements OnInit {
       chart
         .append('path')
         .datum(data)
-        .attr('class', 'line')
+        .attr('class', 'multi-line')
         .attr('d', line)
         .attr('id', 'LineOne')
         .style('fill', 'none')
@@ -674,7 +686,7 @@ export class MultiLineGraphComponent implements OnInit {
       chart
         .append('path')
         .datum(data1)
-        .attr('class', 'line2')
+        .attr('class', 'multi-line2')
         .attr('d', line)
         .attr('id', 'LineTwo')
         .style('fill', 'none')
@@ -687,7 +699,7 @@ export class MultiLineGraphComponent implements OnInit {
       chart
         .append('path')
         .datum(data2)
-        .attr('class', 'line3')
+        .attr('class', 'multi-line3')
         .attr('d', line)
         .attr('id', 'LineThree')
         .style('fill', 'none')
@@ -699,7 +711,7 @@ export class MultiLineGraphComponent implements OnInit {
       chart
         .append('path')
         .datum(data3)
-        .attr('class', 'line4')
+        .attr('class', 'multi-line4')
         .attr('d', line)
         .attr('id', 'LineFour')
         .style('fill', 'none')
@@ -707,172 +719,5 @@ export class MultiLineGraphComponent implements OnInit {
         .style('stroke-dasharray', '7, 7')
         .style('stroke-width', '2');
     }
-
-    /* if (this.chartOptions.chartData2 != undefined && this.chartOptions.chartData2.length > 0) {
-      chart
-        .selectAll('.dot2')
-        .data(data2)
-        .enter()
-        .append('circle')
-        .attr('class', 'dot2')
-        .attr('cx', function(d) {
-          return d.xCoordinate;
-        })
-        .attr('cy', function(d) {
-          return yScale(d.y);
-        })
-        .attr('r', 5)
-        .on('mouseover', d => {
-          tooltipVar
-            .transition()
-            .duration(200)
-            .style('opacity', 1);
-          if (d3.event.layerX + 213 < width + margin.left + margin.right) {
-            tooltipVar
-              .html(tooltipText2(d, this.yearComparison, axisPrefix))
-              .classed('hidden', false)
-              .classed('tooltipClass', true)
-              .classed('tooltipClassLeft', false)
-              .style('left', d3.event.layerX + 23 + 'px')
-              .style('top', d3.event.layerY + -20 + 'px');
-          } else {
-            tooltipVar
-              .html(tooltipText2(d, this.yearComparison, axisPrefix))
-              .classed('hidden', false)
-              .classed('tooltipClass', false)
-              .classed('tooltipClassLeft', true)
-              .style('left', d3.event.layerX + 23 + shiftTooltip + 'px')
-              .style('top', d3.event.layerY + -20 + 'px');
-          }
-        })
-        .on('mouseout', function(d) {
-          tooltipVar
-            .transition()
-            .duration(500)
-            .style('opacity', 0);
-        });
-    }
-    */
-
-    chart
-      .append('text')
-      .attr('id', 'forTextCalculations')
-      .attr('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
-      .attr('font-size', '15px')
-      .text(titleData[0].title);
-
-    let text_element = chart.select('#forTextCalculations');
-    let textWidth = text_element.node().getComputedTextLength();
-
-    chart.select('#forTextCalculations').remove();
-
-    chart
-      .append('text')
-      .attr('x', xScalePath(1) - textWidth / 2)
-      .attr('y', -125)
-      .style('font-size', '15px')
-      .style('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
-      .style('fill', '#2D2D39')
-      .text(titleData[0].title);
-
-    // Start custom box
-    if (titleData[0].topTitleBoxNumber) {
-      let rectangleWidth = 130;
-      const numberOfInt = titleData[0].topTitleBoxNumber.replace(/\D/g, '').length;
-
-      if (numberOfInt === 2) {
-        rectangleWidth = 110;
-      } else if (numberOfInt === 3) {
-        rectangleWidth = 130;
-      } else if (numberOfInt === 4) {
-        rectangleWidth = 150;
-      } else if (numberOfInt === 5) {
-        rectangleWidth = 170;
-      } else if (numberOfInt === 6) {
-        rectangleWidth = 190;
-      } else if (numberOfInt === 7) {
-        rectangleWidth = 210;
-      } else {
-        rectangleWidth = 230;
-      }
-
-      chart
-        .append('rect')
-        .attr('rx', 4)
-        .attr('ry', 4)
-        .attr('x', xScalePath(1) - rectangleWidth / 2)
-        .attr('y', -100)
-        .attr('width', rectangleWidth)
-        .attr('height', 54)
-        .attr('fill', 'white')
-        .attr('stroke', '#B3BABC')
-        .attr('stroke-width', 1);
-      chart
-        .append('text')
-        .attr('id', 'forTextCalculations')
-        .attr('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
-        .attr('font-size', '22px')
-        .text(titleData[0].topTitleBoxNumber + ' ' + titleData[0].topTitleBoxNumberType);
-
-      text_element = chart.select('#forTextCalculations');
-      textWidth = text_element.node().getComputedTextLength();
-
-      chart.select('#forTextCalculations').remove();
-
-      chart
-        .append('text')
-        .attr('x', xScalePath(1) - textWidth / 2)
-        .attr('y', -75)
-        .style('font-size', '22px')
-        .style('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
-        .style('fill', '#2D2D39')
-        .text(titleData[0].topTitleBoxNumber + ' ' + titleData[0].topTitleBoxNumberType);
-
-      chart
-        .append('text')
-        .attr('id', 'forTextCalculations')
-        .attr('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
-        .attr('font-size', '15px')
-        .text(titleData[0].percentageValue + '% ' + titleData[0].percentageValueType);
-
-      text_element = chart.select('#forTextCalculations');
-      textWidth = text_element.node().getComputedTextLength();
-
-      chart.select('#forTextCalculations').remove();
-
-      chart
-        .append('text')
-        .attr('x', xScalePath(1) - textWidth / 2)
-        .attr('y', -55)
-        .style('font-size', '15px')
-        .style('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
-        .style('fill', '#21B01E')
-        .text(titleData[0].percentageValue + '% ' + titleData[0].percentageValueType);
-
-      const polygonPoint = xScalePath(1) - textWidth / 2 - 7.5;
-
-      chart
-        .append('polygon')
-        .style('stroke', '#21B01E')
-        .style('fill', '#21B01E')
-        .attr('points', polygonPoint + ',-60, ' + (polygonPoint + 2.5) + ',-57.5, ' + (polygonPoint + 5) + ',-60');
-    } // end if structure of titleData // End custom box
-
-    if (titleData[0].averagePeerPerformance) {
-      let sumOfData = 0;
-      for (let i = 0; i < chartData.length; i++) {
-        sumOfData = sumOfData + chartData[i].value;
-      }
-
-      const average = sumOfData / chartData.length;
-
-      chart
-        .append('rect')
-        .attr('x', 0)
-        .attr('y', yScale(average))
-        .attr('width', width)
-        .attr('height', yScale(average))
-        .attr('fill', 'rgba(0,168,247,0.3)');
-    } // end if structure o titleData[0].averagePeerPerformance
   } // end dolineGraph Function
 } // export class ends here
