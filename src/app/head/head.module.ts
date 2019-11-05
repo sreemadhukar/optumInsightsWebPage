@@ -15,6 +15,7 @@ import { TermsOfUseComponent } from './terms-of-use/terms-of-use.component';
 import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component';
 import { SiteMapComponent } from './site-map/site-map.component';
 import { CustomPreloadingStrategy } from './custom-preloading';
+import { TinListPageComponent } from './tin-list-page/tin-list-page.component';
 @NgModule({
   imports: [CommonModule, HeadRoutingModule, HeadMaterialModule, CommonUtilsModule, FooterModule],
   exports: [BodyComponent, HeaderComponent],
@@ -24,7 +25,8 @@ import { CustomPreloadingStrategy } from './custom-preloading';
     BodyComponent,
     TermsOfUseComponent,
     PrivacyPolicyComponent,
-    SiteMapComponent
+    SiteMapComponent,
+    TinListPageComponent
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

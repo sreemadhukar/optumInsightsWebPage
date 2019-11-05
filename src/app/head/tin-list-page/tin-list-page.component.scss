@@ -1,0 +1,64 @@
+@import '~src/scss/variables.scss';
+@import '~src/scss/mixins';
+.tin-list-content {
+  margin: auto;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  max-width: 1000px;
+  padding-bottom: 24px;
+  background-color: $alice-blue;
+  padding-top: 16px;
+  padding-left: 32px;
+  padding-right: 32px;
+}
+
+.nav-menu-icons-back-button {
+  height: 40px;
+  width: 40px;
+}
+
+.tin-list-head {
+  display: flex;
+  flex-wrap: wrap;
+  padding-top: 32px;
+  color: #2d2d39;
+  font-family: 'UHCSans-Regular';
+  font-size: 36px;
+  line-height: 40px;
+}
+
+.tin-list-sub-head-provider-name {
+  color: #2d2d39;
+  font-family: 'UHCSans-SemiBold';
+  font-size: 22px;
+  line-height: 28px;
+}
+
+.tin-list-sub-head-tin-number-div {
+  padding-top: 32px;
+  display: flex;
+  color: #2d2d39;
+  font-family: 'UHCSans-Regular';
+  font-size: 16px;
+  letter-spacing: 0.2px;
+  line-height: 22px;
+  .tin-list-sub-head-tin-number {
+    font-family: 'UHCSans-SemiBold';
+  }
+  padding-bottom: 23px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.tin-list-body {
+  margin-top: 24px;
+  padding-top: 16px;
+  .tin-list-body-head {
+    color: #757588;
+    font-family: 'UHCSans-Regular';
+    font-size: 14px;
+    letter-spacing: 0.2px;
+    line-height: 18px;
+    padding-bottom: 12px;
+  }
+}
