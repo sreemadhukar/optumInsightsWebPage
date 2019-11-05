@@ -35,13 +35,6 @@
   margin-top: 17px;
 }
 
-.dot2 {
-  fill: $white;
-  stroke: rgba(213, 55, 4, 1);
-  border: 15px;
-  border-color: rgba(213, 55, 4, 1);
-}
-
 .grid text {
   font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
   font-size: 14px;
@@ -102,45 +95,9 @@
   visibility: hidden;
   pointer-events: none;
 }
-.tooltipClass::before {
-  content: '';
-  position: absolute;
-  top: 10px;
-  right: 90px;
-  width: 0;
-  height: 0;
-  border-top: 10px solid transparent;
-  border-right: 10px solid $white;
-  border-bottom: 10px solid transparent;
-}
-.tooltipClass {
-  position: absolute;
-  width: auto;
-  height: auto;
-  padding: 10px 12px;
-  color: black;
-  font-family: $font-family-UHC;
-  background-color: $white;
-  border-radius: 2px;
-  pointer-events: none;
-  box-shadow: 0 10px 20px 0 rgba(0, 0, 0, 0.35);
-  z-index: 99;
-  opacity: 0.95;
-}
 
-.tooltipClassLeft::before {
-  content: '';
-  position: absolute;
-  top: 10px;
-  left: 90px;
-  width: 0;
-  height: 0;
-  border-top: 10px solid transparent;
-  border-left: 10px solid $white;
-  border-bottom: 10px solid transparent;
-}
-
-.tooltipClassLeft {
+.tooltip-class,
+.tooltip-class-left {
   position: absolute;
   width: auto;
   height: auto;
@@ -209,34 +166,25 @@
   display: none;
 }
 
-.mr-img {
+.tooltip-mr-img,
+.tooltip-cs-img,
+.tooltip-ei-img,
+.tooltip-other-img {
   box-sizing: border-box;
   height: 1px;
   width: 30px;
+  display: inline-block;
+  margin-right: 5px;
+}
+.tooltip-mr-img {
   border: 2px solid #3381ff;
-  display: inline-block;
 }
-
-.cs-img {
-  box-sizing: border-box;
-  height: 1px;
-  width: 30px;
+.tooltip-cs-img {
   border: 2px dotted #66aeff;
-  display: inline-block;
 }
-
-.ei-img {
-  box-sizing: border-box;
-  height: 1px;
-  width: 30px;
+.tooltip-ei-img {
   border: 1.2px solid #0034ae;
-  display: inline-block;
 }
-
-.other-img {
-  box-sizing: border-box;
-  height: 1px;
-  width: 30px;
+.tooltip-other-img {
   border: 2px dashed #00b8cc;
-  display: inline-block;
 }
