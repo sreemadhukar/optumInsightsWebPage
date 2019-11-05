@@ -285,7 +285,6 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
     /** Ends here */
 
     /** code for Top Categories*/
-
     this.topReasonsCategoryDisplay = false;
     this.nonPaymentService.getNonPaymentCategories(this.createPayloadService.payload).then(
       topCategories => {
@@ -306,6 +305,7 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
         }
       },
       error => {
+        this.loadingTopReasons = false;
         this.topReasonsCategoryDisplay = false;
         this.barChartsArray = null;
         console.log('Non Payment Component Error Top Categories', error);

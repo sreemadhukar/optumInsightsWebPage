@@ -53,16 +53,25 @@ export class CreatePayloadService {
   changePayloadOnInit(appliedPage) {
     switch (appliedPage) {
       case 'gettingReimbursedSummary':
-        this.payload = this.getPayloadForNonPayments(this.initialState);
+        this.payload = this.getPayload(this.initialState);
         break;
       case 'nonPaymentsPage':
-        this.payload = this.getPayloadForNonPayments(this.initialState);
+        this.payload = this.getPayload(this.initialState);
         break;
       case 'paymentsPage':
-        this.payload = this.getPayloadForNonPayments(this.initialState);
+        this.payload = this.getPayload(this.initialState);
         break;
       case 'appealsPage':
-        this.payload = this.getPayloadForNonPayments(this.initialState);
+        this.payload = this.getPayload(this.initialState);
+        break;
+      case 'priorAuthPage':
+        this.payload = this.getPayloadForPriorAuth(this.initialState);
+        break;
+      case 'overviewAdvocatePage':
+        this.payload = this.getPayload(this.initialState);
+        break;
+      case 'callsPage':
+        this.payload = this.getPayloadForCalls(this.initialState);
         break;
     }
   }
@@ -70,20 +79,32 @@ export class CreatePayloadService {
   emitFilterEvent(appliedPage) {
     switch (appliedPage) {
       case 'gettingReimbursedSummary':
-        this.payload = this.getPayloadForNonPayments(this.initialState);
-        this.payloadEmit.next({ value: this.getPayloadForNonPayments(this.initialState) });
+        this.payload = this.getPayload(this.initialState);
+        this.payloadEmit.next({ value: this.getPayload(this.initialState) });
         break;
       case 'nonPaymentsPage':
-        this.payload = this.getPayloadForNonPayments(this.initialState);
-        this.payloadEmit.next({ value: this.getPayloadForNonPayments(this.initialState) });
+        this.payload = this.getPayload(this.initialState);
+        this.payloadEmit.next({ value: this.getPayload(this.initialState) });
         break;
       case 'paymentsPage':
-        this.payload = this.getPayloadForNonPayments(this.initialState);
-        this.payloadEmit.next({ value: this.getPayloadForNonPayments(this.initialState) });
+        this.payload = this.getPayload(this.initialState);
+        this.payloadEmit.next({ value: this.getPayload(this.initialState) });
         break;
       case 'appealsPage':
-        this.payload = this.getPayloadForNonPayments(this.initialState);
-        this.payloadEmit.next({ value: this.getPayloadForNonPayments(this.initialState) });
+        this.payload = this.getPayload(this.initialState);
+        this.payloadEmit.next({ value: this.getPayload(this.initialState) });
+        break;
+      case 'priorAuthPage':
+        this.payload = this.getPayloadForPriorAuth(this.initialState);
+        this.payloadEmit.next({ value: this.getPayloadForPriorAuth(this.initialState) });
+        break;
+      case 'overviewAdvocatePage':
+        this.payload = this.getPayload(this.initialState);
+        this.payloadEmit.next({ value: this.getPayload(this.initialState) });
+        break;
+      case 'callsPage':
+        this.payload = this.getPayloadForCalls(this.initialState);
+        this.payloadEmit.next({ value: this.getPayloadForCalls(this.initialState) });
         break;
     }
   }
@@ -96,7 +117,12 @@ export class CreatePayloadService {
     return this.payloadEmit.asObservable();
   }
 
-  getPayloadForNonPayments(payload) {
+  getPayloadForPriorAuth(payload) {
+    const data = _.omit(payload, ['trendMetric', 'trendDate', 'currentPage']);
+    return this.createTaxIdArrayForPA(data);
+  }
+
+  getPayload(payload) {
     const data = _.omit(payload, [
       'serviceSetting',
       'priorAuthType',
@@ -108,12 +134,37 @@ export class CreatePayloadService {
     return this.omitValuesContainAll(data);
   }
 
+  getPayloadForCalls(payload) {
+    const data = _.omit(payload, [
+      'taxId',
+      'lineOfBusiness',
+      'serviceSetting',
+      'priorAuthType',
+      'trendMetric',
+      'trendDate',
+      'serviceCategory',
+      'currentPage'
+    ]);
+    return data;
+  }
+
+  createTaxIdArrayForPA(param) {
+    const arr = [];
+    if (!_.isUndefined(param)) {
+      param.taxId.forEach((taxId, index) => {
+        arr.push(taxId.Tin.replace('-', ''));
+      });
+      param.taxId = arr;
+    }
+    return param;
+  }
+
   createTaxIdString(data) {
     if (!_.isUndefined(data)) {
       if (data.taxId[0].Tin !== 'All') {
         let string = '';
         data.taxId.forEach((taxId, index) => {
-          string += taxId.Tin + (index !== data.taxId.length - 1 ? ',' : '');
+          string += taxId.Tin.replace('-', '') + (index !== data.taxId.length - 1 ? ',' : '');
         });
         data.taxId = string;
       } else {

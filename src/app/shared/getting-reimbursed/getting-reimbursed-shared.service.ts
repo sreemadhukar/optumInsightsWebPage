@@ -110,7 +110,6 @@ export class GettingReimbursedSharedService {
       this.gettingReimbursedService
         .getGettingReimbursedYearWiseData(...parameters)
         .subscribe(([claimsData, appealsData]) => {
-          this.timeFrame = this.common.getTimePeriodFilterValue(parameters[1].TimeFilter);
           const lobFullData = parameters[1].Lob ? this.common.getFullLobData(parameters[1].Lob) : 'ALL';
           const lobData = parameters[1].Lob ? _.startCase(parameters[1].Lob.toLowerCase()) : 'All';
           if (claimsData != null && claimsData.hasOwnProperty('status')) {
@@ -827,7 +826,6 @@ export class GettingReimbursedSharedService {
     return new Promise(resolve => {
       this.gettingReimbursedService.getGettingReimbursedData(...parameters).subscribe(
         ([claimsData, appealsData]) => {
-          this.timeFrame = this.common.getTimePeriodFilterValue(parameters[1].TimeFilter);
           const lobFullData = parameters[1].Lob ? this.common.getFullLobData(parameters[1].Lob) : 'ALL';
           const lobData = parameters[1].Lob ? _.startCase(parameters[1].Lob.toLowerCase()) : 'All';
           if (claimsData != null && claimsData.hasOwnProperty('status')) {
@@ -1497,37 +1495,46 @@ export class GettingReimbursedSharedService {
       parameters = [this.providerKey, new GettingReimbursedPayload(param)];
 
       /** We used promise so that we get the data in synchronous manner  */
-      this.sharedNonPaymentData(param)
-        .then(nonPayment => {
-          this.nonPaymentData = nonPayment;
-          return this.sharedGettingReimbursedData(parameters);
-        })
-        .then(data => {
-          gettingReimbursedData = data;
-          console.log(gettingReimbursedData);
-          return this.calculateSummaryTrends(parameters, gettingReimbursedData);
-        })
-        .then(data => {
-          resolve(data);
-        });
-      this.sharedNonPaymentData(param)
-        .then(nonPayment => {
-          this.nonPaymentData = nonPayment;
-          return this.sharedGettingReimbursedYearWiseData(parameters);
-        })
-        /*.then(data => {
-          gettingReimbursedData = data;
-          resolve(gettingReimbursedData);
-        });
-  */
-        .then(data => {
-          gettingReimbursedData = data;
-          // console.log(gettingReimbursedData);
-          return this.calculateSummaryTrends(parameters, gettingReimbursedData);
-        })
-        .then(data => {
-          resolve(data);
-        });
+      if (
+        this.timeFrame === 'Last 12 Months' ||
+        this.timeFrame === 'Last 6 Months' ||
+        this.timeFrame === 'Last 3 Months' ||
+        this.timeFrame === 'Last 30 Days' ||
+        this.timeFrame === 'Year to Date'
+      ) {
+        this.sharedNonPaymentData(param)
+          .then(nonPayment => {
+            this.nonPaymentData = nonPayment;
+            return this.sharedGettingReimbursedData(parameters);
+          })
+          .then(data => {
+            gettingReimbursedData = data;
+            console.log(gettingReimbursedData);
+            return this.calculateSummaryTrends(parameters, gettingReimbursedData);
+          })
+          .then(data => {
+            resolve(data);
+          });
+      } else {
+        this.sharedNonPaymentData(param)
+          .then(nonPayment => {
+            this.nonPaymentData = nonPayment;
+            return this.sharedGettingReimbursedYearWiseData(parameters);
+          })
+          /*.then(data => {
+            gettingReimbursedData = data;
+            resolve(gettingReimbursedData);
+          });
+    */
+          .then(data => {
+            gettingReimbursedData = data;
+            // console.log(gettingReimbursedData);
+            return this.calculateSummaryTrends(parameters, gettingReimbursedData);
+          })
+          .then(data => {
+            resolve(data);
+          });
+      }
     });
   }
 

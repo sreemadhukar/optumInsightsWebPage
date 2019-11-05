@@ -110,7 +110,11 @@ export class UhciFiltersComponent implements OnInit {
   }
 
   disableTimePeriod(timeFrame) {
-    if (this.selectedPage === 'paymentsPage' || this.selectedPage === 'nonPaymentsPage') {
+    if (
+      this.selectedPage === 'gettingReimbursedSummary' ||
+      this.selectedPage === 'paymentsPage' ||
+      this.selectedPage === 'nonPaymentsPage'
+    ) {
       timeFrame.forEach(value => {
         if (value.name === 'Last12Months' || value.name === '2018' || value.name === '2017') {
           value.disable = true;
@@ -150,6 +154,7 @@ export class UhciFiltersComponent implements OnInit {
     this.ngRedux.dispatch({ type: RESET_FILTER });
     this.selectedService = '';
     //   this.createPayloadService.resetToInitialState();
+    this.createPayloadService.emitFilterEvent(this.selectedPage);
     this.filterFlag.emit(false);
   }
 

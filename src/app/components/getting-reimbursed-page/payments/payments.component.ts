@@ -77,7 +77,7 @@ export class PaymentsComponent implements OnInit {
     this.loading = true;
     this.loadingClaimsBreakdown = true;
     this.timePeriod = this.common.getTimePeriodFilterValue(this.createPayloadService.payload.timePeriod);
-    this.mockCards = [{}]; /*, {}] commenting to remove skeleton loader for claims yield card*/
+    this.mockCards = [{}, {}];
     this.paymentsSharedService
       .sharedPaymentsData(this.createPayloadService.payload)
       .then(completeData => {

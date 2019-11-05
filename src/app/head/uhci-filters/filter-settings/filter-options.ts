@@ -18,9 +18,9 @@ export const LineOfBusiness = [
 
 export const ServiceSetting = [
   { name: 'All', value: 'All', disable: false },
-  { name: 'CS', value: 'Inpatient', disable: false },
-  { name: 'EI', value: 'Outpatient', disable: false },
-  { name: 'MR', value: 'Outpatient Facility', disable: false }
+  { name: 'Inpatient', value: 'Inpatient', disable: false },
+  { name: 'Outpatient', value: 'Outpatient', disable: false },
+  { name: 'Outpatient Facility', value: 'Outpatient Facility', disable: false }
 ];
 
 export const ServiceCategory = [

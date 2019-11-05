@@ -35,7 +35,7 @@ export class AppealsComponent implements OnInit {
   MetricID = '102';
   loading: boolean;
   mockCards: any;
-  reasonDataAvailable = false;
+  reasonDataAvailable = true;
   appealsTAT: object;
   showAppealsTAT = false;
   constructor(
@@ -80,7 +80,7 @@ export class AppealsComponent implements OnInit {
     this.overturnItem = [];
     this.reasonDataAvailable = false;
 
-    this.appealsSharedService.getappealsRateAndReasonData(this.createPayloadService.payload).then(appealsRateData => {
+    this.appealsSharedService.getappealsRateAndReasonData().then(appealsRateData => {
       let AppealsCards: any;
       AppealsCards = appealsRateData;
       this.loading = false;
@@ -102,7 +102,7 @@ export class AppealsComponent implements OnInit {
     //   this.showAppealsTAT = true;
     // });
 
-    this.appealsTAT = {
+    /*this.appealsTAT = {
       category: 'app-card',
       type: 'rotateWithLabel',
       title: 'Average Appeals Turn Around Time',
@@ -128,8 +128,8 @@ export class AppealsComponent implements OnInit {
           }
         ]
       },
-      timeperiod: this.common.getTimePeriodFilterValue(this.createPayloadService.payload.timePeriod)
-    };
+      timeperiod: this.session.filterObjValue.timeFrame
+    };*/
   }
 
   helpIconClick(title) {
