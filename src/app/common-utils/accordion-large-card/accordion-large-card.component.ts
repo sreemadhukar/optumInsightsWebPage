@@ -1,4 +1,6 @@
+import { filter } from 'rxjs/operators';
 import { Component, OnInit, Input, Output, ElementRef, Renderer2, EventEmitter } from '@angular/core';
+import { trigger, state, style, animate, transition } from '@angular/animations';
 import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 import { GlossaryExpandService } from '../../shared/glossary-expand.service';
@@ -6,7 +8,16 @@ import { CommonUtilsService } from '../../shared/common-utils.service';
 @Component({
   selector: 'app-accordion-large-card',
   templateUrl: './accordion-large-card.component.html',
-  styleUrls: ['./accordion-large-card.component.scss']
+  styleUrls: ['./accordion-large-card.component.scss'],
+  animations: [
+    // Each unique animation requires its own trigger. The first argument of the trigger function is the name
+    trigger('rotatedState', [
+      state('default', style({ transform: 'rotate(0)' })),
+      state('rotated', style({ transform: 'rotate(180deg)' })),
+      transition('rotated => default', animate('180ms ease-out')),
+      transition('default => rotated', animate('180ms ease-in'))
+    ])
+  ]
 })
 export class AccordionLargeCardComponent implements OnInit {
   @Input() data;
@@ -15,6 +26,7 @@ export class AccordionLargeCardComponent implements OnInit {
   @Input() skeletonLarge;
   section: any = [];
   subsection: any = [];
+  measureName: any = [];
   hideplus: boolean;
 
   @Output() ratingClick: EventEmitter<any> = new EventEmitter<any>();
@@ -63,6 +75,11 @@ export class AccordionLargeCardComponent implements OnInit {
       'close',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-close-24px.svg')
     );
+
+    iconRegistry.addSvgIcon(
+      'carrot',
+      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/keyboard_arrow_down-24px.svg')
+    );
   }
 
   helpIconClick(title) {
@@ -95,7 +112,6 @@ export class AccordionLargeCardComponent implements OnInit {
         this.section[i] = false;
       }
     }
-
     const check = 5 - x;
     if (check === this.qualityMeasure[x].star) {
       this.qualityStarCount = this.qualityMeasure[x].star;
@@ -126,7 +142,6 @@ export class AccordionLargeCardComponent implements OnInit {
         this.subsection[i] = false;
       }
     }
-
     this.compliantMemberCount = this.qualityPcorData[x].CompliantMemberCount;
     this.eligibleMemberCount = this.qualityPcorData[x].EligibleMemberCount;
     this.currentRateCalc = this.common.nFormatter(

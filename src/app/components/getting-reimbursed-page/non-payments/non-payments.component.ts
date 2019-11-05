@@ -10,6 +10,7 @@ import {
   Output,
   EventEmitter
 } from '@angular/core';
+import { trigger, state, style, animate, transition } from '@angular/animations';
 import { MatIconRegistry, PageEvent } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 import { GettingReimbursedSharedService } from '../../../shared/getting-reimbursed/getting-reimbursed-shared.service';
@@ -26,7 +27,16 @@ import { NonPaymentSharedService } from '../../../shared/getting-reimbursed/non-
   selector: 'app-non-payments',
   templateUrl: './non-payments.component.html',
   styleUrls: ['./non-payments.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
+  animations: [
+    // Each unique animation requires its own trigger. The first argument of the trigger function is the name
+    trigger('rotatedState', [
+      state('default', style({ transform: 'rotate(0)' })),
+      state('rotated', style({ transform: 'rotate(180deg)' })),
+      transition('rotated => default', animate('180ms ease-out')),
+      transition('default => rotated', animate('180ms ease-in'))
+    ])
+  ]
 })
 export class NonPaymentsComponent implements OnInit, AfterViewChecked {
   title = 'Top Reasons for Claims Non-Payment';
@@ -51,6 +61,7 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
   loadingTwo: boolean;
   mockCardTwo: any;
   barChartsArray: any;
+
   /*
   barChartsArray = [
     {
@@ -234,6 +245,11 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
       'close',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-close-24px.svg')
     );
+    iconRegistry.addSvgIcon(
+      'carrot',
+      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/keyboard_arrow_down-24px.svg')
+    );
+
     this.pageTitle = 'Claims Non-Payments*';
   }
 
@@ -302,6 +318,7 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
         }
       },
       error => {
+        this.loadingTopReasons = false;
         this.topReasonsCategoryDisplay = false;
         this.barChartsArray = null;
         console.log('Non Payment Component Error Top Categories', error);

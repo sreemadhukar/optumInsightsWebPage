@@ -17,4 +17,8 @@ import { FooterModule } from './../footer/footer.module';
   ],
   declarations: [SearchComponent, SelectProviderComponent]
 })
-export class ProviderSearchModule {}
+export class ProviderSearchModule {
+  constructor() {
+    console.log('ProviderSearch Loaded');
+  }
+}

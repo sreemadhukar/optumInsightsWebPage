@@ -10,6 +10,7 @@
     overflow: auto;
     line-height: 0;
   }
+
   .filter_bg {
     height: 40px;
     width: 100px;
@@ -188,7 +189,8 @@
     }
   }
 
-  .appeals-trend-block {
+  .appeals-trend-block,
+  .calls-trend-block {
     width: 961px;
     // height: 387px;
     border-radius: 2px;
@@ -243,7 +245,7 @@
     padding-left: 12px;
     font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
     color: #757588;
-    font-size: 14px;
+    font-size: 16px;
     letter-spacing: 0.17px;
   }
   .sub-appeals-values {
@@ -299,7 +301,7 @@
     box-sizing: border-box;
     height: 1px;
     width: 32px;
-    border: 1px solid #0034ae;
+    border: 1.2px solid #0034ae;
     display: inline-block;
   }
 
@@ -322,6 +324,19 @@
     width: 438px;
     float: right;
     padding-right: 60px;
+  }
+
+  .total-calls {
+    height: 150px;
+    color: #2d2d39;
+    font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+    font-size: 56px;
+    padding-left: 32px;
+
+    &-sub-title {
+      color: $strom-grey;
+      font-size: 16px;
+    }
   }
 
   .footer-border {

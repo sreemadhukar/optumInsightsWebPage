@@ -17,9 +17,10 @@ app.use(express.static(path.join(__dirname, '.')));
 
 var apiProxy = httpProxy.createProxyServer();
 var apiForwardingUrl = 'https://pedapigateway-pedprddr.ocp-ctc-dmz.optum.com';
-var sessionSecret = '7dX03633CEuFJaf25ot5HlSPOZYQ6E9Y';
-var key = 'PvU8koWDqgbqZNin5aBj00RtRHWze7pC';
+var sessionSecret = 'STwHkLYUwN1L5rc3yqdkuthRvczrBupc';
+var key = 'Q9gRpXWjVm5GXethNxG60utGMGW7NpsO';
 var heac = require('./src/assets/mock-data/heac.json');
+var trendAccess = require('./src/assets/mock-data/trendAccess.json');
 
 app.all('/uhci/prd/*', function(req, res) {
   apiProxy.web(req, res, { target: apiForwardingUrl, changeOrigin: true, secure: false }, function(e) {
@@ -47,6 +48,12 @@ app.get('/api/getJwt', function(req, res) {
 app.get('/api/getHeac/:MsId', function(req, res) {
   res.status(200).json({
     heac: include(heac.user, req.params.MsId)
+  });
+});
+
+app.get('/api/getTrendAccess/:MsId', cors(), function(req, res) {
+  res.status(200).json({
+    trendAccess: include(trendAccess.user, req.params.MsId)
   });
 });
 

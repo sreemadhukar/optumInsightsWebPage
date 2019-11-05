@@ -1,11 +1,12 @@
 export class CareDelivery {
   public singleCard = false;
   public records: any;
-  public careDelivery = {
+  public data = {
     title: 'Care Delivery',
     chartData: [],
     quarters: []
   };
+  private section = 'caredelivery';
   constructor({ records }) {
     this.records = records;
     this.singleCard = records.length === 1 ? true : false;
@@ -15,18 +16,31 @@ export class CareDelivery {
 
   public createCard() {
     this.records.forEach((record, index) => {
-      const { CareDelivery: Care_Delivery } = record;
-      this.careDelivery.chartData.forEach((chartDataElement: any) => {
+      const { CareDelivery: Care_Delivery = {} } = record;
+      this.data.chartData.forEach((chartDataElement: any) => {
         const key = chartDataElement.key;
         const subKey = chartDataElement.subKey;
 
-        if (Care_Delivery[key]) {
+        if (!Care_Delivery[key]) {
+          chartDataElement.report = false;
+          chartDataElement.quarters.push({
+            title: null,
+            currentQuarter: true,
+            id: index,
+            section: this.section
+          });
+        } else {
           const value = Care_Delivery[key][subKey] ? Math.round(Care_Delivery[key][subKey]) : null;
           if (this.singleCard && value !== null) {
             chartDataElement.quarters.push({ title: value + '' + chartDataElement.units });
           } else {
             chartDataElement.report = false;
-            chartDataElement.quarters.push({ title: value, currentQuarter: true, id: index });
+            chartDataElement.quarters.push({
+              title: value,
+              currentQuarter: true,
+              id: index,
+              section: this.section
+            });
           }
         }
       });
@@ -96,10 +110,10 @@ export class CareDelivery {
         }
       }
     ];
-    this.careDelivery.chartData = chartData;
+    this.data.chartData = chartData;
   }
 
   public getData() {
-    return this.careDelivery;
+    return this.data;
   }
 }
