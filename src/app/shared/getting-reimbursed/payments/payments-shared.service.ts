@@ -522,10 +522,12 @@ export class PaymentsSharedService {
               claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('ClaimsNonPaymentRate') &&
               claimsData[lobData].ClaimsLobSummary[0].ClaimsYieldRate.toFixed() !== 0
             ) {
+              // used toggle: true as toggle functionality is not built properly : srikar bobbiganipalli
               claimsPaidRate = {
                 category: 'app-card',
                 type: 'donut',
                 title: 'Claims Yield',
+                toggle: !environment.internalAccess,
                 data: {
                   graphValues: [
                     claimsData[lobData].ClaimsLobSummary[0].ClaimsYieldRate,

@@ -123,11 +123,11 @@
           <app-large-card-advocate [appealsLineGraph]="appealsLineGraph"></app-large-card-advocate>
 
           <div class="lob-set">
-            <div class="mr-img"></div>
+            <div class="mr-img" *ngIf="mi"></div>
             <div class="lob-values" *ngIf="mi">M&R ({{ mi }})</div>
-            <div class="cs-img"></div>
+            <div class="cs-img" *ngIf="cs"></div>
             <div class="lob-values" *ngIf="cs">C&S ({{ cs }})</div>
-            <div class="ei-img"></div>
+            <div class="ei-img" *ngIf="ei"></div>
             <div class="lob-values" *ngIf="ei">E&I ({{ ei }})</div>
             <div *ngIf="other" class="other-img"></div>
             <div class="lob-values" *ngIf="other">Other ({{ other }})</div>
