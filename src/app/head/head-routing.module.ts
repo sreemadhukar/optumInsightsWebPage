@@ -23,8 +23,17 @@ const routes: Routes = [
       delay: false
     }
   },
-  {
+  /*{
     path: 'OverviewPageAdvocate',
+    loadChildren: '../components/advocate/advocate.module#AdvocateModule',
+    data: {
+      preload: false,
+      delay: false
+    },
+    canActivate: [AuthGuard]
+  },*/
+  {
+    path: 'HealthSystemDetailsPage',
     loadChildren: '../components/advocate/advocate.module#AdvocateModule',
     data: {
       preload: false,

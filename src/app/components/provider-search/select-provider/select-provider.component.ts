@@ -176,7 +176,8 @@ export class SelectProviderComponent implements OnInit {
     }
     // Role based access for Advocates Overview page
     if (this.checkAdv.value) {
-      window.location.href = '/OverviewPageAdvocate';
+      // window.location.href = '/OverviewPageAdvocate';
+      window.location.href = '/HealthSystemDetailsPage';
     } else if (this.checkPro.value || this.checkExecutive.value) {
       window.location.href = '/OverviewPage';
     } else {
