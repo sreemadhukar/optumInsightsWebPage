@@ -7,6 +7,7 @@ import { AuthenticationService } from '../_service/authentication.service';
 import { InternalService } from '../_service/internal.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProviderSharedService } from '../../shared/provider/provider-shared.service';
+import { SessionService } from '../../shared/session.service';
 import { MatDialog, MatIconRegistry } from '@angular/material';
 import { ProviderSearchComponent } from '../../common-utils/provider-search/provider-search.component';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -28,6 +29,14 @@ export class LoginStubComponent implements OnInit {
   blankScreen = false;
   id: any;
   token: string;
+  showWarning = false;
+  sessionTimedoutMessage: any = {
+    note: 'Due to inactivity, we have logged you out.',
+    message: 'To return to UHC Insights, please sign in below.'
+  };
+  public checkAdv;
+  public checkPro;
+  public checkExecutive;
   @ViewChild('errorDialog') errorDialog: TemplateRef<any>;
 
   constructor(
@@ -43,8 +52,12 @@ export class LoginStubComponent implements OnInit {
     private authorise: AuthorizationService,
     private cookieService: CookieService,
     private route: ActivatedRoute,
+    private sessionService: SessionService,
     @Inject(DOCUMENT) private document: any
   ) {
+    this.checkAdv = this.sessionService.checkAdvocateRole();
+    this.checkPro = this.sessionService.checkProjectRole();
+    this.checkExecutive = this.sessionService.checkExecutiveRole();
     iconRegistry.addSvgIcon(
       'error',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Alert/round-error_outline-24px.svg')
@@ -52,6 +65,8 @@ export class LoginStubComponent implements OnInit {
   }
 
   ngOnInit() {
+    // to close all opened dialogbox at after logout at login page
+    this.dialog.closeAll();
     sessionStorage.setItem('cache', JSON.stringify(false));
     if (!environment.production) {
       this.authService.getJwt().subscribe(data => {
@@ -67,6 +82,15 @@ export class LoginStubComponent implements OnInit {
       this.loading = false;
       this.initLogin();
     }, 3000);
+
+    const queryParams = this.route.snapshot.queryParams;
+
+    // do something with the parameters
+    if (queryParams.sessionExpired) {
+      this.showWarning = true;
+    } else {
+      this.showWarning = false;
+    }
   }
 
   initLogin() {
@@ -78,7 +102,18 @@ export class LoginStubComponent implements OnInit {
     this.returnUrl = '/ProviderSearch';
     if (this.isInternal) {
       if (this.authService.isLoggedIn()) {
-        this.router.navigate([this.returnUrl]);
+        if (JSON.parse(sessionStorage.getItem('currentUser'))[0]['ProviderKey']) {
+          if (this.checkAdv.value) {
+            window.location.href = '/OverviewPageAdvocate';
+          } else if (this.checkPro.value || this.checkExecutive.value) {
+            window.location.href = '/NationalExecutive';
+          }
+          // else if (this.checkPro.value) {
+          //   window.location.href = '/OverviewPage';
+          // }
+        } else {
+          this.router.navigate([this.returnUrl]);
+        }
       } else {
         this.internalService.getPublicKey();
         this.authService.getJwt().subscribe(data => {
@@ -92,7 +127,9 @@ export class LoginStubComponent implements OnInit {
             this.external
               .CheckExternal(params.code, this.token)
               .then(value => {
-                this.authorise.getToggles().subscribe(value1 => {});
+                this.authorise.getToggles('external-authorise').subscribe(value1 => {
+                  console.log(value1);
+                });
                 sessionStorage.setItem('cache', JSON.stringify(true));
                 this.router.navigate(['/OverviewPage']);
               })
@@ -129,15 +166,24 @@ export class LoginStubComponent implements OnInit {
       return;
     } else {
       this.internalService.login(this.f.username.value, this.f.password.value).subscribe(
-        () => {
+        user => {
           this.blankScreen = true;
           this.loading = false;
-          this.authorise.getToggles().subscribe(value => {
+          this.authorise.getToggles('authorise').subscribe(value => {
             console.log(value);
           });
-          sessionStorage.setItem('cache', JSON.stringify(true));
-          // this.openDialog();
-          this.router.navigate(['/ProviderSearch']);
+          if (environment.internalAccess) {
+            this.authorise.getTrendAccess(this.f.username.value).subscribe(value => {
+              console.log(value);
+            });
+          }
+          if (user && user['UserPersonas'].some(item => item.UserRole.includes('UHCI_Executive'))) {
+            this.router.navigate(['/NationalExecutive']);
+          } else if (user && user['UserPersonas'].some(item => item.UserRole.includes('UHCI_Project'))) {
+            this.router.navigate(['/NationalExecutive']);
+          } else {
+            this.router.navigate(['/ProviderSearch']);
+          }
         },
         error => {
           this.error = true;

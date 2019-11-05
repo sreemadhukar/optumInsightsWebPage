@@ -47,29 +47,15 @@
       <app-error-card *ngIf="item.status != null" class="cards" [data]="item"></app-error-card>
     </div>
 
-    <!-- Claims Non - Payment Trend  Starts Here -->
-    <div class="non-payment-trend-block" *ngIf="dataLoaded">
-      <app-common-header
-        [title]="trendTitle"
-        class="full-display bottom-margin-block"
-        (helpIconClicked)="helpIconClick($event)"
-      ></app-common-header>
-      <div class="full-display">
-        <app-line-graph [chartOptions]="monthlyLineGraph"></app-line-graph>
-        <!--div class="timeperiod-block">
-          <p class="timeperiod-text">{{ timePeriod }}</p>
-        </div-->
-      </div>
-      <app-common-footer [timePeriod]="timePeriod" class="width-100 time-period-trend"></app-common-footer>
-    </div>
-    <!-- Claims Non - Payment Trend Ends Here -->
     <!-- Top reasons for Claims Start here -->
     <app-large-card [skeletonLarge]="loadingTopReasons" *ngIf="loadingTopReasons"></app-large-card>
-    <!-- <app-error-card
-      *ngIf="reasonsNoData != null && reasonsNoData.status != null"
+    <app-error-card
+      *ngIf="
+        !topReasonsCategoryDisplay && !loadingTopReasons && barChartsArray != null && barChartsArray.status != null
+      "
       class="cards"
-      [data]="reasonsNoData"
-    ></app-error-card> -->
+      [data]="barChartsArray"
+    ></app-error-card>
     <div class="top-reasons-for-claims-non-payment-block" *ngIf="topReasonsCategoryDisplay && !loadingTopReasons">
       <app-common-header
         [title]="title"
@@ -90,8 +76,13 @@
           >
             <div class="bar-graph-inside-left-block">
               <div class="bar-graph-inside-left-block-content">
-                <mat-icon class="bar-graph-block-icon" *ngIf="!section[i]" svgIcon="open"></mat-icon>
-                <mat-icon class="bar-graph-block-icon" *ngIf="section[i]" svgIcon="close-bar"></mat-icon>
+                <!-- <mat-icon class="bar-graph-block-icon" *ngIf="!section[i]" svgIcon="open"></mat-icon>
+                <mat-icon class="bar-graph-block-icon" *ngIf="section[i]" svgIcon="close-bar"></mat-icon> -->
+                <mat-icon
+                  class="bar-graph-block-icon"
+                  svgIcon="carrot"
+                  [@rotatedState]="section[i] ? 'rotated' : 'default'"
+                ></mat-icon>
                 <p class="bar-graph-title">{{ barchart.title }}</p>
                 <p class="bar-graph-value">{{ barchart.value }}</p>
               </div>
@@ -123,10 +114,33 @@
         </div>
       </div>
       <div class="full-display">
-        <app-common-footer [timePeriod]="timePeriod" class="width-100"></app-common-footer>
+        <app-common-footer [timePeriod]="timePeriod" [title]="title" class="width-100"></app-common-footer>
       </div>
     </div>
     <!-- Top Reasons for Claims Ends here -->
+
+    <!-- Claims Non - Payment Trend  Starts Here -->
+    <app-error-card
+      *ngIf="!trendMonthDisplay && monthlyLineGraph != null && monthlyLineGraph.status != null"
+      class="cards"
+      [data]="monthlyLineGraph"
+    ></app-error-card>
+    <div class="non-payment-trend-block" *ngIf="trendMonthDisplay">
+      <app-common-header
+        [title]="trendTitle"
+        class="full-display bottom-margin-block"
+        (helpIconClicked)="helpIconClick($event)"
+      ></app-common-header>
+      <div class="full-display">
+        <app-line-graph [chartOptions]="monthlyLineGraph"></app-line-graph>
+        <!--div class="timeperiod-block">
+         <p class="timeperiod-text">{{ timePeriod }}</p>
+       </div-->
+      </div>
+      <app-common-footer [timePeriod]="timePeriod" class="width-100 time-period-trend"></app-common-footer>
+    </div>
+    <!-- Claims Non - Payment Trend Ends Here -->
+
     <app-clarify-claims-message></app-clarify-claims-message>
   </div>
 </div>

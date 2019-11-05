@@ -19,6 +19,9 @@ export const environment: any = {
       'https://stage-sso.uhc.com/ext/as/authorization.oauth2?pfidpadapterid=OptumIdOIDCStage&client_id=PED42235&response_' +
       'type=code&redirect_uri=https://pedui1-pedtst.ocp-ctc-core-nonprod.optum.com/login&scope=openid+profile+email&state=PED&prompt=none',
     linkLoginPage: 'https://provider-stage.linkhealth.com',
+    SsoLogoutUrl:
+      'https://api-stage.linkhealth.com/session/signout?redirect=https://provider-stage.linkhealth.com/' +
+      'content/odin/en/provider-dashboard/public/signout.html?logOut=true',
     ProvTinList: 'provider-tins/',
     LayerSevenPath: 'myinsightLayerSevenHandshake',
     URL: window.location.origin,
@@ -34,7 +37,14 @@ export const environment: any = {
     PaymentIntegrity: 'pi-metrics/',
     NonPayment: 'claim-metrics/',
     CallsTrend: 'provider-calls/',
-    TrendingMetrics: 'trending-metrics/'
+    TrendingMetrics: 'trending-metrics/',
+    PCORQualityMeasure: 'pcor-metrics/',
+    NPSSummary: 'kop-metrics/',
+    AppealsTrend: 'appeals-trend/',
+    AdminSummaryTrends: 'admintrends/',
+    AppealsFHIR: 'appeals/v2.0/',
+    AppealsOverturn: 'appeal-overturn-reasons/',
+    AdminSummaryTrendsCount: 'admintrendscount/'
   },
   headerKeys: {
     selectedCompany: '',
@@ -56,5 +66,7 @@ export const environment: any = {
   errorMessage: 'empty',
   clickStreamUrl: '//assets.adobedtm.com/launch-ENacdc6d1acf734bcd95703e446bd1de1d-development.min.js',
   internalAccess: true,
-  toggleTrendingSummary: false
+  claimsYieldAccess: true,
+  toggleTrendingSummary: false,
+  sentryKey: 'https://8c2bdbcdd5444e6ca1255f7c999b84fe@sentry-ped-internal.ocp-ctc-core.optum.com/3'
 };

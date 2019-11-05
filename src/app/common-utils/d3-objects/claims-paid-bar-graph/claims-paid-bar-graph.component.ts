@@ -66,7 +66,7 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit, OnCha
 
     if (maxTickValueStringLength === stepStringLength) {
       zeroOrOne = 0;
-    } else if (maxTickValueStringLength % 3 === 0 || maxTickValueStringLength % 5 === 0) {
+    } else if ([3, 6, 5, 9, 12].indexOf(maxTickValueStringLength) > -1) {
       zeroOrOne = 0;
     } else {
       zeroOrOne = 1;
@@ -231,7 +231,7 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit, OnCha
       .attr('font-size', '16')
       .style('text-anchor', 'start')
       .style('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
-      .text('Actual Allowed*');
+      .text('Actual Allowed †');
 
     chart
       .append('text')
@@ -291,7 +291,7 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit, OnCha
       .attr('font-size', '12')
       .style('text-anchor', 'end')
       .style('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
-      .text('*Includes Member Responsibility');
+      .text('† Includes Member Responsibility');
 
     chart
       .append('line')
@@ -332,7 +332,9 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit, OnCha
       .selectAll('.tick>text')
       .nodes()
       .map(function(t) {
-        return t.innerHTML;
+        const tagString = new XMLSerializer().serializeToString(t);
+        const mySubString = tagString.substring(tagString.indexOf('>') + 1, tagString.indexOf('</'));
+        return mySubString;
       });
 
     d3.select('#forCalculations').remove();

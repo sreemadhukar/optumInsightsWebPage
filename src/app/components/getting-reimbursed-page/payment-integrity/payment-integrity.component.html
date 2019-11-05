@@ -45,6 +45,12 @@
 
     <div class="height1Separator"></div>
     <app-large-card [skeletonLarge]="loading" *ngIf="loading"></app-large-card>
+    <app-error-card
+      *ngIf="!loading && !piDataloaded && cardData != null && cardData.status != null"
+      class="cards"
+      [data]="cardData"
+    ></app-error-card>
+
     <div class="pi-medical-record-coding-review-block card-inner" *ngIf="piDataloaded">
       <app-common-header
         [title]="title"
@@ -62,7 +68,8 @@
           <li *ngFor="let c of cardData.piDonutData.besideData.labels; let i = index">{{ c }}</li>
         </ul>
         <p class="date-range-text">
-          *Positive/ negative trend comparison is {{ cardData.VarianceEndDate }} vs. {{ cardData.VarianceStartDate }}
+          &dagger; Positive/ negative trend comparison is {{ cardData.VarianceEndDate }} vs.
+          {{ cardData.VarianceStartDate }}
         </p>
       </div>
       <div class="bar-chart-block">
@@ -97,7 +104,7 @@
                     <p class="financial-value">{{ cardData.OutStandingAmount }}</p>
                     <mat-icon class="pi-trend-icons" svgIcon="{{ cardData.OutStandingAmountVarianceIcon }}"></mat-icon>
                     <p class="financial-trend" [style.color]="cardData.OutStandingAmountVarianceColor">
-                      {{ cardData.OutStandingAmountVariance }}*
+                      {{ cardData.OutStandingAmountVariance }} &dagger;
                     </p>
                   </div>
                   <p class="financial-opportunity">Financial Opportunity</p>
@@ -112,7 +119,130 @@
         <app-common-footer [timePeriod]="cardData.timeperiod" class="width-100"></app-common-footer>
       </div>
     </div>
-    <div class="message-left-margin">
+
+    <!-- Smart Edits Claims Returned Card Starts here -->
+    <div *ngIf="showSmartEditsClaimsReturned">
+      <app-card class="cards" [skeleton]="loading" *ngIf="loading"> </app-card>
+      <app-card class="cards" [chartData]="smartEditClaimsReturned"></app-card>
+    </div>
+    <!-- Smart Edits Claims Returned Card Ends here -->
+
+    <!-- Smart Edits Claims Top Reasons STARTS HERE -->
+    <div *ngIf="smartEditsReasonsBool">
+      <app-card class="cards" [skeleton]="loading" *ngIf="loading"> </app-card>
+      <div class="overturn-reason-block">
+        <app-common-header
+          [title]="smartEditsReasonTitle"
+          class="full-display"
+          (helpIconClicked)="helpIconClick($event)"
+        ></app-common-header>
+        <!--div *ngFor="let r of reason; let i = index"-->
+        <div class="top-reason-one">
+          <div *ngIf="claimsTopReason.length >= 1" class="appeals-overturned-bar-chart ">
+            <app-med-bar-chart class="top-reason-one" [chartOptions]="claimsTopReason[0]"></app-med-bar-chart>
+          </div>
+        </div>
+        <div *ngIf="claimsTopReason.length >= 2" class="appeals-overturned-bar-chart ">
+          <app-med-bar-chart class="top-reason-other" [chartOptions]="claimsTopReason[1]"></app-med-bar-chart>
+        </div>
+        <div *ngIf="claimsTopReason.length >= 3" class="appeals-overturned-bar-chart ">
+          <app-med-bar-chart class="top-reason-other" [chartOptions]="claimsTopReason[2]"></app-med-bar-chart>
+        </div>
+        <div *ngIf="claimsTopReason.length >= 4" class="appeals-overturned-bar-chart ">
+          <app-med-bar-chart class="top-reason-other" [chartOptions]="claimsTopReason[3]"></app-med-bar-chart>
+        </div>
+        <div *ngIf="claimsTopReason.length >= 5" class="appeals-overturned-bar-chart">
+          <app-med-bar-chart class="top-reason-other" [chartOptions]="claimsTopReason[4]"></app-med-bar-chart>
+        </div>
+        <!--/div-->
+        <div class="common-footer">
+          <div class="reason-time">{{ timePeriod }}</div>
+        </div>
+        <!--app-common-footer [timePeriod]="timePeriod" class="reason-time"></app-common-footer-->
+      </div>
+    </div>
+    <!-- Smart Edits Claims Top Reasons ENDS HERE -->
+
+    <!-- Smart Edits Repaired & Resubmitted Response Time Card Starts here -->
+    <div *ngIf="showSmartEditsRepairedandResubmitted">
+      <app-card class="cards" [skeleton]="loading" *ngIf="loading"> </app-card>
+      <div class="overturn-reason-block">
+        <app-common-header
+          [title]="smartEditsRepairedAndResubmittedTitle"
+          class="full-display"
+          (helpIconClicked)="helpIconClick($event)"
+        ></app-common-header>
+        <div class="smart-edits-bar-chart-block">
+          <div class="pi-numbers-block">
+            <p class="mr-returned-number">402</p>
+            <p class="mr-not-returned-number mr-returned-number">134</p>
+          </div>
+          <div class="smart-edits-pull-left">
+            <div class="less-than-five-days-block">
+              <div class="mr-returned-bar-block">
+                <!--<p class="mr-returned-text">Medical Records Returned to UHC</p>-->
+                <p class="mr-returned-text">5 Days or Less</p>
+                <div class="less-than-five-days-bar"></div>
+              </div>
+            </div>
+            <div class="more-than-five-days-block">
+              <div class="mr-returned-bar-block">
+                <!--<p class="mr-not-returned-text mr-returned-text">Medical Records Not Returned to UHC</p>-->
+                <p class="mr-not-returned-text mr-returned-text">Greater than 5 Days</p>
+                <div class="more-than-five-days-bar"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="full-display">
+          <app-common-footer [timePeriod]="timePeriod" class="width-100"></app-common-footer>
+        </div>
+      </div>
+    </div>
+    <!-- Smart Edits Repaired & Resubmitted Response Time Card Ends here -->
+
+    <!-- Smart Edits  Top Informational Reasons STARTS HERE -->
+    <div *ngIf="showSmartEditsTopInfoReason">
+      <app-card class="cards" [skeleton]="loading" *ngIf="loading"> </app-card>
+      <div class="overturn-reason-block">
+        <app-common-header
+          [title]="smartEditsInformationalTitle"
+          class="full-display"
+          (helpIconClicked)="helpIconClick($event)"
+        ></app-common-header>
+        <!--div *ngFor="let r of reason; let i = index"-->
+        <div class="top-reason-one-informational">
+          <div *ngIf="claimsInfoTopReason.length >= 1" class="appeals-overturned-bar-chart ">
+            <app-med-bar-chart class="top-reason-one" [chartOptions]="claimsInfoTopReason[0]"></app-med-bar-chart>
+          </div>
+        </div>
+        <div *ngIf="claimsInfoTopReason.length >= 2" class="appeals-overturned-bar-chart ">
+          <app-med-bar-chart class="top-reason-other" [chartOptions]="claimsInfoTopReason[1]"></app-med-bar-chart>
+        </div>
+        <div *ngIf="claimsInfoTopReason.length >= 3" class="appeals-overturned-bar-chart ">
+          <app-med-bar-chart class="top-reason-other" [chartOptions]="claimsInfoTopReason[2]"></app-med-bar-chart>
+        </div>
+        <div *ngIf="claimsInfoTopReason.length >= 4" class="appeals-overturned-bar-chart ">
+          <app-med-bar-chart class="top-reason-other" [chartOptions]="claimsInfoTopReason[3]"></app-med-bar-chart>
+        </div>
+        <div *ngIf="claimsInfoTopReason.length >= 5" class="appeals-overturned-bar-chart">
+          <app-med-bar-chart class="top-reason-other" [chartOptions]="claimsInfoTopReason[4]"></app-med-bar-chart>
+        </div>
+        <div>
+          <p class="smart-edits-vol-label">Total Volume:</p>
+          <p class="smart-edits-vol-num">2,497</p>
+        </div>
+        <!--/div-->
+        <div class="common-footer">
+          <div class="reason-time">{{ timePeriod }}</div>
+        </div>
+        <!--app-common-footer [timePeriod]="timePeriod" class="reason-time"></app-common-footer-->
+      </div>
+    </div>
+    <!-- Smart Edits  Top Informational Reasons ENDS HERE -->
+
+    <div *ngIf="piDataloaded" class="message-left-margin">
       <app-clarify-claims-message></app-clarify-claims-message>
     </div>
   </div>

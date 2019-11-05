@@ -10,6 +10,7 @@ import {
   Output,
   EventEmitter
 } from '@angular/core';
+import { trigger, state, style, animate, transition } from '@angular/animations';
 import { MatIconRegistry, PageEvent } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 import { GettingReimbursedSharedService } from '../../../shared/getting-reimbursed/getting-reimbursed-shared.service';
@@ -19,13 +20,23 @@ import { StorageService } from '../../../shared/storage-service.service';
 import { Router } from '@angular/router';
 import { FilterExpandService } from '../../../shared/filter-expand.service';
 import { CommonUtilsService } from '../../../shared/common-utils.service';
-import { NonPaymentSharedService } from '../../../shared/getting-reimbursed/non-payment-shared.service';
+import { GlossaryMetricidService } from '../../../shared/glossary-metricid.service';
+import { NonPaymentSharedService } from '../../../shared/getting-reimbursed/non-payments/non-payment-shared.service';
 
 @Component({
   selector: 'app-non-payments',
   templateUrl: './non-payments.component.html',
   styleUrls: ['./non-payments.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
+  animations: [
+    // Each unique animation requires its own trigger. The first argument of the trigger function is the name
+    trigger('rotatedState', [
+      state('default', style({ transform: 'rotate(0)' })),
+      state('rotated', style({ transform: 'rotate(180deg)' })),
+      transition('rotated => default', animate('180ms ease-out')),
+      transition('default => rotated', animate('180ms ease-in'))
+    ])
+  ]
 })
 export class NonPaymentsComponent implements OnInit, AfterViewChecked {
   title = 'Top Reasons for Claims Non-Payment';
@@ -42,15 +53,15 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
   monthlyLineGraph: any = [{}];
   loadingTopReasons: boolean;
 
-  topReasonsCategoryDisplay = true;
-  dataLoaded = false;
+  topReasonsCategoryDisplay = false;
+  trendMonthDisplay = false;
   type: any;
   loadingOne: boolean;
   mockCardOne: any;
   loadingTwo: boolean;
   mockCardTwo: any;
-  barChartsArray: any = [];
-  reasonsNoData: object = null;
+  barChartsArray: any;
+
   /*
   barChartsArray = [
     {
@@ -191,6 +202,7 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
   ];
   */
   constructor(
+    public MetricidService: GlossaryMetricidService,
     private checkStorage: StorageService,
     private iconRegistry: MatIconRegistry,
     private elementRef: ElementRef,
@@ -205,8 +217,8 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
     private filtermatch: CommonUtilsService,
     private nonPaymentService: NonPaymentSharedService
   ) {
-    const filData = this.session.getFilChangeEmitter().subscribe(() => this.ngOnInit());
-    this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.ngOnInit());
+    const filData = this.session.getFilChangeEmitter().subscribe(() => this.filtermatch.urlResuseStrategy());
+    this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.filtermatch.urlResuseStrategy());
     /** INITIALIZING SVG ICONS TO USE IN DESIGN - ANGULAR MATERIAL */
 
     iconRegistry.addSvgIcon(
@@ -233,8 +245,12 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
       'close',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-close-24px.svg')
     );
-    this.pageTitle = 'Claims Non-Payments';
-    this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.ngOnInit());
+    iconRegistry.addSvgIcon(
+      'carrot',
+      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/keyboard_arrow_down-24px.svg')
+    );
+
+    this.pageTitle = 'Claims Non-Payments*';
   }
 
   ngOnInit() {
@@ -288,20 +304,21 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
         this.loadingTopReasons = false;
         this.topReasonsCategoryDisplay = true;
         this.barChartsArray = topCategories;
-        console.log(this.barChartsArray);
         if (topCategories === null) {
           this.topReasonsCategoryDisplay = false;
-          this.reasonsNoData = {
+          this.barChartsArray = {
             category: 'large-card',
             type: 'donut',
             status: 404,
-            title: 'Claims Non-Payment Rate',
+            title: 'Top Reasons for Claims Non-Payment',
+            MetricID: this.MetricidService.MetricIDs.TopReasonsforClaimsNonPayment,
             data: null,
             timeperiod: null
           };
         }
       },
       error => {
+        this.loadingTopReasons = false;
         this.topReasonsCategoryDisplay = false;
         this.barChartsArray = null;
         console.log('Non Payment Component Error Top Categories', error);
@@ -324,17 +341,37 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
     ];
 
     this.monthlyLineGraph.chartData = [];
-    this.dataLoaded = false;
+    this.trendMonthDisplay = false;
+    // This is for line graph
     this.nonPaymentService.sharedTrendByMonth().then(trendData => {
-      this.monthlyLineGraph.chartData = trendData;
-      this.dataLoaded = true;
+      if (trendData === null) {
+        this.trendMonthDisplay = false;
+        this.monthlyLineGraph = {
+          category: 'large-card',
+          type: 'donut',
+          status: 404,
+          title: 'Claims Non-Payment Trend',
+          MetricID: this.MetricidService.MetricIDs.ClaimsNonPaymentTrend,
+          data: null,
+          timeperiod: null
+        };
+      } else {
+        this.monthlyLineGraph.chartData = trendData;
+        this.trendMonthDisplay = true;
+      }
     });
+
     this.monthlyLineGraph.generalData2 = [];
     this.monthlyLineGraph.chartData2 = [];
   } // ngOnInit Ends here
 
   helpIconClick(title) {
-    this.glossaryExpandService.setMessage(title);
+    if (title === 'Top Reasons for Claims Non-Payment') {
+      this.glossaryExpandService.setMessage(title, this.MetricidService.MetricIDs.TopReasonsforClaimsNonPayment);
+    }
+    if (title === 'Claims Non-Payment Trend') {
+      this.glossaryExpandService.setMessage(title, this.MetricidService.MetricIDs.ClaimsNonPaymentTrend);
+    }
   }
   /** This function is used for collapse of Top Reasons For Non Payment
    * section is an array of boolean variable

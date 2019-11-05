@@ -43,14 +43,19 @@
     <div *ngFor="let data of mockCards; let i = index">
       <app-card class="cards" [skeleton]="loading" *ngIf="loading"> </app-card>
     </div>
+    <!--used item.toggle for temporary card removal, as toggle functionality is not built properly : srikar bobbiganipalli-->
     <div *ngFor="let item of payments">
-      <app-card *ngIf="item.data != null" class="cards" [chartData]="item"> </app-card>
+      <app-card *ngIf="item.data != null && !item.toggle" class="cards" [chartData]="item"> </app-card>
       <app-error-card *ngIf="item.status != null" class="cards" [data]="item"></app-error-card>
     </div>
 
     <!--Claims Paid Breakdown Graph Starts here -->
-    <app-large-card [skeletonLarge]="loading" *ngIf="loading"></app-large-card>
-    <div *ngIf="claimsPaidBreakBool" class="claims-paid-content">
+    <app-large-card [skeletonLarge]="loading" *ngIf="loadingClaimsBreakdown"></app-large-card>
+    <app-error-card
+      *ngIf="!loadingClaimsBreakdown && !claimsPaidBreakBool && cData[0].status != null"
+      [data]="cData[0]"
+    ></app-error-card>
+    <div *ngIf="!loadingClaimsBreakdown && claimsPaidBreakBool" class="claims-paid-content">
       <app-common-header
         [title]="title"
         class="claims-header"
@@ -59,8 +64,7 @@
       <app-claims-paid-bar-graph [chartOptions]="cData[0]"></app-claims-paid-bar-graph>
 
       <div class="timeperiod-block">
-        <hr class="footer-border" />
-        <p class="timeperiod-text">{{ timePeriod }}</p>
+        <app-common-footer [timePeriod]="timePeriod" [title]="title"></app-common-footer>
       </div>
     </div>
     <!--Claims Paid Breakdown Graph Ends here -->

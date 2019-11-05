@@ -2,8 +2,11 @@
   <div class="main-content">
     <div class="cards cust-width-title">
       <app-breadcrumbs></app-breadcrumbs>
-      <div class="page-title">
+      <div class="page-title" [class.page-title-subtitle]="pageSubTitle.length > 0">
         {{ pageTitle }}
+      </div>
+      <div class="page-subtitle">
+        {{ pageSubTitle }}
       </div>
     </div>
 
@@ -19,8 +22,14 @@
     <div *ngFor="let item of MRACVCompletionData; let i = index">
       <app-card *ngIf="item.data != null" class="cards" [chartData]="item" [tabData]="PCORTabData"> </app-card>
     </div>
-
+    <div *ngIf="!loading">
+      <app-accordion-large-card
+        [title]="qualityTitle"
+        [qualityMeasure]="qualityMeasureData"
+        [data]="starRatings"
+        (ratingClick)="ratingComponentClick(i)"
+      ></app-accordion-large-card>
+    </div>
     <app-large-card [skeletonLarge]="loading" *ngIf="loading"></app-large-card>
-    <app-large-card [data]="StarRatings" *ngIf="StarRatings.length > 1"></app-large-card>
   </div>
 </div>

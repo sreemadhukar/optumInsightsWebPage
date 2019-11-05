@@ -3,6 +3,10 @@ import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 
+export interface CommonHeaderOptions {
+  npsHeader: boolean;
+}
+
 @Component({
   selector: 'app-common-header',
   templateUrl: './common-header.component.html',
@@ -11,10 +15,13 @@ import { Router } from '@angular/router';
 })
 export class CommonHeaderComponent implements OnInit {
   @Input() title: String;
+  @Input() subtitle: String;
   @Output() helpIconClicked = new EventEmitter();
   @Input() cardType: String;
+  @Input() options: CommonHeaderOptions;
   titleHeader: String = null;
   typeOfCard: String = null;
+  titleSubHeader: String = null;
   routhPath: string;
   constructor(private iconRegistry: MatIconRegistry, sanitizer: DomSanitizer, private router: Router) {
     /** INITIALIZING SVG ICONS TO USE IN DESIGN - ANGULAR MATERIAL */
@@ -27,9 +34,18 @@ export class CommonHeaderComponent implements OnInit {
   ngOnInit() {
     this.titleHeader = this.title;
     this.typeOfCard = this.cardType;
+    if (this.subtitle.length > 0) {
+      this.titleSubHeader = this.subtitle;
+    }
   }
   helpFunctionClicked() {
-    this.helpIconClicked.emit(this.title);
+    // Might have to remove special char for glossary to work properly
+    if (this.title.charAt(this.title.length - 1) === '*') {
+      const newTitle = this.title.substring(0, this.title.length - 1);
+      this.helpIconClicked.emit(newTitle);
+    } else {
+      this.helpIconClicked.emit(this.title);
+    }
   }
 
   titleClicked(title) {

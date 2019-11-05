@@ -5,8 +5,10 @@
 
 @import '~src/scss/variables.scss';
 @import '~src/scss/mixins';
+@import '~src/scss/buttons';
+
 .example-container {
-  background-color: #f1f4f7;
+  position: relative;
   flex-direction: column;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -49,6 +51,10 @@ h1.example-app-name {
   flex: 1 0 auto;
   min-height: 760px;
   background-color: rgb(241, 244, 247);
+  // background-color: mat-color($accent);
+}
+.example-is-mobile .bg-white {
+  background-color: #fff;
 }
 
 app-header {
@@ -68,13 +74,14 @@ app-header {
 /************ CSS RELATED TO ONLY LEFT HAMBURGER MENU *************/
 
 .side-navigation {
-  width: 256px;
+  width: 286px; // previously 256px -- width before PI Sub menu undo when toggled off
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
   //  background-color: $white;
 }
 
 .health-system-representation-block {
-  @include padding(16px, 12px, 0px, 32px);
+  @include padding(20px, 12px, 0px, 56px);
+  // @include padding(16px, 12px, 0px, 32px); before adding PI Sub Menu undo when toggled off
   border-bottom: 1px solid $gainsboro;
 }
 
@@ -105,7 +112,7 @@ app-header {
   letter-spacing: 0.2px;
   line-height: 18px;
   text-decoration: none;
-  margin: 9px 0;
+  margin: 9px 0 18px 0;
   cursor: pointer;
 }
 
@@ -128,7 +135,8 @@ app-header {
 }
 
 .signout-block {
-  padding: 16px 0 0 33px;
+  padding: 16px 0 0 40px;
+  // padding: 16px 0 0 33px; before PI sub menu uncomment when smart edits is toggled off
 }
 
 .signout-label {
@@ -144,6 +152,16 @@ app-header {
     vertical-align: bottom;
   }
 }
+.navCategoryItem {
+  /*padding-left: 32px !important;*/
+  color: $strom-grey;
+  font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  letter-spacing: 0.2px;
+  margin-top: 4px !important;
+  line-height: 18px;
+  margin-left: 38px !important; // previously 30px befor PI sub menu undo when toggled off
+}
 
 .firstNavCategory {
   margin-top: 15px !important;
@@ -152,6 +170,7 @@ app-header {
   font-size: 16px !important;
   letter-spacing: 0.2px;
   line-height: 18px;
+  margin-top: 20px !important;
 }
 
 .mat-expansion-panel-content,
@@ -182,17 +201,6 @@ app-header {
   /*padding-left: 32px !important;*/
 }
 
-.navCategoryItem {
-  /*padding-left: 32px !important;*/
-  color: $strom-grey;
-  font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
-  font-size: 14px;
-  letter-spacing: 0.2px;
-  margin-top: 4px !important;
-  line-height: 18px;
-  margin-left: 30px !important;
-}
-
 .mat-expansion-panel-body {
   padding: 0px !important;
 }
@@ -218,7 +226,7 @@ app-header {
   color: $strom-grey !important;
   font-size: 16px !important;
   letter-spacing: 0.2px;
-  margin-top: 16px;
+  /*margin-top: 16px;*/
 }
 
 .nav-sub-category-items {
@@ -238,7 +246,9 @@ app-header {
   background: $darker-alice-blue !important;
   color: $blue !important;
 }
-
+.second-level-link {
+  padding-left: 32px !important;
+}
 .nav-no-child-category:hover,
 .mat-expansion-panel-header:hover,
 .mat-expanded,
@@ -249,6 +259,26 @@ app-header {
   }
   .mat-expansion-indicator::after {
     color: $blue !important;
+  }
+}
+
+.sub-menu-sub-header {
+  .sub-menu-expansion-header {
+    color: $strom-grey !important;
+  }
+  .mat-expansion-indicator::after {
+    color: $strom-grey !important;
+  }
+}
+
+.child-nav-menu-expansion-panel {
+  .mat-expanded {
+    .sub-menu-expansion-header {
+      color: $blue !important;
+    }
+    .mat-expansion-indicator::after {
+      color: $blue !important;
+    }
   }
 }
 
@@ -298,6 +328,11 @@ app-header {
   fill: $blue !important;
 }
 
+.sub-menu-sub-header {
+  margin-left: 26px !important;
+  padding-left: 16px !important;
+  height: 18px !important;
+}
 .display-none {
   display: none !important;
 }
@@ -395,10 +430,95 @@ app-header {
 
 .sticky {
   position: fixed;
-  top: 0;
+  top: 0px;
 }
 
 .mat-drawer-inner-container {
   overflow: unset !important;
   height: 97% !important;
+}
+
+.simulate-external-view {
+  padding: 38px 26px 28px;
+  border-bottom: 1px solid #e0e0e0;
+  &-btn {
+    border: 1px solid $blue !important;
+  }
+}
+
+.butter-bar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background-color: #80dde6;
+  color: white;
+  height: 40px;
+}
+
+.exit-text {
+  font-family: 'UHCSans-Medium';
+  color: #2d2d39;
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: 0.2px;
+  padding-top: 0px;
+}
+
+.provider-text {
+  font-weight: bold;
+}
+
+.align-horizonal {
+  display: flex;
+  align-items: center;
+}
+
+.cross-icon {
+  width: 3%;
+  padding-top: 10px;
+  padding-left: 50px;
+  color: #2d2d39;
+}
+
+.top-40 {
+  top: 40px !important;
+}
+
+.top-0 {
+  top: 0;
+}
+
+.hover-pointer {
+  cursor: pointer;
+}
+
+.exit-provider-text:hover {
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.mat-list-item {
+  height: auto;
+  padding: 8px 12px 8px 16px;
+  width: auto;
+}
+.mat-list-item-content {
+  padding: 0px !important;
+  height: auto !important;
+}
+.mat-expansion-panel-body {
+  padding: 0px;
+}
+.mat-list-base .mat-list-item {
+  height: auto !important;
+  padding: 8px 12px 8px 16px;
+  width: auto;
+  margin-left: 0px;
+}
+
+.mat-list-base .nav-sub-category-items {
+  height: auto !important;
+  padding: 8px 12px 8px 16px !important;
+  width: auto;
+  margin-left: 26px !important;
 }

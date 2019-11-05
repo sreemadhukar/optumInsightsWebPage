@@ -3,9 +3,7 @@
 .breadcrumb-top-padding {
   @include margin(12px, 0, 1px, 0);
   box-sizing: border-box;
-
   width: 961px;
-
   .filter_bg {
     height: 40px;
     width: 100px;
@@ -15,7 +13,6 @@
     float: right;
     cursor: pointer;
     margin-right: 7px;
-
     .filter_title {
       color: $blue;
       font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
@@ -92,6 +89,7 @@
   padding-left: 7px;
   float: left;
 }
+
 .time--period {
   .filterchips {
     width: 845px;
@@ -127,6 +125,7 @@
     }
   }
 }
+
 .title-left-padding {
   padding-left: 15px;
 }
@@ -134,8 +133,24 @@
 .full-display {
   float: left;
   width: 100%;
-  padding-bottom: 20px; // centre aligned to card
 }
+
+.one-reason {
+  padding-bottom: 132.5px;
+}
+.two-reason {
+  padding-bottom: 107.5px;
+}
+.three-reason {
+  padding-bottom: 82.5px;
+}
+.four-reason {
+  padding-bottom: 57.5px;
+}
+.five-reason {
+  padding-bottom: 32.5px;
+}
+
 .appeals-cards-block {
   display: flex;
   flex-wrap: wrap;
@@ -178,8 +193,9 @@
 }
 
 .common-footer {
+  width: 100%;
   position: absolute;
-  bottom: 5px;
+  bottom: 4px;
   // margin-top: 319px;
-  border-top: 1px solid #efefef;
+  //  border-top: 1px solid #efefef;
 }

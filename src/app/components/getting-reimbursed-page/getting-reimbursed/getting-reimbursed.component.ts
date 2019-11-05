@@ -45,11 +45,11 @@ export class GettingReimbursedComponent implements OnInit {
     private session: SessionService,
     private filtermatch: CommonUtilsService
   ) {
-    const filData = this.session.getFilChangeEmitter().subscribe(() => this.ngOnInit());
+    const filData = this.session.getFilChangeEmitter().subscribe(() => this.filtermatch.urlResuseStrategy());
     this.pageTitle = 'Getting Reimbursed';
     this.currentTabTitle = '';
     this.tabOptionsTitle = ['Submission', 'Payments', 'Non-Payments', 'Appeals'];
-    this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.ngOnInit());
+    this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.filtermatch.urlResuseStrategy());
     iconRegistry.addSvgIcon(
       'filter',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-filter_list-24px.svg')
@@ -81,13 +81,13 @@ export class GettingReimbursedComponent implements OnInit {
       this.buttonName = '';
       this.buttonNumber = 0;
     } else if (i === 1) {
-      this.buttonName = 'Payments Details';
+      this.buttonName = 'More Payment Metrics';
       this.buttonNumber = 1;
     } else if (i === 2) {
-      this.buttonName = 'Non-Payments Details';
+      this.buttonName = 'More Non-Payment Metrics';
       this.buttonNumber = 2;
     } else if (i === 3) {
-      this.buttonName = 'Appeals Details';
+      this.buttonName = 'More Appeals Metrics';
       this.buttonNumber = 3;
     }
     this.currentSummary = [];
@@ -131,7 +131,7 @@ export class GettingReimbursedComponent implements OnInit {
       this.taxID = [];
     }
     this.loading = true;
-    this.mockCards = [{}, {}];
+    this.mockCards = [{}];
 
     this.gettingReimbursedSharedService
       .getGettingReimbursedData()
