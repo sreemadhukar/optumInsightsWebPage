@@ -1167,7 +1167,6 @@ export class OverviewSharedService {
               gdata: ['card-inner', 'priorAuthCardD3Donut']
             },
             sdata: null,
-
             timeperiod: 'Last 6 Months'
           };
           // if (
@@ -1210,6 +1209,7 @@ export class OverviewSharedService {
           };
         }
 
+        console.log(cPriorAuth);
         resolve(cPriorAuth);
       });
     });

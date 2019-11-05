@@ -128,6 +128,11 @@
                     <div class="description-content">
                       <span class="measure-desc">Measure Description:</span>
                       <span class="measure-content">{{ listitem.Description }}</span>
+                      <br *ngIf="listitem.DescriptionTwo" />
+                      <br *ngIf="listitem.DescriptionTwo" />
+                      <span class="measure-content-two" *ngIf="listitem.DescriptionTwo">{{
+                        listitem.DescriptionTwo
+                      }}</span>
                     </div>
                     <div class="flex-row-container">
                       <div class="flex-row-item1  vertical-line2 ">
