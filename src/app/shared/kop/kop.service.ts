@@ -13,7 +13,8 @@ export class KOPSharedService {
   filters: any = [
     {
       title: 'Last Completed Quarter',
-      selected: true,
+      selected: false,
+      default: false,
       quarterFormat: 'default',
       timeFrameFormat: 'Quarter and Year',
       filters: ['LAST_COMPLETED_QUARTER']
@@ -21,13 +22,15 @@ export class KOPSharedService {
     {
       title: 'Year To Date',
       selected: false,
+      default: false,
       timeFrameFormat: 'Year',
       quarterFormat: 'default',
       filters: ['YEAR_TO_DATE']
     },
     {
       title: 'Quarter over Quarter',
-      selected: false,
+      selected: true,
+      default: true,
       timeFrameFormat: 'Quarter vs Quarter',
       quarterFormat: 'default',
       filters: ['QUARTER_OVER_QUARTER']
@@ -35,6 +38,7 @@ export class KOPSharedService {
     {
       title: 'Total Last Year',
       selected: false,
+      default: false,
       timeFrameFormat: 'Last Year',
       quarterFormat: 'YTD',
       filters: ['YEAR_TO_DATE', 'TOTAL_LAST_YEAR']

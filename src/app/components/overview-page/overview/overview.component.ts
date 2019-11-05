@@ -9,6 +9,7 @@ import { CommonUtilsService } from 'src/app/shared/common-utils.service';
 import { NgRedux } from '@angular-redux/store';
 import { CURRENT_PAGE } from '../../../store/filter/actions';
 import { IAppState } from '../../../store/store';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-overview',
@@ -56,6 +57,8 @@ export class OverviewComponent implements OnInit {
   errorloadMedicareStarRatingCard = false;
   errorloadTotalCallsCard = false;
   isHeac = false;
+
+  displayClaimsYield: boolean = environment.claimsYieldAccess;
   /***************** DONT CHANGE THESE *************/
 
   trendsData: any;

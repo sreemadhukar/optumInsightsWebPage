@@ -45,8 +45,8 @@
         </div>
         <div class="height1Separator"></div>
         <div class="getting-reimbursed-cards" *ngFor="let item of currentSummary">
-          <app-card *ngIf="item.data != null && item.type != 'rotateWithLabel'" class="cards" [chartData]="item">
-          </app-card>
+          <!--used item.toggle for temporary card removal, as toggle functionality is not built properly : srikar bobbiganipalli-->
+          <app-card *ngIf="item.data != null && !item.toggle" class="cards" [chartData]="item"> </app-card>
           <app-error-card *ngIf="item.status != null" class="cards" [data]="item"></app-error-card>
         </div>
 
