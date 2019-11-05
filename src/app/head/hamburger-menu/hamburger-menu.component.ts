@@ -449,16 +449,16 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     });
   }
   ngAfterViewChecked() {
-    // console.log(this.elementRef.nativeElement.querySelectorAll('*[href="/CareDelivery/PatientCareOpportunity"]'));
-    try {
-      const PCORNavMenu = this.elementRef.nativeElement.querySelectorAll(
-        '*[href="/CareDelivery/PatientCareOpportunity"]'
-      )[0];
-      PCORNavMenu.style.height = 'auto';
-      PCORNavMenu.style.padding = '8px 5px 8px 0';
-      PCORNavMenu.style.width = 'auto';
-      PCORNavMenu.style.marginLeft = '26px';
-    } catch (error) {}
+    // // console.log(this.elementRef.nativeElement.querySelectorAll('*[href="/CareDelivery/PatientCareOpportunity"]'));
+    // try {
+    //   const PCORNavMenu = this.elementRef.nativeElement.querySelectorAll(
+    //     '*[href="/CareDelivery/PatientCareOpportunity"]'
+    //   )[0];
+    //   PCORNavMenu.style.height = 'auto';
+    //   PCORNavMenu.style.padding = '8px 5px 8px 0';
+    //   PCORNavMenu.style.width = 'auto';
+    //   PCORNavMenu.style.marginLeft = '26px';
+    // } catch (error) {}
   }
   hamburgerDisplay(input: boolean) {
     this.sideNavFlag = input;

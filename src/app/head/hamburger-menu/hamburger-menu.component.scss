@@ -496,3 +496,29 @@ app-header {
   cursor: pointer;
   text-decoration: underline;
 }
+
+.mat-list-item {
+  height: auto;
+  padding: 8px 12px 8px 16px;
+  width: auto;
+}
+.mat-list-item-content {
+  padding: 0px !important;
+  height: auto !important;
+}
+.mat-expansion-panel-body {
+  padding: 0px;
+}
+.mat-list-base .mat-list-item {
+  height: auto !important;
+  padding: 8px 12px 8px 16px;
+  width: auto;
+  margin-left: 0px;
+}
+
+.mat-list-base .nav-sub-category-items {
+  height: auto !important;
+  padding: 8px 12px 8px 16px !important;
+  width: auto;
+  margin-left: 26px !important;
+}
