@@ -45,6 +45,20 @@ export class PatientCareOpportunityComponent implements OnInit {
       this.starRatings = this.pcorData[2];
     });
   }
+  public locations(substring, string) {
+    const a = [];
+    let i = -1;
+    while ((i = string.indexOf(substring, i + 1)) >= 0) {
+      a.push(i);
+    }
+    const b = [];
+    for (let j = 0; j < a.length - 1; j++) {
+      if (a[j + 1] - a[j] > 75) {
+        b.push(a[j]);
+      }
+    }
+    return b;
+  }
   public customFormattingMeasureDescription(customLabelGrid, data) {
     for (let i = 0; i < data.length; i++) {
       for (let j = 0; j < data[i].insideData.length; j++) {
@@ -58,6 +72,33 @@ export class PatientCareOpportunityComponent implements OnInit {
               const newSentenceTwo = measureDescription.slice(periodIndex + 1);
               data[i].insideData[j].Description = newSentenceOne;
               data[i].insideData[j].DescriptionTwo = newSentenceTwo;
+            } else if (customLabelGrid[k].format === 'bulletPoint') {
+              const measureDescription = data[i].insideData[j].Description;
+              const colonIndex = measureDescription.indexOf(':');
+              const newSentenceOne = measureDescription.slice(0, colonIndex + 1);
+              const newSentenceTwo = measureDescription.slice(colonIndex + 1);
+              data[i].insideData[j].Description = newSentenceOne;
+              const bulletPointArray = this.locations('.', newSentenceTwo);
+              bulletPointArray.unshift(0);
+              const bulletPoints = [];
+              for (let l = 0; l < bulletPointArray.length; l++) {
+                if (bulletPointArray[l + 1] === undefined) {
+                  const preSentence = newSentenceTwo
+                    .slice(bulletPointArray[l])
+                    .split('.')
+                    .join('')
+                    .trim();
+                  bulletPoints.push('•' + preSentence);
+                } else {
+                  const preSentence = newSentenceTwo
+                    .slice(bulletPointArray[l], bulletPointArray[l + 1])
+                    .split('.')
+                    .join('')
+                    .trim();
+                  bulletPoints.push('•' + preSentence);
+                }
+              }
+              data[i].insideData[j].DescriptionBulletPoints = bulletPoints;
             }
           }
         }
