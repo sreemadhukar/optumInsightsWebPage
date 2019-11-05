@@ -95,12 +95,12 @@ export class OverviewAdvocateComponent implements OnInit {
     });
   }
 
-  paymentData() {
+  paymentData(payload) {
     this.paymentLoading = true;
     this.topRowMockCards = [{}, {}, {}];
 
     this.topRowService
-      .getPaymentShared(this.createPayloadService.payload)
+      .getPaymentShared(payload)
       .then(paymentData => {
         this.paymentCards = JSON.parse(JSON.stringify(paymentData));
         this.paymentLoading = false;
@@ -111,11 +111,11 @@ export class OverviewAdvocateComponent implements OnInit {
       });
   }
 
-  appealsLeftData() {
+  appealsLeftData(payload) {
     this.appealsloading = true;
     this.appealsmockCards = [{}, {}, {}, {}];
 
-    this.overviewAdvocateSharedService.getAppealsLeftShared(this.createPayloadService.payload).then(appealsLeftData => {
+    this.overviewAdvocateSharedService.getAppealsLeftShared(payload).then(appealsLeftData => {
       let AppealsLeftData: any;
       AppealsLeftData = appealsLeftData;
       if (AppealsLeftData[0].LineOfBusiness != null && AppealsLeftData[0].LineOfBusiness) {
@@ -151,10 +151,10 @@ export class OverviewAdvocateComponent implements OnInit {
     });
   }
 
-  appealsTrendByMonthData() {
+  appealsTrendByMonthData(payload) {
     this.appealsLineGraphData = {};
     this.overviewAdvocateSharedService
-      .getAppealsTrendByMonthShared(this.createPayloadService.payload)
+      .getAppealsTrendByMonthShared(payload)
       .then(appealsTrendData => {
         this.appealsLineGraphloading = false;
         if (
@@ -175,56 +175,54 @@ export class OverviewAdvocateComponent implements OnInit {
         } else {
           this.appealsLineGraphData = appealsTrendData;
           this.appealsLineGraph = new AppealsData(appealsTrendData, GeneralData, 'appeals-trend-block');
+          console.log(this.appealsLineGraph);
         }
+      })
+      .catch(err => {
+        this.appealsLineGraphloading = false;
       });
   }
 
-  totalCallsData() {
+  totalCallsData(payload) {
     this.callsLoading = true;
-    this.overviewAdvocateSharedService.getTotalCallsShared(this.createPayloadService.payload).then(totalCallsData => {
-      if (totalCallsData[0] == null) {
+    this.overviewAdvocateSharedService
+      .getTotalCallsShared(payload)
+      .then(totalCallsData => {
+        if (totalCallsData[0] == null) {
+          this.callsLoading = false;
+          this.callsLineGraphData = {
+            category: 'large-card',
+            type: 'donut',
+            status: 404,
+            title: this.trendTitleForCalls,
+            MetricID: this.MetricidService.MetricIDs,
+            data: null,
+            timeperiod: null
+          };
+        } else {
+          let callsLeftData;
+          callsLeftData = totalCallsData;
+          this.totalCalls = this.common.nondecimalFormatter(callsLeftData[0].CallVolByQuesType.Total);
+          this.callsLoading = false;
+        }
+      })
+      .catch(err => {
         this.callsLoading = false;
-        this.callsLineGraphData = {
-          category: 'large-card',
-          type: 'donut',
-          status: 404,
-          title: this.trendTitleForCalls,
-          MetricID: this.MetricidService.MetricIDs,
-          data: null,
-          timeperiod: null
-        };
-      } else {
-        let callsLeftData;
-        callsLeftData = totalCallsData;
-        this.totalCalls = this.common.nondecimalFormatter(callsLeftData[0].CallVolByQuesType.Total);
-        this.callsLoading = false;
-      }
-    });
+      });
   }
 
   ngOnInit() {
     this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'overviewAdvocatePage' });
+    this.timePeriod = this.common.getTimePeriodFilterValue(this.createPayloadService.payload.timePeriod);
     this.checkStorage.emitEvent('overviewPage');
-    this.paymentData();
-    this.appealsLeftData();
-    this.appealsTrendByMonthData();
-    this.totalCallsData();
+    this.paymentData(this.createPayloadService.payload);
+    this.appealsLeftData(this.createPayloadService.payload);
+    this.appealsTrendByMonthData(this.createPayloadService.payload);
+    this.totalCallsData(this.createPayloadService.payload);
     this.appealsLineGraphloading = true;
     // this.callsLineGraphLoading = true;
     this.userName = this.session.sessionStorage('loggedUser', 'FirstName');
     this.pageTitle = 'Welcome, ' + this.userName;
-
-    this.timePeriod = this.common.getTimePeriodFilterValue(this.createPayloadService.payload.timePeriod);
-
-    // this.lob = this.common.matchLobWithLobData(this.createPayloadService.payload.lineOfBusiness);
-    // if (this.session.filterObjValue.tax.length > 0 && this.session.filterObjValue.tax[0] !== 'All') {
-    //   this.taxID = this.session.filterObjValue.tax;
-    //   if (this.taxID.length > 3) {
-    //     this.taxID = [this.taxID.length + ' Selected'];
-    //   }
-    // } else {
-    //   this.taxID = ['All'];
-    // }
     this.monthlyLineGraph.chartId = 'non-payment-trend-block';
     this.monthlyLineGraph.titleData = [{}];
     this.monthlyLineGraph.generalData = [
@@ -271,25 +269,4 @@ export class OverviewAdvocateComponent implements OnInit {
     }
     this.glossaryExpandService.setMessage(title, this.MetricidService.MetricIDs);
   }
-
-  // openFilter() {
-  //   this.filterExpandService.setURL(this.router.url);
-  // }
-  // removeFilter(type, value) {
-  //   if (type === 'lob') {
-  //     this.lob = '';
-  //     this.session.store({ timeFrame: this.timePeriod, lob: 'All', tax: this.session.filterObjValue.tax });
-  //   } else if (type === 'tax' && !value.includes('Selected')) {
-  //     this.taxID = this.session.filterObjValue.tax.filter(id => id !== value);
-  //     if (this.taxID.length > 0) {
-  //       this.session.store({ timeFrame: this.timePeriod, lob: this.session.filterObjValue.lob, tax: this.taxID });
-  //     } else {
-  //       this.session.store({ timeFrame: this.timePeriod, lob: this.session.filterObjValue.lob, tax: ['All'] });
-  //       this.taxID = [];
-  //     }
-  //   } else if (type === 'tax' && value.includes('Selected')) {
-  //     this.session.store({ timeFrame: this.timePeriod, lob: this.session.filterObjValue.lob, tax: ['All'] });
-  //     this.taxID = [];
-  //   }
-  // }
 }

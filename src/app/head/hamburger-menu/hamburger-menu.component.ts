@@ -95,11 +95,12 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
         }
       ]
     },
-    {
-      icon: 'care-delivery',
-      name: 'Care Delivery',
-      children: [{ name: 'Prior Authorizations', path: '/CareDelivery/priorAuth' }]
-    },
+    // {
+    //   icon: 'care-delivery',
+    //   name: 'Care Delivery',
+    //   children: [{ name: 'Prior Authorizations', path: '/CareDelivery/priorAuth' }]
+    // },
+    { icon: 'care-delivery', name: 'Prior Authorizations', path: '/CareDelivery/priorAuth', disabled: false },
     {
       icon: 'service-interaction',
       name: 'Service Interaction',
@@ -333,11 +334,48 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
   bar PCOR will be hidden
   */
   insertPCORnav() {
-    if (!this.navCategories[2].children.some(i => i.name === 'Patient Care Opportunity')) {
-      this.navCategories[2].children.push({
-        name: 'Patient Care Opportunity',
-        path: '/CareDelivery/PatientCareOpportunity'
-      });
+    // if (!this.navCategories[2].children.some(i => i.name === 'Patient Care Opportunity')) {
+    //   this.navCategories[2].children.push({
+    //     name: 'Patient Care Opportunity',
+    //     path: '/CareDelivery/PatientCareOpportunity'
+    //   });
+    // }
+    if (!this.navCategories.some(i => i.name === 'Patient Care Opportunity')) {
+      this.navCategories[3] = {
+        icon: 'care-delivery',
+        name: 'Patient Care Opportunity ',
+        path: '/CareDelivery/PatientCareOpportunity',
+        disabled: false
+      };
+      this.navCategories[4] = {
+        icon: 'service-interaction',
+        name: 'Service Interaction',
+        children: [
+          { name: 'Self Service', path: '/ServiceInteraction/SelfService' },
+          { name: 'Calls', path: '/ServiceInteraction/Calls' }
+        ]
+      };
+      this.navCategories[5] = {
+        icon: 'timeline',
+        name: 'Summary Trends',
+        path: '/AdminSummaryTrends',
+        disabled: true
+      };
+    } else {
+      this.navCategories[3] = {
+        icon: 'service-interaction',
+        name: 'Service Interaction',
+        children: [
+          { name: 'Self Service', path: '/ServiceInteraction/SelfService' },
+          { name: 'Calls', path: '/ServiceInteraction/Calls' }
+        ]
+      };
+      this.navCategories[4] = {
+        icon: 'timeline',
+        name: 'Summary Trends',
+        path: '/AdminSummaryTrends',
+        disabled: true
+      };
     }
   }
   checkToggle(bool: boolean) {
@@ -411,16 +449,16 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     });
   }
   ngAfterViewChecked() {
-    // console.log(this.elementRef.nativeElement.querySelectorAll('*[href="/CareDelivery/PatientCareOpportunity"]'));
-    try {
-      const PCORNavMenu = this.elementRef.nativeElement.querySelectorAll(
-        '*[href="/CareDelivery/PatientCareOpportunity"]'
-      )[0];
-      PCORNavMenu.style.height = 'auto';
-      PCORNavMenu.style.padding = '8px 5px 8px 0';
-      PCORNavMenu.style.width = 'auto';
-      PCORNavMenu.style.marginLeft = '26px';
-    } catch (error) {}
+    // // console.log(this.elementRef.nativeElement.querySelectorAll('*[href="/CareDelivery/PatientCareOpportunity"]'));
+    // try {
+    //   const PCORNavMenu = this.elementRef.nativeElement.querySelectorAll(
+    //     '*[href="/CareDelivery/PatientCareOpportunity"]'
+    //   )[0];
+    //   PCORNavMenu.style.height = 'auto';
+    //   PCORNavMenu.style.padding = '8px 5px 8px 0';
+    //   PCORNavMenu.style.width = 'auto';
+    //   PCORNavMenu.style.marginLeft = '26px';
+    // } catch (error) {}
   }
   hamburgerDisplay(input: boolean) {
     this.sideNavFlag = input;
