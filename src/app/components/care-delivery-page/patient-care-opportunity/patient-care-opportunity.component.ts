@@ -2,6 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { StorageService } from '../../../shared/storage-service.service';
 import { PcorSharedService } from '../../../shared/care-delivery/pcor-shared.service';
 import { CommonUtilsService } from 'src/app/shared/common-utils.service';
+import { NgRedux } from '@angular-redux/store';
+import { CURRENT_PAGE } from '../../../store/filter/actions';
+import { IAppState } from '../../../store/store';
+
 @Component({
   selector: 'app-patient-care-opportunity',
   templateUrl: './patient-care-opportunity.component.html',
@@ -35,7 +39,8 @@ export class PatientCareOpportunityComponent implements OnInit {
   constructor(
     private checkStorage: StorageService,
     private pcorService: PcorSharedService,
-    private filtermatch: CommonUtilsService
+    private filtermatch: CommonUtilsService,
+    private ngRedux: NgRedux<IAppState>
   ) {
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.filtermatch.urlResuseStrategy());
   }
@@ -106,6 +111,7 @@ export class PatientCareOpportunityComponent implements OnInit {
     }
   }
   ngOnInit() {
+    this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'pcorPage' });
     this.pageTitle = 'Patient Care Opportunity–Medicare & Retirement';
     this.pageSubTitle = 'Health System Summary';
     this.loading = true;
