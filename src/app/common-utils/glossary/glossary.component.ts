@@ -29,6 +29,7 @@ export class GlossaryComponent implements OnInit {
   public optionLength = 0;
   public optionND = false;
   split: any;
+  hyperlink: any;
   public toHighlight = '';
   public internal = environment.internalAccess;
   @Input() title;
@@ -65,10 +66,11 @@ export class GlossaryComponent implements OnInit {
               this.split = this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.Definition.substring(
                 this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.Definition.indexOf('http')
               );
-              this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.Definition = this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.Definition.replace(
+              this.hyperlink = this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.Definition.replace(
                 this.split,
                 ''
               );
+              this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.Definition = this.hyperlink;
             }
           }
         }
@@ -162,10 +164,11 @@ export class GlossaryComponent implements OnInit {
             this.split = this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.Definition.substring(
               this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.Definition.indexOf('http')
             );
-            this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.Definition = this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.Definition.replace(
+            this.hyperlink = this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.Definition.replace(
               this.split,
               ''
             );
+            this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.Definition = this.hyperlink;
           }
         }
       }
