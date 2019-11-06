@@ -80,13 +80,13 @@ export class AppealsComponent implements OnInit {
     this.overturnItem = [];
     this.reasonDataAvailable = false;
 
-    this.appealsSharedService.getappealsRateAndReasonData().then(appealsRateData => {
+    this.appealsSharedService.getappealsRateAndReasonData(this.createPayloadService.payload).then(appealsRateData => {
       let AppealsCards: any;
       AppealsCards = appealsRateData;
       this.loading = false;
       this.overturnItem = AppealsCards;
     });
-    this.appealsSharedService.getAppealsReasonData().then(appealsReason => {
+    this.appealsSharedService.getAppealsReasonData(this.createPayloadService.payload).then(appealsReason => {
       let appealsReasonData: any;
       appealsReasonData = appealsReason;
       if (appealsReasonData[0].status !== null && appealsReasonData[0].data !== null) {

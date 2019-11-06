@@ -548,6 +548,8 @@ export class CommonUtilsService {
       return 'MedicareAndRetirement';
     } else if (lob === 'CS') {
       return 'CommunityAndState';
+    } else if (lob === 'Uncategorized') {
+      return 'Uncategorized';
     }
   }
 }
