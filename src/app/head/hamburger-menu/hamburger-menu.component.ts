@@ -24,6 +24,7 @@ import { BreakpointObserver } from '@angular/cdk/layout';
 import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router, NavigationStart } from '@angular/router';
+import { ViewportScroller } from '@angular/common';
 import { AuthenticationService } from '../../auth/_service/authentication.service';
 import { ThemeService } from '../../shared/theme.service';
 import { Observable } from 'rxjs';
@@ -141,6 +142,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     public sessionService: SessionService,
     private eventEmitter: EventEmitterService,
     private acoEventEmitter: AcoEventEmitterService,
+    private viewPortScroller: ViewportScroller,
     @Inject(DOCUMENT) private document: any
   ) {
     this.glossaryFlag = false;
@@ -290,6 +292,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
         this.glossaryFlag = true;
         this.glossaryTitle = data.value;
         this.glossaryMetricID = data.MetricID;
+        this.viewPortScroller.scrollToPosition([0, 0]);
       },
       err => {
         console.log('Error, clickHelpIcon , inside Hamburger', err);
@@ -301,6 +304,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
         this.filterFlag = true;
         this.customFilter = false;
         this.filterurl = data;
+        this.viewPortScroller.scrollToPosition([0, 0]);
       },
       err => {
         console.log('Error, clickHelpIcon , inside Hamburger', err);
@@ -449,16 +453,16 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     });
   }
   ngAfterViewChecked() {
-    // console.log(this.elementRef.nativeElement.querySelectorAll('*[href="/CareDelivery/PatientCareOpportunity"]'));
-    try {
-      const PCORNavMenu = this.elementRef.nativeElement.querySelectorAll(
-        '*[href="/CareDelivery/PatientCareOpportunity"]'
-      )[0];
-      PCORNavMenu.style.height = 'auto';
-      PCORNavMenu.style.padding = '8px 5px 8px 0';
-      PCORNavMenu.style.width = 'auto';
-      PCORNavMenu.style.marginLeft = '26px';
-    } catch (error) {}
+    // // console.log(this.elementRef.nativeElement.querySelectorAll('*[href="/CareDelivery/PatientCareOpportunity"]'));
+    // try {
+    //   const PCORNavMenu = this.elementRef.nativeElement.querySelectorAll(
+    //     '*[href="/CareDelivery/PatientCareOpportunity"]'
+    //   )[0];
+    //   PCORNavMenu.style.height = 'auto';
+    //   PCORNavMenu.style.padding = '8px 5px 8px 0';
+    //   PCORNavMenu.style.width = 'auto';
+    //   PCORNavMenu.style.marginLeft = '26px';
+    // } catch (error) {}
   }
   hamburgerDisplay(input: boolean) {
     this.sideNavFlag = input;
