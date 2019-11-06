@@ -8,7 +8,6 @@ import { AuthorizationService } from '../../auth/_service/authorization.service'
 import { NonPaymentSharedService } from './non-payments/non-payment-shared.service';
 import { NonPaymentService } from '../../rest/getting-reimbursed/non-payment.service';
 import { GlossaryMetricidService } from '../glossary-metricid.service';
-import { of } from 'rxjs';
 import { GettingReimbursedPayload } from './payload.class';
 import * as _ from 'lodash';
 import { environment } from '../../../environments/environment';
