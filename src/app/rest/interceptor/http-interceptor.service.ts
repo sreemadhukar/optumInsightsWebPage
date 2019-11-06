@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import * as jwt_decode from 'jwt-decode';
 import { RefreshTokenService } from './refresh-token.service';
+import { StorageService } from 'src/app/shared/storage-service.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,30 +15,40 @@ export class HttpInterceptorService implements HttpInterceptor {
   protected emitter = new EventEmitter<boolean>();
   refreshtoken = false;
 
-  constructor(public http: HttpClient, private refreshtokenservice: RefreshTokenService) {
+  constructor(
+    public http: HttpClient,
+    private refreshtokenservice: RefreshTokenService,
+    private storage: StorageService
+  ) {
     this.emitter.pipe().subscribe(text => (this.refreshtoken = text));
   }
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    // alert(this.refreshtoken);
-    if (this.refreshtoken) {
-      this.emitter.emit(false);
-      return next.handle(request);
-    }
-    if (!this.isTokenExpired(request)) {
-      this.emitter.emit(false);
+    if (!environment.internalAccess && environment.production) {
       return this.getRequestWithAuthentication(request, next);
-    } else if (this.isTokenExpired(request) && !this.refreshtoken) {
-      this.emitter.emit(true);
-      console.log('API token expired');
-      // API call to get new refresh token & save in session
-
-      this.refreshtokenservice.getRefreshToken().subscribe(resp => {
-        console.log('////////////');
-        const keys = resp.headers.keys();
-        const headers = keys.map(key => `${key}: ${resp.headers.get(key)}`);
-        console.log(headers);
+    } else {
+      if (this.refreshtoken) {
+        this.emitter.emit(false);
+        return next.handle(request);
+      }
+      if (!this.isTokenExpired(request)) {
+        this.emitter.emit(false);
         return this.getRequestWithAuthentication(request, next);
-      });
+      } else if (this.isTokenExpired(request) && !this.refreshtoken) {
+        this.emitter.emit(true);
+        console.log('API token expired');
+
+        // API call to get new refresh token & save in session
+        this.refreshtokenservice.getRefreshToken().subscribe((resp: any) => {
+          const providerData = JSON.parse(sessionStorage.getItem('currentUser'));
+          const provider = providerData[0];
+          if (providerData[0].hasOwnProperty('ProviderKey')) {
+            provider.PedAccessToken = resp.Authorization;
+            provider.RefreshToken = resp.RefreshToken;
+            this.storage.store('currentUser', [provider]);
+          }
+          return this.getRequestWithAuthentication(request, next);
+        });
+      }
     }
   }
 
@@ -55,20 +66,7 @@ export class HttpInterceptorService implements HttpInterceptor {
         });
       }
     }
-    //  let token = `eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWI
-    // iOiJpMGpLWVJwdGtmNTNkTDdNWlhjdEhRQ0ZraTRESUdOS3d6NTFKRis1Ymw5TW
-    // lWOWVMRkVHRzBsMTJjaFlnaElaNy85YjhJSktwUmUvUTQyR1hUa1hJVi9Kekl
-    // nazZMMHhEa3cxR05VVURsQWFOMlVORWkzaS9sWm5DWlpoYjJHSGw1ZGp3N1lHc
-    // zZoa0hObVBiSjZnYnNiYjRqenRlVE9UVnFjUWZ6K3J2Lzg9IiwiaXNzIjoiUTln
-    // UnBYV2pWbTVHWGV0aE54RzYwdXRHTUdXN05wc08iLCJleHAiOjE1NzE2NzU4ODcs
-    // ImF1dGhvcml0aWVzIjoiW1JPTEVfVVNFUl0ifQ.CDTyKhyxkesfw96jWR_yxvz5BCiLp7sM7VifHcEhyZ4`;
 
-    // if (token) {
-    //   request = request.clone({ headers: request.headers.set('Authorization', 'Bearer ' + token) });
-    //   request = request.clone({
-    //     headers: request.headers.set('PedAccessToken', 'Bearer ' + currentUser[0].PedAccessToken)
-    //   });
-    // }
     request = request.clone({ headers: request.headers.set('Accept', '*/*') });
     return next.handle(request);
   }
@@ -82,14 +80,6 @@ export class HttpInterceptorService implements HttpInterceptor {
           ? currentUser[0].AccessToken
           : currentUser[0].PedAccessToken;
     }
-
-    // token = `eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiO
-    // iJpMGpLWVJwdGtmNTNkTDdNWlhjdEhRQ0ZraTRESUdOS3d6NTFKRis1
-    // Ymw5TWlWOWVMRkVHRzBsMTJjaFlnaElaNy85YjhJSktwUmUvUTQyR1hUa1hJVi
-    // 9KeklnazZMMHhEa3cxR05VVURsQWFOMlVORWkzaS9sWm5DWlpoYjJHSGw1ZGp3
-    // N1lHczZoa0hObVBiSjZnYnNiYjRqenRlVE9UVnFjUWZ6K3J2Lzg9IiwiaXNzIj
-    // oiUTlnUnBYV2pWbTVHWGV0aE54RzYwdXRHTUdXN05wc08iLCJleHAiOjE1NzE2NzU4O
-    // DcsImF1dGhvcml0aWVzIjoiW1JPTEVfVVNFUl0ifQ.CDTyKhyxkesfw96jWR_yxvz5BCiLp7sM7VifHcEhyZ4`;
 
     if (token) {
       const date = this.getTokenExpirationDate(token);
