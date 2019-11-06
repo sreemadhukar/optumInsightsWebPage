@@ -143,8 +143,6 @@ export class OverviewComponent implements OnInit {
           this.errorloadPrioirAuthCard = false;
           this.priorAuthLoading = false;
           this.priorAuthBlock = data;
-          // this.priorAuthBlock.timeperiod = 'america';
-
           if (this.priorAuthBlock.data != null && this.priorAuthBlock.toggle) {
             this.loadPrioirAuthCard = true;
           } else if (this.priorAuthBlock.status != null && this.priorAuthBlock.toggle) {
