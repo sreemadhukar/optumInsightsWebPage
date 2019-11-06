@@ -57,6 +57,7 @@ export class NetworkParticipation {
         caption: 'Avg. turnaround time',
         singleCard: this.singleCard,
         report: false,
+        showCaption: true,
         color: ['#3381FF', '#80B0FF'],
         sdata: {
           sign: 'up',
@@ -72,6 +73,7 @@ export class NetworkParticipation {
         singleCard: this.singleCard,
         caption: 'Providers onboarded',
         report: false,
+        showCaption: true,
         color: ['#3381FF', '#80B0FF'],
         sdata: {
           sign: 'up',

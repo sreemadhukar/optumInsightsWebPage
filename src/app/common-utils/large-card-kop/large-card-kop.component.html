@@ -50,7 +50,8 @@
           *ngIf="
             (!item.singleCard && item.quarters[0]?.title !== null) ||
             item.quarters[1]?.title != null ||
-            (item.singleCard && item.quarters[0]?.title != null)
+            (item.singleCard && item.quarters[0]?.title != null) ||
+            item.showCaption
           "
         >
           <div class="caption">
