@@ -54,9 +54,10 @@ export class IssueResolution {
         key: 'PriorAuthTurnTime',
         subKey: 'PriorAuthTurnTimeValue',
         units: 'hours',
-        caption: 'Avg. turnaround time',
+        caption: 'Total Calls',
         singleCard: this.singleCard,
         report: false,
+        showCaption: true,
         color: ['#3381FF', '#80B0FF'],
         sdata: {
           sign: 'up',
@@ -70,8 +71,9 @@ export class IssueResolution {
         subKey: 'PriorAuthRequestedValue',
         units: 'K',
         singleCard: this.singleCard,
-        caption: 'Providers onboarded',
+        caption: 'Resolved on first call',
         report: false,
+        showCaption: true,
         color: ['#3381FF', '#80B0FF'],
         sdata: {
           sign: 'up',
