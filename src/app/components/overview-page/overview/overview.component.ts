@@ -150,7 +150,6 @@ export class OverviewComponent implements OnInit {
           } else if (this.priorAuthBlock.status != null && this.priorAuthBlock.toggle) {
             this.errorloadPrioirAuthCard = true;
           }
-          console.log(this.priorAuthBlock);
         })
         .catch(reason => {
           this.priorAuthLoading = true;
@@ -198,8 +197,6 @@ export class OverviewComponent implements OnInit {
 
           this.selfServiceAdoptionBlock = this.mainCards[0];
           this.medicareStarRatingBlock = this.mainCards[1];
-
-          console.log(this.overviewItems);
 
           if (this.selfServiceAdoptionBlock.data != null && this.selfServiceAdoptionBlock.toggle) {
             this.loadselfServiceAdoptionCard = true;

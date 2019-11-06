@@ -1208,8 +1208,6 @@ export class OverviewSharedService {
             timeperiod: null
           };
         }
-
-        console.log(cPriorAuth);
         resolve(cPriorAuth);
       });
     });
@@ -1268,7 +1266,6 @@ export class OverviewSharedService {
             trends.TendingMtrics.CallsTrendByQuesType != null
           ) {
             const dataPoint = trends.TendingMtrics.CallsTrendByQuesType.toFixed(1) + '%';
-            console.log('dataPoint' + dataPoint);
             if (trends.TendingMtrics.CallsTrendByQuesType >= 1) {
               cIR.sdata = {
                 sign: 'up-red',
