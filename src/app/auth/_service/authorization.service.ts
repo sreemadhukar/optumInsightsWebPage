@@ -37,6 +37,18 @@ export class AuthorizationService {
     );
   }
 
+  getTrendAccess(param: string) {
+    const url = this.jwtPath + 'api/getTrendAccess/' + param;
+    const myHeader = new HttpHeaders();
+    myHeader.set('Accept', '*/*');
+    const params = new HttpParams();
+    return this.http.get(url, { params }).pipe(
+      map(data => {
+        sessionStorage.setItem('trendAccess', JSON.stringify(data));
+      })
+    );
+  }
+
   setToggles(tile: string, page: string, menu: string, isSummary?: boolean) {
     const object = JSON.parse(sessionStorage.getItem('toggles'));
     return isSummary ? object[menu]['Summary'][page][tile] : object[menu][page][tile];

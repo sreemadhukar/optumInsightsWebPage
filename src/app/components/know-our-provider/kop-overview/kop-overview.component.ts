@@ -76,7 +76,7 @@ export class KopOverviewComponent implements OnInit, OnDestroy {
   }
 
   getNPSData() {
-    this.kopSharedService.getSummary({ filter: this.currentFilter }, (data: any) => {
+    this.kopSharedService.getSummary({ filter: this.currentFilter }).then((data: any) => {
       if (data) {
         this.kopInsightsData = data;
         this.npsLoaded = true;

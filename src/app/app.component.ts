@@ -34,7 +34,6 @@ export class AppComponent {
 
       if (event instanceof NavigationEnd) {
         // Hide loading indicator
-        console.log('NavigationEnd' + this.router.url);
         if (!sessionStorage.getItem('currentUser')) {
           this.onStartWatching(false);
           this.isWatching = false;
