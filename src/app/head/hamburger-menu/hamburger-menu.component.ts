@@ -24,6 +24,7 @@ import { BreakpointObserver } from '@angular/cdk/layout';
 import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router, NavigationStart } from '@angular/router';
+import { ViewportScroller } from '@angular/common';
 import { AuthenticationService } from '../../auth/_service/authentication.service';
 import { ThemeService } from '../../shared/theme.service';
 import { Observable } from 'rxjs';
@@ -100,7 +101,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     //   name: 'Care Delivery',
     //   children: [{ name: 'Prior Authorizations', path: '/CareDelivery/priorAuth' }]
     // },
-    { icon: 'care-delivery', name: 'Prior Authorizations', path: '/CareDelivery/priorAuth', disabled: false },
+    { icon: 'prior-auth', name: 'Prior Authorizations', path: '/CareDelivery/priorAuth', disabled: false },
     {
       icon: 'service-interaction',
       name: 'Service Interaction',
@@ -141,6 +142,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     public sessionService: SessionService,
     private eventEmitter: EventEmitterService,
     private acoEventEmitter: AcoEventEmitterService,
+    private viewPortScroller: ViewportScroller,
     @Inject(DOCUMENT) private document: any
   ) {
     this.glossaryFlag = false;
@@ -248,6 +250,8 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
       'timeline',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/timeline-24px.svg')
     );
+    iconRegistry.addSvgIcon('prior-auth', sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/PA-idle.svg'));
+    iconRegistry.addSvgIcon('pcor', sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/PCOR.svg'));
   }
 
   ngOnInit() {
@@ -290,6 +294,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
         this.glossaryFlag = true;
         this.glossaryTitle = data.value;
         this.glossaryMetricID = data.MetricID;
+        this.viewPortScroller.scrollToPosition([0, 0]);
       },
       err => {
         console.log('Error, clickHelpIcon , inside Hamburger', err);
@@ -301,6 +306,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
         this.filterFlag = true;
         this.customFilter = false;
         this.filterurl = data;
+        this.viewPortScroller.scrollToPosition([0, 0]);
       },
       err => {
         console.log('Error, clickHelpIcon , inside Hamburger', err);
@@ -342,7 +348,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     // }
     if (!this.navCategories.some(i => i.name === 'Patient Care Opportunity')) {
       this.navCategories[3] = {
-        icon: 'care-delivery',
+        icon: 'pcor',
         name: 'Patient Care Opportunity ',
         path: '/CareDelivery/PatientCareOpportunity',
         disabled: false
@@ -361,22 +367,23 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
         path: '/AdminSummaryTrends',
         disabled: true
       };
-    } else {
-      this.navCategories[3] = {
-        icon: 'service-interaction',
-        name: 'Service Interaction',
-        children: [
-          { name: 'Self Service', path: '/ServiceInteraction/SelfService' },
-          { name: 'Calls', path: '/ServiceInteraction/Calls' }
-        ]
-      };
-      this.navCategories[4] = {
-        icon: 'timeline',
-        name: 'Summary Trends',
-        path: '/AdminSummaryTrends',
-        disabled: true
-      };
     }
+  }
+  removePCORnav() {
+    this.navCategories[3] = {
+      icon: 'service-interaction',
+      name: 'Service Interaction',
+      children: [
+        { name: 'Self Service', path: '/ServiceInteraction/SelfService' },
+        { name: 'Calls', path: '/ServiceInteraction/Calls' }
+      ]
+    };
+    this.navCategories[4] = {
+      icon: 'timeline',
+      name: 'Summary Trends',
+      path: '/AdminSummaryTrends',
+      disabled: true
+    };
   }
   checkToggle(bool: boolean) {
     return bool ? this.sessionService.checkTrendAccess() && environment.internalAccess : !bool;
@@ -388,6 +395,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
         const PCORData = data.PatientCareOpportunity;
         if (PCORData === null) {
           try {
+            this.removePCORnav();
             sessionStorage.removeItem('pcor');
             this.navCategories[2].children = this.navCategories[2].children.filter(
               i => i.name !== 'Patient Care Opportunity'
