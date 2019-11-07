@@ -32,6 +32,10 @@
   font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
 }
 
+::ng-deep .mat-drawer-backdrop.mat-drawer-shown {
+  background-color: rgba(45, 45, 57, 0.5);
+}
+
 .business-glossary {
   word-break: keep-all;
   padding: 10px;
@@ -60,6 +64,10 @@
       }
     }
   }
+}
+
+.business-glossary input:focus {
+  text-indent: -9999999em !important;
 }
 
 .glossary-title {
@@ -100,6 +108,11 @@
   font-size: 16px;
   letter-spacing: 0.2px;
   line-height: 22px;
+}
+
+.glossary-definition-tag {
+  word-break: break-all;
+  color: #196ecf;
 }
 
 .go-to-metric-location {

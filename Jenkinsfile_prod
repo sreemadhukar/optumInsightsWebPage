@@ -47,23 +47,23 @@ pipeline {
                    dockerHost: 'docker.repo1.uhc.com',
                    dockerCredentialsId: "$env.DOCKER_CREDENTIALS_ID",
                    extraBuildOptions: "--build-arg env_var=externalprod"
-          
+
                 glDockerImageBuildPush tag: "$tagBase/ui_prd_internal:pedui2",
                    dockerHost: 'docker.repo1.uhc.com',
                    dockerCredentialsId: "$env.DOCKER_CREDENTIALS_ID",
                    extraBuildOptions: "--build-arg env_var=prod"
-          
+
                 glDockerImageTag sourceTag: "$tagBase/ui_prd:latest",
                          destTag: "$tagBase/ui_prd:${env.BUILD_NUMBER}"
-                         
-                glDockerImagePush dockerCredentialsId: "${env.DOCKER_CREDENTIALS_ID}", 
+
+                glDockerImagePush dockerCredentialsId: "${env.DOCKER_CREDENTIALS_ID}",
                      tag:"$tagBase/ui_prd:${env.BUILD_NUMBER}",
                      dockerHost: 'docker.repo1.uhc.com'
-                     
+
                 glDockerImageTag sourceTag: "$tagBase/ui_prd_internal:pedui2",
                          destTag: "$tagBase/ui_prd_internal:${env.BUILD_NUMBER}"
-                         
-                glDockerImagePush dockerCredentialsId: "${env.DOCKER_CREDENTIALS_ID}", 
+
+                glDockerImagePush dockerCredentialsId: "${env.DOCKER_CREDENTIALS_ID}",
                      tag:"$tagBase/ui_prd_internal:${env.BUILD_NUMBER}",
                      dockerHost: 'docker.repo1.uhc.com'
             }
