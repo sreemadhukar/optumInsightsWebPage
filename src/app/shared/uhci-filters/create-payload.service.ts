@@ -35,7 +35,8 @@ export class CreatePayloadService {
   constructor() {
     this.currentPage.subscribe(value => {
       this.initialState.currentPage = value;
-      this.changePayloadOnInit(this.initialState.currentPage);
+      // this.initialState = this.getPayloadForGettingReimbursed(this.initialState);
+      this.changePayloadOnInit(this.getPayloadForGettingReimbursed(this.initialState));
     });
     this.timePeriod.subscribe(value => {
       this.initialState.timePeriod = value;
@@ -51,16 +52,15 @@ export class CreatePayloadService {
   }
 
   changePayloadOnInit(appliedPage) {
-    console.log(JSON.stringify(this.initialState), 'test');
     switch (appliedPage) {
       case 'gettingReimbursedSummary':
-        this.payload = this.getPayloadForGettingReimbursed(this.initialState);
+        this.payload = this.getPayload(this.initialState);
         break;
       case 'nonPaymentsPage':
-        this.payload = this.getPayloadForGettingReimbursed(this.initialState);
+        this.payload = this.getPayload(this.initialState);
         break;
       case 'paymentsPage':
-        this.payload = this.getPayloadForGettingReimbursed(this.initialState);
+        this.payload = this.getPayload(this.initialState);
         break;
       case 'appealsPage':
         this.payload = this.getPayload(this.initialState);
@@ -80,16 +80,16 @@ export class CreatePayloadService {
   emitFilterEvent(appliedPage) {
     switch (appliedPage) {
       case 'gettingReimbursedSummary':
-        this.payload = this.getPayloadForGettingReimbursed(this.initialState);
-        this.payloadEmit.next({ value: this.getPayloadForGettingReimbursed(this.initialState) });
+        this.payload = this.getPayload(this.initialState);
+        this.payloadEmit.next({ value: this.getPayload(this.initialState) });
         break;
       case 'nonPaymentsPage':
-        this.payload = this.getPayloadForGettingReimbursed(this.initialState);
-        this.payloadEmit.next({ value: this.getPayloadForGettingReimbursed(this.initialState) });
+        this.payload = this.getPayload(this.initialState);
+        this.payloadEmit.next({ value: this.getPayload(this.initialState) });
         break;
       case 'paymentsPage':
-        this.payload = this.getPayloadForGettingReimbursed(this.initialState);
-        this.payloadEmit.next({ value: this.getPayloadForGettingReimbursed(this.initialState) });
+        this.payload = this.getPayload(this.initialState);
+        this.payloadEmit.next({ value: this.getPayload(this.initialState) });
         break;
       case 'appealsPage':
         this.payload = this.getPayload(this.initialState);
@@ -118,8 +118,7 @@ export class CreatePayloadService {
     return this.payloadEmit.asObservable();
   }
 
-  getPayloadForGettingReimbursed(state) {
-    const temporaryState = _.cloneDeep(state);
+  getPayloadForGettingReimbursed(temporaryState) {
     if (
       temporaryState.currentPage === 'paymentsPage' ||
       temporaryState.currentPage === 'nonPaymentsPage' ||
@@ -132,8 +131,13 @@ export class CreatePayloadService {
       ) {
         temporaryState.timePeriod = 'Last6Months';
       }
+    } else {
+      const serializedState = JSON.parse(sessionStorage.getItem('state'));
+      if (serializedState && serializedState.timePeriod) {
+        temporaryState.timePeriod = serializedState.timePeriod;
+      }
     }
-    return this.getPayloadForGR(temporaryState);
+    return temporaryState.currentPage;
   }
 
   getPayloadForPriorAuth(payload) {
@@ -142,31 +146,6 @@ export class CreatePayloadService {
   }
 
   getPayload(payload) {
-    const serializedState = JSON.parse(sessionStorage.getItem('state'));
-    if (payload === serializedState) {
-      const data = _.omit(payload, [
-        'serviceSetting',
-        'priorAuthType',
-        'trendMetric',
-        'trendDate',
-        'serviceCategory',
-        'currentPage'
-      ]);
-      return this.omitValuesContainAll(data);
-    } else {
-      const data = _.omit(serializedState, [
-        'serviceSetting',
-        'priorAuthType',
-        'trendMetric',
-        'trendDate',
-        'serviceCategory',
-        'currentPage'
-      ]);
-      return this.omitValuesContainAll(data);
-    }
-  }
-
-  getPayloadForGR(payload) {
     const data = _.omit(payload, [
       'serviceSetting',
       'priorAuthType',
@@ -205,7 +184,7 @@ export class CreatePayloadService {
 
   createTaxIdString(data) {
     if (!_.isUndefined(data)) {
-      if (data.taxId[0].Tin !== 'All') {
+      if (data.taxId[0]['Tin'] !== 'All') {
         let string = '';
         data.taxId.forEach((taxId, index) => {
           string += taxId.Tin.replace('-', '') + (index !== data.taxId.length - 1 ? ',' : '');
