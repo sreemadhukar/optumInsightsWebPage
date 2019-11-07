@@ -25,7 +25,7 @@
                 >
                   {{ quarter.title }}
                 </div>
-                <div *ngIf="quarter.title == null" class="error-card highlighted-box-{{ quarter.id }}">
+                <div *ngIf="quarter.title == null">
                   <app-error-template></app-error-template>
                 </div>
               </div>
@@ -46,14 +46,7 @@
           </div>
         </ng-template>
 
-        <div
-          *ngIf="
-            (!item.singleCard && item.quarters[0]?.title !== null) ||
-            item.quarters[1]?.title != null ||
-            (item.singleCard && item.quarters[0]?.title != null) ||
-            item.showCaption
-          "
-        >
+        <div *ngIf="!item.singleCard">
           <div class="caption">
             {{ item.caption }}
           </div>
