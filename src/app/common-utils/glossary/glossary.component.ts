@@ -30,6 +30,7 @@ export class GlossaryComponent implements OnInit {
   public optionND = false;
   split: any;
   hyperlink: any;
+  definition: any;
   public toHighlight = '';
   public internal = environment.internalAccess;
   @Input() title;
@@ -61,16 +62,20 @@ export class GlossaryComponent implements OnInit {
             this.MetricID
           ) {
             this.glossarySelected.push(this.glossaryList[i]);
-            this.split = '';
+            this.hyperlink = '';
             if (this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.MetricID === 301) {
-              this.split = this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.Definition.substring(
+              this.hyperlink = this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.Definition.substring(
                 this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.Definition.indexOf('http')
               );
-              this.hyperlink = this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.Definition.replace(
+              this.split = this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.Definition.substring(
+                this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.Definition.indexOf('Learn')
+              );
+              this.definition = this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.Definition.replace(
                 this.split,
                 ''
               );
-              this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.Definition = this.hyperlink;
+              this.split = this.split.replace(this.hyperlink, '');
+              this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.Definition = this.definition;
             }
           }
         }
@@ -159,16 +164,20 @@ export class GlossaryComponent implements OnInit {
       for (let i = 0; i < this.glossaryList.length; i++) {
         if (this.glossaryList[i].BusinessGlossary.ProviderDashboardName.Metric === value) {
           this.glossarySelected = [this.glossaryList[i]];
-          this.split = '';
+          this.hyperlink = '';
           if (this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.MetricID === 301) {
-            this.split = this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.Definition.substring(
+            this.hyperlink = this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.Definition.substring(
               this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.Definition.indexOf('http')
             );
-            this.hyperlink = this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.Definition.replace(
+            this.split = this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.Definition.substring(
+              this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.Definition.indexOf('Learn')
+            );
+            this.definition = this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.Definition.replace(
               this.split,
               ''
             );
-            this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.Definition = this.hyperlink;
+            this.split = this.split.replace(this.hyperlink, '');
+            this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.Definition = this.definition;
           }
         }
       }
