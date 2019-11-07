@@ -23,12 +23,20 @@ export class PcorSharedService {
    * 3. Quality Star top level information i.e. star count only
    */
 
-  public getReportingDate(date: String) {
-    const PCORMRdate = date;
-    const PCORMRmonth = this.common.ReturnMonthlyString(PCORMRdate.substr(0, 2));
-    const PCORMRday = parseInt(PCORMRdate.substr(3, 2));
-    const PCORMRyear = PCORMRdate.substr(6, 4);
-    return PCORMRmonth + ' ' + PCORMRday + ', ' + PCORMRyear;
+  public getReportingDate(date: String, PCORApi: boolean) {
+    if (PCORApi) {
+      const PCORMRdate = date;
+      const PCORMRyear = PCORMRdate.substr(0, 4);
+      const PCORMRmonth = this.common.ReturnMonthlyString(PCORMRdate.substr(4, 4).replace(/[^0-9 ]/g, ''));
+      const PCORMRday = parseInt(PCORMRdate.substr(8, 10));
+      return PCORMRmonth + ' ' + PCORMRday + ', ' + PCORMRyear;
+    } else {
+      const PCORMRdate = date;
+      const PCORMRmonth = this.common.ReturnMonthlyString(PCORMRdate.substr(0, 2));
+      const PCORMRday = parseInt(PCORMRdate.substr(3, 2));
+      const PCORMRyear = PCORMRdate.substr(6, 4);
+      return PCORMRmonth + ' ' + PCORMRday + ', ' + PCORMRyear;
+    }
   }
   public getMRData() {
     return new Promise(resolve => {
@@ -38,7 +46,7 @@ export class PcorSharedService {
           if ((data || {}).PatientCareOpportunity) {
             const PCORData = data.PatientCareOpportunity;
             // Reporting Date will be used for all three cards
-            const PCORRMReportingDate = this.getReportingDate(data.PatientCareOpportunity.ReportingPeriod);
+            const PCORRMReportingDate = this.getReportingDate(data.PatientCareOpportunity.ReportingPeriod, false);
             const PCORMandRData = PCORData.LineOfBusiness.MedicareAndRetirement;
 
             const totalAllCompletionRate = PCORMandRData.TotalACVs / PCORMandRData.TotalPatientCount;
@@ -118,7 +126,7 @@ export class PcorSharedService {
 
             const PCORCards = [MandRAvgStarRatingCard, MandRACVCard];
             resolve(PCORCards);
-            console.log('PCOR cards', PCORCards);
+            // console.log('PCOR cards', PCORCards);
           } else {
             resolve(null);
           }
@@ -139,12 +147,11 @@ export class PcorSharedService {
     return new Promise(resolve => {
       this.pcorService.getPCORQualityMeasureData([this.session.providerKeyData()]).subscribe(
         data => {
-          console.log('Original Data', data);
+          // console.log('Original Data', data);
           let preparedData: Array<any> = [];
           if (data) {
             // Get Reporting Date
-            const reportingDate = this.getReportingDate(data.ReportingPeriod);
-
+            const reportingDate = this.getReportingDate(data.ReportingPeriod, true);
             // Captilize the first alphabet of the string
             const capitalize = s => {
               if (typeof s !== 'string') {
@@ -212,7 +219,7 @@ export class PcorSharedService {
           } else {
             preparedData = null;
           }
-          console.log('PCOR Shared Prepared Data', preparedData);
+          // console.log('PCOR Shared Prepared Data', preparedData);
           resolve(preparedData);
         },
         err => {
