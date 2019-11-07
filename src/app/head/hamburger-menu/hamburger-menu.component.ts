@@ -268,9 +268,9 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     this.checkStorage.getEvent().subscribe(value => {
       if (value.value === 'overviewPage') {
         this.healthSystemName = this.sessionService.getHealthCareOrgName();
-        // Check whether we have PCOR Data or not, if yes then include the PCOR option in navigation bar
-        this.checkPcorData();
       }
+      // Check whether we have PCOR Data or not, if yes then include the PCOR option in navigation bar
+      this.checkPcorData();
     });
     /*
         for login page filters has no role to play, so for them Filters should be close,
@@ -401,9 +401,9 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
           try {
             this.removePCORnav();
             sessionStorage.removeItem('pcor');
-            this.navCategories[2].children = this.navCategories[2].children.filter(
-              i => i.name !== 'Patient Care Opportunity'
-            );
+            // this.navCategories[2].children = this.navCategories[2].children.filter(
+            //   i => i.name !== 'Patient Care Opportunity'
+            // );
             if (this.router.url.includes('CareDelivery/PatientCareOpportunity')) {
               // Role based access for Advocates Overview page
               if (this.checkAdv.value) {
@@ -412,7 +412,9 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
                 this.router.navigate(['/OverviewPage']);
               }
             }
-          } catch (err) {}
+          } catch (err) {
+            this.removePCORnav();
+          }
         } else {
           const temp = { isPCOR: true };
           sessionStorage.setItem('pcor', JSON.stringify(temp));
