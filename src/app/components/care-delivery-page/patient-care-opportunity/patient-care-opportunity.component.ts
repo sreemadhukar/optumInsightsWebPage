@@ -156,7 +156,6 @@ export class PatientCareOpportunityComponent implements OnInit {
     /** The following service method is fetching data for
      * 1. Medicare & Retirement Average Star Rating
      * 2. Medicare & Retirement Annual Care Visits Completion Rate
-     * 3. Quality Star top level information i.e. star count only
      */
 
     this.pcorService
@@ -168,7 +167,6 @@ export class PatientCareOpportunityComponent implements OnInit {
           this.MRAStarData = this.pcorData[0];
           this.MRACVCompletionData = this.pcorData[1];
           this.currentTabTitle = this.pcorData[1].title;
-          this.starRatings = this.pcorData[2];
         }
       })
       .catch(error => {
@@ -177,21 +175,23 @@ export class PatientCareOpportunityComponent implements OnInit {
       });
 
     /** The following service method is fetching data for
-     * 3. Data corresponding to the Quality Star
-     *  i.e. the inside level information for the quality star i.e. subCategories
+     3. a) Quality Star top level information i.e. star count only
+     *  b) Data corresponding to the Quality Star
+     *   - the inside level information for the quality star i.e. subCategories
      */
 
     this.pcorService
       .getQualityMeasureData()
       .then(data => {
         const qdata = JSON.parse(JSON.stringify(data));
-
         if (qdata.length) {
           this.loading = false;
-          this.qualityMeasureData = qdata[0];
+          this.starRatings = qdata[0];
+          this.qualityMeasureData = qdata[1];
         }
         // second number we might have to iterate
-        this.customFormattingMeasureDescription(this.customFormatting, qdata[0]);
+        // it is for data inside the quality star
+        this.customFormattingMeasureDescription(this.customFormatting, qdata[1]);
       })
       .catch(error => {
         console.log('PCOR quality star', error);
