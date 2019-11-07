@@ -1,5 +1,45 @@
-<br /><br />
-
-<p>
-  health-system-details works!
-</p>
+<div class="content-wrapper">
+  <div class="main-content">
+    <div class="cards cust-width-title">
+      <app-breadcrumbs></app-breadcrumbs>
+      <div class="page-title">
+        North Region Health System
+      </div>
+    </div>
+    <div class="health-system-details-block" *ngIf="healthSystemData">
+      <div class="health-system-details">
+        <div class="health-system-tins">
+          TINs:
+        </div>
+        <div class="health-system-tins-value">
+          {{ healthSystemData.All.length }}
+        </div>
+      </div>
+      <div class="health-system-details">
+        <div class="health-system-regions">
+          Region(s):
+        </div>
+        <div class="health-system-regions-value">
+          {{ healthSystemData.RegionName }}
+        </div>
+      </div>
+      <div class="health-system-details">
+        <div class="health-system-markets">
+          Market(s):
+        </div>
+        <div class="health-system-markets-value">
+          {{ healthSystemData.MajorMarketName }}
+        </div>
+      </div>
+      <div class="health-system-details">
+        <div class="health-system-tin-types">
+          TIN types:
+        </div>
+        <div class="health-system-tin-types-value">
+          {{ healthSystemData.TinTypes }}
+        </div>
+      </div>
+    </div>
+    <div class="line"></div>
+  </div>
+</div>

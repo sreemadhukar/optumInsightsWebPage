@@ -23,6 +23,21 @@ export class PcorSharedService {
    * 3. Quality Star top level information i.e. star count only
    */
 
+  public getReportingDate(date: String, PCORApi: boolean) {
+    if (PCORApi) {
+      const PCORMRdate = date;
+      const PCORMRyear = PCORMRdate.substr(0, 4);
+      const PCORMRmonth = this.common.ReturnMonthlyString(PCORMRdate.substr(4, 4).replace(/[^0-9 ]/g, ''));
+      const PCORMRday = parseInt(PCORMRdate.substr(8, 10));
+      return PCORMRmonth + ' ' + PCORMRday + ', ' + PCORMRyear;
+    } else {
+      const PCORMRdate = date;
+      const PCORMRmonth = this.common.ReturnMonthlyString(PCORMRdate.substr(0, 2));
+      const PCORMRday = parseInt(PCORMRdate.substr(3, 2));
+      const PCORMRyear = PCORMRdate.substr(6, 4);
+      return PCORMRmonth + ' ' + PCORMRday + ', ' + PCORMRyear;
+    }
+  }
   public getMRData() {
     return new Promise(resolve => {
       const parametersExecutive = [this.session.providerKeyData(), true];
@@ -31,11 +46,7 @@ export class PcorSharedService {
           if ((data || {}).PatientCareOpportunity) {
             const PCORData = data.PatientCareOpportunity;
             // Reporting Date will be used for all three cards
-            const PCORMRdate = PCORData.ReportingPeriod;
-            const PCORMRmonth = this.common.ReturnMonthlyString(PCORMRdate.substr(0, 2));
-            const PCORMRday = parseInt(PCORMRdate.substr(3, 2));
-            const PCORMRyear = PCORMRdate.substr(6, 4);
-            const PCORRMReportingDate = PCORMRmonth + ' ' + PCORMRday + ', ' + PCORMRyear;
+            const PCORRMReportingDate = this.getReportingDate(data.PatientCareOpportunity.ReportingPeriod, false);
             const PCORMandRData = PCORData.LineOfBusiness.MedicareAndRetirement;
 
             const totalAllCompletionRate = PCORMandRData.TotalACVs / PCORMandRData.TotalPatientCount;
@@ -113,40 +124,9 @@ export class PcorSharedService {
               }
             ];
 
-            const PCORRatings = [
-              PCORMandRData['5StarMeasureCount'],
-              PCORMandRData['4StarMeasureCount'],
-              PCORMandRData['3StarMeasureCount'],
-              PCORMandRData['2StarMeasureCount'],
-              PCORMandRData['1StarMeasureCount']
-            ];
-
-            const barScaleMax = Math.max(...PCORRatings);
-
-            const MandRStarRatingCard = [];
-
-            for (let i = 0; i < PCORRatings.length; i++) {
-              MandRStarRatingCard.push({
-                type: 'singleBarChart',
-                title: 'Quality Star Ratings',
-                MetricID: this.MetricidService.MetricIDs.QualityStarRatings,
-                data: {
-                  barHeight: 48,
-                  barData: PCORRatings[i],
-                  barSummation: barScaleMax,
-                  barText: PCORRatings[i],
-                  color: [{ color1: '#3381FF' }],
-                  gdata: ['card-inner-large', 'PCORreasonBar' + i],
-                  starObject: true,
-                  starCount: 5 - i
-                },
-                timeperiod: 'Data represents claims processed as of ' + PCORRMReportingDate
-              });
-            }
-
-            const PCORCards = [MandRAvgStarRatingCard, MandRACVCard, MandRStarRatingCard];
+            const PCORCards = [MandRAvgStarRatingCard, MandRACVCard];
             resolve(PCORCards);
-            console.log('PCOR cards', PCORCards);
+            // console.log('PCOR cards', PCORCards);
           } else {
             resolve(null);
           }
@@ -167,9 +147,11 @@ export class PcorSharedService {
     return new Promise(resolve => {
       this.pcorService.getPCORQualityMeasureData([this.session.providerKeyData()]).subscribe(
         data => {
-          console.log('Original Data', data);
+          // console.log('Original Data', data);
           let preparedData: Array<any> = [];
           if (data) {
+            // Get Reporting Date
+            const reportingDate = this.getReportingDate(data.ReportingPeriod, true);
             // Captilize the first alphabet of the string
             const capitalize = s => {
               if (typeof s !== 'string') {
@@ -178,9 +160,14 @@ export class PcorSharedService {
               return s.charAt(0).toUpperCase() + s.slice(1);
             };
 
+            // It contains the star counts array , so that horizontal bar will appear
             const category: Array<Object> = [];
+
+            // It contains the inside level information of the star counts i.e. description, metric details
             const subCategory: Array<Object> = [];
-            const template = ['zero', 'one', 'two', 'three', 'four', 'five'];
+
+            // So that we can fetch the object from response easily by just looping
+            const template = ['', 'one', 'two', 'three', 'four', 'five'];
             const barCountArray = [];
             const completeData = JSON.parse(JSON.stringify(data));
             const escapeSpecialChars = function(string) {
@@ -206,37 +193,33 @@ export class PcorSharedService {
                 subCategory.push(m);
               } // end if structure
             } // end for loop for sub-category
-            /*
-            We can also fetch the Top Level Categry i.e star count info via this code
-            but the loading of 'Quality Star' card is slow , because then it will load
-            data at once. So right now we can fetch 'Star Count' from executive api onlt
-            In future we can use this code if found useful
 
             const barScaleMax = Math.max(...barCountArray);
             for (let i = subCategory.length; i > 0; i--) {
+              const metricName = template[i] + 'StarMeasureCount';
               category.push({
                 type: 'singleBarChart',
                 star: i,
                 title: 'Quality Star Ratings',
                 data: {
                   barHeight: 48,
-                  barData: completeData.filter(item => item.QualityRating === i).length,
+                  barData: completeData[metricName].Count,
                   barSummation: barScaleMax,
-                  barText: completeData.filter(item => item.QualityRating === i).length,
+                  barText: completeData[metricName].Count,
                   color: [{ color1: '#3381FF' }],
                   gdata: ['card-inner-large', 'PCORreasonBar' + i],
                   starObject: true,
                   starCount: i
                 },
-                timeperiod: 'Data represents claims processed as of '
+                timeperiod: 'Data represents claims processed as of ' + reportingDate
               });
             }
-            */
+            preparedData.push(category);
             preparedData.push(subCategory);
           } else {
             preparedData = null;
           }
-          console.log('PCOR Shared Prepared Data', preparedData);
+          // console.log('PCOR Shared Prepared Data', preparedData);
           resolve(preparedData);
         },
         err => {

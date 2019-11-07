@@ -36,6 +36,7 @@ const routes: Routes = [
     path: 'HealthSystemDetailsPage',
     loadChildren: '../components/advocate/advocate.module#AdvocateModule',
     data: {
+      breadcrumb: 'Health System Details',
       preload: false,
       delay: false
     },

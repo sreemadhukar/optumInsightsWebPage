@@ -246,9 +246,6 @@ app-header {
   background: $darker-alice-blue !important;
   color: $blue !important;
 }
-.second-level-link {
-  padding-left: 32px !important;
-}
 .nav-no-child-category:hover,
 .mat-expansion-panel-header:hover,
 .mat-expanded,
@@ -509,16 +506,21 @@ app-header {
 .mat-expansion-panel-body {
   padding: 0px;
 }
-.mat-list-base .mat-list-item {
-  height: auto !important;
-  padding: 8px 12px 8px 16px;
-  width: auto;
-  margin-left: 0px;
+.mat-list-base {
+  .mat-list-item {
+    height: auto !important;
+    padding: 8px 12px 8px 16px;
+    width: auto;
+    margin-left: 0px;
+  }
+  .nav-sub-category-items {
+    height: auto;
+    padding: 8px 12px 8px 16px !important;
+    width: auto;
+    margin-left: 26px !important;
+  }
 }
 
-.mat-list-base .nav-sub-category-items {
-  height: auto !important;
-  padding: 8px 12px 8px 16px !important;
-  width: auto;
-  margin-left: 26px !important;
+.mat-list-base .second-level-link {
+  padding-left: 32px !important;
 }
