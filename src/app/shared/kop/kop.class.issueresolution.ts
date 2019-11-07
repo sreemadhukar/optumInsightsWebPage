@@ -57,7 +57,6 @@ export class IssueResolution {
         caption: 'Total Calls',
         singleCard: this.singleCard,
         report: false,
-        showCaption: true,
         color: ['#3381FF', '#80B0FF'],
         sdata: {
           sign: 'up',
@@ -73,7 +72,6 @@ export class IssueResolution {
         singleCard: this.singleCard,
         caption: 'Resolved on first call',
         report: false,
-        showCaption: true,
         color: ['#3381FF', '#80B0FF'],
         sdata: {
           sign: 'up',
