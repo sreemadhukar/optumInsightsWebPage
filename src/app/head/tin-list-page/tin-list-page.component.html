@@ -18,11 +18,32 @@
       <div class="tin-list-body-table-head">
         <div class="tin-list-body-table-head-left">
           <div class="tin-list-body-table-head-sub-head">Tax ID Number</div>
-          <div class="tin-list-body-table-head-text-input"></div>
+          <div class="tin-list-body-table-head-text-input-div">
+            <input type="text" class="tin-list-body-table-head-text-input" />
+            <div class="tin-list-body-table-head-text-input-icon">
+              <mat-icon class="tin-list-icon-search" svgIcon="search"></mat-icon>
+            </div>
+          </div>
         </div>
         <div class="tin-list-body-table-head-right">
           <div class="tin-list-body-table-head-sub-head">Tax ID Name</div>
+          <div class="tin-list-body-table-head-text-input-div">
+            <input type="text" class="tin-list-body-table-head-text-input" />
+            <div class="tin-list-body-table-head-text-input-icon">
+              <mat-icon class="tin-list-icon-search" svgIcon="search"></mat-icon>
+            </div>
+          </div>
         </div>
+      </div>
+      <div class="tin-list-body-table-div-body">
+        <!-- <table mat-table [dataSource]="selectedtins" class="mat-elevation-z8">
+                    <ng-container matColumnDef="Tin">
+                        <td mat-cell *matCellDef="let element"> {{element.Tin}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="Tinname">
+                        <td mat-cell *matCellDef="let element"> {{element.Tinname}} </td>
+                    </ng-container>
+                </table> -->
       </div>
     </div>
   </div>

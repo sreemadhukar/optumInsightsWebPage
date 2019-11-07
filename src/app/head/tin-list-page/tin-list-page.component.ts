@@ -12,10 +12,15 @@ export class TinListPageComponent implements OnInit {
   providerName: string;
   numberOfTins: string;
   tinsData: any;
+  selectedtins: any;
   constructor(private iconRegistry: MatIconRegistry, private session: SessionService, sanitizer: DomSanitizer) {
     iconRegistry.addSvgIcon(
       'backButton',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/TIN-List-Back-Button-Icon.svg')
+    );
+    iconRegistry.addSvgIcon(
+      'search',
+      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/round-search-24px.svg')
     );
   }
 
@@ -23,6 +28,7 @@ export class TinListPageComponent implements OnInit {
     this.numberOfTins = '40';
     this.session.getTins().then(data => {
       this.tinsData = data;
+      this.selectedtins = this.tinsData;
     });
   }
 }

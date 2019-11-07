@@ -68,6 +68,8 @@
     min-height: 100px;
     .tin-list-body-table-head {
       display: flex;
+      padding-bottom: 16px;
+      border-bottom: solid 1px #757588;
       .tin-list-body-table-head-left {
         flex: 50%;
         padding-left: 16px;
@@ -86,6 +88,42 @@
         line-height: 22px;
         padding-bottom: 16px;
       }
+      .tin-list-body-table-head-text-input-div {
+        height: 40px;
+        margin: auto;
+      }
+      .tin-list-body-table-head-text-input {
+        width: 273px;
+        height: 38px;
+        border: solid 1px #757588;
+        border-right: none;
+        border-radius: 2px;
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+        float: left;
+        outline: none;
+        padding: 0;
+      }
+      .tin-list-body-table-head-text-input-icon {
+        margin-left: -1px;
+        width: 29px;
+        height: 38px;
+        border: solid 1px #757588;
+        border-left: none;
+        border-radius: 2px;
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+        float: left;
+      }
+      .tin-list-icon-search {
+        color: #757588;
+        margin: 8px;
+        margin-left: 0;
+      }
     }
   }
+}
+
+table {
+  width: 100%;
 }
