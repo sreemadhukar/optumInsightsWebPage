@@ -8,6 +8,9 @@ import { Router } from '@angular/router';
 import { FilterExpandService } from '../../../shared/filter-expand.service';
 import { CommonUtilsService } from '../../../shared/common-utils.service';
 import { SessionService } from 'src/app/shared/session.service';
+import { NgRedux } from '@angular-redux/store';
+import { CURRENT_PAGE } from '../../../store/filter/actions';
+import { IAppState } from '../../../store/store';
 
 @Component({
   selector: 'app-payment-integrity',
@@ -46,7 +49,8 @@ export class PaymentIntegrityComponent implements OnInit {
     private filterExpandService: FilterExpandService,
     private session: SessionService,
     private router: Router,
-    private filtermatch: CommonUtilsService
+    private filtermatch: CommonUtilsService,
+    private ngRedux: NgRedux<IAppState>
   ) {
     /** INITIALIZING SVG ICONS TO USE IN DESIGN - ANGULAR MATERIAL */
     const filData = this.session.getFilChangeEmitter().subscribe(() => this.filtermatch.urlResuseStrategy());
@@ -71,6 +75,7 @@ export class PaymentIntegrityComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'paymentIntegrityPage' });
     this.timePeriod = this.session.filterObjValue.timeFrame;
     if (this.session.filterObjValue.lob !== 'All') {
       this.lob = this.filtermatch.matchLobWithLobData(this.session.filterObjValue.lob);

@@ -6,6 +6,9 @@ import { StorageService } from '../../../shared/storage-service.service';
 import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 import { CommonUtilsService } from 'src/app/shared/common-utils.service';
+import { NgRedux } from '@angular-redux/store';
+import { CURRENT_PAGE } from '../../../store/filter/actions';
+import { IAppState } from '../../../store/store';
 import { environment } from '../../../../environments/environment';
 
 @Component({
@@ -69,6 +72,7 @@ export class OverviewComponent implements OnInit {
     private iconRegistry: MatIconRegistry,
     private router: Router,
     private filtermatch: CommonUtilsService,
+    private ngRedux: NgRedux<IAppState>,
     sanitizer: DomSanitizer
   ) {
     this.printRoute = '/OverviewPage/print-overview';
@@ -92,6 +96,7 @@ export class OverviewComponent implements OnInit {
     console.log('Overview Print Emit', value);
   }
   ngOnInit() {
+    this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'overviewPage' });
     // Temporary Heac ability
     const heac = JSON.parse(sessionStorage.getItem('heac'));
     this.isHeac = heac && heac.heac === true ? true : false;
