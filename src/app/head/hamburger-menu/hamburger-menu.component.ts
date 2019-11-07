@@ -398,7 +398,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
       data => {
         const PCORData = data.PatientCareOpportunity;
         console.log('PCOR---' + PCORData);
-        if (PCORData === null) {
+        if (PCORData === null || PCORData === undefined) {
           try {
             this.removePCORnav();
             sessionStorage.removeItem('pcor');
