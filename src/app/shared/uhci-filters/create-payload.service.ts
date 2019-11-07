@@ -51,15 +51,16 @@ export class CreatePayloadService {
   }
 
   changePayloadOnInit(appliedPage) {
+    console.log(JSON.stringify(this.initialState), 'test');
     switch (appliedPage) {
       case 'gettingReimbursedSummary':
-        this.payload = this.getPayload(this.initialState);
+        this.payload = this.getPayloadForGettingReimbursed(this.initialState);
         break;
       case 'nonPaymentsPage':
-        this.payload = this.getPayload(this.initialState);
+        this.payload = this.getPayloadForGettingReimbursed(this.initialState);
         break;
       case 'paymentsPage':
-        this.payload = this.getPayload(this.initialState);
+        this.payload = this.getPayloadForGettingReimbursed(this.initialState);
         break;
       case 'appealsPage':
         this.payload = this.getPayload(this.initialState);
@@ -79,16 +80,16 @@ export class CreatePayloadService {
   emitFilterEvent(appliedPage) {
     switch (appliedPage) {
       case 'gettingReimbursedSummary':
-        this.payload = this.getPayload(this.initialState);
-        this.payloadEmit.next({ value: this.getPayload(this.initialState) });
+        this.payload = this.getPayloadForGettingReimbursed(this.initialState);
+        this.payloadEmit.next({ value: this.getPayloadForGettingReimbursed(this.initialState) });
         break;
       case 'nonPaymentsPage':
-        this.payload = this.getPayload(this.initialState);
-        this.payloadEmit.next({ value: this.getPayload(this.initialState) });
+        this.payload = this.getPayloadForGettingReimbursed(this.initialState);
+        this.payloadEmit.next({ value: this.getPayloadForGettingReimbursed(this.initialState) });
         break;
       case 'paymentsPage':
-        this.payload = this.getPayload(this.initialState);
-        this.payloadEmit.next({ value: this.getPayload(this.initialState) });
+        this.payload = this.getPayloadForGettingReimbursed(this.initialState);
+        this.payloadEmit.next({ value: this.getPayloadForGettingReimbursed(this.initialState) });
         break;
       case 'appealsPage':
         this.payload = this.getPayload(this.initialState);
@@ -117,12 +118,55 @@ export class CreatePayloadService {
     return this.payloadEmit.asObservable();
   }
 
+  getPayloadForGettingReimbursed(state) {
+    const temporaryState = _.cloneDeep(state);
+    if (
+      temporaryState.currentPage === 'paymentsPage' ||
+      temporaryState.currentPage === 'nonPaymentsPage' ||
+      temporaryState.currentPage === 'gettingReimbursedSummary'
+    ) {
+      if (
+        temporaryState.timePeriod === 'Last12Months' ||
+        temporaryState.timePeriod === '2018' ||
+        temporaryState.timePeriod === '2017'
+      ) {
+        temporaryState.timePeriod = 'Last6Months';
+      }
+    }
+    return this.getPayloadForGR(temporaryState);
+  }
+
   getPayloadForPriorAuth(payload) {
     const data = _.omit(payload, ['trendMetric', 'trendDate', 'currentPage']);
     return this.createTaxIdArrayForPA(data);
   }
 
   getPayload(payload) {
+    const serializedState = JSON.parse(sessionStorage.getItem('state'));
+    if (payload === serializedState) {
+      const data = _.omit(payload, [
+        'serviceSetting',
+        'priorAuthType',
+        'trendMetric',
+        'trendDate',
+        'serviceCategory',
+        'currentPage'
+      ]);
+      return this.omitValuesContainAll(data);
+    } else {
+      const data = _.omit(serializedState, [
+        'serviceSetting',
+        'priorAuthType',
+        'trendMetric',
+        'trendDate',
+        'serviceCategory',
+        'currentPage'
+      ]);
+      return this.omitValuesContainAll(data);
+    }
+  }
+
+  getPayloadForGR(payload) {
     const data = _.omit(payload, [
       'serviceSetting',
       'priorAuthType',
