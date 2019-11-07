@@ -292,7 +292,9 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
         this.glossaryFlag = true;
         this.glossaryTitle = data.value;
         this.glossaryMetricID = data.MetricID;
-        this.viewPortScroller.scrollToPosition([0, 0]);
+        setTimeout(() => {
+          this.viewPortScroller.scrollToPosition([0, 0]);
+        }, 500);
       },
       err => {
         console.log('Error, clickHelpIcon , inside Hamburger', err);
@@ -304,7 +306,9 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
         this.filterFlag = true;
         this.customFilter = false;
         this.filterurl = data;
-        this.viewPortScroller.scrollToPosition([0, 0]);
+        setTimeout(() => {
+          this.viewPortScroller.scrollToPosition([0, 0]);
+        }, 500);
       },
       err => {
         console.log('Error, clickHelpIcon , inside Hamburger', err);
