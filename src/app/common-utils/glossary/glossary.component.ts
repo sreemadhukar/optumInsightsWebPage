@@ -28,6 +28,8 @@ export class GlossaryComponent implements OnInit {
   public readmoreFlag = [];
   public optionLength = 0;
   public optionND = false;
+  split: any;
+  hyperlink: any;
   public toHighlight = '';
   public internal = environment.internalAccess;
   @Input() title;
@@ -59,6 +61,17 @@ export class GlossaryComponent implements OnInit {
             this.MetricID
           ) {
             this.glossarySelected.push(this.glossaryList[i]);
+            this.split = '';
+            if (this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.MetricID === 301) {
+              this.split = this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.Definition.substring(
+                this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.Definition.indexOf('http')
+              );
+              this.hyperlink = this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.Definition.replace(
+                this.split,
+                ''
+              );
+              this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.Definition = this.hyperlink;
+            }
           }
         }
         if (this.glossarySelected.length === 0) {
@@ -146,6 +159,17 @@ export class GlossaryComponent implements OnInit {
       for (let i = 0; i < this.glossaryList.length; i++) {
         if (this.glossaryList[i].BusinessGlossary.ProviderDashboardName.Metric === value) {
           this.glossarySelected = [this.glossaryList[i]];
+          this.split = '';
+          if (this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.MetricID === 301) {
+            this.split = this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.Definition.substring(
+              this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.Definition.indexOf('http')
+            );
+            this.hyperlink = this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.Definition.replace(
+              this.split,
+              ''
+            );
+            this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.Definition = this.hyperlink;
+          }
         }
       }
     }

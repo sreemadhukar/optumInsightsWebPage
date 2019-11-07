@@ -5,6 +5,7 @@ import { SessionService } from '../session.service';
 import { CommonUtilsService } from '../common-utils.service';
 import { TrendingMetricsService } from '../../rest/trending/trending-metrics.service';
 import { AuthorizationService } from '../../auth/_service/authorization.service';
+import { GettingReimbursedPayload } from '../getting-reimbursed/payload.class';
 
 @Injectable({ providedIn: ServiceInteractionModule })
 export class CallsSharedService {
@@ -46,37 +47,17 @@ export class CallsSharedService {
     return temp;
   }
 
-  public getParameters() {
-    let parameters;
+  public getParameters(param) {
+    let parameters = [];
     this.providerKey = this.session.providerKeyData();
-    this.timeFrame = this.session.filterObjValue.timeFrame;
-    if (
-      this.timeFrame === 'Last 12 Months' ||
-      this.timeFrame === 'Last 6 Months' ||
-      this.timeFrame === 'Last 3 Months' ||
-      this.timeFrame === 'Last 30 Days' ||
-      this.timeFrame === 'Year to Date'
-    ) {
-      if (this.timeFrame === 'Last 12 Months') {
-        parameters = [this.providerKey, { TimeFilter: 'Last12Months' }];
-      } else if (this.timeFrame === 'Last 3 Months') {
-        parameters = [this.providerKey, { TimeFilter: 'Last3Months' }];
-      } else if (this.timeFrame === 'Last 30 Days') {
-        parameters = [this.providerKey, { TimeFilter: 'Last30Days' }];
-      } else if (this.timeFrame === 'Last 6 Months') {
-        parameters = [this.providerKey, { TimeFilter: 'Last6Months' }];
-      } else {
-        parameters = [this.providerKey, { TimeFilter: 'YTD' }];
-      }
-    } else {
-      parameters = [this.providerKey, { TimeFilter: 'CalendarYear', TimeFilterText: this.timeFrame }];
-    }
+    parameters = [this.providerKey, new GettingReimbursedPayload(param)];
     return parameters;
   }
 
-  public getCallsData() {
+  public getCallsData(param) {
+    this.timeFrame = this.common.getTimePeriodFilterValue(param.timePeriod);
     return new Promise(resolve => {
-      const params = this.getParameters();
+      const params = this.getParameters(param);
       this.sharedCallsData(params)
         .then(data => {
           this.callsData = JSON.parse(JSON.stringify(data));
@@ -100,8 +81,6 @@ export class CallsSharedService {
     });
   }
   sharedCallsTrend() {
-    this.timeFrame = this.session.filterObjValue.timeFrame;
-
     return new Promise(resolve => {
       /** Get Calls Trend Data */
       this.providerKey = this.session.providerKeyData();

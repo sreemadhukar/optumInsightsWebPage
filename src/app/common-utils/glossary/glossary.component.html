@@ -14,7 +14,7 @@
           />
           <mat-icon matPrefix class="nav-menu-icons" svgIcon="search"></mat-icon>
           <mat-autocomplete #auto="matAutocomplete" (optionSelected)="filteredData($event.option.value)">
-            <mat-option *ngFor="let glossary of (filteredOptions | async)" [value]="glossary">
+            <mat-option *ngFor="let glossary of filteredOptions | async" [value]="glossary">
               <span class="highlight" [innerHTML]="glossary | highlight: toHighlight"></span>
             </mat-option>
             <mat-option
@@ -47,7 +47,10 @@
                 [innerHTML]="allmetricsdefinitionShort[i]"
                 ><br
               /></span>
-              <div [innerHTML]="glossary.BusinessGlossary.ProviderDashboardName.Definition"></div>
+              <div>
+                {{ glossary.BusinessGlossary.ProviderDashboardName.Definition
+                }}<a class="glossary-definition-tag" [href]="split" target="_blank">{{ split }}</a>
+              </div>
             </div>
             <!-- <div>
       <a class="go-to-metric-location">
