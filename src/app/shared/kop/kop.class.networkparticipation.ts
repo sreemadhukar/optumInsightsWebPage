@@ -2,7 +2,7 @@ export class NetworkParticipation {
   public singleCard = false;
   public records: any;
   public data = {
-    title: 'Network Participation',
+    title: 'Onboarding',
     chartData: [],
     quarters: []
   };
@@ -16,7 +16,7 @@ export class NetworkParticipation {
 
   public createCard() {
     this.records.forEach((record, index) => {
-      const { NetworkParticipation: Network_Participation } = record;
+      const { NetworkParticipation: Network_Participation = {} } = record;
       this.data.chartData.forEach((chartDataElement: any) => {
         const key = chartDataElement.key;
         const subKey = chartDataElement.subKey;
@@ -28,9 +28,7 @@ export class NetworkParticipation {
             id: index,
             section: this.section
           });
-        }
-
-        if (Network_Participation && Network_Participation[key]) {
+        } else {
           const value = Network_Participation[key][subKey] ? Math.round(Network_Participation[key][subKey]) : null;
           if (this.singleCard && value !== null) {
             chartDataElement.quarters.push({ title: value + '' + chartDataElement.units });

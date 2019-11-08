@@ -24,6 +24,7 @@ import { BreakpointObserver } from '@angular/cdk/layout';
 import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router, NavigationStart } from '@angular/router';
+import { ViewportScroller } from '@angular/common';
 import { AuthenticationService } from '../../auth/_service/authentication.service';
 import { ThemeService } from '../../shared/theme.service';
 import { Observable } from 'rxjs';
@@ -73,6 +74,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
   public checkAdv;
   public AcoName;
   public checkPro;
+  public checkExecutive;
   /*** Array of Navigation Category List ***/
   public navCategories = [
     { icon: 'home', name: 'Overview', path: '/OverviewPage', disabled: false },
@@ -95,11 +97,12 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
         }
       ]
     },
-    {
-      icon: 'care-delivery',
-      name: 'Care Delivery',
-      children: [{ name: 'Prior Authorizations', path: '/CareDelivery/priorAuth' }]
-    },
+    // {
+    //   icon: 'care-delivery',
+    //   name: 'Care Delivery',
+    //   children: [{ name: 'Prior Authorizations', path: '/CareDelivery/priorAuth' }]
+    // },
+    { icon: 'prior-auth', name: 'Prior Authorizations', path: '/CareDelivery/priorAuth', disabled: false },
     {
       icon: 'service-interaction',
       name: 'Service Interaction',
@@ -140,14 +143,17 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     public sessionService: SessionService,
     private eventEmitter: EventEmitterService,
     private acoEventEmitter: AcoEventEmitterService,
+    private viewPortScroller: ViewportScroller,
     @Inject(DOCUMENT) private document: any
   ) {
     this.glossaryFlag = false;
     this.filterFlag = false;
     this.bgWhite = false;
     this.showPrintHeader = false;
+    this.fromKOP = false;
     this.checkAdv = this.sessionService.checkAdvocateRole();
     this.checkPro = this.sessionService.checkProjectRole();
+    this.checkExecutive = this.sessionService.checkExecutiveRole();
     if (this.checkAdv.value) {
       this.navCategories = this.navCategories.filter(item => item.name !== 'Summary Trends');
     }
@@ -189,28 +195,22 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
           if (window.location.pathname === '/OverviewPage') {
             window.location.href = '/OverviewPageAdvocate';
           }
-        } else if (this.checkPro.Value) {
-          if (window.location.pathname === '/OverviewPageAdvocate') {
-            window.location.href = '/OverviewPage';
-          }
         }
         // this.checkPcorData();
         if (this.sessionService.isPCORData()) {
           this.insertPCORnav();
         }
-        const heac = JSON.parse(sessionStorage.getItem('heac'));
-        if (event.url === '/NationalExecutive' && !heac.heac) {
-          router.navigate(['/ProviderSearch']);
-        }
-
         // Check condtion for rendering butter bar
-        if (sessionStorage.getItem('fromKOP') === 'YES' && !this.makeAbsolute && event.url !== '/NationalExecutive') {
-          setTimeout(() => {
-            this.fromKOP = true;
-          }, 500);
+        if (
+          (sessionStorage.getItem('fromKOP') === 'YES' &&
+            !this.makeAbsolute &&
+            event.url !== '/NationalExecutive' &&
+            this.checkPro.value) ||
+          this.checkExecutive.value
+        ) {
+          this.fromKOP = true;
         } else {
           this.fromKOP = false;
-          sessionStorage.removeItem('fromKOP');
         }
       }
       // PLEASE DON'T MODIFY THIS
@@ -253,6 +253,8 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
       'timeline',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/timeline-24px.svg')
     );
+    iconRegistry.addSvgIcon('prior-auth', sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/PA-idle.svg'));
+    iconRegistry.addSvgIcon('pcor', sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/PCOR.svg'));
   }
 
   ngOnInit() {
@@ -269,9 +271,9 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     this.checkStorage.getEvent().subscribe(value => {
       if (value.value === 'overviewPage') {
         this.healthSystemName = this.sessionService.getHealthCareOrgName();
-        // Check whether we have PCOR Data or not, if yes then include the PCOR option in navigation bar
-        this.checkPcorData();
       }
+      // Check whether we have PCOR Data or not, if yes then include the PCOR option in navigation bar
+      this.checkPcorData();
     });
     /*
         for login page filters has no role to play, so for them Filters should be close,
@@ -295,6 +297,9 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
         this.glossaryFlag = true;
         this.glossaryTitle = data.value;
         this.glossaryMetricID = data.MetricID;
+        setTimeout(() => {
+          this.viewPortScroller.scrollToPosition([0, 0]);
+        }, 500);
       },
       err => {
         console.log('Error, clickHelpIcon , inside Hamburger', err);
@@ -306,6 +311,9 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
         this.filterFlag = true;
         this.customFilter = false;
         this.filterurl = data;
+        setTimeout(() => {
+          this.viewPortScroller.scrollToPosition([0, 0]);
+        }, 500);
       },
       err => {
         console.log('Error, clickHelpIcon , inside Hamburger', err);
@@ -339,12 +347,50 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
   bar PCOR will be hidden
   */
   insertPCORnav() {
-    if (!this.navCategories[2].children.some(i => i.name === 'Patient Care Opportunity')) {
-      this.navCategories[2].children.push({
-        name: 'Patient Care Opportunity',
-        path: '/CareDelivery/PatientCareOpportunity'
-      });
+    // if (!this.navCategories[2].children.some(i => i.name === 'Patient Care Opportunity')) {
+    //   this.navCategories[2].children.push({
+    //     name: 'Patient Care Opportunity',
+    //     path: '/CareDelivery/PatientCareOpportunity'
+    //   });
+    // }
+    if (!this.navCategories.some(i => i.name === 'Patient Care Opportunity')) {
+      this.navCategories[3] = {
+        icon: 'pcor',
+        name: 'Patient Care Opportunity ',
+        path: '/CareDelivery/PatientCareOpportunity',
+        disabled: false
+      };
+      this.navCategories[4] = {
+        icon: 'service-interaction',
+        name: 'Service Interaction',
+        children: [
+          { name: 'Self Service', path: '/ServiceInteraction/SelfService' },
+          { name: 'Calls', path: '/ServiceInteraction/Calls' }
+        ]
+      };
+      this.navCategories[5] = {
+        icon: 'timeline',
+        name: 'Summary Trends',
+        path: '/AdminSummaryTrends',
+        disabled: true
+      };
     }
+  }
+  removePCORnav() {
+    this.navCategories[3] = {
+      icon: 'service-interaction',
+      name: 'Service Interaction',
+      children: [
+        { name: 'Self Service', path: '/ServiceInteraction/SelfService' },
+        { name: 'Calls', path: '/ServiceInteraction/Calls' }
+      ]
+    };
+    this.navCategories[4] = {
+      icon: 'timeline',
+      name: 'Summary Trends',
+      path: '/AdminSummaryTrends',
+      disabled: true
+    };
   }
   checkToggle(bool: boolean) {
     return bool ? this.sessionService.checkTrendAccess() && environment.internalAccess : !bool;
@@ -354,12 +400,14 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     this.pcorService.getExecutiveData(...parametersExecutive).subscribe(
       data => {
         const PCORData = data.PatientCareOpportunity;
-        if (PCORData === null) {
+        console.log('PCOR---' + PCORData);
+        if (PCORData === null || PCORData === undefined) {
           try {
+            this.removePCORnav();
             sessionStorage.removeItem('pcor');
-            this.navCategories[2].children = this.navCategories[2].children.filter(
-              i => i.name !== 'Patient Care Opportunity'
-            );
+            // this.navCategories[2].children = this.navCategories[2].children.filter(
+            //   i => i.name !== 'Patient Care Opportunity'
+            // );
             if (this.router.url.includes('CareDelivery/PatientCareOpportunity')) {
               // Role based access for Advocates Overview page
               if (this.checkAdv.value) {
@@ -368,7 +416,9 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
                 this.router.navigate(['/OverviewPage']);
               }
             }
-          } catch (err) {}
+          } catch (err) {
+            this.removePCORnav();
+          }
         } else {
           const temp = { isPCOR: true };
           sessionStorage.setItem('pcor', JSON.stringify(temp));
@@ -417,16 +467,16 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     });
   }
   ngAfterViewChecked() {
-    // console.log(this.elementRef.nativeElement.querySelectorAll('*[href="/CareDelivery/PatientCareOpportunity"]'));
-    try {
-      const PCORNavMenu = this.elementRef.nativeElement.querySelectorAll(
-        '*[href="/CareDelivery/PatientCareOpportunity"]'
-      )[0];
-      PCORNavMenu.style.height = 'auto';
-      PCORNavMenu.style.padding = '8px 5px 8px 0';
-      PCORNavMenu.style.width = 'auto';
-      PCORNavMenu.style.marginLeft = '26px';
-    } catch (error) {}
+    // // console.log(this.elementRef.nativeElement.querySelectorAll('*[href="/CareDelivery/PatientCareOpportunity"]'));
+    // try {
+    //   const PCORNavMenu = this.elementRef.nativeElement.querySelectorAll(
+    //     '*[href="/CareDelivery/PatientCareOpportunity"]'
+    //   )[0];
+    //   PCORNavMenu.style.height = 'auto';
+    //   PCORNavMenu.style.padding = '8px 5px 8px 0';
+    //   PCORNavMenu.style.width = 'auto';
+    //   PCORNavMenu.style.marginLeft = '26px';
+    // } catch (error) {}
   }
   hamburgerDisplay(input: boolean) {
     this.sideNavFlag = input;
@@ -465,7 +515,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
   signOut() {
     this.authService.logout();
     if (!environment.internalAccess) {
-      this.document.location.href = environment.apiUrls.linkLoginPage;
+      this.document.location.href = environment.apiUrls.SsoLogoutUrl;
     }
   }
   public close() {
@@ -493,7 +543,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
   navigateToKOP() {
     sessionStorage.removeItem('fromKOP');
     this.fromKOP = false;
-    window.location.href = '/NationalExecutive';
+    this.router.navigate(['/NationalExecutive']);
   }
 
   /**
@@ -508,7 +558,6 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
       valueSelected: () => {
         // Setting Value redirect, remind flag to local storage
         sessionStorage.setItem('fromKOP', 'YES');
-
         // Reloading targeted route, for resetting the css
         window.location.href = '/OverviewPage';
       },

@@ -67,6 +67,7 @@ export class AuthenticationService {
     sessionStorage.removeItem('loggedUser');
     sessionStorage.removeItem('heac');
     sessionStorage.removeItem('pcor');
+    sessionStorage.removeItem('state');
     sessionStorage.setItem('cache', JSON.stringify(false));
     if (environment.internalAccess) {
       if (expired) {

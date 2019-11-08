@@ -177,51 +177,61 @@ export class PcorSharedService {
               }
               return s.charAt(0).toUpperCase() + s.slice(1);
             };
-            const completeData = JSON.parse(JSON.stringify(data.fiveStarMeasureCount.Data));
+
             const category: Array<Object> = [];
             const subCategory: Array<Object> = [];
             const template = ['zero', 'one', 'two', 'three', 'four', 'five'];
             const barCountArray = [];
+            const completeData = JSON.parse(JSON.stringify(data));
+            const escapeSpecialChars = function(string) {
+              return string.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+            };
+            const asteriskCharacter = escapeSpecialChars('**');
+
+            // ++ output of asterisk character is /*/*
             for (let i = 5; i > 0; i--) {
               const metricName = template[i] + 'StarMeasureCount';
               if (data.hasOwnProperty(metricName)) {
                 const m = {
                   star: i,
                   label: capitalize(template[i]) + ' Star Quality Measure',
-                  count: completeData.filter(item => item.QualityRating === i).length,
-                  insideData: completeData.filter(item => item.QualityRating === i)
+                  count: completeData[metricName].Count,
+                  insideData: completeData[metricName].Data.map(v => {
+                    return v.Name.match(new RegExp(asteriskCharacter, 'g'))
+                      ? { ...v, message: true }
+                      : { ...v, message: false };
+                  })
                 };
                 barCountArray.push(m.count);
                 subCategory.push(m);
               } // end if structure
             } // end for loop for sub-category
-
             /*
-            We can also fetch the Top Level Categry i.e star count info via this code
-            but the loading of 'Quality Star' card is slow , because then it will load
-            data at once. So right now we can fetch 'Star Count' from executive api onlt
-            In future we can use this code if found useful
+             We can also fetch the Top Level Categry i.e star count info via this code
+             but the loading of 'Quality Star' card is slow , because then it will load
+             data at once. So right now we can fetch 'Star Count' from executive api onlt
+             In future we can use this code if found useful
 
-            const barScaleMax = Math.max(...barCountArray);
-            for (let i = subCategory.length; i > 0; i--) {
-              category.push({
-                type: 'singleBarChart',
-                star: i,
-                title: 'Quality Star Ratings',
-                data: {
-                  barHeight: 48,
-                  barData: completeData.filter(item => item.QualityRating === i).length,
-                  barSummation: barScaleMax,
-                  barText: completeData.filter(item => item.QualityRating === i).length,
-                  color: [{ color1: '#3381FF' }],
-                  gdata: ['card-inner-large', 'PCORreasonBar' + i],
-                  starObject: true,
-                  starCount: i
-                },
-                timeperiod: 'Data represents claims processed as of '
-              });
-            }
-            */
+             const barScaleMax = Math.max(...barCountArray);
+             for (let i = subCategory.length; i > 0; i--) {
+             category.push({
+             type: 'singleBarChart',
+             star: i,
+             title: 'Quality Star Ratings',
+             data: {
+             barHeight: 48,
+             barData: completeData.filter(item => item.QualityRating === i).length,
+             barSummation: barScaleMax,
+             barText: completeData.filter(item => item.QualityRating === i).length,
+             color: [{ color1: '#3381FF' }],
+             gdata: ['card-inner-large', 'PCORreasonBar' + i],
+             starObject: true,
+             starCount: i
+             },
+             timeperiod: 'Data represents claims processed as of '
+             });
+             }
+             */
             preparedData.push(subCategory);
           } else {
             preparedData = null;

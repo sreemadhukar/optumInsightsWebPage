@@ -8,7 +8,7 @@
 @import '~src/scss/buttons';
 
 .example-container {
-  background-color: #f1f4f7;
+  position: relative;
   flex-direction: column;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -152,6 +152,16 @@ app-header {
     vertical-align: bottom;
   }
 }
+.navCategoryItem {
+  /*padding-left: 32px !important;*/
+  color: $strom-grey;
+  font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  letter-spacing: 0.2px;
+  margin-top: 4px !important;
+  line-height: 18px;
+  margin-left: 38px !important; // previously 30px befor PI sub menu undo when toggled off
+}
 
 .firstNavCategory {
   margin-top: 15px !important;
@@ -160,6 +170,7 @@ app-header {
   font-size: 16px !important;
   letter-spacing: 0.2px;
   line-height: 18px;
+  margin-top: 20px !important;
 }
 
 .mat-expansion-panel-content,
@@ -190,17 +201,6 @@ app-header {
   /*padding-left: 32px !important;*/
 }
 
-.navCategoryItem {
-  /*padding-left: 32px !important;*/
-  color: $strom-grey;
-  font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
-  font-size: 14px;
-  letter-spacing: 0.2px;
-  margin-top: 4px !important;
-  line-height: 18px;
-  margin-left: 38px !important; // previously 30px befor PI sub menu undo when toggled off
-}
-
 .mat-expansion-panel-body {
   padding: 0px !important;
 }
@@ -226,7 +226,7 @@ app-header {
   color: $strom-grey !important;
   font-size: 16px !important;
   letter-spacing: 0.2px;
-  margin-top: 16px;
+  /*margin-top: 16px;*/
 }
 
 .nav-sub-category-items {
@@ -245,9 +245,6 @@ app-header {
 .nav-sub-category-items:hover {
   background: $darker-alice-blue !important;
   color: $blue !important;
-}
-.second-level-link {
-  padding-left: 32px !important;
 }
 .nav-no-child-category:hover,
 .mat-expansion-panel-header:hover,
@@ -495,4 +492,35 @@ app-header {
 .exit-provider-text:hover {
   cursor: pointer;
   text-decoration: underline;
+}
+
+.mat-list-item {
+  height: auto;
+  padding: 8px 12px 8px 16px;
+  width: auto;
+}
+.mat-list-item-content {
+  padding: 0px !important;
+  height: auto !important;
+}
+.mat-expansion-panel-body {
+  padding: 0px;
+}
+.mat-list-base {
+  .mat-list-item {
+    height: auto !important;
+    padding: 8px 12px 8px 16px;
+    width: auto;
+    margin-left: 0px;
+  }
+  .nav-sub-category-items {
+    height: auto;
+    padding: 8px 12px 8px 16px !important;
+    width: auto;
+    margin-left: 26px !important;
+  }
+}
+
+.mat-list-base .second-level-link {
+  padding-left: 32px !important;
 }
