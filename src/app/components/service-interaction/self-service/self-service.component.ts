@@ -4,6 +4,9 @@ import { SessionService } from '../../../shared/session.service';
 import { StorageService } from '../../../shared/storage-service.service';
 import { GlossaryExpandService } from '../../../shared/glossary-expand.service';
 import { CommonUtilsService } from 'src/app/shared/common-utils.service';
+import { NgRedux } from '@angular-redux/store';
+import { CURRENT_PAGE } from '../../../store/filter/actions';
+import { IAppState } from '../../../store/store';
 
 @Component({
   selector: 'app-self-service',
@@ -32,7 +35,8 @@ export class SelfServiceComponent implements OnInit {
     private checkStorage: StorageService,
     private session: SessionService,
     private glossaryExpandService: GlossaryExpandService,
-    private filtermatch: CommonUtilsService
+    private filtermatch: CommonUtilsService,
+    private ngRedux: NgRedux<IAppState>
   ) {
     this.pageTitle = 'Self Service';
     this.opportunities = 'Opportunities';
@@ -42,6 +46,7 @@ export class SelfServiceComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'selfServicePage' });
     this.mockCards = [{}, {}, {}];
     this.mockSelfServiceMiniCards = [{}, {}, {}, {}];
     this.selfServiceMiniCards = [];

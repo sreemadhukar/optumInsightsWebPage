@@ -207,31 +207,31 @@ export class PcorSharedService {
               } // end if structure
             } // end for loop for sub-category
             /*
-            We can also fetch the Top Level Categry i.e star count info via this code
-            but the loading of 'Quality Star' card is slow , because then it will load
-            data at once. So right now we can fetch 'Star Count' from executive api onlt
-            In future we can use this code if found useful
+             We can also fetch the Top Level Categry i.e star count info via this code
+             but the loading of 'Quality Star' card is slow , because then it will load
+             data at once. So right now we can fetch 'Star Count' from executive api onlt
+             In future we can use this code if found useful
 
-            const barScaleMax = Math.max(...barCountArray);
-            for (let i = subCategory.length; i > 0; i--) {
-              category.push({
-                type: 'singleBarChart',
-                star: i,
-                title: 'Quality Star Ratings',
-                data: {
-                  barHeight: 48,
-                  barData: completeData.filter(item => item.QualityRating === i).length,
-                  barSummation: barScaleMax,
-                  barText: completeData.filter(item => item.QualityRating === i).length,
-                  color: [{ color1: '#3381FF' }],
-                  gdata: ['card-inner-large', 'PCORreasonBar' + i],
-                  starObject: true,
-                  starCount: i
-                },
-                timeperiod: 'Data represents claims processed as of '
-              });
-            }
-            */
+             const barScaleMax = Math.max(...barCountArray);
+             for (let i = subCategory.length; i > 0; i--) {
+             category.push({
+             type: 'singleBarChart',
+             star: i,
+             title: 'Quality Star Ratings',
+             data: {
+             barHeight: 48,
+             barData: completeData.filter(item => item.QualityRating === i).length,
+             barSummation: barScaleMax,
+             barText: completeData.filter(item => item.QualityRating === i).length,
+             color: [{ color1: '#3381FF' }],
+             gdata: ['card-inner-large', 'PCORreasonBar' + i],
+             starObject: true,
+             starCount: i
+             },
+             timeperiod: 'Data represents claims processed as of '
+             });
+             }
+             */
             preparedData.push(subCategory);
           } else {
             preparedData = null;
