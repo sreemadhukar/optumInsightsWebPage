@@ -20,7 +20,7 @@ export class RefreshTokenService {
       Authorization: 'Bearer ' + RefreshToken,
       Accept: '*/*'
     });
-    return this.http.get(url, { params, headers: myHeader, observe: 'response' });
+    return this.http.post(url, '', { headers: myHeader });
     // .pipe(map(ssoTokenData => {
     //   // return ssoTokenData;
     //   console.log('REFRESH TOKEN DATA');
