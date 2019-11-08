@@ -29,7 +29,6 @@ export class LoginStubComponent implements OnInit {
   blankScreen = false;
   id: any;
   token: string;
-  isKop = false;
   showWarning = false;
   sessionTimedoutMessage: any = {
     note: 'Due to inactivity, we have logged you out.',
@@ -37,6 +36,7 @@ export class LoginStubComponent implements OnInit {
   };
   public checkAdv;
   public checkPro;
+  public checkExecutive;
   @ViewChild('errorDialog') errorDialog: TemplateRef<any>;
 
   constructor(
@@ -57,6 +57,7 @@ export class LoginStubComponent implements OnInit {
   ) {
     this.checkAdv = this.sessionService.checkAdvocateRole();
     this.checkPro = this.sessionService.checkProjectRole();
+    this.checkExecutive = this.sessionService.checkExecutiveRole();
     iconRegistry.addSvgIcon(
       'error',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Alert/round-error_outline-24px.svg')
@@ -104,9 +105,12 @@ export class LoginStubComponent implements OnInit {
         if (JSON.parse(sessionStorage.getItem('currentUser'))[0]['ProviderKey']) {
           if (this.checkAdv.value) {
             window.location.href = '/OverviewPageAdvocate';
-          } else if (this.checkPro.value) {
-            window.location.href = '/OverviewPage';
+          } else if (this.checkPro.value || this.checkExecutive.value) {
+            window.location.href = '/NationalExecutive';
           }
+          // else if (this.checkPro.value) {
+          //   window.location.href = '/OverviewPage';
+          // }
         } else {
           this.router.navigate([this.returnUrl]);
         }
@@ -162,16 +166,13 @@ export class LoginStubComponent implements OnInit {
       return;
     } else {
       this.internalService.login(this.f.username.value, this.f.password.value).subscribe(
-        () => {
+        user => {
           this.blankScreen = true;
           this.loading = false;
           this.authorise.getToggles('authorise').subscribe(value => {
             console.log(value);
           });
           if (environment.internalAccess) {
-            this.authorise.getHeac(this.f.username.value).subscribe(value => {
-              console.log(value);
-            });
             this.authorise.getTrendAccess(this.f.username.value).subscribe(value => {
               console.log(value);
             });
@@ -180,19 +181,15 @@ export class LoginStubComponent implements OnInit {
           // this.openDialog();
 
           if (environment.internalAccess) {
-            this.authorise.getHeac(this.f.username.value).subscribe(value => {
-              console.log(value);
-              const heac = JSON.parse(sessionStorage.getItem('heac'));
-              this.isKop = heac && heac.heac === true ? true : false;
-              const acoUser = JSON.parse(sessionStorage.getItem('loggedUser'));
-              if (this.isKop === true) {
-                this.router.navigate(['/NationalExecutive']);
-              } else if (acoUser.MsId === 'gmounik7' || acoUser.MsId === 'tmadhuka') {
-                this.router.navigate(['/AcoPage']);
-              } else {
-                this.router.navigate(['/ProviderSearch']);
-              }
-            });
+            const acoUser = JSON.parse(sessionStorage.getItem('loggedUser'));
+            if (acoUser.MsId === 'gmounik7' || acoUser.MsId === 'tmadhuka') {
+              this.router.navigate(['/AcoPage']);
+            }
+          }
+          if (user && user['UserPersonas'].some(item => item.UserRole.includes('UHCI_Executive'))) {
+            this.router.navigate(['/NationalExecutive']);
+          } else if (user && user['UserPersonas'].some(item => item.UserRole.includes('UHCI_Project'))) {
+            this.router.navigate(['/NationalExecutive']);
           } else {
             this.router.navigate(['/ProviderSearch']);
           }

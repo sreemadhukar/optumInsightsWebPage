@@ -92,6 +92,24 @@ export class SessionService {
     }
   }
 
+  public checkExecutiveRole(): Observable<boolean> {
+    let userRole = false;
+    try {
+      if (
+        JSON.parse(sessionStorage.getItem('loggedUser')) &&
+        JSON.parse(sessionStorage.getItem('loggedUser')).UserPersonas
+      ) {
+        userRole = JSON.parse(sessionStorage.getItem('loggedUser')).UserPersonas.some(item =>
+          item.UserRole.includes('UHCI_Executive')
+        );
+      }
+      return of(userRole);
+    } catch (err) {
+      console.log('adovate role session service', err);
+      return of(userRole);
+    }
+  }
+
   public checkProjectRole(): Observable<boolean> {
     let userRole = false;
     try {

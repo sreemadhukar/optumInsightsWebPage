@@ -12,4 +12,8 @@ import { AcoService } from '../../rest/aco/aco.service';
   providers: [AcoPageComponent, AcoSharedService, AcoService],
   declarations: [AcoPageComponent]
 })
-export class AcoModule {}
+export class AcoModule {
+  constructor() {
+    console.log('ACO Loaded');
+  }
+}

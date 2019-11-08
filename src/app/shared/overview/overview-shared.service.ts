@@ -772,7 +772,8 @@ export class OverviewSharedService {
         claims != null &&
         claims.hasOwnProperty('All') &&
         claims.All != null &&
-        claims.All.hasOwnProperty('ClaimsLobSummary')
+        claims.All.hasOwnProperty('ClaimsLobSummary') &&
+        claims.All.ClaimsLobSummary[0].ClaimsYieldRate.toFixed() !== 0
       ) {
         if (claims.All.ClaimsLobSummary[0].hasOwnProperty('ClaimsYieldRate')) {
           claimsYield = {
@@ -1166,7 +1167,6 @@ export class OverviewSharedService {
               gdata: ['card-inner', 'priorAuthCardD3Donut']
             },
             sdata: null,
-
             timeperiod: 'Last 6 Months'
           };
           // if (
@@ -1208,7 +1208,6 @@ export class OverviewSharedService {
             timeperiod: null
           };
         }
-
         resolve(cPriorAuth);
       });
     });
@@ -1267,7 +1266,6 @@ export class OverviewSharedService {
             trends.TendingMtrics.CallsTrendByQuesType != null
           ) {
             const dataPoint = trends.TendingMtrics.CallsTrendByQuesType.toFixed(1) + '%';
-            console.log('dataPoint' + dataPoint);
             if (trends.TendingMtrics.CallsTrendByQuesType >= 1) {
               cIR.sdata = {
                 sign: 'up-red',

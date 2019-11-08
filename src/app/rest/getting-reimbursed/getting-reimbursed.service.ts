@@ -16,9 +16,12 @@ export class GettingReimbursedService {
   private APP_URL: string = environment.apiProxyUrl;
   private CLAIMS_SERVICE_PATH: string = environment.apiUrls.ProviderSystemClaimsSummary;
   private AGG_CLAIMS_SERVICE_PATH: string = environment.apiUrls.ProviderSystemClaimsAgg;
-  private APPEALS_SERVICE_PATH: string = environment.apiUrls.Appeals;
+  private APPEALS_SERVICE_PATH: string = environment.apiUrls.Appeals; // old
+  private APPEALS_SERVICE: string = environment.apiUrls.AppealsFHIR; // new
+  private APPEALS_OVERTURN: string = environment.apiUrls.AppealsOverturn;
   private TINS_SERVICE_PATH: string = environment.apiUrls.ProvTinList;
   private PAYMENT_INTEGRITY_PATH: string = environment.apiUrls.PaymentIntegrity;
+  private APEEALS_FHIR_API_PATH: string = environment.apiUrls.AppealsFHIR;
 
   constructor(private http: HttpClient) {}
   public getGettingReimbursedYearWiseData(...parameters) {
@@ -28,22 +31,42 @@ export class GettingReimbursedService {
         map(res => JSON.parse(JSON.stringify(res[0]))),
         catchError(err => of(JSON.parse(JSON.stringify(err))))
       ),
-      this.appealsData(...parameters)
+      this.claimsAppealsData(...parameters)
     );
   }
 
-  public appealsData(...parameters) {
+  /*  public appealsData(...parameters) {
     const appealsParams = parameters[1];
     if (!appealsParams.Tin) {
       appealsParams.AllProviderTins = true;
     }
-
     const appealsURL = this.APP_URL + this.APPEALS_SERVICE_PATH + parameters[0];
     return this.http.post(appealsURL, appealsParams).pipe(
       map(res => JSON.parse(JSON.stringify(res))),
       catchError(err => of(JSON.parse(JSON.stringify(err))))
     );
+  }*/
+
+  /** function for Appeals PDP api */
+  public claimsAppealsData(...parameters) {
+    const appealsParam = parameters[1];
+    const appealsURL = this.APP_URL + this.APPEALS_SERVICE + parameters[0] + '?requestType=APPEALS_MEASURE_DOR_HCO';
+    return this.http.post(appealsURL, appealsParam).pipe(
+      map(res => JSON.parse(JSON.stringify(res))),
+      catchError(err => of(JSON.parse(JSON.stringify(err))))
+    );
   }
+
+  public claimsAppealsReasonData(...parameters) {
+    const appealsParam = parameters[1];
+    const appealsURL =
+      this.APP_URL + this.APPEALS_OVERTURN + parameters[0] + '?requestType=APPEALS_TOP_OVERTURNED_REASON_DOR_HCO';
+    return this.http.post(appealsURL, appealsParam).pipe(
+      map(res => JSON.parse(JSON.stringify(res))),
+      catchError(err => of(JSON.parse(JSON.stringify(err))))
+    );
+  }
+  /** ----------------------------- */
 
   public getGettingReimbursedData(...parameters) {
     const claimsURL = this.APP_URL + this.CLAIMS_SERVICE_PATH + parameters[0] + '?requestType=PAYMENT_METRICS';
@@ -52,7 +75,7 @@ export class GettingReimbursedService {
         map(res => JSON.parse(JSON.stringify(res[0]))),
         catchError(err => of(JSON.parse(JSON.stringify(err))))
       ),
-      this.appealsData(...parameters)
+      this.claimsAppealsData(...parameters)
     );
   }
 
@@ -101,6 +124,18 @@ export class GettingReimbursedService {
     const nonPaymentURL = this.APP_URL + this.CLAIMS_SERVICE_PATH + parameters[0] + '?requestType=PAYMENT_METRICS';
     return this.http.post(nonPaymentURL, parameters[1], { headers: myHeader }).pipe(
       map(res => JSON.parse(JSON.stringify(res[0]))),
+      catchError(err => of(JSON.parse(JSON.stringify(err))))
+    );
+  }
+
+  public getAppealsWrapperData(parameters) {
+    const appURL = this.APP_URL + this.APEEALS_FHIR_API_PATH + parameters[0];
+    const appealsParams = parameters[1];
+    if (!appealsParams.TimeFilter) {
+      appealsParams.TimeFilter = parameters.TimeFilter;
+    }
+    return this.http.post(appURL, appealsParams).pipe(
+      map(res => JSON.parse(JSON.stringify(res))),
       catchError(err => of(JSON.parse(JSON.stringify(err))))
     );
   }

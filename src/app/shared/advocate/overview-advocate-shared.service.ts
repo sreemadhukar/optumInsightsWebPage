@@ -4,6 +4,8 @@ import { SessionService } from '../session.service';
 import { AuthorizationService } from '../../auth/_service/authorization.service';
 import { GlossaryMetricidService } from '../glossary-metricid.service';
 import { OverviewAdvocateService } from '../../rest/advocate/overview-advocate.service';
+import { GettingReimbursedPayload } from '../getting-reimbursed/payload.class';
+import * as _ from 'lodash';
 
 @Injectable({
   providedIn: 'root'
@@ -21,133 +23,18 @@ export class OverviewAdvocateSharedService {
     private overviewAdvocateService: OverviewAdvocateService
   ) {}
 
-  getParmaeterCategories() {
+  getParameterCategories(param) {
     let parameters = [];
-    this.tin = this.session.filterObjValue.tax.toString().replace(/-/g, '');
-    this.lob = this.session.filterObjValue.lob;
-    this.timeFrame = this.session.filterObjValue.timeFrame;
     this.providerKey = this.session.providerKeyData();
-    if (
-      this.timeFrame === 'Last 12 Months' ||
-      this.timeFrame === 'Last 6 Months' ||
-      this.timeFrame === 'Last 3 Months' ||
-      this.timeFrame === 'Last 30 Days' ||
-      this.timeFrame === 'Year to Date'
-    ) {
-      if (this.timeFrame === 'Last 12 Months') {
-        if (this.tin !== 'All' && this.lob !== 'All') {
-          parameters = [
-            this.providerKey,
-            { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Last12Months', Tin: this.tin }
-          ];
-        } else if (this.tin !== 'All') {
-          parameters = [this.providerKey, { TimeFilter: 'Last12Months', Tin: this.tin }];
-        } else if (this.lob !== 'All') {
-          parameters = [
-            this.providerKey,
-            { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Last12Months' }
-          ];
-        } else {
-          parameters = [this.providerKey, { TimeFilter: 'Last12Months' }];
-        }
-      } else if (this.timeFrame === 'Year to Date') {
-        if (this.tin !== 'All' && this.lob !== 'All') {
-          parameters = [
-            this.providerKey,
-            { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'YTD', Tin: this.tin }
-          ];
-        } else if (this.tin !== 'All') {
-          parameters = [this.providerKey, { TimeFilter: 'YTD', Tin: this.tin }];
-        } else if (this.lob !== 'All') {
-          parameters = [this.providerKey, { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'YTD' }];
-        } else {
-          parameters = [this.providerKey, { TimeFilter: 'YTD' }];
-        }
-      } else if (this.timeFrame === 'Last 6 Months') {
-        if (this.tin !== 'All' && this.lob !== 'All') {
-          parameters = [
-            this.providerKey,
-            { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Last6Months', Tin: this.tin }
-          ];
-        } else if (this.tin !== 'All') {
-          parameters = [this.providerKey, { TimeFilter: 'Last6Months', Tin: this.tin }];
-        } else if (this.lob !== 'All') {
-          parameters = [
-            this.providerKey,
-            { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Last6Months' }
-          ];
-        } else {
-          parameters = [this.providerKey, { TimeFilter: 'Last6Months' }];
-        }
-      } else if (this.timeFrame === 'Last 3 Months') {
-        if (this.tin !== 'All' && this.lob !== 'All') {
-          parameters = [
-            this.providerKey,
-            { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Last3Months', Tin: this.tin }
-          ];
-        } else if (this.tin !== 'All') {
-          parameters = [this.providerKey, { TimeFilter: 'Last3Months', Tin: this.tin }];
-        } else if (this.lob !== 'All') {
-          parameters = [
-            this.providerKey,
-            { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Last3Months' }
-          ];
-        } else {
-          parameters = [this.providerKey, { TimeFilter: 'Last3Months' }];
-        }
-      } else if (this.timeFrame === 'Last 30 Days') {
-        if (this.tin !== 'All' && this.lob !== 'All') {
-          parameters = [
-            this.providerKey,
-            { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Last30Days', Tin: this.tin }
-          ];
-        } else if (this.tin !== 'All') {
-          parameters = [this.providerKey, { TimeFilter: 'Last30Days', Tin: this.tin }];
-        } else if (this.lob !== 'All') {
-          parameters = [
-            this.providerKey,
-            { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Last30Days' }
-          ];
-        } else {
-          parameters = [this.providerKey, { TimeFilter: 'Last30Days' }];
-        }
-      }
-    } else {
-      const lobData = this.common.matchLobWithData(this.lob);
-      if (this.tin !== 'All' && this.lob !== 'All') {
-        parameters = [
-          this.providerKey,
-          {
-            Lob: this.common.matchLobWithCapsData(this.lob),
-            TimeFilter: 'CalendarYear',
-            TimeFilterText: this.timeFrame,
-            Tin: this.tin
-          }
-        ];
-      } else if (this.tin !== 'All') {
-        parameters = [this.providerKey, { TimeFilter: 'CalendarYear', TimeFilterText: this.timeFrame, Tin: this.tin }];
-      } else if (this.lob !== 'All') {
-        parameters = [
-          this.providerKey,
-          {
-            Lob: this.common.matchLobWithCapsData(this.lob),
-            TimeFilter: 'CalendarYear',
-            TimeFilterText: this.timeFrame
-          }
-        ];
-      } else {
-        parameters = [this.providerKey, { TimeFilter: 'CalendarYear', TimeFilterText: this.timeFrame }];
-      }
-    } // End If else structure
+    parameters = [this.providerKey, new GettingReimbursedPayload(param)];
     return parameters;
   }
 
-  public getAppealsLeftShared() {
-    this.timeFrame = this.session.filterObjValue.timeFrame;
-
-    this.providerKey = this.session.providerKeyData();
+  public getAppealsLeftShared(param) {
+    this.timeFrame = this.common.getTimePeriodFilterValue(param.timePeriod);
+    this.lob = param.lineOfBusiness ? _.startCase(param.lineOfBusiness.toLowerCase()) : 'ALL';
     return new Promise(resolve => {
-      const parameters = this.getParmaeterCategories();
+      const parameters = this.getParameterCategories(param);
       this.overviewAdvocateService.appealsData(...parameters).subscribe(
         appealsLeftData => {
           resolve(appealsLeftData);
@@ -159,94 +46,94 @@ export class OverviewAdvocateSharedService {
     });
   }
 
-  public getAppealsTrendByMonthShared() {
-    this.timeFrame = this.session.filterObjValue.timeFrame;
-
-    this.providerKey = this.session.providerKeyData();
+  public getAppealsTrendByMonthShared(param) {
+    this.timeFrame = this.common.getTimePeriodFilterValue(param.timePeriod);
+    this.lob = param.lineOfBusiness ? _.startCase(param.lineOfBusiness.toLowerCase()) : 'ALL';
     return new Promise(resolve => {
-      const parameters = this.getParmaeterCategories();
+      const parameters = this.getParameterCategories(param);
       this.overviewAdvocateService.appealsDataTrendByMonth(...parameters).subscribe(
         appealsTrendData => {
           const mrData = [];
           const csData = [];
           const eiData = [];
           const other = [];
-          // for (let element; element < appealsTrendData.length; element++) {
-          appealsTrendData.forEach(element => {
-            const monthlyMrData = [];
-            const monthlyCsData = [];
-            const monthlyEiData = [];
-            const monthlyOtherData = [];
+          if (appealsTrendData) {
+            appealsTrendData.forEach(element => {
+              const monthlyMrData = [];
+              const monthlyCsData = [];
+              const monthlyEiData = [];
+              const monthlyOtherData = [];
 
-            if (element.LineOfBusiness.MedicareAndRetirement) {
-              monthlyMrData.push(element.LineOfBusiness.MedicareAndRetirement);
-            }
-            if (element.LineOfBusiness.CommunityAndState) {
-              monthlyCsData.push(element.LineOfBusiness.CommunityAndState);
-            }
-            if (element.LineOfBusiness.EmployerAndIndividual) {
-              monthlyEiData.push(element.LineOfBusiness.EmployerAndIndividual);
-            }
-            if (element.LineOfBusiness.Other) {
-              monthlyOtherData.push(element.LineOfBusiness.Other);
-            }
-
-            if (monthlyMrData.length !== 0) {
-              for (let i = 0; i < monthlyMrData.length; i++) {
-                const trendMonthValue = monthlyMrData[i].AdminAppeals + monthlyMrData[i].ClinicalAppeals;
-                const trendTimePeriod = element.ReportingPeriod;
-                const monthName = trendTimePeriod.substr(4, 4);
-
-                mrData.push({
-                  name: monthName,
-                  value: trendMonthValue,
-                  month: trendTimePeriod
-                });
+              if (element.LineOfBusiness.MedicareAndRetirement) {
+                monthlyMrData.push(element.LineOfBusiness.MedicareAndRetirement);
               }
-            }
-
-            if (monthlyCsData.length !== 0) {
-              for (let i = 0; i < monthlyCsData.length; i++) {
-                const trendMonthValue = monthlyCsData[i].AdminAppeals + monthlyCsData[i].ClinicalAppeals;
-                const trendTimePeriod = element.ReportingPeriod;
-                const monthName = trendTimePeriod.substr(4, 4);
-
-                csData.push({
-                  name: monthName,
-                  value: trendMonthValue,
-                  month: trendTimePeriod
-                });
+              if (element.LineOfBusiness.CommunityAndState) {
+                monthlyCsData.push(element.LineOfBusiness.CommunityAndState);
               }
-            }
-
-            if (monthlyEiData.length !== 0) {
-              for (let i = 0; i < monthlyEiData.length; i++) {
-                const trendMonthValue = monthlyEiData[i].AdminAppeals + monthlyEiData[i].ClinicalAppeals;
-                const trendTimePeriod = element.ReportingPeriod;
-                const monthName = trendTimePeriod.substr(4, 4);
-
-                eiData.push({
-                  name: monthName,
-                  value: trendMonthValue,
-                  month: trendTimePeriod
-                });
+              if (element.LineOfBusiness.EmployerAndIndividual) {
+                monthlyEiData.push(element.LineOfBusiness.EmployerAndIndividual);
               }
-            }
-
-            if (monthlyOtherData.length !== 0) {
-              for (let i = 0; i < monthlyOtherData.length; i++) {
-                const trendMonthValue = monthlyOtherData[i].AdminAppeals + monthlyOtherData[i].ClinicalAppeals;
-                const trendTimePeriod = element.ReportingPeriod;
-                const monthName = trendTimePeriod.substr(4, 4);
-
-                other.push({
-                  name: monthName,
-                  value: trendMonthValue,
-                  month: trendTimePeriod
-                });
+              if (element.LineOfBusiness.Other) {
+                monthlyOtherData.push(element.LineOfBusiness.Other);
               }
-            }
-          });
+
+              if (monthlyMrData.length !== 0) {
+                for (let i = 0; i < monthlyMrData.length; i++) {
+                  const trendMonthValue = monthlyMrData[i].AdminAppeals + monthlyMrData[i].ClinicalAppeals;
+                  const trendTimePeriod = element.ReportingPeriod;
+                  const monthName = trendTimePeriod.substr(4, 4);
+
+                  mrData.push({
+                    name: monthName,
+                    value: trendMonthValue,
+                    month: trendTimePeriod
+                  });
+                }
+              }
+
+              if (monthlyCsData.length !== 0) {
+                for (let i = 0; i < monthlyCsData.length; i++) {
+                  const trendMonthValue = monthlyCsData[i].AdminAppeals + monthlyCsData[i].ClinicalAppeals;
+                  const trendTimePeriod = element.ReportingPeriod;
+                  const monthName = trendTimePeriod.substr(4, 4);
+
+                  csData.push({
+                    name: monthName,
+                    value: trendMonthValue,
+                    month: trendTimePeriod
+                  });
+                }
+              }
+
+              if (monthlyEiData.length !== 0) {
+                for (let i = 0; i < monthlyEiData.length; i++) {
+                  const trendMonthValue = monthlyEiData[i].AdminAppeals + monthlyEiData[i].ClinicalAppeals;
+                  const trendTimePeriod = element.ReportingPeriod;
+                  const monthName = trendTimePeriod.substr(4, 4);
+
+                  eiData.push({
+                    name: monthName,
+                    value: trendMonthValue,
+                    month: trendTimePeriod
+                  });
+                }
+              }
+
+              if (monthlyOtherData.length !== 0) {
+                for (let i = 0; i < monthlyOtherData.length; i++) {
+                  const trendMonthValue = monthlyOtherData[i].AdminAppeals + monthlyOtherData[i].ClinicalAppeals;
+                  const trendTimePeriod = element.ReportingPeriod;
+                  const monthName = trendTimePeriod.substr(4, 4);
+
+                  other.push({
+                    name: monthName,
+                    value: trendMonthValue,
+                    month: trendTimePeriod
+                  });
+                }
+              }
+            });
+          }
 
           mrData.sort(function(a, b) {
             let dateA: any;
@@ -302,11 +189,10 @@ export class OverviewAdvocateSharedService {
     });
   }
 
-  public getTotalCallsShared() {
-    this.timeFrame = this.session.filterObjValue.timeFrame;
-    this.providerKey = this.session.providerKeyData();
+  public getTotalCallsShared(param) {
+    this.timeFrame = this.common.getTimePeriodFilterValue(param.timePeriod);
     return new Promise(resolve => {
-      const parameters = this.getParmaeterCategories();
+      const parameters = this.getParameterCategories(param);
       this.overviewAdvocateService.callsData(...parameters).subscribe(
         callsTotalData => {
           resolve(callsTotalData);

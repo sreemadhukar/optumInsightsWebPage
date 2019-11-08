@@ -15,7 +15,9 @@ export const environment: any = {
       'https://sso.uhc.com/ext/as/authorization.oauth2?pfidpadapterid=OptumIdOIDC&client_id=PED42235&' +
       'response_type=code&redirect_uri=https://uhcinsights.uhc.com/login&scope=openid+profile+email&state=PED&prompt=none',
     linkLoginPage: 'https://provider.linkhealth.com',
-    SsoLogoutUrl: 'https://provider.linkhealth.com/api/link/session/signout&redirect=https://provider.linkhealth.com',
+    SsoLogoutUrl:
+      'https://api-stage.linkhealth.com/session/signout?redirect=https://provider.linkhealth.com/' +
+      'content/odin/en/provider-dashboard/public/signout.html?logOut=true',
     ProvTinList: 'provider-tins/',
     LayerSevenPath: 'myinsightLayerSevenHandshake',
     URL: window.location.origin,
@@ -36,6 +38,8 @@ export const environment: any = {
     NPSSummary: 'kop-metrics/',
     AppealsTrend: 'appeals-trend/',
     AdminSummaryTrends: 'admintrends/',
+    AppealsFHIR: 'appeals/v2.0/',
+    AppealsOverturn: 'appeal-overturn-reasons/',
     AdminSummaryTrendsCount: 'admintrendscount/'
   },
   headerKeys: {
@@ -58,6 +62,7 @@ export const environment: any = {
   errorMessage: 'empty',
   clickStreamUrl: '//assets.adobedtm.com/launch-ENacdc6d1acf734bcd95703e446bd1de1d-development.min.js',
   internalAccess: false,
+  claimsYieldAccess: false,
   toggleTrendingSummary: false,
   sentryKey: 'https://2e6628201e8043c89e8fac56d77c46aa@sentry-ped-internal.ocp-ctc-core.optum.com/1'
 };
