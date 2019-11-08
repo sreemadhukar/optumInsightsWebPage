@@ -5,6 +5,7 @@ import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpClient } from
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import * as jwt_decode from 'jwt-decode';
+import { RefreshTokenService } from './refresh-token.service';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,7 @@ export class HttpInterceptorService implements HttpInterceptor {
   protected emitter = new EventEmitter<boolean>();
   refreshtoken = false;
 
-  constructor(public http: HttpClient) {
+  constructor(public http: HttpClient, private refreshtokenservice: RefreshTokenService) {
     this.emitter.pipe().subscribe(text => (this.refreshtoken = text));
   }
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
@@ -30,7 +31,13 @@ export class HttpInterceptorService implements HttpInterceptor {
       console.log('API token expired');
       // API call to get new refresh token & save in session
 
-      return this.getRequestWithAuthentication(request, next);
+      this.refreshtokenservice.getRefreshToken().subscribe(resp => {
+        console.log('////////////');
+        const keys = resp.headers.keys();
+        const headers = keys.map(key => `${key}: ${resp.headers.get(key)}`);
+        console.log(headers);
+        return this.getRequestWithAuthentication(request, next);
+      });
     }
   }
 
