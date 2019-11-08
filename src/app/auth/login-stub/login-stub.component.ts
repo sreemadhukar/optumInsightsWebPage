@@ -131,14 +131,29 @@ export class LoginStubComponent implements OnInit {
                   console.log(value1);
                 });
                 sessionStorage.setItem('cache', JSON.stringify(true));
-                this.router.navigate(['/OverviewPage']);
+                if (
+                  (JSON.parse(sessionStorage.getItem('currentUser'))[0].hasOwnProperty('AcoId') &&
+                    JSON.parse(sessionStorage.getItem('currentUser'))[0]['AcoId'] !== '') ||
+                  JSON.parse(sessionStorage.getItem('currentUser'))[0]['FirstName'] === 'Mounika'
+                ) {
+                  this.router.navigate(['/AcoPage']);
+                } else {
+                  this.router.navigate(['/OverviewPage']);
+                }
               })
               .catch(error => {
                 this.openErrorDialog();
               });
           } else if (this.authService.isLoggedIn()) {
             sessionStorage.setItem('cache', JSON.stringify(true));
-            this.router.navigate(['/OverviewPage']);
+            if (
+              JSON.parse(sessionStorage.getItem('currentUser'))[0].hasOwnProperty('AcoId') &&
+              JSON.parse(sessionStorage.getItem('currentUser'))[0]['AcoId'] !== ''
+            ) {
+              this.router.navigate(['/AcoPage']);
+            } else {
+              this.router.navigate(['/OverviewPage']);
+            }
           } else {
             this.document.location.href = environment.apiUrls.SsoRedirectUri;
           }
@@ -180,12 +195,6 @@ export class LoginStubComponent implements OnInit {
           sessionStorage.setItem('cache', JSON.stringify(true));
           // this.openDialog();
 
-          if (environment.internalAccess) {
-            const acoUser = JSON.parse(sessionStorage.getItem('loggedUser'));
-            if (acoUser.MsId === 'gmounik7' || acoUser.MsId === 'tmadhuka') {
-              this.router.navigate(['/AcoPage']);
-            }
-          }
           if (user && user['UserPersonas'].some(item => item.UserRole.includes('UHCI_Executive'))) {
             this.router.navigate(['/NationalExecutive']);
           } else if (user && user['UserPersonas'].some(item => item.UserRole.includes('UHCI_Project'))) {

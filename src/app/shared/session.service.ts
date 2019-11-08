@@ -61,6 +61,14 @@ export class SessionService {
     }
   }
 
+  public getACOName() {
+    if (sessionStorage.getItem('currentUser')) {
+      if (JSON.parse(sessionStorage.getItem('currentUser'))[0]['AcoId'] !== '') {
+        return JSON.parse(sessionStorage.getItem('currentUser'))[0]['AcoName'];
+      }
+    }
+  }
+
   public checkAdvocateRole(): Observable<boolean> {
     let userRole = false;
     try {

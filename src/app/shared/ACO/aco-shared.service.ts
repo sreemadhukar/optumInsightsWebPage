@@ -12,7 +12,7 @@ import { environment } from '../../../environments/environment';
   providedIn: 'root'
 })
 export class AcoSharedService {
-  private lob = 'EI';
+  private lob = 'EmployerAndIndividual';
   constructor(
     private MetricidService: GlossaryMetricidService,
     private acoservice: AcoService,
@@ -33,200 +33,406 @@ export class AcoSharedService {
     let acoPage: Array<object>;
     let acoPageKeyPerformance: Array<object>;
     let acoPageMainCard: Array<object>;
+    let contractSTRPeriod: Date;
+    let contractENDPeriod: Date;
+    let MPTData = 0;
     return new Promise(resolve => {
       this.acoservice.getAcoData().subscribe(data => {
-        if (data.hasOwnProperty('LineOfBusiness')) {
+        contractSTRPeriod = new Date(data.ContractEffDate);
+        contractENDPeriod = new Date(data.ContractEndDate);
+        if (data.hasOwnProperty('LinesOfBusiness')) {
           if (environment.internalAccess) {
-            acoSummary = {
-              category: 'app-small-card',
-              type: 'textWithLabel',
-              title: 'ACO Summary',
-              data: {
-                centerNumber: this.common.nFormatter(data.LineOfBusiness[this.lob].ACOSummary),
-                labels: 'Attributed Members'
-              },
-              bottomData: {
-                labels: '4 of 5 Measures Meet MPT*',
-                color: '#21B01E'
-              },
-              timeperiod: 'Contract Year to Date'
-            };
-            ratioPCP = {
-              category: 'app-small-card',
-              type: 'bar',
-              title: 'Ratio of PCP to Specialist Office Visits',
-              fdata: {
-                type: 'bar chart',
-                page: 'ACO',
-                graphValues: [
-                  data.LineOfBusiness[this.lob].ratioPCPtoSpecOV.Target,
-                  data.LineOfBusiness[this.lob].ratioPCPtoSpecOV.Actual
-                ],
-                color: ['#003DA1', '#FFFFFF', '#00B8CC'],
-                gdata: ['bar-chart', 'ratiopcp']
-              },
-              timeperiod: 'Contract Year to Date'
-            };
-            rxGeneric = {
-              category: 'app-small-card',
-              type: 'donutWithLabel',
-              title: 'RX Generic Compliance',
-              data: {
-                graphValues: [
-                  data.LineOfBusiness[this.lob].RxGenericCompliance.Actual * 100,
-                  100 - data.LineOfBusiness[this.lob].RxGenericCompliance.Actual * 100
-                ],
-                centerNumber: (data.LineOfBusiness[this.lob].RxGenericCompliance.Actual * 100).toFixed(2) + '%',
-                color: ['#3381FF', '#D7DCE1'],
-                gdata: ['card-inner', 'claimsNonPaymentRate'],
-                sdata: {
-                  label: 'MPT Not Defined'
+            if (data.LinesOfBusiness[this.lob].AcoSummary !== 'N/A') {
+              if (
+                data.LinesOfBusiness[this.lob].RatioPCPtoSpecOV.Target !== 'N/A' &&
+                data.LinesOfBusiness[this.lob].RatioPCPtoSpecOV.Actual !== 'N/A'
+              ) {
+                if (
+                  parseInt(data.LinesOfBusiness[this.lob].RatioPCPtoSpecOV.Target) >=
+                  data.LinesOfBusiness[this.lob].RatioPCPtoSpecOV.Actual
+                ) {
+                  MPTData++;
                 }
-              },
-              timeperiod: 'Contract Year to Date'
-            };
-            rxScripts = {
-              category: 'app-card',
-              type: 'barActualTargetNumbers',
-              title: 'Rx Script',
-              data: {
-                actual: data.LineOfBusiness[this.lob].RxScriptsPer1000.Actual.toFixed(2),
-                target: data.LineOfBusiness[this.lob].RxScriptsPer1000.Target.toFixed(2)
-              },
-              timeperiod: 'Contract Year to Date'
-            };
-            acuteAdmits = {
-              category: 'app-card',
-              type: 'barActualTargetNumbers',
-              title: 'Acute Admits',
-              data: {
-                actual: data.LineOfBusiness[this.lob].acuteAdmitsPer1000.Actual.toFixed(2),
-                target: data.LineOfBusiness[this.lob].acuteAdmitsPer1000.Target.toFixed(2)
-              },
-              timeperiod: 'Contract Year to Date'
-            };
-            nonParticipatingSpecialistReferrals = {
-              category: 'app-card',
-              type: 'barActualTargetPercentage',
-              title: 'Non-Participating Specialist Referrals',
-              data: {
-                actual: data.LineOfBusiness[this.lob].nonParSpecialistReferrals.Actual.toFixed(4),
-                target: data.LineOfBusiness[this.lob].nonParSpecialistReferrals.Target.toFixed(4)
-              },
-              timeperiod: 'Contract Year to Date'
-            };
-            emergencyVisits = {
-              category: 'app-card',
-              type: 'barActualTargetNumbers',
-              title: 'Emergency Visits',
-              data: {
-                actual: data.LineOfBusiness[this.lob].emergencyVisitsPer1000.Actual.toFixed(2),
-                target: data.LineOfBusiness[this.lob].emergencyVisitsPer1000.Target.toFixed(2)
-              },
-              timeperiod: 'Contract Year to Date'
-            };
-            acuteBedDays = {
-              category: 'app-card',
-              type: 'barActualTargetNumbers',
-              title: 'Acute Bed Days',
-              data: {
-                actual: data.LineOfBusiness[this.lob].acuteBedDaysPer1000.Actual.toFixed(2),
-                target: data.LineOfBusiness[this.lob].acuteBedDaysPer1000.Target.toFixed(2)
-              },
-              timeperiod: 'Contract Year to Date'
-            };
+              }
+              if (
+                data.LinesOfBusiness[this.lob].RxScriptsPerThousand.Actual !== 'N/A' &&
+                data.LinesOfBusiness[this.lob].RxScriptsPerThousand.Target !== 'N/A'
+              ) {
+                if (
+                  parseInt(data.LinesOfBusiness[this.lob].RxScriptsPerThousand.Target) >=
+                  data.LinesOfBusiness[this.lob].RxScriptsPerThousand.Actual
+                ) {
+                  MPTData++;
+                }
+              }
+              if (
+                data.LinesOfBusiness[this.lob].AcuteAdmitsPerThousand.Actual !== 'N/A' &&
+                data.LinesOfBusiness[this.lob].AcuteAdmitsPerThousand.Target !== 'N/A'
+              ) {
+                if (
+                  parseInt(data.LinesOfBusiness[this.lob].AcuteAdmitsPerThousand.Target) >=
+                  data.LinesOfBusiness[this.lob].AcuteAdmitsPerThousand.Actual
+                ) {
+                  MPTData++;
+                }
+              }
+              if (
+                data.LinesOfBusiness[this.lob].NonParSpecialistReferrals.Actual !== 'N/A' &&
+                data.LinesOfBusiness[this.lob].NonParSpecialistReferrals.Target !== 'N/A'
+              ) {
+                if (
+                  parseInt(data.LinesOfBusiness[this.lob].NonParSpecialistReferrals.Target) >=
+                  data.LinesOfBusiness[this.lob].NonParSpecialistReferrals.Actual
+                ) {
+                  MPTData++;
+                }
+              }
+              if (
+                data.LinesOfBusiness[this.lob].EmergencyVisitsPerThousand.Actual !== 'N/A' &&
+                data.LinesOfBusiness[this.lob].EmergencyVisitsPerThousand.Target !== 'N/A'
+              ) {
+                if (
+                  parseInt(data.LinesOfBusiness[this.lob].EmergencyVisitsPerThousand.Target) >=
+                  data.LinesOfBusiness[this.lob].EmergencyVisitsPerThousand.Actual
+                ) {
+                  MPTData++;
+                }
+              }
+              if (
+                data.LinesOfBusiness[this.lob].AcuteBedDaysPerThousand.Actual !== 'N/A' &&
+                data.LinesOfBusiness[this.lob].AcuteBedDaysPerThousand.Target !== 'N/A'
+              ) {
+                if (
+                  parseInt(data.LinesOfBusiness[this.lob].AcuteBedDaysPerThousand.Target) >=
+                  data.LinesOfBusiness[this.lob].AcuteBedDaysPerThousand.Actual
+                ) {
+                  MPTData++;
+                }
+              }
+              acoSummary = {
+                category: 'app-small-card',
+                type: 'textWithLabel',
+                title: 'ACO Summary',
+                data: {
+                  centerNumber: this.common.nFormatter(data.LinesOfBusiness[this.lob].AcoSummary),
+                  labels: 'Attributed Members'
+                },
+                bottomData: {
+                  labels: MPTData + ' of 5 Measures Meet MPT*',
+                  color: '#21B01E'
+                },
+                timeperiod: 'Contract Year to Date'
+              };
+            }
+            if (
+              data.LinesOfBusiness[this.lob].RatioPCPtoSpecOV.Target !== 'N/A' &&
+              data.LinesOfBusiness[this.lob].RatioPCPtoSpecOV.Actual !== 'N/A'
+            ) {
+              ratioPCP = {
+                category: 'app-small-card',
+                type: 'bar',
+                title: 'Ratio of PCP to Specialist Office Visits',
+                fdata: {
+                  type: 'bar chart',
+                  page: 'ACO',
+                  graphValues: [
+                    parseInt(data.LinesOfBusiness[this.lob].RatioPCPtoSpecOV.Target),
+                    data.LinesOfBusiness[this.lob].RatioPCPtoSpecOV.Actual
+                  ],
+                  color: ['#003DA1', '#FFFFFF', '#00B8CC'],
+                  gdata: ['bar-chart', 'ratiopcp']
+                },
+                timeperiod: 'Contract Year to Date'
+              };
+            }
+            if (data.LinesOfBusiness[this.lob].RxGenericCompliance.Actual !== 'N/A') {
+              rxGeneric = {
+                category: 'app-small-card',
+                type: 'donutWithLabel',
+                title: 'RX Generic Compliance',
+                data: {
+                  graphValues: [
+                    data.LinesOfBusiness[this.lob].RxGenericCompliance.Actual * 100,
+                    100 - data.LinesOfBusiness[this.lob].RxGenericCompliance.Actual * 100
+                  ],
+                  centerNumber: (data.LinesOfBusiness[this.lob].RxGenericCompliance.Actual * 100).toFixed(2) + '%',
+                  color: ['#3381FF', '#D7DCE1'],
+                  gdata: ['card-inner', 'claimsNonPaymentRate'],
+                  sdata: {
+                    label: 'MPT Not Defined'
+                  }
+                },
+                timeperiod: 'Contract Year to Date'
+              };
+            }
+            if (
+              data.LinesOfBusiness[this.lob].RxScriptsPerThousand.Actual !== 'N/A' &&
+              data.LinesOfBusiness[this.lob].RxScriptsPerThousand.Target !== 'N/A'
+            ) {
+              rxScripts = {
+                category: 'app-card',
+                type: 'barActualTargetNumbers',
+                title: 'Rx Script',
+                data: {
+                  actual: data.LinesOfBusiness[this.lob].RxScriptsPerThousand.Actual.toFixed(2),
+                  target: parseInt(data.LinesOfBusiness[this.lob].RxScriptsPerThousand.Target).toFixed(2)
+                },
+                timeperiod: 'Contract Year to Date'
+              };
+            }
+            if (
+              data.LinesOfBusiness[this.lob].AcuteAdmitsPerThousand.Actual !== 'N/A' &&
+              data.LinesOfBusiness[this.lob].AcuteAdmitsPerThousand.Target !== 'N/A'
+            ) {
+              acuteAdmits = {
+                category: 'app-card',
+                type: 'barActualTargetNumbers',
+                title: 'Acute Admits',
+                data: {
+                  actual: data.LinesOfBusiness[this.lob].AcuteAdmitsPerThousand.Actual.toFixed(2),
+                  target: parseInt(data.LinesOfBusiness[this.lob].AcuteAdmitsPerThousand.Target).toFixed(2)
+                },
+                timeperiod: 'Contract Year to Date'
+              };
+            }
+            if (
+              data.LinesOfBusiness[this.lob].NonParSpecialistReferrals.Actual !== 'N/A' &&
+              data.LinesOfBusiness[this.lob].NonParSpecialistReferrals.Target !== 'N/A'
+            ) {
+              nonParticipatingSpecialistReferrals = {
+                category: 'app-card',
+                type: 'barActualTargetPercentage',
+                title: 'Non-Participating Specialist Referrals',
+                data: {
+                  actual: data.LinesOfBusiness[this.lob].NonParSpecialistReferrals.Actual.toFixed(4),
+                  target: parseInt(data.LinesOfBusiness[this.lob].NonParSpecialistReferrals.Target).toFixed(4)
+                },
+                timeperiod: 'Contract Year to Date'
+              };
+            }
+            if (
+              data.LinesOfBusiness[this.lob].EmergencyVisitsPerThousand.Actual !== 'N/A' &&
+              data.LinesOfBusiness[this.lob].EmergencyVisitsPerThousand.Target !== 'N/A'
+            ) {
+              emergencyVisits = {
+                category: 'app-card',
+                type: 'barActualTargetNumbers',
+                title: 'Emergency Visits',
+                data: {
+                  actual: data.LinesOfBusiness[this.lob].EmergencyVisitsPerThousand.Actual.toFixed(2),
+                  target: parseInt(data.LinesOfBusiness[this.lob].EmergencyVisitsPerThousand.Target).toFixed(2)
+                },
+                timeperiod: 'Contract Year to Date'
+              };
+            }
+            if (
+              data.LinesOfBusiness[this.lob].AcuteBedDaysPerThousand.Actual !== 'N/A' &&
+              data.LinesOfBusiness[this.lob].AcuteBedDaysPerThousand.Target !== 'N/A'
+            ) {
+              acuteBedDays = {
+                category: 'app-card',
+                type: 'barActualTargetNumbers',
+                title: 'Acute Bed Days',
+                data: {
+                  actual: data.LinesOfBusiness[this.lob].AcuteBedDaysPerThousand.Actual.toFixed(2),
+                  target: parseInt(data.LinesOfBusiness[this.lob].AcuteBedDaysPerThousand.Target).toFixed(2)
+                },
+                timeperiod: 'Contract Year to Date'
+              };
+            }
           } else {
-            acoSummary = {
-              category: 'app-small-card',
-              type: 'textWithLabel',
-              title: 'ACO Summary',
-              data: {
-                centerNumber: this.common.nFormatter(data.LineOfBusiness[this.lob].ACOSummary),
-                labels: 'Attributed Members'
-              },
-              bottomData: {
-                labels: '4 of 5 Measures Meet Target',
-                color: '#21B01E'
-              }
-            };
-            ratioPCP = {
-              category: 'app-small-card',
-              type: 'bar',
-              title: 'Ratio of PCP to Specialist Office Visits',
-              fdata: {
-                type: 'bar chart',
-                graphValues: [
-                  data.LineOfBusiness[this.lob].ratioPCPtoSpecOV.Target,
-                  data.LineOfBusiness[this.lob].ratioPCPtoSpecOV.Actual
-                ],
-                color: ['#003DA1', '#FFFFFF', '#00B8CC'],
-                gdata: ['small-card-structure', 'ratiopcp']
-              }
-            };
-            rxGeneric = {
-              category: 'app-small-card',
-              type: 'donutWithLabel',
-              title: 'RX Generic Compliance',
-              data: {
-                graphValues: [
-                  data.LineOfBusiness[this.lob].RxGenericCompliance.Actual * 100,
-                  100 - data.LineOfBusiness[this.lob].RxGenericCompliance.Actual * 100
-                ],
-                centerNumber: (data.LineOfBusiness[this.lob].RxGenericCompliance.Actual * 100).toFixed(2) + '%',
-                color: ['#3381FF', '#D7DCE1'],
-                gdata: ['card-inner', 'claimsNonPaymentRate'],
-                sdata: {
-                  label: 'MPT Not Defined'
+            if (data.LinesOfBusiness[this.lob].AcoSummary !== 'N/A') {
+              if (
+                data.LinesOfBusiness[this.lob].RatioPCPtoSpecOV.Target !== 'N/A' &&
+                data.LinesOfBusiness[this.lob].RatioPCPtoSpecOV.Actual !== 'N/A'
+              ) {
+                if (
+                  parseInt(data.LinesOfBusiness[this.lob].RatioPCPtoSpecOV.Target) >=
+                  data.LinesOfBusiness[this.lob].RatioPCPtoSpecOV.Actual
+                ) {
+                  MPTData++;
                 }
               }
-            };
-            rxScripts = {
-              category: 'app-card',
-              type: 'barActualTargetNumbers',
-              title: 'Rx Script',
-              data: {
-                actual: data.LineOfBusiness[this.lob].RxScriptsPer1000.Actual.toFixed(2),
-                target: data.LineOfBusiness[this.lob].RxScriptsPer1000.Target.toFixed(2)
+              if (
+                data.LinesOfBusiness[this.lob].RxScriptsPerThousand.Actual !== 'N/A' &&
+                data.LinesOfBusiness[this.lob].RxScriptsPerThousand.Target !== 'N/A'
+              ) {
+                if (
+                  parseInt(data.LinesOfBusiness[this.lob].RxScriptsPerThousand.Target) >=
+                  data.LinesOfBusiness[this.lob].RxScriptsPerThousand.Actual
+                ) {
+                  MPTData++;
+                }
               }
-            };
-            acuteAdmits = {
-              category: 'app-card',
-              type: 'barActualTargetNumbers',
-              title: 'Acute Admits',
-              data: {
-                actual: data.LineOfBusiness[this.lob].acuteAdmitsPer1000.Actual.toFixed(2),
-                target: data.LineOfBusiness[this.lob].acuteAdmitsPer1000.Target.toFixed(2)
+              if (
+                data.LinesOfBusiness[this.lob].AcuteAdmitsPerThousand.Actual !== 'N/A' &&
+                data.LinesOfBusiness[this.lob].AcuteAdmitsPerThousand.Target !== 'N/A'
+              ) {
+                if (
+                  parseInt(data.LinesOfBusiness[this.lob].AcuteAdmitsPerThousand.Target) >=
+                  data.LinesOfBusiness[this.lob].AcuteAdmitsPerThousand.Actual
+                ) {
+                  MPTData++;
+                }
               }
-            };
-            nonParticipatingSpecialistReferrals = {
-              category: 'app-card',
-              type: 'barActualTargetPercentage',
-              title: 'Non-Participating Specialist Referrals',
-              data: {
-                actual: data.LineOfBusiness[this.lob].nonParSpecialistReferrals.Actual.toFixed(4),
-                target: data.LineOfBusiness[this.lob].nonParSpecialistReferrals.Target.toFixed(4)
+              if (
+                data.LinesOfBusiness[this.lob].NonParSpecialistReferrals.Actual !== 'N/A' &&
+                data.LinesOfBusiness[this.lob].NonParSpecialistReferrals.Target !== 'N/A'
+              ) {
+                if (
+                  parseInt(data.LinesOfBusiness[this.lob].NonParSpecialistReferrals.Target) >=
+                  data.LinesOfBusiness[this.lob].NonParSpecialistReferrals.Actual
+                ) {
+                  MPTData++;
+                }
               }
-            };
-            emergencyVisits = {
-              category: 'app-card',
-              type: 'barActualTargetNumbers',
-              title: 'Emergency Visits',
-              data: {
-                actual: data.LineOfBusiness[this.lob].emergencyVisitsPer1000.Actual.toFixed(2),
-                target: data.LineOfBusiness[this.lob].emergencyVisitsPer1000.Target.toFixed(2)
+              if (
+                data.LinesOfBusiness[this.lob].EmergencyVisitsPerThousand.Actual !== 'N/A' &&
+                data.LinesOfBusiness[this.lob].EmergencyVisitsPerThousand.Target !== 'N/A'
+              ) {
+                if (
+                  parseInt(data.LinesOfBusiness[this.lob].EmergencyVisitsPerThousand.Target) >=
+                  data.LinesOfBusiness[this.lob].EmergencyVisitsPerThousand.Actual
+                ) {
+                  MPTData++;
+                }
               }
-            };
-            acuteBedDays = {
-              category: 'app-card',
-              type: 'barActualTargetNumbers',
-              title: 'Acute Bed Days',
-              data: {
-                actual: data.LineOfBusiness[this.lob].acuteBedDaysPer1000.Actual.toFixed(2),
-                target: data.LineOfBusiness[this.lob].acuteBedDaysPer1000.Target.toFixed(2)
+              if (
+                data.LinesOfBusiness[this.lob].AcuteBedDaysPerThousand.Actual !== 'N/A' &&
+                data.LinesOfBusiness[this.lob].AcuteBedDaysPerThousand.Target !== 'N/A'
+              ) {
+                if (
+                  parseInt(data.LinesOfBusiness[this.lob].AcuteBedDaysPerThousand.Target) >=
+                  data.LinesOfBusiness[this.lob].AcuteBedDaysPerThousand.Actual
+                ) {
+                  MPTData++;
+                }
               }
-            };
+              acoSummary = {
+                category: 'app-small-card',
+                type: 'textWithLabel',
+                title: 'ACO Summary',
+                data: {
+                  centerNumber: this.common.nFormatter(data.LinesOfBusiness[this.lob].AcoSummary),
+                  labels: 'Attributed Members'
+                },
+                bottomData: {
+                  labels: MPTData + ' of 5 Measures Meet Target',
+                  color: '#21B01E'
+                }
+              };
+            }
+            if (
+              data.LinesOfBusiness[this.lob].RatioPCPtoSpecOV.Target !== 'N/A' &&
+              data.LinesOfBusiness[this.lob].RatioPCPtoSpecOV.Actual !== 'N/A'
+            ) {
+              ratioPCP = {
+                category: 'app-small-card',
+                type: 'bar',
+                title: 'Ratio of PCP to Specialist Office Visits',
+                fdata: {
+                  type: 'bar chart',
+                  graphValues: [
+                    parseInt(data.LinesOfBusiness[this.lob].RatioPCPtoSpecOV.Target),
+                    data.LinesOfBusiness[this.lob].RatioPCPtoSpecOV.Actual
+                  ],
+                  color: ['#003DA1', '#FFFFFF', '#00B8CC'],
+                  gdata: ['small-card-structure', 'ratiopcp']
+                }
+              };
+            }
+            if (data.LinesOfBusiness[this.lob].RxGenericCompliance.Actual !== 'N/A') {
+              rxGeneric = {
+                category: 'app-small-card',
+                type: 'donutWithLabel',
+                title: 'RX Generic Compliance',
+                data: {
+                  graphValues: [
+                    data.LinesOfBusiness[this.lob].RxGenericCompliance.Actual * 100,
+                    100 - data.LinesOfBusiness[this.lob].RxGenericCompliance.Actual * 100
+                  ],
+                  centerNumber: (data.LinesOfBusiness[this.lob].RxGenericCompliance.Actual * 100).toFixed(2) + '%',
+                  color: ['#3381FF', '#D7DCE1'],
+                  gdata: ['card-inner', 'claimsNonPaymentRate'],
+                  sdata: {
+                    label: 'MPT Not Defined'
+                  }
+                }
+              };
+            }
+            if (
+              data.LinesOfBusiness[this.lob].RxScriptsPerThousand.Actual !== 'N/A' &&
+              data.LinesOfBusiness[this.lob].RxScriptsPerThousand.Target !== 'N/A'
+            ) {
+              rxScripts = {
+                category: 'app-card',
+                type: 'barActualTargetNumbers',
+                title: 'Rx Script',
+                data: {
+                  actual: data.LinesOfBusiness[this.lob].RxScriptsPerThousand.Actual.toFixed(2),
+                  target: parseInt(data.LinesOfBusiness[this.lob].RxScriptsPerThousand.Target).toFixed(2)
+                }
+              };
+            }
+            if (
+              data.LinesOfBusiness[this.lob].AcuteAdmitsPerThousand.Actual !== 'N/A' &&
+              data.LinesOfBusiness[this.lob].AcuteAdmitsPerThousand.Target !== 'N/A'
+            ) {
+              acuteAdmits = {
+                category: 'app-card',
+                type: 'barActualTargetNumbers',
+                title: 'Acute Admits',
+                data: {
+                  actual: data.LinesOfBusiness[this.lob].AcuteAdmitsPerThousand.Actual.toFixed(2),
+                  target: parseInt(data.LinesOfBusiness[this.lob].AcuteAdmitsPerThousand.Target).toFixed(2)
+                }
+              };
+            }
+            if (
+              data.LinesOfBusiness[this.lob].NonParSpecialistReferrals.Actual !== 'N/A' &&
+              data.LinesOfBusiness[this.lob].NonParSpecialistReferrals.Target !== 'N/A'
+            ) {
+              nonParticipatingSpecialistReferrals = {
+                category: 'app-card',
+                type: 'barActualTargetPercentage',
+                title: 'Non-Participating Specialist Referrals',
+                data: {
+                  actual: data.LinesOfBusiness[this.lob].NonParSpecialistReferrals.Actual.toFixed(4),
+                  target: parseInt(data.LinesOfBusiness[this.lob].NonParSpecialistReferrals.Target).toFixed(4)
+                }
+              };
+            }
+            if (
+              data.LinesOfBusiness[this.lob].EmergencyVisitsPerThousand.Actual !== 'N/A' &&
+              data.LinesOfBusiness[this.lob].EmergencyVisitsPerThousand.Target !== 'N/A'
+            ) {
+              emergencyVisits = {
+                category: 'app-card',
+                type: 'barActualTargetNumbers',
+                title: 'Emergency Visits',
+                data: {
+                  actual: data.LinesOfBusiness[this.lob].EmergencyVisitsPerThousand.Actual.toFixed(2),
+                  target: parseInt(data.LinesOfBusiness[this.lob].EmergencyVisitsPerThousand.Target).toFixed(2)
+                }
+              };
+            }
+            if (
+              data.LinesOfBusiness[this.lob].AcuteBedDaysPerThousand.Actual !== 'N/A' &&
+              data.LinesOfBusiness[this.lob].AcuteBedDaysPerThousand.Target !== 'N/A'
+            ) {
+              acuteBedDays = {
+                category: 'app-card',
+                type: 'barActualTargetNumbers',
+                title: 'Acute Bed Days',
+                data: {
+                  actual: data.LinesOfBusiness[this.lob].AcuteBedDaysPerThousand.Actual.toFixed(2),
+                  target: parseInt(data.LinesOfBusiness[this.lob].AcuteBedDaysPerThousand.Target).toFixed(2)
+                }
+              };
+            }
           }
         }
+
         acoPageKeyPerformance = [
           acuteAdmits,
           acuteBedDays,
@@ -235,7 +441,13 @@ export class AcoSharedService {
           rxScripts
         ];
         acoPageMainCard = [acoSummary, ratioPCP, rxGeneric];
-        acoPage = [acoPageMainCard, acoPageKeyPerformance];
+        acoPage = [
+          acoPageMainCard,
+          acoPageKeyPerformance,
+          contractSTRPeriod,
+          contractENDPeriod,
+          data.ReportMeasureQuarter
+        ];
         resolve(acoPage);
       });
     });

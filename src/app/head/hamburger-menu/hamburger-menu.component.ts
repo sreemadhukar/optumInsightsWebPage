@@ -72,6 +72,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
   public isKop: boolean;
   disableChangeProvider: boolean = environment.internalAccess;
   public checkAdv;
+  public AcoName;
   public checkPro;
   public checkExecutive;
   /*** Array of Navigation Category List ***/
@@ -156,10 +157,12 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     if (this.checkAdv.value) {
       this.navCategories = this.navCategories.filter(item => item.name !== 'Summary Trends');
     }
+
     // to disable the header/footer/body when not authenticated
     router.events.subscribe(event => {
       if (event instanceof NavigationStart) {
         this.healthSystemName = this.sessionService.getHealthCareOrgName();
+        this.AcoName = this.sessionService.getACOName();
         this.makeAbsolute = !(
           authService.isLoggedIn() &&
           !(
