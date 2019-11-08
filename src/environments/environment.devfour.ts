@@ -5,7 +5,7 @@
  * MAINTAIN ALPHABETIC ORDER
  */
 export const environment: any = {
-  apiProxyUrl: 'https://gateway-stage-core.optum.com/api/int/pdr/uhci/v1/',
+  apiProxyUrl: 'https://gateway-stage-core.optum.com/api/devfour/pdr/uhci/v1/',
   originUrl: '/',
   apiUrls: {
     ExecutiveSummaryPath: 'providersystems/',
@@ -50,7 +50,7 @@ export const environment: any = {
     selectedRole: '',
     token: ''
   },
-  production: true,
+  production: false,
   staging: true,
   sessionTimeOutKey: '',
   sessionTimeOutWarningKey: '',
