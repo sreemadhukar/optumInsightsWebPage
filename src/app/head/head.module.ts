@@ -15,6 +15,7 @@ import { TermsOfUseComponent } from './terms-of-use/terms-of-use.component';
 import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component';
 import { SiteMapComponent } from './site-map/site-map.component';
 import { CustomPreloadingStrategy } from './custom-preloading';
+import { TinListPageComponent } from './tin-list-page/tin-list-page.component';
 import { UhciFiltersComponent } from './uhci-filters/uhci-filters.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { KOPSharedService } from '../shared/kop/kop.service';
@@ -38,6 +39,7 @@ import { KopService } from '../rest/kop/kop.service';
     TermsOfUseComponent,
     PrivacyPolicyComponent,
     SiteMapComponent,
+    TinListPageComponent,
     UhciFiltersComponent
   ],
   providers: [

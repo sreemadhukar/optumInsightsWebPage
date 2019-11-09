@@ -42,6 +42,7 @@
         font-size: 36px;
         @include padding(16px, 0, 20px, 0);
         color: $black-rock;
+        font-family: 'UHCSans-Regular', Helvetica, Arial, sans-serif;
       }
     }
     .health-system {
@@ -50,7 +51,7 @@
       }
       &-details {
         margin: 16px 20px;
-        max-width: 200px;
+        max-width: 220px;
       }
       &-tins,
       &-regions,

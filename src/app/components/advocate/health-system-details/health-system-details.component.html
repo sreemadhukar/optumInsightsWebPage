@@ -7,7 +7,7 @@
       </div>
     </div>
     <div class="health-system-details-block" *ngIf="healthSystemData">
-      <div class="health-system-details">
+      <div class="health-system-details" *ngIf="healthSystemData.All">
         <div class="health-system-tins">
           TINs:
         </div>
@@ -15,28 +15,30 @@
           {{ healthSystemData.All.length }}
         </div>
       </div>
-      <div class="health-system-details">
+      <div class="health-system-details" *ngIf="healthSystemData.RegionName">
         <div class="health-system-regions">
           Region(s):
         </div>
         <div class="health-system-regions-value">
-          {{ healthSystemData.RegionName }}
+          {{ healthSystemData.RegionName | titlecase }}
         </div>
       </div>
-      <div class="health-system-details">
+      <div class="health-system-details" *ngIf="healthSystemData.MajorMarketName">
         <div class="health-system-markets">
           Market(s):
         </div>
         <div class="health-system-markets-value">
-          {{ healthSystemData.MajorMarketName }}
+          {{ healthSystemData.MajorMarketName | titlecase }}
         </div>
       </div>
-      <div class="health-system-details">
+      <div class="health-system-details" *ngIf="healthSystemData.TinTypes">
         <div class="health-system-tin-types">
           TIN types:
         </div>
         <div class="health-system-tin-types-value">
-          {{ healthSystemData.TinTypes }}
+          <span *ngFor="let tin of healthSystemData.TinTypes; let isLast = last"
+            >{{ tin | titlecase }}{{ isLast ? '' : ', ' }}</span
+          >
         </div>
       </div>
     </div>

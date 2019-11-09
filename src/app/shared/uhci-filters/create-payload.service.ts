@@ -35,7 +35,8 @@ export class CreatePayloadService {
   constructor() {
     this.currentPage.subscribe(value => {
       this.initialState.currentPage = value;
-      this.changePayloadOnInit(this.initialState.currentPage);
+      // this.initialState = this.getPayloadForGettingReimbursed(this.initialState);
+      this.changePayloadOnInit(this.getPayloadForGettingReimbursed(this.initialState));
     });
     this.timePeriod.subscribe(value => {
       this.initialState.timePeriod = value;
@@ -117,6 +118,28 @@ export class CreatePayloadService {
     return this.payloadEmit.asObservable();
   }
 
+  getPayloadForGettingReimbursed(temporaryState) {
+    if (
+      temporaryState.currentPage === 'paymentsPage' ||
+      temporaryState.currentPage === 'nonPaymentsPage' ||
+      temporaryState.currentPage === 'gettingReimbursedSummary'
+    ) {
+      if (
+        temporaryState.timePeriod === 'Last12Months' ||
+        temporaryState.timePeriod === '2018' ||
+        temporaryState.timePeriod === '2017'
+      ) {
+        temporaryState.timePeriod = 'Last6Months';
+      }
+    } else {
+      const serializedState = JSON.parse(sessionStorage.getItem('state'));
+      if (serializedState && serializedState.timePeriod) {
+        temporaryState.timePeriod = serializedState.timePeriod;
+      }
+    }
+    return temporaryState.currentPage;
+  }
+
   getPayloadForPriorAuth(payload) {
     const data = _.omit(payload, ['trendMetric', 'trendDate', 'currentPage']);
     return this.createTaxIdArrayForPA(data);
@@ -161,7 +184,7 @@ export class CreatePayloadService {
 
   createTaxIdString(data) {
     if (!_.isUndefined(data)) {
-      if (data.taxId[0].Tin !== 'All') {
+      if (data.taxId[0]['Tin'] !== 'All') {
         let string = '';
         data.taxId.forEach((taxId, index) => {
           string += taxId.Tin.replace('-', '') + (index !== data.taxId.length - 1 ? ',' : '');
