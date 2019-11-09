@@ -28,7 +28,7 @@
           Market(s):
         </div>
         <div class="health-system-markets-value">
-          {{ healthSystemData.MajorMarketName | titlecase }}
+          {{ healthSystemData.MajorMarketName | countryFormatter }}
         </div>
       </div>
       <div class="health-system-details" *ngIf="healthSystemData.TinTypes">
