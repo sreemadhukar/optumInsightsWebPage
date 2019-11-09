@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HealthSystemDetailsSharedService } from '../../../shared/advocate/health-system-details-shared.service';
+import { StorageService } from '../../../shared/storage-service.service';
 
 @Component({
   selector: 'app-health-system-details',
@@ -9,8 +10,11 @@ import { HealthSystemDetailsSharedService } from '../../../shared/advocate/healt
 export class HealthSystemDetailsComponent implements OnInit {
   dataLoading: boolean;
   healthSystemData: any;
+  subscription: any;
 
-  constructor(private healthSystemService: HealthSystemDetailsSharedService) {}
+  constructor(private healthSystemService: HealthSystemDetailsSharedService, private checkStorage: StorageService) {
+    this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.ngOnInit());
+  }
 
   ngOnInit() {
     this.getHealthSystemDetails();
