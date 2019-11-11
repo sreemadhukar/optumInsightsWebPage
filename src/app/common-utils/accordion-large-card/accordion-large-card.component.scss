@@ -96,8 +96,11 @@ height: 45px; */
   // margin-left: 16px;
 }
 .bar-graphs-nohover {
-  padding: 0 8px 8px 30px;
+  padding: 0 8px 8px 0;
   float: left;
+  cursor: pointer;
+  background: rgb(255, 255, 255);
+  width: 978px;
   pointer-events: none;
 }
 .accor-hover:hover {
