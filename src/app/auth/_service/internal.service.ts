@@ -37,7 +37,8 @@ export class InternalService {
               this.tempUser = user;
               this.sso = [];
               this.sso.push({
-                PedAccessToken: this.tempUser.PedAccessToken
+                PedAccessToken: this.tempUser.PedAccessToken,
+                RefreshToken: this.tempUser.RefreshToken
               });
               sessionStorage.setItem('currentUser', JSON.stringify(this.sso));
               sessionStorage.setItem('loggedUser', JSON.stringify(user));
