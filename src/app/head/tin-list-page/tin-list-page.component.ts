@@ -4,6 +4,7 @@ import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
+import * as d3 from 'd3';
 
 @Component({
   selector: 'app-tin-list-page',
@@ -47,5 +48,30 @@ export class TinListPageComponent implements OnInit {
 
   ngOnInit() {
     this.providerName = this.session.getHealthCareOrgName();
+    this.tooltip();
+  }
+  tooltip() {
+    d3.select('#tooltip-info')
+      .style('position', 'absolute')
+      .style('width', '230px')
+      .style('height', '100px')
+      .style('background-color', 'white')
+      .style('border-radius', '2px')
+      .style('display', 'none');
+
+    d3.select('#tooltip-info-div').on('mouseenter', function(d) {
+      d3.select('#tooltip-info-div').on('mouseover', function(e) {
+        d3.select('#tooltip-info')
+          .style('display', 'inline')
+          .style('left', d3.event.layerX + 13 + 'px')
+          .style('top', d3.event.layerY - 35 + 'px');
+      });
+    });
+    d3.select('#tooltip-info-div').on('mouseleave', function(d) {
+      d3.select('#tooltip-info')
+        .style('display', 'none')
+        .style('left', d3.event.layerX + 13 + 'px')
+        .style('top', d3.event.layerY - 35 + 'px');
+    });
   }
 }

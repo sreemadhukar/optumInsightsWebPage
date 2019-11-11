@@ -10,7 +10,18 @@
     <div class="tin-list-sub-head-tin-number-div">
       Tax IDs:
       <div class="tin-list-sub-head-tin-number">{{ numberOfTins }}</div>
-      <mat-icon class="nav-menu-icons nav-menu-icons-info" svgIcon="info"></mat-icon>
+      <mat-icon
+        class="tooltip-info-div"
+        id="tooltip-info-div"
+        class="nav-menu-icons nav-menu-icons-info"
+        svgIcon="info"
+      ></mat-icon>
+      <div class="tooltip-info" id="tooltip-info">
+        <div class="tooltip-info-head">Owned Tax IDs</div>
+        <div class="tooltip-info-text">
+          This number represents the number of TINs owned by this entity. Affiliated TINs are excluded.
+        </div>
+      </div>
     </div>
   </div>
   <div class="tin-list-body">

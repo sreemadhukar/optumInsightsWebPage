@@ -60,6 +60,27 @@
   border-bottom: 1px solid #e0e0e0;
 }
 
+.tooltip-info {
+  .tooltip-info-head {
+    color: #2d2d39;
+    font-family: 'UHCSans-SemiBold';
+    font-size: 14px;
+    letter-spacing: 0.2px;
+    line-height: 18px;
+    padding-top: 12px;
+    padding-left: 12px;
+  }
+  .tooltip-info-text {
+    color: #757588;
+    font-family: 'UHCSans-Regular';
+    font-size: 14px;
+    letter-spacing: 0.2px;
+    line-height: 18px;
+    padding-top: 2px;
+    padding-left: 12px;
+  }
+}
+
 .tin-list-body {
   margin-top: 24px;
   .tin-list-body-head {
@@ -134,7 +155,7 @@
     .tin-list-body-table-div-body {
       margin-bottom: 64px;
       .tin-list-body-table-div-body-tinname-cell {
-        padding-left: 34px;
+        padding-left: 40px;
       }
       .tin-list-body-table-div-body-tin-cell {
         padding-left: 18px;
