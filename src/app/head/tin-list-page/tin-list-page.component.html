@@ -10,6 +10,18 @@
     <div class="tin-list-sub-head-tin-number-div">
       Tax IDs:
       <div class="tin-list-sub-head-tin-number">{{ numberOfTins }}</div>
+      <mat-icon
+        class="tooltip-info-div"
+        id="tooltip-info-div"
+        class="nav-menu-icons nav-menu-icons-info"
+        svgIcon="info"
+      ></mat-icon>
+      <div class="tooltip-info" id="tooltip-info">
+        <div class="tooltip-info-head">Owned Tax IDs</div>
+        <div class="tooltip-info-text">
+          This number represents the number of TINs owned by this entity. Affiliated TINs are excluded.
+        </div>
+      </div>
     </div>
   </div>
   <div class="tin-list-body">
@@ -51,12 +63,16 @@
           <table mat-table [dataSource]="selectedtins">
             <ng-container matColumnDef="Tin">
               <mat-header-cell *matHeaderCellDef> No. </mat-header-cell>
-              <mat-cell *matCellDef="let element"> {{ element.Tin }} </mat-cell>
+              <mat-cell class="tin-list-body-table-div-body-tin-cell" *matCellDef="let element">
+                {{ element.Tin }}
+              </mat-cell>
             </ng-container>
 
             <ng-container matColumnDef="Tinname">
               <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
-              <mat-cell *matCellDef="let element"> {{ element.Tinname }} </mat-cell>
+              <mat-cell class="tin-list-body-table-div-body-tinname-cell" *matCellDef="let element">
+                {{ element.Tinname }}
+              </mat-cell>
             </ng-container>
             <mat-row *matRowDef="let row; columns: tinsDisplayedColumns"></mat-row>
           </table>
