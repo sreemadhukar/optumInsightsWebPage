@@ -146,7 +146,6 @@ export class PcorSharedService {
 
             const PCORCards = [MandRAvgStarRatingCard, MandRACVCard, MandRStarRatingCard];
             resolve(PCORCards);
-            console.log('PCOR cards', PCORCards);
           } else {
             resolve(null);
           }
