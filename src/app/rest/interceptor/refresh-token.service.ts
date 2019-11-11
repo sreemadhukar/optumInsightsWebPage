@@ -11,16 +11,18 @@ export class RefreshTokenService {
   private Refresh_Token_Path: string = environment.apiUrls.RefreshToken;
   constructor(private http: HttpClient) {}
 
-  public getRefreshToken() {
+  public getRefreshToken(sub) {
     const url = this.APP_URL + this.Refresh_Token_Path;
-    const params = new HttpParams();
     const currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
     const RefreshToken = currentUser[0].RefreshToken;
     const myHeader = new HttpHeaders({
       Authorization: 'Bearer ' + RefreshToken,
       Accept: '*/*'
     });
-    return this.http.post(url, '', { headers: myHeader });
+    const tParams = {
+      sub: sub
+    };
+    return this.http.post(url, tParams, { headers: myHeader });
     // .pipe(map(ssoTokenData => {
     //   // return ssoTokenData;
     //   console.log('REFRESH TOKEN DATA');

@@ -30,15 +30,16 @@ export class HttpInterceptorService implements HttpInterceptor {
         this.emitter.emit(false);
         return next.handle(request);
       }
-      if (!this.isTokenExpired(request)) {
+      const tokenExpiry = this.isTokenExpired(request);
+      if (!tokenExpiry.date) {
         this.emitter.emit(false);
         return this.getRequestWithAuthentication(request, next);
-      } else if (this.isTokenExpired(request) && !this.refreshtoken) {
+      } else if (tokenExpiry.date && !this.refreshtoken) {
         this.emitter.emit(true);
         console.log('API token expired');
 
         // API call to get new refresh token & save in session
-        this.refreshtokenservice.getRefreshToken().subscribe((resp: any) => {
+        this.refreshtokenservice.getRefreshToken(tokenExpiry.sub).subscribe((resp: any) => {
           const providerData = JSON.parse(sessionStorage.getItem('currentUser'));
           const provider = providerData[0];
           if (providerData[0].hasOwnProperty('ProviderKey')) {
@@ -71,7 +72,7 @@ export class HttpInterceptorService implements HttpInterceptor {
     return next.handle(request);
   }
 
-  private isTokenExpired(request: HttpRequest<any>): boolean {
+  private isTokenExpired(request: HttpRequest<any>) {
     const currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
     let token = '';
     if (currentUser && request.url.indexOf(environment.originUrl + 'api/getHeac') === -1) {
@@ -82,22 +83,25 @@ export class HttpInterceptorService implements HttpInterceptor {
     }
 
     if (token) {
-      const date = this.getTokenExpirationDate(token);
-      if (date === undefined) {
-        return false;
+      const data = this.getTokenExpirationDate(token);
+      if (data.date === undefined) {
+        return { date: false, sub: data.sub };
       }
-      return !(date.valueOf() > new Date().valueOf());
+      const result = !(data.date.valueOf() > new Date().valueOf());
+      return { date: result, sub: data.sub };
     }
-    return false;
+    return { date: false, sub: null };
   }
 
-  private getTokenExpirationDate(token: string): Date {
+  private getTokenExpirationDate(token: string) {
     const decoded = jwt_decode(token);
-    if (decoded.exp === undefined) {
-      return null;
+    console.log(decoded);
+    if (decoded.exp === undefined || decoded.exp === null) {
+      const result = { date: null, sub: decoded.sub };
+      return result;
     }
     const date = new Date(0);
     date.setUTCSeconds(decoded.exp);
-    return date;
+    return { date: date, sub: decoded.sub };
   }
 }
