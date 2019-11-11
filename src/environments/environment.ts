@@ -55,7 +55,8 @@ export const environment: any = {
     AdminSummaryTrends: 'admintrends/',
     AppealsFHIR: 'appeals/v2.0/',
     AppealsOverturn: 'appeal-overturn-reasons/',
-    AdminSummaryTrendsCount: 'admintrendscount/'
+    AdminSummaryTrendsCount: 'admintrendscount/',
+    HealthSystemDetails: 'providerInfo/'
   },
   headerKeys: {
     selectedCompany: '',
