@@ -4,7 +4,40 @@
       <app-breadcrumbs></app-breadcrumbs>
       <div class="page-title">
         {{ pageTitle }}
+        <div class="sub-title">
+          {{ subTitle }}
+        </div>
       </div>
+      <div class="breadcrumb-top-padding">
+        <!-- <app-filters-applied></app-filters-applied> -->
+        <div class="container--tabs">
+          <section class="row">
+            <ul class="nav nav-tabs">
+              <li
+                *ngFor="let item of tabOptions; let i = index"
+                (click)="matOptionClicked(i, $event)"
+                [ngClass]="{ active: previousSelectedTab === i }"
+                attr.id="{{ item.title }}"
+              >
+                <span>
+                  {{ item.title }}
+                  <div class="nav-values">
+                    {{ item.value1 }}
+                    <!--<span
+                      *ngIf="item.sdata != null"
+                      class="metrics"
+                      [ngClass]="item.sdata.sign === 'up' ? 'upgreen' : 'downred'"
+                    >
+                      {{ item.sdata.value }}
+                    </span>-->
+                  </div>
+                </span>
+              </li>
+            </ul>
+          </section>
+        </div>
+      </div>
+
       <!--<app-mock-data-warning-message class="warning-block"></app-mock-data-warning-message>-->
       <!--<div class="breadcrumb-top-padding filter-div" *ngIf="false">-->
       <!--<div class="time&#45;&#45;period ">-->
@@ -44,6 +77,9 @@
       <!--</div>-->
 
       <div class="height1Separator"></div>
+      <div class="pi-cards">
+        <app-card [chartData]="currentSummary" class="cards"></app-card>
+      </div>
       <app-large-card [skeletonLarge]="loading" *ngIf="loading"></app-large-card>
       <app-error-card
         *ngIf="!loading && !piDataloaded && cardData != null && cardData.status != null"
