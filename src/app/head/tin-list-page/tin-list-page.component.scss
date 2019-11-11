@@ -18,6 +18,12 @@
   width: 40px;
 }
 
+.nav-menu-icons-info {
+  height: 16px;
+  width: 16px;
+  padding-left: 4px;
+}
+
 .tin-list-head {
   display: flex;
   flex-wrap: wrap;
@@ -49,6 +55,7 @@
   .tin-list-sub-head-tin-number {
     font-family: 'UHCSans-SemiBold';
   }
+  padding-top: 5px;
   padding-bottom: 23px;
   border-bottom: 1px solid #e0e0e0;
 }
@@ -126,6 +133,12 @@
     }
     .tin-list-body-table-div-body {
       margin-bottom: 64px;
+      .tin-list-body-table-div-body-tinname-cell {
+        padding-left: 34px;
+      }
+      .tin-list-body-table-div-body-tin-cell {
+        padding-left: 18px;
+      }
     }
   }
 }

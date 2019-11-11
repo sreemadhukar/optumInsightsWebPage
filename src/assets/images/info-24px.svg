@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="14px" height="14px" viewBox="0 0 14 14" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 59.1 (86144) - https://sketch.com -->
+    <title>info-24px</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Visual-Comps-Workflows" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="External_TIN-Details_Tooltip" transform="translate(-371.000000, -212.000000)">
+            <g id="info-24px" transform="translate(370.000000, 211.000000)">
+                <polygon id="Path" points="0 0 16 0 16 16 0 16"></polygon>
+                <path d="M8,1.33333333 C4.32,1.33333333 1.33333333,4.32 1.33333333,8 C1.33333333,11.68 4.32,14.6666667 8,14.6666667 C11.68,14.6666667 14.6666667,11.68 14.6666667,8 C14.6666667,4.32 11.68,1.33333333 8,1.33333333 Z M8,11.3333333 C7.63333333,11.3333333 7.33333333,11.0333333 7.33333333,10.6666667 L7.33333333,8 C7.33333333,7.63333333 7.63333333,7.33333333 8,7.33333333 C8.36666667,7.33333333 8.66666667,7.63333333 8.66666667,8 L8.66666667,10.6666667 C8.66666667,11.0333333 8.36666667,11.3333333 8,11.3333333 Z M8.66666667,6 L7.33333333,6 L7.33333333,4.66666667 L8.66666667,4.66666667 L8.66666667,6 Z" id="Shape" fill="#196ECF" fill-rule="nonzero"></path>
+            </g>
+        </g>
+    </g>
+</svg>
