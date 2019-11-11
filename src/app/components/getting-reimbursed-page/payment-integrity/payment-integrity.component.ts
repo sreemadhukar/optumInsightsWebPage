@@ -19,6 +19,7 @@ import { IAppState } from '../../../store/store';
 })
 export class PaymentIntegrityComponent implements OnInit {
   pageTitle: String = '';
+  subTitle: String = '';
   currentTabTitle: String = '';
   timePeriod: string;
   lob: string;
@@ -39,6 +40,11 @@ export class PaymentIntegrityComponent implements OnInit {
   smartEditsInformationalTitle = 'Smart Edits Top Informational Reasons';
   showSmartEditsRepairedandResubmitted = false;
   showSmartEditsTopInfoReason = false;
+  tabOptions: Array<Object> = [];
+  tabOptionsTitle: Array<String> = [];
+  currentSummary: Array<Object> = [{}];
+  summaryItems: any;
+  previousSelectedTab: any = 1;
 
   constructor(
     private glossaryExpandService: GlossaryExpandService,
@@ -70,11 +76,73 @@ export class PaymentIntegrityComponent implements OnInit {
       'close',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-close-24px.svg')
     );
-    this.pageTitle = 'Claims Payment Integrity*';
+    this.pageTitle = 'Medical Records Coding Review';
+    this.tabOptionsTitle = ['Jul 1, 2018-Jun 30, 2019', 'Jul 1, 2019-Jun 30, 2020'];
+    this.subTitle = 'Note: Claims Metrics are calculated using date medical record requested';
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.filtermatch.urlResuseStrategy());
   }
-
+  matOptionClicked(i: number, event: any) {
+    this.currentSummary = [];
+    this.currentSummary = this.summaryItems[i].data;
+    this.currentTabTitle = this.summaryItems[i].title;
+    const myTabs = document.querySelectorAll('ul.nav-tabs > li');
+    for (let j = 0; j < myTabs.length; j++) {
+      myTabs[j].classList.remove('active');
+    }
+    myTabs[i].classList.add('active');
+    this.previousSelectedTab = i;
+  }
   ngOnInit() {
+    this.tabOptions = [];
+    let temp;
+    temp = [
+      {
+        id: 0,
+        title: this.getTabOptionsTitle(0),
+        value1: '',
+        sdata: null
+      },
+      {
+        id: 1,
+        title: this.getTabOptionsTitle(1),
+        value1: 'Claims Processed through Oct 31, 2020',
+        sdata: null
+      }
+    ];
+    this.tabOptions = temp;
+    this.summaryItems = [
+      {
+        category: 'app-card',
+        type: 'donutWithSideBottomLabel',
+        title: 'Medical Records Requested by UHC',
+        MetricID: '',
+        data: {
+          graphValues: [1100, 22000],
+          centerNumber: '5%',
+          centerData: 'of Claims Submitted',
+          color: ['#3381FF', '#D7DCE1'],
+          gdata: ['card-inner', 'totalClaimsSubmitted'],
+          sdata: {
+            sign: 'down-green',
+            data: '-1.2%*'
+          },
+          labels: ['Records Requested', 'Claims Submitted'],
+          hover: true
+        },
+        besideData: {
+          labels: ['Medical Records Requested', 'Claims Submitted'],
+          color: ['#3381FF', '#D7DCE1']
+        },
+        bottomData: {
+          horizontalData: [
+            {
+              labels: '*Positive/negative trend comparision is Jun 2019 vs. Jul 2019'
+            }
+          ]
+        }
+      }
+    ];
+    this.currentSummary = this.summaryItems[0];
     this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'paymentIntegrityPage' });
     this.timePeriod = this.session.filterObjValue.timeFrame;
     if (this.session.filterObjValue.lob !== 'All') {
@@ -96,9 +164,9 @@ export class PaymentIntegrityComponent implements OnInit {
       .getPaymentIntegrityData()
       .then(r => {
         this.loading = false;
-        const temp = JSON.parse(JSON.stringify(r));
-        if (temp && temp.hasOwnProperty('status') && temp.status) {
-          this.cardData = temp;
+        const temp1 = JSON.parse(JSON.stringify(r));
+        if (temp1 && temp1.hasOwnProperty('status') && temp1.status) {
+          this.cardData = temp1;
         } else {
           if (r != null) {
             this.cardData = r;
@@ -178,6 +246,10 @@ export class PaymentIntegrityComponent implements OnInit {
       });
     }
     // **** Smart Edits Top Informational Reasons starts here****//
+  }
+
+  getTabOptionsTitle(i: number) {
+    return this.tabOptionsTitle[i];
   }
 
   helpIconClick(title) {
