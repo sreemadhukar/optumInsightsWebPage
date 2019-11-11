@@ -135,11 +135,9 @@
                       <span class="measure-content">{{ listitem.Description }}</span>
                       <br *ngIf="listitem.DescriptionTwo || listitem.DescriptionBulletPoints" />
                       <br *ngIf="listitem.DescriptionTwo || listitem.DescriptionBulletPoints" />
-                      <span class="measure-content-two" *ngIf="listitem.DescriptionTwo">{{
-                        listitem.DescriptionTwo
-                      }}</span>
+                      <span class="measure-content" *ngIf="listitem.DescriptionTwo">{{ listitem.DescriptionTwo }}</span>
                       <div *ngIf="listitem.DescriptionBulletPoints">
-                        <span *ngFor="let item of listitem.DescriptionBulletPoints" class="measure-content-two"
+                        <span *ngFor="let item of listitem.DescriptionBulletPoints" class="measure-content"
                           >{{ item }}<br
                         /></span>
                       </div>
