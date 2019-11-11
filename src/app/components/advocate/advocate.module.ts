@@ -10,14 +10,17 @@ import { TopRowAdvOverviewSharedService } from '../../shared/advocate/top-row-ad
 import { NonPaymentSharedService } from '../../shared/getting-reimbursed/non-payments/non-payment-shared.service';
 import { OverviewAdvocateSharedService } from '../../shared/advocate/overview-advocate-shared.service';
 import { LargeCardAdvocateComponent } from './large-card-advocate/large-card-advocate.component';
+import { HealthSystemDetailsComponent } from './health-system-details/health-system-details.component';
+import { PipesModule } from '../../pipes/pipes.module';
 
 @NgModule({
-  imports: [CommonModule, AdvocateRoutingModule, CommonUtilsModule, HeadMaterialModule],
+  imports: [CommonModule, AdvocateRoutingModule, CommonUtilsModule, HeadMaterialModule, PipesModule],
   declarations: [
     OverviewAdvocateComponent,
     TopRowAdvOverviewComponent,
     FilterAdvocateComponent,
-    LargeCardAdvocateComponent
+    LargeCardAdvocateComponent,
+    HealthSystemDetailsComponent
   ],
   providers: [TopRowAdvOverviewSharedService, NonPaymentSharedService, OverviewAdvocateSharedService]
 })

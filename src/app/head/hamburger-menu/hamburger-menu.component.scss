@@ -6,7 +6,6 @@
 @import '~src/scss/variables.scss';
 @import '~src/scss/mixins';
 @import '~src/scss/buttons';
-
 .example-container {
   position: relative;
   flex-direction: column;
@@ -53,6 +52,7 @@ h1.example-app-name {
   background-color: rgb(241, 244, 247);
   // background-color: mat-color($accent);
 }
+
 .example-is-mobile .bg-white {
   background-color: #fff;
 }
@@ -120,6 +120,26 @@ app-header {
   text-decoration: underline;
 }
 
+.view-Tax-Id-Summary-div {
+  height: 18px;
+  width: 145px;
+  margin: 9px 0 18px 0;
+}
+
+.view-Tax-Id-Summary {
+  color: $blue;
+  font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  letter-spacing: 0.2px;
+  line-height: 18px;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.view-Tax-Id-Summary:hover {
+  text-decoration: underline;
+}
+
 .mat-list-base {
   padding: 0px !important;
   margin: 0px !important;
@@ -152,6 +172,7 @@ app-header {
     vertical-align: bottom;
   }
 }
+
 .navCategoryItem {
   /*padding-left: 32px !important;*/
   color: $strom-grey;
@@ -246,6 +267,7 @@ app-header {
   background: $darker-alice-blue !important;
   color: $blue !important;
 }
+
 .nav-no-child-category:hover,
 .mat-expansion-panel-header:hover,
 .mat-expanded,
@@ -330,6 +352,7 @@ app-header {
   padding-left: 16px !important;
   height: 18px !important;
 }
+
 .display-none {
   display: none !important;
 }
@@ -499,13 +522,16 @@ app-header {
   padding: 8px 12px 8px 16px;
   width: auto;
 }
+
 .mat-list-item-content {
   padding: 0px !important;
   height: auto !important;
 }
+
 .mat-expansion-panel-body {
   padding: 0px;
 }
+
 .mat-list-base {
   .mat-list-item {
     height: auto !important;
