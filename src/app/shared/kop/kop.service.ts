@@ -6,6 +6,7 @@ import { NetworkParticipation } from './kop.class.networkparticipation';
 import { TimePeriod } from './kop.class.timeperiod';
 import { IssueResolution } from './kop.class.issueresolution';
 import { Reimbursement } from './kop.class.reimbursement';
+import { Engagement } from './kop.class.engagement';
 
 @Injectable({
   providedIn: 'root'
@@ -45,7 +46,18 @@ export class KOPSharedService {
         const reimbursementInstance = new Reimbursement({ records: response });
         const reimbursement = reimbursementInstance.getData();
 
-        return resolve({ npsSummary, timePeriod, careDelivery, networkParticipation, issueResolution, reimbursement });
+        const engagementInstance = new Engagement({ records: response });
+        const engagement = engagementInstance.getData();
+
+        return resolve({
+          npsSummary,
+          timePeriod,
+          careDelivery,
+          networkParticipation,
+          issueResolution,
+          reimbursement,
+          engagement
+        });
       });
     });
   }
