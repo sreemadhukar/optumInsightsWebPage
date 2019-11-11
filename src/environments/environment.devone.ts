@@ -43,7 +43,8 @@ export const environment: any = {
     AppealsFHIR: 'appeals/v2.0/',
     AppealsOverturn: 'appeal-overturn-reasons/',
     AdminSummaryTrendsCount: 'admintrendscount/',
-    RefreshToken: 'getRefreshToken/'
+    RefreshToken: 'getRefreshToken/',
+    HealthSystemDetails: 'providerInfo/'
   },
   headerKeys: {
     selectedCompany: '',
