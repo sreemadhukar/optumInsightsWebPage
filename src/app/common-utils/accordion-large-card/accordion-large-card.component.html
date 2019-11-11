@@ -2,15 +2,11 @@
   <div class="card-inner-large">
     <app-common-header
       [title]="title"
-      class="full-display"
+      class="full-display white-bg"
       (helpIconClicked)="helpIconClick($event)"
     ></app-common-header>
     <div class="bar-graphs-block">
-      <div
-        class="bar-graphs"
-        *ngFor="let item of data; let i = index"
-        [class.extra-margin-bottom-33]="i + 1 == data.length && !section[i]"
-      >
+      <div class="bar-graphs" *ngFor="let item of data; let i = index">
         <div
           [class.extra-margin-top-8]="i != 0"
           [class.extra-margin-bottom-16]="section[i]"
@@ -18,22 +14,24 @@
           [class.bar-graphs-content]="item.data.barText != 0"
           (click)="section[i] = !section[i]; reasonsCollapose(i)"
         >
-          <div class="bar-graph-inside-left-block">
-            <div class="bar-graph-inside-left-block-content">
-              <!-- <mat-icon class="bar-graph-block-icon" [class.bar-graph-icon-hide]="item.data.barText == 0" *ngIf="!section[i]"
+          <div class="bar-graph-inside-content">
+            <div class="bar-graph-inside-left-block">
+              <div class="bar-graph-inside-left-block-content">
+                <!-- <mat-icon class="bar-graph-block-icon" [class.bar-graph-icon-hide]="item.data.barText == 0" *ngIf="!section[i]"
                 svgIcon="open"></mat-icon>
               <mat-icon class="bar-graph-block-icon" *ngIf="section[i]" svgIcon="close-bar"></mat-icon> -->
 
-              <mat-icon
-                class="bar-graph-block-icon"
-                svgIcon="carrot"
-                [@rotatedState]="section[i] ? 'rotated' : 'default'"
-              ></mat-icon>
+                <mat-icon
+                  class="bar-graph-block-icon"
+                  svgIcon="carrot"
+                  [@rotatedState]="section[i] ? 'rotated' : 'default'"
+                ></mat-icon>
+              </div>
             </div>
-          </div>
-          <div class="bar-graph-inside-right-block" #barsParentBlock>
-            <div>
-              <app-bar-chart *ngIf="item.data != null && item.data" [chartOptions]="item.data"> </app-bar-chart>
+            <div class="bar-graph-inside-right-block" #barsParentBlock>
+              <div>
+                <app-bar-chart *ngIf="item.data != null && item.data" [chartOptions]="item.data"> </app-bar-chart>
+              </div>
             </div>
           </div>
         </div>
@@ -42,8 +40,9 @@
           <div class="bottom-shadow">
             <div class="hide-bottom-arrow-block"></div>
           </div>
-          <h3 class="inner-blocks-header">{{ qualitySubTitle }}</h3>
+
           <div class="top-5-block">
+            <h3 class="inner-blocks-header">{{ qualitySubTitle }}</h3>
             <div *ngFor="let listitem of qualityPcorData; let j = index">
               <div class="horizontal-line">
                 <div class="accor-content-space">
@@ -184,7 +183,7 @@
       </div>
     </div>
 
-    <div class="full-width-block" *ngIf="data[0].timeperiod">
+    <div class="full-width-block white-bg" *ngIf="data[0].timeperiod">
       <app-common-footer [timePeriod]="data[0].timeperiod" [title]="data[0].title"></app-common-footer>
     </div>
   </div>
