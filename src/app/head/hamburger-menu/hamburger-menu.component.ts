@@ -103,6 +103,12 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     // },
     { icon: 'prior-auth', name: 'Prior Authorizations', path: '/CareDelivery/priorAuth', disabled: false },
     {
+      icon: 'pcor',
+      name: 'Patient Care Opportunity ',
+      path: '/CareDelivery/PatientCareOpportunity',
+      disabled: true
+    },
+    {
       icon: 'service-interaction',
       name: 'Service Interaction',
       children: [
@@ -351,43 +357,45 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     //   });
     // }
     if (!this.navCategories.some(i => i.name === 'Patient Care Opportunity')) {
-      this.navCategories[3] = {
-        icon: 'pcor',
-        name: 'Patient Care Opportunity ',
-        path: '/CareDelivery/PatientCareOpportunity',
-        disabled: false
-      };
-      this.navCategories[4] = {
-        icon: 'service-interaction',
-        name: 'Service Interaction',
-        children: [
-          { name: 'Self Service', path: '/ServiceInteraction/SelfService' },
-          { name: 'Calls', path: '/ServiceInteraction/Calls' }
-        ]
-      };
-      this.navCategories[5] = {
-        icon: 'timeline',
-        name: 'Summary Trends',
-        path: '/AdminSummaryTrends',
-        disabled: true
-      };
+      this.navCategories[3].disabled = false;
+      // this.navCategories[3] = {
+      //   icon: 'pcor',
+      //   name: 'Patient Care Opportunity ',
+      //   path: '/CareDelivery/PatientCareOpportunity',
+      //   disabled: false
+      // };
+      // this.navCategories[4] = {
+      //   icon: 'service-interaction',
+      //   name: 'Service Interaction',
+      //   children: [
+      //     { name: 'Self Service', path: '/ServiceInteraction/SelfService' },
+      //     { name: 'Calls', path: '/ServiceInteraction/Calls' }
+      //   ]
+      // };
+      // this.navCategories[5] = {
+      //   icon: 'timeline',
+      //   name: 'Summary Trends',
+      //   path: '/AdminSummaryTrends',
+      //   disabled: true
+      // };
     }
   }
   removePCORnav() {
-    this.navCategories[3] = {
-      icon: 'service-interaction',
-      name: 'Service Interaction',
-      children: [
-        { name: 'Self Service', path: '/ServiceInteraction/SelfService' },
-        { name: 'Calls', path: '/ServiceInteraction/Calls' }
-      ]
-    };
-    this.navCategories[4] = {
-      icon: 'timeline',
-      name: 'Summary Trends',
-      path: '/AdminSummaryTrends',
-      disabled: true
-    };
+    this.navCategories[3].disabled = true;
+    // this.navCategories[3] = {
+    //   icon: 'service-interaction',
+    //   name: 'Service Interaction',
+    //   children: [
+    //     { name: 'Self Service', path: '/ServiceInteraction/SelfService' },
+    //     { name: 'Calls', path: '/ServiceInteraction/Calls' }
+    //   ]
+    // };
+    // this.navCategories[4] = {
+    //   icon: 'timeline',
+    //   name: 'Summary Trends',
+    //   path: '/AdminSummaryTrends',
+    //   disabled: true
+    // };
   }
   checkToggle(bool: boolean) {
     return bool ? this.sessionService.checkTrendAccess() && environment.internalAccess : !bool;
