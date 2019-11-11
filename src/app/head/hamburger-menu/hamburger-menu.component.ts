@@ -101,7 +101,13 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     //   name: 'Care Delivery',
     //   children: [{ name: 'Prior Authorizations', path: '/CareDelivery/priorAuth' }]
     // },
-    { icon: 'care-delivery', name: 'Prior Authorizations', path: '/CareDelivery/priorAuth', disabled: false },
+    { icon: 'prior-auth', name: 'Prior Authorizations', path: '/CareDelivery/priorAuth', disabled: false },
+    {
+      icon: 'pcor',
+      name: 'Patient Care Opportunity ',
+      path: '/CareDelivery/PatientCareOpportunity',
+      disabled: true
+    },
     {
       icon: 'service-interaction',
       name: 'Service Interaction',
@@ -250,6 +256,8 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
       'timeline',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/timeline-24px.svg')
     );
+    iconRegistry.addSvgIcon('prior-auth', sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/PA-idle.svg'));
+    iconRegistry.addSvgIcon('pcor', sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/PCOR.svg'));
   }
 
   ngOnInit() {
@@ -266,9 +274,9 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     this.checkStorage.getEvent().subscribe(value => {
       if (value.value === 'overviewPage') {
         this.healthSystemName = this.sessionService.getHealthCareOrgName();
-        // Check whether we have PCOR Data or not, if yes then include the PCOR option in navigation bar
-        this.checkPcorData();
       }
+      // Check whether we have PCOR Data or not, if yes then include the PCOR option in navigation bar
+      this.checkPcorData();
     });
     /*
         for login page filters has no role to play, so for them Filters should be close,
@@ -292,7 +300,9 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
         this.glossaryFlag = true;
         this.glossaryTitle = data.value;
         this.glossaryMetricID = data.MetricID;
-        this.viewPortScroller.scrollToPosition([0, 0]);
+        setTimeout(() => {
+          this.viewPortScroller.scrollToPosition([0, 0]);
+        }, 500);
       },
       err => {
         console.log('Error, clickHelpIcon , inside Hamburger', err);
@@ -304,7 +314,9 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
         this.filterFlag = true;
         this.customFilter = false;
         this.filterurl = data;
-        this.viewPortScroller.scrollToPosition([0, 0]);
+        setTimeout(() => {
+          this.viewPortScroller.scrollToPosition([0, 0]);
+        }, 500);
       },
       err => {
         console.log('Error, clickHelpIcon , inside Hamburger', err);
@@ -345,42 +357,45 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     //   });
     // }
     if (!this.navCategories.some(i => i.name === 'Patient Care Opportunity')) {
-      this.navCategories[3] = {
-        icon: 'care-delivery',
-        name: 'Patient Care Opportunity ',
-        path: '/CareDelivery/PatientCareOpportunity',
-        disabled: false
-      };
-      this.navCategories[4] = {
-        icon: 'service-interaction',
-        name: 'Service Interaction',
-        children: [
-          { name: 'Self Service', path: '/ServiceInteraction/SelfService' },
-          { name: 'Calls', path: '/ServiceInteraction/Calls' }
-        ]
-      };
-      this.navCategories[5] = {
-        icon: 'timeline',
-        name: 'Summary Trends',
-        path: '/AdminSummaryTrends',
-        disabled: true
-      };
-    } else {
-      this.navCategories[3] = {
-        icon: 'service-interaction',
-        name: 'Service Interaction',
-        children: [
-          { name: 'Self Service', path: '/ServiceInteraction/SelfService' },
-          { name: 'Calls', path: '/ServiceInteraction/Calls' }
-        ]
-      };
-      this.navCategories[4] = {
-        icon: 'timeline',
-        name: 'Summary Trends',
-        path: '/AdminSummaryTrends',
-        disabled: true
-      };
+      this.navCategories[3].disabled = false;
+      // this.navCategories[3] = {
+      //   icon: 'pcor',
+      //   name: 'Patient Care Opportunity ',
+      //   path: '/CareDelivery/PatientCareOpportunity',
+      //   disabled: false
+      // };
+      // this.navCategories[4] = {
+      //   icon: 'service-interaction',
+      //   name: 'Service Interaction',
+      //   children: [
+      //     { name: 'Self Service', path: '/ServiceInteraction/SelfService' },
+      //     { name: 'Calls', path: '/ServiceInteraction/Calls' }
+      //   ]
+      // };
+      // this.navCategories[5] = {
+      //   icon: 'timeline',
+      //   name: 'Summary Trends',
+      //   path: '/AdminSummaryTrends',
+      //   disabled: true
+      // };
     }
+  }
+  removePCORnav() {
+    this.navCategories[3].disabled = true;
+    // this.navCategories[3] = {
+    //   icon: 'service-interaction',
+    //   name: 'Service Interaction',
+    //   children: [
+    //     { name: 'Self Service', path: '/ServiceInteraction/SelfService' },
+    //     { name: 'Calls', path: '/ServiceInteraction/Calls' }
+    //   ]
+    // };
+    // this.navCategories[4] = {
+    //   icon: 'timeline',
+    //   name: 'Summary Trends',
+    //   path: '/AdminSummaryTrends',
+    //   disabled: true
+    // };
   }
   checkToggle(bool: boolean) {
     return bool ? this.sessionService.checkTrendAccess() && environment.internalAccess : !bool;
@@ -390,12 +405,14 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     this.pcorService.getExecutiveData(...parametersExecutive).subscribe(
       data => {
         const PCORData = data.PatientCareOpportunity;
-        if (PCORData === null) {
+        console.log('PCOR---' + PCORData);
+        if (PCORData === null || PCORData === undefined) {
           try {
+            this.removePCORnav();
             sessionStorage.removeItem('pcor');
-            this.navCategories[2].children = this.navCategories[2].children.filter(
-              i => i.name !== 'Patient Care Opportunity'
-            );
+            // this.navCategories[2].children = this.navCategories[2].children.filter(
+            //   i => i.name !== 'Patient Care Opportunity'
+            // );
             if (this.router.url.includes('CareDelivery/PatientCareOpportunity')) {
               // Role based access for Advocates Overview page
               if (this.checkAdv.value) {
@@ -404,7 +421,9 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
                 this.router.navigate(['/OverviewPage']);
               }
             }
-          } catch (err) {}
+          } catch (err) {
+            this.removePCORnav();
+          }
         } else {
           const temp = { isPCOR: true };
           sessionStorage.setItem('pcor', JSON.stringify(temp));

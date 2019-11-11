@@ -167,7 +167,7 @@ export class PcorSharedService {
     return new Promise(resolve => {
       this.pcorService.getPCORQualityMeasureData([this.session.providerKeyData()]).subscribe(
         data => {
-          console.log('Original Data', data);
+          // console.log('Original Data', data);
           let preparedData: Array<any> = [];
           if (data) {
             // Captilize the first alphabet of the string
@@ -191,7 +191,7 @@ export class PcorSharedService {
             // ++ output of asterisk character is /*/*
             for (let i = 5; i > 0; i--) {
               const metricName = template[i] + 'StarMeasureCount';
-              if (data.hasOwnProperty(metricName)) {
+              if (data.hasOwnProperty(metricName) && completeData[metricName] !== null) {
                 const m = {
                   star: i,
                   label: capitalize(template[i]) + ' Star Quality Measure',
@@ -204,34 +204,44 @@ export class PcorSharedService {
                 };
                 barCountArray.push(m.count);
                 subCategory.push(m);
-              } // end if structure
+                // end if structure
+              } else {
+                const m = {
+                  star: i,
+                  label: capitalize(template[i]) + ' Star Quality Measure',
+                  count: 0,
+                  insideData: null
+                };
+                barCountArray.push(m.count);
+                subCategory.push(m);
+              }
             } // end for loop for sub-category
             /*
-            We can also fetch the Top Level Categry i.e star count info via this code
-            but the loading of 'Quality Star' card is slow , because then it will load
-            data at once. So right now we can fetch 'Star Count' from executive api onlt
-            In future we can use this code if found useful
+             We can also fetch the Top Level Categry i.e star count info via this code
+             but the loading of 'Quality Star' card is slow , because then it will load
+             data at once. So right now we can fetch 'Star Count' from executive api onlt
+             In future we can use this code if found useful
 
-            const barScaleMax = Math.max(...barCountArray);
-            for (let i = subCategory.length; i > 0; i--) {
-              category.push({
-                type: 'singleBarChart',
-                star: i,
-                title: 'Quality Star Ratings',
-                data: {
-                  barHeight: 48,
-                  barData: completeData.filter(item => item.QualityRating === i).length,
-                  barSummation: barScaleMax,
-                  barText: completeData.filter(item => item.QualityRating === i).length,
-                  color: [{ color1: '#3381FF' }],
-                  gdata: ['card-inner-large', 'PCORreasonBar' + i],
-                  starObject: true,
-                  starCount: i
-                },
-                timeperiod: 'Data represents claims processed as of '
-              });
-            }
-            */
+             const barScaleMax = Math.max(...barCountArray);
+             for (let i = subCategory.length; i > 0; i--) {
+             category.push({
+             type: 'singleBarChart',
+             star: i,
+             title: 'Quality Star Ratings',
+             data: {
+             barHeight: 48,
+             barData: completeData.filter(item => item.QualityRating === i).length,
+             barSummation: barScaleMax,
+             barText: completeData.filter(item => item.QualityRating === i).length,
+             color: [{ color1: '#3381FF' }],
+             gdata: ['card-inner-large', 'PCORreasonBar' + i],
+             starObject: true,
+             starCount: i
+             },
+             timeperiod: 'Data represents claims processed as of '
+             });
+             }
+             */
             preparedData.push(subCategory);
           } else {
             preparedData = null;
