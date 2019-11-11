@@ -18,6 +18,12 @@
   width: 40px;
 }
 
+.nav-menu-icons-info {
+  height: 16px;
+  width: 16px;
+  padding-left: 4px;
+}
+
 .tin-list-head {
   display: flex;
   flex-wrap: wrap;
@@ -49,8 +55,30 @@
   .tin-list-sub-head-tin-number {
     font-family: 'UHCSans-SemiBold';
   }
+  padding-top: 5px;
   padding-bottom: 23px;
   border-bottom: 1px solid #e0e0e0;
+}
+
+.tooltip-info {
+  .tooltip-info-head {
+    color: #2d2d39;
+    font-family: 'UHCSans-SemiBold';
+    font-size: 14px;
+    letter-spacing: 0.2px;
+    line-height: 18px;
+    padding-top: 12px;
+    padding-left: 12px;
+  }
+  .tooltip-info-text {
+    color: #757588;
+    font-family: 'UHCSans-Regular';
+    font-size: 14px;
+    letter-spacing: 0.2px;
+    line-height: 18px;
+    padding-top: 2px;
+    padding-left: 12px;
+  }
 }
 
 .tin-list-body {
@@ -126,6 +154,12 @@
     }
     .tin-list-body-table-div-body {
       margin-bottom: 64px;
+      .tin-list-body-table-div-body-tinname-cell {
+        padding-left: 40px;
+      }
+      .tin-list-body-table-div-body-tin-cell {
+        padding-left: 18px;
+      }
     }
   }
 }
