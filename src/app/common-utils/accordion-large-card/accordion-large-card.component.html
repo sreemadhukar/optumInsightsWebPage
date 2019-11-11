@@ -10,6 +10,7 @@
         class="bar-graphs"
         *ngFor="let item of data; let i = index"
         [class.extra-margin-bottom-33]="i + 1 == data.length && !section[i]"
+        [class.bar-graph-icon-hide-padding]="item.data.barText == 0"
       >
         <div
           [class.extra-margin-top-8]="i != 0"
@@ -26,6 +27,7 @@
 
               <mat-icon
                 class="bar-graph-block-icon"
+                [class.bar-graph-icon-hide]="item.data.barText == 0"
                 svgIcon="carrot"
                 [@rotatedState]="section[i] ? 'rotated' : 'default'"
               ></mat-icon>
