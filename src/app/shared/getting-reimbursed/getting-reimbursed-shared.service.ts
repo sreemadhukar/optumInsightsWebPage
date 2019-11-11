@@ -1508,7 +1508,6 @@ export class GettingReimbursedSharedService {
           })
           .then(data => {
             gettingReimbursedData = data;
-            console.log(gettingReimbursedData);
             return this.calculateSummaryTrends(parameters, gettingReimbursedData);
           })
           .then(data => {
