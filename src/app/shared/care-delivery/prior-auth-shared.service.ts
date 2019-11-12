@@ -329,11 +329,11 @@ export class PriorAuthSharedService {
           let lobStringFormatted;
           if (LOB === 'All') {
             lobStringFormatted = 'All';
-          } else if (LOB === 'Community & State') {
+          } else if (LOB === 'CS') {
             lobStringFormatted = 'Cs';
-          } else if (LOB === 'Employer & Individual') {
+          } else if (LOB === 'EI') {
             lobStringFormatted = 'Ei';
-          } else if (LOB === 'Medicare & Retirement') {
+          } else if (LOB === 'MR') {
             lobStringFormatted = 'Mr';
           }
 
