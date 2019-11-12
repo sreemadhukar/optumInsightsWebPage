@@ -34,7 +34,7 @@ export class InternalService {
         map(
           user => {
             if (typeof user !== 'undefined' && user !== null) {
-              console.log(user);
+              // console.log(user);
               this.tempUser = user;
               this.sso = [];
               this.sso.push({
