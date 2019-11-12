@@ -45,6 +45,8 @@ import { VerticalBarChartsComponent } from './kop-cards/vertical-bar-charts/vert
 import { KopFiltersComponent } from './kop-filters/kop-filters.component';
 import { MultiLineGraphComponent } from './d3-objects/multi-line-graph/multi-line-graph.component';
 import { ErrorTemplateComponent } from './kop-cards/error-template/error-template.component';
+import { FiltersAppliedComponent } from './filters-applied/filters-applied.component';
+import { FiltersMultiSelectComponent } from './filters-multi-select/filters-multi-select.component';
 
 @NgModule({
   imports: [
@@ -88,7 +90,10 @@ import { ErrorTemplateComponent } from './kop-cards/error-template/error-templat
     HorizontalChartsComponent,
     VerticalBarChartsComponent,
     KopFiltersComponent,
-    MultiLineGraphComponent
+    MultiLineGraphComponent,
+    FiltersAppliedComponent,
+    MultiSelectComponent,
+    FiltersMultiSelectComponent
   ],
   declarations: [
     MiniTileComponent,
@@ -130,7 +135,9 @@ import { ErrorTemplateComponent } from './kop-cards/error-template/error-templat
     VerticalBarChartsComponent,
     KopFiltersComponent,
     MultiLineGraphComponent,
-    ErrorTemplateComponent
+    ErrorTemplateComponent,
+    FiltersAppliedComponent,
+    FiltersMultiSelectComponent
   ],
   entryComponents: [ProviderSearchComponent]
 })

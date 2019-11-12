@@ -8,7 +8,8 @@ import { AuthorizationService } from '../../auth/_service/authorization.service'
 import { NonPaymentSharedService } from './non-payments/non-payment-shared.service';
 import { NonPaymentService } from '../../rest/getting-reimbursed/non-payment.service';
 import { GlossaryMetricidService } from '../glossary-metricid.service';
-import { of } from 'rxjs';
+import { GettingReimbursedPayload } from './payload.class';
+import * as _ from 'lodash';
 import { environment } from '../../../environments/environment';
 
 @Injectable({
@@ -64,13 +65,13 @@ export class GettingReimbursedSharedService {
   /** Actually we have to used this nonPayment service in for Non-Payment cards that's why we
    * need to call the Non-Payment API in Getting Reimbursed Summary page as well
    */
-  public sharedNonPaymentData() {
-    /** Non Payment Service Code starts here ********/
+  public sharedNonPaymentData(param) {
+    /** Non Payment Service Code starts here */
     /** code for two donuts  Claims Not Paid and Claims Non-payment Rate */
     let tempNonPaymentData: any;
     return new Promise(resolve => {
       this.nonPaymentSharedService
-        .getNonPayment()
+        .getNonPayment(param)
         .then(nonPayment => {
           if (typeof nonPayment === null || typeof nonPayment === undefined) {
             tempNonPaymentData = null;
@@ -108,8 +109,8 @@ export class GettingReimbursedSharedService {
       this.gettingReimbursedService
         .getGettingReimbursedYearWiseData(...parameters)
         .subscribe(([claimsData, appealsData]) => {
-          const lobFullData = this.common.matchFullLobWithData(this.lob);
-          const lobData = this.common.matchLobWithData(this.lob);
+          const lobFullData = parameters[1].Lob ? this.common.getFullLobData(parameters[1].Lob) : 'ALL';
+          const lobData = parameters[1].Lob ? _.startCase(parameters[1].Lob.toLowerCase()) : 'All';
           if (claimsData != null && claimsData.hasOwnProperty('status')) {
             claimsSubmitted = {
               category: 'app-card',
@@ -323,13 +324,13 @@ export class GettingReimbursedSharedService {
                       ? '< $1'
                       : '$' + this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].AmountPaid),
                   centerNumberOriginal: claimsData[lobData].ClaimsLobSummary[0].AmountPaid,
-                  color: this.common.returnLobColor(claimsData),
+                  color: this.common.returnLobColor(claimsData, lobData),
                   gdata: ['card-inner', 'claimsPaid'],
                   sdata: {
                     sign: '',
                     data: ''
                   },
-                  labels: this.common.returnHoverLabels(claimsData),
+                  labels: this.common.returnHoverLabels(claimsData, lobData),
                   hover: true
                 },
                 besideData: {
@@ -408,13 +409,13 @@ export class GettingReimbursedSharedService {
                       ? '< $1'
                       : '$' + this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].AmountDenied),
                   centerNumberOriginal: claimsData[lobData].ClaimsLobSummary[0].AmountDenied,
-                  color: this.common.returnLobColor(claimsData),
+                  color: this.common.returnLobColor(claimsData, lobData),
                   gdata: ['card-inner', 'claimsPaid'],
                   sdata: {
                     sign: '',
                     data: ''
                   },
-                  labels: this.common.returnHoverLabels(claimsData),
+                  labels: this.common.returnHoverLabels(claimsData, lobData),
                   hover: true
                 },
                 besideData: {
@@ -821,15 +822,11 @@ export class GettingReimbursedSharedService {
     let claimsPaid: object;
     let claimsPaidRate: object;
     const summaryData: Array<object> = [];
-    if (parameters[1].hasOwnProperty('Lob')) {
-      delete parameters[1].Lob;
-    }
     return new Promise(resolve => {
       this.gettingReimbursedService.getGettingReimbursedData(...parameters).subscribe(
         ([claimsData, appealsData]) => {
-          console.log(claimsData);
-          const lobFullData = this.common.matchFullLobWithData(this.lob);
-          const lobData = this.common.matchLobWithData(this.lob);
+          const lobFullData = parameters[1].Lob ? this.common.getFullLobData(parameters[1].Lob) : 'ALL';
+          const lobData = parameters[1].Lob ? _.startCase(parameters[1].Lob.toLowerCase()) : 'All';
           if (claimsData != null && claimsData.hasOwnProperty('status')) {
             claimsSubmitted = {
               category: 'app-card',
@@ -1077,13 +1074,13 @@ export class GettingReimbursedSharedService {
                       ? '< $1'
                       : '$' + this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].AmountPaid),
                   centerNumberOriginal: claimsData[lobData].ClaimsLobSummary[0].AmountPaid,
-                  color: this.common.returnLobColor(claimsData), // colorcodes,
+                  color: this.common.returnLobColor(claimsData, lobData), // colorcodes,
                   gdata: ['card-inner', 'claimsPaid'],
                   sdata: {
                     sign: '',
                     data: ''
                   },
-                  labels: this.common.returnHoverLabels(claimsData),
+                  labels: this.common.returnHoverLabels(claimsData, lobData),
                   hover: true
                 },
                 besideData: {
@@ -1107,13 +1104,13 @@ export class GettingReimbursedSharedService {
                         ? '< $1'
                         : '$' + this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].AmountPaid),
                     centerNumberOriginal: claimsData[lobData].ClaimsLobSummary[0].AmountPaid,
-                    color: this.common.returnLobColor(claimsData),
+                    color: this.common.returnLobColor(claimsData, lobData),
                     gdata: ['card-inner', 'claimsPaid'],
                     sdata: {
                       sign: 'down',
                       data: '-2.8%'
                     },
-                    labels: this.common.returnHoverLabels(claimsData),
+                    labels: this.common.returnHoverLabels(claimsData, lobData),
                     hover: true
                   },
                   besideData: {
@@ -1208,13 +1205,13 @@ export class GettingReimbursedSharedService {
                       ? '< $1'
                       : '$' + this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].AmountPaid),
                   centerNumberOriginal: claimsData[lobData].ClaimsLobSummary[0].AmountPaid,
-                  color: this.common.returnLobColor(claimsData),
+                  color: this.common.returnLobColor(claimsData, lobData),
                   gdata: ['card-inner', 'claimsPaid'],
                   sdata: {
                     sign: '',
                     data: ''
                   },
-                  labels: this.common.returnHoverLabels(claimsData),
+                  labels: this.common.returnHoverLabels(claimsData, lobData),
                   hover: true
                 },
                 besideData: {
@@ -1307,13 +1304,13 @@ export class GettingReimbursedSharedService {
                       ? '< $1'
                       : '$' + this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].AmountDenied),
                   centerNumberOriginal: claimsData[lobData].ClaimsLobSummary[0].AmountDenied,
-                  color: this.common.returnLobColor(claimsData),
+                  color: this.common.returnLobColor(claimsData, lobData),
                   gdata: ['card-inner', 'claimsPaid'],
                   sdata: {
                     sign: '',
                     data: ''
                   },
-                  labels: this.common.returnHoverLabels(claimsData),
+                  labels: this.common.returnHoverLabels(claimsData, lobData),
                   hover: true
                 },
                 besideData: {
@@ -1487,15 +1484,16 @@ export class GettingReimbursedSharedService {
       );
     });
   }
-  public getGettingReimbursedData() {
-    this.tin = this.session.filterObjValue.tax.toString().replace(/-/g, '');
-    this.lob = this.session.filterObjValue.lob;
-    this.timeFrame = this.session.filterObjValue.timeFrame;
+  public getGettingReimbursedData(param) {
+    this.timeFrame = this.common.getTimePeriodFilterValue(param.timePeriod);
     this.providerKey = this.session.providerKeyData();
     const summaryData: Array<object> = [];
     return new Promise(resolve => {
       let parameters;
       let gettingReimbursedData: any;
+      parameters = [this.providerKey, new GettingReimbursedPayload(param)];
+
+      /** We used promise so that we get the data in synchronous manner  */
       if (
         this.timeFrame === 'Last 12 Months' ||
         this.timeFrame === 'Last 6 Months' ||
@@ -1503,127 +1501,20 @@ export class GettingReimbursedSharedService {
         this.timeFrame === 'Last 30 Days' ||
         this.timeFrame === 'Year to Date'
       ) {
-        if (this.timeFrame === 'Last 12 Months') {
-          if (this.tin !== 'All' && this.lob !== 'All') {
-            parameters = [
-              this.providerKey,
-              { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Last12Months', Tin: this.tin }
-            ];
-          } else if (this.tin !== 'All') {
-            parameters = [this.providerKey, { TimeFilter: 'Last12Months', Tin: this.tin }];
-          } else if (this.lob !== 'All') {
-            parameters = [
-              this.providerKey,
-              { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Last12Months' }
-            ];
-          } else {
-            parameters = [this.providerKey, { TimeFilter: 'Last12Months' }];
-          }
-        } else if (this.timeFrame === 'Last 3 Months') {
-          if (this.tin !== 'All' && this.lob !== 'All') {
-            parameters = [
-              this.providerKey,
-              { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Last3Months', Tin: this.tin }
-            ];
-          } else if (this.tin !== 'All') {
-            parameters = [this.providerKey, { TimeFilter: 'Last3Months', Tin: this.tin }];
-          } else if (this.lob !== 'All') {
-            parameters = [
-              this.providerKey,
-              { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Last3Months' }
-            ];
-          } else {
-            parameters = [this.providerKey, { TimeFilter: 'Last3Months' }];
-          }
-        } else if (this.timeFrame === 'Last 30 Days') {
-          if (this.tin !== 'All' && this.lob !== 'All') {
-            parameters = [
-              this.providerKey,
-              { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Last30Days', Tin: this.tin }
-            ];
-          } else if (this.tin !== 'All') {
-            parameters = [this.providerKey, { TimeFilter: 'Last30Days', Tin: this.tin }];
-          } else if (this.lob !== 'All') {
-            parameters = [
-              this.providerKey,
-              { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Last30Days' }
-            ];
-          } else {
-            parameters = [this.providerKey, { TimeFilter: 'Last30Days' }];
-          }
-        } else if (this.timeFrame === 'Year to Date') {
-          if (this.tin !== 'All' && this.lob !== 'All') {
-            parameters = [
-              this.providerKey,
-              { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'YTD', Tin: this.tin }
-            ];
-          } else if (this.tin !== 'All') {
-            parameters = [this.providerKey, { TimeFilter: 'YTD', Tin: this.tin }];
-          } else if (this.lob !== 'All') {
-            parameters = [this.providerKey, { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'YTD' }];
-          } else {
-            parameters = [this.providerKey, { TimeFilter: 'YTD' }];
-          }
-        } else if (this.timeFrame === 'Last 6 Months') {
-          if (this.tin !== 'All' && this.lob !== 'All') {
-            parameters = [
-              this.providerKey,
-              { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Last6Months', Tin: this.tin }
-            ];
-          } else if (this.tin !== 'All') {
-            parameters = [this.providerKey, { TimeFilter: 'Last6Months', Tin: this.tin }];
-          } else if (this.lob !== 'All') {
-            parameters = [
-              this.providerKey,
-              { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Last6Months' }
-            ];
-          } else {
-            parameters = [this.providerKey, { TimeFilter: 'Last6Months' }];
-          }
-        }
-        /** We used promise so that we get the data in synchronous manner  */
-        this.sharedNonPaymentData()
+        this.sharedNonPaymentData(param)
           .then(nonPayment => {
             this.nonPaymentData = nonPayment;
             return this.sharedGettingReimbursedData(parameters);
           })
           .then(data => {
             gettingReimbursedData = data;
-            console.log(gettingReimbursedData);
             return this.calculateSummaryTrends(parameters, gettingReimbursedData);
           })
           .then(data => {
             resolve(data);
           });
       } else {
-        if (this.tin !== 'All' && this.lob !== 'All') {
-          parameters = [
-            this.providerKey,
-            {
-              Lob: this.common.matchLobWithCapsData(this.lob),
-              TimeFilter: 'CalendarYear',
-              TimeFilterText: this.timeFrame,
-              Tin: this.tin
-            }
-          ];
-        } else if (this.tin !== 'All') {
-          parameters = [
-            this.providerKey,
-            { TimeFilter: 'CalendarYear', TimeFilterText: this.timeFrame, Tin: this.tin }
-          ];
-        } else if (this.lob !== 'All') {
-          parameters = [
-            this.providerKey,
-            {
-              Lob: this.common.matchLobWithCapsData(this.lob),
-              TimeFilter: 'CalendarYear',
-              TimeFilterText: this.timeFrame
-            }
-          ];
-        } else {
-          parameters = [this.providerKey, { TimeFilter: 'CalendarYear', TimeFilterText: this.timeFrame }];
-        }
-        this.sharedNonPaymentData()
+        this.sharedNonPaymentData(param)
           .then(nonPayment => {
             this.nonPaymentData = nonPayment;
             return this.sharedGettingReimbursedYearWiseData(parameters);
@@ -1632,7 +1523,7 @@ export class GettingReimbursedSharedService {
             gettingReimbursedData = data;
             resolve(gettingReimbursedData);
           });
-*/
+    */
           .then(data => {
             gettingReimbursedData = data;
             // console.log(gettingReimbursedData);
@@ -1665,8 +1556,8 @@ export class GettingReimbursedSharedService {
       }
       parameters[1].TimeFilter = baseTimePeriod;
       this.gettingReimbursedService.getGettingReimbursedData(...parameters).subscribe(([claimsData, appealsData]) => {
-        const lobFullData = this.common.matchFullLobWithData(this.lob);
-        const lobData = this.common.matchLobWithData(this.lob);
+        const lobFullData = parameters[1].Lob ? this.common.getFullLobData(parameters[1].Lob) : 'ALL';
+        const lobData = parameters[1].Lob ? _.startCase(parameters[1].Lob.toLowerCase()) : 'All';
         if (claimsData != null && !claimsData.hasOwnProperty('status')) {
           if (
             claimsData.hasOwnProperty(lobData) &&
@@ -1764,7 +1655,7 @@ export class GettingReimbursedSharedService {
   /* function to get Payment Integrity Card Data - Ranjith kumar Ankam */
   public getPaymentIntegrityData() {
     return new Promise((resolve, reject) => {
-      this.timeFrame = this.session.timeFrame;
+      // this.timeFrame = this.common.getTimePeriodFilterValue(param.timePeriod);
       this.timeFrame = 'Last 6 Months';
 
       this.providerKey = this.session.providerKeyData();
@@ -1871,124 +1762,13 @@ export class GettingReimbursedSharedService {
       );
     });
   }
-  getParmaeterCategories() {
+
+  getParameterCategories(param) {
     let parameters = [];
-    this.timeFrame = this.session.filterObjValue.timeFrame;
     this.providerKey = this.session.providerKeyData();
-    if (
-      this.timeFrame === 'Last 12 Months' ||
-      this.timeFrame === 'Last 6 Months' ||
-      this.timeFrame === 'Last 3 Months' ||
-      this.timeFrame === 'Last 30 Days' ||
-      this.timeFrame === 'Year to Date'
-    ) {
-      if (this.timeFrame === 'Last 12 Months') {
-        if (this.tin !== 'All' && this.lob !== 'All') {
-          parameters = [
-            this.providerKey,
-            { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Last12Months', Tin: this.tin }
-          ];
-        } else if (this.tin !== 'All') {
-          parameters = [this.providerKey, { TimeFilter: 'Last12Months', Tin: this.tin }];
-        } else if (this.lob !== 'All') {
-          parameters = [
-            this.providerKey,
-            { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Last12Months' }
-          ];
-        } else {
-          parameters = [this.providerKey, { TimeFilter: 'Last12Months' }];
-        }
-      } else if (this.timeFrame === 'Year to Date') {
-        if (this.tin !== 'All' && this.lob !== 'All') {
-          parameters = [
-            this.providerKey,
-            { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'YTD', Tin: this.tin }
-          ];
-        } else if (this.tin !== 'All') {
-          parameters = [this.providerKey, { TimeFilter: 'YTD', Tin: this.tin }];
-        } else if (this.lob !== 'All') {
-          parameters = [this.providerKey, { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'YTD' }];
-        } else {
-          parameters = [this.providerKey, { TimeFilter: 'YTD' }];
-        }
-      } else if (this.timeFrame === 'Last 6 Months') {
-        if (this.tin !== 'All' && this.lob !== 'All') {
-          parameters = [
-            this.providerKey,
-            { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Last6Months', Tin: this.tin }
-          ];
-        } else if (this.tin !== 'All') {
-          parameters = [this.providerKey, { TimeFilter: 'Last6Months', Tin: this.tin }];
-        } else if (this.lob !== 'All') {
-          parameters = [
-            this.providerKey,
-            { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Last6Months' }
-          ];
-        } else {
-          parameters = [this.providerKey, { TimeFilter: 'Last6Months' }];
-        }
-      } else if (this.timeFrame === 'Last 3 Months') {
-        if (this.tin !== 'All' && this.lob !== 'All') {
-          parameters = [
-            this.providerKey,
-            { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Last3Months', Tin: this.tin }
-          ];
-        } else if (this.tin !== 'All') {
-          parameters = [this.providerKey, { TimeFilter: 'Last3Months', Tin: this.tin }];
-        } else if (this.lob !== 'All') {
-          parameters = [
-            this.providerKey,
-            { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Last3Months' }
-          ];
-        } else {
-          parameters = [this.providerKey, { TimeFilter: 'Last3Months' }];
-        }
-      } else if (this.timeFrame === 'Last 30 Days') {
-        if (this.tin !== 'All' && this.lob !== 'All') {
-          parameters = [
-            this.providerKey,
-            { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Last30Days', Tin: this.tin }
-          ];
-        } else if (this.tin !== 'All') {
-          parameters = [this.providerKey, { TimeFilter: 'Last30Days', Tin: this.tin }];
-        } else if (this.lob !== 'All') {
-          parameters = [
-            this.providerKey,
-            { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Last30Days' }
-          ];
-        } else {
-          parameters = [this.providerKey, { TimeFilter: 'Last30Days' }];
-        }
-      }
-    } else {
-      const lobData = this.common.matchLobWithData(this.lob);
-      if (this.tin !== 'All' && this.lob !== 'All') {
-        parameters = [
-          this.providerKey,
-          {
-            Lob: this.common.matchLobWithCapsData(this.lob),
-            TimeFilter: 'CalendarYear',
-            TimeFilterText: this.timeFrame,
-            Tin: this.tin
-          }
-        ];
-      } else if (this.tin !== 'All') {
-        parameters = [this.providerKey, { TimeFilter: 'CalendarYear', TimeFilterText: this.timeFrame, Tin: this.tin }];
-      } else if (this.lob !== 'All') {
-        parameters = [
-          this.providerKey,
-          {
-            Lob: this.common.matchLobWithCapsData(this.lob),
-            TimeFilter: 'CalendarYear',
-            TimeFilterText: this.timeFrame
-          }
-        ];
-      } else {
-        parameters = [this.providerKey, { TimeFilter: 'CalendarYear', TimeFilterText: this.timeFrame }];
-      }
-    } // End If else structure
+    parameters = [this.providerKey, new GettingReimbursedPayload(param)];
     return parameters;
-  } // end getParmaeterCategories() function for Top Reasons Categories
+  }
 
   public sentenceCase(str) {
     return str.replace(/\w\S*/g, function(txt) {

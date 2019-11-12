@@ -5,12 +5,12 @@
  * MAINTAIN ALPHABETIC ORDER
  */
 export const environment: any = {
-  apiProxyUrl: 'https://gateway-stage-core.optum.com/api/devthree/pdr/uhci/v1/',
+  apiProxyUrl: 'https://gateway-stage-core.optum.com/api/int/pdr/uhci/v1/',
   originUrl: '/',
   apiUrls: {
     ExecutiveSummaryPath: 'providersystems/',
     ProviderSystemClaimsAgg: 'agg-claims/search/v2.0/',
-    ProviderSystemClaimsSummary: 'claims/search/v2.0/',
+    ProviderSystemClaimsSummary: 'claim-metrics/',
     ProviderSystemPriorAuth: 'PriorAuthSummary/',
     SsoTokenPath: 'myinsightOptumIdHandshake',
     SsoRedirectUri:
@@ -42,7 +42,8 @@ export const environment: any = {
     AdminSummaryTrends: 'admintrends/',
     AppealsFHIR: 'appeals/v2.0/',
     AppealsOverturn: 'appeal-overturn-reasons/',
-    AdminSummaryTrendsCount: 'admintrendscount/'
+    AdminSummaryTrendsCount: 'admintrendscount/',
+    HealthSystemDetails: 'providerInfo/'
   },
   headerKeys: {
     selectedCompany: '',
@@ -63,7 +64,7 @@ export const environment: any = {
   storagePrefix: '',
   errorMessage: 'empty',
   clickStreamUrl: '//assets.adobedtm.com/launch-ENacdc6d1acf734bcd95703e446bd1de1d-development.min.js',
-  internalAccess: false,
+  internalAccess: true,
   claimsYieldAccess: true,
   toggleTrendingSummary: false,
   sentryKey: 'https://2e6628201e8043c89e8fac56d77c46aa@sentry-ped-internal.ocp-ctc-core.optum.com/1'
