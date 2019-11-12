@@ -77,14 +77,19 @@ export class PaymentIntegrityComponent implements OnInit {
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-close-24px.svg')
     );
     this.pageTitle = 'Medical Records Coding Review';
-    this.tabOptionsTitle = ['Jul 1, 2018-Jun 30, 2019', 'Jul 1, 2019-Jun 30, 2020'];
+    this.tabOptionsTitle = ['Jul 1, 2018–Jun 30, 2019', 'Jul 1, 2019–Oct 31, 2019'];
     this.subTitle = 'Note: Claims Metrics are calculated using date medical record requested';
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.filtermatch.urlResuseStrategy());
   }
   matOptionClicked(i: number, event: any) {
     this.currentSummary = [];
-    this.currentSummary = this.summaryItems[i].data;
-    this.currentTabTitle = this.summaryItems[i].title;
+    if (i === 1) {
+      this.currentSummary = this.summaryItems[0];
+      this.currentTabTitle = this.summaryItems[0].title;
+    } else {
+      this.currentSummary = null;
+      this.currentTabTitle = null;
+    }
     const myTabs = document.querySelectorAll('ul.nav-tabs > li');
     for (let j = 0; j < myTabs.length; j++) {
       myTabs[j].classList.remove('active');
@@ -105,7 +110,7 @@ export class PaymentIntegrityComponent implements OnInit {
       {
         id: 1,
         title: this.getTabOptionsTitle(1),
-        value1: 'Claims Processed through Oct 31, 2020',
+        value1: '', // 'Claims Processed through Oct 31, 2020',
         sdata: null
       }
     ];
