@@ -50,7 +50,7 @@ export class NPSSummary {
 
     if (survey === 'all' && TotalNPSValue && CombinedTargetNPSValue) {
       if (index === 0) {
-        highlightQuarter = true;
+        highlightQuarter = false;
       }
       highlightedValue = Math.round(TotalNPSValue);
       targetValue = Math.round(CombinedTargetNPSValue);

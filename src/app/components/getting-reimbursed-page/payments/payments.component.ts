@@ -87,7 +87,7 @@ export class PaymentsComponent implements OnInit {
     } else {
       this.taxID = [];
     }
-    this.mockCards = [{}]; /*, {}] commenting to remove skeleton loader for claims yield card*/
+    this.mockCards = [{}, {}];
     this.paymentsSharedService
       .sharedPaymentsData()
       .then(completeData => {

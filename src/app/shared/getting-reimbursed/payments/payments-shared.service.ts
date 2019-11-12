@@ -519,7 +519,8 @@ export class PaymentsSharedService {
               claimsData[lobData].hasOwnProperty('ClaimsLobSummary') &&
               claimsData[lobData].ClaimsLobSummary.length &&
               claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('ClaimsYieldRate') &&
-              claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('ClaimsNonPaymentRate')
+              claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('ClaimsNonPaymentRate') &&
+              claimsData[lobData].ClaimsLobSummary[0].ClaimsYieldRate.toFixed() !== 0
             ) {
               // used toggle: true as toggle functionality is not built properly : srikar bobbiganipalli
               claimsPaidRate = {
@@ -561,7 +562,9 @@ export class PaymentsSharedService {
           //  const payments = { id: 1, title: 'Claims Payments', data: [claimsPaid, claimsPaidRate] };
           /*, claimsPaidRate] }; commented to supress claims yield card*/
           summaryData[0] = claimsPaid;
-          //  summaryData[1] = claimsPaidRate; /*To Supress claims yield card*/
+          if (environment.claimsYieldAccess) {
+            summaryData[1] = claimsPaidRate;
+          }
 
           if (summaryData.length) {
             resolve(summaryData);
