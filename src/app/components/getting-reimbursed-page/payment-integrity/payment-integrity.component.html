@@ -77,7 +77,7 @@
       <!--</div>-->
 
       <div class="height1Separator"></div>
-      <div class="pi-cards">
+      <div class="pi-cards" *ngIf="currentSummary !== null">
         <app-card [chartData]="currentSummary" class="cards"></app-card>
       </div>
       <app-large-card [skeletonLarge]="loading" *ngIf="loading"></app-large-card>
