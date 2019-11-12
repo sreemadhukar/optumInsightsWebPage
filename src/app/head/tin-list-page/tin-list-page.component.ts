@@ -44,6 +44,10 @@ export class TinListPageComponent implements OnInit {
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/round-search-24px.svg')
     );
     iconRegistry.addSvgIcon('info', sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/info-24px.svg'));
+    iconRegistry.addSvgIcon(
+      'downarrow',
+      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/arrow_downward-24px.svg')
+    );
   }
 
   ngOnInit() {

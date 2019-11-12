@@ -34,12 +34,14 @@ export class FiltersMultiSelectComponent implements OnInit {
         return tag.Tin.indexOf(query) >= 0;
       });
     });
+    if (this.selectedArray.length > 0) {
+      this.filteredArray = this.tinsData;
+    }
   }
 
   selectedItem(item) {
     if (!this.selectedArray.includes(item)) {
       this.selectedArray.push(item);
-      console.log(this.selectedArray);
       this.taxArray.emit(this.selectedArray);
       this.tinsData.forEach(value => {
         if (value['Tin'] === item.Tin) {
