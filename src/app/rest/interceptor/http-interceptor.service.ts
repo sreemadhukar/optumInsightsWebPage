@@ -95,7 +95,7 @@ export class HttpInterceptorService implements HttpInterceptor {
 
   private getTokenExpirationDate(token: string) {
     const decoded = jwt_decode(token);
-    console.log(decoded);
+    // console.log(decoded);
     if (decoded.exp === undefined || decoded.exp === null) {
       const result = { date: null, sub: decoded.sub };
       return result;
