@@ -119,7 +119,8 @@ export class OverviewAdvocateComponent implements OnInit {
       let AppealsLeftData: any;
       AppealsLeftData = appealsLeftData;
       if (AppealsLeftData[0].LineOfBusiness != null && AppealsLeftData[0].LineOfBusiness) {
-        this.totalAppeals = AppealsLeftData[0].LineOfBusiness.ALL.AdminAppeals;
+        this.totalAppeals =
+          AppealsLeftData[0].LineOfBusiness.ALL.AdminAppeals + AppealsLeftData[0].LineOfBusiness.ALL.ClinicalAppeals;
         this.adminAppeals = AppealsLeftData[0].LineOfBusiness.ALL.AdminAppeals;
         this.clinicalAppeals = AppealsLeftData[0].LineOfBusiness.ALL.ClinicalAppeals;
 
