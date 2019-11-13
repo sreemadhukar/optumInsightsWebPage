@@ -23,12 +23,14 @@ export class PriorAuthSharedService {
     this.providerKey = this.session.providerKeyData();
 
     // Save Parameters from Filter Session
-    const timePeriod = filterParameters.timeFrame;
-    const TIN = filterParameters.tax[0];
-    const LOB = filterParameters.lob;
+    const timePeriod = this.common.getTimePeriodFilterValue(filterParameters.timePeriod);
+    const TIN = filterParameters.taxId[0];
+    const LOB = filterParameters.lineOfBusiness;
     const serviceSetting = filterParameters.serviceSetting;
     const paDecisionType = filterParameters.priorAuthType; // We don't need decision type for now
-    const paServiceCategory = this.common.convertServiceCategoryOneWord(filterParameters.scType);
+    const paServiceCategory = this.common.convertServiceCategoryOneWord(
+      filterParameters.serviceCategory === '' ? 'All' : filterParameters.serviceCategory
+    );
 
     // Time Range
     let timeRange;
@@ -77,10 +79,10 @@ export class PriorAuthSharedService {
       specificTin = null;
     } else {
       isAllTinBool = false;
-      if (filterParameters.tax.length === 1) {
+      if (filterParameters.taxId.length === 1) {
         specificTin = parseInt(TIN.replace(/\D/g, ''), 10).toString();
       } else {
-        const taxArray = filterParameters.tax;
+        const taxArray = filterParameters.taxId;
         const taxArrayFormatted = [];
         for (let i = 0; i < taxArray.length; i++) {
           taxArrayFormatted.push(parseInt(taxArray[i].replace(/\D/g, ''), 10));
@@ -93,11 +95,11 @@ export class PriorAuthSharedService {
     let lobString;
     if (LOB === 'All') {
       lobString = 'allLob';
-    } else if (LOB === 'Community & State') {
+    } else if (LOB === 'CS') {
       lobString = 'cAndSLob';
-    } else if (LOB === 'Employer & Individual') {
+    } else if (LOB === 'EI') {
       lobString = 'eAndILob';
-    } else if (LOB === 'Medicare & Retirement') {
+    } else if (LOB === 'MR') {
       lobString = 'mAndRLob';
     }
 
@@ -219,22 +221,22 @@ export class PriorAuthSharedService {
             let UrgentTATConversion;
             let TATDayLabel;
             let TATHourLabel;
-            if (data.StandartPriorAuthTAT / 86400 < 1) {
+            if (data.AvgTatStandard_hours / 24 < 1) {
               StandardTATConversion = '<1';
               TATDayLabel = StandardTATConversion + ' Day';
             } else {
-              StandardTATConversion = (data.StandartPriorAuthTAT / 86400).toFixed(0);
+              StandardTATConversion = (data.AvgTatStandard_hours / 24).toFixed(0);
               if (StandardTATConversion === '1') {
                 TATDayLabel = StandardTATConversion + ' Day';
               } else {
                 TATDayLabel = StandardTATConversion + ' Days';
               }
             }
-            if (data.UrgentPriorAuthTAT / 3600 < 1) {
+            if (data.AvgTatUrgent_hours < 1) {
               UrgentTATConversion = '<1';
               TATHourLabel = UrgentTATConversion + ' Hour';
             } else {
-              UrgentTATConversion = (data.UrgentPriorAuthTAT / 3600).toFixed(0);
+              UrgentTATConversion = data.AvgTatUrgent_hours.toFixed(0);
               if (UrgentTATConversion === '1') {
                 TATHourLabel = UrgentTATConversion + ' Hour';
               } else {
@@ -327,11 +329,11 @@ export class PriorAuthSharedService {
           let lobStringFormatted;
           if (LOB === 'All') {
             lobStringFormatted = 'All';
-          } else if (LOB === 'Community & State') {
+          } else if (LOB === 'CS') {
             lobStringFormatted = 'Cs';
-          } else if (LOB === 'Employer & Individual') {
+          } else if (LOB === 'EI') {
             lobStringFormatted = 'Ei';
-          } else if (LOB === 'Medicare & Retirement') {
+          } else if (LOB === 'MR') {
             lobStringFormatted = 'Mr';
           }
 
