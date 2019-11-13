@@ -62,6 +62,11 @@
           <p class="change-provider" *ngIf="disableChangeProvider && !AcoFlag" (click)="openDialog()">
             Change Provider
           </p>
+          <p class="view-Tax-Id-Summary-div" *ngIf="!disableChangeProvider && !AcoFlag">
+            <a class="view-Tax-Id-Summary" [routerLink]="['/TinList']">
+              View Tax ID Summary
+            </a>
+          </p>
         </div>
         <!-- END OF HEALTHSYSTEM REPRESENTATION BLOCK -->
         <!-- MENU CATEGORIES BLOCK -->
@@ -212,12 +217,7 @@
               [title]="glossaryTitle"
               [MetricID]="glossaryMetricID"
             ></app-glossary>
-            <app-filter
-              *ngIf="filterFlag && !isKop"
-              [filterurl]="filterurl"
-              [filterData]="filterData"
-              (filterFlag)="filterFlagChange($event)"
-            ></app-filter>
+            <app-uhci-filter *ngIf="filterFlag && !isKop" (filterFlag)="filterFlagChange($event)"></app-uhci-filter>
             <app-kop-filters
               *ngIf="filterFlag && isKop"
               [filterurl]="filterurl"

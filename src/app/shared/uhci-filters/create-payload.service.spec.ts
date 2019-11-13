@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 
-import { SummaryTrendsService } from './summary-trends.service';
+import { CreatePayloadService } from './create-payload.service';
 
-describe('SummaryTrendsService', () => {
+describe('CreatePayloadService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: SummaryTrendsService = TestBed.get(SummaryTrendsService);
+    const service: CreatePayloadService = TestBed.get(CreatePayloadService);
     expect(service).toBeTruthy();
   });
 });
