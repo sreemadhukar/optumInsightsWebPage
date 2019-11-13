@@ -96,7 +96,7 @@ height: 45px; */
   // margin-left: 16px;
 }
 .bar-graphs-nohover {
-  padding: 0 8px 8px 0;
+  padding: 0 8px 8px 32px;
   float: left;
   cursor: pointer;
   background: rgb(255, 255, 255);
@@ -352,7 +352,7 @@ height: 45px; */
     padding-left: 10px;
   }
   .cms-number {
-    font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+    font-family: 'UHCSans-Bold', Helvetica, Arial, sans-serif;
     display: inline-block;
     padding-left: 5px;
   }
