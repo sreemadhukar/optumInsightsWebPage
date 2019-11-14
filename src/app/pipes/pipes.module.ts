@@ -4,9 +4,10 @@ import { CurrencyFormatterPipe } from './currency-formatter.pipe';
 import { TemporaryTextFormatterPipe } from './temporary-text-formatter.pipe';
 import { TimePeriodPipe } from './timeperiod.pipe';
 import { QuarterPipe } from './quartercard.pipe';
+import { CountryFormatterPipe } from './country-formatter.pipe';
 @NgModule({
   imports: [CommonModule],
-  declarations: [CurrencyFormatterPipe, TimePeriodPipe, QuarterPipe, TemporaryTextFormatterPipe],
-  exports: [CurrencyFormatterPipe, TimePeriodPipe, QuarterPipe, TemporaryTextFormatterPipe]
+  declarations: [CurrencyFormatterPipe, TimePeriodPipe, QuarterPipe, TemporaryTextFormatterPipe, CountryFormatterPipe],
+  exports: [CurrencyFormatterPipe, TimePeriodPipe, QuarterPipe, TemporaryTextFormatterPipe, CountryFormatterPipe]
 })
 export class PipesModule {}

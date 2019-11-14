@@ -6,6 +6,10 @@ import { SessionService } from '../../session.service';
 import { AuthorizationService } from '../../../auth/_service/authorization.service';
 import { GlossaryMetricidService } from '../../glossary-metricid.service';
 import { AdvocateModule } from '../../../components/advocate/advocate.module';
+import { HttpParams } from '@angular/common/http';
+import { GettingReimbursedPayload } from '../payload.class';
+import * as _ from 'lodash';
+import { environment } from '../../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -29,577 +33,180 @@ export class NonPaymentSharedService {
   ) {}
 
   // The getNonPayment() function fetches data for Claims Not Paid and Claims Non-Payment Rate
-  public getNonPayment() {
-    this.tin = this.session.filterObjValue.tax.toString().replace(/-/g, '');
-    this.lob = this.session.filterObjValue.lob;
-    this.timeFrame = this.session.filterObjValue.timeFrame;
+  public getNonPayment(param) {
     this.providerKey = this.session.providerKeyData();
     return new Promise(resolve => {
-      let parameters;
-      if (
-        this.timeFrame === 'Last 12 Months' ||
-        this.timeFrame === 'Last 6 Months' ||
-        this.timeFrame === 'Last 3 Months' ||
-        this.timeFrame === 'Last 30 Days' ||
-        this.timeFrame === 'Year to Date'
-      ) {
-        if (this.timeFrame === 'Last 12 Months') {
-          if (this.tin !== 'All' && this.lob !== 'All') {
-            parameters = [
-              this.providerKey,
-              { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Last12Months', Tin: this.tin }
-            ];
-          } else if (this.tin !== 'All') {
-            parameters = [this.providerKey, { TimeFilter: 'Last12Months', Tin: this.tin }];
-          } else if (this.lob !== 'All') {
-            parameters = [
-              this.providerKey,
-              { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Last12Months' }
-            ];
-          } else {
-            parameters = [this.providerKey, { TimeFilter: 'Last12Months' }];
-          }
-        } else if (this.timeFrame === 'Last 3 Months') {
-          if (this.tin !== 'All' && this.lob !== 'All') {
-            parameters = [
-              this.providerKey,
-              { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Last3Months', Tin: this.tin }
-            ];
-          } else if (this.tin !== 'All') {
-            parameters = [this.providerKey, { TimeFilter: 'Last3Months', Tin: this.tin }];
-          } else if (this.lob !== 'All') {
-            parameters = [
-              this.providerKey,
-              { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Last3Months' }
-            ];
-          } else {
-            parameters = [this.providerKey, { TimeFilter: 'Last3Months' }];
-          }
-        } else if (this.timeFrame === 'Last 30 Days') {
-          if (this.tin !== 'All' && this.lob !== 'All') {
-            parameters = [
-              this.providerKey,
-              { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Last30Days', Tin: this.tin }
-            ];
-          } else if (this.tin !== 'All') {
-            parameters = [this.providerKey, { TimeFilter: 'Last30Days', Tin: this.tin }];
-          } else if (this.lob !== 'All') {
-            parameters = [
-              this.providerKey,
-              { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Last30Days' }
-            ];
-          } else {
-            parameters = [this.providerKey, { TimeFilter: 'Last30Days' }];
-          }
-        } else if (this.timeFrame === 'Year to Date') {
-          if (this.tin !== 'All' && this.lob !== 'All') {
-            parameters = [
-              this.providerKey,
-              { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'YTD', Tin: this.tin }
-            ];
-          } else if (this.tin !== 'All') {
-            parameters = [this.providerKey, { TimeFilter: 'YTD', Tin: this.tin }];
-          } else if (this.lob !== 'All') {
-            parameters = [this.providerKey, { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'YTD' }];
-          } else {
-            parameters = [this.providerKey, { TimeFilter: 'YTD' }];
-          }
-        } else if (this.timeFrame === 'Last 6 Months') {
-          if (this.tin !== 'All' && this.lob !== 'All') {
-            parameters = [
-              this.providerKey,
-              { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Last6Months', Tin: this.tin }
-            ];
-          } else if (this.tin !== 'All') {
-            parameters = [this.providerKey, { TimeFilter: 'Last6Months', Tin: this.tin }];
-          } else if (this.lob !== 'All') {
-            parameters = [
-              this.providerKey,
-              { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Last6Months' }
-            ];
-          } else {
-            parameters = [this.providerKey, { TimeFilter: 'Last6Months' }];
-          }
-        }
-        // let nonPayment: object;
-        if (parameters[1].hasOwnProperty('Lob')) {
-          delete parameters[1].Lob;
-        }
-
-        this.nonPaymentService.getNonPaymentData(...parameters).subscribe(
-          ([nonPaymentData1]) => {
-            let claimsNotPaid: Object;
-            let claimsNotPaidRate: Object;
-            const LOBConvertor = this.common.matchLobWithData(this.lob);
-            if (
-              (nonPaymentData1 || {}).All &&
-              nonPaymentData1.All.hasOwnProperty('ClaimsLobSummary') &&
-              nonPaymentData1.All.ClaimsLobSummary.length &&
-              nonPaymentData1.All.ClaimsLobSummary[0].hasOwnProperty('AmountDenied')
-            ) {
-              const nonPaidData = [];
-              if (nonPaymentData1.hasOwnProperty('Mr') && nonPaymentData1.Mr != null) {
-                if (
-                  nonPaymentData1.Mr.hasOwnProperty('ClaimsLobSummary') &&
-                  nonPaymentData1.Mr.ClaimsLobSummary.length &&
-                  nonPaymentData1.Mr.ClaimsLobSummary[0].hasOwnProperty('AmountDenied') &&
-                  (LOBConvertor === 'All' || LOBConvertor === 'Mr')
-                ) {
-                  nonPaidData.push(nonPaymentData1.Mr.ClaimsLobSummary[0].AmountDenied);
-                }
+      this.nonPaymentService.getNonPaymentData(...this.getParameterCategories(param)).subscribe(
+        ([nonPaymentData1]) => {
+          let claimsNotPaid: Object;
+          let claimsNotPaidRate: Object;
+          const lobValue = param.lineOfBusiness ? _.startCase(param.lineOfBusiness.toLowerCase()) : 'All';
+          if (
+            (nonPaymentData1 || {}).All &&
+            nonPaymentData1.All.hasOwnProperty('ClaimsLobSummary') &&
+            nonPaymentData1.All.ClaimsLobSummary.length &&
+            nonPaymentData1.All.ClaimsLobSummary[0].hasOwnProperty('AmountDenied')
+          ) {
+            const nonPaidData = [];
+            if (nonPaymentData1.hasOwnProperty('Mr') && nonPaymentData1.Mr != null) {
+              if (
+                nonPaymentData1.Mr.hasOwnProperty('ClaimsLobSummary') &&
+                nonPaymentData1.Mr.ClaimsLobSummary.length &&
+                nonPaymentData1.Mr.ClaimsLobSummary[0].hasOwnProperty('AmountDenied') &&
+                (lobValue === 'All' || lobValue === 'Mr')
+              ) {
+                nonPaidData.push(nonPaymentData1.Mr.ClaimsLobSummary[0].AmountDenied);
               }
-              if (nonPaymentData1.hasOwnProperty('Cs') && nonPaymentData1.Cs != null) {
-                if (
-                  nonPaymentData1.Cs.hasOwnProperty('ClaimsLobSummary') &&
-                  nonPaymentData1.Cs.ClaimsLobSummary.length &&
-                  nonPaymentData1.Cs.ClaimsLobSummary[0].hasOwnProperty('AmountDenied') &&
-                  (LOBConvertor === 'All' || LOBConvertor === 'Cs')
-                ) {
-                  nonPaidData.push(nonPaymentData1.Cs.ClaimsLobSummary[0].AmountDenied);
-                }
-              }
-              if (nonPaymentData1.hasOwnProperty('Ei') && nonPaymentData1.Ei != null) {
-                if (
-                  nonPaymentData1.Ei.hasOwnProperty('ClaimsLobSummary') &&
-                  nonPaymentData1.Ei.ClaimsLobSummary.length &&
-                  nonPaymentData1.Ei.ClaimsLobSummary[0].hasOwnProperty('AmountDenied') &&
-                  (LOBConvertor === 'All' || LOBConvertor === 'Ei')
-                ) {
-                  nonPaidData.push(nonPaymentData1.Ei.ClaimsLobSummary[0].AmountDenied);
-                }
-              }
-              if (nonPaymentData1.hasOwnProperty('Un') && nonPaymentData1.Un != null) {
-                if (
-                  nonPaymentData1.Un.hasOwnProperty('ClaimsLobSummary') &&
-                  nonPaymentData1.Un.ClaimsLobSummary.length &&
-                  nonPaymentData1.Un.ClaimsLobSummary[0].hasOwnProperty('AmountDenied') &&
-                  (LOBConvertor === 'All' || LOBConvertor === 'Un')
-                ) {
-                  nonPaidData.push(nonPaymentData1.Un.ClaimsLobSummary[0].AmountDenied);
-                }
-              }
-              if (LOBConvertor !== 'All') {
-                const amountPaid = nonPaymentData1.All.ClaimsLobSummary[0].AmountDenied;
-                const amountPaidLOB = nonPaymentData1[LOBConvertor].ClaimsLobSummary[0].AmountDenied;
-                nonPaidData.push(amountPaid - amountPaidLOB);
-              }
-
-              claimsNotPaid = {
-                category: 'app-card',
-                type: 'donutWithLabel',
-                title: 'Claims Not Paid',
-                MetricID: this.MetricidService.MetricIDs.ClaimsNotPaid,
-                data: {
-                  graphValues: nonPaidData,
-                  centerNumber:
-                    this.common.nFormatter(nonPaymentData1[LOBConvertor].ClaimsLobSummary[0].AmountDenied) < 1 &&
-                    this.common.nFormatter(nonPaymentData1[LOBConvertor].ClaimsLobSummary[0].AmountDenied) > 0
-                      ? '< $1'
-                      : '$' + this.common.nFormatter(nonPaymentData1[LOBConvertor].ClaimsLobSummary[0].AmountDenied),
-                  color: this.common.returnLobColor(nonPaymentData1),
-                  gdata: ['card-inner', 'claimsNotPaid'],
-                  sdata: {
-                    sign: '',
-                    data: ''
-                  },
-                  labels: this.common.returnHoverLabels(nonPaymentData1),
-                  hover: true
-                },
-                besideData: {
-                  labels: this.common.LOBSideLabels(LOBConvertor, nonPaidData),
-                  color: this.common.LOBSideLabelColors(LOBConvertor, nonPaidData)
-                },
-                timeperiod: this.timeFrame
-              };
-            } else {
-              claimsNotPaid = {
-                category: 'app-card',
-                type: 'donutWithLabel',
-                status: 404,
-                title: 'Claims Not Paid',
-                MetricID: this.MetricidService.MetricIDs.ClaimsNotPaid,
-                data: null,
-                besideData: null,
-                bottomData: null,
-                timeperiod: null
-              };
             }
-            if (
-              (nonPaymentData1 || {}).All &&
-              nonPaymentData1.All.hasOwnProperty('ClaimsLobSummary') &&
-              nonPaymentData1.All.ClaimsLobSummary.length &&
-              nonPaymentData1.All.ClaimsLobSummary[0].hasOwnProperty('ClaimsYieldRate') &&
-              nonPaymentData1.All.ClaimsLobSummary[0].hasOwnProperty('ClaimsNonPaymentRate')
-            ) {
-              claimsNotPaidRate = {
-                category: 'app-card',
-                type: 'donut',
-                title: 'Claims Non-Payment Rate',
-                MetricID: this.MetricidService.MetricIDs.ClaimsNonPaymentRate,
-                data: {
-                  graphValues: [
-                    nonPaymentData1.All.ClaimsLobSummary[0].ClaimsNonPaymentRate,
-                    nonPaymentData1.All.ClaimsLobSummary[0].ClaimsYieldRate
-                  ],
-                  centerNumber:
-                    nonPaymentData1.All.ClaimsLobSummary[0].ClaimsNonPaymentRate < 1 &&
-                    nonPaymentData1.All.ClaimsLobSummary[0].ClaimsNonPaymentRate > 0
-                      ? '< 1%'
-                      : nonPaymentData1.All.ClaimsLobSummary[0].ClaimsNonPaymentRate + '%',
-                  color: ['#3381FF', '#D7DCE1'],
-                  gdata: ['card-inner', 'claimsNonPaymentRate'],
-                  sdata: null
-                },
-                timeperiod: this.timeFrame
-              };
-            } else {
-              claimsNotPaidRate = {
-                category: 'app-card',
-                type: 'donut',
-                status: 404,
-                title: 'Claims Non-Payment Rate',
-                MetricID: this.MetricidService.MetricIDs.ClaimsNonPaymentRate,
-                data: null,
-                timeperiod: null
-              };
-            } // end if else
-            this.summaryData = [];
+            if (nonPaymentData1.hasOwnProperty('Cs') && nonPaymentData1.Cs != null) {
+              if (
+                nonPaymentData1.Cs.hasOwnProperty('ClaimsLobSummary') &&
+                nonPaymentData1.Cs.ClaimsLobSummary.length &&
+                nonPaymentData1.Cs.ClaimsLobSummary[0].hasOwnProperty('AmountDenied') &&
+                (lobValue === 'All' || lobValue === 'Cs')
+              ) {
+                nonPaidData.push(nonPaymentData1.Cs.ClaimsLobSummary[0].AmountDenied);
+              }
+            }
+            if (nonPaymentData1.hasOwnProperty('Ei') && nonPaymentData1.Ei != null) {
+              if (
+                nonPaymentData1.Ei.hasOwnProperty('ClaimsLobSummary') &&
+                nonPaymentData1.Ei.ClaimsLobSummary.length &&
+                nonPaymentData1.Ei.ClaimsLobSummary[0].hasOwnProperty('AmountDenied') &&
+                (lobValue === 'All' || lobValue === 'Ei')
+              ) {
+                nonPaidData.push(nonPaymentData1.Ei.ClaimsLobSummary[0].AmountDenied);
+              }
+            }
+            if (nonPaymentData1.hasOwnProperty('Un') && nonPaymentData1.Un != null) {
+              if (
+                nonPaymentData1.Un.hasOwnProperty('ClaimsLobSummary') &&
+                nonPaymentData1.Un.ClaimsLobSummary.length &&
+                nonPaymentData1.Un.ClaimsLobSummary[0].hasOwnProperty('AmountDenied') &&
+                (lobValue === 'All' || lobValue === 'Un')
+              ) {
+                nonPaidData.push(nonPaymentData1.Un.ClaimsLobSummary[0].AmountDenied);
+              }
+            }
+            if (lobValue !== 'All') {
+              const amountPaid = nonPaymentData1.All.ClaimsLobSummary[0].AmountDenied;
+              const amountPaidLOB = nonPaymentData1[lobValue].ClaimsLobSummary[0].AmountDenied;
+              nonPaidData.push(amountPaid - amountPaidLOB);
+            }
 
-            /** REMOVE LATER (ONCE PDP ISSUE SOLVED) ***/
+            claimsNotPaid = {
+              category: 'app-card',
+              type: 'donutWithLabel',
+              title: 'Claims Not Paid',
+              MetricID: this.MetricidService.MetricIDs.ClaimsNotPaid,
+              data: {
+                graphValues: nonPaidData,
+                centerNumber:
+                  this.common.nFormatter(nonPaymentData1[lobValue].ClaimsLobSummary[0].AmountDenied) < 1 &&
+                  this.common.nFormatter(nonPaymentData1[lobValue].ClaimsLobSummary[0].AmountDenied) > 0
+                    ? '< $1'
+                    : '$' + this.common.nFormatter(nonPaymentData1[lobValue].ClaimsLobSummary[0].AmountDenied),
+                color: this.common.returnLobColor(nonPaymentData1, lobValue),
+                gdata: ['card-inner', 'claimsNotPaid'],
+                sdata: {
+                  sign: '',
+                  data: ''
+                },
+                labels: this.common.returnHoverLabels(nonPaymentData1, lobValue),
+                hover: true
+              },
+              besideData: {
+                labels: this.common.LOBSideLabels(lobValue, nonPaidData),
+                color: this.common.LOBSideLabelColors(lobValue, nonPaidData)
+              },
+              timeperiod: this.common.getTimePeriodFilterValue(param.timePeriod)
+            };
+          } else {
+            claimsNotPaid = {
+              category: 'app-card',
+              type: 'donutWithLabel',
+              status: 404,
+              title: 'Claims Not Paid',
+              MetricID: this.MetricidService.MetricIDs.ClaimsNotPaid,
+              data: null,
+              besideData: null,
+              bottomData: null,
+              timeperiod: null
+            };
+          }
+          if (
+            (nonPaymentData1 || {}).All &&
+            nonPaymentData1.All.hasOwnProperty('ClaimsLobSummary') &&
+            nonPaymentData1.All.ClaimsLobSummary.length &&
+            nonPaymentData1.All.ClaimsLobSummary[0].hasOwnProperty('ClaimsYieldRate') &&
+            nonPaymentData1.All.ClaimsLobSummary[0].hasOwnProperty('ClaimsNonPaymentRate')
+          ) {
             claimsNotPaidRate = {
               category: 'app-card',
               type: 'donut',
-              title: null,
-              data: null,
-              timeperiod: null
+              title: 'Claims Non-Payment Rate',
+              MetricID: this.MetricidService.MetricIDs.ClaimsNonPaymentRate,
+              toggle: !environment.internalAccess,
+              data: {
+                graphValues: [
+                  nonPaymentData1.All.ClaimsLobSummary[0].ClaimsNonPaymentRate,
+                  nonPaymentData1.All.ClaimsLobSummary[0].ClaimsYieldRate
+                ],
+                centerNumber:
+                  nonPaymentData1.All.ClaimsLobSummary[0].ClaimsNonPaymentRate < 1 &&
+                  nonPaymentData1.All.ClaimsLobSummary[0].ClaimsNonPaymentRate > 0
+                    ? '< 1%'
+                    : nonPaymentData1.All.ClaimsLobSummary[0].ClaimsNonPaymentRate + '%',
+                color: ['#3381FF', '#D7DCE1'],
+                gdata: ['card-inner', 'claimsNonPaymentRate'],
+                sdata: null
+              },
+              timeperiod: this.common.getTimePeriodFilterValue(param.timePeriod)
             };
-            this.summaryData.push(claimsNotPaid, claimsNotPaidRate);
-            resolve(this.summaryData);
-          },
-          err => {
-            console.log('Non Payment Page , Error for two donuts Data', err);
-          }
-        );
-      } else {
-        const lobData = this.common.matchLobWithData(this.lob);
-        if (this.tin !== 'All' && this.lob !== 'All') {
-          parameters = [
-            this.providerKey,
-            {
-              Lob: this.common.matchLobWithCapsData(this.lob),
-              TimeFilter: 'CalendarYear',
-              TimeFilterText: this.timeFrame,
-              Tin: this.tin
-            }
-          ];
-        } else if (this.tin !== 'All') {
-          parameters = [
-            this.providerKey,
-            { TimeFilter: 'CalendarYear', TimeFilterText: this.timeFrame, Tin: this.tin }
-          ];
-        } else if (this.lob !== 'All') {
-          parameters = [
-            this.providerKey,
-            {
-              Lob: this.common.matchLobWithCapsData(this.lob),
-              TimeFilter: 'CalendarYear',
-              TimeFilterText: this.timeFrame
-            }
-          ];
-        } else {
-          parameters = [this.providerKey, { TimeFilter: 'CalendarYear', TimeFilterText: this.timeFrame }];
-        }
-        if (parameters[1].hasOwnProperty('Lob')) {
-          delete parameters[1].Lob;
-        }
-        this.nonPaymentService.getNonPaymentData(...parameters).subscribe(
-          ([nonPaymentData1]) => {
-            let claimsNotPaid: Object;
-            let claimsNotPaidRate: Object;
-            const LOBConvertor = this.common.matchLobWithData(this.lob);
-            if (
-              (nonPaymentData1 || {}).All &&
-              nonPaymentData1.All.hasOwnProperty('ClaimsLobSummary') &&
-              nonPaymentData1.All.ClaimsLobSummary.length &&
-              nonPaymentData1.All.ClaimsLobSummary[0].hasOwnProperty('AmountDenied')
-            ) {
-              const nonPaidData = [];
-              const nonPaidLOBBoolean = [false, false, false, false];
-              if (nonPaymentData1.hasOwnProperty('Mr') && nonPaymentData1.Mr != null) {
-                if (
-                  nonPaymentData1.Mr.hasOwnProperty('ClaimsLobSummary') &&
-                  nonPaymentData1.Mr.ClaimsLobSummary.length &&
-                  nonPaymentData1.Mr.ClaimsLobSummary[0].hasOwnProperty('AmountDenied') &&
-                  (LOBConvertor === 'All' || LOBConvertor === 'Mr')
-                ) {
-                  nonPaidData.push(nonPaymentData1.Mr.ClaimsLobSummary[0].AmountDenied);
-                  nonPaidLOBBoolean[0] = false;
-                }
-              }
-              if (nonPaymentData1.hasOwnProperty('Cs') && nonPaymentData1.Cs != null) {
-                if (
-                  nonPaymentData1.Cs.hasOwnProperty('ClaimsLobSummary') &&
-                  nonPaymentData1.Cs.ClaimsLobSummary.length &&
-                  nonPaymentData1.Cs.ClaimsLobSummary[0].hasOwnProperty('AmountDenied') &&
-                  (LOBConvertor === 'All' || LOBConvertor === 'Cs')
-                ) {
-                  nonPaidData.push(nonPaymentData1.Cs.ClaimsLobSummary[0].AmountDenied);
-                  nonPaidLOBBoolean[1] = false;
-                }
-              }
-              if (nonPaymentData1.hasOwnProperty('Ei') && nonPaymentData1.Ei != null) {
-                if (
-                  nonPaymentData1.Ei.hasOwnProperty('ClaimsLobSummary') &&
-                  nonPaymentData1.Ei.ClaimsLobSummary.length &&
-                  nonPaymentData1.Ei.ClaimsLobSummary[0].hasOwnProperty('AmountDenied') &&
-                  (LOBConvertor === 'All' || LOBConvertor === 'Ei')
-                ) {
-                  nonPaidData.push(nonPaymentData1.Ei.ClaimsLobSummary[0].AmountDenied);
-                  nonPaidLOBBoolean[2] = false;
-                }
-              }
-              if (nonPaymentData1.hasOwnProperty('Un') && nonPaymentData1.Un != null) {
-                if (
-                  nonPaymentData1.Un.hasOwnProperty('ClaimsLobSummary') &&
-                  nonPaymentData1.Un.ClaimsLobSummary.length &&
-                  nonPaymentData1.Un.ClaimsLobSummary[0].hasOwnProperty('AmountDenied')(
-                    LOBConvertor === 'All' || LOBConvertor === 'Un'
-                  )
-                ) {
-                  nonPaidData.push(nonPaymentData1.Un.ClaimsLobSummary[0].AmountDenied);
-                  nonPaidLOBBoolean[3] = false;
-                }
-              }
-              if (LOBConvertor !== 'All') {
-                const amountPaid = nonPaymentData1.All.ClaimsLobSummary[0].AmountDenied;
-                const amountPaidLOB = nonPaymentData1[LOBConvertor].ClaimsLobSummary[0].AmountDenied;
-                nonPaidData.push(amountPaid - amountPaidLOB);
-              }
-              claimsNotPaid = {
-                category: 'app-card',
-                type: 'donutWithLabel',
-                title: 'Claims Not Paid',
-                MetricID: this.MetricidService.MetricIDs.ClaimsNotPaid,
-                data: {
-                  graphValues: nonPaidData,
-                  centerNumber:
-                    this.common.nFormatter(nonPaymentData1[lobData].ClaimsLobSummary[0].AmountDenied) < 1 &&
-                    this.common.nFormatter(nonPaymentData1[lobData].ClaimsLobSummary[0].AmountDenied) > 0
-                      ? '< $1'
-                      : '$' + this.common.nFormatter(nonPaymentData1[lobData].ClaimsLobSummary[0].AmountDenied),
-                  color: this.common.returnLobColor(nonPaymentData1),
-                  gdata: ['card-inner', 'claimsNotPaid'],
-                  sdata: {
-                    sign: '',
-                    data: ''
-                  },
-                  labels: this.common.returnHoverLabels(nonPaymentData1),
-                  hover: true
-                },
-                besideData: {
-                  labels: this.common.LOBSideLabels(LOBConvertor, nonPaidLOBBoolean),
-                  color: this.common.LOBSideLabelColors(LOBConvertor, nonPaidLOBBoolean)
-                },
-                timeperiod: this.timeFrame
-              };
-            } else {
-              claimsNotPaid = {
-                category: 'app-card',
-                type: 'donutWithLabel',
-                status: 404,
-                title: 'Claims Not Paid',
-                MetricID: this.MetricidService.MetricIDs.ClaimsNotPaid,
-                data: null,
-                besideData: null,
-                bottomData: null,
-                timeperiod: null
-              };
-            }
-            if (
-              nonPaymentData1.hasOwnProperty(lobData) &&
-              nonPaymentData1[lobData] != null &&
-              nonPaymentData1[lobData].hasOwnProperty('ClaimsLobSummary') &&
-              nonPaymentData1[lobData].ClaimsLobSummary.length &&
-              nonPaymentData1[lobData].ClaimsLobSummary[0].hasOwnProperty('ClaimsYieldRate') &&
-              nonPaymentData1[lobData].ClaimsLobSummary[0].hasOwnProperty('ClaimsNonPaymentRate')
-            ) {
-              claimsNotPaidRate = {
-                category: 'app-card',
-                type: 'donut',
-                title: 'Claims Non-Payment Rate',
-                MetricID: this.MetricidService.MetricIDs.ClaimsNonPaymentRate,
-                data: {
-                  graphValues: [
-                    nonPaymentData1[lobData].ClaimsLobSummary[0].ClaimsNonPaymentRate,
-                    nonPaymentData1[lobData].ClaimsLobSummary[0].ClaimsYieldRate
-                  ],
-                  centerNumber:
-                    nonPaymentData1[lobData].ClaimsLobSummary[0].ClaimsNonPaymentRate < 1 &&
-                    nonPaymentData1[lobData].ClaimsLobSummary[0].ClaimsNonPaymentRate > 0
-                      ? '< 1%'
-                      : nonPaymentData1[lobData].ClaimsLobSummary[0].ClaimsNonPaymentRate + '%',
-                  color: ['#3381FF', '#D7DCE1'],
-                  gdata: ['card-inner', 'claimsNonPaymentRate'],
-                  sdata: null
-                },
-                timeperiod: this.timeFrame
-              };
-            } else {
-              claimsNotPaidRate = {
-                category: 'app-card',
-                type: 'donut',
-                status: 404,
-                title: 'Claims Non-Payment Rate',
-                MetricID: this.MetricidService.MetricIDs.ClaimsNonPaymentRate,
-                data: null,
-                timeperiod: null
-              };
-            } // end if else
-            this.summaryData = [];
-            /** REMOVE LATER (ONCE PDP ISSUE SOLVED) ***/
+          } else {
             claimsNotPaidRate = {
               category: 'app-card',
               type: 'donut',
-              title: null,
+              status: 404,
+              title: 'Claims Non-Payment Rate',
+              MetricID: this.MetricidService.MetricIDs.ClaimsNonPaymentRate,
               data: null,
               timeperiod: null
             };
-            this.summaryData.push(claimsNotPaid, claimsNotPaidRate);
-            resolve(this.summaryData);
-          },
-          err => {
-            console.log('Non Payments Donut Error Data', err);
-          }
-        );
-      }
+          } // end if else
+          this.summaryData = [];
+
+          /** REMOVE LATER (ONCE PDP ISSUE SOLVED) ***/
+          // claimsNotPaidRate = {
+          //   category: 'app-card',
+          //   type: 'donut',
+          //   title: null,
+          //   data: null,
+          //   timeperiod: null
+          // };
+          this.summaryData.push(claimsNotPaid, claimsNotPaidRate);
+          resolve(this.summaryData);
+        },
+        err => {
+          console.log('Non Payment Page , Error for two donuts Data', err);
+        }
+      );
     });
   } // end funtion getNonPayment()
 
-  getParmaeterCategories() {
+  getParameterCategories(param) {
     let parameters = [];
-    this.timeFrame = this.session.filterObjValue.timeFrame;
     this.providerKey = this.session.providerKeyData();
-    if (
-      this.timeFrame === 'Last 12 Months' ||
-      this.timeFrame === 'Last 6 Months' ||
-      this.timeFrame === 'Last 3 Months' ||
-      this.timeFrame === 'Last 30 Days' ||
-      this.timeFrame === 'Year to Date'
-    ) {
-      if (this.timeFrame === 'Last 12 Months') {
-        if (this.tin !== 'All' && this.lob !== 'All') {
-          parameters = [
-            this.providerKey,
-            { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Last12Months', Tin: this.tin }
-          ];
-        } else if (this.tin !== 'All') {
-          parameters = [this.providerKey, { TimeFilter: 'Last12Months', Tin: this.tin }];
-        } else if (this.lob !== 'All') {
-          parameters = [
-            this.providerKey,
-            { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Last12Months' }
-          ];
-        } else {
-          parameters = [this.providerKey, { TimeFilter: 'Last12Months' }];
-        }
-      } else if (this.timeFrame === 'Year to Date') {
-        if (this.tin !== 'All' && this.lob !== 'All') {
-          parameters = [
-            this.providerKey,
-            { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'YTD', Tin: this.tin }
-          ];
-        } else if (this.tin !== 'All') {
-          parameters = [this.providerKey, { TimeFilter: 'YTD', Tin: this.tin }];
-        } else if (this.lob !== 'All') {
-          parameters = [this.providerKey, { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'YTD' }];
-        } else {
-          parameters = [this.providerKey, { TimeFilter: 'YTD' }];
-        }
-      } else if (this.timeFrame === 'Last 6 Months') {
-        if (this.tin !== 'All' && this.lob !== 'All') {
-          parameters = [
-            this.providerKey,
-            { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Last6Months', Tin: this.tin }
-          ];
-        } else if (this.tin !== 'All') {
-          parameters = [this.providerKey, { TimeFilter: 'Last6Months', Tin: this.tin }];
-        } else if (this.lob !== 'All') {
-          parameters = [
-            this.providerKey,
-            { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Last6Months' }
-          ];
-        } else {
-          parameters = [this.providerKey, { TimeFilter: 'Last6Months' }];
-        }
-      } else if (this.timeFrame === 'Last 3 Months') {
-        if (this.tin !== 'All' && this.lob !== 'All') {
-          parameters = [
-            this.providerKey,
-            { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Last3Months', Tin: this.tin }
-          ];
-        } else if (this.tin !== 'All') {
-          parameters = [this.providerKey, { TimeFilter: 'Last3Months', Tin: this.tin }];
-        } else if (this.lob !== 'All') {
-          parameters = [
-            this.providerKey,
-            { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Last3Months' }
-          ];
-        } else {
-          parameters = [this.providerKey, { TimeFilter: 'Last3Months' }];
-        }
-      } else if (this.timeFrame === 'Last 30 Days') {
-        if (this.tin !== 'All' && this.lob !== 'All') {
-          parameters = [
-            this.providerKey,
-            { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Last30Days', Tin: this.tin }
-          ];
-        } else if (this.tin !== 'All') {
-          parameters = [this.providerKey, { TimeFilter: 'Last30Days', Tin: this.tin }];
-        } else if (this.lob !== 'All') {
-          parameters = [
-            this.providerKey,
-            { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Last30Days' }
-          ];
-        } else {
-          parameters = [this.providerKey, { TimeFilter: 'Last30Days' }];
-        }
-      }
-    } else {
-      const lobData = this.common.matchLobWithData(this.lob);
-      if (this.tin !== 'All' && this.lob !== 'All') {
-        parameters = [
-          this.providerKey,
-          {
-            Lob: this.common.matchLobWithCapsData(this.lob),
-            TimeFilter: 'CalendarYear',
-            TimeFilterText: this.timeFrame,
-            Tin: this.tin
-          }
-        ];
-      } else if (this.tin !== 'All') {
-        parameters = [this.providerKey, { TimeFilter: 'CalendarYear', TimeFilterText: this.timeFrame, Tin: this.tin }];
-      } else if (this.lob !== 'All') {
-        parameters = [
-          this.providerKey,
-          {
-            Lob: this.common.matchLobWithCapsData(this.lob),
-            TimeFilter: 'CalendarYear',
-            TimeFilterText: this.timeFrame
-          }
-        ];
-      } else {
-        parameters = [this.providerKey, { TimeFilter: 'CalendarYear', TimeFilterText: this.timeFrame }];
-      }
-    } // End If else structure
+    parameters = [this.providerKey, new GettingReimbursedPayload(param)];
     return parameters;
-  } // end getParmaeterCategories() function for Top Reasons Categories
+  } // end getParameterCategories() function for Top Reasons Categories
 
-  public getNonPaymentCategories() {
+  public getNonPaymentCategories(param) {
     // Assign the paramater variable
     let paramtersCategories = [];
-    paramtersCategories = this.getParmaeterCategories();
+    paramtersCategories = this.getParameterCategories(param);
     paramtersCategories[1]['Count'] = this.categoriesFetchCount;
-    this.getParmaeterCategories();
+    this.getParameterCategories(param);
     return new Promise(resolve => {
       this.sharedTopCategories(paramtersCategories)
         .then(topReasons => {
@@ -631,7 +238,7 @@ export class NonPaymentSharedService {
   } // end getNonPaymentCategories function
 
   public sharedTopSubCategories(paramtersSubCategory, topReasons) {
-    this.timeFrame = this.session.filterObjValue.timeFrame;
+    // this.timeFrame = this.session.filterObjValue.timeFrame;
     return new Promise(resolve => {
       this.nonPaymentService.getNonPaymentSubCategories(paramtersSubCategory).subscribe(
         data => {
@@ -678,7 +285,7 @@ export class NonPaymentSharedService {
     });
   }
   public sharedTopCategories(parameters) {
-    this.timeFrame = this.session.filterObjValue.timeFrame;
+    // this.timeFrame = this.session.filterObjValue.timeFrame;
     return new Promise(resolve => {
       /** Get Top 5 Categories Data */
       this.nonPaymentService.getNonPaymentTopCategories(...parameters).subscribe(
@@ -748,14 +355,13 @@ export class NonPaymentSharedService {
     }
   }
 
-  public sharedTrendByMonth() {
-    let paramters = [];
-    paramters = this.getParmaeterCategories();
-    this.timeFrame = this.session.filterObjValue.timeFrame;
+  public sharedTrendByMonth(param) {
+    let parameters = [];
+    parameters = this.getParameterCategories(param);
     return new Promise((resolve, reject) => {
-      this.nonPaymentService.getNonPaymentTrendByMonth(paramters).subscribe(nonPaymentsTrendData => {
+      this.nonPaymentService.getNonPaymentTrendByMonth(parameters).subscribe(nonPaymentsTrendData => {
         try {
-          const lobData = this.lob;
+          // const lobData = this.lob;
           const filter_data_claimSummary = [];
           nonPaymentsTrendData.forEach(element => {
             let monthlyData = [];
