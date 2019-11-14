@@ -27,14 +27,14 @@ export class GlossaryComponent implements OnInit {
   public allmetricsdefinitionShort = [];
   public readmoreFlag = [];
   public optionLength = 0;
-  public optionND = false;
+  public optionND = false; // boolean will set to true when data not available
   split: any;
   hyperlink: any;
   definition: any;
-  public toHighlight = '';
+  public toHighlight = ''; // to highlight the value entered by user
   public internal = environment.internalAccess;
-  @Input() title;
-  @Input() MetricID;
+  @Input() title; // which we recieve from card -> common-header component
+  @Input() MetricID; // which we recieve from corresponsding card shared files
   constructor(private glossaryService: GlossaryService) {}
   ngOnInit() {
     this.options = [];
@@ -228,13 +228,15 @@ export class GlossaryComponent implements OnInit {
     if (value != undefined && value != null && value) {
       const filterValue = value.toLowerCase();
       this.toHighlight = value;
-      const optionsData = this.options.filter(option => option.toLowerCase().indexOf(filterValue) === 0).slice(0, 5);
+      const myPattern = new RegExp('(\\w*' + filterValue + '\\w*)', 'gi');
+      const optionsData = this.options.filter(option => option.match(myPattern) !== null);
       this.optionLength = optionsData.length;
-      if (this.optionLength === 0) {
-        this.optionND = true;
-      } else {
+      if (this.optionLength) {
         this.optionND = false;
         return optionsData;
+      } else {
+        // boolean set to true when data not available
+        this.optionND = true;
       }
     }
   }
