@@ -108,8 +108,22 @@
     </div>
 
     <!-- Claims Filter-->
-    <div class="line"></div>
-    <div class="titleData">
+    <div
+      class="line"
+      *ngIf="
+        selectedPage == 'paymentsPage' ||
+        selectedPage == 'gettingReimbursedSummary' ||
+        selectedPage == 'nonPaymentsPage'
+      "
+    ></div>
+    <div
+      class="titleData"
+      *ngIf="
+        selectedPage == 'paymentsPage' ||
+        selectedPage == 'gettingReimbursedSummary' ||
+        selectedPage == 'nonPaymentsPage'
+      "
+    >
       <div class="title">Claims Filter</div>
       <div class="chevron">
         <mat-icon
@@ -123,7 +137,14 @@
     <!-- <div class="lobgrp titleDisplay">
       Not Available
     </div> -->
-    <div class="lobgrp">
+    <div
+      class="lobgrp"
+      *ngIf="
+        selectedPage == 'paymentsPage' ||
+        selectedPage == 'gettingReimbursedSummary' ||
+        selectedPage == 'nonPaymentsPage'
+      "
+    >
       <div>
         <label id="radio-group" class="label-data">{{ selectedClaims.value }}</label>
       </div>

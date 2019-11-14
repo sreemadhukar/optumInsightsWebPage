@@ -35,7 +35,14 @@
           </div>
         </button>
       </div>
-      <div class="horizontal-align" *ngIf="selectedClaims.value !== 'All'">
+      <div
+        class="horizontal-align"
+        *ngIf="
+          selectedPage == 'paymentsPage' ||
+          selectedPage == 'gettingReimbursedSummary' ||
+          (selectedPage == 'nonPaymentsPage' && selectedClaims.value !== 'All')
+        "
+      >
         <button class="btn btn-rounded" disabled>
           <span>Claims Filter: </span
           ><span class="text-semibold pl-4"> {{ selectedClaims.value | temporaryTextFormatter }} </span>
