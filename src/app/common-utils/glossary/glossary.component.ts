@@ -18,7 +18,6 @@ export class GlossaryComponent implements OnInit {
   glossaryData: any[];
   public options: string[];
   glossaryTitleShow: String = '';
-  selectedmetric = '';
   viewallmetricsbuttonposition = true;
   filteredOptions: Observable<any[]>;
   public glossaryCtrl = new FormControl();
@@ -91,7 +90,7 @@ export class GlossaryComponent implements OnInit {
           }
         }
       }
-      //  madhukar
+
       this.glossaryData = this.glossaryList.sort(function(a, b) {
         if (
           a.BusinessGlossary.ProviderDashboardName.Metric.toLowerCase() <
@@ -156,7 +155,6 @@ export class GlossaryComponent implements OnInit {
           this.allmetricsdefinitionShort.push(null);
         }
       }
-      this.selectedmetric = null;
       this.allmetrics = true;
       this.glossarySelected = this.glossaryList;
     } else {
@@ -205,7 +203,6 @@ export class GlossaryComponent implements OnInit {
     } else {
       document.getElementById('metrics-div').style.padding = '0 0 100px 0';
       this.readmoreFlag[value] = true;
-      this.selectedmetric = '';
       document.getElementById('each-metric-div' + value).classList.add('each-metric-div');
     }
   }
