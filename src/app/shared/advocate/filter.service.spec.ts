@@ -1,12 +1,21 @@
-import { TestBed } from '@angular/core/testing';
-
+import { TestBed, async } from '@angular/core/testing';
 import { FilterService } from './filter.service';
+import { BrowserDynamicTestingModule, platformBrowserDynamicTesting } from '@angular/platform-browser-dynamic/testing';
+import 'zone.js/dist/zone-testing';
 
 describe('FilterService', () => {
-  beforeEach(() => TestBed.configureTestingModule({}));
+  beforeEach(async(() => {
+    TestBed.resetTestEnvironment(); // new
+    TestBed.initTestEnvironment(BrowserDynamicTestingModule, platformBrowserDynamicTesting()); // new
 
-  it('should be created', () => {
-    const service: FilterService = TestBed.get(FilterService);
-    expect(service).toBeTruthy();
-  });
+    TestBed.configureTestingModule({
+      declarations: [FilterService]
+    }).compileComponents();
+  }));
+
+  it('should create TestedComponent', async(() => {
+    const fixture = TestBed.createComponent(FilterService);
+    const app = fixture.debugElement.componentInstance;
+    expect(app).toBeTruthy();
+  }));
 });
