@@ -4,7 +4,7 @@ import { CareDeliveryPageModule } from '../../components/care-delivery-page/care
 import { CommonUtilsService } from '../common-utils.service';
 import { SessionService } from '../session.service';
 import { GlossaryMetricidService } from '../glossary-metricid.service';
-
+import { AuthorizationService } from '../../auth/_service/authorization.service';
 @Injectable({
   providedIn: CareDeliveryPageModule
 })
@@ -16,7 +16,8 @@ export class PriorAuthSharedService {
     private MetricidService: GlossaryMetricidService,
     private priorAuthService: PriorAuthService,
     private session: SessionService,
-    private common: CommonUtilsService
+    private common: CommonUtilsService,
+    private toggle: AuthorizationService
   ) {}
 
   getNewPAData(filterParameters) {
@@ -140,6 +141,7 @@ export class PriorAuthSharedService {
         status: 404,
         title: 'Prior Authorization Requested',
         MetricID: this.MetricidService.MetricIDs.PriorAuthorizationRequested,
+        toggle: this.toggle.setToggles('Prior Authorization Requested', 'Prior Authorizations', 'Care Delivery', false),
         data: null,
         besideData: null,
         timeperiod: null
@@ -150,6 +152,12 @@ export class PriorAuthSharedService {
         status: 404,
         title: 'Prior Authorization Approval Rate',
         MetricID: this.MetricidService.MetricIDs.PriorAuthorizationApprovalRate,
+        toggle: this.toggle.setToggles(
+          'Prior Authorization Approval Rate',
+          'Prior Authorizations',
+          'Care Delivery',
+          false
+        ),
         data: null,
         besideData: null,
         timeperiod: null
@@ -259,6 +267,12 @@ export class PriorAuthSharedService {
                     type: 'donutWithLabel',
                     title: 'Prior Authorization Requested',
                     MetricID: this.MetricidService.MetricIDs.PriorAuthorizationRequested,
+                    toggle: this.toggle.setToggles(
+                      'Prior Authorization Requested',
+                      'Prior Authorizations',
+                      'Care Delivery',
+                      false
+                    ),
                     data: {
                       graphValues: priorAuthorizationCounts,
                       centerNumber: this.common.nFormatter(PARequestedCount),
@@ -284,6 +298,12 @@ export class PriorAuthSharedService {
                   type: 'donutWithLabel',
                   title: 'Prior Authorization Requested',
                   MetricID: this.MetricidService.MetricIDs.PriorAuthorizationRequested,
+                  toggle: this.toggle.setToggles(
+                    'Prior Authorization Requested',
+                    'Prior Authorizations',
+                    'Care Delivery',
+                    false
+                  ),
                   data: {
                     graphValues: priorAuthorizationCounts,
                     centerNumber: this.common.nFormatter(PARequestedCount),
@@ -303,6 +323,12 @@ export class PriorAuthSharedService {
                   type: 'donutWithLabel',
                   title: 'Prior Authorization Approval Rate',
                   MetricID: this.MetricidService.MetricIDs.PriorAuthorizationApprovalRate,
+                  toggle: this.toggle.setToggles(
+                    'Prior Authorization Approval Rate',
+                    'Prior Authorizations',
+                    'Care Delivery',
+                    false
+                  ),
                   data: {
                     graphValues: [PAApprovalRate, 1 - PAApprovalRate],
                     centerNumber: (PAApprovalRate * 100).toFixed(0) + '%',
@@ -377,6 +403,12 @@ export class PriorAuthSharedService {
                 type: 'singleBarChart',
                 title: 'Top Reasons for Prior Authorizations Not Approved',
                 MetricID: this.MetricidService.MetricIDs.TopReasonsforPriorAuthorizationsNotApproved,
+                toggle: this.toggle.setToggles(
+                  'Top Reasons for Prior Authorizations Not Approved',
+                  'Prior Authorizations',
+                  'Care Delivery',
+                  false
+                ),
                 data: {
                   barHeight: 48,
                   barData: PriorAuthNotApprovedReasons[i].Count,
@@ -405,6 +437,12 @@ export class PriorAuthSharedService {
                 status: 404,
                 title: 'Top Reasons for Prior Authorizations Not Approved',
                 MetricID: this.MetricidService.MetricIDs.TopReasonsforPriorAuthorizationsNotApproved,
+                toggle: this.toggle.setToggles(
+                  'Top Reasons for Prior Authorizations Not Approved',
+                  'Prior Authorizations',
+                  'Care Delivery',
+                  false
+                ),
                 data: null,
                 besideData: null,
                 timeperiod: null
