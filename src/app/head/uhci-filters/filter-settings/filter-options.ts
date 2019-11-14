@@ -18,8 +18,8 @@ export const LineOfBusiness = [
 
 export const ClaimsFilter = [
   { name: 'All', value: 'All', disable: false },
-  { name: 'HCFA', value: 'Professional', disable: false },
-  { name: 'UB', value: 'Facility', disable: false }
+  { name: 'PROFESSIONAL', value: 'HCFA', disable: false },
+  { name: 'FACILITY', value: 'UB', disable: false }
 ];
 
 export const ServiceSetting = [

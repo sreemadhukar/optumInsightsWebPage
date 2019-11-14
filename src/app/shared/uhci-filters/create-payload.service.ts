@@ -4,7 +4,6 @@ import { select } from '@angular-redux/store';
 import { PayLoad } from './payload.class';
 import * as _ from 'lodash';
 import { IAppState } from '../../store/store';
-import { ClaimsFilter } from '../../head/uhci-filters/filter-settings/filter-options';
 
 @Injectable({
   providedIn: 'root'

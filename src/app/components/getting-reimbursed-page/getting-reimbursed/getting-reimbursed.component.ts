@@ -123,7 +123,6 @@ export class GettingReimbursedComponent implements OnInit {
     this.timePeriod = this.common.getTimePeriodFilterValue(this.createPayloadService.payload.timePeriod);
     this.loading = true;
     this.mockCards = [{}];
-
     this.gettingReimbursedSharedService
       .getGettingReimbursedData(this.createPayloadService.payload)
       .then(completeData => {
