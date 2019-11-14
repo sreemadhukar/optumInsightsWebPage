@@ -4,6 +4,7 @@ import { select } from '@angular-redux/store';
 import { PayLoad } from './payload.class';
 import * as _ from 'lodash';
 import { IAppState } from '../../store/store';
+import { ClaimsFilter } from '../../head/uhci-filters/filter-settings/filter-options';
 
 @Injectable({
   providedIn: 'root'
@@ -18,6 +19,7 @@ export class CreatePayloadService {
   @select() priorAuthType;
   @select() trendMetric;
   @select() trendDate;
+  @select() claimsFilter;
   initialState: IAppState = {
     currentPage: 'overviewPage',
     timePeriod: 'Last6Months',
@@ -27,7 +29,8 @@ export class CreatePayloadService {
     serviceCategory: '',
     priorAuthType: 'All',
     trendMetric: 'GettingReimbursed',
-    trendDate: new Date()
+    trendDate: new Date(),
+    claimsFilter: 'All'
   };
   payload: PayLoad = this.initialState;
   private payloadEmit = new Subject<any>();
@@ -49,6 +52,7 @@ export class CreatePayloadService {
     });
     this.trendMetric.subscribe(trendMetric => (this.initialState.trendMetric = trendMetric));
     this.trendDate.subscribe(trendDate => (this.initialState.trendDate = trendDate));
+    this.claimsFilter.subscribe(claimsFilter => (this.initialState.claimsFilter = claimsFilter));
   }
 
   changePayloadOnInit(appliedPage) {
@@ -166,7 +170,8 @@ export class CreatePayloadService {
       'trendMetric',
       'trendDate',
       'serviceCategory',
-      'currentPage'
+      'currentPage',
+      'claimsFilter'
     ]);
     return data;
   }

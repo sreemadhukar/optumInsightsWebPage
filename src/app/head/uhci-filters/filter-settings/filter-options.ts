@@ -16,6 +16,12 @@ export const LineOfBusiness = [
   { name: 'Un', value: 'Uncategorized', disable: true }
 ];
 
+export const ClaimsFilter = [
+  { name: 'All', value: 'All', disable: false },
+  { name: 'HCFA', value: 'Professional', disable: false },
+  { name: 'UB', value: 'Facility', disable: false }
+];
+
 export const ServiceSetting = [
   { name: 'All', value: 'All', disable: false },
   { name: 'Inpatient', value: 'Inpatient', disable: false },
@@ -99,7 +105,8 @@ export const filterToggles = {
   toggleServiceCategory: false,
   togglePriorAuthType: false,
   toggleMetric: false,
-  toggleDate: false
+  toggleDate: false,
+  toggleClaim: false
 };
 
 export interface TaxId {
