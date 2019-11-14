@@ -453,6 +453,7 @@ export class GettingReimbursedSharedService {
                 type: 'donut',
                 title: 'Claims Non-Payment Rate',
                 MetricID: this.MetricidService.MetricIDs.ClaimsNonPaymentRate,
+                toggle: !environment.internalAccess,
                 data: {
                   graphValues: [
                     claimsData[lobData].ClaimsLobSummary[0].ClaimsNonPaymentRate,
@@ -760,13 +761,13 @@ export class GettingReimbursedSharedService {
           };*/
 
           /** REMOVE LATER (ONCE PDP ISSUE SOLVED) ***/
-          claimsNotPaidRate = {
-            category: 'app-card',
-            type: 'donut',
-            title: null,
-            data: null,
-            timeperiod: null
-          };
+          // claimsNotPaidRate = {
+          //   category: 'app-card',
+          //   type: 'donut',
+          //   title: null,
+          //   data: null,
+          //   timeperiod: null
+          // };
 
           submissions = {
             id: 1,
@@ -1343,6 +1344,7 @@ export class GettingReimbursedSharedService {
                 type: 'donut',
                 title: 'Claims Non-Payment Rate',
                 MetricID: this.MetricidService.MetricIDs.ClaimsNonPaymentRate,
+                toggle: !environment.internalAccess,
                 data: {
                   graphValues: [
                     claimsData[lobData].ClaimsLobSummary[0].ClaimsNonPaymentRate,
@@ -1423,13 +1425,13 @@ export class GettingReimbursedSharedService {
           };*/
 
           /** REMOVE LATER (ONCE PDP ISSUE SOLVED) ***/
-          claimsNotPaidRate = {
-            category: 'app-card',
-            type: 'donut',
-            title: null,
-            data: null,
-            timeperiod: null
-          };
+          // claimsNotPaidRate = {
+          //   category: 'app-card',
+          //   type: 'donut',
+          //   title: null,
+          //   data: null,
+          //   timeperiod: null
+          // };
           submissions = {
             id: 1,
             title: 'Claims Submissions*',
