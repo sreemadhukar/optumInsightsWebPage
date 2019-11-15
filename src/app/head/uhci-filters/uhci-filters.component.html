@@ -107,6 +107,61 @@
       </div>
     </div>
 
+    <!-- Claims Filter-->
+    <div
+      class="line"
+      *ngIf="
+        selectedPage == 'paymentsPage' ||
+        selectedPage == 'gettingReimbursedSummary' ||
+        selectedPage == 'nonPaymentsPage'
+      "
+    ></div>
+    <div
+      class="titleData"
+      *ngIf="
+        selectedPage == 'paymentsPage' ||
+        selectedPage == 'gettingReimbursedSummary' ||
+        selectedPage == 'nonPaymentsPage'
+      "
+    >
+      <div class="title">Claim Type</div>
+      <div class="chevron">
+        <mat-icon
+          class="icon-display"
+          svgIcon="arrowdn"
+          (click)="toggle('toggleClaim')"
+          [class.arrow-toggle]="collapseToggle.toggleClaim"
+        ></mat-icon>
+      </div>
+    </div>
+    <!-- <div class="lobgrp titleDisplay">
+      Not Available
+    </div> -->
+    <div
+      class="lobgrp"
+      *ngIf="
+        selectedPage == 'paymentsPage' ||
+        selectedPage == 'gettingReimbursedSummary' ||
+        selectedPage == 'nonPaymentsPage'
+      "
+    >
+      <div>
+        <label id="radio-group" class="label-data">{{ selectedClaims.value }}</label>
+      </div>
+      <div class="select-option-data" *ngIf="collapseToggle.toggleClaim">
+        <mat-radio-group class="radio-group" [(ngModel)]="selectedClaims">
+          <mat-radio-button
+            class="radio-button"
+            *ngFor="let claim of claims"
+            [class.lob-disable]="claim.disable"
+            [value]="claim"
+          >
+            {{ claim.value }}
+          </mat-radio-button>
+        </mat-radio-group>
+      </div>
+    </div>
+
     <div *ngIf="selectedPage === 'priorAuthPage'">
       <!--Service Setting (Only Prior Auth)-->
       <div class="line"></div>

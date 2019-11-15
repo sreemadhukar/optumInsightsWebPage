@@ -1,0 +1,50 @@
+<div class="tax-summary-content">
+  <p class="tax-summary-title">
+    Tax ID Summary
+  </p>
+  <div class="tax-summary-body">
+    <div class="tax-summary-body-head">
+      <!--<div class="tax-summary-body-head-left">Showing {{ numberOfTins }} Tax ID results</div>-->
+    </div>
+    <div class="tax-summary-body-table-div">
+      <div class="tax-summary-body-table-div-body">
+        <div>
+          <table mat-table [dataSource]="taxSummaryData">
+            <ng-container matColumnDef="Tin">
+              <th mat-header-cell *matHeaderCellDef>Tax ID Number</th>
+              <td mat-cell class="tax-summary-body-table-div-body-tin-cell" *matCellDef="let element">
+                {{ element.All.Tin }}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="Tinname">
+              <th mat-header-cell *matHeaderCellDef>Tax ID Name</th>
+              <td mat-cell class="tax-summary-body-table-div-body-tinname-cell" *matCellDef="let element">
+                <!--{{ element.All.Tinname }}-->
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="TaxIdType">
+              <th mat-header-cell *matHeaderCellDef>Tax ID Type</th>
+              <td mat-cell class="tax-summary-body-table-div-body-tinname-cell" *matCellDef="let element">
+                <!--{{ element.All.TaxIdType }}-->
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="MajorMarketName">
+              <th mat-header-cell *matHeaderCellDef>Market</th>
+              <td mat-cell class="tax-summary-body-table-div-body-tinname-cell" *matCellDef="let element">
+                {{ element.MajorMarketName }}
+              </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="taxSummaryColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: taxSummaryColumns"></tr>
+          </table>
+
+          <mat-paginator class="tax-summary-paginator" [pageSizeOptions]="[5, 10, 25, 100]"> </mat-paginator>
+        </div>
+      </div>
+      <!--</table>-->
+    </div>
+  </div>
+</div>
