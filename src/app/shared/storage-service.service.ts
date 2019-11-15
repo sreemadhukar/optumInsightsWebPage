@@ -2,9 +2,6 @@ import { Injectable, OnDestroy, EventEmitter } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { share } from 'rxjs/operators';
 import { Router } from '@angular/router';
-import { NgRedux } from '@angular-redux/store';
-import { IAppState } from '../store/store';
-import { REMOVE_FILTER } from '../store/filter/actions';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +12,7 @@ export class StorageService implements OnDestroy {
   private changes = this.onSubject.asObservable().pipe(share());
   private subject = new Subject<any>();
 
-  constructor(private route: Router, private ngRedux: NgRedux<IAppState>) {
+  constructor(private route: Router) {
     // this.start();
   }
 
