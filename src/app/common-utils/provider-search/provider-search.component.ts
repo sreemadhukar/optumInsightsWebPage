@@ -17,6 +17,10 @@ import { StorageService } from '../../shared/storage-service.service';
 import get from 'lodash.get';
 const DEFAULT_SELECTED_ACTION = () => {};
 const DEFAULT_CONTAINER_LABEL = 'Select an organization to represent';
+import { NgRedux, select } from '@angular-redux/store';
+import { IAppState } from '../../store/store';
+import { APPLY_FILTER, REMOVE_FILTER } from '../../store/filter/actions';
+import { CreatePayloadService } from '../../shared/uhci-filters/create-payload.service';
 
 @Component({
   selector: 'app-provider-search',
@@ -49,6 +53,8 @@ export class ProviderSearchComponent implements OnInit, AfterViewInit {
     private dialogRef: MatDialogRef<ProviderSearchComponent>,
     private router: Router,
     sanitizer: DomSanitizer,
+    private ngRedux: NgRedux<IAppState>,
+    private createPayloadService: CreatePayloadService,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     iconRegistry.addSvgIcon(
@@ -82,6 +88,7 @@ export class ProviderSearchComponent implements OnInit, AfterViewInit {
     //   map(state => (state ? this._filterStates(state) : null))
     // );
 
+    // this.ngRedux.dispatch({ type: REMOVE_FILTER, filterData: { taxId: true } });
     this.providerData = JSON.parse(sessionStorage.getItem('currentUser'));
     this.nomatchFlag = true;
 
@@ -103,6 +110,13 @@ export class ProviderSearchComponent implements OnInit, AfterViewInit {
     // );
   }
   providerSelect(event: MatAutocompleteSelectedEvent) {
+    /*
+    this.ngRedux.dispatch({ type: REMOVE_FILTER, filterData: { taxId: true } });
+    console.log(this.createPayloadService.payload)
+    this.createPayloadService.resetTinNumber();
+    console.log(this.createPayloadService.payload)
+    console.log('d')
+    */
     const provider = this.providerData[0];
     const data = this.states.find(prov => prov.HealthCareOrganizationName === event.option.value);
     if (this.providerData[0].hasOwnProperty('Providersyskey')) {

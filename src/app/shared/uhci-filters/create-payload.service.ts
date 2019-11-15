@@ -77,6 +77,11 @@ export class CreatePayloadService {
     }
   }
 
+  resetTinNumber(appliedPage) {
+    this.taxId.subscribe(taxId => (this.initialState.taxId = [{ Tin: 'All', Tinname: 'All' }]));
+    this.emitFilterEvent(appliedPage);
+  }
+
   emitFilterEvent(appliedPage) {
     switch (appliedPage) {
       case 'gettingReimbursedSummary':

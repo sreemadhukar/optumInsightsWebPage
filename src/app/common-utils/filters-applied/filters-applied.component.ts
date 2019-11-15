@@ -79,6 +79,7 @@ export class FiltersAppliedComponent implements OnInit {
       this.previousDate = new Date(this.selectedDate.toString());
       this.previousDate = this.previousDate.setDate(this.selectedDate.getDate() - 1);
     });
+    console.log(this.selectedTaxIds);
   }
 
   openFilter() {
