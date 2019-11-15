@@ -88,7 +88,7 @@
       </div>
       <div class="cards cust-width-blank cust-width-title">
         <div *ngIf="!printStyle" class="page-question self-service-link">
-          <a href="/ServiceInteraction/SelfService"
+          <a [routerLink]="['/ServiceInteraction/SelfService']"
             >{{ selfServiceLink }}
             <mat-icon class="icon-display" svgIcon="arrow"></mat-icon>
           </a>
