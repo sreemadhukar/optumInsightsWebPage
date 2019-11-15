@@ -10,4 +10,5 @@ export class IAppState {
   priorAuthType: string;
   trendMetric: string;
   trendDate: Date;
+  claimsFilter: string;
 }
