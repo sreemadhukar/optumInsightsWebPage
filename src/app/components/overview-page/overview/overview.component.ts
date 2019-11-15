@@ -10,6 +10,8 @@ import { NgRedux } from '@angular-redux/store';
 import { CURRENT_PAGE } from '../../../store/filter/actions';
 import { IAppState } from '../../../store/store';
 import { environment } from '../../../../environments/environment';
+import { CreatePayloadService } from '../../../shared/uhci-filters/create-payload.service';
+import { REMOVE_FILTER } from '../../../store/filter/actions';
 
 @Component({
   selector: 'app-overview',
@@ -73,6 +75,7 @@ export class OverviewComponent implements OnInit {
     private router: Router,
     private filtermatch: CommonUtilsService,
     private ngRedux: NgRedux<IAppState>,
+    private createPayloadService: CreatePayloadService,
     sanitizer: DomSanitizer
   ) {
     this.printRoute = '/OverviewPage/print-overview';
@@ -84,7 +87,12 @@ export class OverviewComponent implements OnInit {
     if (this.router.url.includes('print-')) {
       this.printStyle = true;
     }
-    this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.filtermatch.urlResuseStrategy());
+    // this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.filtermatch.urlResuseStrategy());
+    this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => {
+      this.createPayloadService.resetTinNumber('otherPages');
+      this.ngRedux.dispatch({ type: REMOVE_FILTER, filterData: { taxId: true } });
+      this.filtermatch.urlResuseStrategy();
+    });
     /** INITIALIZING SVG ICONS TO USE IN DESIGN - ANGULAR MATERIAL */
     iconRegistry.addSvgIcon(
       'arrow',
