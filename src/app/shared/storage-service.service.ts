@@ -34,7 +34,6 @@ export class StorageService implements OnDestroy {
   }
 
   public getNavChangeEmitter() {
-    // this.ngRedux.dispatch({ type: REMOVE_FILTER, filterData: { taxId: true } });
     return this.providerChange;
   }
 
