@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { NgRedux, select } from '@angular-redux/store';
 import { IAppState } from '../../store/store';
 import { INITIAL_STATE } from '../../store/filter/reducer';
@@ -32,6 +32,7 @@ export class FiltersAppliedComponent implements OnInit {
   @select() trendMetric;
   @select() trendDate;
   @select() claimsFilter;
+  @Input() flag;
   selectedPage: any;
   timeFrames = TimePeriod;
   selectedTimePeriod: any;

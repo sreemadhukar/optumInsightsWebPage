@@ -38,9 +38,11 @@
       <div
         class="horizontal-align"
         *ngIf="
-          selectedPage == 'paymentsPage' ||
-          selectedPage == 'gettingReimbursedSummary' ||
-          (selectedPage == 'nonPaymentsPage' && selectedClaims.value !== 'All')
+          (selectedPage == 'paymentsPage' ||
+            selectedPage == 'gettingReimbursedSummary' ||
+            selectedPage == 'nonPaymentsPage') &&
+          selectedClaims.value !== 'All' &&
+          !flag
         "
       >
         <button class="btn btn-rounded" disabled>
