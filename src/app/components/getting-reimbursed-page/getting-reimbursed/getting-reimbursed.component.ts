@@ -40,6 +40,7 @@ export class GettingReimbursedComponent implements OnInit {
   detailClickUrl = '/GettingReimbursed';
   buttonNumber: any;
   @select() currentPage;
+  public filterFlag = false;
   constructor(
     private gettingReimbursedSharedService: GettingReimbursedSharedService,
     private checkStorage: StorageService,
@@ -90,15 +91,19 @@ export class GettingReimbursedComponent implements OnInit {
     if (i === 0) {
       this.buttonName = '';
       this.buttonNumber = 0;
+      this.filterFlag = false;
     } else if (i === 1) {
       this.buttonName = 'More Payment Metrics';
       this.buttonNumber = 1;
+      this.filterFlag = false;
     } else if (i === 2) {
       this.buttonName = 'More Non-Payment Metrics';
       this.buttonNumber = 2;
+      this.filterFlag = false;
     } else if (i === 3) {
       this.buttonName = 'More Appeals Metrics';
       this.buttonNumber = 3;
+      this.filterFlag = true;
     }
     this.currentSummary = [];
     this.currentSummary = this.summaryItems[i].data;
@@ -123,7 +128,6 @@ export class GettingReimbursedComponent implements OnInit {
     this.timePeriod = this.common.getTimePeriodFilterValue(this.createPayloadService.payload.timePeriod);
     this.loading = true;
     this.mockCards = [{}];
-
     this.gettingReimbursedSharedService
       .getGettingReimbursedData(this.createPayloadService.payload)
       .then(completeData => {
