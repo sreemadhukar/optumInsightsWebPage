@@ -7,11 +7,10 @@ import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 import { CommonUtilsService } from 'src/app/shared/common-utils.service';
 import { NgRedux } from '@angular-redux/store';
-import { CURRENT_PAGE } from '../../../store/filter/actions';
+import { CURRENT_PAGE, REMOVE_FILTER } from '../../../store/filter/actions';
 import { IAppState } from '../../../store/store';
 import { environment } from '../../../../environments/environment';
 import { CreatePayloadService } from '../../../shared/uhci-filters/create-payload.service';
-import { REMOVE_FILTER } from '../../../store/filter/actions';
 
 @Component({
   selector: 'app-overview',
