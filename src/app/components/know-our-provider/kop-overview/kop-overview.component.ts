@@ -119,9 +119,31 @@ export class KopOverviewComponent implements OnInit, OnDestroy {
   getNPSData() {
     this.kopSharedService.getSummary({ filter: this.currentFilter }).then((data: any) => {
       if (data) {
+        this.showMetricDevelopment(data);
         this.kopInsightsData = data;
         this.npsLoaded = true;
       }
     });
+  }
+
+  showMetricDevelopment(kopInsightsData) {
+    for (const key in kopInsightsData) {
+      if (kopInsightsData.hasOwnProperty(key)) {
+        if (kopInsightsData[key].title === 'Engagement') {
+          for (const item of kopInsightsData[key].chartData) {
+            item.showMetricProgressIcon = true;
+          }
+        }
+        if (kopInsightsData[key].title === 'Issue Resolution' || kopInsightsData[key].title === 'Onboarding') {
+          for (const item of kopInsightsData[key].chartData) {
+            if (item.cardType === 'horizontalBar' || item.cardType === 'verticalBar') {
+              item.showMetricProgressIcon = true;
+            } else {
+              item.showMetricProgressIcon = false;
+            }
+          }
+        }
+      }
+    }
   }
 }

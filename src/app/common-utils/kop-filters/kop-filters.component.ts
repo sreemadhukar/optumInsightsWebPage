@@ -58,7 +58,7 @@ export class KopFiltersComponent implements OnInit {
         selectedFilter: this.selectedFilter
       });
     }
-    this.session.filterObjSubject.complete();
+    // this.session.filterObjSubject.complete();
     this.filterFlag.emit(false);
   }
   @HostListener('document:keydown.escape', ['$event'])
