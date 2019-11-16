@@ -37,24 +37,24 @@ export class LargeCardKopComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.showMetricDevelopment();
+    console.log(this.data);
   }
 
   // Temporary - To be removed once metric development is completed
-  showMetricDevelopment() {
-    if (this.data.title === 'Engagement') {
-      for (const item of this.data.chartData) {
-        item.showMetricProgressIcon = true;
-      }
-    }
-    if (this.data.title === 'Issue Resolution' || this.data.title === 'Onboarding') {
-      for (const item of this.data.chartData) {
-        if (item.cardType === 'horizontalBar' || item.cardType === 'verticalBar') {
-          item.showMetricProgressIcon = true;
-        } else {
-          item.showMetricProgressIcon = false;
-        }
-      }
-    }
-  }
+  // showMetricDevelopment() {
+  //   if (this.data.title === 'Engagement') {
+  //     for (const item of this.data.chartData) {
+  //       item.showMetricProgressIcon = true;
+  //     }
+  //   }
+  //   if (this.data.title === 'Issue Resolution' || this.data.title === 'Onboarding') {
+  //     for (const item of this.data.chartData) {
+  //       if (item.cardType === 'horizontalBar' || item.cardType === 'verticalBar') {
+  //         item.showMetricProgressIcon = true;
+  //       } else {
+  //         item.showMetricProgressIcon = false;
+  //       }
+  //     }
+  //   }
+  // }
 }
