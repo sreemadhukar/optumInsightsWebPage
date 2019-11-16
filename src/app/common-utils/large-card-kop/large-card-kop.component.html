@@ -37,11 +37,13 @@
           </div>
         </div>
         <ng-template #singleCardTemplate>
-          <div *ngIf="item.quarters[0]?.title != null" class="highlighted-value">
-            {{ item.quarters[0]?.title }}
-          </div>
-          <div *ngIf="item.quarters[0]?.title == null" class="highlighted-value">
-            <app-error-template></app-error-template>
+          <div *ngIf="!item.showMetricProgressIcon; else showProgressIcon">
+            <div *ngIf="item.quarters[0]?.title != null" class="highlighted-value">
+              {{ item.quarters[0]?.title }}
+            </div>
+            <div *ngIf="item.quarters[0]?.title == null" class="highlighted-value">
+              <app-error-template></app-error-template>
+            </div>
           </div>
         </ng-template>
         <div>
