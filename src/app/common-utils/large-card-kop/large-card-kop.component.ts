@@ -12,6 +12,8 @@ export class LargeCardKopComponent implements OnInit {
   @Input() title;
   @Input() timePeriod;
   @Input() skeletonLarge;
+  showMetricProgressIcon = false;
+
   constructor(
     private iconRegistry: MatIconRegistry,
     sanitizer: DomSanitizer,
@@ -22,6 +24,10 @@ export class LargeCardKopComponent implements OnInit {
       'help',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-help_outline-24px.svg')
     );
+    iconRegistry.addSvgIcon(
+      'insert-chart',
+      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Content/round-insert_chart-24px.svg')
+    );
   }
 
   helpIconClick(title) {
@@ -30,5 +36,25 @@ export class LargeCardKopComponent implements OnInit {
     }
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.showMetricDevelopment();
+  }
+
+  //Temporary - To be removed once metric development is completed
+  showMetricDevelopment() {
+    if (this.data.title === 'Engagement') {
+      for (let item of this.data.chartData) {
+        item.showMetricProgressIcon = true;
+      }
+    }
+    if (this.data.title === 'Issue Resolution' || this.data.title === 'Onboarding') {
+      for (let item of this.data.chartData) {
+        if (item.cardType === 'horizontalBar' || item.cardType === 'verticalBar') {
+          item.showMetricProgressIcon = true;
+        } else {
+          item.showMetricProgressIcon = false;
+        }
+      }
+    }
+  }
 }
