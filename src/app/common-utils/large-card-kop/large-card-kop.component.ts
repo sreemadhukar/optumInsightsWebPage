@@ -40,15 +40,15 @@ export class LargeCardKopComponent implements OnInit {
     this.showMetricDevelopment();
   }
 
-  //Temporary - To be removed once metric development is completed
+  // Temporary - To be removed once metric development is completed
   showMetricDevelopment() {
     if (this.data.title === 'Engagement') {
-      for (let item of this.data.chartData) {
+      for (const item of this.data.chartData) {
         item.showMetricProgressIcon = true;
       }
     }
     if (this.data.title === 'Issue Resolution' || this.data.title === 'Onboarding') {
-      for (let item of this.data.chartData) {
+      for (const item of this.data.chartData) {
         if (item.cardType === 'horizontalBar' || item.cardType === 'verticalBar') {
           item.showMetricProgressIcon = true;
         } else {
