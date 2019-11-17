@@ -23,6 +23,7 @@ export class CommonHeaderComponent implements OnInit {
   typeOfCard: String = null;
   titleSubHeader: String = null;
   routhPath: string;
+  printStyle: string;
   constructor(private iconRegistry: MatIconRegistry, sanitizer: DomSanitizer, private router: Router) {
     /** INITIALIZING SVG ICONS TO USE IN DESIGN - ANGULAR MATERIAL */
 
@@ -36,6 +37,9 @@ export class CommonHeaderComponent implements OnInit {
     this.typeOfCard = this.cardType;
     if (this.subtitle && this.subtitle.length > 0) {
       this.titleSubHeader = this.subtitle;
+    }
+    if (this.router.url.includes('print-')) {
+      this.printStyle = true;
     }
   }
   helpFunctionClicked() {

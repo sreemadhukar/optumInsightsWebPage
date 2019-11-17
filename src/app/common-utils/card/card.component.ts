@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { GlossaryExpandService } from '../../shared/glossary-expand.service';
-
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-card',
   templateUrl: './card.component.html',
@@ -10,6 +10,7 @@ export class CardComponent implements OnInit {
   @Input() chartData;
   @Input() skeleton;
   @Input() tabData;
+  printStyle: boolean;
   heightDonut: Number = 234;
   widthDonut: Number = 234;
   heightRotatingArrow: Number = 212;
@@ -66,7 +67,7 @@ export class CardComponent implements OnInit {
     }
   }
 
-  constructor(private glossaryExpandService: GlossaryExpandService) {
+  constructor(private glossaryExpandService: GlossaryExpandService, private router: Router) {
     this.tabOptions = ['All', 'Diabetic'];
   }
 
@@ -74,6 +75,10 @@ export class CardComponent implements OnInit {
     this.glossaryExpandService.setMessage(title, this.chartData.MetricID);
   }
   ngOnInit() {
+    if (this.router.url.includes('print-')) {
+      this.printStyle = true;
+    }
+
     if (this.tabData) {
       this.medicareBesideData = [
         {
