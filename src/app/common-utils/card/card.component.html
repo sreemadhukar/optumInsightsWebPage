@@ -6,6 +6,7 @@ Date Created: 17-Apr-2019
 <div
   *ngIf="chartData != null"
   class="app-card-structure"
+  [class.print-card-inner]="printStyle"
   [class.pi-app-card-structure]="chartData.title == 'Medical Records Requested by UHC'"
   [class.app-card-structure-with-more-height]="
     chartData.type === 'donutWithLabelBottom' ||
