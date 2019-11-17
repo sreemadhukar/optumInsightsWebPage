@@ -16,7 +16,7 @@ Date Created: 17-Apr-2019
   "
   [class.app-card-structure-for-smart-edits-claims-returned]="chartData.title == 'Smart Edits Claims Returned'"
 >
-  <div class="card-inner">
+  <div class="card-inner" [class.print-card-inner]="printStyle">
     <app-common-header
       [cardType]="'appCard'"
       [title]="chartData.title"
@@ -353,8 +353,8 @@ Date Created: 17-Apr-2019
   </div>
 </div>
 
-<div *ngIf="skeleton" class="app-card-structure">
-  <div class="card-inner">
+<div *ngIf="skeleton && !printStyle" class="app-card-structure">
+  <div class="card-inner" [class.print-card-inner]="printStyle">
     <div class="full-width-block">
       <div class="card-skeleton"></div>
     </div>

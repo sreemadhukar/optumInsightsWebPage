@@ -76,7 +76,7 @@ export class OverviewComponent implements OnInit {
     private ngRedux: NgRedux<IAppState>,
     sanitizer: DomSanitizer
   ) {
-    this.printRoute = '/OverviewPage/print-overview';
+    this.printRoute = 'overview';
     this.selfServiceLink = 'Self Service Details';
     this.pagesubTitle = 'Your Insights at a glance.';
     this.opportunities = 'Opportunities';
@@ -93,11 +93,11 @@ export class OverviewComponent implements OnInit {
     );
   }
   printDownload(value) {
-    // this.printStyle = true;
-    //   setTimeout(() => {
-    //     (window as any).print();
-    //  }, 5000);
-    //   console.log('Overview Print Emit', value);
+    this.printStyle = true;
+    setTimeout(() => {
+      (window as any).print();
+    }, 5000);
+    console.log('Overview Print Emit', value);
   }
   ngOnInit() {
     this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'overviewPage' });

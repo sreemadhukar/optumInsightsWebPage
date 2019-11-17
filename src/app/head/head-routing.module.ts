@@ -43,7 +43,7 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
-    path: 'print-page',
+    path: 'print-page/:pageName',
     loadChildren: '../components/print/print.module#PrintModule',
     data: {
       preload: false,
