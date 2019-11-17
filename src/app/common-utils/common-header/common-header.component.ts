@@ -23,7 +23,7 @@ export class CommonHeaderComponent implements OnInit {
   typeOfCard: String = null;
   titleSubHeader: String = null;
   routhPath: string;
-  printStyle: string;
+  printStyle: boolean;
   constructor(private iconRegistry: MatIconRegistry, sanitizer: DomSanitizer, private router: Router) {
     /** INITIALIZING SVG ICONS TO USE IN DESIGN - ANGULAR MATERIAL */
 
