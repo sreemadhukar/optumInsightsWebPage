@@ -1,13 +1,16 @@
-<app-feedback></app-feedback>
+<app-feedback *ngIf="!printStyle"></app-feedback>
 <div class="gettingReimburse-body">
   <div class="gettingReimburse-content">
     <div class="cust-width-title">
       <app-breadcrumbs></app-breadcrumbs>
+      <div class="cards cust-width-blank">
+        <app-print *ngIf="!printStyle" [route]="printRoute" (printClick)="printDownload($event)"> </app-print>
+      </div>
       <div class="page-title">{{ pageTitle }}</div>
 
       <div class="breadcrumb-top-padding">
-        <app-filters-applied [flag]="filterFlag"></app-filters-applied>
-        <div class="container--tabs">
+        <app-filters-applied *ngIf="!printStyle" [flag]="filterFlag"></app-filters-applied>
+        <div *ngIf="!printStyle" class="container--tabs">
           <section class="row">
             <ul class="nav nav-tabs">
               <li
@@ -38,7 +41,7 @@
         <div class="page-subtitle">
           <p class="page-subtitle-heading">{{ currentTabTitle }}</p>
           <div *ngIf="currentTabTitle != '' && currentTabTitle != 'Claims Submissions*'">
-            <button (click)="onDetailsButtonClick(buttonNumber, $event)" class="details-button">
+            <button *ngIf="!printStyle" (click)="onDetailsButtonClick(buttonNumber, $event)" class="details-button">
               {{ buttonName }}
             </button>
           </div>

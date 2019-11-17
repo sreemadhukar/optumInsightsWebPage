@@ -18,6 +18,8 @@ import { CreatePayloadService } from '../../../shared/uhci-filters/create-payloa
   styleUrls: ['./getting-reimbursed.component.scss']
 })
 export class GettingReimbursedComponent implements OnInit {
+  printRoute: string;
+  printStyle: boolean;
   timePeriod: string;
   lob: string;
   taxID: Array<string>;
@@ -123,7 +125,18 @@ export class GettingReimbursedComponent implements OnInit {
     }
     //    event.target.classList.add('active');
   }
+
+  printDownload(value) {
+    console.log('Getting Reimbused print emiiter', value);
+  }
+
   ngOnInit() {
+    this.printRoute = '/GettingReimbursed/print-grSummary';
+
+    if (this.router.url.includes('print-')) {
+      this.printStyle = true;
+    }
+
     this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'gettingReimbursedSummary' });
     this.timePeriod = this.common.getTimePeriodFilterValue(this.createPayloadService.payload.timePeriod);
     this.loading = true;

@@ -353,7 +353,7 @@ Date Created: 17-Apr-2019
   </div>
 </div>
 
-<div *ngIf="skeleton" class="app-card-structure">
+<div *ngIf="skeleton && !printStyle" class="app-card-structure" [class.print-card-inner]="printStyle">
   <div class="card-inner">
     <div class="full-width-block">
       <div class="card-skeleton"></div>
