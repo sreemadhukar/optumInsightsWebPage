@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { OverviewSharedService } from '../../../shared/overview/overview-shared.service';
 import { SessionService } from '../../../shared/session.service';
@@ -17,6 +17,7 @@ import { environment } from '../../../../environments/environment';
   styleUrls: ['./overview.component.scss']
 })
 export class OverviewComponent implements OnInit {
+  @Input() printStyle;
   printRoute: string;
   overviewItems: any;
   mainCards: any;
@@ -63,7 +64,7 @@ export class OverviewComponent implements OnInit {
 
   trendsData: any;
 
-  public printStyle: boolean; // this variable is used to distinguish between normal page and print page
+  // public printStyle: boolean; // this variable is used to distinguish between normal page and print page
 
   constructor(
     private overviewsrc: OverviewSharedService,
@@ -82,7 +83,7 @@ export class OverviewComponent implements OnInit {
     this.opportunitiesQuestion = 'How much can online self service save you?';
     this.welcomeMessage = '';
     if (this.router.url.includes('print-')) {
-      this.printStyle = true;
+      // this.printStyle = true;
     }
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.filtermatch.urlResuseStrategy());
     /** INITIALIZING SVG ICONS TO USE IN DESIGN - ANGULAR MATERIAL */
@@ -92,8 +93,11 @@ export class OverviewComponent implements OnInit {
     );
   }
   printDownload(value) {
-    this.printStyle = true;
-    console.log('Overview Print Emit', value);
+    // this.printStyle = true;
+    //   setTimeout(() => {
+    //     (window as any).print();
+    //  }, 5000);
+    //   console.log('Overview Print Emit', value);
   }
   ngOnInit() {
     this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'overviewPage' });

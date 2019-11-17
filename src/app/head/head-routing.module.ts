@@ -43,6 +43,15 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
+    path: 'print-page',
+    loadChildren: '../components/print/print.module#PrintModule',
+    data: {
+      preload: false,
+      delay: false
+    },
+    canActivate: [AuthGuard]
+  },
+  {
     path: 'GettingReimbursed',
     loadChildren: '../components/getting-reimbursed-page/getting-reimbursed.module#GettingReimbursedModule',
     data: {
