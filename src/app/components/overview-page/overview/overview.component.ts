@@ -1,5 +1,4 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Router } from '@angular/router';
 import { OverviewSharedService } from '../../../shared/overview/overview-shared.service';
 import { SessionService } from '../../../shared/session.service';
 import { StorageService } from '../../../shared/storage-service.service';
@@ -71,7 +70,6 @@ export class OverviewComponent implements OnInit {
     private checkStorage: StorageService,
     private session: SessionService,
     private iconRegistry: MatIconRegistry,
-    private router: Router,
     private filtermatch: CommonUtilsService,
     private ngRedux: NgRedux<IAppState>,
     sanitizer: DomSanitizer
@@ -82,9 +80,6 @@ export class OverviewComponent implements OnInit {
     this.opportunities = 'Opportunities';
     this.opportunitiesQuestion = 'How much can online self service save you?';
     this.welcomeMessage = '';
-    if (this.router.url.includes('print-')) {
-      // this.printStyle = true;
-    }
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.filtermatch.urlResuseStrategy());
     /** INITIALIZING SVG ICONS TO USE IN DESIGN - ANGULAR MATERIAL */
     iconRegistry.addSvgIcon(
@@ -94,10 +89,6 @@ export class OverviewComponent implements OnInit {
   }
   printDownload(value) {
     this.printStyle = true;
-    setTimeout(() => {
-      (window as any).print();
-    }, 5000);
-    console.log('Overview Print Emit', value);
   }
   ngOnInit() {
     this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'overviewPage' });

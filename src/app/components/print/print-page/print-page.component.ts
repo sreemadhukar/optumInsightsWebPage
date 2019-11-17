@@ -7,13 +7,21 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./print-page.component.scss']
 })
 export class PrintPageComponent implements OnInit {
-  private pagename: String = '';
-  constructor(private route: ActivatedRoute) {}
+  printStyle = true;
+  pagename = '';
+
+  constructor(private route: ActivatedRoute) {
+    this.printStyle = true;
+  }
 
   ngOnInit() {
-    this.route.params.subscribe(params => {
-      this.pagename = params['pageName'];
-      console.log('print pageNmae', this.pagename);
-    });
+    // this.route.params.subscribe(params => {
+    //   this.pagename = params['pageName'];
+    //   console.log('print pageNmae', this.pagename);
+    //   // setTimeout(() => {
+    //   //   (window as any).print();
+    //   // }, 8000);
+    //   console.log('Page print', this.pagename);
+    // });
   }
 }

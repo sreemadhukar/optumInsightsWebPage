@@ -1,9 +1,5 @@
-<!--
-AUTHOR: Ranjith kumar Ankam
-Date Created: 17-Apr-2019
--->
-
 <div
+  [class.print-card-inner]="printStyle"
   *ngIf="chartData != null"
   class="app-card-structure"
   [class.pi-app-card-structure]="chartData.title == 'Medical Records Requested by UHC'"
@@ -16,7 +12,7 @@ Date Created: 17-Apr-2019
   "
   [class.app-card-structure-for-smart-edits-claims-returned]="chartData.title == 'Smart Edits Claims Returned'"
 >
-  <div class="card-inner" [class.print-card-inner]="printStyle">
+  <div class="card-inner">
     <app-common-header
       [cardType]="'appCard'"
       [title]="chartData.title"
@@ -353,8 +349,8 @@ Date Created: 17-Apr-2019
   </div>
 </div>
 
-<div *ngIf="skeleton && !printStyle" class="app-card-structure">
-  <div class="card-inner" [class.print-card-inner]="printStyle">
+<div *ngIf="skeleton && !printStyle" class="app-card-structure" [class.print-card-inner]="printStyle">
+  <div class="card-inner">
     <div class="full-width-block">
       <div class="card-skeleton"></div>
     </div>

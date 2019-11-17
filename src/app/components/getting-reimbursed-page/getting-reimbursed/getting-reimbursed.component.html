@@ -2,13 +2,13 @@
 <div class="gettingReimburse-body">
   <div class="gettingReimburse-content">
     <div class="cust-width-title">
-      <app-breadcrumbs></app-breadcrumbs>
+      <app-breadcrumbs *ngIf="!printStyle"></app-breadcrumbs>
       <div class="cards cust-width-blank">
         <app-print *ngIf="!printStyle" [route]="printRoute" (printClick)="printDownload($event)"> </app-print>
       </div>
       <div class="page-title">{{ pageTitle }}</div>
       <div class="breadcrumb-top-padding">
-        <app-filters-applied></app-filters-applied>
+        <app-filters-applied *ngIf="!printStyle"></app-filters-applied>
         <div class="container--tabs">
           <section class="row">
             <ul class="nav nav-tabs">
