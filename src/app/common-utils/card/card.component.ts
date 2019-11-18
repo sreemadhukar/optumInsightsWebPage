@@ -81,7 +81,7 @@ export class CardComponent implements OnInit {
     this.glossaryExpandService.setMessage(title, this.chartData.MetricID);
   }
   ngOnInit() {
-    console.log('labelwithValues', this.labelsWithValue);
+    console.log('labelwithValues', this.labelsWithValue, this.chartData.besideData.graphValues);
 
     if (this.router.url.includes('print-')) {
       this.printStyle = true;
