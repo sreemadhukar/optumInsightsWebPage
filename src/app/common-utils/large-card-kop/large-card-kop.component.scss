@@ -169,4 +169,21 @@
     display: inline-flex;
     margin: 0 13px 6px;
   }
+
+  ::ng-deep .metrics-icon-display {
+    width: 70px;
+    height: 70px;
+    color: $gainsboro;
+    margin: 0 65px;
+  }
+
+  .metric-in-progress {
+    text-align: center;
+    &-content {
+      color: $orange-base;
+      font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+      font-size: 12px;
+      text-align: center;
+    }
+  }
 }

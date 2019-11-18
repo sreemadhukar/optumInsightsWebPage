@@ -172,7 +172,8 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
             event.url === '' ||
             event.url === '/ProviderSearch' ||
             event.url.includes('print-') ||
-            event.url.indexOf('/login') >= 0
+            event.url.indexOf('/login') >= 0 ||
+            event.url === '/AccessDenied'
           )
         );
         /*
