@@ -567,7 +567,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
         // Reloading targeted route, for resetting the css
         window.location.href = '/OverviewPage';
       },
-      containerLabel: 'View as a Provider'
+      containerLabel: 'View as a Organization'
     };
 
     // Set Styling
