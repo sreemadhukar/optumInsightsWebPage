@@ -40,6 +40,7 @@ export class GettingReimbursedComponent implements OnInit {
   detailClickUrl = '/GettingReimbursed';
   buttonNumber: any;
   @select() currentPage;
+  public filterFlag = false;
   constructor(
     private gettingReimbursedSharedService: GettingReimbursedSharedService,
     private checkStorage: StorageService,
@@ -88,17 +89,25 @@ export class GettingReimbursedComponent implements OnInit {
   }
   matOptionClicked(i: number, event: any) {
     if (i === 0) {
+      this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'gettingReimbursedSummary' });
       this.buttonName = '';
       this.buttonNumber = 0;
+      this.filterFlag = false;
     } else if (i === 1) {
+      this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'gettingReimbursedPayments' });
       this.buttonName = 'More Payment Metrics';
       this.buttonNumber = 1;
+      this.filterFlag = false;
     } else if (i === 2) {
+      this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'gettingReimbursedNonPayments' });
       this.buttonName = 'More Non-Payment Metrics';
       this.buttonNumber = 2;
+      this.filterFlag = false;
     } else if (i === 3) {
+      this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'gettingReimbursedAppeals' });
       this.buttonName = 'More Appeals Metrics';
       this.buttonNumber = 3;
+      this.filterFlag = true;
     }
     this.currentSummary = [];
     this.currentSummary = this.summaryItems[i].data;
@@ -123,7 +132,6 @@ export class GettingReimbursedComponent implements OnInit {
     this.timePeriod = this.common.getTimePeriodFilterValue(this.createPayloadService.payload.timePeriod);
     this.loading = true;
     this.mockCards = [{}];
-
     this.gettingReimbursedSharedService
       .getGettingReimbursedData(this.createPayloadService.payload)
       .then(completeData => {

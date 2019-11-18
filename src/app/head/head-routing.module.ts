@@ -57,7 +57,6 @@ const routes: Routes = [
     path: 'CareDelivery',
     loadChildren: '../components/care-delivery-page/care-delivery-page.module#CareDeliveryPageModule',
     data: {
-      breadcrumb: 'Care Delivery',
       preload: true,
       delay: true
     },
