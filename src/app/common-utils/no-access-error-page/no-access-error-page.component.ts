@@ -6,6 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./no-access-error-page.component.scss']
 })
 export class NoAccessErrorPageComponent implements OnInit {
+  isInternal = false;
   constructor() {}
 
   ngOnInit() {}
