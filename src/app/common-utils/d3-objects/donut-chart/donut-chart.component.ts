@@ -32,7 +32,7 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
       this.printStyle = true;
       this.doDonutChart(this.chartOptions, this.noTransition);
     } else {
-      this.doDonutChart(this.chartOptions, this.transition);
+      this.doDonutChart(this.chartOptions, this.noTransition);
     }
   }
 
