@@ -77,7 +77,15 @@ export class CreatePayloadService {
       case 'callsPage':
         this.payload = this.getPayloadForCalls(this.initialState);
         break;
+      case 'otherPages':
+        this.payload = this.getPayload(this.initialState);
+        break;
     }
+  }
+
+  resetTinNumber(appliedPage) {
+    this.taxId.subscribe(taxId => (this.initialState.taxId = [{ Tin: 'All', Tinname: 'All' }]));
+    this.emitFilterEvent(appliedPage);
   }
 
   emitFilterEvent(appliedPage) {
