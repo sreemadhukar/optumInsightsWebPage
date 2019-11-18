@@ -38,7 +38,7 @@
         </div>
 
         <!--       <button *ngFor="let option of tabOptions; let i = index" (click)="matOptionClicked(i)">{{ option }}</button>-->
-        <div class="page-subtitle">
+        <div *ngIf="!printStyle" class="page-subtitle">
           <p class="page-subtitle-heading">{{ currentTabTitle }}</p>
           <div *ngIf="currentTabTitle != '' && currentTabTitle != 'Claims Submissions*'">
             <button *ngIf="!printStyle" (click)="onDetailsButtonClick(buttonNumber, $event)" class="details-button">
@@ -47,14 +47,31 @@
           </div>
         </div>
         <div class="height1Separator"></div>
-        <div class="getting-reimbursed-cards" *ngFor="let item of currentSummary">
-          <!--used item.toggle for temporary card removal, as toggle functionality is not built properly : srikar bobbiganipalli-->
-          <app-card *ngIf="item.data != null && !item.toggle" class="cards" [chartData]="item"> </app-card>
-          <app-error-card *ngIf="item.status != null" class="cards" [data]="item"></app-error-card>
+        <div *ngIf="!printStyle">
+          <div class="getting-reimbursed-cards" *ngFor="let item of currentSummary">
+            <!--used item.toggle for temporary card removal, as toggle functionality is not built properly : srikar bobbiganipalli-->
+            <app-card *ngIf="item.data != null && !item.toggle" class="cards" [chartData]="item"> </app-card>
+            <app-error-card *ngIf="item.status != null" class="cards" [data]="item"></app-error-card>
+          </div>
         </div>
 
-        <div *ngFor="let data of mockCards; let i = index">
-          <app-card class="cards" [skeleton]="loading" *ngIf="loading"> </app-card>
+        <!-- start print style -->
+        <div *ngIf="printStyle">
+          <div *ngFor="let x of summaryItems">
+            <div class="page-subtitle">
+              <p class="page-subtitle-heading">{{ x.title }}</p>
+            </div>
+            <div class="height1Separator"></div>
+            <div class="getting-reimbursed-cards" *ngFor="let item of x.data">
+              <!--used item.toggle for temporary card removal, as toggle functionality is not built properly : srikar bobbiganipalli-->
+              <app-card *ngIf="item.data != null && !item.toggle" class="cards" [chartData]="item"> </app-card>
+              <app-error-card *ngIf="item.status != null" class="cards" [data]="item"></app-error-card>
+            </div>
+          </div>
+          <!-- end Print Style-->
+          <div *ngFor="let data of mockCards; let i = index">
+            <app-card class="cards" [skeleton]="loading" *ngIf="loading"> </app-card>
+          </div>
         </div>
       </div>
     </div>
