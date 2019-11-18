@@ -56,7 +56,6 @@ export class GettingReimbursedComponent implements OnInit {
     private createPayloadService: CreatePayloadService
   ) {
     const filData = this.session.getFilChangeEmitter().subscribe(() => this.common.urlResuseStrategy());
-    this.pageTitle = 'Getting Reimbursed';
     this.currentTabTitle = '';
     this.tabOptionsTitle = ['Submission', 'Payments', 'Non-Payments', 'Appeals'];
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.common.urlResuseStrategy());
@@ -131,10 +130,12 @@ export class GettingReimbursedComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.pageTitle = 'Getting Reimbursed';
     this.printRoute = '/GettingReimbursed/print-grSummary';
 
     if (this.router.url.includes('print-')) {
       this.printStyle = true;
+      this.pageTitle = 'Getting Reimbursed - Summary';
     }
 
     this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'gettingReimbursedSummary' });
@@ -147,6 +148,7 @@ export class GettingReimbursedComponent implements OnInit {
         this.loading = false;
         this.tabOptions = [];
         this.summaryItems = JSON.parse(JSON.stringify(completeData));
+        console.log('gr Data', this.summaryItems);
         if (this.previousSelectedTab) {
           this.currentSummary = this.summaryItems[this.previousSelectedTab].data;
           this.currentTabTitle = this.summaryItems[this.previousSelectedTab].title;
