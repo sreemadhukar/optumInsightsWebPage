@@ -11,6 +11,7 @@ export class CardComponent implements OnInit {
   @Input() skeleton;
   @Input() tabData;
   printStyle: boolean;
+  labelsWithValue; // this variable is used for print labels with value
   heightDonut: Number = 234;
   widthDonut: Number = 234;
   heightRotatingArrow: Number = 212;
@@ -77,6 +78,7 @@ export class CardComponent implements OnInit {
   ngOnInit() {
     if (this.router.url.includes('print-')) {
       this.printStyle = true;
+      this.labelsWithValue = this.chartData.besideData.labels;
     }
 
     if (this.tabData) {
