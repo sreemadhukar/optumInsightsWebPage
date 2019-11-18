@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { GlossaryExpandService } from '../../shared/glossary-expand.service';
+import { CommonUtilsService } from '../../shared/common-utils.service';
 import { Router } from '@angular/router';
 @Component({
   selector: 'app-card',
@@ -68,7 +69,11 @@ export class CardComponent implements OnInit {
     }
   }
 
-  constructor(private glossaryExpandService: GlossaryExpandService, private router: Router) {
+  constructor(
+    private glossaryExpandService: GlossaryExpandService,
+    private router: Router,
+    private common: CommonUtilsService
+  ) {
     this.tabOptions = ['All', 'Diabetic'];
   }
 
@@ -76,9 +81,10 @@ export class CardComponent implements OnInit {
     this.glossaryExpandService.setMessage(title, this.chartData.MetricID);
   }
   ngOnInit() {
+    console.log('labelwithValues', this.labelsWithValue);
+
     if (this.router.url.includes('print-')) {
       this.printStyle = true;
-      this.labelsWithValue = this.chartData.besideData.labels;
     }
 
     if (this.tabData) {

@@ -112,7 +112,7 @@ Date Created: 17-Apr-2019
             *ngIf="printStyle"
             [class.smart-edits-claims-labels]="chartData.title == 'Smart Edits Claims Returned'"
           >
-            <li *ngFor="let c of labelsWithValue; let i = index">{{ c }}</li>
+            <li *ngFor="let c of chartData.besideData.labels; let i = index">{{ c }}</li>
           </ul>
         </div>
       </div>
