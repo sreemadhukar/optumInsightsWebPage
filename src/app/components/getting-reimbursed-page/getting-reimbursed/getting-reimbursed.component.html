@@ -2,7 +2,9 @@
 <div class="gettingReimburse-body">
   <div class="gettingReimburse-content">
     <div class="cust-width-title">
-      <app-breadcrumbs></app-breadcrumbs>
+      <div *ngIf="!printStyle">
+        <app-breadcrumbs></app-breadcrumbs>
+      </div>
       <div class="cards cust-width-blank">
         <app-print *ngIf="!printStyle" [route]="printRoute" (printClick)="printDownload($event)"> </app-print>
       </div>

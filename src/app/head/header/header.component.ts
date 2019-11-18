@@ -69,6 +69,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
   public healthSystemName: string;
   public checkAdv;
   public checkPro;
+  printStyle: boolean;
+  printRoute: string;
+
   constructor(
     private breakpointObserver: BreakpointObserver,
     public el: ElementRef,
@@ -141,6 +144,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
     }
   }
   ngOnInit() {
+    if (this.router.url.includes('print-')) {
+      this.printStyle = true;
+    }
+
     this.advDropdownBool = false;
     this.healthSystemName = this.sessionService.getHealthCareOrgName();
     this.isDarkTheme = this.themeService.isDarkTheme;

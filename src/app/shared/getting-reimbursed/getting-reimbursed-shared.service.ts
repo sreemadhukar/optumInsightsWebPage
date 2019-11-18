@@ -202,7 +202,11 @@ export class GettingReimbursedSharedService {
                 },
                 besideData: {
                   labels: ['Paid', 'Not Paid'],
-                  color: ['#3381FF', '#80B0FF']
+                  color: ['#3381FF', '#80B0FF'],
+                  graphValues: [
+                    claimsData[lobData].ClaimsLobSummary[0].ClaimsPaid,
+                    claimsData[lobData].ClaimsLobSummary[0].ClaimsDenied
+                  ]
                 },
                 timeperiod: this.timeFrame
               };
@@ -410,7 +414,7 @@ export class GettingReimbursedSharedService {
                       : '$' + this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].AmountDenied),
                   centerNumberOriginal: claimsData[lobData].ClaimsLobSummary[0].AmountDenied,
                   color: this.common.returnLobColor(claimsData, lobData),
-                  gdata: ['card-inner', 'claimsPaid'],
+                  gdata: ['card-inner', 'claimsNotPaid'],
                   sdata: {
                     sign: '',
                     data: ''
@@ -927,7 +931,11 @@ export class GettingReimbursedSharedService {
                 },
                 besideData: {
                   labels: ['Paid', 'Not Paid'],
-                  color: ['#3381FF', '#80B0FF']
+                  color: ['#3381FF', '#80B0FF'],
+                  graphValues: [
+                    claimsData[lobData].ClaimsLobSummary[0].ClaimsPaid,
+                    claimsData[lobData].ClaimsLobSummary[0].ClaimsDenied
+                  ]
                 },
                 timeperiod: this.timeFrame
               };
@@ -1305,7 +1313,7 @@ export class GettingReimbursedSharedService {
                       : '$' + this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].AmountDenied),
                   centerNumberOriginal: claimsData[lobData].ClaimsLobSummary[0].AmountDenied,
                   color: this.common.returnLobColor(claimsData, lobData),
-                  gdata: ['card-inner', 'claimsPaid'],
+                  gdata: ['card-inner', 'claimsNotPaid'],
                   sdata: {
                     sign: '',
                     data: ''
