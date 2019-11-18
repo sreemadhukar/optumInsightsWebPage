@@ -339,7 +339,8 @@ export class GettingReimbursedSharedService {
                 },
                 besideData: {
                   labels: ['Medicare & Retirement', 'Community & State', 'Employer & Individual', 'Uncategorized'],
-                  color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC']
+                  color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'],
+                  graphValues: paidData
                 },
                 timeperiod: this.timeFrame
               };
@@ -424,7 +425,8 @@ export class GettingReimbursedSharedService {
                 },
                 besideData: {
                   labels: ['Medicare & Retirement', 'Community & State', 'Employer & Individual', 'Uncategorized'],
-                  color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC']
+                  color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'],
+                  graphValues: notPaidData
                 },
                 timeperiod: this.timeFrame
               };
@@ -654,7 +656,8 @@ export class GettingReimbursedSharedService {
                 },
                 besideData: {
                   labels: ['Medicare & Retirement', 'Community & State', 'Employer & Individual', 'Uncategorized'],
-                  color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC']
+                  color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'],
+                  graphValues: submittedData
                 },
                 bottomData: {
                   horizontalData: [
@@ -1093,7 +1096,8 @@ export class GettingReimbursedSharedService {
                 },
                 besideData: {
                   labels: ['Medicare & Retirement', 'Community & State', 'Employer & Individual', 'Uncategorized'],
-                  color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC']
+                  color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'],
+                  graphValues: paidData
                 },
                 timeperiod: this.timeFrame
               };
@@ -1123,7 +1127,8 @@ export class GettingReimbursedSharedService {
                   },
                   besideData: {
                     labels: ['Medicare & Retirement', 'Community & State', 'Employer & Individual', 'Uncategorized'],
-                    color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC']
+                    color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'],
+                    graphValues: paidData
                   },
                   timeperiod: this.timeFrame
                 };
@@ -1224,7 +1229,8 @@ export class GettingReimbursedSharedService {
                 },
                 besideData: {
                   labels: this.common.LOBSideLabels(lobData, paidDataLOBBoolean),
-                  color: this.common.LOBSideLabelColors(lobData, paidDataLOBBoolean)
+                  color: this.common.LOBSideLabelColors(lobData, paidDataLOBBoolean),
+                  graphValues: paidData
                 },
                 timeperiod: this.timeFrame
               };
@@ -1323,7 +1329,8 @@ export class GettingReimbursedSharedService {
                 },
                 besideData: {
                   labels: this.common.LOBSideLabels(lobData, notPaidLOBBoolean),
-                  color: this.common.LOBSideLabelColors(lobData, notPaidLOBBoolean)
+                  color: this.common.LOBSideLabelColors(lobData, notPaidLOBBoolean),
+                  graphValues: notPaidData
                 },
                 timeperiod: this.timeFrame
               };
@@ -1979,7 +1986,8 @@ export class GettingReimbursedSharedService {
           },
           besideData: {
             labels: sideData[0],
-            color: sideData[1]
+            color: sideData[1],
+            graphValues: submittedData
           },
           bottomData: {
             horizontalData: [
