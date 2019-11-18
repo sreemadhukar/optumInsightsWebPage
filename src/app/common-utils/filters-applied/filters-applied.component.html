@@ -40,6 +40,8 @@
         *ngIf="
           (selectedPage == 'paymentsPage' ||
             selectedPage == 'gettingReimbursedSummary' ||
+            selectedPage == 'gettingReimbursedPayments' ||
+            selectedPage == 'gettingReimbursedNonPayments' ||
             selectedPage == 'nonPaymentsPage') &&
           selectedClaims.value !== 'All' &&
           !flag

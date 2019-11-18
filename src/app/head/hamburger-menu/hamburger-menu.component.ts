@@ -172,7 +172,8 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
             event.url === '' ||
             event.url === '/ProviderSearch' ||
             event.url.includes('print-') ||
-            event.url.indexOf('/login') >= 0
+            event.url.indexOf('/login') >= 0 ||
+            event.url === '/AccessDenied'
           )
         );
         /*
@@ -566,7 +567,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
         // Reloading targeted route, for resetting the css
         window.location.href = '/OverviewPage';
       },
-      containerLabel: 'View as a Provider'
+      containerLabel: 'View as a Organization'
     };
 
     // Set Styling
