@@ -6,7 +6,6 @@ Date Created: 17-Apr-2019
 <div
   *ngIf="chartData != null"
   class="app-card-structure"
-  [class.pi-app-card-structure]="chartData.title == 'Medical Records Requested by UHC'"
   [class.app-card-structure-with-more-height]="
     chartData.type === 'donutWithLabelBottom' ||
     chartData.title === 'Claims Appeals Overturned' ||

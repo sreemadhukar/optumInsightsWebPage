@@ -24,7 +24,7 @@ export class PaymentIntegrityComponent implements OnInit {
   timePeriod: string;
   lob: string;
   taxID: Array<string>;
-  title = 'Payment Integrity: Medical Record Coding Review';
+  title = '';
   smartEditsReasonTitle = 'Smart Edits Returned Claims Top Reasons';
   smartEditsRepairedAndResubmittedTitle = 'Smart Edits Repaired & Resubmitted Response Time';
   MetricID = 'NA';
@@ -78,17 +78,18 @@ export class PaymentIntegrityComponent implements OnInit {
     );
     this.pageTitle = 'Medical Records Coding Review';
     this.tabOptionsTitle = ['Jul 1, 2018–Jun 30, 2019', 'Jul 1, 2019–Oct 31, 2019'];
-    this.subTitle = 'Note: Claims Metrics are calculated using date medical record requested';
+    this.subTitle =
+      'Note: Claims Metrics are calculated using date medical record requested. Dashboard' +
+      'information/measurements are reperesenting physician claims only. These' +
+      'measurements do not take into account facility claims.';
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.filtermatch.urlResuseStrategy());
   }
   matOptionClicked(i: number, event: any) {
     this.currentSummary = [];
     if (i === 1) {
-      this.currentSummary = this.summaryItems[0];
-      this.currentTabTitle = this.summaryItems[0].title;
+      this.currentSummary = this.summaryItems;
     } else {
       this.currentSummary = null;
-      this.currentTabTitle = null;
     }
     const myTabs = document.querySelectorAll('ul.nav-tabs > li');
     for (let j = 0; j < myTabs.length; j++) {
@@ -145,9 +146,16 @@ export class PaymentIntegrityComponent implements OnInit {
             }
           ]
         }
+      },
+      {
+        category: 'app-card',
+        type: 'donutWithSideBottomLabel',
+        title: 'Coding Review Results',
+        MetricID: '',
+        data: {}
       }
     ];
-    this.currentSummary = this.summaryItems[0];
+    this.currentSummary = this.summaryItems;
     this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'paymentIntegrityPage' });
     this.timePeriod = this.session.filterObjValue.timeFrame;
     if (this.session.filterObjValue.lob !== 'All') {

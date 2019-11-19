@@ -265,9 +265,6 @@
       ol {
         @include margin(0, 0, 16px, 0);
       }
-      .pi-cards {
-        display: flex;
-      }
       .container--tabs {
         clear: left;
         width: 98.5%;
@@ -402,7 +399,9 @@
         }
       }
     }
-
+    .pi-cards {
+      display: flex;
+    }
     .smart-edits-bar-chart-block {
       float: left;
       padding: 81px 40px 117px 40px;
