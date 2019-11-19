@@ -17,7 +17,8 @@ import {
   OnDestroy,
   AfterViewChecked,
   Input,
-  Inject
+  Inject,
+  ChangeDetectorRef
 } from '@angular/core';
 import { MatExpansionPanel, MatDialog, MatSidenav, MatDialogConfig } from '@angular/material';
 import { BreakpointObserver } from '@angular/cdk/layout';
@@ -131,6 +132,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
   /** CONSTRUCTOR **/
   constructor(
     private breakpointObserver: BreakpointObserver,
+    private cdRef: ChangeDetectorRef,
     private elementRef: ElementRef,
     private renderer: Renderer2,
     private iconRegistry: MatIconRegistry,
@@ -270,6 +272,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     });
     this.eventEmitter.getEvent().subscribe(val => {
       this.isKop = val.value;
+      this.cdRef.detectChanges();
     });
     this.checkStorage.getEvent().subscribe(value => {
       if (value.value === 'overviewPage') {

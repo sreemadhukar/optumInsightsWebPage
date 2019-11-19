@@ -31,7 +31,8 @@
             </div>
             <div *ngSwitchCase="'miniDonut'" class="mini-donut-chart">
               <div *ngFor="let quarter of item.quarters">
-                <app-donut-charts [chartData]="item" [quarter]="quarter"></app-donut-charts>
+                <app-donut-charts *ngIf="quarter.title" [chartData]="item" [quarter]="quarter"></app-donut-charts>
+                <app-error-template *ngIf="!quarter.title"></app-error-template>
               </div>
             </div>
           </div>
