@@ -12,7 +12,7 @@
       <!--</button>-->
       <div *ngIf="fromKOP" class="butter-bar align-horizonal">
         <div class="cross-icon">
-          <mat-icon class="hover-pointer" svgIcon="closeGlossary" (click)="closeButterBar()"></mat-icon>
+          <mat-icon class="hover-pointer" svgIcon="closeGlossary" (click)="navigateToKOP()"></mat-icon>
         </div>
         <div class="exit-text" style="width: 35%">
           <span class="exit-provider-text" (click)="navigateToKOP()">Exit Provider View</span>
@@ -28,7 +28,6 @@
         [class.display-none]="!showPrintHeader && makeAbsolute"
         class="sticky"
         (hamburgerDisplay)="hamburgerDisplay($event)"
-        [isKop]="isKop"
         [ngClass]="fromKOP ? 'top-40' : 'top-0'"
       ></app-header>
     </mat-toolbar>
@@ -60,7 +59,12 @@
           <p class="representing-label">You are representing</p>
           <p class="health-system-name">{{ healthSystemName }}</p>
           <p class="change-provider" *ngIf="disableChangeProvider && !AcoFlag" (click)="openDialog()">
-            Change Provider
+            Change Organization
+          </p>
+          <p class="view-Tax-Id-Summary-div" *ngIf="!disableChangeProvider && !AcoFlag">
+            <a class="view-Tax-Id-Summary" [routerLink]="['/TinList']">
+              View Tax ID Summary
+            </a>
           </p>
         </div>
         <!-- END OF HEALTHSYSTEM REPRESENTATION BLOCK -->
@@ -212,12 +216,7 @@
               [title]="glossaryTitle"
               [MetricID]="glossaryMetricID"
             ></app-glossary>
-            <app-filter
-              *ngIf="filterFlag && !isKop"
-              [filterurl]="filterurl"
-              [filterData]="filterData"
-              (filterFlag)="filterFlagChange($event)"
-            ></app-filter>
+            <app-uhci-filter *ngIf="filterFlag && !isKop" (filterFlag)="filterFlagChange($event)"></app-uhci-filter>
             <app-kop-filters
               *ngIf="filterFlag && isKop"
               [filterurl]="filterurl"

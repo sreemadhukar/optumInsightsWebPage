@@ -6,41 +6,12 @@ import { NetworkParticipation } from './kop.class.networkparticipation';
 import { TimePeriod } from './kop.class.timeperiod';
 import { IssueResolution } from './kop.class.issueresolution';
 import { Reimbursement } from './kop.class.reimbursement';
+import { Engagement } from './kop.class.engagement';
 
 @Injectable({
   providedIn: 'root'
 })
 export class KOPSharedService {
-  filters: any = [
-    {
-      title: 'Last Completed Quarter',
-      selected: true,
-      quarterFormat: 'default',
-      timeFrameFormat: 'Quarter and Year',
-      filters: ['LAST_COMPLETED_QUARTER']
-    },
-    {
-      title: 'Year To Date',
-      selected: false,
-      timeFrameFormat: 'Year',
-      quarterFormat: 'default',
-      filters: ['YEAR_TO_DATE']
-    },
-    {
-      title: 'Quarter over Quarter',
-      selected: false,
-      timeFrameFormat: 'Quarter vs Quarter',
-      quarterFormat: 'default',
-      filters: ['QUARTER_OVER_QUARTER']
-    },
-    {
-      title: 'Total Last Year',
-      selected: false,
-      timeFrameFormat: 'Last Year',
-      quarterFormat: 'YTD',
-      filters: ['YEAR_TO_DATE', 'TOTAL_LAST_YEAR']
-    }
-  ];
   constructor(private kopService: KopService) {}
 
   public getSummary(params: any) {
@@ -75,14 +46,25 @@ export class KOPSharedService {
         const reimbursementInstance = new Reimbursement({ records: response });
         const reimbursement = reimbursementInstance.getData();
 
-        return resolve({ npsSummary, timePeriod, careDelivery, networkParticipation, issueResolution, reimbursement });
+        const engagementInstance = new Engagement({ records: response });
+        const engagement = engagementInstance.getData();
+
+        return resolve({
+          npsSummary,
+          timePeriod,
+          careDelivery,
+          networkParticipation,
+          issueResolution,
+          reimbursement,
+          engagement
+        });
       });
     });
   }
 
   private getDataAsync(params: any) {
-    return new Promise(resolve => {
-      this.kopService.getSummary({ params }).subscribe((response: any) => resolve(response), () => resolve(null));
+    return new Promise((resolve, reject) => {
+      this.kopService.getSummary({ params }).subscribe((response: any) => resolve(response), () => reject());
     });
   }
 
@@ -93,17 +75,21 @@ export class KOPSharedService {
       paramsArray.forEach((paramsItem: any) => {
         tasks.push(this.getDataAsync(paramsItem));
       });
-      Promise.all(tasks).then((response: any) => {
-        const totalResponse = [];
-        response.forEach((responseItem: any) => {
-          if (responseItem) {
-            responseItem.forEach((innerResponseItem: any) => {
-              totalResponse.push(innerResponseItem);
-            });
-          }
+      Promise.all(tasks)
+        .then((response: any) => {
+          const totalResponse = [];
+          response.forEach((responseItem: any) => {
+            if (responseItem) {
+              responseItem.forEach((innerResponseItem: any) => {
+                totalResponse.push(innerResponseItem);
+              });
+            }
+          });
+          return resolve(totalResponse);
+        })
+        .catch(() => {
+          return resolve([]);
         });
-        return resolve(totalResponse);
-      });
     });
   }
 }

@@ -1,0 +1,27 @@
+<div class="container" [ngClass]="showTin || selectedArray.length > 0 ? 'expand-container' : 'collapse-container'">
+  <div class="search-section">
+    <div class="selected-section">
+      <div class="icon-container">
+        <mat-icon matPrefix class="nav-menu-icons" svgIcon="search"></mat-icon>
+      </div>
+      <div class="selected-items-container">
+        <span class="box" *ngFor="let selected of selectedArray"
+          >{{ selected.Tin
+          }}<mat-icon class="nav-menu-icons icondata-display" (click)="onRemove(selected)" svgIcon="cross"></mat-icon
+        ></span>
+        <input #inputValue [formControl]="searchControl" placeholder="Search for a Tax ID" (input)="showTin = true" />
+      </div>
+    </div>
+    <div class="filters-list" id="scrollbar" *ngIf="showTin || selectedArray.length > 0">
+      <div *ngFor="let items of filteredArray" class="list">
+        <button (click)="selectedItem(items)">
+          <span class="tin-number">{{ items.Tin }}</span>
+          <span class="tin-name"> {{ items.Tinname | lowercase }} </span>
+        </button>
+        <span *ngIf="items.checked" class="icon-div">
+          <mat-icon matPrefix class="nav-menu-icons done-icon-display" svgIcon="done"></mat-icon>
+        </span>
+      </div>
+    </div>
+  </div>
+</div>

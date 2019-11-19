@@ -6,13 +6,13 @@ import { CommonUtilsService } from '../../common-utils.service';
 import { SessionService } from '../../session.service';
 import { AuthorizationService } from '../../../auth/_service/authorization.service';
 import { GlossaryMetricidService } from '../../glossary-metricid.service';
+import { GettingReimbursedPayload } from '../payload.class';
 
 @Injectable({
   providedIn: GettingReimbursedModule
 })
 export class AppealsSharedService {
   public nonPaymentData: any = null;
-  private tin: string;
   private lob: string;
   private timeFrame: string;
   private providerKey: number;
@@ -32,7 +32,7 @@ export class AppealsSharedService {
     return new Promise(resolve => {
       /** Changed the function name from appealsData to claimsAppealsData for PDP API*/
       this.gettingReimbursedService.claimsAppealsData(...parameters).subscribe(appealsData => {
-        const lobFullData = this.common.matchFullLobWithData(this.lob);
+        const lobFullData = this.common.getFullLobData(this.lob);
         const lobData = this.common.matchLobWithData(this.lob);
         if (appealsData != null && appealsData.hasOwnProperty('status')) {
           appealsSubmitted = {
@@ -273,106 +273,26 @@ export class AppealsSharedService {
     });
   }
 
-  public getAppealsReasonData() {
-    this.tin = this.session.filterObjValue.tax.toString().replace(/-/g, '');
-    this.lob = this.session.filterObjValue.lob;
-    this.timeFrame = this.session.filterObjValue.timeFrame; // this.session.timeFrame;
+  public getAppealsReasonData(param) {
+    this.lob = param.lineOfBusiness ? param.lineOfBusiness : 'ALL';
+    this.timeFrame = this.common.getTimePeriodFilterValue(param.timePeriod);
     this.providerKey = this.session.providerKeyData();
     const reasonArray: Array<Object> = []; // change to let later
     return new Promise((resolve, reject) => {
       let parameters;
+      parameters = [this.providerKey, new GettingReimbursedPayload(param)];
       const reason = [];
-
       if (
         this.timeFrame === 'Last 12 Months' ||
         this.timeFrame === 'Last 6 Months' ||
         this.timeFrame === 'Last 3 Months' ||
         this.timeFrame === 'Last 30 Days' ||
-        this.timeFrame === 'Year to Date'
+        this.timeFrame === 'Year to Date' ||
+        this.timeFrame === '2017' ||
+        this.timeFrame === '2018'
       ) {
-        if (this.timeFrame === 'Last 12 Months') {
-          if (this.tin !== 'All' && this.lob !== 'All') {
-            parameters = [
-              this.providerKey,
-              { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Last12Months', Tin: this.tin }
-            ];
-          } else if (this.tin !== 'All') {
-            parameters = [this.providerKey, { TimeFilter: 'Last12Months', Tin: this.tin }];
-          } else if (this.lob !== 'All') {
-            parameters = [
-              this.providerKey,
-              { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Last12Months' }
-            ];
-          } else {
-            parameters = [this.providerKey, { TimeFilter: 'Last12Months', AllProviderTins: 'true' }];
-          }
-        } else if (this.timeFrame === 'Last 3 Months') {
-          if (this.tin !== 'All' && this.lob !== 'All') {
-            parameters = [
-              this.providerKey,
-              { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Last3Months', Tin: this.tin }
-            ];
-          } else if (this.tin !== 'All') {
-            parameters = [this.providerKey, { TimeFilter: 'Last3Months', Tin: this.tin }];
-          } else if (this.lob !== 'All') {
-            parameters = [
-              this.providerKey,
-              { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Last3Months' }
-            ];
-          } else {
-            parameters = [this.providerKey, { TimeFilter: 'Last3Months', AllProviderTins: 'true' }];
-          }
-        } else if (this.timeFrame === 'Last 30 Days') {
-          if (this.tin !== 'All' && this.lob !== 'All') {
-            parameters = [
-              this.providerKey,
-              { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Last30Days', Tin: this.tin }
-            ];
-          } else if (this.tin !== 'All') {
-            parameters = [this.providerKey, { TimeFilter: 'Last30Days', Tin: this.tin }];
-          } else if (this.lob !== 'All') {
-            parameters = [
-              this.providerKey,
-              { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Last30Days' }
-            ];
-          } else {
-            parameters = [this.providerKey, { TimeFilter: 'Last30Days', AllProviderTins: 'true' }];
-          }
-        } else if (this.timeFrame === 'Year to Date') {
-          if (this.tin !== 'All' && this.lob !== 'All') {
-            parameters = [
-              this.providerKey,
-              { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'YTD', Tin: this.tin }
-            ];
-          } else if (this.tin !== 'All') {
-            parameters = [this.providerKey, { TimeFilter: 'YTD', Tin: this.tin }];
-          } else if (this.lob !== 'All') {
-            parameters = [this.providerKey, { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'YTD' }];
-          } else {
-            parameters = [this.providerKey, { TimeFilter: 'YTD', AllProviderTins: 'true' }];
-          }
-        } else if (this.timeFrame === 'Last 6 Months') {
-          if (this.tin !== 'All' && this.lob !== 'All') {
-            parameters = [
-              this.providerKey,
-              { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Last6Months', Tin: this.tin }
-            ];
-          } else if (this.tin !== 'All') {
-            parameters = [this.providerKey, { TimeFilter: 'Last6Months', Tin: this.tin }];
-          } else if (this.lob !== 'All') {
-            parameters = [
-              this.providerKey,
-              { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Last6Months' }
-            ];
-          } else {
-            parameters = [this.providerKey, { TimeFilter: 'Last6Months', AllProviderTins: 'true' }];
-          }
-        }
-        if (parameters[1].hasOwnProperty('Lob')) {
-          delete parameters[1].Lob;
-        }
         this.gettingReimbursedService.claimsAppealsReasonData(...parameters).subscribe(appealsReasonData => {
-          if (appealsReasonData === null) {
+          if (!appealsReasonData) {
             reason.push({
               category: 'app-card',
               type: 'donut',
@@ -413,24 +333,23 @@ export class AppealsSharedService {
               });
             }
           }
+          const r = reason;
+          resolve(r);
         });
-        const r = reason;
-        resolve(r);
       }
     });
   }
 
-  public getappealsRateAndReasonData() {
-    this.tin = this.session.filterObjValue.tax.toString().replace(/-/g, '');
-    this.lob = this.session.filterObjValue.lob;
-    this.timeFrame = this.session.filterObjValue.timeFrame; // this.session.timeFrame;
+  public getappealsRateAndReasonData(param) {
+    this.lob = param.lineOfBusiness ? param.lineOfBusiness : 'ALL';
+    this.timeFrame = this.common.getTimePeriodFilterValue(param.timePeriod);
     this.providerKey = this.session.providerKeyData();
     let AOR: Array<Object> = [];
     return new Promise((resolve, reject) => {
       let parameters;
+      parameters = [this.providerKey, new GettingReimbursedPayload(param)];
       let appealsOverturnedRate: Object;
       const reason = [];
-
       if (
         this.timeFrame === 'Last 12 Months' ||
         this.timeFrame === 'Last 6 Months' ||
@@ -438,93 +357,11 @@ export class AppealsSharedService {
         this.timeFrame === 'Last 30 Days' ||
         this.timeFrame === 'Year to Date'
       ) {
-        if (this.timeFrame === 'Last 12 Months') {
-          if (this.tin !== 'All' && this.lob !== 'All') {
-            parameters = [
-              this.providerKey,
-              { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Last12Months', Tin: this.tin }
-            ];
-          } else if (this.tin !== 'All') {
-            parameters = [this.providerKey, { TimeFilter: 'Last12Months', Tin: this.tin }];
-          } else if (this.lob !== 'All') {
-            parameters = [
-              this.providerKey,
-              { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Last12Months' }
-            ];
-          } else {
-            parameters = [this.providerKey, { TimeFilter: 'Last12Months', AllProviderTins: 'true' }];
-          }
-        } else if (this.timeFrame === 'Last 3 Months') {
-          if (this.tin !== 'All' && this.lob !== 'All') {
-            parameters = [
-              this.providerKey,
-              { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Last3Months', Tin: this.tin }
-            ];
-          } else if (this.tin !== 'All') {
-            parameters = [this.providerKey, { TimeFilter: 'Last3Months', Tin: this.tin }];
-          } else if (this.lob !== 'All') {
-            parameters = [
-              this.providerKey,
-              { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Last3Months' }
-            ];
-          } else {
-            parameters = [this.providerKey, { TimeFilter: 'Last3Months', AllProviderTins: 'true' }];
-          }
-        } else if (this.timeFrame === 'Last 30 Days') {
-          if (this.tin !== 'All' && this.lob !== 'All') {
-            parameters = [
-              this.providerKey,
-              { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Last30Days', Tin: this.tin }
-            ];
-          } else if (this.tin !== 'All') {
-            parameters = [this.providerKey, { TimeFilter: 'Last30Days', Tin: this.tin }];
-          } else if (this.lob !== 'All') {
-            parameters = [
-              this.providerKey,
-              { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Last30Days' }
-            ];
-          } else {
-            parameters = [this.providerKey, { TimeFilter: 'Last30Days', AllProviderTins: 'true' }];
-          }
-        } else if (this.timeFrame === 'Year to Date') {
-          if (this.tin !== 'All' && this.lob !== 'All') {
-            parameters = [
-              this.providerKey,
-              { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'YTD', Tin: this.tin }
-            ];
-          } else if (this.tin !== 'All') {
-            parameters = [this.providerKey, { TimeFilter: 'YTD', Tin: this.tin }];
-          } else if (this.lob !== 'All') {
-            parameters = [this.providerKey, { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'YTD' }];
-          } else {
-            parameters = [this.providerKey, { TimeFilter: 'YTD', AllProviderTins: 'true' }];
-          }
-        } else if (this.timeFrame === 'Last 6 Months') {
-          if (this.tin !== 'All' && this.lob !== 'All') {
-            parameters = [
-              this.providerKey,
-              { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Last6Months', Tin: this.tin }
-            ];
-          } else if (this.tin !== 'All') {
-            parameters = [this.providerKey, { TimeFilter: 'Last6Months', Tin: this.tin }];
-          } else if (this.lob !== 'All') {
-            parameters = [
-              this.providerKey,
-              { Lob: this.common.matchLobWithCapsData(this.lob), TimeFilter: 'Last6Months' }
-            ];
-          } else {
-            parameters = [this.providerKey, { TimeFilter: 'Last6Months', AllProviderTins: 'true' }];
-          }
-        }
-        if (parameters[1].hasOwnProperty('Lob')) {
-          delete parameters[1].Lob;
-        }
-
         /** Changed the function name from appealsData to claimsAppealsData for PDP API*/
         this.gettingReimbursedService.claimsAppealsData(...parameters).subscribe(appealsData => {
-          const lobFullData = this.common.matchFullLobWithData(this.lob);
+          const lobFullData = this.common.getFullLobData(this.lob);
           const lobData = this.common.matchLobWithData(this.lob);
-          if (appealsData != null && appealsData.hasOwnProperty('status')) {
+          if (appealsData && appealsData.hasOwnProperty('status')) {
             appealsOverturnedRate = {
               category: 'app-card',
               type: 'donutWithBottomLabelOnly',
@@ -534,7 +371,7 @@ export class AppealsSharedService {
               data: null,
               timeperiod: null
             };
-          } else if (appealsData.length > 0 && appealsData[0] != null) {
+          } else if (appealsData && appealsData[0] != null) {
             if (
               appealsData[0].hasOwnProperty('LineOfBusiness') &&
               appealsData[0].LineOfBusiness !== null &&
@@ -566,9 +403,9 @@ export class AppealsSharedService {
                   bottomData: {
                     horizontalData: [
                       {
-                        values: appealsData[0].LineOfBusiness[lobFullData].AdminAppeals
+                        values: appealsData[0].LineOfBusiness[lobFullData].AdminOverTurnCount
                           ? (
-                              (Number(appealsData[0].LineOfBusiness[lobFullData].AdminAppeals) /
+                              (Number(appealsData[0].LineOfBusiness[lobFullData].AdminOverTurnCount) /
                                 (Number(appealsData[0].LineOfBusiness[lobFullData].AdminAppeals) +
                                   Number(appealsData[0].LineOfBusiness[lobFullData].ClinicalAppeals))) *
                               100
@@ -577,9 +414,9 @@ export class AppealsSharedService {
                         labels: 'Admin'
                       },
                       {
-                        values: appealsData[0].LineOfBusiness[lobFullData].ClinicalAppeals
+                        values: appealsData[0].LineOfBusiness[lobFullData].ClinicalOverTurnCount
                           ? (
-                              (Number(appealsData[0].LineOfBusiness[lobFullData].ClinicalAppeals) /
+                              (Number(appealsData[0].LineOfBusiness[lobFullData].ClinicalOverTurnCount) /
                                 (Number(appealsData[0].LineOfBusiness[lobFullData].AdminAppeals) +
                                   Number(appealsData[0].LineOfBusiness[lobFullData].ClinicalAppeals))) *
                               100
@@ -703,42 +540,9 @@ export class AppealsSharedService {
           resolve(AOR);
         });
       } else {
-        if (this.tin !== 'All' && this.lob !== 'All') {
-          parameters = [
-            this.providerKey,
-            {
-              Lob: this.common.matchLobWithCapsData(this.lob),
-              TimeFilter: 'CalendarYear',
-              TimeFilterText: this.timeFrame,
-              Tin: this.tin
-            }
-          ];
-        } else if (this.tin !== 'All') {
-          parameters = [
-            this.providerKey,
-            { TimeFilter: 'CalendarYear', TimeFilterText: this.timeFrame, Tin: this.tin }
-          ];
-        } else if (this.lob !== 'All') {
-          parameters = [
-            this.providerKey,
-            {
-              Lob: this.common.matchLobWithCapsData(this.lob),
-              TimeFilter: 'CalendarYear',
-              TimeFilterText: this.timeFrame
-            }
-          ];
-        } else {
-          parameters = [
-            this.providerKey,
-            { TimeFilter: 'CalendarYear', TimeFilterText: this.timeFrame, AllProviderTins: 'true' }
-          ];
-        }
-        if (parameters[1].hasOwnProperty('Lob')) {
-          delete parameters[1].Lob;
-        }
         /** Changed the function name from appealsData to claimsAppealsData for PDP API*/
         this.gettingReimbursedService.claimsAppealsData(...parameters).subscribe(appealsData => {
-          const lobFullData = this.common.matchFullLobWithData(this.lob);
+          const lobFullData = this.common.getFullLobData(this.lob);
           const lobData = this.common.matchLobWithData(this.lob);
           if (appealsData !== null && appealsData.hasOwnProperty('status')) {
             appealsOverturnedRate = {
@@ -783,9 +587,9 @@ export class AppealsSharedService {
                   bottomData: {
                     horizontalData: [
                       {
-                        values: appealsData[0].LineOfBusiness[lobFullData].AdminAppeals
+                        values: appealsData[0].LineOfBusiness[lobFullData].AdminOverTurnCount
                           ? (
-                              (Number(appealsData[0].LineOfBusiness[lobFullData].AdminAppeals) /
+                              (Number(appealsData[0].LineOfBusiness[lobFullData].AdminOverTurnCount) /
                                 (Number(appealsData[0].LineOfBusiness[lobFullData].AdminAppeals) +
                                   Number(appealsData[0].LineOfBusiness[lobFullData].ClinicalAppeals))) *
                               100
@@ -794,9 +598,9 @@ export class AppealsSharedService {
                         labels: 'Admin'
                       },
                       {
-                        values: appealsData[0].LineOfBusiness[lobFullData].ClinicalAppeals
+                        values: appealsData[0].LineOfBusiness[lobFullData].ClinicalOverTurnCount
                           ? (
-                              (Number(appealsData[0].LineOfBusiness[lobFullData].ClinicalAppeals) /
+                              (Number(appealsData[0].LineOfBusiness[lobFullData].ClinicalOverTurnCount) /
                                 (Number(appealsData[0].LineOfBusiness[lobFullData].AdminAppeals) +
                                   Number(appealsData[0].LineOfBusiness[lobFullData].ClinicalAppeals))) *
                               100
@@ -936,7 +740,7 @@ export class AppealsSharedService {
   public createAppealsDonuts(appealsData, lobFullData) {
     let appealsSubmitted = {};
     let appealsOverturned = {};
-    if (appealsData != null && appealsData.hasOwnProperty('status')) {
+    if (appealsData && appealsData.hasOwnProperty('status')) {
       appealsSubmitted = {
         category: 'app-card',
         type: 'donutWithLabelBottom',
@@ -957,7 +761,7 @@ export class AppealsSharedService {
         data: null,
         timeperiod: null
       };
-    } else if (appealsData.length > 0 && appealsData[0] != null) {
+    } else if (appealsData && appealsData[0] != null) {
       if (
         appealsData[0].hasOwnProperty('LineOfBusiness') &&
         appealsData[0].LineOfBusiness !== null &&
@@ -1265,7 +1069,7 @@ export class AppealsSharedService {
                 }
               ]
             },
-            timeperiod: this.session.filterObjValue.timeFrame
+            timeperiod: this.timeFrame
           };
         }
         resolve(appealsTAT);

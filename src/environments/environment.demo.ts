@@ -37,7 +37,9 @@ export const environment: any = {
     AdminSummaryTrends: 'admintrends/',
     AppealsFHIR: 'appeals/v2.0/',
     AppealsOverturn: 'appeal-overturn-reasons/',
-    AdminSummaryTrendsCount: 'admintrendscount/'
+    AdminSummaryTrendsCount: 'admintrendscount/',
+    RefreshToken: 'getRefreshToken/',
+    HealthSystemDetails: 'providerInfo/'
   },
   headerKeys: {
     selectedCompany: '',
@@ -59,6 +61,7 @@ export const environment: any = {
   errorMessage: 'empty',
   clickStreamUrl: '//assets.adobedtm.com/launch-ENacdc6d1acf734bcd95703e446bd1de1d-development.min.js',
   internalAccess: false,
+  claimsYieldAccess: false,
   toggleTrendingSummary: false,
   sentryKey: 'https://2e6628201e8043c89e8fac56d77c46aa@sentry-ped-internal.ocp-ctc-core.optum.com/1'
 };
