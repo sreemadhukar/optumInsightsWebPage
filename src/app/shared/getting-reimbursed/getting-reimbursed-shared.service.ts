@@ -1230,7 +1230,7 @@ export class GettingReimbursedSharedService {
                 besideData: {
                   labels: this.common.LOBSideLabels(lobData, paidDataLOBBoolean),
                   color: this.common.LOBSideLabelColors(lobData, paidDataLOBBoolean),
-                  graphValues: paidData
+                  graphValues: this.common.graphValuePrint(lobData, paidDataLOBBoolean, paidData)
                 },
                 timeperiod: this.timeFrame
               };
@@ -1330,7 +1330,7 @@ export class GettingReimbursedSharedService {
                 besideData: {
                   labels: this.common.LOBSideLabels(lobData, notPaidLOBBoolean),
                   color: this.common.LOBSideLabelColors(lobData, notPaidLOBBoolean),
-                  graphValues: notPaidData
+                  graphValues: this.common.graphValuePrint(lobData, notPaidLOBBoolean, notPaidData)
                 },
                 timeperiod: this.timeFrame
               };
