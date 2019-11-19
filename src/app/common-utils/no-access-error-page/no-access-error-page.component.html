@@ -1,0 +1,30 @@
+<div class="page-overlay" *ngIf="!isInternal">
+  <div class="container">
+    <!-- HEADER BLOCK-->
+    <div class="header-div">
+      <div class="header-logo-div">
+        <a class="header-logo-link">
+          <img class="no-access-uhc-logo" src="/src/assets/images/UHC Logo@2x.png" alt="UHC Logo" />
+        </a>
+      </div>
+    </div>
+    <!-- END OF HEADER BLOCK-->
+    <!-- BODY BLOCK-->
+    <div class="body-div">
+      <img class="group-logo" src="/src/assets/images/Insights-Tile.png" alt="Group Logo" />
+      <p class="uhc-text">UHC Insights</p>
+      <p class="denied-heading">Access Denied</p>
+      <p class="denied-description">
+        You do not have permission to access UHC Insights. Please contact your system administrator.
+      </p>
+      <p class="denied-description"><a class="return-to-link">Click here</a> to return to your LINK dashboard</p>
+    </div>
+    <!-- END OF BODY BLOCK-->
+    <!-- FOOTER BLOCK-->
+    <footer class="footer-block">
+      <span class="ownLine">&copy; 2019 UnitedHealth Group</span>
+    </footer>
+    <!-- END OF FOOTER BLOCK-->
+  </div>
+  <app-uhc-loader *ngIf="loading"></app-uhc-loader>
+</div>
