@@ -105,7 +105,7 @@ app-header {
 
 .change-provider {
   height: 18px;
-  width: 105px;
+  /*width: 105px;*/
   color: $blue;
   font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
   font-size: 14px;
@@ -114,6 +114,7 @@ app-header {
   text-decoration: none;
   margin: 9px 0 18px 0;
   cursor: pointer;
+  display: inline-block;
 }
 
 .change-provider:hover {
