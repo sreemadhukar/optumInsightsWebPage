@@ -58,9 +58,9 @@
 @mixin sidenav-theme($theme) {
   $accent: map-get($theme, accent);
   $background: map-get($theme, background);
-  $background-color: mat-color($background);
+  // $background-color: mat-color($background);
   .gettingReimburse-body {
-    background-color: mat-color($accent);
+    // background-color: mat-color($accent);
     overflow: hidden;
     display: flex;
     flex-direction: column;
