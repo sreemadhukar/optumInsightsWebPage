@@ -127,6 +127,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
     );
 
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.ngOnInit());
+
+    router.events.subscribe(event => {
+      if (event instanceof NavigationStart) {
+        this.printStyle = event.url.includes('print-');
+      }
+    });
   }
 
   advocateUserClick() {
@@ -144,9 +150,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
     }
   }
   ngOnInit() {
-    if (this.router.url.includes('print-')) {
-      this.printStyle = true;
-    }
     this.advDropdownBool = false;
     this.healthSystemName = this.sessionService.getHealthCareOrgName();
     this.isDarkTheme = this.themeService.isDarkTheme;
