@@ -694,7 +694,6 @@ export class OverviewSharedService {
               paidData.push(claims.Un.ClaimsLobSummary[0].AmountPaid);
             }
           }
-
           claimsPaid = {
             category: 'small-card',
             type: 'donut',

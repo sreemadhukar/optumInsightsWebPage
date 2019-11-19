@@ -28,9 +28,30 @@
       </div>
       <div class="horizontal-align" *ngIf="selectedPage !== 'callsPage' && selectedLob.value !== 'All'">
         <button class="btn btn-rounded" disabled>
-          <span>Line of Business: </span><span class="text-semibold pl-4"> {{ selectedLob.value }} </span>
+          <span>Line of Business: </span
+          ><span class="text-semibold pl-4"> {{ selectedLob.value | temporaryTextFormatter }} </span>
           <div class="close-btn">
             <mat-icon class="icon-display" (click)="removeAppliedFilter('lob')" svgIcon="close"></mat-icon>
+          </div>
+        </button>
+      </div>
+      <div
+        class="horizontal-align"
+        *ngIf="
+          (selectedPage == 'paymentsPage' ||
+            selectedPage == 'gettingReimbursedSummary' ||
+            selectedPage == 'gettingReimbursedPayments' ||
+            selectedPage == 'gettingReimbursedNonPayments' ||
+            selectedPage == 'nonPaymentsPage') &&
+          selectedClaims.value !== 'All' &&
+          !flag
+        "
+      >
+        <button class="btn btn-rounded" disabled>
+          <span>Claim Type: </span
+          ><span class="text-semibold pl-4"> {{ selectedClaims.value | temporaryTextFormatter }} </span>
+          <div class="close-btn">
+            <mat-icon class="icon-display" (click)="removeAppliedFilter('claims')" svgIcon="close"></mat-icon>
           </div>
         </button>
       </div>

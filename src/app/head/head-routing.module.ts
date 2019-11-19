@@ -6,6 +6,7 @@ import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.componen
 import { SiteMapComponent } from './site-map/site-map.component';
 import { TinListPageComponent } from './tin-list-page/tin-list-page.component';
 import { CustomPreloadingStrategy } from './custom-preloading';
+import { NoAccessErrorPageComponent } from '../common-utils/no-access-error-page/no-access-error-page.component';
 
 const routes: Routes = [
   {
@@ -56,7 +57,6 @@ const routes: Routes = [
     path: 'CareDelivery',
     loadChildren: '../components/care-delivery-page/care-delivery-page.module#CareDeliveryPageModule',
     data: {
-      breadcrumb: 'Care Delivery',
       preload: true,
       delay: true
     },
@@ -143,6 +143,11 @@ const routes: Routes = [
       preload: false,
       delay: false
     }
+  },
+  {
+    path: 'AccessDenied',
+    component: NoAccessErrorPageComponent,
+    canActivate: [AuthGuard]
   },
   { path: '**', redirectTo: '' }
 ];

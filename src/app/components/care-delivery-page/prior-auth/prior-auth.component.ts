@@ -8,7 +8,7 @@ import { FilterExpandService } from '../../../shared/filter-expand.service';
 import { SessionService } from 'src/app/shared/session.service';
 import { CommonUtilsService } from '../../../shared/common-utils.service';
 import { NgRedux } from '@angular-redux/store';
-import { CURRENT_PAGE } from '../../../store/filter/actions';
+import { CURRENT_PAGE, REMOVE_FILTER } from '../../../store/filter/actions';
 import { IAppState } from '../../../store/store';
 import { CreatePayloadService } from '../../../shared/uhci-filters/create-payload.service';
 
@@ -59,6 +59,9 @@ export class PriorAuthComponent implements OnInit {
       //   scType: this.session.filterObjValue.scType
       // });
       // this.ngOnInit();
+      this.createPayloadService.resetTinNumber('priorAuthPage');
+      this.ngRedux.dispatch({ type: REMOVE_FILTER, filterData: { taxId: true } });
+      this.common.urlResuseStrategy();
     });
     iconRegistry.addSvgIcon(
       'filter',

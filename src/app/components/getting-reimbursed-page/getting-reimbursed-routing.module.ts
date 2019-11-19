@@ -15,6 +15,10 @@ const routes: Routes = [
     }
   },
   {
+    path: 'print-grSummary',
+    component: GettingReimbursedComponent
+  },
+  {
     path: 'Payments',
     component: PaymentsComponent,
     data: {
@@ -39,7 +43,7 @@ const routes: Routes = [
     path: 'PaymentIntegrity',
     component: PaymentIntegrityComponent,
     data: {
-      breadcrumb: 'Payment Integrity'
+      breadcrumb: 'Medical Records Coding Review'
     }
   },
   {

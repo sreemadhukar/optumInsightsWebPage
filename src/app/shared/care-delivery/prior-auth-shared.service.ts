@@ -4,7 +4,7 @@ import { CareDeliveryPageModule } from '../../components/care-delivery-page/care
 import { CommonUtilsService } from '../common-utils.service';
 import { SessionService } from '../session.service';
 import { GlossaryMetricidService } from '../glossary-metricid.service';
-
+import { AuthorizationService } from '../../auth/_service/authorization.service';
 @Injectable({
   providedIn: CareDeliveryPageModule
 })
@@ -16,7 +16,8 @@ export class PriorAuthSharedService {
     private MetricidService: GlossaryMetricidService,
     private priorAuthService: PriorAuthService,
     private session: SessionService,
-    private common: CommonUtilsService
+    private common: CommonUtilsService,
+    private toggle: AuthorizationService
   ) {}
 
   getNewPAData(filterParameters) {
@@ -140,6 +141,7 @@ export class PriorAuthSharedService {
         status: 404,
         title: 'Prior Authorization Requested',
         MetricID: this.MetricidService.MetricIDs.PriorAuthorizationRequested,
+        toggle: this.toggle.setToggles('Prior Authorization Requested', 'Prior Authorizations', 'Care Delivery', false),
         data: null,
         besideData: null,
         timeperiod: null
@@ -150,6 +152,12 @@ export class PriorAuthSharedService {
         status: 404,
         title: 'Prior Authorization Approval Rate',
         MetricID: this.MetricidService.MetricIDs.PriorAuthorizationApprovalRate,
+        toggle: this.toggle.setToggles(
+          'Prior Authorization Approval Rate',
+          'Prior Authorizations',
+          'Care Delivery',
+          false
+        ),
         data: null,
         besideData: null,
         timeperiod: null
@@ -221,22 +229,22 @@ export class PriorAuthSharedService {
             let UrgentTATConversion;
             let TATDayLabel;
             let TATHourLabel;
-            if (data.StandartPriorAuthTAT / 86400 < 1) {
+            if (data.AvgTatStandard_hours / 24 < 1) {
               StandardTATConversion = '<1';
               TATDayLabel = StandardTATConversion + ' Day';
             } else {
-              StandardTATConversion = (data.StandartPriorAuthTAT / 86400).toFixed(0);
+              StandardTATConversion = (data.AvgTatStandard_hours / 24).toFixed(0);
               if (StandardTATConversion === '1') {
                 TATDayLabel = StandardTATConversion + ' Day';
               } else {
                 TATDayLabel = StandardTATConversion + ' Days';
               }
             }
-            if (data.UrgentPriorAuthTAT / 3600 < 1) {
+            if (data.AvgTatUrgent_hours < 1) {
               UrgentTATConversion = '<1';
               TATHourLabel = UrgentTATConversion + ' Hour';
             } else {
-              UrgentTATConversion = (data.UrgentPriorAuthTAT / 3600).toFixed(0);
+              UrgentTATConversion = data.AvgTatUrgent_hours.toFixed(0);
               if (UrgentTATConversion === '1') {
                 TATHourLabel = UrgentTATConversion + ' Hour';
               } else {
@@ -259,6 +267,12 @@ export class PriorAuthSharedService {
                     type: 'donutWithLabel',
                     title: 'Prior Authorization Requested',
                     MetricID: this.MetricidService.MetricIDs.PriorAuthorizationRequested,
+                    toggle: this.toggle.setToggles(
+                      'Prior Authorization Requested',
+                      'Prior Authorizations',
+                      'Care Delivery',
+                      false
+                    ),
                     data: {
                       graphValues: priorAuthorizationCounts,
                       centerNumber: this.common.nFormatter(PARequestedCount),
@@ -284,6 +298,12 @@ export class PriorAuthSharedService {
                   type: 'donutWithLabel',
                   title: 'Prior Authorization Requested',
                   MetricID: this.MetricidService.MetricIDs.PriorAuthorizationRequested,
+                  toggle: this.toggle.setToggles(
+                    'Prior Authorization Requested',
+                    'Prior Authorizations',
+                    'Care Delivery',
+                    false
+                  ),
                   data: {
                     graphValues: priorAuthorizationCounts,
                     centerNumber: this.common.nFormatter(PARequestedCount),
@@ -303,6 +323,12 @@ export class PriorAuthSharedService {
                   type: 'donutWithLabel',
                   title: 'Prior Authorization Approval Rate',
                   MetricID: this.MetricidService.MetricIDs.PriorAuthorizationApprovalRate,
+                  toggle: this.toggle.setToggles(
+                    'Prior Authorization Approval Rate',
+                    'Prior Authorizations',
+                    'Care Delivery',
+                    false
+                  ),
                   data: {
                     graphValues: [PAApprovalRate, 1 - PAApprovalRate],
                     centerNumber: (PAApprovalRate * 100).toFixed(0) + '%',
@@ -329,11 +355,11 @@ export class PriorAuthSharedService {
           let lobStringFormatted;
           if (LOB === 'All') {
             lobStringFormatted = 'All';
-          } else if (LOB === 'Community & State') {
+          } else if (LOB === 'CS') {
             lobStringFormatted = 'Cs';
-          } else if (LOB === 'Employer & Individual') {
+          } else if (LOB === 'EI') {
             lobStringFormatted = 'Ei';
-          } else if (LOB === 'Medicare & Retirement') {
+          } else if (LOB === 'MR') {
             lobStringFormatted = 'Mr';
           }
 
@@ -377,6 +403,12 @@ export class PriorAuthSharedService {
                 type: 'singleBarChart',
                 title: 'Top Reasons for Prior Authorizations Not Approved',
                 MetricID: this.MetricidService.MetricIDs.TopReasonsforPriorAuthorizationsNotApproved,
+                toggle: this.toggle.setToggles(
+                  'Top Reasons for Prior Authorizations Not Approved',
+                  'Prior Authorizations',
+                  'Care Delivery',
+                  false
+                ),
                 data: {
                   barHeight: 48,
                   barData: PriorAuthNotApprovedReasons[i].Count,
@@ -405,6 +437,12 @@ export class PriorAuthSharedService {
                 status: 404,
                 title: 'Top Reasons for Prior Authorizations Not Approved',
                 MetricID: this.MetricidService.MetricIDs.TopReasonsforPriorAuthorizationsNotApproved,
+                toggle: this.toggle.setToggles(
+                  'Top Reasons for Prior Authorizations Not Approved',
+                  'Prior Authorizations',
+                  'Care Delivery',
+                  false
+                ),
                 data: null,
                 besideData: null,
                 timeperiod: null

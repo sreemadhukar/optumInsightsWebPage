@@ -30,16 +30,51 @@ export class FiltersMultiSelectComponent implements OnInit {
       }
     });
     this.searchControl.valueChanges.subscribe(query => {
-      this.filteredArray = this.tinsData.filter(function(tag) {
-        return tag.Tin.indexOf(query) >= 0;
+      // Adding - to the query as tin
+      const tinPart1 = query.slice(0, 2);
+      const tinPart2 = query.slice(2, query.length);
+      let tin = query;
+      if (query.length > 2) {
+        tin = tinPart1 + '-' + tinPart2;
+      }
+
+      const filteredTinsData = this.tinsData.filter(function(tag) {
+        return tag.Tin.slice(0, tin.length) === tin;
       });
+      const nonFilteredTinsData = this.tinsData.filter(function(tag) {
+        return tag.Tin.slice(0, tin.length) !== tin;
+      });
+
+      this.filteredArray = filteredTinsData.concat(nonFilteredTinsData);
+      // .slice(0, 5);
     });
+
+    // Creating Number From Tin Number and Sorting All Tins
+    this.tinsData.map((element: any) => {
+      element.number = parseInt(element.Tin.replace('-', ''));
+      return element;
+    });
+    this.tinsData.sort(this.sortOrder('number'));
+
+    if (this.selectedArray.length > 0) {
+      this.filteredArray = this.tinsData;
+    }
+  }
+
+  sortOrder(prop) {
+    return (a, b) => {
+      if (a[prop] > b[prop]) {
+        return 1;
+      } else if (a[prop] < b[prop]) {
+        return -1;
+      }
+      return 0;
+    };
   }
 
   selectedItem(item) {
     if (!this.selectedArray.includes(item)) {
       this.selectedArray.push(item);
-      console.log(this.selectedArray);
       this.taxArray.emit(this.selectedArray);
       this.tinsData.forEach(value => {
         if (value['Tin'] === item.Tin) {

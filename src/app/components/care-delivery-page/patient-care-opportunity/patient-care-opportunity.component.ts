@@ -50,19 +50,23 @@ export class PatientCareOpportunityComponent implements OnInit {
       this.starRatings = this.pcorData[2];
     });
   }
-  public locations(substring, string) {
+  public locations(substring, string, errorBound) {
     const a = [];
     let i = -1;
     while ((i = string.indexOf(substring, i + 1)) >= 0) {
       a.push(i);
     }
-    const b = [];
-    for (let j = 0; j < a.length - 1; j++) {
-      if (a[j + 1] - a[j] > 75) {
-        b.push(a[j]);
+    if (errorBound) {
+      const b = [];
+      for (let j = 0; j < a.length - 1; j++) {
+        if (a[j + 1] - a[j] > 75) {
+          b.push(a[j]);
+        }
       }
+      return b;
+    } else {
+      return a;
     }
-    return b;
   }
   public customFormattingMeasureDescription(customLabelGrid, data) {
     for (let i = 0; i < data.length; i++) {
@@ -83,8 +87,13 @@ export class PatientCareOpportunityComponent implements OnInit {
               const newSentenceOne = measureDescription.slice(0, colonIndex + 1);
               const newSentenceTwo = measureDescription.slice(colonIndex + 1);
               data[i].insideData[j].Description = newSentenceOne;
-              const bulletPointArray = this.locations('.', newSentenceTwo);
-              bulletPointArray.unshift(0);
+              let bulletPointArray;
+              if (customLabelGrid[k].name === 'C16 - Controlling Blood Pressure**') {
+                bulletPointArray = this.locations('Members', newSentenceTwo, false);
+              } else {
+                bulletPointArray = this.locations('.', newSentenceTwo, true);
+                bulletPointArray.unshift(0);
+              }
               const bulletPoints = [];
               for (let l = 0; l < bulletPointArray.length; l++) {
                 if (bulletPointArray[l + 1] === undefined) {
@@ -130,6 +139,10 @@ export class PatientCareOpportunityComponent implements OnInit {
       },
       {
         name: 'C22 - Statin Therapy for Patients With Cardiovascular Disease',
+        format: 'bulletPoint'
+      },
+      {
+        name: 'C16 - Controlling Blood Pressure**',
         format: 'bulletPoint'
       }
       /*

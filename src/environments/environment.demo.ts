@@ -39,6 +39,7 @@ export const environment: any = {
     AppealsOverturn: 'appeal-overturn-reasons/',
     AdminSummaryTrendsCount: 'admintrendscount/',
     ACOMetrics: 'aco-metrics/',
+    RefreshToken: 'getRefreshToken/',
     HealthSystemDetails: 'providerInfo/'
   },
   headerKeys: {
