@@ -65,6 +65,7 @@
           font-size: 22px;
           line-height: 1;
           margin-bottom: 8px;
+          width: 560px;
         }
         .self-service-link {
           color: $blue;
@@ -77,6 +78,7 @@
           a {
             text-decoration: none;
             color: $blue;
+            margin-right: 70px;
             .icon-display {
               vertical-align: middle;
             }
@@ -96,5 +98,15 @@
         }
       }
     }
+  }
+  .copyright-text {
+    margin-right: 16px;
+    display: flex;
+    font-size: 14px;
+    color: grey;
+    font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+    line-height: 80px;
+    text-align: center;
+    letter-spacing: 0.2px;
   }
 }
