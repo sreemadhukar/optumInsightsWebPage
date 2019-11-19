@@ -128,11 +128,17 @@ export class LoginStubComponent implements OnInit {
             this.external
               .CheckExternal(params.code, this.token)
               .then(value => {
+                let response: any;
+                response = value;
                 this.authorise.getToggles('external-authorise').subscribe(value1 => {
                   console.log(value1);
                 });
                 sessionStorage.setItem('cache', JSON.stringify(true));
-                this.router.navigate(['/OverviewPage']);
+                if (response.Providers.length > 1) {
+                  this.router.navigate(['/ProviderSearch']);
+                } else {
+                  this.router.navigate(['/OverviewPage']);
+                }
               })
               .catch(error => {
                 this.openErrorDialog();
