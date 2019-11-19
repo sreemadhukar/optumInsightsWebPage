@@ -19,6 +19,8 @@ import { REMOVE_FILTER } from '../../../store/filter/actions';
   styleUrls: ['./getting-reimbursed.component.scss']
 })
 export class GettingReimbursedComponent implements OnInit {
+  printRoute: string;
+  printStyle: boolean;
   timePeriod: string;
   lob: string;
   taxID: Array<string>;
@@ -55,7 +57,6 @@ export class GettingReimbursedComponent implements OnInit {
     private createPayloadService: CreatePayloadService
   ) {
     const filData = this.session.getFilChangeEmitter().subscribe(() => this.common.urlResuseStrategy());
-    this.pageTitle = 'Getting Reimbursed';
     this.currentTabTitle = '';
     this.tabOptionsTitle = ['Submission', 'Payments', 'Non-Payments', 'Appeals'];
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => {
@@ -131,7 +132,20 @@ export class GettingReimbursedComponent implements OnInit {
     }
     //    event.target.classList.add('active');
   }
+
+  printDownload(value) {
+    console.log('Getting Reimbused print emiiter', value);
+  }
+
   ngOnInit() {
+    this.pageTitle = 'Getting Reimbursed';
+    this.printRoute = '/GettingReimbursed/print-grSummary';
+
+    if (this.router.url.includes('print-')) {
+      this.printStyle = true;
+      this.pageTitle = 'Getting Reimbursed - Summary';
+    }
+
     this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'gettingReimbursedSummary' });
     this.timePeriod = this.common.getTimePeriodFilterValue(this.createPayloadService.payload.timePeriod);
     this.loading = true;
@@ -142,6 +156,7 @@ export class GettingReimbursedComponent implements OnInit {
         this.loading = false;
         this.tabOptions = [];
         this.summaryItems = JSON.parse(JSON.stringify(completeData));
+        console.log('gr Data', this.summaryItems);
         if (this.previousSelectedTab) {
           this.currentSummary = this.summaryItems[this.previousSelectedTab].data;
           this.currentTabTitle = this.summaryItems[this.previousSelectedTab].title;
