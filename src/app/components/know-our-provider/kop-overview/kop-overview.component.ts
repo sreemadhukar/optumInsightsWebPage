@@ -8,6 +8,15 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { SessionService } from 'src/app/shared/session.service';
 
+export interface FilterOptions {
+  title: string;
+  default: boolean;
+  selected: boolean;
+  quarterFormat: string;
+  timeFrameFormat: string;
+  filters: string[];
+}
+
 @Component({
   selector: 'app-kop-overview',
   templateUrl: './kop-overview.component.html',
@@ -18,7 +27,40 @@ export class KopOverviewComponent implements OnInit, OnDestroy {
 
   // HEADER SECTION
   public pageTitle: string;
-  public filterData: any[] = [];
+  public filterData: FilterOptions[] = [
+    {
+      title: 'Last Completed Quarter',
+      selected: false,
+      default: false,
+      quarterFormat: 'default',
+      timeFrameFormat: 'Quarter and Year',
+      filters: ['LAST_COMPLETED_QUARTER']
+    },
+    {
+      title: 'Year To Date',
+      selected: false,
+      default: false,
+      timeFrameFormat: 'Year',
+      quarterFormat: 'default',
+      filters: ['YEAR_TO_DATE']
+    },
+    {
+      title: 'Quarter over Quarter',
+      selected: true,
+      default: true,
+      timeFrameFormat: 'Quarter vs Quarter',
+      quarterFormat: 'default',
+      filters: ['QUARTER_OVER_QUARTER']
+    },
+    {
+      title: 'Total Last Year',
+      selected: false,
+      default: false,
+      timeFrameFormat: 'Last Year',
+      quarterFormat: 'YTD',
+      filters: ['YEAR_TO_DATE', 'TOTAL_LAST_YEAR']
+    }
+  ];
 
   // NPS SECTION
   public npsLoaded: Boolean = false;
@@ -49,8 +91,7 @@ export class KopOverviewComponent implements OnInit, OnDestroy {
     const userInfo = JSON.parse(sessionStorage.getItem('loggedUser')) || {};
     this.pageTitle = 'Hello, ' + userInfo.FirstName + '.';
 
-    this.filterData = this.kopSharedService.filters;
-    this.currentFilter = this.filterData.filter(element => element.selected)[0];
+    this.currentFilter = this.filterData.filter(element => element.default)[0];
     this.getNPSData();
 
     this.sessionService.getFilChangeEmitter().subscribe((data: any) => {
@@ -78,9 +119,31 @@ export class KopOverviewComponent implements OnInit, OnDestroy {
   getNPSData() {
     this.kopSharedService.getSummary({ filter: this.currentFilter }).then((data: any) => {
       if (data) {
+        this.showMetricDevelopment(data);
         this.kopInsightsData = data;
         this.npsLoaded = true;
       }
     });
+  }
+
+  showMetricDevelopment(kopInsightsData) {
+    for (const key in kopInsightsData) {
+      if (kopInsightsData.hasOwnProperty(key)) {
+        if (kopInsightsData[key].title === 'Engagement') {
+          for (const item of kopInsightsData[key].chartData) {
+            item.showMetricProgressIcon = true;
+          }
+        }
+        if (kopInsightsData[key].title === 'Issue Resolution' || kopInsightsData[key].title === 'Onboarding') {
+          for (const item of kopInsightsData[key].chartData) {
+            if (item.cardType === 'horizontalBar' || item.cardType === 'verticalBar') {
+              item.showMetricProgressIcon = true;
+            } else {
+              item.showMetricProgressIcon = false;
+            }
+          }
+        }
+      }
+    }
   }
 }

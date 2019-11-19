@@ -60,6 +60,13 @@ export class BreadcrumbsComponent implements OnInit {
       const routeURL: string = child.snapshot.url.map(segment => segment.path).join('/');
       url += `/${routeURL}`;
       this.checkAdvocate = url.includes('HealthSystemDetails');
+      if (child.snapshot.data[ROUTE_DATA_BREADCRUMB] === 'Medical Records Coding Review') {
+        breadcrumbs.push({
+          label: 'Payment Integrity',
+          params: {},
+          url: '//GettingReimbursed/GettingReimbursed/PaymentIntegrity'
+        });
+      }
       const breadcrumb: IBreadcrumb = {
         label: child.snapshot.data[ROUTE_DATA_BREADCRUMB],
         params: child.snapshot.params,

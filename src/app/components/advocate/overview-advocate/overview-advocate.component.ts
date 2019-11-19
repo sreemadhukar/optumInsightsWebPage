@@ -15,7 +15,7 @@ import { AppealsData } from '../appeals-data';
 import { GeneralData } from '../general-data';
 import { CreatePayloadService } from '../../../shared/uhci-filters/create-payload.service';
 import { NgRedux } from '@angular-redux/store';
-import { CURRENT_PAGE } from '../../../store/filter/actions';
+import { CURRENT_PAGE, REMOVE_FILTER } from '../../../store/filter/actions';
 import { IAppState } from '../../../store/store';
 
 @Component({
@@ -81,7 +81,11 @@ export class OverviewAdvocateComponent implements OnInit {
     this.pagesubTitle = 'Your Insights at a glance.';
 
     const filData = this.session.getFilChangeEmitter().subscribe(() => this.common.urlResuseStrategy());
-    this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.common.urlResuseStrategy());
+    this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => {
+      this.createPayloadService.resetTinNumber('otherPages');
+      this.ngRedux.dispatch({ type: REMOVE_FILTER, filterData: { taxId: true } });
+      this.common.urlResuseStrategy();
+    });
     iconRegistry.addSvgIcon(
       'filter',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-filter_list-24px.svg')
@@ -119,7 +123,8 @@ export class OverviewAdvocateComponent implements OnInit {
       let AppealsLeftData: any;
       AppealsLeftData = appealsLeftData;
       if (AppealsLeftData[0].LineOfBusiness != null && AppealsLeftData[0].LineOfBusiness) {
-        this.totalAppeals = AppealsLeftData[0].LineOfBusiness.ALL.AdminAppeals;
+        this.totalAppeals =
+          AppealsLeftData[0].LineOfBusiness.ALL.AdminAppeals + AppealsLeftData[0].LineOfBusiness.ALL.ClinicalAppeals;
         this.adminAppeals = AppealsLeftData[0].LineOfBusiness.ALL.AdminAppeals;
         this.clinicalAppeals = AppealsLeftData[0].LineOfBusiness.ALL.ClinicalAppeals;
 

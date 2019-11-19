@@ -6,6 +6,8 @@ Date Created: 17-Apr-2019
 <div
   *ngIf="chartData != null"
   class="app-card-structure"
+  [class.print-card-inner]="printStyle"
+  [class.pi-app-card-structure]="chartData.title == 'Medical Records Requested by UHC'"
   [class.app-card-structure-with-more-height]="
     chartData.type === 'donutWithLabelBottom' ||
     chartData.title === 'Claims Appeals Overturned' ||
@@ -100,6 +102,14 @@ Date Created: 17-Apr-2019
           </ul>
           <ul
             class="app-card-list-labels"
+            *ngIf="!printStyle"
+            [class.smart-edits-claims-labels]="chartData.title == 'Smart Edits Claims Returned'"
+          >
+            <li *ngFor="let c of chartData.besideData.labels; let i = index">{{ c }}</li>
+          </ul>
+          <ul
+            class="app-card-list-labels"
+            *ngIf="printStyle"
             [class.smart-edits-claims-labels]="chartData.title == 'Smart Edits Claims Returned'"
           >
             <li *ngFor="let c of chartData.besideData.labels; let i = index">{{ c }}</li>
@@ -304,6 +314,47 @@ Date Created: 17-Apr-2019
           </ul>
         </div>
       </div>
+
+      <!-- Donut With Side and Bottom Label -->
+      <div *ngIf="chartData.type == 'donutWithSideBottomLabel'" class="full-width-block">
+        <div class="chart-details-donut">
+          <app-donut-chart
+            [donutType]="'app-card'"
+            [chartOptions]="chartData.data"
+            [class.pi-donut-with-label]="chartData.title == 'Medical Records Requested by UHC'"
+          ></app-donut-chart>
+        </div>
+        <div [class.pi-beside-data-block]="chartData.title == 'Medical Records Requested by UHC'">
+          <ul
+            class="app-card-list-labels"
+            [class.pi-list-color]="chartData.title == 'Medical Records Requested by UHC'"
+          >
+            <li
+              class="label-color-indicators"
+              [class.pi-label-icons]="chartData.title == 'Medical Records Requested by UHC'"
+              *ngFor="let c of chartData.besideData.color; let i = index"
+            >
+              <div class="label-dots" style.background-color="{{ c }}"></div>
+            </li>
+          </ul>
+          <ul
+            class="app-card-list-labels"
+            [class.pi-list-labels]="chartData.title == 'Medical Records Requested by UHC'"
+          >
+            <li *ngFor="let c of chartData.besideData.labels; let i = index">{{ c }}</li>
+          </ul>
+        </div>
+        <div class="full-width-block flex-display align-center bottom-labels-block">
+          <div
+            *ngFor="let d of chartData.bottomData.horizontalData; let i = index"
+            [class.right-padding]="i + 1 < chartData.bottomData.horizontalData.length"
+            [class.left-padding-with-border]="i != 0"
+            class="text-align-center"
+          >
+            <p class="pi-bottom-label">{{ d.labels }}</p>
+          </div>
+        </div>
+      </div>
     </div>
     <div *ngIf="chartData.timeperiod" class="full-width-block">
       <app-common-footer [timePeriod]="chartData.timeperiod" [title]="chartData.title"></app-common-footer>
@@ -311,7 +362,7 @@ Date Created: 17-Apr-2019
   </div>
 </div>
 
-<div *ngIf="skeleton" class="app-card-structure">
+<div *ngIf="skeleton && !printStyle" class="app-card-structure" [class.print-card-inner]="printStyle">
   <div class="card-inner">
     <div class="full-width-block">
       <div class="card-skeleton"></div>

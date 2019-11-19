@@ -12,7 +12,7 @@
       <!--</button>-->
       <div *ngIf="fromKOP" class="butter-bar align-horizonal">
         <div class="cross-icon">
-          <mat-icon class="hover-pointer" svgIcon="closeGlossary" (click)="closeButterBar()"></mat-icon>
+          <mat-icon class="hover-pointer" svgIcon="closeGlossary" (click)="navigateToKOP()"></mat-icon>
         </div>
         <div class="exit-text" style="width: 35%">
           <span class="exit-provider-text" (click)="navigateToKOP()">Exit Provider View</span>
@@ -28,7 +28,6 @@
         [class.display-none]="!showPrintHeader && makeAbsolute"
         class="sticky"
         (hamburgerDisplay)="hamburgerDisplay($event)"
-        [isKop]="isKop"
         [ngClass]="fromKOP ? 'top-40' : 'top-0'"
       ></app-header>
     </mat-toolbar>
@@ -61,7 +60,7 @@
           <p class="health-system-name" *ngIf="!AcoFlag">{{ healthSystemName }}</p>
           <p class="health-system-name" *ngIf="AcoFlag">{{ AcoName }}</p>
           <p class="change-provider" *ngIf="disableChangeProvider && !AcoFlag" (click)="openDialog()">
-            Change Provider
+            Change Organization
           </p>
           <p class="view-Tax-Id-Summary-div" *ngIf="!disableChangeProvider && !AcoFlag">
             <a class="view-Tax-Id-Summary" [routerLink]="['/TinList']">

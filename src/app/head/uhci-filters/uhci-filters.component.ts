@@ -10,7 +10,8 @@ import {
   PriorAuthDecisionType,
   TrendMetrics,
   filterToggles,
-  MetricPropType
+  MetricPropType,
+  ClaimsFilter
 } from './filter-settings/filter-options';
 import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -35,6 +36,7 @@ export class UhciFiltersComponent implements OnInit {
   @select() priorAuthType;
   @select() trendMetric;
   @select() trendDate;
+  @select() claimsFilter;
   @Output() filterFlag = new EventEmitter();
 
   selectedPage: string;
@@ -42,6 +44,8 @@ export class UhciFiltersComponent implements OnInit {
   selectedTimePeriod: MetricPropType;
   lobs = LineOfBusiness;
   selectedLob: MetricPropType;
+  claims = ClaimsFilter;
+  selectedClaims: MetricPropType;
   serviceSettings = ServiceSetting;
   selectedServiceSetting: MetricPropType;
   serviceCategories = ServiceCategory;
@@ -83,6 +87,9 @@ export class UhciFiltersComponent implements OnInit {
     this.taxId.subscribe(taxId => (this.selectedTaxIds = taxId));
     this.lineOfBusiness.subscribe(
       lineOfBusiness => (this.selectedLob = this.lobs.find(val => val.name === lineOfBusiness))
+    );
+    this.claimsFilter.subscribe(
+      claimsFilter => (this.selectedClaims = this.claims.find(val => val.name === claimsFilter))
     );
     this.serviceSetting.subscribe(
       serviceSetting => (this.selectedServiceSetting = this.serviceSettings.find(val => val.name === serviceSetting))
@@ -143,7 +150,8 @@ export class UhciFiltersComponent implements OnInit {
         serviceCategory: this.selectedService,
         priorAuthType: this.selectedPriorAuthType.name,
         trendMetric: this.selectedTrendMetric.name,
-        trendDate: this.selectedDate
+        trendDate: this.selectedDate,
+        claimsFilter: this.selectedClaims.name
       }
     });
     this.createPayloadService.emitFilterEvent(this.selectedPage);
