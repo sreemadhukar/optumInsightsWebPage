@@ -70,7 +70,6 @@ export class TinListPageComponent implements OnInit {
     this.paginator1();
     this.providerName = this.session.getHealthCareOrgName();
     this.tooltip();
-    this.currentPage.subscribe(currentPage => console.log(currentPage.capitalize()));
   }
   goback() {
     this.currentPage.subscribe(currentPage => (this.previousPage = currentPage));
