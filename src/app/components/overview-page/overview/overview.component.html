@@ -36,9 +36,15 @@
     <app-small-card class="cards" [skeleton]="loading" *ngIf="loading"> </app-small-card>
     <app-error-card *ngIf="errorloadselfServiceAdoptionCard" class="cards" [data]="item"></app-error-card>
 
-    <!-- Commenting following lines of code to supress claims yield card on overview page -->
-    <!--app-small-card class="cards" *ngIf="loadClaimsYieldCard && !claimsLoading" class="cards" [data]="claimsYieldBlock">
-    </app-small-card-->
+    <div *ngIf="displayClaimsYield">
+      <app-small-card
+        class="cards"
+        *ngIf="loadClaimsYieldCard && !claimsLoading"
+        class="cards"
+        [data]="claimsYieldBlock"
+      >
+      </app-small-card>
+    </div>
     <app-small-card class="cards" [skeleton]="claimsLoading" *ngIf="claimsLoading"> </app-small-card>
     <app-error-card *ngIf="errorloadClaimsYieldCard" class="cards" [data]="item"></app-error-card>
 
@@ -82,7 +88,7 @@
       </div>
       <div class="cards cust-width-blank cust-width-title">
         <div *ngIf="!printStyle" class="page-question self-service-link">
-          <a href="/ServiceInteraction/SelfService"
+          <a [routerLink]="['/ServiceInteraction/SelfService']"
             >{{ selfServiceLink }}
             <mat-icon class="icon-display" svgIcon="arrow"></mat-icon>
           </a>

@@ -6,9 +6,8 @@
 @import '~src/scss/variables.scss';
 @import '~src/scss/mixins';
 @import '~src/scss/buttons';
-
 .example-container {
-  background-color: #f1f4f7;
+  position: relative;
   flex-direction: column;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -53,6 +52,7 @@ h1.example-app-name {
   background-color: rgb(241, 244, 247);
   // background-color: mat-color($accent);
 }
+
 .example-is-mobile .bg-white {
   background-color: #fff;
 }
@@ -105,7 +105,7 @@ app-header {
 
 .change-provider {
   height: 18px;
-  width: 105px;
+  /*width: 105px;*/
   color: $blue;
   font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
   font-size: 14px;
@@ -114,9 +114,30 @@ app-header {
   text-decoration: none;
   margin: 9px 0 18px 0;
   cursor: pointer;
+  display: inline-block;
 }
 
 .change-provider:hover {
+  text-decoration: underline;
+}
+
+.view-Tax-Id-Summary-div {
+  height: 18px;
+  width: 145px;
+  margin: 9px 0 18px 0;
+}
+
+.view-Tax-Id-Summary {
+  color: $blue;
+  font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  letter-spacing: 0.2px;
+  line-height: 18px;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.view-Tax-Id-Summary:hover {
   text-decoration: underline;
 }
 
@@ -153,6 +174,17 @@ app-header {
   }
 }
 
+.navCategoryItem {
+  /*padding-left: 32px !important;*/
+  color: $strom-grey;
+  font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  letter-spacing: 0.2px;
+  margin-top: 4px !important;
+  line-height: 18px;
+  margin-left: 38px !important; // previously 30px befor PI sub menu undo when toggled off
+}
+
 .firstNavCategory {
   margin-top: 15px !important;
   color: $strom-grey !important;
@@ -160,6 +192,7 @@ app-header {
   font-size: 16px !important;
   letter-spacing: 0.2px;
   line-height: 18px;
+  margin-top: 20px !important;
 }
 
 .mat-expansion-panel-content,
@@ -190,17 +223,6 @@ app-header {
   /*padding-left: 32px !important;*/
 }
 
-.navCategoryItem {
-  /*padding-left: 32px !important;*/
-  color: $strom-grey;
-  font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
-  font-size: 14px;
-  letter-spacing: 0.2px;
-  margin-top: 4px !important;
-  line-height: 18px;
-  margin-left: 38px !important; // previously 30px befor PI sub menu undo when toggled off
-}
-
 .mat-expansion-panel-body {
   padding: 0px !important;
 }
@@ -226,7 +248,7 @@ app-header {
   color: $strom-grey !important;
   font-size: 16px !important;
   letter-spacing: 0.2px;
-  margin-top: 16px;
+  /*margin-top: 16px;*/
 }
 
 .nav-sub-category-items {
@@ -246,9 +268,7 @@ app-header {
   background: $darker-alice-blue !important;
   color: $blue !important;
 }
-.second-level-link {
-  padding-left: 32px !important;
-}
+
 .nav-no-child-category:hover,
 .mat-expansion-panel-header:hover,
 .mat-expanded,
@@ -333,6 +353,7 @@ app-header {
   padding-left: 16px !important;
   height: 18px !important;
 }
+
 .display-none {
   display: none !important;
 }
@@ -495,4 +516,38 @@ app-header {
 .exit-provider-text:hover {
   cursor: pointer;
   text-decoration: underline;
+}
+
+.mat-list-item {
+  height: auto;
+  padding: 8px 12px 8px 16px;
+  width: auto;
+}
+
+.mat-list-item-content {
+  padding: 0px !important;
+  height: auto !important;
+}
+
+.mat-expansion-panel-body {
+  padding: 0px;
+}
+
+.mat-list-base {
+  .mat-list-item {
+    height: auto !important;
+    padding: 8px 12px 8px 16px;
+    width: auto;
+    margin-left: 0px;
+  }
+  .nav-sub-category-items {
+    height: auto;
+    padding: 8px 12px 8px 16px !important;
+    width: auto;
+    margin-left: 26px !important;
+  }
+}
+
+.mat-list-base .second-level-link {
+  padding-left: 32px !important;
 }

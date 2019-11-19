@@ -1,0 +1,119 @@
+<div class="breadcrumb-top-padding filter-div">
+  <div class="filter-chips">
+    <ng-container *ngIf="selectedPage !== 'summaryTrendsPage'; else summaryTrends">
+      <div class="horizontal-align">
+        <button class="btn btn-rounded" disabled>
+          <span>Time Period: </span><span class="text-semibold pl-4"> {{ selectedTimePeriod.value }} </span>
+        </button>
+      </div>
+      <ng-container
+        *ngIf="selectedPage !== 'callsPage' && selectedTaxIds[0].Tin !== 'All' && selectedTaxIds.length < 4"
+      >
+        <div class="horizontal-align" *ngFor="let taxId of selectedTaxIds">
+          <button class="btn btn-rounded" disabled *ngIf="taxId.Tin !== 'All'">
+            <span>Tax ID: </span><span class="text-semibold pl-4"> {{ taxId.Tin }} </span>
+            <div class="close-btn">
+              <mat-icon class="icon-display" (click)="removeAppliedFilter('taxId', taxId)" svgIcon="close"></mat-icon>
+            </div>
+          </button>
+        </div>
+      </ng-container>
+      <div class="horizontal-align" *ngIf="selectedPage !== 'callsPage' && selectedTaxIds.length >= 4">
+        <button class="btn btn-rounded" disabled>
+          <span>Tax ID: </span><span class="text-semibold pl-4"> {{ selectedTaxIds.length }} Selected </span>
+          <div class="close-btn">
+            <mat-icon class="icon-display" (click)="removeAppliedFilter('taxId')" svgIcon="close"></mat-icon>
+          </div>
+        </button>
+      </div>
+      <div class="horizontal-align" *ngIf="selectedPage !== 'callsPage' && selectedLob.value !== 'All'">
+        <button class="btn btn-rounded" disabled>
+          <span>Line of Business: </span
+          ><span class="text-semibold pl-4"> {{ selectedLob.value | temporaryTextFormatter }} </span>
+          <div class="close-btn">
+            <mat-icon class="icon-display" (click)="removeAppliedFilter('lob')" svgIcon="close"></mat-icon>
+          </div>
+        </button>
+      </div>
+      <div
+        class="horizontal-align"
+        *ngIf="
+          (selectedPage == 'paymentsPage' ||
+            selectedPage == 'gettingReimbursedSummary' ||
+            selectedPage == 'gettingReimbursedPayments' ||
+            selectedPage == 'gettingReimbursedNonPayments' ||
+            selectedPage == 'nonPaymentsPage') &&
+          selectedClaims.value !== 'All' &&
+          !flag
+        "
+      >
+        <button class="btn btn-rounded" disabled>
+          <span>Claim Type: </span
+          ><span class="text-semibold pl-4"> {{ selectedClaims.value | temporaryTextFormatter }} </span>
+          <div class="close-btn">
+            <mat-icon class="icon-display" (click)="removeAppliedFilter('claims')" svgIcon="close"></mat-icon>
+          </div>
+        </button>
+      </div>
+      <div class="horizontal-align" *ngIf="selectedPage === 'priorAuthPage' && selectedServiceSetting.value !== 'All'">
+        <button class="btn btn-rounded" disabled>
+          <span>Service Setting: </span><span class="text-semibold pl-4"> {{ selectedServiceSetting.value }} </span>
+          <div class="close-btn">
+            <mat-icon class="icon-display" (click)="removeAppliedFilter('serviceSetting')" svgIcon="close"></mat-icon>
+          </div>
+        </button>
+      </div>
+      <!--<div class="horizontal-align" *ngIf="selectedPage === 'priorAuthPage' && selectedPriorAuthType.value !== 'All'">-->
+      <!--<button class="btn btn-rounded" disabled>-->
+      <!--<span>Prior Auth Type: </span><span class="text-semibold pl-4"> {{ selectedPriorAuthType.value }} </span>-->
+      <!--<div class="close-btn">-->
+      <!--<mat-icon class="icon-display" (click)="removeAppliedFilter('priorAuthType')" svgIcon="close"></mat-icon>-->
+      <!--</div>-->
+      <!--</button>-->
+      <!--</div>-->
+      <!--<div-->
+      <!--class="horizontal-align"-->
+      <!--*ngIf="selectedPage === 'priorAuthPage' && selectedServiceCategory && selectedServiceCategory.value !== 'All'"-->
+      <!--&gt;-->
+      <!--<button class="btn btn-rounded" disabled *ngIf="selectedServiceCategory">-->
+      <!--<span>Service Category: </span><span class="text-semibold pl-4"> {{ selectedServiceCategory.value }} </span>-->
+      <!--<div class="close-btn">-->
+      <!--<mat-icon class="icon-display" (click)="removeAppliedFilter('serviceCategory')" svgIcon="close"></mat-icon>-->
+      <!--</div>-->
+      <!--</button>-->
+      <!--<button class="btn btn-rounded" disabled *ngIf="selectedPriorAuthType && selectedPriorAuthType.value !== 'All'">-->
+      <!--<span>Service Category: </span><span class="text-semibold pl-4"> {{ selectedPriorAuthType.value }} </span>-->
+      <!--<div class="close-btn">-->
+      <!--<mat-icon-->
+      <!--class="icon-display"-->
+      <!--(click)="removeAppliedFilter('priorAuthDecisionType')"-->
+      <!--svgIcon="close"-->
+      <!--&gt;</mat-icon>-->
+      <!--</div>-->
+      <!--</button>-->
+      <!--</div>-->
+    </ng-container>
+
+    <!--Summary Trends-->
+    <ng-template #summaryTrends>
+      <div class="horizontal-align">
+        <button class="btn btn-rounded" disabled>
+          <span>Time Period: </span
+          ><span class="text-semibold pl-4"
+            >{{ previousDate | date: 'yyyy-MM-dd' }} vs
+            {{ selectedDate | date: 'yyyy-MM-dd' }}
+          </span>
+        </button>
+      </div>
+      <div class="horizontal-align">
+        <button class="btn btn-rounded" disabled>
+          <span>Metric: </span><span class="text-semibold pl-4">{{ selectedTrendMetric.value }} </span>
+        </button>
+      </div>
+    </ng-template>
+  </div>
+  <div class="filter-bg" (click)="openFilter()">
+    <mat-icon matPrefix class="nav-menu-icons filter-icon" svgIcon="filter"></mat-icon>
+    <div class="filter-title">Filters</div>
+  </div>
+</div>
