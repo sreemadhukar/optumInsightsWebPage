@@ -1,7 +1,7 @@
 <app-feedback></app-feedback>
 
 <div class="overview-body" color="primary" id="print-overview">
-  <div class="overview-content">
+  <div class="overview-content" style="page-break-after: always">
     <div class="cards cust-width-title">
       <div class="page-title">{{ pageTitle }}</div>
       <div class="page-subtitle">{{ pagesubTitle }}</div>
@@ -63,15 +63,20 @@
     <app-small-card class="cards" [skeleton]="loading" *ngIf="loading"> </app-small-card>
     <app-error-card *ngIf="errorloadMedicareStarRatingCard" class="cards" [data]="item"></app-error-card>
 
-    <app-small-card class="cards" *ngIf="loadTotalCallsCard && !callsLoading" class="cards" [data]="totalCallsBlock">
-    </app-small-card>
-    <!-- <app-heac-small-card
+    <app-small-card
       class="cards"
-      *ngIf="loadTotalCallsCard && !callsLoading && isHeac"
+      *ngIf="loadTotalCallsCard && !callsLoading && !printStyle"
       class="cards"
       [data]="totalCallsBlock"
     >
-    </app-heac-small-card> -->
+    </app-small-card>
+    <app-heac-small-card
+      class="cards"
+      *ngIf="loadTotalCallsCard && !callsLoading && printStyle"
+      class="cards"
+      [data]="totalCallsBlock"
+    >
+    </app-heac-small-card>
     <app-small-card class="cards" [skeleton]="callsLoading" *ngIf="callsLoading"> </app-small-card>
     <app-error-card *ngIf="errorloadTotalCallsCard" class="cards" [data]="item"></app-error-card>
 
@@ -85,7 +90,7 @@
     <app-clarify-claims-message></app-clarify-claims-message>
   </div>
 
-  <div class="overview-content">
+  <div class="overview-content" style="page-break-after: always">
     <div class="self-service-heading">
       <div class="cards cust-width-title">
         <div class="title-opportunity">{{ opportunities }}</div>
@@ -110,5 +115,12 @@
     </div>
   </div>
 </div>
+<footer *ngIf="printStyle">
+  <div class="footer-container">
+    <div class="footer-right-section">
+      <p class="copyright-text">&copy; 2019 UnitedHealthcare, All Rights Reserved</p>
+    </div>
+  </div>
+</footer>
 
 <!-- <app-uhc-loader *ngIf="loading"></app-uhc-loader> -->

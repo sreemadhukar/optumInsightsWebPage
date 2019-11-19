@@ -147,7 +147,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
     if (this.router.url.includes('print-')) {
       this.printStyle = true;
     }
-
     this.advDropdownBool = false;
     this.healthSystemName = this.sessionService.getHealthCareOrgName();
     this.isDarkTheme = this.themeService.isDarkTheme;
