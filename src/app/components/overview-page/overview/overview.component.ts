@@ -7,9 +7,10 @@ import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 import { CommonUtilsService } from 'src/app/shared/common-utils.service';
 import { NgRedux } from '@angular-redux/store';
-import { CURRENT_PAGE } from '../../../store/filter/actions';
+import { CURRENT_PAGE, REMOVE_FILTER } from '../../../store/filter/actions';
 import { IAppState } from '../../../store/store';
 import { environment } from '../../../../environments/environment';
+import { CreatePayloadService } from '../../../shared/uhci-filters/create-payload.service';
 
 @Component({
   selector: 'app-overview',
@@ -74,7 +75,8 @@ export class OverviewComponent implements OnInit {
     private filtermatch: CommonUtilsService,
     private ngRedux: NgRedux<IAppState>,
     sanitizer: DomSanitizer,
-    public sessionService: SessionService
+    public sessionService: SessionService,
+    private createPayloadService: CreatePayloadService
   ) {
     this.selfServiceLink = 'Self Service Details';
     this.pagesubTitle = 'Your Insights at a glance.';
@@ -82,6 +84,15 @@ export class OverviewComponent implements OnInit {
     this.opportunitiesQuestion = 'How much can online self service save you?';
     this.welcomeMessage = '';
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.filtermatch.urlResuseStrategy());
+    if (this.router.url.includes('print-')) {
+      this.printStyle = true;
+    }
+    // this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.filtermatch.urlResuseStrategy());
+    this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => {
+      this.createPayloadService.resetTinNumber('otherPages');
+      this.ngRedux.dispatch({ type: REMOVE_FILTER, filterData: { taxId: true } });
+      this.filtermatch.urlResuseStrategy();
+    });
     /** INITIALIZING SVG ICONS TO USE IN DESIGN - ANGULAR MATERIAL */
     iconRegistry.addSvgIcon(
       'arrow',

@@ -12,6 +12,7 @@ import { NgRedux } from '@angular-redux/store';
 import { CURRENT_PAGE } from '../../../store/filter/actions';
 import { IAppState } from '../../../store/store';
 import { CreatePayloadService } from '../../../shared/uhci-filters/create-payload.service';
+import { REMOVE_FILTER } from '../../../store/filter/actions';
 
 @Component({
   selector: 'app-appeals',
@@ -56,6 +57,8 @@ export class AppealsComponent implements OnInit {
     this.pageTitle = 'Claims Appeals';
     // this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.ngOnInit());
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => {
+      this.createPayloadService.resetTinNumber('appealsPage');
+      this.ngRedux.dispatch({ type: REMOVE_FILTER, filterData: { taxId: true } });
       this.common.urlResuseStrategy();
     });
     iconRegistry.addSvgIcon(
