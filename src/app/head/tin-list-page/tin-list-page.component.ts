@@ -4,6 +4,9 @@ import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
+import { CURRENT_PAGE } from '../../store/filter/actions';
+import { NgRedux, select } from '@angular-redux/store';
+import { Router, NavigationStart } from '@angular/router';
 import * as d3 from 'd3';
 
 @Component({
@@ -18,22 +21,35 @@ export class TinListPageComponent implements OnInit {
   numberOfTins: any;
   tinsData: any;
   selectedtins: any;
-  constructor(private iconRegistry: MatIconRegistry, private session: SessionService, sanitizer: DomSanitizer) {
+  previousPage: any;
+  @select() currentPage;
+  constructor(
+    private iconRegistry: MatIconRegistry,
+    private router: Router,
+    private session: SessionService,
+    sanitizer: DomSanitizer
+  ) {
     this.session.getTins().then(data => {
       this.tinsData = data;
       for (let i = 0; i < this.tinsData.length; i++) {
         if (this.tinsData[i].Tinname === 'TIN Name Not Found') {
           this.tinsData[i].Tinname = 'Tax ID Name Not Available';
         }
-        this.numberOfTins = this.tinsData.length;
       }
+      this.numberOfTins = this.tinsData.length;
       this.paginator._intl.itemsPerPageLabel = 'Display';
       this.paginator._intl.getRangeLabel = function(page, pageSize, length) {
-        return 'Page ' + Math.floor(page + 1) + ' of ' + Math.floor(length / pageSize + 1);
+        d3.select('#testid').text(function() {
+          return 'Page ';
+        });
+        d3.select('#testid2').text(function() {
+          return page + 1;
+        });
+
+        return ' of ' + Math.floor(length / pageSize + 1);
       };
       this.selectedtins = new MatTableDataSource(this.tinsData);
       this.selectedtins.paginator = this.paginator;
-      // this.selectedtins.paginator._intl.firstPageLabel = 'Display';
     });
     iconRegistry.addSvgIcon(
       'backButton',
@@ -51,8 +67,63 @@ export class TinListPageComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.paginator1();
     this.providerName = this.session.getHealthCareOrgName();
     this.tooltip();
+    this.currentPage.subscribe(currentPage => console.log(currentPage.capitalize()));
+  }
+  goback() {
+    this.currentPage.subscribe(currentPage => (this.previousPage = currentPage));
+    if (this.previousPage === 'overviewPage') {
+      this.router.navigate(['/OverviewPage']);
+    } else if (this.previousPage === 'gettingReimbursedSummary') {
+      this.router.navigate(['/GettingReimbursed']);
+    } else if (this.previousPage === 'paymentsPage') {
+      this.router.navigate(['/GettingReimbursed/Payments']);
+    } else if (this.previousPage === 'nonPaymentsPage') {
+      this.router.navigate(['/GettingReimbursed/NonPayments']);
+    } else if (this.previousPage === 'appealsPage') {
+      this.router.navigate(['/GettingReimbursed/Appeals']);
+    } else if (this.previousPage === 'paymentIntegrityPage') {
+      this.router.navigate(['/GettingReimbursed/PaymentIntegrity']);
+    } else if (this.previousPage === 'priorAuthPage') {
+      this.router.navigate(['/CareDelivery/priorAuth']);
+    } else if (this.previousPage === 'pcorPage') {
+      this.router.navigate(['/CareDelivery/PatientCareOpportunity']);
+    } else if (this.previousPage === 'selfServicePage') {
+      this.router.navigate(['/ServiceInteraction/SelfService']);
+    } else if (this.previousPage === 'callsPage') {
+      this.router.navigate(['/ServiceInteraction/Calls']);
+    }
+  }
+  applyFilter(filterValue: string) {
+    this.selectedtins.filter = filterValue.trim().toLowerCase();
+  }
+  capitalize(s) {
+    return s[0].toUpperCase() + s.slice(1);
+  }
+  paginator1() {
+    d3.select('.mat-paginator-container')
+      .insert('div')
+      .text('per page')
+      .style('flex-grow', '5')
+      .lower();
+
+    d3.select('.mat-paginator-range-label')
+      .insert('div')
+      .style('border', 'solid 1px')
+      .style('border-radius', '2px')
+      .style('float', 'left')
+      .style('margin', '-13px 5px 0px 5px')
+      .style('padding', '10px 20px 10px 20px')
+      .attr('id', 'testid2')
+      .lower();
+
+    d3.select('.mat-paginator-range-label')
+      .insert('span')
+      .style('float', 'left')
+      .lower()
+      .attr('id', 'testid');
   }
   tooltip() {
     d3.select('#tooltip-info')
