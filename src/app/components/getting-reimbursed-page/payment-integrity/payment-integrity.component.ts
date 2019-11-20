@@ -89,7 +89,7 @@ export class PaymentIntegrityComponent implements OnInit {
     if (i === 1) {
       this.currentSummary = this.summaryItems;
     } else {
-      this.currentSummary = null;
+      this.currentSummary = this.summaryItems;
     }
     const myTabs = document.querySelectorAll('ul.nav-tabs > li');
     for (let j = 0; j < myTabs.length; j++) {
@@ -148,11 +148,19 @@ export class PaymentIntegrityComponent implements OnInit {
         }
       },
       {
-        category: 'app-card',
-        type: 'donutWithSideBottomLabel',
         title: 'Coding Review Results',
         MetricID: '',
-        data: {}
+        data: {
+          type: 'bar chart',
+          cdata: 'paymentintegrity',
+          graphValues: [92, 8],
+          barText: 'Accurate Codes',
+          barValue: '92%',
+          color: ['#00B8CC', '#FFFFFF', '#E0E0E0'],
+          gdata: ['app-card-structure', 'pi-bar-chart'],
+          hover: true,
+          targetValue: '2% above target'
+        }
       }
     ];
     this.currentSummary = this.summaryItems;

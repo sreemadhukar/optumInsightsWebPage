@@ -12,7 +12,7 @@
   font-size: 30px;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
   border-radius: 2px;
-  .chart-details-donut {
+  z .chart-details-donut {
     float: left;
     /*padding-left: 15px;
     padding-top: 10px;*/
@@ -449,3 +449,9 @@
   }
 }
 /* ends tabs css ends here */
+
+.print-card-inner {
+  box-shadow: none !important;
+  border: 1px solid #2d2d39 !important;
+  width: 462px !important;
+}

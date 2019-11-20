@@ -77,8 +77,18 @@
     <!--</div>-->
 
     <div class="height1Separator"></div>
-    <div class="pi-cards" *ngFor="let cardData of currentSummary">
-      <app-card [chartData]="cardData" class="cards"></app-card>
+    <div *ngIf="currentSummary != null" class="pi-cards">
+      <app-card [chartData]="currentSummary[0]" class="cards"></app-card>
+      <div *ngIf="currentSummary[1] != null" class="app-card-structure">
+        <app-common-header
+          [title]="currentSummary[1].title"
+          class="full-display"
+          (helpIconClicked)="helpIconClick($event)"
+        ></app-common-header>
+        <div class="pi-bar-chart">
+          <app-med-bar-chart [chartOptions]="currentSummary[1].data"></app-med-bar-chart>
+        </div>
+      </div>
     </div>
     <app-large-card [skeletonLarge]="loading" *ngIf="loading"></app-large-card>
     <app-error-card

@@ -1,19 +1,19 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PrintOverviewComponent } from './print-overview.component';
+import { NoAccessErrorPageComponent } from './no-access-error-page.component';
 
-describe('PrintOverviewComponent', () => {
-  let component: PrintOverviewComponent;
-  let fixture: ComponentFixture<PrintOverviewComponent>;
+describe('NoAccessErrorPageComponent', () => {
+  let component: NoAccessErrorPageComponent;
+  let fixture: ComponentFixture<NoAccessErrorPageComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [PrintOverviewComponent]
+      declarations: [NoAccessErrorPageComponent]
     }).compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(PrintOverviewComponent);
+    fixture = TestBed.createComponent(NoAccessErrorPageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

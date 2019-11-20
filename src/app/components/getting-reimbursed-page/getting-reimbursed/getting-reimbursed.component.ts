@@ -11,6 +11,7 @@ import { CURRENT_PAGE } from '../../../store/filter/actions';
 import { NgRedux, select } from '@angular-redux/store';
 import { IAppState } from '../../../store/store';
 import { CreatePayloadService } from '../../../shared/uhci-filters/create-payload.service';
+import { REMOVE_FILTER } from '../../../store/filter/actions';
 
 @Component({
   selector: 'app-getting-reimbursed',
@@ -18,6 +19,8 @@ import { CreatePayloadService } from '../../../shared/uhci-filters/create-payloa
   styleUrls: ['./getting-reimbursed.component.scss']
 })
 export class GettingReimbursedComponent implements OnInit {
+  printRoute: string;
+  printStyle: boolean;
   timePeriod: string;
   lob: string;
   taxID: Array<string>;
@@ -54,10 +57,13 @@ export class GettingReimbursedComponent implements OnInit {
     private createPayloadService: CreatePayloadService
   ) {
     const filData = this.session.getFilChangeEmitter().subscribe(() => this.common.urlResuseStrategy());
-    this.pageTitle = 'Getting Reimbursed';
     this.currentTabTitle = '';
     this.tabOptionsTitle = ['Submission', 'Payments', 'Non-Payments', 'Appeals'];
-    this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.common.urlResuseStrategy());
+    this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => {
+      this.createPayloadService.resetTinNumber('gettingReimbursedSummary');
+      this.ngRedux.dispatch({ type: REMOVE_FILTER, filterData: { taxId: true } });
+      this.common.urlResuseStrategy();
+    });
     iconRegistry.addSvgIcon(
       'filter',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-filter_list-24px.svg')
@@ -70,7 +76,6 @@ export class GettingReimbursedComponent implements OnInit {
       this.ngOnInit();
     });
   }
-
   onDetailsButtonClick(i: number, event: any) {
     if (i === 0) {
       this.detailClickUrl = '/GettingReimbursed';
@@ -127,7 +132,20 @@ export class GettingReimbursedComponent implements OnInit {
     }
     //    event.target.classList.add('active');
   }
+
+  printDownload(value) {
+    console.log('Getting Reimbused print emiiter', value);
+  }
+
   ngOnInit() {
+    this.pageTitle = 'Getting Reimbursed';
+    this.printRoute = '/GettingReimbursed/print-grSummary';
+
+    if (this.router.url.includes('print-')) {
+      this.printStyle = true;
+      this.pageTitle = 'Getting Reimbursed - Summary';
+    }
+
     this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'gettingReimbursedSummary' });
     this.timePeriod = this.common.getTimePeriodFilterValue(this.createPayloadService.payload.timePeriod);
     this.loading = true;
@@ -138,6 +156,7 @@ export class GettingReimbursedComponent implements OnInit {
         this.loading = false;
         this.tabOptions = [];
         this.summaryItems = JSON.parse(JSON.stringify(completeData));
+        console.log('gr Data', this.summaryItems);
         if (this.previousSelectedTab) {
           this.currentSummary = this.summaryItems[this.previousSelectedTab].data;
           this.currentTabTitle = this.summaryItems[this.previousSelectedTab].title;

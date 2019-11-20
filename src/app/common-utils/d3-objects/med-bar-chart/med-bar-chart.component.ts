@@ -95,15 +95,24 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
     const margin = { top: 10, right: 0, bottom: 10, left: 0 };
     const width = preWidth - margin.left - margin.right;
     const height = 50 - margin.top - margin.bottom;
-
-    const chart = d3
-      .select(this.renderChart)
-      .append('svg')
-      .attr('width', width + margin.left + margin.right)
-      .attr('height', height + margin.top + margin.bottom)
-      .append('g')
-      .attr('transform', 'translate(' + 10 + ',' + 0 + ')');
-
+    let chart;
+    if (chartOptions.cdata && chartOptions.cdata === 'paymentintegrity') {
+      chart = d3
+        .select(this.renderChart)
+        .append('svg')
+        .attr('width', width + margin.left + margin.right)
+        .attr('height', height + margin.top + margin.bottom + 100)
+        .append('g')
+        .attr('transform', 'translate(' + 10 + ',' + 50 + ')');
+    } else {
+      chart = d3
+        .select(this.renderChart)
+        .append('svg')
+        .attr('width', width + margin.left + margin.right)
+        .attr('height', height + margin.top + margin.bottom)
+        .append('g')
+        .attr('transform', 'translate(' + 10 + ',' + 0 + ')');
+    }
     let totalSum = 0;
 
     for (let i = 0; i < chartOptions.graphValues.length; i++) {
@@ -114,63 +123,121 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
       .domain([0, totalSum])
       .range([0, 248]);
 
-    chart
-      .append('rect')
-      .attr('x', 10)
-      .attr('y', 20)
-      .attr('width', function() {
-        if (typeof chartOptions.graphValues[0] !== 'undefined') {
-          return xScale(chartOptions.graphValues[0]);
-        }
-      })
-      .attr('height', 24)
-      .style('padding-bottom', 16)
-      .attr('fill', chartOptions.color[0]);
+    if (chartOptions.cdata && chartOptions.cdata === 'paymentintegrity') {
+      chart
+        .append('rect')
+        .attr('x', 10)
+        .attr('y', -25)
+        .attr('width', function() {
+          if (typeof chartOptions.graphValues[0] !== 'undefined') {
+            return xScale(chartOptions.graphValues[0]);
+          }
+        })
+        .attr('height', 48)
+        .style('padding-bottom', 16)
+        .attr('fill', chartOptions.color[0]);
 
-    chart
-      .append('rect')
-      .attr('x', function() {
-        if (typeof chartOptions.graphValues[0] !== 'undefined') {
-          return 10 + xScale(chartOptions.graphValues[0]);
-        }
-      })
-      .attr('y', 20)
-      .attr('width', 2)
-      .attr('height', 24)
-      .attr('fill', chartOptions.color[1]);
+      chart
+        .append('rect')
+        .attr('x', function() {
+          if (typeof chartOptions.graphValues[0] !== 'undefined') {
+            return 10 + xScale(chartOptions.graphValues[0]);
+          }
+        })
+        .attr('y', -25)
+        .attr('width', 2)
+        .attr('height', 48)
+        .attr('fill', chartOptions.color[1]);
 
-    chart
-      .append('rect')
-      .attr('x', function() {
-        if (typeof chartOptions.graphValues[0] !== 'undefined') {
-          return 12 + xScale(chartOptions.graphValues[0]);
-        }
-      })
-      .attr('y', 20)
-      .attr('rx', 2)
-      .attr('ry', 2)
-      .attr('width', function() {
-        if (typeof chartOptions.graphValues[0] !== 'undefined') {
-          return xScale(chartOptions.graphValues[1]) + 1;
-        }
-      })
-      .attr('height', 24)
-      .attr('fill', chartOptions.color[2]);
+      chart
+        .append('rect')
+        .attr('x', function() {
+          if (typeof chartOptions.graphValues[0] !== 'undefined') {
+            return 12 + xScale(chartOptions.graphValues[0]);
+          }
+        })
+        .attr('y', -25)
+        .attr('rx', 2)
+        .attr('ry', 2)
+        .attr('width', function() {
+          if (typeof chartOptions.graphValues[0] !== 'undefined') {
+            return xScale(chartOptions.graphValues[1]) + 1;
+          }
+        })
+        .attr('height', 48)
+        .attr('fill', chartOptions.color[2]);
+    } else {
+      chart
+        .append('rect')
+        .attr('x', 10)
+        .attr('y', 20)
+        .attr('width', function() {
+          if (typeof chartOptions.graphValues[0] !== 'undefined') {
+            return xScale(chartOptions.graphValues[0]);
+          }
+        })
+        .attr('height', 24)
+        .style('padding-bottom', 16)
+        .attr('fill', chartOptions.color[0]);
 
+      chart
+        .append('rect')
+        .attr('x', function() {
+          if (typeof chartOptions.graphValues[0] !== 'undefined') {
+            return 10 + xScale(chartOptions.graphValues[0]);
+          }
+        })
+        .attr('y', 20)
+        .attr('width', 2)
+        .attr('height', 24)
+        .attr('fill', chartOptions.color[1]);
+
+      chart
+        .append('rect')
+        .attr('x', function() {
+          if (typeof chartOptions.graphValues[0] !== 'undefined') {
+            return 12 + xScale(chartOptions.graphValues[0]);
+          }
+        })
+        .attr('y', 20)
+        .attr('rx', 2)
+        .attr('ry', 2)
+        .attr('width', function() {
+          if (typeof chartOptions.graphValues[0] !== 'undefined') {
+            return xScale(chartOptions.graphValues[1]) + 1;
+          }
+        })
+        .attr('height', 24)
+        .attr('fill', chartOptions.color[2]);
+    }
     const uniqueText = 'reasonText' + this.renderChart.slice(1);
     const tspanID = uniqueText + 'tspan';
-    const textWithHover = chart
-      .append('text')
-      .attr('id', uniqueText)
-      .attr('x', 10)
-      .attr('y', 12)
-      .attr('fill', '#2D2D39')
-      .attr('font-size', '16')
-      .attr('text-anchor', 'start')
-      .attr('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
-      .text(chartOptions.barText)
-      .call(wrap, 250, tspanID, 16);
-
+    let textWithHover;
+    if (chartOptions.cdata && chartOptions.cdata === 'paymentintegrity') {
+      textWithHover = chart
+        .append('text')
+        .attr('id', uniqueText)
+        .attr('x', 10)
+        .attr('y', -35)
+        .attr('fill', '#2D2D39')
+        .attr('font-size', '16')
+        .attr('text-anchor', 'start')
+        .attr('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
+        .text(chartOptions.barText)
+        .call(wrap, 250, tspanID, 16);
+    } else {
+      textWithHover = chart
+        .append('text')
+        .attr('id', uniqueText)
+        .attr('x', 10)
+        .attr('y', 12)
+        .attr('fill', '#2D2D39')
+        .attr('font-size', '16')
+        .attr('text-anchor', 'start')
+        .attr('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
+        .text(chartOptions.barText)
+        .call(wrap, 250, tspanID, 16);
+    }
     // where we should enable the hover object to exist
     if (textWithHover.selectAll('tspan').size() > 1) {
       d3.select('#' + uniqueText).attr('cursor', 'pointer');
@@ -239,14 +306,58 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
         });
     }
 
-    chart
-      .append('text')
-      .attr('x', 270)
-      .attr('y', 38)
-      .attr('fill', '#2D2D39')
-      .attr('font-size', '16')
-      .attr('text-anchor', 'start')
-      .attr('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
-      .text(chartOptions.barValue);
+    if (chartOptions.cdata && chartOptions.cdata === 'paymentintegrity') {
+      chart
+        .append('line')
+        .attr('x1', function() {
+          if (typeof chartOptions.graphValues[0] !== 'undefined') {
+            return xScale(chartOptions.graphValues[0]) + 4;
+          }
+        })
+        .attr('y1', -30)
+        .attr('x2', function() {
+          if (typeof chartOptions.graphValues[0] !== 'undefined') {
+            return xScale(chartOptions.graphValues[0]) + 4;
+          }
+        })
+        .attr('y2', 32)
+        .style('stroke-dasharray', '4,4')
+        .style('stroke', 'black');
+      chart
+        .append('text')
+        .attr('x', 270)
+        .attr('y', 5)
+        .attr('fill', '#2D2D39')
+        .attr('font-size', '16')
+        .attr('text-anchor', 'start')
+        .attr('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
+        .text(chartOptions.barValue);
+      chart
+        .append('svg:image')
+        .attr('x', 10)
+        .attr('y', 35)
+        .attr('width', '20px')
+        .attr('height', '20px')
+        .attr('xlink:href', 'src/assets/images/greencheckmark.svg');
+      chart
+        .append('text')
+        .attr('x', 35)
+        .attr('y', 50)
+        .attr('fill', '#007000')
+        .attr('font-size', '16')
+        .attr('text-anchor', 'start')
+        .attr('font-family', "'UHCSans','Helvetica', 'Arial', 'sans-serif'")
+        .text(chartOptions.targetValue);
+    } else {
+      chart
+        .append('text')
+        .attr('x', 270)
+        .attr('y', 38)
+        .attr('fill', '#2D2D39')
+        .attr('font-size', '16')
+        .attr('text-anchor', 'start')
+        .attr('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
+        .text(chartOptions.barValue);
+    }
   }
 }
