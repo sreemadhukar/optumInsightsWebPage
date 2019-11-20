@@ -432,7 +432,11 @@ app-header {
   position: absolute !important;
   z-index: 9999 !important;
 }
-
+.filter-div-scroll {
+  overflow-y: auto;
+  max-height: 100%;
+  width: 418px;
+}
 .sidemargin {
   margin: 0 24px 0 24px;
   height: inherit;
