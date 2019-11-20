@@ -3,6 +3,7 @@ import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 import { GlossaryExpandService } from '../../shared/glossary-expand.service';
 import { Subscription } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-heac-small-card',
@@ -13,6 +14,7 @@ export class HeacSmallCardComponent implements OnInit {
   @Input() data;
   @Input() skeleton;
   subscription: Subscription;
+  public printStyle: boolean;
   /*
   _card: Object = {};
   data: Object = {};
@@ -29,8 +31,12 @@ export class HeacSmallCardComponent implements OnInit {
   constructor(
     private iconRegistry: MatIconRegistry,
     sanitizer: DomSanitizer,
-    private glossaryExpandService: GlossaryExpandService
+    private glossaryExpandService: GlossaryExpandService,
+    private router: Router
   ) {
+    if (this.router.url.includes('print-')) {
+      this.printStyle = true;
+    }
     /** INITIALIZING SVG ICONS TO USE IN DESIGN - ANGULAR MATERIAL */
     iconRegistry.addSvgIcon(
       'help',
