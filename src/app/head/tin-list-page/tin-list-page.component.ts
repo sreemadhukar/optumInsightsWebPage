@@ -54,7 +54,6 @@ export class TinListPageComponent implements OnInit {
       this.selectedtins = new MatTableDataSource(this.tinsData);
       this.selectedtins.paginator = this.paginator;
       this.selectedtins.sort = this.sort;
-      console.log(this.selectedtins);
     });
     iconRegistry.addSvgIcon(
       'backButton',
@@ -113,7 +112,6 @@ export class TinListPageComponent implements OnInit {
     this.selectedtins.sort = this.sort;
   }
   applyFilter(filterValue: string) {
-    console.log(this.selectedtins);
     this.selectedtins.filter = filterValue.trim().toLowerCase();
   }
   capitalize(s) {
