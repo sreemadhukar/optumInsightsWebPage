@@ -1,6 +1,6 @@
 <div class="tin-list-content">
   <div class="tin-list-head">
-    <a [routerLink]="['/OverviewPage']">
+    <a (click)="goback()">
       <mat-icon class="nav-menu-icons nav-menu-icons-back-button" svgIcon="backButton"></mat-icon>
     </a>
     Tax ID Summary
@@ -36,7 +36,12 @@
             <mat-icon class="nav-menu-icons nav-menu-icons-down-arrow" svgIcon="downarrow"></mat-icon>
           </div>
           <div class="tin-list-body-table-head-text-input-div">
-            <input type="text" class="tin-list-body-table-head-text-input" />
+            <input
+              type="text"
+              class="tin-list-body-table-head-text-input"
+              spellcheck="false"
+              (keyup)="applyFilter($event.target.value)"
+            />
             <div class="tin-list-body-table-head-text-input-icon">
               <mat-icon class="tin-list-icon-search" svgIcon="search"></mat-icon>
             </div>
@@ -45,7 +50,12 @@
         <div class="tin-list-body-table-head-right">
           <div class="tin-list-body-table-head-sub-head">Tax ID Name</div>
           <div class="tin-list-body-table-head-text-input-div">
-            <input type="text" class="tin-list-body-table-head-text-input" />
+            <input
+              type="text"
+              class="tin-list-body-table-head-text-input"
+              spellcheck="false"
+              (keyup)="applyFilter($event.target.value)"
+            />
             <div class="tin-list-body-table-head-text-input-icon">
               <mat-icon class="tin-list-icon-search" svgIcon="search"></mat-icon>
             </div>
@@ -74,12 +84,12 @@
             <ng-container matColumnDef="Tinname">
               <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
               <mat-cell class="tin-list-body-table-div-body-tinname-cell" *matCellDef="let element">
-                {{ element.Tinname }}
+                {{ element.Tinname | lowercase }}
               </mat-cell>
             </ng-container>
             <mat-row *matRowDef="let row; columns: tinsDisplayedColumns"></mat-row>
           </table>
-          <mat-paginator class="tin-list" [pageSizeOptions]="[5, 10, 25, 100]"> </mat-paginator>
+          <mat-paginator class="tin-list" [pageSizeOptions]="[25, 50, 100]"> </mat-paginator>
         </div>
       </div>
     </div>

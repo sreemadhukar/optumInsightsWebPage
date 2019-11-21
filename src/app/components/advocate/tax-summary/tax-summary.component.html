@@ -9,9 +9,9 @@
     <div class="tax-summary-body-table-div">
       <div class="tax-summary-body-table-div-body">
         <div>
-          <table mat-table [dataSource]="taxSummaryData">
+          <table mat-table matSort [dataSource]="data">
             <ng-container matColumnDef="Tin">
-              <th mat-header-cell *matHeaderCellDef>Tax ID Number</th>
+              <th mat-header-cell mat-sort-header *matHeaderCellDef>Tax ID Number</th>
               <td mat-cell class="tax-summary-body-table-div-body-tin-cell" *matCellDef="let element">
                 {{ element.All.Tin }}
               </td>
@@ -20,14 +20,14 @@
             <ng-container matColumnDef="Tinname">
               <th mat-header-cell *matHeaderCellDef>Tax ID Name</th>
               <td mat-cell class="tax-summary-body-table-div-body-tinname-cell" *matCellDef="let element">
-                <!--{{ element.All.Tinname }}-->
+                {{ element.All.Tinname }}
               </td>
             </ng-container>
 
             <ng-container matColumnDef="TaxIdType">
               <th mat-header-cell *matHeaderCellDef>Tax ID Type</th>
               <td mat-cell class="tax-summary-body-table-div-body-tinname-cell" *matCellDef="let element">
-                <!--{{ element.All.TaxIdType }}-->
+                {{ element.All.TaxIdType }}
               </td>
             </ng-container>
 

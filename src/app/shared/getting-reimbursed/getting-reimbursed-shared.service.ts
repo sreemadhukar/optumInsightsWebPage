@@ -111,6 +111,7 @@ export class GettingReimbursedSharedService {
         .subscribe(([claimsData, appealsData]) => {
           const lobFullData = parameters[1].Lob ? this.common.getFullLobData(parameters[1].Lob) : 'ALL';
           const lobData = parameters[1].Lob ? _.startCase(parameters[1].Lob.toLowerCase()) : 'All';
+          this.lob = parameters[1].Lob ? this.common.getLobFilterValue(parameters[1].Lob) : 'All';
           if (claimsData != null && claimsData.hasOwnProperty('status')) {
             claimsSubmitted = {
               category: 'app-card',
@@ -202,7 +203,11 @@ export class GettingReimbursedSharedService {
                 },
                 besideData: {
                   labels: ['Paid', 'Not Paid'],
-                  color: ['#3381FF', '#80B0FF']
+                  color: ['#3381FF', '#80B0FF'],
+                  graphValues: [
+                    claimsData[lobData].ClaimsLobSummary[0].ClaimsPaid,
+                    claimsData[lobData].ClaimsLobSummary[0].ClaimsDenied
+                  ]
                 },
                 timeperiod: this.timeFrame
               };
@@ -325,18 +330,19 @@ export class GettingReimbursedSharedService {
                       ? '< $1'
                       : '$' + this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].AmountPaid),
                   centerNumberOriginal: claimsData[lobData].ClaimsLobSummary[0].AmountPaid,
-                  color: this.common.returnLobColor(claimsData, lobData),
+                  color: this.common.returnLobColor(claimsData, this.lob),
                   gdata: ['card-inner', 'claimsPaid'],
                   sdata: {
                     sign: '',
                     data: ''
                   },
-                  labels: this.common.returnHoverLabels(claimsData, lobData),
+                  labels: this.common.returnHoverLabels(claimsData, this.lob),
                   hover: true
                 },
                 besideData: {
                   labels: ['Medicare & Retirement', 'Community & State', 'Employer & Individual', 'Uncategorized'],
-                  color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC']
+                  color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'],
+                  graphValues: paidData
                 },
                 timeperiod: this.timeFrame
               };
@@ -410,18 +416,19 @@ export class GettingReimbursedSharedService {
                       ? '< $1'
                       : '$' + this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].AmountDenied),
                   centerNumberOriginal: claimsData[lobData].ClaimsLobSummary[0].AmountDenied,
-                  color: this.common.returnLobColor(claimsData, lobData),
-                  gdata: ['card-inner', 'claimsPaid'],
+                  color: this.common.returnLobColor(claimsData, this.lob),
+                  gdata: ['card-inner', 'claimsNotPaid'],
                   sdata: {
                     sign: '',
                     data: ''
                   },
-                  labels: this.common.returnHoverLabels(claimsData, lobData),
+                  labels: this.common.returnHoverLabels(claimsData, this.lob),
                   hover: true
                 },
                 besideData: {
                   labels: ['Medicare & Retirement', 'Community & State', 'Employer & Individual', 'Uncategorized'],
-                  color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC']
+                  color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'],
+                  graphValues: notPaidData
                 },
                 timeperiod: this.timeFrame
               };
@@ -652,7 +659,8 @@ export class GettingReimbursedSharedService {
                 },
                 besideData: {
                   labels: ['Medicare & Retirement', 'Community & State', 'Employer & Individual', 'Uncategorized'],
-                  color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC']
+                  color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'],
+                  graphValues: submittedData
                 },
                 bottomData: {
                   horizontalData: [
@@ -829,6 +837,7 @@ export class GettingReimbursedSharedService {
         ([claimsData, appealsData]) => {
           const lobFullData = parameters[1].Lob ? this.common.getFullLobData(parameters[1].Lob) : 'ALL';
           const lobData = parameters[1].Lob ? _.startCase(parameters[1].Lob.toLowerCase()) : 'All';
+          this.lob = parameters[1].Lob ? this.common.getLobFilterValue(parameters[1].Lob) : 'All';
           if (claimsData != null && claimsData.hasOwnProperty('status')) {
             claimsSubmitted = {
               category: 'app-card',
@@ -929,7 +938,11 @@ export class GettingReimbursedSharedService {
                 },
                 besideData: {
                   labels: ['Paid', 'Not Paid'],
-                  color: ['#3381FF', '#80B0FF']
+                  color: ['#3381FF', '#80B0FF'],
+                  graphValues: [
+                    claimsData[lobData].ClaimsLobSummary[0].ClaimsPaid,
+                    claimsData[lobData].ClaimsLobSummary[0].ClaimsDenied
+                  ]
                 },
                 timeperiod: this.timeFrame
               };
@@ -1071,18 +1084,19 @@ export class GettingReimbursedSharedService {
                       ? '< $1'
                       : '$' + this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].AmountPaid),
                   centerNumberOriginal: claimsData[lobData].ClaimsLobSummary[0].AmountPaid,
-                  color: this.common.returnLobColor(claimsData, lobData), // colorcodes,
+                  color: this.common.returnLobColor(claimsData, this.lob), // colorcodes,
                   gdata: ['card-inner', 'claimsPaid'],
                   sdata: {
                     sign: '',
                     data: ''
                   },
-                  labels: this.common.returnHoverLabels(claimsData, lobData),
+                  labels: this.common.returnHoverLabels(claimsData, this.lob),
                   hover: true
                 },
                 besideData: {
                   labels: ['Medicare & Retirement', 'Community & State', 'Employer & Individual', 'Uncategorized'],
-                  color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC']
+                  color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'],
+                  graphValues: paidData
                 },
                 timeperiod: this.timeFrame
               };
@@ -1101,18 +1115,19 @@ export class GettingReimbursedSharedService {
                         ? '< $1'
                         : '$' + this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].AmountPaid),
                     centerNumberOriginal: claimsData[lobData].ClaimsLobSummary[0].AmountPaid,
-                    color: this.common.returnLobColor(claimsData, lobData),
+                    color: this.common.returnLobColor(claimsData, this.lob),
                     gdata: ['card-inner', 'claimsPaid'],
                     sdata: {
                       sign: 'down',
                       data: '-2.8%'
                     },
-                    labels: this.common.returnHoverLabels(claimsData, lobData),
+                    labels: this.common.returnHoverLabels(claimsData, this.lob),
                     hover: true
                   },
                   besideData: {
                     labels: ['Medicare & Retirement', 'Community & State', 'Employer & Individual', 'Uncategorized'],
-                    color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC']
+                    color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'],
+                    graphValues: paidData
                   },
                   timeperiod: this.timeFrame
                 };
@@ -1202,18 +1217,19 @@ export class GettingReimbursedSharedService {
                       ? '< $1'
                       : '$' + this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].AmountPaid),
                   centerNumberOriginal: claimsData[lobData].ClaimsLobSummary[0].AmountPaid,
-                  color: this.common.returnLobColor(claimsData, lobData),
+                  color: this.common.returnLobColor(claimsData, this.lob),
                   gdata: ['card-inner', 'claimsPaid'],
                   sdata: {
                     sign: '',
                     data: ''
                   },
-                  labels: this.common.returnHoverLabels(claimsData, lobData),
+                  labels: this.common.returnHoverLabels(claimsData, this.lob),
                   hover: true
                 },
                 besideData: {
                   labels: this.common.LOBSideLabels(lobData, paidDataLOBBoolean),
-                  color: this.common.LOBSideLabelColors(lobData, paidDataLOBBoolean)
+                  color: this.common.LOBSideLabelColors(lobData, paidDataLOBBoolean),
+                  graphValues: paidData
                 },
                 timeperiod: this.timeFrame
               };
@@ -1301,18 +1317,19 @@ export class GettingReimbursedSharedService {
                       ? '< $1'
                       : '$' + this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].AmountDenied),
                   centerNumberOriginal: claimsData[lobData].ClaimsLobSummary[0].AmountDenied,
-                  color: this.common.returnLobColor(claimsData, lobData),
-                  gdata: ['card-inner', 'claimsPaid'],
+                  color: this.common.returnLobColor(claimsData, this.lob),
+                  gdata: ['card-inner', 'claimsNotPaid'],
                   sdata: {
                     sign: '',
                     data: ''
                   },
-                  labels: this.common.returnHoverLabels(claimsData, lobData),
+                  labels: this.common.returnHoverLabels(claimsData, this.lob),
                   hover: true
                 },
                 besideData: {
                   labels: this.common.LOBSideLabels(lobData, notPaidLOBBoolean),
-                  color: this.common.LOBSideLabelColors(lobData, notPaidLOBBoolean)
+                  color: this.common.LOBSideLabelColors(lobData, notPaidLOBBoolean),
+                  graphValues: notPaidData
                 },
                 timeperiod: this.timeFrame
               };
@@ -1969,7 +1986,8 @@ export class GettingReimbursedSharedService {
           },
           besideData: {
             labels: sideData[0],
-            color: sideData[1]
+            color: sideData[1],
+            graphValues: submittedData
           },
           bottomData: {
             horizontalData: [

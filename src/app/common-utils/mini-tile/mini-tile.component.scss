@@ -80,8 +80,10 @@
 .print-card-inner {
   box-shadow: none;
   border: 1px solid #2d2d39;
+  width: 320px;
+  height: 100%;
+  padding-bottom: 0px;
 }
-
 // @media screen and (max-width: 1331px) {
 //   .card-inner {
 //     width: 210px;

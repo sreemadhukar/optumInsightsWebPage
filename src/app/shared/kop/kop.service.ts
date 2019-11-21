@@ -63,8 +63,8 @@ export class KOPSharedService {
   }
 
   private getDataAsync(params: any) {
-    return new Promise(resolve => {
-      this.kopService.getSummary({ params }).subscribe((response: any) => resolve(response), () => resolve(null));
+    return new Promise((resolve, reject) => {
+      this.kopService.getSummary({ params }).subscribe((response: any) => resolve(response), () => reject());
     });
   }
 
@@ -75,17 +75,21 @@ export class KOPSharedService {
       paramsArray.forEach((paramsItem: any) => {
         tasks.push(this.getDataAsync(paramsItem));
       });
-      Promise.all(tasks).then((response: any) => {
-        const totalResponse = [];
-        response.forEach((responseItem: any) => {
-          if (responseItem) {
-            responseItem.forEach((innerResponseItem: any) => {
-              totalResponse.push(innerResponseItem);
-            });
-          }
+      Promise.all(tasks)
+        .then((response: any) => {
+          const totalResponse = [];
+          response.forEach((responseItem: any) => {
+            if (responseItem) {
+              responseItem.forEach((innerResponseItem: any) => {
+                totalResponse.push(innerResponseItem);
+              });
+            }
+          });
+          return resolve(totalResponse);
+        })
+        .catch(() => {
+          return resolve([]);
         });
-        return resolve(totalResponse);
-      });
     });
   }
 }

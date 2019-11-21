@@ -172,7 +172,8 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
             event.url === '' ||
             event.url === '/ProviderSearch' ||
             event.url.includes('print-') ||
-            event.url.indexOf('/login') >= 0
+            event.url.indexOf('/login') >= 0 ||
+            event.url === '/AccessDenied'
           )
         );
         /*
@@ -195,7 +196,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
         // Role based access for Advocates Overview page
         if (this.checkAdv.value) {
           this.navCategories[0].path = '/OverviewPageAdvocate';
-          if (window.location.pathname === '/OverviewPage') {
+          if (window.location.pathname === '/OverviewPage' && !event.url.includes('print-')) {
             window.location.href = '/OverviewPageAdvocate';
           }
         }
@@ -566,7 +567,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
         // Reloading targeted route, for resetting the css
         window.location.href = '/OverviewPage';
       },
-      containerLabel: 'View as a Provider'
+      containerLabel: 'View as a Organization'
     };
 
     // Set Styling

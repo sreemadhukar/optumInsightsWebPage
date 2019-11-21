@@ -19,7 +19,7 @@ export class TaxSummaryComponent implements OnInit {
   providerName: string;
   numberOfTins: any;
   tinsData: any;
-  taxSummaryData: any;
+  // taxSummaryData: any;
   constructor(private iconRegistry: MatIconRegistry, private session: SessionService, sanitizer: DomSanitizer) {
     //   // this.session.getTins().then(data => {
     //   //   this.taxData = data;
@@ -43,21 +43,21 @@ export class TaxSummaryComponent implements OnInit {
   ngOnInit() {
     this.providerName = this.session.getHealthCareOrgName();
     // setTimeout(() => {
-    if (this.data != null) {
-      this.tinsData = this.data.All;
-      for (let i = 0; i < this.tinsData.length; i++) {
-        if (this.tinsData[i].Tinname === 'TIN Name Not Found') {
-          this.tinsData[i].Tinname = 'Tax ID Name Not Available';
-        }
-        this.numberOfTins = this.tinsData.length;
-      }
-      this.paginator._intl.itemsPerPageLabel = 'Display';
-      this.paginator._intl.getRangeLabel = function(page, pageSize, length) {
-        return 'Page ' + Math.floor(page + 1) + ' of ' + Math.floor(length / pageSize + 1);
-      };
-      this.taxSummaryData = new MatTableDataSource(this.data);
-      this.taxSummaryData.paginator = this.paginator;
-    }
+    // if (this.data != null) {
+    //   this.tinsData = this.data.All;
+    //   for (let i = 0; i < this.tinsData.length; i++) {
+    //     if (this.tinsData[i].Tinname === 'TIN Name Not Found') {
+    //       this.tinsData[i].Tinname = 'Tax ID Name Not Available';
+    //     }
+    //     this.numberOfTins = this.tinsData.length;
+    //   }
+    //   this.paginator._intl.itemsPerPageLabel = 'Display';
+    //   this.paginator._intl.getRangeLabel = function(page, pageSize, length) {
+    //     return 'Page ' + Math.floor(page + 1) + ' of ' + Math.floor(length / pageSize + 1);
+    //   };
+    //   this.taxSummaryData = new MatTableDataSource(this.data);
+    //   this.taxSummaryData.paginator = this.paginator;
+    // }
     // }, 4000)
   }
 }
