@@ -155,6 +155,7 @@ export class PaymentIntegrityComponent implements OnInit {
           cdata: 'paymentintegrity',
           graphValues: [92, 8],
           barText: 'Accurate Codes',
+          hoverData: '699/760 Reviewed',
           barValue: '92%',
           color: ['#00B8CC', '#FFFFFF', '#E0E0E0'],
           gdata: ['app-card-structure', 'pi-bar-chart'],
