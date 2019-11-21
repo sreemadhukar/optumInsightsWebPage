@@ -74,6 +74,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
   public checkAdv;
   public checkPro;
   public checkExecutive;
+  printStyle: boolean;
   /*** Array of Navigation Category List ***/
   public navCategories = [
     { icon: 'home', name: 'Overview', path: '/OverviewPage', disabled: false },
@@ -259,6 +260,12 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     );
     iconRegistry.addSvgIcon('prior-auth', sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/PA-idle.svg'));
     iconRegistry.addSvgIcon('pcor', sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/PCOR.svg'));
+
+    router.events.subscribe(event => {
+      if (event instanceof NavigationStart) {
+        this.printStyle = event.url.includes('print-');
+      }
+    });
   }
 
   ngOnInit() {

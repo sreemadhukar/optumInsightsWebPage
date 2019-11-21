@@ -551,3 +551,28 @@ app-header {
 .mat-list-base .second-level-link {
   padding-left: 32px !important;
 }
+
+.copyright-text {
+  margin-right: 16px;
+}
+
+.footerp-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  height: 80px;
+  background-color: #fff;
+  position: fixed;
+  bottom: 0;
+}
+
+.footerp-right-section {
+  display: flex;
+  font-size: 14px;
+  color: black;
+  font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+  line-height: 80px;
+  text-align: center;
+  letter-spacing: 0.2px;
+}
