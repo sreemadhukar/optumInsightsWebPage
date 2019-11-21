@@ -98,9 +98,26 @@
     .width-100 {
       width: 100%;
     }
-    & > .cards {
-      text-align: left;
-      // @include margin(0, 0, 0, 12px);
+    .pi-cards {
+      display: flex;
+      & > .cards {
+        text-align: left;
+        // @include margin(0, 0, 0, 12px);
+      }
+      .app-card-structure {
+        position: relative;
+        background-color: $white;
+        width: 464px;
+        height: 356px;
+        margin: 12px;
+        line-height: 75px;
+        font-size: 30px;
+        box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
+        border-radius: 2px;
+        .pi-bar-chart {
+          margin: 100px 0 100px 44px;
+        }
+      }
     }
     .app-card-list-labels {
       display: block;
@@ -265,9 +282,6 @@
       ol {
         @include margin(0, 0, 16px, 0);
       }
-      .pi-cards {
-        display: flex;
-      }
       .container--tabs {
         clear: left;
         width: 98.5%;
@@ -402,7 +416,9 @@
         }
       }
     }
-
+    .pi-cards {
+      display: flex;
+    }
     .smart-edits-bar-chart-block {
       float: left;
       padding: 81px 40px 117px 40px;
