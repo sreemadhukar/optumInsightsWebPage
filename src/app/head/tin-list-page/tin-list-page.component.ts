@@ -25,6 +25,19 @@ export class TinListPageComponent implements OnInit {
   selectedtins: any;
   previousPage: any;
   sortFlag: boolean;
+
+  previousPageurl = [
+    { previousPage: 'overviewPage', urlRout: '/OverviewPage' },
+    { previousPage: 'gettingReimbursedSummary', urlRout: '/GettingReimbursed' },
+    { previousPage: 'paymentsPage', urlRout: '/GettingReimbursed/Payments' },
+    { previousPage: 'nonPaymentsPage', urlRout: '/GettingReimbursed/NonPayments' },
+    { previousPage: 'appealsPage', urlRout: '/GettingReimbursed/Appeals' },
+    { previousPage: 'paymentIntegrityPag', urlRout: '/GettingReimbursed/PaymentIntegrity' },
+    { previousPage: 'priorAuthPage', urlRout: '/CareDelivery/priorAuth' },
+    { previousPage: 'pcorPage', urlRout: '/CareDelivery/PatientCareOpportunity' },
+    { previousPage: 'selfServicePage', urlRout: '/ServiceInteraction/SelfService' },
+    { previousPage: 'callsPage', urlRout: '/ServiceInteraction/Calls' }
+  ];
   @select() currentPage;
   constructor(
     private iconRegistry: MatIconRegistry,
@@ -78,27 +91,12 @@ export class TinListPageComponent implements OnInit {
   }
   goback() {
     this.currentPage.subscribe(currentPage => (this.previousPage = currentPage));
-    if (this.previousPage === 'overviewPage') {
-      this.router.navigate(['/OverviewPage']);
-    } else if (this.previousPage === 'gettingReimbursedSummary') {
-      this.router.navigate(['/GettingReimbursed']);
-    } else if (this.previousPage === 'paymentsPage') {
-      this.router.navigate(['/GettingReimbursed/Payments']);
-    } else if (this.previousPage === 'nonPaymentsPage') {
-      this.router.navigate(['/GettingReimbursed/NonPayments']);
-    } else if (this.previousPage === 'appealsPage') {
-      this.router.navigate(['/GettingReimbursed/Appeals']);
-    } else if (this.previousPage === 'paymentIntegrityPage') {
-      this.router.navigate(['/GettingReimbursed/PaymentIntegrity']);
-    } else if (this.previousPage === 'priorAuthPage') {
-      this.router.navigate(['/CareDelivery/priorAuth']);
-    } else if (this.previousPage === 'pcorPage') {
-      this.router.navigate(['/CareDelivery/PatientCareOpportunity']);
-    } else if (this.previousPage === 'selfServicePage') {
-      this.router.navigate(['/ServiceInteraction/SelfService']);
-    } else if (this.previousPage === 'callsPage') {
-      this.router.navigate(['/ServiceInteraction/Calls']);
+    for (let i = 0; i < this.previousPageurl.length; i++) {
+      if (this.previousPage === this.previousPageurl[i].previousPage) {
+        this.router.navigate([this.previousPageurl[i].urlRout]);
+      }
     }
+    this.router.navigate([this.previousPageurl[0].urlRout]);
   }
   sorta() {
     this.sort.active = 'Tin';
