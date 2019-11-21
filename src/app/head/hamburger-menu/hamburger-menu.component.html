@@ -61,9 +61,9 @@
           <p class="change-provider" *ngIf="disableChangeProvider && !AcoFlag" (click)="openDialog()">
             Change Organization
           </p>
-          <p class="view-Tax-Id-Summary-div" *ngIf="!disableChangeProvider && !AcoFlag">
+          <p class="view-Tax-Id-Summary-div" *ngIf="!AcoFlag">
             <a class="view-Tax-Id-Summary" [routerLink]="['/TinList']">
-              View Tax ID Summary
+              View Tax ID Number (TIN) Summary
             </a>
           </p>
         </div>

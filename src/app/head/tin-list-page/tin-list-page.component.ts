@@ -3,6 +3,7 @@ import { SessionService } from '../../shared/session.service';
 import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { CURRENT_PAGE } from '../../store/filter/actions';
 import { NgRedux, select } from '@angular-redux/store';
@@ -16,12 +17,14 @@ import * as d3 from 'd3';
 })
 export class TinListPageComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
   tinsDisplayedColumns: string[] = ['Tin', 'Tinname'];
   providerName: string;
   numberOfTins: any;
   tinsData: any;
   selectedtins: any;
   previousPage: any;
+  sortFlag: boolean;
   @select() currentPage;
   constructor(
     private iconRegistry: MatIconRegistry,
@@ -32,7 +35,7 @@ export class TinListPageComponent implements OnInit {
     this.session.getTins().then(data => {
       this.tinsData = data;
       for (let i = 0; i < this.tinsData.length; i++) {
-        if (this.tinsData[i].Tinname === 'TIN Name Not Found') {
+        if (this.tinsData[i].Tinname === 'TIN Name Not Found' || this.tinsData[i].Tinname === null) {
           this.tinsData[i].Tinname = 'Tax ID Name Not Available';
         }
       }
@@ -50,6 +53,8 @@ export class TinListPageComponent implements OnInit {
       };
       this.selectedtins = new MatTableDataSource(this.tinsData);
       this.selectedtins.paginator = this.paginator;
+      this.selectedtins.sort = this.sort;
+      console.log(this.selectedtins);
     });
     iconRegistry.addSvgIcon(
       'backButton',
@@ -67,6 +72,7 @@ export class TinListPageComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.sortFlag = true;
     this.paginator1();
     this.providerName = this.session.getHealthCareOrgName();
     this.tooltip();
@@ -95,7 +101,19 @@ export class TinListPageComponent implements OnInit {
       this.router.navigate(['/ServiceInteraction/Calls']);
     }
   }
+  sorta() {
+    this.sort.active = 'Tin';
+    if (this.sortFlag === true) {
+      this.sort.direction = 'asc';
+      this.sortFlag = false;
+    } else {
+      this.sort.direction = 'desc';
+      this.sortFlag = true;
+    }
+    this.selectedtins.sort = this.sort;
+  }
   applyFilter(filterValue: string) {
+    console.log(this.selectedtins);
     this.selectedtins.filter = filterValue.trim().toLowerCase();
   }
   capitalize(s) {
