@@ -143,7 +143,8 @@ export class GettingReimbursedComponent implements OnInit {
 
     if (this.router.url.includes('print-')) {
       this.printStyle = true;
-      this.pageTitle = 'Getting Reimbursed - Summary';
+      this.pageTitle = this.session.getHealthCareOrgName();
+      this.pagesubTitle = 'Getting Reimbursed - Summary';
     }
 
     this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'gettingReimbursedSummary' });
