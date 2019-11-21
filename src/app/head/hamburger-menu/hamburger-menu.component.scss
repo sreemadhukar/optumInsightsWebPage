@@ -80,7 +80,7 @@ app-header {
 }
 
 .health-system-representation-block {
-  @include padding(20px, 12px, 0px, 56px);
+  @include padding(20px, 7px, 27px, 56px);
   // @include padding(16px, 12px, 0px, 32px); before adding PI Sub Menu undo when toggled off
   border-bottom: 1px solid $gainsboro;
 }
@@ -100,7 +100,7 @@ app-header {
   font-size: 16px;
   letter-spacing: 0.2px;
   line-height: 22px;
-  margin: 4px 0 15px 0;
+  margin: 4px 0 0 0;
 }
 
 .change-provider {
@@ -112,7 +112,7 @@ app-header {
   letter-spacing: 0.2px;
   line-height: 18px;
   text-decoration: none;
-  margin: 9px 0 18px 0;
+  margin: 12px 0 0 0;
   cursor: pointer;
   display: inline-block;
 }
@@ -123,8 +123,8 @@ app-header {
 
 .view-Tax-Id-Summary-div {
   height: 18px;
-  width: 145px;
-  margin: 9px 0 18px 0;
+  // width: 223px;
+  margin: 9px 0 0 0;
 }
 
 .view-Tax-Id-Summary {

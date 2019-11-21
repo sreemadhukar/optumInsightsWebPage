@@ -266,15 +266,19 @@
 
 .tat-container {
   position: relative;
-  margin-bottom: -11px;
+  top: 42px;
+  margin-bottom: 30px;
+  // margin-bottom: -11px;
 }
 .tat-circle-image-pos {
   height: 129px;
   width: 129px;
   margin-left: 82px;
+  margin-top: -42px;
 }
 .tat-center-num {
   position: absolute;
+  margin-top: -42px;
   top: 81px;
   left: 110px;
   font-size: 22px;
