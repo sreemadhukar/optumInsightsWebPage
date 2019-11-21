@@ -12,7 +12,13 @@
   font-size: 30px;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
   border-radius: 2px;
-  z .chart-details-donut {
+
+  .print-card-inner {
+    box-shadow: none;
+    border: 1px solid #2d2d39;
+  }
+
+  .chart-details-donut {
     float: left;
     /*padding-left: 15px;
     padding-top: 10px;*/
