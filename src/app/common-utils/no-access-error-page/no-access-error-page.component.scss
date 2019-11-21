@@ -1,0 +1,76 @@
+@import '~src/scss/variables.scss';
+
+.page-overlay {
+  overflow: hidden;
+  .header-div {
+    background-color: $white;
+    height: 72px;
+    .header-logo-div {
+      display: inline-block;
+    }
+    .header-logo-link {
+      display: inline-block;
+      margin: 18px 0px 18px 18px;
+    }
+    .no-access-uhc-logo {
+      height: 36px;
+      display: inline-block;
+    }
+  }
+  .body-div {
+    // height: 342px;
+    width: 480px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
+    background: $white;
+    margin: 0 auto;
+    margin-top: 64px;
+    text-align: center;
+    padding: 0px 58px 42px 58px;
+    box-sizing: border-box;
+    .group-logo {
+      margin-top: 40px;
+    }
+    .uhc-text {
+      margin: 0;
+      margin-top: 18px;
+      color: #2d2d39;
+      font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+      font-size: 22px;
+      line-height: 28px;
+    }
+    .denied-heading {
+      color: #2d2d39;
+      font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+      font-size: 36px;
+      line-height: 40px;
+      margin-top: 40px;
+    }
+    .denied-description {
+      color: #2d2d39;
+      font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+      font-size: 16px;
+      letter-spacing: 0.2px;
+      line-height: 22px;
+      margin-top: 30px;
+    }
+    .return-to-link {
+      color: #196ecf;
+      font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+      font-size: 16px;
+      letter-spacing: 0.2px;
+      line-height: 22px;
+    }
+  }
+  .footer-block {
+    width: 480px;
+    margin: 0 auto;
+    margin-top: 20px;
+    .ownLine {
+      color: #2d2d39;
+      font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+      font-size: 14px;
+      letter-spacing: 0.2px;
+      line-height: 18px;
+    }
+  }
+}

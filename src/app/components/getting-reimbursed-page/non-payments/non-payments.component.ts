@@ -26,6 +26,7 @@ import { NgRedux, select } from '@angular-redux/store';
 import { CURRENT_PAGE } from '../../../store/filter/actions';
 import { IAppState } from '../../../store/store';
 import { CreatePayloadService } from '../../../shared/uhci-filters/create-payload.service';
+import { REMOVE_FILTER } from '../../../store/filter/actions';
 
 @Component({
   selector: 'app-non-payments',
@@ -224,7 +225,11 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
     private common: CommonUtilsService
   ) {
     const filData = this.session.getFilChangeEmitter().subscribe(() => this.common.urlResuseStrategy());
-    //  this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.filtermatch.urlResuseStrategy());
+    this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => {
+      this.createPayloadService.resetTinNumber('nonPaymentsPage');
+      this.ngRedux.dispatch({ type: REMOVE_FILTER, filterData: { taxId: true } });
+      this.common.urlResuseStrategy();
+    });
     /** INITIALIZING SVG ICONS TO USE IN DESIGN - ANGULAR MATERIAL */
 
     iconRegistry.addSvgIcon(

@@ -32,7 +32,7 @@
         </mat-form-field> -->
 
       <mat-form-field appearance="outline">
-        <mat-label>Search Providers</mat-label>
+        <mat-label>Search Organizations</mat-label>
         <input
           matInput
           [matAutocomplete]="auto"
@@ -53,8 +53,8 @@
           <div *ngIf="noProviders" class="no-result-found-div">
             <div class="no-result-found">No Results Found.</div>
             <div class="no-result-found-text">
-              Your search –<span class="match-font"> {{ stateCtrl.value }} </span>– did not match any providers. Please
-              recheck your search criteria or try a different search.
+              Your search –<span class="match-font"> {{ stateCtrl.value }} </span>– did not match any organizations.
+              Please recheck your search criteria or try a different search.
             </div>
           </div>
           <!-- -->
