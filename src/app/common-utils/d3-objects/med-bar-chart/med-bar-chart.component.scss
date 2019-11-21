@@ -24,3 +24,26 @@
   border-left: solid 15px transparent;
   border-right: solid 15px transparent;
 }
+.tooltip-bar-pi {
+  position: absolute;
+  background: white;
+  box-shadow: 0 10px 20px 0 rgba(0, 0, 0, 0.35);
+  pointer-events: none;
+  z-index: 9999;
+  border-radius: 2px;
+  border: 1px solid #e0e0e0;
+  box-sizing: border-box;
+  line-height: 18px;
+}
+
+.tooltip-bar-pi::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 57px;
+  width: 0;
+  height: 0;
+  border-top: solid 15px white;
+  border-left: solid 15px transparent;
+  border-right: solid 15px transparent;
+}

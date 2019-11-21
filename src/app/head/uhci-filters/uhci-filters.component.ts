@@ -20,6 +20,7 @@ import { Location } from '@angular/common';
 import { SessionService } from '../../shared/session.service';
 import { TaxId } from './filter-settings/filter-options';
 import { CreatePayloadService } from '../../shared/uhci-filters/create-payload.service';
+import { GettingReimbursedSharedService } from '../../shared/getting-reimbursed/getting-reimbursed-shared.service';
 
 @Component({
   selector: 'app-uhci-filter',
@@ -62,14 +63,15 @@ export class UhciFiltersComponent implements OnInit {
   selectedDate: Date;
   collapseToggle: any;
   public serviceCategoryForm = new FormControl();
-
+  public gettingReimbursedTabName;
   constructor(
     private ngRedux: NgRedux<IAppState>,
     private iconRegistry: MatIconRegistry,
     sanitizer: DomSanitizer,
     private location: Location,
     private session: SessionService,
-    private createPayloadService: CreatePayloadService
+    private createPayloadService: CreatePayloadService,
+    private gettingReimbursedservice: GettingReimbursedSharedService
   ) {
     iconRegistry.addSvgIcon(
       'arrowdn',
@@ -79,6 +81,8 @@ export class UhciFiltersComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.gettingReimbursedTabName = this.gettingReimbursedservice.gettingReimbursedTabName;
+    console.log(this.gettingReimbursedTabName);
     this.currentPage.subscribe(currentPage => (this.selectedPage = currentPage));
     this.timePeriod.subscribe(
       timePeriod =>
