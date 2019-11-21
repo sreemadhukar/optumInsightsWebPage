@@ -64,5 +64,5 @@ export const environment: any = {
   internalAccess: true,
   claimsYieldAccess: true,
   toggleTrendingSummary: false,
-  sentryKey: 'https://2e6628201e8043c89e8fac56d77c46aa@sentry-ped-internal.ocp-ctc-core.optum.com/1'
+  sentryKey: 'https://a06ea63678794bafa1d43eec715e2a89@sentry-ped-internal.ocp-ctc-core.optum.com/6'
 };
