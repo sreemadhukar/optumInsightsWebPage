@@ -135,7 +135,7 @@
           font-size: 36px;
           @include padding(16px, 0, 20px, 0);
           line-height: 40px;
-          font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+          font-family: 'UHCSans-Regular', Helvetica, Arial, sans-serif;
         }
         .page-subtitle {
           flex-basis: 100%;
@@ -146,6 +146,7 @@
           justify-content: space-between;
           width: 98.5%;
           .page-subtitle-heading {
+            margin-right: 100px;
             margin-top: 4px;
             line-height: 32px;
           }
@@ -251,6 +252,15 @@
       }
       /* end cust-width title heirarchy*/
     }
+  }
+  .non-payment-link {
+    font-size: 16px;
+    float: right;
+    color: $blue;
+    font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+    letter-spacing: 0.2px;
+    margin-left: 150px;
+    margin-top: 15px;
   }
   @media only screen and (max-width: 1024px) {
     @include padding(16px, 0, 16px, 0);
