@@ -71,6 +71,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
   public healthSystemName: string;
   public isKop: boolean;
   disableChangeProvider: boolean = environment.internalAccess;
+  externalProvidersCount = false;
   public checkAdv;
   public checkPro;
   public checkExecutive;
@@ -262,6 +263,9 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
   }
 
   ngOnInit() {
+    const currentUser: any = sessionStorage.getItem('currentUser')[0];
+    this.externalProvidersCount = currentUser.Providers.length > 1 ? true : false;
+
     this.AcoFlag = false;
     this.isKop = false;
     this.loading = false;

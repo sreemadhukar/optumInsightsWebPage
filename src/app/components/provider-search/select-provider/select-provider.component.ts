@@ -25,6 +25,7 @@ import {
   QueryList,
   OnDestroy
 } from '@angular/core';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-select-provider',
@@ -37,11 +38,15 @@ import {
  */
 export class SelectProviderComponent implements OnInit {
   stateCtrl = new FormControl();
+  ExtstateCtrl = new FormControl();
   filteredStates: Observable<Providers[]>;
   states: Providers[];
+  extstates = [];
+  externalOrgs = [];
   providerData: any;
   providerSelectedFlag = true;
   nomatchFlag = true;
+  noextmatchFlag = true;
   public username: string;
   public checkAdv;
   public checkPro;
@@ -50,6 +55,8 @@ export class SelectProviderComponent implements OnInit {
   public obs: Subscription;
   providersLoaded = false;
   noProviders = false;
+  noExtProviders = false;
+  isInternal: boolean = environment.internalAccess;
 
   constructor(
     private fb: FormBuilder,
@@ -85,6 +92,7 @@ export class SelectProviderComponent implements OnInit {
     //   startWith(''),
     //   map(state => (state ? this._filterStates(state) : null))
     // );
+
     iconRegistry.addSvgIcon(
       'person',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Content/round-person-24px.svg')
@@ -104,14 +112,29 @@ export class SelectProviderComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log('hello');
     this.providerData = JSON.parse(sessionStorage.getItem('currentUser'));
     const userInfo = JSON.parse(sessionStorage.getItem('loggedUser'));
     this.username = userInfo.FirstName;
 
     this.obs = this.emitter.pipe(debounceTime(250)).subscribe(text => this.getProviders(text));
-
-    // this.obs.subscribe(msg => alert(msg));
+    if (!this.isInternal) {
+      this.extstates = this.providerData[0].Providers;
+      // this.extstates = [{
+      //   "ProviderKey": 35999,
+      //   "All": null,
+      //   "ProviderSystem": "Aaa Anesthesia Associates"
+      // },
+      // {
+      //   "ProviderKey": 3999,
+      //   "All": null,
+      //   "ProviderSystem": "Byram Associates"
+      // }
+      // ];
+      this.extstates = this.extstates.map(function(elm) {
+        return { Providersyskey: elm['ProviderKey'], Healthcareorganizationname: elm['ProviderSystem'] };
+      });
+      this.externalOrgs = this.extstates;
+    }
   }
 
   getProviders(text) {
@@ -129,7 +152,10 @@ export class SelectProviderComponent implements OnInit {
     if (document.querySelector('.mat-autocomplete-panel')) {
       (<HTMLElement>document.querySelector('.mat-autocomplete-panel')).style.height = '0';
     }
-    if (this.stateCtrl.value && this.stateCtrl.value !== '') {
+    if (
+      (this.stateCtrl.value && this.stateCtrl.value !== '') ||
+      (this.ExtstateCtrl.value && this.ExtstateCtrl.value !== '')
+    ) {
       if (document.querySelector('.mat-autocomplete-hidden')) {
         (<HTMLElement>document.querySelector('.mat-autocomplete-hidden')).style.visibility = 'visible';
       }
@@ -166,12 +192,34 @@ export class SelectProviderComponent implements OnInit {
   }
   // madhukar
   providerSelect(event: MatAutocompleteSelectedEvent) {
-    this.providerSelectedFlag = false;
+    // this.providerSelectedFlag = false;
     const provider = this.providerData[0];
     const data = this.states.find(prov => prov.HealthCareOrganizationName === event.option.value);
     if (this.providerData[0].hasOwnProperty('Providersyskey')) {
       provider.healthcareorganizationname = data.HealthCareOrganizationName;
       provider.ProviderKey = data.ProviderKey;
+      this.storage.store('currentUser', [provider]);
+    } else {
+      this.storage.store('currentUser', [Object.assign(provider, data)]);
+    }
+    // Role based access for Advocates Overview page
+    if (this.checkAdv.value) {
+      // window.location.href = '/OverviewPageAdvocate';
+      window.location.href = '/OverviewPageAdvocate/HealthSystemDetails';
+    } else if (this.checkPro.value || this.checkExecutive.value) {
+      window.location.href = '/OverviewPage';
+    } else {
+      window.location.href = '/OverviewPage';
+    }
+  }
+
+  ExtproviderSelect(event: MatAutocompleteSelectedEvent) {
+    // this.providerSelectedFlag = false;
+    const provider = this.providerData[0];
+    const data = this.extstates.find(prov => prov.Healthcareorganizationname === event.option.value);
+    if (this.providerData[0].hasOwnProperty('Providersyskey')) {
+      provider.Healthcareorganizationname = data.Healthcareorganizationname;
+      provider.Providersyskey = data.Providersyskey;
       this.storage.store('currentUser', [provider]);
     } else {
       this.storage.store('currentUser', [Object.assign(provider, data)]);
@@ -204,6 +252,22 @@ export class SelectProviderComponent implements OnInit {
       this.emitter.emit(val);
     } else {
       this.states = [];
+    }
+  }
+
+  extProviders(val) {
+    this.extstates = this.externalOrgs.filter(
+      el => el.Healthcareorganizationname.toLowerCase().indexOf(val.toLowerCase()) !== -1
+    );
+    this.extstates.sort((a, b) => a.Healthcareorganizationname.localeCompare(b.Healthcareorganizationname));
+    if (this.extstates.length === 0) {
+      this.noextmatchFlag = false;
+      this.noExtProviders = true;
+      (<HTMLElement>document.querySelector('.mat-form-field-outline-thick')).style.color = '#B10C00';
+    } else {
+      this.noextmatchFlag = true;
+      this.noExtProviders = false;
+      (<HTMLElement>document.querySelector('.mat-form-field-outline-thick')).style.color = '#196ECF';
     }
   }
 }

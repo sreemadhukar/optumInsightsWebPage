@@ -7,7 +7,7 @@
     <h2 mat-dialog-title>{{ containerLabel }}</h2>
   </div>
   <mat-dialog-content>
-    <form class="provider-search-form">
+    <form class="provider-search-form" *ngIf="isInternal">
       <!-- <mat-form-field appearance="outline">
           <mat-label>Search Providers</mat-label>
           <input matInput [matAutocomplete]="auto" [formControl]="stateCtrl" id="test" />
@@ -64,6 +64,38 @@
         <mat-icon *ngIf="!nomatchFlag" matSuffix class="nav-menu-icons noDataicon" svgIcon="noData"></mat-icon>
       </mat-form-field>
     </form>
-    <div class="three-char-text">Please type 3 characters to start your search.</div>
+
+    <form class="provider-search-form" *ngIf="!isInternal">
+      <mat-form-field appearance="outline">
+        <mat-label>Search Organizations</mat-label>
+        <input
+          matInput
+          [matAutocomplete]="auto"
+          [formControl]="ExtstateCtrl"
+          id="test"
+          (keyup)="extProviders($event.target.value)"
+        />
+        <mat-icon matPrefix class="nav-menu-icons searchicon" svgIcon="search"></mat-icon>
+        <mat-autocomplete
+          #auto="matAutocomplete"
+          (optionSelected)="ExtproviderSelect($event)"
+          [ngClass]="{ remove: ExtstateCtrl.value }"
+        >
+          <mat-option *ngFor="let extstate of extstates" [value]="extstate.Healthcareorganizationname">
+            <span>{{ extstate.Healthcareorganizationname }}</span></mat-option
+          >
+          <div *ngIf="noExtProviders" id="check" class="no-result-found-div">
+            <div class="no-result-found">No Results Found.</div>
+            <div class="no-result-found-text">
+              Your search –<span class="match-font"> {{ ExtstateCtrl.value }} </span>– did not match any organizations.
+              Please recheck your search criteria or try a different search.
+            </div>
+          </div>
+        </mat-autocomplete>
+        <mat-icon *ngIf="!noextmatchFlag" matSuffix class="nav-menu-icons noDataicon" svgIcon="noData"></mat-icon>
+      </mat-form-field>
+    </form>
+
+    <div *ngIf="isInternal" class="three-char-text">Please type 3 characters to start your search.</div>
   </mat-dialog-content>
 </div>
