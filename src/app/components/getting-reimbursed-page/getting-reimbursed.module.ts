@@ -7,7 +7,6 @@ import { GettingReimbursedComponent } from './getting-reimbursed/getting-reimbur
 import { CommonUtilsModule } from './../../common-utils/common-utils.module';
 import { HeadMaterialModule } from 'src/app/head/head.material.module';
 
-import { GettingReimbursedSharedService } from '../../shared/getting-reimbursed/getting-reimbursed-shared.service';
 import { PaymentsSharedService } from '../../shared/getting-reimbursed/payments/payments-shared.service';
 import { NonPaymentSharedService } from '../../shared/getting-reimbursed/non-payments/non-payment-shared.service';
 import { GettingReimbursedService } from '../../rest/getting-reimbursed/getting-reimbursed.service';
@@ -20,13 +19,7 @@ import { PaymentsComponent } from './payments/payments.component';
 import { SmartEditsComponent } from './payment-integrity/smart-edits/smart-edits.component';
 @NgModule({
   imports: [CommonModule, GettingReimbursedRoutingModule, CommonUtilsModule, HeadMaterialModule, FormsModule],
-  providers: [
-    GettingReimbursedService,
-    GettingReimbursedSharedService,
-    NonPaymentSharedService,
-    AppealsSharedService,
-    PaymentsSharedService
-  ],
+  providers: [GettingReimbursedService, NonPaymentSharedService, AppealsSharedService, PaymentsSharedService],
 
   declarations: [
     GettingReimbursedComponent,

@@ -61,8 +61,12 @@ export class FiltersAppliedComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.gettingReimbursedTabName = this.gettingReimbursedservice.gettingReimbursedTabName;
     this.currentPage.subscribe(currentPage => (this.selectedPage = currentPage));
+    if (this.selectedPage === 'gettingReimbursedSummary') {
+      this.gettingReimbursedTabName = this.gettingReimbursedservice.gettingReimbursedTabName;
+    } else {
+      this.gettingReimbursedTabName = null;
+    }
     this.timePeriod.subscribe(
       timePeriod => (this.selectedTimePeriod = this.timeFrames.find(val => val.name === timePeriod))
     );
