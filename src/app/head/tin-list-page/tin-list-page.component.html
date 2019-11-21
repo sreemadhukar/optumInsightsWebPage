@@ -3,7 +3,7 @@
     <a (click)="goback()">
       <mat-icon class="nav-menu-icons nav-menu-icons-back-button" svgIcon="backButton"></mat-icon>
     </a>
-    Tax ID Summary
+    Tax ID Number (TIN) Summary
   </div>
   <div class="tin-list-sub-head">
     <div class="tin-list-sub-head-provider-name">{{ providerName }}</div>
@@ -33,7 +33,18 @@
         <div class="tin-list-body-table-head-left">
           <div class="tin-list-body-table-head-sub-head">
             Tax ID Number
-            <mat-icon class="nav-menu-icons nav-menu-icons-down-arrow" svgIcon="downarrow"></mat-icon>
+            <mat-icon
+              class="nav-menu-icons nav-menu-icons-down-arrow"
+              *ngIf="sortFlag"
+              svgIcon="downarrow"
+              (click)="sorta()"
+            ></mat-icon>
+            <mat-icon
+              class="nav-menu-icons nav-menu-icons-down-arrow-reverse"
+              *ngIf="!sortFlag"
+              svgIcon="downarrow"
+              (click)="sorta()"
+            ></mat-icon>
           </div>
           <div class="tin-list-body-table-head-text-input-div">
             <input
@@ -73,9 +84,9 @@
                 </table> -->
 
         <div>
-          <table mat-table [dataSource]="selectedtins">
+          <table mat-table matSort [dataSource]="selectedtins">
             <ng-container matColumnDef="Tin">
-              <mat-header-cell *matHeaderCellDef> No. </mat-header-cell>
+              <mat-header-cell *matHeaderCellDef mat-sort-header> No. </mat-header-cell>
               <mat-cell class="tin-list-body-table-div-body-tin-cell" *matCellDef="let element">
                 {{ element.Tin }}
               </mat-cell>
