@@ -71,7 +71,7 @@ export class CardComponent implements OnInit {
   }
 
   helpIconClick(title) {
-    this.glossaryExpandService.setMessage(title);
+    this.glossaryExpandService.setMessage(title, this.chartData.MetricID);
   }
   ngOnInit() {
     if (this.tabData) {

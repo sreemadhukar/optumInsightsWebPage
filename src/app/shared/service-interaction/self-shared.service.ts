@@ -4,6 +4,7 @@ import { ServiceInteractionModule } from '../../components/service-interaction/s
 import { CommonUtilsService } from '../common-utils.service';
 import { SessionService } from '../session.service';
 import { AuthorizationService } from '../../auth/_service/authorization.service';
+import { GlossaryMetricidService } from '../glossary-metricid.service';
 
 @Injectable({ providedIn: ServiceInteractionModule })
 export class SelfSharedService {
@@ -11,6 +12,7 @@ export class SelfSharedService {
   private timeFrame: string;
   private providerKey: number;
   constructor(
+    private MetricidService: GlossaryMetricidService,
     private selfService: SelfServiceService,
     private session: SessionService,
     private common: CommonUtilsService,
@@ -21,12 +23,14 @@ export class SelfSharedService {
    * The data is corresponding to Utilization Object that we have inside like this
    * SelfServiceInquiries -> ALL -> Utilizations
    */
-  public utilizationObjectMethod(title: String, data: any, timeperiod?: String | null): Object {
+  public utilizationObjectMethod(title: String, MetricID: String, data: any, toggle?: Boolean): Object {
     const temp: Object = {
       category: 'app-card',
       type: 'donut',
       title: title,
+      MetricID: MetricID,
       data: data,
+      toggle: toggle,
       timeperiod: this.timeFrame
     };
     return temp;
@@ -54,9 +58,7 @@ export class SelfSharedService {
       this.selfService.getSelfServiceData(...parameters).subscribe(
         ([providerSystems]) => {
           if (
-            providerSystems.hasOwnProperty('SelfServiceInquiries') &&
-            providerSystems.SelfServiceInquiries != null &&
-            providerSystems.SelfServiceInquiries.hasOwnProperty('ALL') &&
+            ((providerSystems || {}).SelfServiceInquiries || {}).ALL &&
             providerSystems.SelfServiceInquiries.ALL.hasOwnProperty('ReportingPeriodStartDate') &&
             providerSystems.SelfServiceInquiries.ALL.hasOwnProperty('ReportingPeriodEndDate')
           ) {
@@ -76,16 +78,12 @@ export class SelfSharedService {
             this.timeFrame = null;
           }
 
-          if (
-            providerSystems.hasOwnProperty('SelfServiceInquiries') &&
-            providerSystems.SelfServiceInquiries != null &&
-            providerSystems.SelfServiceInquiries.hasOwnProperty('ALL') &&
-            providerSystems.SelfServiceInquiries.ALL.hasOwnProperty('Utilizations')
-          ) {
-            const utilization = providerSystems.SelfServiceInquiries.ALL.Utilizations;
+          const utilization = (((providerSystems || {}).SelfServiceInquiries || {}).ALL || {}).Utilizations;
+          if (utilization) {
             try {
               adoptionRate = this.utilizationObjectMethod(
                 'Self Service Adoption Rate',
+                this.MetricidService.MetricIDs.SelfServiceAdoptionRate,
                 {
                   graphValueName: ['Total Patients', 'Completed'],
                   graphValues: [
@@ -97,14 +95,22 @@ export class SelfSharedService {
                   gdata: ['card-inner', 'selfAdoptionRate'],
                   sdata: null
                 },
-                this.timeFrame
+                this.toggle.setToggles('Self-Service Adoption Rate', 'Self Service', 'Service Interaction', false)
               );
             } catch (Error) {
+              console.log('Erro', Error);
               adoptionRate = {
                 category: 'app-card',
                 type: 'donut',
-                title: 'Self Service Adoption Rate',
+                title: 'Self-Service Adoption Rate',
+                MetricID: this.MetricidService.MetricIDs.SelfServiceAdoptionRate,
                 status: 500,
+                toggle: this.toggle.setToggles(
+                  'Self-Service Adoption Rate',
+                  'Self Service',
+                  'Service Interaction',
+                  false
+                ),
                 data: null,
                 timeperiod: null
               };
@@ -112,6 +118,7 @@ export class SelfSharedService {
             try {
               linkEdiRation = this.utilizationObjectMethod(
                 'Link & EDI to Call Ratio',
+                this.MetricidService.MetricIDs.LinkEDItoCallRatio,
                 {
                   graphValueName: ['Diabetic Patients', 'Completed'],
                   graphValues: [utilization.LinkAdoptionRate * 100, 100 - utilization.LinkAdoptionRate * 100],
@@ -119,19 +126,23 @@ export class SelfSharedService {
                   color: ['#3381FF', '#D7DCE1'],
                   gdata: ['card-inner', 'linkAndEdiCallRatio'],
                   sdata: null
-                  // sdata: {
-                  //   sign: 'up',
-                  //   data: '+1.3%'
-                  // }
                 },
-                this.timeFrame
+                this.toggle.setToggles('Link and EDI to Call Ratio', 'Self Service', 'Service Interaction', false)
+                // I used 'and' instead of '&' because special character was failing in doing comparison
               );
             } catch (Error) {
               linkEdiRation = {
                 category: 'app-card',
                 type: 'donut',
                 title: 'Link & EDI to Call Ratio',
+                MetricID: this.MetricidService.MetricIDs.LinkEDItoCallRatio,
                 status: 500,
+                toggle: this.toggle.setToggles(
+                  'Link & EDI to Call Ratio',
+                  'Self Service',
+                  'Service Interaction',
+                  false
+                ),
                 data: null,
                 timeperiod: null
               };
@@ -139,6 +150,7 @@ export class SelfSharedService {
             try {
               paperLessDelivery = this.utilizationObjectMethod(
                 'Paperless Delivery',
+                this.MetricidService.MetricIDs.PaperlessDelivery,
                 {
                   graphValues: [
                     utilization.PaperAndPostageAdoptionRate * 100,
@@ -149,14 +161,16 @@ export class SelfSharedService {
                   gdata: ['card-inner', 'paperlessDelivery'],
                   sdata: null
                 },
-                this.timeFrame
+                this.toggle.setToggles('Paperless Delivery', 'Self Service', 'Service Interaction', false)
               );
             } catch (Error) {
               paperLessDelivery = {
                 category: 'app-card',
                 type: 'donut',
                 title: 'Paperless Delivery',
+                MetricID: this.MetricidService.MetricIDs.PaperlessDelivery,
                 status: 500,
+                toggle: this.toggle.setToggles('Paperless Delivery', 'Self Service', 'Service Interaction', false),
                 data: null,
                 timeperiod: null
               };
@@ -165,8 +179,15 @@ export class SelfSharedService {
             adoptionRate = {
               category: 'app-card',
               type: 'donut',
-              title: 'Self Service Adoption Rate',
+              title: 'Self-Service Adoption Rate',
+              MetricID: this.MetricidService.MetricIDs.SelfServiceAdoptionRate,
               status: 500,
+              toggle: this.toggle.setToggles(
+                'Self-Service Adoption Rate',
+                'Self Service',
+                'Service Interaction',
+                false
+              ),
               data: null,
               timeperiod: null
             };
@@ -174,7 +195,14 @@ export class SelfSharedService {
               category: 'app-card',
               type: 'donut',
               title: 'Link & EDI to Call Ratio',
+              MetricID: this.MetricidService.MetricIDs.LinkEDItoCallRatio,
               status: 500,
+              toggle: this.toggle.setToggles(
+                'Link and EDI to Call Ratio',
+                'Self Service',
+                'Service Interaction',
+                false
+              ),
               data: null,
               timeperiod: null
             };
@@ -182,211 +210,385 @@ export class SelfSharedService {
               category: 'app-card',
               type: 'donut',
               title: 'Paperless Delivery',
+              MetricID: this.MetricidService.MetricIDs.PaperlessDelivery,
               status: 500,
+              toggle: this.toggle.setToggles('Paperless Delivery', 'Self Service', 'Service Interaction', false),
               data: null,
               timeperiod: null
             };
           } // End if Data not found Utilization Object
-          if (
-            providerSystems.hasOwnProperty('SelfServiceInquiries') &&
-            providerSystems.SelfServiceInquiries != null &&
-            providerSystems.SelfServiceInquiries.hasOwnProperty('ALL') &&
-            providerSystems.SelfServiceInquiries.ALL.hasOwnProperty('SelfService') &&
-            providerSystems.SelfServiceInquiries.ALL.SelfService.hasOwnProperty('TotalCallCost')
-          ) {
-            try {
+
+          /********* Opportunites sections starts from here *********** */
+          const selfService = (((providerSystems || {}).SelfServiceInquiries || {}).ALL || {}).SelfService;
+          if (selfService) {
+            if (
+              selfService.hasOwnProperty('TotalCallCost') &&
+              selfService.hasOwnProperty('TotalSelfServiceCost') &&
+              selfService.hasOwnProperty('TotalPhoneCost')
+            ) {
+              try {
+                let totalCallCost = selfService.TotalCallCost;
+                totalCallCost = this.common.nFormatter(totalCallCost);
+
+                oppurtunities.push({
+                  category: 'mini-tile',
+                  title: 'Reduce Calls and Operating Costs by:',
+                  MetricID: this.MetricidService.MetricIDs.ReduceCallsOperatingCostsBy,
+                  toggle: this.toggle.setToggles(
+                    'Reduce Calls and Operating Costs by:',
+                    'Self Service',
+                    'Service Interaction',
+                    false
+                  ),
+                  data: {
+                    centerNumber: '$' + totalCallCost,
+                    gdata: []
+                  },
+                  fdata: {
+                    type: 'bar chart',
+                    graphValues: [selfService.TotalSelfServiceCost.toFixed(), selfService.TotalPhoneCost.toFixed()],
+                    concatString: '$',
+                    color: ['#3381FF', '#FFFFFF', '#80B0FF'],
+                    graphValuesTitle: 'Avg. Transaction Costs',
+                    graphData1: 'for Self Service',
+                    graphData2: 'for Phone Call',
+                    gdata: ['card-structure', 'totalCallCost']
+                  }
+                });
+              } catch (Error) {
+                console.log('Error - Self Service - Opportunites - Reduce Calls and Operating Costs by:', Error);
+                oppurtunities.push({
+                  category: 'mini-tile',
+                  title: 'Reduce Calls and Operating Costs by:',
+                  MetricID: this.MetricidService.MetricIDs.ReduceCallsOperatingCostsBy,
+                  status: 500,
+                  toggle: this.toggle.setToggles(
+                    'Reduce Calls and Operating Costs by:',
+                    'Self Service',
+                    'Service Interaction',
+                    false
+                  ),
+                  data: null,
+                  fdata: null
+                });
+              }
+            } else {
               oppurtunities.push({
                 category: 'mini-tile',
                 title: 'Reduce Calls and Operating Costs by:',
+                MetricID: this.MetricidService.MetricIDs.ReduceCallsOperatingCostsBy,
+                status: 500,
                 toggle: this.toggle.setToggles(
                   'Reduce Calls and Operating Costs by:',
-                  'Opportunities',
-                  'Overview',
+                  'Self Service',
+                  'Service Interaction',
                   false
                 ),
-                data: {
-                  centerNumber:
-                    '$' +
-                    this.common.nFormatter(
-                      providerSystems.SelfServiceInquiries.ALL.SelfService.TotalCallCost.toFixed(2)
-                    ),
-                  gdata: []
-                },
-                fdata: {
-                  type: 'bar chart',
-                  graphValues: [
-                    providerSystems.SelfServiceInquiries.ALL.SelfService.TotalSelfServiceCost.toFixed(),
-                    providerSystems.SelfServiceInquiries.ALL.SelfService.TotalPhoneCost.toFixed()
-                  ],
-                  concatString: '$',
-                  color: ['#3381FF', '#FFFFFF', '#80B0FF'],
-                  graphValuesTitle: 'Avg. Transaction Costs',
-                  graphData1: 'for Self Service',
-                  graphData2: 'for Phone Call',
-                  gdata: ['card-structure', 'totalCallCost']
-                }
-              });
-            } catch (Error) {
-              console.log('Overview Page, Self Service, Data not found for Calls and Operating Cost');
-              oppurtunities.push({
-                category: 'mini-tile',
-                title: 'Reduce Calls and Operating Costs by:',
-                status: 500,
                 data: null,
                 fdata: null
               });
-            }
+            } // end if else for Reduce Calls and Operating Costs by:
+            if (selfService.hasOwnProperty('TotalCallTime')) {
+              try {
+                let totalCalltime = selfService.TotalCallTime;
+                let suffixHourPerDay;
+                if (totalCalltime < 1 && totalCalltime > 0) {
+                  totalCalltime = '< 1';
+                  suffixHourPerDay = ' Hour/day';
+                } else if (totalCalltime.toFixed(0) === 1) {
+                  totalCalltime = totalCalltime.toFixed(0);
+                  suffixHourPerDay = ' Hour/day';
+                } else if (totalCalltime.toFixed(0) === 0) {
+                  totalCalltime = totalCalltime.toFixed(0);
+                  suffixHourPerDay = '';
+                } else {
+                  totalCalltime = this.common.nondecimalFormatter(totalCalltime);
+                  suffixHourPerDay = ' Hours/day';
+                }
+
+                oppurtunities.push({
+                  category: 'mini-tile',
+                  title: "Save Your Staff's Time by:" + '\n\xa0',
+                  MetricID: this.MetricidService.MetricIDs.SaveyourStaffsTimeBy,
+                  toggle: this.toggle.setToggles(
+                    "Save Your Staff's Time by:",
+                    'Self Service',
+                    'Service Interaction',
+                    false
+                  ),
+                  data: {
+                    centerNumber: totalCalltime + suffixHourPerDay,
+                    gdata: []
+                  },
+                  fdata: {
+                    type: 'bar chart',
+                    graphValues: [selfService.SelfServiceCallTime.toFixed(0), selfService.PhoneCallTime.toFixed(0)],
+                    concatString: 'hours',
+                    color: ['#3381FF', '#FFFFFF', '#80B0FF'],
+                    graphValuesTitle: 'Avg. Processing Times',
+                    graphData1: 'for Self Service',
+                    graphData2: 'for Phone Call',
+                    gdata: ['card-structure', 'saveStaffTime']
+                  }
+                });
+              } catch (Error) {
+                console.log('Error - Self Service - Opportunites - Save Your Staffs Time by:', Error);
+                oppurtunities.push({
+                  category: 'mini-tile',
+                  title: "Save Your Staff's Time by:" + '\n\xa0',
+                  MetricID: this.MetricidService.MetricIDs.SaveyourStaffsTimeBy,
+                  status: 500,
+                  toggle: this.toggle.setToggles(
+                    "Save Your Staff's Time by:",
+                    'Self Service',
+                    'Service Interaction',
+                    false
+                  ),
+                  data: null,
+                  fdata: null
+                });
+              }
+            } else {
+              oppurtunities.push({
+                category: 'mini-tile',
+                title: "Save Your Staff's Time by:" + '\n\xa0',
+                MetricID: this.MetricidService.MetricIDs.SaveyourStaffsTimeBy,
+                status: 500,
+                toggle: this.toggle.setToggles(
+                  "Save Your Staff's Time by:",
+                  'Self Service',
+                  'Service Interaction',
+                  false
+                ),
+                data: null,
+                fdata: null
+              });
+            } // end if else for Save Your Staff's Time by:
+            if (
+              selfService.hasOwnProperty('AveragePaperClaimProcessingTime') &&
+              selfService.hasOwnProperty('AverageClaimProcessingTime')
+            ) {
+              try {
+                let processingTime;
+                const checkProcessingTime =
+                  selfService.AveragePaperClaimProcessingTime.toFixed(0) -
+                  selfService.AverageClaimProcessingTime.toFixed(0);
+                let suffixDay;
+                if (checkProcessingTime <= 0) {
+                  processingTime = 0;
+                  suffixDay = '';
+                } else if (checkProcessingTime === 1) {
+                  processingTime = checkProcessingTime;
+                  suffixDay = ' Day';
+                } else {
+                  processingTime = this.common.nondecimalFormatter(checkProcessingTime);
+                  suffixDay = ' Days';
+                }
+                oppurtunities.push({
+                  category: 'mini-tile',
+                  title: 'Reduce Claim Processing Time by:',
+                  MetricID: this.MetricidService.MetricIDs.ReduceClaimProcessingTimeBy,
+                  toggle:
+                    checkProcessingTime >= 0 ||
+                    this.toggle.setToggles(
+                      'Reduce Claim Processing Time by:',
+                      'Self Service',
+                      'Service Interaction',
+                      false
+                    ),
+                  data: {
+                    centerNumber: processingTime + suffixDay,
+                    gdata: []
+                  },
+                  fdata: {
+                    type: 'bar chart',
+                    graphValues: [
+                      selfService.AverageClaimProcessingTime.toFixed(0),
+                      selfService.AveragePaperClaimProcessingTime.toFixed(0)
+                    ],
+                    concatString: 'Days',
+                    color: ['#3381FF', '#FFFFFF', '#80B0FF'],
+                    graphValuesTitle: 'Avg. Processing Times',
+                    graphData1: 'for Self Service',
+                    graphData2: 'for Mail',
+                    gdata: ['card-structure', 'reduceClaimProcessingTime']
+                  }
+                });
+              } catch (Error) {
+                console.log('Error - Self Service - Reduce Claim Processing Time by:', Error);
+                oppurtunities.push({
+                  category: 'mini-tile',
+                  title: 'Reduce Claim Processing Time by:',
+                  MetricID: this.MetricidService.MetricIDs.ReduceClaimProcessingTimeBy,
+                  status: 500,
+                  toggle: this.toggle.setToggles(
+                    'Reduce Claim Processing Time by:',
+                    'Self Service',
+                    'Service Interaction',
+                    false
+                  ),
+                  data: null,
+                  fdata: null
+                });
+              }
+            } else {
+              oppurtunities.push({
+                category: 'mini-tile',
+                title: 'Reduce Claim Processing Time by:',
+                MetricID: this.MetricidService.MetricIDs.ReduceClaimProcessingTimeBy,
+                status: 500,
+                toggle: this.toggle.setToggles(
+                  'Reduce Claim Processing Time by:',
+                  'Self Service',
+                  'Service Interaction',
+                  false
+                ),
+                data: null,
+                fdata: null
+              });
+            } // end if else for 'Reduce Claim Processing Time by:'
+            if (
+              selfService.hasOwnProperty('AveragePaperReconsideredProcessingTime') &&
+              selfService.hasOwnProperty('AverageReconsideredProcessingTime') &&
+              selfService['AveragePaperReconsideredProcessingTime'] !== null &&
+              selfService['AverageReconsideredProcessingTime'] !== null
+            ) {
+              try {
+                const checkAvgProcessingTime =
+                  selfService.AveragePaperReconsideredProcessingTime.toFixed() -
+                  selfService.AverageReconsideredProcessingTime.toFixed();
+                let avgProcessingTime;
+                let suffixDay;
+                if (checkAvgProcessingTime <= 0) {
+                  avgProcessingTime = 0;
+                  suffixDay = '';
+                } else if (checkAvgProcessingTime === 1) {
+                  avgProcessingTime = checkAvgProcessingTime;
+                  suffixDay = ' Day';
+                } else {
+                  avgProcessingTime = this.common.nondecimalFormatter(checkAvgProcessingTime);
+                  suffixDay = ' Days';
+                }
+                oppurtunities.push({
+                  category: 'mini-tile',
+                  title: 'Reduce Reconsideration Processing by:',
+                  MetricID: this.MetricidService.MetricIDs.ReduceReconsiderationProcessingBy,
+                  toggle:
+                    checkAvgProcessingTime >= 0 ||
+                    this.toggle.setToggles(
+                      'Reduce Reconsideration Processing by:',
+                      'Self Service',
+                      'Service Interaction',
+                      false
+                    ),
+                  data: {
+                    centerNumber: avgProcessingTime + suffixDay,
+                    gdata: []
+                  },
+                  fdata: {
+                    type: 'bar chart',
+                    graphValues: [
+                      selfService.AverageReconsideredProcessingTime.toFixed(0),
+                      selfService.AveragePaperReconsideredProcessingTime.toFixed(0)
+                    ],
+                    concatString: 'Days',
+                    color: ['#3381FF', '#FFFFFF', '#80B0FF'],
+                    graphValuesTitle: 'Avg. Processing Times',
+                    graphData1: 'for Self Service',
+                    graphData2: 'for Mail',
+                    gdata: ['card-structure', 'reduceReconsiderationProcessing']
+                  }
+                });
+              } catch (Error) {
+                console.log('Error - Self Service - Reduce Reconsideration Processing by:', Error);
+                oppurtunities.push({
+                  category: 'mini-tile',
+                  title: 'Reduce Reconsideration Processing by:',
+                  MetricID: this.MetricidService.MetricIDs.ReduceReconsiderationProcessingBy,
+                  status: 500,
+                  toggle: this.toggle.setToggles(
+                    'Reduce Reconsideration Processing by:',
+                    'Self Service',
+                    'Service Interaction',
+                    false
+                  ),
+                  data: null,
+                  fdata: null
+                });
+              }
+            } else {
+              oppurtunities.push({
+                category: 'mini-tile',
+                title: 'Reduce Reconsideration Processing by:',
+                MetricID: this.MetricidService.MetricIDs.ReduceReconsiderationProcessingBy,
+                status: 500,
+                toggle: this.toggle.setToggles(
+                  'Reduce Reconsideration Processing by:',
+                  'Self Service',
+                  'Service Interaction',
+                  false
+                ),
+                data: null,
+                fdata: null
+              });
+            } // end if else for Reduce Reconsideration Processing by:
           } else {
             oppurtunities.push({
               category: 'mini-tile',
               title: 'Reduce Calls and Operating Costs by:',
+              MetricID: this.MetricidService.MetricIDs.ReduceCallsOperatingCostsBy,
               status: 500,
+              toggle: this.toggle.setToggles(
+                'Reduce Calls and Operating Costs by:',
+                'Self Service',
+                'Service Interaction',
+                false
+              ),
               data: null,
               fdata: null
             });
-          }
-          if (
-            providerSystems.hasOwnProperty('SelfServiceInquiries') &&
-            providerSystems.SelfServiceInquiries != null &&
-            providerSystems.SelfServiceInquiries.hasOwnProperty('ALL') &&
-            providerSystems.SelfServiceInquiries.ALL.hasOwnProperty('SelfService') &&
-            providerSystems.SelfServiceInquiries.ALL.SelfService.hasOwnProperty('TotalCallTime')
-          ) {
-            try {
-              oppurtunities.push({
-                category: 'mini-tile',
-                title: "Save Your Staff's Time by:" + '\n\xa0',
-                toggle: this.toggle.setToggles("Save Your Staff's Time by:", 'Opportunities', 'Overview', false),
-                data: {
-                  centerNumber:
-                    providerSystems.SelfServiceInquiries.ALL.SelfService.TotalCallTime.toFixed(0) + ' Hours/day',
-                  gdata: []
-                },
-                fdata: {
-                  type: 'bar chart',
-                  graphValues: [
-                    providerSystems.SelfServiceInquiries.ALL.SelfService.SelfServiceCallTime.toFixed(0),
-                    providerSystems.SelfServiceInquiries.ALL.SelfService.PhoneCallTime.toFixed(0)
-                  ],
-                  concatString: 'hours',
-                  color: ['#3381FF', '#FFFFFF', '#80B0FF'],
-                  graphValuesTitle: 'Avg. Processing Times',
-                  graphData1: 'for Self Service',
-                  graphData2: 'for Phone Call',
-                  gdata: ['card-structure', 'saveStaffTime']
-                }
-              });
-            } catch (Error) {
-              console.log('Overview Page, Self Service, Data not found for Save Yours Staff Time');
-              oppurtunities.push({
-                category: 'mini-tile',
-                title: "Save Your Staff's Time by:" + '\n\xa0',
-                status: 500,
-                data: null,
-                fdata: null
-              });
-            }
-          } else {
+
             oppurtunities.push({
               category: 'mini-tile',
               title: "Save Your Staff's Time by:" + '\n\xa0',
+              MetricID: this.MetricidService.MetricIDs.SaveyourStaffsTimeBy,
               status: 500,
-              data: null,
-              fdata: null
-            });
-          }
-          if (
-            providerSystems.hasOwnProperty('SelfServiceInquiries') &&
-            providerSystems.SelfServiceInquiries != null &&
-            providerSystems.SelfServiceInquiries.hasOwnProperty('ALL') &&
-            providerSystems.SelfServiceInquiries.ALL.hasOwnProperty('SelfService') &&
-            providerSystems.SelfServiceInquiries.ALL.SelfService.hasOwnProperty('AveragePaperClaimProcessingTime') &&
-            providerSystems.SelfServiceInquiries.ALL.SelfService.hasOwnProperty('AverageClaimProcessingTime')
-          ) {
-            oppurtunities.push({
-              category: 'mini-tile',
-              title: 'Reduce Claim Processing Time by:',
-              toggle: this.toggle.setToggles('Reduce Claim Processing Time by:', 'Opportunities', 'Overview', false),
-              data: {
-                centerNumber:
-                  (
-                    providerSystems.SelfServiceInquiries.ALL.SelfService.AveragePaperClaimProcessingTime.toFixed() -
-                    providerSystems.SelfServiceInquiries.ALL.SelfService.AverageClaimProcessingTime.toFixed()
-                  ).toFixed() + ' Days',
-                gdata: []
-              },
-              fdata: {
-                type: 'bar chart',
-                graphValues: [
-                  providerSystems.SelfServiceInquiries.ALL.SelfService.AverageClaimProcessingTime.toFixed(0),
-                  providerSystems.SelfServiceInquiries.ALL.SelfService.AveragePaperClaimProcessingTime.toFixed(0)
-                ],
-                concatString: 'Days',
-                color: ['#3381FF', '#FFFFFF', '#80B0FF'],
-                graphValuesTitle: 'Avg. Processing Times',
-                graphData1: 'for Self Service',
-                graphData2: 'for Mail',
-                gdata: ['card-structure', 'reduceClaimProcessingTime']
-              }
-            });
-          } else {
-            oppurtunities.push({
-              category: 'mini-tile',
-              title: 'Reduce Claim Processing Time by:',
-              status: 500,
-              data: null,
-              fdata: null
-            });
-          }
-          if (
-            providerSystems.hasOwnProperty('SelfServiceInquiries') &&
-            providerSystems.SelfServiceInquiries != null &&
-            providerSystems.SelfServiceInquiries.hasOwnProperty('ALL') &&
-            providerSystems.SelfServiceInquiries.ALL.hasOwnProperty('SelfService') &&
-            providerSystems.SelfServiceInquiries.ALL.SelfService.hasOwnProperty(
-              'AveragePaperReconsideredProcessingTime'
-            ) &&
-            providerSystems.SelfServiceInquiries.ALL.SelfService.hasOwnProperty('AverageReconsideredProcessingTime') &&
-            providerSystems.SelfServiceInquiries.ALL.hasOwnProperty('SelfService') &&
-            providerSystems.SelfServiceInquiries.ALL.SelfService['AveragePaperReconsideredProcessingTime'] !== null &&
-            providerSystems.SelfServiceInquiries.ALL.SelfService['AverageReconsideredProcessingTime'] !== null
-          ) {
-            oppurtunities.push({
-              category: 'mini-tile',
-              title: 'Reduce Reconsideration Processing by:',
               toggle: this.toggle.setToggles(
-                'Reduce Reconsideration Processing by:',
-                'Opportunities',
-                'Overview',
+                "Save Your Staff's Time by:",
+                'Self Service',
+                'Service Interaction',
                 false
               ),
-              data: {
-                centerNumber:
-                  (
-                    providerSystems.SelfServiceInquiries.ALL.SelfService.AveragePaperReconsideredProcessingTime.toFixed() -
-                    providerSystems.SelfServiceInquiries.ALL.SelfService.AverageReconsideredProcessingTime.toFixed()
-                  ).toFixed() + ' Days',
-                gdata: []
-              },
-              fdata: {
-                type: 'bar chart',
-                graphValues: [
-                  providerSystems.SelfServiceInquiries.ALL.SelfService.AverageReconsideredProcessingTime.toFixed(0),
-                  providerSystems.SelfServiceInquiries.ALL.SelfService.AveragePaperReconsideredProcessingTime.toFixed(0)
-                ],
-                concatString: 'Days',
-                color: ['#3381FF', '#FFFFFF', '#80B0FF'],
-                graphValuesTitle: 'Avg. Processing Times',
-                graphData1: 'for Self Service',
-                graphData2: 'for Mail',
-                gdata: ['card-structure', 'reduceReconsiderationProcessing']
-              }
+              data: null,
+              fdata: null
             });
-          } else {
+
+            oppurtunities.push({
+              category: 'mini-tile',
+              title: 'Reduce Claim Processing Time by:',
+              MetricID: this.MetricidService.MetricIDs.ReduceClaimProcessingTimeBy,
+              status: 500,
+              toggle: this.toggle.setToggles(
+                'Reduce Claim Processing Time by:',
+                'Self Service',
+                'Service Interaction',
+                false
+              ),
+              data: null,
+              fdata: null
+            });
+
             oppurtunities.push({
               category: 'mini-tile',
               title: 'Reduce Reconsideration Processing by:',
+              MetricID: this.MetricidService.MetricIDs.ReduceReconsiderationProcessingBy,
               status: 500,
+              toggle: this.toggle.setToggles(
+                'Reduce Reconsideration Processing by:',
+                'Self Service',
+                'Service Interaction',
+                false
+              ),
               data: null,
               fdata: null
             });

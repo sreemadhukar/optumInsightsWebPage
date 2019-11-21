@@ -105,10 +105,19 @@
     height: 36vh;
   }
 }
-
+::ng-deep .mat-option {
+  font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+}
+::ng-deep .mat-option-text {
+  font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+}
 // To adjust the input field on center aligned
 ::ng-deep .mat-form-field-appearance-outline .mat-form-field-infix {
   padding: 0.4em 0 1em 0 !important;
+}
+
+::ng-deep .mat-form-field-wrapper {
+  padding-bottom: 4px;
 }
 
 .view-allProviders {
@@ -132,6 +141,7 @@
   padding-top: 13px;
   padding-left: 12px;
   padding-right: 30px;
+  padding-bottom: 13px;
 }
 
 .no-result-found {
@@ -149,6 +159,9 @@
   font-size: 14px;
   letter-spacing: 0.2px;
   line-height: 18px;
+  .match-font {
+    font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+  }
 }
 
 .noDataicon {
@@ -157,4 +170,12 @@
 
 .searchicon {
   color: #757588;
+}
+
+.three-char-text {
+  color: #757588;
+  font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  letter-spacing: 0.2px;
+  line-height: 18px;
 }

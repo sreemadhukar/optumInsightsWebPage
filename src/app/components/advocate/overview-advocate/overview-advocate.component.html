@@ -1,0 +1,140 @@
+<app-feedback></app-feedback>
+<div class="overview-advocate-body">
+  <div class="overview-advocate-content">
+    <div class="cards cust-width-title ">
+      <div class="page-title">{{ pageTitle }}</div>
+      <div class="page-subtitle">{{ pagesubTitle }}</div>
+      <app-filters-applied></app-filters-applied>
+    </div>
+    <div class="height1Separator"></div>
+    <div *ngFor="let data of topRowMockCards; let i = index">
+      <app-small-card class="cards" [skeleton]="paymentLoading" *ngIf="paymentLoading"> </app-small-card>
+    </div>
+    <div *ngFor="let item of paymentCards">
+      <app-small-card *ngIf="item != null && item.data != null && item.toggle" class="cards" [data]="item">
+      </app-small-card>
+      <app-error-card
+        *ngIf="item != null && item.status != null && item.toggle"
+        class="cards"
+        [data]="item"
+      ></app-error-card>
+    </div>
+
+    <!-- Claims Non - Payment Trend  Starts Here -->
+    <app-error-card
+      *ngIf="!trendMonthDisplay && monthlyLineGraph != null && monthlyLineGraph.status != null"
+      class="cards"
+      [data]="monthlyLineGraph"
+    ></app-error-card>
+    <div class="non-payment-trend-block" *ngIf="trendMonthDisplay">
+      <app-common-header
+        [title]="trendTitle"
+        class="full-display bottom-margin-block"
+        (helpIconClicked)="helpIconClick($event)"
+      ></app-common-header>
+      <app-line-graph [chartOptions]="monthlyLineGraph"></app-line-graph>
+      <!--div class="timeperiod-block">
+          <p class="timeperiod-text">{{ timePeriod }}</p>
+        </div-->
+      <app-common-footer
+        [timePeriod]="timePeriod"
+        [linkName]="'Non-Payment Details'"
+        [routePath]="'/GettingReimbursed/NonPayments'"
+        class="width-100 time-period-trend"
+      ></app-common-footer>
+    </div>
+    <!-- Claims Non - Payment Trend Ends Here -->
+
+    <!-- Claims appeals Trend  Starts Here -->
+    <app-error-card
+      *ngIf="appealsLineGraphData.status != null"
+      class="cards"
+      [data]="appealsLineGraphData"
+    ></app-error-card>
+    <app-large-card [skeletonLarge]="appealsLineGraphloading" *ngIf="appealsLineGraphloading"></app-large-card>
+    <div class="appeals-trend-block" *ngIf="appealsLineGraph">
+      <!-- Claims Non - Payment Trend  Starts Here -->
+      <app-common-header
+        [title]="trendTitleForClaims"
+        class="full-display bottom-margin-block"
+        (helpIconClicked)="helpIconClick($event)"
+      ></app-common-header>
+      <div class="full-display">
+        <div class="total-appeals">
+          {{ totalAppeals }}
+
+          <div>
+            <div class="appeal-set">
+              <div class="sub-appeals-values">
+                {{ adminAppeals }}
+              </div>
+              <div class="sub-appeals">
+                Admin
+              </div>
+            </div>
+            <div class="dash-bottom"></div>
+
+            <div class="appeal-set">
+              <div class="sub-appeals-values">
+                {{ clinicalAppeals }}
+              </div>
+              <div class="sub-appeals">
+                Clinical
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="line-graph-padding">
+          <app-large-card-advocate [appealsLineGraph]="appealsLineGraph"></app-large-card-advocate>
+
+          <div class="lob-set">
+            <div class="mr-img" *ngIf="mi"></div>
+            <div class="lob-values" *ngIf="mi">M&R ({{ mi }})</div>
+            <div class="cs-img" *ngIf="cs"></div>
+            <div class="lob-values" *ngIf="cs">C&S ({{ cs }})</div>
+            <div class="ei-img" *ngIf="ei"></div>
+            <div class="lob-values" *ngIf="ei">E&I ({{ ei }})</div>
+            <div *ngIf="other" class="other-img"></div>
+            <div class="lob-values" *ngIf="other">Other ({{ other }})</div>
+          </div>
+        </div>
+
+        <!--div class="timeperiod-block">
+          <p class="timeperiod-text">{{ timePeriod }}</p>
+        </div-->
+      </div>
+      <app-common-footer
+        [timePeriod]="timePeriod"
+        [linkName]="'Appeals Overview'"
+        [routePath]="'/GettingReimbursed/Appeals'"
+        class="width-100 time-period-trend"
+      ></app-common-footer>
+    </div>
+    <!-- Claims appeals Trend Ends Here -->
+
+    <!--Calls Trend Starts Here-->
+    <app-error-card *ngIf="callsLineGraphData" class="cards" [data]="callsLineGraphData"></app-error-card>
+    <!--<app-large-card [skeletonLarge]="callsLineGraphLoading" *ngIf="callsLineGraphLoading"></app-large-card>-->
+    <div class="calls-trend-block" *ngIf="!callsLineGraphData">
+      <app-common-header
+        [title]="trendTitleForCalls"
+        class="full-display bottom-margin-block"
+        (helpIconClicked)="helpIconClick($event)"
+      ></app-common-header>
+      <div class="full-display">
+        <div class="total-calls">
+          {{ totalCalls }}
+          <div class="total-calls-sub-title">Total Calls</div>
+        </div>
+      </div>
+      <app-common-footer
+        [timePeriod]="timePeriod"
+        [linkName]="'Calls Overview'"
+        [routePath]="'/ServiceInteraction/Calls'"
+        class="width-100 time-period-trend"
+      ></app-common-footer>
+    </div>
+    <!-- Calls Trend Ends Here -->
+  </div>
+</div>

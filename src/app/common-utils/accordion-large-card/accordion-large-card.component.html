@@ -1,16 +1,16 @@
 <div class="qulity-measure-star-block" *ngIf="!skeletonLarge">
   <div class="card-inner-large">
-    <!-- {{ data[0].title }} -->
     <app-common-header
       [title]="title"
-      class="full-display"
+      class="full-display white-bg"
       (helpIconClicked)="helpIconClick($event)"
     ></app-common-header>
     <div class="bar-graphs-block">
       <div
         class="bar-graphs"
         *ngFor="let item of data; let i = index"
-        [class.extra-margin-bottom-33]="i + 1 == data.length && !section[i]"
+        [class.extra-padding-bottom-33]="i + 1 == data.length && !section[i]"
+        [class.bar-graph-icon-hide-padding]="item.data.barText == 0"
       >
         <div
           [class.extra-margin-top-8]="i != 0"
@@ -19,20 +19,25 @@
           [class.bar-graphs-content]="item.data.barText != 0"
           (click)="section[i] = !section[i]; reasonsCollapose(i)"
         >
-          <div class="bar-graph-inside-left-block">
-            <div class="bar-graph-inside-left-block-content">
-              <mat-icon
-                class="bar-graph-block-icon"
-                [class.bar-graph-icon-hide]="item.data.barText == 0"
-                *ngIf="!section[i]"
-                svgIcon="open"
-              ></mat-icon>
-              <mat-icon class="bar-graph-block-icon" *ngIf="section[i]" svgIcon="close-bar"></mat-icon>
-            </div>
-          </div>
-          <div class="bar-graph-inside-right-block" #barsParentBlock>
-            <div>
-              <app-bar-chart *ngIf="item.data != null && item.data" [chartOptions]="item.data"> </app-bar-chart>
+          <div class="bar-graph-inside-content">
+            <div class="bar-graph-inside-left-block">
+              <div class="bar-graph-inside-left-block-content">
+                <!-- <mat-icon class="bar-graph-block-icon" [class.bar-graph-icon-hide]="item.data.barText == 0" *ngIf="!section[i]"
+                svgIcon="open"></mat-icon>
+              <mat-icon class="bar-graph-block-icon" *ngIf="section[i]" svgIcon="close-bar"></mat-icon> -->
+
+                <mat-icon
+                  class="bar-graph-block-icon"
+                  [class.bar-graph-icon-hide]="item.data.barText == 0"
+                  svgIcon="carrot"
+                  [@rotatedState]="section[i] ? 'rotated' : 'default'"
+                ></mat-icon>
+              </div>
+              <div class="bar-graph-inside-right-block" #barsParentBlock>
+                <div>
+                  <app-bar-chart *ngIf="item.data != null && item.data" [chartOptions]="item.data"> </app-bar-chart>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -41,61 +46,148 @@
           <div class="bottom-shadow">
             <div class="hide-bottom-arrow-block"></div>
           </div>
-          <h3 class="inner-blocks-header">{{ qualitySubTitle }}</h3>
+
           <div class="top-5-block">
+            <h3 class="inner-blocks-header">{{ qualitySubTitle }}</h3>
             <div *ngFor="let listitem of qualityPcorData; let j = index">
               <div class="horizontal-line">
                 <div class="accor-content-space">
-                  <h3 class="list-title">{{ listitem.Name }}</h3>
-                  <div class="stars-count-div">
-                    <div class="no-stars-count" *ngIf="qualityStarCount == 1">
-                      <i class="star-blue"></i>
-                      <i class="star-grey"></i>
-                      <i class="star-grey"></i>
-                      <i class="star-grey"></i>
-                      <i class="star-grey"></i>
+                  <div
+                    [class.extra-margin-bottom-24]="subsection[j]"
+                    [class.bar-graphs-nohover]="item.data.barText == 0"
+                    [class.bar-graphs-sub-content]="item.data.barText != 0"
+                    (click)="subsection[j] = !subsection[j]; subItemsCollapose(j)"
+                  >
+                    <div class="sub-item-content">
+                      <div class="bar-graph-inside-left-block-content">
+                        <div class="display-inline-block">
+                          <!-- <mat-icon class="bar-graph-block-icon" [class.bar-graph-icon-hide]="item.data.barText == 0"
+                          *ngIf="!subsection[j]" svgIcon="open"></mat-icon>
+                        <mat-icon class="bar-graph-block-icon" *ngIf="subsection[j]" svgIcon="close-bar"></mat-icon> -->
+
+                          <mat-icon
+                            class="bar-graph-block-icon"
+                            svgIcon="carrot"
+                            [@rotatedState]="subsection[j] ? 'rotated' : 'default'"
+                          ></mat-icon>
+                        </div>
+                        <div class="display-inline-block">
+                          <h3 class="list-title">{{ listitem.Name }}</h3>
+                        </div>
+                      </div>
                     </div>
 
-                    <div class="no-stars-count" *ngIf="qualityStarCount == 2">
-                      <i class="star-blue"></i>
-                      <i class="star-blue"></i>
-                      <i class="star-grey"></i>
-                      <i class="star-grey"></i>
-                      <i class="star-grey"></i>
-                    </div>
+                    <div class="bar-graph-inside-right-block">
+                      <div class="stars-count-div">
+                        <div class="no-stars-count" *ngIf="qualityStarCount == 1">
+                          <i class="star-blue"></i>
+                          <i class="star-grey"></i>
+                          <i class="star-grey"></i>
+                          <i class="star-grey"></i>
+                          <i class="star-grey"></i>
+                        </div>
 
-                    <div class="no-stars-count" *ngIf="qualityStarCount == 3">
-                      <i class="star-blue"></i>
-                      <i class="star-blue"></i>
-                      <i class="star-blue"></i>
-                      <i class="star-grey"></i>
-                      <i class="star-grey"></i>
-                    </div>
+                        <div class="no-stars-count" *ngIf="qualityStarCount == 2">
+                          <i class="star-blue"></i>
+                          <i class="star-blue"></i>
+                          <i class="star-grey"></i>
+                          <i class="star-grey"></i>
+                          <i class="star-grey"></i>
+                        </div>
 
-                    <div class="no-stars-count" *ngIf="qualityStarCount == 4">
-                      <i class="star-blue"></i>
-                      <i class="star-blue"></i>
-                      <i class="star-blue"></i>
-                      <i class="star-blue"></i>
-                      <i class="star-grey"></i>
-                    </div>
+                        <div class="no-stars-count" *ngIf="qualityStarCount == 3">
+                          <i class="star-blue"></i>
+                          <i class="star-blue"></i>
+                          <i class="star-blue"></i>
+                          <i class="star-grey"></i>
+                          <i class="star-grey"></i>
+                        </div>
 
-                    <div class="no-stars-count" *ngIf="qualityStarCount == 5">
-                      <i class="star-blue"></i>
-                      <i class="star-blue"></i>
-                      <i class="star-blue"></i>
-                      <i class="star-blue"></i>
-                      <i class="star-blue"></i>
-                    </div>
-                    <div class="cms-weight-div">
-                      <div class="cms-weight-style">CMS Weight:</div>
-                      <div class="cms-number">{{ listitem.CMSWeight }}</div>
+                        <div class="no-stars-count" *ngIf="qualityStarCount == 4">
+                          <i class="star-blue"></i>
+                          <i class="star-blue"></i>
+                          <i class="star-blue"></i>
+                          <i class="star-blue"></i>
+                          <i class="star-grey"></i>
+                        </div>
+
+                        <div class="no-stars-count" *ngIf="qualityStarCount == 5">
+                          <i class="star-blue"></i>
+                          <i class="star-blue"></i>
+                          <i class="star-blue"></i>
+                          <i class="star-blue"></i>
+                          <i class="star-blue"></i>
+                        </div>
+                        <div class="cms-weight-div">
+                          <div class="cms-weight-style">CMS Weight:</div>
+                          <div class="cms-number verticalLine">{{ listitem.CMSWeight }}</div>
+                          <div class="cms-weight-style">CMS Weighted Quality Rating:</div>
+                          <div class="cms-number">{{ listitem.CMSWeightQualityRating }}</div>
+                        </div>
+                      </div>
                     </div>
                   </div>
 
-                  <div class="description-content">
-                    <span class="measure-desc">Measure Description:</span>
-                    <span class="measure-content">{{ listitem.Description }}</span>
+                  <div class="sub-accor-content" *ngIf="subsection[j]">
+                    <!-- sub accordion-->
+                    <div class="description-content">
+                      <span class="measure-desc">Measure Description:</span>
+                      <span class="measure-content">{{ listitem.Description }}</span>
+                      <br *ngIf="listitem.DescriptionTwo || listitem.DescriptionBulletPoints" />
+                      <br *ngIf="listitem.DescriptionTwo || listitem.DescriptionBulletPoints" />
+                      <span class="measure-content" *ngIf="listitem.DescriptionTwo">{{ listitem.DescriptionTwo }}</span>
+                      <div *ngIf="listitem.DescriptionBulletPoints">
+                        <span *ngFor="let item of listitem.DescriptionBulletPoints" class="measure-content"
+                          >{{ item }}<br
+                        /></span>
+                      </div>
+                    </div>
+                    <div class="flex-row-container">
+                      <div class="flex-row-item1  vertical-line2 ">
+                        <h3 class="accord-sub-title">5 STAR Threshold % Target</h3>
+                        <div class="sub-accor-text1">≥ {{ listitem['5StarThresholdTarget'] }}</div>
+                      </div>
+
+                      <div class="flex-row-item2 vertical-line2 ">
+                        <h3 class="accord-sub-title sub-title-2">
+                          # of Members to Achieve 5 <br />
+                          STAR Threshold
+                        </h3>
+                        <div class="sub-accor-text2">
+                          {{ listitem.NumberMemberAchieve5StarThreshold }}
+                        </div>
+                      </div>
+
+                      <div class="flex-row-item1 height-90">
+                        <h3 class="accord-sub-title sub-title-2">Current Rate</h3>
+                        <div class="sub-last-text">
+                          {{ currentRateCalc }}
+                          <!-- {{listitem.NonCompliantMembersCount}} -->
+                        </div>
+                      </div>
+
+                      <div class="flex-row-item1  vertical-line2 mt-47">
+                        <h3 class="accord-sub-title">Eligible Members</h3>
+                        <div class="sub-row2-first">{{ listitem.EligibleMemberCount }}</div>
+                      </div>
+
+                      <div class="flex-row-item2 vertical-line2 mt-47">
+                        <h3 class="accord-sub-title sub-title-2">Non-compliant members</h3>
+                        <div class="sub-accor-row2">
+                          {{ listitem.NonCompliantMemberCount }}
+                        </div>
+                      </div>
+
+                      <div class="flex-row-item1 height-90 mt-47">
+                        <h3 class="accord-sub-title sub-title-2">Compliant Members</h3>
+                        <div class="sub-accor-row2">
+                          {{ listitem.CompliantMemberCount }}
+                        </div>
+                      </div>
+                    </div>
+                    <div class="HEDIS-measure-note" *ngIf="listitem.message">
+                      &#42;&#42; Denotes an Adjusted HEDIS&reg; Measure
+                    </div>
                   </div>
                 </div>
               </div>
@@ -103,18 +195,18 @@
           </div>
         </div>
       </div>
-    </div>
 
-    <div class="full-width-block" *ngIf="data[0].timeperiod">
-      <app-common-footer [timePeriod]="data[0].timeperiod"></app-common-footer>
+      <div class="full-width-block white-bg" *ngIf="data[0].timeperiod">
+        <app-common-footer [timePeriod]="data[0].timeperiod" [title]="data[0].title"></app-common-footer>
+      </div>
     </div>
   </div>
-</div>
 
-<div *ngIf="skeletonLarge" class="qulity-measure-star-block">
-  <div class="card-structure">
-    <div class="card-inner-large-skeleton">
-      <div class="card-skeleton-large"></div>
+  <div *ngIf="skeletonLarge" class="qulity-measure-star-block">
+    <div class="card-structure">
+      <div class="card-inner-large-skeleton">
+        <div class="card-skeleton-large"></div>
+      </div>
     </div>
   </div>
 </div>

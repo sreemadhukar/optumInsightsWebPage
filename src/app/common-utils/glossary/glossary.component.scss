@@ -3,6 +3,7 @@
 ::ng-deep .mat-autocomplete-panel {
   max-height: 0% !important;
 }
+
 ::ng-deep .mat-form-field-appearance-outline .mat-form-field-infix {
   padding: 8px 0 16px 0;
 }
@@ -29,6 +30,10 @@
 
 ::ng-deep .mat-option-text {
   font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+}
+
+::ng-deep .mat-drawer-backdrop.mat-drawer-shown {
+  background-color: rgba(45, 45, 57, 0.5);
 }
 
 .business-glossary {
@@ -99,6 +104,11 @@
   font-size: 16px;
   letter-spacing: 0.2px;
   line-height: 22px;
+}
+
+.glossary-definition-tag {
+  color: #196ecf;
+  text-decoration: none;
 }
 
 .go-to-metric-location {
@@ -184,6 +194,7 @@
 .absolute {
   position: absolute;
   bottom: 0;
+  right: 0 !important;
 }
 
 .fixed {
@@ -199,7 +210,7 @@
 .view-all-metrics-button-div {
   background: #ffffff;
   margin-left: -24px;
-  padding-left: 33px;
+  padding-left: 31px;
   padding-right: 32px;
   padding-bottom: 25px;
   padding-top: 25px;

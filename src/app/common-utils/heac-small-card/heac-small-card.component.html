@@ -1,0 +1,39 @@
+<div *ngIf="data != null" class="small-card-structure">
+  <div class="card-inner">
+    <app-common-header
+      [cardType]="'smallCard'"
+      [title]="data.title"
+      (helpIconClicked)="helpIconClick($event)"
+    ></app-common-header>
+
+    <div
+      *ngIf="data.type == 'donut' && data.data != null"
+      [ngClass]="data.sdata != null ? 'chart-details-donut' : 'full-width'"
+    >
+      <div class="heac-donut-chart">
+        <app-donut-chart [donutType]="'small-card'" [chartOptions]="data.data"></app-donut-chart>
+      </div>
+      <div class="heac-data-block">
+        <div *ngFor="let color of data.data.color; let i = index" class="heac-label">
+          <div class="heac-label-dots" style.background-color="{{ color }}"></div>
+          <div class="heac-label-data">
+            {{ data.data.labels[i] | temporaryTextFormatter }} ({{ data.title === 'Claims Paid*' ? '$' : ''
+            }}{{ data.data.graphValues[i] | currencyFormatter }})
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="data.timeperiod" class="full-display-block">
+      <app-common-footer [timePeriod]="data.timeperiod" [title]="data.title"></app-common-footer>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="skeleton" class="small-card-structure">
+  <div class="card-inner">
+    <div class="full-width-block">
+      <div class="card-skeleton-small-card"></div>
+    </div>
+  </div>
+</div>

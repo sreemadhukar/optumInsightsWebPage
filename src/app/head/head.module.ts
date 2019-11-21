@@ -13,14 +13,41 @@ import { ErrorInterceptor } from '../auth/_helpers/error.interceptor';
 import { CommonUtilsModule } from './../common-utils/common-utils.module';
 import { TermsOfUseComponent } from './terms-of-use/terms-of-use.component';
 import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component';
+import { SiteMapComponent } from './site-map/site-map.component';
+import { CustomPreloadingStrategy } from './custom-preloading';
+import { TinListPageComponent } from './tin-list-page/tin-list-page.component';
+import { UhciFiltersComponent } from './uhci-filters/uhci-filters.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { KOPSharedService } from '../shared/kop/kop.service';
+import { KopService } from '../rest/kop/kop.service';
 
 @NgModule({
-  imports: [CommonModule, HeadRoutingModule, HeadMaterialModule, CommonUtilsModule, FooterModule],
-  exports: [BodyComponent, HeaderComponent],
-  declarations: [HeaderComponent, HamburgerMenuComponent, BodyComponent, TermsOfUseComponent, PrivacyPolicyComponent],
+  imports: [
+    CommonModule,
+    HeadRoutingModule,
+    HeadMaterialModule,
+    CommonUtilsModule,
+    FooterModule,
+    ReactiveFormsModule,
+    FormsModule
+  ],
+  exports: [BodyComponent, HeaderComponent, UhciFiltersComponent],
+  declarations: [
+    HeaderComponent,
+    HamburgerMenuComponent,
+    BodyComponent,
+    TermsOfUseComponent,
+    PrivacyPolicyComponent,
+    SiteMapComponent,
+    TinListPageComponent,
+    UhciFiltersComponent
+  ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+    CustomPreloadingStrategy,
+    KopService,
+    KOPSharedService
   ]
 })
 export class HeadModule {}

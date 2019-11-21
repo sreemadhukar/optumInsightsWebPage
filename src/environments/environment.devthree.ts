@@ -5,18 +5,21 @@
  * MAINTAIN ALPHABETIC ORDER
  */
 export const environment: any = {
-  apiProxyUrl: 'https://gateway-stage-core.optum.com/api/devthree/pdr/uhci/v1/',
+  apiProxyUrl: 'https://gateway-stage-core.optum.com/api/int/pdr/uhci/v1/',
   originUrl: '/',
   apiUrls: {
     ExecutiveSummaryPath: 'providersystems/',
     ProviderSystemClaimsAgg: 'agg-claims/search/v2.0/',
-    ProviderSystemClaimsSummary: 'claims/search/v2.0/',
+    ProviderSystemClaimsSummary: 'claim-metrics/',
     ProviderSystemPriorAuth: 'PriorAuthSummary/',
     SsoTokenPath: 'myinsightOptumIdHandshake',
     SsoRedirectUri:
       'https://stage-sso.uhc.com/ext/as/authorization.oauth2?pfidpadapterid=OptumIdOIDCStage&client_id=PED42235&response_' +
       'type=code&redirect_uri=https://pedui3-peddev.ocp-ctc-core-nonprod.optum.com/login&scope=openid+profile+email&state=PED&prompt=none',
     linkLoginPage: 'https://provider-stage.linkhealth.com',
+    SsoLogoutUrl:
+      'https://api-stage.linkhealth.com/session/signout?redirect=https://provider-stage.linkhealth.com/' +
+      'content/odin/en/provider-dashboard/public/signout.html?logOut=true',
     ProvTinList: 'provider-tins/',
     LayerSevenPath: 'myinsightLayerSevenHandshake',
     URL: window.location.origin,
@@ -33,7 +36,15 @@ export const environment: any = {
     NonPayment: 'claim-metrics/',
     CallsTrend: 'provider-calls/',
     TrendingMetrics: 'trending-metrics/',
-    PCORQualityMeasure: 'pcor-metrics/'
+    PCORQualityMeasure: 'pcor-metrics/',
+    NPSSummary: 'kop-metrics/',
+    AppealsTrend: 'appeals-trend/',
+    AdminSummaryTrends: 'admintrends/',
+    AppealsFHIR: 'appeals/v2.0/',
+    AppealsOverturn: 'appeal-overturn-reasons/',
+    AdminSummaryTrendsCount: 'admintrendscount/',
+    RefreshToken: 'getRefreshToken/',
+    HealthSystemDetails: 'providerInfo/'
   },
   headerKeys: {
     selectedCompany: '',
@@ -54,6 +65,8 @@ export const environment: any = {
   storagePrefix: '',
   errorMessage: 'empty',
   clickStreamUrl: '//assets.adobedtm.com/launch-ENacdc6d1acf734bcd95703e446bd1de1d-development.min.js',
-  internalAccess: false,
-  toggleTrendingSummary: false
+  internalAccess: true,
+  claimsYieldAccess: true,
+  toggleTrendingSummary: false,
+  sentryKey: 'https://2e6628201e8043c89e8fac56d77c46aa@sentry-ped-internal.ocp-ctc-core.optum.com/1'
 };

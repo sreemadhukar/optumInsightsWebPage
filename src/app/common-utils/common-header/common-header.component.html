@@ -4,6 +4,8 @@
   </div>
   <div
     class="header-title"
+    [class.sub-header-padding]="titleSubHeader !== null"
+    [class.nps-header]="options && options.npsHeader"
     [class.title-width]="title === 'Medicare & Retirement Annual Care Visits Completion Rate'"
     [class.title-padding]="title === 'Top Reasons for Prior Authorizations Not Approved'"
     [class.common-header]="cardType === 'error-card'"
@@ -14,6 +16,9 @@
     </div>
     <div *ngIf="typeOfCard != 'smallCard'">
       {{ titleHeader }}
+    </div>
+    <div *ngIf="titleSubHeader !== null" class="sub-header-title">
+      {{ titleSubHeader }}
     </div>
   </div>
 </div>

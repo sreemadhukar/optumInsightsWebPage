@@ -1,4 +1,7 @@
 @import '~src/scss/variables.scss';
+.app-card-structure-for-smart-edits-claims-returned {
+  height: 494px !important;
+}
 .app-card-structure {
   position: relative;
   background-color: $white;
@@ -61,6 +64,17 @@
     line-height: 18px;
     float: left;
   }
+  .pi-list-color {
+    width: 24px;
+    .pi-label-icons {
+      line-height: 20px;
+      padding-bottom: 16px;
+      margin-top: 2px;
+    }
+  }
+  .pi-list-labels {
+    width: 120px;
+  }
   .app-card-list-labels > li {
     margin-bottom: 16px;
     margin-right: 8px;
@@ -76,10 +90,10 @@
     margin-top: 110px;
     margin-left: 25px;
   }
-  .pa-requested-beside-data-block {
+  .pi-beside-data-block {
     float: left;
-    margin-top: 60px;
-    margin-left: 25px;
+    margin-top: 75px;
+    margin-left: 16px;
   }
   .pa-approval-rate-beside-data-block {
     float: left;
@@ -87,10 +101,35 @@
     margin-left: 53px;
   }
   .claims-paid-beside-data-block,
-  .claims-appeals-submitted-beside-data-block {
+  .claims-appeals-submitted-beside-data-block,
+  .pa-requested-beside-data-block {
     float: left;
     /*margin-top: 94px;*/
     margin-top: 60px;
+    margin-left: 24px;
+  }
+  .claims-paid-beside-data-block-three-lob,
+  .claims-appeals-submitted-beside-data-block-three-lob,
+  .pa-requested-beside-data-block-three-lob {
+    float: left;
+    /*margin-top: 94px;*/
+    margin-top: 80px;
+    margin-left: 24px;
+  }
+  .claims-paid-beside-data-block-two-lob,
+  .claims-appeals-submitted-beside-data-block-two-lob,
+  .pa-requested-beside-data-block-two-lob {
+    float: left;
+    /*margin-top: 94px;*/
+    margin-top: 100px;
+    margin-left: 24px;
+  }
+  .claims-paid-beside-data-block-one-lob,
+  .claims-appeals-submitted-beside-data-block-one-lob,
+  .pa-requested-beside-data-block-one-lob {
+    float: left;
+    /*margin-top: 94px;*/
+    margin-top: 120px;
     margin-left: 24px;
   }
   .label-color-indicators {
@@ -120,9 +159,28 @@
     float: left;
     padding: 14px 0px 32px 53px;
   }
+  .pi-donut-with-label {
+    float: left;
+    padding: 14px 0px 32px 40px;
+  }
   .PCOR-annual-rate-donut-with-label-tab {
     float: left;
     padding: 40px 0px 25px 53px;
+  }
+  .smart-edits-claims-returned {
+    float: left;
+    padding: 100px 24px 88px 52px;
+  }
+  .smart-edits-claims-returned-beside-data-block {
+    float: left;
+    padding-top: 145px;
+  }
+
+  .smart-edits-claims-labels {
+    width: 118px;
+  }
+  .smart-edits-claims-label-icons {
+    margin-bottom: 36px !important;
   }
   .claims-paid-donut-with-label,
   .claims-appeals-submitted-donut-with-label,
@@ -144,6 +202,8 @@
     letter-spacing: 0.2px;
     line-height: 22px;
     text-align: center;
+    width: 123px;
+    display: block;
   }
   .only-donut-block {
     float: left;
@@ -172,6 +232,13 @@
     letter-spacing: 0.2px;
     line-height: 22px;
   }
+  .pi-bottom-label {
+    color: $strom-grey;
+    font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    letter-spacing: 0.2px;
+    line-height: 22px;
+  }
   .left-padding-with-border {
     padding-left: 24px;
     border-left: 1px solid $heather;
@@ -187,7 +254,7 @@
   }
   .claims-avg-tat-rotate-object {
     float: left;
-    padding: 14px 0px 32px 53px;
+    padding: 14px 0px 25px 53px;
   }
   .claims-avg-tat-hr-line {
     margin-top: 10px;
@@ -196,8 +263,10 @@
   }
   .claims-avg-tat-beside-data-block {
     float: left;
-    padding-top: 74px;
-    padding-left: 32px;
+    margin-left: 22px;
+    padding-top: 56px;
+    //  padding-top: 74px;
+    // padding-left: 32px;
   }
   .pa-approved-rate-vertical-data-block {
     float: left;
@@ -276,7 +345,9 @@
     }
   }
 }
-
+.pi-app-card-structure {
+  margin-left: 2px;
+}
 .app-card-structure-with-more-height {
   height: 442px !important;
 }

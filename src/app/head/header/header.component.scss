@@ -9,6 +9,62 @@
   border-color: #e0e0e0;
   z-index: 999;
   max-width: 1610px;
+
+  .dropdown-body {
+    position: absolute;
+    right: 0;
+    color: #000;
+    border-radius: 3px;
+    background-color: #ffffff;
+    box-shadow: 0 0 4px 0 rgba(25, 110, 207, 0.5), 0 4px 8px 0 rgba(0, 0, 0, 0.15);
+    cursor: pointer;
+    margin-right: 20px;
+    margin-top: 55px;
+  }
+
+  .drop-item {
+    height: 56px;
+    width: 282px;
+    border-radius: 3px 3px 0 0;
+    background-color: #ffffff;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
+  }
+
+  .per-item {
+    height: 21px;
+    width: 174.56px;
+    color: #2d2d39;
+    font-family: 'UHCSans-Medium', 'Helvetica', 'Arial', 'sans-serif';
+    font-size: 16px;
+    letter-spacing: 0.2px;
+    line-height: 19px;
+    padding-left: 11px;
+    padding-top: 23px;
+    position: absolute;
+  }
+
+  .provider-padding {
+    padding-top: 11px;
+  }
+  .tiny-provider {
+    height: 12px;
+    width: 239px;
+    color: #2d2d39;
+    font-family: 'UHCSans-Medium', 'Helvetica', 'Arial', 'sans-serif';
+    font-size: 12px;
+    letter-spacing: 0.15px;
+    line-height: 74px;
+    padding-left: 11px;
+  }
+
+  div.drop-item:hover {
+    background-color: #f1f4f7;
+  }
+
+  div.drop-item:active {
+    background-color: #f1f4f7;
+  }
+
   .menu-div {
     @include padding(17px, 0px, 22px, 34px);
     .menu-icon {
@@ -30,11 +86,21 @@
     }
   }
   .header-logo-div {
-    padding: 18px 0 18px 33px;
+    padding: 18px 0 18px 57px;
+    //  padding: 18px 0 18px 33px; before adding PI sub menu undo when toggled off
     .Uhc-logo {
       height: 36px;
       width: 175px;
     }
+  }
+  .kop-div {
+    color: $black;
+    font-size: 18px;
+    font-family: 'UHCSans-Medium', 'Helvetica', 'Arial', 'sans-serif';
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    margin: 25px 0;
   }
   .user-div {
     margin-left: auto;
@@ -55,4 +121,10 @@
       line-height: 26px;
     }
   }
+}
+.header-div::after {
+  content: '';
+  border-bottom: solid;
+  border-width: 1px;
+  border-color: rgb(224, 224, 224);
 }

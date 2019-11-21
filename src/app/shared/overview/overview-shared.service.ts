@@ -6,6 +6,7 @@ import { CommonUtilsService } from '../common-utils.service';
 import { SessionService } from '../session.service';
 import { AuthorizationService } from '../../auth/_service/authorization.service';
 import { TrendingMetricsService } from '../../rest/trending/trending-metrics.service';
+import { GlossaryMetricidService } from '../glossary-metricid.service';
 
 @Injectable({
   providedIn: OverviewPageModule
@@ -14,10 +15,11 @@ export class OverviewSharedService {
   private overviewPageData: Array<object> = [];
   private timeFrame: string;
   private providerKey: number;
-  private baseTimePeriod = 'Last30Days';
-  private previousTimePeriod = 'PreviousLast30Days';
+  private baseTimePeriod = 'Last6Months';
+  private previousTimePeriod = 'PreviousLast6Months';
   private priorAuthTrend;
   constructor(
+    private MetricidService: GlossaryMetricidService,
     private overviewService: OverviewService,
     private common: CommonUtilsService,
     private session: SessionService,
@@ -126,6 +128,7 @@ export class OverviewSharedService {
           category: 'small-card',
           type: 'donut',
           title: 'Prior Authorization Approval',
+          MetricID: this.MetricidService.MetricIDs.PriorAuthorizationApproval,
           toggle: this.toggle.setToggles('Prior Authorization Approval', 'AtGlance', 'Overview', false),
           data: {
             graphValues: [approvedRate, 1 - approvedRate],
@@ -155,6 +158,29 @@ export class OverviewSharedService {
   createSelfServiceObject(providerSystems) {
     return new Promise((resolve, reject) => {
       let cSelfService: object;
+      let timeSelfService: string;
+      if (
+        providerSystems.hasOwnProperty('SelfServiceInquiries') &&
+        providerSystems.SelfServiceInquiries != null &&
+        providerSystems.SelfServiceInquiries.hasOwnProperty('ALL') &&
+        providerSystems.SelfServiceInquiries.ALL.hasOwnProperty('ReportingPeriodStartDate') &&
+        providerSystems.SelfServiceInquiries.ALL.hasOwnProperty('ReportingPeriodEndDate')
+      ) {
+        try {
+          const startDate: string = this.common.dateFormat(
+            providerSystems.SelfServiceInquiries.ALL.ReportingPeriodStartDate
+          );
+          const endDate: string = this.common.dateFormat(
+            providerSystems.SelfServiceInquiries.ALL.ReportingPeriodEndDate
+          );
+          timeSelfService = startDate + ' - ' + endDate;
+        } catch (Error) {
+          timeSelfService = null;
+          console.log('Error in Self Service TimePeriod', timeSelfService);
+        }
+      } else {
+        timeSelfService = null;
+      }
       if (
         providerSystems.hasOwnProperty('SelfServiceInquiries') &&
         providerSystems.SelfServiceInquiries != null &&
@@ -162,24 +188,49 @@ export class OverviewSharedService {
         providerSystems.SelfServiceInquiries.ALL.hasOwnProperty('Utilizations') &&
         providerSystems.SelfServiceInquiries.ALL.Utilizations.hasOwnProperty('OverallLinkAdoptionRate')
       ) {
-        cSelfService = {
-          category: 'small-card',
-          type: 'donut',
-          title: 'Self Service Adoption Rate',
-          toggle: this.toggle.setToggles('Self Service Adoption Rate', 'AtGlance', 'Overview', false),
-          data: {
-            graphValues: [
-              providerSystems.SelfServiceInquiries.ALL.Utilizations.OverallLinkAdoptionRate,
-              1 - providerSystems.SelfServiceInquiries.ALL.Utilizations.OverallLinkAdoptionRate
-            ],
-            centerNumber:
-              (providerSystems.SelfServiceInquiries.ALL.Utilizations.OverallLinkAdoptionRate * 100).toFixed(0) + '%',
-            color: ['#3381FF', '#D7DCE1'],
-            gdata: ['card-inner', 'selfServiceCardD3Donut']
-          },
-          sdata: null,
-          timeperiod: 'Last 3 Months'
-        };
+        let selfServiceTime;
+        if (
+          providerSystems.SelfServiceInquiries.ALL.hasOwnProperty('ReportingPeriodStartDate') &&
+          providerSystems.SelfServiceInquiries.ALL.hasOwnProperty('ReportingPeriodEndDate')
+        ) {
+          try {
+            const startDate: string = this.common.dateFormat(
+              providerSystems.SelfServiceInquiries.ALL.ReportingPeriodStartDate
+            );
+            const endDate: string = this.common.dateFormat(
+              providerSystems.SelfServiceInquiries.ALL.ReportingPeriodEndDate
+            );
+            selfServiceTime = startDate + ' - ' + endDate;
+          } catch (Error) {
+            selfServiceTime = null;
+            console.log('Error in Overview | Self Service TimePeriod', Error);
+          }
+        } else {
+          selfServiceTime = null;
+        }
+        try {
+          cSelfService = {
+            category: 'small-card',
+            type: 'donut',
+            title: 'Self Service Adoption Rate',
+            MetricID: this.MetricidService.MetricIDs.SelfServiceAdoptionRate,
+            toggle: this.toggle.setToggles('Self Service Adoption Rate', 'AtGlance', 'Overview', false),
+            data: {
+              graphValues: [
+                providerSystems.SelfServiceInquiries.ALL.Utilizations.OverallLinkAdoptionRate,
+                1 - providerSystems.SelfServiceInquiries.ALL.Utilizations.OverallLinkAdoptionRate
+              ],
+              centerNumber:
+                (providerSystems.SelfServiceInquiries.ALL.Utilizations.OverallLinkAdoptionRate * 100).toFixed(0) + '%',
+              color: ['#3381FF', '#D7DCE1'],
+              gdata: ['card-inner', 'selfServiceCardD3Donut']
+            },
+            sdata: null,
+            timeperiod: selfServiceTime
+          };
+        } catch (Error) {
+          console.log('Error | Self Service Adoption Rate', Error);
+        }
       } else {
         cSelfService = {
           category: 'small-card',
@@ -214,6 +265,8 @@ export class OverviewSharedService {
           category: 'small-card',
           type: 'star',
           title: 'Medicare Star Rating',
+          subtitle: 'Health System Summary',
+          MetricID: this.MetricidService.MetricIDs.MedicareStarRating,
           toggle: this.toggle.setToggles('Medicare Star Rating', 'AtGlance', 'Overview', false),
           data: {
             graphValues: [
@@ -278,6 +331,7 @@ export class OverviewSharedService {
           category: 'small-card',
           type: 'donut',
           title: 'Calls By Call Type',
+          MetricID: this.MetricidService.MetricIDs.CallsbyCallType,
           toggle: this.toggle.setToggles('Total Calls', 'AtGlance', 'Overview', false),
           data: {
             graphValues: [
@@ -327,6 +381,7 @@ export class OverviewSharedService {
           oppurtunities.push({
             category: 'mini-tile',
             title: 'Reduce Calls and Operating Costs by:',
+            MetricID: this.MetricidService.MetricIDs.ReduceCallsOperatingCostsBy,
             toggle: this.toggle.setToggles('Reduce Calls and Operating Costs by:', 'Opportunities', 'Overview', false),
             data: {
               centerNumber:
@@ -353,6 +408,7 @@ export class OverviewSharedService {
           oppurtunities.push({
             category: 'mini-tile',
             title: 'Reduce Calls and Operating Costs by:',
+            MetricID: this.MetricidService.MetricIDs.ReduceCallsOperatingCostsBy,
             status: null,
             data: null,
             fdata: null
@@ -362,6 +418,7 @@ export class OverviewSharedService {
         oppurtunities.push({
           category: 'mini-tile',
           title: 'Reduce Calls and Operating Costs by:',
+          MetricID: this.MetricidService.MetricIDs.ReduceCallsOperatingCostsBy,
           status: null,
           data: null,
           fdata: null
@@ -384,13 +441,29 @@ export class OverviewSharedService {
         providerSystems.SelfServiceInquiries.ALL.SelfService.hasOwnProperty('PhoneCallTime')
       ) {
         try {
+          let totalCalltime = providerSystems.SelfServiceInquiries.ALL.SelfService.TotalCallTime;
+          let suffixHourPerDay;
+          if (totalCalltime < 1 && totalCalltime > 0) {
+            totalCalltime = '< 1';
+            suffixHourPerDay = ' Hour/day';
+          } else if (totalCalltime.toFixed(0) === 1) {
+            totalCalltime = totalCalltime.toFixed(0);
+            suffixHourPerDay = ' Hour/day';
+          } else if (totalCalltime.toFixed(0) === 0) {
+            totalCalltime = totalCalltime.toFixed(0);
+            suffixHourPerDay = '';
+          } else {
+            totalCalltime = this.common.nondecimalFormatter(totalCalltime);
+            suffixHourPerDay = ' Hours/day';
+          }
+
           oppurtunities.push({
             category: 'mini-tile',
             title: "Save Your Staff's Time by:" + '\n\xa0',
+            MetricID: this.MetricidService.MetricIDs.SaveyourStaffsTimeBy,
             toggle: this.toggle.setToggles("Save Your Staff's Time by:", 'Opportunities', 'Overview', false),
             data: {
-              centerNumber:
-                providerSystems.SelfServiceInquiries.ALL.SelfService.TotalCallTime.toFixed(0) + ' Hours/day',
+              centerNumber: totalCalltime + suffixHourPerDay,
               gdata: []
             },
             fdata: {
@@ -412,6 +485,7 @@ export class OverviewSharedService {
           oppurtunities.push({
             category: 'mini-tile',
             title: "Save Your Staff's Time by:" + '\n\xa0',
+            MetricID: this.MetricidService.MetricIDs.SaveyourStaffsTimeBy,
             status: null,
             data: null,
             fdata: null
@@ -421,6 +495,7 @@ export class OverviewSharedService {
         oppurtunities.push({
           category: 'mini-tile',
           title: "Save Your Staff's Time by:" + '\n\xa0',
+          MetricID: this.MetricidService.MetricIDs.SaveyourStaffsTimeBy,
           status: null,
           data: null,
           fdata: null
@@ -445,16 +520,30 @@ export class OverviewSharedService {
         providerSystems.SelfServiceInquiries.ALL.SelfService.hasOwnProperty('AverageClaimProcessingTime') &&
         providerSystems.SelfServiceInquiries.ALL.SelfService.AverageClaimProcessingTime != null
       ) {
+        let processingTime;
+        const checkProcessingTime =
+          providerSystems.SelfServiceInquiries.ALL.SelfService.AveragePaperClaimProcessingTime.toFixed(0) -
+          providerSystems.SelfServiceInquiries.ALL.SelfService.AverageClaimProcessingTime.toFixed(0);
+        let suffixDay;
+        if (checkProcessingTime <= 0) {
+          processingTime = 0;
+          suffixDay = '';
+        } else if (checkProcessingTime === 1) {
+          processingTime = checkProcessingTime;
+          suffixDay = ' Day';
+        } else {
+          processingTime = this.common.nondecimalFormatter(checkProcessingTime);
+          suffixDay = ' Days';
+        }
         oppurtunities.push({
           category: 'mini-tile',
           title: 'Reduce Claim Processing Time by:',
-          toggle: this.toggle.setToggles('Reduce Claim Processing Time by:', 'Opportunities', 'Overview', false),
+          MetricID: this.MetricidService.MetricIDs.ReduceClaimProcessingTimeBy,
+          toggle:
+            checkProcessingTime >= 0 ||
+            this.toggle.setToggles('Reduce Claim Processing Time by:', 'Opportunities', 'Overview', false),
           data: {
-            centerNumber:
-              (
-                providerSystems.SelfServiceInquiries.ALL.SelfService.AveragePaperClaimProcessingTime.toFixed() -
-                providerSystems.SelfServiceInquiries.ALL.SelfService.AverageClaimProcessingTime.toFixed()
-              ).toFixed() + ' Days',
+            centerNumber: processingTime + suffixDay,
             gdata: []
           },
           fdata: {
@@ -475,6 +564,7 @@ export class OverviewSharedService {
         oppurtunities.push({
           category: 'mini-tile',
           title: 'Reduce Claim Processing Time by:',
+          MetricID: this.MetricidService.MetricIDs.ReduceClaimProcessingTimeBy,
           status: null,
           data: null,
           fdata: null
@@ -499,16 +589,30 @@ export class OverviewSharedService {
         providerSystems.SelfServiceInquiries.ALL.SelfService.AveragePaperReconsideredProcessingTime !== null &&
         providerSystems.SelfServiceInquiries.ALL.SelfService.AverageReconsideredProcessingTime !== null
       ) {
+        let avgPaperProcessTime;
+        const checkAvgPaperProcessTime =
+          providerSystems.SelfServiceInquiries.ALL.SelfService.AveragePaperReconsideredProcessingTime.toFixed() -
+          providerSystems.SelfServiceInquiries.ALL.SelfService.AverageReconsideredProcessingTime.toFixed();
+        let suffixDay;
+        if (checkAvgPaperProcessTime <= 0) {
+          avgPaperProcessTime = 0;
+          suffixDay = '';
+        } else if (checkAvgPaperProcessTime === 1) {
+          avgPaperProcessTime = checkAvgPaperProcessTime;
+          suffixDay = ' Day';
+        } else {
+          avgPaperProcessTime = this.common.nondecimalFormatter(checkAvgPaperProcessTime);
+          suffixDay = ' Days';
+        }
         oppurtunities.push({
           category: 'mini-tile',
           title: 'Reduce Reconsideration Processing by:',
-          toggle: this.toggle.setToggles('Reduce Reconsideration Processing by:', 'Opportunities', 'Overview', false),
+          MetricID: this.MetricidService.MetricIDs.ReduceReconsiderationProcessingBy,
+          toggle:
+            checkAvgPaperProcessTime >= 0 ||
+            this.toggle.setToggles('Reduce Reconsideration Processing by:', 'Opportunities', 'Overview', false),
           data: {
-            centerNumber:
-              (
-                providerSystems.SelfServiceInquiries.ALL.SelfService.AveragePaperReconsideredProcessingTime.toFixed() -
-                providerSystems.SelfServiceInquiries.ALL.SelfService.AverageReconsideredProcessingTime.toFixed()
-              ).toFixed() + ' Days',
+            centerNumber: avgPaperProcessTime + suffixDay,
             gdata: []
           },
           fdata: {
@@ -529,6 +633,7 @@ export class OverviewSharedService {
         oppurtunities.push({
           category: 'mini-tile',
           title: 'Reduce Reconsideration Processing by:',
+          MetricID: this.MetricidService.MetricIDs.ReduceReconsiderationProcessingBy,
           status: null,
           data: null,
           fdata: null
@@ -562,7 +667,7 @@ export class OverviewSharedService {
               paidData.push(claims.Mr.ClaimsLobSummary[0].AmountPaid);
             }
           }
-          if (claims.hasOwnProperty('Cs') && claims.Ei != null) {
+          if (claims.hasOwnProperty('Cs') && claims.Cs != null) {
             if (
               claims.Cs.hasOwnProperty('ClaimsLobSummary') &&
               claims.Cs.ClaimsLobSummary.length &&
@@ -589,11 +694,11 @@ export class OverviewSharedService {
               paidData.push(claims.Un.ClaimsLobSummary[0].AmountPaid);
             }
           }
-
           claimsPaid = {
             category: 'small-card',
             type: 'donut',
             title: 'Claims Paid*',
+            MetricID: this.MetricidService.MetricIDs.ClaimsPaid,
             toggle: this.toggle.setToggles('Claims Paid', 'AtGlance', 'Overview', false),
             data: {
               graphValues: paidData,
@@ -602,6 +707,7 @@ export class OverviewSharedService {
                 this.common.nFormatter(claims.All.ClaimsLobSummary[0].AmountPaid) > 0
                   ? '< $1'
                   : '$' + this.common.nFormatter(claims.All.ClaimsLobSummary[0].AmountPaid),
+              centerNumberOriginal: claims.All.ClaimsLobSummary[0].AmountPaid,
               color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'],
               gdata: ['card-inner', 'claimsPaidCardD3Donut'],
               labels: ['Medicare & Retirement', 'Community & State', 'Employer & Individual', 'Uncategorized'],
@@ -616,6 +722,7 @@ export class OverviewSharedService {
               category: 'small-card',
               type: 'donut',
               title: 'Claims Paid*',
+              MetricID: this.MetricidService.MetricIDs.ClaimsPaid,
               toggle: this.toggle.setToggles('Claims Paid', 'AtGlance', 'Overview', false),
               data: {
                 graphValues: [0, 100],
@@ -624,6 +731,7 @@ export class OverviewSharedService {
                   this.common.nFormatter(claims.All.ClaimsLobSummary[0].AmountPaid) > 0
                     ? '< $1'
                     : '$' + this.common.nFormatter(claims.All.ClaimsLobSummary[0].AmountPaid),
+                centerNumberOriginal: claims.All.ClaimsLobSummary[0].AmountPaid,
                 color: ['#D7DCE1', '#D7DCE1'],
                 gdata: ['card-inner', 'claimsPaidCardD3Donut']
               },
@@ -663,13 +771,15 @@ export class OverviewSharedService {
         claims != null &&
         claims.hasOwnProperty('All') &&
         claims.All != null &&
-        claims.All.hasOwnProperty('ClaimsLobSummary')
+        claims.All.hasOwnProperty('ClaimsLobSummary') &&
+        claims.All.ClaimsLobSummary[0].ClaimsYieldRate.toFixed() !== 0
       ) {
         if (claims.All.ClaimsLobSummary[0].hasOwnProperty('ClaimsYieldRate')) {
           claimsYield = {
             category: 'small-card',
             type: 'donut',
             title: 'Claims Yield*',
+            MetricID: this.MetricidService.MetricIDs.ClaimsYield,
             toggle: this.toggle.setToggles('Claims Yield', 'AtGlance', 'Overview', false),
             data: {
               graphValues: [
@@ -677,6 +787,7 @@ export class OverviewSharedService {
                 100 - claims.All.ClaimsLobSummary[0].ClaimsYieldRate
               ],
               centerNumber: claims.All.ClaimsLobSummary[0].ClaimsYieldRate.toFixed() + '%',
+              centerNumberOriginal: claims.All.ClaimsLobSummary[0].ClaimsYieldRate,
               color: ['#3381FF', '#D7DCE1'],
               gdata: ['card-inner', 'claimsYieldCardD3Donut']
             },
@@ -708,141 +819,186 @@ export class OverviewSharedService {
   }
 
   /* function to calculate Claims Paid & Claims YIeld Rate TRENDS -  Ranjith kumar Ankam - 04-Jul-2019*/
-  getClaimsTrends(baseTimePeriod, previousTimePeriod) {
+  // getClaimsTrends(baseTimePeriod, previousTimePeriod) {
+  //   return new Promise((resolve, reject) => {
+  //     /************************TRENDS********* */
+  //     let parameters = {
+  //       providerkey: this.providerKey,
+  //       // TimeFilter: 'Last30Days'
+  //       TimeFilter: baseTimePeriod
+  //     };
+  //     let latestClaimsPaid;
+  //     let latestClaimsYieldRate;
+  //     let previousClaimsPaid;
+  //     let previousClaimsYieldRate;
+  //     let claimsTrendValue;
+  //     const claimsPaidTrendObject: any = {};
+  //     let claimsYieldTrendValue;
+  //     const claimsYieldTrendObject: any = {};
+
+  //     this.getCurrentClaimsTrend(parameters)
+  //       .then(r => {
+  //         const latestClaimsTrendData: any = r;
+  //         latestClaimsPaid = latestClaimsTrendData.latestClaimsPaid;
+  //         latestClaimsYieldRate = latestClaimsTrendData.latestClaimsYieldRate;
+  //         parameters = {
+  //           providerkey: this.providerKey,
+  //           // TimeFilter: 'PreviousLast30Days'
+  //           TimeFilter: previousTimePeriod
+  //         };
+  //         return this.getPreviousClaimsTrend(parameters);
+  //       })
+  //       .then(r => {
+  //         const previousClaimsTrendData: any = r;
+  //         previousClaimsPaid = previousClaimsTrendData.previousClaimsPaid;
+  //         previousClaimsYieldRate = previousClaimsTrendData.previousClaimsYieldRate;
+  //         // console.log(latestClaimsPaid, previousClaimsPaid, latestClaimsYieldRate, previousClaimsYieldRate);
+  //         if (latestClaimsPaid !== 0 && latestClaimsPaid !== '0' && latestClaimsPaid != undefined) {
+  //           if (latestClaimsPaid === previousClaimsPaid) {
+  //             claimsPaidTrendObject.sign = '';
+  //             claimsPaidTrendObject.data = '';
+  //           } else if (previousClaimsPaid != undefined) {
+  //             claimsTrendValue = ((latestClaimsPaid - previousClaimsPaid) / previousClaimsPaid) * 100;
+  //             if (claimsTrendValue >= 0) {
+  //               claimsPaidTrendObject.sign = 'up';
+  //               claimsPaidTrendObject.data = '+' + claimsTrendValue.toFixed(1) + '%';
+  //             } else {
+  //               claimsPaidTrendObject.sign = 'down';
+  //               claimsPaidTrendObject.data = claimsTrendValue.toFixed(1) + '%';
+  //             }
+  //           } else {
+  //             claimsPaidTrendObject.sign = 'up';
+  //             claimsPaidTrendObject.data = '+' + latestClaimsPaid + '%';
+  //           }
+  //         } else if (previousClaimsPaid !== 0 || previousClaimsPaid !== '0' || previousClaimsPaid != undefined) {
+  //           if (latestClaimsPaid != undefined) {
+  //             claimsTrendValue = ((latestClaimsPaid - previousClaimsPaid) / previousClaimsPaid) * 100;
+  //             if (claimsTrendValue >= 0) {
+  //               claimsPaidTrendObject.sign = 'up';
+  //               claimsPaidTrendObject.data = '+' + claimsTrendValue.toFixed(1) + '%';
+  //             } else {
+  //               claimsPaidTrendObject.sign = 'down';
+  //               claimsPaidTrendObject.data = claimsTrendValue.toFixed(1) + '%';
+  //             }
+  //           }
+  //         } else {
+  //           claimsPaidTrendObject.sign = '';
+  //           claimsPaidTrendObject.data = '';
+  //         }
+
+  //         if (latestClaimsYieldRate !== 0 && latestClaimsYieldRate !== '0' && latestClaimsYieldRate != undefined) {
+  //           if (latestClaimsYieldRate === previousClaimsYieldRate) {
+  //             claimsYieldTrendObject.sign = '';
+  //             claimsYieldTrendObject.data = '';
+  //           } else if (previousClaimsYieldRate != undefined) {
+  //             claimsYieldTrendValue =
+  //               ((latestClaimsYieldRate - previousClaimsYieldRate) / previousClaimsYieldRate) * 100;
+  //             if (claimsYieldTrendValue >= 0) {
+  //               claimsYieldTrendObject.sign = 'up';
+  //               claimsYieldTrendObject.data = '+' + claimsYieldTrendValue.toFixed(1) + '%';
+  //             } else {
+  //               claimsYieldTrendObject.sign = 'down';
+  //               claimsYieldTrendObject.data = claimsYieldTrendValue.toFixed(1) + '%';
+  //             }
+  //           } else {
+  //             claimsYieldTrendObject.sign = 'up';
+  //             claimsYieldTrendObject.data = '+' + latestClaimsYieldRate + '%';
+  //           }
+  //         } else if (
+  //           previousClaimsYieldRate !== 0 ||
+  //           previousClaimsYieldRate !== '0' ||
+  //           previousClaimsYieldRate != undefined
+  //         ) {
+  //           if (latestClaimsYieldRate != undefined) {
+  //             claimsYieldTrendValue =
+  //               ((latestClaimsYieldRate - previousClaimsYieldRate) / previousClaimsYieldRate) * 100;
+  //             if (claimsYieldTrendValue >= 0) {
+  //               claimsYieldTrendObject.sign = 'up';
+  //               claimsYieldTrendObject.data = '+' + claimsYieldTrendValue.toFixed(1) + '%';
+  //             } else {
+  //               claimsYieldTrendObject.sign = 'down';
+  //               claimsYieldTrendObject.data = claimsYieldTrendValue.toFixed(1) + '%';
+  //             }
+  //           }
+  //         } else {
+  //           claimsYieldTrendObject.sign = '';
+  //           claimsYieldTrendObject.data = '';
+  //         }
+
+  //         /*
+  //          if (
+  //          latestClaimsYieldRate !== 0 &&
+  //          previousClaimsYieldRate !== 0 &&
+  //          latestClaimsYieldRate !== '0' &&
+  //          previousClaimsYieldRate !== '0' &&
+  //          latestClaimsYieldRate != undefined &&
+  //          previousClaimsYieldRate != undefined
+  //          ) {
+  //          claimsYieldTrendValue = ((latestClaimsYieldRate - previousClaimsYieldRate) / previousClaimsYieldRate) * 100;
+  //          if (claimsYieldTrendValue >= 0) {
+  //          claimsYieldTrendObject.sign = 'up';
+  //          claimsYieldTrendObject.data = '+' + claimsYieldTrendValue.toFixed(1) + '%';
+  //          } else {
+  //          claimsYieldTrendObject.sign = 'down';
+  //          claimsYieldTrendObject.data = claimsYieldTrendValue.toFixed(1) + '%';
+  //          }
+  //          } else if (
+  //          previousClaimsYieldRate === 0 ||
+  //          previousClaimsYieldRate === '0' ||
+  //          previousClaimsYieldRate == undefined ||
+  //          previousClaimsYieldRate == undefined
+  //          ) {
+  //          claimsYieldTrendObject.sign = 'up';
+  //          claimsYieldTrendObject.data = '+' + latestClaimsYieldRate + '%';
+  //          }
+  //          */
+  //         resolve({ claimsPaidTrendObject: claimsPaidTrendObject, claimsYieldTrendObject: claimsYieldTrendObject });
+  //       });
+  //   });
+  // }
+
+  /* function to calculate Claims Paid & Claims YIeld Rate TRENDS -  Ranjith kumar Ankam - 21-Oct-2019*/
+  getClaimsTrends(claimsPaidObj, claimsYieldObj) {
     return new Promise((resolve, reject) => {
-      /************************TRENDS********* */
-      let parameters = {
+      const tempArray: Array<object> = [];
+      const parameters = {
         providerkey: this.providerKey,
-        // TimeFilter: 'Last30Days'
-        TimeFilter: baseTimePeriod
+        TimeFilter: this.previousTimePeriod
       };
-      let latestClaimsPaid;
-      let latestClaimsYieldRate;
-      let previousClaimsPaid;
-      let previousClaimsYieldRate;
-      let claimsTrendValue;
-      const claimsPaidTrendObject: any = {};
-      let claimsYieldTrendValue;
-      const claimsYieldTrendObject: any = {};
 
-      this.getCurrentClaimsTrend(parameters)
-        .then(r => {
-          const latestClaimsTrendData: any = r;
-          latestClaimsPaid = latestClaimsTrendData.latestClaimsPaid;
-          latestClaimsYieldRate = latestClaimsTrendData.latestClaimsYieldRate;
-          parameters = {
-            providerkey: this.providerKey,
-            // TimeFilter: 'PreviousLast30Days'
-            TimeFilter: previousTimePeriod
-          };
-          return this.getPreviousClaimsTrend(parameters);
-        })
-        .then(r => {
-          const previousClaimsTrendData: any = r;
-          previousClaimsPaid = previousClaimsTrendData.previousClaimsPaid;
-          previousClaimsYieldRate = previousClaimsTrendData.previousClaimsYieldRate;
-          // console.log(latestClaimsPaid, previousClaimsPaid, latestClaimsYieldRate, previousClaimsYieldRate);
-          if (latestClaimsPaid !== 0 && latestClaimsPaid !== '0' && latestClaimsPaid != undefined) {
-            if (latestClaimsPaid === previousClaimsPaid) {
-              claimsPaidTrendObject.sign = '';
-              claimsPaidTrendObject.data = '';
-            } else if (previousClaimsPaid != undefined) {
-              claimsTrendValue = ((latestClaimsPaid - previousClaimsPaid) / previousClaimsPaid) * 100;
-              if (claimsTrendValue >= 0) {
-                claimsPaidTrendObject.sign = 'up';
-                claimsPaidTrendObject.data = '+' + claimsTrendValue.toFixed(1) + '%';
-              } else {
-                claimsPaidTrendObject.sign = 'down';
-                claimsPaidTrendObject.data = claimsTrendValue.toFixed(1) + '%';
-              }
-            } else {
-              claimsPaidTrendObject.sign = 'up';
-              claimsPaidTrendObject.data = '+' + latestClaimsPaid + '%';
-            }
-          } else if (previousClaimsPaid !== 0 || previousClaimsPaid !== '0' || previousClaimsPaid != undefined) {
-            if (latestClaimsPaid != undefined) {
-              claimsTrendValue = ((latestClaimsPaid - previousClaimsPaid) / previousClaimsPaid) * 100;
-              if (claimsTrendValue >= 0) {
-                claimsPaidTrendObject.sign = 'up';
-                claimsPaidTrendObject.data = '+' + claimsTrendValue.toFixed(1) + '%';
-              } else {
-                claimsPaidTrendObject.sign = 'down';
-                claimsPaidTrendObject.data = claimsTrendValue.toFixed(1) + '%';
+      this.overviewService.getOverviewClaimsTrend(parameters).subscribe(claims => {
+        if (
+          claims != null &&
+          claims.hasOwnProperty('All') &&
+          claims.All != null &&
+          claims.All.hasOwnProperty('ClaimsLobSummary')
+        ) {
+          // if (claims.All.ClaimsLobSummary[0].hasOwnProperty('AmountPaid')) {
+          //   let newClaimsPaid = 0;
+          //   if (claimsPaidObj.data) {
+          //     if (claimsPaidObj.data.centerNumberOriginal) {
+          //       newClaimsPaid = claimsPaidObj.data.centerNumberOriginal;
+          //       const oldClaimsPaid = claims.All.ClaimsLobSummary[0].AmountPaid;
+          //       claimsPaidObj.sdata = this.common.trendNegativeMeansBad(newClaimsPaid, oldClaimsPaid);
+          //     }
+          //   }
+          // }
+          /** Commenting the following lines of code to remove trends from Clims Yield **/
+          /* if (claims.All.ClaimsLobSummary[0].hasOwnProperty('ClaimsYieldRate')) {
+            let newClaimsPaid = 0;
+            if (claimsYieldObj.data) {
+              if (claimsYieldObj.data.centerNumberOriginal) {
+                newClaimsPaid = claimsYieldObj.data.centerNumberOriginal;
+                const oldClaimsPaid = claims.All.ClaimsLobSummary[0].ClaimsYieldRate;
+                claimsYieldObj.sdata = this.common.trendNegativeMeansBad(newClaimsPaid, oldClaimsPaid);
               }
             }
-          } else {
-            claimsPaidTrendObject.sign = '';
-            claimsPaidTrendObject.data = '';
-          }
-
-          if (latestClaimsYieldRate !== 0 && latestClaimsYieldRate !== '0' && latestClaimsYieldRate != undefined) {
-            if (latestClaimsYieldRate === previousClaimsYieldRate) {
-              claimsYieldTrendObject.sign = '';
-              claimsYieldTrendObject.data = '';
-            } else if (previousClaimsYieldRate != undefined) {
-              claimsYieldTrendValue =
-                ((latestClaimsYieldRate - previousClaimsYieldRate) / previousClaimsYieldRate) * 100;
-              if (claimsYieldTrendValue >= 0) {
-                claimsYieldTrendObject.sign = 'up';
-                claimsYieldTrendObject.data = '+' + claimsYieldTrendValue.toFixed(1) + '%';
-              } else {
-                claimsYieldTrendObject.sign = 'down';
-                claimsYieldTrendObject.data = claimsYieldTrendValue.toFixed(1) + '%';
-              }
-            } else {
-              claimsYieldTrendObject.sign = 'up';
-              claimsYieldTrendObject.data = '+' + latestClaimsYieldRate + '%';
-            }
-          } else if (
-            previousClaimsYieldRate !== 0 ||
-            previousClaimsYieldRate !== '0' ||
-            previousClaimsYieldRate != undefined
-          ) {
-            if (latestClaimsYieldRate != undefined) {
-              claimsYieldTrendValue =
-                ((latestClaimsYieldRate - previousClaimsYieldRate) / previousClaimsYieldRate) * 100;
-              if (claimsYieldTrendValue >= 0) {
-                claimsYieldTrendObject.sign = 'up';
-                claimsYieldTrendObject.data = '+' + claimsYieldTrendValue.toFixed(1) + '%';
-              } else {
-                claimsYieldTrendObject.sign = 'down';
-                claimsYieldTrendObject.data = claimsYieldTrendValue.toFixed(1) + '%';
-              }
-            }
-          } else {
-            claimsYieldTrendObject.sign = '';
-            claimsYieldTrendObject.data = '';
-          }
-
-          /*
-           if (
-           latestClaimsYieldRate !== 0 &&
-           previousClaimsYieldRate !== 0 &&
-           latestClaimsYieldRate !== '0' &&
-           previousClaimsYieldRate !== '0' &&
-           latestClaimsYieldRate != undefined &&
-           previousClaimsYieldRate != undefined
-           ) {
-           claimsYieldTrendValue = ((latestClaimsYieldRate - previousClaimsYieldRate) / previousClaimsYieldRate) * 100;
-           if (claimsYieldTrendValue >= 0) {
-           claimsYieldTrendObject.sign = 'up';
-           claimsYieldTrendObject.data = '+' + claimsYieldTrendValue.toFixed(1) + '%';
-           } else {
-           claimsYieldTrendObject.sign = 'down';
-           claimsYieldTrendObject.data = claimsYieldTrendValue.toFixed(1) + '%';
-           }
-           } else if (
-           previousClaimsYieldRate === 0 ||
-           previousClaimsYieldRate === '0' ||
-           previousClaimsYieldRate == undefined ||
-           previousClaimsYieldRate == undefined
-           ) {
-           claimsYieldTrendObject.sign = 'up';
-           claimsYieldTrendObject.data = '+' + latestClaimsYieldRate + '%';
-           }
-           */
-          resolve({ claimsPaidTrendObject: claimsPaidTrendObject, claimsYieldTrendObject: claimsYieldTrendObject });
-        });
+          }*/
+        }
+        tempArray[0] = claimsPaidObj;
+        tempArray[1] = claimsYieldObj;
+        resolve(tempArray);
+      });
     });
   }
 
@@ -909,7 +1065,7 @@ export class OverviewSharedService {
       const tempArray: Array<object> = [];
       const parameters = {
         providerkey: this.providerKey,
-        TimeFilter: 'Last6Months'
+        TimeFilter: this.baseTimePeriod
       };
 
       this.overviewService.getOverviewClaimsTrend(parameters).subscribe(claims => {
@@ -920,7 +1076,9 @@ export class OverviewSharedService {
           })
           .then(claimsYield => {
             tempArray[1] = claimsYield;
-            return this.getClaimsTrends(this.baseTimePeriod, this.previousTimePeriod);
+
+            // return this.getClaimsTrends(this.baseTimePeriod, this.previousTimePeriod);
+            return this.getClaimsTrends(tempArray[0], tempArray[1]);
           })
           .then(trendData => {
             let trends: any;
@@ -945,11 +1103,8 @@ export class OverviewSharedService {
   getPriorAuthCardData(trends) {
     return new Promise((resolve, reject) => {
       const parameters = {
-        providerkey: this.providerKey,
-        last6Months: true,
-        allProviderTins: true,
-        allLob: true,
-        allNotApprovedSettings: true
+        providerKey: this.providerKey,
+        allProviderTins: true
       };
 
       this.overviewService.getOverviewPriorAuth(parameters).subscribe(priorAuth => {
@@ -987,7 +1142,10 @@ export class OverviewSharedService {
           priorAuth.PriorAuthorizations.LineOfBusiness.All.hasOwnProperty('PriorAuthApprovedCount') &&
           priorAuth.PriorAuthorizations.LineOfBusiness.All.hasOwnProperty('PriorAuthNotApprovedCount') &&
           priorAuth.PriorAuthorizations.LineOfBusiness.All.hasOwnProperty('PriorAuthPendingCount') &&
-          priorAuth.PriorAuthorizations.LineOfBusiness.All.hasOwnProperty('PriorAuthCancelledCount')
+          priorAuth.PriorAuthorizations.LineOfBusiness.All.hasOwnProperty('PriorAuthCancelledCount') &&
+          priorAuth.PriorAuthorizations.LineOfBusiness.All.PriorAuthApprovedCount +
+            priorAuth.PriorAuthorizations.LineOfBusiness.All.PriorAuthNotApprovedCount >
+            0
         ) {
           const priorAuthRequested =
             priorAuth.PriorAuthorizations.LineOfBusiness.All.PriorAuthApprovedCount +
@@ -999,6 +1157,7 @@ export class OverviewSharedService {
             category: 'small-card',
             type: 'donut',
             title: 'Prior Authorization Approval',
+            MetricID: this.MetricidService.MetricIDs.PriorAuthorizationApproval,
             toggle: this.toggle.setToggles('Prior Authorization Approval', 'AtGlance', 'Overview', false),
             data: {
               graphValues: [approvedRate, 1 - approvedRate],
@@ -1007,7 +1166,6 @@ export class OverviewSharedService {
               gdata: ['card-inner', 'priorAuthCardD3Donut']
             },
             sdata: null,
-
             timeperiod: 'Last 6 Months'
           };
           // if (
@@ -1049,7 +1207,6 @@ export class OverviewSharedService {
             timeperiod: null
           };
         }
-
         resolve(cPriorAuth);
       });
     });
@@ -1065,6 +1222,7 @@ export class OverviewSharedService {
       let cIR: any;
       this.overviewService.getOverviewTotalCalls(parameters).subscribe(calls => {
         if (
+          calls &&
           calls.hasOwnProperty('CallVolByQuesType') &&
           calls.CallVolByQuesType.hasOwnProperty('Total') &&
           calls.CallVolByQuesType.hasOwnProperty('Claims') &&
@@ -1076,6 +1234,7 @@ export class OverviewSharedService {
             category: 'small-card',
             type: 'donut',
             title: 'Calls By Call Type',
+            MetricID: this.MetricidService.MetricIDs.CallsbyCallType,
             toggle: this.toggle.setToggles('Total Calls', 'AtGlance', 'Overview', false),
             data: {
               graphValues: [
@@ -1128,6 +1287,8 @@ export class OverviewSharedService {
           } else {
             cIR.sdata = null;
           }
+          // Hiding Calls trends
+          // cIR.sdata = null;
         } else {
           cIR = {
             category: 'small-card',

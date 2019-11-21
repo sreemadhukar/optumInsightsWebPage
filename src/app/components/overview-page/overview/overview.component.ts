@@ -1,17 +1,23 @@
-import { Component, OnInit, AfterContentInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { OverviewSharedService } from '../../../shared/overview/overview-shared.service';
 import { SessionService } from '../../../shared/session.service';
 import { StorageService } from '../../../shared/storage-service.service';
 import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
+import { CommonUtilsService } from 'src/app/shared/common-utils.service';
+import { NgRedux } from '@angular-redux/store';
+import { CURRENT_PAGE } from '../../../store/filter/actions';
+import { IAppState } from '../../../store/store';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-overview',
   templateUrl: './overview.component.html',
   styleUrls: ['./overview.component.scss']
 })
-export class OverviewComponent implements OnInit, AfterContentInit {
+export class OverviewComponent implements OnInit {
+  printRoute: string;
   overviewItems: any;
   mainCards: any;
   mockMainCards: any;
@@ -21,6 +27,7 @@ export class OverviewComponent implements OnInit, AfterContentInit {
   pagesubTitle: String = '';
   userName: String = '';
   opportunities: String = '';
+  selfServiceLink: String = '';
   opportunitiesQuestion: String = '';
   welcomeMessage: String = '';
   subscription: any;
@@ -49,11 +56,14 @@ export class OverviewComponent implements OnInit, AfterContentInit {
   errorloadselfServiceAdoptionCard = false;
   errorloadMedicareStarRatingCard = false;
   errorloadTotalCallsCard = false;
+  isHeac = false;
+
+  displayClaimsYield: boolean = environment.claimsYieldAccess;
   /***************** DONT CHANGE THESE *************/
 
   trendsData: any;
-  printHeight = 800;
-  printWidth = 700;
+
+  public printStyle: boolean; // this variable is used to distinguish between normal page and print page
 
   constructor(
     private overviewsrc: OverviewSharedService,
@@ -61,65 +71,43 @@ export class OverviewComponent implements OnInit, AfterContentInit {
     private session: SessionService,
     private iconRegistry: MatIconRegistry,
     private router: Router,
+    private filtermatch: CommonUtilsService,
+    private ngRedux: NgRedux<IAppState>,
     sanitizer: DomSanitizer
   ) {
+    this.printRoute = '/OverviewPage/print-overview';
+    this.selfServiceLink = 'Self Service Details';
     this.pagesubTitle = 'Your Insights at a glance.';
     this.opportunities = 'Opportunities';
     this.opportunitiesQuestion = 'How much can online self service save you?';
     this.welcomeMessage = '';
-    this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => {
-      this.router.routeReuseStrategy.shouldReuseRoute = function() {
-        return false;
-      };
-      const currentUrl = this.router.url + '?';
-      this.router.navigateByUrl(currentUrl).then(() => {
-        this.router.navigated = false;
-        if (this.router.url === '/ProviderSearch') {
-          this.router.navigate(['/OverviewPage']);
-        } else {
-          this.router.navigate([this.router.url]);
-        }
-      });
-    });
+    if (this.router.url.includes('print-')) {
+      this.printStyle = true;
+    }
+    this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.filtermatch.urlResuseStrategy());
     /** INITIALIZING SVG ICONS TO USE IN DESIGN - ANGULAR MATERIAL */
     iconRegistry.addSvgIcon(
       'arrow',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-keyboard_arrow_right-24px.svg')
     );
   }
+  printDownload(value) {
+    this.printStyle = true;
+    console.log('Overview Print Emit', value);
+  }
   ngOnInit() {
-    /***************** DELETE LATER *************/
-    /*this.claimsPaidBlock = {
-      category: "small-card",
-      data: {
-        centerNumber: "$3434.6M",
-        color: ["#3381FF", "#80B0FF", "#003DA1"],
-        gdata: ["card-inner", "claimsPaidCardD3Donutss"],
-        graphValues: [13440154.46, 65374225.25, 114778212.67]
-      },
-      sdata: {},
-      timeperiod: "Last 6 Months",
-      title: "Claims Paidss",
-      toggle: true,
-      type: "donut"
-    };
-
-    this.claimsYieldBlock = {
-      category: "small-card",
-      data: {
-        centerNumber: "55%",
-        color: ["#3381FF", "#D7DCE1"],
-        gdata: ["card-inner", "claimsYieldCardD3Donutss"],
-        graphValues: [100, 0]
-      },
-      sdata: {},
-      timeperiod: "Last 6 Months",
-      title: "Claims Yieldss",
-      toggle: true,
-      type: "donut"
-    }*/
+    this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'overviewPage' });
+    // Temporary Heac ability
+    const heac = JSON.parse(sessionStorage.getItem('heac'));
+    this.isHeac = heac && heac.heac === true ? true : false;
+    this.checkStorage.emitEvent('overviewPage');
     this.overviewsrc.getAllTrends().then(trendData => {
       this.trendsData = trendData;
+      // temporary switch off of trend in calls : Srikar Bobbiganipalli
+      if (this.trendsData && this.trendsData.hasOwnProperty('TendingMtrics')) {
+        this.trendsData.TendingMtrics.CcllTalkTimeByQuesType = undefined;
+        this.trendsData.TendingMtrics.CallsTrendByQuesType = undefined;
+      }
       this.claimsLoading = true;
 
       /* SERVICE CALL TO GET CLAIMS CARDS DATA */
@@ -145,8 +133,6 @@ export class OverviewComponent implements OnInit, AfterContentInit {
           } else if (this.claimsYieldBlock.status != null && this.claimsYieldBlock.toggle) {
             this.errorloadClaimsYieldCard = true;
           }
-          console.log(this.claimsPaidBlock);
-          console.log(this.claimsYieldBlock);
         })
         .catch(reason => {
           this.claimsLoading = true;
@@ -210,7 +196,6 @@ export class OverviewComponent implements OnInit, AfterContentInit {
 
           this.loading = false;
           this.overviewItems = JSON.parse(JSON.stringify(data));
-          console.log(this.overviewItems[0]);
           this.mainCards = this.overviewItems[0];
 
           this.selfServiceAdoptionBlock = this.mainCards[0];
@@ -228,7 +213,6 @@ export class OverviewComponent implements OnInit, AfterContentInit {
           }
 
           this.selfServiceMiniCards = this.overviewItems[1];
-          console.log(this.overviewItems[0]);
         })
         .catch(reason => {
           this.loading = true;
@@ -241,8 +225,11 @@ export class OverviewComponent implements OnInit, AfterContentInit {
       this.session.sessionStorage('loggedUser', 'LastName') +
       ' ' +
       this.session.sessionStorage('loggedUser', 'FirstName');
-    this.pageTitle = 'Hello, ' + userInfo.FirstName + '.';
-  }
 
-  ngAfterContentInit() {}
+    if (this.printStyle) {
+      this.pageTitle = 'Overview (1 of 1)';
+    } else {
+      this.pageTitle = 'Hello, ' + userInfo.FirstName + '.';
+    }
+  }
 }

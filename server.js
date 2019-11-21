@@ -16,11 +16,13 @@ app.use(helmet());
 app.use(express.static(path.join(__dirname, '.')));
 
 var apiProxy = httpProxy.createProxyServer();
-var apiForwardingUrl = 'https://gateway-stage-core.optum.com';
+var apiForwardingUrl = 'https://pedapigateway-pedprddr.ocp-ctc-dmz.optum.com';
 var sessionSecret = 'STwHkLYUwN1L5rc3yqdkuthRvczrBupc';
 var key = 'Q9gRpXWjVm5GXethNxG60utGMGW7NpsO';
+var heac = require('./src/assets/mock-data/heac.json');
+var trendAccess = require('./src/assets/mock-data/trendAccess.json');
 
-app.all('/uhci/prd2/*', function(req, res) {
+app.all('/uhci/prd/*', function(req, res) {
   apiProxy.web(req, res, { target: apiForwardingUrl, changeOrigin: true, secure: false }, function(e) {
     handleExceptions(e, res);
   });
@@ -30,7 +32,7 @@ app.use((error, req, res, next) => {
   handleExceptions(error, res);
 });
 
-app.get('/api/getJwt', cors(), function(req, res) {
+app.get('/api/getJwt', function(req, res) {
   let token = jwt.sign(
     {
       exp: Math.floor(Date.now() / 1000) + 60 * 60,
@@ -42,6 +44,19 @@ app.get('/api/getJwt', cors(), function(req, res) {
     token: token
   });
 });
+
+app.get('/api/getHeac/:MsId', function(req, res) {
+  res.status(200).json({
+    heac: include(heac.user, req.params.MsId)
+  });
+});
+
+app.get('/api/getTrendAccess/:MsId', cors(), function(req, res) {
+  res.status(200).json({
+    trendAccess: include(trendAccess.user, req.params.MsId)
+  });
+});
+
 app.get('*', function(req, res) {
   res.sendFile(path.join(__dirname, 'index.html'));
 });
@@ -56,6 +71,10 @@ const handleExceptions = (exception, res) => {
     }
   });
 };
+
+function include(arr, obj) {
+  return arr.indexOf(obj) != -1;
+}
 
 // Start Server
 app.listen(port, function() {

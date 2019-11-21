@@ -5,6 +5,7 @@ import { AppealsComponent } from './appeals/appeals.component';
 import { PaymentIntegrityComponent } from './payment-integrity/payment-integrity.component';
 import { NonPaymentsComponent } from './non-payments/non-payments.component';
 import { PaymentsComponent } from './payments/payments.component';
+import { SmartEditsComponent } from './payment-integrity/smart-edits/smart-edits.component';
 const routes: Routes = [
   {
     path: '',
@@ -37,6 +38,13 @@ const routes: Routes = [
   {
     path: 'PaymentIntegrity',
     component: PaymentIntegrityComponent,
+    data: {
+      breadcrumb: 'Medical Records Coding Review'
+    }
+  },
+  {
+    path: 'SmartEdits',
+    component: SmartEditsComponent,
     data: {
       breadcrumb: 'Payment Integrity'
     }

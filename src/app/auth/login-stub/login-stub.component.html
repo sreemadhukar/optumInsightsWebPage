@@ -20,10 +20,15 @@
         Self-Service, Service Interaction and more. The internal version allows UnitedHealth Group employees to view the
         data of any provider that has been added to the system.
       </div>
+      <app-mock-data-warning-message
+        *ngIf="showWarning"
+        [data]="sessionTimedoutMessage"
+        class="session-timeout-msg"
+      ></app-mock-data-warning-message>
       <div class="system-error" *ngIf="error">
         <mat-icon svgIcon="error"></mat-icon>
         <div>
-          Please check your MS ID/Password and try again.
+          We’re sorry. The credentials you have entered do not match our records.
         </div>
       </div>
     </div>
