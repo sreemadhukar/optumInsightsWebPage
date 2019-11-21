@@ -30,7 +30,7 @@
 
     .cust-width-title {
       width: 961px;
-      font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+      font-family: 'UHCSans-Regular', Helvetica, Arial, sans-serif;
       color: $black-rock;
       margin-left: 10px;
 
@@ -76,6 +76,13 @@
         }
       }
     }
+  }
+  .non-payment-link {
+    font-size: 16px;
+    float: right;
+    color: $blue;
+    font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+    letter-spacing: 0.2px;
   }
   @media only screen and (max-width: 1024px) {
     @include padding(16px, 0, 16px, 0);

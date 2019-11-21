@@ -1,13 +1,16 @@
-<app-feedback></app-feedback>
+<app-feedback *ngIf="!printStyle"></app-feedback>
 <div class="gettingReimburse-body">
   <div class="gettingReimburse-content">
     <div class="cust-width-title">
       <app-breadcrumbs></app-breadcrumbs>
+      <div class="cards cust-width-blank">
+        <app-print *ngIf="!printStyle" [route]="printRoute" (printClick)="printDownload($event)"> </app-print>
+      </div>
       <div class="page-title">{{ pageTitle }}</div>
-
+      <div class="page-subtitle">{{ pagesubTitle }}</div>
       <div class="breadcrumb-top-padding">
-        <app-filters-applied [flag]="filterFlag"></app-filters-applied>
-        <div class="container--tabs">
+        <app-filters-applied *ngIf="!printStyle" [flag]="filterFlag"></app-filters-applied>
+        <div *ngIf="!printStyle" class="container--tabs">
           <section class="row">
             <ul class="nav nav-tabs">
               <li
@@ -35,23 +38,45 @@
         </div>
 
         <!--       <button *ngFor="let option of tabOptions; let i = index" (click)="matOptionClicked(i)">{{ option }}</button>-->
-        <div class="page-subtitle">
+        <div *ngIf="!printStyle" class="page-subtitle">
           <p class="page-subtitle-heading">{{ currentTabTitle }}</p>
+          <div *ngIf="currentTabTitle == 'Claims Payments*'">
+            <a [routerLink]="['/GettingReimbursed/NonPayments']">
+              <span class="non-payment-link"> Looking for Non-Payments? </span>
+            </a>
+          </div>
           <div *ngIf="currentTabTitle != '' && currentTabTitle != 'Claims Submissions*'">
-            <button (click)="onDetailsButtonClick(buttonNumber, $event)" class="details-button">
+            <button *ngIf="!printStyle" (click)="onDetailsButtonClick(buttonNumber, $event)" class="details-button">
               {{ buttonName }}
             </button>
           </div>
         </div>
         <div class="height1Separator"></div>
-        <div class="getting-reimbursed-cards" *ngFor="let item of currentSummary">
-          <!--used item.toggle for temporary card removal, as toggle functionality is not built properly : srikar bobbiganipalli-->
-          <app-card *ngIf="item.data != null && !item.toggle" class="cards" [chartData]="item"> </app-card>
-          <app-error-card *ngIf="item.status != null" class="cards" [data]="item"></app-error-card>
+        <div *ngIf="!printStyle">
+          <div class="getting-reimbursed-cards" *ngFor="let item of currentSummary">
+            <!--used item.toggle for temporary card removal, as toggle functionality is not built properly : srikar bobbiganipalli-->
+            <app-card *ngIf="item.data != null && !item.toggle" class="cards" [chartData]="item"> </app-card>
+            <app-error-card *ngIf="item.status != null" class="cards" [data]="item"></app-error-card>
+          </div>
         </div>
 
-        <div *ngFor="let data of mockCards; let i = index">
-          <app-card class="cards" [skeleton]="loading" *ngIf="loading"> </app-card>
+        <!-- start print style -->
+        <div *ngIf="printStyle">
+          <div *ngFor="let x of summaryItems">
+            <div class="page-subtitle">
+              <p class="page-subtitle-heading">{{ x.title }}</p>
+            </div>
+            <div class="height1Separator"></div>
+            <div class="getting-reimbursed-cards" *ngFor="let item of x.data">
+              <!--used item.toggle for temporary card removal, as toggle functionality is not built properly : srikar bobbiganipalli-->
+              <app-card *ngIf="item.data != null && !item.toggle" class="cards" [chartData]="item"> </app-card>
+              <app-error-card *ngIf="item.status != null" class="cards" [data]="item"></app-error-card>
+            </div>
+          </div>
+          <!-- end Print Style-->
+          <div *ngFor="let data of mockCards; let i = index">
+            <app-card class="cards" [skeleton]="loading" *ngIf="loading"> </app-card>
+          </div>
         </div>
       </div>
     </div>

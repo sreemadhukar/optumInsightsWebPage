@@ -41,11 +41,13 @@ export class OverviewComponent implements OnInit {
   priorAuthBlock: any;
   selfServiceAdoptionBlock: any;
   claimsYieldBlock: any;
+  claimsTatBlock: any;
   medicareStarRatingBlock: any;
   totalCallsBlock: any;
 
   loadClaimsPaidCard = false;
   loadClaimsYieldCard = false;
+  loadclaimsTatCard = false;
   loadPrioirAuthCard = false;
   loadselfServiceAdoptionCard = false;
   loadMedicareStarRatingCard = false;
@@ -53,6 +55,7 @@ export class OverviewComponent implements OnInit {
 
   errorloadClaimsPaidCard = false;
   errorloadClaimsYieldCard = false;
+  errorloadClaimsTatCard = false;
   errorloadPrioirAuthCard = false;
   errorloadselfServiceAdoptionCard = false;
   errorloadMedicareStarRatingCard = false;
@@ -74,15 +77,16 @@ export class OverviewComponent implements OnInit {
     private router: Router,
     private filtermatch: CommonUtilsService,
     private ngRedux: NgRedux<IAppState>,
-    private createPayloadService: CreatePayloadService,
-    sanitizer: DomSanitizer
+    sanitizer: DomSanitizer,
+    public sessionService: SessionService,
+    private createPayloadService: CreatePayloadService
   ) {
-    this.printRoute = '/OverviewPage/print-overview';
     this.selfServiceLink = 'Self Service Details';
     this.pagesubTitle = 'Your Insights at a glance.';
     this.opportunities = 'Opportunities';
     this.opportunitiesQuestion = 'How much can online self service save you?';
     this.welcomeMessage = '';
+    this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.filtermatch.urlResuseStrategy());
     if (this.router.url.includes('print-')) {
       this.printStyle = true;
     }
@@ -99,10 +103,15 @@ export class OverviewComponent implements OnInit {
     );
   }
   printDownload(value) {
-    this.printStyle = true;
+    // this.printStyle = true;
     console.log('Overview Print Emit', value);
   }
+
   ngOnInit() {
+    this.printRoute = '/OverviewPage/print-overview';
+    if (this.router.url.includes('print-')) {
+      this.printStyle = true;
+    }
     this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'overviewPage' });
     // Temporary Heac ability
     const heac = JSON.parse(sessionStorage.getItem('heac'));
@@ -123,13 +132,16 @@ export class OverviewComponent implements OnInit {
         .then(data => {
           this.loadClaimsPaidCard = false;
           this.loadClaimsYieldCard = false;
+          this.loadclaimsTatCard = false;
 
           this.errorloadClaimsPaidCard = false;
           this.errorloadClaimsYieldCard = false;
+          this.errorloadClaimsTatCard = false;
 
           this.claimsLoading = false;
           this.claimsPaidBlock = data[0];
           this.claimsYieldBlock = data[1];
+          this.claimsTatBlock = data[2];
           if (this.claimsPaidBlock.data != null && this.claimsPaidBlock.toggle) {
             this.loadClaimsPaidCard = true;
           } else if (this.claimsPaidBlock.status != null && this.claimsPaidBlock.toggle) {
@@ -139,6 +151,11 @@ export class OverviewComponent implements OnInit {
             this.loadClaimsYieldCard = true;
           } else if (this.claimsYieldBlock.status != null && this.claimsYieldBlock.toggle) {
             this.errorloadClaimsYieldCard = true;
+          }
+          if (this.claimsTatBlock.data != null) {
+            this.loadclaimsTatCard = true;
+          } else if (this.claimsTatBlock.status != null) {
+            this.errorloadClaimsTatCard = true;
           }
         })
         .catch(reason => {
@@ -234,9 +251,15 @@ export class OverviewComponent implements OnInit {
       this.session.sessionStorage('loggedUser', 'FirstName');
 
     if (this.printStyle) {
-      this.pageTitle = 'Overview (1 of 1)';
+      this.pageTitle = this.sessionService.getHealthCareOrgName();
+      this.pagesubTitle = 'Overview - Your Insights at a glance.';
+      this.opportunitiesQuestion = 'Opportunities - How much can online self service save you';
+      this.opportunities = '';
     } else {
       this.pageTitle = 'Hello, ' + userInfo.FirstName + '.';
+      this.pagesubTitle = 'Your Insights at a glance.';
+      this.opportunities = 'Opportunities';
+      this.opportunitiesQuestion = 'How much can online self service save you?';
     }
   }
 }

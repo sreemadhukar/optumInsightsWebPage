@@ -197,7 +197,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
         // Role based access for Advocates Overview page
         if (this.checkAdv.value) {
           this.navCategories[0].path = '/OverviewPageAdvocate';
-          if (window.location.pathname === '/OverviewPage') {
+          if (window.location.pathname === '/OverviewPage' && !event.url.includes('print-')) {
             window.location.href = '/OverviewPageAdvocate';
           }
         }
