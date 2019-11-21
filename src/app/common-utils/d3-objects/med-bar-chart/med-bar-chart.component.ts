@@ -305,7 +305,7 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
             .style('opacity', 0);
         });
     } else if (chartOptions.cdata && chartOptions.cdata === 'paymentintegrity') {
-      d3.select('#' + uniqueText).attr('cursor', 'pointer');
+      d3.select('#paymentIntegrityRect').attr('cursor', 'pointer');
       const tspanArray = textWithHover.selectAll('tspan').nodes();
       const tspanArrayIDs = [];
 
@@ -326,13 +326,12 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
 
       const svg2 = div
         .append('svg')
-        .attr('height', '62px')
+        .attr('height', '72px')
         .attr('width', '150px');
 
       svg2
         .append('text')
         .attr('id', uniqueText + 'hover')
-        .attr('x', 16)
         .attr('y', 25)
         .attr('fill', '#2D2D39')
         .attr('font-size', '14')
@@ -345,8 +344,7 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
       svg2
         .append('text')
         .attr('id', uniqueText + 'hover')
-        .attr('x', 16)
-        .attr('y', 45)
+        .attr('y', 50)
         .attr('fill', '#757588')
         .attr('font-size', '14')
         .attr('text-anchor', 'start')
@@ -363,7 +361,7 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
             .transition()
             .duration(10)
             .style('opacity', 1);
-          div.style('left', d3.event.layerX - 75 + 'px').style('top', d3.event.layerY - 75 + 'px');
+          div.style('left', d3.event.layerX - 75 + 'px').style('top', d3.event.layerY - 85 + 'px');
           // div.style('left', '100px').style('bottom', '70px');
         })
         .on('mousemove', function(d) {
@@ -371,7 +369,7 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
             .transition()
             .duration(10)
             .style('opacity', 1);
-          div.style('left', d3.event.layerX - 75 + 'px').style('top', d3.event.layerY - 75 + 'px');
+          div.style('left', d3.event.layerX - 75 + 'px').style('top', d3.event.layerY - 85 + 'px');
           // div.style('left', '100px').style('bottom', '70px');
         })
         .on('mouseleave', function(d) {

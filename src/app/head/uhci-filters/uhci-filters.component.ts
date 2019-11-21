@@ -81,9 +81,12 @@ export class UhciFiltersComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.gettingReimbursedTabName = this.gettingReimbursedservice.gettingReimbursedTabName;
-    console.log(this.gettingReimbursedTabName);
     this.currentPage.subscribe(currentPage => (this.selectedPage = currentPage));
+    if (this.selectedPage === 'gettingReimbursedSummary') {
+      this.gettingReimbursedTabName = this.gettingReimbursedservice.gettingReimbursedTabName;
+    } else {
+      this.gettingReimbursedTabName = null;
+    }
     this.timePeriod.subscribe(
       timePeriod =>
         (this.selectedTimePeriod = this.disableTimePeriod(this.timeFrames).find(val => val.name === timePeriod))
