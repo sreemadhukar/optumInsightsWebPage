@@ -7,9 +7,10 @@ import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 import { CommonUtilsService } from 'src/app/shared/common-utils.service';
 import { NgRedux } from '@angular-redux/store';
-import { CURRENT_PAGE } from '../../../store/filter/actions';
+import { CURRENT_PAGE, REMOVE_FILTER } from '../../../store/filter/actions';
 import { IAppState } from '../../../store/store';
 import { environment } from '../../../../environments/environment';
+import { CreatePayloadService } from '../../../shared/uhci-filters/create-payload.service';
 
 @Component({
   selector: 'app-overview',
@@ -76,18 +77,25 @@ export class OverviewComponent implements OnInit {
     private router: Router,
     private filtermatch: CommonUtilsService,
     private ngRedux: NgRedux<IAppState>,
-    sanitizer: DomSanitizer
+    sanitizer: DomSanitizer,
+    public sessionService: SessionService,
+    private createPayloadService: CreatePayloadService
   ) {
-    this.printRoute = '/OverviewPage/print-overview';
     this.selfServiceLink = 'Self Service Details';
     this.pagesubTitle = 'Your Insights at a glance.';
     this.opportunities = 'Opportunities';
     this.opportunitiesQuestion = 'How much can online self service save you?';
     this.welcomeMessage = '';
+    this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.filtermatch.urlResuseStrategy());
     if (this.router.url.includes('print-')) {
       this.printStyle = true;
     }
-    this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.filtermatch.urlResuseStrategy());
+    // this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.filtermatch.urlResuseStrategy());
+    this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => {
+      this.createPayloadService.resetTinNumber('otherPages');
+      this.ngRedux.dispatch({ type: REMOVE_FILTER, filterData: { taxId: true } });
+      this.filtermatch.urlResuseStrategy();
+    });
     /** INITIALIZING SVG ICONS TO USE IN DESIGN - ANGULAR MATERIAL */
     iconRegistry.addSvgIcon(
       'arrow',
@@ -95,10 +103,15 @@ export class OverviewComponent implements OnInit {
     );
   }
   printDownload(value) {
-    this.printStyle = true;
+    // this.printStyle = true;
     console.log('Overview Print Emit', value);
   }
+
   ngOnInit() {
+    this.printRoute = '/OverviewPage/print-overview';
+    if (this.router.url.includes('print-')) {
+      this.printStyle = true;
+    }
     this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'overviewPage' });
     // Temporary Heac ability
     const heac = JSON.parse(sessionStorage.getItem('heac'));
@@ -238,9 +251,15 @@ export class OverviewComponent implements OnInit {
       this.session.sessionStorage('loggedUser', 'FirstName');
 
     if (this.printStyle) {
-      this.pageTitle = 'Overview (1 of 1)';
+      this.pageTitle = this.sessionService.getHealthCareOrgName();
+      this.pagesubTitle = 'Overview - Your Insights at a glance.';
+      this.opportunitiesQuestion = 'Opportunities - How much can online self service save you';
+      this.opportunities = '';
     } else {
       this.pageTitle = 'Hello, ' + userInfo.FirstName + '.';
+      this.pagesubTitle = 'Your Insights at a glance.';
+      this.opportunities = 'Opportunities';
+      this.opportunitiesQuestion = 'How much can online self service save you?';
     }
   }
 }

@@ -7,7 +7,7 @@
         <app-print *ngIf="!printStyle" [route]="printRoute" (printClick)="printDownload($event)"> </app-print>
       </div>
       <div class="page-title">{{ pageTitle }}</div>
-
+      <div class="page-subtitle">{{ pagesubTitle }}</div>
       <div class="breadcrumb-top-padding">
         <app-filters-applied *ngIf="!printStyle" [flag]="filterFlag"></app-filters-applied>
         <div *ngIf="!printStyle" class="container--tabs">

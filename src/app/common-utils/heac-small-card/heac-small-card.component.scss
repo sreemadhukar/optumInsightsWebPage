@@ -98,6 +98,14 @@
       }
     }
   }
+
+  .print-card-inner {
+    box-shadow: none;
+    border: 1px solid #2d2d39;
+    width: 350px;
+    height: 240px;
+  }
+
   .full-display-block {
     float: left;
     width: 100%;
