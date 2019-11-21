@@ -41,11 +41,13 @@ export class OverviewComponent implements OnInit {
   priorAuthBlock: any;
   selfServiceAdoptionBlock: any;
   claimsYieldBlock: any;
+  claimsTatBlock: any;
   medicareStarRatingBlock: any;
   totalCallsBlock: any;
 
   loadClaimsPaidCard = false;
   loadClaimsYieldCard = false;
+  loadclaimsTatCard = false;
   loadPrioirAuthCard = false;
   loadselfServiceAdoptionCard = false;
   loadMedicareStarRatingCard = false;
@@ -53,6 +55,7 @@ export class OverviewComponent implements OnInit {
 
   errorloadClaimsPaidCard = false;
   errorloadClaimsYieldCard = false;
+  errorloadClaimsTatCard = false;
   errorloadPrioirAuthCard = false;
   errorloadselfServiceAdoptionCard = false;
   errorloadMedicareStarRatingCard = false;
@@ -129,13 +132,16 @@ export class OverviewComponent implements OnInit {
         .then(data => {
           this.loadClaimsPaidCard = false;
           this.loadClaimsYieldCard = false;
+          this.loadclaimsTatCard = false;
 
           this.errorloadClaimsPaidCard = false;
           this.errorloadClaimsYieldCard = false;
+          this.errorloadClaimsTatCard = false;
 
           this.claimsLoading = false;
           this.claimsPaidBlock = data[0];
           this.claimsYieldBlock = data[1];
+          this.claimsTatBlock = data[2];
           if (this.claimsPaidBlock.data != null && this.claimsPaidBlock.toggle) {
             this.loadClaimsPaidCard = true;
           } else if (this.claimsPaidBlock.status != null && this.claimsPaidBlock.toggle) {
@@ -145,6 +151,11 @@ export class OverviewComponent implements OnInit {
             this.loadClaimsYieldCard = true;
           } else if (this.claimsYieldBlock.status != null && this.claimsYieldBlock.toggle) {
             this.errorloadClaimsYieldCard = true;
+          }
+          if (this.claimsTatBlock.data != null) {
+            this.loadclaimsTatCard = true;
+          } else if (this.claimsTatBlock.status != null) {
+            this.errorloadClaimsTatCard = true;
           }
         })
         .catch(reason => {
