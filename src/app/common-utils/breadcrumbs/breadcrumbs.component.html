@@ -1,4 +1,4 @@
-<ol class="breadcrumb">
+<ol class="breadcrumb" *ngIf="!printStyle">
   <li *ngIf="!this.checkAdvocate">
     <a routerLink="/OverviewPage">Overview</a> <mat-icon svgIcon="chevron_right" class="disable-arrow"></mat-icon>
   </li>

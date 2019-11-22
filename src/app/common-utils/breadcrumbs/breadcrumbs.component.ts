@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute, NavigationEnd, Params, PRIMARY_OUTLET } from '@angular/router';
+import { Router, ActivatedRoute, NavigationEnd, Params, PRIMARY_OUTLET, NavigationStart } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { MatDialog, MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -19,6 +19,7 @@ export class BreadcrumbsComponent implements OnInit {
   public breadcrumbs: IBreadcrumb[];
   public breadcrumbLength: number;
   public checkAdvocate: any;
+  public printStyle: boolean;
   constructor(
     private activatedRoute: ActivatedRoute,
     private router: Router,
@@ -37,6 +38,11 @@ export class BreadcrumbsComponent implements OnInit {
         'chevron_right',
         sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Navigation/baseline-chevron_right-24px.svg')
       );
+    });
+    router.events.subscribe(event => {
+      if (event instanceof NavigationStart) {
+        this.printStyle = event.url.includes('print-');
+      }
     });
   }
 
