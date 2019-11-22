@@ -3,7 +3,12 @@
   <div class="payments-content">
     <div class="cards cust-width-title">
       <app-breadcrumbs></app-breadcrumbs>
-      <div class="page-title">{{ pageTitle }}</div>
+      <div class="page-title">
+        {{ pageTitle }}
+        <a [routerLink]="['/GettingReimbursed/NonPayments']">
+          <span class="non-payment-link"> Looking for Non-Payments? </span>
+        </a>
+      </div>
       <app-filters-applied></app-filters-applied>
     </div>
     <div *ngFor="let data of mockCards; let i = index">
