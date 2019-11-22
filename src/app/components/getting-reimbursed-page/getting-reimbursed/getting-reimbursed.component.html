@@ -2,15 +2,15 @@
 <div class="gettingReimburse-body">
   <div class="gettingReimburse-content">
     <div class="cust-width-title">
-      <app-breadcrumbs></app-breadcrumbs>
+      <app-breadcrumbs *ngIf="!printStyle"></app-breadcrumbs>
       <div class="cards cust-width-blank">
         <app-print *ngIf="!printStyle" [route]="printRoute" (printClick)="printDownload($event)"> </app-print>
       </div>
       <div class="page-title">{{ pageTitle }}</div>
       <div class="page-subtitle">{{ pagesubTitle }}</div>
       <div class="breadcrumb-top-padding">
-        <app-filters-applied *ngIf="!printStyle" [flag]="filterFlag"></app-filters-applied>
-        <div *ngIf="!printStyle" class="container--tabs">
+        <app-filters-applied *ngIf="!printStyle"></app-filters-applied>
+        <div class="container--tabs" *ngIf="!printStyle">
           <section class="row">
             <ul class="nav nav-tabs">
               <li
@@ -40,7 +40,7 @@
         <!--       <button *ngFor="let option of tabOptions; let i = index" (click)="matOptionClicked(i)">{{ option }}</button>-->
         <div *ngIf="!printStyle" class="page-subtitle">
           <p class="page-subtitle-heading">{{ currentTabTitle }}</p>
-          <div *ngIf="currentTabTitle == 'Claims Payments*'">
+          <div *ngIf="currentTabTitle == 'Claims Payments*'" class="np-link">
             <a [routerLink]="['/GettingReimbursed/NonPayments']">
               <span class="non-payment-link"> Looking for Non-Payments? </span>
             </a>

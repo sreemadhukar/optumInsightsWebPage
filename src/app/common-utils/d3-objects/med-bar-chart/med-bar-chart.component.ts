@@ -128,6 +128,7 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
         .append('rect')
         .attr('x', 10)
         .attr('y', -25)
+        .attr('id', 'paymentIntegrityRect')
         .attr('width', function() {
           if (typeof chartOptions.graphValues[0] !== 'undefined') {
             return xScale(chartOptions.graphValues[0]);
@@ -241,7 +242,6 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
     // where we should enable the hover object to exist
     if (textWithHover.selectAll('tspan').size() > 1) {
       d3.select('#' + uniqueText).attr('cursor', 'pointer');
-
       const tspanArray = textWithHover.selectAll('tspan').nodes();
       const tspanArrayIDs = [];
       const replacementtspan = tspanArray[0];
@@ -304,6 +304,80 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
             .duration(10)
             .style('opacity', 0);
         });
+    } else if (chartOptions.cdata && chartOptions.cdata === 'paymentintegrity') {
+      d3.select('#paymentIntegrityRect').attr('cursor', 'pointer');
+      const tspanArray = textWithHover.selectAll('tspan').nodes();
+      const tspanArrayIDs = [];
+
+      for (let i = 0; i < tspanArray.length; i++) {
+        tspanArrayIDs.push(tspanArray[i].id);
+      }
+      for (let i = tspanArrayIDs.length - 1; i > 0; i--) {
+        d3.select('#' + tspanArrayIDs[i]).remove();
+      }
+
+      const div = d3
+        .select(this.renderChart)
+        .append('div')
+        .attr('class', 'tooltip-bar-pi')
+        .style('height', 'auto')
+        .style('width', '150px')
+        .style('opacity', 0);
+
+      const svg2 = div
+        .append('svg')
+        .attr('height', '72px')
+        .attr('width', '150px');
+
+      svg2
+        .append('text')
+        .attr('id', uniqueText + 'hover')
+        .attr('y', 25)
+        .attr('fill', '#2D2D39')
+        .attr('font-size', '14')
+        .attr('text-anchor', 'start')
+        .attr('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
+        .text(chartOptions.barText)
+        // .call(wrap, 250, tspanID, 16);
+        .call(wrap, 250, tspanID + 'hover', 14);
+
+      svg2
+        .append('text')
+        .attr('id', uniqueText + 'hover')
+        .attr('y', 50)
+        .attr('fill', '#757588')
+        .attr('font-size', '14')
+        .attr('text-anchor', 'start')
+        .attr('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
+        .text(chartOptions.hoverData)
+        // .call(wrap, 250, tspanID, 16);
+        .call(wrap, 250, tspanID + 'hover', 14);
+
+      const label = d3.select('#paymentIntegrityRect');
+
+      label
+        .on('mouseenter', function(d) {
+          div
+            .transition()
+            .duration(10)
+            .style('opacity', 1);
+          div.style('left', d3.event.layerX - 75 + 'px').style('top', d3.event.layerY - 85 + 'px');
+          // div.style('left', '100px').style('bottom', '70px');
+        })
+        .on('mousemove', function(d) {
+          div
+            .transition()
+            .duration(10)
+            .style('opacity', 1);
+          div.style('left', d3.event.layerX - 75 + 'px').style('top', d3.event.layerY - 85 + 'px');
+          // div.style('left', '100px').style('bottom', '70px');
+        })
+        .on('mouseleave', function(d) {
+          div
+            .transition()
+            .duration(10)
+            .style('opacity', 0);
+        });
     }
 
     if (chartOptions.cdata && chartOptions.cdata === 'paymentintegrity') {
@@ -314,15 +388,16 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
             return xScale(chartOptions.graphValues[0]) + 4;
           }
         })
-        .attr('y1', -30)
+        .attr('y1', -29)
         .attr('x2', function() {
           if (typeof chartOptions.graphValues[0] !== 'undefined') {
             return xScale(chartOptions.graphValues[0]) + 4;
           }
         })
-        .attr('y2', 32)
-        .style('stroke-dasharray', '4,4')
-        .style('stroke', 'black');
+        .attr('y2', 33)
+        .style('stroke-dasharray', '6,6')
+        .style('stroke', 'black')
+        .style('stroke-width', '2px');
       chart
         .append('text')
         .attr('x', 270)
@@ -330,24 +405,52 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
         .attr('fill', '#2D2D39')
         .attr('font-size', '16')
         .attr('text-anchor', 'start')
-        .attr('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
+        .attr('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
         .text(chartOptions.barValue);
-      chart
-        .append('svg:image')
-        .attr('x', 10)
-        .attr('y', 35)
-        .attr('width', '20px')
-        .attr('height', '20px')
-        .attr('xlink:href', 'src/assets/images/greencheckmark.svg');
+      if (chartOptions.targetValue.includes('above target')) {
+        chart
+          .append('svg:image')
+          .attr('x', 10)
+          .attr('y', 35)
+          .attr('width', '20px')
+          .attr('height', '20px')
+          .attr('xlink:href', 'src/assets/images/greencheckmark.svg');
+        chart
+          .append('text')
+          .attr('x', 35)
+          .attr('y', 50)
+          .attr('fill', '#007000')
+          .attr('font-size', '16')
+          .attr('text-anchor', 'start')
+          .attr('font-family', "'UHCSans','Helvetica', 'Arial', 'sans-serif'")
+          .text(chartOptions.targetValue);
+      } else {
+        chart
+          .append('svg:image')
+          .attr('x', 10)
+          .attr('y', 35)
+          .attr('width', '20px')
+          .attr('height', '20px')
+          .attr('xlink:href', 'src/assets/images/red-x.svg');
+        chart
+          .append('text')
+          .attr('x', 35)
+          .attr('y', 50)
+          .attr('fill', '#B10C00')
+          .attr('font-size', '16')
+          .attr('text-anchor', 'start')
+          .attr('font-family', "'UHCSans','Helvetica', 'Arial', 'sans-serif'")
+          .text(chartOptions.targetValue);
+      }
       chart
         .append('text')
-        .attr('x', 35)
+        .attr('x', 200)
         .attr('y', 50)
-        .attr('fill', '#007000')
+        .attr('fill', '#2D2D39')
         .attr('font-size', '16')
         .attr('text-anchor', 'start')
-        .attr('font-family', "'UHCSans','Helvetica', 'Arial', 'sans-serif'")
-        .text(chartOptions.targetValue);
+        .attr('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
+        .text('Target 90%');
     } else {
       chart
         .append('text')

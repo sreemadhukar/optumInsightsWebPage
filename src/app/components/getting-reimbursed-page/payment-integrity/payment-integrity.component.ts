@@ -86,11 +86,7 @@ export class PaymentIntegrityComponent implements OnInit {
   }
   matOptionClicked(i: number, event: any) {
     this.currentSummary = [];
-    if (i === 1) {
-      this.currentSummary = this.summaryItems;
-    } else {
-      this.currentSummary = this.summaryItems;
-    }
+    this.currentSummary = this.summaryItems;
     const myTabs = document.querySelectorAll('ul.nav-tabs > li');
     for (let j = 0; j < myTabs.length; j++) {
       myTabs[j].classList.remove('active');
@@ -155,6 +151,7 @@ export class PaymentIntegrityComponent implements OnInit {
           cdata: 'paymentintegrity',
           graphValues: [92, 8],
           barText: 'Accurate Codes',
+          hoverData: '699/760 Reviewed',
           barValue: '92%',
           color: ['#00B8CC', '#FFFFFF', '#E0E0E0'],
           gdata: ['app-card-structure', 'pi-bar-chart'],

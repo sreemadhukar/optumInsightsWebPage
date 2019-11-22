@@ -21,7 +21,14 @@ export class PrintComponent implements OnInit {
 
   ngOnInit() {}
   printIconClick() {
-    this.router.navigate([this.route]);
-    // this.printClick.emit('Overview');
+    console.log('working fine', this.route);
+    // this.router.navigate(['print-page/grSummary']);
+
+    if (this.route === '/OverviewPage/print-overview') {
+      this.router.navigate(['print-page/overview']);
+    } else if (this.route === '/GettingReimbursed/print-grSummary') {
+      this.router.navigate(['print-page/grSummary']);
+    }
+    this.printClick.emit(this.route);
   }
 }

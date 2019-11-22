@@ -1,5 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnInit, Input } from '@angular/core';
 import { OverviewSharedService } from '../../../shared/overview/overview-shared.service';
 import { SessionService } from '../../../shared/session.service';
 import { StorageService } from '../../../shared/storage-service.service';
@@ -11,6 +10,7 @@ import { CURRENT_PAGE, REMOVE_FILTER } from '../../../store/filter/actions';
 import { IAppState } from '../../../store/store';
 import { environment } from '../../../../environments/environment';
 import { CreatePayloadService } from '../../../shared/uhci-filters/create-payload.service';
+import { Router, NavigationStart } from '@angular/router';
 
 @Component({
   selector: 'app-overview',
@@ -18,6 +18,7 @@ import { CreatePayloadService } from '../../../shared/uhci-filters/create-payloa
   styleUrls: ['./overview.component.scss']
 })
 export class OverviewComponent implements OnInit {
+  @Input() printStyle;
   printRoute: string;
   overviewItems: any;
   mainCards: any;
@@ -67,35 +68,27 @@ export class OverviewComponent implements OnInit {
 
   trendsData: any;
 
-  public printStyle: boolean; // this variable is used to distinguish between normal page and print page
+  // public printStyle: boolean; // this variable is used to distinguish between normal page and print page
 
   constructor(
     private overviewsrc: OverviewSharedService,
     private checkStorage: StorageService,
     private session: SessionService,
     private iconRegistry: MatIconRegistry,
-    private router: Router,
     private filtermatch: CommonUtilsService,
     private ngRedux: NgRedux<IAppState>,
     sanitizer: DomSanitizer,
     public sessionService: SessionService,
-    private createPayloadService: CreatePayloadService
+    private createPayloadService: CreatePayloadService,
+    private router: Router
   ) {
+    this.printRoute = 'overview';
     this.selfServiceLink = 'Self Service Details';
     this.pagesubTitle = 'Your Insights at a glance.';
     this.opportunities = 'Opportunities';
     this.opportunitiesQuestion = 'How much can online self service save you?';
     this.welcomeMessage = '';
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.filtermatch.urlResuseStrategy());
-    if (this.router.url.includes('print-')) {
-      this.printStyle = true;
-    }
-    // this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.filtermatch.urlResuseStrategy());
-    this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => {
-      this.createPayloadService.resetTinNumber('otherPages');
-      this.ngRedux.dispatch({ type: REMOVE_FILTER, filterData: { taxId: true } });
-      this.filtermatch.urlResuseStrategy();
-    });
     /** INITIALIZING SVG ICONS TO USE IN DESIGN - ANGULAR MATERIAL */
     iconRegistry.addSvgIcon(
       'arrow',
@@ -104,7 +97,6 @@ export class OverviewComponent implements OnInit {
   }
   printDownload(value) {
     // this.printStyle = true;
-    console.log('Overview Print Emit', value);
   }
 
   ngOnInit() {
@@ -112,6 +104,7 @@ export class OverviewComponent implements OnInit {
     if (this.router.url.includes('print-')) {
       this.printStyle = true;
     }
+
     this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'overviewPage' });
     // Temporary Heac ability
     const heac = JSON.parse(sessionStorage.getItem('heac'));
