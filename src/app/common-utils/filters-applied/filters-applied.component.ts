@@ -15,7 +15,6 @@ import { FilterExpandService } from '../../shared/filter-expand.service';
 import { TaxId } from '../../head/uhci-filters/filter-settings/filter-options';
 import { APPLY_FILTER, REMOVE_FILTER } from '../../store/filter/actions';
 import { CreatePayloadService } from '../../shared/uhci-filters/create-payload.service';
-import { GettingReimbursedSharedService } from '../../shared/getting-reimbursed/getting-reimbursed-shared.service';
 
 @Component({
   selector: 'app-filters-applied',
@@ -34,6 +33,7 @@ export class FiltersAppliedComponent implements OnInit {
   @select() trendDate;
   @select() claimsFilter;
   @Input() flag;
+  @Input() tabName;
   selectedPage: any;
   timeFrames = TimePeriod;
   selectedTimePeriod: any;
@@ -52,21 +52,14 @@ export class FiltersAppliedComponent implements OnInit {
   selectedTrendMetric: any;
   selectedDate: Date;
   previousDate: any = new Date();
-  public gettingReimbursedTabName;
   constructor(
     private filterExpandService: FilterExpandService,
     private createPayloadService: CreatePayloadService,
-    private ngRedux: NgRedux<IAppState>,
-    private gettingReimbursedservice: GettingReimbursedSharedService
+    private ngRedux: NgRedux<IAppState>
   ) {}
 
   ngOnInit() {
     this.currentPage.subscribe(currentPage => (this.selectedPage = currentPage));
-    if (this.selectedPage === 'gettingReimbursedSummary') {
-      this.gettingReimbursedTabName = this.gettingReimbursedservice.gettingReimbursedTabName;
-    } else {
-      this.gettingReimbursedTabName = null;
-    }
     this.timePeriod.subscribe(
       timePeriod => (this.selectedTimePeriod = this.timeFrames.find(val => val.name === timePeriod))
     );
