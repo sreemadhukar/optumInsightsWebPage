@@ -123,6 +123,19 @@
     </div> -->
     <!-- end trends on right hand side-->
 
+    <!--small rotate card -->
+    <div *ngIf="data.type == 'tatRotateArrow'">
+      <div class="tat-container">
+        <img class="tat-circle-image-pos" src="src/assets/images/TATCirclewithArrow.png" alt="tat-image" />
+        <div class="tat-center-num">
+          <p>
+            {{ data.data.centerNumber }}
+          </p>
+        </div>
+      </div>
+    </div>
+    <!--small rotate card ends -->
+
     <div *ngIf="data.type == 'donutWithLabel'">
       <div *ngIf="data.title == 'Claims Submitted'" class="total-claims-beside-data-block">
         <ul class="app-card-list-labels">

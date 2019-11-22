@@ -438,7 +438,19 @@ export class CommonUtilsService {
   // CommunityAndState
   // EmployerAndIndividual
   // Uncategorized
-
+  public graphValuePrint(LOBType, data, value) {
+    const keys = this.LOBSideLabels(LOBType, data);
+    const combine = [];
+    for (let i = 0; i < keys.length; i++) {
+      const temp = {
+        key: keys[i],
+        value: this.nondecimalFormatter(value[i])
+      };
+      const temp1 = keys[i] + ' (' + this.nondecimalFormatter(value[i]) + ')';
+      combine.push(temp1);
+    }
+    return combine;
+  }
   public LOBSideLabels(LOBType, data) {
     const lobLabels = [];
     if (LOBType === 'All' || LOBType === 'ALL') {
