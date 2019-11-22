@@ -9,7 +9,10 @@
       <div class="page-title">{{ pageTitle }}</div>
       <div class="page-subtitle">{{ pagesubTitle }}</div>
       <div class="breadcrumb-top-padding">
-        <app-filters-applied *ngIf="!printStyle"></app-filters-applied>
+        <app-filters-applied
+          [tabName]="gettingReimbursedSharedService.gettingReimbursedTabName"
+          *ngIf="!printStyle"
+        ></app-filters-applied>
         <div class="container--tabs" *ngIf="!printStyle">
           <section class="row">
             <ul class="nav nav-tabs">

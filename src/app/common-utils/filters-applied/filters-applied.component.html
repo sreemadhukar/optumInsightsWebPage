@@ -39,9 +39,9 @@
         class="horizontal-align"
         *ngIf="
           (selectedPage == 'paymentsPage' ||
-            gettingReimbursedTabName == 'gettingReimbursedSummary' ||
-            gettingReimbursedTabName == 'gettingReimbursedPayments' ||
-            gettingReimbursedTabName == 'gettingReimbursedNonPayments' ||
+            tabName == 'gettingReimbursedSummary' ||
+            tabName == 'gettingReimbursedPayments' ||
+            tabName == 'gettingReimbursedNonPayments' ||
             selectedPage == 'nonPaymentsPage') &&
           selectedClaims.value !== 'All' &&
           !flag
