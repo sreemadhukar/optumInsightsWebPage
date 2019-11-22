@@ -82,7 +82,6 @@ export class OverviewComponent implements OnInit {
     private createPayloadService: CreatePayloadService,
     private router: Router
   ) {
-    this.printRoute = 'overview';
     this.selfServiceLink = 'Self Service Details';
     this.pagesubTitle = 'Your Insights at a glance.';
     this.opportunities = 'Opportunities';
