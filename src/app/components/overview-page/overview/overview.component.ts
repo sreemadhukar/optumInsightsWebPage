@@ -93,7 +93,7 @@ export class OverviewComponent implements OnInit {
     );
   }
   printDownload(value) {
-    this.printStyle = true;
+    // this.printStyle = true;
   }
 
   ngOnInit() {
@@ -101,6 +101,7 @@ export class OverviewComponent implements OnInit {
     if (this.router.url.includes('print-')) {
       this.printStyle = true;
     }
+
     this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'overviewPage' });
     // Temporary Heac ability
     const heac = JSON.parse(sessionStorage.getItem('heac'));

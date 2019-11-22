@@ -15,13 +15,13 @@ export class PrintPageComponent implements OnInit {
   }
 
   ngOnInit() {
-    // this.route.params.subscribe(params => {
-    //   this.pagename = params['pageName'];
-    //   console.log('print pageNmae', this.pagename);
-    //   // setTimeout(() => {
-    //   //   (window as any).print();
-    //   // }, 8000);
-    //   console.log('Page print', this.pagename);
-    // });
+    this.route.params.subscribe(params => {
+      this.pagename = params['pageName'];
+      console.log('print pageNmae', this.pagename);
+      setTimeout(() => {
+        (window as any).print();
+      }, 8000);
+      console.log('Page print', this.pagename);
+    });
   }
 }
