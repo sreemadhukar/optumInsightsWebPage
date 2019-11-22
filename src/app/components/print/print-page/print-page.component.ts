@@ -18,9 +18,9 @@ export class PrintPageComponent implements OnInit {
     this.route.params.subscribe(params => {
       this.pagename = params['pageName'];
       console.log('print pageNmae', this.pagename);
-      // setTimeout(() => {
-      //   (window as any).print();
-      // }, 8000);
+      setTimeout(() => {
+        (window as any).print();
+      }, 8000);
       console.log('Page print', this.pagename);
     });
   }

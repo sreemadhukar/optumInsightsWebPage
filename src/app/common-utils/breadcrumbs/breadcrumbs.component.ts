@@ -19,7 +19,7 @@ export class BreadcrumbsComponent implements OnInit {
   public breadcrumbs: IBreadcrumb[];
   public breadcrumbLength: number;
   public checkAdvocate: any;
-  public printStyle: boolean;
+  public printStyle;
   constructor(
     private activatedRoute: ActivatedRoute,
     private router: Router,
@@ -39,14 +39,13 @@ export class BreadcrumbsComponent implements OnInit {
         sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Navigation/baseline-chevron_right-24px.svg')
       );
     });
-    router.events.subscribe(event => {
-      if (event instanceof NavigationStart) {
-        this.printStyle = event.url.includes('print-');
-      }
-    });
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    if (this.router.url.includes('print-')) {
+      this.printStyle = true;
+    }
+  }
 
   private getBreadcrumbs(route: ActivatedRoute, url: string = '', breadcrumbs: IBreadcrumb[] = []): IBreadcrumb[] {
     const ROUTE_DATA_BREADCRUMB = 'breadcrumb';

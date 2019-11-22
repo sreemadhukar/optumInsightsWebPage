@@ -53,7 +53,7 @@
         </div>
         <div class="height1Separator"></div>
         <div *ngIf="!printStyle">
-          <div class="getting-reimbursed-cards" *ngFor="let item of currentSummary">
+          <div class="getting-reimbursed-cards" *ngFor="let item of currentSummary; let i = index">
             <!--used item.toggle for temporary card removal, as toggle functionality is not built properly : srikar bobbiganipalli-->
             <app-card *ngIf="item.data != null && !item.toggle" class="cards" [chartData]="item"> </app-card>
             <app-error-card *ngIf="item.status != null" class="cards" [data]="item"></app-error-card>
