@@ -1,0 +1,16 @@
+<div class="page" *ngIf="pagename === 'overview'">
+  <app-overview [printStyle]="printStyle"></app-overview>
+</div>
+<div class="page" *ngIf="pagename === 'grSummary'">
+  <app-getting-reimbursed [printStyle]="printStyle"></app-getting-reimbursed>
+</div>
+<!--<app-getting-reimbursed [printStyle]="printStyle"></app-getting-reimbursed>
+<div class="page">
+  <app-payments></app-payments>
+</div>
+<div class="page">
+  <app-non-payments></app-non-payments>
+</div>
+<div class="page">
+  <app-appeals></app-appeals>
+</div>-->

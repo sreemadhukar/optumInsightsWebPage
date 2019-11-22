@@ -33,6 +33,7 @@ export class FiltersAppliedComponent implements OnInit {
   @select() trendDate;
   @select() claimsFilter;
   @Input() flag;
+  @Input() tabName;
   selectedPage: any;
   timeFrames = TimePeriod;
   selectedTimePeriod: any;

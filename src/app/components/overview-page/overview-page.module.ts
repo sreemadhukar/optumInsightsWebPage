@@ -11,7 +11,8 @@ import { CommonUtilsModule } from './../../common-utils/common-utils.module';
 @NgModule({
   imports: [CommonModule, OverviewPageRoutingModule, HeadMaterialModule, CommonUtilsModule],
   providers: [OverviewService, OverviewSharedService, OverviewComponent],
-  declarations: [OverviewComponent]
+  declarations: [OverviewComponent],
+  exports: [OverviewComponent]
 })
 export class OverviewPageModule {
   constructor() {
