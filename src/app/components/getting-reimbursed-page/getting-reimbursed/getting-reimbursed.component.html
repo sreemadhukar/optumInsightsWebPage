@@ -40,7 +40,7 @@
         <!--       <button *ngFor="let option of tabOptions; let i = index" (click)="matOptionClicked(i)">{{ option }}</button>-->
         <div *ngIf="!printStyle" class="page-subtitle">
           <p class="page-subtitle-heading">{{ currentTabTitle }}</p>
-          <div *ngIf="currentTabTitle == 'Claims Payments*'">
+          <div *ngIf="currentTabTitle == 'Claims Payments*'" class="np-link">
             <a [routerLink]="['/GettingReimbursed/NonPayments']">
               <span class="non-payment-link"> Looking for Non-Payments? </span>
             </a>
