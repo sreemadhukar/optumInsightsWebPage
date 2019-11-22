@@ -271,3 +271,7 @@
     @include padding(16px, 0, 16px, 0);
   }
 }
+
+.pageBreak {
+  page-break-after: always;
+}

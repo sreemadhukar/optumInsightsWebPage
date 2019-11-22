@@ -2,7 +2,7 @@
 <div class="gettingReimburse-body">
   <div class="gettingReimburse-content">
     <div class="cust-width-title">
-      <app-breadcrumbs *ngIf="!printStyle"></app-breadcrumbs>
+      <app-breadcrumbs></app-breadcrumbs>
       <div class="cards cust-width-blank">
         <app-print *ngIf="!printStyle" [route]="printRoute" (printClick)="printDownload($event)"> </app-print>
       </div>
@@ -56,7 +56,7 @@
         </div>
         <div class="height1Separator"></div>
         <div *ngIf="!printStyle">
-          <div class="getting-reimbursed-cards" *ngFor="let item of currentSummary">
+          <div class="getting-reimbursed-cards" *ngFor="let item of currentSummary; let i = index">
             <!--used item.toggle for temporary card removal, as toggle functionality is not built properly : srikar bobbiganipalli-->
             <app-card *ngIf="item.data != null && !item.toggle" class="cards" [chartData]="item"> </app-card>
             <app-error-card *ngIf="item.status != null" class="cards" [data]="item"></app-error-card>
@@ -70,10 +70,12 @@
               <p class="page-subtitle-heading">{{ x.title }}</p>
             </div>
             <div class="height1Separator"></div>
-            <div class="getting-reimbursed-cards" *ngFor="let item of x.data">
+            <div class="getting-reimbursed-cards" *ngFor="let item of x.data; let i = index">
               <!--used item.toggle for temporary card removal, as toggle functionality is not built properly : srikar bobbiganipalli-->
-              <app-card *ngIf="item.data != null && !item.toggle" class="cards" [chartData]="item"> </app-card>
-              <app-error-card *ngIf="item.status != null" class="cards" [data]="item"></app-error-card>
+              <div>
+                <app-card *ngIf="item.data != null && !item.toggle" class="cards" [chartData]="item"> </app-card>
+                <app-error-card *ngIf="item.status != null" class="cards" [data]="item"></app-error-card>
+              </div>
             </div>
           </div>
           <!-- end Print Style-->
