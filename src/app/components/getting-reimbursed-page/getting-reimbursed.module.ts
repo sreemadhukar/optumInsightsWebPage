@@ -28,7 +28,8 @@ import { SmartEditsComponent } from './payment-integrity/smart-edits/smart-edits
     NonPaymentsComponent,
     PaymentsComponent,
     SmartEditsComponent
-  ]
+  ],
+  exports: [GettingReimbursedComponent, PaymentsComponent, NonPaymentsComponent, AppealsComponent]
 })
 export class GettingReimbursedModule {
   constructor() {

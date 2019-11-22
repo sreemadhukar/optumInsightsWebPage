@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { GlossaryExpandService } from '../../shared/glossary-expand.service';
-import { CommonUtilsService } from '../../shared/common-utils.service';
 import { Router } from '@angular/router';
+
 @Component({
   selector: 'app-card',
   templateUrl: './card.component.html',
@@ -11,8 +11,7 @@ export class CardComponent implements OnInit {
   @Input() chartData;
   @Input() skeleton;
   @Input() tabData;
-  printStyle: boolean;
-  labelsWithValue; // this variable is used for print labels with value
+  printStyle: boolean; // this variable is used for print-page style
   heightDonut: Number = 234;
   widthDonut: Number = 234;
   heightRotatingArrow: Number = 212;
@@ -69,11 +68,7 @@ export class CardComponent implements OnInit {
     }
   }
 
-  constructor(
-    private glossaryExpandService: GlossaryExpandService,
-    private router: Router,
-    private common: CommonUtilsService
-  ) {
+  constructor(private glossaryExpandService: GlossaryExpandService, private router: Router) {
     this.tabOptions = ['All', 'Diabetic'];
   }
 
@@ -81,8 +76,6 @@ export class CardComponent implements OnInit {
     this.glossaryExpandService.setMessage(title, this.chartData.MetricID);
   }
   ngOnInit() {
-    console.log('labelwithValues', this.labelsWithValue, this.chartData.besideData.graphValues);
-
     if (this.router.url.includes('print-')) {
       this.printStyle = true;
     }
