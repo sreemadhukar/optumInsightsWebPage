@@ -1,6 +1,6 @@
 <div class="tin-list-content">
   <div class="tin-list-head">
-    <a (click)="goback()">
+    <a (click)="goback()" class="nav-menu-icons-back-button nav-menu-icons-back-button-div ">
       <mat-icon class="nav-menu-icons nav-menu-icons-back-button" svgIcon="backButton"></mat-icon>
     </a>
     Tax ID Number (TIN) Summary
@@ -26,24 +26,22 @@
   </div>
   <div class="tin-list-body">
     <div class="tin-list-body-head">
-      <div class="tin-list-body-head-left">Showing {{ numberOfTins }} Tax ID results</div>
+      <div class="tin-list-body-head-left">Showing {{ numberofTinsShowing }} Tax ID results</div>
     </div>
     <div class="tin-list-body-table-div">
       <div class="tin-list-body-table-head">
         <div class="tin-list-body-table-head-left">
-          <div class="tin-list-body-table-head-sub-head">
+          <div class="tin-list-body-table-head-sub-head" (click)="sorta('Tin')">
             Tax ID Number
             <mat-icon
               class="nav-menu-icons nav-menu-icons-down-arrow"
-              *ngIf="sortFlag"
+              *ngIf="sortFlagTin && sortFlag"
               svgIcon="downarrow"
-              (click)="sorta()"
             ></mat-icon>
             <mat-icon
               class="nav-menu-icons nav-menu-icons-down-arrow-reverse"
-              *ngIf="!sortFlag"
+              *ngIf="sortFlagTin && !sortFlag"
               svgIcon="downarrow"
-              (click)="sorta()"
             ></mat-icon>
           </div>
           <div class="tin-list-body-table-head-text-input-div">
@@ -59,7 +57,19 @@
           </div>
         </div>
         <div class="tin-list-body-table-head-right">
-          <div class="tin-list-body-table-head-sub-head">Tax ID Name</div>
+          <div class="tin-list-body-table-head-sub-head" (click)="sorta('Tinname')">
+            Tax ID Name
+            <mat-icon
+              class="nav-menu-icons nav-menu-icons-down-arrow"
+              *ngIf="!sortFlagTin && sortFlag"
+              svgIcon="downarrow"
+            ></mat-icon>
+            <mat-icon
+              class="nav-menu-icons nav-menu-icons-down-arrow-reverse"
+              *ngIf="!sortFlagTin && !sortFlag"
+              svgIcon="downarrow"
+            ></mat-icon>
+          </div>
           <div class="tin-list-body-table-head-text-input-div">
             <input
               type="text"

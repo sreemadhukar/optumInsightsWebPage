@@ -21,10 +21,12 @@ export class TinListPageComponent implements OnInit {
   tinsDisplayedColumns: string[] = ['Tin', 'Tinname'];
   providerName: string;
   numberOfTins: any;
+  numberofTinsShowing: any;
   tinsData: any;
   selectedtins: any;
   previousPage: any;
   sortFlag: boolean;
+  sortFlagTin: boolean;
 
   previousPageurl = [
     { previousPage: 'overviewPage', urlRout: '/OverviewPage' },
@@ -53,6 +55,7 @@ export class TinListPageComponent implements OnInit {
         }
       }
       this.numberOfTins = this.tinsData.length;
+      this.numberofTinsShowing = this.tinsData.length;
       this.paginator._intl.itemsPerPageLabel = 'Display';
       this.paginator._intl.getRangeLabel = function(page, pageSize, length) {
         d3.select('#testid').text(function() {
@@ -84,10 +87,14 @@ export class TinListPageComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.sortFlag = true;
+    this.sortFlagTin = true;
     this.paginator1();
     this.providerName = this.session.getHealthCareOrgName();
     this.tooltip();
+    this.sort.active = 'Tin';
+    this.sort.direction = 'asc';
+    this.sortFlag = false;
+    this.selectedtins.sort = this.sort;
   }
   goback() {
     this.currentPage.subscribe(currentPage => (this.previousPage = currentPage));
@@ -98,8 +105,16 @@ export class TinListPageComponent implements OnInit {
     }
     // this.router.navigate([this.previousPageurl[0].urlRout]);
   }
-  sorta() {
-    this.sort.active = 'Tin';
+  sorta(value: string) {
+    if (this.sort.active !== value) {
+      this.sortFlag = true;
+    }
+    if (value === 'Tin') {
+      this.sortFlagTin = true;
+    } else {
+      this.sortFlagTin = false;
+    }
+    this.sort.active = value;
     if (this.sortFlag === true) {
       this.sort.direction = 'asc';
       this.sortFlag = false;
@@ -111,6 +126,7 @@ export class TinListPageComponent implements OnInit {
   }
   applyFilter(filterValue: string) {
     this.selectedtins.filter = filterValue.trim().toLowerCase();
+    this.numberofTinsShowing = this.selectedtins.filteredData.length;
   }
   capitalize(s) {
     return s[0].toUpperCase() + s.slice(1);
