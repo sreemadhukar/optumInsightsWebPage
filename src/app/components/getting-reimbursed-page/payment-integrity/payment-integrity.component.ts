@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 import { FilterExpandService } from '../../../shared/filter-expand.service';
 import { CommonUtilsService } from '../../../shared/common-utils.service';
 import { SessionService } from 'src/app/shared/session.service';
+import { GlossaryMetricidService } from '../../../shared/glossary-metricid.service';
 import { NgRedux } from '@angular-redux/store';
 import { CURRENT_PAGE } from '../../../store/filter/actions';
 import { IAppState } from '../../../store/store';
@@ -48,6 +49,7 @@ export class PaymentIntegrityComponent implements OnInit {
 
   constructor(
     private glossaryExpandService: GlossaryExpandService,
+    public MetricidService: GlossaryMetricidService,
     private checkStorage: StorageService,
     private iconRegistry: MatIconRegistry,
     sanitizer: DomSanitizer,
@@ -117,7 +119,7 @@ export class PaymentIntegrityComponent implements OnInit {
         category: 'app-card',
         type: 'donutWithSideBottomLabel',
         title: 'Medical Records Requested by UHC',
-        MetricID: '',
+        MetricID: this.MetricidService.MetricIDs.PaymentIntegrityRecordsRequested,
         data: {
           graphValues: [1100, 22000],
           centerNumber: '5%',
@@ -145,7 +147,7 @@ export class PaymentIntegrityComponent implements OnInit {
       },
       {
         title: 'Coding Review Results',
-        MetricID: '',
+        MetricID: this.MetricidService.MetricIDs.PaymentIntegrityCodeReviewResults,
         data: {
           type: 'bar chart',
           cdata: 'paymentintegrity',
