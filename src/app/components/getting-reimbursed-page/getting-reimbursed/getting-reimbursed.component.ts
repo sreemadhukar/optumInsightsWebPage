@@ -148,9 +148,6 @@ export class GettingReimbursedComponent implements OnInit {
       this.printStyle = true;
       this.pageTitle = this.session.getHealthCareOrgName();
       this.pagesubTitle = 'Getting Reimbursed - Summary';
-      for (let i = 0; i < this.tabOptionsTitle.length; i++) {
-        this.summaryItems[i].title = this.tabOptionsTitle[i];
-      }
     }
 
     this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'gettingReimbursedSummary' });
@@ -193,6 +190,12 @@ export class GettingReimbursedComponent implements OnInit {
             };
           }
           this.tabOptions.push(temp);
+        }
+
+        if (this.printStyle) {
+          for (let i = 0; i < this.tabOptionsTitle.length; i++) {
+            this.summaryItems[i].title = this.tabOptionsTitle[i];
+          }
         }
       })
       .catch(reason => {
