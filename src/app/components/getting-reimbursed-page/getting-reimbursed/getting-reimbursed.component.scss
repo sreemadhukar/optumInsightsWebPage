@@ -137,6 +137,10 @@
           line-height: 40px;
           font-family: 'UHCSans-Regular', Helvetica, Arial, sans-serif;
         }
+        .print-page-title {
+          font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+          line-height: 20px;
+        }
         .page-subtitle {
           flex-basis: 100%;
           font-size: 28px;
@@ -175,6 +179,9 @@
             background-color: white;
             color: #196ecf;
           }
+        }
+        .print-page-subtitle {
+          font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
         }
         /* tabs css starts here*/
         .container--tabs {
@@ -272,6 +279,7 @@
   }
 }
 
-.pageBreak {
+.pageBreakheight {
+  height: 250px;
   page-break-after: always;
 }

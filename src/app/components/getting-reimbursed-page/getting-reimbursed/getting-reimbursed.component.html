@@ -6,8 +6,8 @@
       <div class="cards cust-width-blank">
         <app-print *ngIf="!printStyle" [route]="printRoute" (printClick)="printDownload($event)"> </app-print>
       </div>
-      <div class="page-title">{{ pageTitle }}</div>
-      <div class="page-subtitle">{{ pagesubTitle }}</div>
+      <div class="page-title" [ngClass]="{ 'print-page-title': printStyle === true }">{{ pageTitle }}</div>
+      <div class="page-subtitle" [ngClass]="{ 'print-page-subtitle': printStyle === true }">{{ pagesubTitle }}</div>
       <div class="breadcrumb-top-padding">
         <app-filters-applied
           [tabName]="gettingReimbursedSharedService.gettingReimbursedTabName"
@@ -57,20 +57,23 @@
         <div class="height1Separator"></div>
         <div *ngIf="!printStyle">
           <div class="getting-reimbursed-cards" *ngFor="let item of currentSummary; let i = index">
-            <!--used item.toggle for temporary card removal, as toggle functionality is not built properly : srikar bobbiganipalli-->
-            <app-card *ngIf="item.data != null && !item.toggle" class="cards" [chartData]="item"> </app-card>
-            <app-error-card *ngIf="item.status != null" class="cards" [data]="item"></app-error-card>
+            <div>
+              <!--used item.toggle for temporary card removal, as toggle functionality is not built properly : srikar bobbiganipalli-->
+              <app-card *ngIf="item.data != null && !item.toggle" class="cards" [chartData]="item"> </app-card>
+              <app-error-card *ngIf="item.status != null" class="cards" [data]="item"></app-error-card>
+            </div>
           </div>
         </div>
 
         <!-- start print style -->
         <div *ngIf="printStyle">
-          <div *ngFor="let x of summaryItems">
+          <div *ngFor="let x of summaryItems; let i = index">
+            <div [ngClass]="{ pageBreakheight: i === 2 }"></div>
             <div class="page-subtitle">
               <p class="page-subtitle-heading">{{ x.title }}</p>
             </div>
             <div class="height1Separator"></div>
-            <div class="getting-reimbursed-cards" *ngFor="let item of x.data; let i = index">
+            <div class="getting-reimbursed-cards" *ngFor="let item of x.data">
               <!--used item.toggle for temporary card removal, as toggle functionality is not built properly : srikar bobbiganipalli-->
               <div>
                 <app-card *ngIf="item.data != null && !item.toggle" class="cards" [chartData]="item"> </app-card>
