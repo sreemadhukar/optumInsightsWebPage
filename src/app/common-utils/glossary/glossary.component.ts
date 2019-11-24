@@ -39,10 +39,7 @@ export class GlossaryComponent implements OnInit {
   glossaryByMetricId() {
     this.glossaryService.getGlossaryMetricID(this.MetricID).subscribe(
       response => {
-        if (
-          (response || {}).BusinessGlossary &&
-          response.BusinessGlossary.ProviderDashboardName.MetricID === this.MetricID
-        ) {
+        if ((response || {}).BusinessGlossary) {
           console.log('Metric ID', response);
           this.glossarySelected.push(response);
           this.hyperlink = '';
