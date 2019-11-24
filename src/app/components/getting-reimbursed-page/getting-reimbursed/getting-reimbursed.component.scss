@@ -138,9 +138,9 @@
           font-family: 'UHCSans-Regular', Helvetica, Arial, sans-serif;
         }
         .print-page-title {
-          padding-top: 20px;
+          padding-top: 30px;
           font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
-          line-height: 40px;
+          line-height: 30px;
         }
         .page-subtitle {
           flex-basis: 100%;
@@ -155,7 +155,9 @@
             margin-top: 4px;
             line-height: 32px;
           }
-
+          .print-page-subtitle-heading {
+            padding-top: 10px;
+          }
           .details-button {
             padding: 10px 23px 10px 23px;
             border-radius: 2px;
@@ -183,10 +185,9 @@
         }
         .print-page-subtitle {
           font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
-          line-height: 40px;
-          &-print {
-          }
+          line-height: 30px;
         }
+
         /* tabs css starts here*/
         .container--tabs {
           clear: left;
