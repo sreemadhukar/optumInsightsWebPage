@@ -1,8 +1,8 @@
 <footer>
-  <div class="footer-container">
+  <div class="footer-container" [ngClass]="'print-footer-bg': printStyle === 'true'">
     <div class="footer-right-section">
       <p class="copyright-text">&copy; 2019 UnitedHealthcare, All Rights Reserved</p>
-      <p class="privacy-text">
+      <p class="privacy-text" *ngIf="printStyle">
         <a class="anchor-color" (click)="footerClicked('privacy')">Privacy</a>
         <span> | </span>
         <a class="anchor-color" (click)="footerClicked('terms')">Terms of Use</a>

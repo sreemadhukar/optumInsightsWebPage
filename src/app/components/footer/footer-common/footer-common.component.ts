@@ -6,9 +6,14 @@ import { Router, NavigationStart } from '@angular/router';
   styleUrls: ['./footer-common.component.scss']
 })
 export class FooterCommonComponent implements OnInit {
+  printStyle: boolean;
   constructor(private router: Router) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    if (this.router.url.includes('print-')) {
+      this.printStyle = true;
+    }
+  }
   footerClicked(name: string) {
     if (name === 'privacy') {
       this.router.navigateByUrl('/PrivacyPolicy');
