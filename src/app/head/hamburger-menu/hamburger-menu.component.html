@@ -2,7 +2,7 @@
  * Author: Ranjith kumar Ankam
  * Created Date: 03-Apr-2019
  *  -->
-<app-uhc-loader *ngIf="loading"></app-uhc-loader>
+<app-uhc-loader *ngIf="loading" [class.display-none]="printStyle"></app-uhc-loader>
 
 <div [ngClass]="{ 'dark-theme': isDarkTheme | async }">
   <div class="example-container example-is-mobile" color="primary">
@@ -30,6 +30,9 @@
         (hamburgerDisplay)="hamburgerDisplay($event)"
         [ngClass]="fromKOP ? 'top-40' : 'top-0'"
       ></app-header>
+      <div [class.sticky-footer]="showPrintHeader">
+        <div class="sticky-footer-text">&copy; 2019 UnitedHealthcare, All Rights Reserved</div>
+      </div>
     </mat-toolbar>
     <mat-sidenav-container
       class="example-sidenav-container"
