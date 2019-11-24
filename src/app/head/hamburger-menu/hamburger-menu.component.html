@@ -2,7 +2,7 @@
  * Author: Ranjith kumar Ankam
  * Created Date: 03-Apr-2019
  *  -->
-<app-uhc-loader *ngIf="loading" [class.display-none]="true"></app-uhc-loader>
+<app-uhc-loader *ngIf="loading" [class.display-none]="printStyle"></app-uhc-loader>
 
 <div [ngClass]="{ 'dark-theme': isDarkTheme | async }">
   <div class="example-container example-is-mobile" color="primary">
@@ -30,12 +30,6 @@
         (hamburgerDisplay)="hamburgerDisplay($event)"
         [ngClass]="fromKOP ? 'top-40' : 'top-0'"
       ></app-header>
-      <div></div>
-      <app-footer-common
-        class="footer-block"
-        [class.display-none]="!showPrintHeader && makeAbsolute"
-        class="stickyFooter"
-      ></app-footer-common>
     </mat-toolbar>
     <mat-sidenav-container
       class="example-sidenav-container"
