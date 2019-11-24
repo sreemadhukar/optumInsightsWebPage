@@ -199,7 +199,7 @@
           <ul class="app-card-list-labels" *ngIf="printStyle">
             <li *ngFor="let c of chartData.besideData.labels; let i = index">
               {{ chartData.data.labels[i] | temporaryTextFormatter }} ({{
-                chartData.title === 'Claims Paid' ? '$' : '#'
+                chartData.data.title === 'Claims Paid' ? '$' : ''
               }}
               {{ chartData.data.graphValues[i] | currencyFormatter }})
             </li>
