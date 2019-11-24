@@ -184,6 +184,8 @@
         .print-page-subtitle {
           font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
           line-height: 40px;
+          &-print {
+          }
         }
         /* tabs css starts here*/
         .container--tabs {

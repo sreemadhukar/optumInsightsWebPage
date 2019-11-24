@@ -1,5 +1,5 @@
 <footer>
-  <div class="footer-container" [ngClass]="'print-footer-bg': printStyle === 'true'">
+  <div class="footer-container" [class.print-footer-bg]="printStyle">
     <div class="footer-right-section">
       <p class="copyright-text">&copy; 2019 UnitedHealthcare, All Rights Reserved</p>
       <p class="privacy-text" *ngIf="printStyle">

@@ -10,6 +10,11 @@ export class FooterCommonComponent implements OnInit {
   constructor(private router: Router) {}
 
   ngOnInit() {
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationStart) {
+        this.printStyle = event.url.includes('print-');
+      }
+    });
     if (this.router.url.includes('print-')) {
       this.printStyle = true;
     }

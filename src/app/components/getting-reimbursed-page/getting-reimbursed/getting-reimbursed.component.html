@@ -70,7 +70,7 @@
           <div *ngFor="let x of summaryItems; let i = index">
             <div [ngClass]="{ pageBreakheight: i === 2 }"></div>
             <div class="page-subtitle">
-              <p class="page-subtitle-heading">{{ x.title }}</p>
+              <p class="page-subtitle-heading page-subtitle-heading-print">{{ x.title }}</p>
             </div>
             <div class="height1Separator"></div>
             <div class="getting-reimbursed-cards" *ngFor="let item of x.data">
