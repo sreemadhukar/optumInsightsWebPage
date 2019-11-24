@@ -20,11 +20,13 @@ export class PrintComponent implements OnInit {
     );
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    if (this.route === '/GettingReimbursed/print-grSummary') {
+      this.grBool = true;
+    }
+  }
   printIconClick() {
     console.log('working fine', this.route);
-    // this.router.navigate(['print-page/grSummary']);
-
     if (this.route === '/OverviewPage/print-overview') {
       this.router.navigate(['print-page/overview']);
     } else if (this.route === '/GettingReimbursed/print-grSummary') {
