@@ -35,7 +35,39 @@ export class GlossaryComponent implements OnInit {
   @Input() title; // which we recieve from card -> common-header component
   @Input() MetricID; // which we recieve from corresponsding card shared files
   constructor(private glossaryService: GlossaryService) {}
+
+  glossaryByMetricId() {
+    this.glossaryService.getGlossaryMetricID(this.MetricID).subscribe(
+      response => {
+        if ((response || {}).BusinessGlossary) {
+          console.log('Metric ID', response);
+          this.glossarySelected.push(response);
+          this.hyperlink = '';
+          if (this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.MetricID === 301) {
+            this.hyperlink = this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.Definition.substring(
+              this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.Definition.indexOf('http')
+            );
+            this.split = this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.Definition.substring(
+              this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.Definition.indexOf('Learn')
+            );
+            this.definition = this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.Definition.replace(
+              this.split,
+              ''
+            );
+            this.split = this.split.replace(this.hyperlink, '');
+            this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.Definition = this.definition;
+          }
+        }
+      },
+      err => {
+        console.log('Business Glossary Metric ID Error', err);
+      }
+    );
+  }
   ngOnInit() {
+    if (this.MetricID) {
+      this.glossaryByMetricId();
+    }
     this.options = [];
     this.glossarySelected = [];
     this.glossaryService.getBusinessGlossaryData().subscribe(response => {
@@ -49,35 +81,8 @@ export class GlossaryComponent implements OnInit {
       } else if (this.title === 'Claims Appeals Overturned') {
         this.title = 'Claim Appeals Overturned';
       }
-
+      // if id not exist in metricId table/database then we chose by title i.e. is includes()
       if (this.glossaryList) {
-        for (let i = 0; i < this.glossaryList.length; i++) {
-          this.readmoreFlag[i] = true;
-          this.glossaryList[i].BusinessGlossary.ProviderDashboardName.metricData = this.glossaryList[
-            i
-          ].BusinessGlossary.ProviderDashboardName.Metric.replace(/[^a-zA-Z]/g, '');
-          if (
-            this.glossaryList[i].BusinessGlossary.ProviderDashboardName.MetricID === Number(this.MetricID) &&
-            this.MetricID
-          ) {
-            this.glossarySelected.push(this.glossaryList[i]);
-            this.hyperlink = '';
-            if (this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.MetricID === 301) {
-              this.hyperlink = this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.Definition.substring(
-                this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.Definition.indexOf('http')
-              );
-              this.split = this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.Definition.substring(
-                this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.Definition.indexOf('Learn')
-              );
-              this.definition = this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.Definition.replace(
-                this.split,
-                ''
-              );
-              this.split = this.split.replace(this.hyperlink, '');
-              this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.Definition = this.definition;
-            }
-          }
-        }
         if (this.glossarySelected.length === 0) {
           for (let i = 0; i < this.glossaryList.length; i++) {
             if (
