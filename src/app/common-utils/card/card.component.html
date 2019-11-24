@@ -109,8 +109,8 @@
           >
             <li *ngFor="let c of chartData.besideData.labels; let i = index">
               {{ chartData.data.labels[i] | temporaryTextFormatter }} ({{
-                chartData.data.graphValues[i] | currencyFormatter
-              }})
+                chartData.title === 'Claims Paid' || chartData.title === 'Claims Not Paid' ? '$' : ''
+              }}{{ chartData.data.graphValues[i] | currencyFormatter }})
             </li>
           </ul>
         </div>
