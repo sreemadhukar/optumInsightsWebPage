@@ -138,8 +138,9 @@
           font-family: 'UHCSans-Regular', Helvetica, Arial, sans-serif;
         }
         .print-page-title {
+          padding-top: 20px;
           font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
-          line-height: 20px;
+          line-height: 40px;
         }
         .page-subtitle {
           flex-basis: 100%;
@@ -182,6 +183,7 @@
         }
         .print-page-subtitle {
           font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+          line-height: 40px;
         }
         /* tabs css starts here*/
         .container--tabs {
