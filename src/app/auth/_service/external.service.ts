@@ -32,6 +32,7 @@ export class ExternalService {
             this.storageService.store('loggedUser', user);
             resolve(ssoTokenData[0]);
           } else {
+            // alert(ssoTokenData.length);
             rej(new Error('error'));
           }
         },

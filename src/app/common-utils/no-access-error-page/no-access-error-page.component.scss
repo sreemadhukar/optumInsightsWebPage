@@ -1,9 +1,12 @@
 @import '~src/scss/variables.scss';
 .page-overlay {
   overflow: hidden;
+  background: #fafafa;
+  height: -webkit-fill-available;
   .header-div {
     background-color: $white;
     height: 72px;
+    border-bottom: 1px solid #e0e0e0;
     .header-logo-div {
       display: inline-block;
     }
@@ -58,6 +61,8 @@
       font-size: 16px;
       letter-spacing: 0.2px;
       line-height: 22px;
+      cursor: pointer;
+      text-decoration: none;
     }
   }
   .footer-block {

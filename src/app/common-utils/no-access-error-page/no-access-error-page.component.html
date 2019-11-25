@@ -1,6 +1,3 @@
-<p>
-  no-access-error-page works!
-</p>
 <div class="page-overlay" *ngIf="!isInternal">
   <div class="container">
     <!-- HEADER BLOCK-->
@@ -20,7 +17,14 @@
       <p class="denied-description">
         You do not have permission to access UHC Insights. Please contact your system administrator.
       </p>
-      <p class="denied-description"><a class="return-to-link">Click here</a> to return to your LINK dashboard</p>
+      <p class="denied-description">
+        <a
+          class="return-to-link"
+          href="https://provider-stage.linkhealth.com/apps/secure/dashboards/provider-dashboard/"
+          >Click here</a
+        >
+        to return to your LINK dashboard
+      </p>
     </div>
     <!-- END OF BODY BLOCK-->
     <!-- FOOTER BLOCK-->
