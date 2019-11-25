@@ -59,8 +59,12 @@
         <div class="health-system-representation-block" *ngIf="!isKop">
           <p class="representing-label">You are representing</p>
           <p class="health-system-name">{{ healthSystemName }}</p>
-          <p class="change-provider" *ngIf="disableChangeProvider && !AcoFlag" (click)="openDialog()">
-            Change Provider
+          <p
+            class="change-provider"
+            *ngIf="(disableChangeProvider || externalProvidersCount) && !AcoFlag"
+            (click)="openDialog()"
+          >
+            Change Organization
           </p>
           <!--<p class="view-Tax-Id-Summary-div" *ngIf="!disableChangeProvider && !AcoFlag">-->
           <!--<a class="view-Tax-Id-Summary" [routerLink]="['/TinList']">-->
