@@ -1,3 +1,16 @@
 <div *ngIf="data === null">
   <app-error-template></app-error-template>
 </div>
+
+<div *ngIf="data === null || data[0].title === null">
+  <app-error-template></app-error-template>
+</div>
+
+<div *ngIf="data !== null && data[0].title !== null" class="vertical-bar-box">
+  <div class="vertical-bar bar1" [style.height]="heights[0]">
+    <span class="bar-value">{{ data[0].title | currencyFormatter }}</span>
+  </div>
+  <div class="vertical-bar bar2" [style.height]="heights[1]">
+    <span class="bar-value">{{ data[1].title | currencyFormatter }}</span>
+  </div>
+</div>
