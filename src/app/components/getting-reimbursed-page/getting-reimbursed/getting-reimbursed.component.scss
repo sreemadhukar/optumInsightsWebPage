@@ -248,6 +248,17 @@
             } // li styling
           }
         }
+
+        .cust-width-blank {
+          width: 487px;
+          margin-left: 480px;
+          line-height: 75px;
+        }
+        @media (max-width: 1300px) {
+          .cust-width-blank {
+            min-width: 437px;
+          }
+        }
         /* ends tabs css ends here*/
       }
       /* end cust-width title heirarchy*/
