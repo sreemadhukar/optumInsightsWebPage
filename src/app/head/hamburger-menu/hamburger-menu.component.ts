@@ -71,6 +71,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
   public healthSystemName: string;
   public isKop: boolean;
   disableChangeProvider: boolean = environment.internalAccess;
+  externalProvidersCount = false;
   public checkAdv;
   public checkPro;
   public checkExecutive;
@@ -172,7 +173,8 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
             event.url === '' ||
             event.url === '/ProviderSearch' ||
             event.url.includes('print-') ||
-            event.url.indexOf('/login') >= 0
+            event.url.indexOf('/login') >= 0 ||
+            event.url === '/AccessDenied'
           )
         );
         /*
@@ -261,6 +263,8 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
   }
 
   ngOnInit() {
+    const currentUser: any = sessionStorage.getItem('currentUser')[0];
+    this.externalProvidersCount = currentUser.Providers.length > 1 ? true : false;
     this.AcoFlag = false;
     this.isKop = false;
     this.loading = false;
@@ -566,7 +570,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
         // Reloading targeted route, for resetting the css
         window.location.href = '/OverviewPage';
       },
-      containerLabel: 'View as a Provider'
+      containerLabel: 'View as an Organization'
     };
 
     // Set Styling
