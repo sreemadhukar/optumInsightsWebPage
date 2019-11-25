@@ -459,6 +459,12 @@ app-header {
   height: 125vh !important;
 }
 
+.kop-landing {
+  .mat-drawer-inner-container {
+    height: 100vh !important;
+  }
+}
+
 .simulate-external-view {
   padding: 38px 26px 28px;
   border-bottom: 1px solid #e0e0e0;
