@@ -235,4 +235,49 @@
       margin: 10px 0;
     }
   }
+
+  .error-icon {
+    width: 64px;
+    height: 64px;
+    color: red;
+  }
+
+  .align-center {
+    text-align: center;
+  }
+
+  .error-text {
+    color: #757588;
+    font-size: 16px;
+    font-family: 'UHCSans-Medium';
+    font-weight: 500;
+    letter-spacing: 0.2px;
+    padding: 15px;
+  }
+
+  .m-left-30 {
+    margin-left: 30%;
+    padding-top: 10px;
+  }
+
+  .p-bottom-10 {
+    padding-bottom: 10px;
+  }
+
+  .btn-class {
+    box-sizing: border-box;
+    height: 41px;
+    width: 97px;
+    border: 1px solid #196ecf;
+    border-radius: 2px;
+    font-size: 16px;
+    background-color: #196ecf;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
+    font-weight: 600;
+    letter-spacing: 0.2px;
+    text-align: center;
+    font-family: 'UHCSans-Medium';
+    color: #ffffff;
+    cursor: pointer;
+  }
 }
