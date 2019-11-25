@@ -455,7 +455,22 @@ app-header {
 
 .sticky {
   position: fixed;
-  top: 0px;
+  top: 0;
+}
+
+.sticky-footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+  &-text {
+    color: $strom-grey;
+    font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.17px;
+    line-height: 18px;
+  }
 }
 
 .mat-drawer-inner-container {

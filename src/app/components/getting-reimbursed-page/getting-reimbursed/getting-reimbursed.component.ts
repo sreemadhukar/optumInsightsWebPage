@@ -191,6 +191,12 @@ export class GettingReimbursedComponent implements OnInit {
           }
           this.tabOptions.push(temp);
         }
+
+        if (this.printStyle) {
+          for (let i = 0; i < this.tabOptionsTitle.length; i++) {
+            this.summaryItems[i].title = this.tabOptionsTitle[i];
+          }
+        }
       })
       .catch(reason => {
         this.loading = false;
