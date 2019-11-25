@@ -1,13 +1,8 @@
-<!--
-AUTHOR: Ranjith kumar Ankam
-Date Created: 17-Apr-2019
--->
-
 <div
+  [class.print-card-inner]="printStyle"
   *ngIf="chartData != null"
   class="app-card-structure"
   [class.print-card-inner]="printStyle"
-  [class.pi-app-card-structure]="chartData.title == 'Medical Records Requested by UHC'"
   [class.app-card-structure-with-more-height]="
     chartData.type === 'donutWithLabelBottom' ||
     chartData.title === 'Claims Appeals Overturned' ||
@@ -112,7 +107,11 @@ Date Created: 17-Apr-2019
             *ngIf="printStyle"
             [class.smart-edits-claims-labels]="chartData.title == 'Smart Edits Claims Returned'"
           >
-            <li *ngFor="let c of chartData.besideData.graphValues; let i = index">{{ c }}</li>
+            <li *ngFor="let c of chartData.besideData.labels; let i = index">
+              {{ chartData.data.labels[i] | temporaryTextFormatter }} ({{
+                chartData.title === 'Claims Paid' || chartData.title === 'Claims Not Paid' ? '$' : ''
+              }}{{ chartData.data.graphValues[i] | currencyFormatter }})
+            </li>
           </ul>
         </div>
       </div>
@@ -194,8 +193,16 @@ Date Created: 17-Apr-2019
               <div class="label-dots" style.background-color="{{ c }}"></div>
             </li>
           </ul>
-          <ul class="app-card-list-labels">
+          <ul class="app-card-list-labels" *ngIf="!printStyle">
             <li *ngFor="let c of chartData.besideData.labels; let i = index">{{ c }}</li>
+          </ul>
+          <ul class="app-card-list-labels" *ngIf="printStyle">
+            <li *ngFor="let c of chartData.besideData.labels; let i = index">
+              {{ chartData.data.labels[i] | temporaryTextFormatter }} ({{
+                chartData.title === 'Claims Paid*' ? '$' : ''
+              }}
+              {{ chartData.data.graphValues[i] | currencyFormatter }})
+            </li>
           </ul>
         </div>
         <div class="full-width-block flex-display align-center bottom-labels-block">

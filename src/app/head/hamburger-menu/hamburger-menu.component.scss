@@ -80,7 +80,7 @@ app-header {
 }
 
 .health-system-representation-block {
-  @include padding(20px, 12px, 0px, 56px);
+  @include padding(20px, 7px, 27px, 56px);
   // @include padding(16px, 12px, 0px, 32px); before adding PI Sub Menu undo when toggled off
   border-bottom: 1px solid $gainsboro;
 }
@@ -100,7 +100,7 @@ app-header {
   font-size: 16px;
   letter-spacing: 0.2px;
   line-height: 22px;
-  margin: 4px 0 15px 0;
+  margin: 4px 0 0 0;
 }
 
 .change-provider {
@@ -112,7 +112,7 @@ app-header {
   letter-spacing: 0.2px;
   line-height: 18px;
   text-decoration: none;
-  margin: 9px 0 18px 0;
+  margin: 12px 0 0 0;
   cursor: pointer;
   display: inline-block;
 }
@@ -123,8 +123,8 @@ app-header {
 
 .view-Tax-Id-Summary-div {
   height: 18px;
-  width: 145px;
-  margin: 9px 0 18px 0;
+  // width: 223px;
+  margin: 9px 0 0 0;
 }
 
 .view-Tax-Id-Summary {
@@ -432,7 +432,11 @@ app-header {
   position: absolute !important;
   z-index: 9999 !important;
 }
-
+.filter-div-scroll {
+  overflow-y: auto;
+  max-height: 100%;
+  width: 418px;
+}
 .sidemargin {
   margin: 0 24px 0 24px;
   height: inherit;
@@ -451,7 +455,22 @@ app-header {
 
 .sticky {
   position: fixed;
-  top: 0px;
+  top: 0;
+}
+
+.sticky-footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+  &-text {
+    color: $strom-grey;
+    font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.17px;
+    line-height: 18px;
+  }
 }
 
 .mat-drawer-inner-container {
@@ -550,4 +569,29 @@ app-header {
 
 .mat-list-base .second-level-link {
   padding-left: 32px !important;
+}
+
+.copyright-text {
+  margin-right: 16px;
+}
+
+.footerp-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  height: 80px;
+  background-color: #fff;
+  position: fixed;
+  bottom: 0;
+}
+
+.footerp-right-section {
+  display: flex;
+  font-size: 14px;
+  color: black;
+  font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+  line-height: 80px;
+  text-align: center;
+  letter-spacing: 0.2px;
 }

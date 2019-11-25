@@ -13,10 +13,11 @@ import * as _ from 'lodash';
 import { environment } from '../../../environments/environment';
 
 @Injectable({
-  providedIn: GettingReimbursedModule
+  providedIn: 'root'
 })
 export class GettingReimbursedSharedService {
   public nonPaymentData: any = null;
+  public gettingReimbursedTabName;
   private tin: string;
   private lob: string;
   private timeFrame: string;

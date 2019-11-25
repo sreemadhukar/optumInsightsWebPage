@@ -2,7 +2,7 @@
  * Author: Ranjith kumar Ankam
  * Created Date: 03-Apr-2019
  *  -->
-<app-uhc-loader *ngIf="loading"></app-uhc-loader>
+<app-uhc-loader *ngIf="loading" [class.display-none]="printStyle"></app-uhc-loader>
 
 <div [ngClass]="{ 'dark-theme': isDarkTheme | async }">
   <div class="example-container example-is-mobile" color="primary">
@@ -30,6 +30,9 @@
         (hamburgerDisplay)="hamburgerDisplay($event)"
         [ngClass]="fromKOP ? 'top-40' : 'top-0'"
       ></app-header>
+      <div [class.sticky-footer]="showPrintHeader">
+        <div class="sticky-footer-text">&copy; 2019 UnitedHealthcare, All Rights Reserved</div>
+      </div>
     </mat-toolbar>
     <mat-sidenav-container
       class="example-sidenav-container"
@@ -61,9 +64,9 @@
           <p class="change-provider" *ngIf="disableChangeProvider && !AcoFlag" (click)="openDialog()">
             Change Organization
           </p>
-          <p class="view-Tax-Id-Summary-div" *ngIf="!disableChangeProvider && !AcoFlag">
+          <p class="view-Tax-Id-Summary-div" *ngIf="!AcoFlag">
             <a class="view-Tax-Id-Summary" [routerLink]="['/TinList']">
-              View Tax ID Summary
+              View Tax ID Number (TIN) Summary
             </a>
           </p>
         </div>
@@ -193,7 +196,7 @@
         id="side-nav-glossary"
         [disableClose]="true"
       >
-        <div style="width: 418px; min-height: 96%;">
+        <div class="filter-div-scroll">
           <div [ngClass]="{ sidemargin: glossaryFlag, 'sidemargin-filter': filterFlag }">
             <div *ngIf="glossaryFlag" class="mat-details">
               <div class="h-3-title-filter">
