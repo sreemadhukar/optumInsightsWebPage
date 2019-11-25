@@ -51,8 +51,8 @@ export const environment: any = {
     selectedRole: '',
     token: ''
   },
-  production: true,
-  staging: false,
+  production: false,
+  staging: true,
   sessionTimeOutKey: '',
   sessionTimeOutWarningKey: '',
   idleTimeOut: 360,
