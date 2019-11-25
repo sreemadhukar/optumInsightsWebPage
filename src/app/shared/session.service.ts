@@ -50,6 +50,10 @@ export class SessionService {
       return JSON.parse(sessionStorage.getItem('currentUser'))[0]['ProviderKey'];
     } else if (sessionStorage.getItem('currentUser') && !environment.internalAccess) {
       return JSON.parse(sessionStorage.getItem('currentUser'))[0]['Providersyskey'];
+      // const providers: any = JSON.parse(sessionStorage.getItem('currentUser'))[0].Providers;
+      // if (providers.length === 1) {
+      //   return providers[0].ProviderKey;
+      // }
     }
   }
 
@@ -58,6 +62,10 @@ export class SessionService {
       return JSON.parse(sessionStorage.getItem('currentUser'))[0]['HealthCareOrganizationName'];
     } else if (sessionStorage.getItem('currentUser') && !environment.internalAccess) {
       return JSON.parse(sessionStorage.getItem('currentUser'))[0]['Healthcareorganizationname'];
+      // const providers: any = JSON.parse(sessionStorage.getItem('currentUser'))[0].Providers;
+      // if (providers.length === 1) {
+      //   return providers[0].ProviderSystem;
+      // }
     }
   }
 

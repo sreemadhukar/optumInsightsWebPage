@@ -67,7 +67,6 @@ export class HttpInterceptorService implements HttpInterceptor {
         });
       }
     }
-
     request = request.clone({ headers: request.headers.set('Accept', '*/*') });
     return next.handle(request);
   }
