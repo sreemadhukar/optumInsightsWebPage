@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HealthSystemDetailsSharedService } from '../../../shared/advocate/health-system-details-shared.service';
 import { StorageService } from '../../../shared/storage-service.service';
-import { Router, NavigationStart } from '@angular/router';
 
 @Component({
   selector: 'app-health-system-details',
@@ -13,15 +12,12 @@ export class HealthSystemDetailsComponent implements OnInit {
   healthSystemData: any;
   subscription: any;
 
-  constructor(
-    private healthSystemService: HealthSystemDetailsSharedService,
-    private checkStorage: StorageService,
-    private router: Router
-  ) {
+  constructor(private healthSystemService: HealthSystemDetailsSharedService, private checkStorage: StorageService) {
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.ngOnInit());
   }
 
   ngOnInit() {
+    this.healthSystemData = null;
     this.getHealthSystemDetails();
   }
 
@@ -30,8 +26,8 @@ export class HealthSystemDetailsComponent implements OnInit {
     this.healthSystemService
       .getHealthSystemData()
       .then(healthSystemData => {
-        this.healthSystemData = JSON.parse(JSON.stringify(healthSystemData));
         this.dataLoading = false;
+        this.healthSystemData = JSON.parse(JSON.stringify(healthSystemData));
       })
       .catch(reason => {
         this.dataLoading = false;
