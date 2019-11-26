@@ -1,3 +1,5 @@
+@import '~src/scss/variables.scss';
+
 .horizontal-bar-box {
   font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
   padding: 12px 0;
@@ -19,9 +21,9 @@
 
 .bar1 {
   margin-bottom: 8px;
-  background-color: #3381ff;
+  background-color: $dodger-blue;
 }
 
 .bar2 {
-  background-color: #90eef0;
+  background-color: $iris-blue;
 }
