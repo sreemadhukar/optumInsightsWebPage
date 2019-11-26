@@ -476,6 +476,7 @@ app-header {
 .mat-drawer-inner-container {
   overflow: unset !important;
   height: 125vh !important;
+  overflow-x: hidden !important;
 }
 
 .kop-landing {
