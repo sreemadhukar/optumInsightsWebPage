@@ -15,10 +15,6 @@ const routes: Routes = [
     }
   },
   {
-    path: 'print-grSummary',
-    component: GettingReimbursedComponent
-  },
-  {
     path: 'Payments',
     component: PaymentsComponent,
     data: {
