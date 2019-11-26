@@ -34,6 +34,8 @@ export const environment: any = {
     CallsTrend: 'provider-calls/',
     TrendingMetrics: 'trending-metrics/',
     NPSSummary: 'kop-metrics/',
+    KOPPriorAuthSummary: 'kop-priorauth-request/',
+    KOPPriorAuthTATSummary: 'kop-priorauth-tat/',
     AppealsTrend: 'appeals-trend/',
     AdminSummaryTrends: 'admintrends/',
     AppealsFHIR: 'appeals/v2.0/',
