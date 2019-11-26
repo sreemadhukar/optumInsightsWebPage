@@ -1,1 +1,12 @@
-<app-error-template></app-error-template>
+<div *ngIf="data === null || data[0].title === null">
+  <app-error-template></app-error-template>
+</div>
+
+<div *ngIf="barChartData !== null && barChartData[0].title !== null" class="horizontal-bar-box">
+  <div class="horizontal-bar bar1" [style.width]="widths[0]">
+    <span class="bar-value">{{ barChartData[0].title }} {{ barChartData[0].units }}</span>
+  </div>
+  <div class="horizontal-bar bar2" [style.width]="widths[1]">
+    <span class="bar-value">{{ barChartData[1].title }} {{ barChartData[1].units }}</span>
+  </div>
+</div>

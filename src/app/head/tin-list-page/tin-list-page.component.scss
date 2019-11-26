@@ -13,18 +13,46 @@
   padding-right: 32px;
 }
 
+.nav-menu-icons-back-button-div {
+  border: none !important;
+  padding-right: 16px;
+}
+
 .nav-menu-icons-back-button {
-  height: 40px;
-  width: 40px;
+  height: 39px;
+  width: 39px;
+  border-radius: 40px;
+  color: #196ecf;
+  cursor: pointer;
+  border: solid 2px #196ecf;
+}
+
+.nav-menu-icons-back-button :hover {
+  background-color: #196ecf;
+  color: #ffffff;
+}
+
+.nav-menu-icons-back-button :active {
+  background-color: $blue-base;
+  border: solid 2px $blue-base;
+  color: #ffffff;
 }
 
 .nav-menu-icons-info {
   height: 16px;
   width: 16px;
   padding-left: 4px;
+  cursor: pointer;
 }
 
 .nav-menu-icons-down-arrow {
+  margin-top: -1px;
+  height: 16px;
+  width: 16px;
+}
+
+.nav-menu-icons-down-arrow-reverse {
+  transform: rotate(180deg);
   margin-top: -1px;
   height: 16px;
   width: 16px;
@@ -124,6 +152,7 @@
         letter-spacing: 0.2px;
         line-height: 22px;
         padding-bottom: 16px;
+        cursor: pointer;
       }
       .tin-list-body-table-head-text-input-div {
         height: 40px;
@@ -162,6 +191,7 @@
       margin-bottom: 64px;
       .tin-list-body-table-div-body-tinname-cell {
         padding-left: 40px;
+        text-transform: capitalize;
       }
       .tin-list-body-table-div-body-tin-cell {
         padding-left: 18px;
@@ -176,6 +206,16 @@ table {
 
 :host ::ng-deep.mat-paginator .mat-paginator-container {
   justify-content: space-between;
+  color: #757588;
+  font-family: 'UHCSans-Regular';
+  font-size: 14px;
+  letter-spacing: 0.2px;
+  line-height: 18px;
+}
+
+:host ::ng-deep .mat-paginator-page-size {
+  padding-top: 8px;
+  order: -1;
 }
 
 :host ::ng-deep.mat-paginator-page-size-label {
@@ -289,7 +329,12 @@ table {
 }
 
 :host ::ng-deep .mat-paginator-range-label {
+  padding-top: 15px;
   margin: 0;
+  font-family: 'UHCSans-Regular';
+  font-size: 14px;
+  letter-spacing: 0.2px;
+  line-height: 18px;
 }
 
 :host ::ng-deep .mat-paginator-range-actions {
@@ -305,7 +350,29 @@ table {
   border-radius: 2px;
 }
 
+:host ::ng-deep .mat-button-wrapper {
+  padding-bottom: 11px;
+  padding-top: 13px;
+  padding-left: 6px;
+  padding-right: 5px;
+}
+
+:host ::ng-deep .mat-icon-button :hover {
+  background-color: #196ecf;
+  color: #ffffff;
+}
+
+:host ::ng-deep .mat-icon-button :active {
+  background-color: $blue-base;
+  color: $white;
+}
+
 :host ::ng-deep .mat-icon-button[disabled][disabled] {
   color: #757588;
   border: solid 1px #757588;
+}
+
+:host ::ng-deep .mat-icon-button[disabled][disabled] :hover {
+  color: #757588;
+  background-color: transparent;
 }

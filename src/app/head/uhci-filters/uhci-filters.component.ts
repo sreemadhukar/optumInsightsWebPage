@@ -10,7 +10,8 @@ import {
   PriorAuthDecisionType,
   TrendMetrics,
   filterToggles,
-  MetricPropType
+  MetricPropType,
+  ClaimsFilter
 } from './filter-settings/filter-options';
 import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -19,6 +20,7 @@ import { Location } from '@angular/common';
 import { SessionService } from '../../shared/session.service';
 import { TaxId } from './filter-settings/filter-options';
 import { CreatePayloadService } from '../../shared/uhci-filters/create-payload.service';
+import { GettingReimbursedSharedService } from '../../shared/getting-reimbursed/getting-reimbursed-shared.service';
 
 @Component({
   selector: 'app-uhci-filter',
@@ -35,6 +37,7 @@ export class UhciFiltersComponent implements OnInit {
   @select() priorAuthType;
   @select() trendMetric;
   @select() trendDate;
+  @select() claimsFilter;
   @Output() filterFlag = new EventEmitter();
 
   selectedPage: string;
@@ -42,6 +45,8 @@ export class UhciFiltersComponent implements OnInit {
   selectedTimePeriod: MetricPropType;
   lobs = LineOfBusiness;
   selectedLob: MetricPropType;
+  claims = ClaimsFilter;
+  selectedClaims: MetricPropType;
   serviceSettings = ServiceSetting;
   selectedServiceSetting: MetricPropType;
   serviceCategories = ServiceCategory;
@@ -58,14 +63,15 @@ export class UhciFiltersComponent implements OnInit {
   selectedDate: Date;
   collapseToggle: any;
   public serviceCategoryForm = new FormControl();
-
+  public gettingReimbursedTabName;
   constructor(
     private ngRedux: NgRedux<IAppState>,
     private iconRegistry: MatIconRegistry,
     sanitizer: DomSanitizer,
     private location: Location,
     private session: SessionService,
-    private createPayloadService: CreatePayloadService
+    private createPayloadService: CreatePayloadService,
+    private gettingReimbursedservice: GettingReimbursedSharedService
   ) {
     iconRegistry.addSvgIcon(
       'arrowdn',
@@ -76,6 +82,11 @@ export class UhciFiltersComponent implements OnInit {
 
   ngOnInit() {
     this.currentPage.subscribe(currentPage => (this.selectedPage = currentPage));
+    if (this.selectedPage === 'gettingReimbursedSummary') {
+      this.gettingReimbursedTabName = this.gettingReimbursedservice.gettingReimbursedTabName;
+    } else {
+      this.gettingReimbursedTabName = null;
+    }
     this.timePeriod.subscribe(
       timePeriod =>
         (this.selectedTimePeriod = this.disableTimePeriod(this.timeFrames).find(val => val.name === timePeriod))
@@ -83,6 +94,9 @@ export class UhciFiltersComponent implements OnInit {
     this.taxId.subscribe(taxId => (this.selectedTaxIds = taxId));
     this.lineOfBusiness.subscribe(
       lineOfBusiness => (this.selectedLob = this.lobs.find(val => val.name === lineOfBusiness))
+    );
+    this.claimsFilter.subscribe(
+      claimsFilter => (this.selectedClaims = this.claims.find(val => val.name === claimsFilter))
     );
     this.serviceSetting.subscribe(
       serviceSetting => (this.selectedServiceSetting = this.serviceSettings.find(val => val.name === serviceSetting))
@@ -143,7 +157,8 @@ export class UhciFiltersComponent implements OnInit {
         serviceCategory: this.selectedService,
         priorAuthType: this.selectedPriorAuthType.name,
         trendMetric: this.selectedTrendMetric.name,
-        trendDate: this.selectedDate
+        trendDate: this.selectedDate,
+        claimsFilter: this.selectedClaims.name
       }
     });
     this.createPayloadService.emitFilterEvent(this.selectedPage);

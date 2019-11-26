@@ -47,6 +47,7 @@ import { MultiLineGraphComponent } from './d3-objects/multi-line-graph/multi-lin
 import { ErrorTemplateComponent } from './kop-cards/error-template/error-template.component';
 import { FiltersAppliedComponent } from './filters-applied/filters-applied.component';
 import { FiltersMultiSelectComponent } from './filters-multi-select/filters-multi-select.component';
+import { NoAccessErrorPageComponent } from './no-access-error-page/no-access-error-page.component';
 
 @NgModule({
   imports: [
@@ -137,7 +138,8 @@ import { FiltersMultiSelectComponent } from './filters-multi-select/filters-mult
     MultiLineGraphComponent,
     ErrorTemplateComponent,
     FiltersAppliedComponent,
-    FiltersMultiSelectComponent
+    FiltersMultiSelectComponent,
+    NoAccessErrorPageComponent
   ],
   entryComponents: [ProviderSearchComponent]
 })
