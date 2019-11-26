@@ -1,0 +1,87 @@
+<div class="tax-summary-content">
+  <div class="tax-summary-head">
+    <span class="tax-summary-title">Tax ID Summary</span>
+    <span class="tax-summary-count">
+      Showing {{ taxSummaryData.filteredData.length > 24 ? pageSize : taxSummaryData.filteredData.length }} of
+      {{ numberOfTins }}
+    </span>
+  </div>
+  <div class="tax-summary-body">
+    <div class="tax-summary-table-block mat-elevation-z8">
+      <table mat-table [dataSource]="taxSummaryData" matSort matSortDirection="asc">
+        <ng-container matColumnDef="Tin">
+          <th mat-header-cell *matHeaderCellDef>
+            <span mat-sort-header>Tax ID Number</span>
+            <div>
+              <input
+                type="text"
+                class="tax-summary-input"
+                (keyup)="searchTaxId($event.target.value)"
+                placeholder="Find Tax ID Number"
+              />
+            </div>
+          </th>
+          <td mat-cell class="tax-summary-table-cell" *matCellDef="let element; let i = index; let isLast = last">
+            {{ element.Tin }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="TinName">
+          <th mat-header-cell *matHeaderCellDef>
+            <span mat-sort-header>Tax ID Name</span>
+            <div>
+              <input
+                type="text"
+                class="tax-summary-name-input"
+                (keyup)="searchTaxId($event.target.value)"
+                placeholder="Find Tax ID Name"
+              />
+            </div>
+          </th>
+          <td mat-cell class="tax-summary-table-cell" [class.italic]="!element.TinName" *matCellDef="let element">
+            {{ element.TinName ? (element.TinName | titlecase) : 'Tax ID Name not available' }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="TaxIdType">
+          <th mat-header-cell *matHeaderCellDef>
+            <span mat-sort-header>Tax ID Type</span>
+            <div>
+              <select class="tax-summary-input" (change)="searchTaxId($event.target.value)">
+                <option>All</option>
+                <option *ngFor="let tin of data.TinTypes"> {{ tin | sliceString }} </option>
+              </select>
+              <mat-icon matPrefix class="tax-summary-arrow-icon" svgIcon="arrow"></mat-icon>
+            </div>
+          </th>
+          <td mat-cell class="tax-summary-table-cell" *matCellDef="let element">
+            {{ element.TaxIdType | sliceString }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="MajorMarketName">
+          <th mat-header-cell *matHeaderCellDef>
+            Market
+            <div>
+              <select class="tax-summary-input">
+                <option>All</option>
+                <option>{{ data.MajorMarketName | countryFormatter }}</option>
+              </select>
+              <mat-icon matPrefix class="tax-summary-arrow-icon" svgIcon="arrow"></mat-icon>
+            </div>
+          </th>
+          <td mat-cell class="tax-summary-table-cell" *matCellDef="">
+            {{ data.MajorMarketName | countryFormatter }}
+          </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="taxSummaryColumns"></tr>
+        <tr mat-row class="tax-summary-rows" *matRowDef="let row; columns: taxSummaryColumns"></tr>
+      </table>
+
+      <mat-paginator
+        class="tax-summary-paginator"
+        [pageSizeOptions]="[25, 50, 100]"
+        (page)="getPageSize($event)"
+        [ngStyle]="{ display: numberOfTins > 24 ? 'block' : 'none' }"
+      >
+      </mat-paginator>
+    </div>
+  </div>
+</div>

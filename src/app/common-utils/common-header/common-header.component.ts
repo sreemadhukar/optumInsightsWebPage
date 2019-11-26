@@ -19,11 +19,11 @@ export class CommonHeaderComponent implements OnInit {
   @Output() helpIconClicked = new EventEmitter();
   @Input() cardType: String;
   @Input() options: CommonHeaderOptions;
+  @Input() printStyle: boolean;
   titleHeader: String = null;
   typeOfCard: String = null;
   titleSubHeader: String = null;
   routhPath: string;
-  printStyle: boolean;
   constructor(private iconRegistry: MatIconRegistry, sanitizer: DomSanitizer, private router: Router) {
     /** INITIALIZING SVG ICONS TO USE IN DESIGN - ANGULAR MATERIAL */
 
