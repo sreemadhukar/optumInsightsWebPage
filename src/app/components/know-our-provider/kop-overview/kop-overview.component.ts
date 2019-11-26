@@ -75,6 +75,7 @@ export class KopOverviewComponent implements OnInit, OnDestroy {
   public npsSummary: any = {};
   public currentFilter: any = {};
   public kopInsightsData: any = {};
+  public isError = false;
 
   constructor(
     private eventEmitter: EventEmitterService,
@@ -88,6 +89,10 @@ export class KopOverviewComponent implements OnInit, OnDestroy {
     iconRegistry.addSvgIcon(
       'filter',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-filter_list-24px.svg')
+    );
+    iconRegistry.addSvgIcon(
+      'error',
+      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Alert/round-error_outline-24px.svg')
     );
   }
 
@@ -122,14 +127,21 @@ export class KopOverviewComponent implements OnInit, OnDestroy {
   }
 
   getNPSData() {
-    this.kopSharedService.getSummary({ filter: this.currentFilter }).then((data: any) => {
-      if (data) {
-        this.showMetricDevelopment(data);
-        this.kopInsightsData = data;
-        this.npsLoaded = true;
-        this.loadOtherMetrics();
-      }
-    });
+    this.kopSharedService
+      .getSummary({ filter: this.currentFilter })
+      .then((data: any) => {
+        if (data) {
+          this.showMetricDevelopment(data);
+          this.kopInsightsData = data;
+          this.npsLoaded = true;
+          this.loadOtherMetrics();
+        } else {
+          this.isError = true;
+        }
+      })
+      .catch(err => {
+        this.isError = true;
+      });
   }
 
   loadOtherMetrics() {
@@ -180,5 +192,12 @@ export class KopOverviewComponent implements OnInit, OnDestroy {
         }
       }
     }
+  }
+
+  /**
+   * Reload the current page
+   */
+  reload() {
+    location.reload();
   }
 }
