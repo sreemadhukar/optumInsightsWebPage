@@ -237,7 +237,7 @@ export class GettingReimbursedSharedService {
                 type: 'rotateWithLabel',
                 title: 'Average Claims Turn Around Time',
                 MetricID: this.MetricidService.MetricIDs.ClaimsAverageTurnaroundTimetoPayment,
-                toggle: true,
+                //  toggle: true,
                 data: {
                   centerNumber: claimsData[lobData].ClaimsLobSummary[0].ClaimsAvgTat + ' days',
                   color: ['#3381FF', '#3381FF'],
@@ -971,7 +971,7 @@ export class GettingReimbursedSharedService {
                 type: 'rotateWithLabel',
                 title: 'Average Claims Turn Around Time',
                 MetricID: this.MetricidService.MetricIDs.ClaimsAverageTurnaroundTimetoPayment,
-                toggle: true,
+                // toggle: true,
                 data: {
                   centerNumber: claimsData[lobData].ClaimsLobSummary[0].ClaimsAvgTat + ' days',
                   color: ['#3381FF', '#3381FF'],
