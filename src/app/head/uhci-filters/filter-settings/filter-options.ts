@@ -19,7 +19,7 @@ export const LineOfBusiness = [
 export const ClaimsFilter = [
   { name: 'All', value: 'All', disable: false },
   { name: 'PROFESSIONAL', value: 'HCFA (Health Care Finance Administration)', disable: false },
-  { name: 'FACILITY', value: 'UB (Universal Billing)', disable: false }
+  { name: 'INSTITUTIONAL', value: 'UB (Universal Billing)', disable: false }
 ];
 
 export const ServiceSetting = [
