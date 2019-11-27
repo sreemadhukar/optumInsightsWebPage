@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { NgRedux, select } from '@angular-redux/store';
 import { IAppState } from '../../store/store';
 import { INITIAL_STATE } from '../../store/filter/reducer';
@@ -8,7 +8,8 @@ import {
   ServiceCategory,
   ServiceSetting,
   TimePeriod,
-  TrendMetrics
+  TrendMetrics,
+  ClaimsFilter
 } from '../../head/uhci-filters/filter-settings/filter-options';
 import { FilterExpandService } from '../../shared/filter-expand.service';
 import { TaxId } from '../../head/uhci-filters/filter-settings/filter-options';
@@ -30,11 +31,16 @@ export class FiltersAppliedComponent implements OnInit {
   @select() priorAuthType;
   @select() trendMetric;
   @select() trendDate;
+  @select() claimsFilter;
+  @Input() flag;
+  @Input() tabName;
   selectedPage: any;
   timeFrames = TimePeriod;
   selectedTimePeriod: any;
   lobs = LineOfBusiness;
   selectedLob: any;
+  claims = ClaimsFilter;
+  selectedClaims: any;
   serviceSettings = ServiceSetting;
   selectedServiceSetting: any;
   serviceCategories = ServiceCategory;
@@ -61,6 +67,9 @@ export class FiltersAppliedComponent implements OnInit {
     this.lineOfBusiness.subscribe(
       lineOfBusiness => (this.selectedLob = this.lobs.find(val => val.name === lineOfBusiness))
     );
+    this.claimsFilter.subscribe(
+      claimsFilter => (this.selectedClaims = this.claims.find(val => val.name === claimsFilter))
+    );
     this.serviceSetting.subscribe(
       serviceSetting => (this.selectedServiceSetting = this.serviceSettings.find(val => val.name === serviceSetting))
     );
@@ -75,7 +84,7 @@ export class FiltersAppliedComponent implements OnInit {
       trendMetric => (this.selectedTrendMetric = this.trendMetricData.find(val => val.name === trendMetric))
     );
     this.trendDate.subscribe(trendDate => {
-      this.selectedDate = trendDate;
+      this.selectedDate = new Date(trendDate);
       this.previousDate = new Date(this.selectedDate.toString());
       this.previousDate = this.previousDate.setDate(this.selectedDate.getDate() - 1);
     });
@@ -105,7 +114,8 @@ export class FiltersAppliedComponent implements OnInit {
                 serviceCategory: this.selectedServiceCategory ? this.selectedServiceCategory.name : '',
                 priorAuthType: this.selectedPriorAuthType.name,
                 trendMetric: this.selectedTrendMetric.name,
-                trendDate: this.selectedDate
+                trendDate: this.selectedDate,
+                claimsFilter: this.selectedClaims.name
               }
             });
           }
@@ -115,6 +125,9 @@ export class FiltersAppliedComponent implements OnInit {
         break;
       case 'lob':
         this.ngRedux.dispatch({ type: REMOVE_FILTER, filterData: { lineOfBusiness: true } });
+        break;
+      case 'claims':
+        this.ngRedux.dispatch({ type: REMOVE_FILTER, filterData: { claimsFilter: true } });
         break;
       case 'serviceSetting':
         this.ngRedux.dispatch({ type: REMOVE_FILTER, filterData: { serviceSetting: true } });

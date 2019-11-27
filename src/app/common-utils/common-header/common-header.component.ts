@@ -19,6 +19,7 @@ export class CommonHeaderComponent implements OnInit {
   @Output() helpIconClicked = new EventEmitter();
   @Input() cardType: String;
   @Input() options: CommonHeaderOptions;
+  @Input() printStyle: boolean;
   titleHeader: String = null;
   typeOfCard: String = null;
   titleSubHeader: String = null;
@@ -34,8 +35,11 @@ export class CommonHeaderComponent implements OnInit {
   ngOnInit() {
     this.titleHeader = this.title;
     this.typeOfCard = this.cardType;
-    if (this.subtitle.length > 0) {
+    if (this.subtitle && this.subtitle.length > 0) {
       this.titleSubHeader = this.subtitle;
+    }
+    if (this.router.url.includes('print-')) {
+      this.printStyle = true;
     }
   }
   helpFunctionClicked() {

@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 import { FilterExpandService } from '../../../shared/filter-expand.service';
 import { CommonUtilsService } from '../../../shared/common-utils.service';
 import { SessionService } from 'src/app/shared/session.service';
+import { GlossaryMetricidService } from '../../../shared/glossary-metricid.service';
 import { NgRedux } from '@angular-redux/store';
 import { CURRENT_PAGE } from '../../../store/filter/actions';
 import { IAppState } from '../../../store/store';
@@ -24,7 +25,7 @@ export class PaymentIntegrityComponent implements OnInit {
   timePeriod: string;
   lob: string;
   taxID: Array<string>;
-  title = 'Payment Integrity: Medical Record Coding Review';
+  title = '';
   smartEditsReasonTitle = 'Smart Edits Returned Claims Top Reasons';
   smartEditsRepairedAndResubmittedTitle = 'Smart Edits Repaired & Resubmitted Response Time';
   MetricID = 'NA';
@@ -48,6 +49,7 @@ export class PaymentIntegrityComponent implements OnInit {
 
   constructor(
     private glossaryExpandService: GlossaryExpandService,
+    public MetricidService: GlossaryMetricidService,
     private checkStorage: StorageService,
     private iconRegistry: MatIconRegistry,
     sanitizer: DomSanitizer,
@@ -78,18 +80,14 @@ export class PaymentIntegrityComponent implements OnInit {
     );
     this.pageTitle = 'Medical Records Coding Review';
     this.tabOptionsTitle = ['Jul 1, 2018–Jun 30, 2019', 'Jul 1, 2019–Oct 31, 2019'];
-    this.subTitle = 'Note: Claims Metrics are calculated using date medical record requested';
+    this.subTitle = `Note: Claims Metrics are calculated using date medical record requested.
+       Dashboard information/measurements are reperesenting physician claims only.
+       These measurements do not take into account facility claims.`;
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.filtermatch.urlResuseStrategy());
   }
   matOptionClicked(i: number, event: any) {
     this.currentSummary = [];
-    if (i === 1) {
-      this.currentSummary = this.summaryItems[0];
-      this.currentTabTitle = this.summaryItems[0].title;
-    } else {
-      this.currentSummary = null;
-      this.currentTabTitle = null;
-    }
+    this.currentSummary = this.summaryItems;
     const myTabs = document.querySelectorAll('ul.nav-tabs > li');
     for (let j = 0; j < myTabs.length; j++) {
       myTabs[j].classList.remove('active');
@@ -120,7 +118,7 @@ export class PaymentIntegrityComponent implements OnInit {
         category: 'app-card',
         type: 'donutWithSideBottomLabel',
         title: 'Medical Records Requested by UHC',
-        MetricID: '',
+        MetricID: this.MetricidService.MetricIDs.PaymentIntegrityRecordsRequested,
         data: {
           graphValues: [1100, 22000],
           centerNumber: '5%',
@@ -145,9 +143,25 @@ export class PaymentIntegrityComponent implements OnInit {
             }
           ]
         }
+      },
+      {
+        title: 'Coding Review Results',
+        MetricID: this.MetricidService.MetricIDs.PaymentIntegrityCodeReviewResults,
+        data: {
+          type: 'bar chart',
+          cdata: 'paymentintegrity',
+          graphValues: [92, 8],
+          barText: 'Accurate Codes',
+          hoverData: '699/760 Reviewed',
+          barValue: '92%',
+          color: ['#00B8CC', '#FFFFFF', '#E0E0E0'],
+          gdata: ['app-card-structure', 'pi-bar-chart'],
+          hover: true,
+          targetValue: '2% above target'
+        }
       }
     ];
-    this.currentSummary = this.summaryItems[0];
+    this.currentSummary = this.summaryItems;
     this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'paymentIntegrityPage' });
     this.timePeriod = this.session.filterObjValue.timeFrame;
     if (this.session.filterObjValue.lob !== 'All') {

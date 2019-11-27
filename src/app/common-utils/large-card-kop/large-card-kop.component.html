@@ -1,20 +1,29 @@
-<div class="card-structure" *ngIf="data && !skeletonLarge">
+<div class="card-structure" *ngIf="cardData && !skeletonLarge">
   <div class="card-inner-large">
     <app-common-header
-      [title]="data.title"
+      [title]="cardData.title"
       class="full-display"
       (helpIconClicked)="helpIconClick($event)"
     ></app-common-header>
     <div class="card-inner-large-content">
-      <div class="kop-insights-data" *ngFor="let item of data.chartData; let i = index">
-        <div *ngIf="!item.singleCard; then switchCharts; else singleCardTemplate"></div>
-        <ng-template #switchCharts>
-          <div [ngSwitch]="item.cardType">
-            <div *ngSwitchCase="'horizontalBar'">
-              <app-horizontal-charts></app-horizontal-charts>
+      <div class="kop-insights-data" *ngFor="let item of cardData.chartData; let i = index">
+        <div *ngIf="!item.singleCard; else singleCardTemplate">
+          <div [ngSwitch]="item.cardType" *ngIf="!item.showMetricProgressIcon; else showProgressIcon">
+            <div *ngSwitchCase="'horizontalBar'" class="bars_container">
+              <app-horizontal-charts
+                class="full-width-container"
+                *ngIf="item.quarters[0].title !== null"
+                [data]="item.quarters"
+              ></app-horizontal-charts>
+              <app-error-template *ngIf="item.quarters[0].title === null"></app-error-template>
             </div>
-            <div *ngSwitchCase="'verticalBar'">
-              <app-vertical-bar-charts></app-vertical-bar-charts>
+            <div *ngSwitchCase="'verticalBar'" class="bars_container">
+              <app-vertical-bar-charts
+                class="full-width-container"
+                *ngIf="item.quarters[0].title !== null"
+                [data]="item.quarters"
+              ></app-vertical-bar-charts>
+              <app-error-template *ngIf="item.quarters[0].title === null"></app-error-template>
             </div>
             <div *ngSwitchCase="'hollowbox'" class="highlighted-boxes">
               <div class="hollow-box-container" *ngFor="let quarter of item.quarters">
@@ -32,17 +41,28 @@
             </div>
             <div *ngSwitchCase="'miniDonut'" class="mini-donut-chart">
               <div *ngFor="let quarter of item.quarters">
-                <app-donut-charts [chartData]="item" [quarter]="quarter"></app-donut-charts>
+                <app-donut-charts *ngIf="quarter.title" [chartData]="item" [quarter]="quarter"></app-donut-charts>
+                <app-error-template *ngIf="!quarter.title"></app-error-template>
               </div>
             </div>
           </div>
-        </ng-template>
+        </div>
         <ng-template #singleCardTemplate>
-          <div *ngIf="item.quarters[0]?.title != null" class="highlighted-value">
-            {{ item.quarters[0]?.title }}
-          </div>
-          <div *ngIf="item.quarters[0]?.title == null" class="highlighted-value">
-            <app-error-template></app-error-template>
+          <div *ngIf="!item.showMetricProgressIcon; else showProgressIcon">
+            <div
+              *ngIf="item.quarters[0]?.title != null && item.caption !== 'Avg. Prior Auth turnaround time'"
+              class="highlighted-value"
+            >
+              {{ item.quarters[0]?.title | currencyFormatter }}
+            </div>
+            <div
+              *ngIf="item.quarters[0]?.title == null && item.caption !== 'Avg. Prior Auth turnaround time'"
+              class="highlighted-value"
+            >
+              <app-error-template></app-error-template>
+            </div>
+            <!--Please remove once pdp data issue is resolved-->
+            <div *ngIf="item.caption === 'Avg. Prior Auth turnaround time'" class="care-delivery-height"></div>
           </div>
         </ng-template>
         <div>
@@ -68,6 +88,11 @@
               Relationship - Top Box % (9-10)
             </div>
           </div>
+          <div class="metric-in-progress" *ngIf="item.showMetricProgressIcon">
+            <i class="metric-in-progress-content">
+              (Metric in development)
+            </i>
+          </div>
         </div>
       </div>
     </div>
@@ -92,3 +117,7 @@
     </div>
   </div>
 </div>
+
+<ng-template #showProgressIcon>
+  <mat-icon class="metrics-icon-display" svgIcon="insert-chart"></mat-icon>
+</ng-template>

@@ -10,7 +10,8 @@ export const INITIAL_STATE: IAppState = {
   serviceCategory: '',
   priorAuthType: 'All',
   trendMetric: 'GettingReimbursed',
-  trendDate: new Date()
+  trendDate: new Date(),
+  claimsFilter: 'All'
 };
 
 export function FilterReducer(state, action) {
@@ -32,7 +33,8 @@ export function FilterReducer(state, action) {
         serviceCategory: action.filterData.serviceCategory,
         priorAuthType: action.filterData.priorAuthType,
         trendMetric: action.filterData.trendMetric,
-        trendDate: action.filterData.trendDate
+        trendDate: action.filterData.trendDate,
+        claimsFilter: action.filterData.claimsFilter
       };
     case REMOVE_FILTER:
       return {
@@ -41,7 +43,8 @@ export function FilterReducer(state, action) {
         serviceSetting: action.filterData.serviceSetting ? INITIAL_STATE.serviceSetting : state.serviceSetting,
         serviceCategory: action.filterData.serviceCategory ? INITIAL_STATE.serviceCategory : state.serviceCategory,
         priorAuthType: action.filterData.priorAuthType ? INITIAL_STATE.priorAuthType : state.priorAuthType,
-        taxId: action.filterData.taxId ? INITIAL_STATE.taxId : state.taxId
+        taxId: action.filterData.taxId ? INITIAL_STATE.taxId : state.taxId,
+        claimsFilter: action.filterData.claimsFilter ? INITIAL_STATE.claimsFilter : state.claimsFilter
       };
     case RESET_FILTER:
       return {
@@ -53,7 +56,8 @@ export function FilterReducer(state, action) {
         serviceCategory: INITIAL_STATE.serviceCategory,
         priorAuthType: INITIAL_STATE.priorAuthType,
         trendMetric: INITIAL_STATE.trendMetric,
-        trendDate: INITIAL_STATE.trendDate
+        trendDate: INITIAL_STATE.trendDate,
+        claimsFilter: INITIAL_STATE.claimsFilter
       };
     default:
       return state;

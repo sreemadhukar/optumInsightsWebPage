@@ -5,13 +5,7 @@
       <form class="business-glossary-form">
         <mat-form-field appearance="outline">
           <mat-label>What metrics can we help you with ?</mat-label>
-          <input
-            type="text"
-            matInput
-            [matAutocomplete]="auto"
-            [formControl]="glossaryCtrl"
-            [(ngModel)]="selectedmetric"
-          />
+          <input type="text" matInput [matAutocomplete]="auto" [formControl]="glossaryCtrl" />
           <mat-icon matPrefix class="nav-menu-icons" svgIcon="search"></mat-icon>
           <mat-autocomplete #auto="matAutocomplete" (optionSelected)="filteredData($event.option.value)">
             <mat-option *ngFor="let glossary of filteredOptions | async" [value]="glossary">
@@ -48,7 +42,7 @@
                 ><br
               /></span>
               <div>
-                {{ glossary.BusinessGlossary.ProviderDashboardName.Definition }}
+                <span [innerHTML]="glossary.BusinessGlossary.ProviderDashboardName.Definition"></span>
                 <a class="glossary-definition-tag" [href]="hyperlink" target="_blank">{{ split }}</a>
               </div>
             </div>
@@ -64,7 +58,10 @@
               <br />
               <div class="glossary-formula">Data Calculation</div>
               <br />
-              <div class="glossary-metric-formula">{{ glossary.BusinessGlossary.ProviderDashboardName.Formula }}</div>
+              <div
+                class="glossary-metric-formula"
+                [innerHTML]="glossary.BusinessGlossary.ProviderDashboardName.Formula"
+              ></div>
             </div>
             <br />
             <div

@@ -12,6 +12,12 @@ export class LargeCardKopComponent implements OnInit {
   @Input() title;
   @Input() timePeriod;
   @Input() skeletonLarge;
+  showMetricProgressIcon = false;
+
+  public get cardData() {
+    return this.data;
+  }
+
   constructor(
     private iconRegistry: MatIconRegistry,
     sanitizer: DomSanitizer,
@@ -21,6 +27,10 @@ export class LargeCardKopComponent implements OnInit {
     iconRegistry.addSvgIcon(
       'help',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-help_outline-24px.svg')
+    );
+    iconRegistry.addSvgIcon(
+      'insert-chart',
+      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Content/round-insert_chart-24px.svg')
     );
   }
 
