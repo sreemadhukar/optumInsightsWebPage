@@ -67,7 +67,7 @@ export class HttpInterceptorService implements HttpInterceptor {
         });
       }
     }
-    if (request.url.indexOf('myinsightOptumIdHandshake') !== -1 || request.url.indexOf('ldapauth') !== -1) {
+    if (request.url.indexOf('myinsightOptumIdHandshake') === -1 || request.url.indexOf('ldapauth') === -1) {
       request = request.clone({ headers: request.headers.set('Content-Type', 'application/json') });
     }
     request = request.clone({ headers: request.headers.set('Accept', '*/*') });
