@@ -203,7 +203,7 @@
                   "with": "src/environments/environment.externalint.ts"
                 }
               ],
-              "optimization": false,
+              "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
               "extractCss": false,
@@ -220,7 +220,7 @@
                   "with": "src/environments/environment.int.ts"
                 }
               ],
-              "optimization": false,
+              "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
               "extractCss": false,
