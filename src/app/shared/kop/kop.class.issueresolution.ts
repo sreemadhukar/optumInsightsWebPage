@@ -16,7 +16,7 @@ export class IssueResolution {
 
   public createCard() {
     this.records.forEach((record, index) => {
-      const { IssueResolution: Issue_Resolution } = record;
+      const { IssueResolution: Issue_Resolution = {} } = record;
       this.data.chartData.forEach((chartDataElement: any) => {
         const key = chartDataElement.key;
         const subKey = chartDataElement.subKey;
@@ -28,9 +28,7 @@ export class IssueResolution {
             id: index,
             section: this.section
           });
-        }
-
-        if (Issue_Resolution[key]) {
+        } else {
           const value = Issue_Resolution[key][subKey] ? Math.round(Issue_Resolution[key][subKey]) : null;
           if (this.singleCard && value !== null) {
             chartDataElement.quarters.push({ title: value + '' + chartDataElement.units });
@@ -56,7 +54,7 @@ export class IssueResolution {
         key: 'PriorAuthTurnTime',
         subKey: 'PriorAuthTurnTimeValue',
         units: 'hours',
-        caption: 'Avg. turnaround time',
+        caption: 'Total Calls',
         singleCard: this.singleCard,
         report: false,
         color: ['#3381FF', '#80B0FF'],
@@ -72,7 +70,7 @@ export class IssueResolution {
         subKey: 'PriorAuthRequestedValue',
         units: 'K',
         singleCard: this.singleCard,
-        caption: 'Providers onboarded',
+        caption: 'Resolved on first call',
         report: false,
         color: ['#3381FF', '#80B0FF'],
         sdata: {

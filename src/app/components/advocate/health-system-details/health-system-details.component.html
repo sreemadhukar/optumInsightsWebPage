@@ -1,0 +1,51 @@
+<div class="content-wrapper">
+  <div class="main-content">
+    <div class="cards cust-width-title">
+      <app-breadcrumbs></app-breadcrumbs>
+      <div class="page-title">
+        North Region Health System
+      </div>
+    </div>
+    <div class="health-system-details-block" *ngIf="healthSystemData">
+      <div class="health-system-details" *ngIf="healthSystemData.All">
+        <div class="health-system-tins">
+          TINs:
+        </div>
+        <div class="health-system-tins-value">
+          {{ healthSystemData.All.length }}
+        </div>
+      </div>
+      <div class="health-system-details" *ngIf="healthSystemData.RegionName">
+        <div class="health-system-regions">
+          Region(s):
+        </div>
+        <div class="health-system-regions-value">
+          {{ healthSystemData.RegionName | titlecase }}
+        </div>
+      </div>
+      <div class="health-system-details" *ngIf="healthSystemData.MajorMarketName">
+        <div class="health-system-markets">
+          Market(s):
+        </div>
+        <div class="health-system-markets-value">
+          {{ healthSystemData.MajorMarketName | countryFormatter }}
+        </div>
+      </div>
+      <div class="health-system-details" *ngIf="healthSystemData.TinTypes">
+        <div class="health-system-tin-types">
+          TIN types:
+        </div>
+        <div class="health-system-tin-types-value">
+          <span *ngFor="let tin of healthSystemData.TinTypes; let isLast = last"
+            >{{ tin | sliceString }}{{ isLast ? '' : ', ' }}</span
+          >
+        </div>
+      </div>
+      <div class="viewIBttn">
+        <button type="submit" class="applybtn btn btn-primary" (click)="viewInsights()">View Insights</button>
+      </div>
+    </div>
+    <div class="line"></div>
+    <app-tax-summary *ngIf="healthSystemData" [data]="healthSystemData" class="tax-summary-block"></app-tax-summary>
+  </div>
+</div>

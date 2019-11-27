@@ -9,6 +9,7 @@ import { MatIconRegistry, MatAutocompleteSelectedEvent } from '@angular/material
 import { DomSanitizer } from '@angular/platform-browser';
 import { StorageService } from './../../../shared/storage-service.service';
 import { SessionService } from '../../../shared/session.service';
+import { NgRedux, select } from '@angular-redux/store';
 
 import {
   AfterViewInit,
@@ -44,7 +45,7 @@ export class SelectProviderComponent implements OnInit {
   public username: string;
   public checkAdv;
   public checkPro;
-
+  public checkExecutive;
   protected emitter = new EventEmitter<string>();
   public obs: Subscription;
   providersLoaded = false;
@@ -61,6 +62,7 @@ export class SelectProviderComponent implements OnInit {
   ) {
     this.checkAdv = this.sessionService.checkAdvocateRole();
     this.checkPro = this.sessionService.checkProjectRole();
+    this.checkExecutive = this.sessionService.checkExecutiveRole();
     iconRegistry.addSvgIcon(
       'cross',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Content/round-clear-24px.svg')
@@ -102,6 +104,7 @@ export class SelectProviderComponent implements OnInit {
   }
 
   ngOnInit() {
+    console.log('hello');
     this.providerData = JSON.parse(sessionStorage.getItem('currentUser'));
     const userInfo = JSON.parse(sessionStorage.getItem('loggedUser'));
     this.username = userInfo.FirstName;
@@ -175,8 +178,11 @@ export class SelectProviderComponent implements OnInit {
     }
     // Role based access for Advocates Overview page
     if (this.checkAdv.value) {
-      window.location.href = '/OverviewPageAdvocate';
-    } else if (this.checkPro.value) {
+      // window.location.href = '/OverviewPageAdvocate';
+      window.location.href = '/OverviewPageAdvocate/HealthSystemDetails';
+    } else if (this.checkPro.value || this.checkExecutive.value) {
+      window.location.href = '/OverviewPage';
+    } else {
       window.location.href = '/OverviewPage';
     }
   }

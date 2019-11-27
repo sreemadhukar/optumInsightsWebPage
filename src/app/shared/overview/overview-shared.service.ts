@@ -694,7 +694,6 @@ export class OverviewSharedService {
               paidData.push(claims.Un.ClaimsLobSummary[0].AmountPaid);
             }
           }
-
           claimsPaid = {
             category: 'small-card',
             type: 'donut',
@@ -772,7 +771,8 @@ export class OverviewSharedService {
         claims != null &&
         claims.hasOwnProperty('All') &&
         claims.All != null &&
-        claims.All.hasOwnProperty('ClaimsLobSummary')
+        claims.All.hasOwnProperty('ClaimsLobSummary') &&
+        claims.All.ClaimsLobSummary[0].ClaimsYieldRate.toFixed() !== 0
       ) {
         if (claims.All.ClaimsLobSummary[0].hasOwnProperty('ClaimsYieldRate')) {
           claimsYield = {
@@ -817,7 +817,51 @@ export class OverviewSharedService {
       resolve(claimsYield);
     });
   }
-
+  /* Function to create claims TAT tile starts here */
+  createClaimsTAT(claims) {
+    let claimsTAT: Object;
+    return new Promise((resolve, reject) => {
+      if (
+        claims != null &&
+        claims.hasOwnProperty('All') &&
+        claims.All != null &&
+        claims.All.hasOwnProperty('ClaimsLobSummary')
+      ) {
+        if (claims.All.ClaimsLobSummary[0].hasOwnProperty('ClaimsAvgTat')) {
+          claimsTAT = {
+            category: 'small-card',
+            type: 'tatRotateArrow',
+            title: 'Avg. Claims Processing Days',
+            MetricID: this.MetricidService.MetricIDs.ClaimsAverageTurnaroundTimetoPayment,
+            data: {
+              centerNumber: claims.All.ClaimsLobSummary[0].ClaimsAvgTat + ' days'
+            },
+            timeperiod: 'Last 6 Months'
+          };
+        } else {
+          claimsTAT = {
+            category: 'small-card',
+            type: 'tatRotateArrow',
+            title: null,
+            data: null,
+            sdata: null,
+            timeperiod: null
+          };
+        }
+      } else {
+        claimsTAT = {
+          category: 'small-card',
+          type: 'tatRotateArrow',
+          title: null,
+          data: null,
+          sdata: null,
+          timeperiod: null
+        };
+      }
+      resolve(claimsTAT);
+    });
+  }
+  /* Function to create claims TAT tile ends here */
   /* function to calculate Claims Paid & Claims YIeld Rate TRENDS -  Ranjith kumar Ankam - 04-Jul-2019*/
   // getClaimsTrends(baseTimePeriod, previousTimePeriod) {
   //   return new Promise((resolve, reject) => {
@@ -973,19 +1017,17 @@ export class OverviewSharedService {
           claims.All != null &&
           claims.All.hasOwnProperty('ClaimsLobSummary')
         ) {
-          if (claims.All.ClaimsLobSummary[0].hasOwnProperty('AmountPaid')) {
-            let newClaimsPaid = 0;
-            if (claimsPaidObj.data) {
-              if (claimsPaidObj.data.centerNumberOriginal) {
-                newClaimsPaid = claimsPaidObj.data.centerNumberOriginal;
-                const oldClaimsPaid = claims.All.ClaimsLobSummary[0].AmountPaid;
-                claimsPaidObj.sdata = this.common.trendNegativeMeansBad(newClaimsPaid, oldClaimsPaid);
-              }
-            }
-          }
-
+          // if (claims.All.ClaimsLobSummary[0].hasOwnProperty('AmountPaid')) {
+          //   let newClaimsPaid = 0;
+          //   if (claimsPaidObj.data) {
+          //     if (claimsPaidObj.data.centerNumberOriginal) {
+          //       newClaimsPaid = claimsPaidObj.data.centerNumberOriginal;
+          //       const oldClaimsPaid = claims.All.ClaimsLobSummary[0].AmountPaid;
+          //       claimsPaidObj.sdata = this.common.trendNegativeMeansBad(newClaimsPaid, oldClaimsPaid);
+          //     }
+          //   }
+          // }
           /** Commenting the following lines of code to remove trends from Clims Yield **/
-
           /* if (claims.All.ClaimsLobSummary[0].hasOwnProperty('ClaimsYieldRate')) {
             let newClaimsPaid = 0;
             if (claimsYieldObj.data) {
@@ -1085,6 +1127,10 @@ export class OverviewSharedService {
           .then(trendData => {
             let trends: any;
             trends = trendData;
+            return this.createClaimsTAT(claims);
+          })
+          .then(claimsTAT => {
+            tempArray[2] = claimsTAT;
             // tempArray[0]['sdata'] = trends.claimsPaidTrendObject;
             // tempArray[1]['sdata'] = trends.claimsYieldTrendObject;
             /*tempArray[0]['sdata'] = {
@@ -1168,7 +1214,6 @@ export class OverviewSharedService {
               gdata: ['card-inner', 'priorAuthCardD3Donut']
             },
             sdata: null,
-
             timeperiod: 'Last 6 Months'
           };
           // if (
@@ -1210,7 +1255,6 @@ export class OverviewSharedService {
             timeperiod: null
           };
         }
-
         resolve(cPriorAuth);
       });
     });
@@ -1269,7 +1313,6 @@ export class OverviewSharedService {
             trends.TendingMtrics.CallsTrendByQuesType != null
           ) {
             const dataPoint = trends.TendingMtrics.CallsTrendByQuesType.toFixed(1) + '%';
-            console.log('dataPoint' + dataPoint);
             if (trends.TendingMtrics.CallsTrendByQuesType >= 1) {
               cIR.sdata = {
                 sign: 'up-red',

@@ -12,7 +12,6 @@
           <mat-label>Search Providers</mat-label>
           <input matInput [matAutocomplete]="auto" [formControl]="stateCtrl" id="test" />
           <mat-icon matPrefix class="nav-menu-icons searchicon" svgIcon="search"></mat-icon>
-  
           <mat-autocomplete #auto="matAutocomplete" (optionSelected)="providerSelect($event)" [ngClass]="{ remove: stateCtrl.value }">
             <mat-option *ngFor="let state of (filteredStates | async)" [value]="state.HealthCareOrganizationName">
               <span *ngIf="state.HealthCareOrganizationName">{{ state.HealthCareOrganizationName }}</span>
@@ -32,7 +31,7 @@
         </mat-form-field> -->
 
       <mat-form-field appearance="outline">
-        <mat-label>Search Providers</mat-label>
+        <mat-label>Search Organizations</mat-label>
         <input
           matInput
           [matAutocomplete]="auto"
@@ -53,8 +52,8 @@
           <div *ngIf="noProviders" class="no-result-found-div">
             <div class="no-result-found">No Results Found.</div>
             <div class="no-result-found-text">
-              Your search –<span class="match-font"> {{ stateCtrl.value }} </span>– did not match any providers. Please
-              recheck your search criteria or try a different search.
+              Your search –<span class="match-font"> {{ stateCtrl.value }} </span>– did not match any organizations.
+              Please recheck your search criteria or try a different search.
             </div>
           </div>
           <!-- -->
@@ -64,5 +63,6 @@
         <mat-icon *ngIf="!nomatchFlag" matSuffix class="nav-menu-icons noDataicon" svgIcon="noData"></mat-icon>
       </mat-form-field>
     </form>
+    <div class="three-char-text">Please type 3 characters to start your search.</div>
   </mat-dialog-content>
 </div>

@@ -39,7 +39,7 @@ const routes: Routes = [
     path: 'PaymentIntegrity',
     component: PaymentIntegrityComponent,
     data: {
-      breadcrumb: 'Payment Integrity'
+      breadcrumb: 'Medical Records Coding Review'
     }
   },
   {
