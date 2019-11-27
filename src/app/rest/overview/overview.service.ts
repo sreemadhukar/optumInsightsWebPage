@@ -32,6 +32,10 @@ export class OverviewService {
         TimeFilter: 'Last6Months'
       };
     }
+    const myHeader = new HttpHeaders({
+      Authorization: 'Bearer ' + this.authBearer,
+      Accept: '*/*'
+    });
     let eparams = new HttpParams();
     eparams = eparams.append('filter', 'executive');
 
@@ -39,11 +43,11 @@ export class OverviewService {
     const claimsURL = this.APP_URL + this.CLAIMS_SERVICE_PATH + parameters[0] + '?requestType=PAYMENT_METRICS';
 
     return combineLatest(
-      this.http.get(executiveURL, { params: eparams }).pipe(
+      this.http.get(executiveURL, { headers: myHeader, params: eparams }).pipe(
         map(res => JSON.parse(JSON.stringify(res))),
         catchError(err => of(JSON.parse(JSON.stringify(err))))
       ),
-      this.http.post(claimsURL, tParams).pipe(
+      this.http.post(claimsURL, { headers: myHeader, params: tParams }).pipe(
         map(res => JSON.parse(JSON.stringify(res[0]))),
         catchError(err => of(JSON.parse(JSON.stringify(err))))
       )
