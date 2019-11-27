@@ -41,7 +41,7 @@
               "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
-              "buildOptimizer": false
+              "buildOptimizer": true
             },
             "stage": {
               "fileReplacements": [
@@ -58,7 +58,7 @@
               "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
-              "buildOptimizer": false
+              "buildOptimizer": true
             },
             "demo": {
               "fileReplacements": [
@@ -75,7 +75,7 @@
               "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
-              "buildOptimizer": false
+              "buildOptimizer": true
             },
             "externalprod": {
               "fileReplacements": [
@@ -92,7 +92,7 @@
               "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
-              "buildOptimizer": false
+              "buildOptimizer": true
             },
             "externalstage": {
               "fileReplacements": [
@@ -109,7 +109,7 @@
               "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
-              "buildOptimizer": false
+              "buildOptimizer": true
             },
             "devone": {
               "fileReplacements": [
@@ -211,7 +211,7 @@
               "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
-              "buildOptimizer": false
+              "buildOptimizer": true
             },
             "int": {
               "fileReplacements": [
@@ -228,7 +228,7 @@
               "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
-              "buildOptimizer": false
+              "buildOptimizer": true
             },
             "dev": {
               "fileReplacements": [
@@ -245,7 +245,7 @@
               "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
-              "buildOptimizer": false
+              "buildOptimizer": true
             }
           }
         },
