@@ -18,6 +18,7 @@ export class CreatePayloadService {
   @select() priorAuthType;
   @select() trendMetric;
   @select() trendDate;
+  @select() claimsFilter;
   initialState: IAppState = {
     currentPage: 'overviewPage',
     timePeriod: 'Last6Months',
@@ -27,7 +28,8 @@ export class CreatePayloadService {
     serviceCategory: '',
     priorAuthType: 'All',
     trendMetric: 'GettingReimbursed',
-    trendDate: new Date()
+    trendDate: new Date(),
+    claimsFilter: 'All'
   };
   payload: PayLoad = this.initialState;
   private payloadEmit = new Subject<any>();
@@ -49,6 +51,7 @@ export class CreatePayloadService {
     });
     this.trendMetric.subscribe(trendMetric => (this.initialState.trendMetric = trendMetric));
     this.trendDate.subscribe(trendDate => (this.initialState.trendDate = trendDate));
+    this.claimsFilter.subscribe(claimsFilter => (this.initialState.claimsFilter = claimsFilter));
   }
 
   changePayloadOnInit(appliedPage) {
@@ -74,7 +77,15 @@ export class CreatePayloadService {
       case 'callsPage':
         this.payload = this.getPayloadForCalls(this.initialState);
         break;
+      case 'otherPages':
+        this.payload = this.getPayload(this.initialState);
+        break;
     }
+  }
+
+  resetTinNumber(appliedPage) {
+    this.taxId.subscribe(taxId => (this.initialState.taxId = [{ Tin: 'All', Tinname: 'All' }]));
+    this.emitFilterEvent(appliedPage);
   }
 
   emitFilterEvent(appliedPage) {
@@ -166,7 +177,8 @@ export class CreatePayloadService {
       'trendMetric',
       'trendDate',
       'serviceCategory',
-      'currentPage'
+      'currentPage',
+      'claimsFilter'
     ]);
     return data;
   }
