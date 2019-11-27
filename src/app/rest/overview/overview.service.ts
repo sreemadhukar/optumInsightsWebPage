@@ -34,6 +34,7 @@ export class OverviewService {
     }
     const myHeader = new HttpHeaders({
       Authorization: 'Bearer ' + this.authBearer,
+      'Content-Type': 'application/json',
       Accept: '*/*'
     });
     let eparams = new HttpParams();
