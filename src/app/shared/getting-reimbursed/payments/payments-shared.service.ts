@@ -99,30 +99,10 @@ export class PaymentsSharedService {
       const summaryData: Array<object> = [];
       let claimsPaid: object;
       let claimsPaidRate: object;
-      let claimsSubmitted: object;
-      let claimsTAT: object;
       this.gettingReimbursedService.getPaymentsData(parameters).subscribe(
         claimsData => {
           const lobData = parameters[1].Lob ? _.startCase(parameters[1].Lob.toLowerCase()) : 'All';
           if (claimsData != null && claimsData.hasOwnProperty('status')) {
-            claimsSubmitted = {
-              category: 'app-card',
-              type: 'donutWithLabel',
-              status: claimsData.status,
-              title: 'Total Claims Submitted',
-              data: null,
-              besideData: null,
-              timeperiod: null
-            };
-            claimsTAT = {
-              category: 'app-card',
-              type: 'rotateWithLabel',
-              status: claimsData.status,
-              title: 'Claims Average Turnaround Time to Payment',
-              data: null,
-              besideData: null,
-              timeperiod: null
-            };
             claimsPaid = {
               category: 'app-card',
               type: 'donutWithLabel',
