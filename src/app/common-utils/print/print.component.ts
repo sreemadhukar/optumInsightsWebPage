@@ -10,7 +10,7 @@ import { Router, NavigationStart } from '@angular/router';
 export class PrintComponent implements OnInit {
   @Input() route: string;
   @Output() printClick = new EventEmitter();
-  grBool: boolean;
+  overviewBool: boolean;
   constructor(private iconRegistry: MatIconRegistry, sanitizer: DomSanitizer, private router: Router) {
     /** INITIALIZING SVG ICONS TO USE IN DESIGN - ANGULAR MATERIAL */
 
@@ -21,18 +21,21 @@ export class PrintComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (this.route === '/GettingReimbursed/print-grSummary') {
-      this.grBool = true;
+    if (this.route === '/OverviewPage/print-overview') {
+      this.overviewBool = true;
     }
   }
   printIconClick() {
     console.log('working fine', this.route);
     if (this.route === '/OverviewPage/print-overview') {
       this.router.navigate(['print-page/overview']);
+      this.overviewBool = true;
     } else if (this.route === '/GettingReimbursed/print-grSummary') {
       this.router.navigate(['print-page/grSummary']);
-      this.grBool = true;
+    } else if (this.route === '/GettingReimbursed/Payments/print-payments') {
+      this.router.navigate(['print-page/payments']);
     }
+
     this.printClick.emit(this.route);
   }
 }
