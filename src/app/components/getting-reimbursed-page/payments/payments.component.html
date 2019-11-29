@@ -6,6 +6,8 @@
       <app-print *ngIf="!printStyle" [route]="printRoute" (printClick)="printDownload($event)"> </app-print>
       <div class="page-title" [ngClass]="{ 'print-page-title': printStyle === true }">
         {{ pageTitle }}
+      </div>
+      <div class="non-payment-link-div">
         <a [routerLink]="['/GettingReimbursed/NonPayments']">
           <span *ngIf="!printStyle" class="non-payment-link"> Looking for Non-Payments? </span>
         </a>
@@ -13,6 +15,8 @@
       <div *ngIf="printStyle" class="page-subtitle" [ngClass]="{ 'print-page-subtitle': printStyle === true }">
         {{ pagesubTitle }}
       </div>
+    </div>
+    <div class="cards cust-width-title">
       <app-filters-applied></app-filters-applied>
     </div>
     <div *ngFor="let data of mockCards; let i = index">

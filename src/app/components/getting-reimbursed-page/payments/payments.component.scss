@@ -47,7 +47,7 @@
       }
       .print-page-subtitle {
         font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
-        line-height: 30px;
+        line-height: 40px;
         flex-basis: 100%;
         font-size: 28px;
         display: flex;
@@ -99,8 +99,9 @@
     color: $blue;
     font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
     letter-spacing: 0.2px;
+    flex-basis: 100%;
   }
-  .page-title {
+  .non-payment-link-div {
     a :hover {
       text-decoration: underline;
     }
