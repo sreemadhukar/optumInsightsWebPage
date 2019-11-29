@@ -95,7 +95,7 @@ export class FiltersAppliedComponent implements OnInit {
       trendMetric => (this.selectedTrendMetric = this.trendMetricData.find(val => val.name === trendMetric))
     );
     this.trendDate.subscribe(trendDate => {
-      this.selectedDate = trendDate;
+      this.selectedDate = new Date(trendDate);
       this.previousDate = new Date(this.selectedDate.toString());
       this.previousDate = this.previousDate.setDate(this.selectedDate.getDate() - 1);
     });

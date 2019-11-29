@@ -237,6 +237,7 @@ export class GettingReimbursedSharedService {
                 type: 'rotateWithLabel',
                 title: 'Average Claims Turn Around Time',
                 MetricID: this.MetricidService.MetricIDs.ClaimsAverageTurnaroundTimetoPayment,
+                //  toggle: true,
                 data: {
                   centerNumber: claimsData[lobData].ClaimsLobSummary[0].ClaimsAvgTat + ' days',
                   color: ['#3381FF', '#3381FF'],
@@ -459,6 +460,7 @@ export class GettingReimbursedSharedService {
                 type: 'donut',
                 title: 'Claims Non-Payment Rate',
                 MetricID: this.MetricidService.MetricIDs.ClaimsNonPaymentRate,
+                toggle: !environment.internalAccess,
                 data: {
                   graphValues: [
                     claimsData[lobData].ClaimsLobSummary[0].ClaimsNonPaymentRate,
@@ -767,13 +769,13 @@ export class GettingReimbursedSharedService {
           };*/
 
           /** REMOVE LATER (ONCE PDP ISSUE SOLVED) ***/
-          claimsNotPaidRate = {
-            category: 'app-card',
-            type: 'donut',
-            title: null,
-            data: null,
-            timeperiod: null
-          };
+          // claimsNotPaidRate = {
+          //   category: 'app-card',
+          //   type: 'donut',
+          //   title: null,
+          //   data: null,
+          //   timeperiod: null
+          // };
 
           submissions = {
             id: 1,
@@ -969,12 +971,7 @@ export class GettingReimbursedSharedService {
                 type: 'rotateWithLabel',
                 title: 'Average Claims Turn Around Time',
                 MetricID: this.MetricidService.MetricIDs.ClaimsAverageTurnaroundTimetoPayment,
-                toggle: this.toggle.setToggles(
-                  'Average Claims Turn Around Time',
-                  'Claims Submissions',
-                  'Getting Reimbursed',
-                  true
-                ),
+                // toggle: true,
                 data: {
                   centerNumber: claimsData[lobData].ClaimsLobSummary[0].ClaimsAvgTat + ' days',
                   color: ['#3381FF', '#3381FF'],
@@ -1363,6 +1360,7 @@ export class GettingReimbursedSharedService {
                 type: 'donut',
                 title: 'Claims Non-Payment Rate',
                 MetricID: this.MetricidService.MetricIDs.ClaimsNonPaymentRate,
+                toggle: !environment.internalAccess,
                 data: {
                   graphValues: [
                     claimsData[lobData].ClaimsLobSummary[0].ClaimsNonPaymentRate,
@@ -1443,13 +1441,13 @@ export class GettingReimbursedSharedService {
           };*/
 
           /** REMOVE LATER (ONCE PDP ISSUE SOLVED) ***/
-          claimsNotPaidRate = {
-            category: 'app-card',
-            type: 'donut',
-            title: null,
-            data: null,
-            timeperiod: null
-          };
+          // claimsNotPaidRate = {
+          //   category: 'app-card',
+          //   type: 'donut',
+          //   title: null,
+          //   data: null,
+          //   timeperiod: null
+          // };
           submissions = {
             id: 1,
             title: 'Claims Submissions*',

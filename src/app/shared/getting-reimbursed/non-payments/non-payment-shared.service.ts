@@ -9,6 +9,7 @@ import { AdvocateModule } from '../../../components/advocate/advocate.module';
 import { HttpParams } from '@angular/common/http';
 import { GettingReimbursedPayload } from '../payload.class';
 import * as _ from 'lodash';
+import { environment } from '../../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -145,6 +146,7 @@ export class NonPaymentSharedService {
               type: 'donut',
               title: 'Claims Non-Payment Rate',
               MetricID: this.MetricidService.MetricIDs.ClaimsNonPaymentRate,
+              toggle: !environment.internalAccess,
               data: {
                 graphValues: [
                   nonPaymentData1.All.ClaimsLobSummary[0].ClaimsNonPaymentRate,
@@ -175,13 +177,13 @@ export class NonPaymentSharedService {
           this.summaryData = [];
 
           /** REMOVE LATER (ONCE PDP ISSUE SOLVED) ***/
-          claimsNotPaidRate = {
-            category: 'app-card',
-            type: 'donut',
-            title: null,
-            data: null,
-            timeperiod: null
-          };
+          // claimsNotPaidRate = {
+          //   category: 'app-card',
+          //   type: 'donut',
+          //   title: null,
+          //   data: null,
+          //   timeperiod: null
+          // };
           this.summaryData.push(claimsNotPaid, claimsNotPaidRate);
           resolve(this.summaryData);
         },

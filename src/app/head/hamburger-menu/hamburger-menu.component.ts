@@ -17,7 +17,8 @@ import {
   OnDestroy,
   AfterViewChecked,
   Input,
-  Inject
+  Inject,
+  ChangeDetectorRef
 } from '@angular/core';
 import { MatExpansionPanel, MatDialog, MatSidenav, MatDialogConfig } from '@angular/material';
 import { BreakpointObserver } from '@angular/cdk/layout';
@@ -132,6 +133,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
   /** CONSTRUCTOR **/
   constructor(
     private breakpointObserver: BreakpointObserver,
+    private cdRef: ChangeDetectorRef,
     private elementRef: ElementRef,
     private renderer: Renderer2,
     private iconRegistry: MatIconRegistry,
@@ -278,6 +280,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     });
     this.eventEmitter.getEvent().subscribe(val => {
       this.isKop = val.value;
+      this.cdRef.detectChanges();
     });
     this.checkStorage.getEvent().subscribe(value => {
       if (value.value === 'overviewPage') {
@@ -554,9 +557,16 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
    * Clean fromKOP storage
    */
   navigateToKOP() {
-    sessionStorage.removeItem('fromKOP');
-    this.fromKOP = false;
-    this.router.navigate(['/NationalExecutive']);
+    // TODO: It is a quick fix
+    // settimeout and locaion routing
+    // Need to be remove after ng-redux
+    // filter implementenation in KOP
+    setTimeout(() => {
+      sessionStorage.removeItem('fromKOP');
+      this.fromKOP = false;
+    }, 500);
+    location.href = '/NationalExecutive';
+    // this.router.navigate(['/NationalExecutive']);
   }
 
   /**
