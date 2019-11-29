@@ -2,7 +2,7 @@
   <div class="print-icon-body">
     <mat-icon
       class="print-icon-image"
-      [ngClass]="{ 'padding-icon': grBool === true }"
+      [ngClass]="{ 'padding-icon': overviewBool !== true }"
       svgIcon="print-icon"
       (click)="printIconClick()"
     ></mat-icon>
