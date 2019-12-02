@@ -7,6 +7,10 @@
 <div class="page1" *ngIf="pagename === 'payments'">
   <app-payments [printStyle]="printStyle"></app-payments>
 </div>
+<div class="page1" *ngIf="pagename === 'calls'">
+  <app-calls [printStyle]="printStyle"></app-calls>
+</div>
+
 <!--<app-getting-reimbursed [printStyle]="printStyle"></app-getting-reimbursed>
 <div class="page">
   <app-non-payments></app-non-payments>
