@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { CallsSharedService } from '../../../shared/service-interaction/calls-shared.service';
 import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -19,6 +19,7 @@ import { REMOVE_FILTER } from '../../../store/filter/actions';
   styleUrls: ['./calls.component.scss']
 })
 export class CallsComponent implements OnInit {
+  @Input() printStyle;
   callsItems: any;
   pageTitle: String = '';
   timePeriod: string;
@@ -28,6 +29,7 @@ export class CallsComponent implements OnInit {
   mockCards: any;
   subscription: any;
   callsDataAvailable = false;
+  printRoute: String;
   constructor(
     private checkStorage: StorageService,
     private callsServiceSrc: CallsSharedService,
@@ -40,6 +42,7 @@ export class CallsComponent implements OnInit {
     private ngRedux: NgRedux<IAppState>,
     private createPayloadService: CreatePayloadService
   ) {
+    this.printRoute = 'Calls';
     const filData = this.session.getFilChangeEmitter().subscribe(() => this.common.urlResuseStrategy());
     this.pageTitle = 'Calls';
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => {
@@ -80,5 +83,9 @@ export class CallsComponent implements OnInit {
         this.loading = false;
         this.callsDataAvailable = true;
       });
+  }
+
+  printDownload(value) {
+    console.log('Calls Component', value);
   }
 }
