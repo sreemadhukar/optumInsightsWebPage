@@ -6,41 +6,12 @@ import { NetworkParticipation } from './kop.class.networkparticipation';
 import { TimePeriod } from './kop.class.timeperiod';
 import { IssueResolution } from './kop.class.issueresolution';
 import { Reimbursement } from './kop.class.reimbursement';
+import { Engagement } from './kop.class.engagement';
 
 @Injectable({
   providedIn: 'root'
 })
 export class KOPSharedService {
-  filters: any = [
-    {
-      title: 'Last Completed Quarter',
-      selected: true,
-      quarterFormat: 'default',
-      timeFrameFormat: 'Quarter and Year',
-      filters: ['LAST_COMPLETED_QUARTER']
-    },
-    {
-      title: 'Year To Date',
-      selected: false,
-      timeFrameFormat: 'Year',
-      quarterFormat: 'default',
-      filters: ['YEAR_TO_DATE']
-    },
-    {
-      title: 'Quarter over Quarter',
-      selected: false,
-      timeFrameFormat: 'Quarter vs Quarter',
-      quarterFormat: 'default',
-      filters: ['QUARTER_OVER_QUARTER']
-    },
-    {
-      title: 'Total Last Year',
-      selected: false,
-      timeFrameFormat: 'Last Year',
-      quarterFormat: 'YTD',
-      filters: ['YEAR_TO_DATE', 'TOTAL_LAST_YEAR']
-    }
-  ];
   constructor(private kopService: KopService) {}
 
   public getSummary(params: any) {
@@ -52,7 +23,7 @@ export class KOPSharedService {
         return { filter: param };
       });
 
-      this.getKopData(paramsArray).then((response: any) => {
+      this.getKopData('kop', paramsArray).then((response: any) => {
         if (!response || response.length === 0) {
           return resolve(null);
         }
@@ -75,35 +46,107 @@ export class KOPSharedService {
         const reimbursementInstance = new Reimbursement({ records: response });
         const reimbursement = reimbursementInstance.getData();
 
-        return resolve({ npsSummary, timePeriod, careDelivery, networkParticipation, issueResolution, reimbursement });
+        const engagementInstance = new Engagement({ records: response });
+        const engagement = engagementInstance.getData();
+
+        return resolve({
+          npsSummary,
+          timePeriod,
+          careDelivery,
+          networkParticipation,
+          issueResolution,
+          reimbursement,
+          engagement
+        });
       });
     });
   }
 
-  private getDataAsync(params: any) {
+  public getPriorAuthSummary(params: any) {
     return new Promise(resolve => {
-      this.kopService.getSummary({ params }).subscribe((response: any) => resolve(response), () => resolve(null));
+      const { filter: selectedFilter } = params;
+      const { priorAuthFilters } = selectedFilter;
+
+      const paramsArray = priorAuthFilters.map((param: string) => {
+        return { filter: param };
+      });
+
+      this.getKopData('priorauth', paramsArray).then((response: any) => {
+        if (!response || response.length === 0) {
+          return resolve(null);
+        }
+
+        const careDeliveryInstance = new CareDelivery({ records: response });
+        const careDelivery = careDeliveryInstance.getData();
+
+        return resolve({
+          careDelivery
+        });
+      });
     });
   }
 
-  private getKopData(paramsArray: any[]) {
+  public getPriorAuthTATSummary(params: any) {
+    return new Promise(resolve => {
+      const { filter: selectedFilter } = params;
+      const { priorAuthFilters } = selectedFilter;
+
+      const paramsArray = priorAuthFilters.map((param: string) => {
+        return { filter: param };
+      });
+
+      this.getKopData('priorauthtat', paramsArray).then((response: any) => {
+        if (!response || response.length === 0) {
+          return resolve(null);
+        }
+
+        const careDeliveryInstance = new CareDelivery({ records: response });
+        const careDelivery = careDeliveryInstance.getData();
+
+        return resolve({
+          careDelivery
+        });
+      });
+    });
+  }
+
+  private getDataKopAsync(params: any, merticKey: string) {
+    return new Promise((resolve, reject) => {
+      if (merticKey === 'kop') {
+        this.kopService.getSummary({ params }).subscribe((response: any) => resolve(response), () => reject());
+      } else if (merticKey === 'priorauth') {
+        this.kopService.getPriorAuthSummary({ params }).subscribe((response: any) => resolve(response), () => reject());
+      } else if (merticKey === 'priorauthtat') {
+        this.kopService
+          .getPriorAuthTATSummary({ params })
+          .subscribe((response: any) => resolve(response), () => reject());
+      }
+    });
+  }
+
+  private getKopData(merticKey: string, paramsArray: any[]) {
     return new Promise(resolve => {
       const tasks = [];
 
       paramsArray.forEach((paramsItem: any) => {
-        tasks.push(this.getDataAsync(paramsItem));
+        tasks.push(this.getDataKopAsync(paramsItem, merticKey));
       });
-      Promise.all(tasks).then((response: any) => {
-        const totalResponse = [];
-        response.forEach((responseItem: any) => {
-          if (responseItem) {
-            responseItem.forEach((innerResponseItem: any) => {
-              totalResponse.push(innerResponseItem);
-            });
-          }
+
+      Promise.all(tasks)
+        .then((response: any) => {
+          const totalResponse = [];
+          response.forEach((responseItem: any) => {
+            if (responseItem) {
+              responseItem.forEach((innerResponseItem: any) => {
+                totalResponse.push(innerResponseItem);
+              });
+            }
+          });
+          return resolve(totalResponse);
+        })
+        .catch(() => {
+          return resolve([]);
         });
-        return resolve(totalResponse);
-      });
     });
   }
 }

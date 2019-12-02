@@ -10,6 +10,7 @@ import {
   Output,
   EventEmitter
 } from '@angular/core';
+import { trigger, state, style, animate, transition } from '@angular/animations';
 import { MatIconRegistry, PageEvent } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 import { GettingReimbursedSharedService } from '../../../shared/getting-reimbursed/getting-reimbursed-shared.service';
@@ -21,20 +22,34 @@ import { FilterExpandService } from '../../../shared/filter-expand.service';
 import { CommonUtilsService } from '../../../shared/common-utils.service';
 import { GlossaryMetricidService } from '../../../shared/glossary-metricid.service';
 import { NonPaymentSharedService } from '../../../shared/getting-reimbursed/non-payments/non-payment-shared.service';
+import { NgRedux, select } from '@angular-redux/store';
+import { CURRENT_PAGE } from '../../../store/filter/actions';
+import { IAppState } from '../../../store/store';
+import { CreatePayloadService } from '../../../shared/uhci-filters/create-payload.service';
+import { REMOVE_FILTER } from '../../../store/filter/actions';
 
 @Component({
   selector: 'app-non-payments',
   templateUrl: './non-payments.component.html',
   styleUrls: ['./non-payments.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
+  animations: [
+    // Each unique animation requires its own trigger. The first argument of the trigger function is the name
+    trigger('rotatedState', [
+      state('default', style({ transform: 'rotate(0)' })),
+      state('rotated', style({ transform: 'rotate(180deg)' })),
+      transition('rotated => default', animate('180ms ease-out')),
+      transition('default => rotated', animate('180ms ease-in'))
+    ])
+  ]
 })
 export class NonPaymentsComponent implements OnInit, AfterViewChecked {
-  title = 'Top Reasons for Claims Non-Payment';
+  title = ' Top Reasons for Claims Non-Payment';
   trendTitle = 'Claims Non-Payment Trend';
   section: any = [];
   timePeriod: string;
-  lob: string;
-  taxID: Array<string>;
+  // lob: string;
+  // taxID: Array<string>;
   @Output() filterIconClicked = new EventEmitter();
   subscription: any;
   pageTitle: String = '';
@@ -51,6 +66,7 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
   loadingTwo: boolean;
   mockCardTwo: any;
   barChartsArray: any;
+
   /*
   barChartsArray = [
     {
@@ -203,11 +219,17 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
     private filterExpandService: FilterExpandService,
     private session: SessionService,
     private router: Router,
-    private filtermatch: CommonUtilsService,
-    private nonPaymentService: NonPaymentSharedService
+    private nonPaymentService: NonPaymentSharedService,
+    private ngRedux: NgRedux<IAppState>,
+    private createPayloadService: CreatePayloadService,
+    private common: CommonUtilsService
   ) {
-    const filData = this.session.getFilChangeEmitter().subscribe(() => this.filtermatch.urlResuseStrategy());
-    this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.filtermatch.urlResuseStrategy());
+    const filData = this.session.getFilChangeEmitter().subscribe(() => this.common.urlResuseStrategy());
+    this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => {
+      this.createPayloadService.resetTinNumber('nonPaymentsPage');
+      this.ngRedux.dispatch({ type: REMOVE_FILTER, filterData: { taxId: true } });
+      this.common.urlResuseStrategy();
+    });
     /** INITIALIZING SVG ICONS TO USE IN DESIGN - ANGULAR MATERIAL */
 
     iconRegistry.addSvgIcon(
@@ -234,43 +256,30 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
       'close',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-close-24px.svg')
     );
+    iconRegistry.addSvgIcon(
+      'carrot',
+      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/keyboard_arrow_down-24px.svg')
+    );
+
     this.pageTitle = 'Claims Non-Payments*';
+    this.createPayloadService.getEvent().subscribe(value => {
+      this.ngOnInit();
+    });
   }
 
   ngOnInit() {
+    this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'nonPaymentsPage' });
     this.nonPaymentData1 = [];
     this.loadingTopReasons = true;
-    if (
-      this.session.filterObjValue.timeFrame === 'Last 12 Months' ||
-      this.session.filterObjValue.timeFrame === '2017' ||
-      this.session.filterObjValue.timeFrame === '2018'
-    ) {
-      this.session.filterObjValue.timeFrame = 'Last 6 Months';
-    } // temporary change for claims
-    this.timePeriod = this.session.filterObjValue.timeFrame;
-    if (this.session.filterObjValue.lob !== 'All') {
-      this.lob = this.filtermatch.matchLobWithLobData(this.session.filterObjValue.lob);
-    } else {
-      this.lob = '';
-    }
-    if (this.session.filterObjValue.tax.length > 0 && this.session.filterObjValue.tax[0] !== 'All') {
-      this.taxID = this.session.filterObjValue.tax;
-      if (this.taxID.length > 3) {
-        this.taxID = [this.taxID.length + ' Selected'];
-      }
-    } else {
-      this.taxID = [];
-    }
+    this.timePeriod = this.common.getTimePeriodFilterValue(this.createPayloadService.payload.timePeriod);
     this.gettingReimbursedSharedService.getTins().then(tins => {});
     this.loadingOne = false;
     this.mockCardOne = [{}];
     this.loadingTwo = false;
     this.mockCardTwo = [{}];
 
-    // this.timePeriod = this.session.timeFrame; // uncomment it
-
     /** code for two donuts  Claims Not Paid and Claims Non-payment Rate */
-    this.nonPaymentService.getNonPayment().then(
+    this.nonPaymentService.getNonPayment(this.createPayloadService.payload).then(
       nonPayment => {
         this.nonPaymentData1 = JSON.parse(JSON.stringify(nonPayment));
       },
@@ -281,9 +290,8 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
     /** Ends here */
 
     /** code for Top Categories*/
-
     this.topReasonsCategoryDisplay = false;
-    this.nonPaymentService.getNonPaymentCategories().then(
+    this.nonPaymentService.getNonPaymentCategories(this.createPayloadService.payload).then(
       topCategories => {
         this.loadingTopReasons = false;
         this.topReasonsCategoryDisplay = true;
@@ -327,7 +335,7 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
     this.monthlyLineGraph.chartData = [];
     this.trendMonthDisplay = false;
     // This is for line graph
-    this.nonPaymentService.sharedTrendByMonth().then(trendData => {
+    this.nonPaymentService.sharedTrendByMonth(this.createPayloadService.payload).then(trendData => {
       if (trendData === null) {
         this.trendMonthDisplay = false;
         this.monthlyLineGraph = {
@@ -391,25 +399,5 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
       ) as HTMLElement).style.color = '#2d2d39';
     }
     // this.cdRef.detectChanges();
-  }
-  openFilter() {
-    this.filterExpandService.setURL(this.router.url);
-  }
-  removeFilter(type, value) {
-    if (type === 'lob') {
-      this.lob = '';
-      this.session.store({ timeFrame: this.timePeriod, lob: 'All', tax: this.session.filterObjValue.tax });
-    } else if (type === 'tax' && !value.includes('Selected')) {
-      this.taxID = this.session.filterObjValue.tax.filter(id => id !== value);
-      if (this.taxID.length > 0) {
-        this.session.store({ timeFrame: this.timePeriod, lob: this.session.filterObjValue.lob, tax: this.taxID });
-      } else {
-        this.session.store({ timeFrame: this.timePeriod, lob: this.session.filterObjValue.lob, tax: ['All'] });
-        this.taxID = [];
-      }
-    } else if (type === 'tax' && value.includes('Selected')) {
-      this.session.store({ timeFrame: this.timePeriod, lob: this.session.filterObjValue.lob, tax: ['All'] });
-      this.taxID = [];
-    }
   }
 }

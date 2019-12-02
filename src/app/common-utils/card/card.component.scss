@@ -12,6 +12,12 @@
   font-size: 30px;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
   border-radius: 2px;
+
+  .print-card-inner {
+    box-shadow: none;
+    border: 1px solid #2d2d39;
+  }
+
   .chart-details-donut {
     float: left;
     /*padding-left: 15px;
@@ -64,6 +70,17 @@
     line-height: 18px;
     float: left;
   }
+  .pi-list-color {
+    width: 24px;
+    .pi-label-icons {
+      line-height: 20px;
+      padding-bottom: 16px;
+      margin-top: 2px;
+    }
+  }
+  .pi-list-labels {
+    width: 120px;
+  }
   .app-card-list-labels > li {
     margin-bottom: 16px;
     margin-right: 8px;
@@ -78,6 +95,11 @@
     float: left;
     margin-top: 110px;
     margin-left: 25px;
+  }
+  .pi-beside-data-block {
+    float: left;
+    margin-top: 75px;
+    margin-left: 16px;
   }
   .pa-approval-rate-beside-data-block {
     float: left;
@@ -142,6 +164,10 @@
   .pa-approval-rate-donut-with-label {
     float: left;
     padding: 14px 0px 32px 53px;
+  }
+  .pi-donut-with-label {
+    float: left;
+    padding: 14px 0px 32px 40px;
   }
   .PCOR-annual-rate-donut-with-label-tab {
     float: left;
@@ -209,6 +235,13 @@
     color: $strom-grey;
     font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
     font-size: 16px;
+    letter-spacing: 0.2px;
+    line-height: 22px;
+  }
+  .pi-bottom-label {
+    color: $strom-grey;
+    font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+    font-size: 14px;
     letter-spacing: 0.2px;
     line-height: 22px;
   }
@@ -422,3 +455,9 @@
   }
 }
 /* ends tabs css ends here */
+
+.print-card-inner {
+  box-shadow: none !important;
+  border: 1px solid #e9e9e9 !important;
+  width: 462px !important;
+}

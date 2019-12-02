@@ -1,19 +1,19 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PrintOverviewComponent } from './print-overview.component';
+import { TinListPageComponent } from './tin-list-page.component';
 
-describe('PrintOverviewComponent', () => {
-  let component: PrintOverviewComponent;
-  let fixture: ComponentFixture<PrintOverviewComponent>;
+describe('TinListPageComponent', () => {
+  let component: TinListPageComponent;
+  let fixture: ComponentFixture<TinListPageComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [PrintOverviewComponent]
+      declarations: [TinListPageComponent]
     }).compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(PrintOverviewComponent);
+    fixture = TestBed.createComponent(TinListPageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

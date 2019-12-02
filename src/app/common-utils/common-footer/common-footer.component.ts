@@ -13,29 +13,7 @@ export class CommonFooterComponent implements OnInit {
   @Input() title: String;
   @Input() linkName: String;
   @Input() routePath: String;
-  timePeriodFooter: String;
-  constructor(private router: Router, private iconRegistry: MatIconRegistry, private sanitizer: DomSanitizer) {
-    iconRegistry.addSvgIcon(
-      'chevron_right',
-      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Navigation/baseline-chevron_right-24px.svg')
-    );
-  }
-
-  ngOnInit() {
-    this.last6Months();
-  }
-  linkFunction() {
-    this.router.navigate([this.routePath]);
-  }
-  getDaysInMonth(month, year) {
-    // Here January is 1 based
-    // Day 0 is the last day in the previous month
-    return new Date(year, month, 0).getDate();
-    // Here January is 0 based
-    // return new Date(year, month+1, 0).getDate();
-  }
-
-  last6Months() {
+  public get timePeriodFooter() {
     if (this.timePeriod === 'Last 6 Months') {
       const today = new Date();
       let yyyy = today.getFullYear();
@@ -89,7 +67,7 @@ export class CommonFooterComponent implements OnInit {
         }
       }
 
-      this.timePeriodFooter =
+      const timePeriodFooter =
         month[parseInt(mmlast6) - 1].monthNames +
         ' ' +
         ddlast6 +
@@ -103,8 +81,29 @@ export class CommonFooterComponent implements OnInit {
         ',' +
         ' ' +
         yyyy;
+      return timePeriodFooter;
     } else {
-      this.timePeriodFooter = this.timePeriod;
+      return this.timePeriod;
     }
+  }
+  constructor(private router: Router, private iconRegistry: MatIconRegistry, private sanitizer: DomSanitizer) {
+    iconRegistry.addSvgIcon(
+      'chevron_right',
+      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Navigation/baseline-chevron_right-24px.svg')
+    );
+  }
+
+  ngOnInit() {
+    // this.last6Months();
+  }
+  linkFunction() {
+    this.router.navigate([this.routePath]);
+  }
+  getDaysInMonth(month, year) {
+    // Here January is 1 based
+    // Day 0 is the last day in the previous month
+    return new Date(year, month, 0).getDate();
+    // Here January is 0 based
+    // return new Date(year, month+1, 0).getDate();
   }
 }

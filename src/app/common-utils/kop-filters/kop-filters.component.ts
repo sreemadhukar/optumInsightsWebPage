@@ -10,6 +10,7 @@ import { MatInput } from '@angular/material';
 export interface FilterData {
   title: string;
   selected: boolean;
+  default: boolean;
 }
 
 @Component({
@@ -36,9 +37,10 @@ export class KopFiltersComponent implements OnInit {
 
   resetFilter() {
     if (this.customFilter) {
-      this.filterData.forEach((filterDataItem: FilterData, index: number) => {
+      this.filterData.forEach((filterDataItem: FilterData) => {
+        const { default: defaultFilter } = filterDataItem;
         filterDataItem.selected = false;
-        if (index === 0) {
+        if (defaultFilter) {
           this.selectedFilter = filterDataItem.title;
           filterDataItem.selected = true;
         }
@@ -56,7 +58,7 @@ export class KopFiltersComponent implements OnInit {
         selectedFilter: this.selectedFilter
       });
     }
-    this.session.filterObjSubject.complete();
+    // this.session.filterObjSubject.complete();
     this.filterFlag.emit(false);
   }
   @HostListener('document:keydown.escape', ['$event'])

@@ -1,23 +1,28 @@
 <app-feedback></app-feedback>
 
 <div class="overview-body" color="primary" id="print-overview">
-  <div class="overview-content">
+  <div class="overview-content" style="page-break-after: always">
     <div class="cards cust-width-title">
       <div class="page-title">{{ pageTitle }}</div>
       <div class="page-subtitle">{{ pagesubTitle }}</div>
     </div>
     <div class="cards cust-width-blank">
-      <!-- <app-print *ngIf="!printStyle" [route]="printRoute" (printClick)="printDownload($event)"> </app-print> -->
+      <app-print *ngIf="!printStyle" [route]="printRoute" (printClick)="printDownload($event)"> </app-print>
     </div>
     <div class="height1Separator"></div>
 
-    <app-small-card class="cards" *ngIf="loadClaimsPaidCard && !claimsLoading" class="cards" [data]="claimsPaidBlock">
-    </app-small-card>
-    <!-- <app-heac-small-card
-      *ngIf="loadClaimsPaidCard && !claimsLoading && isHeac"
+    <app-small-card
+      class="cards"
+      *ngIf="loadClaimsPaidCard && !claimsLoading && !printStyle"
       class="cards"
       [data]="claimsPaidBlock"
-    ></app-heac-small-card> -->
+    >
+    </app-small-card>
+    <app-heac-small-card
+      *ngIf="loadClaimsPaidCard && !claimsLoading && printStyle"
+      class="cards"
+      [data]="claimsPaidBlock"
+    ></app-heac-small-card>
     <app-small-card class="cards" [skeleton]="claimsLoading" *ngIf="claimsLoading"> </app-small-card>
     <app-error-card *ngIf="errorloadClaimsPaidCard" class="cards" [data]="item"></app-error-card>
 
@@ -36,13 +41,20 @@
     <app-small-card class="cards" [skeleton]="loading" *ngIf="loading"> </app-small-card>
     <app-error-card *ngIf="errorloadselfServiceAdoptionCard" class="cards" [data]="item"></app-error-card>
 
-    <!-- Commenting following lines of code to supress claims yield card on overview page -->
-    <!--app-small-card class="cards" *ngIf="loadClaimsYieldCard && !claimsLoading" class="cards" [data]="claimsYieldBlock">
-    </app-small-card-->
+    <div *ngIf="displayClaimsYield">
+      <app-small-card
+        class="cards"
+        *ngIf="loadClaimsYieldCard && !claimsLoading"
+        class="cards"
+        [data]="claimsYieldBlock"
+      >
+      </app-small-card>
+    </div>
     <app-small-card class="cards" [skeleton]="claimsLoading" *ngIf="claimsLoading"> </app-small-card>
     <app-error-card *ngIf="errorloadClaimsYieldCard" class="cards" [data]="item"></app-error-card>
 
-    <app-small-card
+    <!-- Commenting following lines of code to remove medicare star rating card -->
+    <!--app-small-card
       class="cards"
       *ngIf="loadMedicareStarRatingCard && !loading"
       class="cards"
@@ -50,17 +62,27 @@
     >
     </app-small-card>
     <app-small-card class="cards" [skeleton]="loading" *ngIf="loading"> </app-small-card>
-    <app-error-card *ngIf="errorloadMedicareStarRatingCard" class="cards" [data]="item"></app-error-card>
+    <app-error-card *ngIf="errorloadMedicareStarRatingCard" class="cards" [data]="item"></app-error-card-->
 
-    <app-small-card class="cards" *ngIf="loadTotalCallsCard && !callsLoading" class="cards" [data]="totalCallsBlock">
+    <app-small-card class="cards" *ngIf="loadclaimsTatCard && !loading" class="cards" [data]="claimsTatBlock">
     </app-small-card>
-    <!-- <app-heac-small-card
+    <app-small-card class="cards" [skeleton]="loading" *ngIf="loading"> </app-small-card>
+    <app-error-card *ngIf="errorloadClaimsTatCard" class="cards" [data]="item"></app-error-card>
+
+    <app-small-card
       class="cards"
-      *ngIf="loadTotalCallsCard && !callsLoading && isHeac"
+      *ngIf="loadTotalCallsCard && !callsLoading && !printStyle"
       class="cards"
       [data]="totalCallsBlock"
     >
-    </app-heac-small-card> -->
+    </app-small-card>
+    <app-heac-small-card
+      class="cards"
+      *ngIf="loadTotalCallsCard && !callsLoading && printStyle"
+      class="cards"
+      [data]="totalCallsBlock"
+    >
+    </app-heac-small-card>
     <app-small-card class="cards" [skeleton]="callsLoading" *ngIf="callsLoading"> </app-small-card>
     <app-error-card *ngIf="errorloadTotalCallsCard" class="cards" [data]="item"></app-error-card>
 
@@ -74,7 +96,7 @@
     <app-clarify-claims-message></app-clarify-claims-message>
   </div>
 
-  <div class="overview-content">
+  <div class="overview-content" style="page-break-after: always">
     <div class="self-service-heading">
       <div class="cards cust-width-title">
         <div class="title-opportunity">{{ opportunities }}</div>
@@ -82,7 +104,7 @@
       </div>
       <div class="cards cust-width-blank cust-width-title">
         <div *ngIf="!printStyle" class="page-question self-service-link">
-          <a href="/ServiceInteraction/SelfService"
+          <a [routerLink]="['/ServiceInteraction/SelfService']"
             >{{ selfServiceLink }}
             <mat-icon class="icon-display" svgIcon="arrow"></mat-icon>
           </a>

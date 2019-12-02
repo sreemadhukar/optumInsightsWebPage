@@ -2,7 +2,7 @@
  * Author: Ranjith kumar Ankam
  * Created Date: 03-Apr-2019
  *  -->
-<app-uhc-loader *ngIf="loading"></app-uhc-loader>
+<app-uhc-loader *ngIf="loading" [class.display-none]="printStyle"></app-uhc-loader>
 
 <div [ngClass]="{ 'dark-theme': isDarkTheme | async }">
   <div class="example-container example-is-mobile" color="primary">
@@ -12,7 +12,7 @@
       <!--</button>-->
       <div *ngIf="fromKOP" class="butter-bar align-horizonal">
         <div class="cross-icon">
-          <mat-icon class="hover-pointer" svgIcon="closeGlossary" (click)="closeButterBar()"></mat-icon>
+          <mat-icon class="hover-pointer" svgIcon="closeGlossary" (click)="navigateToKOP()"></mat-icon>
         </div>
         <div class="exit-text" style="width: 35%">
           <span class="exit-provider-text" (click)="navigateToKOP()">Exit Provider View</span>
@@ -28,14 +28,16 @@
         [class.display-none]="!showPrintHeader && makeAbsolute"
         class="sticky"
         (hamburgerDisplay)="hamburgerDisplay($event)"
-        [isKop]="isKop"
         [ngClass]="fromKOP ? 'top-40' : 'top-0'"
       ></app-header>
+      <div [class.sticky-footer]="showPrintHeader">
+        <div class="sticky-footer-text">&copy; 2019 UnitedHealthcare, All Rights Reserved</div>
+      </div>
     </mat-toolbar>
     <mat-sidenav-container
       class="example-sidenav-container"
       [class.bg-white]="bgWhite"
-      [ngClass]="fromKOP ? 'top-40' : 'top-0'"
+      [ngClass]="{ 'top-40': fromKOP, 'top-0': !fromKOP, 'kop-landing': isKop }"
       color="primary"
       (backdropClick)="close()"
     >
@@ -60,7 +62,12 @@
           <p class="representing-label">You are representing</p>
           <p class="health-system-name">{{ healthSystemName }}</p>
           <p class="change-provider" *ngIf="disableChangeProvider && !AcoFlag" (click)="openDialog()">
-            Change Provider
+            Change Organization
+          </p>
+          <p class="view-Tax-Id-Summary-div" *ngIf="!AcoFlag">
+            <a class="view-Tax-Id-Summary" [routerLink]="['/TinList']">
+              View Tax ID Number (TIN) Summary
+            </a>
           </p>
         </div>
         <!-- END OF HEALTHSYSTEM REPRESENTATION BLOCK -->
@@ -189,7 +196,7 @@
         id="side-nav-glossary"
         [disableClose]="true"
       >
-        <div style="width: 418px; min-height: 96%;">
+        <div class="filter-div-scroll">
           <div [ngClass]="{ sidemargin: glossaryFlag, 'sidemargin-filter': filterFlag }">
             <div *ngIf="glossaryFlag" class="mat-details">
               <div class="h-3-title-filter">
@@ -212,12 +219,7 @@
               [title]="glossaryTitle"
               [MetricID]="glossaryMetricID"
             ></app-glossary>
-            <app-filter
-              *ngIf="filterFlag && !isKop"
-              [filterurl]="filterurl"
-              [filterData]="filterData"
-              (filterFlag)="filterFlagChange($event)"
-            ></app-filter>
+            <app-uhci-filter *ngIf="filterFlag && !isKop" (filterFlag)="filterFlagChange($event)"></app-uhci-filter>
             <app-kop-filters
               *ngIf="filterFlag && isKop"
               [filterurl]="filterurl"

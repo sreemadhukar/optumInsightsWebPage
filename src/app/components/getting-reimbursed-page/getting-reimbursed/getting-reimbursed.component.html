@@ -1,47 +1,19 @@
-<app-feedback></app-feedback>
+<app-feedback *ngIf="!printStyle"></app-feedback>
 <div class="gettingReimburse-body">
   <div class="gettingReimburse-content">
     <div class="cust-width-title">
       <app-breadcrumbs></app-breadcrumbs>
-      <div class="page-title">{{ pageTitle }}</div>
-
+      <div class="cards cust-width-blank">
+        <app-print *ngIf="!printStyle" [route]="printRoute" (printClick)="printDownload($event)"> </app-print>
+      </div>
+      <div class="page-title" [ngClass]="{ 'print-page-title': printStyle === true }">{{ pageTitle }}</div>
+      <div class="page-subtitle" [ngClass]="{ 'print-page-subtitle': printStyle === true }">{{ pagesubTitle }}</div>
       <div class="breadcrumb-top-padding">
-        <div class="filter-div">
-          <div class="time--period ">
-            <div class="filterchips">
-              <div class="horizontal-align">
-                <button class="btn btn-rounded" disabled>
-                  <span>Time Period: </span><span class="text-semibold pl-4">{{ timePeriod }} </span>
-                </button>
-              </div>
-              <div class="horizontal-align" *ngFor="let tax of taxID">
-                <button class="btn btn-rounded" disabled>
-                  <span>Tax ID: </span><span class="text-semibold pl-4">{{ tax }} </span>
-                  <div class="close-btn">
-                    <mat-icon class="icon-display" (click)="removeFilter('tax', tax)" svgIcon="close"></mat-icon>
-                  </div>
-                </button>
-              </div>
-              <div class="horizontal-align" *ngIf="lob">
-                <button class="btn btn-rounded" disabled>
-                  <span>Line of Business: </span><span class="text-semibold pl-4">{{ lob }} </span>
-                  <div class="close-btn">
-                    <mat-icon
-                      class="icon-display"
-                      (click)="removeFilter('lob', session.filterObjValue.lob)"
-                      svgIcon="close"
-                    ></mat-icon>
-                  </div>
-                </button>
-              </div>
-            </div>
-            <div class="filter_bg" (click)="openFilter()">
-              <mat-icon matPrefix class="nav-menu-icons" class="filter_icon" svgIcon="filter"></mat-icon>
-              <div class="filter_title">Filters</div>
-            </div>
-          </div>
-        </div>
-        <div class="container--tabs">
+        <app-filters-applied
+          [tabName]="gettingReimbursedSharedService.gettingReimbursedTabName"
+          *ngIf="!printStyle"
+        ></app-filters-applied>
+        <div class="container--tabs" *ngIf="!printStyle">
           <section class="row">
             <ul class="nav nav-tabs">
               <li
@@ -69,28 +41,50 @@
         </div>
 
         <!--       <button *ngFor="let option of tabOptions; let i = index" (click)="matOptionClicked(i)">{{ option }}</button>-->
-        <div class="page-subtitle">
+        <div *ngIf="!printStyle" class="page-subtitle">
           <p class="page-subtitle-heading">{{ currentTabTitle }}</p>
+          <div *ngIf="currentTabTitle == 'Claims Payments*'" class="np-link">
+            <a [routerLink]="['/GettingReimbursed/NonPayments']">
+              <span class="non-payment-link"> Looking for Non-Payments? </span>
+            </a>
+          </div>
           <div *ngIf="currentTabTitle != '' && currentTabTitle != 'Claims Submissions*'">
-            <button (click)="onDetailsButtonClick(buttonNumber, $event)" class="details-button">
+            <button *ngIf="!printStyle" (click)="onDetailsButtonClick(buttonNumber, $event)" class="details-button">
               {{ buttonName }}
             </button>
           </div>
         </div>
         <div class="height1Separator"></div>
-        <div class="getting-reimbursed-cards" *ngFor="let item of currentSummary">
-          <!--used item.toggle for temporary card removal, as toggle functionality is not built properly : srikar bobbiganipalli-->
-          <app-card
-            *ngIf="item.data != null && item.type != 'rotateWithLabel' && !item.toggle"
-            class="cards"
-            [chartData]="item"
-          >
-          </app-card>
-          <app-error-card *ngIf="item.status != null" class="cards" [data]="item"></app-error-card>
+        <div *ngIf="!printStyle">
+          <div class="getting-reimbursed-cards" *ngFor="let item of currentSummary; let i = index">
+            <div>
+              <!--used item.toggle for temporary card removal, as toggle functionality is not built properly : srikar bobbiganipalli-->
+              <app-card *ngIf="item.data != null && !item.toggle" class="cards" [chartData]="item"> </app-card>
+              <app-error-card *ngIf="item.status != null" class="cards" [data]="item"></app-error-card>
+            </div>
+          </div>
         </div>
 
-        <div *ngFor="let data of mockCards; let i = index">
-          <app-card class="cards" [skeleton]="loading" *ngIf="loading"> </app-card>
+        <!-- start print style -->
+        <div *ngIf="printStyle">
+          <div *ngFor="let x of summaryItems; let i = index">
+            <div [ngClass]="{ pageBreakheight: i === 2 }"></div>
+            <div class="page-subtitle">
+              <p class="page-subtitle-heading print-page-subtitle-heading">{{ x.title }}</p>
+            </div>
+            <div class="height1Separator"></div>
+            <div class="getting-reimbursed-cards" *ngFor="let item of x.data">
+              <!--used item.toggle for temporary card removal, as toggle functionality is not built properly : srikar bobbiganipalli-->
+              <div>
+                <app-card *ngIf="item.data != null && !item.toggle" class="cards" [chartData]="item"> </app-card>
+                <app-error-card *ngIf="item.status != null" class="cards" [data]="item"></app-error-card>
+              </div>
+            </div>
+          </div>
+          <!-- end Print Style-->
+          <div *ngFor="let data of mockCards; let i = index">
+            <app-card class="cards" [skeleton]="loading" *ngIf="loading"> </app-card>
+          </div>
         </div>
       </div>
     </div>
