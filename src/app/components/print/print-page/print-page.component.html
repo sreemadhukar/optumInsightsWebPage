@@ -4,8 +4,11 @@
 <div class="page1" *ngIf="pagename === 'grSummary'">
   <app-getting-reimbursed [printStyle]="printStyle"></app-getting-reimbursed>
 </div>
-<!--<app-getting-reimbursed [printStyle]="printStyle"></app-getting-reimbursed>
-<div class="page">
+<div class="page1" *ngIf="pagename === 'calls'">
+  <app-calls [printStyle]="printStyle"></app-calls>
+</div>
+
+<!--<div class="page">
   <app-payments></app-payments>
 </div>
 <div class="page">

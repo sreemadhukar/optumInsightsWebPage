@@ -32,6 +32,8 @@ export class PrintComponent implements OnInit {
     } else if (this.route === '/GettingReimbursed/print-grSummary') {
       this.router.navigate(['print-page/grSummary']);
       this.grBool = true;
+    } else if (this.route === '/Calls/print-calls') {
+      this.router.navigate(['print-page/calls']);
     }
     this.printClick.emit(this.route);
   }

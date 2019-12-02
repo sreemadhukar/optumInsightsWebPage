@@ -71,6 +71,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   public checkPro;
   printStyle: boolean;
   printRoute: string;
+  todayDate: Date;
 
   constructor(
     private breakpointObserver: BreakpointObserver,
@@ -131,6 +132,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     router.events.subscribe(event => {
       if (event instanceof NavigationStart) {
         this.printStyle = event.url.includes('print-');
+        this.todayDate = new Date();
       }
     });
   }

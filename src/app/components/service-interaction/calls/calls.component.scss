@@ -167,6 +167,16 @@
       color: $black-rock;
       margin-left: 10px;
 
+      .cust-width-blank {
+        width: 487px;
+        margin-left: 20px;
+      }
+      @media (max-width: 1300px) {
+        .cust-width-blank {
+          min-width: 437px;
+        }
+      }
+
       .page-title {
         flex-basis: 100%;
         font-size: 36px;

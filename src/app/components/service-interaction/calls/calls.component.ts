@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { CallsSharedService } from '../../../shared/service-interaction/calls-shared.service';
 import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -19,6 +19,8 @@ import { REMOVE_FILTER } from '../../../store/filter/actions';
   styleUrls: ['./calls.component.scss']
 })
 export class CallsComponent implements OnInit {
+  @Input() printStyle;
+  printRoute: string;
   callsItems: any;
   pageTitle: String = '';
   timePeriod: string;
@@ -60,7 +62,16 @@ export class CallsComponent implements OnInit {
     });
   }
 
+  printDownload(value) {
+    // this.printStyle = true;
+    alert();
+  }
+
   ngOnInit() {
+    this.printRoute = '/Calls/print-calls';
+    if (this.router.url.includes('print-')) {
+      this.printStyle = true;
+    }
     this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'callsPage' });
     this.loading = true;
     this.mockCards = [{}, {}];

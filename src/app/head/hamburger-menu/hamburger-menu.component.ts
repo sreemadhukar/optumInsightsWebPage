@@ -75,6 +75,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
   public checkPro;
   public checkExecutive;
   printStyle: boolean;
+
   /*** Array of Navigation Category List ***/
   public navCategories = [
     { icon: 'home', name: 'Overview', path: '/OverviewPage', disabled: false },

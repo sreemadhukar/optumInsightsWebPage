@@ -5,6 +5,9 @@
     <div class="menu-div" *ngIf="mobileQuery" (click)="sidenav()">
       <mat-icon class="nav-menu-icons menu-icon" svgIcon="{{ menuIcon }}"></mat-icon>
     </div>
+    <div *ngIf="printStyle" style="margin-bottom: 50px;">
+      {{ todayDate | date: 'shortDate' }}
+    </div>
     <div class="header-logo-div">
       <a routerLink="/">
         <img class="Uhc-logo" src="/src/assets/images/UHC Logo@2x.png" alt="UHC Logo" />
