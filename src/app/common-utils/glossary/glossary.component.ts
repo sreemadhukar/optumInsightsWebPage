@@ -131,14 +131,14 @@ export class GlossaryComponent implements OnInit {
 
   // this function will fetch all the matched glossary items only corresponding to the characters entered by user
   public getBusinessGlossary(text) {
-    this.glossaryService.getGlossaryByMetricName(text).subscribe(
-      response => {
-        console.log('Business Glossary metric name', response);
-      },
-      err => {
-        console.log('Error in getBusinessGlossary', err);
-      }
-    );
+    // this.glossaryService.getGlossaryByMetricName(text).subscribe(
+    //   response => {
+    //     console.log('Business Glossary metric name', response);
+    //   },
+    //   err => {
+    //     console.log('Error in getBusinessGlossary', err);
+    //   }
+    // );
   }
 
   // this function will fetch the glossary item corresponding to the card
