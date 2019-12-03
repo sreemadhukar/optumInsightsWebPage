@@ -1,7 +1,7 @@
-import { Component, OnInit, Input, HostListener, ViewChild } from '@angular/core';
+import { Component, OnInit, Input, HostListener, ViewChild, EventEmitter } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { Observable } from 'rxjs';
-import { map, startWith } from 'rxjs/operators';
+import { Observable, Subscription } from 'rxjs';
+import { map, startWith, debounceTime } from 'rxjs/operators';
 import { GlossaryService } from './../../rest/glossary/glossary.service';
 import { catchError } from 'rxjs/operators';
 import { MatInput } from '@angular/material';
@@ -13,6 +13,8 @@ import { environment } from '../../../environments/environment';
   styleUrls: ['./glossary.component.scss']
 })
 export class GlossaryComponent implements OnInit {
+  protected emitter = new EventEmitter<string>();
+  public obs: Subscription;
   glossaryList: any;
   glossarySelected = [];
   glossaryData: any[];
@@ -40,6 +42,7 @@ export class GlossaryComponent implements OnInit {
     if (this.MetricID) {
       this.glossaryByMetricId();
     }
+    this.obs = this.emitter.pipe(debounceTime(250)).subscribe(text => this.getBusinessGlossary(text));
     this.options = [];
     this.glossarySelected = [];
     this.glossaryService.getBusinessGlossaryData().subscribe(response => {
@@ -118,11 +121,31 @@ export class GlossaryComponent implements OnInit {
       });
     });
   }
+
+  // this funtion will trigger on keyup for search function
+  public checkInput(val) {
+    if (val !== '') {
+      this.emitter.emit(val);
+    }
+  }
+
+  // this function will fetch all the matched glossary items only corresponding to the characters entered by user
+  public getBusinessGlossary(text) {
+    // this.glossaryService.getGlossaryByMetricName(text).subscribe(
+    //   response => {
+    //     console.log('Business Glossary metric name', response);
+    //   },
+    //   err => {
+    //     console.log('Error in getBusinessGlossary', err);
+    //   }
+    // );
+  }
+
+  // this function will fetch the glossary item corresponding to the card
   public glossaryByMetricId() {
     this.glossaryService.getGlossaryMetricID(this.MetricID).subscribe(
       response => {
         if ((response || {}).BusinessGlossary) {
-          console.log('Metric ID', response);
           this.glossarySelected.push(response);
           this.hyperlink = '';
           if (this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.MetricID === 301) {
