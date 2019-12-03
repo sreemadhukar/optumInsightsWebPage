@@ -89,7 +89,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     private sessionService: SessionService
   ) {
     // to fetch the date and time
-    this.todaysDataTime = formatDate(this.today, 'dd/MM/yyyy hh:mm:ss a', 'en-US', '+0530');
+    this.todaysDataTime = formatDate(this.today, 'MM/dd/yyyy', 'en-US', '+0530');
 
     this.checkAdv = this.sessionService.checkAdvocateRole();
     this.checkPro = this.sessionService.checkProjectRole();

@@ -22,6 +22,7 @@ export class CallsComponent implements OnInit {
   @Input() printStyle;
   callsItems: any;
   pageTitle: String = '';
+  pageSubTitle: String = '';
   timePeriod: string;
   lob: string;
   taxID: Array<string>;
@@ -44,7 +45,7 @@ export class CallsComponent implements OnInit {
   ) {
     this.printRoute = 'Calls';
     const filData = this.session.getFilChangeEmitter().subscribe(() => this.common.urlResuseStrategy());
-    this.pageTitle = 'Calls';
+    this.pageSubTitle = 'Calls';
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => {
       this.createPayloadService.resetTinNumber('callsPage');
       this.ngRedux.dispatch({ type: REMOVE_FILTER, filterData: { taxId: true } });
@@ -61,9 +62,14 @@ export class CallsComponent implements OnInit {
     this.createPayloadService.getEvent().subscribe(value => {
       this.ngOnInit();
     });
+    this.printRoute = '/ServiceInteraction/Calls/print-calls';
   }
 
   ngOnInit() {
+    if (this.router.url.includes('print-')) {
+      this.printStyle = true;
+      this.pageTitle = this.session.getHealthCareOrgName();
+    }
     this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'callsPage' });
     this.loading = true;
     this.mockCards = [{}, {}];
