@@ -101,17 +101,17 @@ export class GettingReimbursedComponent implements OnInit {
       this.filterFlag = false;
     } else if (i === 1) {
       this.gettingReimbursedSharedService.gettingReimbursedTabName = 'gettingReimbursedPayments';
-      this.buttonName = 'More Payment Metrics';
+      this.buttonName = 'Payments Details';
       this.buttonNumber = 1;
       this.filterFlag = false;
     } else if (i === 2) {
       this.gettingReimbursedSharedService.gettingReimbursedTabName = 'gettingReimbursedNonPayments';
-      this.buttonName = 'More Non-Payment Metrics';
+      this.buttonName = 'Non-Payments Details';
       this.buttonNumber = 2;
       this.filterFlag = false;
     } else if (i === 3) {
       this.gettingReimbursedSharedService.gettingReimbursedTabName = 'gettingReimbursedAppeals';
-      this.buttonName = 'More Appeals Metrics';
+      this.buttonName = 'Appeals Details';
       this.buttonNumber = 3;
       this.filterFlag = true;
     }
