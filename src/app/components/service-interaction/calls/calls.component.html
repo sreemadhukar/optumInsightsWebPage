@@ -4,8 +4,11 @@
     <div class="cards cust-width-title ">
       <app-breadcrumbs></app-breadcrumbs>
       <app-print *ngIf="!printStyle" [route]="printRoute" (printClick)="printDownload($event)"> </app-print>
-      <div class="page-title">
+      <div *ngIf="printStyle" [ngClass]="{ 'print-page-title': printStyle === true }">
         {{ pageTitle }}
+      </div>
+      <div class="page-sub-title" [ngClass]="{ 'print-page-subtitle': printStyle === true }">
+        {{ pageSubTitle }}
       </div>
       <app-filters-applied></app-filters-applied>
     </div>

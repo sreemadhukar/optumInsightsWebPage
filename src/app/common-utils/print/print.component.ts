@@ -33,7 +33,7 @@ export class PrintComponent implements OnInit {
       this.router.navigate(['print-page/grSummary']);
     } else if (this.route === '/GettingReimbursed/Payments/print-payments') {
       this.router.navigate(['print-page/payments']);
-    } else if (this.route === 'Calls') {
+    } else if (this.route === '/ServiceInteraction/Calls/print-calls') {
       this.router.navigate(['print-page/calls']);
     } else if (this.route === 'appeals') {
       this.router.navigate(['print-page/appeals']);
