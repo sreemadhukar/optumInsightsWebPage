@@ -10,11 +10,9 @@
 <div class="page1" *ngIf="pagename === 'calls'">
   <app-calls [printStyle]="printStyle"></app-calls>
 </div>
-
-<!--<app-getting-reimbursed [printStyle]="printStyle"></app-getting-reimbursed>
-<div class="page">
-  <app-non-payments></app-non-payments>
+<div class="page1" *ngIf="pagename === 'nonpayments'">
+  <app-non-payments [printStyle]="printStyle"></app-non-payments>
 </div>
-<div class="page">
+<!-- <div class="page">
   <app-appeals></app-appeals>
-</div>-->
+</div> -->

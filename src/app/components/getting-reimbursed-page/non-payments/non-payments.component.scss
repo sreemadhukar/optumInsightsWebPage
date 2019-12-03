@@ -163,6 +163,24 @@
       font-family: 'UHCSans-Regular', Helvetica, Arial, sans-serif;
       color: $black-rock;
     }
+    .print-page-title {
+      padding-top: 30px;
+      font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+      line-height: 30px;
+      font-size: 36px;
+    }
+    .print-page-subtitle {
+      font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+      line-height: 40px;
+      flex-basis: 100%;
+      font-size: 28px;
+      display: flex;
+      flex-direction: row;
+      position: relative;
+      justify-content: space-between;
+      width: 98.5%;
+    }
+
     .time--period {
       .filterchips {
         width: 830px;

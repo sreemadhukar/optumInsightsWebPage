@@ -3,7 +3,13 @@
   <div class="nonPayment-content">
     <div class="nonPayment-content-cust">
       <app-breadcrumbs></app-breadcrumbs>
-      <div class="page-title">{{ pageTitle }}</div>
+      <app-print *ngIf="!printStyle" [route]="printRoute" (printClick)="printDownload($event)"> </app-print>
+      <div class="page-title" [ngClass]="{ 'print-page-title': printStyle === true }">
+        {{ pageTitle }}
+      </div>
+      <div *ngIf="printStyle" [ngClass]="{ 'print-page-subtitle': printStyle === true }">
+        {{ pageSubTitle }}
+      </div>
       <app-filters-applied></app-filters-applied>
     </div>
     <div class="height1Separator"></div>
@@ -86,27 +92,29 @@
     <!-- Top Reasons for Claims Ends here -->
 
     <!-- Claims Non - Payment Trend  Starts Here -->
-    <app-error-card
-      *ngIf="!trendMonthDisplay && monthlyLineGraph != null && monthlyLineGraph.status != null"
-      class="cards"
-      [data]="monthlyLineGraph"
-    ></app-error-card>
-    <div class="non-payment-trend-block" *ngIf="trendMonthDisplay">
-      <app-common-header
-        [title]="trendTitle"
-        class="full-display bottom-margin-block"
-        (helpIconClicked)="helpIconClick($event)"
-      ></app-common-header>
-      <div class="full-display">
-        <app-line-graph [chartOptions]="monthlyLineGraph"></app-line-graph>
-        <!--div class="timeperiod-block">
+    <div style="page-break-before: always">
+      <app-error-card
+        *ngIf="!trendMonthDisplay && monthlyLineGraph != null && monthlyLineGraph.status != null"
+        class="cards"
+        [data]="monthlyLineGraph"
+      ></app-error-card>
+      <div class="non-payment-trend-block" *ngIf="trendMonthDisplay">
+        <app-common-header
+          [title]="trendTitle"
+          class="full-display bottom-margin-block"
+          (helpIconClicked)="helpIconClick($event)"
+        ></app-common-header>
+        <div class="full-display">
+          <app-line-graph [chartOptions]="monthlyLineGraph"></app-line-graph>
+          <!--div class="timeperiod-block">
          <p class="timeperiod-text">{{ timePeriod }}</p>
        </div-->
+        </div>
+        <app-common-footer [timePeriod]="timePeriod" class="width-100 time-period-trend"></app-common-footer>
       </div>
-      <app-common-footer [timePeriod]="timePeriod" class="width-100 time-period-trend"></app-common-footer>
-    </div>
-    <!-- Claims Non - Payment Trend Ends Here -->
+      <!-- Claims Non - Payment Trend Ends Here -->
 
-    <app-clarify-claims-message></app-clarify-claims-message>
+      <app-clarify-claims-message></app-clarify-claims-message>
+    </div>
   </div>
 </div>
