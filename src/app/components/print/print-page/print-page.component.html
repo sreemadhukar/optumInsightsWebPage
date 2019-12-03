@@ -4,13 +4,14 @@
 <div class="page1" *ngIf="pagename === 'grSummary'">
   <app-getting-reimbursed [printStyle]="printStyle"></app-getting-reimbursed>
 </div>
+<div class="page1" *ngIf="pagename === 'payments'">
+  <app-payments [printStyle]="printStyle"></app-payments>
+</div>
 <div class="page1" *ngIf="pagename === 'calls'">
   <app-calls [printStyle]="printStyle"></app-calls>
 </div>
 
-<!--<div class="page">
-  <app-payments></app-payments>
-</div>
+<!--<app-getting-reimbursed [printStyle]="printStyle"></app-getting-reimbursed>
 <div class="page">
   <app-non-payments></app-non-payments>
 </div>

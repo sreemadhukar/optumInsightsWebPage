@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { NgRedux, select } from '@angular-redux/store';
 import { IAppState } from '../../store/store';
+import { Router, NavigationStart } from '@angular/router';
 import { INITIAL_STATE } from '../../store/filter/reducer';
 import {
   LineOfBusiness,
@@ -52,13 +53,23 @@ export class FiltersAppliedComponent implements OnInit {
   selectedTrendMetric: any;
   selectedDate: Date;
   previousDate: any = new Date();
+  printStyle: boolean;
   constructor(
     private filterExpandService: FilterExpandService,
     private createPayloadService: CreatePayloadService,
-    private ngRedux: NgRedux<IAppState>
-  ) {}
+    private ngRedux: NgRedux<IAppState>,
+    private route: Router
+  ) {
+    // To disable open of Filter at Print page
+    // this.route.events.subscribe(event => {
+    //   if (event instanceof NavigationStart) {
+    //     this.printStyle = event.url.includes('print-');
+    //   }
+    // });
+  }
 
   ngOnInit() {
+    this.printStyle = this.route.url.includes('print-');
     this.currentPage.subscribe(currentPage => (this.selectedPage = currentPage));
     this.timePeriod.subscribe(
       timePeriod => (this.selectedTimePeriod = this.timeFrames.find(val => val.name === timePeriod))
@@ -84,7 +95,7 @@ export class FiltersAppliedComponent implements OnInit {
       trendMetric => (this.selectedTrendMetric = this.trendMetricData.find(val => val.name === trendMetric))
     );
     this.trendDate.subscribe(trendDate => {
-      this.selectedDate = trendDate;
+      this.selectedDate = new Date(trendDate);
       this.previousDate = new Date(this.selectedDate.toString());
       this.previousDate = this.previousDate.setDate(this.selectedDate.getDate() - 1);
     });

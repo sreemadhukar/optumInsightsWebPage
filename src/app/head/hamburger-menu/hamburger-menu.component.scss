@@ -475,7 +475,14 @@ app-header {
 
 .mat-drawer-inner-container {
   overflow: unset !important;
-  height: 97% !important;
+  height: 125vh !important;
+  overflow-x: hidden !important;
+}
+
+.kop-landing {
+  .mat-drawer-inner-container {
+    height: 100vh !important;
+  }
 }
 
 .simulate-external-view {

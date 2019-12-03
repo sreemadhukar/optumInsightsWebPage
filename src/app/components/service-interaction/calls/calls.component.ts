@@ -20,9 +20,9 @@ import { REMOVE_FILTER } from '../../../store/filter/actions';
 })
 export class CallsComponent implements OnInit {
   @Input() printStyle;
-  printRoute: string;
   callsItems: any;
   pageTitle: String = '';
+  pageSubTitle: String = '';
   timePeriod: string;
   lob: string;
   taxID: Array<string>;
@@ -30,6 +30,7 @@ export class CallsComponent implements OnInit {
   mockCards: any;
   subscription: any;
   callsDataAvailable = false;
+  printRoute: String;
   constructor(
     private checkStorage: StorageService,
     private callsServiceSrc: CallsSharedService,
@@ -42,8 +43,9 @@ export class CallsComponent implements OnInit {
     private ngRedux: NgRedux<IAppState>,
     private createPayloadService: CreatePayloadService
   ) {
+    this.printRoute = 'Calls';
     const filData = this.session.getFilChangeEmitter().subscribe(() => this.common.urlResuseStrategy());
-    this.pageTitle = 'Calls';
+    this.pageSubTitle = 'Calls';
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => {
       this.createPayloadService.resetTinNumber('callsPage');
       this.ngRedux.dispatch({ type: REMOVE_FILTER, filterData: { taxId: true } });
@@ -60,17 +62,13 @@ export class CallsComponent implements OnInit {
     this.createPayloadService.getEvent().subscribe(value => {
       this.ngOnInit();
     });
-  }
-
-  printDownload(value) {
-    // this.printStyle = true;
-    alert();
+    this.printRoute = '/ServiceInteraction/Calls/print-calls';
   }
 
   ngOnInit() {
-    this.printRoute = '/Calls/print-calls';
     if (this.router.url.includes('print-')) {
       this.printStyle = true;
+      this.pageTitle = this.session.getHealthCareOrgName();
     }
     this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'callsPage' });
     this.loading = true;
@@ -91,5 +89,9 @@ export class CallsComponent implements OnInit {
         this.loading = false;
         this.callsDataAvailable = true;
       });
+  }
+
+  printDownload(value) {
+    console.log('Calls Component', value);
   }
 }

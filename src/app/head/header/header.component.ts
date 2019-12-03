@@ -17,6 +17,7 @@ import {
   OnDestroy
 } from '@angular/core';
 import { trigger, state, style, animate, transition } from '@angular/animations';
+import { formatDate } from '@angular/common';
 import { MatExpansionPanel } from '@angular/material';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { MatIconRegistry } from '@angular/material';
@@ -71,7 +72,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   public checkPro;
   printStyle: boolean;
   printRoute: string;
-  todayDate: Date;
+  today = new Date();
+  todaysDataTime = '';
 
   constructor(
     private breakpointObserver: BreakpointObserver,
@@ -86,6 +88,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
     private eventEmitter: EventEmitterService,
     private sessionService: SessionService
   ) {
+    // to fetch the date and time
+    this.todaysDataTime = formatDate(this.today, 'MM/dd/yyyy', 'en-US', '+0530');
+
     this.checkAdv = this.sessionService.checkAdvocateRole();
     this.checkPro = this.sessionService.checkProjectRole();
     // this.mobileQuery = this.breakpointObserver.isMatched('(max-width: 1024px)');
@@ -132,7 +137,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
     router.events.subscribe(event => {
       if (event instanceof NavigationStart) {
         this.printStyle = event.url.includes('print-');
-        this.todayDate = new Date();
       }
     });
   }

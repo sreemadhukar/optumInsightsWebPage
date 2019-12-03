@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { MatIconRegistry, PageEvent } from '@angular/material';
 import { PaymentsSharedService } from '../../../shared/getting-reimbursed/payments/payments-shared.service';
 import { GlossaryExpandService } from '../../../shared/glossary-expand.service';
@@ -20,6 +20,8 @@ import { REMOVE_FILTER } from '../../../store/filter/actions';
   styleUrls: ['./payments.component.scss']
 })
 export class PaymentsComponent implements OnInit {
+  @Input() printStyle;
+  printRoute: String;
   title = 'Claims Paid Breakdown';
   MetricID = 'NA';
   public claimsPaidTimePeriod;
@@ -29,6 +31,7 @@ export class PaymentsComponent implements OnInit {
   payments: Array<object>;
   claimsPaidItems: Array<object>;
   pageTitle: String = '';
+  pagesubTitle: String = '';
   userName: String = '';
   showClaimsPaid: Boolean = false;
   loading: boolean;
@@ -56,6 +59,8 @@ export class PaymentsComponent implements OnInit {
   ) {
     const filData = this.session.getFilChangeEmitter().subscribe(() => this.common.urlResuseStrategy());
     this.pageTitle = 'Claims Payments*';
+    this.pagesubTitle = 'Getting Reimbursed - Payments';
+    this.printRoute = '/GettingReimbursed/Payments/print-payments';
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => {
       this.createPayloadService.resetTinNumber('paymentsPage');
       this.ngRedux.dispatch({ type: REMOVE_FILTER, filterData: { taxId: true } });
@@ -75,6 +80,11 @@ export class PaymentsComponent implements OnInit {
   }
 
   ngOnInit() {
+    if (this.router.url.includes('print-')) {
+      this.printStyle = true;
+      this.pageTitle = this.session.getHealthCareOrgName();
+    }
+
     this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'paymentsPage' });
     this.payments = [];
     this.claimsPaidTimePeriod = this.common.getTimePeriodFilterValue(this.createPayloadService.payload.timePeriod);
@@ -132,5 +142,9 @@ export class PaymentsComponent implements OnInit {
 
   helpIconClick(title) {
     this.glossaryExpandService.setMessage(title, this.MetricID);
+  }
+
+  printDownload(value) {
+    console.log('Payment Component print emiiter', value);
   }
 }

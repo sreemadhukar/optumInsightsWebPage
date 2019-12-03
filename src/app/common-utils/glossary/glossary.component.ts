@@ -36,34 +36,6 @@ export class GlossaryComponent implements OnInit {
   @Input() MetricID; // which we recieve from corresponsding card shared files
   constructor(private glossaryService: GlossaryService) {}
 
-  glossaryByMetricId() {
-    this.glossaryService.getGlossaryMetricID(this.MetricID).subscribe(
-      response => {
-        if ((response || {}).BusinessGlossary) {
-          console.log('Metric ID', response);
-          this.glossarySelected.push(response);
-          this.hyperlink = '';
-          if (this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.MetricID === 301) {
-            this.hyperlink = this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.Definition.substring(
-              this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.Definition.indexOf('http')
-            );
-            this.split = this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.Definition.substring(
-              this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.Definition.indexOf('Learn')
-            );
-            this.definition = this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.Definition.replace(
-              this.split,
-              ''
-            );
-            this.split = this.split.replace(this.hyperlink, '');
-            this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.Definition = this.definition;
-          }
-        }
-      },
-      err => {
-        console.log('Business Glossary Metric ID Error', err);
-      }
-    );
-  }
   ngOnInit() {
     if (this.MetricID) {
       this.glossaryByMetricId();
@@ -145,6 +117,34 @@ export class GlossaryComponent implements OnInit {
         }
       });
     });
+  }
+  public glossaryByMetricId() {
+    this.glossaryService.getGlossaryMetricID(this.MetricID).subscribe(
+      response => {
+        if ((response || {}).BusinessGlossary) {
+          console.log('Metric ID', response);
+          this.glossarySelected.push(response);
+          this.hyperlink = '';
+          if (this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.MetricID === 301) {
+            this.hyperlink = this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.Definition.substring(
+              this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.Definition.indexOf('http')
+            );
+            this.split = this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.Definition.substring(
+              this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.Definition.indexOf('Learn')
+            );
+            this.definition = this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.Definition.replace(
+              this.split,
+              ''
+            );
+            this.split = this.split.replace(this.hyperlink, '');
+            this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.Definition = this.definition;
+          }
+        }
+      },
+      err => {
+        console.log('Business Glossary Metric ID Error', err);
+      }
+    );
   }
 
   public filteredData(value) {
