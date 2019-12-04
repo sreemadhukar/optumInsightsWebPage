@@ -20,7 +20,6 @@ import { REMOVE_FILTER } from '../../../store/filter/actions';
 })
 export class GettingReimbursedComponent implements OnInit {
   @Input() printStyle;
-  printRoute: string;
   timePeriod: string;
   lob: string;
   taxID: Array<string>;
@@ -134,17 +133,11 @@ export class GettingReimbursedComponent implements OnInit {
     //    event.target.classList.add('active');
   }
 
-  printDownload(value) {
-    console.log('Getting Reimbused print emiiter', value);
-  }
-
   ngOnInit() {
     this.gettingReimbursedSharedService.gettingReimbursedTabName = 'gettingReimbursedSummary';
     this.pageTitle = 'Getting Reimbursed';
-    this.printRoute = '/GettingReimbursed/print-grSummary';
 
-    if (this.router.url.includes('print-')) {
-      this.printStyle = true;
+    if (this.printStyle) {
       this.pageTitle = this.session.getHealthCareOrgName();
       this.pagesubTitle = 'Getting Reimbursed - Summary';
     }
@@ -159,7 +152,6 @@ export class GettingReimbursedComponent implements OnInit {
         this.loading = false;
         this.tabOptions = [];
         this.summaryItems = JSON.parse(JSON.stringify(completeData));
-        console.log('gr Data', this.summaryItems);
         if (this.previousSelectedTab) {
           this.currentSummary = this.summaryItems[this.previousSelectedTab].data;
           this.currentTabTitle = this.summaryItems[this.previousSelectedTab].title;
