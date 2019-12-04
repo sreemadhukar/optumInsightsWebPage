@@ -378,6 +378,7 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit, OnCha
       )
       .call(g => g.select('.domain').remove());
 
+    /*
     d3.selectAll('.tick')
       .selectAll('line')
       .attr('stroke', '#B3BABC')
@@ -397,7 +398,7 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit, OnCha
         return d === 0;
       })
       .remove();
-
+*/
     if (
       this.chartOptions.chartData[0] === 0 &&
       this.chartOptions.chartData[1] === 0 &&
