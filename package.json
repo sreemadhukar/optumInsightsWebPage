@@ -57,7 +57,7 @@
     "rxjs": "~6.2.0",
     "serve": "^11.1.0",
     "web-animations-js": "^2.3.2",
-    "zone.js": "~0.8.26"
+    "zone.js": "^0.8.26"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.8.0",
