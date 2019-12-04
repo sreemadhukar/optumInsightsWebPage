@@ -53,6 +53,7 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit, OnCha
     return fnumber;
   }
 
+  /*
   formatDynamicAbbreviation(tickNumber: number, tickValue: number, prefix: string) {
     // zero is false and one is true
     const q = tickValue;
@@ -158,6 +159,7 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit, OnCha
         break;
     }
   }
+  */
   findGreatest(inputOne, inputTwo, inputThree, inputFour) {
     let valOne = 0;
     let valTwo = 0;
