@@ -141,8 +141,11 @@ export class HttpInterceptorService implements HttpInterceptor {
       }
     }
     request = request.clone({ headers: request.headers.set('Accept', '*/*') });
-    request = request.clone({ withCredentials : false, headers : request.headers.set('Cookie', ' ')});
-
+    if (request.url.indexOf('myinsightOptumIdHandshake') !== -1 || request.url.indexOf('ldapauth') !== -1) {
+           request = request.clone({ headers: request.headers.set('Content-Type', 'application/x-www-form-urlencoded') });
+         } else {
+           request = request.clone({ headers: request.headers.set('Content-Type', 'application/json; charset=utf-8') });
+         }
     return next.handle(request).pipe(
       retry(2),
       map((event: HttpEvent<any>) => {
