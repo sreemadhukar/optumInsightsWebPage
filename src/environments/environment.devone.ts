@@ -5,8 +5,8 @@
  * MAINTAIN ALPHABETIC ORDER
  */
 export const environment: any = {
-  //  apiProxyUrl: 'https://gateway-stage-core.optum.com/api/int/pdr/uhci/v1/',
-  apiProxyUrl: 'https://pedintapi-pedtst.ocp-ctc-core-nonprod.optum.com/',
+  // apiProxyUrl: 'https://gateway-stage-core.optum.com/api/devone/pdr/uhci/v1/',
+  apiProxyUrl: 'https://gateway-stage-core.optum.com/api/int/pdr/uhci/v1/',
   originUrl: '/',
   apiUrls: {
     ExecutiveSummaryPath: 'providersystems/',
@@ -39,6 +39,8 @@ export const environment: any = {
     TrendingMetrics: 'trending-metrics/',
     PCORQualityMeasure: 'pcor-metrics/',
     NPSSummary: 'kop-metrics/',
+    KOPPriorAuthSummary: 'kop-priorauth-request/',
+    KOPPriorAuthTATSummary: 'kop-priorauth-tat/',
     AppealsTrend: 'appeals-trend/',
     AdminSummaryTrends: 'admintrends/',
     AppealsFHIR: 'appeals/v2.0/',

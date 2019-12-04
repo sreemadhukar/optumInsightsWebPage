@@ -33,6 +33,7 @@ export class FiltersAppliedComponent implements OnInit {
   @select() trendDate;
   @select() claimsFilter;
   @Input() flag;
+  @Input() tabName;
   selectedPage: any;
   timeFrames = TimePeriod;
   selectedTimePeriod: any;
@@ -83,7 +84,7 @@ export class FiltersAppliedComponent implements OnInit {
       trendMetric => (this.selectedTrendMetric = this.trendMetricData.find(val => val.name === trendMetric))
     );
     this.trendDate.subscribe(trendDate => {
-      this.selectedDate = trendDate;
+      this.selectedDate = new Date(trendDate);
       this.previousDate = new Date(this.selectedDate.toString());
       this.previousDate = this.previousDate.setDate(this.selectedDate.getDate() - 1);
     });

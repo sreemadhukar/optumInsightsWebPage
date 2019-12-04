@@ -1,19 +1,19 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PrintOverviewComponent } from './print-overview.component';
+import { TaxSummaryComponent } from './tax-summary.component';
 
-describe('PrintOverviewComponent', () => {
-  let component: PrintOverviewComponent;
-  let fixture: ComponentFixture<PrintOverviewComponent>;
+describe('TaxSummaryComponent', () => {
+  let component: TaxSummaryComponent;
+  let fixture: ComponentFixture<TaxSummaryComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [PrintOverviewComponent]
+      declarations: [TaxSummaryComponent]
     }).compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(PrintOverviewComponent);
+    fixture = TestBed.createComponent(TaxSummaryComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
