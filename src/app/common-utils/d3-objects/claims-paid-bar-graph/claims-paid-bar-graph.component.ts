@@ -181,6 +181,15 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit, OnCha
       return valTwo;
     }
   }
+  formatAbbreviationGtoB(x) {
+    const formatSi = d3.format('$.1s');
+    const s = formatSi(x);
+    switch (s[s.length - 1]) {
+      case 'G':
+        return s.slice(0, -1) + 'B';
+    }
+    return s;
+  }
   doBarGraph(chartOptions: any, transition: number) {
     // might have to hard code class names for testing
     const className = 'claims-paid-content'; // 'card-inner-large'
@@ -330,22 +339,22 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit, OnCha
       );
 
     /*
-    const preArray = d3
-      .select('#forCalculations')
-      .selectAll('.tick>text')
-      .nodes()
-      .map(function(t) {
-        const tagString = new XMLSerializer().serializeToString(t);
-        const mySubString = tagString.substring(tagString.indexOf('>') + 1, tagString.indexOf('</'));
-        return mySubString;
-      });
+     const preArray = d3
+     .select('#forCalculations')
+     .selectAll('.tick>text')
+     .nodes()
+     .map(function(t) {
+     const tagString = new XMLSerializer().serializeToString(t);
+     const mySubString = tagString.substring(tagString.indexOf('>') + 1, tagString.indexOf('</'));
+     return mySubString;
+     });
 
-    d3.select('#forCalculations').remove();
+     d3.select('#forCalculations').remove();
 
-    for (let i = 0; i < preArray.length; i++) {
-      preArray[i] = preArray[i].replace(/,/g, '');
-    }
-    */
+     for (let i = 0; i < preArray.length; i++) {
+     preArray[i] = preArray[i].replace(/,/g, '');
+     }
+     */
     // const preArrayOfNumbers = preArray.map(Number);
     // const numberOfTicks = preArrayOfNumbers.length;
     const highestTickValue = highestValue;
@@ -356,9 +365,6 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit, OnCha
       .domain([0, highestTickValue])
       .range([0, 500]);
 
-    const f = d3.format('$.1s');
-    f(1e9).replace(/G/, 'B');
-
     chart
       .append('g')
       .attr('transform', 'translate(' + 0 + ',' + 55 + ')')
@@ -368,10 +374,11 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit, OnCha
           .ticks(3)
           .tickSize(295)
           // .tickFormat(this.formatDynamicAbbreviation(numberOfTicks, highestTickValue, axisPrefix))
-          .tickFormat(f)
+          .tickFormat(d => this.formatAbbreviationGtoB(d))
       )
       .call(g => g.select('.domain').remove());
 
+    /*
     d3.selectAll('.tick')
       .selectAll('line')
       .attr('stroke', '#B3BABC')
@@ -391,7 +398,7 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit, OnCha
         return d === 0;
       })
       .remove();
-
+*/
     if (
       this.chartOptions.chartData[0] === 0 &&
       this.chartOptions.chartData[1] === 0 &&
