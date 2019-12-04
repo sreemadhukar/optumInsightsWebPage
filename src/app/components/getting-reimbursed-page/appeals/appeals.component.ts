@@ -31,7 +31,7 @@ export class AppealsComponent implements OnInit {
   overturn: any;
   overturnItem: Array<Object> = [{}];
   overturnReasonItem: any;
-  reason: any;
+  reason: any = [];
   title = 'Top Claims Appeals Overturn Reasons';
   MetricID = '102';
   loading: boolean;
@@ -98,6 +98,7 @@ export class AppealsComponent implements OnInit {
         this.reasonDataAvailable = false;
       }
       this.reason = appealsReasonData;
+      console.log(this.reason);
     });
 
     // this.appealsSharedService.getappealsTatandDevidedOverturnData().then(appealsRateData => {

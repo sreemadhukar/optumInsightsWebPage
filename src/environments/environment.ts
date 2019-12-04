@@ -19,7 +19,7 @@ export const environment: any = {
   // apiProxyUrl: 'https://nginx-pedtst.ocp-ctc-core-nonprod.optum.com/',
   // originUrl: 'https://pedintui-pedstg.ocp-ctc-dmz-stg.optum.com/',
   apiProxyUrl: 'https://gateway-stage-core.optum.com/api/devtwo/pdr/uhci/v1/',
-  originUrl: 'https://pedui1-peddev.ocp-ctc-core-nonprod.optum.com/',
+  originUrl: 'https://pedui2-peddev.ocp-ctc-core-nonprod.optum.com/',
   apiUrls: {
     ExecutiveSummaryPath: 'providersystems/',
     ProviderSystemClaimsAgg: 'agg-claims/search/v2.0/',
@@ -51,6 +51,8 @@ export const environment: any = {
     TrendingMetrics: 'trending-metrics/',
     PCORQualityMeasure: 'pcor-metrics/',
     NPSSummary: 'kop-metrics/',
+    KOPPriorAuthSummary: 'kop-priorauth-request/',
+    KOPPriorAuthTATSummary: 'kop-priorauth-tat/',
     AppealsTrend: 'appeals-trend/',
     AdminSummaryTrends: 'admintrends/',
     AppealsFHIR: 'appeals/v2.0/',

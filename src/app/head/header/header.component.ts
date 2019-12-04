@@ -69,6 +69,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
   public healthSystemName: string;
   public checkAdv;
   public checkPro;
+  printStyle: boolean;
+  printRoute: string;
+
   constructor(
     private breakpointObserver: BreakpointObserver,
     public el: ElementRef,
@@ -124,6 +127,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
     );
 
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.ngOnInit());
+
+    router.events.subscribe(event => {
+      if (event instanceof NavigationStart) {
+        this.printStyle = event.url.includes('print-');
+      }
+    });
   }
 
   advocateUserClick() {

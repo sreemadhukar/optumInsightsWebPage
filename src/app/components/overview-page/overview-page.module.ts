@@ -7,12 +7,12 @@ import { OverviewService } from '../../rest/overview/overview.service';
 import { OverviewSharedService } from '../../shared/overview/overview-shared.service';
 import { HeadMaterialModule } from '../../head/head.material.module';
 import { CommonUtilsModule } from './../../common-utils/common-utils.module';
-import { PrintOverviewComponent } from './print-overview/print-overview.component';
 
 @NgModule({
   imports: [CommonModule, OverviewPageRoutingModule, HeadMaterialModule, CommonUtilsModule],
   providers: [OverviewService, OverviewSharedService, OverviewComponent],
-  declarations: [OverviewComponent, PrintOverviewComponent]
+  declarations: [OverviewComponent],
+  exports: [OverviewComponent]
 })
 export class OverviewPageModule {
   constructor() {

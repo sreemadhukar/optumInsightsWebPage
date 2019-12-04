@@ -1,5 +1,5 @@
 <div *ngIf="titleHeader != null" class="header-container">
-  <div class="details">
+  <div *ngIf="!printStyle" class="details">
     <mat-icon class="onHoverIcon" (click)="helpFunctionClicked()" svgIcon="help"></mat-icon>
   </div>
   <div

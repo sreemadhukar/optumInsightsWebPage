@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { GettingReimbursedSharedService } from '../../../shared/getting-reimbursed/getting-reimbursed-shared.service';
 import { StorageService } from '../../../shared/storage-service.service';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -19,6 +19,8 @@ import { REMOVE_FILTER } from '../../../store/filter/actions';
   styleUrls: ['./getting-reimbursed.component.scss']
 })
 export class GettingReimbursedComponent implements OnInit {
+  @Input() printStyle;
+  printRoute: string;
   timePeriod: string;
   lob: string;
   taxID: Array<string>;
@@ -55,6 +57,7 @@ export class GettingReimbursedComponent implements OnInit {
     private createPayloadService: CreatePayloadService
   ) {
     const filData = this.session.getFilChangeEmitter().subscribe(() => this.common.urlResuseStrategy());
+    this.printRoute = 'grSummary';
     this.pageTitle = 'Getting Reimbursed';
     this.currentTabTitle = '';
     this.tabOptionsTitle = ['Submission', 'Payments', 'Non-Payments', 'Appeals'];
@@ -93,22 +96,22 @@ export class GettingReimbursedComponent implements OnInit {
   }
   matOptionClicked(i: number, event: any) {
     if (i === 0) {
-      this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'gettingReimbursedSummary' });
+      this.gettingReimbursedSharedService.gettingReimbursedTabName = 'gettingReimbursedSummary';
       this.buttonName = '';
       this.buttonNumber = 0;
       this.filterFlag = false;
     } else if (i === 1) {
-      this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'gettingReimbursedPayments' });
+      this.gettingReimbursedSharedService.gettingReimbursedTabName = 'gettingReimbursedPayments';
       this.buttonName = 'More Payment Metrics';
       this.buttonNumber = 1;
       this.filterFlag = false;
     } else if (i === 2) {
-      this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'gettingReimbursedNonPayments' });
+      this.gettingReimbursedSharedService.gettingReimbursedTabName = 'gettingReimbursedNonPayments';
       this.buttonName = 'More Non-Payment Metrics';
       this.buttonNumber = 2;
       this.filterFlag = false;
     } else if (i === 3) {
-      this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'gettingReimbursedAppeals' });
+      this.gettingReimbursedSharedService.gettingReimbursedTabName = 'gettingReimbursedAppeals';
       this.buttonName = 'More Appeals Metrics';
       this.buttonNumber = 3;
       this.filterFlag = true;
@@ -131,7 +134,22 @@ export class GettingReimbursedComponent implements OnInit {
     }
     //    event.target.classList.add('active');
   }
+
+  printDownload(value) {
+    console.log('Getting Reimbused print emiiter', value);
+  }
+
   ngOnInit() {
+    this.gettingReimbursedSharedService.gettingReimbursedTabName = 'gettingReimbursedSummary';
+    this.pageTitle = 'Getting Reimbursed';
+    this.printRoute = '/GettingReimbursed/print-grSummary';
+
+    if (this.router.url.includes('print-')) {
+      this.printStyle = true;
+      this.pageTitle = this.session.getHealthCareOrgName();
+      this.pagesubTitle = 'Getting Reimbursed - Summary';
+    }
+
     this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'gettingReimbursedSummary' });
     this.timePeriod = this.common.getTimePeriodFilterValue(this.createPayloadService.payload.timePeriod);
     this.loading = true;
@@ -142,6 +160,7 @@ export class GettingReimbursedComponent implements OnInit {
         this.loading = false;
         this.tabOptions = [];
         this.summaryItems = JSON.parse(JSON.stringify(completeData));
+        console.log('gr Data', this.summaryItems);
         if (this.previousSelectedTab) {
           this.currentSummary = this.summaryItems[this.previousSelectedTab].data;
           this.currentTabTitle = this.summaryItems[this.previousSelectedTab].title;
@@ -171,6 +190,12 @@ export class GettingReimbursedComponent implements OnInit {
             };
           }
           this.tabOptions.push(temp);
+        }
+
+        if (this.printStyle) {
+          for (let i = 0; i < this.tabOptionsTitle.length; i++) {
+            this.summaryItems[i].title = this.tabOptionsTitle[i];
+          }
         }
       })
       .catch(reason => {
