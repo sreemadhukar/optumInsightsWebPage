@@ -13,6 +13,7 @@ export class PrintComponent implements OnInit {
   @select() currentPage;
   selectedPage;
   overviewBool: boolean;
+  printDisable: boolean;
   constructor(private iconRegistry: MatIconRegistry, sanitizer: DomSanitizer, private router: Router) {
     /** INITIALIZING SVG ICONS TO USE IN DESIGN - ANGULAR MATERIAL */
 
@@ -20,6 +21,9 @@ export class PrintComponent implements OnInit {
       'print-icon',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/print-icon.svg')
     );
+    if (this.router.url.includes('print-')) {
+      this.printDisable = true;
+    }
   }
 
   ngOnInit() {

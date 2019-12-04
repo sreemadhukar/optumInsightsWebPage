@@ -3,7 +3,7 @@
   <div class="calls-content">
     <div class="cards cust-width-title ">
       <app-breadcrumbs></app-breadcrumbs>
-      <app-print *ngIf="!printStyle"> </app-print>
+      <app-print> </app-print>
       <div *ngIf="printStyle" [ngClass]="{ 'print-page-title': printStyle === true }">
         {{ pageTitle }}
       </div>
