@@ -326,17 +326,16 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit, OnCha
       .range([400, 900])
       .nice(3);
 
+    const axisHidden = d3
+      .axisBottom(xScale)
+      .ticks(3)
+      .tickSize(5, 0, 0);
+
     chart
       .append('g')
       .attr('visibility', 'hidden')
-      .attr('id', 'forCalculations')
-      .call(
-        d3
-          .axisBottom(xScale)
-          .ticks(3)
-          .tickSize(5, 0, 0)
-        // .tickSizeOuter([0])
-      );
+      .attr('id', 'forCalculationz')
+      .call(axisHidden);
 
     /*
      const preArray = d3
@@ -365,20 +364,18 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit, OnCha
       .domain([0, highestTickValue])
       .range([0, 500]);
 
+    const officialxAxis = d3
+      .axisBottom(xScale)
+      .ticks(3)
+      .tickSize(295);
+    // .tickFormat(d => this.formatAbbreviationGtoB(d));
+
     chart
       .append('g')
       .attr('transform', 'translate(' + 0 + ',' + 55 + ')')
-      .call(
-        d3
-          .axisBottom(xScale)
-          .ticks(3)
-          .tickSize(295)
-          // .tickFormat(this.formatDynamicAbbreviation(numberOfTicks, highestTickValue, axisPrefix))
-          .tickFormat(d => this.formatAbbreviationGtoB(d))
-      )
+      .call(officialxAxis)
       .call(g => g.select('.domain').remove());
 
-    /*
     d3.selectAll('.tick')
       .selectAll('line')
       .attr('stroke', '#B3BABC')
@@ -398,7 +395,7 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit, OnCha
         return d === 0;
       })
       .remove();
-*/
+
     if (
       this.chartOptions.chartData[0] === 0 &&
       this.chartOptions.chartData[1] === 0 &&
