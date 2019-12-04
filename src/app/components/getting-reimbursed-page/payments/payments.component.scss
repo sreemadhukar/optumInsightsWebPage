@@ -40,6 +40,22 @@
         @include padding(16px, 0, 20px, 0);
         line-height: 40px;
       }
+      .print-page-title {
+        padding-top: 30px;
+        font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+        line-height: 30px;
+      }
+      .print-page-subtitle {
+        font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+        line-height: 40px;
+        flex-basis: 100%;
+        font-size: 28px;
+        display: flex;
+        flex-direction: row;
+        position: relative;
+        justify-content: space-between;
+        width: 98.5%;
+      }
     }
     .claims-paid-content {
       width: 961px;
@@ -83,8 +99,9 @@
     color: $blue;
     font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
     letter-spacing: 0.2px;
+    flex-basis: 100%;
   }
-  .page-title {
+  .non-payment-link-div {
     a :hover {
       text-decoration: underline;
     }
