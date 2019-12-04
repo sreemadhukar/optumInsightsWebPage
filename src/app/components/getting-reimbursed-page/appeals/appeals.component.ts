@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { AppealsSharedService } from '../../../shared/getting-reimbursed/appeals/appeals-shared.service';
 import { StorageService } from '../../../shared/storage-service.service';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -20,6 +20,8 @@ import { REMOVE_FILTER } from '../../../store/filter/actions';
   styleUrls: ['./appeals.component.scss']
 })
 export class AppealsComponent implements OnInit {
+  @Input() printStyle;
+  printRoute: string;
   summaryItems: any;
   pageTitle: String = '';
   currentSummary: Array<Object> = [{}];
@@ -52,6 +54,7 @@ export class AppealsComponent implements OnInit {
     private ngRedux: NgRedux<IAppState>,
     private createPayloadService: CreatePayloadService
   ) {
+    this.printRoute = 'appeals';
     // const filData = this.session.getFilChangeEmitter().subscribe(() => this.ngOnInit());
     const filData = this.session.getFilChangeEmitter().subscribe(() => this.common.urlResuseStrategy());
     this.pageTitle = 'Claims Appeals';
@@ -136,6 +139,9 @@ export class AppealsComponent implements OnInit {
     };*/
   }
 
+  printDownload(value) {
+    console.log('Print Appleas page', value);
+  }
   helpIconClick(title) {
     if (title === 'Top Claims Appeals Overturn Reasons') {
       this.glossaryExpandService.setMessage(title, this.MetricID);

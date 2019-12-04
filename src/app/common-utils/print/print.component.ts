@@ -26,7 +26,6 @@ export class PrintComponent implements OnInit {
     }
   }
   printIconClick() {
-    console.log('working fine', this.route);
     if (this.route === '/OverviewPage/print-overview') {
       this.router.navigate(['print-page/overview']);
       this.overviewBool = true;
@@ -38,6 +37,8 @@ export class PrintComponent implements OnInit {
       this.router.navigate(['print-page/nonpayments']);
     } else if (this.route === '/ServiceInteraction/Calls/print-calls') {
       this.router.navigate(['print-page/calls']);
+    } else if (this.route === 'appeals') {
+      this.router.navigate(['print-page/appeals']);
     }
 
     this.printClick.emit(this.route);
