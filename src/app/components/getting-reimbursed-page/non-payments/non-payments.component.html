@@ -3,7 +3,7 @@
   <div class="nonPayment-content">
     <div class="nonPayment-content-cust">
       <app-breadcrumbs></app-breadcrumbs>
-      <app-print *ngIf="!printStyle" [route]="printRoute" (printClick)="printDownload($event)"> </app-print>
+      <app-print> </app-print>
       <div class="page-title" [ngClass]="{ 'print-page-title': printStyle === true }">
         {{ pageTitle }}
       </div>
@@ -20,7 +20,8 @@
     </div>
 
     <!-- Top reasons for Claims Start here -->
-    <div style="page-break-after: always">
+    <div *ngIf="printStyle" class="height-separator1-print"></div>
+    <div>
       <app-large-card [skeletonLarge]="loadingTopReasons" *ngIf="loadingTopReasons"></app-large-card>
       <app-error-card
         *ngIf="
@@ -94,7 +95,8 @@
     <!-- Top Reasons for Claims Ends here -->
 
     <!-- Claims Non - Payment Trend  Starts Here -->
-    <div style="page-break-after: always">
+    <div *ngIf="printStyle" class="height-separator2-print"></div>
+    <div>
       <app-error-card
         *ngIf="!trendMonthDisplay && monthlyLineGraph != null && monthlyLineGraph.status != null"
         class="cards"
