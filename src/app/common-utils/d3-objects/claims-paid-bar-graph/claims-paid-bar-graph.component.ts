@@ -334,8 +334,8 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit, OnCha
     chart
       .append('g')
       .attr('visibility', 'hidden')
-      .attr('id', 'forCalculationz')
-      .call(axisHidden);
+      .attr('id', 'forCalculationz');
+    // .call(axisHidden);
 
     /*
      const preArray = d3
@@ -367,14 +367,12 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit, OnCha
     const officialxAxis = d3
       .axisBottom(xScale)
       .ticks(3)
-      .tickSize(295);
-    // .tickFormat(d => this.formatAbbreviationGtoB(d));
+      .tickSize(295)
+      .tickFormat(d => this.formatAbbreviationGtoB(d));
 
-    chart
-      .append('g')
-      .attr('transform', 'translate(' + 0 + ',' + 55 + ')')
-      .call(officialxAxis)
-      .call(g => g.select('.domain').remove());
+    chart.append('g').attr('transform', 'translate(' + 0 + ',' + 55 + ')');
+    // .call(officialxAxis)
+    // .call(g => g.select('.domain').remove());
 
     d3.selectAll('.tick')
       .selectAll('line')
