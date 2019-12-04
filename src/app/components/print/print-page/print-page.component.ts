@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { select } from '@angular-redux/store';
 
 @Component({
   selector: 'app-print-page',
@@ -7,21 +7,16 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./print-page.component.scss']
 })
 export class PrintPageComponent implements OnInit {
+  @select() currentPage;
+  selectedPage;
   printStyle = true;
   pagename = '';
 
-  constructor(private route: ActivatedRoute) {
+  constructor() {
     this.printStyle = true;
   }
 
   ngOnInit() {
-    this.route.params.subscribe(params => {
-      this.pagename = params['pageName'];
-      console.log('Page print', this.pagename);
-      setTimeout(() => {
-        (window as any).print();
-      }, 8000);
-      console.log('Page print', this.pagename);
-    });
+    this.currentPage.subscribe(currentPage => (this.selectedPage = currentPage));
   }
 }

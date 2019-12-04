@@ -8,7 +8,8 @@ import {
   Renderer2,
   AfterViewChecked,
   Output,
-  EventEmitter
+  EventEmitter,
+  Input
 } from '@angular/core';
 import { trigger, state, style, animate, transition } from '@angular/animations';
 import { MatIconRegistry, PageEvent } from '@angular/material';
@@ -44,6 +45,7 @@ import { REMOVE_FILTER } from '../../../store/filter/actions';
   ]
 })
 export class NonPaymentsComponent implements OnInit, AfterViewChecked {
+  @Input() printStyle;
   title = ' Top Reasons for Claims Non-Payment';
   trendTitle = 'Claims Non-Payment Trend';
   section: any = [];
