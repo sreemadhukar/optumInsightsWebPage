@@ -141,6 +141,7 @@ export class HttpInterceptorService implements HttpInterceptor {
       }
     }
     request = request.clone({ headers: request.headers.set('Accept', '*/*') });
+    request = request.clone({ withCredentials : false, headers : request.headers.set('Cookie',' ')});
 
     return next.handle(request).pipe(
       retry(2),
