@@ -30,7 +30,7 @@ export class ExternalService {
             this.storageService.store('currentUser', ssoTokenData);
             const user = { FirstName: ssoTokenData[0].FirstName, LastName: ssoTokenData[0].LastName };
             this.storageService.store('loggedUser', user);
-            resolve(ssoTokenData);
+            resolve(ssoTokenData[0]);
           } else {
             rej(new Error('error'));
           }
