@@ -327,6 +327,7 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit, OnCha
         // .tickSizeOuter([0])
       );
 
+    /*
     const preArray = d3
       .select('#forCalculations')
       .selectAll('.tick>text')
@@ -342,16 +343,19 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit, OnCha
     for (let i = 0; i < preArray.length; i++) {
       preArray[i] = preArray[i].replace(/,/g, '');
     }
-
-    const preArrayOfNumbers = preArray.map(Number);
-    const numberOfTicks = preArrayOfNumbers.length;
-    const highestTickValue = preArrayOfNumbers[numberOfTicks - 1];
+    */
+    // const preArrayOfNumbers = preArray.map(Number);
+    // const numberOfTicks = preArrayOfNumbers.length;
+    const highestTickValue = highestValue;
     const axisPrefix = '$';
 
     const xScaleBar = d3
       .scaleLinear()
       .domain([0, highestTickValue])
       .range([0, 500]);
+
+    const f = d3.format('$.1s');
+    f(1e9).replace(/G/, 'B');
 
     chart
       .append('g')
@@ -361,7 +365,8 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit, OnCha
           .axisBottom(xScale)
           .ticks(3)
           .tickSize(295)
-          .tickFormat(this.formatDynamicAbbreviation(numberOfTicks, highestTickValue, axisPrefix))
+          // .tickFormat(this.formatDynamicAbbreviation(numberOfTicks, highestTickValue, axisPrefix))
+          .tickFormat(f)
       )
       .call(g => g.select('.domain').remove());
 
