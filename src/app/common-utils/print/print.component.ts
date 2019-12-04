@@ -1,16 +1,19 @@
-import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
-import { Router, NavigationStart } from '@angular/router';
+import { Router } from '@angular/router';
+import { select } from '@angular-redux/store';
+
 @Component({
   selector: 'app-print',
   templateUrl: './print.component.html',
   styleUrls: ['./print.component.scss']
 })
 export class PrintComponent implements OnInit {
-  @Input() route: string;
-  @Output() printClick = new EventEmitter();
+  @select() currentPage;
+  selectedPage;
   overviewBool: boolean;
+  printDisable: boolean;
   constructor(private iconRegistry: MatIconRegistry, sanitizer: DomSanitizer, private router: Router) {
     /** INITIALIZING SVG ICONS TO USE IN DESIGN - ANGULAR MATERIAL */
 
@@ -18,28 +21,18 @@ export class PrintComponent implements OnInit {
       'print-icon',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/print-icon.svg')
     );
+    if (this.router.url.includes('print-')) {
+      this.printDisable = true;
+    }
   }
 
   ngOnInit() {
-    if (this.route === '/OverviewPage/print-overview') {
+    this.currentPage.subscribe(currentPage => (this.selectedPage = currentPage));
+    if (this.selectedPage === 'overviewPage') {
       this.overviewBool = true;
     }
   }
   printIconClick() {
-    console.log('working fine', this.route);
-    if (this.route === '/OverviewPage/print-overview') {
-      this.router.navigate(['print-page/overview']);
-      this.overviewBool = true;
-    } else if (this.route === '/GettingReimbursed/print-grSummary') {
-      this.router.navigate(['print-page/grSummary']);
-    } else if (this.route === '/GettingReimbursed/Payments/print-payments') {
-      this.router.navigate(['print-page/payments']);
-    } else if (this.route === '/GettingReimbursed/NonPayments/print-nonpayments') {
-      this.router.navigate(['print-page/nonpayments']);
-    } else if (this.route === '/ServiceInteraction/Calls/print-calls') {
-      this.router.navigate(['print-page/calls']);
-    }
-
-    this.printClick.emit(this.route);
+    this.router.navigate(['print-page']);
   }
 }

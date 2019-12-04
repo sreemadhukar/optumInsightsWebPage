@@ -21,7 +21,6 @@ import { REMOVE_FILTER } from '../../../store/filter/actions';
 })
 export class PaymentsComponent implements OnInit {
   @Input() printStyle;
-  printRoute: String;
   title = 'Claims Paid Breakdown';
   MetricID = 'NA';
   public claimsPaidTimePeriod;
@@ -60,7 +59,6 @@ export class PaymentsComponent implements OnInit {
     const filData = this.session.getFilChangeEmitter().subscribe(() => this.common.urlResuseStrategy());
     this.pageTitle = 'Claims Payments*';
     this.pagesubTitle = 'Getting Reimbursed - Payments';
-    this.printRoute = '/GettingReimbursed/Payments/print-payments';
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => {
       this.createPayloadService.resetTinNumber('paymentsPage');
       this.ngRedux.dispatch({ type: REMOVE_FILTER, filterData: { taxId: true } });
@@ -80,8 +78,7 @@ export class PaymentsComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (this.router.url.includes('print-')) {
-      this.printStyle = true;
+    if (this.printStyle) {
       this.pageTitle = this.session.getHealthCareOrgName();
     }
 
@@ -142,9 +139,5 @@ export class PaymentsComponent implements OnInit {
 
   helpIconClick(title) {
     this.glossaryExpandService.setMessage(title, this.MetricID);
-  }
-
-  printDownload(value) {
-    console.log('Payment Component print emiiter', value);
   }
 }

@@ -3,13 +3,14 @@
   <div class="appeals-content">
     <div class="cards cust-width-title">
       <app-breadcrumbs></app-breadcrumbs>
+      <!-- Don't remove below line , this is for Print of appeals-->
+      <!-- <app-print> </app-print> -->
       <div class="page-title">{{ pageTitle }}</div>
       <app-filters-applied></app-filters-applied>
     </div>
-
     <div class="height1Separator"></div>
     <div *ngFor="let data of mockCards; let i = index">
-      <app-card class="cards" [skeleton]="loading" *ngIf="loading"> </app-card>
+      <app-card class="cards" [skeleton]="loading" *ngIf="loading && !printStyle"> </app-card>
     </div>
     <!--<div *ngIf="!loading">
        <div *ngFor="let item of currentSummary">
