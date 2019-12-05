@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, AfterViewInit, ViewEncapsulation, HostBinding } from '@angular/core';
 import * as d3 from 'd3';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-line-graph',
@@ -20,7 +21,7 @@ export class LineGraphComponent implements OnInit {
   public temp: any;
   public selectYear;
   public count = 1;
-
+  @Input() printStyle;
   @Input() yearComparison;
   @Input() chartOptions: any = {};
   @Input() tooltipBool;
@@ -39,10 +40,14 @@ export class LineGraphComponent implements OnInit {
     return this._changeTimeFrame;
   }
 
-  constructor() {}
+  constructor(private router: Router) {}
 
   ngOnInit() {
     this.renderChart = '#' + this.chartOptions.chartId;
+
+    if (this.router.url.includes('print-')) {
+      this.printStyle = true;
+    }
   }
 
   // tslint:disable-next-line:use-life-cycle-interface
@@ -499,6 +504,22 @@ export class LineGraphComponent implements OnInit {
           .duration(500)
           .style('opacity', 0);
       });
+
+    if (this.printStyle) {
+      chart
+        .selectAll('.dot')
+        .data(data)
+        .enter()
+        .append('circle') // Uses the enter().append() method
+        .attr('class', 'dot') // Assign a class for styling
+        .attr('cx', function(d, i) {
+          return xScale(i);
+        })
+        .attr('cy', function(d) {
+          return yScale(d.y);
+        })
+        .attr('r', 5);
+    }
 
     const DotOne = chart
       .selectAll('.dot')
