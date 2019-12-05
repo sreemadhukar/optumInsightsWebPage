@@ -323,8 +323,8 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit, OnCha
     const xScale = d3
       .scaleLinear()
       .domain([0, highestValue])
-      .range([400, 900])
-      .nice(3);
+      .range([400, 900]);
+    // .nice();
 
     const axisHidden = d3
       .axisBottom(xScale)
