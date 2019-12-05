@@ -2,7 +2,6 @@ import { Component, OnInit, Input } from '@angular/core';
 import { CallsSharedService } from '../../../shared/service-interaction/calls-shared.service';
 import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
-import { Router } from '@angular/router';
 import { FilterExpandService } from '../../../shared/filter-expand.service';
 import { CommonUtilsService } from '../../../shared/common-utils.service';
 import { SessionService } from 'src/app/shared/session.service';
@@ -30,12 +29,10 @@ export class CallsComponent implements OnInit {
   mockCards: any;
   subscription: any;
   callsDataAvailable = false;
-  printRoute: String;
   constructor(
     private checkStorage: StorageService,
     private callsServiceSrc: CallsSharedService,
     private filterExpandService: FilterExpandService,
-    private router: Router,
     private iconRegistry: MatIconRegistry,
     sanitizer: DomSanitizer,
     private session: SessionService,
@@ -43,7 +40,6 @@ export class CallsComponent implements OnInit {
     private ngRedux: NgRedux<IAppState>,
     private createPayloadService: CreatePayloadService
   ) {
-    this.printRoute = 'Calls';
     const filData = this.session.getFilChangeEmitter().subscribe(() => this.common.urlResuseStrategy());
     this.pageSubTitle = 'Calls';
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => {
@@ -62,12 +58,10 @@ export class CallsComponent implements OnInit {
     this.createPayloadService.getEvent().subscribe(value => {
       this.ngOnInit();
     });
-    this.printRoute = '/ServiceInteraction/Calls/print-calls';
   }
 
   ngOnInit() {
-    if (this.router.url.includes('print-')) {
-      this.printStyle = true;
+    if (this.printStyle) {
       this.pageTitle = this.session.getHealthCareOrgName();
     }
     this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'callsPage' });
@@ -89,9 +83,5 @@ export class CallsComponent implements OnInit {
         this.loading = false;
         this.callsDataAvailable = true;
       });
-  }
-
-  printDownload(value) {
-    console.log('Calls Component', value);
   }
 }

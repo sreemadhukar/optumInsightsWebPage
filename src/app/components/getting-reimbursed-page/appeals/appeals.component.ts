@@ -4,7 +4,6 @@ import { StorageService } from '../../../shared/storage-service.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { GlossaryExpandService } from 'src/app/shared/glossary-expand.service';
 import { MatIconRegistry, PageEvent } from '@angular/material';
-import { Router } from '@angular/router';
 import { FilterExpandService } from '../../../shared/filter-expand.service';
 import { CommonUtilsService } from '../../../shared/common-utils.service';
 import { SessionService } from 'src/app/shared/session.service';
@@ -21,7 +20,6 @@ import { REMOVE_FILTER } from '../../../store/filter/actions';
 })
 export class AppealsComponent implements OnInit {
   @Input() printStyle;
-  printRoute: string;
   summaryItems: any;
   pageTitle: String = '';
   currentSummary: Array<Object> = [{}];
@@ -49,12 +47,10 @@ export class AppealsComponent implements OnInit {
     private glossaryExpandService: GlossaryExpandService,
     private filterExpandService: FilterExpandService,
     private session: SessionService,
-    private router: Router,
     private common: CommonUtilsService,
     private ngRedux: NgRedux<IAppState>,
     private createPayloadService: CreatePayloadService
   ) {
-    this.printRoute = 'appeals';
     // const filData = this.session.getFilChangeEmitter().subscribe(() => this.ngOnInit());
     const filData = this.session.getFilChangeEmitter().subscribe(() => this.common.urlResuseStrategy());
     this.pageTitle = 'Claims Appeals';
@@ -101,7 +97,6 @@ export class AppealsComponent implements OnInit {
         this.reasonDataAvailable = false;
       }
       this.reason = appealsReasonData;
-      console.log(this.reason);
     });
 
     // this.appealsSharedService.getappealsTatandDevidedOverturnData().then(appealsRateData => {
@@ -139,9 +134,6 @@ export class AppealsComponent implements OnInit {
     };*/
   }
 
-  printDownload(value) {
-    console.log('Print Appleas page', value);
-  }
   helpIconClick(title) {
     if (title === 'Top Claims Appeals Overturn Reasons') {
       this.glossaryExpandService.setMessage(title, this.MetricID);
