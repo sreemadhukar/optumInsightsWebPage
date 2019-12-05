@@ -328,7 +328,7 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit, OnCha
 
     const axisHidden = d3
       .axisBottom(xScale)
-      .ticks(3)
+      // .ticks(3)
       .tickSize(5, 0, 0);
 
     const firstAxis = chart
