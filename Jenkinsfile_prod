@@ -38,7 +38,7 @@ pipeline {
             }
         }**/
 
-       /** stage('Web: Build and Deploy Docker Image to DTR') {
+       stage('Web: Build and Deploy Docker Image to DTR') {
             agent {
                 label 'docker-nodejs-slave'
             }
@@ -49,13 +49,13 @@ pipeline {
                    extraBuildOptions: "--build-arg env_var=externalprod"
                    
                 glDockerImageTag sourceTag: "$tagBase/ui_prd2:latest",
-                         destTag: "$tagBase/ui_prd:${env.BUILD_NUMBER}"
+                         destTag: "$tagBase/ui_prd2:${env.BUILD_NUMBER}"
                          
                 glDockerImagePush dockerCredentialsId: "${env.DOCKER_CREDENTIALS_ID}", 
                      tag:"$tagBase/ui_prd2:${env.BUILD_NUMBER}",
                      dockerHost: 'docker.repo1.uhc.com'
             }
-        }**/
+        }
 
         stage('OSE Deployment Web Prod') {
         agent {
