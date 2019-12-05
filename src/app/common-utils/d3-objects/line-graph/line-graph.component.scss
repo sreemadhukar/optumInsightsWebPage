@@ -123,6 +123,20 @@
   opacity: 0.95;
 }
 
+.tooltipClassPrint {
+  position: absolute;
+  width: auto;
+  height: auto;
+  color: 2f2a3c;
+  font-family: $font-family-UHC;
+  pointer-events: none;
+  z-index: 99;
+  opacity: 0.95;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.16px;
+}
+
 .tooltipClassLeft::before {
   content: '';
   position: absolute;
