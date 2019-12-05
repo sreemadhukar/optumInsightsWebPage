@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 
-import { SummaryTrendsService } from './summary-trends.service';
+import { RefreshTokenService } from './refresh-token.service';
 
-describe('SummaryTrendsService', () => {
+describe('RefreshTokenService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: SummaryTrendsService = TestBed.get(SummaryTrendsService);
+    const service: RefreshTokenService = TestBed.get(RefreshTokenService);
     expect(service).toBeTruthy();
   });
 });

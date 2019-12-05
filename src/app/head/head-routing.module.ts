@@ -4,7 +4,9 @@ import { AuthGuard } from '../auth/_guards/auth.guard';
 import { TermsOfUseComponent } from './terms-of-use/terms-of-use.component';
 import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component';
 import { SiteMapComponent } from './site-map/site-map.component';
+import { TinListPageComponent } from './tin-list-page/tin-list-page.component';
 import { CustomPreloadingStrategy } from './custom-preloading';
+import { NoAccessErrorPageComponent } from '../common-utils/no-access-error-page/no-access-error-page.component';
 
 const routes: Routes = [
   {
@@ -42,6 +44,15 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
+    path: 'print-page/:pageName',
+    loadChildren: '../components/print/print.module#PrintModule',
+    data: {
+      preload: false,
+      delay: false
+    },
+    canActivate: [AuthGuard]
+  },
+  {
     path: 'GettingReimbursed',
     loadChildren: '../components/getting-reimbursed-page/getting-reimbursed.module#GettingReimbursedModule',
     data: {
@@ -55,7 +66,6 @@ const routes: Routes = [
     path: 'CareDelivery',
     loadChildren: '../components/care-delivery-page/care-delivery-page.module#CareDeliveryPageModule',
     data: {
-      breadcrumb: 'Care Delivery',
       preload: true,
       delay: true
     },
@@ -110,6 +120,7 @@ const routes: Routes = [
   {
     path: 'TermsofUse',
     component: TermsOfUseComponent,
+    canActivate: [AuthGuard],
     data: {
       preload: true,
       delay: true
@@ -118,6 +129,7 @@ const routes: Routes = [
   {
     path: 'PrivacyPolicy',
     component: PrivacyPolicyComponent,
+    canActivate: [AuthGuard],
     data: {
       preload: false,
       delay: false
@@ -126,10 +138,25 @@ const routes: Routes = [
   {
     path: 'SiteMap',
     component: SiteMapComponent,
+    canActivate: [AuthGuard],
     data: {
       preload: false,
       delay: false
     }
+  },
+  {
+    path: 'TinList',
+    component: TinListPageComponent,
+    canActivate: [AuthGuard],
+    data: {
+      preload: false,
+      delay: false
+    }
+  },
+  {
+    path: 'AccessDenied',
+    component: NoAccessErrorPageComponent,
+    canActivate: [AuthGuard]
   },
   { path: '**', redirectTo: '' }
 ];

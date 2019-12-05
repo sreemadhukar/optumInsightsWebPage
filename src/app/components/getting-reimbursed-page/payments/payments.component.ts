@@ -8,6 +8,11 @@ import { Router } from '@angular/router';
 import { FilterExpandService } from '../../../shared/filter-expand.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { CommonUtilsService } from '../../../shared/common-utils.service';
+import { NgRedux } from '@angular-redux/store';
+import { CURRENT_PAGE } from '../../../store/filter/actions';
+import { IAppState } from '../../../store/store';
+import { CreatePayloadService } from '../../../shared/uhci-filters/create-payload.service';
+import { REMOVE_FILTER } from '../../../store/filter/actions';
 
 @Component({
   selector: 'app-payments',
@@ -45,11 +50,17 @@ export class PaymentsComponent implements OnInit {
     private router: Router,
     sanitizer: DomSanitizer,
     private iconRegistry: MatIconRegistry,
-    private filtermatch: CommonUtilsService
+    private ngRedux: NgRedux<IAppState>,
+    private createPayloadService: CreatePayloadService,
+    private common: CommonUtilsService
   ) {
-    const filData = this.session.getFilChangeEmitter().subscribe(() => this.filtermatch.urlResuseStrategy());
+    const filData = this.session.getFilChangeEmitter().subscribe(() => this.common.urlResuseStrategy());
     this.pageTitle = 'Claims Payments*';
-    this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.filtermatch.urlResuseStrategy());
+    this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => {
+      this.createPayloadService.resetTinNumber('paymentsPage');
+      this.ngRedux.dispatch({ type: REMOVE_FILTER, filterData: { taxId: true } });
+      this.common.urlResuseStrategy();
+    });
     iconRegistry.addSvgIcon(
       'filter',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-filter_list-24px.svg')
@@ -58,38 +69,22 @@ export class PaymentsComponent implements OnInit {
       'close',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-close-24px.svg')
     );
+    this.createPayloadService.getEvent().subscribe(value => {
+      this.ngOnInit();
+    });
   }
 
   ngOnInit() {
+    this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'paymentsPage' });
     this.payments = [];
-    if (
-      this.session.filterObjValue.timeFrame === 'Last 12 Months' ||
-      this.session.filterObjValue.timeFrame === '2017' ||
-      this.session.filterObjValue.timeFrame === '2018'
-    ) {
-      this.session.filterObjValue.timeFrame = 'Last 6 Months';
-    } // temporary change for claims
-    this.claimsPaidTimePeriod = this.session.filterObjValue.timeFrame;
+    this.claimsPaidTimePeriod = this.common.getTimePeriodFilterValue(this.createPayloadService.payload.timePeriod);
     this.claimsPaidBreakBool = false;
     this.loading = true;
     this.loadingClaimsBreakdown = true;
-    this.timePeriod = this.session.filterObjValue.timeFrame;
-    if (this.session.filterObjValue.lob !== 'All') {
-      this.lob = this.filtermatch.matchLobWithLobData(this.session.filterObjValue.lob);
-    } else {
-      this.lob = '';
-    }
-    if (this.session.filterObjValue.tax.length > 0 && this.session.filterObjValue.tax[0] !== 'All') {
-      this.taxID = this.session.filterObjValue.tax;
-      if (this.taxID.length > 3) {
-        this.taxID = [this.taxID.length + ' Selected'];
-      }
-    } else {
-      this.taxID = [];
-    }
-    this.mockCards = [{}]; /*, {}] commenting to remove skeleton loader for claims yield card*/
+    this.timePeriod = this.common.getTimePeriodFilterValue(this.createPayloadService.payload.timePeriod);
+    this.mockCards = [{}, {}];
     this.paymentsSharedService
-      .sharedPaymentsData()
+      .sharedPaymentsData(this.createPayloadService.payload)
       .then(completeData => {
         this.loading = false;
         this.paymentsItems = JSON.parse(JSON.stringify(completeData));
@@ -106,7 +101,7 @@ export class PaymentsComponent implements OnInit {
     ];
 
     // this.claimsPaidBreakBool = false;
-    this.paymentsSharedService.getclaimsPaidData().then(
+    this.paymentsSharedService.getclaimsPaidData(this.createPayloadService.payload).then(
       payData => {
         this.loadingClaimsBreakdown = false;
         try {
@@ -137,25 +132,5 @@ export class PaymentsComponent implements OnInit {
 
   helpIconClick(title) {
     this.glossaryExpandService.setMessage(title, this.MetricID);
-  }
-  openFilter() {
-    this.filterExpandService.setURL(this.router.url);
-  }
-  removeFilter(type, value) {
-    if (type === 'lob') {
-      this.lob = '';
-      this.session.store({ timeFrame: this.timePeriod, lob: 'All', tax: this.session.filterObjValue.tax });
-    } else if (type === 'tax' && !value.includes('Selected')) {
-      this.taxID = this.session.filterObjValue.tax.filter(id => id !== value);
-      if (this.taxID.length > 0) {
-        this.session.store({ timeFrame: this.timePeriod, lob: this.session.filterObjValue.lob, tax: this.taxID });
-      } else {
-        this.session.store({ timeFrame: this.timePeriod, lob: this.session.filterObjValue.lob, tax: ['All'] });
-        this.taxID = [];
-      }
-    } else if (type === 'tax' && value.includes('Selected')) {
-      this.session.store({ timeFrame: this.timePeriod, lob: this.session.filterObjValue.lob, tax: ['All'] });
-      this.taxID = [];
-    }
   }
 }

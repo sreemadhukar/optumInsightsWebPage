@@ -157,7 +157,8 @@ export class DonutChartsComponent implements OnInit, AfterViewInit {
       this.color = ['#00B8CC', '#E0E0E0'];
     }
     const donutColor = d3.scaleOrdinal().range(this.color);
-    const graphValues = [quarter.title.toFixed(), 100 - quarter.title.toFixed()];
+    const graphValue = quarter && quarter.title ? quarter.title.toFixed() : 0;
+    const graphValues = [graphValue, 100 - graphValue];
 
     // if (chartData.hasOwnProperty('labels')) {
     //   for (let i = 0; i < chartData.graphValues.length; i++) {

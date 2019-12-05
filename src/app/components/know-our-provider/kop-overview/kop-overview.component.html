@@ -58,23 +58,29 @@
 
       <div class="kop-insights">Insights</div>
       <div>
-        <app-large-card-kop
-          [data]="kopInsightsData.networkParticipation"
-          [timePeriod]="kopInsightsData.timePeriod"
-        ></app-large-card-kop>
-        <app-large-card-kop
-          [data]="kopInsightsData.careDelivery"
-          [timePeriod]="kopInsightsData.timePeriod"
-        ></app-large-card-kop>
-        <app-large-card-kop
-          [data]="kopInsightsData.reimbursement"
-          [timePeriod]="kopInsightsData.timePeriod"
-        ></app-large-card-kop>
-        <app-large-card-kop
-          [data]="kopInsightsData.issueResolution"
-          [timePeriod]="kopInsightsData.timePeriod"
-        ></app-large-card-kop>
-        <!-- <app-large-card-kop [data]="kopInsightsData.engagement.data"></app-large-card-kop> -->
+        <app-large-card-kop [data]="kopInsightsData.networkParticipation" [timePeriod]="kopInsightsData.timePeriod">
+        </app-large-card-kop>
+        <app-large-card-kop [data]="kopInsightsData.careDelivery" [timePeriod]="kopInsightsData.timePeriod">
+        </app-large-card-kop>
+        <app-large-card-kop [data]="kopInsightsData.reimbursement" [timePeriod]="kopInsightsData.timePeriod">
+        </app-large-card-kop>
+        <app-large-card-kop [data]="kopInsightsData.issueResolution" [timePeriod]="kopInsightsData.timePeriod">
+        </app-large-card-kop>
+        <app-large-card-kop [data]="kopInsightsData.engagement" [timePeriod]="kopInsightsData.timePeriod">
+        </app-large-card-kop>
+      </div>
+    </div>
+
+    <div class="m-left-30" *ngIf="isError">
+      <div class="align-center">
+        <mat-icon matPrefix class="error-icon" svgIcon="error"></mat-icon>
+      </div>
+      <div class="align-center error-text">
+        <p class="p-bottom-10">There was a network error.</p>
+        <p class="p-bottom-10">Please refresh the page to try again</p>
+      </div>
+      <div class="align-center">
+        <button class="btn-class" (click)="reload()">Refresh</button>
       </div>
     </div>
   </div>

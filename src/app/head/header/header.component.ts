@@ -57,7 +57,7 @@ import { SessionService } from '../../shared/session.service';
 export class HeaderComponent implements OnInit, OnDestroy {
   @Input() isDarkTheme: Observable<boolean>;
   @Input() button: boolean;
-  @Input() isKop: boolean;
+  public isKop: boolean;
   @Output() hamburgerDisplay = new EventEmitter<boolean>();
   public sideNavFlag = false;
   public state: any;
@@ -69,6 +69,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
   public healthSystemName: string;
   public checkAdv;
   public checkPro;
+  printStyle: boolean;
+  printRoute: string;
+
   constructor(
     private breakpointObserver: BreakpointObserver,
     public el: ElementRef,
@@ -124,6 +127,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
     );
 
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.ngOnInit());
+
+    router.events.subscribe(event => {
+      if (event instanceof NavigationStart) {
+        this.printStyle = event.url.includes('print-');
+      }
+    });
   }
 
   advocateUserClick() {
@@ -145,6 +154,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.healthSystemName = this.sessionService.getHealthCareOrgName();
     this.isDarkTheme = this.themeService.isDarkTheme;
     this.eventEmitter.getEvent().subscribe(val => {
+      this.isKop = val.value;
       if (JSON.parse(sessionStorage.getItem('loggedUser'))) {
         const userInfo = JSON.parse(sessionStorage.getItem('loggedUser'));
         this.username = userInfo.FirstName;
