@@ -69,21 +69,19 @@
         <mat-label>Search Organizations</mat-label>
         <input
           matInput
-          [matAutocomplete]="auto"
+          [matAutocomplete]="autos"
           [formControl]="ExtstateCtrl"
-          id="test"
+          id="exttest"
+          (click)="extProviders($event.target.value)"
           (keyup)="extProviders($event.target.value)"
         />
         <mat-icon matPrefix class="nav-menu-icons searchicon" svgIcon="search"></mat-icon>
-        <mat-autocomplete
-          #auto="matAutocomplete"
-          (optionSelected)="ExtproviderSelect($event)"
-          [ngClass]="{ remove: ExtstateCtrl.value }"
-        >
+
+        <mat-autocomplete #autos="matAutocomplete" (optionSelected)="ExtproviderSelect($event)">
           <mat-option *ngFor="let extstate of extstates" [value]="extstate.Healthcareorganizationname">
             <span>{{ extstate.Healthcareorganizationname }}</span></mat-option
           >
-          <div *ngIf="noExtProviders" id="check" class="no-result-found-div">
+          <div *ngIf="noExtProviders" class="no-result-found-div">
             <div class="no-result-found">No Results Found.</div>
             <div class="no-result-found-text">
               Your search –<span class="match-font"> {{ ExtstateCtrl.value }} </span>– did not match any organizations.
