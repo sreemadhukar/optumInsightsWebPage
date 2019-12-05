@@ -100,7 +100,7 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
       if (chartOptions.type === 'large bar chart') {
         d3.select(this.renderChart)
           .style('display', 'flex')
-          .style('padding', '92px 0px 0px 28px')
+          .style('padding', '92px 0px 0px 0px')
           .append('div')
           .attr('fill', '#2D2D39')
           .attr('font-size', '20px')
@@ -117,7 +117,7 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
         chart = d3
           .select(this.renderChart)
           .append('svg')
-          .attr('width', width + margin.left + margin.right + 100)
+          .attr('width', width + margin.left + margin.right + 56)
           .attr('height', height + margin.top + margin.bottom + 116)
           .style('padding', '0px 0px 0px 16px')
           .append('g')
