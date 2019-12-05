@@ -77,7 +77,7 @@
     <!--</div>-->
 
     <div class="height1Separator"></div>
-    <div *ngIf="currentSummary != null && true" class="pi-cards">
+    <div *ngIf="currentSummary != null" class="pi-cards">
       <app-card [chartData]="currentSummary[0]" class="cards"></app-card>
       <div *ngIf="currentSummary[1] != null" class="app-card-structure">
         <app-common-header
