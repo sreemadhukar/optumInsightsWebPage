@@ -33,6 +33,7 @@ export class PrintComponent implements OnInit {
     }
   }
   printIconClick() {
+    // window.open(this.router.url + '/print-page', '_blank');
     this.router.navigate(['print-page']);
   }
 }
