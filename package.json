@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
+    "build": "ng build --prod --configuration=int",
     "test": "ng test",
     "lint": "ng lint",
     "format:fix": "pretty-quick --staged",
