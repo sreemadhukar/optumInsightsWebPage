@@ -22,10 +22,13 @@
       class="cards"
       [data]="barChartsArray"
     ></app-error-card>
-    <div class="top-reasons-for-claims-non-payment-block" *ngIf="topReasonsCategoryDisplay && !loadingTopReasons">
+    <div
+      class="top-reasons-for-claims-non-payment-block"
+      *ngIf="topReasonsCategoryDisplay && !loadingTopReasons && !subgTopReasons"
+    >
       <app-common-header
         [title]="title"
-        class="full-display"
+        class="full-display white-bg"
         (helpIconClicked)="helpIconClick($event)"
       ></app-common-header>
       <div class="bar-graphs-block">
@@ -36,21 +39,22 @@
         >
           <div
             [class.extra-margin-top-8]="i != 0"
-            [class.extra-margin-bottom-16]="section[i]"
             class="bar-graphs-content"
             (click)="section[i] = !section[i]; reasonsCollapose(i)"
           >
-            <div class="bar-graph-inside-left-block">
-              <div class="bar-graph-inside-left-block-content">
-                <!-- <mat-icon class="bar-graph-block-icon" *ngIf="!section[i]" svgIcon="open"></mat-icon>
+            <div class="bar-graph-inside-content">
+              <div class="bar-graph-inside-left-block">
+                <div class="bar-graph-inside-left-block-content">
+                  <!-- <mat-icon class="bar-graph-block-icon" *ngIf="!section[i]" svgIcon="open"></mat-icon>
                 <mat-icon class="bar-graph-block-icon" *ngIf="section[i]" svgIcon="close-bar"></mat-icon> -->
-                <mat-icon
-                  class="bar-graph-block-icon"
-                  svgIcon="carrot"
-                  [@rotatedState]="section[i] ? 'rotated' : 'default'"
-                ></mat-icon>
-                <p class="bar-graph-title">{{ barchart.title }}</p>
-                <p class="bar-graph-value">{{ barchart.value }}</p>
+                  <mat-icon
+                    class="bar-graph-block-icon"
+                    svgIcon="carrot"
+                    [@rotatedState]="section[i] ? 'rotated' : 'default'"
+                  ></mat-icon>
+                  <p class="bar-graph-title">{{ barchart.title }}</p>
+                  <p class="bar-graph-value">{{ barchart.value }}</p>
+                </div>
               </div>
             </div>
             <div class="bar-graph-inside-right-block" #barsParentBlock>
@@ -65,21 +69,44 @@
             <div class="bottom-shadow">
               <div class="hide-bottom-arrow-block"></div>
             </div>
-            <h3 class="inner-blocks-header">
-              Top Reason{{ barchart.top5.length === 1 ? '' : 's' }} for {{ barchart.title }}
-            </h3>
-            <div *ngFor="let inside of barchart.top5; let j = index">
+
+            <div *ngFor="let inside of barchart.top5; let j = index" class="top-5-block">
+              <!-- <h3 class="inner-blocks-header">
+                    Top Reason{{ barchart.top5.length === 1 ? '' : 's' }} for {{ barchart.title }}
+                  </h3> -->
               <div *ngIf="j < 5">
-                <div [class.extra-margin-left-4]="j == 0" class="top-5-block">
-                  <p class="top-5-text">{{ inside.text }}</p>
-                  <p class="top-5-value">{{ inside.value }}</p>
+                <div [class.extra-margin-left-4]="j == 0">
+                  <div class="inside-bar-graph-content">
+                    <div class="inside-bar-graph-left-block">
+                      <div class="inside-block-content">
+                        <span class="top-5-text">{{ inside.text }}</span>
+                        <span class="top-5-value">{{ inside.value }}</span>
+                      </div>
+                    </div>
+                    <div class="inside-bar-graph-right-block">
+                      <div style="width:517px" #barsGreyBlock>
+                        <div
+                          class="inside-grey-block-bars"
+                          [style.width.px]="(barchart.numeric / barChartsArray[0].numeric) * barsGreyBlock.offsetWidth"
+                        ></div>
+                      </div>
+                      <div style="width:517px" #barsInsideBlock>
+                        <div
+                          class="inside-right-block-bars"
+                          [style.width.px]="
+                            (inside.valueNumeric / barchart.top5[0].valueNumeric) * barsInsideBlock.offsetWidth
+                          "
+                        ></div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <div class="full-display">
+      <div class="full-display white-bg">
         <app-common-footer [timePeriod]="timePeriod" [title]="title" class="width-100"></app-common-footer>
       </div>
     </div>
