@@ -263,7 +263,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
   }
 
   ngOnInit() {
-    const currentUser: any = sessionStorage.getItem('currentUser')[0];
+    const currentUser: any = JSON.parse(sessionStorage.getItem('currentUser'))[0];
     this.externalProvidersCount = currentUser.Providers.length > 1 ? true : false;
     this.AcoFlag = false;
     this.isKop = false;

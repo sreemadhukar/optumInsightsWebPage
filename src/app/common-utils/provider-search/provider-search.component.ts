@@ -179,10 +179,7 @@ export class ProviderSearchComponent implements OnInit, AfterViewInit {
     if (document.querySelector('.mat-autocomplete-panel')) {
       (<HTMLElement>document.querySelector('.mat-autocomplete-panel')).style.height = '0';
     }
-    if (
-      (this.stateCtrl.value && this.stateCtrl.value !== '') ||
-      (this.ExtstateCtrl.value && this.ExtstateCtrl.value !== '')
-    ) {
+    if (this.stateCtrl.value && this.stateCtrl.value !== '') {
       if (document.querySelector('.mat-autocomplete-hidden')) {
         (<HTMLElement>document.querySelector('.mat-autocomplete-hidden')).style.visibility = 'visible';
       }
@@ -258,10 +255,22 @@ export class ProviderSearchComponent implements OnInit, AfterViewInit {
   }
 
   extProviders(val) {
+    this.noextmatchFlag = true;
+    this.noExtProviders = false;
+    this.orderExtStates(val);
+    this.toggleDropdown();
+  }
+
+  orderExtStates(val) {
     this.extstates = this.externalOrgs.filter(
       el => el.Healthcareorganizationname.toLowerCase().indexOf(val.toLowerCase()) !== -1
     );
     this.extstates.sort((a, b) => a.Healthcareorganizationname.localeCompare(b.Healthcareorganizationname));
+  }
+
+  toggleDropdown() {
+    (<HTMLElement>document.querySelector('.mat-autocomplete-hidden')).style.visibility = 'visible';
+    (<HTMLElement>document.querySelector('.mat-autocomplete-panel')).style.height = 'auto';
     if (this.extstates.length === 0) {
       this.noextmatchFlag = false;
       this.noExtProviders = true;
