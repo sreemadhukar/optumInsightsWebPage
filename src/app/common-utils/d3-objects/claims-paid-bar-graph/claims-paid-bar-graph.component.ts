@@ -334,8 +334,8 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit, OnCha
     chart
       .append('g')
       .attr('visibility', 'hidden')
-      .attr('id', 'forCalculationz');
-    // .call(axisHidden);
+      .attr('id', 'forCalculationz')
+      .call(axisHidden);
 
     /*
      const preArray = d3
