@@ -321,7 +321,7 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit, OnCha
     );
     // const highestValue = 800;
     const xScale = d3
-      .scaleLinear()
+      .scalePoint()
       .domain([0, highestValue])
       .range([400, 900]);
     // .nice();
