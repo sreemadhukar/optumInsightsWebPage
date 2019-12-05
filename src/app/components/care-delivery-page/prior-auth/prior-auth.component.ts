@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { StorageService } from '../../../shared/storage-service.service';
 import { PriorAuthSharedService } from '../../../shared/care-delivery/prior-auth-shared.service';
 import { MatIconRegistry } from '@angular/material';
@@ -18,6 +18,7 @@ import { CreatePayloadService } from '../../../shared/uhci-filters/create-payloa
   styleUrls: ['./prior-auth.component.scss']
 })
 export class PriorAuthComponent implements OnInit {
+  @Input() printStyle;
   summaryItems: any;
   reasonItems: any;
   mockCards: any;
