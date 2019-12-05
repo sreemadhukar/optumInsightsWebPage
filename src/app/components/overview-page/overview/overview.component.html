@@ -1,7 +1,11 @@
 <app-feedback></app-feedback>
 
 <div class="overview-body" color="primary" id="print-overview">
-  <div class="overview-content" style="page-break-after: always">
+  <div
+    class="overview-content"
+    style="page-break-after: always"
+    [ngClass]="{ 'content-align-print': printStyle === true }"
+  >
     <div class="cards cust-width-title">
       <div class="page-title">{{ pageTitle }}</div>
       <div class="page-subtitle">{{ pagesubTitle }}</div>
@@ -96,7 +100,11 @@
     <app-clarify-claims-message></app-clarify-claims-message>
   </div>
 
-  <div class="overview-content" style="page-break-after: always">
+  <div
+    class="overview-content"
+    style="page-break-after: always"
+    [ngClass]="{ 'content-align-print': printStyle === true }"
+  >
     <div class="self-service-heading">
       <div class="cards cust-width-title">
         <div class="title-opportunity">{{ opportunities }}</div>

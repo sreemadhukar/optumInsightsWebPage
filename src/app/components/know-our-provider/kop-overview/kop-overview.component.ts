@@ -54,7 +54,7 @@ export class KopOverviewComponent implements OnInit, OnDestroy {
       timeFrameFormat: 'Quarter vs Quarter',
       quarterFormat: 'default',
       filters: ['QUARTER_OVER_QUARTER'],
-      priorAuthFilters: ['QUARTER_OVER_QUARTER', 'LAST_COMPLETED_QUARTER']
+      priorAuthFilters: ['LAST_COMPLETED_QUARTER', 'QUARTER_OVER_QUARTER']
     },
     {
       title: 'Total Last Year',
@@ -145,32 +145,27 @@ export class KopOverviewComponent implements OnInit, OnDestroy {
   }
 
   loadOtherMetrics() {
-    this.kopSharedService.getPriorAuthSummary({ filter: this.currentFilter }).then((data: any) => {
-      if (data) {
-        this.showMetricDevelopment(data);
-        const {
-          careDelivery: { chartData }
-        } = data;
-        this.kopInsightsData.careDelivery.chartData.forEach((chartItem: any, index: number) => {
-          if (chartItem.metricType === 'priorauth') {
-            Object.assign(chartItem, { ...chartData[index] });
-          }
-        });
-      }
-    });
-    this.kopSharedService.getPriorAuthTATSummary({ filter: this.currentFilter }).then((data: any) => {
-      if (data) {
-        this.showMetricDevelopment(data);
-        const {
-          careDelivery: { chartData }
-        } = data;
-        this.kopInsightsData.careDelivery.chartData.forEach((chartItem: any, index: number) => {
-          if (chartItem.metricType === 'priorauthtat') {
-            Object.assign(chartItem, { ...chartData[index] });
-          }
-        });
-      }
-    });
+    this.kopSharedService
+      .getPriorAuthSummary({ filter: this.currentFilter })
+      .then((data: any) => {
+        if (data) {
+          const {
+            careDelivery: { chartData }
+          } = data;
+          this.kopInsightsData.careDelivery.chartData.forEach((chartItem: any, index: number) => {
+            if (chartItem.metricType === 'priorauth') {
+              Object.assign(chartItem, { ...chartData[index] });
+            }
+            if (chartItem.metricType === 'priorauthtat') {
+              Object.assign(chartItem, { ...chartData[index] });
+            }
+          });
+        }
+      })
+      .catch(err => {
+        // Use this if you need to show some error
+        console.log(err);
+      });
   }
 
   showMetricDevelopment(kopInsightsData) {

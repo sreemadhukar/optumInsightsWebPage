@@ -53,6 +53,7 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit, OnCha
     return fnumber;
   }
 
+  /*
   formatDynamicAbbreviation(tickNumber: number, tickValue: number, prefix: string) {
     // zero is false and one is true
     const q = tickValue;
@@ -158,6 +159,7 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit, OnCha
         break;
     }
   }
+  */
   findGreatest(inputOne, inputTwo, inputThree, inputFour) {
     let valOne = 0;
     let valTwo = 0;
@@ -178,6 +180,15 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit, OnCha
     } else {
       return valTwo;
     }
+  }
+  formatAbbreviationGtoB(x) {
+    const formatSi = d3.format('$.1s');
+    const s = formatSi(x);
+    switch (s[s.length - 1]) {
+      case 'G':
+        return s.slice(0, -1) + 'B';
+    }
+    return s;
   }
   doBarGraph(chartOptions: any, transition: number) {
     // might have to hard code class names for testing
@@ -315,37 +326,37 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit, OnCha
       .range([400, 900])
       .nice(3);
 
+    const axisHidden = d3
+      .axisBottom(xScale)
+      .ticks(3)
+      .tickSize(5, 0, 0);
+
     chart
       .append('g')
       .attr('visibility', 'hidden')
-      .attr('id', 'forCalculations')
-      .call(
-        d3
-          .axisBottom(xScale)
-          .ticks(3)
-          .tickSize(5, 0, 0)
-        // .tickSizeOuter([0])
-      );
+      .attr('id', 'forCalculationz');
+    // .call(axisHidden);
 
-    const preArray = d3
-      .select('#forCalculations')
-      .selectAll('.tick>text')
-      .nodes()
-      .map(function(t) {
-        const tagString = new XMLSerializer().serializeToString(t);
-        const mySubString = tagString.substring(tagString.indexOf('>') + 1, tagString.indexOf('</'));
-        return mySubString;
-      });
+    /*
+     const preArray = d3
+     .select('#forCalculations')
+     .selectAll('.tick>text')
+     .nodes()
+     .map(function(t) {
+     const tagString = new XMLSerializer().serializeToString(t);
+     const mySubString = tagString.substring(tagString.indexOf('>') + 1, tagString.indexOf('</'));
+     return mySubString;
+     });
 
-    d3.select('#forCalculations').remove();
+     d3.select('#forCalculations').remove();
 
-    for (let i = 0; i < preArray.length; i++) {
-      preArray[i] = preArray[i].replace(/,/g, '');
-    }
-
-    const preArrayOfNumbers = preArray.map(Number);
-    const numberOfTicks = preArrayOfNumbers.length;
-    const highestTickValue = preArrayOfNumbers[numberOfTicks - 1];
+     for (let i = 0; i < preArray.length; i++) {
+     preArray[i] = preArray[i].replace(/,/g, '');
+     }
+     */
+    // const preArrayOfNumbers = preArray.map(Number);
+    // const numberOfTicks = preArrayOfNumbers.length;
+    const highestTickValue = highestValue;
     const axisPrefix = '$';
 
     const xScaleBar = d3
@@ -353,17 +364,15 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit, OnCha
       .domain([0, highestTickValue])
       .range([0, 500]);
 
-    chart
-      .append('g')
-      .attr('transform', 'translate(' + 0 + ',' + 55 + ')')
-      .call(
-        d3
-          .axisBottom(xScale)
-          .ticks(3)
-          .tickSize(295)
-          .tickFormat(this.formatDynamicAbbreviation(numberOfTicks, highestTickValue, axisPrefix))
-      )
-      .call(g => g.select('.domain').remove());
+    const officialxAxis = d3
+      .axisBottom(xScale)
+      .ticks(3)
+      .tickSize(295)
+      .tickFormat(d => this.formatAbbreviationGtoB(d));
+
+    chart.append('g').attr('transform', 'translate(' + 0 + ',' + 55 + ')');
+    // .call(officialxAxis)
+    // .call(g => g.select('.domain').remove());
 
     d3.selectAll('.tick')
       .selectAll('line')

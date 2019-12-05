@@ -63,7 +63,7 @@ export class KOPSharedService {
   }
 
   public getPriorAuthSummary(params: any) {
-    return new Promise(resolve => {
+    return new Promise((resolve, reject) => {
       const { filter: selectedFilter } = params;
       const { priorAuthFilters } = selectedFilter;
 
@@ -71,18 +71,44 @@ export class KOPSharedService {
         return { filter: param };
       });
 
-      this.getKopData('priorauth', paramsArray).then((response: any) => {
-        if (!response || response.length === 0) {
-          return resolve(null);
-        }
+      const tasks = [this.getKopData('priorauthtat', paramsArray), this.getKopData('priorauth', paramsArray)];
 
-        const careDeliveryInstance = new CareDelivery({ records: response });
-        const careDelivery = careDeliveryInstance.getData();
+      Promise.all(tasks)
+        .then((response: any) => {
+          if (!response || response.length === 0) {
+            return resolve(null);
+          }
 
-        return resolve({
-          careDelivery
+          // Merging two responses in to one response
+          const priorAuthResponse = [];
+          const [priorAuthTATResponse, priorAuthVolumeResponse] = response;
+          const noOfMetrics = priorAuthTATResponse.length || priorAuthVolumeResponse.length;
+          for (let i = 0; i < noOfMetrics; i++) {
+            priorAuthResponse[i] = priorAuthTATResponse[i];
+            Object.assign(priorAuthResponse[i].CareDelivery, priorAuthVolumeResponse[i].CareDelivery);
+          }
+
+          for (let i = 0; i < priorAuthResponse.length; i++) {
+            const {
+              CareDelivery: {
+                PriorAuthTAT: { PriorAuthTATValue },
+                PriorAuthRequested: { PriorAuthRequestedValue }
+              }
+            } = priorAuthResponse[i];
+            priorAuthResponse[i].CareDelivery.PriorAuthTAT.PriorAuthTATValue =
+              PriorAuthTATValue / PriorAuthRequestedValue;
+          }
+
+          const careDeliveryInstance = new CareDelivery({ records: priorAuthResponse });
+          const careDelivery = careDeliveryInstance.getData();
+
+          return resolve({
+            careDelivery
+          });
+        })
+        .catch(err => {
+          return reject(err);
         });
-      });
     });
   }
 
@@ -113,13 +139,20 @@ export class KOPSharedService {
   private getDataKopAsync(params: any, merticKey: string) {
     return new Promise((resolve, reject) => {
       if (merticKey === 'kop') {
-        this.kopService.getSummary({ params }).subscribe((response: any) => resolve(response), () => reject());
+        this.kopService.getSummary({ params }).subscribe(
+          (response: any) => resolve(response),
+          () => reject()
+        );
       } else if (merticKey === 'priorauth') {
-        this.kopService.getPriorAuthSummary({ params }).subscribe((response: any) => resolve(response), () => reject());
+        this.kopService.getPriorAuthSummary({ params }).subscribe(
+          (response: any) => resolve(response),
+          () => reject()
+        );
       } else if (merticKey === 'priorauthtat') {
-        this.kopService
-          .getPriorAuthTATSummary({ params })
-          .subscribe((response: any) => resolve(response), () => reject());
+        this.kopService.getPriorAuthTATSummary({ params }).subscribe(
+          (response: any) => resolve(response),
+          () => reject()
+        );
       }
     });
   }
