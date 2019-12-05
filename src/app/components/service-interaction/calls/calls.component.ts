@@ -1,8 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { CallsSharedService } from '../../../shared/service-interaction/calls-shared.service';
 import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
-import { Router } from '@angular/router';
 import { FilterExpandService } from '../../../shared/filter-expand.service';
 import { CommonUtilsService } from '../../../shared/common-utils.service';
 import { SessionService } from 'src/app/shared/session.service';
@@ -19,8 +18,10 @@ import { REMOVE_FILTER } from '../../../store/filter/actions';
   styleUrls: ['./calls.component.scss']
 })
 export class CallsComponent implements OnInit {
+  @Input() printStyle;
   callsItems: any;
   pageTitle: String = '';
+  pageSubTitle: String = '';
   timePeriod: string;
   lob: string;
   taxID: Array<string>;
@@ -32,7 +33,6 @@ export class CallsComponent implements OnInit {
     private checkStorage: StorageService,
     private callsServiceSrc: CallsSharedService,
     private filterExpandService: FilterExpandService,
-    private router: Router,
     private iconRegistry: MatIconRegistry,
     sanitizer: DomSanitizer,
     private session: SessionService,
@@ -41,7 +41,7 @@ export class CallsComponent implements OnInit {
     private createPayloadService: CreatePayloadService
   ) {
     const filData = this.session.getFilChangeEmitter().subscribe(() => this.common.urlResuseStrategy());
-    this.pageTitle = 'Calls';
+    this.pageSubTitle = 'Calls';
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => {
       this.createPayloadService.resetTinNumber('callsPage');
       this.ngRedux.dispatch({ type: REMOVE_FILTER, filterData: { taxId: true } });
@@ -61,6 +61,9 @@ export class CallsComponent implements OnInit {
   }
 
   ngOnInit() {
+    if (this.printStyle) {
+      this.pageTitle = this.session.getHealthCareOrgName();
+    }
     this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'callsPage' });
     this.loading = true;
     this.mockCards = [{}, {}];
