@@ -331,11 +331,12 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit, OnCha
       .ticks(3)
       .tickSize(5, 0, 0);
 
-    chart
+    const firstAxis = chart
       .append('g')
       .attr('visibility', 'hidden')
-      .attr('id', 'forCalculationz')
-      .call(axisHidden);
+      .attr('id', 'forCalculationz');
+
+    firstAxis.call(axisHidden);
 
     /*
      const preArray = d3
