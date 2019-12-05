@@ -49,7 +49,7 @@ export class PriorAuthComponent implements OnInit {
     private ngRedux: NgRedux<IAppState>
   ) {
     const filData = this.session.getFilChangeEmitter().subscribe(() => this.common.urlResuseStrategy());
-    this.pagesubTitle = '';
+    this.pagesubTitle = 'Prior Authorizations';
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => {
       // changing the session will trigger ngoninit
       // this.session.store({
@@ -78,6 +78,10 @@ export class PriorAuthComponent implements OnInit {
   }
 
   ngOnInit() {
+    if (this.printStyle) {
+      this.pageTitle = this.session.getHealthCareOrgName();
+    }
+
     this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'priorAuthPage' });
 
     // this.filterParameters = this.session.filterObjValue;

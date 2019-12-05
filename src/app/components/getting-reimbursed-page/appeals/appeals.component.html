@@ -4,7 +4,10 @@
     <div class="cards cust-width-title">
       <app-breadcrumbs></app-breadcrumbs>
       <app-print> </app-print>
-      <div class="page-title">{{ pageTitle }}</div>
+      <div class="page-title" [ngClass]="{ 'print-page-title': printStyle === true }">{{ pageTitle }}</div>
+      <div *ngIf="printStyle" [ngClass]="{ 'print-page-subtitle': printStyle === true }">
+        {{ pagesubTitle }}
+      </div>
       <app-filters-applied></app-filters-applied>
     </div>
     <div class="height1Separator"></div>
@@ -28,7 +31,11 @@
       </div>
       <!--<div class="overturn-margin-padding">-->
       <app-card class="cards" [skeleton]="loading" *ngIf="loading"> </app-card>
-      <div *ngIf="reasonDataAvailable && !loading" class="overturn-reason-block">
+      <div
+        *ngIf="reasonDataAvailable && !loading"
+        class="overturn-reason-block"
+        [ngClass]="{ 'print-overturn-reason-block': printStyle === true }"
+      >
         <app-common-header
           [title]="title"
           class="full-display"
