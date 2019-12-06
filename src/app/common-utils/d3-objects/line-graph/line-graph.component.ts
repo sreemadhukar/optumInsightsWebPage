@@ -200,10 +200,9 @@ export class LineGraphComponent implements OnInit {
     } // ends formatDynamicAbbrevia function
 
     function tooltipTextOnPrint(d, year, prefix) {
-      console.log('eeeeeeeeeeeeeee', d);
-      // if (year == undefined || !year || year === '') {
-      return ' ( ' + prefix + formatDy(d.y) + ' ) ';
-      // }
+      if (year == undefined || !year || year === '') {
+        return '(' + prefix + formatDy(d.y) + ')';
+      }
     }
 
     function tooltipText(d, year, prefix) {
@@ -513,12 +512,11 @@ export class LineGraphComponent implements OnInit {
       });
 
     if (this.printStyle) {
-      const tooltipVar1 = d3
-        .select(this.renderChart)
-        .append('div')
-        .classed('tooltipClassPrint', true)
-        .classed('hidden', true);
-
+      // const tooltipVar1 = d3
+      //   .select(this.renderChart)
+      //   .append('div')
+      //   .classed('tooltipClassPrint', true)
+      //   .classed('hidden', true);
       chart
         .selectAll('.dot')
         .data(data)
@@ -529,15 +527,33 @@ export class LineGraphComponent implements OnInit {
           return xScale(i);
         })
         .attr('cy', function(d) {
-          const topMar = yScale(d.y) + 49 + 'px';
-          tooltipVar1
-            .html(tooltipTextOnPrint(d, this.yearComparison, axisPrefix))
-            .classed('hidden', false)
-            .style('left', d.xCoordinate + 46 + 'px')
-            .style('top', topMar);
+          // const topMar = yScale(d.y) + 49 + 'px';
+          // tooltipVar1
+          //   .html(tooltipTextOnPrint(d, this.yearComparison, axisPrefix))
+          //   .classed('hidden', false)
+          //   .style('left', d.xCoordinate + 46 + 'px')
+          //   .style('top', topMar);
           return yScale(d.y);
         })
         .attr('r', 5);
+
+      chart
+        .selectAll('.text')
+        .data(data)
+        .enter()
+        .append('text')
+        .attr('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
+        .attr('font-size', '14px')
+        .text(function(d) {
+          return tooltipTextOnPrint(d, this.yearComparison, axisPrefix);
+        })
+        .attr('x', function(d, i) {
+          return xScale(i);
+        })
+        .attr('y', function(d, i) {
+          return yScale(d.y);
+        })
+        .attr('transform', 'translate(-12, -15)');
     }
 
     const DotOne = chart
