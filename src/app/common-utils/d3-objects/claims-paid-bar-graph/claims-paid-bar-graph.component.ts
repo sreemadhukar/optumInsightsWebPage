@@ -365,6 +365,7 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit, OnCha
     const highestTickValue = highestValue;
     const axisPrefix = '$';
 
+    /*
     const xScaleTicks = d3
       .scalePoint()
       .domain([0, highestValue / 4, highestValue / 2, (3 * highestValue) / 4, highestValue])
@@ -417,13 +418,110 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit, OnCha
 
     const maxTickNum = preArray[preArray.length - 1].replace(/[^0-9]/g, '');
     // console.log(multiplier, Number(maxTickNum));
+    */
+    const xScaleTicksNice = d3
+      .scaleLinear()
+      .domain([0, highestValue])
+      .range([400, 900])
+      .nice();
+
+    chart
+      .append('text')
+      .attr('x', '400.5')
+      .attr('y', '370')
+      .attr('fill', '#2D2D39')
+      .attr('font-size', '14')
+      .attr('text-anchor', 'middle')
+      .attr('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
+      .text('$0');
+
+    chart
+      .append('line')
+      .attr('x1', 525.5)
+      .attr('y1', 55)
+      .attr('x2', 525.5)
+      .attr('y2', 350)
+      .attr('stroke', '#B3BABC')
+      .attr('stroke-width', 1)
+      .attr('stroke-opacity', 0.7);
+
+    chart
+      .append('text')
+      .attr('x', '525.5')
+      .attr('y', '370')
+      .attr('fill', '#2D2D39')
+      .attr('font-size', '14')
+      .attr('text-anchor', 'middle')
+      .attr('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
+      .text(this.formatAbbreviationGtoB(highestValue * 0.25));
+
+    chart
+      .append('line')
+      .attr('x1', 650.5)
+      .attr('y1', 55)
+      .attr('x2', 650.5)
+      .attr('y2', 350)
+      .attr('stroke', '#B3BABC')
+      .attr('stroke-width', 1)
+      .attr('stroke-opacity', 0.7);
+
+    chart
+      .append('text')
+      .attr('x', '650.5')
+      .attr('y', '370')
+      .attr('fill', '#2D2D39')
+      .attr('font-size', '14')
+      .attr('text-anchor', 'middle')
+      .attr('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
+      .text(this.formatAbbreviationGtoB(highestValue * 0.5));
+
+    chart
+      .append('line')
+      .attr('x1', 775.5)
+      .attr('y1', 55)
+      .attr('x2', 775.5)
+      .attr('y2', 350)
+      .attr('stroke', '#B3BABC')
+      .attr('stroke-width', 1)
+      .attr('stroke-opacity', 0.7);
+
+    chart
+      .append('text')
+      .attr('x', '775.5')
+      .attr('y', '370')
+      .attr('fill', '#2D2D39')
+      .attr('font-size', '14')
+      .attr('text-anchor', 'middle')
+      .attr('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
+      .text(this.formatAbbreviationGtoB(highestValue * 0.75));
+
+    chart
+      .append('line')
+      .attr('x1', 900.5)
+      .attr('y1', 55)
+      .attr('x2', 900.5)
+      .attr('y2', 350)
+      .attr('stroke', '#B3BABC')
+      .attr('stroke-width', 1)
+      .attr('stroke-opacity', 0.7);
+
+    chart
+      .append('text')
+      .attr('x', '900.5')
+      .attr('y', '370')
+      .attr('fill', '#2D2D39')
+      .attr('font-size', '14')
+      .attr('text-anchor', 'middle')
+      .attr('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
+      .text(this.formatAbbreviationGtoB(highestValue));
 
     // only used for bar objects
     const xScaleBar = d3
       .scaleLinear()
-      .domain([0, multiplier * Number(maxTickNum)])
+      .domain([0, highestValue])
       .range([0, 500]);
 
+    /*
     d3.selectAll('.tick')
       .selectAll('line')
       .attr('stroke', '#B3BABC')
@@ -436,7 +534,7 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit, OnCha
       .attr('fill', '#2D2D39')
       .attr('font-size', '14')
       .attr('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'");
-
+*/
     d3.selectAll('.tick')
       .selectAll('line')
       .filter(function(d) {
