@@ -44,8 +44,9 @@ export class GlossaryComponent implements OnInit {
       this.glossaryByMetricId();
     }
     this.obs = this.emitter.pipe(debounceTime(250)).subscribe(text => this.getBusinessGlossary(text));
-    this.options = [];
     this.glossaryService.getBusinessGlossaryData().subscribe(response => {
+      this.options = [];
+      this.glossarySelected = [];
       this.glossaryList = JSON.parse(JSON.stringify(response));
       if (this.title === 'Medicare Star Rating') {
         this.title = 'Medicare & Retirement Average Star Rating';
@@ -165,6 +166,7 @@ export class GlossaryComponent implements OnInit {
   }
 
   public filteredData(value) {
+    this.glossarySelected = [];
     if (value === 'All') {
       for (let i = 0; i < this.glossaryList.length; i++) {
         if (
