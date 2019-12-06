@@ -172,7 +172,7 @@ export class PaymentIntegrityComponent implements OnInit {
           color: ['#00B8CC', '#FFFFFF', '#E91B18'],
           gdata: ['app-card-structure', 'pi-large-bar-chart'],
           hover: true,
-          targetValue: '16% belowtarget',
+          targetValue: '16% below target',
           trendValue: '+1.2%'
         },
         timeperiod: this.session.filterObjValue.timeFrame
