@@ -39,6 +39,7 @@ export class AppealsComponent implements OnInit {
   reasonDataAvailable = true;
   appealsTAT: object;
   showAppealsTAT = false;
+  pagesubTitle: string;
   constructor(
     private appealsSharedService: AppealsSharedService,
     private iconRegistry: MatIconRegistry,
@@ -51,6 +52,7 @@ export class AppealsComponent implements OnInit {
     private ngRedux: NgRedux<IAppState>,
     private createPayloadService: CreatePayloadService
   ) {
+    this.pagesubTitle = 'Getting Reimbursed - Appeals';
     // const filData = this.session.getFilChangeEmitter().subscribe(() => this.ngOnInit());
     const filData = this.session.getFilChangeEmitter().subscribe(() => this.common.urlResuseStrategy());
     this.pageTitle = 'Claims Appeals';
@@ -74,6 +76,10 @@ export class AppealsComponent implements OnInit {
   }
 
   ngOnInit() {
+    if (this.printStyle) {
+      this.pageTitle = this.session.getHealthCareOrgName();
+    }
+
     this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'appealsPage' });
     this.timePeriod = this.common.getTimePeriodFilterValue(this.createPayloadService.payload.timePeriod);
     this.loading = true;
