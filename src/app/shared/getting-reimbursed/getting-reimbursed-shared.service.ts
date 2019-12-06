@@ -460,7 +460,7 @@ export class GettingReimbursedSharedService {
                 type: 'donut',
                 title: 'Claims Non-Payment Rate',
                 MetricID: this.MetricidService.MetricIDs.ClaimsNonPaymentRate,
-                toggle: !environment.internalAccess,
+                toggle: true,
                 data: {
                   graphValues: [
                     claimsData[lobData].ClaimsLobSummary[0].ClaimsNonPaymentRate,
@@ -1360,7 +1360,7 @@ export class GettingReimbursedSharedService {
                 type: 'donut',
                 title: 'Claims Non-Payment Rate',
                 MetricID: this.MetricidService.MetricIDs.ClaimsNonPaymentRate,
-                toggle: !environment.internalAccess,
+                toggle: true,
                 data: {
                   graphValues: [
                     claimsData[lobData].ClaimsLobSummary[0].ClaimsNonPaymentRate,

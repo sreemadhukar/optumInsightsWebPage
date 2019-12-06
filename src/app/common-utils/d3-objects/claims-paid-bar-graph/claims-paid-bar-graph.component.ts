@@ -321,21 +321,22 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit, OnCha
     );
     // const highestValue = 800;
     const xScale = d3
-      .scaleLinear()
+      .scalePoint()
       .domain([0, highestValue])
-      .range([400, 900])
-      .nice(3);
+      .range([400, 900]);
+    // .nice();
 
     const axisHidden = d3
       .axisBottom(xScale)
-      .ticks(3)
+      // .ticks(3)
       .tickSize(5, 0, 0);
 
-    chart
+    const firstAxis = chart
       .append('g')
       .attr('visibility', 'hidden')
       .attr('id', 'forCalculationz');
-    // .call(axisHidden);
+
+    firstAxis.call(axisHidden);
 
     /*
      const preArray = d3
