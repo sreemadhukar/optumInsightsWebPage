@@ -453,7 +453,7 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit, OnCha
       .attr('font-size', '14')
       .attr('text-anchor', 'middle')
       .attr('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
-      .text(this.formatAbbreviationGtoB(highestValue * 0.25));
+      .text('100');
 
     chart
       .append('line')
@@ -473,7 +473,7 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit, OnCha
       .attr('font-size', '14')
       .attr('text-anchor', 'middle')
       .attr('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
-      .text(this.formatAbbreviationGtoB(highestValue * 0.5));
+      .text('100');
 
     chart
       .append('line')
@@ -493,7 +493,7 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit, OnCha
       .attr('font-size', '14')
       .attr('text-anchor', 'middle')
       .attr('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
-      .text(this.formatAbbreviationGtoB(highestValue * 0.75));
+      .text('100');
 
     chart
       .append('line')
@@ -513,7 +513,7 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit, OnCha
       .attr('font-size', '14')
       .attr('text-anchor', 'middle')
       .attr('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
-      .text(this.formatAbbreviationGtoB(highestValue));
+      .text('100');
 
     // only used for bar objects
     const xScaleBar = d3
