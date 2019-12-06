@@ -22,7 +22,12 @@
             "stylePreprocessorOptions": {
               "includePaths": ["src/scss"]
             },
-            "styles": [{ "input": "src/styles.scss" }, "src/theme.scss"],
+            "styles": [
+              {
+                "input": "src/styles.scss"
+              },
+              "src/theme.scss"
+            ],
             "scripts": ["src/modernizr.js"]
           },
           "configurations": {
@@ -260,6 +265,9 @@
             },
             "stage": {
               "browserTarget": "webui2:build:stage"
+            },
+            "externalint": {
+              "browserTarget": "webui2:build:externalint"
             }
           }
         },
