@@ -50,7 +50,7 @@
                   "with": "src/environments/environment.stage.ts"
                 }
               ],
-             "optimization": false,
+              "optimization": false,
               "outputHashing": "all",
               "sourceMap": false,
               "extractCss": false,
@@ -84,7 +84,7 @@
                   "with": "src/environments/environment.externalprod.ts"
                 }
               ],
-             "optimization": false,
+              "optimization": false,
               "outputHashing": "all",
               "sourceMap": false,
               "extractCss": false,
@@ -101,7 +101,7 @@
                   "with": "src/environments/environment.externalstage.ts"
                 }
               ],
-           "optimization": false,
+              "optimization": false,
               "outputHashing": "all",
               "sourceMap": false,
               "extractCss": false,
@@ -203,7 +203,7 @@
                   "with": "src/environments/environment.externalint.ts"
                 }
               ],
-             "optimization": false,
+              "optimization": false,
               "outputHashing": "all",
               "sourceMap": false,
               "extractCss": false,
@@ -220,7 +220,7 @@
                   "with": "src/environments/environment.int.ts"
                 }
               ],
-             "optimization": false,
+              "optimization": false,
               "outputHashing": "all",
               "sourceMap": false,
               "extractCss": false,
@@ -237,7 +237,7 @@
                   "with": "src/environments/environment.dev.ts"
                 }
               ],
-           "optimization": false,
+              "optimization": false,
               "outputHashing": "all",
               "sourceMap": false,
               "extractCss": false,
