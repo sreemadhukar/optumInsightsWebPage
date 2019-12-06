@@ -200,7 +200,6 @@ export class LineGraphComponent implements OnInit {
     } // ends formatDynamicAbbrevia function
 
     function tooltipTextOnPrint(d, year, prefix) {
-      console.log(d);
       if (year == undefined || !year || year === '') {
         return '(' + prefix + formatDy(d.y) + ')';
       }
