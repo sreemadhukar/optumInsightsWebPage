@@ -106,6 +106,50 @@
         </mat-radio-group>
       </div>
     </div>
+    <!--***************-->
+
+    <!--***************-->
+    <!--Appeals Filter -->
+    <div
+      class="line"
+      *ngIf="selectedPage == 'appealsPage' || gettingReimbursedTabName == 'gettingReimbursedAppeals'"
+    ></div>
+
+    <div
+      class="titleDate"
+      *ngIf="selectedPage == 'appealsPage' || gettingReimbursedTabName == 'gettingReimbursedAppeals'"
+    >
+      <div class="title">View Appeals By</div>
+      <div class="chevron">
+        <mat-icon
+          class="icon-display"
+          svgIcon="arrowdn"
+          (click)="toggle('toggleAppeal')"
+          [class.arrow-toggle]="collapseToggle.toggleAppeal"
+        ></mat-icon>
+      </div>
+    </div>
+    <div class="lobgrp" *ngIf="selectedPage == 'appealsPage' || gettingReimbursedTabName == 'gettingReimbursedAppeals'">
+      <div>
+        <label id="radio-group" class="label-data">{{ selectedClaims.value }}</label>
+      </div>
+      <div class="select-option-data" *ngIf="collapseToggle.toggleAppeals">
+        HERE
+        <mat-radio-group class="radio-group" [(ngModel)]="selectedAppeals">
+          <mat-radio-button
+            class="radio-button"
+            *ngFor="let appeal of appeals"
+            [class.lob-disable]="appeal.disable"
+            [value]="appeal"
+          >
+            {{ appeal.value }}
+          </mat-radio-button>
+        </mat-radio-group>
+      </div>
+    </div>
+
+    <!--Appeals Filter -->
+    <!--***************-->
 
     <!-- Claims Filter-->
     <div
@@ -167,6 +211,7 @@
         </mat-radio-group>
       </div>
     </div>
+    <!--*****************************-->
 
     <div *ngIf="selectedPage === 'priorAuthPage'">
       <!--Service Setting (Only Prior Auth)-->

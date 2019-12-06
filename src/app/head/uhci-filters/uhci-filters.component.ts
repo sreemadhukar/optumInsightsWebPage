@@ -11,7 +11,8 @@ import {
   TrendMetrics,
   filterToggles,
   MetricPropType,
-  ClaimsFilter
+  ClaimsFilter,
+  AppealsFilter
 } from './filter-settings/filter-options';
 import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -38,6 +39,7 @@ export class UhciFiltersComponent implements OnInit {
   @select() trendMetric;
   @select() trendDate;
   @select() claimsFilter;
+  @select() appealsFilter;
   @Output() filterFlag = new EventEmitter();
 
   selectedPage: string;
@@ -46,7 +48,9 @@ export class UhciFiltersComponent implements OnInit {
   lobs = LineOfBusiness;
   selectedLob: MetricPropType;
   claims = ClaimsFilter;
+  appeals = AppealsFilter;
   selectedClaims: MetricPropType;
+  selectedAppeals: MetricPropType;
   serviceSettings = ServiceSetting;
   selectedServiceSetting: MetricPropType;
   serviceCategories = ServiceCategory;
@@ -98,6 +102,11 @@ export class UhciFiltersComponent implements OnInit {
     this.claimsFilter.subscribe(
       claimsFilter => (this.selectedClaims = this.claims.find(val => val.name === claimsFilter))
     );
+    this.appealsFilter.subscribe(
+      appealsFilter => (this.selectedAppeals = this.appeals.find(val => val.name === appealsFilter))
+      //  appealsFilter => console.log(this.appeals)
+      //  console.log(this.appeals.find( val => val.name === appealsFilter))
+    );
     this.serviceSetting.subscribe(
       serviceSetting => (this.selectedServiceSetting = this.serviceSettings.find(val => val.name === serviceSetting))
     );
@@ -121,6 +130,8 @@ export class UhciFiltersComponent implements OnInit {
         });
       });
     });
+    console.log('selected appeals');
+    console.log(this.selectedAppeals);
   }
 
   disableTimePeriod(timeFrame) {
@@ -158,7 +169,8 @@ export class UhciFiltersComponent implements OnInit {
         priorAuthType: this.selectedPriorAuthType.name,
         trendMetric: this.selectedTrendMetric.name,
         trendDate: this.selectedDate,
-        claimsFilter: this.selectedClaims.name
+        claimsFilter: this.selectedClaims.name,
+        appealsFilter: this.selectedAppeals.name
       }
     });
     this.createPayloadService.emitFilterEvent(this.selectedPage);
