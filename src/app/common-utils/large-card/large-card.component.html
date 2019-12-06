@@ -5,10 +5,15 @@
       [title]="data[0].title"
       class="full-display"
       (helpIconClicked)="helpIconClick($event)"
-    ></app-common-header>
+    ></app-common-header
+    >zz
 
     <div *ngFor="let item of data; let i = index">
       <app-bar-chart *ngIf="item.data != null" [chartOptions]="item.data"> </app-bar-chart>
+    </div>
+
+    <div *ngFor="let item of data; let i = index">
+      <app-mini-bar-chart [chartOptions]="item.data"></app-mini-bar-chart>
     </div>
     <!--<app-claims-paid-bar-graph></app-claims-paid-bar-graph> -->
     <div class="full-width-block" *ngIf="data[0].timeperiod">

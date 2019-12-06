@@ -3,7 +3,7 @@
   <div class="payments-content">
     <div class="cards cust-width-title">
       <app-breadcrumbs></app-breadcrumbs>
-      <app-print *ngIf="!printStyle" [route]="printRoute" (printClick)="printDownload($event)"> </app-print>
+      <app-print> </app-print>
       <div class="page-title" [ngClass]="{ 'print-page-title': printStyle === true }">
         {{ pageTitle }}
       </div>
@@ -34,7 +34,11 @@
       *ngIf="!loadingClaimsBreakdown && !claimsPaidBreakBool && cData[0].status != null"
       [data]="cData[0]"
     ></app-error-card>
-    <div *ngIf="!loadingClaimsBreakdown && claimsPaidBreakBool" class="claims-paid-content">
+    <div
+      *ngIf="!loadingClaimsBreakdown && claimsPaidBreakBool"
+      class="claims-paid-content"
+      [ngClass]="{ 'print-claims-paid-content': printStyle === true }"
+    >
       <app-common-header
         [title]="title"
         class="claims-header"
