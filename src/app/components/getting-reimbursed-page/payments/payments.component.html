@@ -21,23 +21,23 @@
     </div>
 
     <!--Claims Paid Breakdown Graph Starts here -->
-    <!--<app-large-card [skeletonLarge]="loading" *ngIf="loadingClaimsBreakdown"></app-large-card>-->
-    <!--<app-error-card-->
-    <!--*ngIf="!loadingClaimsBreakdown && !claimsPaidBreakBool && cData[0].status != null"-->
-    <!--[data]="cData[0]"-->
-    <!--&gt;</app-error-card>-->
-    <!--<div *ngIf="!loadingClaimsBreakdown && claimsPaidBreakBool" class="claims-paid-content">-->
-    <!--<app-common-header-->
-    <!--[title]="title"-->
-    <!--class="claims-header"-->
-    <!--(helpIconClicked)="helpIconClick($event)"-->
-    <!--&gt;</app-common-header>-->
-    <!--<app-claims-paid-bar-graph [chartOptions]="cData[0]"></app-claims-paid-bar-graph>-->
+    <app-large-card [skeletonLarge]="loading" *ngIf="loadingClaimsBreakdown"></app-large-card>
+    <app-error-card
+      *ngIf="!loadingClaimsBreakdown && !claimsPaidBreakBool && cData[0].status != null"
+      [data]="cData[0]"
+    ></app-error-card>
+    <div *ngIf="!loadingClaimsBreakdown && claimsPaidBreakBool" class="claims-paid-content">
+      <app-common-header
+        [title]="title"
+        class="claims-header"
+        (helpIconClicked)="helpIconClick($event)"
+      ></app-common-header>
+      <app-claims-paid-bar-graph [chartOptions]="cData[0]"></app-claims-paid-bar-graph>
 
-    <!--<div class="timeperiod-block">-->
-    <!--<app-common-footer [timePeriod]="timePeriod" [title]="title"></app-common-footer>-->
-    <!--</div>-->
-    <!--</div>-->
+      <div class="timeperiod-block">
+        <app-common-footer [timePeriod]="timePeriod" [title]="title"></app-common-footer>
+      </div>
+    </div>
     <!--Claims Paid Breakdown Graph Ends here -->
     <app-clarify-claims-message></app-clarify-claims-message>
   </div>
