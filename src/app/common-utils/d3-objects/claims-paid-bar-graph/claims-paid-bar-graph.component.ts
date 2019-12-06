@@ -182,7 +182,13 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit, OnCha
     }
   }
   formatAbbreviationGtoB(x) {
-    const formatSi = d3.format('$.1s');
+    console.log(Math.round(x).toString().length);
+    let formatSi;
+    if (Math.round(x).toString().length % 3 === 0) {
+      formatSi = d3.format('$.2s');
+    } else {
+      formatSi = d3.format('$.1s');
+    }
     const s = formatSi(x);
     switch (s[s.length - 1]) {
       case 'G':
@@ -324,11 +330,10 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit, OnCha
       .scalePoint()
       .domain([0, highestValue])
       .range([400, 900]);
-    // .nice();
 
     const axisHidden = d3
       .axisBottom(xScale)
-      // .ticks(3)
+      .ticks(3)
       .tickSize(5, 0, 0);
 
     const firstAxis = chart
@@ -360,20 +365,64 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit, OnCha
     const highestTickValue = highestValue;
     const axisPrefix = '$';
 
-    const xScaleBar = d3
+    const xScaleTicks = d3
+      .scalePoint()
+      .domain([0, highestValue / 4, highestValue / 2, (3 * highestValue) / 4, highestValue])
+      .range([400, 900]);
+
+    const xScaleTicksNice = d3
       .scaleLinear()
-      .domain([0, highestTickValue])
-      .range([0, 500]);
+      .domain([0, highestValue])
+      .range([400, 900])
+      .nice();
+
+    // console.log(xScaleTicksNice())
+
+    console.log([0, highestValue / 4, highestValue / 2, (3 * highestValue) / 4, highestValue]);
 
     const officialxAxis = d3
-      .axisBottom(xScale)
-      .ticks(3)
+      .axisBottom(xScaleTicks)
       .tickSize(295)
       .tickFormat(d => this.formatAbbreviationGtoB(d));
 
-    chart.append('g').attr('transform', 'translate(' + 0 + ',' + 55 + ')');
-    // .call(officialxAxis)
-    // .call(g => g.select('.domain').remove());
+    chart
+      .append('g')
+      .attr('transform', 'translate(' + 0 + ',' + 55 + ')')
+      .attr('id', 'forCalculationBottom')
+      .call(officialxAxis)
+      .call(g => g.select('.domain').remove());
+
+    const preArray = d3
+      .select('#forCalculationBottom')
+      .selectAll('.tick>text')
+      .nodes()
+      .map(function(t) {
+        const tagString = new XMLSerializer().serializeToString(t);
+        const mySubString = tagString.substring(tagString.indexOf('>') + 1, tagString.indexOf('</'));
+        return mySubString;
+      });
+
+    const stringLength = preArray[preArray.length - 1].length;
+    const abbreviation = preArray[preArray.length - 1].charAt(stringLength - 1);
+    let multiplier;
+    if (abbreviation === 'k') {
+      multiplier = 1000;
+    } else if (abbreviation === 'M') {
+      multiplier = 1000000;
+    } else if (abbreviation === 'B') {
+      multiplier = 1000000000;
+    } else {
+      multiplier = 1;
+    }
+
+    const maxTickNum = preArray[preArray.length - 1].replace(/[^0-9]/g, '');
+    // console.log(multiplier, Number(maxTickNum));
+
+    // only used for bar objects
+    const xScaleBar = d3
+      .scaleLinear()
+      .domain([0, multiplier * Number(maxTickNum)])
+      .range([0, 500]);
 
     d3.selectAll('.tick')
       .selectAll('line')
