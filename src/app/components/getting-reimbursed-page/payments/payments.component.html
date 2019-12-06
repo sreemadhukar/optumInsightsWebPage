@@ -34,7 +34,11 @@
       *ngIf="!loadingClaimsBreakdown && !claimsPaidBreakBool && cData[0].status != null"
       [data]="cData[0]"
     ></app-error-card>
-    <div *ngIf="!loadingClaimsBreakdown && claimsPaidBreakBool" class="claims-paid-content">
+    <div
+      *ngIf="!loadingClaimsBreakdown && claimsPaidBreakBool"
+      class="claims-paid-content"
+      [ngClass]="{ 'print-claims-paid-content': printStyle === true }"
+    >
       <app-common-header
         [title]="title"
         class="claims-header"
