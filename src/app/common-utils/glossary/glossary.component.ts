@@ -166,7 +166,6 @@ export class GlossaryComponent implements OnInit {
   }
 
   public filteredData(value) {
-    this.glossarySelected = [];
     if (value === 'All') {
       for (let i = 0; i < this.glossaryList.length; i++) {
         if (
