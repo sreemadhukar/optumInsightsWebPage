@@ -116,7 +116,7 @@
     ></div>
 
     <div
-      class="titleDate"
+      class="titleData"
       *ngIf="selectedPage == 'appealsPage' || gettingReimbursedTabName == 'gettingReimbursedAppeals'"
     >
       <div class="title">View Appeals By</div>
@@ -124,17 +124,17 @@
         <mat-icon
           class="icon-display"
           svgIcon="arrowdn"
-          (click)="toggle('toggleAppeal')"
-          [class.arrow-toggle]="collapseToggle.toggleAppeal"
+          (click)="toggle('toggleAppeals')"
+          [class.arrow-toggle]="collapseToggle.toggleAppeals"
         ></mat-icon>
       </div>
     </div>
     <div class="lobgrp" *ngIf="selectedPage == 'appealsPage' || gettingReimbursedTabName == 'gettingReimbursedAppeals'">
       <div>
-        <label id="radio-group" class="label-data">{{ selectedClaims.value }}</label>
+        <label id="radio-group" class="label-data">{{ selectedAppeals.value }}</label>
       </div>
-      <div class="select-option-data" *ngIf="collapseToggle.toggleAppeals">
-        HERE
+      <!--div class="select-option-data" *ngIf="collapseToggle.toggleAppeals"-->
+      <div class="select-option-data">
         <mat-radio-group class="radio-group" [(ngModel)]="selectedAppeals">
           <mat-radio-button
             class="radio-button"
@@ -146,6 +146,7 @@
           </mat-radio-button>
         </mat-radio-group>
       </div>
+      <!--/div-->
     </div>
 
     <!--Appeals Filter -->

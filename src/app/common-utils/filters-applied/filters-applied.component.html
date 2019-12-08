@@ -58,24 +58,23 @@
       </div>
       <!--**********************-->
       <!--**********************-->
-      <!--div
-         class="horizontal-align"
-         *ngIf="
-           (selectedPage == 'appealsPage' ||
-             tabName == 'gettingReimbursedAppeals') &&
-           selectedAppeals.value !== 'Received Date' &&
-           !flag
-         "
-       >
-      
-         <button class="btn btn-rounded" disabled>
-           <span>Claim Type: </span
-           ><span class="text-semibold pl-4"> {{ selectedAppeals.value | temporaryTextFormatter }} </span>
-           <div class="close-btn">
-             <mat-icon class="icon-display" (click)="removeAppliedFilter('appeals')" svgIcon="close"></mat-icon>
-           </div>
-         </button>
-       </div-->
+
+      <div
+        class="horizontal-align"
+        *ngIf="
+          selectedPage === 'appealsPage' &&
+          tabName == 'gettingReimbursedAppeals' &&
+          selectedAppeals.value !== 'Received Date'
+        "
+      >
+        <button class="btn btn-rounded" disabled>
+          <span>View Appeals By: </span><span class="text-semibold pl-4"> {{ selectedAppeals.value }} </span>
+          <div class="close-btn">
+            <mat-icon class="icon-display" (click)="removeAppliedFilter('appeals')" svgIcon="close"></mat-icon>
+          </div>
+        </button>
+      </div>
+
       <!--**********************-->
 
       <div class="horizontal-align" *ngIf="selectedPage === 'priorAuthPage' && selectedServiceSetting.value !== 'All'">

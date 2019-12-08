@@ -86,7 +86,7 @@ export class FiltersAppliedComponent implements OnInit {
       claimsFilter => (this.selectedClaims = this.claims.find(val => val.name === claimsFilter))
     );
     this.appealsFilter.subscribe(
-      appealsFilter => (this.selectedAppeals = this.appeals.find(val => val.name === appealsFilter))
+      appealsFilter => (this.selectedAppeals = this.appeals.find(val => val.value === appealsFilter))
     );
     this.serviceSetting.subscribe(
       serviceSetting => (this.selectedServiceSetting = this.serviceSettings.find(val => val.name === serviceSetting))
@@ -107,7 +107,6 @@ export class FiltersAppliedComponent implements OnInit {
       this.previousDate = new Date(this.selectedDate.toString());
       this.previousDate = this.previousDate.setDate(this.selectedDate.getDate() - 1);
     });
-    console.log(this.selectedAppeals);
   }
 
   openFilter() {

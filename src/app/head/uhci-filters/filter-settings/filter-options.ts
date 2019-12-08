@@ -23,8 +23,8 @@ export const ClaimsFilter = [
 ];
 
 export const AppealsFilter = [
-  { name: 'DOR', value: 'Received Date', disable: false },
-  { name: 'DOC', value: 'Closed Date', disable: false }
+  { name: 'Received Date', value: 'Received Date', disable: false },
+  { name: 'Closed Date', value: 'Closed Date', disable: false }
 ];
 
 export const ServiceSetting = [

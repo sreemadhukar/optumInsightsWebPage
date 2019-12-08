@@ -103,9 +103,7 @@ export class UhciFiltersComponent implements OnInit {
       claimsFilter => (this.selectedClaims = this.claims.find(val => val.name === claimsFilter))
     );
     this.appealsFilter.subscribe(
-      appealsFilter => (this.selectedAppeals = this.appeals.find(val => val.name === appealsFilter))
-      //  appealsFilter => console.log(this.appeals)
-      //  console.log(this.appeals.find( val => val.name === appealsFilter))
+      appealsFilter => (this.selectedAppeals = this.appeals.find(val => val.value === appealsFilter))
     );
     this.serviceSetting.subscribe(
       serviceSetting => (this.selectedServiceSetting = this.serviceSettings.find(val => val.name === serviceSetting))
@@ -130,8 +128,6 @@ export class UhciFiltersComponent implements OnInit {
         });
       });
     });
-    console.log('selected appeals');
-    console.log(this.selectedAppeals);
   }
 
   disableTimePeriod(timeFrame) {
