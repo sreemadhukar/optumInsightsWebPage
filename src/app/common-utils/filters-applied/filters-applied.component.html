@@ -62,8 +62,7 @@
       <div
         class="horizontal-align"
         *ngIf="
-          selectedPage === 'appealsPage' &&
-          tabName == 'gettingReimbursedAppeals' &&
+          (selectedPage === 'appealsPage' || tabName == 'gettingReimbursedAppeals') &&
           selectedAppeals.value !== 'Received Date'
         "
       >
