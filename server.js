@@ -31,7 +31,7 @@ app.all('/uhci/prd/*', function(req, res) {
 app.use((error, req, res, next) => {
   handleExceptions(error, res);
 });
-app.get('/api/getJwt', function(req, res) {
+app.get('/api/getJwt', cors(), function(req, res) {
   let token = jwt.sign(
     {
       exp: Math.floor(Date.now() / 1000) + 60 * 60,
