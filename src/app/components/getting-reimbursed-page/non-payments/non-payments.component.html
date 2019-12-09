@@ -60,32 +60,34 @@
       <div class="top-reasons-for-claims-non-payment-block" *ngIf="topReasonsCategoryDisplay && !loadingTopReasons">
         <app-common-header
           [title]="title"
-          class="full-display"
+          class="full-display white-bg"
           (helpIconClicked)="helpIconClick($event)"
         ></app-common-header>
         <div class="bar-graphs-block">
           <div
             class="bar-graphs"
             *ngFor="let barchart of barChartsArray; let i = index"
-            [class.extra-margin-bottom-33]="i + 1 == barChartsArray.length && !section[i]"
+            [class.extra-margin-bottom-40]="i + 1 == barChartsArray.length && !section[i]"
           >
             <div
-              [class.extra-margin-top-8]="i != 0"
+              [class.extra-margin-top-31]="i != 0"
               [class.extra-margin-bottom-16]="section[i]"
               class="bar-graphs-content"
               (click)="section[i] = !section[i]; reasonsCollapose(i)"
             >
-              <div class="bar-graph-inside-left-block">
-                <div class="bar-graph-inside-left-block-content">
-                  <!-- <mat-icon class="bar-graph-block-icon" *ngIf="!section[i]" svgIcon="open"></mat-icon>
-                <mat-icon class="bar-graph-block-icon" *ngIf="section[i]" svgIcon="close-bar"></mat-icon> -->
-                  <mat-icon
-                    class="bar-graph-block-icon"
-                    svgIcon="carrot"
-                    [@rotatedState]="section[i] ? 'rotated' : 'default'"
-                  ></mat-icon>
-                  <p class="bar-graph-title">{{ barchart.title }}</p>
-                  <p class="bar-graph-value">{{ barchart.value }}</p>
+              <div class="bar-graph-inside-content">
+                <div class="bar-graph-inside-left-block">
+                  <div class="bar-graph-inside-left-block-content">
+                    <!-- <mat-icon class="bar-graph-block-icon" *ngIf="!section[i]" svgIcon="open"></mat-icon>
+                  <mat-icon class="bar-graph-block-icon" *ngIf="section[i]" svgIcon="close-bar"></mat-icon> -->
+                    <mat-icon
+                      class="bar-graph-block-icon"
+                      svgIcon="carrot"
+                      [@rotatedState]="section[i] ? 'rotated' : 'default'"
+                    ></mat-icon>
+                    <p class="bar-graph-title">{{ barchart.title }}</p>
+                    <p class="bar-graph-value">{{ barchart.value }}</p>
+                  </div>
                 </div>
               </div>
               <div class="bar-graph-inside-right-block" #barsParentBlock>
@@ -95,26 +97,49 @@
                 ></div>
               </div>
             </div>
-
             <div class="inner-block" *ngIf="section[i]">
-              <div class="bottom-shadow">
-                <div class="hide-bottom-arrow-block"></div>
-              </div>
-              <h3 class="inner-blocks-header">
-                Top Reason{{ barchart.top5.length === 1 ? '' : 's' }} for {{ barchart.title }}
-              </h3>
-              <div *ngFor="let inside of barchart.top5; let j = index">
-                <div *ngIf="j < 5">
-                  <div [class.extra-margin-left-4]="j == 0" class="top-5-block">
-                    <p class="top-5-text">{{ inside.text }}</p>
-                    <p class="top-5-value">{{ inside.value }}</p>
+              <div class="inner-block-bdr">
+                <div class="bottom-shadow">
+                  <div class="hide-bottom-arrow-block"></div>
+                </div>
+
+                <div *ngFor="let inside of barchart.top5; let j = index" class="top-5-block">
+                  <!-- <h3 class="inner-blocks-header">
+                      Top Reason{{ barchart.top5.length === 1 ? '' : 's' }} for {{ barchart.title }}
+                    </h3> -->
+                  <div *ngIf="j < 5">
+                    <div [class.extra-margin-top-18]="j == 0">
+                      <div class="inside-bar-graph-content">
+                        <div class="inside-bar-graph-left-block">
+                          <div class="inside-block-content">
+                            <span class="top-5-text">{{ inside.text }}</span>
+                            <span class="top-5-value">{{ inside.value }}</span>
+                          </div>
+                        </div>
+                        <div class="inside-bar-graph-right-block">
+                          <div class="inside-grey-block-bars" #barsGreyBlock>
+                            <div
+                              [style.width.px]="
+                                (1 - inside.valueNumeric / barchart.numeric) * barsInsideBlock.offsetWidth
+                              "
+                            ></div>
+                          </div>
+                          <div class="right-block-width" #barsInsideBlock>
+                            <div
+                              class="inside-right-block-bars"
+                              [style.width.px]="(inside.valueNumeric / barchart.numeric) * barsInsideBlock.offsetWidth"
+                            ></div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <div class="full-display">
+        <div class="full-display white-bg">
           <app-common-footer [timePeriod]="timePeriod" [title]="title" class="width-100"></app-common-footer>
         </div>
       </div>
