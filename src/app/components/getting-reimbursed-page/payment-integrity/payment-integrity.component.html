@@ -8,35 +8,37 @@
           {{ subTitle }}
         </div>
       </div>
-      <div class="breadcrumb-top-padding">
-        <!-- <app-filters-applied></app-filters-applied> -->
-        <div class="container--tabs">
-          <section class="row">
-            <ul class="nav nav-tabs">
-              <li
-                *ngFor="let item of tabOptions; let i = index"
-                (click)="matOptionClicked(i, $event)"
-                [ngClass]="{ active: previousSelectedTab === i }"
-                attr.id="{{ item.title }}"
-              >
-                <span>
-                  {{ item.title }}
-                  <div class="nav-values">
-                    {{ item.value1 }}
-                    <!--<span
-                      *ngIf="item.sdata != null"
-                      class="metrics"
-                      [ngClass]="item.sdata.sign === 'up' ? 'upgreen' : 'downred'"
-                    >
-                      {{ item.sdata.value }}
-                    </span>-->
-                  </div>
-                </span>
-              </li>
-            </ul>
-          </section>
-        </div>
-      </div>
+      <!--Please uncomment once api is ready-->
+
+      <!--<div class="breadcrumb-top-padding">-->
+      <!--&lt;!&ndash; <app-filters-applied></app-filters-applied> &ndash;&gt;-->
+      <!--<div class="container&#45;&#45;tabs">-->
+      <!--<section class="row">-->
+      <!--<ul class="nav nav-tabs">-->
+      <!--<li-->
+      <!--*ngFor="let item of tabOptions; let i = index"-->
+      <!--(click)="matOptionClicked(i, $event)"-->
+      <!--[ngClass]="{ active: previousSelectedTab === i }"-->
+      <!--attr.id="{{ item.title }}"-->
+      <!--&gt;-->
+      <!--<span>-->
+      <!--{{ item.title }}-->
+      <!--<div class="nav-values">-->
+      <!--{{ item.value1 }}-->
+      <!--&lt;!&ndash;<span-->
+      <!--*ngIf="item.sdata != null"-->
+      <!--class="metrics"-->
+      <!--[ngClass]="item.sdata.sign === 'up' ? 'upgreen' : 'downred'"-->
+      <!--&gt;-->
+      <!--{{ item.sdata.value }}-->
+      <!--</span>&ndash;&gt;-->
+      <!--</div>-->
+      <!--</span>-->
+      <!--</li>-->
+      <!--</ul>-->
+      <!--</section>-->
+      <!--</div>-->
+      <!--</div>-->
     </div>
     <!--<app-mock-data-warning-message class="warning-block"></app-mock-data-warning-message>-->
     <!--<div class="breadcrumb-top-padding filter-div" *ngIf="false">-->

@@ -21,6 +21,7 @@ export class TaxSummaryComponent implements OnInit {
   numberOfTins: any;
   taxSummaryColumns: string[] = ['Tin', 'TinName', 'TaxIdType', 'MajorMarketName'];
   pageSize = 25;
+  filterObj = {};
 
   constructor(
     private iconRegistry: MatIconRegistry,
@@ -58,10 +59,20 @@ export class TaxSummaryComponent implements OnInit {
       this.sort.active = sortState.active;
       this.sort.direction = sortState.direction;
       this.sort.sortChange.emit(sortState);
+      this.taxSummaryData.filterPredicate = (data, filter) => {
+        if (data[this.filterObj['key']] && this.filterObj['key']) {
+          return data[this.filterObj['key']].toLowerCase().includes(this.filterObj['value']);
+        }
+        return false;
+      };
     }
   }
 
-  searchTaxId(filterValue) {
+  searchTaxId(filterValue: string, id: string) {
+    this.filterObj = {
+      value: filterValue.trim().toLowerCase(),
+      key: id
+    };
     this.taxSummaryData.filter = filterValue === 'All' ? '' : filterValue.trim().toLowerCase();
     if (this.taxSummaryData.paginator) {
       this.taxSummaryData.paginator.firstPage();
