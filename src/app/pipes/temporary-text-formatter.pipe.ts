@@ -14,6 +14,8 @@ export class TemporaryTextFormatterPipe implements PipeTransform {
         return 'C&S';
       case 'Employer & Individual':
         return 'E&I';
+      case 'Eligibility and Benefits':
+        return 'E&B';
       default:
         return value;
     }

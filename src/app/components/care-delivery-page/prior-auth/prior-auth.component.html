@@ -2,8 +2,10 @@
   <div class="main-content">
     <div class="cards cust-width-title">
       <app-breadcrumbs></app-breadcrumbs>
-      <div class="page-title">
-        {{ pageTitle }}
+      <!-- <app-print> </app-print> -->
+      <div class="page-title" [ngClass]="{ 'print-page-title': printStyle === true }">{{ pageTitle }}</div>
+      <div *ngIf="printStyle" [ngClass]="{ 'print-page-subtitle': printStyle === true }">
+        {{ pagesubTitle }}
       </div>
       <app-filters-applied></app-filters-applied>
     </div>

@@ -271,9 +271,10 @@
             min-width: 437px;
           }
         }
-        /* ends tabs css ends here*/
-      }
-      /* end cust-width title heirarchy*/
+        .adjust-margin {
+          margin-left: -10px;
+        }
+      } /* end cust-width title end here*/
     }
   }
   .non-payment-link {
@@ -282,7 +283,7 @@
     color: $blue;
     font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
     letter-spacing: 0.2px;
-    margin-left: 150px;
+    margin-left: 181px;
     margin-top: 15px;
   }
   .np-link {

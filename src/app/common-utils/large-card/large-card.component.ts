@@ -2,6 +2,8 @@ import { Component, OnInit, Input } from '@angular/core';
 import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 import { GlossaryExpandService } from '../../shared/glossary-expand.service';
+import { Router } from '@angular/router';
+
 @Component({
   selector: 'app-large-card',
   templateUrl: './large-card.component.html',
@@ -12,11 +14,12 @@ export class LargeCardComponent implements OnInit {
   @Input() title;
   @Input() timePeriod;
   @Input() skeletonLarge;
-
+  printStyle: boolean;
   constructor(
     private iconRegistry: MatIconRegistry,
     sanitizer: DomSanitizer,
-    private glossaryExpandService: GlossaryExpandService
+    private glossaryExpandService: GlossaryExpandService,
+    private router: Router
   ) {
     /** INITIALIZING SVG ICONS TO USE IN DESIGN - ANGULAR MATERIAL */
     iconRegistry.addSvgIcon(
@@ -33,5 +36,9 @@ export class LargeCardComponent implements OnInit {
     }
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    if (this.router.url.includes('print-')) {
+      this.printStyle = true;
+    }
+  }
 }

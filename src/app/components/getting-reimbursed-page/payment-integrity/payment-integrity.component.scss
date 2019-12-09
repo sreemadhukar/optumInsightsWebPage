@@ -4,7 +4,6 @@
 .breadcrumb-top-padding {
   @include margin(12px, 0, 12px, 0);
   box-sizing: border-box;
-
   .filter-div {
     overflow: auto;
     line-height: 0;
@@ -86,7 +85,7 @@
       border-radius: 2px;
       background-color: $white;
       box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
-      float: left;
+      // float: left;
       margin-top: 12px;
       margin-left: 12px;
       margin-bottom: 12px;
@@ -100,6 +99,7 @@
     }
     .pi-cards {
       display: flex;
+      flex-wrap: wrap;
       & > .cards {
         text-align: left;
         // @include margin(0, 0, 0, 12px);
@@ -289,7 +289,6 @@
         /*margin-bottom: 24px;*/
         margin-bottom: 20px;
         padding-top: 24px;
-
         .nav-tabs {
           display: flex;
           border-radius: 2px;
@@ -311,7 +310,6 @@
               letter-spacing: 0.2px;
               line-height: 22px;
             }
-
             &.active {
               background-color: #f1f4f7;
               border-top: 4px solid #196ecf;
@@ -323,7 +321,6 @@
               border-right: 0;
               color: $black-rock;
             }
-
             .nav-values {
               color: #757588;
               font-size: 14px;
@@ -342,7 +339,6 @@
                 color: color(red, dark);
               }
             }
-
             &:hover,
             &:focus {
               border-top: 4px solid #196ecf;
@@ -452,7 +448,6 @@
       flex-flow: column;
     }
   }
-
   .overturn-reason-block {
     margin: 12px;
     height: 494px;
@@ -483,14 +478,12 @@
     padding-bottom: 16px;
     padding-left: 75px; // centre aligned to card
   }
-
   .top-reason-one {
     margin-top: 80px;
   }
   .top-reason-other {
     margin-left: 16px;
   }
-
   .top-reason-one-informational {
     margin-top: 61px;
   }
@@ -511,8 +504,17 @@
     letter-spacing: 0.2px;
     color: $black-rock;
   }
-
   @media only screen and (max-width: 1024px) {
     @include padding(16px, 0, 16px, 0);
   }
+}
+
+.pi-bar-chart-trend-comparison {
+  color: #757588;
+  font-family: 'UHCSans-Regular';
+  font-size: 14px;
+  letter-spacing: 0.2px;
+  line-height: 18px;
+  padding-left: 16px;
+  padding-bottom: 14px;
 }
