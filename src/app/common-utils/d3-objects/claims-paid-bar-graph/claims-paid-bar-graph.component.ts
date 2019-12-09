@@ -53,6 +53,13 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit, OnCha
     return fnumber;
   }
 
+  maxTickValue(num) {
+    const numOfDigits = num.toFixed(0).toString().length;
+    const ceilingMultiplier = Math.pow(10, numOfDigits - 1);
+    const maxCeilingValue = Math.ceil(num / ceilingMultiplier) * ceilingMultiplier;
+    return maxCeilingValue;
+  }
+
   /*
   formatDynamicAbbreviation(tickNumber: number, tickValue: number, prefix: string) {
     // zero is false and one is true
@@ -362,8 +369,10 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit, OnCha
      */
     // const preArrayOfNumbers = preArray.map(Number);
     // const numberOfTicks = preArrayOfNumbers.length;
-    const highestTickValue = highestValue;
+    // const highestTickValue = highestValue;
     const axisPrefix = '$';
+
+    const highestTickValue = this.maxTickValue(highestValue);
 
     /*
     const xScaleTicks = d3
@@ -453,7 +462,7 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit, OnCha
       .attr('font-size', '14')
       .attr('text-anchor', 'middle')
       .attr('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
-      .text('100');
+      .text(axisPrefix + this.nFormatter(highestTickValue * 0.25));
 
     chart
       .append('line')
@@ -473,7 +482,7 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit, OnCha
       .attr('font-size', '14')
       .attr('text-anchor', 'middle')
       .attr('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
-      .text('100');
+      .text(axisPrefix + this.nFormatter(highestTickValue * 0.5));
 
     chart
       .append('line')
@@ -493,7 +502,7 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit, OnCha
       .attr('font-size', '14')
       .attr('text-anchor', 'middle')
       .attr('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
-      .text('100');
+      .text(axisPrefix + this.nFormatter(highestTickValue * 0.75));
 
     chart
       .append('line')
@@ -513,12 +522,12 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit, OnCha
       .attr('font-size', '14')
       .attr('text-anchor', 'middle')
       .attr('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
-      .text('100');
+      .text(axisPrefix + this.nFormatter(highestTickValue));
 
     // only used for bar objects
     const xScaleBar = d3
       .scaleLinear()
-      .domain([0, highestValue])
+      .domain([0, highestTickValue])
       .range([0, 500]);
 
     /*
