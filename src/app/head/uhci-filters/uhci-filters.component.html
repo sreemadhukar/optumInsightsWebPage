@@ -133,8 +133,7 @@
       <div>
         <label id="radio-group" class="label-data">{{ selectedAppeals.value }}</label>
       </div>
-      <!--div class="select-option-data" *ngIf="collapseToggle.toggleAppeals"-->
-      <div class="select-option-data">
+      <div class="select-option-data" *ngIf="collapseToggle.toggleAppeals">
         <mat-radio-group class="radio-group" [(ngModel)]="selectedAppeals">
           <mat-radio-button
             class="radio-button"
@@ -146,7 +145,6 @@
           </mat-radio-button>
         </mat-radio-group>
       </div>
-      <!--/div-->
     </div>
 
     <!--Appeals Filter -->
