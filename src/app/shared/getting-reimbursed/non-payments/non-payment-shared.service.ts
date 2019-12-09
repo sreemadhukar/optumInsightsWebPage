@@ -146,7 +146,7 @@ export class NonPaymentSharedService {
               type: 'donut',
               title: 'Claims Non-Payment Rate',
               MetricID: this.MetricidService.MetricIDs.ClaimsNonPaymentRate,
-              toggle: !environment.internalAccess,
+              toggle: true,
               data: {
                 graphValues: [
                   nonPaymentData1.All.ClaimsLobSummary[0].ClaimsNonPaymentRate,

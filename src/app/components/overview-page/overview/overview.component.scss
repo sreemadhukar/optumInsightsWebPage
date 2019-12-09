@@ -10,6 +10,7 @@
     // background-color: mat-color($accent);
     overflow: hidden;
     @include padding(30px, 0, 64px, 0);
+
     .overview-content {
       display: -webkit-box;
       display: -moz-box;
@@ -23,6 +24,7 @@
       max-width: 1000px;
       width: 100%;
       margin: auto;
+
       .self-service-heading {
         display: flex;
         padding-top: 30px;
@@ -98,6 +100,10 @@
           min-width: 437px;
         }
       }
+    }
+
+    .content-align-print {
+      max-width: 750px;
     }
   }
   .copyright-text {

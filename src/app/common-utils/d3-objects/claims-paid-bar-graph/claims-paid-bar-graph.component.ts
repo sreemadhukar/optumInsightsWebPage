@@ -53,6 +53,14 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit, OnCha
     return fnumber;
   }
 
+  maxTickValue(num) {
+    const numOfDigits = num.toFixed(0).toString().length;
+    const ceilingMultiplier = Math.pow(10, numOfDigits - 1);
+    const maxCeilingValue = Math.ceil(num / ceilingMultiplier) * ceilingMultiplier;
+    return maxCeilingValue;
+  }
+
+  /*
   formatDynamicAbbreviation(tickNumber: number, tickValue: number, prefix: string) {
     // zero is false and one is true
     const q = tickValue;
@@ -158,6 +166,7 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit, OnCha
         break;
     }
   }
+  */
   findGreatest(inputOne, inputTwo, inputThree, inputFour) {
     let valOne = 0;
     let valTwo = 0;
@@ -178,6 +187,21 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit, OnCha
     } else {
       return valTwo;
     }
+  }
+  formatAbbreviationGtoB(x) {
+    console.log(Math.round(x).toString().length);
+    let formatSi;
+    if (Math.round(x).toString().length % 3 === 0) {
+      formatSi = d3.format('$.2s');
+    } else {
+      formatSi = d3.format('$.1s');
+    }
+    const s = formatSi(x);
+    switch (s[s.length - 1]) {
+      case 'G':
+        return s.slice(0, -1) + 'B';
+    }
+    return s;
   }
   doBarGraph(chartOptions: any, transition: number) {
     // might have to hard code class names for testing
@@ -310,25 +334,76 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit, OnCha
     );
     // const highestValue = 800;
     const xScale = d3
+      .scalePoint()
+      .domain([0, highestValue])
+      .range([400, 900]);
+
+    const axisHidden = d3
+      .axisBottom(xScale)
+      .ticks(3)
+      .tickSize(5, 0, 0);
+
+    const firstAxis = chart
+      .append('g')
+      .attr('visibility', 'hidden')
+      .attr('id', 'forCalculationz');
+
+    firstAxis.call(axisHidden);
+
+    /*
+     const preArray = d3
+     .select('#forCalculations')
+     .selectAll('.tick>text')
+     .nodes()
+     .map(function(t) {
+     const tagString = new XMLSerializer().serializeToString(t);
+     const mySubString = tagString.substring(tagString.indexOf('>') + 1, tagString.indexOf('</'));
+     return mySubString;
+     });
+
+     d3.select('#forCalculations').remove();
+
+     for (let i = 0; i < preArray.length; i++) {
+     preArray[i] = preArray[i].replace(/,/g, '');
+     }
+     */
+    // const preArrayOfNumbers = preArray.map(Number);
+    // const numberOfTicks = preArrayOfNumbers.length;
+    // const highestTickValue = highestValue;
+    const axisPrefix = '$';
+
+    const highestTickValue = this.maxTickValue(highestValue);
+
+    /*
+    const xScaleTicks = d3
+      .scalePoint()
+      .domain([0, highestValue / 4, highestValue / 2, (3 * highestValue) / 4, highestValue])
+      .range([400, 900]);
+
+    const xScaleTicksNice = d3
       .scaleLinear()
       .domain([0, highestValue])
       .range([400, 900])
-      .nice(3);
+      .nice();
+
+    // console.log(xScaleTicksNice())
+
+    console.log([0, highestValue / 4, highestValue / 2, (3 * highestValue) / 4, highestValue]);
+
+    const officialxAxis = d3
+      .axisBottom(xScaleTicks)
+      .tickSize(295)
+      .tickFormat(d => this.formatAbbreviationGtoB(d));
 
     chart
       .append('g')
-      .attr('visibility', 'hidden')
-      .attr('id', 'forCalculations')
-      .call(
-        d3
-          .axisBottom(xScale)
-          .ticks(3)
-          .tickSize(5, 0, 0)
-        // .tickSizeOuter([0])
-      );
+      .attr('transform', 'translate(' + 0 + ',' + 55 + ')')
+      .attr('id', 'forCalculationBottom')
+      .call(officialxAxis)
+      .call(g => g.select('.domain').remove());
 
     const preArray = d3
-      .select('#forCalculations')
+      .select('#forCalculationBottom')
       .selectAll('.tick>text')
       .nodes()
       .map(function(t) {
@@ -337,34 +412,125 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit, OnCha
         return mySubString;
       });
 
-    d3.select('#forCalculations').remove();
-
-    for (let i = 0; i < preArray.length; i++) {
-      preArray[i] = preArray[i].replace(/,/g, '');
+    const stringLength = preArray[preArray.length - 1].length;
+    const abbreviation = preArray[preArray.length - 1].charAt(stringLength - 1);
+    let multiplier;
+    if (abbreviation === 'k') {
+      multiplier = 1000;
+    } else if (abbreviation === 'M') {
+      multiplier = 1000000;
+    } else if (abbreviation === 'B') {
+      multiplier = 1000000000;
+    } else {
+      multiplier = 1;
     }
 
-    const preArrayOfNumbers = preArray.map(Number);
-    const numberOfTicks = preArrayOfNumbers.length;
-    const highestTickValue = preArrayOfNumbers[numberOfTicks - 1];
-    const axisPrefix = '$';
+    const maxTickNum = preArray[preArray.length - 1].replace(/[^0-9]/g, '');
+    // console.log(multiplier, Number(maxTickNum));
+    */
+    const xScaleTicksNice = d3
+      .scaleLinear()
+      .domain([0, highestValue])
+      .range([400, 900])
+      .nice();
 
+    chart
+      .append('text')
+      .attr('x', '400.5')
+      .attr('y', '370')
+      .attr('fill', '#2D2D39')
+      .attr('font-size', '14')
+      .attr('text-anchor', 'middle')
+      .attr('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
+      .text('$0');
+
+    chart
+      .append('line')
+      .attr('x1', 525.5)
+      .attr('y1', 55)
+      .attr('x2', 525.5)
+      .attr('y2', 350)
+      .attr('stroke', '#B3BABC')
+      .attr('stroke-width', 1)
+      .attr('stroke-opacity', 0.7);
+
+    chart
+      .append('text')
+      .attr('x', '525.5')
+      .attr('y', '370')
+      .attr('fill', '#2D2D39')
+      .attr('font-size', '14')
+      .attr('text-anchor', 'middle')
+      .attr('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
+      .text(axisPrefix + this.nFormatter(highestTickValue * 0.25));
+
+    chart
+      .append('line')
+      .attr('x1', 650.5)
+      .attr('y1', 55)
+      .attr('x2', 650.5)
+      .attr('y2', 350)
+      .attr('stroke', '#B3BABC')
+      .attr('stroke-width', 1)
+      .attr('stroke-opacity', 0.7);
+
+    chart
+      .append('text')
+      .attr('x', '650.5')
+      .attr('y', '370')
+      .attr('fill', '#2D2D39')
+      .attr('font-size', '14')
+      .attr('text-anchor', 'middle')
+      .attr('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
+      .text(axisPrefix + this.nFormatter(highestTickValue * 0.5));
+
+    chart
+      .append('line')
+      .attr('x1', 775.5)
+      .attr('y1', 55)
+      .attr('x2', 775.5)
+      .attr('y2', 350)
+      .attr('stroke', '#B3BABC')
+      .attr('stroke-width', 1)
+      .attr('stroke-opacity', 0.7);
+
+    chart
+      .append('text')
+      .attr('x', '775.5')
+      .attr('y', '370')
+      .attr('fill', '#2D2D39')
+      .attr('font-size', '14')
+      .attr('text-anchor', 'middle')
+      .attr('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
+      .text(axisPrefix + this.nFormatter(highestTickValue * 0.75));
+
+    chart
+      .append('line')
+      .attr('x1', 900.5)
+      .attr('y1', 55)
+      .attr('x2', 900.5)
+      .attr('y2', 350)
+      .attr('stroke', '#B3BABC')
+      .attr('stroke-width', 1)
+      .attr('stroke-opacity', 0.7);
+
+    chart
+      .append('text')
+      .attr('x', '900.5')
+      .attr('y', '370')
+      .attr('fill', '#2D2D39')
+      .attr('font-size', '14')
+      .attr('text-anchor', 'middle')
+      .attr('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
+      .text(axisPrefix + this.nFormatter(highestTickValue));
+
+    // only used for bar objects
     const xScaleBar = d3
       .scaleLinear()
       .domain([0, highestTickValue])
       .range([0, 500]);
 
-    chart
-      .append('g')
-      .attr('transform', 'translate(' + 0 + ',' + 55 + ')')
-      .call(
-        d3
-          .axisBottom(xScale)
-          .ticks(3)
-          .tickSize(295)
-          .tickFormat(this.formatDynamicAbbreviation(numberOfTicks, highestTickValue, axisPrefix))
-      )
-      .call(g => g.select('.domain').remove());
-
+    /*
     d3.selectAll('.tick')
       .selectAll('line')
       .attr('stroke', '#B3BABC')
@@ -377,7 +543,7 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit, OnCha
       .attr('fill', '#2D2D39')
       .attr('font-size', '14')
       .attr('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'");
-
+*/
     d3.selectAll('.tick')
       .selectAll('line')
       .filter(function(d) {
