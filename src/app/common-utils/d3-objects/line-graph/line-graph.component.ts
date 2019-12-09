@@ -414,7 +414,7 @@ export class LineGraphComponent implements OnInit {
     const numberOfTicks = preArrayOfNumbers.length;
     const highestTickValue = preArrayOfNumbers[numberOfTicks - 1];
 
-    /*
+    
     chart
       .append('g')
       .attr('class', 'grid')
@@ -447,7 +447,7 @@ export class LineGraphComponent implements OnInit {
           );
       }
     }
-     */
+     
     const RectBarOne = chart
       .selectAll('.rect-bar')
       .data(data)
