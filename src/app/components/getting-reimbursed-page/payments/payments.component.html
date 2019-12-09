@@ -1,5 +1,5 @@
 <app-feedback></app-feedback>
-<div class="payments-body">
+<div class="payments-body" [ngClass]="{ 'print-payments-body': printStyle === true }">
   <div class="payments-content">
     <div class="cards cust-width-title">
       <app-breadcrumbs></app-breadcrumbs>
