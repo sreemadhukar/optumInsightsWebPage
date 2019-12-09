@@ -66,8 +66,8 @@
     .extra-margin-bottom-33 {
       margin-bottom: 33px;
     }
-    .extra-margin-top-30 {
-      margin-top: 30px;
+    .extra-margin-top-18 {
+      margin-top: 18px;
     }
     .bar-graphs {
       float: left;
@@ -179,7 +179,7 @@
         cursor: pointer;
 
         background: rgb(255, 255, 255);
-        width: 927px;
+        width: 930px;
       }
       .inside-bar-graph-content:hover {
         background: $darker-alice-blue;
@@ -340,10 +340,13 @@
     .top-5-block {
       background-color: rgb(255, 255, 255);
       box-sizing: border-box;
-      width: 928px;
+      width: 930px;
       height: 100%;
       float: left;
       margin: 2px 12px 0 12px;
+    }
+    .top-5-block:last-child {
+      border-bottom: 1px solid #e0e0e0;
     }
     .top-5-text {
       color: $black-rock;
@@ -375,7 +378,7 @@
     .non-payment-trend-block {
       width: 961px;
       // height: 450px;
-      border-radius: 2px;
+      borderborder-radius: 2px;
       background-color: #ffffff;
       box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
       margin: 12px;
