@@ -414,7 +414,6 @@ export class LineGraphComponent implements OnInit {
     const numberOfTicks = preArrayOfNumbers.length;
     const highestTickValue = preArrayOfNumbers[numberOfTicks - 1];
 
-    
     chart
       .append('g')
       .attr('class', 'grid')
@@ -430,7 +429,6 @@ export class LineGraphComponent implements OnInit {
     chart.selectAll('.tick:not(:first-of-type) line').attr('opacity', '.35');
     chart.selectAll('.tick:first-of-type line').attr('opacity', '1');
 
-
     if (1) {
       if (!generalData[0].hideYAxis) {
         chart
@@ -443,11 +441,11 @@ export class LineGraphComponent implements OnInit {
               .tickSize(5, 0, 0)
               .tickSizeOuter([0])
               .ticks(3)
-             .tickFormat(formatDynamicAbbreviation(numberOfTicks, highestTickValue, axisPrefix))
+              .tickFormat(formatDynamicAbbreviation(numberOfTicks, highestTickValue, axisPrefix))
           );
       }
     }
-     
+
     const RectBarOne = chart
       .selectAll('.rect-bar')
       .data(data)
