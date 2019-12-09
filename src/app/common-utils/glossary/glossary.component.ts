@@ -139,6 +139,7 @@ export class GlossaryComponent implements OnInit {
   public glossaryByMetricId() {
     this.glossaryService.getGlossaryMetricID(this.MetricID).subscribe(
       response => {
+        this.glossarySelected = [];
         if ((response || {}).BusinessGlossary) {
           this.glossarySelected.push(response);
           this.hyperlink = '';

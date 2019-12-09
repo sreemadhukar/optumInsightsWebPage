@@ -63,6 +63,9 @@
               <app-error-card *ngIf="item.status != null" class="cards" [data]="item"></app-error-card>
             </div>
           </div>
+          <div *ngFor="let data of mockCards; let i = index">
+            <app-card class="cards" [skeleton]="loading" *ngIf="loading && !printStyle"> </app-card>
+          </div>
         </div>
 
         <!-- start print style -->
@@ -83,9 +86,6 @@
           </div>
         </div>
         <!-- end Print Style-->
-        <div *ngFor="let data of mockCards; let i = index">
-          <app-card class="cards" [skeleton]="loading" *ngIf="loading && !printStyle"> </app-card>
-        </div>
       </div>
     </div>
     <app-clarify-claims-message *ngIf="showDOSmessage"></app-clarify-claims-message>

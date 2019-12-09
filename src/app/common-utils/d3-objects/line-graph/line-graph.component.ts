@@ -441,7 +441,7 @@ export class LineGraphComponent implements OnInit {
               .tickSize(5, 0, 0)
               .tickSizeOuter([0])
               .ticks(3)
-              .tickFormat(formatDynamicAbbreviation(numberOfTicks, highestTickValue, axisPrefix))
+            // .tickFormat(formatDynamicAbbreviation(numberOfTicks, highestTickValue, axisPrefix))
           );
       }
     }
