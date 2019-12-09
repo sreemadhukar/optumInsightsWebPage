@@ -80,6 +80,8 @@ export class PriorAuthComponent implements OnInit {
   ngOnInit() {
     if (this.printStyle) {
       this.pageTitle = this.session.getHealthCareOrgName();
+    } else {
+      this.pageTitle = 'Prior Authorizations';
     }
 
     this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'priorAuthPage' });
@@ -118,7 +120,6 @@ export class PriorAuthComponent implements OnInit {
     //   this.filterParameters.scType = 'All';
     //   this.scType = this.filterParameters.scType;
     // }
-    this.pageTitle = 'Prior Authorizations';
     this.loading = true;
     this.hideAllObjects = true;
     this.reasonItems = [{}];

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { GlossaryExpandService } from 'src/app/shared/glossary-expand.service';
 import { StorageService } from '../../../shared/storage-service.service';
 import { GettingReimbursedSharedService } from 'src/app/shared/getting-reimbursed/getting-reimbursed-shared.service';
@@ -19,6 +19,7 @@ import { IAppState } from '../../../store/store';
   styleUrls: ['./payment-integrity.component.scss']
 })
 export class PaymentIntegrityComponent implements OnInit {
+  @Input() printStyle;
   pageTitle: String = '';
   subTitle: String = '';
   currentTabTitle: String = '';
@@ -172,7 +173,7 @@ export class PaymentIntegrityComponent implements OnInit {
           color: ['#00B8CC', '#FFFFFF', '#E91B18'],
           gdata: ['app-card-structure', 'pi-large-bar-chart'],
           hover: true,
-          targetValue: '16% belowtarget',
+          targetValue: '16% below target',
           trendValue: '+1.2%'
         },
         timeperiod: this.session.filterObjValue.timeFrame

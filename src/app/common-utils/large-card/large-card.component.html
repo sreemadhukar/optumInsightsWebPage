@@ -1,5 +1,5 @@
 <div class="card-structure" *ngIf="!skeletonLarge && data">
-  <div class="card-inner-large">
+  <div class="card-inner-large" [ngClass]="{ 'print-card-inner-large': printStyle === true }">
     <!-- {{ data[0].title }} -->
     <app-common-header
       [title]="data[0].title"
