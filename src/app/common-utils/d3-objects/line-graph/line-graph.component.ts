@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, AfterViewInit, ViewEncapsulation, HostBinding } from '@angular/core';
 import * as d3 from 'd3';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-line-graph',
@@ -20,7 +21,7 @@ export class LineGraphComponent implements OnInit {
   public temp: any;
   public selectYear;
   public count = 1;
-
+  @Input() printStyle;
   @Input() yearComparison;
   @Input() chartOptions: any = {};
   @Input() tooltipBool;
@@ -39,10 +40,14 @@ export class LineGraphComponent implements OnInit {
     return this._changeTimeFrame;
   }
 
-  constructor() {}
+  constructor(private router: Router) {}
 
   ngOnInit() {
     this.renderChart = '#' + this.chartOptions.chartId;
+
+    if (this.router.url.includes('print-')) {
+      this.printStyle = true;
+    }
   }
 
   // tslint:disable-next-line:use-life-cycle-interface
@@ -193,6 +198,12 @@ export class LineGraphComponent implements OnInit {
           break;
       }
     } // ends formatDynamicAbbrevia function
+
+    function tooltipTextOnPrint(d, year, prefix) {
+      if (year == undefined || !year || year === '') {
+        return '(' + prefix + formatDy(d.y) + ')';
+      }
+    }
 
     function tooltipText(d, year, prefix) {
       if (year == undefined || !year || year === '') {
@@ -500,6 +511,51 @@ export class LineGraphComponent implements OnInit {
           .style('opacity', 0);
       });
 
+    if (this.printStyle) {
+      // const tooltipVar1 = d3
+      //   .select(this.renderChart)
+      //   .append('div')
+      //   .classed('tooltipClassPrint', true)
+      //   .classed('hidden', true);
+      chart
+        .selectAll('.dot')
+        .data(data)
+        .enter()
+        .append('circle') // Uses the enter().append() method
+        .attr('class', 'dot') // Assign a class for styling
+        .attr('cx', function(d, i) {
+          return xScale(i);
+        })
+        .attr('cy', function(d) {
+          // const topMar = yScale(d.y) + 49 + 'px';
+          // tooltipVar1
+          //   .html(tooltipTextOnPrint(d, this.yearComparison, axisPrefix))
+          //   .classed('hidden', false)
+          //   .style('left', d.xCoordinate + 46 + 'px')
+          //   .style('top', topMar);
+          return yScale(d.y);
+        })
+        .attr('r', 5);
+
+      chart
+        .selectAll('.text')
+        .data(data)
+        .enter()
+        .append('text')
+        .attr('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
+        .attr('font-size', '14px')
+        .text(function(d) {
+          return tooltipTextOnPrint(d, this.yearComparison, axisPrefix);
+        })
+        .attr('x', function(d, i) {
+          return xScale(i);
+        })
+        .attr('y', function(d, i) {
+          return yScale(d.y);
+        })
+        .attr('transform', 'translate(-12, -15)');
+    }
+
     const DotOne = chart
       .selectAll('.dot')
       .data(data)
@@ -530,125 +586,6 @@ export class LineGraphComponent implements OnInit {
         .style('stroke', generalData[0].barColor);
     }
 
-    chart
-      .append('text')
-      .attr('id', 'forTextCalculations')
-      .attr('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
-      .attr('font-size', '15px')
-      .text(titleData[0].title);
-
-    let text_element = chart.select('#forTextCalculations');
-    let textWidth = text_element.node().getComputedTextLength();
-
-    chart.select('#forTextCalculations').remove();
-
-    chart
-      .append('text')
-      .attr('x', xScalePath(1) - textWidth / 2)
-      .attr('y', -125)
-      .style('font-size', '15px')
-      .style('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
-      .style('fill', '#2D2D39')
-      .text(titleData[0].title);
-
-    // Start custom box
-    if (titleData[0].topTitleBoxNumber) {
-      let rectangleWidth = 130;
-      const numberOfInt = titleData[0].topTitleBoxNumber.replace(/\D/g, '').length;
-
-      if (numberOfInt === 2) {
-        rectangleWidth = 110;
-      } else if (numberOfInt === 3) {
-        rectangleWidth = 130;
-      } else if (numberOfInt === 4) {
-        rectangleWidth = 150;
-      } else if (numberOfInt === 5) {
-        rectangleWidth = 170;
-      } else if (numberOfInt === 6) {
-        rectangleWidth = 190;
-      } else if (numberOfInt === 7) {
-        rectangleWidth = 210;
-      } else {
-        rectangleWidth = 230;
-      }
-
-      chart
-        .append('rect')
-        .attr('rx', 4)
-        .attr('ry', 4)
-        .attr('x', xScalePath(1) - rectangleWidth / 2)
-        .attr('y', -100)
-        .attr('width', rectangleWidth)
-        .attr('height', 54)
-        .attr('fill', 'white')
-        .attr('stroke', '#B3BABC')
-        .attr('stroke-width', 1);
-      chart
-        .append('text')
-        .attr('id', 'forTextCalculations')
-        .attr('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
-        .attr('font-size', '22px')
-        .text(titleData[0].topTitleBoxNumber + ' ' + titleData[0].topTitleBoxNumberType);
-
-      text_element = chart.select('#forTextCalculations');
-      textWidth = text_element.node().getComputedTextLength();
-
-      chart.select('#forTextCalculations').remove();
-
-      chart
-        .append('text')
-        .attr('x', xScalePath(1) - textWidth / 2)
-        .attr('y', -75)
-        .style('font-size', '22px')
-        .style('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
-        .style('fill', '#2D2D39')
-        .text(titleData[0].topTitleBoxNumber + ' ' + titleData[0].topTitleBoxNumberType);
-
-      chart
-        .append('text')
-        .attr('id', 'forTextCalculations')
-        .attr('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
-        .attr('font-size', '15px')
-        .text(titleData[0].percentageValue + '% ' + titleData[0].percentageValueType);
-
-      text_element = chart.select('#forTextCalculations');
-      textWidth = text_element.node().getComputedTextLength();
-
-      chart.select('#forTextCalculations').remove();
-
-      chart
-        .append('text')
-        .attr('x', xScalePath(1) - textWidth / 2)
-        .attr('y', -55)
-        .style('font-size', '15px')
-        .style('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
-        .style('fill', '#21B01E')
-        .text(titleData[0].percentageValue + '% ' + titleData[0].percentageValueType);
-
-      const polygonPoint = xScalePath(1) - textWidth / 2 - 7.5;
-
-      chart
-        .append('polygon')
-        .style('stroke', '#21B01E')
-        .style('fill', '#21B01E')
-        .attr('points', polygonPoint + ',-60, ' + (polygonPoint + 2.5) + ',-57.5, ' + (polygonPoint + 5) + ',-60');
-    } // end if structure of titleData // End custom box
-
-    if (titleData[0].averagePeerPerformance) {
-      let sumOfData = 0;
-      for (let i = 0; i < chartData.length; i++) {
-        sumOfData = sumOfData + chartData[i].value;
-      }
-
-      const average = sumOfData / chartData.length;
-
-      chart
-        .append('rect')
-        .attr('x', 0)
-        .attr('y', yScale(average))
-        .attr('width', width)
-        .attr('height', yScale(average))
-        .attr('fill', 'rgba(0,168,247,0.3)');
-    } // end if structure o titleData[0].averagePeerPerformance
+    // end if structure o titleData[0].averagePeerPerformance
   } // end dolineGraph Function
 } // export class ends here

@@ -1,13 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { AppealsSharedService } from '../../../shared/getting-reimbursed/appeals/appeals-shared.service';
 import { StorageService } from '../../../shared/storage-service.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { GlossaryExpandService } from 'src/app/shared/glossary-expand.service';
 import { MatIconRegistry, PageEvent } from '@angular/material';
-import { Router } from '@angular/router';
 import { FilterExpandService } from '../../../shared/filter-expand.service';
 import { CommonUtilsService } from '../../../shared/common-utils.service';
 import { SessionService } from 'src/app/shared/session.service';
+import { NgRedux } from '@angular-redux/store';
+import { CURRENT_PAGE } from '../../../store/filter/actions';
+import { IAppState } from '../../../store/store';
+import { CreatePayloadService } from '../../../shared/uhci-filters/create-payload.service';
+import { REMOVE_FILTER } from '../../../store/filter/actions';
 
 @Component({
   selector: 'app-appeals',
@@ -15,6 +19,7 @@ import { SessionService } from 'src/app/shared/session.service';
   styleUrls: ['./appeals.component.scss']
 })
 export class AppealsComponent implements OnInit {
+  @Input() printStyle;
   summaryItems: any;
   pageTitle: String = '';
   currentSummary: Array<Object> = [{}];
@@ -26,14 +31,15 @@ export class AppealsComponent implements OnInit {
   overturn: any;
   overturnItem: Array<Object> = [{}];
   overturnReasonItem: any;
-  reason: any;
+  reason: any = [];
   title = 'Top Claims Appeals Overturn Reasons';
   MetricID = '102';
   loading: boolean;
   mockCards: any;
-  reasonDataAvailable = false;
+  reasonDataAvailable = true;
   appealsTAT: object;
   showAppealsTAT = false;
+  pagesubTitle: string;
   constructor(
     private appealsSharedService: AppealsSharedService,
     private iconRegistry: MatIconRegistry,
@@ -42,15 +48,19 @@ export class AppealsComponent implements OnInit {
     private glossaryExpandService: GlossaryExpandService,
     private filterExpandService: FilterExpandService,
     private session: SessionService,
-    private router: Router,
-    private filtermatch: CommonUtilsService
+    private common: CommonUtilsService,
+    private ngRedux: NgRedux<IAppState>,
+    private createPayloadService: CreatePayloadService
   ) {
+    this.pagesubTitle = 'Getting Reimbursed - Appeals';
     // const filData = this.session.getFilChangeEmitter().subscribe(() => this.ngOnInit());
-    const filData = this.session.getFilChangeEmitter().subscribe(() => this.filtermatch.urlResuseStrategy());
+    const filData = this.session.getFilChangeEmitter().subscribe(() => this.common.urlResuseStrategy());
     this.pageTitle = 'Claims Appeals';
     // this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.ngOnInit());
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => {
-      this.filtermatch.urlResuseStrategy();
+      this.createPayloadService.resetTinNumber('appealsPage');
+      this.ngRedux.dispatch({ type: REMOVE_FILTER, filterData: { taxId: true } });
+      this.common.urlResuseStrategy();
     });
     iconRegistry.addSvgIcon(
       'filter',
@@ -60,43 +70,47 @@ export class AppealsComponent implements OnInit {
       'close',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-close-24px.svg')
     );
+    this.createPayloadService.getEvent().subscribe(value => {
+      this.ngOnInit();
+    });
   }
 
   ngOnInit() {
-    this.timePeriod = this.session.filterObjValue.timeFrame;
-    if (this.session.filterObjValue.lob !== 'All') {
-      this.lob = this.filtermatch.matchLobWithLobData(this.session.filterObjValue.lob);
-    } else {
-      this.lob = '';
+    if (this.printStyle) {
+      this.pageTitle = this.session.getHealthCareOrgName();
     }
-    if (this.session.filterObjValue.tax.length > 0 && this.session.filterObjValue.tax[0] !== 'All') {
-      this.taxID = this.session.filterObjValue.tax;
-      if (this.taxID.length > 3) {
-        this.taxID = [this.taxID.length + ' Selected'];
-      }
-    } else {
-      this.taxID = [];
-    }
+
+    this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'appealsPage' });
+    this.timePeriod = this.common.getTimePeriodFilterValue(this.createPayloadService.payload.timePeriod);
     this.loading = true;
     this.mockCards = [{}, {}, {}, {}];
     this.currentSummary = [];
     this.overturnItem = [];
     this.reasonDataAvailable = false;
 
-    this.appealsSharedService.getappealsRateAndReasonData().then(appealsRateData => {
+    this.appealsSharedService.getappealsRateAndReasonData(this.createPayloadService.payload).then(appealsRateData => {
       let AppealsCards: any;
       AppealsCards = appealsRateData;
       this.loading = false;
-      if (appealsRateData[3].length !== 0 && !appealsRateData[3][0].status) {
-        this.reasonDataAvailable = true;
-      }
       this.overturnItem = AppealsCards;
-      if (appealsRateData[3].length !== 0) {
-        this.reason = appealsRateData[3];
+    });
+    this.appealsSharedService.getAppealsReasonData(this.createPayloadService.payload).then(appealsReason => {
+      let appealsReasonData: any;
+      appealsReasonData = appealsReason;
+      if (appealsReasonData[0].status !== null && appealsReasonData[0].data !== null) {
+        this.reasonDataAvailable = true;
+      } else {
+        this.reasonDataAvailable = false;
       }
+      this.reason = appealsReasonData;
     });
 
-    this.appealsTAT = {
+    // this.appealsSharedService.getappealsTatandDevidedOverturnData().then(appealsRateData => {
+    //   this.appealsTAT = appealsRateData;
+    //   this.showAppealsTAT = true;
+    // });
+
+    /*this.appealsTAT = {
       category: 'app-card',
       type: 'rotateWithLabel',
       title: 'Average Appeals Turn Around Time',
@@ -123,32 +137,12 @@ export class AppealsComponent implements OnInit {
         ]
       },
       timeperiod: this.session.filterObjValue.timeFrame
-    };
+    };*/
   }
 
   helpIconClick(title) {
     if (title === 'Top Claims Appeals Overturn Reasons') {
       this.glossaryExpandService.setMessage(title, this.MetricID);
-    }
-  }
-  openFilter() {
-    this.filterExpandService.setURL(this.router.url);
-  }
-  removeFilter(type, value) {
-    if (type === 'lob') {
-      this.lob = '';
-      this.session.store({ timeFrame: this.timePeriod, lob: 'All', tax: this.session.filterObjValue.tax });
-    } else if (type === 'tax' && !value.includes('Selected')) {
-      this.taxID = this.session.filterObjValue.tax.filter(id => id !== value);
-      if (this.taxID.length > 0) {
-        this.session.store({ timeFrame: this.timePeriod, lob: this.session.filterObjValue.lob, tax: this.taxID });
-      } else {
-        this.session.store({ timeFrame: this.timePeriod, lob: this.session.filterObjValue.lob, tax: ['All'] });
-        this.taxID = [];
-      }
-    } else if (type === 'tax' && value.includes('Selected')) {
-      this.session.store({ timeFrame: this.timePeriod, lob: this.session.filterObjValue.lob, tax: ['All'] });
-      this.taxID = [];
     }
   }
 }

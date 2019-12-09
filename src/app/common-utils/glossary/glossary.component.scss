@@ -32,6 +32,10 @@
   font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
 }
 
+::ng-deep .mat-drawer-backdrop.mat-drawer-shown {
+  background-color: rgba(45, 45, 57, 0.5);
+}
+
 .business-glossary {
   word-break: keep-all;
   padding: 10px;
@@ -90,7 +94,7 @@
 }
 
 .glossary-metric-formula {
-  word-break: break-all;
+  // word-break: break-all;  please enable if the formula has no spaces
 }
 
 .glossary-definition {
@@ -100,6 +104,11 @@
   font-size: 16px;
   letter-spacing: 0.2px;
   line-height: 22px;
+}
+
+.glossary-definition-tag {
+  color: #196ecf;
+  text-decoration: none;
 }
 
 .go-to-metric-location {
@@ -184,7 +193,7 @@
 
 .absolute {
   position: absolute;
-  bottom: 0;
+  bottom: 40px;
   right: 0 !important;
 }
 

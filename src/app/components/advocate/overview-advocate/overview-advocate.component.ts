@@ -13,6 +13,10 @@ import { OverviewAdvocateSharedService } from '../../../shared/advocate/overview
 import { GlossaryExpandService } from '../../../shared/glossary-expand.service';
 import { AppealsData } from '../appeals-data';
 import { GeneralData } from '../general-data';
+import { CreatePayloadService } from '../../../shared/uhci-filters/create-payload.service';
+import { NgRedux } from '@angular-redux/store';
+import { CURRENT_PAGE, REMOVE_FILTER } from '../../../store/filter/actions';
+import { IAppState } from '../../../store/store';
 
 @Component({
   selector: 'app-overview-advocate',
@@ -51,6 +55,11 @@ export class OverviewAdvocateComponent implements OnInit {
   routhPath: string;
   appealsLineGraphloading: boolean;
   appealsLineGraphData: any;
+  callsLineGraphLoading: boolean;
+  trendTitleForCalls = 'Calls by Call Type';
+  totalCalls: any;
+  callsLoading: boolean;
+  callsLineGraphData: any;
 
   constructor(
     private checkStorage: StorageService,
@@ -59,18 +68,24 @@ export class OverviewAdvocateComponent implements OnInit {
     private iconRegistry: MatIconRegistry,
     sanitizer: DomSanitizer,
     private session: SessionService,
-    private filtermatch: CommonUtilsService,
+    private common: CommonUtilsService,
     private topRowService: TopRowAdvOverviewSharedService,
     private nonPaymentService: NonPaymentSharedService,
     public MetricidService: GlossaryMetricidService,
     public overviewAdvocateSharedService: OverviewAdvocateSharedService,
-    private glossaryExpandService: GlossaryExpandService
+    private glossaryExpandService: GlossaryExpandService,
+    private createPayloadService: CreatePayloadService,
+    private ngRedux: NgRedux<IAppState>
   ) {
     this.pageTitle = 'Welcome, ' + this.userName;
     this.pagesubTitle = 'Your Insights at a glance.';
 
-    const filData = this.session.getFilChangeEmitter().subscribe(() => this.filtermatch.urlResuseStrategy());
-    this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.filtermatch.urlResuseStrategy());
+    const filData = this.session.getFilChangeEmitter().subscribe(() => this.common.urlResuseStrategy());
+    this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => {
+      this.createPayloadService.resetTinNumber('otherPages');
+      this.ngRedux.dispatch({ type: REMOVE_FILTER, filterData: { taxId: true } });
+      this.common.urlResuseStrategy();
+    });
     iconRegistry.addSvgIcon(
       'filter',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-filter_list-24px.svg')
@@ -79,14 +94,17 @@ export class OverviewAdvocateComponent implements OnInit {
       'close',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-close-24px.svg')
     );
+    this.createPayloadService.getEvent().subscribe(value => {
+      this.ngOnInit();
+    });
   }
 
-  paymentData() {
+  paymentData(payload) {
     this.paymentLoading = true;
     this.topRowMockCards = [{}, {}, {}];
 
     this.topRowService
-      .getPaymentShared()
+      .getPaymentShared(payload)
       .then(paymentData => {
         this.paymentCards = JSON.parse(JSON.stringify(paymentData));
         this.paymentLoading = false;
@@ -97,11 +115,11 @@ export class OverviewAdvocateComponent implements OnInit {
       });
   }
 
-  appealsLeftData() {
+  appealsLeftData(payload) {
     this.appealsloading = true;
     this.appealsmockCards = [{}, {}, {}, {}];
 
-    this.overviewAdvocateSharedService.getAppealsLeftShared().then(appealsLeftData => {
+    this.overviewAdvocateSharedService.getAppealsLeftShared(payload).then(appealsLeftData => {
       let AppealsLeftData: any;
       AppealsLeftData = appealsLeftData;
       if (AppealsLeftData[0].LineOfBusiness != null && AppealsLeftData[0].LineOfBusiness) {
@@ -138,60 +156,78 @@ export class OverviewAdvocateComponent implements OnInit {
     });
   }
 
-  appealsTrendByMonthData() {
+  appealsTrendByMonthData(payload) {
     this.appealsLineGraphData = {};
-    this.overviewAdvocateSharedService.getAppealsTrendByMonthShared().then(appealsTrendData => {
-      this.appealsLineGraphloading = false;
+    this.overviewAdvocateSharedService
+      .getAppealsTrendByMonthShared(payload)
+      .then(appealsTrendData => {
+        this.appealsLineGraphloading = false;
+        if (
+          (appealsTrendData['M&R'].length ||
+            appealsTrendData['C&S'].length ||
+            appealsTrendData['E&I'].length ||
+            appealsTrendData['Other'].length) === 0
+        ) {
+          this.appealsLineGraphData = {
+            category: 'large-card',
+            type: 'donut',
+            status: 404,
+            title: 'Claims Appeals Submitted',
+            MetricID: this.MetricidService.MetricIDs.ClaimsAppealsSubmittedTrend,
+            data: null,
+            timeperiod: null
+          };
+        } else {
+          this.appealsLineGraphData = appealsTrendData;
+          this.appealsLineGraph = new AppealsData(appealsTrendData, GeneralData, 'appeals-trend-block');
+          console.log(this.appealsLineGraph);
+        }
+      })
+      .catch(err => {
+        this.appealsLineGraphloading = false;
+      });
+  }
 
-      console.log(
-        appealsTrendData['M&R'].length ||
-          appealsTrendData['C&S'].length ||
-          appealsTrendData['E&I'].length ||
-          appealsTrendData['Other'].length
-      );
-
-      if (
-        (appealsTrendData['M&R'].length ||
-          appealsTrendData['C&S'].length ||
-          appealsTrendData['E&I'].length ||
-          appealsTrendData['Other'].length) === 0
-      ) {
-        this.appealsLineGraphData = {
-          category: 'large-card',
-          type: 'donut',
-          status: 404,
-          title: 'Claims Appeals Submitted',
-          MetricID: this.MetricidService.MetricIDs.ClaimsAppealsSubmittedTrend,
-          data: null,
-          timeperiod: null
-        };
-      } else {
-        this.appealsLineGraphData = appealsTrendData;
-        this.appealsLineGraph = new AppealsData(appealsTrendData, GeneralData, 'appeals-trend-block');
-      }
-    });
+  totalCallsData(payload) {
+    this.callsLoading = true;
+    this.overviewAdvocateSharedService
+      .getTotalCallsShared(payload)
+      .then(totalCallsData => {
+        if (totalCallsData[0] == null) {
+          this.callsLoading = false;
+          this.callsLineGraphData = {
+            category: 'large-card',
+            type: 'donut',
+            status: 404,
+            title: this.trendTitleForCalls,
+            MetricID: this.MetricidService.MetricIDs,
+            data: null,
+            timeperiod: null
+          };
+        } else {
+          let callsLeftData;
+          callsLeftData = totalCallsData;
+          this.totalCalls = this.common.nondecimalFormatter(callsLeftData[0].CallVolByQuesType.Total);
+          this.callsLoading = false;
+        }
+      })
+      .catch(err => {
+        this.callsLoading = false;
+      });
   }
 
   ngOnInit() {
+    this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'overviewAdvocatePage' });
+    this.timePeriod = this.common.getTimePeriodFilterValue(this.createPayloadService.payload.timePeriod);
     this.checkStorage.emitEvent('overviewPage');
-    this.paymentData();
-    this.appealsLeftData();
-    this.appealsTrendByMonthData();
+    this.paymentData(this.createPayloadService.payload);
+    this.appealsLeftData(this.createPayloadService.payload);
+    this.appealsTrendByMonthData(this.createPayloadService.payload);
+    this.totalCallsData(this.createPayloadService.payload);
     this.appealsLineGraphloading = true;
+    // this.callsLineGraphLoading = true;
     this.userName = this.session.sessionStorage('loggedUser', 'FirstName');
     this.pageTitle = 'Welcome, ' + this.userName;
-
-    this.timePeriod = this.session.filterObjValue.timeFrame;
-
-    this.lob = this.filtermatch.matchLobWithLobData(this.session.filterObjValue.lob);
-    if (this.session.filterObjValue.tax.length > 0 && this.session.filterObjValue.tax[0] !== 'All') {
-      this.taxID = this.session.filterObjValue.tax;
-      if (this.taxID.length > 3) {
-        this.taxID = [this.taxID.length + ' Selected'];
-      }
-    } else {
-      this.taxID = ['All'];
-    }
     this.monthlyLineGraph.chartId = 'non-payment-trend-block';
     this.monthlyLineGraph.titleData = [{}];
     this.monthlyLineGraph.generalData = [
@@ -208,24 +244,25 @@ export class OverviewAdvocateComponent implements OnInit {
 
     this.monthlyLineGraph.chartData = [];
     this.trendMonthDisplay = false;
+    // Need to remove once filters is done
     // This is for line graph
-    this.nonPaymentService.sharedTrendByMonth().then(trendData => {
-      if (trendData === null) {
-        this.trendMonthDisplay = false;
-        this.monthlyLineGraph = {
-          category: 'large-card',
-          type: 'donut',
-          status: 404,
-          title: 'Claims Non-Payment Trend',
-          MetricID: this.MetricidService.MetricIDs.ClaimsNonPaymentTrend,
-          data: null,
-          timeperiod: null
-        };
-      } else {
-        this.monthlyLineGraph.chartData = trendData;
-        this.trendMonthDisplay = true;
-      }
-    });
+    // this.nonPaymentService.sharedTrendByMonth().then(trendData => {
+    //   if (trendData === null) {
+    //     this.trendMonthDisplay = false;
+    //     this.monthlyLineGraph = {
+    //       category: 'large-card',
+    //       type: 'donut',
+    //       status: 404,
+    //       title: 'Claims Non-Payment Trend',
+    //       MetricID: this.MetricidService.MetricIDs.ClaimsNonPaymentTrend,
+    //       data: null,
+    //       timeperiod: null
+    //     };
+    //   } else {
+    //     this.monthlyLineGraph.chartData = trendData;
+    //     this.trendMonthDisplay = true;
+    //   }
+    // });
 
     this.monthlyLineGraph.generalData2 = [];
     this.monthlyLineGraph.chartData2 = [];
@@ -236,26 +273,5 @@ export class OverviewAdvocateComponent implements OnInit {
       this.glossaryExpandService.setMessage(title, this.MetricidService.MetricIDs.ClaimsNonPaymentTrend);
     }
     this.glossaryExpandService.setMessage(title, this.MetricidService.MetricIDs);
-  }
-
-  openFilter() {
-    this.filterExpandService.setURL(this.router.url);
-  }
-  removeFilter(type, value) {
-    if (type === 'lob') {
-      this.lob = '';
-      this.session.store({ timeFrame: this.timePeriod, lob: 'All', tax: this.session.filterObjValue.tax });
-    } else if (type === 'tax' && !value.includes('Selected')) {
-      this.taxID = this.session.filterObjValue.tax.filter(id => id !== value);
-      if (this.taxID.length > 0) {
-        this.session.store({ timeFrame: this.timePeriod, lob: this.session.filterObjValue.lob, tax: this.taxID });
-      } else {
-        this.session.store({ timeFrame: this.timePeriod, lob: this.session.filterObjValue.lob, tax: ['All'] });
-        this.taxID = [];
-      }
-    } else if (type === 'tax' && value.includes('Selected')) {
-      this.session.store({ timeFrame: this.timePeriod, lob: this.session.filterObjValue.lob, tax: ['All'] });
-      this.taxID = [];
-    }
   }
 }

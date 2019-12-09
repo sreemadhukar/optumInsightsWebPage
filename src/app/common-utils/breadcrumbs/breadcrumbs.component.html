@@ -1,12 +1,20 @@
-<ol class="breadcrumb">
-  <li>
-    <a routerLink="/OverviewPage">Overview</a> <mat-icon svgIcon="chevron_right" class="disable-arrow"></mat-icon>
-  </li>
+<div *ngIf="!printStyle">
+  <ol class="breadcrumb">
+    <li *ngIf="!this.checkAdvocate">
+      <a routerLink="/OverviewPage">Overview</a> <mat-icon svgIcon="chevron_right" class="disable-arrow"></mat-icon>
+    </li>
+    <li *ngIf="this.checkAdvocate">
+      <a routerLink="/OverviewPageAdvocate">Advocate Home</a>
+      <mat-icon svgIcon="chevron_right" class="disable-arrow"></mat-icon>
+    </li>
 
-  <li *ngFor="let breadcrumb of breadcrumbs; let i = index">
-    <span *ngIf="i + 1 < breadcrumbs.length" class="disable-link">{{ breadcrumb.label }}</span>
+    <li *ngFor="let breadcrumb of breadcrumbs; let i = index">
+      <span *ngIf="i + 1 < breadcrumbs.length" class="disable-link">{{ breadcrumb.label }}</span>
 
-    <span *ngIf="i + 1 < breadcrumbs.length"><mat-icon svgIcon="chevron_right" class="disable-arrow"></mat-icon></span>
-    <span *ngIf="i + 1 == breadcrumbs.length" class="disable-link">{{ breadcrumb.label }}</span>
-  </li>
-</ol>
+      <span *ngIf="i + 1 < breadcrumbs.length"
+        ><mat-icon svgIcon="chevron_right" class="disable-arrow"></mat-icon
+      ></span>
+      <span *ngIf="i + 1 == breadcrumbs.length" class="disable-link">{{ breadcrumb.label }}</span>
+    </li>
+  </ol>
+</div>

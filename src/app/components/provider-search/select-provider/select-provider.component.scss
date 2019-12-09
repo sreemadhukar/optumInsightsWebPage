@@ -116,6 +116,10 @@
   padding: 0.4em 0 1em 0 !important;
 }
 
+::ng-deep .mat-form-field-wrapper {
+  padding-bottom: 4px;
+}
+
 .view-allProviders {
   width: 100%;
   color: #196ecf;
@@ -137,6 +141,7 @@
   padding-top: 13px;
   padding-left: 12px;
   padding-right: 30px;
+  padding-bottom: 13px;
 }
 
 .no-result-found {
@@ -165,4 +170,12 @@
 
 .searchicon {
   color: #757588;
+}
+
+.three-char-text {
+  color: #757588;
+  font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  letter-spacing: 0.2px;
+  line-height: 18px;
 }

@@ -6,9 +6,8 @@
 @import '~src/scss/variables.scss';
 @import '~src/scss/mixins';
 @import '~src/scss/buttons';
-
 .example-container {
-  background-color: #f1f4f7;
+  position: relative;
   flex-direction: column;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -21,7 +20,6 @@
   min-width: 1032px;
   margin: 0 auto;
 }
-
 .example-is-mobile .example-toolbar {
   /* Make sure the toolbar will stay on top of the content as it scrolls past. */
   z-index: 2;
@@ -53,6 +51,7 @@ h1.example-app-name {
   background-color: rgb(241, 244, 247);
   // background-color: mat-color($accent);
 }
+
 .example-is-mobile .bg-white {
   background-color: #fff;
 }
@@ -80,7 +79,7 @@ app-header {
 }
 
 .health-system-representation-block {
-  @include padding(20px, 12px, 0px, 56px);
+  @include padding(20px, 7px, 27px, 56px);
   // @include padding(16px, 12px, 0px, 32px); before adding PI Sub Menu undo when toggled off
   border-bottom: 1px solid $gainsboro;
 }
@@ -100,23 +99,44 @@ app-header {
   font-size: 16px;
   letter-spacing: 0.2px;
   line-height: 22px;
-  margin: 4px 0 15px 0;
+  margin: 4px 0 0 0;
 }
 
 .change-provider {
   height: 18px;
-  width: 105px;
+  /*width: 105px;*/
   color: $blue;
   font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
   font-size: 14px;
   letter-spacing: 0.2px;
   line-height: 18px;
   text-decoration: none;
-  margin: 9px 0 18px 0;
+  margin: 12px 0 0 0;
   cursor: pointer;
+  display: inline-block;
 }
 
 .change-provider:hover {
+  text-decoration: underline;
+}
+
+.view-Tax-Id-Summary-div {
+  height: 18px;
+  // width: 223px;
+  margin: 9px 0 0 0;
+}
+
+.view-Tax-Id-Summary {
+  color: $blue;
+  font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  letter-spacing: 0.2px;
+  line-height: 18px;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.view-Tax-Id-Summary:hover {
   text-decoration: underline;
 }
 
@@ -153,6 +173,17 @@ app-header {
   }
 }
 
+.navCategoryItem {
+  /*padding-left: 32px !important;*/
+  color: $strom-grey;
+  font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  letter-spacing: 0.2px;
+  margin-top: 4px !important;
+  line-height: 18px;
+  margin-left: 38px !important; // previously 30px befor PI sub menu undo when toggled off
+}
+
 .firstNavCategory {
   margin-top: 15px !important;
   color: $strom-grey !important;
@@ -160,6 +191,7 @@ app-header {
   font-size: 16px !important;
   letter-spacing: 0.2px;
   line-height: 18px;
+  margin-top: 20px !important;
 }
 
 .mat-expansion-panel-content,
@@ -190,17 +222,6 @@ app-header {
   /*padding-left: 32px !important;*/
 }
 
-.navCategoryItem {
-  /*padding-left: 32px !important;*/
-  color: $strom-grey;
-  font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
-  font-size: 14px;
-  letter-spacing: 0.2px;
-  margin-top: 4px !important;
-  line-height: 18px;
-  margin-left: 38px !important; // previously 30px befor PI sub menu undo when toggled off
-}
-
 .mat-expansion-panel-body {
   padding: 0px !important;
 }
@@ -226,7 +247,7 @@ app-header {
   color: $strom-grey !important;
   font-size: 16px !important;
   letter-spacing: 0.2px;
-  margin-top: 16px;
+  /*margin-top: 16px;*/
 }
 
 .nav-sub-category-items {
@@ -236,32 +257,43 @@ app-header {
   letter-spacing: 0.2px;
   line-height: 18px;
 }
-
+.active-link {
+  background: $darker-alice-blue;
+  color: $blue !important;
+}
 .mat-expansion-panel-header-description,
 .mat-expansion-panel-header-title {
   line-height: 24px !important;
 }
 
 .nav-sub-category-items:hover {
-  background: $darker-alice-blue !important;
-  color: $blue !important;
+  /*background: $darker-alice-blue !important;
+  color: $blue !important;*/
+  background: $pattens-blue !important;
+  color: $black-rock !important;
 }
-.second-level-link {
-  padding-left: 32px !important;
+
+.mat-nav-list .mat-list-item:focus {
+  background: $darker-alice-blue !important;
 }
 .nav-no-child-category:hover,
 .mat-expansion-panel-header:hover,
-.mat-expanded,
 .signout-label:hover {
-  color: $blue !important;
+  /* color: $blue !important; */
+  color: $black-rock !important;
   .mat-expansion-panel-header-title {
-    color: $blue !important;
+    /* color: $blue !important; */
+    color: $black-rock !important;
   }
   .mat-expansion-indicator::after {
-    color: $blue !important;
+    /* color: $blue !important; */
+    color: $black-rock !important;
   }
 }
-
+.mat-expanded > .mat-expansion-panel-header {
+  color: $strom-grey !important;
+  background: $alice-blue !important;
+}
 .sub-menu-sub-header {
   .sub-menu-expansion-header {
     color: $strom-grey !important;
@@ -274,10 +306,12 @@ app-header {
 .child-nav-menu-expansion-panel {
   .mat-expanded {
     .sub-menu-expansion-header {
-      color: $blue !important;
+      /*color: $blue !important;*/
+      color: $strom-grey !important;
     }
     .mat-expansion-indicator::after {
-      color: $blue !important;
+      /*color: $blue !important;*/
+      color: $strom-grey !important;
     }
   }
 }
@@ -285,15 +319,14 @@ app-header {
 .nav-no-child-category:hover,
 .mat-expansion-panel-header:hover,
 .signout-label:hover {
-  color: $blue !important;
-  background: $darker-alice-blue !important;
+  /*color: $blue !important;
+  background: $darker-alice-blue !important;*/
+  background: $pattens-blue !important;
+  color: $black-rock !important;
   .mat-expansion-indicator::after {
-    color: $blue !important;
+    /* color: $blue !important; */
+    color: $black-rock !important;
   }
-}
-
-.mat-nav-list .mat-list-item:focus {
-  background: $darker-alice-blue !important;
 }
 
 .mat-expansion-panel {
@@ -317,11 +350,6 @@ app-header {
   margin-left: 32px;
 }
 
-.active-link {
-  background: $darker-alice-blue;
-  color: $blue !important;
-}
-
 /************ ABOVE IS THE CSS RELATED TO ONLY LEFT HAMBURGER MENU *************/
 
 .svg-ic_build_24px:hover {
@@ -333,6 +361,7 @@ app-header {
   padding-left: 16px !important;
   height: 18px !important;
 }
+
 .display-none {
   display: none !important;
 }
@@ -411,7 +440,11 @@ app-header {
   position: absolute !important;
   z-index: 9999 !important;
 }
-
+.filter-div-scroll {
+  overflow-y: auto;
+  max-height: 100%;
+  width: 418px;
+}
 .sidemargin {
   margin: 0 24px 0 24px;
   height: inherit;
@@ -430,12 +463,34 @@ app-header {
 
 .sticky {
   position: fixed;
-  top: 0px;
+  top: 0;
+}
+
+.sticky-footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+  &-text {
+    color: $strom-grey;
+    font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.17px;
+    line-height: 18px;
+  }
 }
 
 .mat-drawer-inner-container {
   overflow: unset !important;
-  height: 97% !important;
+  height: 125vh !important;
+  overflow-x: hidden !important;
+}
+
+.kop-landing {
+  .mat-drawer-inner-container {
+    height: 100vh !important;
+  }
 }
 
 .simulate-external-view {
@@ -495,4 +550,42 @@ app-header {
 .exit-provider-text:hover {
   cursor: pointer;
   text-decoration: underline;
+}
+
+.mat-list-item {
+  height: auto;
+  padding: 8px 12px 8px 16px;
+  width: auto;
+}
+
+.mat-list-item-content {
+  padding: 0px !important;
+  height: auto !important;
+}
+
+.mat-expansion-panel-body {
+  padding: 0px;
+}
+
+.mat-list-base {
+  .mat-list-item {
+    height: auto !important;
+    padding: 8px 12px 8px 16px;
+    width: auto;
+    margin-left: 0px;
+  }
+  .nav-sub-category-items {
+    height: auto;
+    padding: 8px 12px 8px 16px !important;
+    width: auto;
+    margin-left: 26px !important;
+  }
+}
+
+.mat-list-base .second-level-link {
+  padding-left: 32px !important;
+}
+
+.copyright-text {
+  margin-right: 16px;
 }

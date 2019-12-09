@@ -95,15 +95,51 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
     const margin = { top: 10, right: 0, bottom: 10, left: 0 };
     const width = preWidth - margin.left - margin.right;
     const height = 50 - margin.top - margin.bottom;
+    let chart;
+    if (chartOptions.cdata && chartOptions.cdata === 'paymentintegrity') {
+      if (chartOptions.type === 'large bar chart') {
+        d3.select(this.renderChart)
+          .style('display', 'flex')
+          .style('padding', '92px 0px 0px 0px')
+          .append('div')
+          .attr('fill', '#2D2D39')
+          .attr('font-size', '20px')
+          .attr('text-anchor', 'start')
+          .style('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
+          .style('padding', '24px 0px 0px 70px')
+          .text(chartOptions.graphValues[0] + '%')
+          .style('text-align', 'right')
+          .append('div')
+          .text('Received by UHC')
+          .attr('font-size', '16px')
+          .style('font-family', "'UHCSans-Regular','Helvetica', 'Arial', 'sans-serif'");
 
-    const chart = d3
-      .select(this.renderChart)
-      .append('svg')
-      .attr('width', width + margin.left + margin.right)
-      .attr('height', height + margin.top + margin.bottom)
-      .append('g')
-      .attr('transform', 'translate(' + 10 + ',' + 0 + ')');
-
+        chart = d3
+          .select(this.renderChart)
+          .append('svg')
+          .attr('width', width + margin.left + margin.right + 56)
+          .attr('height', height + margin.top + margin.bottom + 116)
+          .style('padding', '0px 0px 0px 16px')
+          .append('g')
+          .attr('transform', 'translate(' + 0 + ',' + 16 + ')');
+      } else {
+        chart = d3
+          .select(this.renderChart)
+          .append('svg')
+          .attr('width', width + margin.left + margin.right)
+          .attr('height', height + margin.top + margin.bottom + 100)
+          .append('g')
+          .attr('transform', 'translate(' + 10 + ',' + 50 + ')');
+      }
+    } else {
+      chart = d3
+        .select(this.renderChart)
+        .append('svg')
+        .attr('width', width + margin.left + margin.right)
+        .attr('height', height + margin.top + margin.bottom)
+        .append('g')
+        .attr('transform', 'translate(' + 10 + ',' + 0 + ')');
+    }
     let totalSum = 0;
 
     for (let i = 0; i < chartOptions.graphValues.length; i++) {
@@ -114,67 +150,161 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
       .domain([0, totalSum])
       .range([0, 248]);
 
-    chart
-      .append('rect')
-      .attr('x', 10)
-      .attr('y', 20)
-      .attr('width', function() {
-        if (typeof chartOptions.graphValues[0] !== 'undefined') {
-          return xScale(chartOptions.graphValues[0]);
-        }
-      })
-      .attr('height', 24)
-      .style('padding-bottom', 16)
-      .attr('fill', chartOptions.color[0]);
+    if (chartOptions.cdata && chartOptions.cdata === 'paymentintegrity') {
+      if (chartOptions.type === 'large bar chart') {
+        chart
+          .append('rect')
+          .attr('id', 'paymentIntegrityRect' + chartOptions.graphValues[1])
+          .attr('width', function() {
+            if (typeof chartOptions.graphValues[0] !== 'undefined') {
+              return chartOptions.graphValues[0].toString() + '%';
+            }
+          })
+          .attr('height', 64)
+          .style('padding-bottom', 16)
+          .attr('fill', chartOptions.color[0]);
 
-    chart
-      .append('rect')
-      .attr('x', function() {
-        if (typeof chartOptions.graphValues[0] !== 'undefined') {
-          return 10 + xScale(chartOptions.graphValues[0]);
-        }
-      })
-      .attr('y', 20)
-      .attr('width', 2)
-      .attr('height', 24)
-      .attr('fill', chartOptions.color[1]);
+        chart
+          .append('rect')
+          .attr('x', function() {
+            if (typeof chartOptions.graphValues[0] !== 'undefined') {
+              return (0 + chartOptions.graphValues[0]).toString() + '%';
+            }
+          })
+          // .attr('y', -25)
+          .attr('rx', 2)
+          .attr('ry', 0)
+          .attr('width', function() {
+            if (typeof chartOptions.graphValues[0] !== 'undefined') {
+              return chartOptions.graphValues[1].toString() + '%';
+            }
+          })
+          .attr('height', 64)
+          .attr('fill', chartOptions.color[2]);
+      } else {
+        chart
+          .append('rect')
+          .attr('x', 10)
+          .attr('y', -25)
+          .attr('id', 'paymentIntegrityRect' + chartOptions.graphValues[1])
+          .attr('width', function() {
+            if (typeof chartOptions.graphValues[0] !== 'undefined') {
+              return xScale(chartOptions.graphValues[0]);
+            }
+          })
+          .attr('height', 48)
+          .style('padding-bottom', 16)
+          .attr('fill', chartOptions.color[0]);
 
-    chart
-      .append('rect')
-      .attr('x', function() {
-        if (typeof chartOptions.graphValues[0] !== 'undefined') {
-          return 12 + xScale(chartOptions.graphValues[0]);
-        }
-      })
-      .attr('y', 20)
-      .attr('rx', 2)
-      .attr('ry', 2)
-      .attr('width', function() {
-        if (typeof chartOptions.graphValues[0] !== 'undefined') {
-          return xScale(chartOptions.graphValues[1]) + 1;
-        }
-      })
-      .attr('height', 24)
-      .attr('fill', chartOptions.color[2]);
+        chart
+          .append('rect')
+          .attr('x', function() {
+            if (typeof chartOptions.graphValues[0] !== 'undefined') {
+              return 10 + xScale(chartOptions.graphValues[0]);
+            }
+          })
+          .attr('y', -25)
+          .attr('width', 2)
+          .attr('height', 48)
+          .attr('fill', chartOptions.color[1]);
 
+        chart
+          .append('rect')
+          .attr('x', function() {
+            if (typeof chartOptions.graphValues[0] !== 'undefined') {
+              return 12 + xScale(chartOptions.graphValues[0]);
+            }
+          })
+          .attr('y', -25)
+          .attr('rx', 2)
+          .attr('ry', 2)
+          .attr('width', function() {
+            if (typeof chartOptions.graphValues[0] !== 'undefined') {
+              return xScale(chartOptions.graphValues[1]) + 1;
+            }
+          })
+          .attr('height', 48)
+          .attr('fill', chartOptions.color[2]);
+      }
+    } else {
+      chart
+        .append('rect')
+        .attr('x', 10)
+        .attr('y', 20)
+        .attr('width', function() {
+          if (typeof chartOptions.graphValues[0] !== 'undefined') {
+            return xScale(chartOptions.graphValues[0]);
+          }
+        })
+        .attr('height', 24)
+        .style('padding-bottom', 16)
+        .attr('fill', chartOptions.color[0]);
+
+      chart
+        .append('rect')
+        .attr('x', function() {
+          if (typeof chartOptions.graphValues[0] !== 'undefined') {
+            return 10 + xScale(chartOptions.graphValues[0]);
+          }
+        })
+        .attr('y', 20)
+        .attr('width', 2)
+        .attr('height', 24)
+        .attr('fill', chartOptions.color[1]);
+
+      chart
+        .append('rect')
+        .attr('x', function() {
+          if (typeof chartOptions.graphValues[0] !== 'undefined') {
+            return 12 + xScale(chartOptions.graphValues[0]);
+          }
+        })
+        .attr('y', 20)
+        .attr('rx', 2)
+        .attr('ry', 2)
+        .attr('width', function() {
+          if (typeof chartOptions.graphValues[0] !== 'undefined') {
+            return xScale(chartOptions.graphValues[1]) + 1;
+          }
+        })
+        .attr('height', 24)
+        .attr('fill', chartOptions.color[2]);
+    }
     const uniqueText = 'reasonText' + this.renderChart.slice(1);
     const tspanID = uniqueText + 'tspan';
-    const textWithHover = chart
-      .append('text')
-      .attr('id', uniqueText)
-      .attr('x', 10)
-      .attr('y', 12)
-      .attr('fill', '#2D2D39')
-      .attr('font-size', '16')
-      .attr('text-anchor', 'start')
-      .attr('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
-      .text(chartOptions.barText)
-      .call(wrap, 250, tspanID, 16);
-
+    let textWithHover;
+    if (chartOptions.cdata && chartOptions.cdata === 'paymentintegrity') {
+      if (chartOptions.type === 'bar chart') {
+        textWithHover = chart
+          .append('text')
+          .attr('id', uniqueText)
+          .attr('x', 10)
+          .attr('y', -35)
+          .attr('fill', '#2D2D39')
+          .attr('font-size', '16')
+          .attr('text-anchor', 'start')
+          .attr('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
+          .text(chartOptions.barText)
+          .call(wrap, 250, tspanID, 16);
+      } else {
+        textWithHover = chart.append('text').attr('id', uniqueText);
+      }
+    } else {
+      textWithHover = chart
+        .append('text')
+        .attr('id', uniqueText)
+        .attr('x', 10)
+        .attr('y', 12)
+        .attr('fill', '#2D2D39')
+        .attr('font-size', '16')
+        .attr('text-anchor', 'start')
+        .attr('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
+        .text(chartOptions.barText)
+        .call(wrap, 250, tspanID, 16);
+    }
     // where we should enable the hover object to exist
     if (textWithHover.selectAll('tspan').size() > 1) {
       d3.select('#' + uniqueText).attr('cursor', 'pointer');
-
       const tspanArray = textWithHover.selectAll('tspan').nodes();
       const tspanArrayIDs = [];
       const replacementtspan = tspanArray[0];
@@ -237,16 +367,327 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
             .duration(10)
             .style('opacity', 0);
         });
+    } else if (chartOptions.cdata && chartOptions.cdata === 'paymentintegrity') {
+      /// madhukar
+      d3.select('#paymentIntegrityRect' + chartOptions.graphValues[1]).attr('cursor', 'pointer');
+      const tspanArray = textWithHover.selectAll('tspan').nodes();
+      const tspanArrayIDs = [];
+
+      for (let i = 0; i < tspanArray.length; i++) {
+        tspanArrayIDs.push(tspanArray[i].id);
+      }
+      for (let i = tspanArrayIDs.length - 1; i > 0; i--) {
+        d3.select('#' + tspanArrayIDs[i]).remove();
+      }
+
+      const div = d3
+        .select(this.renderChart)
+        .append('div')
+        .attr('class', 'tooltip-bar-pi')
+        .style('height', 'auto')
+        .style('width', '150px')
+        .style('opacity', 0);
+
+      const svg2 = div
+        .append('svg')
+        .attr('height', '72px')
+        .attr('width', '150px');
+
+      svg2
+        .append('text')
+        .attr('id', uniqueText + 'hover')
+        .attr('y', 25)
+        .attr('fill', '#2D2D39')
+        .attr('font-size', '14')
+        .attr('text-anchor', 'start')
+        .attr('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
+        .text(chartOptions.barText)
+        // .call(wrap, 250, tspanID, 16);
+        .call(wrap, 250, tspanID + 'hover', 14);
+
+      svg2
+        .append('text')
+        .attr('id', uniqueText + 'hover')
+        .attr('y', 50)
+        .attr('fill', '#757588')
+        .attr('font-size', '14')
+        .attr('text-anchor', 'start')
+        .attr('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
+        .text(chartOptions.hoverData)
+        // .call(wrap, 250, tspanID, 16);
+        .call(wrap, 250, tspanID + 'hover', 14);
+
+      const label = d3.select('#paymentIntegrityRect' + chartOptions.graphValues[1]);
+
+      label
+        .on('mouseenter', function(d) {
+          div
+            .transition()
+            .duration(10)
+            .style('opacity', 1);
+          div.style('left', d3.event.layerX - 75 + 'px').style('top', d3.event.layerY - 85 + 'px');
+          // div.style('left', '100px').style('bottom', '70px');
+        })
+        .on('mousemove', function(d) {
+          div
+            .transition()
+            .duration(10)
+            .style('opacity', 1);
+          div.style('left', d3.event.layerX - 75 + 'px').style('top', d3.event.layerY - 85 + 'px');
+          // div.style('left', '100px').style('bottom', '70px');
+        })
+        .on('mouseleave', function(d) {
+          div
+            .transition()
+            .duration(10)
+            .style('opacity', 0);
+        });
     }
 
-    chart
-      .append('text')
-      .attr('x', 270)
-      .attr('y', 38)
-      .attr('fill', '#2D2D39')
-      .attr('font-size', '16')
-      .attr('text-anchor', 'start')
-      .attr('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
-      .text(chartOptions.barValue);
+    if (chartOptions.cdata && chartOptions.cdata === 'paymentintegrity') {
+      if (chartOptions.type === 'large bar chart') {
+        chart
+          .append('line')
+          .attr('x1', '85%')
+          .attr('y1', -16)
+          .attr('x2', '85%')
+          .attr('y2', 80)
+          .style('stroke-dasharray', '6,6')
+          .style('stroke', 'black')
+          .style('stroke-width', '2px');
+
+        d3.select(this.renderChart)
+          .append('div')
+          .attr('fill', '#2D2D39')
+          .attr('font-size', '20px')
+          .attr('text-anchor', 'start')
+          .style('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
+          .style('padding', '24px 0px 0px 16px')
+          .text(chartOptions.graphValues[1] + '%')
+          .append('div')
+          .text('Awaiting Submission')
+          .attr('font-size', '16px')
+          .style('font-family', "'UHCSans-Regular','Helvetica', 'Arial', 'sans-serif'");
+
+        if (chartOptions.trendValue.includes('+')) {
+          d3.select(this.renderChart)
+            .append('div')
+            .style('position', 'absolute')
+            .style('top', '30px')
+            .style('right', '155px')
+            .attr('fill', '#2D2D39')
+            .attr('font-size', '20px')
+            .attr('text-anchor', 'start')
+            .style('font-family', "'UHCSans-Regular','Helvetica', 'Arial', 'sans-serif'")
+            .text('Accounts Receivable Opportunity')
+            .append('div')
+            .style('text-align', 'right')
+            .text('$45K')
+            .style('line-height', '22px')
+            .style('font-size', '20px')
+            .style('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
+            .append('svg')
+            .style('margin-top', '8px')
+            .style('margin-bottom', '-5px')
+            .style('padding-left', '3px')
+            .style('transform', 'scaleY(-1)')
+            .attr('width', '24px')
+            .attr('height', '24px')
+            .append('g')
+            .insert('svg:image')
+            .attr('width', '24px')
+            .attr('height', '24px')
+            .attr('xlink:href', 'src/assets/images/trend-down.svg')
+            .select(function() {
+              return this.parentNode;
+            })
+            .select(function() {
+              return this.parentNode;
+            })
+            .select(function() {
+              return this.parentNode;
+            })
+            .append('span')
+            .text(chartOptions.trendValue)
+            .style('font-size', '14px')
+            .style('line-height', '18px')
+            .style('letter-spacing', '0.2px')
+            .style('color', '#B10C00')
+            .style('font-family', "'UHCSans-Regular','Helvetica', 'Arial', 'sans-serif'")
+            .style('padding-left', '5px');
+        } else {
+          d3.select(this.renderChart)
+            .append('div')
+            .style('position', 'absolute')
+            .style('top', '30px')
+            .style('right', '155px')
+            .attr('fill', '#2D2D39')
+            .attr('font-size', '20px')
+            .attr('text-anchor', 'start')
+            .style('font-family', "'UHCSans-Regular','Helvetica', 'Arial', 'sans-serif'")
+            .text('Accounts Receivable Opportunity')
+            .append('div')
+            .style('text-align', 'right')
+            .text('$45K')
+            .style('line-height', '22px')
+            .style('font-size', '20px')
+            .style('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
+            .append('svg')
+            .style('margin-top', '8px')
+            .style('margin-bottom', '-5px')
+            .style('padding-left', '3px')
+            .style('transform', 'scaleY(-1)')
+            .attr('width', '24px')
+            .attr('height', '24px')
+            .append('g')
+            .insert('svg:image')
+            .attr('width', '24px')
+            .attr('height', '24px')
+            .attr('xlink:href', 'src/assets/images/trend-up.svg')
+            .select(function() {
+              return this.parentNode;
+            })
+            .select(function() {
+              return this.parentNode;
+            })
+            .select(function() {
+              return this.parentNode;
+            })
+            .append('span')
+            .text(chartOptions.trendValue)
+            .style('font-size', '14px')
+            .style('line-height', '18px')
+            .style('letter-spacing', '0.2px')
+            .style('color', '#007000')
+            .style('font-family', "'UHCSans-Regular','Helvetica', 'Arial', 'sans-serif'")
+            .style('padding-left', '5px');
+        }
+        d3.select(this.renderChart)
+          .append('div')
+          .text('Target 85%')
+          .style('position', 'absolute')
+          .style('top', '195px')
+          .style('right', '200px')
+          .attr('font-size', '16px')
+          .style('font-family', "'UHCSans-Regular','Helvetica', 'Arial', 'sans-serif'");
+        if (chartOptions.targetValue.includes('above target')) {
+          chart
+            .append('svg:image')
+            .attr('x', 0)
+            .attr('y', 85)
+            .attr('width', '20px')
+            .attr('height', '20px')
+            .attr('xlink:href', 'src/assets/images/greencheckmark.svg');
+          chart
+            .append('text')
+            .attr('x', 25)
+            .attr('y', 100)
+            .attr('fill', '#007000')
+            .attr('font-size', '16')
+            .attr('text-anchor', 'start')
+            .attr('font-family', "'UHCSans','Helvetica', 'Arial', 'sans-serif'")
+            .text(chartOptions.targetValue);
+        } else {
+          chart
+            .append('svg:image')
+            .attr('x', 0)
+            .attr('y', 85)
+            .attr('width', '20px')
+            .attr('height', '20px')
+            .attr('xlink:href', 'src/assets/images/red-x.svg');
+          chart
+            .append('text')
+            .attr('x', 25)
+            .attr('y', 100)
+            .attr('fill', '#B10C00')
+            .attr('font-size', '16')
+            .attr('text-anchor', 'start')
+            .attr('font-family', "'UHCSans','Helvetica', 'Arial', 'sans-serif'")
+            .text(chartOptions.targetValue);
+        }
+      } else {
+        chart
+          .append('line')
+          .attr('x1', function() {
+            if (typeof chartOptions.graphValues[0] !== 'undefined') {
+              return xScale(chartOptions.graphValues[0]) + 4;
+            }
+          })
+          .attr('y1', -29)
+          .attr('x2', function() {
+            if (typeof chartOptions.graphValues[0] !== 'undefined') {
+              return xScale(chartOptions.graphValues[0]) + 4;
+            }
+          })
+          .attr('y2', 33)
+          .style('stroke-dasharray', '6,6')
+          .style('stroke', 'black')
+          .style('stroke-width', '2px');
+
+        chart
+          .append('text')
+          .attr('x', 270)
+          .attr('y', 5)
+          .attr('fill', '#2D2D39')
+          .attr('font-size', '16')
+          .attr('text-anchor', 'start')
+          .attr('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
+          .text(chartOptions.barValue);
+        chart
+          .append('text')
+          .attr('x', 200)
+          .attr('y', 50)
+          .attr('fill', '#2D2D39')
+          .attr('font-size', '16')
+          .attr('text-anchor', 'start')
+          .attr('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
+          .text('Target 90%');
+        if (chartOptions.targetValue.includes('above target')) {
+          chart
+            .append('svg:image')
+            .attr('x', 10)
+            .attr('y', 35)
+            .attr('width', '20px')
+            .attr('height', '20px')
+            .attr('xlink:href', 'src/assets/images/greencheckmark.svg');
+          chart
+            .append('text')
+            .attr('x', 35)
+            .attr('y', 50)
+            .attr('fill', '#007000')
+            .attr('font-size', '16')
+            .attr('text-anchor', 'start')
+            .attr('font-family', "'UHCSans','Helvetica', 'Arial', 'sans-serif'")
+            .text(chartOptions.targetValue);
+        } else {
+          chart
+            .append('svg:image')
+            .attr('x', 10)
+            .attr('y', 35)
+            .attr('width', '20px')
+            .attr('height', '20px')
+            .attr('xlink:href', 'src/assets/images/red-x.svg');
+          chart
+            .append('text')
+            .attr('x', 35)
+            .attr('y', 50)
+            .attr('fill', '#B10C00')
+            .attr('font-size', '16')
+            .attr('text-anchor', 'start')
+            .attr('font-family', "'UHCSans','Helvetica', 'Arial', 'sans-serif'")
+            .text(chartOptions.targetValue);
+        }
+      }
+    } else {
+      chart
+        .append('text')
+        .attr('x', 270)
+        .attr('y', 38)
+        .attr('fill', '#2D2D39')
+        .attr('font-size', '16')
+        .attr('text-anchor', 'start')
+        .attr('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
+        .text(chartOptions.barValue);
+    }
   }
 }

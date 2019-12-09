@@ -1,0 +1,81 @@
+@import '~src/scss/variables.scss';
+@import '~src/scss/mixins';
+
+.content-wrapper {
+  background-color: $alice-blue;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  @include padding(16px, 0, 64px, 0);
+  .main-content {
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-flow: row wrap;
+    justify-content: left;
+    width: 1000px;
+    margin: auto;
+    flex-wrap: wrap;
+    .line {
+      height: 0;
+      width: 1200px;
+      background-color: #fff;
+      display: flex;
+      border: 1px solid $heather;
+      z-index: 999;
+      margin: 8px 0;
+    }
+    .cust-width-title {
+      width: 961px;
+      font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+      color: $black-rock;
+      margin-left: 10px;
+      margin-bottom: -12px;
+
+      ol {
+        @include margin(0, 0, 16px, 0);
+      }
+      .page-title {
+        flex-basis: 100%;
+        font-size: 36px;
+        @include padding(16px, 0, 20px, 0);
+        color: $black-rock;
+        font-family: 'UHCSans-Regular', Helvetica, Arial, sans-serif;
+      }
+    }
+    .health-system {
+      &-details-block {
+        display: inline-flex;
+      }
+      &-details {
+        margin: 16px 30px 16px 10px;
+        max-width: 220px;
+      }
+      &-tins,
+      &-regions,
+      &-markets,
+      &-tin-types {
+        color: $strom-grey;
+        font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+        line-height: 18px;
+        margin-bottom: 8px;
+      }
+      &-tins-value,
+      &-regions-value,
+      &-markets-value,
+      &-tin-types-value {
+        font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+        line-height: 18px;
+      }
+    }
+    .viewIBttn {
+      padding-top: 20px;
+      padding-left: 200px;
+    }
+    .tax-summary-block {
+      width: 100%;
+    }
+  }
+}

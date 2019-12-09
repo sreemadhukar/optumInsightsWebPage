@@ -7,6 +7,9 @@ import { SessionService } from '../../../shared/session.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { FilterExpandService } from 'src/app/shared/filter-expand.service';
 import { CommonUtilsService } from 'src/app/shared/common-utils.service';
+import { CURRENT_PAGE } from '../../../store/filter/actions';
+import { IAppState } from '../../../store/store';
+import { NgRedux } from '@angular-redux/store';
 
 @Component({
   selector: 'app-provider-trends',
@@ -44,7 +47,8 @@ export class ProviderTrendsComponent implements OnInit, AfterViewChecked {
     sanitizer: DomSanitizer,
     private filterExpandService: FilterExpandService,
     private common: CommonUtilsService,
-    private cdRef: ChangeDetectorRef
+    private cdRef: ChangeDetectorRef,
+    private ngRedux: NgRedux<IAppState>
   ) {
     const filData = this.session.getFilChangeEmitter().subscribe(() => this.common.urlResuseStrategy());
     iconRegistry.addSvgIcon(
@@ -68,8 +72,17 @@ export class ProviderTrendsComponent implements OnInit, AfterViewChecked {
       'trending_flat',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/trending_flat-24px.svg')
     );
+
+    this.summaryTrends.sharedSummaryTrendsCount().then(r => {
+      const result: any = r;
+      if (result) {
+        this.totalRecords = result;
+        this.paginator.length = result;
+      }
+    });
   }
   ngOnInit() {
+    this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'summaryTrendsPage' });
     this.getSummaryData();
     this.data_date = this.session.filterObjValue.date;
     this.metric = this.session.filterObjValue.metric;
@@ -88,14 +101,15 @@ export class ProviderTrendsComponent implements OnInit, AfterViewChecked {
     this.sortDirection = 'ASC';
     this.summaryTrends.sharedSummaryTrends(1, 10, this.sortColumn, this.sortDirection).then(r => {
       const result: any = r;
+      console.log(result);
       if (result) {
         this.data = result.dataSource;
         this.displayedColumns = result.displayedColumns;
-        this.totalRecords = result.totalRecordsCount;
+        // this.totalRecords = result.totalRecordsCount;
         this.dataSource = new MatTableDataSource(this.data);
         this.dataSource.sort = this.sort;
         // this.dataSource.paginator = this.paginator;
-        this.paginator.length = result.totalRecordsCount;
+        // this.paginator.length = result.totalRecordsCount;
       }
       this.loading = false;
     });
