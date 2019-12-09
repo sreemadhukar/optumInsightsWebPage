@@ -139,20 +139,13 @@ export class KOPSharedService {
   private getDataKopAsync(params: any, merticKey: string) {
     return new Promise((resolve, reject) => {
       if (merticKey === 'kop') {
-        this.kopService.getSummary({ params }).subscribe(
-          (response: any) => resolve(response),
-          () => reject()
-        );
+        this.kopService.getSummary({ params }).subscribe((response: any) => resolve(response), () => reject());
       } else if (merticKey === 'priorauth') {
-        this.kopService.getPriorAuthSummary({ params }).subscribe(
-          (response: any) => resolve(response),
-          () => reject()
-        );
+        this.kopService.getPriorAuthSummary({ params }).subscribe((response: any) => resolve(response), () => reject());
       } else if (merticKey === 'priorauthtat') {
-        this.kopService.getPriorAuthTATSummary({ params }).subscribe(
-          (response: any) => resolve(response),
-          () => reject()
-        );
+        this.kopService
+          .getPriorAuthTATSummary({ params })
+          .subscribe((response: any) => resolve(response), () => reject());
       }
     });
   }
