@@ -137,6 +137,27 @@ export class KOPSharedService {
     });
   }
 
+  public getClaimsData(params: any) {
+    return new Promise(resolve => {
+      const { filter: selectedFilter } = params;
+      const { priorAuthFilters } = selectedFilter;
+      const paramsArray = priorAuthFilters.map((param: string) => {
+        return { filter: param };
+      });
+      this.getKopData('reimbursementClaims', paramsArray).then((response: any) => {
+        if (!response || response.length === 0) {
+          return resolve(null);
+        } else {
+          const reimbursementInstance = new Reimbursement({ records: response });
+          const reimbursement = reimbursementInstance.getData();
+          return resolve({
+            reimbursement
+          });
+        }
+      });
+    });
+  }
+
   private getDataKopAsync(params: any, metricKey: string) {
     return new Promise((resolve, reject) => {
       switch (metricKey) {
@@ -183,27 +204,6 @@ export class KOPSharedService {
         .catch(() => {
           return resolve([]);
         });
-    });
-  }
-
-  private getClaimsData(params: any) {
-    return new Promise(resolve => {
-      const { filter: selectedFilter } = params;
-      const { priorAuthFilters } = selectedFilter;
-      const paramsArray = priorAuthFilters.map((param: string) => {
-        return { filter: param };
-      });
-      this.getKopData('reimbursementClaims', paramsArray).then((response: any) => {
-        if (!response || response.length === 0) {
-          return resolve(null);
-        } else {
-          const reimbursementInstance = new Reimbursement({ records: response });
-          const reimbursement = reimbursementInstance.getData();
-          return resolve({
-            reimbursement
-          });
-        }
-      });
     });
   }
 }
