@@ -11,10 +11,9 @@ import { HeadMaterialModule } from 'src/app/head/head.material.module';
 @NgModule({
   imports: [CommonModule, CareDeliveryPageRoutingModule, HeadMaterialModule, CommonUtilsModule],
   providers: [PriorAuthSharedService, PcorSharedService],
-  declarations: [PriorAuthComponent, PatientCareOpportunityComponent]
+  declarations: [PriorAuthComponent, PatientCareOpportunityComponent],
+  exports: [PriorAuthComponent, PatientCareOpportunityComponent]
 })
 export class CareDeliveryPageModule {
-  constructor() {
-    console.log('CareDelivery Loaded');
-  }
+  constructor() {}
 }

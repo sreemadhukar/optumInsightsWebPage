@@ -39,22 +39,16 @@ export class GlossaryComponent implements OnInit {
   constructor(private glossaryService: GlossaryService) {}
 
   ngOnInit() {
+    this.glossarySelected = [];
     if (this.MetricID) {
       this.glossaryByMetricId();
     }
     this.obs = this.emitter.pipe(debounceTime(250)).subscribe(text => this.getBusinessGlossary(text));
     this.options = [];
-    this.glossarySelected = [];
     this.glossaryService.getBusinessGlossaryData().subscribe(response => {
       this.glossaryList = JSON.parse(JSON.stringify(response));
       if (this.title === 'Medicare Star Rating') {
         this.title = 'Medicare & Retirement Average Star Rating';
-      } else if (this.title === 'Claims Appeals Overturned Rate') {
-        this.title = 'Claim Appeals Overturn Rate';
-      } else if (this.title === 'Top Claims Appeals Overturn Reasons') {
-        this.title = 'Top Claim Appeals Overturn Reasons';
-      } else if (this.title === 'Claims Appeals Overturned') {
-        this.title = 'Claim Appeals Overturned';
       }
       // if id not exist in metricId table/database then we chose by title i.e. is includes()
       if (this.glossaryList) {
@@ -145,6 +139,7 @@ export class GlossaryComponent implements OnInit {
   public glossaryByMetricId() {
     this.glossaryService.getGlossaryMetricID(this.MetricID).subscribe(
       response => {
+        this.glossarySelected = [];
         if ((response || {}).BusinessGlossary) {
           this.glossarySelected.push(response);
           this.hyperlink = '';
