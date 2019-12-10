@@ -1,6 +1,6 @@
-import { Component, OnInit, Input, HostListener, ViewChild, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, HostListener, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { Observable, Subscription } from 'rxjs';
+import { Observable } from 'rxjs';
 import { map, startWith, debounceTime } from 'rxjs/operators';
 import { GlossaryService } from './../../rest/glossary/glossary.service';
 import { catchError } from 'rxjs/operators';
@@ -13,8 +13,6 @@ import { environment } from '../../../environments/environment';
   styleUrls: ['./glossary.component.scss']
 })
 export class GlossaryComponent implements OnInit {
-  protected emitter = new EventEmitter<string>();
-  public obs: Subscription;
   glossaryList: any;
   glossarySelected = [];
   glossaryData: any[];
@@ -43,7 +41,6 @@ export class GlossaryComponent implements OnInit {
     if (this.MetricID) {
       this.glossaryByMetricId();
     }
-    this.obs = this.emitter.pipe(debounceTime(250)).subscribe(text => this.getBusinessGlossary(text));
     this.options = [];
     this.glossaryService.getBusinessGlossaryData().subscribe(response => {
       this.glossaryList = JSON.parse(JSON.stringify(response));
@@ -116,13 +113,6 @@ export class GlossaryComponent implements OnInit {
     });
   }
 
-  // this funtion will trigger on keyup for search function
-  public checkInput(val) {
-    if (val !== '') {
-      this.emitter.emit(val);
-    }
-  }
-
   // this function will fetch all the matched glossary items only corresponding to the characters entered by user
   public getBusinessGlossary(text) {
     // this.glossaryService.getGlossaryByMetricName(text).subscribe(
@@ -182,23 +172,25 @@ export class GlossaryComponent implements OnInit {
       this.glossarySelected = this.glossaryList;
     } else {
       this.allmetrics = false;
-      for (let i = 0; i < this.glossaryList.length; i++) {
-        if (this.glossaryList[i].BusinessGlossary.ProviderDashboardName.Metric === value) {
-          this.glossarySelected = [this.glossaryList[i]];
-          this.hyperlink = '';
-          if (this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.MetricID === 301) {
-            this.hyperlink = this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.Definition.substring(
-              this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.Definition.indexOf('http')
-            );
-            this.split = this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.Definition.substring(
-              this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.Definition.indexOf('Learn')
-            );
-            this.definition = this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.Definition.replace(
-              this.split,
-              ''
-            );
-            this.split = this.split.replace(this.hyperlink, '');
-            this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.Definition = this.definition;
+      if (this.glossarySelected.length === 0) {
+        for (let i = 0; i < this.glossaryList.length; i++) {
+          if (this.glossaryList[i].BusinessGlossary.ProviderDashboardName.Metric === value) {
+            this.glossarySelected = [this.glossaryList[i]];
+            this.hyperlink = '';
+            if (this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.MetricID === 301) {
+              this.hyperlink = this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.Definition.substring(
+                this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.Definition.indexOf('http')
+              );
+              this.split = this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.Definition.substring(
+                this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.Definition.indexOf('Learn')
+              );
+              this.definition = this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.Definition.replace(
+                this.split,
+                ''
+              );
+              this.split = this.split.replace(this.hyperlink, '');
+              this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.Definition = this.definition;
+            }
           }
         }
       }
