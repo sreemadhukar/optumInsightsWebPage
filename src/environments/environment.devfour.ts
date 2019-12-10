@@ -40,6 +40,7 @@ export const environment: any = {
     NPSSummary: 'kop-metrics/',
     KOPPriorAuthSummary: 'kop-priorauth-request/',
     KOPPriorAuthTATSummary: 'kop-priorauth-tat/',
+    KOPReimbursementClaims: 'kop-reimbursement-claims/',
     AppealsTrend: 'appeals-trend/',
     AdminSummaryTrends: 'admintrends/',
     AppealsFHIR: 'appeals/v2.0/',

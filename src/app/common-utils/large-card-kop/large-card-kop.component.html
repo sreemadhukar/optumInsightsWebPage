@@ -12,18 +12,18 @@
             <div *ngSwitchCase="'horizontalBar'" class="bars_container">
               <app-horizontal-charts
                 class="full-width-container"
-                *ngIf="item.quarters[0].title !== null"
+                *ngIf="item.quarters[0].title !== null || item.quarters[1].title !== null"
                 [data]="item.quarters"
               ></app-horizontal-charts>
-              <app-error-template *ngIf="item.quarters[0].title === null"></app-error-template>
+              <!--<app-error-template *ngIf="item.quarters[0].title === null"></app-error-template>-->
             </div>
             <div *ngSwitchCase="'verticalBar'" class="bars_container">
               <app-vertical-bar-charts
                 class="full-width-container"
-                *ngIf="item.quarters[0].title !== null"
+                *ngIf="item.quarters[0].title !== null || item.quarters[1].title !== null"
                 [data]="item.quarters"
               ></app-vertical-bar-charts>
-              <app-error-template *ngIf="item.quarters[0].title === null"></app-error-template>
+              <!--<app-error-template *ngIf="item.quarters[0].title === null"></app-error-template>-->
             </div>
             <div *ngSwitchCase="'hollowbox'" class="highlighted-boxes">
               <div class="hollow-box-container" *ngFor="let quarter of item.quarters">
