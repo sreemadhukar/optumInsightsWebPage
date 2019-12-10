@@ -172,29 +172,28 @@ export class GlossaryComponent implements OnInit {
       this.glossarySelected = this.glossaryList;
     } else {
       this.allmetrics = false;
-      if (this.glossarySelected.length === 0) {
-        for (let i = 0; i < this.glossaryList.length; i++) {
-          if (this.glossaryList[i].BusinessGlossary.ProviderDashboardName.Metric === value) {
-            this.glossarySelected = [this.glossaryList[i]];
-            this.hyperlink = '';
-            if (this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.MetricID === 301) {
-              this.hyperlink = this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.Definition.substring(
-                this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.Definition.indexOf('http')
-              );
-              this.split = this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.Definition.substring(
-                this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.Definition.indexOf('Learn')
-              );
-              this.definition = this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.Definition.replace(
-                this.split,
-                ''
-              );
-              this.split = this.split.replace(this.hyperlink, '');
-              this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.Definition = this.definition;
-            }
-          }
-        }
-      }
-    }
+      for (let i = 0; i < this.glossaryList.length; i++) {
+        if (this.glossaryList[i].BusinessGlossary.ProviderDashboardName.Metric === value) {
+          this.glossarySelected = [];
+          this.glossarySelected = [this.glossaryList[i]];
+          this.hyperlink = '';
+          if (this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.MetricID === 301) {
+            this.hyperlink = this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.Definition.substring(
+              this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.Definition.indexOf('http')
+            );
+            this.split = this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.Definition.substring(
+              this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.Definition.indexOf('Learn')
+            );
+            this.definition = this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.Definition.replace(
+              this.split,
+              ''
+            );
+            this.split = this.split.replace(this.hyperlink, '');
+            this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.Definition = this.definition;
+          } // end if condition for special case of metricID 301
+        } // end if condition for value selected
+      } // end for loop
+    } // end if else structure
   }
 
   public readmore(value) {
