@@ -26,7 +26,7 @@ export class PaymentIntegrityComponent implements OnInit {
   timePeriod: string;
   lob: string;
   taxID: Array<string>;
-  title = '';
+  title = 'Claims Payment Integrity';
   smartEditsReasonTitle = 'Smart Edits Returned Claims Top Reasons';
   smartEditsRepairedAndResubmittedTitle = 'Smart Edits Repaired & Resubmitted Response Time';
   MetricID = 'NA';
