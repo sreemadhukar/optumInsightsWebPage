@@ -1475,7 +1475,22 @@ export class GettingReimbursedSharedService {
             MetricID: this.MetricidService.MetricIDs.ClaimsNonPayments,
             data: [claimsNotPaid, claimsNotPaidRate]
           };
-          const appealsSubmitted = this.createAppealsDonuts(appealsData, lobFullData).appealsSubmitted;
+          let appealsSubmitted: any;
+          if (parameters[1].appealsProcessing === 'Closed Date') {
+            appealsSubmitted = {
+              category: 'app-card',
+              type: 'donutWithLabelBottom',
+              status: appealsData.status,
+              title: 'Claims Appeals Submitted',
+              MetricID: this.MetricidService.MetricIDs.ClaimsAppealsSubmitted,
+              data: null,
+              besideData: null,
+              bottomData: null,
+              timeperiod: null
+            };
+          } else {
+            appealsSubmitted = this.createAppealsDonuts(appealsData, lobFullData).appealsSubmitted;
+          }
           const appealsOverturned = this.createAppealsDonuts(appealsData, lobFullData).appealsOverturned;
           appeals = {
             id: 4,
