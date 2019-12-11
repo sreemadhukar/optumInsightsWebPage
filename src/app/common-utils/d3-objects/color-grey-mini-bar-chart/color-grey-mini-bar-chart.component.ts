@@ -38,7 +38,7 @@ export class ColorGreyMiniBarChartComponent implements OnInit, AfterViewInit {
     let heightAdjustor = 48;
     let marginTopAdjustor = 0;
     if (chartOptions.maxValue) {
-      barHeight = 48;
+      barHeight = 50;
       xScaleMax = chartOptions.maxValue;
       heightAdjustor = 32;
       marginTopAdjustor = -32;
