@@ -15,7 +15,7 @@
   },
   "private": true,
   "dependencies": {
-    "@angular-devkit/build-optimizer": "^0.803.20",
+    "@angular-devkit/build-angular": "~0.8.0",
     "@angular-redux/store": "^9.0.0-beta.0",
     "@angular/animations": "^6.1.0",
     "@angular/cdk": "7.3.6",
