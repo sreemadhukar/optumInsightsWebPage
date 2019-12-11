@@ -5,7 +5,20 @@
  * MAINTAIN ALPHABETIC ORDER
  */
 export const environment: any = {
-  apiProxyUrl: 'http://localhost:8080/',
+  /*
+  Pointing to QA1 environment
+  apiProxyUrl: 'https://gateway-stage-core.optum.com/api/devthree/pdr/uhci/v1/',
+  originUrl: 'https://pedui1-pedtst.ocp-ctc-core-nonprod.optum.com/',
+   */
+  /*
+  QA1 pointing to INT environment to interact with INT API
+  apiProxyUrl: 'https://gateway-stage-core.optum.com/api/int/pdr/uhci/v1/',
+  originUrl: 'https://pedintui-pedstg.ocp-ctc-dmz-stg.optum.com/',
+  */
+  // *In Local use dev3
+  // apiProxyUrl: 'https://nginx-pedtst.ocp-ctc-core-nonprod.optum.com/',
+  // originUrl: 'https://pedintui-pedstg.ocp-ctc-dmz-stg.optum.com/',
+  apiProxyUrl: 'https://gateway-stage-core.optum.com/api/devone/pdr/uhci/v1/',
   originUrl: 'https://pedui2-peddev.ocp-ctc-core-nonprod.optum.com/',
   apiUrls: {
     ExecutiveSummaryPath: 'providersystems/',

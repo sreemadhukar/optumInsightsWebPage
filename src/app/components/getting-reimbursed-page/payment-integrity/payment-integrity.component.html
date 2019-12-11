@@ -8,35 +8,37 @@
           {{ subTitle }}
         </div>
       </div>
-      <div class="breadcrumb-top-padding">
-        <!-- <app-filters-applied></app-filters-applied> -->
-        <div class="container--tabs">
-          <section class="row">
-            <ul class="nav nav-tabs">
-              <li
-                *ngFor="let item of tabOptions; let i = index"
-                (click)="matOptionClicked(i, $event)"
-                [ngClass]="{ active: previousSelectedTab === i }"
-                attr.id="{{ item.title }}"
-              >
-                <span>
-                  {{ item.title }}
-                  <div class="nav-values">
-                    {{ item.value1 }}
-                    <!--<span
-                      *ngIf="item.sdata != null"
-                      class="metrics"
-                      [ngClass]="item.sdata.sign === 'up' ? 'upgreen' : 'downred'"
-                    >
-                      {{ item.sdata.value }}
-                    </span>-->
-                  </div>
-                </span>
-              </li>
-            </ul>
-          </section>
-        </div>
-      </div>
+      <!--Please uncomment once api is ready-->
+
+      <!--<div class="breadcrumb-top-padding">-->
+      <!--&lt;!&ndash; <app-filters-applied></app-filters-applied> &ndash;&gt;-->
+      <!--<div class="container&#45;&#45;tabs">-->
+      <!--<section class="row">-->
+      <!--<ul class="nav nav-tabs">-->
+      <!--<li-->
+      <!--*ngFor="let item of tabOptions; let i = index"-->
+      <!--(click)="matOptionClicked(i, $event)"-->
+      <!--[ngClass]="{ active: previousSelectedTab === i }"-->
+      <!--attr.id="{{ item.title }}"-->
+      <!--&gt;-->
+      <!--<span>-->
+      <!--{{ item.title }}-->
+      <!--<div class="nav-values">-->
+      <!--{{ item.value1 }}-->
+      <!--&lt;!&ndash;<span-->
+      <!--*ngIf="item.sdata != null"-->
+      <!--class="metrics"-->
+      <!--[ngClass]="item.sdata.sign === 'up' ? 'upgreen' : 'downred'"-->
+      <!--&gt;-->
+      <!--{{ item.sdata.value }}-->
+      <!--</span>&ndash;&gt;-->
+      <!--</div>-->
+      <!--</span>-->
+      <!--</li>-->
+      <!--</ul>-->
+      <!--</section>-->
+      <!--</div>-->
+      <!--</div>-->
     </div>
     <!--<app-mock-data-warning-message class="warning-block"></app-mock-data-warning-message>-->
     <!--<div class="breadcrumb-top-padding filter-div" *ngIf="false">-->
@@ -89,6 +91,18 @@
           <app-med-bar-chart [chartOptions]="currentSummary[1].data"></app-med-bar-chart>
         </div>
       </div>
+      <div *ngIf="currentSummary[2] != null" class="pi-medical-record-coding-review-block card-inner">
+        <app-common-header
+          [title]="currentSummary[2].title"
+          class="full-display"
+          (helpIconClicked)="helpIconClick($event)"
+        ></app-common-header>
+        <div class="pi-bar-chart">
+          <app-med-bar-chart [chartOptions]="currentSummary[2].data"></app-med-bar-chart>
+          <div class="pi-bar-chart-trend-comparison">*Positive/negative trend comparison is Jun 2019 vs. Jul 2019</div>
+          <app-common-footer [timePeriod]="currentSummary[2].timeperiod" class="width-100"></app-common-footer>
+        </div>
+      </div>
     </div>
     <app-large-card [skeletonLarge]="loading" *ngIf="loading"></app-large-card>
     <app-error-card
@@ -96,8 +110,8 @@
       class="cards"
       [data]="cardData"
     ></app-error-card>
-
-    <div class="pi-medical-record-coding-review-block card-inner" *ngIf="piDataloaded">
+    <!-- commented for now as still under developement need to be removed once the api integration is done and completed -->
+    <!-- <div class="pi-medical-record-coding-review-block card-inner" *ngIf="piDataloaded">
       <app-common-header
         [title]="title"
         class="full-display"
@@ -126,7 +140,6 @@
         <div class="pull-left">
           <div class="medical-records-returned-block">
             <div class="mr-returned-bar-block">
-              <!--<p class="mr-returned-text">Medical Records Returned to UHC</p>-->
               <p class="mr-returned-text">Medical Records Received by UHC</p>
               <div
                 class="medical-records-returned-bar"
@@ -137,7 +150,6 @@
           </div>
           <div class="medical-records-not-returned-block">
             <div class="mr-not-returned-bar-block mr-returned-bar-block">
-              <!--<p class="mr-not-returned-text mr-returned-text">Medical Records Not Returned to UHC</p>-->
               <p class="mr-not-returned-text mr-returned-text">Medical Records Not Received by UHC</p>
               <div class="mr-not-returned-bar-text-block">
                 <div
@@ -164,7 +176,7 @@
       <div class="full-display">
         <app-common-footer [timePeriod]="cardData.timeperiod" class="width-100"></app-common-footer>
       </div>
-    </div>
+    </div> -->
 
     <!-- Smart Edits Claims Returned Card Starts here -->
     <div *ngIf="showSmartEditsClaimsReturned">
