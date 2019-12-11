@@ -69,10 +69,13 @@
                 </div>
               </div>
               <div class="bar-graph-inside-right-block" #barsParentBlock>
+                <app-color-grey-mini-bar-chart [chartOptions]="barchart"></app-color-grey-mini-bar-chart>
+                <!-- large bar
                 <div
                   class="bar-graph-inside-right-block-bars"
                   [style.width.px]="(barchart.numeric / barChartsArray[0].numeric) * barsParentBlock.offsetWidth"
                 ></div>
+                -->
               </div>
             </div>
             <div class="inner-block" *ngIf="section[i]">

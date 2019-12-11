@@ -32,11 +32,21 @@ export class ColorGreyMiniBarChartComponent implements OnInit, AfterViewInit {
       .selectAll('*')
       .remove();
 
-    console.log(chartOptions);
+    let xScaleMax = chartOptions.barSum;
+
+    let barHeight = 22;
+    let heightAdjustor = 48;
+    let marginTopAdjustor = 0;
+    if (chartOptions.maxValue) {
+      barHeight = 48;
+      xScaleMax = chartOptions.maxValue;
+      heightAdjustor = 32;
+      marginTopAdjustor = -32;
+    }
 
     const margin = { top: 25, right: 10, bottom: 5, left: 10 };
     const width = 500 - margin.left - margin.right;
-    const height = 48 * 1.5 - margin.top - margin.bottom;
+    const height = heightAdjustor * 1.5 - margin.top - margin.bottom;
 
     const chart = d3
       .select(this.renderChart)
@@ -44,29 +54,38 @@ export class ColorGreyMiniBarChartComponent implements OnInit, AfterViewInit {
       .attr('width', width + margin.left + margin.right)
       .attr('height', height + margin.top + margin.bottom)
       .append('g')
-      .attr('transform', 'translate(' + (margin.left + 6) + ',' + margin.top + ')');
+      .attr('transform', 'translate(' + (margin.left + 6) + ',' + (margin.top + marginTopAdjustor) + ')');
 
     const xScale = d3
       .scaleLinear()
-      .domain([0, chartOptions.barSum])
+      .domain([0, xScaleMax])
       .range([0, 510]);
 
-    const blueBarLength = xScale(chartOptions.valueNumeric);
+    let blueBarLength;
+    if (chartOptions.maxValue) {
+      blueBarLength = xScale(chartOptions.numeric);
+    } else {
+      blueBarLength = xScale(chartOptions.valueNumeric);
+    }
 
     chart
       .append('rect')
       .attr('x', 20)
       .attr('y', 5)
       .attr('width', blueBarLength)
-      .attr('height', 22)
+      .attr('height', barHeight)
       .attr('fill', '#3381ff');
 
-    chart
-      .append('rect')
-      .attr('x', 20 + blueBarLength)
-      .attr('y', 5)
-      .attr('width', xScale(chartOptions.barSum) - blueBarLength)
-      .attr('height', 22)
-      .attr('fill', '#cdcdcd');
+    // 517 * 48
+
+    if (chartOptions.barSum) {
+      chart
+        .append('rect')
+        .attr('x', 20 + blueBarLength)
+        .attr('y', 5)
+        .attr('width', xScale(chartOptions.barSum) - blueBarLength)
+        .attr('height', barHeight)
+        .attr('fill', '#cdcdcd');
+    }
   }
 }

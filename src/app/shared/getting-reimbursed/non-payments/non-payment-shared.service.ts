@@ -284,7 +284,6 @@ export class NonPaymentSharedService {
               delete dataWithSubCategory[j].DenialAmount;
             }
           }
-          console.log(topReasons);
           resolve(topReasons);
         },
         error => {
@@ -316,13 +315,21 @@ export class NonPaymentSharedService {
             if (tempArray.length > 5) {
               tempArray = tempArray.slice(0, 5); // Slice the top 5 arrays
             }
+            const topBarSum = [];
+            for (let i = 0; i < tempArray.length; i++) {
+              topBarSum.push(tempArray[i].DenialAmount);
+            }
+            const maxTopBar = Math.max(...topBarSum);
             for (let i = 0; i < tempArray.length; i++) {
               topReasons.push({
                 title: tempArray[i].Claimdenialcategorylevel1shortname,
                 value: '$' + this.common.nFormatter(tempArray[i].DenialAmount),
-                numeric: tempArray[i].DenialAmount
+                numeric: tempArray[i].DenialAmount,
+                maxValue: maxTopBar,
+                id: tempArray[i].Claimdenialcategorylevel1shortname.replace(/[^a-zA-Z0-9]/g, '') + 'topReasons'
               });
             }
+            console.log(topReasons);
             resolve(topReasons);
           } catch (Error) {
             resolve(null);
