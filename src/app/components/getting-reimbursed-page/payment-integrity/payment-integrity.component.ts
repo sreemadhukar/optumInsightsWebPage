@@ -26,7 +26,7 @@ export class PaymentIntegrityComponent implements OnInit {
   timePeriod: string;
   lob: string;
   taxID: Array<string>;
-  title = '';
+  title = 'Claims Payment Integrity';
   smartEditsReasonTitle = 'Smart Edits Returned Claims Top Reasons';
   smartEditsRepairedAndResubmittedTitle = 'Smart Edits Repaired & Resubmitted Response Time';
   MetricID = 'NA';
@@ -168,8 +168,8 @@ export class PaymentIntegrityComponent implements OnInit {
           type: 'large bar chart',
           cdata: 'paymentintegrity',
           graphValues: [69, 31],
-          barText: 'Accurate Codes',
-          hoverData: '699/760 Reviewed',
+          barText: 'Records Received',
+          hoverData: '699/760 Requested',
           color: ['#00B8CC', '#FFFFFF', '#E91B18'],
           gdata: ['app-card-structure', 'pi-large-bar-chart'],
           hover: true,
