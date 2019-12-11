@@ -1,10 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { AppealsSharedService } from '../../../shared/getting-reimbursed/appeals/appeals-shared.service';
 import { StorageService } from '../../../shared/storage-service.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { GlossaryExpandService } from 'src/app/shared/glossary-expand.service';
 import { MatIconRegistry, PageEvent } from '@angular/material';
-import { Router } from '@angular/router';
 import { FilterExpandService } from '../../../shared/filter-expand.service';
 import { CommonUtilsService } from '../../../shared/common-utils.service';
 import { SessionService } from 'src/app/shared/session.service';
@@ -12,6 +11,7 @@ import { NgRedux } from '@angular-redux/store';
 import { CURRENT_PAGE } from '../../../store/filter/actions';
 import { IAppState } from '../../../store/store';
 import { CreatePayloadService } from '../../../shared/uhci-filters/create-payload.service';
+import { REMOVE_FILTER } from '../../../store/filter/actions';
 
 @Component({
   selector: 'app-appeals',
@@ -19,6 +19,7 @@ import { CreatePayloadService } from '../../../shared/uhci-filters/create-payloa
   styleUrls: ['./appeals.component.scss']
 })
 export class AppealsComponent implements OnInit {
+  @Input() printStyle;
   summaryItems: any;
   pageTitle: String = '';
   currentSummary: Array<Object> = [{}];
@@ -30,7 +31,7 @@ export class AppealsComponent implements OnInit {
   overturn: any;
   overturnItem: Array<Object> = [{}];
   overturnReasonItem: any;
-  reason: any;
+  reason: any = [];
   title = 'Top Claims Appeals Overturn Reasons';
   MetricID = '102';
   loading: boolean;
@@ -38,6 +39,7 @@ export class AppealsComponent implements OnInit {
   reasonDataAvailable = true;
   appealsTAT: object;
   showAppealsTAT = false;
+  pagesubTitle: string;
   constructor(
     private appealsSharedService: AppealsSharedService,
     private iconRegistry: MatIconRegistry,
@@ -46,16 +48,18 @@ export class AppealsComponent implements OnInit {
     private glossaryExpandService: GlossaryExpandService,
     private filterExpandService: FilterExpandService,
     private session: SessionService,
-    private router: Router,
     private common: CommonUtilsService,
     private ngRedux: NgRedux<IAppState>,
     private createPayloadService: CreatePayloadService
   ) {
+    this.pagesubTitle = 'Getting Reimbursed - Appeals';
     // const filData = this.session.getFilChangeEmitter().subscribe(() => this.ngOnInit());
     const filData = this.session.getFilChangeEmitter().subscribe(() => this.common.urlResuseStrategy());
     this.pageTitle = 'Claims Appeals';
     // this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.ngOnInit());
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => {
+      this.createPayloadService.resetTinNumber('appealsPage');
+      this.ngRedux.dispatch({ type: REMOVE_FILTER, filterData: { taxId: true } });
       this.common.urlResuseStrategy();
     });
     iconRegistry.addSvgIcon(
@@ -72,6 +76,10 @@ export class AppealsComponent implements OnInit {
   }
 
   ngOnInit() {
+    if (this.printStyle) {
+      this.pageTitle = this.session.getHealthCareOrgName();
+    }
+
     this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'appealsPage' });
     this.timePeriod = this.common.getTimePeriodFilterValue(this.createPayloadService.payload.timePeriod);
     this.loading = true;

@@ -60,9 +60,10 @@
   }
 }
 
-.page-title {
+.page-sub-title {
   flex-basis: 100%;
   font-size: 36px;
+  font-family: 'UHCSans-Regular', Helvetica, Arial, sans-serif;
 }
 .rectangle-title {
   height: 50px;
@@ -138,6 +139,9 @@
   padding-left: 15px;
 }
 
+.print-calls-body.calls-body {
+  background-color: #fff;
+}
 .calls-body {
   overflow-x: hidden;
   overflow-y: hidden;
@@ -166,11 +170,38 @@
       color: $black-rock;
       margin-left: 10px;
 
-      .page-title {
+      .cust-width-blank {
+        width: 487px;
+        margin-left: 20px;
+      }
+      @media (max-width: 1300px) {
+        .cust-width-blank {
+          min-width: 437px;
+        }
+      }
+
+      .page-sub-title {
         flex-basis: 100%;
         font-size: 36px;
         @include padding(16px, 0, 20px, 0);
         line-height: 40px;
+      }
+      .print-page-title {
+        padding-top: 30px;
+        font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+        line-height: 30px;
+        font-size: 36px;
+      }
+      .print-page-subtitle {
+        font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+        line-height: 40px;
+        flex-basis: 100%;
+        font-size: 28px;
+        display: flex;
+        flex-direction: row;
+        position: relative;
+        justify-content: space-between;
+        width: 98.5%;
       }
     }
   }

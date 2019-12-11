@@ -30,7 +30,7 @@
 
     .cust-width-title {
       width: 961px;
-      font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+      font-family: 'UHCSans-Regular', Helvetica, Arial, sans-serif;
       color: $black-rock;
       margin-left: 10px;
 
@@ -39,6 +39,22 @@
         font-size: 36px;
         @include padding(16px, 0, 20px, 0);
         line-height: 40px;
+      }
+      .print-page-title {
+        padding-top: 30px;
+        font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+        line-height: 30px;
+      }
+      .print-page-subtitle {
+        font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+        line-height: 40px;
+        flex-basis: 100%;
+        font-size: 28px;
+        display: flex;
+        flex-direction: row;
+        position: relative;
+        justify-content: space-between;
+        width: 98.5%;
       }
     }
     .claims-paid-content {
@@ -76,8 +92,31 @@
         }
       }
     }
+    .print-claims-paid-content.claims-paid-content {
+      box-shadow: none;
+      width: 950px;
+      border: 1px solid #e9e9e9;
+    }
+  }
+  .non-payment-link {
+    font-size: 16px;
+    float: right;
+    color: $blue;
+    font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+    letter-spacing: 0.2px;
+    flex-basis: 100%;
+  }
+  .non-payment-link-div {
+    a :hover {
+      text-decoration: underline;
+    }
   }
   @media only screen and (max-width: 1024px) {
     @include padding(16px, 0, 16px, 0);
   }
+}
+
+.print-payments-body {
+  background-color: #fff;
+  box-shadow: none;
 }

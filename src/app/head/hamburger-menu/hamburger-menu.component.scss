@@ -20,7 +20,6 @@
   min-width: 1032px;
   margin: 0 auto;
 }
-
 .example-is-mobile .example-toolbar {
   /* Make sure the toolbar will stay on top of the content as it scrolls past. */
   z-index: 2;
@@ -80,7 +79,7 @@ app-header {
 }
 
 .health-system-representation-block {
-  @include padding(20px, 12px, 0px, 56px);
+  @include padding(20px, 7px, 27px, 56px);
   // @include padding(16px, 12px, 0px, 32px); before adding PI Sub Menu undo when toggled off
   border-bottom: 1px solid $gainsboro;
 }
@@ -112,7 +111,7 @@ app-header {
   letter-spacing: 0.2px;
   line-height: 18px;
   text-decoration: none;
-  margin: 12px 0 9px 0;
+  margin: 12px 0 0 0;
   cursor: pointer;
   display: inline-block;
 }
@@ -123,8 +122,8 @@ app-header {
 
 .view-Tax-Id-Summary-div {
   height: 18px;
-  width: 145px;
-  margin: 9px 0 18px 0;
+  // width: 223px;
+  margin: 9px 0 0 0;
 }
 
 .view-Tax-Id-Summary {
@@ -258,30 +257,43 @@ app-header {
   letter-spacing: 0.2px;
   line-height: 18px;
 }
-
+.active-link {
+  background: $darker-alice-blue;
+  color: $blue !important;
+}
 .mat-expansion-panel-header-description,
 .mat-expansion-panel-header-title {
   line-height: 24px !important;
 }
 
 .nav-sub-category-items:hover {
-  background: $darker-alice-blue !important;
-  color: $blue !important;
+  /*background: $darker-alice-blue !important;
+  color: $blue !important;*/
+  background: $pattens-blue !important;
+  color: $black-rock !important;
 }
 
+.mat-nav-list .mat-list-item:focus {
+  background: $darker-alice-blue !important;
+}
 .nav-no-child-category:hover,
 .mat-expansion-panel-header:hover,
-.mat-expanded,
 .signout-label:hover {
-  color: $blue !important;
+  /* color: $blue !important; */
+  color: $black-rock !important;
   .mat-expansion-panel-header-title {
-    color: $blue !important;
+    /* color: $blue !important; */
+    color: $black-rock !important;
   }
   .mat-expansion-indicator::after {
-    color: $blue !important;
+    /* color: $blue !important; */
+    color: $black-rock !important;
   }
 }
-
+.mat-expanded > .mat-expansion-panel-header {
+  color: $strom-grey !important;
+  background: $alice-blue !important;
+}
 .sub-menu-sub-header {
   .sub-menu-expansion-header {
     color: $strom-grey !important;
@@ -294,10 +306,12 @@ app-header {
 .child-nav-menu-expansion-panel {
   .mat-expanded {
     .sub-menu-expansion-header {
-      color: $blue !important;
+      /*color: $blue !important;*/
+      color: $strom-grey !important;
     }
     .mat-expansion-indicator::after {
-      color: $blue !important;
+      /*color: $blue !important;*/
+      color: $strom-grey !important;
     }
   }
 }
@@ -305,15 +319,14 @@ app-header {
 .nav-no-child-category:hover,
 .mat-expansion-panel-header:hover,
 .signout-label:hover {
-  color: $blue !important;
-  background: $darker-alice-blue !important;
+  /*color: $blue !important;
+  background: $darker-alice-blue !important;*/
+  background: $pattens-blue !important;
+  color: $black-rock !important;
   .mat-expansion-indicator::after {
-    color: $blue !important;
+    /* color: $blue !important; */
+    color: $black-rock !important;
   }
-}
-
-.mat-nav-list .mat-list-item:focus {
-  background: $darker-alice-blue !important;
 }
 
 .mat-expansion-panel {
@@ -335,11 +348,6 @@ app-header {
   height: 36px;
   margin-top: 24px;
   margin-left: 32px;
-}
-
-.active-link {
-  background: $darker-alice-blue;
-  color: $blue !important;
 }
 
 /************ ABOVE IS THE CSS RELATED TO ONLY LEFT HAMBURGER MENU *************/
@@ -432,7 +440,11 @@ app-header {
   position: absolute !important;
   z-index: 9999 !important;
 }
-
+.filter-div-scroll {
+  overflow-y: auto;
+  max-height: 100%;
+  width: 418px;
+}
 .sidemargin {
   margin: 0 24px 0 24px;
   height: inherit;
@@ -451,12 +463,34 @@ app-header {
 
 .sticky {
   position: fixed;
-  top: 0px;
+  top: 0;
+}
+
+.sticky-footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+  &-text {
+    color: $strom-grey;
+    font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.17px;
+    line-height: 18px;
+  }
 }
 
 .mat-drawer-inner-container {
   overflow: unset !important;
-  height: 97% !important;
+  height: 125vh !important;
+  overflow-x: hidden !important;
+}
+
+.kop-landing {
+  .mat-drawer-inner-container {
+    height: 100vh !important;
+  }
 }
 
 .simulate-external-view {
@@ -550,4 +584,8 @@ app-header {
 
 .mat-list-base .second-level-link {
   padding-left: 32px !important;
+}
+
+.copyright-text {
+  margin-right: 16px;
 }

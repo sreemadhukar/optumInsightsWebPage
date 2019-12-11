@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { GettingReimbursedSharedService } from '../../../shared/getting-reimbursed/getting-reimbursed-shared.service';
 import { StorageService } from '../../../shared/storage-service.service';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -11,6 +11,7 @@ import { CURRENT_PAGE } from '../../../store/filter/actions';
 import { NgRedux, select } from '@angular-redux/store';
 import { IAppState } from '../../../store/store';
 import { CreatePayloadService } from '../../../shared/uhci-filters/create-payload.service';
+import { REMOVE_FILTER } from '../../../store/filter/actions';
 
 @Component({
   selector: 'app-getting-reimbursed',
@@ -18,6 +19,7 @@ import { CreatePayloadService } from '../../../shared/uhci-filters/create-payloa
   styleUrls: ['./getting-reimbursed.component.scss']
 })
 export class GettingReimbursedComponent implements OnInit {
+  @Input() printStyle;
   timePeriod: string;
   lob: string;
   taxID: Array<string>;
@@ -40,6 +42,7 @@ export class GettingReimbursedComponent implements OnInit {
   detailClickUrl = '/GettingReimbursed';
   buttonNumber: any;
   @select() currentPage;
+  public filterFlag = false;
   constructor(
     private gettingReimbursedSharedService: GettingReimbursedSharedService,
     private checkStorage: StorageService,
@@ -56,7 +59,11 @@ export class GettingReimbursedComponent implements OnInit {
     this.pageTitle = 'Getting Reimbursed';
     this.currentTabTitle = '';
     this.tabOptionsTitle = ['Submission', 'Payments', 'Non-Payments', 'Appeals'];
-    this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.common.urlResuseStrategy());
+    this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => {
+      this.createPayloadService.resetTinNumber('gettingReimbursedSummary');
+      this.ngRedux.dispatch({ type: REMOVE_FILTER, filterData: { taxId: true } });
+      this.common.urlResuseStrategy();
+    });
     iconRegistry.addSvgIcon(
       'filter',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-filter_list-24px.svg')
@@ -69,7 +76,6 @@ export class GettingReimbursedComponent implements OnInit {
       this.ngOnInit();
     });
   }
-
   onDetailsButtonClick(i: number, event: any) {
     if (i === 0) {
       this.detailClickUrl = '/GettingReimbursed';
@@ -88,17 +94,25 @@ export class GettingReimbursedComponent implements OnInit {
   }
   matOptionClicked(i: number, event: any) {
     if (i === 0) {
+      this.gettingReimbursedSharedService.gettingReimbursedTabName = 'gettingReimbursedSummary';
       this.buttonName = '';
       this.buttonNumber = 0;
+      this.filterFlag = false;
     } else if (i === 1) {
-      this.buttonName = 'More Payment Metrics';
+      this.gettingReimbursedSharedService.gettingReimbursedTabName = 'gettingReimbursedPayments';
+      this.buttonName = 'Payments Details';
       this.buttonNumber = 1;
+      this.filterFlag = false;
     } else if (i === 2) {
-      this.buttonName = 'More Non-Payment Metrics';
+      this.gettingReimbursedSharedService.gettingReimbursedTabName = 'gettingReimbursedNonPayments';
+      this.buttonName = 'Non-Payments Details';
       this.buttonNumber = 2;
+      this.filterFlag = false;
     } else if (i === 3) {
-      this.buttonName = 'More Appeals Metrics';
+      this.gettingReimbursedSharedService.gettingReimbursedTabName = 'gettingReimbursedAppeals';
+      this.buttonName = 'Appeals Details';
       this.buttonNumber = 3;
+      this.filterFlag = true;
     }
     this.currentSummary = [];
     this.currentSummary = this.summaryItems[i].data;
@@ -118,12 +132,20 @@ export class GettingReimbursedComponent implements OnInit {
     }
     //    event.target.classList.add('active');
   }
+
   ngOnInit() {
+    this.gettingReimbursedSharedService.gettingReimbursedTabName = 'gettingReimbursedSummary';
+    this.pageTitle = 'Getting Reimbursed';
+
+    if (this.printStyle) {
+      this.pageTitle = this.session.getHealthCareOrgName();
+      this.pagesubTitle = 'Getting Reimbursed - Summary';
+    }
+
     this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'gettingReimbursedSummary' });
     this.timePeriod = this.common.getTimePeriodFilterValue(this.createPayloadService.payload.timePeriod);
     this.loading = true;
     this.mockCards = [{}];
-
     this.gettingReimbursedSharedService
       .getGettingReimbursedData(this.createPayloadService.payload)
       .then(completeData => {
@@ -159,6 +181,12 @@ export class GettingReimbursedComponent implements OnInit {
             };
           }
           this.tabOptions.push(temp);
+        }
+
+        if (this.printStyle) {
+          for (let i = 0; i < this.tabOptionsTitle.length; i++) {
+            this.summaryItems[i].title = this.tabOptionsTitle[i];
+          }
         }
       })
       .catch(reason => {

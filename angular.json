@@ -22,7 +22,12 @@
             "stylePreprocessorOptions": {
               "includePaths": ["src/scss"]
             },
-            "styles": [{ "input": "src/styles.scss" }, "src/theme.scss"],
+            "styles": [
+              {
+                "input": "src/styles.scss"
+              },
+              "src/theme.scss"
+            ],
             "scripts": ["src/modernizr.js"]
           },
           "configurations": {
@@ -33,15 +38,15 @@
                   "with": "src/environments/environment.prod.ts"
                 }
               ],
-              "optimization": true,
+              "optimization": false,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
+              "extractCss": false,
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
-              "buildOptimizer": true
+              "buildOptimizer": false
             },
             "stage": {
               "fileReplacements": [
@@ -50,15 +55,15 @@
                   "with": "src/environments/environment.stage.ts"
                 }
               ],
-              "optimization": true,
+              "optimization": false,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
+              "extractCss": false,
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
-              "buildOptimizer": true
+              "buildOptimizer": false
             },
             "demo": {
               "fileReplacements": [
@@ -67,15 +72,15 @@
                   "with": "src/environments/environment.demo.ts"
                 }
               ],
-              "optimization": true,
+              "optimization": false,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
+              "extractCss": false,
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
-              "buildOptimizer": true
+              "buildOptimizer": false
             },
             "externalprod": {
               "fileReplacements": [
@@ -84,15 +89,15 @@
                   "with": "src/environments/environment.externalprod.ts"
                 }
               ],
-              "optimization": true,
+              "optimization": false,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
+              "extractCss": false,
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
-              "buildOptimizer": true
+              "buildOptimizer": false
             },
             "externalstage": {
               "fileReplacements": [
@@ -101,15 +106,15 @@
                   "with": "src/environments/environment.externalstage.ts"
                 }
               ],
-              "optimization": true,
+              "optimization": false,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
+              "extractCss": false,
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
-              "buildOptimizer": true
+              "buildOptimizer": false
             },
             "devone": {
               "fileReplacements": [
@@ -203,15 +208,15 @@
                   "with": "src/environments/environment.externalint.ts"
                 }
               ],
-              "optimization": true,
+              "optimization": false,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
+              "extractCss": false,
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
-              "buildOptimizer": true
+              "buildOptimizer": false
             },
             "int": {
               "fileReplacements": [
@@ -220,15 +225,15 @@
                   "with": "src/environments/environment.int.ts"
                 }
               ],
-              "optimization": true,
+              "optimization": false,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
+              "extractCss": false,
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
-              "buildOptimizer": true
+              "buildOptimizer": false
             },
             "dev": {
               "fileReplacements": [
@@ -237,15 +242,15 @@
                   "with": "src/environments/environment.dev.ts"
                 }
               ],
-              "optimization": true,
+              "optimization": false,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
+              "extractCss": false,
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
-              "buildOptimizer": true
+              "buildOptimizer": false
             }
           }
         },
@@ -260,6 +265,9 @@
             },
             "stage": {
               "browserTarget": "webui2:build:stage"
+            },
+            "externalint": {
+              "browserTarget": "webui2:build:externalint"
             }
           }
         },

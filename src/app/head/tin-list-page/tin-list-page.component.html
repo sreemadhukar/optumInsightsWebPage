@@ -1,9 +1,9 @@
 <div class="tin-list-content">
   <div class="tin-list-head">
-    <a [routerLink]="['/OverviewPage']">
+    <a (click)="goback()" class="nav-menu-icons-back-button nav-menu-icons-back-button-div ">
       <mat-icon class="nav-menu-icons nav-menu-icons-back-button" svgIcon="backButton"></mat-icon>
     </a>
-    Tax ID Summary
+    Tax ID Number (TIN) Summary
   </div>
   <div class="tin-list-sub-head">
     <div class="tin-list-sub-head-provider-name">{{ providerName }}</div>
@@ -26,26 +26,57 @@
   </div>
   <div class="tin-list-body">
     <div class="tin-list-body-head">
-      <div class="tin-list-body-head-left">Showing {{ numberOfTins }} Tax ID results</div>
+      <div class="tin-list-body-head-left">Showing {{ numberofTinsShowing }} Tax ID results</div>
     </div>
     <div class="tin-list-body-table-div">
       <div class="tin-list-body-table-head">
         <div class="tin-list-body-table-head-left">
-          <div class="tin-list-body-table-head-sub-head">
+          <div class="tin-list-body-table-head-sub-head" (click)="sorta('Tin')">
             Tax ID Number
-            <mat-icon class="nav-menu-icons nav-menu-icons-down-arrow" svgIcon="downarrow"></mat-icon>
+            <mat-icon
+              class="nav-menu-icons nav-menu-icons-down-arrow"
+              *ngIf="sortFlagTin && sortFlag"
+              svgIcon="downarrow"
+            ></mat-icon>
+            <mat-icon
+              class="nav-menu-icons nav-menu-icons-down-arrow-reverse"
+              *ngIf="sortFlagTin && !sortFlag"
+              svgIcon="downarrow"
+            ></mat-icon>
           </div>
           <div class="tin-list-body-table-head-text-input-div">
-            <input type="text" class="tin-list-body-table-head-text-input" />
+            <input
+              type="text"
+              class="tin-list-body-table-head-text-input"
+              spellcheck="false"
+              (keyup)="applyFilter($event.target.value)"
+            />
             <div class="tin-list-body-table-head-text-input-icon">
               <mat-icon class="tin-list-icon-search" svgIcon="search"></mat-icon>
             </div>
           </div>
         </div>
         <div class="tin-list-body-table-head-right">
-          <div class="tin-list-body-table-head-sub-head">Tax ID Name</div>
+          <div class="tin-list-body-table-head-sub-head" (click)="sorta('Tinname')">
+            Tax ID Name
+            <mat-icon
+              class="nav-menu-icons nav-menu-icons-down-arrow"
+              *ngIf="!sortFlagTin && sortFlag"
+              svgIcon="downarrow"
+            ></mat-icon>
+            <mat-icon
+              class="nav-menu-icons nav-menu-icons-down-arrow-reverse"
+              *ngIf="!sortFlagTin && !sortFlag"
+              svgIcon="downarrow"
+            ></mat-icon>
+          </div>
           <div class="tin-list-body-table-head-text-input-div">
-            <input type="text" class="tin-list-body-table-head-text-input" />
+            <input
+              type="text"
+              class="tin-list-body-table-head-text-input"
+              spellcheck="false"
+              (keyup)="applyFilter($event.target.value)"
+            />
             <div class="tin-list-body-table-head-text-input-icon">
               <mat-icon class="tin-list-icon-search" svgIcon="search"></mat-icon>
             </div>
@@ -63,9 +94,9 @@
                 </table> -->
 
         <div>
-          <table mat-table [dataSource]="selectedtins">
+          <table mat-table matSort [dataSource]="selectedtins">
             <ng-container matColumnDef="Tin">
-              <mat-header-cell *matHeaderCellDef> No. </mat-header-cell>
+              <mat-header-cell *matHeaderCellDef mat-sort-header> No. </mat-header-cell>
               <mat-cell class="tin-list-body-table-div-body-tin-cell" *matCellDef="let element">
                 {{ element.Tin }}
               </mat-cell>
@@ -74,12 +105,12 @@
             <ng-container matColumnDef="Tinname">
               <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
               <mat-cell class="tin-list-body-table-div-body-tinname-cell" *matCellDef="let element">
-                {{ element.Tinname }}
+                {{ element.Tinname | lowercase }}
               </mat-cell>
             </ng-container>
             <mat-row *matRowDef="let row; columns: tinsDisplayedColumns"></mat-row>
           </table>
-          <mat-paginator class="tin-list" [pageSizeOptions]="[5, 10, 25, 100]"> </mat-paginator>
+          <mat-paginator class="tin-list" [pageSizeOptions]="[25, 50, 100]"> </mat-paginator>
         </div>
       </div>
     </div>

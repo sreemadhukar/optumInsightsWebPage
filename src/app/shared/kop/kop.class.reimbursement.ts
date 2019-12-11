@@ -55,7 +55,7 @@ export class Reimbursement {
         key: 'PriorAuthTurnTime',
         subKey: 'PriorAuthTurnTimeValue',
         units: 'hours',
-        caption: 'Avg. Prior Auth turnaround time',
+        caption: 'Avg. turnaround time',
         singleCard: this.singleCard,
         report: false,
         color: ['#3381FF', '#80B0FF'],
