@@ -23,6 +23,7 @@ export class PaymentIntegrityComponent implements OnInit {
   pageTitle: String = '';
   subTitle: String = '';
   currentTabTitle: String = '';
+  development = false;
   timePeriod: string;
   lob: string;
   taxID: Array<string>;
