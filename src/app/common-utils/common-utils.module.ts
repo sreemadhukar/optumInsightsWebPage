@@ -48,6 +48,7 @@ import { ErrorTemplateComponent } from './kop-cards/error-template/error-templat
 import { FiltersAppliedComponent } from './filters-applied/filters-applied.component';
 import { FiltersMultiSelectComponent } from './filters-multi-select/filters-multi-select.component';
 import { NoAccessErrorPageComponent } from './no-access-error-page/no-access-error-page.component';
+import { ColorGreyMiniBarChartComponent } from './d3-objects/color-grey-mini-bar-chart/color-grey-mini-bar-chart.component';
 
 @NgModule({
   imports: [
@@ -139,7 +140,8 @@ import { NoAccessErrorPageComponent } from './no-access-error-page/no-access-err
     ErrorTemplateComponent,
     FiltersAppliedComponent,
     FiltersMultiSelectComponent,
-    NoAccessErrorPageComponent
+    NoAccessErrorPageComponent,
+    ColorGreyMiniBarChartComponent
   ],
   entryComponents: [ProviderSearchComponent]
 })
