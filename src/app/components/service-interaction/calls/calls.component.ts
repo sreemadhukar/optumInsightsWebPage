@@ -2,7 +2,6 @@ import { Component, OnInit, Input } from '@angular/core';
 import { CallsSharedService } from '../../../shared/service-interaction/calls-shared.service';
 import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
-import { Router } from '@angular/router';
 import { FilterExpandService } from '../../../shared/filter-expand.service';
 import { CommonUtilsService } from '../../../shared/common-utils.service';
 import { SessionService } from 'src/app/shared/session.service';
@@ -22,6 +21,7 @@ export class CallsComponent implements OnInit {
   @Input() printStyle;
   callsItems: any;
   pageTitle: String = '';
+  pageSubTitle: String = '';
   timePeriod: string;
   lob: string;
   taxID: Array<string>;
@@ -29,12 +29,10 @@ export class CallsComponent implements OnInit {
   mockCards: any;
   subscription: any;
   callsDataAvailable = false;
-  printRoute: String;
   constructor(
     private checkStorage: StorageService,
     private callsServiceSrc: CallsSharedService,
     private filterExpandService: FilterExpandService,
-    private router: Router,
     private iconRegistry: MatIconRegistry,
     sanitizer: DomSanitizer,
     private session: SessionService,
@@ -42,9 +40,8 @@ export class CallsComponent implements OnInit {
     private ngRedux: NgRedux<IAppState>,
     private createPayloadService: CreatePayloadService
   ) {
-    this.printRoute = 'Calls';
     const filData = this.session.getFilChangeEmitter().subscribe(() => this.common.urlResuseStrategy());
-    this.pageTitle = 'Calls';
+    this.pageSubTitle = 'Issue Resolution - Calls';
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => {
       this.createPayloadService.resetTinNumber('callsPage');
       this.ngRedux.dispatch({ type: REMOVE_FILTER, filterData: { taxId: true } });
@@ -64,6 +61,9 @@ export class CallsComponent implements OnInit {
   }
 
   ngOnInit() {
+    if (this.printStyle) {
+      this.pageTitle = this.session.getHealthCareOrgName();
+    }
     this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'callsPage' });
     this.loading = true;
     this.mockCards = [{}, {}];
@@ -83,9 +83,5 @@ export class CallsComponent implements OnInit {
         this.loading = false;
         this.callsDataAvailable = true;
       });
-  }
-
-  printDownload(value) {
-    console.log('Calls Component', value);
   }
 }

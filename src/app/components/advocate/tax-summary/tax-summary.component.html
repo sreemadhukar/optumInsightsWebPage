@@ -16,7 +16,8 @@
               <input
                 type="text"
                 class="tax-summary-input"
-                (keyup)="searchTaxId($event.target.value)"
+                spellcheck="false"
+                (keyup)="searchTaxId($event.target.value, 'Tin')"
                 placeholder="Find Tax ID Number"
               />
             </div>
@@ -32,7 +33,8 @@
               <input
                 type="text"
                 class="tax-summary-name-input"
-                (keyup)="searchTaxId($event.target.value)"
+                spellcheck="false"
+                (keyup)="searchTaxId($event.target.value, 'TinName')"
                 placeholder="Find Tax ID Name"
               />
             </div>
@@ -45,7 +47,7 @@
           <th mat-header-cell *matHeaderCellDef>
             <span mat-sort-header>Tax ID Type</span>
             <div>
-              <select class="tax-summary-input" (change)="searchTaxId($event.target.value)">
+              <select class="tax-summary-input" (change)="searchTaxId($event.target.value, 'TaxIdType')">
                 <option>All</option>
                 <option *ngFor="let tin of data.TinTypes"> {{ tin | sliceString }} </option>
               </select>

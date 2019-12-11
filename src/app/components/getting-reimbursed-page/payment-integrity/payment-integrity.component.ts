@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { GlossaryExpandService } from 'src/app/shared/glossary-expand.service';
 import { StorageService } from '../../../shared/storage-service.service';
 import { GettingReimbursedSharedService } from 'src/app/shared/getting-reimbursed/getting-reimbursed-shared.service';
@@ -19,13 +19,15 @@ import { IAppState } from '../../../store/store';
   styleUrls: ['./payment-integrity.component.scss']
 })
 export class PaymentIntegrityComponent implements OnInit {
+  @Input() printStyle;
   pageTitle: String = '';
   subTitle: String = '';
   currentTabTitle: String = '';
+  development = false;
   timePeriod: string;
   lob: string;
   taxID: Array<string>;
-  title = '';
+  title = 'Claims Payment Integrity';
   smartEditsReasonTitle = 'Smart Edits Returned Claims Top Reasons';
   smartEditsRepairedAndResubmittedTitle = 'Smart Edits Repaired & Resubmitted Response Time';
   MetricID = 'NA';
@@ -159,6 +161,23 @@ export class PaymentIntegrityComponent implements OnInit {
           hover: true,
           targetValue: '2% above target'
         }
+      },
+      {
+        title: 'Medical Records Received vs. Awaiting Submission',
+        MetricID: this.MetricidService.MetricIDs.PaymentIntegrityCodeReviewResults,
+        data: {
+          type: 'large bar chart',
+          cdata: 'paymentintegrity',
+          graphValues: [69, 31],
+          barText: 'Records Received',
+          hoverData: '699/760 Requested',
+          color: ['#00B8CC', '#FFFFFF', '#E91B18'],
+          gdata: ['app-card-structure', 'pi-large-bar-chart'],
+          hover: true,
+          targetValue: '16% below target',
+          trendValue: '+1.2%'
+        },
+        timeperiod: this.session.filterObjValue.timeFrame
       }
     ];
     this.currentSummary = this.summaryItems;

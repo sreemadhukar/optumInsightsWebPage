@@ -10,7 +10,7 @@
       </div>
       <div class="breadcrumb-top-padding">
         <!-- <app-filters-applied></app-filters-applied> -->
-        <div class="container--tabs">
+        <div *ngIf="development" class="container--tabs">
           <section class="row">
             <ul class="nav nav-tabs">
               <li
@@ -24,9 +24,9 @@
                   <div class="nav-values">
                     {{ item.value1 }}
                     <!--<span
-                      *ngIf="item.sdata != null"
-                      class="metrics"
-                      [ngClass]="item.sdata.sign === 'up' ? 'upgreen' : 'downred'"
+                    *ngIf="item.sdata != null"
+                    class="metrics"
+                    [ngClass]="item.sdata.sign === 'up' ? 'upgreen' : 'downred'"
                     >
                       {{ item.sdata.value }}
                     </span>-->
@@ -77,7 +77,7 @@
     <!--</div>-->
 
     <div class="height1Separator"></div>
-    <div *ngIf="currentSummary != null" class="pi-cards">
+    <div *ngIf="currentSummary != null && development" class="pi-cards">
       <app-card [chartData]="currentSummary[0]" class="cards"></app-card>
       <div *ngIf="currentSummary[1] != null" class="app-card-structure">
         <app-common-header
@@ -89,6 +89,17 @@
           <app-med-bar-chart [chartOptions]="currentSummary[1].data"></app-med-bar-chart>
         </div>
       </div>
+      <div *ngIf="currentSummary[2] != null" class="pi-medical-record-coding-review-block card-inner">
+        <app-common-header
+          [title]="currentSummary[2].title"
+          class="full-display"
+          (helpIconClicked)="helpIconClick($event)"
+        ></app-common-header>
+        <div class="pi-bar-chart">
+          <app-med-bar-chart [chartOptions]="currentSummary[2].data"></app-med-bar-chart>
+          <div class="pi-bar-chart-trend-comparison">*Positive/negative trend comparison is Jun 2019 vs. Jul 2019</div>
+        </div>
+      </div>
     </div>
     <app-large-card [skeletonLarge]="loading" *ngIf="loading"></app-large-card>
     <app-error-card
@@ -96,7 +107,6 @@
       class="cards"
       [data]="cardData"
     ></app-error-card>
-
     <div class="pi-medical-record-coding-review-block card-inner" *ngIf="piDataloaded">
       <app-common-header
         [title]="title"
@@ -126,7 +136,6 @@
         <div class="pull-left">
           <div class="medical-records-returned-block">
             <div class="mr-returned-bar-block">
-              <!--<p class="mr-returned-text">Medical Records Returned to UHC</p>-->
               <p class="mr-returned-text">Medical Records Received by UHC</p>
               <div
                 class="medical-records-returned-bar"
@@ -137,7 +146,6 @@
           </div>
           <div class="medical-records-not-returned-block">
             <div class="mr-not-returned-bar-block mr-returned-bar-block">
-              <!--<p class="mr-not-returned-text mr-returned-text">Medical Records Not Returned to UHC</p>-->
               <p class="mr-not-returned-text mr-returned-text">Medical Records Not Received by UHC</p>
               <div class="mr-not-returned-bar-text-block">
                 <div
