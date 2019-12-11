@@ -266,7 +266,7 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
     );
     this.printRoute = '/GettingReimbursed/NonPayments/print-nonpayments';
     this.pageTitle = 'Claims Non-Payments*';
-    this.pageSubTitle = 'Getting Reimbursed - NonPayments';
+    this.pageSubTitle = 'Getting Reimbursed - Non-Payments';
     this.createPayloadService.getEvent().subscribe(value => {
       this.ngOnInit();
     });
