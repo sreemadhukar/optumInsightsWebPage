@@ -95,7 +95,8 @@ import { ColorGreyMiniBarChartComponent } from './d3-objects/color-grey-mini-bar
     MultiLineGraphComponent,
     FiltersAppliedComponent,
     MultiSelectComponent,
-    FiltersMultiSelectComponent
+    FiltersMultiSelectComponent,
+    ColorGreyMiniBarChartComponent
   ],
   declarations: [
     MiniTileComponent,

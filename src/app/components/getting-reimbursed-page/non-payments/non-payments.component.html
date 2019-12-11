@@ -94,6 +94,8 @@
                             <span class="top-5-value">{{ inside.value }}</span>
                           </div>
                         </div>
+                        <app-color-grey-mini-bar-chart [chartOptions]="inside"></app-color-grey-mini-bar-chart>
+                        <!-- where to add the bar
                         <div class="inside-bar-graph-right-block">
                           <div class="inside-grey-block-bars" #barsGreyBlock>
                             <div
@@ -109,6 +111,7 @@
                             ></div>
                           </div>
                         </div>
+                         where to add the bar -->
                       </div>
                     </div>
                   </div>
@@ -121,7 +124,6 @@
           <app-common-footer [timePeriod]="timePeriod" [title]="title" class="width-100"></app-common-footer>
         </div>
       </div>
-      
     </div>
 
     <div *ngIf="printStyle" class="height-separator2-print"></div>
@@ -146,7 +148,6 @@
         </div>
         <app-common-footer [timePeriod]="timePeriod" class="width-100 time-period-trend"></app-common-footer>
       </div>
-
     </div>
 
     <!-- Claims Non - Payment Trend Ends Here -->
