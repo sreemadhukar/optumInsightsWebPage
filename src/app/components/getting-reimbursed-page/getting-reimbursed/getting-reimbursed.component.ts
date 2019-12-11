@@ -20,7 +20,6 @@ import { REMOVE_FILTER } from '../../../store/filter/actions';
 })
 export class GettingReimbursedComponent implements OnInit {
   @Input() printStyle;
-  printRoute: string;
   timePeriod: string;
   lob: string;
   taxID: Array<string>;
@@ -57,7 +56,6 @@ export class GettingReimbursedComponent implements OnInit {
     private createPayloadService: CreatePayloadService
   ) {
     const filData = this.session.getFilChangeEmitter().subscribe(() => this.common.urlResuseStrategy());
-    this.printRoute = 'grSummary';
     this.pageTitle = 'Getting Reimbursed';
     this.currentTabTitle = '';
     this.tabOptionsTitle = ['Submission', 'Payments', 'Non-Payments', 'Appeals'];
@@ -102,17 +100,17 @@ export class GettingReimbursedComponent implements OnInit {
       this.filterFlag = false;
     } else if (i === 1) {
       this.gettingReimbursedSharedService.gettingReimbursedTabName = 'gettingReimbursedPayments';
-      this.buttonName = 'More Payment Metrics';
+      this.buttonName = 'Payments Details';
       this.buttonNumber = 1;
       this.filterFlag = false;
     } else if (i === 2) {
       this.gettingReimbursedSharedService.gettingReimbursedTabName = 'gettingReimbursedNonPayments';
-      this.buttonName = 'More Non-Payment Metrics';
+      this.buttonName = 'Non-Payments Details';
       this.buttonNumber = 2;
       this.filterFlag = false;
     } else if (i === 3) {
       this.gettingReimbursedSharedService.gettingReimbursedTabName = 'gettingReimbursedAppeals';
-      this.buttonName = 'More Appeals Metrics';
+      this.buttonName = 'Appeals Details';
       this.buttonNumber = 3;
       this.filterFlag = true;
     }
@@ -135,17 +133,11 @@ export class GettingReimbursedComponent implements OnInit {
     //    event.target.classList.add('active');
   }
 
-  printDownload(value) {
-    console.log('Getting Reimbused print emiiter', value);
-  }
-
   ngOnInit() {
     this.gettingReimbursedSharedService.gettingReimbursedTabName = 'gettingReimbursedSummary';
     this.pageTitle = 'Getting Reimbursed';
-    this.printRoute = '/GettingReimbursed/print-grSummary';
 
-    if (this.router.url.includes('print-')) {
-      this.printStyle = true;
+    if (this.printStyle) {
       this.pageTitle = this.session.getHealthCareOrgName();
       this.pagesubTitle = 'Getting Reimbursed - Summary';
     }
@@ -160,7 +152,6 @@ export class GettingReimbursedComponent implements OnInit {
         this.loading = false;
         this.tabOptions = [];
         this.summaryItems = JSON.parse(JSON.stringify(completeData));
-        console.log('gr Data', this.summaryItems);
         if (this.previousSelectedTab) {
           this.currentSummary = this.summaryItems[this.previousSelectedTab].data;
           this.currentTabTitle = this.summaryItems[this.previousSelectedTab].title;
