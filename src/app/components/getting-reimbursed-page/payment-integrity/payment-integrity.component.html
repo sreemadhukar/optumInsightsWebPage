@@ -10,7 +10,7 @@
       </div>
       <div class="breadcrumb-top-padding">
         <!-- <app-filters-applied></app-filters-applied> -->
-        <div class="container--tabs">
+        <div *ngIf="development" class="container--tabs">
           <section class="row">
             <ul class="nav nav-tabs">
               <li
@@ -77,7 +77,7 @@
     <!--</div>-->
 
     <div class="height1Separator"></div>
-    <div *ngIf="currentSummary == null" class="pi-cards">
+    <div *ngIf="currentSummary != null && development" class="pi-cards">
       <app-card [chartData]="currentSummary[0]" class="cards"></app-card>
       <div *ngIf="currentSummary[1] != null" class="app-card-structure">
         <app-common-header
