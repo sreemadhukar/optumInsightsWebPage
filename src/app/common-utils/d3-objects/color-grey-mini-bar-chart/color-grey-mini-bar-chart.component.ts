@@ -44,7 +44,7 @@ export class ColorGreyMiniBarChartComponent implements OnInit, AfterViewInit {
       .attr('width', width + margin.left + margin.right)
       .attr('height', height + margin.top + margin.bottom)
       .append('g')
-      .attr('transform', 'translate(' + (margin.left + 6) + ',' + (margin.top + 5) + ')');
+      .attr('transform', 'translate(' + (margin.left + 6) + ',' + margin.top + ')');
 
     const xScale = d3
       .scaleLinear()
