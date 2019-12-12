@@ -479,7 +479,7 @@ export class LineGraphComponent implements OnInit {
         const topMar = yScale(d.y) + 39 + 'px';
         if (d3.event.layerX + 213 < width + margin.left + margin.right) {
           tooltipVar
-            .html(tooltipText(d, this.yearComparison, axisPrefix))
+            .text(tooltipText(d, this.yearComparison, axisPrefix))
             .classed('hidden', false)
             .classed('tooltipClass', true)
             .classed('tooltipClassLeft', false)
@@ -487,7 +487,7 @@ export class LineGraphComponent implements OnInit {
             .style('top', topMar);
         } else {
           tooltipVar
-            .html(tooltipText(d, this.yearComparison, axisPrefix))
+            .text(tooltipText(d, this.yearComparison, axisPrefix))
             .classed('hidden', false)
             .classed('tooltipClass', false)
             .classed('tooltipClassLeft', true)
