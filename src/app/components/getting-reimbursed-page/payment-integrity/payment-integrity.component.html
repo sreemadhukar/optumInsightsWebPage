@@ -10,7 +10,7 @@
       </div>
       <div class="breadcrumb-top-padding">
         <!-- <app-filters-applied></app-filters-applied> -->
-        <div class="container--tabs">
+        <div *ngIf="development" class="container--tabs">
           <section class="row">
             <ul class="nav nav-tabs">
               <li
@@ -77,7 +77,7 @@
     <!--</div>-->
 
     <div class="height1Separator"></div>
-    <div *ngIf="currentSummary != null" class="pi-cards">
+    <div *ngIf="currentSummary != null && development" class="pi-cards">
       <app-card [chartData]="currentSummary[0]" class="cards"></app-card>
       <div *ngIf="currentSummary[1] != null" class="app-card-structure">
         <app-common-header
@@ -98,7 +98,6 @@
         <div class="pi-bar-chart">
           <app-med-bar-chart [chartOptions]="currentSummary[2].data"></app-med-bar-chart>
           <div class="pi-bar-chart-trend-comparison">*Positive/negative trend comparison is Jun 2019 vs. Jul 2019</div>
-          <app-common-footer [timePeriod]="currentSummary[2].timeperiod" class="width-100"></app-common-footer>
         </div>
       </div>
     </div>
@@ -108,8 +107,7 @@
       class="cards"
       [data]="cardData"
     ></app-error-card>
-    <!-- commented for now as still under developement need to be removed once the api integration is done and completed -->
-    <!-- <div class="pi-medical-record-coding-review-block card-inner" *ngIf="piDataloaded">
+    <div class="pi-medical-record-coding-review-block card-inner" *ngIf="piDataloaded">
       <app-common-header
         [title]="title"
         class="full-display"
@@ -174,7 +172,7 @@
       <div class="full-display">
         <app-common-footer [timePeriod]="cardData.timeperiod" class="width-100"></app-common-footer>
       </div>
-    </div> -->
+    </div>
 
     <!-- Smart Edits Claims Returned Card Starts here -->
     <div *ngIf="showSmartEditsClaimsReturned">
