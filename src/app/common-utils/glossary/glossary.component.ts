@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, HostListener, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { map, startWith } from 'rxjs/operators';
+import { map, startWith, debounceTime } from 'rxjs/operators';
 import { GlossaryService } from './../../rest/glossary/glossary.service';
 import { catchError } from 'rxjs/operators';
 import { MatInput } from '@angular/material';
@@ -36,50 +36,16 @@ export class GlossaryComponent implements OnInit {
   @Input() MetricID; // which we recieve from corresponsding card shared files
   constructor(private glossaryService: GlossaryService) {}
 
-  glossaryByMetricId() {
-    this.glossaryService.getGlossaryMetricID(this.MetricID).subscribe(
-      response => {
-        if ((response || {}).BusinessGlossary) {
-          console.log('Metric ID', response);
-          this.glossarySelected.push(response);
-          this.hyperlink = '';
-          if (this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.MetricID === 301) {
-            this.hyperlink = this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.Definition.substring(
-              this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.Definition.indexOf('http')
-            );
-            this.split = this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.Definition.substring(
-              this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.Definition.indexOf('Learn')
-            );
-            this.definition = this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.Definition.replace(
-              this.split,
-              ''
-            );
-            this.split = this.split.replace(this.hyperlink, '');
-            this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.Definition = this.definition;
-          }
-        }
-      },
-      err => {
-        console.log('Business Glossary Metric ID Error', err);
-      }
-    );
-  }
   ngOnInit() {
+    this.glossarySelected = [];
     if (this.MetricID) {
       this.glossaryByMetricId();
     }
     this.options = [];
-    this.glossarySelected = [];
     this.glossaryService.getBusinessGlossaryData().subscribe(response => {
       this.glossaryList = JSON.parse(JSON.stringify(response));
       if (this.title === 'Medicare Star Rating') {
         this.title = 'Medicare & Retirement Average Star Rating';
-      } else if (this.title === 'Claims Appeals Overturned Rate') {
-        this.title = 'Claim Appeals Overturn Rate';
-      } else if (this.title === 'Top Claims Appeals Overturn Reasons') {
-        this.title = 'Top Claim Appeals Overturn Reasons';
-      } else if (this.title === 'Claims Appeals Overturned') {
-        this.title = 'Claim Appeals Overturned';
       }
       // if id not exist in metricId table/database then we chose by title i.e. is includes()
       if (this.glossaryList) {
@@ -90,7 +56,9 @@ export class GlossaryComponent implements OnInit {
                 this.title.toLowerCase()
               )
             ) {
+              this.glossarySelected = [];
               this.glossarySelected.push(this.glossaryList[i]);
+              break;
             }
           }
         }
@@ -147,6 +115,48 @@ export class GlossaryComponent implements OnInit {
     });
   }
 
+  // this function will fetch all the matched glossary items only corresponding to the characters entered by user
+  public getBusinessGlossary(text) {
+    // this.glossaryService.getGlossaryByMetricName(text).subscribe(
+    //   response => {
+    //     console.log('Business Glossary metric name', response);
+    //   },
+    //   err => {
+    //     console.log('Error in getBusinessGlossary', err);
+    //   }
+    // );
+  }
+
+  // this function will fetch the glossary item corresponding to the card
+  public glossaryByMetricId() {
+    this.glossaryService.getGlossaryMetricID(this.MetricID).subscribe(
+      response => {
+        this.glossarySelected = [];
+        if ((response || {}).BusinessGlossary) {
+          this.glossarySelected.push(response);
+          this.hyperlink = '';
+          if (this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.MetricID === 301) {
+            this.hyperlink = this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.Definition.substring(
+              this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.Definition.indexOf('http')
+            );
+            this.split = this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.Definition.substring(
+              this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.Definition.indexOf('Learn')
+            );
+            this.definition = this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.Definition.replace(
+              this.split,
+              ''
+            );
+            this.split = this.split.replace(this.hyperlink, '');
+            this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.Definition = this.definition;
+          }
+        }
+      },
+      err => {
+        console.log('Business Glossary Metric ID Error', err);
+      }
+    );
+  }
+
   public filteredData(value) {
     if (value === 'All') {
       for (let i = 0; i < this.glossaryList.length; i++) {
@@ -166,6 +176,7 @@ export class GlossaryComponent implements OnInit {
       this.allmetrics = false;
       for (let i = 0; i < this.glossaryList.length; i++) {
         if (this.glossaryList[i].BusinessGlossary.ProviderDashboardName.Metric === value) {
+          this.glossarySelected = [];
           this.glossarySelected = [this.glossaryList[i]];
           this.hyperlink = '';
           if (this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.MetricID === 301) {
@@ -182,8 +193,9 @@ export class GlossaryComponent implements OnInit {
             this.split = this.split.replace(this.hyperlink, '');
             this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.Definition = this.definition;
           }
-        }
-      }
+          break;
+        } // end if structure for glossaryList
+      } // end for loop
     }
   }
 
