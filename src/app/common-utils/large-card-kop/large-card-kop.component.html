@@ -49,20 +49,12 @@
         </div>
         <ng-template #singleCardTemplate>
           <div *ngIf="!item.showMetricProgressIcon; else showProgressIcon">
-            <div
-              *ngIf="item.quarters[0]?.title != null && item.caption !== 'Avg. Prior Auth turnaround time'"
-              class="highlighted-value"
-            >
+            <div *ngIf="item.quarters[0]?.title != null" class="highlighted-value">
               {{ item.quarters[0]?.title | currencyFormatter }}
             </div>
-            <div
-              *ngIf="item.quarters[0]?.title == null && item.caption !== 'Avg. Prior Auth turnaround time'"
-              class="highlighted-value"
-            >
+            <div *ngIf="item.quarters[0]?.title == null" class="highlighted-value">
               <app-error-template></app-error-template>
             </div>
-            <!--Please remove once pdp data issue is resolved-->
-            <div *ngIf="item.caption === 'Avg. Prior Auth turnaround time'" class="care-delivery-height"></div>
           </div>
         </ng-template>
         <div>
