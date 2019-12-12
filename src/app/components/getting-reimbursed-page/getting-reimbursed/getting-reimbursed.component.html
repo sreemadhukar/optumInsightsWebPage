@@ -4,7 +4,7 @@
     <div class="cust-width-title">
       <app-breadcrumbs></app-breadcrumbs>
       <div class="cards cust-width-blank">
-        <app-print *ngIf="!printStyle" [route]="printRoute" (printClick)="printDownload($event)"> </app-print>
+        <app-print> </app-print>
       </div>
       <div class="page-title" [ngClass]="{ 'print-page-title': printStyle === true }">{{ pageTitle }}</div>
       <div class="page-subtitle" [ngClass]="{ 'print-page-subtitle': printStyle === true }">{{ pagesubTitle }}</div>
@@ -63,6 +63,9 @@
               <app-error-card *ngIf="item.status != null" class="cards" [data]="item"></app-error-card>
             </div>
           </div>
+          <div *ngFor="let data of mockCards; let i = index">
+            <app-card class="cards" [skeleton]="loading" *ngIf="loading && !printStyle"> </app-card>
+          </div>
         </div>
 
         <!-- start print style -->
@@ -81,11 +84,8 @@
               </div>
             </div>
           </div>
-          <!-- end Print Style-->
-          <div *ngFor="let data of mockCards; let i = index">
-            <app-card class="cards" [skeleton]="loading" *ngIf="loading"> </app-card>
-          </div>
         </div>
+        <!-- end Print Style-->
       </div>
     </div>
     <app-clarify-claims-message *ngIf="showDOSmessage"></app-clarify-claims-message>
