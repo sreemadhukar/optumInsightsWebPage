@@ -445,7 +445,7 @@ export class LineGraphComponent implements OnInit {
         return 'rect-id-' + d.x;
       })
       .attr('y', 0)
-      .on('mouseenter', d => {
+      .on('mouseover', d => {
         const RectBar = chart.selectAll('#rect-id-' + d.x);
         RectBar.transition()
           .duration(200)
