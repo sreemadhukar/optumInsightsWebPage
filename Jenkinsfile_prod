@@ -43,16 +43,28 @@ pipeline {
                 label 'docker-nodejs-slave'
             }
             steps {
-                glDockerImageBuildPush tag: "$tagBase/ui_prd2",
+                glDockerImageBuildPush tag: "$tagBase/ui_prd",
                    dockerHost: 'docker.repo1.uhc.com',
                    dockerCredentialsId: "$env.DOCKER_CREDENTIALS_ID",
                    extraBuildOptions: "--build-arg env_var=externalprod"
-                   
-                glDockerImageTag sourceTag: "$tagBase/ui_prd2:latest",
-                         destTag: "$tagBase/ui_prd2:${env.BUILD_NUMBER}"
-                         
-                glDockerImagePush dockerCredentialsId: "${env.DOCKER_CREDENTIALS_ID}", 
-                     tag:"$tagBase/ui_prd2:${env.BUILD_NUMBER}",
+
+                glDockerImageBuildPush tag: "$tagBase/ui_prd_internal:pedui2",
+                   dockerHost: 'docker.repo1.uhc.com',
+                   dockerCredentialsId: "$env.DOCKER_CREDENTIALS_ID",
+                   extraBuildOptions: "--build-arg env_var=prod"
+
+                glDockerImageTag sourceTag: "$tagBase/ui_prd:latest",
+                         destTag: "$tagBase/ui_prd:${env.BUILD_NUMBER}"
+
+                glDockerImagePush dockerCredentialsId: "${env.DOCKER_CREDENTIALS_ID}",
+                     tag:"$tagBase/ui_prd:${env.BUILD_NUMBER}",
+                     dockerHost: 'docker.repo1.uhc.com'
+
+                glDockerImageTag sourceTag: "$tagBase/ui_prd_internal:pedui2",
+                         destTag: "$tagBase/ui_prd_internal:${env.BUILD_NUMBER}"
+
+                glDockerImagePush dockerCredentialsId: "${env.DOCKER_CREDENTIALS_ID}",
+                     tag:"$tagBase/ui_prd_internal:${env.BUILD_NUMBER}",
                      dockerHost: 'docker.repo1.uhc.com'
             }
         }
@@ -65,8 +77,8 @@ pipeline {
                 glOpenshiftDeploy credentials: "$env.OPENSHIFT_CREDENTIALS_ID",
                         ocpUrl: "https://ocp-elr-dmz.optum.com",
                         project: 'pedprd',
-                        serviceName: 'pedui',
-                        dockerImage: '$tagBase/ui_prd2:latest',
+                        serviceName: 'peduiuhc',
+                        dockerImage: '$tagBase/ui_prd:latest',
                         port: '8000'
 
             }
@@ -80,8 +92,13 @@ pipeline {
                 glOpenshiftDeploy credentials: "$env.OPENSHIFT_CREDENTIALS_ID",
                         ocpUrl: "https://ocp-ctc-dmz.optum.com",
                         project: 'pedprddr',
-                        serviceName: 'pedui',
-                        dockerImage: '$tagBase/ui_prd2:latest',
+                        serviceName: 'peduiuhc',
+                        dockerImage: '$tagBase/ui_prd:latest',
+                glOpenshiftDeploy credentials: "$env.OPENSHIFT_CREDENTIALS_ID",	
+                        ocpUrl: "https://ocp-ctc-core.optum.com",	
+                        project: 'ped-internal',	
+                        serviceName: 'pedui2',	
+                        dockerImage: '$tagBase/ui_prd_internal:pedui2',
                         port: '8000'
 
             }
