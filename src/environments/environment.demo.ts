@@ -8,8 +8,8 @@ export const environment: any = {
   originUrl: '/',
   apiUrls: {
     ExecutiveSummaryPath: 'providersystems/',
-    ProviderSystemClaimsAgg: 'agg-claims/search/',
-    ProviderSystemClaimsSummary: 'claims/search/',
+    ProviderSystemClaimsAgg: 'agg-claims/search/v2.0/',
+    ProviderSystemClaimsSummary: 'claim-metrics/',
     ProviderSystemPriorAuth: 'PriorAuthSummary/',
     // SsoTokenPath: 'myinsightOptumIdHandshake/v2.0',
     SsoTokenPath: 'myinsightOptumIdHandshake',
@@ -22,7 +22,7 @@ export const environment: any = {
     linkLoginPage: 'https://provider.linkhealth.com',
     // SsoLogoutUrl: 'https://provider.linkhealth.com/api/link/session/signout&redirect=https://provider.linkhealth.com',
     SsoLogoutUrl:
-      'https://api-stage.linkhealth.com/session/signout?redirect=https://provider-stage.linkhealth.com/' +
+      'https://api-stage.linkhealth.com/session/signout?redirect=https://provider.linkhealth.com/' +
       'content/odin/en/provider-dashboard/public/signout.html?logOut=true',
     ProvTinList: 'provider-tins/',
     LayerSevenPath: 'myinsightLayerSevenHandshake',
@@ -35,6 +35,7 @@ export const environment: any = {
     BusinessGlossary: 'business-glossaries/',
     PriorAuth: 'prior-authorizations/search/',
     RepeatContact: 'repeat-contacts/search/',
+    Calls: 'issue-resolutions/',
     PaymentIntegrity: 'pi-metrics/',
     NonPayment: 'claim-metrics/',
     CallsTrend: 'provider-calls/',
