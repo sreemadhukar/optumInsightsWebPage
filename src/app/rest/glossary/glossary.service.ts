@@ -31,4 +31,39 @@ export class GlossaryService {
       );
     }
   }
+
+  public getGlossaryMetricID(metricID) {
+    if (JSON.parse(sessionStorage.getItem('currentUser'))) {
+      this.currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
+      this.authBearer = this.currentUser[0].PedAccessToken;
+      const myHeader = new HttpHeaders({
+        Authorization: 'Bearer ' + this.authBearer,
+        Accept: '*/*',
+        'Content-Type': 'application/json'
+      });
+      const params = new HttpParams();
+      const url = this.APP_URL + 'business-glossaries' + '?metricId=' + metricID;
+      return this.http.get(url, { params, headers: myHeader }).pipe(
+        map(res => JSON.parse(JSON.stringify(res[0]))),
+        catchError(err => of(JSON.parse(JSON.stringify(err))))
+      );
+    }
+  }
+  public getGlossaryByMetricName(metricName) {
+    if (JSON.parse(sessionStorage.getItem('currentUser'))) {
+      this.currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
+      this.authBearer = this.currentUser[0].PedAccessToken;
+      const myHeader = new HttpHeaders({
+        Authorization: 'Bearer ' + this.authBearer,
+        Accept: '*/*',
+        'Content-Type': 'application/json'
+      });
+      const params = new HttpParams();
+      const url = this.APP_URL + 'business-glossaries' + '?metric=' + metricName;
+      return this.http.get(url, { params, headers: myHeader }).pipe(
+        map(res => JSON.parse(JSON.stringify(res))),
+        catchError(err => of(JSON.parse(JSON.stringify(err))))
+      );
+    }
+  }
 }

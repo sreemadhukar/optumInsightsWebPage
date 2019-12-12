@@ -32,13 +32,18 @@ export class CareDelivery {
         } else {
           const value = Care_Delivery[key][subKey] ? Math.round(Care_Delivery[key][subKey]) : null;
           if (this.singleCard && value !== null) {
-            chartDataElement.quarters.push({ title: value + '' + chartDataElement.units });
+            if (chartDataElement.units === 'K') {
+              chartDataElement.quarters.push({ title: value });
+            } else {
+              chartDataElement.quarters.push({ title: value + '' + chartDataElement.units });
+            }
           } else {
             chartDataElement.report = false;
             chartDataElement.quarters.push({
               title: value,
               currentQuarter: true,
               id: index,
+              units: chartDataElement.units,
               section: this.section
             });
           }
@@ -52,9 +57,9 @@ export class CareDelivery {
       {
         quarters: [],
         cardType: 'horizontalBar',
-        key: 'PriorAuthTurnTime',
-        subKey: 'PriorAuthTurnTimeValue',
-        units: 'hours',
+        key: 'PriorAuthTAT',
+        subKey: 'PriorAuthTATValue',
+        units: ' days',
         caption: 'Avg. Prior Auth turnaround time',
         singleCard: this.singleCard,
         report: false,
@@ -62,7 +67,8 @@ export class CareDelivery {
         sdata: {
           sign: 'up',
           data: 'Positive Trending'
-        }
+        },
+        metricType: 'priorauthtat'
       },
       {
         quarters: [],
@@ -77,7 +83,8 @@ export class CareDelivery {
         sdata: {
           sign: 'up',
           data: 'Positive Trending'
-        }
+        },
+        metricType: 'priorauth'
       },
       {
         quarters: [],
@@ -91,7 +98,8 @@ export class CareDelivery {
         sdata: {
           sign: 'up',
           data: 'Positive Trending'
-        }
+        },
+        metricType: 'kop'
       },
       {
         quarters: [],
@@ -107,7 +115,8 @@ export class CareDelivery {
         sdata: {
           sign: 'up',
           data: 'Positive Trending'
-        }
+        },
+        metricType: 'kop'
       }
     ];
     this.data.chartData = chartData;

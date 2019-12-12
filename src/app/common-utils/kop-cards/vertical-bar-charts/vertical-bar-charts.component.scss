@@ -1,5 +1,32 @@
-p {
+@import '~src/scss/variables.scss';
+
+.vertical-bar-box {
   font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
-  font-size: 25px;
-  margin: 30px 77px 30px;
+  padding: 0 12px;
+  height: 80px;
+}
+.vertical-bar {
+  width: 72px;
+  display: inline-block;
+  position: relative;
+  box-sizing: border-box;
+  border-radius: 2px 2px 0 0;
+}
+
+.bar-value {
+  top: -30px;
+  text-align: center;
+  width: 100%;
+  font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  position: absolute;
+}
+
+.bar1 {
+  margin-right: 8px;
+  background-color: $dodger-blue;
+}
+
+.bar2 {
+  background-color: $iris-blue;
 }

@@ -17,6 +17,7 @@ import {
   OnDestroy
 } from '@angular/core';
 import { trigger, state, style, animate, transition } from '@angular/animations';
+import { formatDate } from '@angular/common';
 import { MatExpansionPanel } from '@angular/material';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { MatIconRegistry } from '@angular/material';
@@ -57,7 +58,7 @@ import { SessionService } from '../../shared/session.service';
 export class HeaderComponent implements OnInit, OnDestroy {
   @Input() isDarkTheme: Observable<boolean>;
   @Input() button: boolean;
-  @Input() isKop: boolean;
+  public isKop: boolean;
   @Output() hamburgerDisplay = new EventEmitter<boolean>();
   public sideNavFlag = false;
   public state: any;
@@ -69,6 +70,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
   public healthSystemName: string;
   public checkAdv;
   public checkPro;
+  printStyle: boolean;
+  printRoute: string;
+  today = new Date();
+  todaysDataTime = '';
+
   constructor(
     private breakpointObserver: BreakpointObserver,
     public el: ElementRef,
@@ -82,6 +88,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
     private eventEmitter: EventEmitterService,
     private sessionService: SessionService
   ) {
+    // to fetch the date and time
+    const d = new Date();
+    this.todaysDataTime = d.toLocaleString().replace(',', '');
+
     this.checkAdv = this.sessionService.checkAdvocateRole();
     this.checkPro = this.sessionService.checkProjectRole();
     // this.mobileQuery = this.breakpointObserver.isMatched('(max-width: 1024px)');
@@ -124,6 +134,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
     );
 
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.ngOnInit());
+
+    router.events.subscribe(event => {
+      if (event instanceof NavigationStart) {
+        this.printStyle = event.url.includes('print-');
+      }
+    });
   }
 
   advocateUserClick() {
@@ -145,6 +161,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.healthSystemName = this.sessionService.getHealthCareOrgName();
     this.isDarkTheme = this.themeService.isDarkTheme;
     this.eventEmitter.getEvent().subscribe(val => {
+      this.isKop = val.value;
       if (JSON.parse(sessionStorage.getItem('loggedUser'))) {
         const userInfo = JSON.parse(sessionStorage.getItem('loggedUser'));
         this.username = userInfo.FirstName;

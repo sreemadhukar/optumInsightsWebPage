@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute, NavigationEnd, Params, PRIMARY_OUTLET } from '@angular/router';
+import { Router, ActivatedRoute, NavigationEnd, Params, PRIMARY_OUTLET, NavigationStart } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { MatDialog, MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -19,6 +19,7 @@ export class BreadcrumbsComponent implements OnInit {
   public breadcrumbs: IBreadcrumb[];
   public breadcrumbLength: number;
   public checkAdvocate: any;
+  public printStyle;
   constructor(
     private activatedRoute: ActivatedRoute,
     private router: Router,
@@ -40,7 +41,11 @@ export class BreadcrumbsComponent implements OnInit {
     });
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    if (this.router.url.includes('print-')) {
+      this.printStyle = true;
+    }
+  }
 
   private getBreadcrumbs(route: ActivatedRoute, url: string = '', breadcrumbs: IBreadcrumb[] = []): IBreadcrumb[] {
     const ROUTE_DATA_BREADCRUMB = 'breadcrumb';

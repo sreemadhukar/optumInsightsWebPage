@@ -1,0 +1,27 @@
+<div class="page2" *ngIf="selectedPage === 'overviewPage'">
+  <app-overview [printStyle]="printStyle"></app-overview>
+</div>
+<div class="page1" *ngIf="selectedPage === 'gettingReimbursedSummary'">
+  <app-getting-reimbursed [printStyle]="printStyle"></app-getting-reimbursed>
+</div>
+<div class="page1" *ngIf="selectedPage === 'paymentsPage'">
+  <app-payments [printStyle]="printStyle"></app-payments>
+</div>
+<div class="page1" *ngIf="selectedPage === 'appealsPage'">
+  <app-appeals [printStyle]="printStyle"></app-appeals>
+</div>
+<div class="page1" *ngIf="selectedPage === 'nonPaymentsPage'">
+  <app-non-payments [printStyle]="printStyle"></app-non-payments>
+</div>
+<div class="page1" *ngIf="selectedPage === 'paymentIntegrityPage'">
+  <app-payment-integrity [printStyle]="printStyle"></app-payment-integrity>
+</div>
+<div class="page1" *ngIf="selectedPage === 'priorAuthPage'">
+  <app-prior-auth [printStyle]="printStyle"></app-prior-auth>
+</div>
+<div class="page1" *ngIf="selectedPage === 'pcorPage'">
+  <app-patient-care-opportunity [printStyle]="printStyle"></app-patient-care-opportunity>
+</div>
+<div class="page1" *ngIf="selectedPage === 'callsPage'">
+  <app-calls [printStyle]="printStyle"></app-calls>
+</div>

@@ -58,9 +58,9 @@
 @mixin sidenav-theme($theme) {
   $accent: map-get($theme, accent);
   $background: map-get($theme, background);
-  $background-color: mat-color($background);
+  // $background-color: mat-color($background);
   .gettingReimburse-body {
-    background-color: mat-color($accent);
+    // background-color: mat-color($accent);
     overflow: hidden;
     display: flex;
     flex-direction: column;
@@ -135,7 +135,12 @@
           font-size: 36px;
           @include padding(16px, 0, 20px, 0);
           line-height: 40px;
+          font-family: 'UHCSans-Regular', Helvetica, Arial, sans-serif;
+        }
+        .print-page-title {
+          padding-top: 30px;
           font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+          line-height: 30px;
         }
         .page-subtitle {
           flex-basis: 100%;
@@ -146,10 +151,13 @@
           justify-content: space-between;
           width: 98.5%;
           .page-subtitle-heading {
+            margin-right: 100px;
             margin-top: 4px;
             line-height: 32px;
           }
-
+          .print-page-subtitle-heading {
+            padding-top: 10px;
+          }
           .details-button {
             padding: 10px 23px 10px 23px;
             border-radius: 2px;
@@ -175,6 +183,11 @@
             color: #196ecf;
           }
         }
+        .print-page-subtitle {
+          font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+          line-height: 30px;
+        }
+
         /* tabs css starts here*/
         .container--tabs {
           clear: left;
@@ -247,12 +260,42 @@
             } // li styling
           }
         }
-        /* ends tabs css ends here*/
-      }
-      /* end cust-width title heirarchy*/
+
+        .cust-width-blank {
+          width: 487px;
+          margin-left: 480px;
+          line-height: 5px;
+        }
+        @media (max-width: 1300px) {
+          .cust-width-blank {
+            min-width: 437px;
+          }
+        }
+        .adjust-margin {
+          margin-left: -10px;
+        }
+      } /* end cust-width title end here*/
+    }
+  }
+  .non-payment-link {
+    font-size: 16px;
+    float: right;
+    color: $blue;
+    font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+    letter-spacing: 0.2px;
+    margin-left: 181px;
+    margin-top: 15px;
+  }
+  .np-link {
+    a :hover {
+      text-decoration: underline;
     }
   }
   @media only screen and (max-width: 1024px) {
     @include padding(16px, 0, 16px, 0);
   }
+}
+
+.pageBreakheight {
+  height: 400px;
 }

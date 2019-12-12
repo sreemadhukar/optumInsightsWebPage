@@ -9,6 +9,7 @@ import { MatIconRegistry, MatAutocompleteSelectedEvent } from '@angular/material
 import { DomSanitizer } from '@angular/platform-browser';
 import { StorageService } from './../../../shared/storage-service.service';
 import { SessionService } from '../../../shared/session.service';
+import { NgRedux, select } from '@angular-redux/store';
 
 import {
   AfterViewInit,
@@ -110,6 +111,7 @@ export class SelectProviderComponent implements OnInit {
   }
 
   ngOnInit() {
+    console.log('hello');
     this.providerData = JSON.parse(sessionStorage.getItem('currentUser'));
     const userInfo = JSON.parse(sessionStorage.getItem('loggedUser'));
     this.username = userInfo.FirstName;

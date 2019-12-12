@@ -10,6 +10,7 @@
     // background-color: mat-color($accent);
     overflow: hidden;
     @include padding(30px, 0, 64px, 0);
+
     .overview-content {
       display: -webkit-box;
       display: -moz-box;
@@ -23,6 +24,7 @@
       max-width: 1000px;
       width: 100%;
       margin: auto;
+
       .self-service-heading {
         display: flex;
         padding-top: 30px;
@@ -49,6 +51,7 @@
           color: $black-rock;
         }
         .title-opportunity {
+          padding-top: 50px;
           flex-basis: 100%;
           font-size: 28px;
           line-height: 1;
@@ -65,6 +68,7 @@
           font-size: 22px;
           line-height: 1;
           margin-bottom: 8px;
+          width: 560px;
         }
         .self-service-link {
           color: $blue;
@@ -77,6 +81,7 @@
           a {
             text-decoration: none;
             color: $blue;
+            margin-right: 70px;
             .icon-display {
               vertical-align: middle;
             }
@@ -96,5 +101,19 @@
         }
       }
     }
+
+    .content-align-print {
+      max-width: 750px;
+    }
+  }
+  .copyright-text {
+    margin-right: 16px;
+    display: flex;
+    font-size: 14px;
+    color: grey;
+    font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+    line-height: 80px;
+    text-align: center;
+    letter-spacing: 0.2px;
   }
 }

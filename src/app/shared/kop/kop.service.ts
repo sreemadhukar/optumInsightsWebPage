@@ -23,7 +23,7 @@ export class KOPSharedService {
         return { filter: param };
       });
 
-      this.getKopData(paramsArray).then((response: any) => {
+      this.getKopData('kop', paramsArray).then((response: any) => {
         if (!response || response.length === 0) {
           return resolve(null);
         }
@@ -62,30 +62,117 @@ export class KOPSharedService {
     });
   }
 
-  private getDataAsync(params: any) {
-    return new Promise(resolve => {
-      this.kopService.getSummary({ params }).subscribe((response: any) => resolve(response), () => resolve(null));
+  public getPriorAuthSummary(params: any) {
+    return new Promise((resolve, reject) => {
+      const { filter: selectedFilter } = params;
+      const { priorAuthFilters } = selectedFilter;
+
+      const paramsArray = priorAuthFilters.map((param: string) => {
+        return { filter: param };
+      });
+
+      const tasks = [this.getKopData('priorauthtat', paramsArray), this.getKopData('priorauth', paramsArray)];
+
+      Promise.all(tasks)
+        .then((response: any) => {
+          if (!response || response.length === 0) {
+            return resolve(null);
+          }
+
+          // Merging two responses in to one response
+          const priorAuthResponse = [];
+          const [priorAuthTATResponse, priorAuthVolumeResponse] = response;
+          const noOfMetrics = priorAuthTATResponse.length || priorAuthVolumeResponse.length;
+          for (let i = 0; i < noOfMetrics; i++) {
+            priorAuthResponse[i] = priorAuthTATResponse[i];
+            Object.assign(priorAuthResponse[i].CareDelivery, priorAuthVolumeResponse[i].CareDelivery);
+          }
+
+          for (let i = 0; i < priorAuthResponse.length; i++) {
+            const {
+              CareDelivery: {
+                PriorAuthTAT: { PriorAuthTATValue },
+                PriorAuthRequested: { PriorAuthRequestedValue }
+              }
+            } = priorAuthResponse[i];
+            priorAuthResponse[i].CareDelivery.PriorAuthTAT.PriorAuthTATValue =
+              PriorAuthTATValue / PriorAuthRequestedValue;
+          }
+
+          const careDeliveryInstance = new CareDelivery({ records: priorAuthResponse });
+          const careDelivery = careDeliveryInstance.getData();
+
+          return resolve({
+            careDelivery
+          });
+        })
+        .catch(err => {
+          return reject(err);
+        });
     });
   }
 
-  private getKopData(paramsArray: any[]) {
+  public getPriorAuthTATSummary(params: any) {
+    return new Promise(resolve => {
+      const { filter: selectedFilter } = params;
+      const { priorAuthFilters } = selectedFilter;
+
+      const paramsArray = priorAuthFilters.map((param: string) => {
+        return { filter: param };
+      });
+
+      this.getKopData('priorauthtat', paramsArray).then((response: any) => {
+        if (!response || response.length === 0) {
+          return resolve(null);
+        }
+
+        const careDeliveryInstance = new CareDelivery({ records: response });
+        const careDelivery = careDeliveryInstance.getData();
+
+        return resolve({
+          careDelivery
+        });
+      });
+    });
+  }
+
+  private getDataKopAsync(params: any, merticKey: string) {
+    return new Promise((resolve, reject) => {
+      if (merticKey === 'kop') {
+        this.kopService.getSummary({ params }).subscribe((response: any) => resolve(response), () => reject());
+      } else if (merticKey === 'priorauth') {
+        this.kopService.getPriorAuthSummary({ params }).subscribe((response: any) => resolve(response), () => reject());
+      } else if (merticKey === 'priorauthtat') {
+        this.kopService
+          .getPriorAuthTATSummary({ params })
+          .subscribe((response: any) => resolve(response), () => reject());
+      }
+    });
+  }
+
+  private getKopData(merticKey: string, paramsArray: any[]) {
     return new Promise(resolve => {
       const tasks = [];
 
       paramsArray.forEach((paramsItem: any) => {
-        tasks.push(this.getDataAsync(paramsItem));
+        tasks.push(this.getDataKopAsync(paramsItem, merticKey));
       });
-      Promise.all(tasks).then((response: any) => {
-        const totalResponse = [];
-        response.forEach((responseItem: any) => {
-          if (responseItem) {
-            responseItem.forEach((innerResponseItem: any) => {
-              totalResponse.push(innerResponseItem);
-            });
-          }
+
+      Promise.all(tasks)
+        .then((response: any) => {
+          const totalResponse = [];
+          response.forEach((responseItem: any) => {
+            if (responseItem) {
+              responseItem.forEach((innerResponseItem: any) => {
+                totalResponse.push(innerResponseItem);
+              });
+            }
+          });
+          return resolve(totalResponse);
+        })
+        .catch(() => {
+          return resolve([]);
         });
-        return resolve(totalResponse);
-      });
     });
   }
 }
