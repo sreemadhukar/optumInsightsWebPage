@@ -9,7 +9,7 @@ export const environment: any = {
   apiUrls: {
     ExecutiveSummaryPath: 'providersystems/',
     ProviderSystemClaimsAgg: 'agg-claims/search/',
-    ProviderSystemClaimsSummary: 'claims/search/',
+    ProviderSystemClaimsSummary: 'claim-metrics/',
     ProviderSystemPriorAuth: 'PriorAuthSummary/',
     // SsoTokenPath: 'myinsightOptumIdHandshake/v2.0',
     SsoTokenPath: 'myinsightOptumIdHandshake',
@@ -19,7 +19,7 @@ export const environment: any = {
     SsoRedirectUri:
       'https://stage-sso.uhc.com/ext/as/authorization.oauth2?pfidpadapterid=OptumIdOIDCStage&client_id=PED42235&' +
       'response_type=code&redirect_uri=https://uhcinsights-demo.uhc.com/login&scope=openid+profile+email&state=PED&prompt=none',
-    linkLoginPage: 'https://provider.linkhealth.com',
+    linkLoginPage: 'https://provider-stage.linkhealth.com',
     // SsoLogoutUrl: 'https://provider.linkhealth.com/api/link/session/signout&redirect=https://provider.linkhealth.com',
     SsoLogoutUrl:
       'https://api-stage.linkhealth.com/session/signout?redirect=https://provider-stage.linkhealth.com/' +
@@ -35,6 +35,7 @@ export const environment: any = {
     BusinessGlossary: 'business-glossaries/',
     PriorAuth: 'prior-authorizations/search/',
     RepeatContact: 'repeat-contacts/search/',
+    Calls: 'issue-resolutions/',
     PaymentIntegrity: 'pi-metrics/',
     NonPayment: 'claim-metrics/',
     CallsTrend: 'provider-calls/',
@@ -48,7 +49,6 @@ export const environment: any = {
     AppealsFHIR: 'appeals/v2.0/',
     AppealsOverturn: 'appeal-overturn-reasons/',
     AdminSummaryTrendsCount: 'admintrendscount/',
-    RefreshToken: 'getRefreshToken/',
     HealthSystemDetails: 'providerInfo/'
   },
   headerKeys: {
