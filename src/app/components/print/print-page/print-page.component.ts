@@ -20,6 +20,6 @@ export class PrintPageComponent implements OnInit {
     this.currentPage.subscribe(currentPage => (this.selectedPage = currentPage));
     setTimeout(() => {
       (window as any).print();
-    }, 8000);
+    }, 7000);
   }
 }
