@@ -28,10 +28,12 @@ app.all('/uhci/prd/*', function(req, res) {
   });
 });
 
+app.use(cors());
+
 app.use((error, req, res, next) => {
   handleExceptions(error, res);
 });
-app.get('/api/getJwt', cors(), function(req, res) {
+app.get('/api/getJwt', function(req, res) {
   let token = jwt.sign(
     {
       exp: Math.floor(Date.now() / 1000) + 60 * 60,
@@ -50,7 +52,7 @@ app.get('/api/getHeac/:MsId', function(req, res) {
   });
 });
 
-app.get('/api/getTrendAccess/:MsId', cors(), function(req, res) {
+app.get('/api/getTrendAccess/:MsId', function(req, res) {
   res.status(200).json({
     trendAccess: include(trendAccess.user, req.params.MsId)
   });
