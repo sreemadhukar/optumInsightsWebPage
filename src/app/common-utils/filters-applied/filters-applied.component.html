@@ -112,7 +112,7 @@
       </div>
     </ng-template>
   </div>
-  <div class="filter-bg" (click)="openFilter()">
+  <div *ngIf="!printStyle" class="filter-bg" (click)="openFilter()">
     <mat-icon matPrefix class="nav-menu-icons filter-icon" svgIcon="filter"></mat-icon>
     <div class="filter-title">Filters</div>
   </div>

@@ -38,7 +38,7 @@ pipeline {
             }
         }**/
 
-        stage('Web: Build and Deploy Docker Image to DTR') {
+       stage('Web: Build and Deploy Docker Image to DTR') {
             agent {
                 label 'docker-nodejs-slave'
             }
@@ -95,10 +95,10 @@ pipeline {
                         serviceName: 'peduiuhc',
                         dockerImage: '$tagBase/ui_prd:latest',
                         port: '8000'
-                glOpenshiftDeploy credentials: "$env.OPENSHIFT_CREDENTIALS_ID",
-                        ocpUrl: "https://ocp-ctc-core.optum.com",
-                        project: 'ped-internal',
-                        serviceName: 'pedui2',
+                glOpenshiftDeploy credentials: "$env.OPENSHIFT_CREDENTIALS_ID",	
+                        ocpUrl: "https://ocp-ctc-core.optum.com",	
+                        project: 'ped-internal',	
+                        serviceName: 'pedui2',	
                         dockerImage: '$tagBase/ui_prd_internal:pedui2',
                         port: '8000'
 

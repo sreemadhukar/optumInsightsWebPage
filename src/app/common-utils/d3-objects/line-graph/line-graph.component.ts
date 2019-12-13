@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, AfterViewInit, ViewEncapsulation, HostBinding } from '@angular/core';
 import * as d3 from 'd3';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-line-graph',
@@ -20,7 +21,7 @@ export class LineGraphComponent implements OnInit {
   public temp: any;
   public selectYear;
   public count = 1;
-
+  @Input() printStyle;
   @Input() yearComparison;
   @Input() chartOptions: any = {};
   @Input() tooltipBool;
@@ -39,10 +40,14 @@ export class LineGraphComponent implements OnInit {
     return this._changeTimeFrame;
   }
 
-  constructor() {}
+  constructor(private router: Router) {}
 
   ngOnInit() {
     this.renderChart = '#' + this.chartOptions.chartId;
+
+    if (this.router.url.includes('print-')) {
+      this.printStyle = true;
+    }
   }
 
   // tslint:disable-next-line:use-life-cycle-interface
@@ -193,6 +198,12 @@ export class LineGraphComponent implements OnInit {
           break;
       }
     } // ends formatDynamicAbbrevia function
+
+    function tooltipTextOnPrint(d, year, prefix) {
+      if (year == undefined || !year || year === '') {
+        return '(' + prefix + formatDy(d.y) + ')';
+      }
+    }
 
     function tooltipText(d, year, prefix) {
       if (year == undefined || !year || year === '') {
@@ -499,6 +510,51 @@ export class LineGraphComponent implements OnInit {
           .duration(500)
           .style('opacity', 0);
       });
+
+    if (this.printStyle) {
+      // const tooltipVar1 = d3
+      //   .select(this.renderChart)
+      //   .append('div')
+      //   .classed('tooltipClassPrint', true)
+      //   .classed('hidden', true);
+      chart
+        .selectAll('.dot')
+        .data(data)
+        .enter()
+        .append('circle') // Uses the enter().append() method
+        .attr('class', 'dot') // Assign a class for styling
+        .attr('cx', function(d, i) {
+          return xScale(i);
+        })
+        .attr('cy', function(d) {
+          // const topMar = yScale(d.y) + 49 + 'px';
+          // tooltipVar1
+          //   .html(tooltipTextOnPrint(d, this.yearComparison, axisPrefix))
+          //   .classed('hidden', false)
+          //   .style('left', d.xCoordinate + 46 + 'px')
+          //   .style('top', topMar);
+          return yScale(d.y);
+        })
+        .attr('r', 5);
+
+      chart
+        .selectAll('.text')
+        .data(data)
+        .enter()
+        .append('text')
+        .attr('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
+        .attr('font-size', '14px')
+        .text(function(d) {
+          return tooltipTextOnPrint(d, this.yearComparison, axisPrefix);
+        })
+        .attr('x', function(d, i) {
+          return xScale(i);
+        })
+        .attr('y', function(d, i) {
+          return yScale(d.y);
+        })
+        .attr('transform', 'translate(-12, -15)');
+    }
 
     const DotOne = chart
       .selectAll('.dot')

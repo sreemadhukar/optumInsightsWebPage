@@ -29,7 +29,13 @@ import { SmartEditsComponent } from './payment-integrity/smart-edits/smart-edits
     PaymentsComponent,
     SmartEditsComponent
   ],
-  exports: [GettingReimbursedComponent, PaymentsComponent, NonPaymentsComponent, AppealsComponent]
+  exports: [
+    GettingReimbursedComponent,
+    PaymentsComponent,
+    NonPaymentsComponent,
+    AppealsComponent,
+    PaymentIntegrityComponent
+  ]
 })
 export class GettingReimbursedModule {
   constructor() {

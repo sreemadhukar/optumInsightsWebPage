@@ -62,12 +62,18 @@ export class HttpInterceptorService implements HttpInterceptor {
           : currentUser[0].PedAccessToken;
       if (token) {
         request = request.clone({ headers: request.headers.set('Authorization', 'Bearer ' + token) });
-        request = request.clone({
-          headers: request.headers.set('PedAccessToken', 'Bearer ' + currentUser[0].PedAccessToken)
-        });
+        if (!environment.internalAccess && environment.production) {
+          request = request.clone({
+            headers: request.headers.set('PedAccessToken', 'Bearer ' + currentUser[0].PedAccessToken)
+          });
+        }
       }
     }
-
+    if (request.url.indexOf('myinsightOptumIdHandshake') !== -1 || request.url.indexOf('ldapauth') !== -1) {
+      request = request.clone({ headers: request.headers.set('Content-Type', 'application/x-www-form-urlencoded') });
+    } else {
+      request = request.clone({ headers: request.headers.set('Content-Type', 'application/json') });
+    }
     request = request.clone({ headers: request.headers.set('Accept', '*/*') });
     return next.handle(request);
   }

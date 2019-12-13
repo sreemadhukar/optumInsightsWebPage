@@ -36,12 +36,12 @@
               "optimization": false,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": false,
+              "extractCss": true,
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
-              "buildOptimizer": false
+              "buildOptimizer": true
             },
             "stage": {
               "fileReplacements": [
@@ -50,15 +50,15 @@
                   "with": "src/environments/environment.stage.ts"
                 }
               ],
-             "optimization": false,
+              "optimization": false,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": false,
+              "extractCss": true,
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
-              "buildOptimizer": false
+              "buildOptimizer": true
             },
             "demo": {
               "fileReplacements": [
@@ -67,7 +67,7 @@
                   "with": "src/environments/environment.demo.ts"
                 }
               ],
-              "optimization": true,
+              "optimization": false,
               "outputHashing": "all",
               "sourceMap": false,
               "extractCss": true,
@@ -84,15 +84,15 @@
                   "with": "src/environments/environment.externalprod.ts"
                 }
               ],
-             "optimization": false,
+              "optimization": false,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": false,
+              "extractCss": true,
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
-              "buildOptimizer": false
+              "buildOptimizer": true
             },
             "externalstage": {
               "fileReplacements": [
@@ -101,15 +101,15 @@
                   "with": "src/environments/environment.externalstage.ts"
                 }
               ],
-           "optimization": false,
+              "optimization": false,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": false,
+              "extractCss": true,
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
-              "buildOptimizer": false
+              "buildOptimizer": true
             },
             "devone": {
               "fileReplacements": [
@@ -203,15 +203,15 @@
                   "with": "src/environments/environment.externalint.ts"
                 }
               ],
-             "optimization": false,
+              "optimization": false,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": false,
+              "extractCss": true,
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
-              "buildOptimizer": false
+              "buildOptimizer": true
             },
             "int": {
               "fileReplacements": [
@@ -220,15 +220,15 @@
                   "with": "src/environments/environment.int.ts"
                 }
               ],
-             "optimization": false,
+              "optimization": false,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": false,
+              "extractCss": true,
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
-              "buildOptimizer": false
+              "buildOptimizer": true
             },
             "dev": {
               "fileReplacements": [
@@ -237,15 +237,15 @@
                   "with": "src/environments/environment.dev.ts"
                 }
               ],
-           "optimization": false,
+              "optimization": false,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": false,
+              "extractCss": true,
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
-              "buildOptimizer": false
+              "buildOptimizer": true
             }
           }
         },
