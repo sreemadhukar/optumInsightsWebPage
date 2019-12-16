@@ -97,7 +97,8 @@ export class OverviewSharedService {
             return this.reduceReconsiderationProcessMiniTile(providerSystems, reduceclaimsoppurtunities);
           })
           .then(totaloppurtunities => {
-            this.overviewPageData.push(tempArray, totaloppurtunities);
+            const t: any = totaloppurtunities;
+            this.overviewPageData.push(tempArray, t);
             resolve(this.overviewPageData);
           });
       }); // end subscribing to REST call
