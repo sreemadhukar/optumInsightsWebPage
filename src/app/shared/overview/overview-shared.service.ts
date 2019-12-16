@@ -17,7 +17,6 @@ export class OverviewSharedService {
   private providerKey: number;
   private baseTimePeriod = 'Last6Months';
   private previousTimePeriod = 'PreviousLast6Months';
-  private priorAuthTrend;
   constructor(
     private MetricidService: GlossaryMetricidService,
     private overviewService: OverviewService,

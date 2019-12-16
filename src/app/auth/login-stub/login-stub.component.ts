@@ -37,7 +37,7 @@ export class LoginStubComponent implements OnInit {
   public checkAdv;
   public checkPro;
   public checkExecutive;
-  @ViewChild('errorDialog') errorDialog: TemplateRef<any>;
+  @ViewChild('errorDialog', { static: true }) errorDialog: TemplateRef<any>;
 
   constructor(
     private external: ExternalService,

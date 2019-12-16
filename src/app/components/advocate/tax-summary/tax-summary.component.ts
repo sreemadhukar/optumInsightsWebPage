@@ -15,8 +15,8 @@ import { StorageService } from '../../../shared/storage-service.service';
 })
 export class TaxSummaryComponent implements OnInit {
   @Input() data;
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
   taxSummaryData: any;
   numberOfTins: any;
   taxSummaryColumns: string[] = ['Tin', 'TinName', 'TaxIdType', 'MajorMarketName'];

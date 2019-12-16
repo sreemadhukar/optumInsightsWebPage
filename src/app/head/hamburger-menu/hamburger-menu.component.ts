@@ -52,7 +52,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
   loading = false;
   isDarkTheme: Observable<boolean>;
   @ViewChildren(MatExpansionPanel) viewPanels: QueryList<MatExpansionPanel>;
-  @ViewChild('srnav') srnav: MatSidenav;
+  @ViewChild('srnav', { static: true }) srnav: MatSidenav;
   public makeAbsolute: boolean;
   public bgWhite: boolean;
   public showPrintHeader: boolean;

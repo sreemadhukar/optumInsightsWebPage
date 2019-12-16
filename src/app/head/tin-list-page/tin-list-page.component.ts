@@ -16,8 +16,8 @@ import * as d3 from 'd3';
   styleUrls: ['./tin-list-page.component.scss']
 })
 export class TinListPageComponent implements OnInit {
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
   tinsDisplayedColumns: string[] = ['Tin', 'Tinname'];
   providerName: string;
   numberOfTins: any;
