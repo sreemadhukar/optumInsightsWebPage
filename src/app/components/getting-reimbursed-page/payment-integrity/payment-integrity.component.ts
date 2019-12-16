@@ -98,6 +98,9 @@ export class PaymentIntegrityComponent implements OnInit {
     this.previousSelectedTab = i;
   }
   ngOnInit() {
+    if (this.printStyle) {
+      this.pageTitle = this.session.getHealthCareOrgName();
+    }
     this.tabOptions = [];
     let temp;
     temp = [
