@@ -21,7 +21,7 @@ export class PrintPageComponent implements OnInit {
       { page: 'appealsPage', load: 6000 },
       { page: 'nonPaymentsPage', load: 6000 },
       { page: 'paymentIntegrityPage', load: 5000 },
-      { page: 'priorAuthPage', load: 7000 },
+      { page: 'priorAuthPage', load: 10000 },
       { page: 'pcorPage', load: 6000 },
       { page: 'callsPage', load: 4000 }
     ];
@@ -29,15 +29,9 @@ export class PrintPageComponent implements OnInit {
 
   ngOnInit() {
     this.currentPage.subscribe(c => (this.selectedPage = c));
-    setTimeout(
-      () => {
-        (window as any).print();
-      },
-      this.data.flatMap(i => (i.page === this.selectedPage ? i.load : 0))
-    );
-    console.log(
-      'laod Time for Print',
-      this.data.flatMap(i => (i.page === this.selectedPage ? i.load : 0))
-    );
+    setTimeout(() => {
+      (window as any).print();
+    }, this.data.flatMap(i => (i.page === this.selectedPage ? i.load : 0)));
+    console.log('laod Time for Print', this.data.flatMap(i => (i.page === this.selectedPage ? i.load : 0)));
   }
 }
