@@ -239,21 +239,32 @@ export class LineGraphComponent implements OnInit {
         .classed('tooltipClass', false)
         .classed('tooltipClassLeft', false)
         .classed('hidden', true);
-      tooltipVar
-        .append('g')
+
+      const svg2 = tooltipVar.append('svg');
+      svg2.attr('height', 45).attr('width', 85);
+
+      svg2
+        .append('text')
         .attr('class', 'lineLabelHover')
         .attr('id', 'claimsNotPaidLabelOne')
+        .attr('x', 0)
+        .attr('y', 15)
         .text('Claims Not');
-      tooltipVar
-        .append('g')
+      svg2
+        .append('text')
         .attr('class', 'lineLabelHover')
         .attr('id', 'claimsNotPaidLabelTwo')
+        .attr('x', 0)
+        .attr('y', 35)
         .text('Paid');
-      tooltipVar
-        .append('g')
+
+      svg2
+        .append('text')
         .attr('class', 'details-label')
-        .attr('id', 'claimsNotPaidLabelThree');
-      // .text('$' + formatDy(d.y));
+        .attr('id', 'claimsNotPaidLabelThree')
+        .attr('text-anchor', 'start')
+        .attr('x', 30)
+        .attr('y', 35);
     } else {
       tooltipVar = d3
         .select(this.renderChart)
