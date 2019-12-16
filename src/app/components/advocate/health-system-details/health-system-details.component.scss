@@ -56,6 +56,7 @@
       &-tins,
       &-regions,
       &-markets,
+      &-bic,
       &-tin-types {
         color: $strom-grey;
         font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
@@ -65,6 +66,7 @@
       &-tins-value,
       &-regions-value,
       &-markets-value,
+      &-bic-value,
       &-tin-types-value {
         font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
         line-height: 18px;

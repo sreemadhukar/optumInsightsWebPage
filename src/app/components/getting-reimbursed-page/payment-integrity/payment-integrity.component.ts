@@ -48,7 +48,7 @@ export class PaymentIntegrityComponent implements OnInit {
   currentSummary: Array<Object> = [{}];
   summaryItems: any;
   previousSelectedTab: any = 1;
-
+  pageSubTitle: string;
   constructor(
     private glossaryExpandService: GlossaryExpandService,
     public MetricidService: GlossaryMetricidService,
@@ -81,6 +81,7 @@ export class PaymentIntegrityComponent implements OnInit {
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-close-24px.svg')
     );
     this.pageTitle = 'Medical Records Coding Review';
+    this.pageSubTitle = 'Reimbursements - Payment Integrity - ' + 'Medical Records Coding Review';
     this.tabOptionsTitle = ['Jul 1, 2018–Jun 30, 2019', 'Jul 1, 2019–Oct 31, 2019'];
     this.subTitle = `Note: Claims Metrics are calculated using date medical record requested.
        Dashboard information/measurements are reperesenting physician claims only.
@@ -98,6 +99,9 @@ export class PaymentIntegrityComponent implements OnInit {
     this.previousSelectedTab = i;
   }
   ngOnInit() {
+    if (this.printStyle) {
+      this.pageTitle = this.session.getHealthCareOrgName();
+    }
     this.tabOptions = [];
     let temp;
     temp = [

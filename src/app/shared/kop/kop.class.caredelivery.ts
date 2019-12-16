@@ -59,7 +59,7 @@ export class CareDelivery {
         cardType: 'horizontalBar',
         key: 'PriorAuthTAT',
         subKey: 'PriorAuthTATValue',
-        units: ' hours',
+        units: ' days',
         caption: 'Avg. Prior Auth turnaround time',
         singleCard: this.singleCard,
         report: false,
