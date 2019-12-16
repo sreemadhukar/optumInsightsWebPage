@@ -240,17 +240,17 @@ export class LineGraphComponent implements OnInit {
         .classed('tooltipClassLeft', false)
         .classed('hidden', true);
       tooltipVar
-        .append('div')
+        .append('g')
         .attr('class', 'lineLabelHover')
         .attr('id', 'claimsNotPaidLabelOne')
         .text('Claims Not');
       tooltipVar
-        .append('div')
+        .append('g')
         .attr('class', 'lineLabelHover')
         .attr('id', 'claimsNotPaidLabelTwo')
         .text('Paid');
       tooltipVar
-        .append('div')
+        .append('g')
         .attr('class', 'details-label')
         .attr('id', 'claimsNotPaidLabelThree');
       // .text('$' + formatDy(d.y));
