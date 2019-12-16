@@ -31,8 +31,8 @@ export class OverviewSharedService {
     this.overviewPageData = [];
     return new Promise(resolve => {
       let parameters;
-      const oppurtunities: Array<object> = [];
-      const tempArray: Array<object> = [];
+      const oppurtunities: any = [];
+      const tempArray: any = [];
       if (this.timeFrame === 'Last 12 Months') {
         parameters = [this.providerKey, true];
       } else {
@@ -1105,7 +1105,7 @@ export class OverviewSharedService {
     this.providerKey = this.session.providerKeyData();
     this.overviewPageData = [];
     return new Promise(resolve => {
-      const tempArray: Array<object> = [];
+      const tempArray: any = [];
       const parameters = {
         providerkey: this.providerKey,
         TimeFilter: this.baseTimePeriod
