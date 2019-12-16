@@ -21,7 +21,7 @@ export class PrintPageComponent implements OnInit {
       { page: 'appealsPage', load: 6000 },
       { page: 'nonPaymentsPage', load: 6000 },
       { page: 'paymentIntegrityPage', load: 5000 },
-      { page: 'priorAuthPage', load: 7000 },
+      { page: 'priorAuthPage', load: 10000 },
       { page: 'pcorPage', load: 6000 },
       { page: 'callsPage', load: 4000 }
     ];
