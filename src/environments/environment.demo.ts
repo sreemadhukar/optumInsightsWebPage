@@ -22,7 +22,7 @@ export const environment: any = {
     linkLoginPage: 'https://provider-stage.linkhealth.com',
     // SsoLogoutUrl: 'https://provider.linkhealth.com/api/link/session/signout&redirect=https://provider.linkhealth.com',
     SsoLogoutUrl:
-      'https://api-stage.linkhealth.com/session/signout?redirect=https://provider.linkhealth.com/' +
+      'https://api-stage.linkhealth.com/session/signout?redirect=https://provider-stage.linkhealth.com/' +
       'content/odin/en/provider-dashboard/public/signout.html?logOut=true',
     ProvTinList: 'provider-tins/',
     LayerSevenPath: 'myinsightLayerSevenHandshake',
