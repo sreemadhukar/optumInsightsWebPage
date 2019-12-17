@@ -97,7 +97,6 @@
   visibility: hidden;
   pointer-events: none;
 }
-/*
 .tooltipClass::before {
   content: '';
   position: absolute;
@@ -109,7 +108,6 @@
   border-right: 10px solid $white;
   border-bottom: 10px solid transparent;
 }
-*/
 .tooltipClass {
   position: absolute;
   width: auto;
@@ -139,7 +137,6 @@
   letter-spacing: 0.16px;
 }
 
-/*
 .tooltipClassLeft::before {
   content: '';
   position: absolute;
@@ -151,7 +148,6 @@
   border-left: 10px solid $white;
   border-bottom: 10px solid transparent;
 }
-*/
 .tooltipClassLeft {
   position: absolute;
   width: auto;
@@ -172,10 +168,10 @@
   font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
   line-height: 18px;
   padding-bottom: 5px;
-  color: #2c2d3c;
+  color: $black-rock;
 }
 .details-label {
-  color: #757588;
+  color: $strom-grey;
   font-size: 14px;
   font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
 }
