@@ -246,18 +246,15 @@ export class LineGraphComponent implements OnInit {
       svg2
         .append('text')
         .attr('class', 'lineLabelHover')
-        .attr('id', 'claimsNotPaidLabelOne')
         .attr('x', 0)
         .attr('y', 15)
         .text('Claims Not');
       svg2
         .append('text')
         .attr('class', 'lineLabelHover')
-        .attr('id', 'claimsNotPaidLabelTwo')
         .attr('x', 0)
         .attr('y', 35)
         .text('Paid');
-
       svg2
         .append('text')
         .attr('class', 'details-label')
@@ -270,6 +267,8 @@ export class LineGraphComponent implements OnInit {
         .select(this.renderChart)
         .append('div')
         .attr('class', 'displayNone');
+
+      const svg2 = tooltipVar.append('svg');
     }
 
     const lengthOfData = chartData.length;
@@ -472,7 +471,19 @@ export class LineGraphComponent implements OnInit {
           .style('opacity', 1);
         const topMar = yScale(d.y) + 39 + 'px';
         if (d3.event.layerX + 213 < width + margin.left + margin.right) {
-          d3.select('#claimsNotPaidLabelThree').text('$' + formatDy(d.y));
+          /*
+          svg2
+            .append('text')
+            .attr('class', 'details-label')
+            // .attr('id', 'claimsNotPaidLabelThree')
+            .attr('text-anchor', 'start')
+            .attr('x', 30)
+            .attr('y', 35)
+            .text('$' + formatDy(d.y));
+            */
+          //
+          console.log(d3.select('.details-label'));
+          d3.select('.details-label').text('$' + formatDy(d.y));
           tooltipVar
             .classed('hidden', false)
             .classed('tooltipClass', true)
@@ -480,7 +491,17 @@ export class LineGraphComponent implements OnInit {
             .style('left', d.xCoordinate + 56 + 'px')
             .style('top', topMar);
         } else {
-          d3.select('#claimsNotPaidLabelThree').text('$' + formatDy(d.y));
+          d3.select('.details-label').text('$' + formatDy(d.y));
+          /*
+          svg2
+            .append('text')
+            .attr('class', 'details-label')
+            // .attr('id', 'claimsNotPaidLabelThree')
+            .attr('text-anchor', 'start')
+            .attr('x', 30)
+            .attr('y', 35)
+            .text('$' + formatDy(d.y));
+            */
           tooltipVar
             .classed('hidden', false)
             .classed('tooltipClass', false)
