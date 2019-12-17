@@ -33,7 +33,7 @@
       }
       .selected-items-container {
         mat-icon {
-          position: absolute;
+          position: relative;
         }
         width: calc(100% - 40px);
         display: block;
