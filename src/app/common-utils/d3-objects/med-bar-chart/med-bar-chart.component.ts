@@ -109,9 +109,10 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
           .style('padding', '24px 0px 0px 70px')
           .text(chartOptions.graphValues[0] + '%')
           .style('text-align', 'right')
+          .style('font-size', '20px')
           .append('div')
           .text('Received by UHC')
-          .attr('font-size', '16px')
+          .style('font-size', '16px')
           .style('font-family', "'UHCSans-Regular','Helvetica', 'Arial', 'sans-serif'");
 
         chart = d3
@@ -464,9 +465,10 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
           .style('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
           .style('padding', '24px 0px 0px 16px')
           .text(chartOptions.graphValues[1] + '%')
+          .style('font-size', '20px')
           .append('div')
           .text('Awaiting Submission')
-          .attr('font-size', '16px')
+          .style('font-size', '16px')
           .style('font-family', "'UHCSans-Regular','Helvetica', 'Arial', 'sans-serif'");
 
         if (chartOptions.trendValue.includes('+')) {
