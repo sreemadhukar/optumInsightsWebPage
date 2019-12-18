@@ -5,10 +5,10 @@
         <mat-icon matPrefix class="nav-menu-icons" svgIcon="search"></mat-icon>
       </div>
       <div class="selected-items-container">
-        <span class="box" *ngFor="let selected of selectedArray"
-          >{{ selected.Tin
-          }}<mat-icon class="nav-menu-icons icondata-display" (click)="onRemove(selected)" svgIcon="cross"></mat-icon
-        ></span>
+        <span class="box" *ngFor="let selected of selectedArray">
+          {{ selected.Tin }}
+          <mat-icon class="nav-menu-icons icondata-display" (click)="onRemove(selected)" svgIcon="cross"></mat-icon>
+        </span>
         <input #inputValue [formControl]="searchControl" placeholder="Search for a Tax ID" (input)="showTin = true" />
       </div>
     </div>
