@@ -462,14 +462,18 @@ export class LineGraphComponent implements OnInit {
         return 'rect-id-' + d.x;
       })
       .attr('y', 0)
-      .on('mouseover', d => {
-        const RectBar = chart.selectAll('#rect-id-' + d.x);
-        RectBar.transition()
+      .on('mouseenter', d => {
+        // const RectBar = chart.selectAll('#rect-id-' + d.x);
+        chart
+          .selectAll('#rect-id-' + d.x)
+          .transition()
           .duration(200)
           .style('opacity', 1)
           .style('cursor', 'pointer');
-        const RectBarDot = chart.selectAll('#dot-id-' + d.x);
-        RectBarDot.transition()
+        // const RectBarDot = chart.selectAll('#dot-id-' + d.x);
+        chart
+          .selectAll('#dot-id-' + d.x)
+          .transition()
           .duration(200)
           .style('opacity', 1);
 
@@ -498,12 +502,16 @@ export class LineGraphComponent implements OnInit {
         }
       })
       .on('mouseout', function(d) {
-        const RectBar = chart.selectAll('#rect-id-' + d.x);
-        RectBar.transition()
+        // const RectBar = chart.selectAll('#rect-id-' + d.x);
+        chart
+          .selectAll('#rect-id-' + d.x)
+          .transition()
           .duration(200)
           .style('opacity', 0);
-        const RectBarDot = chart.selectAll('#dot-id-' + d.x);
-        RectBarDot.transition()
+        // const RectBarDot = chart.selectAll('#dot-id-' + d.x);
+        chart
+          .selectAll('#dot-id-' + d.x)
+          .transition()
           .duration(200)
           .style('opacity', 0);
 
