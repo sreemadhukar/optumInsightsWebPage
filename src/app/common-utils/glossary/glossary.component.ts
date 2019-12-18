@@ -6,6 +6,8 @@ import { GlossaryService } from './../../rest/glossary/glossary.service';
 import { catchError } from 'rxjs/operators';
 import { MatInput } from '@angular/material';
 import { environment } from '../../../environments/environment';
+import { EventEmitterService } from '../../shared/know-our-provider/event-emitter.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-glossary',
@@ -32,16 +34,70 @@ export class GlossaryComponent implements OnInit {
   definition: any;
   public toHighlight = ''; // to highlight the value entered by user
   public internal = environment.internalAccess;
+  public isKop = false;
   @Input() title; // which we recieve from card -> common-header component
   @Input() MetricID; // which we recieve from corresponsding card shared files
-  constructor(private glossaryService: GlossaryService) {}
+  constructor(
+    private glossaryService: GlossaryService,
+    private eventEmitter: EventEmitterService,
+    private router: Router
+  ) {}
 
   ngOnInit() {
     this.glossarySelected = [];
-    if (this.MetricID) {
-      this.glossaryByMetricId();
+    if (this.router.url.includes('NationalExecutive')) {
+      this.isKop = true;
     }
+    if (this.MetricID) {
+      this.isKop ? this.getKOPGlossaryMetricID() : this.glossaryByMetricId();
+    }
+    this.isKop ? this.getKOPGlossaryData() : this.getGlossaryData();
     this.options = [];
+  }
+
+  // this function will fetch all the matched glossary items only corresponding to the characters entered by user
+  public getBusinessGlossary(text) {
+    // this.glossaryService.getGlossaryByMetricName(text).subscribe(
+    //   response => {
+    //     console.log('Business Glossary metric name', response);
+    //   },
+    //   err => {
+    //     console.log('Error in getBusinessGlossary', err);
+    //   }
+    // );
+  }
+
+  // this function will fetch the glossary item corresponding to the card
+  public glossaryByMetricId() {
+    this.glossaryService.getGlossaryMetricID(this.MetricID).subscribe(
+      response => {
+        this.glossarySelected = [];
+        if ((response || {}).BusinessGlossary) {
+          this.glossarySelected.push(response);
+          this.hyperlink = '';
+          if (this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.MetricID === 301) {
+            this.hyperlink = this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.Definition.substring(
+              this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.Definition.indexOf('http')
+            );
+            this.split = this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.Definition.substring(
+              this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.Definition.indexOf('Learn')
+            );
+            this.definition = this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.Definition.replace(
+              this.split,
+              ''
+            );
+            this.split = this.split.replace(this.hyperlink, '');
+            this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.Definition = this.definition;
+          }
+        }
+      },
+      err => {
+        console.log('Business Glossary Metric ID Error', err);
+      }
+    );
+  }
+
+  public getGlossaryData() {
     this.glossaryService.getBusinessGlossaryData().subscribe(response => {
       this.glossaryList = JSON.parse(JSON.stringify(response));
       if (this.title === 'Medicare Star Rating') {
@@ -115,46 +171,89 @@ export class GlossaryComponent implements OnInit {
     });
   }
 
-  // this function will fetch all the matched glossary items only corresponding to the characters entered by user
-  public getBusinessGlossary(text) {
-    // this.glossaryService.getGlossaryByMetricName(text).subscribe(
-    //   response => {
-    //     console.log('Business Glossary metric name', response);
-    //   },
-    //   err => {
-    //     console.log('Error in getBusinessGlossary', err);
-    //   }
-    // );
-  }
-
-  // this function will fetch the glossary item corresponding to the card
-  public glossaryByMetricId() {
-    this.glossaryService.getGlossaryMetricID(this.MetricID).subscribe(
+  public getKOPGlossaryMetricID() {
+    this.glossaryService.getKOPGlossaryMetricID(this.MetricID).subscribe(
       response => {
         this.glossarySelected = [];
         if ((response || {}).BusinessGlossary) {
           this.glossarySelected.push(response);
           this.hyperlink = '';
-          if (this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.MetricID === 301) {
-            this.hyperlink = this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.Definition.substring(
-              this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.Definition.indexOf('http')
-            );
-            this.split = this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.Definition.substring(
-              this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.Definition.indexOf('Learn')
-            );
-            this.definition = this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.Definition.replace(
-              this.split,
-              ''
-            );
-            this.split = this.split.replace(this.hyperlink, '');
-            this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.Definition = this.definition;
-          }
         }
       },
       err => {
-        console.log('Business Glossary Metric ID Error', err);
+        console.log('KOP Business Glossary Metric ID Error', err);
       }
     );
+  }
+
+  public getKOPGlossaryData() {
+    this.glossaryService.getKOPBusinessGlossaryData().subscribe(response => {
+      this.glossaryList = JSON.parse(JSON.stringify(response));
+      if (this.glossaryList) {
+        if (this.glossarySelected.length === 0) {
+          for (let i = 0; i < this.glossaryList.length; i++) {
+            if (
+              this.glossaryList[i].BusinessGlossary.ProviderDashboardName.Metric.toLowerCase().includes(
+                this.title.toLowerCase()
+              )
+            ) {
+              this.glossarySelected = [];
+              this.glossarySelected.push(this.glossaryList[i]);
+              break;
+            }
+          }
+        }
+      }
+
+      this.glossaryData = this.glossaryList.sort(function(a, b) {
+        if (
+          a.BusinessGlossary.ProviderDashboardName.Metric.toLowerCase() <
+          b.BusinessGlossary.ProviderDashboardName.Metric.toLowerCase()
+        ) {
+          return -1;
+        } else if (
+          a.BusinessGlossary.ProviderDashboardName.Metric.toLowerCase() >
+          b.BusinessGlossary.ProviderDashboardName.Metric.toLowerCase()
+        ) {
+          return 1;
+        } else {
+          return 0;
+        }
+      });
+
+      for (let i = 0; i < this.glossaryList.length; i++) {
+        this.options.push(this.glossaryList[i].BusinessGlossary.ProviderDashboardName.Metric);
+      }
+      if (this.options.length) {
+        this.filteredOptions = this.glossaryCtrl.valueChanges.pipe(
+          startWith(''),
+          map(value => (value ? this._filter(value) : null))
+        );
+      }
+      const results = {};
+      this.metricDataList = [];
+
+      for (let i = 0; i < 26; i++) {
+        const char = String.fromCharCode(97 + i);
+        const bigChar = char.toUpperCase();
+        results[bigChar] = [];
+        for (let s = 0; s < this.glossaryList.length; s++) {
+          if (this.glossaryList[s].BusinessGlossary.ProviderDashboardName.Metric.startsWith(bigChar)) {
+            results[bigChar].push(this.glossaryList[s].BusinessGlossary.ProviderDashboardName.Metric);
+          }
+        }
+      }
+
+      Object.keys(results).forEach(key => {
+        const mdata = [];
+        for (let j = 0; j < results[key].length; j++) {
+          mdata.push(results[key][j].replace(/[^a-zA-Z]/g, ''));
+        }
+        if (mdata.length > 0) {
+          this.metricDataList.push({ key: key, value: results[key], rdata: mdata });
+        }
+      });
+    });
   }
 
   public filteredData(value) {
