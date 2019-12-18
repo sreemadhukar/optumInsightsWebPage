@@ -10,7 +10,8 @@ import {
   ServiceSetting,
   TimePeriod,
   TrendMetrics,
-  ClaimsFilter
+  ClaimsFilter,
+  ViewClaimsByFilter
 } from '../../head/uhci-filters/filter-settings/filter-options';
 import { FilterExpandService } from '../../shared/filter-expand.service';
 import { TaxId } from '../../head/uhci-filters/filter-settings/filter-options';
@@ -33,6 +34,7 @@ export class FiltersAppliedComponent implements OnInit {
   @select() trendMetric;
   @select() trendDate;
   @select() claimsFilter;
+  @select() viewClaimsByFilter;
   @Input() flag;
   @Input() tabName;
   selectedPage: any;
@@ -41,7 +43,9 @@ export class FiltersAppliedComponent implements OnInit {
   lobs = LineOfBusiness;
   selectedLob: any;
   claims = ClaimsFilter;
+  viewclaims = ViewClaimsByFilter;
   selectedClaims: any;
+  selectedViewClaimsBy: any;
   serviceSettings = ServiceSetting;
   selectedServiceSetting: any;
   serviceCategories = ServiceCategory;
@@ -80,6 +84,9 @@ export class FiltersAppliedComponent implements OnInit {
     );
     this.claimsFilter.subscribe(
       claimsFilter => (this.selectedClaims = this.claims.find(val => val.name === claimsFilter))
+    );
+    this.viewClaimsByFilter.subscribe(
+      viewClaimsByFilter => (this.selectedViewClaimsBy = this.viewclaims.find(val => val.name === viewClaimsByFilter))
     );
     this.serviceSetting.subscribe(
       serviceSetting => (this.selectedServiceSetting = this.serviceSettings.find(val => val.name === serviceSetting))
@@ -126,7 +133,8 @@ export class FiltersAppliedComponent implements OnInit {
                 priorAuthType: this.selectedPriorAuthType.name,
                 trendMetric: this.selectedTrendMetric.name,
                 trendDate: this.selectedDate,
-                claimsFilter: this.selectedClaims.name
+                claimsFilter: this.selectedClaims.name,
+                viewClaimsByFilter: this.selectedViewClaimsBy.name
               }
             });
           }
@@ -139,6 +147,9 @@ export class FiltersAppliedComponent implements OnInit {
         break;
       case 'claims':
         this.ngRedux.dispatch({ type: REMOVE_FILTER, filterData: { claimsFilter: true } });
+        break;
+      case 'viewClaimsBy':
+        this.ngRedux.dispatch({ type: REMOVE_FILTER, filterData: { viewClaimsByFilter: true } });
         break;
       case 'serviceSetting':
         this.ngRedux.dispatch({ type: REMOVE_FILTER, filterData: { serviceSetting: true } });
