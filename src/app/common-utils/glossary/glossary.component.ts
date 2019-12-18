@@ -1,6 +1,6 @@
-import { Component, OnInit, Input, HostListener, ViewChild, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, HostListener, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { Observable, Subscription } from 'rxjs';
+import { Observable } from 'rxjs';
 import { map, startWith, debounceTime } from 'rxjs/operators';
 import { GlossaryService } from './../../rest/glossary/glossary.service';
 import { catchError } from 'rxjs/operators';
@@ -13,8 +13,6 @@ import { environment } from '../../../environments/environment';
   styleUrls: ['./glossary.component.scss']
 })
 export class GlossaryComponent implements OnInit {
-  protected emitter = new EventEmitter<string>();
-  public obs: Subscription;
   glossaryList: any;
   glossarySelected = [];
   glossaryData: any[];
@@ -43,7 +41,6 @@ export class GlossaryComponent implements OnInit {
     if (this.MetricID) {
       this.glossaryByMetricId();
     }
-    this.obs = this.emitter.pipe(debounceTime(250)).subscribe(text => this.getBusinessGlossary(text));
     this.options = [];
     this.glossaryService.getBusinessGlossaryData().subscribe(response => {
       this.glossaryList = JSON.parse(JSON.stringify(response));
@@ -59,7 +56,9 @@ export class GlossaryComponent implements OnInit {
                 this.title.toLowerCase()
               )
             ) {
+              this.glossarySelected = [];
               this.glossarySelected.push(this.glossaryList[i]);
+              break;
             }
           }
         }
@@ -114,13 +113,6 @@ export class GlossaryComponent implements OnInit {
         }
       });
     });
-  }
-
-  // this funtion will trigger on keyup for search function
-  public checkInput(val) {
-    if (val !== '') {
-      this.emitter.emit(val);
-    }
   }
 
   // this function will fetch all the matched glossary items only corresponding to the characters entered by user
@@ -184,6 +176,7 @@ export class GlossaryComponent implements OnInit {
       this.allmetrics = false;
       for (let i = 0; i < this.glossaryList.length; i++) {
         if (this.glossaryList[i].BusinessGlossary.ProviderDashboardName.Metric === value) {
+          this.glossarySelected = [];
           this.glossarySelected = [this.glossaryList[i]];
           this.hyperlink = '';
           if (this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.MetricID === 301) {
@@ -200,8 +193,9 @@ export class GlossaryComponent implements OnInit {
             this.split = this.split.replace(this.hyperlink, '');
             this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.Definition = this.definition;
           }
-        }
-      }
+          break;
+        } // end if structure for glossaryList
+      } // end for loop
     }
   }
 
