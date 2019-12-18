@@ -2,15 +2,19 @@
   <div class="main-content">
     <div class="cards cust-width-title">
       <app-breadcrumbs></app-breadcrumbs>
-      <div class="page-title">
+      <app-print></app-print>
+      <div class="page-title" [ngClass]="{ 'print-page-title': printStyle === true }">
         {{ pageTitle }}
+        <div *ngIf="printStyle" [ngClass]="{ 'print-page-subtitle': printStyle === true }">
+          {{ pageSubTitle }}
+        </div>
         <div class="sub-title">
           {{ subTitle }}
         </div>
       </div>
       <div class="breadcrumb-top-padding">
         <!-- <app-filters-applied></app-filters-applied> -->
-        <div class="container--tabs">
+        <div *ngIf="development" class="container--tabs">
           <section class="row">
             <ul class="nav nav-tabs">
               <li
@@ -39,45 +43,9 @@
       </div>
     </div>
     <!--<app-mock-data-warning-message class="warning-block"></app-mock-data-warning-message>-->
-    <!--<div class="breadcrumb-top-padding filter-div" *ngIf="false">-->
-    <!--<div class="time&#45;&#45;period ">-->
-    <!--<div class="filterchips">-->
-    <!--<div class="horizontal-align">-->
-    <!--<button class="btn btn-rounded" disabled>-->
-    <!--<span>Time Period: </span><span class="text-semibold pl-4">{{ timePeriod }} </span>-->
-    <!--</button>-->
-    <!--</div>-->
-    <!--<div class="horizontal-align" *ngFor="let tax of taxID">-->
-    <!--<button class="btn btn-rounded" disabled>-->
-    <!--<span>Tax ID: </span><span class="text-semibold pl-4">{{ tax }} </span>-->
-    <!--<div class="close-btn">-->
-    <!--<mat-icon class="icon-display" (click)="removeFilter('tax', tax)" svgIcon="close"></mat-icon>-->
-    <!--</div>-->
-    <!--</button>-->
-    <!--</div>-->
-    <!--<div class="horizontal-align" *ngIf="lob">-->
-    <!--<button class="btn btn-rounded" disabled>-->
-    <!--<span>Line of Business: </span><span class="text-semibold pl-4">{{ lob }} </span>-->
-    <!--<div class="close-btn">-->
-    <!--<mat-icon-->
-    <!--class="icon-display"-->
-    <!--(click)="removeFilter('lob', session.filterObjValue.lob)"-->
-    <!--svgIcon="close"-->
-    <!--&gt;</mat-icon>-->
-    <!--</div>-->
-    <!--</button>-->
-    <!--</div>-->
-    <!--</div>-->
-    <!--<div class="filter_bg" (click)="openFilter()">-->
-    <!--<mat-icon matPrefix class="nav-menu-icons" class="filter_icon" svgIcon="filter"></mat-icon>-->
-    <!--<div class="filter_title">Filters</div>-->
-    <!--</div>-->
-    <!--</div>-->
-    <!--</div>-->
-    <!--</div>-->
 
     <div class="height1Separator"></div>
-    <div *ngIf="currentSummary != null" class="pi-cards">
+    <div *ngIf="currentSummary != null && development" class="pi-cards">
       <app-card [chartData]="currentSummary[0]" class="cards"></app-card>
       <div *ngIf="currentSummary[1] != null" class="app-card-structure">
         <app-common-header
@@ -98,7 +66,6 @@
         <div class="pi-bar-chart">
           <app-med-bar-chart [chartOptions]="currentSummary[2].data"></app-med-bar-chart>
           <div class="pi-bar-chart-trend-comparison">*Positive/negative trend comparison is Jun 2019 vs. Jul 2019</div>
-          <app-common-footer [timePeriod]="currentSummary[2].timeperiod" class="width-100"></app-common-footer>
         </div>
       </div>
     </div>
@@ -108,8 +75,7 @@
       class="cards"
       [data]="cardData"
     ></app-error-card>
-    <!-- commented for now as still under developement need to be removed once the api integration is done and completed -->
-    <!-- <div class="pi-medical-record-coding-review-block card-inner" *ngIf="piDataloaded">
+    <div class="pi-medical-record-coding-review-block card-inner" *ngIf="piDataloaded">
       <app-common-header
         [title]="title"
         class="full-display"
@@ -174,7 +140,7 @@
       <div class="full-display">
         <app-common-footer [timePeriod]="cardData.timeperiod" class="width-100"></app-common-footer>
       </div>
-    </div> -->
+    </div>
 
     <!-- Smart Edits Claims Returned Card Starts here -->
     <div *ngIf="showSmartEditsClaimsReturned">

@@ -323,16 +323,16 @@ export class CommonUtilsService {
     const hoverLabels = [];
     if (cardData !== null) {
       if (lobValue === 'All') {
-        if (cardData.hasOwnProperty('Mr')) {
+        if (cardData.hasOwnProperty('Mr') && cardData.Mr !== null) {
           hoverLabels.push('Medicare & Retirement');
         }
-        if (cardData.hasOwnProperty('Cs')) {
+        if (cardData.hasOwnProperty('Cs') && cardData.Cs !== null) {
           hoverLabels.push('Community & State');
         }
-        if (cardData.hasOwnProperty('Ei')) {
+        if (cardData.hasOwnProperty('Ei') && cardData.Ei !== null) {
           hoverLabels.push('Employer & Individual');
         }
-        if (cardData.hasOwnProperty('Un')) {
+        if (cardData.hasOwnProperty('Un') && cardData.Un !== null) {
           hoverLabels.push('Uncategorized');
         }
       } else if (lobValue === 'Mr') {
@@ -362,18 +362,19 @@ export class CommonUtilsService {
   /** Function to show hovers colors as per Lob**/
   public returnLobColor(cardData, lobValue) {
     const hoverColors = [];
+
     if (cardData !== null) {
       if (lobValue === 'All') {
-        if (cardData.hasOwnProperty('Mr')) {
+        if (cardData.hasOwnProperty('Mr') && cardData.Mr !== null) {
           hoverColors.push('#3381FF');
         }
-        if (cardData.hasOwnProperty('Cs')) {
+        if (cardData.hasOwnProperty('Cs') && cardData.Cs !== null) {
           hoverColors.push('#80B0FF');
         }
-        if (cardData.hasOwnProperty('Ei')) {
+        if (cardData.hasOwnProperty('Ei') && cardData.Ei !== null) {
           hoverColors.push('#003DA1');
         }
-        if (cardData.hasOwnProperty('Un')) {
+        if (cardData.hasOwnProperty('Un') && cardData.Un !== null) {
           hoverColors.push('#00B8CC');
         }
       } else if (lobValue === 'Mr') {

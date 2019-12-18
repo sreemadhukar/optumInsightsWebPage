@@ -23,10 +23,11 @@ export class PaymentIntegrityComponent implements OnInit {
   pageTitle: String = '';
   subTitle: String = '';
   currentTabTitle: String = '';
+  development = false;
   timePeriod: string;
   lob: string;
   taxID: Array<string>;
-  title = '';
+  title = 'Claims Payment Integrity';
   smartEditsReasonTitle = 'Smart Edits Returned Claims Top Reasons';
   smartEditsRepairedAndResubmittedTitle = 'Smart Edits Repaired & Resubmitted Response Time';
   MetricID = 'NA';
@@ -47,7 +48,7 @@ export class PaymentIntegrityComponent implements OnInit {
   currentSummary: Array<Object> = [{}];
   summaryItems: any;
   previousSelectedTab: any = 1;
-
+  pageSubTitle: string;
   constructor(
     private glossaryExpandService: GlossaryExpandService,
     public MetricidService: GlossaryMetricidService,
@@ -80,9 +81,10 @@ export class PaymentIntegrityComponent implements OnInit {
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-close-24px.svg')
     );
     this.pageTitle = 'Medical Records Coding Review';
+    this.pageSubTitle = 'Reimbursements - Payment Integrity - ' + 'Medical Records Coding Review';
     this.tabOptionsTitle = ['Jul 1, 2018–Jun 30, 2019', 'Jul 1, 2019–Oct 31, 2019'];
     this.subTitle = `Note: Claims Metrics are calculated using date medical record requested.
-       Dashboard information/measurements are reperesenting physician claims only.
+       Dashboard information/measurements are representing physician claims only.
        These measurements do not take into account facility claims.`;
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.filtermatch.urlResuseStrategy());
   }
@@ -97,6 +99,9 @@ export class PaymentIntegrityComponent implements OnInit {
     this.previousSelectedTab = i;
   }
   ngOnInit() {
+    if (this.printStyle) {
+      this.pageTitle = this.session.getHealthCareOrgName();
+    }
     this.tabOptions = [];
     let temp;
     temp = [
@@ -168,8 +173,8 @@ export class PaymentIntegrityComponent implements OnInit {
           type: 'large bar chart',
           cdata: 'paymentintegrity',
           graphValues: [69, 31],
-          barText: 'Accurate Codes',
-          hoverData: '699/760 Reviewed',
+          barText: 'Records Received',
+          hoverData: '699/760 Requested',
           color: ['#00B8CC', '#FFFFFF', '#E91B18'],
           gdata: ['app-card-structure', 'pi-large-bar-chart'],
           hover: true,

@@ -45,7 +45,7 @@ import { REMOVE_FILTER } from '../../../store/filter/actions';
   ]
 })
 export class NonPaymentsComponent implements OnInit, AfterViewChecked {
-  title = ' Top Reasons for Claims Non-Payment';
+  title = 'Top Reasons for Claims Non-Payment';
   trendTitle = 'Claims Non-Payment Trend';
   section: any = [];
   timePeriod: string;
@@ -266,7 +266,7 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
     );
     this.printRoute = '/GettingReimbursed/NonPayments/print-nonpayments';
     this.pageTitle = 'Claims Non-Payments*';
-    this.pageSubTitle = 'Getting Reimbursed - NonPayments';
+    this.pageSubTitle = 'Getting Reimbursed - Non-Payments';
     this.createPayloadService.getEvent().subscribe(value => {
       this.ngOnInit();
     });
