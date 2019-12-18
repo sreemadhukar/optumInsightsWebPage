@@ -6,7 +6,6 @@ import { GlossaryService } from './../../rest/glossary/glossary.service';
 import { catchError } from 'rxjs/operators';
 import { MatInput } from '@angular/material';
 import { environment } from '../../../environments/environment';
-import { EventEmitterService } from '../../shared/know-our-provider/event-emitter.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -37,11 +36,7 @@ export class GlossaryComponent implements OnInit {
   public isKop = false;
   @Input() title; // which we recieve from card -> common-header component
   @Input() MetricID; // which we recieve from corresponsding card shared files
-  constructor(
-    private glossaryService: GlossaryService,
-    private eventEmitter: EventEmitterService,
-    private router: Router
-  ) {}
+  constructor(private glossaryService: GlossaryService, private router: Router) {}
 
   ngOnInit() {
     this.glossarySelected = [];
