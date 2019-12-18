@@ -31,7 +31,7 @@ export class CreatePayloadService {
     trendMetric: 'GettingReimbursed',
     trendDate: new Date(),
     claimsFilter: 'All',
-    viewClaimsByFilter: 'DateOfProcessing'
+    viewClaimsByFilter: 'DateOfService'
   };
   payload: PayLoad = this.initialState;
   private payloadEmit = new Subject<any>();

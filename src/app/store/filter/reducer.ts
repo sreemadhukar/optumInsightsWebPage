@@ -12,7 +12,7 @@ export const INITIAL_STATE: IAppState = {
   trendMetric: 'GettingReimbursed',
   trendDate: new Date(),
   claimsFilter: 'All',
-  viewClaimsByFilter: 'DateOfProcessing'
+  viewClaimsByFilter: 'DateOfService'
 };
 
 export function FilterReducer(state, action) {

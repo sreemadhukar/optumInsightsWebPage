@@ -23,8 +23,8 @@ export const ClaimsFilter = [
 ];
 
 export const ViewClaimsByFilter = [
-  { name: 'DateOfProcessing', value: 'Date of Processing', disable: false },
-  { name: 'DateOfService', value: 'Date of Service', disable: false }
+  { name: 'DateOfService', value: 'Date of Service', disable: false },
+  { name: 'DateOfProcessing', value: 'Date of Processing', disable: true }
 ];
 
 export const ServiceSetting = [
