@@ -133,7 +133,6 @@ export class KopOverviewComponent implements OnInit, OnDestroy {
         if (data) {
           this.showMetricDevelopment(data);
           this.kopInsightsData = data;
-          console.log(this.kopInsightsData);
           this.npsLoaded = true;
           this.loadOtherMetrics();
           this.getReimbursementClaimsData();
