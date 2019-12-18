@@ -62,7 +62,7 @@ export class CallsComponent implements OnInit {
 
   ngOnInit() {
     if (this.printStyle) {
-      this.pageSubTitle = 'Issue Resolution - Calls';
+      this.pageSubTitle = 'Service Interaction - Calls';
       this.pageTitle = this.session.getHealthCareOrgName();
     }
     this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'callsPage' });
