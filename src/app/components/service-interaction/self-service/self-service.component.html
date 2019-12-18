@@ -22,7 +22,7 @@
       ></app-error-card>
     </div>
     <!-- starts opportunites here -->
-    <div class="opportunity-content">
+    <div class="opportunity-content" [ngClass]="{ 'print-page-opportunities': printStyle === true }">
       <div class="self-service-heading">
         <div class="cards cust-width-title">
           <div class="title-opportunity">{{ opportunities }}</div>

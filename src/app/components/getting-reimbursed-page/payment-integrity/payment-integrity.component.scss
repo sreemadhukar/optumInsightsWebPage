@@ -310,6 +310,22 @@
           padding-top: 8px;
         }
       }
+      .print-page-title {
+        padding-top: 30px;
+        font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+        line-height: 30px;
+      }
+      .print-page-subtitle {
+        font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+        line-height: 40px;
+        flex-basis: 100%;
+        font-size: 28px;
+        display: flex;
+        flex-direction: row;
+        position: relative;
+        justify-content: space-between;
+        width: 98.5%;
+      }
       .page-subtitle {
         flex-basis: 100%;
         font-size: 28px;
