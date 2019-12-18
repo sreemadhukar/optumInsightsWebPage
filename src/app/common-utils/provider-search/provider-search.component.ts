@@ -116,6 +116,7 @@ export class ProviderSearchComponent implements OnInit, AfterViewInit {
       this.extstates = this.extstates.map(function(elm) {
         return { Providersyskey: elm['ProviderKey'], Healthcareorganizationname: elm['ProviderSystem'] };
       });
+      this.extstates.sort((a, b) => a.Healthcareorganizationname.localeCompare(b.Healthcareorganizationname));
       this.externalOrgs = this.extstates;
     }
   }
@@ -265,7 +266,6 @@ export class ProviderSearchComponent implements OnInit, AfterViewInit {
     this.extstates = this.externalOrgs.filter(
       el => el.Healthcareorganizationname.toLowerCase().indexOf(val.toLowerCase()) !== -1
     );
-    this.extstates.sort((a, b) => a.Healthcareorganizationname.localeCompare(b.Healthcareorganizationname));
   }
 
   toggleDropdown() {

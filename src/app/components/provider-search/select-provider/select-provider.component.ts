@@ -134,6 +134,7 @@ export class SelectProviderComponent implements OnInit {
       this.extstates = this.extstates.map(function(elm) {
         return { Providersyskey: elm['ProviderKey'], Healthcareorganizationname: elm['ProviderSystem'] };
       });
+      this.extstates.sort((a, b) => a.Healthcareorganizationname.localeCompare(b.Healthcareorganizationname));
       this.externalOrgs = this.extstates;
     }
   }
@@ -258,7 +259,6 @@ export class SelectProviderComponent implements OnInit {
     this.extstates = this.externalOrgs.filter(
       el => el.Healthcareorganizationname.toLowerCase().indexOf(val.toLowerCase()) !== -1
     );
-    this.extstates.sort((a, b) => a.Healthcareorganizationname.localeCompare(b.Healthcareorganizationname));
     (<HTMLElement>document.querySelector('.mat-autocomplete-hidden')).style.visibility = 'visible';
 
     (<HTMLElement>document.querySelector('.mat-autocomplete-panel')).style.height = 'auto';
