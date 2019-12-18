@@ -99,7 +99,7 @@ app-header {
   font-size: 16px;
   letter-spacing: 0.2px;
   line-height: 22px;
-  margin: 4px 0 0 0;
+  margin: 4px 0 0px 0;
 }
 
 .change-provider {
@@ -483,7 +483,7 @@ app-header {
 
 .mat-drawer-inner-container {
   overflow: unset !important;
-  height: 125vh !important;
+  /*height: 125vh !important;*/
   overflow-x: hidden !important;
 }
 

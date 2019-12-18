@@ -1,10 +1,12 @@
 @import '~src/scss/variables.scss';
-
 .page-overlay {
   overflow: hidden;
+  background: #fafafa;
+  height: -webkit-fill-available;
   .header-div {
     background-color: $white;
     height: 72px;
+    border-bottom: 1px solid #e0e0e0;
     .header-logo-div {
       display: inline-block;
     }
@@ -18,7 +20,7 @@
     }
   }
   .body-div {
-    // height: 342px;
+    height: 342px;
     width: 480px;
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
     background: $white;
@@ -34,40 +36,42 @@
       margin: 0;
       margin-top: 18px;
       color: #2d2d39;
-      font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+      font-family: 'UHCSans-Regular', Helvetica, Arial, sans-serif;
       font-size: 22px;
       line-height: 28px;
     }
     .denied-heading {
       color: #2d2d39;
-      font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+      font-family: 'UHCSans-Regular', Helvetica, Arial, sans-serif;
       font-size: 36px;
       line-height: 40px;
-      margin-top: 40px;
+      margin-top: 32px;
     }
     .denied-description {
       color: #2d2d39;
-      font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+      font-family: 'UHCSans-Regular', Helvetica, Arial, sans-serif;
       font-size: 16px;
       letter-spacing: 0.2px;
       line-height: 22px;
-      margin-top: 30px;
+      margin-top: 16px;
     }
     .return-to-link {
       color: #196ecf;
-      font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+      font-family: 'UHCSans-Regular', Helvetica, Arial, sans-serif;
       font-size: 16px;
       letter-spacing: 0.2px;
       line-height: 22px;
+      cursor: pointer;
+      text-decoration: none;
     }
   }
   .footer-block {
     width: 480px;
     margin: 0 auto;
-    margin-top: 20px;
+    margin-top: 16px;
     .ownLine {
       color: #2d2d39;
-      font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+      font-family: 'UHCSans-Regular', Helvetica, Arial, sans-serif;
       font-size: 14px;
       letter-spacing: 0.2px;
       line-height: 18px;
