@@ -29,9 +29,15 @@ export class PrintPageComponent implements OnInit {
 
   ngOnInit() {
     this.currentPage.subscribe(c => (this.selectedPage = c));
-    setTimeout(() => {
-      (window as any).print();
-    }, this.data.flatMap(i => (i.page === this.selectedPage ? i.load : 0)));
-    console.log('laod Time for Print', this.data.flatMap(i => (i.page === this.selectedPage ? i.load : 0)));
+    setTimeout(
+      () => {
+        (window as any).print();
+      },
+      this.data.filter(i => i.page === this.selectedPage)[0]
+        ? this.data.filter(i => i.page === this.selectedPage)[0].load
+        : 0
+    );
+    // }, this.data.flatMap(i => (i.page === this.selectedPage ? i.load : 0)));
+    // console.log('laod Time for Print', this.data.flatMap(i => (i.page === this.selectedPage ? i.load : 0)));
   }
 }
