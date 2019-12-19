@@ -203,4 +203,66 @@ export class OverviewAdvocateSharedService {
       );
     });
   }
+
+  public getTotalCallsTrendLineShared(param) {
+    this.timeFrame = this.common.getTimePeriodFilterValue(param.timePeriod);
+    return new Promise(resolve => {
+      const parameters = this.getParameterCategories(param);
+      this.overviewAdvocateService.callsTrendLineData(...parameters).subscribe(
+        callsTrendData => {
+          const beData = [];
+          const claimsData = [];
+          const paData = [];
+          const other = [];
+          if (callsTrendData) {
+            callsTrendData.forEach(element => {
+              console.log('collective', element);
+              console.log('collectiveBeData1', element.CallTalkTimeByQuesType.BenefitsEligibility);
+              const collectiveBeData = [];
+              const collectiveClaimsData = [];
+              const collectivePaData = [];
+              const collectiveOtherData = [];
+
+              if (element.CallTalkTimeByQuesType.BenefitsEligibility) {
+                collectiveBeData.push(element.CallTalkTimeByQuesType.BenefitsEligibility);
+                console.log('collectiveBeData2', collectiveBeData);
+              }
+              if (element.CallTalkTimeByQuesType.Claims) {
+                collectiveClaimsData.push(element.CallTalkTimeByQuesType.Claims);
+              }
+              if (element.CallTalkTimeByQuesType.PriorAuth) {
+                collectivePaData.push(element.CallTalkTimeByQuesType.PriorAuth);
+              }
+              if (element.CallTalkTimeByQuesType.Others) {
+                collectiveOtherData.push(element.CallTalkTimeByQuesType.Others);
+              }
+
+              if (collectiveBeData.length !== 0) {
+                for (let i = 0; i < collectiveBeData.length; i++) {
+                  const trendCollectiveValue = collectiveBeData[i];
+                  const trendTimePeriod = element.Calldate;
+                  // const monthName = trendTimePeriod.substr(4, 4);
+
+                  beData.push({
+                    // name: monthName,
+                    value: trendCollectiveValue,
+                    month: trendTimePeriod
+                  });
+                }
+              }
+            });
+          }
+          const callsTrendFormattedData = {};
+          if (beData) {
+            callsTrendFormattedData['B&E'] = beData;
+          }
+          console.log('callsTrendFormattedData', callsTrendFormattedData);
+          resolve(callsTrendFormattedData);
+        },
+        err => {
+          console.log('Advocate Page , Error for calls card', err);
+        }
+      );
+    });
+  }
 }

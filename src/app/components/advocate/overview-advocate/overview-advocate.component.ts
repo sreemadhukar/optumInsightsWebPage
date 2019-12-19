@@ -13,6 +13,7 @@ import { OverviewAdvocateSharedService } from '../../../shared/advocate/overview
 import { GlossaryExpandService } from '../../../shared/glossary-expand.service';
 import { AppealsData } from '../appeals-data';
 import { GeneralData } from '../general-data';
+import { CallsTrendData } from '../calls-trend-data';
 import { CreatePayloadService } from '../../../shared/uhci-filters/create-payload.service';
 import { NgRedux } from '@angular-redux/store';
 import { CURRENT_PAGE, REMOVE_FILTER } from '../../../store/filter/actions';
@@ -48,6 +49,7 @@ export class OverviewAdvocateComponent implements OnInit {
   adminAppeals: any;
   clinicalAppeals: any;
   appealsLineGraph: AppealsData;
+  callsTrendLineGraph: CallsTrendData;
   mi: any;
   cs: any;
   ei: any;
@@ -219,6 +221,35 @@ export class OverviewAdvocateComponent implements OnInit {
       });
   }
 
+  totalCallsTrendLineData(payload) {
+    this.callsLoading = true;
+    this.overviewAdvocateSharedService
+      .getTotalCallsTrendLineShared(payload)
+      .then(totalCallsTrendData => {
+        if (totalCallsTrendData[0] == null) {
+          this.callsLoading = false;
+          this.callsLineGraphData = {
+            category: 'large-card',
+            type: 'donut',
+            status: 404,
+            title: this.trendTitleForCalls,
+            MetricID: this.MetricidService.MetricIDs,
+            data: null,
+            timeperiod: null
+          };
+        } else {
+          let callsTrendData;
+          callsTrendData = totalCallsTrendData;
+          console.log('callsTrendData', callsTrendData);
+          // this.callsTrendLineGraph = new CallsTrendData(callsTrendData, GeneralData, 'calls-trend-block');
+          this.callsLoading = false;
+        }
+      })
+      .catch(err => {
+        this.callsLoading = false;
+      });
+  }
+
   claimsYieldData(payload) {
     this.claimsYieldLoading = true;
     this.downRowMockCards = [{}];
@@ -244,6 +275,7 @@ export class OverviewAdvocateComponent implements OnInit {
     this.appealsTrendByMonthData(this.createPayloadService.payload);
     this.totalCallsData(this.createPayloadService.payload);
     this.claimsYieldData(this.createPayloadService.payload);
+    this.totalCallsTrendLineData(this.createPayloadService.payload);
     this.appealsLineGraphloading = true;
     // this.callsLineGraphLoading = true;
     this.userName = this.session.sessionStorage('loggedUser', 'FirstName');
