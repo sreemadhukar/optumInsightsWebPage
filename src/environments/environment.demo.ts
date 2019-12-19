@@ -50,7 +50,9 @@ export const environment: any = {
     AppealsFHIR: 'appeals/v2.0/',
     AppealsOverturn: 'appeal-overturn-reasons/',
     AdminSummaryTrendsCount: 'admintrendscount/',
-    HealthSystemDetails: 'providerInfo/'
+    RefreshToken: 'getRefreshToken/',
+    HealthSystemDetails: 'providerInfo/',
+    KOPBusinessGlossary: 'business-glossaries-kop/'
   },
   headerKeys: {
     selectedCompany: '',

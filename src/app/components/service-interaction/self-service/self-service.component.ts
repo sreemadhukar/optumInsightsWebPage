@@ -61,7 +61,7 @@ export class SelfServiceComponent implements OnInit {
     this.selfServiceMiniCards = [];
     this.loading = true;
     if (this.printStyle) {
-      this.pageSubTitle = 'Issue Resolution - Self Service';
+      this.pageSubTitle = 'Service Interaction - Self Service';
       this.pageTitle = this.session.getHealthCareOrgName();
     }
     this.selfServiceSrc
