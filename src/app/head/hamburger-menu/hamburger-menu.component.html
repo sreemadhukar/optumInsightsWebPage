@@ -61,6 +61,7 @@
         <div class="health-system-representation-block" *ngIf="!isKop">
           <p class="representing-label">You are representing</p>
           <p class="health-system-name">{{ healthSystemName }}</p>
+          <p class="Group-premium-designation" *ngIf="GroupPremiumDesignation">HPP</p>
           <p
             class="change-provider"
             *ngIf="(disableChangeProvider || externalProvidersCount) && !AcoFlag"
