@@ -14,7 +14,7 @@
       </div>
       <div class="breadcrumb-top-padding">
         <!-- <app-filters-applied></app-filters-applied> -->
-        <div *ngIf="development" class="container--tabs">
+        <div *ngIf="development && !printStyle" class="container--tabs">
           <section class="row">
             <ul class="nav nav-tabs">
               <li
@@ -39,6 +39,14 @@
               </li>
             </ul>
           </section>
+        </div>
+        <div *ngIf="printStyle && development" class="nav nav-tabs">
+          <span>
+            {{ printDateTitle }}
+            <div class="nav-values" style="padding-top:5px;">
+              {{ printDateSubTitle }}
+            </div>
+          </span>
         </div>
       </div>
     </div>
