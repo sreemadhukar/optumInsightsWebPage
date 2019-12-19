@@ -22,14 +22,14 @@ export class ErrorInterceptor implements HttpInterceptor {
             this.authenticationService.logout();
             // location.reload(true); commented this
           }
-          const error = err.error.message || err.statusText;
-          return throwError(error);
         } else {
           if (err.status === 401) {
             // redirecting to access denied page
             this.router.navigate(['/AccessDenied']);
           }
         }
+        const error = err.error.message || err.statusText;
+        return throwError(error);
       })
     );
   }
