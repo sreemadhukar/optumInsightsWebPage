@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { SelfSharedService } from '../../../shared/service-interaction/self-shared.service';
 import { SessionService } from '../../../shared/session.service';
 import { StorageService } from '../../../shared/storage-service.service';
@@ -16,7 +16,9 @@ import { REMOVE_FILTER } from '../../../store/filter/actions';
   styleUrls: ['./self-service.component.scss']
 })
 export class SelfServiceComponent implements OnInit {
+  @Input() printStyle;
   pageTitle: String = '';
+  pageSubTitle: String = '';
   previousSelected: any = 0;
   selfServiceItems: Array<Object> = [{}];
   timeFrame: String = '';
@@ -58,6 +60,10 @@ export class SelfServiceComponent implements OnInit {
     this.mockSelfServiceMiniCards = [{}, {}, {}, {}];
     this.selfServiceMiniCards = [];
     this.loading = true;
+    if (this.printStyle) {
+      this.pageSubTitle = 'Service Interaction - Self Service';
+      this.pageTitle = this.session.getHealthCareOrgName();
+    }
     this.selfServiceSrc
       .getSelfServiceData()
       .then(selfServiceData => {

@@ -135,6 +135,7 @@ export class KopOverviewComponent implements OnInit, OnDestroy {
           this.kopInsightsData = data;
           this.npsLoaded = true;
           this.loadOtherMetrics();
+          this.getReimbursementClaimsData();
         } else {
           this.isError = true;
         }
@@ -164,6 +165,26 @@ export class KopOverviewComponent implements OnInit, OnDestroy {
       })
       .catch(err => {
         // Use this if you need to show some error
+        console.log(err);
+      });
+  }
+
+  getReimbursementClaimsData() {
+    this.kopSharedService
+      .getClaimsData({ filter: this.currentFilter })
+      .then((data: any) => {
+        if (data) {
+          const {
+            reimbursement: { chartData }
+          } = data;
+          this.kopInsightsData.reimbursement.chartData.forEach((chartItem: any, index: number) => {
+            if (chartItem.metricType === 'reimbursementClaims') {
+              Object.assign(chartItem, { ...chartData[index] });
+            }
+          });
+        }
+      })
+      .catch(err => {
         console.log(err);
       });
   }

@@ -22,6 +22,11 @@ export const ClaimsFilter = [
   { name: 'INSTITUTIONAL', value: 'UB (Universal Billing)', disable: false }
 ];
 
+export const ViewClaimsByFilter = [
+  { name: 'DateOfService', value: 'Date of Service', disable: false },
+  { name: 'DateOfProcessing', value: 'Date of Processing', disable: true }
+];
+
 export const ServiceSetting = [
   { name: 'All', value: 'All', disable: false },
   { name: 'Inpatient', value: 'Inpatient', disable: false },
@@ -106,7 +111,8 @@ export const filterToggles = {
   togglePriorAuthType: false,
   toggleMetric: false,
   toggleDate: false,
-  toggleClaim: false
+  toggleClaim: false,
+  toggleViewClaimsBy: false
 };
 
 export interface TaxId {
