@@ -2,9 +2,7 @@
   <div class="main-content">
     <div class="cards cust-width-title">
       <app-breadcrumbs></app-breadcrumbs>
-      <div class="page-title">
-        North Region Health System
-      </div>
+      <div class="page-title">{{ healthSystemData.HealthCareOrganizationName }}</div>
     </div>
     <div class="health-system-details-block" *ngIf="healthSystemData">
       <div class="health-system-details" *ngIf="healthSystemData.All">
@@ -37,8 +35,16 @@
         </div>
         <div class="health-system-tin-types-value">
           <span *ngFor="let tin of healthSystemData.TinTypes; let isLast = last"
-            >{{ tin | titlecase }}{{ isLast ? '' : ', ' }}</span
+            >{{ tin | sliceString }}{{ isLast ? '' : ', ' }}</span
           >
+        </div>
+      </div>
+      <div class="health-system-details" *ngIf="healthSystemData.BicId">
+        <div class="health-system-bic">
+          BIC System ID:
+        </div>
+        <div class="health-system-bic-value">
+          {{ healthSystemData.BicId }}
         </div>
       </div>
       <div class="viewIBttn">
@@ -46,5 +52,6 @@
       </div>
     </div>
     <div class="line"></div>
+    <app-tax-summary *ngIf="healthSystemData" [data]="healthSystemData" class="tax-summary-block"></app-tax-summary>
   </div>
 </div>

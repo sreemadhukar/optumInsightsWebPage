@@ -63,6 +63,7 @@
           </div>
         </button>
       </div>
+
       <!--<div class="horizontal-align" *ngIf="selectedPage === 'priorAuthPage' && selectedPriorAuthType.value !== 'All'">-->
       <!--<button class="btn btn-rounded" disabled>-->
       <!--<span>Prior Auth Type: </span><span class="text-semibold pl-4"> {{ selectedPriorAuthType.value }} </span>-->
@@ -112,7 +113,7 @@
       </div>
     </ng-template>
   </div>
-  <div class="filter-bg" (click)="openFilter()">
+  <div *ngIf="!printStyle" class="filter-bg" (click)="openFilter()">
     <mat-icon matPrefix class="nav-menu-icons filter-icon" svgIcon="filter"></mat-icon>
     <div class="filter-title">Filters</div>
   </div>

@@ -1,62 +1,6 @@
 @import '~src/scss/variables.scss';
 @import '~src/scss/mixins';
 @import '~src/scss/my-custom-theme';
-.breadcrumb-top-padding {
-  @include margin(12px, 0, 12px, 0);
-  box-sizing: border-box;
-
-  .filter-div {
-    overflow: auto;
-    line-height: 0;
-  }
-  .filter_bg {
-    height: 40px;
-    width: 100px;
-    box-sizing: border-box;
-    border: 1px solid $blue;
-    border-radius: 2px;
-    float: right;
-    cursor: pointer;
-    margin-right: 1px;
-    .filter_title {
-      color: $blue;
-      font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
-      font-size: 16px;
-      letter-spacing: 0.2px;
-      line-height: 22px;
-      text-align: center;
-      margin: 9px 0;
-      float: left;
-    }
-    .filter_icon {
-      color: $blue;
-      margin: 7px 10px;
-      float: left;
-    }
-  }
-  .filter_bg:hover,
-  .filter_bg:focus {
-    background-color: #196ecf;
-    color: #ffffff;
-    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
-    .filter_title {
-      color: #ffffff;
-    }
-    .filter_icon {
-      color: #ffffff;
-    }
-  }
-  .filter_bg:active {
-    background-color: #003da1;
-    color: #ffffff;
-    .filter_title {
-      color: #ffffff;
-    }
-    .filter_icon {
-      color: #ffffff;
-    }
-  }
-}
 
 .content-wrapper {
   background-color: $alice-blue;
@@ -86,7 +30,7 @@
       border-radius: 2px;
       background-color: $white;
       box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
-      float: left;
+      // float: left;
       margin-top: 12px;
       margin-left: 12px;
       margin-bottom: 12px;
@@ -100,6 +44,7 @@
     }
     .pi-cards {
       display: flex;
+      flex-wrap: wrap;
       & > .cards {
         text-align: left;
         // @include margin(0, 0, 0, 12px);
@@ -289,7 +234,6 @@
         /*margin-bottom: 24px;*/
         margin-bottom: 20px;
         padding-top: 24px;
-
         .nav-tabs {
           display: flex;
           border-radius: 2px;
@@ -311,7 +255,6 @@
               letter-spacing: 0.2px;
               line-height: 22px;
             }
-
             &.active {
               background-color: #f1f4f7;
               border-top: 4px solid #196ecf;
@@ -323,7 +266,6 @@
               border-right: 0;
               color: $black-rock;
             }
-
             .nav-values {
               color: #757588;
               font-size: 14px;
@@ -342,7 +284,6 @@
                 color: color(red, dark);
               }
             }
-
             &:hover,
             &:focus {
               border-top: 4px solid #196ecf;
@@ -368,6 +309,22 @@
           line-height: 22px;
           padding-top: 8px;
         }
+      }
+      .print-page-title {
+        padding-top: 30px;
+        font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+        line-height: 30px;
+      }
+      .print-page-subtitle {
+        font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+        line-height: 40px;
+        flex-basis: 100%;
+        font-size: 28px;
+        display: flex;
+        flex-direction: row;
+        position: relative;
+        justify-content: space-between;
+        width: 98.5%;
       }
       .page-subtitle {
         flex-basis: 100%;
@@ -452,7 +409,6 @@
       flex-flow: column;
     }
   }
-
   .overturn-reason-block {
     margin: 12px;
     height: 494px;
@@ -483,14 +439,12 @@
     padding-bottom: 16px;
     padding-left: 75px; // centre aligned to card
   }
-
   .top-reason-one {
     margin-top: 80px;
   }
   .top-reason-other {
     margin-left: 16px;
   }
-
   .top-reason-one-informational {
     margin-top: 61px;
   }
@@ -511,8 +465,32 @@
     letter-spacing: 0.2px;
     color: $black-rock;
   }
-
   @media only screen and (max-width: 1024px) {
     @include padding(16px, 0, 16px, 0);
   }
+}
+
+.pi-bar-chart-trend-comparison {
+  color: #757588;
+  font-family: 'UHCSans-Regular';
+  font-size: 14px;
+  letter-spacing: 0.2px;
+  line-height: 18px;
+  padding-left: 16px;
+  padding-bottom: 14px;
+}
+
+.nav-tabs {
+  display: flex;
+  border-radius: 2px;
+  list-style-type: none;
+  font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+  color: #2d2d39;
+}
+
+.nav-values {
+  color: #757588;
+  font-size: 14px;
+  font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+  line-height: 18px;
 }

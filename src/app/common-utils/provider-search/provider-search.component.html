@@ -12,7 +12,6 @@
           <mat-label>Search Providers</mat-label>
           <input matInput [matAutocomplete]="auto" [formControl]="stateCtrl" id="test" />
           <mat-icon matPrefix class="nav-menu-icons searchicon" svgIcon="search"></mat-icon>
-
           <mat-autocomplete #auto="matAutocomplete" (optionSelected)="providerSelect($event)" [ngClass]="{ remove: stateCtrl.value }">
             <mat-option *ngFor="let state of (filteredStates | async)" [value]="state.HealthCareOrganizationName">
               <span *ngIf="state.HealthCareOrganizationName">{{ state.HealthCareOrganizationName }}</span>

@@ -15,6 +15,7 @@ export interface FilterOptions {
   quarterFormat: string;
   timeFrameFormat: string;
   filters: string[];
+  priorAuthFilters: string[];
 }
 
 @Component({
@@ -34,7 +35,8 @@ export class KopOverviewComponent implements OnInit, OnDestroy {
       default: false,
       quarterFormat: 'default',
       timeFrameFormat: 'Quarter and Year',
-      filters: ['LAST_COMPLETED_QUARTER']
+      filters: ['LAST_COMPLETED_QUARTER'],
+      priorAuthFilters: ['LAST_COMPLETED_QUARTER']
     },
     {
       title: 'Year To Date',
@@ -42,7 +44,8 @@ export class KopOverviewComponent implements OnInit, OnDestroy {
       default: false,
       timeFrameFormat: 'Year',
       quarterFormat: 'default',
-      filters: ['YEAR_TO_DATE']
+      filters: ['YEAR_TO_DATE'],
+      priorAuthFilters: ['YEAR_TO_DATE']
     },
     {
       title: 'Quarter over Quarter',
@@ -50,7 +53,8 @@ export class KopOverviewComponent implements OnInit, OnDestroy {
       default: true,
       timeFrameFormat: 'Quarter vs Quarter',
       quarterFormat: 'default',
-      filters: ['QUARTER_OVER_QUARTER']
+      filters: ['QUARTER_OVER_QUARTER'],
+      priorAuthFilters: ['LAST_COMPLETED_QUARTER', 'QUARTER_OVER_QUARTER']
     },
     {
       title: 'Total Last Year',
@@ -58,7 +62,8 @@ export class KopOverviewComponent implements OnInit, OnDestroy {
       default: false,
       timeFrameFormat: 'Last Year',
       quarterFormat: 'YTD',
-      filters: ['YEAR_TO_DATE', 'TOTAL_LAST_YEAR']
+      filters: ['YEAR_TO_DATE', 'TOTAL_LAST_YEAR'],
+      priorAuthFilters: ['YEAR_TO_DATE', 'TOTAL_LAST_YEAR']
     }
   ];
 
@@ -70,6 +75,7 @@ export class KopOverviewComponent implements OnInit, OnDestroy {
   public npsSummary: any = {};
   public currentFilter: any = {};
   public kopInsightsData: any = {};
+  public isError = false;
 
   constructor(
     private eventEmitter: EventEmitterService,
@@ -83,6 +89,10 @@ export class KopOverviewComponent implements OnInit, OnDestroy {
     iconRegistry.addSvgIcon(
       'filter',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-filter_list-24px.svg')
+    );
+    iconRegistry.addSvgIcon(
+      'error',
+      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Alert/round-error_outline-24px.svg')
     );
   }
 
@@ -117,13 +127,66 @@ export class KopOverviewComponent implements OnInit, OnDestroy {
   }
 
   getNPSData() {
-    this.kopSharedService.getSummary({ filter: this.currentFilter }).then((data: any) => {
-      if (data) {
-        this.showMetricDevelopment(data);
-        this.kopInsightsData = data;
-        this.npsLoaded = true;
-      }
-    });
+    this.kopSharedService
+      .getSummary({ filter: this.currentFilter })
+      .then((data: any) => {
+        if (data) {
+          this.showMetricDevelopment(data);
+          this.kopInsightsData = data;
+          this.npsLoaded = true;
+          this.loadOtherMetrics();
+          this.getReimbursementClaimsData();
+        } else {
+          this.isError = true;
+        }
+      })
+      .catch(err => {
+        this.isError = true;
+      });
+  }
+
+  loadOtherMetrics() {
+    this.kopSharedService
+      .getPriorAuthSummary({ filter: this.currentFilter })
+      .then((data: any) => {
+        if (data) {
+          const {
+            careDelivery: { chartData }
+          } = data;
+          this.kopInsightsData.careDelivery.chartData.forEach((chartItem: any, index: number) => {
+            if (chartItem.metricType === 'priorauth') {
+              Object.assign(chartItem, { ...chartData[index] });
+            }
+            if (chartItem.metricType === 'priorauthtat') {
+              Object.assign(chartItem, { ...chartData[index] });
+            }
+          });
+        }
+      })
+      .catch(err => {
+        // Use this if you need to show some error
+        console.log(err);
+      });
+  }
+
+  getReimbursementClaimsData() {
+    this.kopSharedService
+      .getClaimsData({ filter: this.currentFilter })
+      .then((data: any) => {
+        if (data) {
+          const {
+            reimbursement: { chartData }
+          } = data;
+          this.kopInsightsData.reimbursement.chartData.forEach((chartItem: any, index: number) => {
+            if (chartItem.metricType === 'reimbursementClaims') {
+              Object.assign(chartItem, { ...chartData[index] });
+            }
+          });
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
   }
 
   showMetricDevelopment(kopInsightsData) {
@@ -145,5 +208,12 @@ export class KopOverviewComponent implements OnInit, OnDestroy {
         }
       }
     }
+  }
+
+  /**
+   * Reload the current page
+   */
+  reload() {
+    location.reload();
   }
 }

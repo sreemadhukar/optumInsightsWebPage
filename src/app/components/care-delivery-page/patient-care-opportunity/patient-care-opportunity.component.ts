@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { StorageService } from '../../../shared/storage-service.service';
 import { PcorSharedService } from '../../../shared/care-delivery/pcor-shared.service';
 import { CommonUtilsService } from 'src/app/shared/common-utils.service';
@@ -12,6 +12,7 @@ import { IAppState } from '../../../store/store';
   styleUrls: ['./patient-care-opportunity.component.scss']
 })
 export class PatientCareOpportunityComponent implements OnInit {
+  @Input() printStyle;
   subscription: any;
   pcorData: any;
   qualityMeasureData: any;

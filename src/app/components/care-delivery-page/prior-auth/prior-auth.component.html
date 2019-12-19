@@ -2,8 +2,10 @@
   <div class="main-content">
     <div class="cards cust-width-title">
       <app-breadcrumbs></app-breadcrumbs>
-      <div class="page-title">
-        {{ pageTitle }}
+      <app-print> </app-print>
+      <div class="page-title" [ngClass]="{ 'print-page-title': printStyle === true }">{{ pageTitle }}</div>
+      <div *ngIf="printStyle" [ngClass]="{ 'print-page-subtitle': printStyle === true }">
+        {{ pagesubTitle }}
       </div>
       <app-filters-applied></app-filters-applied>
     </div>
@@ -17,10 +19,10 @@
     </div>
 
     <div *ngFor="let data of mockCards; let i = index">
-      <app-card class="cards" [skeleton]="loading" *ngIf="loading"> </app-card>
+      <app-card class="cards" [skeleton]="loading" *ngIf="loading && !printStyle"> </app-card>
     </div>
 
-    <app-large-card [skeletonLarge]="loading" *ngIf="loading"></app-large-card>
+    <app-large-card [skeletonLarge]="loading" *ngIf="loading && !printStyle"></app-large-card>
     <app-large-card [data]="reasonItems" *ngIf="!loading && reasonItems[0].data != null"></app-large-card>
 
     <app-error-card

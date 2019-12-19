@@ -51,11 +51,12 @@
       }
       &-details {
         margin: 16px 30px 16px 10px;
-        max-width: 220px;
+        max-width: 150px;
       }
       &-tins,
       &-regions,
       &-markets,
+      &-bic,
       &-tin-types {
         color: $strom-grey;
         font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
@@ -65,15 +66,18 @@
       &-tins-value,
       &-regions-value,
       &-markets-value,
+      &-bic-value,
       &-tin-types-value {
         font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
         line-height: 18px;
       }
     }
-
     .viewIBttn {
       padding-top: 20px;
       padding-left: 200px;
+    }
+    .tax-summary-block {
+      width: 100%;
     }
   }
 }

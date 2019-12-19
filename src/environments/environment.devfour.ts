@@ -38,6 +38,9 @@ export const environment: any = {
     TrendingMetrics: 'trending-metrics/',
     PCORQualityMeasure: 'pcor-metrics/',
     NPSSummary: 'kop-metrics/',
+    KOPPriorAuthSummary: 'kop-priorauth-request/',
+    KOPPriorAuthTATSummary: 'kop-priorauth-tat/',
+    KOPReimbursementClaims: 'kop-reimbursement-claims/',
     AppealsTrend: 'appeals-trend/',
     AdminSummaryTrends: 'admintrends/',
     AppealsFHIR: 'appeals/v2.0/',
@@ -45,7 +48,8 @@ export const environment: any = {
     AdminSummaryTrendsCount: 'admintrendscount/',
     ACOMetrics: 'aco-metrics/',
     RefreshToken: 'getRefreshToken/',
-    HealthSystemDetails: 'providerInfo/'
+    HealthSystemDetails: 'providerInfo/',
+    KOPBusinessGlossary: 'business-glossaries-kop/'
   },
   headerKeys: {
     selectedCompany: '',
@@ -66,7 +70,7 @@ export const environment: any = {
   storagePrefix: '',
   errorMessage: 'empty',
   clickStreamUrl: '//assets.adobedtm.com/launch-ENacdc6d1acf734bcd95703e446bd1de1d-development.min.js',
-  internalAccess: false,
+  internalAccess: true,
   claimsYieldAccess: true,
   toggleTrendingSummary: false,
   sentryKey: 'https://2e6628201e8043c89e8fac56d77c46aa@sentry-ped-internal.ocp-ctc-core.optum.com/1'

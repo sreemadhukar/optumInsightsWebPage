@@ -9,6 +9,7 @@ import { AdvocateModule } from '../../../components/advocate/advocate.module';
 import { HttpParams } from '@angular/common/http';
 import { GettingReimbursedPayload } from '../payload.class';
 import * as _ from 'lodash';
+import { environment } from '../../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -145,6 +146,7 @@ export class NonPaymentSharedService {
               type: 'donut',
               title: 'Claims Non-Payment Rate',
               MetricID: this.MetricidService.MetricIDs.ClaimsNonPaymentRate,
+              toggle: true,
               data: {
                 graphValues: [
                   nonPaymentData1.All.ClaimsLobSummary[0].ClaimsNonPaymentRate,
@@ -175,13 +177,13 @@ export class NonPaymentSharedService {
           this.summaryData = [];
 
           /** REMOVE LATER (ONCE PDP ISSUE SOLVED) ***/
-          claimsNotPaidRate = {
-            category: 'app-card',
-            type: 'donut',
-            title: null,
-            data: null,
-            timeperiod: null
-          };
+          // claimsNotPaidRate = {
+          //   category: 'app-card',
+          //   type: 'donut',
+          //   title: null,
+          //   data: null,
+          //   timeperiod: null
+          // };
           this.summaryData.push(claimsNotPaid, claimsNotPaidRate);
           resolve(this.summaryData);
         },
@@ -257,18 +259,27 @@ export class NonPaymentSharedService {
               topReasons[i]['top5'] = topReasons[i]['top5'].slice(0, 5); // Slice the top Sub Categories 5 arrays
             }
             const dataWithSubCategory = topReasons[i]['top5']; // shallow copy
-            // console.log('5 parameters', mappedData[i].All.DenialCategory);
+            let subBarSum = 0;
+            for (let k = 0; k < dataWithSubCategory.length; k++) {
+              subBarSum = subBarSum + dataWithSubCategory[k]['DenialAmount'];
+            }
+
             for (let j = 0; j < dataWithSubCategory.length; j++) {
               if (
                 dataWithSubCategory[j]['Claimdenialcategorylevel1shortname'] !== undefined &&
                 dataWithSubCategory[j]['Claimdenialcategorylevel1shortname'] !== null
               ) {
                 dataWithSubCategory[j].text = dataWithSubCategory[j]['Claimdenialcategorylevel1shortname'];
+                const removeSpaces = dataWithSubCategory[j].text.replace(/[^a-zA-Z0-9]/g, '');
+                dataWithSubCategory[j].id = removeSpaces;
               } else {
                 dataWithSubCategory[j].text = topReasons[i]['title'];
+                const removeSpaces = dataWithSubCategory[j].text.replace(/[^a-zA-Z0-9]/g, '');
+                dataWithSubCategory[j].id = removeSpaces;
               }
               dataWithSubCategory[j].valueNumeric = dataWithSubCategory[j]['DenialAmount'];
               dataWithSubCategory[j].value = '$' + this.common.nFormatter(dataWithSubCategory[j]['DenialAmount']);
+              dataWithSubCategory[j].barSum = subBarSum;
               delete dataWithSubCategory[j].Claimdenialcategorylevel1shortname;
               delete dataWithSubCategory[j].DenialAmount;
             }
@@ -304,13 +315,21 @@ export class NonPaymentSharedService {
             if (tempArray.length > 5) {
               tempArray = tempArray.slice(0, 5); // Slice the top 5 arrays
             }
+            const topBarSum = [];
+            for (let i = 0; i < tempArray.length; i++) {
+              topBarSum.push(tempArray[i].DenialAmount);
+            }
+            const maxTopBar = Math.max(...topBarSum);
             for (let i = 0; i < tempArray.length; i++) {
               topReasons.push({
                 title: tempArray[i].Claimdenialcategorylevel1shortname,
                 value: '$' + this.common.nFormatter(tempArray[i].DenialAmount),
-                numeric: tempArray[i].DenialAmount
+                numeric: tempArray[i].DenialAmount,
+                maxValue: maxTopBar,
+                id: tempArray[i].Claimdenialcategorylevel1shortname.replace(/[^a-zA-Z0-9]/g, '') + 'topReasons'
               });
             }
+            console.log(topReasons);
             resolve(topReasons);
           } catch (Error) {
             resolve(null);

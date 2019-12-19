@@ -5,12 +5,11 @@ import { StorageService } from '../../../shared/storage-service.service';
 import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 import { CommonUtilsService } from 'src/app/shared/common-utils.service';
-import { NgRedux } from '@angular-redux/store';
+import { NgRedux, select } from '@angular-redux/store';
 import { CURRENT_PAGE, REMOVE_FILTER } from '../../../store/filter/actions';
 import { IAppState } from '../../../store/store';
 import { environment } from '../../../../environments/environment';
 import { CreatePayloadService } from '../../../shared/uhci-filters/create-payload.service';
-import { Router, NavigationStart } from '@angular/router';
 
 @Component({
   selector: 'app-overview',
@@ -19,7 +18,6 @@ import { Router, NavigationStart } from '@angular/router';
 })
 export class OverviewComponent implements OnInit {
   @Input() printStyle;
-  printRoute: string;
   overviewItems: any;
   mainCards: any;
   mockMainCards: any;
@@ -65,10 +63,7 @@ export class OverviewComponent implements OnInit {
 
   displayClaimsYield: boolean = environment.claimsYieldAccess;
   /***************** DONT CHANGE THESE *************/
-
   trendsData: any;
-
-  // public printStyle: boolean; // this variable is used to distinguish between normal page and print page
 
   constructor(
     private overviewsrc: OverviewSharedService,
@@ -79,8 +74,7 @@ export class OverviewComponent implements OnInit {
     private ngRedux: NgRedux<IAppState>,
     sanitizer: DomSanitizer,
     public sessionService: SessionService,
-    private createPayloadService: CreatePayloadService,
-    private router: Router
+    private createPayloadService: CreatePayloadService
   ) {
     this.selfServiceLink = 'Self Service Details';
     this.pagesubTitle = 'Your Insights at a glance.';
@@ -94,16 +88,8 @@ export class OverviewComponent implements OnInit {
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-keyboard_arrow_right-24px.svg')
     );
   }
-  printDownload(value) {
-    // this.printStyle = true;
-  }
 
   ngOnInit() {
-    this.printRoute = '/OverviewPage/print-overview';
-    if (this.router.url.includes('print-')) {
-      this.printStyle = true;
-    }
-
     this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'overviewPage' });
     // Temporary Heac ability
     const heac = JSON.parse(sessionStorage.getItem('heac'));
