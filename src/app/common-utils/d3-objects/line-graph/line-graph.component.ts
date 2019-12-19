@@ -82,7 +82,7 @@ export class LineGraphComponent implements OnInit {
   }
 
   doLineGraph(chartData: any, chartData2: any, titleData: any, generalData: any, generalData2: any) {
-    function formatDy(dy) {
+    function formatDy(dy: number): string {
       if (dy === 0) {
         return '0';
       } else if (dy < 999) {
@@ -205,36 +205,6 @@ export class LineGraphComponent implements OnInit {
       }
     }
 
-    function tooltipText(d, year, prefix) {
-      if (year == undefined || !year || year === '') {
-        return (
-          "<div class='lineLabelHover'>" +
-          "Claims Not <br> Paid</div><div class='details-label'>" +
-          prefix +
-          formatDy(d.y)
-        );
-      } else {
-        return (
-          "<div class='lineLabelHover'>" +
-          "&nbsp; Claims Not <br> Paid</div><div class='details-label'>&nbsp;&nbsp;&nbsp;" +
-          d.x +
-          '&nbsp;&nbsp;' +
-          year[0] +
-          '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' +
-          prefix +
-          formatDy(d.y) +
-          "<hr class='hr_cust_margin hr_opacity'><span class='circle_label_sm circle2'></span>&nbsp;&nbsp;&nbsp;" +
-          d.x +
-          '&nbsp;&nbsp;' +
-          year[1] +
-          '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' +
-          prefix +
-          formatDy(d.y_twoYearsAgo) +
-          '%</div></div>'
-        );
-      }
-    }
-
     const preWidth = 961; // document.getElementById(generalData[0].parentDiv).clientWidth;
 
     let topMarginSubtract = 150;
@@ -269,6 +239,21 @@ export class LineGraphComponent implements OnInit {
         .classed('tooltipClass', false)
         .classed('tooltipClassLeft', false)
         .classed('hidden', true);
+      tooltipVar
+        .append('div')
+        .attr('class', 'lineLabelHover')
+        .attr('id', 'claimsNotPaidLabelOne')
+        .text('Claims Not');
+      tooltipVar
+        .append('div')
+        .attr('class', 'lineLabelHover')
+        .attr('id', 'claimsNotPaidLabelTwo')
+        .text('Paid');
+      tooltipVar
+        .append('div')
+        .attr('class', 'details-label')
+        .attr('id', 'claimsNotPaidLabelThree');
+      // .text('$' + formatDy(d.y));
     } else {
       tooltipVar = d3
         .select(this.renderChart)
@@ -332,7 +317,6 @@ export class LineGraphComponent implements OnInit {
 
     // tslint:disable-next-line:no-var-keyword
     const ydata = [];
-    const pointer = this;
 
     for (let a = 0; a < lengthOfData; a++) {
       ydata.push({ y: chartData[a].value });
@@ -446,7 +430,6 @@ export class LineGraphComponent implements OnInit {
           );
       }
     }
-
     const RectBarOne = chart
       .selectAll('.rect-bar')
       .data(data)
@@ -462,38 +445,32 @@ export class LineGraphComponent implements OnInit {
         return 'rect-id-' + d.x;
       })
       .attr('y', 0)
-      .on('mouseenter', d => {
-        // const RectBar = chart.selectAll('#rect-id-' + d.x);
-        chart
-          .selectAll('#rect-id-' + d.x)
-          .transition()
+      .on('mouseover', d => {
+        const RectBar = chart.selectAll('#rect-id-' + d.x);
+        RectBar.transition()
           .duration(200)
           .style('opacity', 1)
           .style('cursor', 'pointer');
-        // const RectBarDot = chart.selectAll('#dot-id-' + d.x);
-        chart
-          .selectAll('#dot-id-' + d.x)
-          .transition()
+        const RectBarDot = chart.selectAll('#dot-id-' + d.x);
+        RectBarDot.transition()
           .duration(200)
           .style('opacity', 1);
-
         tooltipVar
           .transition()
           .duration(200)
           .style('opacity', 1);
         const topMar = yScale(d.y) + 39 + 'px';
         if (d3.event.layerX + 213 < width + margin.left + margin.right) {
-          console.log(d);
+          d3.select('#claimsNotPaidLabelThree').text('$' + formatDy(d.y));
           tooltipVar
-            .text(d.y)
             .classed('hidden', false)
             .classed('tooltipClass', true)
             .classed('tooltipClassLeft', false)
             .style('left', d.xCoordinate + 56 + 'px')
             .style('top', topMar);
         } else {
+          d3.select('#claimsNotPaidLabelThree').text('$' + formatDy(d.y));
           tooltipVar
-            .text(d.y)
             .classed('hidden', false)
             .classed('tooltipClass', false)
             .classed('tooltipClassLeft', true)
@@ -502,19 +479,14 @@ export class LineGraphComponent implements OnInit {
         }
       })
       .on('mouseout', function(d) {
-        // const RectBar = chart.selectAll('#rect-id-' + d.x);
-        chart
-          .selectAll('#rect-id-' + d.x)
-          .transition()
+        const RectBar = chart.selectAll('#rect-id-' + d.x);
+        RectBar.transition()
           .duration(200)
           .style('opacity', 0);
-        // const RectBarDot = chart.selectAll('#dot-id-' + d.x);
-        chart
-          .selectAll('#dot-id-' + d.x)
-          .transition()
+        const RectBarDot = chart.selectAll('#dot-id-' + d.x);
+        RectBarDot.transition()
           .duration(200)
           .style('opacity', 0);
-
         tooltipVar
           .transition()
           .duration(500)

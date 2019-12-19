@@ -38,7 +38,7 @@ import {
 export class SelectProviderComponent implements OnInit {
   stateCtrl = new FormControl();
   filteredStates: Observable<Providers[]>;
-  states: Providers[];
+  states: Providers[] = [];
   providerData: any;
   providerSelectedFlag = true;
   nomatchFlag = true;

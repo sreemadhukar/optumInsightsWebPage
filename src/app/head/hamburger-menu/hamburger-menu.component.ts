@@ -434,12 +434,17 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
               }
             }
           } catch (err) {
+            console.log(err);
             this.removePCORnav();
           }
         } else {
-          const temp = { isPCOR: true };
-          sessionStorage.setItem('pcor', JSON.stringify(temp));
-          this.insertPCORnav();
+          try {
+            const temp = { isPCOR: true };
+            sessionStorage.setItem('pcor', JSON.stringify(temp));
+            this.insertPCORnav();
+          } catch (err) {
+            console.log(err);
+          }
         }
       },
       err => {
