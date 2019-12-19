@@ -20,6 +20,7 @@
   min-width: 1032px;
   margin: 0 auto;
 }
+
 .example-is-mobile .example-toolbar {
   /* Make sure the toolbar will stay on top of the content as it scrolls past. */
   z-index: 2;
@@ -257,10 +258,12 @@ app-header {
   letter-spacing: 0.2px;
   line-height: 18px;
 }
+
 .active-link {
   background: $darker-alice-blue;
   color: $blue !important;
 }
+
 .mat-expansion-panel-header-description,
 .mat-expansion-panel-header-title {
   line-height: 24px !important;
@@ -276,6 +279,7 @@ app-header {
 .mat-nav-list .mat-list-item:focus {
   background: $darker-alice-blue !important;
 }
+
 .nav-no-child-category:hover,
 .mat-expansion-panel-header:hover,
 .signout-label:hover {
@@ -290,10 +294,12 @@ app-header {
     color: $black-rock !important;
   }
 }
+
 .mat-expanded > .mat-expansion-panel-header {
   color: $strom-grey !important;
   background: $alice-blue !important;
 }
+
 .sub-menu-sub-header {
   .sub-menu-expansion-header {
     color: $strom-grey !important;
@@ -440,11 +446,13 @@ app-header {
   position: absolute !important;
   z-index: 9999 !important;
 }
+
 .filter-div-scroll {
   overflow-y: auto;
   max-height: 100%;
   width: 418px;
 }
+
 .sidemargin {
   margin: 0 24px 0 24px;
   height: inherit;
@@ -483,7 +491,7 @@ app-header {
 
 .mat-drawer-inner-container {
   overflow: unset !important;
-  height: 125vh !important;
+  /*height: 125vh !important;*/
   overflow-x: hidden !important;
 }
 
@@ -588,4 +596,19 @@ app-header {
 
 .copyright-text {
   margin-right: 16px;
+}
+
+.Group-premium-designation {
+  width: 44px;
+  height: 18px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+  letter-spacing: 0.2px;
+  line-height: 18px;
+  color: white;
+  background-color: #00a8f7;
+  text-align: center;
+  margin-top: 5px;
+  padding-top: 2px;
 }

@@ -7,6 +7,7 @@ import { TimePeriod } from './kop.class.timeperiod';
 import { IssueResolution } from './kop.class.issueresolution';
 import { Reimbursement } from './kop.class.reimbursement';
 import { Engagement } from './kop.class.engagement';
+import { hasOwnProperty } from 'tslint/lib/utils';
 
 @Injectable({
   providedIn: 'root'
@@ -136,26 +137,56 @@ export class KOPSharedService {
     });
   }
 
-  private getDataKopAsync(params: any, merticKey: string) {
+  public getClaimsData(params: any) {
+    return new Promise(resolve => {
+      const { filter: selectedFilter } = params;
+      const { priorAuthFilters } = selectedFilter;
+      const paramsArray = priorAuthFilters.map((param: string) => {
+        return { filter: param };
+      });
+      this.getKopData('reimbursementClaims', paramsArray).then((response: any) => {
+        if (!response || response.length === 0) {
+          return resolve(null);
+        } else {
+          const reimbursementInstance = new Reimbursement({ records: response });
+          const reimbursement = reimbursementInstance.getData();
+          return resolve({
+            reimbursement
+          });
+        }
+      });
+    });
+  }
+
+  private getDataKopAsync(params: any, metricKey: string) {
     return new Promise((resolve, reject) => {
-      if (merticKey === 'kop') {
-        this.kopService.getSummary({ params }).subscribe((response: any) => resolve(response), () => reject());
-      } else if (merticKey === 'priorauth') {
-        this.kopService.getPriorAuthSummary({ params }).subscribe((response: any) => resolve(response), () => reject());
-      } else if (merticKey === 'priorauthtat') {
-        this.kopService
-          .getPriorAuthTATSummary({ params })
-          .subscribe((response: any) => resolve(response), () => reject());
+      switch (metricKey) {
+        case 'kop':
+          this.kopService.getSummary({ params }).subscribe((response: any) => resolve(response), () => reject());
+          break;
+        case 'priorauth':
+          this.kopService
+            .getPriorAuthSummary({ params })
+            .subscribe((response: any) => resolve(response), () => reject());
+          break;
+        case 'priorauthtat':
+          this.kopService
+            .getPriorAuthTATSummary({ params })
+            .subscribe((response: any) => resolve(response), () => reject());
+          break;
+        case 'reimbursementClaims':
+          this.kopService.getClaimsData({ params }).subscribe((response: any) => resolve(response), () => reject());
+          break;
       }
     });
   }
 
-  private getKopData(merticKey: string, paramsArray: any[]) {
+  private getKopData(metricKey: string, paramsArray: any[]) {
     return new Promise(resolve => {
       const tasks = [];
 
       paramsArray.forEach((paramsItem: any) => {
-        tasks.push(this.getDataKopAsync(paramsItem, merticKey));
+        tasks.push(this.getDataKopAsync(paramsItem, metricKey));
       });
 
       Promise.all(tasks)

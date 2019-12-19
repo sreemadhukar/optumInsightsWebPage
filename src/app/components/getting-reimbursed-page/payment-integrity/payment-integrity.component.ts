@@ -21,6 +21,8 @@ import { IAppState } from '../../../store/store';
 export class PaymentIntegrityComponent implements OnInit {
   @Input() printStyle;
   pageTitle: String = '';
+  printDateTitle: String = '';
+  printDateSubTitle: String = '';
   subTitle: String = '';
   currentTabTitle: String = '';
   development = false;
@@ -45,10 +47,11 @@ export class PaymentIntegrityComponent implements OnInit {
   showSmartEditsTopInfoReason = false;
   tabOptions: Array<Object> = [];
   tabOptionsTitle: Array<String> = [];
+  tabOptionsSubTitle: Array<String> = [];
   currentSummary: Array<Object> = [{}];
   summaryItems: any;
   previousSelectedTab: any = 1;
-
+  pageSubTitle: string;
   constructor(
     private glossaryExpandService: GlossaryExpandService,
     public MetricidService: GlossaryMetricidService,
@@ -81,13 +84,17 @@ export class PaymentIntegrityComponent implements OnInit {
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-close-24px.svg')
     );
     this.pageTitle = 'Medical Records Coding Review';
+    this.pageSubTitle = 'Reimbursements - Payment Integrity - ' + 'Medical Records Coding Review';
     this.tabOptionsTitle = ['Jul 1, 2018–Jun 30, 2019', 'Jul 1, 2019–Oct 31, 2019'];
+    this.tabOptionsSubTitle = ['Date through Oct 4,2018', 'Date through Oct 4,2019'];
     this.subTitle = `Note: Claims Metrics are calculated using date medical record requested.
-       Dashboard information/measurements are reperesenting physician claims only.
+       Dashboard information/measurements are representing physician claims only.
        These measurements do not take into account facility claims.`;
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.filtermatch.urlResuseStrategy());
   }
   matOptionClicked(i: number, event: any) {
+    this.printDateTitle = this.tabOptionsTitle[i];
+    this.printDateSubTitle = this.tabOptionsSubTitle[i];
     this.currentSummary = [];
     this.currentSummary = this.summaryItems;
     const myTabs = document.querySelectorAll('ul.nav-tabs > li');
@@ -98,6 +105,11 @@ export class PaymentIntegrityComponent implements OnInit {
     this.previousSelectedTab = i;
   }
   ngOnInit() {
+    this.printDateTitle = this.tabOptionsTitle[1];
+    this.printDateSubTitle = this.tabOptionsSubTitle[1];
+    if (this.printStyle) {
+      this.pageTitle = this.session.getHealthCareOrgName();
+    }
     this.tabOptions = [];
     let temp;
     temp = [
@@ -110,7 +122,7 @@ export class PaymentIntegrityComponent implements OnInit {
       {
         id: 1,
         title: this.getTabOptionsTitle(1),
-        value1: '', // 'Claims Processed through Oct 31, 2020',
+        value1: 'Date through Oct 4,2019', // 'Claims Processed through Oct 31, 2020',
         sdata: null
       }
     ];
