@@ -599,11 +599,15 @@ app-header {
 }
 
 .Group-premium-designation {
-  width: 40px;
+  width: 44px;
   height: 18px;
   border-radius: 10px;
+  font-size: 14px;
+  font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+  letter-spacing: 0.2px;
+  line-height: 18px;
   color: white;
-  background-color: lightseagreen;
+  background-color: #00a8f7;
   text-align: center;
   margin-top: 5px;
   padding-top: 2px;

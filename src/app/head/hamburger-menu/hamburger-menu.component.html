@@ -63,7 +63,11 @@
           <p class="health-system-name" *ngIf="!AcoFlag">{{ healthSystemName }}</p>
           <p class="health-system-name" *ngIf="AcoFlag">{{ AcoName }}</p>
           <p class="Group-premium-designation" *ngIf="GroupPremiumDesignation">HPP</p>
-          <p class="change-provider" *ngIf="disableChangeProvider && !AcoFlag" (click)="openDialog()">
+          <p
+            class="change-provider"
+            *ngIf="(disableChangeProvider || externalProvidersCount) && !AcoFlag"
+            (click)="openDialog()"
+          >
             Change Organization
           </p>
           <p class="view-Tax-Id-Summary-div" *ngIf="!AcoFlag">

@@ -128,6 +128,8 @@ export class LoginStubComponent implements OnInit {
             this.external
               .CheckExternal(params.code, this.token)
               .then(value => {
+                let response: any;
+                response = value;
                 this.authorise.getToggles('external-authorise').subscribe(value1 => {
                   console.log(value1);
                 });
@@ -138,12 +140,16 @@ export class LoginStubComponent implements OnInit {
                   JSON.parse(sessionStorage.getItem('currentUser'))[0]['FirstName'] === 'Mounika'
                 ) {
                   this.router.navigate(['/AcoPage']);
+                }
+                if (response.Providers.length > 1) {
+                  this.router.navigate(['/ProviderSearch']);
                 } else {
                   this.router.navigate(['/OverviewPage']);
                 }
               })
               .catch(error => {
-                this.openErrorDialog();
+                // this.openErrorDialog();
+                this.router.navigate(['/AccessDenied']);
               });
           } else if (this.authService.isLoggedIn()) {
             sessionStorage.setItem('cache', JSON.stringify(true));

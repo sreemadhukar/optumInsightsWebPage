@@ -30,8 +30,9 @@ export class ExternalService {
             this.storageService.store('currentUser', ssoTokenData);
             const user = { FirstName: ssoTokenData[0].FirstName, LastName: ssoTokenData[0].LastName };
             this.storageService.store('loggedUser', user);
-            resolve(ssoTokenData);
+            resolve(ssoTokenData[0]);
           } else {
+            // alert(ssoTokenData.length);
             rej(new Error('error'));
           }
         },
@@ -39,7 +40,8 @@ export class ExternalService {
           console.log('Login service error', error.status);
           environment.errorMessage = error.status;
           this.checkErrorService.checkError(error);
-          this.document.location.href = environment.apiUrls.SsoRedirectUri;
+          rej(new Error('error'));
+          // this.document.location.href = environment.apiUrls.SsoRedirectUri;
         }
       );
     });
