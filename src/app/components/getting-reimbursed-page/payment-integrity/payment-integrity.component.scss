@@ -1,7 +1,6 @@
 @import '~src/scss/variables.scss';
 @import '~src/scss/mixins';
 @import '~src/scss/my-custom-theme';
-
 .content-wrapper {
   background-color: $alice-blue;
   overflow: hidden;
@@ -26,7 +25,7 @@
       width: 1200px;
     }
     .pi-medical-record-coding-review-block {
-      width: 961px;
+      width: 952px;
       border-radius: 2px;
       background-color: $white;
       box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
