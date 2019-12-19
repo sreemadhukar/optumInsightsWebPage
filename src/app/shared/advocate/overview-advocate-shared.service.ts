@@ -235,32 +235,63 @@ export class OverviewAdvocateSharedService {
                 this.collectiveOtherData = element.CallTalkTimeByQuesType.Others;
               }
 
-              // const trendCollectiveValue = this.collectiveBeData;
               const trendTimePeriod = element.Calldate;
-              // const monthName = trendTimePeriod.substr(4, 4);
+              const monthName = this.common.dateFormat(trendTimePeriod).substr(0, 3); // This will change depending on the timeperiod
 
               beData.push({
-                // name: monthName,
+                name: monthName,
                 value: this.collectiveBeData,
                 month: trendTimePeriod
               });
               claimsData.push({
-                // name: monthName,
+                name: monthName,
                 value: this.collectiveClaimsData,
                 month: trendTimePeriod
               });
               paData.push({
-                // name: monthName,
+                name: monthName,
                 value: this.collectivePaData,
                 month: trendTimePeriod
               });
               other.push({
-                // name: monthName,
+                name: monthName,
                 value: this.collectiveOtherData,
                 month: trendTimePeriod
               });
             });
           }
+
+          beData.sort(function(a, b) {
+            let dateA: any;
+            dateA = new Date(a.month);
+            let dateB: any;
+            dateB = new Date(b.month);
+            return dateA - dateB; // sort by date ascending
+          });
+
+          claimsData.sort(function(a, b) {
+            let dateA: any;
+            dateA = new Date(a.month);
+            let dateB: any;
+            dateB = new Date(b.month);
+            return dateA - dateB; // sort by date ascending
+          });
+
+          paData.sort(function(a, b) {
+            let dateA: any;
+            dateA = new Date(a.month);
+            let dateB: any;
+            dateB = new Date(b.month);
+            return dateA - dateB; // sort by date ascending
+          });
+
+          other.sort(function(a, b) {
+            let dateA: any;
+            dateA = new Date(a.month);
+            let dateB: any;
+            dateB = new Date(b.month);
+            return dateA - dateB; // sort by date ascending
+          });
           const callsTrendFormattedData = {};
           if (beData) {
             callsTrendFormattedData['B&E'] = beData;
