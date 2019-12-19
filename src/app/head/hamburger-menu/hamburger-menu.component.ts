@@ -273,10 +273,6 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
   }
 
   ngOnInit() {
-    const currentUser: any = JSON.parse(sessionStorage.getItem('currentUser'))[0];
-    if (currentUser.hasOwnProperty('Providers')) {
-      this.externalProvidersCount = currentUser.Providers.length > 1 ? true : false;
-    }
     this.AcoFlag = false;
     this.isKop = false;
     this.loading = false;
@@ -295,7 +291,10 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
       // Check whether we have PCOR Data or not, if yes then include the PCOR option in navigation bar
       this.checkPcorData();
     });
-
+    const currentUser: any = JSON.parse(sessionStorage.getItem('currentUser'))[0];
+    if (currentUser.hasOwnProperty('Providers')) {
+      this.externalProvidersCount = currentUser.Providers.length > 1 ? true : false;
+    }
     /*
         for login page filters has no role to play, so for them Filters should be close,
          we are calling it explicity because suppose user clicks on Filter and filter drawer opens up, now logout
