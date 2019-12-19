@@ -63,6 +63,7 @@ export class OverviewAdvocateComponent implements OnInit {
   claimsYieldLoading: boolean;
   downRowMockCards: any;
   claimsYieldCard: Array<Object>;
+  callsLineGraphloading: boolean;
 
   constructor(
     private checkStorage: StorageService,
@@ -235,6 +236,33 @@ export class OverviewAdvocateComponent implements OnInit {
       });
   }
 
+  callsTrendByWeekMonth(payload) {
+    this.callsLineGraphData = {};
+    this.overviewAdvocateSharedService
+      .getCallsTrendByWeekMonthShared(payload)
+      .then(callsTrendData => {
+        this.callsLineGraphloading = false;
+        if (callsTrendData) {
+          this.callsLineGraphData = {
+            category: 'large-card',
+            type: 'donut',
+            status: 404,
+            title: this.trendTitleForCalls,
+            MetricID: this.MetricidService.MetricIDs,
+            data: null,
+            timeperiod: null
+          };
+        } else {
+          this.callsLineGraphData = callsTrendData;
+          // this.appealsLineGraph = new AppealsData(appealsTrendData, GeneralData, 'appeals-trend-block');
+          console.log('this.callsLineGraphData---------->', this.callsLineGraphData);
+        }
+      })
+      .catch(err => {
+        this.callsLineGraphloading = false;
+      });
+  }
+
   ngOnInit() {
     this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'overviewAdvocatePage' });
     this.timePeriod = this.common.getTimePeriodFilterValue(this.createPayloadService.payload.timePeriod);
@@ -244,6 +272,7 @@ export class OverviewAdvocateComponent implements OnInit {
     this.appealsTrendByMonthData(this.createPayloadService.payload);
     this.totalCallsData(this.createPayloadService.payload);
     this.claimsYieldData(this.createPayloadService.payload);
+    this.callsTrendByWeekMonth(this.createPayloadService.payload);
     this.appealsLineGraphloading = true;
     // this.callsLineGraphLoading = true;
     this.userName = this.session.sessionStorage('loggedUser', 'FirstName');

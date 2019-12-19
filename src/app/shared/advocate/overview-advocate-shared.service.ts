@@ -203,4 +203,20 @@ export class OverviewAdvocateSharedService {
       );
     });
   }
+
+  public getCallsTrendByWeekMonthShared(param) {
+    this.timeFrame = this.common.getTimePeriodFilterValue(param.timePeriod);
+    return new Promise(resolve => {
+      const parameters = this.getParameterCategories(param);
+      this.overviewAdvocateService.callsDataTrendByWeekMonth(...parameters).subscribe(
+        callsTotalTrendData => {
+          console.log('callsTotalTrendData------------>', callsTotalTrendData);
+          resolve(callsTotalTrendData);
+        },
+        err => {
+          console.log('Advocate Page , Error for calls card', err);
+        }
+      );
+    });
+  }
 }
