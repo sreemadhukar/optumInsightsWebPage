@@ -14,6 +14,10 @@ export class LargeCardKopComponent implements OnInit {
   @Input() skeletonLarge;
   showMetricProgressIcon = false;
 
+  public get cardData() {
+    return this.data;
+  }
+
   constructor(
     private iconRegistry: MatIconRegistry,
     sanitizer: DomSanitizer,

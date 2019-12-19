@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { select } from '@angular-redux/store';
 
 @Component({
   selector: 'app-print-page',
@@ -7,21 +7,33 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./print-page.component.scss']
 })
 export class PrintPageComponent implements OnInit {
+  @select() currentPage;
+  selectedPage;
   printStyle = true;
   pagename = '';
-
-  constructor(private route: ActivatedRoute) {
+  data: any;
+  constructor() {
     this.printStyle = true;
+    // this.data = [
+    //   { page: 'overviewPage', load: 7000 },
+    //   { page: 'gettingReimbursedSummary', load: 7000 },
+    //   { page: 'paymentsPage', load: 6000 },
+    //   { page: 'appealsPage', load: 6000 },
+    //   { page: 'nonPaymentsPage', load: 6000 },
+    //   { page: 'paymentIntegrityPage', load: 5000 },
+    //   { page: 'priorAuthPage', load: 10000 },
+    //   { page: 'pcorPage', load: 6000 },
+    //   { page: 'callsPage', load: 4000 },
+    //   { page: 'selfServicePage', load: 4000 }
+    // ];
   }
 
   ngOnInit() {
-    this.route.params.subscribe(params => {
-      this.pagename = params['pageName'];
-      console.log('print pageNmae', this.pagename);
-      setTimeout(() => {
-        (window as any).print();
-      }, 8000);
-      console.log('Page print', this.pagename);
-    });
+    this.currentPage.subscribe(c => (this.selectedPage = c));
+    setTimeout(() => {
+      (window as any).print();
+    }, 7000);
+    // }, this.data.flatMap(i => (i.page === this.selectedPage ? i.load : 0)));
+    // console.log('load Time for Print', this.data.flatMap(i => (i.page === this.selectedPage ? i.load : 0)));
   }
 }

@@ -19,7 +19,12 @@ export const LineOfBusiness = [
 export const ClaimsFilter = [
   { name: 'All', value: 'All', disable: false },
   { name: 'PROFESSIONAL', value: 'HCFA (Health Care Finance Administration)', disable: false },
-  { name: 'FACILITY', value: 'UB (Universal Billing)', disable: false }
+  { name: 'INSTITUTIONAL', value: 'UB (Universal Billing)', disable: false }
+];
+
+export const ViewClaimsByFilter = [
+  { name: 'DateOfService', value: 'Date of Service', disable: false },
+  { name: 'DateOfProcessing', value: 'Date of Processing', disable: true }
 ];
 
 export const ServiceSetting = [
@@ -106,7 +111,8 @@ export const filterToggles = {
   togglePriorAuthType: false,
   toggleMetric: false,
   toggleDate: false,
-  toggleClaim: false
+  toggleClaim: false,
+  toggleViewClaimsBy: false
 };
 
 export interface TaxId {

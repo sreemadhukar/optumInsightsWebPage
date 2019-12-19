@@ -169,6 +169,12 @@
     display: inline-flex;
     margin: 0 13px 6px;
   }
+  .bars_container {
+    width: 100%;
+    .full-width-container {
+      width: 100%;
+    }
+  }
 
   ::ng-deep .metrics-icon-display {
     width: 70px;

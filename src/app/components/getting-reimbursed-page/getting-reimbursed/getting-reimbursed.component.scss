@@ -1,59 +1,6 @@
 @import '~src/scss/variables.scss';
 @import '~src/scss/mixins';
 @import '~src/scss/my-custom-theme';
-.breadcrumb-top-padding {
-  @include margin(12px, 0, 0, 0);
-  box-sizing: border-box;
-
-  .filter_bg {
-    height: 40px;
-    width: 100px;
-    box-sizing: border-box;
-    border: 1px solid $blue;
-    border-radius: 2px;
-    float: right;
-    cursor: pointer;
-    margin-right: 15px;
-
-    .filter_title {
-      color: $blue;
-      font-family: 'UHCSans-SemiBold', 'Arial';
-      font-size: 16px;
-      letter-spacing: 0.2px;
-      line-height: 22px;
-      text-align: center;
-      margin: 9px 0;
-      float: left;
-    }
-    .filter_icon {
-      color: $blue;
-      margin: 7px 10px;
-      float: left;
-    }
-  }
-  .filter_bg:hover,
-  .filter_bg:focus {
-    background-color: #196ecf;
-    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
-    color: #ffffff;
-    .filter_title {
-      color: #ffffff;
-    }
-    .filter_icon {
-      color: #ffffff;
-    }
-  }
-  .filter_bg:active {
-    background-color: #003da1;
-    color: #ffffff;
-    .filter_title {
-      color: #ffffff;
-    }
-    .filter_icon {
-      color: #ffffff;
-    }
-  }
-}
 
 @mixin sidenav-theme($theme) {
   $accent: map-get($theme, accent);
@@ -137,6 +84,11 @@
           line-height: 40px;
           font-family: 'UHCSans-Regular', Helvetica, Arial, sans-serif;
         }
+        .print-page-title {
+          padding-top: 30px;
+          font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+          line-height: 30px;
+        }
         .page-subtitle {
           flex-basis: 100%;
           font-size: 28px;
@@ -150,7 +102,9 @@
             margin-top: 4px;
             line-height: 32px;
           }
-
+          .print-page-subtitle-heading {
+            padding-top: 10px;
+          }
           .details-button {
             padding: 10px 23px 10px 23px;
             border-radius: 2px;
@@ -176,6 +130,11 @@
             color: #196ecf;
           }
         }
+        .print-page-subtitle {
+          font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+          line-height: 30px;
+        }
+
         /* tabs css starts here*/
         .container--tabs {
           clear: left;
@@ -248,9 +207,21 @@
             } // li styling
           }
         }
-        /* ends tabs css ends here*/
-      }
-      /* end cust-width title heirarchy*/
+
+        .cust-width-blank {
+          width: 487px;
+          margin-left: 480px;
+          line-height: 5px;
+        }
+        @media (max-width: 1300px) {
+          .cust-width-blank {
+            min-width: 437px;
+          }
+        }
+        .adjust-margin {
+          margin-left: -10px;
+        }
+      } /* end cust-width title end here*/
     }
   }
   .non-payment-link {
@@ -259,7 +230,7 @@
     color: $blue;
     font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
     letter-spacing: 0.2px;
-    margin-left: 150px;
+    margin-left: 181px;
     margin-top: 15px;
   }
   .np-link {
@@ -272,6 +243,6 @@
   }
 }
 
-.pageBreak {
-  page-break-after: always;
+.pageBreakheight {
+  height: 400px;
 }

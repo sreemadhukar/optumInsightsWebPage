@@ -8,7 +8,8 @@ import {
   Renderer2,
   AfterViewChecked,
   Output,
-  EventEmitter
+  EventEmitter,
+  Input
 } from '@angular/core';
 import { trigger, state, style, animate, transition } from '@angular/animations';
 import { MatIconRegistry, PageEvent } from '@angular/material';
@@ -44,15 +45,18 @@ import { REMOVE_FILTER } from '../../../store/filter/actions';
   ]
 })
 export class NonPaymentsComponent implements OnInit, AfterViewChecked {
-  title = ' Top Reasons for Claims Non-Payment';
+  title = 'Top Reasons for Claims Non-Payment';
   trendTitle = 'Claims Non-Payment Trend';
   section: any = [];
   timePeriod: string;
   // lob: string;
   // taxID: Array<string>;
+  @Input() printStyle;
+  printRoute: String;
   @Output() filterIconClicked = new EventEmitter();
   subscription: any;
   pageTitle: String = '';
+  pageSubTitle: String = '';
   nonPaymentData1: Array<Object> = [{}];
   currentTabTitle: String = '';
   monthlyLineGraph: any = [{}];
@@ -260,14 +264,20 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
       'carrot',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/keyboard_arrow_down-24px.svg')
     );
-
+    this.printRoute = '/GettingReimbursed/NonPayments/print-nonpayments';
     this.pageTitle = 'Claims Non-Payments*';
+    this.pageSubTitle = 'Getting Reimbursed - Non-Payments';
     this.createPayloadService.getEvent().subscribe(value => {
       this.ngOnInit();
     });
   }
 
   ngOnInit() {
+    if (this.router.url.includes('print-')) {
+      this.printStyle = true;
+      this.pageTitle = this.session.getHealthCareOrgName();
+    }
+
     this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'nonPaymentsPage' });
     this.nonPaymentData1 = [];
     this.loadingTopReasons = true;

@@ -6,6 +6,7 @@ import { Router, NavigationStart } from '@angular/router';
   styleUrls: ['./footer-common.component.scss']
 })
 export class FooterCommonComponent implements OnInit {
+  z;
   constructor(private router: Router) {}
 
   ngOnInit() {}

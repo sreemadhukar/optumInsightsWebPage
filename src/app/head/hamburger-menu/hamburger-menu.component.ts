@@ -17,7 +17,8 @@ import {
   OnDestroy,
   AfterViewChecked,
   Input,
-  Inject
+  Inject,
+  ChangeDetectorRef
 } from '@angular/core';
 import { MatExpansionPanel, MatDialog, MatSidenav, MatDialogConfig } from '@angular/material';
 import { BreakpointObserver } from '@angular/cdk/layout';
@@ -40,6 +41,8 @@ import { SessionService } from '../../shared/session.service';
 import { AcoEventEmitterService } from '../../shared/ACO/aco-event-emitter.service';
 import { FilterCloseService } from './../../shared/filters/filter-close.service';
 import { PcorService } from '../../rest/care-delivery/pcor.service';
+import { HealthSystemDetailsSharedService } from '../../shared/advocate/health-system-details-shared.service';
+
 @Component({
   selector: 'app-hamburger-menu',
   templateUrl: './hamburger-menu.component.html',
@@ -52,6 +55,8 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
   isDarkTheme: Observable<boolean>;
   @ViewChildren(MatExpansionPanel) viewPanels: QueryList<MatExpansionPanel>;
   @ViewChild('srnav') srnav: MatSidenav;
+  GroupPremiumDesignation: any;
+  healthSystemData: any;
   public makeAbsolute: boolean;
   public bgWhite: boolean;
   public showPrintHeader: boolean;
@@ -76,6 +81,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
   public checkPro;
   public checkExecutive;
   printStyle: boolean;
+
   /*** Array of Navigation Category List ***/
   public navCategories = [
     { icon: 'home', name: 'Overview', path: '/OverviewPage', disabled: false },
@@ -132,7 +138,9 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
 
   /** CONSTRUCTOR **/
   constructor(
+    private healthSystemService: HealthSystemDetailsSharedService,
     private breakpointObserver: BreakpointObserver,
+    private cdRef: ChangeDetectorRef,
     private elementRef: ElementRef,
     private renderer: Renderer2,
     private iconRegistry: MatIconRegistry,
@@ -161,6 +169,20 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     this.checkAdv = this.sessionService.checkAdvocateRole();
     this.checkPro = this.sessionService.checkProjectRole();
     this.checkExecutive = this.sessionService.checkExecutiveRole();
+    this.healthSystemService
+      .getHealthSystemData()
+      .then(healthSystemData => {
+        this.healthSystemData = JSON.parse(JSON.stringify(healthSystemData));
+        if (this.healthSystemData.GroupPremiumDesignation) {
+          this.GroupPremiumDesignation = this.healthSystemData.GroupPremiumDesignation;
+        } else {
+          this.GroupPremiumDesignation = false;
+        }
+      })
+      .catch(reason => {
+        this.GroupPremiumDesignation = false;
+        console.log('Health System Details are not available', reason);
+      });
     if (this.checkAdv.value) {
       this.navCategories = this.navCategories.filter(item => item.name !== 'Summary Trends');
     }
@@ -170,6 +192,20 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
       if (event instanceof NavigationStart) {
         this.healthSystemName = this.sessionService.getHealthCareOrgName();
         this.AcoName = this.sessionService.getACOName();
+        this.healthSystemService
+          .getHealthSystemData()
+          .then(healthSystemData => {
+            this.healthSystemData = JSON.parse(JSON.stringify(healthSystemData));
+            if (this.healthSystemData.GroupPremiumDesignation) {
+              this.GroupPremiumDesignation = this.healthSystemData.GroupPremiumDesignation;
+            } else {
+              this.GroupPremiumDesignation = false;
+            }
+          })
+          .catch(reason => {
+            this.GroupPremiumDesignation = false;
+            console.log('Health System Details are not available', reason);
+          });
         this.makeAbsolute = !(
           authService.isLoggedIn() &&
           !(
@@ -281,6 +317,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     });
     this.eventEmitter.getEvent().subscribe(val => {
       this.isKop = val.value;
+      this.cdRef.detectChanges();
     });
     this.checkStorage.getEvent().subscribe(value => {
       if (value.value === 'overviewPage') {
@@ -557,9 +594,16 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
    * Clean fromKOP storage
    */
   navigateToKOP() {
-    sessionStorage.removeItem('fromKOP');
-    this.fromKOP = false;
-    this.router.navigate(['/NationalExecutive']);
+    // TODO: It is a quick fix
+    // settimeout and locaion routing
+    // Need to be remove after ng-redux
+    // filter implementenation in KOP
+    setTimeout(() => {
+      sessionStorage.removeItem('fromKOP');
+      this.fromKOP = false;
+    }, 500);
+    location.href = '/NationalExecutive';
+    // this.router.navigate(['/NationalExecutive']);
   }
 
   /**

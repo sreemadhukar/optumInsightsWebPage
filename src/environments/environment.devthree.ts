@@ -38,6 +38,9 @@ export const environment: any = {
     TrendingMetrics: 'trending-metrics/',
     PCORQualityMeasure: 'pcor-metrics/',
     NPSSummary: 'kop-metrics/',
+    KOPPriorAuthSummary: 'kop-priorauth-request/',
+    KOPPriorAuthTATSummary: 'kop-priorauth-tat/',
+    KOPReimbursementClaims: 'kop-reimbursement-claims/',
     AppealsTrend: 'appeals-trend/',
     AdminSummaryTrends: 'admintrends/',
     AppealsFHIR: 'appeals/v2.0/',
@@ -45,7 +48,8 @@ export const environment: any = {
     AdminSummaryTrendsCount: 'admintrendscount/',
     ACOMetrics: 'aco-metrics/',
     RefreshToken: 'getRefreshToken/',
-    HealthSystemDetails: 'providerInfo/'
+    HealthSystemDetails: 'providerInfo/',
+    KOPBusinessGlossary: 'business-glossaries-kop/'
   },
   headerKeys: {
     selectedCompany: '',
