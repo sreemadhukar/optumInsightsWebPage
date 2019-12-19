@@ -77,13 +77,13 @@
         </div>
       </div>
     </div>
-    <app-large-card [skeletonLarge]="loading" *ngIf="loading"></app-large-card>
+    <app-large-card [skeletonLarge]="loading" *ngIf="loading && !printStyle"></app-large-card>
     <app-error-card
-      *ngIf="!loading && !piDataloaded && cardData != null && cardData.status != null"
+      *ngIf="!loading && !piDataloaded && cardData != null && cardData.status != null && !development"
       class="cards"
       [data]="cardData"
     ></app-error-card>
-    <div class="pi-medical-record-coding-review-block card-inner" *ngIf="piDataloaded">
+    <div class="pi-medical-record-coding-review-block card-inner" *ngIf="piDataloaded && !development">
       <app-common-header
         [title]="title"
         class="full-display"
