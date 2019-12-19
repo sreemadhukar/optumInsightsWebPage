@@ -15,6 +15,11 @@ export class OverviewAdvocateSharedService {
   public tin;
   public lob;
   public providerKey;
+  public collectiveBeData;
+  public collectiveClaimsData;
+  public collectivePaData;
+  public collectiveOtherData;
+
   constructor(
     private MetricidService: GlossaryMetricidService,
     private common: CommonUtilsService,
@@ -214,47 +219,60 @@ export class OverviewAdvocateSharedService {
           const claimsData = [];
           const paData = [];
           const other = [];
-          if (callsTrendData) {
-            callsTrendData.forEach(element => {
-              console.log('collective', element);
-              console.log('collectiveBeData1', element.CallTalkTimeByQuesType.BenefitsEligibility);
-              const collectiveBeData = [];
-              const collectiveClaimsData = [];
-              const collectivePaData = [];
-              const collectiveOtherData = [];
 
+          if (callsTrendData[0]) {
+            callsTrendData[0].forEach(element => {
               if (element.CallTalkTimeByQuesType.BenefitsEligibility) {
-                collectiveBeData.push(element.CallTalkTimeByQuesType.BenefitsEligibility);
-                console.log('collectiveBeData2', collectiveBeData);
+                this.collectiveBeData = element.CallTalkTimeByQuesType.BenefitsEligibility;
               }
               if (element.CallTalkTimeByQuesType.Claims) {
-                collectiveClaimsData.push(element.CallTalkTimeByQuesType.Claims);
+                this.collectiveClaimsData = element.CallTalkTimeByQuesType.Claims;
               }
               if (element.CallTalkTimeByQuesType.PriorAuth) {
-                collectivePaData.push(element.CallTalkTimeByQuesType.PriorAuth);
+                this.collectivePaData = element.CallTalkTimeByQuesType.PriorAuth;
               }
               if (element.CallTalkTimeByQuesType.Others) {
-                collectiveOtherData.push(element.CallTalkTimeByQuesType.Others);
+                this.collectiveOtherData = element.CallTalkTimeByQuesType.Others;
               }
 
-              if (collectiveBeData.length !== 0) {
-                for (let i = 0; i < collectiveBeData.length; i++) {
-                  const trendCollectiveValue = collectiveBeData[i];
-                  const trendTimePeriod = element.Calldate;
-                  // const monthName = trendTimePeriod.substr(4, 4);
+              // const trendCollectiveValue = this.collectiveBeData;
+              const trendTimePeriod = element.Calldate;
+              // const monthName = trendTimePeriod.substr(4, 4);
 
-                  beData.push({
-                    // name: monthName,
-                    value: trendCollectiveValue,
-                    month: trendTimePeriod
-                  });
-                }
-              }
+              beData.push({
+                // name: monthName,
+                value: this.collectiveBeData,
+                month: trendTimePeriod
+              });
+              claimsData.push({
+                // name: monthName,
+                value: this.collectiveClaimsData,
+                month: trendTimePeriod
+              });
+              paData.push({
+                // name: monthName,
+                value: this.collectivePaData,
+                month: trendTimePeriod
+              });
+              other.push({
+                // name: monthName,
+                value: this.collectiveOtherData,
+                month: trendTimePeriod
+              });
             });
           }
           const callsTrendFormattedData = {};
           if (beData) {
             callsTrendFormattedData['B&E'] = beData;
+          }
+          if (claimsData) {
+            callsTrendFormattedData['CLAIMS'] = claimsData;
+          }
+          if (paData) {
+            callsTrendFormattedData['P&A'] = paData;
+          }
+          if (other) {
+            callsTrendFormattedData['Other'] = other;
           }
           console.log('callsTrendFormattedData', callsTrendFormattedData);
           resolve(callsTrendFormattedData);
