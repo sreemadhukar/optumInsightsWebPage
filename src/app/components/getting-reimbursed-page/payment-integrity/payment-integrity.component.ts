@@ -88,7 +88,7 @@ export class PaymentIntegrityComponent implements OnInit {
     this.tabOptionsTitle = ['Jul 1, 2018–Jun 30, 2019', 'Jul 1, 2019–Oct 31, 2019'];
     this.tabOptionsSubTitle = ['Date through Oct 4,2018', 'Date through Oct 4,2019'];
     this.subTitle = `Note: Claims Metrics are calculated using date medical record requested.
-       Dashboard information/measurements are reperesenting physician claims only.
+       Dashboard information/measurements are representing physician claims only.
        These measurements do not take into account facility claims.`;
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.filtermatch.urlResuseStrategy());
   }

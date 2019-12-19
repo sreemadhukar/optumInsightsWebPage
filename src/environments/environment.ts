@@ -18,8 +18,8 @@ export const environment: any = {
   // *In Local use dev3
   // apiProxyUrl: 'https://nginx-pedtst.ocp-ctc-core-nonprod.optum.com/',
   // originUrl: 'https://pedintui-pedstg.ocp-ctc-dmz-stg.optum.com/',
-  apiProxyUrl: 'https://gateway-stage-core.optum.com/api/devfour/pdr/uhci/v1/',
-  originUrl: 'https://pedui5-peddev.ocp-ctc-core-nonprod.optum.com/',
+  apiProxyUrl: 'https://gateway-stage-core.optum.com/api/devone/pdr/uhci/v1/',
+  originUrl: 'https://pedui2-peddev.ocp-ctc-core-nonprod.optum.com/',
   apiUrls: {
     ExecutiveSummaryPath: 'providersystems/',
     ProviderSystemClaimsAgg: 'agg-claims/search/v2.0/',
@@ -53,13 +53,15 @@ export const environment: any = {
     NPSSummary: 'kop-metrics/',
     KOPPriorAuthSummary: 'kop-priorauth-request/',
     KOPPriorAuthTATSummary: 'kop-priorauth-tat/',
+    KOPReimbursementClaims: 'kop-reimbursement-claims/',
     AppealsTrend: 'appeals-trend/',
     AdminSummaryTrends: 'admintrends/',
     AppealsFHIR: 'appeals/v2.0/',
     AppealsOverturn: 'appeal-overturn-reasons/',
     AdminSummaryTrendsCount: 'admintrendscount/',
     RefreshToken: 'getRefreshToken/',
-    HealthSystemDetails: 'providerInfo/'
+    HealthSystemDetails: 'providerInfo/',
+    KOPBusinessGlossary: 'business-glossaries-kop/'
   },
   headerKeys: {
     selectedCompany: '',
