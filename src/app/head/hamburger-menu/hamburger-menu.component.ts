@@ -41,6 +41,8 @@ import { SessionService } from '../../shared/session.service';
 import { AcoEventEmitterService } from '../../shared/ACO/aco-event-emitter.service';
 import { FilterCloseService } from './../../shared/filters/filter-close.service';
 import { PcorService } from '../../rest/care-delivery/pcor.service';
+import { HealthSystemDetailsSharedService } from '../../shared/advocate/health-system-details-shared.service';
+
 @Component({
   selector: 'app-hamburger-menu',
   templateUrl: './hamburger-menu.component.html',
@@ -53,6 +55,8 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
   isDarkTheme: Observable<boolean>;
   @ViewChildren(MatExpansionPanel) viewPanels: QueryList<MatExpansionPanel>;
   @ViewChild('srnav') srnav: MatSidenav;
+  GroupPremiumDesignation: any;
+  healthSystemData: any;
   public makeAbsolute: boolean;
   public bgWhite: boolean;
   public showPrintHeader: boolean;
@@ -133,6 +137,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
 
   /** CONSTRUCTOR **/
   constructor(
+    private healthSystemService: HealthSystemDetailsSharedService,
     private breakpointObserver: BreakpointObserver,
     private cdRef: ChangeDetectorRef,
     private elementRef: ElementRef,
@@ -163,6 +168,20 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     this.checkAdv = this.sessionService.checkAdvocateRole();
     this.checkPro = this.sessionService.checkProjectRole();
     this.checkExecutive = this.sessionService.checkExecutiveRole();
+    this.healthSystemService
+      .getHealthSystemData()
+      .then(healthSystemData => {
+        this.healthSystemData = JSON.parse(JSON.stringify(healthSystemData));
+        if (this.healthSystemData.GroupPremiumDesignation) {
+          this.GroupPremiumDesignation = this.healthSystemData.GroupPremiumDesignation;
+        } else {
+          this.GroupPremiumDesignation = false;
+        }
+      })
+      .catch(reason => {
+        this.GroupPremiumDesignation = false;
+        console.log('Health System Details are not available', reason);
+      });
     if (this.checkAdv.value) {
       this.navCategories = this.navCategories.filter(item => item.name !== 'Summary Trends');
     }
@@ -170,6 +189,20 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     router.events.subscribe(event => {
       if (event instanceof NavigationStart) {
         this.healthSystemName = this.sessionService.getHealthCareOrgName();
+        this.healthSystemService
+          .getHealthSystemData()
+          .then(healthSystemData => {
+            this.healthSystemData = JSON.parse(JSON.stringify(healthSystemData));
+            if (this.healthSystemData.GroupPremiumDesignation) {
+              this.GroupPremiumDesignation = this.healthSystemData.GroupPremiumDesignation;
+            } else {
+              this.GroupPremiumDesignation = false;
+            }
+          })
+          .catch(reason => {
+            this.GroupPremiumDesignation = false;
+            console.log('Health System Details are not available', reason);
+          });
         this.makeAbsolute = !(
           authService.isLoggedIn() &&
           !(

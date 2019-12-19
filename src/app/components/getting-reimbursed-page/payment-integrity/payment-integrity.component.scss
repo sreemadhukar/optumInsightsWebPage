@@ -479,3 +479,18 @@
   padding-left: 16px;
   padding-bottom: 14px;
 }
+
+.nav-tabs {
+  display: flex;
+  border-radius: 2px;
+  list-style-type: none;
+  font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+  color: #2d2d39;
+}
+
+.nav-values {
+  color: #757588;
+  font-size: 14px;
+  font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+  line-height: 18px;
+}
