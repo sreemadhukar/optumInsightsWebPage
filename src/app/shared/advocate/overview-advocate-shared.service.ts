@@ -19,6 +19,7 @@ export class OverviewAdvocateSharedService {
   public collectiveClaimsData;
   public collectivePaData;
   public collectiveOtherData;
+  public monthName;
 
   constructor(
     private MetricidService: GlossaryMetricidService,
@@ -236,25 +237,31 @@ export class OverviewAdvocateSharedService {
               }
 
               const trendTimePeriod = element.Calldate;
-              const monthName = this.common.dateFormat(trendTimePeriod).substr(0, 3); // This will change depending on the timeperiod
-
+              if (param.timePeriod === 'Last3Months' || param.timePeriod === 'Last30Days') {
+                this.monthName = this.common
+                  .dateFormat(trendTimePeriod)
+                  .substr(0, 6)
+                  .replace('T', '');
+              } else {
+                this.monthName = this.common.dateFormat(trendTimePeriod).substr(0, 3);
+              }
               beData.push({
-                name: monthName,
+                name: this.monthName,
                 value: this.collectiveBeData,
                 month: trendTimePeriod
               });
               claimsData.push({
-                name: monthName,
+                name: this.monthName,
                 value: this.collectiveClaimsData,
                 month: trendTimePeriod
               });
               paData.push({
-                name: monthName,
+                name: this.monthName,
                 value: this.collectivePaData,
                 month: trendTimePeriod
               });
               other.push({
-                name: monthName,
+                name: this.monthName,
                 value: this.collectiveOtherData,
                 month: trendTimePeriod
               });
