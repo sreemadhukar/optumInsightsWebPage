@@ -60,6 +60,9 @@ export class OverviewAdvocateComponent implements OnInit {
   totalCalls: any;
   callsLoading: boolean;
   callsLineGraphData: any;
+  claimsYieldLoading: boolean;
+  downRowMockCards: any;
+  claimsYieldCard: Array<Object>;
 
   constructor(
     private checkStorage: StorageService,
@@ -216,6 +219,22 @@ export class OverviewAdvocateComponent implements OnInit {
       });
   }
 
+  claimsYieldData(payload) {
+    this.claimsYieldLoading = true;
+    this.downRowMockCards = [{}];
+    this.claimsYieldCard = [];
+    this.topRowService
+      .getClaimsYieldShared(payload)
+      .then(claimsYieldData => {
+        this.claimsYieldCard.push(JSON.parse(JSON.stringify(claimsYieldData)));
+        this.claimsYieldLoading = false;
+      })
+      .catch(reason => {
+        this.claimsYieldLoading = false;
+        console.log('Adovate Overview page Payment', reason);
+      });
+  }
+
   ngOnInit() {
     this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'overviewAdvocatePage' });
     this.timePeriod = this.common.getTimePeriodFilterValue(this.createPayloadService.payload.timePeriod);
@@ -224,6 +243,7 @@ export class OverviewAdvocateComponent implements OnInit {
     this.appealsLeftData(this.createPayloadService.payload);
     this.appealsTrendByMonthData(this.createPayloadService.payload);
     this.totalCallsData(this.createPayloadService.payload);
+    this.claimsYieldData(this.createPayloadService.payload);
     this.appealsLineGraphloading = true;
     // this.callsLineGraphLoading = true;
     this.userName = this.session.sessionStorage('loggedUser', 'FirstName');
