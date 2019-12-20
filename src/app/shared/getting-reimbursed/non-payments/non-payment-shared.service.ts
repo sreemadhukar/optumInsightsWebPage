@@ -126,8 +126,8 @@ export class NonPaymentSharedService {
                 hover: true
               },
               besideData: {
-                labels: this.common.LOBSideLabels(lobValue, nonPaidData),
-                color: this.common.LOBSideLabelColors(lobValue, nonPaidData)
+                labels: this.common.lobNameForSideLabels(lobValue, nonPaymentData1),
+                color: this.common.lobColorForLabels(lobValue, nonPaymentData1)
               },
               timeperiod: this.common.getTimePeriodFilterValue(param.timePeriod)
             };
