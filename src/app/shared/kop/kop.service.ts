@@ -44,7 +44,7 @@ export class KOPSharedService {
         const issueResolutionInstance = new IssueResolution({ records: response });
         const issueResolution = issueResolutionInstance.getData();
 
-        const reimbursementInstance = new Reimbursement({ records: response });
+        const reimbursementInstance = new Reimbursement({ records: response, key: 'Reimbursement' });
         const reimbursement = reimbursementInstance.getData();
 
         const engagementInstance = new Engagement({ records: response });
@@ -148,7 +148,7 @@ export class KOPSharedService {
         if (!response || response.length === 0) {
           return resolve(null);
         } else {
-          const reimbursementInstance = new Reimbursement({ records: response });
+          const reimbursementInstance = new Reimbursement({ records: response, key: 'ReimbursementClaims' });
           const reimbursement = reimbursementInstance.getData();
           return resolve({
             reimbursement

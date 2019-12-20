@@ -41,7 +41,7 @@ import { SessionService } from '../../shared/session.service';
 import { AcoEventEmitterService } from '../../shared/ACO/aco-event-emitter.service';
 import { FilterCloseService } from './../../shared/filters/filter-close.service';
 import { PcorService } from '../../rest/care-delivery/pcor.service';
-import { HealthSystemDetailsSharedService } from '../../shared/advocate/health-system-details-shared.service';
+// import { HealthSystemDetailsSharedService } from '../../shared/advocate/health-system-details-shared.service';
 
 @Component({
   selector: 'app-hamburger-menu',
@@ -138,7 +138,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
 
   /** CONSTRUCTOR **/
   constructor(
-    private healthSystemService: HealthSystemDetailsSharedService,
+    // private healthSystemService: HealthSystemDetailsSharedService,
     private breakpointObserver: BreakpointObserver,
     private cdRef: ChangeDetectorRef,
     private elementRef: ElementRef,
@@ -169,20 +169,20 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     this.checkAdv = this.sessionService.checkAdvocateRole();
     this.checkPro = this.sessionService.checkProjectRole();
     this.checkExecutive = this.sessionService.checkExecutiveRole();
-    this.healthSystemService
-      .getHealthSystemData()
-      .then(healthSystemData => {
-        this.healthSystemData = JSON.parse(JSON.stringify(healthSystemData));
-        if (this.healthSystemData.GroupPremiumDesignation) {
-          this.GroupPremiumDesignation = this.healthSystemData.GroupPremiumDesignation;
-        } else {
-          this.GroupPremiumDesignation = false;
-        }
-      })
-      .catch(reason => {
-        this.GroupPremiumDesignation = false;
-        console.log('Health System Details are not available', reason);
-      });
+    // this.healthSystemService
+    //   .getHealthSystemData()
+    //   .then(healthSystemData => {
+    //     this.healthSystemData = JSON.parse(JSON.stringify(healthSystemData));
+    //     if (this.healthSystemData.GroupPremiumDesignation) {
+    //       this.GroupPremiumDesignation = this.healthSystemData.GroupPremiumDesignation;
+    //     } else {
+    //       this.GroupPremiumDesignation = false;
+    //     }
+    //   })
+    //   .catch(reason => {
+    //     this.GroupPremiumDesignation = false;
+    //     console.log('Health System Details are not available', reason);
+    //   });
     if (this.checkAdv.value) {
       this.navCategories = this.navCategories.filter(item => item.name !== 'Summary Trends');
     }
@@ -190,20 +190,20 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     router.events.subscribe(event => {
       if (event instanceof NavigationStart) {
         this.healthSystemName = this.sessionService.getHealthCareOrgName();
-        this.healthSystemService
-          .getHealthSystemData()
-          .then(healthSystemData => {
-            this.healthSystemData = JSON.parse(JSON.stringify(healthSystemData));
-            if (this.healthSystemData.GroupPremiumDesignation) {
-              this.GroupPremiumDesignation = this.healthSystemData.GroupPremiumDesignation;
-            } else {
-              this.GroupPremiumDesignation = false;
-            }
-          })
-          .catch(reason => {
-            this.GroupPremiumDesignation = false;
-            console.log('Health System Details are not available', reason);
-          });
+        // this.healthSystemService
+        //   .getHealthSystemData()
+        //   .then(healthSystemData => {
+        //     this.healthSystemData = JSON.parse(JSON.stringify(healthSystemData));
+        //     if (this.healthSystemData.GroupPremiumDesignation) {
+        //       this.GroupPremiumDesignation = this.healthSystemData.GroupPremiumDesignation;
+        //     } else {
+        //       this.GroupPremiumDesignation = false;
+        //     }
+        //   })
+        //   .catch(reason => {
+        //     this.GroupPremiumDesignation = false;
+        //     console.log('Health System Details are not available', reason);
+        //   });
         this.makeAbsolute = !(
           authService.isLoggedIn() &&
           !(
@@ -306,10 +306,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
   }
 
   ngOnInit() {
-    const currentUser: any = JSON.parse(sessionStorage.getItem('currentUser'))[0];
-    if (currentUser.hasOwnProperty('Providers')) {
-      this.externalProvidersCount = currentUser.Providers.length > 1 ? true : false;
-    }
+    this.GroupPremiumDesignation = false;
     this.AcoFlag = false;
     this.isKop = false;
     this.loading = false;
@@ -328,7 +325,10 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
       // Check whether we have PCOR Data or not, if yes then include the PCOR option in navigation bar
       this.checkPcorData();
     });
-
+    const currentUser: any = JSON.parse(sessionStorage.getItem('currentUser'))[0];
+    if (currentUser.hasOwnProperty('Providers')) {
+      this.externalProvidersCount = currentUser.Providers.length > 1 ? true : false;
+    }
     /*
         for login page filters has no role to play, so for them Filters should be close,
          we are calling it explicity because suppose user clicks on Filter and filter drawer opens up, now logout
