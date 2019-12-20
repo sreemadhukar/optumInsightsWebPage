@@ -227,7 +227,7 @@ export class OverviewAdvocateComponent implements OnInit {
     this.overviewAdvocateSharedService
       .getTotalCallsTrendLineShared(payload)
       .then(totalCallsTrendData => {
-        if (totalCallsTrendData[0] == null) {
+        if (totalCallsTrendData == null) {
           this.callsLoading = false;
           this.callsLineGraphData = {
             category: 'large-card',
@@ -241,8 +241,8 @@ export class OverviewAdvocateComponent implements OnInit {
         } else {
           let callsTrendData;
           callsTrendData = totalCallsTrendData;
-          console.log('callsTrendData', callsTrendData);
           this.callsTrendLineGraph = new CallsTrendData(callsTrendData, CallsGeneralData, 'calls-trend-block');
+          console.log('this.callsTrendLineGraph ', this.callsTrendLineGraph);
           this.callsLoading = false;
         }
       })
