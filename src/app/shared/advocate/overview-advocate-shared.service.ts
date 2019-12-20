@@ -15,6 +15,12 @@ export class OverviewAdvocateSharedService {
   public tin;
   public lob;
   public providerKey;
+  public collectiveBeData;
+  public collectiveClaimsData;
+  public collectivePaData;
+  public collectiveOtherData;
+  public monthName;
+
   constructor(
     private MetricidService: GlossaryMetricidService,
     private common: CommonUtilsService,
@@ -196,6 +202,118 @@ export class OverviewAdvocateSharedService {
       this.overviewAdvocateService.callsData(...parameters).subscribe(
         callsTotalData => {
           resolve(callsTotalData);
+        },
+        err => {
+          console.log('Advocate Page , Error for calls card', err);
+        }
+      );
+    });
+  }
+
+  public getTotalCallsTrendLineShared(param) {
+    this.timeFrame = this.common.getTimePeriodFilterValue(param.timePeriod);
+    return new Promise(resolve => {
+      const parameters = this.getParameterCategories(param);
+      this.overviewAdvocateService.callsTrendLineData(...parameters).subscribe(
+        callsTrendData => {
+          const beData = [];
+          const claimsData = [];
+          const paData = [];
+          const other = [];
+
+          if (callsTrendData[0]) {
+            callsTrendData[0].forEach(element => {
+              if (element.CallTalkTimeByQuesType.BenefitsEligibility) {
+                this.collectiveBeData = element.CallTalkTimeByQuesType.BenefitsEligibility;
+              }
+              if (element.CallTalkTimeByQuesType.Claims) {
+                this.collectiveClaimsData = element.CallTalkTimeByQuesType.Claims;
+              }
+              if (element.CallTalkTimeByQuesType.PriorAuth) {
+                this.collectivePaData = element.CallTalkTimeByQuesType.PriorAuth;
+              }
+              if (element.CallTalkTimeByQuesType.Others) {
+                this.collectiveOtherData = element.CallTalkTimeByQuesType.Others;
+              }
+
+              const trendTimePeriod = element.Calldate;
+              if (param.timePeriod === 'Last3Months' || param.timePeriod === 'Last30Days') {
+                this.monthName = this.common
+                  .dateFormat(trendTimePeriod)
+                  .substr(0, 6)
+                  .replace('T', '');
+              } else {
+                this.monthName = this.common.dateFormat(trendTimePeriod).substr(0, 3);
+              }
+              beData.push({
+                name: this.monthName,
+                value: this.collectiveBeData,
+                month: trendTimePeriod
+              });
+              claimsData.push({
+                name: this.monthName,
+                value: this.collectiveClaimsData,
+                month: trendTimePeriod
+              });
+              paData.push({
+                name: this.monthName,
+                value: this.collectivePaData,
+                month: trendTimePeriod
+              });
+              other.push({
+                name: this.monthName,
+                value: this.collectiveOtherData,
+                month: trendTimePeriod
+              });
+            });
+          }
+
+          beData.sort(function(a, b) {
+            let dateA: any;
+            dateA = new Date(a.month);
+            let dateB: any;
+            dateB = new Date(b.month);
+            return dateA - dateB; // sort by date ascending
+          });
+
+          claimsData.sort(function(a, b) {
+            let dateA: any;
+            dateA = new Date(a.month);
+            let dateB: any;
+            dateB = new Date(b.month);
+            return dateA - dateB; // sort by date ascending
+          });
+
+          paData.sort(function(a, b) {
+            let dateA: any;
+            dateA = new Date(a.month);
+            let dateB: any;
+            dateB = new Date(b.month);
+            return dateA - dateB; // sort by date ascending
+          });
+
+          other.sort(function(a, b) {
+            let dateA: any;
+            dateA = new Date(a.month);
+            let dateB: any;
+            dateB = new Date(b.month);
+            return dateA - dateB; // sort by date ascending
+          });
+          const callsTrendFormattedData = {};
+          if (beData) {
+            callsTrendFormattedData['B&E'] = beData;
+          }
+          if (claimsData) {
+            callsTrendFormattedData['CLAIMS'] = claimsData;
+          }
+          if (paData) {
+            callsTrendFormattedData['P&A'] = paData;
+          }
+          if (other) {
+            callsTrendFormattedData['Other'] = other;
+          }
+          console.log('callsTrendFormattedData', callsTrendFormattedData);
+          resolve(callsTrendFormattedData);
         },
         err => {
           console.log('Advocate Page , Error for calls card', err);
