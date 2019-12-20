@@ -71,7 +71,6 @@ export class PatientCareOpportunityComponent implements OnInit {
   }
   public customFormattingMeasureDescription(customLabelGrid, data) {
     for (let i = 0; i < data.length; i++) {
-      console.log(data[i].insideData.length);
       for (let j = 0; j < data[i].insideData.length; j++) {
         const measurePrefix = data[i].insideData[j].Name;
         for (let k = 0; k < customLabelGrid.length; k++) {
