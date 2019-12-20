@@ -14,6 +14,7 @@ import { GlossaryExpandService } from '../../../shared/glossary-expand.service';
 import { AppealsData } from '../appeals-data';
 import { GeneralData } from '../general-data';
 import { CallsTrendData } from '../calls-trend-data';
+import { CallsGeneralData } from '../calls-general-data';
 import { CreatePayloadService } from '../../../shared/uhci-filters/create-payload.service';
 import { NgRedux } from '@angular-redux/store';
 import { CURRENT_PAGE, REMOVE_FILTER } from '../../../store/filter/actions';
@@ -241,7 +242,7 @@ export class OverviewAdvocateComponent implements OnInit {
           let callsTrendData;
           callsTrendData = totalCallsTrendData;
           console.log('callsTrendData', callsTrendData);
-          // this.callsTrendLineGraph = new CallsTrendData(callsTrendData, GeneralData, 'calls-trend-block');
+          this.callsTrendLineGraph = new CallsTrendData(callsTrendData, CallsGeneralData, 'calls-trend-block');
           this.callsLoading = false;
         }
       })

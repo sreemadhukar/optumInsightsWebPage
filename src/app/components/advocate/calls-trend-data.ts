@@ -27,9 +27,9 @@ export class CallsTrendData {
 
   constructor(data: any, generalData, title) {
     this.chartId = title;
-    this.lineOne = new CallsChartData(data['M&R'], generalData['M&R'], 'M&R');
-    this.lineTwo = new CallsChartData(data['C&S'], generalData['C&S'], 'C&S');
-    this.lineThree = new CallsChartData(data['E&I'], generalData['E&I'], 'E&I');
-    this.lineFour = new CallsChartData(data['Others'], generalData['Others'], 'Others');
+    this.lineOne = new CallsChartData(data['B&E'], generalData['B&E'], 'B&E');
+    this.lineTwo = new CallsChartData(data['CLAIMS'], generalData['CLAIMS'], 'CLAIMS');
+    this.lineThree = new CallsChartData(data['P&A'], generalData['P&A'], 'P&A');
+    this.lineFour = new CallsChartData(data['Other'], generalData['Other'], 'Other');
   }
 }
