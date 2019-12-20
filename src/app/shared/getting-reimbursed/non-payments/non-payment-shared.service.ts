@@ -34,6 +34,7 @@ export class NonPaymentSharedService {
 
   // The getNonPayment() function fetches data for Claims Not Paid and Claims Non-Payment Rate
   public getNonPayment(param) {
+    /*
     let lobValueParam;
     if (param.lineOfBusiness) {
       lobValueParam = _.startCase(param.lineOfBusiness.toLowerCase());
@@ -41,13 +42,15 @@ export class NonPaymentSharedService {
       lobValueParam = 'All';
     }
     delete param['lineOfBusiness'];
+    */
     this.providerKey = this.session.providerKeyData();
     return new Promise(resolve => {
       this.nonPaymentService.getNonPaymentData(...this.getParameterCategories(param)).subscribe(
         ([nonPaymentData1]) => {
           let claimsNotPaid: Object;
           let claimsNotPaidRate: Object;
-          const lobValue = lobValueParam;
+          // const lobValue = lobValueParam;
+          const lobValue = param.lineOfBusiness ? _.startCase(param.lineOfBusiness.toLowerCase()) : 'All';
           if (
             (nonPaymentData1 || {}).All &&
             nonPaymentData1.All.hasOwnProperty('ClaimsLobSummary') &&
@@ -101,7 +104,6 @@ export class NonPaymentSharedService {
               nonPaidData.push(amountPaid - amountPaidLOB);
             }
 
-            console.log(nonPaidData);
             claimsNotPaid = {
               category: 'app-card',
               type: 'donutWithLabel',
@@ -337,7 +339,6 @@ export class NonPaymentSharedService {
                 id: tempArray[i].Claimdenialcategorylevel1shortname.replace(/[^a-zA-Z0-9]/g, '') + 'topReasons'
               });
             }
-            console.log(topReasons);
             resolve(topReasons);
           } catch (Error) {
             resolve(null);
