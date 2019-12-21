@@ -1,0 +1,215 @@
+<div class="gettingReimburse-body" [ngClass]="{ 'bg-color-print': printStyle === true }">
+  <div class="nonPayment-content">
+    <div class="nonPayment-content-cust">
+      <app-breadcrumbs></app-breadcrumbs>
+      <!-- <app-print> </app-print> -->
+      <div class="claims-content-head">
+        <a (click)="goback()" class="nav-menu-icons-back-button nav-menu-icons-back-button-div ">
+          <mat-icon class="nav-menu-icons nav-menu-icons-back-button" svgIcon="backButton"></mat-icon>
+        </a>
+        Claims Non-Payments Details
+        <div class="note-sub-head">
+          <div class="note-sub-head-div">
+            Note: To change global filters, please return to the
+            <span class="claims-note-div"> Claims Non-Payments page</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- <div class="page-title" [ngClass]="{ 'print-page-title': printStyle === true }">
+        {{ pageTitle }}
+      </div>
+      <div *ngIf="printStyle" [ngClass]="{ 'print-page-subtitle': printStyle === true }">
+        {{ pageSubTitle }}
+      </div> -->
+      <app-filters-applied></app-filters-applied>
+    </div>
+
+    <div class="reasons-content">
+      <div class="reason-div">
+        <!-- <select [(ngModel)]="selectedCountry.id" (change)="onSelect($event.target.value)">
+                <option value="0">--Select--</option>
+                <option *ngFor="let country of countries" value= {{country.id}}>{{country.name}}</option>
+              </select> -->
+        <span class="reason-text">Reason</span>
+        <select class="reason-dropdown">
+          <option value="0">--Select--</option>
+          <option>Need More Information</option>
+        </select>
+      </div>
+      <div class="sub-reason-div">
+        <span class="reason-text">Subreason</span>
+        <select class="reason-dropdown">
+          <option value="0">--Select--</option>
+          <option>Need Medical Records</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="tin-list-body">
+      <div class="tin-list-body-head">
+        <div class="tin-list-body-head-left">Showing {{ numberofTinsShowing }} Tax ID results</div>
+      </div>
+      <div class="tin-list-body-table-div">
+        <div class="tin-list-body-table-head">
+          <div class="tin-list-body-table-head-left">
+            <div class="tin-list-body-table-head-sub-head" (click)="sorta('Tin')">
+              TIN Name and<br />
+              Number
+              <mat-icon
+                class="nav-menu-icons nav-menu-icons-down-arrow"
+                *ngIf="sortFlagTin && sortFlag"
+                svgIcon="downarrow"
+              ></mat-icon>
+              <mat-icon
+                class="nav-menu-icons nav-menu-icons-down-arrow-reverse"
+                *ngIf="sortFlagTin && !sortFlag"
+                svgIcon="downarrow"
+              ></mat-icon>
+            </div>
+            <div class="tin-list-body-table-head-text-input-div">
+              <input
+                type="text"
+                class="tin-list-body-table-head-text-input  input-width-2"
+                spellcheck="false"
+                (keyup)="applyFilter($event.target.value)"
+              />
+            </div>
+          </div>
+          <div class="tin-list-body-table-head-right">
+            <div class="tin-list-body-table-head-sub-head" (click)="sorta('Tinname')">
+              Provider<br />
+              Name
+              <mat-icon
+                class="nav-menu-icons nav-menu-icons-down-arrow"
+                *ngIf="!sortFlagTin && sortFlag"
+                svgIcon="downarrow"
+              ></mat-icon>
+              <mat-icon
+                class="nav-menu-icons nav-menu-icons-down-arrow-reverse"
+                *ngIf="!sortFlagTin && !sortFlag"
+                svgIcon="downarrow"
+              ></mat-icon>
+            </div>
+            <div class="tin-list-body-table-head-text-input-div">
+              <input
+                type="text"
+                class="tin-list-body-table-head-text-input input-width-2"
+                spellcheck="false"
+                (keyup)="applyFilter($event.target.value)"
+              />
+            </div>
+          </div>
+          <div class="tin-list-body-table-head-right">
+            <div class="tin-list-body-table-head-sub-head" (click)="sorta('NonPayment')">
+              Non-Payment<br />
+              Amount
+              <mat-icon
+                class="nav-menu-icons nav-menu-icons-down-arrow"
+                *ngIf="!sortFlagTin && sortFlag"
+                svgIcon="downarrow"
+              ></mat-icon>
+              <mat-icon
+                class="nav-menu-icons nav-menu-icons-down-arrow-reverse"
+                *ngIf="!sortFlagTin && !sortFlag"
+                svgIcon="downarrow"
+              ></mat-icon>
+            </div>
+          </div>
+          <div class="tin-list-body-table-head-right">
+            <div class="tin-list-body-table-head-sub-head" (click)="sorta('Tinname')">
+              Billed<br />
+              Amount
+              <mat-icon
+                class="nav-menu-icons nav-menu-icons-down-arrow"
+                *ngIf="!sortFlagTin && sortFlag"
+                svgIcon="downarrow"
+              ></mat-icon>
+              <mat-icon
+                class="nav-menu-icons nav-menu-icons-down-arrow-reverse"
+                *ngIf="!sortFlagTin && !sortFlag"
+                svgIcon="downarrow"
+              ></mat-icon>
+            </div>
+          </div>
+          <div class="tin-list-body-table-head-right">
+            <div class="tin-list-body-table-head-sub-head" (click)="sorta('Tinname')">
+              Date of<br />
+              Processing
+              <mat-icon
+                class="nav-menu-icons nav-menu-icons-down-arrow"
+                *ngIf="!sortFlagTin && sortFlag"
+                svgIcon="downarrow"
+              ></mat-icon>
+              <mat-icon
+                class="nav-menu-icons nav-menu-icons-down-arrow-reverse"
+                *ngIf="!sortFlagTin && !sortFlag"
+                svgIcon="downarrow"
+              ></mat-icon>
+            </div>
+          </div>
+          <div class="tin-list-body-table-head-right">
+            <div class="tin-list-body-table-head-sub-head" (click)="sorta('Tinname')">
+              Claim<br />
+              Number
+              <mat-icon
+                class="nav-menu-icons nav-menu-icons-down-arrow"
+                *ngIf="!sortFlagTin && sortFlag"
+                svgIcon="downarrow"
+              ></mat-icon>
+              <mat-icon
+                class="nav-menu-icons nav-menu-icons-down-arrow-reverse"
+                *ngIf="!sortFlagTin && !sortFlag"
+                svgIcon="downarrow"
+              ></mat-icon>
+            </div>
+            <div class="tin-list-body-table-head-text-input-div">
+              <input
+                type="text"
+                class="tin-list-body-table-head-text-input  input-width-3"
+                spellcheck="false"
+                (keyup)="applyFilter($event.target.value)"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="tin-list-body-table-div-body">
+          <!-- <table mat-table [dataSource]="selectedtins" class="mat-elevation-z8">
+                    <ng-container matColumnDef="Tin">
+                        <td mat-cell *matCellDef="let element"> {{element.Tin}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="Tinname">
+                        <td mat-cell *matCellDef="let element"> {{element.Tinname}} </td>
+                    </ng-container>
+                </table> -->
+
+          <div>
+            <table mat-table matSort [dataSource]="selectedtins">
+              <ng-container matColumnDef="Tin">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> No. </mat-header-cell>
+                <mat-cell class="tin-list-body-table-div-body-tin-cell" *matCellDef="let element">
+                  {{ element.Tin }}
+                </mat-cell>
+              </ng-container>
+
+              <ng-container matColumnDef="Tinname">
+                <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
+                <mat-cell class="tin-list-body-table-div-body-tinname-cell" *matCellDef="let element">
+                  {{ element.Tinname | lowercase }}
+                </mat-cell>
+              </ng-container>
+              <ng-container matColumnDef="Non Payment">
+                <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
+                <mat-cell class="tin-list-body-table-div-body-tinname-cell" *matCellDef="let element">
+                  {{ element.Payment | lowercase }}
+                </mat-cell>
+              </ng-container>
+              <mat-row *matRowDef="let row; columns: tinsDisplayedColumns"></mat-row>
+            </table>
+            <mat-paginator class="tin-list" [pageSizeOptions]="[25, 50, 100]"> </mat-paginator>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

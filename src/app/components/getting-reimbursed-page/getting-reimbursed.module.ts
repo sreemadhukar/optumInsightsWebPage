@@ -17,6 +17,8 @@ import { PaymentIntegrityComponent } from './payment-integrity/payment-integrity
 import { NonPaymentsComponent } from './non-payments/non-payments.component';
 import { PaymentsComponent } from './payments/payments.component';
 import { SmartEditsComponent } from './payment-integrity/smart-edits/smart-edits.component';
+import { ViewTopClaimsComponent } from './non-payments/view-top-claims/view-top-claims.component';
+
 @NgModule({
   imports: [CommonModule, GettingReimbursedRoutingModule, CommonUtilsModule, HeadMaterialModule, FormsModule],
   providers: [GettingReimbursedService, NonPaymentSharedService, AppealsSharedService, PaymentsSharedService],
@@ -27,7 +29,8 @@ import { SmartEditsComponent } from './payment-integrity/smart-edits/smart-edits
     PaymentIntegrityComponent,
     NonPaymentsComponent,
     PaymentsComponent,
-    SmartEditsComponent
+    SmartEditsComponent,
+    ViewTopClaimsComponent
   ],
   exports: [
     GettingReimbursedComponent,
