@@ -27,6 +27,7 @@ export class ColorGreyMiniBarChartComponent implements OnInit, AfterViewInit {
   }
 
   doBarChart(chartOptions: any, transition: number) {
+    console.log('Bar Chart', chartOptions);
     // const preWidth = document.getElementsByClassName('top-5-block')[0].clientWidth;
     d3.select(this.renderChart)
       .selectAll('*')

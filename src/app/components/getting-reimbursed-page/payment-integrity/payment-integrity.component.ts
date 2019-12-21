@@ -208,7 +208,21 @@ export class PaymentIntegrityComponent implements OnInit {
         this.loading = false;
         const temp1 = JSON.parse(JSON.stringify(r));
         if (temp1 && temp1.hasOwnProperty('status') && temp1.status) {
-          this.cardData = temp1;
+          // this.cardData = temp1;
+          const inder = {
+            MedicalRecordsRequested: 7312,
+            MedicalRecordsReturned: 3241,
+            MedicalRecordsOutstanding: 4071,
+            OutStandingAmount: 6473256.1,
+            StartDate: '2019-04',
+            EndDate: '2019-09',
+            RecordsRequestedVariance: -50.18867924528302,
+            VarianceStartDate: '2019-08',
+            VarianceEndDate: '2019-09',
+            OutStandingAmountVariance: -43.89472504774153,
+            TotalClaimsSubmitted: 616288
+          };
+          this.cardData = inder;
         } else {
           if (r != null) {
             this.cardData = r;
