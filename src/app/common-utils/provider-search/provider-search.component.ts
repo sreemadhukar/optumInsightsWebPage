@@ -15,6 +15,7 @@ import {
 import { DomSanitizer } from '@angular/platform-browser';
 import { StorageService } from '../../shared/storage-service.service';
 import get from 'lodash.get';
+import { environment } from 'src/environments/environment';
 const DEFAULT_SELECTED_ACTION = () => {};
 const DEFAULT_CONTAINER_LABEL = 'Select an organization to represent';
 
@@ -25,10 +26,14 @@ const DEFAULT_CONTAINER_LABEL = 'Select an organization to represent';
 })
 export class ProviderSearchComponent implements OnInit, AfterViewInit {
   stateCtrl = new FormControl();
+  ExtstateCtrl = new FormControl();
   filteredStates: Observable<Providers[]>;
   states: Providers[];
+  extstates = [];
+  externalOrgs = [];
   providerData: any;
   nomatchFlag: any;
+  noextmatchFlag = true;
 
   // Set default value for the container title label
   containerLabel = DEFAULT_CONTAINER_LABEL;
@@ -40,6 +45,8 @@ export class ProviderSearchComponent implements OnInit, AfterViewInit {
   public obs: Subscription;
   providersLoaded = false;
   noProviders = false;
+  noExtProviders = false;
+  isInternal: boolean = environment.internalAccess;
 
   constructor(
     private fb: FormBuilder,
@@ -91,6 +98,27 @@ export class ProviderSearchComponent implements OnInit, AfterViewInit {
     });
 
     this.obs = this.emitter.pipe(debounceTime(250)).subscribe(text => this.getProviders(text));
+
+    if (!this.isInternal) {
+      this.extstates = this.providerData[0].Providers;
+      // this.extstates = [
+      //   {
+      //     ProviderKey: 35999,
+      //     All: null,
+      //     ProviderSystem: 'Aaa Anesthesia Associates'
+      //   },
+      //   {
+      //     ProviderKey: 3999,
+      //     All: null,
+      //     ProviderSystem: 'Byram Associates'
+      //   }
+      // ];
+      this.extstates = this.extstates.map(function(elm) {
+        return { Providersyskey: elm['ProviderKey'], Healthcareorganizationname: elm['ProviderSystem'] };
+      });
+      this.extstates.sort((a, b) => a.Healthcareorganizationname.localeCompare(b.Healthcareorganizationname));
+      this.externalOrgs = this.extstates;
+    }
   }
 
   ngAfterViewInit() {
@@ -101,6 +129,21 @@ export class ProviderSearchComponent implements OnInit, AfterViewInit {
     //   startWith(''),
     //   map(state => (state ? this._filterStates(state) : null))
     // );
+  }
+  ExtproviderSelect(event: MatAutocompleteSelectedEvent) {
+    // this.providerSelectedFlag = false;
+    const provider = this.providerData[0];
+    const data = this.extstates.find(prov => prov.Healthcareorganizationname === event.option.value);
+    if (this.providerData[0].hasOwnProperty('Providersyskey')) {
+      provider.Healthcareorganizationname = data.Healthcareorganizationname;
+      provider.Providersyskey = data.Providersyskey;
+      this.storage.store('currentUser', [provider]);
+    } else {
+      this.storage.store('currentUser', [Object.assign(provider, data)]);
+    }
+    this.storage.emitEvent('overviewPage');
+    this.dialogRef.close();
+    this.valueSelected();
   }
   providerSelect(event: MatAutocompleteSelectedEvent) {
     const provider = this.providerData[0];
@@ -209,6 +252,33 @@ export class ProviderSearchComponent implements OnInit, AfterViewInit {
       this.emitter.emit(val);
     } else {
       this.states = [];
+    }
+  }
+
+  extProviders(val) {
+    this.noextmatchFlag = true;
+    this.noExtProviders = false;
+    this.orderExtStates(val);
+    this.toggleDropdown();
+  }
+
+  orderExtStates(val) {
+    this.extstates = this.externalOrgs.filter(
+      el => el.Healthcareorganizationname.toLowerCase().indexOf(val.toLowerCase()) !== -1
+    );
+  }
+
+  toggleDropdown() {
+    (<HTMLElement>document.querySelector('.mat-autocomplete-hidden')).style.visibility = 'visible';
+    (<HTMLElement>document.querySelector('.mat-autocomplete-panel')).style.height = 'auto';
+    if (this.extstates.length === 0) {
+      this.noextmatchFlag = false;
+      this.noExtProviders = true;
+      (<HTMLElement>document.querySelector('.mat-form-field-outline-thick')).style.color = '#B10C00';
+    } else {
+      this.noextmatchFlag = true;
+      this.noExtProviders = false;
+      (<HTMLElement>document.querySelector('.mat-form-field-outline-thick')).style.color = '#196ECF';
     }
   }
 }

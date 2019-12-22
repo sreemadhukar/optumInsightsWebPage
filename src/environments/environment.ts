@@ -23,12 +23,14 @@ export const environment: any = {
   apiUrls: {
     ExecutiveSummaryPath: 'providersystems/',
     ProviderSystemClaimsAgg: 'agg-claims/search/v2.0/',
+    // ProviderSystemClaimsSummary: 'claims/search/v2.0/',
+
     ProviderSystemClaimsSummary: 'claim-metrics/',
     ProviderSystemPriorAuth: 'PriorAuthSummary/',
     SsoTokenPath: 'myinsightOptumIdHandshake',
     SsoRedirectUri:
       'https://stage-sso.uhc.com/ext/as/authorization.oauth2?pfidpadapterid=OptumIdOIDCStage&client_id=PED42235&response_' +
-      'type=code&redirect_uri=https://pedui1-pedtst.ocp-ctc-core-nonprod.optum.com/login&scope=openid+profile+email&state=PED&prompt=none',
+      'type=code&redirect_uri=https://pedui3-peddev.ocp-ctc-core-nonprod.optum.com/login&scope=openid+profile+email&state=PED&prompt=none',
     linkLoginPage: 'https://provider-stage.linkhealth.com',
     SsoLogoutUrl:
       'https://api-stage.linkhealth.com/session/signout?redirect=https://provider-stage.linkhealth.com/' +
@@ -61,7 +63,8 @@ export const environment: any = {
     AdminSummaryTrendsCount: 'admintrendscount/',
     RefreshToken: 'getRefreshToken/',
     HealthSystemDetails: 'providerInfo/',
-    KOPBusinessGlossary: 'business-glossaries-kop/'
+    KOPBusinessGlossary: 'business-glossaries-kop/',
+    CallsTrendLine: 'calls-trend/'
   },
   headerKeys: {
     selectedCompany: '',
