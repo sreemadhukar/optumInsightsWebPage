@@ -329,7 +329,6 @@ export class NonPaymentSharedService {
                 id: tempArray[i].Claimdenialcategorylevel1shortname.replace(/[^a-zA-Z0-9]/g, '') + 'topReasons'
               });
             }
-            console.log(topReasons);
             resolve(topReasons);
           } catch (Error) {
             resolve(null);
