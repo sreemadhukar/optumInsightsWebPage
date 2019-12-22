@@ -275,9 +275,7 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
     });
   }
   subReasonClicked(value: string) {
-    console.log('Vlue', value);
     const routetoThis = '/GettingReimbursed/ViewTopClaims';
-    console.log('Check subReasonClicked', this.reasonWithData);
     this.reasonsEmitter.sendReasonsDetails(this.reasonWithData, value);
     this.router.navigate([routetoThis]);
   }
@@ -290,7 +288,6 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
       };
       reasonWithSubData.push(temp);
     }
-    console.log('ReasonWithSubData', reasonWithSubData);
     return reasonWithSubData;
   }
 
