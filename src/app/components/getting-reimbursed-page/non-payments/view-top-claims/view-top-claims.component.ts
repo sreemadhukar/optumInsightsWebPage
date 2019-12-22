@@ -108,17 +108,10 @@ export class ViewTopClaimsComponent implements OnInit {
     this.clickSubReason = this.reasonReceived.message.subscribe(
       receivedData => {
         const data = JSON.parse(JSON.stringify(receivedData));
-        this.currentReason = data.reasonSelected;
-        this.subReasonArray = data.fullData.flatMap(i => (i.title === this.currentReason ? i.subReason : 0));
-        this.currentSubReason = this.subReasonArray[0];
-        console.log(
-          'View Top Claims Non-Payment data',
-          data,
-          'currentReaosn',
-          this.currentReason,
-          'this.sub',
-          this.subReasonArray
-        );
+        // this.currentReason = data.reasonSelected;
+        // this.subReasonArray = data.fullData.flatMap(i => (i.title === this.currentReason ? i.subReason : 0));
+        // this.currentSubReason = this.subReasonArray[0];
+        console.log('View Top Claims Non-Payment data', data);
       },
       err => {
         console.log('Error, View Top Claims Non-Payment Data', err);

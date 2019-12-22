@@ -276,6 +276,7 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
   }
   subReasonClicked(value: string) {
     const routetoThis = '/GettingReimbursed/ViewTopClaims';
+    console.log('Data', this.reasonWithData, 'value', value);
     this.reasonsEmitter.sendReasonsDetails(this.reasonWithData, value);
     this.router.navigate([routetoThis]);
   }
