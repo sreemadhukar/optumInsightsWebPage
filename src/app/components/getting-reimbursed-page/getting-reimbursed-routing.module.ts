@@ -31,7 +31,7 @@ const routes: Routes = [
     }
   },
   {
-    path: 'ViewTopClaims/:id',
+    path: 'ViewTopClaims',
     component: ViewTopClaimsComponent,
     data: {
       breadcrumb: 'Non Payments'
