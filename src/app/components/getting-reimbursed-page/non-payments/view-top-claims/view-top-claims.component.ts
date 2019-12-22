@@ -101,18 +101,17 @@ export class ViewTopClaimsComponent implements OnInit {
         const data = JSON.parse(JSON.stringify(receivedData));
         this.currentReason = data.reasonSelected;
         this.subReasonArray = data.fullData
-          .filter(i => i.mainReason === this.currentReason)
-          .map(item => item.subReason);
-        this.subReasonArray = this.subReasonArray[0];
+          .flatMap(i => (i.mainReason === this.currentReason ? i.subReason : null))
+          .filter(i => i !== null);
         this.currentSubReason = this.subReasonArray[0];
         console.log(
           'View Top Claims Non-Payment data',
           data,
           'currentReason',
           this.currentReason,
-          'subReason',
+          'subReasonArray',
           this.subReasonArray,
-          'SubReasonArray',
+          'SubReason',
           this.currentSubReason
         );
       },
