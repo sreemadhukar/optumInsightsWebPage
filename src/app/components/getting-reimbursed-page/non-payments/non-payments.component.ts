@@ -274,9 +274,10 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
       this.ngOnInit();
     });
   }
-  subReasonClicked(value) {
+  subReasonClicked(value: string) {
     console.log('Vlue', value);
     const routetoThis = '/GettingReimbursed/ViewTopClaims';
+    console.log('Check subReasonClicked', this.reasonWithData);
     this.reasonsEmitter.sendReasonsDetails(this.reasonWithData, value);
     this.router.navigate([routetoThis]);
   }
@@ -289,8 +290,8 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
       };
       reasonWithSubData.push(temp);
     }
-    this.reasonWithData = reasonWithSubData;
     console.log('ReasonWithSubData', reasonWithSubData);
+    return reasonWithSubData;
   }
 
   ngOnInit() {
@@ -324,7 +325,8 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
     this.topReasonsCategoryDisplay = false;
     this.nonPaymentService.getNonPaymentCategories(this.createPayloadService.payload).then(
       topCategories => {
-        this.reasonsWithSubReasons(topCategories);
+        // to initialize the data required in view-top-claims data
+        this.reasonWithData = this.reasonsWithSubReasons(topCategories);
         this.loadingTopReasons = false;
         this.topReasonsCategoryDisplay = true;
         this.barChartsArray = topCategories;

@@ -103,10 +103,10 @@ export class ViewTopClaimsComponent implements OnInit {
 
     this.clickSubReason = this.reasonReceived.message.subscribe(
       data => {
-        console.log('View Top Claims data', data);
+        console.log('View Top Claims Non-Payment data', data);
       },
       err => {
-        console.log('Error, clickHelpIcon , inside Hamburger', err);
+        console.log('Error, View Top Claims Non-Payment Data', err);
       }
     );
   }
