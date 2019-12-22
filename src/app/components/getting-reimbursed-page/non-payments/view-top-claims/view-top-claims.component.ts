@@ -95,7 +95,34 @@ export class ViewTopClaimsComponent implements OnInit {
     );
   }
 
+  getReasonData() {
+    this.clickSubReason = this.reasonReceived.message.subscribe(
+      receivedData => {
+        const data = JSON.parse(JSON.stringify(receivedData));
+        this.currentReason = data.reasonSelected;
+        this.subReasonArray = data.fullData
+          .filter(i => i.mainReason === this.currentReason)
+          .map(item => item.subReason);
+        this.subReasonArray = this.subReasonArray[0];
+        this.currentSubReason = this.subReasonArray[0];
+        console.log(
+          'View Top Claims Non-Payment data',
+          data,
+          'currentReason',
+          this.currentReason,
+          'subReason',
+          this.subReasonArray,
+          'SubReasonArray',
+          this.currentSubReason
+        );
+      },
+      err => {
+        console.log('Error, View Top Claims Non-Payment Data', err);
+      }
+    );
+  }
   ngOnInit() {
+    this.getReasonData();
     this.sortFlagTin = true;
     this.paginator1();
     this.providerName = this.session.getHealthCareOrgName();
@@ -104,19 +131,6 @@ export class ViewTopClaimsComponent implements OnInit {
     this.sort.direction = 'asc';
     this.sortFlag = false;
     this.selectedtins.sort = this.sort;
-
-    this.clickSubReason = this.reasonReceived.message.subscribe(
-      receivedData => {
-        const data = JSON.parse(JSON.stringify(receivedData));
-        // this.currentReason = data.reasonSelected;
-        // this.subReasonArray = data.fullData.flatMap(i => (i.title === this.currentReason ? i.subReason : 0));
-        // this.currentSubReason = this.subReasonArray[0];
-        console.log('View Top Claims Non-Payment data', data);
-      },
-      err => {
-        console.log('Error, View Top Claims Non-Payment Data', err);
-      }
-    );
   }
   goback() {
     this.currentPage.subscribe(currentPage => (this.previousPage = currentPage));
