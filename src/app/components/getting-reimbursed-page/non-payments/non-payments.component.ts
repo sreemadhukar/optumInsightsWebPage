@@ -23,6 +23,7 @@ import { FilterExpandService } from '../../../shared/filter-expand.service';
 import { CommonUtilsService } from '../../../shared/common-utils.service';
 import { GlossaryMetricidService } from '../../../shared/glossary-metricid.service';
 import { NonPaymentSharedService } from '../../../shared/getting-reimbursed/non-payments/non-payment-shared.service';
+import { TopReasonsEmitterService } from '../../../shared/getting-reimbursed/non-payments/top-reasons-emitter.service';
 import { NgRedux, select } from '@angular-redux/store';
 import { CURRENT_PAGE } from '../../../store/filter/actions';
 import { IAppState } from '../../../store/store';
@@ -48,6 +49,7 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
   title = 'Top Reasons for Claims Non-Payment';
   trendTitle = 'Claims Non-Payment Trend';
   section: any = [];
+  reasonWithData: any;
   timePeriod: string;
   // lob: string;
   // taxID: Array<string>;
@@ -226,7 +228,8 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
     private nonPaymentService: NonPaymentSharedService,
     private ngRedux: NgRedux<IAppState>,
     private createPayloadService: CreatePayloadService,
-    private common: CommonUtilsService
+    private common: CommonUtilsService,
+    private reasonsEmitter: TopReasonsEmitterService
   ) {
     const filData = this.session.getFilChangeEmitter().subscribe(() => this.common.urlResuseStrategy());
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => {
@@ -271,6 +274,24 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
       this.ngOnInit();
     });
   }
+  subReasonClicked(value) {
+    console.log('Vlue', value);
+    const routetoThis = '/GettingReimbursed/ViewTopClaims';
+    this.reasonsEmitter.sendReasonsDetails(this.reasonWithData, value);
+    this.router.navigate([routetoThis]);
+  }
+  public reasonsWithSubReasons(data) {
+    const reasonWithSubData: any = [];
+    for (let i = 0; i < data.length; i++) {
+      const temp = {
+        mainReason: data[i].title,
+        subReason: data[i].top5.map(item => item.text)
+      };
+      reasonWithSubData.push(temp);
+    }
+    this.reasonWithData = reasonWithSubData;
+    console.log('ReasonWithSubData', reasonWithSubData);
+  }
 
   ngOnInit() {
     if (this.router.url.includes('print-')) {
@@ -303,6 +324,7 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
     this.topReasonsCategoryDisplay = false;
     this.nonPaymentService.getNonPaymentCategories(this.createPayloadService.payload).then(
       topCategories => {
+        this.reasonsWithSubReasons(topCategories);
         this.loadingTopReasons = false;
         this.topReasonsCategoryDisplay = true;
         this.barChartsArray = topCategories;

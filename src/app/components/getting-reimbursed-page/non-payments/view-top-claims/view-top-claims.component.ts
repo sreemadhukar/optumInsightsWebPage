@@ -6,9 +6,11 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { Subscription } from 'rxjs';
 import { CURRENT_PAGE } from './../../../../store/filter/actions';
 import { NgRedux, select } from '@angular-redux/store';
 import { Router, NavigationStart } from '@angular/router';
+import { TopReasonsEmitterService } from '../../../../shared/getting-reimbursed/non-payments/top-reasons-emitter.service';
 import * as d3 from 'd3';
 
 @Component({
@@ -28,6 +30,7 @@ export class ViewTopClaimsComponent implements OnInit {
   previousPage: any;
   sortFlag: boolean;
   sortFlagTin: boolean;
+  clickSubReason: Subscription;
 
   previousPageurl = [
     { previousPage: 'overviewPage', urlRout: '/OverviewPage' },
@@ -46,6 +49,7 @@ export class ViewTopClaimsComponent implements OnInit {
     private iconRegistry: MatIconRegistry,
     private router: Router,
     private session: SessionService,
+    private reasonReceived: TopReasonsEmitterService,
     sanitizer: DomSanitizer
   ) {
     this.session.getTins().then(data => {
@@ -96,6 +100,15 @@ export class ViewTopClaimsComponent implements OnInit {
     this.sort.direction = 'asc';
     this.sortFlag = false;
     this.selectedtins.sort = this.sort;
+
+    this.clickSubReason = this.reasonReceived.message.subscribe(
+      data => {
+        console.log('View Top Claims data', data);
+      },
+      err => {
+        console.log('Error, clickHelpIcon , inside Hamburger', err);
+      }
+    );
   }
   goback() {
     this.currentPage.subscribe(currentPage => (this.previousPage = currentPage));

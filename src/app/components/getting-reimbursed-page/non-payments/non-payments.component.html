@@ -97,11 +97,7 @@
 
                             <span class="top-5-value">{{ inside.value }}</span>
                           </div>
-                          <span>
-                            <a class="top-claims" [routerLink]="['/GettingReimbursed/ViewTopClaims', inside.id]">
-                              View Top Claims</a
-                            ></span
-                          >
+                          <span> <a class="top-claims" (click)="subReasonClicked('inder')"> View Top Claims</a></span>
                         </div>
                         <app-color-grey-mini-bar-chart [chartOptions]="inside"></app-color-grey-mini-bar-chart>
                         <!-- where to add the bar

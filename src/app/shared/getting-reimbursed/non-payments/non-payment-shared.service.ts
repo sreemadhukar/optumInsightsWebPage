@@ -232,22 +232,10 @@ export class NonPaymentSharedService {
           if (finalData === null) {
             return resolve(null);
           }
-          this.reasonsWithSubReasons(finalData);
           return resolve(finalData);
         });
     });
   } // end getNonPaymentCategories function
-  public reasonsWithSubReasons(data) {
-    const reasonWithData: any = [];
-    for (let i = 0; i < data.length; i++) {
-      const temp = {
-        mainReason: data[i].title,
-        subReason: data[i].top5.map(item => item.text)
-      };
-      reasonWithData.push(temp);
-    }
-    console.log('ReasonWithData', reasonWithData);
-  }
 
   public sharedTopSubCategories(paramtersSubCategory, topReasons) {
     // this.timeFrame = this.session.filterObjValue.timeFrame;
