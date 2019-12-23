@@ -34,12 +34,22 @@ export class NonPaymentSharedService {
 
   // The getNonPayment() function fetches data for Claims Not Paid and Claims Non-Payment Rate
   public getNonPayment(param) {
+    /*
+    let lobValueParam;
+    if (param.lineOfBusiness) {
+      lobValueParam = _.startCase(param.lineOfBusiness.toLowerCase());
+    } else {
+      lobValueParam = 'All';
+    }
+    delete param['lineOfBusiness'];
+    */
     this.providerKey = this.session.providerKeyData();
     return new Promise(resolve => {
       this.nonPaymentService.getNonPaymentData(...this.getParameterCategories(param)).subscribe(
         ([nonPaymentData1]) => {
           let claimsNotPaid: Object;
           let claimsNotPaidRate: Object;
+          // const lobValue = lobValueParam;
           const lobValue = param.lineOfBusiness ? _.startCase(param.lineOfBusiness.toLowerCase()) : 'All';
           if (
             (nonPaymentData1 || {}).All &&
@@ -116,8 +126,8 @@ export class NonPaymentSharedService {
                 hover: true
               },
               besideData: {
-                labels: this.common.LOBSideLabels(lobValue, nonPaidData),
-                color: this.common.LOBSideLabelColors(lobValue, nonPaidData)
+                labels: this.common.lobNameForSideLabels(lobValue, nonPaymentData1),
+                color: this.common.lobColorForLabels(lobValue, nonPaymentData1)
               },
               timeperiod: this.common.getTimePeriodFilterValue(param.timePeriod)
             };

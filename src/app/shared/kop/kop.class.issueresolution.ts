@@ -86,7 +86,7 @@ export class IssueResolution {
         singleCard: this.singleCard,
         units: '%',
         report: true,
-        caption: 'SAT with credentialing process',
+        caption: 'Ability to resolve issues',
         sdata: {
           sign: 'up',
           data: 'Positive Trending'

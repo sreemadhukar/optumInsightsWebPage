@@ -104,14 +104,6 @@ export class PriorAuthSharedService {
       lobString = 'mAndRLob';
     }
 
-    // Service Setting
-    let isAllSSFlagBool;
-    if (serviceSetting === 'All') {
-      isAllSSFlagBool = true;
-    } else {
-      isAllSSFlagBool = false;
-    }
-
     let isServiceCategory;
     let paServiceCategoryString;
     if (paServiceCategory !== 'All') {
@@ -120,6 +112,25 @@ export class PriorAuthSharedService {
     } else {
       isServiceCategory = false;
       paServiceCategoryString = null;
+    }
+
+    // Service Setting
+    let isAllSSFlagBool;
+    if (serviceSetting === 'All') {
+      isAllSSFlagBool = true;
+    } else {
+      isAllSSFlagBool = false;
+    }
+
+    let serviceSettingString;
+    if (serviceSetting === 'All') {
+      serviceSettingString = null;
+    } else if (serviceSetting === 'Inpatient') {
+      serviceSettingString = 'Inpatient';
+    } else if (serviceSetting === 'Outpatient') {
+      serviceSettingString = 'Outpatient';
+    } else if (serviceSetting === 'Outpatient Facility') {
+      serviceSettingString = 'Outpatient Facility';
     }
 
     const requestBody = {
@@ -131,7 +142,8 @@ export class PriorAuthSharedService {
       serviceCategory: isServiceCategory,
       serviceCategoryValue: paServiceCategoryString,
       timeFilter: timeRange,
-      timeFilterText: timeFilterAdditionalInfo
+      timeFilterText: timeFilterAdditionalInfo,
+      serviceSetting: serviceSettingString
     };
 
     const appCardPriorAuthError = [
@@ -196,6 +208,12 @@ export class PriorAuthSharedService {
             let PANotPendingCount;
             let PANotCancelledCount;
 
+            PAApprovedCount = data.PriorAuthApprovedCount;
+            PANotApprovedCount = data.PriorAuthNotApprovedCount;
+            PANotPendingCount = data.PriorAuthPendingCount;
+            PANotCancelledCount = data.PriorAuthCancelledCount;
+
+            /*
             if (isAllSSFlagBool) {
               PAApprovedCount = data.PriorAuthApprovedCount;
               PANotApprovedCount = data.PriorAuthNotApprovedCount;
@@ -219,6 +237,7 @@ export class PriorAuthSharedService {
                 PANotPendingCount = data.OutpatientFacilityPendingCount;
               }
             }
+            */
 
             const PARequestedCount = PAApprovedCount + PANotApprovedCount;
             const PAApprovalRate = PAApprovedCount / PARequestedCount;
@@ -375,19 +394,19 @@ export class PriorAuthSharedService {
               PriorAuthNotApprovedReasons = providerSystems[lobStringFormatted].NotApproved.AllNotApprovedSettings;
             } else if (
               serviceSetting === 'Inpatient' &&
-              providerSystems[lobStringFormatted].NotApproved.hasOwnProperty('InPatient')
+              providerSystems[lobStringFormatted].NotApproved.hasOwnProperty('Inpatient')
             ) {
-              PriorAuthNotApprovedReasons = providerSystems[lobStringFormatted].NotApproved.InPatient;
+              PriorAuthNotApprovedReasons = providerSystems[lobStringFormatted].NotApproved.Inpatient;
             } else if (
               serviceSetting === 'Outpatient' &&
-              providerSystems[lobStringFormatted].NotApproved.hasOwnProperty('OutPatient')
+              providerSystems[lobStringFormatted].NotApproved.hasOwnProperty('Outpatient')
             ) {
-              PriorAuthNotApprovedReasons = providerSystems[lobStringFormatted].NotApproved.OutPatient;
+              PriorAuthNotApprovedReasons = providerSystems[lobStringFormatted].NotApproved.Outpatient;
             } else if (
               serviceSetting === 'Outpatient Facility' &&
-              providerSystems[lobStringFormatted].NotApproved.hasOwnProperty('OutPatientFacility')
+              providerSystems[lobStringFormatted].NotApproved.hasOwnProperty('OutpatientFacility')
             ) {
-              PriorAuthNotApprovedReasons = providerSystems[lobStringFormatted].NotApproved.OutPatientFacility;
+              PriorAuthNotApprovedReasons = providerSystems[lobStringFormatted].NotApproved.OutpatientFacility;
             }
           }
 
