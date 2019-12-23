@@ -230,7 +230,7 @@ export class PaymentIntegrityComponent implements OnInit {
             this.medicalRecordsReturned['title'] = 'Medical Records Returned';
             this.medicalRecordsReturned['numeric'] = this.cardData.returnedWidth;
             this.medicalRecordsReturned['maxValue'] = maxValue;
-            this.medicalRecordsReturned['color'] = '#3381ff';
+            this.medicalRecordsReturned['color'] = '#003da1';
             this.medicalRecordsOutstanding = {};
             this.medicalRecordsOutstanding['id'] = 'outstanding';
             this.medicalRecordsOutstanding['title'] = 'Medical Records Not Returned';

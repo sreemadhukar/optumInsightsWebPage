@@ -50,7 +50,7 @@ export class BarSimplePiComponent implements OnInit, AfterViewInit {
       .attr('width', width + margin.left + margin.right)
       .attr('height', height + margin.top + margin.bottom)
       .append('g')
-      .attr('transform', 'translate(' + 0 + ',' + (margin.top + marginTopAdjustor) + ')');
+      .attr('transform', 'translate(' + 0 + ',' + 0 + ')');
 
     const xScale = d3
       .scaleLinear()
