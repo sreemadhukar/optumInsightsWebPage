@@ -7,8 +7,10 @@ export class Reimbursement {
     quarters: []
   };
   private section = 'reimbursement';
-  constructor({ records }) {
+  private sectionKey: string;
+  constructor({ records, key }) {
     this.records = records;
+    this.sectionKey = key;
     this.singleCard = records.length === 1 ? true : false;
     this.createSchema();
     this.createCard();
@@ -16,7 +18,7 @@ export class Reimbursement {
 
   public createCard() {
     this.records.forEach((record, index) => {
-      const { ReimbursementClaims: Reimbursement_Data = {} } = record;
+      const Reimbursement_Data = record[this.sectionKey] || {};
 
       // For Claims Processing Accuracy %
       // const { Reimbursement: Reimbursement_Data = {} } = record;

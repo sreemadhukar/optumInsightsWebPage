@@ -215,7 +215,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
           )
         );
         /*
-        for login, providerSearch screen , filters has no role to play, so for them Filters should be close,
+         for login, providerSearch screen , filters has no role to play, so for them Filters should be close,
          we are calling it explicity because suppose user clicks on Filter and filter drawer opens up, now logout
          occures, user will land to the login screen with filter drawer opened, so that is the issue,
          To tackle that we have service which we imported at app.component so when user's timesout it will publish the
@@ -327,12 +327,12 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     });
 
     /*
-        for login page filters has no role to play, so for them Filters should be close,
-         we are calling it explicity because suppose user clicks on Filter and filter drawer opens up, now logout
-         occures, user will land to the login screen with filter drawer opened, so that is the issue,
-         To tackle that we have service which we imported at app.component so when user's timesout it will publish the
-         the value, which we subscribed using Subject 'filterClose'.
-    */
+     for login page filters has no role to play, so for them Filters should be close,
+     we are calling it explicity because suppose user clicks on Filter and filter drawer opens up, now logout
+     occures, user will land to the login screen with filter drawer opened, so that is the issue,
+     To tackle that we have service which we imported at app.component so when user's timesout it will publish the
+     the value, which we subscribed using Subject 'filterClose'.
+     */
     this.filterClose = this.filterCloseService.filterClose.subscribe(
       boolData => {
         this.closeGlossary();
@@ -400,8 +400,8 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
   }
 
   /* To check whether we have data for the PCOR or not, if we don't have data for PCOR then in the navigation
-  bar PCOR will be hidden
-  */
+   bar PCOR will be hidden
+   */
   insertPCORnav() {
     // if (!this.navCategories[2].children.some(i => i.name === 'Patient Care Opportunity')) {
     //   this.navCategories[2].children.push({
