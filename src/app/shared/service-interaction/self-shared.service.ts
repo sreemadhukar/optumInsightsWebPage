@@ -184,7 +184,7 @@ export class SelfSharedService {
               };
             } // End try catch for Link & EDI Ration
             try {
-              if (utilization.paperLessDelivery !== null) {
+              if (utilization.PaperAndPostageAdoptionRate !== null) {
                 paperLessDelivery = this.utilizationObjectMethod(
                   'Paperless Delivery',
                   this.MetricidService.MetricIDs.PaperlessDelivery,
