@@ -80,7 +80,7 @@ export class IssueResolution {
       },
       {
         quarters: [],
-        cardType: 'hollowbox',
+        cardType: 'miniDonut',
         key: 'AbilityToResolveIssues',
         subKey: 'AbilityToResolveIssuesValue',
         singleCard: this.singleCard,
