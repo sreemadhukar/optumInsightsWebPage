@@ -1,5 +1,5 @@
 export const CallsGeneralData: any = {
-  'B&E': {
+  'P&A': {
     width: 500,
     backgroundColor: 'null',
     barGraphNumberSize: 18,
@@ -17,7 +17,7 @@ export const CallsGeneralData: any = {
     tooltipBoolean: true,
     hideYAxis: false
   },
-  'P&A': {
+  'B&E': {
     width: 500,
     backgroundColor: 'null',
     barGraphNumberSize: 18,
