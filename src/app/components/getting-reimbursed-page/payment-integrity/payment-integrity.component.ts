@@ -20,6 +20,8 @@ import { IAppState } from '../../../store/store';
 })
 export class PaymentIntegrityComponent implements OnInit {
   @Input() printStyle;
+  medicalRecordsReturned: any;
+  medicalRecordsOutstanding: any;
   pageTitle: String = '';
   printDateTitle: String = '';
   printDateSubTitle: String = '';
@@ -86,7 +88,7 @@ export class PaymentIntegrityComponent implements OnInit {
     this.pageTitle = 'Medical Records Coding Review';
     this.pageSubTitle = 'Reimbursements - Payment Integrity - ' + 'Medical Records Coding Review';
     this.tabOptionsTitle = ['Jul 1, 2018–Jun 30, 2019', 'Jul 1, 2019–Oct 31, 2019'];
-    this.tabOptionsSubTitle = ['Date through Oct 4,2018', 'Date through Oct 4,2019'];
+    this.tabOptionsSubTitle = ['Date through Oct 4, 2018', 'Date through Oct 4, 2019'];
     this.subTitle = `Note: Claims Metrics are calculated using date medical record requested.
        Dashboard information/measurements are representing physician claims only.
        These measurements do not take into account facility claims.`;
@@ -122,7 +124,7 @@ export class PaymentIntegrityComponent implements OnInit {
       {
         id: 1,
         title: this.getTabOptionsTitle(1),
-        value1: 'Date through Oct 4,2019', // 'Claims Processed through Oct 31, 2020',
+        value1: 'Date through Oct 4, 2019', // 'Claims Processed through Oct 31, 2020',
         sdata: null
       }
     ];
@@ -221,6 +223,19 @@ export class PaymentIntegrityComponent implements OnInit {
           if (r != null) {
             this.cardData = r;
             this.piDataloaded = true;
+            const maxValue = Math.max(this.cardData.returnedWidth, this.cardData.notReturnedWidth);
+            this.medicalRecordsReturned = {};
+            this.medicalRecordsReturned['id'] = 'return';
+            this.medicalRecordsReturned['title'] = 'Medical Records Returned';
+            this.medicalRecordsReturned['numeric'] = this.cardData.returnedWidth;
+            this.medicalRecordsReturned['maxValue'] = maxValue;
+            this.medicalRecordsReturned['color'] = '#003da1';
+            this.medicalRecordsOutstanding = {};
+            this.medicalRecordsOutstanding['id'] = 'outstanding';
+            this.medicalRecordsOutstanding['title'] = 'Medical Records Not Returned';
+            this.medicalRecordsOutstanding['numeric'] = this.cardData.notReturnedWidth;
+            this.medicalRecordsOutstanding['maxValue'] = maxValue;
+            this.medicalRecordsOutstanding['color'] = '#fc6431';
           } else {
             this.loading = false;
             this.piDataloaded = false;
