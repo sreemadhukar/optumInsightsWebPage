@@ -26,7 +26,7 @@ export class IssueResolution {
             title: null,
             currentQuarter: true,
             id: index,
-            section: this.section
+            section: this.section + key
           });
         } else {
           const value = Issue_Resolution[key][subKey] ? Math.round(Issue_Resolution[key][subKey]) : null;
@@ -38,7 +38,7 @@ export class IssueResolution {
               title: value,
               currentQuarter: true,
               id: index,
-              section: this.section
+              section: this.section + key
             });
           }
         }
