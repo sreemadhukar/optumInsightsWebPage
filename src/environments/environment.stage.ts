@@ -49,7 +49,8 @@ export const environment: any = {
     AdminSummaryTrendsCount: 'admintrendscount/',
     RefreshToken: 'getRefreshToken/',
     HealthSystemDetails: 'providerInfo/',
-    KOPBusinessGlossary: 'business-glossaries-kop/'
+    KOPBusinessGlossary: 'business-glossaries-kop/',
+    CallsTrendLine: 'calls-trend/'
   },
   headerKeys: {
     selectedCompany: '',

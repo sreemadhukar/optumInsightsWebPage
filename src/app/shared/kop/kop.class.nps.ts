@@ -9,6 +9,9 @@ export class NPSSummary {
     this.records = records;
     this.singleCard = records.length === 1 ? true : false;
     this.createCards();
+    if (!this.singleCard) {
+      this.createTrend();
+    }
   }
 
   public createCards() {
@@ -22,6 +25,23 @@ export class NPSSummary {
       });
       npsCard.cards = npsInnerCards;
       this.npsSummary.data.push(npsCard);
+    });
+  }
+
+  public createTrend() {
+    this.npsSummary.data.forEach((dataItem: any) => {
+      const { cards } = dataItem;
+      const [{ highlightedValue: value1 }, { highlightedValue: value2 }] = cards;
+      if (value1 > value2 + 2) {
+        dataItem.sdata.data = 'Positive Trending';
+        dataItem.sdata.sign = 'up';
+      } else if (value1 < value2 - 2) {
+        dataItem.sdata.data = 'Negative Trending';
+        dataItem.sdata.sign = 'down';
+      } else {
+        dataItem.sdata.data = 'Nuetral Trending';
+        dataItem.sdata.sign = 'neutral';
+      }
     });
   }
 
