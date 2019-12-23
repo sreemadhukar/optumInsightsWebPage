@@ -186,7 +186,8 @@ export class OverviewSharedService {
         providerSystems.SelfServiceInquiries != null &&
         providerSystems.SelfServiceInquiries.hasOwnProperty('ALL') &&
         providerSystems.SelfServiceInquiries.ALL.hasOwnProperty('Utilizations') &&
-        providerSystems.SelfServiceInquiries.ALL.Utilizations.hasOwnProperty('OverallLinkAdoptionRate')
+        providerSystems.SelfServiceInquiries.ALL.Utilizations.hasOwnProperty('OverallLinkAdoptionRate') &&
+        providerSystems.SelfServiceInquiries.ALL.Utilizations.OverallLinkAdoptionRate !== null
       ) {
         let selfServiceTime;
         if (
@@ -229,7 +230,15 @@ export class OverviewSharedService {
             timeperiod: selfServiceTime
           };
         } catch (Error) {
-          console.log('Error | Self Service Adoption Rate', Error);
+          console.log('Overview page Error | Self Service Adoption Rate', Error);
+          cSelfService = {
+            category: 'small-card',
+            type: 'donut',
+            title: null,
+            data: null,
+            sdata: null,
+            timeperiod: null
+          };
         }
       } else {
         cSelfService = {

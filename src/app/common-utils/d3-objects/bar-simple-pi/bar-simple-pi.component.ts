@@ -50,12 +50,12 @@ export class BarSimplePiComponent implements OnInit, AfterViewInit {
       .attr('width', width + margin.left + margin.right)
       .attr('height', height + margin.top + margin.bottom)
       .append('g')
-      .attr('transform', 'translate(' + (margin.left + 6) + ',' + (margin.top + marginTopAdjustor) + ')');
+      .attr('transform', 'translate(' + 0 + ',' + (margin.top + marginTopAdjustor) + ')');
 
     const xScale = d3
       .scaleLinear()
       .domain([0, xScaleMax])
-      .range([0, 350]);
+      .range([0, 380]);
 
     let blueBarLength;
     if (chartOptions.maxValue) {
@@ -64,10 +64,10 @@ export class BarSimplePiComponent implements OnInit, AfterViewInit {
 
     chart
       .append('rect')
-      .attr('x', 20)
+      .attr('x', 0)
       .attr('y', 5)
       .attr('width', blueBarLength)
       .attr('height', barHeight)
-      .attr('fill', '#3381ff');
+      .attr('fill', chartOptions.color);
   }
 }

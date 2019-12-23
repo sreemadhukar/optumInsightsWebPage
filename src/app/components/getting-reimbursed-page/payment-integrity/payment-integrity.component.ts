@@ -20,6 +20,8 @@ import { IAppState } from '../../../store/store';
 })
 export class PaymentIntegrityComponent implements OnInit {
   @Input() printStyle;
+  medicalRecordsReturned: any;
+  medicalRecordsOutstanding: any;
   pageTitle: String = '';
   printDateTitle: String = '';
   printDateSubTitle: String = '';
@@ -216,25 +218,26 @@ export class PaymentIntegrityComponent implements OnInit {
         this.loading = false;
         const temp1 = JSON.parse(JSON.stringify(r));
         if (temp1 && temp1.hasOwnProperty('status') && temp1.status) {
-          // this.cardData = temp1;
-          const inder = {
-            MedicalRecordsRequested: 7312,
-            MedicalRecordsReturned: 3241,
-            MedicalRecordsOutstanding: 4071,
-            OutStandingAmount: 6473256.1,
-            StartDate: '2019-04',
-            EndDate: '2019-09',
-            RecordsRequestedVariance: -50.18867924528302,
-            VarianceStartDate: '2019-08',
-            VarianceEndDate: '2019-09',
-            OutStandingAmountVariance: -43.89472504774153,
-            TotalClaimsSubmitted: 616288
-          };
-          this.cardData = inder;
+          this.cardData = temp1;
         } else {
           if (r != null) {
             this.cardData = r;
             this.piDataloaded = true;
+            console.log('r', this.cardData);
+            const maxValue = Math.max(this.cardData.returnedWidth, this.cardData.notReturnedWidth);
+            this.medicalRecordsReturned = {};
+            this.medicalRecordsReturned['id'] = 'return';
+            this.medicalRecordsReturned['title'] = 'Medical Records Returned';
+            this.medicalRecordsReturned['numeric'] = this.cardData.returnedWidth;
+            this.medicalRecordsReturned['maxValue'] = maxValue;
+            this.medicalRecordsReturned['color'] = '#3381ff';
+            this.medicalRecordsOutstanding = {};
+            this.medicalRecordsOutstanding['id'] = 'outstanding';
+            this.medicalRecordsOutstanding['title'] = 'Medical Records Not Returned';
+            this.medicalRecordsOutstanding['numeric'] = this.cardData.notReturnedWidth;
+            this.medicalRecordsOutstanding['maxValue'] = maxValue;
+            this.medicalRecordsOutstanding['color'] = '#fc6431';
+            console.log('r', this.medicalRecordsReturned, this.medicalRecordsOutstanding);
           } else {
             this.loading = false;
             this.piDataloaded = false;
