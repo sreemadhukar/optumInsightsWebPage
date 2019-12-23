@@ -22,7 +22,6 @@ export class BarSimplePiComponent implements OnInit, AfterViewInit {
   }
 
   doBarChart(chartOptions: any, transition: number) {
-    console.log('Bar Chart', chartOptions);
     // const preWidth = document.getElementsByClassName('top-5-block')[0].clientWidth;
     d3.select(this.renderChart)
       .selectAll('*')
@@ -32,16 +31,14 @@ export class BarSimplePiComponent implements OnInit, AfterViewInit {
 
     let barHeight = 22;
     let heightAdjustor = 48;
-    let marginTopAdjustor = 0;
     if (chartOptions.maxValue) {
       barHeight = 50;
       xScaleMax = chartOptions.maxValue;
       heightAdjustor = 32;
-      marginTopAdjustor = -32;
     }
 
     const margin = { top: 25, right: 10, bottom: 5, left: 10 };
-    const width = 500 - margin.left - margin.right;
+    const width = 382 - margin.left - margin.right;
     const height = heightAdjustor * 1.5 - margin.top - margin.bottom;
 
     const chart = d3

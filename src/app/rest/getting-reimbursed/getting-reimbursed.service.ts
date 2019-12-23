@@ -103,28 +103,14 @@ export class GettingReimbursedService {
   public getPaymentIntegrityData(parameters) {
     const piURL = this.APP_URL + this.PAYMENT_INTEGRITY_PATH + parameters.providerkey;
     let params = new HttpParams();
-    const inder = {
-      MedicalRecordsRequested: 7312,
-      MedicalRecordsReturned: 3241,
-      MedicalRecordsOutstanding: 4071,
-      OutStandingAmount: 6473256.1,
-      StartDate: '2019-04',
-      EndDate: '2019-09',
-      RecordsRequestedVariance: -50.18867924528302,
-      VarianceStartDate: '2019-08',
-      VarianceEndDate: '2019-09',
-      OutStandingAmountVariance: -43.89472504774153,
-      TotalClaimsSubmitted: 616288
-    };
 
     if (parameters.timeperiod !== '') {
       params = params.append('timeFilter', parameters.timeperiod);
     }
-    return of(inder);
-    // return this.http.get(piURL, { params: params }).pipe(
-    //   map(res => res),
-    //   catchError(err => of(err))
-    // );
+    return this.http.get(piURL, { params: params }).pipe(
+      map(res => res),
+      catchError(err => of(err))
+    );
   }
 
   public getPaymentData(...parameters) {

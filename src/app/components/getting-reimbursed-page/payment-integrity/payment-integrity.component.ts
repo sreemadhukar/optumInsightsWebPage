@@ -223,7 +223,6 @@ export class PaymentIntegrityComponent implements OnInit {
           if (r != null) {
             this.cardData = r;
             this.piDataloaded = true;
-            console.log('r', this.cardData);
             const maxValue = Math.max(this.cardData.returnedWidth, this.cardData.notReturnedWidth);
             this.medicalRecordsReturned = {};
             this.medicalRecordsReturned['id'] = 'return';
@@ -237,7 +236,6 @@ export class PaymentIntegrityComponent implements OnInit {
             this.medicalRecordsOutstanding['numeric'] = this.cardData.notReturnedWidth;
             this.medicalRecordsOutstanding['maxValue'] = maxValue;
             this.medicalRecordsOutstanding['color'] = '#fc6431';
-            console.log('r', this.medicalRecordsReturned, this.medicalRecordsOutstanding);
           } else {
             this.loading = false;
             this.piDataloaded = false;
