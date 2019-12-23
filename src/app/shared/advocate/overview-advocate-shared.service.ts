@@ -312,7 +312,6 @@ export class OverviewAdvocateSharedService {
           if (other) {
             callsTrendFormattedData['Other'] = other;
           }
-          console.log('callsTrendFormattedData', callsTrendFormattedData);
           resolve(callsTrendFormattedData);
         },
         err => {
