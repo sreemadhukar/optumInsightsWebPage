@@ -222,7 +222,11 @@ export class OverviewSharedService {
                 1 - providerSystems.SelfServiceInquiries.ALL.Utilizations.OverallLinkAdoptionRate
               ],
               centerNumber:
-                (providerSystems.SelfServiceInquiries.ALL.Utilizations.OverallLinkAdoptionRate * 100).toFixed(0) + '%',
+                providerSystems.SelfServiceInquiries.ALL.Utilizations.OverallLinkAdoptionRate * 100 < 1 &&
+                providerSystems.SelfServiceInquiries.ALL.Utilizations.OverallLinkAdoptionRate * 100 > 0
+                  ? '< 1%'
+                  : (providerSystems.SelfServiceInquiries.ALL.Utilizations.OverallLinkAdoptionRate * 100).toFixed(0) +
+                    '%',
               color: ['#3381FF', '#D7DCE1'],
               gdata: ['card-inner', 'selfServiceCardD3Donut']
             },
