@@ -94,6 +94,7 @@ pipeline {
                         project: 'pedprddr',
                         serviceName: 'peduiuhc',
                         dockerImage: '$tagBase/ui_prd:latest',
+                        port: '8000'
                 glOpenshiftDeploy credentials: "$env.OPENSHIFT_CREDENTIALS_ID",	
                         ocpUrl: "https://ocp-ctc-core.optum.com",	
                         project: 'ped-internal',	
