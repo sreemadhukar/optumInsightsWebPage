@@ -81,10 +81,10 @@ export class IssueResolution {
       {
         quarters: [],
         cardType: 'hollowbox',
-        key: 'LinkPriorAuthNPS',
-        subKey: 'LinkPriorAuthNPSValue',
+        key: 'AbilityToResolveIssues',
+        subKey: 'AbilityToResolveIssuesValue',
         singleCard: this.singleCard,
-        units: '%',
+        units: '',
         report: true,
         caption: 'Ability to resolve issues',
         sdata: {
