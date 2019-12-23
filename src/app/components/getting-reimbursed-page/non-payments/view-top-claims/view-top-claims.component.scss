@@ -226,7 +226,14 @@
         text-transform: capitalize;
       }
       .tin-list-body-table-div-body-tin-cell {
-        padding-left: 18px;
+        padding: 14px 0 10px 14px;
+        flex: 22%;
+      }
+      .cell-text-top {
+        font-family: 'UHCSans-SemiBold';
+      }
+      .cell-text-btm {
+        font-family: 'UHCSans-Medium';
       }
     }
   }
@@ -301,14 +308,15 @@ table {
 :host ::ng-deep .mat-form-field-flex {
   padding: 0 !important;
 }
-
+::ng-deep .mat-cell {
+  display: block;
+}
 .tin-list-body-table-div-body mat-cell {
   min-height: auto;
   color: #2d2d39;
-  font-family: 'UHCSans-Regular';
-  font-size: 16px;
-  letter-spacing: 0.2px;
-  line-height: 22px;
+  font-size: 14px;
+  line-height: 18px;
+  flex: 10%;
 }
 
 ::ng-deep .mat-select-panel {
@@ -349,7 +357,7 @@ table {
 
 :host ::ng-deep .mat-paginator-page-size .mat-select-value-text {
   color: #757588;
-  font-family: 'UHCSans-Regular';
+  font-family: 'UHCSans-Medium';
   font-size: 16px;
   letter-spacing: 0.2px;
   line-height: 22px;
@@ -363,7 +371,7 @@ table {
 :host ::ng-deep .mat-paginator-range-label {
   padding-top: 15px;
   margin: 0;
-  font-family: 'UHCSans-Regular';
+  font-family: 'UHCSans-SemiBold';
   font-size: 14px;
   letter-spacing: 0.2px;
   line-height: 18px;

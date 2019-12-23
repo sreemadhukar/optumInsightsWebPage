@@ -102,4 +102,8 @@ export class NonPaymentService {
       )
     );
   }
+
+  public getClaimsDetailData() {
+    return this.http.get('./src/assets/mock-data/top-cliams-details.json');
+  }
 }

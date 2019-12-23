@@ -48,7 +48,7 @@
 
     <div class="tin-list-body">
       <div class="tin-list-body-head">
-        <div class="tin-list-body-head-left">Showing {{ numberofTinsShowing }} Tax ID results</div>
+        <div class="tin-list-body-head-left">Showing {{ numberofClaimsShowing }} Tax ID results</div>
       </div>
       <div class="tin-list-body-table-div">
         <div class="tin-list-body-table-head">
@@ -77,7 +77,7 @@
             </div>
           </div>
           <div class="tin-list-body-table-head-right">
-            <div class="tin-list-body-table-head-sub-head" (click)="sorta('Tinname')">
+            <div class="tin-list-body-table-head-sub-head" (click)="sorta('ProviderName')">
               Provider<br />
               Name
               <mat-icon
@@ -101,7 +101,7 @@
             </div>
           </div>
           <div class="tin-list-body-table-head-right">
-            <div class="tin-list-body-table-head-sub-head" (click)="sorta('NonPayment')">
+            <div class="tin-list-body-table-head-sub-head" (click)="sorta('NonPaymentAmnt')">
               Non-Payment<br />
               Amount
               <mat-icon
@@ -117,7 +117,7 @@
             </div>
           </div>
           <div class="tin-list-body-table-head-right">
-            <div class="tin-list-body-table-head-sub-head" (click)="sorta('Tinname')">
+            <div class="tin-list-body-table-head-sub-head" (click)="sorta('BilledAmnt')">
               Billed<br />
               Amount
               <mat-icon
@@ -133,7 +133,7 @@
             </div>
           </div>
           <div class="tin-list-body-table-head-right">
-            <div class="tin-list-body-table-head-sub-head" (click)="sorta('Tinname')">
+            <div class="tin-list-body-table-head-sub-head" (click)="sorta('DateOfProcessing')">
               Date of<br />
               Processing
               <mat-icon
@@ -149,7 +149,7 @@
             </div>
           </div>
           <div class="tin-list-body-table-head-right">
-            <div class="tin-list-body-table-head-sub-head" (click)="sorta('Tinname')">
+            <div class="tin-list-body-table-head-sub-head" (click)="sorta('ClaimNumber')">
               Claim<br />
               Number
               <mat-icon
@@ -184,26 +184,47 @@
                 </table> -->
 
           <div>
-            <table mat-table matSort [dataSource]="selectedtins">
+            <table mat-table matSort [dataSource]="selectedclaims">
               <ng-container matColumnDef="Tin">
                 <mat-header-cell *matHeaderCellDef mat-sort-header> No. </mat-header-cell>
                 <mat-cell class="tin-list-body-table-div-body-tin-cell" *matCellDef="let element">
-                  {{ element.Tin }}
+                  <div class="cell-text-top">{{ element.Tin[0] }}</div>
+                  <div class="cell-text-btm">{{ element.Tin[1] }}</div>
                 </mat-cell>
               </ng-container>
 
-              <ng-container matColumnDef="Tinname">
-                <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
-                <mat-cell class="tin-list-body-table-div-body-tinname-cell" *matCellDef="let element">
-                  {{ element.Tinname | lowercase }}
+              <ng-container matColumnDef="ProviderName">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> No. </mat-header-cell>
+                <mat-cell class="tin-list-body-table-div-body-tin-cell" *matCellDef="let element">
+                  <div class="cell-text-top">{{ element.ProviderName }}</div>
                 </mat-cell>
               </ng-container>
-              <ng-container matColumnDef="Non Payment">
+
+              <ng-container matColumnDef="NonPaymentAmnt">
                 <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
                 <mat-cell class="tin-list-body-table-div-body-tinname-cell" *matCellDef="let element">
-                  {{ element.Payment | lowercase }}
+                  {{ element.NonPaymentAmnt }}
                 </mat-cell>
               </ng-container>
+              <ng-container matColumnDef="BilledAmnt">
+                <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
+                <mat-cell class="tin-list-body-table-div-body-tinname-cell" *matCellDef="let element">
+                  {{ element.BilledAmnt }}
+                </mat-cell>
+              </ng-container>
+              <ng-container matColumnDef="DateOfProcessing">
+                <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
+                <mat-cell class="tin-list-body-table-div-body-tinname-cell" *matCellDef="let element">
+                  {{ element.DateOfProcessing }}
+                </mat-cell>
+              </ng-container>
+              <ng-container matColumnDef="ClaimNumber">
+                <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
+                <mat-cell class="tin-list-body-table-div-body-tinname-cell" *matCellDef="let element">
+                  {{ element.ClaimNumber }}
+                </mat-cell>
+              </ng-container>
+
               <mat-row *matRowDef="let row; columns: tinsDisplayedColumns"></mat-row>
             </table>
             <mat-paginator class="tin-list" [pageSizeOptions]="[25, 50, 100]"> </mat-paginator>

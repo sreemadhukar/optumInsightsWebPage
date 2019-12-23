@@ -1,3 +1,4 @@
+import { TopClaimsSharedService } from './../../../../shared/getting-reimbursed/non-payments/top-claims-shared.service';
 import { SessionService } from './../../../../shared/session.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
 
@@ -21,17 +22,25 @@ import * as d3 from 'd3';
 export class ViewTopClaimsComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
-  tinsDisplayedColumns: string[] = ['Tin', 'Tinname'];
+  tinsDisplayedColumns: string[] = [
+    'Tin',
+    'ProviderName',
+    'NonPaymentAmnt',
+    'BilledAmnt',
+    'DateOfProcessing',
+    'ClaimNumber'
+  ];
   providerName: string;
-  numberOfTins: any;
-  numberofTinsShowing: any;
+  numberOfClaims: any;
+  numberofClaimsShowing: any;
   tinsData: any;
-  selectedtins: any;
+  selectedclaims: any;
   previousPage: any;
   sortFlag: boolean;
   sortFlagTin: boolean;
   clickSubReason: Subscription;
 
+  claimsData: Array<Object> = [{}];
   previousPageurl = [
     { previousPage: 'overviewPage', urlRout: '/OverviewPage' },
     { previousPage: 'gettingReimbursedSummary', urlRout: '/GettingReimbursed' },
@@ -50,17 +59,14 @@ export class ViewTopClaimsComponent implements OnInit {
     private router: Router,
     private session: SessionService,
     private reasonReceived: TopReasonsEmitterService,
-    sanitizer: DomSanitizer
+    sanitizer: DomSanitizer,
+    private topClaimsSharedService: TopClaimsSharedService
   ) {
-    this.session.getTins().then(data => {
-      this.tinsData = data;
-      for (let i = 0; i < this.tinsData.length; i++) {
-        if (this.tinsData[i].Tinname === 'TIN Name Not Found' || this.tinsData[i].Tinname === null) {
-          this.tinsData[i].Tinname = 'Tax ID Name Not Available';
-        }
-      }
-      this.numberOfTins = this.tinsData.length;
-      this.numberofTinsShowing = this.tinsData.length;
+    this.topClaimsSharedService.getClaimsData().then(claimsDetailsData => {
+      this.claimsData = JSON.parse(JSON.stringify(claimsDetailsData));
+      console.log(this.claimsData);
+      this.numberOfClaims = this.claimsData.length;
+      this.numberofClaimsShowing = this.claimsData.length;
       this.paginator._intl.itemsPerPageLabel = 'Display';
       this.paginator._intl.getRangeLabel = function(page, pageSize, length) {
         d3.select('#testid').text(function() {
@@ -72,10 +78,11 @@ export class ViewTopClaimsComponent implements OnInit {
 
         return ' of ' + Math.floor(length / pageSize + 1);
       };
-      this.selectedtins = new MatTableDataSource(this.tinsData);
-      this.selectedtins.paginator = this.paginator;
-      this.selectedtins.sort = this.sort;
+      this.selectedclaims = new MatTableDataSource(this.claimsData);
+      this.selectedclaims.paginator = this.paginator;
+      this.selectedclaims.sort = this.sort;
     });
+
     iconRegistry.addSvgIcon(
       'backButton',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/TIN-List-Back-Button-Icon.svg')
@@ -99,8 +106,8 @@ export class ViewTopClaimsComponent implements OnInit {
     this.sort.active = 'Tin';
     this.sort.direction = 'asc';
     this.sortFlag = false;
-    this.selectedtins.sort = this.sort;
-
+    this.selectedclaims.sort = this.sort;
+    this.claimsData = [];
     this.clickSubReason = this.reasonReceived.message.subscribe(
       data => {
         console.log('View Top Claims Non-Payment data', data);
@@ -109,6 +116,10 @@ export class ViewTopClaimsComponent implements OnInit {
         console.log('Error, View Top Claims Non-Payment Data', err);
       }
     );
+    this.topClaimsSharedService.getClaimsData().then(claimsDetailsData => {
+      this.claimsData = JSON.parse(JSON.stringify(claimsDetailsData));
+      console.log(this.claimsData);
+    });
   }
   goback() {
     this.currentPage.subscribe(currentPage => (this.previousPage = currentPage));
@@ -136,14 +147,14 @@ export class ViewTopClaimsComponent implements OnInit {
       this.sort.direction = 'desc';
       this.sortFlag = true;
     }
-    this.selectedtins.sort = this.sort;
+    this.selectedclaims.sort = this.sort;
   }
   applyFilter(filterValue: string) {
-    this.selectedtins.filter = filterValue.trim().toLowerCase();
-    this.numberofTinsShowing = this.selectedtins.filteredData.length;
+    this.selectedclaims.filter = filterValue.trim().toLowerCase();
+    this.numberofClaimsShowing = this.selectedclaims.filteredData.length;
   }
   capitalize(s) {
-    return s[0].toUpperCase() + s.slice(1);
+    return s[0].toUpperCase();
   }
   paginator1() {
     d3.select('.mat-paginator-container')
