@@ -184,17 +184,16 @@ export class GlossaryComponent implements OnInit {
     this.glossaryService.getKOPBusinessGlossaryData().subscribe(response => {
       this.glossaryList = JSON.parse(JSON.stringify(response));
       if (this.glossaryList) {
-        if (this.glossarySelected.length === 0) {
-          for (let i = 0; i < this.glossaryList.length; i++) {
-            if (
-              this.glossaryList[i].BusinessGlossary.ProviderDashboardName.Metric.toLowerCase().includes(
-                this.title.toLowerCase()
-              )
-            ) {
-              this.glossarySelected = [];
-              this.glossarySelected.push(this.glossaryList[i]);
-              break;
-            }
+        for (let i = 0; i < this.glossaryList.length; i++) {
+          this.readmoreFlag[i] = true;
+          if (
+            this.glossaryList[i].BusinessGlossary.ProviderDashboardName.Metric.toLowerCase().includes(
+              this.title.toLowerCase()
+            )
+          ) {
+            this.glossarySelected = [];
+            this.glossarySelected.push(this.glossaryList[i]);
+            break;
           }
         }
       }
