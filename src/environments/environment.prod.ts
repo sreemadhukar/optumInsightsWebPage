@@ -18,7 +18,7 @@ export const environment: any = {
       'type=code&redirect_uri=https://uhcinsights.uhc.com/login&scope=openid+profile+email&state=PED&prompt=none',
     linkLoginPage: 'https://provider.linkhealth.com',
     SsoLogoutUrl:
-      'https://api-stage.linkhealth.com/session/signout?redirect=https://provider.linkhealth.com/' +
+      'https://api.linkhealth.com/session/signout?redirect=https://provider.linkhealth.com/' +
       'content/odin/en/provider-dashboard/public/signout.html?logOut=true',
     ProvTinList: 'provider-tins/',
     LayerSevenPath: 'myinsightLayerSevenHandshake',
@@ -48,7 +48,8 @@ export const environment: any = {
     AdminSummaryTrendsCount: 'admintrendscount/',
     RefreshToken: 'getRefreshToken/',
     HealthSystemDetails: 'providerInfo/',
-    KOPBusinessGlossary: 'business-glossaries-kop/'
+    KOPBusinessGlossary: 'business-glossaries-kop/',
+    CallsTrendLine: 'calls-trend/'
   },
   headerKeys: {
     selectedCompany: '',

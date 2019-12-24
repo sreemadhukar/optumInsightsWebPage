@@ -16,7 +16,7 @@ export class OverviewAdvocateService {
   private APP_URL: string = environment.apiProxyUrl;
   private APPEALS_SERVICE_PATH: string = environment.apiUrls.Appeals;
   private APPEALS_TREND_SERVICE_PATH: string = environment.apiUrls.AppealsTrend;
-  private CALLS_SERVICE_PATH: string = environment.apiUrls.Calls;
+  private CALLS_TREND_LINE_SERVICE_PATH: string = environment.apiUrls.CallsTrendLine;
   private CALLS_TREND_SERVICE_PATH: string = environment.apiUrls.CallsTrend;
 
   constructor(private http: HttpClient) {}
@@ -61,6 +61,29 @@ export class OverviewAdvocateService {
     }
 
     const callsURL = this.APP_URL + this.CALLS_TREND_SERVICE_PATH + parameters[0];
+    return combineLatest(
+      this.http.get(callsURL, { params }).pipe(
+        map(res => JSON.parse(JSON.stringify(res))),
+        catchError(err => of(JSON.parse(JSON.stringify(err))))
+      )
+    );
+  }
+
+  public callsTrendLineData(...parameters) {
+    const callsParams = parameters[1];
+    if (!callsParams.Tin) {
+      callsParams.AllProviderTins = true;
+    }
+
+    let params = new HttpParams();
+    if (parameters[1].TimeFilter === 'CalendarYear') {
+      params = params.append('TimeFilter', parameters[1].TimeFilter);
+      params = params.append('TimeFilterText', parameters[1].TimeFilterText);
+    } else {
+      params = params.append('TimeFilter', parameters[1].TimeFilter);
+    }
+
+    const callsURL = this.APP_URL + this.CALLS_TREND_LINE_SERVICE_PATH + parameters[0];
     return combineLatest(
       this.http.get(callsURL, { params }).pipe(
         map(res => JSON.parse(JSON.stringify(res))),
