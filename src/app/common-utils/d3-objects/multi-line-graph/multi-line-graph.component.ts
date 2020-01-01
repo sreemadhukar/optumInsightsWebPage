@@ -216,14 +216,24 @@ export class MultiLineGraphComponent implements OnInit {
       }
     } // ends formatDynamicAbbrevia function
 
-    function tooltipText(monthValue, y1, y2, y3, y4) {
-      return `<div class="lineLabelHover">
+    function tooltipText(chartId, monthValue, y1, y2, y3, y4) {
+      if (chartId === 'appeals-trend-block') {
+        return `<div class="lineLabelHover">
           ${monthValue ? `<p class="month-value">${monthValue}</p>` : ''}
           ${y1 != null ? `<p><div class="tooltip-mr-img"></div> M&R : (${y1})</p>` : ''}
           ${y2 != null ? `<p><div class="tooltip-cs-img"></div> C&S : (${y2})</p>` : ''}
           ${y3 != null ? `<p><div class="tooltip-ei-img"></div> E&I : (${y3})</p>` : ''}
           ${y4 != null ? `<p><div class="tooltip-other-img"></div> Other : (${y4})</p>` : ''}
         </div>`;
+      } else if (chartId === 'calls-trend-block') {
+        return `<div class="lineLabelHover">
+          ${monthValue ? `<p class="month-value">${monthValue}</p>` : ''}
+          ${y1 != null ? `<p><div class="tooltip-mr-img"></div> Eligibility & Benefits : (${Math.round(y1)})</p>` : ''}
+          ${y2 != null ? `<p><div class="tooltip-cs-img"></div> Claims & Payments : (${Math.round(y2)})</p>` : ''}
+          ${y3 != null ? `<p><div class="tooltip-ei-img"></div> Prior Authorizations : (${Math.round(y3)})</p>` : ''}
+          ${y4 != null ? `<p><div class="tooltip-other-img"></div> Other : (${Math.round(y4)})</p>` : ''}
+        </div>`;
+      }
     }
 
     const preWidth = 621; // document.getElementById(generalData.parentDiv).clientWidth;
@@ -362,14 +372,14 @@ export class MultiLineGraphComponent implements OnInit {
 
     const text_element1 = chart.select('#forlolCalculations');
     // tslint:disable-next-line:no-var-keyword
-    var textWidth1 = text_element1.node().getComputedTextLength();
+    // var textWidth1 = text_element1.node().getComputedTextLength();
 
-    chart.select('#forlolCalculations').remove();
-    if (chartData.length === 4) {
-      textWidth1 = textWidth1 / 2;
-    } else if (chartData.length === 3) {
-      textWidth1 = textWidth1 * 1.25;
-    }
+    // chart.select('#forlolCalculations').remove();
+    // if (chartData.length === 4) {
+    //   textWidth1 = textWidth1 / 2;
+    // } else if (chartData.length === 3) {
+    //   textWidth1 = textWidth1 * 1.25;
+    // }
 
     const data = [];
     for (let l = 0; l < lengthOfData; l++) {
@@ -536,6 +546,7 @@ export class MultiLineGraphComponent implements OnInit {
           tooltipVar
             .html(
               tooltipText(
+                this.chartOptions.chartId,
                 this.monthValue,
                 this.yCoordinates[0],
                 this.yCoordinates[1],
@@ -552,6 +563,7 @@ export class MultiLineGraphComponent implements OnInit {
           tooltipVar
             .html(
               tooltipText(
+                this.chartOptions.chartId,
                 this.monthValue,
                 this.yCoordinates[0],
                 this.yCoordinates[1],
