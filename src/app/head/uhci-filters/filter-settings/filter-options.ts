@@ -26,6 +26,10 @@ export const AppealsFilter = [
   { name: 'Received Date', value: 'Received Date', disable: false },
   { name: 'Closed Date', value: 'Closed Date', disable: false }
 ];
+export const ViewClaimsByFilter = [
+  { name: 'DateOfService', value: 'Date of Service', disable: false },
+  { name: 'DateOfProcessing', value: 'Date of Processing', disable: true }
+];
 
 export const ServiceSetting = [
   { name: 'All', value: 'All', disable: false },
@@ -112,7 +116,8 @@ export const filterToggles = {
   toggleMetric: false,
   toggleDate: false,
   toggleClaim: false,
-  toggleAppeals: false
+  toggleAppeals: false,
+  toggleViewClaimsBy: false
 };
 
 export interface TaxId {

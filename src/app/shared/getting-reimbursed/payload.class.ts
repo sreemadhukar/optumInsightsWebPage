@@ -5,9 +5,11 @@ export class GettingReimbursedPayload {
   TimeFilterText: string;
   OrgType: string;
   appealsProcessing: string;
+  ClaimsBy: string;
   constructor(param) {
     param.lineOfBusiness ? (this.Lob = param.lineOfBusiness) : delete this.Lob;
     param.claimsFilter ? (this.OrgType = param.claimsFilter) : delete this.OrgType;
+    param.viewClaimsByFilter ? (this.ClaimsBy = param.viewClaimsByFilter) : delete this.ClaimsBy;
     param.appealsFilter ? (this.appealsProcessing = param.appealsFilter) : delete this.appealsProcessing;
     param.taxId ? (this.Tin = param.taxId) : delete this.Tin;
     if (

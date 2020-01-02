@@ -69,10 +69,13 @@
                 </div>
               </div>
               <div class="bar-graph-inside-right-block" #barsParentBlock>
+                <app-color-grey-mini-bar-chart [chartOptions]="barchart"></app-color-grey-mini-bar-chart>
+                <!-- large bar
                 <div
                   class="bar-graph-inside-right-block-bars"
                   [style.width.px]="(barchart.numeric / barChartsArray[0].numeric) * barsParentBlock.offsetWidth"
                 ></div>
+                -->
               </div>
             </div>
             <div class="inner-block" *ngIf="section[i]">
@@ -94,6 +97,8 @@
                             <span class="top-5-value">{{ inside.value }}</span>
                           </div>
                         </div>
+                        <app-color-grey-mini-bar-chart [chartOptions]="inside"></app-color-grey-mini-bar-chart>
+                        <!-- where to add the bar
                         <div class="inside-bar-graph-right-block">
                           <div class="inside-grey-block-bars" #barsGreyBlock>
                             <div
@@ -109,6 +114,7 @@
                             ></div>
                           </div>
                         </div>
+                         where to add the bar -->
                       </div>
                     </div>
                   </div>
@@ -149,6 +155,6 @@
 
     <!-- Claims Non - Payment Trend Ends Here -->
 
-    <app-clarify-claims-message></app-clarify-claims-message>
+    <!--app-clarify-claims-message></app-clarify-claims-message-->
   </div>
 </div>

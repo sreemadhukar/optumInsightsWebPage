@@ -6,6 +6,7 @@
           <span>Time Period: </span><span class="text-semibold pl-4"> {{ selectedTimePeriod.value }} </span>
         </button>
       </div>
+
       <ng-container
         *ngIf="selectedPage !== 'callsPage' && selectedTaxIds[0].Tin !== 'All' && selectedTaxIds.length < 4"
       >
@@ -35,7 +36,24 @@
           </div>
         </button>
       </div>
-      <!--**********Claims Filter Applied************-->
+
+      <div
+        class="horizontal-align"
+        *ngIf="
+          selectedPage == 'paymentsPage' ||
+          tabName == 'gettingReimbursedSummary' ||
+          tabName == 'gettingReimbursedPayments' ||
+          tabName == 'gettingReimbursedNonPayments' ||
+          selectedPage == 'nonPaymentsPage'
+        "
+      >
+        <button class="btn btn-rounded" disabled>
+          <!-- USE this instead of next line after View Claims By Data Binding 
+              span>View claims By: </span><span class="text-semibold pl-4"> {{selectedViewClaimsBy}} </span-->
+          <span>View claims By: </span><span class="text-semibold pl-4"> Date of Service </span>
+        </button>
+      </div>
+
       <div
         class="horizontal-align"
         *ngIf="
@@ -59,13 +77,7 @@
       <!--**********Claims Filters Applied Ends here************-->
 
       <!--***********Appeals Filters Applied starts here***********-->
-      <div
-        class="horizontal-align"
-        *ngIf="
-          (selectedPage === 'appealsPage' || tabName == 'gettingReimbursedAppeals') &&
-          selectedAppeals.value !== 'Received Date'
-        "
-      >
+      <div class="horizontal-align" *ngIf="selectedPage === 'appealsPage' || tabName == 'gettingReimbursedAppeals'">
         <button class="btn btn-rounded" disabled>
           <span>View Appeals By: </span><span class="text-semibold pl-4"> {{ selectedAppeals.value }} </span>
           <div class="close-btn">
@@ -85,6 +97,7 @@
           </div>
         </button>
       </div>
+
       <!--<div class="horizontal-align" *ngIf="selectedPage === 'priorAuthPage' && selectedPriorAuthType.value !== 'All'">-->
       <!--<button class="btn btn-rounded" disabled>-->
       <!--<span>Prior Auth Type: </span><span class="text-semibold pl-4"> {{ selectedPriorAuthType.value }} </span>-->

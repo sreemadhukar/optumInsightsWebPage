@@ -20,6 +20,7 @@ export class CreatePayloadService {
   @select() trendDate;
   @select() claimsFilter;
   @select() appealsFilter;
+  @select() viewClaimsByFilter;
   initialState: IAppState = {
     currentPage: 'overviewPage',
     timePeriod: 'Last6Months',
@@ -31,7 +32,8 @@ export class CreatePayloadService {
     trendMetric: 'GettingReimbursed',
     trendDate: new Date(),
     claimsFilter: 'All',
-    appealsFilter: 'Received Date'
+    appealsFilter: 'Received Date',
+    viewClaimsByFilter: 'DateOfService'
   };
   payload: PayLoad = this.initialState;
   private payloadEmit = new Subject<any>();
@@ -55,6 +57,7 @@ export class CreatePayloadService {
     this.trendDate.subscribe(trendDate => (this.initialState.trendDate = trendDate));
     this.claimsFilter.subscribe(claimsFilter => (this.initialState.claimsFilter = claimsFilter));
     this.appealsFilter.subscribe(appealsFilter => (this.initialState.appealsFilter = appealsFilter));
+    this.viewClaimsByFilter.subscribe(viewClaimsBy => (this.initialState.viewClaimsByFilter = viewClaimsBy));
   }
 
   changePayloadOnInit(appliedPage) {
@@ -182,7 +185,8 @@ export class CreatePayloadService {
       'serviceCategory',
       'currentPage',
       'claimsFilter',
-      'AppealsFilter'
+      'AppealsFilter',
+      'viewClaimsByFilter'
     ]);
     return data;
   }

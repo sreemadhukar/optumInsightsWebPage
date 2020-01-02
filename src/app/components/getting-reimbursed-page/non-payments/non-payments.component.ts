@@ -45,7 +45,7 @@ import { REMOVE_FILTER } from '../../../store/filter/actions';
   ]
 })
 export class NonPaymentsComponent implements OnInit, AfterViewChecked {
-  title = ' Top Reasons for Claims Non-Payment';
+  title = 'Top Reasons for Claims Non-Payment';
   trendTitle = 'Claims Non-Payment Trend';
   section: any = [];
   timePeriod: string;
@@ -71,145 +71,6 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
   mockCardTwo: any;
   barChartsArray: any;
 
-  /*
-  barChartsArray = [
-    {
-      title: 'Need More Information',
-      value: '$2.6M',
-      numeric: 2600000,
-      top5: [
-        {
-          text: 'Requested Information Not Submitted/Not Submitted on Time',
-          value: '$1.6M'
-        },
-        {
-          text: 'Requested Information Not Submitted/Not Submitted on Time',
-          value: '$1.6M'
-        },
-        {
-          text: 'Requested Information Not Submitted/Not Submitted on Time',
-          value: '$1.6M'
-        },
-        {
-          text: 'Requested Information Not Submitted/Not Submitted on Time',
-          value: '$1.6M'
-        },
-        {
-          text: 'Requested Information Not Submitted/Not Submitted on Time',
-          value: '$1.6M'
-        }
-      ]
-    },
-    {
-      title: 'No Auth Notice Ref',
-      value: '$999.9K',
-      numeric: 999900,
-      top5: [
-        {
-          text: 'Requested Information Not Submitted/Not Submitted on Time',
-          value: '$1.6M'
-        },
-        {
-          text: 'Requested Information Not Submitted/Not Submitted on Time',
-          value: '$1.6M'
-        },
-        {
-          text: 'Requested Information Not Submitted/Not Submitted on Time',
-          value: '$1.6M'
-        },
-        {
-          text: 'Requested Information Not Submitted/Not Submitted on Time',
-          value: '$1.6M'
-        },
-        {
-          text: 'Requested Information Not Submitted/Not Submitted on Time',
-          value: '$1.6M'
-        }
-      ]
-    },
-    {
-      title: 'Claims Payment Policy',
-      value: '$754.8K',
-      numeric: 754800,
-      top5: [
-        {
-          text: 'Requested Information Not Submitted/Not Submitted on Time',
-          value: '$1.6M'
-        },
-        {
-          text: 'Requested Information Not Submitted/Not Submitted on Time',
-          value: '$1.6M'
-        },
-        {
-          text: 'Requested Information Not Submitted/Not Submitted on Time',
-          value: '$1.6M'
-        },
-        {
-          text: 'Requested Information Not Submitted/Not Submitted on Time',
-          value: '$1.6M'
-        },
-        {
-          text: 'Requested Information Not Submitted/Not Submitted on Time',
-          value: '$1.6M'
-        }
-      ]
-    },
-    {
-      title: 'No Benefit Coverage',
-      value: '$354.2K',
-      numeric: 354200,
-      top5: [
-        {
-          text: 'Requested Information Not Submitted/Not Submitted on Time',
-          value: '$1.6M'
-        },
-        {
-          text: 'Requested Information Not Submitted/Not Submitted on Time',
-          value: '$1.6M'
-        },
-        {
-          text: 'Requested Information Not Submitted/Not Submitted on Time',
-          value: '$1.6M'
-        },
-        {
-          text: 'Requested Information Not Submitted/Not Submitted on Time',
-          value: '$1.6M'
-        },
-        {
-          text: 'Requested Information Not Submitted/Not Submitted on Time',
-          value: '$1.6M'
-        }
-      ]
-    },
-    {
-      title: 'Not Categorized',
-      value: '$232.2K',
-      numeric: 232200,
-      top5: [
-        {
-          text: 'Requested Information Not Submitted/Not Submitted on Time',
-          value: '$1.6M'
-        },
-        {
-          text: 'Requested Information Not Submitted/Not Submitted on Time',
-          value: '$1.6M'
-        },
-        {
-          text: 'Requested Information Not Submitted/Not Submitted on Time',
-          value: '$1.6M'
-        },
-        {
-          text: 'Requested Information Not Submitted/Not Submitted on Time',
-          value: '$1.6M'
-        },
-        {
-          text: 'Requested Information Not Submitted/Not Submitted on Time',
-          value: '$1.6M'
-        }
-      ]
-    }
-  ];
-  */
   constructor(
     public MetricidService: GlossaryMetricidService,
     private checkStorage: StorageService,
@@ -265,7 +126,7 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/keyboard_arrow_down-24px.svg')
     );
     this.printRoute = '/GettingReimbursed/NonPayments/print-nonpayments';
-    this.pageTitle = 'Claims Non-Payments*';
+    this.pageTitle = 'Claims Non-Payments';
     this.pageSubTitle = 'Getting Reimbursed - Non-Payments';
     this.createPayloadService.getEvent().subscribe(value => {
       this.ngOnInit();

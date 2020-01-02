@@ -13,10 +13,13 @@ import { OverviewAdvocateSharedService } from '../../../shared/advocate/overview
 import { GlossaryExpandService } from '../../../shared/glossary-expand.service';
 import { AppealsData } from '../appeals-data';
 import { GeneralData } from '../general-data';
+import { CallsTrendData } from '../calls-trend-data';
+import { CallsGeneralData } from '../calls-general-data';
 import { CreatePayloadService } from '../../../shared/uhci-filters/create-payload.service';
 import { NgRedux } from '@angular-redux/store';
 import { CURRENT_PAGE, REMOVE_FILTER } from '../../../store/filter/actions';
 import { IAppState } from '../../../store/store';
+import { hasOwnProperty } from 'tslint/lib/utils';
 
 @Component({
   selector: 'app-overview-advocate',
@@ -47,7 +50,9 @@ export class OverviewAdvocateComponent implements OnInit {
   totalAppeals: any;
   adminAppeals: any;
   clinicalAppeals: any;
+  appealsData: any;
   appealsLineGraph: AppealsData;
+  callsTrendLineGraph: CallsTrendData;
   mi: any;
   cs: any;
   ei: any;
@@ -60,6 +65,10 @@ export class OverviewAdvocateComponent implements OnInit {
   totalCalls: any;
   callsLoading: boolean;
   callsLineGraphData: any;
+  callsData: any;
+  claimsYieldLoading: boolean;
+  downRowMockCards: any;
+  claimsYieldCard: Array<Object>;
 
   constructor(
     private checkStorage: StorageService,
@@ -168,6 +177,7 @@ export class OverviewAdvocateComponent implements OnInit {
             appealsTrendData['E&I'].length ||
             appealsTrendData['Other'].length) === 0
         ) {
+          this.appealsData = null;
           this.appealsLineGraphData = {
             category: 'large-card',
             type: 'donut',
@@ -180,7 +190,6 @@ export class OverviewAdvocateComponent implements OnInit {
         } else {
           this.appealsLineGraphData = appealsTrendData;
           this.appealsLineGraph = new AppealsData(appealsTrendData, GeneralData, 'appeals-trend-block');
-          console.log(this.appealsLineGraph);
         }
       })
       .catch(err => {
@@ -195,6 +204,7 @@ export class OverviewAdvocateComponent implements OnInit {
       .then(totalCallsData => {
         if (totalCallsData[0] == null) {
           this.callsLoading = false;
+          this.callsData = null;
           this.callsLineGraphData = {
             category: 'large-card',
             type: 'donut',
@@ -216,6 +226,67 @@ export class OverviewAdvocateComponent implements OnInit {
       });
   }
 
+  totalCallsTrendLineData(payload) {
+    this.callsLineGraphLoading = true;
+    this.overviewAdvocateSharedService
+      .getTotalCallsTrendLineShared(payload)
+      .then(totalCallsTrendData => {
+        if (totalCallsTrendData == null) {
+          this.callsLineGraphLoading = false;
+          this.callsData = null;
+          this.callsLineGraphData = {
+            category: 'large-card',
+            type: 'donut',
+            status: 404,
+            title: this.trendTitleForCalls,
+            MetricID: this.MetricidService.MetricIDs,
+            data: null,
+            timeperiod: null
+          };
+        } else {
+          this.callsLineGraphLoading = false;
+          let callsTrendData;
+          callsTrendData = totalCallsTrendData;
+          this.callsTrendLineGraph = new CallsTrendData(callsTrendData, CallsGeneralData, 'calls-trend-block');
+          this.callsData = [];
+          for (const key in callsTrendData) {
+            if (callsTrendData.hasOwnProperty(key)) {
+              this.callsData.push({ key: key, value: this.sumArray(callsTrendData[key]) });
+            }
+          }
+        }
+      })
+      .catch(err => {
+        this.callsLineGraphLoading = false;
+      });
+  }
+
+  sumArray(arr) {
+    let total = 0;
+    for (const i in arr) {
+      if (arr.hasOwnProperty(i)) {
+        total += arr[i].value;
+      }
+    }
+    return Math.round(total);
+  }
+
+  claimsYieldData(payload) {
+    this.claimsYieldLoading = true;
+    this.downRowMockCards = [{}];
+    this.claimsYieldCard = [];
+    this.topRowService
+      .getClaimsYieldShared(payload)
+      .then(claimsYieldData => {
+        this.claimsYieldCard.push(JSON.parse(JSON.stringify(claimsYieldData)));
+        this.claimsYieldLoading = false;
+      })
+      .catch(reason => {
+        this.claimsYieldLoading = false;
+        console.log('Adovate Overview page Payment', reason);
+      });
+  }
+
   ngOnInit() {
     this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'overviewAdvocatePage' });
     this.timePeriod = this.common.getTimePeriodFilterValue(this.createPayloadService.payload.timePeriod);
@@ -224,8 +295,10 @@ export class OverviewAdvocateComponent implements OnInit {
     this.appealsLeftData(this.createPayloadService.payload);
     this.appealsTrendByMonthData(this.createPayloadService.payload);
     this.totalCallsData(this.createPayloadService.payload);
+    this.claimsYieldData(this.createPayloadService.payload);
+    this.totalCallsTrendLineData(this.createPayloadService.payload);
     this.appealsLineGraphloading = true;
-    // this.callsLineGraphLoading = true;
+    this.callsLineGraphLoading = true;
     this.userName = this.session.sessionStorage('loggedUser', 'FirstName');
     this.pageTitle = 'Welcome, ' + this.userName;
     this.monthlyLineGraph.chartId = 'non-payment-trend-block';

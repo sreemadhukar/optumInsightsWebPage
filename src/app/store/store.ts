@@ -12,4 +12,5 @@ export class IAppState {
   trendDate: Date;
   claimsFilter: string;
   appealsFilter: string;
+  viewClaimsByFilter: string;
 }

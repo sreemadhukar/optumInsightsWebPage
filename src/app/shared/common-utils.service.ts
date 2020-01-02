@@ -323,16 +323,16 @@ export class CommonUtilsService {
     const hoverLabels = [];
     if (cardData !== null) {
       if (lobValue === 'All') {
-        if (cardData.hasOwnProperty('Mr')) {
+        if (cardData.hasOwnProperty('Mr') && cardData.Mr !== null) {
           hoverLabels.push('Medicare & Retirement');
         }
-        if (cardData.hasOwnProperty('Cs')) {
+        if (cardData.hasOwnProperty('Cs') && cardData.Cs !== null) {
           hoverLabels.push('Community & State');
         }
-        if (cardData.hasOwnProperty('Ei')) {
+        if (cardData.hasOwnProperty('Ei') && cardData.Ei !== null) {
           hoverLabels.push('Employer & Individual');
         }
-        if (cardData.hasOwnProperty('Un')) {
+        if (cardData.hasOwnProperty('Un') && cardData.Un !== null) {
           hoverLabels.push('Uncategorized');
         }
       } else if (lobValue === 'Mr') {
@@ -362,18 +362,19 @@ export class CommonUtilsService {
   /** Function to show hovers colors as per Lob**/
   public returnLobColor(cardData, lobValue) {
     const hoverColors = [];
+
     if (cardData !== null) {
       if (lobValue === 'All') {
-        if (cardData.hasOwnProperty('Mr')) {
+        if (cardData.hasOwnProperty('Mr') && cardData.Mr !== null) {
           hoverColors.push('#3381FF');
         }
-        if (cardData.hasOwnProperty('Cs')) {
+        if (cardData.hasOwnProperty('Cs') && cardData.Cs !== null) {
           hoverColors.push('#80B0FF');
         }
-        if (cardData.hasOwnProperty('Ei')) {
+        if (cardData.hasOwnProperty('Ei') && cardData.Ei !== null) {
           hoverColors.push('#003DA1');
         }
-        if (cardData.hasOwnProperty('Un')) {
+        if (cardData.hasOwnProperty('Un') && cardData.Un !== null) {
           hoverColors.push('#00B8CC');
         }
       } else if (lobValue === 'Mr') {
@@ -482,6 +483,71 @@ export class CommonUtilsService {
     }
     return lobLabels;
   }
+
+  public lobNameForSideLabels(LOBType, data) {
+    const lobColorLabels = [];
+    if (LOBType === 'All' || LOBType === 'ALL') {
+      if (data.Mr !== null) {
+        lobColorLabels.push('Medicare & Retirement'); // M and R Color
+      }
+      if (data.Cs !== null) {
+        lobColorLabels.push('Community & State'); // C and S Color
+      }
+      if (data.Ei !== null) {
+        lobColorLabels.push('Employer & Individual'); // E and I Color
+      }
+      if (data.Un !== null) {
+        lobColorLabels.push('Uncategorized'); // Un Color
+      }
+    } else {
+      if (LOBType === 'Mr' || LOBType === 'MedicareAndRetirement') {
+        lobColorLabels.push('Medicare & Retirement');
+      }
+      if (LOBType === 'Cs' || LOBType === 'CommunityAndState') {
+        lobColorLabels.push('Community & State');
+      }
+      if (LOBType === 'Ei' || LOBType === 'EmployerAndIndividual') {
+        lobColorLabels.push('Employer & Individual');
+      }
+      if (LOBType === 'Un' || LOBType === 'Uncategorized') {
+        lobColorLabels.push('Uncategorized');
+      }
+    }
+    return lobColorLabels;
+  }
+
+  public lobColorForLabels(LOBType, data) {
+    const lobColorLabels = [];
+    if (LOBType === 'All' || LOBType === 'ALL') {
+      if (data.Mr !== null) {
+        lobColorLabels.push('#3381FF'); // M and R Color
+      }
+      if (data.Cs !== null) {
+        lobColorLabels.push('#80B0FF'); // C and S Color
+      }
+      if (data.Ei !== null) {
+        lobColorLabels.push('#003DA1'); // E and I Color
+      }
+      if (data.Un !== null) {
+        lobColorLabels.push('#00B8CC'); // Un Color
+      }
+    } else {
+      if (LOBType === 'Mr' || LOBType === 'MedicareAndRetirement') {
+        lobColorLabels.push('#3381FF');
+      }
+      if (LOBType === 'Cs' || LOBType === 'CommunityAndState') {
+        lobColorLabels.push('#80B0FF');
+      }
+      if (LOBType === 'Ei' || LOBType === 'EmployerAndIndividual') {
+        lobColorLabels.push('#003DA1');
+      }
+      if (LOBType === 'Un' || LOBType === 'Uncategorized') {
+        lobColorLabels.push('#00B8CC');
+      }
+    }
+    return lobColorLabels;
+  }
+
   public LOBSideLabelColors(LOBType, data) {
     const lobColorLabels = [];
     if (LOBType === 'All' || LOBType === 'ALL') {

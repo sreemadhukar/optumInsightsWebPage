@@ -12,7 +12,8 @@ import {
   filterToggles,
   MetricPropType,
   ClaimsFilter,
-  AppealsFilter
+  AppealsFilter,
+  ViewClaimsByFilter
 } from './filter-settings/filter-options';
 import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -40,6 +41,7 @@ export class UhciFiltersComponent implements OnInit {
   @select() trendDate;
   @select() claimsFilter;
   @select() appealsFilter;
+  @select() viewClaimsByFilter;
   @Output() filterFlag = new EventEmitter();
 
   selectedPage: string;
@@ -51,6 +53,8 @@ export class UhciFiltersComponent implements OnInit {
   appeals = AppealsFilter;
   selectedClaims: MetricPropType;
   selectedAppeals: MetricPropType;
+  viewclaims = ViewClaimsByFilter;
+  selectedViewClaimsBy: MetricPropType;
   serviceSettings = ServiceSetting;
   selectedServiceSetting: MetricPropType;
   serviceCategories = ServiceCategory;
@@ -105,6 +109,10 @@ export class UhciFiltersComponent implements OnInit {
     this.appealsFilter.subscribe(
       appealsFilter => (this.selectedAppeals = this.appeals.find(val => val.value === appealsFilter))
     );
+    this.viewClaimsByFilter.subscribe(
+      viewClaimsByFilter => (this.selectedViewClaimsBy = this.viewclaims.find(val => val.name === viewClaimsByFilter))
+    );
+
     this.serviceSetting.subscribe(
       serviceSetting => (this.selectedServiceSetting = this.serviceSettings.find(val => val.name === serviceSetting))
     );
@@ -166,7 +174,8 @@ export class UhciFiltersComponent implements OnInit {
         trendMetric: this.selectedTrendMetric.name,
         trendDate: this.selectedDate,
         claimsFilter: this.selectedClaims.name,
-        appealsFilter: this.selectedAppeals.name
+        appealsFilter: this.selectedAppeals.name,
+        viewClaimsByFilter: this.selectedViewClaimsBy.name
       }
     });
     this.createPayloadService.emitFilterEvent(this.selectedPage);
