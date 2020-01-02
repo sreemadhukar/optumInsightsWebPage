@@ -48,7 +48,7 @@
               <span class="non-payment-link"> Looking for Non-Payments? </span>
             </a>
           </div>
-          <div *ngIf="currentTabTitle != '' && currentTabTitle != 'Claims Submissions*'">
+          <div *ngIf="currentTabTitle != '' && currentTabTitle != 'Claims Submissions'">
             <button *ngIf="!printStyle" (click)="onDetailsButtonClick(buttonNumber, $event)" class="details-button">
               {{ buttonName }}
             </button>
@@ -88,6 +88,6 @@
         <!-- end Print Style-->
       </div>
     </div>
-    <app-clarify-claims-message *ngIf="showDOSmessage"></app-clarify-claims-message>
+    <!--app-clarify-claims-message *ngIf="showDOSmessage"></app-clarify-claims-message-->
   </div>
 </div>

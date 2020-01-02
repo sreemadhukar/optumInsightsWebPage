@@ -779,28 +779,28 @@ export class GettingReimbursedSharedService {
 
           submissions = {
             id: 1,
-            title: 'Claims Submissions*',
+            title: 'Claims Submissions',
             MetricID: this.MetricidService.MetricIDs.ClaimsSubmissions,
             data: [claimsSubmitted, claimsTAT]
           };
           if (environment.claimsYieldAccess) {
             payments = {
               id: 2,
-              title: 'Claims Payments*',
+              title: 'Claims Payments',
               MetricID: this.MetricidService.MetricIDs.ClaimsPayments,
               data: [claimsPaid, claimsPaidRate]
             };
           } else {
             payments = {
               id: 2,
-              title: 'Claims Payments*',
+              title: 'Claims Payments',
               MetricID: this.MetricidService.MetricIDs.ClaimsPayments,
               data: [claimsPaid]
             };
           }
           nonpayments = {
             id: 3,
-            title: 'Claims Non-Payments*',
+            title: 'Claims Non-Payments',
             MetricID: this.MetricidService.MetricIDs.ClaimsNonPayments,
             data: [claimsNotPaid, claimsNotPaidRate]
           };
@@ -1450,28 +1450,28 @@ export class GettingReimbursedSharedService {
           // };
           submissions = {
             id: 1,
-            title: 'Claims Submissions*',
+            title: 'Claims Submissions',
             MetricID: this.MetricidService.MetricIDs.ClaimsSubmissions,
             data: [claimsSubmitted, claimsTAT]
           };
           if (environment.claimsYieldAccess) {
             payments = {
               id: 2,
-              title: 'Claims Payments*',
+              title: 'Claims Payments',
               MetricID: this.MetricidService.MetricIDs.ClaimsPayments,
               data: [claimsPaid, claimsPaidRate]
             };
           } else {
             payments = {
               id: 2,
-              title: 'Claims Payments*',
+              title: 'Claims Payments',
               MetricID: this.MetricidService.MetricIDs.ClaimsPayments,
               data: [claimsPaid]
             };
           }
           nonpayments = {
             id: 3,
-            title: 'Claims Non-Payments*',
+            title: 'Claims Non-Payments',
             MetricID: this.MetricidService.MetricIDs.ClaimsNonPayments,
             data: [claimsNotPaid, claimsNotPaidRate]
           };
