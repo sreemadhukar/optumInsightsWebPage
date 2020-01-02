@@ -71,18 +71,19 @@
       </div>
     </div>
 
-    <div class="m-left-30" *ngIf="isError">
-      <div class="align-center">
-        <mat-icon matPrefix class="error-icon" svgIcon="error"></mat-icon>
-      </div>
-      <div class="align-center error-text">
-        <p class="p-bottom-10">There was a network error.</p>
-        <p class="p-bottom-10">Please refresh the page to try again</p>
-      </div>
-      <div class="align-center">
-        <button class="btn-class" (click)="reload()">Refresh</button>
-      </div>
-    </div>
+    <!--Commenting it out as its showing error message even if one api call is not successful-->
+    <!--<div class="m-left-30" *ngIf="isError">-->
+    <!--<div class="align-center">-->
+    <!--<mat-icon matPrefix class="error-icon" svgIcon="error"></mat-icon>-->
+    <!--</div>-->
+    <!--<div class="align-center error-text">-->
+    <!--<p class="p-bottom-10">There was a network error.</p>-->
+    <!--<p class="p-bottom-10">Please refresh the page to try again</p>-->
+    <!--</div>-->
+    <!--<div class="align-center">-->
+    <!--<button class="btn-class" (click)="reload()">Refresh</button>-->
+    <!--</div>-->
+    <!--</div>-->
   </div>
 </div>
 

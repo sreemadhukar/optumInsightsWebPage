@@ -86,7 +86,10 @@ export class FiltersAppliedComponent implements OnInit {
       claimsFilter => (this.selectedClaims = this.claims.find(val => val.name === claimsFilter))
     );
     this.viewClaimsByFilter.subscribe(
-      viewClaimsByFilter => (this.selectedViewClaimsBy = this.viewclaims.find(val => val.name === viewClaimsByFilter))
+      viewClaimsByFilter => (
+        (this.selectedViewClaimsBy = this.viewclaims.find(val => val.name === viewClaimsByFilter)),
+        console.log('view claims by', this.selectedViewClaimsBy)
+      )
     );
     this.serviceSetting.subscribe(
       serviceSetting => (this.selectedServiceSetting = this.serviceSettings.find(val => val.name === serviceSetting))
