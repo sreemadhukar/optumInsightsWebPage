@@ -285,45 +285,63 @@
     </div>
 
     <!-- View Claims By Filter-->
-    <!--  UNCOMMENT AFTER API IS READY <div class="line" *ngIf="
+    <div
+      class="line"
+      *ngIf="
         selectedPage == 'paymentsPage' ||
         gettingReimbursedTabName == 'gettingReimbursedSummary' ||
         gettingReimbursedTabName == 'gettingReimbursedPayments' ||
         gettingReimbursedTabName == 'gettingReimbursedNonPayments' ||
         selectedPage == 'nonPaymentsPage'
-      "></div>
-    <div class="titleData" *ngIf="
+      "
+    ></div>
+    <div
+      class="titleData"
+      *ngIf="
         selectedPage == 'paymentsPage' ||
         gettingReimbursedTabName == 'gettingReimbursedSummary' ||
         gettingReimbursedTabName == 'gettingReimbursedPayments' ||
         gettingReimbursedTabName == 'gettingReimbursedNonPayments' ||
         selectedPage == 'nonPaymentsPage'
-      ">
+      "
+    >
       <div class="title">View Claims By</div>
       <div class="chevron">
-        <mat-icon class="icon-display" svgIcon="arrowdn" (click)="toggle('toggleViewClaimsBy')" [class.arrow-toggle]="collapseToggle.toggleViewClaimsBy"></mat-icon>
+        <mat-icon
+          class="icon-display"
+          svgIcon="arrowdn"
+          (click)="toggle('toggleViewClaimsBy')"
+          [class.arrow-toggle]="collapseToggle.toggleViewClaimsBy"
+        ></mat-icon>
       </div>
     </div>
 
-    <div class="lobgrp" *ngIf="
+    <div
+      class="lobgrp"
+      *ngIf="
         selectedPage == 'paymentsPage' ||
         gettingReimbursedTabName == 'gettingReimbursedSummary' ||
         gettingReimbursedTabName == 'gettingReimbursedPayments' ||
         gettingReimbursedTabName == 'gettingReimbursedNonPayments' ||
         selectedPage == 'nonPaymentsPage'
-      ">
+      "
+    >
       <div>
         <label id="radio-group" class="label-data">{{ selectedViewClaimsBy.value }}</label>
       </div>
       <div class="select-option-data" *ngIf="collapseToggle.toggleViewClaimsBy">
         <mat-radio-group class="radio-group" [(ngModel)]="selectedViewClaimsBy">
-          <mat-radio-button class="radio-button" *ngFor="let claimby of viewclaims" [class.lob-disable]="claimby.disable"
-            [value]="claimby">
+          <mat-radio-button
+            class="radio-button"
+            *ngFor="let claimby of viewclaims"
+            [class.lob-disable]="claimby.disable"
+            [value]="claimby"
+          >
             {{ claimby.value }}
           </mat-radio-button>
         </mat-radio-group>
       </div>
-    </div> -->
+    </div>
   </ng-container>
 
   <ng-template #summaryTrends>
