@@ -126,7 +126,7 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/keyboard_arrow_down-24px.svg')
     );
     this.printRoute = '/GettingReimbursed/NonPayments/print-nonpayments';
-    this.pageTitle = 'Claims Non-Payments*';
+    this.pageTitle = 'Claims Non-Payments';
     this.pageSubTitle = 'Getting Reimbursed - Non-Payments';
     this.createPayloadService.getEvent().subscribe(value => {
       this.ngOnInit();
