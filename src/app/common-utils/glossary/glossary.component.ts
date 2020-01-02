@@ -95,13 +95,16 @@ export class GlossaryComponent implements OnInit {
   public getGlossaryData() {
     this.glossaryService.getBusinessGlossaryData().subscribe(response => {
       this.glossaryList = JSON.parse(JSON.stringify(response));
+      for (let i = 0; i < this.glossaryList.length; i++) {
+        this.readmoreFlag[i] = true;
+      }
       if (this.title === 'Medicare Star Rating') {
         this.title = 'Medicare & Retirement Average Star Rating';
       }
       // if id not exist in metricId table/database then we chose by title i.e. is includes()
       if (this.glossaryList) {
         for (let i = 0; i < this.glossaryList.length; i++) {
-          this.readmoreFlag[i] = true;
+          // this.readmoreFlag[i] = true;
           if (
             this.glossaryList[i].BusinessGlossary.ProviderDashboardName.Metric.toLowerCase().includes(
               this.title.toLowerCase()
@@ -183,9 +186,12 @@ export class GlossaryComponent implements OnInit {
   public getKOPGlossaryData() {
     this.glossaryService.getKOPBusinessGlossaryData().subscribe(response => {
       this.glossaryList = JSON.parse(JSON.stringify(response));
+      for (let i = 0; i < this.glossaryList.length; i++) {
+        this.readmoreFlag[i] = true;
+      }
       if (this.glossaryList) {
         for (let i = 0; i < this.glossaryList.length; i++) {
-          this.readmoreFlag[i] = true;
+          // this.readmoreFlag[i] = true;
           if (
             this.glossaryList[i].BusinessGlossary.ProviderDashboardName.Metric.toLowerCase().includes(
               this.title.toLowerCase()
