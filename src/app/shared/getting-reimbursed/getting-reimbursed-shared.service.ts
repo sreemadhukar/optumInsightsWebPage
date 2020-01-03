@@ -532,7 +532,7 @@ export class GettingReimbursedSharedService {
           if (appealsData != null && appealsData.hasOwnProperty('status')) {
             appealsSubmitted = {
               category: 'app-card',
-              type: 'donutWithLabelBottom',
+              type: 'donutWithoutLabelBottom',
               status: 404,
               title: 'Claims Appeals Submitted',
               MetricID: this.MetricidService.MetricIDs.ClaimsAppealsSubmitted,
@@ -636,7 +636,7 @@ export class GettingReimbursedSharedService {
               }
               appealsSubmitted = {
                 category: 'app-card',
-                type: 'donutWithLabelBottom',
+                type: 'donutWithoutLabelBottom',
                 title: 'Claims Appeals Submitted',
                 MetricID: this.MetricidService.MetricIDs.ClaimsAppealsSubmitted,
                 data: {
@@ -683,7 +683,7 @@ export class GettingReimbursedSharedService {
             } else {
               appealsSubmitted = {
                 category: 'app-card',
-                type: 'donutWithLabelBottom',
+                type: 'donutWithoutLabelBottom',
                 title: 'Claims Appeals Submitted',
                 MetricID: this.MetricidService.MetricIDs.ClaimsAppealsSubmitted,
                 status: 404,
@@ -739,7 +739,7 @@ export class GettingReimbursedSharedService {
           } else {
             appealsSubmitted = {
               category: 'app-card',
-              type: 'donutWithLabelBottom',
+              type: 'donutWithoutLabelBottom',
               title: 'Claims Appeals Submitted',
               MetricID: this.MetricidService.MetricIDs.ClaimsAppealsSubmitted,
               status: 404,
@@ -1479,7 +1479,7 @@ export class GettingReimbursedSharedService {
           if (parameters[1].appealsProcessing === 'Closed Date') {
             appealsSubmitted = {
               category: 'app-card',
-              type: 'donutWithLabelBottom',
+              type: 'donutWithoutLabelBottom',
               status: appealsData.status,
               title: 'Claims Appeals Submitted',
               MetricID: this.MetricidService.MetricIDs.ClaimsAppealsSubmitted,
@@ -1822,7 +1822,7 @@ export class GettingReimbursedSharedService {
     if (appealsData && appealsData.hasOwnProperty('status')) {
       appealsSubmitted = {
         category: 'app-card',
-        type: 'donutWithLabelBottom',
+        type: 'donutWithoutLabelBottom',
         status: 404,
         title: 'Claims Appeals Submitted',
         MetricID: this.MetricidService.MetricIDs.ClaimsAppealsSubmitted,
@@ -1977,7 +1977,7 @@ export class GettingReimbursedSharedService {
         }
         appealsSubmitted = {
           category: 'app-card',
-          type: 'donutWithLabelBottom',
+          type: 'donutWithoutLabelBottom',
           title: 'Claims Appeals Submitted',
           MetricID: this.MetricidService.MetricIDs.ClaimsAppealsSubmitted,
           data: {
@@ -2024,7 +2024,7 @@ export class GettingReimbursedSharedService {
       } else {
         appealsSubmitted = {
           category: 'app-card',
-          type: 'donutWithLabelBottom',
+          type: 'donutWithoutLabelBottom',
           title: 'Claims Appeals Submitted',
           MetricID: this.MetricidService.MetricIDs.ClaimsAppealsSubmitted,
           status: 404,
@@ -2083,7 +2083,7 @@ export class GettingReimbursedSharedService {
     } else {
       appealsSubmitted = {
         category: 'app-card',
-        type: 'donutWithLabelBottom',
+        type: 'donutWithoutLabelBottom',
         title: 'Claims Appeals Submitted',
         MetricID: this.MetricidService.MetricIDs.ClaimsAppealsSubmitted,
         status: 404,

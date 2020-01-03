@@ -33,24 +33,10 @@ export class AppealsSharedService {
       /** Changed the function name from appealsData to claimsAppealsData for PDP API*/
       this.gettingReimbursedService.claimsAppealsData(...parameters).subscribe(appealsData => {
         const lobFullData = this.common.getFullLobData(this.lob);
-        const lobData = this.common.matchLobWithData(this.lob);
-        if (parameters[1].appealsProcessing === 'Closed Date') {
-          appealsSubmitted = {
-            category: 'app-card',
-            type: 'donutWithLabelBottom',
-            status: appealsData.status,
-            title: 'Claims Appeals Submitted',
-            MetricID: this.MetricidService.MetricIDs.ClaimsAppealsSubmitted,
-            data: null,
-            besideData: null,
-            bottomData: null,
-            timeperiod: null
-          };
-        }
         if (appealsData != null && appealsData.hasOwnProperty('status')) {
           appealsSubmitted = {
             category: 'app-card',
-            type: 'donutWithLabelBottom',
+            type: 'donutWithoutLabelBottom',
             status: appealsData.status,
             title: 'Claims Appeals Submitted',
             MetricID: this.MetricidService.MetricIDs.ClaimsAppealsSubmitted,
@@ -154,7 +140,7 @@ export class AppealsSharedService {
             }
             appealsSubmitted = {
               category: 'app-card',
-              type: 'donutWithLabelBottom',
+              type: 'donutWithoutLabelBottom',
               title: 'Claims Appeals Submitted',
               MetricID: this.MetricidService.MetricIDs.ClaimsAppealsSubmitted,
               data: {
@@ -197,7 +183,7 @@ export class AppealsSharedService {
           } else {
             appealsSubmitted = {
               category: 'app-card',
-              type: 'donutWithLabelBottom',
+              type: 'donutWithoutLabelBottom',
               title: 'Claims Appeals Submitted',
               MetricID: this.MetricidService.MetricIDs.ClaimsAppealsSubmitted,
               status: 404,
@@ -252,7 +238,7 @@ export class AppealsSharedService {
         } else {
           appealsSubmitted = {
             category: 'app-card',
-            type: 'donutWithLabelBottom',
+            type: 'donutWithoutLabelBottom',
             title: 'Claims Appeals Submitted',
             MetricID: this.MetricidService.MetricIDs.ClaimsAppealsSubmitted,
             status: 404,
@@ -374,13 +360,11 @@ export class AppealsSharedService {
         this.gettingReimbursedService.claimsAppealsData(...parameters).subscribe(appealsData => {
           const lobFullData = this.common.getFullLobData(this.lob);
           const lobData = this.common.matchLobWithData(this.lob);
-          if (
-            (appealsData && appealsData.hasOwnProperty('status')) ||
-            parameters[1].appealsProcessing === 'Closed Date'
-          ) {
+          if (appealsData && appealsData.hasOwnProperty('status')) {
             appealsOverturnedRate = {
               category: 'app-card',
-              type: 'donutWithBottomLabelOnly',
+              // type: 'donutWithBottomLabelOnly',
+              type: 'donut',
               status: appealsData.status,
               title: 'Claims Appeals Overturned Rate',
               MetricID: this.MetricidService.MetricIDs.ClaimAppealsOverturnRate,
@@ -406,7 +390,7 @@ export class AppealsSharedService {
                 const ornumber = Number(overturnRate);
                 appealsOverturnedRate = {
                   category: 'app-card',
-                  type: 'donutWithBottomLabelOnly',
+                  type: 'donut',
                   title: 'Claims Appeals Overturned Rate',
                   MetricID: this.MetricidService.MetricIDs.ClaimAppealsOverturnRate,
                   data: {
@@ -447,7 +431,8 @@ export class AppealsSharedService {
               } else {
                 appealsOverturnedRate = {
                   category: 'app-card',
-                  type: 'donutWithBottomLabelOnly',
+                  // type: 'donutWithBottomLabelOnly',
+                  type: 'donut',
                   status: 404,
                   title: 'Claims Appeals Overturned Rate',
                   MetricID: this.MetricidService.MetricIDs.ClaimAppealsOverturnRate,
@@ -513,7 +498,8 @@ export class AppealsSharedService {
             } else {
               appealsOverturnedRate = {
                 category: 'app-card',
-                type: 'donutWithBottomLabelOnly',
+                // type: 'donutWithBottomLabelOnly',
+                type: 'donut',
                 status: 404,
                 title: 'Claims Appeals Overturned Rate',
                 MetricID: this.MetricidService.MetricIDs.ClaimAppealsOverturnRate,
@@ -533,7 +519,8 @@ export class AppealsSharedService {
           } else {
             appealsOverturnedRate = {
               category: 'app-card',
-              type: 'donutWithBottomLabelOnly',
+              // type: 'donutWithBottomLabelOnly',
+              type: 'donut',
               status: 404,
               title: 'Claims Appeals Overturned Rate',
               MetricID: this.MetricidService.MetricIDs.ClaimAppealsOverturnRate,
@@ -550,22 +537,8 @@ export class AppealsSharedService {
               timeperiod: null
             });
           }
-          let appealsSubmitted: any;
-          if (parameters[1].appealsProcessing === 'Closed Date') {
-            appealsSubmitted = {
-              category: 'app-card',
-              type: 'donutWithLabelBottom',
-              status: appealsData.status,
-              title: 'Claims Appeals Submitted',
-              MetricID: this.MetricidService.MetricIDs.ClaimsAppealsSubmitted,
-              data: null,
-              besideData: null,
-              bottomData: null,
-              timeperiod: null
-            };
-          } else {
-            appealsSubmitted = this.createAppealsDonuts(appealsData, lobFullData).appealsSubmitted;
-          }
+
+          const appealsSubmitted = this.createAppealsDonuts(appealsData, lobFullData).appealsSubmitted;
           const appealsOverturned = this.createAppealsDonuts(appealsData, lobFullData).appealsOverturned;
           AOR = [appealsSubmitted, appealsOverturned, appealsOverturnedRate, reason];
           resolve(AOR);
@@ -575,13 +548,11 @@ export class AppealsSharedService {
         this.gettingReimbursedService.claimsAppealsData(...parameters).subscribe(appealsData => {
           const lobFullData = this.common.getFullLobData(this.lob);
           const lobData = this.common.matchLobWithData(this.lob);
-          if (
-            (appealsData && appealsData.hasOwnProperty('status')) ||
-            parameters[1].appealsProcessing === 'Closed Date'
-          ) {
+          if (appealsData && appealsData.hasOwnProperty('status')) {
             appealsOverturnedRate = {
               category: 'app-card',
-              type: 'donutWithBottomLabelOnly',
+              // type: 'donutWithBottomLabelOnly',
+              type: 'donut',
               status: appealsData.status,
               title: 'Claims Appeals Overturned Rate',
               MetricID: this.MetricidService.MetricIDs.ClaimAppealsOverturnRate,
@@ -608,7 +579,8 @@ export class AppealsSharedService {
 
                 appealsOverturnedRate = {
                   category: 'app-card',
-                  type: 'donutWithBottomLabelOnly',
+                  // type: 'donutWithBottomLabelOnly',
+                  type: 'donut',
                   title: 'Claims Appeals Overturned Rate',
                   MetricID: this.MetricidService.MetricIDs.ClaimAppealsOverturnRate,
                   data: {
@@ -649,7 +621,8 @@ export class AppealsSharedService {
               } else {
                 appealsOverturnedRate = {
                   category: 'app-card',
-                  type: 'donutWithBottomLabelOnly',
+                  // type: 'donutWithBottomLabelOnly',
+                  type: 'donut',
                   status: 404,
                   title: 'Claims Appeals Overturned Rate',
                   MetricID: this.MetricidService.MetricIDs.ClaimAppealsOverturnRate,
@@ -725,7 +698,8 @@ export class AppealsSharedService {
             } else {
               appealsOverturnedRate = {
                 category: 'app-card',
-                type: 'donutWithBottomLabelOnly',
+                // type: 'donutWithBottomLabelOnly',
+                type: 'donut',
                 status: 404,
                 title: 'Claims Appeals Overturned Rate',
                 MetricID: this.MetricidService.MetricIDs.ClaimAppealsOverturnRate,
@@ -745,7 +719,8 @@ export class AppealsSharedService {
           } else {
             appealsOverturnedRate = {
               category: 'app-card',
-              type: 'donutWithBottomLabelOnly',
+              // type: 'donutWithBottomLabelOnly',
+              type: 'donut',
               status: 404,
               title: 'Claims Appeals Overturned Rate',
               MetricID: this.MetricidService.MetricIDs.ClaimAppealsOverturnRate,
@@ -777,7 +752,7 @@ export class AppealsSharedService {
     if (appealsData && appealsData.hasOwnProperty('status')) {
       appealsSubmitted = {
         category: 'app-card',
-        type: 'donutWithLabelBottom',
+        type: 'donutWithoutLabelBottom',
         status: appealsData.status,
         title: 'Claims Appeals Submitted',
         MetricID: this.MetricidService.MetricIDs.ClaimsAppealsSubmitted,
@@ -931,7 +906,7 @@ export class AppealsSharedService {
         }
         appealsSubmitted = {
           category: 'app-card',
-          type: 'donutWithLabelBottom',
+          type: 'donutWithoutLabelBottom',
           title: 'Claims Appeals Submitted',
           MetricID: this.MetricidService.MetricIDs.ClaimsAppealsSubmitted,
           data: {
@@ -974,7 +949,7 @@ export class AppealsSharedService {
       } else {
         appealsSubmitted = {
           category: 'app-card',
-          type: 'donutWithLabelBottom',
+          type: 'donutWithoutLabelBottom',
           title: 'Claims Appeals Submitted',
           MetricID: this.MetricidService.MetricIDs.ClaimsAppealsSubmitted,
           status: 404,
@@ -1032,7 +1007,7 @@ export class AppealsSharedService {
     } else {
       appealsSubmitted = {
         category: 'app-card',
-        type: 'donutWithLabelBottom',
+        type: 'donutWithoutLabelBottom',
         title: 'Claims Appeals Submitted',
         MetricID: this.MetricidService.MetricIDs.ClaimsAppealsSubmitted,
         status: 404,

@@ -24,7 +24,7 @@ export const ClaimsFilter = [
 
 export const AppealsFilter = [
   { name: 'Received Date', value: 'Received Date', disable: false },
-  { name: 'Closed Date', value: 'Closed Date', disable: false }
+  { name: 'Closed Date', value: 'Closed Date', disable: true }
 ];
 export const ViewClaimsByFilter = [
   { name: 'DateOfService', value: 'Date of Service', disable: false },
