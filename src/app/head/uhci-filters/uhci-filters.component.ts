@@ -12,6 +12,7 @@ import {
   filterToggles,
   MetricPropType,
   ClaimsFilter,
+  AppealsFilter,
   ViewClaimsByFilter
 } from './filter-settings/filter-options';
 import { MatIconRegistry } from '@angular/material';
@@ -39,6 +40,7 @@ export class UhciFiltersComponent implements OnInit {
   @select() trendMetric;
   @select() trendDate;
   @select() claimsFilter;
+  @select() appealsFilter;
   @select() viewClaimsByFilter;
   @Output() filterFlag = new EventEmitter();
 
@@ -48,8 +50,10 @@ export class UhciFiltersComponent implements OnInit {
   lobs = LineOfBusiness;
   selectedLob: MetricPropType;
   claims = ClaimsFilter;
-  viewclaims = ViewClaimsByFilter;
+  appeals = AppealsFilter;
   selectedClaims: MetricPropType;
+  selectedAppeals: MetricPropType;
+  viewclaims = ViewClaimsByFilter;
   selectedViewClaimsBy: MetricPropType;
   serviceSettings = ServiceSetting;
   selectedServiceSetting: MetricPropType;
@@ -101,6 +105,9 @@ export class UhciFiltersComponent implements OnInit {
     );
     this.claimsFilter.subscribe(
       claimsFilter => (this.selectedClaims = this.claims.find(val => val.name === claimsFilter))
+    );
+    this.appealsFilter.subscribe(
+      appealsFilter => (this.selectedAppeals = this.appeals.find(val => val.value === appealsFilter))
     );
     this.viewClaimsByFilter.subscribe(
       viewClaimsByFilter => (this.selectedViewClaimsBy = this.viewclaims.find(val => val.name === viewClaimsByFilter))
@@ -167,6 +174,7 @@ export class UhciFiltersComponent implements OnInit {
         trendMetric: this.selectedTrendMetric.name,
         trendDate: this.selectedDate,
         claimsFilter: this.selectedClaims.name,
+        appealsFilter: this.selectedAppeals.name,
         viewClaimsByFilter: this.selectedViewClaimsBy.name
       }
     });
