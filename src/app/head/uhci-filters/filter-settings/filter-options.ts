@@ -22,6 +22,10 @@ export const ClaimsFilter = [
   { name: 'INSTITUTIONAL', value: 'UB (Universal Billing)', disable: false }
 ];
 
+export const AppealsFilter = [
+  { name: 'Received Date', value: 'Received Date', disable: false },
+  { name: 'Closed Date', value: 'Closed Date', disable: true }
+];
 export const ViewClaimsByFilter = [
   { name: 'DateOfService', value: 'Date of Service', disable: false },
   { name: 'DateOfProcessing', value: 'Date of Processing', disable: true }
@@ -112,6 +116,7 @@ export const filterToggles = {
   toggleMetric: false,
   toggleDate: false,
   toggleClaim: false,
+  toggleAppeals: false,
   toggleViewClaimsBy: false
 };
 
