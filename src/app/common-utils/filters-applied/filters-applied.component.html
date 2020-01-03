@@ -6,6 +6,7 @@
           <span>Time Period: </span><span class="text-semibold pl-4"> {{ selectedTimePeriod.value }} </span>
         </button>
       </div>
+
       <ng-container
         *ngIf="selectedPage !== 'callsPage' && selectedTaxIds[0].Tin !== 'All' && selectedTaxIds.length < 4"
       >
@@ -35,6 +36,25 @@
           </div>
         </button>
       </div>
+
+      <!--Uncomment once api is ready-->
+      <!--<div-->
+      <!--class="horizontal-align"-->
+      <!--*ngIf="-->
+      <!--selectedPage == 'paymentsPage' ||-->
+      <!--tabName == 'gettingReimbursedSummary' ||-->
+      <!--tabName == 'gettingReimbursedPayments' ||-->
+      <!--tabName == 'gettingReimbursedNonPayments' ||-->
+      <!--selectedPage == 'nonPaymentsPage'-->
+      <!--"-->
+      <!--&gt;-->
+      <!--<button class="btn btn-rounded" disabled>-->
+      <!--&lt;!&ndash; USE this instead of next line after View Claims By Data Binding -->
+      <!--span>View claims By: </span><span class="text-semibold pl-4"> {{selectedViewClaimsBy}} </span&ndash;&gt;-->
+      <!--<span>View claims By: </span><span class="text-semibold pl-4"> Date of Service </span>-->
+      <!--</button>-->
+      <!--</div>-->
+
       <div
         class="horizontal-align"
         *ngIf="

@@ -16,7 +16,7 @@
 
     <div *ngFor="let item of nonPaymentData1">
       <app-card *ngIf="item.data != null && !item.toggle" class="cards" [chartData]="item"> </app-card>
-      <app-error-card *ngIf="item.status != null" class="cards" [data]="item"></app-error-card>
+      <app-error-card *ngIf="item.status != null && !item.toggle" class="cards" [data]="item"></app-error-card>
     </div>
 
     <!-- Top reasons for Claims Start here -->
@@ -155,6 +155,6 @@
 
     <!-- Claims Non - Payment Trend Ends Here -->
 
-    <app-clarify-claims-message></app-clarify-claims-message>
+    <!--app-clarify-claims-message></app-clarify-claims-message-->
   </div>
 </div>

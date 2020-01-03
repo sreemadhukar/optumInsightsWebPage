@@ -171,6 +171,7 @@ export class GettingReimbursedSharedService {
               title: 'Claims Non-Payment Rate',
               MetricID: this.MetricidService.MetricIDs.ClaimsNonPaymentRate,
               data: null,
+              toggle: true,
               timeperiod: null
             };
           } else if (claimsData != null) {
@@ -484,6 +485,7 @@ export class GettingReimbursedSharedService {
                 title: 'Claims Non-Payment Rate',
                 MetricID: this.MetricidService.MetricIDs.ClaimsNonPaymentRate,
                 data: null,
+                toggle: true,
                 status: 404,
                 besideData: null,
                 bottomData: null,
@@ -779,28 +781,28 @@ export class GettingReimbursedSharedService {
 
           submissions = {
             id: 1,
-            title: 'Claims Submissions*',
+            title: 'Claims Submissions',
             MetricID: this.MetricidService.MetricIDs.ClaimsSubmissions,
             data: [claimsSubmitted, claimsTAT]
           };
           if (environment.claimsYieldAccess) {
             payments = {
               id: 2,
-              title: 'Claims Payments*',
+              title: 'Claims Payments',
               MetricID: this.MetricidService.MetricIDs.ClaimsPayments,
               data: [claimsPaid, claimsPaidRate]
             };
           } else {
             payments = {
               id: 2,
-              title: 'Claims Payments*',
+              title: 'Claims Payments',
               MetricID: this.MetricidService.MetricIDs.ClaimsPayments,
               data: [claimsPaid]
             };
           }
           nonpayments = {
             id: 3,
-            title: 'Claims Non-Payments*',
+            title: 'Claims Non-Payments',
             MetricID: this.MetricidService.MetricIDs.ClaimsNonPayments,
             data: [claimsNotPaid, claimsNotPaidRate]
           };
@@ -896,6 +898,7 @@ export class GettingReimbursedSharedService {
               title: 'Claims Non-Payment Rate',
               MetricID: this.MetricidService.MetricIDs.ClaimsNonPaymentRate,
               data: null,
+              toggle: true,
               timeperiod: null
             };
           } else if (claimsData != null) {
@@ -1384,6 +1387,7 @@ export class GettingReimbursedSharedService {
                 title: 'Claims Non-Payment Rate',
                 MetricID: this.MetricidService.MetricIDs.ClaimsNonPaymentRate,
                 data: null,
+                toggle: true,
                 status: 404,
                 besideData: null,
                 bottomData: null,
@@ -1450,28 +1454,28 @@ export class GettingReimbursedSharedService {
           // };
           submissions = {
             id: 1,
-            title: 'Claims Submissions*',
+            title: 'Claims Submissions',
             MetricID: this.MetricidService.MetricIDs.ClaimsSubmissions,
             data: [claimsSubmitted, claimsTAT]
           };
           if (environment.claimsYieldAccess) {
             payments = {
               id: 2,
-              title: 'Claims Payments*',
+              title: 'Claims Payments',
               MetricID: this.MetricidService.MetricIDs.ClaimsPayments,
               data: [claimsPaid, claimsPaidRate]
             };
           } else {
             payments = {
               id: 2,
-              title: 'Claims Payments*',
+              title: 'Claims Payments',
               MetricID: this.MetricidService.MetricIDs.ClaimsPayments,
               data: [claimsPaid]
             };
           }
           nonpayments = {
             id: 3,
-            title: 'Claims Non-Payments*',
+            title: 'Claims Non-Payments',
             MetricID: this.MetricidService.MetricIDs.ClaimsNonPayments,
             data: [claimsNotPaid, claimsNotPaidRate]
           };
