@@ -29,7 +29,7 @@ export class Engagement {
             section: this.section
           });
         } else {
-          const value = Engagement_Data[key][subKey] ? Math.round(Engagement_Data[key][subKey]) : null;
+          const value = Engagement_Data[key][subKey] !== null ? Math.round(Engagement_Data[key][subKey]) : null;
           if (this.singleCard && value !== null) {
             chartDataElement.quarters.push({ title: value + '' + chartDataElement.units });
           } else {

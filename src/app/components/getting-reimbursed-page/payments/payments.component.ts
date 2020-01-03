@@ -57,7 +57,7 @@ export class PaymentsComponent implements OnInit {
     private common: CommonUtilsService
   ) {
     const filData = this.session.getFilChangeEmitter().subscribe(() => this.common.urlResuseStrategy());
-    this.pageTitle = 'Claims Payments*';
+    this.pageTitle = 'Claims Payments';
     this.pagesubTitle = 'Getting Reimbursed - Payments';
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => {
       this.createPayloadService.resetTinNumber('paymentsPage');

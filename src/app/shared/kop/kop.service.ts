@@ -83,6 +83,7 @@ export class KOPSharedService {
           // Merging two responses in to one response
           const priorAuthResponse = [];
           const [priorAuthTATResponse, priorAuthVolumeResponse] = response;
+
           const noOfMetrics = priorAuthTATResponse.length || priorAuthVolumeResponse.length;
           for (let i = 0; i < noOfMetrics; i++) {
             priorAuthResponse[i] = priorAuthTATResponse[i];
@@ -96,9 +97,11 @@ export class KOPSharedService {
                 PriorAuthRequested: { PriorAuthRequestedValue }
               }
             } = priorAuthResponse[i];
-            priorAuthResponse[i].CareDelivery.PriorAuthTAT.PriorAuthTATValue =
-              PriorAuthTATValue / PriorAuthRequestedValue;
+            priorAuthResponse[i].CareDelivery.PriorAuthTAT.PriorAuthTATValue = PriorAuthTATValue
+              ? PriorAuthTATValue / PriorAuthRequestedValue
+              : 0;
           }
+          console.log(priorAuthResponse);
 
           const careDeliveryInstance = new CareDelivery({ records: priorAuthResponse });
           const careDelivery = careDeliveryInstance.getData();

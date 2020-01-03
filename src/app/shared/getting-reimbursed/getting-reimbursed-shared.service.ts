@@ -532,7 +532,7 @@ export class GettingReimbursedSharedService {
           if (appealsData != null && appealsData.hasOwnProperty('status')) {
             appealsSubmitted = {
               category: 'app-card',
-              type: 'donutWithLabelBottom',
+              type: 'donutWithoutLabelBottom',
               status: 404,
               title: 'Claims Appeals Submitted',
               MetricID: this.MetricidService.MetricIDs.ClaimsAppealsSubmitted,
@@ -636,7 +636,7 @@ export class GettingReimbursedSharedService {
               }
               appealsSubmitted = {
                 category: 'app-card',
-                type: 'donutWithLabelBottom',
+                type: 'donutWithoutLabelBottom',
                 title: 'Claims Appeals Submitted',
                 MetricID: this.MetricidService.MetricIDs.ClaimsAppealsSubmitted,
                 data: {
@@ -683,7 +683,7 @@ export class GettingReimbursedSharedService {
             } else {
               appealsSubmitted = {
                 category: 'app-card',
-                type: 'donutWithLabelBottom',
+                type: 'donutWithoutLabelBottom',
                 title: 'Claims Appeals Submitted',
                 MetricID: this.MetricidService.MetricIDs.ClaimsAppealsSubmitted,
                 status: 404,
@@ -739,7 +739,7 @@ export class GettingReimbursedSharedService {
           } else {
             appealsSubmitted = {
               category: 'app-card',
-              type: 'donutWithLabelBottom',
+              type: 'donutWithoutLabelBottom',
               title: 'Claims Appeals Submitted',
               MetricID: this.MetricidService.MetricIDs.ClaimsAppealsSubmitted,
               status: 404,
@@ -779,28 +779,28 @@ export class GettingReimbursedSharedService {
 
           submissions = {
             id: 1,
-            title: 'Claims Submissions*',
+            title: 'Claims Submissions',
             MetricID: this.MetricidService.MetricIDs.ClaimsSubmissions,
             data: [claimsSubmitted, claimsTAT]
           };
           if (environment.claimsYieldAccess) {
             payments = {
               id: 2,
-              title: 'Claims Payments*',
+              title: 'Claims Payments',
               MetricID: this.MetricidService.MetricIDs.ClaimsPayments,
               data: [claimsPaid, claimsPaidRate]
             };
           } else {
             payments = {
               id: 2,
-              title: 'Claims Payments*',
+              title: 'Claims Payments',
               MetricID: this.MetricidService.MetricIDs.ClaimsPayments,
               data: [claimsPaid]
             };
           }
           nonpayments = {
             id: 3,
-            title: 'Claims Non-Payments*',
+            title: 'Claims Non-Payments',
             MetricID: this.MetricidService.MetricIDs.ClaimsNonPayments,
             data: [claimsNotPaid, claimsNotPaidRate]
           };
@@ -1450,32 +1450,47 @@ export class GettingReimbursedSharedService {
           // };
           submissions = {
             id: 1,
-            title: 'Claims Submissions*',
+            title: 'Claims Submissions',
             MetricID: this.MetricidService.MetricIDs.ClaimsSubmissions,
             data: [claimsSubmitted, claimsTAT]
           };
           if (environment.claimsYieldAccess) {
             payments = {
               id: 2,
-              title: 'Claims Payments*',
+              title: 'Claims Payments',
               MetricID: this.MetricidService.MetricIDs.ClaimsPayments,
               data: [claimsPaid, claimsPaidRate]
             };
           } else {
             payments = {
               id: 2,
-              title: 'Claims Payments*',
+              title: 'Claims Payments',
               MetricID: this.MetricidService.MetricIDs.ClaimsPayments,
               data: [claimsPaid]
             };
           }
           nonpayments = {
             id: 3,
-            title: 'Claims Non-Payments*',
+            title: 'Claims Non-Payments',
             MetricID: this.MetricidService.MetricIDs.ClaimsNonPayments,
             data: [claimsNotPaid, claimsNotPaidRate]
           };
-          const appealsSubmitted = this.createAppealsDonuts(appealsData, lobFullData).appealsSubmitted;
+          let appealsSubmitted: any;
+          if (parameters[1].appealsProcessing === 'Closed Date') {
+            appealsSubmitted = {
+              category: 'app-card',
+              type: 'donutWithoutLabelBottom',
+              status: appealsData.status,
+              title: 'Claims Appeals Submitted',
+              MetricID: this.MetricidService.MetricIDs.ClaimsAppealsSubmitted,
+              data: null,
+              besideData: null,
+              bottomData: null,
+              timeperiod: null
+            };
+          } else {
+            appealsSubmitted = this.createAppealsDonuts(appealsData, lobFullData).appealsSubmitted;
+          }
           const appealsOverturned = this.createAppealsDonuts(appealsData, lobFullData).appealsOverturned;
           appeals = {
             id: 4,
@@ -1807,7 +1822,7 @@ export class GettingReimbursedSharedService {
     if (appealsData && appealsData.hasOwnProperty('status')) {
       appealsSubmitted = {
         category: 'app-card',
-        type: 'donutWithLabelBottom',
+        type: 'donutWithoutLabelBottom',
         status: 404,
         title: 'Claims Appeals Submitted',
         MetricID: this.MetricidService.MetricIDs.ClaimsAppealsSubmitted,
@@ -1962,7 +1977,7 @@ export class GettingReimbursedSharedService {
         }
         appealsSubmitted = {
           category: 'app-card',
-          type: 'donutWithLabelBottom',
+          type: 'donutWithoutLabelBottom',
           title: 'Claims Appeals Submitted',
           MetricID: this.MetricidService.MetricIDs.ClaimsAppealsSubmitted,
           data: {
@@ -2009,7 +2024,7 @@ export class GettingReimbursedSharedService {
       } else {
         appealsSubmitted = {
           category: 'app-card',
-          type: 'donutWithLabelBottom',
+          type: 'donutWithoutLabelBottom',
           title: 'Claims Appeals Submitted',
           MetricID: this.MetricidService.MetricIDs.ClaimsAppealsSubmitted,
           status: 404,
@@ -2068,7 +2083,7 @@ export class GettingReimbursedSharedService {
     } else {
       appealsSubmitted = {
         category: 'app-card',
-        type: 'donutWithLabelBottom',
+        type: 'donutWithoutLabelBottom',
         title: 'Claims Appeals Submitted',
         MetricID: this.MetricidService.MetricIDs.ClaimsAppealsSubmitted,
         status: 404,

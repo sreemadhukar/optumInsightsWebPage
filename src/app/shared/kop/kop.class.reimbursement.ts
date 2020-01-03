@@ -36,7 +36,7 @@ export class Reimbursement {
             section: this.section
           });
         } else {
-          const value = Reimbursement_Data[key][subKey] ? Math.round(Reimbursement_Data[key][subKey]) : null;
+          const value = Reimbursement_Data[key][subKey] !== null ? Math.round(Reimbursement_Data[key][subKey]) : null;
           if (this.singleCard && value !== null) {
             chartDataElement.quarters.push({ title: this.nFormatter(value) + '' + chartDataElement.units });
           } else {
