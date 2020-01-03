@@ -11,5 +11,7 @@ export class LargeCardAdvocateComponent implements AfterViewInit {
 
   constructor() {}
 
-  ngAfterViewInit() {}
+  ngAfterViewInit() {
+    console.log('Hiiiii large card');
+  }
 }
