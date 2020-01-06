@@ -86,8 +86,8 @@ export class OverviewAdvocateComponent implements OnInit {
     private createPayloadService: CreatePayloadService,
     private ngRedux: NgRedux<IAppState>
   ) {
-    this.pageTitle = 'Welcome, ' + this.userName;
-    this.pagesubTitle = 'Your Insights at a glance.';
+    this.pageTitle = 'UHC Insights Provider Performance Dashboard';
+    this.pagesubTitle = this.session.getHealthCareOrgName() + "'s insights at a glance.";
 
     const filData = this.session.getFilChangeEmitter().subscribe(() => this.common.urlResuseStrategy());
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => {
@@ -300,7 +300,7 @@ export class OverviewAdvocateComponent implements OnInit {
     this.appealsLineGraphloading = true;
     this.callsLineGraphLoading = true;
     this.userName = this.session.sessionStorage('loggedUser', 'FirstName');
-    this.pageTitle = 'Welcome, ' + this.userName;
+    // this.pageTitle = 'Welcome, ' + this.userName;
     this.monthlyLineGraph.chartId = 'non-payment-trend-block';
     this.monthlyLineGraph.titleData = [{}];
     this.monthlyLineGraph.generalData = [
