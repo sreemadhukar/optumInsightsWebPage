@@ -87,10 +87,9 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
     private ngRedux: NgRedux<IAppState>
   ) {
     this.pageTitle = 'UHC Insights Provider Performance Dashboard';
-
     const filData = this.session.getFilChangeEmitter().subscribe(() => this.common.urlResuseStrategy());
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => {
-      this.createPayloadService.resetTinNumber('otherPages');
+      this.createPayloadService.resetTinNumber('overviewAdvocatePage');
       this.ngRedux.dispatch({ type: REMOVE_FILTER, filterData: { taxId: true } });
       this.common.urlResuseStrategy();
     });
