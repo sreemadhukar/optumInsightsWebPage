@@ -3,7 +3,7 @@
 </div>
 
 <div *ngIf="data !== null" class="vertical-bar-block">
-  <div class="vertical-bar-box">
+  <div *ngIf="data[0].title !== null" class="vertical-bar-box">
     <div
       *ngIf="data[0].title !== null"
       class="vertical-bar bar1"
@@ -12,11 +12,11 @@
     >
       <span class="bar-value">{{ data[0].title | currencyFormatter }}</span>
     </div>
-    <div *ngIf="data[0].title === null" class="half-width">
-      <app-error-template></app-error-template>
-    </div>
   </div>
-  <div class="vertical-bar-box">
+  <div *ngIf="data[0].title === null" class="half-width">
+    <app-error-template></app-error-template>
+  </div>
+  <div *ngIf="data[1].title !== null" class="vertical-bar-box">
     <div
       *ngIf="data[1].title !== null"
       class="vertical-bar bar2"
@@ -25,8 +25,8 @@
     >
       <span class="bar-value">{{ data[1].title | currencyFormatter }}</span>
     </div>
-    <div *ngIf="data[1].title === null" class="half-width">
-      <app-error-template></app-error-template>
-    </div>
+  </div>
+  <div *ngIf="data[1].title === null" class="half-width">
+    <app-error-template></app-error-template>
   </div>
 </div>
