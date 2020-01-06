@@ -141,7 +141,8 @@ export class KopOverviewComponent implements OnInit, OnDestroy {
         }
       })
       .catch(err => {
-        this.isError = true;
+        // this.isError = true;
+        console.log(err);
       });
   }
 
@@ -157,6 +158,21 @@ export class KopOverviewComponent implements OnInit, OnDestroy {
             if (chartItem.metricType === 'priorauth') {
               Object.assign(chartItem, { ...chartData[index] });
             }
+          });
+        }
+      })
+      .catch(err => {
+        // Use this if you need to show some error
+        console.log(err);
+      });
+    this.kopSharedService
+      .getPriorAuthTATSummary({ filter: this.currentFilter })
+      .then((data: any) => {
+        if (data) {
+          const {
+            careDelivery: { chartData }
+          } = data;
+          this.kopInsightsData.careDelivery.chartData.forEach((chartItem: any, index: number) => {
             if (chartItem.metricType === 'priorauthtat') {
               Object.assign(chartItem, { ...chartData[index] });
             }
