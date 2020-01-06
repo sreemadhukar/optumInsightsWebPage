@@ -319,23 +319,23 @@ export class OverviewAdvocateComponent implements OnInit {
     this.trendMonthDisplay = false;
     // Need to remove once filters is done
     // This is for line graph
-    // this.nonPaymentService.sharedTrendByMonth().then(trendData => {
-    //   if (trendData === null) {
-    //     this.trendMonthDisplay = false;
-    //     this.monthlyLineGraph = {
-    //       category: 'large-card',
-    //       type: 'donut',
-    //       status: 404,
-    //       title: 'Claims Non-Payment Trend',
-    //       MetricID: this.MetricidService.MetricIDs.ClaimsNonPaymentTrend,
-    //       data: null,
-    //       timeperiod: null
-    //     };
-    //   } else {
-    //     this.monthlyLineGraph.chartData = trendData;
-    //     this.trendMonthDisplay = true;
-    //   }
-    // });
+    this.nonPaymentService.sharedTrendByMonth(this.createPayloadService.payload).then(trendData => {
+      if (trendData === null) {
+        this.trendMonthDisplay = false;
+        this.monthlyLineGraph = {
+          category: 'large-card',
+          type: 'donut',
+          status: 404,
+          title: 'Claims Non-Payment Trend',
+          MetricID: this.MetricidService.MetricIDs.ClaimsNonPaymentTrend,
+          data: null,
+          timeperiod: null
+        };
+      } else {
+        this.monthlyLineGraph.chartData = trendData;
+        this.trendMonthDisplay = true;
+      }
+    });
 
     this.monthlyLineGraph.generalData2 = [];
     this.monthlyLineGraph.chartData2 = [];
