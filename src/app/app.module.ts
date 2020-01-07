@@ -49,8 +49,12 @@ import { loadState, saveState } from './store/filter/localStorage';
     ThemeService,
     CookieService,
     { provide: HTTP_INTERCEPTORS, useClass: HttpInterceptorService, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: CacheInterceptor, multi: true },
-    { provide: ErrorHandler, useClass: RavenErrorHandler }
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: CacheInterceptor,
+      multi: true
+    } /*,
+    { provide: ErrorHandler, useClass: RavenErrorHandler }*/
   ],
   entryComponents: [IdleTimeoutDialogComponent],
   bootstrap: [AppComponent]
