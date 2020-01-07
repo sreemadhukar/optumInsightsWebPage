@@ -69,6 +69,8 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
   claimsYieldLoading: boolean;
   downRowMockCards: any;
   claimsYieldCard: Array<Object>;
+  pbsLoading: boolean;
+  pbsCard: any;
 
   constructor(
     private checkStorage: StorageService,
@@ -299,6 +301,7 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
     this.totalCallsData();
     this.claimsYieldData();
     this.totalCallsTrendLineData();
+    this.paymentsBySubmissionData();
     this.appealsLineGraphloading = true;
     this.callsLineGraphLoading = true;
     this.userName = this.session.sessionStorage('loggedUser', 'FirstName');
@@ -348,5 +351,23 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
       this.glossaryExpandService.setMessage(title, this.MetricidService.MetricIDs.ClaimsNonPaymentTrend);
     }
     this.glossaryExpandService.setMessage(title, this.MetricidService.MetricIDs);
+  }
+
+  paymentsBySubmissionData() {
+    this.pbsLoading = true;
+    this.downRowMockCards = [{}];
+    this.pbsCard = {};
+    this.overviewAdvocateSharedService
+      .paymentsBySubmission(this.createPayloadService.payload)
+      .then(pbsData => {
+        console.log('this.pbsData--------->', pbsData);
+        this.pbsCard = JSON.parse(JSON.stringify(pbsData));
+        console.log('this.pbsCard--------->', this.pbsCard);
+        this.pbsLoading = false;
+      })
+      .catch(reason => {
+        this.pbsLoading = false;
+        console.log('Adovate Overview page Payment', reason);
+      });
   }
 }
