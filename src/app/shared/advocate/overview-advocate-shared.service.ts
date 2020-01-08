@@ -320,4 +320,19 @@ export class OverviewAdvocateSharedService {
       );
     });
   }
+
+  public paymentsBySubmission(param) {
+    this.timeFrame = this.common.getTimePeriodFilterValue(param.timePeriod);
+    return new Promise(resolve => {
+      const parameters = this.getParameterCategories(param);
+      this.overviewAdvocateService.paymentsBySubmission(...parameters).subscribe(
+        pbsData => {
+          resolve(pbsData);
+        },
+        err => {
+          console.log('Advocate Page , Error for calls card', err);
+        }
+      );
+    });
+  }
 }
