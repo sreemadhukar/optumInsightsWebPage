@@ -594,7 +594,7 @@ export class GettingReimbursedSharedService {
                   sum += appealsData[0].LineOfBusiness.MedicareAndRetirement.ClinicalAppeals;
                 }
                 if (appealTypeForTitle === 'Closed Date') {
-                  sum = this.common.nFormatter(appealsData[0].LineOfBusiness[lobFullData].TotalClosedCount);
+                  sum += appealsData[0].LineOfBusiness.MedicareAndRetirement.TotalClosedCount;
                 }
                 submittedData.push(sum);
                 labelsData.push('Medicare & Retirement');
@@ -615,7 +615,7 @@ export class GettingReimbursedSharedService {
                   sum += appealsData[0].LineOfBusiness.CommunityAndState.ClinicalAppeals;
                 }
                 if (appealTypeForTitle === 'Closed Date') {
-                  sum = this.common.nFormatter(appealsData[0].LineOfBusiness[lobFullData].TotalClosedCount);
+                  sum += appealsData[0].LineOfBusiness.CommunityAndState.TotalClosedCount;
                 }
                 submittedData.push(sum);
                 labelsData.push('Community & State');
@@ -636,7 +636,7 @@ export class GettingReimbursedSharedService {
                   sum += appealsData[0].LineOfBusiness.EmployerAndIndividual.ClinicalAppeals;
                 }
                 if (appealTypeForTitle === 'Closed Date') {
-                  sum = this.common.nFormatter(appealsData[0].LineOfBusiness[lobFullData].TotalClosedCount);
+                  sum += appealsData[0].LineOfBusiness.EmployerAndIndividual.TotalClosedCount;
                 }
                 submittedData.push(sum);
                 labelsData.push('Employer & Individual');
@@ -658,7 +658,7 @@ export class GettingReimbursedSharedService {
                   sum += appealsData[0].LineOfBusiness.Uncategorized.ClinicalAppeals;
                 }
                 if (appealTypeForTitle === 'Closed Date') {
-                  sum = this.common.nFormatter(appealsData[0].LineOfBusiness[lobFullData].TotalClosedCount);
+                  sum += appealsData[0].LineOfBusiness.Uncategorized.TotalClosedCount;
                 }
                 submittedData.push(sum);
                 labelsData.push('Uncategorized');
@@ -1911,7 +1911,7 @@ export class GettingReimbursedSharedService {
             sum += appealsData[0].LineOfBusiness.MedicareAndRetirement.ClinicalAppeals;
           }
           if (appealsFilterSelected === 'DOC') {
-            sum = this.common.nFormatter(appealsData[0].LineOfBusiness[lobFullData].TotalClosedCount);
+            sum += appealsData[0].LineOfBusiness.MedicareAndRetirement.TotalClosedCount;
           }
           submittedData.push(sum);
           labelsData.push('Medicare & Retirement');
@@ -1936,7 +1936,7 @@ export class GettingReimbursedSharedService {
             sum += appealsData[0].LineOfBusiness.CommunityAndState.ClinicalAppeals;
           }
           if (appealsFilterSelected === 'DOC') {
-            sum = this.common.nFormatter(appealsData[0].LineOfBusiness[lobFullData].TotalClosedCount);
+            sum += appealsData[0].LineOfBusiness.CommunityAndState.TotalClosedCount;
           }
           submittedData.push(sum);
           labelsData.push('Community & State');
@@ -1961,7 +1961,7 @@ export class GettingReimbursedSharedService {
             sum += appealsData[0].LineOfBusiness.EmployerAndIndividual.ClinicalAppeals;
           }
           if (appealsFilterSelected === 'DOC') {
-            sum = this.common.nFormatter(appealsData[0].LineOfBusiness[lobFullData].TotalClosedCount);
+            sum += appealsData[0].LineOfBusiness.EmployerAndIndividual.TotalClosedCount;
           }
           submittedData.push(sum);
           labelsData.push('Employer & Individual');
@@ -2012,7 +2012,7 @@ export class GettingReimbursedSharedService {
               appealsData[0].LineOfBusiness[lobFullData].ClinicalAppeals;
           }
           if (appealsFilterSelected === 'DOC') {
-            sum = this.common.nFormatter(appealsData[0].LineOfBusiness[lobFullData].TotalClosedCount);
+            sum += appealsData[0].LineOfBusiness[lobFullData].TotalClosedCount;
           }
           submittedData.push(sum);
           labelsData.push('Other Lines of Business');

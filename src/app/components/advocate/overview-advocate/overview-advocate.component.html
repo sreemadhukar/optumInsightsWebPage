@@ -166,6 +166,15 @@
     <!-- Claims Yield card starts here-->
 
     <div class="height1Separator"></div>
+
+    <!-- <div *ngFor="let data of downRowMockCards; let i = index">
+      <app-card class="cards" [skeleton]="pbsLoading" *ngIf="pbsLoading"> </app-card>
+    </div>
+    <div *ngFor="let item of pbsCard">
+      <app-card *ngIf="item.data != null && !item.toggle" class="cards" [chartData]="item"> </app-card>
+      <app-error-card *ngIf="item.status != null" class="cards" [data]="item"></app-error-card>
+    </div> -->
+
     <div *ngFor="let data of downRowMockCards; let i = index">
       <app-card class="cards" [skeleton]="claimsYieldLoading" *ngIf="claimsYieldLoading"> </app-card>
     </div>
@@ -173,6 +182,7 @@
       <app-card *ngIf="item.data != null && !item.toggle" class="cards" [chartData]="item"> </app-card>
       <app-error-card *ngIf="item.status != null" class="cards" [data]="item"></app-error-card>
     </div>
+
     <app-clarify-claims-message></app-clarify-claims-message>
     <!-- Claims Yield card ends here-->
   </div>
