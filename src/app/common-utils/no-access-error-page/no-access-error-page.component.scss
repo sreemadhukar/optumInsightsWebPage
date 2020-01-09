@@ -2,7 +2,8 @@
 .page-overlay {
   overflow: hidden;
   background: #fafafa;
-  height: -webkit-fill-available;
+  /*height: -webkit-fill-available;*/
+  min-height: 100vh;
   .header-div {
     background-color: $white;
     height: 72px;
