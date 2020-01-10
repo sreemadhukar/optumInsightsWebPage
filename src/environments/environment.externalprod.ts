@@ -44,7 +44,8 @@ export const environment: any = {
     AppealsOverturn: 'appeal-overturn-reasons/',
     AdminSummaryTrendsCount: 'admintrendscount/',
     HealthSystemDetails: 'providerInfo/',
-    CallsTrendLine: 'calls-trend/'
+    CallsTrendLine: 'calls-trend/',
+    PaymentsBySubmission: 'claim-submissions/'
   },
   headerKeys: {
     selectedCompany: '',
