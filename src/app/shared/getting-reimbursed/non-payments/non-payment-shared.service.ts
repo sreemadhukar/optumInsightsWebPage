@@ -398,7 +398,6 @@ export class NonPaymentSharedService {
         try {
           // const lobData = this.lob;
           const nonPaymentsTrendData = JSON.parse(JSON.stringify(data));
-          console.log('Trend by months', nonPaymentsTrendData);
           const filter_data_claimSummary = [];
           nonPaymentsTrendData.forEach(element => {
             let monthlyData = [];
@@ -429,7 +428,6 @@ export class NonPaymentSharedService {
               ' - ' +
               this.common.dateFormat(nonPaymentsTrendData[0].Enddate)
           };
-          console.log('Trend Line', dataTrendLine);
           resolve(dataTrendLine);
         } catch (Error) {
           console.log('Error in Trend Line Graph NonPayments', Error);

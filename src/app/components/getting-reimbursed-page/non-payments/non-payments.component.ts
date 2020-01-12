@@ -224,7 +224,7 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
           timeperiod: null
         };
       } else {
-        this.timePeriodLineGraph = trendData.timeperiod;
+        this.timePeriodLineGraph = trendData.timePeriod;
         this.monthlyLineGraph.chartData = trendData.data;
         this.trendMonthDisplay = true;
       }
