@@ -422,16 +422,17 @@ export class NonPaymentSharedService {
             dateB = new Date(b.month);
             return dateA - dateB; // sort by date ascending
           });
-          console.log('Trend Line', filter_data_claimSummary);
           const dataTrendLine = {
             data: filter_data_claimSummary,
             timePeriod:
-              this.common.dateFormat(nonPaymentsTrendData.Startdate) +
+              this.common.dateFormat(nonPaymentsTrendData[0].Startdate) +
               ' - ' +
-              this.common.dateFormat(nonPaymentsTrendData.Enddate)
+              this.common.dateFormat(nonPaymentsTrendData[0].Enddate)
           };
+          console.log('Trend Line', dataTrendLine);
           resolve(dataTrendLine);
         } catch (Error) {
+          console.log('Error in Trend Line Graph NonPayments', Error);
           resolve(null);
         }
       });
