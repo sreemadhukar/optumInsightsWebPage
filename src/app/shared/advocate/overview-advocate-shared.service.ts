@@ -223,17 +223,17 @@ export class OverviewAdvocateSharedService {
 
           if (callsTrendData[0]) {
             callsTrendData[0].forEach(element => {
-              if (element.CallTalkTimeByQuesType.BenefitsEligibility) {
-                this.collectiveBeData = element.CallTalkTimeByQuesType.BenefitsEligibility;
+              if (element.CallVolByQuesType.BenefitsEligibility) {
+                this.collectiveBeData = element.CallVolByQuesType.BenefitsEligibility;
               }
-              if (element.CallTalkTimeByQuesType.Claims) {
-                this.collectiveClaimsData = element.CallTalkTimeByQuesType.Claims;
+              if (element.CallVolByQuesType.Claims) {
+                this.collectiveClaimsData = element.CallVolByQuesType.Claims;
               }
-              if (element.CallTalkTimeByQuesType.PriorAuth) {
-                this.collectivePaData = element.CallTalkTimeByQuesType.PriorAuth;
+              if (element.CallVolByQuesType.PriorAuth) {
+                this.collectivePaData = element.CallVolByQuesType.PriorAuth;
               }
-              if (element.CallTalkTimeByQuesType.Others) {
-                this.collectiveOtherData = element.CallTalkTimeByQuesType.Others;
+              if (element.CallVolByQuesType.Others) {
+                this.collectiveOtherData = element.CallVolByQuesType.Others;
               }
 
               const trendTimePeriod = element.Calldate;
@@ -313,6 +313,21 @@ export class OverviewAdvocateSharedService {
             callsTrendFormattedData['Other'] = other;
           }
           resolve(callsTrendFormattedData);
+        },
+        err => {
+          console.log('Advocate Page , Error for calls card', err);
+        }
+      );
+    });
+  }
+
+  public paymentsBySubmission(param) {
+    this.timeFrame = this.common.getTimePeriodFilterValue(param.timePeriod);
+    return new Promise(resolve => {
+      const parameters = this.getParameterCategories(param);
+      this.overviewAdvocateService.paymentsBySubmission(...parameters).subscribe(
+        pbsData => {
+          resolve(pbsData);
         },
         err => {
           console.log('Advocate Page , Error for calls card', err);
