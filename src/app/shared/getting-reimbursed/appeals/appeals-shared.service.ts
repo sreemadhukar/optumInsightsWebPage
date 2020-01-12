@@ -183,7 +183,10 @@ export class AppealsSharedService {
                   }
                 ]
               },
-              timeperiod: this.timeFrame
+              timeperiod:
+                this.common.dateFormat(appealsData[0].StartDate) +
+                ' - ' +
+                this.common.dateFormat(appealsData[0].EndDate)
             };
           } else {
             appealsSubmitted = {
@@ -227,7 +230,10 @@ export class AppealsSharedService {
                 gdata: ['card-inner', 'claimsAppealOverturned'],
                 sdata: null
               },
-              timeperiod: this.timeFrame
+              timeperiod:
+                this.common.dateFormat(appealsData[0].StartDate) +
+                ' - ' +
+                this.common.dateFormat(appealsData[0].EndDate)
             };
           } else {
             appealsOverturned = {
@@ -443,7 +449,10 @@ export class AppealsSharedService {
                       }
                     ]
                   },
-                  timeperiod: this.timeFrame
+                  timeperiod:
+                    this.common.dateFormat(appealsData[0].StartDate) +
+                    ' - ' +
+                    this.common.dateFormat(appealsData[0].EndDate)
                 };
               } else {
                 appealsOverturnedRate = {
@@ -640,7 +649,10 @@ export class AppealsSharedService {
                       }
                     ]
                   },
-                  timeperiod: this.timeFrame
+                  timeperiod:
+                    this.common.dateFormat(appealsData[0].StartDate) +
+                    ' - ' +
+                    this.common.dateFormat(appealsData[0].EndDate)
                 };
               } else {
                 appealsOverturnedRate = {
@@ -992,7 +1004,8 @@ export class AppealsSharedService {
               }
             ]
           },
-          timeperiod: this.timeFrame
+          timeperiod:
+            this.common.dateFormat(appealsData[0].StartDate) + ' - ' + this.common.dateFormat(appealsData[0].EndDate)
         };
       } else {
         appealsSubmitted = {
@@ -1039,7 +1052,8 @@ export class AppealsSharedService {
             gdata: ['card-inner', 'claimsAppealOverturned'],
             sdata: null
           },
-          timeperiod: this.timeFrame
+          timeperiod:
+            this.common.dateFormat(appealsData[0].StartDate) + ' - ' + this.common.dateFormat(appealsData[0].EndDate)
         };
       } else {
         appealsOverturned = {
