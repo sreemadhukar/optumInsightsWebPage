@@ -481,7 +481,6 @@ export class PaymentsSharedService {
       let paidBreakdown = [];
       this.gettingReimbursedService.getPaymentData(...parameters).subscribe(paymentDatafetch => {
         try {
-          console.log('breakdown', paymentDatafetch);
           const paymentData = JSON.parse(JSON.stringify(paymentDatafetch));
           const lobData = param.lineOfBusiness ? _.startCase(param.lineOfBusiness.toLowerCase()) : 'All';
           if (paymentData !== null) {
@@ -495,9 +494,9 @@ export class PaymentsSharedService {
           }
           const paidArray = {
             data: paidBreakdown,
-            timePeriod: this.common.dateFormat(paymentData.Startdate) + ' - ' + this.common.dateFormat(paymentData.End)
+            timePeriod:
+              this.common.dateFormat(paymentData.Startdate) + ' - ' + this.common.dateFormat(paymentData.Enddate)
           };
-          console.log('breal', paidArray);
           resolve(paidArray);
         } catch (Error) {
           const temp = {
