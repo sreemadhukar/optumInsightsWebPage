@@ -479,9 +479,9 @@ export class PaymentsSharedService {
     // let paidArray:  Array<Object> = [];
     return new Promise((resolve, reject) => {
       let paidBreakdown = [];
-      let paidArray: Array<Object> = [];
       this.gettingReimbursedService.getPaymentData(...parameters).subscribe(paymentDatafetch => {
         try {
+          console.log('breakdown', paymentDatafetch);
           const paymentData = JSON.parse(JSON.stringify(paymentDatafetch));
           const lobData = param.lineOfBusiness ? _.startCase(param.lineOfBusiness.toLowerCase()) : 'All';
           if (paymentData !== null) {
@@ -493,7 +493,11 @@ export class PaymentsSharedService {
               paymentData[lobData].ClaimsLobSummary[0].AmountUHCPaid
             ];
           }
-          paidArray = [paidBreakdown];
+          const paidArray = {
+            data: paidBreakdown,
+            timePeriod: this.common.dateFormat(paymentData.Startdate) + ' - ' + this.common.dateFormat(paymentData.End)
+          };
+          console.log('breal', paidArray);
           resolve(paidArray);
         } catch (Error) {
           const temp = {
