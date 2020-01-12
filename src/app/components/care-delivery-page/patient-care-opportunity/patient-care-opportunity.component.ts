@@ -46,7 +46,7 @@ export class PatientCareOpportunityComponent implements OnInit {
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.filtermatch.urlResuseStrategy());
   }
   public ratingComponentClick(clickObj: any): void {
-    this.pcorService.getMRData().then(data => {
+    this.pcorService.getQualityMeasureData().then(data => {
       this.pcorData = JSON.parse(JSON.stringify(data));
       this.starRatings = this.pcorData[2];
     });
@@ -72,22 +72,22 @@ export class PatientCareOpportunityComponent implements OnInit {
   public customFormattingMeasureDescription(customLabelGrid, data) {
     for (let i = 0; i < data.length; i++) {
       for (let j = 0; j < data[i].insideData.length; j++) {
-        const measurePrefix = data[i].insideData[j].Name;
+        const measurePrefix = data[i].insideData[j].QualityMeasurecodeandname;
         for (let k = 0; k < customLabelGrid.length; k++) {
           if (customLabelGrid[k].name === measurePrefix) {
             if (customLabelGrid[k].format === 'newLine') {
-              const measureDescription = data[i].insideData[j].Description;
-              const periodIndex = data[i].insideData[j].Description.search(/\./);
+              const measureDescription = data[i].insideData[j].MeasureDescription;
+              const periodIndex = data[i].insideData[j].MeasureDescription.search(/\./);
               const newSentenceOne = measureDescription.slice(0, periodIndex + 1);
               const newSentenceTwo = measureDescription.slice(periodIndex + 1);
-              data[i].insideData[j].Description = newSentenceOne;
+              data[i].insideData[j].MeasureDescription = newSentenceOne;
               data[i].insideData[j].DescriptionTwo = newSentenceTwo;
             } else if (customLabelGrid[k].format === 'bulletPoint') {
-              const measureDescription = data[i].insideData[j].Description;
+              const measureDescription = data[i].insideData[j].MeasureDescription;
               const colonIndex = measureDescription.indexOf(':');
               const newSentenceOne = measureDescription.slice(0, colonIndex + 1);
               const newSentenceTwo = measureDescription.slice(colonIndex + 1);
-              data[i].insideData[j].Description = newSentenceOne;
+              data[i].insideData[j].MeasureDescription = newSentenceOne;
               let bulletPointArray;
               if (customLabelGrid[k].name === 'C16 - Controlling Blood Pressure**') {
                 bulletPointArray = this.locations('Members', newSentenceTwo, false);
@@ -183,6 +183,7 @@ export class PatientCareOpportunityComponent implements OnInit {
           this.MRACVCompletionData = this.pcorData[1];
           this.currentTabTitle = this.pcorData[1].title;
           this.starRatings = this.pcorData[2];
+          console.log('start ratings', this.starRatings);
         }
       })
       .catch(error => {
@@ -199,7 +200,7 @@ export class PatientCareOpportunityComponent implements OnInit {
       .getQualityMeasureData()
       .then(data => {
         const qdata = JSON.parse(JSON.stringify(data));
-
+        console.log('pcor date' + qdata);
         if (qdata.length) {
           this.loading = false;
           this.qualityMeasureData = qdata[0];
