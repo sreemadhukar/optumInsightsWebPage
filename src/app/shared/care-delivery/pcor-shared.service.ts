@@ -28,7 +28,7 @@ export class PcorSharedService {
     return new Promise(resolve => {
       this.pcorService.getPCORQualityMeasureData([this.session.providerKeyData()]).subscribe(
         data => {
-          if (data || {}) {
+          if ((data || {}).QualityMsrCodeName && typeof data !== 'string') {
             const category: Array<Object> = [];
             const subCategory: Array<Object> = [];
             const PCORData = data;
@@ -201,6 +201,9 @@ export class PcorSharedService {
             }
 
             resolve(preparedData);
+          } else {
+            const temp = null;
+            resolve(temp);
           }
         },
         err => {

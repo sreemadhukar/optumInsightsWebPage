@@ -181,20 +181,23 @@ export class PatientCareOpportunityComponent implements OnInit {
       .getQualityMeasureData()
       .then(data => {
         this.loading = false;
-        this.pcorData = JSON.parse(JSON.stringify(data));
+        if (data) {
+          this.pcorData = JSON.parse(JSON.stringify(data));
 
-        this.MRAStarData = this.pcorData[0];
-        this.MRACVCompletionData = this.pcorData[1];
-        this.currentTabTitle = this.pcorData[1].title;
-        if (this.pcorData.length) {
-          this.loading = false;
+          this.MRAStarData = this.pcorData[0];
+          this.MRACVCompletionData = this.pcorData[1];
+          this.currentTabTitle = this.pcorData[1].title;
+          if (this.pcorData.length) {
+            this.loading = false;
 
-          this.qualityMeasureData = this.pcorData[2];
+            this.qualityMeasureData = this.pcorData[2];
+          }
+          // second number we might have to iterate
+          this.customFormattingMeasureDescription(this.customFormatting, this.pcorData[2]);
+          this.starRatings = this.pcorData[3];
         }
-        // second number we might have to iterate
-        this.customFormattingMeasureDescription(this.customFormatting, this.pcorData[2]);
-        this.starRatings = this.pcorData[3];
       })
+
       .catch(error => {
         console.log('PCOR quality star', error);
         this.loading = false;
