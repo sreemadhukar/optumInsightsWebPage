@@ -41,13 +41,17 @@ export const environment: any = {
     NPSSummary: 'kop-metrics/',
     KOPPriorAuthSummary: 'kop-priorauth-request/',
     KOPPriorAuthTATSummary: 'kop-priorauth-tat/',
+    KOPReimbursementClaims: 'kop-reimbursement-claims/',
     AppealsTrend: 'appeals-trend/',
     AdminSummaryTrends: 'admintrends/',
     AppealsFHIR: 'appeals/v2.0/',
     AppealsOverturn: 'appeal-overturn-reasons/',
     AdminSummaryTrendsCount: 'admintrendscount/',
     RefreshToken: 'getRefreshToken/',
-    HealthSystemDetails: 'providerInfo/'
+    HealthSystemDetails: 'providerInfo/',
+    KOPBusinessGlossary: 'business-glossaries-kop/',
+    CallsTrendLine: 'calls-trend/',
+    PaymentsBySubmission: 'claim-submissions/'
   },
   headerKeys: {
     selectedCompany: '',

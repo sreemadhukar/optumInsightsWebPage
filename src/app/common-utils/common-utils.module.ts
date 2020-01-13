@@ -49,6 +49,8 @@ import { FiltersAppliedComponent } from './filters-applied/filters-applied.compo
 import { FiltersMultiSelectComponent } from './filters-multi-select/filters-multi-select.component';
 import { NoAccessErrorPageComponent } from './no-access-error-page/no-access-error-page.component';
 import { ColorGreyMiniBarChartComponent } from './d3-objects/color-grey-mini-bar-chart/color-grey-mini-bar-chart.component';
+import { BarSimplePiComponent } from './d3-objects/bar-simple-pi/bar-simple-pi.component';
+import { StackedBarChartComponent } from './d3-objects/stacked-bar-chart/stacked-bar-chart.component';
 
 @NgModule({
   imports: [
@@ -96,7 +98,8 @@ import { ColorGreyMiniBarChartComponent } from './d3-objects/color-grey-mini-bar
     FiltersAppliedComponent,
     MultiSelectComponent,
     FiltersMultiSelectComponent,
-    ColorGreyMiniBarChartComponent
+    ColorGreyMiniBarChartComponent,
+    BarSimplePiComponent
   ],
   declarations: [
     MiniTileComponent,
@@ -142,7 +145,9 @@ import { ColorGreyMiniBarChartComponent } from './d3-objects/color-grey-mini-bar
     FiltersAppliedComponent,
     FiltersMultiSelectComponent,
     NoAccessErrorPageComponent,
-    ColorGreyMiniBarChartComponent
+    ColorGreyMiniBarChartComponent,
+    BarSimplePiComponent,
+    StackedBarChartComponent
   ],
   entryComponents: [ProviderSearchComponent]
 })

@@ -155,8 +155,7 @@ const routes: Routes = [
   },
   {
     path: 'AccessDenied',
-    component: NoAccessErrorPageComponent,
-    canActivate: [AuthGuard]
+    component: NoAccessErrorPageComponent
   },
   { path: '**', redirectTo: '' }
 ];

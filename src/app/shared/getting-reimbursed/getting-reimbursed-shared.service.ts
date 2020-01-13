@@ -106,6 +106,13 @@ export class GettingReimbursedSharedService {
     let claimsPaid: object;
     let claimsPaidRate: object;
     const summaryData: Array<object> = [];
+
+    let appealsSubmittedClosedtitle = 'Claims Appeals Submitted';
+    const appealTypeForTitle = parameters[1].appealsProcessing;
+    if (appealTypeForTitle === 'Closed Date') {
+      appealsSubmittedClosedtitle = 'Claims Appeals Closed';
+    }
+
     return new Promise(resolve => {
       this.gettingReimbursedService
         .getGettingReimbursedYearWiseData(...parameters)
@@ -532,9 +539,9 @@ export class GettingReimbursedSharedService {
           if (appealsData != null && appealsData.hasOwnProperty('status')) {
             appealsSubmitted = {
               category: 'app-card',
-              type: 'donutWithLabelBottom',
+              type: 'donutWithoutLabelBottom',
               status: 404,
-              title: 'Claims Appeals Submitted',
+              title: appealsSubmittedClosedtitle,
               MetricID: this.MetricidService.MetricIDs.ClaimsAppealsSubmitted,
               data: null,
               besideData: null,
@@ -551,6 +558,17 @@ export class GettingReimbursedSharedService {
               timeperiod: null
             };
           } else if (appealsData.length > 0 && appealsData[0] != null) {
+            let appealsSubmittedCenterNum = 0;
+            if (appealTypeForTitle === 'Received Date') {
+              appealsSubmittedCenterNum = this.common.nFormatter(
+                appealsData[0].LineOfBusiness[lobFullData].AdminAppeals +
+                  appealsData[0].LineOfBusiness[lobFullData].ClinicalAppeals
+              );
+            } else if (appealTypeForTitle === 'Closed Date') {
+              appealsSubmittedCenterNum = this.common.nFormatter(
+                appealsData[0].LineOfBusiness[lobFullData].TotalClosedCount
+              );
+            }
             if (
               appealsData[0].hasOwnProperty('LineOfBusiness') &&
               appealsData[0].LineOfBusiness !== null &&
@@ -575,6 +593,9 @@ export class GettingReimbursedSharedService {
                 ) {
                   sum += appealsData[0].LineOfBusiness.MedicareAndRetirement.ClinicalAppeals;
                 }
+                if (appealTypeForTitle === 'Closed Date') {
+                  sum += appealsData[0].LineOfBusiness.MedicareAndRetirement.TotalClosedCount;
+                }
                 submittedData.push(sum);
                 labelsData.push('Medicare & Retirement');
                 colorsData.push('#3381FF');
@@ -593,6 +614,9 @@ export class GettingReimbursedSharedService {
                 ) {
                   sum += appealsData[0].LineOfBusiness.CommunityAndState.ClinicalAppeals;
                 }
+                if (appealTypeForTitle === 'Closed Date') {
+                  sum += appealsData[0].LineOfBusiness.CommunityAndState.TotalClosedCount;
+                }
                 submittedData.push(sum);
                 labelsData.push('Community & State');
                 colorsData.push('#80B0FF');
@@ -610,6 +634,9 @@ export class GettingReimbursedSharedService {
                   appealsData[0].LineOfBusiness.EmployerAndIndividual.ClinicalAppeals != null
                 ) {
                   sum += appealsData[0].LineOfBusiness.EmployerAndIndividual.ClinicalAppeals;
+                }
+                if (appealTypeForTitle === 'Closed Date') {
+                  sum += appealsData[0].LineOfBusiness.EmployerAndIndividual.TotalClosedCount;
                 }
                 submittedData.push(sum);
                 labelsData.push('Employer & Individual');
@@ -630,14 +657,17 @@ export class GettingReimbursedSharedService {
                 ) {
                   sum += appealsData[0].LineOfBusiness.Uncategorized.ClinicalAppeals;
                 }
+                if (appealTypeForTitle === 'Closed Date') {
+                  sum += appealsData[0].LineOfBusiness.Uncategorized.TotalClosedCount;
+                }
                 submittedData.push(sum);
                 labelsData.push('Uncategorized');
                 colorsData.push('#00B8CC');
               }
               appealsSubmitted = {
                 category: 'app-card',
-                type: 'donutWithLabelBottom',
-                title: 'Claims Appeals Submitted',
+                type: 'donutWithoutLabelBottom',
+                title: appealsSubmittedClosedtitle,
                 MetricID: this.MetricidService.MetricIDs.ClaimsAppealsSubmitted,
                 data: {
                   graphValues: submittedData,
@@ -683,8 +713,8 @@ export class GettingReimbursedSharedService {
             } else {
               appealsSubmitted = {
                 category: 'app-card',
-                type: 'donutWithLabelBottom',
-                title: 'Claims Appeals Submitted',
+                type: 'donutWithoutLabelBottom',
+                title: appealsSubmittedClosedtitle,
                 MetricID: this.MetricidService.MetricIDs.ClaimsAppealsSubmitted,
                 status: 404,
                 data: null,
@@ -739,8 +769,8 @@ export class GettingReimbursedSharedService {
           } else {
             appealsSubmitted = {
               category: 'app-card',
-              type: 'donutWithLabelBottom',
-              title: 'Claims Appeals Submitted',
+              type: 'donutWithoutLabelBottom',
+              title: appealsSubmittedClosedtitle,
               MetricID: this.MetricidService.MetricIDs.ClaimsAppealsSubmitted,
               status: 404,
               data: null,
@@ -779,28 +809,28 @@ export class GettingReimbursedSharedService {
 
           submissions = {
             id: 1,
-            title: 'Claims Submissions*',
+            title: 'Claims Submissions',
             MetricID: this.MetricidService.MetricIDs.ClaimsSubmissions,
             data: [claimsSubmitted, claimsTAT]
           };
           if (environment.claimsYieldAccess) {
             payments = {
               id: 2,
-              title: 'Claims Payments*',
+              title: 'Claims Payments',
               MetricID: this.MetricidService.MetricIDs.ClaimsPayments,
               data: [claimsPaid, claimsPaidRate]
             };
           } else {
             payments = {
               id: 2,
-              title: 'Claims Payments*',
+              title: 'Claims Payments',
               MetricID: this.MetricidService.MetricIDs.ClaimsPayments,
               data: [claimsPaid]
             };
           }
           nonpayments = {
             id: 3,
-            title: 'Claims Non-Payments*',
+            title: 'Claims Non-Payments',
             MetricID: this.MetricidService.MetricIDs.ClaimsNonPayments,
             data: [claimsNotPaid, claimsNotPaidRate]
           };
@@ -832,6 +862,12 @@ export class GettingReimbursedSharedService {
     let claimsPaid: object;
     let claimsPaidRate: object;
     const summaryData: Array<object> = [];
+    let appealsFilterSelected = 'DOR';
+    if (parameters[1].appealsProcessing === 'Received Date') {
+      appealsFilterSelected = 'DOR';
+    } else if (parameters[1].appealsProcessing === 'Closed Date') {
+      appealsFilterSelected = 'DOC';
+    }
     return new Promise(resolve => {
       this.gettingReimbursedService.getGettingReimbursedData(...parameters).subscribe(
         ([claimsData, appealsData]) => {
@@ -1450,33 +1486,36 @@ export class GettingReimbursedSharedService {
           // };
           submissions = {
             id: 1,
-            title: 'Claims Submissions*',
+            title: 'Claims Submissions',
             MetricID: this.MetricidService.MetricIDs.ClaimsSubmissions,
             data: [claimsSubmitted, claimsTAT]
           };
           if (environment.claimsYieldAccess) {
             payments = {
               id: 2,
-              title: 'Claims Payments*',
+              title: 'Claims Payments',
               MetricID: this.MetricidService.MetricIDs.ClaimsPayments,
               data: [claimsPaid, claimsPaidRate]
             };
           } else {
             payments = {
               id: 2,
-              title: 'Claims Payments*',
+              title: 'Claims Payments',
               MetricID: this.MetricidService.MetricIDs.ClaimsPayments,
               data: [claimsPaid]
             };
           }
           nonpayments = {
             id: 3,
-            title: 'Claims Non-Payments*',
+            title: 'Claims Non-Payments',
             MetricID: this.MetricidService.MetricIDs.ClaimsNonPayments,
             data: [claimsNotPaid, claimsNotPaidRate]
           };
-          const appealsSubmitted = this.createAppealsDonuts(appealsData, lobFullData).appealsSubmitted;
-          const appealsOverturned = this.createAppealsDonuts(appealsData, lobFullData).appealsOverturned;
+
+          const appealsSubmitted = this.createAppealsDonuts(appealsData, lobFullData, appealsFilterSelected)
+            .appealsSubmitted;
+          const appealsOverturned = this.createAppealsDonuts(appealsData, lobFullData, appealsFilterSelected)
+            .appealsOverturned;
           appeals = {
             id: 4,
             title: 'Claims Appeals',
@@ -1801,15 +1840,22 @@ export class GettingReimbursedSharedService {
     return d.getFullYear();
   }
 
-  public createAppealsDonuts(appealsData, lobFullData) {
+  public createAppealsDonuts(appealsData, lobFullData, appealsFilterSelected) {
     let appealsSubmitted = {};
     let appealsOverturned = {};
+    let appealsSubmittedTitle = '';
+
+    if (appealsFilterSelected === 'DOR') {
+      appealsSubmittedTitle = 'Claims Appeals Submitted';
+    } else if (appealsFilterSelected === 'DOC') {
+      appealsSubmittedTitle = 'Claims Appeals Closed';
+    }
     if (appealsData && appealsData.hasOwnProperty('status')) {
       appealsSubmitted = {
         category: 'app-card',
-        type: 'donutWithLabelBottom',
+        type: 'donutWithoutLabelBottom',
         status: 404,
-        title: 'Claims Appeals Submitted',
+        title: appealsSubmittedTitle,
         MetricID: this.MetricidService.MetricIDs.ClaimsAppealsSubmitted,
         data: null,
         besideData: null,
@@ -1826,6 +1872,16 @@ export class GettingReimbursedSharedService {
         timeperiod: null
       };
     } else if (appealsData && appealsData[0] != null) {
+      let appealsSubmittedCenterNum = 0;
+
+      if (appealsFilterSelected === 'DOR') {
+        appealsSubmittedCenterNum = this.common.nFormatter(
+          appealsData[0].LineOfBusiness[lobFullData].AdminAppeals +
+            appealsData[0].LineOfBusiness[lobFullData].ClinicalAppeals
+        );
+      } else if (appealsFilterSelected === 'DOC') {
+        appealsSubmittedCenterNum = this.common.nFormatter(appealsData[0].LineOfBusiness[lobFullData].TotalClosedCount);
+      }
       if (
         appealsData[0].hasOwnProperty('LineOfBusiness') &&
         appealsData[0].LineOfBusiness !== null &&
@@ -1854,6 +1910,9 @@ export class GettingReimbursedSharedService {
           ) {
             sum += appealsData[0].LineOfBusiness.MedicareAndRetirement.ClinicalAppeals;
           }
+          if (appealsFilterSelected === 'DOC') {
+            sum += appealsData[0].LineOfBusiness.MedicareAndRetirement.TotalClosedCount;
+          }
           submittedData.push(sum);
           labelsData.push('Medicare & Retirement');
           colorsData.push('#3381FF');
@@ -1876,6 +1935,9 @@ export class GettingReimbursedSharedService {
           ) {
             sum += appealsData[0].LineOfBusiness.CommunityAndState.ClinicalAppeals;
           }
+          if (appealsFilterSelected === 'DOC') {
+            sum += appealsData[0].LineOfBusiness.CommunityAndState.TotalClosedCount;
+          }
           submittedData.push(sum);
           labelsData.push('Community & State');
           colorsData.push('#80B0FF');
@@ -1897,6 +1959,9 @@ export class GettingReimbursedSharedService {
             appealsData[0].LineOfBusiness.EmployerAndIndividual.ClinicalAppeals != null
           ) {
             sum += appealsData[0].LineOfBusiness.EmployerAndIndividual.ClinicalAppeals;
+          }
+          if (appealsFilterSelected === 'DOC') {
+            sum += appealsData[0].LineOfBusiness.EmployerAndIndividual.TotalClosedCount;
           }
           submittedData.push(sum);
           labelsData.push('Employer & Individual');
@@ -1946,6 +2011,9 @@ export class GettingReimbursedSharedService {
               appealsData[0].LineOfBusiness.ALL.ClinicalAppeals -
               appealsData[0].LineOfBusiness[lobFullData].ClinicalAppeals;
           }
+          if (appealsFilterSelected === 'DOC') {
+            sum += appealsData[0].LineOfBusiness[lobFullData].TotalClosedCount;
+          }
           submittedData.push(sum);
           labelsData.push('Other Lines of Business');
           colorsData.push('#D7DCE1');
@@ -1962,15 +2030,12 @@ export class GettingReimbursedSharedService {
         }
         appealsSubmitted = {
           category: 'app-card',
-          type: 'donutWithLabelBottom',
-          title: 'Claims Appeals Submitted',
+          type: 'donutWithoutLabelBottom',
+          title: appealsSubmittedTitle,
           MetricID: this.MetricidService.MetricIDs.ClaimsAppealsSubmitted,
           data: {
             graphValues: submittedData,
-            centerNumber: this.common.nFormatter(
-              appealsData[0].LineOfBusiness[lobFullData].AdminAppeals +
-                appealsData[0].LineOfBusiness[lobFullData].ClinicalAppeals
-            ),
+            centerNumber: appealsSubmittedCenterNum,
             centerNumberOriginal:
               appealsData[0].LineOfBusiness[lobFullData].AdminAppeals +
               appealsData[0].LineOfBusiness[lobFullData].ClinicalAppeals,
@@ -2009,8 +2074,8 @@ export class GettingReimbursedSharedService {
       } else {
         appealsSubmitted = {
           category: 'app-card',
-          type: 'donutWithLabelBottom',
-          title: 'Claims Appeals Submitted',
+          type: 'donutWithoutLabelBottom',
+          title: appealsSubmittedTitle,
           MetricID: this.MetricidService.MetricIDs.ClaimsAppealsSubmitted,
           status: 404,
           data: null,
@@ -2068,8 +2133,8 @@ export class GettingReimbursedSharedService {
     } else {
       appealsSubmitted = {
         category: 'app-card',
-        type: 'donutWithLabelBottom',
-        title: 'Claims Appeals Submitted',
+        type: 'donutWithoutLabelBottom',
+        title: appealsSubmittedTitle,
         MetricID: this.MetricidService.MetricIDs.ClaimsAppealsSubmitted,
         status: 404,
         data: null,

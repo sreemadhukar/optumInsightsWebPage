@@ -29,19 +29,9 @@
           {{ healthSystemData.MajorMarketName | countryFormatter }}
         </div>
       </div>
-      <div class="health-system-details" *ngIf="healthSystemData.TinTypes">
-        <div class="health-system-tin-types">
-          TIN types:
-        </div>
-        <div class="health-system-tin-types-value">
-          <span *ngFor="let tin of healthSystemData.TinTypes; let isLast = last"
-            >{{ tin | sliceString }}{{ isLast ? '' : ', ' }}</span
-          >
-        </div>
-      </div>
       <div class="health-system-details" *ngIf="healthSystemData.BicId">
         <div class="health-system-bic">
-          BIC System ID
+          BIC System ID:
         </div>
         <div class="health-system-bic-value">
           {{ healthSystemData.BicId }}

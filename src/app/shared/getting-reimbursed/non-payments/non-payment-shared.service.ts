@@ -34,12 +34,22 @@ export class NonPaymentSharedService {
 
   // The getNonPayment() function fetches data for Claims Not Paid and Claims Non-Payment Rate
   public getNonPayment(param) {
+    /*
+    let lobValueParam;
+    if (param.lineOfBusiness) {
+      lobValueParam = _.startCase(param.lineOfBusiness.toLowerCase());
+    } else {
+      lobValueParam = 'All';
+    }
+    delete param['lineOfBusiness'];
+    */
     this.providerKey = this.session.providerKeyData();
     return new Promise(resolve => {
       this.nonPaymentService.getNonPaymentData(...this.getParameterCategories(param)).subscribe(
         ([nonPaymentData1]) => {
           let claimsNotPaid: Object;
           let claimsNotPaidRate: Object;
+          // const lobValue = lobValueParam;
           const lobValue = param.lineOfBusiness ? _.startCase(param.lineOfBusiness.toLowerCase()) : 'All';
           if (
             (nonPaymentData1 || {}).All &&
@@ -93,7 +103,6 @@ export class NonPaymentSharedService {
               const amountPaidLOB = nonPaymentData1[lobValue].ClaimsLobSummary[0].AmountDenied;
               nonPaidData.push(amountPaid - amountPaidLOB);
             }
-
             claimsNotPaid = {
               category: 'app-card',
               type: 'donutWithLabel',
@@ -116,10 +125,13 @@ export class NonPaymentSharedService {
                 hover: true
               },
               besideData: {
-                labels: this.common.LOBSideLabels(lobValue, nonPaidData),
-                color: this.common.LOBSideLabelColors(lobValue, nonPaidData)
+                labels: this.common.lobNameForSideLabels(lobValue, nonPaymentData1),
+                color: this.common.lobColorForLabels(lobValue, nonPaymentData1)
               },
-              timeperiod: this.common.getTimePeriodFilterValue(param.timePeriod)
+              timeperiod:
+                this.common.dateFormat(nonPaymentData1.Startdate) +
+                ' - ' +
+                this.common.dateFormat(nonPaymentData1.Enddate)
             };
           } else {
             claimsNotPaid = {
@@ -161,7 +173,10 @@ export class NonPaymentSharedService {
                 gdata: ['card-inner', 'claimsNonPaymentRate'],
                 sdata: null
               },
-              timeperiod: this.common.getTimePeriodFilterValue(param.timePeriod)
+              timeperiod:
+                this.common.dateFormat(nonPaymentData1.Startdate) +
+                ' - ' +
+                this.common.dateFormat(nonPaymentData1.Enddate)
             };
           } else {
             claimsNotPaidRate = {
@@ -326,10 +341,13 @@ export class NonPaymentSharedService {
                 value: '$' + this.common.nFormatter(tempArray[i].DenialAmount),
                 numeric: tempArray[i].DenialAmount,
                 maxValue: maxTopBar,
-                id: tempArray[i].Claimdenialcategorylevel1shortname.replace(/[^a-zA-Z0-9]/g, '') + 'topReasons'
+                id: tempArray[i].Claimdenialcategorylevel1shortname.replace(/[^a-zA-Z0-9]/g, '') + 'topReasons',
+                timePeriod:
+                  this.common.dateFormat(topCategories.Startdate) +
+                  ' - ' +
+                  this.common.dateFormat(topCategories.Enddate)
               });
             }
-            console.log(topReasons);
             resolve(topReasons);
           } catch (Error) {
             resolve(null);
@@ -376,9 +394,10 @@ export class NonPaymentSharedService {
     let parameters = [];
     parameters = this.getParameterCategories(param);
     return new Promise((resolve, reject) => {
-      this.nonPaymentService.getNonPaymentTrendByMonth(parameters).subscribe(nonPaymentsTrendData => {
+      this.nonPaymentService.getNonPaymentTrendByMonth(parameters).subscribe(data => {
         try {
           // const lobData = this.lob;
+          const nonPaymentsTrendData = JSON.parse(JSON.stringify(data));
           const filter_data_claimSummary = [];
           nonPaymentsTrendData.forEach(element => {
             let monthlyData = [];
@@ -402,8 +421,16 @@ export class NonPaymentSharedService {
             dateB = new Date(b.month);
             return dateA - dateB; // sort by date ascending
           });
-          resolve(filter_data_claimSummary);
+          const dataTrendLine = {
+            data: filter_data_claimSummary,
+            timePeriod:
+              this.common.dateFormat(nonPaymentsTrendData[0].Startdate) +
+              ' - ' +
+              this.common.dateFormat(nonPaymentsTrendData[0].Enddate)
+          };
+          resolve(dataTrendLine);
         } catch (Error) {
+          console.log('Error in Trend Line Graph NonPayments', Error);
           resolve(null);
         }
       });
