@@ -48,7 +48,7 @@ export class PatientCareOpportunityComponent implements OnInit {
   public ratingComponentClick(clickObj: any): void {
     this.pcorService.getQualityMeasureData().then(data => {
       this.pcorData = JSON.parse(JSON.stringify(data));
-      this.starRatings = this.pcorData[1];
+      this.starRatings = this.pcorData[3];
     });
   }
   public locations(substring, string, errorBound) {
