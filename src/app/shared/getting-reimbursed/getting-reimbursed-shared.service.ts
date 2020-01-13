@@ -1830,9 +1830,13 @@ export class GettingReimbursedSharedService {
   }
 
   public getMonthname(dt) {
-    const d = new Date(dt);
+    const month = dt.substr(dt.indexOf('-') + 1);
     const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-    return months[d.getMonth()];
+    return months[Number(month) - 1];
+    //     const d = new Date(dt);
+    // const d = new Date(dt + ', UTC-06:00'); // use for timezone differences
+    // const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    // return months[d.getMonth()];
   }
 
   public getFullyear(dt) {
