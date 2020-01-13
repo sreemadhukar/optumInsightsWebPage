@@ -48,7 +48,7 @@ export class PatientCareOpportunityComponent implements OnInit {
   public ratingComponentClick(clickObj: any): void {
     this.pcorService.getQualityMeasureData().then(data => {
       this.pcorData = JSON.parse(JSON.stringify(data));
-      this.starRatings = this.pcorData[2];
+      this.starRatings = this.pcorData[1];
     });
   }
   public locations(substring, string, errorBound) {
@@ -172,25 +172,6 @@ export class PatientCareOpportunityComponent implements OnInit {
      * 2. Medicare & Retirement Annual Care Visits Completion Rate
      * 3. Quality Star top level information i.e. star count only
      */
-
-    this.pcorService
-      .getMRData()
-      .then(data => {
-        this.loading = false;
-        if (data) {
-          this.pcorData = JSON.parse(JSON.stringify(data));
-          this.MRAStarData = this.pcorData[0];
-          this.MRACVCompletionData = this.pcorData[1];
-          this.currentTabTitle = this.pcorData[1].title;
-          this.starRatings = this.pcorData[2];
-          console.log('start ratings', this.starRatings);
-        }
-      })
-      .catch(error => {
-        console.log('PCOR', error);
-        this.loading = false;
-      });
-
     /** The following service method is fetching data for
      * 3. Data corresponding to the Quality Star
      *  i.e. the inside level information for the quality star i.e. subCategories
@@ -199,14 +180,20 @@ export class PatientCareOpportunityComponent implements OnInit {
     this.pcorService
       .getQualityMeasureData()
       .then(data => {
-        const qdata = JSON.parse(JSON.stringify(data));
-        console.log('pcor date' + qdata);
-        if (qdata.length) {
+        this.loading = false;
+        this.pcorData = JSON.parse(JSON.stringify(data));
+
+        this.MRAStarData = this.pcorData[0];
+        this.MRACVCompletionData = this.pcorData[1];
+        this.currentTabTitle = this.pcorData[1].title;
+        if (this.pcorData.length) {
           this.loading = false;
-          this.qualityMeasureData = qdata[0];
+
+          this.qualityMeasureData = this.pcorData[2];
         }
         // second number we might have to iterate
-        this.customFormattingMeasureDescription(this.customFormatting, qdata[0]);
+        this.customFormattingMeasureDescription(this.customFormatting, this.pcorData[2]);
+        this.starRatings = this.pcorData[3];
       })
       .catch(error => {
         console.log('PCOR quality star', error);
