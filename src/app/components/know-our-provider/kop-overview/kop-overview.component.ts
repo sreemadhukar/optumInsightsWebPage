@@ -114,6 +114,8 @@ export class KopOverviewComponent implements OnInit, OnDestroy {
           this.currentFilter = filterDataItem;
         }
       });
+      this.npsLoaded = false;
+      this.isError = false;
       this.getNPSData();
     });
   }
@@ -136,10 +138,14 @@ export class KopOverviewComponent implements OnInit, OnDestroy {
           this.npsLoaded = true;
           this.loadOtherMetrics();
         } else {
+          this.kopInsightsData = null;
+          this.npsLoaded = true;
           this.isError = true;
         }
       })
       .catch(err => {
+        this.kopInsightsData = null;
+        this.npsLoaded = true;
         this.isError = true;
       });
   }
