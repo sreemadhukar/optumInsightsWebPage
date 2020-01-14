@@ -49,6 +49,8 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
   trendTitle = 'Claims Non-Payment Trend';
   section: any = [];
   timePeriod: string;
+  timePeriodTopReaons: string;
+  timePeriodLineGraph: string;
   // lob: string;
   // taxID: Array<string>;
   @Input() printStyle;
@@ -178,6 +180,8 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
             data: null,
             timeperiod: null
           };
+        } else {
+          this.timePeriodTopReaons = this.barChartsArray[0].timePeriod;
         }
       },
       error => {
@@ -206,8 +210,9 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
     this.monthlyLineGraph.chartData = [];
     this.trendMonthDisplay = false;
     // This is for line graph
-    this.nonPaymentService.sharedTrendByMonth(this.createPayloadService.payload).then(trendData => {
-      if (trendData === null) {
+    this.nonPaymentService.sharedTrendByMonth(this.createPayloadService.payload).then(data => {
+      const trendData = JSON.parse(JSON.stringify(data));
+      if (!trendData && !trendData.data) {
         this.trendMonthDisplay = false;
         this.monthlyLineGraph = {
           category: 'large-card',
@@ -219,7 +224,8 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
           timeperiod: null
         };
       } else {
-        this.monthlyLineGraph.chartData = trendData;
+        this.timePeriodLineGraph = trendData.timePeriod;
+        this.monthlyLineGraph.chartData = trendData.data;
         this.trendMonthDisplay = true;
       }
     });

@@ -39,6 +39,22 @@ export class PcorService {
    *  i.e. the inside level information for the quality star i.e. subCategories
    */
 
+  public getPCORMedicareData(...parameters) {
+    this.currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
+    this.authBearer = this.currentUser[0].PedAccessToken;
+    const myHeader = new HttpHeaders({
+      Authorization: 'Bearer ' + this.authBearer,
+      Accept: '*/*'
+    });
+
+    const params = new HttpParams();
+
+    const PCORQualityMeasureURL = this.APP_URL + this.PCOR_SERVICE_PATH + parameters[0];
+    return this.http.get(PCORQualityMeasureURL, { params, headers: myHeader }).pipe(
+      map(res => JSON.parse(JSON.stringify(res))),
+      catchError(err => of(JSON.parse(JSON.stringify(err))))
+    );
+  }
   public getPCORQualityMeasureData(...parameters) {
     this.currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
     this.authBearer = this.currentUser[0].PedAccessToken;

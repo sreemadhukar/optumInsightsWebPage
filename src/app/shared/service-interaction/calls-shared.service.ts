@@ -13,7 +13,6 @@ export class CallsSharedService {
   public sdataTalkTime: object;
   public sdataTrend: any = null;
   private callsData: any;
-  private timeFrame: string;
   private providerKey: number;
 
   constructor(
@@ -55,7 +54,6 @@ export class CallsSharedService {
   }
 
   public getCallsData(param) {
-    this.timeFrame = this.common.getTimePeriodFilterValue(param.timePeriod);
     return new Promise(resolve => {
       const params = this.getParameters(param);
       this.sharedCallsData(params)
@@ -124,6 +122,9 @@ export class CallsSharedService {
       this.callsService.getCallsData(...parameters).subscribe(
         ([providerSystems]) => {
           if (providerSystems) {
+            const startDate = (providerSystems || {}).ReportStartDate;
+            const endDate = (providerSystems || {}).ReportEndDate;
+            const timePeriodCalls: String = this.common.dateFormat(startDate) + ' - ' + this.common.dateFormat(endDate);
             const totalCalls = (providerSystems || {}).CallVolByQuesType;
             if (totalCalls) {
               try {
@@ -161,7 +162,7 @@ export class CallsSharedService {
                     labels: this.common.sideLabelWords(callsCounts, callsLabels),
                     color: this.common.sideLabelColor(callsCounts)
                   },
-                  this.timeFrame
+                  timePeriodCalls
                 );
               } catch (Error) {
                 console.log('Error in Calls Page | Question Type By Call Type', Error);
@@ -208,7 +209,7 @@ export class CallsSharedService {
                     labels: this.common.sideLabelWords(talkTimeCounts, talkTimeLabels),
                     color: this.common.sideLabelColor(talkTimeCounts)
                   },
-                  this.timeFrame
+                  timePeriodCalls
                 );
               } catch (Error) {
                 console.log('Error in Calls Page | TalkTime By Call Type', Error);
