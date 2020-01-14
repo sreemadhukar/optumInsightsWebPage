@@ -1,8 +1,9 @@
 <div class="content-wrapper">
   <div class="main-content">
     <div class="cards cust-width-title">
-      <app-breadcrumbs></app-breadcrumbs>
-      <div class="page-title">{{ healthSystemData.HealthCareOrganizationName }}</div>
+      <!--app-breadcrumbs></app-breadcrumbs-->
+      <div class="page-title">Health System Details</div>
+      <div class="healthcare-org-name">{{ healthSystemData.HealthCareOrganizationName }}</div>
     </div>
     <div class="health-system-details-block" *ngIf="healthSystemData">
       <div class="health-system-details" *ngIf="healthSystemData.All">
