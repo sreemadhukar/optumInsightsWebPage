@@ -167,7 +167,7 @@ export class KOPSharedService {
         .then((response: any) => {
           const totalResponse = [];
           response.forEach((responseItem: any) => {
-            if (responseItem && responseItem instanceof Array) {
+            if (responseItem && responseItem instanceof Array && responseItem.length > 0) {
               responseItem.forEach((innerResponseItem: any) => {
                 totalResponse.push(innerResponseItem);
               });
