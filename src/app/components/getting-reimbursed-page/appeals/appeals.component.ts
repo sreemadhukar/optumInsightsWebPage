@@ -81,7 +81,6 @@ export class AppealsComponent implements OnInit {
     }
 
     this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'appealsPage' });
-    this.timePeriod = this.common.getTimePeriodFilterValue(this.createPayloadService.payload.timePeriod);
     this.loading = true;
     this.mockCards = [{}, {}, {}, {}];
     this.currentSummary = [];
@@ -92,6 +91,11 @@ export class AppealsComponent implements OnInit {
       let AppealsCards: any;
       AppealsCards = appealsRateData;
       this.loading = false;
+      try {
+        this.timePeriod = appealsRateData[0].timeperiod;
+      } catch (Error) {
+        this.timePeriod = this.common.getTimePeriodFilterValue(this.createPayloadService.payload.timePeriod);
+      }
       this.overturnItem = AppealsCards;
     });
     this.appealsSharedService.getAppealsReasonData(this.createPayloadService.payload).then(appealsReason => {

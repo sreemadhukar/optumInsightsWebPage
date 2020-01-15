@@ -41,6 +41,7 @@ export class GettingReimbursedComponent implements OnInit {
   buttonName: any;
   detailClickUrl = '/GettingReimbursed';
   buttonNumber: any;
+  reloadFlag = true;
   @select() currentPage;
   public filterFlag = false;
   constructor(
@@ -134,7 +135,10 @@ export class GettingReimbursedComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.gettingReimbursedSharedService.gettingReimbursedTabName = 'gettingReimbursedSummary';
+    if (this.reloadFlag) {
+      this.gettingReimbursedSharedService.gettingReimbursedTabName = 'gettingReimbursedSummary';
+      this.reloadFlag = false;
+    }
     this.pageTitle = 'Getting Reimbursed';
 
     if (this.printStyle) {
