@@ -29,7 +29,7 @@ export class IssueResolution {
             section: this.section + key
           });
         } else {
-          const value = Issue_Resolution[key][subKey] ? Math.round(Issue_Resolution[key][subKey]) : null;
+          const value = Issue_Resolution[key][subKey] !== null ? Math.round(Issue_Resolution[key][subKey]) : null;
           if (this.singleCard && value !== null) {
             chartDataElement.quarters.push({ title: value + '' + chartDataElement.units });
           } else {

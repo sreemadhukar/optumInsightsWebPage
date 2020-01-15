@@ -23,7 +23,6 @@ export class PaymentsComponent implements OnInit {
   @Input() printStyle;
   title = 'Claims Paid Breakdown';
   MetricID = 'NA';
-  public claimsPaidTimePeriod;
   claimsPaidBreakBool: Boolean = false;
   subscription: any;
   paymentsItems: any;
@@ -36,11 +35,10 @@ export class PaymentsComponent implements OnInit {
   loading: boolean;
   loadingClaimsBreakdown: boolean;
   mockCards: any;
-  // timePeriod = 'Last 6 Months';
   paymentArray: Array<object>;
   cData = [];
   // chartData: Array<object>;
-  timePeriod: string;
+  timePeriodClaimsBreakdown: string;
   lob: string;
   taxID: Array<string>;
   constructor(
@@ -84,11 +82,9 @@ export class PaymentsComponent implements OnInit {
 
     this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'paymentsPage' });
     this.payments = [];
-    this.claimsPaidTimePeriod = this.common.getTimePeriodFilterValue(this.createPayloadService.payload.timePeriod);
     this.claimsPaidBreakBool = false;
     this.loading = true;
     this.loadingClaimsBreakdown = true;
-    this.timePeriod = this.common.getTimePeriodFilterValue(this.createPayloadService.payload.timePeriod);
     this.mockCards = [{}, {}];
     this.paymentsSharedService
       .sharedPaymentsData(this.createPayloadService.payload)
@@ -109,11 +105,12 @@ export class PaymentsComponent implements OnInit {
 
     // this.claimsPaidBreakBool = false;
     this.paymentsSharedService.getclaimsPaidData(this.createPayloadService.payload).then(
-      payData => {
+      data => {
         this.loadingClaimsBreakdown = false;
+        const payData = JSON.parse(JSON.stringify(data));
         try {
           if (payData) {
-            this.paymentArray = payData[0];
+            this.paymentArray = payData.data;
             this.cData = [];
             for (let p = 0; p < 1; p++) {
               this.cData.push({
@@ -122,10 +119,11 @@ export class PaymentsComponent implements OnInit {
               });
             }
             this.claimsPaidBreakBool = true;
+            this.timePeriodClaimsBreakdown = payData.timePeriod;
           }
         } catch (Error) {
           this.loadingClaimsBreakdown = false;
-          this.cData.push(payData);
+          this.cData.push(payData.data);
           this.claimsPaidBreakBool = false;
         }
       },

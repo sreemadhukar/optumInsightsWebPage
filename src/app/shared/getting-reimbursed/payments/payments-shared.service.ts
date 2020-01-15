@@ -212,7 +212,8 @@ export class PaymentsSharedService {
                   labels: ['Medicare & Retirement', 'Community & State', 'Employer & Individual', 'Uncategorized'],
                   color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC']
                 },
-                timeperiod: this.timeFrame
+                timeperiod:
+                  this.common.dateFormat(claimsData.Startdate) + ' - ' + this.common.dateFormat(claimsData.Enddate)
               };
               // AUTHOR: MADHUKAR - claims paid shows no color if the value is 0
               if (!paidData[0] && !paidData[1] && !paidData[2] && !paidData[3]) {
@@ -241,7 +242,8 @@ export class PaymentsSharedService {
                     labels: ['Medicare & Retirement', 'Community & State', 'Employer & Individual', 'Uncategorized'],
                     color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC']
                   },
-                  timeperiod: this.timeFrame
+                  timeperiod:
+                    this.common.dateFormat(claimsData.Startdate) + ' - ' + this.common.dateFormat(claimsData.Enddate)
                 };
               } // Date : 31/5/2019
             } else {
@@ -338,7 +340,8 @@ export class PaymentsSharedService {
                   labels: this.common.LOBSideLabels(lobData, paidLOBBoolean),
                   color: this.common.LOBSideLabelColors(lobData, paidLOBBoolean)
                 },
-                timeperiod: this.timeFrame
+                timeperiod:
+                  this.common.dateFormat(claimsData.Startdate) + ' - ' + this.common.dateFormat(claimsData.Enddate)
               };
             } else {
               claimsPaid = {
@@ -422,7 +425,8 @@ export class PaymentsSharedService {
                   gdata: ['card-inner', 'claimsYield'],
                   sdata: null
                 },
-                timeperiod: this.timeFrame
+                timeperiod:
+                  this.common.dateFormat(claimsData.Startdate) + ' - ' + this.common.dateFormat(claimsData.Enddate)
               };
             } else {
               claimsPaidRate = {
@@ -475,7 +479,6 @@ export class PaymentsSharedService {
     // let paidArray:  Array<Object> = [];
     return new Promise((resolve, reject) => {
       let paidBreakdown = [];
-      let paidArray: Array<Object> = [];
       this.gettingReimbursedService.getPaymentData(...parameters).subscribe(paymentDatafetch => {
         try {
           const paymentData = JSON.parse(JSON.stringify(paymentDatafetch));
@@ -489,7 +492,11 @@ export class PaymentsSharedService {
               paymentData[lobData].ClaimsLobSummary[0].AmountUHCPaid
             ];
           }
-          paidArray = [paidBreakdown];
+          const paidArray = {
+            data: paidBreakdown,
+            timePeriod:
+              this.common.dateFormat(paymentData.Startdate) + ' - ' + this.common.dateFormat(paymentData.Enddate)
+          };
           resolve(paidArray);
         } catch (Error) {
           const temp = {
