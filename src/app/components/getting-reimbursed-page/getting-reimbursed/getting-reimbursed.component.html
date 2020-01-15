@@ -60,7 +60,7 @@
             <div>
               <!--used item.toggle for temporary card removal, as toggle functionality is not built properly : srikar bobbiganipalli-->
               <app-card *ngIf="item.data != null && !item.toggle" class="cards" [chartData]="item"> </app-card>
-              <app-error-card *ngIf="item.status != null" class="cards" [data]="item"></app-error-card>
+              <app-error-card *ngIf="item.status != null && !item.toggle" class="cards" [data]="item"></app-error-card>
             </div>
           </div>
           <div *ngFor="let data of mockCards; let i = index">
