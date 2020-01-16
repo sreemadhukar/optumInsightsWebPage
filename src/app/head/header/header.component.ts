@@ -74,6 +74,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   printRoute: string;
   today = new Date();
   todaysDataTime = '';
+  public fullname = '';
 
   constructor(
     private breakpointObserver: BreakpointObserver,
@@ -100,6 +101,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
         if (JSON.parse(sessionStorage.getItem('loggedUser'))) {
           const userInfo = JSON.parse(sessionStorage.getItem('loggedUser'));
           this.username = userInfo.FirstName;
+          this.fullname = userInfo.FirstName + ' ' + userInfo.LastName;
         }
         this.mobileQuery = this.breakpointObserver.isMatched('(max-width: 1279px)');
         // alert(this.mobileQuery);
@@ -131,6 +133,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
     iconRegistry.addSvgIcon(
       'cross',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Content/round-clear-24px.svg')
+    );
+    iconRegistry.addSvgIcon(
+      'done',
+      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/round-done-24px.svg')
     );
 
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.ngOnInit());
@@ -165,6 +171,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
       if (JSON.parse(sessionStorage.getItem('loggedUser'))) {
         const userInfo = JSON.parse(sessionStorage.getItem('loggedUser'));
         this.username = userInfo.FirstName;
+        this.fullname = userInfo.FirstName + ' ' + userInfo.LastName;
       }
     });
     this.checkStorage.getEvent().subscribe(value => {
@@ -172,6 +179,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
         if (JSON.parse(sessionStorage.getItem('loggedUser'))) {
           const userInfo = JSON.parse(sessionStorage.getItem('loggedUser'));
           this.username = userInfo.FirstName;
+          this.fullname = userInfo.FirstName + ' ' + userInfo.LastName;
         }
       }
     });
