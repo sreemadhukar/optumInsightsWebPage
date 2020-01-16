@@ -28,12 +28,26 @@
     </div>
     <div *ngIf="advDropdownBool">
       <div class="dropdown-body">
-        <div (click)="advViewClicked('myView')" class="drop-item">
-          <span class="per-item">My Advocate View</span>
+        <div class="drop-toggle-item">
+          <span class="provider-padding per-item">Toggle Your View</span>
         </div>
-        <div (click)="advViewClicked('userView')" class="drop-item">
+        <div (click)="advViewClicked('myView')" class="drop-item icon">
+          <mat-icon class="nav-menu-icons lb-padd" svgIcon="done"></mat-icon>
+          <span class="provider-padding per-item">My View</span>
+          <span class="tiny-provider">{{ fullname }}</span>
+        </div>
+        <div (click)="advViewClicked('userView')" class="drop-item icon">
+          <mat-icon class="nav-menu-icons lb-padd" svgIcon="done"></mat-icon>
           <span class="provider-padding per-item">{{ healthSystemName }}</span>
           <span class="tiny-provider">See what the provider sees</span>
+        </div>
+        <div class="drop-item">
+          <p class="signout-label" (click)="signOut()">
+            <a>
+              <mat-icon class="nav-menu-icons" svgIcon="sign-out"></mat-icon
+              ><span class="sign-out-text left-padd">Sign Out </span>
+            </a>
+          </p>
         </div>
       </div>
     </div>
