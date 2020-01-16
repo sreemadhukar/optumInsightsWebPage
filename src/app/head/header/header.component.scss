@@ -34,6 +34,11 @@
     padding-left: 10px;
   }
 
+  .lb-padd {
+    padding-left: 10px;
+    padding-bottom: 20px;
+  }
+
   .drop-toggle-item {
     height: 39px;
     width: 282px;
@@ -74,11 +79,11 @@
     color: #196ecf;
   }
 
-  mat-icon {
+  .icon mat-icon {
     visibility: hidden;
   }
 
-  :hover mat-icon {
+  .icon:hover mat-icon {
     visibility: visible;
   }
 

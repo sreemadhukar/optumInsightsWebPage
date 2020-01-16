@@ -14,7 +14,8 @@ import {
   ViewEncapsulation,
   ViewChildren,
   QueryList,
-  OnDestroy
+  OnDestroy,
+  Inject
 } from '@angular/core';
 import { trigger, state, style, animate, transition } from '@angular/animations';
 import { formatDate } from '@angular/common';
@@ -29,6 +30,9 @@ import { CommonUtilsService } from '../../shared/common-utils.service';
 import { StorageService } from '../../shared/storage-service.service';
 import { EventEmitterService } from '../../shared/know-our-provider/event-emitter.service';
 import { SessionService } from '../../shared/session.service';
+import { DOCUMENT, Location } from '@angular/common';
+import { environment } from '../../../environments/environment';
+import { AuthenticationService } from '../../auth/_service/authentication.service';
 
 @Component({
   selector: 'app-header',
@@ -87,7 +91,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
     private utils: CommonUtilsService,
     private checkStorage: StorageService,
     private eventEmitter: EventEmitterService,
-    private sessionService: SessionService
+    private sessionService: SessionService,
+    @Inject(DOCUMENT) private document: any,
+    private authService: AuthenticationService
   ) {
     // to fetch the date and time
     const d = new Date();
@@ -224,6 +230,13 @@ export class HeaderComponent implements OnInit, OnDestroy {
       this.state = 'show';
     } else {
       this.state = 'show';
+    }
+  }
+
+  signOut() {
+    this.authService.logout();
+    if (!environment.internalAccess) {
+      this.document.location.href = environment.apiUrls.SsoLogoutUrl;
     }
   }
 
