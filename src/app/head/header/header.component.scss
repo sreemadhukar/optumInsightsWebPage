@@ -40,6 +40,7 @@
     border-radius: 3px 3px 0 0;
     background-color: #ffffff;
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
+    color: #757588;
   }
 
   .per-item {
@@ -71,6 +72,14 @@
   :active {
     background-color: #e3f0fd;
     color: #196ecf;
+  }
+
+  mat-icon {
+    visibility: hidden;
+  }
+
+  :hover mat-icon {
+    visibility: visible;
   }
 
   .menu-div {
