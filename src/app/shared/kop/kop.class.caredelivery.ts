@@ -1,3 +1,5 @@
+import { Trends } from './common/kop.class.trends';
+
 export class CareDelivery {
   public singleCard = false;
   public records: any;
@@ -12,6 +14,19 @@ export class CareDelivery {
     this.singleCard = records.length === 1 ? true : false;
     this.createSchema();
     this.createCard();
+    if (!this.singleCard) {
+      this.createTrend();
+    }
+  }
+  public createTrend() {
+    this.data.chartData.forEach((dataItem: any) => {
+      const { quarters, trends } = dataItem;
+      const [{ value: value1 }, { value: value2 }] = quarters;
+      if (trends) {
+        const trendsData = new Trends({ value1, value2 });
+        dataItem.sdata = trendsData.getData();
+      }
+    });
   }
 
   public createCard() {
@@ -24,6 +39,7 @@ export class CareDelivery {
           chartDataElement.report = false;
           chartDataElement.quarters.push({
             title: null,
+            value: null,
             currentQuarter: true,
             id: index,
             section: this.section
@@ -40,6 +56,7 @@ export class CareDelivery {
             chartDataElement.report = false;
             chartDataElement.quarters.push({
               title: value,
+              value: value || 0,
               currentQuarter: true,
               id: index,
               units: chartDataElement.units,
@@ -63,10 +80,7 @@ export class CareDelivery {
         singleCard: this.singleCard,
         report: false,
         color: ['#3381FF', '#80B0FF'],
-        sdata: {
-          sign: 'up',
-          data: 'Positive Trending'
-        },
+        trends: false,
         metricType: 'priorauthtat'
       },
       {
@@ -78,11 +92,8 @@ export class CareDelivery {
         singleCard: this.singleCard,
         caption: 'Prior auths requested',
         report: false,
+        trends: false,
         color: ['#3381FF', '#80B0FF'],
-        sdata: {
-          sign: 'up',
-          data: 'Positive Trending'
-        },
         metricType: 'priorauth'
       },
       {
@@ -93,11 +104,8 @@ export class CareDelivery {
         singleCard: this.singleCard,
         units: '',
         report: true,
+        trends: true,
         caption: 'Link Prior Auth NPS',
-        sdata: {
-          sign: 'up',
-          data: 'Positive Trending'
-        },
         metricType: 'kop'
       },
       {
@@ -110,11 +118,8 @@ export class CareDelivery {
         units: '%',
         report: true,
         caption: 'Ease of Medical Prior Auth (excl radiology)',
+        trends: false,
         color: ['#3381FF', '#E0E0E0'],
-        sdata: {
-          sign: 'up',
-          data: 'Positive Trending'
-        },
         metricType: 'kop'
       }
     ];
