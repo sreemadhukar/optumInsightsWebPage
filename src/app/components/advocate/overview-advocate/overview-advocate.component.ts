@@ -306,6 +306,7 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
     this.callsLineGraphLoading = true;
     this.userName = this.session.sessionStorage('loggedUser', 'FirstName');
     this.pagesubTitle = this.session.getHealthCareOrgName() + "'s insights at a glance.";
+
     this.monthlyLineGraph.chartId = 'non-payment-trend-block';
     this.monthlyLineGraph.titleData = [{}];
     this.monthlyLineGraph.generalData = [
@@ -322,10 +323,10 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
 
     this.monthlyLineGraph.chartData = [];
     this.trendMonthDisplay = false;
-
-    // This code is for line graph
-    this.nonPaymentService.sharedTrendByMonth(this.createPayloadService.payload).then(trendData => {
-      if (trendData === null) {
+    // This is for line graph
+    this.nonPaymentService.sharedTrendByMonth(this.createPayloadService.payload).then(data => {
+      const trendData = JSON.parse(JSON.stringify(data));
+      if (!trendData && !trendData.data) {
         this.trendMonthDisplay = false;
         this.monthlyLineGraph = {
           category: 'large-card',
@@ -337,7 +338,8 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
           timeperiod: null
         };
       } else {
-        this.monthlyLineGraph.chartData = trendData;
+        // this.timePeriodLineGraph = trendData.timePeriod;
+        this.monthlyLineGraph.chartData = trendData.data;
         this.trendMonthDisplay = true;
       }
     });
