@@ -323,7 +323,7 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
     this.monthlyLineGraph.chartData = [];
     this.trendMonthDisplay = false;
 
-    // This code is for line graph
+    // This line is for line graph
     this.nonPaymentService.sharedTrendByMonth(this.createPayloadService.payload).then(trendData => {
       if (trendData === null) {
         this.trendMonthDisplay = false;
