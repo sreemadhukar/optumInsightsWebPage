@@ -178,6 +178,7 @@ export class GettingReimbursedSharedService {
               title: 'Claims Non-Payment Rate',
               MetricID: this.MetricidService.MetricIDs.ClaimsNonPaymentRate,
               data: null,
+              toggle: true,
               timeperiod: null
             };
           } else if (claimsData != null) {
@@ -491,6 +492,7 @@ export class GettingReimbursedSharedService {
                 title: 'Claims Non-Payment Rate',
                 MetricID: this.MetricidService.MetricIDs.ClaimsNonPaymentRate,
                 data: null,
+                toggle: true,
                 status: 404,
                 besideData: null,
                 bottomData: null,
@@ -932,6 +934,7 @@ export class GettingReimbursedSharedService {
               title: 'Claims Non-Payment Rate',
               MetricID: this.MetricidService.MetricIDs.ClaimsNonPaymentRate,
               data: null,
+              toggle: true,
               timeperiod: null
             };
           } else if (claimsData != null) {
@@ -1420,6 +1423,7 @@ export class GettingReimbursedSharedService {
                 title: 'Claims Non-Payment Rate',
                 MetricID: this.MetricidService.MetricIDs.ClaimsNonPaymentRate,
                 data: null,
+                toggle: true,
                 status: 404,
                 besideData: null,
                 bottomData: null,
@@ -1727,6 +1731,7 @@ export class GettingReimbursedSharedService {
       this.gettingReimbursedService.getPaymentIntegrityData(parameters).subscribe(
         r => {
           if ((r !== null && typeof r !== 'string') || r !== 'OK') {
+            const paymentIntegrityData = JSON.parse(JSON.stringify(r));
             const result: any = r;
             const output: any = {};
             let returnedWidth = 4;
@@ -1769,7 +1774,10 @@ export class GettingReimbursedSharedService {
               this.getMonthname(result.VarianceStartDate) + ' ' + this.getFullyear(result.VarianceStartDate);
             output.VarianceEndDate =
               this.getMonthname(result.VarianceEndDate) + ' ' + this.getFullyear(result.VarianceEndDate);
-            output.timeperiod = this.timeFrame;
+            output.timeperiod =
+              this.common.dateFormat(paymentIntegrityData.StartDate + '-01') +
+              ' - ' +
+              this.common.dateFormat(paymentIntegrityData.EndDate + '-31');
             let sData: any = {};
             if (result.RecordsRequestedVariance > 0) {
               sData = { sign: 'down', data: output.RecordsRequestedVariance + ' †' };
