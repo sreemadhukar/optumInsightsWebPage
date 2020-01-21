@@ -178,6 +178,7 @@ export class GettingReimbursedSharedService {
               title: 'Claims Non-Payment Rate',
               MetricID: this.MetricidService.MetricIDs.ClaimsNonPaymentRate,
               data: null,
+              toggle: true,
               timeperiod: null
             };
           } else if (claimsData != null) {
@@ -491,6 +492,7 @@ export class GettingReimbursedSharedService {
                 title: 'Claims Non-Payment Rate',
                 MetricID: this.MetricidService.MetricIDs.ClaimsNonPaymentRate,
                 data: null,
+                toggle: true,
                 status: 404,
                 besideData: null,
                 bottomData: null,
@@ -594,7 +596,7 @@ export class GettingReimbursedSharedService {
                   sum += appealsData[0].LineOfBusiness.MedicareAndRetirement.ClinicalAppeals;
                 }
                 if (appealTypeForTitle === 'Closed Date') {
-                  sum = this.common.nFormatter(appealsData[0].LineOfBusiness[lobFullData].TotalClosedCount);
+                  sum += appealsData[0].LineOfBusiness.MedicareAndRetirement.TotalClosedCount;
                 }
                 submittedData.push(sum);
                 labelsData.push('Medicare & Retirement');
@@ -615,7 +617,7 @@ export class GettingReimbursedSharedService {
                   sum += appealsData[0].LineOfBusiness.CommunityAndState.ClinicalAppeals;
                 }
                 if (appealTypeForTitle === 'Closed Date') {
-                  sum = this.common.nFormatter(appealsData[0].LineOfBusiness[lobFullData].TotalClosedCount);
+                  sum += appealsData[0].LineOfBusiness.CommunityAndState.TotalClosedCount;
                 }
                 submittedData.push(sum);
                 labelsData.push('Community & State');
@@ -636,7 +638,7 @@ export class GettingReimbursedSharedService {
                   sum += appealsData[0].LineOfBusiness.EmployerAndIndividual.ClinicalAppeals;
                 }
                 if (appealTypeForTitle === 'Closed Date') {
-                  sum = this.common.nFormatter(appealsData[0].LineOfBusiness[lobFullData].TotalClosedCount);
+                  sum += appealsData[0].LineOfBusiness.EmployerAndIndividual.TotalClosedCount;
                 }
                 submittedData.push(sum);
                 labelsData.push('Employer & Individual');
@@ -658,7 +660,7 @@ export class GettingReimbursedSharedService {
                   sum += appealsData[0].LineOfBusiness.Uncategorized.ClinicalAppeals;
                 }
                 if (appealTypeForTitle === 'Closed Date') {
-                  sum = this.common.nFormatter(appealsData[0].LineOfBusiness[lobFullData].TotalClosedCount);
+                  sum += appealsData[0].LineOfBusiness.Uncategorized.TotalClosedCount;
                 }
                 submittedData.push(sum);
                 labelsData.push('Uncategorized');
@@ -932,6 +934,7 @@ export class GettingReimbursedSharedService {
               title: 'Claims Non-Payment Rate',
               MetricID: this.MetricidService.MetricIDs.ClaimsNonPaymentRate,
               data: null,
+              toggle: true,
               timeperiod: null
             };
           } else if (claimsData != null) {
@@ -1420,6 +1423,7 @@ export class GettingReimbursedSharedService {
                 title: 'Claims Non-Payment Rate',
                 MetricID: this.MetricidService.MetricIDs.ClaimsNonPaymentRate,
                 data: null,
+                toggle: true,
                 status: 404,
                 besideData: null,
                 bottomData: null,
@@ -1727,6 +1731,7 @@ export class GettingReimbursedSharedService {
       this.gettingReimbursedService.getPaymentIntegrityData(parameters).subscribe(
         r => {
           if ((r !== null && typeof r !== 'string') || r !== 'OK') {
+            const paymentIntegrityData = JSON.parse(JSON.stringify(r));
             const result: any = r;
             const output: any = {};
             let returnedWidth = 4;
@@ -1769,7 +1774,10 @@ export class GettingReimbursedSharedService {
               this.getMonthname(result.VarianceStartDate) + ' ' + this.getFullyear(result.VarianceStartDate);
             output.VarianceEndDate =
               this.getMonthname(result.VarianceEndDate) + ' ' + this.getFullyear(result.VarianceEndDate);
-            output.timeperiod = this.timeFrame;
+            output.timeperiod =
+              this.common.dateFormat(paymentIntegrityData.StartDate + '-01') +
+              ' - ' +
+              this.common.dateFormat(paymentIntegrityData.EndDate + '-31');
             let sData: any = {};
             if (result.RecordsRequestedVariance > 0) {
               sData = { sign: 'down', data: output.RecordsRequestedVariance + ' †' };
@@ -1830,9 +1838,13 @@ export class GettingReimbursedSharedService {
   }
 
   public getMonthname(dt) {
-    const d = new Date(dt);
+    const month = dt.substr(dt.indexOf('-') + 1);
     const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-    return months[d.getMonth()];
+    return months[Number(month) - 1];
+    //     const d = new Date(dt);
+    // const d = new Date(dt + ', UTC-06:00'); // use for timezone differences
+    // const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    // return months[d.getMonth()];
   }
 
   public getFullyear(dt) {
@@ -1911,7 +1923,7 @@ export class GettingReimbursedSharedService {
             sum += appealsData[0].LineOfBusiness.MedicareAndRetirement.ClinicalAppeals;
           }
           if (appealsFilterSelected === 'DOC') {
-            sum = this.common.nFormatter(appealsData[0].LineOfBusiness[lobFullData].TotalClosedCount);
+            sum += appealsData[0].LineOfBusiness.MedicareAndRetirement.TotalClosedCount;
           }
           submittedData.push(sum);
           labelsData.push('Medicare & Retirement');
@@ -1936,7 +1948,7 @@ export class GettingReimbursedSharedService {
             sum += appealsData[0].LineOfBusiness.CommunityAndState.ClinicalAppeals;
           }
           if (appealsFilterSelected === 'DOC') {
-            sum = this.common.nFormatter(appealsData[0].LineOfBusiness[lobFullData].TotalClosedCount);
+            sum += appealsData[0].LineOfBusiness.CommunityAndState.TotalClosedCount;
           }
           submittedData.push(sum);
           labelsData.push('Community & State');
@@ -1961,7 +1973,7 @@ export class GettingReimbursedSharedService {
             sum += appealsData[0].LineOfBusiness.EmployerAndIndividual.ClinicalAppeals;
           }
           if (appealsFilterSelected === 'DOC') {
-            sum = this.common.nFormatter(appealsData[0].LineOfBusiness[lobFullData].TotalClosedCount);
+            sum += appealsData[0].LineOfBusiness.EmployerAndIndividual.TotalClosedCount;
           }
           submittedData.push(sum);
           labelsData.push('Employer & Individual');
@@ -2012,7 +2024,7 @@ export class GettingReimbursedSharedService {
               appealsData[0].LineOfBusiness[lobFullData].ClinicalAppeals;
           }
           if (appealsFilterSelected === 'DOC') {
-            sum = this.common.nFormatter(appealsData[0].LineOfBusiness[lobFullData].TotalClosedCount);
+            sum += appealsData[0].LineOfBusiness[lobFullData].TotalClosedCount;
           }
           submittedData.push(sum);
           labelsData.push('Other Lines of Business');

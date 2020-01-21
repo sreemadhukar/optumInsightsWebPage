@@ -63,59 +63,6 @@ export class KOPSharedService {
     });
   }
 
-  public getPriorAuthSummary(params: any) {
-    return new Promise((resolve, reject) => {
-      const { filter: selectedFilter } = params;
-      const { priorAuthFilters } = selectedFilter;
-
-      const paramsArray = priorAuthFilters.map((param: string) => {
-        return { filter: param };
-      });
-
-      const tasks = [this.getKopData('priorauthtat', paramsArray), this.getKopData('priorauth', paramsArray)];
-
-      Promise.all(tasks)
-        .then((response: any) => {
-          if (!response || response.length === 0) {
-            return resolve(null);
-          }
-
-          // Merging two responses in to one response
-          const priorAuthResponse = [];
-          const [priorAuthTATResponse, priorAuthVolumeResponse] = response;
-
-          const noOfMetrics = priorAuthTATResponse.length || priorAuthVolumeResponse.length;
-          for (let i = 0; i < noOfMetrics; i++) {
-            priorAuthResponse[i] = priorAuthTATResponse[i];
-            Object.assign(priorAuthResponse[i].CareDelivery, priorAuthVolumeResponse[i].CareDelivery);
-          }
-
-          for (let i = 0; i < priorAuthResponse.length; i++) {
-            const {
-              CareDelivery: {
-                PriorAuthTAT: { PriorAuthTATValue },
-                PriorAuthRequested: { PriorAuthRequestedValue }
-              }
-            } = priorAuthResponse[i];
-            priorAuthResponse[i].CareDelivery.PriorAuthTAT.PriorAuthTATValue = PriorAuthTATValue
-              ? PriorAuthTATValue / PriorAuthRequestedValue
-              : 0;
-          }
-          console.log(priorAuthResponse);
-
-          const careDeliveryInstance = new CareDelivery({ records: priorAuthResponse });
-          const careDelivery = careDeliveryInstance.getData();
-
-          return resolve({
-            careDelivery
-          });
-        })
-        .catch(err => {
-          return reject(err);
-        });
-    });
-  }
-
   public getPriorAuthTATSummary(params: any) {
     return new Promise(resolve => {
       const { filter: selectedFilter } = params;
@@ -126,6 +73,30 @@ export class KOPSharedService {
       });
 
       this.getKopData('priorauthtat', paramsArray).then((response: any) => {
+        if (!response || response.length === 0) {
+          return resolve(null);
+        }
+
+        const careDeliveryInstance = new CareDelivery({ records: response });
+        const careDelivery = careDeliveryInstance.getData();
+
+        return resolve({
+          careDelivery
+        });
+      });
+    });
+  }
+
+  public getPriorAuthSummary(params: any) {
+    return new Promise(resolve => {
+      const { filter: selectedFilter } = params;
+      const { priorAuthFilters } = selectedFilter;
+
+      const paramsArray = priorAuthFilters.map((param: string) => {
+        return { filter: param };
+      });
+
+      this.getKopData('priorauth', paramsArray).then((response: any) => {
         if (!response || response.length === 0) {
           return resolve(null);
         }
@@ -196,10 +167,12 @@ export class KOPSharedService {
         .then((response: any) => {
           const totalResponse = [];
           response.forEach((responseItem: any) => {
-            if (responseItem) {
+            if (responseItem && responseItem instanceof Array && responseItem.length > 0) {
               responseItem.forEach((innerResponseItem: any) => {
                 totalResponse.push(innerResponseItem);
               });
+            } else {
+              return resolve([]);
             }
           });
           return resolve(totalResponse);

@@ -183,7 +183,10 @@ export class AppealsSharedService {
                   }
                 ]
               },
-              timeperiod: this.timeFrame
+              timeperiod:
+                this.common.dateFormat(appealsData[0].StartDate) +
+                ' - ' +
+                this.common.dateFormat(appealsData[0].EndDate)
             };
           } else {
             appealsSubmitted = {
@@ -227,7 +230,10 @@ export class AppealsSharedService {
                 gdata: ['card-inner', 'claimsAppealOverturned'],
                 sdata: null
               },
-              timeperiod: this.timeFrame
+              timeperiod:
+                this.common.dateFormat(appealsData[0].StartDate) +
+                ' - ' +
+                this.common.dateFormat(appealsData[0].EndDate)
             };
           } else {
             appealsOverturned = {
@@ -443,7 +449,10 @@ export class AppealsSharedService {
                       }
                     ]
                   },
-                  timeperiod: this.timeFrame
+                  timeperiod:
+                    this.common.dateFormat(appealsData[0].StartDate) +
+                    ' - ' +
+                    this.common.dateFormat(appealsData[0].EndDate)
                 };
               } else {
                 appealsOverturnedRate = {
@@ -640,7 +649,10 @@ export class AppealsSharedService {
                       }
                     ]
                   },
-                  timeperiod: this.timeFrame
+                  timeperiod:
+                    this.common.dateFormat(appealsData[0].StartDate) +
+                    ' - ' +
+                    this.common.dateFormat(appealsData[0].EndDate)
                 };
               } else {
                 appealsOverturnedRate = {
@@ -816,6 +828,7 @@ export class AppealsSharedService {
         const submittedData = [];
         const labelsData = [];
         const colorsData = [];
+
         if (
           appealsData[0].LineOfBusiness.hasOwnProperty('MedicareAndRetirement') &&
           appealsData[0].LineOfBusiness.MedicareAndRetirement != null &&
@@ -835,7 +848,7 @@ export class AppealsSharedService {
             sum += appealsData[0].LineOfBusiness.MedicareAndRetirement.ClinicalAppeals;
           }
           if (appealsFilterSelected === 'DOC') {
-            sum = this.common.nFormatter(appealsData[0].LineOfBusiness[lobFullData].TotalClosedCount);
+            sum += appealsData[0].LineOfBusiness.MedicareAndRetirement.TotalClosedCount;
           }
           submittedData.push(sum);
           labelsData.push('Medicare & Retirement');
@@ -860,7 +873,7 @@ export class AppealsSharedService {
             sum += appealsData[0].LineOfBusiness.CommunityAndState.ClinicalAppeals;
           }
           if (appealsFilterSelected === 'DOC') {
-            sum = this.common.nFormatter(appealsData[0].LineOfBusiness[lobFullData].TotalClosedCount);
+            sum += appealsData[0].LineOfBusiness.CommunityAndState.TotalClosedCount;
           }
           submittedData.push(sum);
           labelsData.push('Community & State');
@@ -885,7 +898,7 @@ export class AppealsSharedService {
             sum += appealsData[0].LineOfBusiness.EmployerAndIndividual.ClinicalAppeals;
           }
           if (appealsFilterSelected === 'DOC') {
-            sum = this.common.nFormatter(appealsData[0].LineOfBusiness[lobFullData].TotalClosedCount);
+            sum += appealsData[0].LineOfBusiness.EmployerAndIndividual.TotalClosedCount;
           }
           submittedData.push(sum);
           labelsData.push('Employer & Individual');
@@ -910,7 +923,7 @@ export class AppealsSharedService {
             sum += appealsData[0].LineOfBusiness.Uncategorized.ClinicalAppeals;
           }
           if (appealsFilterSelected === 'DOC') {
-            sum = this.common.nFormatter(appealsData[0].LineOfBusiness[lobFullData].TotalClosedCount);
+            sum += appealsData[0].LineOfBusiness.Uncategorized.TotalClosedCount;
           }
           submittedData.push(sum);
           labelsData.push('Uncategorized');
@@ -938,7 +951,7 @@ export class AppealsSharedService {
               appealsData[0].LineOfBusiness[lobFullData].ClinicalAppeals;
           }
           if (appealsFilterSelected === 'DOC') {
-            sum = this.common.nFormatter(appealsData[0].LineOfBusiness[lobFullData].TotalClosedCount);
+            sum += appealsData[0].LineOfBusiness[lobFullData].TotalClosedCount;
           }
           submittedData.push(sum);
           labelsData.push('Other Lines of Business');
@@ -991,7 +1004,8 @@ export class AppealsSharedService {
               }
             ]
           },
-          timeperiod: this.timeFrame
+          timeperiod:
+            this.common.dateFormat(appealsData[0].StartDate) + ' - ' + this.common.dateFormat(appealsData[0].EndDate)
         };
       } else {
         appealsSubmitted = {
@@ -1038,7 +1052,8 @@ export class AppealsSharedService {
             gdata: ['card-inner', 'claimsAppealOverturned'],
             sdata: null
           },
-          timeperiod: this.timeFrame
+          timeperiod:
+            this.common.dateFormat(appealsData[0].StartDate) + ' - ' + this.common.dateFormat(appealsData[0].EndDate)
         };
       } else {
         appealsOverturned = {

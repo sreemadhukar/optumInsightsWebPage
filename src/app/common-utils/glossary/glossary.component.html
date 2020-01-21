@@ -43,7 +43,13 @@
               /></span>
               <div>
                 <span [innerHTML]="glossary.BusinessGlossary.ProviderDashboardName.Definition"></span>
-                <a class="glossary-definition-tag" [href]="hyperlink" target="_blank">{{ split }}</a>
+                <a
+                  class="glossary-definition-tag"
+                  [href]="hyperlink"
+                  target="_blank"
+                  *ngIf="glossary.BusinessGlossary.ProviderDashboardName.MetricID == 301"
+                  >{{ split }}</a
+                >
               </div>
             </div>
             <!-- <div>

@@ -103,7 +103,6 @@ export class NonPaymentSharedService {
               const amountPaidLOB = nonPaymentData1[lobValue].ClaimsLobSummary[0].AmountDenied;
               nonPaidData.push(amountPaid - amountPaidLOB);
             }
-
             claimsNotPaid = {
               category: 'app-card',
               type: 'donutWithLabel',
@@ -129,7 +128,10 @@ export class NonPaymentSharedService {
                 labels: this.common.lobNameForSideLabels(lobValue, nonPaymentData1),
                 color: this.common.lobColorForLabels(lobValue, nonPaymentData1)
               },
-              timeperiod: this.common.getTimePeriodFilterValue(param.timePeriod)
+              timeperiod:
+                this.common.dateFormat(nonPaymentData1.Startdate) +
+                ' - ' +
+                this.common.dateFormat(nonPaymentData1.Enddate)
             };
           } else {
             claimsNotPaid = {
@@ -171,7 +173,10 @@ export class NonPaymentSharedService {
                 gdata: ['card-inner', 'claimsNonPaymentRate'],
                 sdata: null
               },
-              timeperiod: this.common.getTimePeriodFilterValue(param.timePeriod)
+              timeperiod:
+                this.common.dateFormat(nonPaymentData1.Startdate) +
+                ' - ' +
+                this.common.dateFormat(nonPaymentData1.Enddate)
             };
           } else {
             claimsNotPaidRate = {
@@ -181,6 +186,7 @@ export class NonPaymentSharedService {
               title: 'Claims Non-Payment Rate',
               MetricID: this.MetricidService.MetricIDs.ClaimsNonPaymentRate,
               data: null,
+              toggle: true,
               timeperiod: null
             };
           } // end if else
@@ -336,7 +342,11 @@ export class NonPaymentSharedService {
                 value: '$' + this.common.nFormatter(tempArray[i].DenialAmount),
                 numeric: tempArray[i].DenialAmount,
                 maxValue: maxTopBar,
-                id: tempArray[i].Claimdenialcategorylevel1shortname.replace(/[^a-zA-Z0-9]/g, '') + 'topReasons'
+                id: tempArray[i].Claimdenialcategorylevel1shortname.replace(/[^a-zA-Z0-9]/g, '') + 'topReasons',
+                timePeriod:
+                  this.common.dateFormat(topCategories.Startdate) +
+                  ' - ' +
+                  this.common.dateFormat(topCategories.Enddate)
               });
             }
             resolve(topReasons);
@@ -385,9 +395,10 @@ export class NonPaymentSharedService {
     let parameters = [];
     parameters = this.getParameterCategories(param);
     return new Promise((resolve, reject) => {
-      this.nonPaymentService.getNonPaymentTrendByMonth(parameters).subscribe(nonPaymentsTrendData => {
+      this.nonPaymentService.getNonPaymentTrendByMonth(parameters).subscribe(data => {
         try {
           // const lobData = this.lob;
+          const nonPaymentsTrendData = JSON.parse(JSON.stringify(data));
           const filter_data_claimSummary = [];
           nonPaymentsTrendData.forEach(element => {
             let monthlyData = [];
@@ -411,8 +422,16 @@ export class NonPaymentSharedService {
             dateB = new Date(b.month);
             return dateA - dateB; // sort by date ascending
           });
-          resolve(filter_data_claimSummary);
+          const dataTrendLine = {
+            data: filter_data_claimSummary,
+            timePeriod:
+              this.common.dateFormat(nonPaymentsTrendData[0].Startdate) +
+              ' - ' +
+              this.common.dateFormat(nonPaymentsTrendData[0].Enddate)
+          };
+          resolve(dataTrendLine);
         } catch (Error) {
+          console.log('Error in Trend Line Graph NonPayments', Error);
           resolve(null);
         }
       });

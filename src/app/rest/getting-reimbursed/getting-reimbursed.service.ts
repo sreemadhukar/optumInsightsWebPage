@@ -114,7 +114,6 @@ export class GettingReimbursedService {
   public getPaymentIntegrityData(parameters) {
     const piURL = this.APP_URL + this.PAYMENT_INTEGRITY_PATH + parameters.providerkey;
     let params = new HttpParams();
-
     if (parameters.timeperiod !== '') {
       params = params.append('timeFilter', parameters.timeperiod);
     }
