@@ -39,7 +39,7 @@ export class NPSSummary {
         dataItem.sdata.data = 'Negative Trending';
         dataItem.sdata.sign = 'down';
       } else {
-        dataItem.sdata.data = 'Nuetral Trending';
+        dataItem.sdata.data = 'Neutral Trending';
         dataItem.sdata.sign = 'neutral';
       }
     });

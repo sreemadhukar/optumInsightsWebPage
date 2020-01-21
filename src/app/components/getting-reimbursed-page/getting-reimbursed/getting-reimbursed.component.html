@@ -48,7 +48,7 @@
               <span class="non-payment-link"> Looking for Non-Payments? </span>
             </a>
           </div>
-          <div *ngIf="currentTabTitle != '' && currentTabTitle != 'Claims Submissions*'">
+          <div *ngIf="currentTabTitle != '' && currentTabTitle != 'Claims Submissions'">
             <button *ngIf="!printStyle" (click)="onDetailsButtonClick(buttonNumber, $event)" class="details-button">
               {{ buttonName }}
             </button>
@@ -60,7 +60,7 @@
             <div>
               <!--used item.toggle for temporary card removal, as toggle functionality is not built properly : srikar bobbiganipalli-->
               <app-card *ngIf="item.data != null && !item.toggle" class="cards" [chartData]="item"> </app-card>
-              <app-error-card *ngIf="item.status != null" class="cards" [data]="item"></app-error-card>
+              <app-error-card *ngIf="item.status != null && !item.toggle" class="cards" [data]="item"></app-error-card>
             </div>
           </div>
           <div *ngFor="let data of mockCards; let i = index">
@@ -88,6 +88,6 @@
         <!-- end Print Style-->
       </div>
     </div>
-    <app-clarify-claims-message *ngIf="showDOSmessage"></app-clarify-claims-message>
+    <!--app-clarify-claims-message *ngIf="showDOSmessage"></app-clarify-claims-message-->
   </div>
 </div>
