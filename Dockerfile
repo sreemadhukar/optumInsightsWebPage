@@ -4,7 +4,7 @@ COPY package.json ./
 
 COPY .npmrc ./
 
-RUN npm i node-sass@4.13.0 --no-save && mkdir /app /.pm2 && cp -R ./node_modules ./app && chmod 777 /.pm2
+RUN npm i --save-dev node-sass && mkdir /app /.pm2 && cp -R ./node_modules ./app && chmod 777 /.pm2
 
 ARG env_var
 
