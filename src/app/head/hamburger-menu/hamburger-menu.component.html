@@ -128,7 +128,7 @@
 
                   <a
                     class="nav-sub-category-items second-level-link "
-                    (click)="collapseExpansionPanels(rowIndex)"
+                    (click)="collapseExpansionPanels(supersubcategory.path)"
                     [routerLinkActiveOptions]="{ exact: true }"
                     mat-list-item
                     routerLink="{{ supersubcategory.path }}"
@@ -141,7 +141,7 @@
                 <a
                   *ngIf="!subcategory.children"
                   class="nav-sub-category-items"
-                  (click)="collapseExpansionPanels(rowIndex)"
+                  (click)="collapseExpansionPanels(subcategory.path)"
                   [routerLinkActiveOptions]="{ exact: true }"
                   mat-list-item
                   routerLink="{{ subcategory.path }}"
@@ -153,7 +153,7 @@
             <!-- CATEGORY WHICH HAS NO SUB CATEGORIES -->
             <div *ngIf="checkToggle(category.disabled)">
               <a
-                (click)="collapseExpansionPanels()"
+                (click)="collapseExpansionPanels(category.path)"
                 class="nav-no-child-category"
                 [routerLinkActiveOptions]="{ exact: true }"
                 mat-list-item

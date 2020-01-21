@@ -545,9 +545,9 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     this.themeService.setDarkTheme(isDarkTheme);
   }
   /** FUNCTIONS TO COLLAPSE LEFT MENU **/
-  collapseExpansionPanels(id) {
+  collapseExpansionPanels(path) {
     window.scrollTo(300, 0);
-    // this.allExpandState(false, id - 1);
+    this.allExpandState(false, path);
   }
 
   openDialog(): void {
@@ -638,18 +638,35 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     this.dialog.open(ProviderSearchComponent, dialogConfig);
   }
 
-  private allExpandState(value: boolean, id) {
-    this._allExpandState = value;
-    this.togglePanels(value, id);
+  private allExpandState(value: boolean, path) {
+    // this._allExpandState = value;
+    this.togglePanels(value, path);
   }
 
-  private togglePanels(value: boolean, id) {
+  private togglePanels(value: boolean, path) {
     // this.viewPanels.forEach(p => value ? p.open() : p.close());
 
     /** USED TO COLLAPSE REMAINING ACCORDIANS OTHER THAN CLICKED ONE **/
     this.viewPanels.forEach(element => {
-      if (element.id !== 'cdk-accordion-child-' + id) {
-        if (value) {
+      if (
+        path === '/GettingReimbursed' ||
+        path === '/GettingReimbursed/Payments' ||
+        path === '/GettingReimbursed/NonPayments' ||
+        path === '/GettingReimbursed/Appeals'
+      ) {
+        if (element.id === 'cdk-accordion-child-0') {
+          element.open();
+        } else {
+          element.close();
+        }
+      } else if (path === '/GettingReimbursed/PaymentIntegrity') {
+        if (element.id === 'cdk-accordion-child-0' || element.id === 'cdk-accordion-child-1') {
+          element.open();
+        } else {
+          element.close();
+        }
+      } else if (path === '/ServiceInteraction/SelfService' || path === '/ServiceInteraction/Calls') {
+        if (element.id === 'cdk-accordion-child-2') {
           element.open();
         } else {
           element.close();
