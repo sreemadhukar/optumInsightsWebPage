@@ -45,6 +45,7 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
   monthlyLineGraph: any = [{}];
   trendMonthDisplay = false;
   trendTitleForClaims = 'Claims Appeals Submitted';
+  PODTitle = 'Payments by Submission';
   appealsloading: boolean;
   appealsmockCards: any;
   totalAppeals: any;
