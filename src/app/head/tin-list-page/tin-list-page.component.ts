@@ -40,7 +40,7 @@ export class TinListPageComponent implements OnInit {
     { previousPage: 'selfServicePage', urlRout: '/ServiceInteraction/SelfService' },
     { previousPage: 'callsPage', urlRout: '/ServiceInteraction/Calls' }
   ];
-  @select() currentPage;
+  @select(['uhc', 'currentPage']) currentPage;
   constructor(
     private iconRegistry: MatIconRegistry,
     private router: Router,
