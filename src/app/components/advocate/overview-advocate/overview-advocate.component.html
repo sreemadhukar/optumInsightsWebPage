@@ -166,6 +166,17 @@
     <!-- Claims Yield card starts here-->
 
     <div class="height1Separator"></div>
+    <div class="stacked-bar-block">
+      <app-common-header
+        [title]="PODTitle"
+        class="full-display bottom-margin-bar-block"
+        (helpIconClicked)="helpIconClick($event)"
+      ></app-common-header>
+      <div class="stacked-area">
+        <app-stacked-bar-chart></app-stacked-bar-chart>
+      </div>
+      <app-common-footer [timePeriod]="timePeriod" class="width-100 time-period-trend"></app-common-footer>
+    </div>
 
     <!-- <div *ngFor="let data of downRowMockCards; let i = index">
       <app-card class="cards" [skeleton]="pbsLoading" *ngIf="pbsLoading"> </app-card>
