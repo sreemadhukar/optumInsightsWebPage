@@ -49,6 +49,8 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
   trendTitle = 'Claims Non-Payment Trend';
   section: any = [];
   timePeriod: string;
+  timePeriodTopReaons: string;
+  timePeriodLineGraph: string;
   // lob: string;
   // taxID: Array<string>;
   @Input() printStyle;
@@ -71,145 +73,6 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
   mockCardTwo: any;
   barChartsArray: any;
 
-  /*
-  barChartsArray = [
-    {
-      title: 'Need More Information',
-      value: '$2.6M',
-      numeric: 2600000,
-      top5: [
-        {
-          text: 'Requested Information Not Submitted/Not Submitted on Time',
-          value: '$1.6M'
-        },
-        {
-          text: 'Requested Information Not Submitted/Not Submitted on Time',
-          value: '$1.6M'
-        },
-        {
-          text: 'Requested Information Not Submitted/Not Submitted on Time',
-          value: '$1.6M'
-        },
-        {
-          text: 'Requested Information Not Submitted/Not Submitted on Time',
-          value: '$1.6M'
-        },
-        {
-          text: 'Requested Information Not Submitted/Not Submitted on Time',
-          value: '$1.6M'
-        }
-      ]
-    },
-    {
-      title: 'No Auth Notice Ref',
-      value: '$999.9K',
-      numeric: 999900,
-      top5: [
-        {
-          text: 'Requested Information Not Submitted/Not Submitted on Time',
-          value: '$1.6M'
-        },
-        {
-          text: 'Requested Information Not Submitted/Not Submitted on Time',
-          value: '$1.6M'
-        },
-        {
-          text: 'Requested Information Not Submitted/Not Submitted on Time',
-          value: '$1.6M'
-        },
-        {
-          text: 'Requested Information Not Submitted/Not Submitted on Time',
-          value: '$1.6M'
-        },
-        {
-          text: 'Requested Information Not Submitted/Not Submitted on Time',
-          value: '$1.6M'
-        }
-      ]
-    },
-    {
-      title: 'Claims Payment Policy',
-      value: '$754.8K',
-      numeric: 754800,
-      top5: [
-        {
-          text: 'Requested Information Not Submitted/Not Submitted on Time',
-          value: '$1.6M'
-        },
-        {
-          text: 'Requested Information Not Submitted/Not Submitted on Time',
-          value: '$1.6M'
-        },
-        {
-          text: 'Requested Information Not Submitted/Not Submitted on Time',
-          value: '$1.6M'
-        },
-        {
-          text: 'Requested Information Not Submitted/Not Submitted on Time',
-          value: '$1.6M'
-        },
-        {
-          text: 'Requested Information Not Submitted/Not Submitted on Time',
-          value: '$1.6M'
-        }
-      ]
-    },
-    {
-      title: 'No Benefit Coverage',
-      value: '$354.2K',
-      numeric: 354200,
-      top5: [
-        {
-          text: 'Requested Information Not Submitted/Not Submitted on Time',
-          value: '$1.6M'
-        },
-        {
-          text: 'Requested Information Not Submitted/Not Submitted on Time',
-          value: '$1.6M'
-        },
-        {
-          text: 'Requested Information Not Submitted/Not Submitted on Time',
-          value: '$1.6M'
-        },
-        {
-          text: 'Requested Information Not Submitted/Not Submitted on Time',
-          value: '$1.6M'
-        },
-        {
-          text: 'Requested Information Not Submitted/Not Submitted on Time',
-          value: '$1.6M'
-        }
-      ]
-    },
-    {
-      title: 'Not Categorized',
-      value: '$232.2K',
-      numeric: 232200,
-      top5: [
-        {
-          text: 'Requested Information Not Submitted/Not Submitted on Time',
-          value: '$1.6M'
-        },
-        {
-          text: 'Requested Information Not Submitted/Not Submitted on Time',
-          value: '$1.6M'
-        },
-        {
-          text: 'Requested Information Not Submitted/Not Submitted on Time',
-          value: '$1.6M'
-        },
-        {
-          text: 'Requested Information Not Submitted/Not Submitted on Time',
-          value: '$1.6M'
-        },
-        {
-          text: 'Requested Information Not Submitted/Not Submitted on Time',
-          value: '$1.6M'
-        }
-      ]
-    }
-  ];
-  */
   constructor(
     public MetricidService: GlossaryMetricidService,
     private checkStorage: StorageService,
@@ -265,7 +128,7 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/keyboard_arrow_down-24px.svg')
     );
     this.printRoute = '/GettingReimbursed/NonPayments/print-nonpayments';
-    this.pageTitle = 'Claims Non-Payments*';
+    this.pageTitle = 'Claims Non-Payments';
     this.pageSubTitle = 'Getting Reimbursed - Non-Payments';
     this.createPayloadService.getEvent().subscribe(value => {
       this.ngOnInit();
@@ -317,6 +180,8 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
             data: null,
             timeperiod: null
           };
+        } else {
+          this.timePeriodTopReaons = this.barChartsArray[0].timePeriod;
         }
       },
       error => {
@@ -345,8 +210,9 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
     this.monthlyLineGraph.chartData = [];
     this.trendMonthDisplay = false;
     // This is for line graph
-    this.nonPaymentService.sharedTrendByMonth(this.createPayloadService.payload).then(trendData => {
-      if (trendData === null) {
+    this.nonPaymentService.sharedTrendByMonth(this.createPayloadService.payload).then(data => {
+      const trendData = JSON.parse(JSON.stringify(data));
+      if (!trendData && !trendData.data) {
         this.trendMonthDisplay = false;
         this.monthlyLineGraph = {
           category: 'large-card',
@@ -358,7 +224,8 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
           timeperiod: null
         };
       } else {
-        this.monthlyLineGraph.chartData = trendData;
+        this.timePeriodLineGraph = trendData.timePeriod;
+        this.monthlyLineGraph.chartData = trendData.data;
         this.trendMonthDisplay = true;
       }
     });

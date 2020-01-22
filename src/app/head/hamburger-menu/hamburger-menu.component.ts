@@ -136,6 +136,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
   filterData: any[] = [];
   customFilter = false;
   fromKOP = false;
+  advocateView = false;
 
   /** CONSTRUCTOR **/
   constructor(
@@ -167,6 +168,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     this.bgWhite = false;
     this.showPrintHeader = false;
     this.fromKOP = false;
+    this.advocateView = false;
     this.checkAdv = this.sessionService.checkAdvocateRole();
     this.checkPro = this.sessionService.checkProjectRole();
     this.checkExecutive = this.sessionService.checkExecutiveRole();
@@ -186,6 +188,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
       });
     if (this.checkAdv.value) {
       this.navCategories = this.navCategories.filter(item => item.name !== 'Summary Trends');
+      sessionStorage.setItem('advocateView', 'true');
     }
 
     // to disable the header/footer/body when not authenticated
@@ -218,7 +221,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
           )
         );
         /*
-        for login, providerSearch screen , filters has no role to play, so for them Filters should be close,
+         for login, providerSearch screen , filters has no role to play, so for them Filters should be close,
          we are calling it explicity because suppose user clicks on Filter and filter drawer opens up, now logout
          occures, user will land to the login screen with filter drawer opened, so that is the issue,
          To tackle that we have service which we imported at app.component so when user's timesout it will publish the
@@ -256,6 +259,17 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
           this.fromKOP = true;
         } else {
           this.fromKOP = false;
+        }
+        if (
+          sessionStorage.getItem('advocateView') === 'true' &&
+          !this.makeAbsolute &&
+          event.url !== '/OverviewPageAdvocate' &&
+          event.url !== '/OverviewPageAdvocate/HealthSystemDetails' &&
+          this.checkAdv.value
+        ) {
+          this.advocateView = true;
+        } else {
+          this.advocateView = false;
         }
       }
       // PLEASE DON'T MODIFY THIS
@@ -328,17 +342,14 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
       // Check whether we have PCOR Data or not, if yes then include the PCOR option in navigation bar
       this.checkPcorData();
     });
-    const currentUser: any = JSON.parse(sessionStorage.getItem('currentUser'))[0];
-    if (currentUser.hasOwnProperty('Providers')) {
-      this.externalProvidersCount = currentUser.Providers.length > 1 ? true : false;
-    }
+
     /*
-        for login page filters has no role to play, so for them Filters should be close,
-         we are calling it explicity because suppose user clicks on Filter and filter drawer opens up, now logout
-         occures, user will land to the login screen with filter drawer opened, so that is the issue,
-         To tackle that we have service which we imported at app.component so when user's timesout it will publish the
-         the value, which we subscribed using Subject 'filterClose'.
-    */
+     for login page filters has no role to play, so for them Filters should be close,
+     we are calling it explicity because suppose user clicks on Filter and filter drawer opens up, now logout
+     occures, user will land to the login screen with filter drawer opened, so that is the issue,
+     To tackle that we have service which we imported at app.component so when user's timesout it will publish the
+     the value, which we subscribed using Subject 'filterClose'.
+     */
     this.filterClose = this.filterCloseService.filterClose.subscribe(
       boolData => {
         this.closeGlossary();
@@ -393,6 +404,11 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     setTimeout(() => {
       this.healthSystemName = this.sessionService.getHealthCareOrgName();
     }, 1);
+
+    const currentUser: any = JSON.parse(sessionStorage.getItem('currentUser'))[0];
+    if (currentUser.hasOwnProperty('Providers')) {
+      this.externalProvidersCount = currentUser.Providers.length > 1 ? true : false;
+    }
   }
 
   advocateRole() {
@@ -401,8 +417,8 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
   }
 
   /* To check whether we have data for the PCOR or not, if we don't have data for PCOR then in the navigation
-  bar PCOR will be hidden
-  */
+   bar PCOR will be hidden
+   */
   insertPCORnav() {
     // if (!this.navCategories[2].children.some(i => i.name === 'Patient Care Opportunity')) {
     //   this.navCategories[2].children.push({
@@ -500,6 +516,8 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     this.clickFilterIconCustom.unsubscribe();
     sessionStorage.removeItem('fromKOP');
     this.fromKOP = false;
+    sessionStorage.removeItem('advocateView');
+    this.advocateView = false;
   }
   /*** used to apply the CSS for dynamically generated elements ***/
   public ngAfterViewInit(): void {
@@ -546,9 +564,9 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     this.themeService.setDarkTheme(isDarkTheme);
   }
   /** FUNCTIONS TO COLLAPSE LEFT MENU **/
-  collapseExpansionPanels(id) {
+  collapseExpansionPanels(path) {
     window.scrollTo(300, 0);
-    // this.allExpandState(false, id - 1);
+    this.allExpandState(false, path);
   }
 
   openDialog(): void {
@@ -557,6 +575,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
       height: '212px',
       disableClose: true
     });
+    sessionStorage.setItem('advocateView', 'true');
   }
 
   closeGlossary() {
@@ -593,6 +612,8 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
   closeButterBar() {
     this.fromKOP = false;
     sessionStorage.removeItem('fromKOP');
+    this.advocateView = false;
+    sessionStorage.removeItem('advocateView');
   }
 
   /**
@@ -612,6 +633,14 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     // this.router.navigate(['/NationalExecutive']);
   }
 
+  navigateToPPD() {
+    setTimeout(() => {
+      sessionStorage.removeItem('advocateView');
+      this.advocateView = false;
+    }, 500);
+    location.href = '/OverviewPageAdvocate';
+  }
+
   /**
    * Open ProviderSearchComponent with setting the,
    * data and after action action
@@ -624,6 +653,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
       valueSelected: () => {
         // Setting Value redirect, remind flag to local storage
         sessionStorage.setItem('fromKOP', 'YES');
+        sessionStorage.setItem('advocateView', 'true');
         // Reloading targeted route, for resetting the css
         window.location.href = '/OverviewPage';
       },
@@ -639,18 +669,35 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     this.dialog.open(ProviderSearchComponent, dialogConfig);
   }
 
-  private allExpandState(value: boolean, id) {
-    this._allExpandState = value;
-    this.togglePanels(value, id);
+  private allExpandState(value: boolean, path) {
+    // this._allExpandState = value;
+    this.togglePanels(value, path);
   }
 
-  private togglePanels(value: boolean, id) {
+  private togglePanels(value: boolean, path) {
     // this.viewPanels.forEach(p => value ? p.open() : p.close());
 
     /** USED TO COLLAPSE REMAINING ACCORDIANS OTHER THAN CLICKED ONE **/
     this.viewPanels.forEach(element => {
-      if (element.id !== 'cdk-accordion-child-' + id) {
-        if (value) {
+      if (
+        path === '/GettingReimbursed' ||
+        path === '/GettingReimbursed/Payments' ||
+        path === '/GettingReimbursed/NonPayments' ||
+        path === '/GettingReimbursed/Appeals'
+      ) {
+        if (element.id === 'cdk-accordion-child-0') {
+          element.open();
+        } else {
+          element.close();
+        }
+      } else if (path === '/GettingReimbursed/PaymentIntegrity') {
+        if (element.id === 'cdk-accordion-child-0' || element.id === 'cdk-accordion-child-1') {
+          element.open();
+        } else {
+          element.close();
+        }
+      } else if (path === '/ServiceInteraction/SelfService' || path === '/ServiceInteraction/Calls') {
+        if (element.id === 'cdk-accordion-child-2') {
           element.open();
         } else {
           element.close();

@@ -51,9 +51,8 @@
       class="cards"
       [data]="appealsLineGraphData"
     ></app-error-card>
-    <app-large-card [skeletonLarge]="appealsLineGraphloading" *ngIf="appealsLineGraphloading"></app-large-card>
-    <div class="appeals-trend-block" *ngIf="appealsLineGraph">
-      <!-- Claims Non - Payment Trend  Starts Here -->
+    <app-large-card [skeletonLarge]="appealsLineGraphloading" *ngIf="appealsData == null"></app-large-card>
+    <div class="appeals-trend-block" *ngIf="!appealsLineGraphloading && appealsData !== null">
       <app-common-header
         [title]="trendTitleForClaims"
         class="full-display bottom-margin-block"
@@ -62,7 +61,6 @@
       <div class="full-display">
         <div class="total-appeals">
           {{ totalAppeals }}
-
           <div>
             <div class="appeal-set">
               <div class="sub-appeals-values">
@@ -86,7 +84,11 @@
         </div>
 
         <div class="line-graph-padding">
-          <app-large-card-advocate [appealsLineGraph]="appealsLineGraph"></app-large-card-advocate>
+          <!--<app-large-card-advocate [appealsLineGraph]="appealsLineGraph"></app-large-card-advocate>-->
+          <app-multi-line-graph
+            *ngIf="!appealsLineGraphloading"
+            [chartOptions]="appealsLineGraph"
+          ></app-multi-line-graph>
 
           <div class="lob-set">
             <div class="mr-img" *ngIf="mi"></div>
@@ -114,18 +116,43 @@
     <!-- Claims appeals Trend Ends Here -->
 
     <!--Calls Trend Starts Here-->
-    <app-error-card *ngIf="callsLineGraphData" class="cards" [data]="callsLineGraphData"></app-error-card>
-    <!--<app-large-card [skeletonLarge]="callsLineGraphLoading" *ngIf="callsLineGraphLoading"></app-large-card>-->
-    <div class="calls-trend-block" *ngIf="!callsLineGraphData">
+    <app-error-card *ngIf="callsData == null" class="cards" [data]="callsLineGraphData"></app-error-card>
+    <app-large-card [skeletonLarge]="callsLineGraphLoading" *ngIf="callsData == null"></app-large-card>
+    <div class="calls-trend-block" *ngIf="!callsLineGraphLoading && callsData !== null">
       <app-common-header
         [title]="trendTitleForCalls"
         class="full-display bottom-margin-block"
         (helpIconClicked)="helpIconClick($event)"
       ></app-common-header>
-      <div class="full-display">
-        <div class="total-calls">
-          {{ totalCalls }}
-          <div class="total-calls-sub-title">Total Calls</div>
+      <div class="calls-section">
+        <div class="full-display">
+          <div class="total-calls">
+            {{ totalCalls }}
+            <div class="total-calls-sub-title">Total Calls</div>
+          </div>
+        </div>
+        <div class="line-graph-padding">
+          <!--<app-large-card-advocate *ngIf="!callsLineGraphLoading" [appealsLineGraph]="callsTrendLineGraph"></app-large-card-advocate>-->
+          <app-multi-line-graph
+            *ngIf="!callsLineGraphLoading"
+            [chartOptions]="callsTrendLineGraph"
+          ></app-multi-line-graph>
+        </div>
+      </div>
+      <div class="calls-grpah-set">
+        <div class="mr-img" *ngIf="callsData[0] && callsData[0].key === 'B&E'"></div>
+        <div class="lob-values" *ngIf="callsData[0]">Eligibility & Benefits ({{ callsData[0].value }})</div>
+        <div class="cs-img" *ngIf="callsData[1] && callsData[1].key === 'CLAIMS'"></div>
+        <div class="lob-values" *ngIf="callsData[1] && callsData[1].key === 'CLAIMS'">
+          Claims & Payments ({{ callsData[1].value }})
+        </div>
+        <div class="ei-img" *ngIf="callsData[2] && callsData[2].key === 'P&A'"></div>
+        <div class="lob-values" *ngIf="callsData[2] && callsData[2].key === 'P&A'">
+          Prior Authorizations ({{ callsData[2].value }})
+        </div>
+        <div *ngIf="callsData[3] && callsData[3].key === 'Other'" class="other-img"></div>
+        <div class="lob-values" *ngIf="callsData[3] && callsData[3].key === 'Other'">
+          Other ({{ callsData[3].value }})
         </div>
       </div>
       <app-common-footer
@@ -139,6 +166,26 @@
     <!-- Claims Yield card starts here-->
 
     <div class="height1Separator"></div>
+    <div class="stacked-bar-block">
+      <app-common-header
+        [title]="PODTitle"
+        class="full-display bottom-margin-bar-block"
+        (helpIconClicked)="helpIconClick($event)"
+      ></app-common-header>
+      <div class="stacked-area">
+        <app-stacked-bar-chart></app-stacked-bar-chart>
+      </div>
+      <app-common-footer [timePeriod]="timePeriod" class="width-100 time-period-trend"></app-common-footer>
+    </div>
+
+    <!-- <div *ngFor="let data of downRowMockCards; let i = index">
+      <app-card class="cards" [skeleton]="pbsLoading" *ngIf="pbsLoading"> </app-card>
+    </div>
+    <div *ngFor="let item of pbsCard">
+      <app-card *ngIf="item.data != null && !item.toggle" class="cards" [chartData]="item"> </app-card>
+      <app-error-card *ngIf="item.status != null" class="cards" [data]="item"></app-error-card>
+    </div> -->
+
     <div *ngFor="let data of downRowMockCards; let i = index">
       <app-card class="cards" [skeleton]="claimsYieldLoading" *ngIf="claimsYieldLoading"> </app-card>
     </div>
@@ -146,6 +193,7 @@
       <app-card *ngIf="item.data != null && !item.toggle" class="cards" [chartData]="item"> </app-card>
       <app-error-card *ngIf="item.status != null" class="cards" [data]="item"></app-error-card>
     </div>
+
     <app-clarify-claims-message></app-clarify-claims-message>
     <!-- Claims Yield card ends here-->
   </div>

@@ -20,6 +20,8 @@ import { IAppState } from '../../../store/store';
 })
 export class PaymentIntegrityComponent implements OnInit {
   @Input() printStyle;
+  medicalRecordsReturned: any;
+  medicalRecordsOutstanding: any;
   pageTitle: String = '';
   printDateTitle: String = '';
   printDateSubTitle: String = '';
@@ -221,6 +223,19 @@ export class PaymentIntegrityComponent implements OnInit {
           if (r != null) {
             this.cardData = r;
             this.piDataloaded = true;
+            const maxValue = Math.max(this.cardData.returnedWidth, this.cardData.notReturnedWidth);
+            this.medicalRecordsReturned = {};
+            this.medicalRecordsReturned['id'] = 'return';
+            this.medicalRecordsReturned['title'] = 'Medical Records Returned';
+            this.medicalRecordsReturned['numeric'] = this.cardData.returnedWidth;
+            this.medicalRecordsReturned['maxValue'] = maxValue;
+            this.medicalRecordsReturned['color'] = '#003da1';
+            this.medicalRecordsOutstanding = {};
+            this.medicalRecordsOutstanding['id'] = 'outstanding';
+            this.medicalRecordsOutstanding['title'] = 'Medical Records Not Returned';
+            this.medicalRecordsOutstanding['numeric'] = this.cardData.notReturnedWidth;
+            this.medicalRecordsOutstanding['maxValue'] = maxValue;
+            this.medicalRecordsOutstanding['color'] = '#fc6431';
           } else {
             this.loading = false;
             this.piDataloaded = false;

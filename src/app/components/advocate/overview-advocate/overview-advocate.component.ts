@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, DoCheck } from '@angular/core';
 import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
@@ -13,17 +13,20 @@ import { OverviewAdvocateSharedService } from '../../../shared/advocate/overview
 import { GlossaryExpandService } from '../../../shared/glossary-expand.service';
 import { AppealsData } from '../appeals-data';
 import { GeneralData } from '../general-data';
+import { CallsTrendData } from '../calls-trend-data';
+import { CallsGeneralData } from '../calls-general-data';
 import { CreatePayloadService } from '../../../shared/uhci-filters/create-payload.service';
 import { NgRedux } from '@angular-redux/store';
 import { CURRENT_PAGE, REMOVE_FILTER } from '../../../store/filter/actions';
 import { IAppState } from '../../../store/store';
+import { hasOwnProperty } from 'tslint/lib/utils';
 
 @Component({
   selector: 'app-overview-advocate',
   templateUrl: './overview-advocate.component.html',
   styleUrls: ['./overview-advocate.component.scss']
 })
-export class OverviewAdvocateComponent implements OnInit {
+export class OverviewAdvocateComponent implements OnInit, DoCheck {
   pageTitle: String = '';
   pagesubTitle: String = '';
   userName: String = '';
@@ -42,12 +45,15 @@ export class OverviewAdvocateComponent implements OnInit {
   monthlyLineGraph: any = [{}];
   trendMonthDisplay = false;
   trendTitleForClaims = 'Claims Appeals Submitted';
+  PODTitle = 'Payments by Submission';
   appealsloading: boolean;
   appealsmockCards: any;
   totalAppeals: any;
   adminAppeals: any;
   clinicalAppeals: any;
+  appealsData: any;
   appealsLineGraph: AppealsData;
+  callsTrendLineGraph: CallsTrendData;
   mi: any;
   cs: any;
   ei: any;
@@ -60,9 +66,12 @@ export class OverviewAdvocateComponent implements OnInit {
   totalCalls: any;
   callsLoading: boolean;
   callsLineGraphData: any;
+  callsData: any;
   claimsYieldLoading: boolean;
   downRowMockCards: any;
   claimsYieldCard: Array<Object>;
+  pbsLoading: boolean;
+  pbsCard: any;
 
   constructor(
     private checkStorage: StorageService,
@@ -80,12 +89,10 @@ export class OverviewAdvocateComponent implements OnInit {
     private createPayloadService: CreatePayloadService,
     private ngRedux: NgRedux<IAppState>
   ) {
-    this.pageTitle = 'Welcome, ' + this.userName;
-    this.pagesubTitle = 'Your Insights at a glance.';
-
+    this.pageTitle = 'UHC Insights Provider Performance Dashboard';
     const filData = this.session.getFilChangeEmitter().subscribe(() => this.common.urlResuseStrategy());
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => {
-      this.createPayloadService.resetTinNumber('otherPages');
+      this.createPayloadService.resetTinNumber('overviewAdvocatePage');
       this.ngRedux.dispatch({ type: REMOVE_FILTER, filterData: { taxId: true } });
       this.common.urlResuseStrategy();
     });
@@ -102,12 +109,12 @@ export class OverviewAdvocateComponent implements OnInit {
     });
   }
 
-  paymentData(payload) {
+  paymentData() {
     this.paymentLoading = true;
     this.topRowMockCards = [{}, {}, {}];
 
     this.topRowService
-      .getPaymentShared(payload)
+      .getPaymentShared(this.createPayloadService.payload)
       .then(paymentData => {
         this.paymentCards = JSON.parse(JSON.stringify(paymentData));
         this.paymentLoading = false;
@@ -118,11 +125,11 @@ export class OverviewAdvocateComponent implements OnInit {
       });
   }
 
-  appealsLeftData(payload) {
+  appealsLeftData() {
     this.appealsloading = true;
     this.appealsmockCards = [{}, {}, {}, {}];
 
-    this.overviewAdvocateSharedService.getAppealsLeftShared(payload).then(appealsLeftData => {
+    this.overviewAdvocateSharedService.getAppealsLeftShared(this.createPayloadService.payload).then(appealsLeftData => {
       let AppealsLeftData: any;
       AppealsLeftData = appealsLeftData;
       if (AppealsLeftData[0].LineOfBusiness != null && AppealsLeftData[0].LineOfBusiness) {
@@ -159,10 +166,10 @@ export class OverviewAdvocateComponent implements OnInit {
     });
   }
 
-  appealsTrendByMonthData(payload) {
+  appealsTrendByMonthData() {
     this.appealsLineGraphData = {};
     this.overviewAdvocateSharedService
-      .getAppealsTrendByMonthShared(payload)
+      .getAppealsTrendByMonthShared(this.createPayloadService.payload)
       .then(appealsTrendData => {
         this.appealsLineGraphloading = false;
         if (
@@ -171,6 +178,7 @@ export class OverviewAdvocateComponent implements OnInit {
             appealsTrendData['E&I'].length ||
             appealsTrendData['Other'].length) === 0
         ) {
+          this.appealsData = null;
           this.appealsLineGraphData = {
             category: 'large-card',
             type: 'donut',
@@ -183,7 +191,6 @@ export class OverviewAdvocateComponent implements OnInit {
         } else {
           this.appealsLineGraphData = appealsTrendData;
           this.appealsLineGraph = new AppealsData(appealsTrendData, GeneralData, 'appeals-trend-block');
-          console.log(this.appealsLineGraph);
         }
       })
       .catch(err => {
@@ -191,13 +198,14 @@ export class OverviewAdvocateComponent implements OnInit {
       });
   }
 
-  totalCallsData(payload) {
+  totalCallsData() {
     this.callsLoading = true;
     this.overviewAdvocateSharedService
-      .getTotalCallsShared(payload)
+      .getTotalCallsShared(this.createPayloadService.payload)
       .then(totalCallsData => {
         if (totalCallsData[0] == null) {
           this.callsLoading = false;
+          this.callsData = null;
           this.callsLineGraphData = {
             category: 'large-card',
             type: 'donut',
@@ -219,12 +227,57 @@ export class OverviewAdvocateComponent implements OnInit {
       });
   }
 
-  claimsYieldData(payload) {
+  totalCallsTrendLineData() {
+    this.callsLineGraphLoading = true;
+    this.overviewAdvocateSharedService
+      .getTotalCallsTrendLineShared(this.createPayloadService.payload)
+      .then(totalCallsTrendData => {
+        if (totalCallsTrendData == null) {
+          this.callsLineGraphLoading = false;
+          this.callsData = null;
+          this.callsLineGraphData = {
+            category: 'large-card',
+            type: 'donut',
+            status: 404,
+            title: this.trendTitleForCalls,
+            MetricID: this.MetricidService.MetricIDs,
+            data: null,
+            timeperiod: null
+          };
+        } else {
+          this.callsLineGraphLoading = false;
+          let callsTrendData;
+          callsTrendData = totalCallsTrendData;
+          this.callsTrendLineGraph = new CallsTrendData(callsTrendData, CallsGeneralData, 'calls-trend-block');
+          this.callsData = [];
+          for (const key in callsTrendData) {
+            if (callsTrendData.hasOwnProperty(key)) {
+              this.callsData.push({ key: key, value: this.sumArray(callsTrendData[key]) });
+            }
+          }
+        }
+      })
+      .catch(err => {
+        this.callsLineGraphLoading = false;
+      });
+  }
+
+  sumArray(arr) {
+    let total = 0;
+    for (const i in arr) {
+      if (arr.hasOwnProperty(i)) {
+        total += arr[i].value;
+      }
+    }
+    return Math.round(total);
+  }
+
+  claimsYieldData() {
     this.claimsYieldLoading = true;
     this.downRowMockCards = [{}];
     this.claimsYieldCard = [];
     this.topRowService
-      .getClaimsYieldShared(payload)
+      .getClaimsYieldShared(this.createPayloadService.payload)
       .then(claimsYieldData => {
         this.claimsYieldCard.push(JSON.parse(JSON.stringify(claimsYieldData)));
         this.claimsYieldLoading = false;
@@ -235,19 +288,26 @@ export class OverviewAdvocateComponent implements OnInit {
       });
   }
 
+  ngDoCheck() {
+    this.pagesubTitle = this.session.getHealthCareOrgName() + "'s insights at a glance.";
+  }
+
   ngOnInit() {
     this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'overviewAdvocatePage' });
     this.timePeriod = this.common.getTimePeriodFilterValue(this.createPayloadService.payload.timePeriod);
     this.checkStorage.emitEvent('overviewPage');
-    this.paymentData(this.createPayloadService.payload);
-    this.appealsLeftData(this.createPayloadService.payload);
-    this.appealsTrendByMonthData(this.createPayloadService.payload);
-    this.totalCallsData(this.createPayloadService.payload);
-    this.claimsYieldData(this.createPayloadService.payload);
+    this.paymentData();
+    this.appealsLeftData();
+    this.appealsTrendByMonthData();
+    this.totalCallsData();
+    this.claimsYieldData();
+    this.totalCallsTrendLineData();
+    this.paymentsBySubmissionData();
     this.appealsLineGraphloading = true;
-    // this.callsLineGraphLoading = true;
+    this.callsLineGraphLoading = true;
     this.userName = this.session.sessionStorage('loggedUser', 'FirstName');
-    this.pageTitle = 'Welcome, ' + this.userName;
+    this.pagesubTitle = this.session.getHealthCareOrgName() + "'s insights at a glance.";
+
     this.monthlyLineGraph.chartId = 'non-payment-trend-block';
     this.monthlyLineGraph.titleData = [{}];
     this.monthlyLineGraph.generalData = [
@@ -264,25 +324,26 @@ export class OverviewAdvocateComponent implements OnInit {
 
     this.monthlyLineGraph.chartData = [];
     this.trendMonthDisplay = false;
-    // Need to remove once filters is done
     // This is for line graph
-    // this.nonPaymentService.sharedTrendByMonth().then(trendData => {
-    //   if (trendData === null) {
-    //     this.trendMonthDisplay = false;
-    //     this.monthlyLineGraph = {
-    //       category: 'large-card',
-    //       type: 'donut',
-    //       status: 404,
-    //       title: 'Claims Non-Payment Trend',
-    //       MetricID: this.MetricidService.MetricIDs.ClaimsNonPaymentTrend,
-    //       data: null,
-    //       timeperiod: null
-    //     };
-    //   } else {
-    //     this.monthlyLineGraph.chartData = trendData;
-    //     this.trendMonthDisplay = true;
-    //   }
-    // });
+    this.nonPaymentService.sharedTrendByMonth(this.createPayloadService.payload).then(data => {
+      const trendData = JSON.parse(JSON.stringify(data));
+      if (!trendData && !trendData.data) {
+        this.trendMonthDisplay = false;
+        this.monthlyLineGraph = {
+          category: 'large-card',
+          type: 'donut',
+          status: 404,
+          title: 'Claims Non-Payment Trend',
+          MetricID: this.MetricidService.MetricIDs.ClaimsNonPaymentTrend,
+          data: null,
+          timeperiod: null
+        };
+      } else {
+        // this.timePeriodLineGraph = trendData.timePeriod;
+        this.monthlyLineGraph.chartData = trendData.data;
+        this.trendMonthDisplay = true;
+      }
+    });
 
     this.monthlyLineGraph.generalData2 = [];
     this.monthlyLineGraph.chartData2 = [];
@@ -293,5 +354,23 @@ export class OverviewAdvocateComponent implements OnInit {
       this.glossaryExpandService.setMessage(title, this.MetricidService.MetricIDs.ClaimsNonPaymentTrend);
     }
     this.glossaryExpandService.setMessage(title, this.MetricidService.MetricIDs);
+  }
+
+  paymentsBySubmissionData() {
+    this.pbsLoading = true;
+    this.downRowMockCards = [{}];
+    this.pbsCard = [];
+    this.overviewAdvocateSharedService
+      .paymentsBySubmission(this.createPayloadService.payload)
+      .then(pbsData => {
+        console.log('this.pbsData--------->', pbsData);
+        this.pbsCard.push(JSON.parse(JSON.stringify(pbsData)));
+        console.log('this.pbsCard--------->', this.pbsCard);
+        this.pbsLoading = false;
+      })
+      .catch(reason => {
+        this.pbsLoading = false;
+        console.log('Adovate Overview page Payment', reason);
+      });
   }
 }

@@ -140,7 +140,7 @@
                   "with": "src/environments/environment.devtwo.ts"
                 }
               ],
-              "optimization": true,
+              "optimization": false,
               "outputHashing": "all",
               "sourceMap": false,
               "extractCss": true,

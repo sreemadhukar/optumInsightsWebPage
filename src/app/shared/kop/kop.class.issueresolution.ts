@@ -26,10 +26,10 @@ export class IssueResolution {
             title: null,
             currentQuarter: true,
             id: index,
-            section: this.section
+            section: this.section + key
           });
         } else {
-          const value = Issue_Resolution[key][subKey] ? Math.round(Issue_Resolution[key][subKey]) : null;
+          const value = Issue_Resolution[key][subKey] !== null ? Math.round(Issue_Resolution[key][subKey]) : null;
           if (this.singleCard && value !== null) {
             chartDataElement.quarters.push({ title: value + '' + chartDataElement.units });
           } else {
@@ -38,7 +38,7 @@ export class IssueResolution {
               title: value,
               currentQuarter: true,
               id: index,
-              section: this.section
+              section: this.section + key
             });
           }
         }
@@ -80,11 +80,11 @@ export class IssueResolution {
       },
       {
         quarters: [],
-        cardType: 'hollowbox',
-        key: 'LinkPriorAuthNPS',
-        subKey: 'LinkPriorAuthNPSValue',
+        cardType: 'miniDonut',
+        key: 'AbilityToResolveIssues',
+        subKey: 'AbilityToResolveIssuesValue',
         singleCard: this.singleCard,
-        units: '%',
+        units: '',
         report: true,
         caption: 'Ability to resolve issues',
         sdata: {

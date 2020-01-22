@@ -1,8 +1,9 @@
 <div class="content-wrapper">
   <div class="main-content">
     <div class="cards cust-width-title">
-      <app-breadcrumbs></app-breadcrumbs>
-      <div class="page-title">{{ healthSystemData.HealthCareOrganizationName }}</div>
+      <!--app-breadcrumbs></app-breadcrumbs-->
+      <div class="page-title">Health System Details</div>
+      <div class="healthcare-org-name">{{ healthSystemData.HealthCareOrganizationName }}</div>
     </div>
     <div class="health-system-details-block" *ngIf="healthSystemData">
       <div class="health-system-details" *ngIf="healthSystemData.All">
@@ -27,16 +28,6 @@
         </div>
         <div class="health-system-markets-value">
           {{ healthSystemData.MajorMarketName | countryFormatter }}
-        </div>
-      </div>
-      <div class="health-system-details" *ngIf="healthSystemData.TinTypes">
-        <div class="health-system-tin-types">
-          TIN types:
-        </div>
-        <div class="health-system-tin-types-value">
-          <span *ngFor="let tin of healthSystemData.TinTypes; let isLast = last"
-            >{{ tin | sliceString }}{{ isLast ? '' : ', ' }}</span
-          >
         </div>
       </div>
       <div class="health-system-details" *ngIf="healthSystemData.BicId">
