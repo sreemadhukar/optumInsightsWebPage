@@ -50,6 +50,7 @@
     "lodash.get": "^4.4.2",
     "ng": "0.0.0",
     "ngx-cookie-service": "^2.2.0",
+    "node-sass": "^4.13.0",
     "nyc": "^14.1.1",
     "path": "^0.12.7",
     "raven-js": "3.22.2",
