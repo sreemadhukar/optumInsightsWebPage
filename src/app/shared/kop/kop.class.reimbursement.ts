@@ -4,6 +4,7 @@ export class Reimbursement {
   public data = {
     title: 'Reimbursement',
     chartData: [],
+    MetricID: '47',
     quarters: []
   };
   private section = 'reimbursement';
