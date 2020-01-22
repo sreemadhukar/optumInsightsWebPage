@@ -89,12 +89,16 @@ export class NPSSummary {
     const { survey } = params;
 
     let title = '';
+    let MetricID = '';
     if (survey === 'all') {
       title = 'Combined Total NPS';
+      MetricID = '35';
     } else if (survey === 'pm') {
       title = 'Practice Manager NPS';
+      MetricID = '36';
     } else if (survey === 'md') {
       title = 'Physician NPS';
+      MetricID = '37';
     }
 
     return {
@@ -103,6 +107,7 @@ export class NPSSummary {
       quarter: true,
       singleCard: this.singleCard,
       title,
+      MetricID,
       cards: []
     };
   }
