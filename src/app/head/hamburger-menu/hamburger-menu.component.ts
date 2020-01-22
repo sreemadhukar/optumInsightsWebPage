@@ -135,6 +135,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
   filterData: any[] = [];
   customFilter = false;
   fromKOP = false;
+  advocateView = false;
 
   /** CONSTRUCTOR **/
   constructor(
@@ -166,6 +167,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     this.bgWhite = false;
     this.showPrintHeader = false;
     this.fromKOP = false;
+    this.advocateView = false;
     this.checkAdv = this.sessionService.checkAdvocateRole();
     this.checkPro = this.sessionService.checkProjectRole();
     this.checkExecutive = this.sessionService.checkExecutiveRole();
@@ -185,6 +187,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     //   });
     if (this.checkAdv.value) {
       this.navCategories = this.navCategories.filter(item => item.name !== 'Summary Trends');
+      sessionStorage.setItem('advocateView', 'true');
     }
     // to disable the header/footer/body when not authenticated
     router.events.subscribe(event => {
@@ -253,6 +256,17 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
           this.fromKOP = true;
         } else {
           this.fromKOP = false;
+        }
+        if (
+          sessionStorage.getItem('advocateView') === 'true' &&
+          !this.makeAbsolute &&
+          event.url !== '/OverviewPageAdvocate' &&
+          event.url !== '/OverviewPageAdvocate/HealthSystemDetails' &&
+          this.checkAdv.value
+        ) {
+          this.advocateView = true;
+        } else {
+          this.advocateView = false;
         }
       }
       // PLEASE DON'T MODIFY THIS
@@ -499,6 +513,8 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     this.clickFilterIconCustom.unsubscribe();
     sessionStorage.removeItem('fromKOP');
     this.fromKOP = false;
+    sessionStorage.removeItem('advocateView');
+    this.advocateView = false;
   }
   /*** used to apply the CSS for dynamically generated elements ***/
   public ngAfterViewInit(): void {
@@ -556,6 +572,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
       height: '212px',
       disableClose: true
     });
+    sessionStorage.setItem('advocateView', 'true');
   }
 
   closeGlossary() {
@@ -611,6 +628,14 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     // this.router.navigate(['/NationalExecutive']);
   }
 
+  navigateToPPD() {
+    setTimeout(() => {
+      sessionStorage.removeItem('advocateView');
+      this.advocateView = false;
+    }, 500);
+    location.href = '/OverviewPageAdvocate';
+  }
+
   /**
    * Open ProviderSearchComponent with setting the,
    * data and after action action
@@ -623,6 +648,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
       valueSelected: () => {
         // Setting Value redirect, remind flag to local storage
         sessionStorage.setItem('fromKOP', 'YES');
+        sessionStorage.setItem('advocateView', 'true');
         // Reloading targeted route, for resetting the css
         window.location.href = '/OverviewPage';
       },

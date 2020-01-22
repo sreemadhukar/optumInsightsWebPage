@@ -68,6 +68,11 @@ export class HttpInterceptorService implements HttpInterceptor {
           });
         }
       }
+      /* if (environment.internalAccess) {
+        request = request.clone({
+          headers: request.headers.set('AccessType', 'Internal')
+        });
+      } */
     }
     if (request.url.indexOf('myinsightOptumIdHandshake') !== -1 || request.url.indexOf('ldapauth') !== -1) {
       request = request.clone({ headers: request.headers.set('Content-Type', 'application/x-www-form-urlencoded') });

@@ -10,12 +10,26 @@
       <!--<button mat-icon-button (click)="srnav.toggle()">-->
       <!--<mat-icon>filter</mat-icon>-->
       <!--</button>-->
-      <div *ngIf="fromKOP" class="butter-bar align-horizonal">
+      <div *ngIf="isKop" class="butter-bar align-horizonal">
         <div class="cross-icon">
           <mat-icon class="hover-pointer" svgIcon="closeGlossary" (click)="navigateToKOP()"></mat-icon>
         </div>
         <div class="exit-text" style="width: 35%">
           <span class="exit-provider-text" (click)="navigateToKOP()">Exit Provider View</span>
+        </div>
+        <div style="width: 60%" class="exit-text">
+          <span
+            >You are viewing as
+            <span class="provider-text">{{ healthSystemName }}</span>
+          </span>
+        </div>
+      </div>
+      <div *ngIf="advocateView" class="butter-bar align-horizonal">
+        <div class="cross-icon">
+          <mat-icon class="hover-pointer" svgIcon="closeGlossary" (click)="navigateToPPD()"></mat-icon>
+        </div>
+        <div class="exit-text" style="width: 35%">
+          <span class="exit-provider-text" (click)="navigateToPPD()">Exit Provider View</span>
         </div>
         <div style="width: 60%" class="exit-text">
           <span
