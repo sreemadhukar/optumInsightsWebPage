@@ -87,6 +87,10 @@
     visibility: visible;
   }
 
+  a.icon:active mat-icon {
+    visibility: visible;
+  }
+
   .menu-div {
     @include padding(17px, 0px, 22px, 34px);
     .menu-icon {
