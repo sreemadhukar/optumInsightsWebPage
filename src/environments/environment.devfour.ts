@@ -5,7 +5,7 @@
  * MAINTAIN ALPHABETIC ORDER
  */
 export const environment: any = {
-  apiProxyUrl: 'https://gateway-stage-core.optum.com/api/devfour/pdr/uhci/v1/',
+  apiProxyUrl: 'https://pedapi4-peddev.ocp-ctc-core-nonprod.optum.com/',
   originUrl: '/',
   apiUrls: {
     ExecutiveSummaryPath: 'providersystems/',
