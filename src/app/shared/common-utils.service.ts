@@ -258,12 +258,15 @@ export class CommonUtilsService {
       return '12';
     }
   }
-  public dayFormat(day: string) {
+  public dayFormat(day: string): string {
+    /*
     if (day[0] === '0') {
       return day.slice(1);
     } else {
       return day;
     }
+    */
+    return day;
   }
   public dateFormat(timeStamp: string): string {
     const date1 = timeStamp.split(' '); // "2019-02-01 06:00:00"
