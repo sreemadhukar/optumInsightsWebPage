@@ -294,6 +294,15 @@ export class StackedBarChartComponent implements OnInit {
       .attr('x', d => x(d.name))
       .attr('y', d => y(d.electronic));
 
+    /*.on('mouseover', function(d) {
+        console.log('mouseover', d);
+        tooltip.style('display', d);
+      })
+      .on('mouseout', function() {
+        console.log('mouseout');
+        tooltip.style('display', 'none');
+      });*/
+
     rects2
       .attr('width', x.bandwidth)
       .attr('height', barSeparator)
@@ -346,5 +355,25 @@ export class StackedBarChartComponent implements OnInit {
     // xAxisGroup.call(xAxis);
     yAxisGroup.attr('transform', `translate(${graphWidth}, 0)`).call(yAxis);
     // });
+
+    // Prep the tooltip bits, initial display is hidden
+    /*const tooltip = graph
+      .append('rects')
+      .attr('class', 'tooltip')
+      .style('display', 'none');
+    tooltip
+      .append('rect')
+      .attr('width', 30)
+      .attr('height', 20)
+      .attr('fill', 'white')
+      .style('opacity', 0.5);
+
+    tooltip
+      .append('text')
+      .attr('x', 15)
+      .attr('dy', '1.2em')
+      .style('text-anchor', 'middle')
+      .attr('font-size', '12px')
+      .attr('font-weight', 'bold');*/
   }
 }

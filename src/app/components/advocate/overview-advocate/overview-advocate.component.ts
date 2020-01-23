@@ -72,6 +72,8 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
   claimsYieldCard: Array<Object>;
   pbsLoading: boolean;
   pbsCard: any;
+  paperClaims: any;
+  electronicClaims: any;
 
   constructor(
     private checkStorage: StorageService,
@@ -364,7 +366,10 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
       .paymentsBySubmission(this.createPayloadService.payload)
       .then(pbsData => {
         console.log('this.pbsData--------->', pbsData);
-        this.pbsCard.push(JSON.parse(JSON.stringify(pbsData)));
+        this.paperClaims = pbsData[0].PaperSubmissions.All.ClaimsLobSummary[0].WriteOffAmount;
+        this.electronicClaims = pbsData[0].EDISubmissions.All.ClaimsLobSummary[0].WriteOffAmount;
+        this.pbsCard.push('Paper Claims', this.paperClaims);
+        this.pbsCard.push('Electronic Claims', this.electronicClaims);
         console.log('this.pbsCard--------->', this.pbsCard);
         this.pbsLoading = false;
       })

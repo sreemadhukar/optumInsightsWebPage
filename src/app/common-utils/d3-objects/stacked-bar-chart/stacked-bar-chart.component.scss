@@ -62,3 +62,18 @@ path.domain {
   letter-spacing: 0.2px;
   line-height: 18px;
 }
+
+.tooltip {
+  background: white;
+  border: 0;
+  border-radius: 8px;
+  font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+  font-size: 12px;
+  font-weight: bold;
+  height: 20px;
+  padding: 2px;
+  pointer-events: none;
+  position: absolute;
+  text-align: center;
+  width: 120px;
+}
