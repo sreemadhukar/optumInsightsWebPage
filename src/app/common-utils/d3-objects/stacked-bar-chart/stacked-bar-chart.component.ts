@@ -162,10 +162,10 @@ export class StackedBarChartComponent implements OnInit {
 
     // d3.select(this.renderChart).selectAll('*');
     // select the svg container first
-    const width = 550;
-    const height = 400;
-    // const width = 400;
-    // const height = 250;
+    // const width = 550;
+    // const height = 400;
+    const width = 400;
+    const height = 350;
     const barSeparator = 4;
     const svg = d3
       .select('.canvas')
@@ -174,9 +174,9 @@ export class StackedBarChartComponent implements OnInit {
       .attr('height', height);
 
     // create margins & dimensions
-    const margin = { top: 10, right: 40, bottom: 100, left: 200 };
+    const margin = { top: -20, right: 40, bottom: 100, left: 200 };
     const graphWidth = width - margin.left - margin.right;
-    const graphHeight = height - margin.top - margin.bottom;
+    const graphHeight = height - margin.bottom;
 
     const graph = svg
       .append('g')
