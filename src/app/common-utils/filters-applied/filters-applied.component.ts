@@ -82,6 +82,7 @@ export class FiltersAppliedComponent implements OnInit {
     this.timePeriod.subscribe(
       timePeriod => (this.selectedTimePeriod = this.timeFrames.find(val => val.name === timePeriod))
     );
+    console.log('Timeperiod ' + this.selectedTimePeriod);
     this.taxId.subscribe(taxId => (this.selectedTaxIds = taxId));
     this.lineOfBusiness.subscribe(
       lineOfBusiness => (this.selectedLob = this.lobs.find(val => val.name === lineOfBusiness))

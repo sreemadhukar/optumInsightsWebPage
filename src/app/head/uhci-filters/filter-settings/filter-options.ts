@@ -28,7 +28,7 @@ export const AppealsFilter = [
 ];
 export const ViewClaimsByFilter = [
   { name: 'DateOfService', value: 'Date of Service', disable: false },
-  { name: 'DateOfProcessing', value: 'Date of Processing', disable: true }
+  { name: 'DateOfProcessing', value: 'Date of Processing', disable: false }
 ];
 
 export const ServiceSetting = [
