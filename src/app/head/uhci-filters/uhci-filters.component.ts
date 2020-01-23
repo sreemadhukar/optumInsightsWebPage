@@ -139,13 +139,6 @@ export class UhciFiltersComponent implements OnInit {
   }
 
   disableTimePeriod(timeFrame) {
-    /* if (this.selectedPage === 'nonPaymentsPage') {
-      timeFrame.forEach(value => {
-        if ( value.name === '2018' || value.name === '2017') {
-          value.disable = true;
-        }
-      });
-    } else */
     if (
       this.selectedPage === 'gettingReimbursedSummary' ||
       this.selectedPage === 'paymentsPage' ||
