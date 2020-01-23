@@ -10,7 +10,7 @@
       <!--<button mat-icon-button (click)="srnav.toggle()">-->
       <!--<mat-icon>filter</mat-icon>-->
       <!--</button>-->
-      <div *ngIf="isKop" class="butter-bar align-horizonal">
+      <div *ngIf="fromKOP" class="butter-bar align-horizonal">
         <div class="cross-icon">
           <mat-icon class="hover-pointer" svgIcon="closeGlossary" (click)="navigateToKOP()"></mat-icon>
         </div>
@@ -42,7 +42,7 @@
         [class.display-none]="!showPrintHeader && makeAbsolute"
         class="sticky"
         (hamburgerDisplay)="hamburgerDisplay($event)"
-        [ngClass]="fromKOP ? 'top-40' : 'top-0'"
+        [ngClass]="fromKOP || advocateView ? 'top-40' : 'top-0'"
       ></app-header>
       <div [class.sticky-footer]="showPrintHeader">
         <div class="sticky-footer-text">&copy; 2019 UnitedHealthcare, All Rights Reserved</div>
@@ -51,7 +51,7 @@
     <mat-sidenav-container
       class="example-sidenav-container"
       [class.bg-white]="bgWhite"
-      [ngClass]="{ 'top-40': fromKOP, 'top-0': !fromKOP, 'kop-landing': isKop }"
+      [ngClass]="{ 'top-40': fromKOP || advocateView, 'top-0': !fromKOP || !advocateView, 'kop-landing': isKop }"
       color="primary"
       (backdropClick)="close()"
     >
@@ -63,7 +63,7 @@
         [fixedInViewport]="true"
         [opened]="!(!sideNavFlag || makeAbsolute)"
         [class.display-none]="makeAbsolute"
-        [ngClass]="fromKOP ? 'top-40' : 'top-0'"
+        [ngClass]="fromKOP || advocateView ? 'top-40' : 'top-0'"
         color="primary"
       >
         <!-- UHC LOGO BLOCK -->

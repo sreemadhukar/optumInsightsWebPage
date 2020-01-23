@@ -6,6 +6,7 @@ export class NetworkParticipation {
   public data = {
     title: 'Onboarding',
     chartData: [],
+    MetricID: '54,55',
     quarters: []
   };
   private section = 'networkparticipation';

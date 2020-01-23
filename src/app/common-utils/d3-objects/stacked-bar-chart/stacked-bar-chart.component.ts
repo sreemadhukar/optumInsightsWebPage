@@ -147,14 +147,14 @@ export class StackedBarChartComponent implements OnInit {
       leftSide: [
         {
           label: 'Electronic Claims',
-          // dataTextValue: '$8.7 M',
-          // dataPercent: '86.4%',
+          dataTextValue: '$8.7 M',
+          dataPercent: '86.4%',
           color: 'blue'
         },
         {
           label: 'Paper Claims',
-          // dataTextValue: '$261.7 K',
-          // dataPercent: '3.3%',
+          dataTextValue: '$261.7 K',
+          dataPercent: '3.3%',
           color: 'red'
         }
       ]
@@ -162,10 +162,10 @@ export class StackedBarChartComponent implements OnInit {
 
     // d3.select(this.renderChart).selectAll('*');
     // select the svg container first
-    const width = 550;
-    const height = 400;
-    // const width = 400;
-    // const height = 250;
+    // const width = 550;
+    // const height = 400;
+    const width = 450;
+    const height = 350;
     const barSeparator = 4;
     const svg = d3
       .select('.canvas')
@@ -174,9 +174,9 @@ export class StackedBarChartComponent implements OnInit {
       .attr('height', height);
 
     // create margins & dimensions
-    const margin = { top: 10, right: 40, bottom: 100, left: 200 };
+    const margin = { top: -20, right: 40, bottom: 100, left: 200 };
     const graphWidth = width - margin.left - margin.right;
-    const graphHeight = height - margin.top - margin.bottom;
+    const graphHeight = height - margin.bottom;
 
     const graph = svg
       .append('g')
@@ -195,63 +195,59 @@ export class StackedBarChartComponent implements OnInit {
         name: 'Sachin',
         electronic: 2400,
         paper: 300
-      },
-      {
-        name: 'Sachin',
-        electronic: 2600,
-        paper: 100
       }
     ];
 
     console.log('left Cont', leftContainer);
     // d3.json('menu').then(data => {
-    leftContainer
-      .append('text')
-      .attr('x', () => 20)
-      .attr('y', () => 20)
-      .attr('fill', 'black')
-      .text('Electronic Claims')
-      .style('font-family', 'Arial');
 
     leftContainer
       .append('circle')
-      .attr('cx', () => 25)
-      .attr('cy', () => 36)
+      .attr('cx', () => 10)
+      .attr('cy', () => 5)
       .attr('r', () => 8)
       .attr('fill', '#3381FF');
 
     leftContainer
+      .append('text')
+      .attr('x', () => 25)
+      .attr('y', () => 10)
+      .attr('fill', 'black')
+      .text('Electronic Claims')
+      .classed('labels', true);
+
+    /* leftContainer
       .append('text')
       .attr('x', () => 40)
       .attr('y', () => 40)
       .attr('fill', 'black')
       .text('$8.7 M (86.4%)')
       .style('font-family', 'Arial')
-      .style('font-size', '13px');
-
-    leftContainer
-      .append('text')
-      .attr('x', () => 20)
-      .attr('y', () => 70)
-      .attr('fill', 'black')
-      .text('Paper Claims')
-      .style('font-family', 'Arial');
+      .style('font-size', '13px'); */
 
     leftContainer
       .append('circle')
-      .attr('cx', 25)
-      .attr('cy', 86)
+      .attr('cx', 10)
+      .attr('cy', 40)
       .attr('r', 8)
       .attr('fill', '#00B8CC');
 
     leftContainer
+      .append('text')
+      .attr('x', () => 25)
+      .attr('y', () => 45)
+      .attr('fill', 'black')
+      .text('Paper Claims')
+      .classed('labels', true);
+
+    /* leftContainer
       .append('text')
       .attr('x', 40)
       .attr('y', 90)
       .attr('fill', 'black')
       .text('$261.7 K (3.3%)')
       .style('font-family', 'Arial')
-      .style('font-size', '13px');
+      .style('font-size', '13px'); */
 
     const y = d3
       .scaleLinear()
@@ -264,6 +260,18 @@ export class StackedBarChartComponent implements OnInit {
       .range([0, graphWidth])
       .paddingInner(0.2)
       .paddingOuter(0.2);
+
+    graph
+      .append('g')
+      .attr('class', 'grid')
+      .call(
+        d3
+          .axisLeft(y)
+          .ticks(4)
+          .tickSize(-200, 0, 0)
+          .tickFormat('')
+          .tickSizeOuter([0])
+      );
 
     const rects = graph.selectAll('rect').data(data);
     const rects2 = graph.selectAll('rect').data(data);
@@ -322,10 +330,17 @@ export class StackedBarChartComponent implements OnInit {
 
     // create & call axes
     const xAxis = d3.axisBottom(x);
-    const yAxis = d3
-      .axisRight(y)
-      .ticks(5)
-      .tickFormat(d => '$ ' + d);
+    const yAxis = graph
+      .append('g')
+      .attr('class', 'yscalesize')
+      .attr('transform', `translate(${graphWidth - 15}, 0)`)
+      .call(
+        d3
+          .axisRight(y)
+          .ticks(4)
+          .tickFormat(d => '$ ' + d)
+      );
+
     //    .tickFormat(d3.formatPrefix('.1', 1e3));
 
     // xAxisGroup.call(xAxis);

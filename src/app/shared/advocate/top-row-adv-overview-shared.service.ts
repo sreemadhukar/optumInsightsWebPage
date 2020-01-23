@@ -93,7 +93,7 @@ export class TopRowAdvOverviewSharedService {
           sign: '',
           data: ''
         },
-        timeperiod: this.timeFrame
+        timeperiod: this.common.dateFormat(paymentData.Startdate) + ' - ' + this.common.dateFormat(paymentData.Enddate)
       };
     } else {
       claimsSubmitted = {
@@ -181,7 +181,7 @@ export class TopRowAdvOverviewSharedService {
           sign: '',
           data: ''
         },
-        timeperiod: this.timeFrame
+        timeperiod: this.common.dateFormat(paymentData.Startdate) + ' - ' + this.common.dateFormat(paymentData.Enddate)
       };
     } else {
       claimsPaid = {
@@ -270,7 +270,7 @@ export class TopRowAdvOverviewSharedService {
           sign: '',
           data: ''
         },
-        timeperiod: this.timeFrame
+        timeperiod: this.common.dateFormat(paymentData.Startdate) + ' - ' + this.common.dateFormat(paymentData.Enddate)
       };
     } else {
       claimsNotPaid = {
