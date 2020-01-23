@@ -304,7 +304,10 @@ export class PriorAuthSharedService {
                       labels: this.common.sideLabelWords(priorAuthorizationCounts, priorAuthorizationLabels),
                       color: this.common.sideLabelColor(priorAuthorizationCounts)
                     },
-                    timeperiod: timePeriod
+                    timeperiod:
+                      this.common.dateFormat(providerSystems.StartDate) +
+                      ' - ' +
+                      this.common.dateFormat(providerSystems.EndDate)
                   }
                 ];
               } else {
@@ -335,7 +338,10 @@ export class PriorAuthSharedService {
                     labels: this.common.sideLabelWords(priorAuthorizationCounts, priorAuthorizationLabels),
                     color: this.common.sideLabelColor(priorAuthorizationCounts)
                   },
-                  timeperiod: timePeriod
+                  timeperiod:
+                    this.common.dateFormat(providerSystems.StartDate) +
+                    ' - ' +
+                    this.common.dateFormat(providerSystems.EndDate)
                 },
                 {
                   category: 'app-card',
@@ -361,7 +367,10 @@ export class PriorAuthSharedService {
                       { values: TATHourLabel, labels: 'Urgent' }
                     ]
                   },
-                  timeperiod: timePeriod
+                  timeperiod:
+                    this.common.dateFormat(providerSystems.StartDate) +
+                    ' - ' +
+                    this.common.dateFormat(providerSystems.EndDate)
                 }
               ];
             }
@@ -436,7 +445,10 @@ export class PriorAuthSharedService {
                   color: [{ color1: '#3381FF' }],
                   gdata: ['card-inner-large', 'reasonBar' + i]
                 },
-                timeperiod: timePeriod
+                timeperiod:
+                  this.common.dateFormat(providerSystems.StartDate) +
+                  ' - ' +
+                  this.common.dateFormat(providerSystems.EndDate)
               });
             }
           } else if (isServiceCategory || PANotApprovedReasonBool || !PANotApprovedCountChecker) {
