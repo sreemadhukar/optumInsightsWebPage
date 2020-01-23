@@ -27,9 +27,9 @@ import { hasOwnProperty } from 'tslint/lib/utils';
   styleUrls: ['./overview-advocate.component.scss']
 })
 export class OverviewAdvocateComponent implements OnInit, DoCheck {
-  pageTitle: String = '';
-  pagesubTitle: String = '';
-  userName: String = '';
+  pageTitle: String;
+  pagesubTitle: String;
+  userName: String;
   topRowItems: any;
   timePeriod: string;
   lob: string;
@@ -45,6 +45,7 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
   monthlyLineGraph: any = [{}];
   trendMonthDisplay = false;
   trendTitleForClaims = 'Claims Appeals Submitted';
+  PODTitle = 'Payments by Submission';
   appealsloading: boolean;
   appealsmockCards: any;
   totalAppeals: any;
@@ -88,7 +89,6 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
     private createPayloadService: CreatePayloadService,
     private ngRedux: NgRedux<IAppState>
   ) {
-    this.pageTitle = 'UHC Insights Provider Performance Dashboard';
     const filData = this.session.getFilChangeEmitter().subscribe(() => this.common.urlResuseStrategy());
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => {
       this.createPayloadService.resetTinNumber('overviewAdvocatePage');
@@ -292,20 +292,22 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
   }
 
   ngOnInit() {
+    this.pageTitle = 'UHC Insights Provider Performance Dashboard';
+    this.pagesubTitle = this.session.getHealthCareOrgName() + "'s insights at a glance.";
+    this.userName = this.session.sessionStorage('loggedUser', 'FirstName');
     this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'overviewAdvocatePage' });
     this.timePeriod = this.common.getTimePeriodFilterValue(this.createPayloadService.payload.timePeriod);
     this.checkStorage.emitEvent('overviewPage');
     this.paymentData();
     this.appealsLeftData();
     this.appealsTrendByMonthData();
-    this.totalCallsData();
     this.claimsYieldData();
+    this.totalCallsData();
     this.totalCallsTrendLineData();
     this.paymentsBySubmissionData();
     this.appealsLineGraphloading = true;
     this.callsLineGraphLoading = true;
-    this.userName = this.session.sessionStorage('loggedUser', 'FirstName');
-    this.pagesubTitle = this.session.getHealthCareOrgName() + "'s insights at a glance.";
+
     this.monthlyLineGraph.chartId = 'non-payment-trend-block';
     this.monthlyLineGraph.titleData = [{}];
     this.monthlyLineGraph.generalData = [
@@ -322,10 +324,10 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
 
     this.monthlyLineGraph.chartData = [];
     this.trendMonthDisplay = false;
-
     // This is for line graph
-    this.nonPaymentService.sharedTrendByMonth(this.createPayloadService.payload).then(trendData => {
-      if (trendData === null) {
+    this.nonPaymentService.sharedTrendByMonth(this.createPayloadService.payload).then(data => {
+      const trendData = JSON.parse(JSON.stringify(data));
+      if (!trendData && !trendData.data) {
         this.trendMonthDisplay = false;
         this.monthlyLineGraph = {
           category: 'large-card',
@@ -337,7 +339,8 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
           timeperiod: null
         };
       } else {
-        this.monthlyLineGraph.chartData = trendData;
+        // this.timePeriodLineGraph = trendData.timePeriod;
+        this.monthlyLineGraph.chartData = trendData.data;
         this.trendMonthDisplay = true;
       }
     });

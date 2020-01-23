@@ -87,27 +87,44 @@ export class AppealsComponent implements OnInit {
     this.overturnItem = [];
     this.reasonDataAvailable = false;
 
-    this.appealsSharedService.getappealsRateAndReasonData(this.createPayloadService.payload).then(appealsRateData => {
-      let AppealsCards: any;
-      AppealsCards = appealsRateData;
-      this.loading = false;
-      try {
-        this.timePeriod = appealsRateData[0].timeperiod;
-      } catch (Error) {
-        this.timePeriod = this.common.getTimePeriodFilterValue(this.createPayloadService.payload.timePeriod);
-      }
-      this.overturnItem = AppealsCards;
-    });
-    this.appealsSharedService.getAppealsReasonData(this.createPayloadService.payload).then(appealsReason => {
-      let appealsReasonData: any;
-      appealsReasonData = appealsReason;
-      if (appealsReasonData[0].status !== null && appealsReasonData[0].data !== null) {
-        this.reasonDataAvailable = true;
-      } else {
-        this.reasonDataAvailable = false;
-      }
-      this.reason = appealsReasonData;
-    });
+    this.appealsSharedService
+      .getappealsRateAndReasonData(this.createPayloadService.payload)
+      .then(appealsRateData => {
+        let AppealsCards: any;
+        AppealsCards = appealsRateData;
+        this.loading = false;
+        if (AppealsCards[0].status !== null && AppealsCards[0].data !== null) {
+          this.loading = false;
+        }
+        try {
+          this.timePeriod = appealsRateData[0].timeperiod;
+        } catch (Error) {
+          this.timePeriod = this.common.getTimePeriodFilterValue(this.createPayloadService.payload.timePeriod);
+        }
+        this.overturnItem = AppealsCards;
+      })
+      .catch(err => {
+        console.log('Error', err);
+        this.loading = false;
+      });
+    this.appealsSharedService
+      .getAppealsReasonData(this.createPayloadService.payload)
+      .then(appealsReason => {
+        let appealsReasonData: any;
+        appealsReasonData = appealsReason;
+        if (appealsReasonData[0].status !== null && appealsReasonData[0].data !== null) {
+          this.reasonDataAvailable = true;
+          this.loading = false;
+        } else {
+          this.reasonDataAvailable = false;
+          this.loading = false;
+        }
+        this.reason = appealsReasonData;
+      })
+      .catch(err => {
+        console.log('Error', err);
+        this.loading = false;
+      });
 
     // this.appealsSharedService.getappealsTatandDevidedOverturnData().then(appealsRateData => {
     //   this.appealsTAT = appealsRateData;
