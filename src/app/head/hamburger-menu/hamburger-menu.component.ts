@@ -609,6 +609,8 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
   closeButterBar() {
     this.fromKOP = false;
     sessionStorage.removeItem('fromKOP');
+    this.advocateView = false;
+    sessionStorage.removeItem('advocateView');
   }
 
   /**
