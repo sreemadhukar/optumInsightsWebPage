@@ -147,14 +147,14 @@ export class StackedBarChartComponent implements OnInit {
       leftSide: [
         {
           label: 'Electronic Claims',
-          // dataTextValue: '$8.7 M',
-          // dataPercent: '86.4%',
+          dataTextValue: '$8.7 M',
+          dataPercent: '86.4%',
           color: 'blue'
         },
         {
           label: 'Paper Claims',
-          // dataTextValue: '$261.7 K',
-          // dataPercent: '3.3%',
+          dataTextValue: '$261.7 K',
+          dataPercent: '3.3%',
           color: 'red'
         }
       ]
@@ -164,7 +164,7 @@ export class StackedBarChartComponent implements OnInit {
     // select the svg container first
     // const width = 550;
     // const height = 400;
-    const width = 400;
+    const width = 450;
     const height = 350;
     const barSeparator = 4;
     const svg = d3
@@ -195,11 +195,6 @@ export class StackedBarChartComponent implements OnInit {
         name: 'Sachin',
         electronic: 2400,
         paper: 300
-      },
-      {
-        name: 'Sachin',
-        electronic: 2600,
-        paper: 100
       }
     ];
 
@@ -266,6 +261,18 @@ export class StackedBarChartComponent implements OnInit {
       .paddingInner(0.2)
       .paddingOuter(0.2);
 
+    graph
+      .append('g')
+      .attr('class', 'grid')
+      .call(
+        d3
+          .axisLeft(y)
+          .ticks(4)
+          .tickSize(-200, 0, 0)
+          .tickFormat('')
+          .tickSizeOuter([0])
+      );
+
     const rects = graph.selectAll('rect').data(data);
     const rects2 = graph.selectAll('rect').data(data);
     const rects3 = graph.selectAll('rect').data(data);
@@ -323,10 +330,17 @@ export class StackedBarChartComponent implements OnInit {
 
     // create & call axes
     const xAxis = d3.axisBottom(x);
-    const yAxis = d3
-      .axisRight(y)
-      .ticks(5)
-      .tickFormat(d => '$ ' + d);
+    const yAxis = graph
+      .append('g')
+      .attr('class', 'yscalesize')
+      .attr('transform', `translate(${graphWidth - 15}, 0)`)
+      .call(
+        d3
+          .axisRight(y)
+          .ticks(4)
+          .tickFormat(d => '$ ' + d)
+      );
+
     //    .tickFormat(d3.formatPrefix('.1', 1e3));
 
     // xAxisGroup.call(xAxis);
