@@ -2109,7 +2109,8 @@ export class GettingReimbursedSharedService {
               }
             ]
           },
-          timeperiod: this.timeFrame
+          timeperiod:
+            this.common.dateFormat(appealsData[0].StartDate) + ' - ' + this.common.dateFormat(appealsData[0].EndDate)
         };
       } else {
         appealsSubmitted = {
@@ -2157,7 +2158,8 @@ export class GettingReimbursedSharedService {
             gdata: ['card-inner', 'claimsAppealOverturned'],
             sdata: null
           },
-          timeperiod: this.timeFrame
+          timeperiod:
+            this.common.dateFormat(appealsData[0].StartDate) + ' - ' + this.common.dateFormat(appealsData[0].EndDate)
         };
       } else {
         appealsOverturned = {
