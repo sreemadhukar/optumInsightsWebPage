@@ -75,7 +75,18 @@
               Touchpoint - Top Box % (9-10)
             </div>
           </div>
-          <div class="report-box" *ngIf="item.report && item.cardType === 'miniDonut'">
+          <div
+            class="report-box"
+            *ngIf="item.report && item.cardType === 'miniDonut' && item.key === 'SatWithCredentialing'"
+          >
+            <div class="report-content">
+              Touchpoint - Top Box % (9-10)
+            </div>
+          </div>
+          <div
+            class="report-box"
+            *ngIf="item.report && item.cardType === 'miniDonut' && item.key !== 'SatWithCredentialing'"
+          >
             <div class="report-content">
               Relationship - Top Box % (9-10)
             </div>

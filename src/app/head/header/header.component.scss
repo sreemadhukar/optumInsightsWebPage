@@ -27,12 +27,30 @@
     border-radius: 3px 3px 0 0;
     background-color: #ffffff;
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
+    color: #757588;
+  }
+
+  .left-padd {
+    padding-left: 10px;
+  }
+
+  .lb-padd {
+    padding-left: 10px;
+    padding-bottom: 20px;
+  }
+
+  .drop-toggle-item {
+    height: 39px;
+    width: 282px;
+    border-radius: 3px 3px 0 0;
+    background-color: #ffffff;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
+    color: #757588;
   }
 
   .per-item {
     height: 21px;
     width: 174.56px;
-    color: #2d2d39;
     font-family: 'UHCSans-Medium', 'Helvetica', 'Arial', 'sans-serif';
     font-size: 16px;
     letter-spacing: 0.2px;
@@ -48,7 +66,6 @@
   .tiny-provider {
     height: 12px;
     width: 239px;
-    color: #2d2d39;
     font-family: 'UHCSans-Medium', 'Helvetica', 'Arial', 'sans-serif';
     font-size: 12px;
     letter-spacing: 0.15px;
@@ -56,12 +73,18 @@
     padding-left: 11px;
   }
 
-  div.drop-item:hover {
-    background-color: #f1f4f7;
+  div.drop-item:hover,
+  :active {
+    background-color: #e3f0fd;
+    color: #196ecf;
   }
 
-  div.drop-item:active {
-    background-color: #f1f4f7;
+  .icon mat-icon {
+    visibility: hidden;
+  }
+
+  .icon:hover mat-icon {
+    visibility: visible;
   }
 
   .menu-div {

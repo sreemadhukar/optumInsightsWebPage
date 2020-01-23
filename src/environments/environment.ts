@@ -18,8 +18,9 @@ export const environment: any = {
   // *In Local use dev3
   // apiProxyUrl: 'https://nginx-pedtst.ocp-ctc-core-nonprod.optum.com/',
   // originUrl: 'https://pedintui-pedstg.ocp-ctc-dmz-stg.optum.com/',
-  apiProxyUrl: 'https://gateway-stage-core.optum.com/api/devone/pdr/uhci/v1/',
-  originUrl: 'https://pedui2-peddev.ocp-ctc-core-nonprod.optum.com/',
+  apiProxyUrl: 'https://pedapi3-peddev.ocp-ctc-core-nonprod.optum.com/',
+  originUrl: 'https://pedui3-peddev.ocp-ctc-core-nonprod.optum.com/',
+
   apiUrls: {
     ExecutiveSummaryPath: 'providersystems/',
     ProviderSystemClaimsAgg: 'agg-claims/search/v2.0/',
@@ -64,7 +65,9 @@ export const environment: any = {
     ACOMetrics: 'aco-metrics/',
     RefreshToken: 'getRefreshToken/',
     HealthSystemDetails: 'providerInfo/',
-    KOPBusinessGlossary: 'business-glossaries-kop/'
+    KOPBusinessGlossary: 'business-glossaries-kop/',
+    CallsTrendLine: 'calls-trend/',
+    PaymentsBySubmission: 'claim-submissions/'
   },
   headerKeys: {
     selectedCompany: '',

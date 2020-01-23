@@ -26,10 +26,11 @@ export class NetworkParticipation {
             title: null,
             currentQuarter: true,
             id: index,
-            section: this.section
+            section: this.section + key
           });
         } else {
-          const value = Network_Participation[key][subKey] ? Math.round(Network_Participation[key][subKey]) : null;
+          const value =
+            Network_Participation[key][subKey] !== null ? Math.round(Network_Participation[key][subKey]) : null;
           if (this.singleCard && value !== null) {
             chartDataElement.quarters.push({ title: value + '' + chartDataElement.units });
           } else {
@@ -38,7 +39,7 @@ export class NetworkParticipation {
               title: value,
               currentQuarter: true,
               id: index,
-              section: this.section
+              section: this.section + key
             });
           }
         }
@@ -80,9 +81,9 @@ export class NetworkParticipation {
       },
       {
         quarters: [],
-        cardType: 'hollowbox',
-        key: 'LinkPriorAuthNPS',
-        subKey: 'LinkPriorAuthNPSValue',
+        cardType: 'miniDonut',
+        key: 'SatWithCredentialing',
+        subKey: 'SatWithCredentialingValue',
         singleCard: this.singleCard,
         units: '%',
         report: true,

@@ -50,7 +50,13 @@ export class GettingReimbursedService {
   /** function for Appeals PDP api */
   public claimsAppealsData(...parameters) {
     const appealsParam = parameters[1];
-    const appealsURL = this.APP_URL + this.APPEALS_SERVICE + parameters[0] + '?requestType=APPEALS_MEASURE_DOR_HCO';
+    let appealsReqType = '';
+    if (parameters[1].appealsProcessing === 'Received Date') {
+      appealsReqType = '?requestType=APPEALS_MEASURE_DOR_HCO';
+    } else {
+      appealsReqType = '?requestType=APPEALS_MEASURE_DOC_HCO';
+    }
+    const appealsURL = this.APP_URL + this.APPEALS_SERVICE + parameters[0] + appealsReqType;
     return this.http.post(appealsURL, appealsParam).pipe(
       map(res => JSON.parse(JSON.stringify(res))),
       catchError(err => of(JSON.parse(JSON.stringify(err))))
@@ -59,8 +65,13 @@ export class GettingReimbursedService {
 
   public claimsAppealsReasonData(...parameters) {
     const appealsParam = parameters[1];
-    const appealsURL =
-      this.APP_URL + this.APPEALS_OVERTURN + parameters[0] + '?requestType=APPEALS_TOP_OVERTURNED_REASON_DOR_HCO';
+    let appealsReqType = '';
+    if (parameters[1].appealsProcessing === 'Received Date') {
+      appealsReqType = '?requestType=APPEALS_TOP_OVERTURNED_REASON_DOR_HCO';
+    } else {
+      appealsReqType = '?requestType=APPEALS_TOP_OVERTURNED_REASON_DOC_HCO';
+    }
+    const appealsURL = this.APP_URL + this.APPEALS_OVERTURN + parameters[0] + appealsReqType;
     return this.http.post(appealsURL, appealsParam).pipe(
       map(res => JSON.parse(JSON.stringify(res))),
       catchError(err => of(JSON.parse(JSON.stringify(err))))
@@ -103,7 +114,6 @@ export class GettingReimbursedService {
   public getPaymentIntegrityData(parameters) {
     const piURL = this.APP_URL + this.PAYMENT_INTEGRITY_PATH + parameters.providerkey;
     let params = new HttpParams();
-
     if (parameters.timeperiod !== '') {
       params = params.append('timeFilter', parameters.timeperiod);
     }
