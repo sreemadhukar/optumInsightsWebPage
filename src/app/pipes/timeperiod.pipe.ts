@@ -15,7 +15,7 @@ export class TimePeriodPipe implements PipeTransform {
         const join = ' v. ';
         return (timeFrame = timeFramePart1 + join + timeFramePart2);
       case 'Last Year':
-        return (timeFrame = years[1]);
+        return (timeFrame = years[1] ? years[1] : years[0]);
     }
   }
 }

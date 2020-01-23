@@ -75,6 +75,21 @@
           </div>
         </button>
       </div>
+      <!--**********Claims Filters Applied Ends here************-->
+
+      <!--***********Appeals Filters Applied starts here***********-->
+      <div class="horizontal-align" *ngIf="selectedPage === 'appealsPage' || tabName == 'gettingReimbursedAppeals'">
+        <button class="btn btn-rounded" disabled>
+          <span>View Appeals By: </span><span class="text-semibold pl-4"> {{ selectedAppeals.value }} </span>
+          <!--div class="close-btn">
+            <mat-icon class="icon-display" (click)="removeAppliedFilter('appeals')" svgIcon="close"></mat-icon>
+          </div-->
+        </button>
+      </div>
+      <!--***********Appeals Filter Applied Ends Here***********-->
+
+      <!--**** Prior Auth Sercice setting filters applied *****-->
+
       <div class="horizontal-align" *ngIf="selectedPage === 'priorAuthPage' && selectedServiceSetting.value !== 'All'">
         <button class="btn btn-rounded" disabled>
           <span>Service Setting: </span><span class="text-semibold pl-4"> {{ selectedServiceSetting.value }} </span>

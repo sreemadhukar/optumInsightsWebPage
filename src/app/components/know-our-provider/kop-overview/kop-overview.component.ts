@@ -114,6 +114,8 @@ export class KopOverviewComponent implements OnInit, OnDestroy {
           this.currentFilter = filterDataItem;
         }
       });
+      this.npsLoaded = false;
+      this.isError = false;
       this.getNPSData();
     });
   }
@@ -135,58 +137,71 @@ export class KopOverviewComponent implements OnInit, OnDestroy {
           this.kopInsightsData = data;
           this.npsLoaded = true;
           this.loadOtherMetrics();
-          this.getReimbursementClaimsData();
         } else {
+          this.kopInsightsData = null;
+          this.npsLoaded = true;
           this.isError = true;
         }
       })
       .catch(err => {
+        this.kopInsightsData = null;
+        this.npsLoaded = true;
         this.isError = true;
       });
   }
 
   loadOtherMetrics() {
-    this.kopSharedService
-      .getPriorAuthSummary({ filter: this.currentFilter })
-      .then((data: any) => {
-        if (data) {
-          const {
-            careDelivery: { chartData }
-          } = data;
-          this.kopInsightsData.careDelivery.chartData.forEach((chartItem: any, index: number) => {
-            if (chartItem.metricType === 'priorauth') {
-              Object.assign(chartItem, { ...chartData[index] });
-            }
-            if (chartItem.metricType === 'priorauthtat') {
-              Object.assign(chartItem, { ...chartData[index] });
-            }
-          });
-        }
-      })
-      .catch(err => {
-        // Use this if you need to show some error
-        console.log(err);
-      });
+    try {
+      this.getPriorAuthSummary();
+      this.getPriorAuthTATSummary();
+      this.getReimbursementClaimsData();
+    } catch (error) {
+      console.log('Error in Prior Auth | Prior Auth TAT | Reiumbursement');
+    }
+  }
+  getPriorAuthSummary() {
+    this.kopSharedService.getPriorAuthSummary({ filter: this.currentFilter }).then((data: any) => {
+      if (data) {
+        const {
+          careDelivery: { chartData }
+        } = data;
+        this.kopInsightsData.careDelivery.chartData.forEach((chartItem: any, index: number) => {
+          if (chartItem.metricType === 'priorauth') {
+            Object.assign(chartItem, { ...chartData[index] });
+          }
+        });
+      }
+    });
+  }
+
+  getPriorAuthTATSummary() {
+    this.kopSharedService.getPriorAuthTATSummary({ filter: this.currentFilter }).then((data: any) => {
+      if (data) {
+        const {
+          careDelivery: { chartData }
+        } = data;
+        this.kopInsightsData.careDelivery.chartData.forEach((chartItem: any, index: number) => {
+          if (chartItem.metricType === 'priorauthtat') {
+            Object.assign(chartItem, { ...chartData[index] });
+          }
+        });
+      }
+    });
   }
 
   getReimbursementClaimsData() {
-    this.kopSharedService
-      .getClaimsData({ filter: this.currentFilter })
-      .then((data: any) => {
-        if (data) {
-          const {
-            reimbursement: { chartData }
-          } = data;
-          this.kopInsightsData.reimbursement.chartData.forEach((chartItem: any, index: number) => {
-            if (chartItem.metricType === 'reimbursementClaims') {
-              Object.assign(chartItem, { ...chartData[index] });
-            }
-          });
-        }
-      })
-      .catch(err => {
-        console.log(err);
-      });
+    this.kopSharedService.getClaimsData({ filter: this.currentFilter }).then((data: any) => {
+      if (data) {
+        const {
+          reimbursement: { chartData }
+        } = data;
+        this.kopInsightsData.reimbursement.chartData.forEach((chartItem: any, index: number) => {
+          if (chartItem.metricType === 'reimbursementClaims') {
+            Object.assign(chartItem, { ...chartData[index] });
+          }
+        });
+      }
+    });
   }
 
   showMetricDevelopment(kopInsightsData) {
