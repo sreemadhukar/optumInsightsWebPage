@@ -25,3 +25,13 @@ path.domain {
 .y .tick line {
   stroke: #ddd;
 }
+
+.labels {
+  height: 22px;
+  width: 178px;
+  color: #2d2d39;
+  font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  letter-spacing: 0.17px;
+  line-height: 22px;
+}

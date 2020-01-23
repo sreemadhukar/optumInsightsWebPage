@@ -205,53 +205,54 @@ export class StackedBarChartComponent implements OnInit {
 
     console.log('left Cont', leftContainer);
     // d3.json('menu').then(data => {
-    leftContainer
-      .append('text')
-      .attr('x', () => 20)
-      .attr('y', () => 20)
-      .attr('fill', 'black')
-      .text('Electronic Claims')
-      .style('font-family', 'Arial');
 
     leftContainer
       .append('circle')
-      .attr('cx', () => 25)
-      .attr('cy', () => 36)
+      .attr('cx', () => 10)
+      .attr('cy', () => 5)
       .attr('r', () => 8)
       .attr('fill', '#3381FF');
 
     leftContainer
+      .append('text')
+      .attr('x', () => 25)
+      .attr('y', () => 10)
+      .attr('fill', 'black')
+      .text('Electronic Claims')
+      .classed('labels', true);
+
+    /* leftContainer
       .append('text')
       .attr('x', () => 40)
       .attr('y', () => 40)
       .attr('fill', 'black')
       .text('$8.7 M (86.4%)')
       .style('font-family', 'Arial')
-      .style('font-size', '13px');
-
-    leftContainer
-      .append('text')
-      .attr('x', () => 20)
-      .attr('y', () => 70)
-      .attr('fill', 'black')
-      .text('Paper Claims')
-      .style('font-family', 'Arial');
+      .style('font-size', '13px'); */
 
     leftContainer
       .append('circle')
-      .attr('cx', 25)
-      .attr('cy', 86)
+      .attr('cx', 10)
+      .attr('cy', 40)
       .attr('r', 8)
       .attr('fill', '#00B8CC');
 
     leftContainer
+      .append('text')
+      .attr('x', () => 25)
+      .attr('y', () => 45)
+      .attr('fill', 'black')
+      .text('Paper Claims')
+      .classed('labels', true);
+
+    /* leftContainer
       .append('text')
       .attr('x', 40)
       .attr('y', 90)
       .attr('fill', 'black')
       .text('$261.7 K (3.3%)')
       .style('font-family', 'Arial')
-      .style('font-size', '13px');
+      .style('font-size', '13px'); */
 
     const y = d3
       .scaleLinear()
