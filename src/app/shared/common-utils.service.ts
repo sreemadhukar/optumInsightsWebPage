@@ -258,15 +258,23 @@ export class CommonUtilsService {
       return '12';
     }
   }
-  public dayFormat(day: string) {
+  public dayFormat(day: string): string {
+    /*
     if (day[0] === '0') {
       return day.slice(1);
     } else {
       return day;
     }
+    */
+    return day;
   }
   public dateFormat(timeStamp: string): string {
-    const date1 = timeStamp.split(' '); // "2019-02-01 06:00:00"
+    let date1;
+    if (timeStamp.includes('T')) {
+      date1 = timeStamp.split('T'); // "2019-07-01T00:00:00.000+0000"
+    } else {
+      date1 = timeStamp.split(' '); // "2019-02-01 06:00:00"
+    }
     const x = date1[0].split('-'); // "2019-02-01"
     const y = this.ReturnMonthlyString(x[1]) + ' ' + this.dayFormat(x[2]) + ', ' + x[0]; // Feb 02, 2019
     return y;
@@ -483,6 +491,71 @@ export class CommonUtilsService {
     }
     return lobLabels;
   }
+
+  public lobNameForSideLabels(LOBType, data) {
+    const lobColorLabels = [];
+    if (LOBType === 'All' || LOBType === 'ALL') {
+      if (data.Mr !== null) {
+        lobColorLabels.push('Medicare & Retirement'); // M and R Color
+      }
+      if (data.Cs !== null) {
+        lobColorLabels.push('Community & State'); // C and S Color
+      }
+      if (data.Ei !== null) {
+        lobColorLabels.push('Employer & Individual'); // E and I Color
+      }
+      if (data.Un !== null) {
+        lobColorLabels.push('Uncategorized'); // Un Color
+      }
+    } else {
+      if (LOBType === 'Mr' || LOBType === 'MedicareAndRetirement') {
+        lobColorLabels.push('Medicare & Retirement');
+      }
+      if (LOBType === 'Cs' || LOBType === 'CommunityAndState') {
+        lobColorLabels.push('Community & State');
+      }
+      if (LOBType === 'Ei' || LOBType === 'EmployerAndIndividual') {
+        lobColorLabels.push('Employer & Individual');
+      }
+      if (LOBType === 'Un' || LOBType === 'Uncategorized') {
+        lobColorLabels.push('Uncategorized');
+      }
+    }
+    return lobColorLabels;
+  }
+
+  public lobColorForLabels(LOBType, data) {
+    const lobColorLabels = [];
+    if (LOBType === 'All' || LOBType === 'ALL') {
+      if (data.Mr !== null) {
+        lobColorLabels.push('#3381FF'); // M and R Color
+      }
+      if (data.Cs !== null) {
+        lobColorLabels.push('#80B0FF'); // C and S Color
+      }
+      if (data.Ei !== null) {
+        lobColorLabels.push('#003DA1'); // E and I Color
+      }
+      if (data.Un !== null) {
+        lobColorLabels.push('#00B8CC'); // Un Color
+      }
+    } else {
+      if (LOBType === 'Mr' || LOBType === 'MedicareAndRetirement') {
+        lobColorLabels.push('#3381FF');
+      }
+      if (LOBType === 'Cs' || LOBType === 'CommunityAndState') {
+        lobColorLabels.push('#80B0FF');
+      }
+      if (LOBType === 'Ei' || LOBType === 'EmployerAndIndividual') {
+        lobColorLabels.push('#003DA1');
+      }
+      if (LOBType === 'Un' || LOBType === 'Uncategorized') {
+        lobColorLabels.push('#00B8CC');
+      }
+    }
+    return lobColorLabels;
+  }
+
   public LOBSideLabelColors(LOBType, data) {
     const lobColorLabels = [];
     if (LOBType === 'All' || LOBType === 'ALL') {

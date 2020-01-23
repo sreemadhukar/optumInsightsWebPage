@@ -130,8 +130,8 @@ export class AccordionLargeCardComponent implements OnInit {
         }
       }
     }
-    this.compliantMemberCount = this.qualityPcorData[0].CompliantMemberCount;
-    this.eligibleMemberCount = this.qualityPcorData[0].EligibleMemberCount;
+    this.compliantMemberCount = this.qualityPcorData[0].CompliantMemberscount;
+    this.eligibleMemberCount = this.qualityPcorData[0].EligibleMemberscount;
     this.currentRateCalc = this.common.nFormatter(
       ((this.compliantMemberCount / this.eligibleMemberCount) * 100).toFixed(0) + '%'
     );
@@ -142,8 +142,8 @@ export class AccordionLargeCardComponent implements OnInit {
         this.subsection[i] = false;
       }
     }
-    this.compliantMemberCount = this.qualityPcorData[x].CompliantMemberCount;
-    this.eligibleMemberCount = this.qualityPcorData[x].EligibleMemberCount;
+    this.compliantMemberCount = this.qualityPcorData[x].CompliantMemberscount;
+    this.eligibleMemberCount = this.qualityPcorData[x].EligibleMemberscount;
     this.currentRateCalc = this.common.nFormatter(
       ((this.compliantMemberCount / this.eligibleMemberCount) * 100).toFixed(0) + '%'
     );
