@@ -64,6 +64,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   @Input() button: boolean;
   public isKop: boolean;
   @Output() hamburgerDisplay = new EventEmitter<boolean>();
+  @Output() clickOutside = new EventEmitter<boolean>();
   public sideNavFlag = false;
   public state: any;
   public mobileQuery: boolean;
@@ -154,20 +155,35 @@ export class HeaderComponent implements OnInit, OnDestroy {
     });
   }
 
-  advocateUserClick() {
-    if (this.checkAdv.value) {
-      this.advDropdownBool = !this.advDropdownBool;
-    } else {
+  @HostListener('document:click', ['$event.target'])
+  advocateUserClick(targetElement) {
+    const HeaderElement = document.querySelector('.header-div');
+    const ButtonElement = document.querySelector('.user-div');
+    const dropdownElement = document.querySelector('.dropdown-body');
+    const clickedHeader = HeaderElement.contains(targetElement);
+    const clickedButton = ButtonElement.contains(targetElement);
+    const clickedInside = dropdownElement.contains(targetElement);
+    if (!clickedHeader && !clickedButton && !clickedInside) {
       this.advDropdownBool = false;
+      this.clickOutside.emit(null);
+    } else if (clickedHeader && !clickedButton && !clickedInside) {
+      this.advDropdownBool = false;
+      this.clickOutside.emit(null);
     }
   }
+  advocateUserClicked() {
+    this.advDropdownBool = true;
+  }
+
   advViewClicked(value: string) {
     if (value === 'myView') {
       this.router.navigate(['/OverviewPageAdvocate']);
     } else if (value === 'userView') {
       this.router.navigate(['/OverviewPage']);
     }
+    this.advDropdownBool = false;
   }
+
   ngOnInit() {
     this.advDropdownBool = false;
     this.healthSystemName = this.sessionService.getHealthCareOrgName();
@@ -180,6 +196,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
         this.fullname = userInfo.FirstName + ' ' + userInfo.LastName;
       }
     });
+
     this.checkStorage.getEvent().subscribe(value => {
       if (value.value === 'overviewPage') {
         if (JSON.parse(sessionStorage.getItem('loggedUser'))) {
