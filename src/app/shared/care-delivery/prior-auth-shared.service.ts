@@ -180,7 +180,6 @@ export class PriorAuthSharedService {
       this.priorAuthService
         .getPriorAuthDataNew([this.providerKey, isAllTinBool], requestBody)
         .subscribe(providerSystems => {
-          console.log('Prior auth', providerSystems);
           let PACount = [];
           let PriorAuthBarGraphParameters = [];
           let PANotApprovedReasonBool;
