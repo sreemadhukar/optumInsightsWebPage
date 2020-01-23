@@ -301,8 +301,8 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
     this.paymentData();
     this.appealsLeftData();
     this.appealsTrendByMonthData();
-    this.totalCallsData();
     this.claimsYieldData();
+    this.totalCallsData();
     this.totalCallsTrendLineData();
     this.paymentsBySubmissionData();
     this.appealsLineGraphloading = true;

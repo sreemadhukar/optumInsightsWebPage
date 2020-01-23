@@ -93,6 +93,9 @@ export class AppealsComponent implements OnInit {
         let AppealsCards: any;
         AppealsCards = appealsRateData;
         this.loading = false;
+        if (AppealsCards[0].status !== null && AppealsCards[0].data !== null) {
+          this.loading = false;
+        }
         try {
           this.timePeriod = appealsRateData[0].timeperiod;
         } catch (Error) {
@@ -100,31 +103,29 @@ export class AppealsComponent implements OnInit {
         }
         this.overturnItem = AppealsCards;
       })
-      .catch(error => {
+      .catch(err => {
+        console.log('Error', err);
         this.loading = false;
-        /* potentially some code for generating an error specific message here */
-        console.log('appealsRateData', error);
       });
-
     this.appealsSharedService
       .getAppealsReasonData(this.createPayloadService.payload)
       .then(appealsReason => {
-        this.loading = false;
         let appealsReasonData: any;
         appealsReasonData = appealsReason;
-        if (appealsReason && appealsReasonData[0].status && appealsReasonData[0].data) {
+        if (appealsReasonData[0].status !== null && appealsReasonData[0].data !== null) {
           this.reasonDataAvailable = true;
+          this.loading = false;
         } else {
           this.reasonDataAvailable = false;
+          this.loading = false;
         }
         this.reason = appealsReasonData;
       })
-      .catch(error => {
+      .catch(err => {
+        console.log('Error', err);
         this.loading = false;
-        this.reasonDataAvailable = false;
-        /* potentially some code for generating an error specific message here */
-        console.log('Appeals card', error);
       });
+
     // this.appealsSharedService.getappealsTatandDevidedOverturnData().then(appealsRateData => {
     //   this.appealsTAT = appealsRateData;
     //   this.showAppealsTAT = true;
