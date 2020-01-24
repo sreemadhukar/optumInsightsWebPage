@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation, Input } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, Input, AfterViewInit } from '@angular/core';
 import * as d3 from 'd3';
 
 @Component({
@@ -15,27 +15,46 @@ export class StackedBarChartComponent implements OnInit {
   public width: any;
   public height: any;
   public renderChart: string;
-
   @Input() chartOptions: any = {};
 
   ngOnInit() {
-    this.doStaggedBarGraph();
+    this.renderChart = '#' + this.chartOptions.chartId;
+    console.log('this.chartOptions.chartId', this.chartOptions.chartId);
+    this.doStaggedBarGraph(this.chartOptions.chartData);
+  }
+
+  // tslint:disable-next-line:use-life-cycle-interface
+  ngAfterViewInit() {
+    this.doStaggedBarGraph(this.chartOptions.chartData);
+  }
+
+  onResize(event) {
+    this.doStaggedBarGraph(this.chartOptions.chartData);
+  }
+
+  onSystemChange() {
+    this.doStaggedBarGraph(this.chartOptions.chartData);
   }
 
   // tslint:disable-next-line:use-life-cycle-interface
 
-  doStaggedBarGraph() {
-    function formatDy(dy: number): string {
-      if (dy === 0) {
-        return '0';
-      } else if (dy < 999) {
-        return dy.toFixed(0);
-      } else if (dy < 999999) {
-        return (dy / 1000).toFixed(1) + 'K';
-      } else if (dy) {
-        return (dy / 1000000).toFixed(1) + 'M';
+  doStaggedBarGraph(barData) {
+    function nondecimalFormatter(fnumber) {
+      if (fnumber >= 1000000000) {
+        return (fnumber / 1000000000).toFixed(0).replace(/\.0$/, '') + 'B';
       }
-    } // ends formatDynamicAbbrevia function
+      if (fnumber >= 1000000) {
+        return (fnumber / 1000000).toFixed(0).replace(/\.0$/, '') + 'M';
+      }
+      if (fnumber >= 1000) {
+        return (fnumber / 1000).toFixed(0).replace(/\.0$/, '') + 'K';
+      }
+      if (fnumber < 1000) {
+        return fnumber.toFixed(0).replace(/\.0$/, '');
+      }
+      return fnumber;
+    }
+    // ends formatDynamicAbbrevia function
 
     /* function formatDynamicAbbreviation(tickNumber, tickValue, prefix) {
       const q = tickValue;
@@ -143,7 +162,7 @@ export class StackedBarChartComponent implements OnInit {
     } */
 
     // Need to bind with js
-    const chartData = {
+    /* const chartData = {
       leftSide: [
         {
           label: 'Electronic Claims',
@@ -158,9 +177,11 @@ export class StackedBarChartComponent implements OnInit {
           color: 'red'
         }
       ]
-    };
+    };*/
 
-    // d3.select(this.renderChart).selectAll('*');
+    d3.select(this.renderChart)
+      .selectAll('*')
+      .remove();
     // select the svg container first
     // const width = 550;
     // const height = 400;
@@ -190,17 +211,27 @@ export class StackedBarChartComponent implements OnInit {
     const yAxisGroup = graph.append('g');
     const leftContainer = svg.append('g').attr('transform', `translate(${margin.left - 160}, ${margin.top + 100})`);
 
+    console.log('Hiiii', barData);
+
     const data = [
       {
-        name: 'Sachin',
-        electronic: 2400,
-        paper: 300
+        name: 'Stacked Bar Chart',
+        electronic: 312525450,
+        paper: 15277119
       }
     ];
 
+    // Data Binding to be used
+    /*const data = [
+      {
+        name: 'Stacked Bar Chart',
+        electronic: barData.Electronic_Claims.toFixed(0),
+        paper: barData.Paper_Claims.toFixed(0)
+      }
+    ];*/
+
     console.log('left Cont', leftContainer);
     // d3.json('menu').then(data => {
-
     leftContainer
       .append('circle')
       .attr('cx', () => 10)
@@ -273,9 +304,33 @@ export class StackedBarChartComponent implements OnInit {
           .tickSizeOuter([0])
       );
 
+    // Prep the tooltip bits, initial display is hidden
+
     const rects = graph.selectAll('rect').data(data);
     const rects2 = graph.selectAll('rect').data(data);
     const rects3 = graph.selectAll('rect').data(data);
+
+    const tooltip = d3
+      .select('.canvas')
+      .append('div')
+      .attr('class', 'tooltip')
+      .style('display', 'none');
+
+    tooltip
+      .append('rect')
+      .attr('width', 109)
+      .attr('height', 66)
+      .attr('fill', 'white')
+      .style('opacity', 1);
+
+    tooltip
+      .append('text')
+      .attr('x', 15)
+      .attr('dy', '1.2em')
+      .style('text-anchor', 'middle')
+      .attr('font-size', '14px')
+      .attr('font-weight', 'bold');
+
     // add attrs to circs already in the DOM
     rects
       .attr('width', x.bandwidth)
@@ -292,16 +347,17 @@ export class StackedBarChartComponent implements OnInit {
       .attr('height', d => graphHeight - y(d.electronic))
       .attr('fill', '#3381FF')
       .attr('x', d => x(d.name))
-      .attr('y', d => y(d.electronic));
-
-    /*.on('mouseover', function(d) {
-        console.log('mouseover', d);
-        tooltip.style('display', d);
+      .attr('y', d => y(d.electronic))
+      .on('mouseover', function(d) {
+        console.log('mouseover');
+        tooltip.attr('transform', 'translate(' + 100 + ',' + 100 + ')');
+        tooltip.select('text').text(d.name);
+        tooltip.style('display', 'inline-flex');
       })
       .on('mouseout', function() {
         console.log('mouseout');
         tooltip.style('display', 'none');
-      });*/
+      });
 
     rects2
       .attr('width', x.bandwidth)
@@ -347,7 +403,7 @@ export class StackedBarChartComponent implements OnInit {
         d3
           .axisRight(y)
           .ticks(4)
-          .tickFormat(d => '$ ' + d)
+          .tickFormat(d => '$ ' + nondecimalFormatter(d))
       );
 
     //    .tickFormat(d3.formatPrefix('.1', 1e3));
@@ -355,25 +411,5 @@ export class StackedBarChartComponent implements OnInit {
     // xAxisGroup.call(xAxis);
     yAxisGroup.attr('transform', `translate(${graphWidth}, 0)`).call(yAxis);
     // });
-
-    // Prep the tooltip bits, initial display is hidden
-    /*const tooltip = graph
-      .append('rects')
-      .attr('class', 'tooltip')
-      .style('display', 'none');
-    tooltip
-      .append('rect')
-      .attr('width', 30)
-      .attr('height', 20)
-      .attr('fill', 'white')
-      .style('opacity', 0.5);
-
-    tooltip
-      .append('text')
-      .attr('x', 15)
-      .attr('dy', '1.2em')
-      .style('text-anchor', 'middle')
-      .attr('font-size', '12px')
-      .attr('font-weight', 'bold');*/
   }
 }

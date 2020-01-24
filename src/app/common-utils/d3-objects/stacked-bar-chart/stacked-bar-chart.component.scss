@@ -63,17 +63,17 @@ path.domain {
   line-height: 18px;
 }
 
-.tooltip {
-  background: white;
-  border: 0;
-  border-radius: 8px;
-  font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
-  font-size: 12px;
-  font-weight: bold;
-  height: 20px;
-  padding: 2px;
-  pointer-events: none;
+div.tooltip {
   position: absolute;
   text-align: center;
-  width: 120px;
+  font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+  background: red;
+  border: 0px;
+  border-radius: 8px;
+  pointer-events: none;
+  height: 66px;
+  width: 109px;
+  box-shadow: 0 10px 20px 0 rgba(0, 0, 0, 0.35);
+  z-index: 99;
+  opacity: 0.95;
 }

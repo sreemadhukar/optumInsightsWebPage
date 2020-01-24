@@ -74,6 +74,8 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
   pbsCard: any;
   paperClaims: any;
   electronicClaims: any;
+  stackedBarChartData: any = {};
+  stackedBarChartLoading: boolean;
 
   constructor(
     private checkStorage: StorageService,
@@ -307,6 +309,7 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
     this.paymentsBySubmissionData();
     this.appealsLineGraphloading = true;
     this.callsLineGraphLoading = true;
+    this.stackedBarChartLoading = true;
     this.userName = this.session.sessionStorage('loggedUser', 'FirstName');
     this.pagesubTitle = this.session.getHealthCareOrgName() + "'s insights at a glance.";
 
@@ -359,21 +362,24 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
   }
 
   paymentsBySubmissionData() {
+    this.stackedBarChartLoading = false;
     this.pbsLoading = true;
     this.downRowMockCards = [{}];
     this.pbsCard = [];
     this.overviewAdvocateSharedService
       .paymentsBySubmission(this.createPayloadService.payload)
       .then(pbsData => {
-        console.log('this.pbsData--------->', pbsData);
         this.paperClaims = pbsData[0].PaperSubmissions.All.ClaimsLobSummary[0].WriteOffAmount;
         this.electronicClaims = pbsData[0].EDISubmissions.All.ClaimsLobSummary[0].WriteOffAmount;
-        this.pbsCard.push('Paper Claims', this.paperClaims);
-        this.pbsCard.push('Electronic Claims', this.electronicClaims);
-        console.log('this.pbsCard--------->', this.pbsCard);
+        this.pbsCard = { Paper_Claims: this.paperClaims, Electronic_Claims: this.electronicClaims };
+        this.stackedBarChartData.chartId = 'Payments By Submission Stack';
+        this.stackedBarChartData.chartData = this.pbsCard;
+        console.log('this.stackedBarChartData', this.stackedBarChartData);
         this.pbsLoading = false;
+        this.stackedBarChartLoading = true;
       })
       .catch(reason => {
+        this.stackedBarChartLoading = false;
         this.pbsLoading = false;
         console.log('Adovate Overview page Payment', reason);
       });
