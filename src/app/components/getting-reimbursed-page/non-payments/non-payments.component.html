@@ -16,7 +16,7 @@
 
     <div *ngFor="let item of nonPaymentData1">
       <app-card *ngIf="item.data != null && !item.toggle" class="cards" [chartData]="item"> </app-card>
-      <app-error-card *ngIf="item.status != null" class="cards" [data]="item"></app-error-card>
+      <app-error-card *ngIf="item.status != null && !item.toggle" class="cards" [data]="item"></app-error-card>
     </div>
 
     <!-- Top reasons for Claims Start here -->
@@ -124,14 +124,14 @@
           </div>
         </div>
         <div class="full-display white-bg">
-          <app-common-footer [timePeriod]="timePeriod" [title]="title" class="width-100"></app-common-footer>
+          <app-common-footer [timePeriod]="timePeriodTopReaons" [title]="title" class="width-100"></app-common-footer>
         </div>
       </div>
     </div>
 
     <div *ngIf="printStyle" class="height-separator2-print"></div>
 
-    <div>
+    <div *ngIf="viewClaimsByFilter !== 'DateOfProcessing'">
       <app-error-card
         *ngIf="!trendMonthDisplay && monthlyLineGraph != null && monthlyLineGraph.status != null"
         class="cards"
@@ -149,12 +149,12 @@
          <p class="timeperiod-text">{{ timePeriod }}</p>
        </div-->
         </div>
-        <app-common-footer [timePeriod]="timePeriod" class="width-100 time-period-trend"></app-common-footer>
+        <app-common-footer [timePeriod]="timePeriodLineGraph" class="width-100 time-period-trend"></app-common-footer>
       </div>
     </div>
 
     <!-- Claims Non - Payment Trend Ends Here -->
 
-    <app-clarify-claims-message></app-clarify-claims-message>
+    <!--app-clarify-claims-message></app-clarify-claims-message-->
   </div>
 </div>

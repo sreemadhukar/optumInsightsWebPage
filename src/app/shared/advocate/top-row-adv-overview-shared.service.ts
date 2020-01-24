@@ -7,6 +7,7 @@ import { AuthorizationService } from '../../auth/_service/authorization.service'
 import { GlossaryMetricidService } from '../glossary-metricid.service';
 import { GettingReimbursedPayload } from '../getting-reimbursed/payload.class';
 import * as _ from 'lodash';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -92,7 +93,7 @@ export class TopRowAdvOverviewSharedService {
           sign: '',
           data: ''
         },
-        timeperiod: this.timeFrame
+        timeperiod: this.common.dateFormat(paymentData.Startdate) + ' - ' + this.common.dateFormat(paymentData.Enddate)
       };
     } else {
       claimsSubmitted = {
@@ -180,7 +181,7 @@ export class TopRowAdvOverviewSharedService {
           sign: '',
           data: ''
         },
-        timeperiod: this.timeFrame
+        timeperiod: this.common.dateFormat(paymentData.Startdate) + ' - ' + this.common.dateFormat(paymentData.Enddate)
       };
     } else {
       claimsPaid = {
@@ -269,7 +270,7 @@ export class TopRowAdvOverviewSharedService {
           sign: '',
           data: ''
         },
-        timeperiod: this.timeFrame
+        timeperiod: this.common.dateFormat(paymentData.Startdate) + ' - ' + this.common.dateFormat(paymentData.Enddate)
       };
     } else {
       claimsNotPaid = {
@@ -285,5 +286,63 @@ export class TopRowAdvOverviewSharedService {
       };
     }
     return claimsNotPaid;
+  }
+
+  public getClaimsYieldShared(param) {
+    this.timeFrame = this.common.getTimePeriodFilterValue(param.timePeriod);
+    this.lob = param.lineOfBusiness ? _.startCase(param.lineOfBusiness.toLowerCase()) : 'All';
+    this.providerKey = this.session.providerKeyData();
+    return new Promise(resolve => {
+      const parameters = this.getParameterCategories(param);
+      this.topRowService.getPaymentData(...parameters).subscribe(
+        yieldData => {
+          resolve(this.claimsYieldMethod(param, yieldData));
+        },
+        err => {
+          console.log('Advocate Page , Error for Payment cards', err);
+        }
+      );
+    });
+  }
+
+  public claimsYieldMethod(param, yieldData): Object {
+    const lobData = param.lineOfBusiness ? _.startCase(param.lineOfBusiness.toLowerCase()) : 'All';
+    let claimsYield: Object;
+    if (
+      yieldData.hasOwnProperty(lobData) &&
+      yieldData[lobData] != null &&
+      yieldData[lobData].hasOwnProperty('ClaimsLobSummary') &&
+      yieldData[lobData].ClaimsLobSummary.length &&
+      yieldData[lobData].ClaimsLobSummary[0].hasOwnProperty('ClaimsYieldRate') &&
+      yieldData[lobData].ClaimsLobSummary[0].hasOwnProperty('ClaimsNonPaymentRate') &&
+      yieldData[lobData].ClaimsLobSummary[0].ClaimsYieldRate.toFixed() !== 0
+    ) {
+      // used toggle: true as toggle functionality is not built properly : srikar bobbiganipalli
+      claimsYield = {
+        category: 'app-card',
+        type: 'donut',
+        title: 'Claims Yield*',
+        data: {
+          graphValues: [
+            yieldData[lobData].ClaimsLobSummary[0].ClaimsYieldRate,
+            yieldData[lobData].ClaimsLobSummary[0].ClaimsNonPaymentRate
+          ],
+          centerNumber: yieldData[lobData].ClaimsLobSummary[0].ClaimsYieldRate.toFixed() + '%',
+          color: ['#3381FF', '#D7DCE1'],
+          gdata: ['card-inner', 'claimsYield'],
+          sdata: null
+        },
+        timeperiod: this.timeFrame
+      };
+    } else {
+      claimsYield = {
+        category: 'app-card',
+        type: 'donut',
+        title: null,
+        data: null,
+        timeperiod: null
+      };
+    }
+    return claimsYield;
   }
 }

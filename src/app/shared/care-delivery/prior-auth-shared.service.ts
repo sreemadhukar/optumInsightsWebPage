@@ -128,6 +128,24 @@ export class PriorAuthSharedService {
       paServiceCategoryString = null;
     }
 
+    // // Service Setting
+    // let isAllSSFlagBool;
+    // if (serviceSetting === 'All') {
+    //   isAllSSFlagBool = true;
+    // } else {
+    //   isAllSSFlagBool = false;
+    // }
+
+    if (serviceSetting === 'All') {
+      serviceSettingString = null;
+    } else if (serviceSetting === 'Inpatient') {
+      serviceSettingString = 'Inpatient';
+    } else if (serviceSetting === 'Outpatient') {
+      serviceSettingString = 'Outpatient';
+    } else if (serviceSetting === 'Outpatient Facility') {
+      serviceSettingString = 'Outpatient Facility';
+    }
+
     const requestBody = {
       tin: specificTin,
       lob: lobString,
@@ -186,7 +204,9 @@ export class PriorAuthSharedService {
             let PANotApprovedCount;
             let PANotPendingCount;
             let PANotCancelledCount;
+
             // LOB all
+
             if (isAllSSFlagBool) {
               if (lobString === 'allLob') {
                 data = providerSystems.PriorAuthorizations.LineOfBusiness.All;
@@ -210,9 +230,10 @@ export class PriorAuthSharedService {
             if (
               serviceSetting === 'Inpatient' ||
               serviceSetting === 'Outpatient' ||
-              serviceSetting === 'OutpatientFacility'
+              serviceSetting === 'Outpatient Facility'
             ) {
               data = providerSystems.PriorAuthorizations.LineOfBusiness.All;
+              console.log('OPF', data);
             }
             // LOB with Service Setting
             if (lobString !== 'allLob') {
@@ -220,21 +241,21 @@ export class PriorAuthSharedService {
                 lobString === 'cAndSLob' &&
                 (serviceSetting === 'Inpatient' ||
                   serviceSetting === 'Outpatient' ||
-                  serviceSetting === 'OutpatientFacility')
+                  serviceSetting === 'Outpatient Facility')
               ) {
                 data = providerSystems.PriorAuthorizations.LineOfBusiness.CommunityAndState;
               } else if (
                 lobString === 'eAndILob' &&
                 (serviceSetting === 'Inpatient' ||
                   serviceSetting === 'Outpatient' ||
-                  serviceSetting === 'OutpatientFacility')
+                  serviceSetting === 'Outpatient Facility')
               ) {
                 data = providerSystems.PriorAuthorizations.LineOfBusiness.EmployerAndIndividual;
               } else if (
                 lobString === 'mAndRLob' &&
                 (serviceSetting === 'Inpatient' ||
                   serviceSetting === 'Outpatient' ||
-                  serviceSetting === 'OutpatientFacility')
+                  serviceSetting === 'Outpatient Facility')
               ) {
                 data = providerSystems.PriorAuthorizations.LineOfBusiness.MedicareAndRetirement;
               }
@@ -310,7 +331,10 @@ export class PriorAuthSharedService {
                       labels: this.common.sideLabelWords(priorAuthorizationCounts, priorAuthorizationLabels),
                       color: this.common.sideLabelColor(priorAuthorizationCounts)
                     },
-                    timeperiod: timePeriod
+                    timeperiod:
+                      this.common.dateFormat(providerSystems.StartDate) +
+                      ' - ' +
+                      this.common.dateFormat(providerSystems.EndDate)
                   }
                 ];
               } else {
@@ -341,7 +365,10 @@ export class PriorAuthSharedService {
                     labels: this.common.sideLabelWords(priorAuthorizationCounts, priorAuthorizationLabels),
                     color: this.common.sideLabelColor(priorAuthorizationCounts)
                   },
-                  timeperiod: timePeriod
+                  timeperiod:
+                    this.common.dateFormat(providerSystems.StartDate) +
+                    ' - ' +
+                    this.common.dateFormat(providerSystems.EndDate)
                 },
                 {
                   category: 'app-card',
@@ -367,7 +394,10 @@ export class PriorAuthSharedService {
                       { values: TATHourLabel, labels: 'Urgent' }
                     ]
                   },
-                  timeperiod: timePeriod
+                  timeperiod:
+                    this.common.dateFormat(providerSystems.StartDate) +
+                    ' - ' +
+                    this.common.dateFormat(providerSystems.EndDate)
                 }
               ];
             }
@@ -442,7 +472,10 @@ export class PriorAuthSharedService {
                   color: [{ color1: '#3381FF' }],
                   gdata: ['card-inner-large', 'reasonBar' + i]
                 },
-                timeperiod: timePeriod
+                timeperiod:
+                  this.common.dateFormat(providerSystems.StartDate) +
+                  ' - ' +
+                  this.common.dateFormat(providerSystems.EndDate)
               });
             }
           } else if (PANotApprovedReasonBool || !PANotApprovedCountChecker) {

@@ -1,0 +1,64 @@
+@import '~src/scss/variables.scss';
+.graph-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  width: 460px;
+  height: 250px;
+}
+
+svg {
+  font: 10px sans-serif;
+  shape-rendering: crispEdges;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+}
+
+path.domain {
+  stroke: none;
+}
+
+.y .tick line {
+  stroke: #ddd;
+}
+
+.labels {
+  height: 22px;
+  width: 178px;
+  color: #2d2d39;
+  font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  letter-spacing: 0.17px;
+  line-height: 22px;
+}
+
+.grid text {
+  font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  fill: #2f2a3c;
+}
+
+.grid line {
+  stroke: $heather;
+  stroke-opacity: 1;
+  stroke-width: 2px;
+  shape-rendering: crispEdges;
+}
+
+.grid path {
+  visibility: hidden;
+}
+
+.yscalesize {
+  height: 18px;
+  width: 35px;
+  color: #757588;
+  font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  letter-spacing: 0.2px;
+  line-height: 18px;
+}

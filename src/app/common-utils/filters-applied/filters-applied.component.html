@@ -6,6 +6,7 @@
           <span>Time Period: </span><span class="text-semibold pl-4"> {{ selectedTimePeriod.value }} </span>
         </button>
       </div>
+
       <ng-container
         *ngIf="selectedPage !== 'callsPage' && selectedTaxIds[0].Tin !== 'All' && selectedTaxIds.length < 4"
       >
@@ -35,6 +36,23 @@
           </div>
         </button>
       </div>
+
+      <div
+        class="horizontal-align"
+        *ngIf="
+          selectedPage == 'paymentsPage' ||
+          tabName == 'gettingReimbursedSummary' ||
+          tabName == 'gettingReimbursedPayments' ||
+          tabName == 'gettingReimbursedNonPayments' ||
+          selectedPage == 'nonPaymentsPage'
+        "
+      >
+        <button class="btn btn-rounded" disabled>
+          <span>View claims By: </span><span class="text-semibold pl-4"> {{ selectedViewClaimsBy.value }} </span>
+          <!-- <span>View claims By: </span><span class="text-semibold pl-4"> Date of Service </span> -->
+        </button>
+      </div>
+
       <div
         class="horizontal-align"
         *ngIf="
@@ -55,6 +73,21 @@
           </div>
         </button>
       </div>
+      <!--**********Claims Filters Applied Ends here************-->
+
+      <!--***********Appeals Filters Applied starts here***********-->
+      <div class="horizontal-align" *ngIf="selectedPage === 'appealsPage' || tabName == 'gettingReimbursedAppeals'">
+        <button class="btn btn-rounded" disabled>
+          <span>View Appeals By: </span><span class="text-semibold pl-4"> {{ selectedAppeals.value }} </span>
+          <!--div class="close-btn">
+            <mat-icon class="icon-display" (click)="removeAppliedFilter('appeals')" svgIcon="close"></mat-icon>
+          </div-->
+        </button>
+      </div>
+      <!--***********Appeals Filter Applied Ends Here***********-->
+
+      <!--**** Prior Auth Sercice setting filters applied *****-->
+
       <div class="horizontal-align" *ngIf="selectedPage === 'priorAuthPage' && selectedServiceSetting.value !== 'All'">
         <button class="btn btn-rounded" disabled>
           <span>Service Setting: </span><span class="text-semibold pl-4"> {{ selectedServiceSetting.value }} </span>
@@ -63,6 +96,7 @@
           </div>
         </button>
       </div>
+
       <!--<div class="horizontal-align" *ngIf="selectedPage === 'priorAuthPage' && selectedPriorAuthType.value !== 'All'">-->
       <!--<button class="btn btn-rounded" disabled>-->
       <!--<span>Prior Auth Type: </span><span class="text-semibold pl-4"> {{ selectedPriorAuthType.value }} </span>-->

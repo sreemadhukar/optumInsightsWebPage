@@ -11,7 +11,9 @@ export const INITIAL_STATE: IAppState = {
   priorAuthType: 'All',
   trendMetric: 'GettingReimbursed',
   trendDate: new Date(),
-  claimsFilter: 'All'
+  claimsFilter: 'All',
+  appealsFilter: 'Received Date',
+  viewClaimsByFilter: 'DateOfService'
 };
 
 export function FilterReducer(state, action) {
@@ -34,7 +36,9 @@ export function FilterReducer(state, action) {
         priorAuthType: action.filterData.priorAuthType,
         trendMetric: action.filterData.trendMetric,
         trendDate: action.filterData.trendDate,
-        claimsFilter: action.filterData.claimsFilter
+        claimsFilter: action.filterData.claimsFilter,
+        appealsFilter: action.filterData.appealsFilter,
+        viewClaimsByFilter: action.filterData.viewClaimsByFilter
       };
     case REMOVE_FILTER:
       return {
@@ -44,7 +48,11 @@ export function FilterReducer(state, action) {
         serviceCategory: action.filterData.serviceCategory ? INITIAL_STATE.serviceCategory : state.serviceCategory,
         priorAuthType: action.filterData.priorAuthType ? INITIAL_STATE.priorAuthType : state.priorAuthType,
         taxId: action.filterData.taxId ? INITIAL_STATE.taxId : state.taxId,
-        claimsFilter: action.filterData.claimsFilter ? INITIAL_STATE.claimsFilter : state.claimsFilter
+        claimsFilter: action.filterData.claimsFilter ? INITIAL_STATE.claimsFilter : state.claimsFilter,
+        appealsFilter: action.filterData.appealsFilter ? INITIAL_STATE.appealsFilter : state.appealsFilter,
+        viewClaimsByFilter: action.filterData.viewClaimsByFilter
+          ? INITIAL_STATE.viewClaimsByFilter
+          : state.viewClaimsByFilter
       };
     case RESET_FILTER:
       return {
@@ -57,7 +65,9 @@ export function FilterReducer(state, action) {
         priorAuthType: INITIAL_STATE.priorAuthType,
         trendMetric: INITIAL_STATE.trendMetric,
         trendDate: INITIAL_STATE.trendDate,
-        claimsFilter: INITIAL_STATE.claimsFilter
+        claimsFilter: INITIAL_STATE.claimsFilter,
+        appealsFilter: INITIAL_STATE.appealsFilter,
+        viewClaimsByFilter: INITIAL_STATE.viewClaimsByFilter
       };
     default:
       return state;
