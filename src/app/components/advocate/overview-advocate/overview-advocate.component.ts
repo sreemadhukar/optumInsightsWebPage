@@ -33,6 +33,7 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
   topRowItems: any;
   timePeriod: string;
   timePeriodCalls: string;
+  timePeriodPi: string;
   lob: string;
   trendTitle = 'Non-Payment Trend';
   taxID: Array<string>;
@@ -371,6 +372,10 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
         console.log('this.pbsData--------->', pbsData);
         this.pbsCard.push(JSON.parse(JSON.stringify(pbsData)));
         console.log('this.pbsCard--------->', this.pbsCard);
+        this.timePeriodPi =
+          this.common.dateFormat(this.pbsCard[0][0].PaperSubmissions.Startdate) +
+          ' - ' +
+          this.common.dateFormat(this.pbsCard[0][0].PaperSubmissions.Enddate);
         this.pbsLoading = false;
       })
       .catch(reason => {
