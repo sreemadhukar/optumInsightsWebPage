@@ -122,7 +122,7 @@ export class FiltersAppliedComponent implements OnInit {
                 taxId: updatedTaxIds,
                 lineOfBusiness: this.selectedLob.name,
                 serviceSetting: this.selectedServiceSetting.name,
-                serviceCategory: this.selectedServiceCategory ? this.selectedServiceCategory.name : '',
+                serviceCategory: this.selectedServiceCategory.name,
                 priorAuthType: this.selectedPriorAuthType.name,
                 trendMetric: this.selectedTrendMetric.name,
                 trendDate: this.selectedDate,
