@@ -29,7 +29,8 @@ export class NetworkParticipation {
             section: this.section + key
           });
         } else {
-          const value = Network_Participation[key][subKey] ? Math.round(Network_Participation[key][subKey]) : null;
+          const value =
+            Network_Participation[key][subKey] !== null ? Math.round(Network_Participation[key][subKey]) : null;
           if (this.singleCard && value !== null) {
             chartDataElement.quarters.push({ title: value + '' + chartDataElement.units });
           } else {
