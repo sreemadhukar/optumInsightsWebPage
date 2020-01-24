@@ -32,6 +32,7 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
   userName: String = '';
   topRowItems: any;
   timePeriod: string;
+  timePeriodCalls: string;
   lob: string;
   trendTitle = 'Non-Payment Trend';
   taxID: Array<string>;
@@ -219,6 +220,10 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
           let callsLeftData;
           callsLeftData = totalCallsData;
           this.totalCalls = this.common.nondecimalFormatter(callsLeftData[0].CallVolByQuesType.Total);
+          this.timePeriodCalls =
+            this.common.dateFormat(callsLeftData[0].ReportStartDate) +
+            ' - ' +
+            this.common.dateFormat(callsLeftData[0].ReportEndDate);
           this.callsLoading = false;
         }
       })
