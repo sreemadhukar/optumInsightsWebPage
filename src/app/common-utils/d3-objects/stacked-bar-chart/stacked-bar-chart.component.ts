@@ -89,7 +89,7 @@ export class StackedBarChartComponent implements OnInit {
       .attr('height', height);
 
     // create margins & dimensions
-    const margin = { top: -25, right: 45, bottom: 0, left: 200 };
+    const margin = { top: 5, right: 45, bottom: 50, left: 200 };
     const graphWidth = width - margin.left - margin.right;
     const graphHeight = height - margin.bottom;
 
@@ -229,7 +229,7 @@ export class StackedBarChartComponent implements OnInit {
       .attr('y', d => y(d.electronic))
       .on('mouseover', function(d) {
         tooltip.select('text').html(printTextElectronic(d.electronic));
-        tooltip.style('display', 'inline-flex'), tooltip.style('top', '180px');
+        tooltip.style('display', 'inline-flex'), tooltip.style('top', '170px');
       })
       .on('mouseout', function() {
         tooltip.style('display', 'none');
@@ -271,7 +271,7 @@ export class StackedBarChartComponent implements OnInit {
       .on('mouseover', function(d) {
         tooltip.select('text').html(printTextPaper(d.paper)),
           tooltip.style('display', 'inline-flex'),
-          tooltip.style('top', '36px');
+          tooltip.style('top', '55px');
       })
       .on('mouseout', function() {
         tooltip.style('display', 'none');
