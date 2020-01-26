@@ -79,9 +79,9 @@ export class StackedBarChartComponent implements OnInit {
     // select the svg container first
     // const width = 550;
     // const height = 400;
-    const width = 450;
+    const width = 430;
     const height = 250;
-    const barSeparator = 4;
+    const barSeparator = 2;
     const svg = d3
       .select('.canvas')
       .append('svg')
@@ -89,7 +89,7 @@ export class StackedBarChartComponent implements OnInit {
       .attr('height', height);
 
     // create margins & dimensions
-    const margin = { top: -11, right: 45, bottom: 0, left: 200 };
+    const margin = { top: 5, right: 45, bottom: 50, left: 200 };
     const graphWidth = width - margin.left - margin.right;
     const graphHeight = height - margin.bottom;
 
@@ -97,13 +97,13 @@ export class StackedBarChartComponent implements OnInit {
       .append('g')
       .attr('width', graphWidth)
       .attr('height', graphHeight)
-      .attr('transform', `translate(${margin.left}, ${margin.top})`);
+      .attr('transform', `translate(${margin.left - 37}, ${margin.top})`);
 
     // create axes groups
     const xAxisGroup = graph.append('g').attr('transform', `translate(0, ${graphHeight})`);
 
     const yAxisGroup = graph.append('g');
-    const leftContainer = svg.append('g').attr('transform', `translate(${margin.left - 160}, ${margin.top + 100})`);
+    const leftContainer = svg.append('g').attr('transform', `translate(${margin.left - 180}, ${margin.top + 85})`);
 
     console.log('this.chartOptions.chartId', barData);
     const data = barData.graphValues;
@@ -208,13 +208,7 @@ export class StackedBarChartComponent implements OnInit {
       .attr('fill', 'white')
       .style('opacity', 1);
 
-    tooltip
-      .append('text')
-      .attr('x', 15)
-      .attr('dy', '1.2em')
-      .style('text-anchor', 'middle')
-      .attr('font-size', '14px')
-      .attr('font-weight', 'bold');
+    tooltip.append('text');
 
     // add attrs to circs already in the DOM
     rects
@@ -234,13 +228,10 @@ export class StackedBarChartComponent implements OnInit {
       .attr('x', d => x(d.name))
       .attr('y', d => y(d.electronic))
       .on('mouseover', function(d) {
-        console.log('mouseover');
-        tooltip.attr('transform', 'translate(' + 100 + ',' + 100 + ')');
-        tooltip.select('text').text(d.name);
-        tooltip.style('display', 'inline-flex');
+        tooltip.select('text').html(printTextElectronic(d.electronic));
+        tooltip.style('display', 'inline-flex'), tooltip.style('top', '170px');
       })
       .on('mouseout', function() {
-        console.log('mouseout');
         tooltip.style('display', 'none');
       });
 
@@ -276,14 +267,22 @@ export class StackedBarChartComponent implements OnInit {
       .attr('height', d => graphHeight - y(d.paper))
       .attr('fill', '#00B8CC')
       .attr('x', d => x(d.name))
-      .attr('y', d => y(d.electronic) - barSeparator - (graphHeight - y(d.paper)));
+      .attr('y', d => y(d.electronic) - barSeparator - (graphHeight - y(d.paper)))
+      .on('mouseover', function(d) {
+        tooltip.select('text').html(printTextPaper(d.paper)),
+          tooltip.style('display', 'inline-flex'),
+          tooltip.style('top', '55px');
+      })
+      .on('mouseout', function() {
+        tooltip.style('display', 'none');
+      });
 
     // create & call axes
     const xAxis = d3.axisBottom(x);
     const yAxis = graph
       .append('g')
       .attr('class', 'yscalesize')
-      .attr('transform', `translate(${graphWidth - 15}, 0)`)
+      .attr('transform', `translate(${graphWidth + 10}, 0)`)
       .call(
         d3
           .axisRight(y)
@@ -296,5 +295,23 @@ export class StackedBarChartComponent implements OnInit {
     // xAxisGroup.call(xAxis);
     yAxisGroup.attr('transform', `translate(${graphWidth}, 0)`).call(yAxis);
     // });
+
+    function printTextPaper(value) {
+      return (
+        `<div class='textHeading'>  Paper Claims</div>
+        <div class='textValue'> $` +
+        nondecimalFormatter(value) +
+        '</div>'
+      );
+    }
+
+    function printTextElectronic(value) {
+      return (
+        `<div class='textHeading'> Electronic Claims</div>
+             <div class='textValue'> $` +
+        nondecimalFormatter(value) +
+        '</div>'
+      );
+    }
   }
 }

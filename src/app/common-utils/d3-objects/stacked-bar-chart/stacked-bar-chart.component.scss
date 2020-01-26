@@ -67,13 +67,56 @@ div.tooltip {
   position: absolute;
   text-align: center;
   font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
-  background: red;
+  background: white;
   border: 0px;
   border-radius: 8px;
   pointer-events: none;
   height: 66px;
   width: 109px;
   box-shadow: 0 10px 20px 0 rgba(0, 0, 0, 0.35);
-  z-index: 99;
+  z-index: 1;
   opacity: 0.95;
+  left: 318px;
+
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+}
+
+div.tooltip::after {
+  content: '';
+  position: absolute;
+  top: 60%;
+  right: 100%;
+  margin-top: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: transparent white transparent transparent;
+  box-shadow: 0 10px 20px 0 rgba(0, 0, 0, 0.35);
+}
+
+.textHeading {
+  height: 18px;
+  width: 85px;
+  color: #2d2d39;
+  font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+  line-height: 18px;
+  padding-left: 12px;
+  padding-top: 5px;
+}
+
+.textValue {
+  height: 24px;
+  width: 85px;
+  color: #757589;
+  font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.2px;
+  line-height: 18px;
+  padding-top: 17px;
+  padding-left: 5px;
 }
