@@ -74,7 +74,10 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
   pbsCard: any;
   paperClaims: any;
   electronicClaims: any;
-  stackedBarChartData: any = {};
+  stackedBarChartData: any = {
+    chartId: '',
+    chartData: ''
+  };
   stackedBarChartLoading: boolean;
 
   constructor(
@@ -125,7 +128,7 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
       })
       .catch(reason => {
         this.paymentLoading = false;
-        console.log('Adovate Overview page Payment', reason);
+        console.log('Error Adovate Overview page Payment', reason);
       });
   }
 
@@ -288,7 +291,7 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
       })
       .catch(reason => {
         this.claimsYieldLoading = false;
-        console.log('Adovate Overview page Payment', reason);
+        console.log('Error Claims Yield Overview page Payment', reason);
       });
   }
 
@@ -368,20 +371,16 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
     this.pbsCard = [];
     this.overviewAdvocateSharedService
       .paymentsBySubmission(this.createPayloadService.payload)
-      .then(pbsData => {
-        this.paperClaims = pbsData[0].PaperSubmissions.All.ClaimsLobSummary[0].WriteOffAmount;
-        this.electronicClaims = pbsData[0].EDISubmissions.All.ClaimsLobSummary[0].WriteOffAmount;
-        this.pbsCard = { Paper_Claims: this.paperClaims, Electronic_Claims: this.electronicClaims };
-        this.stackedBarChartData.chartId = 'Payments By Submission Stack';
-        this.stackedBarChartData.chartData = this.pbsCard;
-        console.log('this.stackedBarChartData', this.stackedBarChartData);
+      .then(data => {
+        this.pbsCard = JSON.parse(JSON.stringify(data));
+        console.log('Stack component', this.pbsCard);
         this.pbsLoading = false;
         this.stackedBarChartLoading = true;
       })
       .catch(reason => {
         this.stackedBarChartLoading = false;
         this.pbsLoading = false;
-        console.log('Adovate Overview page Payment', reason);
+        console.log('Error Payment Submission Adovate Overview page Payment', reason);
       });
   }
 }

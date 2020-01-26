@@ -327,7 +327,28 @@ export class OverviewAdvocateSharedService {
       const parameters = this.getParameterCategories(param);
       this.overviewAdvocateService.paymentsBySubmission(...parameters).subscribe(
         pbsData => {
-          resolve(pbsData);
+          console.log('psbData', pbsData);
+          const getData = JSON.parse(JSON.stringify(pbsData[0]));
+          const sendData = {
+            id: 'paymentSubmission',
+            category: 'app-card',
+            type: 'stackBarChart',
+            title: 'Payments by Submission',
+            data: {
+              graphValues: [
+                {
+                  name: '',
+                  electronic: getData.EDISubmissions.All.ClaimsLobSummary[0].WriteOffAmount,
+                  paper: getData.PaperSubmissions.All.ClaimsLobSummary[0].WriteOffAmount
+                }
+              ],
+              color: ['#3381FF', '#00B8CC'],
+              gdata: ['card-inner', 'paymentBySubmission'],
+              sdata: null
+            },
+            timeperiod: this.timeFrame
+          };
+          resolve(sendData);
         },
         err => {
           console.log('Advocate Page , Error for calls card', err);
