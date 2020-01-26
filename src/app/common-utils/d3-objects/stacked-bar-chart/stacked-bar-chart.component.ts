@@ -103,7 +103,7 @@ export class StackedBarChartComponent implements OnInit {
     const xAxisGroup = graph.append('g').attr('transform', `translate(0, ${graphHeight})`);
 
     const yAxisGroup = graph.append('g');
-    const leftContainer = svg.append('g').attr('transform', `translate(${margin.left - 180}, ${margin.top + 110})`);
+    const leftContainer = svg.append('g').attr('transform', `translate(${margin.left - 180}, ${margin.top + 85})`);
 
     console.log('this.chartOptions.chartId', barData);
     const data = barData.graphValues;
