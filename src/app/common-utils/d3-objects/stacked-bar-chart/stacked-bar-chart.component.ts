@@ -19,26 +19,25 @@ export class StackedBarChartComponent implements OnInit {
 
   ngOnInit() {
     this.renderChart = '#' + this.chartOptions.chartId;
-    console.log('this.chartOptions.chartId', this.chartOptions.chartId);
-    this.doStaggedBarGraph(this.chartOptions.chartData);
   }
 
   // tslint:disable-next-line:use-life-cycle-interface
   ngAfterViewInit() {
-    this.doStaggedBarGraph(this.chartOptions.chartData);
+    this.doStaggedBarGraph(this.chartOptions);
   }
 
   onResize(event) {
-    this.doStaggedBarGraph(this.chartOptions.chartData);
+    this.doStaggedBarGraph(this.chartOptions);
   }
 
   onSystemChange() {
-    this.doStaggedBarGraph(this.chartOptions.chartData);
+    this.doStaggedBarGraph(this.chartOptions.data);
   }
 
   // tslint:disable-next-line:use-life-cycle-interface
 
   doStaggedBarGraph(barData) {
+    console.log('barData', barData);
     function nondecimalFormatter(fnumber) {
       if (fnumber >= 1000000000) {
         return (fnumber / 1000000000).toFixed(0).replace(/\.0$/, '') + 'B';
@@ -55,111 +54,6 @@ export class StackedBarChartComponent implements OnInit {
       return fnumber;
     }
     // ends formatDynamicAbbrevia function
-
-    /* function formatDynamicAbbreviation(tickNumber, tickValue, prefix) {
-      const q = tickValue;
-      const w = tickNumber - 1;
-      const step = q / w;
-      let zeroOrOne = 0;
-      let abbreviation = 0;
-
-      const maxTickValueStringLength = q.toString().length;
-      const stepStringLength = step.toString().length;
-
-      if (maxTickValueStringLength === stepStringLength) {
-        zeroOrOne = 0;
-      } else if (maxTickValueStringLength % 3 === 0) {
-        zeroOrOne = 0;
-      } else if (maxTickValueStringLength === 5 && stepStringLength === 4) {
-        zeroOrOne = 0;
-      } else {
-        zeroOrOne = 1;
-      }
-
-      if (q >= 1000000000) {
-        abbreviation = 9;
-      } else if (q >= 1000000) {
-        abbreviation = 6;
-      } else if (q >= 1000) {
-        abbreviation = 3;
-      } else {
-        abbreviation = 0;
-      }
-
-      const newFormatNumber = d3.format(',.0f'),
-        formatBillion = function(x) {
-          if (x === 0) {
-            return prefix + '0';
-          } else {
-            return prefix + newFormatNumber(x / 1e9) + 'B';
-          }
-        },
-        formatMillion = function(x) {
-          if (x === 0) {
-            return prefix + '0';
-          } else {
-            return prefix + newFormatNumber(x / 1e6) + 'M';
-          }
-        },
-        formatThousand = function(x) {
-          if (x === 0) {
-            return prefix + '0';
-          } else {
-            return prefix + newFormatNumber(x / 1e3) + 'K';
-          }
-        },
-        formatZero = function(x) {
-          return prefix + newFormatNumber(x);
-        };
-
-      const newFormatNumberOne = d3.format('.1f'),
-        formatBillionOne = function(x) {
-          if (x === 0) {
-            return prefix + '0';
-          } else {
-            return prefix + newFormatNumberOne(x / 1e9) + 'B';
-          }
-        },
-        formatMillionOne = function(x) {
-          if (x === 0) {
-            return prefix + '0';
-          } else {
-            return prefix + newFormatNumberOne(x / 1e6) + 'M';
-          }
-        },
-        formatThousandOne = function(x) {
-          if (x === 0) {
-            return prefix + '0';
-          } else {
-            return prefix + newFormatNumberOne(x / 1e3) + 'K';
-          }
-        },
-        formatZeroOne = function(x) {
-          return prefix + newFormatNumberOne(x);
-        };
-
-      const flag = abbreviation + zeroOrOne;
-      switch (flag) {
-        case 10:
-          return formatBillionOne;
-        case 9:
-          return formatBillion;
-        case 7:
-          return formatMillionOne;
-        case 6:
-          return formatMillion;
-        case 4:
-          return formatThousandOne;
-        case 3:
-          return formatThousand;
-        case 1:
-          return formatZeroOne;
-        case 0:
-          return formatZero;
-        default:
-          break;
-      }
-    } */
 
     // Need to bind with js
     /* const chartData = {
@@ -186,7 +80,7 @@ export class StackedBarChartComponent implements OnInit {
     // const width = 550;
     // const height = 400;
     const width = 450;
-    const height = 350;
+    const height = 250;
     const barSeparator = 4;
     const svg = d3
       .select('.canvas')
@@ -195,7 +89,7 @@ export class StackedBarChartComponent implements OnInit {
       .attr('height', height);
 
     // create margins & dimensions
-    const margin = { top: -20, right: 40, bottom: 100, left: 200 };
+    const margin = { top: -11, right: 45, bottom: 0, left: 200 };
     const graphWidth = width - margin.left - margin.right;
     const graphHeight = height - margin.bottom;
 
@@ -211,15 +105,8 @@ export class StackedBarChartComponent implements OnInit {
     const yAxisGroup = graph.append('g');
     const leftContainer = svg.append('g').attr('transform', `translate(${margin.left - 190}, ${margin.top + 110})`);
 
-    console.log('Hiiii', barData);
-
-    const data = [
-      {
-        name: 'Stacked Bar Chart',
-        electronic: 312525450,
-        paper: 15277119
-      }
-    ];
+    console.log('this.chartOptions.chartId', barData);
+    const data = barData.graphValues;
 
     // Data Binding to be used
     /*const data = [
@@ -231,7 +118,6 @@ export class StackedBarChartComponent implements OnInit {
     ];*/
 
     console.log('left Cont', leftContainer);
-    // d3.json('menu').then(data => {
     leftContainer
       .append('circle')
       .attr('cx', () => 10)
@@ -284,7 +170,6 @@ export class StackedBarChartComponent implements OnInit {
       .scaleLinear()
       .domain([0, d3.max(data, d => d.electronic + d.paper) * 1.25])
       .range([graphHeight, 0]);
-
     const x = d3
       .scaleBand()
       .domain(data.map(item => item.name))
@@ -298,7 +183,7 @@ export class StackedBarChartComponent implements OnInit {
       .call(
         d3
           .axisLeft(y)
-          .ticks(4)
+          .ticks(5)
           .tickSize(-200, 0, 0)
           .tickFormat('')
           .tickSizeOuter([0])
@@ -401,7 +286,7 @@ export class StackedBarChartComponent implements OnInit {
       .call(
         d3
           .axisRight(y)
-          .ticks(4)
+          .ticks(5)
           .tickFormat(d => '$ ' + nondecimalFormatter(d))
       );
 

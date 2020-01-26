@@ -332,7 +332,7 @@ export class TopRowAdvOverviewSharedService {
           gdata: ['card-inner', 'claimsYield'],
           sdata: null
         },
-        timeperiod: this.timeFrame
+        timeperiod: this.common.dateFormat(yieldData.Startdate) + ' - ' + this.common.dateFormat(yieldData.Enddate)
       };
     } else {
       claimsYield = {
