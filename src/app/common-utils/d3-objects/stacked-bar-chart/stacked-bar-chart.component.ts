@@ -37,6 +37,7 @@ export class StackedBarChartComponent implements OnInit {
   // tslint:disable-next-line:use-life-cycle-interface
 
   doStaggedBarGraph(barData) {
+    console.log('barData', barData);
     function nondecimalFormatter(fnumber) {
       if (fnumber >= 1000000000) {
         return (fnumber / 1000000000).toFixed(0).replace(/\.0$/, '') + 'B';
@@ -79,7 +80,7 @@ export class StackedBarChartComponent implements OnInit {
     // const width = 550;
     // const height = 400;
     const width = 450;
-    const height = 350;
+    const height = 250;
     const barSeparator = 4;
     const svg = d3
       .select('.canvas')
@@ -88,7 +89,7 @@ export class StackedBarChartComponent implements OnInit {
       .attr('height', height);
 
     // create margins & dimensions
-    const margin = { top: -20, right: 40, bottom: 100, left: 200 };
+    const margin = { top: -11, right: 45, bottom: 0, left: 200 };
     const graphWidth = width - margin.left - margin.right;
     const graphHeight = height - margin.bottom;
 

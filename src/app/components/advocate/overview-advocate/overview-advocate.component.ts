@@ -32,6 +32,8 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
   userName: String = '';
   topRowItems: any;
   timePeriod: string;
+  timePeriodCalls: string;
+  timePeriodPi: string;
   lob: string;
   trendTitle = 'Non-Payment Trend';
   taxID: Array<string>;
@@ -226,6 +228,10 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
           let callsLeftData;
           callsLeftData = totalCallsData;
           this.totalCalls = this.common.nondecimalFormatter(callsLeftData[0].CallVolByQuesType.Total);
+          this.timePeriodCalls =
+            this.common.dateFormat(callsLeftData[0].ReportStartDate) +
+            ' - ' +
+            this.common.dateFormat(callsLeftData[0].ReportEndDate);
           this.callsLoading = false;
         }
       })
@@ -373,7 +379,7 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
       .paymentsBySubmission(this.createPayloadService.payload)
       .then(data => {
         this.pbsCard = JSON.parse(JSON.stringify(data));
-        console.log('Stack component', this.pbsCard);
+        console.log('component data', data);
         this.pbsLoading = false;
         this.stackedBarChartLoading = true;
       })

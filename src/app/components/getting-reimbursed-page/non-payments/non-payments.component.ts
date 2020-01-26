@@ -45,6 +45,7 @@ import { REMOVE_FILTER } from '../../../store/filter/actions';
   ]
 })
 export class NonPaymentsComponent implements OnInit, AfterViewChecked {
+  viewClaimsByFilter: string;
   title = 'Top Reasons for Claims Non-Payment';
   trendTitle = 'Claims Non-Payment Trend';
   section: any = [];
@@ -145,6 +146,7 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
     this.nonPaymentData1 = [];
     this.loadingTopReasons = true;
     this.timePeriod = this.common.getTimePeriodFilterValue(this.createPayloadService.payload.timePeriod);
+    this.viewClaimsByFilter = this.createPayloadService.payload['viewClaimsByFilter'];
     this.gettingReimbursedSharedService.getTins().then(tins => {});
     this.loadingOne = false;
     this.mockCardOne = [{}];

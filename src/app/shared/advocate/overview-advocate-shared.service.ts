@@ -346,7 +346,10 @@ export class OverviewAdvocateSharedService {
               gdata: ['card-inner', 'paymentBySubmission'],
               sdata: null
             },
-            timeperiod: this.timeFrame
+            timeperiod:
+              this.common.dateFormat(getData.PaperSubmissions.Startdate) +
+              ' - ' +
+              this.common.dateFormat(getData.PaperSubmissions.Enddate)
           };
           resolve(sendData);
         },

@@ -156,7 +156,7 @@
         </div>
       </div>
       <app-common-footer
-        [timePeriod]="timePeriod"
+        [timePeriod]="timePeriodCalls"
         [linkName]="'Calls Overview'"
         [routePath]="'/ServiceInteraction/Calls'"
         class="width-100 time-period-trend"
@@ -165,10 +165,9 @@
     <!-- Calls Trend Ends Here -->
 
     <div class="height1Separator"></div>
-
     <app-card class="cards" [skeleton]="pbsLoading" *ngIf="pbsLoading"> </app-card>
     <div>
-      <app-card *ngIf="pbsCard.data != null && !pbsCard.toggle" class="cards" [chartData]="pbsCard"> </app-card>
+      <app-card *ngIf="pbsCard.data != null" class="cards" [chartData]="pbsCard"> </app-card>
       <app-error-card *ngIf="false" class="cards" [data]="item"></app-error-card>
     </div>
 
