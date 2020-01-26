@@ -13,7 +13,7 @@ export const INITIAL_STATE: IAppState = {
   trendDate: new Date(),
   claimsFilter: 'All',
   appealsFilter: 'Received Date',
-  viewClaimsByFilter: 'DateOfService'
+  viewClaimsByFilter: 'DOP'
 };
 
 export function FilterReducer(state, action) {

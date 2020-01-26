@@ -1,3 +1,4 @@
+import { ViewTopClaimsComponent } from './non-payments/view-top-claims/view-top-claims.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -27,7 +28,8 @@ import { SmartEditsComponent } from './payment-integrity/smart-edits/smart-edits
     PaymentIntegrityComponent,
     NonPaymentsComponent,
     PaymentsComponent,
-    SmartEditsComponent
+    SmartEditsComponent,
+    ViewTopClaimsComponent
   ],
   exports: [
     GettingReimbursedComponent,

@@ -1,6 +1,7 @@
+import { NonPaymentService } from './../../../rest/getting-reimbursed/non-payment.service';
 import { Injectable } from '@angular/core';
 import { GettingReimbursedModule } from '../../../components/getting-reimbursed-page/getting-reimbursed.module';
-import { NonPaymentService } from './../../../rest/getting-reimbursed/non-payment.service';
+
 import { CommonUtilsService } from '../../common-utils.service';
 import { SessionService } from '../../session.service';
 import { AuthorizationService } from '../../../auth/_service/authorization.service';
@@ -45,7 +46,7 @@ export class NonPaymentSharedService {
     delete param['lineOfBusiness'];
     */
     this.providerKey = this.session.providerKeyData();
-    if (param.viewClaimsByFilter === 'DateOfProcessing') {
+    if (param.viewClaimsByFilter === 'DOP') {
       return new Promise(resolve => {
         this.nonPaymentService.getNonPaymentData(...this.getParameterCategories(param)).subscribe(
           nonPaymentData1 => {
@@ -519,7 +520,7 @@ export class NonPaymentSharedService {
     // this.timeFrame = this.session.filterObjValue.timeFrame;
     return new Promise(resolve => {
       /** Get Top 5 Categories Data */
-      if (parameters[1].ClaimsBy === 'DateOfProcessing') {
+      if (parameters[1].ClaimsBy === 'DOP') {
         this.nonPaymentService.getNonPaymentTopCategories(...parameters).subscribe(
           topCategories => {
             try {

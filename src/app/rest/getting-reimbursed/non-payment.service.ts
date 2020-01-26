@@ -25,7 +25,7 @@ export class NonPaymentService {
       Accept: '*/*'
     });
     let nonPaymentURL;
-    if (parameters[1]['ClaimsBy'] === 'DateOfProcessing') {
+    if (parameters[1]['ClaimsBy'] === 'DOP') {
       nonPaymentURL = this.APP_URL + this.NON_PAYMENT_DOP + parameters[0] + '?requestType=CLAIMS';
       return this.http.post(nonPaymentURL, parameters[1], { headers: myHeader }).pipe(
         map(res => JSON.parse(JSON.stringify(res))),
@@ -132,5 +132,8 @@ export class NonPaymentService {
         catchError(err => of(JSON.parse(JSON.stringify(err))))
       )
     );
+  }
+  public getClaimsDetailData() {
+    return this.http.get('./src/assets/mock-data/top-cliams-details.json');
   }
 }

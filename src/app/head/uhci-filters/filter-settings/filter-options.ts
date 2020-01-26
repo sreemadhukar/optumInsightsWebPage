@@ -27,8 +27,8 @@ export const AppealsFilter = [
   { name: 'Closed Date', value: 'Closed Date', disable: false }
 ];
 export const ViewClaimsByFilter = [
-  { name: 'DateOfService', value: 'Date of Service', disable: false },
-  { name: 'DateOfProcessing', value: 'Date of Processing', disable: false }
+  { name: 'DOS', value: 'Date of Service', disable: false },
+  { name: 'DOP', value: 'Date of Processing', disable: false }
 ];
 
 export const ServiceSetting = [
