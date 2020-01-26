@@ -64,7 +64,6 @@ path.domain {
 }
 
 div.tooltip {
-  content: ' ';
   position: absolute;
   text-align: center;
   font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
@@ -75,20 +74,25 @@ div.tooltip {
   height: 66px;
   width: 109px;
   box-shadow: 0 10px 20px 0 rgba(0, 0, 0, 0.35);
-  z-index: 99;
+  z-index: 1;
   opacity: 0.95;
-  left: 325px;
+  left: 318px;
+
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
 }
 
-div.tooltiptext::after {
+div.tooltip::after {
   content: '';
   position: absolute;
-  bottom: 100%;
-  left: 50%;
-  margin-left: -5px;
+  top: 60%;
+  right: 100%;
+  margin-top: -5px;
   border-width: 5px;
   border-style: solid;
-  border-color: transparent transparent white transparent;
+  border-color: transparent white transparent transparent;
+  box-shadow: 0 10px 20px 0 rgba(0, 0, 0, 0.35);
 }
 
 .textHeading {

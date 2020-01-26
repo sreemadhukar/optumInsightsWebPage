@@ -79,9 +79,9 @@ export class StackedBarChartComponent implements OnInit {
     // select the svg container first
     // const width = 550;
     // const height = 400;
-    const width = 450;
+    const width = 430;
     const height = 250;
-    const barSeparator = 4;
+    const barSeparator = 2;
     const svg = d3
       .select('.canvas')
       .append('svg')
@@ -89,7 +89,7 @@ export class StackedBarChartComponent implements OnInit {
       .attr('height', height);
 
     // create margins & dimensions
-    const margin = { top: -11, right: 45, bottom: 0, left: 200 };
+    const margin = { top: -25, right: 45, bottom: 0, left: 200 };
     const graphWidth = width - margin.left - margin.right;
     const graphHeight = height - margin.bottom;
 
@@ -97,13 +97,13 @@ export class StackedBarChartComponent implements OnInit {
       .append('g')
       .attr('width', graphWidth)
       .attr('height', graphHeight)
-      .attr('transform', `translate(${margin.left - 50}, ${margin.top})`);
+      .attr('transform', `translate(${margin.left - 37}, ${margin.top})`);
 
     // create axes groups
     const xAxisGroup = graph.append('g').attr('transform', `translate(0, ${graphHeight})`);
 
     const yAxisGroup = graph.append('g');
-    const leftContainer = svg.append('g').attr('transform', `translate(${margin.left - 190}, ${margin.top + 110})`);
+    const leftContainer = svg.append('g').attr('transform', `translate(${margin.left - 180}, ${margin.top + 110})`);
 
     console.log('this.chartOptions.chartId', barData);
     const data = barData.graphValues;
@@ -271,7 +271,7 @@ export class StackedBarChartComponent implements OnInit {
       .on('mouseover', function(d) {
         tooltip.select('text').html(printTextPaper(d.paper)),
           tooltip.style('display', 'inline-flex'),
-          tooltip.style('top', '50px');
+          tooltip.style('top', '36px');
       })
       .on('mouseout', function() {
         tooltip.style('display', 'none');
@@ -282,7 +282,7 @@ export class StackedBarChartComponent implements OnInit {
     const yAxis = graph
       .append('g')
       .attr('class', 'yscalesize')
-      .attr('transform', `translate(${graphWidth - 15}, 0)`)
+      .attr('transform', `translate(${graphWidth + 10}, 0)`)
       .call(
         d3
           .axisRight(y)
