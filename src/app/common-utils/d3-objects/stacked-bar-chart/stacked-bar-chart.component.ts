@@ -203,13 +203,13 @@ export class StackedBarChartComponent implements OnInit {
       .append('g')
       .attr('width', graphWidth)
       .attr('height', graphHeight)
-      .attr('transform', `translate(${margin.left}, ${margin.top})`);
+      .attr('transform', `translate(${margin.left - 50}, ${margin.top})`);
 
     // create axes groups
     const xAxisGroup = graph.append('g').attr('transform', `translate(0, ${graphHeight})`);
 
     const yAxisGroup = graph.append('g');
-    const leftContainer = svg.append('g').attr('transform', `translate(${margin.left - 160}, ${margin.top + 100})`);
+    const leftContainer = svg.append('g').attr('transform', `translate(${margin.left - 190}, ${margin.top + 110})`);
 
     console.log('Hiiii', barData);
 
@@ -323,13 +323,7 @@ export class StackedBarChartComponent implements OnInit {
       .attr('fill', 'white')
       .style('opacity', 1);
 
-    tooltip
-      .append('text')
-      .attr('x', 15)
-      .attr('dy', '1.2em')
-      .style('text-anchor', 'middle')
-      .attr('font-size', '14px')
-      .attr('font-weight', 'bold');
+    tooltip.append('text');
 
     // add attrs to circs already in the DOM
     rects
@@ -349,13 +343,10 @@ export class StackedBarChartComponent implements OnInit {
       .attr('x', d => x(d.name))
       .attr('y', d => y(d.electronic))
       .on('mouseover', function(d) {
-        console.log('mouseover');
-        tooltip.attr('transform', 'translate(' + 100 + ',' + 100 + ')');
-        tooltip.select('text').text(d.name);
-        tooltip.style('display', 'inline-flex');
+        tooltip.select('text').html(printTextElectronic(d.electronic));
+        tooltip.style('display', 'inline-flex'), tooltip.style('top', '180px');
       })
       .on('mouseout', function() {
-        console.log('mouseout');
         tooltip.style('display', 'none');
       });
 
@@ -391,7 +382,15 @@ export class StackedBarChartComponent implements OnInit {
       .attr('height', d => graphHeight - y(d.paper))
       .attr('fill', '#00B8CC')
       .attr('x', d => x(d.name))
-      .attr('y', d => y(d.electronic) - barSeparator - (graphHeight - y(d.paper)));
+      .attr('y', d => y(d.electronic) - barSeparator - (graphHeight - y(d.paper)))
+      .on('mouseover', function(d) {
+        tooltip.select('text').html(printTextPaper(d.paper)),
+          tooltip.style('display', 'inline-flex'),
+          tooltip.style('top', '50px');
+      })
+      .on('mouseout', function() {
+        tooltip.style('display', 'none');
+      });
 
     // create & call axes
     const xAxis = d3.axisBottom(x);
@@ -411,5 +410,23 @@ export class StackedBarChartComponent implements OnInit {
     // xAxisGroup.call(xAxis);
     yAxisGroup.attr('transform', `translate(${graphWidth}, 0)`).call(yAxis);
     // });
+
+    function printTextPaper(value) {
+      return (
+        `<div class='textHeading'>  Paper Claims</div>
+        <div class='textValue'> $` +
+        nondecimalFormatter(value) +
+        '</div>'
+      );
+    }
+
+    function printTextElectronic(value) {
+      return (
+        `<div class='textHeading'> Electronic Claims</div>
+             <div class='textValue'> $` +
+        nondecimalFormatter(value) +
+        '</div>'
+      );
+    }
   }
 }
