@@ -74,6 +74,13 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
   claimsYieldCard: Array<Object>;
   pbsLoading: boolean;
   pbsCard: any;
+  paperClaims: any;
+  electronicClaims: any;
+  stackedBarChartData: any = {
+    chartId: '',
+    chartData: ''
+  };
+  stackedBarChartLoading: boolean;
 
   constructor(
     private checkStorage: StorageService,
@@ -123,7 +130,7 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
       })
       .catch(reason => {
         this.paymentLoading = false;
-        console.log('Adovate Overview page Payment', reason);
+        console.log('Error Adovate Overview page Payment', reason);
       });
   }
 
@@ -290,7 +297,7 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
       })
       .catch(reason => {
         this.claimsYieldLoading = false;
-        console.log('Adovate Overview page Payment', reason);
+        console.log('Error Claims Yield Overview page Payment', reason);
       });
   }
 
@@ -311,6 +318,7 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
     this.paymentsBySubmissionData();
     this.appealsLineGraphloading = true;
     this.callsLineGraphLoading = true;
+    this.stackedBarChartLoading = true;
     this.userName = this.session.sessionStorage('loggedUser', 'FirstName');
     this.pagesubTitle = this.session.getHealthCareOrgName() + "'s insights at a glance.";
 
@@ -363,24 +371,22 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
   }
 
   paymentsBySubmissionData() {
+    this.stackedBarChartLoading = false;
     this.pbsLoading = true;
     this.downRowMockCards = [{}];
     this.pbsCard = [];
     this.overviewAdvocateSharedService
       .paymentsBySubmission(this.createPayloadService.payload)
-      .then(pbsData => {
-        console.log('this.pbsData--------->', pbsData);
-        this.pbsCard.push(JSON.parse(JSON.stringify(pbsData)));
-        console.log('this.pbsCard--------->', this.pbsCard);
-        this.timePeriodPi =
-          this.common.dateFormat(this.pbsCard[0][0].PaperSubmissions.Startdate) +
-          ' - ' +
-          this.common.dateFormat(this.pbsCard[0][0].PaperSubmissions.Enddate);
+      .then(data => {
+        this.pbsCard = JSON.parse(JSON.stringify(data));
+        console.log('component data', data);
         this.pbsLoading = false;
+        this.stackedBarChartLoading = true;
       })
       .catch(reason => {
+        this.stackedBarChartLoading = false;
         this.pbsLoading = false;
-        console.log('Adovate Overview page Payment', reason);
+        console.log('Error Payment Submission Adovate Overview page Payment', reason);
       });
   }
 }
