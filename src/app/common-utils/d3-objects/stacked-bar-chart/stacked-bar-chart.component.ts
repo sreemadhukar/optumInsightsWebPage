@@ -40,16 +40,16 @@ export class StackedBarChartComponent implements OnInit {
     console.log('barData', barData);
     function nondecimalFormatter(fnumber) {
       if (fnumber >= 1000000000) {
-        return (fnumber / 1000000000).toFixed(0).replace(/\.0$/, '') + 'B';
+        return (fnumber / 1000000000).toFixed(1).replace(/\.0$/, '') + 'B';
       }
       if (fnumber >= 1000000) {
-        return (fnumber / 1000000).toFixed(0).replace(/\.0$/, '') + 'M';
+        return (fnumber / 1000000).toFixed(1).replace(/\.0$/, '') + 'M';
       }
       if (fnumber >= 1000) {
-        return (fnumber / 1000).toFixed(0).replace(/\.0$/, '') + 'K';
+        return (fnumber / 1000).toFixed(1).replace(/\.0$/, '') + 'K';
       }
       if (fnumber < 1000) {
-        return fnumber.toFixed(0).replace(/\.0$/, '');
+        return fnumber.toFixed(1).replace(/\.0$/, '');
       }
       return fnumber;
     }
