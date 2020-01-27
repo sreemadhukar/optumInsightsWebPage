@@ -39,6 +39,7 @@
         </div>
       </div>
       <app-header
+        [fromKOP]="fromKOP"
         [class.display-none]="!showPrintHeader && makeAbsolute"
         class="sticky"
         (hamburgerDisplay)="hamburgerDisplay($event)"

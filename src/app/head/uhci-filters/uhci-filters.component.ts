@@ -72,6 +72,7 @@ export class UhciFiltersComponent implements OnInit {
   collapseToggle: any;
   public serviceCategoryForm = new FormControl();
   public gettingReimbursedTabName;
+
   constructor(
     private ngRedux: NgRedux<IAppState>,
     private iconRegistry: MatIconRegistry,
@@ -86,10 +87,12 @@ export class UhciFiltersComponent implements OnInit {
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-keyboard_arrow_down-24px.svg')
     );
     this.collapseToggle = filterToggles;
+    // this.selectedService=this.serviceCategories[0].name;
   }
 
   ngOnInit() {
     this.currentPage.subscribe(currentPage => (this.selectedPage = currentPage));
+
     if (this.selectedPage === 'gettingReimbursedSummary') {
       this.gettingReimbursedTabName = this.gettingReimbursedservice.gettingReimbursedTabName;
     } else {
@@ -116,6 +119,12 @@ export class UhciFiltersComponent implements OnInit {
     this.serviceSetting.subscribe(
       serviceSetting => (this.selectedServiceSetting = this.serviceSettings.find(val => val.name === serviceSetting))
     );
+    this.serviceCategory.subscribe(
+      serviceCategory =>
+        (this.selectedServiceCategory = this.serviceCategories.find(val => val.name === serviceCategory))
+    );
+    this.selectedService = this.selectedServiceCategory.value;
+
     this.priorAuthType.subscribe(priorAuthType => {
       this.selectedPriorAuthType = this.priorAuthTypes.find(val => val.name === priorAuthType);
       // this.priorAuthInitialState = this.priorAuthTypes.find(val => val.name === priorAuthType);
@@ -199,6 +208,7 @@ export class UhciFiltersComponent implements OnInit {
       const filterValue = selectedServiceCategory.toLowerCase();
       return this.serviceCategories.filter(val => val.value.toLowerCase().startsWith(filterValue));
     }
+    console.log('service category', this.serviceCategories);
     return this.serviceCategories;
   }
 

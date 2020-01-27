@@ -219,11 +219,11 @@ export class FilterComponent implements OnInit {
       } else {
         this.priorAuthTypeData = this.priorauthdecisiontype[0];
       }
-      if (this.session.filterObjValue.scType) {
-        this.scTypeData = this.session.filterObjValue.scType;
-      } else {
-        this.scTypeData = this.priorauthservicecategory[0];
-      }
+      // if (this.session.filterObjValue.scType) {
+      //   this.scTypeData = this.session.filterObjValue.scType;
+      // } else {
+      //   this.scTypeData = this.priorauthservicecategory[0];
+      // }
       this.filteredOptions = this.serviceCategoryCtrl.valueChanges.pipe(
         startWith(''),
         map(value => this._filter(value))
