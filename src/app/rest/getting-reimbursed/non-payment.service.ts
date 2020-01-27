@@ -54,7 +54,7 @@ export class NonPaymentService {
     if (parameters[1]['ClaimsBy'] === 'DateOfProcessing') {
       nonPaymentUrl = this.NON_PAYMENT_DOP;
       parameters[1].reportType = 'subject';
-      nonPaymentURL = this.APP_URL + nonPaymentUrl + parameters[0] + '?requestType=TOP_SUB_DENIAL_REASONS';
+      nonPaymentURL = this.APP_URL + nonPaymentUrl + parameters[0] + '?requestType=TOP_DENIAL_REASONS';
       return combineLatest(
         this.http.post(nonPaymentURL, parameters[1], { headers: myHeader }).pipe(
           map(res => JSON.parse(JSON.stringify(res))),
