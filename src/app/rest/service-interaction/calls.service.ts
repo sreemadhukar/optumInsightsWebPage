@@ -1,25 +1,18 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { HttpHeaders, HttpClient, HttpParams } from '@angular/common/http';
+import { ServiceInteractionModule } from '../../components/service-interaction/service-interaction.module';
 import { map, catchError } from 'rxjs/operators';
-import { combineLatest, of, Observable } from 'rxjs';
-interface Calls {
-  ProviderSysKey: number;
-  CallVolByQuesType: Object;
-  CallTalkTimeByQuesType: Object;
-  ReportStartDate: String;
-  ReportEndDate: String;
-  CreateDate: String;
-}
+import { combineLatest, of } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class CallsService {
   public currentUser: any;
   public combined: any;
   private authBearer: any;
-  private readonly APP_URL: string = environment.apiProxyUrl;
-  private readonly CALLS_SERVICE_PATH: string = environment.apiUrls.Calls;
-  private readonly CALLS_TREND_PATH: string = environment.apiUrls.CallsTrend;
+  private APP_URL: string = environment.apiProxyUrl;
+  private CALLS_SERVICE_PATH: string = environment.apiUrls.Calls;
+  private CALLS_TREND_PATH: string = environment.apiUrls.CallsTrend;
   constructor(private http: HttpClient) {}
 
   public getCallsTrendData(...parameters) {
@@ -45,7 +38,7 @@ export class CallsService {
     );
   }
 
-  public getCallsData(...parameters): Observable<Calls[]> {
+  public getCallsData(...parameters) {
     this.currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
     this.authBearer = this.currentUser[0].PedAccessToken;
     const myHeader = new HttpHeaders({
