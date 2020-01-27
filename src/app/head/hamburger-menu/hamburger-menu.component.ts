@@ -699,6 +699,8 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
         } else {
           element.close();
         }
+      } else {
+        element.close();
       }
     });
   }
