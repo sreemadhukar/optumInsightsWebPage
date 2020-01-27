@@ -4,7 +4,7 @@
   flex-direction: row;
   flex-wrap: nowrap;
   width: 460px;
-  height: 250px;
+  height: 258px;
 }
 
 svg {
@@ -61,4 +61,64 @@ path.domain {
   font-size: 14px;
   letter-spacing: 0.2px;
   line-height: 18px;
+}
+
+div.tooltip {
+  position: absolute;
+  text-align: center;
+  font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 2px;
+  pointer-events: none;
+  height: 67px;
+  width: 109px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.15);
+  z-index: 1;
+  opacity: 0.95;
+  left: 318px;
+
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+
+  box-sizing: border-box;
+}
+
+div.tooltip::after {
+  content: '';
+  position: absolute;
+  top: 60%;
+  right: 100%;
+  margin-top: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: transparent white transparent transparent;
+  box-shadow: 0 10px 20px 0 rgba(0, 0, 0, 0.35);
+}
+
+.textHeading {
+  height: 18px;
+  width: 85px;
+  color: #2d2d39;
+  font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+  line-height: 18px;
+  padding-left: 12px;
+  padding-top: 5px;
+}
+
+.textValue {
+  height: 24px;
+  width: 85px;
+  color: #757589;
+  font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.2px;
+  line-height: 18px;
+  padding-top: 17px;
+  padding-left: 5px;
 }

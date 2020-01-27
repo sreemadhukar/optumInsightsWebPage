@@ -43,6 +43,7 @@ export class LineGraphComponent implements OnInit {
   constructor(private router: Router) {}
 
   ngOnInit() {
+    console.log('line graph', this.chartOptions.chartId);
     this.renderChart = '#' + this.chartOptions.chartId;
 
     if (this.router.url.includes('print-')) {
