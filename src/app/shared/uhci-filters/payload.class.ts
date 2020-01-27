@@ -6,6 +6,7 @@ export class PayLoad {
   taxId?: TaxId[];
   lineOfBusiness?: string;
   serviceSetting?: string;
+  serviceCategory?: string;
   priorAuthType?: string;
   trendMetric?: string;
   trendDate?: Date;

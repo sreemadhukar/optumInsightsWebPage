@@ -260,7 +260,7 @@ app-header {
 }
 
 .active-link {
-  background: $darker-alice-blue;
+  background: $darker-alice-blue !important;
   color: $blue !important;
 }
 
@@ -276,7 +276,7 @@ app-header {
   color: $black-rock !important;
 }
 
-.mat-nav-list .mat-list-item:focus {
+.mat-nav-list .mat-list-item:active {
   background: $darker-alice-blue !important;
 }
 
