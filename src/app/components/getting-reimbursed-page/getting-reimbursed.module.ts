@@ -1,3 +1,4 @@
+import { TopClaimsSharedService } from 'src/app/shared/getting-reimbursed/non-payments/top-claims-shared.service';
 import { ViewTopClaimsComponent } from './non-payments/view-top-claims/view-top-claims.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -20,21 +21,28 @@ import { PaymentsComponent } from './payments/payments.component';
 import { SmartEditsComponent } from './payment-integrity/smart-edits/smart-edits.component';
 @NgModule({
   imports: [CommonModule, GettingReimbursedRoutingModule, CommonUtilsModule, HeadMaterialModule, FormsModule],
-  providers: [GettingReimbursedService, NonPaymentSharedService, AppealsSharedService, PaymentsSharedService],
+  providers: [
+    GettingReimbursedService,
+    NonPaymentSharedService,
+    TopClaimsSharedService,
+    AppealsSharedService,
+    PaymentsSharedService
+  ],
 
   declarations: [
     GettingReimbursedComponent,
     AppealsComponent,
     PaymentIntegrityComponent,
     NonPaymentsComponent,
+    ViewTopClaimsComponent,
     PaymentsComponent,
-    SmartEditsComponent,
-    ViewTopClaimsComponent
+    SmartEditsComponent
   ],
   exports: [
     GettingReimbursedComponent,
     PaymentsComponent,
     NonPaymentsComponent,
+    ViewTopClaimsComponent,
     AppealsComponent,
     PaymentIntegrityComponent
   ]

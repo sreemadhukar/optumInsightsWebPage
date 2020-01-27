@@ -14,7 +14,8 @@ export class NonPaymentTopClaimsService {
   private APP_URL: string = environment.apiProxyUrl;
   private SERVICE_PATH: string = environment.apiUrls.NonPaymentTopClaims;
   constructor(private http: HttpClient) {}
-  getViewTopClaimsData(parameters, requestBody) {
+
+  public getViewTopClaimsData(parameters, requestBody) {
     this.currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
     this.authBearer = this.currentUser[0].PedAccessToken;
     const myHeader = new HttpHeaders({
@@ -31,11 +32,11 @@ export class NonPaymentTopClaimsService {
       taxIdOwnership: null,
       requestType: null
     };
-    const url = this.APP_URL + this.SERVICE_PATH + parameters[0];
     const params = new HttpParams();
-    // params = params.append('providerSysKey', parameters[1]);
-    return this.http.post(url, requestBody, { headers: myHeader }).pipe(
-      map(res => JSON.parse(JSON.stringify(res[0]))),
+    const topClaimsUrl = this.APP_URL + this.SERVICE_PATH + parameters[0];
+    console.log('topClaimsUrl', topClaimsUrl);
+    return this.http.post(topClaimsUrl, { params, headers: myHeader }).pipe(
+      map(res => JSON.parse(JSON.stringify(res))),
       catchError(err => of(JSON.parse(JSON.stringify(err))))
     );
   }

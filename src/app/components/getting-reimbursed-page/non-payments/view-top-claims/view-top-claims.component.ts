@@ -92,40 +92,40 @@ export class ViewTopClaimsComponent implements OnInit {
         console.log('Error, View Top Claims Non-Payment Data', err);
       }
     );
-    this.sortFlagTin = true;
-    this.paginator1();
-    this.providerName = this.session.getHealthCareOrgName();
-    this.tooltip();
-    this.sort.active = 'Tin';
-    this.sort.direction = 'asc';
-    this.sortFlag = false;
-    this.selectedclaims.sort = this.sort;
+    // this.sortFlagTin = true;
+    // this.paginator1();
+    // this.providerName = this.session.getHealthCareOrgName();
+    // this.tooltip();
+    // this.sort.active = 'Tin';
+    // this.sort.direction = 'asc';
+    // this.sortFlag = false;
+    // this.selectedclaims.sort = this.sort;
     this.claimsData = [];
     this.createPayloadService.getEvent().subscribe(value => {
       this.ngOnInit();
     });
 
-    // this.topClaimsSharedService.getClaimsData().then(claimsDetailsData => {
-    //   this.claimsData = JSON.parse(JSON.stringify(claimsDetailsData));
+    this.topClaimsSharedService.getClaimsData(this.createPayloadService.payload).then(claimsDetailsData => {
+      this.claimsData = JSON.parse(JSON.stringify(claimsDetailsData));
 
-    //   console.log("vie top claims",this.claimsData);
-    //   this.numberOfClaims = this.claimsData.length;
-    //   this.numberofClaimsShowing = this.claimsData.length;
-    //   this.paginator._intl.itemsPerPageLabel = 'Display';
-    //   this.paginator._intl.getRangeLabel = function(page, pageSize, length) {
-    //     d3.select('#testid').text(function() {
-    //       return 'Page ';
-    //     });
-    //     d3.select('#testid2').text(function() {
-    //       return page + 1;
-    //     });
+      console.log('ffsdfdfd', this.claimsData);
+      // this.numberOfClaims = this.claimsData.length;
+      // this.numberofClaimsShowing = this.claimsData.length;
+      // this.paginator._intl.itemsPerPageLabel = 'Display';
+      // this.paginator._intl.getRangeLabel = function(page, pageSize, length) {
+      //   d3.select('#testid').text(function() {
+      //     return 'Page ';
+      //   });
+      //   d3.select('#testid2').text(function() {
+      //     return page + 1;
+      //   });
 
-    //     return ' of ' + Math.floor(length / pageSize + 1);
-    //   };
-    //   this.selectedclaims = new MatTableDataSource(this.claimsData);
-    //   this.selectedclaims.paginator = this.paginator;
-    //   this.selectedclaims.sort = this.sort;
-    // });
+      //   return ' of ' + Math.floor(length / pageSize + 1);
+      // };
+      // this.selectedclaims = new MatTableDataSource(this.claimsData);
+      // this.selectedclaims.paginator = this.paginator;
+      // this.selectedclaims.sort = this.sort;
+    });
   }
   goback() {
     this.currentPage.subscribe(currentPage => (this.previousPage = currentPage));

@@ -15,57 +15,33 @@ import { NonPaymentTopClaimsService } from './../../../rest/getting-reimbursed/n
   providedIn: 'root'
 })
 export class TopClaimsSharedService {
-  private providerKey: number;
+  public filterParameters: any;
+  public providerKey: number;
+
   constructor(
     private nonPaymentTopClaimsService: NonPaymentTopClaimsService,
     private session: SessionService,
-    private common: CommonUtilsService
+    private common: CommonUtilsService,
+    private toggle: AuthorizationService
   ) {}
   public getClaimsData(filterParameters) {
     this.providerKey = this.session.providerKeyData();
-    // Save Parameters from Filter Session
-    const TIN = filterParameters.taxId[0];
-    const reasonData = filterParameters.reasonData;
-    const viewClaimsByFilter = filterParameters.viewClaimsByFilter;
-    // TIN
-    let isAllTinBool;
-    let specificTin;
-    if (TIN === 'All') {
-      isAllTinBool = true;
-      specificTin = null;
-    } else {
-      isAllTinBool = false;
-      if (filterParameters.taxId.length === 1) {
-        specificTin = parseInt(TIN.replace(/\D/g, ''), 10).toString();
-      } else {
-        const taxArray = filterParameters.taxId;
-        const taxArrayFormatted = [];
-        for (let i = 0; i < taxArray.length; i++) {
-          taxArrayFormatted.push(parseInt(taxArray[i].replace(/\D/g, ''), 10));
-        }
-        specificTin = taxArrayFormatted.join(', ');
-      }
-    }
-    // DOS and DOP
-    let viewClaimTypeValue;
-    if (viewClaimsByFilter === 'DOP') {
-      viewClaimTypeValue = 'Date of Processing';
-    } else if (viewClaimsByFilter === 'DOS') {
-      viewClaimTypeValue = 'Date of Service';
-    }
+    const TIN = filterParameters.taxId;
+    console.log('TIN', filterParameters);
     const periodStartDate = '2020-01-01';
     const periodEndDate = '2020-01-01';
     const requestBody = {
-      tins: specificTin,
-      periodStart: periodStartDate,
-      periodEnd: periodEndDate,
+      tins: ['020610912', '386005601'],
+      periodStart: '2020-01-01',
+      periodEnd: '2020-01-01',
       reason: 'COB Need Further Action',
       subReason: 'EOB/Proof No COB',
       taxIdOwnership: 'OWNED',
-      requestType: viewClaimTypeValue
+      requestType: 'DOS'
     };
-    return new Promise((resolve, reject) => {
+    return new Promise(resolve => {
       this.nonPaymentTopClaimsService.getViewTopClaimsData([this.providerKey], requestBody).subscribe(data => {
+        console.log('line 71', data);
         if ((data || {}).ClaimsNonPaymentMetrics) {
           const claimsData = data;
           console.log('claimsData', claimsData);
