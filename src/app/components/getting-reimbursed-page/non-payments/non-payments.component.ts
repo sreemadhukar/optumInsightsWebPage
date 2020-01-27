@@ -273,12 +273,12 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
     });
     this.type = event.direction;
   }
-  subReasonClicked(value: string) {
-    console.log('Vlue', value);
-
+  subReasonClicked(value: string, index: number) {
     const routetoThis = '/GettingReimbursed/ViewTopClaims';
-    console.log('Check subReasonClicked', this.reasonWithData);
-    this.reasonsEmitter.sendReasonsDetails(this.reasonWithData, value);
+    const subReasonSelected = this.reasonWithData
+      .filter(item => item.mainReason === value)
+      .map(item => item.subReason[index]);
+    this.reasonsEmitter.sendReasonsDetails(this.reasonWithData, value, subReasonSelected[0]);
     this.router.navigate([routetoThis]);
   }
   public reasonsWithSubReasons(data) {

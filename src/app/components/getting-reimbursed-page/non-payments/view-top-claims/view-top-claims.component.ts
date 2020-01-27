@@ -86,7 +86,11 @@ export class ViewTopClaimsComponent implements OnInit {
   ngOnInit() {
     this.clickSubReason = this.reasonReceived.message.subscribe(
       data => {
-        console.log('View Top Claims Non-Payment data', data);
+        console.log('data', data);
+        console.log('Full Data', data.fullData);
+        console.log('Main Reason', data.reasonSelected);
+        console.log('Main Reason', data.subReason);
+        //        console.log('SubReason', data.reasonSelected);
       },
       err => {
         console.log('Error, View Top Claims Non-Payment Data', err);
