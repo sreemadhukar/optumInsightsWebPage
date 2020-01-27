@@ -123,7 +123,7 @@ export class StackedBarChartComponent implements OnInit {
       .attr('cx', () => 10)
       .attr('cy', () => 5)
       .attr('r', () => 8)
-      .attr('fill', '#3381FF');
+      .attr('fill', barData.color[0]);
 
     leftContainer
       .append('text')
@@ -147,7 +147,7 @@ export class StackedBarChartComponent implements OnInit {
       .attr('cx', 10)
       .attr('cy', 40)
       .attr('r', 8)
-      .attr('fill', '#00B8CC');
+      .attr('fill', barData.color[1]);
 
     leftContainer
       .append('text')
@@ -204,7 +204,7 @@ export class StackedBarChartComponent implements OnInit {
     tooltip
       .append('rect')
       .attr('width', 109)
-      .attr('height', 66)
+      .attr('height', 67)
       .attr('fill', 'white')
       .style('opacity', 1);
 
@@ -271,7 +271,7 @@ export class StackedBarChartComponent implements OnInit {
       .on('mouseover', function(d) {
         tooltip.select('text').html(printTextPaper(d.paper)),
           tooltip.style('display', 'inline-flex'),
-          tooltip.style('top', '55px');
+          tooltip.style('top', '65px');
       })
       .on('mouseout', function() {
         tooltip.style('display', 'none');
