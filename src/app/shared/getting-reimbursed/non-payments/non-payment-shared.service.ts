@@ -51,7 +51,7 @@ export class NonPaymentSharedService {
           nonPaymentData1 => {
             let claimsNotPaid;
             let claimsNotPaidRate;
-            const lobValue = param.lineOfBusiness ? _.startCase(param.lineOfBusiness.toLowerCase()) : 'ALL';
+            let lobValue = param.lineOfBusiness ? _.startCase(param.lineOfBusiness.toLowerCase()) : 'ALL';
             if (
               (nonPaymentData1 || {}).LineOfBusiness &&
               nonPaymentData1.LineOfBusiness.ALL.hasOwnProperty('ClaimFinancialMetrics') &&
@@ -68,7 +68,7 @@ export class NonPaymentSharedService {
                   nonPaymentData1.LineOfBusiness.MedicareAndRetirement.ClaimFinancialMetrics.hasOwnProperty(
                     'DeniedAmount'
                   ) &&
-                  (lobValue === 'ALL' || lobValue === 'MedicareAndRetirement')
+                  (lobValue === 'ALL' || lobValue === 'Mr')
                 ) {
                   nonPaidData.push(
                     nonPaymentData1.LineOfBusiness.MedicareAndRetirement.ClaimFinancialMetrics.DeniedAmount
@@ -85,7 +85,7 @@ export class NonPaymentSharedService {
                   nonPaymentData1.LineOfBusiness.CommunityAndState.ClaimFinancialMetrics.hasOwnProperty(
                     'DeniedAmount'
                   ) &&
-                  (lobValue === 'ALL' || lobValue === 'CommunityAndState')
+                  (lobValue === 'ALL' || lobValue === 'Cs')
                 ) {
                   nonPaidData.push(nonPaymentData1.LineOfBusiness.CommunityAndState.ClaimFinancialMetrics.DeniedAmount);
                 }
@@ -100,9 +100,11 @@ export class NonPaymentSharedService {
                   nonPaymentData1.LineOfBusiness.EmployerAndIndividual.ClaimFinancialMetrics.hasOwnProperty(
                     'DeniedAmount'
                   ) &&
-                  (lobValue === 'ALL' || lobValue === 'EmployerAndIndividual')
+                  (lobValue === 'ALL' || lobValue === 'Ei')
                 ) {
-                  nonPaidData.push(nonPaymentData1.LineOfBusiness.CommunityAndState.ClaimFinancialMetrics.DeniedAmount);
+                  nonPaidData.push(
+                    nonPaymentData1.LineOfBusiness.EmployerAndIndividual.ClaimFinancialMetrics.DeniedAmount
+                  );
                 }
               }
               if (
@@ -113,14 +115,27 @@ export class NonPaymentSharedService {
                   nonPaymentData1.LineOfBusiness.UNKNOWN.hasOwnProperty('ClaimFinancialMetrics') &&
                   nonPaymentData1.LineOfBusiness.UNKNOWN.ClaimFinancialMetrics &&
                   nonPaymentData1.LineOfBusiness.UNKNOWN.ClaimFinancialMetrics.hasOwnProperty('DeniedAmount') &&
-                  (lobValue === 'ALL' || lobValue === 'UNKNOWN')
+                  (lobValue === 'ALL' || lobValue === 'Un')
                 ) {
                   nonPaidData.push(nonPaymentData1.LineOfBusiness.UNKNOWN.ClaimFinancialMetrics.DeniedAmount);
                 }
               }
               if (lobValue !== 'ALL') {
+                let amountPaidLOB;
                 const amountPaid = nonPaymentData1.LineOfBusiness.ALL.ClaimFinancialMetrics.DeniedAmount;
-                const amountPaidLOB = nonPaymentData1.LineOfBusiness[lobValue].ClaimFinancialMetrics.DeniedAmount;
+                if (lobValue === 'Mr') {
+                  lobValue = 'MedicareAndRetirement';
+                  amountPaidLOB = nonPaymentData1.LineOfBusiness[lobValue].ClaimFinancialMetrics.DeniedAmount;
+                } else if (lobValue === 'Cs') {
+                  lobValue = 'CommunityAndState';
+                  amountPaidLOB = nonPaymentData1.LineOfBusiness[lobValue].ClaimFinancialMetrics.DeniedAmount;
+                } else if (lobValue === 'Ei') {
+                  lobValue = 'EmployerAndIndividual';
+                  amountPaidLOB = nonPaymentData1.LineOfBusiness[lobValue].ClaimFinancialMetrics.DeniedAmount;
+                } else {
+                  lobValue = 'UNKNOWN';
+                  amountPaidLOB = nonPaymentData1.LineOfBusiness[lobValue].ClaimFinancialMetrics.DeniedAmount;
+                }
                 nonPaidData.push(amountPaid - amountPaidLOB);
               }
               claimsNotPaid = {
@@ -232,6 +247,7 @@ export class NonPaymentSharedService {
             let claimsNotPaid;
             let claimsNotPaidRate;
             // const lobValue = lobValueParam;
+            console.log(nonPaymentData1);
             const lobValue = param.lineOfBusiness ? _.startCase(param.lineOfBusiness.toLowerCase()) : 'All';
             if (
               (nonPaymentData1 || {}).All &&
@@ -419,7 +435,7 @@ export class NonPaymentSharedService {
               for (let i = 0; i < p.length; i++) {
                 let x = JSON.parse(JSON.stringify(paramtersCategories)); // deep copy
                 x[1]['DenialCategory'] = p[i]['title'];
-                x[1]['Count'] = this.subCategoriesFetchCount;
+                x[1]['Count'] = 5;
                 x[1]['ReportType'] = 'subject';
                 subCategoryReasons.push(x);
                 x = [];
