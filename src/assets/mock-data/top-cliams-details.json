@@ -1,322 +1,206 @@
-[
-  {
-    "Tin": ["FORSYTH MEMORIAL HOSPITAL", "58-1728803"],
+{
+  "ClaimsNonPaymentMetrics": [
+    {
+      "TinName": "FORSYTH MEMORIAL HOSPITAL",
+      "TinNumber": "58-1728803",
+      "ProviderName": "fff Jorgenson",
+      "NonPaymentAmount": "$1.3M",
+      "BilledAmount": "$2.3M",
+      "DateOfProcessing": "07/21/2019",
+      "ClaimNumber": "4564564564"
+    },
+    {
+      "TinName": "NOVANT MEDICAL GROUP",
+      "TinNumber": "58-3428803",
+      "ProviderName": "Srividya Arun",
+      "NonPaymentAmount": "$1.3M",
+      "BilledAmount": "$2.3M",
+      "DateOfProcessing": "07/21/2019",
+      "ClaimNumber": "4564564564"
+    },
+    {
+      "TinName": "PRESBYTERIAN HOSPITAL",
+      "TinNumber": "56-0554230",
+      "ProviderName": "Srividya Arun",
+      "NonPaymentAmount": "$650K",
+      "BilledAmount": "$750K",
+      "DateOfProcessing": "06/12/2019",
+      "ClaimNumber": "5675675675"
+    },
+    {
+      "TinName": "FORSYTH MEMORIAL HOSPITAL",
+      "TinNumber": "58-1728803",
 
-    "ProviderName": "fff Jorgenson",
-    "NonPaymentAmnt": "$1.3M",
-    "BilledAmnt": "$2.3M",
-    "DateOfProcessing": "07/21/2019",
-    "ClaimNumber": "4564564564"
-  },
-  {
-    "Tin": ["NOVANT MEDICAL GROUP", "58-1728803"],
+      "ProviderName": "Colleen Brady",
+      "NonPaymentAmount": "$325K",
+      "BilledAmount": "$345K",
+      "DateOfProcessing": "02/21/2019",
+      "ClaimNumber": "3453453453"
+    },
+    {
+      "TinName": "FORSYTH MEMORIAL HOSPITAL",
+      "TinNumber": "26-0599536",
+      "ProviderName": "Theodore Popodopolous",
+      "NonPaymentAmount": "$325K",
+      "BilledAmount": "$345K",
+      "DateOfProcessing": "02/21/2019",
+      "ClaimNumber": "3453453453"
+    },
+    {
+      "TinName": "PRESBYTERIAN MEDICAL CARE CORP",
+      "TinNumber": "26-0599536",
+      "ProviderName": "Michael John Monroe",
+      "NonPaymentAmount": "$325K",
+      "BilledAmount": "$345K",
+      "DateOfProcessing": "02/21/2019",
+      "ClaimNumber": "3453453453"
+    },
+    {
+      "TinName": "COMMUNITY GENERAL HEALTH PARTNERS",
+      "TinNumber": "26-0599536",
+      "ProviderName": "Michael John Monroe",
+      "NonPaymentAmount": "$325K",
+      "BilledAmount": "$345K",
+      "DateOfProcessing": "02/21/2019",
+      "ClaimNumber": "3453453453"
+    },
 
-    "ProviderName": "Srividya Arun",
-    "NonPaymentAmnt": "$1.3M",
-    "BilledAmnt": "$2.3M",
-    "DateOfProcessing": "07/21/2019",
-    "ClaimNumber": "4564564564"
-  },
-  {
-    "Tin": ["PRESBYTERIAN HOSPITAL", "56-0554230"],
+    {
+      "TinName": "COMMUNITY GENERAL HEALTH PARTNERS",
+      "TinNumber": "56-0636250",
+      "ProviderName": "Michael John Monroe",
+      "NonPaymentAmount": "$325K",
+      "BilledAmount": "$345K",
+      "DateOfProcessing": "02/21/2019",
+      "ClaimNumber": "3453453453"
+    },
+    {
+      "TinName": "FORSYTH MEMORIAL HOSPITAL",
+      "TinNumber": "58-1728803",
+      "ProviderName": "fff Jorgenson",
+      "NonPaymentAmount": "$1.3M",
+      "BilledAmount": "$2.3M",
+      "DateOfProcessing": "07/21/2019",
+      "ClaimNumber": "4564564564"
+    },
+    {
+      "TinName": "NOVANT MEDICAL GROUP",
+      "TinNumber": "58-3428803",
+      "ProviderName": "Srividya Arun",
+      "NonPaymentAmount": "$1.3M",
+      "BilledAmount": "$2.3M",
+      "DateOfProcessing": "07/21/2019",
+      "ClaimNumber": "4564564564"
+    },
+    {
+      "TinName": "PRESBYTERIAN HOSPITAL",
+      "TinNumber": "56-0554230",
+      "ProviderName": "Srividya Arun",
+      "NonPaymentAmount": "$650K",
+      "BilledAmount": "$750K",
+      "DateOfProcessing": "06/12/2019",
+      "ClaimNumber": "5675675675"
+    },
+    {
+      "TinName": "FORSYTH MEMORIAL HOSPITAL",
+      "TinNumber": "58-1728803",
+      "ProviderName": "fff Jorgenson",
+      "NonPaymentAmount": "$1.3M",
+      "BilledAmount": "$2.3M",
+      "DateOfProcessing": "07/21/2019",
+      "ClaimNumber": "4564564564"
+    },
+    {
+      "TinName": "NOVANT MEDICAL GROUP",
+      "TinNumber": "58-3428803",
+      "ProviderName": "Srividya Arun",
+      "NonPaymentAmount": "$1.3M",
+      "BilledAmount": "$2.3M",
+      "DateOfProcessing": "07/21/2019",
+      "ClaimNumber": "4564564564"
+    },
+    {
+      "TinName": "PRESBYTERIAN HOSPITAL",
+      "TinNumber": "56-0554230",
+      "ProviderName": "Srividya Arun",
+      "NonPaymentAmount": "$650K",
+      "BilledAmount": "$750K",
+      "DateOfProcessing": "06/12/2019",
+      "ClaimNumber": "5675675675"
+    },
+    {
+      "TinName": "FORSYTH MEMORIAL HOSPITAL",
+      "TinNumber": "58-1728803",
 
-    "ProviderName": "Srividya Arun",
-    "NonPaymentAmnt": "$650K",
-    "BilledAmnt": "$750K",
-    "DateOfProcessing": "06/12/2019",
-    "ClaimNumber": "5675675675"
-  },
-  {
-    "Tin": ["FOUNDATION HEALTH SYSTEMS", "56-1373175"],
+      "ProviderName": "Colleen Brady",
+      "NonPaymentAmount": "$325K",
+      "BilledAmount": "$345K",
+      "DateOfProcessing": "02/21/2019",
+      "ClaimNumber": "3453453453"
+    },
+    {
+      "TinName": "FORSYTH MEMORIAL HOSPITAL",
+      "TinNumber": "26-0599536",
+      "ProviderName": "Theodore Popodopolous",
+      "NonPaymentAmount": "$325K",
+      "BilledAmount": "$345K",
+      "DateOfProcessing": "02/21/2019",
+      "ClaimNumber": "3453453453"
+    },
+    {
+      "TinName": "PRESBYTERIAN MEDICAL CARE CORP",
+      "TinNumber": "26-0599536",
+      "ProviderName": "Michael John Monroe",
+      "NonPaymentAmount": "$325K",
+      "BilledAmount": "$345K",
+      "DateOfProcessing": "02/21/2019",
+      "ClaimNumber": "3453453453"
+    },
+    {
+      "TinName": "COMMUNITY GENERAL HEALTH PARTNERS",
+      "TinNumber": "26-0599536",
+      "ProviderName": "Michael John Monroe",
+      "NonPaymentAmount": "$325K",
+      "BilledAmount": "$345K",
+      "DateOfProcessing": "02/21/2019",
+      "ClaimNumber": "3453453453"
+    },
 
-    "ProviderName": "Colleen Brady",
-    "NonPaymentAmnt": "$325K",
-    "BilledAmnt": "$345K",
-    "DateOfProcessing": "02/21/2019",
-    "ClaimNumber": "3453453453"
-  },
-  {
-    "Tin": ["NOVANT HEALTH MINT HILL MED CENTER", "26-0599536"],
-    "ProviderName": "Theodore Popodopolous",
-    "NonPaymentAmnt": "$325K",
-    "BilledAmnt": "$345K",
-    "DateOfProcessing": "02/21/2019",
-    "ClaimNumber": "3453453453"
-  },
-  {
-    "Tin": ["PRESBYTERIAN MEDICAL CARE CORP", "26-0599536"],
-    "ProviderName": "Michael John Monroe",
-    "NonPaymentAmnt": "$325K",
-    "BilledAmnt": "$345K",
-    "DateOfProcessing": "02/21/2019",
-    "ClaimNumber": "3453453453"
-  },
-  {
-    "Tin": ["COMMUNITY GENERAL HEALTH PARTNERS", "26-0599536"],
-    "ProviderName": "Michael John Monroe",
-    "NonPaymentAmnt": "$325K",
-    "BilledAmnt": "$345K",
-    "DateOfProcessing": "02/21/2019",
-    "ClaimNumber": "3453453453"
-  },
-  {
-    "Tin": ["BRUNSWICK COMMUNITY HOSPITAL", "20-4278130"],
-
-    "ProviderName": "Michael John Monroe",
-    "NonPaymentAmnt": "$325K",
-    "BilledAmnt": "$345K",
-    "DateOfProcessing": "02/21/2019",
-    "ClaimNumber": "3453453453"
-  },
-  {
-    "Tin": ["COMMUNITY GENERAL HEALTH PARTNERS", "56-0636250"],
-    "ProviderName": "Michael John Monroe",
-    "NonPaymentAmnt": "$325K",
-    "BilledAmnt": "$345K",
-    "DateOfProcessing": "02/21/2019",
-    "ClaimNumber": "3453453453"
-  },
-  {
-    "Tin": ["REHABILITATION INSTITUE OF THE CAROLINAS", "56-0636250"],
-    "ProviderName": "Michael John Monroe",
-    "NonPaymentAmnt": "$325K",
-    "BilledAmnt": "$345K",
-    "DateOfProcessing": "02/21/2019",
-    "ClaimNumber": "3453453453"
-  },
-  {
-    "Tin": ["NMG AFFILIATE PRACTICE I", "56-0636250"],
-    "ProviderName": "Michael John Monroe",
-    "NonPaymentAmnt": "$325K",
-    "BilledAmnt": "$345K",
-    "DateOfProcessing": "02/21/2019",
-    "ClaimNumber": "3453453453"
-  },
-  {
-    "Tin": ["COMMUNITY GENERAL HEALTH PARTNERS", "26-0599536"],
-    "ProviderName": "Michael John Monroe",
-    "NonPaymentAmnt": "$325K",
-    "BilledAmnt": "$345K",
-    "DateOfProcessing": "02/21/2019",
-    "ClaimNumber": "3453453453"
-  },
-  {
-    "Tin": ["BRUNSWICK COMMUNITY HOSPITAL", "20-4278130"],
-
-    "ProviderName": "Michael John Monroe",
-    "NonPaymentAmnt": "$325K",
-    "BilledAmnt": "$345K",
-    "DateOfProcessing": "02/21/2019",
-    "ClaimNumber": "3453453453"
-  },
-  {
-    "Tin": ["MEDICAL PARK HOSPITAL", "56-1340424"],
-    "ProviderName": "Robert Schaffer",
-    "NonPaymentAmnt": "$325K",
-    "BilledAmnt": "$345K",
-    "DateOfProcessing": "02/21/2019",
-    "ClaimNumber": "3453453453"
-  },
-  {
-    "Tin": ["ROWAN REGIONAL MEDICAL CENTER", "56-2084786"],
-    "ProviderName": "Robert Schaffer",
-    "NonPaymentAmnt": "$325K",
-    "BilledAmnt": "$345K",
-    "DateOfProcessing": "02/21/2019",
-    "ClaimNumber": "3453453453"
-  },
-  {
-    "Tin": ["NMG AFFILIATE PRACTICE I", "56-2084786"],
-    "ProviderName": "Michael John Monroe",
-    "NonPaymentAmnt": "$325K",
-    "BilledAmnt": "$345K",
-    "DateOfProcessing": "02/21/2019",
-    "ClaimNumber": "3453453453"
-  },
-  {
-    "Tin": ["COMMUNITY GENERAL HEALTH PARTNERS", "56-0636250"],
-    "ProviderName": "Michael John Monroe",
-    "NonPaymentAmnt": "$325K",
-    "BilledAmnt": "$345K",
-    "DateOfProcessing": "02/21/2019",
-    "ClaimNumber": "3453453453"
-  },
-  {
-    "Tin": ["REHABILITATION INSTITUE OF THE CAROLINAS", "56-0636250"],
-    "ProviderName": "Michael John Monroe",
-    "NonPaymentAmnt": "$325K",
-    "BilledAmnt": "$345K",
-    "DateOfProcessing": "02/21/2019",
-    "ClaimNumber": "3453453453"
-  },
-  {
-    "Tin": ["NMG AFFILIATE PRACTICE I", "56-0636250"],
-    "ProviderName": "Michael John Monroe",
-    "NonPaymentAmnt": "$325K",
-    "BilledAmnt": "$345K",
-    "DateOfProcessing": "02/21/2019",
-    "ClaimNumber": "3453453453"
-  },
-  {
-    "Tin": ["COMMUNITY GENERAL HEALTH PARTNERS", "26-0599536"],
-    "ProviderName": "Michael John Monroe",
-    "NonPaymentAmnt": "$325K",
-    "BilledAmnt": "$345K",
-    "DateOfProcessing": "02/21/2019",
-    "ClaimNumber": "3453453453"
-  },
-  {
-    "Tin": ["ROWAN REGIONAL MEDICAL CENTER", "58-1728803"],
-    "ProviderName": "Robert Schaffer",
-    "NonPaymentAmnt": "$325K",
-    "BilledAmnt": "$345K",
-    "DateOfProcessing": "02/21/2019",
-    "ClaimNumber": "3453453453"
-  },
-  {
-    "Tin": ["FORSYTH MEMORIAL HOSPITAL", "58-1728803"],
-
-    "ProviderName": "Jorgenson",
-    "NonPaymentAmnt": "$1.3M",
-    "BilledAmnt": "$2.3M",
-    "DateOfProcessing": "07/21/2019",
-    "ClaimNumber": "4564564564"
-  },
-  {
-    "Tin": ["NOVANT MEDICAL GROUP", "58-1728803"],
-
-    "ProviderName": "Srividya Arun",
-    "NonPaymentAmnt": "$1.3M",
-    "BilledAmnt": "$2.3M",
-    "DateOfProcessing": "07/21/2019",
-    "ClaimNumber": "4564564564"
-  },
-  {
-    "Tin": ["PRESBYTERIAN HOSPITAL", "56-0554230"],
-
-    "ProviderName": "Srividya Arun",
-    "NonPaymentAmnt": "$650K",
-    "BilledAmnt": "$750K",
-    "DateOfProcessing": "06/12/2019",
-    "ClaimNumber": "5675675675"
-  },
-  {
-    "Tin": ["FOUNDATION HEALTH SYSTEMS", "56-1373175"],
-
-    "ProviderName": "Colleen Brady",
-    "NonPaymentAmnt": "$325K",
-    "BilledAmnt": "$345K",
-    "DateOfProcessing": "02/21/2019",
-    "ClaimNumber": "3453453453"
-  },
-  {
-    "Tin": ["FORSYTH MEMORIAL HOSPITAL", "58-1728803"],
-
-    "ProviderName": "fff Jorgenson",
-    "NonPaymentAmnt": "$1.3M",
-    "BilledAmnt": "$2.3M",
-    "DateOfProcessing": "07/21/2019",
-    "ClaimNumber": "4564564564"
-  },
-  {
-    "Tin": ["NOVANT MEDICAL GROUP", "58-1728803"],
-
-    "ProviderName": "Srividya Arun",
-    "NonPaymentAmnt": "$1.3M",
-    "BilledAmnt": "$2.3M",
-    "DateOfProcessing": "07/21/2019",
-    "ClaimNumber": "4564564564"
-  },
-  {
-    "Tin": ["PRESBYTERIAN HOSPITAL", "56-0554230"],
-
-    "ProviderName": "Srividya Arun",
-    "NonPaymentAmnt": "$650K",
-    "BilledAmnt": "$750K",
-    "DateOfProcessing": "06/12/2019",
-    "ClaimNumber": "5675675675"
-  },
-  {
-    "Tin": ["FOUNDATION HEALTH SYSTEMS", "56-1373175"],
-
-    "ProviderName": "Colleen Brady",
-    "NonPaymentAmnt": "$325K",
-    "BilledAmnt": "$345K",
-    "DateOfProcessing": "02/21/2019",
-    "ClaimNumber": "3453453453"
-  },
-  {
-    "Tin": ["NOVANT HEALTH MINT HILL MED CENTER", "26-0599536"],
-    "ProviderName": "Theodore Popodopolous",
-    "NonPaymentAmnt": "$325K",
-    "BilledAmnt": "$345K",
-    "DateOfProcessing": "02/21/2019",
-    "ClaimNumber": "3453453453"
-  },
-  {
-    "Tin": ["PRESBYTERIAN MEDICAL CARE CORP", "26-0599536"],
-    "ProviderName": "Michael John Monroe",
-    "NonPaymentAmnt": "$325K",
-    "BilledAmnt": "$345K",
-    "DateOfProcessing": "02/21/2019",
-    "ClaimNumber": "3453453453"
-  },
-  {
-    "Tin": ["COMMUNITY GENERAL HEALTH PARTNERS", "26-0599536"],
-    "ProviderName": "Michael John Monroe",
-    "NonPaymentAmnt": "$325K",
-    "BilledAmnt": "$345K",
-    "DateOfProcessing": "02/21/2019",
-    "ClaimNumber": "3453453453"
-  },
-  {
-    "Tin": ["BRUNSWICK COMMUNITY HOSPITAL", "20-4278130"],
-
-    "ProviderName": "Michael John Monroe",
-    "NonPaymentAmnt": "$325K",
-    "BilledAmnt": "$345K",
-    "DateOfProcessing": "02/21/2019",
-    "ClaimNumber": "3453453453"
-  },
-  {
-    "Tin": ["COMMUNITY GENERAL HEALTH PARTNERS", "56-0636250"],
-    "ProviderName": "Michael John Monroe",
-    "NonPaymentAmnt": "$325K",
-    "BilledAmnt": "$345K",
-    "DateOfProcessing": "02/21/2019",
-    "ClaimNumber": "3453453453"
-  },
-  {
-    "Tin": ["REHABILITATION INSTITUE OF THE CAROLINAS", "56-0636250"],
-    "ProviderName": "Michael John Monroe",
-    "NonPaymentAmnt": "$325K",
-    "BilledAmnt": "$345K",
-    "DateOfProcessing": "02/21/2019",
-    "ClaimNumber": "3453453453"
-  },
-  {
-    "Tin": ["NMG AFFILIATE PRACTICE I", "56-0636250"],
-    "ProviderName": "Michael John Monroe",
-    "NonPaymentAmnt": "$325K",
-    "BilledAmnt": "$345K",
-    "DateOfProcessing": "02/21/2019",
-    "ClaimNumber": "3453453453"
-  },
-  {
-    "Tin": ["COMMUNITY GENERAL HEALTH PARTNERS", "26-0599536"],
-    "ProviderName": "Michael John Monroe",
-    "NonPaymentAmnt": "$325K",
-    "BilledAmnt": "$345K",
-    "DateOfProcessing": "02/21/2019",
-    "ClaimNumber": "3453453453"
-  },
-  {
-    "Tin": ["BRUNSWICK COMMUNITY HOSPITAL", "20-4278130"],
-
-    "ProviderName": "Michael John Monroe",
-    "NonPaymentAmnt": "$325K",
-    "BilledAmnt": "$345K",
-    "DateOfProcessing": "02/21/2019",
-    "ClaimNumber": "3453453453"
-  }
-]
+    {
+      "TinName": "COMMUNITY GENERAL HEALTH PARTNERS",
+      "TinNumber": "56-0636250",
+      "ProviderName": "Michael John Monroe",
+      "NonPaymentAmount": "$325K",
+      "BilledAmount": "$345K",
+      "DateOfProcessing": "02/21/2019",
+      "ClaimNumber": "3453453453"
+    },
+    {
+      "TinName": "FORSYTH MEMORIAL HOSPITAL",
+      "TinNumber": "58-1728803",
+      "ProviderName": "fff Jorgenson",
+      "NonPaymentAmount": "$1.3M",
+      "BilledAmount": "$2.3M",
+      "DateOfProcessing": "07/21/2019",
+      "ClaimNumber": "4564564564"
+    },
+    {
+      "TinName": "NOVANT MEDICAL GROUP",
+      "TinNumber": "58-3428803",
+      "ProviderName": "Srividya Arun",
+      "NonPaymentAmount": "$1.3M",
+      "BilledAmount": "$2.3M",
+      "DateOfProcessing": "07/21/2019",
+      "ClaimNumber": "4564564564"
+    },
+    {
+      "TinName": "PRESBYTERIAN HOSPITAL",
+      "TinNumber": "56-0554230",
+      "ProviderName": "Srividya Arun",
+      "NonPaymentAmount": "$650K",
+      "BilledAmount": "$750K",
+      "DateOfProcessing": "06/12/2019",
+      "ClaimNumber": "5675675675"
+    }
+  ]
+}
