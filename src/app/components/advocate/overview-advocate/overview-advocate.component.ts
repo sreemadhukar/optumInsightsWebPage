@@ -101,9 +101,9 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
     this.pageTitle = 'UHC Insights Provider Performance Dashboard';
     const filData = this.session.getFilChangeEmitter().subscribe(() => this.common.urlResuseStrategy());
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => {
+      this.common.urlResuseStrategy();
       this.createPayloadService.resetTinNumber('overviewAdvocatePage');
       this.ngRedux.dispatch({ type: REMOVE_FILTER, filterData: { taxId: true } });
-      this.common.urlResuseStrategy();
     });
     iconRegistry.addSvgIcon(
       'filter',
@@ -307,8 +307,9 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
 
   ngOnInit() {
     this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'overviewAdvocatePage' });
+    this.checkStorage.emitEvent('overviewAdvocatePage');
     this.timePeriod = this.common.getTimePeriodFilterValue(this.createPayloadService.payload.timePeriod);
-    this.checkStorage.emitEvent('overviewPage');
+    this.checkStorage.emitEvent('overviewAdvocatePage');
     this.paymentData();
     this.appealsLeftData();
     this.appealsTrendByMonthData();
