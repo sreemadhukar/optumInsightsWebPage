@@ -15,6 +15,7 @@ export class GettingReimbursedService {
   private authBearer: any;
   private APP_URL: string = environment.apiProxyUrl;
   private CLAIMS_SERVICE_PATH: string = environment.apiUrls.ProviderSystemClaimsSummary;
+  private CLAIMS_SERVICE_PATH_DOP: string = environment.apiUrls.NonPaymentDop;
   private AGG_CLAIMS_SERVICE_PATH: string = environment.apiUrls.ProviderSystemClaimsAgg;
   private APPEALS_SERVICE_PATH: string = environment.apiUrls.Appeals; // old
   private APPEALS_SERVICE: string = environment.apiUrls.AppealsFHIR; // new
@@ -91,11 +92,20 @@ export class GettingReimbursedService {
   }
 
   public getPaymentsData(parameters) {
-    const claimsURL = this.APP_URL + this.CLAIMS_SERVICE_PATH + parameters[0] + '?requestType=PAYMENT_METRICS';
-    return this.http.post(claimsURL, parameters[1]).pipe(
-      map(res => JSON.parse(JSON.stringify(res[0]))),
-      catchError(err => of(JSON.parse(JSON.stringify(err))))
-    );
+    let claimsURL;
+    if (parameters[1]['ClaimsBy'] === 'DateOfProcessing') {
+      claimsURL = this.APP_URL + this.CLAIMS_SERVICE_PATH_DOP + parameters[0] + '?requestType=CLAIMS';
+      return this.http.post(claimsURL, parameters[1]).pipe(
+        map(res => JSON.parse(JSON.stringify(res))),
+        catchError(err => of(JSON.parse(JSON.stringify(err))))
+      );
+    } else {
+      claimsURL = this.APP_URL + this.CLAIMS_SERVICE_PATH + parameters[0] + '?requestType=PAYMENT_METRICS';
+      return this.http.post(claimsURL, parameters[1]).pipe(
+        map(res => JSON.parse(JSON.stringify(res[0]))),
+        catchError(err => of(JSON.parse(JSON.stringify(err))))
+      );
+    }
   }
 
   /* Function to get Provider TINS of Health System - Ranjith kumar Ankam */
@@ -131,11 +141,23 @@ export class GettingReimbursedService {
       'Content-Type': 'application/json',
       Accept: '*/*'
     });
-    const nonPaymentURL = this.APP_URL + this.CLAIMS_SERVICE_PATH + parameters[0] + '?requestType=PAYMENT_METRICS';
-    return this.http.post(nonPaymentURL, parameters[1], { headers: myHeader }).pipe(
-      map(res => JSON.parse(JSON.stringify(res[0]))),
-      catchError(err => of(JSON.parse(JSON.stringify(err))))
-    );
+    if (parameters[1]['ClaimsBy'] === 'DateOfProcessing') {
+      const claimsURL = this.APP_URL + this.CLAIMS_SERVICE_PATH_DOP + parameters[0] + '?requestType=PROVIDER';
+      return combineLatest(
+        this.http.post(claimsURL, parameters[1]).pipe(
+          map(res => JSON.parse(JSON.stringify(res))),
+          catchError(err => of(JSON.parse(JSON.stringify(err))))
+        ),
+        // this.claimsAppealsData(...parameters)
+        this.getPaymentsData(parameters)
+      );
+    } else {
+      const nonPaymentURL = this.APP_URL + this.CLAIMS_SERVICE_PATH + parameters[0] + '?requestType=PAYMENT_METRICS';
+      return this.http.post(nonPaymentURL, parameters[1], { headers: myHeader }).pipe(
+        map(res => JSON.parse(JSON.stringify(res[0]))),
+        catchError(err => of(JSON.parse(JSON.stringify(err))))
+      );
+    }
   }
 
   public getAppealsWrapperData(parameters) {

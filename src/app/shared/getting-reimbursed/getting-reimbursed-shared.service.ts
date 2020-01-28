@@ -156,6 +156,7 @@ export class GettingReimbursedSharedService {
               type: 'donut',
               status: 404,
               title: 'Claims Yield',
+              toggle: true,
               MetricID: this.MetricidService.MetricIDs.ClaimsYield,
               data: null,
               timeperiod: null
@@ -512,7 +513,7 @@ export class GettingReimbursedSharedService {
               claimsPaidRate = {
                 category: 'app-card',
                 type: 'donut',
-                title: 'Claims Yield',
+                title: 'Claims-Yield',
                 MetricID: this.MetricidService.MetricIDs.ClaimsYield,
                 toggle: !environment.internalAccess,
                 data: {
@@ -532,6 +533,7 @@ export class GettingReimbursedSharedService {
                 category: 'app-card',
                 type: 'donut',
                 title: 'Claims Yield',
+                toogle: true,
                 MetricID: this.MetricidService.MetricIDs.ClaimsYield,
                 data: null,
                 timeperiod: null
@@ -912,6 +914,7 @@ export class GettingReimbursedSharedService {
               type: 'donut',
               status: 404,
               title: 'Claims Yield',
+              toogle: true,
               MetricID: this.MetricidService.MetricIDs.ClaimsYield,
               data: null,
               timeperiod: null
@@ -1472,7 +1475,7 @@ export class GettingReimbursedSharedService {
                 type: 'donut',
                 title: 'Claims Yield',
                 MetricID: this.MetricidService.MetricIDs.ClaimsYield,
-                toggle: !environment.internalAccess,
+                toggle: environment.internalAccess,
                 data: {
                   graphValues: [
                     claimsData[lobData].ClaimsLobSummary[0].ClaimsYieldRate,
@@ -1491,6 +1494,7 @@ export class GettingReimbursedSharedService {
                 type: 'donut',
                 status: 404,
                 title: 'Claims Yield',
+                toggle: true,
                 MetricID: this.MetricidService.MetricIDs.ClaimsYield,
                 data: null,
                 timeperiod: null
