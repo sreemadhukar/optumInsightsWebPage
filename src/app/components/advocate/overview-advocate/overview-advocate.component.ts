@@ -34,6 +34,7 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
   timePeriod: string;
   timePeriodCalls: string;
   timePeriodPi: string;
+  timePeriodNonPayment: string;
   lob: string;
   trendTitle = 'Non-Payment Trend';
   taxID: Array<string>;
@@ -356,6 +357,7 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
       } else {
         // this.timePeriodLineGraph = trendData.timePeriod;
         this.monthlyLineGraph.chartData = trendData.data;
+        this.timePeriodNonPayment = trendData.timePeriod;
         this.trendMonthDisplay = true;
       }
     });
