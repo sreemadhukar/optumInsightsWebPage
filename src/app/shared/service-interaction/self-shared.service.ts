@@ -274,21 +274,22 @@ export class SelfSharedService {
               selfService.hasOwnProperty('TotalPhoneCost')
             ) {
               try {
-                let totalCallCost = selfService.TotalCallCost;
-                totalCallCost = this.common.nFormatter(totalCallCost);
+                const totalCallCost: number = selfService.TotalCallCost;
+                const totalCallCostString: string = this.common.nFormatter(totalCallCost);
 
                 oppurtunities.push({
                   category: 'mini-tile',
                   title: 'Reduce Calls and Operating Costs by:',
                   MetricID: this.MetricidService.MetricIDs.ReduceCallsOperatingCostsBy,
-                  toggle: this.toggle.setToggles(
-                    'Reduce Calls and Operating Costs by:',
-                    'Self Service',
-                    'Service Interaction',
-                    false
-                  ),
+                  toggle:
+                    this.toggle.setToggles(
+                      'Reduce Calls and Operating Costs by:',
+                      'Self Service',
+                      'Service Interaction',
+                      false
+                    ) && this.common.toggleSelfService(totalCallCost),
                   data: {
-                    centerNumber: '$' + totalCallCost,
+                    centerNumber: '$' + totalCallCostString,
                     gdata: []
                   },
                   fdata: {
@@ -352,12 +353,13 @@ export class SelfSharedService {
                   category: 'mini-tile',
                   title: "Save Your Staff's Time by:" + '\n\xa0',
                   MetricID: this.MetricidService.MetricIDs.SaveyourStaffsTimeBy,
-                  toggle: this.toggle.setToggles(
-                    "Save Your Staff's Time by:",
-                    'Self Service',
-                    'Service Interaction',
-                    false
-                  ),
+                  toggle:
+                    this.toggle.setToggles(
+                      "Save Your Staff's Time by:",
+                      'Self Service',
+                      'Service Interaction',
+                      false
+                    ) && this.common.toggleSelfService(totalCalltime),
                   data: {
                     centerNumber: totalCalltimeString + suffixHourPerDay,
                     gdata: []
@@ -515,12 +517,13 @@ export class SelfSharedService {
                   category: 'mini-tile',
                   title: 'Reduce Reconsideration Processing by:',
                   MetricID: this.MetricidService.MetricIDs.ReduceReconsiderationProcessingBy,
-                  toggle: this.toggle.setToggles(
-                    'Reduce Reconsideration Processing by:',
-                    'Self Service',
-                    'Service Interaction',
-                    false
-                  ),
+                  toggle:
+                    this.toggle.setToggles(
+                      'Reduce Reconsideration Processing by:',
+                      'Self Service',
+                      'Service Interaction',
+                      false
+                    ) && this.common.toggleSelfService(checkAvgProcessingTime),
                   data: {
                     centerNumber: avgProcessingTime + suffixDay,
                     gdata: []
