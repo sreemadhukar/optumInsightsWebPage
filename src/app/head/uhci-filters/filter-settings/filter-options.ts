@@ -10,10 +10,10 @@ export const TimePeriod = [
 
 export const LineOfBusiness = [
   { name: 'All', value: 'All', disable: false },
-  { name: 'Cs', value: 'Community & State', disable: false },
-  { name: 'Ei', value: 'Employer & Individual', disable: false },
-  { name: 'Mr', value: 'Medicare & Retirement', disable: false },
-  { name: 'Un', value: 'Uncategorized', disable: true }
+  { name: 'CS', value: 'Community & State', disable: false },
+  { name: 'EI', value: 'Employer & Individual', disable: false },
+  { name: 'MR', value: 'Medicare & Retirement', disable: false },
+  { name: 'UN', value: 'Uncategorized', disable: true }
 ];
 
 export const ClaimsFilter = [
