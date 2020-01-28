@@ -24,6 +24,7 @@ import { IAppState } from './store/store';
 import { RavenErrorHandler } from './components/error-handler/error-handler';
 import { loadState, saveState } from './store/filter/localStorage';
 import { combineReducers, createStore, Store, applyMiddleware } from 'redux';
+import { KopFilterReducer } from './store/kopFilter/reducer';
 
 @NgModule({
   declarations: [AppComponent],
@@ -63,7 +64,7 @@ import { combineReducers, createStore, Store, applyMiddleware } from 'redux';
 export class AppModule {
   constructor(ngRedux: NgRedux<any>) {
     // Combine all the reducer
-    const mainReducer = combineReducers({ uhc: FilterReducer });
+    const mainReducer = combineReducers({ uhc: FilterReducer, kop: KopFilterReducer });
 
     // Create Store
     const store: Store<any> = createStore(mainReducer, {}, applyMiddleware(saveState));
