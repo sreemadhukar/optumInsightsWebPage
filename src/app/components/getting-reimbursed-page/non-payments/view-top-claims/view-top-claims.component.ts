@@ -91,6 +91,7 @@ export class ViewTopClaimsComponent implements OnInit {
         console.log('Main Reason', data.reasonSelected);
         console.log('Main Reason', data.subReason);
         //        console.log('SubReason', data.reasonSelected);
+        this.getClaimsData(data.reasonSelected, data.subReason);
       },
       err => {
         console.log('Error, View Top Claims Non-Payment Data', err);
@@ -108,29 +109,33 @@ export class ViewTopClaimsComponent implements OnInit {
     this.createPayloadService.getEvent().subscribe(value => {
       this.ngOnInit();
     });
+    // this.numberOfClaims = this.claimsData.length;
+    // this.numberofClaimsShowing = this.claimsData.length;
+    // this.paginator._intl.itemsPerPageLabel = 'Display';
+    // this.paginator._intl.getRangeLabel = function(page, pageSize, length) {
+    //   d3.select('#testid').text(function() {
+    //     return 'Page ';
+    //   });
+    //   d3.select('#testid2').text(function() {
+    //     return page + 1;
+    //   });
 
-    this.topClaimsSharedService.getClaimsData(this.createPayloadService.payload).then(claimsDetailsData => {
-      this.claimsData = JSON.parse(JSON.stringify(claimsDetailsData));
-
-      console.log('ffsdfdfd', this.claimsData);
-      // this.numberOfClaims = this.claimsData.length;
-      // this.numberofClaimsShowing = this.claimsData.length;
-      // this.paginator._intl.itemsPerPageLabel = 'Display';
-      // this.paginator._intl.getRangeLabel = function(page, pageSize, length) {
-      //   d3.select('#testid').text(function() {
-      //     return 'Page ';
-      //   });
-      //   d3.select('#testid2').text(function() {
-      //     return page + 1;
-      //   });
-
-      //   return ' of ' + Math.floor(length / pageSize + 1);
-      // };
-      // this.selectedclaims = new MatTableDataSource(this.claimsData);
-      // this.selectedclaims.paginator = this.paginator;
-      // this.selectedclaims.sort = this.sort;
-    });
+    //   return ' of ' + Math.floor(length / pageSize + 1);
+    // };
+    // this.selectedclaims = new MatTableDataSource(this.claimsData);
+    // this.selectedclaims.paginator = this.paginator;
+    // this.selectedclaims.sort = this.sort;
   }
+
+  getClaimsData(reasonSelected, subReason) {
+    this.topClaimsSharedService
+      .getClaimsData(reasonSelected, subReason, this.createPayloadService.payload)
+      .then(claimsDetailsData => {
+        this.claimsData = JSON.parse(JSON.stringify(claimsDetailsData));
+        console.log('ffsdfdfd', this.claimsData);
+      });
+  }
+
   goback() {
     this.currentPage.subscribe(currentPage => (this.previousPage = currentPage));
     for (let i = 0; i < this.previousPageurl.length; i++) {

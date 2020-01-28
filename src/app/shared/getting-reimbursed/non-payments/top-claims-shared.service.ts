@@ -24,10 +24,10 @@ export class TopClaimsSharedService {
     private common: CommonUtilsService,
     private toggle: AuthorizationService
   ) {}
-  public getClaimsData(filterParameters) {
+  public getClaimsData(reasonSelected, subReason, filterParameters) {
     this.providerKey = this.session.providerKeyData();
     const TIN = filterParameters.taxId;
-    console.log('TIN', filterParameters);
+    console.log('TIN', reasonSelected);
     const periodStartDate = '2020-01-01';
     const periodEndDate = '2020-01-01';
     const requestBody = {
