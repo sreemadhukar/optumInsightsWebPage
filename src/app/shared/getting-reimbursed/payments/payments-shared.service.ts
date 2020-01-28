@@ -105,7 +105,7 @@ export class PaymentsSharedService {
           console.log(claimsData);
           if (parameters[1]['ClaimsBy'] === 'DateOfProcessing') {
             lobData = parameters[1].Lob ? _.startCase(parameters[1].Lob.toLowerCase()) : 'ALL';
-            if (claimsData != null || {}) {
+            if (!claimsData.hasOwnProperty('LineOfBusiness')) {
               claimsPaid = {
                 category: 'app-card',
                 type: 'donutWithLabel',
@@ -546,7 +546,7 @@ export class PaymentsSharedService {
             }
           } else {
             lobData = parameters[1].Lob ? _.startCase(parameters[1].Lob.toLowerCase()) : 'All';
-            if (claimsData != null || {}) {
+            if (!claimsData.hasOwnProperty(lobData)) {
               claimsPaid = {
                 category: 'app-card',
                 type: 'donutWithLabel',
@@ -942,6 +942,7 @@ export class PaymentsSharedService {
   public getclaimsPaidData(param) {
     this.providerKey = this.session.providerKeyData();
     let parameters = [];
+    let paidArray;
     parameters = this.getParameterCategories(param);
     // let paidArray:  Array<Object> = [];
     if (param.viewClaimsByFilter === 'DateOfProcessing') {
@@ -961,19 +962,36 @@ export class PaymentsSharedService {
             } else if (lobData === 'Un') {
               lobData = 'UNKNOWN';
             }
-            if (providerData !== null && paymentData !== null) {
+            if (
+              providerData !== null &&
+              providerData.LineOfBusiness &&
+              paymentData.LineOfBusiness[lobData] &&
+              paymentData.LineOfBusiness[lobData].hasOwnProperty('ClaimFinancialMetrics')
+            ) {
               paidBreakdown = [
                 providerData.LineOfBusiness[lobData].ProviderFinancialMetrics.ChargeAmount,
                 providerData.LineOfBusiness[lobData].ProviderFinancialMetrics.AllowedAmount,
                 paymentData.LineOfBusiness[lobData].ClaimFinancialMetrics.DeniedAmount,
                 paymentData.LineOfBusiness[lobData].ClaimFinancialMetrics.ApprovedAmount
               ];
+              paidArray = {
+                data: paidBreakdown,
+                timePeriod:
+                  this.common.dateFormat(paymentData.StartDate) + ' - ' + this.common.dateFormat(paymentData.EndDate)
+              };
+            } else {
+              paidArray = {
+                category: 'large-card',
+                type: 'donutWithLabelBottom',
+                status: 500,
+                title: 'Claims Paid Breakdown',
+                MetricID: 'NA',
+                data: null,
+                besideData: null,
+                bottomData: null,
+                timeperiod: null
+              };
             }
-            const paidArray = {
-              data: paidBreakdown,
-              timePeriod:
-                this.common.dateFormat(paymentData.StartDate) + ' - ' + this.common.dateFormat(paymentData.EndDate)
-            };
             resolve(paidArray);
           } catch (Error) {
             const temp = {
@@ -995,7 +1013,6 @@ export class PaymentsSharedService {
     } else {
       return new Promise((resolve, reject) => {
         let paidBreakdown = [];
-        let paidArray;
         this.gettingReimbursedService.getPaymentData(...parameters).subscribe(paymentDatafetch => {
           try {
             // const paymentData = JSON.parse(JSON.stringify(paymentDatafetch));
