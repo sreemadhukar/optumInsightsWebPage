@@ -3,13 +3,23 @@ import { environment } from '../../../environments/environment';
 import { HttpHeaders, HttpClient, HttpParams } from '@angular/common/http';
 import { map, catchError } from 'rxjs/operators';
 import { combineLatest, of, Observable } from 'rxjs';
-interface Calls {
+
+interface CallsMetricsI {
+  BenefitsEligibility: number;
+  Claims: number;
+  PriorAuth: number;
+  Others: number;
+  Total: number;
+}
+
+interface CallsI {
   ProviderSysKey: number;
-  CallVolByQuesType: Object;
-  CallTalkTimeByQuesType: Object;
-  ReportStartDate: String;
-  ReportEndDate: String;
-  CreateDate: String;
+  CallVolByQuesType: CallsMetricsI;
+  CallTalkTimeByQuesType: CallsMetricsI;
+  ReportStartDate: string;
+  ReportEndDate: string;
+  CreateDate: string;
+  test: any;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -45,7 +55,7 @@ export class CallsService {
     );
   }
 
-  public getCallsData(...parameters): Observable<Calls[]> {
+  public getCallsData(...parameters): Observable<CallsI[]> {
     this.currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
     this.authBearer = this.currentUser[0].PedAccessToken;
     const myHeader = new HttpHeaders({

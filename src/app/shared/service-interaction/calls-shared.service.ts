@@ -7,6 +7,15 @@ import { TrendingMetricsService } from '../../rest/trending/trending-metrics.ser
 import { AuthorizationService } from '../../auth/_service/authorization.service';
 import { GettingReimbursedPayload } from '../getting-reimbursed/payload.class';
 
+interface Calls {
+  ProviderSysKey: number;
+  CallVolByQuesType: Object;
+  CallTalkTimeByQuesType: Object;
+  ReportStartDate: String;
+  ReportEndDate: String;
+  CreateDate: String;
+}
+
 @Injectable({ providedIn: ServiceInteractionModule })
 export class CallsSharedService {
   public sdataQuestionType: object;
@@ -121,11 +130,12 @@ export class CallsSharedService {
     return new Promise(resolve => {
       this.callsService.getCallsData(...parameters).subscribe(
         ([providerSystems]) => {
+          console.log('providerSystem', providerSystems);
           if (providerSystems) {
-            const startDate = (providerSystems || {}).ReportStartDate;
-            const endDate = (providerSystems || {}).ReportEndDate;
+            const startDate = providerSystems.ReportStartDate;
+            const endDate = providerSystems.ReportEndDate;
             const timePeriodCalls: String = this.common.dateFormat(startDate) + ' - ' + this.common.dateFormat(endDate);
-            const totalCalls = (providerSystems || {}).CallVolByQuesType;
+            const totalCalls = providerSystems.CallVolByQuesType;
             if (totalCalls) {
               try {
                 const callsCounts = [
@@ -172,7 +182,7 @@ export class CallsSharedService {
               callsByCallType = this.issueResolution(404, null, null, null, null, null);
             }
 
-            const totalTalkTime = (providerSystems || {}).CallTalkTimeByQuesType;
+            const totalTalkTime = providerSystems.CallTalkTimeByQuesType;
             if (totalTalkTime) {
               try {
                 const talkTimeCounts = [

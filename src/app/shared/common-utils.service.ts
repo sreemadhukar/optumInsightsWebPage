@@ -280,6 +280,10 @@ export class CommonUtilsService {
     return y;
   }
 
+  public toggleSelfService(value: number): boolean {
+    console.log('toggle', value <= 0 ? false : true);
+    return value <= 0 ? false : true;
+  }
   public nondecimalFormatter(fnumber) {
     if (fnumber >= 1000000000) {
       return (fnumber / 1000000000).toFixed(0).replace(/\.0$/, '') + 'B';

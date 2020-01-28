@@ -57,28 +57,23 @@ export class SelfSharedService {
       */
       this.selfService.getSelfServiceData(...parameters).subscribe(
         ([providerSystems]) => {
-          if (
-            ((providerSystems || {}).SelfServiceInquiries || {}).ALL &&
-            providerSystems.SelfServiceInquiries.ALL.hasOwnProperty('ReportingPeriodStartDate') &&
-            providerSystems.SelfServiceInquiries.ALL.hasOwnProperty('ReportingPeriodEndDate')
-          ) {
-            try {
-              const startDate: string = this.common.dateFormat(
-                providerSystems.SelfServiceInquiries.ALL.ReportingPeriodStartDate
-              );
-              const endDate: string = this.common.dateFormat(
-                providerSystems.SelfServiceInquiries.ALL.ReportingPeriodEndDate
-              );
-              this.timeFrame = startDate + ' - ' + endDate;
-            } catch (Error) {
-              this.timeFrame = null;
-              console.log('Error in Self Service TimePeriod', this.timeFrame);
-            }
-          } else {
+          try {
+            const startDate: string = this.common.dateFormat(
+              providerSystems.SelfServiceInquiries.ALL.ReportingPeriodStartDate
+            );
+            const endDate: string = this.common.dateFormat(
+              providerSystems.SelfServiceInquiries.ALL.ReportingPeriodEndDate
+            );
+            this.timeFrame = startDate + ' - ' + endDate;
+          } catch (Error) {
             this.timeFrame = null;
+            console.log('Error in Self Service TimePeriod', this.timeFrame);
           }
+          const utilization =
+            providerSystems && providerSystems.SelfServiceInquiries && providerSystems.SelfServiceInquiries.ALL
+              ? providerSystems.SelfServiceInquiries.ALL.Utilizations
+              : null;
 
-          const utilization = (((providerSystems || {}).SelfServiceInquiries || {}).ALL || {}).Utilizations;
           if (utilization) {
             try {
               if (utilization.OverallLinkAdoptionRate !== null) {
@@ -268,7 +263,10 @@ export class SelfSharedService {
           } // End if Data not found Utilization Object
 
           /********* Opportunites sections starts from here *********** */
-          const selfService = (((providerSystems || {}).SelfServiceInquiries || {}).ALL || {}).SelfService;
+          const selfService =
+            providerSystems && providerSystems.SelfServiceInquiries && providerSystems.SelfServiceInquiries.ALL
+              ? providerSystems.SelfServiceInquiries.ALL.SelfService
+              : null;
           if (selfService) {
             if (
               selfService.hasOwnProperty('TotalCallCost') &&
@@ -339,18 +337,13 @@ export class SelfSharedService {
             } // end if else for Reduce Calls and Operating Costs by:
             if (selfService.hasOwnProperty('TotalCallTime')) {
               try {
-                let totalCalltime = selfService.TotalCallTime;
-                let suffixHourPerDay;
+                let totalCalltime: number = selfService.TotalCallTime;
+                let totalCalltimeString: string;
+                let suffixHourPerDay = ' Hour/day';
                 if (totalCalltime < 1 && totalCalltime > 0) {
-                  totalCalltime = '< 1';
-                  suffixHourPerDay = ' Hour/day';
-                } else if (totalCalltime.toFixed(0) === 1) {
-                  totalCalltime = totalCalltime.toFixed(0);
-                  suffixHourPerDay = ' Hour/day';
-                } else if (totalCalltime.toFixed(0) === 0) {
-                  totalCalltime = totalCalltime.toFixed(0);
-                  suffixHourPerDay = '';
+                  totalCalltimeString = '< 1';
                 } else {
+                  totalCalltimeString = totalCalltime.toFixed(0);
                   totalCalltime = this.common.nondecimalFormatter(totalCalltime);
                   suffixHourPerDay = ' Hours/day';
                 }
@@ -366,7 +359,7 @@ export class SelfSharedService {
                     false
                   ),
                   data: {
-                    centerNumber: totalCalltime + suffixHourPerDay,
+                    centerNumber: totalCalltimeString + suffixHourPerDay,
                     gdata: []
                   },
                   fdata: {
@@ -419,9 +412,9 @@ export class SelfSharedService {
             ) {
               try {
                 let processingTime;
-                const checkProcessingTime =
-                  selfService.AveragePaperClaimProcessingTime.toFixed(0) -
-                  selfService.AverageClaimProcessingTime.toFixed(0);
+                const checkProcessingTime = +(
+                  selfService.AveragePaperClaimProcessingTime - selfService.AverageClaimProcessingTime
+                ).toFixed(0);
                 let suffixDay;
                 if (checkProcessingTime <= 0) {
                   processingTime = 0;
@@ -438,7 +431,7 @@ export class SelfSharedService {
                   title: 'Reduce Claim Processing Time by:',
                   MetricID: this.MetricidService.MetricIDs.ReduceClaimProcessingTimeBy,
                   toggle:
-                    checkProcessingTime >= 0 ||
+                    this.common.toggleSelfService(checkProcessingTime) &&
                     this.toggle.setToggles(
                       'Reduce Claim Processing Time by:',
                       'Self Service',
@@ -503,9 +496,9 @@ export class SelfSharedService {
               selfService['AverageReconsideredProcessingTime'] !== null
             ) {
               try {
-                const checkAvgProcessingTime =
-                  selfService.AveragePaperReconsideredProcessingTime.toFixed() -
-                  selfService.AverageReconsideredProcessingTime.toFixed();
+                const checkAvgProcessingTime = +(
+                  selfService.AveragePaperReconsideredProcessingTime - selfService.AverageReconsideredProcessingTime
+                ).toFixed();
                 let avgProcessingTime;
                 let suffixDay;
                 if (checkAvgProcessingTime <= 0) {
@@ -522,14 +515,12 @@ export class SelfSharedService {
                   category: 'mini-tile',
                   title: 'Reduce Reconsideration Processing by:',
                   MetricID: this.MetricidService.MetricIDs.ReduceReconsiderationProcessingBy,
-                  toggle:
-                    checkAvgProcessingTime >= 0 ||
-                    this.toggle.setToggles(
-                      'Reduce Reconsideration Processing by:',
-                      'Self Service',
-                      'Service Interaction',
-                      false
-                    ),
+                  toggle: this.toggle.setToggles(
+                    'Reduce Reconsideration Processing by:',
+                    'Self Service',
+                    'Service Interaction',
+                    false
+                  ),
                   data: {
                     centerNumber: avgProcessingTime + suffixDay,
                     gdata: []

@@ -54,9 +54,9 @@ interface SelfServiceI {
         SizeOfOpportunityCallsAndClaimsWeighting: number;
         SizeOfOpportunityCallsAndClaimsPaperAndPostageWeighting: number;
       };
-      RecordRefreshDate: String;
-      ReportingPeriodStartDate: String;
-      ReportingPeriodEndDate: String;
+      RecordRefreshDate: string;
+      ReportingPeriodStartDate: string;
+      ReportingPeriodEndDate: string;
     };
   };
   ResolvingIssues: Object;
