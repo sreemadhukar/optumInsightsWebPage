@@ -5,6 +5,8 @@ import { Filter } from './_models/filter';
 import { environment } from '../../environments/environment';
 import { share } from 'rxjs/operators';
 
+export const ROLES_LIST_ACCESS = [{ role: 'UHCI_Project' }, { role: 'UHCI_Executive' }, { role: 'UHCI_Advocate' }];
+
 @Injectable({
   providedIn: 'root'
 })
@@ -61,6 +63,7 @@ export class SessionService {
     }
   }
 
+  // Depreciate this in future.Use checkRole
   public checkAdvocateRole(): Observable<boolean> {
     let userRole = false;
     try {
@@ -92,6 +95,7 @@ export class SessionService {
     }
   }
 
+  // Depreciate this in future.Use checkRole
   public checkExecutiveRole(): Observable<boolean> {
     let userRole = false;
     try {
@@ -110,6 +114,7 @@ export class SessionService {
     }
   }
 
+  // Depreciate this in future.Use checkRole
   public checkProjectRole(): Observable<boolean> {
     let userRole = false;
     try {
@@ -126,6 +131,25 @@ export class SessionService {
       console.log('adovate role session service', err);
       return of(userRole);
     }
+  }
+
+  public checkRole(role: string): boolean {
+    let access = false;
+    const roleData = ROLES_LIST_ACCESS.filter((roleObj: any) => {
+      return roleObj.role === role;
+    })[0];
+    if (!roleData) {
+      // Invalid  Role
+      return access;
+    }
+
+    const loggedUser = sessionStorage.getItem('loggedUser');
+    if (loggedUser) {
+      const loggedUserObj = JSON.parse(loggedUser);
+      const { UserPersonas = [] } = loggedUserObj;
+      access = UserPersonas.some((UserPersona: any) => UserPersona.UserRole.includes(role));
+    }
+    return access;
   }
 
   public isPCORData() {
