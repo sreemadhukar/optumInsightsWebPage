@@ -70,7 +70,7 @@ export class HttpInterceptorService implements HttpInterceptor {
       }
       if (environment.internalAccess) {
         request = request.clone({
-          headers: request.headers.set('AccessType', 'Internal')
+          headers: request.headers.set('applicationType', 'Internal')
         });
       }
     }

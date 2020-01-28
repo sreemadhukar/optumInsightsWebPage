@@ -380,7 +380,6 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
       .paymentsBySubmission(this.createPayloadService.payload)
       .then(data => {
         this.pbsCard = JSON.parse(JSON.stringify(data));
-        console.log('component data', data);
         this.pbsLoading = false;
         this.stackedBarChartLoading = true;
       })
