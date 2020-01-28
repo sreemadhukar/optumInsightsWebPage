@@ -41,9 +41,9 @@ export class SelfSharedService {
     this.selfServiceData = [];
     return new Promise(resolve => {
       let parameters;
-      let adoptionRate;
-      let linkEdiRation;
-      let paperLessDelivery;
+      let adoptionRate: Object;
+      let linkEdiRation: Object;
+      let paperLessDelivery: Object;
       const oppurtunities: Array<object> = [];
       const tempArray: Array<object> = [];
       parameters = [this.providerKey];
@@ -276,7 +276,6 @@ export class SelfSharedService {
               try {
                 const totalCallCost: number = selfService.TotalCallCost;
                 const totalCallCostString: string = this.common.nFormatter(totalCallCost);
-
                 oppurtunities.push({
                   category: 'mini-tile',
                   title: 'Reduce Calls and Operating Costs by:',
@@ -287,7 +286,7 @@ export class SelfSharedService {
                       'Self Service',
                       'Service Interaction',
                       false
-                    ) && this.common.toggleSelfService(totalCallCost),
+                    ) && this.common.checkZeroNegative(totalCallCost),
                   data: {
                     centerNumber: '$' + totalCallCostString,
                     gdata: []
@@ -359,7 +358,7 @@ export class SelfSharedService {
                       'Self Service',
                       'Service Interaction',
                       false
-                    ) && this.common.toggleSelfService(totalCalltime),
+                    ) && this.common.checkZeroNegative(totalCalltime),
                   data: {
                     centerNumber: totalCalltimeString + suffixHourPerDay,
                     gdata: []
@@ -433,13 +432,14 @@ export class SelfSharedService {
                   title: 'Reduce Claim Processing Time by:',
                   MetricID: this.MetricidService.MetricIDs.ReduceClaimProcessingTimeBy,
                   toggle:
-                    this.common.toggleSelfService(checkProcessingTime) &&
+                    this.common.checkZeroNegative(checkProcessingTime) &&
                     this.toggle.setToggles(
                       'Reduce Claim Processing Time by:',
                       'Self Service',
                       'Service Interaction',
                       false
-                    ),
+                    ) &&
+                    this.common.checkZeroNegative(checkProcessingTime),
                   data: {
                     centerNumber: processingTime + suffixDay,
                     gdata: []
@@ -523,7 +523,7 @@ export class SelfSharedService {
                       'Self Service',
                       'Service Interaction',
                       false
-                    ) && this.common.toggleSelfService(checkAvgProcessingTime),
+                    ) && this.common.checkZeroNegative(checkAvgProcessingTime),
                   data: {
                     centerNumber: avgProcessingTime + suffixDay,
                     gdata: []

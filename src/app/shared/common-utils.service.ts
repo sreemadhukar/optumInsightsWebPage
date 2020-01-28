@@ -280,7 +280,7 @@ export class CommonUtilsService {
     return y;
   }
 
-  public toggleSelfService(value: number): boolean {
+  public checkZeroNegative(value: number): boolean {
     console.log('toggle', value <= 0 ? false : true);
     return value <= 0 ? false : true;
   }
