@@ -245,6 +245,7 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
     this.overviewAdvocateSharedService
       .getTotalCallsTrendLineShared(this.createPayloadService.payload)
       .then(totalCallsTrendData => {
+        console.log('totalCallsTrendData', totalCallsTrendData);
         if (totalCallsTrendData == null) {
           this.callsLineGraphLoading = false;
           this.callsData = null;
@@ -266,6 +267,17 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
           for (const key in callsTrendData) {
             if (callsTrendData.hasOwnProperty(key)) {
               this.callsData.push({ key: key, value: this.sumArray(callsTrendData[key]) });
+              if (this.callsData[0] + this.callsData[1] + this.callsData[2] + this.callsData[3] === 0) {
+                this.callsLineGraphData = {
+                  category: 'large-card',
+                  type: 'donut',
+                  status: 404,
+                  title: this.trendTitleForCalls,
+                  MetricID: this.MetricidService.MetricIDs,
+                  data: null,
+                  timeperiod: null
+                };
+              }
             }
           }
         }
