@@ -34,6 +34,7 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
   timePeriod: string;
   timePeriodCalls: string;
   timePeriodPi: string;
+  timePeriodNonPayment: string;
   lob: string;
   trendTitle = 'Non-Payment Trend';
   taxID: Array<string>;
@@ -356,6 +357,7 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
       } else {
         // this.timePeriodLineGraph = trendData.timePeriod;
         this.monthlyLineGraph.chartData = trendData.data;
+        this.timePeriodNonPayment = trendData.timePeriod;
         this.trendMonthDisplay = true;
       }
     });
@@ -380,7 +382,6 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
       .paymentsBySubmission(this.createPayloadService.payload)
       .then(data => {
         this.pbsCard = JSON.parse(JSON.stringify(data));
-        console.log('component data', data);
         this.pbsLoading = false;
         this.stackedBarChartLoading = true;
       })

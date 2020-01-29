@@ -43,9 +43,9 @@ export class GlossaryComponent implements OnInit {
     if (this.router.url.includes('NationalExecutive')) {
       this.isKop = true;
     }
-    if (this.MetricID) {
-      this.isKop ? this.getKOPGlossaryMetricID() : this.glossaryByMetricId();
-    }
+    // if (this.MetricID) {
+    //   this.isKop ? this.getKOPGlossaryMetricID() : this.glossaryByMetricId();
+    // }
     this.isKop ? this.getKOPGlossaryData() : this.getGlossaryData();
     this.options = [];
   }
@@ -216,23 +216,29 @@ export class GlossaryComponent implements OnInit {
   public getKOPGlossaryData() {
     this.glossaryService.getKOPBusinessGlossaryData().subscribe(response => {
       this.glossaryList = JSON.parse(JSON.stringify(response));
+
+      if (!(this.glossaryList instanceof Array) || this.glossaryList.length === 0) {
+        return;
+      }
+
       for (let i = 0; i < this.glossaryList.length; i++) {
         this.readmoreFlag[i] = true;
       }
-      if (this.glossaryList) {
-        for (let i = 0; i < this.glossaryList.length; i++) {
-          // this.readmoreFlag[i] = true;
-          if (
-            this.glossaryList[i].BusinessGlossary.ProviderDashboardName.Metric.toLowerCase().includes(
-              this.title.toLowerCase()
-            )
-          ) {
-            this.glossarySelected = [];
-            this.glossarySelected.push(this.glossaryList[i]);
-            break;
+
+      this.glossarySelected = [];
+      this.glossarySelected = this.glossaryList.filter((glossaryItem: any) => {
+        const {
+          BusinessGlossary: {
+            ProviderDashboardName: { MetricID }
           }
-        }
-      }
+        } = glossaryItem;
+
+        const metricIds = this.MetricID.split(',');
+        const metricIdExists = metricIds.filter((metricId: string) => {
+          return metricId === MetricID + '';
+        })[0];
+        return metricIdExists ? true : false;
+      });
 
       this.glossaryData = this.glossaryList.sort(function(a, b) {
         if (
