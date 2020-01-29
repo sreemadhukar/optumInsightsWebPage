@@ -32,6 +32,9 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
   userName: String;
   topRowItems: any;
   timePeriod: string;
+  timePeriodCalls: string;
+  timePeriodPi: string;
+  timePeriodNonPayment: string;
   lob: string;
   trendTitle = 'Non-Payment Trend';
   taxID: Array<string>;
@@ -72,6 +75,13 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
   claimsYieldCard: Array<Object>;
   pbsLoading: boolean;
   pbsCard: any;
+  paperClaims: any;
+  electronicClaims: any;
+  stackedBarChartData: any = {
+    chartId: '',
+    chartData: ''
+  };
+  stackedBarChartLoading: boolean;
 
   constructor(
     private checkStorage: StorageService,
@@ -91,9 +101,9 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
   ) {
     const filData = this.session.getFilChangeEmitter().subscribe(() => this.common.urlResuseStrategy());
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => {
+      this.common.urlResuseStrategy();
       this.createPayloadService.resetTinNumber('overviewAdvocatePage');
       this.ngRedux.dispatch({ type: REMOVE_FILTER, filterData: { taxId: true } });
-      this.common.urlResuseStrategy();
     });
     iconRegistry.addSvgIcon(
       'filter',
@@ -120,7 +130,7 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
       })
       .catch(reason => {
         this.paymentLoading = false;
-        console.log('Adovate Overview page Payment', reason);
+        console.log('Error Adovate Overview page Payment', reason);
       });
   }
 
@@ -218,6 +228,10 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
           let callsLeftData;
           callsLeftData = totalCallsData;
           this.totalCalls = this.common.nondecimalFormatter(callsLeftData[0].CallVolByQuesType.Total);
+          this.timePeriodCalls =
+            this.common.dateFormat(callsLeftData[0].ReportStartDate) +
+            ' - ' +
+            this.common.dateFormat(callsLeftData[0].ReportEndDate);
           this.callsLoading = false;
         }
       })
@@ -231,6 +245,7 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
     this.overviewAdvocateSharedService
       .getTotalCallsTrendLineShared(this.createPayloadService.payload)
       .then(totalCallsTrendData => {
+        console.log('totalCallsTrendData', totalCallsTrendData);
         if (totalCallsTrendData == null) {
           this.callsLineGraphLoading = false;
           this.callsData = null;
@@ -252,6 +267,30 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
           for (const key in callsTrendData) {
             if (callsTrendData.hasOwnProperty(key)) {
               this.callsData.push({ key: key, value: this.sumArray(callsTrendData[key]) });
+              if (
+                this.callsData[0].value +
+                  this.callsData[1].value +
+                  this.callsData[2].value +
+                  this.callsData[3].value ===
+                0
+              ) {
+                this.callsLineGraphData = {
+                  category: 'large-card',
+                  type: 'donut',
+                  status: 404,
+                  title: this.trendTitleForCalls,
+                  MetricID: this.MetricidService.MetricIDs,
+                  data: null,
+                  timeperiod: null
+                };
+              }
+              /*for (let i = 0; i < this.callsData.length; i++) {
+              if (this.callsData[i].value === NaN) {
+                this.callsData[i].value = 0;
+              } else {
+               console.log('this.callsData[i].value', this.callsData[0].value);
+              }
+             }*/
             }
           }
         }
@@ -265,6 +304,10 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
     let total = 0;
     for (const i in arr) {
       if (arr.hasOwnProperty(i)) {
+        /*if (arr[i].value === NaN) {
+          arr[i].value = 0;
+        }
+        console.log('arr[i].value', arr[i].value);*/
         total += arr[i].value;
       }
     }
@@ -283,7 +326,7 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
       })
       .catch(reason => {
         this.claimsYieldLoading = false;
-        console.log('Adovate Overview page Payment', reason);
+        console.log('Error Claims Yield Overview page Payment', reason);
       });
   }
 
@@ -296,8 +339,9 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
     this.pagesubTitle = this.session.getHealthCareOrgName() + "'s insights at a glance.";
     this.userName = this.session.sessionStorage('loggedUser', 'FirstName');
     this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'overviewAdvocatePage' });
+    this.checkStorage.emitEvent('overviewAdvocatePage');
     this.timePeriod = this.common.getTimePeriodFilterValue(this.createPayloadService.payload.timePeriod);
-    this.checkStorage.emitEvent('overviewPage');
+    this.checkStorage.emitEvent('overviewAdvocatePage');
     this.paymentData();
     this.appealsLeftData();
     this.appealsTrendByMonthData();
@@ -307,6 +351,9 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
     this.paymentsBySubmissionData();
     this.appealsLineGraphloading = true;
     this.callsLineGraphLoading = true;
+    this.stackedBarChartLoading = true;
+    this.userName = this.session.sessionStorage('loggedUser', 'FirstName');
+    this.pagesubTitle = this.session.getHealthCareOrgName() + "'s insights at a glance.";
 
     this.monthlyLineGraph.chartId = 'non-payment-trend-block';
     this.monthlyLineGraph.titleData = [{}];
@@ -341,6 +388,7 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
       } else {
         // this.timePeriodLineGraph = trendData.timePeriod;
         this.monthlyLineGraph.chartData = trendData.data;
+        this.timePeriodNonPayment = trendData.timePeriod;
         this.trendMonthDisplay = true;
       }
     });
@@ -357,20 +405,21 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
   }
 
   paymentsBySubmissionData() {
+    this.stackedBarChartLoading = false;
     this.pbsLoading = true;
     this.downRowMockCards = [{}];
     this.pbsCard = [];
     this.overviewAdvocateSharedService
       .paymentsBySubmission(this.createPayloadService.payload)
-      .then(pbsData => {
-        console.log('this.pbsData--------->', pbsData);
-        this.pbsCard.push(JSON.parse(JSON.stringify(pbsData)));
-        console.log('this.pbsCard--------->', this.pbsCard);
+      .then(data => {
+        this.pbsCard = JSON.parse(JSON.stringify(data));
         this.pbsLoading = false;
+        this.stackedBarChartLoading = true;
       })
       .catch(reason => {
+        this.stackedBarChartLoading = false;
         this.pbsLoading = false;
-        console.log('Adovate Overview page Payment', reason);
+        console.log('Error Payment Submission Adovate Overview page Payment', reason);
       });
   }
 }

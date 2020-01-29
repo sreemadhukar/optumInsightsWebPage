@@ -51,6 +51,7 @@
       <app-small-card
         class="cards"
         [options]="npsCardOptions"
+        [noHeaderClick]="true"
         *ngFor="let npsItem of kopInsightsData.npsSummary.data"
         [data]="npsItem"
       >

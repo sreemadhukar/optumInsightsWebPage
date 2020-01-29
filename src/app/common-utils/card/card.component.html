@@ -398,6 +398,10 @@
           </div>
         </div>
       </div>
+
+      <div *ngIf="chartData.type == 'stackBarChart'" class="full-width-block">
+        <app-stacked-bar-chart [chartOptions]="chartData.data"></app-stacked-bar-chart>
+      </div>
     </div>
     <div *ngIf="chartData.timeperiod" class="full-width-block">
       <app-common-footer [timePeriod]="chartData.timeperiod" [title]="chartData.title"></app-common-footer>

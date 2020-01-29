@@ -87,7 +87,6 @@ export class GettingReimbursedSharedService {
     });
   }
   /** code ends here for shared NonPayment Data */
-
   /** The below function will return the data for the Getting Reimbursed page,
    * In the main function getGettingReimbursedData() , we will call the sharedGettingReimbursedData(parameters)
    * after calling the sharedNonPaymentData() so that we get the nonPayment data first.
@@ -156,6 +155,7 @@ export class GettingReimbursedSharedService {
               type: 'donut',
               status: 404,
               title: 'Claims Yield',
+              toggle: true,
               MetricID: this.MetricidService.MetricIDs.ClaimsYield,
               data: null,
               timeperiod: null
@@ -512,7 +512,7 @@ export class GettingReimbursedSharedService {
               claimsPaidRate = {
                 category: 'app-card',
                 type: 'donut',
-                title: 'Claims Yield',
+                title: 'Claims-Yield',
                 MetricID: this.MetricidService.MetricIDs.ClaimsYield,
                 toggle: !environment.internalAccess,
                 data: {
@@ -532,6 +532,7 @@ export class GettingReimbursedSharedService {
                 category: 'app-card',
                 type: 'donut',
                 title: 'Claims Yield',
+                toogle: true,
                 MetricID: this.MetricidService.MetricIDs.ClaimsYield,
                 data: null,
                 timeperiod: null
@@ -912,6 +913,7 @@ export class GettingReimbursedSharedService {
               type: 'donut',
               status: 404,
               title: 'Claims Yield',
+              toogle: true,
               MetricID: this.MetricidService.MetricIDs.ClaimsYield,
               data: null,
               timeperiod: null
@@ -947,6 +949,10 @@ export class GettingReimbursedSharedService {
               claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('ClaimsDenied') &&
               claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('ClaimsSubmitted')
             ) {
+              const startDate = (claimsData || {}).Startdate;
+              const endDate = (claimsData || {}).Enddate;
+              const timePeriodCalls: String =
+                this.common.dateFormat(startDate) + ' - ' + this.common.dateFormat(endDate);
               claimsSubmitted = {
                 category: 'app-card',
                 type: 'donutWithLabel',
@@ -982,7 +988,7 @@ export class GettingReimbursedSharedService {
                     claimsData[lobData].ClaimsLobSummary[0].ClaimsDenied
                   ]
                 },
-                timeperiod: this.timeFrame
+                timeperiod: timePeriodCalls
               };
             } else {
               claimsSubmitted = {
@@ -1005,6 +1011,11 @@ export class GettingReimbursedSharedService {
               claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('DosToReceived') &&
               claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('ReceivedToPaid')
             ) {
+              const startDate = (claimsData || {}).Startdate;
+              const endDate = (claimsData || {}).Enddate;
+              const timePeriodCalls: String =
+                this.common.dateFormat(startDate) + ' - ' + this.common.dateFormat(endDate);
+
               claimsTAT = {
                 category: 'app-card',
                 type: 'rotateWithLabel',
@@ -1032,7 +1043,7 @@ export class GettingReimbursedSharedService {
                     }
                   ]
                 },
-                timeperiod: this.timeFrame
+                timeperiod: timePeriodCalls
               };
             } else {
               claimsTAT = {
@@ -1241,6 +1252,10 @@ export class GettingReimbursedSharedService {
                   claimsData.All.ClaimsLobSummary[0].AmountPaid - claimsData[lobData].ClaimsLobSummary[0].AmountPaid
                 );
               }
+              const startDate = (claimsData || {}).Startdate;
+              const endDate = (claimsData || {}).Enddate;
+              const timePeriodCalls: String =
+                this.common.dateFormat(startDate) + ' - ' + this.common.dateFormat(endDate);
               // this is whats getting changed
               claimsPaid = {
                 category: 'app-card',
@@ -1269,7 +1284,7 @@ export class GettingReimbursedSharedService {
                   color: this.common.LOBSideLabelColors(lobData, paidDataLOBBoolean),
                   graphValues: paidData
                 },
-                timeperiod: this.timeFrame
+                timeperiod: timePeriodCalls
               };
             } else {
               claimsPaid = {
@@ -1342,6 +1357,11 @@ export class GettingReimbursedSharedService {
                   claimsData.All.ClaimsLobSummary[0].AmountDenied - claimsData[lobData].ClaimsLobSummary[0].AmountDenied
                 );
               }
+              const startDate = (claimsData || {}).Startdate;
+              const endDate = (claimsData || {}).Enddate;
+              const timePeriodCalls: String =
+                this.common.dateFormat(startDate) + ' - ' + this.common.dateFormat(endDate);
+
               claimsNotPaid = {
                 category: 'app-card',
                 type: 'donutWithLabel',
@@ -1369,7 +1389,7 @@ export class GettingReimbursedSharedService {
                   color: this.common.LOBSideLabelColors(lobData, notPaidLOBBoolean),
                   graphValues: notPaidData
                 },
-                timeperiod: this.timeFrame
+                timeperiod: timePeriodCalls
               };
             } else {
               claimsNotPaid = {
@@ -1394,6 +1414,11 @@ export class GettingReimbursedSharedService {
               claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('ClaimsYieldRate') &&
               claimsData[lobData].ClaimsLobSummary[0].ClaimsYieldRate != null
             ) {
+              const startDate = (claimsData || {}).Startdate;
+              const endDate = (claimsData || {}).Enddate;
+              const timePeriodCalls: String =
+                this.common.dateFormat(startDate) + ' - ' + this.common.dateFormat(endDate);
+
               claimsNotPaidRate = {
                 category: 'app-card',
                 type: 'donut',
@@ -1414,7 +1439,7 @@ export class GettingReimbursedSharedService {
                   gdata: ['card-inner', 'claimsNonPaymentRate'],
                   sdata: null
                 },
-                timeperiod: this.timeFrame
+                timeperiod: timePeriodCalls
               };
             } else {
               claimsNotPaidRate = {
@@ -1439,13 +1464,17 @@ export class GettingReimbursedSharedService {
               claimsData[lobData].ClaimsLobSummary[0].hasOwnProperty('ClaimsNonPaymentRate') &&
               claimsData[lobData].ClaimsLobSummary[0].ClaimsYieldRate.toFixed() !== 0
             ) {
+              const startDate = (claimsData || {}).Startdate;
+              const endDate = (claimsData || {}).Enddate;
+              const timePeriodCalls: String =
+                this.common.dateFormat(startDate) + ' - ' + this.common.dateFormat(endDate);
               // used toggle: true as toggle functionality is not built properly : srikar bobbiganipalli
               claimsPaidRate = {
                 category: 'app-card',
                 type: 'donut',
                 title: 'Claims Yield',
                 MetricID: this.MetricidService.MetricIDs.ClaimsYield,
-                toggle: !environment.internalAccess,
+                toggle: environment.internalAccess,
                 data: {
                   graphValues: [
                     claimsData[lobData].ClaimsLobSummary[0].ClaimsYieldRate,
@@ -1456,7 +1485,7 @@ export class GettingReimbursedSharedService {
                   gdata: ['card-inner', 'claimsYield'],
                   sdata: null
                 },
-                timeperiod: this.timeFrame
+                timeperiod: timePeriodCalls
               };
             } else {
               claimsPaidRate = {
@@ -1464,6 +1493,7 @@ export class GettingReimbursedSharedService {
                 type: 'donut',
                 status: 404,
                 title: 'Claims Yield',
+                toggle: true,
                 MetricID: this.MetricidService.MetricIDs.ClaimsYield,
                 data: null,
                 timeperiod: null
@@ -1509,6 +1539,7 @@ export class GettingReimbursedSharedService {
               data: [claimsPaid]
             };
           }
+
           nonpayments = {
             id: 3,
             title: 'Claims Non-Payments',
@@ -2040,6 +2071,7 @@ export class GettingReimbursedSharedService {
           sideData[0] = labelsData;
           sideData[1] = colorsData;
         }
+        console.log('APpeals Data 2066', appealsData);
         appealsSubmitted = {
           category: 'app-card',
           type: 'donutWithoutLabelBottom',
@@ -2081,7 +2113,8 @@ export class GettingReimbursedSharedService {
               }
             ]
           },
-          timeperiod: this.timeFrame
+          timeperiod:
+            this.common.dateFormat(appealsData[0].StartDate) + ' - ' + this.common.dateFormat(appealsData[0].EndDate)
         };
       } else {
         appealsSubmitted = {
@@ -2129,7 +2162,8 @@ export class GettingReimbursedSharedService {
             gdata: ['card-inner', 'claimsAppealOverturned'],
             sdata: null
           },
-          timeperiod: this.timeFrame
+          timeperiod:
+            this.common.dateFormat(appealsData[0].StartDate) + ' - ' + this.common.dateFormat(appealsData[0].EndDate)
         };
       } else {
         appealsOverturned = {

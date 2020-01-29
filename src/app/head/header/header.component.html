@@ -6,17 +6,17 @@
       <mat-icon class="nav-menu-icons menu-icon" svgIcon="{{ menuIcon }}"></mat-icon>
     </div>
     <div class="header-logo-div">
-      <div class="date-and-time" *ngIf="printStyle">
+      <!-- <div class="date-and-time" *ngIf="printStyle">
         {{ todaysDataTime }}
-      </div>
-      <a routerLink="/">
+      </div> -->
+      <a (click)="onLogoClick()">
         <img class="Uhc-logo" src="/src/assets/images/UHC Logo@2x.png" alt="UHC Logo" />
       </a>
     </div>
     <div *ngIf="isKop" class="kop-div">
       <p>Internal Insights</p>
     </div>
-    <div class="user-div" (click)="advocateUserClick()" *ngIf="!printStyle">
+    <div class="user-div" (click)="advocateUserClicked()" *ngIf="!printStyle || checkAdv === true">
       <!-- <mat-slide-toggle [checked]="isDarkTheme | async" labelPosition="before" (change)="toggleDarkTheme($event.checked)"></mat-slide-toggle> -->
       <div class="user-icon">
         <mat-icon class="nav-menu-icons" svgIcon="person"></mat-icon>
@@ -27,14 +27,23 @@
       <!--</div>-->
     </div>
     <div *ngIf="advDropdownBool">
-      <div class="dropdown-body">
-        <div (click)="advViewClicked('myView')" class="drop-item">
-          <span class="per-item">My Advocate View</span>
-        </div>
-        <div (click)="advViewClicked('userView')" class="drop-item">
-          <span class="provider-padding per-item">{{ healthSystemName }}</span>
-          <span class="tiny-provider">See what the provider sees</span>
-        </div>
+      <div class="vertical-menu">
+        <a class="per-item toggle-view-height">Toggle Your View</a>
+        <a class="provider-height per-item icon" (click)="advViewClicked('myView')">
+          <mat-icon class="nav-menu-icons lb-padd" svgIcon="done"></mat-icon>
+          <span class="wrap">My View</span>
+          <div class="tiny-provider">{{ fullname }}</div></a
+        >
+
+        <a class="per-item icon" (click)="advViewClicked('userView')">
+          <mat-icon class="nav-menu-icons lb-padd" svgIcon="done"></mat-icon>
+          <span class="wrap">{{ healthSystemName }}</span>
+          <div class="tiny-provider">See what the provider sees</div></a
+        >
+
+        <a class="signout-label provider-height signout-lh" (click)="signOut()">
+          <mat-icon class="nav-menu-icons" svgIcon="sign-out"></mat-icon>Sign Out</a
+        >
       </div>
     </div>
   </div>

@@ -14,7 +14,8 @@ import {
   ViewEncapsulation,
   ViewChildren,
   QueryList,
-  OnDestroy
+  OnDestroy,
+  Inject
 } from '@angular/core';
 import { trigger, state, style, animate, transition } from '@angular/animations';
 import { formatDate } from '@angular/common';
@@ -29,6 +30,9 @@ import { CommonUtilsService } from '../../shared/common-utils.service';
 import { StorageService } from '../../shared/storage-service.service';
 import { EventEmitterService } from '../../shared/know-our-provider/event-emitter.service';
 import { SessionService } from '../../shared/session.service';
+import { DOCUMENT, Location } from '@angular/common';
+import { environment } from '../../../environments/environment';
+import { AuthenticationService } from '../../auth/_service/authentication.service';
 
 @Component({
   selector: 'app-header',
@@ -56,10 +60,13 @@ import { SessionService } from '../../shared/session.service';
   ]
 })
 export class HeaderComponent implements OnInit, OnDestroy {
+  isInternal: boolean = environment.internalAccess;
   @Input() isDarkTheme: Observable<boolean>;
   @Input() button: boolean;
+  @Input() fromKOP: boolean;
   public isKop: boolean;
   @Output() hamburgerDisplay = new EventEmitter<boolean>();
+  @Output() clickOutside = new EventEmitter<boolean>();
   public sideNavFlag = false;
   public state: any;
   public mobileQuery: boolean;
@@ -74,6 +81,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   printRoute: string;
   today = new Date();
   todaysDataTime = '';
+  public fullname = '';
 
   constructor(
     private breakpointObserver: BreakpointObserver,
@@ -86,7 +94,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
     private utils: CommonUtilsService,
     private checkStorage: StorageService,
     private eventEmitter: EventEmitterService,
-    private sessionService: SessionService
+    private sessionService: SessionService,
+    @Inject(DOCUMENT) private document: any,
+    private authService: AuthenticationService
   ) {
     // to fetch the date and time
     const d = new Date();
@@ -100,6 +110,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
         if (JSON.parse(sessionStorage.getItem('loggedUser'))) {
           const userInfo = JSON.parse(sessionStorage.getItem('loggedUser'));
           this.username = userInfo.FirstName;
+          this.fullname = userInfo.FirstName + ' ' + userInfo.LastName;
         }
         this.mobileQuery = this.breakpointObserver.isMatched('(max-width: 1279px)');
         // alert(this.mobileQuery);
@@ -132,6 +143,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
       'cross',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Content/round-clear-24px.svg')
     );
+    iconRegistry.addSvgIcon(
+      'done',
+      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/round-done-24px.svg')
+    );
 
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.ngOnInit());
 
@@ -142,20 +157,35 @@ export class HeaderComponent implements OnInit, OnDestroy {
     });
   }
 
-  advocateUserClick() {
-    if (this.checkAdv.value) {
-      this.advDropdownBool = !this.advDropdownBool;
-    } else {
+  @HostListener('document:click', ['$event.target'])
+  advocateUserClick(targetElement) {
+    const HeaderElement = document.querySelector('.header-div');
+    const ButtonElement = document.querySelector('.user-div');
+    const dropdownElement = document.querySelector('.vertical-menu');
+    const clickedHeader = HeaderElement.contains(targetElement);
+    const clickedButton = ButtonElement.contains(targetElement);
+    const clickedInside = dropdownElement.contains(targetElement);
+    if (!clickedHeader && !clickedButton && !clickedInside) {
       this.advDropdownBool = false;
+      this.clickOutside.emit(null);
+    } else if (clickedHeader && !clickedButton && !clickedInside) {
+      this.advDropdownBool = false;
+      this.clickOutside.emit(null);
     }
   }
+  advocateUserClicked() {
+    this.advDropdownBool = true;
+  }
+
   advViewClicked(value: string) {
     if (value === 'myView') {
       this.router.navigate(['/OverviewPageAdvocate']);
     } else if (value === 'userView') {
       this.router.navigate(['/OverviewPage']);
     }
+    this.advDropdownBool = false;
   }
+
   ngOnInit() {
     this.advDropdownBool = false;
     this.healthSystemName = this.sessionService.getHealthCareOrgName();
@@ -165,13 +195,16 @@ export class HeaderComponent implements OnInit, OnDestroy {
       if (JSON.parse(sessionStorage.getItem('loggedUser'))) {
         const userInfo = JSON.parse(sessionStorage.getItem('loggedUser'));
         this.username = userInfo.FirstName;
+        this.fullname = userInfo.FirstName + ' ' + userInfo.LastName;
       }
     });
+
     this.checkStorage.getEvent().subscribe(value => {
       if (value.value === 'overviewPage') {
         if (JSON.parse(sessionStorage.getItem('loggedUser'))) {
           const userInfo = JSON.parse(sessionStorage.getItem('loggedUser'));
           this.username = userInfo.FirstName;
+          this.fullname = userInfo.FirstName + ' ' + userInfo.LastName;
         }
       }
     });
@@ -182,6 +215,27 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.themeService.setDarkTheme(checked);
   }
   /*angular theme */
+
+  onLogoClick() {
+    const isAdvocate = this.sessionService.checkRole('UHCI_Advocate');
+    const isExecutive = this.sessionService.checkRole('UHCI_Executive');
+    const isProjectUser = this.sessionService.checkRole('UHCI_Project');
+
+    if (this.isInternal) {
+      if (isAdvocate) {
+        this.router.navigate(['/OverviewPageAdvocate']);
+      } else if (isExecutive || isProjectUser) {
+        if (this.isKop) {
+          this.router.navigate(['/NationalExecutive']);
+        } else {
+          this.router.navigate(['/OverviewPage']);
+        }
+      }
+    } else {
+      // For External Business
+      this.router.navigate(['/OverviewPage']);
+    }
+  }
 
   sidenav() {
     this.sideNavFlag = !this.sideNavFlag;
@@ -216,6 +270,13 @@ export class HeaderComponent implements OnInit, OnDestroy {
       this.state = 'show';
     } else {
       this.state = 'show';
+    }
+  }
+
+  signOut() {
+    this.authService.logout();
+    if (!environment.internalAccess) {
+      this.document.location.href = environment.apiUrls.SsoLogoutUrl;
     }
   }
 
