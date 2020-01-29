@@ -36,6 +36,8 @@
 
   .lb-padd {
     padding-left: 10px;
+    position: absolute;
+    padding-top: 6px;
     // padding-bottom: 20px;
   }
 
@@ -67,6 +69,7 @@
     display: inline-block;
     width: 220px;
     line-height: 22px;
+    padding-left: 40px;
   }
 
   .provider-height {

@@ -304,10 +304,10 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
     let total = 0;
     for (const i in arr) {
       if (arr.hasOwnProperty(i)) {
-        if (arr[i].value === NaN) {
+        /*if (arr[i].value === NaN) {
           arr[i].value = 0;
         }
-        console.log('arr[i].value', arr[i].value);
+        console.log('arr[i].value', arr[i].value);*/
         total += arr[i].value;
       }
     }
