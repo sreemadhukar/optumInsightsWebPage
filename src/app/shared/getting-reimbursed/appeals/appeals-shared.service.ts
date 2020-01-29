@@ -185,7 +185,7 @@ export class AppealsSharedService {
               },
               timeperiod:
                 this.common.dateFormat(appealsData[0].StartDate) +
-                ' - ' +
+                '&ndash;' +
                 this.common.dateFormat(appealsData[0].EndDate)
             };
           } else {
@@ -232,7 +232,7 @@ export class AppealsSharedService {
               },
               timeperiod:
                 this.common.dateFormat(appealsData[0].StartDate) +
-                ' - ' +
+                '&ndash;' +
                 this.common.dateFormat(appealsData[0].EndDate)
             };
           } else {
@@ -451,7 +451,7 @@ export class AppealsSharedService {
                   },
                   timeperiod:
                     this.common.dateFormat(appealsData[0].StartDate) +
-                    ' - ' +
+                    '&ndash;' +
                     this.common.dateFormat(appealsData[0].EndDate)
                 };
               } else {
@@ -651,7 +651,7 @@ export class AppealsSharedService {
                   },
                   timeperiod:
                     this.common.dateFormat(appealsData[0].StartDate) +
-                    ' - ' +
+                    '&ndash;' +
                     this.common.dateFormat(appealsData[0].EndDate)
                 };
               } else {
@@ -1005,7 +1005,9 @@ export class AppealsSharedService {
             ]
           },
           timeperiod:
-            this.common.dateFormat(appealsData[0].StartDate) + ' - ' + this.common.dateFormat(appealsData[0].EndDate)
+            this.common.dateFormat(appealsData[0].StartDate) +
+            '&ndash;' +
+            this.common.dateFormat(appealsData[0].EndDate)
         };
       } else {
         appealsSubmitted = {
@@ -1053,7 +1055,9 @@ export class AppealsSharedService {
             sdata: null
           },
           timeperiod:
-            this.common.dateFormat(appealsData[0].StartDate) + ' - ' + this.common.dateFormat(appealsData[0].EndDate)
+            this.common.dateFormat(appealsData[0].StartDate) +
+            '&ndash;' +
+            this.common.dateFormat(appealsData[0].EndDate)
         };
       } else {
         appealsOverturned = {

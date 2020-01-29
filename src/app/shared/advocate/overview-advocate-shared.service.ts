@@ -348,7 +348,7 @@ export class OverviewAdvocateSharedService {
             },
             timeperiod:
               this.common.dateFormat(getData.PaperSubmissions.Startdate) +
-              ' - ' +
+              '&ndash;' +
               this.common.dateFormat(getData.PaperSubmissions.Enddate)
           };
           resolve(sendData);

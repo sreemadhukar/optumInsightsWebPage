@@ -157,7 +157,7 @@ export class NonPaymentSharedService {
                 },
                 timeperiod:
                   this.common.dateFormat(nonPaymentData1.StartDate) +
-                  ' - ' +
+                  '&ndash;' +
                   this.common.dateFormat(nonPaymentData1.EndDate)
               };
             } else {
@@ -201,7 +201,7 @@ export class NonPaymentSharedService {
                 },
                 timeperiod:
                   this.common.dateFormat(nonPaymentData1.LineOfBusiness.StartDate) +
-                  ' - ' +
+                  '&ndash;' +
                   this.common.dateFormat(nonPaymentData1.LineOfBusiness.EndDate)
               };
             } else {
@@ -312,7 +312,7 @@ export class NonPaymentSharedService {
                 },
                 timeperiod:
                   this.common.dateFormat(nonPaymentData1.Startdate) +
-                  ' - ' +
+                  '&ndash;' +
                   this.common.dateFormat(nonPaymentData1.Enddate)
               };
             } else {
@@ -357,7 +357,7 @@ export class NonPaymentSharedService {
                 },
                 timeperiod:
                   this.common.dateFormat(nonPaymentData1.Startdate) +
-                  ' - ' +
+                  '&ndash;' +
                   this.common.dateFormat(nonPaymentData1.Enddate)
               };
             } else {
@@ -554,7 +554,7 @@ export class NonPaymentSharedService {
                   id: tempArray[i].Claimdenialcategorylevel1shortname.replace(/[^a-zA-Z0-9]/g, '') + 'topReasons',
                   timePeriod:
                     this.common.dateFormat(topCategories[0].StartDate) +
-                    ' - ' +
+                    '&ndash;' +
                     this.common.dateFormat(topCategories[0].EndDate)
                 });
               }
@@ -601,7 +601,7 @@ export class NonPaymentSharedService {
                   id: tempArray[i].Claimdenialcategorylevel1shortname.replace(/[^a-zA-Z0-9]/g, '') + 'topReasons',
                   timePeriod:
                     this.common.dateFormat(topCategories.Startdate) +
-                    ' - ' +
+                    '&ndash;' +
                     this.common.dateFormat(topCategories.Enddate)
                 });
               }
@@ -683,7 +683,7 @@ export class NonPaymentSharedService {
             data: filter_data_claimSummary,
             timePeriod:
               this.common.dateFormat(nonPaymentsTrendData[0].Startdate) +
-              ' - ' +
+              '&ndash;' +
               this.common.dateFormat(nonPaymentsTrendData[0].Enddate)
           };
           resolve(dataTrendLine);

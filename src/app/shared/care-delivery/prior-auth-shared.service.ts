@@ -333,7 +333,7 @@ export class PriorAuthSharedService {
                     },
                     timeperiod:
                       this.common.dateFormat(providerSystems.StartDate) +
-                      ' - ' +
+                      '&ndash;' +
                       this.common.dateFormat(providerSystems.EndDate)
                   }
                 ];
@@ -367,7 +367,7 @@ export class PriorAuthSharedService {
                   },
                   timeperiod:
                     this.common.dateFormat(providerSystems.StartDate) +
-                    ' - ' +
+                    '&ndash;' +
                     this.common.dateFormat(providerSystems.EndDate)
                 },
                 {
@@ -396,7 +396,7 @@ export class PriorAuthSharedService {
                   },
                   timeperiod:
                     this.common.dateFormat(providerSystems.StartDate) +
-                    ' - ' +
+                    '&ndash;' +
                     this.common.dateFormat(providerSystems.EndDate)
                 }
               ];
@@ -474,7 +474,7 @@ export class PriorAuthSharedService {
                 },
                 timeperiod:
                   this.common.dateFormat(providerSystems.StartDate) +
-                  ' - ' +
+                  '&ndash;' +
                   this.common.dateFormat(providerSystems.EndDate)
               });
             }

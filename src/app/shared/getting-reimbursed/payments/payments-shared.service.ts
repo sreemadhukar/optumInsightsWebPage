@@ -213,7 +213,7 @@ export class PaymentsSharedService {
                   color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC']
                 },
                 timeperiod:
-                  this.common.dateFormat(claimsData.Startdate) + ' - ' + this.common.dateFormat(claimsData.Enddate)
+                  this.common.dateFormat(claimsData.Startdate) + '&ndash;' + this.common.dateFormat(claimsData.Enddate)
               };
               // AUTHOR: MADHUKAR - claims paid shows no color if the value is 0
               if (!paidData[0] && !paidData[1] && !paidData[2] && !paidData[3]) {
@@ -243,7 +243,9 @@ export class PaymentsSharedService {
                     color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC']
                   },
                   timeperiod:
-                    this.common.dateFormat(claimsData.Startdate) + ' - ' + this.common.dateFormat(claimsData.Enddate)
+                    this.common.dateFormat(claimsData.Startdate) +
+                    '&ndash;' +
+                    this.common.dateFormat(claimsData.Enddate)
                 };
               } // Date : 31/5/2019
             } else {
@@ -341,7 +343,7 @@ export class PaymentsSharedService {
                   color: this.common.LOBSideLabelColors(lobData, paidLOBBoolean)
                 },
                 timeperiod:
-                  this.common.dateFormat(claimsData.Startdate) + ' - ' + this.common.dateFormat(claimsData.Enddate)
+                  this.common.dateFormat(claimsData.Startdate) + '&ndash;' + this.common.dateFormat(claimsData.Enddate)
               };
             } else {
               claimsPaid = {
@@ -426,7 +428,7 @@ export class PaymentsSharedService {
                   sdata: null
                 },
                 timeperiod:
-                  this.common.dateFormat(claimsData.Startdate) + ' - ' + this.common.dateFormat(claimsData.Enddate)
+                  this.common.dateFormat(claimsData.Startdate) + '&ndash;' + this.common.dateFormat(claimsData.Enddate)
               };
             } else {
               claimsPaidRate = {
@@ -495,7 +497,7 @@ export class PaymentsSharedService {
           const paidArray = {
             data: paidBreakdown,
             timePeriod:
-              this.common.dateFormat(paymentData.Startdate) + ' - ' + this.common.dateFormat(paymentData.Enddate)
+              this.common.dateFormat(paymentData.Startdate) + '&ndash;' + this.common.dateFormat(paymentData.Enddate)
           };
           resolve(paidArray);
         } catch (Error) {

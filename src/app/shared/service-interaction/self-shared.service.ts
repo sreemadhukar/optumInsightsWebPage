@@ -69,7 +69,7 @@ export class SelfSharedService {
               const endDate: string = this.common.dateFormat(
                 providerSystems.SelfServiceInquiries.ALL.ReportingPeriodEndDate
               );
-              this.timeFrame = startDate + ' - ' + endDate;
+              this.timeFrame = startDate + '&ndash;' + endDate;
             } catch (Error) {
               this.timeFrame = null;
               console.log('Error in Self Service TimePeriod', this.timeFrame);
