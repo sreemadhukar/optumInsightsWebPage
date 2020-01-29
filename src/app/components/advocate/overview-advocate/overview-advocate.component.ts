@@ -267,7 +267,13 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
           for (const key in callsTrendData) {
             if (callsTrendData.hasOwnProperty(key)) {
               this.callsData.push({ key: key, value: this.sumArray(callsTrendData[key]) });
-              if (this.callsData[0] + this.callsData[1] + this.callsData[2] + this.callsData[3] === 0) {
+              if (
+                this.callsData[0].value +
+                  this.callsData[1].value +
+                  this.callsData[2].value +
+                  this.callsData[3].value ===
+                0
+              ) {
                 this.callsLineGraphData = {
                   category: 'large-card',
                   type: 'donut',
@@ -278,6 +284,13 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
                   timeperiod: null
                 };
               }
+              /*for (let i = 0; i < this.callsData.length; i++) {
+              if (this.callsData[i].value === NaN) {
+                this.callsData[i].value = 0;
+              } else {
+               console.log('this.callsData[i].value', this.callsData[0].value);
+              }
+             }*/
             }
           }
         }
@@ -291,6 +304,10 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
     let total = 0;
     for (const i in arr) {
       if (arr.hasOwnProperty(i)) {
+        if (arr[i].value === NaN) {
+          arr[i].value = 0;
+        }
+        console.log('arr[i].value', arr[i].value);
         total += arr[i].value;
       }
     }
