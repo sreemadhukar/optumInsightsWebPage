@@ -97,104 +97,111 @@ export class CallsSharedService {
     return new Promise(resolve => {
       this.callsService.getCallsData(...parameters).subscribe(
         ([providerSystems]) => {
-          if (providerSystems) {
-            const startDate = providerSystems.ReportStartDate;
-            const endDate = providerSystems.ReportEndDate;
-            const timePeriodCalls: String = this.common.dateFormat(startDate) + ' - ' + this.common.dateFormat(endDate);
-            const totalCalls = providerSystems.CallVolByQuesType;
-            if (totalCalls) {
-              try {
-                const callsCounts = [
-                  totalCalls.BenefitsEligibility,
-                  totalCalls.Claims,
-                  totalCalls.PriorAuth,
-                  totalCalls.Others
-                ];
-                const callsLabels = ['Eligibility and Benefits', 'Claims', 'Prior Authorizations', 'Others'];
-                callsByCallType = this.issueResolution(
-                  null,
-                  'Calls By Call Type',
-                  '303',
-                  {
-                    graphValueName: ['Eligibility and Benefits', 'Claims', 'Prior Authorizations', 'Others'],
-                    graphValues: [
-                      totalCalls.BenefitsEligibility,
-                      totalCalls.Claims,
-                      totalCalls.PriorAuth,
-                      totalCalls.Others
-                    ],
-                    centerNumber:
-                      this.common.nondecimalFormatter(totalCalls.Total) < 1
-                        ? '< 1'
-                        : this.common.nondecimalFormatter(totalCalls.Total),
-                    color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'],
-                    gdata: ['card-inner', 'callsByCallType'],
-                    labels: ['Eligibility and Benefits', 'Claims', 'Prior Authorizations', 'Others'],
-                    hover: true
-                    // sdata: this.sdataTrend[0]
-                  },
-                  this.toggle.setToggles('Calls by Call Type', 'Calls', 'Service Interaction', false),
-                  {
-                    labels: this.common.sideLabelWords(callsCounts, callsLabels),
-                    color: this.common.sideLabelColor(callsCounts)
-                  },
-                  timePeriodCalls
-                );
-              } catch (Error) {
-                console.log('Error in Calls Page | Question Type By Call Type', Error);
+          try {
+            if (providerSystems) {
+              const startDate = providerSystems.ReportStartDate;
+              const endDate = providerSystems.ReportEndDate;
+              const timePeriodCalls: String =
+                this.common.dateFormat(startDate) + ' - ' + this.common.dateFormat(endDate);
+              const totalCalls = providerSystems.CallVolByQuesType;
+              if (totalCalls) {
+                try {
+                  const callsCounts = [
+                    totalCalls.BenefitsEligibility,
+                    totalCalls.Claims,
+                    totalCalls.PriorAuth,
+                    totalCalls.Others
+                  ];
+                  const callsLabels = ['Eligibility and Benefits', 'Claims', 'Prior Authorizations', 'Others'];
+                  callsByCallType = this.issueResolution(
+                    null,
+                    'Calls By Call Type',
+                    '303',
+                    {
+                      graphValueName: ['Eligibility and Benefits', 'Claims', 'Prior Authorizations', 'Others'],
+                      graphValues: [
+                        totalCalls.BenefitsEligibility,
+                        totalCalls.Claims,
+                        totalCalls.PriorAuth,
+                        totalCalls.Others
+                      ],
+                      centerNumber:
+                        this.common.nondecimalFormatter(totalCalls.Total) < 1
+                          ? '< 1'
+                          : this.common.nondecimalFormatter(totalCalls.Total),
+                      color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'],
+                      gdata: ['card-inner', 'callsByCallType'],
+                      labels: ['Eligibility and Benefits', 'Claims', 'Prior Authorizations', 'Others'],
+                      hover: true
+                      // sdata: this.sdataTrend[0]
+                    },
+                    this.toggle.setToggles('Calls by Call Type', 'Calls', 'Service Interaction', false),
+                    {
+                      labels: this.common.sideLabelWords(callsCounts, callsLabels),
+                      color: this.common.sideLabelColor(callsCounts)
+                    },
+                    timePeriodCalls
+                  );
+                } catch (Error) {
+                  console.log('Error in Calls Page | Question Type By Call Type', Error);
+                  callsByCallType = this.issueResolution(404, null, null, null, null, null);
+                }
+              } else {
                 callsByCallType = this.issueResolution(404, null, null, null, null, null);
               }
+
+              const totalTalkTime = providerSystems.CallTalkTimeByQuesType;
+              if (totalTalkTime) {
+                try {
+                  const talkTimeCounts = [
+                    totalTalkTime.BenefitsEligibility,
+                    totalTalkTime.Claims,
+                    totalTalkTime.PriorAuth,
+                    totalTalkTime.Others
+                  ];
+                  const talkTimeLabels = ['Eligibility and Benefits', 'Claims', 'Prior Authorizations', 'Others'];
+                  talkTimeByCallType = this.issueResolution(
+                    null,
+                    'Talk Time By Call Type',
+                    '304',
+                    {
+                      graphValueName: ['Eligibility and Benefits', 'Claims', 'Prior Authorizations', 'Others'],
+                      graphValues: [
+                        totalTalkTime.BenefitsEligibility,
+                        totalTalkTime.Claims,
+                        totalTalkTime.PriorAuth,
+                        totalTalkTime.Others
+                      ],
+                      centerNumber:
+                        this.common.nondecimalFormatter(totalTalkTime.Total) < 1
+                          ? '< 1 Hrs'
+                          : this.common.nondecimalFormatter(totalTalkTime.Total) + ' Hrs',
+                      color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'],
+                      gdata: ['card-inner', 'talkTimeByCallType'],
+                      labels: ['Eligibility and Benefits', 'Claims', 'Prior Authorizations', 'Others'],
+                      hover: true
+                      // sdata: this.sdataTrend[1]
+                    },
+                    this.toggle.setToggles('Talk Time By Call Type', 'Calls', 'Service Interaction', false),
+                    {
+                      labels: this.common.sideLabelWords(talkTimeCounts, talkTimeLabels),
+                      color: this.common.sideLabelColor(talkTimeCounts)
+                    },
+                    timePeriodCalls
+                  );
+                } catch (Error) {
+                  console.log('Error in Calls Page | TalkTime By Call Type', Error);
+                  talkTimeByCallType = this.issueResolution(404, null, null, null, null, null);
+                }
+              } else {
+                talkTimeByCallType = this.issueResolution(404, null, null, null, null, null);
+              } // end if else block
             } else {
               callsByCallType = this.issueResolution(404, null, null, null, null, null);
-            }
-
-            const totalTalkTime = providerSystems.CallTalkTimeByQuesType;
-            if (totalTalkTime) {
-              try {
-                const talkTimeCounts = [
-                  totalTalkTime.BenefitsEligibility,
-                  totalTalkTime.Claims,
-                  totalTalkTime.PriorAuth,
-                  totalTalkTime.Others
-                ];
-                const talkTimeLabels = ['Eligibility and Benefits', 'Claims', 'Prior Authorizations', 'Others'];
-                talkTimeByCallType = this.issueResolution(
-                  null,
-                  'Talk Time By Call Type',
-                  '304',
-                  {
-                    graphValueName: ['Eligibility and Benefits', 'Claims', 'Prior Authorizations', 'Others'],
-                    graphValues: [
-                      totalTalkTime.BenefitsEligibility,
-                      totalTalkTime.Claims,
-                      totalTalkTime.PriorAuth,
-                      totalTalkTime.Others
-                    ],
-                    centerNumber:
-                      this.common.nondecimalFormatter(totalTalkTime.Total) < 1
-                        ? '< 1 Hrs'
-                        : this.common.nondecimalFormatter(totalTalkTime.Total) + ' Hrs',
-                    color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'],
-                    gdata: ['card-inner', 'talkTimeByCallType'],
-                    labels: ['Eligibility and Benefits', 'Claims', 'Prior Authorizations', 'Others'],
-                    hover: true
-                    // sdata: this.sdataTrend[1]
-                  },
-                  this.toggle.setToggles('Talk Time By Call Type', 'Calls', 'Service Interaction', false),
-                  {
-                    labels: this.common.sideLabelWords(talkTimeCounts, talkTimeLabels),
-                    color: this.common.sideLabelColor(talkTimeCounts)
-                  },
-                  timePeriodCalls
-                );
-              } catch (Error) {
-                console.log('Error in Calls Page | TalkTime By Call Type', Error);
-                talkTimeByCallType = this.issueResolution(404, null, null, null, null, null);
-              }
-            } else {
               talkTimeByCallType = this.issueResolution(404, null, null, null, null, null);
-            } // end if else block
-          } else {
+            }
+          } catch (Error) {
+            console.log('Catch Error Callspage');
             callsByCallType = this.issueResolution(404, null, null, null, null, null);
             talkTimeByCallType = this.issueResolution(404, null, null, null, null, null);
           }
