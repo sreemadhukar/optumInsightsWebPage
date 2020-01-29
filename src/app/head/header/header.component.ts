@@ -161,7 +161,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   advocateUserClick(targetElement) {
     const HeaderElement = document.querySelector('.header-div');
     const ButtonElement = document.querySelector('.user-div');
-    const dropdownElement = document.querySelector('.dropdown-body');
+    const dropdownElement = document.querySelector('.vertical-menu');
     const clickedHeader = HeaderElement.contains(targetElement);
     const clickedButton = ButtonElement.contains(targetElement);
     const clickedInside = dropdownElement.contains(targetElement);

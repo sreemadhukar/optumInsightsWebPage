@@ -9,7 +9,7 @@ import * as _ from 'lodash';
 import { environment } from '../../../../environments/environment';
 
 @Injectable({
-  providedIn: GettingReimbursedModule
+  providedIn: 'root'
 })
 export class PaymentsSharedService {
   public nonPaymentData: any = null;
@@ -94,7 +94,7 @@ export class PaymentsSharedService {
     });
   }
 
-  getPaymentsData(parameters) {
+  public getPaymentsData(parameters) {
     return new Promise((resolve, reject) => {
       const summaryData: Array<object> = [];
       let claimsPaid: object;
@@ -102,10 +102,9 @@ export class PaymentsSharedService {
       this.gettingReimbursedService.getPaymentsData(parameters).subscribe(
         claimsData => {
           let lobData;
-          console.log(claimsData);
           if (parameters[1]['ClaimsBy'] === 'DateOfProcessing') {
             lobData = parameters[1].Lob ? _.startCase(parameters[1].Lob.toLowerCase()) : 'ALL';
-            if (!claimsData.hasOwnProperty('LineOfBusiness')) {
+            if (!claimsData || !claimsData.hasOwnProperty('LineOfBusiness')) {
               claimsPaid = {
                 category: 'app-card',
                 type: 'donutWithLabel',
