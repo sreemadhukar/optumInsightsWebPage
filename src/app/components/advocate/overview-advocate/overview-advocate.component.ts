@@ -27,9 +27,9 @@ import { hasOwnProperty } from 'tslint/lib/utils';
   styleUrls: ['./overview-advocate.component.scss']
 })
 export class OverviewAdvocateComponent implements OnInit, DoCheck {
-  pageTitle: String = '';
-  pagesubTitle: String = '';
-  userName: String = '';
+  pageTitle: String;
+  pagesubTitle: String;
+  userName: String;
   topRowItems: any;
   timePeriod: string;
   timePeriodCalls: string;
@@ -99,7 +99,6 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
     private createPayloadService: CreatePayloadService,
     private ngRedux: NgRedux<IAppState>
   ) {
-    this.pageTitle = 'UHC Insights Provider Performance Dashboard';
     const filData = this.session.getFilChangeEmitter().subscribe(() => this.common.urlResuseStrategy());
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => {
       this.common.urlResuseStrategy();
@@ -336,6 +335,9 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
   }
 
   ngOnInit() {
+    this.pageTitle = 'UHC Insights Provider Performance Dashboard';
+    this.pagesubTitle = this.session.getHealthCareOrgName() + "'s insights at a glance.";
+    this.userName = this.session.sessionStorage('loggedUser', 'FirstName');
     this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'overviewAdvocatePage' });
     this.checkStorage.emitEvent('overviewAdvocatePage');
     this.timePeriod = this.common.getTimePeriodFilterValue(this.createPayloadService.payload.timePeriod);
@@ -343,8 +345,8 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
     this.paymentData();
     this.appealsLeftData();
     this.appealsTrendByMonthData();
-    this.totalCallsData();
     this.claimsYieldData();
+    this.totalCallsData();
     this.totalCallsTrendLineData();
     this.paymentsBySubmissionData();
     this.appealsLineGraphloading = true;
