@@ -36,7 +36,8 @@ export class PaymentsSharedService {
     return new Promise(resolve => {
       this.getPaymentsData(parameters)
         .then(paydata => {
-          return this.calculateTrends(parameters, paydata);
+          const paymentdata = paydata[0];
+          return this.calculateTrends(parameters, paymentdata);
         })
         .then(data => {
           const payments = { id: 1, title: 'Claims Payments', data: data };
@@ -96,7 +97,7 @@ export class PaymentsSharedService {
 
   public getPaymentsData(parameters) {
     return new Promise((resolve, reject) => {
-      const summaryData: Array<object> = [];
+      let summaryData: Array<object> = [];
       let claimsPaid: object;
       let claimsPaidRate: object;
       this.gettingReimbursedService.getPaymentsData(parameters).subscribe(
@@ -120,6 +121,7 @@ export class PaymentsSharedService {
                 type: 'donut',
                 status: 404,
                 title: 'Claims Yield',
+                toggle: true,
                 data: null,
                 timeperiod: null
               };
@@ -559,7 +561,7 @@ export class PaymentsSharedService {
               claimsPaidRate = {
                 category: 'app-card',
                 type: 'donut',
-                status: claimsData.status,
+                status: 404,
                 title: 'Claims Yield',
                 data: null,
                 timeperiod: null
@@ -857,7 +859,6 @@ export class PaymentsSharedService {
                   category: 'app-card',
                   type: 'donut',
                   title: 'Claims Yield',
-                  toggle: true,
                   data: {
                     graphValues: [
                       claimsData[lobData].ClaimsLobSummary[0].ClaimsYieldRate,
@@ -895,7 +896,6 @@ export class PaymentsSharedService {
               claimsPaidRate = {
                 category: 'app-card',
                 type: 'donut',
-                toggle: true,
                 status: 404,
                 title: 'Claims Yield',
                 data: null,
@@ -914,7 +914,7 @@ export class PaymentsSharedService {
           // };
           //  const payments = { id: 1, title: 'Claims Payments', data: [claimsPaid, claimsPaidRate] };
           /*, claimsPaidRate] }; commented to supress claims yield card*/
-          summaryData[0] = claimsPaid;
+          summaryData = [[claimsPaid, claimsPaidRate], claimsData];
 
           /* if (environment.claimsYieldAccess) {
             summaryData[1] = claimsPaidRate;

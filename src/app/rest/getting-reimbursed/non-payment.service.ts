@@ -17,24 +17,17 @@ export class NonPaymentService {
   private NON_PAYMENT_DOP: string = environment.apiUrls.NonPaymentDop;
   constructor(private http: HttpClient) {}
   public getNonPaymentData(...parameters) {
-    this.currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
-    this.authBearer = this.currentUser[0].PedAccessToken;
-    const myHeader = new HttpHeaders({
-      Authorization: 'Bearer ' + this.authBearer,
-      'Content-Type': 'application/json',
-      Accept: '*/*'
-    });
     let nonPaymentURL;
     if (parameters[1]['ClaimsBy'] === 'DateOfProcessing') {
       nonPaymentURL = this.APP_URL + this.NON_PAYMENT_DOP + parameters[0] + '?requestType=CLAIMS';
-      return this.http.post(nonPaymentURL, parameters[1], { headers: myHeader }).pipe(
+      return this.http.post(nonPaymentURL, parameters[1]).pipe(
         map(res => JSON.parse(JSON.stringify(res))),
         catchError(err => of(JSON.parse(JSON.stringify(err))))
       );
     } else {
       nonPaymentURL = this.APP_URL + this.NON_PAYMENT + parameters[0] + '?requestType=PAYMENT_METRICS';
       return combineLatest(
-        this.http.post(nonPaymentURL, parameters[1], { headers: myHeader }).pipe(
+        this.http.post(nonPaymentURL, parameters[1]).pipe(
           map(res => JSON.parse(JSON.stringify(res[0]))),
           catchError(err => of(JSON.parse(JSON.stringify(err))))
         )

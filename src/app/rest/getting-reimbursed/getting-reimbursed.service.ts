@@ -171,4 +171,12 @@ export class GettingReimbursedService {
       catchError(err => of(JSON.parse(JSON.stringify(err))))
     );
   }
+
+  public getTatDataforDOP(parameters) {
+    const claimsURL = this.APP_URL + this.CLAIMS_SERVICE_PATH_DOP + parameters[0] + '?requestType=TAT';
+    return this.http.post(claimsURL, parameters[1]).pipe(
+      map(res => JSON.parse(JSON.stringify(res))),
+      catchError(err => of(JSON.parse(JSON.stringify(err))))
+    );
+  }
 }
