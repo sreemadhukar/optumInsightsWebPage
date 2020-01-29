@@ -214,7 +214,7 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
       // This is for line graph
       this.nonPaymentService.sharedTrendByMonth(this.createPayloadService.payload).then(data => {
         const trendData = JSON.parse(JSON.stringify(data));
-        if (!trendData && !trendData.data) {
+        if (!trendData) {
           this.trendMonthDisplay = false;
           this.monthlyLineGraph = {
             category: 'large-card',
