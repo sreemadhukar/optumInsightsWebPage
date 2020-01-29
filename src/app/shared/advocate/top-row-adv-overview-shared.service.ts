@@ -338,11 +338,14 @@ export class TopRowAdvOverviewSharedService {
       claimsYield = {
         category: 'app-card',
         type: 'donut',
-        title: null,
         data: null,
-        timeperiod: null
+        timeperiod: null,
+        status: 404,
+        title: 'Claims Yield',
+        MetricID: this.MetricidService.MetricIDs.ClaimsYield
       };
     }
+    console.log('claims Yield', claimsYield);
     return claimsYield;
   }
 }

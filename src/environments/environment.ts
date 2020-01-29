@@ -20,7 +20,6 @@ export const environment: any = {
   // originUrl: 'https://pedintui-pedstg.ocp-ctc-dmz-stg.optum.com/',
   apiProxyUrl: 'https://pedapi1-peddev.ocp-ctc-core-nonprod.optum.com/',
   originUrl: 'https://pedui3-peddev.ocp-ctc-core-nonprod.optum.com/',
-
   apiUrls: {
     ExecutiveSummaryPath: 'providersystems/',
     ProviderSystemClaimsAgg: 'agg-claims/search/v2.0/',
