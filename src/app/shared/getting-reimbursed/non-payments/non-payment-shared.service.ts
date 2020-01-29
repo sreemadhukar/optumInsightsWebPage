@@ -435,7 +435,7 @@ export class NonPaymentSharedService {
               for (let i = 0; i < p.length; i++) {
                 let x = JSON.parse(JSON.stringify(paramtersCategories)); // deep copy
                 x[1]['DenialCategory'] = p[i]['title'];
-                x[1]['Count'] = 5;
+                x[1]['Count'] = this.subCategoriesFetchCount;
                 x[1]['ReportType'] = 'subject';
                 subCategoryReasons.push(x);
                 x = [];

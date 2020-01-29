@@ -98,11 +98,11 @@ export class PriorAuthSharedService {
     let lobString;
     if (LOB === 'All') {
       lobString = 'allLob';
-    } else if (LOB === 'Cs') {
+    } else if (LOB === 'CS') {
       lobString = 'cAndSLob';
-    } else if (LOB === 'Ei') {
+    } else if (LOB === 'EI') {
       lobString = 'eAndILob';
-    } else if (LOB === 'Mr') {
+    } else if (LOB === 'MR') {
       lobString = 'mAndRLob';
     }
 
@@ -410,14 +410,13 @@ export class PriorAuthSharedService {
           let lobStringFormatted;
           if (LOB === 'All') {
             lobStringFormatted = 'All';
-          } else if (LOB === 'Cs') {
+          } else if (LOB === 'CS') {
             lobStringFormatted = 'Cs';
-          } else if (LOB === 'Ei') {
+          } else if (LOB === 'EI') {
             lobStringFormatted = 'Ei';
-          } else if (LOB === 'Mr') {
+          } else if (LOB === 'MR') {
             lobStringFormatted = 'Mr';
           }
-
           if (
             providerSystems[lobStringFormatted] !== null &&
             providerSystems.hasOwnProperty(lobStringFormatted) &&
