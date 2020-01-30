@@ -161,7 +161,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   advocateUserClick(targetElement) {
     const HeaderElement = document.querySelector('.header-div');
     const ButtonElement = document.querySelector('.user-div');
-    const dropdownElement = document.querySelector('.dropdown-body');
+    const dropdownElement = document.querySelector('.vertical-menu');
     const clickedHeader = HeaderElement.contains(targetElement);
     const clickedButton = ButtonElement.contains(targetElement);
     const clickedInside = dropdownElement.contains(targetElement);
@@ -173,8 +173,14 @@ export class HeaderComponent implements OnInit, OnDestroy {
       this.clickOutside.emit(null);
     }
   }
+
   advocateUserClicked() {
-    this.advDropdownBool = true;
+    console.log('this.checkAdv()', this.checkAdv.value);
+    if (this.sessionService.checkRole('UHCI_Advocate')) {
+      this.advDropdownBool = true;
+    } else {
+      this.advDropdownBool = false;
+    }
   }
 
   advViewClicked(value: string) {

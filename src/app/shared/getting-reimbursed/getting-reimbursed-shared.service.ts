@@ -87,7 +87,6 @@ export class GettingReimbursedSharedService {
     });
   }
   /** code ends here for shared NonPayment Data */
-
   /** The below function will return the data for the Getting Reimbursed page,
    * In the main function getGettingReimbursedData() , we will call the sharedGettingReimbursedData(parameters)
    * after calling the sharedNonPaymentData() so that we get the nonPayment data first.
@@ -1540,6 +1539,7 @@ export class GettingReimbursedSharedService {
               data: [claimsPaid]
             };
           }
+
           nonpayments = {
             id: 3,
             title: 'Claims Non-Payments',
