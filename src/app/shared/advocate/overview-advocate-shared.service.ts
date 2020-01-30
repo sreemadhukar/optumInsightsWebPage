@@ -323,12 +323,16 @@ export class OverviewAdvocateSharedService {
 
   public paymentsBySubmission(param) {
     this.timeFrame = this.common.getTimePeriodFilterValue(param.timePeriod);
-    return new Promise(resolve => {
+    return new Promise((resolve, reject) => {
       const parameters = this.getParameterCategories(param);
       this.overviewAdvocateService.paymentsBySubmission(...parameters).subscribe(
         pbsData => {
           console.log('psbData', pbsData);
           const getData = JSON.parse(JSON.stringify(pbsData[0]));
+
+          if (!getData) {
+            return reject(null);
+          }
           const sendData = {
             id: 'paymentSubmission',
             category: 'app-card',
@@ -355,6 +359,7 @@ export class OverviewAdvocateSharedService {
         },
         err => {
           console.log('Advocate Page , Error for calls card', err);
+          reject();
         }
       );
     });
