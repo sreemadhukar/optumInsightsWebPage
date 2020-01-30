@@ -374,7 +374,7 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
     // This is for line graph
     this.nonPaymentService.sharedTrendByMonth(this.createPayloadService.payload).then(data => {
       const trendData = JSON.parse(JSON.stringify(data));
-      if (!trendData && !trendData.data) {
+      if (!trendData || !trendData.data) {
         this.trendMonthDisplay = false;
         this.monthlyLineGraph = {
           category: 'large-card',
