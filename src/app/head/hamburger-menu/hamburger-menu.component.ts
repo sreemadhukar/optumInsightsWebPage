@@ -618,16 +618,9 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
    * Clean fromKOP storage
    */
   navigateToKOP() {
-    // TODO: It is a quick fix
-    // settimeout and locaion routing
-    // Need to be remove after ng-redux
-    // filter implementenation in KOP
-    setTimeout(() => {
-      sessionStorage.removeItem('fromKOP');
-      this.fromKOP = false;
-    }, 500);
-    location.href = '/NationalExecutive';
-    // this.router.navigate(['/NationalExecutive']);
+    sessionStorage.removeItem('fromKOP');
+    this.fromKOP = false;
+    this.router.navigate(['/NationalExecutive']);
   }
 
   navigateToPPD() {
