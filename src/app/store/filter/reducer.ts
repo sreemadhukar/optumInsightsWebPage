@@ -8,7 +8,7 @@ export const INITIAL_STATE: IAppState = {
   taxId: [{ Tin: 'All', Tinname: 'All' }],
   lineOfBusiness: 'All',
   serviceSetting: 'All',
-  serviceCategory: '',
+  serviceCategory: 'All',
   priorAuthType: 'All',
   trendMetric: 'GettingReimbursed',
   trendDate: new Date(),

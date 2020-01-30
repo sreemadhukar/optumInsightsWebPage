@@ -27,7 +27,7 @@ export class CreatePayloadService {
     taxId: [{ Tin: 'All', Tinname: 'All' }],
     lineOfBusiness: 'All',
     serviceSetting: 'All',
-    serviceCategory: '',
+    serviceCategory: 'All',
     priorAuthType: 'All',
     trendMetric: 'GettingReimbursed',
     trendDate: new Date(),
@@ -50,6 +50,7 @@ export class CreatePayloadService {
     this.taxId.subscribe(taxId => (this.initialState.taxId = taxId));
     this.lineOfBusiness.subscribe(lineOfBusiness => (this.initialState.lineOfBusiness = lineOfBusiness));
     this.serviceSetting.subscribe(serviceSetting => (this.initialState.serviceSetting = serviceSetting));
+    this.serviceCategory.subscribe(serviceCategory => (this.initialState.serviceCategory = serviceCategory));
     this.priorAuthType.subscribe(priorAuthType => {
       this.initialState.priorAuthType = priorAuthType;
     });

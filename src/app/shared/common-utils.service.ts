@@ -258,12 +258,15 @@ export class CommonUtilsService {
       return '12';
     }
   }
-  public dayFormat(day: string) {
+  public dayFormat(day: string): string {
+    /*
     if (day[0] === '0') {
       return day.slice(1);
     } else {
       return day;
     }
+    */
+    return day;
   }
   public dateFormat(timeStamp: string): string {
     let date1;
@@ -327,36 +330,48 @@ export class CommonUtilsService {
   public returnHoverLabels(cardData, lobValue) {
     const hoverLabels = [];
     if (cardData !== null) {
-      if (lobValue === 'All') {
-        if (cardData.hasOwnProperty('Mr') && cardData.Mr !== null) {
+      if (lobValue === 'All' || lobValue === 'ALL') {
+        if (
+          (cardData.hasOwnProperty('Mr') && cardData.Mr !== null) ||
+          (cardData.hasOwnProperty('MedicareAndRetirement') && cardData.MedicareAndRetirement !== null)
+        ) {
           hoverLabels.push('Medicare & Retirement');
         }
-        if (cardData.hasOwnProperty('Cs') && cardData.Cs !== null) {
+        if (
+          (cardData.hasOwnProperty('Cs') && cardData.Cs !== null) ||
+          (cardData.hasOwnProperty('CommunityAndState') && cardData.CommunityAndState !== null)
+        ) {
           hoverLabels.push('Community & State');
         }
-        if (cardData.hasOwnProperty('Ei') && cardData.Ei !== null) {
+        if (
+          (cardData.hasOwnProperty('Ei') && cardData.Ei !== null) ||
+          (cardData.hasOwnProperty('EmployerAndIndividual') && cardData.EmployerAndIndividual !== null)
+        ) {
           hoverLabels.push('Employer & Individual');
         }
-        if (cardData.hasOwnProperty('Un') && cardData.Un !== null) {
+        if (
+          (cardData.hasOwnProperty('Un') && cardData.Un !== null) ||
+          (cardData.hasOwnProperty('UNKNOWN') && cardData.UNKNOWN !== null)
+        ) {
           hoverLabels.push('Uncategorized');
         }
-      } else if (lobValue === 'Mr') {
-        if (cardData.hasOwnProperty('Mr')) {
+      } else if (lobValue === 'Mr' || lobValue === 'MedicareAndRetirement') {
+        if (cardData.hasOwnProperty('Mr') || cardData.hasOwnProperty('MedicareAndRetirement')) {
           hoverLabels.push('Medicare & Retirement');
           hoverLabels.push('Other Lines of Business');
         }
-      } else if (lobValue === 'Cs') {
-        if (cardData.hasOwnProperty('Cs')) {
+      } else if (lobValue === 'Cs' || lobValue === 'CommunityAndState') {
+        if (cardData.hasOwnProperty('Cs') || cardData.hasOwnProperty('CommunityAndState')) {
           hoverLabels.push('Community & State');
           hoverLabels.push('Other Lines of Business');
         }
-      } else if (lobValue === 'Ei') {
-        if (cardData.hasOwnProperty('Ei')) {
+      } else if (lobValue === 'Ei' || lobValue === 'EmployerAndIndividual') {
+        if (cardData.hasOwnProperty('Ei') || cardData.hasOwnProperty('EmployerAndIndividual')) {
           hoverLabels.push('Employer & Individual');
           hoverLabels.push('Other Lines of Business');
         }
-      } else if (lobValue === 'Un') {
-        if (cardData.hasOwnProperty('Un')) {
+      } else if (lobValue === 'Un' || lobValue === 'UNKNOWN') {
+        if (cardData.hasOwnProperty('Un' || cardData.hasOwnProperty('UNKNOWN'))) {
           hoverLabels.push('Uncategorized');
           hoverLabels.push('Other Lines of Business');
         }
@@ -369,36 +384,48 @@ export class CommonUtilsService {
     const hoverColors = [];
 
     if (cardData !== null) {
-      if (lobValue === 'All') {
-        if (cardData.hasOwnProperty('Mr') && cardData.Mr !== null) {
+      if (lobValue === 'All' || lobValue === 'ALL') {
+        if (
+          (cardData.hasOwnProperty('Mr') && cardData.Mr !== null) ||
+          (cardData.hasOwnProperty('MedicareAndRetirement') && cardData.MedicareAndRetirement !== null)
+        ) {
           hoverColors.push('#3381FF');
         }
-        if (cardData.hasOwnProperty('Cs') && cardData.Cs !== null) {
+        if (
+          (cardData.hasOwnProperty('Cs') && cardData.Cs !== null) ||
+          (cardData.hasOwnProperty('CommunityAndState') && cardData.CommunityAndState !== null)
+        ) {
           hoverColors.push('#80B0FF');
         }
-        if (cardData.hasOwnProperty('Ei') && cardData.Ei !== null) {
+        if (
+          (cardData.hasOwnProperty('Ei') && cardData.Ei !== null) ||
+          (cardData.hasOwnProperty('EmployerAndIndividual') && cardData.EmployerAndIndividual !== null)
+        ) {
           hoverColors.push('#003DA1');
         }
-        if (cardData.hasOwnProperty('Un') && cardData.Un !== null) {
+        if (
+          (cardData.hasOwnProperty('Un') && cardData.Un !== null) ||
+          (cardData.hasOwnProperty('UNKNOWN') && cardData.UNKNOWN !== null)
+        ) {
           hoverColors.push('#00B8CC');
         }
-      } else if (lobValue === 'Mr') {
-        if (cardData.hasOwnProperty('Mr')) {
+      } else if (lobValue === 'Mr' || lobValue === 'MedicareAndRetirement') {
+        if (cardData.hasOwnProperty('Mr') || cardData.hasOwnProperty('MedicareAndRetirement')) {
           hoverColors.push('#3381FF');
           hoverColors.push('#D7DCE1');
         }
-      } else if (lobValue === 'Cs') {
-        if (cardData.hasOwnProperty('Cs')) {
+      } else if (lobValue === 'Cs' || lobValue === 'CommunityAndState') {
+        if (cardData.hasOwnProperty('Cs') || cardData.hasOwnProperty('CommunityAndState')) {
           hoverColors.push('#80B0FF');
           hoverColors.push('#D7DCE1');
         }
-      } else if (lobValue === 'Ei') {
-        if (cardData.hasOwnProperty('Ei')) {
+      } else if (lobValue === 'Ei' || lobValue === 'EmployerAndIndividual') {
+        if (cardData.hasOwnProperty('Ei') || cardData.hasOwnProperty('EmployerAndIndividual')) {
           hoverColors.push('#003DA1');
           hoverColors.push('#D7DCE1');
         }
-      } else if (lobValue === 'Un') {
-        if (cardData.hasOwnProperty('Un')) {
+      } else if (lobValue === 'Un' || lobValue === 'UNKNOWN') {
+        if (cardData.hasOwnProperty('Un') || cardData.hasOwnProperty('UNKNOWN')) {
           hoverColors.push('#00B8CC');
           hoverColors.push('#D7DCE1');
         }

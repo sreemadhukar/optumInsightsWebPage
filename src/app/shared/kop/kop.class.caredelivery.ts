@@ -5,6 +5,7 @@ export class CareDelivery {
   public records: any;
   public data = {
     title: 'Care Delivery',
+    MetricID: '43,44',
     chartData: [],
     quarters: []
   };

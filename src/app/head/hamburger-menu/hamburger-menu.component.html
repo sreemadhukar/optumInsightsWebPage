@@ -24,11 +24,26 @@
           </span>
         </div>
       </div>
+      <div *ngIf="advocateView" class="butter-bar align-horizonal">
+        <div class="cross-icon">
+          <mat-icon class="hover-pointer" svgIcon="closeGlossary" (click)="navigateToPPD()"></mat-icon>
+        </div>
+        <div class="exit-text" style="width: 35%">
+          <span class="exit-provider-text" (click)="navigateToPPD()">Exit Provider View</span>
+        </div>
+        <div style="width: 60%" class="exit-text">
+          <span
+            >You are viewing as
+            <span class="provider-text">{{ healthSystemName }}</span>
+          </span>
+        </div>
+      </div>
       <app-header
+        [fromKOP]="fromKOP"
         [class.display-none]="!showPrintHeader && makeAbsolute"
         class="sticky"
         (hamburgerDisplay)="hamburgerDisplay($event)"
-        [ngClass]="fromKOP ? 'top-40' : 'top-0'"
+        [ngClass]="fromKOP || advocateView ? 'top-40' : 'top-0'"
       ></app-header>
       <div [class.sticky-footer]="showPrintHeader">
         <div class="sticky-footer-text">&copy; 2019 UnitedHealthcare, All Rights Reserved</div>
@@ -37,7 +52,7 @@
     <mat-sidenav-container
       class="example-sidenav-container"
       [class.bg-white]="bgWhite"
-      [ngClass]="{ 'top-40': fromKOP, 'top-0': !fromKOP, 'kop-landing': isKop }"
+      [ngClass]="{ 'top-40': fromKOP || advocateView, 'top-0': !fromKOP || !advocateView, 'kop-landing': isKop }"
       color="primary"
       (backdropClick)="close()"
     >
@@ -49,7 +64,7 @@
         [fixedInViewport]="true"
         [opened]="!(!sideNavFlag || makeAbsolute)"
         [class.display-none]="makeAbsolute"
-        [ngClass]="fromKOP ? 'top-40' : 'top-0'"
+        [ngClass]="fromKOP || advocateView ? 'top-40' : 'top-0'"
         color="primary"
       >
         <!-- UHC LOGO BLOCK -->
@@ -128,7 +143,7 @@
 
                   <a
                     class="nav-sub-category-items second-level-link "
-                    (click)="collapseExpansionPanels(rowIndex)"
+                    (click)="collapseExpansionPanels(supersubcategory.path)"
                     [routerLinkActiveOptions]="{ exact: true }"
                     mat-list-item
                     routerLink="{{ supersubcategory.path }}"
@@ -141,7 +156,7 @@
                 <a
                   *ngIf="!subcategory.children"
                   class="nav-sub-category-items"
-                  (click)="collapseExpansionPanels(rowIndex)"
+                  (click)="collapseExpansionPanels(subcategory.path)"
                   [routerLinkActiveOptions]="{ exact: true }"
                   mat-list-item
                   routerLink="{{ subcategory.path }}"
@@ -153,7 +168,7 @@
             <!-- CATEGORY WHICH HAS NO SUB CATEGORIES -->
             <div *ngIf="checkToggle(category.disabled)">
               <a
-                (click)="collapseExpansionPanels()"
+                (click)="collapseExpansionPanels(category.path)"
                 class="nav-no-child-category"
                 [routerLinkActiveOptions]="{ exact: true }"
                 mat-list-item

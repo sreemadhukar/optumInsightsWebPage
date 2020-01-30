@@ -101,7 +101,8 @@ import { UhcKopFilterComponent } from './uhc-kop-filter/uhc-kop-filter.component
     FiltersMultiSelectComponent,
     ColorGreyMiniBarChartComponent,
     BarSimplePiComponent,
-    UhcKopFilterComponent
+    UhcKopFilterComponent,
+    StackedBarChartComponent
   ],
   declarations: [
     MiniTileComponent,
