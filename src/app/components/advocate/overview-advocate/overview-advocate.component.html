@@ -41,7 +41,7 @@
           <p class="timeperiod-text">{{ timePeriod }}</p>
         </div-->
       <app-common-footer
-        [timePeriod]="timePeriod"
+        [timePeriod]="timePeriodNonPayment"
         [linkName]="'Non-Payment Details'"
         [routePath]="'/GettingReimbursed/NonPayments'"
         class="width-100 time-period-trend"
@@ -111,7 +111,7 @@
         </div-->
       </div>
       <app-common-footer
-        [timePeriod]="timePeriodNonPayment"
+        [timePeriod]="timePeriod"
         [linkName]="'Appeals Overview'"
         [routePath]="'/GettingReimbursed/Appeals'"
         class="width-100 time-period-trend"
