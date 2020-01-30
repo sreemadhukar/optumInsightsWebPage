@@ -15,7 +15,7 @@
           </div>
         </div>
       </div>
-
+      <app-filters-applied></app-filters-applied>
       <!-- <div class="page-title" [ngClass]="{ 'print-page-title': printStyle === true }">
           {{ pageTitle }}
         </div>
@@ -44,192 +44,108 @@
         </select>
       </div>
     </div>
-
-    <div class="tin-list-body">
-      <div class="tin-list-body-head">
-        <div class="tin-list-body-head-left">Showing {{ numberofClaimsShowing }} Tax ID results</div>
+    <div class="tax-summary-content">
+      <div class="tax-summary-head">
+        <span class="tax-summary-count">
+          Showing {{ selectedclaims.length > 24 ? pageSize : selectedclaims.length }} of {{ numberOfClaims }}
+        </span>
       </div>
-      <div class="tin-list-body-table-div">
-        <div class="tin-list-body-table-head">
-          <div class="tin-list-body-table-head-left">
-            <div class="tin-list-body-table-head-sub-head" (click)="sorta('Tin')">
-              TIN Name and<br />
-              Number
-              <mat-icon
-                class="nav-menu-icons nav-menu-icons-down-arrow"
-                *ngIf="sortFlagTin && sortFlag"
-                svgIcon="downarrow"
-              ></mat-icon>
-              <mat-icon
-                class="nav-menu-icons nav-menu-icons-down-arrow-reverse"
-                *ngIf="sortFlagTin && !sortFlag"
-                svgIcon="downarrow"
-              ></mat-icon>
-            </div>
-            <div class="tin-list-body-table-head-text-input-div">
-              <input
-                type="text"
-                class="tin-list-body-table-head-text-input  input-width-2"
-                spellcheck="false"
-                (keyup)="applyFilter($event.target.value)"
-              />
-            </div>
-          </div>
-          <div class="tin-list-body-table-head-right">
-            <div class="tin-list-body-table-head-sub-head" (click)="sorta('ProviderName')">
-              Provider<br />
-              Name
-              <mat-icon
-                class="nav-menu-icons nav-menu-icons-down-arrow"
-                *ngIf="!sortFlagTin && sortFlag"
-                svgIcon="downarrow"
-              ></mat-icon>
-              <mat-icon
-                class="nav-menu-icons nav-menu-icons-down-arrow-reverse"
-                *ngIf="!sortFlagTin && !sortFlag"
-                svgIcon="downarrow"
-              ></mat-icon>
-            </div>
-            <div class="tin-list-body-table-head-text-input-div">
-              <input
-                type="text"
-                class="tin-list-body-table-head-text-input input-width-2"
-                spellcheck="false"
-                (keyup)="applyFilter($event.target.value)"
-              />
-            </div>
-          </div>
-          <div class="tin-list-body-table-head-right">
-            <div class="tin-list-body-table-head-sub-head" (click)="sorta('NonPaymentAmnt')">
-              Non-Payment<br />
-              Amount
-              <mat-icon
-                class="nav-menu-icons nav-menu-icons-down-arrow"
-                *ngIf="!sortFlagTin && sortFlag"
-                svgIcon="downarrow"
-              ></mat-icon>
-              <mat-icon
-                class="nav-menu-icons nav-menu-icons-down-arrow-reverse"
-                *ngIf="!sortFlagTin && !sortFlag"
-                svgIcon="downarrow"
-              ></mat-icon>
-            </div>
-          </div>
-          <div class="tin-list-body-table-head-right">
-            <div class="tin-list-body-table-head-sub-head" (click)="sorta('BilledAmnt')">
-              Billed<br />
-              Amount
-              <mat-icon
-                class="nav-menu-icons nav-menu-icons-down-arrow"
-                *ngIf="!sortFlagTin && sortFlag"
-                svgIcon="downarrow"
-              ></mat-icon>
-              <mat-icon
-                class="nav-menu-icons nav-menu-icons-down-arrow-reverse"
-                *ngIf="!sortFlagTin && !sortFlag"
-                svgIcon="downarrow"
-              ></mat-icon>
-            </div>
-          </div>
-          <div class="tin-list-body-table-head-right">
-            <div class="tin-list-body-table-head-sub-head" (click)="sorta('DateOfProcessing')">
-              Date of<br />
-              Processing
-              <mat-icon
-                class="nav-menu-icons nav-menu-icons-down-arrow"
-                *ngIf="!sortFlagTin && sortFlag"
-                svgIcon="downarrow"
-              ></mat-icon>
-              <mat-icon
-                class="nav-menu-icons nav-menu-icons-down-arrow-reverse"
-                *ngIf="!sortFlagTin && !sortFlag"
-                svgIcon="downarrow"
-              ></mat-icon>
-            </div>
-          </div>
-          <div class="tin-list-body-table-head-right">
-            <div class="tin-list-body-table-head-sub-head" (click)="sorta('ClaimNumber')">
-              Claim<br />
-              Number
-              <mat-icon
-                class="nav-menu-icons nav-menu-icons-down-arrow"
-                *ngIf="!sortFlagTin && sortFlag"
-                svgIcon="downarrow"
-              ></mat-icon>
-              <mat-icon
-                class="nav-menu-icons nav-menu-icons-down-arrow-reverse"
-                *ngIf="!sortFlagTin && !sortFlag"
-                svgIcon="downarrow"
-              ></mat-icon>
-            </div>
-            <div class="tin-list-body-table-head-text-input-div">
-              <input
-                type="text"
-                class="tin-list-body-table-head-text-input  input-width-3"
-                spellcheck="false"
-                (keyup)="applyFilter($event.target.value)"
-              />
-            </div>
-          </div>
-        </div>
-        <div class="tin-list-body-table-div-body">
-          <!-- <table mat-table [dataSource]="selectedtins" class="mat-elevation-z8">
-                      <ng-container matColumnDef="Tin">
-                          <td mat-cell *matCellDef="let element"> {{element.Tin}} </td>
-                      </ng-container>
-                      <ng-container matColumnDef="Tinname">
-                          <td mat-cell *matCellDef="let element"> {{element.Tinname}} </td>
-                      </ng-container>
-                  </table> -->
+      <div class="tax-summary-body">
+        <div class="tax-summary-table-block mat-elevation-z8">
+          <table mat-table [dataSource]="selectedclaims" matSort matSortDirection="asc">
+            <ng-container matColumnDef="TinNameAndNumber">
+              <th mat-header-cell *matHeaderCellDef>
+                <span mat-sort-header>Tax ID Number</span>
+                <div>
+                  <input
+                    type="text"
+                    class="tax-summary-name-input"
+                    spellcheck="false"
+                    (keyup)="searchTaxId($event.target.value, 'TinNameAndNumber')"
+                  />
+                </div>
+              </th>
+              <td mat-cell class="tin-name-input" *matCellDef="let element">
+                {{ toLowerCase(element.TinNameAndNumber.TinName) }}<br />
+                {{ element.TinNameAndNumber.TinNumber }}
+              </td>
+            </ng-container>
 
-          <div>
-            <table mat-table matSort [dataSource]="selectedclaims">
-              <ng-container matColumnDef="Tin">
-                <mat-header-cell *matHeaderCellDef mat-sort-header> No. </mat-header-cell>
-                <mat-cell class="tin-list-body-table-div-body-tin-cell" *matCellDef="let element">
-                  <div class="cell-text-top">{{ element.Tin[0] }}</div>
-                  <div class="cell-text-btm">{{ element.Tin[1] }}</div>
-                </mat-cell>
-              </ng-container>
+            <ng-container matColumnDef="ProviderName">
+              <th mat-header-cell *matHeaderCellDef>
+                <span mat-sort-header>Provider Name</span>
 
-              <ng-container matColumnDef="ProviderName">
-                <mat-header-cell *matHeaderCellDef mat-sort-header> No. </mat-header-cell>
-                <mat-cell class="tin-list-body-table-div-body-tin-cell" *matCellDef="let element">
-                  <div class="cell-text-top">{{ element.ProviderName }}</div>
-                </mat-cell>
-              </ng-container>
+                <div>
+                  <input
+                    type="text"
+                    class="tax-summary-provider-input"
+                    spellcheck="false"
+                    (keyup)="searchTaxId($event.target.value, 'ProviderName')"
+                    placeholder="Find Provider Name"
+                  />
+                </div>
+              </th>
+              <td mat-cell class="tax-summary-table-cell" *matCellDef="let element">
+                {{ toLowerCase(element.ProviderName) }}
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="NonPaymentAmount">
+              <th mat-header-cell *matHeaderCellDef>
+                Non Payment<br />
+                Amount
+                <div></div>
+              </th>
+              <td mat-cell class="tax-summary-table-cell" *matCellDef="let element">
+                {{ element.NonPaymentAmount }}
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="BilldedAmount">
+              <th mat-header-cell *matHeaderCellDef>
+                <span mat-sort-header>Billded <br />Amount</span>
+              </th>
+              <td mat-cell class="tax-summary-table-cell" *matCellDef="let element">
+                {{ element.BilldedAmount }}
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="DateOfProcessing">
+              <th mat-header-cell *matHeaderCellDef>
+                <span mat-sort-header>Date of <br />Processing</span>
+              </th>
+              <td mat-cell class="tax-summary-table-cell" *matCellDef="let element">
+                {{ element.DateOfProcessing }}
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="ClaimNumber">
+              <th mat-header-cell *matHeaderCellDef>
+                <span mat-sort-header>Claim Number</span>
+                <div>
+                  <input
+                    type="text"
+                    class="tax-summary-claims-input "
+                    spellcheck="false"
+                    (keyup)="searchTaxId($event.target.value, 'ClaimNumber')"
+                  />
+                </div>
+              </th>
+              <td mat-cell class="tax-summary-table-cell" *matCellDef="let element">
+                {{ element.ClaimNumber }}
+              </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="tinsDisplayedColumns"></tr>
+            <tr mat-row class="tax-summary-rows" *matRowDef="let row; columns: tinsDisplayedColumns"></tr>
+          </table>
 
-              <ng-container matColumnDef="NonPaymentAmnt">
-                <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
-                <mat-cell class="tin-list-body-table-div-body-tinname-cell" *matCellDef="let element">
-                  {{ element.NonPaymentAmnt }}
-                </mat-cell>
-              </ng-container>
-              <ng-container matColumnDef="BilledAmnt">
-                <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
-                <mat-cell class="tin-list-body-table-div-body-tinname-cell" *matCellDef="let element">
-                  {{ element.BilledAmnt }}
-                </mat-cell>
-              </ng-container>
-              <ng-container matColumnDef="DateOfProcessing">
-                <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
-                <mat-cell class="tin-list-body-table-div-body-tinname-cell" *matCellDef="let element">
-                  {{ element.DateOfProcessing }}
-                </mat-cell>
-              </ng-container>
-              <ng-container matColumnDef="ClaimNumber">
-                <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
-                <mat-cell class="tin-list-body-table-div-body-tinname-cell" *matCellDef="let element">
-                  {{ element.ClaimNumber }}
-                </mat-cell>
-              </ng-container>
-
-              <mat-row *matRowDef="let row; columns: tinsDisplayedColumns"></mat-row>
-            </table>
-            <mat-paginator class="tin-list" [pageSizeOptions]="[25, 50, 100]"> </mat-paginator>
-          </div>
+          <mat-paginator
+            class="tax-summary-paginator"
+            [pageSizeOptions]="[25, 50, 100]"
+            (page)="getPageSize($event)"
+            [ngStyle]="{ display: numberOfClaims > 24 ? 'block' : 'none' }"
+          >
+          </mat-paginator>
         </div>
       </div>
     </div>
+
+    <!--tin-list-body-->
   </div>
 </div>

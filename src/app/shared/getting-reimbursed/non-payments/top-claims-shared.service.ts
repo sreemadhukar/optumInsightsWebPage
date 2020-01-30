@@ -26,27 +26,62 @@ export class TopClaimsSharedService {
   ) {}
   public getClaimsData(filterParameters) {
     this.providerKey = this.session.providerKeyData();
-    const TIN = filterParameters.taxId;
-    console.log('TIN', filterParameters);
-    const periodStartDate = '2020-01-01';
-    const periodEndDate = '2020-01-01';
+
+    const TIN = filterParameters.taxId[0].Tin;
+
+    const timePeriod = filterParameters.timePeriod;
+
+    const viewClaimsByFilter = filterParameters.viewClaimsByFilter;
+
+    let specificTin;
+    //  if (TIN === 'All') {
+    //   alert(specificTin);
+    //    specificTin = null;
+    //  } else {
+
+    //    if (filterParameters.taxId.length === 1) {
+    //     alert('tin1');
+    //      specificTin = filterParameters.taxId;
+    //    } else {
+    //     alert('tin2');
+    //      const taxArray = filterParameters.taxId;
+
+    //      specificTin = taxArray;
+    //        }
+    //  }
+    if (TIN === 'All') {
+      specificTin = null;
+    } else {
+      if (filterParameters.taxId.length === 1) {
+        specificTin = parseInt(TIN.replace(/\D/g, ''), 10).toString();
+      } else {
+        const taxArray = filterParameters.taxId;
+        const taxArrayFormatted = [];
+        for (let i = 0; i < taxArray.length; i++) {
+          taxArrayFormatted.push(parseInt(taxArray[i].replace(/\D/g, ''), 10));
+        }
+        specificTin = taxArrayFormatted.join(', ');
+      }
+    }
+    // DOS and DOP
+    const viewClaimTypeValue = viewClaimsByFilter;
+
     const requestBody = {
-      tins: ['020610912', '386005601'],
-      periodStart: '2020-01-01',
-      periodEnd: '2020-01-01',
+      tins: specificTin,
+      timeFilter: timePeriod,
+      timeFilterText: null,
       reason: 'COB Need Further Action',
       subReason: 'EOB/Proof No COB',
       taxIdOwnership: 'OWNED',
-      requestType: 'DOS'
+      requestType: viewClaimTypeValue
     };
     return new Promise(resolve => {
       this.nonPaymentTopClaimsService.getViewTopClaimsData([this.providerKey], requestBody).subscribe(data => {
-        console.log('line 71', data);
-        if ((data || {}).ClaimsNonPaymentMetrics) {
-          const claimsData = data;
-          console.log('claimsData', claimsData);
-          resolve(claimsData);
-        }
+        console.log('data', data);
+
+        const claimsData = data.ClaimsNonPaymentMetrics;
+        console.log('data', claimsData);
+        resolve(claimsData);
       });
     });
   }

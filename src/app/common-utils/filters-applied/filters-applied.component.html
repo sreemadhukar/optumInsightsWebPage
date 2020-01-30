@@ -44,7 +44,8 @@
           tabName == 'gettingReimbursedSummary' ||
           tabName == 'gettingReimbursedPayments' ||
           tabName == 'gettingReimbursedNonPayments' ||
-          selectedPage == 'nonPaymentsPage'
+          selectedPage == 'nonPaymentsPage' ||
+          selectedPage == 'viewTopClaimsPage'
         "
       >
         <button class="btn btn-rounded" disabled>
@@ -146,7 +147,7 @@
       </div>
     </ng-template>
   </div>
-  <div *ngIf="!printStyle" class="filter-bg" (click)="openFilter()">
+  <div *ngIf="!printStyle || selectedPage != 'viewTopClaimsPage'" class="filter-bg" (click)="openFilter()">
     <mat-icon matPrefix class="nav-menu-icons filter-icon" svgIcon="filter"></mat-icon>
     <div class="filter-title">Filters</div>
   </div>

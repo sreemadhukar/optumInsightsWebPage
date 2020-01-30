@@ -416,7 +416,7 @@ export class NonPaymentSharedService {
               return null;
             }
             const subCategoryReasons: any = [];
-            if (param.viewClaimsByFilter === 'DateOfProcessing') {
+            if (param.viewClaimsByFilter === 'DOP') {
               for (let i = 0; i < p.length; i++) {
                 let x = JSON.parse(JSON.stringify(paramtersCategories)); // deep copy
                 x[1]['DenialCategory'] = p[i]['title'];
@@ -457,14 +457,14 @@ export class NonPaymentSharedService {
           console.log(data);
           // array
           let mappedData;
-          if (paramtersSubCategory[0][1].ClaimsBy === 'DateOfProcessing') {
+          if (paramtersSubCategory[0][1].ClaimsBy === 'DOP') {
             mappedData = data;
           } else {
             mappedData = data.map(item => item[0]);
           }
           for (let i = 0; i < topReasons.length; i++) {
             // deep copy
-            if (paramtersSubCategory[i][1].ClaimsBy === 'DateOfProcessing') {
+            if (paramtersSubCategory[i][1].ClaimsBy === 'DOP') {
               topReasons[i]['top5'] = JSON.parse(JSON.stringify(mappedData[i].DenialCategory));
             } else {
               topReasons[i]['top5'] = JSON.parse(JSON.stringify(mappedData[i].All.DenialCategory));
