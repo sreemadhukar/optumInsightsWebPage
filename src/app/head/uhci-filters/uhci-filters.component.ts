@@ -179,9 +179,15 @@ export class UhciFiltersComponent implements OnInit {
         lineOfBusiness: this.selectedLob.name,
         serviceSetting: this.selectedServiceSetting.name,
         serviceCategory: this.selectedService,
-        priorAuthType: this.selectedPriorAuthType.name,
-        trendMetric: this.selectedTrendMetric.name,
-        trendDate: this.selectedDate,
+        priorAuthType:
+          this.selectedPriorAuthType && this.selectedPriorAuthType.hasOwnProperty['name']
+            ? this.selectedPriorAuthType.name
+            : 'All',
+        trendMetric:
+          this.selectedTrendMetric && this.selectedTrendMetric.hasOwnProperty['name']
+            ? this.selectedTrendMetric.name
+            : 'GettingReimbursed',
+        trendDate: this.selectedDate ? this.selectedDate : new Date(),
         claimsFilter: this.selectedClaims.name,
         appealsFilter: this.selectedAppeals.name,
         viewClaimsByFilter: this.selectedViewClaimsBy.name
