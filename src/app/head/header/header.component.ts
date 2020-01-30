@@ -60,8 +60,10 @@ import { AuthenticationService } from '../../auth/_service/authentication.servic
   ]
 })
 export class HeaderComponent implements OnInit, OnDestroy {
+  isInternal: boolean = environment.internalAccess;
   @Input() isDarkTheme: Observable<boolean>;
   @Input() button: boolean;
+  @Input() fromKOP: boolean;
   public isKop: boolean;
   @Output() hamburgerDisplay = new EventEmitter<boolean>();
   @Output() clickOutside = new EventEmitter<boolean>();
@@ -159,7 +161,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   advocateUserClick(targetElement) {
     const HeaderElement = document.querySelector('.header-div');
     const ButtonElement = document.querySelector('.user-div');
-    const dropdownElement = document.querySelector('.dropdown-body');
+    const dropdownElement = document.querySelector('.vertical-menu');
     const clickedHeader = HeaderElement.contains(targetElement);
     const clickedButton = ButtonElement.contains(targetElement);
     const clickedInside = dropdownElement.contains(targetElement);
@@ -171,8 +173,14 @@ export class HeaderComponent implements OnInit, OnDestroy {
       this.clickOutside.emit(null);
     }
   }
+
   advocateUserClicked() {
-    this.advDropdownBool = true;
+    console.log('this.checkAdv()', this.checkAdv.value);
+    if (this.sessionService.checkRole('UHCI_Advocate')) {
+      this.advDropdownBool = true;
+    } else {
+      this.advDropdownBool = false;
+    }
   }
 
   advViewClicked(value: string) {
@@ -213,6 +221,27 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.themeService.setDarkTheme(checked);
   }
   /*angular theme */
+
+  onLogoClick() {
+    const isAdvocate = this.sessionService.checkRole('UHCI_Advocate');
+    const isExecutive = this.sessionService.checkRole('UHCI_Executive');
+    const isProjectUser = this.sessionService.checkRole('UHCI_Project');
+
+    if (this.isInternal) {
+      if (isAdvocate) {
+        this.router.navigate(['/OverviewPageAdvocate']);
+      } else if (isExecutive || isProjectUser) {
+        if (this.isKop) {
+          this.router.navigate(['/NationalExecutive']);
+        } else {
+          this.router.navigate(['/OverviewPage']);
+        }
+      }
+    } else {
+      // For External Business
+      this.router.navigate(['/OverviewPage']);
+    }
+  }
 
   sidenav() {
     this.sideNavFlag = !this.sideNavFlag;

@@ -106,27 +106,27 @@
       <!--</div>-->
       <!--</button>-->
       <!--</div>-->
-      <!--<div-->
-      <!--class="horizontal-align"-->
-      <!--*ngIf="selectedPage === 'priorAuthPage' && selectedServiceCategory && selectedServiceCategory.value !== 'All'"-->
-      <!--&gt;-->
-      <!--<button class="btn btn-rounded" disabled *ngIf="selectedServiceCategory">-->
-      <!--<span>Service Category: </span><span class="text-semibold pl-4"> {{ selectedServiceCategory.value }} </span>-->
-      <!--<div class="close-btn">-->
-      <!--<mat-icon class="icon-display" (click)="removeAppliedFilter('serviceCategory')" svgIcon="close"></mat-icon>-->
-      <!--</div>-->
-      <!--</button>-->
-      <!--<button class="btn btn-rounded" disabled *ngIf="selectedPriorAuthType && selectedPriorAuthType.value !== 'All'">-->
-      <!--<span>Service Category: </span><span class="text-semibold pl-4"> {{ selectedPriorAuthType.value }} </span>-->
-      <!--<div class="close-btn">-->
-      <!--<mat-icon-->
-      <!--class="icon-display"-->
-      <!--(click)="removeAppliedFilter('priorAuthDecisionType')"-->
-      <!--svgIcon="close"-->
-      <!--&gt;</mat-icon>-->
-      <!--</div>-->
-      <!--</button>-->
-      <!--</div>-->
+      <div
+        class="horizontal-align"
+        *ngIf="selectedPage === 'priorAuthPage' && selectedServiceCategory && selectedServiceCategory.value !== 'All'"
+      >
+        <button class="btn btn-rounded" disabled>
+          <span>Service Category: </span><span class="text-semibold pl-4"> {{ selectedServiceCategory.value }} </span>
+          <div class="close-btn">
+            <mat-icon class="icon-display" (click)="removeAppliedFilter('serviceCategory')" svgIcon="close"></mat-icon>
+          </div>
+        </button>
+        <!-- <button class="btn btn-rounded" disabled *ngIf="selectedPriorAuthType && selectedPriorAuthType.value !== 'All'">
+      <span>Service Category: </span><span class="text-semibold pl-4"> {{ selectedPriorAuthType.value }} </span>
+      <div class="close-btn">
+      <mat-icon
+      class="icon-display"
+      (click)="removeAppliedFilter('priorAuthDecisionType')"
+      svgIcon="close">
+      </mat-icon>
+      </div>
+      </button> -->
+      </div>
     </ng-container>
 
     <!--Summary Trends-->
@@ -147,7 +147,7 @@
       </div>
     </ng-template>
   </div>
-  <div *ngIf="!printStyle || selectedPage != 'viewTopClaimsPage'" class="filter-bg" (click)="openFilter()">
+  <div class="filter-bg" (click)="openFilter()">
     <mat-icon matPrefix class="nav-menu-icons filter-icon" svgIcon="filter"></mat-icon>
     <div class="filter-title">Filters</div>
   </div>

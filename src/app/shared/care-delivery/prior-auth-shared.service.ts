@@ -27,11 +27,13 @@ export class PriorAuthSharedService {
     const timePeriod = this.common.getTimePeriodFilterValue(filterParameters.timePeriod);
     const TIN = filterParameters.taxId[0];
     const LOB = filterParameters.lineOfBusiness;
-    const serviceSetting = filterParameters.serviceSetting;
+    const serviceSetting = filterParameters.serviceSetting === '' ? 'All' : filterParameters.serviceSetting;
     const paDecisionType = filterParameters.priorAuthType; // We don't need decision type for now
     const paServiceCategory = this.common.convertServiceCategoryOneWord(
       filterParameters.serviceCategory === '' ? 'All' : filterParameters.serviceCategory
     );
+
+    // const paServiceCategory =  filterParameters.serviceCategory;
 
     // Time Range
     let timeRange;
@@ -104,7 +106,19 @@ export class PriorAuthSharedService {
       lobString = 'mAndRLob';
     }
 
+    // Service Setting
+    let isAllSSFlagBool;
+    let serviceSettingString;
+    if (serviceSetting !== 'All') {
+      isAllSSFlagBool = false;
+      serviceSettingString = serviceSetting;
+    } else {
+      isAllSSFlagBool = true;
+      serviceSettingString = null;
+    }
+
     let isServiceCategory;
+
     let paServiceCategoryString;
     if (paServiceCategory !== 'All') {
       isServiceCategory = true;
@@ -114,15 +128,14 @@ export class PriorAuthSharedService {
       paServiceCategoryString = null;
     }
 
-    // Service Setting
-    let isAllSSFlagBool;
-    if (serviceSetting === 'All') {
-      isAllSSFlagBool = true;
-    } else {
-      isAllSSFlagBool = false;
-    }
+    // // Service Setting
+    // let isAllSSFlagBool;
+    // if (serviceSetting === 'All') {
+    //   isAllSSFlagBool = true;
+    // } else {
+    //   isAllSSFlagBool = false;
+    // }
 
-    let serviceSettingString;
     if (serviceSetting === 'All') {
       serviceSettingString = null;
     } else if (serviceSetting === 'Inpatient') {
@@ -187,57 +200,71 @@ export class PriorAuthSharedService {
           if (((providerSystems || {}).PriorAuthorizations || {}).LineOfBusiness) {
             let data;
             // const data = providerSystems.PriorAuthorizations.LineOfBusiness.All;
-            if (lobString === 'allLob' && !isServiceCategory) {
-              data = providerSystems.PriorAuthorizations.LineOfBusiness.All;
-            } else if (lobString !== 'allLob' && !isServiceCategory) {
-              if (lobString === 'cAndSLob') {
-                data = providerSystems.PriorAuthorizations.LineOfBusiness.CommunityAndState;
-              } else if (lobString === 'eAndILob') {
-                data = providerSystems.PriorAuthorizations.LineOfBusiness.EmployerAndIndividual;
-              } else if (lobString === 'mAndRLob') {
-                data = providerSystems.PriorAuthorizations.LineOfBusiness.MedicareAndRetirement;
-              }
-            } else if (isServiceCategory) {
-              if (providerSystems.PriorAuthorizations.LineOfBusiness.hasOwnProperty(paServiceCategoryString)) {
-                data = providerSystems.PriorAuthorizations.LineOfBusiness[paServiceCategoryString];
-              }
-            }
-
             let PAApprovedCount;
             let PANotApprovedCount;
             let PANotPendingCount;
             let PANotCancelledCount;
 
+            // LOB all
+
+            if (isAllSSFlagBool) {
+              if (lobString === 'allLob') {
+                data = providerSystems.PriorAuthorizations.LineOfBusiness.All;
+              } else {
+                if (lobString !== 'allLob') {
+                  if (lobString === 'cAndSLob') {
+                    data = providerSystems.PriorAuthorizations.LineOfBusiness.CommunityAndState;
+                  } else if (lobString === 'eAndILob') {
+                    data = providerSystems.PriorAuthorizations.LineOfBusiness.EmployerAndIndividual;
+                  } else if (lobString === 'mAndRLob') {
+                    data = providerSystems.PriorAuthorizations.LineOfBusiness.MedicareAndRetirement;
+                  }
+                } else if (isServiceCategory && lobString === 'allLob') {
+                  if (providerSystems.PriorAuthorizations.hasOwnProperty('ServiceCategory')) {
+                    data = providerSystems.PriorAuthorizations.LineOfBusiness.All;
+                  }
+                }
+              }
+            }
+            // service setting default
+            if (
+              serviceSetting === 'Inpatient' ||
+              serviceSetting === 'Outpatient' ||
+              serviceSetting === 'Outpatient Facility'
+            ) {
+              data = providerSystems.PriorAuthorizations.LineOfBusiness.All;
+              console.log('OPF', data);
+            }
+            // LOB with Service Setting
+            if (lobString !== 'allLob') {
+              if (
+                lobString === 'cAndSLob' &&
+                (serviceSetting === 'Inpatient' ||
+                  serviceSetting === 'Outpatient' ||
+                  serviceSetting === 'Outpatient Facility')
+              ) {
+                data = providerSystems.PriorAuthorizations.LineOfBusiness.CommunityAndState;
+              } else if (
+                lobString === 'eAndILob' &&
+                (serviceSetting === 'Inpatient' ||
+                  serviceSetting === 'Outpatient' ||
+                  serviceSetting === 'Outpatient Facility')
+              ) {
+                data = providerSystems.PriorAuthorizations.LineOfBusiness.EmployerAndIndividual;
+              } else if (
+                lobString === 'mAndRLob' &&
+                (serviceSetting === 'Inpatient' ||
+                  serviceSetting === 'Outpatient' ||
+                  serviceSetting === 'Outpatient Facility')
+              ) {
+                data = providerSystems.PriorAuthorizations.LineOfBusiness.MedicareAndRetirement;
+              }
+            }
+
             PAApprovedCount = data.PriorAuthApprovedCount;
             PANotApprovedCount = data.PriorAuthNotApprovedCount;
             PANotPendingCount = data.PriorAuthPendingCount;
             PANotCancelledCount = data.PriorAuthCancelledCount;
-
-            /*
-            if (isAllSSFlagBool) {
-              PAApprovedCount = data.PriorAuthApprovedCount;
-              PANotApprovedCount = data.PriorAuthNotApprovedCount;
-              PANotPendingCount = data.PriorAuthPendingCount;
-              PANotCancelledCount = data.PriorAuthCancelledCount;
-            } else {
-              if (serviceSetting === 'Inpatient') {
-                PAApprovedCount = data.InpatientFacilityApprovedCount;
-                PANotApprovedCount = data.InpatientFacilityNotApprovedCount;
-                PANotCancelledCount = data.InpatientFacilityCancelledCount;
-                PANotPendingCount = data.InpatientFacilityPendingCount;
-              } else if (serviceSetting === 'Outpatient') {
-                PAApprovedCount = data.OutpatientApprovedCount;
-                PANotApprovedCount = data.OutpatientNotApprovedCount;
-                PANotCancelledCount = data.OutpatientCancelledCount;
-                PANotPendingCount = data.OutpatientPendingCount;
-              } else if (serviceSetting === 'Outpatient Facility') {
-                PAApprovedCount = data.OutpatientFacilityApprovedCount;
-                PANotApprovedCount = data.OutpatientFacilityNotApprovedCount;
-                PANotCancelledCount = data.OutpatientFacilityCancelledCount;
-                PANotPendingCount = data.OutpatientFacilityPendingCount;
-              }
-            }
-            */
 
             const PARequestedCount = PAApprovedCount + PANotApprovedCount;
             const PAApprovalRate = PAApprovedCount / PARequestedCount;
@@ -390,7 +417,6 @@ export class PriorAuthSharedService {
           } else if (LOB === 'MR') {
             lobStringFormatted = 'Mr';
           }
-
           if (
             providerSystems[lobStringFormatted] !== null &&
             providerSystems.hasOwnProperty(lobStringFormatted) &&
@@ -420,7 +446,7 @@ export class PriorAuthSharedService {
           }
 
           // if (!isServiceCategory) {
-          if (PriorAuthNotApprovedReasons.length > 0 && !isServiceCategory) {
+          if (PriorAuthNotApprovedReasons.length > 0) {
             PriorAuthNotApprovedReasons.sort(function(a, b) {
               return b.Count - a.Count;
             });
@@ -451,7 +477,7 @@ export class PriorAuthSharedService {
                   this.common.dateFormat(providerSystems.EndDate)
               });
             }
-          } else if (isServiceCategory || PANotApprovedReasonBool || !PANotApprovedCountChecker) {
+          } else if (PANotApprovedReasonBool || !PANotApprovedCountChecker) {
             // Hide reasons for service category
             // Also hide reasons if its a 100 percent approval rate
             // And hide if not approved count is zero
@@ -506,12 +532,12 @@ export class PriorAuthSharedService {
         })
         .then(data => {
           if (this.priorAuthDataCombined[0].length > 0 && this.priorAuthDataCombined[0][0].data !== null) {
-            // this.priorAuthDataCombined[0][1].data['sdata'] = data[1];
+            this.priorAuthDataCombined[0][1].data['sdata'] = data[1];
           }
           resolve(this.priorAuthDataCombined);
         })
         .catch(reason => {
-          // this.priorAuthDataCombined[0][1].data['sdata'] = null;
+          this.priorAuthDataCombined[0][1].data['sdata'] = null;
           resolve(this.priorAuthDataCombined);
           console.log('Prior Auth Service Error ', reason);
         });

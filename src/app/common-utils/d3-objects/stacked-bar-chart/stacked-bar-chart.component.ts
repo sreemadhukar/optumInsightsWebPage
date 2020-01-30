@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation, Input } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, Input, AfterViewInit } from '@angular/core';
 import * as d3 from 'd3';
 
 @Component({
@@ -15,135 +15,48 @@ export class StackedBarChartComponent implements OnInit {
   public width: any;
   public height: any;
   public renderChart: string;
-
   @Input() chartOptions: any = {};
 
   ngOnInit() {
-    this.doStaggedBarGraph();
+    this.renderChart = '#' + this.chartOptions.chartId;
+  }
+
+  // tslint:disable-next-line:use-life-cycle-interface
+  ngAfterViewInit() {
+    this.doStaggedBarGraph(this.chartOptions);
+  }
+
+  onResize(event) {
+    this.doStaggedBarGraph(this.chartOptions);
+  }
+
+  onSystemChange() {
+    this.doStaggedBarGraph(this.chartOptions.data);
   }
 
   // tslint:disable-next-line:use-life-cycle-interface
 
-  doStaggedBarGraph() {
-    function formatDy(dy: number): string {
-      if (dy === 0) {
-        return '0';
-      } else if (dy < 999) {
-        return dy.toFixed(0);
-      } else if (dy < 999999) {
-        return (dy / 1000).toFixed(1) + 'K';
-      } else if (dy) {
-        return (dy / 1000000).toFixed(1) + 'M';
+  doStaggedBarGraph(barData) {
+    console.log('barData', barData);
+    function nondecimalFormatter(fnumber) {
+      if (fnumber >= 1000000000) {
+        return (fnumber / 1000000000).toFixed(1).replace(/\.0$/, '') + 'B';
       }
-    } // ends formatDynamicAbbrevia function
-
-    /* function formatDynamicAbbreviation(tickNumber, tickValue, prefix) {
-      const q = tickValue;
-      const w = tickNumber - 1;
-      const step = q / w;
-      let zeroOrOne = 0;
-      let abbreviation = 0;
-
-      const maxTickValueStringLength = q.toString().length;
-      const stepStringLength = step.toString().length;
-
-      if (maxTickValueStringLength === stepStringLength) {
-        zeroOrOne = 0;
-      } else if (maxTickValueStringLength % 3 === 0) {
-        zeroOrOne = 0;
-      } else if (maxTickValueStringLength === 5 && stepStringLength === 4) {
-        zeroOrOne = 0;
-      } else {
-        zeroOrOne = 1;
+      if (fnumber >= 1000000) {
+        return (fnumber / 1000000).toFixed(1).replace(/\.0$/, '') + 'M';
       }
-
-      if (q >= 1000000000) {
-        abbreviation = 9;
-      } else if (q >= 1000000) {
-        abbreviation = 6;
-      } else if (q >= 1000) {
-        abbreviation = 3;
-      } else {
-        abbreviation = 0;
+      if (fnumber >= 1000) {
+        return (fnumber / 1000).toFixed(1).replace(/\.0$/, '') + 'K';
       }
-
-      const newFormatNumber = d3.format(',.0f'),
-        formatBillion = function(x) {
-          if (x === 0) {
-            return prefix + '0';
-          } else {
-            return prefix + newFormatNumber(x / 1e9) + 'B';
-          }
-        },
-        formatMillion = function(x) {
-          if (x === 0) {
-            return prefix + '0';
-          } else {
-            return prefix + newFormatNumber(x / 1e6) + 'M';
-          }
-        },
-        formatThousand = function(x) {
-          if (x === 0) {
-            return prefix + '0';
-          } else {
-            return prefix + newFormatNumber(x / 1e3) + 'K';
-          }
-        },
-        formatZero = function(x) {
-          return prefix + newFormatNumber(x);
-        };
-
-      const newFormatNumberOne = d3.format('.1f'),
-        formatBillionOne = function(x) {
-          if (x === 0) {
-            return prefix + '0';
-          } else {
-            return prefix + newFormatNumberOne(x / 1e9) + 'B';
-          }
-        },
-        formatMillionOne = function(x) {
-          if (x === 0) {
-            return prefix + '0';
-          } else {
-            return prefix + newFormatNumberOne(x / 1e6) + 'M';
-          }
-        },
-        formatThousandOne = function(x) {
-          if (x === 0) {
-            return prefix + '0';
-          } else {
-            return prefix + newFormatNumberOne(x / 1e3) + 'K';
-          }
-        },
-        formatZeroOne = function(x) {
-          return prefix + newFormatNumberOne(x);
-        };
-
-      const flag = abbreviation + zeroOrOne;
-      switch (flag) {
-        case 10:
-          return formatBillionOne;
-        case 9:
-          return formatBillion;
-        case 7:
-          return formatMillionOne;
-        case 6:
-          return formatMillion;
-        case 4:
-          return formatThousandOne;
-        case 3:
-          return formatThousand;
-        case 1:
-          return formatZeroOne;
-        case 0:
-          return formatZero;
-        default:
-          break;
+      if (fnumber < 1000) {
+        return fnumber.toFixed(1).replace(/\.0$/, '');
       }
-    } */
+      return fnumber;
+    }
+    // ends formatDynamicAbbrevia function
 
     // Need to bind with js
-    const chartData = {
+    /* const chartData = {
       leftSide: [
         {
           label: 'Electronic Claims',
@@ -158,15 +71,17 @@ export class StackedBarChartComponent implements OnInit {
           color: 'red'
         }
       ]
-    };
+    };*/
 
-    // d3.select(this.renderChart).selectAll('*');
+    d3.select(this.renderChart)
+      .selectAll('*')
+      .remove();
     // select the svg container first
     // const width = 550;
     // const height = 400;
-    const width = 450;
-    const height = 350;
-    const barSeparator = 4;
+    const width = 430;
+    const height = 250;
+    const barSeparator = 2;
     const svg = d3
       .select('.canvas')
       .append('svg')
@@ -174,7 +89,7 @@ export class StackedBarChartComponent implements OnInit {
       .attr('height', height);
 
     // create margins & dimensions
-    const margin = { top: -20, right: 40, bottom: 100, left: 200 };
+    const margin = { top: 5, right: 45, bottom: 50, left: 200 };
     const graphWidth = width - margin.left - margin.right;
     const graphHeight = height - margin.bottom;
 
@@ -182,31 +97,33 @@ export class StackedBarChartComponent implements OnInit {
       .append('g')
       .attr('width', graphWidth)
       .attr('height', graphHeight)
-      .attr('transform', `translate(${margin.left}, ${margin.top})`);
+      .attr('transform', `translate(${margin.left - 37}, ${margin.top})`);
 
     // create axes groups
     const xAxisGroup = graph.append('g').attr('transform', `translate(0, ${graphHeight})`);
 
     const yAxisGroup = graph.append('g');
-    const leftContainer = svg.append('g').attr('transform', `translate(${margin.left - 160}, ${margin.top + 100})`);
+    const leftContainer = svg.append('g').attr('transform', `translate(${margin.left - 180}, ${margin.top + 85})`);
 
-    const data = [
+    console.log('this.chartOptions.chartId', barData);
+    const data = barData.graphValues;
+
+    // Data Binding to be used
+    /*const data = [
       {
-        name: 'Sachin',
-        electronic: 2400,
-        paper: 300
+        name: 'Stacked Bar Chart',
+        electronic: barData.Electronic_Claims.toFixed(0),
+        paper: barData.Paper_Claims.toFixed(0)
       }
-    ];
+    ];*/
 
     console.log('left Cont', leftContainer);
-    // d3.json('menu').then(data => {
-
     leftContainer
       .append('circle')
       .attr('cx', () => 10)
       .attr('cy', () => 5)
       .attr('r', () => 8)
-      .attr('fill', '#3381FF');
+      .attr('fill', barData.color[0]);
 
     leftContainer
       .append('text')
@@ -230,7 +147,7 @@ export class StackedBarChartComponent implements OnInit {
       .attr('cx', 10)
       .attr('cy', 40)
       .attr('r', 8)
-      .attr('fill', '#00B8CC');
+      .attr('fill', barData.color[1]);
 
     leftContainer
       .append('text')
@@ -253,7 +170,6 @@ export class StackedBarChartComponent implements OnInit {
       .scaleLinear()
       .domain([0, d3.max(data, d => d.electronic + d.paper) * 1.25])
       .range([graphHeight, 0]);
-
     const x = d3
       .scaleBand()
       .domain(data.map(item => item.name))
@@ -267,15 +183,33 @@ export class StackedBarChartComponent implements OnInit {
       .call(
         d3
           .axisLeft(y)
-          .ticks(4)
+          .ticks(5)
           .tickSize(-200, 0, 0)
           .tickFormat('')
           .tickSizeOuter([0])
       );
 
+    // Prep the tooltip bits, initial display is hidden
+
     const rects = graph.selectAll('rect').data(data);
     const rects2 = graph.selectAll('rect').data(data);
     const rects3 = graph.selectAll('rect').data(data);
+
+    const tooltip = d3
+      .select('.canvas')
+      .append('div')
+      .attr('class', 'tooltip')
+      .style('display', 'none');
+
+    tooltip
+      .append('rect')
+      .attr('width', 109)
+      .attr('height', 67)
+      .attr('fill', 'white')
+      .style('opacity', 1);
+
+    tooltip.append('text');
+
     // add attrs to circs already in the DOM
     rects
       .attr('width', x.bandwidth)
@@ -292,7 +226,14 @@ export class StackedBarChartComponent implements OnInit {
       .attr('height', d => graphHeight - y(d.electronic))
       .attr('fill', '#3381FF')
       .attr('x', d => x(d.name))
-      .attr('y', d => y(d.electronic));
+      .attr('y', d => y(d.electronic))
+      .on('mouseover', function(d) {
+        tooltip.select('text').html(printTextElectronic(d.electronic));
+        tooltip.style('display', 'inline-flex'), tooltip.style('top', '170px');
+      })
+      .on('mouseout', function() {
+        tooltip.style('display', 'none');
+      });
 
     rects2
       .attr('width', x.bandwidth)
@@ -326,19 +267,27 @@ export class StackedBarChartComponent implements OnInit {
       .attr('height', d => graphHeight - y(d.paper))
       .attr('fill', '#00B8CC')
       .attr('x', d => x(d.name))
-      .attr('y', d => y(d.electronic) - barSeparator - (graphHeight - y(d.paper)));
+      .attr('y', d => y(d.electronic) - barSeparator - (graphHeight - y(d.paper)))
+      .on('mouseover', function(d) {
+        tooltip.select('text').html(printTextPaper(d.paper)),
+          tooltip.style('display', 'inline-flex'),
+          tooltip.style('top', '65px');
+      })
+      .on('mouseout', function() {
+        tooltip.style('display', 'none');
+      });
 
     // create & call axes
     const xAxis = d3.axisBottom(x);
     const yAxis = graph
       .append('g')
       .attr('class', 'yscalesize')
-      .attr('transform', `translate(${graphWidth - 15}, 0)`)
+      .attr('transform', `translate(${graphWidth + 10}, 0)`)
       .call(
         d3
           .axisRight(y)
-          .ticks(4)
-          .tickFormat(d => '$ ' + d)
+          .ticks(5)
+          .tickFormat(d => '$ ' + nondecimalFormatter(d))
       );
 
     //    .tickFormat(d3.formatPrefix('.1', 1e3));
@@ -346,5 +295,23 @@ export class StackedBarChartComponent implements OnInit {
     // xAxisGroup.call(xAxis);
     yAxisGroup.attr('transform', `translate(${graphWidth}, 0)`).call(yAxis);
     // });
+
+    function printTextPaper(value) {
+      return (
+        `<div class='textHeading'>  Paper Claims</div>
+        <div class='textValue'> $` +
+        nondecimalFormatter(value) +
+        '</div>'
+      );
+    }
+
+    function printTextElectronic(value) {
+      return (
+        `<div class='textHeading'> Electronic Claims</div>
+             <div class='textValue'> $` +
+        nondecimalFormatter(value) +
+        '</div>'
+      );
+    }
   }
 }

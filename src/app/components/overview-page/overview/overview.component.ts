@@ -126,7 +126,7 @@ export class OverviewComponent implements OnInit {
             this.errorloadClaimsPaidCard = true;
           }
           if (this.claimsYieldBlock.data != null && this.claimsYieldBlock.toggle) {
-            this.loadClaimsYieldCard = true;
+            this.loadClaimsYieldCard = false;
           } else if (this.claimsYieldBlock.status != null && this.claimsYieldBlock.toggle) {
             this.errorloadClaimsYieldCard = true;
           }

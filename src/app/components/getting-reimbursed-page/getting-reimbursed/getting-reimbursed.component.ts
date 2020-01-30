@@ -149,7 +149,7 @@ export class GettingReimbursedComponent implements OnInit {
 
     this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'gettingReimbursedSummary' });
     this.timePeriod = this.common.getTimePeriodFilterValue(this.createPayloadService.payload.timePeriod);
-    this.mockCards = [{}];
+    this.mockCards = [{}, {}];
     this.gettingReimbursedSharedService
       .getGettingReimbursedData(this.createPayloadService.payload)
       .then(completeData => {

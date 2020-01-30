@@ -181,7 +181,7 @@
         @include padding(16px, 0, 20px, 0);
         line-height: 40px;
         height: 40px;
-        width: 710px;
+        width: auto;
         font-family: 'UHCSans-Regular', Helvetica, Arial, sans-serif;
       }
       .page-subtitle {
@@ -189,7 +189,7 @@
         font-size: 28px;
         line-height: 50px;
         height: 32px;
-        width: 612px;
+        width: auto;
         padding-bottom: 18px;
       }
     }
