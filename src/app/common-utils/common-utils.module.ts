@@ -99,7 +99,8 @@ import { StackedBarChartComponent } from './d3-objects/stacked-bar-chart/stacked
     MultiSelectComponent,
     FiltersMultiSelectComponent,
     ColorGreyMiniBarChartComponent,
-    BarSimplePiComponent
+    BarSimplePiComponent,
+    StackedBarChartComponent
   ],
   declarations: [
     MiniTileComponent,

@@ -18,6 +18,7 @@ export class CommonHeaderComponent implements OnInit {
   @Input() subtitle: String;
   @Output() helpIconClicked = new EventEmitter();
   @Input() cardType: String;
+  @Input() noHeaderClick: boolean;
   @Input() options: CommonHeaderOptions;
   @Input() printStyle: boolean;
   titleHeader: String = null;
@@ -52,7 +53,10 @@ export class CommonHeaderComponent implements OnInit {
     }
   }
 
-  titleClicked(title) {
+  titleClicked(title: string) {
+    if (this.noHeaderClick) {
+      return;
+    }
     if (title === 'Claims Paid*') {
       this.routhPath = '/GettingReimbursed/Payments';
     } else if (title === 'Prior Authorization Approval') {
