@@ -313,34 +313,46 @@ export class AppealsSharedService {
               timeperiod: null
             });
           } else if (appealsReasonData !== null) {
-            const reasonsVal1 = [{}];
-            const reasonsVal2 = [{}];
-            const barTitle = [{}];
-            const barVal = [{}];
-            let overturnCountTotal = 0;
-            for (let y = 0; y < appealsReasonData.length; y++) {
-              if (y === 0) {
-                overturnCountTotal = appealsReasonData[y].Count;
-              } else {
-                overturnCountTotal = overturnCountTotal + appealsReasonData[y].Count;
-              }
-            }
-            for (let a = 0; a < appealsReasonData.length; a++) {
-              barTitle[a] = appealsReasonData[a].Reason;
-              reasonsVal1[a] = appealsReasonData[a].Count;
-              reasonsVal2[a] = overturnCountTotal - Number(reasonsVal1[a]);
-              barVal[a] = ((Number(reasonsVal1[a]) / overturnCountTotal) * 100).toFixed() + '%';
-            }
-
-            for (let i = 0; i < appealsReasonData.length; i++) {
+            if (appealsReasonData != null && appealsReasonData.hasOwnProperty('status')) {
               reason.push({
-                type: 'bar chart',
-                graphValues: [reasonsVal1[i], reasonsVal2[i]],
-                barText: barTitle[i],
-                barValue: barVal[i],
-                color: ['#3381FF', '#FFFFFF', '#E0E0E0'],
-                gdata: ['app-card-structure', 'appealsOverturnReason' + i]
+                category: 'app-card',
+                type: 'donut',
+                status: 404,
+                title: 'Top Claims Appeals Overturn Reasons',
+                MetricID: this.MetricidService.MetricIDs.TopClaimAppealsOverturnReasons,
+                data: null,
+                timeperiod: null
               });
+            } else {
+              const reasonsVal1 = [{}];
+              const reasonsVal2 = [{}];
+              const barTitle = [{}];
+              const barVal = [{}];
+              let overturnCountTotal = 0;
+              for (let y = 0; y < appealsReasonData.length; y++) {
+                if (y === 0) {
+                  overturnCountTotal = appealsReasonData[y].Count;
+                } else {
+                  overturnCountTotal = overturnCountTotal + appealsReasonData[y].Count;
+                }
+              }
+              for (let a = 0; a < appealsReasonData.length; a++) {
+                barTitle[a] = appealsReasonData[a].Reason;
+                reasonsVal1[a] = appealsReasonData[a].Count;
+                reasonsVal2[a] = overturnCountTotal - Number(reasonsVal1[a]);
+                barVal[a] = ((Number(reasonsVal1[a]) / overturnCountTotal) * 100).toFixed() + '%';
+              }
+
+              for (let i = 0; i < appealsReasonData.length; i++) {
+                reason.push({
+                  type: 'bar chart',
+                  graphValues: [reasonsVal1[i], reasonsVal2[i]],
+                  barText: barTitle[i],
+                  barValue: barVal[i],
+                  color: ['#3381FF', '#FFFFFF', '#E0E0E0'],
+                  gdata: ['app-card-structure', 'appealsOverturnReason' + i]
+                });
+              }
             }
           }
           const r = reason;
@@ -378,6 +390,7 @@ export class AppealsSharedService {
         this.gettingReimbursedService.claimsAppealsData(...parameters).subscribe(appealsData => {
           const lobFullData = this.common.getFullLobData(this.lob);
           const lobData = this.common.matchLobWithData(this.lob);
+
           if (appealsData && appealsData.hasOwnProperty('status')) {
             appealsOverturnedRate = {
               category: 'app-card',
@@ -563,12 +576,13 @@ export class AppealsSharedService {
               timeperiod: null
             });
           }
-
           const appealsSubmitted = this.createAppealsDonuts(appealsData, lobFullData, appealsFilterSelected)
             .appealsSubmitted;
+
           const appealsOverturned = this.createAppealsDonuts(appealsData, lobFullData, appealsFilterSelected)
             .appealsOverturned;
           AOR = [appealsSubmitted, appealsOverturned, appealsOverturnedRate, reason];
+
           resolve(AOR);
         });
       } else {
@@ -788,14 +802,7 @@ export class AppealsSharedService {
     let appealsSubmitted = {};
     let appealsOverturned = {};
     let appealsSubmittedTitle = 'Claims Appeals Submitted';
-    let appealsSubmittedCenterVal = this.common.nFormatter(
-      appealsData[0].LineOfBusiness[lobFullData].AdminAppeals +
-        appealsData[0].LineOfBusiness[lobFullData].ClinicalAppeals
-    );
-    if (appealsFilterSelected === 'DOC') {
-      appealsSubmittedTitle = 'Claims Appeals Closed';
-      appealsSubmittedCenterVal = this.common.nFormatter(appealsData[0].LineOfBusiness[lobFullData].TotalClosedCount);
-    }
+
     if (appealsData && appealsData.hasOwnProperty('status')) {
       appealsSubmitted = {
         category: 'app-card',
@@ -825,6 +832,17 @@ export class AppealsSharedService {
         appealsData[0].LineOfBusiness[lobFullData].hasOwnProperty('AdminAppeals') &&
         appealsData[0].LineOfBusiness[lobFullData].hasOwnProperty('ClinicalAppeals')
       ) {
+        let appealsSubmittedCenterVal = this.common.nFormatter(
+          appealsData[0].LineOfBusiness[lobFullData].AdminAppeals +
+            appealsData[0].LineOfBusiness[lobFullData].ClinicalAppeals
+        );
+        if (appealsFilterSelected === 'DOC') {
+          appealsSubmittedTitle = 'Claims Appeals Closed';
+          appealsSubmittedCenterVal = this.common.nFormatter(
+            appealsData[0].LineOfBusiness[lobFullData].TotalClosedCount
+          );
+        }
+
         const submittedData = [];
         const labelsData = [];
         const colorsData = [];
