@@ -27,9 +27,9 @@ import { hasOwnProperty } from 'tslint/lib/utils';
   styleUrls: ['./overview-advocate.component.scss']
 })
 export class OverviewAdvocateComponent implements OnInit, DoCheck {
-  pageTitle: String = '';
-  pagesubTitle: String = '';
-  userName: String = '';
+  pageTitle: String;
+  pagesubTitle: String;
+  userName: String;
   topRowItems: any;
   timePeriod: string;
   timePeriodCalls: string;
@@ -99,7 +99,6 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
     private createPayloadService: CreatePayloadService,
     private ngRedux: NgRedux<IAppState>
   ) {
-    this.pageTitle = 'UHC Insights Provider Performance Dashboard';
     const filData = this.session.getFilChangeEmitter().subscribe(() => this.common.urlResuseStrategy());
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => {
       this.common.urlResuseStrategy();
@@ -246,6 +245,7 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
     this.overviewAdvocateSharedService
       .getTotalCallsTrendLineShared(this.createPayloadService.payload)
       .then(totalCallsTrendData => {
+        console.log('totalCallsTrendData', totalCallsTrendData);
         if (totalCallsTrendData == null) {
           this.callsLineGraphLoading = false;
           this.callsData = null;
@@ -267,6 +267,30 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
           for (const key in callsTrendData) {
             if (callsTrendData.hasOwnProperty(key)) {
               this.callsData.push({ key: key, value: this.sumArray(callsTrendData[key]) });
+              /* if (
+                this.callsData[0].value +
+                  this.callsData[1].value +
+                  this.callsData[2].value +
+                  this.callsData[3].value ===
+                0
+              ) {
+                this.callsLineGraphData = {
+                  category: 'large-card',
+                  type: 'donut',
+                  status: 404,
+                  title: this.trendTitleForCalls,
+                  MetricID: this.MetricidService.MetricIDs,
+                  data: null,
+                  timeperiod: null
+                };
+              }*/
+              /*for (let i = 0; i < this.callsData.length; i++) {
+              if (this.callsData[i].value === NaN) {
+                this.callsData[i].value = 0;
+              } else {
+               console.log('this.callsData[i].value', this.callsData[0].value);
+              }
+             }*/
             }
           }
         }
@@ -280,6 +304,10 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
     let total = 0;
     for (const i in arr) {
       if (arr.hasOwnProperty(i)) {
+        /*if (arr[i].value === NaN) {
+          arr[i].value = 0;
+        }
+        console.log('arr[i].value', arr[i].value);*/
         total += arr[i].value;
       }
     }
@@ -307,6 +335,9 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
   }
 
   ngOnInit() {
+    this.pageTitle = 'UHC Insights Provider Performance Dashboard';
+    this.pagesubTitle = this.session.getHealthCareOrgName() + "'s insights at a glance.";
+    this.userName = this.session.sessionStorage('loggedUser', 'FirstName');
     this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'overviewAdvocatePage' });
     this.checkStorage.emitEvent('overviewAdvocatePage');
     this.timePeriod = this.common.getTimePeriodFilterValue(this.createPayloadService.payload.timePeriod);
@@ -314,8 +345,8 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
     this.paymentData();
     this.appealsLeftData();
     this.appealsTrendByMonthData();
-    this.totalCallsData();
     this.claimsYieldData();
+    this.totalCallsData();
     this.totalCallsTrendLineData();
     this.paymentsBySubmissionData();
     this.appealsLineGraphloading = true;
@@ -343,7 +374,7 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
     // This is for line graph
     this.nonPaymentService.sharedTrendByMonth(this.createPayloadService.payload).then(data => {
       const trendData = JSON.parse(JSON.stringify(data));
-      if (!trendData && !trendData.data) {
+      if (!trendData || !trendData.data) {
         this.trendMonthDisplay = false;
         this.monthlyLineGraph = {
           category: 'large-card',

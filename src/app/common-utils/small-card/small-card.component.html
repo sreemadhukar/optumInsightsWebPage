@@ -2,6 +2,7 @@
   <div class="card-inner" [class.nps]="data.quarter" [class.print-card-inner]="printStyle">
     <app-common-header
       [cardType]="'smallCard'"
+      [noHeaderClick]="noHeaderClick"
       [title]="data.title"
       [subtitle]="data.subtitle"
       [options]="options"
