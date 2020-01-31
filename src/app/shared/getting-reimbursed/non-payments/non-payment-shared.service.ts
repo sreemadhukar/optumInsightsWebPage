@@ -672,6 +672,17 @@ export class NonPaymentSharedService {
         try {
           // const lobData = this.lob;
           const nonPaymentsTrendData = JSON.parse(JSON.stringify(data));
+
+          // Tempory check for data
+          if (
+            !nonPaymentsTrendData ||
+            !(nonPaymentsTrendData instanceof Array) ||
+            !nonPaymentsTrendData[0] ||
+            Object.keys(nonPaymentsTrendData[0]).length === 0
+          ) {
+            return resolve(null);
+          }
+
           const filter_data_claimSummary = [];
           nonPaymentsTrendData.forEach(element => {
             let monthlyData = [];

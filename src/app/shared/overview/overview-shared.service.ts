@@ -395,7 +395,9 @@ export class OverviewSharedService {
             category: 'mini-tile',
             title: 'Reduce Calls and Operating Costs by:',
             MetricID: this.MetricidService.MetricIDs.ReduceCallsOperatingCostsBy,
-            toggle: this.toggle.setToggles('Reduce Calls and Operating Costs by:', 'Opportunities', 'Overview', false),
+            toggle:
+              this.toggle.setToggles('Reduce Calls and Operating Costs by:', 'Opportunities', 'Overview', false) &&
+              this.common.checkZeroNegative(providerSystems.SelfServiceInquiries.ALL.SelfService.TotalCallCost),
             data: {
               centerNumber:
                 '$' +
@@ -454,19 +456,15 @@ export class OverviewSharedService {
         providerSystems.SelfServiceInquiries.ALL.SelfService.hasOwnProperty('PhoneCallTime')
       ) {
         try {
-          let totalCalltime = providerSystems.SelfServiceInquiries.ALL.SelfService.TotalCallTime;
-          let suffixHourPerDay;
+          const totalCalltime: number = providerSystems.SelfServiceInquiries.ALL.SelfService.TotalCallTime;
+          let totalCalltimeString: string;
+          let suffixHourPerDay = ' Hour/day';
           if (totalCalltime < 1 && totalCalltime > 0) {
-            totalCalltime = '< 1';
-            suffixHourPerDay = ' Hour/day';
-          } else if (totalCalltime.toFixed(0) === 1) {
-            totalCalltime = totalCalltime.toFixed(0);
-            suffixHourPerDay = ' Hour/day';
-          } else if (totalCalltime.toFixed(0) === 0) {
-            totalCalltime = totalCalltime.toFixed(0);
-            suffixHourPerDay = '';
+            totalCalltimeString = '< 1';
+          } else if (totalCalltime === 1) {
+            totalCalltimeString = totalCalltime.toFixed(0);
           } else {
-            totalCalltime = this.common.nondecimalFormatter(totalCalltime);
+            totalCalltimeString = this.common.nondecimalFormatter(totalCalltime);
             suffixHourPerDay = ' Hours/day';
           }
 
@@ -474,9 +472,11 @@ export class OverviewSharedService {
             category: 'mini-tile',
             title: "Save Your Staff's Time by:" + '\n\xa0',
             MetricID: this.MetricidService.MetricIDs.SaveyourStaffsTimeBy,
-            toggle: this.toggle.setToggles("Save Your Staff's Time by:", 'Opportunities', 'Overview', false),
+            toggle:
+              this.toggle.setToggles("Save Your Staff's Time by:", 'Opportunities', 'Overview', false) &&
+              this.common.checkZeroNegative(totalCalltime),
             data: {
-              centerNumber: totalCalltime + suffixHourPerDay,
+              centerNumber: totalCalltimeString + suffixHourPerDay,
               gdata: []
             },
             fdata: {
@@ -533,15 +533,13 @@ export class OverviewSharedService {
         providerSystems.SelfServiceInquiries.ALL.SelfService.hasOwnProperty('AverageClaimProcessingTime') &&
         providerSystems.SelfServiceInquiries.ALL.SelfService.AverageClaimProcessingTime != null
       ) {
-        let processingTime;
-        const checkProcessingTime =
-          providerSystems.SelfServiceInquiries.ALL.SelfService.AveragePaperClaimProcessingTime.toFixed(0) -
-          providerSystems.SelfServiceInquiries.ALL.SelfService.AverageClaimProcessingTime.toFixed(0);
+        let processingTime: number;
+        const checkProcessingTime: number = +(
+          providerSystems.SelfServiceInquiries.ALL.SelfService.AveragePaperClaimProcessingTime -
+          providerSystems.SelfServiceInquiries.ALL.SelfService.AverageClaimProcessingTime
+        ).toFixed(0);
         let suffixDay;
-        if (checkProcessingTime <= 0) {
-          processingTime = 0;
-          suffixDay = '';
-        } else if (checkProcessingTime === 1) {
+        if (checkProcessingTime === 1) {
           processingTime = checkProcessingTime;
           suffixDay = ' Day';
         } else {
@@ -553,8 +551,8 @@ export class OverviewSharedService {
           title: 'Reduce Claim Processing Time by:',
           MetricID: this.MetricidService.MetricIDs.ReduceClaimProcessingTimeBy,
           toggle:
-            checkProcessingTime >= 0 ||
-            this.toggle.setToggles('Reduce Claim Processing Time by:', 'Opportunities', 'Overview', false),
+            this.toggle.setToggles('Reduce Claim Processing Time by:', 'Opportunities', 'Overview', false) &&
+            this.common.checkZeroNegative(checkProcessingTime),
           data: {
             centerNumber: processingTime + suffixDay,
             gdata: []
@@ -607,10 +605,7 @@ export class OverviewSharedService {
           providerSystems.SelfServiceInquiries.ALL.SelfService.AveragePaperReconsideredProcessingTime.toFixed() -
           providerSystems.SelfServiceInquiries.ALL.SelfService.AverageReconsideredProcessingTime.toFixed();
         let suffixDay;
-        if (checkAvgPaperProcessTime <= 0) {
-          avgPaperProcessTime = 0;
-          suffixDay = '';
-        } else if (checkAvgPaperProcessTime === 1) {
+        if (checkAvgPaperProcessTime === 1) {
           avgPaperProcessTime = checkAvgPaperProcessTime;
           suffixDay = ' Day';
         } else {
@@ -622,8 +617,8 @@ export class OverviewSharedService {
           title: 'Reduce Reconsideration Processing by:',
           MetricID: this.MetricidService.MetricIDs.ReduceReconsiderationProcessingBy,
           toggle:
-            checkAvgPaperProcessTime >= 0 ||
-            this.toggle.setToggles('Reduce Reconsideration Processing by:', 'Opportunities', 'Overview', false),
+            this.toggle.setToggles('Reduce Reconsideration Processing by:', 'Opportunities', 'Overview', false) &&
+            this.common.checkZeroNegative(checkAvgPaperProcessTime),
           data: {
             centerNumber: avgPaperProcessTime + suffixDay,
             gdata: []
