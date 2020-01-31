@@ -71,6 +71,7 @@
 
 .note-sub-head {
   padding-top: 13px;
+  padding-bottom: 20px;
 }
 
 .claims-list-sub-head-provider-name {
@@ -88,28 +89,35 @@
   line-height: 22px;
   .claims-note-div {
     color: $blue;
-    padding-left: 2px;
+    padding-left: 3px;
   }
   padding-top: 5px;
 }
 .reasons-content {
-  margin: 12px 0 24px 10px;
+  margin: 24px 0 24px 10px;
 }
 
 .reason-div {
   float: left;
-  width: 400px;
+  width: 200px;
   margin-right: 24px;
 }
 .sub-reason-div {
   float: left;
   width: 400px;
 }
+.reason-head {
+  color: #2d2d39;
+  font-family: 'UHCSans-Medium';
+  font-size: 14px;
+  line-height: 18px;
+  margin-bottom: 4px;
+}
 .reason-text {
   color: #2d2d39;
   font-family: 'UHCSans-SemiBold';
-  font-size: 14px;
-  line-height: 18px;
+  font-size: 16px;
+  line-height: 22px;
 }
 .reason-dropdown {
   color: #2d2d39;
@@ -235,6 +243,9 @@
   outline: none;
   padding: 0;
   margin: 10px 0 15px 0;
+}
+::ng-deep .mat-header-row th.mat-header-cell {
+  padding: 15px 12px;
 }
 :host ::ng-deep .mat-sort-header-button {
   display: inline;
@@ -491,7 +502,16 @@ table {
     color: $strom-grey;
   }
 }
-
+.tax-column {
+  word-wrap: break-word !important;
+  overflow-wrap: break-word !important;
+  width: 200px;
+}
+.provider-column {
+  word-wrap: break-word !important;
+  overflow-wrap: break-word !important;
+  width: 160px;
+}
 ::ng-deep.mat-row {
   td.mat-cell {
     font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
@@ -513,9 +533,9 @@ table {
   }
 }
 ::ng-deep .mat-row td.mat-cell {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  font-size: 14px;
+  font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+  padding: 15px 12px;
 }
 
 :host ::ng-deep.mat-paginator .mat-paginator-container {

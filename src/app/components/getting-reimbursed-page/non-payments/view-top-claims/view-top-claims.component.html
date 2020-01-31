@@ -11,7 +11,7 @@
         <div class="note-sub-head">
           <div class="note-sub-head-div">
             Note: To change global filters, please return to the
-            <span class="claims-note-div"> Claims Non-Payments page</span>
+            <div class="claims-note-div">Claims Non-Payments page</div>
           </div>
         </div>
       </div>
@@ -30,20 +30,23 @@
                   <option value="0">--Select--</option>
                   <option *ngFor="let country of countries" value= {{country.id}}>{{country.name}}</option>
                 </select> -->
-        <span class="reason-text">Reason</span>
-        <select class="reason-dropdown">
+        <div class="reason-head">Reason</div>
+        <!--  <select class="reason-dropdown">
           <option value="0">--Select--</option>
           <option>Need More Information</option>
-        </select>
+        </select> -->
+        <h5 class="reason-text">Need More Information</h5>
       </div>
       <div class="sub-reason-div">
-        <span class="reason-text">Subreason</span>
-        <select class="reason-dropdown">
+        <div class="reason-head">Subreason</div>
+        <h5 class="reason-text">Need Medical Records</h5>
+        <!-- <select class="reason-dropdown">
           <option value="0">--Select--</option>
           <option>Need Medical Records</option>
-        </select>
+        </select> -->
       </div>
     </div>
+
     <div class="tax-summary-content">
       <div class="tax-summary-head">
         <span class="tax-summary-count">
@@ -54,26 +57,27 @@
         <div class="tax-summary-table-block mat-elevation-z8">
           <table mat-table [dataSource]="selectedclaims" matSort matSortDirection="asc">
             <ng-container matColumnDef="TinNameAndNumber">
-              <th mat-header-cell *matHeaderCellDef>
-                <span mat-sort-header>Tax ID Number</span>
+              <th mat-header-cell *matHeaderCellDef class="tax-id-text">
+                <span mat-sort-header>Tax ID Name and Number </span>
                 <div>
                   <input
                     type="text"
                     class="tax-summary-name-input"
                     spellcheck="false"
-                    (keyup)="searchTaxId($event.target.value, 'TinNameAndNumber')"
+                    (keyup)="searchTaxId($event.target.value, 'TinNameAndNumber.TinName')"
                   />
                 </div>
               </th>
               <td mat-cell class="tin-name-input" *matCellDef="let element">
-                {{ toLowerCase(element.TinNameAndNumber.TinName) }}<br />
-                {{ element.TinNameAndNumber.TinNumber }}
+                <div class="tax-column">
+                  {{ toLowerCase(element.TinNameAndNumber.TinName) }} {{ element.TinNameAndNumber.TinNumber }}
+                </div>
               </td>
             </ng-container>
 
             <ng-container matColumnDef="ProviderName">
               <th mat-header-cell *matHeaderCellDef>
-                <span mat-sort-header>Provider Name</span>
+                <div style="text-align:left" mat-sort-header>Provider Name</div>
 
                 <div>
                   <input
@@ -81,43 +85,44 @@
                     class="tax-summary-provider-input"
                     spellcheck="false"
                     (keyup)="searchTaxId($event.target.value, 'ProviderName')"
-                    placeholder="Find Provider Name"
                   />
                 </div>
               </th>
               <td mat-cell class="tax-summary-table-cell" *matCellDef="let element">
-                {{ toLowerCase(element.ProviderName) }}
+                <div class="provider-column">{{ toLowerCase(element.ProviderName) }}</div>
               </td>
             </ng-container>
             <ng-container matColumnDef="NonPaymentAmount">
               <th mat-header-cell *matHeaderCellDef>
-                Non Payment<br />
+                Non-Payment<br />
                 Amount
-                <div></div>
               </th>
               <td mat-cell class="tax-summary-table-cell" *matCellDef="let element">
                 {{ element.NonPaymentAmount }}
               </td>
             </ng-container>
-            <ng-container matColumnDef="BilldedAmount">
+            <ng-container matColumnDef="BilledAmount">
               <th mat-header-cell *matHeaderCellDef>
-                <span mat-sort-header>Billded <br />Amount</span>
+                <span mat-sort-header>Billed <br />Amount</span>
               </th>
+
               <td mat-cell class="tax-summary-table-cell" *matCellDef="let element">
-                {{ element.BilldedAmount }}
+                {{ element.BilledAmount }}
               </td>
             </ng-container>
             <ng-container matColumnDef="DateOfProcessing">
               <th mat-header-cell *matHeaderCellDef>
-                <span mat-sort-header>Date of <br />Processing</span>
+                <div mat-sort-header *ngIf="viewClaimsFilterDOP">Date of <br />Processing</div>
+                <span mat-sort-header *ngIf="viewClaimsFilterDOS">Date of <br />Service</span>
               </th>
+
               <td mat-cell class="tax-summary-table-cell" *matCellDef="let element">
                 {{ element.DateOfProcessing }}
               </td>
             </ng-container>
             <ng-container matColumnDef="ClaimNumber">
               <th mat-header-cell *matHeaderCellDef>
-                <span mat-sort-header>Claim Number</span>
+                <span mat-sort-header>Claim <br />Number</span>
                 <div>
                   <input
                     type="text"

@@ -15,6 +15,7 @@ import { NonPaymentTopClaimsService } from './../../../rest/getting-reimbursed/n
   providedIn: 'root'
 })
 export class TopClaimsSharedService {
+  clickSubReason: any;
   public filterParameters: any;
   public providerKey: number;
 
@@ -24,7 +25,7 @@ export class TopClaimsSharedService {
     private common: CommonUtilsService,
     private toggle: AuthorizationService
   ) {}
-  public getClaimsData(filterParameters) {
+  public getClaimsData(filterParameters, reasonSelected, subReason) {
     this.providerKey = this.session.providerKeyData();
 
     const TIN = filterParameters.taxId[0].Tin;
@@ -70,8 +71,8 @@ export class TopClaimsSharedService {
       tins: specificTin,
       timeFilter: timePeriod,
       timeFilterText: null,
-      reason: 'COB Need Further Action',
-      subReason: 'EOB/Proof No COB',
+      reason: reasonSelected,
+      subReason: subReason,
       taxIdOwnership: 'OWNED',
       requestType: viewClaimTypeValue
     };

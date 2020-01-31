@@ -34,7 +34,7 @@ export class ViewTopClaimsComponent implements OnInit {
     'TinNameAndNumber',
     'ProviderName',
     'NonPaymentAmount',
-    'BilldedAmount',
+    'BilledAmount',
     'DateOfProcessing',
     'ClaimNumber'
   ];
@@ -45,14 +45,18 @@ export class ViewTopClaimsComponent implements OnInit {
   ProviderSysKey: any;
 
   providerName: string;
-  public viewsClaimsFullData: any;
+
+  viewsClaimsFullData: any;
   tinsData: any;
-
+  public reasonLabel: any;
+  public subReasonLabel: any;
   previousPage: any;
-
+  viewClaimsByFilter: string;
   public clickSubReason: Subscription;
   tableViewData: any;
   claimsData: Array<Object> = [{}];
+  viewClaimsFilterDOP: boolean;
+  viewClaimsFilterDOS: boolean;
   previousPageurl = [
     { previousPage: 'overviewPage', urlRout: '/OverviewPage' },
     { previousPage: 'gettingReimbursedSummary', urlRout: '/GettingReimbursed' },
@@ -105,408 +109,64 @@ export class ViewTopClaimsComponent implements OnInit {
       'arrow',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-keyboard_arrow_down-24px.svg')
     );
-    this.topClaimsSharedService.getClaimsData(this.createPayloadService.initialState).then(claimsDetailsData => {
-      this.claimsData = [
-        {
-          TinNameAndNumber: {
-            TinName: 'FORSYTH MEMORIAL HOSPITAL',
-            TinNumber: '58-1728803'
-          },
+  }
+  ngOnInit() {
+    this.selectedclaims = new MatTableDataSource(); // create new object
+    this.selectedclaims.paginator = this.paginator;
+    this.selectedclaims.sort = this.sort;
+    this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'viewTopClaimsPage' });
+    this.viewClaimsByFilter = this.createPayloadService.payload['viewClaimsByFilter'];
+    if ((this.viewClaimsByFilter = this.viewClaimsByFilter)) {
+      this.viewClaimsFilterDOP = true;
+      this.viewClaimsFilterDOS = false;
+    } else {
+      this.viewClaimsFilterDOP = false;
+      this.viewClaimsFilterDOS = true;
+    }
 
-          ProviderName: 'fff Jorgenson',
-          NonPaymentAmount: '$1.3M',
-          BilledAmount: '$2.3M',
-          DateOfProcessing: '07/21/2019',
-          ClaimNumber: '4564564564'
-        },
-        {
-          TinNameAndNumber: {
-            TinName: 'FORSYTH MEMORIAL HOSPITAL',
-            TinNumber: '58-1728803'
-          },
-          ProviderName: 'Srividya Arun',
-          NonPaymentAmount: '$1.3M',
-          BilledAmount: '$2.3M',
-          DateOfProcessing: '07/21/2019',
-          ClaimNumber: '4564564564'
-        },
-        {
-          TinNameAndNumber: {
-            TinName: 'FORSYTH MEMORIAL HOSPITAL',
-            TinNumber: '58-1728803'
-          },
-          ProviderName: 'Srividya Arun',
-          NonPaymentAmount: '$650K',
-          BilledAmount: '$750K',
-          DateOfProcessing: '06/12/2019',
-          ClaimNumber: '5675675675'
-        },
-        {
-          TinNameAndNumber: {
-            TinName: 'FORSYTH MEMORIAL HOSPITAL',
-            TinNumber: '58-1728803'
-          },
-
-          ProviderName: 'Colleen Brady',
-          NonPaymentAmount: '$325K',
-          BilledAmount: '$345K',
-          DateOfProcessing: '02/21/2019',
-          ClaimNumber: '3453453453'
-        },
-        {
-          TinNameAndNumber: {
-            TinName: 'FORSYTH MEMORIAL HOSPITAL',
-            TinNumber: '58-1728803'
-          },
-          ProviderName: 'Theodore Popodopolous',
-          NonPaymentAmount: '$325K',
-          BilledAmount: '$345K',
-          DateOfProcessing: '02/21/2019',
-          ClaimNumber: '3453453453'
-        },
-        {
-          TinNameAndNumber: {
-            TinName: 'FORSYTH MEMORIAL HOSPITAL',
-            TinNumber: '58-1728803'
-          },
-          ProviderName: 'Michael John Monroe',
-          NonPaymentAmount: '$325K',
-          BilledAmount: '$345K',
-          DateOfProcessing: '02/21/2019',
-          ClaimNumber: '3453453453'
-        },
-        {
-          TinNameAndNumber: {
-            TinName: 'FORSYTH MEMORIAL HOSPITAL',
-            TinNumber: '58-1728803'
-          },
-          ProviderName: 'Michael John Monroe',
-          NonPaymentAmount: '$325K',
-          BilledAmount: '$345K',
-          DateOfProcessing: '02/21/2019',
-          ClaimNumber: '3453453453'
-        },
-
-        {
-          TinNameAndNumber: {
-            TinName: 'FORSYTH MEMORIAL HOSPITAL',
-            TinNumber: '58-1728803'
-          },
-          ProviderName: 'Michael John Monroe',
-          NonPaymentAmount: '$325K',
-          BilledAmount: '$345K',
-          DateOfProcessing: '02/21/2019',
-          ClaimNumber: '3453453453'
-        },
-        {
-          TinNameAndNumber: {
-            TinName: 'FORSYTH MEMORIAL HOSPITAL',
-            TinNumber: '58-1728803'
-          },
-          ProviderName: 'fff Jorgenson',
-          NonPaymentAmount: '$1.3M',
-          BilledAmount: '$2.3M',
-          DateOfProcessing: '07/21/2019',
-          ClaimNumber: '4564564564'
-        },
-        {
-          TinNameAndNumber: {
-            TinName: 'FORSYTH MEMORIAL HOSPITAL',
-            TinNumber: '58-1728803'
-          },
-          ProviderName: 'Srividya Arun',
-          NonPaymentAmount: '$1.3M',
-          BilledAmount: '$2.3M',
-          DateOfProcessing: '07/21/2019',
-          ClaimNumber: '4564564564'
-        },
-        {
-          TinNameAndNumber: {
-            TinName: 'FORSYTH MEMORIAL HOSPITAL',
-            TinNumber: '58-1728803'
-          },
-          ProviderName: 'Srividya Arun',
-          NonPaymentAmount: '$650K',
-          BilledAmount: '$750K',
-          DateOfProcessing: '06/12/2019',
-          ClaimNumber: '5675675675'
-        },
-        {
-          TinNameAndNumber: {
-            TinName: 'FORSYTH MEMORIAL HOSPITAL',
-            TinNumber: '58-1728803'
-          },
-          ProviderName: 'fff Jorgenson',
-          NonPaymentAmount: '$1.3M',
-          BilledAmount: '$2.3M',
-          DateOfProcessing: '07/21/2019',
-          ClaimNumber: '4564564564'
-        },
-        {
-          TinNameAndNumber: {
-            TinName: 'FORSYTH MEMORIAL HOSPITAL',
-            TinNumber: '58-1728803'
-          },
-          ProviderName: 'Srividya Arun',
-          NonPaymentAmount: '$1.3M',
-          BilledAmount: '$2.3M',
-          DateOfProcessing: '07/21/2019',
-          ClaimNumber: '4564564564'
-        },
-        {
-          TinNameAndNumber: {
-            TinName: 'FORSYTH MEMORIAL HOSPITAL',
-            TinNumber: '58-1728803'
-          },
-          ProviderName: 'Srividya Arun',
-          NonPaymentAmount: '$650K',
-          BilledAmount: '$750K',
-          DateOfProcessing: '06/12/2019',
-          ClaimNumber: '5675675675'
-        },
-        {
-          TinNameAndNumber: {
-            TinName: 'FORSYTH MEMORIAL HOSPITAL',
-            TinNumber: '58-1728803'
-          },
-
-          ProviderName: 'Colleen Brady',
-          NonPaymentAmount: '$325K',
-          BilledAmount: '$345K',
-          DateOfProcessing: '02/21/2019',
-          ClaimNumber: '3453453453'
-        },
-        {
-          TinNameAndNumber: {
-            TinName: 'FORSYTH MEMORIAL HOSPITAL',
-            TinNumber: '58-1728803'
-          },
-          ProviderName: 'Theodore Popodopolous',
-          NonPaymentAmount: '$325K',
-          BilledAmount: '$345K',
-          DateOfProcessing: '02/21/2019',
-          ClaimNumber: '3453453453'
-        },
-        {
-          TinNameAndNumber: {
-            TinName: 'FORSYTH MEMORIAL HOSPITAL',
-            TinNumber: '58-1728803'
-          },
-          ProviderName: 'Michael John Monroe',
-          NonPaymentAmount: '$325K',
-          BilledAmount: '$345K',
-          DateOfProcessing: '02/21/2019',
-          ClaimNumber: '3453453453'
-        },
-        {
-          TinNameAndNumber: {
-            TinName: 'FORSYTH MEMORIAL HOSPITAL',
-            TinNumber: '58-1728803'
-          },
-          ProviderName: 'Michael John Monroe',
-          NonPaymentAmount: '$325K',
-          BilledAmount: '$345K',
-          DateOfProcessing: '02/21/2019',
-          ClaimNumber: '3453453453'
-        },
-
-        {
-          TinNameAndNumber: {
-            TinName: 'FORSYTH MEMORIAL HOSPITAL',
-            TinNumber: '58-1728803'
-          },
-          ProviderName: 'Michael John Monroe',
-          NonPaymentAmount: '$325K',
-          BilledAmount: '$345K',
-          DateOfProcessing: '02/21/2019',
-          ClaimNumber: '3453453453'
-        },
-        {
-          TinNameAndNumber: {
-            TinName: 'FORSYTH MEMORIAL HOSPITAL',
-            TinNumber: '58-1728803'
-          },
-          ProviderName: 'fff Jorgenson',
-          NonPaymentAmount: '$1.3M',
-          BilledAmount: '$2.3M',
-          DateOfProcessing: '07/21/2019',
-          ClaimNumber: '4564564564'
-        },
-        {
-          TinNameAndNumber: {
-            TinName: 'FORSYTH MEMORIAL HOSPITAL',
-            TinNumber: '58-1728803'
-          },
-          ProviderName: 'Srividya Arun',
-          NonPaymentAmount: '$1.3M',
-          BilledAmount: '$2.3M',
-          DateOfProcessing: '07/21/2019',
-          ClaimNumber: '4564564564'
-        },
-        {
-          TinNameAndNumber: {
-            TinName: 'FORSYTH MEMORIAL HOSPITAL',
-            TinNumber: '58-1728803'
-          },
-          ProviderName: 'Srividya Arun',
-          NonPaymentAmount: '$650K',
-          BilledAmount: '$750K',
-          DateOfProcessing: '06/12/2019',
-          ClaimNumber: '5675675675'
-        },
-        {
-          TinNameAndNumber: {
-            TinName: 'FORSYTH MEMORIAL HOSPITAL',
-            TinNumber: '58-1728803'
-          },
-          ProviderName: 'Srividya Arun',
-          NonPaymentAmount: '$1.3M',
-          BilledAmount: '$2.3M',
-          DateOfProcessing: '07/21/2019',
-          ClaimNumber: '4564564564'
-        },
-        {
-          TinNameAndNumber: {
-            TinName: 'FORSYTH MEMORIAL HOSPITAL',
-            TinNumber: '58-1728803'
-          },
-          ProviderName: 'Srividya Arun',
-          NonPaymentAmount: '$650K',
-          BilledAmount: '$750K',
-          DateOfProcessing: '06/12/2019',
-          ClaimNumber: '5675675675'
-        },
-        {
-          TinNameAndNumber: {
-            TinName: 'FORSYTH MEMORIAL HOSPITAL',
-            TinNumber: '58-1728803'
-          },
-          ProviderName: 'Srividya Arun',
-          NonPaymentAmount: '$1.3M',
-          BilledAmount: '$2.3M',
-          DateOfProcessing: '07/21/2019',
-          ClaimNumber: '4564564564'
-        },
-        {
-          TinNameAndNumber: {
-            TinName: 'FORSYTH MEMORIAL HOSPITAL',
-            TinNumber: '58-1728803'
-          },
-          ProviderName: 'Srividya Arun',
-          NonPaymentAmount: '$650K',
-          BilledAmount: '$750K',
-          DateOfProcessing: '06/12/2019',
-          ClaimNumber: '5675675675'
-        },
-        {
-          TinNameAndNumber: {
-            TinName: 'FORSYTH MEMORIAL HOSPITAL',
-            TinNumber: '58-1728803'
-          },
-          ProviderName: 'Srividya Arun',
-          NonPaymentAmount: '$1.3M',
-          BilledAmount: '$2.3M',
-          DateOfProcessing: '07/21/2019',
-          ClaimNumber: '4564564564'
-        },
-        {
-          TinNameAndNumber: {
-            TinName: 'FORSYTH MEMORIAL HOSPITAL',
-            TinNumber: '58-1728803'
-          },
-          ProviderName: 'Srividya Arun',
-          NonPaymentAmount: '$650K',
-          BilledAmount: '$750K',
-          DateOfProcessing: '06/12/2019',
-          ClaimNumber: '5675675675'
-        },
-        {
-          TinNameAndNumber: {
-            TinName: 'FORSYTH MEMORIAL HOSPITAL',
-            TinNumber: '58-1728803'
-          },
-          ProviderName: 'Srividya Arun',
-          NonPaymentAmount: '$1.3M',
-          BilledAmount: '$2.3M',
-          DateOfProcessing: '07/21/2019',
-          ClaimNumber: '4564564564'
-        },
-        {
-          TinNameAndNumber: {
-            TinName: 'FORSYTH MEMORIAL HOSPITAL',
-            TinNumber: '58-1728803'
-          },
-          ProviderName: 'Srividya Arun',
-          NonPaymentAmount: '$650K',
-          BilledAmount: '$750K',
-          DateOfProcessing: '06/12/2019',
-          ClaimNumber: '5675675675'
-        },
-        {
-          TinNameAndNumber: {
-            TinName: 'FORSYTH MEMORIAL HOSPITAL',
-            TinNumber: '58-1728803'
-          },
-          ProviderName: 'Srividya Arun',
-          NonPaymentAmount: '$1.3M',
-          BilledAmount: '$2.3M',
-          DateOfProcessing: '07/21/2019',
-          ClaimNumber: '4564564564'
-        },
-        {
-          TinNameAndNumber: {
-            TinName: 'FORSYTH MEMORIAL HOSPITAL',
-            TinNumber: '58-1728803'
-          },
-          ProviderName: 'Srividya Arun',
-          NonPaymentAmount: '$650K',
-          BilledAmount: '$750K',
-          DateOfProcessing: '06/12/2019',
-          ClaimNumber: '5675675675'
-        }
-      ];
-
-      // JSON.parse(JSON.stringify(claimsDetailsData));
-      console.log('claimdata', this.claimsData);
-      alert(this.claimsData);
-      if (this.claimsData) {
-        console.log('claimdata', this.claimsData);
-        this.numberOfClaims = this.claimsData.length;
-        console.log('claims', this.numberOfClaims);
-        this.selectedclaims = new MatTableDataSource(this.claimsData);
-        this.selectedclaims.paginator = this.paginator;
-        this.selectedclaims.sort = this.sort;
-        const sortState: Sort = { active: 'TinNameAndNumber', direction: 'asc' };
-        this.sort.active = sortState.active;
-        this.sort.direction = sortState.direction;
-        this.sort.sortChange.emit(sortState);
-        this.selectedclaims.filterPredicate = (data, filter) => {
-          if (data[this.filterObj['key']] && this.filterObj['key']) {
-            return data[this.filterObj['key']].toLowerCase().includes(this.filterObj['value']);
-          }
-          return false;
-        };
-      }
-    });
     this.clickSubReason = this.reasonReceived.message.subscribe(
       data => {
         console.log('View Top Claims Non-Payment data', data);
         this.viewsClaimsFullData = data;
-        console.log(this.viewsClaimsFullData);
-
-        // if (this.numberOfClaims > 24) {
-        //   this.customPaginator();
-        // } else {
-        //   this.selectedclaims.paginator = null;
-        // }
+        console.log('outside', this.viewsClaimsFullData);
+        this.loadTable(this.viewsClaimsFullData.reasonSelected, this.viewsClaimsFullData.subReason);
+        // this.reasonLabel=this.viewsClaimsFullData.reasonSelected;
+        //     this.subReasonLabel=this.viewsClaimsFullData.subReason;
       },
       err => {
         console.log('Error, View Top Claims Non-Payment Data', err);
       }
     );
   }
-  ngOnInit() {
-    this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'viewTopClaimsPage' });
+  loadTable(reasonSelected, subReason) {
+    this.topClaimsSharedService
+      .getClaimsData(this.createPayloadService.initialState, reasonSelected, subReason)
+      .then(claimsDetailsData => {
+        this.claimsData = JSON.parse(JSON.stringify(claimsDetailsData));
+        console.log('claimdata', this.claimsData);
+
+        if (this.claimsData) {
+          console.log('claimdata', this.claimsData);
+          this.numberOfClaims = this.claimsData.length;
+          console.log('claims', this.numberOfClaims);
+          this.selectedclaims = new MatTableDataSource(this.claimsData);
+          console.log('--------------------------------');
+          console.log(this.selectedclaims);
+          console.log('--------------------------------');
+          this.selectedclaims.paginator = this.paginator;
+          this.selectedclaims.sort = this.sort;
+          const sortState: Sort = { active: 'TinNameAndNumber.TinName', direction: 'asc' };
+          this.sort.active = sortState.active;
+          this.sort.direction = sortState.direction;
+          this.sort.sortChange.emit(sortState);
+          this.selectedclaims.filterPredicate = (data, filter) => {
+            if (data[this.filterObj['key']] && this.filterObj['key']) {
+              return data[this.filterObj['key']].toLowerCase().includes(this.filterObj['value']);
+            }
+            return false;
+          };
+        }
+      });
   }
 
   getPageSize(event) {
