@@ -3,8 +3,8 @@ import { environment } from '../../../environments/environment';
 import { HttpHeaders, HttpClient, HttpParams } from '@angular/common/http';
 import { ServiceInteractionModule } from '../../components/service-interaction/service-interaction.module';
 import { map, catchError } from 'rxjs/operators';
-import { combineLatest, of } from 'rxjs';
-
+import { combineLatest, of, Observable } from 'rxjs';
+import { ICalls } from './i-calls';
 @Injectable({ providedIn: 'root' })
 export class CallsService {
   public currentUser: any;
@@ -38,7 +38,7 @@ export class CallsService {
     );
   }
 
-  public getCallsData(...parameters) {
+  public getCallsData(...parameters): Observable<ICalls[]> {
     this.currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
     this.authBearer = this.currentUser[0].PedAccessToken;
     const myHeader = new HttpHeaders({
