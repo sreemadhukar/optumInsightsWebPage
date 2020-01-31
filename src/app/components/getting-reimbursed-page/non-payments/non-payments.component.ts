@@ -45,6 +45,7 @@ import { REMOVE_FILTER } from '../../../store/filter/actions';
   ]
 })
 export class NonPaymentsComponent implements OnInit, AfterViewChecked {
+  viewClaimsByFilter: string;
   title = 'Top Reasons for Claims Non-Payment';
   trendTitle = 'Claims Non-Payment Trend';
   section: any = [];
@@ -145,6 +146,7 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
     this.nonPaymentData1 = [];
     this.loadingTopReasons = true;
     this.timePeriod = this.common.getTimePeriodFilterValue(this.createPayloadService.payload.timePeriod);
+    this.viewClaimsByFilter = this.createPayloadService.payload['viewClaimsByFilter'];
     this.gettingReimbursedSharedService.getTins().then(tins => {});
     this.loadingOne = false;
     this.mockCardOne = [{}];
@@ -192,46 +194,47 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
       }
     );
     /** End code for Top Categories */
+    if (this.viewClaimsByFilter === 'DateOfService') {
+      this.monthlyLineGraph.chartId = 'non-payment-trend-block';
+      this.monthlyLineGraph.titleData = [{}];
+      this.monthlyLineGraph.generalData = [
+        {
+          width: 500,
+          backgroundColor: 'null',
+          barGraphNumberSize: 18,
+          barColor: '#196ECF',
+          parentDiv: 'non-payment-trend-block',
+          tooltipBoolean: true,
+          hideYAxis: false
+        }
+      ];
 
-    this.monthlyLineGraph.chartId = 'non-payment-trend-block';
-    this.monthlyLineGraph.titleData = [{}];
-    this.monthlyLineGraph.generalData = [
-      {
-        width: 500,
-        backgroundColor: 'null',
-        barGraphNumberSize: 18,
-        barColor: '#196ECF',
-        parentDiv: 'non-payment-trend-block',
-        tooltipBoolean: true,
-        hideYAxis: false
-      }
-    ];
+      this.monthlyLineGraph.chartData = [];
+      this.trendMonthDisplay = false;
+      // This is for line graph
+      this.nonPaymentService.sharedTrendByMonth(this.createPayloadService.payload).then(data => {
+        const trendData = JSON.parse(JSON.stringify(data));
+        if (!trendData) {
+          this.trendMonthDisplay = false;
+          this.monthlyLineGraph = {
+            category: 'large-card',
+            type: 'donut',
+            status: 404,
+            title: 'Claims Non-Payment Trend',
+            MetricID: this.MetricidService.MetricIDs.ClaimsNonPaymentTrend,
+            data: null,
+            timeperiod: null
+          };
+        } else {
+          this.timePeriodLineGraph = trendData.timePeriod;
+          this.monthlyLineGraph.chartData = trendData.data;
+          this.trendMonthDisplay = true;
+        }
+      });
 
-    this.monthlyLineGraph.chartData = [];
-    this.trendMonthDisplay = false;
-    // This is for line graph
-    this.nonPaymentService.sharedTrendByMonth(this.createPayloadService.payload).then(data => {
-      const trendData = JSON.parse(JSON.stringify(data));
-      if (!trendData && !trendData.data) {
-        this.trendMonthDisplay = false;
-        this.monthlyLineGraph = {
-          category: 'large-card',
-          type: 'donut',
-          status: 404,
-          title: 'Claims Non-Payment Trend',
-          MetricID: this.MetricidService.MetricIDs.ClaimsNonPaymentTrend,
-          data: null,
-          timeperiod: null
-        };
-      } else {
-        this.timePeriodLineGraph = trendData.timePeriod;
-        this.monthlyLineGraph.chartData = trendData.data;
-        this.trendMonthDisplay = true;
-      }
-    });
-
-    this.monthlyLineGraph.generalData2 = [];
-    this.monthlyLineGraph.chartData2 = [];
+      this.monthlyLineGraph.generalData2 = [];
+      this.monthlyLineGraph.chartData2 = [];
+    }
   } // ngOnInit Ends here
 
   helpIconClick(title) {

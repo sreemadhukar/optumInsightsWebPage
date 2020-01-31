@@ -39,6 +39,7 @@ export class PaymentsComponent implements OnInit {
   cData = [];
   // chartData: Array<object>;
   timePeriodClaimsBreakdown: string;
+  viewClaimsByFilter: string;
   lob: string;
   taxID: Array<string>;
   constructor(
@@ -81,6 +82,7 @@ export class PaymentsComponent implements OnInit {
     }
 
     this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'paymentsPage' });
+    this.viewClaimsByFilter = this.createPayloadService.payload['viewClaimsByFilter'];
     this.payments = [];
     this.claimsPaidBreakBool = false;
     this.loading = true;
@@ -104,35 +106,75 @@ export class PaymentsComponent implements OnInit {
     ];
 
     // this.claimsPaidBreakBool = false;
-    this.paymentsSharedService.getclaimsPaidData(this.createPayloadService.payload).then(
-      data => {
-        this.loadingClaimsBreakdown = false;
-        const payData = JSON.parse(JSON.stringify(data));
-        try {
-          if (payData) {
-            this.paymentArray = payData.data;
-            this.cData = [];
-            for (let p = 0; p < 1; p++) {
-              this.cData.push({
-                chartData: [this.paymentArray[0], this.paymentArray[1], this.paymentArray[2], this.paymentArray[3]],
-                gdata: ['card-inner', 'claimsPaidBreakDown']
-              });
-            }
-            this.claimsPaidBreakBool = true;
-            this.timePeriodClaimsBreakdown = payData.timePeriod;
-          }
-        } catch (Error) {
+    if (this.viewClaimsByFilter === 'DateOfProcessing') {
+      this.paymentsSharedService.getclaimsPaidData(this.createPayloadService.payload).then(
+        data => {
           this.loadingClaimsBreakdown = false;
-          this.cData.push(payData.data);
+          const payData = JSON.parse(JSON.stringify(data));
+          try {
+            if (payData) {
+              this.paymentArray = payData.data;
+              this.cData = [];
+              if (this.paymentArray) {
+                for (let p = 0; p < 1; p++) {
+                  this.cData.push({
+                    chartData: [this.paymentArray[0], this.paymentArray[1], this.paymentArray[2], this.paymentArray[3]],
+                    gdata: ['card-inner', 'claimsPaidBreakDown']
+                  });
+                }
+                this.claimsPaidBreakBool = true;
+              } else {
+                this.cData.push(payData);
+              }
+              this.timePeriodClaimsBreakdown = payData.timePeriod;
+            }
+          } catch (Error) {
+            this.loadingClaimsBreakdown = false;
+            this.cData.push(payData.data);
+            this.claimsPaidBreakBool = false;
+          }
+        },
+        err => {
+          console.log('Claims Breakdown Payment Page', err);
           this.claimsPaidBreakBool = false;
+          this.loadingClaimsBreakdown = false;
         }
-      },
-      err => {
-        console.log('Claims Breakdown Payment Page', err);
-        this.claimsPaidBreakBool = false;
-        this.loadingClaimsBreakdown = false;
-      }
-    );
+      );
+    } else {
+      this.paymentsSharedService.getclaimsPaidData(this.createPayloadService.payload).then(
+        data => {
+          this.loadingClaimsBreakdown = false;
+          const payData = JSON.parse(JSON.stringify(data));
+          try {
+            if (payData) {
+              this.paymentArray = payData.data;
+              this.cData = [];
+              if (this.paymentArray) {
+                for (let p = 0; p < 1; p++) {
+                  this.cData.push({
+                    chartData: [this.paymentArray[0], this.paymentArray[1], this.paymentArray[2], this.paymentArray[3]],
+                    gdata: ['card-inner', 'claimsPaidBreakDown']
+                  });
+                }
+                this.claimsPaidBreakBool = true;
+              } else {
+                this.cData.push(payData);
+              }
+              this.timePeriodClaimsBreakdown = payData.timePeriod;
+            }
+          } catch (Error) {
+            this.loadingClaimsBreakdown = false;
+            this.cData.push(payData.data);
+            this.claimsPaidBreakBool = false;
+          }
+        },
+        err => {
+          console.log('Claims Breakdown Payment Page', err);
+          this.claimsPaidBreakBool = false;
+          this.loadingClaimsBreakdown = false;
+        }
+      );
+    }
   } // end ngOnInit()
 
   helpIconClick(title) {
