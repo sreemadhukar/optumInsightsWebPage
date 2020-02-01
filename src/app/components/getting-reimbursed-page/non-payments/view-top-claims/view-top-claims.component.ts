@@ -4,7 +4,7 @@ import { NonPaymentSharedService } from './../../../../shared/getting-reimbursed
 import { CreatePayloadService } from './../../../../shared/uhci-filters/create-payload.service';
 
 import { SessionService } from './../../../../shared/session.service';
-import { Component, OnInit, ViewChild, Input, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild, Input, ChangeDetectorRef } from '@angular/core';
 
 import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -25,7 +25,7 @@ import { TopReasonsEmitterService } from './../../../../shared/getting-reimburse
   templateUrl: './view-top-claims.component.html',
   styleUrls: ['./view-top-claims.component.scss']
 })
-export class ViewTopClaimsComponent implements OnInit {
+export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   selectedclaims: any;
@@ -55,6 +55,7 @@ export class ViewTopClaimsComponent implements OnInit {
   public clickSubReason: Subscription;
   tableViewData: any;
   claimsData: Array<Object> = [{}];
+  showTableBool: Boolean = false;
   viewClaimsFilterDOP: boolean;
   viewClaimsFilterDOS: boolean;
   previousPageurl = [
@@ -111,19 +112,6 @@ export class ViewTopClaimsComponent implements OnInit {
     );
   }
   ngOnInit() {
-    this.selectedclaims = new MatTableDataSource(); // create new object
-    this.selectedclaims.paginator = this.paginator;
-    this.selectedclaims.sort = this.sort;
-    this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'viewTopClaimsPage' });
-    this.viewClaimsByFilter = this.createPayloadService.payload['viewClaimsByFilter'];
-    if ((this.viewClaimsByFilter = this.viewClaimsByFilter)) {
-      this.viewClaimsFilterDOP = true;
-      this.viewClaimsFilterDOS = false;
-    } else {
-      this.viewClaimsFilterDOP = false;
-      this.viewClaimsFilterDOS = true;
-    }
-
     this.clickSubReason = this.reasonReceived.message.subscribe(
       data => {
         console.log('View Top Claims Non-Payment data', data);
@@ -137,8 +125,28 @@ export class ViewTopClaimsComponent implements OnInit {
         console.log('Error, View Top Claims Non-Payment Data', err);
       }
     );
+
+    /*
+    this.selectedclaims = new MatTableDataSource(); // create new object
+    this.selectedclaims.paginator = this.paginator;
+    this.selectedclaims.sort = this.sort;
+    this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'viewTopClaimsPage' });
+    this.viewClaimsByFilter = this.createPayloadService.payload['viewClaimsByFilter'];
+    if ((this.viewClaimsByFilter = this.viewClaimsByFilter)) {
+      this.viewClaimsFilterDOP = true;
+      this.viewClaimsFilterDOS = false;
+    } else {
+      this.viewClaimsFilterDOP = false;
+      this.viewClaimsFilterDOS = true;
+    }
+    */
   }
+  ngAfterViewInit() {
+    console.log('Hi after on init');
+  }
+
   loadTable(reasonSelected, subReason) {
+    console.log('Inder', reasonSelected, subReason);
     this.topClaimsSharedService
       .getClaimsData(this.createPayloadService.initialState, reasonSelected, subReason)
       .then(claimsDetailsData => {
@@ -150,6 +158,7 @@ export class ViewTopClaimsComponent implements OnInit {
           this.numberOfClaims = this.claimsData.length;
           console.log('claims', this.numberOfClaims);
           this.selectedclaims = new MatTableDataSource(this.claimsData);
+          this.showTableBool = true;
           console.log('--------------------------------');
           console.log(this.selectedclaims);
           console.log('--------------------------------');
