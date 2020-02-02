@@ -11,7 +11,5 @@ export class ZeroValueFormatterPipe implements PipeTransform {
     } else {
       return value;
     }
-
-    return null;
   }
 }

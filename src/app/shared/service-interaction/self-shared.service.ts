@@ -86,7 +86,7 @@ export class SelfSharedService {
                       utilization.OverallLinkAdoptionRate * 100,
                       100 - utilization.OverallLinkAdoptionRate * 100
                     ],
-                    centerNumber: this.common.percentageFormatter(utilization.OverallLinkAdoptionRate * 100),
+                    centerNumber: this.common.checkLessThanOne(utilization.OverallLinkAdoptionRate * 100) + '%',
                     color: ['#3381FF', '#D7DCE1'],
                     gdata: ['card-inner', 'selfAdoptionRate'],
                     sdata: null
@@ -136,7 +136,7 @@ export class SelfSharedService {
                   {
                     graphValueName: ['Diabetic Patients', 'Completed'],
                     graphValues: [utilization.LinkAdoptionRate * 100, 100 - utilization.LinkAdoptionRate * 100],
-                    centerNumber: this.common.percentageFormatter(utilization.LinkAdoptionRate * 100),
+                    centerNumber: this.common.checkLessThanOne(utilization.LinkAdoptionRate * 100) + '%',
                     color: ['#3381FF', '#D7DCE1'],
                     gdata: ['card-inner', 'linkAndEdiCallRatio'],
                     sdata: null
@@ -188,7 +188,7 @@ export class SelfSharedService {
                       utilization.PaperAndPostageAdoptionRate * 100,
                       100 - utilization.PaperAndPostageAdoptionRate * 100
                     ],
-                    centerNumber: this.common.percentageFormatter(utilization.PaperAndPostageAdoptionRate * 100),
+                    centerNumber: this.common.checkLessThanOne(utilization.PaperAndPostageAdoptionRate * 100) + '%',
                     color: ['#3381FF', '#D7DCE1'],
                     gdata: ['card-inner', 'paperlessDelivery'],
                     sdata: null
