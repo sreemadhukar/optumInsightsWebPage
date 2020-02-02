@@ -279,7 +279,12 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
     const subReasonSelected = this.reasonWithData
       .filter(item => item.mainReason === value)
       .map(item => item.subReason[index]);
-    this.reasonsEmitter.sendReasonsDetails(this.reasonWithData, value, subReasonSelected[0]);
+    const temp = {
+      fullData: this.reasonWithData,
+      reasonSelected: value,
+      subReason: subReasonSelected[0]
+    };
+    this.reasonsEmitter.sendData = temp;
     this.router.navigate([routetoThis]);
   }
   public reasonsWithSubReasons(data) {
@@ -291,7 +296,7 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
       };
       reasonWithSubData.push(temp);
     }
-    console.log('reasonWithSubData', reasonWithSubData);
+    console.log('inside non-paymnet component reasonWithSubData', reasonWithSubData);
     return reasonWithSubData;
   }
 

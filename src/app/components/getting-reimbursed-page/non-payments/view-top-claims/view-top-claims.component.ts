@@ -48,8 +48,8 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
 
   viewsClaimsFullData: any;
   tinsData: any;
-  public reasonLabel: any;
-  public subReasonLabel: any;
+  public reasonLabel: string;
+  public subReasonLabel: string;
   previousPage: any;
   viewClaimsByFilter: string;
   public clickSubReason: Subscription;
@@ -112,21 +112,12 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
     );
   }
   ngOnInit() {
-    this.clickSubReason = this.reasonReceived.message.subscribe(
-      data => {
-        console.log('View Top Claims Non-Payment data', data);
-        this.viewsClaimsFullData = data;
-        console.log('outside', this.viewsClaimsFullData);
-        this.loadTable(this.viewsClaimsFullData.reasonSelected, this.viewsClaimsFullData.subReason);
-        // this.reasonLabel=this.viewsClaimsFullData.reasonSelected;
-        //     this.subReasonLabel=this.viewsClaimsFullData.subReason;
-      },
-      err => {
-        console.log('Error, View Top Claims Non-Payment Data', err);
-      }
-    );
+    const temp = this.reasonReceived.sendData;
+    this.reasonLabel = temp.reasonSelected;
+    this.subReasonLabel = temp.subReason;
+    console.log('temp ', temp);
+    this.loadTable(temp.reasonSelected, temp.subReason);
 
-    /*
     this.selectedclaims = new MatTableDataSource(); // create new object
     this.selectedclaims.paginator = this.paginator;
     this.selectedclaims.sort = this.sort;
@@ -139,7 +130,6 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
       this.viewClaimsFilterDOP = false;
       this.viewClaimsFilterDOS = true;
     }
-    */
   }
   ngAfterViewInit() {
     console.log('Hi after on init');
