@@ -44,7 +44,7 @@ export const ServiceCategory = [
   { name: 'Surgical', value: 'Surgical', disable: false },
   { name: 'Maternity', value: 'Maternity', disable: false },
   { name: 'Transplant', value: 'Transplant', disable: false },
-  { name: 'Cosmetic', value: 'Cosmetic___Reconstructive', disable: false },
+  { name: 'Cosmetic', value: 'Cosmetic / Reconstructive', disable: false },
   { name: 'MentalHealth', value: 'Mental Health', disable: false },
   { name: 'AmbulanceAir', value: 'Ambulance Air/Water', disable: false },
   { name: 'Chiropractic', value: 'Chiropractic', disable: false },
