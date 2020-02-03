@@ -230,7 +230,7 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
           this.totalCalls = this.common.nondecimalFormatter(callsLeftData[0].CallVolByQuesType.Total);
           this.timePeriodCalls =
             this.common.dateFormat(callsLeftData[0].ReportStartDate) +
-            ' - ' +
+            '&ndash;' +
             this.common.dateFormat(callsLeftData[0].ReportEndDate);
           this.callsLoading = false;
         }
@@ -267,7 +267,7 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
           for (const key in callsTrendData) {
             if (callsTrendData.hasOwnProperty(key)) {
               this.callsData.push({ key: key, value: this.sumArray(callsTrendData[key]) });
-              if (
+              /* if (
                 this.callsData[0].value +
                   this.callsData[1].value +
                   this.callsData[2].value +
@@ -283,7 +283,7 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
                   data: null,
                   timeperiod: null
                 };
-              }
+              }*/
               /*for (let i = 0; i < this.callsData.length; i++) {
               if (this.callsData[i].value === NaN) {
                 this.callsData[i].value = 0;
@@ -374,7 +374,7 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
     // This is for line graph
     this.nonPaymentService.sharedTrendByMonth(this.createPayloadService.payload).then(data => {
       const trendData = JSON.parse(JSON.stringify(data));
-      if (!trendData && !trendData.data) {
+      if (!trendData || !trendData.data) {
         this.trendMonthDisplay = false;
         this.monthlyLineGraph = {
           category: 'large-card',
