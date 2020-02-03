@@ -201,7 +201,7 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
       }
     );
     /** End code for Top Categories */
-    if (this.viewClaimsByFilter === 'DateOfService') {
+    if (this.viewClaimsByFilter === 'DOS') {
       this.monthlyLineGraph.chartId = 'non-payment-trend-block';
       this.monthlyLineGraph.titleData = [{}];
       this.monthlyLineGraph.generalData = [
