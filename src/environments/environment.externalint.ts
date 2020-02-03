@@ -36,6 +36,8 @@ export const environment: any = {
     Calls: 'issue-resolutions/',
     PaymentIntegrity: 'pi-metrics/',
     NonPayment: 'claim-metrics/',
+    NonPaymentTopClaims: 'non-payment-claims/',
+    NonPaymentDop: 'dop-claim-metrics/',
     CallsTrend: 'provider-calls/',
     TrendingMetrics: 'trending-metrics/',
     PCORQualityMeasure: 'pcor-metrics/',
@@ -47,7 +49,9 @@ export const environment: any = {
     AppealsFHIR: 'appeals/v2.0/',
     AppealsOverturn: 'appeal-overturn-reasons/',
     AdminSummaryTrendsCount: 'admintrendscount/',
-    HealthSystemDetails: 'providerInfo/'
+    HealthSystemDetails: 'providerInfo/',
+    CallsTrendLine: 'calls-trend/',
+    PaymentsBySubmission: 'claim-submissions/'
   },
   headerKeys: {
     selectedCompany: '',

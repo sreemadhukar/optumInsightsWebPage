@@ -27,41 +27,85 @@
     border-radius: 3px 3px 0 0;
     background-color: #ffffff;
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
+    color: #757588;
+  }
+
+  .left-padd {
+    padding-left: 10px;
+  }
+
+  .lb-padd {
+    padding-left: 10px;
+    position: absolute;
+    padding-top: 6px;
+    // padding-bottom: 20px;
+  }
+
+  .drop-toggle-item {
+    height: 39px;
+    width: 282px;
+    border-radius: 3px 3px 0 0;
+    background-color: #ffffff;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
+    color: #757588;
   }
 
   .per-item {
-    height: 21px;
-    width: 174.56px;
-    color: #2d2d39;
+    // height: 21px;
+    // width: 174.56px;
     font-family: 'UHCSans-Medium', 'Helvetica', 'Arial', 'sans-serif';
     font-size: 16px;
     letter-spacing: 0.2px;
-    line-height: 19px;
-    padding-left: 11px;
-    padding-top: 23px;
-    position: absolute;
+    // line-height: 19px;
+    // padding-left: 11px;
+    // padding-top: 23px;
+    // position: absolute;
+    // width:200px;
   }
 
-  .provider-padding {
-    padding-top: 11px;
+  .wrap {
+    word-wrap: break-word;
+    white-space: normal;
+    display: inline-block;
+    width: 220px;
+    line-height: 22px;
+    padding-left: 40px;
+    cursor: pointer;
+  }
+
+  .provider-height {
+    height: 37px;
+    // padding-top: 5px;
+  }
+  .toggle-view-height {
+    height: 30px;
+  }
+
+  .signout-lh {
+    line-height: 30px;
   }
   .tiny-provider {
     height: 12px;
     width: 239px;
-    color: #2d2d39;
     font-family: 'UHCSans-Medium', 'Helvetica', 'Arial', 'sans-serif';
     font-size: 12px;
     letter-spacing: 0.15px;
-    line-height: 74px;
-    padding-left: 11px;
+    line-height: 0px;
+    padding-left: 40px;
   }
 
-  div.drop-item:hover {
-    background-color: #f1f4f7;
+  div.drop-item:hover,
+  :active {
+    background-color: #e3f0fd;
+    color: #196ecf;
   }
 
-  div.drop-item:active {
-    background-color: #f1f4f7;
+  .icon mat-icon {
+    visibility: hidden;
+  }
+
+  .icon:hover mat-icon {
+    visibility: visible;
   }
 
   .menu-div {
@@ -86,6 +130,7 @@
   }
   .header-logo-div {
     padding: 18px 0 18px 57px;
+    cursor: pointer;
     //  padding: 18px 0 18px 33px; before adding PI sub menu undo when toggled off
     .Uhc-logo {
       height: 36px;
@@ -147,4 +192,33 @@
   text-align: center;
   position: fixed;
   bottom: 0;
+}
+
+.vertical-menu {
+  width: 284px;
+  height: 202px;
+  margin-right: 20px;
+  margin-top: 60px;
+  position: absolute;
+  right: 0;
+}
+
+.vertical-menu a {
+  display: block;
+  padding: 10px;
+  text-decoration: none;
+  border-radius: 3px 3px 0 0;
+  background-color: #ffffff;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
+  color: #757588;
+}
+
+.vertical-menu a:hover {
+  background-color: #e3f0fd;
+  color: #196ecf;
+}
+
+.vertical-menu a.active {
+  background-color: #e3f0fd;
+  color: #196ecf;
 }

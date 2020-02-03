@@ -131,6 +131,7 @@ export class PriorAuthComponent implements OnInit {
         this.loading = false;
         this.summaryItems = data[0];
         this.reasonItems = data[1];
+        console.log('summaryItems', data);
       },
       error => {
         this.hideAllObjects = false;

@@ -41,6 +41,7 @@ export class GettingReimbursedComponent implements OnInit {
   buttonName: any;
   detailClickUrl = '/GettingReimbursed';
   buttonNumber: any;
+  reloadFlag = true;
   @select() currentPage;
   public filterFlag = false;
   constructor(
@@ -134,7 +135,11 @@ export class GettingReimbursedComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.gettingReimbursedSharedService.gettingReimbursedTabName = 'gettingReimbursedSummary';
+    this.loading = true;
+    if (this.reloadFlag) {
+      this.gettingReimbursedSharedService.gettingReimbursedTabName = 'gettingReimbursedSummary';
+      this.reloadFlag = false;
+    }
     this.pageTitle = 'Getting Reimbursed';
 
     if (this.printStyle) {
@@ -144,8 +149,7 @@ export class GettingReimbursedComponent implements OnInit {
 
     this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'gettingReimbursedSummary' });
     this.timePeriod = this.common.getTimePeriodFilterValue(this.createPayloadService.payload.timePeriod);
-    this.loading = true;
-    this.mockCards = [{}];
+    this.mockCards = [{}, {}];
     this.gettingReimbursedSharedService
       .getGettingReimbursedData(this.createPayloadService.payload)
       .then(completeData => {

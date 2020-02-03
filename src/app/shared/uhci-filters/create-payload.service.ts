@@ -19,17 +19,21 @@ export class CreatePayloadService {
   @select() trendMetric;
   @select() trendDate;
   @select() claimsFilter;
+  @select() appealsFilter;
+  @select() viewClaimsByFilter;
   initialState: IAppState = {
     currentPage: 'overviewPage',
     timePeriod: 'Last6Months',
     taxId: [{ Tin: 'All', Tinname: 'All' }],
     lineOfBusiness: 'All',
     serviceSetting: 'All',
-    serviceCategory: '',
+    serviceCategory: 'All',
     priorAuthType: 'All',
     trendMetric: 'GettingReimbursed',
     trendDate: new Date(),
-    claimsFilter: 'All'
+    claimsFilter: 'All',
+    appealsFilter: 'Received Date',
+    viewClaimsByFilter: 'DOS'
   };
   payload: PayLoad = this.initialState;
   private payloadEmit = new Subject<any>();
@@ -46,12 +50,15 @@ export class CreatePayloadService {
     this.taxId.subscribe(taxId => (this.initialState.taxId = taxId));
     this.lineOfBusiness.subscribe(lineOfBusiness => (this.initialState.lineOfBusiness = lineOfBusiness));
     this.serviceSetting.subscribe(serviceSetting => (this.initialState.serviceSetting = serviceSetting));
+    this.serviceCategory.subscribe(serviceCategory => (this.initialState.serviceCategory = serviceCategory));
     this.priorAuthType.subscribe(priorAuthType => {
       this.initialState.priorAuthType = priorAuthType;
     });
     this.trendMetric.subscribe(trendMetric => (this.initialState.trendMetric = trendMetric));
     this.trendDate.subscribe(trendDate => (this.initialState.trendDate = trendDate));
     this.claimsFilter.subscribe(claimsFilter => (this.initialState.claimsFilter = claimsFilter));
+    this.appealsFilter.subscribe(appealsFilter => (this.initialState.appealsFilter = appealsFilter));
+    this.viewClaimsByFilter.subscribe(viewClaimsBy => (this.initialState.viewClaimsByFilter = viewClaimsBy));
   }
 
   changePayloadOnInit(appliedPage) {
@@ -75,6 +82,9 @@ export class CreatePayloadService {
         this.payload = this.getPayload(this.initialState);
         break;
       case 'callsPage':
+        this.payload = this.getPayloadForCalls(this.initialState);
+        break;
+      case 'viewTopClaimsPage':
         this.payload = this.getPayloadForCalls(this.initialState);
         break;
       case 'otherPages':
@@ -107,6 +117,10 @@ export class CreatePayloadService {
         this.payloadEmit.next({ value: this.getPayload(this.initialState) });
         break;
       case 'priorAuthPage':
+        this.payload = this.getPayloadForPriorAuth(this.initialState);
+        this.payloadEmit.next({ value: this.getPayloadForPriorAuth(this.initialState) });
+        break;
+      case 'viewTopClaimsPage':
         this.payload = this.getPayloadForPriorAuth(this.initialState);
         this.payloadEmit.next({ value: this.getPayloadForPriorAuth(this.initialState) });
         break;
@@ -178,7 +192,9 @@ export class CreatePayloadService {
       'trendDate',
       'serviceCategory',
       'currentPage',
-      'claimsFilter'
+      'claimsFilter',
+      'AppealsFilter',
+      'viewClaimsByFilter'
     ]);
     return data;
   }

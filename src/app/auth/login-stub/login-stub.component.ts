@@ -141,7 +141,8 @@ export class LoginStubComponent implements OnInit {
                 }
               })
               .catch(error => {
-                this.openErrorDialog();
+                // this.openErrorDialog();
+                this.router.navigate(['/AccessDenied']);
               });
           } else if (this.authService.isLoggedIn()) {
             sessionStorage.setItem('cache', JSON.stringify(true));
