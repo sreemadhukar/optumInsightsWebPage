@@ -243,7 +243,9 @@ export class PaymentsSharedService {
                     color: this.common.lobColorForLabels(lobData, claimsData.LineOfBusiness)
                   },
                   timeperiod:
-                    this.common.dateFormat(claimsData.StartDate) + ' - ' + this.common.dateFormat(claimsData.EndDate)
+                    this.common.dateFormat(claimsData.StartDate) +
+                    '&ndash;' +
+                    this.common.dateFormat(claimsData.EndDate)
                 };
                 /* if (!paidData[0] && !paidData[1] && !paidData[2] && !paidData[3]) {
                   claimsPaid = {
@@ -279,7 +281,7 @@ export class PaymentsSharedService {
                       color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC']
                     },
                     timeperiod:
-                      this.common.dateFormat(claimsData.StartDate) + ' - ' + this.common.dateFormat(claimsData.EndDate)
+                      this.common.dateFormat(claimsData.StartDate) + '&ndash;' + this.common.dateFormat(claimsData.EndDate)
                   };
                 } */
               } else {
@@ -403,7 +405,7 @@ export class PaymentsSharedService {
                       color: this.common.LOBSideLabelColors(lobData, paidLOBBoolean)
                     },
                     timeperiod:
-                      this.common.dateFormat(claimsData.StartDate) + ' - ' + this.common.dateFormat(claimsData.EndDate)
+                      this.common.dateFormat(claimsData.StartDate) + '&ndash;' + this.common.dateFormat(claimsData.EndDate)
                   };
                 } else {
                   claimsPaid = {
@@ -508,7 +510,9 @@ export class PaymentsSharedService {
                     color: this.common.lobColorForLabels(lobData, claimsData.LineOfBusiness)
                   },
                   timeperiod:
-                    this.common.dateFormat(claimsData.StartDate) + ' - ' + this.common.dateFormat(claimsData.EndDate)
+                    this.common.dateFormat(claimsData.StartDate) +
+                    '&ndash;' +
+                    this.common.dateFormat(claimsData.EndDate)
                 };
               } else {
                 claimsPaidRate = {
@@ -656,7 +660,9 @@ export class PaymentsSharedService {
                     color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC']
                   },
                   timeperiod:
-                    this.common.dateFormat(claimsData.Startdate) + ' - ' + this.common.dateFormat(claimsData.Enddate)
+                    this.common.dateFormat(claimsData.Startdate) +
+                    '&ndash;' +
+                    this.common.dateFormat(claimsData.Enddate)
                 };
                 // AUTHOR: MADHUKAR - claims paid shows no color if the value is 0
                 if (!paidData[0] && !paidData[1] && !paidData[2] && !paidData[3]) {
@@ -686,7 +692,9 @@ export class PaymentsSharedService {
                       color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC']
                     },
                     timeperiod:
-                      this.common.dateFormat(claimsData.Startdate) + ' - ' + this.common.dateFormat(claimsData.Enddate)
+                      this.common.dateFormat(claimsData.Startdate) +
+                      '&ndash;' +
+                      this.common.dateFormat(claimsData.Enddate)
                   };
                 } // Date : 31/5/2019
               } else {
@@ -784,7 +792,9 @@ export class PaymentsSharedService {
                     color: this.common.LOBSideLabelColors(lobData, paidLOBBoolean)
                   },
                   timeperiod:
-                    this.common.dateFormat(claimsData.Startdate) + ' - ' + this.common.dateFormat(claimsData.Enddate)
+                    this.common.dateFormat(claimsData.Startdate) +
+                    '&ndash;' +
+                    this.common.dateFormat(claimsData.Enddate)
                 };
               } else {
                 claimsPaid = {
@@ -869,7 +879,9 @@ export class PaymentsSharedService {
                     sdata: null
                   },
                   timeperiod:
-                    this.common.dateFormat(claimsData.Startdate) + ' - ' + this.common.dateFormat(claimsData.Enddate)
+                    this.common.dateFormat(claimsData.Startdate) +
+                    '&ndash;' +
+                    this.common.dateFormat(claimsData.Enddate)
                 };
               } else {
                 claimsPaidRate = {
@@ -976,7 +988,9 @@ export class PaymentsSharedService {
               paidArray = {
                 data: paidBreakdown,
                 timePeriod:
-                  this.common.dateFormat(paymentData.StartDate) + ' - ' + this.common.dateFormat(paymentData.EndDate)
+                  this.common.dateFormat(paymentData.StartDate) +
+                  '&ndash;' +
+                  this.common.dateFormat(paymentData.EndDate)
               };
             } else {
               paidArray = {
@@ -1032,7 +1046,9 @@ export class PaymentsSharedService {
               paidArray = {
                 data: paidBreakdown,
                 timePeriod:
-                  this.common.dateFormat(paymentData.Startdate) + ' - ' + this.common.dateFormat(paymentData.Enddate)
+                  this.common.dateFormat(paymentData.Startdate) +
+                  '&ndash;' +
+                  this.common.dateFormat(paymentData.Enddate)
               };
             } else {
               paidArray = {
