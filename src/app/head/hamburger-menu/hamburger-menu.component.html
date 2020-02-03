@@ -85,7 +85,7 @@
             Change Organization
           </p>
           <p class="view-Tax-Id-Summary-div" *ngIf="!AcoFlag">
-            <a class="view-Tax-Id-Summary" [routerLink]="['/TinList']">
+            <a class="view-Tax-Id-Summary" (click)="taxSummaryLink()">
               View Tax ID Number (TIN) Summary
             </a>
           </p>

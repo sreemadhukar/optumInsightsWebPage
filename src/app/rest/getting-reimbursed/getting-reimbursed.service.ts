@@ -93,7 +93,7 @@ export class GettingReimbursedService {
 
   public getPaymentsData(parameters) {
     let claimsURL;
-    if (parameters[1]['ClaimsBy'] === 'DateOfProcessing') {
+    if (parameters[1]['ClaimsBy'] === 'DOP') {
       claimsURL = this.APP_URL + this.CLAIMS_SERVICE_PATH_DOP + parameters[0] + '?requestType=CLAIMS';
       return this.http.post(claimsURL, parameters[1]).pipe(
         map(res => JSON.parse(JSON.stringify(res))),
@@ -141,7 +141,7 @@ export class GettingReimbursedService {
       'Content-Type': 'application/json',
       Accept: '*/*'
     });
-    if (parameters[1]['ClaimsBy'] === 'DateOfProcessing') {
+    if (parameters[1]['ClaimsBy'] === 'DOP') {
       const claimsURL = this.APP_URL + this.CLAIMS_SERVICE_PATH_DOP + parameters[0] + '?requestType=PROVIDER';
       return combineLatest(
         this.http.post(claimsURL, parameters[1]).pipe(
@@ -167,6 +167,14 @@ export class GettingReimbursedService {
       appealsParams.TimeFilter = parameters.TimeFilter;
     }
     return this.http.post(appURL, appealsParams).pipe(
+      map(res => JSON.parse(JSON.stringify(res))),
+      catchError(err => of(JSON.parse(JSON.stringify(err))))
+    );
+  }
+
+  public getTatDataforDOP(parameters) {
+    const claimsURL = this.APP_URL + this.CLAIMS_SERVICE_PATH_DOP + parameters[0] + '?requestType=TAT';
+    return this.http.post(claimsURL, parameters[1]).pipe(
       map(res => JSON.parse(JSON.stringify(res))),
       catchError(err => of(JSON.parse(JSON.stringify(err))))
     );

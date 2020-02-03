@@ -19,7 +19,6 @@ export class GlossaryComponent implements OnInit {
   glossaryData: any[];
   public options: string[];
   glossaryTitleShow: String = '';
-  viewallmetricsbuttonposition = true;
   filteredOptions: Observable<any[]>;
   public glossaryCtrl = new FormControl();
   metricDataList: any[];
@@ -71,10 +70,10 @@ export class GlossaryComponent implements OnInit {
         if ((response || {}).BusinessGlossary) {
           this.glossarySelected.push(response);
           this.hyperlink = '';
-          if (this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.MetricID === 305) {
-            const x = 'SelfServeCnCwt / (SelfServeCnCwt + SizeOfOppcncwt + SizeOfOpppnpwt).';
-            this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.Formula = x;
-          }
+          // if (this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.MetricID === 305) {
+          //   const x = 'SelfServeCnCwt / (SelfServeCnCwt + SizeOfOppcncwt + SizeOfOpppnpwt).';
+          //   this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.Formula = x;
+          // }
           if (
             this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.MetricID === 301 &&
             this.paperlessDelivaryFlag
@@ -106,10 +105,10 @@ export class GlossaryComponent implements OnInit {
       this.glossaryList = JSON.parse(JSON.stringify(response));
       for (let i = 0; i < this.glossaryList.length; i++) {
         this.readmoreFlag[i] = true;
-        if (this.glossaryList[i].BusinessGlossary.ProviderDashboardName.MetricID === 305) {
-          const x = 'SelfServeCnCwt / (SelfServeCnCwt + SizeOfOppcncwt + SizeOfOpppnpwt).';
-          this.glossaryList[i].BusinessGlossary.ProviderDashboardName.Formula = x;
-        }
+        // if (this.glossaryList[i].BusinessGlossary.ProviderDashboardName.MetricID === 305) {
+        //   const x = 'SelfServeCnCwt / (SelfServeCnCwt + SizeOfOppcncwt + SizeOfOpppnpwt).';
+        //   this.glossaryList[i].BusinessGlossary.ProviderDashboardName.Formula = x;
+        // }
         if (
           this.glossaryList[i].BusinessGlossary.ProviderDashboardName.MetricID === 301 &&
           this.paperlessDelivaryFlag
@@ -314,10 +313,10 @@ export class GlossaryComponent implements OnInit {
           this.glossarySelected = [];
           this.glossarySelected = [this.glossaryList[i]];
           this.hyperlink = '';
-          if (this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.MetricID === 305) {
-            const x = 'SelfServeCnCwt / (SelfServeCnCwt + SizeOfOppcncwt + SizeOfOpppnpwt).';
-            this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.Formula = x;
-          }
+          // if (this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.MetricID === 305) {
+          //   const x = 'SelfServeCnCwt / (SelfServeCnCwt + SizeOfOppcncwt + SizeOfOpppnpwt).';
+          //   this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.Formula = x;
+          // }
           if (
             this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.MetricID === 301 &&
             this.paperlessDelivaryFlag
@@ -376,10 +375,11 @@ export class GlossaryComponent implements OnInit {
   }
   @HostListener('window:scroll', ['$event'])
   checkScroll() {
+    const bottom = window.innerHeight + document.documentElement.scrollTop + 80 - document.body.offsetHeight + 'px';
     if (window.innerHeight + document.documentElement.scrollTop >= document.body.offsetHeight - 80) {
-      this.viewallmetricsbuttonposition = false;
+      (<HTMLElement>document.querySelector('#view-all-metrics-button-position-div')).style.bottom = bottom;
     } else {
-      this.viewallmetricsbuttonposition = true;
+      (<HTMLElement>document.querySelector('#view-all-metrics-button-position-div')).style.bottom = '0px';
     }
   }
 
