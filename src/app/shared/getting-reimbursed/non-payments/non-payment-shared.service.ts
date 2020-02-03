@@ -1,6 +1,7 @@
+import { NonPaymentService } from './../../../rest/getting-reimbursed/non-payment.service';
 import { Injectable } from '@angular/core';
 import { GettingReimbursedModule } from '../../../components/getting-reimbursed-page/getting-reimbursed.module';
-import { NonPaymentService } from './../../../rest/getting-reimbursed/non-payment.service';
+
 import { CommonUtilsService } from '../../common-utils.service';
 import { SessionService } from '../../session.service';
 import { AuthorizationService } from '../../../auth/_service/authorization.service';
@@ -45,7 +46,7 @@ export class NonPaymentSharedService {
     delete param['lineOfBusiness'];
     */
     this.providerKey = this.session.providerKeyData();
-    if (param.viewClaimsByFilter === 'DateOfProcessing') {
+    if (param.viewClaimsByFilter === 'DOP') {
       return new Promise(resolve => {
         this.nonPaymentService.getNonPaymentData(...this.getParameterCategories(param)).subscribe(
           nonPaymentData1 => {
@@ -431,7 +432,7 @@ export class NonPaymentSharedService {
               return null;
             }
             const subCategoryReasons: any = [];
-            if (param.viewClaimsByFilter === 'DateOfProcessing') {
+            if (param.viewClaimsByFilter === 'DOP') {
               for (let i = 0; i < p.length; i++) {
                 let x = JSON.parse(JSON.stringify(paramtersCategories)); // deep copy
                 x[1]['DenialCategory'] = p[i]['title'];
@@ -472,14 +473,14 @@ export class NonPaymentSharedService {
           console.log(data);
           // array
           let mappedData;
-          if (paramtersSubCategory[0][1].ClaimsBy === 'DateOfProcessing') {
+          if (paramtersSubCategory[0][1].ClaimsBy === 'DOP') {
             mappedData = data;
           } else {
             mappedData = data.map(item => item[0]);
           }
           for (let i = 0; i < topReasons.length; i++) {
             // deep copy
-            if (paramtersSubCategory[i][1].ClaimsBy === 'DateOfProcessing') {
+            if (paramtersSubCategory[i][1].ClaimsBy === 'DOP') {
               topReasons[i]['top5'] = JSON.parse(JSON.stringify(mappedData[i].DenialCategory));
             } else {
               topReasons[i]['top5'] = JSON.parse(JSON.stringify(mappedData[i].All.DenialCategory));
@@ -535,7 +536,7 @@ export class NonPaymentSharedService {
     // this.timeFrame = this.session.filterObjValue.timeFrame;
     return new Promise(resolve => {
       /** Get Top 5 Categories Data */
-      if (parameters[1].ClaimsBy === 'DateOfProcessing') {
+      if (parameters[1].ClaimsBy === 'DOP') {
         this.nonPaymentService.getNonPaymentTopCategories(...parameters).subscribe(
           topCategories => {
             try {
