@@ -131,7 +131,7 @@
 
     <div *ngIf="printStyle" class="height-separator2-print"></div>
 
-    <div>
+    <div *ngIf="viewClaimsByFilter !== 'DateOfProcessing'">
       <app-error-card
         *ngIf="!trendMonthDisplay && monthlyLineGraph != null && monthlyLineGraph.status != null"
         class="cards"
