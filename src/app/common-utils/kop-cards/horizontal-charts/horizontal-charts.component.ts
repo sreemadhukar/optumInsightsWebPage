@@ -20,9 +20,12 @@ export class HorizontalChartsComponent implements OnInit {
     if (value1 < value2) {
       this.widths[1] = divisionValue + '%';
       this.widths[0] = (value1 / value2) * divisionValue + '%';
-    } else {
+    } else if (value1 > value2) {
       this.widths[1] = (value2 / value1) * divisionValue + '%';
       this.widths[0] = divisionValue + '%';
+    } else {
+      this.widths[0] = '1%';
+      this.widths[1] = '1%';
     }
   }
 }

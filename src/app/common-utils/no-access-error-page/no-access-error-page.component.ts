@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-no-access-error-page',
@@ -7,6 +8,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NoAccessErrorPageComponent implements OnInit {
   isInternal = false;
+  linkLoginPage = environment.apiUrls.linkLoginPage;
+
   constructor() {}
 
   ngOnInit() {}

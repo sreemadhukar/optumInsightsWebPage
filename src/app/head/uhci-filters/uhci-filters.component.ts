@@ -11,7 +11,9 @@ import {
   TrendMetrics,
   filterToggles,
   MetricPropType,
-  ClaimsFilter
+  ClaimsFilter,
+  AppealsFilter,
+  ViewClaimsByFilter
 } from './filter-settings/filter-options';
 import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -38,6 +40,8 @@ export class UhciFiltersComponent implements OnInit {
   @select() trendMetric;
   @select() trendDate;
   @select() claimsFilter;
+  @select() appealsFilter;
+  @select() viewClaimsByFilter;
   @Output() filterFlag = new EventEmitter();
 
   selectedPage: string;
@@ -46,7 +50,11 @@ export class UhciFiltersComponent implements OnInit {
   lobs = LineOfBusiness;
   selectedLob: MetricPropType;
   claims = ClaimsFilter;
+  appeals = AppealsFilter;
   selectedClaims: MetricPropType;
+  selectedAppeals: MetricPropType;
+  viewclaims = ViewClaimsByFilter;
+  selectedViewClaimsBy: MetricPropType;
   serviceSettings = ServiceSetting;
   selectedServiceSetting: MetricPropType;
   serviceCategories = ServiceCategory;
@@ -64,6 +72,7 @@ export class UhciFiltersComponent implements OnInit {
   collapseToggle: any;
   public serviceCategoryForm = new FormControl();
   public gettingReimbursedTabName;
+
   constructor(
     private ngRedux: NgRedux<IAppState>,
     private iconRegistry: MatIconRegistry,
@@ -78,10 +87,12 @@ export class UhciFiltersComponent implements OnInit {
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-keyboard_arrow_down-24px.svg')
     );
     this.collapseToggle = filterToggles;
+    // this.selectedService=this.serviceCategories[0].name;
   }
 
   ngOnInit() {
     this.currentPage.subscribe(currentPage => (this.selectedPage = currentPage));
+
     if (this.selectedPage === 'gettingReimbursedSummary') {
       this.gettingReimbursedTabName = this.gettingReimbursedservice.gettingReimbursedTabName;
     } else {
@@ -98,9 +109,22 @@ export class UhciFiltersComponent implements OnInit {
     this.claimsFilter.subscribe(
       claimsFilter => (this.selectedClaims = this.claims.find(val => val.name === claimsFilter))
     );
+    this.appealsFilter.subscribe(
+      appealsFilter => (this.selectedAppeals = this.appeals.find(val => val.value === appealsFilter))
+    );
+    this.viewClaimsByFilter.subscribe(
+      viewClaimsByFilter => (this.selectedViewClaimsBy = this.viewclaims.find(val => val.name === viewClaimsByFilter))
+    );
+
     this.serviceSetting.subscribe(
       serviceSetting => (this.selectedServiceSetting = this.serviceSettings.find(val => val.name === serviceSetting))
     );
+    this.serviceCategory.subscribe(
+      serviceCategory =>
+        (this.selectedServiceCategory = this.serviceCategories.find(val => val.name === serviceCategory))
+    );
+    this.selectedService = this.selectedServiceCategory.value;
+
     this.priorAuthType.subscribe(priorAuthType => {
       this.selectedPriorAuthType = this.priorAuthTypes.find(val => val.name === priorAuthType);
       // this.priorAuthInitialState = this.priorAuthTypes.find(val => val.name === priorAuthType);
@@ -155,10 +179,18 @@ export class UhciFiltersComponent implements OnInit {
         lineOfBusiness: this.selectedLob.name,
         serviceSetting: this.selectedServiceSetting.name,
         serviceCategory: this.selectedService,
-        priorAuthType: this.selectedPriorAuthType.name,
-        trendMetric: this.selectedTrendMetric.name,
-        trendDate: this.selectedDate,
-        claimsFilter: this.selectedClaims.name
+        priorAuthType:
+          this.selectedPriorAuthType && this.selectedPriorAuthType.hasOwnProperty['name']
+            ? this.selectedPriorAuthType.name
+            : 'All',
+        trendMetric:
+          this.selectedTrendMetric && this.selectedTrendMetric.hasOwnProperty['name']
+            ? this.selectedTrendMetric.name
+            : 'GettingReimbursed',
+        trendDate: this.selectedDate ? this.selectedDate : new Date(),
+        claimsFilter: this.selectedClaims.name,
+        appealsFilter: this.selectedAppeals.name,
+        viewClaimsByFilter: this.selectedViewClaimsBy.name
       }
     });
     this.createPayloadService.emitFilterEvent(this.selectedPage);
@@ -182,6 +214,7 @@ export class UhciFiltersComponent implements OnInit {
       const filterValue = selectedServiceCategory.toLowerCase();
       return this.serviceCategories.filter(val => val.value.toLowerCase().startsWith(filterValue));
     }
+    console.log('service category', this.serviceCategories);
     return this.serviceCategories;
   }
 

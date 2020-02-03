@@ -25,7 +25,7 @@
     <!--used item.toggle for temporary card removal, as toggle functionality is not built properly : srikar bobbiganipalli-->
     <div *ngFor="let item of payments">
       <app-card *ngIf="item.data != null && !item.toggle" class="cards" [chartData]="item"> </app-card>
-      <app-error-card *ngIf="item.status != null" class="cards" [data]="item"></app-error-card>
+      <app-error-card *ngIf="item.status != null && !item.toggle" class="cards" [data]="item"></app-error-card>
     </div>
 
     <!--Claims Paid Breakdown Graph Starts here -->
@@ -47,10 +47,10 @@
       <app-claims-paid-bar-graph [chartOptions]="cData[0]"></app-claims-paid-bar-graph>
 
       <div class="timeperiod-block">
-        <app-common-footer [timePeriod]="timePeriod" [title]="title"></app-common-footer>
+        <app-common-footer [timePeriod]="timePeriodClaimsBreakdown" [title]="title"></app-common-footer>
       </div>
     </div>
     <!--Claims Paid Breakdown Graph Ends here -->
-    <app-clarify-claims-message></app-clarify-claims-message>
+    <!--app-clarify-claims-message></app-clarify-claims-message-->
   </div>
 </div>
