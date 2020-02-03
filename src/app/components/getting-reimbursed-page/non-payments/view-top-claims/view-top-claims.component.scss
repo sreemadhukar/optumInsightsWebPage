@@ -442,7 +442,10 @@ table {
     }
   }
   &-head {
-    margin: 24px 10px 19px 10px;
+    margin: 0 8px 19px 10px;
+    color: #757588;
+    font-size: 14px;
+    line-height: 18px;
   }
   &-body {
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
@@ -641,7 +644,7 @@ table {
 
 :host ::ng-deep .mat-paginator-page-size .mat-select-value-text {
   color: $strom-grey;
-  font-family: 'UHCSans-Regular', Helvetica, Arial, sans-serif;
+  font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
   font-size: 16px;
   letter-spacing: 0.2px;
   line-height: 22px;
@@ -653,9 +656,9 @@ table {
 }
 
 :host ::ng-deep .mat-paginator-range-label {
-  padding-top: 15px;
+  padding: 15px 10px 0 0;
   margin: 0;
-  font-family: 'UHCSans-Regular', Helvetica, Arial, sans-serif;
+  font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
   font-size: 14px;
   letter-spacing: 0.2px;
   line-height: 18px;

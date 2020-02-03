@@ -50,15 +50,16 @@
     <div class="tax-summary-content">
       <div class="tax-summary-head">
         <span class="tax-summary-count">
-          Showing {{ selectedclaims.length > 24 ? pageSize : selectedclaims.length }} of {{ numberOfClaims }}
+          Showing {{ selectedclaims.filteredData.length > 24 ? pageSize : selectedclaims.filteredData.length }} of
+          {{ numberOfClaims }}
         </span>
       </div>
       <div class="tax-summary-body">
-        <div *ngIf="showTableBool" class="tax-summary-table-block mat-elevation-z8">
+        <div class="tax-summary-table-block mat-elevation-z8">
           <table mat-table [dataSource]="selectedclaims" matSort matSortDirection="asc">
             <ng-container matColumnDef="TinNameAndNumber">
-              <th mat-header-cell *matHeaderCellDef class="tax-id-text">
-                <span mat-sort-header>Tax ID Name and Number </span>
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="tax-id-text">
+                <span>Tax ID Name and Number </span>
                 <div>
                   <input
                     type="text"
@@ -77,7 +78,7 @@
 
             <ng-container matColumnDef="ProviderName">
               <th mat-header-cell *matHeaderCellDef>
-                <div style="text-align:left" mat-sort-header>Provider Name</div>
+                <span style="text-align:left" mat-sort-header>Provider Name</span>
 
                 <div>
                   <input
@@ -89,13 +90,15 @@
                 </div>
               </th>
               <td mat-cell class="tax-summary-table-cell" *matCellDef="let element">
-                <div class="provider-column">{{ toLowerCase(element.ProviderName) }}</div>
+                <span class="provider-column">{{ toLowerCase(element.ProviderName) }}</span>
               </td>
             </ng-container>
             <ng-container matColumnDef="NonPaymentAmount">
               <th mat-header-cell *matHeaderCellDef>
-                Non-Payment<br />
-                Amount
+                <span style="text-align:left" mat-sort-header>
+                  Non-Payment<br />
+                  Amount</span
+                >
               </th>
               <td mat-cell class="tax-summary-table-cell" *matCellDef="let element">
                 {{ element.NonPaymentAmount }}
@@ -111,9 +114,13 @@
               </td>
             </ng-container>
             <ng-container matColumnDef="DateOfProcessing">
-              <th mat-header-cell *matHeaderCellDef>
-                <div mat-sort-header *ngIf="viewClaimsFilterDOP">Date of <br />Processing</div>
-                <span mat-sort-header *ngIf="viewClaimsFilterDOS">Date of <br />Service</span>
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                <div *ngIf="viewClaimsFilterDOP">
+                  <span> Date of <br />Processing</span>
+                </div>
+                <div *ngIf="viewClaimsFilterDOS">
+                  <span>Date of <br />Service</span>
+                </div>
               </th>
 
               <td mat-cell class="tax-summary-table-cell" *matCellDef="let element">

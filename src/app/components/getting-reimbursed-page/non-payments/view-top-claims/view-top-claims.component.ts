@@ -38,7 +38,7 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
     'DateOfProcessing',
     'ClaimNumber'
   ];
-  dataSource: MatTableDataSource<any>;
+
   pageSize = 25;
   filterObj = {};
   subscription: any;
@@ -55,7 +55,7 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
   public clickSubReason: Subscription;
   tableViewData: any;
   claimsData: Array<Object> = [{}];
-  showTableBool: Boolean = false;
+  showTableBool: Boolean = true;
   viewClaimsFilterDOP: boolean;
   viewClaimsFilterDOS: boolean;
   previousPageurl = [
@@ -115,12 +115,8 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
     const temp = this.reasonReceived.sendData;
     this.reasonLabel = temp.reasonSelected;
     this.subReasonLabel = temp.subReason;
-    console.log('temp ', temp);
-    this.loadTable(temp.reasonSelected, temp.subReason);
+    this.paginator._intl.itemsPerPageLabel = 'Display';
 
-    this.selectedclaims = new MatTableDataSource(); // create new object
-    this.selectedclaims.paginator = this.paginator;
-    this.selectedclaims.sort = this.sort;
     this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'viewTopClaimsPage' });
     this.viewClaimsByFilter = this.createPayloadService.payload['viewClaimsByFilter'];
     if ((this.viewClaimsByFilter = this.viewClaimsByFilter)) {
@@ -130,40 +126,68 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
       this.viewClaimsFilterDOP = false;
       this.viewClaimsFilterDOS = true;
     }
+
+    if (this.claimsData !== null) {
+      this.loadTable(temp.reasonSelected, temp.subReason);
+      if (this.numberOfClaims > 24) {
+        this.customPaginator();
+      } else {
+        this.selectedclaims.paginator = null;
+      }
+    }
   }
   ngAfterViewInit() {
-    console.log('Hi after on init');
+    this.selectedclaims.paginator = this.paginator;
+    this.selectedclaims.sort = this.sort;
+    this.paginator._intl.itemsPerPageLabel = 'Display';
+    this.paginator._intl.getRangeLabel = function(page, pageSize, length) {
+      d3.select('#page-text').text(function() {
+        return 'Page ';
+      });
+      d3.select('#page-number').text(function() {
+        return page + 1;
+      });
+      return ' of ' + Math.floor(length / pageSize + 1);
+    };
+    d3.select('.mat-paginator-container')
+      .insert('div')
+      .text('per page')
+      .style('flex-grow', '5')
+      .lower();
+
+    d3.select('.mat-paginator-range-label')
+      .insert('div')
+      .style('border', 'solid 1px')
+      .style('border-radius', '2px')
+      .style('float', 'left')
+      .style('margin', '-13px 5px 0px 5px')
+      .style('padding', '10px 20px 10px 20px')
+      .attr('id', 'page-number')
+      .lower();
+
+    d3.select('.mat-paginator-range-label')
+      .insert('span')
+      .style('float', 'left')
+      .lower()
+      .attr('id', 'page-text');
   }
 
   loadTable(reasonSelected, subReason) {
-    console.log('Inder', reasonSelected, subReason);
     this.topClaimsSharedService
       .getClaimsData(this.createPayloadService.initialState, reasonSelected, subReason)
       .then(claimsDetailsData => {
         this.claimsData = JSON.parse(JSON.stringify(claimsDetailsData));
-        console.log('claimdata', this.claimsData);
 
-        if (this.claimsData) {
-          console.log('claimdata', this.claimsData);
+        if (this.claimsData && this.claimsData.length > 0) {
           this.numberOfClaims = this.claimsData.length;
-          console.log('claims', this.numberOfClaims);
           this.selectedclaims = new MatTableDataSource(this.claimsData);
-          this.showTableBool = true;
-          console.log('--------------------------------');
-          console.log(this.selectedclaims);
-          console.log('--------------------------------');
-          this.selectedclaims.paginator = this.paginator;
+          console.log('selectee claims', this.selectedclaims);
+
           this.selectedclaims.sort = this.sort;
           const sortState: Sort = { active: 'TinNameAndNumber.TinName', direction: 'asc' };
           this.sort.active = sortState.active;
           this.sort.direction = sortState.direction;
           this.sort.sortChange.emit(sortState);
-          this.selectedclaims.filterPredicate = (data, filter) => {
-            if (data[this.filterObj['key']] && this.filterObj['key']) {
-              return data[this.filterObj['key']].toLowerCase().includes(this.filterObj['value']);
-            }
-            return false;
-          };
         }
       });
   }
@@ -171,37 +195,12 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
   getPageSize(event) {
     this.pageSize = event.pageSize;
   }
-  // getViewClaimsData(reasonSelected, subReason) {
-  //   this.claimsData = [];
-  //   this.topClaimsSharedService.getClaimsData(this.createPayloadService.payload, reasonSelected, subReason)
-  //     .then(claimsDetailsData => {
-  //       console.log('claims', claimsDetailsData);
-  //       this.claimsData = JSON.parse(JSON.stringify(claimsDetailsData));
 
-  //       if (this.claimsData && this.claimsData.length > 0) {
-  //         this.numberOfClaims = this.claimsData.length;
-  //         console.log('claims', this.numberOfClaims);
-  //         this.selectedclaims = new MatTableDataSource(this.claimsData);
-  //         this.selectedclaims.sort = this.sort;
-  //         const sortState: Sort = { active: 'Tin', direction: 'asc' };
-  //         this.sort.active = sortState.active;
-  //         this.sort.direction = sortState.direction;
-  //         this.sort.sortChange.emit(sortState);
-  //         this.selectedclaims.filterPredicate = (data, filter) => {
-  //           if (data[this.filterObj['key']] && this.filterObj['key']) {
-  //             return data[this.filterObj['key']].toLowerCase().includes(this.filterObj['value']);
-  //           }
-  //           return false;
-  //         };
-  //       }
-
-  //     });
-  // }
-  searchTaxId(filterValue: string, id: string) {
-    this.filterObj = {
-      value: filterValue.trim().toLowerCase(),
-      key: id
-    };
+  searchTaxId(filterValue: string) {
+    // this.filterObj = {
+    //   value: filterValue.trim().toLowerCase(),
+    //   key: id
+    // };
     this.selectedclaims.filter = filterValue.trim().toLowerCase();
     if (this.selectedclaims.paginator) {
       this.selectedclaims.paginator.firstPage();
