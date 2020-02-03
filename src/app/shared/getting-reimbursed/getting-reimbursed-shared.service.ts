@@ -82,8 +82,7 @@ export class GettingReimbursedSharedService {
           if (typeof nonPayment === null || typeof nonPayment === undefined) {
             tempNonPaymentData = null;
           } else {
-            // tempNonPaymentData = JSON.parse(JSON.stringify(nonPayment));
-            tempNonPaymentData = nonPayment;
+            tempNonPaymentData = JSON.parse(JSON.stringify(nonPayment));
           }
           resolve(tempNonPaymentData);
         })
@@ -92,8 +91,6 @@ export class GettingReimbursedSharedService {
         });
     });
   }
-  /** code ends here for shared NonPayment Data */
-
   public sharedPaymentData(param) {
     /** Non Payment Service Code starts here */
     /** code for two donuts  Claims Not Paid and Claims Non-payment Rate */
@@ -116,6 +113,7 @@ export class GettingReimbursedSharedService {
     });
   }
 
+  /** code ends here for shared NonPayment Data */
   /** The below function will return the data for the Getting Reimbursed page,
    * In the main function getGettingReimbursedData() , we will call the sharedGettingReimbursedData(parameters)
    * after calling the sharedNonPaymentData() so that we get the nonPayment data first.
@@ -1022,7 +1020,7 @@ export class GettingReimbursedSharedService {
     return new Promise((resolve, reject) => {
       const lobFullData = parameters[1].Lob ? this.common.getFullLobData(parameters[1].Lob) : 'ALL';
       const lobData = parameters[1].Lob ? _.startCase(parameters[1].Lob.toLowerCase()) : 'All';
-      if (parameters[1]['ClaimsBy'] === 'DateOfService') {
+      if (parameters[1]['ClaimsBy'] === 'DOS') {
         if (!claimsData || !claimsData.hasOwnProperty(lobData)) {
           claimsTAT = {
             category: 'app-card',
@@ -1186,7 +1184,7 @@ export class GettingReimbursedSharedService {
       console.log('AAAAAAAAAAAAAAA');
       console.log(claimsData);
       console.log(parameters);
-      if (parameters[1]['ClaimsBy'] === 'DateOfService') {
+      if (parameters[1]['ClaimsBy'] === 'DOS') {
         if (claimsData != null || !claimsData.hasOwnProperty(lobData)) {
           if (
             claimsData.hasOwnProperty(lobData) &&

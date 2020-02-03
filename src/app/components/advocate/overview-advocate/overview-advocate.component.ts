@@ -27,9 +27,9 @@ import { hasOwnProperty } from 'tslint/lib/utils';
   styleUrls: ['./overview-advocate.component.scss']
 })
 export class OverviewAdvocateComponent implements OnInit, DoCheck {
-  pageTitle: String = '';
-  pagesubTitle: String = '';
-  userName: String = '';
+  pageTitle: String;
+  pagesubTitle: String;
+  userName: String;
   topRowItems: any;
   timePeriod: string;
   timePeriodCalls: string;
@@ -99,7 +99,6 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
     private createPayloadService: CreatePayloadService,
     private ngRedux: NgRedux<IAppState>
   ) {
-    this.pageTitle = 'UHC Insights Provider Performance Dashboard';
     const filData = this.session.getFilChangeEmitter().subscribe(() => this.common.urlResuseStrategy());
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => {
       this.common.urlResuseStrategy();
@@ -268,7 +267,7 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
           for (const key in callsTrendData) {
             if (callsTrendData.hasOwnProperty(key)) {
               this.callsData.push({ key: key, value: this.sumArray(callsTrendData[key]) });
-              if (
+              /* if (
                 this.callsData[0].value +
                   this.callsData[1].value +
                   this.callsData[2].value +
@@ -284,7 +283,7 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
                   data: null,
                   timeperiod: null
                 };
-              }
+              }*/
               /*for (let i = 0; i < this.callsData.length; i++) {
               if (this.callsData[i].value === NaN) {
                 this.callsData[i].value = 0;
@@ -336,6 +335,9 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
   }
 
   ngOnInit() {
+    this.pageTitle = 'UHC Insights Provider Performance Dashboard';
+    this.pagesubTitle = this.session.getHealthCareOrgName() + "'s insights at a glance.";
+    this.userName = this.session.sessionStorage('loggedUser', 'FirstName');
     this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'overviewAdvocatePage' });
     this.checkStorage.emitEvent('overviewAdvocatePage');
     this.timePeriod = this.common.getTimePeriodFilterValue(this.createPayloadService.payload.timePeriod);
@@ -343,8 +345,8 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
     this.paymentData();
     this.appealsLeftData();
     this.appealsTrendByMonthData();
-    this.totalCallsData();
     this.claimsYieldData();
+    this.totalCallsData();
     this.totalCallsTrendLineData();
     this.paymentsBySubmissionData();
     this.appealsLineGraphloading = true;
@@ -372,7 +374,7 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
     // This is for line graph
     this.nonPaymentService.sharedTrendByMonth(this.createPayloadService.payload).then(data => {
       const trendData = JSON.parse(JSON.stringify(data));
-      if (!trendData && !trendData.data) {
+      if (!trendData || !trendData.data) {
         this.trendMonthDisplay = false;
         this.monthlyLineGraph = {
           category: 'large-card',

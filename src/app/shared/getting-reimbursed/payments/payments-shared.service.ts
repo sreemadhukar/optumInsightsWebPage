@@ -103,7 +103,7 @@ export class PaymentsSharedService {
       this.gettingReimbursedService.getPaymentsData(parameters).subscribe(
         claimsData => {
           let lobData;
-          if (parameters[1]['ClaimsBy'] === 'DateOfProcessing') {
+          if (parameters[1]['ClaimsBy'] === 'DOP') {
             lobData = parameters[1].Lob ? _.startCase(parameters[1].Lob.toLowerCase()) : 'ALL';
             if (!claimsData || !claimsData.hasOwnProperty('LineOfBusiness')) {
               claimsPaid = {
@@ -944,7 +944,7 @@ export class PaymentsSharedService {
     let paidArray;
     parameters = this.getParameterCategories(param);
     // let paidArray:  Array<Object> = [];
-    if (param.viewClaimsByFilter === 'DateOfProcessing') {
+    if (param.viewClaimsByFilter === 'DOP') {
       return new Promise((resolve, reject) => {
         let paidBreakdown = [];
         this.gettingReimbursedService.getPaymentData(...parameters).subscribe(paymentDatafetch => {
