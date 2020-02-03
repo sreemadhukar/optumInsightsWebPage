@@ -213,9 +213,13 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
       d3.select('#page-text').text(function() {
         return 'Page ';
       });
-      d3.select('#page-number').text(function() {
-        return page + 1;
-      });
+      d3.select('#page-number')
+        .text(function() {
+          return page + 1;
+        })
+        .attr('font-size', '16')
+        .attr('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
+        .attr('fill', '#2D2D39');
       return ' of ' + Math.floor(length / pageSize + 1);
     };
     d3.select('.mat-paginator-container')

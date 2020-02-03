@@ -33,7 +33,7 @@ export class CreatePayloadService {
     trendDate: new Date(),
     claimsFilter: 'All',
     appealsFilter: 'Received Date',
-    viewClaimsByFilter: 'DOP'
+    viewClaimsByFilter: 'DOS'
   };
   payload: PayLoad = this.initialState;
   private payloadEmit = new Subject<any>();

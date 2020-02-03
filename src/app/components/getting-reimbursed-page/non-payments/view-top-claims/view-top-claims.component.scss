@@ -350,10 +350,6 @@ table {
   border: none;
 }
 
-:host ::ng-deep .mat-paginator-page-size .mat-select-value {
-  width: 78%;
-}
-
 :host ::ng-deep .mat-paginator-page-size .mat-select-arrow-wrapper {
   display: block;
 }
@@ -370,7 +366,7 @@ table {
 
 :host ::ng-deep .mat-paginator-page-size .mat-select-value-text {
   color: #757588;
-  font-family: 'UHCSans-Regular';
+  font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
   font-size: 16px;
   letter-spacing: 0.2px;
   line-height: 22px;
@@ -442,7 +438,7 @@ table {
     }
   }
   &-head {
-    margin: 0 8px 19px 10px;
+    margin: 0 8px 15px 10px;
     color: #757588;
     font-size: 14px;
     line-height: 18px;
@@ -626,6 +622,9 @@ table {
 
 :host ::ng-deep .mat-paginator-page-size .mat-select-value {
   width: 78%;
+  font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  color: #2d2d39;
 }
 
 :host ::ng-deep .mat-paginator-page-size .mat-select-arrow-wrapper {
