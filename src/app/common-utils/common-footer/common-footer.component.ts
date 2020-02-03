@@ -74,7 +74,7 @@ export class CommonFooterComponent implements OnInit {
         ',' +
         ' ' +
         yyyylast6 +
-        ' - ' +
+        '&ndash;' +
         month[parseInt(mm) - 1].monthNames +
         ' ' +
         dd +

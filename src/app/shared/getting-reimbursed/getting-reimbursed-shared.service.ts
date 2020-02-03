@@ -952,7 +952,7 @@ export class GettingReimbursedSharedService {
               const startDate = (claimsData || {}).Startdate;
               const endDate = (claimsData || {}).Enddate;
               const timePeriodCalls: String =
-                this.common.dateFormat(startDate) + ' - ' + this.common.dateFormat(endDate);
+                this.common.dateFormat(startDate) + '&ndash;' + this.common.dateFormat(endDate);
               claimsSubmitted = {
                 category: 'app-card',
                 type: 'donutWithLabel',
@@ -1014,7 +1014,7 @@ export class GettingReimbursedSharedService {
               const startDate = (claimsData || {}).Startdate;
               const endDate = (claimsData || {}).Enddate;
               const timePeriodCalls: String =
-                this.common.dateFormat(startDate) + ' - ' + this.common.dateFormat(endDate);
+                this.common.dateFormat(startDate) + '&ndash;' + this.common.dateFormat(endDate);
 
               claimsTAT = {
                 category: 'app-card',
@@ -1255,7 +1255,7 @@ export class GettingReimbursedSharedService {
               const startDate = (claimsData || {}).Startdate;
               const endDate = (claimsData || {}).Enddate;
               const timePeriodCalls: String =
-                this.common.dateFormat(startDate) + ' - ' + this.common.dateFormat(endDate);
+                this.common.dateFormat(startDate) + '&ndash;' + this.common.dateFormat(endDate);
               // this is whats getting changed
               claimsPaid = {
                 category: 'app-card',
@@ -1360,7 +1360,7 @@ export class GettingReimbursedSharedService {
               const startDate = (claimsData || {}).Startdate;
               const endDate = (claimsData || {}).Enddate;
               const timePeriodCalls: String =
-                this.common.dateFormat(startDate) + ' - ' + this.common.dateFormat(endDate);
+                this.common.dateFormat(startDate) + '&ndash;' + this.common.dateFormat(endDate);
 
               claimsNotPaid = {
                 category: 'app-card',
@@ -1417,7 +1417,7 @@ export class GettingReimbursedSharedService {
               const startDate = (claimsData || {}).Startdate;
               const endDate = (claimsData || {}).Enddate;
               const timePeriodCalls: String =
-                this.common.dateFormat(startDate) + ' - ' + this.common.dateFormat(endDate);
+                this.common.dateFormat(startDate) + '&ndash;' + this.common.dateFormat(endDate);
 
               claimsNotPaidRate = {
                 category: 'app-card',
@@ -1467,7 +1467,7 @@ export class GettingReimbursedSharedService {
               const startDate = (claimsData || {}).Startdate;
               const endDate = (claimsData || {}).Enddate;
               const timePeriodCalls: String =
-                this.common.dateFormat(startDate) + ' - ' + this.common.dateFormat(endDate);
+                this.common.dateFormat(startDate) + '&ndash;' + this.common.dateFormat(endDate);
               // used toggle: true as toggle functionality is not built properly : srikar bobbiganipalli
               claimsPaidRate = {
                 category: 'app-card',
@@ -1807,7 +1807,7 @@ export class GettingReimbursedSharedService {
               this.getMonthname(result.VarianceEndDate) + ' ' + this.getFullyear(result.VarianceEndDate);
             output.timeperiod =
               this.common.dateFormat(paymentIntegrityData.StartDate + '-01') +
-              ' - ' +
+              '&ndash;' +
               this.common.dateFormat(paymentIntegrityData.EndDate + '-31');
             let sData: any = {};
             if (result.RecordsRequestedVariance > 0) {
@@ -2114,7 +2114,9 @@ export class GettingReimbursedSharedService {
             ]
           },
           timeperiod:
-            this.common.dateFormat(appealsData[0].StartDate) + ' - ' + this.common.dateFormat(appealsData[0].EndDate)
+            this.common.dateFormat(appealsData[0].StartDate) +
+            '&ndash;' +
+            this.common.dateFormat(appealsData[0].EndDate)
         };
       } else {
         appealsSubmitted = {
@@ -2163,7 +2165,9 @@ export class GettingReimbursedSharedService {
             sdata: null
           },
           timeperiod:
-            this.common.dateFormat(appealsData[0].StartDate) + ' - ' + this.common.dateFormat(appealsData[0].EndDate)
+            this.common.dateFormat(appealsData[0].StartDate) +
+            '&ndash;' +
+            this.common.dateFormat(appealsData[0].EndDate)
         };
       } else {
         appealsOverturned = {

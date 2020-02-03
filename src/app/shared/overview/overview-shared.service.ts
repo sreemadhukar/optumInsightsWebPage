@@ -173,7 +173,7 @@ export class OverviewSharedService {
           const endDate: string = this.common.dateFormat(
             providerSystems.SelfServiceInquiries.ALL.ReportingPeriodEndDate
           );
-          timeSelfService = startDate + ' - ' + endDate;
+          timeSelfService = startDate + '&ndash;' + endDate;
         } catch (Error) {
           timeSelfService = null;
           console.log('Error in Self Service TimePeriod', timeSelfService);
@@ -201,7 +201,7 @@ export class OverviewSharedService {
             const endDate: string = this.common.dateFormat(
               providerSystems.SelfServiceInquiries.ALL.ReportingPeriodEndDate
             );
-            selfServiceTime = startDate + ' - ' + endDate;
+            selfServiceTime = startDate + '&ndash;' + endDate;
           } catch (Error) {
             selfServiceTime = null;
             console.log('Error in Overview | Self Service TimePeriod', Error);
