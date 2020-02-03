@@ -54,6 +54,11 @@
             </button>
           </div>
         </div>
+        <div *ngIf="currentTabTitle == 'Claims Non-Payments'">
+          <span class="non-paymentTab-subtitle"
+            >Note: Claims non-payment metrics are calculated based on billed charges.</span
+          >
+        </div>
         <div class="height1Separator"></div>
         <div *ngIf="!printStyle">
           <div class="getting-reimbursed-cards" *ngFor="let item of currentSummary; let i = index">

@@ -130,7 +130,7 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
     );
     this.printRoute = '/GettingReimbursed/NonPayments/print-nonpayments';
     this.pageTitle = 'Claims Non-Payments';
-    this.pageSubTitle = 'Getting Reimbursed - Non-Payments';
+    this.pageSubTitle = 'Note: Claims non-payment metrics are calculated based on billed charges.';
     this.createPayloadService.getEvent().subscribe(value => {
       this.ngOnInit();
     });
@@ -214,7 +214,7 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
       // This is for line graph
       this.nonPaymentService.sharedTrendByMonth(this.createPayloadService.payload).then(data => {
         const trendData = JSON.parse(JSON.stringify(data));
-        if (!trendData) {
+        if (trendData == null) {
           this.trendMonthDisplay = false;
           this.monthlyLineGraph = {
             category: 'large-card',

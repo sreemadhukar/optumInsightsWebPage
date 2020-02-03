@@ -673,35 +673,40 @@ export class NonPaymentSharedService {
           // const lobData = this.lob;
           const nonPaymentsTrendData = JSON.parse(JSON.stringify(data));
           const filter_data_claimSummary = [];
-          nonPaymentsTrendData.forEach(element => {
-            let monthlyData = [];
-            monthlyData = element.All.ClaimsLobSummary;
-            for (let i = 0; i < monthlyData.length; i++) {
-              const trendMonthValue = monthlyData[i].AmountDenied;
-              const trendTimePeriod = monthlyData[i].DenialMonth;
-              const trendTimePeriodArr = trendTimePeriod.split('-');
-              const trendTimePeriodFinal = trendTimePeriodArr[1];
-              filter_data_claimSummary.push({
-                name: this.ReturnMonthlyString(trendTimePeriodFinal),
-                value: trendMonthValue,
-                month: trendTimePeriod
-              });
-            }
-          });
-          filter_data_claimSummary.sort(function(a, b) {
-            let dateA: any;
-            dateA = new Date(a.month);
-            let dateB: any;
-            dateB = new Date(b.month);
-            return dateA - dateB; // sort by date ascending
-          });
-          const dataTrendLine = {
-            data: filter_data_claimSummary,
-            timePeriod:
-              this.common.dateFormat(nonPaymentsTrendData[0].Startdate) +
-              ' - ' +
-              this.common.dateFormat(nonPaymentsTrendData[0].Enddate)
-          };
+          let dataTrendLine;
+          if (nonPaymentsTrendData[0].hasOwnProperty('All')) {
+            nonPaymentsTrendData.forEach(element => {
+              let monthlyData = [];
+              monthlyData = element.All.ClaimsLobSummary;
+              for (let i = 0; i < monthlyData.length; i++) {
+                const trendMonthValue = monthlyData[i].AmountDenied;
+                const trendTimePeriod = monthlyData[i].DenialMonth;
+                const trendTimePeriodArr = trendTimePeriod.split('-');
+                const trendTimePeriodFinal = trendTimePeriodArr[1];
+                filter_data_claimSummary.push({
+                  name: this.ReturnMonthlyString(trendTimePeriodFinal),
+                  value: trendMonthValue,
+                  month: trendTimePeriod
+                });
+              }
+            });
+            filter_data_claimSummary.sort(function(a, b) {
+              let dateA: any;
+              dateA = new Date(a.month);
+              let dateB: any;
+              dateB = new Date(b.month);
+              return dateA - dateB; // sort by date ascending
+            });
+            dataTrendLine = {
+              data: filter_data_claimSummary,
+              timePeriod:
+                this.common.dateFormat(nonPaymentsTrendData[0].Startdate) +
+                ' - ' +
+                this.common.dateFormat(nonPaymentsTrendData[0].Enddate)
+            };
+          } else {
+            dataTrendLine = null;
+          }
           resolve(dataTrendLine);
         } catch (Error) {
           console.log('Error in Trend Line Graph NonPayments', Error);

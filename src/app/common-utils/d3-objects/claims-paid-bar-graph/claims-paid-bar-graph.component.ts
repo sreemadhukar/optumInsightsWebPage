@@ -255,7 +255,17 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit, OnCha
       .attr('font-size', '16')
       .style('text-anchor', 'start')
       .style('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
-      .text('Actual Allowed †');
+      .text('Actual Allowed');
+
+    chart
+      .append('text')
+      .attr('x', 32)
+      .attr('y', 200)
+      .attr('fill', '#757588')
+      .attr('font-size', '14')
+      .style('text-anchor', 'start')
+      .style('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
+      .text('(Includes Member Responsibility)');
 
     chart
       .append('text')
@@ -275,7 +285,17 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit, OnCha
       .attr('font-size', '16')
       .style('text-anchor', 'start')
       .style('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
-      .text('Estimated Non-Payment');
+      .text('Non-Payment');
+
+    chart
+      .append('text')
+      .attr('x', 32)
+      .attr('y', 250)
+      .attr('fill', '#757588')
+      .attr('font-size', '14')
+      .style('text-anchor', 'start')
+      .style('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
+      .text('(Based on Billed Charges)');
 
     chart
       .append('text')
@@ -299,6 +319,19 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit, OnCha
 
     chart
       .append('text')
+      .attr('x', 35)
+      .attr('y', 330)
+      .attr('fill', '#2D2D39')
+      .attr('font-size', '12')
+      .style('text-anchor', 'start')
+      .style('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
+      .text('Why don’t my numbers add up?')
+      .on('dblclick', () => {
+        alert('worked');
+      });
+
+    chart
+      .append('text')
       .attr('x', 370)
       .attr('y', 310)
       .attr('fill', '#2D2D39')
@@ -307,7 +340,7 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit, OnCha
       .style('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
       .text('$' + this.nFormatter(this.chartOptions.chartData[3]));
 
-    chart
+    /* chart
       .append('text')
       .attr('x', 900)
       .attr('y', 30)
@@ -315,7 +348,7 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit, OnCha
       .attr('font-size', '12')
       .style('text-anchor', 'end')
       .style('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
-      .text('† Includes Member Responsibility');
+      .text('† Includes Member Responsibility'); */
 
     chart
       .append('line')
@@ -608,7 +641,8 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit, OnCha
         .attr('y', 200)
         .attr('width', xScaleBar(this.chartOptions.chartData[2]))
         .attr('height', 48)
-        .attr('fill', '#FC6431');
+        // .attr('fill', '#FC6431');
+        .attr('fill', '#3381FF');
 
       chart
         .append('rect')
