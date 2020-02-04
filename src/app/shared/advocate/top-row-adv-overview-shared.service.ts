@@ -325,6 +325,7 @@ export class TopRowAdvOverviewSharedService {
         category: 'app-card',
         type: 'donut',
         title: 'Claims Yield*',
+        toggle: this.toggle.setToggles('Claims Yield', 'BottomRow', 'OverviewAdvocate', false),
         data: {
           graphValues: [
             yieldData[lobData].ClaimsLobSummary[0].ClaimsYieldRate,

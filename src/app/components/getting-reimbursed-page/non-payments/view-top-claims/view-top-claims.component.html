@@ -58,8 +58,8 @@
         <div class="tax-summary-table-block mat-elevation-z8">
           <table mat-table [dataSource]="selectedclaims" matSort matSortDirection="asc">
             <ng-container matColumnDef="TinNameAndNumber">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header class="tax-id-text">
-                <span>Tax ID Name and Number </span>
+              <th mat-header-cell *matHeaderCellDef class="tax-id-text">
+                <span style="text-align:left" mat-sort-header>Tax ID Name and Number </span>
                 <div>
                   <input
                     type="text"
@@ -106,7 +106,7 @@
             </ng-container>
             <ng-container matColumnDef="BilledAmount">
               <th mat-header-cell *matHeaderCellDef>
-                <span mat-sort-header>Billed <br />Amount</span>
+                <span style="text-align:left" mat-sort-header>Billed <br />Amount</span>
               </th>
 
               <td mat-cell class="tax-summary-table-cell" *matCellDef="let element">
@@ -114,13 +114,12 @@
               </td>
             </ng-container>
             <ng-container matColumnDef="DateOfProcessing">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                <div *ngIf="viewClaimsFilterDOP">
-                  <span> Date of <br />Processing</span>
-                </div>
-                <div *ngIf="viewClaimsFilterDOS">
-                  <span>Date of <br />Service</span>
-                </div>
+              <th mat-header-cell *matHeaderCellDef>
+                <span style="text-align:left" mat-sort-header>{{ viewClaimsValue }}</span>
+
+                <!-- <div *ngIf="viewClaimsFilterDOS">
+                  <span style="text-align:left" mat-sort-header>Date of <br />Service</span>
+                </div> -->
               </th>
 
               <td mat-cell class="tax-summary-table-cell" *matCellDef="let element">
@@ -129,7 +128,7 @@
             </ng-container>
             <ng-container matColumnDef="ClaimNumber">
               <th mat-header-cell *matHeaderCellDef>
-                <span mat-sort-header>Claim <br />Number</span>
+                <span style="text-align:left" mat-sort-header>Claim <br />Number</span>
                 <div>
                   <input
                     type="text"
