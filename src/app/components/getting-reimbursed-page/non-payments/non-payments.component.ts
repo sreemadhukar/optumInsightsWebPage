@@ -151,6 +151,7 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
     this.loadingTopReasons = true;
     this.timePeriod = this.common.getTimePeriodFilterValue(this.createPayloadService.payload.timePeriod);
     this.viewClaimsByFilter = this.createPayloadService.payload['viewClaimsByFilter'];
+
     this.gettingReimbursedSharedService.getTins().then(tins => {});
     this.loadingOne = false;
     this.mockCardOne = [{}];
@@ -201,7 +202,7 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
       }
     );
     /** End code for Top Categories */
-    if (this.viewClaimsByFilter === 'DateOfService') {
+    if (this.viewClaimsByFilter === 'DOS') {
       this.monthlyLineGraph.chartId = 'non-payment-trend-block';
       this.monthlyLineGraph.titleData = [{}];
       this.monthlyLineGraph.generalData = [
