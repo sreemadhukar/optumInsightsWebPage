@@ -77,6 +77,8 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
   loadingTwo: boolean;
   mockCardTwo: any;
   barChartsArray: any;
+  mockCards: any;
+  loading: boolean;
   @Input() data;
   constructor(
     public MetricidService: GlossaryMetricidService,
@@ -149,6 +151,8 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
       this.printStyle = true;
       this.pageTitle = this.session.getHealthCareOrgName();
     }
+    this.mockCards = [{}, {}];
+    this.loading = true;
     this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'nonPaymentsPage' });
     this.nonPaymentData1 = [];
     this.loadingTopReasons = true;
@@ -163,6 +167,7 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
     /** code for two donuts  Claims Not Paid and Claims Non-payment Rate */
     this.nonPaymentService.getNonPayment(this.createPayloadService.payload).then(
       nonPayment => {
+        this.loading = false;
         this.nonPaymentData1 = JSON.parse(JSON.stringify(nonPayment));
       },
       err => {

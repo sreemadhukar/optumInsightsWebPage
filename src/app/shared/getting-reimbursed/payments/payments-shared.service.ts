@@ -7,6 +7,7 @@ import { SessionService } from '../../session.service';
 import { GettingReimbursedPayload } from '../payload.class';
 import * as _ from 'lodash';
 import { environment } from '../../../../environments/environment';
+import { AuthorizationService } from 'src/app/auth/_service/authorization.service';
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +22,8 @@ export class PaymentsSharedService {
   constructor(
     private gettingReimbursedService: GettingReimbursedService,
     private common: CommonUtilsService,
-    private session: SessionService
+    private session: SessionService,
+    private toggle: AuthorizationService
   ) {}
 
   public sharedPaymentsData(param) {
@@ -34,7 +36,8 @@ export class PaymentsSharedService {
     this.providerKey = this.session.providerKeyData();
     const summaryData: Array<object> = [];
     return new Promise(resolve => {
-      this.getPaymentsData(parameters)
+      const toggleData = { isSummary: false, page: 'Claims Payments', menu: 'Getting Reimbursed' };
+      this.getPaymentsData(parameters, toggleData)
         .then(paydata => {
           const paymentdata = paydata[0];
           return this.calculateTrends(parameters, paymentdata);
@@ -95,7 +98,7 @@ export class PaymentsSharedService {
     });
   }
 
-  public getPaymentsData(parameters) {
+  public getPaymentsData(parameters, toggleData) {
     return new Promise((resolve, reject) => {
       let summaryData: Array<object> = [];
       let claimsPaid: object;
@@ -485,6 +488,7 @@ export class PaymentsSharedService {
                   category: 'app-card',
                   type: 'donutWithLabel',
                   title: 'Claims Yield',
+                  toggle: true,
                   data: {
                     graphValues: notPaidData,
                     centerNumber:
@@ -568,7 +572,8 @@ export class PaymentsSharedService {
                 status: 404,
                 title: 'Claims Yield',
                 data: null,
-                timeperiod: null
+                timeperiod: null,
+                toggle: !this.toggle.setToggles('Claims Yield', toggleData.page, toggleData.menu, toggleData.isSummary)
               };
             } else if (claimsData != null) {
               if (
@@ -869,6 +874,12 @@ export class PaymentsSharedService {
                   category: 'app-card',
                   type: 'donut',
                   title: 'Claims Yield',
+                  toggle: !this.toggle.setToggles(
+                    'Claims Yield',
+                    toggleData.page,
+                    toggleData.menu,
+                    toggleData.isSummary
+                  ),
                   data: {
                     graphValues: [
                       claimsData[lobData].ClaimsLobSummary[0].ClaimsYieldRate,
@@ -911,7 +922,8 @@ export class PaymentsSharedService {
                 status: 404,
                 title: 'Claims Yield',
                 data: null,
-                timeperiod: null
+                timeperiod: null,
+                toggle: !this.toggle.setToggles('Claims Yield', toggleData.page, toggleData.menu, toggleData.isSummary)
               };
             }
           }
@@ -927,10 +939,6 @@ export class PaymentsSharedService {
           //  const payments = { id: 1, title: 'Claims Payments', data: [claimsPaid, claimsPaidRate] };
           /*, claimsPaidRate] }; commented to supress claims yield card*/
           summaryData = [[claimsPaid, claimsPaidRate], claimsData];
-
-          /* if (environment.claimsYieldAccess) {
-            summaryData[1] = claimsPaidRate;
-          } */
 
           if (summaryData.length) {
             resolve(summaryData);
