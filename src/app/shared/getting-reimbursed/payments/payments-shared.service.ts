@@ -483,6 +483,7 @@ export class PaymentsSharedService {
                   category: 'app-card',
                   type: 'donutWithLabel',
                   title: 'Claims Yield',
+                  toggle: true,
                   data: {
                     graphValues: notPaidData,
                     centerNumber:
@@ -564,7 +565,8 @@ export class PaymentsSharedService {
                 status: 404,
                 title: 'Claims Yield',
                 data: null,
-                timeperiod: null
+                timeperiod: null,
+                toggle: !environment.claimsYieldAccess
               };
             } else if (claimsData != null) {
               if (
@@ -859,6 +861,7 @@ export class PaymentsSharedService {
                   category: 'app-card',
                   type: 'donut',
                   title: 'Claims Yield',
+                  toggle: !environment.claimsYieldAccess,
                   data: {
                     graphValues: [
                       claimsData[lobData].ClaimsLobSummary[0].ClaimsYieldRate,
@@ -899,7 +902,8 @@ export class PaymentsSharedService {
                 status: 404,
                 title: 'Claims Yield',
                 data: null,
-                timeperiod: null
+                timeperiod: null,
+                toggle: !environment.claimsYieldAccess
               };
             }
           }

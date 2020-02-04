@@ -7,6 +7,7 @@ import { SessionService } from '../session.service';
 import { AuthorizationService } from '../../auth/_service/authorization.service';
 import { TrendingMetricsService } from '../../rest/trending/trending-metrics.service';
 import { GlossaryMetricidService } from '../glossary-metricid.service';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: OverviewPageModule
@@ -793,7 +794,7 @@ export class OverviewSharedService {
             type: 'donut',
             title: 'Claims Yield*',
             MetricID: this.MetricidService.MetricIDs.ClaimsYield,
-            toggle: true,
+            toggle: !environment.claimsYieldAccess,
             data: {
               graphValues: [
                 claims.All.ClaimsLobSummary[0].ClaimsYieldRate,
@@ -811,7 +812,7 @@ export class OverviewSharedService {
           claimsYield = {
             category: 'small-card',
             type: 'donut',
-            toggle: true,
+            toggle: !environment.claimsYieldAccess,
             title: null,
             data: null,
             sdata: null,
@@ -823,7 +824,7 @@ export class OverviewSharedService {
           category: 'small-card',
           type: 'donut',
           title: null,
-          toggle: true,
+          toggle: !environment.claimsYieldAccess,
           data: null,
           sdata: null,
           timeperiod: null
