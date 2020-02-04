@@ -23,7 +23,12 @@
       "Claims Not Paid": true,
       "Claims Submitted": true
     },
+    "MiddleTow": {
+      "Claims Appeals Submitted": true,
+      "Calls by Call Type": true
+    },
     "BottomRow": {
+      "Payments by Submission": true,
       "Claims Yield": false
     }
   },
