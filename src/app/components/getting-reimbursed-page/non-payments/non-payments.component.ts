@@ -62,6 +62,8 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
   subscription: any;
   pageTitle: String = '';
   pageSubTitle: String = '';
+  printpageSubTitle: String = '';
+  subtitle: any;
   nonPaymentData1: Array<Object> = [{}];
   currentTabTitle: String = '';
   monthlyLineGraph: any = [{}];
@@ -134,6 +136,7 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
     );
     this.printRoute = '/GettingReimbursed/NonPayments/print-nonpayments';
     this.pageTitle = 'Claims Non-Payments';
+    this.printpageSubTitle = 'Getting Reimbursed - Non-Payments';
     this.pageSubTitle = 'Note: Claims non-payment metrics are calculated based on billed charges.';
     this.createPayloadService.getEvent().subscribe(value => {
       this.ngOnInit();
@@ -142,10 +145,10 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
 
   ngOnInit() {
     if (this.router.url.includes('print-')) {
+      this.subtitle = true;
       this.printStyle = true;
       this.pageTitle = this.session.getHealthCareOrgName();
     }
-
     this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'nonPaymentsPage' });
     this.nonPaymentData1 = [];
     this.loadingTopReasons = true;

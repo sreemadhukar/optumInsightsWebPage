@@ -299,14 +299,23 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit, OnCha
       .text('(Based on Billed Charges)');
 
     chart
-      .append('text')
+      .append('svg:image')
+      // .attr('class', 'abc')
+      .attr('x', 320)
+      .attr('y', 230)
+      .attr('xlink:href', 'src/assets/images/icons/Content/round-insert_chart-24px - Copy.svg')
+      .attr('width', 53)
+      .attr('height', 53);
+    //  .attr('fill', '#E0E0E0');
+    //  .style('background-color', '#E0E0E0');
+    /* .append('text')
       .attr('x', 370)
       .attr('y', 260)
       .attr('fill', '#2D2D39')
       .attr('font-size', '20')
       .style('text-anchor', 'end')
       .style('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
-      .text('$' + this.nFormatter(this.chartOptions.chartData[2]));
+      .text('$' + this.nFormatter(this.chartOptions.chartData[2])); */
 
     chart
       .append('text')
@@ -329,7 +338,7 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit, OnCha
       .style('cursor', 'pointer')
       .text('Why don’t my numbers add up?')
       .on('click', () => {
-        this.glossaryExpandService.setMessage('Why don’t my numbers add up?', 'Why don’t my numbers add up?');
+        this.glossaryExpandService.setMessage('Why don’t my numbers add up?', '');
       });
 
     chart
@@ -641,10 +650,18 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit, OnCha
         .append('rect')
         .attr('x', 400)
         .attr('y', 230)
-        .attr('width', xScaleBar(this.chartOptions.chartData[2]))
+        .attr('width', 170)
         .attr('height', 48)
         // .attr('fill', '#FC6431');
-        .attr('fill', '#3381FF');
+        .attr('fill', '#E0E0E0');
+      chart
+        .append('text')
+        .attr('x', 416)
+        .attr('y', 260)
+        .attr('font-size', '14')
+        .style('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
+        // .attr('fill', '#FC6431');
+        .text('Metric in development');
 
       chart
         .append('rect')
