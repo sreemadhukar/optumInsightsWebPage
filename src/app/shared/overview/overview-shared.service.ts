@@ -794,7 +794,7 @@ export class OverviewSharedService {
             type: 'donut',
             title: 'Claims Yield*',
             MetricID: this.MetricidService.MetricIDs.ClaimsYield,
-            toggle: !environment.claimsYieldAccess,
+            toggle: this.toggle.setToggles('Claims Yield', 'AtGlance', 'Overview', false),
             data: {
               graphValues: [
                 claims.All.ClaimsLobSummary[0].ClaimsYieldRate,
@@ -812,7 +812,7 @@ export class OverviewSharedService {
           claimsYield = {
             category: 'small-card',
             type: 'donut',
-            toggle: !environment.claimsYieldAccess,
+            toggle: this.toggle.setToggles('Claims Yield', 'AtGlance', 'Overview', false),
             title: null,
             data: null,
             sdata: null,
@@ -824,7 +824,7 @@ export class OverviewSharedService {
           category: 'small-card',
           type: 'donut',
           title: null,
-          toggle: !environment.claimsYieldAccess,
+          toggle: this.toggle.setToggles('Claims Yield', 'AtGlance', 'Overview', false),
           data: null,
           sdata: null,
           timeperiod: null
