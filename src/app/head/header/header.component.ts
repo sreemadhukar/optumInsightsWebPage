@@ -189,7 +189,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     } else if (value === 'userView') {
       this.router.navigate(['/OverviewPage']);
     }
-    this.advDropdownBool = false;
+    // this.advDropdownBool = false;
   }
 
   ngOnInit() {
