@@ -96,8 +96,9 @@ export class GettingReimbursedSharedService {
     /** code for two donuts  Claims Not Paid and Claims Non-payment Rate */
     let tempPaymentData: any;
     return new Promise(resolve => {
+      const toggleData = { isSummary: true, page: 'Claims Payments', menu: 'Getting Reimbursed' };
       this.paymentSharedService
-        .getPaymentsData(param)
+        .getPaymentsData(param, toggleData)
         .then(payment => {
           if (typeof payment === null || typeof payment === undefined) {
             tempPaymentData = null;
@@ -272,7 +273,7 @@ export class GettingReimbursedSharedService {
                 type: 'rotateWithLabel',
                 title: 'Average Claims Turn Around Time',
                 MetricID: this.MetricidService.MetricIDs.ClaimsAverageTurnaroundTimetoPayment,
-                //  toggle: true,
+                toggle: true,
                 data: {
                   centerNumber: claimsData[lobData].ClaimsLobSummary[0].ClaimsAvgTat + ' days',
                   color: ['#3381FF', '#3381FF'],
@@ -541,7 +542,7 @@ export class GettingReimbursedSharedService {
                 type: 'donut',
                 title: 'Claims-Yield',
                 MetricID: this.MetricidService.MetricIDs.ClaimsYield,
-                toggle: !environment.claimsYieldAccess,
+                toggle: true,
                 data: {
                   graphValues: [
                     claimsData[lobData].ClaimsLobSummary[0].ClaimsYieldRate,
@@ -843,21 +844,12 @@ export class GettingReimbursedSharedService {
             MetricID: this.MetricidService.MetricIDs.ClaimsSubmissions,
             data: [claimsSubmitted, claimsTAT]
           };
-          if (environment.claimsYieldAccess) {
-            payments = {
-              id: 2,
-              title: 'Claims Payments',
-              MetricID: this.MetricidService.MetricIDs.ClaimsPayments,
-              data: [claimsPaid, claimsPaidRate]
-            };
-          } else {
-            payments = {
-              id: 2,
-              title: 'Claims Payments',
-              MetricID: this.MetricidService.MetricIDs.ClaimsPayments,
-              data: [claimsPaid]
-            };
-          }
+          payments = {
+            id: 2,
+            title: 'Claims Payments',
+            MetricID: this.MetricidService.MetricIDs.ClaimsPayments,
+            data: [claimsPaid, claimsPaidRate]
+          };
           nonpayments = {
             id: 3,
             title: 'Claims Non-Payments',
