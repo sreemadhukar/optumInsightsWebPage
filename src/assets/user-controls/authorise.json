@@ -5,7 +5,7 @@
       "Claims Paid": true,
       "Prior Authorization Approval": true,
       "Self Service Adoption Rate": true,
-      "Claims Yield": true,
+      "Claims Yield": false,
       "Medicare Star Rating": true,
       "Total Calls": true
     },
@@ -22,6 +22,9 @@
       "Claims Paid": true,
       "Claims Not Paid": true,
       "Claims Submitted": true
+    },
+    "BottomRow": {
+      "Claims Yield": false
     }
   },
   "Getting Reimbursed": {
