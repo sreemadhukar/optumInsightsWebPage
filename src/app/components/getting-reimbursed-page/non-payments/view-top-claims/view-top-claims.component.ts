@@ -125,7 +125,7 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
     if (this.viewClaimsByFilter === 'DOS') {
       this.viewClaimsValue = 'Date of Service';
     } else if (this.viewClaimsByFilter === 'DOP') {
-      this.viewClaimsValue = 'Date of Process';
+      this.viewClaimsValue = 'Date of Processing';
     }
 
     if (this.claimsData !== null) {
@@ -142,7 +142,7 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
       this.selectedclaims.paginator = this.paginator;
       this.selectedclaims.sort = this.sort;
       this.selectedclaims.sort = this.sort;
-      const sortState: Sort = { active: 'NonPaymentAmount', direction: 'desc' };
+      const sortState: Sort = { active: 'NonPaymentAmount', direction: 'asc' };
       this.sort.active = sortState.active;
       this.sort.direction = sortState.direction;
       this.sort.sortChange.emit(sortState);
