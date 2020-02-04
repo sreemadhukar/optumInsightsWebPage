@@ -21,14 +21,14 @@ export class NonPaymentService {
     let nonPaymentURL;
     if (parameters[1]['ClaimsBy'] === 'DOP') {
       nonPaymentURL = this.APP_URL + this.NON_PAYMENT_DOP + parameters[0] + '?requestType=CLAIMS';
-      return this.http.post(nonPaymentURL, parameters[1], { headers: myHeader }).pipe(
+      return this.http.post(nonPaymentURL, parameters[1]).pipe(
         map(res => JSON.parse(JSON.stringify(res))),
         catchError(err => of(JSON.parse(JSON.stringify(err))))
       );
     } else {
       nonPaymentURL = this.APP_URL + this.NON_PAYMENT + parameters[0] + '?requestType=PAYMENT_METRICS';
       return combineLatest(
-        this.http.post(nonPaymentURL, parameters[1], { headers: myHeader }).pipe(
+        this.http.post(nonPaymentURL, parameters[1]).pipe(
           map(res => JSON.parse(JSON.stringify(res[0]))),
           catchError(err => of(JSON.parse(JSON.stringify(err))))
         )
