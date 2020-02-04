@@ -541,7 +541,7 @@ export class GettingReimbursedSharedService {
                 type: 'donut',
                 title: 'Claims-Yield',
                 MetricID: this.MetricidService.MetricIDs.ClaimsYield,
-                toggle: !environment.internalAccess,
+                toggle: !environment.claimsYieldAccess,
                 data: {
                   graphValues: [
                     claimsData[lobData].ClaimsLobSummary[0].ClaimsYieldRate,
@@ -934,33 +934,21 @@ export class GettingReimbursedSharedService {
       this.sharedNonPaymentData(param)
         .then(nonPayment => {
           this.nonPaymentData = nonPayment;
-          console.log('NON PAYMENT DATA');
-          console.log(nonPayment);
           return this.sharedPaymentData(parameters);
         })
         .then(payment => {
           this.PaymentData = payment;
-          console.log('PAYMENT TOTAL DATA');
-          console.log(payment);
-          console.log('PAYMENT DATA');
-          console.log(payment);
           return this.claimSubmissionsData(parameters, payment[1]);
         })
         .then(claims => {
           this.ClaimsSubmittedData = claims;
-          console.log('CLAIMS DATA');
-          console.log(claims);
           return this.claimsTATData(parameters, this.PaymentData[1]);
         })
         .then(tatData => {
           this.ClaimsTATdata = tatData;
-          console.log('TAT DATA');
-          console.log(tatData);
           return this.sharedGettingReimbursedData(parameters);
         })
         .then(appeals => {
-          console.log('APPEALS DATA');
-          console.log(appeals);
           submissions = {
             id: 1,
             title: 'Claims Submissions',
@@ -987,9 +975,6 @@ export class GettingReimbursedSharedService {
           //   return this.calculateSummaryTrends(parameters, gettingReimbursedData);
           // })
           // .then(data => {
-
-          console.log('TOTAL DATA');
-          console.log(summaryData);
           resolve(summaryData);
         });
       //   } else {
@@ -1181,9 +1166,7 @@ export class GettingReimbursedSharedService {
     return new Promise((resolve, reject) => {
       const lobFullData = parameters[1].Lob ? this.common.getFullLobData(parameters[1].Lob) : 'ALL';
       const lobData = parameters[1].Lob ? _.startCase(parameters[1].Lob.toLowerCase()) : 'All';
-      console.log('AAAAAAAAAAAAAAA');
-      console.log(claimsData);
-      console.log(parameters);
+
       if (parameters[1]['ClaimsBy'] === 'DOS') {
         if (claimsData != null || !claimsData.hasOwnProperty(lobData)) {
           if (
