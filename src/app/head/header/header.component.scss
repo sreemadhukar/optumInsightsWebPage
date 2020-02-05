@@ -71,6 +71,7 @@
     line-height: 22px;
     padding-left: 40px;
     cursor: pointer;
+    font-size: 16px;
   }
 
   .provider-height {
@@ -118,7 +119,7 @@
     visibility: visible;
   }
 
-  .icon:hover mat-icon {
+  .active.icon mat-icon {
     visibility: visible;
   }
 
@@ -233,12 +234,13 @@
   color: #757588;
 }
 
-.vertical-menu a:hover {
+.vertical-menu .active,
+.act:hover {
   background-color: #e3f0fd;
   color: #196ecf;
 }
 
-.vertical-menu a:focus {
+.vertical-menu a:hover {
   background-color: #e3f0fd;
   color: #196ecf;
 }

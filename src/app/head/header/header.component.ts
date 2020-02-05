@@ -159,7 +159,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   @HostListener('document:click', ['$event.target'])
   advocateUserClick(targetElement) {
-    const HeaderElement = document.querySelector('.header-div');
+    /*const HeaderElement = document.querySelector('.header-div');
     const ButtonElement = document.querySelector('.user-div');
     const dropdownElement = document.querySelector('.vertical-menu');
     const clickedHeader = HeaderElement.contains(targetElement);
@@ -171,6 +171,21 @@ export class HeaderComponent implements OnInit, OnDestroy {
     } else if (clickedHeader && !clickedButton && !clickedInside) {
       this.advDropdownBool = false;
       this.clickOutside.emit(null);
+    }*/
+
+    // const HeaderElement = document.querySelector('.header-div');
+    // const ButtonElement = document.querySelector('.user-div');
+    const dropdownElement = document.querySelector('.vertical-menu');
+    // const header = document.getElementById('myDIV');
+    const btns = dropdownElement.getElementsByClassName('act');
+    for (let i = 0; i < btns.length; i++) {
+      btns[i].addEventListener('click', function() {
+        const current = document.getElementsByClassName('active');
+        if (current.length > 0) {
+          current[0].className = current[0].className.replace('active', '');
+        }
+        this.className = 'active';
+      });
     }
   }
 
@@ -181,6 +196,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     } else {
       this.advDropdownBool = false;
     }
+    // this.advDropdownBool = !this.advDropdownBool;
   }
 
   advViewClicked(value: string) {
