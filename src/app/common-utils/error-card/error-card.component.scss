@@ -68,6 +68,16 @@
     .data-title {
       padding-top: 16px;
     }
+    .metric-in-prog {
+      .metric-in-development {
+        color: $black-rock;
+        font-family: 'UHCSans-SemiBold';
+        font-size: 14px;
+        letter-spacing: 0.17px;
+        line-height: 0px;
+        text-align: center;
+      }
+    }
   }
 }
 
@@ -226,4 +236,11 @@
       }
     }
   }
+}
+
+::ng-deep .icon-progress-img {
+  width: 70px;
+  height: 70px;
+  color: $gainsboro;
+  margin: 20px 65px 0 65px;
 }
