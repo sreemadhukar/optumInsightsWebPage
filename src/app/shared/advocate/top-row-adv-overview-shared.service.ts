@@ -191,6 +191,7 @@ export class TopRowAdvOverviewSharedService {
         type: 'donutWithLabel',
         status: 404,
         title: 'Claims Not Paid',
+        metricInProgres: true,
         MetricID: this.MetricidService.MetricIDs.ClaimsPaid,
         data: null,
         besideData: null,
@@ -250,6 +251,7 @@ export class TopRowAdvOverviewSharedService {
         category: 'small-card',
         type: 'donutWithLabel',
         title: 'Claims Not Paid',
+        metricInProgres: true,
         MetricID: this.MetricidService.MetricIDs.ClaimsNotPaid,
         toggle: this.toggle.setToggles('Claims Not Paid', 'TopRow', 'OverviewAdvocate', false),
         data: {
@@ -281,6 +283,7 @@ export class TopRowAdvOverviewSharedService {
         type: 'donutWithLabel',
         status: 404,
         title: 'Claims Not Paid',
+        metricInProgres: true,
         MetricID: this.MetricidService.MetricIDs.ClaimsNotPaid,
         data: null,
         besideData: null,
