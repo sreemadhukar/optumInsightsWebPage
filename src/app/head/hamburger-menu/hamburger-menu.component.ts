@@ -83,7 +83,10 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
   printStyle: boolean;
 
   /*** Array of Navigation Category List ***/
-  public navCategories = [
+  public navCategories = [];
+  public navCategoriesTotal = [
+    { icon: 'home', name: 'Overview', path: '/NationalExecutive', disabled: false, kop: true },
+    { icon: 'summary', name: 'NPS Summary', path: '/NationalExecutive/NpsDetail', disabled: false, kop: true },
     { icon: 'home', name: 'Overview', path: '/OverviewPage', disabled: false },
     {
       icon: 'getting-reimburse',
@@ -186,7 +189,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     //     console.log('Health System Details are not available', reason);
     //   });
     if (this.checkAdv.value) {
-      this.navCategories = this.navCategories.filter(item => item.name !== 'Summary Trends');
+      this.navCategories = this.navCategoriesTotal.filter(item => item.name !== 'Summary Trends');
       sessionStorage.setItem('advocateView', 'true');
     }
     // to disable the header/footer/body when not authenticated
@@ -249,7 +252,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
         if (
           (sessionStorage.getItem('fromKOP') === 'YES' &&
             !this.makeAbsolute &&
-            event.url !== '/NationalExecutive' &&
+            !event.url.includes('NationalExecutive') &&
             this.checkPro.value) ||
           this.checkExecutive.value
         ) {
@@ -276,6 +279,10 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     iconRegistry.addSvgIcon(
       'home',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/round-home-24px.svg')
+    );
+    iconRegistry.addSvgIcon(
+      'summary',
+      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/bar_chart-24px.svg')
     );
     iconRegistry.addSvgIcon(
       'getting-reimburse',
@@ -328,8 +335,11 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     this.acoEventEmitter.getEvent().subscribe(value => {
       this.AcoFlag = value.value;
     });
+    this.navCategories = this.navCategoriesTotal.filter(item => !item.kop);
+
     this.eventEmitter.getEvent().subscribe(val => {
       this.isKop = val.value;
+      this.navCategories = this.navCategoriesTotal.filter(item => item.kop);
       this.cdRef.detectChanges();
     });
     this.checkStorage.getEvent().subscribe(value => {

@@ -91,8 +91,15 @@
           </p>
         </div>
         <!-- END OF HEALTHSYSTEM REPRESENTATION BLOCK -->
+
+        <div *ngIf="isKop" class="simulate-external-view">
+          <button class="simulate-external-view-btn btn btn-secondary" (click)="openSimulateViewDialog()" mat-button>
+            Simulate External View
+          </button>
+        </div>
+
         <!-- MENU CATEGORIES BLOCK -->
-        <div class="nav-mat-list-items" *ngIf="!isKop && !AcoFlag">
+        <div class="nav-mat-list-items" *ngIf="!AcoFlag">
           <mat-nav-list
             *ngFor="let category of navCategories; let rowIndex = index"
             [ngClass]="
@@ -184,12 +191,6 @@
           </mat-nav-list>
         </div>
         <!-- END OF MENU CATEGORIES BLOCK -->
-
-        <div *ngIf="isKop" class="simulate-external-view">
-          <button class="simulate-external-view-btn btn btn-secondary" (click)="openSimulateViewDialog()" mat-button>
-            Simulate External View
-          </button>
-        </div>
 
         <!-- SIGNOUT BLOCK -->
         <div class="signout-block">
