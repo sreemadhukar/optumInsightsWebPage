@@ -68,16 +68,6 @@
     .data-title {
       padding-top: 16px;
     }
-    .metric-in-prog {
-      .metric-in-development {
-        color: $black-rock;
-        font-family: 'UHCSans-SemiBold';
-        font-size: 14px;
-        letter-spacing: 0.17px;
-        line-height: 0px;
-        text-align: center;
-      }
-    }
   }
 }
 
@@ -235,6 +225,17 @@
         padding-top: 16px;
       }
     }
+  }
+}
+
+.metric-in-prog {
+  .metric-in-development {
+    color: $black-rock;
+    font-family: 'UHCSans-SemiBold';
+    font-size: 14px;
+    letter-spacing: 0.17px;
+    line-height: 0px;
+    text-align: center;
   }
 }
 
