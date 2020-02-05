@@ -7,6 +7,7 @@ import { SessionService } from '../../session.service';
 import { GettingReimbursedPayload } from '../payload.class';
 import * as _ from 'lodash';
 import { environment } from '../../../../environments/environment';
+import { AuthorizationService } from 'src/app/auth/_service/authorization.service';
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +22,8 @@ export class PaymentsSharedService {
   constructor(
     private gettingReimbursedService: GettingReimbursedService,
     private common: CommonUtilsService,
-    private session: SessionService
+    private session: SessionService,
+    private toggle: AuthorizationService
   ) {}
 
   public sharedPaymentsData(param) {
@@ -34,9 +36,11 @@ export class PaymentsSharedService {
     this.providerKey = this.session.providerKeyData();
     const summaryData: Array<object> = [];
     return new Promise(resolve => {
-      this.getPaymentsData(parameters)
+      const toggleData = { isSummary: false, page: 'Claims Payments', menu: 'Getting Reimbursed' };
+      this.getPaymentsData(parameters, toggleData)
         .then(paydata => {
-          return this.calculateTrends(parameters, paydata);
+          const paymentdata = paydata[0];
+          return this.calculateTrends(parameters, paymentdata);
         })
         .then(data => {
           const payments = { id: 1, title: 'Claims Payments', data: data };
@@ -94,15 +98,15 @@ export class PaymentsSharedService {
     });
   }
 
-  public getPaymentsData(parameters) {
+  public getPaymentsData(parameters, toggleData) {
     return new Promise((resolve, reject) => {
-      const summaryData: Array<object> = [];
+      let summaryData: Array<object> = [];
       let claimsPaid: object;
       let claimsPaidRate: object;
       this.gettingReimbursedService.getPaymentsData(parameters).subscribe(
         claimsData => {
           let lobData;
-          if (parameters[1]['ClaimsBy'] === 'DateOfProcessing') {
+          if (parameters[1]['ClaimsBy'] === 'DOP') {
             lobData = parameters[1].Lob ? _.startCase(parameters[1].Lob.toLowerCase()) : 'ALL';
             if (!claimsData || !claimsData.hasOwnProperty('LineOfBusiness')) {
               claimsPaid = {
@@ -120,6 +124,7 @@ export class PaymentsSharedService {
                 type: 'donut',
                 status: 404,
                 title: 'Claims Yield',
+                toggle: true,
                 data: null,
                 timeperiod: null
               };
@@ -243,7 +248,9 @@ export class PaymentsSharedService {
                     color: this.common.lobColorForLabels(lobData, claimsData.LineOfBusiness)
                   },
                   timeperiod:
-                    this.common.dateFormat(claimsData.StartDate) + ' - ' + this.common.dateFormat(claimsData.EndDate)
+                    this.common.dateFormat(claimsData.StartDate) +
+                    '&ndash;' +
+                    this.common.dateFormat(claimsData.EndDate)
                 };
                 /* if (!paidData[0] && !paidData[1] && !paidData[2] && !paidData[3]) {
                   claimsPaid = {
@@ -279,7 +286,7 @@ export class PaymentsSharedService {
                       color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC']
                     },
                     timeperiod:
-                      this.common.dateFormat(claimsData.StartDate) + ' - ' + this.common.dateFormat(claimsData.EndDate)
+                      this.common.dateFormat(claimsData.StartDate) + '&ndash;' + this.common.dateFormat(claimsData.EndDate)
                   };
                 } */
               } else {
@@ -403,7 +410,7 @@ export class PaymentsSharedService {
                       color: this.common.LOBSideLabelColors(lobData, paidLOBBoolean)
                     },
                     timeperiod:
-                      this.common.dateFormat(claimsData.StartDate) + ' - ' + this.common.dateFormat(claimsData.EndDate)
+                      this.common.dateFormat(claimsData.StartDate) + '&ndash;' + this.common.dateFormat(claimsData.EndDate)
                   };
                 } else {
                   claimsPaid = {
@@ -481,6 +488,7 @@ export class PaymentsSharedService {
                   category: 'app-card',
                   type: 'donutWithLabel',
                   title: 'Claims Yield',
+                  toggle: true,
                   data: {
                     graphValues: notPaidData,
                     centerNumber:
@@ -508,7 +516,9 @@ export class PaymentsSharedService {
                     color: this.common.lobColorForLabels(lobData, claimsData.LineOfBusiness)
                   },
                   timeperiod:
-                    this.common.dateFormat(claimsData.StartDate) + ' - ' + this.common.dateFormat(claimsData.EndDate)
+                    this.common.dateFormat(claimsData.StartDate) +
+                    '&ndash;' +
+                    this.common.dateFormat(claimsData.EndDate)
                 };
               } else {
                 claimsPaidRate = {
@@ -559,10 +569,11 @@ export class PaymentsSharedService {
               claimsPaidRate = {
                 category: 'app-card',
                 type: 'donut',
-                status: claimsData.status,
+                status: 404,
                 title: 'Claims Yield',
                 data: null,
-                timeperiod: null
+                timeperiod: null,
+                toggle: !this.toggle.setToggles('Claims Yield', toggleData.page, toggleData.menu, toggleData.isSummary)
               };
             } else if (claimsData != null) {
               if (
@@ -656,7 +667,9 @@ export class PaymentsSharedService {
                     color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC']
                   },
                   timeperiod:
-                    this.common.dateFormat(claimsData.Startdate) + ' - ' + this.common.dateFormat(claimsData.Enddate)
+                    this.common.dateFormat(claimsData.Startdate) +
+                    '&ndash;' +
+                    this.common.dateFormat(claimsData.Enddate)
                 };
                 // AUTHOR: MADHUKAR - claims paid shows no color if the value is 0
                 if (!paidData[0] && !paidData[1] && !paidData[2] && !paidData[3]) {
@@ -686,7 +699,9 @@ export class PaymentsSharedService {
                       color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC']
                     },
                     timeperiod:
-                      this.common.dateFormat(claimsData.Startdate) + ' - ' + this.common.dateFormat(claimsData.Enddate)
+                      this.common.dateFormat(claimsData.Startdate) +
+                      '&ndash;' +
+                      this.common.dateFormat(claimsData.Enddate)
                   };
                 } // Date : 31/5/2019
               } else {
@@ -784,7 +799,9 @@ export class PaymentsSharedService {
                     color: this.common.LOBSideLabelColors(lobData, paidLOBBoolean)
                   },
                   timeperiod:
-                    this.common.dateFormat(claimsData.Startdate) + ' - ' + this.common.dateFormat(claimsData.Enddate)
+                    this.common.dateFormat(claimsData.Startdate) +
+                    '&ndash;' +
+                    this.common.dateFormat(claimsData.Enddate)
                 };
               } else {
                 claimsPaid = {
@@ -857,7 +874,12 @@ export class PaymentsSharedService {
                   category: 'app-card',
                   type: 'donut',
                   title: 'Claims Yield',
-                  toggle: true,
+                  toggle: !this.toggle.setToggles(
+                    'Claims Yield',
+                    toggleData.page,
+                    toggleData.menu,
+                    toggleData.isSummary
+                  ),
                   data: {
                     graphValues: [
                       claimsData[lobData].ClaimsLobSummary[0].ClaimsYieldRate,
@@ -869,7 +891,9 @@ export class PaymentsSharedService {
                     sdata: null
                   },
                   timeperiod:
-                    this.common.dateFormat(claimsData.Startdate) + ' - ' + this.common.dateFormat(claimsData.Enddate)
+                    this.common.dateFormat(claimsData.Startdate) +
+                    '&ndash;' +
+                    this.common.dateFormat(claimsData.Enddate)
                 };
               } else {
                 claimsPaidRate = {
@@ -895,11 +919,11 @@ export class PaymentsSharedService {
               claimsPaidRate = {
                 category: 'app-card',
                 type: 'donut',
-                toggle: true,
                 status: 404,
                 title: 'Claims Yield',
                 data: null,
-                timeperiod: null
+                timeperiod: null,
+                toggle: !this.toggle.setToggles('Claims Yield', toggleData.page, toggleData.menu, toggleData.isSummary)
               };
             }
           }
@@ -914,11 +938,7 @@ export class PaymentsSharedService {
           // };
           //  const payments = { id: 1, title: 'Claims Payments', data: [claimsPaid, claimsPaidRate] };
           /*, claimsPaidRate] }; commented to supress claims yield card*/
-          summaryData[0] = claimsPaid;
-
-          /* if (environment.claimsYieldAccess) {
-            summaryData[1] = claimsPaidRate;
-          } */
+          summaryData = [[claimsPaid, claimsPaidRate], claimsData];
 
           if (summaryData.length) {
             resolve(summaryData);
@@ -944,7 +964,7 @@ export class PaymentsSharedService {
     let paidArray;
     parameters = this.getParameterCategories(param);
     // let paidArray:  Array<Object> = [];
-    if (param.viewClaimsByFilter === 'DateOfProcessing') {
+    if (param.viewClaimsByFilter === 'DOP') {
       return new Promise((resolve, reject) => {
         let paidBreakdown = [];
         this.gettingReimbursedService.getPaymentData(...parameters).subscribe(paymentDatafetch => {
@@ -976,7 +996,9 @@ export class PaymentsSharedService {
               paidArray = {
                 data: paidBreakdown,
                 timePeriod:
-                  this.common.dateFormat(paymentData.StartDate) + ' - ' + this.common.dateFormat(paymentData.EndDate)
+                  this.common.dateFormat(paymentData.StartDate) +
+                  '&ndash;' +
+                  this.common.dateFormat(paymentData.EndDate)
               };
             } else {
               paidArray = {
@@ -1032,7 +1054,9 @@ export class PaymentsSharedService {
               paidArray = {
                 data: paidBreakdown,
                 timePeriod:
-                  this.common.dateFormat(paymentData.Startdate) + ' - ' + this.common.dateFormat(paymentData.Enddate)
+                  this.common.dateFormat(paymentData.Startdate) +
+                  '&ndash;' +
+                  this.common.dateFormat(paymentData.Enddate)
               };
             } else {
               paidArray = {
