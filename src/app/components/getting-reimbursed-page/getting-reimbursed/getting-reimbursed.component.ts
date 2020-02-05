@@ -166,7 +166,11 @@ export class GettingReimbursedComponent implements OnInit {
 
         for (let i = 0; i < 4; i++) {
           let temp;
-          if (this.summaryItems[i].data[0] != null && this.summaryItems[i].data[0].data != null) {
+          if (
+            this.summaryItems[i].data[0] != null &&
+            this.summaryItems[i].data[0].data != null &&
+            this.summaryItems[i].data[0].data !== 'Claims Not Paid'
+          ) {
             temp = {
               id: i,
               title: this.getTabOptionsTitle(i),

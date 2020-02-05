@@ -232,8 +232,21 @@ export class NonPaymentSharedService {
                 timeperiod: null
               };
             }
+            /* Remove this  temporaryClaimsNotPaid card once data is available */
+            const temporaryClaimsNotPaid = {
+              category: 'app-card',
+              type: 'roundInsertChart',
+              title: 'Claims Not Paid',
+              MetricID: this.MetricidService.MetricIDs.ClaimsNotPaid,
+              data: 'Claims Not Paid',
+              besideData: null,
+              bottomData: null,
+              timeperiod: ''
+            };
             this.summaryData = [];
-            this.summaryData.push(claimsNotPaid, claimsNotPaidRate);
+            // Remove 249th line and uncomment 248 once the data is available
+            //  this.summaryData.push(claimsNotPaid, claimsNotPaidRate);
+            this.summaryData.push(temporaryClaimsNotPaid);
             resolve(this.summaryData);
           },
           err => {
@@ -398,7 +411,21 @@ export class NonPaymentSharedService {
             //   data: null,
             //   timeperiod: null
             // };
-            this.summaryData.push(claimsNotPaid, claimsNotPaidRate);
+
+            /* Remove this  temporaryClaimsNotPaid card once data is available */
+            const temporaryClaimsNotPaid = {
+              category: 'app-card',
+              type: 'roundInsertChart',
+              title: 'Claims Not Paid',
+              MetricID: this.MetricidService.MetricIDs.ClaimsNotPaid,
+              data: 'Claims Not Paid',
+              besideData: null,
+              bottomData: null,
+              timeperiod: ''
+            };
+            // Remove 427th line and uncomment 428 once the data is available
+            this.summaryData.push(temporaryClaimsNotPaid);
+            //  this.summaryData.push(claimsNotPaid, claimsNotPaidRate);
             resolve(this.summaryData);
           },
           err => {
@@ -685,35 +712,40 @@ export class NonPaymentSharedService {
           }
 
           const filter_data_claimSummary = [];
-          nonPaymentsTrendData.forEach(element => {
-            let monthlyData = [];
-            monthlyData = element.All.ClaimsLobSummary;
-            for (let i = 0; i < monthlyData.length; i++) {
-              const trendMonthValue = monthlyData[i].AmountDenied;
-              const trendTimePeriod = monthlyData[i].DenialMonth;
-              const trendTimePeriodArr = trendTimePeriod.split('-');
-              const trendTimePeriodFinal = trendTimePeriodArr[1];
-              filter_data_claimSummary.push({
-                name: this.ReturnMonthlyString(trendTimePeriodFinal),
-                value: trendMonthValue,
-                month: trendTimePeriod
-              });
-            }
-          });
-          filter_data_claimSummary.sort(function(a, b) {
-            let dateA: any;
-            dateA = new Date(a.month);
-            let dateB: any;
-            dateB = new Date(b.month);
-            return dateA - dateB; // sort by date ascending
-          });
-          const dataTrendLine = {
-            data: filter_data_claimSummary,
-            timePeriod:
-              this.common.dateFormat(nonPaymentsTrendData[0].Startdate) +
-              ' - ' +
-              this.common.dateFormat(nonPaymentsTrendData[0].Enddate)
-          };
+          let dataTrendLine;
+          if (nonPaymentsTrendData[0].hasOwnProperty('All')) {
+            nonPaymentsTrendData.forEach(element => {
+              let monthlyData = [];
+              monthlyData = element.All.ClaimsLobSummary;
+              for (let i = 0; i < monthlyData.length; i++) {
+                const trendMonthValue = monthlyData[i].AmountDenied;
+                const trendTimePeriod = monthlyData[i].DenialMonth;
+                const trendTimePeriodArr = trendTimePeriod.split('-');
+                const trendTimePeriodFinal = trendTimePeriodArr[1];
+                filter_data_claimSummary.push({
+                  name: this.ReturnMonthlyString(trendTimePeriodFinal),
+                  value: trendMonthValue,
+                  month: trendTimePeriod
+                });
+              }
+            });
+            filter_data_claimSummary.sort(function(a, b) {
+              let dateA: any;
+              dateA = new Date(a.month);
+              let dateB: any;
+              dateB = new Date(b.month);
+              return dateA - dateB; // sort by date ascending
+            });
+            dataTrendLine = {
+              data: filter_data_claimSummary,
+              timePeriod:
+                this.common.dateFormat(nonPaymentsTrendData[0].Startdate) +
+                ' - ' +
+                this.common.dateFormat(nonPaymentsTrendData[0].Enddate)
+            };
+          } else {
+            dataTrendLine = null;
+          }
           resolve(dataTrendLine);
         } catch (Error) {
           console.log('Error in Trend Line Graph NonPayments', Error);
