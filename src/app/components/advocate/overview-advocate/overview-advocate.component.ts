@@ -229,7 +229,7 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
           this.totalCalls = this.common.nondecimalFormatter(callsLeftData[0].CallVolByQuesType.Total);
           this.timePeriodCalls =
             this.common.dateFormat(callsLeftData[0].ReportStartDate) +
-            ' - ' +
+            '&ndash;' +
             this.common.dateFormat(callsLeftData[0].ReportEndDate);
           this.callsLoading = false;
         }
