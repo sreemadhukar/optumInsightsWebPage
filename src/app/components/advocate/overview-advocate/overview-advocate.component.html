@@ -12,13 +12,13 @@
     </div>
     <div *ngFor="let item of paymentCards">
       <app-small-card
-        *ngIf="!paymentLoading && item != null && item.data != null && item.toggle"
+        *ngIf="item.metricInProgres != true && !paymentLoading && item != null && item.data != null && item.toggle"
         class="cards"
         [data]="item"
       >
       </app-small-card>
       <app-error-card
-        *ngIf="item != null && item.status != null && item.toggle"
+        *ngIf="item.metricInProgres == true || (item != null && item.status != null && item.toggle)"
         class="cards"
         [data]="item"
       ></app-error-card>

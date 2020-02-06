@@ -181,11 +181,6 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
     this.nonPaymentService.getNonPaymentCategories(this.createPayloadService.payload).then(
       topCategories => {
         this.loadingTopReasons = false;
-        this.topReasonsCategoryDisplay = true;
-        this.barChartsArray = topCategories;
-        this.reasonsWithSubReasons(topCategories);
-        // to initialize the data required in view-top-claims data
-        this.reasonWithData = this.reasonsWithSubReasons(topCategories);
         if (topCategories === null) {
           this.topReasonsCategoryDisplay = false;
           this.barChartsArray = {
@@ -198,6 +193,11 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
             timeperiod: null
           };
         } else {
+          this.topReasonsCategoryDisplay = true;
+          this.barChartsArray = topCategories;
+          this.reasonsWithSubReasons(topCategories);
+          // to initialize the data required in view-top-claims data
+          this.reasonWithData = this.reasonsWithSubReasons(topCategories);
           this.timePeriodTopReaons = this.barChartsArray[0].timePeriod;
         }
       },

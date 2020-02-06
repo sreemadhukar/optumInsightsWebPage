@@ -300,27 +300,26 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit, OnCha
 
     chart
       .append('svg:image')
-      // .attr('class', 'abc')
-      .attr('x', 320)
-      .attr('y', 230)
+      .attr('x', 310)
+      .attr('y', 220)
       .attr('xlink:href', 'src/assets/images/icons/Content/round-insert_chart-24px - Copy.svg')
-      .attr('width', 53)
-      .attr('height', 53);
-    //  .attr('fill', '#E0E0E0');
-    //  .style('background-color', '#E0E0E0');
-    /* .append('text')
+      .attr('width', 70)
+      .attr('height', 70);
+
+    /* chart
+      .append('text')
       .attr('x', 370)
       .attr('y', 260)
       .attr('fill', '#2D2D39')
       .attr('font-size', '20')
       .style('text-anchor', 'end')
       .style('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
-      .text('$' + this.nFormatter(this.chartOptions.chartData[2])); */
-
+      .text('$' + this.nFormatter(this.chartOptions.chartData[2]));
+ */
     chart
       .append('text')
       .attr('x', 32)
-      .attr('y', 330)
+      .attr('y', 340)
       .attr('fill', '#2D2D39')
       .attr('font-size', '16')
       .style('text-anchor', 'start')
@@ -350,16 +349,6 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit, OnCha
       .style('text-anchor', 'end')
       .style('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
       .text('$' + this.nFormatter(this.chartOptions.chartData[3]));
-
-    /* chart
-      .append('text')
-      .attr('x', 900)
-      .attr('y', 30)
-      .attr('fill', '#2D2D39')
-      .attr('font-size', '12')
-      .style('text-anchor', 'end')
-      .style('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
-      .text('† Includes Member Responsibility'); */
 
     chart
       .append('line')
@@ -650,9 +639,9 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit, OnCha
         .append('rect')
         .attr('x', 400)
         .attr('y', 230)
+        // .attr('width', xScaleBar(this.chartOptions.chartData[2]))
         .attr('width', 170)
         .attr('height', 48)
-        // .attr('fill', '#FC6431');
         .attr('fill', '#E0E0E0');
       chart
         .append('text')

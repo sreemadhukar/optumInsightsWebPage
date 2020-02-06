@@ -144,10 +144,10 @@ export class CallsSharedService {
                   );
                 } catch (Error) {
                   console.log('Error in Calls Page | Question Type By Call Type', Error);
-                  callsByCallType = this.issueResolution(404, null, null, null, null, null);
+                  callsByCallType = this.issueResolution(404, 'Calls by Call Type', null, null, null, null);
                 }
               } else {
-                callsByCallType = this.issueResolution(404, null, null, null, null, null);
+                callsByCallType = this.issueResolution(404, 'Calls by Call Type', null, null, null, null);
               }
 
               const totalTalkTime = providerSystems.CallTalkTimeByQuesType;
@@ -191,19 +191,19 @@ export class CallsSharedService {
                   );
                 } catch (Error) {
                   console.log('Error in Calls Page | TalkTime By Call Type', Error);
-                  talkTimeByCallType = this.issueResolution(404, null, null, null, null, null);
+                  talkTimeByCallType = this.issueResolution(404, 'Talk Time By Call Type', null, null, null, null);
                 }
               } else {
-                talkTimeByCallType = this.issueResolution(404, null, null, null, null, null);
+                talkTimeByCallType = this.issueResolution(404, 'Talk Time By Call Type', null, null, null, null);
               } // end if else block
             } else {
-              callsByCallType = this.issueResolution(404, null, null, null, null, null);
-              talkTimeByCallType = this.issueResolution(404, null, null, null, null, null);
+              callsByCallType = this.issueResolution(404, 'Calls by Call Type', null, null, null, null);
+              talkTimeByCallType = this.issueResolution(404, 'Talk Time By Call Type', null, null, null, null);
             }
           } catch (Error) {
             console.log('Catch Error Callspage');
-            callsByCallType = this.issueResolution(404, null, null, null, null, null);
-            talkTimeByCallType = this.issueResolution(404, null, null, null, null, null);
+            callsByCallType = this.issueResolution(404, 'Calls by Call Type', null, null, null, null);
+            talkTimeByCallType = this.issueResolution(404, 'Talk Time By Call Type', null, null, null, null);
           }
           tempArray[0] = callsByCallType;
           tempArray[1] = talkTimeByCallType;
