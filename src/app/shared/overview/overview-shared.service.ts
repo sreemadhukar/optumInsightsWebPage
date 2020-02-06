@@ -458,7 +458,7 @@ export class OverviewSharedService {
         providerSystems.SelfServiceInquiries.ALL.SelfService.hasOwnProperty('PhoneCallTime')
       ) {
         try {
-          const selfService = providerSystems.SelfServiceInquiries.ALL.SelfService.TotalCallTime;
+          const selfService = providerSystems.SelfServiceInquiries.ALL.SelfService;
           oppurtunities.push({
             category: 'mini-tile',
             title: "Save Your Staff's Time by:" + '\n\xa0',
