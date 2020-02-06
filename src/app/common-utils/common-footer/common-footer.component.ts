@@ -74,7 +74,7 @@ export class CommonFooterComponent implements OnInit {
         ',' +
         ' ' +
         yyyylast6 +
-        ' - ' +
+        '&ndash;' +
         month[parseInt(mm) - 1].monthNames +
         ' ' +
         dd +
@@ -83,6 +83,7 @@ export class CommonFooterComponent implements OnInit {
         yyyy;
       return timePeriodFooter;
     } else {
+      this.timePeriod = this.timePeriod.replace(' - ', '&ndash;');
       return this.timePeriod;
     }
   }

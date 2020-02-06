@@ -93,7 +93,8 @@ export class TopRowAdvOverviewSharedService {
           sign: '',
           data: ''
         },
-        timeperiod: this.common.dateFormat(paymentData.Startdate) + ' - ' + this.common.dateFormat(paymentData.Enddate)
+        timeperiod:
+          this.common.dateFormat(paymentData.Startdate) + '&ndash;' + this.common.dateFormat(paymentData.Enddate)
       };
     } else {
       claimsSubmitted = {
@@ -181,7 +182,8 @@ export class TopRowAdvOverviewSharedService {
           sign: '',
           data: ''
         },
-        timeperiod: this.common.dateFormat(paymentData.Startdate) + ' - ' + this.common.dateFormat(paymentData.Enddate)
+        timeperiod:
+          this.common.dateFormat(paymentData.Startdate) + '&ndash;' + this.common.dateFormat(paymentData.Enddate)
       };
     } else {
       claimsPaid = {
@@ -189,6 +191,7 @@ export class TopRowAdvOverviewSharedService {
         type: 'donutWithLabel',
         status: 404,
         title: 'Claims Not Paid',
+        metricInProgres: true,
         MetricID: this.MetricidService.MetricIDs.ClaimsPaid,
         data: null,
         besideData: null,
@@ -248,6 +251,7 @@ export class TopRowAdvOverviewSharedService {
         category: 'small-card',
         type: 'donutWithLabel',
         title: 'Claims Not Paid',
+        metricInProgres: true,
         MetricID: this.MetricidService.MetricIDs.ClaimsNotPaid,
         toggle: this.toggle.setToggles('Claims Not Paid', 'TopRow', 'OverviewAdvocate', false),
         data: {
@@ -270,7 +274,8 @@ export class TopRowAdvOverviewSharedService {
           sign: '',
           data: ''
         },
-        timeperiod: this.common.dateFormat(paymentData.Startdate) + ' - ' + this.common.dateFormat(paymentData.Enddate)
+        timeperiod:
+          this.common.dateFormat(paymentData.Startdate) + '&ndash;' + this.common.dateFormat(paymentData.Enddate)
       };
     } else {
       claimsNotPaid = {
@@ -278,6 +283,7 @@ export class TopRowAdvOverviewSharedService {
         type: 'donutWithLabel',
         status: 404,
         title: 'Claims Not Paid',
+        metricInProgres: true,
         MetricID: this.MetricidService.MetricIDs.ClaimsNotPaid,
         data: null,
         besideData: null,
@@ -322,6 +328,7 @@ export class TopRowAdvOverviewSharedService {
         category: 'app-card',
         type: 'donut',
         title: 'Claims Yield*',
+        toggle: this.toggle.setToggles('Claims Yield', 'BottomRow', 'OverviewAdvocate', false),
         data: {
           graphValues: [
             yieldData[lobData].ClaimsLobSummary[0].ClaimsYieldRate,
@@ -332,7 +339,7 @@ export class TopRowAdvOverviewSharedService {
           gdata: ['card-inner', 'claimsYield'],
           sdata: null
         },
-        timeperiod: this.common.dateFormat(yieldData.Startdate) + ' - ' + this.common.dateFormat(yieldData.Enddate)
+        timeperiod: this.common.dateFormat(yieldData.Startdate) + '&ndash;' + this.common.dateFormat(yieldData.Enddate)
       };
     } else {
       claimsYield = {

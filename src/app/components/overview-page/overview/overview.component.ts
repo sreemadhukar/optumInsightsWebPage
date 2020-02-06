@@ -61,7 +61,6 @@ export class OverviewComponent implements OnInit {
   errorloadTotalCallsCard = false;
   isHeac = false;
 
-  displayClaimsYield: boolean = environment.claimsYieldAccess;
   /***************** DONT CHANGE THESE *************/
   trendsData: any;
 
@@ -126,7 +125,7 @@ export class OverviewComponent implements OnInit {
             this.errorloadClaimsPaidCard = true;
           }
           if (this.claimsYieldBlock.data != null && this.claimsYieldBlock.toggle) {
-            this.loadClaimsYieldCard = false;
+            this.loadClaimsYieldCard = true;
           } else if (this.claimsYieldBlock.status != null && this.claimsYieldBlock.toggle) {
             this.errorloadClaimsYieldCard = true;
           }

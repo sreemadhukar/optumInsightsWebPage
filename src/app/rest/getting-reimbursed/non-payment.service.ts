@@ -15,26 +15,20 @@ export class NonPaymentService {
   private APP_URL: string = environment.apiProxyUrl;
   private NON_PAYMENT: string = environment.apiUrls.NonPayment;
   private NON_PAYMENT_DOP: string = environment.apiUrls.NonPaymentDop;
+
   constructor(private http: HttpClient) {}
   public getNonPaymentData(...parameters) {
-    this.currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
-    this.authBearer = this.currentUser[0].PedAccessToken;
-    const myHeader = new HttpHeaders({
-      Authorization: 'Bearer ' + this.authBearer,
-      'Content-Type': 'application/json',
-      Accept: '*/*'
-    });
     let nonPaymentURL;
-    if (parameters[1]['ClaimsBy'] === 'DateOfProcessing') {
+    if (parameters[1]['ClaimsBy'] === 'DOP') {
       nonPaymentURL = this.APP_URL + this.NON_PAYMENT_DOP + parameters[0] + '?requestType=CLAIMS';
-      return this.http.post(nonPaymentURL, parameters[1], { headers: myHeader }).pipe(
+      return this.http.post(nonPaymentURL, parameters[1]).pipe(
         map(res => JSON.parse(JSON.stringify(res))),
         catchError(err => of(JSON.parse(JSON.stringify(err))))
       );
     } else {
       nonPaymentURL = this.APP_URL + this.NON_PAYMENT + parameters[0] + '?requestType=PAYMENT_METRICS';
       return combineLatest(
-        this.http.post(nonPaymentURL, parameters[1], { headers: myHeader }).pipe(
+        this.http.post(nonPaymentURL, parameters[1]).pipe(
           map(res => JSON.parse(JSON.stringify(res[0]))),
           catchError(err => of(JSON.parse(JSON.stringify(err))))
         )
@@ -51,7 +45,7 @@ export class NonPaymentService {
     });
     let nonPaymentUrl = this.NON_PAYMENT;
     let nonPaymentURL;
-    if (parameters[1]['ClaimsBy'] === 'DateOfProcessing') {
+    if (parameters[1]['ClaimsBy'] === 'DOP') {
       nonPaymentUrl = this.NON_PAYMENT_DOP;
       parameters[1].reportType = 'subject';
       nonPaymentURL = this.APP_URL + nonPaymentUrl + parameters[0] + '?requestType=TOP_DENIAL_REASONS';
@@ -82,7 +76,7 @@ export class NonPaymentService {
     });
     let nonPaymentURL;
     // console.log('Parameters', parameters);
-    if (parameters[0][1]['ClaimsBy'] === 'DateOfProcessing') {
+    if (parameters[0][1]['ClaimsBy'] === 'DOP') {
       nonPaymentURL = this.APP_URL + this.NON_PAYMENT_DOP + parameters[0][0] + '?requestType=TOP_SUB_DENIAL_REASONS';
       const apiCall = parameters.map(param => this.http.post(nonPaymentURL, param[1], { headers: myHeader }));
       console.log(apiCall);
