@@ -51,6 +51,7 @@ import { NoAccessErrorPageComponent } from './no-access-error-page/no-access-err
 import { ColorGreyMiniBarChartComponent } from './d3-objects/color-grey-mini-bar-chart/color-grey-mini-bar-chart.component';
 import { BarSimplePiComponent } from './d3-objects/bar-simple-pi/bar-simple-pi.component';
 import { StackedBarChartComponent } from './d3-objects/stacked-bar-chart/stacked-bar-chart.component';
+import { UhcKopFilterComponent } from './uhc-kop-filter/uhc-kop-filter.component';
 
 @NgModule({
   imports: [
@@ -100,6 +101,7 @@ import { StackedBarChartComponent } from './d3-objects/stacked-bar-chart/stacked
     FiltersMultiSelectComponent,
     ColorGreyMiniBarChartComponent,
     BarSimplePiComponent,
+    UhcKopFilterComponent,
     StackedBarChartComponent
   ],
   declarations: [
@@ -148,7 +150,8 @@ import { StackedBarChartComponent } from './d3-objects/stacked-bar-chart/stacked
     NoAccessErrorPageComponent,
     ColorGreyMiniBarChartComponent,
     BarSimplePiComponent,
-    StackedBarChartComponent
+    StackedBarChartComponent,
+    UhcKopFilterComponent
   ],
   entryComponents: [ProviderSearchComponent]
 })

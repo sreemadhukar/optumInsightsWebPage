@@ -241,13 +241,18 @@
               [MetricID]="glossaryMetricID"
             ></app-glossary>
             <app-uhci-filter *ngIf="filterFlag && !isKop" (filterFlag)="filterFlagChange($event)"></app-uhci-filter>
-            <app-kop-filters
+            <!-- <app-kop-filters
               *ngIf="filterFlag && isKop"
               [filterurl]="filterurl"
               [filterData]="filterData"
               [customFilter]="customFilter"
               (filterFlag)="filterFlagChange($event)"
-            ></app-kop-filters>
+            ></app-kop-filters> -->
+            <app-uhc-kop-filter
+              *ngIf="filterFlag && isKop"
+              [customFilter]="customFilter"
+              (filterFlag)="filterFlagChange($event)"
+            ></app-uhc-kop-filter>
           </div>
         </div>
       </mat-sidenav>
