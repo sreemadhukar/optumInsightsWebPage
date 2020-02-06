@@ -1190,6 +1190,7 @@ export class GettingReimbursedSharedService {
 
                 color: ['#3381FF', '#80B0FF'],
                 gdata: ['card-inner', 'totalClaimsSubmitted'],
+                labels: ['Paid', 'Not Paid'],
                 sdata: {
                   sign: '',
                   data: ''
