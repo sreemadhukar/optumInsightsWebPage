@@ -86,7 +86,7 @@ export class SelfSharedService {
                       utilization.OverallLinkAdoptionRate * 100,
                       100 - utilization.OverallLinkAdoptionRate * 100
                     ],
-                    centerNumber: this.common.percentageFormatter(utilization.OverallLinkAdoptionRate * 100),
+                    centerNumber: this.common.checkLessThanOne(utilization.OverallLinkAdoptionRate * 100) + '%',
                     color: ['#3381FF', '#D7DCE1'],
                     gdata: ['card-inner', 'selfAdoptionRate'],
                     sdata: null
@@ -136,7 +136,7 @@ export class SelfSharedService {
                   {
                     graphValueName: ['Diabetic Patients', 'Completed'],
                     graphValues: [utilization.LinkAdoptionRate * 100, 100 - utilization.LinkAdoptionRate * 100],
-                    centerNumber: this.common.percentageFormatter(utilization.LinkAdoptionRate * 100),
+                    centerNumber: this.common.checkLessThanOne(utilization.LinkAdoptionRate * 100) + '%',
                     color: ['#3381FF', '#D7DCE1'],
                     gdata: ['card-inner', 'linkAndEdiCallRatio'],
                     sdata: null
@@ -188,7 +188,7 @@ export class SelfSharedService {
                       utilization.PaperAndPostageAdoptionRate * 100,
                       100 - utilization.PaperAndPostageAdoptionRate * 100
                     ],
-                    centerNumber: this.common.percentageFormatter(utilization.PaperAndPostageAdoptionRate * 100),
+                    centerNumber: this.common.checkLessThanOne(utilization.PaperAndPostageAdoptionRate * 100) + '%',
                     color: ['#3381FF', '#D7DCE1'],
                     gdata: ['card-inner', 'paperlessDelivery'],
                     sdata: null
@@ -275,7 +275,6 @@ export class SelfSharedService {
             ) {
               try {
                 const totalCallCost: number = selfService.TotalCallCost;
-                const totalCallCostString: string = this.common.nFormatter(totalCallCost);
                 oppurtunities.push({
                   category: 'mini-tile',
                   title: 'Reduce Calls and Operating Costs by:',
@@ -288,12 +287,12 @@ export class SelfSharedService {
                       false
                     ) && this.common.checkZeroNegative(totalCallCost),
                   data: {
-                    centerNumber: '$' + totalCallCostString,
+                    centerNumber: '$' + this.common.nFormatter(totalCallCost),
                     gdata: []
                   },
                   fdata: {
                     type: 'bar chart',
-                    graphValues: [selfService.TotalSelfServiceCost.toFixed(), selfService.TotalPhoneCost.toFixed()],
+                    graphValues: [selfService.TotalSelfServiceCost, selfService.TotalPhoneCost],
                     concatString: '$',
                     color: ['#3381FF', '#FFFFFF', '#80B0FF'],
                     graphValuesTitle: 'Avg. Transaction Costs',
@@ -337,17 +336,6 @@ export class SelfSharedService {
             } // end if else for Reduce Calls and Operating Costs by:
             if (selfService.hasOwnProperty('TotalCallTime')) {
               try {
-                let totalCalltime: number = selfService.TotalCallTime;
-                let totalCalltimeString: string;
-                let suffixHourPerDay = ' Hour/day';
-                if (totalCalltime < 1 && totalCalltime > 0) {
-                  totalCalltimeString = '< 1';
-                } else {
-                  totalCalltimeString = totalCalltime.toFixed(0);
-                  totalCalltime = this.common.nondecimalFormatter(totalCalltime);
-                  suffixHourPerDay = ' Hours/day';
-                }
-
                 oppurtunities.push({
                   category: 'mini-tile',
                   title: "Save Your Staff's Time by:" + '\n\xa0',
@@ -358,14 +346,18 @@ export class SelfSharedService {
                       'Self Service',
                       'Service Interaction',
                       false
-                    ) && this.common.checkZeroNegative(totalCalltime),
+                    ) && this.common.checkZeroNegative(selfService.TotalCallTime),
                   data: {
-                    centerNumber: totalCalltimeString + suffixHourPerDay,
+                    centerNumber:
+                      (selfService.TotalCallTime < 1
+                        ? '< 1'
+                        : this.common.nondecimalFormatter(selfService.TotalCallTime)) +
+                      (selfService.TotalCallTime <= 1 ? ' Hour/day' : ' Hours/day'),
                     gdata: []
                   },
                   fdata: {
                     type: 'bar chart',
-                    graphValues: [selfService.SelfServiceCallTime.toFixed(0), selfService.PhoneCallTime.toFixed(0)],
+                    graphValues: [selfService.SelfServiceCallTime, selfService.PhoneCallTime],
                     concatString: 'hours',
                     color: ['#3381FF', '#FFFFFF', '#80B0FF'],
                     graphValuesTitle: 'Avg. Processing Times',
@@ -412,21 +404,9 @@ export class SelfSharedService {
               selfService.hasOwnProperty('AverageClaimProcessingTime')
             ) {
               try {
-                let processingTime;
-                const checkProcessingTime = +(
-                  selfService.AveragePaperClaimProcessingTime - selfService.AverageClaimProcessingTime
-                ).toFixed(0);
-                let suffixDay;
-                if (checkProcessingTime <= 0) {
-                  processingTime = 0;
-                  suffixDay = '';
-                } else if (checkProcessingTime === 1) {
-                  processingTime = checkProcessingTime;
-                  suffixDay = ' Day';
-                } else {
-                  processingTime = this.common.nondecimalFormatter(checkProcessingTime);
-                  suffixDay = ' Days';
-                }
+                const checkProcessingTime =
+                  +selfService.AveragePaperClaimProcessingTime.toFixed(0) -
+                  +selfService.AverageClaimProcessingTime.toFixed(0);
                 oppurtunities.push({
                   category: 'mini-tile',
                   title: 'Reduce Claim Processing Time by:',
@@ -441,15 +421,14 @@ export class SelfSharedService {
                     ) &&
                     this.common.checkZeroNegative(checkProcessingTime),
                   data: {
-                    centerNumber: processingTime + suffixDay,
+                    centerNumber:
+                      (checkProcessingTime < 1 ? '< 1' : this.common.nondecimalFormatter(checkProcessingTime)) +
+                      (checkProcessingTime < 1 ? ' Day' : ' Days'),
                     gdata: []
                   },
                   fdata: {
                     type: 'bar chart',
-                    graphValues: [
-                      selfService.AverageClaimProcessingTime.toFixed(0),
-                      selfService.AveragePaperClaimProcessingTime.toFixed(0)
-                    ],
+                    graphValues: [selfService.AverageClaimProcessingTime, selfService.AveragePaperClaimProcessingTime],
                     concatString: 'Days',
                     color: ['#3381FF', '#FFFFFF', '#80B0FF'],
                     graphValuesTitle: 'Avg. Processing Times',
@@ -498,21 +477,9 @@ export class SelfSharedService {
               selfService['AverageReconsideredProcessingTime'] !== null
             ) {
               try {
-                const checkAvgProcessingTime = +(
-                  selfService.AveragePaperReconsideredProcessingTime - selfService.AverageReconsideredProcessingTime
-                ).toFixed();
-                let avgProcessingTime;
-                let suffixDay;
-                if (checkAvgProcessingTime <= 0) {
-                  avgProcessingTime = 0;
-                  suffixDay = '';
-                } else if (checkAvgProcessingTime === 1) {
-                  avgProcessingTime = checkAvgProcessingTime;
-                  suffixDay = ' Day';
-                } else {
-                  avgProcessingTime = this.common.nondecimalFormatter(checkAvgProcessingTime);
-                  suffixDay = ' Days';
-                }
+                const checkAvgProcessingTime =
+                  +selfService.AveragePaperReconsideredProcessingTime.toFixed(0) -
+                  +selfService.AverageReconsideredProcessingTime.toFixed(0);
                 oppurtunities.push({
                   category: 'mini-tile',
                   title: 'Reduce Reconsideration Processing by:',
@@ -525,14 +492,16 @@ export class SelfSharedService {
                       false
                     ) && this.common.checkZeroNegative(checkAvgProcessingTime),
                   data: {
-                    centerNumber: avgProcessingTime + suffixDay,
+                    centerNumber:
+                      (checkAvgProcessingTime < 1 ? '< 1' : this.common.nondecimalFormatter(checkAvgProcessingTime)) +
+                      (checkAvgProcessingTime < 1 ? ' Day' : ' Days'),
                     gdata: []
                   },
                   fdata: {
                     type: 'bar chart',
                     graphValues: [
-                      selfService.AverageReconsideredProcessingTime.toFixed(0),
-                      selfService.AveragePaperReconsideredProcessingTime.toFixed(0)
+                      selfService.AverageReconsideredProcessingTime,
+                      selfService.AveragePaperReconsideredProcessingTime
                     ],
                     concatString: 'Days',
                     color: ['#3381FF', '#FFFFFF', '#80B0FF'],
