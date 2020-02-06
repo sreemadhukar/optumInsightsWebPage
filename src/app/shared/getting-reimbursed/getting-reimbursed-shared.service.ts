@@ -1180,7 +1180,14 @@ export class GettingReimbursedSharedService {
                   claimsData[lobData].ClaimsLobSummary[0].ClaimsPaid,
                   claimsData[lobData].ClaimsLobSummary[0].ClaimsDenied
                 ],
+
+                centerNumberOriginal: claimsData[lobData].ClaimsLobSummary[0].ClaimsSubmitted,
+
+                labels: ['Paid', 'Not Paid'],
+                hover: true,
+
                 centerNumber: this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].ClaimsSubmitted),
+
                 color: ['#3381FF', '#80B0FF'],
                 gdata: ['card-inner', 'totalClaimsSubmitted'],
                 labels: ['Paid', 'Not Paid'],
