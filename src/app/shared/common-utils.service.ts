@@ -99,11 +99,11 @@ export class CommonUtilsService {
       data: value
     };
   }
-  public percentageFormatter(number: Number) {
+  public checkLessThanOne(number: Number): string {
     if (number < 1) {
-      return '< 1%';
+      return '< 1';
     } else {
-      return number.toFixed(0) + '%';
+      return number.toFixed(0);
     }
   }
 
