@@ -15,7 +15,5 @@ import { HeadMaterialModule } from 'src/app/head/head.material.module';
   exports: [SelfServiceComponent, CallsComponent]
 })
 export class ServiceInteractionModule {
-  constructor() {
-    console.log('ServiceInteraction Loaded');
-  }
+  constructor() {}
 }

@@ -106,7 +106,7 @@ export class PaymentsComponent implements OnInit {
     ];
 
     // this.claimsPaidBreakBool = false;
-    if (this.viewClaimsByFilter === 'DateOfProcessing') {
+    if (this.viewClaimsByFilter === 'DOP') {
       this.paymentsSharedService.getclaimsPaidData(this.createPayloadService.payload).then(
         data => {
           this.loadingClaimsBreakdown = false;
