@@ -102,7 +102,7 @@ export class CallsSharedService {
               const startDate = providerSystems.ReportStartDate;
               const endDate = providerSystems.ReportEndDate;
               const timePeriodCalls: String =
-                this.common.dateFormat(startDate) + ' - ' + this.common.dateFormat(endDate);
+                this.common.dateFormat(startDate) + '&ndash;' + this.common.dateFormat(endDate);
               const totalCalls = providerSystems.CallVolByQuesType;
               if (totalCalls) {
                 try {

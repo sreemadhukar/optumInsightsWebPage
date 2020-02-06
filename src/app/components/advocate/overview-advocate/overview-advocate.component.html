@@ -12,13 +12,13 @@
     </div>
     <div *ngFor="let item of paymentCards">
       <app-small-card
-        *ngIf="!paymentLoading && item != null && item.data != null && item.toggle"
+        *ngIf="item.metricInProgres != true && !paymentLoading && item != null && item.data != null && item.toggle"
         class="cards"
         [data]="item"
       >
       </app-small-card>
       <app-error-card
-        *ngIf="item != null && item.status != null && item.toggle"
+        *ngIf="item.metricInProgres == true || (item != null && item.status != null && item.toggle)"
         class="cards"
         [data]="item"
       ></app-error-card>
@@ -182,8 +182,12 @@
       <app-card class="cards" [skeleton]="claimsYieldLoading" *ngIf="claimsYieldLoading"> </app-card>
     </div>
     <div *ngFor="let item of claimsYieldCard">
-      <app-card *ngIf="item.data != null && !item.toggle" class="cards" [chartData]="item"> </app-card>
-      <app-error-card *ngIf="item.status != null && item.data == null" class="cards" [data]="item"></app-error-card>
+      <app-card *ngIf="item.data != null && item.toggle" class="cards" [chartData]="item"> </app-card>
+      <app-error-card
+        *ngIf="item.toggle && item.status != null && item.data == null"
+        class="cards"
+        [data]="item"
+      ></app-error-card>
     </div>
 
     <app-clarify-claims-message></app-clarify-claims-message>

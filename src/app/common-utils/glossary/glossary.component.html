@@ -56,7 +56,7 @@
       <a class="go-to-metric-location">
         Go To Metric Location >
       </a>
-    </div> -->
+                            </div> -->
             <div
               *ngIf="glossary.BusinessGlossary.ProviderDashboardName.Formula.trim().length != 0 && internal"
               class="glossary-definition"
@@ -117,11 +117,7 @@
     </div>
   </div>
 </div>
-<div
-  id="view-all-metrics-button-position-div"
-  class="view-all-metrics-button-position-div"
-  [ngClass]="{ fixed: viewallmetricsbuttonposition, absolute: !viewallmetricsbuttonposition }"
->
+<div id="view-all-metrics-button-position-div" class="view-all-metrics-button-position-div">
   <div class="view-all-metrics-button-div" *ngIf="!allmetrics">
     <div class="view-all-metrics-button" (click)="filteredData('All')">
       <span class="view-all-metrics-button-text">View All Metrics</span>

@@ -7,6 +7,7 @@ import { SessionService } from '../session.service';
 import { AuthorizationService } from '../../auth/_service/authorization.service';
 import { TrendingMetricsService } from '../../rest/trending/trending-metrics.service';
 import { GlossaryMetricidService } from '../glossary-metricid.service';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: OverviewPageModule
@@ -173,7 +174,7 @@ export class OverviewSharedService {
           const endDate: string = this.common.dateFormat(
             providerSystems.SelfServiceInquiries.ALL.ReportingPeriodEndDate
           );
-          timeSelfService = startDate + ' - ' + endDate;
+          timeSelfService = startDate + '&ndash;' + endDate;
         } catch (Error) {
           timeSelfService = null;
           console.log('Error in Self Service TimePeriod', timeSelfService);
@@ -201,7 +202,7 @@ export class OverviewSharedService {
             const endDate: string = this.common.dateFormat(
               providerSystems.SelfServiceInquiries.ALL.ReportingPeriodEndDate
             );
-            selfServiceTime = startDate + ' - ' + endDate;
+            selfServiceTime = startDate + '&ndash;' + endDate;
           } catch (Error) {
             selfServiceTime = null;
             console.log('Error in Overview | Self Service TimePeriod', Error);
@@ -788,7 +789,7 @@ export class OverviewSharedService {
             type: 'donut',
             title: 'Claims Yield*',
             MetricID: this.MetricidService.MetricIDs.ClaimsYield,
-            toggle: true,
+            toggle: this.toggle.setToggles('Claims Yield', 'AtGlance', 'Overview', false),
             data: {
               graphValues: [
                 claims.All.ClaimsLobSummary[0].ClaimsYieldRate,
@@ -806,7 +807,7 @@ export class OverviewSharedService {
           claimsYield = {
             category: 'small-card',
             type: 'donut',
-            toggle: true,
+            toggle: this.toggle.setToggles('Claims Yield', 'AtGlance', 'Overview', false),
             title: null,
             data: null,
             sdata: null,
@@ -818,7 +819,7 @@ export class OverviewSharedService {
           category: 'small-card',
           type: 'donut',
           title: null,
-          toggle: true,
+          toggle: this.toggle.setToggles('Claims Yield', 'AtGlance', 'Overview', false),
           data: null,
           sdata: null,
           timeperiod: null
