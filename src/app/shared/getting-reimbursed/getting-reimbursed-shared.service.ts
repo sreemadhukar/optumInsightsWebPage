@@ -1155,11 +1155,14 @@ export class GettingReimbursedSharedService {
 
   claimSubmissionsData(parameters, claimsData) {
     let claimsSubmitted: object;
+    let timePeriodData: String;
     return new Promise((resolve, reject) => {
       const lobFullData = parameters[1].Lob ? this.common.getFullLobData(parameters[1].Lob) : 'ALL';
       const lobData = parameters[1].Lob ? _.startCase(parameters[1].Lob.toLowerCase()) : 'All';
 
       if (parameters[1]['ClaimsBy'] === 'DOS') {
+        timePeriodData =
+          this.common.dateFormat(claimsData.Startdate) + '&ndash;' + this.common.dateFormat(claimsData.Enddate);
         if (claimsData != null || !claimsData.hasOwnProperty(lobData)) {
           if (
             claimsData.hasOwnProperty(lobData) &&
@@ -1197,7 +1200,7 @@ export class GettingReimbursedSharedService {
                   claimsData[lobData].ClaimsLobSummary[0].ClaimsDenied
                 ]
               },
-              timeperiod: this.timeFrame
+              timeperiod: timePeriodData
             };
 
             resolve(claimsSubmitted);
@@ -1224,12 +1227,14 @@ export class GettingReimbursedSharedService {
             data: null,
             status: 404,
             besideData: null,
-            timeperiod: this.timeFrame
+            timeperiod: timePeriodData
           };
 
           resolve(claimsSubmitted);
         }
       } else {
+        timePeriodData =
+          this.common.dateFormat(claimsData.StartDate) + '&ndash;' + this.common.dateFormat(claimsData.EndDate);
         if (!claimsData || !claimsData.hasOwnProperty('LineOfBusiness')) {
           claimsSubmitted = {
             category: 'app-card',
@@ -1294,7 +1299,7 @@ export class GettingReimbursedSharedService {
                   claimsData.LineOfBusiness[lobFullData].ClaimFinancialMetrics.DeniedCount
                 ]
               },
-              timeperiod: timePeriodCalls
+              timeperiod: timePeriodData
             };
           } else {
             claimsSubmitted = {
@@ -1305,7 +1310,7 @@ export class GettingReimbursedSharedService {
               data: null,
               status: 404,
               besideData: null,
-              timeperiod: this.timeFrame
+              timeperiod: timePeriodData
             };
           }
 
@@ -1319,7 +1324,7 @@ export class GettingReimbursedSharedService {
             data: null,
             status: 404,
             besideData: null,
-            timeperiod: this.timeFrame
+            timeperiod: timePeriodData
           };
           resolve(claimsSubmitted);
         }
