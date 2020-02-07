@@ -1,7 +1,6 @@
 import { Component, OnInit, Input, HostListener, ViewEncapsulation, AfterViewInit, OnChanges } from '@angular/core';
 import * as d3 from 'd3';
 import { CommonUtilsService } from '../../../shared/common-utils.service';
-import { GlossaryExpandService } from 'src/app/shared/glossary-expand.service';
 
 @Component({
   selector: 'app-claims-paid-bar-graph',
@@ -16,7 +15,7 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit, OnCha
   initialized: any;
   public testID = 'claimsPaidBreakDown';
 
-  constructor(private common: CommonUtilsService, private glossaryExpandService: GlossaryExpandService) {}
+  constructor(private common: CommonUtilsService) {}
 
   @HostListener('window:resize', ['$event'])
   onResize(event) {
