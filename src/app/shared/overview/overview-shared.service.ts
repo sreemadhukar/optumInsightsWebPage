@@ -723,7 +723,7 @@ export class OverviewSharedService {
               hover: true
             },
             // sdata: claimsTrendObject,
-            timeperiod: 'Last 6 Months'
+            timeperiod: this.common.dateFormat(claims.Startdate) + '&ndash;' + this.common.dateFormat(claims.Enddate)
           };
           // AUTHOR: MADHUKAR - claims paid shows no color if the value is 0
           if (!paidData) {
@@ -745,7 +745,7 @@ export class OverviewSharedService {
                 gdata: ['card-inner', 'claimsPaidCardD3Donut']
               },
               // sdata: claimsTrendObject,
-              timeperiod: 'Last 6 Months'
+              timeperiod: this.common.dateFormat(claims.Startdate) + '&ndash;' + this.common.dateFormat(claims.Enddate)
             };
           }
         } else {
@@ -801,7 +801,7 @@ export class OverviewSharedService {
               gdata: ['card-inner', 'claimsYieldCardD3Donut']
             },
             // sdata: claimsYieldTrendObject,
-            timeperiod: 'Last 6 Months'
+            timeperiod: this.common.dateFormat(claims.Startdate) + '&ndash;' + this.common.dateFormat(claims.Enddate)
           };
         } else {
           claimsYield = {
