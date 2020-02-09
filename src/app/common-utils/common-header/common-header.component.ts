@@ -57,8 +57,16 @@ export class CommonHeaderComponent implements OnInit {
     if (this.noHeaderClick) {
       return;
     }
-    if (title === 'Claims Paid*') {
+    if (title === 'Claims Paid*' || title === 'Claims Paid') {
       this.routhPath = '/GettingReimbursed/Payments';
+    } else if (title === 'Claims Submitted') {
+      this.routhPath = '/GettingReimbursed';
+    } else if (title === 'Claims Appeals Submitted') {
+      this.routhPath = '/GettingReimbursed/Appeals';
+    } else if (title === 'Calls by Call Type') {
+      this.routhPath = '/ServiceInteraction/Calls';
+    } else if (title === 'Claims Not Paid' || title === 'Non-Payment Trend') {
+      this.routhPath = '/GettingReimbursed/NonPayments';
     } else if (title === 'Prior Authorization Approval') {
       this.routhPath = '/CareDelivery/priorAuth';
     } else if (title === 'Self Service Adoption Rate') {
