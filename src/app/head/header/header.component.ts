@@ -209,13 +209,31 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   advViewClicked(value: string) {
     if (value === 'myView') {
+      // this.sessionService.checkedClicked.myView = true;
+      // this.checkedClicked.myView = this.sessionService.checkedClicked.myView;
+
+      // this.sessionService.checkedClicked.provider = false;
+      // this.checkedClicked.provider = this.sessionService.checkedClicked.provider;
       this.router.navigate(['/OverviewPageAdvocate']);
     } else if (value === 'userView') {
+      // this.sessionService.checkedClicked.myView = false;
+      // this.checkedClicked.myView = this.sessionService.checkedClicked.myView;
+
+      // this.sessionService.checkedClicked.provider = true;
+      // this.checkedClicked.provider = this.sessionService.checkedClicked.provider;
       this.router.navigate(['/OverviewPage']);
     }
+    console.log(this.checkedClicked.myView);
+    console.log(this.checkedClicked.provider);
   }
 
   ngOnInit() {
+    // this.sessionService.checkedClicked.myView = true;
+    // this.checkedClicked.myView = this.sessionService.checkedClicked.myView;
+
+    // this.sessionService.checkedClicked.provider = false;
+    // this.checkedClicked.provider = this.sessionService.checkedClicked.provider;
+
     this.advDropdownBool = false;
     this.healthSystemName = this.sessionService.getHealthCareOrgName();
     this.isDarkTheme = this.themeService.isDarkTheme;
