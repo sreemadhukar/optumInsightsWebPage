@@ -1,6 +1,7 @@
+import { NonPaymentService } from './../../../rest/getting-reimbursed/non-payment.service';
 import { Injectable } from '@angular/core';
 import { GettingReimbursedModule } from '../../../components/getting-reimbursed-page/getting-reimbursed.module';
-import { NonPaymentService } from './../../../rest/getting-reimbursed/non-payment.service';
+
 import { CommonUtilsService } from '../../common-utils.service';
 import { SessionService } from '../../session.service';
 import { AuthorizationService } from '../../../auth/_service/authorization.service';
@@ -45,7 +46,7 @@ export class NonPaymentSharedService {
     delete param['lineOfBusiness'];
     */
     this.providerKey = this.session.providerKeyData();
-    if (param.viewClaimsByFilter === 'DateOfProcessing') {
+    if (param.viewClaimsByFilter === 'DOP') {
       return new Promise(resolve => {
         this.nonPaymentService.getNonPaymentData(...this.getParameterCategories(param)).subscribe(
           nonPaymentData1 => {
@@ -231,8 +232,21 @@ export class NonPaymentSharedService {
                 timeperiod: null
               };
             }
+            /* Remove this  temporaryClaimsNotPaid card once data is available */
+            const temporaryClaimsNotPaid = {
+              category: 'app-card',
+              type: 'roundInsertChart',
+              title: 'Claims Not Paid',
+              MetricID: this.MetricidService.MetricIDs.ClaimsNotPaid,
+              data: 'Claims Not Paid',
+              besideData: null,
+              bottomData: null,
+              timeperiod: ''
+            };
             this.summaryData = [];
-            this.summaryData.push(claimsNotPaid, claimsNotPaidRate);
+            // Remove 249th line and uncomment 248 once the data is available
+            //  this.summaryData.push(claimsNotPaid, claimsNotPaidRate);
+            this.summaryData.push(temporaryClaimsNotPaid);
             resolve(this.summaryData);
           },
           err => {
@@ -397,7 +411,21 @@ export class NonPaymentSharedService {
             //   data: null,
             //   timeperiod: null
             // };
-            this.summaryData.push(claimsNotPaid, claimsNotPaidRate);
+
+            /* Remove this  temporaryClaimsNotPaid card once data is available */
+            const temporaryClaimsNotPaid = {
+              category: 'app-card',
+              type: 'roundInsertChart',
+              title: 'Claims Not Paid',
+              MetricID: this.MetricidService.MetricIDs.ClaimsNotPaid,
+              data: 'Claims Not Paid',
+              besideData: null,
+              bottomData: null,
+              timeperiod: ''
+            };
+            // Remove 427th line and uncomment 428 once the data is available
+            this.summaryData.push(temporaryClaimsNotPaid);
+            //  this.summaryData.push(claimsNotPaid, claimsNotPaidRate);
             resolve(this.summaryData);
           },
           err => {
@@ -431,7 +459,7 @@ export class NonPaymentSharedService {
               return null;
             }
             const subCategoryReasons: any = [];
-            if (param.viewClaimsByFilter === 'DateOfProcessing') {
+            if (param.viewClaimsByFilter === 'DOP') {
               for (let i = 0; i < p.length; i++) {
                 let x = JSON.parse(JSON.stringify(paramtersCategories)); // deep copy
                 x[1]['DenialCategory'] = p[i]['title'];
@@ -472,14 +500,14 @@ export class NonPaymentSharedService {
           console.log(data);
           // array
           let mappedData;
-          if (paramtersSubCategory[0][1].ClaimsBy === 'DateOfProcessing') {
+          if (paramtersSubCategory[0][1].ClaimsBy === 'DOP') {
             mappedData = data;
           } else {
             mappedData = data.map(item => item[0]);
           }
           for (let i = 0; i < topReasons.length; i++) {
             // deep copy
-            if (paramtersSubCategory[i][1].ClaimsBy === 'DateOfProcessing') {
+            if (paramtersSubCategory[i][1].ClaimsBy === 'DOP') {
               topReasons[i]['top5'] = JSON.parse(JSON.stringify(mappedData[i].DenialCategory));
             } else {
               topReasons[i]['top5'] = JSON.parse(JSON.stringify(mappedData[i].All.DenialCategory));
@@ -535,7 +563,7 @@ export class NonPaymentSharedService {
     // this.timeFrame = this.session.filterObjValue.timeFrame;
     return new Promise(resolve => {
       /** Get Top 5 Categories Data */
-      if (parameters[1].ClaimsBy === 'DateOfProcessing') {
+      if (parameters[1].ClaimsBy === 'DOP') {
         this.nonPaymentService.getNonPaymentTopCategories(...parameters).subscribe(
           topCategories => {
             try {
@@ -684,35 +712,40 @@ export class NonPaymentSharedService {
           }
 
           const filter_data_claimSummary = [];
-          nonPaymentsTrendData.forEach(element => {
-            let monthlyData = [];
-            monthlyData = element.All.ClaimsLobSummary;
-            for (let i = 0; i < monthlyData.length; i++) {
-              const trendMonthValue = monthlyData[i].AmountDenied;
-              const trendTimePeriod = monthlyData[i].DenialMonth;
-              const trendTimePeriodArr = trendTimePeriod.split('-');
-              const trendTimePeriodFinal = trendTimePeriodArr[1];
-              filter_data_claimSummary.push({
-                name: this.ReturnMonthlyString(trendTimePeriodFinal),
-                value: trendMonthValue,
-                month: trendTimePeriod
-              });
-            }
-          });
-          filter_data_claimSummary.sort(function(a, b) {
-            let dateA: any;
-            dateA = new Date(a.month);
-            let dateB: any;
-            dateB = new Date(b.month);
-            return dateA - dateB; // sort by date ascending
-          });
-          const dataTrendLine = {
-            data: filter_data_claimSummary,
-            timePeriod:
-              this.common.dateFormat(nonPaymentsTrendData[0].Startdate) +
-              '&ndash;' +
-              this.common.dateFormat(nonPaymentsTrendData[0].Enddate)
-          };
+          let dataTrendLine;
+          if (nonPaymentsTrendData[0].hasOwnProperty('All')) {
+            nonPaymentsTrendData.forEach(element => {
+              let monthlyData = [];
+              monthlyData = element.All.ClaimsLobSummary;
+              for (let i = 0; i < monthlyData.length; i++) {
+                const trendMonthValue = monthlyData[i].AmountDenied;
+                const trendTimePeriod = monthlyData[i].DenialMonth;
+                const trendTimePeriodArr = trendTimePeriod.split('-');
+                const trendTimePeriodFinal = trendTimePeriodArr[1];
+                filter_data_claimSummary.push({
+                  name: this.ReturnMonthlyString(trendTimePeriodFinal),
+                  value: trendMonthValue,
+                  month: trendTimePeriod
+                });
+              }
+            });
+            filter_data_claimSummary.sort(function(a, b) {
+              let dateA: any;
+              dateA = new Date(a.month);
+              let dateB: any;
+              dateB = new Date(b.month);
+              return dateA - dateB; // sort by date ascending
+            });
+            dataTrendLine = {
+              data: filter_data_claimSummary,
+              timePeriod:
+                this.common.dateFormat(nonPaymentsTrendData[0].Startdate) +
+                ' - ' +
+                this.common.dateFormat(nonPaymentsTrendData[0].Enddate)
+            };
+          } else {
+            dataTrendLine = null;
+          }
           resolve(dataTrendLine);
         } catch (Error) {
           console.log('Error in Trend Line Graph NonPayments', Error);

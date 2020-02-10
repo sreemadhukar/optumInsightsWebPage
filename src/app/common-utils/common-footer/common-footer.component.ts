@@ -83,6 +83,7 @@ export class CommonFooterComponent implements OnInit {
         yyyy;
       return timePeriodFooter;
     } else {
+      this.timePeriod = this.timePeriod.replace(' - ', '&ndash;');
       return this.timePeriod;
     }
   }

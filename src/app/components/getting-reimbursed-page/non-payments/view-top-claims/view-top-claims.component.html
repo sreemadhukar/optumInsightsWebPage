@@ -1,0 +1,162 @@
+<div class="gettingReimburse-body">
+  <div class="nonPayment-content">
+    <div class="nonPayment-content-cust">
+      <app-breadcrumbs></app-breadcrumbs>
+      <!-- <app-print> </app-print> -->
+      <div class="claims-content-head">
+        <a (click)="goback()" class="nav-menu-icons-back-button nav-menu-icons-back-button-div ">
+          <mat-icon class="nav-menu-icons nav-menu-icons-back-button" svgIcon="backButton"></mat-icon>
+        </a>
+        Claims Non-Payments Details
+        <div class="note-sub-head">
+          <div class="note-sub-head-div">
+            Note: To change global filters, please return to the
+            <div class="claims-note-div">Claims Non-Payments page</div>
+          </div>
+        </div>
+      </div>
+      <app-filters-applied></app-filters-applied>
+      <!-- <div class="page-title" [ngClass]="{ 'print-page-title': printStyle === true }">
+          {{ pageTitle }}
+        </div>
+        <div *ngIf="printStyle" [ngClass]="{ 'print-page-subtitle': printStyle === true }">
+          {{ pageSubTitle }}
+        </div> -->
+    </div>
+
+    <div class="reasons-content">
+      <div class="reason-div">
+        <!-- <select [(ngModel)]="selectedCountry.id" (change)="onSelect($event.target.value)">
+                  <option value="0">--Select--</option>
+                  <option *ngFor="let country of countries" value= {{country.id}}>{{country.name}}</option>
+                </select> -->
+        <div class="reason-head">Reason</div>
+        <!--  <select class="reason-dropdown">
+          <option value="0">--Select--</option>
+          <option>Need More Information</option>
+        </select> -->
+        <h5 class="reason-text">{{ reasonLabel }}</h5>
+      </div>
+      <div class="sub-reason-div">
+        <div class="reason-head">Subreason</div>
+        <h5 class="reason-text">{{ subReasonLabel }}</h5>
+        <!-- <select class="reason-dropdown">
+          <option value="0">--Select--</option>
+          <option>Need Medical Records</option>
+        </select> -->
+      </div>
+    </div>
+
+    <div class="tax-summary-content">
+      <div class="tax-summary-head">
+        <span class="tax-summary-count">
+          Showing {{ selectedclaims.filteredData.length > 24 ? pageSize : selectedclaims.filteredData.length }} of
+          {{ numberOfClaims }}
+        </span>
+      </div>
+      <div class="tax-summary-body">
+        <div class="tax-summary-table-block mat-elevation-z8">
+          <table mat-table [dataSource]="selectedclaims" matSort matSortDirection="asc">
+            <ng-container matColumnDef="TinNameAndNumber">
+              <th mat-header-cell *matHeaderCellDef class="tax-id-text">
+                <span style="text-align:left" mat-sort-header>Tax ID Name and Number </span>
+                <div>
+                  <input
+                    type="text"
+                    class="tax-summary-name-input"
+                    spellcheck="false"
+                    (keyup)="searchTaxId($event.target.value, 'TinNameAndNumber.TinName')"
+                  />
+                </div>
+              </th>
+              <td mat-cell class="tin-name-input" *matCellDef="let element">
+                <div class="tax-column">
+                  {{ toLowerCase(element.TinNameAndNumber.TinName) }} {{ element.TinNameAndNumber.TinNumber }}
+                </div>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="ProviderName">
+              <th mat-header-cell *matHeaderCellDef>
+                <span style="text-align:left" mat-sort-header>Provider Name</span>
+
+                <div>
+                  <input
+                    type="text"
+                    class="tax-summary-provider-input"
+                    spellcheck="false"
+                    (keyup)="searchTaxId($event.target.value, 'ProviderName')"
+                  />
+                </div>
+              </th>
+              <td mat-cell class="tax-summary-table-cell" *matCellDef="let element">
+                <span class="provider-column">{{ toLowerCase(element.ProviderName) }}</span>
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="NonPaymentAmount">
+              <th mat-header-cell *matHeaderCellDef>
+                <span style="text-align:left" mat-sort-header>
+                  Non-Payment<br />
+                  Amount</span
+                >
+              </th>
+              <td mat-cell class="tax-summary-table-cell" *matCellDef="let element">
+                {{ element.NonPaymentAmount }}
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="BilledAmount">
+              <th mat-header-cell *matHeaderCellDef>
+                <span style="text-align:left" mat-sort-header>Billed <br />Amount</span>
+              </th>
+
+              <td mat-cell class="tax-summary-table-cell" *matCellDef="let element">
+                {{ element.BilledAmount }}
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="DateOfProcessing">
+              <th mat-header-cell *matHeaderCellDef>
+                <span style="text-align:left" mat-sort-header>{{ viewClaimsValue }}</span>
+
+                <!-- <div *ngIf="viewClaimsFilterDOS">
+                  <span style="text-align:left" mat-sort-header>Date of <br />Service</span>
+                </div> -->
+              </th>
+
+              <td mat-cell class="tax-summary-table-cell" *matCellDef="let element">
+                {{ element.DateOfProcessing }}
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="ClaimNumber">
+              <th mat-header-cell *matHeaderCellDef>
+                <span style="text-align:left" mat-sort-header>Claim <br />Number</span>
+                <div>
+                  <input
+                    type="text"
+                    class="tax-summary-claims-input "
+                    spellcheck="false"
+                    (keyup)="searchTaxId($event.target.value, 'ClaimNumber')"
+                  />
+                </div>
+              </th>
+              <td mat-cell class="tax-summary-table-cell" *matCellDef="let element">
+                {{ element.ClaimNumber }}
+              </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="tinsDisplayedColumns"></tr>
+            <tr mat-row class="tax-summary-rows" *matRowDef="let row; columns: tinsDisplayedColumns"></tr>
+          </table>
+
+          <mat-paginator
+            class="tax-summary-paginator"
+            [pageSizeOptions]="[25, 50, 100]"
+            (page)="getPageSize($event)"
+            [ngStyle]="{ display: numberOfClaims > 24 ? 'block' : 'none' }"
+          >
+          </mat-paginator>
+        </div>
+      </div>
+    </div>
+
+    <!--tin-list-body-->
+  </div>
+</div>

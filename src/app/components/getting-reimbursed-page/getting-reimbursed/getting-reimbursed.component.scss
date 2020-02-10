@@ -225,6 +225,13 @@
       } /* end cust-width title end here*/
     }
   }
+  .non-paymentTab-subtitle {
+    color: $strom-grey;
+    font-family: 'UHC Sans';
+    font-size: 14px;
+    letter-spacing: 0.2px;
+    line-height: 18px;
+  }
   .non-payment-link {
     font-size: 16px;
     float: right;

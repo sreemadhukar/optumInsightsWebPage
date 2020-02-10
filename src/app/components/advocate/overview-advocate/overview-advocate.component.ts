@@ -19,7 +19,6 @@ import { CreatePayloadService } from '../../../shared/uhci-filters/create-payloa
 import { NgRedux } from '@angular-redux/store';
 import { CURRENT_PAGE, REMOVE_FILTER } from '../../../store/filter/actions';
 import { IAppState } from '../../../store/store';
-import { hasOwnProperty } from 'tslint/lib/utils';
 
 @Component({
   selector: 'app-overview-advocate',
@@ -321,6 +320,7 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
     this.topRowService
       .getClaimsYieldShared(this.createPayloadService.payload)
       .then(claimsYieldData => {
+        console.log('claimsYieldData', claimsYieldData);
         this.claimsYieldCard.push(JSON.parse(JSON.stringify(claimsYieldData)));
         this.claimsYieldLoading = false;
       })

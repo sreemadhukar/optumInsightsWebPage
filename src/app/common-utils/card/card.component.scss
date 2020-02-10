@@ -163,6 +163,21 @@
     float: left;
     width: 100%;
   }
+  .full-width-block .in-progress {
+    img {
+      padding-top: 45px;
+      margin: auto;
+      width: 140px;
+      height: 140px;
+      display: block;
+    }
+    .in-progress-caption {
+      font-size: 14px;
+      height: 70px;
+      line-height: 14px;
+      text-align: center;
+    }
+  }
   .calls-beside-data-block {
     float: right;
     padding: 80px 20px 0px 0px;
