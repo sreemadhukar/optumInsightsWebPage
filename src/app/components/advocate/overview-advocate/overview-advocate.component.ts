@@ -19,9 +19,8 @@ import { CreatePayloadService } from '../../../shared/uhci-filters/create-payloa
 import { NgRedux, select } from '@angular-redux/store';
 import { CURRENT_PAGE, REMOVE_FILTER } from '../../../store/filter/actions';
 import { IAppState } from '../../../store/store';
-import { hasOwnProperty } from 'tslint/lib/utils';
 import { TimePeriod } from 'src/app/head/uhci-filters/filter-settings/filter-options';
-import { find as _find } from 'lodash.find';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-overview-advocate',
@@ -116,6 +115,10 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
     iconRegistry.addSvgIcon(
       'close',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-close-24px.svg')
+    );
+    iconRegistry.addSvgIcon(
+      'warning-icon',
+      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/warning-icon.svg')
     );
     this.createPayloadService.getEvent().subscribe(value => {
       this.ngOnInit();
@@ -350,9 +353,7 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
     this.userName = this.session.sessionStorage('loggedUser', 'FirstName');
     this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'overviewAdvocatePage' });
     this.checkStorage.emitEvent('overviewAdvocatePage');
-    this.timePeriod = `${this.timeFilterValueResolved} (${this.common.getTimePeriodFilterValue(
-      this.createPayloadService.payload.timePeriod
-    )})`;
+    this.timePeriod = this.common.getTimePeriodFilterValue(this.createPayloadService.payload.timePeriod);
     this.checkStorage.emitEvent('overviewAdvocatePage');
     this.paymentData();
     this.appealsLeftData();
@@ -408,7 +409,7 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
     this.monthlyLineGraph.generalData2 = [];
     this.monthlyLineGraph.chartData2 = [];
     this.timeFilterOption.subscribe(val => {
-      this.timeFilterValueResolved = _find(TimePeriod, { name: val })['value'];
+      this.timeFilterValueResolved = _.find(TimePeriod, { name: val })['value'];
     });
   }
 

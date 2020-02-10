@@ -21,6 +21,7 @@ export class CommonHeaderComponent implements OnInit {
   @Input() noHeaderClick: boolean;
   @Input() options: CommonHeaderOptions;
   @Input() printStyle: boolean;
+  @Input() addIcon = false;
   titleHeader: String = null;
   typeOfCard: String = null;
   titleSubHeader: String = null;
@@ -31,6 +32,10 @@ export class CommonHeaderComponent implements OnInit {
     iconRegistry.addSvgIcon(
       'help',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-help_outline-24px.svg')
+    );
+    iconRegistry.addSvgIcon(
+      'warning-icon',
+      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/warning-icon.svg')
     );
   }
   ngOnInit() {
