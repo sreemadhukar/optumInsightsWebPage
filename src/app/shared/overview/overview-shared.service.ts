@@ -775,13 +775,13 @@ export class OverviewSharedService {
             data: {
               centerNumber: claims.All.ClaimsLobSummary[0].ClaimsAvgTat + ' days'
             },
-            timeperiod: 'Last 6 Months'
+            timeperiod: this.common.dateFormat(claims.Startdate) + '&ndash;' + this.common.dateFormat(claims.Enddate)
           };
         } else {
           claimsTAT = {
             category: 'small-card',
             type: 'tatRotateArrow',
-            title: null,
+            title: 'Avg. Claims Processing Days',
             data: null,
             sdata: null,
             timeperiod: null
