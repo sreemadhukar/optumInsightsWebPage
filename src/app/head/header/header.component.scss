@@ -71,19 +71,30 @@
     line-height: 22px;
     padding-left: 40px;
     cursor: pointer;
+    font-size: 16px;
   }
 
   .provider-height {
     height: 37px;
     // padding-top: 5px;
   }
+
+  .curser {
+    cursor: pointer;
+  }
+
   .toggle-view-height {
     height: 30px;
+    font-size: 14px;
   }
 
   .signout-lh {
     line-height: 30px;
+    border-top-width: 1px;
+    border-top-style: groove;
+    border-top-color: lightgray;
   }
+
   .tiny-provider {
     height: 12px;
     width: 239px;
@@ -106,6 +117,15 @@
 
   .icon:hover mat-icon {
     visibility: visible;
+  }
+
+  .active.icon mat-icon {
+    visibility: visible;
+  }
+
+  .user-div:hover {
+    background-color: #e3f0fd;
+    cursor: pointer;
   }
 
   .menu-div {
@@ -162,7 +182,7 @@
       font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
     }
     .user-expand-more {
-      line-height: 26px;
+      line-height: 30px;
     }
   }
 }
@@ -201,6 +221,7 @@
   margin-top: 60px;
   position: absolute;
   right: 0;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.15);
 }
 
 .vertical-menu a {
@@ -209,16 +230,17 @@
   text-decoration: none;
   border-radius: 3px 3px 0 0;
   background-color: #ffffff;
-  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
+  // box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
   color: #757588;
 }
 
-.vertical-menu a:hover {
+.vertical-menu .active,
+.act:hover {
   background-color: #e3f0fd;
   color: #196ecf;
 }
 
-.vertical-menu a.active {
+.vertical-menu a:hover {
   background-color: #e3f0fd;
   color: #196ecf;
 }
