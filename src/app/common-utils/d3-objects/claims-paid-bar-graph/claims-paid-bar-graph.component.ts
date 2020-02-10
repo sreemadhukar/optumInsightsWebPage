@@ -230,7 +230,7 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit, OnCha
     chart
       .append('text')
       .attr('x', 32)
-      .attr('y', 100)
+      .attr('y', 65)
       .attr('fill', '#2D2D39')
       .attr('font-size', '16')
       .style('text-anchor', 'start')
@@ -239,8 +239,8 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit, OnCha
 
     chart
       .append('text')
-      .attr('x', 370)
-      .attr('y', 100)
+      .attr('x', 376)
+      .attr('y', 64)
       .attr('fill', '#2D2D39')
       .attr('font-size', '20')
       .style('text-anchor', 'end')
@@ -250,7 +250,7 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit, OnCha
     chart
       .append('text')
       .attr('x', 32)
-      .attr('y', 170)
+      .attr('y', 134)
       .attr('fill', '#2D2D39')
       .attr('font-size', '16')
       .style('text-anchor', 'start')
@@ -260,7 +260,7 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit, OnCha
     chart
       .append('text')
       .attr('x', 32)
-      .attr('y', 190)
+      .attr('y', 154)
       .attr('fill', '#757588')
       .attr('font-size', '14')
       .style('text-anchor', 'start')
@@ -269,8 +269,8 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit, OnCha
 
     chart
       .append('text')
-      .attr('x', 370)
-      .attr('y', 180)
+      .attr('x', 376)
+      .attr('y', 144)
       .attr('fill', '#2D2D39')
       .attr('font-size', '20')
       .style('text-anchor', 'end')
@@ -280,35 +280,25 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit, OnCha
     chart
       .append('text')
       .attr('x', 32)
-      .attr('y', 250)
+      .attr('y', 224)
       .attr('fill', '#2D2D39')
       .attr('font-size', '16')
       .style('text-anchor', 'start')
       .style('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
-      .text('Non-Payment');
-
-    chart
-      .append('text')
-      .attr('x', 32)
-      .attr('y', 270)
-      .attr('fill', '#757588')
-      .attr('font-size', '14')
-      .style('text-anchor', 'start')
-      .style('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
-      .text('(Based on Billed Charges)');
+      .text('Total Non-Payment');
 
     chart
       .append('svg:image')
-      .attr('x', 310)
-      .attr('y', 220)
+      .attr('x', 316)
+      .attr('y', 184)
       .attr('xlink:href', 'src/assets/images/icons/Content/round-insert_chart-24px - Copy.svg')
       .attr('width', 70)
       .attr('height', 70);
 
     /* chart
       .append('text')
-      .attr('x', 370)
-      .attr('y', 260)
+      .attr('x', 376)
+      .attr('y', 224)
       .attr('fill', '#2D2D39')
       .attr('font-size', '20')
       .style('text-anchor', 'end')
@@ -318,7 +308,7 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit, OnCha
     chart
       .append('text')
       .attr('x', 32)
-      .attr('y', 340)
+      .attr('y', 304)
       .attr('fill', '#2D2D39')
       .attr('font-size', '16')
       .style('text-anchor', 'start')
@@ -327,8 +317,8 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit, OnCha
 
     chart
       .append('text')
-      .attr('x', 370)
-      .attr('y', 340)
+      .attr('x', 376)
+      .attr('y', 304)
       .attr('fill', '#2D2D39')
       .attr('font-size', '20')
       .style('text-anchor', 'end')
@@ -338,9 +328,9 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit, OnCha
     chart
       .append('line')
       .attr('x1', 400)
-      .attr('y1', 55)
+      .attr('y1', 18)
       .attr('x2', 400)
-      .attr('y2', 375)
+      .attr('y2', 338)
       .attr('stroke', '#757588')
       .attr('stroke-width', '1px');
 
@@ -455,7 +445,7 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit, OnCha
     chart
       .append('text')
       .attr('x', '400.5')
-      .attr('y', '395')
+      .attr('y', '358')
       .attr('fill', '#2D2D39')
       .attr('font-size', '14')
       .attr('text-anchor', 'middle')
@@ -465,9 +455,9 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit, OnCha
     chart
       .append('line')
       .attr('x1', 525.5)
-      .attr('y1', 55)
+      .attr('y1', 18)
       .attr('x2', 525.5)
-      .attr('y2', 375)
+      .attr('y2', 338)
       .attr('stroke', '#B3BABC')
       .attr('stroke-width', 1)
       .attr('stroke-opacity', 0.7);
@@ -475,7 +465,7 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit, OnCha
     chart
       .append('text')
       .attr('x', '525.5')
-      .attr('y', '395')
+      .attr('y', '358')
       .attr('fill', '#2D2D39')
       .attr('font-size', '14')
       .attr('text-anchor', 'middle')
@@ -485,9 +475,9 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit, OnCha
     chart
       .append('line')
       .attr('x1', 650.5)
-      .attr('y1', 55)
+      .attr('y1', 18)
       .attr('x2', 650.5)
-      .attr('y2', 375)
+      .attr('y2', 338)
       .attr('stroke', '#B3BABC')
       .attr('stroke-width', 1)
       .attr('stroke-opacity', 0.7);
@@ -495,7 +485,7 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit, OnCha
     chart
       .append('text')
       .attr('x', '650.5')
-      .attr('y', '395')
+      .attr('y', '358')
       .attr('fill', '#2D2D39')
       .attr('font-size', '14')
       .attr('text-anchor', 'middle')
@@ -505,9 +495,9 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit, OnCha
     chart
       .append('line')
       .attr('x1', 775.5)
-      .attr('y1', 55)
+      .attr('y1', 18)
       .attr('x2', 775.5)
-      .attr('y2', 375)
+      .attr('y2', 338)
       .attr('stroke', '#B3BABC')
       .attr('stroke-width', 1)
       .attr('stroke-opacity', 0.7);
@@ -515,7 +505,7 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit, OnCha
     chart
       .append('text')
       .attr('x', '775.5')
-      .attr('y', '395')
+      .attr('y', '358')
       .attr('fill', '#2D2D39')
       .attr('font-size', '14')
       .attr('text-anchor', 'middle')
@@ -525,9 +515,9 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit, OnCha
     chart
       .append('line')
       .attr('x1', 900.5)
-      .attr('y1', 55)
+      .attr('y1', 18)
       .attr('x2', 900.5)
-      .attr('y2', 375)
+      .attr('y2', 338)
       .attr('stroke', '#B3BABC')
       .attr('stroke-width', 1)
       .attr('stroke-opacity', 0.7);
@@ -535,7 +525,7 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit, OnCha
     chart
       .append('text')
       .attr('x', '900.5')
-      .attr('y', '395')
+      .attr('y', '358')
       .attr('fill', '#2D2D39')
       .attr('font-size', '14')
       .attr('text-anchor', 'middle')
@@ -578,28 +568,28 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit, OnCha
       chart
         .append('rect')
         .attr('x', 400)
-        .attr('y', 70)
+        .attr('y', 34)
         .attr('width', this.chartOptions.chartData[0])
         .attr('height', 48)
         .attr('fill', '#3381FF');
       chart
         .append('rect')
         .attr('x', 400)
-        .attr('y', 150)
+        .attr('y', 114)
         .attr('width', this.chartOptions.chartData[1])
         .attr('height', 48)
         .attr('fill', '#3381FF');
       chart
         .append('rect')
         .attr('x', 400)
-        .attr('y', 200)
+        .attr('y', 194)
         .attr('width', this.chartOptions.chartData[2])
         .attr('height', 48)
-        .attr('fill', '#FC6431');
+        .attr('fill', '#3381FF');
       chart
         .append('rect')
         .attr('x', 400)
-        .attr('y', 280)
+        .attr('y', 274)
         .attr('width', this.chartOptions.chartData[3])
         .attr('height', 48)
         .attr('fill', '#3381FF');
@@ -607,7 +597,7 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit, OnCha
       chart
         .append('rect')
         .attr('x', 400)
-        .attr('y', 70)
+        .attr('y', 34)
         .attr('width', xScaleBar(this.chartOptions.chartData[0]))
         .attr('height', 48)
         .attr('fill', '#3381FF');
@@ -615,7 +605,7 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit, OnCha
       chart
         .append('rect')
         .attr('x', 400)
-        .attr('y', 150)
+        .attr('y', 114)
         .attr('width', xScaleBar(this.chartOptions.chartData[1]))
         .attr('height', 48)
         .attr('fill', '#3381FF');
@@ -623,7 +613,7 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit, OnCha
       chart
         .append('rect')
         .attr('x', 400)
-        .attr('y', 230)
+        .attr('y', 194)
         // .attr('width', xScaleBar(this.chartOptions.chartData[2]))
         .attr('width', 170)
         .attr('height', 48)
@@ -631,15 +621,16 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit, OnCha
       chart
         .append('text')
         .attr('x', 416)
-        .attr('y', 260)
+        .attr('y', 224)
         .attr('font-size', '14')
         .style('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
+        // .attr('fill', '#FC6431');
         .text('Metric in development');
 
       chart
         .append('rect')
         .attr('x', 400)
-        .attr('y', 310)
+        .attr('y', 274)
         .attr('width', xScaleBar(this.chartOptions.chartData[3]))
         .attr('height', 48)
         .attr('fill', '#3381FF');
