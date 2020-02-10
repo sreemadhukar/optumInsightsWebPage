@@ -30,8 +30,12 @@
       [class.full-width]="data.category === 'small-card'"
       [class.self-service-width]="data.category === 'mini-tile'"
     >
-      <div class="img-align">
+      <div *ngIf="!data.metricInProgres" class="img-align">
         <img class="image-align" src="/src/assets/images/warning-icon.svg" />
+      </div>
+      <div *ngIf="data.metricInProgres" class="metric-in-prog">
+        <mat-icon class="icon-progress-img" svgIcon="insert-chart"></mat-icon>
+        <div class="metric-in-development">{{ metricInProgress }}</div>
       </div>
       <div *ngFor="let errorCode of errorCodes">
         <div *ngIf="errorCode.code === data.status" class=" data-title">
