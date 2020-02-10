@@ -16,7 +16,7 @@
     <div *ngIf="isKop" class="kop-div">
       <p>Internal Insights</p>
     </div>
-
+    {{ openDropdownBool }}
     <div class="user-div" (click)="advocateUserClicked()" *ngIf="!printStyle">
       <!-- <mat-slide-toggle [checked]="isDarkTheme | async" labelPosition="before" (change)="toggleDarkTheme($event.checked)"></mat-slide-toggle> -->
       <div class="user-icon">
@@ -27,7 +27,7 @@
         <mat-icon class="nav-menu-icons" svgIcon="expand-more"></mat-icon>
       </div>
     </div>
-    <div *ngIf="advDropdownBool">
+    <div *ngIf="advDropdownBool && openDropdownBool">
       <div class="vertical-menu">
         <a class="act per-item toggle-view-height">Toggle Your View</a>
         <a class="act active provider-height per-item icon curser" (click)="advViewClicked('myView')">

@@ -82,6 +82,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   today = new Date();
   todaysDataTime = '';
   public fullname = '';
+  public openDropdownBool = false;
 
   constructor(
     private breakpointObserver: BreakpointObserver,
@@ -161,10 +162,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
   advocateUserClick(targetElement) {
     /*const HeaderElement = document.querySelector('.header-div');
     const ButtonElement = document.querySelector('.user-div');
-    const dropdownElement = document.querySelector('.vertical-menu');
+    const dropdownElement1 = document.querySelector('.vertical-menu');
     const clickedHeader = HeaderElement.contains(targetElement);
     const clickedButton = ButtonElement.contains(targetElement);
-    const clickedInside = dropdownElement.contains(targetElement);
+    const clickedInside = dropdownElement1.contains(targetElement);
     if (!clickedHeader && !clickedButton && !clickedInside) {
       this.advDropdownBool = false;
       this.clickOutside.emit(null);
@@ -173,10 +174,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
       this.clickOutside.emit(null);
     }*/
 
-    // const HeaderElement = document.querySelector('.header-div');
-    // const ButtonElement = document.querySelector('.user-div');
     const dropdownElement = document.querySelector('.vertical-menu');
-    // const header = document.getElementById('myDIV');
     const btns = dropdownElement.getElementsByClassName('act');
     for (let i = 0; i < btns.length; i++) {
       btns[i].addEventListener('click', function() {
@@ -189,6 +187,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
     }
   }
 
+  toggler() {
+    this.openDropdownBool = !this.openDropdownBool;
+  }
+
   advocateUserClicked() {
     console.log('this.checkAdv()', this.checkAdv.value);
     if (this.sessionService.checkRole('UHCI_Advocate')) {
@@ -196,6 +198,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     } else {
       this.advDropdownBool = false;
     }
+    this.toggler();
     // this.advDropdownBool = !this.advDropdownBool;
   }
 
