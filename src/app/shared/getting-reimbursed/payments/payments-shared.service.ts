@@ -7,6 +7,7 @@ import { SessionService } from '../../session.service';
 import { GettingReimbursedPayload } from '../payload.class';
 import * as _ from 'lodash';
 import { environment } from '../../../../environments/environment';
+import { AuthorizationService } from 'src/app/auth/_service/authorization.service';
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +22,8 @@ export class PaymentsSharedService {
   constructor(
     private gettingReimbursedService: GettingReimbursedService,
     private common: CommonUtilsService,
-    private session: SessionService
+    private session: SessionService,
+    private toggle: AuthorizationService
   ) {}
 
   public sharedPaymentsData(param) {
@@ -34,7 +36,8 @@ export class PaymentsSharedService {
     this.providerKey = this.session.providerKeyData();
     const summaryData: Array<object> = [];
     return new Promise(resolve => {
-      this.getPaymentsData(parameters)
+      const toggleData = { isSummary: false, page: 'Claims Payments', menu: 'Getting Reimbursed' };
+      this.getPaymentsData(parameters, toggleData)
         .then(paydata => {
           const paymentdata = paydata[0];
           return this.calculateTrends(parameters, paymentdata);
@@ -95,7 +98,7 @@ export class PaymentsSharedService {
     });
   }
 
-  public getPaymentsData(parameters) {
+  public getPaymentsData(parameters, toggleData) {
     return new Promise((resolve, reject) => {
       let summaryData: Array<object> = [];
       let claimsPaid: object;
@@ -249,43 +252,6 @@ export class PaymentsSharedService {
                     '&ndash;' +
                     this.common.dateFormat(claimsData.EndDate)
                 };
-                /* if (!paidData[0] && !paidData[1] && !paidData[2] && !paidData[3]) {
-                  claimsPaid = {
-                    category: 'app-card',
-                    type: 'donutWithLabel',
-                    title: 'Claims Paid',
-                    data: {
-                      graphValues: [0, 100],
-                      centerNumber:
-                        this.common.nFormatter(
-                          claimsData.LineOfBusiness[lobData].ClaimFinancialMetrics.ApprovedAmount
-                        ) < 1 &&
-                        this.common.nFormatter(
-                          claimsData.LineOfBusiness[lobData].ClaimFinancialMetrics.ApprovedAmount
-                        ) > 0
-                          ? '< $1'
-                          : '$' +
-                            this.common.nFormatter(
-                              claimsData.LineOfBusiness[lobData].ClaimFinancialMetrics.ApprovedAmount
-                            ),
-                      centerNumberOriginal: claimsData.LineOfBusiness[lobData].ClaimFinancialMetrics.ApprovedAmount,
-                      color: this.common.returnLobColor(claimsData.LineOfBusiness, lobData),
-                      gdata: ['card-inner', 'claimsPaid'],
-                      sdata: {
-                        sign: 'down',
-                        data: '-2.8%'
-                      },
-                      labels: this.common.returnHoverLabels(claimsData.LineOfBusiness, lobData),
-                      hover: true
-                    },
-                    besideData: {
-                      labels: ['Medicare & Retirement', 'Community & State', 'Employer & Individual', 'Uncategorized'],
-                      color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC']
-                    },
-                    timeperiod:
-                      this.common.dateFormat(claimsData.StartDate) + '&ndash;' + this.common.dateFormat(claimsData.EndDate)
-                  };
-                } */
               } else {
                 claimsPaid = {
                   category: 'app-card',
@@ -298,128 +264,7 @@ export class PaymentsSharedService {
                   timeperiod: null
                 };
               }
-              /* if (
-                  claimsData.LineOfBusiness.hasOwnProperty(lobData) &&
-                  claimsData.LineOfBusiness[lobData] != null &&
-                  claimsData.LineOfBusiness[lobData].hasOwnProperty('ClaimFinancialMetrics') &&
-                  claimsData.LineOfBusiness[lobData].ClaimFinancialMetrics.hasOwnProperty('ApprovedAmount')
-                ) {
-                  const paidData = [];
-                  const paidLOBBoolean = [false, false, false, false];
-                  if (
-                    claimsData.LineOfBusiness.hasOwnProperty('MedicareAndRetirement') &&
-                    claimsData.LineOfBusiness.MedicareAndRetirement.ClaimFinancialMetrics != null
-                  ) {
-                    if (
-                      claimsData.LineOfBusiness.MedicareAndRetirement.hasOwnProperty('ClaimFinancialMetrics') &&
-                      claimsData.LineOfBusiness.MedicareAndRetirement.ClaimFinancialMetrics.hasOwnProperty(
-                        'ApprovedAmount'
-                      ) &&
-                      (lobData === 'ALL' || lobData === 'MedicareAndRetirement')
-                    ) {
-                      paidData.push(
-                        claimsData.LineOfBusiness.MedicareAndRetirement.ClaimFinancialMetrics.ApprovedAmount
-                      );
-                      paidLOBBoolean[0] = true;
-                    }
-                  }
-                  if (
-                    claimsData.LineOfBusiness.hasOwnProperty('CommunityAndState') &&
-                    claimsData.LineOfBusiness.CommunityAndState.ClaimFinancialMetrics != null
-                  ) {
-                    if (
-                      claimsData.LineOfBusiness.CommunityAndState.hasOwnProperty('ClaimFinancialMetrics') &&
-                      claimsData.LineOfBusiness.CommunityAndState.ClaimFinancialMetrics.hasOwnProperty(
-                        'ApprovedAmount'
-                      ) &&
-                      (lobData === 'ALL' || lobData === 'CommunityAndState')
-                    ) {
-                      paidData.push(claimsData.LineOfBusiness.CommunityAndState.ClaimFinancialMetrics.ApprovedAmount);
-                      paidLOBBoolean[1] = true;
-                    }
-                  }
-                  if (
-                    claimsData.LineOfBusiness.hasOwnProperty('EmployerAndIndividual') &&
-                    claimsData.LineOfBusiness.EmployerAndIndividual.ClaimFinancialMetrics != null
-                  ) {
-                    if (
-                      claimsData.LineOfBusiness.EmployerAndIndividual.hasOwnProperty('ClaimFinancialMetrics') &&
-                      claimsData.LineOfBusiness.EmployerAndIndividual.ClaimFinancialMetrics.hasOwnProperty(
-                        'ApprovedAmount'
-                      ) &&
-                      (lobData === 'ALL' || lobData === 'EmployerAndIndividual')
-                    ) {
-                      paidData.push(
-                        claimsData.LineOfBusiness.EmployerAndIndividual.ClaimFinancialMetrics.ApprovedAmount
-                      );
-                      paidLOBBoolean[2] = true;
-                    }
-                  }
-                  if (
-                    claimsData.LineOfBusiness.hasOwnProperty('UNKNOWN') &&
-                    claimsData.LineOfBusiness.UNKNOWN.ClaimFinancialMetrics != null
-                  ) {
-                    if (
-                      claimsData.LineOfBusiness.UNKNOWN.hasOwnProperty('ClaimFinancialMetrics') &&
-                      claimsData.LineOfBusiness.UNKNOWN.ClaimFinancialMetrics.hasOwnProperty('ApprovedAmount') &&
-                      (lobData === 'ALL' || lobData === 'UNKNOWN')
-                    ) {
-                      paidData.push(claimsData.LineOfBusiness.UNKNOWN.ClaimFinancialMetrics.ApprovedAmount);
-                      paidLOBBoolean[3] = true;
-                    }
-                  }
-                  if (lobData !== 'ALL') {
-                    paidData.push(
-                      claimsData.LineOfBusiness.ALL.ClaimFinancialMetrics.ApprovedAmount -
-                        claimsData.LineOfBusiness[lobData].ClaimFinancialMetrics.ApprovedAmount
-                    );
-                  }
-                  claimsPaid = {
-                    category: 'app-card',
-                    type: 'donutWithLabel',
-                    title: 'Claims Paid',
-                    data: {
-                      graphValues: paidData,
-                      centerNumber:
-                        this.common.nFormatter(
-                          claimsData.LineOfBusiness[lobData].ClaimFinancialMetrics.ApprovedAmount
-                        ) < 1 &&
-                        this.common.nFormatter(
-                          claimsData.LineOfBusiness[lobData].ClaimFinancialMetrics.ApprovedAmount
-                        ) > 0
-                          ? '< $1'
-                          : '$' +
-                            this.common.nFormatter(
-                              claimsData.LineOfBusiness[lobData].ClaimFinancialMetrics.ApprovedAmount
-                            ),
-                      centerNumberOriginal: claimsData.LineOfBusiness[lobData].ClaimFinancialMetrics.ApprovedAmount,
-                      color: this.common.returnLobColor(claimsData.LineOfBusiness, lobData),
-                      gdata: ['card-inner', 'claimsPaid'],
-                      sdata: {
-                        sign: '',
-                        data: ''
-                      },
-                      labels: this.common.returnHoverLabels(claimsData.LineOfBusiness, lobData),
-                      hover: true
-                    },
-                    besideData: {
-                      labels: this.common.LOBSideLabels(lobData, paidLOBBoolean),
-                      color: this.common.LOBSideLabelColors(lobData, paidLOBBoolean)
-                    },
-                    timeperiod:
-                      this.common.dateFormat(claimsData.StartDate) + '&ndash;' + this.common.dateFormat(claimsData.EndDate)
-                  };
-                } else {
-                  claimsPaid = {
-                    category: 'app-card',
-                    type: 'donutWithLabel',
-                    title: null,
-                    data: null,
-                    besideData: null,
-                    bottomData: null,
-                    timeperiod: null
-                  };
-                } */
+
               if (
                 claimsData.LineOfBusiness.hasOwnProperty(lobData) &&
                 claimsData.LineOfBusiness[lobData] != null &&
@@ -485,6 +330,7 @@ export class PaymentsSharedService {
                   category: 'app-card',
                   type: 'donutWithLabel',
                   title: 'Claims Yield',
+                  toggle: true,
                   data: {
                     graphValues: notPaidData,
                     centerNumber:
@@ -539,7 +385,7 @@ export class PaymentsSharedService {
                 bottomData: null,
                 timeperiod: null
               };
-              /*  claimsPaidRate = {
+              claimsPaidRate = {
                 category: 'app-card',
                 type: 'donut',
                 toggle: true,
@@ -547,7 +393,7 @@ export class PaymentsSharedService {
                 title: 'Claims Yield',
                 data: null,
                 timeperiod: null
-              }; */
+              };
             }
           } else {
             lobData = parameters[1].Lob ? _.startCase(parameters[1].Lob.toLowerCase()) : 'All';
@@ -568,7 +414,8 @@ export class PaymentsSharedService {
                 status: 404,
                 title: 'Claims Yield',
                 data: null,
-                timeperiod: null
+                timeperiod: null,
+                toggle: !this.toggle.setToggles('Claims Yield', toggleData.page, toggleData.menu, toggleData.isSummary)
               };
             } else if (claimsData != null) {
               if (
@@ -869,6 +716,12 @@ export class PaymentsSharedService {
                   category: 'app-card',
                   type: 'donut',
                   title: 'Claims Yield',
+                  toggle: !this.toggle.setToggles(
+                    'Claims Yield',
+                    toggleData.page,
+                    toggleData.menu,
+                    toggleData.isSummary
+                  ),
                   data: {
                     graphValues: [
                       claimsData[lobData].ClaimsLobSummary[0].ClaimsYieldRate,
@@ -911,7 +764,8 @@ export class PaymentsSharedService {
                 status: 404,
                 title: 'Claims Yield',
                 data: null,
-                timeperiod: null
+                timeperiod: null,
+                toggle: !this.toggle.setToggles('Claims Yield', toggleData.page, toggleData.menu, toggleData.isSummary)
               };
             }
           }
@@ -926,11 +780,8 @@ export class PaymentsSharedService {
           // };
           //  const payments = { id: 1, title: 'Claims Payments', data: [claimsPaid, claimsPaidRate] };
           /*, claimsPaidRate] }; commented to supress claims yield card*/
-          summaryData = [[claimsPaid, claimsPaidRate], claimsData];
-
-          /* if (environment.claimsYieldAccess) {
-            summaryData[1] = claimsPaidRate;
-          } */
+          // summaryData = [[claimsPaid, claimsPaidRate], claimsData];
+          summaryData = [[claimsPaid], claimsData];
 
           if (summaryData.length) {
             resolve(summaryData);

@@ -62,6 +62,8 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
   subscription: any;
   pageTitle: String = '';
   pageSubTitle: String = '';
+  printpageSubTitle: String = '';
+  subtitle: any;
   nonPaymentData1: Array<Object> = [{}];
   currentTabTitle: String = '';
   monthlyLineGraph: any = [{}];
@@ -75,6 +77,8 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
   loadingTwo: boolean;
   mockCardTwo: any;
   barChartsArray: any;
+  mockCards: any;
+  loading: boolean;
   @Input() data;
   constructor(
     public MetricidService: GlossaryMetricidService,
@@ -134,7 +138,8 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
     );
     this.printRoute = '/GettingReimbursed/NonPayments/print-nonpayments';
     this.pageTitle = 'Claims Non-Payments';
-    this.pageSubTitle = 'Getting Reimbursed - Non-Payments';
+    this.printpageSubTitle = 'Getting Reimbursed - Non-Payments';
+    this.pageSubTitle = 'Note: Claims non-payment metrics are calculated based on billed charges.';
     this.createPayloadService.getEvent().subscribe(value => {
       this.ngOnInit();
     });
@@ -142,10 +147,12 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
 
   ngOnInit() {
     if (this.router.url.includes('print-')) {
+      this.subtitle = true;
       this.printStyle = true;
       this.pageTitle = this.session.getHealthCareOrgName();
     }
-
+    this.mockCards = [{}, {}];
+    this.loading = true;
     this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'nonPaymentsPage' });
     this.nonPaymentData1 = [];
     this.loadingTopReasons = true;
@@ -160,6 +167,7 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
     /** code for two donuts  Claims Not Paid and Claims Non-payment Rate */
     this.nonPaymentService.getNonPayment(this.createPayloadService.payload).then(
       nonPayment => {
+        this.loading = false;
         this.nonPaymentData1 = JSON.parse(JSON.stringify(nonPayment));
       },
       err => {
@@ -173,11 +181,6 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
     this.nonPaymentService.getNonPaymentCategories(this.createPayloadService.payload).then(
       topCategories => {
         this.loadingTopReasons = false;
-        this.topReasonsCategoryDisplay = true;
-        this.barChartsArray = topCategories;
-        this.reasonsWithSubReasons(topCategories);
-        // to initialize the data required in view-top-claims data
-        this.reasonWithData = this.reasonsWithSubReasons(topCategories);
         if (topCategories === null) {
           this.topReasonsCategoryDisplay = false;
           this.barChartsArray = {
@@ -190,6 +193,11 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
             timeperiod: null
           };
         } else {
+          this.topReasonsCategoryDisplay = true;
+          this.barChartsArray = topCategories;
+          this.reasonsWithSubReasons(topCategories);
+          // to initialize the data required in view-top-claims data
+          this.reasonWithData = this.reasonsWithSubReasons(topCategories);
           this.timePeriodTopReaons = this.barChartsArray[0].timePeriod;
         }
       },
@@ -221,7 +229,7 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
       // This is for line graph
       this.nonPaymentService.sharedTrendByMonth(this.createPayloadService.payload).then(data => {
         const trendData = JSON.parse(JSON.stringify(data));
-        if (!trendData) {
+        if (trendData == null) {
           this.trendMonthDisplay = false;
           this.monthlyLineGraph = {
             category: 'large-card',

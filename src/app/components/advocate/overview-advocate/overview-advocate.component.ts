@@ -330,6 +330,7 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
     this.topRowService
       .getClaimsYieldShared(this.createPayloadService.payload)
       .then(claimsYieldData => {
+        console.log('claimsYieldData', claimsYieldData);
         this.claimsYieldCard.push(JSON.parse(JSON.stringify(claimsYieldData)));
         this.claimsYieldLoading = false;
       })
