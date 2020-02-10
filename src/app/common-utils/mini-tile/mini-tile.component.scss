@@ -57,17 +57,18 @@
     letter-spacing: 0.2px;
     line-height: 18px;
 
-    .labels1 {
-      font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+    > span {
+      font-family: 'UHCSans-Bold', Helvetica, Arial, sans-serif;
     }
   }
 
   ul.list-labels > li::before {
-    content: '•  ';
+    content: '•';
     font-size: 60px;
     position: relative;
     top: 16px;
-    left: 10px;
+    left: 5px;
+    right: 0;
   }
 
   ul.list-labels > li:nth-child(1)::before {
