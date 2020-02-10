@@ -16,27 +16,34 @@
     <div *ngIf="isKop" class="kop-div">
       <p>Internal Insights</p>
     </div>
-    {{ openDropdownBool }}
     <div class="user-div" (click)="advocateUserClicked()" *ngIf="!printStyle">
       <!-- <mat-slide-toggle [checked]="isDarkTheme | async" labelPosition="before" (change)="toggleDarkTheme($event.checked)"></mat-slide-toggle> -->
       <div class="user-icon">
         <mat-icon class="nav-menu-icons" svgIcon="person"></mat-icon>
       </div>
       <div class="user-name">{{ username }}</div>
-      <div class="user-expand-more">
+      <div class="user-expand-more" *ngIf="isAdvocate">
         <mat-icon class="nav-menu-icons" svgIcon="expand-more"></mat-icon>
       </div>
     </div>
     <div *ngIf="advDropdownBool && openDropdownBool">
       <div class="vertical-menu">
         <a class="act per-item toggle-view-height">Toggle Your View</a>
-        <a class="act active provider-height per-item icon curser" (click)="advViewClicked('myView')">
+        <a
+          class="act provider-height per-item icon curser"
+          (click)="advViewClicked('myView')"
+          [ngClass]="{ active: myView === true }"
+        >
           <mat-icon class="nav-menu-icons lb-padd" svgIcon="done"></mat-icon>
           <span class="wrap">My View</span>
           <div class="tiny-provider">{{ fullname }}</div></a
         >
 
-        <a class="act per-item icon curser" (click)="advViewClicked('userView')">
+        <a
+          class="act per-item icon curser"
+          (click)="advViewClicked('userView')"
+          [ngClass]="{ active: userView === true }"
+        >
           <mat-icon class="nav-menu-icons lb-padd" svgIcon="done"></mat-icon>
           <span class="wrap">{{ healthSystemName }}</span>
           <div class="tiny-provider">See what the provider sees</div></a
