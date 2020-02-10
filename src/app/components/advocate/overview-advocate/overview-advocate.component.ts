@@ -333,8 +333,11 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
     this.topRowService
       .getClaimsYieldShared(this.createPayloadService.payload)
       .then(claimsYieldData => {
-        console.log('claimsYieldData', claimsYieldData);
         this.claimsYieldCard.push(JSON.parse(JSON.stringify(claimsYieldData)));
+        this.claimsYieldCard = this.claimsYieldCard.map(val => {
+          val['timeperiod'] = `${this.timeFilterValueResolved} (${val['timeperiod']})`;
+          return val;
+        });
         this.claimsYieldLoading = false;
       })
       .catch(reason => {
@@ -429,6 +432,7 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
       .paymentsBySubmission(this.createPayloadService.payload)
       .then(data => {
         this.pbsCard = JSON.parse(JSON.stringify(data));
+        this.pbsCard['timeperiod'] = `${this.timeFilterValueResolved} (${this.pbsCard['timeperiod']})`;
         this.pbsLoading = false;
         this.stackedBarChartLoading = true;
       })
