@@ -34,6 +34,11 @@ import { DOCUMENT, Location } from '@angular/common';
 import { environment } from '../../../environments/environment';
 import { AuthenticationService } from '../../auth/_service/authentication.service';
 
+interface IClicked {
+  myView: boolean;
+  provider: boolean;
+}
+
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -83,6 +88,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   todaysDataTime = '';
   public fullname = '';
   public openDropdownBool = false;
+  public checkedClicked: IClicked;
 
   constructor(
     private breakpointObserver: BreakpointObserver,
@@ -199,7 +205,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
       this.advDropdownBool = false;
     }
     this.toggler();
-    // this.advDropdownBool = !this.advDropdownBool;
   }
 
   advViewClicked(value: string) {
@@ -208,7 +213,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
     } else if (value === 'userView') {
       this.router.navigate(['/OverviewPage']);
     }
-    // this.advDropdownBool = false;
   }
 
   ngOnInit() {
