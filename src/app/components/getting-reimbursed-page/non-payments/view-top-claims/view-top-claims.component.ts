@@ -26,6 +26,7 @@ import { TopReasonsEmitterService } from './../../../../shared/getting-reimburse
   styleUrls: ['./view-top-claims.component.scss']
 })
 export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
+  hideAllObjects: boolean;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   selectedclaims: any;
@@ -43,9 +44,9 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
   filterObj = {};
   subscription: any;
   ProviderSysKey: any;
-
+  viewClaimsValue: any;
   providerName: string;
-
+  isLoading = true;
   viewsClaimsFullData: any;
   tinsData: any;
   public reasonLabel: string;
@@ -58,6 +59,7 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
   showTableBool: Boolean = true;
   viewClaimsFilterDOP: boolean;
   viewClaimsFilterDOS: boolean;
+  loading: boolean;
   previousPageurl = [
     { previousPage: 'overviewPage', urlRout: '/OverviewPage' },
     { previousPage: 'gettingReimbursedSummary', urlRout: '/GettingReimbursed' },
@@ -118,13 +120,12 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
     this.paginator._intl.itemsPerPageLabel = 'Display';
 
     this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'viewTopClaimsPage' });
-    this.viewClaimsByFilter = this.createPayloadService.payload['viewClaimsByFilter'];
-    if ((this.viewClaimsByFilter = this.viewClaimsByFilter)) {
-      this.viewClaimsFilterDOP = true;
-      this.viewClaimsFilterDOS = false;
-    } else {
-      this.viewClaimsFilterDOP = false;
-      this.viewClaimsFilterDOS = true;
+    this.viewClaimsByFilter = this.createPayloadService.initialState['viewClaimsByFilter'];
+
+    if (this.viewClaimsByFilter === 'DOS') {
+      this.viewClaimsValue = 'Date of Service';
+    } else if (this.viewClaimsByFilter === 'DOP') {
+      this.viewClaimsValue = 'Date of Processing';
     }
 
     if (this.claimsData !== null) {
@@ -137,41 +138,47 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
     }
   }
   ngAfterViewInit() {
-    this.selectedclaims.paginator = this.paginator;
-    this.selectedclaims.sort = this.sort;
-    this.paginator._intl.itemsPerPageLabel = 'Display';
-    this.paginator._intl.getRangeLabel = function(page, pageSize, length) {
-      d3.select('#page-text').text(function() {
-        return 'Page ';
-      });
-      d3.select('#page-number').text(function() {
-        return page + 1;
-      });
-      return ' of ' + Math.floor(length / pageSize + 1);
-    };
-    d3.select('.mat-paginator-container')
-      .insert('div')
-      .text('per page')
-      .style('flex-grow', '5')
-      .lower();
+    if (this.claimsData !== null) {
+      this.selectedclaims.paginator = this.paginator;
+      this.selectedclaims.sort = this.sort;
+      this.selectedclaims.sort = this.sort;
+      const sortState: Sort = { active: 'NonPaymentAmount', direction: 'asc' };
+      this.sort.active = sortState.active;
+      this.sort.direction = sortState.direction;
+      this.sort.sortChange.emit(sortState);
+      this.paginator._intl.itemsPerPageLabel = 'Display';
+      this.paginator._intl.getRangeLabel = function(page, pageSize, length) {
+        d3.select('#page-text').text(function() {
+          return 'Page ';
+        });
+        d3.select('#page-number').text(function() {
+          return page + 1;
+        });
+        return ' of ' + Math.floor(length / pageSize + 1);
+      };
+      d3.select('.mat-paginator-container')
+        .insert('div')
+        .text('per page')
+        .style('flex-grow', '5')
+        .lower();
 
-    d3.select('.mat-paginator-range-label')
-      .insert('div')
-      .style('border', 'solid 1px')
-      .style('border-radius', '2px')
-      .style('float', 'left')
-      .style('margin', '-13px 5px 0px 5px')
-      .style('padding', '10px 20px 10px 20px')
-      .attr('id', 'page-number')
-      .lower();
+      d3.select('.mat-paginator-range-label')
+        .insert('div')
+        .style('border', 'solid 1px')
+        .style('border-radius', '2px')
+        .style('float', 'left')
+        .style('margin', '-13px 5px 0px 5px')
+        .style('padding', '10px 20px 10px 20px')
+        .attr('id', 'page-number')
+        .lower();
 
-    d3.select('.mat-paginator-range-label')
-      .insert('span')
-      .style('float', 'left')
-      .lower()
-      .attr('id', 'page-text');
+      d3.select('.mat-paginator-range-label')
+        .insert('span')
+        .style('float', 'left')
+        .lower()
+        .attr('id', 'page-text');
+    }
   }
-
   loadTable(reasonSelected, subReason) {
     this.topClaimsSharedService
       .getClaimsData(this.createPayloadService.initialState, reasonSelected, subReason)
@@ -184,11 +191,20 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
           console.log('selectee claims', this.selectedclaims);
 
           this.selectedclaims.sort = this.sort;
-          const sortState: Sort = { active: 'TinNameAndNumber.TinName', direction: 'asc' };
+          const sortState: Sort = { active: 'NonPaymentAmount', direction: 'desc' };
           this.sort.active = sortState.active;
           this.sort.direction = sortState.direction;
           this.sort.sortChange.emit(sortState);
+          this.selectedclaims.filterPredicate = (data, filter) => {
+            if (data[this.filterObj['key']] && this.filterObj['key']) {
+              return data[this.filterObj['key']].toLowerCase().includes(this.filterObj['value']);
+            }
+            return false;
+          };
         }
+      })
+      .catch(error => {
+        console.log('Dat is not available', error);
       });
   }
 
