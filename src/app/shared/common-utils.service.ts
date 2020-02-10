@@ -268,6 +268,11 @@ export class CommonUtilsService {
     */
     return day;
   }
+  public dateFormatPriorAuth(timeStamp: string): string {
+    const x = timeStamp.split('-'); // "02-09-2020"
+    const y = this.ReturnMonthlyString(x[0]) + ' ' + this.dayFormat(x[1]) + ', ' + x[2]; // Feb 02, 2019
+    return y;
+  }
   public dateFormat(timeStamp: string): string {
     let date1;
     if (timeStamp.includes('T')) {
@@ -478,10 +483,6 @@ export class CommonUtilsService {
     const keys = this.LOBSideLabels(LOBType, data);
     const combine = [];
     for (let i = 0; i < keys.length; i++) {
-      const temp = {
-        key: keys[i],
-        value: this.nondecimalFormatter(value[i])
-      };
       const temp1 = keys[i] + ' (' + this.nondecimalFormatter(value[i]) + ')';
       combine.push(temp1);
     }
