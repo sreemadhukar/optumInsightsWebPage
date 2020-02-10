@@ -281,7 +281,6 @@ export class CommonUtilsService {
   }
 
   public checkZeroNegative(value: number): boolean {
-    console.log('toggle', value <= 0 ? false : true);
     return value <= 0 ? false : true;
   }
   public nondecimalFormatter(fnumber) {
