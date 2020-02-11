@@ -13,6 +13,7 @@
   >
     <div>
       <a class="handClicked" (click)="titleClicked(titleHeader)">{{ titleHeader }}</a>
+      <span *ngIf="addIcon"><mat-icon class="icon-class" svgIcon="warning-icon"></mat-icon></span>
     </div>
     <div *ngIf="titleSubHeader !== null" class="sub-header-title">
       {{ titleSubHeader }}
