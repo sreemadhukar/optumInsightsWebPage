@@ -55,6 +55,7 @@ export class TaxSummaryComponent implements OnInit {
       this.numberOfTins = this.data.All.length;
       this.taxSummaryData = new MatTableDataSource(this.data.All);
       this.taxSummaryData.sort = this.sort;
+
       const sortState: Sort = { active: 'Tin', direction: 'asc' };
       this.sort.active = sortState.active;
       this.sort.direction = sortState.direction;
