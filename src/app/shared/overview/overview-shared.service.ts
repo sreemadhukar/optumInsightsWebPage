@@ -106,55 +106,6 @@ export class OverviewSharedService {
     }); // ends Promise
   } // end getOverviewData function
 
-  /* function to create Prioir Auth Tile in Overview Page -  Ranjith kumar Ankam - 04-Jul-2019*/
-  createPriorAuthObject(providerSystems) {
-    return new Promise((resolve, reject) => {
-      let cPriorAuth: object;
-      if (
-        providerSystems.hasOwnProperty('PriorAuth') &&
-        providerSystems.PriorAuth !== null &&
-        providerSystems.PriorAuth.hasOwnProperty('LineOfBusiness') &&
-        providerSystems.PriorAuth.LineOfBusiness.hasOwnProperty('All') &&
-        providerSystems.PriorAuth.LineOfBusiness.All.hasOwnProperty('PriorAuthApprovedCount') &&
-        providerSystems.PriorAuth.LineOfBusiness.All.hasOwnProperty('PriorAuthNotApprovedCount') &&
-        providerSystems.PriorAuth.LineOfBusiness.All.hasOwnProperty('PriorAuthPendingCount') &&
-        providerSystems.PriorAuth.LineOfBusiness.All.hasOwnProperty('PriorAuthCancelledCount')
-      ) {
-        const priorAuthRequested =
-          providerSystems.PriorAuth.LineOfBusiness.All.PriorAuthApprovedCount +
-          providerSystems.PriorAuth.LineOfBusiness.All.PriorAuthNotApprovedCount;
-        const approvedRate = providerSystems.PriorAuth.LineOfBusiness.All.PriorAuthApprovedCount / priorAuthRequested;
-
-        cPriorAuth = {
-          category: 'small-card',
-          type: 'donut',
-          title: 'Prior Authorization Approval',
-          MetricID: this.MetricidService.MetricIDs.PriorAuthorizationApproval,
-          toggle: this.toggle.setToggles('Prior Authorization Approval', 'AtGlance', 'Overview', false),
-          data: {
-            graphValues: [approvedRate, 1 - approvedRate],
-            centerNumber: (approvedRate * 100).toFixed(0) + '%',
-            color: ['#3381FF', '#D7DCE1'],
-            gdata: ['card-inner', 'priorAuthCardD3Donut']
-          },
-          sdata: null,
-          timeperiod: 'Last 6 Months'
-        };
-      } else {
-        cPriorAuth = {
-          category: 'small-card',
-          type: 'donut',
-          title: null,
-          data: null,
-          sdata: null,
-          timeperiod: null
-        };
-      }
-
-      resolve(cPriorAuth);
-    });
-  }
-
   /* function to create Selef Service Tile in Overview Page -  Ranjith kumar Ankam - 04-Jul-2019*/
   createSelfServiceObject(providerSystems) {
     return new Promise((resolve, reject) => {
@@ -824,13 +775,13 @@ export class OverviewSharedService {
             data: {
               centerNumber: claims.All.ClaimsLobSummary[0].ClaimsAvgTat + ' days'
             },
-            timeperiod: 'Last 6 Months'
+            timeperiod: this.common.dateFormat(claims.Startdate) + '&ndash;' + this.common.dateFormat(claims.Enddate)
           };
         } else {
           claimsTAT = {
             category: 'small-card',
             type: 'tatRotateArrow',
-            title: null,
+            title: 'Avg. Claims Processing Days',
             data: null,
             sdata: null,
             timeperiod: null
@@ -1202,7 +1153,10 @@ export class OverviewSharedService {
               gdata: ['card-inner', 'priorAuthCardD3Donut']
             },
             sdata: null,
-            timeperiod: 'Last 6 Months'
+            timeperiod:
+              this.common.dateFormatPriorAuth(priorAuth.PriorAuthorizations.ReportingStartDate) +
+              '&ndash;' +
+              this.common.dateFormatPriorAuth(priorAuth.PriorAuthorizations.ReportingEndDate)
           };
           // if (
           //   trends != undefined &&
@@ -1266,6 +1220,10 @@ export class OverviewSharedService {
           calls.CallVolByQuesType.hasOwnProperty('PriorAuth') &&
           calls.CallVolByQuesType.hasOwnProperty('Others')
         ) {
+          const startDate = calls.ReportStartDate;
+          const endDate = calls.ReportEndDate;
+          const timePeriodCalls: String =
+            this.common.dateFormat(startDate) + '&ndash;' + this.common.dateFormat(endDate);
           cIR = {
             category: 'small-card',
             type: 'donut',
@@ -1289,7 +1247,7 @@ export class OverviewSharedService {
               sign: '',
               data: ''
             },
-            timeperiod: 'Last 6 Months'
+            timeperiod: timePeriodCalls
           };
 
           if (

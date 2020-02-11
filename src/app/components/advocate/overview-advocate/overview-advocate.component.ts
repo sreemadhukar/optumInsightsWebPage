@@ -128,7 +128,6 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
   paymentData() {
     this.paymentLoading = true;
     this.topRowMockCards = [{}, {}, {}];
-
     this.topRowService
       .getPaymentShared(this.createPayloadService.payload)
       .then(paymentData => {

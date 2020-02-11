@@ -87,6 +87,13 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
   public navCategoriesTotal = [
     { icon: 'home', name: 'Overview', path: '/NationalExecutive', disabled: false, kop: true },
     { icon: 'summary', name: 'NPS Summary', path: '/NationalExecutive/NpsDetail', disabled: false, kop: true },
+    {
+      icon: 'person',
+      name: 'Onboarding',
+      children: [{ name: 'Summary', path: '/NationalExecutive/Onboarding', kop: true }],
+      disabled: false,
+      kop: true
+    },
     { icon: 'home', name: 'Overview', path: '/OverviewPage', disabled: false },
     {
       icon: 'getting-reimburse',
@@ -318,7 +325,10 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     );
     iconRegistry.addSvgIcon('prior-auth', sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/PA-idle.svg'));
     iconRegistry.addSvgIcon('pcor', sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/PCOR.svg'));
-
+    iconRegistry.addSvgIcon(
+      'person',
+      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Content/round-person-24px.svg')
+    );
     router.events.subscribe(event => {
       if (event instanceof NavigationStart) {
         this.printStyle = event.url.includes('print-');
