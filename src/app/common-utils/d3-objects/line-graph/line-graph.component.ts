@@ -206,7 +206,7 @@ export class LineGraphComponent implements OnInit {
       }
     }
 
-    const preWidth = 961; // document.getElementById(generalData[0].parentDiv).clientWidth;
+    const preWidth = generalData[0].width || 961; // document.getElementById(generalData[0].parentDiv).clientWidth;
 
     let topMarginSubtract = 150;
     if (titleData[0].topTitleBoxNumber) {
@@ -302,9 +302,11 @@ export class LineGraphComponent implements OnInit {
     const xScale3 = d3
       .scalePoint()
       .domain(
-        chartData.map(function(d) {
-          return d.name;
-        })
+        0,
+        lengthOfData - 1
+        // chartData.map(function(d) {
+        //   return d.name + d.year;
+        // })
       ) // input
       .range([25, width - 25]);
 
