@@ -6,6 +6,9 @@ import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { SessionService } from 'src/app/shared/session.service';
+import { FILTER_MASTER_DATA } from 'src/app/store/kopFilter/kopFilterMasterData';
+import { select, NgRedux } from '@angular-redux/store';
+import { KOPSharedService } from 'src/app/shared/kop/kop.service';
 
 export interface FilterOptions {
   title: string;
@@ -24,48 +27,18 @@ export interface FilterOptions {
 })
 export class KopNpsComponent implements OnInit, OnDestroy {
   subscription: Subscription;
-
+  @select(['kop', 'timePeriod']) timePeriod;
   // HEADER SECTION
-  public filterData: FilterOptions[] = [
-    {
-      title: 'Last Completed Quarter',
-      selected: false,
-      default: false,
-      quarterFormat: 'default',
-      timeFrameFormat: 'Quarter and Year',
-      filters: ['LAST_COMPLETED_QUARTER'],
-      priorAuthFilters: ['LAST_COMPLETED_QUARTER']
-    },
-    {
-      title: 'Year To Date',
-      selected: false,
-      default: false,
-      timeFrameFormat: 'Year',
-      quarterFormat: 'default',
-      filters: ['YEAR_TO_DATE'],
-      priorAuthFilters: ['YEAR_TO_DATE']
-    },
-    {
-      title: 'Quarter over Quarter',
-      selected: true,
-      default: true,
-      timeFrameFormat: 'Quarter vs Quarter',
-      quarterFormat: 'default',
-      filters: ['QUARTER_OVER_QUARTER'],
-      priorAuthFilters: ['LAST_COMPLETED_QUARTER', 'QUARTER_OVER_QUARTER']
-    },
-    {
-      title: 'Total Last Year',
-      selected: false,
-      default: false,
-      timeFrameFormat: 'Last Year',
-      quarterFormat: 'YTD',
-      filters: ['YEAR_TO_DATE', 'TOTAL_LAST_YEAR'],
-      priorAuthFilters: ['YEAR_TO_DATE', 'TOTAL_LAST_YEAR']
-    }
-  ];
-
+  public pageTitle: string;
+  public filterData: FilterOptions[] = FILTER_MASTER_DATA;
+  // NPS SECTION
+  public npsLoaded: Boolean = false;
+  public npsCardOptions: any = {
+    npsHeader: true
+  };
+  public npsSummary: any = {};
   public currentFilter: any = {};
+  public kopNpsData: any = {};
   public isError = false;
 
   constructor(
@@ -74,7 +47,9 @@ export class KopNpsComponent implements OnInit, OnDestroy {
     private sessionService: SessionService,
     private iconRegistry: MatIconRegistry,
     private sanitizer: DomSanitizer,
-    private router: Router
+    private router: Router,
+    private kopSharedService: KOPSharedService,
+    private ngRedux: NgRedux<any>
   ) {
     iconRegistry.addSvgIcon(
       'filter',
@@ -88,17 +63,15 @@ export class KopNpsComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.eventEmitter.emitEvent(true);
-    this.currentFilter = this.filterData.filter(element => element.default)[0];
-    this.sessionService.getFilChangeEmitter().subscribe((data: any) => {
-      const { selectedFilter } = data;
-
-      this.filterData.forEach((filterDataItem: any) => {
-        filterDataItem.selected = false;
-        if (filterDataItem.title === selectedFilter) {
-          filterDataItem.selected = true;
-          this.currentFilter = filterDataItem;
-        }
-      });
+    const userInfo = JSON.parse(sessionStorage.getItem('loggedUser')) || {};
+    this.pageTitle = 'Hello, ' + userInfo.FirstName + '.';
+    this.timePeriod.subscribe(val => {
+      if (val === this.currentFilter['timePeriod']) {
+        return;
+      }
+      const currentFilterState = this.ngRedux.getState();
+      this.currentFilter = currentFilterState['kop'];
+      this.npsLoaded = false;
       this.isError = false;
       this.getNPSData();
     });
@@ -112,5 +85,21 @@ export class KopNpsComponent implements OnInit, OnDestroy {
     this.filterExpandService.setData({ url: this.router.url, customFilter: true, filterData: this.filterData });
   }
 
-  getNPSData() {}
+  getNPSData() {
+    this.kopSharedService
+      .getNpsDetails({ filter: this.currentFilter })
+      .then((data: any) => {
+        if (data) {
+          this.kopNpsData = data;
+          this.npsLoaded = true;
+        } else {
+          this.npsLoaded = true;
+          this.isError = true;
+        }
+      })
+      .catch(err => {
+        this.npsLoaded = true;
+        this.isError = true;
+      });
+  }
 }
