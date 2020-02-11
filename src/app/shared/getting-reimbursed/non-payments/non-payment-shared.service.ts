@@ -712,7 +712,6 @@ export class NonPaymentSharedService {
           }
 
           const filter_data_claimSummary = [];
-
           let dataTrendLine;
           if (nonPaymentsTrendData[0].hasOwnProperty('All')) {
             nonPaymentsTrendData.forEach(element => {
@@ -747,7 +746,6 @@ export class NonPaymentSharedService {
           } else {
             dataTrendLine = null;
           }
-
           resolve(dataTrendLine);
         } catch (Error) {
           console.log('Error in Trend Line Graph NonPayments', Error);
