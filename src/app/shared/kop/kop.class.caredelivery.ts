@@ -6,6 +6,7 @@ export class CareDelivery {
   public data = {
     title: 'Care Delivery',
     MetricID: '43,44',
+    type: 'cards',
     chartData: [],
     quarters: []
   };

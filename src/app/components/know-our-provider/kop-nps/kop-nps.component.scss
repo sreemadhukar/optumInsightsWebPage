@@ -130,6 +130,18 @@
     .overview-section {
       display: flex;
       flex-wrap: wrap;
+      .large-card {
+        width: 100%;
+      }
+      .half-card {
+        width: calc(50% - 15px);
+      }
+      .half-card.left {
+        margin-right: 15px;
+      }
+      .half-card.right {
+        margin-left: 15px;
+      }
       .section-header div {
         display: inline-block;
       }

@@ -12,11 +12,11 @@
     <div class="height1Separator"></div>
 
     <div class="breadcrumb-top-padding filter-div">
-      <div class="time--period ">
+      <div class="time--period">
         <div class="filterchips">
           <div class="horizontal-align">
             <button class="btn btn-rounded" disabled>
-              <span>Time Period: </span><span class="text-semibold pl-4">(Quarter over Quarter)) </span>
+              <span>Time Period: </span><span class="text-semibold pl-4">(Quarter over Quarter) </span>
             </button>
           </div>
         </div>
@@ -27,7 +27,31 @@
       </div>
     </div>
 
-    <div class="overview-section"></div>
+    <div class="overview-section">
+      <app-large-card-kop
+        [data]="kopNpsData.npsData"
+        class="large-card"
+        [noHeaderClick]="true"
+        [timePeriod]="kopNpsData.timePeriod"
+      >
+      </app-large-card-kop>
+
+      <app-large-card-kop
+        [data]="kopNpsData.npsDataPM"
+        class="half-card left"
+        [noHeaderClick]="true"
+        [timePeriod]="kopNpsData.timePeriod"
+      >
+      </app-large-card-kop>
+
+      <app-large-card-kop
+        [data]="kopNpsData.npsDataMD"
+        class="half-card right"
+        [noHeaderClick]="true"
+        [timePeriod]="kopNpsData.timePeriod"
+      >
+      </app-large-card-kop>
+    </div>
   </div>
 </div>
 

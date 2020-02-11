@@ -66,25 +66,6 @@ export class KopOverviewComponent implements OnInit, OnDestroy {
     this.eventEmitter.emitEvent(true);
     const userInfo = JSON.parse(sessionStorage.getItem('loggedUser')) || {};
     this.pageTitle = 'Hello, ' + userInfo.FirstName + '.';
-
-    // this.currentFilter = this.filterData.filter(element => element.default)[0];
-    // this.getNPSData();
-
-    // this.sessionService.getFilChangeEmitter().subscribe((data: any) => {
-    //   const { selectedFilter } = data;
-
-    //   this.filterData.forEach((filterDataItem: any) => {
-    //     filterDataItem.selected = false;
-    //     if (filterDataItem.title === selectedFilter) {
-    //       filterDataItem.selected = true;
-    //       this.currentFilter = filterDataItem;
-    //     }
-    //   });
-    //   this.npsLoaded = false;
-    //   this.isError = false;
-    //   this.getNPSData();
-    // });
-
     this.timePeriod.subscribe(val => {
       if (val === this.currentFilter['timePeriod']) {
         return;
