@@ -115,6 +115,7 @@
         [linkName]="'Appeals Overview'"
         [routePath]="'/GettingReimbursed/Appeals'"
         class="width-100 time-period-trend"
+        [handleCaseForOverviewTile]="true"
       ></app-common-footer>
     </div>
     <!-- Claims appeals Trend Ends Here -->
@@ -126,6 +127,7 @@
       <app-common-header
         [title]="trendTitleForCalls"
         class="full-display bottom-margin-block"
+        [addIcon]="!callsLineGraphLoading && callsData !== null"
         (helpIconClicked)="helpIconClick($event)"
       ></app-common-header>
       <div class="calls-section">
@@ -165,6 +167,10 @@
         [routePath]="'/ServiceInteraction/Calls'"
         class="width-100 time-period-trend"
       ></app-common-footer>
+    </div>
+    <div class="warning-container" *ngIf="!callsLineGraphLoading && callsData !== null">
+      <mat-icon class="warning-icon-class" svgIcon="warning-icon"></mat-icon>
+      <span class="warning-text">Calls data supports Time Period filters only at this time</span>
     </div>
     <div class="height1Separator"></div>
     <!-- Calls Trend Ends Here -->

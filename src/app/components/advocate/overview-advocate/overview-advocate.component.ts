@@ -16,9 +16,11 @@ import { GeneralData } from '../general-data';
 import { CallsTrendData } from '../calls-trend-data';
 import { CallsGeneralData } from '../calls-general-data';
 import { CreatePayloadService } from '../../../shared/uhci-filters/create-payload.service';
-import { NgRedux } from '@angular-redux/store';
+import { NgRedux, select } from '@angular-redux/store';
 import { CURRENT_PAGE, REMOVE_FILTER } from '../../../store/filter/actions';
 import { IAppState } from '../../../store/store';
+import * as _ from 'lodash';
+import { TimePeriod } from 'src/app/head/uhci-filters/filter-settings/filter-options';
 
 @Component({
   selector: 'app-overview-advocate',
@@ -26,6 +28,7 @@ import { IAppState } from '../../../store/store';
   styleUrls: ['./overview-advocate.component.scss']
 })
 export class OverviewAdvocateComponent implements OnInit, DoCheck {
+  @select(['timePeriod']) timeFilterOption;
   pageTitle: String;
   pagesubTitle: String;
   userName: String;
@@ -81,6 +84,7 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
     chartData: ''
   };
   stackedBarChartLoading: boolean;
+  timeFilterValueResolved: string;
 
   constructor(
     private checkStorage: StorageService,
@@ -112,6 +116,10 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
       'close',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-close-24px.svg')
     );
+    iconRegistry.addSvgIcon(
+      'warning-icon',
+      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/warning-icon.svg')
+    );
     this.createPayloadService.getEvent().subscribe(value => {
       this.ngOnInit();
     });
@@ -125,6 +133,10 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
       .getPaymentShared(this.createPayloadService.payload)
       .then(paymentData => {
         this.paymentCards = JSON.parse(JSON.stringify(paymentData));
+        this.paymentCards = this.paymentCards.map(item => {
+          item['timeperiod'] = `${this.timeFilterValueResolved} (${item['timeperiod']})`;
+          return item;
+        });
         this.paymentLoading = false;
       })
       .catch(reason => {
@@ -227,10 +239,11 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
           let callsLeftData;
           callsLeftData = totalCallsData;
           this.totalCalls = this.common.nondecimalFormatter(callsLeftData[0].CallVolByQuesType.Total);
-          this.timePeriodCalls =
-            this.common.dateFormat(callsLeftData[0].ReportStartDate) +
+          this.timePeriodCalls = `${this.timeFilterValueResolved} (${this.common.dateFormat(
+            callsLeftData[0].ReportStartDate
+          ) +
             '&ndash;' +
-            this.common.dateFormat(callsLeftData[0].ReportEndDate);
+            this.common.dateFormat(callsLeftData[0].ReportEndDate)})`;
           this.callsLoading = false;
         }
       })
@@ -320,8 +333,11 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
     this.topRowService
       .getClaimsYieldShared(this.createPayloadService.payload)
       .then(claimsYieldData => {
-        console.log('claimsYieldData', claimsYieldData);
         this.claimsYieldCard.push(JSON.parse(JSON.stringify(claimsYieldData)));
+        this.claimsYieldCard = this.claimsYieldCard.map(val => {
+          val['timeperiod'] = `${this.timeFilterValueResolved} (${val['timeperiod']})`;
+          return val;
+        });
         this.claimsYieldLoading = false;
       })
       .catch(reason => {
@@ -388,13 +404,16 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
       } else {
         // this.timePeriodLineGraph = trendData.timePeriod;
         this.monthlyLineGraph.chartData = trendData.data;
-        this.timePeriodNonPayment = trendData.timePeriod;
+        this.timePeriodNonPayment = `${this.timeFilterValueResolved} (${trendData.timePeriod})`;
         this.trendMonthDisplay = true;
       }
     });
 
     this.monthlyLineGraph.generalData2 = [];
     this.monthlyLineGraph.chartData2 = [];
+    this.timeFilterOption.subscribe(val => {
+      this.timeFilterValueResolved = _.find(TimePeriod, { name: val })['value'];
+    });
   }
 
   helpIconClick(title) {
@@ -413,6 +432,7 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
       .paymentsBySubmission(this.createPayloadService.payload)
       .then(data => {
         this.pbsCard = JSON.parse(JSON.stringify(data));
+        this.pbsCard['timeperiod'] = `${this.timeFilterValueResolved} (${this.pbsCard['timeperiod']})`;
         this.pbsLoading = false;
         this.stackedBarChartLoading = true;
       })
