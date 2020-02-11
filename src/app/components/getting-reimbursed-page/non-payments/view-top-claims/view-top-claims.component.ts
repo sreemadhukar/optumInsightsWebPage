@@ -130,15 +130,15 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     this.temp = this.reasonReceived.sendData;
     this.fullData = this.temp.fullData;
-    //claims reason and sub reason Dropwdown
+    // claims reason and sub reason Dropwdown
     this.selectedReasonItem = this.temp.reasonSelected;
     this.selectedSubreason = this.temp.subReason;
 
-    //pagination
+    // pagination
     this.paginator._intl.itemsPerPageLabel = 'Display';
 
     this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'viewTopClaimsPage' });
-    //VieCaliamFilter
+    // VieCaliamFilter
     this.viewClaimsByFilter = this.createPayloadService.initialState['viewClaimsByFilter'];
 
     if (this.viewClaimsByFilter === 'DOS') {
@@ -146,7 +146,7 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
     } else if (this.viewClaimsByFilter === 'DOP') {
       this.viewClaimsValue = 'Date of Processing';
     }
-    //load table data
+    // load table data
     if (this.claimsData !== null) {
       this.loadTable(this.temp.reasonSelected, this.temp.subReason);
       if (this.numberOfClaims > 24) {
@@ -167,14 +167,14 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
   }
   ngAfterViewInit() {
     if (this.claimsData !== null) {
-      //sorting
+      // sorting
       this.selectedclaims.sort = this.sort;
       const sortState: Sort = { active: 'NonPaymentAmount', direction: 'desc' };
       this.sort.active = sortState.active;
       this.sort.direction = sortState.direction;
       this.sort.sortChange.emit(sortState);
 
-      //pagination
+      // pagination
       this.selectedclaims.paginator = this.paginator;
       this.paginator._intl.itemsPerPageLabel = 'Display';
       this.paginator._intl.getRangeLabel = function(page, pageSize, length) {
@@ -210,7 +210,7 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
     }
   }
 
-  //load table data
+  // load table data
   loadTable(reasonSelected, subReason) {
     this.topClaimsSharedService
       .getClaimsData(this.createPayloadService.initialState, reasonSelected, subReason)
@@ -244,21 +244,7 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
   getPageSize(event) {
     this.pageSize = event.pageSize;
   }
-  createFilter(): (data: any, filter: string) => boolean {
-    let filterFunction = function(data, filter): boolean {
-      let searchTerms = JSON.parse(filter);
-      return (
-        data.name.toLowerCase().indexOf(searchTerms.name) !== -1 &&
-        data.id
-          .toString()
-          .toLowerCase()
-          .indexOf(searchTerms.id) !== -1 &&
-        data.colour.toLowerCase().indexOf(searchTerms.colour) !== -1 &&
-        data.pet.toLowerCase().indexOf(searchTerms.pet) !== -1
-      );
-    };
-    return filterFunction;
-  }
+
   searchTaxId(filterValue: string) {
     // this.filterObj = {
     //   value: filterValue.trim().toLowerCase(),
@@ -323,9 +309,9 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
   }
 
   convertIntoNumber(str) {
-    var strvalue = str;
-    var res = strvalue.slice(1, 10);
-    var val = parseInt(res);
+    const strvalue = str;
+    const res = strvalue.slice(1, 10);
+    const val = parseInt(res);
 
     return val;
   }
