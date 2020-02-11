@@ -27,7 +27,31 @@
       </div>
     </div>
 
-    <div class="overview-section"></div>
+    <div class="overview-section">
+      <app-large-card-kop
+        [data]="kopNpsData.npsData"
+        class="large-card"
+        [noHeaderClick]="true"
+        [timePeriod]="kopNpsData.timePeriod"
+      >
+      </app-large-card-kop>
+
+      <app-large-card-kop
+        [data]="kopNpsData.npsDataPM"
+        class="half-card left"
+        [noHeaderClick]="true"
+        [timePeriod]="kopNpsData.timePeriod"
+      >
+      </app-large-card-kop>
+
+      <app-large-card-kop
+        [data]="kopNpsData.npsDataMD"
+        class="half-card right"
+        [noHeaderClick]="true"
+        [timePeriod]="kopNpsData.timePeriod"
+      >
+      </app-large-card-kop>
+    </div>
   </div>
 </div>
 

@@ -38,7 +38,7 @@ export class KopNpsComponent implements OnInit, OnDestroy {
   };
   public npsSummary: any = {};
   public currentFilter: any = {};
-  public kopInsightsData: any = {};
+  public kopNpsData: any = {};
   public isError = false;
 
   constructor(
@@ -85,5 +85,21 @@ export class KopNpsComponent implements OnInit, OnDestroy {
     this.filterExpandService.setData({ url: this.router.url, customFilter: true, filterData: this.filterData });
   }
 
-  getNPSData() {}
+  getNPSData() {
+    this.kopSharedService
+      .getNpsDetails({ filter: this.currentFilter })
+      .then((data: any) => {
+        if (data) {
+          this.kopNpsData = data;
+          this.npsLoaded = true;
+        } else {
+          this.npsLoaded = true;
+          this.isError = true;
+        }
+      })
+      .catch(err => {
+        this.npsLoaded = true;
+        this.isError = true;
+      });
+  }
 }
