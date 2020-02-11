@@ -227,12 +227,13 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
           // this.sort.active = sortState.active;
           // this.sort.direction = sortState.direction;
           // this.sort.sortChange.emit(sortState);
-          // this.selectedclaims.filterPredicate = (data, filter) => {
-          //   if (data[this.filterObj['key']] && this.filterObj['key']) {
-          //     return data[this.filterObj['key']].toLowerCase().includes(this.filterObj['value']);
-          //   }
-          //   return false;
-          // };
+          this.selectedclaims.filterPredicate = (data, filtervalue) => {
+            return (
+              data.TinNameAndNumber.TinNumber.toLowerCase().includes(filtervalue) ||
+              data.TinNameAndNumber.TinName.toLowerCase().includes(filtervalue) ||
+              data.ClaimNumber.toLowerCase().includes(filtervalue)
+            );
+          };
           console.log('294', typeof this.claimsData['NonPaymentAmount']);
         }
       })
