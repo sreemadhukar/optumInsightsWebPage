@@ -103,7 +103,7 @@ export class TinListPageComponent implements OnInit {
         this.router.navigate([this.previousPageurl[i].urlRout]);
       }
     }
-    // this.router.navigate([this.previousPageurl[0].urlRout]);
+    this.router.navigate([this.previousPageurl[0].urlRout]);
   }
   sorta(value: string) {
     if (this.sort.active !== value) {
