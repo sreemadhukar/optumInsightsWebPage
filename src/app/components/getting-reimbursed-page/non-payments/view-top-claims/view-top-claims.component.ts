@@ -163,7 +163,7 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
         this.router.navigate([this.previousPageurl[i].urlRout]);
       }
     }
-    this.router.navigate([this.previousPageurl[0].urlRout]);
+    this.router.navigate([this.previousPageurl[3].urlRout]);
   }
   ngAfterViewInit() {
     if (this.claimsData !== null) {

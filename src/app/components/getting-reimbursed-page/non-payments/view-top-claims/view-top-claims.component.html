@@ -53,6 +53,7 @@
                     type="text"
                     class="tax-summary-name-input"
                     spellcheck="false"
+                    (focus)="setupFilter('name')"
                     (keyup)="searchTaxId($event.target.value, 'TinNameAndNumber.TinName')"
                   />
                 </div>
@@ -98,7 +99,7 @@
                 <span mat-sort-header style="text-align:left">Billed <br />Amount</span>
               </th>
 
-              <td mat-cell class="tax-summary-table-cell" *matCellDef="let element">${{ element.BilledAmount }}</td>
+              <td mat-cell class="tax-summary-table-cell" *matCellDef="let element">{{ element.BilledAmount }}</td>
             </ng-container>
             <ng-container matColumnDef="DateOfProcessing">
               <th mat-header-cell *matHeaderCellDef>
