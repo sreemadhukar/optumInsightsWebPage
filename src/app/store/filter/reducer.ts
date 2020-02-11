@@ -1,5 +1,6 @@
 import { CURRENT_PAGE, APPLY_FILTER, RESET_FILTER, REMOVE_FILTER } from './actions';
 import { IAppState } from '../store';
+import { loadState } from './localStorage';
 
 export const INITIAL_STATE: IAppState = {
   currentPage: 'overviewPage',
@@ -16,7 +17,7 @@ export const INITIAL_STATE: IAppState = {
   viewClaimsByFilter: 'DOS'
 };
 
-export function FilterReducer(state, action) {
+export function FilterReducer(state = loadState(), action) {
   console.log(action);
   switch (action.type) {
     case CURRENT_PAGE:

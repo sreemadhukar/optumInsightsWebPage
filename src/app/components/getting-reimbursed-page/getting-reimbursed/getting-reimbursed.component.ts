@@ -42,7 +42,7 @@ export class GettingReimbursedComponent implements OnInit {
   detailClickUrl = '/GettingReimbursed';
   buttonNumber: any;
   reloadFlag = true;
-  @select() currentPage;
+  @select(['uhc', 'currentPage']) currentPage;
   public filterFlag = false;
   constructor(
     private gettingReimbursedSharedService: GettingReimbursedSharedService,

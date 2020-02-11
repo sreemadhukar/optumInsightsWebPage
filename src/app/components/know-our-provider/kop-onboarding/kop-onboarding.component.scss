@@ -22,6 +22,24 @@
     margin: auto;
 
     font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+    .breadcrumb {
+      width: 100%;
+      padding-bottom: 15px;
+      font-size: 14px;
+      .breadcrumb-main {
+        text-decoration: underline;
+        color: $blue;
+      }
+      .breadcrumb-arrow {
+        margin: 0 5px;
+      }
+    }
+    .overview-header {
+      width: 100%;
+      padding: 5px 0 25px 0;
+      font-family: 'UHCSans-SemiBold', 'Arial';
+      font-size: 32px;
+    }
 
     .breadcrumb-top-padding {
       box-sizing: border-box;

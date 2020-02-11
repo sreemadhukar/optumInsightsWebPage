@@ -82,9 +82,11 @@ export class CommonFooterComponent implements OnInit {
         ',' +
         ' ' +
         yyyy;
+
       if (this.handleCaseForOverviewTile) {
         return `${this.timePeriod} (${timePeriodFooter})`;
       }
+
       return timePeriodFooter;
     } else {
       this.timePeriod = this.timePeriod.replace(' - ', '&ndash;');

@@ -19,8 +19,8 @@ import { CreatePayloadService } from '../../../shared/uhci-filters/create-payloa
 import { NgRedux, select } from '@angular-redux/store';
 import { CURRENT_PAGE, REMOVE_FILTER } from '../../../store/filter/actions';
 import { IAppState } from '../../../store/store';
-import * as _ from 'lodash';
 import { TimePeriod } from 'src/app/head/uhci-filters/filter-settings/filter-options';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-overview-advocate',
@@ -28,7 +28,7 @@ import { TimePeriod } from 'src/app/head/uhci-filters/filter-settings/filter-opt
   styleUrls: ['./overview-advocate.component.scss']
 })
 export class OverviewAdvocateComponent implements OnInit, DoCheck {
-  @select(['timePeriod']) timeFilterOption;
+  @select(['uhc', 'timePeriod']) timeFilterOption;
   pageTitle: String;
   pagesubTitle: String;
   userName: String;
@@ -128,7 +128,6 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
   paymentData() {
     this.paymentLoading = true;
     this.topRowMockCards = [{}, {}, {}];
-
     this.topRowService
       .getPaymentShared(this.createPayloadService.payload)
       .then(paymentData => {
