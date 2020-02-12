@@ -106,12 +106,6 @@
     padding-left: 40px;
   }
 
-  div.drop-item:hover,
-  :active {
-    background-color: #e3f0fd;
-    color: #196ecf;
-  }
-
   .icon mat-icon {
     visibility: hidden;
   }
@@ -122,11 +116,6 @@
 
   .active.icon mat-icon {
     visibility: visible;
-  }
-
-  .user-div:hover {
-    background-color: #d7dce1;
-    cursor: pointer;
   }
 
   .menu-div {
@@ -196,6 +185,12 @@
     }
   }
 }
+
+.user-div:hover {
+  background-color: #d7dce1;
+  cursor: pointer;
+}
+
 .print-header-div {
   height: 80px;
   .header-logo-div {
