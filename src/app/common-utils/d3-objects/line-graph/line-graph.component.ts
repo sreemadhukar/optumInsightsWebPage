@@ -206,7 +206,7 @@ export class LineGraphComponent implements OnInit {
       }
     }
 
-    const preWidth = generalData[0].width || 961; // document.getElementById(generalData[0].parentDiv).clientWidth;
+    const preWidth = 961; // document.getElementById(generalData[0].parentDiv).clientWidth;
 
     let topMarginSubtract = 150;
     if (titleData[0].topTitleBoxNumber) {
