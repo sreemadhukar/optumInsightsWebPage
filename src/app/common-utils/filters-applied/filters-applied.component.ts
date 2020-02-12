@@ -25,18 +25,18 @@ import { CreatePayloadService } from '../../shared/uhci-filters/create-payload.s
   styleUrls: ['./filters-applied.component.scss']
 })
 export class FiltersAppliedComponent implements OnInit {
-  @select() currentPage;
-  @select() timePeriod;
-  @select() taxId;
-  @select() lineOfBusiness;
-  @select() serviceSetting;
-  @select() serviceCategory;
-  @select() priorAuthType;
-  @select() trendMetric;
-  @select() trendDate;
-  @select() claimsFilter;
-  @select() appealsFilter;
-  @select() viewClaimsByFilter;
+  @select(['uhc', 'currentPage']) currentPage;
+  @select(['uhc', 'timePeriod']) timePeriod;
+  @select(['uhc', 'taxId']) taxId;
+  @select(['uhc', 'lineOfBusiness']) lineOfBusiness;
+  @select(['uhc', 'serviceSetting']) serviceSetting;
+  @select(['uhc', 'serviceCategory']) serviceCategory;
+  @select(['uhc', 'priorAuthType']) priorAuthType;
+  @select(['uhc', 'trendMetric']) trendMetric;
+  @select(['uhc', 'trendDate']) trendDate;
+  @select(['uhc', 'claimsFilter']) claimsFilter;
+  @select(['uhc', 'appealsFilter']) appealsFilter;
+  @select(['uhc', 'viewClaimsByFilter']) viewClaimsByFilter;
   @Input() flag;
   @Input() tabName;
   selectedPage: any;

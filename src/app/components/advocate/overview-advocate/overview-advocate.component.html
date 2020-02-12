@@ -50,11 +50,8 @@
     <!-- Claims Non - Payment Trend Ends Here -->
 
     <!-- Claims appeals Trend  Starts Here -->
-    <app-error-card
-      *ngIf="appealsLineGraphData.status != null"
-      class="cards"
-      [data]="appealsLineGraphData"
-    ></app-error-card>
+    <app-error-card *ngIf="appealsLineGraphData.status != null" class="cards" [data]="appealsLineGraphData">
+    </app-error-card>
     <app-large-card [skeletonLarge]="appealsLineGraphloading" *ngIf="appealsData == null"></app-large-card>
     <div class="appeals-trend-block" *ngIf="!appealsLineGraphloading && appealsData !== null">
       <app-common-header
@@ -89,10 +86,8 @@
 
         <div class="line-graph-padding">
           <!--<app-large-card-advocate [appealsLineGraph]="appealsLineGraph"></app-large-card-advocate>-->
-          <app-multi-line-graph
-            *ngIf="!appealsLineGraphloading"
-            [chartOptions]="appealsLineGraph"
-          ></app-multi-line-graph>
+          <app-multi-line-graph *ngIf="!appealsLineGraphloading" [chartOptions]="appealsLineGraph">
+          </app-multi-line-graph>
 
           <div class="lob-set">
             <div class="mr-img" *ngIf="mi"></div>
@@ -115,6 +110,7 @@
         [linkName]="'Appeals Overview'"
         [routePath]="'/GettingReimbursed/Appeals'"
         class="width-100 time-period-trend"
+        [handleCaseForOverviewTile]="true"
       ></app-common-footer>
     </div>
     <!-- Claims appeals Trend Ends Here -->
@@ -125,7 +121,9 @@
     <div class="calls-trend-block" *ngIf="!callsLineGraphLoading && callsData !== null">
       <app-common-header
         [title]="trendTitleForCalls"
+        [addIcon]="!callsLineGraphLoading && callsData !== null"
         class="full-display bottom-margin-block"
+        [addIcon]="!callsLineGraphLoading && callsData !== null"
         (helpIconClicked)="helpIconClick($event)"
       ></app-common-header>
       <div class="calls-section">
@@ -137,12 +135,11 @@
         </div>
         <div class="line-graph-padding">
           <!--<app-large-card-advocate *ngIf="!callsLineGraphLoading" [appealsLineGraph]="callsTrendLineGraph"></app-large-card-advocate>-->
-          <app-multi-line-graph
-            *ngIf="!callsLineGraphLoading"
-            [chartOptions]="callsTrendLineGraph"
-          ></app-multi-line-graph>
+          <app-multi-line-graph *ngIf="!callsLineGraphLoading" [chartOptions]="callsTrendLineGraph">
+          </app-multi-line-graph>
         </div>
       </div>
+
       <div class="calls-grpah-set">
         <div class="mr-img" *ngIf="callsData[0] && callsData[0].key === 'B&E'"></div>
         <div class="lob-values" *ngIf="callsData[0]">Eligibility & Benefits ({{ callsData[0].value }})</div>
@@ -166,6 +163,10 @@
         class="width-100 time-period-trend"
       ></app-common-footer>
     </div>
+    <div class="warning-container" *ngIf="!callsLineGraphLoading && callsData !== null">
+      <mat-icon class="warning-icon-class" svgIcon="warning-icon"></mat-icon>
+      <span class="warning-text">Calls data supports Time Period filters only at this time</span>
+    </div>
     <div class="height1Separator"></div>
     <!-- Calls Trend Ends Here -->
 
@@ -183,11 +184,8 @@
     </div>
     <div *ngFor="let item of claimsYieldCard">
       <app-card *ngIf="item.data != null && item.toggle" class="cards" [chartData]="item"> </app-card>
-      <app-error-card
-        *ngIf="item.toggle && item.status != null && item.data == null"
-        class="cards"
-        [data]="item"
-      ></app-error-card>
+      <app-error-card *ngIf="item.toggle && item.status != null && item.data == null" class="cards" [data]="item">
+      </app-error-card>
     </div>
 
     <app-clarify-claims-message></app-clarify-claims-message>

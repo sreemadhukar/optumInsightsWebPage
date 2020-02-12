@@ -1,3 +1,4 @@
+import { filter } from 'rxjs/operators';
 import { CommonUtilsService } from './../../../../shared/common-utils.service';
 import { StorageService } from './../../../../shared/storage-service.service';
 import { NonPaymentSharedService } from './../../../../shared/getting-reimbursed/non-payments/non-payment-shared.service';
@@ -9,7 +10,7 @@ import { Component, OnInit, AfterViewInit, ViewChild, Input, ChangeDetectorRef }
 import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 import { MatPaginator } from '@angular/material/paginator';
-import { MatSort, Sort } from '@angular/material/sort';
+import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Subscription } from 'rxjs';
 import { CURRENT_PAGE, REMOVE_FILTER } from './../../../../store/filter/actions';
@@ -49,8 +50,9 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
   isLoading = true;
   viewsClaimsFullData: any;
   tinsData: any;
-  public reasonLabel: string;
-  public subReasonLabel: string;
+  public topreasons: string;
+  public fullData: any;
+  public subReasonData: Array<Object> = [{}];
   previousPage: any;
   viewClaimsByFilter: string;
   public clickSubReason: Subscription;
@@ -60,6 +62,17 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
   viewClaimsFilterDOP: boolean;
   viewClaimsFilterDOS: boolean;
   loading: boolean;
+  public finaldata: any[] = [];
+  public temp;
+  public subreasonvalues = [];
+  students: Array<Object> = [];
+  programs: Array<Object>;
+  selectedReasonItem: any;
+  public categoryGroups;
+  public subReasonselected: any;
+  public subReason: any;
+  public selectedSubreasonArray: any;
+  public selectedSubreason: any;
   previousPageurl = [
     { previousPage: 'overviewPage', urlRout: '/OverviewPage' },
     { previousPage: 'gettingReimbursedSummary', urlRout: '/GettingReimbursed' },
@@ -113,13 +126,19 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-keyboard_arrow_down-24px.svg')
     );
   }
+
   ngOnInit() {
-    const temp = this.reasonReceived.sendData;
-    this.reasonLabel = temp.reasonSelected;
-    this.subReasonLabel = temp.subReason;
+    this.temp = this.reasonReceived.sendData;
+    this.fullData = this.temp.fullData;
+    // claims reason and sub reason Dropwdown
+    this.selectedReasonItem = this.temp.reasonSelected;
+    this.selectedSubreason = this.temp.subReason;
+
+    // pagination
     this.paginator._intl.itemsPerPageLabel = 'Display';
 
     this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'viewTopClaimsPage' });
+    // VieCaliamFilter
     this.viewClaimsByFilter = this.createPayloadService.initialState['viewClaimsByFilter'];
 
     if (this.viewClaimsByFilter === 'DOS') {
@@ -127,9 +146,9 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
     } else if (this.viewClaimsByFilter === 'DOP') {
       this.viewClaimsValue = 'Date of Processing';
     }
-
+    // load table data
     if (this.claimsData !== null) {
-      this.loadTable(temp.reasonSelected, temp.subReason);
+      this.loadTable(this.temp.reasonSelected, this.temp.subReason);
       if (this.numberOfClaims > 24) {
         this.customPaginator();
       } else {
@@ -139,13 +158,11 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
   }
   ngAfterViewInit() {
     if (this.claimsData !== null) {
+      // sorting
+      this.selectedclaims.sort = this.sort;
+      // pagination
       this.selectedclaims.paginator = this.paginator;
-      this.selectedclaims.sort = this.sort;
-      this.selectedclaims.sort = this.sort;
-      const sortState: Sort = { active: 'NonPaymentAmount', direction: 'asc' };
-      this.sort.active = sortState.active;
-      this.sort.direction = sortState.direction;
-      this.sort.sortChange.emit(sortState);
+
       this.paginator._intl.itemsPerPageLabel = 'Display';
       this.paginator._intl.getRangeLabel = function(page, pageSize, length) {
         d3.select('#page-text').text(function() {
@@ -179,28 +196,41 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
         .attr('id', 'page-text');
     }
   }
+  goback() {
+    this.currentPage.subscribe(currentPage => (this.previousPage = currentPage));
+    for (let i = 0; i < this.previousPageurl.length; i++) {
+      if (this.previousPage === this.previousPageurl[i].previousPage) {
+        this.router.navigate([this.previousPageurl[i].urlRout]);
+      }
+    }
+    this.router.navigate([this.previousPageurl[3].urlRout]);
+  }
+
+  // load table data
   loadTable(reasonSelected, subReason) {
     this.topClaimsSharedService
       .getClaimsData(this.createPayloadService.initialState, reasonSelected, subReason)
       .then(claimsDetailsData => {
+        this.selectedclaims = [];
         this.claimsData = JSON.parse(JSON.stringify(claimsDetailsData));
 
         if (this.claimsData && this.claimsData.length > 0) {
           this.numberOfClaims = this.claimsData.length;
           this.selectedclaims = new MatTableDataSource(this.claimsData);
           console.log('selectee claims', this.selectedclaims);
-
-          this.selectedclaims.sort = this.sort;
-          const sortState: Sort = { active: 'NonPaymentAmount', direction: 'desc' };
-          this.sort.active = sortState.active;
-          this.sort.direction = sortState.direction;
-          this.sort.sortChange.emit(sortState);
-          this.selectedclaims.filterPredicate = (data, filter) => {
-            if (data[this.filterObj['key']] && this.filterObj['key']) {
-              return data[this.filterObj['key']].toLowerCase().includes(this.filterObj['value']);
-            }
-            return false;
+          // this.selectedclaims.sort = this.sort;
+          // const sortState: Sort = { active: 'NonPaymentAmount', direction: 'desc' };
+          // this.sort.active = sortState.active;
+          // this.sort.direction = sortState.direction;
+          // this.sort.sortChange.emit(sortState);
+          this.selectedclaims.filterPredicate = (data, filtervalue) => {
+            return (
+              data.TinNameAndNumber.TinNumber.toLowerCase().includes(filtervalue) ||
+              data.TinNameAndNumber.TinName.toLowerCase().includes(filtervalue) ||
+              data.ClaimNumber.toLowerCase().includes(filtervalue)
+            );
           };
+          console.log('294', typeof this.claimsData['NonPaymentAmount']);
         }
       })
       .catch(error => {
@@ -270,17 +300,23 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
     // Directly return the joined string
     return splitStr.join(' ');
   }
-  goback() {
-    this.currentPage.subscribe(currentPage => (this.previousPage = currentPage));
-    for (let i = 0; i < this.previousPageurl.length; i++) {
-      if (this.previousPage === this.previousPageurl[i].previousPage) {
-        this.router.navigate([this.previousPageurl[i].urlRout]);
-      }
-    }
-    // this.router.navigate([this.previousPageurl[0].urlRout]);
-  }
-
   capitalize(s) {
     return s[0].toUpperCase();
+  }
+
+  // Convert String to number with two decimals
+  convertIntoNumber(str) {
+    const strvalue = str;
+    const res = strvalue.replace(/[$,]/g, '');
+    const val = parseFloat(res).toFixed(2);
+    // parseFloat(res).toFixed(2).replace(/\.?0*$/,'');;
+    return val;
+  }
+
+  // add dash to Tins functions
+  addDash(character) {
+    const tinValue = character.replace(/\D/g, ''); // Remove non-numerics
+    const finalTinValue = tinValue.substring(0, 2) + '-' + tinValue.substring(4, character.length); // Add dashes every 2th digit
+    return finalTinValue;
   }
 }
