@@ -302,11 +302,9 @@ export class LineGraphComponent implements OnInit {
     const xScale3 = d3
       .scalePoint()
       .domain(
-        0,
-        lengthOfData - 1
-        // chartData.map(function(d) {
-        //   return d.name + d.year;
-        // })
+        chartData.map(function(d) {
+          return d.name;
+        })
       ) // input
       .range([25, width - 25]);
 
