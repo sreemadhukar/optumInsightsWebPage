@@ -10,7 +10,7 @@ import { Component, OnInit, AfterViewInit, ViewChild, Input, ChangeDetectorRef }
 import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 import { MatPaginator } from '@angular/material/paginator';
-import { MatSort, Sort } from '@angular/material/sort';
+import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Subscription } from 'rxjs';
 import { CURRENT_PAGE, REMOVE_FILTER } from './../../../../store/filter/actions';
@@ -156,26 +156,13 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
       }
     }
   }
-  goback() {
-    this.currentPage.subscribe(currentPage => (this.previousPage = currentPage));
-    for (let i = 0; i < this.previousPageurl.length; i++) {
-      if (this.previousPage === this.previousPageurl[i].previousPage) {
-        this.router.navigate([this.previousPageurl[i].urlRout]);
-      }
-    }
-    this.router.navigate([this.previousPageurl[3].urlRout]);
-  }
   ngAfterViewInit() {
     if (this.claimsData !== null) {
       // sorting
       this.selectedclaims.sort = this.sort;
-      const sortState: Sort = { active: 'NonPaymentAmount', direction: 'desc' };
-      this.sort.active = sortState.active;
-      this.sort.direction = sortState.direction;
-      this.sort.sortChange.emit(sortState);
-
       // pagination
       this.selectedclaims.paginator = this.paginator;
+
       this.paginator._intl.itemsPerPageLabel = 'Display';
       this.paginator._intl.getRangeLabel = function(page, pageSize, length) {
         d3.select('#page-text').text(function() {
@@ -209,6 +196,15 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
         .attr('id', 'page-text');
     }
   }
+  goback() {
+    this.currentPage.subscribe(currentPage => (this.previousPage = currentPage));
+    for (let i = 0; i < this.previousPageurl.length; i++) {
+      if (this.previousPage === this.previousPageurl[i].previousPage) {
+        this.router.navigate([this.previousPageurl[i].urlRout]);
+      }
+    }
+    this.router.navigate([this.previousPageurl[3].urlRout]);
+  }
 
   // load table data
   loadTable(reasonSelected, subReason) {
@@ -227,12 +223,13 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
           // this.sort.active = sortState.active;
           // this.sort.direction = sortState.direction;
           // this.sort.sortChange.emit(sortState);
-          // this.selectedclaims.filterPredicate = (data, filter) => {
-          //   if (data[this.filterObj['key']] && this.filterObj['key']) {
-          //     return data[this.filterObj['key']].toLowerCase().includes(this.filterObj['value']);
-          //   }
-          //   return false;
-          // };
+          this.selectedclaims.filterPredicate = (data, filtervalue) => {
+            return (
+              data.TinNameAndNumber.TinNumber.toLowerCase().includes(filtervalue) ||
+              data.TinNameAndNumber.TinName.toLowerCase().includes(filtervalue) ||
+              data.ClaimNumber.toLowerCase().includes(filtervalue)
+            );
+          };
           console.log('294', typeof this.claimsData['NonPaymentAmount']);
         }
       })
@@ -303,16 +300,23 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
     // Directly return the joined string
     return splitStr.join(' ');
   }
-
   capitalize(s) {
     return s[0].toUpperCase();
   }
 
+  // Convert String to number with two decimals
   convertIntoNumber(str) {
     const strvalue = str;
-    const res = strvalue.slice(1, 10);
-    const val = parseInt(res);
-
+    const res = strvalue.replace(/[$,]/g, '');
+    const val = parseFloat(res).toFixed(2);
+    // parseFloat(res).toFixed(2).replace(/\.?0*$/,'');;
     return val;
+  }
+
+  // add dash to Tins functions
+  addDash(character) {
+    const tinValue = character.replace(/\D/g, ''); // Remove non-numerics
+    const finalTinValue = tinValue.substring(0, 2) + '-' + tinValue.substring(4, character.length); // Add dashes every 2th digit
+    return finalTinValue;
   }
 }

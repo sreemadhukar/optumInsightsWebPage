@@ -470,7 +470,7 @@ app-header {
 }
 
 .sticky {
-  position: fixed;
+  position: absolute;
   top: 0;
 }
 
@@ -510,7 +510,7 @@ app-header {
 }
 
 .butter-bar {
-  position: fixed;
+  position: absolute;
   top: 0;
   width: 100%;
   background-color: #80dde6;
