@@ -93,6 +93,7 @@
     border-top-width: 1px;
     border-top-style: groove;
     border-top-color: lightgray;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.15);
   }
 
   .tiny-provider {
@@ -124,7 +125,7 @@
   }
 
   .user-div:hover {
-    background-color: #e3f0fd;
+    background-color: #d7dce1;
     cursor: pointer;
   }
 
@@ -177,12 +178,21 @@
     line-height: 22px;
     text-align: right;
     padding: 25px 32px 20px 0;
+
+    width: 100px;
+    margin-right: 25px;
+    margin-top: 10px;
+    padding-top: 10px;
+    padding-right: 20px;
+    padding-bottom: 15px;
+    border-radius: 2px;
+
     .user-name {
       line-height: 31px;
       font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
     }
     .user-expand-more {
-      line-height: 30px;
+      line-height: 28px;
     }
   }
 }
@@ -217,7 +227,7 @@
 .vertical-menu {
   width: 284px;
   height: 202px;
-  margin-right: 20px;
+  margin-right: 25px;
   margin-top: 60px;
   position: absolute;
   right: 0;
@@ -240,7 +250,7 @@
   color: #196ecf;
 }
 
-.vertical-menu a:hover {
+.vertical-menu .icon:hover {
   background-color: #e3f0fd;
   color: #196ecf;
 }
