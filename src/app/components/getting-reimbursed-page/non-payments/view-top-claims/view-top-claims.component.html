@@ -44,7 +44,7 @@
       </div>
       <div class="tax-summary-body">
         <div class="tax-summary-table-block mat-elevation-z8">
-          <table mat-table [dataSource]="selectedclaims" matSort matSortDirection="desc" matSortDisableClear>
+          <table mat-table [dataSource]="selectedclaims" matSort>
             <ng-container matColumnDef="TinNameAndNumber">
               <th mat-header-cell *matHeaderCellDef class="tax-id-text">
                 <span mat-sort-header style="text-align:left">Tax ID <br />Name and Number </span>
@@ -62,7 +62,7 @@
                 <div class="tax-column">
                   {{ toLowerCase(element.TinNameAndNumber.TinName) }}
                 </div>
-                <div>{{ element.TinNameAndNumber.TinNumber }}</div>
+                <div>{{ addDash(element.TinNameAndNumber.TinNumber) }}</div>
               </td>
             </ng-container>
 
@@ -91,7 +91,7 @@
                 >
               </th>
               <td mat-cell class="tax-summary-table-cell" *matCellDef="let element">
-                {{ element.NonPaymentAmount }}
+                ${{ convertIntoNumber(element.NonPaymentAmount) }}
               </td>
             </ng-container>
             <ng-container matColumnDef="BilledAmount">
@@ -99,7 +99,9 @@
                 <span mat-sort-header style="text-align:left">Billed <br />Amount</span>
               </th>
 
-              <td mat-cell class="tax-summary-table-cell" *matCellDef="let element">{{ element.BilledAmount }}</td>
+              <td mat-cell class="tax-summary-table-cell" *matCellDef="let element">
+                ${{ convertIntoNumber(element.BilledAmount) }}
+              </td>
             </ng-container>
             <ng-container matColumnDef="DateOfProcessing">
               <th mat-header-cell *matHeaderCellDef>
