@@ -4,8 +4,8 @@ export const TimePeriod = [
   { name: 'Last6Months', value: 'Last 6 Months', disable: false },
   { name: 'Last12Months', value: 'Last 12 Months', disable: false },
   { name: 'YTD', value: 'Year to Date', disable: false },
-  { name: '2018', value: '2018', disable: false },
-  { name: '2017', value: '2017', disable: false }
+  { name: '2019', value: '2019', disable: false },
+  { name: '2018', value: '2018', disable: false }
 ];
 
 export const LineOfBusiness = [

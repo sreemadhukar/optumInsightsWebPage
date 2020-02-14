@@ -298,7 +298,7 @@ export class AppealsSharedService {
         this.timeFrame === 'Last 3 Months' ||
         this.timeFrame === 'Last 30 Days' ||
         this.timeFrame === 'Year to Date' ||
-        this.timeFrame === '2017' ||
+        this.timeFrame === '2019' ||
         this.timeFrame === '2018'
       ) {
         this.gettingReimbursedService.claimsAppealsReasonData(...parameters).subscribe(appealsReasonData => {
