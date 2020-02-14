@@ -12,6 +12,7 @@ import { GettingReimbursedPayload } from './payload.class';
 import * as _ from 'lodash';
 import { environment } from '../../../environments/environment';
 import { PaymentsSharedService } from './payments/payments-shared.service';
+import { nullSafeIsEquivalent } from '@angular/compiler/src/output/output_ast';
 
 @Injectable({
   providedIn: 'root'
@@ -1161,9 +1162,12 @@ export class GettingReimbursedSharedService {
       const lobData = parameters[1].Lob ? _.startCase(parameters[1].Lob.toLowerCase()) : 'All';
 
       if (parameters[1]['ClaimsBy'] === 'DOS') {
-        timePeriodData =
-          this.common.dateFormat(claimsData.Startdate) + '&ndash;' + this.common.dateFormat(claimsData.Enddate);
-        if (claimsData != null || !claimsData.hasOwnProperty(lobData)) {
+        if (claimsData.hasOwnProperty('Startdate') && claimsData.hasOwnProperty('Enddate')) {
+          timePeriodData =
+            this.common.dateFormat(claimsData.Startdate) + '&ndash;' + this.common.dateFormat(claimsData.Enddate);
+        }
+
+        if (claimsData != null) {
           if (
             claimsData.hasOwnProperty(lobData) &&
             claimsData[lobData] != null &&
@@ -1219,7 +1223,7 @@ export class GettingReimbursedSharedService {
               data: null,
               status: 404,
               besideData: null,
-              timeperiod: this.timeFrame
+              timeperiod: nullSafeIsEquivalent
             };
 
             resolve(claimsSubmitted);
@@ -1233,14 +1237,17 @@ export class GettingReimbursedSharedService {
             data: null,
             status: 404,
             besideData: null,
-            timeperiod: timePeriodData
+            timeperiod: null
           };
 
           resolve(claimsSubmitted);
         }
       } else {
-        timePeriodData =
-          this.common.dateFormat(claimsData.StartDate) + '&ndash;' + this.common.dateFormat(claimsData.EndDate);
+        if (claimsData.hasOwnProperty('StartDate') && claimsData.hasOwnProperty('EndDate')) {
+          timePeriodData =
+            this.common.dateFormat(claimsData.StartDate) + '&ndash;' + this.common.dateFormat(claimsData.EndDate);
+        }
+
         if (!claimsData || !claimsData.hasOwnProperty('LineOfBusiness')) {
           claimsSubmitted = {
             category: 'app-card',
@@ -1316,7 +1323,7 @@ export class GettingReimbursedSharedService {
               data: null,
               status: 404,
               besideData: null,
-              timeperiod: timePeriodData
+              timeperiod: null
             };
           }
 
@@ -1330,7 +1337,7 @@ export class GettingReimbursedSharedService {
             data: null,
             status: 404,
             besideData: null,
-            timeperiod: timePeriodData
+            timeperiod: null
           };
           resolve(claimsSubmitted);
         }
