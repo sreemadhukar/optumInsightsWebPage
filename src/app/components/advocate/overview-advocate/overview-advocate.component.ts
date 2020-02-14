@@ -74,6 +74,7 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
   callsData: any;
   claimsYieldLoading: boolean;
   downRowMockCards: any;
+  yieldRowMockCards: any;
   claimsYieldCard: Array<Object>;
   pbsLoading: boolean;
   pbsCard: any;
@@ -327,7 +328,7 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
 
   claimsYieldData() {
     this.claimsYieldLoading = true;
-    this.downRowMockCards = [{}];
+    this.yieldRowMockCards = [{}];
     this.claimsYieldCard = [];
     this.topRowService
       .getClaimsYieldShared(this.createPayloadService.payload)
