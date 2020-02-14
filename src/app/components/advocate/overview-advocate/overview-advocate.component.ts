@@ -279,7 +279,7 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
           for (const key in callsTrendData) {
             if (callsTrendData.hasOwnProperty(key)) {
               this.callsData.push({ key: key, value: this.sumArray(callsTrendData[key]) });
-              if (
+              /* if (
                 this.callsData[0].length +
                   this.callsData[1].length +
                   this.callsData[2].length +
@@ -296,7 +296,7 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
                   timeperiod: null
                 };
                 this.callsData = null;
-              }
+              }*/
               /*for (let i = 0; i < this.callsData.length; i++) {
               if (this.callsData[i].value === NaN) {
                 this.callsData[i].value = 0;

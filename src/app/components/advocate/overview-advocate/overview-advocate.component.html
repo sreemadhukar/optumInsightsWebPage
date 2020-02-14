@@ -176,7 +176,7 @@
     <div>
       <app-card *ngIf="pbsCard.data != null" class="cards" [chartData]="pbsCard"> </app-card>
       <app-error-card
-        *ngIf="pbsCard.data === null && pbsCard.status != null"
+        *ngIf="pbsCard.data == null && pbsCard.status != null"
         class="cards"
         [data]="pbsCard"
       ></app-error-card>
