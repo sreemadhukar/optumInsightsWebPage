@@ -31,3 +31,40 @@
   justify-content: space-between;
   width: 98.5%;
 }
+.report-Tile {
+  box-sizing: border-box;
+  height: 79px;
+  width: 961px;
+  border: 1px solid #e0e0e0;
+  border-radius: 2px;
+  background-color: $alice-blue;
+  margin: 12px;
+
+  .report-Title {
+    color: $black-rock;
+    font-family: 'UHCSans-SemiBold';
+    font-size: 20px;
+    padding-top: 12.5px;
+    padding-left: 16.5px;
+    line-height: 22px;
+  }
+  .report-Subtitle {
+    color: $black-rock;
+    font-family: 'UHCSans-Medium';
+    font-size: 16px;
+    letter-spacing: 0.2px;
+    padding-left: 16.5px;
+    padding-top: 6px;
+    line-height: 22px;
+
+    .report-Link {
+      cursor: pointer;
+      color: $blue;
+      display: inline;
+    }
+    .icon {
+      position: absolute;
+      color: $blue;
+    }
+  }
+}

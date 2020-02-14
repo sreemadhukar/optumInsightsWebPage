@@ -6,7 +6,9 @@ import { NgRedux } from '@angular-redux/store';
 import { CURRENT_PAGE } from '../../../store/filter/actions';
 import { IAppState } from '../../../store/store';
 import { ActivatedRoute } from '@angular/router';
-
+import { text } from '@angular/core/src/render3/instructions';
+import { MatIconRegistry } from '@angular/material';
+import { DomSanitizer } from '@angular/platform-browser';
 @Component({
   selector: 'app-patient-care-opportunity',
   templateUrl: './patient-care-opportunity.component.html',
@@ -39,14 +41,23 @@ export class PatientCareOpportunityComponent implements OnInit {
   qualityTitle: String = 'Quality Star Rating';
   customFormatting: Array<Object> = [];
   queryParamsObj: any = {};
+  reportTitle: String;
+  reportText: String;
+  reportLink: String;
   constructor(
     private checkStorage: StorageService,
     private route: ActivatedRoute,
     private pcorService: PcorSharedService,
     private filtermatch: CommonUtilsService,
-    private ngRedux: NgRedux<IAppState>
+    private ngRedux: NgRedux<IAppState>,
+    private iconRegistry: MatIconRegistry,
+    private sanitizer: DomSanitizer
   ) {
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.filtermatch.urlResuseStrategy());
+    iconRegistry.addSvgIcon(
+      'external-link',
+      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Navigation/open_in_new-24px.svg')
+    );
   }
   public ratingComponentClick(clickObj: any): void {
     this.pcorService.getQualityMeasureData().then(data => {
@@ -212,5 +223,14 @@ export class PatientCareOpportunityComponent implements OnInit {
           this.loading = false;
         });
     });
+    this.reportTitle = 'View the PCOR Report';
+    this.reportText = 'View in-depth details of your health system in the PCOR report. ';
+    this.reportLink = 'View the Patient Care Opportunity Report  ';
+  }
+  internalLink() {
+    window.open('https://webep1428/PCORMRPROD/');
+  }
+  externalLink() {
+    window.open('https://www.uhcprovider.com/en/reports-quality-programs/physician-perf-based-comp.html');
   }
 }
