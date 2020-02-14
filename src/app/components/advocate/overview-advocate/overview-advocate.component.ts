@@ -38,7 +38,7 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
   timePeriodPi: string;
   timePeriodNonPayment: string;
   lob: string;
-  trendTitle = 'Non-Payment Trend';
+  trendTitle = 'Claims Non-Payment Trend';
   taxID: Array<string>;
   topRowMockCards: any;
   subscription: any;
