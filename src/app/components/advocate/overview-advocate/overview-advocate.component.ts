@@ -83,7 +83,6 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
     chartId: '',
     chartData: ''
   };
-  stackedBarChartLoading: boolean;
   timeFilterValueResolved: string;
 
   constructor(
@@ -132,6 +131,7 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
       .getPaymentShared(this.createPayloadService.payload)
       .then(paymentData => {
         this.paymentCards = JSON.parse(JSON.stringify(paymentData));
+        console.log('this.paymentCards', this.paymentCards);
         this.paymentCards = this.paymentCards.map(item => {
           item['timeperiod'] = `${this.timeFilterValueResolved} (${item['timeperiod']})`;
           return item;
@@ -366,7 +366,7 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
     this.paymentsBySubmissionData();
     this.appealsLineGraphloading = true;
     this.callsLineGraphLoading = true;
-    this.stackedBarChartLoading = true;
+    // this.stackedBarChartLoading = true;
     this.userName = this.session.sessionStorage('loggedUser', 'FirstName');
     this.pagesubTitle = this.session.getHealthCareOrgName() + "'s insights at a glance.";
 
@@ -423,20 +423,19 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
   }
 
   paymentsBySubmissionData() {
-    this.stackedBarChartLoading = false;
     this.pbsLoading = true;
     this.downRowMockCards = [{}];
     this.pbsCard = [];
     this.overviewAdvocateSharedService
       .paymentsBySubmission(this.createPayloadService.payload)
       .then(data => {
+        console.log('psbData', data);
         this.pbsCard = JSON.parse(JSON.stringify(data));
+        console.log('this.pbsCard---------->', this.pbsCard);
         this.pbsCard['timeperiod'] = `${this.timeFilterValueResolved} (${this.pbsCard['timeperiod']})`;
         this.pbsLoading = false;
-        this.stackedBarChartLoading = true;
       })
       .catch(reason => {
-        this.stackedBarChartLoading = false;
         this.pbsLoading = false;
         console.log('Error Payment Submission Adovate Overview page Payment', reason);
       });
