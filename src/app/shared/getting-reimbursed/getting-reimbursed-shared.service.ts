@@ -12,7 +12,6 @@ import { GettingReimbursedPayload } from './payload.class';
 import * as _ from 'lodash';
 import { environment } from '../../../environments/environment';
 import { PaymentsSharedService } from './payments/payments-shared.service';
-import { nullSafeIsEquivalent } from '@angular/compiler/src/output/output_ast';
 
 @Injectable({
   providedIn: 'root'
@@ -1223,7 +1222,7 @@ export class GettingReimbursedSharedService {
               data: null,
               status: 404,
               besideData: null,
-              timeperiod: nullSafeIsEquivalent
+              timeperiod: null
             };
 
             resolve(claimsSubmitted);
