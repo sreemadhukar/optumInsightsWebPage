@@ -520,7 +520,6 @@ export class CommonUtilsService {
         lobLabels.push(lobName.unCategorized);
       }
     }
-    console.log('return common', lobLabels);
     return lobLabels;
   }
 
