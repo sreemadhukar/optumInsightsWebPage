@@ -6,15 +6,7 @@ import { CommonUtilsService } from '../common-utils.service';
 import { TrendingMetricsService } from '../../rest/trending/trending-metrics.service';
 import { AuthorizationService } from '../../auth/_service/authorization.service';
 import { GettingReimbursedPayload } from '../getting-reimbursed/payload.class';
-
-interface ICalls {
-  ProviderSysKey: number;
-  CallVolByQuesType: Object;
-  CallTalkTimeByQuesType: Object;
-  ReportStartDate: String;
-  ReportEndDate: String;
-  CreateDate: String;
-}
+import { ICallsShared } from '../../modals/i-calls-shared';
 
 @Injectable({ providedIn: ServiceInteractionModule })
 export class CallsSharedService {
@@ -34,14 +26,14 @@ export class CallsSharedService {
 
   public issueResolution(
     status: number,
-    title: String,
-    MetricID: String,
+    title: string,
+    MetricID: string,
     data: any,
     toggle: boolean,
     besideData: any,
-    timeperiod?: String | null
-  ): Object {
-    const temp: Object = {
+    timeperiod?: string | null
+  ): ICallsShared {
+    const temp: ICallsShared = {
       category: 'app-card',
       type: 'donutWithLabel',
       status: status,
@@ -91,8 +83,8 @@ export class CallsSharedService {
     });
   }
   public sharedCallsData(parameters) {
-    let callsByCallType: Object;
-    let talkTimeByCallType: Object;
+    let callsByCallType: ICallsShared;
+    let talkTimeByCallType: ICallsShared;
     const tempArray: Array<object> = [];
     return new Promise(resolve => {
       this.callsService.getCallsData(...parameters).subscribe(
@@ -101,7 +93,7 @@ export class CallsSharedService {
             if (providerSystems) {
               const startDate = providerSystems.ReportStartDate;
               const endDate = providerSystems.ReportEndDate;
-              const timePeriodCalls: String =
+              const timePeriodCalls: string =
                 this.common.dateFormat(startDate) + '&ndash;' + this.common.dateFormat(endDate);
               const totalCalls = providerSystems.CallVolByQuesType;
               if (totalCalls) {

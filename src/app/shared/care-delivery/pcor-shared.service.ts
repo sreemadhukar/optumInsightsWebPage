@@ -18,8 +18,8 @@ export class PcorSharedService {
   ) {}
 
   /** The following service method is fetching data for
-   * 1. Medicare & Retirement Average Star Rating
-   * 2. Medicare & Retirement Annual Care Visits Completion Rate
+   * 1. Medicare Average Star Rating
+   * 2. Medicare Annual Care Visits Completion Rate
    * 3. Quality Star top level information i.e. star count only
    *  *  i.e. the inside level information for the quality star i.e. subCategories
    */
@@ -45,7 +45,7 @@ export class PcorSharedService {
               {
                 category: 'app-card',
                 type: 'star',
-                title: 'Medicare & Retirement Average Star Rating',
+                title: 'Medicare Average Star Rating',
                 MetricID: this.MetricidService.MetricIDs.MedicareStarRating,
                 data: {
                   graphValues: [PCORData.AverageStarRating],
@@ -61,7 +61,7 @@ export class PcorSharedService {
               {
                 category: 'app-card',
                 type: 'donutWithLabelandTab',
-                title: 'Medicare & Retirement Annual Care Visits Completion Rate',
+                title: 'Medicare Annual Care Visits Completion Rate',
                 MetricID: this.MetricidService.MetricIDs.MedicareRetirementAnnualCareVisitsCompletionRateDiabetic,
                 data: {
                   All: {

@@ -17,8 +17,8 @@ export class PcorService {
   constructor(private http: HttpClient) {}
 
   /** The following service method is fetching data for
-   * 1. Medicare & Retirement Average Star Rating
-   * 2. Medicare & Retirement Annual Care Visits Completion Rate
+   * 1. Medicare Average Star Rating
+   * 2. Medicare Annual Care Visits Completion Rate
    * 3. Quality Star top level information i.e. star count only
    */
 

@@ -788,7 +788,7 @@ export class PaymentsSharedService {
           }
         },
         err => {
-          console.log('Getting Reimbursed Shared Data', err);
+          console.log('Payments Shared Data', err);
         }
       );
     });
@@ -869,8 +869,8 @@ export class PaymentsSharedService {
               bottomData: null,
               timeperiod: null
             };
-            resolve(temp);
             console.log('Claims breakdown issue', Error);
+            resolve(temp);
           }
         });
       });
@@ -927,8 +927,8 @@ export class PaymentsSharedService {
               bottomData: null,
               timeperiod: null
             };
-            resolve(temp);
             console.log('Claims breakdown issue', Error);
+            resolve(temp);
           }
         });
       });
