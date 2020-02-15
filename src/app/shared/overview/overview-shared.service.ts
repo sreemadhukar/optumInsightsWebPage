@@ -7,7 +7,7 @@ import { SessionService } from '../session.service';
 import { AuthorizationService } from '../../auth/_service/authorization.service';
 import { TrendingMetricsService } from '../../rest/trending/trending-metrics.service';
 import { GlossaryMetricidService } from '../glossary-metricid.service';
-import { environment } from 'src/environments/environment';
+import { lobName } from '../../modals/lob-name';
 
 @Injectable({
   providedIn: OverviewPageModule
@@ -647,7 +647,7 @@ export class OverviewSharedService {
               centerNumberOriginal: claims.All.ClaimsLobSummary[0].AmountPaid,
               color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'],
               gdata: ['card-inner', 'claimsPaidCardD3Donut'],
-              labels: ['Medicare & Retirement', 'Community & State', 'Employer & Individual', 'Uncategorized'],
+              labels: [lobName.mAndRMedicare, lobName.cAndSMedicaid, lobName.eAndICommerCial, lobName.unCategorized],
               hover: true
             },
             // sdata: claimsTrendObject,

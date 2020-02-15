@@ -109,37 +109,37 @@ export class CommonUtilsService {
   }
 
   public matchLobWithData(lob) {
-    if (lob === 'All') {
+    if (lob === lobName.all) {
       return 'All';
-    } else if (lob === 'Employer & Individual') {
+    } else if (lob === lobName.eAndICommerCial) {
       return 'Ei';
-    } else if (lob === 'Medicare & Retirement') {
+    } else if (lob === lobName.mAndRMedicare) {
       return 'Mr';
-    } else if (lob === 'Community & State') {
+    } else if (lob === lobName.cAndSMedicaid) {
       return 'Cs';
-    } else if (lob === 'Uncategorized') {
+    } else if (lob === lobName.unCategorized) {
       return 'Un';
     }
   }
   public matchLobWithCapsData(lob) {
-    if (lob === 'All') {
+    if (lob === lobName.all) {
       return 'All';
-    } else if (lob === 'Employer & Individual') {
+    } else if (lob === lobName.eAndICommerCial) {
       return 'EI';
-    } else if (lob === 'Medicare & Retirement') {
+    } else if (lob === lobName.mAndRMedicare) {
       return 'MR';
-    } else if (lob === 'Community & State') {
+    } else if (lob === lobName.cAndSMedicaid) {
       return 'CS';
     }
   }
   public matchLobWithLobData(lob) {
-    if (lob === 'All') {
+    if (lob === lobName.all) {
       return 'All';
-    } else if (lob === 'Employer & Individual') {
+    } else if (lob === lobName.eAndICommerCial) {
       return 'E&I';
-    } else if (lob === 'Medicare & Retirement') {
+    } else if (lob === lobName.mAndRMedicare) {
       return 'M&R';
-    } else if (lob === 'Community & State') {
+    } else if (lob === lobName.cAndSMedicaid) {
       return 'C&S';
     }
   }
@@ -167,13 +167,13 @@ export class CommonUtilsService {
     }
   }
   public matchFullLobWithData(lob) {
-    if (lob === 'All') {
+    if (lob === lobName.all) {
       return 'ALL';
-    } else if (lob === 'Employer & Individual') {
+    } else if (lob === lobName.eAndICommerCial) {
       return 'EmployerAndIndividual';
-    } else if (lob === 'Medicare & Retirement') {
+    } else if (lob === lobName.mAndRMedicare) {
       return 'MedicareAndRetirement';
-    } else if (lob === 'Community & State') {
+    } else if (lob === lobName.cAndSMedicaid) {
       return 'CommunityAndState';
     }
   }
@@ -366,22 +366,22 @@ export class CommonUtilsService {
         }
       } else if (lobValue === 'Mr' || lobValue === 'MedicareAndRetirement') {
         if (cardData.hasOwnProperty('Mr') || cardData.hasOwnProperty('MedicareAndRetirement')) {
-          hoverLabels.push('Medicare & Retirement');
+          hoverLabels.push(lobName.mAndRMedicare);
           hoverLabels.push('Other Lines of Business');
         }
       } else if (lobValue === 'Cs' || lobValue === 'CommunityAndState') {
         if (cardData.hasOwnProperty('Cs') || cardData.hasOwnProperty('CommunityAndState')) {
-          hoverLabels.push('Community & State');
+          hoverLabels.push(lobName.cAndSMedicaid);
           hoverLabels.push('Other Lines of Business');
         }
       } else if (lobValue === 'Ei' || lobValue === 'EmployerAndIndividual') {
         if (cardData.hasOwnProperty('Ei') || cardData.hasOwnProperty('EmployerAndIndividual')) {
-          hoverLabels.push('Employer & Individual');
+          hoverLabels.push(lobName.eAndICommerCial);
           hoverLabels.push('Other Lines of Business');
         }
       } else if (lobValue === 'Un' || lobValue === 'UNKNOWN') {
         if (cardData.hasOwnProperty('Un' || cardData.hasOwnProperty('UNKNOWN'))) {
-          hoverLabels.push('Uncategorized');
+          hoverLabels.push(lobName.unCategorized);
           hoverLabels.push('Other Lines of Business');
         }
       }
@@ -471,14 +471,14 @@ export class CommonUtilsService {
   }
 
   /*
- labels: ['Medicare & Retirement', 'Community & State', 'Employer & Individual', 'Uncategorized'],
+ labels: [lobName.mAndRMedicare, lobName.cAndSMedicaid, lobName.eAndICommerCial, lobName.unCategorized],
  color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC']
 * */
 
   // ALL
-  // MedicareAndRetirement
-  // CommunityAndState
-  // EmployerAndIndividual
+  // Medicare
+  // Medicaid
+  // Commercial
   // Uncategorized
   public graphValuePrint(LOBType, data, value) {
     const keys = this.LOBSideLabels(LOBType, data);

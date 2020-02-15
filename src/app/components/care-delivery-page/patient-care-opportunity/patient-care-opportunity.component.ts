@@ -131,7 +131,7 @@ export class PatientCareOpportunityComponent implements OnInit {
         this.selectedItemId = queryParams.selectedItemId;
       }
       this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'pcorPage' });
-      this.pageTitle = 'Patient Care Opportunity–Medicare & Retirement';
+      this.pageTitle = 'Patient Care Opportunity–Medicare';
       this.pageSubTitle = 'Health System Summary';
       this.loading = true;
       this.hideAllObjects = true;
