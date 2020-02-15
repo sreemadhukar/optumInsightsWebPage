@@ -8,12 +8,6 @@ export class TemporaryTextFormatterPipe implements PipeTransform {
     switch (value) {
       case 'Prior Authorizations':
         return 'Prior Auth';
-      case 'Medicare & Retirement':
-        return 'M&R';
-      case 'Community & State':
-        return 'C&S';
-      case 'Employer & Individual':
-        return 'E&I';
       case 'Eligibility and Benefits':
         return 'Eligibility/Benefits';
       default:

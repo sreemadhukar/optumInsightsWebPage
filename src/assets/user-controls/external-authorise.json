@@ -91,8 +91,8 @@
     },
     "Patient Care Opportunity": {
       "navLink": true,
-      "Medicare & Retirement Average Star Rating": true,
-      "Medicare & Retirement Annual Care Visits Completion Rate": true,
+      "Medicare Average Star Rating": true,
+      "Medicare Annual Care Visits Completion Rate": true,
       "Quality Measure Star Ratings": true
     }
   },
