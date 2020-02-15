@@ -175,7 +175,6 @@ export class PcorSharedService {
 
               for (let i = subCategory.length; i > 0; i--) {
                 const metricName = template[i] + 'StarRating';
-                console.log('metrinname' + completeData.QualityMsrCodeName[metricName].length);
                 category.push({
                   type: 'singleBarChart',
                   star: i,

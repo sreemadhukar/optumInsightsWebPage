@@ -298,7 +298,10 @@
           </section>
         </div>
 
-        <div class="chart-details-donut">
+        <div
+          class="chart-details-donut"
+          [class.pcor-medicare]="chartData.title == 'Medicare Annual Care Visits Completion Rate'"
+        >
           <app-donut-chart-onchange
             [donutType]="'app-card'"
             [chartOptions]="medicareData"

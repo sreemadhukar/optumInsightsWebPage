@@ -1,5 +1,5 @@
 /*
-Following is the template for the data we are getting in Calls component page from shared file for 
+Following is the template for the data we are getting in Calls component page from shared file for
 both the donuts
 */
 

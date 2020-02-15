@@ -1,16 +1,11 @@
 import { NonPaymentService } from './../../../rest/getting-reimbursed/non-payment.service';
 import { Injectable } from '@angular/core';
-import { GettingReimbursedModule } from '../../../components/getting-reimbursed-page/getting-reimbursed.module';
-
 import { CommonUtilsService } from '../../common-utils.service';
 import { SessionService } from '../../session.service';
 import { AuthorizationService } from '../../../auth/_service/authorization.service';
 import { GlossaryMetricidService } from '../../glossary-metricid.service';
-import { AdvocateModule } from '../../../components/advocate/advocate.module';
-import { HttpParams } from '@angular/common/http';
 import { GettingReimbursedPayload } from '../payload.class';
 import * as _ from 'lodash';
-import { environment } from '../../../../environments/environment';
 import { tmpdir } from 'os';
 
 @Injectable({

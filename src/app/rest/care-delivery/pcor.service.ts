@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { HttpHeaders, HttpClient, HttpParams } from '@angular/common/http';
-import { map, catchError } from 'rxjs/operators';
+import { map, catchError, retry } from 'rxjs/operators';
 import { combineLatest, Observable, of, forkJoin } from 'rxjs';
 
 @Injectable({
@@ -30,6 +30,7 @@ export class PcorService {
 
     return this.http.get(executiveURL, { params: eparams }).pipe(
       map(res => JSON.parse(JSON.stringify(res))),
+      retry(2),
       catchError(err => of(JSON.parse(JSON.stringify(err))))
     );
   }
@@ -52,6 +53,7 @@ export class PcorService {
     const PCORQualityMeasureURL = this.APP_URL + this.PCOR_SERVICE_PATH + parameters[0];
     return this.http.get(PCORQualityMeasureURL, { params, headers: myHeader }).pipe(
       map(res => JSON.parse(JSON.stringify(res))),
+      retry(2),
       catchError(err => of(JSON.parse(JSON.stringify(err))))
     );
   }
