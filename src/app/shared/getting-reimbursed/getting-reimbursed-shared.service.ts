@@ -1805,7 +1805,6 @@ export class GettingReimbursedSharedService {
           sideData[0] = labelsData;
           sideData[1] = colorsData;
         }
-        console.log('APpeals Data 2066', appealsData);
         appealsSubmitted = {
           category: 'app-card',
           type: 'donutWithoutLabelBottom',
