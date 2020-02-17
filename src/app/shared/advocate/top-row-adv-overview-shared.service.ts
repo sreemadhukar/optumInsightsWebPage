@@ -190,7 +190,7 @@ export class TopRowAdvOverviewSharedService {
         category: 'small-card',
         type: 'donutWithLabel',
         status: 404,
-        title: 'Claims Not Paid',
+        title: 'Claims Paid',
         MetricID: this.MetricidService.MetricIDs.ClaimsPaid,
         data: null,
         besideData: null,
@@ -280,13 +280,14 @@ export class TopRowAdvOverviewSharedService {
       claimsNotPaid = {
         category: 'small-card',
         type: 'donutWithLabel',
-        status: 404,
+        // status: '404',
         title: 'Claims Not Paid',
         MetricID: this.MetricidService.MetricIDs.ClaimsNotPaid,
         data: null,
         besideData: null,
         bottomData: null,
-        timeperiod: null
+        timeperiod: null,
+        metricInProgres: true
       };
     }
     return claimsNotPaid;
