@@ -72,6 +72,7 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
   public subReason: any;
   public selectedSubreasonArray: any;
   public selectedSubreason: any;
+
   previousPageurl = [
     { previousPage: 'overviewPage', urlRout: '/OverviewPage' },
     { previousPage: 'gettingReimbursedSummary', urlRout: '/GettingReimbursed' },
@@ -132,7 +133,10 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
     // claims reason and sub reason Dropwdown
     this.selectedReasonItem = this.temp.reasonSelected;
     this.selectedSubreason = this.temp.subReason;
-
+    this.selectedSubreasonArray = this.fullData
+      .filter(item => item.mainReason === this.selectedReasonItem)
+      .map(item => item.subReason)[0];
+    this.subReason = this.selectedSubreasonArray;
     // pagination
     this.paginator._intl.itemsPerPageLabel = 'Display';
 
@@ -210,7 +214,31 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
         .attr('id', 'page-text');
     }
   }
+  // Reason selection from dropdown
+  selectTopReason(value) {
+    this.isLoading = true;
+    this.selectedSubreasonArray = this.fullData
+      .filter(item => item.mainReason === value)
+      .map(item => item.subReason)[0];
+    this.subReason = this.selectedSubreasonArray;
+    console.log('194 sub reason', this.subReason);
 
+    this.selectedReasonItem = value;
+
+    this.selectedSubreason = this.selectedSubreasonArray[0];
+    this.loadTable(this.selectedReasonItem, this.selectedSubreason);
+  }
+
+  // sub reasons selection from dropdown
+  selectsubReason(filterVal) {
+    if (filterVal) {
+      this.isLoading = true;
+      this.subReasonselected = filterVal;
+
+      this.loadTable(this.selectedReasonItem, this.subReasonselected);
+      console.log('filterVal', this.subReasonselected);
+    }
+  }
   goback() {
     this.currentPage.subscribe(currentPage => (this.previousPage = currentPage));
     for (let i = 0; i < this.previousPageurl.length; i++) {
@@ -226,13 +254,18 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
     this.topClaimsSharedService
       .getClaimsData(this.createPayloadService.initialState, reasonSelected, subReason)
       .then(claimsDetailsData => {
+        this.isLoading = true;
         this.selectedclaims = [];
         this.claimsData = JSON.parse(JSON.stringify(claimsDetailsData));
+        this.selectedclaims.sort = this.sort;
 
         if (this.claimsData && this.claimsData.length > 0) {
           this.numberOfClaims = this.claimsData.length;
           this.selectedclaims = new MatTableDataSource(this.claimsData);
+          this.selectedclaims.sort = this.sort;
 
+          // pagination
+          this.selectedclaims.paginator = this.paginator;
           this.selectedclaims.filterPredicate = (data, filtervalue) => {
             return (
               data.TinNumber.toLowerCase().includes(filtervalue) ||

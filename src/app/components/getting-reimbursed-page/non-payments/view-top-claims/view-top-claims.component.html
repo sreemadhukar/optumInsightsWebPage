@@ -16,26 +16,42 @@
         </div>
       </div>
       <app-filters-applied></app-filters-applied>
-      <!-- <div class="page-title" [ngClass]="{ 'print-page-title': printStyle === true }">
-          {{ pageTitle }}
-        </div>
-        <div *ngIf="printStyle" [ngClass]="{ 'print-page-subtitle': printStyle === true }">
-          {{ pageSubTitle }}
-        </div> -->
     </div>
 
     <div class="reasons-content">
       <div class="reason-div">
         <div class="reason-head">Reason</div>
-        <h5 class="reason-text">{{ selectedReasonItem }}</h5>
+        <div>
+          <select class="reason-dropdown" (change)="selectTopReason($event.target.value)">
+            <option
+              [value]="maintopreasons.mainReason"
+              *ngFor="let maintopreasons of fullData"
+              [selected]="selectedReasonItem === maintopreasons.mainReason"
+            >
+              {{ maintopreasons.mainReason }}
+            </option>
+          </select>
+          <mat-icon matPrefix class="tax-summary-arrow-icon" svgIcon="arrow"></mat-icon>
+        </div>
       </div>
       <div class="sub-reason-div">
         <div class="reason-head">Subreason</div>
-        <h5 class="reason-text">{{ selectedSubreason }}</h5>
+
+        <div>
+          <select class="reason-dropdown" (change)="selectsubReason($event.target.value)">
+            <option
+              [value]="subReason"
+              *ngFor="let subReason of selectedSubreasonArray"
+              [selected]="selectedSubreason === subReason"
+            >
+              {{ subReason }}
+            </option>
+          </select>
+        </div>
       </div>
     </div>
 
-    <div class="tax-summary-content">
+    <div class="tax-summary-content" [hidden]="isLoading">
       <div class="tax-summary-head">
         <span class="tax-summary-count">
           Showing {{ selectedclaims.filteredData.length > 24 ? pageSize : selectedclaims.filteredData.length }} of
@@ -61,7 +77,7 @@
                     class="tax-summary-name-input"
                     spellcheck="false"
                     (focus)="setupFilter('name')"
-                    (keyup)="searchTaxId($event.target.value, 'TinName')"
+                    (keyup)="searchTaxId($event.target.value, 'TinNumber')"
                   />
                 </div>
               </th>
@@ -125,7 +141,8 @@
                     type="text"
                     class="tax-summary-claims-input "
                     spellcheck="false"
-                    (keyup)="searchTaxId($event.target.value, 'ClaimNumber')"
+                    [ngModel]="globalFilter"
+                    (ngModelChange)="applyFilter($event)"
                   />
                 </div>
               </th>
