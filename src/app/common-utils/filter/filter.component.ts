@@ -56,8 +56,8 @@ export class FilterComponent implements OnInit {
     'Last 6 Months',
     'Last 12 Months',
     'Year to Date',
-    '2018',
-    '2017'
+    '2019',
+    '2018'
   ];
 
   public lobs = [
