@@ -87,7 +87,7 @@ export class PaymentsComponent implements OnInit {
     this.claimsPaidBreakBool = false;
     this.loading = true;
     this.loadingClaimsBreakdown = true;
-    this.mockCards = [{}, {}];
+    this.mockCards = [{}];
     this.paymentsSharedService
       .sharedPaymentsData(this.createPayloadService.payload)
       .then(completeData => {

@@ -6,6 +6,7 @@ import { Location } from '@angular/common';
 import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
+import { lobName } from '../../modals/lob-name';
 import { MatInput } from '@angular/material';
 
 export interface FilterData {
@@ -59,7 +60,13 @@ export class FilterComponent implements OnInit {
     '2018'
   ];
 
-  public lobs = ['All', 'Community & State', 'Employer & Individual', 'Medicare & Retirement', 'Uncategorized'];
+  public lobs = [
+    lobName.all,
+    lobName.cAndSMedicaid,
+    lobName.eAndICommerCial,
+    lobName.mAndRMedicare,
+    lobName.unCategorized
+  ];
   public metrics = ['GettingReimbursed', 'Appeals', 'IssueResolution', 'SelfService', 'PriorAuthorization'];
   public servicesettings = ['All', 'Inpatient', 'Outpatient', 'Outpatient Facility'];
   public priorauthdecisiontype = ['All', 'Administrative', 'Clinical'];

@@ -1,3 +1,5 @@
+import { lobName } from '../../../modals/lob-name';
+
 export const TimePeriod = [
   { name: 'Last30Days', value: 'Last 30 Days', disable: false },
   { name: 'Last3Months', value: 'Last 3 Months', disable: false },
@@ -9,11 +11,11 @@ export const TimePeriod = [
 ];
 
 export const LineOfBusiness = [
-  { name: 'All', value: 'All', disable: false },
-  { name: 'CS', value: 'Community & State', disable: false },
-  { name: 'EI', value: 'Employer & Individual', disable: false },
-  { name: 'MR', value: 'Medicare & Retirement', disable: false },
-  { name: 'UN', value: 'Uncategorized', disable: true }
+  { name: 'All', value: lobName.all, disable: false },
+  { name: 'CS', value: lobName.cAndSMedicaid, disable: false },
+  { name: 'EI', value: lobName.eAndICommerCial, disable: false },
+  { name: 'MR', value: lobName.mAndRMedicare, disable: false },
+  { name: 'UN', value: lobName.unCategorized, disable: true }
 ];
 
 export const ClaimsFilter = [

@@ -20,6 +20,7 @@ export class OverviewAdvocateSharedService {
   public collectivePaData;
   public collectiveOtherData;
   public monthName;
+  public sendData: {};
 
   constructor(
     private MetricidService: GlossaryMetricidService,
@@ -327,39 +328,47 @@ export class OverviewAdvocateSharedService {
       const parameters = this.getParameterCategories(param);
       this.overviewAdvocateService.paymentsBySubmission(...parameters).subscribe(
         pbsData => {
-          console.log('psbData', pbsData);
           const getData = JSON.parse(JSON.stringify(pbsData[0]));
-
-          if (!getData) {
-            return reject(null);
+          if (getData == null) {
+            //  return reject(null);
+            this.sendData = {
+              category: 'app-card',
+              type: 'donutWithLabel',
+              status: 404,
+              title: 'Payments by Submission',
+              data: null,
+              timeperiod: null
+            };
+          } else {
+            this.sendData = {
+              id: 'paymentSubmission',
+              category: 'app-card',
+              type: 'stackBarChart',
+              title: 'Payments by Submission',
+              data: {
+                graphValues: [
+                  {
+                    name: '',
+                    electronic: getData.EDISubmissions.All.ClaimsLobSummary[0].WriteOffAmount,
+                    paper: getData.PaperSubmissions.All.ClaimsLobSummary[0].WriteOffAmount
+                  }
+                ],
+                color: ['#3381FF', '#00B8CC'],
+                gdata: ['card-inner', 'paymentBySubmission'],
+                sdata: null
+              },
+              status: null,
+              timeperiod:
+                this.common.dateFormat(getData.PaperSubmissions.Startdate) +
+                '&ndash;' +
+                this.common.dateFormat(getData.PaperSubmissions.Enddate)
+            };
           }
-          const sendData = {
-            id: 'paymentSubmission',
-            category: 'app-card',
-            type: 'stackBarChart',
-            title: 'Payments by Submission',
-            data: {
-              graphValues: [
-                {
-                  name: '',
-                  electronic: getData.EDISubmissions.All.ClaimsLobSummary[0].WriteOffAmount,
-                  paper: getData.PaperSubmissions.All.ClaimsLobSummary[0].WriteOffAmount
-                }
-              ],
-              color: ['#3381FF', '#00B8CC'],
-              gdata: ['card-inner', 'paymentBySubmission'],
-              sdata: null
-            },
-            timeperiod:
-              this.common.dateFormat(getData.PaperSubmissions.Startdate) +
-              '&ndash;' +
-              this.common.dateFormat(getData.PaperSubmissions.Enddate)
-          };
-          resolve(sendData);
+          resolve(this.sendData);
         },
         err => {
           console.log('Advocate Page , Error for calls card', err);
-          reject();
+          // reject();
         }
       );
     });

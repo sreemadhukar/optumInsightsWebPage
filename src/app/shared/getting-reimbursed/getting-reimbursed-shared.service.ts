@@ -10,8 +10,8 @@ import { NonPaymentService } from '../../rest/getting-reimbursed/non-payment.ser
 import { GlossaryMetricidService } from '../glossary-metricid.service';
 import { GettingReimbursedPayload } from './payload.class';
 import * as _ from 'lodash';
-import { environment } from '../../../environments/environment';
 import { PaymentsSharedService } from './payments/payments-shared.service';
+import { lobName } from '../../modals/lob-name';
 
 @Injectable({
   providedIn: 'root'
@@ -376,7 +376,12 @@ export class GettingReimbursedSharedService {
                   hover: true
                 },
                 besideData: {
-                  labels: ['Medicare & Retirement', 'Community & State', 'Employer & Individual', 'Uncategorized'],
+                  labels: [
+                    lobName.mAndRMedicare,
+                    lobName.cAndSMedicaid,
+                    lobName.eAndICommerCial,
+                    lobName.unCategorized
+                  ],
                   color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'],
                   graphValues: paidData
                 },
@@ -462,7 +467,12 @@ export class GettingReimbursedSharedService {
                   hover: true
                 },
                 besideData: {
-                  labels: ['Medicare & Retirement', 'Community & State', 'Employer & Individual', 'Uncategorized'],
+                  labels: [
+                    lobName.mAndRMedicare,
+                    lobName.cAndSMedicaid,
+                    lobName.eAndICommerCial,
+                    lobName.unCategorized
+                  ],
                   color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'],
                   graphValues: notPaidData
                 },
@@ -628,7 +638,7 @@ export class GettingReimbursedSharedService {
                   sum += appealsData[0].LineOfBusiness.MedicareAndRetirement.TotalClosedCount;
                 }
                 submittedData.push(sum);
-                labelsData.push('Medicare & Retirement');
+                labelsData.push(lobName.mAndRMedicare);
                 colorsData.push('#3381FF');
               }
               if (appealsData[0].LineOfBusiness.hasOwnProperty('CommunityAndState')) {
@@ -649,7 +659,7 @@ export class GettingReimbursedSharedService {
                   sum += appealsData[0].LineOfBusiness.CommunityAndState.TotalClosedCount;
                 }
                 submittedData.push(sum);
-                labelsData.push('Community & State');
+                labelsData.push(lobName.cAndSMedicaid);
                 colorsData.push('#80B0FF');
               }
               if (appealsData[0].LineOfBusiness.hasOwnProperty('EmployerAndIndividual')) {
@@ -670,7 +680,7 @@ export class GettingReimbursedSharedService {
                   sum += appealsData[0].LineOfBusiness.EmployerAndIndividual.TotalClosedCount;
                 }
                 submittedData.push(sum);
-                labelsData.push('Employer & Individual');
+                labelsData.push(lobName.eAndICommerCial);
                 colorsData.push('#003DA1');
               }
 
@@ -692,7 +702,7 @@ export class GettingReimbursedSharedService {
                   sum += appealsData[0].LineOfBusiness.Uncategorized.TotalClosedCount;
                 }
                 submittedData.push(sum);
-                labelsData.push('Uncategorized');
+                labelsData.push(lobName.unCategorized);
                 colorsData.push('#00B8CC');
               }
               appealsSubmitted = {
@@ -719,7 +729,12 @@ export class GettingReimbursedSharedService {
                   hover: true
                 },
                 besideData: {
-                  labels: ['Medicare & Retirement', 'Community & State', 'Employer & Individual', 'Uncategorized'],
+                  labels: [
+                    lobName.mAndRMedicare,
+                    lobName.cAndSMedicaid,
+                    lobName.eAndICommerCial,
+                    lobName.unCategorized
+                  ],
                   color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'],
                   graphValues: submittedData
                 },
@@ -1161,9 +1176,12 @@ export class GettingReimbursedSharedService {
       const lobData = parameters[1].Lob ? _.startCase(parameters[1].Lob.toLowerCase()) : 'All';
 
       if (parameters[1]['ClaimsBy'] === 'DOS') {
-        timePeriodData =
-          this.common.dateFormat(claimsData.Startdate) + '&ndash;' + this.common.dateFormat(claimsData.Enddate);
-        if (claimsData != null || !claimsData.hasOwnProperty(lobData)) {
+        if (claimsData.hasOwnProperty('Startdate') && claimsData.hasOwnProperty('Enddate')) {
+          timePeriodData =
+            this.common.dateFormat(claimsData.Startdate) + '&ndash;' + this.common.dateFormat(claimsData.Enddate);
+        }
+
+        if (claimsData != null) {
           if (
             claimsData.hasOwnProperty(lobData) &&
             claimsData[lobData] != null &&
@@ -1219,7 +1237,7 @@ export class GettingReimbursedSharedService {
               data: null,
               status: 404,
               besideData: null,
-              timeperiod: this.timeFrame
+              timeperiod: null
             };
 
             resolve(claimsSubmitted);
@@ -1233,14 +1251,17 @@ export class GettingReimbursedSharedService {
             data: null,
             status: 404,
             besideData: null,
-            timeperiod: timePeriodData
+            timeperiod: null
           };
 
           resolve(claimsSubmitted);
         }
       } else {
-        timePeriodData =
-          this.common.dateFormat(claimsData.StartDate) + '&ndash;' + this.common.dateFormat(claimsData.EndDate);
+        if (claimsData.hasOwnProperty('StartDate') && claimsData.hasOwnProperty('EndDate')) {
+          timePeriodData =
+            this.common.dateFormat(claimsData.StartDate) + '&ndash;' + this.common.dateFormat(claimsData.EndDate);
+        }
+
         if (!claimsData || !claimsData.hasOwnProperty('LineOfBusiness')) {
           claimsSubmitted = {
             category: 'app-card',
@@ -1316,7 +1337,7 @@ export class GettingReimbursedSharedService {
               data: null,
               status: 404,
               besideData: null,
-              timeperiod: timePeriodData
+              timeperiod: null
             };
           }
 
@@ -1330,7 +1351,7 @@ export class GettingReimbursedSharedService {
             data: null,
             status: 404,
             besideData: null,
-            timeperiod: timePeriodData
+            timeperiod: null
           };
           resolve(claimsSubmitted);
         }
@@ -1670,7 +1691,7 @@ export class GettingReimbursedSharedService {
             sum += appealsData[0].LineOfBusiness.MedicareAndRetirement.TotalClosedCount;
           }
           submittedData.push(sum);
-          labelsData.push('Medicare & Retirement');
+          labelsData.push(lobName.mAndRMedicare);
           colorsData.push('#3381FF');
         }
         if (
@@ -1695,7 +1716,7 @@ export class GettingReimbursedSharedService {
             sum += appealsData[0].LineOfBusiness.CommunityAndState.TotalClosedCount;
           }
           submittedData.push(sum);
-          labelsData.push('Community & State');
+          labelsData.push(lobName.cAndSMedicaid);
           colorsData.push('#80B0FF');
         }
         if (
@@ -1720,7 +1741,7 @@ export class GettingReimbursedSharedService {
             sum += appealsData[0].LineOfBusiness.EmployerAndIndividual.TotalClosedCount;
           }
           submittedData.push(sum);
-          labelsData.push('Employer & Individual');
+          labelsData.push(lobName.eAndICommerCial);
           colorsData.push('#003DA1');
         }
 
@@ -1743,7 +1764,7 @@ export class GettingReimbursedSharedService {
             sum += appealsData[0].LineOfBusiness.Uncategorized.ClinicalAppeals;
           }
           submittedData.push(sum);
-          labelsData.push('Uncategorized');
+          labelsData.push(lobName.unCategorized);
           colorsData.push('#00B8CC');
         }
         if (lobFullData !== 'ALL') {
@@ -1784,7 +1805,6 @@ export class GettingReimbursedSharedService {
           sideData[0] = labelsData;
           sideData[1] = colorsData;
         }
-        console.log('APpeals Data 2066', appealsData);
         appealsSubmitted = {
           category: 'app-card',
           type: 'donutWithoutLabelBottom',
