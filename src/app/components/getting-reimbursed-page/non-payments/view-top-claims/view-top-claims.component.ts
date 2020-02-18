@@ -19,7 +19,7 @@ import { IAppState } from './../../../../store/store';
 import * as d3 from 'd3';
 import { TopClaimsSharedService } from './../../../../shared/getting-reimbursed/non-payments/top-claims-shared.service';
 import { TopReasonsEmitterService } from './../../../../shared/getting-reimbursed/non-payments/top-reasons-emitter.service';
-
+import { FormControl } from '@angular/forms';
 @Component({
   selector: 'app-view-top-claims',
   templateUrl: './view-top-claims.component.html',
@@ -31,7 +31,7 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
   selectedclaims: any;
   numberOfClaims: any;
   tinsDisplayedColumns: string[] = [
-    'TinName',
+    'TinNumber',
     'ProviderName',
     'NonPaymentAmount',
     'BilledAmount',
@@ -47,6 +47,7 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
   viewClaimsValue: any;
   providerName: string;
   isLoading = true;
+  dataNOtavaiable: Boolean = true;
   viewsClaimsFullData: any;
   tinsData: any;
   public topreasons: string;
@@ -72,6 +73,18 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
   public subReason: any;
   public selectedSubreasonArray: any;
   public selectedSubreason: any;
+
+  tinNumberFilter = new FormControl('');
+  provideNameFilter = new FormControl('');
+  claimNumberFilter = new FormControl('');
+  filterValues = {
+    TinNumber: '',
+    ProviderName: '',
+    NonPaymentAmount: '',
+    BilledAmount: '',
+    DateOfProcessing: '',
+    ClaimNumber: ''
+  };
   previousPageurl = [
     { previousPage: 'overviewPage', urlRout: '/OverviewPage' },
     { previousPage: 'gettingReimbursedSummary', urlRout: '/GettingReimbursed' },
@@ -107,6 +120,7 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
       this.ngRedux.dispatch({ type: REMOVE_FILTER, filterData: { taxId: true } });
       this.common.urlResuseStrategy();
     });
+
     iconRegistry.addSvgIcon(
       'backButton',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/TIN-List-Back-Button-Icon.svg')
@@ -127,6 +141,7 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
+    this.dataNOtavaiable = false;
     this.temp = this.reasonReceived.sendData;
     this.fullData = this.temp.fullData;
     // claims reason and sub reason Dropwdown
@@ -147,12 +162,15 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
     }
     // load table data
     if (this.claimsData !== null) {
+      this.dataNOtavaiable = true;
       this.loadTable(this.temp.reasonSelected, this.temp.subReason);
       if (this.numberOfClaims > 24) {
         this.customPaginator();
       } else {
         this.selectedclaims.paginator = null;
       }
+    } else {
+      this.dataNOtavaiable = false;
     }
   }
 
@@ -176,7 +194,7 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
           .attr('font-size', '16')
           .attr('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
           .attr('fill', '#2D2D39');
-        return ' of ' + Math.floor(length / pageSize + 1);
+        return ' of ' + Math.floor(length / pageSize);
       };
       d3.select('.mat-paginator-container')
         .insert('div')
@@ -209,6 +227,20 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
         .lower()
         .attr('id', 'page-text');
     }
+    this.tinNumberFilter.valueChanges.subscribe(tinNumberValue => {
+      this.filterValues['TinNumber'] = tinNumberValue;
+      this.selectedclaims.filter = JSON.stringify(this.filterValues);
+    });
+    this.provideNameFilter.valueChanges.subscribe(providerNameValue => {
+      this.filterValues['ProviderName'] = providerNameValue;
+      this.selectedclaims.filter = JSON.stringify(this.filterValues);
+    });
+    this.claimNumberFilter.valueChanges.subscribe(claimNumbeValue => {
+      this.filterValues['ClaimNumber'] = claimNumbeValue;
+      this.selectedclaims.filter = JSON.stringify(this.filterValues);
+    });
+
+    this.selectedclaims.filterPredicate = this.customFilterPredicate();
   }
 
   goback() {
@@ -232,35 +264,31 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
         if (this.claimsData && this.claimsData.length > 0) {
           this.numberOfClaims = this.claimsData.length;
           this.selectedclaims = new MatTableDataSource(this.claimsData);
-
-          this.selectedclaims.filterPredicate = (data, filtervalue) => {
-            return (
-              data.TinNumber.toLowerCase().includes(filtervalue) ||
-              data.TinName.toLowerCase().includes(filtervalue) ||
-              data.ClaimNumber.toLowerCase().includes(filtervalue)
-            );
-          };
+          this.selectedclaims.filterPredicate = this.customFilterPredicate();
         }
       })
       .catch(error => {
         console.log('Dat is not available', error);
       });
   }
+  customFilterPredicate(): (data: any, filter: string) => boolean {
+    const filterFunction = function(data: any, filterValuedata: string): boolean {
+      const searchTerms = JSON.parse(filterValuedata);
 
+      return (
+        data.TinNumber.toLowerCase().indexOf(searchTerms.TinNumber) !== -1 &&
+        data.ProviderName.toString()
+          .toLowerCase()
+          .indexOf(searchTerms.ProviderName) !== -1 &&
+        data.ClaimNumber.toLowerCase().indexOf(searchTerms.ClaimNumber) !== -1
+      );
+    };
+    return filterFunction;
+  }
   getPageSize(event) {
     this.pageSize = event.pageSize;
   }
 
-  searchTaxId(filterValue: string) {
-    // this.filterObj = {
-    //   value: filterValue.trim().toLowerCase(),
-    //   key: id
-    // };
-    this.selectedclaims.filter = filterValue.trim().toLowerCase();
-    if (this.selectedclaims.paginator) {
-      this.selectedclaims.paginator.firstPage();
-    }
-  }
   customPaginator() {
     this.selectedclaims.paginator = this.paginator;
     this.paginator._intl.itemsPerPageLabel = 'Display';
