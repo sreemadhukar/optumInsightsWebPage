@@ -6,4 +6,34 @@
     <div class="header">UHC Insights Contact Us / Support</div>
   </div>
   <app-large-card></app-large-card>
+
+  <div class="top-reasons-for-claims-non-payment-block">
+    <h3>Frequently Asked Questions</h3>
+    <div class="bar-graphs-block">
+      <div
+        class="bar-graphs"
+        *ngFor="let barchart of barChartsArray; let i = index"
+        [class.extra-margin-bottom-40]="i + 1 == barChartsArray.length && !section[i]"
+      >
+        <div
+          [class.extra-margin-top-31]="i != 0"
+          [class.extra-margin-bottom-16]="section[i]"
+          class="bar-graphs-content"
+          (click)="section[i] = !section[i]; reasonsCollapose(i)"
+        >
+          <div class="bar-graph-inside-content">
+            {{ barchart.question }}
+          </div>
+        </div>
+        <div class="inner-block" *ngIf="section[i]">
+          <div class="inner-block-bdr">
+            <div class="bottom-shadow">
+              <div class="hide-bottom-arrow-block"></div>
+            </div>
+            {{ barchart.answer }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
