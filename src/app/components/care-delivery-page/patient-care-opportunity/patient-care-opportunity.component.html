@@ -10,8 +10,13 @@
       >
         {{ pageTitle }}
       </div>
-      <div class="page-subtitle" [ngClass]="{ 'print-page-subtitle': printStyle === true }">
-        {{ pageSubTitle }}
+      <div *ngIf="printStyle" [ngClass]="{ 'print-page-subtitle': printStyle === true }">{{ printpageSubTitle }}</div>
+      <div *ngIf="!subtitle" class="page-subtitle">
+        <span class="page-subtitle-header"> View more in-depth details of your health system summary.</span>
+        <div class="page-subtitle-link" (click)="PCORreport()">
+          {{ reportLink }} &nbsp;
+          <mat-icon class="page-subtitle-icon" svgIcon="external-link"></mat-icon>
+        </div>
       </div>
     </div>
 
@@ -48,17 +53,7 @@
       <div class="report-Title">{{ reportTitle }}</div>
       <div class="report-Subtitle">
         {{ reportText }} &nbsp;
-        <div class="report-Link" (click)="internalLink()">
-          {{ reportLink }} &nbsp;
-          <mat-icon class="icon" svgIcon="external-link"></mat-icon>
-        </div>
-      </div>
-    </div>
-    <div class="report-Tile">
-      <div class="report-Title">{{ reportTitle }}</div>
-      <div class="report-Subtitle">
-        {{ reportText }} &nbsp;
-        <div class="report-Link" (click)="externalLink()">
+        <div class="report-Link" (click)="PCORreport()">
           {{ reportLink }} &nbsp;
           <mat-icon class="icon" svgIcon="external-link"></mat-icon>
         </div>

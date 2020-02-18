@@ -9,6 +9,8 @@ import { ActivatedRoute } from '@angular/router';
 import { text } from '@angular/core/src/render3/instructions';
 import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
+import { Router } from '@angular/router';
+import { environment } from 'src/environments/environment';
 @Component({
   selector: 'app-patient-care-opportunity',
   templateUrl: './patient-care-opportunity.component.html',
@@ -44,6 +46,9 @@ export class PatientCareOpportunityComponent implements OnInit {
   reportTitle: String;
   reportText: String;
   reportLink: String;
+  subtitle: any;
+  printpageSubTitle: String = '';
+  isInternal: boolean = environment.internalAccess;
   constructor(
     private checkStorage: StorageService,
     private route: ActivatedRoute,
@@ -51,7 +56,8 @@ export class PatientCareOpportunityComponent implements OnInit {
     private filtermatch: CommonUtilsService,
     private ngRedux: NgRedux<IAppState>,
     private iconRegistry: MatIconRegistry,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    private router: Router
   ) {
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.filtermatch.urlResuseStrategy());
     iconRegistry.addSvgIcon(
@@ -141,9 +147,13 @@ export class PatientCareOpportunityComponent implements OnInit {
       if (queryParams && queryParams.selectedItemId) {
         this.selectedItemId = queryParams.selectedItemId;
       }
+      if (this.router.url.includes('print-')) {
+        this.subtitle = true;
+        this.printStyle = true;
+      }
       this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'pcorPage' });
       this.pageTitle = 'Patient Care Opportunity–Medicare & Retirement';
-      this.pageSubTitle = 'Health System Summary';
+      this.printpageSubTitle = 'Health System Summary';
       this.loading = true;
       this.hideAllObjects = true;
       this.mockCards = [{}, {}];
@@ -227,10 +237,11 @@ export class PatientCareOpportunityComponent implements OnInit {
     this.reportText = 'View in-depth details of your health system in the PCOR report. ';
     this.reportLink = 'View the Patient Care Opportunity Report  ';
   }
-  internalLink() {
-    window.open('https://webep1428/PCORMRPROD/');
-  }
-  externalLink() {
-    window.open('https://www.uhcprovider.com/en/reports-quality-programs/physician-perf-based-comp.html');
+  PCORreport() {
+    if (this.isInternal) {
+      window.open('https://webep1428/PCORMRPROD/');
+    } else {
+      window.open('https://www.uhcprovider.com/en/reports-quality-programs/physician-perf-based-comp.html');
+    }
   }
 }
