@@ -154,7 +154,7 @@ export class UhciFiltersComponent implements OnInit {
       this.selectedPage === 'nonPaymentsPage'
     ) {
       timeFrame.forEach(value => {
-        if (value.name === 'Last12Months' || value.name === '2018' || value.name === '2017') {
+        if (value.name === 'Last12Months' || value.name === '2019' || value.name === '2018') {
           value.disable = true;
         }
       });
