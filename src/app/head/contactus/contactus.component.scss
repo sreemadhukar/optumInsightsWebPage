@@ -1,0 +1,30 @@
+@import '~src/scss/variables.scss';
+@import '~src/scss/mixins';
+.contact-us-content {
+  width: 954px;
+  margin: 0 auto;
+  padding-bottom: 24px;
+  background-color: $alice-blue;
+}
+.breadcrums-div {
+  padding-top: 16px;
+  color: $strom-grey;
+  font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  letter-spacing: 0.2px;
+  line-height: 18px;
+}
+
+.breadcrums {
+  font-family: 'UHCSans-Medium';
+}
+.header-div {
+  padding-top: 16px;
+  padding-bottom: 8.8px;
+}
+.header {
+  color: $black-rock;
+  font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+  font-size: 36px;
+  line-height: 40px;
+}
