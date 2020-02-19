@@ -6,6 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./contactus.component.scss']
 })
 export class ContactusComponent implements OnInit {
+  section: any = [];
   barChartsArray = [
     { question: 'QUESTION1', answer: 'ANSWER1' },
     { question: 'QUESTION2', answer: 'ANSWER2' },
@@ -16,4 +17,12 @@ export class ContactusComponent implements OnInit {
   constructor() {}
 
   ngOnInit() {}
+
+  reasonsCollapose(x: Number) {
+    for (let i = 0; i < this.section.length; i++) {
+      if (i !== x) {
+        this.section[i] = false;
+      }
+    }
+  }
 }
