@@ -12,6 +12,7 @@ export class LargeCardKopComponent implements OnInit {
   @Input() title;
   @Input() timePeriod;
   @Input() skeletonLarge;
+  @Input() noHeaderClick;
   showMetricProgressIcon = false;
 
   public get cardData() {

@@ -30,18 +30,18 @@ import { GettingReimbursedSharedService } from '../../shared/getting-reimbursed/
   styleUrls: ['./uhci-filters.component.scss']
 })
 export class UhciFiltersComponent implements OnInit {
-  @select() currentPage;
-  @select() timePeriod;
-  @select() taxId;
-  @select() lineOfBusiness;
-  @select() serviceSetting;
-  @select() serviceCategory;
-  @select() priorAuthType;
-  @select() trendMetric;
-  @select() trendDate;
-  @select() claimsFilter;
-  @select() appealsFilter;
-  @select() viewClaimsByFilter;
+  @select(['uhc', 'currentPage']) currentPage;
+  @select(['uhc', 'timePeriod']) timePeriod;
+  @select(['uhc', 'taxId']) taxId;
+  @select(['uhc', 'lineOfBusiness']) lineOfBusiness;
+  @select(['uhc', 'serviceSetting']) serviceSetting;
+  @select(['uhc', 'serviceCategory']) serviceCategory;
+  @select(['uhc', 'priorAuthType']) priorAuthType;
+  @select(['uhc', 'trendMetric']) trendMetric;
+  @select(['uhc', 'trendDate']) trendDate;
+  @select(['uhc', 'claimsFilter']) claimsFilter;
+  @select(['uhc', 'appealsFilter']) appealsFilter;
+  @select(['uhc', 'viewClaimsByFilter']) viewClaimsByFilter;
   @Output() filterFlag = new EventEmitter();
 
   selectedPage: string;
@@ -154,7 +154,7 @@ export class UhciFiltersComponent implements OnInit {
       this.selectedPage === 'nonPaymentsPage'
     ) {
       timeFrame.forEach(value => {
-        if (value.name === 'Last12Months' || value.name === '2018' || value.name === '2017') {
+        if (value.name === 'Last12Months' || value.name === '2019' || value.name === '2018') {
           value.disable = true;
         }
       });

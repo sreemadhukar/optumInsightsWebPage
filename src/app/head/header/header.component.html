@@ -22,26 +22,34 @@
         <mat-icon class="nav-menu-icons" svgIcon="person"></mat-icon>
       </div>
       <div class="user-name">{{ username }}</div>
-      <!--<div class="user-expand-more">-->
-      <!--<mat-icon class="nav-menu-icons" svgIcon="expand-more"></mat-icon>-->
-      <!--</div>-->
+      <div class="user-expand-more" *ngIf="isAdvocate">
+        <mat-icon class="nav-menu-icons" svgIcon="expand-more"></mat-icon>
+      </div>
     </div>
-    <div *ngIf="advDropdownBool">
-      <div class="vertical-menu">
-        <a class="per-item toggle-view-height">Toggle Your View</a>
-        <a class="provider-height per-item icon" (click)="advViewClicked('myView')">
+    <div>
+      <div *ngIf="advDropdownBool && openDropdownBool" class="vertical-menu">
+        <a class="act per-item toggle-view-height">Toggle Your View</a>
+        <a
+          class="act provider-height per-item icon curser"
+          (click)="advViewClicked('myView')"
+          [ngClass]="{ active: myView === true }"
+        >
           <mat-icon class="nav-menu-icons lb-padd" svgIcon="done"></mat-icon>
           <span class="wrap">My View</span>
           <div class="tiny-provider">{{ fullname }}</div></a
         >
 
-        <a class="per-item icon" (click)="advViewClicked('userView')">
+        <a
+          class="act per-item icon curser"
+          (click)="advViewClicked('userView')"
+          [ngClass]="{ active: userView === true }"
+        >
           <mat-icon class="nav-menu-icons lb-padd" svgIcon="done"></mat-icon>
           <span class="wrap">{{ healthSystemName }}</span>
           <div class="tiny-provider">See what the provider sees</div></a
         >
 
-        <a class="signout-label provider-height signout-lh" (click)="signOut()">
+        <a class="act signout-label provider-height signout-lh" (click)="signOut()">
           <mat-icon class="nav-menu-icons" svgIcon="sign-out"></mat-icon>Sign Out</a
         >
       </div>

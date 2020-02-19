@@ -23,6 +23,8 @@ import { FilterReducer, INITIAL_STATE } from './store/filter/reducer';
 import { IAppState } from './store/store';
 import { RavenErrorHandler } from './components/error-handler/error-handler';
 import { loadState, saveState } from './store/filter/localStorage';
+import { combineReducers, createStore, Store, applyMiddleware } from 'redux';
+import { KopFilterReducer } from './store/kopFilter/reducer';
 
 @NgModule({
   declarations: [AppComponent],
@@ -60,8 +62,14 @@ import { loadState, saveState } from './store/filter/localStorage';
   bootstrap: [AppComponent]
 })
 export class AppModule {
-  constructor(ngRedux: NgRedux<IAppState>) {
-    const persistedState = loadState();
-    ngRedux.configureStore(FilterReducer, persistedState, [saveState]);
+  constructor(ngRedux: NgRedux<any>) {
+    // Combine all the reducer
+    const mainReducer = combineReducers({ uhc: FilterReducer, kop: KopFilterReducer });
+
+    // Create Store
+    const store: Store<any> = createStore(mainReducer, {}, applyMiddleware(saveState));
+
+    // Provide store
+    ngRedux.provideStore(store);
   }
 }

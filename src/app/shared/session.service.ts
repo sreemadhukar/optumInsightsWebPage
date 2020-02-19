@@ -6,6 +6,10 @@ import { environment } from '../../environments/environment';
 import { share } from 'rxjs/operators';
 
 export const ROLES_LIST_ACCESS = [{ role: 'UHCI_Project' }, { role: 'UHCI_Executive' }, { role: 'UHCI_Advocate' }];
+interface IClicked {
+  myView: boolean;
+  provider: boolean;
+}
 
 @Injectable({
   providedIn: 'root'
@@ -19,6 +23,8 @@ export class SessionService {
   public nonPaymentBy = 'dollar';
   public filterObj: Observable<Filter>;
   public filterObjSubject: BehaviorSubject<Filter>;
+  public checkedClicked: IClicked;
+
   constructor(private gettingReimbursedService: GettingReimbursedService) {
     this.filterObjSubject = new BehaviorSubject<Filter>({
       timeFrame: 'Last 6 Months',
