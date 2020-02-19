@@ -276,11 +276,16 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
       const searchTerms = JSON.parse(filterValuedata);
 
       return (
-        data.TinNumber.toLowerCase().indexOf(searchTerms.TinNumber) !== -1 &&
-        data.ProviderName.toString()
+        data.TinNumber.trim()
           .toLowerCase()
-          .indexOf(searchTerms.ProviderName) !== -1 &&
-        data.ClaimNumber.toLowerCase().indexOf(searchTerms.ClaimNumber) !== -1
+          .indexOf(searchTerms.TinNumber) !== -1 &&
+        data.ProviderName.trim()
+          .toLowerCase()
+          .indexOf(searchTerms.ProviderName.toLowerCase()) !== -1 &&
+        data.ClaimNumber.toString()
+          .trim()
+          .toLowerCase()
+          .indexOf(searchTerms.ClaimNumber.toLowerCase()) !== -1
       );
     };
     return filterFunction;
@@ -303,7 +308,7 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
         .attr('font-size', '16')
         .attr('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
         .attr('fill', '#2D2D39');
-      return ' of ' + Math.floor(length / pageSize + 1);
+      return ' of ' + Math.floor(length / pageSize);
     };
     d3.select('.mat-paginator-container')
       .insert('div')

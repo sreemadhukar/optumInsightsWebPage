@@ -61,7 +61,7 @@
               </th>
               <td mat-cell class="tin-name-input" *matCellDef="let element">
                 <div class="provider-column">{{ toLowerCase(element.TinName) }}</div>
-                <div class="tin-name-font">{{ addDash(element.TinNumber) }}</div>
+                <div class="tin-name-font">{{ element.TinNumber }}</div>
               </td>
             </ng-container>
 
