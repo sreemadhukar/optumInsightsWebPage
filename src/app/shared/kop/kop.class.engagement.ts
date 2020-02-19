@@ -3,6 +3,7 @@ export class Engagement {
   public records: any;
   public data = {
     title: 'Engagement',
+    type: 'cards',
     chartData: [],
     quarters: []
   };

@@ -8,12 +8,69 @@ import { IssueResolution } from './kop.class.issueresolution';
 import { Reimbursement } from './kop.class.reimbursement';
 import { Engagement } from './kop.class.engagement';
 import { hasOwnProperty } from 'tslint/lib/utils';
+import { NPSDetail } from './detail/nps/kop.class.nps-detail';
 
 @Injectable({
   providedIn: 'root'
 })
 export class KOPSharedService {
   constructor(private kopService: KopService) {}
+
+  public getNpsDetails(params: any) {
+    return new Promise(resolve => {
+      const { filter: selectedFilter } = params;
+      const { filters } = selectedFilter;
+      const paramsArray = filters.map((param: string) => {
+        return { filter: param };
+      });
+      this.getKopData('kop', paramsArray).then((response: any) => {
+        if (!response || response.length === 0) {
+          return resolve(null);
+        }
+
+        const timePeriod = {
+          title: 'Quarter over Quarter',
+          timeFrame: {
+            quarters: ['4', '4'],
+            format: 'Quarter vs Quarter',
+            years: ['2019', '2018']
+          },
+          quarters: [
+            {
+              year: '2019',
+              index: 0,
+              format: 'default',
+              color: 'color1',
+              quarter: '4'
+            },
+            {
+              year: '2018',
+              index: 1,
+              format: 'default',
+              color: 'color2',
+              quarter: '4'
+            }
+          ]
+        };
+
+        const npsDetailInstance = new NPSDetail({ records: response, small: false });
+        const npsData = npsDetailInstance.getData();
+
+        const npsDetailInstancePM = new NPSDetail({ records: response, small: true });
+        const npsDataPM = npsDetailInstancePM.getData();
+
+        const npsDetailInstanceMD = new NPSDetail({ records: response, small: true });
+        const npsDataMD = npsDetailInstanceMD.getData();
+
+        return resolve({
+          npsData,
+          npsDataMD,
+          npsDataPM,
+          timePeriod
+        });
+      });
+    });
+  }
 
   public getSummary(params: any) {
     return new Promise(resolve => {

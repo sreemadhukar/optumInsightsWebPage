@@ -13,6 +13,7 @@ export class CommonFooterComponent implements OnInit {
   @Input() title: String;
   @Input() linkName: String;
   @Input() routePath: String;
+  @Input() handleCaseForOverviewTile = false;
   public get timePeriodFooter() {
     if (this.timePeriod === 'Last 6 Months') {
       const today = new Date();
@@ -81,8 +82,14 @@ export class CommonFooterComponent implements OnInit {
         ',' +
         ' ' +
         yyyy;
+
+      if (this.handleCaseForOverviewTile) {
+        return `${this.timePeriod} (${timePeriodFooter})`;
+      }
+
       return timePeriodFooter;
     } else {
+      this.timePeriod = this.timePeriod.replace(' - ', '&ndash;');
       return this.timePeriod;
     }
   }

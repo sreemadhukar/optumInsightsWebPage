@@ -37,7 +37,7 @@ app.all('/uhci/prd/*', function(req, res) {
   });
 });
 
-//app.use(cors(corsOptions));
+// app.use(cors(corsOptions));
 
 app.use((error, req, res, next) => {
   handleExceptions(error, res);

@@ -10,8 +10,8 @@ import { NonPaymentService } from '../../rest/getting-reimbursed/non-payment.ser
 import { GlossaryMetricidService } from '../glossary-metricid.service';
 import { GettingReimbursedPayload } from './payload.class';
 import * as _ from 'lodash';
-import { environment } from '../../../environments/environment';
 import { PaymentsSharedService } from './payments/payments-shared.service';
+import { lobName } from '../../modals/lob-name';
 
 @Injectable({
   providedIn: 'root'
@@ -96,8 +96,9 @@ export class GettingReimbursedSharedService {
     /** code for two donuts  Claims Not Paid and Claims Non-payment Rate */
     let tempPaymentData: any;
     return new Promise(resolve => {
+      const toggleData = { isSummary: true, page: 'Claims Payments', menu: 'Getting Reimbursed' };
       this.paymentSharedService
-        .getPaymentsData(param)
+        .getPaymentsData(param, toggleData)
         .then(payment => {
           if (typeof payment === null || typeof payment === undefined) {
             tempPaymentData = null;
@@ -272,7 +273,7 @@ export class GettingReimbursedSharedService {
                 type: 'rotateWithLabel',
                 title: 'Average Claims Turn Around Time',
                 MetricID: this.MetricidService.MetricIDs.ClaimsAverageTurnaroundTimetoPayment,
-                //  toggle: true,
+                toggle: true,
                 data: {
                   centerNumber: claimsData[lobData].ClaimsLobSummary[0].ClaimsAvgTat + ' days',
                   color: ['#3381FF', '#3381FF'],
@@ -375,7 +376,12 @@ export class GettingReimbursedSharedService {
                   hover: true
                 },
                 besideData: {
-                  labels: ['Medicare & Retirement', 'Community & State', 'Employer & Individual', 'Uncategorized'],
+                  labels: [
+                    lobName.mAndRMedicare,
+                    lobName.cAndSMedicaid,
+                    lobName.eAndICommerCial,
+                    lobName.unCategorized
+                  ],
                   color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'],
                   graphValues: paidData
                 },
@@ -461,7 +467,12 @@ export class GettingReimbursedSharedService {
                   hover: true
                 },
                 besideData: {
-                  labels: ['Medicare & Retirement', 'Community & State', 'Employer & Individual', 'Uncategorized'],
+                  labels: [
+                    lobName.mAndRMedicare,
+                    lobName.cAndSMedicaid,
+                    lobName.eAndICommerCial,
+                    lobName.unCategorized
+                  ],
                   color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'],
                   graphValues: notPaidData
                 },
@@ -541,7 +552,7 @@ export class GettingReimbursedSharedService {
                 type: 'donut',
                 title: 'Claims-Yield',
                 MetricID: this.MetricidService.MetricIDs.ClaimsYield,
-                toggle: !environment.internalAccess,
+                toggle: true,
                 data: {
                   graphValues: [
                     claimsData[lobData].ClaimsLobSummary[0].ClaimsYieldRate,
@@ -627,7 +638,7 @@ export class GettingReimbursedSharedService {
                   sum += appealsData[0].LineOfBusiness.MedicareAndRetirement.TotalClosedCount;
                 }
                 submittedData.push(sum);
-                labelsData.push('Medicare & Retirement');
+                labelsData.push(lobName.mAndRMedicare);
                 colorsData.push('#3381FF');
               }
               if (appealsData[0].LineOfBusiness.hasOwnProperty('CommunityAndState')) {
@@ -648,7 +659,7 @@ export class GettingReimbursedSharedService {
                   sum += appealsData[0].LineOfBusiness.CommunityAndState.TotalClosedCount;
                 }
                 submittedData.push(sum);
-                labelsData.push('Community & State');
+                labelsData.push(lobName.cAndSMedicaid);
                 colorsData.push('#80B0FF');
               }
               if (appealsData[0].LineOfBusiness.hasOwnProperty('EmployerAndIndividual')) {
@@ -669,7 +680,7 @@ export class GettingReimbursedSharedService {
                   sum += appealsData[0].LineOfBusiness.EmployerAndIndividual.TotalClosedCount;
                 }
                 submittedData.push(sum);
-                labelsData.push('Employer & Individual');
+                labelsData.push(lobName.eAndICommerCial);
                 colorsData.push('#003DA1');
               }
 
@@ -691,7 +702,7 @@ export class GettingReimbursedSharedService {
                   sum += appealsData[0].LineOfBusiness.Uncategorized.TotalClosedCount;
                 }
                 submittedData.push(sum);
-                labelsData.push('Uncategorized');
+                labelsData.push(lobName.unCategorized);
                 colorsData.push('#00B8CC');
               }
               appealsSubmitted = {
@@ -718,7 +729,12 @@ export class GettingReimbursedSharedService {
                   hover: true
                 },
                 besideData: {
-                  labels: ['Medicare & Retirement', 'Community & State', 'Employer & Individual', 'Uncategorized'],
+                  labels: [
+                    lobName.mAndRMedicare,
+                    lobName.cAndSMedicaid,
+                    lobName.eAndICommerCial,
+                    lobName.unCategorized
+                  ],
                   color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'],
                   graphValues: submittedData
                 },
@@ -843,21 +859,12 @@ export class GettingReimbursedSharedService {
             MetricID: this.MetricidService.MetricIDs.ClaimsSubmissions,
             data: [claimsSubmitted, claimsTAT]
           };
-          if (environment.claimsYieldAccess) {
-            payments = {
-              id: 2,
-              title: 'Claims Payments',
-              MetricID: this.MetricidService.MetricIDs.ClaimsPayments,
-              data: [claimsPaid, claimsPaidRate]
-            };
-          } else {
-            payments = {
-              id: 2,
-              title: 'Claims Payments',
-              MetricID: this.MetricidService.MetricIDs.ClaimsPayments,
-              data: [claimsPaid]
-            };
-          }
+          payments = {
+            id: 2,
+            title: 'Claims Payments',
+            MetricID: this.MetricidService.MetricIDs.ClaimsPayments,
+            data: [claimsPaid, claimsPaidRate]
+          };
           nonpayments = {
             id: 3,
             title: 'Claims Non-Payments',
@@ -934,33 +941,21 @@ export class GettingReimbursedSharedService {
       this.sharedNonPaymentData(param)
         .then(nonPayment => {
           this.nonPaymentData = nonPayment;
-          console.log('NON PAYMENT DATA');
-          console.log(nonPayment);
           return this.sharedPaymentData(parameters);
         })
         .then(payment => {
           this.PaymentData = payment;
-          console.log('PAYMENT TOTAL DATA');
-          console.log(payment);
-          console.log('PAYMENT DATA');
-          console.log(payment);
           return this.claimSubmissionsData(parameters, payment[1]);
         })
         .then(claims => {
           this.ClaimsSubmittedData = claims;
-          console.log('CLAIMS DATA');
-          console.log(claims);
           return this.claimsTATData(parameters, this.PaymentData[1]);
         })
         .then(tatData => {
           this.ClaimsTATdata = tatData;
-          console.log('TAT DATA');
-          console.log(tatData);
           return this.sharedGettingReimbursedData(parameters);
         })
         .then(appeals => {
-          console.log('APPEALS DATA');
-          console.log(appeals);
           submissions = {
             id: 1,
             title: 'Claims Submissions',
@@ -987,9 +982,6 @@ export class GettingReimbursedSharedService {
           //   return this.calculateSummaryTrends(parameters, gettingReimbursedData);
           // })
           // .then(data => {
-
-          console.log('TOTAL DATA');
-          console.log(summaryData);
           resolve(summaryData);
         });
       //   } else {
@@ -1178,14 +1170,18 @@ export class GettingReimbursedSharedService {
 
   claimSubmissionsData(parameters, claimsData) {
     let claimsSubmitted: object;
+    let timePeriodData: String;
     return new Promise((resolve, reject) => {
       const lobFullData = parameters[1].Lob ? this.common.getFullLobData(parameters[1].Lob) : 'ALL';
       const lobData = parameters[1].Lob ? _.startCase(parameters[1].Lob.toLowerCase()) : 'All';
-      console.log('AAAAAAAAAAAAAAA');
-      console.log(claimsData);
-      console.log(parameters);
+
       if (parameters[1]['ClaimsBy'] === 'DOS') {
-        if (claimsData != null || !claimsData.hasOwnProperty(lobData)) {
+        if (claimsData.hasOwnProperty('Startdate') && claimsData.hasOwnProperty('Enddate')) {
+          timePeriodData =
+            this.common.dateFormat(claimsData.Startdate) + '&ndash;' + this.common.dateFormat(claimsData.Enddate);
+        }
+
+        if (claimsData != null) {
           if (
             claimsData.hasOwnProperty(lobData) &&
             claimsData[lobData] != null &&
@@ -1205,7 +1201,14 @@ export class GettingReimbursedSharedService {
                   claimsData[lobData].ClaimsLobSummary[0].ClaimsPaid,
                   claimsData[lobData].ClaimsLobSummary[0].ClaimsDenied
                 ],
+
+                centerNumberOriginal: claimsData[lobData].ClaimsLobSummary[0].ClaimsSubmitted,
+
+                labels: ['Paid', 'Not Paid'],
+                hover: true,
+
                 centerNumber: this.common.nFormatter(claimsData[lobData].ClaimsLobSummary[0].ClaimsSubmitted),
+
                 color: ['#3381FF', '#80B0FF'],
                 gdata: ['card-inner', 'totalClaimsSubmitted'],
                 sdata: {
@@ -1221,7 +1224,7 @@ export class GettingReimbursedSharedService {
                   claimsData[lobData].ClaimsLobSummary[0].ClaimsDenied
                 ]
               },
-              timeperiod: this.timeFrame
+              timeperiod: timePeriodData
             };
 
             resolve(claimsSubmitted);
@@ -1234,7 +1237,7 @@ export class GettingReimbursedSharedService {
               data: null,
               status: 404,
               besideData: null,
-              timeperiod: this.timeFrame
+              timeperiod: null
             };
 
             resolve(claimsSubmitted);
@@ -1248,12 +1251,17 @@ export class GettingReimbursedSharedService {
             data: null,
             status: 404,
             besideData: null,
-            timeperiod: this.timeFrame
+            timeperiod: null
           };
 
           resolve(claimsSubmitted);
         }
       } else {
+        if (claimsData.hasOwnProperty('StartDate') && claimsData.hasOwnProperty('EndDate')) {
+          timePeriodData =
+            this.common.dateFormat(claimsData.StartDate) + '&ndash;' + this.common.dateFormat(claimsData.EndDate);
+        }
+
         if (!claimsData || !claimsData.hasOwnProperty('LineOfBusiness')) {
           claimsSubmitted = {
             category: 'app-card',
@@ -1318,7 +1326,7 @@ export class GettingReimbursedSharedService {
                   claimsData.LineOfBusiness[lobFullData].ClaimFinancialMetrics.DeniedCount
                 ]
               },
-              timeperiod: timePeriodCalls
+              timeperiod: timePeriodData
             };
           } else {
             claimsSubmitted = {
@@ -1329,7 +1337,7 @@ export class GettingReimbursedSharedService {
               data: null,
               status: 404,
               besideData: null,
-              timeperiod: this.timeFrame
+              timeperiod: null
             };
           }
 
@@ -1343,7 +1351,7 @@ export class GettingReimbursedSharedService {
             data: null,
             status: 404,
             besideData: null,
-            timeperiod: this.timeFrame
+            timeperiod: null
           };
           resolve(claimsSubmitted);
         }
@@ -1683,7 +1691,7 @@ export class GettingReimbursedSharedService {
             sum += appealsData[0].LineOfBusiness.MedicareAndRetirement.TotalClosedCount;
           }
           submittedData.push(sum);
-          labelsData.push('Medicare & Retirement');
+          labelsData.push(lobName.mAndRMedicare);
           colorsData.push('#3381FF');
         }
         if (
@@ -1708,7 +1716,7 @@ export class GettingReimbursedSharedService {
             sum += appealsData[0].LineOfBusiness.CommunityAndState.TotalClosedCount;
           }
           submittedData.push(sum);
-          labelsData.push('Community & State');
+          labelsData.push(lobName.cAndSMedicaid);
           colorsData.push('#80B0FF');
         }
         if (
@@ -1733,7 +1741,7 @@ export class GettingReimbursedSharedService {
             sum += appealsData[0].LineOfBusiness.EmployerAndIndividual.TotalClosedCount;
           }
           submittedData.push(sum);
-          labelsData.push('Employer & Individual');
+          labelsData.push(lobName.eAndICommerCial);
           colorsData.push('#003DA1');
         }
 
@@ -1756,7 +1764,7 @@ export class GettingReimbursedSharedService {
             sum += appealsData[0].LineOfBusiness.Uncategorized.ClinicalAppeals;
           }
           submittedData.push(sum);
-          labelsData.push('Uncategorized');
+          labelsData.push(lobName.unCategorized);
           colorsData.push('#00B8CC');
         }
         if (lobFullData !== 'ALL') {
@@ -1797,7 +1805,6 @@ export class GettingReimbursedSharedService {
           sideData[0] = labelsData;
           sideData[1] = colorsData;
         }
-        console.log('APpeals Data 2066', appealsData);
         appealsSubmitted = {
           category: 'app-card',
           type: 'donutWithoutLabelBottom',
