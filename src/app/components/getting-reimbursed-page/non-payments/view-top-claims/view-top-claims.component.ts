@@ -276,7 +276,9 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
       const searchTerms = JSON.parse(filterValuedata);
 
       return (
-        data.TinNumber.toLowerCase().indexOf(searchTerms.TinNumber) !== -1 &&
+        data.TinNumber.trim()
+          .toLowerCase()
+          .indexOf(searchTerms.TinNumber.trim().toLowerCase()) >= 0 &&
         data.ProviderName.toString()
           .toLowerCase()
           .indexOf(searchTerms.ProviderName) !== -1 &&
@@ -303,7 +305,7 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
         .attr('font-size', '16')
         .attr('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
         .attr('fill', '#2D2D39');
-      return ' of ' + Math.floor(length / pageSize + 1);
+      return ' of ' + Math.floor(length / pageSize);
     };
     d3.select('.mat-paginator-container')
       .insert('div')
