@@ -274,14 +274,14 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
   customFilterPredicate(): (data: any, filter: string) => boolean {
     const filterFunction = function(data: any, filterValuedata: string): boolean {
       const searchTerms = JSON.parse(filterValuedata);
-
+      console.log('searchTerms', searchTerms);
       return (
         data.TinNumber.trim()
           .toLowerCase()
           .indexOf(searchTerms.TinNumber.trim().toLowerCase()) >= 0 &&
-        data.ProviderName.toString()
+        data.ProviderName.trim()
           .toLowerCase()
-          .indexOf(searchTerms.ProviderName) !== -1 &&
+          .indexOf(searchTerms.ProviderName.toLowerCase()) !== -1 &&
         data.ClaimNumber.toLowerCase().indexOf(searchTerms.ClaimNumber) !== -1
       );
     };
