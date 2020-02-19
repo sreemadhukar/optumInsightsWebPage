@@ -13,7 +13,6 @@ import { StarChartComponent } from './d3-objects/star-chart/star-chart.component
 import { BarChartComponent } from './d3-objects/bar-chart/bar-chart.component';
 import { HeadMaterialModule } from '../head/head.material.module';
 import { BreadcrumbsComponent } from './breadcrumbs/breadcrumbs.component';
-import { FeedbackComponent } from './feedback/feedback.component';
 import { LargeCardComponent } from './large-card/large-card.component';
 import { RotatingArrowObjectComponent } from './d3-objects/rotating-arrow-object/rotating-arrow-object.component';
 import { ClaimsPaidBarGraphComponent } from './d3-objects/claims-paid-bar-graph/claims-paid-bar-graph.component';
@@ -71,7 +70,6 @@ import { UhcKopFilterComponent } from './uhc-kop-filter/uhc-kop-filter.component
     SmallCardComponent,
     BarChartComponent,
     BreadcrumbsComponent,
-    FeedbackComponent,
     LargeCardComponent,
     ErrorCardComponent,
     GlossaryComponent,
@@ -115,7 +113,6 @@ import { UhcKopFilterComponent } from './uhc-kop-filter/uhc-kop-filter.component
     StarChartComponent,
     BarChartComponent,
     BreadcrumbsComponent,
-    FeedbackComponent,
     LargeCardComponent,
     RotatingArrowObjectComponent,
     ClaimsPaidBarGraphComponent,

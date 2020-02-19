@@ -68,22 +68,16 @@
             matSortDirection="desc"
             matSortDisableClear
           >
-            <ng-container matColumnDef="TinName">
+            <ng-container matColumnDef="TinNumber">
               <th mat-header-cell *matHeaderCellDef class="tax-id-text">
-                <span mat-sort-header style="text-align:left">Tax ID Name and Number </span>
+                <span mat-sort-header style="text-align:left">Tax ID <br />Number </span>
                 <div>
-                  <input
-                    type="text"
-                    class="tax-summary-name-input"
-                    spellcheck="false"
-                    (focus)="setupFilter('name')"
-                    (keyup)="searchTaxId($event.target.value, 'TinNumber')"
-                  />
+                  <input class="tax-summary-name-input" matInput [formControl]="tinNumberFilter" />
                 </div>
               </th>
               <td mat-cell class="tin-name-input" *matCellDef="let element">
                 <div class="provider-column">{{ toLowerCase(element.TinName) }}</div>
-                <div class="tin-name-font">{{ addDash(element.TinNumber) }}</div>
+                <div class="tin-name-font">{{ element.TinNumber }}</div>
               </td>
             </ng-container>
 
@@ -95,12 +89,7 @@
                 >
 
                 <div>
-                  <input
-                    type="text"
-                    class="tax-summary-provider-input"
-                    spellcheck="false"
-                    (keyup)="searchTaxId($event.target.value, 'ProviderName')"
-                  />
+                  <input matInput class="tax-summary-provider-input" [formControl]="provideNameFilter" />
                 </div>
               </th>
               <td mat-cell class="tax-summary-table-cell" *matCellDef="let element">
@@ -137,13 +126,7 @@
               <th mat-header-cell *matHeaderCellDef>
                 <span mat-sort-header> Claim <br />Number</span>
                 <div>
-                  <input
-                    type="text"
-                    class="tax-summary-claims-input "
-                    spellcheck="false"
-                    [ngModel]="globalFilter"
-                    (ngModelChange)="applyFilter($event)"
-                  />
+                  <input class="tax-summary-claims-input " matInput [formControl]="claimNumberFilter" />
                 </div>
               </th>
               <td mat-cell class="tax-summary-table-cell" *matCellDef="let element">
