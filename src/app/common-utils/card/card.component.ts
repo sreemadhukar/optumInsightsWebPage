@@ -12,6 +12,7 @@ export class CardComponent implements OnInit {
   @Input() skeleton;
   @Input() tabData;
   @Input() selectedTab;
+  @Input() handleCaseForOverviewTile = false;
   @Output() tabSelectEvent = new EventEmitter();
   printStyle: boolean; // this variable is used for print-page style
   heightDonut: Number = 234;

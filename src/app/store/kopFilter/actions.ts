@@ -1,0 +1,2 @@
+export const APPLY_KOP_FILTER = 'APPLY_KOP_FILTER';
+export const RESET_KOP_FILTER = 'RESET_KOP_FILTER';

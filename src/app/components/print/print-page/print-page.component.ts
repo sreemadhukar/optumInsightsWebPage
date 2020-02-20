@@ -7,7 +7,7 @@ import { select } from '@angular-redux/store';
   styleUrls: ['./print-page.component.scss']
 })
 export class PrintPageComponent implements OnInit {
-  @select() currentPage;
+  @select(['uhc', 'currentPage']) currentPage;
   selectedPage;
   printStyle = true;
   pagename = '';
