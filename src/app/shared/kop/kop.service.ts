@@ -193,20 +193,28 @@ export class KOPSharedService {
     return new Promise((resolve, reject) => {
       switch (metricKey) {
         case 'kop':
-          this.kopService.getSummary({ params }).subscribe((response: any) => resolve(response), () => reject());
+          this.kopService.getSummary({ params }).subscribe(
+            (response: any) => resolve(response),
+            () => reject()
+          );
           break;
         case 'priorauth':
-          this.kopService
-            .getPriorAuthSummary({ params })
-            .subscribe((response: any) => resolve(response), () => reject());
+          this.kopService.getPriorAuthSummary({ params }).subscribe(
+            (response: any) => resolve(response),
+            () => reject()
+          );
           break;
         case 'priorauthtat':
-          this.kopService
-            .getPriorAuthTATSummary({ params })
-            .subscribe((response: any) => resolve(response), () => reject());
+          this.kopService.getPriorAuthTATSummary({ params }).subscribe(
+            (response: any) => resolve(response),
+            () => reject()
+          );
           break;
         case 'reimbursementClaims':
-          this.kopService.getClaimsData({ params }).subscribe((response: any) => resolve(response), () => reject());
+          this.kopService.getClaimsData({ params }).subscribe(
+            (response: any) => resolve(response),
+            () => reject()
+          );
           break;
       }
     });
