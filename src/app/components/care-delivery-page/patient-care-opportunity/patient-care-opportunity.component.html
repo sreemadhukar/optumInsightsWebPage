@@ -14,7 +14,7 @@
       <div *ngIf="!subtitle" class="page-subtitle">
         <span class="page-subtitle-header"> View more in-depth details of your health system summary.</span>
         <div class="page-subtitle-link" (click)="PCORreport()">
-          {{ reportLink }} &nbsp;
+          <span class="subtitle-reportLink">&nbsp;{{ reportLink }}</span> &nbsp;
           <mat-icon class="page-subtitle-icon" svgIcon="external-link"></mat-icon>
         </div>
       </div>
@@ -52,9 +52,9 @@
     <div class="report-Tile">
       <div class="report-Title">{{ reportTitle }}</div>
       <div class="report-Subtitle">
-        {{ reportText }} &nbsp;
+        <span class="report-Subtitle-Text">{{ reportText }}</span>
         <div class="report-Link" (click)="PCORreport()">
-          {{ reportLink }} &nbsp;
+          <span class="report-Subtitle-Link">&nbsp;{{ reportLink }}</span> &nbsp;
           <mat-icon class="icon" svgIcon="external-link"></mat-icon>
         </div>
       </div>

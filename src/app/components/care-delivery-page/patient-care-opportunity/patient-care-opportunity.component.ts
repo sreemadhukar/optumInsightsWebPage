@@ -6,7 +6,6 @@ import { NgRedux } from '@angular-redux/store';
 import { CURRENT_PAGE } from '../../../store/filter/actions';
 import { IAppState } from '../../../store/store';
 import { ActivatedRoute } from '@angular/router';
-import { text } from '@angular/core/src/render3/instructions';
 import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
@@ -235,7 +234,7 @@ export class PatientCareOpportunityComponent implements OnInit {
     });
     this.reportTitle = 'View the PCOR Report';
     this.reportText = 'View in-depth details of your health system in the PCOR report. ';
-    this.reportLink = 'View the Patient Care Opportunity Report  ';
+    this.reportLink = 'View the Patient Care Opportunity Report';
   }
   PCORreport() {
     if (this.isInternal) {

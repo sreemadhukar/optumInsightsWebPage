@@ -42,7 +42,6 @@
         flex-direction: row;
         position: relative;
         justify-content: space-between;
-        width: 98.5%;
       }
     }
     .cards {
@@ -56,10 +55,12 @@
 }
 
 .page-subtitle {
+  float: left;
   padding-bottom: 32px;
   .page-subtitle-header {
+    float: left;
     color: $strom-grey;
-    font-family: 'UHCSans-Medium';
+    font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
     font-size: 16px;
     letter-spacing: 0.2px;
     line-height: 22px;
@@ -69,12 +70,14 @@
     color: $blue;
     letter-spacing: 0.2px;
     font-size: 16px;
-    font-family: 'UHCSans-SemiBold';
-    line-height: 22px;
+    font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+    line-height: 24px;
     display: inline;
+    .subtitle-reportLink {
+      float: left;
+    }
   }
   .page-subtitle-icon {
-    position: absolute;
     color: $blue;
   }
 }
@@ -103,13 +106,12 @@
   border-radius: 2px;
   background-color: $alice-blue;
   margin: 12px;
+  padding: 12px 16px 12px 16px;
 
   .report-Title {
     color: $black-rock;
     font-family: 'UHCSans-SemiBold';
     font-size: 18px;
-    padding-top: 12px;
-    padding-left: 16px;
     line-height: 22px;
   }
   .report-Subtitle {
@@ -117,21 +119,24 @@
     font-family: 'UHCSans-Medium';
     font-size: 16px;
     letter-spacing: 0.2px;
-    padding-left: 16.5px;
     padding-top: 6px;
     line-height: 22px;
-
+    .report-Subtitle-Text {
+      float: left;
+    }
     .report-Link {
       cursor: pointer;
       color: $blue;
       letter-spacing: 0.2px;
       font-size: 16px;
-      font-family: 'UHCSans-SemiBold';
-      line-height: 22px;
+      font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+      line-height: 24px;
       display: inline;
+      .report-Subtitle-Link {
+        float: left;
+      }
     }
     .icon {
-      position: absolute;
       color: $blue;
     }
   }
