@@ -1,0 +1,58 @@
+<div class="overview-body" color="primary" id="print-overview">
+  <div class="overview-content">
+    <div class="breadcrumb">
+      <a class="breadcrumb-main">Overview </a>
+      <span class="breadcrumb-arrow">></span>
+      <a class="breadcrumb-page">NPS Summary</a>
+    </div>
+    <div class="overview-header">
+      NPS Summary
+    </div>
+
+    <div class="height1Separator"></div>
+
+    <div class="breadcrumb-top-padding filter-div">
+      <div class="time--period">
+        <div class="filterchips">
+          <div class="horizontal-align">
+            <button class="btn btn-rounded" disabled>
+              <span>Time Period: </span><span class="text-semibold pl-4">(Quarter over Quarter) </span>
+            </button>
+          </div>
+        </div>
+        <div class="filter_bg" (click)="openFilter()">
+          <mat-icon matPrefix class="nav-menu-icons filter_icon" svgIcon="filter"></mat-icon>
+          <div class="filter_title">Filters</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="overview-section">
+      <app-large-card-kop
+        [data]="kopNpsData.npsData"
+        class="large-card"
+        [noHeaderClick]="true"
+        [timePeriod]="kopNpsData.timePeriod"
+      >
+      </app-large-card-kop>
+
+      <app-large-card-kop
+        [data]="kopNpsData.npsDataPM"
+        class="half-card left"
+        [noHeaderClick]="true"
+        [timePeriod]="kopNpsData.timePeriod"
+      >
+      </app-large-card-kop>
+
+      <app-large-card-kop
+        [data]="kopNpsData.npsDataMD"
+        class="half-card right"
+        [noHeaderClick]="true"
+        [timePeriod]="kopNpsData.timePeriod"
+      >
+      </app-large-card-kop>
+    </div>
+  </div>
+</div>
+
+<!-- <app-uhc-loader *ngIf="loading"></app-uhc-loader> -->

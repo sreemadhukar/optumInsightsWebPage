@@ -59,6 +59,7 @@ h1.example-app-name {
 
 app-header {
   width: 100%;
+  max-width: 1610px;
 }
 
 .font-check {
@@ -260,7 +261,7 @@ app-header {
 }
 
 .active-link {
-  background: $darker-alice-blue;
+  background: $darker-alice-blue !important;
   color: $blue !important;
 }
 
@@ -276,7 +277,7 @@ app-header {
   color: $black-rock !important;
 }
 
-.mat-nav-list .mat-list-item:focus {
+.mat-nav-list .mat-list-item:active {
   background: $darker-alice-blue !important;
 }
 
@@ -516,6 +517,7 @@ app-header {
   background-color: #80dde6;
   color: white;
   height: 40px;
+  max-width: 1610px;
 }
 
 .exit-text {

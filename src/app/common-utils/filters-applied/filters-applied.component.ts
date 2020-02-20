@@ -25,18 +25,18 @@ import { CreatePayloadService } from '../../shared/uhci-filters/create-payload.s
   styleUrls: ['./filters-applied.component.scss']
 })
 export class FiltersAppliedComponent implements OnInit {
-  @select() currentPage;
-  @select() timePeriod;
-  @select() taxId;
-  @select() lineOfBusiness;
-  @select() serviceSetting;
-  @select() serviceCategory;
-  @select() priorAuthType;
-  @select() trendMetric;
-  @select() trendDate;
-  @select() claimsFilter;
-  @select() appealsFilter;
-  @select() viewClaimsByFilter;
+  @select(['uhc', 'currentPage']) currentPage;
+  @select(['uhc', 'timePeriod']) timePeriod;
+  @select(['uhc', 'taxId']) taxId;
+  @select(['uhc', 'lineOfBusiness']) lineOfBusiness;
+  @select(['uhc', 'serviceSetting']) serviceSetting;
+  @select(['uhc', 'serviceCategory']) serviceCategory;
+  @select(['uhc', 'priorAuthType']) priorAuthType;
+  @select(['uhc', 'trendMetric']) trendMetric;
+  @select(['uhc', 'trendDate']) trendDate;
+  @select(['uhc', 'claimsFilter']) claimsFilter;
+  @select(['uhc', 'appealsFilter']) appealsFilter;
+  @select(['uhc', 'viewClaimsByFilter']) viewClaimsByFilter;
   @Input() flag;
   @Input() tabName;
   selectedPage: any;
@@ -61,6 +61,7 @@ export class FiltersAppliedComponent implements OnInit {
   selectedTrendMetric: any;
   selectedDate: Date;
   previousDate: any = new Date();
+  enableFilter: boolean;
   printStyle: boolean;
   constructor(
     private filterExpandService: FilterExpandService,
@@ -77,6 +78,7 @@ export class FiltersAppliedComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.enableFilter = true;
     this.printStyle = this.route.url.includes('print-');
     this.currentPage.subscribe(currentPage => (this.selectedPage = currentPage));
     this.timePeriod.subscribe(
@@ -114,6 +116,9 @@ export class FiltersAppliedComponent implements OnInit {
       this.previousDate = new Date(this.selectedDate.toString());
       this.previousDate = this.previousDate.setDate(this.selectedDate.getDate() - 1);
     });
+    if (this.selectedPage === 'viewTopClaimsPage') {
+      this.enableFilter = false;
+    }
   }
 
   openFilter() {
@@ -137,7 +142,7 @@ export class FiltersAppliedComponent implements OnInit {
                 taxId: updatedTaxIds,
                 lineOfBusiness: this.selectedLob.name,
                 serviceSetting: this.selectedServiceSetting.name,
-                serviceCategory: this.selectedServiceCategory ? this.selectedServiceCategory.name : '',
+                serviceCategory: this.selectedServiceCategory.name,
                 priorAuthType: this.selectedPriorAuthType.name,
                 trendMetric: this.selectedTrendMetric.name,
                 trendDate: this.selectedDate,

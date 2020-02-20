@@ -1,5 +1,6 @@
 import { CURRENT_PAGE, APPLY_FILTER, RESET_FILTER, REMOVE_FILTER } from './actions';
 import { IAppState } from '../store';
+import { loadState } from './localStorage';
 
 export const INITIAL_STATE: IAppState = {
   currentPage: 'overviewPage',
@@ -7,16 +8,16 @@ export const INITIAL_STATE: IAppState = {
   taxId: [{ Tin: 'All', Tinname: 'All' }],
   lineOfBusiness: 'All',
   serviceSetting: 'All',
-  serviceCategory: '',
+  serviceCategory: 'All',
   priorAuthType: 'All',
   trendMetric: 'GettingReimbursed',
   trendDate: new Date(),
   claimsFilter: 'All',
   appealsFilter: 'Received Date',
-  viewClaimsByFilter: 'DateOfService'
+  viewClaimsByFilter: 'DOS'
 };
 
-export function FilterReducer(state, action) {
+export function FilterReducer(state = loadState(), action) {
   console.log(action);
   switch (action.type) {
     case CURRENT_PAGE:
@@ -80,7 +81,7 @@ function switchTimePeriodValues(timePeriod, currentPageAction) {
     currentPageAction === 'nonPaymentsPage' ||
     currentPageAction === 'gettingReimbursedSummary'
   ) {
-    if (timePeriod === 'Last12Months' || timePeriod === '2018' || timePeriod === '2017') {
+    if (timePeriod === 'Last12Months' || timePeriod === '2019' || timePeriod === '2018') {
       timePeriod = 'Last6Months';
     }
   } else {

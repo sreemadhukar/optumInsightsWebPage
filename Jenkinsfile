@@ -29,7 +29,7 @@ pipeline {
         DEVOPS_METRICS_ENABLED = 'false'
         SONAR_CREDENTIALS_ID = 'Sonar_ID'
         NPM_ID = 'npm_id'
-        NODEJS_VERSION = '7.9.0'
+        NODEJS_VERSION = '12'
     }
     
     stages{

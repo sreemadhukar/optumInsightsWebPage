@@ -15,6 +15,7 @@ export class SmallCardComponent implements OnInit {
   @Input() index;
   @Input() skeleton;
   @Input() options: any;
+  @Input() noHeaderClick;
   subscription: Subscription;
   public printStyle: boolean;
   public TargetActualAvarage: any;

@@ -9,31 +9,31 @@ import { IAppState } from '../../store/store';
   providedIn: 'root'
 })
 export class CreatePayloadService {
-  @select() currentPage;
-  @select() timePeriod;
-  @select() taxId;
-  @select() lineOfBusiness;
-  @select() serviceSetting;
-  @select() serviceCategory;
-  @select() priorAuthType;
-  @select() trendMetric;
-  @select() trendDate;
-  @select() claimsFilter;
-  @select() appealsFilter;
-  @select() viewClaimsByFilter;
+  @select(['uhc', 'currentPage']) currentPage;
+  @select(['uhc', 'timePeriod']) timePeriod;
+  @select(['uhc', 'taxId']) taxId;
+  @select(['uhc', 'lineOfBusiness']) lineOfBusiness;
+  @select(['uhc', 'serviceSetting']) serviceSetting;
+  @select(['uhc', 'serviceCategory']) serviceCategory;
+  @select(['uhc', 'priorAuthType']) priorAuthType;
+  @select(['uhc', 'trendMetric']) trendMetric;
+  @select(['uhc', 'trendDate']) trendDate;
+  @select(['uhc', 'claimsFilter']) claimsFilter;
+  @select(['uhc', 'appealsFilter']) appealsFilter;
+  @select(['uhc', 'viewClaimsByFilter']) viewClaimsByFilter;
   initialState: IAppState = {
     currentPage: 'overviewPage',
     timePeriod: 'Last6Months',
     taxId: [{ Tin: 'All', Tinname: 'All' }],
     lineOfBusiness: 'All',
     serviceSetting: 'All',
-    serviceCategory: '',
+    serviceCategory: 'All',
     priorAuthType: 'All',
     trendMetric: 'GettingReimbursed',
     trendDate: new Date(),
     claimsFilter: 'All',
     appealsFilter: 'Received Date',
-    viewClaimsByFilter: 'DateOfService'
+    viewClaimsByFilter: 'DOS'
   };
   payload: PayLoad = this.initialState;
   private payloadEmit = new Subject<any>();
@@ -50,6 +50,7 @@ export class CreatePayloadService {
     this.taxId.subscribe(taxId => (this.initialState.taxId = taxId));
     this.lineOfBusiness.subscribe(lineOfBusiness => (this.initialState.lineOfBusiness = lineOfBusiness));
     this.serviceSetting.subscribe(serviceSetting => (this.initialState.serviceSetting = serviceSetting));
+    this.serviceCategory.subscribe(serviceCategory => (this.initialState.serviceCategory = serviceCategory));
     this.priorAuthType.subscribe(priorAuthType => {
       this.initialState.priorAuthType = priorAuthType;
     });
@@ -81,6 +82,9 @@ export class CreatePayloadService {
         this.payload = this.getPayload(this.initialState);
         break;
       case 'callsPage':
+        this.payload = this.getPayloadForCalls(this.initialState);
+        break;
+      case 'viewTopClaimsPage':
         this.payload = this.getPayloadForCalls(this.initialState);
         break;
       case 'otherPages':
@@ -116,6 +120,10 @@ export class CreatePayloadService {
         this.payload = this.getPayloadForPriorAuth(this.initialState);
         this.payloadEmit.next({ value: this.getPayloadForPriorAuth(this.initialState) });
         break;
+      case 'viewTopClaimsPage':
+        this.payload = this.getPayloadForPriorAuth(this.initialState);
+        this.payloadEmit.next({ value: this.getPayloadForPriorAuth(this.initialState) });
+        break;
       case 'overviewAdvocatePage':
         this.payload = this.getPayload(this.initialState);
         this.payloadEmit.next({ value: this.getPayload(this.initialState) });
@@ -143,8 +151,8 @@ export class CreatePayloadService {
     ) {
       if (
         temporaryState.timePeriod === 'Last12Months' ||
-        temporaryState.timePeriod === '2018' ||
-        temporaryState.timePeriod === '2017'
+        temporaryState.timePeriod === '2019' ||
+        temporaryState.timePeriod === '2018'
       ) {
         temporaryState.timePeriod = 'Last6Months';
       }

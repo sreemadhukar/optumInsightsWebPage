@@ -39,6 +39,7 @@
         </div>
       </div>
       <app-header
+        [fromKOP]="fromKOP"
         [class.display-none]="!showPrintHeader && makeAbsolute"
         class="sticky"
         (hamburgerDisplay)="hamburgerDisplay($event)"
@@ -85,14 +86,21 @@
             Change Organization
           </p>
           <p class="view-Tax-Id-Summary-div" *ngIf="!AcoFlag">
-            <a class="view-Tax-Id-Summary" [routerLink]="['/TinList']">
+            <a class="view-Tax-Id-Summary" (click)="taxSummaryLink()">
               View Tax ID Number (TIN) Summary
             </a>
           </p>
         </div>
         <!-- END OF HEALTHSYSTEM REPRESENTATION BLOCK -->
+
+        <div *ngIf="isKop" class="simulate-external-view">
+          <button class="simulate-external-view-btn btn btn-secondary" (click)="openSimulateViewDialog()" mat-button>
+            Simulate External View
+          </button>
+        </div>
+
         <!-- MENU CATEGORIES BLOCK -->
-        <div class="nav-mat-list-items" *ngIf="!isKop && !AcoFlag">
+        <div class="nav-mat-list-items" *ngIf="!AcoFlag">
           <mat-nav-list
             *ngFor="let category of navCategories; let rowIndex = index"
             [ngClass]="
@@ -185,12 +193,6 @@
         </div>
         <!-- END OF MENU CATEGORIES BLOCK -->
 
-        <div *ngIf="isKop" class="simulate-external-view">
-          <button class="simulate-external-view-btn btn btn-secondary" (click)="openSimulateViewDialog()" mat-button>
-            Simulate External View
-          </button>
-        </div>
-
         <!-- SIGNOUT BLOCK -->
         <div class="signout-block">
           <p class="signout-label" (click)="signOut()">
@@ -240,13 +242,18 @@
               [MetricID]="glossaryMetricID"
             ></app-glossary>
             <app-uhci-filter *ngIf="filterFlag && !isKop" (filterFlag)="filterFlagChange($event)"></app-uhci-filter>
-            <app-kop-filters
+            <!-- <app-kop-filters
               *ngIf="filterFlag && isKop"
               [filterurl]="filterurl"
               [filterData]="filterData"
               [customFilter]="customFilter"
               (filterFlag)="filterFlagChange($event)"
-            ></app-kop-filters>
+            ></app-kop-filters> -->
+            <app-uhc-kop-filter
+              *ngIf="filterFlag && isKop"
+              [customFilter]="customFilter"
+              (filterFlag)="filterFlagChange($event)"
+            ></app-uhc-kop-filter>
           </div>
         </div>
       </mat-sidenav>

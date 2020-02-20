@@ -2,8 +2,9 @@ import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { HttpHeaders, HttpClient, HttpParams } from '@angular/common/http';
 import { ServiceInteractionModule } from '../../components/service-interaction/service-interaction.module';
-import { map, catchError } from 'rxjs/operators';
-import { combineLatest, of } from 'rxjs';
+import { map, catchError, retry } from 'rxjs/operators';
+import { combineLatest, of, Observable } from 'rxjs';
+import { ISelfService } from '../../modals/i-self-service';
 @Injectable({ providedIn: ServiceInteractionModule })
 export class SelfServiceService {
   public currentUser: any;
@@ -13,7 +14,7 @@ export class SelfServiceService {
   private EXECUTIVE_SERVICE_PATH: string = environment.apiUrls.ExecutiveSummaryPath;
   constructor(private http: HttpClient) {}
 
-  public getSelfServiceData(...parameters) {
+  public getSelfServiceData(...parameters): Observable<ISelfService[]> {
     this.currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
     this.authBearer = this.currentUser[0].PedAccessToken;
     const myHeader = new HttpHeaders({
@@ -28,6 +29,7 @@ export class SelfServiceService {
     return combineLatest(
       this.http.get(executiveURL, { params: eparams, headers: myHeader }).pipe(
         map(res => res),
+        retry(2),
         catchError(err => of(err))
       )
     );

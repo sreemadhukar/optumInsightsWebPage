@@ -1,9 +1,13 @@
+import { Trends } from './common/kop.class.trends';
+
 export class NetworkParticipation {
   public singleCard = false;
   public records: any;
   public data = {
     title: 'Onboarding',
     chartData: [],
+    type: 'cards',
+    MetricID: '54,55',
     quarters: []
   };
   private section = 'networkparticipation';
@@ -12,6 +16,20 @@ export class NetworkParticipation {
     this.singleCard = records.length === 1 ? true : false;
     this.createSchema();
     this.createCard();
+    if (!this.singleCard) {
+      this.createTrend();
+    }
+  }
+
+  public createTrend() {
+    this.data.chartData.forEach((dataItem: any) => {
+      const { quarters, trends } = dataItem;
+      const [{ value: value1 }, { value: value2 }] = quarters;
+      if (trends) {
+        const trendsData = new Trends({ value1, value2 });
+        dataItem.sdata = trendsData.getData();
+      }
+    });
   }
 
   public createCard() {
@@ -37,6 +55,7 @@ export class NetworkParticipation {
             chartDataElement.report = false;
             chartDataElement.quarters.push({
               title: value,
+              value,
               currentQuarter: true,
               id: index,
               section: this.section + key
@@ -59,10 +78,7 @@ export class NetworkParticipation {
         singleCard: this.singleCard,
         report: false,
         color: ['#3381FF', '#80B0FF'],
-        sdata: {
-          sign: 'up',
-          data: 'Positive Trending'
-        }
+        trends: false
       },
       {
         quarters: [],
@@ -74,10 +90,7 @@ export class NetworkParticipation {
         caption: 'Providers onboarded',
         report: false,
         color: ['#3381FF', '#80B0FF'],
-        sdata: {
-          sign: 'up',
-          data: 'Positive Trending'
-        }
+        trends: false
       },
       {
         quarters: [],
@@ -88,10 +101,7 @@ export class NetworkParticipation {
         units: '%',
         report: true,
         caption: 'SAT with credentialing process',
-        sdata: {
-          sign: 'up',
-          data: 'Positive Trending'
-        }
+        trends: true
       },
       {
         quarters: [],
@@ -104,10 +114,7 @@ export class NetworkParticipation {
         report: true,
         caption: 'Ease of Credentialing',
         color: ['#3381FF', '#E0E0E0'],
-        sdata: {
-          sign: 'up',
-          data: 'Positive Trending'
-        }
+        trends: false
       }
     ];
     this.data.chartData = chartData;

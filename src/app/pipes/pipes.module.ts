@@ -6,6 +6,7 @@ import { TimePeriodPipe } from './timeperiod.pipe';
 import { QuarterPipe } from './quartercard.pipe';
 import { CountryFormatterPipe } from './country-formatter.pipe';
 import { SliceStringPipe } from './slice-string.pipe';
+import { ZeroValueFormatterPipe } from './zero-value-formatter.pipe';
 @NgModule({
   imports: [CommonModule],
   declarations: [
@@ -14,7 +15,8 @@ import { SliceStringPipe } from './slice-string.pipe';
     QuarterPipe,
     TemporaryTextFormatterPipe,
     CountryFormatterPipe,
-    SliceStringPipe
+    SliceStringPipe,
+    ZeroValueFormatterPipe
   ],
   exports: [
     CurrencyFormatterPipe,
@@ -22,7 +24,8 @@ import { SliceStringPipe } from './slice-string.pipe';
     QuarterPipe,
     TemporaryTextFormatterPipe,
     CountryFormatterPipe,
-    SliceStringPipe
+    SliceStringPipe,
+    ZeroValueFormatterPipe
   ]
 })
 export class PipesModule {}

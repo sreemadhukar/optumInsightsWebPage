@@ -36,7 +36,6 @@
           </div>
         </button>
       </div>
-
       <div
         class="horizontal-align"
         *ngIf="
@@ -44,13 +43,14 @@
           tabName == 'gettingReimbursedSummary' ||
           tabName == 'gettingReimbursedPayments' ||
           tabName == 'gettingReimbursedNonPayments' ||
-          selectedPage == 'nonPaymentsPage'
+          selectedPage == 'nonPaymentsPage' ||
+          selectedPage == 'viewTopClaimsPage' ||
+          selectedPage == 'overviewAdvocatePage'
         "
       >
         <button class="btn btn-rounded" disabled>
-          <!-- USE this instead of next line after View Claims By Data Binding 
-              span>View claims By: </span><span class="text-semibold pl-4"> {{selectedViewClaimsBy}} </span-->
-          <span>View claims By: </span><span class="text-semibold pl-4"> Date of Service </span>
+          <span>View claims By: </span><span class="text-semibold pl-4"> {{ selectedViewClaimsBy.value }} </span>
+          <!-- <span>View claims By: </span><span class="text-semibold pl-4"> Date of Service </span> -->
         </button>
       </div>
 
@@ -61,7 +61,8 @@
             tabName == 'gettingReimbursedSummary' ||
             tabName == 'gettingReimbursedPayments' ||
             tabName == 'gettingReimbursedNonPayments' ||
-            selectedPage == 'nonPaymentsPage') &&
+            selectedPage == 'nonPaymentsPage' ||
+            selectedPage == 'overviewAdvocatePage') &&
           selectedClaims.value !== 'All' &&
           !flag
         "
@@ -106,27 +107,27 @@
       <!--</div>-->
       <!--</button>-->
       <!--</div>-->
-      <!--<div-->
-      <!--class="horizontal-align"-->
-      <!--*ngIf="selectedPage === 'priorAuthPage' && selectedServiceCategory && selectedServiceCategory.value !== 'All'"-->
-      <!--&gt;-->
-      <!--<button class="btn btn-rounded" disabled *ngIf="selectedServiceCategory">-->
-      <!--<span>Service Category: </span><span class="text-semibold pl-4"> {{ selectedServiceCategory.value }} </span>-->
-      <!--<div class="close-btn">-->
-      <!--<mat-icon class="icon-display" (click)="removeAppliedFilter('serviceCategory')" svgIcon="close"></mat-icon>-->
-      <!--</div>-->
-      <!--</button>-->
-      <!--<button class="btn btn-rounded" disabled *ngIf="selectedPriorAuthType && selectedPriorAuthType.value !== 'All'">-->
-      <!--<span>Service Category: </span><span class="text-semibold pl-4"> {{ selectedPriorAuthType.value }} </span>-->
-      <!--<div class="close-btn">-->
-      <!--<mat-icon-->
-      <!--class="icon-display"-->
-      <!--(click)="removeAppliedFilter('priorAuthDecisionType')"-->
-      <!--svgIcon="close"-->
-      <!--&gt;</mat-icon>-->
-      <!--</div>-->
-      <!--</button>-->
-      <!--</div>-->
+      <div
+        class="horizontal-align"
+        *ngIf="selectedPage === 'priorAuthPage' && selectedServiceCategory && selectedServiceCategory.value !== 'All'"
+      >
+        <button class="btn btn-rounded" disabled>
+          <span>Service Category: </span><span class="text-semibold pl-4"> {{ selectedServiceCategory.value }} </span>
+          <div class="close-btn">
+            <mat-icon class="icon-display" (click)="removeAppliedFilter('serviceCategory')" svgIcon="close"></mat-icon>
+          </div>
+        </button>
+        <!-- <button class="btn btn-rounded" disabled *ngIf="selectedPriorAuthType && selectedPriorAuthType.value !== 'All'">
+      <span>Service Category: </span><span class="text-semibold pl-4"> {{ selectedPriorAuthType.value }} </span>
+      <div class="close-btn">
+      <mat-icon
+      class="icon-display"
+      (click)="removeAppliedFilter('priorAuthDecisionType')"
+      svgIcon="close">
+      </mat-icon>
+      </div>
+      </button> -->
+      </div>
     </ng-container>
 
     <!--Summary Trends-->
@@ -147,7 +148,7 @@
       </div>
     </ng-template>
   </div>
-  <div *ngIf="!printStyle" class="filter-bg" (click)="openFilter()">
+  <div class="filter-bg" (click)="openFilter()" *ngIf="enableFilter">
     <mat-icon matPrefix class="nav-menu-icons filter-icon" svgIcon="filter"></mat-icon>
     <div class="filter-title">Filters</div>
   </div>

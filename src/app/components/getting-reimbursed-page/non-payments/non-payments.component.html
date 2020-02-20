@@ -1,4 +1,3 @@
-<app-feedback></app-feedback>
 <div class="gettingReimburse-body" [ngClass]="{ 'bg-color-print': printStyle === true }">
   <div class="nonPayment-content">
     <div class="nonPayment-content-cust">
@@ -7,13 +6,16 @@
       <div class="page-title" [ngClass]="{ 'print-page-title': printStyle === true }">
         {{ pageTitle }}
       </div>
-      <div *ngIf="printStyle" [ngClass]="{ 'print-page-subtitle': printStyle === true }">
+      <div *ngIf="!subtitle" class="page-subtitle">
         {{ pageSubTitle }}
       </div>
+      <div *ngIf="printStyle" [ngClass]="{ 'print-page-subtitle': printStyle === true }">{{ printpageSubTitle }}</div>
       <app-filters-applied></app-filters-applied>
     </div>
     <div class="height1Separator"></div>
-
+    <div *ngFor="let data of mockCards; let i = index">
+      <app-card class="cards" [skeleton]="loading" *ngIf="loading && !printStyle"> </app-card>
+    </div>
     <div *ngFor="let item of nonPaymentData1">
       <app-card *ngIf="item.data != null && !item.toggle" class="cards" [chartData]="item"> </app-card>
       <app-error-card *ngIf="item.status != null && !item.toggle" class="cards" [data]="item"></app-error-card>
@@ -96,7 +98,13 @@
                             <span class="top-5-text">{{ inside.text }}</span>
                             <span class="top-5-value">{{ inside.value }}</span>
                           </div>
+                          <span>
+                            <a class="top-claims" (click)="subReasonClicked(barchart.title, j)">
+                              View Top Claims</a
+                            ></span
+                          >
                         </div>
+
                         <app-color-grey-mini-bar-chart [chartOptions]="inside"></app-color-grey-mini-bar-chart>
                         <!-- where to add the bar
                         <div class="inside-bar-graph-right-block">
@@ -131,7 +139,7 @@
 
     <div *ngIf="printStyle" class="height-separator2-print"></div>
 
-    <div>
+    <div *ngIf="viewClaimsByFilter !== 'DOP'">
       <app-error-card
         *ngIf="!trendMonthDisplay && monthlyLineGraph != null && monthlyLineGraph.status != null"
         class="cards"

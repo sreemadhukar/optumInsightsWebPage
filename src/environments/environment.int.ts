@@ -36,6 +36,8 @@ export const environment: any = {
     Calls: 'issue-resolutions/',
     PaymentIntegrity: 'pi-metrics/',
     NonPayment: 'claim-metrics/',
+    NonPaymentTopClaims: 'non-payment-claims/',
+    NonPaymentDop: 'dop-claim-metrics/',
     CallsTrend: 'provider-calls/',
     TrendingMetrics: 'trending-metrics/',
     PCORQualityMeasure: 'pcor-metrics/',
@@ -75,7 +77,6 @@ export const environment: any = {
   errorMessage: 'empty',
   clickStreamUrl: '//assets.adobedtm.com/launch-ENacdc6d1acf734bcd95703e446bd1de1d-development.min.js',
   internalAccess: true,
-  claimsYieldAccess: true,
   toggleTrendingSummary: false,
   sentryKey: 'https://8c2bdbcdd5444e6ca1255f7c999b84fe@sentry-ped-internal.ocp-ctc-core.optum.com/3'
 };

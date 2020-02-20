@@ -1,0 +1,137 @@
+<div class="gettingReimburse-body">
+  <div class="nonPayment-content">
+    <div class="nonPayment-content-cust">
+      <app-breadcrumbs></app-breadcrumbs>
+      <!-- <app-print> </app-print> -->
+      <div class="claims-content-head">
+        <a (click)="goback()" class="nav-menu-icons-back-button nav-menu-icons-back-button-div ">
+          <mat-icon class="nav-menu-icons nav-menu-icons-back-button" svgIcon="backButton"></mat-icon>
+        </a>
+        Claims Non-Payments Details
+        <div class="note-sub-head">
+          <div class="note-sub-head-div">
+            Note: To change global filters, please return to the
+            <a (click)="goback()" class="claims-note-div ">Claims Non-Payments page</a>
+          </div>
+        </div>
+      </div>
+      <app-filters-applied></app-filters-applied>
+      <!-- <div class="page-title" [ngClass]="{ 'print-page-title': printStyle === true }">
+          {{ pageTitle }}
+        </div>
+        <div *ngIf="printStyle" [ngClass]="{ 'print-page-subtitle': printStyle === true }">
+          {{ pageSubTitle }}
+        </div> -->
+    </div>
+
+    <div class="reasons-content">
+      <div class="reason-div">
+        <div class="reason-head">Reason</div>
+        <h5 class="reason-text">{{ selectedReasonItem }}</h5>
+      </div>
+      <div class="sub-reason-div">
+        <div class="reason-head">Subreason</div>
+        <h5 class="reason-text">{{ selectedSubreason }}</h5>
+      </div>
+    </div>
+
+    <div class="tax-summary-content">
+      <div class="tax-summary-head">
+        <span class="tax-summary-count">
+          Showing {{ selectedclaims.filteredData.length > 24 ? pageSize : selectedclaims.filteredData.length }} of
+          {{ numberOfClaims }}
+        </span>
+      </div>
+      <div class="tax-summary-body">
+        <div class="tax-summary-table-block ">
+          <table
+            mat-table
+            [dataSource]="selectedclaims"
+            matSort
+            matSortActive="NonPaymentAmount"
+            matSortDirection="desc"
+            matSortDisableClear
+          >
+            <ng-container matColumnDef="TinNumber">
+              <th mat-header-cell *matHeaderCellDef class="tax-id-text">
+                <span mat-sort-header style="text-align:left">Tax ID <br />Number </span>
+                <div>
+                  <input class="tax-summary-name-input" matInput [formControl]="tinNumberFilter" />
+                </div>
+              </th>
+              <td mat-cell class="tin-name-input" *matCellDef="let element">
+                <div class="provider-column">{{ toLowerCase(element.TinName) }}</div>
+                <div class="tin-name-font">{{ element.TinNumber }}</div>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="ProviderName">
+              <th mat-header-cell *matHeaderCellDef>
+                <span mat-sort-header>
+                  Provider <br />
+                  Name</span
+                >
+
+                <div>
+                  <input matInput class="tax-summary-provider-input" [formControl]="provideNameFilter" />
+                </div>
+              </th>
+              <td mat-cell class="tax-summary-table-cell" *matCellDef="let element">
+                <div class="provider-column">{{ toLowerCase(element.ProviderName) }}</div>
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="NonPaymentAmount">
+              <th mat-header-cell *matHeaderCellDef>
+                <span mat-sort-header> Non-Payment Amount</span>
+              </th>
+              <td mat-cell class="tax-summary-table-cell" *matCellDef="let element">
+                <span> $</span>{{ convertIntoNumber(element.NonPaymentAmount) }}
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="BilledAmount">
+              <th mat-header-cell *matHeaderCellDef>
+                <span mat-sort-header> Billed Amount</span>
+              </th>
+
+              <td mat-cell class="tax-summary-table-cell" *matCellDef="let element">
+                ${{ convertIntoNumber(element.BilledAmount) }}
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="DateOfProcessing">
+              <th mat-header-cell *matHeaderCellDef>
+                <span mat-sort-header> {{ viewClaimsValue }}</span>
+              </th>
+
+              <td mat-cell class="tax-summary-table-cell" *matCellDef="let element">
+                {{ element.DateOfProcessing }}
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="ClaimNumber">
+              <th mat-header-cell *matHeaderCellDef>
+                <span mat-sort-header> Claim <br />Number</span>
+                <div>
+                  <input class="tax-summary-claims-input " matInput [formControl]="claimNumberFilter" />
+                </div>
+              </th>
+              <td mat-cell class="tax-summary-table-cell" *matCellDef="let element">
+                {{ element.ClaimNumber }}
+              </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="tinsDisplayedColumns"></tr>
+            <tr mat-row class="tax-summary-rows" *matRowDef="let row; columns: tinsDisplayedColumns"></tr>
+          </table>
+
+          <mat-paginator
+            class="tax-summary-paginator"
+            [pageSizeOptions]="[25, 50, 100]"
+            (page)="getPageSize($event)"
+            [ngStyle]="{ display: numberOfClaims > 24 ? 'block' : 'none' }"
+          >
+          </mat-paginator>
+        </div>
+      </div>
+    </div>
+
+    <!-- tin-list-body-->
+  </div>
+</div>

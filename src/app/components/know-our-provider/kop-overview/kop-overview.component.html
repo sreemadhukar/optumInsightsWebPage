@@ -46,27 +46,54 @@
             </li>
           </ul>
         </div>
+        <!-- Commented for overview -->
+        <!-- <div class="cards section-header-part3">
+          <button routerLink="/NationalExecutive/NpsDetail">View Details</button>
+        </div> -->
       </div>
       <div class="height1Separator"></div>
-      <app-small-card
-        class="cards"
-        [options]="npsCardOptions"
-        *ngFor="let npsItem of kopInsightsData.npsSummary.data"
-        [data]="npsItem"
-      >
-      </app-small-card>
+      <div class="nps-section">
+        <app-small-card
+          class="cards"
+          [options]="npsCardOptions"
+          [noHeaderClick]="true"
+          *ngFor="let npsItem of kopInsightsData.npsSummary.data"
+          [data]="npsItem"
+        >
+        </app-small-card>
+      </div>
 
       <div class="kop-insights">Insights</div>
       <div>
-        <app-large-card-kop [data]="kopInsightsData.networkParticipation" [timePeriod]="kopInsightsData.timePeriod">
+        <app-large-card-kop
+          [data]="kopInsightsData.networkParticipation"
+          [noHeaderClick]="true"
+          [timePeriod]="kopInsightsData.timePeriod"
+        >
         </app-large-card-kop>
-        <app-large-card-kop [data]="kopInsightsData.careDelivery" [timePeriod]="kopInsightsData.timePeriod">
+        <app-large-card-kop
+          [data]="kopInsightsData.careDelivery"
+          [noHeaderClick]="true"
+          [timePeriod]="kopInsightsData.timePeriod"
+        >
         </app-large-card-kop>
-        <app-large-card-kop [data]="kopInsightsData.reimbursement" [timePeriod]="kopInsightsData.timePeriod">
+        <app-large-card-kop
+          [data]="kopInsightsData.reimbursement"
+          [noHeaderClick]="true"
+          [timePeriod]="kopInsightsData.timePeriod"
+        >
         </app-large-card-kop>
-        <app-large-card-kop [data]="kopInsightsData.issueResolution" [timePeriod]="kopInsightsData.timePeriod">
+        <app-large-card-kop
+          [data]="kopInsightsData.issueResolution"
+          [noHeaderClick]="true"
+          [timePeriod]="kopInsightsData.timePeriod"
+        >
         </app-large-card-kop>
-        <app-large-card-kop [data]="kopInsightsData.engagement" [timePeriod]="kopInsightsData.timePeriod">
+        <app-large-card-kop
+          [data]="kopInsightsData.engagement"
+          [noHeaderClick]="true"
+          [timePeriod]="kopInsightsData.timePeriod"
+        >
         </app-large-card-kop>
       </div>
     </div>

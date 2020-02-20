@@ -19,7 +19,6 @@ export class GlossaryComponent implements OnInit {
   glossaryData: any[];
   public options: string[];
   glossaryTitleShow: String = '';
-  viewallmetricsbuttonposition = true;
   filteredOptions: Observable<any[]>;
   public glossaryCtrl = new FormControl();
   metricDataList: any[];
@@ -44,9 +43,9 @@ export class GlossaryComponent implements OnInit {
     if (this.router.url.includes('NationalExecutive')) {
       this.isKop = true;
     }
-    if (this.MetricID) {
-      this.isKop ? this.getKOPGlossaryMetricID() : this.glossaryByMetricId();
-    }
+    // if (this.MetricID) {
+    //   this.isKop ? this.getKOPGlossaryMetricID() : this.glossaryByMetricId();
+    // }
     this.isKop ? this.getKOPGlossaryData() : this.getGlossaryData();
     this.options = [];
   }
@@ -71,10 +70,10 @@ export class GlossaryComponent implements OnInit {
         if ((response || {}).BusinessGlossary) {
           this.glossarySelected.push(response);
           this.hyperlink = '';
-          if (this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.MetricID === 305) {
-            const x = 'SelfServeCnCwt / (SelfServeCnCwt + SizeOfOppcncwt + SizeOfOpppnpwt).';
-            this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.Formula = x;
-          }
+          // if (this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.MetricID === 305) {
+          //   const x = 'SelfServeCnCwt / (SelfServeCnCwt + SizeOfOppcncwt + SizeOfOpppnpwt).';
+          //   this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.Formula = x;
+          // }
           if (
             this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.MetricID === 301 &&
             this.paperlessDelivaryFlag
@@ -106,10 +105,10 @@ export class GlossaryComponent implements OnInit {
       this.glossaryList = JSON.parse(JSON.stringify(response));
       for (let i = 0; i < this.glossaryList.length; i++) {
         this.readmoreFlag[i] = true;
-        if (this.glossaryList[i].BusinessGlossary.ProviderDashboardName.MetricID === 305) {
-          const x = 'SelfServeCnCwt / (SelfServeCnCwt + SizeOfOppcncwt + SizeOfOpppnpwt).';
-          this.glossaryList[i].BusinessGlossary.ProviderDashboardName.Formula = x;
-        }
+        // if (this.glossaryList[i].BusinessGlossary.ProviderDashboardName.MetricID === 305) {
+        //   const x = 'SelfServeCnCwt / (SelfServeCnCwt + SizeOfOppcncwt + SizeOfOpppnpwt).';
+        //   this.glossaryList[i].BusinessGlossary.ProviderDashboardName.Formula = x;
+        // }
         if (
           this.glossaryList[i].BusinessGlossary.ProviderDashboardName.MetricID === 301 &&
           this.paperlessDelivaryFlag
@@ -130,7 +129,7 @@ export class GlossaryComponent implements OnInit {
         }
       }
       if (this.title === 'Medicare Star Rating') {
-        this.title = 'Medicare & Retirement Average Star Rating';
+        this.title = 'Medicare Average Star Rating';
       }
       // if id not exist in metricId table/database then we chose by title i.e. is includes()
       if (this.glossaryList) {
@@ -217,23 +216,29 @@ export class GlossaryComponent implements OnInit {
   public getKOPGlossaryData() {
     this.glossaryService.getKOPBusinessGlossaryData().subscribe(response => {
       this.glossaryList = JSON.parse(JSON.stringify(response));
+
+      if (!(this.glossaryList instanceof Array) || this.glossaryList.length === 0) {
+        return;
+      }
+
       for (let i = 0; i < this.glossaryList.length; i++) {
         this.readmoreFlag[i] = true;
       }
-      if (this.glossaryList) {
-        for (let i = 0; i < this.glossaryList.length; i++) {
-          // this.readmoreFlag[i] = true;
-          if (
-            this.glossaryList[i].BusinessGlossary.ProviderDashboardName.Metric.toLowerCase().includes(
-              this.title.toLowerCase()
-            )
-          ) {
-            this.glossarySelected = [];
-            this.glossarySelected.push(this.glossaryList[i]);
-            break;
+
+      this.glossarySelected = [];
+      this.glossarySelected = this.glossaryList.filter((glossaryItem: any) => {
+        const {
+          BusinessGlossary: {
+            ProviderDashboardName: { MetricID }
           }
-        }
-      }
+        } = glossaryItem;
+
+        const metricIds = this.MetricID.split(',');
+        const metricIdExists = metricIds.filter((metricId: string) => {
+          return metricId === MetricID + '';
+        })[0];
+        return metricIdExists ? true : false;
+      });
 
       this.glossaryData = this.glossaryList.sort(function(a, b) {
         if (
@@ -308,10 +313,10 @@ export class GlossaryComponent implements OnInit {
           this.glossarySelected = [];
           this.glossarySelected = [this.glossaryList[i]];
           this.hyperlink = '';
-          if (this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.MetricID === 305) {
-            const x = 'SelfServeCnCwt / (SelfServeCnCwt + SizeOfOppcncwt + SizeOfOpppnpwt).';
-            this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.Formula = x;
-          }
+          // if (this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.MetricID === 305) {
+          //   const x = 'SelfServeCnCwt / (SelfServeCnCwt + SizeOfOppcncwt + SizeOfOpppnpwt).';
+          //   this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.Formula = x;
+          // }
           if (
             this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.MetricID === 301 &&
             this.paperlessDelivaryFlag
@@ -370,10 +375,11 @@ export class GlossaryComponent implements OnInit {
   }
   @HostListener('window:scroll', ['$event'])
   checkScroll() {
+    const bottom = window.innerHeight + document.documentElement.scrollTop + 80 - document.body.offsetHeight + 'px';
     if (window.innerHeight + document.documentElement.scrollTop >= document.body.offsetHeight - 80) {
-      this.viewallmetricsbuttonposition = false;
+      (<HTMLElement>document.querySelector('#view-all-metrics-button-position-div')).style.bottom = bottom;
     } else {
-      this.viewallmetricsbuttonposition = true;
+      (<HTMLElement>document.querySelector('#view-all-metrics-button-position-div')).style.bottom = '0px';
     }
   }
 

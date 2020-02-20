@@ -84,7 +84,18 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
   printStyle: boolean;
 
   /*** Array of Navigation Category List ***/
-  public navCategories = [
+  public navCategories = [];
+  public navCategoriesTotal = [
+    { icon: 'home', name: 'Overview', path: '/NationalExecutive', disabled: false, kop: true },
+    // Commented for production release
+    // { icon: 'summary', name: 'NPS Summary', path: '/NationalExecutive/NpsDetail', disabled: false, kop: true },
+    // {
+    //   icon: 'person',
+    //   name: 'Onboarding',
+    //   children: [{ name: 'Summary', path: '/NationalExecutive/Onboarding', kop: true }],
+    //   disabled: false,
+    //   kop: true
+    // },
     { icon: 'home', name: 'Overview', path: '/OverviewPage', disabled: false },
     {
       icon: 'getting-reimburse',
@@ -187,7 +198,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
         console.log('Health System Details are not available', reason);
       });
     if (this.checkAdv.value) {
-      this.navCategories = this.navCategories.filter(item => item.name !== 'Summary Trends');
+      this.navCategories = this.navCategoriesTotal.filter(item => item.name !== 'Summary Trends');
       sessionStorage.setItem('advocateView', 'true');
     }
 
@@ -252,7 +263,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
         if (
           (sessionStorage.getItem('fromKOP') === 'YES' &&
             !this.makeAbsolute &&
-            event.url !== '/NationalExecutive' &&
+            !event.url.includes('NationalExecutive') &&
             this.checkPro.value) ||
           this.checkExecutive.value
         ) {
@@ -279,6 +290,10 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     iconRegistry.addSvgIcon(
       'home',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/round-home-24px.svg')
+    );
+    iconRegistry.addSvgIcon(
+      'summary',
+      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/bar_chart-24px.svg')
     );
     iconRegistry.addSvgIcon(
       'getting-reimburse',
@@ -314,7 +329,10 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     );
     iconRegistry.addSvgIcon('prior-auth', sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/PA-idle.svg'));
     iconRegistry.addSvgIcon('pcor', sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/PCOR.svg'));
-
+    iconRegistry.addSvgIcon(
+      'person',
+      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Content/round-person-24px.svg')
+    );
     router.events.subscribe(event => {
       if (event instanceof NavigationStart) {
         this.printStyle = event.url.includes('print-');
@@ -331,8 +349,11 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     this.acoEventEmitter.getEvent().subscribe(value => {
       this.AcoFlag = value.value;
     });
+    this.navCategories = this.navCategoriesTotal.filter(item => !item.kop);
+
     this.eventEmitter.getEvent().subscribe(val => {
       this.isKop = val.value;
+      this.navCategories = this.navCategoriesTotal.filter(item => item.kop);
       this.cdRef.detectChanges();
     });
     this.checkStorage.getEvent().subscribe(value => {
@@ -475,7 +496,6 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     this.pcorService.getExecutiveData(...parametersExecutive).subscribe(
       data => {
         const PCORData = data.PatientCareOpportunity;
-        console.log('PCOR---' + PCORData);
         if (PCORData === null || PCORData === undefined) {
           try {
             this.removePCORnav();
@@ -621,16 +641,17 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
    * Clean fromKOP storage
    */
   navigateToKOP() {
-    // TODO: It is a quick fix
-    // settimeout and locaion routing
-    // Need to be remove after ng-redux
-    // filter implementenation in KOP
-    setTimeout(() => {
-      sessionStorage.removeItem('fromKOP');
-      this.fromKOP = false;
-    }, 500);
-    location.href = '/NationalExecutive';
-    // this.router.navigate(['/NationalExecutive']);
+    sessionStorage.removeItem('fromKOP');
+    this.fromKOP = false;
+    this.router.navigate(['/NationalExecutive']);
+  }
+
+  taxSummaryLink() {
+    if (this.sessionService.checkRole('UHCI_Advocate')) {
+      this.router.navigateByUrl('/OverviewPageAdvocate/HealthSystemDetails');
+    } else {
+      this.router.navigateByUrl('/TinList');
+    }
   }
 
   navigateToPPD() {
@@ -702,6 +723,8 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
         } else {
           element.close();
         }
+      } else {
+        element.close();
       }
     });
   }

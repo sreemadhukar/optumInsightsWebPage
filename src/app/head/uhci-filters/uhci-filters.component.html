@@ -158,7 +158,8 @@
         gettingReimbursedTabName == 'gettingReimbursedSummary' ||
         gettingReimbursedTabName == 'gettingReimbursedPayments' ||
         gettingReimbursedTabName == 'gettingReimbursedNonPayments' ||
-        selectedPage == 'nonPaymentsPage'
+        selectedPage == 'nonPaymentsPage' ||
+        selectedPage == 'overviewAdvocatePage'
       "
     ></div>
     <div
@@ -168,7 +169,8 @@
         gettingReimbursedTabName == 'gettingReimbursedSummary' ||
         gettingReimbursedTabName == 'gettingReimbursedPayments' ||
         gettingReimbursedTabName == 'gettingReimbursedNonPayments' ||
-        selectedPage == 'nonPaymentsPage'
+        selectedPage == 'nonPaymentsPage' ||
+        selectedPage == 'overviewAdvocatePage'
       "
     >
       <div class="title">Claim Type</div>
@@ -192,7 +194,8 @@
         gettingReimbursedTabName == 'gettingReimbursedSummary' ||
         gettingReimbursedTabName == 'gettingReimbursedPayments' ||
         gettingReimbursedTabName == 'gettingReimbursedNonPayments' ||
-        selectedPage == 'nonPaymentsPage'
+        selectedPage == 'nonPaymentsPage' ||
+        selectedPage == 'overviewAdvocatePage'
       "
     >
       <div>
@@ -272,62 +275,54 @@
       <!--</div>-->
 
       <!--Service Category-->
-      <!--<div class="line"></div>-->
-      <!--<div class="titleData">-->
-      <!--<div class="title">Service Category</div>-->
-      <!--<div class="chevron">-->
-      <!--<mat-icon-->
-      <!--class="icon-display"-->
-      <!--svgIcon="arrowdn"-->
-      <!--(click)="toggle('toggleServiceCategory')"-->
-      <!--[class.arrow-toggle]="collapseToggle.toggleServiceCategory"-->
-      <!--&gt;</mat-icon>-->
-      <!--</div>-->
-      <!--</div>-->
-      <!--<div class="lobgrp">-->
-      <!--<div>-->
-      <!--<label class="label-data" *ngIf="selectedService">{{ selectedService }} </label>-->
-      <!--</div>-->
-      <!--<div>-->
-      <!--<label class="label-data" *ngIf="selectedPriorAuthType">{{ selectedPriorAuthType.value }}</label>-->
-      <!--</div>-->
-      <!--<div class="select-option-data" *ngIf="collapseToggle.toggleServiceCategory">-->
-      <!--<mat-form-field appearance="outline">-->
-      <!--<input-->
-      <!--type="text"-->
-      <!--matInput-->
-      <!--[matAutocomplete]="auto"-->
-      <!--[formControl]="serviceCategoryForm"-->
-      <!--[(ngModel)]="selectedService"-->
-      <!--(ngModelChange)="categories = doFilter(selectedServiceCategory)"-->
-      <!--(input)="selectedPriorAuthType = priorAuthInitialState"-->
-      <!--placeholder="Search for Service Category"-->
-      <!--/>-->
-      <!--<mat-icon matPrefix class="nav-menu-icons" svgIcon="search"></mat-icon>-->
-      <!--<mat-autocomplete #auto="matAutocomplete" autoActiveFirstOption>-->
-      <!--<mat-option-->
-      <!--*ngFor="let serviceCategory of categories"-->
-      <!--(onSelectionChange)="selectedPriorAuthType = priorAuthInitialState"-->
-      <!--[value]="serviceCategory.value"-->
-      <!--&gt;-->
-      <!--{{ serviceCategory.value }}-->
-      <!--</mat-option>-->
-      <!--</mat-autocomplete>-->
-      <!--</mat-form-field>-->
-      <!--<mat-radio-group class="radio-group" [(ngModel)]="selectedPriorAuthType" (change)="selectedService = ''">-->
-      <!--<mat-radio-button-->
-      <!--class="radio-button"-->
-      <!--*ngFor="let paType of priorAuthTypes"-->
-      <!--[value]="paType"-->
-      <!--[checked]="paType.value === selectedPriorAuthType.value"-->
-      <!--&gt;-->
-      <!--{{ paType.value }}-->
-      <!--</mat-radio-button>-->
-      <!--</mat-radio-group>-->
-      <!--</div>-->
-      <!--</div>-->
+      <div class="line"></div>
+      <div class="titleData">
+        <div class="title">Service Category</div>
+        <div class="chevron">
+          <mat-icon
+            class="icon-display"
+            svgIcon="arrowdn"
+            (click)="toggle('toggleServiceCategory')"
+            [class.arrow-toggle]="collapseToggle.toggleServiceCategory"
+          >
+          </mat-icon>
+        </div>
+      </div>
+      <div class="lobgrp">
+        <div>
+          <label class="label-data ">{{ selectedService }} </label>
+        </div>
+
+        <div class="select-option-data" *ngIf="collapseToggle.toggleServiceCategory">
+          <mat-form-field appearance="outline">
+            <input
+              type="text"
+              matInput
+              [matAutocomplete]="auto"
+              [formControl]="serviceCategoryForm"
+              [(ngModel)]="selectedService"
+              (ngModelChange)="serviceCategories = doFilter(selectedServiceCategory)"
+              (input)="selectedServiceCategory = serviceCategory"
+              placeholder="Search for Service Category"
+            />
+            <mat-icon matPrefix class="nav-menu-icons" svgIcon="search"></mat-icon>
+            <mat-autocomplete #auto="matAutocomplete" autoActiveFirstOption>
+              <mat-option
+                *ngFor="let serviceCategory of serviceCategories"
+                (onSelectionChange)="selectedServiceCategory = serviceCategory"
+                [value]="serviceCategory.value"
+              >
+                {{ serviceCategory.value }}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+          <mat-radio-group class="radio-group" [(ngModel)]="selectedPriorAuthType" (change)="selectedService = ''">
+          </mat-radio-group>
+        </div>
+      </div>
     </div>
 
+    <!-- View Claims By Filter-->
     <!-- View Claims By Filter-->
     <div
       class="line"
@@ -336,7 +331,8 @@
         gettingReimbursedTabName == 'gettingReimbursedSummary' ||
         gettingReimbursedTabName == 'gettingReimbursedPayments' ||
         gettingReimbursedTabName == 'gettingReimbursedNonPayments' ||
-        selectedPage == 'nonPaymentsPage'
+        selectedPage == 'nonPaymentsPage' ||
+        selectedPage == 'overviewAdvocatePage'
       "
     ></div>
     <div
@@ -346,7 +342,8 @@
         gettingReimbursedTabName == 'gettingReimbursedSummary' ||
         gettingReimbursedTabName == 'gettingReimbursedPayments' ||
         gettingReimbursedTabName == 'gettingReimbursedNonPayments' ||
-        selectedPage == 'nonPaymentsPage'
+        selectedPage == 'nonPaymentsPage' ||
+        selectedPage == 'overviewAdvocatePage'
       "
     >
       <div class="title">View Claims By</div>
@@ -367,7 +364,8 @@
         gettingReimbursedTabName == 'gettingReimbursedSummary' ||
         gettingReimbursedTabName == 'gettingReimbursedPayments' ||
         gettingReimbursedTabName == 'gettingReimbursedNonPayments' ||
-        selectedPage == 'nonPaymentsPage'
+        selectedPage == 'nonPaymentsPage' ||
+        selectedPage == 'overviewAdvocatePage'
       "
     >
       <div>

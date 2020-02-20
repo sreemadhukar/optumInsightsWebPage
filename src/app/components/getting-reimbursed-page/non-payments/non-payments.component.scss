@@ -30,7 +30,7 @@
       .page-title {
         flex-basis: 100%;
         font-size: 36px;
-        @include padding(16px, 0, 20px, 0);
+        @include padding(16px, 0, 10px, 0);
         line-height: 40px;
       }
     }
@@ -256,6 +256,12 @@
       font-family: 'UHCSans-Regular', Helvetica, Arial, sans-serif;
       color: $black-rock;
     }
+    .page-subtitle {
+      font-size: 16px;
+      line-height: 22px;
+      color: $strom-grey;
+      padding-bottom: 20px;
+    }
     .print-page-title {
       padding-top: 30px;
       font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
@@ -266,7 +272,7 @@
       font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
       line-height: 40px;
       flex-basis: 100%;
-      font-size: 28px;
+      font-size: 16px;
       display: flex;
       flex-direction: row;
       position: relative;
@@ -355,7 +361,7 @@
       font-size: 16px;
       letter-spacing: 0.2px;
       line-height: 22px;
-
+      width: 230px;
       float: left;
     }
     .top-5-value {
@@ -365,6 +371,15 @@
       line-height: 22px;
 
       float: right;
+    }
+    .top-claims {
+      color: #196ecf;
+      font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+      font-size: 16px;
+      letter-spacing: 0.2px;
+      line-height: 22px;
+      float: left;
+      padding: 14px 50px 10px 40px;
     }
     .hide-bottom-arrow-block {
       width: 25px;
@@ -379,7 +394,7 @@
     .non-payment-trend-block {
       width: 961px;
       // height: 450px;
-      borderborder-radius: 2px;
+      border-radius: 2px;
       background-color: #ffffff;
       box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
       margin: 12px;

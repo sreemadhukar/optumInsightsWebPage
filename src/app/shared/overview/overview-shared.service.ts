@@ -7,6 +7,7 @@ import { SessionService } from '../session.service';
 import { AuthorizationService } from '../../auth/_service/authorization.service';
 import { TrendingMetricsService } from '../../rest/trending/trending-metrics.service';
 import { GlossaryMetricidService } from '../glossary-metricid.service';
+import { lobName } from '../../modals/lob-name';
 
 @Injectable({
   providedIn: OverviewPageModule
@@ -17,7 +18,6 @@ export class OverviewSharedService {
   private providerKey: number;
   private baseTimePeriod = 'Last6Months';
   private previousTimePeriod = 'PreviousLast6Months';
-  private priorAuthTrend;
   constructor(
     private MetricidService: GlossaryMetricidService,
     private overviewService: OverviewService,
@@ -105,55 +105,6 @@ export class OverviewSharedService {
     }); // ends Promise
   } // end getOverviewData function
 
-  /* function to create Prioir Auth Tile in Overview Page -  Ranjith kumar Ankam - 04-Jul-2019*/
-  createPriorAuthObject(providerSystems) {
-    return new Promise((resolve, reject) => {
-      let cPriorAuth: object;
-      if (
-        providerSystems.hasOwnProperty('PriorAuth') &&
-        providerSystems.PriorAuth !== null &&
-        providerSystems.PriorAuth.hasOwnProperty('LineOfBusiness') &&
-        providerSystems.PriorAuth.LineOfBusiness.hasOwnProperty('All') &&
-        providerSystems.PriorAuth.LineOfBusiness.All.hasOwnProperty('PriorAuthApprovedCount') &&
-        providerSystems.PriorAuth.LineOfBusiness.All.hasOwnProperty('PriorAuthNotApprovedCount') &&
-        providerSystems.PriorAuth.LineOfBusiness.All.hasOwnProperty('PriorAuthPendingCount') &&
-        providerSystems.PriorAuth.LineOfBusiness.All.hasOwnProperty('PriorAuthCancelledCount')
-      ) {
-        const priorAuthRequested =
-          providerSystems.PriorAuth.LineOfBusiness.All.PriorAuthApprovedCount +
-          providerSystems.PriorAuth.LineOfBusiness.All.PriorAuthNotApprovedCount;
-        const approvedRate = providerSystems.PriorAuth.LineOfBusiness.All.PriorAuthApprovedCount / priorAuthRequested;
-
-        cPriorAuth = {
-          category: 'small-card',
-          type: 'donut',
-          title: 'Prior Authorization Approval',
-          MetricID: this.MetricidService.MetricIDs.PriorAuthorizationApproval,
-          toggle: this.toggle.setToggles('Prior Authorization Approval', 'AtGlance', 'Overview', false),
-          data: {
-            graphValues: [approvedRate, 1 - approvedRate],
-            centerNumber: (approvedRate * 100).toFixed(0) + '%',
-            color: ['#3381FF', '#D7DCE1'],
-            gdata: ['card-inner', 'priorAuthCardD3Donut']
-          },
-          sdata: null,
-          timeperiod: 'Last 6 Months'
-        };
-      } else {
-        cPriorAuth = {
-          category: 'small-card',
-          type: 'donut',
-          title: null,
-          data: null,
-          sdata: null,
-          timeperiod: null
-        };
-      }
-
-      resolve(cPriorAuth);
-    });
-  }
-
   /* function to create Selef Service Tile in Overview Page -  Ranjith kumar Ankam - 04-Jul-2019*/
   createSelfServiceObject(providerSystems) {
     return new Promise((resolve, reject) => {
@@ -173,7 +124,7 @@ export class OverviewSharedService {
           const endDate: string = this.common.dateFormat(
             providerSystems.SelfServiceInquiries.ALL.ReportingPeriodEndDate
           );
-          timeSelfService = startDate + ' - ' + endDate;
+          timeSelfService = startDate + '&ndash;' + endDate;
         } catch (Error) {
           timeSelfService = null;
           console.log('Error in Self Service TimePeriod', timeSelfService);
@@ -201,7 +152,7 @@ export class OverviewSharedService {
             const endDate: string = this.common.dateFormat(
               providerSystems.SelfServiceInquiries.ALL.ReportingPeriodEndDate
             );
-            selfServiceTime = startDate + ' - ' + endDate;
+            selfServiceTime = startDate + '&ndash;' + endDate;
           } catch (Error) {
             selfServiceTime = null;
             console.log('Error in Overview | Self Service TimePeriod', Error);
@@ -391,23 +342,26 @@ export class OverviewSharedService {
         providerSystems.SelfServiceInquiries.ALL.SelfService.hasOwnProperty('TotalPhoneCost')
       ) {
         try {
+          const selfService = providerSystems.SelfServiceInquiries.ALL.SelfService;
+          const totalCallCost: number = selfService.TotalCallCost;
           oppurtunities.push({
             category: 'mini-tile',
             title: 'Reduce Calls and Operating Costs by:',
             MetricID: this.MetricidService.MetricIDs.ReduceCallsOperatingCostsBy,
-            toggle: this.toggle.setToggles('Reduce Calls and Operating Costs by:', 'Opportunities', 'Overview', false),
+            toggle:
+              this.toggle.setToggles(
+                'Reduce Calls and Operating Costs by:',
+                'Self Service',
+                'Service Interaction',
+                false
+              ) && this.common.checkZeroNegative(totalCallCost),
             data: {
-              centerNumber:
-                '$' +
-                this.common.nFormatter(providerSystems.SelfServiceInquiries.ALL.SelfService.TotalCallCost.toFixed(2)),
+              centerNumber: '$' + this.common.nFormatter(totalCallCost),
               gdata: []
             },
             fdata: {
               type: 'bar chart',
-              graphValues: [
-                providerSystems.SelfServiceInquiries.ALL.SelfService.TotalSelfServiceCost.toFixed(),
-                providerSystems.SelfServiceInquiries.ALL.SelfService.TotalPhoneCost.toFixed()
-              ],
+              graphValues: [selfService.TotalSelfServiceCost, selfService.TotalPhoneCost],
               concatString: '$',
               color: ['#3381FF', '#FFFFFF', '#80B0FF'],
               graphValuesTitle: 'Avg. Transaction Costs',
@@ -454,37 +408,23 @@ export class OverviewSharedService {
         providerSystems.SelfServiceInquiries.ALL.SelfService.hasOwnProperty('PhoneCallTime')
       ) {
         try {
-          let totalCalltime = providerSystems.SelfServiceInquiries.ALL.SelfService.TotalCallTime;
-          let suffixHourPerDay;
-          if (totalCalltime < 1 && totalCalltime > 0) {
-            totalCalltime = '< 1';
-            suffixHourPerDay = ' Hour/day';
-          } else if (totalCalltime.toFixed(0) === 1) {
-            totalCalltime = totalCalltime.toFixed(0);
-            suffixHourPerDay = ' Hour/day';
-          } else if (totalCalltime.toFixed(0) === 0) {
-            totalCalltime = totalCalltime.toFixed(0);
-            suffixHourPerDay = '';
-          } else {
-            totalCalltime = this.common.nondecimalFormatter(totalCalltime);
-            suffixHourPerDay = ' Hours/day';
-          }
-
+          const selfService = providerSystems.SelfServiceInquiries.ALL.SelfService;
           oppurtunities.push({
             category: 'mini-tile',
             title: "Save Your Staff's Time by:" + '\n\xa0',
             MetricID: this.MetricidService.MetricIDs.SaveyourStaffsTimeBy,
-            toggle: this.toggle.setToggles("Save Your Staff's Time by:", 'Opportunities', 'Overview', false),
+            toggle:
+              this.toggle.setToggles("Save Your Staff's Time by:", 'Self Service', 'Service Interaction', false) &&
+              this.common.checkZeroNegative(selfService.TotalCallTime),
             data: {
-              centerNumber: totalCalltime + suffixHourPerDay,
+              centerNumber:
+                (selfService.TotalCallTime < 1 ? '< 1' : this.common.nondecimalFormatter(selfService.TotalCallTime)) +
+                (selfService.TotalCallTime <= 1 ? ' Hour/day' : ' Hours/day'),
               gdata: []
             },
             fdata: {
               type: 'bar chart',
-              graphValues: [
-                providerSystems.SelfServiceInquiries.ALL.SelfService.SelfServiceCallTime.toFixed(0),
-                providerSystems.SelfServiceInquiries.ALL.SelfService.PhoneCallTime.toFixed(0)
-              ],
+              graphValues: [selfService.SelfServiceCallTime, selfService.PhoneCallTime],
               concatString: 'hours',
               color: ['#3381FF', '#FFFFFF', '#80B0FF'],
               graphValuesTitle: 'Avg. Processing Times',
@@ -533,38 +473,26 @@ export class OverviewSharedService {
         providerSystems.SelfServiceInquiries.ALL.SelfService.hasOwnProperty('AverageClaimProcessingTime') &&
         providerSystems.SelfServiceInquiries.ALL.SelfService.AverageClaimProcessingTime != null
       ) {
-        let processingTime;
+        const selfService = providerSystems.SelfServiceInquiries.ALL.SelfService;
         const checkProcessingTime =
-          providerSystems.SelfServiceInquiries.ALL.SelfService.AveragePaperClaimProcessingTime.toFixed(0) -
-          providerSystems.SelfServiceInquiries.ALL.SelfService.AverageClaimProcessingTime.toFixed(0);
-        let suffixDay;
-        if (checkProcessingTime <= 0) {
-          processingTime = 0;
-          suffixDay = '';
-        } else if (checkProcessingTime === 1) {
-          processingTime = checkProcessingTime;
-          suffixDay = ' Day';
-        } else {
-          processingTime = this.common.nondecimalFormatter(checkProcessingTime);
-          suffixDay = ' Days';
-        }
+          +selfService.AveragePaperClaimProcessingTime.toFixed(0) - +selfService.AverageClaimProcessingTime.toFixed(0);
         oppurtunities.push({
           category: 'mini-tile',
           title: 'Reduce Claim Processing Time by:',
           MetricID: this.MetricidService.MetricIDs.ReduceClaimProcessingTimeBy,
           toggle:
-            checkProcessingTime >= 0 ||
-            this.toggle.setToggles('Reduce Claim Processing Time by:', 'Opportunities', 'Overview', false),
+            this.common.checkZeroNegative(checkProcessingTime) &&
+            this.toggle.setToggles('Reduce Claim Processing Time by:', 'Self Service', 'Service Interaction', false) &&
+            this.common.checkZeroNegative(checkProcessingTime),
           data: {
-            centerNumber: processingTime + suffixDay,
+            centerNumber:
+              (checkProcessingTime < 1 ? '< 1' : this.common.nondecimalFormatter(checkProcessingTime)) +
+              (checkProcessingTime < 1 ? ' Day' : ' Days'),
             gdata: []
           },
           fdata: {
             type: 'bar chart',
-            graphValues: [
-              providerSystems.SelfServiceInquiries.ALL.SelfService.AverageClaimProcessingTime.toFixed(0),
-              providerSystems.SelfServiceInquiries.ALL.SelfService.AveragePaperClaimProcessingTime.toFixed(0)
-            ],
+            graphValues: [selfService.AverageClaimProcessingTime, selfService.AveragePaperClaimProcessingTime],
             concatString: 'Days',
             color: ['#3381FF', '#FFFFFF', '#80B0FF'],
             graphValuesTitle: 'Avg. Processing Times',
@@ -602,37 +530,32 @@ export class OverviewSharedService {
         providerSystems.SelfServiceInquiries.ALL.SelfService.AveragePaperReconsideredProcessingTime !== null &&
         providerSystems.SelfServiceInquiries.ALL.SelfService.AverageReconsideredProcessingTime !== null
       ) {
-        let avgPaperProcessTime;
-        const checkAvgPaperProcessTime =
-          providerSystems.SelfServiceInquiries.ALL.SelfService.AveragePaperReconsideredProcessingTime.toFixed() -
-          providerSystems.SelfServiceInquiries.ALL.SelfService.AverageReconsideredProcessingTime.toFixed();
-        let suffixDay;
-        if (checkAvgPaperProcessTime <= 0) {
-          avgPaperProcessTime = 0;
-          suffixDay = '';
-        } else if (checkAvgPaperProcessTime === 1) {
-          avgPaperProcessTime = checkAvgPaperProcessTime;
-          suffixDay = ' Day';
-        } else {
-          avgPaperProcessTime = this.common.nondecimalFormatter(checkAvgPaperProcessTime);
-          suffixDay = ' Days';
-        }
+        const selfService = providerSystems.SelfServiceInquiries.ALL.SelfService;
+        const checkAvgProcessingTime =
+          +selfService.AveragePaperReconsideredProcessingTime.toFixed(0) -
+          +selfService.AverageReconsideredProcessingTime.toFixed(0);
         oppurtunities.push({
           category: 'mini-tile',
           title: 'Reduce Reconsideration Processing by:',
           MetricID: this.MetricidService.MetricIDs.ReduceReconsiderationProcessingBy,
           toggle:
-            checkAvgPaperProcessTime >= 0 ||
-            this.toggle.setToggles('Reduce Reconsideration Processing by:', 'Opportunities', 'Overview', false),
+            this.toggle.setToggles(
+              'Reduce Reconsideration Processing by:',
+              'Self Service',
+              'Service Interaction',
+              false
+            ) && this.common.checkZeroNegative(checkAvgProcessingTime),
           data: {
-            centerNumber: avgPaperProcessTime + suffixDay,
+            centerNumber:
+              (checkAvgProcessingTime < 1 ? '< 1' : this.common.nondecimalFormatter(checkAvgProcessingTime)) +
+              (checkAvgProcessingTime < 1 ? ' Day' : ' Days'),
             gdata: []
           },
           fdata: {
             type: 'bar chart',
             graphValues: [
-              providerSystems.SelfServiceInquiries.ALL.SelfService.AverageReconsideredProcessingTime.toFixed(0),
-              providerSystems.SelfServiceInquiries.ALL.SelfService.AveragePaperReconsideredProcessingTime.toFixed(0)
+              selfService.AverageReconsideredProcessingTime,
+              selfService.AveragePaperReconsideredProcessingTime
             ],
             concatString: 'Days',
             color: ['#3381FF', '#FFFFFF', '#80B0FF'],
@@ -723,11 +646,11 @@ export class OverviewSharedService {
               centerNumberOriginal: claims.All.ClaimsLobSummary[0].AmountPaid,
               color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'],
               gdata: ['card-inner', 'claimsPaidCardD3Donut'],
-              labels: ['Medicare & Retirement', 'Community & State', 'Employer & Individual', 'Uncategorized'],
+              labels: [lobName.mAndRMedicare, lobName.cAndSMedicaid, lobName.eAndICommerCial, lobName.unCategorized],
               hover: true
             },
             // sdata: claimsTrendObject,
-            timeperiod: 'Last 6 Months'
+            timeperiod: this.common.dateFormat(claims.Startdate) + '&ndash;' + this.common.dateFormat(claims.Enddate)
           };
           // AUTHOR: MADHUKAR - claims paid shows no color if the value is 0
           if (!paidData) {
@@ -749,7 +672,7 @@ export class OverviewSharedService {
                 gdata: ['card-inner', 'claimsPaidCardD3Donut']
               },
               // sdata: claimsTrendObject,
-              timeperiod: 'Last 6 Months'
+              timeperiod: this.common.dateFormat(claims.Startdate) + '&ndash;' + this.common.dateFormat(claims.Enddate)
             };
           }
         } else {
@@ -805,12 +728,13 @@ export class OverviewSharedService {
               gdata: ['card-inner', 'claimsYieldCardD3Donut']
             },
             // sdata: claimsYieldTrendObject,
-            timeperiod: 'Last 6 Months'
+            timeperiod: this.common.dateFormat(claims.Startdate) + '&ndash;' + this.common.dateFormat(claims.Enddate)
           };
         } else {
           claimsYield = {
             category: 'small-card',
             type: 'donut',
+            toggle: this.toggle.setToggles('Claims Yield', 'AtGlance', 'Overview', false),
             title: null,
             data: null,
             sdata: null,
@@ -822,6 +746,7 @@ export class OverviewSharedService {
           category: 'small-card',
           type: 'donut',
           title: null,
+          toggle: this.toggle.setToggles('Claims Yield', 'AtGlance', 'Overview', false),
           data: null,
           sdata: null,
           timeperiod: null
@@ -849,13 +774,13 @@ export class OverviewSharedService {
             data: {
               centerNumber: claims.All.ClaimsLobSummary[0].ClaimsAvgTat + ' days'
             },
-            timeperiod: 'Last 6 Months'
+            timeperiod: this.common.dateFormat(claims.Startdate) + '&ndash;' + this.common.dateFormat(claims.Enddate)
           };
         } else {
           claimsTAT = {
             category: 'small-card',
             type: 'tatRotateArrow',
-            title: null,
+            title: 'Avg. Claims Processing Days',
             data: null,
             sdata: null,
             timeperiod: null
@@ -1227,7 +1152,10 @@ export class OverviewSharedService {
               gdata: ['card-inner', 'priorAuthCardD3Donut']
             },
             sdata: null,
-            timeperiod: 'Last 6 Months'
+            timeperiod:
+              this.common.dateFormatPriorAuth(priorAuth.PriorAuthorizations.ReportingStartDate) +
+              '&ndash;' +
+              this.common.dateFormatPriorAuth(priorAuth.PriorAuthorizations.ReportingEndDate)
           };
           // if (
           //   trends != undefined &&
@@ -1291,6 +1219,10 @@ export class OverviewSharedService {
           calls.CallVolByQuesType.hasOwnProperty('PriorAuth') &&
           calls.CallVolByQuesType.hasOwnProperty('Others')
         ) {
+          const startDate = calls.ReportStartDate;
+          const endDate = calls.ReportEndDate;
+          const timePeriodCalls: String =
+            this.common.dateFormat(startDate) + '&ndash;' + this.common.dateFormat(endDate);
           cIR = {
             category: 'small-card',
             type: 'donut',
@@ -1314,7 +1246,7 @@ export class OverviewSharedService {
               sign: '',
               data: ''
             },
-            timeperiod: 'Last 6 Months'
+            timeperiod: timePeriodCalls
           };
 
           if (

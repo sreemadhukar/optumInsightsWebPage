@@ -7,6 +7,7 @@ import { SessionService } from '../../session.service';
 import { AuthorizationService } from '../../../auth/_service/authorization.service';
 import { GlossaryMetricidService } from '../../glossary-metricid.service';
 import { GettingReimbursedPayload } from '../payload.class';
+import { lobName } from '../../../modals/lob-name';
 
 @Injectable({
   providedIn: GettingReimbursedModule
@@ -85,7 +86,7 @@ export class AppealsSharedService {
                 sum += appealsData[0].LineOfBusiness.MedicareAndRetirement.ClinicalAppeals;
               }
               submittedData.push(sum);
-              labelsData.push('Medicare & Retirement');
+              labelsData.push(lobName.mAndRMedicare);
               colorsData.push('#3381FF');
             }
             if (appealsData[0].LineOfBusiness.hasOwnProperty('CommunityAndState')) {
@@ -103,7 +104,7 @@ export class AppealsSharedService {
                 sum += appealsData[0].LineOfBusiness.CommunityAndState.ClinicalAppeals;
               }
               submittedData.push(sum);
-              labelsData.push('Community & State');
+              labelsData.push(lobName.cAndSMedicaid);
               colorsData.push('#80B0FF');
             }
             if (appealsData[0].LineOfBusiness.hasOwnProperty('EmployerAndIndividual')) {
@@ -121,7 +122,7 @@ export class AppealsSharedService {
                 sum += appealsData[0].LineOfBusiness.EmployerAndIndividual.ClinicalAppeals;
               }
               submittedData.push(sum);
-              labelsData.push('Employer & Individual');
+              labelsData.push(lobName.eAndICommerCial);
               colorsData.push('#003DA1');
             }
 
@@ -140,7 +141,7 @@ export class AppealsSharedService {
                 sum += appealsData[0].LineOfBusiness.Uncategorized.ClinicalAppeals;
               }
               submittedData.push(sum);
-              labelsData.push('Uncategorized');
+              labelsData.push(lobName.unCategorized);
               colorsData.push('#00B8CC');
             }
             appealsSubmitted = {
@@ -164,7 +165,7 @@ export class AppealsSharedService {
                 hover: true
               },
               besideData: {
-                labels: ['Medicare & Retirement', 'Community & State', 'Employer & Individual', 'Uncategorized'],
+                labels: [lobName.mAndRMedicare, lobName.cAndSMedicaid, lobName.eAndICommerCial, lobName.unCategorized],
                 color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC']
               },
               bottomData: {
@@ -185,7 +186,7 @@ export class AppealsSharedService {
               },
               timeperiod:
                 this.common.dateFormat(appealsData[0].StartDate) +
-                ' - ' +
+                '&ndash;' +
                 this.common.dateFormat(appealsData[0].EndDate)
             };
           } else {
@@ -232,7 +233,7 @@ export class AppealsSharedService {
               },
               timeperiod:
                 this.common.dateFormat(appealsData[0].StartDate) +
-                ' - ' +
+                '&ndash;' +
                 this.common.dateFormat(appealsData[0].EndDate)
             };
           } else {
@@ -298,7 +299,7 @@ export class AppealsSharedService {
         this.timeFrame === 'Last 3 Months' ||
         this.timeFrame === 'Last 30 Days' ||
         this.timeFrame === 'Year to Date' ||
-        this.timeFrame === '2017' ||
+        this.timeFrame === '2019' ||
         this.timeFrame === '2018'
       ) {
         this.gettingReimbursedService.claimsAppealsReasonData(...parameters).subscribe(appealsReasonData => {
@@ -313,34 +314,46 @@ export class AppealsSharedService {
               timeperiod: null
             });
           } else if (appealsReasonData !== null) {
-            const reasonsVal1 = [{}];
-            const reasonsVal2 = [{}];
-            const barTitle = [{}];
-            const barVal = [{}];
-            let overturnCountTotal = 0;
-            for (let y = 0; y < appealsReasonData.length; y++) {
-              if (y === 0) {
-                overturnCountTotal = appealsReasonData[y].Count;
-              } else {
-                overturnCountTotal = overturnCountTotal + appealsReasonData[y].Count;
-              }
-            }
-            for (let a = 0; a < appealsReasonData.length; a++) {
-              barTitle[a] = appealsReasonData[a].Reason;
-              reasonsVal1[a] = appealsReasonData[a].Count;
-              reasonsVal2[a] = overturnCountTotal - Number(reasonsVal1[a]);
-              barVal[a] = ((Number(reasonsVal1[a]) / overturnCountTotal) * 100).toFixed() + '%';
-            }
-
-            for (let i = 0; i < appealsReasonData.length; i++) {
+            if (appealsReasonData != null && appealsReasonData.hasOwnProperty('status')) {
               reason.push({
-                type: 'bar chart',
-                graphValues: [reasonsVal1[i], reasonsVal2[i]],
-                barText: barTitle[i],
-                barValue: barVal[i],
-                color: ['#3381FF', '#FFFFFF', '#E0E0E0'],
-                gdata: ['app-card-structure', 'appealsOverturnReason' + i]
+                category: 'app-card',
+                type: 'donut',
+                status: 404,
+                title: 'Top Claims Appeals Overturn Reasons',
+                MetricID: this.MetricidService.MetricIDs.TopClaimAppealsOverturnReasons,
+                data: null,
+                timeperiod: null
               });
+            } else {
+              const reasonsVal1 = [{}];
+              const reasonsVal2 = [{}];
+              const barTitle = [{}];
+              const barVal = [{}];
+              let overturnCountTotal = 0;
+              for (let y = 0; y < appealsReasonData.length; y++) {
+                if (y === 0) {
+                  overturnCountTotal = appealsReasonData[y].Count;
+                } else {
+                  overturnCountTotal = overturnCountTotal + appealsReasonData[y].Count;
+                }
+              }
+              for (let a = 0; a < appealsReasonData.length; a++) {
+                barTitle[a] = appealsReasonData[a].Reason;
+                reasonsVal1[a] = appealsReasonData[a].Count;
+                reasonsVal2[a] = overturnCountTotal - Number(reasonsVal1[a]);
+                barVal[a] = ((Number(reasonsVal1[a]) / overturnCountTotal) * 100).toFixed() + '%';
+              }
+
+              for (let i = 0; i < appealsReasonData.length; i++) {
+                reason.push({
+                  type: 'bar chart',
+                  graphValues: [reasonsVal1[i], reasonsVal2[i]],
+                  barText: barTitle[i],
+                  barValue: barVal[i],
+                  color: ['#3381FF', '#FFFFFF', '#E0E0E0'],
+                  gdata: ['app-card-structure', 'appealsOverturnReason' + i]
+                });
+              }
             }
           }
           const r = reason;
@@ -378,6 +391,7 @@ export class AppealsSharedService {
         this.gettingReimbursedService.claimsAppealsData(...parameters).subscribe(appealsData => {
           const lobFullData = this.common.getFullLobData(this.lob);
           const lobData = this.common.matchLobWithData(this.lob);
+
           if (appealsData && appealsData.hasOwnProperty('status')) {
             appealsOverturnedRate = {
               category: 'app-card',
@@ -451,7 +465,7 @@ export class AppealsSharedService {
                   },
                   timeperiod:
                     this.common.dateFormat(appealsData[0].StartDate) +
-                    ' - ' +
+                    '&ndash;' +
                     this.common.dateFormat(appealsData[0].EndDate)
                 };
               } else {
@@ -563,12 +577,13 @@ export class AppealsSharedService {
               timeperiod: null
             });
           }
-
           const appealsSubmitted = this.createAppealsDonuts(appealsData, lobFullData, appealsFilterSelected)
             .appealsSubmitted;
+
           const appealsOverturned = this.createAppealsDonuts(appealsData, lobFullData, appealsFilterSelected)
             .appealsOverturned;
           AOR = [appealsSubmitted, appealsOverturned, appealsOverturnedRate, reason];
+
           resolve(AOR);
         });
       } else {
@@ -651,7 +666,7 @@ export class AppealsSharedService {
                   },
                   timeperiod:
                     this.common.dateFormat(appealsData[0].StartDate) +
-                    ' - ' +
+                    '&ndash;' +
                     this.common.dateFormat(appealsData[0].EndDate)
                 };
               } else {
@@ -788,14 +803,7 @@ export class AppealsSharedService {
     let appealsSubmitted = {};
     let appealsOverturned = {};
     let appealsSubmittedTitle = 'Claims Appeals Submitted';
-    let appealsSubmittedCenterVal = this.common.nFormatter(
-      appealsData[0].LineOfBusiness[lobFullData].AdminAppeals +
-        appealsData[0].LineOfBusiness[lobFullData].ClinicalAppeals
-    );
-    if (appealsFilterSelected === 'DOC') {
-      appealsSubmittedTitle = 'Claims Appeals Closed';
-      appealsSubmittedCenterVal = this.common.nFormatter(appealsData[0].LineOfBusiness[lobFullData].TotalClosedCount);
-    }
+
     if (appealsData && appealsData.hasOwnProperty('status')) {
       appealsSubmitted = {
         category: 'app-card',
@@ -825,6 +833,17 @@ export class AppealsSharedService {
         appealsData[0].LineOfBusiness[lobFullData].hasOwnProperty('AdminAppeals') &&
         appealsData[0].LineOfBusiness[lobFullData].hasOwnProperty('ClinicalAppeals')
       ) {
+        let appealsSubmittedCenterVal = this.common.nFormatter(
+          appealsData[0].LineOfBusiness[lobFullData].AdminAppeals +
+            appealsData[0].LineOfBusiness[lobFullData].ClinicalAppeals
+        );
+        if (appealsFilterSelected === 'DOC') {
+          appealsSubmittedTitle = 'Claims Appeals Closed';
+          appealsSubmittedCenterVal = this.common.nFormatter(
+            appealsData[0].LineOfBusiness[lobFullData].TotalClosedCount
+          );
+        }
+
         const submittedData = [];
         const labelsData = [];
         const colorsData = [];
@@ -851,7 +870,7 @@ export class AppealsSharedService {
             sum += appealsData[0].LineOfBusiness.MedicareAndRetirement.TotalClosedCount;
           }
           submittedData.push(sum);
-          labelsData.push('Medicare & Retirement');
+          labelsData.push(lobName.mAndRMedicare);
           colorsData.push('#3381FF');
         }
         if (
@@ -876,7 +895,7 @@ export class AppealsSharedService {
             sum += appealsData[0].LineOfBusiness.CommunityAndState.TotalClosedCount;
           }
           submittedData.push(sum);
-          labelsData.push('Community & State');
+          labelsData.push(lobName.cAndSMedicaid);
           colorsData.push('#80B0FF');
         }
         if (
@@ -901,7 +920,7 @@ export class AppealsSharedService {
             sum += appealsData[0].LineOfBusiness.EmployerAndIndividual.TotalClosedCount;
           }
           submittedData.push(sum);
-          labelsData.push('Employer & Individual');
+          labelsData.push(lobName.eAndICommerCial);
           colorsData.push('#003DA1');
         }
         if (
@@ -926,7 +945,7 @@ export class AppealsSharedService {
             sum += appealsData[0].LineOfBusiness.Uncategorized.TotalClosedCount;
           }
           submittedData.push(sum);
-          labelsData.push('Uncategorized');
+          labelsData.push(lobName.unCategorized);
           colorsData.push('#00B8CC');
         }
         if (lobFullData !== 'ALL') {
@@ -1005,7 +1024,9 @@ export class AppealsSharedService {
             ]
           },
           timeperiod:
-            this.common.dateFormat(appealsData[0].StartDate) + ' - ' + this.common.dateFormat(appealsData[0].EndDate)
+            this.common.dateFormat(appealsData[0].StartDate) +
+            '&ndash;' +
+            this.common.dateFormat(appealsData[0].EndDate)
         };
       } else {
         appealsSubmitted = {
@@ -1053,7 +1074,9 @@ export class AppealsSharedService {
             sdata: null
           },
           timeperiod:
-            this.common.dateFormat(appealsData[0].StartDate) + ' - ' + this.common.dateFormat(appealsData[0].EndDate)
+            this.common.dateFormat(appealsData[0].StartDate) +
+            '&ndash;' +
+            this.common.dateFormat(appealsData[0].EndDate)
         };
       } else {
         appealsOverturned = {

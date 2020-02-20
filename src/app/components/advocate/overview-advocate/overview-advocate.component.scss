@@ -181,16 +181,16 @@
         @include padding(16px, 0, 20px, 0);
         line-height: 40px;
         height: 40px;
-        width: 710px;
+        width: auto;
         font-family: 'UHCSans-Regular', Helvetica, Arial, sans-serif;
       }
       .page-subtitle {
         flex-basis: 100%;
         font-size: 28px;
-        line-height: 50px;
-        height: 32px;
-        width: 612px;
-        padding-bottom: 18px;
+        line-height: 35px;
+        // height: 32px;
+        width: auto;
+        // padding-bottom: 18px;
       }
     }
   }
@@ -399,5 +399,19 @@
 
   @media only screen and (max-width: 1024px) {
     @include padding(16px, 0, 16px, 0);
+  }
+
+  .warning-text {
+    font-family: 'UHCSans-Medium';
+  }
+
+  .warning-container {
+    padding: 10px;
+  }
+
+  .warning-icon-class {
+    margin-right: 12px;
+    height: 20px;
+    width: 20px;
   }
 }

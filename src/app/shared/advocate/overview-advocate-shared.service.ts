@@ -20,6 +20,7 @@ export class OverviewAdvocateSharedService {
   public collectivePaData;
   public collectiveOtherData;
   public monthName;
+  public sendData: {};
 
   constructor(
     private MetricidService: GlossaryMetricidService,
@@ -323,14 +324,51 @@ export class OverviewAdvocateSharedService {
 
   public paymentsBySubmission(param) {
     this.timeFrame = this.common.getTimePeriodFilterValue(param.timePeriod);
-    return new Promise(resolve => {
+    return new Promise((resolve, reject) => {
       const parameters = this.getParameterCategories(param);
       this.overviewAdvocateService.paymentsBySubmission(...parameters).subscribe(
         pbsData => {
-          resolve(pbsData);
+          const getData = JSON.parse(JSON.stringify(pbsData[0]));
+          if (getData == null) {
+            //  return reject(null);
+            this.sendData = {
+              category: 'app-card',
+              type: 'donutWithLabel',
+              status: 404,
+              title: 'Payments by Submission',
+              data: null,
+              timeperiod: null
+            };
+          } else {
+            this.sendData = {
+              id: 'paymentSubmission',
+              category: 'app-card',
+              type: 'stackBarChart',
+              title: 'Payments by Submission',
+              data: {
+                graphValues: [
+                  {
+                    name: '',
+                    electronic: getData.EDISubmissions.All.ClaimsLobSummary[0].WriteOffAmount,
+                    paper: getData.PaperSubmissions.All.ClaimsLobSummary[0].WriteOffAmount
+                  }
+                ],
+                color: ['#3381FF', '#00B8CC'],
+                gdata: ['card-inner', 'paymentBySubmission'],
+                sdata: null
+              },
+              status: null,
+              timeperiod:
+                this.common.dateFormat(getData.PaperSubmissions.Startdate) +
+                '&ndash;' +
+                this.common.dateFormat(getData.PaperSubmissions.Enddate)
+            };
+          }
+          resolve(this.sendData);
         },
         err => {
           console.log('Advocate Page , Error for calls card', err);
+          // reject();
         }
       );
     });
