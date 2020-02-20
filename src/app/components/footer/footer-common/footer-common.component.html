@@ -2,7 +2,9 @@
   <div class="footer-container">
     <div class="footer-right-section">
       <p class="copyright-text">&copy; 2019 UnitedHealthcare, All Rights Reserved</p>
-      <p class="privacy-text" z>
+      <p class="privacy-text">
+        <a class="anchor-color" (click)="footerClicked('contact')">Contact Us</a>
+        <span> | </span>
         <a class="anchor-color" (click)="footerClicked('privacy')">Privacy</a>
         <span> | </span>
         <a class="anchor-color" (click)="footerClicked('terms')">Terms of Use</a>

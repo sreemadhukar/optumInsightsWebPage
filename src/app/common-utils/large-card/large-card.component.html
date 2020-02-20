@@ -16,9 +16,26 @@
     </div>
   </div>
 </div>
-<div class="card-structure" *ngIf="!data">
+<div class="card-structure" *ngIf="!data && content">
   <div class="card-inner-large contactus-top-content">
-    WORKING FINE
+    <div class="title-block" *ngIf="content.title || content.text">
+      <p class="content-title" *ngIf="content.title">{{ content.title }}</p>
+      <p class="content-text" *ngIf="content.text">{{ content.text }}</p>
+    </div>
+    <div class="bottom-block">
+      <div class="bottom-left-block">
+        <p class="bottom-title">UHC Contact by State</p>
+        <p class="bottom-content-text">Find your <span class="blue-text">state contact information on UHC.com</span></p>
+      </div>
+      <div class="bottom-right-block">
+        <p class="bottom-title">Technical Questions?</p>
+        <p class="bottom-content-text">
+          UnitedHealthcare Connectivity Help Desk <br />
+          7am-9pm CST, Monday-Friday
+        </p>
+        <p class="bottom-content-text"><span class="blue-text">866-842-3278</span>, option 1</p>
+      </div>
+    </div>
   </div>
 </div>
 

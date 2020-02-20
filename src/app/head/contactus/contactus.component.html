@@ -5,35 +5,46 @@
   <div class="header-div">
     <div class="header">UHC Insights Contact Us / Support</div>
   </div>
-  <app-large-card></app-large-card>
+  <app-large-card [content]="content"></app-large-card>
+  <div class="questions-block">
+    <div class="questions-block-content">
+      <p class="questions-block-header">Frequently Asked Questions</p>
 
-  <div class="top-reasons-for-claims-non-payment-block">
-    <h3>Frequently Asked Questions</h3>
-    <div class="bar-graphs-block">
-      <div
-        class="bar-graphs"
-        *ngFor="let barchart of barChartsArray; let i = index"
-        [class.extra-margin-bottom-40]="i + 1 == barChartsArray.length && !section[i]"
-      >
-        <div
-          [class.extra-margin-top-31]="i != 0"
-          [class.extra-margin-bottom-16]="section[i]"
-          class="bar-graphs-content"
-          (click)="section[i] = !section[i]; reasonsCollapose(i)"
-        >
-          <div class="bar-graph-inside-content">
-            {{ barchart.question }}
+      <!--CCCCCCCCCCCCCCCCCCCCC-->
+
+      <div class="bar-graphs-block">
+        <div class="bar-graphs" *ngFor="let barchart of barChartsArray; let i = index">
+          <div
+            [class.extra-margin-top-31]="i != 0"
+            class="bar-graphs-content"
+            (click)="section[i] = !section[i]; reasonsCollapose(i)"
+          >
+            <mat-icon
+              class="bar-graph-block-icon"
+              svgIcon="carrot"
+              [@rotatedState]="section[i] ? 'rotated' : 'default'"
+            ></mat-icon>
+            <p class="bar-graph-title">{{ barchart.question }}</p>
           </div>
-        </div>
-        <div class="inner-block" *ngIf="section[i]">
-          <div class="inner-block-bdr">
-            <div class="bottom-shadow">
-              <div class="hide-bottom-arrow-block"></div>
+          <div
+            class="inner-block"
+            *ngIf="section[i]"
+            [class.extra-margin-bottom-minus-5]="i + 1 == barChartsArray.length"
+          >
+            <div class="inner-block-bdr">
+              <div class="bottom-shadow">
+                <div class="hide-bottom-arrow-block"></div>
+              </div>
+              <div class="top-5-block">
+                <div class="inside-bar-graph-content">
+                  {{ barchart.answer }}
+                </div>
+              </div>
             </div>
-            {{ barchart.answer }}
           </div>
         </div>
       </div>
+      <!--DDDDDDDDDDDDDDDDDDDDDD-->
     </div>
   </div>
 </div>
