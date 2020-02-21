@@ -11,7 +11,7 @@ export class LargeCardKopComponent implements OnInit {
   @Input() data;
   @Input() title;
   @Input() timePeriod;
-  @Input() footerLinkTitle: string = 'View Data';
+  @Input() footerLinkTitle = 'View Data';
   @Input() skeletonLarge;
   @Input() noHeaderClick;
   showMetricProgressIcon = false;
