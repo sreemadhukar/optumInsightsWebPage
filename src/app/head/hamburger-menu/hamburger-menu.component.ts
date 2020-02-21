@@ -140,6 +140,17 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
       name: 'Summary Trends',
       path: '/AdminSummaryTrends',
       disabled: true
+    },
+    {
+      icon: 'performance',
+      name: 'Performance',
+      children: [
+        { name: 'Summary', path: '/Performance' },
+        { name: 'Referrals', path: '/Performance/Referrals' },
+        { name: 'Labs', path: '/Performance/Labs' },
+        { name: 'Prescriptions', path: '/Performance/Prescriptions' }
+      ],
+      disabled: false
     }
   ];
   fillerNav = Array.from({ length: 50 }, (_, i) => `Nav Item ${i + 1}`);
@@ -330,6 +341,11 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
       'person',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Content/round-person-24px.svg')
     );
+    iconRegistry.addSvgIcon(
+      'performance',
+      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/performance-icon.svg')
+    );
+
     router.events.subscribe(event => {
       if (event instanceof NavigationStart) {
         this.printStyle = event.url.includes('print-');
@@ -716,6 +732,17 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
         }
       } else if (path === '/ServiceInteraction/SelfService' || path === '/ServiceInteraction/Calls') {
         if (element.id === 'cdk-accordion-child-2') {
+          element.open();
+        } else {
+          element.close();
+        }
+      } else if (
+        path === '/Performance' ||
+        path === '/Performance/Referrals' ||
+        path === '/Performance/Labs' ||
+        path === '/Performance/Prescriptions'
+      ) {
+        if (element.id === 'cdk-accordion-child-3') {
           element.open();
         } else {
           element.close();

@@ -109,6 +109,15 @@ const routes: Routes = [
     }
   },
   {
+    path: 'Performance',
+    loadChildren: '../components/performance/performance.module#PerformanceModule',
+    canActivate: [AuthGuard],
+    data: {
+      preload: false,
+      delay: false
+    }
+  },
+  {
     path: 'AdminSummaryTrends',
     loadChildren: '../components/summary-trends/summary-trends.module#SummaryTrendsModule',
     canActivate: [AuthGuard],
