@@ -236,7 +236,7 @@ export class LineGraphComponent implements OnInit {
       var tooltipVar = d3
         .select(this.renderChart)
         .append('div')
-        .classed('tooltipBlockClass', true)
+        // .classed('tooltipBlockClass', true)
         .classed('tooltipClass', false)
         .classed('tooltipClassLeft', false)
         .classed('hidden', true);
