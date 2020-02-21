@@ -6,6 +6,7 @@ import { NgRedux } from '@angular-redux/store';
 import { CURRENT_PAGE } from '../../../store/filter/actions';
 import { IAppState } from '../../../store/store';
 import { ActivatedRoute } from '@angular/router';
+import { SessionService } from 'src/app/shared/session.service';
 
 @Component({
   selector: 'app-patient-care-opportunity',
@@ -19,6 +20,7 @@ export class PatientCareOpportunityComponent implements OnInit {
   qualityMeasureData: any;
   pageTitle: String = '';
   pageSubTitle: String = '';
+  pageMainTitle: String = '';
   loading: boolean;
   pcorBoolean: boolean;
   pcorLoading: boolean;
@@ -44,7 +46,8 @@ export class PatientCareOpportunityComponent implements OnInit {
     private route: ActivatedRoute,
     private pcorService: PcorSharedService,
     private filtermatch: CommonUtilsService,
-    private ngRedux: NgRedux<IAppState>
+    private ngRedux: NgRedux<IAppState>,
+    private sessionService: SessionService
   ) {
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.filtermatch.urlResuseStrategy());
   }
@@ -133,6 +136,7 @@ export class PatientCareOpportunityComponent implements OnInit {
       this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'pcorPage' });
       this.pageTitle = 'Patient Care Opportunity–Medicare';
       this.pageSubTitle = 'Health System Summary';
+      this.pageMainTitle = this.sessionService.getHealthCareOrgName();
       this.loading = true;
       this.hideAllObjects = true;
       this.mockCards = [{}, {}];
