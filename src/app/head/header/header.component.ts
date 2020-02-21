@@ -201,6 +201,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
       this.myView = false;
       this.router.navigate(['/OverviewPage']);
     }
+    this.openDropdownBool = false;
   }
 
   @HostListener('document:click', ['$event.target'])

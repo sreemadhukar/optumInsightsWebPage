@@ -36,7 +36,6 @@
           </div>
         </button>
       </div>
-
       <div
         class="horizontal-align"
         *ngIf="
@@ -45,7 +44,8 @@
           tabName == 'gettingReimbursedPayments' ||
           tabName == 'gettingReimbursedNonPayments' ||
           selectedPage == 'nonPaymentsPage' ||
-          selectedPage == 'viewTopClaimsPage'
+          selectedPage == 'viewTopClaimsPage' ||
+          selectedPage == 'overviewAdvocatePage'
         "
       >
         <button class="btn btn-rounded" disabled>
@@ -61,7 +61,8 @@
             tabName == 'gettingReimbursedSummary' ||
             tabName == 'gettingReimbursedPayments' ||
             tabName == 'gettingReimbursedNonPayments' ||
-            selectedPage == 'nonPaymentsPage') &&
+            selectedPage == 'nonPaymentsPage' ||
+            selectedPage == 'overviewAdvocatePage') &&
           selectedClaims.value !== 'All' &&
           !flag
         "

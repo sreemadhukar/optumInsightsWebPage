@@ -29,37 +29,22 @@ export class KOPSharedService {
         }
 
         const timePeriod = {
-          title: 'Quarter over Quarter',
+          title: 'Quarter over Quarter,',
           timeFrame: {
             quarters: ['4', '4'],
+            type: 'summary',
             format: 'Quarter vs Quarter',
-            years: ['2019', '2018']
-          },
-          quarters: [
-            {
-              year: '2019',
-              index: 0,
-              format: 'default',
-              color: 'color1',
-              quarter: '4'
-            },
-            {
-              year: '2018',
-              index: 1,
-              format: 'default',
-              color: 'color2',
-              quarter: '4'
-            }
-          ]
+            years: ['2020', '2019', '2018']
+          }
         };
 
-        const npsDetailInstance = new NPSDetail({ records: response, small: false });
+        const npsDetailInstance = new NPSDetail({ records: response, small: false, id: 'npsCombined' });
         const npsData = npsDetailInstance.getData();
 
-        const npsDetailInstancePM = new NPSDetail({ records: response, small: true });
+        const npsDetailInstancePM = new NPSDetail({ records: response, small: true, id: 'npsPM' });
         const npsDataPM = npsDetailInstancePM.getData();
 
-        const npsDetailInstanceMD = new NPSDetail({ records: response, small: true });
+        const npsDetailInstanceMD = new NPSDetail({ records: response, small: true, id: 'npsMd' });
         const npsDataMD = npsDetailInstanceMD.getData();
 
         return resolve({

@@ -151,8 +151,8 @@ export class CreatePayloadService {
     ) {
       if (
         temporaryState.timePeriod === 'Last12Months' ||
-        temporaryState.timePeriod === '2018' ||
-        temporaryState.timePeriod === '2017'
+        temporaryState.timePeriod === '2019' ||
+        temporaryState.timePeriod === '2018'
       ) {
         temporaryState.timePeriod = 'Last6Months';
       }
