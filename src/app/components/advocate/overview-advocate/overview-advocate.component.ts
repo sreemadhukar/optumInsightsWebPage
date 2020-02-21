@@ -382,7 +382,8 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
         barColor: '#196ECF',
         parentDiv: 'non-payment-trend-block',
         tooltipBoolean: true,
-        hideYAxis: false
+        hideYAxis: false,
+        yAxisUnits: '$'
       }
     ];
 
