@@ -5,7 +5,7 @@ import { NonPaymentSharedService } from './../../../../shared/getting-reimbursed
 import { CreatePayloadService } from './../../../../shared/uhci-filters/create-payload.service';
 
 import { SessionService } from './../../../../shared/session.service';
-import { Component, OnInit, AfterViewInit, ViewChild, Input, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild, Input, ChangeDetectorRef, ElementRef } from '@angular/core';
 
 import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -28,7 +28,6 @@ import { FormControl } from '@angular/forms';
 export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
   hideAllObjects: boolean;
 
-  selectedclaims: any;
   numberOfClaims: any;
   tinsDisplayedColumns: string[] = [
     'TinNumber',
@@ -38,17 +37,19 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
     'DateOfProcessing',
     'ClaimNumber'
   ];
+
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
+
   pageSize = 25;
-  filterObj = {};
+
   subscription: any;
   ProviderSysKey: any;
   viewClaimsValue: any;
   providerName: string;
+
   isLoading = true;
-  dataNOtavaiable: Boolean = true;
-  viewsClaimsFullData: any;
+  lengthOffilteredData: any;
   tinsData: any;
   public topreasons: string;
   public fullData: any;
@@ -61,19 +62,19 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
   showTableBool: Boolean = true;
   viewClaimsFilterDOP: boolean;
   viewClaimsFilterDOS: boolean;
+  dollarData: boolean;
   loading: boolean;
   public finaldata: any[] = [];
   public temp;
   public subreasonvalues = [];
-  students: Array<Object> = [];
-  programs: Array<Object>;
+
   selectedReasonItem: any;
-  public categoryGroups;
+  tableData: object;
   public subReasonselected: any;
   public subReason: any;
   public selectedSubreasonArray: any;
   public selectedSubreason: any;
-
+  public selectedclaims: any;
   tinNumberFilter = new FormControl('');
   provideNameFilter = new FormControl('');
   claimNumberFilter = new FormControl('');
@@ -141,7 +142,6 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
-    this.dataNOtavaiable = false;
     this.temp = this.reasonReceived.sendData;
     this.fullData = this.temp.fullData;
     // claims reason and sub reason Dropwdown
@@ -151,9 +151,10 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
       .filter(item => item.mainReason === this.selectedReasonItem)
       .map(item => item.subReason)[0];
     this.subReason = this.selectedSubreasonArray;
+
     // pagination
     this.paginator._intl.itemsPerPageLabel = 'Display';
-
+    this.dollarData = false;
     this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'viewTopClaimsPage' });
     // VieCaliamFilter
     this.viewClaimsByFilter = this.createPayloadService.initialState['viewClaimsByFilter'];
@@ -165,18 +166,14 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
     }
     // load table data
     if (this.claimsData !== null) {
-      this.dataNOtavaiable = true;
       this.loadTable(this.temp.reasonSelected, this.temp.subReason);
       if (this.numberOfClaims > 24) {
         this.customPaginator();
       } else {
         this.selectedclaims.paginator = null;
       }
-    } else {
-      this.dataNOtavaiable = false;
     }
   }
-
   ngAfterViewInit() {
     if (this.claimsData !== null) {
       // sorting
@@ -230,6 +227,7 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
         .lower()
         .attr('id', 'page-text');
     }
+
     this.tinNumberFilter.valueChanges.subscribe(tinNumberValue => {
       this.filterValues['TinNumber'] = tinNumberValue;
       this.selectedclaims.filter = JSON.stringify(this.filterValues);
@@ -245,9 +243,13 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
 
     this.selectedclaims.filterPredicate = this.customFilterPredicate();
   }
+  getPageSize(event) {
+    this.pageSize = event.pageSize;
+  }
   // Reason selection from dropdown
   selectTopReason(value) {
     this.isLoading = true;
+    this.dollarData = false;
     this.selectedSubreasonArray = this.fullData
       .filter(item => item.mainReason === value)
       .map(item => item.subReason)[0];
@@ -264,6 +266,7 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
   selectsubReason(filterVal) {
     if (filterVal) {
       this.isLoading = true;
+      this.dollarData = false;
       this.subReasonselected = filterVal;
 
       this.loadTable(this.selectedReasonItem, this.subReasonselected);
@@ -285,15 +288,29 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
     this.topClaimsSharedService
       .getClaimsData(this.createPayloadService.initialState, reasonSelected, subReason)
       .then(claimsDetailsData => {
-        this.isLoading = true;
-        this.selectedclaims = [];
+        this.isLoading = false;
+        this.dollarData = true;
         this.claimsData = JSON.parse(JSON.stringify(claimsDetailsData));
+        console.log('claimsd empty ', this.claimsData);
         this.selectedclaims.sort = this.sort;
 
         if (this.claimsData && this.claimsData.length > 0) {
           this.numberOfClaims = this.claimsData.length;
+
           this.selectedclaims = new MatTableDataSource(this.claimsData);
+          // this.lengthOffilteredData =this.selectedclaims.filteredData.length;
+          this.selectedclaims.sort = this.sort;
+          // console.log('length claims' ,  this.lengthOffilteredData);
+
           this.selectedclaims.filterPredicate = this.customFilterPredicate();
+        } else {
+          console.log('else ');
+          this.tableData = {
+            category: 'large-card',
+            type: 'donutWithoutLabelBottom',
+            status: 404,
+            data: null
+          };
         }
       })
       .catch(error => {
@@ -319,10 +336,6 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
     };
     return filterFunction;
   }
-  getPageSize(event) {
-    this.pageSize = event.pageSize;
-  }
-
   customPaginator() {
     this.selectedclaims.paginator = this.paginator;
     this.paginator._intl.itemsPerPageLabel = 'Display';
@@ -370,6 +383,7 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
       .lower()
       .attr('id', 'page-text');
   }
+
   toLowerCase(string) {
     const splitStr = string.toLowerCase().split(' ');
     for (let i = 0; i < splitStr.length; i++) {

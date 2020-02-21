@@ -31,7 +31,6 @@
               {{ maintopreasons.mainReason }}
             </option>
           </select>
-          <mat-icon matPrefix class="tax-summary-arrow-icon" svgIcon="arrow"></mat-icon>
         </div>
       </div>
       <div class="sub-reason-div">
@@ -52,14 +51,18 @@
     </div>
 
     <div class="tax-summary-content" [hidden]="isLoading">
-      <div class="tax-summary-head">
+      <div
+        class="tax-summary-head"
+        [ngStyle]="{ display: selectedclaims.filteredData.length > 0 ? 'contents' : 'none' }"
+      >
         <span class="tax-summary-count">
           Showing {{ selectedclaims.filteredData.length > 24 ? pageSize : selectedclaims.filteredData.length }} of
           {{ numberOfClaims }}
         </span>
       </div>
+      lity added
       <div class="tax-summary-body">
-        <div class="tax-summary-table-block ">
+        <div class="tax-summary-table-block">
           <table
             mat-table
             [dataSource]="selectedclaims"
@@ -101,7 +104,8 @@
                 <span mat-sort-header> Non-Payment Amount</span>
               </th>
               <td mat-cell class="tax-summary-table-cell" *matCellDef="let element">
-                <span> $</span>{{ convertIntoNumber(element.NonPaymentAmount) }}
+                <div *ngIf="dollarData" class="dollar-text">$</div>
+                {{ convertIntoNumber(element.NonPaymentAmount) }}
               </td>
             </ng-container>
             <ng-container matColumnDef="BilledAmount">
@@ -110,7 +114,8 @@
               </th>
 
               <td mat-cell class="tax-summary-table-cell" *matCellDef="let element">
-                ${{ convertIntoNumber(element.BilledAmount) }}
+                <div *ngIf="dollarData" class="dollar-text">$</div>
+                {{ convertIntoNumber(element.BilledAmount) }}
               </td>
             </ng-container>
             <ng-container matColumnDef="DateOfProcessing">
@@ -133,11 +138,17 @@
                 {{ element.ClaimNumber }}
               </td>
             </ng-container>
-            <tr mat-header-row *matHeaderRowDef="tinsDisplayedColumns"></tr>
+
+            <tr
+              mat-header-row
+              [ngStyle]="{ display: selectedclaims.filteredData.length > 0 ? 'contents' : 'none' }"
+              *matHeaderRowDef="tinsDisplayedColumns"
+            ></tr>
             <tr mat-row class="tax-summary-rows" *matRowDef="let row; columns: tinsDisplayedColumns"></tr>
           </table>
 
           <mat-paginator
+            #paginator
             class="tax-summary-paginator"
             [pageSizeOptions]="[25, 50, 100]"
             (page)="getPageSize($event)"
@@ -147,6 +158,8 @@
         </div>
       </div>
     </div>
+
+    <app-error-card *ngIf="tableData != null" class="cards" [data]="tableData"></app-error-card>
 
     <!-- tin-list-body-->
   </div>
