@@ -141,7 +141,7 @@
     </div>
     <div class="full-width-block" *ngIf="timePeriod">
       <app-common-footer
-        [linkName]="'View Data'"
+        [linkName]="footerLinkTitle"
         [timePeriod]="timePeriod.title.concat(' ').concat(timePeriod.timeFrame | timeperiod)"
       ></app-common-footer>
     </div>
