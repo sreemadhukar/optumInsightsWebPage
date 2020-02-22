@@ -28,7 +28,6 @@ import { FormControl } from '@angular/forms';
 export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
   hideAllObjects: boolean;
 
-  selectedclaims: any;
   numberOfClaims: any;
   tinsDisplayedColumns: string[] = [
     'TinNumber',
@@ -41,14 +40,12 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   pageSize = 25;
-  filterObj = {};
   subscription: any;
   ProviderSysKey: any;
   viewClaimsValue: any;
   providerName: string;
   isLoading = true;
-  dataNOtavaiable: Boolean = true;
-  viewsClaimsFullData: any;
+  lengthOffilteredData: any;
   tinsData: any;
   public topreasons: string;
   public fullData: any;
@@ -61,19 +58,19 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
   showTableBool: Boolean = true;
   viewClaimsFilterDOP: boolean;
   viewClaimsFilterDOS: boolean;
+  dataNotAvailable: boolean;
+  dollarData: boolean;
   loading: boolean;
   public finaldata: any[] = [];
   public temp;
   public subreasonvalues = [];
-  students: Array<Object> = [];
-  programs: Array<Object>;
   selectedReasonItem: any;
-  public categoryGroups;
+  tableData: object;
   public subReasonselected: any;
   public subReason: any;
   public selectedSubreasonArray: any;
   public selectedSubreason: any;
-
+  public selectedclaims: any;
   tinNumberFilter = new FormControl('');
   provideNameFilter = new FormControl('');
   claimNumberFilter = new FormControl('');
@@ -139,41 +136,38 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-keyboard_arrow_down-24px.svg')
     );
   }
-
   ngOnInit() {
-    this.dataNOtavaiable = false;
+    this.dataNotAvailable = false;
+    this.isLoading = true;
     this.temp = this.reasonReceived.sendData;
     this.fullData = this.temp.fullData;
     // claims reason and sub reason Dropwdown
     this.selectedReasonItem = this.temp.reasonSelected;
     this.selectedSubreason = this.temp.subReason;
-
+    this.selectedSubreasonArray = this.fullData
+      .filter(item => item.mainReason === this.selectedReasonItem)
+      .map(item => item.subReason)[0];
+    this.subReason = this.selectedSubreasonArray;
     // pagination
     this.paginator._intl.itemsPerPageLabel = 'Display';
-
+    this.dollarData = false;
     this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'viewTopClaimsPage' });
     // VieCaliamFilter
     this.viewClaimsByFilter = this.createPayloadService.initialState['viewClaimsByFilter'];
-
     if (this.viewClaimsByFilter === 'DOS') {
       this.viewClaimsValue = 'Date of Service';
     } else if (this.viewClaimsByFilter === 'DOP') {
       this.viewClaimsValue = 'Date of Processing';
     }
+    this.selectedclaims = new MatTableDataSource(this.claimsData);
+    this.selectedclaims.paginator = this.paginator;
+    this.selectedclaims.sort = this.sort;
+
     // load table data
     if (this.claimsData !== null) {
-      this.dataNOtavaiable = true;
       this.loadTable(this.temp.reasonSelected, this.temp.subReason);
-      if (this.numberOfClaims > 24) {
-        this.customPaginator();
-      } else {
-        this.selectedclaims.paginator = null;
-      }
-    } else {
-      this.dataNOtavaiable = false;
     }
   }
-
   ngAfterViewInit() {
     if (this.claimsData !== null) {
       // sorting
@@ -242,7 +236,29 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
 
     this.selectedclaims.filterPredicate = this.customFilterPredicate();
   }
-
+  // Reason selection from dropdown
+  selectTopReason(value) {
+    this.isLoading = true;
+    this.dollarData = false;
+    this.dataNotAvailable = true;
+    this.selectedSubreasonArray = this.fullData
+      .filter(item => item.mainReason === value)
+      .map(item => item.subReason)[0];
+    this.subReason = this.selectedSubreasonArray;
+    this.selectedReasonItem = value;
+    this.selectedSubreason = this.selectedSubreasonArray[0];
+    this.loadTable(this.selectedReasonItem, this.selectedSubreason);
+  }
+  // sub reasons selection from dropdown
+  selectsubReason(filterVal) {
+    if (filterVal) {
+      this.isLoading = true;
+      this.dollarData = false;
+      this.subReasonselected = filterVal;
+      this.loadTable(this.selectedReasonItem, this.subReasonselected);
+      this.dataNotAvailable = false;
+    }
+  }
   goback() {
     this.currentPage.subscribe(currentPage => (this.previousPage = currentPage));
     for (let i = 0; i < this.previousPageurl.length; i++) {
@@ -252,29 +268,52 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
     }
     this.router.navigate([this.previousPageurl[3].urlRout]);
   }
-
   // load table data
   loadTable(reasonSelected, subReason) {
     this.topClaimsSharedService
       .getClaimsData(this.createPayloadService.initialState, reasonSelected, subReason)
       .then(claimsDetailsData => {
-        this.selectedclaims = [];
+        this.isLoading = false;
+        this.dollarData = true;
+        this.dataNotAvailable = true;
         this.claimsData = JSON.parse(JSON.stringify(claimsDetailsData));
-
+        console.log('claimsd empty ', this.claimsData);
         if (this.claimsData && this.claimsData.length > 0) {
           this.numberOfClaims = this.claimsData.length;
           this.selectedclaims = new MatTableDataSource(this.claimsData);
+          this.lengthOffilteredData = this.selectedclaims.filteredData.length;
+          this.selectedclaims.sort = this.sort;
+          console.log('length claims', this.lengthOffilteredData);
           this.selectedclaims.filterPredicate = this.customFilterPredicate();
+        } else {
+          this.dataNotAvailable = true;
+          this.dollarData = false;
+          this.tableData = {
+            category: 'large-card',
+            type: 'donutWithoutLabelBottom',
+            status: 404,
+            data: null
+          };
         }
       })
       .catch(error => {
         console.log('Dat is not available', error);
       });
   }
+
+  titleCase(string) {
+    const splitStr = string.toLowerCase().split(' ');
+    for (let i = 0; i < splitStr.length; i++) {
+      // You do not need to check if i is larger than splitStr length, as your for does that for you
+      // Assign it back to the array
+      splitStr[i] = splitStr[i].charAt(0).toUpperCase() + splitStr[i].substring(1);
+    }
+    // Directly return the joined string
+    return splitStr.join(' ');
+  }
   customFilterPredicate(): (data: any, filter: string) => boolean {
     const filterFunction = function(data: any, filterValuedata: string): boolean {
       const searchTerms = JSON.parse(filterValuedata);
-
       return (
         data.TinNumber.trim()
           .toLowerCase()
@@ -293,7 +332,6 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
   getPageSize(event) {
     this.pageSize = event.pageSize;
   }
-
   customPaginator() {
     this.selectedclaims.paginator = this.paginator;
     this.paginator._intl.itemsPerPageLabel = 'Display';
@@ -341,35 +379,7 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
       .lower()
       .attr('id', 'page-text');
   }
-  toLowerCase(string) {
-    const splitStr = string.toLowerCase().split(' ');
-    for (let i = 0; i < splitStr.length; i++) {
-      // You do not need to check if i is larger than splitStr length, as your for does that for you
-      // Assign it back to the array
-      splitStr[i] = splitStr[i].charAt(0).toUpperCase() + splitStr[i].substring(1);
-    }
-    // Directly return the joined string
-    return splitStr.join(' ');
-  }
   capitalize(s) {
     return s[0].toUpperCase();
-  }
-
-  // Convert String to number with two decimals
-  convertIntoNumber(str) {
-    const strvalue = str;
-    // const res = strvalue.replace(/[$,]/g, '');
-    // const val = parseFloat(res).toFixed(2);
-
-    // parseFloat(res).toFixed(2).replace(/\.?0*$/,'');;
-    const val = parseFloat(strvalue).toFixed(2);
-    return val;
-  }
-
-  // add dash to Tins functions
-  addDash(character) {
-    const tinValue = character.replace(/\D/g, ''); // Remove non-numerics
-    const finalTinValue = tinValue.substring(0, 2) + '-' + tinValue.substring(4, character.length); // Add dashes every 2th digit
-    return finalTinValue;
   }
 }
