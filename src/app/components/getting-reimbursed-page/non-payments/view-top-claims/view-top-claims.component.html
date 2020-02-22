@@ -51,16 +51,13 @@
     </div>
 
     <div class="tax-summary-content" [hidden]="isLoading">
-      <div
-        class="tax-summary-head"
-        [ngStyle]="{ display: selectedclaims.filteredData.length > 0 ? 'contents' : 'none' }"
-      >
+      <div class="tax-summary-head" [ngStyle]="{ display: lengthOffilteredData > 0 ? 'contents' : 'none' }">
         <span class="tax-summary-count">
-          Showing {{ selectedclaims.filteredData.length > 24 ? pageSize : selectedclaims.filteredData.length }} of
+          Showing {{ lengthOffilteredData > 24 ? pageSize : lengthOffilteredData }} of
           {{ numberOfClaims }}
         </span>
       </div>
-      lity added
+
       <div class="tax-summary-body">
         <div class="tax-summary-table-block">
           <table
@@ -79,7 +76,7 @@
                 </div>
               </th>
               <td mat-cell class="tin-name-input" *matCellDef="let element">
-                <div class="provider-column">{{ toLowerCase(element.TinName) }}</div>
+                <div class="provider-column">{{ element.TinName }}</div>
                 <div class="tin-name-font">{{ element.TinNumber }}</div>
               </td>
             </ng-container>
@@ -96,7 +93,7 @@
                 </div>
               </th>
               <td mat-cell class="tax-summary-table-cell" *matCellDef="let element">
-                <div class="provider-column">{{ toLowerCase(element.ProviderName) }}</div>
+                <div class="provider-column">{{ element.ProviderName }}</div>
               </td>
             </ng-container>
             <ng-container matColumnDef="NonPaymentAmount">
@@ -105,7 +102,7 @@
               </th>
               <td mat-cell class="tax-summary-table-cell" *matCellDef="let element">
                 <div *ngIf="dollarData" class="dollar-text">$</div>
-                {{ convertIntoNumber(element.NonPaymentAmount) }}
+                {{ element.NonPaymentAmount }}
               </td>
             </ng-container>
             <ng-container matColumnDef="BilledAmount">
@@ -115,7 +112,7 @@
 
               <td mat-cell class="tax-summary-table-cell" *matCellDef="let element">
                 <div *ngIf="dollarData" class="dollar-text">$</div>
-                {{ convertIntoNumber(element.BilledAmount) }}
+                {{ element.BilledAmount }}
               </td>
             </ng-container>
             <ng-container matColumnDef="DateOfProcessing">
@@ -141,14 +138,13 @@
 
             <tr
               mat-header-row
-              [ngStyle]="{ display: selectedclaims.filteredData.length > 0 ? 'contents' : 'none' }"
+              [ngStyle]="{ display: lengthOffilteredData > 0 ? 'contents' : 'none' }"
               *matHeaderRowDef="tinsDisplayedColumns"
             ></tr>
             <tr mat-row class="tax-summary-rows" *matRowDef="let row; columns: tinsDisplayedColumns"></tr>
           </table>
 
           <mat-paginator
-            #paginator
             class="tax-summary-paginator"
             [pageSizeOptions]="[25, 50, 100]"
             (page)="getPageSize($event)"
@@ -159,7 +155,7 @@
       </div>
     </div>
 
-    <app-error-card *ngIf="tableData != null" class="cards" [data]="tableData"></app-error-card>
+    <app-error-card *ngIf="dataNotAvailable && tableData != null" class="cards" [data]="tableData"></app-error-card>
 
     <!-- tin-list-body-->
   </div>

@@ -11,6 +11,7 @@ import { GettingReimbursedPayload } from '../payload.class';
 import * as _ from 'lodash';
 import { environment } from '../../../../environments/environment';
 import { NonPaymentTopClaimsService } from './../../../rest/getting-reimbursed/non-payment-top-claims.service';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -18,6 +19,7 @@ export class TopClaimsSharedService {
   clickSubReason: any;
   public filterParameters: any;
   public providerKey: number;
+  public specificTin: any;
 
   constructor(
     private nonPaymentTopClaimsService: NonPaymentTopClaimsService,
@@ -28,45 +30,19 @@ export class TopClaimsSharedService {
   public getClaimsData(filterParameters, reasonSelected, subReason) {
     this.providerKey = this.session.providerKeyData();
 
-    const TIN = filterParameters.taxId[0].Tin;
-
-    const timePeriod = filterParameters.timePeriod;
-
+    const timePeriod = this.getParameterviewTopsClaims(filterParameters)[0].TimeFilter;
     const viewClaimsByFilter = filterParameters.viewClaimsByFilter;
 
-    let specificTin;
-    //  if (TIN === 'All') {
-    //   alert(specificTin);
-    //    specificTin = null;
-    //  } else {
-
-    //    if (filterParameters.taxId.length === 1) {
-    //     alert('tin1');
-    //      specificTin = filterParameters.taxId;
-    //    } else {
-    //     alert('tin2');
-    //      const taxArray = filterParameters.taxId;
-
-    //      specificTin = taxArray;
-    //        }
-    //  }
-    if (TIN === 'All') {
-      specificTin = null;
-    } else {
-      if (filterParameters.taxId.length === 1) {
-        specificTin = parseInt(TIN.replace(/\D/g, ''), 10).toString();
-      } else {
-        const taxArray = filterParameters.taxId;
-        const taxArrayFormatted = [];
-        for (let i = 0; i < taxArray.length; i++) {
-          taxArrayFormatted.push(parseInt(taxArray[i].replace(/\D/g, ''), 10));
-        }
-        specificTin = taxArrayFormatted.join(', ');
-      }
-    }
     // DOS and DOP
     const viewClaimTypeValue = viewClaimsByFilter;
 
+    let specificTin = this.getParameterviewTopsClaims(filterParameters)[0]
+      .Tin.map(item => item.Tin.replace(/-/g, ''))
+      .toString();
+
+    if (specificTin === 'All') {
+      specificTin = null;
+    }
     const requestBody = {
       tins: specificTin,
       timeFilter: timePeriod,
@@ -86,4 +62,10 @@ export class TopClaimsSharedService {
       });
     });
   }
+  getParameterviewTopsClaims(param) {
+    let parameters = [];
+    this.providerKey = this.session.providerKeyData();
+    parameters = [new GettingReimbursedPayload(param)];
+    return parameters;
+  } // end getParameterCategories() function for Top Reasons Categories
 }
