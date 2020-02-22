@@ -11,7 +11,7 @@ import * as d3 from 'd3';
     '(window:resize)': 'onResize($event)'
   }
 })
-export class StackedBarChartComponent implements OnInit {
+export class StackedBarChartComponent implements OnInit, AfterViewInit {
   public width: any;
   public height: any;
   public renderChart: string;
@@ -21,7 +21,6 @@ export class StackedBarChartComponent implements OnInit {
     this.renderChart = '#' + this.chartOptions.chartId;
   }
 
-  // tslint:disable-next-line:use-life-cycle-interface
   ngAfterViewInit() {
     this.doStaggedBarGraph(this.chartOptions);
   }
@@ -30,14 +29,7 @@ export class StackedBarChartComponent implements OnInit {
     this.doStaggedBarGraph(this.chartOptions);
   }
 
-  onSystemChange() {
-    this.doStaggedBarGraph(this.chartOptions.data);
-  }
-
-  // tslint:disable-next-line:use-life-cycle-interface
-
   doStaggedBarGraph(barData) {
-    console.log('barData', barData);
     function nondecimalFormatter(fnumber) {
       if (fnumber >= 1000000000) {
         return (fnumber / 1000000000).toFixed(1).replace(/\.0$/, '') + 'B';
@@ -105,7 +97,6 @@ export class StackedBarChartComponent implements OnInit {
     const yAxisGroup = graph.append('g');
     const leftContainer = svg.append('g').attr('transform', `translate(${margin.left - 180}, ${margin.top + 85})`);
 
-    console.log('this.chartOptions.chartId', barData);
     const data = barData.graphValues;
 
     // Data Binding to be used
@@ -117,7 +108,6 @@ export class StackedBarChartComponent implements OnInit {
       }
     ];*/
 
-    console.log('left Cont', leftContainer);
     leftContainer
       .append('circle')
       .attr('cx', () => 10)
