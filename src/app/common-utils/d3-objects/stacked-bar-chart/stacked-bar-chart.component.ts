@@ -5,11 +5,7 @@ import * as d3 from 'd3';
   selector: 'app-stacked-bar-chart',
   templateUrl: './stacked-bar-chart.component.html',
   styleUrls: ['./stacked-bar-chart.component.scss'],
-  encapsulation: ViewEncapsulation.None,
-  // tslint:disable-next-line:use-host-property-decorator
-  host: {
-    '(window:resize)': 'onResize($event)'
-  }
+  encapsulation: ViewEncapsulation.None
 })
 export class StackedBarChartComponent implements OnInit, AfterViewInit {
   public width: any;
@@ -22,10 +18,6 @@ export class StackedBarChartComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    this.doStaggedBarGraph(this.chartOptions);
-  }
-
-  onResize(event) {
     this.doStaggedBarGraph(this.chartOptions);
   }
 
