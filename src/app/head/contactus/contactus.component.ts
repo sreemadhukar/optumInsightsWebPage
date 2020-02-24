@@ -1,11 +1,21 @@
 import { Component, OnInit } from '@angular/core';
 import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
+import { trigger, state, style, animate, transition } from '@angular/animations';
 
 @Component({
   selector: 'app-contactus',
   templateUrl: './contactus.component.html',
-  styleUrls: ['./contactus.component.scss']
+  styleUrls: ['./contactus.component.scss'],
+  animations: [
+    // Each unique animation requires its own trigger. The first argument of the trigger function is the name
+    trigger('rotatedState', [
+      state('default', style({ transform: 'rotate(0)' })),
+      state('rotated', style({ transform: 'rotate(180deg)' })),
+      transition('rotated => default', animate('180ms ease-out')),
+      transition('default => rotated', animate('180ms ease-in'))
+    ])
+  ]
 })
 export class ContactusComponent implements OnInit {
   section: any = [];
@@ -34,13 +44,13 @@ export class ContactusComponent implements OnInit {
       question:
         'How can I filter the data to get more specific? Can I see reporting down to an individual Tax ID (TIN)?',
       answer:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur'
-    },
-    {
-      question: 'What if I have an idea for UHC Insights?',
-      answer:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur'
+        'UHC Insights has a Filter menu on many pages that can help you narrow down data by Time Period, Line of Business, Tax ID (TIN) and several other options.'
     }
+    // {
+    //   question: 'What if I have an idea for UHC Insights?',
+    //   answer:
+    //     'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur'
+    // }
   ];
   content = {
     title: 'Contact Us',

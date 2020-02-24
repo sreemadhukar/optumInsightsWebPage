@@ -147,3 +147,48 @@
 .extra-margin-bottom-minus-5 {
   margin-bottom: -5px !important;
 }
+.inner-block-questions {
+  color: $black-rock;
+  font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  letter-spacing: 0.2px;
+  line-height: 22px;
+  margin-top: 16px;
+}
+.inner-block-answers {
+  margin-top: 8px;
+  margin-bottom: 20px;
+  padding-left: 16px;
+}
+.apply-filters-img {
+  height: 90px;
+  padding-left: 16px;
+}
+.filter-panels-img {
+  width: 802px;
+}
+.filter-buttons-img {
+  padding-left: 16px;
+}
+.summary-doc-link {
+  color: $blue;
+  font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  letter-spacing: 0.2px;
+  line-height: 22px;
+  text-decoration: none;
+}
+.summary-doc-block {
+  margin-top: 24px;
+}
+.filter-chips-img {
+  height: 32px;
+  width: 672px;
+}
+.functionality-list-block {
+  margin-top: 24px;
+}
+.functionality-list {
+  padding-left: 32px;
+  list-style: circle;
+}

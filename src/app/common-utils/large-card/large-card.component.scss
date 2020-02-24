@@ -108,6 +108,11 @@
   .blue-text {
     color: $blue;
   }
+  .blue-text-anchor {
+    color: $blue;
+    cursor: pointer;
+    text-decoration: none;
+  }
   .bottom-title {
     color: $black-rock;
     font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
@@ -121,5 +126,8 @@
     letter-spacing: 0.2px;
     line-height: 22px;
     margin-top: 8px;
+  }
+  .bottom-content-text-number {
+    margin-top: 24px;
   }
 }

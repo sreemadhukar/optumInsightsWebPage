@@ -9,9 +9,6 @@
   <div class="questions-block">
     <div class="questions-block-content">
       <p class="questions-block-header">Frequently Asked Questions</p>
-
-      <!--CCCCCCCCCCCCCCCCCCCCC-->
-
       <div class="bar-graphs-block">
         <div class="bar-graphs" *ngFor="let barchart of barChartsArray; let i = index">
           <div
@@ -38,13 +35,58 @@
               <div class="top-5-block">
                 <div class="inside-bar-graph-content">
                   {{ barchart.answer }}
+                  <div *ngIf="i === 0" class="functionality-list-block">
+                    <ul class="functionality-list">
+                      <li *ngFor="let list of barchart.list">{{ list }}</li>
+                    </ul>
+                  </div>
+                  <div *ngIf="i === 2" class="summary-doc-block">
+                    <a
+                      href="/src/assets/documents/UHC Insights Summary - 2020.pdf"
+                      target="_blank"
+                      class="summary-doc-link"
+                      >UHC Insights Summary document</a
+                    >
+                  </div>
+                  <div *ngIf="i === 3" class="sub-questions-block">
+                    <div class="filter-buttons-block">
+                      <p class="inner-block-questions">1. Click the Filters button to open the Filters menu.</p>
+                      <p class="inner-block-answers">
+                        The Filters button is located at the top right of most pages (note that not every page has data
+                        that is filterable).
+                      </p>
+                      <img src="/src/assets/images/Filter Buttons.png" class="filter-buttons-img" />
+                    </div>
+                    <div class="apply-filters-block">
+                      <p class="inner-block-questions">2. Select Fiter Options</p>
+                      <p class="inner-block-answers">
+                        In the case below, the Line of Business Filter option has changed from "All" to "Commercial".
+                      </p>
+                      <img src="/src/assets/images/FilterPanels.png" class="filter-panels-img" />
+                    </div>
+                    <div class="filter-panels-block">
+                      <p class="inner-block-questions">3. Click the Apply Filters button.</p>
+                      <p class="inner-block-answers">
+                        Clicking the Apply Filters button closes the Filters menu and applies the Filter changes to the
+                        page.
+                      </p>
+                      <img src="/src/assets/images/applyfilters.png" class="apply-filters-img" />
+                    </div>
+                    <div class="reveiw-filters-block">
+                      <p class="inner-block-questions">4. Review Filter changes.</p>
+                      <p class="inner-block-answers">
+                        The data and Filter area at the top of the page will now show the updated Filter preferences.
+                        Click the Filters button again to make aditional changes.
+                      </p>
+                      <img src="/src/assets/images/filterchips.png" class="filter-chips-img" />
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <!--DDDDDDDDDDDDDDDDDDDDDD-->
     </div>
   </div>
 </div>
