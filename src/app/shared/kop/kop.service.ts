@@ -23,7 +23,7 @@ export class KOPSharedService {
       const paramsArray = filters.map((param: string) => {
         return { filter: param };
       });
-      this.getKopData('kop', paramsArray).then((response: any) => {
+      this.kopService.getNpsDetailSummary({ params: {} }).subscribe((response: any) => {
         if (!response || response.length === 0) {
           return resolve(null);
         }

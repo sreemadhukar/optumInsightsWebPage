@@ -376,7 +376,7 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
     this.monthlyLineGraph.titleData = [{}];
     this.monthlyLineGraph.generalData = [
       {
-        width: 500,
+        width: 950,
         backgroundColor: 'null',
         barGraphNumberSize: 18,
         barColor: '#196ECF',
