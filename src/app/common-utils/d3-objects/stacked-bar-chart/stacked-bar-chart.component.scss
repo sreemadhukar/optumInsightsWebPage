@@ -9,7 +9,6 @@
 
 svg {
   font: 10px sans-serif;
-  shape-rendering: crispEdges;
 }
 
 .axis path,
@@ -46,7 +45,6 @@ path.domain {
   stroke: $heather;
   stroke-opacity: 1;
   stroke-width: 2px;
-  shape-rendering: crispEdges;
 }
 
 .grid path {
