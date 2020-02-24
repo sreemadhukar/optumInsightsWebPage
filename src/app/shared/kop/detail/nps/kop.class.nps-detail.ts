@@ -107,7 +107,7 @@ export class NPSDetail {
           hoverMargin: 256,
           backgroundColor: 'null',
           barGraphNumberSize: 18,
-          barColor: '#196ECF',
+          barColor: '#3381ff',
           trendLineColor: '#00B8CC',
           trendLine,
           parentDiv: this.npsObj.chartId,
@@ -121,16 +121,6 @@ export class NPSDetail {
     };
 
     this.npsObj.npsGraph = npsGraph;
-
-    // this.monthlyLineGraph = {
-    //   category: 'large-card',
-    //   type: 'donut',
-    //   status: 404,
-    //   title: 'Claims Non-Payment Trend',
-    //   MetricID: this.MetricidService.MetricIDs.ClaimsNonPaymentTrend,
-    //   data: null,
-    //   timeperiod: null
-    // };
   }
 
   public getData() {

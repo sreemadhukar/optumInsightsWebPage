@@ -17,7 +17,7 @@
     -webkit-flex-flow: row wrap;
     justify-content: left;
     flex-wrap: wrap;
-    width: 972px;
+    width: 960px;
     margin: auto;
 
     font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
@@ -133,6 +133,7 @@
     .overview-section {
       display: flex;
       flex-wrap: wrap;
+      width: 100%;
       .large-card {
         width: 100%;
       }
