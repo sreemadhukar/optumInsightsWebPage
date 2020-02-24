@@ -22,8 +22,10 @@ export class ContactusComponent implements OnInit {
   barChartsArray = [
     {
       question: 'What is UHC Insights?',
-      answer:
-        'UnitedHealthcare Insights (UHC Insights) centralizes provider reporting in a way that creates transparency, personalization and drives action. UHC Insights will be available to care providers via a tile on Link, utilizing their Optum ID to log in.  Functionality in 2020 will include near real-time data in the following areas:',
+      answer: `UnitedHealthcare Insights (UHC Insights) centralizes provider reporting in a way that creates
+         transparency, personalization and drives action. UHC Insights will be available to care providers
+          via a tile on Link, utilizing their Optum ID to log in.  Functionality in 2020 will include near real-time
+           data in the following areas:`,
       list: [
         'Prior Authorization',
         'Claims ',
@@ -37,19 +39,22 @@ export class ContactusComponent implements OnInit {
     },
     {
       question: 'How does this benefit the UnitedHealthcare Provider Network?',
-      answer:
-        'The interface is designed to help care providers proactively manage engagement with UnitedHealthcare.  UHC Insights will provide the ability to have a common platform to discuss operational and clinical improvement opportunities with UnitedHealthcare representatives.  Sharing actionable data and meaningful metrics that will allow care providers to work with UnitedHealthcare teams to focus on the most impactful ways to simplify the provider experience and monitor their performance.'
+      answer: `The interface is designed to help care providers proactively manage engagement with UnitedHealthcare.
+          UHC Insights will provide the ability to have a common platform to discuss operational and clinical
+           improvement opportunities with UnitedHealthcare representatives.  Sharing actionable data and meaningful
+            metrics that will allow care providers to work with UnitedHealthcare teams to focus on the most impactful ways
+             to simplify the provider experience and monitor their performance.`
     },
     {
       question:
         'How can I filter the data to get more specific? Can I see reporting down to an individual Tax ID (TIN)?',
-      answer:
-        'UHC Insights has a Filter menu on many pages that can help you narrow down data by Time Period, Line of Business, Tax ID (TIN) and several other options.'
+      answer: `UHC Insights has a Filter menu on many pages that can help you narrow down data by Time Period,
+         Line of Business, Tax ID (TIN) and several other options.`
     }
     // {
     //   question: 'What if I have an idea for UHC Insights?',
     //   answer:
-    //     'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur'
+    //     'Lorem ipsum dolor sit amet, consectetur adipiscing elit'
     // }
   ];
   content = {
