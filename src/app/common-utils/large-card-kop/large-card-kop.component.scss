@@ -17,7 +17,7 @@
     border-radius: 2px;
 
     &-content {
-      padding: 0 14px;
+      padding: 0 5px;
       display: flex;
       flex-direction: row;
       justify-content: space-evenly;
@@ -129,7 +129,7 @@
             }
             .dashed {
               border-top: 2px dashed;
-              border-color: $dodger-blue;
+              border-color: $iris-blue;
             }
           }
         }

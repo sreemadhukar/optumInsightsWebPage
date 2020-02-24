@@ -255,10 +255,6 @@ export class LineGraphComponent implements OnInit {
           .attr('class', 'lineLabelHover')
           .attr('id', 'claimsNotPaidLabelTwo')
           .text('37');
-        tooltipVar
-          .append('div')
-          .attr('class', 'details-label')
-          .attr('id', 'claimsNotPaidLabelThree');
       } else {
         // tslint:disable-next-line:no-var-keyword
         var tooltipVar = d3
