@@ -5,13 +5,9 @@ import * as d3 from 'd3';
   selector: 'app-stacked-bar-chart',
   templateUrl: './stacked-bar-chart.component.html',
   styleUrls: ['./stacked-bar-chart.component.scss'],
-  encapsulation: ViewEncapsulation.None,
-  // tslint:disable-next-line:use-host-property-decorator
-  host: {
-    '(window:resize)': 'onResize($event)'
-  }
+  encapsulation: ViewEncapsulation.None
 })
-export class StackedBarChartComponent implements OnInit {
+export class StackedBarChartComponent implements OnInit, AfterViewInit {
   public width: any;
   public height: any;
   public renderChart: string;
@@ -21,23 +17,11 @@ export class StackedBarChartComponent implements OnInit {
     this.renderChart = '#' + this.chartOptions.chartId;
   }
 
-  // tslint:disable-next-line:use-life-cycle-interface
   ngAfterViewInit() {
     this.doStaggedBarGraph(this.chartOptions);
   }
 
-  onResize(event) {
-    this.doStaggedBarGraph(this.chartOptions);
-  }
-
-  onSystemChange() {
-    this.doStaggedBarGraph(this.chartOptions.data);
-  }
-
-  // tslint:disable-next-line:use-life-cycle-interface
-
   doStaggedBarGraph(barData) {
-    console.log('barData', barData);
     function nondecimalFormatter(fnumber) {
       if (fnumber >= 1000000000) {
         return (fnumber / 1000000000).toFixed(1).replace(/\.0$/, '') + 'B';
@@ -105,7 +89,6 @@ export class StackedBarChartComponent implements OnInit {
     const yAxisGroup = graph.append('g');
     const leftContainer = svg.append('g').attr('transform', `translate(${margin.left - 180}, ${margin.top + 85})`);
 
-    console.log('this.chartOptions.chartId', barData);
     const data = barData.graphValues;
 
     // Data Binding to be used
@@ -117,7 +100,6 @@ export class StackedBarChartComponent implements OnInit {
       }
     ];*/
 
-    console.log('left Cont', leftContainer);
     leftContainer
       .append('circle')
       .attr('cx', () => 10)
