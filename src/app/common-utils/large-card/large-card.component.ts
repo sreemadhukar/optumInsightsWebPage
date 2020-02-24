@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
 })
 export class LargeCardComponent implements OnInit {
   @Input() data;
+  @Input() content;
   @Input() title;
   @Input() timePeriod;
   @Input() skeletonLarge;

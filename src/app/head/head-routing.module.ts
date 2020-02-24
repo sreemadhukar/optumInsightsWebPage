@@ -7,6 +7,7 @@ import { SiteMapComponent } from './site-map/site-map.component';
 import { TinListPageComponent } from './tin-list-page/tin-list-page.component';
 import { CustomPreloadingStrategy } from './custom-preloading';
 import { NoAccessErrorPageComponent } from '../common-utils/no-access-error-page/no-access-error-page.component';
+import { ContactusComponent } from './contactus/contactus.component';
 
 const routes: Routes = [
   {
@@ -147,6 +148,15 @@ const routes: Routes = [
   {
     path: 'TinList',
     component: TinListPageComponent,
+    canActivate: [AuthGuard],
+    data: {
+      preload: false,
+      delay: false
+    }
+  },
+  {
+    path: 'ContactUs',
+    component: ContactusComponent,
     canActivate: [AuthGuard],
     data: {
       preload: false,
