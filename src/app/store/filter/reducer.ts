@@ -81,7 +81,7 @@ function switchTimePeriodValues(timePeriod, currentPageAction) {
     currentPageAction === 'nonPaymentsPage' ||
     currentPageAction === 'gettingReimbursedSummary'
   ) {
-    if (timePeriod === 'Last12Months' || timePeriod === '2019' || timePeriod === '2018') {
+    if (timePeriod === '2018') {
       timePeriod = 'Last6Months';
     }
   } else {

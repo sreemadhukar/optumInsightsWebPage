@@ -1,9 +1,49 @@
 @import '~src/scss/variables.scss';
 @import '~src/scss/mixins';
-@import '../prior-auth/prior-auth.component.scss';
 
 .content-wrapper {
+  overflow-x: hidden;
+  overflow-y: hidden;
+  display: flex;
+  flex-direction: column;
+  background-color: $alice-blue;
+  @include padding(16px, 0, 64px, 0);
   .main-content {
+    display: flex;
+    -webkit-flex-flow: row wrap;
+    justify-content: left;
+    width: 1000px;
+    margin: auto;
+    flex-wrap: wrap;
+
+    .cust-width-title {
+      width: 961px;
+      font-family: 'UHCSans-Regular', Helvetica, Arial, sans-serif;
+      color: $black-rock;
+      margin-left: 10px;
+
+      .page-title {
+        flex-basis: 100%;
+        font-size: 36px;
+        @include padding(16px, 0, 10px, 0);
+        line-height: 40px;
+      }
+      .print-page-title {
+        padding-top: 30px;
+        font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+        line-height: 30px;
+      }
+      .print-page-subtitle {
+        font-family: 'UHCSans-Regular', Helvetica, Arial, sans-serif;
+        line-height: 40px;
+        flex-basis: 100%;
+        font-size: 24px;
+        display: flex;
+        flex-direction: row;
+        position: relative;
+        justify-content: space-between;
+      }
+    }
     .cards {
       .non-small-card-header-title {
         color: #2d2d39 !important;
@@ -22,6 +62,33 @@
   }
 }
 
+.page-subtitle {
+  float: left;
+  padding-bottom: 32px;
+  .page-subtitle-header {
+    float: left;
+    color: $strom-grey;
+    font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+    font-size: 16px;
+    letter-spacing: 0.2px;
+    line-height: 22px;
+  }
+  .page-subtitle-link {
+    cursor: pointer;
+    color: $blue;
+    letter-spacing: 0.2px;
+    font-size: 16px;
+    font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+    line-height: 24px;
+    display: inline;
+    .subtitle-reportLink {
+      float: left;
+    }
+  }
+  .page-subtitle-icon {
+    color: $blue;
+  }
+}
 .print-page-main-title {
   padding-top: 30px;
   font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
@@ -35,7 +102,8 @@
   line-height: 30px;
   font-size: 36px;
 }
-.print-page-subtitle1 {
+/*
+.print-page-subtitle {
   font-family: 'UHCSans-Regular', Helvetica, Arial, sans-serif;
   line-height: 40px;
   flex-basis: 100%;
@@ -45,4 +113,47 @@
   position: relative;
   justify-content: space-between;
   width: 98.5%;
+}*/
+.report-Tile {
+  box-sizing: border-box;
+  height: 79px;
+  width: 954px;
+  border: 1px solid #757588;
+  border-radius: 2px;
+  background-color: $alice-blue;
+  margin: 12px;
+  padding: 12px 16px 12px 16px;
+
+  .report-Title {
+    color: $black-rock;
+    font-family: 'UHCSans-SemiBold';
+    font-size: 18px;
+    line-height: 22px;
+  }
+  .report-Subtitle {
+    color: $black-rock;
+    font-family: 'UHCSans-Medium';
+    font-size: 16px;
+    letter-spacing: 0.2px;
+    padding-top: 6px;
+    line-height: 22px;
+    .report-Subtitle-Text {
+      float: left;
+    }
+    .report-Link {
+      cursor: pointer;
+      color: $blue;
+      letter-spacing: 0.2px;
+      font-size: 16px;
+      font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+      line-height: 24px;
+      display: inline;
+      .report-Subtitle-Link {
+        float: left;
+      }
+    }
+    .icon {
+      color: $blue;
+    }
+  }
 }
