@@ -151,7 +151,7 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
       this.printStyle = true;
       this.pageTitle = this.session.getHealthCareOrgName();
     }
-    this.mockCards = [{}, {}];
+    this.mockCards = [{}];
     this.loading = true;
     this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'nonPaymentsPage' });
     this.nonPaymentData1 = [];

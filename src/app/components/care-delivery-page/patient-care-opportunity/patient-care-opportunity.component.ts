@@ -6,6 +6,7 @@ import { NgRedux } from '@angular-redux/store';
 import { CURRENT_PAGE } from '../../../store/filter/actions';
 import { IAppState } from '../../../store/store';
 import { ActivatedRoute } from '@angular/router';
+import { SessionService } from 'src/app/shared/session.service';
 
 @Component({
   selector: 'app-patient-care-opportunity',
@@ -19,6 +20,7 @@ export class PatientCareOpportunityComponent implements OnInit {
   qualityMeasureData: any;
   pageTitle: String = '';
   pageSubTitle: String = '';
+  pageMainTitle: String = '';
   loading: boolean;
   pcorBoolean: boolean;
   pcorLoading: boolean;
@@ -44,7 +46,8 @@ export class PatientCareOpportunityComponent implements OnInit {
     private route: ActivatedRoute,
     private pcorService: PcorSharedService,
     private filtermatch: CommonUtilsService,
-    private ngRedux: NgRedux<IAppState>
+    private ngRedux: NgRedux<IAppState>,
+    private sessionService: SessionService
   ) {
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.filtermatch.urlResuseStrategy());
   }
@@ -131,8 +134,9 @@ export class PatientCareOpportunityComponent implements OnInit {
         this.selectedItemId = queryParams.selectedItemId;
       }
       this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'pcorPage' });
-      this.pageTitle = 'Patient Care Opportunity–Medicare & Retirement';
+      this.pageTitle = 'Patient Care Opportunity–Medicare';
       this.pageSubTitle = 'Health System Summary';
+      this.pageMainTitle = this.sessionService.getHealthCareOrgName();
       this.loading = true;
       this.hideAllObjects = true;
       this.mockCards = [{}, {}];
@@ -177,8 +181,8 @@ export class PatientCareOpportunityComponent implements OnInit {
       ];
 
       /** The following service method is fetching data for
-       * 1. Medicare & Retirement Average Star Rating
-       * 2. Medicare & Retirement Annual Care Visits Completion Rate
+       * 1. Medicare Average Star Rating
+       * 2. Medicare Annual Care Visits Completion Rate
        * 3. Quality Star top level information i.e. star count only
        */
       /** The following service method is fetching data for

@@ -20,6 +20,9 @@
     /*padding-left: 15px;
     padding-top: 10px;*/
   }
+  .pcor-medicare {
+    margin-top: 20px;
+  }
   .chart-details {
     float: left;
   }
@@ -460,8 +463,6 @@
         font-size: 16px;
         font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
         letter-spacing: 0.2px;
-        &:hover {
-        }
       }
       &.active {
         // background-color: mat-color($accent);
