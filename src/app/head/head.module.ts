@@ -20,6 +20,7 @@ import { UhciFiltersComponent } from './uhci-filters/uhci-filters.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { KOPSharedService } from '../shared/kop/kop.service';
 import { KopService } from '../rest/kop/kop.service';
+import { ContactusComponent } from './contactus/contactus.component';
 
 @NgModule({
   imports: [
@@ -40,7 +41,8 @@ import { KopService } from '../rest/kop/kop.service';
     PrivacyPolicyComponent,
     SiteMapComponent,
     TinListPageComponent,
-    UhciFiltersComponent
+    UhciFiltersComponent,
+    ContactusComponent
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

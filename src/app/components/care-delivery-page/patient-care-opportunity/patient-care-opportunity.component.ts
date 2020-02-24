@@ -6,6 +6,11 @@ import { NgRedux } from '@angular-redux/store';
 import { CURRENT_PAGE } from '../../../store/filter/actions';
 import { IAppState } from '../../../store/store';
 import { ActivatedRoute } from '@angular/router';
+import { MatIconRegistry } from '@angular/material';
+import { DomSanitizer } from '@angular/platform-browser';
+import { Router } from '@angular/router';
+import { environment } from 'src/environments/environment';
+import { SessionService } from 'src/app/shared/session.service';
 
 @Component({
   selector: 'app-patient-care-opportunity',
@@ -19,6 +24,7 @@ export class PatientCareOpportunityComponent implements OnInit {
   qualityMeasureData: any;
   pageTitle: String = '';
   pageSubTitle: String = '';
+  pageMainTitle: String = '';
   loading: boolean;
   pcorBoolean: boolean;
   pcorLoading: boolean;
@@ -39,14 +45,28 @@ export class PatientCareOpportunityComponent implements OnInit {
   qualityTitle: String = 'Quality Star Rating';
   customFormatting: Array<Object> = [];
   queryParamsObj: any = {};
+  reportTitle: String;
+  reportText: String;
+  reportLink: String;
+  subtitle: any;
+  printpageSubTitle: String = '';
+  isInternal: boolean = environment.internalAccess;
   constructor(
     private checkStorage: StorageService,
     private route: ActivatedRoute,
     private pcorService: PcorSharedService,
     private filtermatch: CommonUtilsService,
-    private ngRedux: NgRedux<IAppState>
+    private ngRedux: NgRedux<IAppState>,
+    private iconRegistry: MatIconRegistry,
+    private sanitizer: DomSanitizer,
+    private router: Router,
+    private sessionService: SessionService
   ) {
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.filtermatch.urlResuseStrategy());
+    iconRegistry.addSvgIcon(
+      'external-link',
+      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Navigation/open_in_new-24px.svg')
+    );
   }
   public ratingComponentClick(clickObj: any): void {
     this.pcorService.getQualityMeasureData().then(data => {
@@ -130,9 +150,14 @@ export class PatientCareOpportunityComponent implements OnInit {
       if (queryParams && queryParams.selectedItemId) {
         this.selectedItemId = queryParams.selectedItemId;
       }
+      if (this.router.url.includes('print-')) {
+        this.subtitle = true;
+        this.printStyle = true;
+      }
       this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'pcorPage' });
       this.pageTitle = 'Patient Care Opportunity–Medicare';
       this.pageSubTitle = 'Health System Summary';
+      this.pageMainTitle = this.sessionService.getHealthCareOrgName();
       this.loading = true;
       this.hideAllObjects = true;
       this.mockCards = [{}, {}];
@@ -212,5 +237,15 @@ export class PatientCareOpportunityComponent implements OnInit {
           this.loading = false;
         });
     });
+    this.reportTitle = 'View the PCOR Report';
+    this.reportText = 'View in-depth details of your health system in the PCOR report. ';
+    this.reportLink = 'View the Patient Care Opportunity Report';
+  }
+  PCORreport() {
+    if (this.isInternal) {
+      window.open('https://webep1428/PCORMRPROD/');
+    } else {
+      window.open('https://www.uhcprovider.com/en/reports-quality-programs/physician-perf-based-comp.html');
+    }
   }
 }
