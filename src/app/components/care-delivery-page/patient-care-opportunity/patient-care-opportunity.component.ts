@@ -10,6 +10,8 @@ import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
+import { SessionService } from 'src/app/shared/session.service';
+
 @Component({
   selector: 'app-patient-care-opportunity',
   templateUrl: './patient-care-opportunity.component.html',
@@ -22,6 +24,7 @@ export class PatientCareOpportunityComponent implements OnInit {
   qualityMeasureData: any;
   pageTitle: String = '';
   pageSubTitle: String = '';
+  pageMainTitle: String = '';
   loading: boolean;
   pcorBoolean: boolean;
   pcorLoading: boolean;
@@ -56,7 +59,8 @@ export class PatientCareOpportunityComponent implements OnInit {
     private ngRedux: NgRedux<IAppState>,
     private iconRegistry: MatIconRegistry,
     private sanitizer: DomSanitizer,
-    private router: Router
+    private router: Router,
+    private sessionService: SessionService
   ) {
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.filtermatch.urlResuseStrategy());
     iconRegistry.addSvgIcon(
@@ -151,8 +155,9 @@ export class PatientCareOpportunityComponent implements OnInit {
         this.printStyle = true;
       }
       this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'pcorPage' });
-      this.pageTitle = 'Patient Care Opportunity–Medicare & Retirement';
-      this.printpageSubTitle = 'Health System Summary';
+      this.pageTitle = 'Patient Care Opportunity–Medicare';
+      this.pageSubTitle = 'Health System Summary';
+      this.pageMainTitle = this.sessionService.getHealthCareOrgName();
       this.loading = true;
       this.hideAllObjects = true;
       this.mockCards = [{}, {}];
