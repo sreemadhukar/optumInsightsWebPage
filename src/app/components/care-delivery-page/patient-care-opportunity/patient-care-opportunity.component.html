@@ -3,6 +3,9 @@
     <div class="cards cust-width-title">
       <app-breadcrumbs></app-breadcrumbs>
       <app-print [queryParams]="queryParamsObj"> </app-print>
+      <div class="page-main-title" *ngIf="printStyle" [ngClass]="{ 'print-page-main-title': printStyle === true }">
+        {{ pageMainTitle }}
+      </div>
       <div
         class="page-title"
         [ngClass]="{ 'print-page-title': printStyle === true }"
