@@ -16,6 +16,10 @@ export class NPSDetail {
     this.createGraph();
   }
 
+  public getRandomInterger(max: number, min: number) {
+    return Math.floor((max - min) * Math.random()) + min;
+  }
+
   public createGraph() {
     this.npsObj.quarters = [
       { highlighted: true, value: 42, year: 2020 },
@@ -34,9 +38,12 @@ export class NPSDetail {
 
     let title = '';
     let MetricID = '';
+    let trendLine = false;
     if (this.npsObj.chartId === 'npsCombined') {
       title = 'Combined NPS';
       MetricID = '35';
+      trendLine = true;
+      let target = 5;
       years.forEach((year: any) => {
         quarters.forEach((quarter: any) => {
           const name = quarter;
@@ -46,29 +53,41 @@ export class NPSDetail {
           chartData.push({
             name: name + year.toString().slice(2),
             year,
-            value: Math.floor(60 * Math.random())
+            target,
+            value: this.getRandomInterger(60, 30)
           });
         });
+        target += 10;
       });
     } else if (this.npsObj.chartId === 'npsPM') {
       title = 'Practice Manager NPS';
       MetricID = '36';
+      trendLine = false;
+      let target = 5;
+
       years.forEach((year: any) => {
         chartData.push({
           name: year,
+          target,
           year,
-          value: Math.floor(60 * Math.random())
+          value: this.getRandomInterger(60, 30)
         });
+        target += 10;
       });
     } else if (this.npsObj.chartId === 'npsMd') {
       title = 'Physician NPS';
       MetricID = '37';
+      trendLine = false;
+      let target = 5;
+
       years.forEach((year: any) => {
         chartData.push({
           name: year,
+          target,
           year,
-          value: Math.floor(60 * Math.random())
+          value: this.getRandomInterger(60, 30)
         });
+        target += 10;
       });
     }
 
@@ -85,9 +104,12 @@ export class NPSDetail {
         {
           width,
           height: 260,
+          hoverMargin: 256,
           backgroundColor: 'null',
           barGraphNumberSize: 18,
           barColor: '#196ECF',
+          trendLineColor: '#00B8CC',
+          trendLine,
           parentDiv: this.npsObj.chartId,
           tooltipBoolean: true,
           tooltipType: 'nps',

@@ -222,6 +222,7 @@ export class LineGraphComponent implements OnInit {
     const margin = { top: 85 - topMarginSubtract, right: marginRight, bottom: 85, left: marginLeft };
     const width = preWidth - margin.left - margin.right;
     const height = generalData[0].height || 420;
+    const hoverMargin = generalData[0].hoverMargin || 56;
 
     const chart = d3
       .select(this.renderChart)
@@ -320,10 +321,12 @@ export class LineGraphComponent implements OnInit {
       .domain([0, lengthOfData - 1]) // input
       .range([25, width - 25]);
 
-    const xScalePath = d3
-      .scaleLinear()
-      .domain([0, 2]) // input
-      .range([0, width]);
+    const xScalePath = (index: number, key: number, total: number) => {
+      if ((index + 1) % key === 0 && total !== index + 1) {
+        return 58 * (index + 1);
+      }
+      return 58 * index;
+    };
 
     const xScale3 = d3
       .scalePoint()
@@ -389,7 +392,13 @@ export class LineGraphComponent implements OnInit {
 
     const data = [];
     for (let l = 0; l < lengthOfData; l++) {
-      data.push({ y: chartData[l].value, xCoordinate: xScale(l), x: chartData[l].name });
+      data.push({
+        y: chartData[l].value,
+        targetY: chartData[l].target,
+        targetX: xScalePath(l, 4, lengthOfData),
+        xCoordinate: xScale(l),
+        x: chartData[l].name
+      });
     }
     const line = d3
       .line()
@@ -398,6 +407,16 @@ export class LineGraphComponent implements OnInit {
       })
       .y(function(d) {
         return yScale(d.y);
+      })
+      .curve(d3.curveLinear);
+
+    const line2 = d3
+      .line()
+      .x(function(d) {
+        return d.targetX;
+      })
+      .y(function(d) {
+        return yScale(d.targetY);
       })
       .curve(d3.curveLinear);
 
@@ -500,7 +519,7 @@ export class LineGraphComponent implements OnInit {
             .classed('hidden', false)
             .classed('tooltipClass', true)
             .classed('tooltipClassLeft', false)
-            .style('left', d.xCoordinate + 56 + 'px')
+            .style('left', d.xCoordinate + hoverMargin + 'px')
             .style('top', topMar);
         } else {
           d3.select('#claimsNotPaidLabelThree').text('$' + formatDy(d.y));
@@ -508,7 +527,7 @@ export class LineGraphComponent implements OnInit {
             .classed('hidden', false)
             .classed('tooltipClass', false)
             .classed('tooltipClassLeft', true)
-            .style('left', d.xCoordinate + 56 + shiftTooltip + 'px')
+            .style('left', d.xCoordinate + hoverMargin + shiftTooltip + 'px')
             .style('top', topMar);
         }
       })
@@ -600,6 +619,17 @@ export class LineGraphComponent implements OnInit {
         .attr('id', 'LineOne')
         .style('fill', 'none')
         .style('stroke', generalData[0].barColor);
+
+      if (generalData[0].trendLine) {
+        chart
+          .append('path')
+          .datum(data)
+          .attr('class', 'line2')
+          .attr('d', line2)
+          .attr('id', 'LineTwo')
+          .style('fill', 'none')
+          .style('stroke', generalData[0].trendLineColor);
+      }
     }
 
     // end if structure o titleData[0].averagePeerPerformance
