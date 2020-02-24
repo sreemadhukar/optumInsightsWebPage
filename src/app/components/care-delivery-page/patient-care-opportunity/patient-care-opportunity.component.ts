@@ -129,6 +129,7 @@ export class PatientCareOpportunityComponent implements OnInit {
     }
   }
   ngOnInit() {
+    console.log('printStyle', this.printStyle);
     this.route.queryParams.subscribe((queryParams: any) => {
       if (queryParams && queryParams.selectedItemId) {
         this.selectedItemId = queryParams.selectedItemId;

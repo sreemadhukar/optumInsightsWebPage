@@ -11,6 +11,14 @@
         width: 360px;
       }
     }
+    .page-subtitle1 {
+      font-family: 'UHCSans-Regular', Helvetica, Arial, sans-serif;
+      flex-basis: 100%;
+      font-size: 24px;
+      line-height: 40px;
+      @include padding(0, 0, 20px, 0);
+      color: $black-rock;
+    }
   }
 }
 
@@ -27,7 +35,7 @@
   line-height: 30px;
   font-size: 36px;
 }
-.print-page-subtitle {
+.print-page-subtitle1 {
   font-family: 'UHCSans-Regular', Helvetica, Arial, sans-serif;
   line-height: 40px;
   flex-basis: 100%;
