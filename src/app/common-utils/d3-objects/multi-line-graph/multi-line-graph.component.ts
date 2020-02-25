@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewEncapsulation, Input } from '@angular/core';
 import * as d3 from 'd3';
-import { forEach } from '@angular/router/src/utils/collection';
+import { lobName } from '../../../modals/lob-name';
 
 @Component({
   selector: 'app-multi-line-graph',
@@ -220,9 +220,9 @@ export class MultiLineGraphComponent implements OnInit {
       if (chartId === 'appeals-trend-block') {
         return `<div class="lineLabelHover">
           ${monthValue ? `<p class="month-value">${monthValue}</p>` : ''}
-          ${y1 != null ? `<p><div class="tooltip-mr-img"></div> M&R : (${y1})</p>` : ''}
-          ${y2 != null ? `<p><div class="tooltip-cs-img"></div> C&S : (${y2})</p>` : ''}
-          ${y3 != null ? `<p><div class="tooltip-ei-img"></div> E&I : (${y3})</p>` : ''}
+          ${y1 != null ? `<p><div class="tooltip-mr-img"></div> ${lobName.mAndRMedicare} : (${y1})</p>` : ''}
+          ${y2 != null ? `<p><div class="tooltip-cs-img"></div> ${lobName.cAndSMedicaid} : (${y2})</p>` : ''}
+          ${y3 != null ? `<p><div class="tooltip-ei-img"></div> ${lobName.eAndICommerCial} : (${y3})</p>` : ''}
           ${y4 != null ? `<p><div class="tooltip-other-img"></div> Other : (${y4})</p>` : ''}
         </div>`;
       } else if (chartId === 'calls-trend-block') {
