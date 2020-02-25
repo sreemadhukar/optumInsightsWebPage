@@ -16,6 +16,12 @@
         </div>
       </div>
       <app-filters-applied></app-filters-applied>
+      <!-- <div class="page-title" [ngClass]="{ 'print-page-title': printStyle === true }">
+          {{ pageTitle }}
+        </div>
+        <div *ngIf="printStyle" [ngClass]="{ 'print-page-subtitle': printStyle === true }">
+          {{ pageSubTitle }}
+        </div> -->
     </div>
 
     <div class="reasons-content">
@@ -35,7 +41,6 @@
       </div>
       <div class="sub-reason-div">
         <div class="reason-head">Subreason</div>
-
         <div>
           <select class="reason-dropdown" (change)="selectsubReason($event.target.value)">
             <option
@@ -57,9 +62,8 @@
           {{ numberOfClaims }}
         </span>
       </div>
-
       <div class="tax-summary-body">
-        <div class="tax-summary-table-block">
+        <div class="tax-summary-table-block ">
           <table
             mat-table
             [dataSource]="selectedclaims"
@@ -70,13 +74,13 @@
           >
             <ng-container matColumnDef="TinNumber">
               <th mat-header-cell *matHeaderCellDef class="tax-id-text">
-                <span mat-sort-header style="text-align:left">Tax ID <br />Number </span>
+                <span mat-sort-header>Tax ID <br />Number </span>
                 <div>
                   <input class="tax-summary-name-input" matInput [formControl]="tinNumberFilter" />
                 </div>
               </th>
               <td mat-cell class="tin-name-input" *matCellDef="let element">
-                <div class="provider-column">{{ element.TinName }}</div>
+                <div class="provider-column">{{ element.TinName | sliceString }}</div>
                 <div class="tin-name-font">{{ element.TinNumber }}</div>
               </td>
             </ng-container>
@@ -93,7 +97,7 @@
                 </div>
               </th>
               <td mat-cell class="tax-summary-table-cell" *matCellDef="let element">
-                <div class="provider-column">{{ element.ProviderName }}</div>
+                <div class="provider-column">{{ element.ProviderName | sliceString }}</div>
               </td>
             </ng-container>
             <ng-container matColumnDef="NonPaymentAmount">
@@ -102,7 +106,7 @@
               </th>
               <td mat-cell class="tax-summary-table-cell" *matCellDef="let element">
                 <div *ngIf="dollarData" class="dollar-text">$</div>
-                {{ element.NonPaymentAmount }}
+                {{ convertIntoNumber(element.NonPaymentAmount) }}
               </td>
             </ng-container>
             <ng-container matColumnDef="BilledAmount">
@@ -112,7 +116,7 @@
 
               <td mat-cell class="tax-summary-table-cell" *matCellDef="let element">
                 <div *ngIf="dollarData" class="dollar-text">$</div>
-                {{ element.BilledAmount }}
+                {{ convertIntoNumber(element.BilledAmount) }}
               </td>
             </ng-container>
             <ng-container matColumnDef="DateOfProcessing">
@@ -135,7 +139,6 @@
                 {{ element.ClaimNumber }}
               </td>
             </ng-container>
-
             <tr
               mat-header-row
               [ngStyle]="{ display: lengthOffilteredData > 0 ? 'contents' : 'none' }"
@@ -154,9 +157,7 @@
         </div>
       </div>
     </div>
-
-    <app-error-card *ngIf="dataNotAvailable && tableData != null" class="cards" [data]="tableData"></app-error-card>
-
+    <app-error-card *ngIf="dataNotavaiable && tableData != null" class="cards" [data]="tableData"></app-error-card>
     <!-- tin-list-body-->
   </div>
 </div>
