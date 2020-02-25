@@ -6,6 +6,28 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./onboarding-verbatims.component.scss']
 })
 export class OnboardingVerbatimsComponent implements OnInit {
+  public topics = [
+    {
+      label: 'Payments',
+      value: 'payments'
+    },
+    {
+      label: 'Credentialing',
+      value: 'credentialing'
+    },
+    {
+      label: 'Communication',
+      value: 'communication'
+    },
+    {
+      label: 'Contract',
+      value: 'contract'
+    },
+    {
+      label: 'Unresponsive',
+      value: 'unresponsive'
+    }
+  ];
   constructor() {}
 
   ngOnInit() {}
