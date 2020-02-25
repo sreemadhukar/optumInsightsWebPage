@@ -1,3 +1,7 @@
-<p>
-  onboarding-verbatims works!
-</p>
+<div class="frequent-heading">Frequently Mentioned Topics</div>
+
+<div class="align-horizonal">
+  <div class="label-div" *ngFor="let topic of topics">
+    {{ topic.label }}
+  </div>
+</div>
