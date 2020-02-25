@@ -19,6 +19,7 @@ import { PaymentIntegrityComponent } from './payment-integrity/payment-integrity
 import { NonPaymentsComponent } from './non-payments/non-payments.component';
 import { PaymentsComponent } from './payments/payments.component';
 import { SmartEditsComponent } from './payment-integrity/smart-edits/smart-edits.component';
+import { PipesModule } from '../../pipes/pipes.module';
 @NgModule({
   imports: [
     CommonModule,
@@ -26,7 +27,8 @@ import { SmartEditsComponent } from './payment-integrity/smart-edits/smart-edits
     CommonUtilsModule,
     HeadMaterialModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    PipesModule
   ],
   providers: [
     GettingReimbursedService,

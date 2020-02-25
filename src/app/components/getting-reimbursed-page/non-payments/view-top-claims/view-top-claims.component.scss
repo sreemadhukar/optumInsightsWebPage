@@ -100,19 +100,20 @@
 
 .reason-div {
   float: left;
-  width: 200px;
+  width: 385px;
   margin-right: 24px;
 }
 .sub-reason-div {
   float: left;
-  width: 400px;
+  width: 385px;
 }
 .reason-head {
   color: #2d2d39;
   font-family: 'UHCSans-Medium';
   font-size: 14px;
   line-height: 18px;
-  margin-bottom: 4px;
+
+  width: 385px;
 }
 .reason-text {
   color: #2d2d39;
@@ -125,7 +126,7 @@
   font-size: 16px;
   font-family: 'UHCSans-SemiBold';
   line-height: 22px;
-  width: 400px;
+  width: 385px;
   padding: 8px 0 8px 12px;
   font-size: 16px;
   border: 1px solid #e0e0e0;
@@ -133,7 +134,7 @@
   background: url(http://cdn1.iconfinder.com/data/icons/cc_mono_icon_set/blacks/16x16/br_down.png) no-repeat right #fff;
   -webkit-appearance: none;
   background-position-x: 360px;
-  margin-top: 8px;
+  margin-top: 2px;
 }
 .tooltip-info {
   .tooltip-info-head {
@@ -404,6 +405,7 @@ table {
   }
   &-body {
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
+    margin-top: 15px;
   }
   &-title {
     font-size: 22px;
@@ -413,6 +415,7 @@ table {
   &-count {
     font-size: 14px;
     color: $strom-grey;
+    margin: 0 8px 15px 10px;
   }
   &-input,
   &-name-input {
@@ -462,6 +465,9 @@ table {
     pointer-events: none;
     color: $strom-grey;
   }
+}
+.dollar-text {
+  display: inline;
 }
 .tin-name-font {
   font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif !important;
@@ -651,4 +657,10 @@ table {
 
 .italic {
   font-style: italic;
+}
+.hidden {
+  visibility: hidden;
+}
+.visible {
+  visibility: visible;
 }
