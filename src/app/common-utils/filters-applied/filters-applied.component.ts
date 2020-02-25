@@ -61,7 +61,6 @@ export class FiltersAppliedComponent implements OnInit {
   selectedTrendMetric: any;
   selectedDate: Date;
   previousDate: any = new Date();
-  filterViewTopBool: boolean;
   printStyle: boolean;
   constructor(
     private filterExpandService: FilterExpandService,
@@ -115,9 +114,6 @@ export class FiltersAppliedComponent implements OnInit {
       this.previousDate = new Date(this.selectedDate.toString());
       this.previousDate = this.previousDate.setDate(this.selectedDate.getDate() - 1);
     });
-    if (this.selectedPage === 'viewTopClaimsPage') {
-      this.filterViewTopBool = false;
-    }
   }
 
   openFilter() {
