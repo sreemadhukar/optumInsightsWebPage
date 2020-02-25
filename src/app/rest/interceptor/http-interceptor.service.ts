@@ -7,6 +7,7 @@ import { environment } from '../../../environments/environment';
 import * as jwt_decode from 'jwt-decode';
 import { RefreshTokenService } from './refresh-token.service';
 import { StorageService } from 'src/app/shared/storage-service.service';
+import { retry } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -80,7 +81,7 @@ export class HttpInterceptorService implements HttpInterceptor {
       request = request.clone({ headers: request.headers.set('Content-Type', 'application/json') });
     }
     request = request.clone({ headers: request.headers.set('Accept', '*/*') });
-    return next.handle(request);
+    return next.handle(request).pipe(retry(1));
   }
 
   private isTokenExpired(request: HttpRequest<any>) {
