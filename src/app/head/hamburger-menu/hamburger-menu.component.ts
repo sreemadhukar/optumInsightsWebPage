@@ -90,7 +90,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     {
       icon: 'person',
       name: 'Onboarding',
-      children: [{ name: 'Summary', path: '/NationalExecutive/Onboarding', kop: true }],
+      children: [{ name: 'Summary', path: '/NationalExecutive/Onboarding/Summary', kop: true }],
       disabled: false,
       kop: true
     },
