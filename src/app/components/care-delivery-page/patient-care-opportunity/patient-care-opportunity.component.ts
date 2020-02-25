@@ -155,8 +155,6 @@ export class PatientCareOpportunityComponent implements OnInit {
         this.printStyle = true;
       }
       this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'pcorPage' });
-      this.pageTitle = 'Patient Care Opportunity–Medicare & Retirement';
-      this.printpageSubTitle = 'Health System Summary';
       this.pageTitle = 'Patient Care Opportunity–Medicare';
       this.pageSubTitle = 'Health System Summary';
       this.pageMainTitle = this.sessionService.getHealthCareOrgName();

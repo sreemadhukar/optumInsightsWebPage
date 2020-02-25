@@ -34,10 +34,10 @@
         line-height: 30px;
       }
       .print-page-subtitle {
-        font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+        font-family: 'UHCSans-Regular', Helvetica, Arial, sans-serif;
         line-height: 40px;
         flex-basis: 100%;
-        font-size: 28px;
+        font-size: 24px;
         display: flex;
         flex-direction: row;
         position: relative;
@@ -81,7 +81,7 @@
     color: $blue;
   }
 }
-.print-page-title {
+.print-page-main-title {
   padding-top: 30px;
   font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
   line-height: 30px;
@@ -94,6 +94,7 @@
   line-height: 30px;
   font-size: 36px;
 }
+/*
 .print-page-subtitle {
   font-family: 'UHCSans-Regular', Helvetica, Arial, sans-serif;
   line-height: 40px;
@@ -104,7 +105,7 @@
   position: relative;
   justify-content: space-between;
   width: 98.5%;
-}
+}*/
 .report-Tile {
   box-sizing: border-box;
   height: 79px;
