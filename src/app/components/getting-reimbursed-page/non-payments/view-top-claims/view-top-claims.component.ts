@@ -163,6 +163,7 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
     }
 
     this.isLoading = true;
+    this.loading = true;
     this.dollarData = false;
 
     // pagination
@@ -197,9 +198,9 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
       // sorting
       this.selectedclaims.sort = this.sort;
 
+      // pagination
       this.customPaginator();
 
-      // pagination
       this.selectedclaims.paginator = this.paginator;
     }
     this.tinNumberFilter.valueChanges.subscribe(tinNumberValue => {
@@ -260,19 +261,20 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
       .getClaimsData(this.createPayloadService.initialState, reasonSelected, subReason)
       .then(claimsDetailsData => {
         this.isLoading = true;
+        this.loading = false;
         this.selectedclaims = [];
         this.claimsData = JSON.parse(JSON.stringify(claimsDetailsData));
 
         if (this.claimsData && this.claimsData.length > 0) {
           this.numberOfClaims = this.claimsData.length;
           this.selectedclaims = new MatTableDataSource(this.claimsData);
-          // console.log('mat table', this.selectedclaims);
+
           this.dollarData = true;
+          this.isLoading = false;
           this.dataNotavaiable = false;
           this.selectedclaims.sort = this.sort;
           this.selectedclaims.paginator = this.paginator;
 
-          this.isLoading = false;
           this.selectedclaims.filterPredicate = this.customFilterPredicate();
           this.lengthOffilteredData = this.selectedclaims.filteredData.length;
         } else {
@@ -288,6 +290,7 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
       })
       .catch(error => {
         console.log('Dat is not available', error);
+        this.loading = false;
       });
   }
   customFilterPredicate(): (data: any, filter: string) => boolean {

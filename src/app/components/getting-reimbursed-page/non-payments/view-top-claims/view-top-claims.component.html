@@ -54,6 +54,7 @@
         </div>
       </div>
     </div>
+    <app-large-card [skeletonLarge]="loading" *ngIf="loading"></app-large-card>
 
     <div class="tax-summary-content" [hidden]="isLoading">
       <div class="tax-summary-head" [ngStyle]="{ display: lengthOffilteredData > 0 ? 'contents' : 'none' }">
