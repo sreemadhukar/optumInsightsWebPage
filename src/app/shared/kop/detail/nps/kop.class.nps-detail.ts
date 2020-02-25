@@ -16,7 +16,7 @@ export class NPSDetail {
     this.createGraph();
   }
 
-  public getRandomInterger(max: number, min: number) {
+  public getRandomInteger(max: number, min: number) {
     return Math.floor((max - min) * Math.random()) + min;
   }
 
@@ -30,6 +30,7 @@ export class NPSDetail {
     const years = [2018, 2019, 2020];
     const quarters = ['Q1', 'Q2', 'Q3', 'Q4'];
     const chartData = [];
+    const dupDelimiter = 'dupDelm';
 
     let width = 753;
     if (this.npsObj.small) {
@@ -46,15 +47,15 @@ export class NPSDetail {
       let target = 5;
       years.forEach((year: any) => {
         quarters.forEach((quarter: any) => {
-          const name = quarter;
-          // if (name === 'Q1') {
-          // name += ' ' + year;
-          // }
+          let name = quarter;
+          if (name === 'Q1') {
+            name += '_' + year;
+          }
           chartData.push({
-            name: name + year.toString().slice(2),
+            name: name + year.toString().slice(2) + dupDelimiter,
             year,
             target,
-            value: this.getRandomInterger(60, 30)
+            value: this.getRandomInteger(60, 30)
           });
         });
         target += 10;
@@ -70,7 +71,7 @@ export class NPSDetail {
           name: year,
           target,
           year,
-          value: this.getRandomInterger(60, 30)
+          value: this.getRandomInteger(60, 30)
         });
         target += 10;
       });
@@ -85,7 +86,7 @@ export class NPSDetail {
           name: year,
           target,
           year,
-          value: this.getRandomInterger(60, 30)
+          value: this.getRandomInteger(60, 30)
         });
         target += 10;
       });
@@ -115,7 +116,9 @@ export class NPSDetail {
           tooltipType: 'nps',
           hideYAxis: false,
           customTextClass: true,
-          yAxisUnits: ''
+          yAxisUnits: '',
+          dupDelimiter,
+          formattedXAxis: true
         }
       ]
     };
