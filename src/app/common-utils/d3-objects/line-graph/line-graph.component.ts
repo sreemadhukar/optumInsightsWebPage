@@ -43,7 +43,6 @@ export class LineGraphComponent implements OnInit {
   constructor(private router: Router) {}
 
   ngOnInit() {
-    console.log('line graph', this.chartOptions.chartId);
     this.renderChart = '#' + this.chartOptions.chartId;
 
     if (this.router.url.includes('print-')) {
@@ -216,6 +215,7 @@ export class LineGraphComponent implements OnInit {
       .selectAll('*')
       .remove();
 
+    const lengthOfData = chartData.length;
     const marginRight = generalData[0].marginRight >= 0 ? generalData[0].marginRight : 62;
     const marginLeft = generalData[0].marginLeft >= 0 ? generalData[0].marginLeft : 48;
 
@@ -223,6 +223,8 @@ export class LineGraphComponent implements OnInit {
     const width = preWidth - margin.left - margin.right;
     const height = generalData[0].height || 420;
     const hoverMargin = generalData[0].hoverMargin || 56;
+    const dupDelimiter = generalData[0].dupDelimiter;
+    const xPartWidth = width / lengthOfData;
 
     const chart = d3
       .select(this.renderChart)
@@ -287,7 +289,6 @@ export class LineGraphComponent implements OnInit {
         .attr('class', 'displayNone');
     }
 
-    const lengthOfData = chartData.length;
     // tslint:disable-next-line:no-var-keyword
     var highestValue = Math.max.apply(
       Math,
@@ -318,10 +319,10 @@ export class LineGraphComponent implements OnInit {
       .range([25, width - 25]);
 
     const xScalePath = (index: number, key: number, total: number) => {
-      if ((index + 1) % key === 0 && total !== index + 1) {
-        return 58 * (index + 1);
+      if ((index + 1) % key === 0) {
+        return xPartWidth * (index + 1);
       }
-      return 58 * index;
+      return xPartWidth * index;
     };
 
     const xScale3 = d3
@@ -363,6 +364,20 @@ export class LineGraphComponent implements OnInit {
       .call(
         d3
           .axisBottom(xScale3)
+          .tickFormat(d => {
+            // If X Axis has duplicate values / Formatted Values, Pass respective keys in generalData object and
+            // and use accordingly
+            if (generalData[0].formattedXAxis) {
+              const preDelimiterLength = 2;
+              const delimiterForDuplicate = d.substring(d.length - dupDelimiter.length - preDelimiterLength, d.length);
+              if (delimiterForDuplicate.substring(preDelimiterLength, delimiterForDuplicate.length) === dupDelimiter) {
+                let formattedString = d.replace(dupDelimiter, '');
+                formattedString = formattedString.substring(0, formattedString.length - preDelimiterLength);
+                return formattedString.replace('_', ' ');
+              }
+            }
+            return d;
+          })
           .tickSize(5, 0, 0)
           .tickSizeOuter([0])
       );
@@ -462,21 +477,19 @@ export class LineGraphComponent implements OnInit {
     chart.selectAll('.tick:not(:first-of-type) line').attr('opacity', '.35');
     chart.selectAll('.tick:first-of-type line').attr('opacity', '1');
 
-    if (1) {
-      if (!generalData[0].hideYAxis) {
-        chart
-          .append('g')
-          .attr('class', xtextClass)
-          .attr('transform', 'translate( ' + width + ', 0 )')
-          .call(
-            d3
-              .axisRight(yScale)
-              .tickSize(5, 0, 0)
-              .tickSizeOuter([0])
-              .ticks(3)
-              .tickFormat(formatDynamicAbbreviation(numberOfTicks, highestTickValue, axisPrefix))
-          );
-      }
+    if (!generalData[0].hideYAxis) {
+      chart
+        .append('g')
+        .attr('class', xtextClass)
+        .attr('transform', 'translate( ' + width + ', 0 )')
+        .call(
+          d3
+            .axisRight(yScale)
+            .tickSize(5, 0, 0)
+            .tickSizeOuter([0])
+            .ticks(3)
+            .tickFormat(formatDynamicAbbreviation(numberOfTicks, highestTickValue, axisPrefix))
+        );
     }
     const RectBarOne = chart
       .selectAll('.rect-bar')
@@ -606,26 +619,24 @@ export class LineGraphComponent implements OnInit {
       })
       .attr('r', 6);
 
-    if (1) {
+    chart
+      .append('path')
+      .datum(data)
+      .attr('class', 'line')
+      .attr('d', line)
+      .attr('id', 'LineOne')
+      .style('fill', 'none')
+      .style('stroke', generalData[0].barColor);
+
+    if (generalData[0].trendLine) {
       chart
         .append('path')
         .datum(data)
-        .attr('class', 'line')
-        .attr('d', line)
-        .attr('id', 'LineOne')
+        .attr('class', 'line2')
+        .attr('d', line2)
+        .attr('id', 'LineTwo')
         .style('fill', 'none')
-        .style('stroke', generalData[0].barColor);
-
-      if (generalData[0].trendLine) {
-        chart
-          .append('path')
-          .datum(data)
-          .attr('class', 'line2')
-          .attr('d', line2)
-          .attr('id', 'LineTwo')
-          .style('fill', 'none')
-          .style('stroke', generalData[0].trendLineColor);
-      }
+        .style('stroke', generalData[0].trendLineColor);
     }
 
     // end if structure o titleData[0].averagePeerPerformance
