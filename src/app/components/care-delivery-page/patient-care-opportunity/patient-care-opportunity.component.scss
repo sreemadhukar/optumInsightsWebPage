@@ -63,29 +63,26 @@
 }
 
 .page-subtitle {
-  float: left;
+  display: flex;
+  align-items: center;
   padding-bottom: 32px;
   .page-subtitle-header {
-    float: left;
     color: $strom-grey;
     font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
     font-size: 16px;
     letter-spacing: 0.2px;
     line-height: 22px;
   }
-  .page-subtitle-link {
+  .subtitle-reportLink {
     cursor: pointer;
     color: $blue;
-    letter-spacing: 0.2px;
-    font-size: 16px;
     font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
-    line-height: 24px;
-    display: inline;
-    .subtitle-reportLink {
-      float: left;
-    }
+    font-size: 16px;
+    letter-spacing: 0.2px;
+    line-height: 22px;
   }
   .page-subtitle-icon {
+    cursor: pointer;
     color: $blue;
   }
 }
