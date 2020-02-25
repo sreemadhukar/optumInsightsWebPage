@@ -12,7 +12,6 @@
       [printWidth]="printWidth">
       &gt;</app-print> -->
     </div>
-    <div class="height1Separator"></div>
 
     <div class="breadcrumb-top-padding filter-div">
       <div class="time--period ">
@@ -21,7 +20,7 @@
             <button class="btn btn-rounded" disabled>
               <span>Time Period: </span
               ><span *ngIf="npsLoaded && kopInsightsData" class="text-semibold pl-4"
-                >{{ kopInsightsData.timePeriod.title }} ({{ kopInsightsData.timePeriod.timeFrame | timeperiod }})
+                >{{ kopInsightsData.timePeriod.title }} {{ kopInsightsData.timePeriod.timeFrame | timeperiod }}
               </span>
             </button>
           </div>
@@ -32,6 +31,8 @@
         </div>
       </div>
     </div>
+
+    <div class="height-30"></div>
 
     <div class="overview-section" *ngIf="npsLoaded && kopInsightsData">
       <div class="section-header">
@@ -47,11 +48,10 @@
           </ul>
         </div>
         <!-- Commented for overview -->
-        <!-- <div class="cards section-header-part3">
+        <div class="cards section-header-part3">
           <button routerLink="/NationalExecutive/NpsDetail">View Details</button>
-        </div> -->
+        </div>
       </div>
-      <div class="height1Separator"></div>
       <div class="nps-section">
         <app-small-card
           class="cards"
@@ -68,30 +68,35 @@
         <app-large-card-kop
           [data]="kopInsightsData.networkParticipation"
           [noHeaderClick]="true"
+          [footerLinkTitle]="'View More'"
           [timePeriod]="kopInsightsData.timePeriod"
         >
         </app-large-card-kop>
         <app-large-card-kop
           [data]="kopInsightsData.careDelivery"
           [noHeaderClick]="true"
+          [footerLinkTitle]="'View More'"
           [timePeriod]="kopInsightsData.timePeriod"
         >
         </app-large-card-kop>
         <app-large-card-kop
           [data]="kopInsightsData.reimbursement"
           [noHeaderClick]="true"
+          [footerLinkTitle]="'View More'"
           [timePeriod]="kopInsightsData.timePeriod"
         >
         </app-large-card-kop>
         <app-large-card-kop
           [data]="kopInsightsData.issueResolution"
           [noHeaderClick]="true"
+          [footerLinkTitle]="'View More'"
           [timePeriod]="kopInsightsData.timePeriod"
         >
         </app-large-card-kop>
         <app-large-card-kop
           [data]="kopInsightsData.engagement"
           [noHeaderClick]="true"
+          [footerLinkTitle]="'View More'"
           [timePeriod]="kopInsightsData.timePeriod"
         >
         </app-large-card-kop>
