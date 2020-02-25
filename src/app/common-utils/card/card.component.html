@@ -8,8 +8,8 @@
     chartData.type === 'donutWithoutLabelBottom' ||
     chartData.title === 'Claims Appeals Overturned' ||
     chartData.title === 'Claims Appeals Overturned Rate' ||
-    chartData.title === 'Medicare & Retirement Annual Care Visits Completion Rate' ||
-    chartData.title === 'Medicare & Retirement Average Star Rating'
+    chartData.title === 'Medicare Annual Care Visits Completion Rate' ||
+    chartData.title === 'Medicare Average Star Rating'
   "
   [class.app-card-structure-for-smart-edits-claims-returned]="chartData.title == 'Smart Edits Claims Returned'"
 >
@@ -298,18 +298,21 @@
           </section>
         </div>
 
-        <div class="chart-details-donut">
+        <div
+          class="chart-details-donut"
+          [class.pcor-medicare]="chartData.title == 'Medicare Annual Care Visits Completion Rate'"
+        >
           <app-donut-chart-onchange
             [donutType]="'app-card'"
             [chartOptions]="medicareData"
             [class.PCOR-annual-rate-donut-with-label-tab]="
-              chartData.title == 'Medicare & Retirement Annual Care Visits Completion Rate'
+              chartData.title == 'Medicare Annual Care Visits Completion Rate'
             "
           ></app-donut-chart-onchange>
         </div>
 
         <div
-          *ngIf="chartData.title == 'Medicare & Retirement Annual Care Visits Completion Rate'"
+          *ngIf="chartData.title == 'Medicare Annual Care Visits Completion Rate'"
           class="PCOR-annual-rate-vertical-data-block"
         >
           <ul>
