@@ -214,13 +214,14 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
       this.monthlyLineGraph.titleData = [{}];
       this.monthlyLineGraph.generalData = [
         {
-          width: 500,
+          width: 961,
           backgroundColor: 'null',
           barGraphNumberSize: 18,
           barColor: '#196ECF',
           parentDiv: 'non-payment-trend-block',
           tooltipBoolean: true,
-          hideYAxis: false
+          hideYAxis: false,
+          yAxisUnits: '$'
         }
       ];
 

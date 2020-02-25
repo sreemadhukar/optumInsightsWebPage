@@ -15,6 +15,13 @@ export class KopService {
   private SERVICE_PATH_KOP_CLAIMS: string = environment.apiUrls.KOPReimbursementClaims;
   constructor(private http: HttpClient) {}
 
+  public getNpsDetailSummary({ params }) {
+    const url = this.APP_URL + 'kop-metrics-byAllQuarters';
+    return this.http.get(url, { params }).pipe(
+      map(res => JSON.parse(JSON.stringify(res))),
+      catchError(err => of(JSON.parse(JSON.stringify(err))))
+    );
+  }
   public getSummary({ params }) {
     const url = this.APP_URL + this.SERVICE_PATH_KOP;
     return this.http.get(url, { params }).pipe(

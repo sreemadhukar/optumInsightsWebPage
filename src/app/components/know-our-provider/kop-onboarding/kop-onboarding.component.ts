@@ -6,6 +6,7 @@ import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { findIndex as _findIndex } from 'lodash';
 
 export interface FilterOptions {
   title: string;
@@ -25,48 +26,34 @@ export interface FilterOptions {
 export class KopOnboardingComponent implements OnInit, OnDestroy {
   subscription: Subscription;
 
-  // HEADER SECTION
-  public filterData: FilterOptions[] = [
-    {
-      title: 'Last Completed Quarter',
-      selected: false,
-      default: false,
-      quarterFormat: 'default',
-      timeFrameFormat: 'Quarter and Year',
-      filters: ['LAST_COMPLETED_QUARTER'],
-      priorAuthFilters: ['LAST_COMPLETED_QUARTER']
-    },
-    {
-      title: 'Year To Date',
-      selected: false,
-      default: false,
-      timeFrameFormat: 'Year',
-      quarterFormat: 'default',
-      filters: ['YEAR_TO_DATE'],
-      priorAuthFilters: ['YEAR_TO_DATE']
-    },
-    {
-      title: 'Quarter over Quarter',
-      selected: true,
-      default: true,
-      timeFrameFormat: 'Quarter vs Quarter',
-      quarterFormat: 'default',
-      filters: ['QUARTER_OVER_QUARTER'],
-      priorAuthFilters: ['LAST_COMPLETED_QUARTER', 'QUARTER_OVER_QUARTER']
-    },
-    {
-      title: 'Total Last Year',
-      selected: false,
-      default: false,
-      timeFrameFormat: 'Last Year',
-      quarterFormat: 'YTD',
-      filters: ['YEAR_TO_DATE', 'TOTAL_LAST_YEAR'],
-      priorAuthFilters: ['YEAR_TO_DATE', 'TOTAL_LAST_YEAR']
-    }
-  ];
-
   public currentFilter: any = {};
   public isError = false;
+  public navLinks = [
+    {
+      label: 'Summary',
+      path: 'Summary',
+      subLabel: 'Key Onboarding Metrices',
+      isActive: true
+    },
+    {
+      label: 'Credentailing',
+      path: 'Summary/credentailing',
+      subLabel: ' ',
+      isActive: false
+    },
+    {
+      label: 'Contracting',
+      path: 'Summary/contracting',
+      subLabel: ' ',
+      isActive: false
+    },
+    {
+      label: 'Verbatims',
+      path: 'Summary/verbatims',
+      subLabel: 'Provider Comments',
+      isActive: false
+    }
+  ];
 
   constructor(
     private eventEmitter: EventEmitterService,
@@ -88,20 +75,6 @@ export class KopOnboardingComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.eventEmitter.emitEvent(true);
-    this.currentFilter = this.filterData.filter(element => element.default)[0];
-    this.sessionService.getFilChangeEmitter().subscribe((data: any) => {
-      const { selectedFilter } = data;
-
-      this.filterData.forEach((filterDataItem: any) => {
-        filterDataItem.selected = false;
-        if (filterDataItem.title === selectedFilter) {
-          filterDataItem.selected = true;
-          this.currentFilter = filterDataItem;
-        }
-      });
-      this.isError = false;
-      this.getNPSData();
-    });
   }
 
   ngOnDestroy(): void {
@@ -109,7 +82,13 @@ export class KopOnboardingComponent implements OnInit, OnDestroy {
   }
 
   openFilter() {
-    this.filterExpandService.setData({ url: this.router.url, customFilter: true, filterData: this.filterData });
+    this.filterExpandService.setData({ url: this.router.url, customFilter: true });
+  }
+
+  setActiveIndex(i) {
+    const lastActiveIndex = _findIndex(this.navLinks, { isActive: true });
+    this.navLinks[lastActiveIndex]['isActive'] = false;
+    this.navLinks[i]['isActive'] = true;
   }
 
   getNPSData() {}
