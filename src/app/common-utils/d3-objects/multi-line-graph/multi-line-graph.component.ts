@@ -223,7 +223,7 @@ export class MultiLineGraphComponent implements OnInit {
           ${y1 != null ? `<p><div class="tooltip-mr-img"></div> ${lobName.mAndRMedicare} : (${y1})</p>` : ''}
           ${y2 != null ? `<p><div class="tooltip-cs-img"></div> ${lobName.cAndSMedicaid} : (${y2})</p>` : ''}
           ${y3 != null ? `<p><div class="tooltip-ei-img"></div> ${lobName.eAndICommerCial} : (${y3})</p>` : ''}
-          ${y4 != null ? `<p><div class="tooltip-other-img"></div> Other : (${y4})</p>` : ''}
+          ${y4 != null ? `<p><div class="tooltip-other-img"></div> ${lobName.unCategorized} : (${y4})</p>` : ''}
         </div>`;
       } else if (chartId === 'calls-trend-block') {
         return `<div class="lineLabelHover">
