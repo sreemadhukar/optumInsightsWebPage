@@ -71,19 +71,31 @@
     line-height: 22px;
     padding-left: 40px;
     cursor: pointer;
+    font-size: 16px;
   }
 
   .provider-height {
     height: 37px;
     // padding-top: 5px;
   }
+
+  .curser {
+    cursor: pointer;
+  }
+
   .toggle-view-height {
     height: 30px;
+    font-size: 14px;
   }
 
   .signout-lh {
     line-height: 30px;
+    border-top-width: 1px;
+    border-top-style: groove;
+    border-top-color: lightgray;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.15);
   }
+
   .tiny-provider {
     height: 12px;
     width: 239px;
@@ -94,17 +106,15 @@
     padding-left: 40px;
   }
 
-  div.drop-item:hover,
-  :active {
-    background-color: #e3f0fd;
-    color: #196ecf;
-  }
-
   .icon mat-icon {
     visibility: hidden;
   }
 
   .icon:hover mat-icon {
+    visibility: visible;
+  }
+
+  .active.icon mat-icon {
     visibility: visible;
   }
 
@@ -157,15 +167,30 @@
     line-height: 22px;
     text-align: right;
     padding: 25px 32px 20px 0;
+
+    width: 100px;
+    margin-right: 25px;
+    margin-top: 10px;
+    padding-top: 10px;
+    padding-right: 20px;
+    padding-bottom: 15px;
+    border-radius: 2px;
+
     .user-name {
       line-height: 31px;
       font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
     }
     .user-expand-more {
-      line-height: 26px;
+      line-height: 28px;
     }
   }
 }
+
+.user-div:hover {
+  background-color: #d7dce1;
+  cursor: pointer;
+}
+
 .print-header-div {
   height: 80px;
   .header-logo-div {
@@ -197,10 +222,11 @@
 .vertical-menu {
   width: 284px;
   height: 202px;
-  margin-right: 20px;
+  margin-right: 25px;
   margin-top: 60px;
   position: absolute;
   right: 0;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.15);
 }
 
 .vertical-menu a {
@@ -209,16 +235,17 @@
   text-decoration: none;
   border-radius: 3px 3px 0 0;
   background-color: #ffffff;
-  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
+  // box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
   color: #757588;
 }
 
-.vertical-menu a:hover {
+.vertical-menu .active,
+.act:hover {
   background-color: #e3f0fd;
   color: #196ecf;
 }
 
-.vertical-menu a.active {
+.vertical-menu .icon:hover {
   background-color: #e3f0fd;
   color: #196ecf;
 }

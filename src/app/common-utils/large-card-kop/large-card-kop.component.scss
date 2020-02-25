@@ -3,10 +3,11 @@
 .card-structure {
   position: relative;
   float: left;
+  width: 100%;
 
   .card-inner-large {
+    width: 100%;
     background-color: $white;
-    width: 932px;
     position: relative;
     overflow: hidden;
     height: auto;
@@ -43,7 +44,104 @@
       padding: 5px 0;
       margin: 0 15px;
     }
+    .graph {
+      height: auto;
+      display: flex;
+      .graph-details.vertical {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        width: 20%;
+        .graph-quarter {
+          border-top: 1px solid grey;
+          width: 60px;
+          padding: 10px 0;
+          margin: 0 25px;
+          .quarter-value {
+            font-size: 26px;
+            padding: 5px 0;
+          }
+          .quarter-year {
+            font-size: 18px;
+            padding: 5px 0;
+          }
+        }
+        .graph-quarter.highlighted {
+          border-top: 0;
+          .quarter-value {
+            font-size: 42px;
+          }
+        }
+      }
+      .graph-details.horizontal {
+        display: flex;
+        flex-direction: row;
+        height: 72px;
+        width: 100%;
+        .graph-quarter {
+          border-right: 1px solid grey;
+          width: 60px;
+          padding: 10px 25px;
+          .quarter-value {
+            font-size: 26px;
+            padding: 5px 0;
+          }
+          .quarter-year {
+            font-size: 18px;
+            padding: 5px 0;
+          }
+        }
+        .graph-quarter.highlighted {
+          border-top: 0;
+          .quarter-value {
+            font-size: 42px;
+          }
+        }
+      }
+      .graph-content {
+        height: 100%;
+        width: 80%;
+        font-size: 14px;
+        border: 1px solid #e5e5e5;
+        .graph-plot {
+          height: 90%;
+          min-height: 300px;
+        }
+        .graph-legend {
+          height: 10%;
+          display: flex;
+          justify-content: flex-end;
+          .graph-legend-item {
+            line-height: 28px;
+            margin: 0 10px;
+            .line {
+              display: inline-block;
+              margin: 0 5px;
+              width: 30px;
+              vertical-align: middle;
+            }
+            .solid {
+              border-top: 4px solid;
+              border-color: $dodger-blue;
+            }
+            .dashed {
+              border-top: 2px dashed;
+              border-color: $dodger-blue;
+            }
+          }
+        }
+      }
+    }
+    .graph.small {
+      flex-wrap: wrap;
+      .graph-content {
+        width: 100%;
+        height: 400px;
+        margin: 15px 0;
+      }
+    }
   }
+
   .card-inner-large-skeleton {
     background-color: $white;
     width: 961px;

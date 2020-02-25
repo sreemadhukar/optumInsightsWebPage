@@ -10,7 +10,7 @@ import { select } from '@angular-redux/store';
   styleUrls: ['./print.component.scss']
 })
 export class PrintComponent implements OnInit {
-  @select() currentPage;
+  @select(['uhc', 'currentPage']) currentPage;
   @Input() queryParams: any = {};
   selectedPage;
   overviewBool: boolean;
