@@ -68,8 +68,6 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
   public finaldata: any[] = [];
   public temp;
   public subreasonvalues = [];
-  students: Array<Object> = [];
-  programs: Array<Object>;
   selectedReasonItem: any;
   public categoryGroups;
   public subReasonselected: any;
@@ -149,7 +147,7 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
     this.temp = this.reasonReceived.sendData;
     this.fullData = this.temp.fullData;
     // claims reason and sub reason Dropwdown
-    console.log('full data', this.fullData);
+
     // claims reason and sub reason Dropwdown
     this.selectedReasonItem = this.temp.reasonSelected;
     this.selectedSubreason = this.temp.subReason;
@@ -314,7 +312,6 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
   }
   getPageSize(event) {
     this.pageSize = event.pageSize;
-    console.log('page size', this.pageSize);
   }
 
   customPaginator() {

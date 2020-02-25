@@ -54,10 +54,8 @@ export class TopClaimsSharedService {
     };
     return new Promise(resolve => {
       this.nonPaymentTopClaimsService.getViewTopClaimsData([this.providerKey], requestBody).subscribe(data => {
-        console.log('data', data);
-
         const claimsData = data.ClaimsNonPaymentMetrics;
-        console.log('data', claimsData);
+
         resolve(claimsData);
       });
     });
