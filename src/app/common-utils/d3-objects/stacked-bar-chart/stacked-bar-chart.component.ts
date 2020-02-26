@@ -5,13 +5,13 @@ import * as d3 from 'd3';
   selector: 'app-stacked-bar-chart',
   templateUrl: './stacked-bar-chart.component.html',
   styleUrls: ['./stacked-bar-chart.component.scss'],
-  encapsulation: ViewEncapsulation.None,
+  encapsulation: ViewEncapsulation.None
   // tslint:disable-next-line:use-host-property-decorator
-  host: {
-    '(window:resize)': 'onResize($event)'
-  }
+  // host: {
+  //   '(window:resize)': 'onResize($event)'
+  // }
 })
-export class StackedBarChartComponent implements OnInit {
+export class StackedBarChartComponent implements OnInit, AfterViewInit {
   public width: any;
   public height: any;
   public renderChart: string;
@@ -26,9 +26,9 @@ export class StackedBarChartComponent implements OnInit {
     this.doStaggedBarGraph(this.chartOptions);
   }
 
-  onResize(event) {
-    this.doStaggedBarGraph(this.chartOptions);
-  }
+  // onResize(event) {
+  //   this.doStaggedBarGraph(this.chartOptions);
+  // }
 
   onSystemChange() {
     this.doStaggedBarGraph(this.chartOptions.data);
