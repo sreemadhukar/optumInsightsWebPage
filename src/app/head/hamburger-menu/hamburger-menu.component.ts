@@ -610,6 +610,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
   closeFilter() {
     this.filterFlag = false;
     this.filterurl = null;
+    this.stopBodyScroll(false);
   }
 
   stopBodyScroll(flag: boolean) {
