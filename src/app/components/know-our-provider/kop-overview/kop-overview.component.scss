@@ -19,6 +19,7 @@
     flex-wrap: wrap;
     max-width: 972px;
     width: 100%;
+    padding: 0;
     margin: auto;
 
     font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
@@ -112,14 +113,12 @@
     .overview-section {
       display: flex;
       flex-wrap: wrap;
-      width: 972px;
+      width: 100%;
       .section-header div {
         display: inline-block;
       }
       .section-header {
         width: 100%;
-        padding-right: 15px;
-        padding-top: 30px;
         color: $black-rock;
         .section-header-part {
           .title {
@@ -182,13 +181,10 @@
       width: 100%;
       display: flex;
       margin-left: -15px;
-      .cards {
-        margin: 0 auto;
-      }
     }
 
-    .height1Separator {
-      height: 0;
+    .height-30 {
+      height: 30px;
       width: 100%;
     }
     & > .cards {

@@ -238,14 +238,13 @@ export class PatientCareOpportunityComponent implements OnInit {
         });
     });
     this.reportTitle = 'View the PCOR Report';
-    this.reportText = 'View in-depth details of your health system in the PCOR report. ';
     this.reportLink = 'View the Patient Care Opportunity Report';
   }
-  PCORreport() {
+  /* PCORreport() {
     if (this.isInternal) {
       window.open('https://webep1428/PCORMRPROD/');
     } else {
       window.open('https://www.uhcprovider.com/en/reports-quality-programs/physician-perf-based-comp.html');
     }
-  }
+  } */
 }
