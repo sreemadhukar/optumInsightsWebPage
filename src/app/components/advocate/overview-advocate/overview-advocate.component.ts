@@ -38,7 +38,7 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
   timePeriodPi: string;
   timePeriodNonPayment: string;
   lob: string;
-  trendTitle = 'Non-Payment Trend';
+  trendTitle = 'Claims Non-Payment Trend';
   taxID: Array<string>;
   topRowMockCards: any;
   subscription: any;
@@ -74,6 +74,7 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
   callsData: any;
   claimsYieldLoading: boolean;
   downRowMockCards: any;
+  yieldRowMockCards: any;
   claimsYieldCard: Array<Object>;
   pbsLoading: boolean;
   pbsCard: any;
@@ -83,7 +84,6 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
     chartId: '',
     chartData: ''
   };
-  stackedBarChartLoading: boolean;
   timeFilterValueResolved: string;
 
   constructor(
@@ -132,6 +132,7 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
       .getPaymentShared(this.createPayloadService.payload)
       .then(paymentData => {
         this.paymentCards = JSON.parse(JSON.stringify(paymentData));
+        console.log('this.paymentCards', this.paymentCards);
         this.paymentCards = this.paymentCards.map(item => {
           item['timeperiod'] = `${this.timeFilterValueResolved} (${item['timeperiod']})`;
           return item;
@@ -279,10 +280,10 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
             if (callsTrendData.hasOwnProperty(key)) {
               this.callsData.push({ key: key, value: this.sumArray(callsTrendData[key]) });
               /* if (
-                this.callsData[0].value +
-                  this.callsData[1].value +
-                  this.callsData[2].value +
-                  this.callsData[3].value ===
+                this.callsData[0].length +
+                  this.callsData[1].length +
+                  this.callsData[2].length +
+                  this.callsData[3].length ===
                 0
               ) {
                 this.callsLineGraphData = {
@@ -294,6 +295,7 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
                   data: null,
                   timeperiod: null
                 };
+                this.callsData = null;
               }*/
               /*for (let i = 0; i < this.callsData.length; i++) {
               if (this.callsData[i].value === NaN) {
@@ -327,7 +329,7 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
 
   claimsYieldData() {
     this.claimsYieldLoading = true;
-    this.downRowMockCards = [{}];
+    this.yieldRowMockCards = [{}];
     this.claimsYieldCard = [];
     this.topRowService
       .getClaimsYieldShared(this.createPayloadService.payload)
@@ -366,7 +368,7 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
     this.paymentsBySubmissionData();
     this.appealsLineGraphloading = true;
     this.callsLineGraphLoading = true;
-    this.stackedBarChartLoading = true;
+    // this.stackedBarChartLoading = true;
     this.userName = this.session.sessionStorage('loggedUser', 'FirstName');
     this.pagesubTitle = this.session.getHealthCareOrgName() + "'s insights at a glance.";
 
@@ -374,13 +376,14 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
     this.monthlyLineGraph.titleData = [{}];
     this.monthlyLineGraph.generalData = [
       {
-        width: 500,
+        width: 950,
         backgroundColor: 'null',
         barGraphNumberSize: 18,
         barColor: '#196ECF',
         parentDiv: 'non-payment-trend-block',
         tooltipBoolean: true,
-        hideYAxis: false
+        hideYAxis: false,
+        yAxisUnits: '$'
       }
     ];
 
@@ -423,20 +426,19 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
   }
 
   paymentsBySubmissionData() {
-    this.stackedBarChartLoading = false;
     this.pbsLoading = true;
     this.downRowMockCards = [{}];
     this.pbsCard = [];
     this.overviewAdvocateSharedService
       .paymentsBySubmission(this.createPayloadService.payload)
       .then(data => {
+        console.log('psbData', data);
         this.pbsCard = JSON.parse(JSON.stringify(data));
+        console.log('this.pbsCard---------->', this.pbsCard);
         this.pbsCard['timeperiod'] = `${this.timeFilterValueResolved} (${this.pbsCard['timeperiod']})`;
         this.pbsLoading = false;
-        this.stackedBarChartLoading = true;
       })
       .catch(reason => {
-        this.stackedBarChartLoading = false;
         this.pbsLoading = false;
         console.log('Error Payment Submission Adovate Overview page Payment', reason);
       });

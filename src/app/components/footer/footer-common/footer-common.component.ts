@@ -17,6 +17,8 @@ export class FooterCommonComponent implements OnInit {
       this.router.navigateByUrl('/TermsofUse');
     } else if (name === 'sitemap') {
       this.router.navigateByUrl('/SiteMap');
+    } else if (name === 'contact') {
+      this.router.navigateByUrl('/ContactUs');
     }
   }
 }

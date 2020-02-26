@@ -28,19 +28,44 @@ export class TopClaimsSharedService {
   public getClaimsData(filterParameters, reasonSelected, subReason) {
     this.providerKey = this.session.providerKeyData();
 
-    const timePeriod = this.getParameterviewTopsClaims(filterParameters)[0].TimeFilter;
+    const TIN = filterParameters.taxId[0].Tin;
+
+    const timePeriod = filterParameters.timePeriod;
+
     const viewClaimsByFilter = filterParameters.viewClaimsByFilter;
 
+    let specificTin;
+    //  if (TIN === 'All') {
+    //   alert(specificTin);
+    //    specificTin = null;
+    //  } else {
+
+    //    if (filterParameters.taxId.length === 1) {
+    //     alert('tin1');
+    //      specificTin = filterParameters.taxId;
+    //    } else {
+    //     alert('tin2');
+    //      const taxArray = filterParameters.taxId;
+
+    //      specificTin = taxArray;
+    //        }
+    //  }
+    if (TIN === 'All') {
+      specificTin = null;
+    } else {
+      if (filterParameters.taxId.length === 1) {
+        specificTin = parseInt(TIN.replace(/\D/g, ''), 10).toString();
+      } else {
+        const taxArray = filterParameters.taxId;
+        const taxArrayFormatted = [];
+        for (let i = 0; i < taxArray.length; i++) {
+          taxArrayFormatted.push(parseInt(taxArray[i].replace(/\D/g, ''), 10));
+        }
+        specificTin = taxArrayFormatted.join(', ');
+      }
+    }
     // DOS and DOP
     const viewClaimTypeValue = viewClaimsByFilter;
-
-    let specificTin = this.getParameterviewTopsClaims(filterParameters)[0]
-      .Tin.map(item => item.Tin.replace(/-/g, ''))
-      .toString();
-
-    if (specificTin === 'All') {
-      specificTin = null;
-    }
 
     const requestBody = {
       tins: specificTin,
@@ -53,15 +78,12 @@ export class TopClaimsSharedService {
     };
     return new Promise(resolve => {
       this.nonPaymentTopClaimsService.getViewTopClaimsData([this.providerKey], requestBody).subscribe(data => {
+        console.log('data', data);
+
         const claimsData = data.ClaimsNonPaymentMetrics;
+        console.log('data', claimsData);
         resolve(claimsData);
       });
     });
   }
-  getParameterviewTopsClaims(param) {
-    let parameters = [];
-    this.providerKey = this.session.providerKeyData();
-    parameters = [new GettingReimbursedPayload(param)];
-    return parameters;
-  } // end getParameterCategories() function for Top Reasons Categories
 }

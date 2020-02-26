@@ -1,4 +1,3 @@
-<app-feedback></app-feedback>
 <div class="overview-advocate-body">
   <div class="overview-advocate-content">
     <div class="cards cust-width-title ">
@@ -18,7 +17,7 @@
       >
       </app-small-card>
       <app-error-card
-        *ngIf="item.metricInProgres == true || (item != null && item.status != null && item.toggle)"
+        *ngIf="item.metricInProgres == true || (item != null && item.status != null)"
         class="cards"
         [data]="item"
       ></app-error-card>
@@ -91,13 +90,13 @@
 
           <div class="lob-set">
             <div class="mr-img" *ngIf="mi"></div>
-            <div class="lob-values" *ngIf="mi">M&R ({{ mi }})</div>
+            <div class="lob-values" *ngIf="mi">Medicare ({{ mi }})</div>
             <div class="cs-img" *ngIf="cs"></div>
-            <div class="lob-values" *ngIf="cs">C&S ({{ cs }})</div>
+            <div class="lob-values" *ngIf="cs">Medicaid ({{ cs }})</div>
             <div class="ei-img" *ngIf="ei"></div>
-            <div class="lob-values" *ngIf="ei">E&I ({{ ei }})</div>
+            <div class="lob-values" *ngIf="ei">Commercial ({{ ei }})</div>
             <div *ngIf="other" class="other-img"></div>
-            <div class="lob-values" *ngIf="other">Other ({{ other }})</div>
+            <div class="lob-values" *ngIf="other">Uncategorized ({{ other }})</div>
           </div>
         </div>
 
@@ -176,12 +175,16 @@
     </div>
     <div>
       <app-card *ngIf="pbsCard.data != null" class="cards" [chartData]="pbsCard"> </app-card>
-      <app-error-card *ngIf="false" class="cards" [data]="item"></app-error-card>
+      <app-error-card
+        *ngIf="pbsCard.data == null && pbsCard.status != null"
+        class="cards"
+        [data]="pbsCard"
+      ></app-error-card>
     </div>
 
-    <div *ngFor="let data of downRowMockCards; let i = index">
+    <!--<div *ngFor="let data of yieldRowMockCards; let i = index">
       <app-card class="cards" [skeleton]="claimsYieldLoading" *ngIf="claimsYieldLoading"> </app-card>
-    </div>
+    </div>-->
     <div *ngFor="let item of claimsYieldCard">
       <app-card *ngIf="item.data != null && item.toggle" class="cards" [chartData]="item"> </app-card>
       <app-error-card *ngIf="item.toggle && item.status != null && item.data == null" class="cards" [data]="item">

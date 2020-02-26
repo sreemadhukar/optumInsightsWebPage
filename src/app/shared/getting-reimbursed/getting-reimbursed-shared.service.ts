@@ -10,8 +10,8 @@ import { NonPaymentService } from '../../rest/getting-reimbursed/non-payment.ser
 import { GlossaryMetricidService } from '../glossary-metricid.service';
 import { GettingReimbursedPayload } from './payload.class';
 import * as _ from 'lodash';
-import { environment } from '../../../environments/environment';
 import { PaymentsSharedService } from './payments/payments-shared.service';
+import { lobName } from '../../modals/lob-name';
 
 @Injectable({
   providedIn: 'root'
@@ -376,7 +376,12 @@ export class GettingReimbursedSharedService {
                   hover: true
                 },
                 besideData: {
-                  labels: ['Medicare & Retirement', 'Community & State', 'Employer & Individual', 'Uncategorized'],
+                  labels: [
+                    lobName.mAndRMedicare,
+                    lobName.cAndSMedicaid,
+                    lobName.eAndICommerCial,
+                    lobName.unCategorized
+                  ],
                   color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'],
                   graphValues: paidData
                 },
@@ -462,7 +467,12 @@ export class GettingReimbursedSharedService {
                   hover: true
                 },
                 besideData: {
-                  labels: ['Medicare & Retirement', 'Community & State', 'Employer & Individual', 'Uncategorized'],
+                  labels: [
+                    lobName.mAndRMedicare,
+                    lobName.cAndSMedicaid,
+                    lobName.eAndICommerCial,
+                    lobName.unCategorized
+                  ],
                   color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'],
                   graphValues: notPaidData
                 },
@@ -628,7 +638,7 @@ export class GettingReimbursedSharedService {
                   sum += appealsData[0].LineOfBusiness.MedicareAndRetirement.TotalClosedCount;
                 }
                 submittedData.push(sum);
-                labelsData.push('Medicare & Retirement');
+                labelsData.push(lobName.mAndRMedicare);
                 colorsData.push('#3381FF');
               }
               if (appealsData[0].LineOfBusiness.hasOwnProperty('CommunityAndState')) {
@@ -649,7 +659,7 @@ export class GettingReimbursedSharedService {
                   sum += appealsData[0].LineOfBusiness.CommunityAndState.TotalClosedCount;
                 }
                 submittedData.push(sum);
-                labelsData.push('Community & State');
+                labelsData.push(lobName.cAndSMedicaid);
                 colorsData.push('#80B0FF');
               }
               if (appealsData[0].LineOfBusiness.hasOwnProperty('EmployerAndIndividual')) {
@@ -670,7 +680,7 @@ export class GettingReimbursedSharedService {
                   sum += appealsData[0].LineOfBusiness.EmployerAndIndividual.TotalClosedCount;
                 }
                 submittedData.push(sum);
-                labelsData.push('Employer & Individual');
+                labelsData.push(lobName.eAndICommerCial);
                 colorsData.push('#003DA1');
               }
 
@@ -692,7 +702,7 @@ export class GettingReimbursedSharedService {
                   sum += appealsData[0].LineOfBusiness.Uncategorized.TotalClosedCount;
                 }
                 submittedData.push(sum);
-                labelsData.push('Uncategorized');
+                labelsData.push(lobName.unCategorized);
                 colorsData.push('#00B8CC');
               }
               appealsSubmitted = {
@@ -719,7 +729,12 @@ export class GettingReimbursedSharedService {
                   hover: true
                 },
                 besideData: {
-                  labels: ['Medicare & Retirement', 'Community & State', 'Employer & Individual', 'Uncategorized'],
+                  labels: [
+                    lobName.mAndRMedicare,
+                    lobName.cAndSMedicaid,
+                    lobName.eAndICommerCial,
+                    lobName.unCategorized
+                  ],
                   color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC'],
                   graphValues: submittedData
                 },
@@ -1676,7 +1691,7 @@ export class GettingReimbursedSharedService {
             sum += appealsData[0].LineOfBusiness.MedicareAndRetirement.TotalClosedCount;
           }
           submittedData.push(sum);
-          labelsData.push('Medicare & Retirement');
+          labelsData.push(lobName.mAndRMedicare);
           colorsData.push('#3381FF');
         }
         if (
@@ -1701,7 +1716,7 @@ export class GettingReimbursedSharedService {
             sum += appealsData[0].LineOfBusiness.CommunityAndState.TotalClosedCount;
           }
           submittedData.push(sum);
-          labelsData.push('Community & State');
+          labelsData.push(lobName.cAndSMedicaid);
           colorsData.push('#80B0FF');
         }
         if (
@@ -1726,7 +1741,7 @@ export class GettingReimbursedSharedService {
             sum += appealsData[0].LineOfBusiness.EmployerAndIndividual.TotalClosedCount;
           }
           submittedData.push(sum);
-          labelsData.push('Employer & Individual');
+          labelsData.push(lobName.eAndICommerCial);
           colorsData.push('#003DA1');
         }
 
@@ -1749,7 +1764,7 @@ export class GettingReimbursedSharedService {
             sum += appealsData[0].LineOfBusiness.Uncategorized.ClinicalAppeals;
           }
           submittedData.push(sum);
-          labelsData.push('Uncategorized');
+          labelsData.push(lobName.unCategorized);
           colorsData.push('#00B8CC');
         }
         if (lobFullData !== 'ALL') {
@@ -1790,7 +1805,6 @@ export class GettingReimbursedSharedService {
           sideData[0] = labelsData;
           sideData[1] = colorsData;
         }
-        console.log('APpeals Data 2066', appealsData);
         appealsSubmitted = {
           category: 'app-card',
           type: 'donutWithoutLabelBottom',

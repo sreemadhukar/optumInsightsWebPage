@@ -86,12 +86,11 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
   public navCategories = [];
   public navCategoriesTotal = [
     { icon: 'home', name: 'Overview', path: '/NationalExecutive', disabled: false, kop: true },
-    // Commented for production release
     // { icon: 'summary', name: 'NPS Summary', path: '/NationalExecutive/NpsDetail', disabled: false, kop: true },
     // {
     //   icon: 'person',
     //   name: 'Onboarding',
-    //   children: [{ name: 'Summary', path: '/NationalExecutive/Onboarding', kop: true }],
+    //   children: [{ name: 'Summary', path: '/NationalExecutive/Onboarding/Summary', kop: true }],
     //   disabled: false,
     //   kop: true
     // },
@@ -493,7 +492,6 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     this.pcorService.getExecutiveData(...parametersExecutive).subscribe(
       data => {
         const PCORData = data.PatientCareOpportunity;
-        console.log('PCOR---' + PCORData);
         if (PCORData === null || PCORData === undefined) {
           try {
             this.removePCORnav();

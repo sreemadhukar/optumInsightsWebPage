@@ -123,7 +123,7 @@
           </div>
           <div class="graph-content">
             <div class="graph-plot">
-              <!-- <app-line-graph [chartOptions]="cardData.npsGraph"></app-line-graph> -->
+              <app-line-graph [chartOptions]="cardData.npsGraph"></app-line-graph>
             </div>
             <div class="graph-legend">
               <div class="graph-legend-item">
@@ -141,14 +141,8 @@
     </div>
     <div class="full-width-block" *ngIf="timePeriod">
       <app-common-footer
-        [linkName]="'View Data'"
-        [timePeriod]="
-          timePeriod.title
-            .concat(' ')
-            .concat('(')
-            .concat(timePeriod.timeFrame | timeperiod)
-            .concat(')')
-        "
+        [linkName]="footerLinkTitle"
+        [timePeriod]="timePeriod.title.concat(' ').concat(timePeriod.timeFrame | timeperiod)"
       ></app-common-footer>
     </div>
   </div>
