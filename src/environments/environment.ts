@@ -23,8 +23,8 @@ export const environment: any = {
   //  apiProxyUrl: 'https://pedapi2-peddev.ocp-ctc-core-nonprod.optum.com/',
 
   // stage
-  apiProxyUrl: 'https://pedapiuhc-pedstgapp.origin-ctc-core.optum.com/',
-  originUrl: 'https://pedui3-peddev.ocp-ctc-core-nonprod.optum.com/',
+  apiProxyUrl: 'https://gateway-stage-core.optum.com/api/devone/pdr/uhci/v1/',
+  originUrl: 'https://pedui1-peddev.ocp-ctc-core-nonprod.optum.com/',
 
   apiUrls: {
     ExecutiveSummaryPath: 'providersystems/',
