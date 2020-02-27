@@ -194,6 +194,12 @@
           }
         }
       }
+
+      .mat-tab-nav-bar,
+      .mat-tab-header {
+        border-bottom: 0px !important;
+        margin-top: 15px;
+      }
     }
     .nps-section {
       width: 100%;
@@ -322,5 +328,50 @@
     font-family: 'UHCSans-Medium';
     color: #ffffff;
     cursor: pointer;
+  }
+
+  .nav-label {
+    background-color: white;
+    border: 0.5px solid #e0e0e0;
+    border-radius: 2px;
+    padding: 20px 5px 37px 15px;
+    cursor: pointer;
+    color: #757588;
+    width: 223px;
+    text-align: left;
+    font-size: 16px;
+    font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+    letter-spacing: 0.2px;
+  }
+
+  .rm-padding {
+    padding: 0px 0px 0px 0px;
+  }
+
+  .active-class-border {
+    border-top: 3px solid #003da1;
+  }
+
+  .active-class-background {
+    background-color: #f1f4f7;
+    border: 0px;
+  }
+
+  .height-10vh {
+    height: 12vh;
+  }
+
+  .nav-sub-label {
+    font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+    font-size: 15px;
+    padding-bottom: 10px;
+  }
+
+  .margin-top-15 {
+    margin-top: 15px;
+  }
+
+  .margin-top-27 {
+    margin-top: 28px;
   }
 }

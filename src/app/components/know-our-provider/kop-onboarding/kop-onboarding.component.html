@@ -27,6 +27,55 @@
       </div>
     </div>
 
-    <div class="overview-section"></div>
+    <div class="overview-section">
+      <nav mat-tab-nav-bar>
+        <a
+          mat-tab-link
+          class="rm-padding height-10vh"
+          *ngFor="let link of navLinks; let i = index"
+          [routerLink]="link.path"
+          (click)="setActiveIndex(i)"
+          routerLinkActive
+          #rla="routerLinkActive"
+          [ngClass]="{ 'active-class-border': link.isActive }"
+        >
+          <div class="nav-label" [ngClass]="{ 'active-class-background': link.isActive }">
+            <p
+              class="margin-top-15"
+              [ngClass]="{
+                'margin-top-27':
+                  (link.label === 'Summary' && !link.isActive) || (link.label === 'Verbatims' && link.isActive)
+              }"
+            >
+              {{ link.label }}
+            </p>
+            <p
+              class="margin-top-15 nav-sub-label"
+              [hidden]="
+                !(
+                  (link.label === 'Summary' && !link.isActive) ||
+                  (link.label === 'Verbatims' && link.isActive) ||
+                  link.label === 'Credentailing' ||
+                  link.label === 'Contracting'
+                )
+              "
+            >
+              {{ link.subLabel }}
+            </p>
+            <p
+              class="margin-top-15 nav-sub-label"
+              [hidden]="
+                (link.label === 'Summary' && !link.isActive) ||
+                (link.label === 'Verbatims' && link.isActive) ||
+                link.label === 'Credentailing' ||
+                link.label === 'Contracting'
+              "
+            ></p>
+          </div>
+        </a>
+      </nav>
+
+      <router-outlet></router-outlet>
+    </div>
   </div>
 </div>
