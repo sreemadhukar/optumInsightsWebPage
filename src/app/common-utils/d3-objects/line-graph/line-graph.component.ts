@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, AfterViewInit, ViewEncapsulation, HostBinding } from '@angular/core';
+import { Component, OnInit, Input, ViewEncapsulation } from '@angular/core';
 import * as d3 from 'd3';
 import { Router } from '@angular/router';
 
@@ -43,7 +43,6 @@ export class LineGraphComponent implements OnInit {
   constructor(private router: Router) {}
 
   ngOnInit() {
-    console.log('line graph', this.chartOptions.chartId);
     this.renderChart = '#' + this.chartOptions.chartId;
 
     if (this.router.url.includes('print-')) {
@@ -206,7 +205,7 @@ export class LineGraphComponent implements OnInit {
       }
     }
 
-    const preWidth = 961; // document.getElementById(generalData[0].parentDiv).clientWidth;
+    const preWidth = generalData[0].width || 961; // document.getElementById(generalData[0].parentDiv).clientWidth;
 
     let topMarginSubtract = 150;
     if (titleData[0].topTitleBoxNumber) {
@@ -216,15 +215,22 @@ export class LineGraphComponent implements OnInit {
       .selectAll('*')
       .remove();
 
-    const margin = { top: 85 - topMarginSubtract, right: 62, bottom: 85, left: 48 };
+    const lengthOfData = chartData.length;
+    const marginRight = generalData[0].marginRight >= 0 ? generalData[0].marginRight : 62;
+    const marginLeft = generalData[0].marginLeft >= 0 ? generalData[0].marginLeft : 48;
+
+    const margin = { top: 85 - topMarginSubtract, right: marginRight, bottom: 85, left: marginLeft };
     const width = preWidth - margin.left - margin.right;
-    const height = 520 - margin.top - margin.bottom + 8;
+    const height = generalData[0].height || 420;
+    const hoverMargin = generalData[0].hoverMargin || 56;
+    const dupDelimiter = generalData[0].dupDelimiter;
+    const xPartWidth = width / lengthOfData;
 
     const chart = d3
       .select(this.renderChart)
       .append('svg')
       .attr('width', width + margin.left + margin.right)
-      .attr('height', 420 /*height - margin.top - margin.bottom*/)
+      .attr('height', height)
       .style('background-color', generalData[0].backgroundColor)
       .append('g')
       .attr('transform', 'translate(' + (margin.left - 7) + ',' + 5 + ')');
@@ -232,29 +238,50 @@ export class LineGraphComponent implements OnInit {
     const shiftTooltip = -130;
 
     if (generalData[0].tooltipBoolean === true) {
-      // tslint:disable-next-line:no-var-keyword
-      var tooltipVar = d3
-        .select(this.renderChart)
-        .append('div')
-        .classed('tooltipBlockClass', true)
-        .classed('tooltipClass', false)
-        .classed('tooltipClassLeft', false)
-        .classed('hidden', true);
-      tooltipVar
-        .append('div')
-        .attr('class', 'lineLabelHover')
-        .attr('id', 'claimsNotPaidLabelOne')
-        .text('Claims Not');
-      tooltipVar
-        .append('div')
-        .attr('class', 'lineLabelHover')
-        .attr('id', 'claimsNotPaidLabelTwo')
-        .text('Paid');
-      tooltipVar
-        .append('div')
-        .attr('class', 'details-label')
-        .attr('id', 'claimsNotPaidLabelThree');
-      // .text('$' + formatDy(d.y));
+      if (generalData[0].tooltipType === 'nps') {
+        // tslint:disable-next-line:no-var-keyword
+        var tooltipVar = d3
+          .select(this.renderChart)
+          .append('div')
+          .classed('tooltipBlockClass', true)
+          .classed('tooltipClass', false)
+          .classed('tooltipClassLeft', false)
+          .classed('hidden', true);
+        tooltipVar
+          .append('div')
+          .attr('class', 'lineLabelHover')
+          .attr('id', 'claimsNotPaidLabelOne')
+          .text('Q2 2018');
+        tooltipVar
+          .append('div')
+          .attr('class', 'lineLabelHover')
+          .attr('id', 'claimsNotPaidLabelTwo')
+          .text('37');
+      } else {
+        // tslint:disable-next-line:no-var-keyword
+        var tooltipVar = d3
+          .select(this.renderChart)
+          .append('div')
+          .classed('tooltipBlockClass', true)
+          .classed('tooltipClass', false)
+          .classed('tooltipClassLeft', false)
+          .classed('hidden', true);
+        tooltipVar
+          .append('div')
+          .attr('class', 'lineLabelHover')
+          .attr('id', 'claimsNotPaidLabelOne')
+          .text('Claims Not');
+        tooltipVar
+          .append('div')
+          .attr('class', 'lineLabelHover')
+          .attr('id', 'claimsNotPaidLabelTwo')
+          .text('Paid');
+        tooltipVar
+          .append('div')
+          .attr('class', 'details-label')
+          .attr('id', 'claimsNotPaidLabelThree');
+        // .text('$' + formatDy(d.y));
+      }
     } else {
       tooltipVar = d3
         .select(this.renderChart)
@@ -262,7 +289,6 @@ export class LineGraphComponent implements OnInit {
         .attr('class', 'displayNone');
     }
 
-    const lengthOfData = chartData.length;
     // tslint:disable-next-line:no-var-keyword
     var highestValue = Math.max.apply(
       Math,
@@ -279,10 +305,8 @@ export class LineGraphComponent implements OnInit {
     );
     let axisPrefix = '';
 
-    if (highestValue !== 0) {
-      axisPrefix = '$';
-    } else {
-      axisPrefix = '';
+    if (generalData[0].yAxisUnits) {
+      axisPrefix = generalData[0].yAxisUnits;
     }
 
     if (highestValue < highestValue2) {
@@ -294,10 +318,12 @@ export class LineGraphComponent implements OnInit {
       .domain([0, lengthOfData - 1]) // input
       .range([25, width - 25]);
 
-    const xScalePath = d3
-      .scaleLinear()
-      .domain([0, 2]) // input
-      .range([0, width]);
+    const xScalePath = (index: number, key: number, total: number) => {
+      if ((index + 1) % key === 0) {
+        return xPartWidth * (index + 1);
+      }
+      return xPartWidth * index;
+    };
 
     const xScale3 = d3
       .scalePoint()
@@ -311,8 +337,8 @@ export class LineGraphComponent implements OnInit {
     const yScale = d3
       .scaleLinear()
       .domain([0, highestValue]) // input
-      .range([350, 0])
-      .nice(3); // output
+      .range([height - 70, 0])
+      .nice(5); // output
 
     // tslint:disable-next-line:no-var-keyword
 
@@ -323,14 +349,35 @@ export class LineGraphComponent implements OnInit {
       ydata.push({ y: chartData[a].value });
     }
 
+    let xtextClass = 'tick_hidden';
+    let ytextClass = 'tick_hidden_y';
+    if (generalData[0].customTextClass) {
+      xtextClass = 'tick_hidden_y_custom';
+      ytextClass = 'tick_hidden_custom';
+    }
+
     chart
       .append('g')
-      .attr('class', 'tick_hidden')
+      .attr('class', ytextClass)
       .attr('id', 'forCalculation')
-      .attr('transform', 'translate(0,' + 360 /*(height - 60)*/ + ')')
+      .attr('transform', 'translate(0,' + (height - 60) + ')')
       .call(
         d3
           .axisBottom(xScale3)
+          .tickFormat(d => {
+            // If X Axis has duplicate values / Formatted Values, Pass respective keys in generalData object and
+            // and use accordingly
+            if (generalData[0].formattedXAxis) {
+              const preDelimiterLength = 2;
+              const delimiterForDuplicate = d.substring(d.length - dupDelimiter.length - preDelimiterLength, d.length);
+              if (delimiterForDuplicate.substring(preDelimiterLength, delimiterForDuplicate.length) === dupDelimiter) {
+                let formattedString = d.replace(dupDelimiter, '');
+                formattedString = formattedString.substring(0, formattedString.length - preDelimiterLength);
+                return formattedString.replace('_', ' ');
+              }
+            }
+            return d;
+          })
           .tickSize(5, 0, 0)
           .tickSizeOuter([0])
       );
@@ -354,10 +401,15 @@ export class LineGraphComponent implements OnInit {
       textWidth1 = textWidth1 * 1.25;
     }
 
-    // tslint:disable-next-line:prefer-const
-    let data = [];
+    const data = [];
     for (let l = 0; l < lengthOfData; l++) {
-      data.push({ y: chartData[l].value, xCoordinate: xScale(l), x: chartData[l].name });
+      data.push({
+        y: chartData[l].value,
+        targetY: chartData[l].target,
+        targetX: xScalePath(l, 4, lengthOfData),
+        xCoordinate: xScale(l),
+        x: chartData[l].name
+      });
     }
     const line = d3
       .line()
@@ -366,6 +418,16 @@ export class LineGraphComponent implements OnInit {
       })
       .y(function(d) {
         return yScale(d.y);
+      })
+      .curve(d3.curveLinear);
+
+    const line2 = d3
+      .line()
+      .x(function(d) {
+        return d.targetX;
+      })
+      .y(function(d) {
+        return yScale(d.targetY);
       })
       .curve(d3.curveLinear);
 
@@ -415,21 +477,19 @@ export class LineGraphComponent implements OnInit {
     chart.selectAll('.tick:not(:first-of-type) line').attr('opacity', '.35');
     chart.selectAll('.tick:first-of-type line').attr('opacity', '1');
 
-    if (1) {
-      if (!generalData[0].hideYAxis) {
-        chart
-          .append('g')
-          .attr('class', 'tick_hidden_y')
-          .attr('transform', 'translate( ' + width + ', 0 )')
-          .call(
-            d3
-              .axisRight(yScale)
-              .tickSize(5, 0, 0)
-              .tickSizeOuter([0])
-              .ticks(3)
-              .tickFormat(formatDynamicAbbreviation(numberOfTicks, highestTickValue, axisPrefix))
-          );
-      }
+    if (!generalData[0].hideYAxis) {
+      chart
+        .append('g')
+        .attr('class', xtextClass)
+        .attr('transform', 'translate( ' + width + ', 0 )')
+        .call(
+          d3
+            .axisRight(yScale)
+            .tickSize(5, 0, 0)
+            .tickSizeOuter([0])
+            .ticks(3)
+            .tickFormat(formatDynamicAbbreviation(numberOfTicks, highestTickValue, axisPrefix))
+        );
     }
     const RectBarOne = chart
       .selectAll('.rect-bar')
@@ -437,6 +497,7 @@ export class LineGraphComponent implements OnInit {
       .enter()
       .append('rect')
       .style('fill', '#E3F0FD')
+      .style('height', height - 70 + 'px')
       .style('opacity', 0)
       .attr('class', 'rect-bar')
       .attr('x', function(d) {
@@ -461,13 +522,13 @@ export class LineGraphComponent implements OnInit {
           .duration(200)
           .style('opacity', 1);
         const topMar = yScale(d.y) + 39 + 'px';
-        if (d3.event.layerX + 213 < width + margin.left + margin.right) {
+        if (d3.event.offsetX + 213 < width + margin.left + margin.right) {
           d3.select('#claimsNotPaidLabelThree').text('$' + formatDy(d.y));
           tooltipVar
             .classed('hidden', false)
             .classed('tooltipClass', true)
             .classed('tooltipClassLeft', false)
-            .style('left', d.xCoordinate + 56 + 'px')
+            .style('left', d.xCoordinate + hoverMargin + 'px')
             .style('top', topMar);
         } else {
           d3.select('#claimsNotPaidLabelThree').text('$' + formatDy(d.y));
@@ -475,7 +536,7 @@ export class LineGraphComponent implements OnInit {
             .classed('hidden', false)
             .classed('tooltipClass', false)
             .classed('tooltipClassLeft', true)
-            .style('left', d.xCoordinate + 56 + shiftTooltip + 'px')
+            .style('left', d.xCoordinate + hoverMargin + shiftTooltip + 'px')
             .style('top', topMar);
         }
       })
@@ -558,15 +619,24 @@ export class LineGraphComponent implements OnInit {
       })
       .attr('r', 6);
 
-    if (1) {
+    chart
+      .append('path')
+      .datum(data)
+      .attr('class', 'line')
+      .attr('d', line)
+      .attr('id', 'LineOne')
+      .style('fill', 'none')
+      .style('stroke', generalData[0].barColor);
+
+    if (generalData[0].trendLine) {
       chart
         .append('path')
         .datum(data)
-        .attr('class', 'line')
-        .attr('d', line)
-        .attr('id', 'LineOne')
+        .attr('class', 'line2')
+        .attr('d', line2)
+        .attr('id', 'LineTwo')
         .style('fill', 'none')
-        .style('stroke', generalData[0].barColor);
+        .style('stroke', generalData[0].trendLineColor);
     }
 
     // end if structure o titleData[0].averagePeerPerformance
