@@ -12,6 +12,6 @@ export class SummaryComponent implements OnInit {
   constructor(private ngRedux: NgRedux<IAppState>) {}
 
   ngOnInit() {
-    // this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'performanceSummary' });
+    this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'performanceSummary' });
   }
 }
