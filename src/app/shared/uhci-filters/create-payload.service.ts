@@ -95,7 +95,8 @@ export class CreatePayloadService {
 
   resetTinNumber(appliedPage) {
     this.taxId.subscribe(taxId => (this.initialState.taxId = [{ Tin: 'All', Tinname: 'All' }]));
-    this.emitFilterEvent(appliedPage);
+    /* commented for mutiple api call solution*/
+    // this.emitFilterEvent(appliedPage);
   }
 
   emitFilterEvent(appliedPage) {
