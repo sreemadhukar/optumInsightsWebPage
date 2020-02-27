@@ -61,7 +61,6 @@ export class FiltersAppliedComponent implements OnInit {
   selectedTrendMetric: any;
   selectedDate: Date;
   previousDate: any = new Date();
-  enableFilter: boolean;
   printStyle: boolean;
   constructor(
     private filterExpandService: FilterExpandService,
@@ -78,7 +77,6 @@ export class FiltersAppliedComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.enableFilter = true;
     this.printStyle = this.route.url.includes('print-');
     this.currentPage.subscribe(currentPage => (this.selectedPage = currentPage));
     this.timePeriod.subscribe(
@@ -116,9 +114,6 @@ export class FiltersAppliedComponent implements OnInit {
       this.previousDate = new Date(this.selectedDate.toString());
       this.previousDate = this.previousDate.setDate(this.selectedDate.getDate() - 1);
     });
-    if (this.selectedPage === 'viewTopClaimsPage') {
-      this.enableFilter = false;
-    }
   }
 
   openFilter() {

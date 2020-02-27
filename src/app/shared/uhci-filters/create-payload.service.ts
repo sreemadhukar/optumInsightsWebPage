@@ -95,7 +95,8 @@ export class CreatePayloadService {
 
   resetTinNumber(appliedPage) {
     this.taxId.subscribe(taxId => (this.initialState.taxId = [{ Tin: 'All', Tinname: 'All' }]));
-    this.emitFilterEvent(appliedPage);
+    /* commented for mutiple api call solution*/
+    // this.emitFilterEvent(appliedPage);
   }
 
   emitFilterEvent(appliedPage) {
@@ -149,11 +150,7 @@ export class CreatePayloadService {
       temporaryState.currentPage === 'nonPaymentsPage' ||
       temporaryState.currentPage === 'gettingReimbursedSummary'
     ) {
-      if (
-        temporaryState.timePeriod === 'Last12Months' ||
-        temporaryState.timePeriod === '2019' ||
-        temporaryState.timePeriod === '2018'
-      ) {
+      if (temporaryState.timePeriod === '2018') {
         temporaryState.timePeriod = 'Last6Months';
       }
     } else {
