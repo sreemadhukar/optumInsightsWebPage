@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NgRedux, select } from '@angular-redux/store';
 import { IAppState } from '../../../store/store';
 import { CURRENT_PAGE, REMOVE_FILTER } from '../../../store/filter/actions';
+import { PerformanceService } from '../../../shared/performance/performance.service';
 // import { RlpHeaderComponent } from '../../../rlp-common-utils/rlp-header';
 
 @Component({
@@ -12,9 +13,12 @@ import { CURRENT_PAGE, REMOVE_FILTER } from '../../../store/filter/actions';
 export class SummaryComponent implements OnInit {
   public titleForSummary;
   public subTitleForSummary;
-  constructor(private ngRedux: NgRedux<IAppState>) {}
+  data: any;
+  constructor(private ngRedux: NgRedux<IAppState>, private perfShared: PerformanceService) {}
 
   ngOnInit() {
+    this.data = this.perfShared.getPerformanceData();
+    console.log(this.data);
     this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'performanceSummary' });
 
     this.titleForSummary = 'Performance Management Summary';
