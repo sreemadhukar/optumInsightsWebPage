@@ -6,6 +6,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./labs.component.scss']
 })
 export class LabsComponent implements OnInit {
+  public titleForLabs;
+  public subTitleForLabs;
+
   constructor() {}
 
   ngOnInit() {}

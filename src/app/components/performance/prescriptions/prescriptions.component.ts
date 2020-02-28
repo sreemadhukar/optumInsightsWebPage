@@ -6,6 +6,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./prescriptions.component.scss']
 })
 export class PrescriptionsComponent implements OnInit {
+  public titleForPrescriptions;
+  public subTitleForPrescriptions;
+
   constructor() {}
 
   ngOnInit() {}
