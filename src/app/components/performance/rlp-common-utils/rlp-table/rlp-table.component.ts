@@ -8,19 +8,68 @@ import { rlpData } from '../../../../modals/rlp-data';
 export class RlpTableComponent implements OnInit {
   public qTinSearch: string;
   public qGroupNameSearch: string;
-  private tableData: any;
-  private pageNumber: number;
-  private selectPageSize: string;
-  private pageSize = ['2', '4', '6', '8'];
+  public tableData: any;
+  public currentPageNumber: number;
+  public selectPageSize: string;
+  public startIndex;
+  public endIndex;
+  public totalPages: number;
+  public pageSize = ['2', '4', '6', '8', '25'];
   constructor() {}
 
   ngOnInit() {
     this.selectPageSize = this.pageSize[0];
-    this.pageNumber = 1;
+    this.totalPages = Math.ceil(rlpData.data.length / +this.selectPageSize);
+    this.setPagination(1, 0, this.selectPageSize);
     this.tableData = rlpData.data;
-    console.log(this.tableData);
-    console.log(this.qTinSearch, this.qGroupNameSearch);
   }
-  revClick() {}
-  nextClick() {}
+  setPagination(currentPageNumber, startIndex, endIndex) {
+    this.startIndex = startIndex;
+    this.endIndex = endIndex;
+    this.currentPageNumber = currentPageNumber;
+    console.log('start', startIndex, 'end', endIndex, 'current ', currentPageNumber);
+  }
+  pageSizeMethod() {
+    this.totalPages = Math.ceil(rlpData.data.length / +this.selectPageSize);
+    this.currentPageNumber = this.totalPages < this.currentPageNumber ? this.totalPages : this.currentPageNumber;
+    this.startIndex = (this.currentPageNumber - 1) * +this.selectPageSize;
+    this.endIndex = this.currentPageNumber * +this.selectPageSize;
+  }
+  prevClick() {
+    this.setPagination(
+      --this.currentPageNumber,
+      (this.currentPageNumber - 1) * +this.selectPageSize,
+      this.currentPageNumber * +this.selectPageSize
+    );
+  }
+  nextClick() {
+    this.setPagination(
+      ++this.currentPageNumber,
+      (this.currentPageNumber - 1) * +this.selectPageSize,
+      this.currentPageNumber * +this.selectPageSize
+    );
+  }
+  enterGroupName() {
+    this.startIndex = 0;
+  }
+  enterTinNumber() {
+    this.startIndex = 0;
+  }
+  enterNumberPage(event: any) {
+    const pattern = /[0-9]/;
+    const inputChar = String.fromCharCode(event.charCode);
+
+    if (!pattern.test(inputChar)) {
+      event.preventDefault();
+    } else if (this.currentPageNumber > this.totalPages) {
+      this.currentPageNumber = 1;
+      event.preventDefault();
+    } else {
+      this.setPagination(
+        this.currentPageNumber,
+        (this.currentPageNumber - 1) * +this.selectPageSize,
+        this.currentPageNumber * +this.selectPageSize
+      );
+    }
+  }
 }
