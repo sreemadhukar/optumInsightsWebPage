@@ -16,11 +16,8 @@ export class KopService {
   constructor(private http: HttpClient) {}
 
   public getNpsDetailSummary({ params }) {
-    const url = this.APP_URL + 'kop-metrics-byAllQuarters';
-    return this.http.get(url, { params }).pipe(
-      map(res => JSON.parse(JSON.stringify(res))),
-      catchError(err => of(JSON.parse(JSON.stringify(err))))
-    );
+    const url = this.APP_URL + 'kop-nps-quarterlyandaveragemetrics';
+    return this.http.get(url, { params });
   }
   public getSummary({ params }) {
     const url = this.APP_URL + this.SERVICE_PATH_KOP;

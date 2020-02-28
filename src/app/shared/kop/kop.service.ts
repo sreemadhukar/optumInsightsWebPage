@@ -23,37 +23,42 @@ export class KOPSharedService {
       const paramsArray = filters.map((param: string) => {
         return { filter: param };
       });
-      this.kopService.getNpsDetailSummary({ params: {} }).subscribe((response: any) => {
-        if (!response || response.length === 0) {
-          return resolve(null);
-        }
-
-        const timePeriod = {
-          title: 'Quarter over Quarter,',
-          timeFrame: {
-            quarters: ['4', '4'],
-            type: 'summary',
-            format: 'Quarter vs Quarter',
-            years: ['2020', '2019', '2018']
+      this.kopService.getNpsDetailSummary({ params: {} }).subscribe(
+        (response: any) => {
+          if (!response || response.length === 0) {
+            return resolve(null);
           }
-        };
 
-        const npsDetailInstance = new NPSDetail({ records: response, small: false, id: 'npsCombined' });
-        const npsData = npsDetailInstance.getData();
+          const timePeriod = {
+            title: 'Quarter over Quarter,',
+            timeFrame: {
+              quarters: ['4', '4'],
+              type: 'summary',
+              format: 'Quarter vs Quarter',
+              years: ['2020', '2019', '2018']
+            }
+          };
 
-        const npsDetailInstancePM = new NPSDetail({ records: response, small: true, id: 'npsPM' });
-        const npsDataPM = npsDetailInstancePM.getData();
+          const npsDetailInstance = new NPSDetail({ records: response, small: false, id: 'npsCombined' });
+          const npsData = npsDetailInstance.getData();
 
-        const npsDetailInstanceMD = new NPSDetail({ records: response, small: true, id: 'npsMd' });
-        const npsDataMD = npsDetailInstanceMD.getData();
+          // const npsDetailInstancePM = new NPSDetail({ records: response, small: true, id: 'npsPM' });
+          // const npsDataPM = npsDetailInstancePM.getData();
 
-        return resolve({
-          npsData,
-          npsDataMD,
-          npsDataPM,
-          timePeriod
-        });
-      });
+          // const npsDetailInstanceMD = new NPSDetail({ records: response, small: true, id: 'npsMd' });
+          // const npsDataMD = npsDetailInstanceMD.getData();
+
+          return resolve({
+            npsData,
+            // npsDataMD,
+            // npsDataPM,
+            timePeriod
+          });
+        },
+        (error: any) => {
+          alert(error);
+        }
+      );
     });
   }
 
