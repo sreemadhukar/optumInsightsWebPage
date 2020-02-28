@@ -11,5 +11,11 @@ export class PrescriptionsComponent implements OnInit {
 
   constructor() {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.titleForPrescriptions = 'Preferred Tier Prescribing Rate';
+    this.subTitleForPrescriptions = `Here is where our optional page title description text would
+                                 live if we needed to use it. You can easily remove this
+                                 from the design by hiding it in your symbol overrides.
+                                 Please DO NOT detach this symbol.`;
+  }
 }
