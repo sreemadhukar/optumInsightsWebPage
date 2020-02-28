@@ -31,9 +31,11 @@ export class RlpTableComponent implements OnInit {
   }
   pageSizeMethod() {
     this.totalPages = Math.ceil(rlpData.data.length / +this.selectPageSize);
-    this.currentPageNumber = this.totalPages < this.currentPageNumber ? this.totalPages : this.currentPageNumber;
-    this.startIndex = (this.currentPageNumber - 1) * +this.selectPageSize;
-    this.endIndex = this.currentPageNumber * +this.selectPageSize;
+    this.setPagination(
+      this.totalPages < this.currentPageNumber ? this.totalPages : this.currentPageNumber,
+      (this.currentPageNumber - 1) * +this.selectPageSize,
+      this.currentPageNumber * +this.selectPageSize
+    );
   }
   prevClick() {
     this.setPagination(
@@ -55,21 +57,16 @@ export class RlpTableComponent implements OnInit {
   enterTinNumber() {
     this.startIndex = 0;
   }
-  enterNumberPage(event: any) {
-    const pattern = /[0-9]/;
-    const inputChar = String.fromCharCode(event.charCode);
 
-    if (!pattern.test(inputChar)) {
-      event.preventDefault();
-    } else if (this.currentPageNumber > this.totalPages) {
-      this.currentPageNumber = 1;
-      event.preventDefault();
-    } else {
+  enterPageNumber() {
+    if (this.currentPageNumber <= this.totalPages) {
       this.setPagination(
         this.currentPageNumber,
         (this.currentPageNumber - 1) * +this.selectPageSize,
         this.currentPageNumber * +this.selectPageSize
       );
+    } else {
+      return false;
     }
   }
 }

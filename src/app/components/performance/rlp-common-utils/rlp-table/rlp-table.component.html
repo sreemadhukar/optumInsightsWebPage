@@ -16,14 +16,15 @@
       </mat-select>
     </mat-form-field>
     <div>
-      <input
-        (keypress)="enterNumberPage($event)"
-        type="text"
-        pattern="[0-9]*"
-        placeholder=""
-        [(ngModel)]="currentPageNumber"
-      />
-      of {{ totalPages }}
+      <form (submit)="enterPageNumber()">
+        <input
+          [(ngModel)]="currentPageNumber"
+          name="enterPage"
+          [value]="currentPageNumber"
+          onkeyup="this.value=this.value.replace(/[^\d]/,'')"
+        />
+        of {{ totalPages }}
+      </form>
     </div>
     <div (click)="prevClick()" *ngIf="startIndex > 0">
       <button>Prev</button>
