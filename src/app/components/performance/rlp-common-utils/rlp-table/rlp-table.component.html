@@ -1,7 +1,7 @@
 <div class="table-container">
   <input type="text" placeholder="Filter By Tin" [(ngModel)]="qTinSearch" />
   <input type="text" placeholder="Filter By Group Name" [(ngModel)]="qGroupNameSearch" />
-  <div *ngFor="let item of tableData | rlpSearch: [qTinSearch, qGroupNameSearch]">
+  <div *ngFor="let item of tableData | rlpSearch: [qTinSearch, qGroupNameSearch | lowercase]">
     <app-rlp-table-item [tableItem]="item"></app-rlp-table-item>
   </div>
 
