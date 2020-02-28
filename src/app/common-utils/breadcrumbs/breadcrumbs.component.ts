@@ -77,8 +77,10 @@ export class BreadcrumbsComponent implements OnInit {
         params: child.snapshot.params,
         url: url
       };
-      breadcrumbs.push(breadcrumb);
-      return this.getBreadcrumbs(child, url, breadcrumbs);
+      if (breadcrumb.label !== null) {
+        breadcrumbs.push(breadcrumb);
+        return this.getBreadcrumbs(child, url, breadcrumbs);
+      }
     }
     return breadcrumbs;
   }

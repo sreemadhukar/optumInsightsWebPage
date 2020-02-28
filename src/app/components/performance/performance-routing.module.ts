@@ -10,7 +10,7 @@ const routes: Routes = [
     path: '',
     component: SummaryComponent,
     data: {
-      breadcrumb: 'Performance Management Summary'
+      breadcrumb: null
     }
   },
   {
