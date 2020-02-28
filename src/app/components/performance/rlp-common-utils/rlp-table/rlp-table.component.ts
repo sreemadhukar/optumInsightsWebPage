@@ -49,4 +49,27 @@ export class RlpTableComponent implements OnInit {
       this.currentPageNumber * +this.selectPageSize
     );
   }
+  enterGroupName() {
+    this.startIndex = 0;
+  }
+  enterTinNumber() {
+    this.startIndex = 0;
+  }
+  enterNumberPage(event: any) {
+    const pattern = /[0-9]/;
+    const inputChar = String.fromCharCode(event.charCode);
+
+    if (!pattern.test(inputChar)) {
+      event.preventDefault();
+    } else if (this.currentPageNumber > this.totalPages) {
+      this.currentPageNumber = 1;
+      event.preventDefault();
+    } else {
+      this.setPagination(
+        this.currentPageNumber,
+        (this.currentPageNumber - 1) * +this.selectPageSize,
+        this.currentPageNumber * +this.selectPageSize
+      );
+    }
+  }
 }
