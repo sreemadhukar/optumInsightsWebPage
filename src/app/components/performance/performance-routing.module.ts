@@ -6,10 +6,34 @@ import { LabsComponent } from './labs/labs.component';
 import { PrescriptionsComponent } from './prescriptions/prescriptions.component';
 
 const routes: Routes = [
-  { path: '', component: SummaryComponent },
-  { path: 'Referrals', component: ReferralsComponent },
-  { path: 'Labs', component: LabsComponent },
-  { path: 'Prescriptions', component: PrescriptionsComponent }
+  {
+    path: '',
+    component: SummaryComponent,
+    data: {
+      breadcrumb: null
+    }
+  },
+  {
+    path: 'Referrals',
+    component: ReferralsComponent,
+    data: {
+      breadcrumb: 'Referrals'
+    }
+  },
+  {
+    path: 'Labs',
+    component: LabsComponent,
+    data: {
+      breadcrumb: 'Labs'
+    }
+  },
+  {
+    path: 'Prescriptions',
+    component: PrescriptionsComponent,
+    data: {
+      breadcrumb: 'Prescriptions'
+    }
+  }
 ];
 
 @NgModule({

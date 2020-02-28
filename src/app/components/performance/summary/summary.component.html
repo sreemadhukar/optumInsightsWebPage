@@ -1,4 +1,16 @@
-<p>
-  summary works!
-</p>
-<app-rlp-common-bar></app-rlp-common-bar>
+<!-- <app-rlp-common-bar [type]="'rlp-large-bar'"></app-rlp-common-bar>
+<app-rlp-common-bar [type]="'rlp-small-bar'"></app-rlp-common-bar>
+<app-rlp-common-bar [type]="'rlp-table-bar'"></app-rlp-common-bar> -->
+<div class="rlp-body">
+  <div class="rlp-content">
+    <div class="cust-width-title">
+      <app-breadcrumbs></app-breadcrumbs>
+      <app-rlp-header
+        [rlpTitle]="titleForSummary"
+        [rlpSubTitle]="subTitleForSummary"
+        class="full-display bottom-margin-block"
+      ></app-rlp-header>
+      <app-rlp-common-bar></app-rlp-common-bar>
+    </div>
+  </div>
+</div>
