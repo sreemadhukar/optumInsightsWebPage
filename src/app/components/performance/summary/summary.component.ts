@@ -15,7 +15,8 @@ export class SummaryComponent implements OnInit {
   constructor(private ngRedux: NgRedux<IAppState>) {}
 
   ngOnInit() {
-    // this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'performanceSummary' });
+    this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'performanceSummary' });
+
     this.titleForSummary = 'Performance Management Summary';
     this.subTitleForSummary = `Improve your performance through rendering, ordering, prescribing and
                                referring actions that achieve lower total cost of care.`;
