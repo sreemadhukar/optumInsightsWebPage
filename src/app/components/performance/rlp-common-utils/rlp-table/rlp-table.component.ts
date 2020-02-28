@@ -31,9 +31,11 @@ export class RlpTableComponent implements OnInit {
   }
   pageSizeMethod() {
     this.totalPages = Math.ceil(rlpData.data.length / +this.selectPageSize);
-    this.currentPageNumber = this.totalPages < this.currentPageNumber ? this.totalPages : this.currentPageNumber;
-    this.startIndex = (this.currentPageNumber - 1) * +this.selectPageSize;
-    this.endIndex = this.currentPageNumber * +this.selectPageSize;
+    this.setPagination(
+      this.totalPages < this.currentPageNumber ? this.totalPages : this.currentPageNumber,
+      (this.currentPageNumber - 1) * +this.selectPageSize,
+      this.currentPageNumber * +this.selectPageSize
+    );
   }
   prevClick() {
     this.setPagination(
