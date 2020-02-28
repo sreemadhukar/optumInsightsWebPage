@@ -49,6 +49,106 @@ export const rlpData: any = {
         total: 105,
         percentage: '%'
       }
+    },
+    {
+      tin: '56-12358967',
+      groupName: 'Upashna Ghosh',
+      graphData: {
+        data1: 55,
+        data2: 42,
+        total: 97,
+        percentage: '%'
+      }
+    },
+    {
+      tin: '56-12358967',
+      groupName: 'Inderjeet Vashista',
+      graphData: {
+        data1: 89,
+        data2: 22,
+        total: 111,
+        percentage: '%'
+      }
+    },
+    {
+      tin: '56-12358967',
+      groupName: 'Virender Sehwag',
+      graphData: {
+        data1: 28,
+        data2: 64,
+        total: 92,
+        percentage: '%'
+      }
+    },
+    {
+      tin: '44-12358967',
+      groupName: 'Ishant Sharma',
+      graphData: {
+        data1: 92,
+        data2: 26,
+        total: 108,
+        percentage: '%'
+      }
+    },
+    {
+      tin: '11-12358967',
+      groupName: 'Kevin Peterson',
+      graphData: {
+        data1: 38,
+        data2: 64,
+        total: 102,
+        percentage: '%'
+      }
+    },
+    {
+      tin: '22-12358967',
+      groupName: 'Finch Andrew',
+      graphData: {
+        data1: 45,
+        data2: 45,
+        total: 90,
+        percentage: '%'
+      }
+    },
+    {
+      tin: '56-12358967',
+      groupName: 'David Warner',
+      graphData: {
+        data1: 30,
+        data2: 69,
+        total: 99,
+        percentage: '%'
+      }
+    },
+    {
+      tin: '56-12358967',
+      groupName: 'Ricky Ponting',
+      graphData: {
+        data1: 34,
+        data2: 66,
+        total: 100,
+        percentage: '%'
+      }
+    },
+    {
+      tin: '88-12358967',
+      groupName: 'Mitchel Johnson',
+      graphData: {
+        data1: 34,
+        data2: 44,
+        total: 78,
+        percentage: '%'
+      }
+    },
+    {
+      tin: '66-14558967',
+      groupName: 'Wasim Akram',
+      graphData: {
+        data1: 20,
+        data2: 66,
+        total: 86,
+        percentage: '%'
+      }
     }
   ]
 };
