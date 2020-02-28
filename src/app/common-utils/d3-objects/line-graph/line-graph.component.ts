@@ -249,14 +249,12 @@ export class LineGraphComponent implements OnInit {
           .classed('hidden', true);
         tooltipVar
           .append('div')
-          .attr('class', 'lineLabelHover')
-          .attr('id', 'claimsNotPaidLabelOne')
-          .text('Q2 2018');
+          .attr('class', 'lineLabelHoverNps')
+          .attr('id', 'npsLabelOne');
         tooltipVar
           .append('div')
-          .attr('class', 'lineLabelHover')
-          .attr('id', 'claimsNotPaidLabelTwo')
-          .text('37');
+          .attr('class', 'lineLabelHoverNps')
+          .attr('id', 'npsLabelTwo');
       } else {
         // tslint:disable-next-line:no-var-keyword
         var tooltipVar = d3
@@ -405,6 +403,7 @@ export class LineGraphComponent implements OnInit {
     for (let l = 0; l < lengthOfData; l++) {
       data.push({
         y: chartData[l].value,
+        yAndQ: chartData[l].quarter + ' ' + chartData[l].year,
         targetY: chartData[l].target,
         targetX: xScalePath(l, 4, lengthOfData),
         xCoordinate: xScale(l),
@@ -523,7 +522,6 @@ export class LineGraphComponent implements OnInit {
           .style('opacity', 1);
         const topMar = yScale(d.y) + 39 + 'px';
         if (d3.event.offsetX + 213 < width + margin.left + margin.right) {
-          d3.select('#claimsNotPaidLabelThree').text('$' + formatDy(d.y));
           tooltipVar
             .classed('hidden', false)
             .classed('tooltipClass', true)
@@ -531,13 +529,35 @@ export class LineGraphComponent implements OnInit {
             .style('left', d.xCoordinate + hoverMargin + 'px')
             .style('top', topMar);
         } else {
-          d3.select('#claimsNotPaidLabelThree').text('$' + formatDy(d.y));
           tooltipVar
             .classed('hidden', false)
             .classed('tooltipClass', false)
             .classed('tooltipClassLeft', true)
             .style('left', d.xCoordinate + hoverMargin + shiftTooltip + 'px')
             .style('top', topMar);
+        }
+
+        if (generalData[0].tooltipType === 'nps') {
+          d3.select('#npsLabelOne').text(d.yAndQ);
+          d3.select('#npsLabelTwo')
+            .selectAll('*')
+            .remove();
+          const dotMagnitude = 12;
+          d3.select('#npsLabelTwo')
+            .append('svg')
+            .attr('width', dotMagnitude)
+            .attr('height', dotMagnitude)
+            .style('vertical-align', 'middle')
+            .append('circle')
+            .attr('fill', '#3381ff')
+            .attr('cx', dotMagnitude / 2)
+            .attr('cy', dotMagnitude / 2)
+            .attr('r', dotMagnitude / 2);
+          d3.select('#npsLabelTwo')
+            .append('text')
+            .text(formatDy(d.y));
+        } else {
+          d3.select('#claimsNotPaidLabelThree').text('$' + formatDy(d.y));
         }
       })
       .on('mouseout', function(d) {
