@@ -18,9 +18,9 @@ export class RlpSearchPipe implements PipeTransform {
     return value.filter(el => {
       if (el.tin.indexOf(tinArgs) !== -1 && typeof groupNameArgs === undefined) {
         return true;
-      } else if (typeof tinArgs === undefined && typeof groupNameArgs === undefined) {
+      } else if (typeof tinArgs === undefined && el.groupName.toLowerCase().indexOf(groupNameArgs) !== -1) {
         return true;
-      } else if (el.tin.indexOf(tinArgs) !== -1 && el.groupName.indexOf(groupNameArgs) !== -1) {
+      } else if (el.tin.indexOf(tinArgs) !== -1 && el.groupName.toLowerCase().indexOf(groupNameArgs) !== -1) {
         return true;
       }
     });

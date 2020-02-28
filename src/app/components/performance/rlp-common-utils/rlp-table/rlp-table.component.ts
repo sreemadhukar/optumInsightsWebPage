@@ -6,9 +6,9 @@ import { rlpData } from '../../../../modals/rlp-data';
   styleUrls: ['./rlp-table.component.scss']
 })
 export class RlpTableComponent implements OnInit {
+  public qTinSearch: string;
+  public qGroupNameSearch: string;
   private tableData: any;
-  private qTinSearch: string;
-  private qGroupNameSearch: string;
   private pageNumber: number;
   private selectPageSize: string;
   private pageSize = ['2', '4', '6', '8'];

@@ -2,6 +2,7 @@
 
 .rlp-table-container {
   display: inline-flex;
+  flex-wrap: wrap;
 
   .rlp-table-label {
     color: $black-rock;
