@@ -1,3 +1,27 @@
-p {
-  padding: 20px;
+@import '~src/scss/variables.scss';
+@import '~src/scss/mixins';
+@import '~src/scss/my-custom-theme';
+
+.rlp-body {
+  // background-color: mat-color($accent);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  @include padding(16px, 0, 64px, 0);
+
+  .rlp-content {
+    display: flex;
+    justify-content: left;
+    width: 1000px;
+    margin: auto;
+    flex-wrap: wrap;
+
+    .cust-width-title {
+      /* width: 961px;*/
+      width: 976px;
+      font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+      color: $black-rock;
+      margin-left: 10px;
+    }
+  }
 }
