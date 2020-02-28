@@ -11,16 +11,25 @@ export class RlpTableComponent implements OnInit {
   private tableData: any;
   private pageNumber: number;
   private selectPageSize: string;
-  private pageSize = ['2', '4', '6', '8'];
+  private startIndex;
+  private endIndex;
+  private totalPages: number;
+  private pageSize = ['2', '4', '6', '8', '25'];
   constructor() {}
 
   ngOnInit() {
-    this.selectPageSize = this.pageSize[0];
-    this.pageNumber = 1;
+    this.setPagination(this.pageSize[0], 0, this.pageSize[0], 1, rlpData.data.length / this.pageSize.length);
     this.tableData = rlpData.data;
     console.log(this.tableData);
     console.log(this.qTinSearch, this.qGroupNameSearch);
   }
-  revClick() {}
+  setPagination(pageSize, startIndex, endIndex, pageNumber, totalPages) {
+    this.selectPageSize = pageSize;
+    this.startIndex = startIndex;
+    this.endIndex = endIndex;
+    this.pageNumber = pageNumber;
+    this.totalPages = totalPages;
+  }
+  prevClick() {}
   nextClick() {}
 }
