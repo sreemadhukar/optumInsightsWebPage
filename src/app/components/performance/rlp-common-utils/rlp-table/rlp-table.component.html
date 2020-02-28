@@ -1,26 +1,30 @@
 <div class="table-container">
   <input type="text" placeholder="Filter By Tin" [(ngModel)]="qTinSearch" />
   <input type="text" placeholder="Filter By Group Name" [(ngModel)]="qGroupNameSearch" />
-  <div *ngFor="let item of tableData | rlpSearch: [qTinSearch, qGroupNameSearch | lowercase] | slice: 0:selectPageSize">
+  <div
+    *ngFor="
+      let item of tableData | rlpSearch: [qTinSearch, qGroupNameSearch | lowercase] | slice: startIndex:selectPageSize
+    "
+  >
     <app-rlp-table-item [tableItem]="item"></app-rlp-table-item>
   </div>
 
   <div class="rlp-table-footer">
     <mat-form-field>
-      <mat-select [(ngModel)]="selectPageSize" name="p">
+      <mat-select [(ngModel)]="selectPageSize" name="p" (selectionChange)="pageSizeMethod()">
         <mat-option *ngFor="let p of pageSize" [value]="p">
           {{ p }}
         </mat-option>
       </mat-select>
     </mat-form-field>
     <div>
-      <input type="text" placeholder="" [(ngModel)]="pageNumber" />
+      <input type="number" placeholder="" [(ngModel)]="currentPageNumber" />
       of {{ totalPages }}
     </div>
-    <div (click)="prevClick()">
+    <div (click)="prevClick()" *ngIf="startIndex > 0">
       Prev
     </div>
-    <div (click)="nextClick()">
+    <div (click)="nextClick()" *ngIf="currentPageNumber < totalPages">
       Next
     </div>
   </div>
