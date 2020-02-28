@@ -1,8 +1,8 @@
 {
-  "category": "app-card",
-  "type": "donutWithLabel",
+  "category": "rpl-small-card",
+  "type": "rpl-small-bar",
   "status": 404,
-  "title": "Claims Paid",
+  "title": "Preferred Specialist Referral Rate",
   "data": null,
   "besideData": null,
   "bottomData": null,
