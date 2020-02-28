@@ -20,10 +20,10 @@
       of {{ totalPages }}
     </div>
     <div (click)="prevClick()" *ngIf="startIndex > 0">
-      Prev
+      <button>Prev</button>
     </div>
     <div (click)="nextClick()" *ngIf="currentPageNumber < totalPages">
-      Next
+      <button>Next</button>
     </div>
   </div>
 </div>

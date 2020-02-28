@@ -20,29 +20,33 @@ export class RlpTableComponent implements OnInit {
   ngOnInit() {
     this.selectPageSize = this.pageSize[0];
     this.totalPages = Math.ceil(rlpData.data.length / +this.selectPageSize);
-    this.setPagination(0, this.selectPageSize, 1);
+    this.setPagination(1, 0, this.selectPageSize);
     this.tableData = rlpData.data;
   }
-  setPagination(startIndex, endIndex, currentPageNumber) {
+  setPagination(currentPageNumber, startIndex, endIndex) {
     this.startIndex = startIndex;
     this.endIndex = endIndex;
     this.currentPageNumber = currentPageNumber;
+    console.log('start', startIndex, 'end', endIndex, 'current ', currentPageNumber);
   }
   pageSizeMethod() {
     this.totalPages = Math.ceil(rlpData.data.length / +this.selectPageSize);
+    this.currentPageNumber = this.totalPages < this.currentPageNumber ? this.totalPages : this.currentPageNumber;
+    this.startIndex = (this.currentPageNumber - 1) * +this.selectPageSize;
+    this.endIndex = this.currentPageNumber * +this.selectPageSize;
   }
   prevClick() {
     this.setPagination(
-      (this.currentPageNumber - 2) * +this.selectPageSize,
+      --this.currentPageNumber,
       (this.currentPageNumber - 1) * +this.selectPageSize,
-      --this.currentPageNumber
+      this.currentPageNumber * +this.selectPageSize
     );
   }
   nextClick() {
     this.setPagination(
+      ++this.currentPageNumber,
       (this.currentPageNumber - 1) * +this.selectPageSize,
-      this.currentPageNumber * +this.selectPageSize,
-      ++this.currentPageNumber
+      this.currentPageNumber * +this.selectPageSize
     );
   }
 }
