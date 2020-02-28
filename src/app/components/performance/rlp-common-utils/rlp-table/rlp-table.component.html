@@ -1,3 +1,5 @@
-<p>
-  rlp-table works!
-</p>
+<input type="text" placeholder="Tin Number" [(ngModel)]="qTinSearch" />
+<input type="text" placeholder="Group Name" [(ngModel)]="qGroupNameSearch" />
+<div *ngFor="let item of tableData | rlpSearch: [qTinSearch, qGroupNameSearch]">
+  <app-rlp-table-item [tableItem]="item"></app-rlp-table-item>
+</div>
