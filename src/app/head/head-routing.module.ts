@@ -114,6 +114,7 @@ const routes: Routes = [
     loadChildren: '../components/performance/performance.module#PerformanceModule',
     canActivate: [AuthGuard],
     data: {
+      breadcrumb: 'Performance Management Summary',
       preload: false,
       delay: false
     }
