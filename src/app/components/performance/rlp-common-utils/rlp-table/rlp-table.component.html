@@ -10,7 +10,7 @@
     type="text"
     placeholder="Filter By Group Name"
     [(ngModel)]="qGroupNameSearch"
-    (keypress)="enterQuery()"
+    (keydown)="enterQuery()"
     (keydown.backspace)="enterQuery()"
   />
   <div
