@@ -1,6 +1,18 @@
 <div class="table-container">
-  <input type="text" placeholder="Filter By Tin" [(ngModel)]="qTinSearch" (keypress)="enterQuery()" />
-  <input type="text" placeholder="Filter By Group Name" [(ngModel)]="qGroupNameSearch" (keypress)="enterQuery()" />
+  <input
+    type="text"
+    placeholder="Filter By Tin"
+    [(ngModel)]="qTinSearch"
+    (keydown)="enterQuery()"
+    (keydown.backspace)="enterQuery()"
+  />
+  <input
+    type="text"
+    placeholder="Filter By Group Name"
+    [(ngModel)]="qGroupNameSearch"
+    (keypress)="enterQuery()"
+    (keydown.backspace)="enterQuery()"
+  />
   <div
     *ngFor="let item of tableData | rlpSearch: [qTinSearch, qGroupNameSearch | lowercase] | slice: startIndex:endIndex"
   >
