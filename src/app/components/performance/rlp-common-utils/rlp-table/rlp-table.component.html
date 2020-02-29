@@ -3,14 +3,14 @@
     type="text"
     placeholder="Filter By Tin"
     [(ngModel)]="qTinSearch"
-    (keydown)="enterQuery()"
+    (keyup)="enterQuery()"
     (keydown.backspace)="enterQuery()"
   />
   <input
     type="text"
     placeholder="Filter By Group Name"
     [(ngModel)]="qGroupNameSearch"
-    (keydown)="enterQuery()"
+    (keyup)="enterQuery()"
     (keydown.backspace)="enterQuery()"
   />
   <div

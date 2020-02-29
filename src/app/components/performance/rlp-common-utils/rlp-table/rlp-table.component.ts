@@ -54,20 +54,24 @@ export class RlpTableComponent implements OnInit {
   enterQuery() {
     this.setPagination(1, 0, this.selectPageSize);
     if (this.qGroupNameSearch === undefined && this.qTinSearch === undefined) {
-      console.log('Check after queary undefeined');
+      console.log('not yet decided');
     }
     const afterQuery = this.tableData.filter(el => {
       if (el.tin.indexOf([this.qTinSearch]) !== -1 && this.qGroupNameSearch === undefined) {
         return true;
-      } else if (this.qTinSearch === undefined && el.groupName.toLowerCase().indexOf([this.qGroupNameSearch]) !== -1) {
+      } else if (
+        this.qTinSearch === undefined &&
+        el.groupName.toLowerCase().indexOf([this.qGroupNameSearch.toLowerCase()]) !== -1
+      ) {
         return true;
       } else if (
         el.tin.indexOf([this.qTinSearch]) !== -1 &&
-        el.groupName.toLowerCase().indexOf([this.qGroupNameSearch]) !== -1
+        el.groupName.toLowerCase().indexOf([this.qGroupNameSearch.toLowerCase()]) !== -1
       ) {
         return true;
       }
     });
+    this.totalPages = Math.ceil(afterQuery.length / +this.selectPageSize);
     // this.totalPages = Math.ceil(rlpData.data.length / +this.selectPageSize);
     console.log('Check after queary', afterQuery);
   }
