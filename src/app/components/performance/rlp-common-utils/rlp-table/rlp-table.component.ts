@@ -51,11 +51,25 @@ export class RlpTableComponent implements OnInit {
       this.currentPageNumber * +this.selectPageSize
     );
   }
-  enterGroupName() {
-    this.startIndex = 0;
-  }
-  enterTinNumber() {
-    this.startIndex = 0;
+  enterQuery() {
+    this.setPagination(1, 0, this.selectPageSize);
+    if (this.qGroupNameSearch === undefined && this.qTinSearch === undefined) {
+      console.log('Check after queary undefeined');
+    }
+    const afterQuery = this.tableData.filter(el => {
+      if (el.tin.indexOf([this.qTinSearch]) !== -1 && this.qGroupNameSearch === undefined) {
+        return true;
+      } else if (this.qTinSearch === undefined && el.groupName.toLowerCase().indexOf([this.qGroupNameSearch]) !== -1) {
+        return true;
+      } else if (
+        el.tin.indexOf([this.qTinSearch]) !== -1 &&
+        el.groupName.toLowerCase().indexOf([this.qGroupNameSearch]) !== -1
+      ) {
+        return true;
+      }
+    });
+    // this.totalPages = Math.ceil(rlpData.data.length / +this.selectPageSize);
+    console.log('Check after queary', afterQuery);
   }
 
   enterPageNumber() {

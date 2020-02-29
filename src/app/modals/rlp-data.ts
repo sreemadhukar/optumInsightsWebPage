@@ -142,7 +142,197 @@ export const rlpData: any = {
     },
     {
       tin: '66-14558967',
-      groupName: 'Wasim Akram',
+      groupName: 'Sara Khan',
+      graphData: {
+        data1: 20,
+        data2: 66,
+        total: 86,
+        percentage: '%'
+      }
+    },
+    {
+      tin: '11-12358967',
+      groupName: 'Saif Ali Khan',
+      graphData: {
+        data1: 38,
+        data2: 64,
+        total: 102,
+        percentage: '%'
+      }
+    },
+    {
+      tin: '22-12358967',
+      groupName: 'Salman Khan',
+      graphData: {
+        data1: 45,
+        data2: 45,
+        total: 90,
+        percentage: '%'
+      }
+    },
+    {
+      tin: '56-12358967',
+      groupName: 'Shah Rukh Khan',
+      graphData: {
+        data1: 30,
+        data2: 69,
+        total: 99,
+        percentage: '%'
+      }
+    },
+    {
+      tin: '56-12358967',
+      groupName: 'Rohan Gavaskar',
+      graphData: {
+        data1: 34,
+        data2: 66,
+        total: 100,
+        percentage: '%'
+      }
+    },
+    {
+      tin: '88-12358967',
+      groupName: 'Ajay Sharma',
+      graphData: {
+        data1: 34,
+        data2: 44,
+        total: 78,
+        percentage: '%'
+      }
+    },
+    {
+      tin: '66-14558967',
+      groupName: 'Ritu Sharma',
+      graphData: {
+        data1: 20,
+        data2: 66,
+        total: 86,
+        percentage: '%'
+      }
+    },
+    {
+      tin: '11-12358967',
+      groupName: 'Mahatama Gandhi',
+      graphData: {
+        data1: 38,
+        data2: 64,
+        total: 102,
+        percentage: '%'
+      }
+    },
+    {
+      tin: '22-12358967',
+      groupName: 'Brack Obama',
+      graphData: {
+        data1: 45,
+        data2: 45,
+        total: 90,
+        percentage: '%'
+      }
+    },
+    {
+      tin: '56-12358967',
+      groupName: 'John Cena',
+      graphData: {
+        data1: 30,
+        data2: 69,
+        total: 99,
+        percentage: '%'
+      }
+    },
+    {
+      tin: '56-12358967',
+      groupName: 'Undertaker',
+      graphData: {
+        data1: 34,
+        data2: 66,
+        total: 100,
+        percentage: '%'
+      }
+    },
+    {
+      tin: '88-12358967',
+      groupName: 'Starc',
+      graphData: {
+        data1: 34,
+        data2: 44,
+        total: 78,
+        percentage: '%'
+      }
+    },
+    {
+      tin: '66-14558967',
+      groupName: 'Javed Akhtar',
+      graphData: {
+        data1: 20,
+        data2: 66,
+        total: 86,
+        percentage: '%'
+      }
+    },
+    {
+      tin: '66-14558967',
+      groupName: 'Arwind Kejrwal',
+      graphData: {
+        data1: 20,
+        data2: 66,
+        total: 86,
+        percentage: '%'
+      }
+    },
+    {
+      tin: '11-12358967',
+      groupName: 'Mayank Agarwal',
+      graphData: {
+        data1: 38,
+        data2: 64,
+        total: 102,
+        percentage: '%'
+      }
+    },
+    {
+      tin: '22-12358967',
+      groupName: 'Ranbir Kapoor',
+      graphData: {
+        data1: 45,
+        data2: 45,
+        total: 90,
+        percentage: '%'
+      }
+    },
+    {
+      tin: '56-12358967',
+      groupName: 'Kareena Kapoor',
+      graphData: {
+        data1: 30,
+        data2: 69,
+        total: 99,
+        percentage: '%'
+      }
+    },
+    {
+      tin: '56-12358967',
+      groupName: 'Darling',
+      graphData: {
+        data1: 34,
+        data2: 66,
+        total: 100,
+        percentage: '%'
+      }
+    },
+    {
+      tin: '88-12358967',
+      groupName: 'Karishma Kapoor',
+      graphData: {
+        data1: 34,
+        data2: 44,
+        total: 78,
+        percentage: '%'
+      }
+    },
+    {
+      tin: '66-14558967',
+      groupName: 'Shahid Afridi',
       graphData: {
         data1: 20,
         data2: 66,
