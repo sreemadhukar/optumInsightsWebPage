@@ -1,16 +1,32 @@
 <!-- <app-rlp-common-bar [type]="'rlp-large-bar'"></app-rlp-common-bar>
 <app-rlp-common-bar [type]="'rlp-small-bar'"></app-rlp-common-bar>
 <app-rlp-common-bar [type]="'rlp-table-bar'"></app-rlp-common-bar> -->
-<div class="rlp-body">
-  <div class="rlp-content">
-    <div class="cust-width-title">
+
+<!-- Main container-->
+<div class="container">
+  <!-- container content-->
+  <div class="container-content">
+    <!-- container header titile ends-->
+    <div class="container-header">
+      <!-- Breadcrumbs-->
       <app-breadcrumbs></app-breadcrumbs>
+      <!-- Breadcrumbs ends-->
+      <!-- Header Title-->
       <app-rlp-header
         [rlpTitle]="titleForSummary"
         [rlpSubTitle]="subTitleForSummary"
         class="full-display bottom-margin-block"
       ></app-rlp-header>
-      <app-rlp-common-bar [type]="'rlp-small-bar'"></app-rlp-common-bar>
+      <!-- Header Title ends-->
+      <!-- <app-rlp-common-bar [type]="'rlp-small-bar'"></app-rlp-common-bar> -->
+
+      <!-- Large Card content-->
+
+      <!-- Large Card content ends-->
     </div>
+    <!-- container header titile ends-->
+    <app-rlp-body></app-rlp-body>
   </div>
+  <!--container content ends-->
 </div>
+<!-- Main container ends-->
