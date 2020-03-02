@@ -51,7 +51,7 @@ import { ColorGreyMiniBarChartComponent } from './d3-objects/color-grey-mini-bar
 import { BarSimplePiComponent } from './d3-objects/bar-simple-pi/bar-simple-pi.component';
 import { StackedBarChartComponent } from './d3-objects/stacked-bar-chart/stacked-bar-chart.component';
 import { UhcKopFilterComponent } from './uhc-kop-filter/uhc-kop-filter.component';
-
+import { RlpCommonUtilsModule } from '../components/performance/rlp-common-utils/rlp-common-utils.module';
 @NgModule({
   imports: [
     CommonModule,
@@ -60,7 +60,8 @@ import { UhcKopFilterComponent } from './uhc-kop-filter/uhc-kop-filter.component
     HeadMaterialModule,
     RouterModule,
     MatIconModule,
-    PipesModule
+    PipesModule,
+    RlpCommonUtilsModule
   ],
   exports: [
     MiniTileComponent,
