@@ -27,7 +27,7 @@ import { FormControl } from '@angular/forms';
 })
 export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
   hideAllObjects: boolean;
-
+  dollarData: boolean;
   selectedclaims: any;
   numberOfClaims: any;
   tinsDisplayedColumns: string[] = [
@@ -160,17 +160,16 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
     } else if (this.viewClaimsByFilter === 'DOP') {
       this.viewClaimsValue = 'Date of Processing';
     }
+    this.selectedclaims = new MatTableDataSource(this.claimsData);
+    // pagination
+    this.selectedclaims.paginator = this.paginator;
+    // sorting
+    this.selectedclaims.sort = this.sort;
+    this.dollarData = false;
+
     // load table data
     if (this.claimsData !== null) {
-      this.dataNOtavaiable = true;
       this.loadTable(this.temp.reasonSelected, this.temp.subReason);
-      if (this.numberOfClaims > 24) {
-        this.customPaginator();
-      } else {
-        this.selectedclaims.paginator = null;
-      }
-    } else {
-      this.dataNOtavaiable = false;
     }
   }
 
@@ -180,52 +179,10 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
       this.selectedclaims.sort = this.sort;
 
       // pagination
+      this.customPaginator();
+
+      // pagination
       this.selectedclaims.paginator = this.paginator;
-
-      this.paginator._intl.itemsPerPageLabel = 'Display';
-      this.paginator._intl.getRangeLabel = function(page, pageSize, length) {
-        d3.select('#page-text').text(function() {
-          return 'Page ';
-        });
-        d3.select('#page-number')
-          .text(function() {
-            return page + 1;
-          })
-          .attr('font-size', '16')
-          .attr('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
-          .attr('fill', '#2D2D39');
-        return ' of ' + Math.floor(length / pageSize);
-      };
-      d3.select('.mat-paginator-container')
-        .insert('div')
-        .text('per page')
-        .attr('font-size', '14')
-        .attr('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
-        .attr('color', '#757588')
-        .style('flex-grow', '5')
-        .lower();
-
-      d3.select('.mat-paginator-range-label')
-        .insert('div')
-        .style('border', '1px solid #B3BABC')
-        .style('border-radius', '2px')
-        .style('font-size', '16')
-        .style('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
-        .style('color', '#2D2D39')
-        .style('float', 'left')
-        .style('margin', '-13px 5px 0px 5px')
-        .style('padding', '10px 20px 10px 20px')
-        .attr('id', 'page-number')
-        .lower();
-
-      d3.select('.mat-paginator-range-label')
-        .insert('span')
-        .attr('font-size', '16')
-        .attr('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
-        .attr('color', '#2D2D39')
-        .style('float', 'left')
-        .lower()
-        .attr('id', 'page-text');
     }
     this.tinNumberFilter.valueChanges.subscribe(tinNumberValue => {
       this.filterValues['TinNumber'] = tinNumberValue;
@@ -262,8 +219,11 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
         this.claimsData = JSON.parse(JSON.stringify(claimsDetailsData));
 
         if (this.claimsData && this.claimsData.length > 0) {
+          this.dollarData = true;
           this.numberOfClaims = this.claimsData.length;
           this.selectedclaims = new MatTableDataSource(this.claimsData);
+          this.selectedclaims.sort = this.sort;
+          this.selectedclaims.paginator = this.paginator;
           this.selectedclaims.filterPredicate = this.customFilterPredicate();
         }
       })
@@ -308,7 +268,11 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
         .attr('font-size', '16')
         .attr('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
         .attr('fill', '#2D2D39');
-      return ' of ' + Math.floor(length / pageSize);
+      if (length % pageSize === 0) {
+        return ' of ' + Math.floor(length / pageSize);
+      } else {
+        return ' of ' + Math.floor(length / pageSize + 1);
+      }
     };
     d3.select('.mat-paginator-container')
       .insert('div')
