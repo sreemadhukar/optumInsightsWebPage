@@ -15,46 +15,19 @@ export class SummaryComponent implements OnInit {
   public subTitleForSummary;
   data: any;
   summaryItems: any;
-  constructor(private ngRedux: NgRedux<IAppState>, private perfShared: PerformanceService) {}
+  constructor(private ngRedux: NgRedux<IAppState>, private perfShared: PerformanceService) {
+    this.perfShared.getPerformanceData().subscribe((response: any) => {
+      this.data = response;
+      this.summaryItems = this.data;
+      console.log(this.summaryItems);
+      console.log('nandu');
+    });
+  }
 
   ngOnInit() {
-    this.data = this.perfShared.getPerformanceData();
-    console.log(this.data);
     this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'performanceSummary' });
     this.titleForSummary = 'Performance Management Summary';
     this.subTitleForSummary = `Improve your performance through rendering, ordering, prescribing and
                                referring actions that achieve lower total cost of care.`;
-    this.summaryItems = [
-      {
-        category: 'app-card',
-        type: 'rlp-small-bar',
-        status: '',
-        title: 'Preferred Specialist Referral Rate',
-        data: 'Specialist',
-        besideData: null,
-        bottomData: null,
-        timeperiod: 'Year to Date (Jan 1, 2020-Mar 31, 2020)'
-      },
-      {
-        category: 'app-card',
-        type: 'rlp-small-bar',
-        status: '',
-        title: 'Preferred Lab Network Use Rate',
-        data: 'Specialist',
-        besideData: null,
-        bottomData: null,
-        timeperiod: 'Year to Date (Jan 1, 2020-Mar 31, 2020)'
-      },
-      {
-        category: 'app-card',
-        type: 'rlp-small-bar',
-        status: '',
-        title: 'Preferred Tier Prescribing Rate',
-        data: 'Prescription',
-        besideData: null,
-        bottomData: null,
-        timeperiod: 'Year to Date (Jan 1, 2020-Mar 31, 2020)'
-      }
-    ];
   }
 }

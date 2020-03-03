@@ -7,9 +7,8 @@ import { PerformanceRestService } from '../../rest/performance/performance-rest.
 export class PerformanceService {
   constructor(private performanceRestService: PerformanceRestService) {}
   public getPerformanceData() {
-    this.performanceRestService.getPerformanceData().subscribe((response: any) => {
-      console.log(response);
-      return response;
-    });
+    const data = this.performanceRestService.getPerformanceData();
+
+    return data;
   }
 }
