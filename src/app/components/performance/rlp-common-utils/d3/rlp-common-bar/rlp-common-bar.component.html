@@ -1,1 +1,24 @@
-<div id="{{ type + index }}"></div>
+<!-- <div id="{{ renderedId }}"></div> -->
+<div class="bar-types">
+  <div class="small-bar" *ngIf="data.type == 'rlp-small-bar'">
+    <div class="small-bar-head">582/895 Referrals</div>
+    <div class="small-bar-body">
+      <app-common-bar [config]="config.smallCard"></app-common-bar>
+      <div class="small-card-percentage">{{ config.smallCard.percentage }}</div>
+    </div>
+  </div>
+  <div class="large-bar" *ngIf="data.type == 'rlp-large-bar'">
+    <div class="large-bar-head">582/895 Referrals</div>
+    <div class="large-bar-body">
+      <app-common-bar [config]="config.largeCard"></app-common-bar>
+      <div class="large-card-percentage">{{ config.largeCard.percentage }}</div>
+    </div>
+  </div>
+  <div class="table-bar" *ngIf="data.type == 'rlp-table-bar'">
+    <div class="table-bar-head">582/895</div>
+    <div class="table-bar-body">
+      <app-common-bar [config]="config.tableCard"></app-common-bar>
+    </div>
+    <div class="table-bar-percentage ">{{ config.tableCard.percentage }}</div>
+  </div>
+</div>

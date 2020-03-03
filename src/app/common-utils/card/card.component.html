@@ -412,7 +412,7 @@
       </div>
 
       <div *ngIf="chartData.type == 'rlp-large-bar' || chartData.type == 'rlp-small-bar'" class="full-width-block">
-        <app-rlp-common-bar [type]="chartData.type" [index]="index"></app-rlp-common-bar>
+        <app-rlp-common-bar [data]="chartData"></app-rlp-common-bar>
       </div>
     </div>
     <div *ngIf="chartData.timeperiod" class="full-width-block">
