@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
 export class CardComponent implements OnInit {
   @Input() chartData;
   @Input() skeleton;
+  @Input() index;
   @Input() tabData;
   @Input() selectedTab;
   @Input() handleCaseForOverviewTile = false;
