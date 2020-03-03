@@ -24,9 +24,8 @@ export class RlpTableComponent implements OnInit {
     this.selectPageSize = this.pageSizeValues[0];
     this.tableData = rlpData.data;
     this.afterQuery = this.tableData;
-    this.totalPages = Math.ceil(rlpData.data.length / +this.selectPageSize);
+    this.totalPages = Math.ceil(this.tableData.length / +this.selectPageSize);
     this.setPagination();
-    this.tableData = rlpData.data;
   }
 
   /**
@@ -54,7 +53,7 @@ export class RlpTableComponent implements OnInit {
    * Now, currentPageNumber will hold the current state i.e. 2 and adjust the startIndex and endIndex accordingly
    */
   pageSizeMethod() {
-    this.totalPages = Math.ceil(this.afterQuery / +this.selectPageSize);
+    this.totalPages = Math.ceil(this.afterQuery.length / +this.selectPageSize);
     this.setPagination(
       this.totalPages < this.currentPageNumber ? this.totalPages : this.currentPageNumber,
       (this.currentPageNumber - 1) * +this.selectPageSize,
