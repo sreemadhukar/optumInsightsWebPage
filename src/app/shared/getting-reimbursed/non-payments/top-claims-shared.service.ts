@@ -11,6 +11,7 @@ import { GettingReimbursedPayload } from '../payload.class';
 import * as _ from 'lodash';
 import { environment } from '../../../../environments/environment';
 import { NonPaymentTopClaimsService } from './../../../rest/getting-reimbursed/non-payment-top-claims.service';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -18,6 +19,7 @@ export class TopClaimsSharedService {
   clickSubReason: any;
   public filterParameters: any;
   public providerKey: number;
+  public specificTin: any;
 
   constructor(
     private nonPaymentTopClaimsService: NonPaymentTopClaimsService,
@@ -41,7 +43,6 @@ export class TopClaimsSharedService {
     if (specificTin === 'All') {
       specificTin = null;
     }
-
     const requestBody = {
       tins: specificTin,
       timeFilter: timePeriod,
@@ -54,6 +55,7 @@ export class TopClaimsSharedService {
     return new Promise(resolve => {
       this.nonPaymentTopClaimsService.getViewTopClaimsData([this.providerKey], requestBody).subscribe(data => {
         const claimsData = data.ClaimsNonPaymentMetrics;
+
         resolve(claimsData);
       });
     });
