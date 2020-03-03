@@ -56,7 +56,7 @@ export class SelfSharedService {
       }
       */
       this.selfService.getSelfServiceData(...parameters).subscribe(
-        ([providerSystems]) => {
+        ([providerSystems, EDI, PAPER]) => {
           try {
             const startDate: string = this.common.dateFormat(
               providerSystems.SelfServiceInquiries.ALL.ReportingPeriodStartDate
@@ -267,6 +267,10 @@ export class SelfSharedService {
             providerSystems && providerSystems.SelfServiceInquiries && providerSystems.SelfServiceInquiries.ALL
               ? providerSystems.SelfServiceInquiries.ALL.SelfService
               : null;
+          const rcpt =
+            EDI && EDI.All && EDI.All.ClaimsLobSummary && EDI.All.ClaimsLobSummary.length
+              ? EDI.All.ClaimsLobSummary[0]
+              : null;
           if (selfService) {
             if (
               selfService.hasOwnProperty('TotalCallCost') &&
@@ -398,8 +402,8 @@ export class SelfSharedService {
                 data: null,
                 fdata: null
               });
-            } // end if else for Save Your Staff's Time by:
-            if (
+            } // end if else for Save Your Staff's Time by: // end if else for 'Reduce Claim Processing Time by:'
+            /* if (
               selfService.hasOwnProperty('AveragePaperClaimProcessingTime') &&
               selfService.hasOwnProperty('AverageClaimProcessingTime')
             ) {
@@ -469,8 +473,7 @@ export class SelfSharedService {
                 data: null,
                 fdata: null
               });
-            } // end if else for 'Reduce Claim Processing Time by:'
-            if (
+            } */ if (
               selfService.hasOwnProperty('AveragePaperReconsideredProcessingTime') &&
               selfService.hasOwnProperty('AverageReconsideredProcessingTime') &&
               selfService['AveragePaperReconsideredProcessingTime'] !== null &&
@@ -575,7 +578,7 @@ export class SelfSharedService {
               fdata: null
             });
 
-            oppurtunities.push({
+            /* oppurtunities.push({
               category: 'mini-tile',
               title: 'Reduce Claim Processing Time by:',
               MetricID: this.MetricidService.MetricIDs.ReduceClaimProcessingTimeBy,
@@ -588,7 +591,7 @@ export class SelfSharedService {
               ),
               data: null,
               fdata: null
-            });
+            }); */
 
             oppurtunities.push({
               category: 'mini-tile',
@@ -601,6 +604,103 @@ export class SelfSharedService {
                 'Service Interaction',
                 false
               ),
+              data: null,
+              fdata: null
+            });
+          }
+          if (rcpt) {
+            if (
+              EDI.hasOwnProperty('All') &&
+              EDI.All != null &&
+              EDI.All.hasOwnProperty('ClaimsLobSummary') &&
+              EDI.All.ClaimsLobSummary.length &&
+              EDI.All.ClaimsLobSummary[0].hasOwnProperty('ClaimsAvgTat') &&
+              EDI.All.ClaimsLobSummary[0].ClaimsAvgTat != null &&
+              PAPER.hasOwnProperty('All') &&
+              PAPER.All != null &&
+              PAPER.All.hasOwnProperty('ClaimsLobSummary') &&
+              PAPER.All.ClaimsLobSummary.length &&
+              PAPER.All.ClaimsLobSummary[0].hasOwnProperty('ClaimsAvgTat') &&
+              PAPER.All.ClaimsLobSummary[0].ClaimsAvgTat != null
+            ) {
+              try {
+                const ediClaimsLobSummary = EDI.All.ClaimsLobSummary[0];
+                const paperClaimsLobSummary = PAPER.All.ClaimsLobSummary[0];
+                const checkProcessingTime =
+                  paperClaimsLobSummary.ClaimsAvgTat.toFixed(0) - ediClaimsLobSummary.ClaimsAvgTat.toFixed(0);
+                oppurtunities.push({
+                  category: 'mini-tile',
+                  title: 'Reduce Claim Processing Time by:',
+                  MetricID: this.MetricidService.MetricIDs.ReduceClaimProcessingTimeBy,
+                  toggle:
+                    this.toggle.setToggles(
+                      'Reduce Claim Processing Time by:',
+                      'Self Service',
+                      'Service Interaction',
+                      false
+                    ) && this.common.checkZeroNegative(checkProcessingTime),
+                  data: {
+                    centerNumber:
+                      (checkProcessingTime < 1 ? '< 1' : this.common.nondecimalFormatter(checkProcessingTime)) +
+                      (checkProcessingTime < 1 ? ' Day' : ' Days'),
+                    gdata: []
+                  },
+                  fdata: {
+                    type: 'bar chart',
+                    graphValues: [ediClaimsLobSummary.ClaimsAvgTat, paperClaimsLobSummary.ClaimsAvgTat],
+                    concatString: 'Days',
+                    color: ['#3381FF', '#FFFFFF', '#80B0FF'],
+                    graphValuesTitle: 'Avg. Processing Times',
+                    graphData1: 'for Self Service',
+                    graphData2: 'for Mail',
+                    gdata: ['card-structure', 'reduceClaimProcessingTime']
+                  }
+                });
+              } catch (Error) {
+                console.log('Error - Self Service - Reduce Claim Processing Time by:', Error);
+                oppurtunities.push({
+                  category: 'mini-tile',
+                  title: 'Reduce Claim Processing Time by:',
+                  MetricID: this.MetricidService.MetricIDs.ReduceClaimProcessingTimeBy,
+                  status: 500,
+                  toggle: this.toggle.setToggles(
+                    'Reduce Claim Processing Time by:',
+                    'Self Service',
+                    'Service Interaction',
+                    false
+                  ),
+                  data: null,
+                  fdata: null
+                });
+              }
+            } else {
+              oppurtunities.push({
+                category: 'mini-tile',
+                title: 'Reduce Claim Processing Time by:',
+                MetricID: this.MetricidService.MetricIDs.ReduceClaimProcessingTimeBy,
+                toggle: this.toggle.setToggles(
+                  'Reduce Claim Processing Time by:',
+                  'Self Service',
+                  'Service Interaction',
+                  false
+                ),
+                status: 500,
+                data: null,
+                fdata: null
+              });
+            }
+          } else {
+            oppurtunities.push({
+              category: 'mini-tile',
+              title: 'Reduce Claim Processing Time by:',
+              MetricID: this.MetricidService.MetricIDs.ReduceClaimProcessingTimeBy,
+              toggle: this.toggle.setToggles(
+                'Reduce Claim Processing Time by:',
+                'Self Service',
+                'Service Interaction',
+                false
+              ),
+              status: 500,
               data: null,
               fdata: null
             });
