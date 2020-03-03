@@ -22,7 +22,7 @@
   <div class="rlp-table-footer">
     <mat-form-field>
       <mat-select [(ngModel)]="selectPageSize" name="p" (selectionChange)="pageSizeMethod()">
-        <mat-option *ngFor="let p of pageSize" [value]="p">
+        <mat-option *ngFor="let p of pageSizeValues" [value]="p">
           {{ p }}
         </mat-option>
       </mat-select>

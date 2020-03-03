@@ -1,34 +1,55 @@
 import { Component, OnInit } from '@angular/core';
-import { rlpData } from '../../../../modals/rlp-data';
+import { rlpData, INITIAL_PAGINATION, pageSizeConf } from '../../../../modals/rlp-data';
+
 @Component({
   selector: 'app-rlp-table',
   templateUrl: './rlp-table.component.html',
   styleUrls: ['./rlp-table.component.scss']
 })
 export class RlpTableComponent implements OnInit {
-  public qTinSearch: string;
-  public qGroupNameSearch: string;
+  public qTinSearch: string; // Input ngModel of Tin Search
+  public qGroupNameSearch: string; // Input ngModel of GroupName
   public tableData: any;
-  public currentPageNumber: number;
-  public selectPageSize: string;
-  public startIndex;
-  public endIndex;
-  public totalPages: number;
-  public pageSize = ['2', '4', '6', '8', '25'];
+  public currentPageNumber: number; // Input the ngModel for page number
+  public selectPageSize: string; // Dropdown ngModel select value
+  public startIndex: number; // starting point of the items displayed for the current state
+  public endIndex: number; // end point of the items displayed for the current state
+  public totalPages: number; // total Number of pages i.e. Number of available records/ PageSize
+  public pageSizeValues: Array<string>; // Dropdown option values
   constructor() {}
 
   ngOnInit() {
-    this.selectPageSize = this.pageSize[0];
+    this.pageSizeValues = pageSizeConf;
+    this.selectPageSize = this.pageSizeValues[0];
     this.totalPages = Math.ceil(rlpData.data.length / +this.selectPageSize);
-    this.setPagination(1, 0, this.selectPageSize);
+    this.setPagination();
     this.tableData = rlpData.data;
   }
-  setPagination(currentPageNumber, startIndex, endIndex) {
+
+  /**
+   * setPagination function handle the current state of pagination
+   * @param currentPageNumber  Current page if not provided INITIAL_STATE i.e. 1
+   * @param startIndex StartIndex of the current state of the table if not provided INITIAL_STATE i.e. 0
+   * @param endIndex EndIndex of the current state of the table if not provided INITIAL_STATE i.e default page size
+   */
+  setPagination(
+    currentPageNumber = INITIAL_PAGINATION.currentPageNumber,
+    startIndex = INITIAL_PAGINATION.setIndex,
+    endIndex = INITIAL_PAGINATION.endIndex
+  ) {
+    this.currentPageNumber = currentPageNumber;
     this.startIndex = startIndex;
     this.endIndex = endIndex;
-    this.currentPageNumber = currentPageNumber;
-    console.log('start', startIndex, 'end', endIndex, 'current ', currentPageNumber);
   }
+
+  /**
+   * pageSizeMethod() function handle the list of items to be displayed at one instance
+   * Based on the user selection of the size, totalPages is calculated
+   * SetPagination is called considering the current state of the table
+   * Example:
+   * user is at Page 2 and then he selects number of items to displayed from 4 to 8
+   * Now, currentPageNumber will hold the current state i.e. 2 and adjust the startIndex and endIndex accordingly
+   */
   pageSizeMethod() {
     this.totalPages = Math.ceil(rlpData.data.length / +this.selectPageSize);
     this.setPagination(
@@ -37,6 +58,7 @@ export class RlpTableComponent implements OnInit {
       this.currentPageNumber * +this.selectPageSize
     );
   }
+
   prevClick() {
     this.setPagination(
       --this.currentPageNumber,
@@ -46,13 +68,13 @@ export class RlpTableComponent implements OnInit {
   }
   nextClick() {
     this.setPagination(
-      ++this.currentPageNumber,
+      +this.currentPageNumber,
       (this.currentPageNumber - 1) * +this.selectPageSize,
       this.currentPageNumber * +this.selectPageSize
     );
   }
   enterQuery() {
-    this.setPagination(1, 0, this.selectPageSize);
+    this.setPagination(1, 0, +this.selectPageSize);
     if (this.qGroupNameSearch === undefined && this.qTinSearch === undefined) {
       console.log('not yet decided');
     }
@@ -72,10 +94,12 @@ export class RlpTableComponent implements OnInit {
       }
     });
     this.totalPages = Math.ceil(afterQuery.length / +this.selectPageSize);
-    // this.totalPages = Math.ceil(rlpData.data.length / +this.selectPageSize);
     console.log('Check after queary', afterQuery);
   }
 
+  /**
+   * enterPageNumber()
+   */
   enterPageNumber() {
     if (this.currentPageNumber <= this.totalPages) {
       this.setPagination(
