@@ -23,6 +23,19 @@
         "percentage": 99
       }
     },
-    "timeperiod": null
+    "timeperiod": "Year to Date (Jan 1, 2020-Mar 31, 2020)"
+  },
+  {
+    "category": "app-card",
+    "type": "rlp-small-bar",
+    "status": 404,
+    "title": "Preferred Tier Prescribing Rate",
+    "data": {
+      "gdata": {
+        "count": "582/895 Prescription",
+        "percentage": 80
+      }
+    },
+    "timeperiod": "Year to Date (Jan 1, 2020-Mar 31, 2020)"
   }
 ]
