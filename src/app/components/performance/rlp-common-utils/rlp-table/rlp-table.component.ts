@@ -9,7 +9,8 @@ import { rlpData, INITIAL_PAGINATION, pageSizeConf } from '../../../../modals/rl
 export class RlpTableComponent implements OnInit {
   public qTinSearch: string; // Input ngModel of Tin Search
   public qGroupNameSearch: string; // Input ngModel of GroupName
-  public tableData: any;
+  public tableData: any; // This varibale is used for the pipe
+  public afterQuery: any; // afterquery is an array of type Table Data and used to check the filtered array of items
   public currentPageNumber: number; // Input the ngModel for page number
   public selectPageSize: string; // Dropdown ngModel select value
   public startIndex: number; // starting point of the items displayed for the current state
@@ -21,6 +22,8 @@ export class RlpTableComponent implements OnInit {
   ngOnInit() {
     this.pageSizeValues = pageSizeConf;
     this.selectPageSize = this.pageSizeValues[0];
+    this.tableData = rlpData.data;
+    this.afterQuery = this.tableData;
     this.totalPages = Math.ceil(rlpData.data.length / +this.selectPageSize);
     this.setPagination();
     this.tableData = rlpData.data;
@@ -51,7 +54,7 @@ export class RlpTableComponent implements OnInit {
    * Now, currentPageNumber will hold the current state i.e. 2 and adjust the startIndex and endIndex accordingly
    */
   pageSizeMethod() {
-    this.totalPages = Math.ceil(rlpData.data.length / +this.selectPageSize);
+    this.totalPages = Math.ceil(this.afterQuery / +this.selectPageSize);
     this.setPagination(
       this.totalPages < this.currentPageNumber ? this.totalPages : this.currentPageNumber,
       (this.currentPageNumber - 1) * +this.selectPageSize,
@@ -68,17 +71,22 @@ export class RlpTableComponent implements OnInit {
   }
   nextClick() {
     this.setPagination(
-      +this.currentPageNumber,
+      ++this.currentPageNumber,
       (this.currentPageNumber - 1) * +this.selectPageSize,
       this.currentPageNumber * +this.selectPageSize
     );
   }
+
+  /**
+   * enterQuery() is the function for setting up totalPages dynamically on the basis of search
+   * for both Tin and Group name
+   */
   enterQuery() {
-    this.setPagination(1, 0, +this.selectPageSize);
+    this.setPagination();
     if (this.qGroupNameSearch === undefined && this.qTinSearch === undefined) {
       console.log('not yet decided');
     }
-    const afterQuery = this.tableData.filter(el => {
+    this.afterQuery = this.tableData.filter(el => {
       if (el.tin.indexOf([this.qTinSearch]) !== -1 && this.qGroupNameSearch === undefined) {
         return true;
       } else if (
@@ -93,12 +101,14 @@ export class RlpTableComponent implements OnInit {
         return true;
       }
     });
-    this.totalPages = Math.ceil(afterQuery.length / +this.selectPageSize);
-    console.log('Check after queary', afterQuery);
+    this.totalPages = Math.ceil(this.afterQuery.length / +this.selectPageSize);
+    console.log('Check after queary', this.afterQuery);
   }
 
   /**
-   * enterPageNumber()
+   * enterPageNumber() is to handle and setup pagination after user enters custom number to go
+   * If the entered value is valid it will setup the pagination accordingly otherwise it will
+   * Else it will reset the pagination to the INITIAL STATE
    */
   enterPageNumber() {
     if (this.currentPageNumber <= this.totalPages) {
@@ -108,6 +118,7 @@ export class RlpTableComponent implements OnInit {
         this.currentPageNumber * +this.selectPageSize
       );
     } else {
+      this.setPagination();
       return false;
     }
   }
