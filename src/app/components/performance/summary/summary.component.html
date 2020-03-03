@@ -1,6 +1,3 @@
-<!-- <app-rlp-common-bar [type]="'rlp-large-bar'"></app-rlp-common-bar>
-<app-rlp-common-bar [type]="'rlp-small-bar'"></app-rlp-common-bar>
-<app-rlp-common-bar [type]="'rlp-table-bar'"></app-rlp-common-bar> -->
 <div class="rlp-body">
   <div class="rlp-content">
     <div class="cust-width-title">
@@ -10,9 +7,12 @@
         [rlpSubTitle]="subTitleForSummary"
         class="full-display bottom-margin-block"
       ></app-rlp-header>
-      <app-rlp-common-bar [data]="data[0]"></app-rlp-common-bar>
       <app-rlp-common-bar [data]="data[1]"></app-rlp-common-bar>
       <app-rlp-common-bar [data]="data[2]"></app-rlp-common-bar>
+      <div *ngFor="let item of summaryItems; let i = index">
+        <app-card *ngIf="item.data != null && item.category == 'app-card'" class="cards" [chartData]="item"></app-card>
+        <app-error-card *ngIf="item.data == null && item.status != null" class="cards" [data]="item"></app-error-card>
+      </div>
     </div>
   </div>
 </div>

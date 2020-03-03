@@ -410,6 +410,10 @@
         <img src="src/assets/images/icons/Content/round-insert_chart-24px - Copy.svg" />
         <div class="in-progress-caption">Metric in development</div>
       </div>
+
+      <div *ngIf="chartData.type == 'rlp-large-bar' || chartData.type == 'rlp-small-bar'" class="full-width-block">
+        <app-rlp-common-bar [data]="chartData"></app-rlp-common-bar>
+      </div>
     </div>
     <div *ngIf="chartData.timeperiod" class="full-width-block">
       <app-common-footer

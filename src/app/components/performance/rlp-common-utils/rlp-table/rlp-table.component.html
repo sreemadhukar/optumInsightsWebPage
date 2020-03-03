@@ -1,3 +1,48 @@
-<p>
-  rlp-table works!
-</p>
+<div class="table-container">
+  <input
+    type="text"
+    placeholder="Filter By Tin"
+    [(ngModel)]="qTinSearch"
+    (keydown)="enterQuery()"
+    (keydown.backspace)="enterQuery()"
+  />
+  <input
+    type="text"
+    placeholder="Filter By Group Name"
+    [(ngModel)]="qGroupNameSearch"
+    (keypress)="enterQuery()"
+    (keydown.backspace)="enterQuery()"
+  />
+  <div
+    *ngFor="let item of tableData | rlpSearch: [qTinSearch, qGroupNameSearch | lowercase] | slice: startIndex:endIndex"
+  >
+    <app-rlp-table-item [tableItem]="item"></app-rlp-table-item>
+  </div>
+
+  <div class="rlp-table-footer">
+    <mat-form-field>
+      <mat-select [(ngModel)]="selectPageSize" name="p" (selectionChange)="pageSizeMethod()">
+        <mat-option *ngFor="let p of pageSize" [value]="p">
+          {{ p }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <div>
+      <form (submit)="enterPageNumber()">
+        <input
+          [(ngModel)]="currentPageNumber"
+          name="enterPage"
+          [value]="currentPageNumber"
+          onkeyup="this.value=this.value.replace(/[^\d]/,'')"
+        />
+        of {{ totalPages }}
+      </form>
+    </div>
+    <div (click)="prevClick()" *ngIf="startIndex > 0">
+      <button>Prev</button>
+    </div>
+    <div (click)="nextClick()" *ngIf="currentPageNumber < totalPages">
+      <button>Next</button>
+    </div>
+  </div>
+</div>

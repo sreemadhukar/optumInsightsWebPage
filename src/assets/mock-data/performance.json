@@ -1,8 +1,8 @@
 [
   {
-    "category": "rlp-small-card",
+    "category": "app-card",
     "type": "rlp-small-bar",
-    "status": 404,
+    "status": "",
     "title": "Preferred Specialist Referral Rate",
     "data": {
       "gdata": {
@@ -10,56 +10,17 @@
         "percentage": 14
       }
     },
-    "timeperiod": null
+    "timeperiod": "Year to Date (Jan 1, 2020-Mar 31, 2020)"
   },
   {
-    "category": "rlp-large-card",
-    "type": "rlp-large-bar",
+    "category": "app-card",
+    "type": "rlp-small-bar",
     "status": 404,
-    "title": "Preferred Specialist Referral Rate",
+    "title": "Preferred Lab Network Use Rate",
     "data": {
       "gdata": {
-        "count": "582/895 Referrals",
+        "count": "582/895 Specialist",
         "percentage": 99
-      }
-    },
-    "timeperiod": null
-  },
-  {
-    "category": "rlp-table-card",
-    "type": "rlp-table-bar",
-    "status": 404,
-    "title": "Preferred Specialist Referral Rate",
-    "data": {
-      "gdata": {
-        "count": "582/895 Referrals",
-        "percentage": 22
-      }
-    },
-    "timeperiod": null
-  },
-  {
-    "category": "rlp-large-card",
-    "type": "rlp-large-bar",
-    "status": 404,
-    "title": "Preferred Specialist Referral Rate",
-    "data": {
-      "gdata": {
-        "count": "582/895 Referrals",
-        "percentage": 77
-      }
-    },
-    "timeperiod": null
-  },
-  {
-    "category": "rlp-large-card",
-    "type": "rlp-large-bar",
-    "status": 404,
-    "title": "Preferred Specialist Referral Rate",
-    "data": {
-      "gdata": {
-        "count": "582/895 Referrals",
-        "percentage": 65
       }
     },
     "timeperiod": null

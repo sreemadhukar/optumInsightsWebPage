@@ -1,0 +1,15 @@
+@import '~src/scss/variables.scss';
+.table-container {
+  position: relative;
+  background-color: $white;
+  width: 960px;
+  margin: 12px;
+  margin-bottom: 100px;
+  line-height: 50px;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
+  border-radius: 2px;
+
+  .rlp-table-footer {
+    display: inline-flex;
+  }
+}
