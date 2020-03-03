@@ -411,8 +411,8 @@
         <div class="in-progress-caption">Metric in development</div>
       </div>
 
-      <div *ngIf="chartData.type == 'rpl-small-bar'" class="full-width-block">
-        <app-rlp-common-bar [type]="chartData.type"></app-rlp-common-bar>
+      <div *ngIf="chartData.type == 'rpl-large-bar' || chartData.type == 'rpl-small-bar'" class="full-width-block">
+        <app-rlp-common-bar [type]="chartData.type" [index]="index"></app-rlp-common-bar>
       </div>
     </div>
     <div *ngIf="chartData.timeperiod" class="full-width-block">

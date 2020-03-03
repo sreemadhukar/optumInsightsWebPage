@@ -8,11 +8,12 @@ import * as d3 from 'd3';
 })
 export class RlpCommonBarComponent implements OnInit, AfterViewInit {
   @Input() type;
+  @Input() index;
   renderedId: any;
   constructor() {}
 
   ngOnInit() {
-    this.renderedId = '#' + this.type;
+    this.renderedId = '#' + this.type + this.index;
   }
   ngAfterViewInit() {
     if (this.type === 'rlp-small-bar') {

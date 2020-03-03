@@ -27,19 +27,19 @@ export class SummaryComponent implements OnInit {
     this.summaryItems = [
       {
         data: 'Specialist',
-        type: 'rpl-small-bar',
+        type: 'rpl-large-bar',
         title: 'Preferred Specialist Referral Rate',
         timeperiod: 'Year to Date (Jan 1, 2020-Mar 31, 2020)'
       },
       {
         data: 'Lab Network',
-        type: 'rpl-small-bar',
+        type: 'rpl-large-bar',
         title: 'Preferred Lab Network Use Rate',
         timeperiod: 'Year to Date (Jan 1, 2020-Mar 31, 2020)'
       },
       {
         data: 'Prescription',
-        type: 'rpl-small-bar',
+        type: 'rpl-large-bar',
         title: 'Preferred Tier Prescribing Rate',
         timeperiod: 'Year to Date (Jan 1, 2020-Mar 31, 2020)'
       }
