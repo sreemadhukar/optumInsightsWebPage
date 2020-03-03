@@ -18,9 +18,8 @@ export class PrescriptionsComponent implements OnInit {
     this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'prescriptionsPage' });
 
     this.titleForPrescriptions = 'Preferred Tier Prescribing Rate';
-    this.subTitleForPrescriptions = `Here is where our optional page title description text would
-                                 live if we needed to use it. You can easily remove this
-                                 from the design by hiding it in your symbol overrides.
-                                 Please DO NOT detach this symbol.`;
+    this.subTitleForPrescriptions = `This measure’s objective is to evaluate rate of prescribing
+                                     to the Pharmacy Preferred Tiers 1 and 2 which typically have a
+                                     lower cost than higher tier drugs.`;
   }
 }
