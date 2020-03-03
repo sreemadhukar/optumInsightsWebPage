@@ -49,12 +49,12 @@ export class SelfServiceService {
         catchError(err => of(err))
       ),
       this.http.post(claimsURL, ediparams).pipe(
-        map(res => JSON.parse(JSON.stringify(res[0]))),
-        catchError(err => of(JSON.parse(JSON.stringify(err))))
+        map(res => res[0]),
+        catchError(err => of(err))
       ),
       this.http.post(claimsURL, pprparams).pipe(
-        map(res => JSON.parse(JSON.stringify(res[0]))),
-        catchError(err => of(JSON.parse(JSON.stringify(err))))
+        map(res => res[0]),
+        catchError(err => of(err))
       )
     );
   }

@@ -100,6 +100,9 @@ export class OverviewSharedService {
           .then(totaloppurtunities => {
             this.overviewPageData.push(tempArray, totaloppurtunities);
             resolve(this.overviewPageData);
+          })
+          .catch(err => {
+            console.log(err);
           });
       }); // end subscribing to REST call
     }); // ends Promise
@@ -565,7 +568,7 @@ export class OverviewSharedService {
           category: 'mini-tile',
           title: 'Reduce Claim Processing Time by:',
           MetricID: this.MetricidService.MetricIDs.ReduceClaimProcessingTimeBy,
-          status: null,
+          status: 404,
           data: null,
           fdata: null
         });

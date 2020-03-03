@@ -662,7 +662,7 @@ export class SelfSharedService {
                   category: 'mini-tile',
                   title: 'Reduce Claim Processing Time by:',
                   MetricID: this.MetricidService.MetricIDs.ReduceClaimProcessingTimeBy,
-                  status: 500,
+                  status: Error.status,
                   toggle: this.toggle.setToggles(
                     'Reduce Claim Processing Time by:',
                     'Self Service',
@@ -684,7 +684,7 @@ export class SelfSharedService {
                   'Service Interaction',
                   false
                 ),
-                status: 500,
+                status: 404,
                 data: null,
                 fdata: null
               });
@@ -700,7 +700,7 @@ export class SelfSharedService {
                 'Service Interaction',
                 false
               ),
-              status: 500,
+              status: 404,
               data: null,
               fdata: null
             });
