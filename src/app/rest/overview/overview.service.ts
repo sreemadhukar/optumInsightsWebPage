@@ -27,9 +27,23 @@ export class OverviewService {
     }
 */
     let tParams = {};
+    let ediparams = {};
+    let pprparams = {};
     if (parameters.length > 1 && parameters[1]) {
       tParams = {
         TimeFilter: 'Last6Months'
+      };
+      ediparams = {
+        ClaimsBy: 'DOS',
+        appealsProcessing: 'Received Date',
+        TimeFilter: 'Last6Months',
+        submissionTypes: ['EDI']
+      };
+      pprparams = {
+        ClaimsBy: 'DOS',
+        appealsProcessing: 'Received Date',
+        TimeFilter: 'Last6Months',
+        submissionTypes: ['PAPER']
       };
     }
     let eparams = new HttpParams();
@@ -46,6 +60,14 @@ export class OverviewService {
       this.http.post(claimsURL, tParams).pipe(
         map(res => JSON.parse(JSON.stringify(res[0]))),
         catchError(err => of(JSON.parse(JSON.stringify(err))))
+      ),
+      this.http.post(claimsURL, ediparams).pipe(
+        map(res => res[0]),
+        catchError(err => of(err))
+      ),
+      this.http.post(claimsURL, pprparams).pipe(
+        map(res => res[0]),
+        catchError(err => of(err))
       )
     );
   }
