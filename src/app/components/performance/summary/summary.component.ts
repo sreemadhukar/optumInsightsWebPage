@@ -26,21 +26,33 @@ export class SummaryComponent implements OnInit {
                                referring actions that achieve lower total cost of care.`;
     this.summaryItems = [
       {
-        data: 'Specialist',
-        type: 'rpl-large-bar',
+        category: 'app-card',
+        type: 'rlp-small-bar',
+        status: '',
         title: 'Preferred Specialist Referral Rate',
+        data: 'Specialist',
+        besideData: null,
+        bottomData: null,
         timeperiod: 'Year to Date (Jan 1, 2020-Mar 31, 2020)'
       },
       {
-        data: 'Lab Network',
-        type: 'rpl-large-bar',
+        category: 'app-card',
+        type: 'rlp-small-bar',
+        status: '',
         title: 'Preferred Lab Network Use Rate',
+        data: 'Specialist',
+        besideData: null,
+        bottomData: null,
         timeperiod: 'Year to Date (Jan 1, 2020-Mar 31, 2020)'
       },
       {
-        data: 'Prescription',
-        type: 'rpl-large-bar',
+        category: 'app-card',
+        type: 'rlp-small-bar',
+        status: '',
         title: 'Preferred Tier Prescribing Rate',
+        data: 'Prescription',
+        besideData: null,
+        bottomData: null,
         timeperiod: 'Year to Date (Jan 1, 2020-Mar 31, 2020)'
       }
     ];
