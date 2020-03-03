@@ -411,7 +411,10 @@
         <div class="in-progress-caption">Metric in development</div>
       </div>
 
-      <div *ngIf="chartData.type == 'rlp-large-bar' || chartData.type == 'rlp-small-bar'" class="full-width-block">
+      <div
+        *ngIf="chartData.type == 'rlp-large-bar' || chartData.type == 'rlp-small-bar'"
+        class="full-width-block rlp-cards"
+      >
         <app-rlp-common-bar [data]="chartData"></app-rlp-common-bar>
       </div>
     </div>
