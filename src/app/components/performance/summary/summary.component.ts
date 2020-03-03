@@ -14,11 +14,13 @@ export class SummaryComponent implements OnInit {
   public titleForSummary;
   public subTitleForSummary;
   data: any;
-  constructor(private ngRedux: NgRedux<IAppState>, private perfShared: PerformanceService) {}
+  constructor(private ngRedux: NgRedux<IAppState>, private perfShared: PerformanceService) {
+    this.perfShared.getPerformanceData().subscribe((response: any) => {
+      this.data = response;
+    });
+  }
 
   ngOnInit() {
-    this.data = this.perfShared.getPerformanceData();
-    console.log(this.data);
     this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'performanceSummary' });
 
     this.titleForSummary = 'Performance Management Summary';

@@ -1,10 +1,67 @@
-{
-  "category": "rpl-small-card",
-  "type": "rpl-small-bar",
-  "status": 404,
-  "title": "Preferred Specialist Referral Rate",
-  "data": null,
-  "besideData": null,
-  "bottomData": null,
-  "timeperiod": null
-}
+[
+  {
+    "category": "rlp-small-card",
+    "type": "rlp-small-bar",
+    "status": 404,
+    "title": "Preferred Specialist Referral Rate",
+    "data": {
+      "gdata": {
+        "count": "582/895 Referrals",
+        "percentage": 14
+      }
+    },
+    "timeperiod": null
+  },
+  {
+    "category": "rlp-large-card",
+    "type": "rlp-large-bar",
+    "status": 404,
+    "title": "Preferred Specialist Referral Rate",
+    "data": {
+      "gdata": {
+        "count": "582/895 Referrals",
+        "percentage": 99
+      }
+    },
+    "timeperiod": null
+  },
+  {
+    "category": "rlp-table-card",
+    "type": "rlp-table-bar",
+    "status": 404,
+    "title": "Preferred Specialist Referral Rate",
+    "data": {
+      "gdata": {
+        "count": "582/895 Referrals",
+        "percentage": 22
+      }
+    },
+    "timeperiod": null
+  },
+  {
+    "category": "rlp-large-card",
+    "type": "rlp-large-bar",
+    "status": 404,
+    "title": "Preferred Specialist Referral Rate",
+    "data": {
+      "gdata": {
+        "count": "582/895 Referrals",
+        "percentage": 77
+      }
+    },
+    "timeperiod": null
+  },
+  {
+    "category": "rlp-large-card",
+    "type": "rlp-large-bar",
+    "status": 404,
+    "title": "Preferred Specialist Referral Rate",
+    "data": {
+      "gdata": {
+        "count": "582/895 Referrals",
+        "percentage": 65
+      }
+    },
+    "timeperiod": null
+  }
+]
