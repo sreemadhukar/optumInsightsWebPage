@@ -56,7 +56,7 @@ export class KOPSharedService {
           });
         },
         (error: any) => {
-          alert(error);
+          return resolve(null);
         }
       );
     });

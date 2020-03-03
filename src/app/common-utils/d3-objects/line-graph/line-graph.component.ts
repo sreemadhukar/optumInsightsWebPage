@@ -224,7 +224,7 @@ export class LineGraphComponent implements OnInit {
     const height = generalData[0].height || 420;
     const hoverMargin = generalData[0].hoverMargin || 56;
     const dupDelimiter = generalData[0].dupDelimiter;
-    const xPartWidth = width / lengthOfData;
+    const xPartWidth = width / (lengthOfData - 1);
 
     const chart = d3
       .select(this.renderChart)
@@ -317,7 +317,7 @@ export class LineGraphComponent implements OnInit {
       .range([25, width - 25]);
 
     const xScalePath = (index: number, key: number, total: number) => {
-      if ((index + 1) % key === 0) {
+      if ((index + 1) % key === 0 && total !== index + 1) {
         return xPartWidth * (index + 1);
       }
       return xPartWidth * index;
