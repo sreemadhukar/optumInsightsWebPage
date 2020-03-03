@@ -17,7 +17,7 @@
     border-radius: 2px;
 
     &-content {
-      padding: 0 14px;
+      padding: 0 5px;
       display: flex;
       flex-direction: row;
       justify-content: space-evenly;
@@ -51,12 +51,14 @@
         display: flex;
         flex-direction: column;
         height: 100%;
+        border-color: $heather;
         width: 20%;
+        // flex-grow: 2;
         .graph-quarter {
           border-top: 1px solid grey;
           width: 60px;
           padding: 10px 0;
-          margin: 0 25px;
+          margin-left: 32px;
           .quarter-value {
             font-size: 26px;
             padding: 5px 0;
@@ -75,26 +77,27 @@
       }
       .graph-details.horizontal {
         display: flex;
+        align-items: baseline;
         flex-direction: row;
-        height: 72px;
         width: 100%;
+        border-color: $heather;
         .graph-quarter {
           border-right: 1px solid grey;
-          width: 60px;
-          padding: 10px 25px;
+          padding: 0 20px;
           .quarter-value {
-            font-size: 26px;
-            padding: 5px 0;
+            font-size: 28px;
+            line-height: 32px;
           }
           .quarter-year {
-            font-size: 18px;
-            padding: 5px 0;
+            font-size: 16px;
+            line-height: 22px;
           }
         }
         .graph-quarter.highlighted {
           border-top: 0;
           .quarter-value {
             font-size: 42px;
+            line-height: 48px;
           }
         }
       }
@@ -102,13 +105,13 @@
         height: 100%;
         width: 80%;
         font-size: 14px;
-        border: 1px solid #e5e5e5;
+        // border: 1px solid #e5e5e5;
         .graph-plot {
-          height: 90%;
-          min-height: 300px;
+          height: auto;
         }
         .graph-legend {
           height: 10%;
+          width: 100%;
           display: flex;
           justify-content: flex-end;
           .graph-legend-item {
@@ -126,7 +129,7 @@
             }
             .dashed {
               border-top: 2px dashed;
-              border-color: $dodger-blue;
+              border-color: $iris-blue;
             }
           }
         }
@@ -136,7 +139,6 @@
       flex-wrap: wrap;
       .graph-content {
         width: 100%;
-        height: 400px;
         margin: 15px 0;
       }
     }

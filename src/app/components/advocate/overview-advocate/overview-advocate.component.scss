@@ -5,7 +5,6 @@
   @include margin(12px, 0, 12px, 0);
   box-sizing: border-box;
   font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
-
   .filter-div {
     overflow: auto;
     line-height: 0;
@@ -346,8 +345,6 @@
   }
 
   .lob-set {
-    height: 14px;
-    width: 438px;
     float: right;
     padding-right: 60px;
   }
