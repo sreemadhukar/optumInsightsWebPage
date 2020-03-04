@@ -130,6 +130,10 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
       'search',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/round-search-24px.svg')
     );
+    iconRegistry.addSvgIcon(
+      'close',
+      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-close-24px.svg')
+    );
     iconRegistry.addSvgIcon('info', sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/info-24px.svg'));
     iconRegistry.addSvgIcon(
       'downarrow',
@@ -308,6 +312,18 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
       );
     };
     return filterFunction;
+  }
+
+  clearValue(key: string) {
+    if (key === 'tinNumberFilter') {
+      this.tinNumberFilter.setValue('');
+    }
+    if (key === 'provideNameFilter') {
+      this.provideNameFilter.setValue('');
+    }
+    if (key === 'claimNumberFilter') {
+      this.claimNumberFilter.setValue('');
+    }
   }
   getPageSize(event) {
     this.pageSize = event.pageSize;
