@@ -85,7 +85,8 @@
                 <span mat-sort-header> Non-Payment Amount</span>
               </th>
               <td mat-cell class="tax-summary-table-cell" *matCellDef="let element">
-                <span> $</span>{{ convertIntoNumber(element.NonPaymentAmount) }}
+                <div *ngIf="dollarData" class="dollar-text">$</div>
+                {{ convertIntoNumber(element.NonPaymentAmount) }}
               </td>
             </ng-container>
             <ng-container matColumnDef="BilledAmount">
@@ -94,7 +95,8 @@
               </th>
 
               <td mat-cell class="tax-summary-table-cell" *matCellDef="let element">
-                ${{ convertIntoNumber(element.BilledAmount) }}
+                <div *ngIf="dollarData" class="dollar-text">$</div>
+                {{ convertIntoNumber(element.BilledAmount) }}
               </td>
             </ng-container>
             <ng-container matColumnDef="DateOfProcessing">
