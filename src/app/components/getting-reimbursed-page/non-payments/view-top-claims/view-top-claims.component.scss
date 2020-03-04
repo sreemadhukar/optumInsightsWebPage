@@ -4,7 +4,7 @@
   background-color: $alice-blue;
   font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
   overflow: hidden;
-  @include padding(16px, 0, 64px, 0);
+  @include padding(16px, 0, 104px, 0);
   .nonPayment-content {
     display: -webkit-box;
     display: -moz-box;
@@ -659,6 +659,32 @@
     }
   }
 }
+
+:host ::ng-deep .search-box {
+  margin-top: 15px;
+  position: relative;
+  input {
+    padding-right: 30px;
+    padding-left: 10px;
+  }
+  input:hover {
+    border: 1.2px solid $black-rock;
+  }
+  input:focus {
+    border: 1.2px solid $dodger-blue;
+    color: $black-rock;
+  }
+  .mat-icon {
+    position: absolute;
+    color: $strom-grey;
+    right: 25px;
+    top: 20px;
+  }
+  :not(:valid) ~ .close {
+    display: none;
+  }
+}
+
 :host ::ng-deep .mat-header-cell {
   font-family: 'UHCSans-SemiBold';
   font-size: 16px;
@@ -681,9 +707,11 @@
 :host ::ng-deep .mat-sort-header-button {
   display: inline;
   text-align: left;
+  max-width: 65px;
 }
 :host ::ng-deep .mat-sort-header-arrow {
   color: #2d2d39;
+  margin: 0;
 }
 table {
   width: 100%;
