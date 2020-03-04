@@ -1,3 +1,11 @@
+export const pageSizeConf: Array<string> = ['2', '4', '8', '16', '32'];
+
+export const INITIAL_PAGINATION = {
+  currentPageNumber: 1,
+  setIndex: 0,
+  endIndex: +pageSizeConf[0]
+};
+
 export const rlpData: any = {
   data: [
     {

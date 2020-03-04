@@ -1,5 +1,5 @@
 import { TopClaimsSharedService } from 'src/app/shared/getting-reimbursed/non-payments/top-claims-shared.service';
-import { ViewTopClaimsComponent } from './non-payments/view-top-claims/view-top-claims.component';
+
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -16,6 +16,7 @@ import { GettingReimbursedService } from '../../rest/getting-reimbursed/getting-
 import { AppealsComponent } from './appeals/appeals.component';
 import { AppealsSharedService } from '../../shared/getting-reimbursed/appeals/appeals-shared.service';
 import { PaymentIntegrityComponent } from './payment-integrity/payment-integrity.component';
+import { ViewTopClaimsComponent } from './non-payments/view-top-claims/view-top-claims.component';
 import { NonPaymentsComponent } from './non-payments/non-payments.component';
 import { PaymentsComponent } from './payments/payments.component';
 import { SmartEditsComponent } from './payment-integrity/smart-edits/smart-edits.component';
