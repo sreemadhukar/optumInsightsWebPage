@@ -24,7 +24,7 @@ export const environment: any = {
 
   // stage
 
-  apiProxyUrl: 'https://gateway-stage-core.optum.com/api/devone/pdr/uhci/v1/',
+  apiProxyUrl: 'https://pedintapi-pedtst.ocp-ctc-core-nonprod.optum.com/',
   originUrl: 'https://pedui1-peddev.ocp-ctc-core-nonprod.optum.com/',
 
   apiUrls: {

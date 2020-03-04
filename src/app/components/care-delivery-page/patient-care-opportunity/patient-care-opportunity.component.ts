@@ -6,11 +6,12 @@ import { NgRedux } from '@angular-redux/store';
 import { CURRENT_PAGE } from '../../../store/filter/actions';
 import { IAppState } from '../../../store/store';
 import { ActivatedRoute } from '@angular/router';
-import { MatIconRegistry } from '@angular/material';
+import { MatIconRegistry, MatDialog, MatDialogRef } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { SessionService } from 'src/app/shared/session.service';
+import { PcorModalComponent } from '../pcor-modal/pcor-modal.component';
 
 @Component({
   selector: 'app-patient-care-opportunity',
@@ -60,7 +61,8 @@ export class PatientCareOpportunityComponent implements OnInit {
     private iconRegistry: MatIconRegistry,
     private sanitizer: DomSanitizer,
     private router: Router,
-    private sessionService: SessionService
+    private sessionService: SessionService,
+    private dialog: MatDialog
   ) {
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.filtermatch.urlResuseStrategy());
     iconRegistry.addSvgIcon(
@@ -241,10 +243,19 @@ export class PatientCareOpportunityComponent implements OnInit {
     this.reportLink = 'View the Patient Care Opportunity Report';
   }
   PCORreport() {
-    if (this.isInternal) {
-      window.open('https://webep1428/PCORMRPROD/');
-    } else {
-      window.open('https://www.uhcprovider.com/en/reports-quality-programs/physician-perf-based-comp.html');
-    }
+    // if (this.isInternal) {
+    //   window.open('https://webep1428/PCORMRPROD/');
+    // } else {
+    //   window.open('https://www.uhcprovider.com/en/reports-quality-programs/physician-perf-based-comp.html');
+    // }
+    this.dialog.open(PcorModalComponent, {
+      width: '550px',
+      height: '343px',
+      disableClose: true
+    });
+  }
+  closeDialog() {
+    // this.dialogRef.close();
+    alert('closed');
   }
 }
