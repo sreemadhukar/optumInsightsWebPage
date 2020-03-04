@@ -107,7 +107,6 @@ export class RlpTableComponent implements OnInit {
   /**
    * enterPageNumber() is to handle and setup pagination after user enters custom number to go
    * If the entered value is valid it will setup the pagination accordingly otherwise it will
-   * Else it will reset the pagination to the INITIAL STATE
    */
   enterPageNumber() {
     if (this.currentPageNumber <= this.totalPages) {
@@ -117,7 +116,6 @@ export class RlpTableComponent implements OnInit {
         this.currentPageNumber * +this.selectPageSize
       );
     } else {
-      this.setPagination();
       return false;
     }
   }
