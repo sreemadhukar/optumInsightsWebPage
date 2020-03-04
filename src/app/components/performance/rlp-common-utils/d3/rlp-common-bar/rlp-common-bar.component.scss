@@ -14,12 +14,11 @@
       display: flex;
       .small-card-percentage {
         font-size: 16px;
-        font-weight: 600;
+        font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
         line-height: 22px;
         margin-top: 13px;
         margin-left: 16px;
         letter-spacing: 0.2px;
-        font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
       }
     }
   }
@@ -38,12 +37,11 @@
       display: flex;
       .large-card-percentage {
         font-size: 16px;
-        font-weight: 600;
+        font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
         line-height: 22px;
         margin-top: 13px;
         margin-left: 8px;
         letter-spacing: 0.2px;
-        font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
       }
     }
   }
@@ -63,12 +61,11 @@
     }
     .table-bar-percentage {
       font-size: 16px;
-      font-weight: 600;
+      font-family: 'UHCSans-Regular', Helvetica, Arial, sans-serif;
       line-height: 22px;
       letter-spacing: 0.2px;
       flex-grow: 1;
       text-align: right;
-      font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
     }
   }
 }

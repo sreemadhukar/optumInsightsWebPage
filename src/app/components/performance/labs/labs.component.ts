@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NgRedux, select } from '@angular-redux/store';
 import { IAppState } from '../../../store/store';
 import { CURRENT_PAGE, REMOVE_FILTER } from '../../../store/filter/actions';
+import { PerformanceService } from '../../../shared/performance/performance.service';
 
 @Component({
   selector: 'app-labs',
@@ -11,8 +12,13 @@ import { CURRENT_PAGE, REMOVE_FILTER } from '../../../store/filter/actions';
 export class LabsComponent implements OnInit {
   public titleForLabs;
   public subTitleForLabs;
+  public labsItems;
 
-  constructor(private ngRedux: NgRedux<IAppState>) {}
+  constructor(private ngRedux: NgRedux<IAppState>, private perfShared: PerformanceService) {
+    this.perfShared.getPerformanceData().subscribe((response: any) => {
+      this.labsItems = response[2];
+    });
+  }
 
   ngOnInit() {
     this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'labsPage' });
