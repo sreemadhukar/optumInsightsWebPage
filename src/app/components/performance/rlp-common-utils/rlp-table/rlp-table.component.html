@@ -3,14 +3,14 @@
     type="text"
     placeholder="Filter By Tin"
     [(ngModel)]="qTinSearch"
-    (keydown)="enterQuery()"
+    (keyup)="enterQuery()"
     (keydown.backspace)="enterQuery()"
   />
   <input
     type="text"
     placeholder="Filter By Group Name"
     [(ngModel)]="qGroupNameSearch"
-    (keypress)="enterQuery()"
+    (keyup)="enterQuery()"
     (keydown.backspace)="enterQuery()"
   />
   <div
@@ -22,7 +22,7 @@
   <div class="rlp-table-footer">
     <mat-form-field>
       <mat-select [(ngModel)]="selectPageSize" name="p" (selectionChange)="pageSizeMethod()">
-        <mat-option *ngFor="let p of pageSize" [value]="p">
+        <mat-option *ngFor="let p of pageSizeValues" [value]="p">
           {{ p }}
         </mat-option>
       </mat-select>

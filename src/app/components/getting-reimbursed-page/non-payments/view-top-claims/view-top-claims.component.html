@@ -54,10 +54,11 @@
         </div>
       </div>
     </div>
+
     <app-large-card [skeletonLarge]="loading" *ngIf="loading"></app-large-card>
 
     <div class="tax-summary-content" [hidden]="isLoading">
-      <div class="tax-summary-head" [ngStyle]="{ display: lengthOffilteredData > 0 ? 'contents' : 'none' }">
+      <div class="tax-summary-head" [ngStyle]="{ display: lengthOffilteredData > 0 ? 'block' : 'none' }">
         <span class="tax-summary-count">
           Showing {{ lengthOffilteredData > 24 ? pageSize : lengthOffilteredData }} of
           {{ numberOfClaims }}
@@ -140,11 +141,7 @@
                 {{ element.ClaimNumber }}
               </td>
             </ng-container>
-            <tr
-              mat-header-row
-              [ngStyle]="{ display: lengthOffilteredData > 0 ? 'contents' : 'none' }"
-              *matHeaderRowDef="tinsDisplayedColumns"
-            ></tr>
+            <tr mat-header-row *matHeaderRowDef="tinsDisplayedColumns"></tr>
             <tr mat-row class="tax-summary-rows" *matRowDef="let row; columns: tinsDisplayedColumns"></tr>
           </table>
 
@@ -158,6 +155,7 @@
         </div>
       </div>
     </div>
+
     <app-error-card *ngIf="dataNotavaiable && tableData != null" class="cards" [data]="tableData"></app-error-card>
     <!-- tin-list-body-->
   </div>
