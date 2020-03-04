@@ -411,6 +411,7 @@
         <div class="in-progress-caption">Metric in development</div>
       </div>
 
+      <!--Network lever-->
       <div
         *ngIf="chartData.type == 'rlp-large-bar' || chartData.type == 'rlp-small-bar'"
         class="full-width-block rlp-cards"
@@ -423,6 +424,7 @@
         [timePeriod]="chartData.timeperiod"
         [handleCaseForOverviewTile]="handleCaseForOverviewTile"
         [title]="chartData.title"
+        [linkName]="chartData.type == 'rlp-large-bar' || chartData.type == 'rlp-small-bar' ? 'View Details' : ''"
       ></app-common-footer>
     </div>
   </div>
