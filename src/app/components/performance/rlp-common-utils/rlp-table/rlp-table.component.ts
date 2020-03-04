@@ -83,7 +83,6 @@ export class RlpTableComponent implements OnInit {
   enterQuery() {
     this.setPagination();
     if (this.qGroupNameSearch === undefined && this.qTinSearch === undefined) {
-      console.log('not yet decided');
     }
     this.afterQuery = this.tableData.filter(el => {
       if (el.tin.indexOf([this.qTinSearch]) !== -1 && this.qGroupNameSearch === undefined) {
@@ -101,7 +100,6 @@ export class RlpTableComponent implements OnInit {
       }
     });
     this.totalPages = Math.ceil(this.afterQuery.length / +this.selectPageSize);
-    console.log('Check after queary', this.afterQuery);
   }
 
   /**

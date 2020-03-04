@@ -2,7 +2,7 @@
 
 .rlp-table-container {
   display: inline-flex;
-  flex-wrap: wrap;
+  width: 960px;
 
   .rlp-table-label {
     color: $black-rock;
@@ -11,5 +11,19 @@
     font-weight: 500;
     letter-spacing: 0.2px;
     line-height: 22px;
+    flex-wrap: wrap;
+    align-self: flex-start;
+  }
+
+  .rlp-table-tin {
+    flex: 0.5;
+  }
+
+  .rlp-table-group {
+    flex: 1.5;
+  }
+
+  .rlp-table-bar {
+    flex: 2;
   }
 }
