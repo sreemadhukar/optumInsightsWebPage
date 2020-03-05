@@ -13,14 +13,10 @@ import { PerformanceService } from '../../../shared/performance/performance.serv
 export class SummaryComponent implements OnInit {
   public titleForSummary;
   public subTitleForSummary;
-  data: any;
-  summaryItems: any;
+  public summaryItems: any;
   constructor(private ngRedux: NgRedux<IAppState>, private perfShared: PerformanceService) {
     this.perfShared.getPerformanceData().subscribe((response: any) => {
-      this.data = response;
-      this.summaryItems = this.data;
-      console.log(this.summaryItems);
-      console.log('nandu');
+      this.summaryItems = response[0];
     });
   }
 

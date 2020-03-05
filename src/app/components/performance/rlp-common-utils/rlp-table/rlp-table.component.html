@@ -1,48 +1,67 @@
-<div class="tax-summary-table-block">
-  <input
-    type="text"
-    placeholder="Filter By Tin"
-    [(ngModel)]="qTinSearch"
-    (keyup)="enterQuery()"
-    (keydown.backspace)="enterQuery()"
-  />
-  <input
-    type="text"
-    placeholder="Filter By Group Name"
-    [(ngModel)]="qGroupNameSearch"
-    (keyup)="enterQuery()"
-    (keydown.backspace)="enterQuery()"
-  />
+<div class="table-container">
+  <div class="table-header-labels">
+    <div class="rlp-table-tin">
+      TIN
+      <input
+        type="text"
+        class="table-input-query"
+        placeholder="Filter By Tin"
+        [(ngModel)]="qTinSearch"
+        (keyup)="enterQuery()"
+        (keydown.backspace)="enterQuery()"
+      />
+    </div>
+    <div class="rlp-table-group">
+      Group Name
+      <input
+        type="text"
+        class="table-input-query"
+        placeholder="Filter By Group Name"
+        [(ngModel)]="qGroupNameSearch"
+        (keyup)="enterQuery()"
+        (keydown.backspace)="enterQuery()"
+      />
+    </div>
+    <div class="rlp-table-bar">Preferred Specialist Referral Rate</div>
+  </div>
   <div
+    class="table-items"
     *ngFor="let item of tableData | rlpSearch: [qTinSearch, qGroupNameSearch | lowercase] | slice: startIndex:endIndex"
   >
     <app-rlp-table-item [tableItem]="item"></app-rlp-table-item>
   </div>
 
   <div class="rlp-table-footer">
-    <mat-form-field>
-      <mat-select [(ngModel)]="selectPageSize" name="p" (selectionChange)="pageSizeMethod()">
-        <mat-option *ngFor="let p of pageSizeValues" [value]="p">
-          {{ p }}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-    <div>
-      <form (submit)="enterPageNumber()">
-        <input
-          [(ngModel)]="currentPageNumber"
-          name="enterPage"
-          [value]="currentPageNumber"
-          onkeyup="this.value=this.value.replace(/[^\d]/,'')"
-        />
-        of {{ totalPages }}
-      </form>
+    <div class="rlp-left-section">
+      <div class="rlp-footer-label">Display</div>
+      <mat-form-field>
+        <mat-select [(ngModel)]="selectPageSize" name="p" (selectionChange)="pageSizeMethod()">
+          <mat-option *ngFor="let p of pageSizeValues" [value]="p">
+            {{ p }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <div class="rlp-footer-label">per page</div>
     </div>
-    <div (click)="prevClick()" *ngIf="startIndex > 0">
-      <button>Prev</button>
-    </div>
-    <div (click)="nextClick()" *ngIf="currentPageNumber < totalPages">
-      <button>Next</button>
+
+    <div class="rlp-right-section">
+      <div>
+        <form (submit)="enterPageNumber()">
+          <input
+            [(ngModel)]="currentPageNumber"
+            name="enterPage"
+            [value]="currentPageNumber"
+            onkeyup="this.value=this.value.replace(/[^\d]/,'')"
+          />
+          of {{ totalPages }}
+        </form>
+      </div>
+      <div (click)="prevClick()" *ngIf="startIndex > 0">
+        <button>Prev</button>
+      </div>
+      <div (click)="nextClick()" *ngIf="currentPageNumber < totalPages">
+        <button>Next</button>
+      </div>
     </div>
   </div>
 </div>

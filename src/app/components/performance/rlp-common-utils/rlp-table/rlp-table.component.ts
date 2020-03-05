@@ -17,7 +17,10 @@ export class RlpTableComponent implements OnInit {
   public endIndex: number; // end point of the items displayed for the current state
   public totalPages: number; // total Number of pages i.e. Number of available records/ PageSize
   public pageSizeValues: Array<string>; // Dropdown option values
-  constructor() {}
+  public isLoading: boolean;
+  constructor() {
+    this.isLoading = true;
+  }
 
   ngOnInit() {
     this.pageSizeValues = pageSizeConf;
@@ -26,6 +29,7 @@ export class RlpTableComponent implements OnInit {
     this.afterQuery = this.tableData;
     this.totalPages = Math.ceil(this.tableData.length / +this.selectPageSize);
     this.setPagination();
+    this.isLoading = false;
   }
 
   /**
@@ -83,7 +87,6 @@ export class RlpTableComponent implements OnInit {
   enterQuery() {
     this.setPagination();
     if (this.qGroupNameSearch === undefined && this.qTinSearch === undefined) {
-      console.log('not yet decided');
     }
     this.afterQuery = this.tableData.filter(el => {
       if (el.tin.indexOf([this.qTinSearch]) !== -1 && this.qGroupNameSearch === undefined) {
@@ -101,7 +104,6 @@ export class RlpTableComponent implements OnInit {
       }
     });
     this.totalPages = Math.ceil(this.afterQuery.length / +this.selectPageSize);
-    console.log('Check after queary', this.afterQuery);
   }
 
   /**
