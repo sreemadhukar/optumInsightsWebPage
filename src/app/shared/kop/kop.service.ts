@@ -134,30 +134,6 @@ export class KOPSharedService {
     });
   }
 
-  public getPriorAuthSummary(params: any) {
-    return new Promise(resolve => {
-      const { filter: selectedFilter } = params;
-      const { priorAuthFilters } = selectedFilter;
-
-      const paramsArray = priorAuthFilters.map((param: string) => {
-        return { filter: param };
-      });
-
-      this.getKopData('priorauth', paramsArray).then((response: any) => {
-        if (!response || response.length === 0) {
-          return resolve(null);
-        }
-
-        const careDeliveryInstance = new CareDelivery({ records: response });
-        const careDelivery = careDeliveryInstance.getData();
-
-        return resolve({
-          careDelivery
-        });
-      });
-    });
-  }
-
   public getClaimsData(params: any) {
     return new Promise(resolve => {
       const { filter: selectedFilter } = params;
@@ -184,11 +160,6 @@ export class KOPSharedService {
       switch (metricKey) {
         case 'kop':
           this.kopService.getSummary({ params }).subscribe((response: any) => resolve(response), () => reject());
-          break;
-        case 'priorauth':
-          this.kopService
-            .getPriorAuthSummary({ params })
-            .subscribe((response: any) => resolve(response), () => reject());
           break;
         case 'priorauthtat':
           this.kopService
