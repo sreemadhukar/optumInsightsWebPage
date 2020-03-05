@@ -6,6 +6,36 @@ export const INITIAL_PAGINATION = {
   endIndex: +pageSizeConf[0]
 };
 
+export interface IrlpHeader {
+  title: string;
+  subTitle: string;
+}
+export const rlpPageConf = {
+  Summary: {
+    title: 'Preferred Lab Network Use Rate',
+    subTitle: `This measure’s objective is to evaluate use of the Preferred Lab Network
+    which is comprised of independent labs that have demonstrated high
+    standards for quality, service and affordability.`
+  },
+  Referral: {
+    title: 'Preferred Lab Network Use Rate',
+    subTitle: `This measure’s objective is to evaluate use of the Preferred Lab Network
+    which is comprised of independent labs that have demonstrated high
+    standards for quality, service and affordability.`
+  },
+  Labs: {
+    title: 'Preferred Lab Network Use Rate',
+    subTitle: `This measure’s objective is to evaluate use of the Preferred Lab Network
+    which is comprised of independent labs that have demonstrated high
+    standards for quality, service and affordability.`
+  },
+  Perscription: {
+    title: 'Preferred Lab Network Use Rate',
+    subTitle: `This measure’s objective is to evaluate use of the Preferred Lab Network
+    which is comprised of independent labs that have demonstrated high
+    standards for quality, service and affordability.`
+  }
+};
 export const rlpData: any = {
   data: [
     {
