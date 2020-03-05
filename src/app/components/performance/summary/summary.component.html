@@ -7,10 +7,11 @@
         [rlpSubTitle]="subTitleForSummary"
         class="full-display bottom-margin-block"
       ></app-rlp-header>
-      <div *ngFor="let item of summaryItems; let i = index">
-        <app-card *ngIf="item.data != null" class="cards" [chartData]="item" [index]="i"></app-card>
-        <app-error-card *ngIf="item.data == null && item.status != null" class="cards" [data]="item"></app-error-card>
-      </div>
+    </div>
+    <div *ngFor="let item of summaryItems; let i = index">
+      <app-card *ngIf="item.data != null && item.category == 'app-card'" class="cards" [chartData]="item"></app-card>
+      <app-error-card *ngIf="item.data == null && item.status != null" class="cards" [data]="item"></app-error-card>
+      <app-rlp-common-bar *ngIf="item.data != null && item.category != 'app-card'" [data]="item"></app-rlp-common-bar>
     </div>
   </div>
 </div>

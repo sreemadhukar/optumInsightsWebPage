@@ -8,10 +8,25 @@ import { RlpTableItemComponent } from './rlp-table/rlp-table-item/rlp-table-item
 import { PipesModule } from './../../../pipes/pipes.module';
 import { MatFormFieldModule, MatInputModule, MatSelectModule } from '@angular/material';
 import { RlpBodyComponent } from './rlp-body/rlp-body.component';
+import { CommonBarComponent } from './d3/common-bar/common-bar.component';
 
 @NgModule({
   imports: [CommonModule, FormsModule, PipesModule, MatFormFieldModule, MatInputModule, MatSelectModule],
-  declarations: [RlpCommonBarComponent, RlpTableComponent, RlpTableItemComponent, RlpHeaderComponent, RlpBodyComponent],
-  exports: [RlpCommonBarComponent, RlpTableComponent, RlpTableItemComponent, RlpHeaderComponent, RlpBodyComponent]
+  declarations: [
+    RlpCommonBarComponent,
+    RlpTableComponent,
+    RlpTableItemComponent,
+    RlpHeaderComponent,
+    RlpBodyComponent,
+    CommonBarComponent
+  ],
+  exports: [
+    RlpCommonBarComponent,
+    RlpTableComponent,
+    RlpTableItemComponent,
+    RlpHeaderComponent,
+    RlpBodyComponent,
+    CommonBarComponent
+  ]
 })
 export class RlpCommonUtilsModule {}
