@@ -3,6 +3,7 @@ import { NgRedux, select } from '@angular-redux/store';
 import { IAppState } from '../../../store/store';
 import { CURRENT_PAGE, REMOVE_FILTER } from '../../../store/filter/actions';
 import { PerformanceService } from '../../../shared/performance/performance.service';
+import { rlpPageConf } from '../../../modals/rlp-data';
 
 @Component({
   selector: 'app-labs',
@@ -22,9 +23,7 @@ export class LabsComponent implements OnInit {
 
   ngOnInit() {
     this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'labsPage' });
-    this.titleForLabs = 'Preferred Lab Network Use Rate';
-    this.subTitleForLabs = `This measure’s objective is to evaluate use of the Preferred Lab Network
-                            which is comprised of independent labs that have demonstrated high
-                            standards for quality, service and affordability.`;
+    this.titleForLabs = rlpPageConf.Summary.title;
+    this.subTitleForLabs = rlpPageConf.Summary.subTitle;
   }
 }

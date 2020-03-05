@@ -6,7 +6,6 @@
   margin-bottom: 100px;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
   border-radius: 2px;
-  padding: 30px;
 
   .table-header-labels {
     display: inline-flex;
@@ -14,6 +13,7 @@
     color: $black-rock;
     font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
     font-size: 16px;
+    padding: 30px;
 
     .table-input-query {
       display: block;
@@ -43,7 +43,7 @@
   }
 
   .table-items {
-    padding-bottom: 30px;
+    padding: 0 30px 30px 30px;
   }
 
   .rlp-table-footer {
