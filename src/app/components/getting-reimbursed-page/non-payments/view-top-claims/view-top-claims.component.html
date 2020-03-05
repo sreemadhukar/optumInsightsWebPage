@@ -30,6 +30,7 @@
         <div>
           <select class="reason-dropdown" (change)="selectTopReason($event.target.value)">
             <option
+              class="reason-option"
               [value]="maintopreasons.mainReason"
               *ngFor="let maintopreasons of fullData"
               [selected]="selectedReasonItem === maintopreasons.mainReason"
@@ -37,6 +38,7 @@
               {{ maintopreasons.mainReason }}
             </option>
           </select>
+          <mat-icon matPrefix class="tax-summary-arrow-icon" svgIcon="arrow"></mat-icon>
         </div>
       </div>
       <div class="sub-reason-div">
@@ -44,6 +46,7 @@
         <div>
           <select class="reason-dropdown" (change)="selectsubReason($event.target.value)">
             <option
+              class="reason-option"
               [value]="subReason"
               *ngFor="let subReason of selectedSubreasonArray"
               [selected]="selectedSubreason === subReason"
@@ -51,6 +54,7 @@
               {{ subReason }}
             </option>
           </select>
+          <mat-icon matPrefix class="tax-summary-arrow-icon" svgIcon="arrow"></mat-icon>
         </div>
       </div>
     </div>
@@ -70,6 +74,7 @@
             mat-table
             [dataSource]="selectedclaims"
             matSort
+            (matSortChange)="sortData($event)"
             matSortActive="NonPaymentAmount"
             matSortDirection="desc"
             matSortDisableClear
@@ -138,7 +143,7 @@
               </th>
 
               <td mat-cell class="tax-summary-table-cell" *matCellDef="let element">
-                {{ element.DateOfProcessing }}
+                {{ element.DateOfProcessing | date: 'MMM dd, yyyy' }}
               </td>
             </ng-container>
             <ng-container matColumnDef="ClaimNumber">
