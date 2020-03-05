@@ -25,6 +25,7 @@
     <div class="rlp-table-bar">Preferred Specialist Referral Rate</div>
   </div>
   <div
+    class="table-items"
     *ngFor="let item of tableData | rlpSearch: [qTinSearch, qGroupNameSearch | lowercase] | slice: startIndex:endIndex"
   >
     <app-rlp-table-item [tableItem]="item"></app-rlp-table-item>

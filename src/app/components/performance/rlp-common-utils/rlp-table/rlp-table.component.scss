@@ -6,6 +6,7 @@
   margin-bottom: 100px;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
   border-radius: 2px;
+  padding: 30px;
 
   .table-header-labels {
     display: inline-flex;
@@ -14,22 +15,37 @@
     font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
     font-size: 16px;
 
-    input {
+    .table-input-query {
       display: block;
-      width: 99%;
+      width: 80%;
+      font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+      font-size: 16px;
+      margin-top: 10px;
+      padding: 0 3px;
+      height: 40px;
+      border: 1px solid $heather;
+      border-radius: 2px;
+      color: $strom-grey;
+      appearance: none;
+      background-color: $white;
     }
     .rlp-table-tin {
-      flex: 0.5;
+      flex: 0.8;
     }
 
     .rlp-table-group {
-      flex: 1.5;
+      flex: 1.8;
     }
 
     .rlp-table-bar {
-      flex: 2;
+      flex: 1.8;
     }
   }
+
+  .table-items {
+    padding-bottom: 30px;
+  }
+
   .rlp-table-footer {
     display: inline-flex;
     width: 960px;
