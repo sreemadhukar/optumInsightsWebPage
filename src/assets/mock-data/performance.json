@@ -7,11 +7,11 @@
       "title": "Preferred Specialist Referral Rate",
       "data": {
         "gdata": {
-          "count": "582/895 Referral",
+          "count": "582/895 Referrals",
           "percentage": 65
         }
       },
-      "timeperiod": "Year to Date (Jan 1, 2020-Mar 31, 2020)"
+      "timeperiod": "YTD (Jan 1, 2020—Mar 31, 2020)"
     },
     {
       "category": "app-card",
@@ -24,7 +24,7 @@
           "percentage": 72
         }
       },
-      "timeperiod": "Year to Date (Jan 1, 2020-Mar 31, 2020)"
+      "timeperiod": "YTD (Jan 1, 2020—Mar 31, 2020)"
     },
     {
       "category": "app-card",
@@ -37,7 +37,7 @@
           "percentage": 90
         }
       },
-      "timeperiod": "Year to Date (Jan 1, 2020-Mar 31, 2020)"
+      "timeperiod": "YTD (Jan 1, 2020—Mar 31, 2020)"
     }
   ],
 
@@ -49,11 +49,11 @@
       "title": "Preferred Specialist Referral Rate",
       "data": {
         "gdata": {
-          "count": "582/895 Referral",
+          "count": "582/895 Referrals",
           "percentage": 65
         }
       },
-      "timeperiod": "Year to Date (Jan 1, 2020-Mar 31, 2020)"
+      "timeperiod": "YTD (Jan 1, 2020—Mar 31, 2020)"
     },
     {
       "category": "app-table-card",
@@ -66,7 +66,7 @@
           "percentage": 46
         }
       },
-      "timeperiod": "Year to Date (Jan 1, 2020-Mar 31, 2020)"
+      "timeperiod": "YTD (Jan 1, 2020—Mar 31, 2020)"
     }
   ],
   [
@@ -81,7 +81,7 @@
           "percentage": 72
         }
       },
-      "timeperiod": "Year to Date (Jan 1, 2020-Mar 31, 2020)"
+      "timeperiod": "YTD (Jan 1, 2020—Mar 31, 2020)"
     },
     {
       "category": "app-table-card",
@@ -94,7 +94,7 @@
           "percentage": 54
         }
       },
-      "timeperiod": "Year to Date (Jan 1, 2020-Mar 31, 2020)"
+      "timeperiod": "YTD (Jan 1, 2020—Mar 31, 2020)"
     }
   ],
   [
@@ -109,7 +109,7 @@
           "percentage": 90
         }
       },
-      "timeperiod": "Year to Date (Jan 1, 2020-Mar 31, 2020)"
+      "timeperiod": "YTD (Jan 1, 2020—Mar 31, 2020)"
     },
     {
       "category": "app-table-card",
@@ -122,7 +122,7 @@
           "percentage": 56
         }
       },
-      "timeperiod": "Year to Date (Jan 1, 2020-Mar 31, 2020)"
+      "timeperiod": "YTD (Jan 1, 2020—Mar 31, 2020)"
     }
   ]
 ]
