@@ -50,6 +50,7 @@ import { PcorService } from '../../rest/care-delivery/pcor.service';
   encapsulation: ViewEncapsulation.None
 })
 export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy, AfterViewChecked {
+  currentYear = new Date().getFullYear();
   _allExpandState = false;
   loading = false;
   isDarkTheme: Observable<boolean>;

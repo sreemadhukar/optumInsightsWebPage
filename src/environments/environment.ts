@@ -23,8 +23,9 @@ export const environment: any = {
   //  apiProxyUrl: 'https://pedapi2-peddev.ocp-ctc-core-nonprod.optum.com/',
 
   // stage
-  apiProxyUrl: 'https://pedapi2-peddev.ocp-ctc-core-nonprod.optum.com/',
-  originUrl: 'https://pedui3-peddev.ocp-ctc-core-nonprod.optum.com/',
+
+  apiProxyUrl: 'https://pedintapi-pedtst.ocp-ctc-core-nonprod.optum.com/',
+  originUrl: 'https://pedui1-peddev.ocp-ctc-core-nonprod.optum.com/',
 
   apiUrls: {
     ExecutiveSummaryPath: 'providersystems/',
@@ -56,6 +57,7 @@ export const environment: any = {
     PaymentIntegrity: 'pi-metrics/',
     NonPayment: 'claim-metrics/',
     NonPaymentDop: 'dop-claim-metrics/',
+    NonPaymentDopTrend: 'dop-denial-trend/',
     NonPaymentTopClaims: 'non-payment-claims/',
     CallsTrend: 'provider-calls/',
     TrendingMetrics: 'trending-metrics/',
