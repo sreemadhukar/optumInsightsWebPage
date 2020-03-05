@@ -61,7 +61,13 @@
     }
   }
 }
-
+.print-page-subtitle-header {
+  color: #2d2d39;
+  font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  letter-spacing: 0.2px;
+  line-height: 22px;
+}
 .page-subtitle {
   display: flex;
   align-items: center;
