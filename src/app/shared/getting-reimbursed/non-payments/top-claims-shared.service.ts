@@ -27,17 +27,13 @@ export class TopClaimsSharedService {
   ) {}
   public getClaimsData(filterParameters, reasonSelected, subReason) {
     this.providerKey = this.session.providerKeyData();
-
     const timePeriod = this.getParameterviewTopsClaims(filterParameters)[0].TimeFilter;
     const viewClaimsByFilter = filterParameters.viewClaimsByFilter;
-
     // DOS and DOP
     const viewClaimTypeValue = viewClaimsByFilter;
-
     let specificTin = this.getParameterviewTopsClaims(filterParameters)[0]
       .Tin.map(item => item.Tin.replace(/-/g, ''))
       .toString();
-
     if (specificTin === 'All') {
       specificTin = null;
     }

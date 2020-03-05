@@ -6,8 +6,8 @@ import { CommonUtilsService } from '../../common-utils.service';
 import { SessionService } from '../../session.service';
 import { GettingReimbursedPayload } from '../payload.class';
 import * as _ from 'lodash';
-import { environment } from '../../../../environments/environment';
 import { AuthorizationService } from 'src/app/auth/_service/authorization.service';
+import { lobName } from '../../../modals/lob-name';
 
 @Injectable({
   providedIn: 'root'
@@ -505,7 +505,12 @@ export class PaymentsSharedService {
                     hover: true
                   },
                   besideData: {
-                    labels: ['Medicare & Retirement', 'Community & State', 'Employer & Individual', 'Uncategorized'],
+                    labels: [
+                      lobName.mAndRMedicare,
+                      lobName.cAndSMedicaid,
+                      lobName.eAndICommerCial,
+                      lobName.unCategorized
+                    ],
                     color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC']
                   },
                   timeperiod:
@@ -537,7 +542,12 @@ export class PaymentsSharedService {
                       hover: true
                     },
                     besideData: {
-                      labels: ['Medicare & Retirement', 'Community & State', 'Employer & Individual', 'Uncategorized'],
+                      labels: [
+                        lobName.mAndRMedicare,
+                        lobName.cAndSMedicaid,
+                        lobName.eAndICommerCial,
+                        lobName.unCategorized
+                      ],
                       color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC']
                     },
                     timeperiod:
@@ -788,7 +798,7 @@ export class PaymentsSharedService {
           }
         },
         err => {
-          console.log('Getting Reimbursed Shared Data', err);
+          console.log('Payments Shared Data', err);
         }
       );
     });
@@ -869,8 +879,8 @@ export class PaymentsSharedService {
               bottomData: null,
               timeperiod: null
             };
-            resolve(temp);
             console.log('Claims breakdown issue', Error);
+            resolve(temp);
           }
         });
       });
@@ -927,8 +937,8 @@ export class PaymentsSharedService {
               bottomData: null,
               timeperiod: null
             };
-            resolve(temp);
             console.log('Claims breakdown issue', Error);
+            resolve(temp);
           }
         });
       });
