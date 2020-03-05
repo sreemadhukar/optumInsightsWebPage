@@ -24,8 +24,7 @@ export class ReferralsComponent implements OnInit {
     this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'referralsPage' });
 
     this.titleForReferrals = 'Preferred Specialist Referral Rate';
-    this.subTitleForReferrals = `This measure’s objective is to evaluate referrals by primary care
-                                 physicians (PCPs) to preferred specialists who have demonstrated
-                                 a high-quality and lower total cost of care performance.`;
+    this.subTitleForReferrals = `Here is where our optional page title description text would live if we needed to use it.
+    You can easily remove this from the design by hiding it in your symbol overrides. Please DO NOT detach this symbol.`;
   }
 }
