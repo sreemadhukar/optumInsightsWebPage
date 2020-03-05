@@ -10,7 +10,7 @@ export const rlpData: any = {
   data: [
     {
       tin: '56-1234567',
-      groupName: 'North Region Orthopedic',
+      groupName: 'North Region Orthopedic Geneisi Health Organization',
       graphData: {
         data1: 88,
         data2: 64,
