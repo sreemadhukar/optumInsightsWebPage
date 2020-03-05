@@ -10,7 +10,7 @@ import { Component, OnInit, AfterViewInit, ViewChild, Input } from '@angular/cor
 import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 import { MatPaginator } from '@angular/material/paginator';
-import { MatSort, MatTableDataSource } from '@angular/material';
+import { MatSort, MatTableDataSource, Sort } from '@angular/material';
 import { Subscription } from 'rxjs';
 import { CURRENT_PAGE, REMOVE_FILTER } from './../../../../store/filter/actions';
 import { NgRedux, select } from '@angular-redux/store';
@@ -182,6 +182,15 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
     this.selectedclaims = new MatTableDataSource(this.claimsData);
     // pagination
     this.selectedclaims.paginator = this.paginator;
+    this.selectedclaims.sortingDataAccessor = (item, property) => {
+      switch (property) {
+        case 'DateOfProcessing':
+          return item['DateOfProcessing2'];
+        default:
+          return item[property];
+      }
+    };
+
     // sorting
     this.selectedclaims.sort = this.sort;
 
@@ -233,6 +242,7 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
     }
 
     this.loadTable(this.selectedReasonItem, this.selectedSubreason);
+    this.loading = true;
   }
   // sub reasons selection from dropdown
   selectsubReason(filterVal) {
@@ -243,7 +253,9 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
       if (this.selectedReasonItem === this.subReasonselected) {
         this.subReasonselected = 'UNKNOWN';
       }
+
       this.loadTable(this.selectedReasonItem, this.subReasonselected);
+      this.loading = true;
     }
   }
   goback() {
@@ -267,6 +279,14 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
         this.claimsData = JSON.parse(JSON.stringify(claimsDetailsData));
 
         if (this.claimsData && this.claimsData.length > 0) {
+          this.claimsData = this.claimsData.map((claimsRecord: any) => {
+            const dt = new Date(claimsRecord.DateOfProcessing);
+            claimsRecord.DateOfProcessing = dt;
+            claimsRecord.DateOfProcessing2 = dt.getTime();
+            claimsRecord.NonPaymentAmount = parseInt(claimsRecord.NonPaymentAmount);
+            claimsRecord.BilledAmount = parseInt(claimsRecord.BilledAmount);
+            return claimsRecord;
+          });
           this.numberOfClaims = this.claimsData.length;
           this.selectedclaims = new MatTableDataSource(this.claimsData);
 
@@ -278,6 +298,9 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
 
           this.selectedclaims.filterPredicate = this.customFilterPredicate();
           this.lengthOffilteredData = this.selectedclaims.filteredData.length;
+          if (this.pageSize > this.numberOfClaims) {
+            this.pageSize = this.numberOfClaims;
+          }
         } else {
           this.tableData = {
             category: 'large-card',
@@ -324,6 +347,25 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
     if (key === 'claimNumberFilter') {
       this.claimNumberFilter.setValue('');
     }
+  }
+
+  sortData(sort: Sort) {
+    const data = this.selectedclaims.data.slice();
+    if (!sort.active || sort.direction === '') {
+      return;
+    }
+    this.selectedclaims.data = data.sort((a, b) => {
+      const isAsc = sort.direction === 'asc';
+      switch (sort.active) {
+        case 'ClaimNumber':
+          return this.compare(a.ClaimNumber, b.ClaimNumber, isAsc);
+        default:
+          return 0;
+      }
+    });
+  }
+  compare(a: number | string, b: number | string, isAsc: boolean) {
+    return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
   }
   getPageSize(event) {
     this.pageSize = event.pageSize;
