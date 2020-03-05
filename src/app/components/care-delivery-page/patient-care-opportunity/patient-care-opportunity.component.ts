@@ -243,19 +243,18 @@ export class PatientCareOpportunityComponent implements OnInit {
     this.reportLink = 'View the Patient Care Opportunity Report';
   }
   PCORreport() {
-    // if (this.isInternal) {
-    //   window.open('https://webep1428/PCORMRPROD/');
-    // } else {
-    //   window.open('https://www.uhcprovider.com/en/reports-quality-programs/physician-perf-based-comp.html');
-    // }
-    this.dialog.open(PcorModalComponent, {
-      width: '550px',
-      height: '343px',
-      disableClose: true
-    });
-  }
-  closeDialog() {
-    // this.dialogRef.close();
-    alert('closed');
+    const showPopUp = sessionStorage.getItem('dontShowPCORpopup');
+    if (JSON.parse(showPopUp)) {
+      if (this.isInternal) {
+        window.open('https://webep1428/PCORMRPROD/');
+      } else {
+        window.open('https://www.uhcprovider.com/en/reports-quality-programs/physician-perf-based-comp.html');
+      }
+    } else {
+      this.dialog.open(PcorModalComponent, {
+        width: '550px',
+        disableClose: true
+      });
+    }
   }
 }

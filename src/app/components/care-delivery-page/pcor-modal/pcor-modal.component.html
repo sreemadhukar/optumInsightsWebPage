@@ -1,16 +1,16 @@
-<div>
-  <h3>
+<div class="notification-block">
+  <h3 class="notification-header">
     You are being directed to a new site outside of UHC Insights
   </h3>
-  <p>
+  <p class="notification-text margin-top-20">
     A new browser window will open with the information you have selected.
   </p>
-  <div>
-    <input type="checkbox" />
-    <p>Don't show this message again.</p>
+  <div class="checkbox-block">
+    <input type="checkbox" class="dont-show-checkbox" (change)="dontShowAgain($event)" />
+    <p class="notification-text extra-margin-top-2">Don't show me this again this session.</p>
   </div>
-  <div>
-    <button (click)="closeDialog()">No Thanks, Stay Here</button>
-    <button>Continue</button>
+  <div class="buttons-block">
+    <button (click)="closeDialog()" class="no-thanks-btn">No Thanks, Stay Here</button>
+    <button class="continue-btn" (click)="openUrl()">Continue</button>
   </div>
 </div>
