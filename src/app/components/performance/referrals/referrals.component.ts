@@ -3,7 +3,7 @@ import { NgRedux, select } from '@angular-redux/store';
 import { IAppState } from '../../../store/store';
 import { CURRENT_PAGE, REMOVE_FILTER } from '../../../store/filter/actions';
 import { PerformanceService } from '../../../shared/performance/performance.service';
-
+import { rlpPageConf } from '../../../modals/rlp-data';
 @Component({
   selector: 'app-referrals',
   templateUrl: './referrals.component.html',
@@ -23,8 +23,7 @@ export class ReferralsComponent implements OnInit {
   ngOnInit() {
     this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'referralsPage' });
 
-    this.titleForReferrals = 'Preferred Specialist Referral Rate';
-    this.subTitleForReferrals = `Here is where our optional page title description text would live if we needed to use it.
-    You can easily remove this from the design by hiding it in your symbol overrides. Please DO NOT detach this symbol.`;
+    this.titleForReferrals = rlpPageConf.Referral.title;
+    this.subTitleForReferrals = rlpPageConf.Referral.subTitle;
   }
 }

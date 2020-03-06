@@ -1,7 +1,7 @@
 <div class="table-container">
   <div class="table-header-labels">
     <div class="rlp-table-tin">
-      TIN
+      <div class="table-head-text">TIN</div>
       <input
         type="text"
         class="table-input-query"
@@ -12,7 +12,7 @@
       />
     </div>
     <div class="rlp-table-group">
-      Group Name
+      <div class="table-head-text">Group Name</div>
       <input
         type="text"
         class="table-input-query"
@@ -27,13 +27,14 @@
       <span (click)="sortTableData()">click</span>
     </div>
   </div>
+  <div class="zebra-stripe"></div>
   <div
     class="table-items"
     *ngFor="let item of tableData | rlpSearch: [qTinSearch, qGroupNameSearch | lowercase] | slice: startIndex:endIndex"
   >
     <app-rlp-table-item [tableItem]="item"></app-rlp-table-item>
   </div>
-
+  <div class="zebra-stripe"></div>
   <div class="rlp-table-footer">
     <div class="rlp-left-section">
       <div class="rlp-footer-label">Display</div>
@@ -44,26 +45,31 @@
           </mat-option>
         </mat-select>
       </mat-form-field>
+
       <div class="rlp-footer-label">per page</div>
     </div>
 
     <div class="rlp-right-section">
       <div>
         <form (submit)="enterPageNumber()">
+          <div class="rlp-footer-label">Page</div>
           <input
             [(ngModel)]="currentPageNumber"
             name="enterPage"
+            class="page-number"
             [value]="currentPageNumber"
             onkeyup="this.value=this.value.replace(/[^\d]/,'')"
           />
-          of {{ totalPages }}
+          <div class="rlp-footer-label">of {{ totalPages }}</div>
         </form>
       </div>
-      <div (click)="prevClick()" *ngIf="startIndex > 0">
-        <button>Prev</button>
-      </div>
-      <div (click)="nextClick()" *ngIf="currentPageNumber < totalPages">
-        <button>Next</button>
+      <div class="pagination-btn-widget">
+        <div (click)="prevClick()" class="previous-button" *ngIf="startIndex > 0">
+          <button><</button>
+        </div>
+        <div (click)="nextClick()" class="next-button" *ngIf="currentPageNumber < totalPages">
+          <button>></button>
+        </div>
       </div>
     </div>
   </div>

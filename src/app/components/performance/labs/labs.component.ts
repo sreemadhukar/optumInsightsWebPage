@@ -23,7 +23,7 @@ export class LabsComponent implements OnInit {
 
   ngOnInit() {
     this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'labsPage' });
-    this.titleForLabs = rlpPageConf.Summary.title;
-    this.subTitleForLabs = rlpPageConf.Summary.subTitle;
+    this.titleForLabs = rlpPageConf.Labs.title;
+    this.subTitleForLabs = rlpPageConf.Labs.subTitle;
   }
 }
