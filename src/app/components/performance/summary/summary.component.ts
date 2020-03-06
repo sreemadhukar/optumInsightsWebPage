@@ -4,7 +4,7 @@ import { IAppState } from '../../../store/store';
 import { CURRENT_PAGE, REMOVE_FILTER } from '../../../store/filter/actions';
 import { PerformanceService } from '../../../shared/performance/performance.service';
 // import { RlpHeaderComponent } from '../../../rlp-common-utils/rlp-header';
-
+import { rlpPageConf } from '../../../modals/rlp-data';
 @Component({
   selector: 'app-summary',
   templateUrl: './summary.component.html',
@@ -22,8 +22,7 @@ export class SummaryComponent implements OnInit {
 
   ngOnInit() {
     this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'performanceSummary' });
-    this.titleForSummary = 'Performance Management Summary';
-    this.subTitleForSummary = `Improve your performance through rendering, ordering, prescribing and
-                               referring actions that achieve lower total cost of care.`;
+    this.titleForSummary = rlpPageConf.Summary.title;
+    this.subTitleForSummary = rlpPageConf.Summary.subTitle;
   }
 }

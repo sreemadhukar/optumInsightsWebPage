@@ -12,28 +12,26 @@ export interface IrlpHeader {
 }
 export const rlpPageConf = {
   Summary: {
-    title: 'Preferred Lab Network Use Rate',
-    subTitle: `This measure’s objective is to evaluate use of the Preferred Lab Network
-    which is comprised of independent labs that have demonstrated high
-    standards for quality, service and affordability.`
+    title: 'Performance Management Summary',
+    subTitle: `Improve your performance through rendering, ordering, prescribing and
+    referring actions that achieve lower total cost of care.`
   },
   Referral: {
-    title: 'Preferred Lab Network Use Rate',
-    subTitle: `This measure’s objective is to evaluate use of the Preferred Lab Network
-    which is comprised of independent labs that have demonstrated high
-    standards for quality, service and affordability.`
+    title: 'Preferred Specialist Referral Rate',
+    subTitle: `Here is where our optional page title description text would live if we needed to use it.
+    You can easily remove this from the design by hiding it in your symbol overrides. Please DO NOT detach this symbol.`
   },
   Labs: {
     title: 'Preferred Lab Network Use Rate',
-    subTitle: `This measure’s objective is to evaluate use of the Preferred Lab Network
-    which is comprised of independent labs that have demonstrated high
-    standards for quality, service and affordability.`
+    subTitle: `Here is where our optional page title description text would live if we needed to use it. You can easily
+     remove this from the design by
+     hiding it in your symbol overrides. Please DO NOT detach this symbol.`
   },
   Perscription: {
-    title: 'Preferred Lab Network Use Rate',
-    subTitle: `This measure’s objective is to evaluate use of the Preferred Lab Network
-    which is comprised of independent labs that have demonstrated high
-    standards for quality, service and affordability.`
+    title: 'Preferred Tier Prescribing Rate',
+    subTitle: `This measure’s objective is to evaluate rate of prescribing
+    to the Pharmacy Preferred Tiers 1 and 2 which typically have a
+    lower cost than higher tier drugs.`
   }
 };
 export const rlpData: any = {

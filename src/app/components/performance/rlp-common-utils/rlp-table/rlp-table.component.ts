@@ -1,3 +1,5 @@
+import { DomSanitizer } from '@angular/platform-browser';
+import { MatIconRegistry } from '@angular/material';
 import { Component, OnInit } from '@angular/core';
 import { rlpData, INITIAL_PAGINATION, pageSizeConf } from '../../../../modals/rlp-data';
 
@@ -18,8 +20,12 @@ export class RlpTableComponent implements OnInit {
   public totalPages: number; // total Number of pages i.e. Number of available records/ PageSize
   public pageSizeValues: Array<string>; // Dropdown option values
   public isLoading: boolean;
-  constructor() {
+  constructor(private iconRegistry: MatIconRegistry, sanitizer: DomSanitizer) {
     this.isLoading = true;
+    iconRegistry.addSvgIcon(
+      'arrow',
+      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-keyboard_arrow_down-24px.svg')
+    );
   }
 
   ngOnInit() {
