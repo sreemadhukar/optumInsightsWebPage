@@ -11,6 +11,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { SessionService } from 'src/app/shared/session.service';
+declare const externalRatingIntercept: any;
 import { PcorModalComponent } from '../pcor-modal/pcor-modal.component';
 
 @Component({
@@ -70,6 +71,7 @@ export class PatientCareOpportunityComponent implements OnInit {
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Navigation/open_in_new-24px.svg')
     );
   }
+
   public ratingComponentClick(clickObj: any): void {
     this.pcorService.getQualityMeasureData().then(data => {
       this.pcorData = JSON.parse(JSON.stringify(data));
@@ -94,6 +96,7 @@ export class PatientCareOpportunityComponent implements OnInit {
       return a;
     }
   }
+
   public customFormattingMeasureDescription(customLabelGrid, data) {
     for (let i = 0; i < data.length; i++) {
       if (data[i].insideData) {
@@ -147,7 +150,11 @@ export class PatientCareOpportunityComponent implements OnInit {
       }
     }
   }
+
   ngOnInit() {
+    if (!this.isInternal) {
+      externalRatingIntercept();
+    }
     this.route.queryParams.subscribe((queryParams: any) => {
       if (queryParams && queryParams.selectedItemId) {
         this.selectedItemId = queryParams.selectedItemId;

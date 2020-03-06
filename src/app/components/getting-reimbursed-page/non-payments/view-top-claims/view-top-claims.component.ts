@@ -385,7 +385,6 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
         .attr('font-size', '16')
         .attr('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
         .attr('fill', '#2D2D39');
-
       if (length % pageSize === 0) {
         return ' of ' + Math.floor(length / pageSize);
       } else {

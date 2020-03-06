@@ -108,6 +108,16 @@ export class StackedBarChartComponent implements OnInit, AfterViewInit {
     console.log('this.chartOptions.chartId', barData);
     const data = barData.graphValues;
 
+    /*** ADDED  BELOW CODE AS PER SHANNON's REQUEST ***/
+    const svgText = svg
+      .append('text')
+      .attr('x', () => 20)
+      .attr('y', () => 242)
+      .attr('fill', '#2d2d39')
+      .text('*Claims are calculated from first Date of Service.')
+      .classed('labels', true);
+    /*** ADDED  ABOVE CODE AS PER SHANNON's REQUEST ***/
+
     // Data Binding to be used
     /*const data = [
       {
