@@ -27,16 +27,12 @@
       <span (click)="sortTableData()">click</span>
     </div>
   </div>
-  <ng-container *ngIf="!isLoading">
-    <div
-      class="table-items"
-      *ngFor="
-        let item of tableData | rlpSearch: [qTinSearch, qGroupNameSearch | lowercase] | slice: startIndex:endIndex
-      "
-    >
-      <app-rlp-table-item [tableItem]="item"></app-rlp-table-item>
-    </div>
-  </ng-container>
+  <div
+    class="table-items"
+    *ngFor="let item of tableData | rlpSearch: [qTinSearch, qGroupNameSearch | lowercase] | slice: startIndex:endIndex"
+  >
+    <app-rlp-table-item [tableItem]="item"></app-rlp-table-item>
+  </div>
 
   <div class="rlp-table-footer">
     <div class="rlp-left-section">

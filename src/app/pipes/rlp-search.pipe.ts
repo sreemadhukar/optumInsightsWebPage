@@ -6,7 +6,8 @@ interface IListItem {
 }
 
 @Pipe({
-  name: 'rlpSearch'
+  name: 'rlpSearch',
+  pure: false
 })
 export class RlpSearchPipe implements PipeTransform {
   transform(value: any, args?: any): any {

@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { rlpData, INITIAL_PAGINATION, pageSizeConf } from '../../../../modals/rlp-data';
 @Component({
   selector: 'app-rlp-table',
@@ -16,19 +16,16 @@ export class RlpTableComponent implements OnInit, OnDestroy {
   public endIndex: number; // end point of the items displayed for the current state
   public totalPages: number; // total Number of pages i.e. Number of available records/ PageSize
   public pageSizeValues: Array<string>; // Dropdown option values
-  public isLoading: boolean;
   public isAscending: boolean; // used to check sorting of the table
-  constructor(private cd: ChangeDetectorRef) {}
+  constructor() {}
 
   ngOnInit() {
-    this.isLoading = true;
     this.pageSizeValues = pageSizeConf;
     this.selectPageSize = this.pageSizeValues[0];
     this.tableData = rlpData.data;
     this.afterQuery = this.tableData;
     this.totalPages = Math.ceil(this.tableData.length / +this.selectPageSize);
     this.setPagination();
-    this.isLoading = false;
     this.isAscending = true;
   }
 
@@ -85,15 +82,12 @@ export class RlpTableComponent implements OnInit, OnDestroy {
    *
    */
   sortTableData() {
-    this.isLoading = true;
     this.isAscending = !this.isAscending;
     if (this.isAscending) {
       this.tableData = this.tableData.sort((a, b) => a.graphData.total - b.graphData.total);
     } else {
       this.tableData = this.tableData.sort((b, a) => a.graphData.total - b.graphData.total);
     }
-    console.log('isAscending', this.isAscending, this.tableData);
-    this.isLoading = false;
   }
 
   /**
