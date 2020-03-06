@@ -10,7 +10,17 @@ import { MatDialogRef } from '@angular/material';
 export class PcorModalComponent implements OnInit {
   isInternal: boolean = environment.internalAccess;
   dontShow = false;
-  constructor(private dialogRef: MatDialogRef<PcorModalComponent>) {}
+  notificationHeader: string;
+  notificationText: string;
+  constructor(private dialogRef: MatDialogRef<PcorModalComponent>) {
+    if (this.isInternal) {
+      this.notificationHeader = 'You are being directed to the PCOR report system';
+      this.notificationText = 'A new browser window will open with the internal PCOR report generator application.';
+    } else {
+      this.notificationHeader = "You are being directed to PCOR reports in LINK's DocuVault";
+      this.notificationText = 'A new browser tab will open DocuVault.';
+    }
+  }
 
   ngOnInit() {}
 

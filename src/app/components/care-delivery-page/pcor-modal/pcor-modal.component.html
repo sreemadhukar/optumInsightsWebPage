@@ -1,22 +1,18 @@
 <div class="notification-block">
-  <h3 *ngIf="isInternal" class="notification-header">
-    You are being directed to a new site outside of UHC Insights
+  <h3 class="notification-header">
+    {{ notificationHeader }}
   </h3>
-  <h3 *ngIf="!isInternal" class="notification-header">
-    You are being directed to PCOR reports in LINK’s DocuVault
-  </h3>
-  <p *ngIf="isInternal" class="notification-text-center margin-top-20">
-    A new browser window will open with the information you have selected.
+  <p class="notification-text-center margin-top-20">
+    {{ notificationText }}
   </p>
-  <p *ngIf="!isInternal" class="notification-text-center margin-top-20">
-    A new browser tab will open DocuVault.
-  </p>
-  <div class="checkbox-block">
-    <input type="checkbox" class="dont-show-checkbox" (change)="dontShowAgain($event)" />
-    <p class="notification-text extra-margin-top-2">Don't show me this again this session.</p>
-  </div>
-  <div class="buttons-block">
-    <button (click)="closeDialog()" class="no-thanks-btn">No Thanks, Stay Here</button>
-    <button class="continue-btn" (click)="openUrl()">Continue</button>
+  <div class="below-block">
+    <div class="checkbox-block">
+      <input type="checkbox" class="dont-show-checkbox" (change)="dontShowAgain($event)" />
+      <p class="notification-text">Don't show me this again this session.</p>
+    </div>
+    <div class="buttons-block">
+      <button (click)="closeDialog()" class="no-thanks-btn">No Thanks, Stay Here</button>
+      <button class="continue-btn" (click)="openUrl()">Continue</button>
+    </div>
   </div>
 </div>
