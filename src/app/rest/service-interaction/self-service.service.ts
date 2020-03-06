@@ -27,14 +27,10 @@ export class SelfServiceService {
     let ediparams = {};
     let pprparams = {};
     ediparams = {
-      ClaimsBy: 'DOS',
-      appealsProcessing: 'Received Date',
       TimeFilter: 'Last6Months',
       submissionTypes: ['EDI']
     };
     pprparams = {
-      ClaimsBy: 'DOS',
-      appealsProcessing: 'Received Date',
       TimeFilter: 'Last6Months',
       submissionTypes: ['PAPER']
     };
