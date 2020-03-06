@@ -16,10 +16,10 @@
       <!-- Header Title ends-->
 
       <!-- Large Card content-->
-
+      <app-rlp-long-card [config]="referralsItems[0]"></app-rlp-long-card>
       <!-- Large Card content ends-->
     </div>
-    <div *ngFor="let item of referralsItems; let i = index">
+    <!-- <div *ngFor="let item of referralsItems; let i = index">
       <app-card *ngIf="item.data != null && item.category == 'app-card'" class="cards" [chartData]="item"></app-card>
       <app-error-card
         *ngIf="item.data == null && item.status != null && item.category == 'app-card'"
@@ -27,7 +27,7 @@
         [data]="item"
       ></app-error-card>
       <app-rlp-common-bar *ngIf="item.data != null && item.category != 'app-card'" [data]="item"></app-rlp-common-bar>
-    </div>
+    </div> -->
     <app-rlp-table></app-rlp-table>
   </div>
   <!--container content ends-->
