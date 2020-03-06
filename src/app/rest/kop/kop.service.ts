@@ -10,12 +10,13 @@ import { of } from 'rxjs';
 export class KopService {
   private APP_URL: string = environment.apiProxyUrl;
   private SERVICE_PATH_KOP: string = environment.apiUrls.NPSSummary;
-  private SERVICE_PATH_KOP_PRIORAUTH_TAT: string = environment.apiUrls.KOPPriorAuthTATSummary;
+  private SERVICE_PATH_KOP_QUARTERLY: string = environment.apiUrls.NPSQuarterlySummary;
+  private SERVICE_PATH_KOP_PRIORAUTH_TAT: string = environment.apiUrls.KOPPriorAuthSummary;
   private SERVICE_PATH_KOP_CLAIMS: string = environment.apiUrls.KOPReimbursementClaims;
   constructor(private http: HttpClient) {}
 
   public getNpsDetailSummary({ params }) {
-    const url = this.APP_URL + 'kop-nps-quarterlyandaveragemetrics';
+    const url = this.APP_URL + this.SERVICE_PATH_KOP_QUARTERLY;
     return this.http.get(url, { params });
   }
   public getSummary({ params }) {
