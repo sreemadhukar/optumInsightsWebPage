@@ -29,9 +29,9 @@ export const rlpPageConf = {
   },
   Perscription: {
     title: 'Preferred Tier Prescribing Rate',
-    subTitle: `This measure’s objective is to evaluate rate of prescribing
-    to the Pharmacy Preferred Tiers 1 and 2 which typically have a
-    lower cost than higher tier drugs.`
+    subTitle: `Here is where our optional page title description text would live if we needed to use it. You can easily 
+    remove this from the design
+    by hiding it in your symbol overrides. Please DO NOT detach this symbol.`
   }
 };
 export const rlpData: any = {
