@@ -63,11 +63,12 @@ export class AuthenticationService {
   }
 
   public logout(expired = 0) {
-    sessionStorage.removeItem('currentUser');
-    sessionStorage.removeItem('loggedUser');
-    sessionStorage.removeItem('heac');
-    sessionStorage.removeItem('pcor');
-    sessionStorage.removeItem('state');
+    // sessionStorage.removeItem('currentUser');
+    // sessionStorage.removeItem('loggedUser');
+    // sessionStorage.removeItem('heac');
+    // sessionStorage.removeItem('pcor');
+    // sessionStorage.removeItem('state');
+    sessionStorage.clear();
     sessionStorage.setItem('cache', JSON.stringify(false));
     if (environment.internalAccess) {
       if (expired) {
