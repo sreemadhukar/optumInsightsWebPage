@@ -22,7 +22,10 @@
         (keydown.backspace)="enterQuery()"
       />
     </div>
-    <div class="rlp-table-bar">Preferred Specialist Referral Rate</div>
+    <div class="rlp-table-bar">
+      Preferred Specialist Referral Rate
+      <span (click)="sortTableData()">click</span>
+    </div>
   </div>
   <div
     class="table-items"
