@@ -29,8 +29,8 @@ export const rlpPageConf = {
   },
   Perscription: {
     title: 'Preferred Tier Prescribing Rate',
-    subTitle: `Here is where our optional page title description text would live if we needed to use it. You can easily 
-    remove this from the design
+    subTitle: `Here is where our optional page title description text would live if we needed to use it.
+    You can easily remove this from the design
     by hiding it in your symbol overrides. Please DO NOT detach this symbol.`
   }
 };
