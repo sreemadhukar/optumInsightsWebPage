@@ -1,12 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { rlpData, INITIAL_PAGINATION, pageSizeConf } from '../../../../modals/rlp-data';
-
 @Component({
   selector: 'app-rlp-table',
   templateUrl: './rlp-table.component.html',
   styleUrls: ['./rlp-table.component.scss']
 })
-export class RlpTableComponent implements OnInit {
+export class RlpTableComponent implements OnInit, OnDestroy {
   public qTinSearch: string; // Input ngModel of Tin Search
   public qGroupNameSearch: string; // Input ngModel of GroupName
   public tableData: any; // This varibale is used for the pipe
@@ -18,11 +17,11 @@ export class RlpTableComponent implements OnInit {
   public totalPages: number; // total Number of pages i.e. Number of available records/ PageSize
   public pageSizeValues: Array<string>; // Dropdown option values
   public isLoading: boolean;
-  constructor() {
-    this.isLoading = true;
-  }
+  public isAscending: boolean; // used to check sorting of the table
+  constructor(private cd: ChangeDetectorRef) {}
 
   ngOnInit() {
+    this.isLoading = true;
     this.pageSizeValues = pageSizeConf;
     this.selectPageSize = this.pageSizeValues[0];
     this.tableData = rlpData.data;
@@ -30,6 +29,7 @@ export class RlpTableComponent implements OnInit {
     this.totalPages = Math.ceil(this.tableData.length / +this.selectPageSize);
     this.setPagination();
     this.isLoading = false;
+    this.isAscending = true;
   }
 
   /**
@@ -81,6 +81,22 @@ export class RlpTableComponent implements OnInit {
   }
 
   /**
+   * sortTableData() is the function to sort the table items
+   *
+   */
+  sortTableData() {
+    this.isLoading = true;
+    this.isAscending = !this.isAscending;
+    if (this.isAscending) {
+      this.tableData = this.tableData.sort((a, b) => a.graphData.total - b.graphData.total);
+    } else {
+      this.tableData = this.tableData.sort((b, a) => a.graphData.total - b.graphData.total);
+    }
+    console.log('isAscending', this.isAscending, this.tableData);
+    this.isLoading = false;
+  }
+
+  /**
    * enterQuery() is the function for setting up totalPages dynamically on the basis of search
    * for both Tin and Group name
    */
@@ -121,4 +137,6 @@ export class RlpTableComponent implements OnInit {
       return false;
     }
   }
+
+  ngOnDestroy() {}
 }

@@ -25,8 +25,6 @@
       <app-card *ngIf="item.data != null && item.category == 'app-card'" class="cards" [chartData]="item"></app-card>
       <app-error-card *ngIf="item.data == null && item.status != null" class="cards" [data]="item"></app-error-card>
     </div>
-    <!-- container header ends-->
-    <app-rlp-body></app-rlp-body>
   </div>
   <!--container content ends-->
 </div>

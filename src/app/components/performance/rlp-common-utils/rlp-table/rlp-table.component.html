@@ -22,14 +22,21 @@
         (keydown.backspace)="enterQuery()"
       />
     </div>
-    <div class="rlp-table-bar">Preferred Specialist Referral Rate</div>
+    <div class="rlp-table-bar">
+      Preferred Specialist Referral Rate
+      <span (click)="sortTableData()">click</span>
+    </div>
   </div>
-  <div
-    class="table-items"
-    *ngFor="let item of tableData | rlpSearch: [qTinSearch, qGroupNameSearch | lowercase] | slice: startIndex:endIndex"
-  >
-    <app-rlp-table-item [tableItem]="item"></app-rlp-table-item>
-  </div>
+  <ng-container *ngIf="!isLoading">
+    <div
+      class="table-items"
+      *ngFor="
+        let item of tableData | rlpSearch: [qTinSearch, qGroupNameSearch | lowercase] | slice: startIndex:endIndex
+      "
+    >
+      <app-rlp-table-item [tableItem]="item"></app-rlp-table-item>
+    </div>
+  </ng-container>
 
   <div class="rlp-table-footer">
     <div class="rlp-left-section">
