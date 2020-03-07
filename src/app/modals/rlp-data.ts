@@ -348,11 +348,11 @@ export const rlpData: any = {
     },
     {
       tin: '56-12358967',
-      groupName: 'Darling',
+      groupName: 'Laila mai Laila',
       graphData: {
         data1: 34,
         data2: 66,
-        total: 500,
+        total: 209,
         percentage: '%'
       }
     },
@@ -368,11 +368,11 @@ export const rlpData: any = {
     },
     {
       tin: '66-14558967',
-      groupName: 'Shahid Afridi',
+      groupName: 'Rinku Afridi',
       graphData: {
         data1: 20,
         data2: 66,
-        total: 486,
+        total: 87,
         percentage: '%'
       }
     },
@@ -398,11 +398,11 @@ export const rlpData: any = {
     },
     {
       tin: '56-12358967',
-      groupName: 'Darling',
+      groupName: 'Shushma Swaraj',
       graphData: {
         data1: 34,
         data2: 66,
-        total: 500,
+        total: 590,
         percentage: '%'
       }
     },
@@ -418,11 +418,11 @@ export const rlpData: any = {
     },
     {
       tin: '66-14558967',
-      groupName: 'Shahid Afridi',
+      groupName: 'Vivke Afridi',
       graphData: {
         data1: 20,
         data2: 66,
-        total: 486,
+        total: 798,
         percentage: '%'
       }
     },
@@ -448,11 +448,11 @@ export const rlpData: any = {
     },
     {
       tin: '56-12358967',
-      groupName: 'Darling',
+      groupName: 'Rahul Gandhi',
       graphData: {
         data1: 34,
         data2: 66,
-        total: 500,
+        total: 550,
         percentage: '%'
       }
     },
@@ -468,11 +468,11 @@ export const rlpData: any = {
     },
     {
       tin: '66-14558967',
-      groupName: 'Shahid Afridi',
+      groupName: 'Mounika Afridi',
       graphData: {
         data1: 20,
         data2: 66,
-        total: 486,
+        total: 7,
         percentage: '%'
       }
     },
@@ -728,11 +728,11 @@ export const rlpData: any = {
     },
     {
       tin: '56-12358967',
-      groupName: 'Darling',
+      groupName: 'Harry Potter',
       graphData: {
         data1: 34,
         data2: 66,
-        total: 500,
+        total: 2009,
         percentage: '%'
       }
     },
@@ -748,11 +748,11 @@ export const rlpData: any = {
     },
     {
       tin: '66-14558967',
-      groupName: 'Shahid Afridi',
+      groupName: 'Praveen Afridi',
       graphData: {
         data1: 20,
         data2: 66,
-        total: 486,
+        total: 89,
         percentage: '%'
       }
     },
@@ -778,11 +778,11 @@ export const rlpData: any = {
     },
     {
       tin: '56-12358967',
-      groupName: 'Darling',
+      groupName: 'WHO',
       graphData: {
         data1: 34,
         data2: 66,
-        total: 500,
+        total: 50,
         percentage: '%'
       }
     },
@@ -798,11 +798,11 @@ export const rlpData: any = {
     },
     {
       tin: '66-14558967',
-      groupName: 'Shahid Afridi',
+      groupName: 'Sonam kappor Afridi',
       graphData: {
         data1: 20,
         data2: 66,
-        total: 486,
+        total: 446,
         percentage: '%'
       }
     },
@@ -828,11 +828,11 @@ export const rlpData: any = {
     },
     {
       tin: '56-12358967',
-      groupName: 'Darling',
+      groupName: 'Peace',
       graphData: {
         data1: 34,
         data2: 66,
-        total: 500,
+        total: 10,
         percentage: '%'
       }
     },
@@ -852,7 +852,7 @@ export const rlpData: any = {
       graphData: {
         data1: 20,
         data2: 66,
-        total: 486,
+        total: 86,
         percentage: '%'
       }
     },
@@ -1108,7 +1108,7 @@ export const rlpData: any = {
     },
     {
       tin: '56-12358967',
-      groupName: 'Darling CLinton',
+      groupName: 'Darling Clinton',
       graphData: {
         data1: 34,
         data2: 66,
@@ -1182,7 +1182,7 @@ export const rlpData: any = {
       graphData: {
         data1: 20,
         data2: 66,
-        total: 486,
+        total: 876,
         percentage: '%'
       }
     },
@@ -1212,7 +1212,7 @@ export const rlpData: any = {
       graphData: {
         data1: 34,
         data2: 66,
-        total: 500,
+        total: 70,
         percentage: '%'
       }
     },

@@ -35,7 +35,7 @@
     <app-rlp-table-item [tableItem]="item"></app-rlp-table-item>
   </div>
   <div class="zebra-stripe"></div>
-  <div class="rlp-table-footer">
+  <div *ngIf="afterQuery.length > 25" class="rlp-table-footer">
     <div class="rlp-left-section">
       <div class="rlp-footer-label">Display</div>
       <mat-form-field>
