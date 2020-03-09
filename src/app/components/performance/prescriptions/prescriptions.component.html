@@ -1,13 +1,30 @@
-<div class="rlp-body">
-  <div class="rlp-content">
-    <div class="cust-width-title">
+<!-- Main container-->
+<div class="container">
+  <!-- container content-->
+  <div class="container-content">
+    <!-- container header titile ends-->
+    <div class="container-header">
+      <!-- Breadcrumbs-->
       <app-breadcrumbs></app-breadcrumbs>
+      <!-- Breadcrumbs ends-->
+      <!-- Header Title-->
       <app-rlp-header
         [rlpTitle]="titleForPrescriptions"
         [rlpSubTitle]="subTitleForPrescriptions"
         class="full-display bottom-margin-block"
       ></app-rlp-header>
+      <!-- Header Title ends-->
+
+      <!-- Large Card content-->
+      <app-rlp-long-card [config]="prescriptionsItems[0]"></app-rlp-long-card>
+      <!-- Large Card content ends-->
     </div>
-    <app-rlp-body></app-rlp-body>
+    <!-- <div *ngFor="let item of prescriptionsItems; let i = index">
+      <app-error-card *ngIf="item.data == null && item.status != null" class="cards" [data]="item"></app-error-card>
+      <app-rlp-common-bar *ngIf="item.data != null && item.category != 'app-card'" [data]="item"></app-rlp-common-bar>
+    </div> -->
+    <app-rlp-table></app-rlp-table>
   </div>
+  <!--container content ends-->
 </div>
+<!-- Main container ends-->

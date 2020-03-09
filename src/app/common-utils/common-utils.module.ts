@@ -52,6 +52,7 @@ import { BarSimplePiComponent } from './d3-objects/bar-simple-pi/bar-simple-pi.c
 import { StackedBarChartComponent } from './d3-objects/stacked-bar-chart/stacked-bar-chart.component';
 import { UhcKopFilterComponent } from './uhc-kop-filter/uhc-kop-filter.component';
 import { RlpCommonUtilsModule } from '../components/performance/rlp-common-utils/rlp-common-utils.module';
+import { RlpLongCardComponent } from './rlp-long-card/rlp-long-card.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -101,7 +102,8 @@ import { RlpCommonUtilsModule } from '../components/performance/rlp-common-utils
     ColorGreyMiniBarChartComponent,
     BarSimplePiComponent,
     UhcKopFilterComponent,
-    StackedBarChartComponent
+    StackedBarChartComponent,
+    RlpLongCardComponent
   ],
   declarations: [
     MiniTileComponent,
@@ -149,7 +151,8 @@ import { RlpCommonUtilsModule } from '../components/performance/rlp-common-utils
     ColorGreyMiniBarChartComponent,
     BarSimplePiComponent,
     StackedBarChartComponent,
-    UhcKopFilterComponent
+    UhcKopFilterComponent,
+    RlpLongCardComponent
   ],
   entryComponents: [ProviderSearchComponent]
 })

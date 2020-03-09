@@ -7,7 +7,6 @@ import { ReferralsComponent } from './referrals/referrals.component';
 import { LabsComponent } from './labs/labs.component';
 import { PrescriptionsComponent } from './prescriptions/prescriptions.component';
 import { RlpCommonUtilsModule } from './rlp-common-utils/rlp-common-utils.module';
-import { RlpHeaderComponent } from './rlp-common-utils/rlp-header/rlp-header.component';
 
 @NgModule({
   imports: [CommonModule, PerformanceRoutingModule, RlpCommonUtilsModule, CommonUtilsModule],
