@@ -28,7 +28,7 @@
               },
               "src/theme.scss"
             ],
-            "scripts": ["src/modernizr.js"]
+            "scripts": ["src/modernizr.js", "src/assets/js/user-review.js"]
           },
           "configurations": {
             "prod": {

@@ -38,6 +38,7 @@ export const environment: any = {
     NonPayment: 'claim-metrics/',
     NonPaymentTopClaims: 'non-payment-claims/',
     NonPaymentDop: 'dop-claim-metrics/',
+    NonPaymentDopTrend: 'dop-denial-trend/',
     CallsTrend: 'provider-calls/',
     TrendingMetrics: 'trending-metrics/',
     PCORQualityMeasure: 'pcor-metrics/',
