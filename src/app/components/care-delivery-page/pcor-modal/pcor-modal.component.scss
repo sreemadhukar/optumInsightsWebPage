@@ -17,19 +17,28 @@
     letter-spacing: 0.2px;
     line-height: 22px;
     float: left;
+    margin-left: 2px;
   }
+  .notification-text-center {
+    color: $black-rock;
+    font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+    font-size: 16px;
+    letter-spacing: 0.2px;
+    line-height: 22px;
+  }
+
   .checkbox-block {
-    margin-top: 22px;
-    text-align: center;
-    display: inline-block;
-  }
-  .dont-show-checkbox {
-    height: 24px;
-    width: 24px;
     float: left;
   }
+  .dont-show-checkbox {
+    height: 23px;
+    width: 23px;
+    float: left;
+    margin: 0;
+  }
   .buttons-block {
-    margin-top: 26px;
+    margin-top: 20px;
+    float: left;
   }
   .no-thanks-btn {
     box-sizing: border-box;
@@ -70,7 +79,8 @@
   .margin-top-20 {
     margin-top: 20px;
   }
-  .extra-margin-top-2 {
-    margin-top: 3px !important;
+  .below-block {
+    float: left;
+    padding: 26px;
   }
 }

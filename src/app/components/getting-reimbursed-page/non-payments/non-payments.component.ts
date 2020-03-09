@@ -138,7 +138,7 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
     );
     this.printRoute = '/GettingReimbursed/NonPayments/print-nonpayments';
     this.pageTitle = 'Claims Non-Payments';
-    this.printpageSubTitle = 'Getting Reimbursed - Non-Payments';
+    this.printpageSubTitle = 'Getting Reimbursed - Claims Non-Payments';
     this.pageSubTitle = 'Note: Claims non-payment metrics are calculated based on billed charges.';
     this.createPayloadService.getEvent().subscribe(value => {
       this.ngOnInit();
@@ -292,7 +292,7 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
       subReason: subReasonSelected[0]
     };
     this.reasonsEmitter.sendData = temp;
-    this.router.navigate([routetoThis]);
+    this.router.navigateByUrl('/GettingReimbursed/ViewTopClaims');
   }
   public reasonsWithSubReasons(data) {
     const reasonWithSubData: any = [];
