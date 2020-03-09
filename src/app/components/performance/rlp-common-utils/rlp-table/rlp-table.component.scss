@@ -21,7 +21,7 @@
       font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
       font-size: 16px;
       margin-top: 10px;
-      padding: 0 3px;
+      padding: 8px 0 8px 8px;
       height: 40px;
       border: 1px solid $heather;
       border-radius: 2px;
@@ -63,8 +63,8 @@
   .rlp-table-footer {
     // display: inline-flex;
     width: 900px;
-    height: 56px;
-    padding: 16px 30px 16px 30px;
+    height: 46px;
+    padding: 16px 30px 20px 30px;
     .rlp-left-section {
       display: inline-flex;
       align-items: flex-start;
@@ -82,14 +82,17 @@
         color: $black-rock;
         font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
         font-size: 16px;
-        line-height: 22px;
+        line-height: 20px;
       }
       form {
         display: flex;
       }
     }
     .pagination-btn-widget {
-      padding-left: 27px;
+      padding-left: 19px;
+      .mat-icon-color {
+        color: #196ecf;
+      }
       button {
         border: 0;
         background: transparent;
@@ -100,7 +103,7 @@
         text-align: center;
         font-size: 16px;
         height: 44px;
-        width: 44px;
+        width: 56px;
         border: 1px solid rgb(25, 110, 207);
         border-radius: 2px;
         padding: 8px;
@@ -117,11 +120,10 @@
 
     .rlp-footer-label {
       line-height: 20px;
-      padding: 11px 8px 11px 0;
+      padding: 10px 8px 10px 0;
       color: $strom-grey;
       font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
       font-size: 14px;
-      line-height: 18px;
     }
   }
 }
@@ -131,6 +133,7 @@
   font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
   font-size: 16px;
   line-height: 22px;
+  padding: 8px 0 8px 8px;
 }
 
 :-ms-input-placeholder {
@@ -139,6 +142,7 @@
   font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
   font-size: 16px;
   line-height: 22px;
+  padding: 8px 0 8px 8px;
 }
 .table-container > div:nth-child(3) {
   padding-top: 24px;
@@ -187,6 +191,11 @@
   font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
   font-size: 16px;
   line-height: 22px;
+}
+.nav-menu-icons {
+  margin: 0px 12px;
+  vertical-align: middle;
+  margin-left: 0px;
 }
 .nav-menu-icons-back-button-div {
   border: none !important;
