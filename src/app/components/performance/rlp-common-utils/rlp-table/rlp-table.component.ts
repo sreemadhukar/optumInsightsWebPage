@@ -1,3 +1,5 @@
+import { DomSanitizer } from '@angular/platform-browser';
+import { MatIconRegistry } from '@angular/material';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { rlpData, INITIAL_PAGINATION, pageSizeConf } from '../../../../modals/rlp-data';
 @Component({
@@ -17,7 +19,12 @@ export class RlpTableComponent implements OnInit, OnDestroy {
   public totalPages: number; // total Number of pages i.e. Number of available records/ PageSize
   public pageSizeValues: Array<string>; // Dropdown option values
   public isAscending: boolean; // used to check sorting of the table
-  constructor() {}
+  constructor(private iconRegistry: MatIconRegistry, sanitizer: DomSanitizer) {
+    iconRegistry.addSvgIcon(
+      'downarrow',
+      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/arrow_downward-24px.svg')
+    );
+  }
 
   ngOnInit() {
     this.pageSizeValues = pageSizeConf;
