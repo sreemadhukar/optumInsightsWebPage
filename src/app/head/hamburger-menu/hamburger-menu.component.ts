@@ -88,13 +88,13 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
   public navCategoriesTotal = [
     { icon: 'home', name: 'Overview', path: '/NationalExecutive', disabled: false, kop: true },
     { icon: 'summary', name: 'NPS Summary', path: '/NationalExecutive/NpsDetail', disabled: false, kop: true },
-    {
-      icon: 'person',
-      name: 'Onboarding',
-      children: [{ name: 'Summary', path: '/NationalExecutive/Onboarding/Summary', kop: true }],
-      disabled: false,
-      kop: true
-    },
+    // {
+    //   icon: 'person',
+    //   name: 'Onboarding',
+    //   children: [{ name: 'Summary', path: '/NationalExecutive/Onboarding/Summary', kop: true }],
+    //   disabled: false,
+    //   kop: true
+    // },
     { icon: 'home', name: 'Overview', path: '/OverviewPage', disabled: false },
     {
       icon: 'getting-reimburse',
