@@ -71,10 +71,10 @@
       </div>
       <div class="pagination-btn-widget">
         <div (click)="prevClick()" class="previous-button" *ngIf="startIndex > 0">
-          <button><</button>
+          <button><mat-icon class="mat-icon-color" svgIcon="leftarrow"></mat-icon></button>
         </div>
         <div (click)="nextClick()" class="next-button" *ngIf="currentPageNumber < totalPages">
-          <button>></button>
+          <button><mat-icon class="mat-icon-color" svgIcon="rightarrow"></mat-icon></button>
         </div>
       </div>
     </div>

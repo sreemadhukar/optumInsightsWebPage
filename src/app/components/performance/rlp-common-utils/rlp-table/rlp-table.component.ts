@@ -24,6 +24,14 @@ export class RlpTableComponent implements OnInit, OnDestroy {
       'downarrow',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/arrow_downward-24px.svg')
     );
+    iconRegistry.addSvgIcon(
+      'rightarrow',
+      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/chevron_right-24px.svg')
+    );
+    iconRegistry.addSvgIcon(
+      'leftarrow',
+      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/chevron_left-24px.svg')
+    );
   }
 
   ngOnInit() {
