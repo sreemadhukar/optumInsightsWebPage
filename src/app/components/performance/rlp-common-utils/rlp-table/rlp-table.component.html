@@ -22,9 +22,15 @@
         (keydown.backspace)="enterQuery()"
       />
     </div>
-    <div class="rlp-table-bar">
+    <div class="rlp-table-bar" (click)="sortTableData()">
       Preferred Specialist Referral Rate
-      <span (click)="sortTableData()">click</span>
+
+      <mat-icon class="nav-menu-icons nav-menu-icons-down-arrow" *ngIf="!isAscending" svgIcon="downarrow"></mat-icon>
+      <mat-icon
+        class="nav-menu-icons nav-menu-icons-down-arrow-reverse"
+        *ngIf="isAscending"
+        svgIcon="downarrow"
+      ></mat-icon>
     </div>
   </div>
   <div class="zebra-stripe"></div>

@@ -6,12 +6,12 @@ import { RlpHeaderComponent } from './rlp-header/rlp-header.component';
 import { RlpTableComponent } from './rlp-table/rlp-table.component';
 import { RlpTableItemComponent } from './rlp-table/rlp-table-item/rlp-table-item.component';
 import { PipesModule } from './../../../pipes/pipes.module';
-import { MatFormFieldModule, MatInputModule, MatSelectModule } from '@angular/material';
+import { MatFormFieldModule, MatInputModule, MatSelectModule, MatIconModule } from '@angular/material';
 import { RlpBodyComponent } from './rlp-body/rlp-body.component';
 import { CommonBarComponent } from './d3/common-bar/common-bar.component';
 
 @NgModule({
-  imports: [CommonModule, FormsModule, PipesModule, MatFormFieldModule, MatInputModule, MatSelectModule],
+  imports: [CommonModule, FormsModule, PipesModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatIconModule],
   declarations: [
     RlpCommonBarComponent,
     RlpTableComponent,
