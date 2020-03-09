@@ -424,16 +424,18 @@
     padding-left: 10px;
   }
   input:hover {
-    border: 1.2px solid $black-rock;
+    border-radius: 2px;
+    border: 1px solid $black-rock;
   }
   input:focus {
-    border: 1.2px solid $dodger-blue;
+    border-radius: 2px;
+    border: 1px solid $dodger-blue;
     color: $black-rock;
   }
   .mat-icon {
     position: absolute;
     color: $strom-grey;
-    right: 25px;
+    right: 20px;
     top: 20px;
   }
   :not(:valid) ~ .close {
@@ -463,7 +465,10 @@
 :host ::ng-deep .mat-sort-header-button {
   display: inline;
   text-align: left;
-  max-width: 65px;
+  max-width: 60px;
+}
+:host ::ng-deep .custom_non_payment .mat-sort-header-button {
+  max-width: 100px;
 }
 :host ::ng-deep .mat-sort-header-arrow {
   color: #2d2d39;
@@ -632,7 +637,7 @@ table {
   }
   &-input,
   &-name-input {
-    font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+    font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
     font-size: 16px;
     width: 180px;
     margin-top: 10px;
@@ -647,7 +652,7 @@ table {
 
   &-provider-input {
     width: 160px;
-    font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+    font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
     font-size: 16px;
     margin-top: 10px;
     padding: 0 3px;
@@ -660,7 +665,7 @@ table {
   }
   &-claims-input {
     width: 99px;
-    font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+    font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
     font-size: 16px;
     margin-top: 10px;
     padding: 0 3px;
@@ -711,12 +716,25 @@ table {
       opacity: 1 !important;
       transform: translateY(0) !important;
     }
+    .mat-sort-header-pointer-left,
+    .mat-sort-header-pointer-right {
+      height: 1.5px;
+    }
+    .mat-sort-header-pointer-middle {
+      display: none;
+    }
   }
 }
 ::ng-deep .mat-row td.mat-cell {
   font-size: 14px;
   font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
   padding: 8px 12px;
+}
+::ng-deep tr.mat-row {
+  cursor: pointer;
+}
+::ng-deep tr.mat-row:hover {
+  background-color: #e3f0fd;
 }
 
 :host ::ng-deep.mat-paginator .mat-paginator-container {
