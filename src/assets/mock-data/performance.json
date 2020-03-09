@@ -10,6 +10,7 @@
         "percentage": 14
       }
     },
+    "route": "/ServiceInteraction/Calls",
     "timeperiod": "Year to Date (Jan 1, 2020-Mar 31, 2020)"
   },
   {
@@ -23,6 +24,7 @@
         "percentage": 99
       }
     },
+    "route": "/ServiceInteraction/Calls",
     "timeperiod": "Year to Date (Jan 1, 2020-Mar 31, 2020)"
   },
   {
@@ -36,6 +38,7 @@
         "percentage": 80
       }
     },
+    "route": "/ServiceInteraction/Calls",
     "timeperiod": "Year to Date (Jan 1, 2020-Mar 31, 2020)"
   }
 ]

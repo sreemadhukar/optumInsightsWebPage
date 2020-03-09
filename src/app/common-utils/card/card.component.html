@@ -418,11 +418,18 @@
         <app-rlp-common-bar [data]="chartData"></app-rlp-common-bar>
       </div>
     </div>
-    <div *ngIf="chartData.timeperiod" class="full-width-block">
+    <div *ngIf="chartData.timeperiod && chartData.type != 'rlp-small-bar'" class="full-width-block">
       <app-common-footer
         [timePeriod]="chartData.timeperiod"
         [handleCaseForOverviewTile]="handleCaseForOverviewTile"
         [title]="chartData.title"
+      ></app-common-footer>
+    </div>
+    <div *ngIf="chartData.timeperiod && chartData.type == 'rlp-small-bar'" class="full-width-block">
+      <app-common-footer
+        [timePeriod]="chartData.timeperiod"
+        [linkName]="'View Details'"
+        [routePath]="chartData.route"
       ></app-common-footer>
     </div>
   </div>
