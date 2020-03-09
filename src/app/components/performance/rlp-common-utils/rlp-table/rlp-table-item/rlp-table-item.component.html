@@ -6,6 +6,7 @@
     {{ tableItem.groupName }}
   </div>
   <div class="rlp-table-label rlp-table-bar">
-    {{ tableItem.graphData.total }}
+    <!--    {{ tableItem.graphData.total }} -->
+    <app-rlp-common-bar [data]="tableBar"></app-rlp-common-bar>
   </div>
 </div>
