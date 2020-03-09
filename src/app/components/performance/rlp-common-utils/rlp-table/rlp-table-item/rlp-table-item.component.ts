@@ -12,7 +12,22 @@ interface IListItem {
 })
 export class RlpTableItemComponent implements OnInit {
   @Input() tableItem: IListItem;
+  tableBar: any;
   constructor() {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.tableBar = {
+      category: 'app-table-card',
+      type: 'rlp-table-bar',
+      status: 404,
+      title: 'Preferred Specialist Referral Rate',
+      data: {
+        gdata: {
+          count: '88/152',
+          percentage: 46
+        }
+      },
+      timeperiod: 'YTD (Jan 1, 2020—Mar 31, 2020)'
+    };
+  }
 }
