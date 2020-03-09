@@ -87,7 +87,7 @@
       "category": "app-table-card",
       "type": "rlp-table-bar",
       "status": 404,
-      "title": "Preferred Tier Prescribing Rate",
+      "title": "Preferred Lab Network Use Rate",
       "data": {
         "gdata": {
           "count": "132/210",
@@ -102,7 +102,7 @@
       "category": "app-large-card",
       "type": "rlp-large-bar",
       "status": 404,
-      "title": "Preferred Lab Network Use Rate",
+      "title": "Preferred Tier Prescribing Rate",
       "data": {
         "gdata": {
           "count": "405/450 Prescriptions",
