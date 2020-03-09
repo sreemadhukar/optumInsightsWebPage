@@ -32,7 +32,12 @@ export class RlpCommonBarComponent implements OnInit {
         percentage: this.data.data.gdata.percentage + '%'
       },
       tableCard: {
-        id: this.data.type + this.data.data.gdata.percentage + 'table',
+        id:
+          this.data.type +
+          this.data.data.gdata.percentage +
+          Math.floor(Math.random() * 1000) +
+          'table' +
+          Math.floor(Math.random() * 1000),
         height: '22px',
         width: '304px',
         color: ['#3381FF', '#E0E0E0'],
