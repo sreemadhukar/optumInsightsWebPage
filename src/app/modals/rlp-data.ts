@@ -18,20 +18,18 @@ export const rlpPageConf = {
   },
   Referral: {
     title: 'Preferred Specialist Referral Rate',
-    subTitle: `Here is where our optional page title description text would live if we needed to use it.
-    You can easily remove this from the design by hiding it in your symbol overrides. Please DO NOT detach this symbol.`
+    subTitle: `This measure’s objective is to evaluate referrals by primary care physicians (PCPs)
+    to preferred specialists who have demonstrated a high-quality and lower total cost of care performance.`
   },
   Labs: {
     title: 'Preferred Lab Network Use Rate',
-    subTitle: `Here is where our optional page title description text would live if we needed to use it. You can easily
-     remove this from the design by
-     hiding it in your symbol overrides. Please DO NOT detach this symbol.`
+    subTitle: `This measure’s objective is to evaluate use of the Preferred Lab Network which is
+    comprised of independent labs that have demonstrated high standards for quality, service and affordability.`
   },
   Perscription: {
     title: 'Preferred Tier Prescribing Rate',
-    subTitle: `Here is where our optional page title description text would live if we needed to use it.
-    You can easily remove this from the design
-    by hiding it in your symbol overrides. Please DO NOT detach this symbol.`
+    subTitle: `This measure’s objective is to evaluate rate of prescribing to the Pharmacy Preferred
+    Tiers 1 and 2 which typically have a lower cost than higher tier drugs.`
   }
 };
 export const rlpData: any = {
