@@ -29,6 +29,7 @@ export class CardComponent implements OnInit {
   allData: Boolean = true;
   selectedItemId: any = 0;
   medicareData: any;
+  routhPath: string;
 
   medicareBesideData = [{}];
   matOptionClicked(i: number, event: any) {
@@ -107,5 +108,18 @@ export class CardComponent implements OnInit {
         }
       }
     }
+  }
+
+  linkFunction(title: string) {
+    if (title === 'Preferred Specialist Referral Rate') {
+      this.routhPath = '/Performance/Referrals';
+    } else if (title === 'Preferred Lab Network Use Rate') {
+      this.routhPath = '/Performance/Labs';
+    } else if (title === 'Preferred Tier Prescribing Rate') {
+      this.routhPath = '/Performance/Prescriptions';
+    } else {
+      this.routhPath = '/Performance';
+    }
+    this.router.navigate([this.routhPath]);
   }
 }
