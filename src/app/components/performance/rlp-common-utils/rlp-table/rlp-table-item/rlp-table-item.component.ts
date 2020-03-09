@@ -24,7 +24,7 @@ export class RlpTableItemComponent implements OnInit {
       data: {
         gdata: {
           count: '88/152',
-          percentage: 46
+          percentage: this.tableItem.graphData.total
         }
       },
       timeperiod: 'YTD (Jan 1, 2020—Mar 31, 2020)'
