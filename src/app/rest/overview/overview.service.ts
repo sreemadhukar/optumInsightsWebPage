@@ -34,14 +34,10 @@ export class OverviewService {
         TimeFilter: 'Last6Months'
       };
       ediparams = {
-        ClaimsBy: 'DOS',
-        appealsProcessing: 'Received Date',
         TimeFilter: 'Last6Months',
         submissionTypes: ['EDI']
       };
       pprparams = {
-        ClaimsBy: 'DOS',
-        appealsProcessing: 'Received Date',
         TimeFilter: 'Last6Months',
         submissionTypes: ['PAPER']
       };
