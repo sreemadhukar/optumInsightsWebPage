@@ -52,7 +52,9 @@ export class CareDelivery {
             if (chartDataElement.units === 'K') {
               chartDataElement.quarters.push({ title: value });
             } else {
-              chartDataElement.quarters.push({ title: value + '' + chartDataElement.units });
+              chartDataElement.quarters.push({
+                title: value === 1 ? value + ' day' : value + '' + chartDataElement.units
+              });
             }
           } else {
             chartDataElement.report = false;
@@ -61,7 +63,7 @@ export class CareDelivery {
               value: value || 0,
               currentQuarter: true,
               id: index,
-              units: chartDataElement.units,
+              units: value === 1 ? 'day' : chartDataElement.units,
               section: this.section
             });
           }
@@ -96,7 +98,7 @@ export class CareDelivery {
         report: false,
         trends: false,
         color: ['#3381FF', '#80B0FF'],
-        metricType: 'priorauth'
+        metricType: 'priorauthtat'
       },
       {
         quarters: [],
