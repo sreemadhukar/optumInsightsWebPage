@@ -1,0 +1,10 @@
+<div class="form-group">
+  <label for="options">Options:</label>
+  <div *ngFor="let option of options">
+    <label>
+      <input type="checkbox" name="options" [(ngModel)]="option.checked" />
+      {{ option.name }}
+    </label>
+  </div>
+</div>
+<button type="submit" class="applybtn btn btn-primary2" mat-button (click)="previewPrint()">Print Preview</button>

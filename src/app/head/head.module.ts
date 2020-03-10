@@ -21,6 +21,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { KOPSharedService } from '../shared/kop/kop.service';
 import { KopService } from '../rest/kop/kop.service';
 import { ContactusComponent } from './contactus/contactus.component';
+import { PrintSelectorComponent } from './print-selector/print-selector.component';
 
 @NgModule({
   imports: [
@@ -32,7 +33,7 @@ import { ContactusComponent } from './contactus/contactus.component';
     ReactiveFormsModule,
     FormsModule
   ],
-  exports: [BodyComponent, HeaderComponent, UhciFiltersComponent],
+  exports: [BodyComponent, HeaderComponent, UhciFiltersComponent, PrintSelectorComponent],
   declarations: [
     HeaderComponent,
     HamburgerMenuComponent,
@@ -42,7 +43,8 @@ import { ContactusComponent } from './contactus/contactus.component';
     SiteMapComponent,
     TinListPageComponent,
     UhciFiltersComponent,
-    ContactusComponent
+    ContactusComponent,
+    PrintSelectorComponent
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

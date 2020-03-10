@@ -213,7 +213,7 @@
         class="sidenav-glossary"
         position="end"
         [fixedInViewport]="true"
-        [opened]="glossaryFlag || filterFlag"
+        [opened]="glossaryFlag || filterFlag || printSelector"
         id="side-nav-glossary"
         [disableClose]="true"
       >
@@ -241,6 +241,7 @@
               [MetricID]="glossaryMetricID"
             ></app-glossary>
             <app-uhci-filter *ngIf="filterFlag && !isKop" (filterFlag)="filterFlagChange($event)"></app-uhci-filter>
+            <app-print-selector *ngIf="printSelector"></app-print-selector>
             <!-- <app-kop-filters
               *ngIf="filterFlag && isKop"
               [filterurl]="filterurl"

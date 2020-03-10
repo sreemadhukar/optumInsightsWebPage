@@ -41,6 +41,8 @@ import { SessionService } from '../../shared/session.service';
 import { AcoEventEmitterService } from '../../shared/ACO/aco-event-emitter.service';
 import { FilterCloseService } from './../../shared/filters/filter-close.service';
 import { PcorService } from '../../rest/care-delivery/pcor.service';
+import { PrintService } from '../../shared/print.service';
+
 // import { HealthSystemDetailsSharedService } from '../../shared/advocate/health-system-details-shared.service';
 
 @Component({
@@ -82,6 +84,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
   public checkPro;
   public checkExecutive;
   printStyle: boolean;
+  printSelector = false;
 
   /*** Array of Navigation Category List ***/
   public navCategories = [];
@@ -171,6 +174,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     private eventEmitter: EventEmitterService,
     private acoEventEmitter: AcoEventEmitterService,
     private viewPortScroller: ViewportScroller,
+    private printService: PrintService,
     @Inject(DOCUMENT) private document: any
   ) {
     this.glossaryFlag = false;
@@ -347,6 +351,10 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
       this.AcoFlag = value.value;
     });
     this.navCategories = this.navCategoriesTotal.filter(item => !item.kop);
+
+    this.printService.getPrintChangeEmitter().subscribe(val => {
+      this.printSelector = val.value;
+    });
 
     this.eventEmitter.getEvent().subscribe(val => {
       this.isKop = val.value;

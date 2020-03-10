@@ -3,6 +3,7 @@ import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { select } from '@angular-redux/store';
+import { PrintService } from '../../shared/print.service';
 
 @Component({
   selector: 'app-print',
@@ -15,7 +16,12 @@ export class PrintComponent implements OnInit {
   selectedPage;
   overviewBool: boolean;
   printDisable: boolean;
-  constructor(private iconRegistry: MatIconRegistry, sanitizer: DomSanitizer, private router: Router) {
+  constructor(
+    private iconRegistry: MatIconRegistry,
+    sanitizer: DomSanitizer,
+    private router: Router,
+    private printService: PrintService
+  ) {
     /** INITIALIZING SVG ICONS TO USE IN DESIGN - ANGULAR MATERIAL */
 
     iconRegistry.addSvgIcon(
@@ -35,6 +41,7 @@ export class PrintComponent implements OnInit {
   }
   printIconClick() {
     // window.open(this.router.url + '/print-page', '_blank');
-    this.router.navigate(['print-page'], { queryParams: this.queryParams });
+    // this.router.navigate(['print-page'], { queryParams: this.queryParams });
+    this.printService.emitPrintChangeEvent(true);
   }
 }
