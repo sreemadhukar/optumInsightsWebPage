@@ -1,16 +1,37 @@
-export const pageSizeConf: Array<string> = ['25', '50', '100'];
+export interface IrlpHeader {
+  title: string;
+  subTitle: string;
+}
+export interface IrlpPages {
+  Summary: any;
+  Referral: any;
+  Labs: any;
+  Perscription: any;
+}
 
+export interface ItableData {
+  thead: Array<string>;
+  tbody: any;
+}
+// This is for dropdown size of the table
+export const pageSizeConf: Array<string> = ['25', '50', '100'];
+// This is initialize the pagination
 export const INITIAL_PAGINATION = {
   currentPageNumber: 1,
   setIndex: 0,
   endIndex: +pageSizeConf[0]
 };
 
-export interface IrlpHeader {
-  title: string;
-  subTitle: string;
-}
-export const rlpPageConf = {
+// This is for table static data
+export const staticTableData: IrlpPages = {
+  Summary: '',
+  Referral: ['TIN', 'Group Name', 'Preferred Specialist Referral Rate'],
+  Labs: ['TIN', 'Group Name', 'Preferred Lab Network Use Rate'],
+  Perscription: ['TIN', 'Group Name', 'Preferred Tier Prescribing Rate']
+};
+
+// This is for table title and subtitle
+export const rlpPageConf: IrlpPages = {
   Summary: {
     title: 'Performance Management Summary',
     subTitle: `Improve your performance through rendering, ordering, prescribing and

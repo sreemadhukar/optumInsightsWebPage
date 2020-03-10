@@ -1,10 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { NgRedux, select } from '@angular-redux/store';
+import { NgRedux } from '@angular-redux/store';
 import { IAppState } from '../../../store/store';
-import { CURRENT_PAGE, REMOVE_FILTER } from '../../../store/filter/actions';
+import { CURRENT_PAGE } from '../../../store/filter/actions';
 import { PerformanceService } from '../../../shared/performance/performance.service';
-import { rlpPageConf } from '../../../modals/rlp-data';
+import { rlpPageConf, staticTableData, ItableData } from '../../../modals/rlp-data';
 
+export interface ItableData {
+  thead: Array<string>;
+  tbody: any;
+}
 @Component({
   selector: 'app-labs',
   templateUrl: './labs.component.html',
@@ -14,7 +18,7 @@ export class LabsComponent implements OnInit {
   public titleForLabs;
   public subTitleForLabs;
   public labsItems;
-
+  public tableData: ItableData;
   constructor(private ngRedux: NgRedux<IAppState>, private perfShared: PerformanceService) {
     this.perfShared.getPerformanceData().subscribe((response: any) => {
       this.labsItems = response[2];
@@ -25,5 +29,6 @@ export class LabsComponent implements OnInit {
     this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'labsPage' });
     this.titleForLabs = rlpPageConf.Labs.title;
     this.subTitleForLabs = rlpPageConf.Labs.subTitle;
+    this.tableData.thead = staticTableData.Labs;
   }
 }

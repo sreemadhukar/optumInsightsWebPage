@@ -23,8 +23,9 @@
       />
     </div>
     <div class="rlp-table-bar" (click)="sortTableData()">
-      Preferred Specialist Referral Rate
-
+      <div class="table-head-text">
+        Preferred Specialist Referral Rate
+      </div>
       <mat-icon class="nav-menu-icons nav-menu-icons-down-arrow" *ngIf="!isAscending" svgIcon="downarrow"></mat-icon>
       <mat-icon
         class="nav-menu-icons nav-menu-icons-down-arrow-reverse"
@@ -70,10 +71,10 @@
         </form>
       </div>
       <div class="pagination-btn-widget">
-        <div (click)="prevClick()" class="previous-button" *ngIf="startIndex > 0">
+        <div (click)="prevClick()" class="previous-button">
           <button><mat-icon class="mat-icon-color" svgIcon="leftarrow"></mat-icon></button>
         </div>
-        <div (click)="nextClick()" class="next-button" *ngIf="currentPageNumber < totalPages">
+        <div (click)="nextClick()" class="next-button">
           <button><mat-icon class="mat-icon-color" svgIcon="rightarrow"></mat-icon></button>
         </div>
       </div>
