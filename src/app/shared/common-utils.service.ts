@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { SessionService } from './session.service';
 import { TimePeriod } from '../head/uhci-filters/filter-settings/filter-options';
+import { lobName } from '../modals/lob-name';
 
 @Injectable({
   providedIn: 'root'
@@ -108,37 +109,37 @@ export class CommonUtilsService {
   }
 
   public matchLobWithData(lob) {
-    if (lob === 'All') {
+    if (lob === lobName.all) {
       return 'All';
-    } else if (lob === 'Employer & Individual') {
+    } else if (lob === lobName.eAndICommerCial) {
       return 'Ei';
-    } else if (lob === 'Medicare & Retirement') {
+    } else if (lob === lobName.mAndRMedicare) {
       return 'Mr';
-    } else if (lob === 'Community & State') {
+    } else if (lob === lobName.cAndSMedicaid) {
       return 'Cs';
-    } else if (lob === 'Uncategorized') {
+    } else if (lob === lobName.unCategorized) {
       return 'Un';
     }
   }
   public matchLobWithCapsData(lob) {
-    if (lob === 'All') {
+    if (lob === lobName.all) {
       return 'All';
-    } else if (lob === 'Employer & Individual') {
+    } else if (lob === lobName.eAndICommerCial) {
       return 'EI';
-    } else if (lob === 'Medicare & Retirement') {
+    } else if (lob === lobName.mAndRMedicare) {
       return 'MR';
-    } else if (lob === 'Community & State') {
+    } else if (lob === lobName.cAndSMedicaid) {
       return 'CS';
     }
   }
   public matchLobWithLobData(lob) {
-    if (lob === 'All') {
+    if (lob === lobName.all) {
       return 'All';
-    } else if (lob === 'Employer & Individual') {
+    } else if (lob === lobName.eAndICommerCial) {
       return 'E&I';
-    } else if (lob === 'Medicare & Retirement') {
+    } else if (lob === lobName.mAndRMedicare) {
       return 'M&R';
-    } else if (lob === 'Community & State') {
+    } else if (lob === lobName.cAndSMedicaid) {
       return 'C&S';
     }
   }
@@ -166,13 +167,13 @@ export class CommonUtilsService {
     }
   }
   public matchFullLobWithData(lob) {
-    if (lob === 'All') {
+    if (lob === lobName.all) {
       return 'ALL';
-    } else if (lob === 'Employer & Individual') {
+    } else if (lob === lobName.eAndICommerCial) {
       return 'EmployerAndIndividual';
-    } else if (lob === 'Medicare & Retirement') {
+    } else if (lob === lobName.mAndRMedicare) {
       return 'MedicareAndRetirement';
-    } else if (lob === 'Community & State') {
+    } else if (lob === lobName.cAndSMedicaid) {
       return 'CommunityAndState';
     }
   }
@@ -343,44 +344,44 @@ export class CommonUtilsService {
           (cardData.hasOwnProperty('Mr') && cardData.Mr !== null) ||
           (cardData.hasOwnProperty('MedicareAndRetirement') && cardData.MedicareAndRetirement !== null)
         ) {
-          hoverLabels.push('Medicare & Retirement');
+          hoverLabels.push(lobName.mAndRMedicare);
         }
         if (
           (cardData.hasOwnProperty('Cs') && cardData.Cs !== null) ||
           (cardData.hasOwnProperty('CommunityAndState') && cardData.CommunityAndState !== null)
         ) {
-          hoverLabels.push('Community & State');
+          hoverLabels.push(lobName.cAndSMedicaid);
         }
         if (
           (cardData.hasOwnProperty('Ei') && cardData.Ei !== null) ||
           (cardData.hasOwnProperty('EmployerAndIndividual') && cardData.EmployerAndIndividual !== null)
         ) {
-          hoverLabels.push('Employer & Individual');
+          hoverLabels.push(lobName.eAndICommerCial);
         }
         if (
           (cardData.hasOwnProperty('Un') && cardData.Un !== null) ||
           (cardData.hasOwnProperty('UNKNOWN') && cardData.UNKNOWN !== null)
         ) {
-          hoverLabels.push('Uncategorized');
+          hoverLabels.push(lobName.unCategorized);
         }
       } else if (lobValue === 'Mr' || lobValue === 'MedicareAndRetirement') {
         if (cardData.hasOwnProperty('Mr') || cardData.hasOwnProperty('MedicareAndRetirement')) {
-          hoverLabels.push('Medicare & Retirement');
+          hoverLabels.push(lobName.mAndRMedicare);
           hoverLabels.push('Other Lines of Business');
         }
       } else if (lobValue === 'Cs' || lobValue === 'CommunityAndState') {
         if (cardData.hasOwnProperty('Cs') || cardData.hasOwnProperty('CommunityAndState')) {
-          hoverLabels.push('Community & State');
+          hoverLabels.push(lobName.cAndSMedicaid);
           hoverLabels.push('Other Lines of Business');
         }
       } else if (lobValue === 'Ei' || lobValue === 'EmployerAndIndividual') {
         if (cardData.hasOwnProperty('Ei') || cardData.hasOwnProperty('EmployerAndIndividual')) {
-          hoverLabels.push('Employer & Individual');
+          hoverLabels.push(lobName.eAndICommerCial);
           hoverLabels.push('Other Lines of Business');
         }
       } else if (lobValue === 'Un' || lobValue === 'UNKNOWN') {
         if (cardData.hasOwnProperty('Un' || cardData.hasOwnProperty('UNKNOWN'))) {
-          hoverLabels.push('Uncategorized');
+          hoverLabels.push(lobName.unCategorized);
           hoverLabels.push('Other Lines of Business');
         }
       }
@@ -470,14 +471,14 @@ export class CommonUtilsService {
   }
 
   /*
- labels: ['Medicare & Retirement', 'Community & State', 'Employer & Individual', 'Uncategorized'],
+ labels: [lobName.mAndRMedicare, lobName.cAndSMedicaid, lobName.eAndICommerCial, lobName.unCategorized],
  color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC']
 * */
 
   // ALL
-  // MedicareAndRetirement
-  // CommunityAndState
-  // EmployerAndIndividual
+  // Medicare
+  // Medicaid
+  // Commercial
   // Uncategorized
   public graphValuePrint(LOBType, data, value) {
     const keys = this.LOBSideLabels(LOBType, data);
@@ -488,33 +489,35 @@ export class CommonUtilsService {
     }
     return combine;
   }
+
+  // This function is used in Payment page for the Claims paid card
   public LOBSideLabels(LOBType, data) {
     const lobLabels = [];
     if (LOBType === 'All' || LOBType === 'ALL') {
       if (data[0] > 0) {
-        lobLabels.push('Medicare & Retirement');
+        lobLabels.push(lobName.mAndRMedicare);
       }
       if (data[1] > 0) {
-        lobLabels.push('Community & State');
+        lobLabels.push(lobName.cAndSMedicaid);
       }
       if (data[2] > 0) {
-        lobLabels.push('Employer & Individual');
+        lobLabels.push(lobName.eAndICommerCial);
       }
       if (data[3] > 0) {
-        lobLabels.push('Uncategorized');
+        lobLabels.push(lobName.unCategorized);
       }
     } else {
       if (LOBType === 'Mr' || LOBType === 'MedicareAndRetirement') {
-        lobLabels.push('Medicare & Retirement');
+        lobLabels.push(lobName.mAndRMedicare);
       }
       if (LOBType === 'Cs' || LOBType === 'CommunityAndState') {
-        lobLabels.push('Community & State');
+        lobLabels.push(lobName.cAndSMedicaid);
       }
       if (LOBType === 'Ei' || LOBType === 'EmployerAndIndividual') {
-        lobLabels.push('Employer & Individual');
+        lobLabels.push(lobName.eAndICommerCial);
       }
       if (LOBType === 'Un' || LOBType === 'Uncategorized') {
-        lobLabels.push('Uncategorized');
+        lobLabels.push(lobName.unCategorized);
       }
     }
     return lobLabels;
@@ -524,29 +527,29 @@ export class CommonUtilsService {
     const lobColorLabels = [];
     if (LOBType === 'All' || LOBType === 'ALL') {
       if (data.Mr !== null) {
-        lobColorLabels.push('Medicare & Retirement'); // M and R Color
+        lobColorLabels.push(lobName.mAndRMedicare); // M and R Color
       }
       if (data.Cs !== null) {
-        lobColorLabels.push('Community & State'); // C and S Color
+        lobColorLabels.push(lobName.cAndSMedicaid); // C and S Color
       }
       if (data.Ei !== null) {
-        lobColorLabels.push('Employer & Individual'); // E and I Color
+        lobColorLabels.push(lobName.eAndICommerCial); // E and I Color
       }
       if (data.Un !== null) {
-        lobColorLabels.push('Uncategorized'); // Un Color
+        lobColorLabels.push(lobName.unCategorized); // Un Color
       }
     } else {
       if (LOBType === 'Mr' || LOBType === 'MedicareAndRetirement') {
-        lobColorLabels.push('Medicare & Retirement');
+        lobColorLabels.push(lobName.mAndRMedicare);
       }
       if (LOBType === 'Cs' || LOBType === 'CommunityAndState') {
-        lobColorLabels.push('Community & State');
+        lobColorLabels.push(lobName.cAndSMedicaid);
       }
       if (LOBType === 'Ei' || LOBType === 'EmployerAndIndividual') {
-        lobColorLabels.push('Employer & Individual');
+        lobColorLabels.push(lobName.eAndICommerCial);
       }
       if (LOBType === 'Un' || LOBType === 'Uncategorized') {
-        lobColorLabels.push('Uncategorized');
+        lobColorLabels.push(lobName.unCategorized);
       }
     }
     return lobColorLabels;

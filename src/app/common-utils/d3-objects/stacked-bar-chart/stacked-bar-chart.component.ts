@@ -6,6 +6,10 @@ import * as d3 from 'd3';
   templateUrl: './stacked-bar-chart.component.html',
   styleUrls: ['./stacked-bar-chart.component.scss'],
   encapsulation: ViewEncapsulation.None
+  // tslint:disable-next-line:use-host-property-decorator
+  // host: {
+  //   '(window:resize)': 'onResize($event)'
+  // }
 })
 export class StackedBarChartComponent implements OnInit, AfterViewInit {
   public width: any;
@@ -17,11 +21,23 @@ export class StackedBarChartComponent implements OnInit, AfterViewInit {
     this.renderChart = '#' + this.chartOptions.chartId;
   }
 
+  // tslint:disable-next-line:use-life-cycle-interface
   ngAfterViewInit() {
     this.doStaggedBarGraph(this.chartOptions);
   }
 
+  // onResize(event) {
+  //   this.doStaggedBarGraph(this.chartOptions);
+  // }
+
+  onSystemChange() {
+    this.doStaggedBarGraph(this.chartOptions.data);
+  }
+
+  // tslint:disable-next-line:use-life-cycle-interface
+
   doStaggedBarGraph(barData) {
+    console.log('barData', barData);
     function nondecimalFormatter(fnumber) {
       if (fnumber >= 1000000000) {
         return (fnumber / 1000000000).toFixed(1).replace(/\.0$/, '') + 'B';
@@ -89,7 +105,18 @@ export class StackedBarChartComponent implements OnInit, AfterViewInit {
     const yAxisGroup = graph.append('g');
     const leftContainer = svg.append('g').attr('transform', `translate(${margin.left - 180}, ${margin.top + 85})`);
 
+    console.log('this.chartOptions.chartId', barData);
     const data = barData.graphValues;
+
+    /*** ADDED  BELOW CODE AS PER SHANNON's REQUEST ***/
+    const svgText = svg
+      .append('text')
+      .attr('x', () => 88)
+      .attr('y', () => 240)
+      .attr('fill', '#757588')
+      .text('*Claims are calculated from first Date of Service.')
+      .classed('labels', true);
+    /*** ADDED  ABOVE CODE AS PER SHANNON's REQUEST ***/
 
     // Data Binding to be used
     /*const data = [
@@ -100,6 +127,7 @@ export class StackedBarChartComponent implements OnInit, AfterViewInit {
       }
     ];*/
 
+    console.log('left Cont', leftContainer);
     leftContainer
       .append('circle')
       .attr('cx', () => 10)

@@ -6,7 +6,12 @@ import { NgRedux } from '@angular-redux/store';
 import { CURRENT_PAGE } from '../../../store/filter/actions';
 import { IAppState } from '../../../store/store';
 import { ActivatedRoute } from '@angular/router';
-
+import { MatIconRegistry } from '@angular/material';
+import { DomSanitizer } from '@angular/platform-browser';
+import { Router } from '@angular/router';
+import { environment } from 'src/environments/environment';
+import { SessionService } from 'src/app/shared/session.service';
+declare const externalRatingIntercept: any;
 @Component({
   selector: 'app-patient-care-opportunity',
   templateUrl: './patient-care-opportunity.component.html',
@@ -19,6 +24,7 @@ export class PatientCareOpportunityComponent implements OnInit {
   qualityMeasureData: any;
   pageTitle: String = '';
   pageSubTitle: String = '';
+  pageMainTitle: String = '';
   loading: boolean;
   pcorBoolean: boolean;
   pcorLoading: boolean;
@@ -39,15 +45,30 @@ export class PatientCareOpportunityComponent implements OnInit {
   qualityTitle: String = 'Quality Star Rating';
   customFormatting: Array<Object> = [];
   queryParamsObj: any = {};
+  reportTitle: String;
+  reportText: String;
+  reportLink: String;
+  subtitle: any;
+  printpageSubTitle: String = '';
+  isInternal: boolean = environment.internalAccess;
   constructor(
     private checkStorage: StorageService,
     private route: ActivatedRoute,
     private pcorService: PcorSharedService,
     private filtermatch: CommonUtilsService,
-    private ngRedux: NgRedux<IAppState>
+    private ngRedux: NgRedux<IAppState>,
+    private iconRegistry: MatIconRegistry,
+    private sanitizer: DomSanitizer,
+    private router: Router,
+    private sessionService: SessionService
   ) {
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.filtermatch.urlResuseStrategy());
+    iconRegistry.addSvgIcon(
+      'external-link',
+      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Navigation/open_in_new-24px.svg')
+    );
   }
+
   public ratingComponentClick(clickObj: any): void {
     this.pcorService.getQualityMeasureData().then(data => {
       this.pcorData = JSON.parse(JSON.stringify(data));
@@ -72,6 +93,7 @@ export class PatientCareOpportunityComponent implements OnInit {
       return a;
     }
   }
+
   public customFormattingMeasureDescription(customLabelGrid, data) {
     for (let i = 0; i < data.length; i++) {
       if (data[i].insideData) {
@@ -125,14 +147,23 @@ export class PatientCareOpportunityComponent implements OnInit {
       }
     }
   }
+
   ngOnInit() {
+    if (!this.isInternal) {
+      externalRatingIntercept();
+    }
     this.route.queryParams.subscribe((queryParams: any) => {
       if (queryParams && queryParams.selectedItemId) {
         this.selectedItemId = queryParams.selectedItemId;
       }
+      if (this.router.url.includes('print-')) {
+        this.subtitle = true;
+        this.printStyle = true;
+      }
       this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'pcorPage' });
-      this.pageTitle = 'Patient Care Opportunity–Medicare & Retirement';
+      this.pageTitle = 'Patient Care Opportunity–Medicare';
       this.pageSubTitle = 'Health System Summary';
+      this.pageMainTitle = this.sessionService.getHealthCareOrgName();
       this.loading = true;
       this.hideAllObjects = true;
       this.mockCards = [{}, {}];
@@ -177,8 +208,8 @@ export class PatientCareOpportunityComponent implements OnInit {
       ];
 
       /** The following service method is fetching data for
-       * 1. Medicare & Retirement Average Star Rating
-       * 2. Medicare & Retirement Annual Care Visits Completion Rate
+       * 1. Medicare Average Star Rating
+       * 2. Medicare Annual Care Visits Completion Rate
        * 3. Quality Star top level information i.e. star count only
        */
       /** The following service method is fetching data for
@@ -212,5 +243,14 @@ export class PatientCareOpportunityComponent implements OnInit {
           this.loading = false;
         });
     });
+    this.reportTitle = 'View the PCOR Report';
+    this.reportLink = 'View the Patient Care Opportunity Report';
   }
+  /* PCORreport() {
+    if (this.isInternal) {
+      window.open('https://webep1428/PCORMRPROD/');
+    } else {
+      window.open('https://www.uhcprovider.com/en/reports-quality-programs/physician-perf-based-comp.html');
+    }
+  } */
 }

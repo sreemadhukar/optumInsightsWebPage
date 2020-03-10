@@ -129,7 +129,7 @@ export class GlossaryComponent implements OnInit {
         }
       }
       if (this.title === 'Medicare Star Rating') {
-        this.title = 'Medicare & Retirement Average Star Rating';
+        this.title = 'Medicare Average Star Rating';
       }
       // if id not exist in metricId table/database then we chose by title i.e. is includes()
       if (this.glossaryList) {

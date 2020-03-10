@@ -149,11 +149,7 @@ export class CreatePayloadService {
       temporaryState.currentPage === 'nonPaymentsPage' ||
       temporaryState.currentPage === 'gettingReimbursedSummary'
     ) {
-      if (
-        temporaryState.timePeriod === 'Last12Months' ||
-        temporaryState.timePeriod === '2018' ||
-        temporaryState.timePeriod === '2017'
-      ) {
+      if (temporaryState.timePeriod === '2018') {
         temporaryState.timePeriod = 'Last6Months';
       }
     } else {

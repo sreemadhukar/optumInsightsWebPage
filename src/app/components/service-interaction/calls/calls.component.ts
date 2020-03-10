@@ -11,7 +11,6 @@ import { CURRENT_PAGE } from '../../../store/filter/actions';
 import { IAppState } from '../../../store/store';
 import { CreatePayloadService } from '../../../shared/uhci-filters/create-payload.service';
 import { REMOVE_FILTER } from '../../../store/filter/actions';
-
 @Component({
   selector: 'app-calls',
   templateUrl: './calls.component.html',

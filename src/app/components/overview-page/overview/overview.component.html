@@ -1,5 +1,3 @@
-<app-feedback></app-feedback>
-
 <div class="overview-body" color="primary" id="print-overview">
   <div
     class="overview-content"
@@ -8,7 +6,8 @@
   >
     <div class="cards cust-width-title">
       <div class="page-title">{{ pageTitle }}</div>
-      <div class="page-subtitle">{{ pagesubTitle }}</div>
+      <div *ngIf="!printStyle" class="page-subtitle">{{ pagesubTitle }}</div>
+      <div *ngIf="printStyle" [ngClass]="{ 'print-page-subtitle': printStyle === true }">{{ pagesubTitle }}</div>
     </div>
     <div class="cards cust-width-blank">
       <app-print> </app-print>
