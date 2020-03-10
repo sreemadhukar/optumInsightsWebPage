@@ -23,6 +23,7 @@ export class HealthSystemDetailsComponent implements OnInit {
 
   ngOnInit() {
     this.healthSystemData = null;
+    this.checkStorage.emitEvent('HealthSystemDetails');
     this.getHealthSystemDetails();
   }
 

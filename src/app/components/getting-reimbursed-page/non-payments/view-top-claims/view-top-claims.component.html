@@ -30,6 +30,7 @@
         <div>
           <select class="reason-dropdown" (change)="selectTopReason($event.target.value)">
             <option
+              class="reason-option"
               [value]="maintopreasons.mainReason"
               *ngFor="let maintopreasons of fullData"
               [selected]="selectedReasonItem === maintopreasons.mainReason"
@@ -37,6 +38,7 @@
               {{ maintopreasons.mainReason }}
             </option>
           </select>
+          <mat-icon matPrefix class="tax-summary-arrow-icon" svgIcon="arrow"></mat-icon>
         </div>
       </div>
       <div class="sub-reason-div">
@@ -44,6 +46,7 @@
         <div>
           <select class="reason-dropdown" (change)="selectsubReason($event.target.value)">
             <option
+              class="reason-option"
               [value]="subReason"
               *ngFor="let subReason of selectedSubreasonArray"
               [selected]="selectedSubreason === subReason"
@@ -51,6 +54,7 @@
               {{ subReason }}
             </option>
           </select>
+          <mat-icon matPrefix class="tax-summary-arrow-icon" svgIcon="arrow"></mat-icon>
         </div>
       </div>
     </div>
@@ -70,15 +74,23 @@
             mat-table
             [dataSource]="selectedclaims"
             matSort
+            (matSortChange)="sortData($event)"
             matSortActive="NonPaymentAmount"
             matSortDirection="desc"
             matSortDisableClear
           >
             <ng-container matColumnDef="TinNumber">
               <th mat-header-cell *matHeaderCellDef class="tax-id-text">
-                <span mat-sort-header>Tax ID <br />Number </span>
-                <div>
-                  <input class="tax-summary-name-input" matInput [formControl]="tinNumberFilter" />
+                <span mat-sort-header>Tax ID Number </span>
+                <div class="search-box">
+                  <input class="tax-summary-name-input" matInput type="search" [formControl]="tinNumberFilter" />
+                  <mat-icon matSuffix svgIcon="search" *ngIf="!tinNumberFilter.value"></mat-icon>
+                  <mat-icon
+                    matSuffix
+                    svgIcon="close"
+                    (click)="clearValue('tinNumberFilter')"
+                    *ngIf="tinNumberFilter.value"
+                  ></mat-icon>
                 </div>
               </th>
               <td mat-cell class="tin-name-input" *matCellDef="let element">
@@ -89,13 +101,17 @@
 
             <ng-container matColumnDef="ProviderName">
               <th mat-header-cell *matHeaderCellDef>
-                <span mat-sort-header>
-                  Provider <br />
-                  Name</span
-                >
+                <span mat-sort-header> Provider Name</span>
 
-                <div>
+                <div class="search-box">
                   <input matInput class="tax-summary-provider-input" [formControl]="provideNameFilter" />
+                  <mat-icon matSuffix svgIcon="search" *ngIf="!provideNameFilter.value"></mat-icon>
+                  <mat-icon
+                    matSuffix
+                    svgIcon="close"
+                    (click)="clearValue('provideNameFilter')"
+                    *ngIf="provideNameFilter.value"
+                  ></mat-icon>
                 </div>
               </th>
               <td mat-cell class="tax-summary-table-cell" *matCellDef="let element">
@@ -103,7 +119,7 @@
               </td>
             </ng-container>
             <ng-container matColumnDef="NonPaymentAmount">
-              <th mat-header-cell *matHeaderCellDef>
+              <th mat-header-cell *matHeaderCellDef class="custom_non_payment">
                 <span mat-sort-header> Non-Payment Amount</span>
               </th>
               <td mat-cell class="tax-summary-table-cell" *matCellDef="let element">
@@ -127,14 +143,21 @@
               </th>
 
               <td mat-cell class="tax-summary-table-cell" *matCellDef="let element">
-                {{ element.DateOfProcessing }}
+                {{ element.DateOfProcessing | date: 'MMM dd, yyyy' }}
               </td>
             </ng-container>
             <ng-container matColumnDef="ClaimNumber">
               <th mat-header-cell *matHeaderCellDef>
-                <span mat-sort-header> Claim <br />Number</span>
-                <div>
+                <span mat-sort-header> Claim Number</span>
+                <div class="search-box">
                   <input class="tax-summary-claims-input " matInput [formControl]="claimNumberFilter" />
+                  <mat-icon matSuffix svgIcon="search" *ngIf="!claimNumberFilter.value"></mat-icon>
+                  <mat-icon
+                    matSuffix
+                    svgIcon="close"
+                    (click)="clearValue('claimNumberFilter')"
+                    *ngIf="claimNumberFilter.value"
+                  ></mat-icon>
                 </div>
               </th>
               <td mat-cell class="tax-summary-table-cell" *matCellDef="let element">

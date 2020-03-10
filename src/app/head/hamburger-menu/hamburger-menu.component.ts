@@ -50,6 +50,7 @@ import { PcorService } from '../../rest/care-delivery/pcor.service';
   encapsulation: ViewEncapsulation.None
 })
 export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy, AfterViewChecked {
+  currentYear = new Date().getFullYear();
   _allExpandState = false;
   loading = false;
   isDarkTheme: Observable<boolean>;
@@ -86,7 +87,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
   public navCategories = [];
   public navCategoriesTotal = [
     { icon: 'home', name: 'Overview', path: '/NationalExecutive', disabled: false, kop: true },
-    // { icon: 'summary', name: 'NPS Summary', path: '/NationalExecutive/NpsDetail', disabled: false, kop: true },
+    { icon: 'summary', name: 'NPS Summary', path: '/NationalExecutive/NpsDetail', disabled: false, kop: true },
     // {
     //   icon: 'person',
     //   name: 'Onboarding',
@@ -401,6 +402,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
         setTimeout(() => {
           this.viewPortScroller.scrollToPosition([0, 0]);
         }, 500);
+        this.stopBodyScroll(true);
       },
       err => {
         console.log('Error, clickHelpIcon , inside Hamburger', err);
@@ -415,6 +417,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
         setTimeout(() => {
           this.viewPortScroller.scrollToPosition([0, 0]);
         }, 500);
+        this.stopBodyScroll(true);
       },
       err => {
         console.log('Error, clickHelpIcon , inside Hamburger', err);
@@ -428,6 +431,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
           this.filterData = filterData;
           this.customFilter = customFilter;
           this.filterurl = url;
+          this.stopBodyScroll(true);
         }
       },
       err => {
@@ -613,15 +617,23 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
   closeGlossary() {
     this.glossaryFlag = false;
     this.glossaryTitle = null;
+    this.stopBodyScroll(false);
   }
   filterFlagChange(flag) {
     this.filterFlag = flag;
     this.filterurl = null;
+    this.stopBodyScroll(false);
   }
   closeFilter() {
     this.filterFlag = false;
     this.filterurl = null;
+    this.stopBodyScroll(false);
   }
+
+  stopBodyScroll(flag: boolean) {
+    document.body.style.overflow = flag ? 'hidden' : 'auto';
+  }
+
   signOut() {
     this.authService.logout();
     if (!environment.internalAccess) {
@@ -635,6 +647,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     if (this.glossaryFlag) {
       this.glossaryFlag = false;
     }
+    this.stopBodyScroll(false);
   }
 
   /**

@@ -13,7 +13,9 @@
       >
         {{ pageTitle }}
       </div>
-      <div *ngIf="printStyle" [ngClass]="{ 'print-page-subtitle': printStyle === true }">{{ printpageSubTitle }}</div>
+      <div *ngIf="printStyle" [ngClass]="{ 'print-page-subtitle-header': printStyle === true }">
+        View more in-depth details of your health system summary.
+      </div>
       <div *ngIf="!subtitle" class="page-subtitle">
         <span class="page-subtitle-header">View more in-depth details of your health system summary.</span>
         &nbsp; <span class="subtitle-reportLink" (click)="PCORreport()"> {{ reportLink }}</span> &nbsp;

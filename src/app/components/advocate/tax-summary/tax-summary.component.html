@@ -58,19 +58,20 @@
             {{ element.TaxIdType | sliceString }}
           </td>
         </ng-container>
-        <ng-container matColumnDef="MajorMarketName">
+        <ng-container matColumnDef="TaxIdOwnership">
           <th mat-header-cell *matHeaderCellDef>
-            Market
+            Tax ID Ownership
             <div>
-              <select class="tax-summary-input">
+              <select class="tax-summary-input" (change)="searchTaxId($event.target.value, 'TaxIdOwnership')">
                 <option>All</option>
-                <option>{{ data.MajorMarketName | countryFormatter }}</option>
+                <option>Owned</option>
+                <option>Affiliated</option>
               </select>
               <mat-icon matPrefix class="tax-summary-arrow-icon" svgIcon="arrow"></mat-icon>
             </div>
           </th>
-          <td mat-cell class="tax-summary-table-cell" *matCellDef="">
-            {{ data.MajorMarketName | countryFormatter }}
+          <td mat-cell class="tax-summary-table-cell" *matCellDef="let element">
+            {{ element.TaxIdOwnership | titlecase }}
           </td>
         </ng-container>
         <tr mat-header-row *matHeaderRowDef="taxSummaryColumns"></tr>

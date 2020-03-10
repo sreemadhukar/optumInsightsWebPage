@@ -349,8 +349,8 @@ export class OverviewAdvocateSharedService {
                 graphValues: [
                   {
                     name: '',
-                    electronic: getData.EDISubmissions.All.ClaimsLobSummary[0].WriteOffAmount,
-                    paper: getData.PaperSubmissions.All.ClaimsLobSummary[0].WriteOffAmount
+                    electronic: getData.EDISubmissions.All.ClaimsLobSummary[0].AmountPaid,
+                    paper: getData.PaperSubmissions.All.ClaimsLobSummary[0].AmountPaid
                   }
                 ],
                 color: ['#3381FF', '#00B8CC'],

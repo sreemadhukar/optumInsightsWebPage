@@ -20,6 +20,7 @@ import { DOCUMENT } from '@angular/common';
   styleUrls: ['./login-stub.component.scss']
 })
 export class LoginStubComponent implements OnInit {
+  currentYear = new Date().getFullYear();
   isInternal: boolean = environment.internalAccess;
   loginForm: FormGroup;
   loading = false;
