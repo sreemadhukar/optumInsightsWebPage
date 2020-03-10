@@ -1,6 +1,6 @@
 import { DomSanitizer } from '@angular/platform-browser';
 import { MatIconRegistry } from '@angular/material';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { rlpData, INITIAL_PAGINATION, pageSizeConf } from '../../../../modals/rlp-data';
 @Component({
   selector: 'app-rlp-table',
@@ -8,9 +8,11 @@ import { rlpData, INITIAL_PAGINATION, pageSizeConf } from '../../../../modals/rl
   styleUrls: ['./rlp-table.component.scss']
 })
 export class RlpTableComponent implements OnInit, OnDestroy {
+  @Input() data;
   public qTinSearch: string; // Input ngModel of Tin Search
   public qGroupNameSearch: string; // Input ngModel of GroupName
   public tableData: any; // This varibale is used for the pipe
+  public tableHeader: Array<string>;
   public afterQuery: any; // afterquery is an array of type Table Data and used to check the filtered array of items
   public currentPageNumber: number; // Input the ngModel for page number
   public selectPageSize: string; // Dropdown ngModel select value
@@ -24,14 +26,6 @@ export class RlpTableComponent implements OnInit, OnDestroy {
       'downarrow',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/arrow_downward-24px.svg')
     );
-    iconRegistry.addSvgIcon(
-      'rightarrow',
-      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/chevron_right-24px.svg')
-    );
-    iconRegistry.addSvgIcon(
-      'leftarrow',
-      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/chevron_left-24px.svg')
-    );
   }
 
   ngOnInit() {
@@ -42,6 +36,7 @@ export class RlpTableComponent implements OnInit, OnDestroy {
     this.totalPages = Math.ceil(this.tableData.length / +this.selectPageSize);
     this.setPagination();
     this.isAscending = true;
+    console.log('Data', this.tableData);
   }
 
   /**

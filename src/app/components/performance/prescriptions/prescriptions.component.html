@@ -15,15 +15,11 @@
       ></app-rlp-header>
       <!-- Header Title ends-->
     </div>
-    <!-- <div *ngFor="let item of prescriptionsItems; let i = index">
-      <app-error-card *ngIf="item.data == null && item.status != null" class="cards" [data]="item"></app-error-card>
-      <app-rlp-common-bar *ngIf="item.data != null && item.category != 'app-card'" [data]="item"></app-rlp-common-bar>
-    </div> -->
     <div class="container-body">
       <!-- Large Card content-->
       <app-rlp-long-card [config]="prescriptionsItems[0]"></app-rlp-long-card>
       <!-- Large Card content ends-->
-      <app-rlp-table></app-rlp-table>
+      <app-rlp-table [data]="tableData"></app-rlp-table>
     </div>
   </div>
   <!--container content ends-->
