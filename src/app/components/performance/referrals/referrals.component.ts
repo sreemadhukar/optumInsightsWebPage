@@ -11,8 +11,8 @@ import { rlpPageConf, staticTableData, ItableData } from '../../../modals/rlp-da
   styleUrls: ['./referrals.component.scss']
 })
 export class ReferralsComponent implements OnInit {
-  public titleForReferrals;
-  public subTitleForReferrals;
+  public title: string;
+  public subTitle: string;
   public referralsItems;
   public tableData: ItableData;
 
@@ -24,9 +24,8 @@ export class ReferralsComponent implements OnInit {
 
   ngOnInit() {
     this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'referralsPage' });
+    this.title = rlpPageConf.Referral.title;
+    this.subTitle = rlpPageConf.Referral.subTitle;
     this.tableData.thead = staticTableData.Referral;
-
-    this.titleForReferrals = rlpPageConf.Referral.title;
-    this.subTitleForReferrals = rlpPageConf.Referral.subTitle;
   }
 }
