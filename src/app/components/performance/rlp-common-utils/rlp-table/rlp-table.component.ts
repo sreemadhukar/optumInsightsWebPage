@@ -36,7 +36,7 @@ export class RlpTableComponent implements OnInit, OnDestroy {
     this.totalPages = Math.ceil(this.tableData.length / +this.selectPageSize);
     this.setPagination();
     this.isAscending = true;
-    console.log('Data', this.tableData);
+    console.log('Data', this.data);
   }
 
   /**
@@ -65,26 +65,38 @@ export class RlpTableComponent implements OnInit, OnDestroy {
    */
   pageSizeMethod() {
     this.totalPages = Math.ceil(this.afterQuery.length / +this.selectPageSize);
-    this.setPagination(
-      this.totalPages < this.currentPageNumber ? this.totalPages : this.currentPageNumber,
-      (this.currentPageNumber - 1) * +this.selectPageSize,
-      this.currentPageNumber * +this.selectPageSize
-    );
+    if (this.totalPages < this.currentPageNumber) {
+      this.setPagination(
+        this.totalPages,
+        (this.totalPages - 1) * +this.selectPageSize,
+        this.totalPages * +this.selectPageSize
+      );
+    } else {
+      this.setPagination(
+        this.currentPageNumber,
+        (this.currentPageNumber - 1) * +this.selectPageSize,
+        this.currentPageNumber * +this.selectPageSize
+      );
+    }
   }
 
   prevClick() {
-    this.setPagination(
-      --this.currentPageNumber,
-      (this.currentPageNumber - 1) * +this.selectPageSize,
-      this.currentPageNumber * +this.selectPageSize
-    );
+    if (this.currentPageNumber > 1) {
+      this.setPagination(
+        --this.currentPageNumber,
+        (this.currentPageNumber - 1) * +this.selectPageSize,
+        this.currentPageNumber * +this.selectPageSize
+      );
+    }
   }
   nextClick() {
-    this.setPagination(
-      ++this.currentPageNumber,
-      (this.currentPageNumber - 1) * +this.selectPageSize,
-      this.currentPageNumber * +this.selectPageSize
-    );
+    if (this.currentPageNumber + 1 < this.totalPages) {
+      this.setPagination(
+        ++this.currentPageNumber,
+        (this.currentPageNumber - 1) * +this.selectPageSize,
+        this.currentPageNumber * +this.selectPageSize
+      );
+    }
   }
 
   /**
