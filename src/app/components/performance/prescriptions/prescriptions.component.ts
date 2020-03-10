@@ -11,8 +11,8 @@ import { rlpPageConf, staticTableData, ItableData } from '../../../modals/rlp-da
   styleUrls: ['./prescriptions.component.scss']
 })
 export class PrescriptionsComponent implements OnInit {
-  public titleForPrescriptions;
-  public subTitleForPrescriptions;
+  public title: string;
+  public subTitle: string;
   public prescriptionsItems;
   public tableData: ItableData;
 
@@ -24,8 +24,9 @@ export class PrescriptionsComponent implements OnInit {
 
   ngOnInit() {
     this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'prescriptionsPage' });
+    this.title = rlpPageConf.Perscription.title;
+    this.subTitle = rlpPageConf.Perscription.subTitle;
+
     this.tableData.thead = staticTableData.Perscription;
-    this.titleForPrescriptions = rlpPageConf.Perscription.title;
-    this.subTitleForPrescriptions = rlpPageConf.Perscription.subTitle;
   }
 }

@@ -56,3 +56,167 @@ export interface ISelfService {
   PriorAuth: string;
   PatientCareOpportunity: string;
 }
+
+export interface ISelfService2 {
+  All: {
+    ClaimsLobSummary: [
+      {
+        AmountSubmitted: number;
+        AmountPaid: number;
+        DenialMonth: number;
+        AmountDenied: number;
+        ClaimsDenied: number;
+        AmountBilled: number;
+        AmountCompleted: number;
+        AmountUHCPaid: number;
+        AmountActualAllowed: number;
+        AmountExpectedAllowed: number;
+        PatientResponsibleAmount: number;
+        WriteOffAmount: number;
+        EstimatedAllowedSelectDeniedAmount: number;
+        ProviderNotCoveredAmount: number;
+        DosToReceived: number;
+        ReceivedToPaid: number;
+        ClaimsCompleted: number;
+        ClaimsYieldRate: number;
+        ClaimsNonPaymentRate: number;
+        AvgDosToReceived: number;
+        AvgReceivedToPaid: number;
+        ClaimsAvgTat: number;
+        ClaimsSubmitted: number;
+        ClaimsPaid: number;
+      }
+    ];
+    DenialCategory: null;
+  };
+  Startdate: string;
+  Enddate: string;
+  Providerkey: number;
+  Cs: {
+    ClaimsLobSummary: [
+      {
+        AmountSubmitted: number;
+        AmountPaid: number;
+        DenialMonth: number;
+        AmountDenied: number;
+        ClaimsDenied: number;
+        AmountBilled: number;
+        AmountCompleted: number;
+        AmountUHCPaid: number;
+        AmountActualAllowed: number;
+        AmountExpectedAllowed: number;
+        PatientResponsibleAmount: number;
+        WriteOffAmount: number;
+        EstimatedAllowedSelectDeniedAmount: number;
+        ProviderNotCoveredAmount: number;
+        DosToReceived: number;
+        ReceivedToPaid: number;
+        ClaimsCompleted: number;
+        ClaimsYieldRate: number;
+        ClaimsNonPaymentRate: number;
+        AvgDosToReceived: number;
+        AvgReceivedToPaid: number;
+        ClaimsAvgTat: number;
+        ClaimsSubmitted: number;
+        ClaimsPaid: number;
+      }
+    ];
+    DenialCategory: null;
+  };
+  Ei: {
+    ClaimsLobSummary: [
+      {
+        AmountSubmitted: number;
+        AmountPaid: number;
+        DenialMonth: number;
+        AmountDenied: number;
+        ClaimsDenied: number;
+        AmountBilled: number;
+        AmountCompleted: number;
+        AmountUHCPaid: number;
+        AmountActualAllowed: number;
+        AmountExpectedAllowed: number;
+        PatientResponsibleAmount: number;
+        WriteOffAmount: number;
+        EstimatedAllowedSelectDeniedAmount: number;
+        ProviderNotCoveredAmount: number;
+        DosToReceived: number;
+        ReceivedToPaid: number;
+        ClaimsCompleted: number;
+        ClaimsYieldRate: number;
+        ClaimsNonPaymentRate: number;
+        AvgDosToReceived: number;
+        AvgReceivedToPaid: number;
+        ClaimsAvgTat: number;
+        ClaimsSubmitted: number;
+        ClaimsPaid: number;
+      }
+    ];
+    DenialCategory: null;
+  };
+  Mr: {
+    ClaimsLobSummary: [
+      {
+        AmountSubmitted: number;
+        AmountPaid: number;
+        DenialMonth: number;
+        AmountDenied: number;
+        ClaimsDenied: number;
+        AmountBilled: number;
+        AmountCompleted: number;
+        AmountUHCPaid: number;
+        AmountActualAllowed: number;
+        AmountExpectedAllowed: number;
+        PatientResponsibleAmount: number;
+        WriteOffAmount: number;
+        EstimatedAllowedSelectDeniedAmount: number;
+        ProviderNotCoveredAmount: number;
+        DosToReceived: number;
+        ReceivedToPaid: number;
+        ClaimsCompleted: number;
+        ClaimsYieldRate: number;
+        ClaimsNonPaymentRate: number;
+        AvgDosToReceived: number;
+        AvgReceivedToPaid: number;
+        ClaimsAvgTat: number;
+        ClaimsSubmitted: number;
+        ClaimsPaid: number;
+      }
+    ];
+    DenialCategory: null;
+  };
+  Un: {
+    ClaimsLobSummary: [
+      {
+        AmountSubmitted: number;
+        AmountPaid: number;
+        DenialMonth: number;
+        AmountDenied: number;
+        ClaimsDenied: number;
+        AmountBilled: number;
+        AmountCompleted: number;
+        AmountUHCPaid: number;
+        AmountActualAllowed: number;
+        AmountExpectedAllowed: number;
+        PatientResponsibleAmount: number;
+        WriteOffAmount: number;
+        EstimatedAllowedSelectDeniedAmount: number;
+        ProviderNotCoveredAmount: number;
+        DosToReceived: number;
+        ReceivedToPaid: number;
+        ClaimsCompleted: number;
+        ClaimsYieldRate: number;
+        ClaimsNonPaymentRate: number;
+        AvgDosToReceived: number;
+        AvgReceivedToPaid: number;
+        ClaimsAvgTat: number;
+        ClaimsSubmitted: number;
+        ClaimsPaid: number;
+      }
+    ];
+    DenialCategory: string;
+  };
+  Tin: number;
+  ReportingPeriod: string;
+  ProviderSystem: string;
+}

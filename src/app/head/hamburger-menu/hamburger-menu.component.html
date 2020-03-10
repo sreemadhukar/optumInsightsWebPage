@@ -46,7 +46,7 @@
         [ngClass]="fromKOP || advocateView ? 'top-40' : 'top-0'"
       ></app-header>
       <div [class.sticky-footer]="showPrintHeader">
-        <div class="sticky-footer-text">&copy; 2019 UnitedHealthcare, All Rights Reserved</div>
+        <div class="sticky-footer-text">&copy; {{ currentYear }} UnitedHealthcare, All Rights Reserved</div>
       </div>
     </mat-toolbar>
     <mat-sidenav-container

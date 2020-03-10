@@ -15,8 +15,8 @@ export interface ItableData {
   styleUrls: ['./labs.component.scss']
 })
 export class LabsComponent implements OnInit {
-  public titleForLabs;
-  public subTitleForLabs;
+  public title: string;
+  public subTitle: string;
   public labsItems;
   public tableData: ItableData;
   constructor(private ngRedux: NgRedux<IAppState>, private perfShared: PerformanceService) {
@@ -27,8 +27,8 @@ export class LabsComponent implements OnInit {
 
   ngOnInit() {
     this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'labsPage' });
-    this.titleForLabs = rlpPageConf.Labs.title;
-    this.subTitleForLabs = rlpPageConf.Labs.subTitle;
+    this.title = rlpPageConf.Labs.title;
+    this.subTitle = rlpPageConf.Labs.subTitle;
     this.tableData.thead = staticTableData.Labs;
   }
 }
