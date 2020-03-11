@@ -72,9 +72,9 @@ export class PriorAuthComponent implements OnInit {
       'close',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-close-24px.svg')
     );
-    this.createPayloadService.getEvent().subscribe(value => {
+    /*  this.createPayloadService.getEvent().subscribe(value => {
       this.ngOnInit();
-    });
+    }); */
   }
 
   ngOnInit() {
