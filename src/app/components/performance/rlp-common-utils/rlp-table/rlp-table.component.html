@@ -4,7 +4,7 @@
       <div class="table-head-text">TIN</div>
       <input
         type="text"
-        class="table-input-query"
+        class="table-input-query tin-input-width"
         placeholder="Filter By Tin"
         [(ngModel)]="qTinSearch"
         (keyup)="enterQuery()"
@@ -15,7 +15,7 @@
       <div class="table-head-text">Group Name</div>
       <input
         type="text"
-        class="table-input-query"
+        class="table-input-query tinname-input-width"
         placeholder="Filter By Group Name"
         [(ngModel)]="qGroupNameSearch"
         (keyup)="enterQuery()"
@@ -51,9 +51,8 @@
           {{ p }}
         </mat-option>
       </mat-select>
+      <div class="rlp-footer-label ml-8">per page</div>
       <mat-icon class="rlp-left-section-arrow-icon" svgIcon="arrow"></mat-icon>
-
-      <div class="rlp-footer-label">per page</div>
     </div>
 
     <div class="rlp-right-section">
@@ -67,11 +66,11 @@
             [value]="currentPageNumber"
             onkeyup="this.value=this.value.replace(/[^\d]/,'')"
           />
-          <div class="rlp-footer-label">of {{ totalPages }}</div>
+          <div class="rlp-footer-label ml-8">of {{ totalPages }}</div>
         </form>
       </div>
       <div class="pagination-btn-widget">
-        <div (click)="prevClick()" class="previous-button">
+        <div (click)="prevClick()" class="previous-button mr-18">
           <button [ngClass]="currentPageNumber > 1 ? 'button-style-blue' : 'button-style'">
             <mat-icon svgIcon="leftarrow"></mat-icon>
           </button>
