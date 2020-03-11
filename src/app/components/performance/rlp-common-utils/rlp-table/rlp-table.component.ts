@@ -90,7 +90,7 @@ export class RlpTableComponent implements OnInit, OnDestroy {
     }
   }
   nextClick() {
-    if (this.currentPageNumber + 1 < this.totalPages) {
+    if (this.currentPageNumber < this.totalPages) {
       this.setPagination(
         ++this.currentPageNumber,
         (this.currentPageNumber - 1) * +this.selectPageSize,
