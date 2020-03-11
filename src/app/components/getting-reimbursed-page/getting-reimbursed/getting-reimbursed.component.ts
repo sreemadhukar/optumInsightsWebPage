@@ -73,9 +73,9 @@ export class GettingReimbursedComponent implements OnInit {
       'close',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-close-24px.svg')
     );
-    this.createPayloadService.getEvent().subscribe(value => {
+    /*  this.createPayloadService.getEvent().subscribe(value => {
       this.ngOnInit();
-    });
+    }); */
   }
   onDetailsButtonClick(i: number, event: any) {
     if (i === 0) {

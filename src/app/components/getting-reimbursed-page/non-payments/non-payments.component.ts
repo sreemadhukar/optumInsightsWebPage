@@ -140,9 +140,9 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
     this.pageTitle = 'Claims Non-Payments';
     this.printpageSubTitle = 'Getting Reimbursed - Non-Payments';
     this.pageSubTitle = 'Note: Claims non-payment metrics are calculated based on billed charges.';
-    this.createPayloadService.getEvent().subscribe(value => {
+    /* this.createPayloadService.getEvent().subscribe(value => {
       this.ngOnInit();
-    });
+    }); */
   }
 
   ngOnInit() {
