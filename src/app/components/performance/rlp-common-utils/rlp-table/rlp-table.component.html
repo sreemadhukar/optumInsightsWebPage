@@ -45,13 +45,13 @@
   <div *ngIf="afterQuery.length > 25" class="rlp-table-footer">
     <div class="rlp-left-section">
       <div class="rlp-footer-label">Display</div>
-      <mat-form-field>
-        <mat-select [(ngModel)]="selectPageSize" name="p" (selectionChange)="pageSizeMethod()">
-          <mat-option *ngFor="let p of pageSizeValues" [value]="p">
-            {{ p }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
+
+      <mat-select [(ngModel)]="selectPageSize" name="p" (selectionChange)="pageSizeMethod()">
+        <mat-option *ngFor="let p of pageSizeValues" [value]="p">
+          {{ p }}
+        </mat-option>
+      </mat-select>
+      <mat-icon class="rlp-left-section-arrow-icon" svgIcon="arrow"></mat-icon>
 
       <div class="rlp-footer-label">per page</div>
     </div>
@@ -72,10 +72,14 @@
       </div>
       <div class="pagination-btn-widget">
         <div (click)="prevClick()" class="previous-button">
-          <button><mat-icon class="mat-icon-color" svgIcon="leftarrow"></mat-icon></button>
+          <button [ngClass]="currentPageNumber > 1 ? 'button-style-blue' : 'button-style'">
+            <mat-icon svgIcon="leftarrow"></mat-icon>
+          </button>
         </div>
         <div (click)="nextClick()" class="next-button">
-          <button><mat-icon class="mat-icon-color" svgIcon="rightarrow"></mat-icon></button>
+          <button [ngClass]="currentPageNumber < totalPages ? 'button-style-blue' : 'button-style'">
+            <mat-icon svgIcon="rightarrow"></mat-icon>
+          </button>
         </div>
       </div>
     </div>

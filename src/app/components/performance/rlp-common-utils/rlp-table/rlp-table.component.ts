@@ -23,8 +23,20 @@ export class RlpTableComponent implements OnInit, OnDestroy {
   public isAscending: boolean; // used to check sorting of the table
   constructor(private iconRegistry: MatIconRegistry, sanitizer: DomSanitizer) {
     iconRegistry.addSvgIcon(
+      'arrow',
+      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-keyboard_arrow_down-24px.svg')
+    );
+    iconRegistry.addSvgIcon(
       'downarrow',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/arrow_downward-24px.svg')
+    );
+    iconRegistry.addSvgIcon(
+      'rightarrow',
+      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/chevron_right-24px.svg')
+    );
+    iconRegistry.addSvgIcon(
+      'leftarrow',
+      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/chevron_left-24px.svg')
     );
   }
 
