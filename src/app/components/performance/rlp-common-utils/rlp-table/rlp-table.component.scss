@@ -13,21 +13,26 @@
     color: $black-rock;
     font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
     font-size: 16px;
-    padding: 16px 0 19px 30px;
+    padding: 16px 0 19px 16px;
 
     .table-input-query {
       display: block;
-      width: 90%;
       font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
       font-size: 16px;
       margin-top: 16px;
-      padding: 8px 0 8px 8px;
       height: 40px;
       border: 1px solid $heather;
       border-radius: 2px;
       color: $strom-grey;
       appearance: none;
       background-color: $white;
+      text-indent: 8px;
+    }
+    .tin-input-width {
+      width: 117px;
+    }
+    .tinname-input-width {
+      width: 267px;
     }
     .rlp-table-tin {
       flex: 0.62;
@@ -59,14 +64,14 @@
   }
 
   .table-items {
-    padding: 0 30px 32px 30px;
+    padding: 0 16px 32px 16px;
   }
 
   .rlp-table-footer {
     // display: inline-flex;
-    width: 900px;
+
     height: 46px;
-    padding: 16px 30px 20px 30px;
+    padding: 16px 16px 20px 16px;
     .rlp-left-section {
       display: inline-flex;
       align-items: flex-start;
@@ -74,7 +79,7 @@
       &-arrow-icon {
         position: relative;
         top: 8px;
-        right: 30px;
+        right: 100px;
         pointer-events: none;
         color: $strom-grey;
       }
@@ -87,24 +92,22 @@
         width: 66px;
         height: 40px;
         text-align: center;
-        margin: 0 4px 0 4px;
         color: $black-rock;
         font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
         font-size: 16px;
         line-height: 20px;
+        padding: 0;
       }
       form {
         display: flex;
       }
+      .ml-8 {
+        margin-left: 8px;
+      }
     }
     .pagination-btn-widget {
-      padding-left: 19px;
-      .icon-color-grey {
-        color: #757588;
-      }
-      .icon-color-blue {
-        color: #196ecf;
-      }
+      padding-left: 8px;
+
       .button-style {
         border: 0;
         background: transparent;
@@ -128,13 +131,15 @@
         border: 1px solid $blue;
         color: $blue;
       }
+      .mr-18 {
+        margin-right: 7px;
+      }
     }
     .previous-button,
     .next-button {
       display: inline-block;
       vertical-align: middle;
       text-align: center;
-      margin-right: 8px;
     }
 
     .rlp-footer-label {
@@ -146,13 +151,14 @@
     }
   }
 }
-::placeholder {
+::-webkit-input-placeholder {
   /* Chrome, Firefox, Opera, Safari 10.1+ */
   color: $strom-grey;
   font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
   font-size: 16px;
   line-height: 22px;
   padding: 8px 0 8px 8px;
+  text-indent: 14px;
 }
 
 :-ms-input-placeholder {
@@ -173,6 +179,11 @@
   font-size: 16px;
   line-height: 22px;
 }
+::ng-deep .mat-select-trigger {
+  width: 52px;
+  height: 40px;
+  display: inline !important;
+}
 ::ng-deep .mat-form-field-underline {
   display: none;
 }
@@ -184,20 +195,21 @@
   position: relative;
   flex: auto;
   min-width: 0;
-  width: 50px;
+  width: 71px;
   height: 40px;
   border: 1px solid rgb(205, 204, 220);
-  padding: 0 8px 0 12px;
+  text-align: center;
 }
 :host ::ng-deep .mat-form-field-appearance-legacy .mat-form-field-wrapper {
   padding-bottom: 0;
 }
 :host ::ng-deep .mat-select-value {
-  padding: 8px 9px 10px 12px;
+  padding: 10px 9px 10px 12px;
   color: $black-rock;
   font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
   font-size: 16px;
   line-height: 22px;
+  display: table !important;
 }
 :host ::ng-deep .mat-select-panel {
   min-width: 69 !important;
