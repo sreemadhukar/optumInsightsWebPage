@@ -27,6 +27,11 @@
       appearance: none;
       background-color: $white;
       text-indent: 8px;
+
+      &::placeholder {
+        padding: 0;
+        text-indent: 8px;
+      }
     }
     .tin-input-width {
       width: 117px;
@@ -274,5 +279,5 @@
 }
 
 :host ::ng-deep .mat-select-arrow-wrapper {
-  display: none;
+  visibility: hidden;
 }
