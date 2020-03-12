@@ -14,7 +14,7 @@ export interface ItableData {
   tbody: any;
 }
 // This is for dropdown size of the table
-export const pageSizeConf: Array<string> = ['2', '4', '8', '25', '50', '100'];
+export const pageSizeConf: Array<string> = ['25', '50', '100'];
 // This is initialize the pagination
 export const INITIAL_PAGINATION = {
   currentPageNumber: 1,
