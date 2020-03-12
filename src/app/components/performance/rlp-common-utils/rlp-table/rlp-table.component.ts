@@ -41,10 +41,10 @@ export class RlpTableComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.pageSizeValues = pageSizeConf;
+    this.pageSizeValues = [...pageSizeConf];
     this.selectPageSize = this.pageSizeValues[0];
-    this.tableData = rlpData.data;
-    this.afterQuery = this.tableData;
+    this.tableData = [...rlpData.data];
+    this.afterQuery = [...this.tableData];
     this.totalPages = Math.ceil(this.tableData.length / +this.selectPageSize);
     this.setPagination();
     this.isAscending = true;
@@ -129,7 +129,7 @@ export class RlpTableComponent implements OnInit, OnDestroy {
    * for both Tin and Group name
    */
   enterQuery() {
-    this.setPagination();
+    this.setPagination(1, 0, +this.selectPageSize);
     if (this.qGroupNameSearch === undefined && this.qTinSearch === undefined) {
     }
     this.afterQuery = this.tableData.filter(el => {
