@@ -383,13 +383,17 @@
   font-size: 16px;
   border: 1px solid #e0e0e0;
   height: 42px;
-
+  -moz-box-sizing: content-box;
+  -webkit-box-sizing: content-box;
+  box-sizing: content-box;
   -webkit-appearance: none;
   background-position-x: 360px;
   margin-top: 2px;
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
+  position: relative;
+  display: inline-block;
 }
 
 .reason-option {
@@ -402,6 +406,9 @@
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
+  -moz-box-sizing: content-box;
+  -webkit-box-sizing: content-box;
+  box-sizing: content-box;
 }
 .reason-option:hover {
   -webkit-appearance: none;
@@ -414,6 +421,9 @@
   background-color: #e3f0fd !important;
   font-family: 'UHCSans-SemiBold';
   font-size: 16px;
+  -moz-box-sizing: content-box;
+  -webkit-box-sizing: content-box;
+  box-sizing: content-box;
   font-weight: 600;
 }
 :host ::ng-deep .search-box {
