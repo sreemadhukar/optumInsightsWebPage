@@ -387,7 +387,7 @@ export const rlpData: any = {
     },
     {
       tin: '66-14558967',
-      groupName: 'Rinku Afridi',
+      groupName: 'Rinku Gogoi',
       graphData: {
         data1: 20,
         data2: 66,
@@ -437,7 +437,7 @@ export const rlpData: any = {
     },
     {
       tin: '66-14558967',
-      groupName: 'Vivke Afridi',
+      groupName: 'Vivke Gogoi',
       graphData: {
         data1: 20,
         data2: 66,
@@ -487,7 +487,7 @@ export const rlpData: any = {
     },
     {
       tin: '66-14558967',
-      groupName: 'Mounika Afridi',
+      groupName: 'Desh ki dhadkan',
       graphData: {
         data1: 20,
         data2: 66,
@@ -767,7 +767,7 @@ export const rlpData: any = {
     },
     {
       tin: '66-14558967',
-      groupName: 'Praveen Afridi',
+      groupName: 'Praveen Gogoi',
       graphData: {
         data1: 20,
         data2: 66,
@@ -817,7 +817,7 @@ export const rlpData: any = {
     },
     {
       tin: '66-14558967',
-      groupName: 'Sonam kappor Afridi',
+      groupName: 'Sonam kappor Gogoi',
       graphData: {
         data1: 20,
         data2: 66,
@@ -867,7 +867,7 @@ export const rlpData: any = {
     },
     {
       tin: '66-14558967',
-      groupName: 'Shahid Afridi',
+      groupName: 'Shahid Gogoi',
       graphData: {
         data1: 20,
         data2: 66,
@@ -1197,7 +1197,7 @@ export const rlpData: any = {
     },
     {
       tin: '66-14558967',
-      groupName: 'Boom Boom Shahid Afridi',
+      groupName: 'Boom Boom Shahid Gogoi',
       graphData: {
         data1: 20,
         data2: 66,
@@ -1247,7 +1247,7 @@ export const rlpData: any = {
     },
     {
       tin: '66-14558967',
-      groupName: 'Mahummad Afridi',
+      groupName: 'Mahummad Gogoi',
       graphData: {
         data1: 20,
         data2: 66,

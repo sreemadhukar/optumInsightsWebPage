@@ -41,11 +41,12 @@ export class RlpTableComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.pageSizeValues = pageSizeConf;
+    this.pageSizeValues = [...pageSizeConf];
     this.selectPageSize = this.pageSizeValues[0];
-    this.tableData = rlpData.data;
-    this.afterQuery = this.tableData;
+    this.tableData = [...rlpData.data];
+    this.afterQuery = [...this.tableData];
     this.totalPages = Math.ceil(this.tableData.length / +this.selectPageSize);
+    this.sortTableData();
     this.setPagination();
     this.isAscending = true;
     console.log('Data', this.data);
@@ -112,16 +113,22 @@ export class RlpTableComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * sortTableData() is the function to sort the table items
-   *
+   * sortTableData function handle the sorting of the table
+   * @param asc  boolean value by default ascending = true
+   * @param param  param value defined by which table needs to be sorted
    */
-  sortTableData() {
+  sortTableData(asc: boolean = true, param: string = 'total') {
+    return asc
+      ? this.tableData.sort((a, b) => a.graphData[param] - b.graphData[param])
+      : this.tableData.sort((b, a) => a.graphData[param] - b.graphData[param]);
+  }
+
+  /**
+   * sortIconClicked() is the function to which is called onClick of sort icon clicked of total
+   */
+  sortIconRate() {
     this.isAscending = !this.isAscending;
-    if (this.isAscending) {
-      this.tableData = this.tableData.sort((a, b) => a.graphData.total - b.graphData.total);
-    } else {
-      this.tableData = this.tableData.sort((b, a) => a.graphData.total - b.graphData.total);
-    }
+    this.tableData = this.sortTableData(this.isAscending);
   }
 
   /**
@@ -129,7 +136,7 @@ export class RlpTableComponent implements OnInit, OnDestroy {
    * for both Tin and Group name
    */
   enterQuery() {
-    this.setPagination();
+    this.setPagination(1, 0, +this.selectPageSize);
     if (this.qGroupNameSearch === undefined && this.qTinSearch === undefined) {
     }
     this.afterQuery = this.tableData.filter(el => {

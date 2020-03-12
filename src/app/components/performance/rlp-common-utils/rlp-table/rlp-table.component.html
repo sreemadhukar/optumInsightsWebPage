@@ -22,7 +22,7 @@
         (keydown.backspace)="enterQuery()"
       />
     </div>
-    <div class="rlp-table-bar" (click)="sortTableData()">
+    <div class="rlp-table-bar" (click)="sortIconRate()">
       <div class="table-head-text">
         Preferred Specialist Referral Rate
       </div>
@@ -42,7 +42,7 @@
     <app-rlp-table-item [tableItem]="item"></app-rlp-table-item>
   </div>
   <div class="zebra-stripe"></div>
-  <div *ngIf="afterQuery.length > 25" class="rlp-table-footer">
+  <div *ngIf="afterQuery.length > pageSizeValues[0]" class="rlp-table-footer">
     <div class="rlp-left-section">
       <div class="rlp-footer-label">Display</div>
 

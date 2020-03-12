@@ -274,5 +274,5 @@
 }
 
 :host ::ng-deep .mat-select-arrow-wrapper {
-  display: none;
+  visibility: hidden;
 }
