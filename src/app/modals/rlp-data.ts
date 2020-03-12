@@ -487,7 +487,7 @@ export const rlpData: any = {
     },
     {
       tin: '66-14558967',
-      groupName: 'Desh ki dhadkan',
+      groupName: 'World is a stage',
       graphData: {
         data1: 20,
         data2: 66,
@@ -506,7 +506,7 @@ export const rlpData: any = {
       }
     },
     {
-      tin: '56-12358967',
+      tin: '12-12358967',
       groupName: 'Virender Sehwag',
       graphData: {
         data1: 28,
