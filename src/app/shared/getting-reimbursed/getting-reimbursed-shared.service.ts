@@ -855,7 +855,7 @@ export class GettingReimbursedSharedService {
 
           submissions = {
             id: 1,
-            title: 'Claims Submissions',
+            title: 'Claims Processed',
             MetricID: this.MetricidService.MetricIDs.ClaimsSubmissions,
             data: [claimsSubmitted, claimsTAT]
           };
@@ -958,7 +958,7 @@ export class GettingReimbursedSharedService {
         .then(appeals => {
           submissions = {
             id: 1,
-            title: 'Claims Submissions',
+            title: 'Claims Processed',
             MetricID: this.MetricidService.MetricIDs.ClaimsSubmissions,
             data: [this.ClaimsSubmittedData, this.ClaimsTATdata]
           };
@@ -1293,7 +1293,7 @@ export class GettingReimbursedSharedService {
               MetricID: this.MetricidService.MetricIDs.TotalNumberofClaimsSubmitted,
               toggle: this.toggle.setToggles(
                 'Total Number of Claims Submitted',
-                'Claims Submissions',
+                'Claims Processed',
                 'Getting Reimbursed',
                 true
               ),
