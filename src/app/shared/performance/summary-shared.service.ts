@@ -37,7 +37,8 @@ export class SummarySharedService {
     return new Promise(resolve => {
       const parameters = this.getParameterCategories(param);
       parameters[1] = '?requestType=SPECIALIST_REFERRAL_HCO';
-      this.performanceRestService.getNetworkLeversData(...parameters).subscribe(
+      const requestBody = { timeFilter: 'YTD' };
+      this.performanceRestService.getNetworkLeversData(parameters, requestBody).subscribe(
         networkReferralsData => {
           resolve(networkReferralsData);
           console.log('networkReferralsData', networkReferralsData);

@@ -16,13 +16,13 @@ export class PerformanceRestService {
     return this.http.get('./src/assets/mock-data/performance.json');
   }
 
-  public getNetworkLeversData(...parameters) {
-    let tparams = new HttpParams();
-    tparams = tparams.append('TimeFilter', 'YTD');
+  public getNetworkLeversData(parameters, requestBody) {
+    const params = new HttpParams();
+    // tparams = tparams.append('TimeFilter', 'YTD');
 
     const URL = this.APP_URL + this.NETWORK_LEVER_PATH + parameters[0] + parameters[1];
     console.log('URL-------------->', URL);
-    return this.http.get(URL, { params: tparams }).pipe(
+    return this.http.post(URL, requestBody).pipe(
       map(res => JSON.parse(JSON.stringify(res))),
       catchError(err => of(JSON.parse(JSON.stringify(err))))
     );

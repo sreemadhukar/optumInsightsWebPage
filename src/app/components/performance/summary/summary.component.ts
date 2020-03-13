@@ -36,7 +36,6 @@ export class SummaryComponent implements OnInit {
     this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'performanceSummary' });
     this.titleForSummary = rlpPageConf.Summary.title;
     this.subTitleForSummary = rlpPageConf.Summary.subTitle;
-    console.log('Hiii Referals');
     this.referralsData();
   }
 
@@ -50,7 +49,8 @@ export class SummaryComponent implements OnInit {
         console.log('referralData', data);
         this.referralCard = JSON.parse(JSON.stringify(data));
         console.log('this.referralCard---------->', this.referralCard);
-        this.referralCard['timeperiod'] = `${this.timeFilterValueResolved} (${this.referralCard['timeperiod']})`;
+        // this.referralCard['timeperiod'] = `${this.timeFilterValueResolved} (${this.referralCard['timeperiod']})`;
+        // this.referralCard['timeperiod'] = 'YTD';
         this.referralsLoading = false;
       })
       .catch(reason => {
