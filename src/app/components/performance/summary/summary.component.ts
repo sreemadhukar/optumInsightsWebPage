@@ -20,6 +20,8 @@ export class SummaryComponent implements OnInit {
   public referralsLoading;
   public referralMockCards;
   public referralCard;
+  public prescriptionCard;
+  public labsCard;
   timeFilterValueResolved: string;
   constructor(
     private ngRedux: NgRedux<IAppState>,
@@ -37,6 +39,8 @@ export class SummaryComponent implements OnInit {
     this.titleForSummary = rlpPageConf.Summary.title;
     this.subTitleForSummary = rlpPageConf.Summary.subTitle;
     this.referralsData();
+    this.labsData();
+    this.prescriptionData();
   }
 
   referralsData() {
@@ -49,6 +53,46 @@ export class SummaryComponent implements OnInit {
         console.log('referralData', data);
         this.referralCard = JSON.parse(JSON.stringify(data));
         console.log('this.referralCard---------->', this.referralCard);
+        // this.referralCard['timeperiod'] = `${this.timeFilterValueResolved} (${this.referralCard['timeperiod']})`;
+        // this.referralCard['timeperiod'] = 'YTD';
+        this.referralsLoading = false;
+      })
+      .catch(reason => {
+        this.referralsLoading = false;
+        console.log('Error Payment Submission Adovate Overview page Payment', reason);
+      });
+  }
+
+  labsData() {
+    this.referralsLoading = true;
+    this.referralMockCards = [{}];
+    this.labsCard = [];
+    this.summarySharedService
+      .labsShared(this.createPayloadService.payload)
+      .then(data => {
+        console.log('labsData', data);
+        this.labsCard = JSON.parse(JSON.stringify(data));
+        console.log('this.labsCard---------->', this.labsCard);
+        // this.referralCard['timeperiod'] = `${this.timeFilterValueResolved} (${this.referralCard['timeperiod']})`;
+        // this.referralCard['timeperiod'] = 'YTD';
+        this.referralsLoading = false;
+      })
+      .catch(reason => {
+        this.referralsLoading = false;
+        console.log('Error Payment Submission Adovate Overview page Payment', reason);
+      });
+  }
+
+  prescriptionData() {
+    this.referralsLoading = true;
+    this.referralMockCards = [{}];
+    this.prescriptionCard = [];
+    this.summarySharedService
+      .prescriptionShared(this.createPayloadService.payload)
+      .then(data => {
+        console.log('prescriptionData', data);
+        this.prescriptionCard = JSON.parse(JSON.stringify(data));
+        console.log('this.prescriptionCard---------->', this.prescriptionCard);
         // this.referralCard['timeperiod'] = `${this.timeFilterValueResolved} (${this.referralCard['timeperiod']})`;
         // this.referralCard['timeperiod'] = 'YTD';
         this.referralsLoading = false;
