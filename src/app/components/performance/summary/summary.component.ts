@@ -5,6 +5,9 @@ import { CURRENT_PAGE, REMOVE_FILTER } from '../../../store/filter/actions';
 import { PerformanceService } from '../../../shared/performance/performance.service';
 // import { RlpHeaderComponent } from '../../../rlp-common-utils/rlp-header';
 import { rlpPageConf } from '../../../modals/rlp-data';
+import { SummarySharedService } from '../../../shared/performance/summary-shared.service';
+import { CreatePayloadService } from '../../../shared/uhci-filters/create-payload.service';
+
 @Component({
   selector: 'app-summary',
   templateUrl: './summary.component.html',
@@ -14,7 +17,16 @@ export class SummaryComponent implements OnInit {
   public titleForSummary;
   public subTitleForSummary;
   public summaryItems: any;
-  constructor(private ngRedux: NgRedux<IAppState>, private perfShared: PerformanceService) {
+  public referralsLoading;
+  public referralMockCards;
+  public referralCard;
+  timeFilterValueResolved: string;
+  constructor(
+    private ngRedux: NgRedux<IAppState>,
+    private perfShared: PerformanceService,
+    private summarySharedService: SummarySharedService,
+    private createPayloadService: CreatePayloadService
+  ) {
     this.perfShared.getPerformanceData().subscribe((response: any) => {
       this.summaryItems = response[0];
     });
@@ -24,5 +36,26 @@ export class SummaryComponent implements OnInit {
     this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'performanceSummary' });
     this.titleForSummary = rlpPageConf.Summary.title;
     this.subTitleForSummary = rlpPageConf.Summary.subTitle;
+    console.log('Hiii Referals');
+    this.referralsData();
+  }
+
+  referralsData() {
+    this.referralsLoading = true;
+    this.referralMockCards = [{}];
+    this.referralCard = [];
+    this.summarySharedService
+      .referralsShared(this.createPayloadService.payload)
+      .then(data => {
+        console.log('referralData', data);
+        this.referralCard = JSON.parse(JSON.stringify(data));
+        console.log('this.referralCard---------->', this.referralCard);
+        this.referralCard['timeperiod'] = `${this.timeFilterValueResolved} (${this.referralCard['timeperiod']})`;
+        this.referralsLoading = false;
+      })
+      .catch(reason => {
+        this.referralsLoading = false;
+        console.log('Error Payment Submission Adovate Overview page Payment', reason);
+      });
   }
 }

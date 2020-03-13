@@ -53,7 +53,8 @@ export const environment: any = {
     AdminSummaryTrendsCount: 'admintrendscount/',
     HealthSystemDetails: 'providerInfo/',
     CallsTrendLine: 'calls-trend/',
-    PaymentsBySubmission: 'claim-submissions/'
+    PaymentsBySubmission: 'claim-submissions/',
+    NetworkLever: 'network-lever/'
   },
   headerKeys: {
     selectedCompany: '',
