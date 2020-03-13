@@ -9,10 +9,17 @@ export interface IrlpPages {
   Perscription: any;
 }
 
-export interface ItableData {
+export interface ItableType {
   thead: Array<string>;
   tbody: any;
 }
+
+export const rlpPageName: IrlpPages = {
+  Summary: 'summary',
+  Referral: 'referral',
+  Labs: 'labs',
+  Perscription: 'perscription'
+};
 // This is for dropdown size of the table
 export const pageSizeConf: Array<string> = ['25', '50', '100'];
 // This is initialize the pagination

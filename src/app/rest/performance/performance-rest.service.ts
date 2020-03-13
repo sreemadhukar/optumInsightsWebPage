@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { combineLatest, of } from 'rxjs/index';
+import { combineLatest, of, Observable } from 'rxjs/index';
 import { map, catchError } from 'rxjs/operators';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
-
+import { IRlpApiResponse } from '../../modals/i-rlp';
 @Injectable({
   providedIn: 'root'
 })
@@ -16,15 +16,19 @@ export class PerformanceRestService {
     return this.http.get('./src/assets/mock-data/performance.json');
   }
 
-  public getNetworkLeversData(parameters, requestBody) {
-    const params = new HttpParams();
-    // tparams = tparams.append('TimeFilter', 'YTD');
+  /**
+   * getNetworkLeversData function handle the sorting of the table
+   * @param providerSyskey  Provider sys key
+   * @param requestType  Request Type which will be sent alongwith with API url as an endPoint
+   * @param requestBody paramter of Request Body
+   */
 
-    const URL = this.APP_URL + this.NETWORK_LEVER_PATH + parameters[0] + parameters[1];
+  public getNetworkLeversData(providerSyskey, requestType, requestBody): Observable<IRlpApiResponse[]> {
+    const URL = this.APP_URL + this.NETWORK_LEVER_PATH + providerSyskey + '?requestType=' + requestType;
     console.log('URL-------------->', URL);
     return this.http.post(URL, requestBody).pipe(
-      map(res => JSON.parse(JSON.stringify(res))),
-      catchError(err => of(JSON.parse(JSON.stringify(err))))
+      map(res => res),
+      catchError(err => of(err))
     );
   }
 }

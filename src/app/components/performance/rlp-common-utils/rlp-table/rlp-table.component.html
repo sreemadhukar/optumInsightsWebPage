@@ -1,7 +1,7 @@
 <div class="table-container">
   <div class="table-header-labels">
     <div class="rlp-table-tin">
-      <div class="table-head-text">TIN</div>
+      <div class="table-head-text">{{ data.thead[0] }}</div>
       <input
         type="text"
         class="table-input-query tin-input-width"
@@ -12,7 +12,7 @@
       />
     </div>
     <div class="rlp-table-group">
-      <div class="table-head-text">Group Name</div>
+      <div class="table-head-text">{{ data.thead[1] }}</div>
       <input
         type="text"
         class="table-input-query tinname-input-width"
@@ -24,7 +24,7 @@
     </div>
     <div class="rlp-table-bar" (click)="sortIconRate()">
       <div class="table-head-text">
-        Preferred Specialist Referral Rate
+        {{ data.thead[2] }}
       </div>
       <mat-icon class="nav-menu-icons nav-menu-icons-down-arrow" *ngIf="!isAscending" svgIcon="downarrow"></mat-icon>
       <mat-icon

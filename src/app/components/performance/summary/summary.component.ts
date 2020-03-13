@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { NgRedux, select } from '@angular-redux/store';
+import { NgRedux } from '@angular-redux/store';
 import { IAppState } from '../../../store/store';
-import { CURRENT_PAGE, REMOVE_FILTER } from '../../../store/filter/actions';
+import { CURRENT_PAGE } from '../../../store/filter/actions';
 import { PerformanceService } from '../../../shared/performance/performance.service';
 // import { RlpHeaderComponent } from '../../../rlp-common-utils/rlp-header';
 import { rlpPageConf } from '../../../modals/rlp-data';
