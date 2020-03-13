@@ -26,12 +26,8 @@
       color: $strom-grey;
       appearance: none;
       background-color: $white;
-      text-indent: 8px;
-
-      &::placeholder {
-        padding: 0;
-        text-indent: 8px;
-      }
+      text-indent: 14px;
+      padding: 0;
     }
     .tin-input-width {
       width: 117px;
