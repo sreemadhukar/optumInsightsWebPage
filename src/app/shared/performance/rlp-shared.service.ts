@@ -14,9 +14,9 @@ export const endpoints = {
   perscription: 'PRESCRIBING_PROVIDER_TIN'
 };
 export const pageMapApiEndpoint = [
-  { name: rlpPageName.Referral, value: endpoints.referral },
-  { name: rlpPageName.Labs, value: endpoints.labs },
-  { name: rlpPageName.Perscription, value: endpoints.perscription }
+  { name: rlpPageName.Referral, apiPoint: endpoints.referral },
+  { name: rlpPageName.Labs, apiPoint: endpoints.labs },
+  { name: rlpPageName.Perscription, apiPoint: endpoints.perscription }
 ];
 
 @Injectable({
@@ -27,11 +27,17 @@ export class RlpSharedService {
   constructor(private performanceRestService: PerformanceRestService) {
     this.requestBody = { timeFilter: 'YTD' };
   }
+
+  /**
+   * getTableShared function prepares the template for the table
+   * @param pageName  pageName is the paramter required to map the enpoint corresponding to that page
+   */
+
   public getTableShared(pageName) {
     return new Promise(resolve => {
-      const findEndpoint = pageMapApiEndpoint.filter(item => item.name === pageName).map(x => x.value)[0];
-      // this.performanceRestService.getNetworkLeversData(this.session.providerKeyData(), findEndpoint, this.requestBody).subscribe(
-      this.performanceRestService.getNetworkLeversData(1000, findEndpoint, this.requestBody).subscribe(
+      const getEndpoint = pageMapApiEndpoint.find(item => item.name === pageName).apiPoint;
+      // this.performanceRestService.getNetworkLeversData(this.session.providerKeyData(), getEndpoint, this.requestBody).subscribe(
+      this.performanceRestService.getNetworkLeversData(1000, getEndpoint, this.requestBody).subscribe(
         response => {
           const newData = response.map(item => {
             const temp: ItableData = {

@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { NgRedux, select } from '@angular-redux/store';
+import { NgRedux } from '@angular-redux/store';
 import { IAppState } from '../../../store/store';
-import { CURRENT_PAGE, REMOVE_FILTER } from '../../../store/filter/actions';
+import { CURRENT_PAGE } from '../../../store/filter/actions';
 import { PerformanceService } from '../../../shared/performance/performance.service';
-import { rlpPageConf, staticTableData, ItableType, rlpPageName } from '../../../modals/rlp-data';
+import { SummarySharedService } from '../../../shared/performance/summary-shared.service';
 import { RlpSharedService } from '../../../shared/performance/rlp-shared.service';
+import { rlpPageConf, staticTableData, ItableType, rlpPageName, rlpCardType } from '../../../modals/rlp-data';
 
 @Component({
   selector: 'app-referrals',
@@ -22,10 +23,12 @@ export class ReferralsComponent implements OnInit {
   constructor(
     private ngRedux: NgRedux<IAppState>,
     private perfShared: PerformanceService,
-    private tableTinShared: RlpSharedService
+    private tableTinShared: RlpSharedService,
+    private summarySharedService: SummarySharedService
   ) {
     this.perfShared.getPerformanceData().subscribe((response: any) => {
       this.referralsItems = response[1];
+      console.log('Long Card', this.referralsItems);
     });
   }
 
@@ -33,6 +36,15 @@ export class ReferralsComponent implements OnInit {
     this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'referralsPage' });
     this.title = rlpPageConf.Referral.title;
     this.subTitle = rlpPageConf.Referral.subTitle;
+    this.summarySharedService
+      .getHCOdata(rlpPageName.Referral, rlpCardType.longCard)
+      .then(response => {
+        console.log('Component', rlpPageName.Referral, rlpCardType.longCard, response);
+      })
+      .catch(reason => {
+        console.log('Error', rlpPageName.Referral, rlpCardType.longCard, reason);
+      });
+
     this.tableTinShared
       .getTableShared(rlpPageName.Referral)
       .then(data => {

@@ -3,8 +3,9 @@ import { NgRedux } from '@angular-redux/store';
 import { IAppState } from '../../../store/store';
 import { CURRENT_PAGE } from '../../../store/filter/actions';
 import { PerformanceService } from '../../../shared/performance/performance.service';
-import { rlpPageConf, staticTableData, ItableType, rlpPageName } from '../../../modals/rlp-data';
 import { RlpSharedService } from '../../../shared/performance/rlp-shared.service';
+import { SummarySharedService } from '../../../shared/performance/summary-shared.service';
+import { rlpPageConf, staticTableData, ItableType, rlpPageName, rlpCardType } from '../../../modals/rlp-data';
 
 @Component({
   selector: 'app-labs',
@@ -23,7 +24,8 @@ export class LabsComponent implements OnInit {
   constructor(
     private ngRedux: NgRedux<IAppState>,
     private perfShared: PerformanceService,
-    private tableTinShared: RlpSharedService
+    private tableTinShared: RlpSharedService,
+    private summarySharedService: SummarySharedService
   ) {
     this.perfShared.getPerformanceData().subscribe((response: any) => {
       this.labsItems = response[2];
@@ -34,6 +36,15 @@ export class LabsComponent implements OnInit {
     this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'labsPage' });
     this.title = rlpPageConf.Labs.title;
     this.subTitle = rlpPageConf.Labs.subTitle;
+    this.summarySharedService
+      .getHCOdata(rlpPageName.Labs, rlpCardType.longCard)
+      .then(response => {
+        console.log('Component', rlpPageName.Labs, rlpCardType.longCard, response);
+      })
+      .catch(reason => {
+        console.log('Error', rlpPageName.Labs, rlpCardType.longCard, reason);
+      });
+
     this.tableTinShared
       .getTableShared(rlpPageName.Labs)
       .then(data => {
