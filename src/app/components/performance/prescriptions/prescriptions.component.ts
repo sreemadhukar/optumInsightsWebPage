@@ -39,7 +39,7 @@ export class PrescriptionsComponent implements OnInit {
     this.summarySharedService
       .getHCOdata(rlpPageName.Perscription, rlpCardType.longCard)
       .then(response => {
-        console.log(rlpPageName.Perscription, rlpCardType.longCard, response);
+        console.log('Component', rlpPageName.Perscription, rlpCardType.longCard, response);
       })
       .catch(reason => {
         console.log('Error', rlpPageName.Perscription, rlpCardType.longCard, reason);

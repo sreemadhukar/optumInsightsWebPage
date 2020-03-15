@@ -50,6 +50,12 @@ export class SummarySharedService {
     this.requestBody = { timeFilter: 'YTD' };
   }
 
+  /**
+   * getHCOdata function prepares the template for HCO data of the app-card and long-card
+   * @param pageName  pageName is to map the enpoint corresponding to that page
+   * @param chartType  chartType is to map the corresponding bar type
+   */
+
   public getHCOdata(pageName: string, chartType: string) {
     const getStaticData = pageMapApiEndpoint.find(item => item.name === pageName);
     const getCandType = getCategoryAndType.find(item => item.category === chartType);
@@ -59,7 +65,6 @@ export class SummarySharedService {
         .getNetworkLeversData(951, getStaticData.apiPoint, this.requestBody)
         .subscribe(
           response => {
-            console.log('HCO Response Data', pageName, response);
             let newData = null;
             if (response) {
               newData = {
@@ -78,10 +83,12 @@ export class SummarySharedService {
                       getStaticData.suffix,
                     percentage: response[0].RateWithPercentage
                   }
-                }
+                },
+                timeperiod: 'YTD (Jan 1, 2020—Mar 31, 2020)'
               };
             }
-            console.log('HCO Data', pageName, newData);
+            console.log('Shared Response HCO Data', pageName, response);
+            console.log('Shared New Data HCO Data', pageName, newData);
             resolve(newData);
           },
           err => {

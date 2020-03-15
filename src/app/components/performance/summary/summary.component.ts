@@ -48,9 +48,8 @@ export class SummaryComponent implements OnInit {
     this.summarySharedService
       .getHCOdata(rlpPageName.Referral, rlpCardType.appCard)
       .then(data => {
-        console.log('referralData', data);
         this.referralCard = JSON.parse(JSON.stringify(data));
-        console.log('this.referralCard---------->', this.referralCard);
+        console.log('Component', rlpPageName.Referral, rlpCardType.appCard, data);
         // this.referralCard['timeperiod'] = `${this.timeFilterValueResolved} (${this.referralCard['timeperiod']})`;
         // this.referralCard['timeperiod'] = 'YTD';
         this.referralsLoading = false;
@@ -68,9 +67,8 @@ export class SummaryComponent implements OnInit {
     this.summarySharedService
       .getHCOdata(rlpPageName.Labs, rlpCardType.appCard)
       .then(data => {
-        console.log('labsData', data);
         this.labsCard = JSON.parse(JSON.stringify(data));
-        console.log('this.labsCard---------->', this.labsCard);
+        console.log('Component', rlpPageName.Labs, rlpCardType.appCard, this.labsCard);
         // this.referralCard['timeperiod'] = `${this.timeFilterValueResolved} (${this.referralCard['timeperiod']})`;
         // this.referralCard['timeperiod'] = 'YTD';
         this.referralsLoading = false;
@@ -88,9 +86,8 @@ export class SummaryComponent implements OnInit {
     this.summarySharedService
       .getHCOdata(rlpPageName.Perscription, rlpCardType.appCard)
       .then(data => {
-        console.log('prescriptionData', data);
         this.prescriptionCard = JSON.parse(JSON.stringify(data));
-        console.log('this.prescriptionCard---------->', this.prescriptionCard);
+        console.log('Component', rlpPageName.Perscription, rlpCardType.appCard, data);
         // this.referralCard['timeperiod'] = `${this.timeFilterValueResolved} (${this.referralCard['timeperiod']})`;
         // this.referralCard['timeperiod'] = 'YTD';
         this.referralsLoading = false;

@@ -39,7 +39,7 @@ export class ReferralsComponent implements OnInit {
     this.summarySharedService
       .getHCOdata(rlpPageName.Referral, rlpCardType.longCard)
       .then(response => {
-        console.log(rlpPageName.Referral, rlpCardType.longCard, response);
+        console.log('Component', rlpPageName.Referral, rlpCardType.longCard, response);
       })
       .catch(reason => {
         console.log('Error', rlpPageName.Referral, rlpCardType.longCard, reason);

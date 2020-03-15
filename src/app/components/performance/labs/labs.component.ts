@@ -39,7 +39,7 @@ export class LabsComponent implements OnInit {
     this.summarySharedService
       .getHCOdata(rlpPageName.Labs, rlpCardType.longCard)
       .then(response => {
-        console.log(rlpPageName.Labs, rlpCardType.longCard, response);
+        console.log('Component', rlpPageName.Labs, rlpCardType.longCard, response);
       })
       .catch(reason => {
         console.log('Error', rlpPageName.Labs, rlpCardType.longCard, reason);
