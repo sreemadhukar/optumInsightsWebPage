@@ -26,6 +26,7 @@ export class ReferralsComponent implements OnInit {
   ) {
     this.perfShared.getPerformanceData().subscribe((response: any) => {
       this.referralsItems = response[1];
+      console.log('Long Card', this.referralsItems);
     });
   }
 

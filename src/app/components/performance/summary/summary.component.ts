@@ -3,10 +3,8 @@ import { NgRedux } from '@angular-redux/store';
 import { IAppState } from '../../../store/store';
 import { CURRENT_PAGE } from '../../../store/filter/actions';
 import { PerformanceService } from '../../../shared/performance/performance.service';
-// import { RlpHeaderComponent } from '../../../rlp-common-utils/rlp-header';
-import { rlpPageConf } from '../../../modals/rlp-data';
 import { SummarySharedService } from '../../../shared/performance/summary-shared.service';
-import { CreatePayloadService } from '../../../shared/uhci-filters/create-payload.service';
+import { rlpPageName, rlpPageConf } from '../../../modals/rlp-data';
 
 @Component({
   selector: 'app-summary',
@@ -26,11 +24,11 @@ export class SummaryComponent implements OnInit {
   constructor(
     private ngRedux: NgRedux<IAppState>,
     private perfShared: PerformanceService,
-    private summarySharedService: SummarySharedService,
-    private createPayloadService: CreatePayloadService
+    private summarySharedService: SummarySharedService
   ) {
     this.perfShared.getPerformanceData().subscribe((response: any) => {
       this.summaryItems = response[0];
+      console.log('SUmmary cards', this.summaryItems);
     });
   }
 
@@ -48,7 +46,7 @@ export class SummaryComponent implements OnInit {
     this.referralMockCards = [{}];
     this.referralCard = [];
     this.summarySharedService
-      .referralsShared(this.createPayloadService.payload)
+      .getHCOdata(rlpPageName.Referral, 'app-card')
       .then(data => {
         console.log('referralData', data);
         this.referralCard = JSON.parse(JSON.stringify(data));
@@ -68,7 +66,7 @@ export class SummaryComponent implements OnInit {
     this.referralMockCards = [{}];
     this.labsCard = [];
     this.summarySharedService
-      .labsShared(this.createPayloadService.payload)
+      .getHCOdata(rlpPageName.Labs, 'app-card')
       .then(data => {
         console.log('labsData', data);
         this.labsCard = JSON.parse(JSON.stringify(data));
@@ -88,7 +86,7 @@ export class SummaryComponent implements OnInit {
     this.referralMockCards = [{}];
     this.prescriptionCard = [];
     this.summarySharedService
-      .prescriptionShared(this.createPayloadService.payload)
+      .getHCOdata(rlpPageName.Perscription, 'app-card')
       .then(data => {
         console.log('prescriptionData', data);
         this.prescriptionCard = JSON.parse(JSON.stringify(data));
