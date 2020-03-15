@@ -4,7 +4,7 @@ import { IAppState } from '../../../store/store';
 import { CURRENT_PAGE } from '../../../store/filter/actions';
 import { PerformanceService } from '../../../shared/performance/performance.service';
 import { SummarySharedService } from '../../../shared/performance/summary-shared.service';
-import { rlpPageName, rlpPageConf } from '../../../modals/rlp-data';
+import { rlpPageName, rlpPageConf, rlpCardType } from '../../../modals/rlp-data';
 
 @Component({
   selector: 'app-summary',
@@ -46,7 +46,7 @@ export class SummaryComponent implements OnInit {
     this.referralMockCards = [{}];
     this.referralCard = [];
     this.summarySharedService
-      .getHCOdata(rlpPageName.Referral, 'app-card')
+      .getHCOdata(rlpPageName.Referral, rlpCardType.appCard)
       .then(data => {
         console.log('referralData', data);
         this.referralCard = JSON.parse(JSON.stringify(data));
@@ -66,7 +66,7 @@ export class SummaryComponent implements OnInit {
     this.referralMockCards = [{}];
     this.labsCard = [];
     this.summarySharedService
-      .getHCOdata(rlpPageName.Labs, 'app-card')
+      .getHCOdata(rlpPageName.Labs, rlpCardType.appCard)
       .then(data => {
         console.log('labsData', data);
         this.labsCard = JSON.parse(JSON.stringify(data));
@@ -86,7 +86,7 @@ export class SummaryComponent implements OnInit {
     this.referralMockCards = [{}];
     this.prescriptionCard = [];
     this.summarySharedService
-      .getHCOdata(rlpPageName.Perscription, 'app-card')
+      .getHCOdata(rlpPageName.Perscription, rlpCardType.appCard)
       .then(data => {
         console.log('prescriptionData', data);
         this.prescriptionCard = JSON.parse(JSON.stringify(data));

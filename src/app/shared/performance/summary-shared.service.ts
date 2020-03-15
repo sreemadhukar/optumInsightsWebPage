@@ -23,12 +23,17 @@ export const pageMapApiEndpoint = [
     title: 'Preferred Specialist Referral Rate',
     suffix: 'Referral'
   },
-  { name: rlpPageName.Labs, apiPoint: endpoints.labs, title: 'Preferred Lab Network Use Rate', suffix: 'Referral' },
+  {
+    name: rlpPageName.Labs,
+    apiPoint: endpoints.labs,
+    title: 'Preferred Lab Network Use Rate',
+    suffix: 'Preferred Lab Visits'
+  },
   {
     name: rlpPageName.Perscription,
     apiPoint: endpoints.perscription,
     title: 'Preferred Tier Prescribing Rate',
-    suffix: 'Referral'
+    suffix: 'Prescriptions'
   }
 ];
 @Injectable({
@@ -54,26 +59,30 @@ export class SummarySharedService {
         .getNetworkLeversData(951, getStaticData.apiPoint, this.requestBody)
         .subscribe(
           response => {
-            const newData = {
-              category: getCandType.category,
-              type: getCandType.type,
-              title: getStaticData.title,
-              toggle: this.toggle.setToggles(getStaticData.title, pageName, 'Performance', false),
-              MetricID: '',
-              data: {
-                gdata: {
-                  count:
-                    response[0].Numerator.toFixed(0) +
-                    '/' +
-                    response[0].Denominator.toFixed(0) +
-                    ' ' +
-                    getStaticData.suffix,
-                  percentage: response[0].RateWithPercentage
+            console.log('HCO Response Data', pageName, response);
+            let newData = null;
+            if (response) {
+              newData = {
+                category: getCandType.category,
+                type: getCandType.type,
+                title: getStaticData.title,
+                toggle: this.toggle.setToggles(getStaticData.title, pageName, 'Performance', false),
+                MetricID: '',
+                data: {
+                  gdata: {
+                    count:
+                      response[0].Numerator.toFixed(0) +
+                      '/' +
+                      response[0].Denominator.toFixed(0) +
+                      ' ' +
+                      getStaticData.suffix,
+                    percentage: response[0].RateWithPercentage
+                  }
                 }
-              }
-            };
+              };
+            }
+            console.log('HCO Data', pageName, newData);
             resolve(newData);
-            console.log('HCO Data', response);
           },
           err => {
             console.log('HCO Data Error', pageName, err);
