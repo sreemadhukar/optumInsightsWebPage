@@ -3,7 +3,9 @@ import { NgRedux } from '@angular-redux/store';
 import { IAppState } from '../../../store/store';
 import { CURRENT_PAGE } from '../../../store/filter/actions';
 import { PerformanceService } from '../../../shared/performance/performance.service';
-import { rlpPageConf, staticTableData, ItableData } from '../../../modals/rlp-data';
+import { SummarySharedService } from '../../../shared/performance/summary-shared.service';
+import { RlpSharedService } from '../../../shared/performance/rlp-shared.service';
+import { rlpPageConf, staticTableData, ItableType, rlpPageName, rlpCardType } from '../../../modals/rlp-data';
 
 @Component({
   selector: 'app-prescriptions',
@@ -14,9 +16,17 @@ export class PrescriptionsComponent implements OnInit {
   public title: string;
   public subTitle: string;
   public prescriptionsItems;
-  public tableData: ItableData;
+  public tableData: ItableType = {
+    thead: [],
+    tbody: []
+  };
 
-  constructor(private ngRedux: NgRedux<IAppState>, private perfShared: PerformanceService) {
+  constructor(
+    private ngRedux: NgRedux<IAppState>,
+    private perfShared: PerformanceService,
+    private tableTinShared: RlpSharedService,
+    private summarySharedService: SummarySharedService
+  ) {
     this.perfShared.getPerformanceData().subscribe((response: any) => {
       this.prescriptionsItems = response[3];
     });
@@ -26,7 +36,24 @@ export class PrescriptionsComponent implements OnInit {
     this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'prescriptionsPage' });
     this.title = rlpPageConf.Perscription.title;
     this.subTitle = rlpPageConf.Perscription.subTitle;
-
-    this.tableData.thead = staticTableData.Perscription;
+    this.summarySharedService
+      .getHCOdata(rlpPageName.Perscription, rlpCardType.longCard)
+      .then(response => {
+        console.log('Component', rlpPageName.Perscription, rlpCardType.longCard, response);
+      })
+      .catch(reason => {
+        console.log('Error', rlpPageName.Perscription, rlpCardType.longCard, reason);
+      });
+    this.tableTinShared
+      .getTableShared(rlpPageName.Perscription)
+      .then(data => {
+        this.tableData.thead = staticTableData.Perscription;
+        this.tableData.tbody = JSON.parse(JSON.stringify(data));
+        console.log('prescriptionData', data);
+        console.log('Tble header', this.tableData);
+      })
+      .catch(reason => {
+        console.log('Error Prescription page table data', reason);
+      });
   }
 }

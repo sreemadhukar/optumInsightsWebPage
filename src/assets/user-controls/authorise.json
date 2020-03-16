@@ -112,5 +112,25 @@
       "Calls by Call Type": true,
       "Talk Time By Call Type": true
     }
+  },
+  "Performance": {
+    "Summary": {
+      "navLink": true,
+      "Preferred Specialist Referral Rate": true,
+      "Preferred Lab Network Use Rate": true,
+      "Preferred Tier Prescribing Rate": true
+    },
+    "Referral": {
+      "navLink": true,
+      "Preferred Specialist Referral Rate": true
+    },
+    "Labs": {
+      "navLink": true,
+      "Preferred Lab Network Use Rate": true
+    },
+    "Perscription": {
+      "navLink": true,
+      "Preferred Tier Prescribing Rate": true
+    }
   }
 }
