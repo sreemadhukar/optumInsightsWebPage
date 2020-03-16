@@ -58,7 +58,8 @@ export const environment: any = {
     HealthSystemDetails: 'providerInfo/',
     KOPBusinessGlossary: 'business-glossaries-kop/',
     CallsTrendLine: 'calls-trend/',
-    PaymentsBySubmission: 'claim-submissions/'
+    PaymentsBySubmission: 'claim-submissions/',
+    GroupPremiumDesignation: 'group-premium-designation/'
   },
   headerKeys: {
     selectedCompany: '',
