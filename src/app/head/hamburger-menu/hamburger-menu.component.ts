@@ -41,6 +41,8 @@ import { SessionService } from '../../shared/session.service';
 import { AcoEventEmitterService } from '../../shared/ACO/aco-event-emitter.service';
 import { FilterCloseService } from './../../shared/filters/filter-close.service';
 import { PcorService } from '../../rest/care-delivery/pcor.service';
+import { RESET_KOP_FILTER } from 'src/app/store/kopFilter/actions';
+import { NgRedux } from '@angular-redux/store';
 // import { HealthSystemDetailsSharedService } from '../../shared/advocate/health-system-details-shared.service';
 
 @Component({
@@ -87,7 +89,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
   public navCategories = [];
   public navCategoriesTotal = [
     { icon: 'home', name: 'Overview', path: '/NationalExecutive', disabled: false, kop: true },
-    // { icon: 'summary', name: 'NPS Summary', path: '/NationalExecutive/NpsDetail', disabled: false, kop: true },
+    { icon: 'summary', name: 'NPS Summary', path: '/NationalExecutive/NpsDetail', disabled: false, kop: true },
     // {
     //   icon: 'person',
     //   name: 'Onboarding',
@@ -171,6 +173,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     private eventEmitter: EventEmitterService,
     private acoEventEmitter: AcoEventEmitterService,
     private viewPortScroller: ViewportScroller,
+    private ngRedux: NgRedux<any>,
     @Inject(DOCUMENT) private document: any
   ) {
     this.glossaryFlag = false;
@@ -386,6 +389,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
         setTimeout(() => {
           this.viewPortScroller.scrollToPosition([0, 0]);
         }, 500);
+        this.stopBodyScroll(true);
       },
       err => {
         console.log('Error, clickHelpIcon , inside Hamburger', err);
@@ -400,6 +404,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
         setTimeout(() => {
           this.viewPortScroller.scrollToPosition([0, 0]);
         }, 500);
+        this.stopBodyScroll(true);
       },
       err => {
         console.log('Error, clickHelpIcon , inside Hamburger', err);
@@ -413,6 +418,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
           this.filterData = filterData;
           this.customFilter = customFilter;
           this.filterurl = url;
+          this.stopBodyScroll(true);
         }
       },
       err => {
@@ -598,15 +604,23 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
   closeGlossary() {
     this.glossaryFlag = false;
     this.glossaryTitle = null;
+    this.stopBodyScroll(false);
   }
   filterFlagChange(flag) {
     this.filterFlag = flag;
     this.filterurl = null;
+    this.stopBodyScroll(false);
   }
   closeFilter() {
     this.filterFlag = false;
     this.filterurl = null;
+    this.stopBodyScroll(false);
   }
+
+  stopBodyScroll(flag: boolean) {
+    document.body.style.overflow = flag ? 'hidden' : 'auto';
+  }
+
   signOut() {
     this.authService.logout();
     if (!environment.internalAccess) {
@@ -620,6 +634,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     if (this.glossaryFlag) {
       this.glossaryFlag = false;
     }
+    this.stopBodyScroll(false);
   }
 
   /**
@@ -672,6 +687,8 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
         // Setting Value redirect, remind flag to local storage
         sessionStorage.setItem('fromKOP', 'YES');
         sessionStorage.setItem('advocateView', 'true');
+        // RESET KOP FILTER BEFORE MOVING
+        this.ngRedux.dispatch({ type: RESET_KOP_FILTER });
         // Reloading targeted route, for resetting the css
         window.location.href = '/OverviewPage';
       },
