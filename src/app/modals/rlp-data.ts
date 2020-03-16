@@ -14,6 +14,18 @@ export interface ItableType {
   tbody: any;
 }
 
+export const endpointsHCO = {
+  labs: 'LAB_VISITS_HCO',
+  referral: 'SPECIALIST_REFERRAL_HCO',
+  perscription: 'PRESCRIBING_PROVIDER_HCO'
+};
+
+export const endpointsTIN = {
+  labs: 'LAB_VISITS_TIN',
+  referral: 'SPECIALIST_REFERRAL_TIN',
+  perscription: 'PRESCRIBING_PROVIDER_TIN'
+};
+
 export const rlpCardType = {
   appCard: 'app-card',
   longCard: 'app-large-card'
