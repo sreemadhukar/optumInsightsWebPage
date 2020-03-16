@@ -25,12 +25,7 @@ export class ReferralsComponent implements OnInit {
     private perfShared: PerformanceService,
     private tableTinShared: RlpSharedService,
     private summarySharedService: SummarySharedService
-  ) {
-    this.perfShared.getPerformanceData().subscribe((response: any) => {
-      this.referralsItems = response[1];
-      console.log('Long Card', this.referralsItems);
-    });
-  }
+  ) {}
 
   ngOnInit() {
     this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'referralsPage' });
@@ -39,10 +34,11 @@ export class ReferralsComponent implements OnInit {
     this.summarySharedService
       .getHCOdata(rlpPageName.Referral, rlpCardType.longCard)
       .then(response => {
-        console.log('Component', rlpPageName.Referral, rlpCardType.longCard, response);
+        this.referralsItems = response[0];
+        console.log('Component', rlpPageName.Referral, rlpCardType.longCard, this.referralsItems);
       })
       .catch(reason => {
-        console.log('Error', rlpPageName.Referral, rlpCardType.longCard, reason);
+        console.log('Error', rlpPageName.Referral, rlpCardType.longCard, this.referralsItems);
       });
 
     this.tableTinShared
