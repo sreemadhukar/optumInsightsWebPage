@@ -4,36 +4,31 @@ import { AuthorizationService } from '../../auth/_service/authorization.service'
 import { GlossaryMetricidService } from '../glossary-metricid.service';
 import { PerformanceRestService } from '../../rest/performance/performance-rest.service';
 import { PerformanceModule } from '../../components/performance/performance.module';
-import { rlpPageName } from '../../modals/rlp-data';
-
-export const endpoints = {
-  labs: 'LAB_VISITS_HCO',
-  referral: 'SPECIALIST_REFERRAL_HCO',
-  perscription: 'PRESCRIBING_PROVIDER_HCO'
-};
+import { rlpPageName, rlpCardType, rlpBarType } from '../../modals/rlp-data';
+import { CommonUtilsService } from '../common-utils.service';
 
 export const getCategoryAndType = [
-  { category: 'app-large-card', type: 'rlp-large-bar' },
-  { category: 'app-card', type: 'rlp-small-bar' }
+  { category: rlpCardType.longCard, type: rlpBarType.longCard },
+  { category: rlpCardType.appCard, type: rlpBarType.appCard }
 ];
 export const pageMapApiEndpoint = [
   {
     name: rlpPageName.Referral,
-    apiPoint: endpoints.referral,
     title: 'Preferred Specialist Referral Rate',
-    suffix: 'Referral'
+    suffix: 'Referral',
+    MetricID: ''
   },
   {
     name: rlpPageName.Labs,
-    apiPoint: endpoints.labs,
     title: 'Preferred Lab Network Use Rate',
-    suffix: 'Preferred Lab Visits'
+    suffix: 'Preferred Lab Visits',
+    MetricID: ''
   },
   {
     name: rlpPageName.Perscription,
-    apiPoint: endpoints.perscription,
     title: 'Preferred Tier Prescribing Rate',
-    suffix: 'Prescriptions'
+    suffix: 'Prescriptions',
+    MetricID: ''
   }
 ];
 @Injectable({
@@ -45,7 +40,8 @@ export class SummarySharedService {
     private MetricidService: GlossaryMetricidService,
     private session: SessionService,
     private toggle: AuthorizationService,
-    private performanceRestService: PerformanceRestService
+    private performanceRestService: PerformanceRestService,
+    private common: CommonUtilsService
   ) {
     this.requestBody = { timeFilter: 'YTD' };
   }
@@ -53,7 +49,7 @@ export class SummarySharedService {
   /**
    * getHCOdata function prepares the template for HCO data of the app-card and long-card
    * @param pageName  pageName is to map the enpoint corresponding to that page
-   * @param chartType  chartType is to map the corresponding bar type
+   * @param chartType  chartType is to map the corresponding bar type There are only two type :- aap-card, app-long-card
    */
 
   public getHCOdata(pageName: string, chartType: string) {
@@ -62,7 +58,7 @@ export class SummarySharedService {
     return new Promise(resolve => {
       this.performanceRestService
         // .getNetworkLeversData(this.session.providerKeyData(), getStaticData.apiPoint, this.requestBody)
-        .getNetworkLeversData(951, getStaticData.apiPoint, this.requestBody)
+        .getNetworkLeversData(951, pageName, 'hco', this.requestBody)
         .subscribe(
           response => {
             let newData = null;
@@ -84,7 +80,12 @@ export class SummarySharedService {
                     percentage: response[0].RateWithPercentage
                   }
                 },
-                timeperiod: 'YTD (Jan 1, 2020—Mar 31, 2020)'
+                timeperiod:
+                  'YTD (' +
+                  this.common.dateFormat(response[0].ReportStartDate) +
+                  '&ndash;' +
+                  this.common.dateFormat(response[0].ReportEndDate) +
+                  ')'
               };
             }
             console.log('Shared Response HCO Data', pageName, response);
