@@ -1,23 +1,12 @@
 import { Injectable } from '@angular/core';
 import { PerformanceRestService } from '../../rest/performance/performance-rest.service';
 import { PerformanceModule } from '../../components/performance/performance.module';
-import { rlpPageName } from '../../modals/rlp-data';
 
 export interface ItableData {
   tin: number;
   groupName: string;
   graphData: any;
 }
-export const endpoints = {
-  labs: 'LAB_VISITS_TIN',
-  referral: 'SPECIALIST_REFERRAL_TIN',
-  perscription: 'PRESCRIBING_PROVIDER_TIN'
-};
-export const pageMapApiEndpoint = [
-  { name: rlpPageName.Referral, apiPoint: endpoints.referral },
-  { name: rlpPageName.Labs, apiPoint: endpoints.labs },
-  { name: rlpPageName.Perscription, apiPoint: endpoints.perscription }
-];
 
 @Injectable({
   providedIn: PerformanceModule
@@ -35,9 +24,8 @@ export class RlpSharedService {
 
   public getTableShared(pageName) {
     return new Promise(resolve => {
-      const getEndpoint = pageMapApiEndpoint.find(item => item.name === pageName).apiPoint;
       // this.performanceRestService.getNetworkLeversData(this.session.providerKeyData(), getEndpoint, this.requestBody).subscribe(
-      this.performanceRestService.getNetworkLeversData(1000, getEndpoint, this.requestBody).subscribe(
+      this.performanceRestService.getNetworkLeversData(1000, pageName, 'tin', this.requestBody).subscribe(
         response => {
           const newData = response.map(item => {
             const temp: ItableData = {
