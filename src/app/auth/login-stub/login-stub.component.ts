@@ -126,6 +126,8 @@ export class LoginStubComponent implements OnInit {
       if (this.route.queryParams) {
         this.route.queryParams.subscribe(params => {
           if (params.emulatedUuid) {
+            sessionStorage.clear();
+            sessionStorage.setItem('cache', JSON.stringify(false));
             sessionStorage.setItem('emulatedUuid', JSON.stringify(params.emulatedUuid));
           }
           if (params.code && !this.authService.isLoggedIn()) {
