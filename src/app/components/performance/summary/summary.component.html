@@ -16,7 +16,7 @@
     </div>
     <div>
       <div *ngFor="let data of referralMockCards; let i = index">
-        <app-card class="cards" [skeleton]="referralLoading" *ngIf="referralLoading"> </app-card>
+        <app-card class="cards" [skeleton]="referralsLoading" *ngIf="referralsLoading"> </app-card>
       </div>
       <app-card
         *ngIf="referralCard.data != null && referralCard.category == 'app-card'"
