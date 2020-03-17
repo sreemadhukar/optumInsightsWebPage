@@ -26,11 +26,7 @@ export class PrescriptionsComponent implements OnInit {
     private perfShared: PerformanceService,
     private tableTinShared: RlpSharedService,
     private summarySharedService: SummarySharedService
-  ) {
-    this.perfShared.getPerformanceData().subscribe((response: any) => {
-      this.prescriptionsItems = response[3];
-    });
-  }
+  ) {}
 
   ngOnInit() {
     this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'prescriptionsPage' });
@@ -39,10 +35,11 @@ export class PrescriptionsComponent implements OnInit {
     this.summarySharedService
       .getHCOdata(rlpPageName.Perscription, rlpCardType.longCard)
       .then(response => {
-        console.log('Component', rlpPageName.Perscription, rlpCardType.longCard, response);
+        this.prescriptionsItems = response;
+        console.log('Component', rlpPageName.Perscription, rlpCardType.longCard, this.prescriptionsItems);
       })
       .catch(reason => {
-        console.log('Error', rlpPageName.Perscription, rlpCardType.longCard, reason);
+        console.log('Error', rlpPageName.Perscription, rlpCardType.longCard, this.prescriptionsItems);
       });
     this.tableTinShared
       .getTableShared(rlpPageName.Perscription)

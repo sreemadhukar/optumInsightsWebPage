@@ -26,11 +26,7 @@ export class LabsComponent implements OnInit {
     private perfShared: PerformanceService,
     private tableTinShared: RlpSharedService,
     private summarySharedService: SummarySharedService
-  ) {
-    this.perfShared.getPerformanceData().subscribe((response: any) => {
-      this.labsItems = response[2];
-    });
-  }
+  ) {}
 
   ngOnInit() {
     this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'labsPage' });
@@ -39,10 +35,11 @@ export class LabsComponent implements OnInit {
     this.summarySharedService
       .getHCOdata(rlpPageName.Labs, rlpCardType.longCard)
       .then(response => {
-        console.log('Component', rlpPageName.Labs, rlpCardType.longCard, response);
+        this.labsItems = response;
+        console.log('Component', rlpPageName.Labs, rlpCardType.longCard, this.labsItems);
       })
       .catch(reason => {
-        console.log('Error', rlpPageName.Labs, rlpCardType.longCard, reason);
+        console.log('Error', rlpPageName.Labs, rlpCardType.longCard, this.labsItems);
       });
 
     this.tableTinShared
