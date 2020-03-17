@@ -7,7 +7,7 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class RlpLongCardComponent implements OnInit {
   @Input() config;
-
+  @Input() skeletonLong;
   constructor() {}
 
   ngOnInit() {}
