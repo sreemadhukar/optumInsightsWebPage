@@ -18,6 +18,8 @@ export class LabsComponent implements OnInit {
   public title: string;
   public subTitle: string;
   public labsItems;
+  loading: boolean;
+  loadingTable: boolean;
   public tableData: ItableType = {
     thead: [],
     tbody: []
@@ -39,14 +41,18 @@ export class LabsComponent implements OnInit {
     this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'labsPage' });
     this.title = rlpPageConf.Labs.title;
     this.subTitle = rlpPageConf.Labs.subTitle;
+    this.loading = true;
+    this.loadingTable = true;
     this.summarySharedService
       .getHCOdata(rlpPageName.Labs, rlpCardType.longCard)
       .then(response => {
         this.labsItems = response;
         console.log('Component', rlpPageName.Labs, rlpCardType.longCard, this.labsItems);
+        this.loading = false;
       })
       .catch(reason => {
         console.log('Error', rlpPageName.Labs, rlpCardType.longCard, this.labsItems);
+        this.loading = false;
       });
 
     this.tableTinShared
@@ -54,10 +60,12 @@ export class LabsComponent implements OnInit {
       .then(data => {
         this.tableData.thead = staticTableData.Labs;
         this.tableData.tbody = JSON.parse(JSON.stringify(data));
+        this.loadingTable = false;
         console.log('Labs', data);
       })
       .catch(reason => {
         console.log('Error Labs page table data', reason);
+        this.loadingTable = false;
       });
   }
 }

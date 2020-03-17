@@ -9,6 +9,7 @@ import { rlpData, INITIAL_PAGINATION, pageSizeConf } from '../../../../modals/rl
 })
 export class RlpTableComponent implements OnInit, OnDestroy {
   @Input() data;
+  @Input() skeletonTable;
   public qTinSearch: string; // Input ngModel of Tin Search
   public qGroupNameSearch: string; // Input ngModel of GroupName
   public tableData: any; // This varibale is used for the pipe
@@ -49,7 +50,7 @@ export class RlpTableComponent implements OnInit, OnDestroy {
     this.sortTableData();
     this.setPagination();
     this.isAscending = true;
-    console.log('Data', this.data);
+    console.log('Data', this.tableData);
   }
 
   /**

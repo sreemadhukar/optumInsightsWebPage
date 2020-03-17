@@ -27,6 +27,7 @@ export class RlpSharedService {
       // this.performanceRestService.getNetworkLeversData(this.session.providerKeyData(), getEndpoint, this.requestBody).subscribe(
       this.performanceRestService.getNetworkLeversData(958, pageName, 'tin', this.requestBody).subscribe(
         response => {
+          console.log('response--->', response);
           const newData = response.map(item => {
             const temp: ItableData = {
               tin: item.Tin,

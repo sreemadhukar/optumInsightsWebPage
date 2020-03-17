@@ -17,9 +17,16 @@
     </div>
     <div class="container-body">
       <!-- Large Card content-->
+
       <app-rlp-long-card [config]="referralsItems" *ngIf="referralsItems.data != null"></app-rlp-long-card>
+      <!--loader-->
+      <app-rlp-long-card [skeletonLong]="loading" *ngIf="loading && !printStyle"></app-rlp-long-card>
+      <!--loader-->
       <!-- Large Card content ends-->
       <app-rlp-table [data]="tableData"></app-rlp-table>
+      <!-- table loader-->
+      <!-- <app-large-card [skeletonLarge]="loadingTable" *ngIf="loadingTable"></app-large-card> -->
+      <!-- table loader-->
     </div>
   </div>
   <!--container content ends-->

@@ -1,3 +1,4 @@
+import { SessionService } from 'src/app/shared/session.service';
 import { Component, OnInit } from '@angular/core';
 import { NgRedux } from '@angular-redux/store';
 import { IAppState } from '../../../store/store';
@@ -17,6 +18,8 @@ import { CommonUtilsService } from 'src/app/shared/common-utils.service';
 export class PrescriptionsComponent implements OnInit {
   public title: string;
   public subTitle: string;
+  loading: boolean;
+  loadingTable: boolean;
   public prescriptionsItems;
   public tableData: ItableType = {
     thead: [],
@@ -39,14 +42,18 @@ export class PrescriptionsComponent implements OnInit {
     this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'prescriptionsPage' });
     this.title = rlpPageConf.Perscription.title;
     this.subTitle = rlpPageConf.Perscription.subTitle;
+    this.loading = true;
+    this.loadingTable = true;
     this.summarySharedService
       .getHCOdata(rlpPageName.Perscription, rlpCardType.longCard)
       .then(response => {
         this.prescriptionsItems = response;
         console.log('Component', rlpPageName.Perscription, rlpCardType.longCard, this.prescriptionsItems);
+        this.loading = false;
       })
       .catch(reason => {
         console.log('Error', rlpPageName.Perscription, rlpCardType.longCard, this.prescriptionsItems);
+        this.loading = false;
       });
     this.tableTinShared
       .getTableShared(rlpPageName.Perscription)
@@ -55,9 +62,11 @@ export class PrescriptionsComponent implements OnInit {
         this.tableData.tbody = JSON.parse(JSON.stringify(data));
         console.log('prescriptionData', data);
         console.log('Tble header', this.tableData);
+        this.loadingTable = false;
       })
       .catch(reason => {
         console.log('Error Prescription page table data', reason);
+        this.loadingTable = false;
       });
   }
 }

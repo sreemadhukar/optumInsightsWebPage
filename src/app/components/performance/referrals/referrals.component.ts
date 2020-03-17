@@ -1,3 +1,4 @@
+import { SessionService } from 'src/app/shared/session.service';
 import { Component, OnInit } from '@angular/core';
 import { NgRedux } from '@angular-redux/store';
 import { IAppState } from '../../../store/store';
@@ -18,6 +19,8 @@ export class ReferralsComponent implements OnInit {
   public title: string;
   public subTitle: string;
   public referralsItems;
+  loading: boolean;
+  loadingTable: boolean;
   public tableData: ItableType = {
     thead: [],
     tbody: []
@@ -38,14 +41,18 @@ export class ReferralsComponent implements OnInit {
     this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'referralsPage' });
     this.title = rlpPageConf.Referral.title;
     this.subTitle = rlpPageConf.Referral.subTitle;
+    this.loading = true;
+    this.loadingTable = true;
     this.summarySharedService
       .getHCOdata(rlpPageName.Referral, rlpCardType.longCard)
       .then(response => {
         this.referralsItems = response;
         console.log('Component', rlpPageName.Referral, rlpCardType.longCard, this.referralsItems);
+        this.loading = false;
       })
       .catch(reason => {
         console.log('Error', rlpPageName.Referral, rlpCardType.longCard, this.referralsItems);
+        this.loading = false;
       });
 
     this.tableTinShared
@@ -54,9 +61,11 @@ export class ReferralsComponent implements OnInit {
         this.tableData.thead = staticTableData.Referral;
         this.tableData.tbody = JSON.parse(JSON.stringify(data));
         console.log('Referral data', data);
+        this.loadingTable = false;
       })
       .catch(reason => {
         console.log('Error Referral page table data', reason);
+        this.loadingTable = false;
       });
   }
 }
