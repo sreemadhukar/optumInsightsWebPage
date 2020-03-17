@@ -9,27 +9,31 @@ import { IAppState } from '../../store/store';
   providedIn: 'root'
 })
 export class CreatePayloadService {
-  @select() currentPage;
-  @select() timePeriod;
-  @select() taxId;
-  @select() lineOfBusiness;
-  @select() serviceSetting;
-  @select() serviceCategory;
-  @select() priorAuthType;
-  @select() trendMetric;
-  @select() trendDate;
-  @select() claimsFilter;
+  @select(['uhc', 'currentPage']) currentPage;
+  @select(['uhc', 'timePeriod']) timePeriod;
+  @select(['uhc', 'taxId']) taxId;
+  @select(['uhc', 'lineOfBusiness']) lineOfBusiness;
+  @select(['uhc', 'serviceSetting']) serviceSetting;
+  @select(['uhc', 'serviceCategory']) serviceCategory;
+  @select(['uhc', 'priorAuthType']) priorAuthType;
+  @select(['uhc', 'trendMetric']) trendMetric;
+  @select(['uhc', 'trendDate']) trendDate;
+  @select(['uhc', 'claimsFilter']) claimsFilter;
+  @select(['uhc', 'appealsFilter']) appealsFilter;
+  @select(['uhc', 'viewClaimsByFilter']) viewClaimsByFilter;
   initialState: IAppState = {
     currentPage: 'overviewPage',
     timePeriod: 'Last6Months',
     taxId: [{ Tin: 'All', Tinname: 'All' }],
     lineOfBusiness: 'All',
     serviceSetting: 'All',
-    serviceCategory: '',
+    serviceCategory: 'All',
     priorAuthType: 'All',
     trendMetric: 'GettingReimbursed',
     trendDate: new Date(),
-    claimsFilter: 'All'
+    claimsFilter: 'All',
+    appealsFilter: 'Received Date',
+    viewClaimsByFilter: 'DOS'
   };
   payload: PayLoad = this.initialState;
   private payloadEmit = new Subject<any>();
@@ -46,12 +50,15 @@ export class CreatePayloadService {
     this.taxId.subscribe(taxId => (this.initialState.taxId = taxId));
     this.lineOfBusiness.subscribe(lineOfBusiness => (this.initialState.lineOfBusiness = lineOfBusiness));
     this.serviceSetting.subscribe(serviceSetting => (this.initialState.serviceSetting = serviceSetting));
+    this.serviceCategory.subscribe(serviceCategory => (this.initialState.serviceCategory = serviceCategory));
     this.priorAuthType.subscribe(priorAuthType => {
       this.initialState.priorAuthType = priorAuthType;
     });
     this.trendMetric.subscribe(trendMetric => (this.initialState.trendMetric = trendMetric));
     this.trendDate.subscribe(trendDate => (this.initialState.trendDate = trendDate));
     this.claimsFilter.subscribe(claimsFilter => (this.initialState.claimsFilter = claimsFilter));
+    this.appealsFilter.subscribe(appealsFilter => (this.initialState.appealsFilter = appealsFilter));
+    this.viewClaimsByFilter.subscribe(viewClaimsBy => (this.initialState.viewClaimsByFilter = viewClaimsBy));
   }
 
   changePayloadOnInit(appliedPage) {
@@ -77,6 +84,9 @@ export class CreatePayloadService {
       case 'callsPage':
         this.payload = this.getPayloadForCalls(this.initialState);
         break;
+      case 'viewTopClaimsPage':
+        this.payload = this.getPayloadForCalls(this.initialState);
+        break;
       case 'otherPages':
         this.payload = this.getPayload(this.initialState);
         break;
@@ -85,7 +95,8 @@ export class CreatePayloadService {
 
   resetTinNumber(appliedPage) {
     this.taxId.subscribe(taxId => (this.initialState.taxId = [{ Tin: 'All', Tinname: 'All' }]));
-    this.emitFilterEvent(appliedPage);
+    /* commented for mutiple api call solution*/
+    // this.emitFilterEvent(appliedPage);
   }
 
   emitFilterEvent(appliedPage) {
@@ -107,6 +118,10 @@ export class CreatePayloadService {
         this.payloadEmit.next({ value: this.getPayload(this.initialState) });
         break;
       case 'priorAuthPage':
+        this.payload = this.getPayloadForPriorAuth(this.initialState);
+        this.payloadEmit.next({ value: this.getPayloadForPriorAuth(this.initialState) });
+        break;
+      case 'viewTopClaimsPage':
         this.payload = this.getPayloadForPriorAuth(this.initialState);
         this.payloadEmit.next({ value: this.getPayloadForPriorAuth(this.initialState) });
         break;
@@ -135,11 +150,7 @@ export class CreatePayloadService {
       temporaryState.currentPage === 'nonPaymentsPage' ||
       temporaryState.currentPage === 'gettingReimbursedSummary'
     ) {
-      if (
-        temporaryState.timePeriod === 'Last12Months' ||
-        temporaryState.timePeriod === '2018' ||
-        temporaryState.timePeriod === '2017'
-      ) {
+      if (temporaryState.timePeriod === '2018') {
         temporaryState.timePeriod = 'Last6Months';
       }
     } else {
@@ -178,7 +189,9 @@ export class CreatePayloadService {
       'trendDate',
       'serviceCategory',
       'currentPage',
-      'claimsFilter'
+      'claimsFilter',
+      'AppealsFilter',
+      'viewClaimsByFilter'
     ]);
     return data;
   }

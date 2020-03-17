@@ -7,6 +7,7 @@ import { SessionService } from '../../session.service';
 import { AuthorizationService } from '../../../auth/_service/authorization.service';
 import { GlossaryMetricidService } from '../../glossary-metricid.service';
 import { GettingReimbursedPayload } from '../payload.class';
+import { lobName } from '../../../modals/lob-name';
 
 @Injectable({
   providedIn: GettingReimbursedModule
@@ -29,17 +30,21 @@ export class AppealsSharedService {
     let appealsSubmitted: object;
     let appealsOverturned: object;
     const summaryData: Array<object> = [];
+    let appealsSubmittedClosedtitle = 'Claims Appeals Submitted';
+    const appealTypeForTitle = new GettingReimbursedPayload(parameters);
+    if (appealTypeForTitle.appealsProcessing === 'Closed Date') {
+      appealsSubmittedClosedtitle = 'Claims Appeals Closed';
+    }
     return new Promise(resolve => {
       /** Changed the function name from appealsData to claimsAppealsData for PDP API*/
       this.gettingReimbursedService.claimsAppealsData(...parameters).subscribe(appealsData => {
         const lobFullData = this.common.getFullLobData(this.lob);
-        const lobData = this.common.matchLobWithData(this.lob);
         if (appealsData != null && appealsData.hasOwnProperty('status')) {
           appealsSubmitted = {
             category: 'app-card',
-            type: 'donutWithLabelBottom',
+            type: 'donutWithoutLabelBottom',
             status: appealsData.status,
-            title: 'Claims Appeals Submitted',
+            title: appealsSubmittedClosedtitle,
             MetricID: this.MetricidService.MetricIDs.ClaimsAppealsSubmitted,
             data: null,
             besideData: null,
@@ -81,7 +86,7 @@ export class AppealsSharedService {
                 sum += appealsData[0].LineOfBusiness.MedicareAndRetirement.ClinicalAppeals;
               }
               submittedData.push(sum);
-              labelsData.push('Medicare & Retirement');
+              labelsData.push(lobName.mAndRMedicare);
               colorsData.push('#3381FF');
             }
             if (appealsData[0].LineOfBusiness.hasOwnProperty('CommunityAndState')) {
@@ -99,7 +104,7 @@ export class AppealsSharedService {
                 sum += appealsData[0].LineOfBusiness.CommunityAndState.ClinicalAppeals;
               }
               submittedData.push(sum);
-              labelsData.push('Community & State');
+              labelsData.push(lobName.cAndSMedicaid);
               colorsData.push('#80B0FF');
             }
             if (appealsData[0].LineOfBusiness.hasOwnProperty('EmployerAndIndividual')) {
@@ -117,7 +122,7 @@ export class AppealsSharedService {
                 sum += appealsData[0].LineOfBusiness.EmployerAndIndividual.ClinicalAppeals;
               }
               submittedData.push(sum);
-              labelsData.push('Employer & Individual');
+              labelsData.push(lobName.eAndICommerCial);
               colorsData.push('#003DA1');
             }
 
@@ -136,13 +141,13 @@ export class AppealsSharedService {
                 sum += appealsData[0].LineOfBusiness.Uncategorized.ClinicalAppeals;
               }
               submittedData.push(sum);
-              labelsData.push('Uncategorized');
+              labelsData.push(lobName.unCategorized);
               colorsData.push('#00B8CC');
             }
             appealsSubmitted = {
               category: 'app-card',
-              type: 'donutWithLabelBottom',
-              title: 'Claims Appeals Submitted',
+              type: 'donutWithoutLabelBottom',
+              title: appealsSubmittedClosedtitle,
               MetricID: this.MetricidService.MetricIDs.ClaimsAppealsSubmitted,
               data: {
                 graphValues: submittedData,
@@ -160,7 +165,7 @@ export class AppealsSharedService {
                 hover: true
               },
               besideData: {
-                labels: ['Medicare & Retirement', 'Community & State', 'Employer & Individual', 'Uncategorized'],
+                labels: [lobName.mAndRMedicare, lobName.cAndSMedicaid, lobName.eAndICommerCial, lobName.unCategorized],
                 color: ['#3381FF', '#80B0FF', '#003DA1', '#00B8CC']
               },
               bottomData: {
@@ -179,13 +184,16 @@ export class AppealsSharedService {
                   }
                 ]
               },
-              timeperiod: this.timeFrame
+              timeperiod:
+                this.common.dateFormat(appealsData[0].StartDate) +
+                '&ndash;' +
+                this.common.dateFormat(appealsData[0].EndDate)
             };
           } else {
             appealsSubmitted = {
               category: 'app-card',
-              type: 'donutWithLabelBottom',
-              title: 'Claims Appeals Submitted',
+              type: 'donutWithoutLabelBottom',
+              title: appealsSubmittedClosedtitle,
               MetricID: this.MetricidService.MetricIDs.ClaimsAppealsSubmitted,
               status: 404,
               data: null,
@@ -223,7 +231,10 @@ export class AppealsSharedService {
                 gdata: ['card-inner', 'claimsAppealOverturned'],
                 sdata: null
               },
-              timeperiod: this.timeFrame
+              timeperiod:
+                this.common.dateFormat(appealsData[0].StartDate) +
+                '&ndash;' +
+                this.common.dateFormat(appealsData[0].EndDate)
             };
           } else {
             appealsOverturned = {
@@ -239,8 +250,8 @@ export class AppealsSharedService {
         } else {
           appealsSubmitted = {
             category: 'app-card',
-            type: 'donutWithLabelBottom',
-            title: 'Claims Appeals Submitted',
+            type: 'donutWithoutLabelBottom',
+            title: appealsSubmittedClosedtitle,
             MetricID: this.MetricidService.MetricIDs.ClaimsAppealsSubmitted,
             status: 404,
             data: null,
@@ -288,7 +299,7 @@ export class AppealsSharedService {
         this.timeFrame === 'Last 3 Months' ||
         this.timeFrame === 'Last 30 Days' ||
         this.timeFrame === 'Year to Date' ||
-        this.timeFrame === '2017' ||
+        this.timeFrame === '2019' ||
         this.timeFrame === '2018'
       ) {
         this.gettingReimbursedService.claimsAppealsReasonData(...parameters).subscribe(appealsReasonData => {
@@ -303,34 +314,46 @@ export class AppealsSharedService {
               timeperiod: null
             });
           } else if (appealsReasonData !== null) {
-            const reasonsVal1 = [{}];
-            const reasonsVal2 = [{}];
-            const barTitle = [{}];
-            const barVal = [{}];
-            let overturnCountTotal = 0;
-            for (let y = 0; y < appealsReasonData.length; y++) {
-              if (y === 0) {
-                overturnCountTotal = appealsReasonData[y].Count;
-              } else {
-                overturnCountTotal = overturnCountTotal + appealsReasonData[y].Count;
-              }
-            }
-            for (let a = 0; a < appealsReasonData.length; a++) {
-              barTitle[a] = appealsReasonData[a].Reason;
-              reasonsVal1[a] = appealsReasonData[a].Count;
-              reasonsVal2[a] = overturnCountTotal - Number(reasonsVal1[a]);
-              barVal[a] = ((Number(reasonsVal1[a]) / overturnCountTotal) * 100).toFixed() + '%';
-            }
-
-            for (let i = 0; i < appealsReasonData.length; i++) {
+            if (appealsReasonData != null && appealsReasonData.hasOwnProperty('status')) {
               reason.push({
-                type: 'bar chart',
-                graphValues: [reasonsVal1[i], reasonsVal2[i]],
-                barText: barTitle[i],
-                barValue: barVal[i],
-                color: ['#3381FF', '#FFFFFF', '#E0E0E0'],
-                gdata: ['app-card-structure', 'appealsOverturnReason' + i]
+                category: 'app-card',
+                type: 'donut',
+                status: 404,
+                title: 'Top Claims Appeals Overturn Reasons',
+                MetricID: this.MetricidService.MetricIDs.TopClaimAppealsOverturnReasons,
+                data: null,
+                timeperiod: null
               });
+            } else {
+              const reasonsVal1 = [{}];
+              const reasonsVal2 = [{}];
+              const barTitle = [{}];
+              const barVal = [{}];
+              let overturnCountTotal = 0;
+              for (let y = 0; y < appealsReasonData.length; y++) {
+                if (y === 0) {
+                  overturnCountTotal = appealsReasonData[y].Count;
+                } else {
+                  overturnCountTotal = overturnCountTotal + appealsReasonData[y].Count;
+                }
+              }
+              for (let a = 0; a < appealsReasonData.length; a++) {
+                barTitle[a] = appealsReasonData[a].Reason;
+                reasonsVal1[a] = appealsReasonData[a].Count;
+                reasonsVal2[a] = overturnCountTotal - Number(reasonsVal1[a]);
+                barVal[a] = ((Number(reasonsVal1[a]) / overturnCountTotal) * 100).toFixed() + '%';
+              }
+
+              for (let i = 0; i < appealsReasonData.length; i++) {
+                reason.push({
+                  type: 'bar chart',
+                  graphValues: [reasonsVal1[i], reasonsVal2[i]],
+                  barText: barTitle[i],
+                  barValue: barVal[i],
+                  color: ['#3381FF', '#FFFFFF', '#E0E0E0'],
+                  gdata: ['app-card-structure', 'appealsOverturnReason' + i]
+                });
+              }
             }
           }
           const r = reason;
@@ -345,6 +368,13 @@ export class AppealsSharedService {
     this.timeFrame = this.common.getTimePeriodFilterValue(param.timePeriod);
     this.providerKey = this.session.providerKeyData();
     let AOR: Array<Object> = [];
+
+    let appealsFilterSelected = 'DOR';
+    const appealTypeForTitle = new GettingReimbursedPayload(param);
+    if (appealTypeForTitle.appealsProcessing === 'Closed Date') {
+      appealsFilterSelected = 'DOC';
+    }
+
     return new Promise((resolve, reject) => {
       let parameters;
       parameters = [this.providerKey, new GettingReimbursedPayload(param)];
@@ -361,10 +391,12 @@ export class AppealsSharedService {
         this.gettingReimbursedService.claimsAppealsData(...parameters).subscribe(appealsData => {
           const lobFullData = this.common.getFullLobData(this.lob);
           const lobData = this.common.matchLobWithData(this.lob);
+
           if (appealsData && appealsData.hasOwnProperty('status')) {
             appealsOverturnedRate = {
               category: 'app-card',
-              type: 'donutWithBottomLabelOnly',
+              // type: 'donutWithBottomLabelOnly',
+              type: 'donut',
               status: appealsData.status,
               title: 'Claims Appeals Overturned Rate',
               MetricID: this.MetricidService.MetricIDs.ClaimAppealsOverturnRate,
@@ -381,16 +413,21 @@ export class AppealsSharedService {
               appealsData[0].LineOfBusiness[lobFullData].hasOwnProperty('ClinicalAppeals')
             ) {
               if (appealsData[0].LineOfBusiness[lobFullData].OverTurnCount != null) {
-                const submitted =
-                  appealsData[0].LineOfBusiness[lobFullData].AdminAppeals +
-                  appealsData[0].LineOfBusiness[lobFullData].ClinicalAppeals;
+                let submitted = 0;
+                if (appealsFilterSelected === 'DOR') {
+                  submitted =
+                    appealsData[0].LineOfBusiness[lobFullData].AdminAppeals +
+                    appealsData[0].LineOfBusiness[lobFullData].ClinicalAppeals;
+                } else if (appealsFilterSelected === 'DOC') {
+                  submitted = appealsData[0].LineOfBusiness[lobFullData].TotalClosedCount;
+                }
                 const overturned = appealsData[0].LineOfBusiness[lobFullData].OverTurnCount;
 
                 const overturnRate = ((overturned / submitted) * 100).toFixed(0);
                 const ornumber = Number(overturnRate);
                 appealsOverturnedRate = {
                   category: 'app-card',
-                  type: 'donutWithBottomLabelOnly',
+                  type: 'donut',
                   title: 'Claims Appeals Overturned Rate',
                   MetricID: this.MetricidService.MetricIDs.ClaimAppealsOverturnRate,
                   data: {
@@ -426,12 +463,16 @@ export class AppealsSharedService {
                       }
                     ]
                   },
-                  timeperiod: this.timeFrame
+                  timeperiod:
+                    this.common.dateFormat(appealsData[0].StartDate) +
+                    '&ndash;' +
+                    this.common.dateFormat(appealsData[0].EndDate)
                 };
               } else {
                 appealsOverturnedRate = {
                   category: 'app-card',
-                  type: 'donutWithBottomLabelOnly',
+                  // type: 'donutWithBottomLabelOnly',
+                  type: 'donut',
                   status: 404,
                   title: 'Claims Appeals Overturned Rate',
                   MetricID: this.MetricidService.MetricIDs.ClaimAppealsOverturnRate,
@@ -497,7 +538,8 @@ export class AppealsSharedService {
             } else {
               appealsOverturnedRate = {
                 category: 'app-card',
-                type: 'donutWithBottomLabelOnly',
+                // type: 'donutWithBottomLabelOnly',
+                type: 'donut',
                 status: 404,
                 title: 'Claims Appeals Overturned Rate',
                 MetricID: this.MetricidService.MetricIDs.ClaimAppealsOverturnRate,
@@ -517,7 +559,8 @@ export class AppealsSharedService {
           } else {
             appealsOverturnedRate = {
               category: 'app-card',
-              type: 'donutWithBottomLabelOnly',
+              // type: 'donutWithBottomLabelOnly',
+              type: 'donut',
               status: 404,
               title: 'Claims Appeals Overturned Rate',
               MetricID: this.MetricidService.MetricIDs.ClaimAppealsOverturnRate,
@@ -534,9 +577,13 @@ export class AppealsSharedService {
               timeperiod: null
             });
           }
-          const appealsSubmitted = this.createAppealsDonuts(appealsData, lobFullData).appealsSubmitted;
-          const appealsOverturned = this.createAppealsDonuts(appealsData, lobFullData).appealsOverturned;
+          const appealsSubmitted = this.createAppealsDonuts(appealsData, lobFullData, appealsFilterSelected)
+            .appealsSubmitted;
+
+          const appealsOverturned = this.createAppealsDonuts(appealsData, lobFullData, appealsFilterSelected)
+            .appealsOverturned;
           AOR = [appealsSubmitted, appealsOverturned, appealsOverturnedRate, reason];
+
           resolve(AOR);
         });
       } else {
@@ -544,10 +591,11 @@ export class AppealsSharedService {
         this.gettingReimbursedService.claimsAppealsData(...parameters).subscribe(appealsData => {
           const lobFullData = this.common.getFullLobData(this.lob);
           const lobData = this.common.matchLobWithData(this.lob);
-          if (appealsData !== null && appealsData.hasOwnProperty('status')) {
+          if (appealsData && appealsData.hasOwnProperty('status')) {
             appealsOverturnedRate = {
               category: 'app-card',
-              type: 'donutWithBottomLabelOnly',
+              // type: 'donutWithBottomLabelOnly',
+              type: 'donut',
               status: appealsData.status,
               title: 'Claims Appeals Overturned Rate',
               MetricID: this.MetricidService.MetricIDs.ClaimAppealsOverturnRate,
@@ -564,17 +612,23 @@ export class AppealsSharedService {
               appealsData[0].LineOfBusiness[lobFullData].hasOwnProperty('ClinicalAppeals')
             ) {
               if (appealsData[0].LineOfBusiness[lobFullData].OverTurnCount != null) {
-                const submitted =
-                  appealsData[0].LineOfBusiness[lobFullData].AdminAppeals +
-                  appealsData[0].LineOfBusiness[lobFullData].ClinicalAppeals;
                 const overturned = appealsData[0].LineOfBusiness[lobFullData].OverTurnCount;
+                let submitted = 0;
+                if (appealsFilterSelected === 'DOR') {
+                  submitted =
+                    appealsData[0].LineOfBusiness[lobFullData].AdminAppeals +
+                    appealsData[0].LineOfBusiness[lobFullData].ClinicalAppeals;
+                } else if (appealsFilterSelected === 'DOC') {
+                  submitted = appealsData[0].LineOfBusiness[lobFullData].TotalClosedCount;
+                }
 
                 const overturnRate = ((overturned / submitted) * 100).toFixed(0);
                 const ornumber = Number(overturnRate);
 
                 appealsOverturnedRate = {
                   category: 'app-card',
-                  type: 'donutWithBottomLabelOnly',
+                  // type: 'donutWithBottomLabelOnly',
+                  type: 'donut',
                   title: 'Claims Appeals Overturned Rate',
                   MetricID: this.MetricidService.MetricIDs.ClaimAppealsOverturnRate,
                   data: {
@@ -610,12 +664,16 @@ export class AppealsSharedService {
                       }
                     ]
                   },
-                  timeperiod: this.timeFrame
+                  timeperiod:
+                    this.common.dateFormat(appealsData[0].StartDate) +
+                    '&ndash;' +
+                    this.common.dateFormat(appealsData[0].EndDate)
                 };
               } else {
                 appealsOverturnedRate = {
                   category: 'app-card',
-                  type: 'donutWithBottomLabelOnly',
+                  // type: 'donutWithBottomLabelOnly',
+                  type: 'donut',
                   status: 404,
                   title: 'Claims Appeals Overturned Rate',
                   MetricID: this.MetricidService.MetricIDs.ClaimAppealsOverturnRate,
@@ -691,7 +749,8 @@ export class AppealsSharedService {
             } else {
               appealsOverturnedRate = {
                 category: 'app-card',
-                type: 'donutWithBottomLabelOnly',
+                // type: 'donutWithBottomLabelOnly',
+                type: 'donut',
                 status: 404,
                 title: 'Claims Appeals Overturned Rate',
                 MetricID: this.MetricidService.MetricIDs.ClaimAppealsOverturnRate,
@@ -711,7 +770,8 @@ export class AppealsSharedService {
           } else {
             appealsOverturnedRate = {
               category: 'app-card',
-              type: 'donutWithBottomLabelOnly',
+              // type: 'donutWithBottomLabelOnly',
+              type: 'donut',
               status: 404,
               title: 'Claims Appeals Overturned Rate',
               MetricID: this.MetricidService.MetricIDs.ClaimAppealsOverturnRate,
@@ -728,8 +788,10 @@ export class AppealsSharedService {
               timeperiod: null
             });
           }
-          const appealsSubmitted = this.createAppealsDonuts(appealsData, lobFullData).appealsSubmitted;
-          const appealsOverturned = this.createAppealsDonuts(appealsData, lobFullData).appealsOverturned;
+          const appealsSubmitted = this.createAppealsDonuts(appealsData, lobFullData, appealsFilterSelected)
+            .appealsSubmitted;
+          const appealsOverturned = this.createAppealsDonuts(appealsData, lobFullData, appealsFilterSelected)
+            .appealsOverturned;
           AOR = [appealsSubmitted, appealsOverturned, appealsOverturnedRate, reason];
           resolve(AOR);
           resolve(AOR);
@@ -737,15 +799,17 @@ export class AppealsSharedService {
       }
     });
   }
-  public createAppealsDonuts(appealsData, lobFullData) {
+  public createAppealsDonuts(appealsData, lobFullData, appealsFilterSelected) {
     let appealsSubmitted = {};
     let appealsOverturned = {};
+    let appealsSubmittedTitle = 'Claims Appeals Submitted';
+
     if (appealsData && appealsData.hasOwnProperty('status')) {
       appealsSubmitted = {
         category: 'app-card',
-        type: 'donutWithLabelBottom',
+        type: 'donutWithoutLabelBottom',
         status: appealsData.status,
-        title: 'Claims Appeals Submitted',
+        title: appealsSubmittedTitle,
         MetricID: this.MetricidService.MetricIDs.ClaimsAppealsSubmitted,
         data: null,
         besideData: null,
@@ -769,9 +833,21 @@ export class AppealsSharedService {
         appealsData[0].LineOfBusiness[lobFullData].hasOwnProperty('AdminAppeals') &&
         appealsData[0].LineOfBusiness[lobFullData].hasOwnProperty('ClinicalAppeals')
       ) {
+        let appealsSubmittedCenterVal = this.common.nFormatter(
+          appealsData[0].LineOfBusiness[lobFullData].AdminAppeals +
+            appealsData[0].LineOfBusiness[lobFullData].ClinicalAppeals
+        );
+        if (appealsFilterSelected === 'DOC') {
+          appealsSubmittedTitle = 'Claims Appeals Closed';
+          appealsSubmittedCenterVal = this.common.nFormatter(
+            appealsData[0].LineOfBusiness[lobFullData].TotalClosedCount
+          );
+        }
+
         const submittedData = [];
         const labelsData = [];
         const colorsData = [];
+
         if (
           appealsData[0].LineOfBusiness.hasOwnProperty('MedicareAndRetirement') &&
           appealsData[0].LineOfBusiness.MedicareAndRetirement != null &&
@@ -790,8 +866,11 @@ export class AppealsSharedService {
           ) {
             sum += appealsData[0].LineOfBusiness.MedicareAndRetirement.ClinicalAppeals;
           }
+          if (appealsFilterSelected === 'DOC') {
+            sum += appealsData[0].LineOfBusiness.MedicareAndRetirement.TotalClosedCount;
+          }
           submittedData.push(sum);
-          labelsData.push('Medicare & Retirement');
+          labelsData.push(lobName.mAndRMedicare);
           colorsData.push('#3381FF');
         }
         if (
@@ -812,8 +891,11 @@ export class AppealsSharedService {
           ) {
             sum += appealsData[0].LineOfBusiness.CommunityAndState.ClinicalAppeals;
           }
+          if (appealsFilterSelected === 'DOC') {
+            sum += appealsData[0].LineOfBusiness.CommunityAndState.TotalClosedCount;
+          }
           submittedData.push(sum);
-          labelsData.push('Community & State');
+          labelsData.push(lobName.cAndSMedicaid);
           colorsData.push('#80B0FF');
         }
         if (
@@ -834,8 +916,11 @@ export class AppealsSharedService {
           ) {
             sum += appealsData[0].LineOfBusiness.EmployerAndIndividual.ClinicalAppeals;
           }
+          if (appealsFilterSelected === 'DOC') {
+            sum += appealsData[0].LineOfBusiness.EmployerAndIndividual.TotalClosedCount;
+          }
           submittedData.push(sum);
-          labelsData.push('Employer & Individual');
+          labelsData.push(lobName.eAndICommerCial);
           colorsData.push('#003DA1');
         }
         if (
@@ -856,8 +941,11 @@ export class AppealsSharedService {
           ) {
             sum += appealsData[0].LineOfBusiness.Uncategorized.ClinicalAppeals;
           }
+          if (appealsFilterSelected === 'DOC') {
+            sum += appealsData[0].LineOfBusiness.Uncategorized.TotalClosedCount;
+          }
           submittedData.push(sum);
-          labelsData.push('Uncategorized');
+          labelsData.push(lobName.unCategorized);
           colorsData.push('#00B8CC');
         }
         if (lobFullData !== 'ALL') {
@@ -881,6 +969,9 @@ export class AppealsSharedService {
               appealsData[0].LineOfBusiness.ALL.ClinicalAppeals -
               appealsData[0].LineOfBusiness[lobFullData].ClinicalAppeals;
           }
+          if (appealsFilterSelected === 'DOC') {
+            sum += appealsData[0].LineOfBusiness[lobFullData].TotalClosedCount;
+          }
           submittedData.push(sum);
           labelsData.push('Other Lines of Business');
           colorsData.push('#D7DCE1');
@@ -897,15 +988,12 @@ export class AppealsSharedService {
         }
         appealsSubmitted = {
           category: 'app-card',
-          type: 'donutWithLabelBottom',
-          title: 'Claims Appeals Submitted',
+          type: 'donutWithoutLabelBottom',
+          title: appealsSubmittedTitle,
           MetricID: this.MetricidService.MetricIDs.ClaimsAppealsSubmitted,
           data: {
             graphValues: submittedData,
-            centerNumber: this.common.nFormatter(
-              appealsData[0].LineOfBusiness[lobFullData].AdminAppeals +
-                appealsData[0].LineOfBusiness[lobFullData].ClinicalAppeals
-            ),
+            centerNumber: appealsSubmittedCenterVal,
             color: colorsData,
             gdata: ['card-inner', 'claimsAppealSubmitted'],
             sdata: {
@@ -935,13 +1023,16 @@ export class AppealsSharedService {
               }
             ]
           },
-          timeperiod: this.timeFrame
+          timeperiod:
+            this.common.dateFormat(appealsData[0].StartDate) +
+            '&ndash;' +
+            this.common.dateFormat(appealsData[0].EndDate)
         };
       } else {
         appealsSubmitted = {
           category: 'app-card',
-          type: 'donutWithLabelBottom',
-          title: 'Claims Appeals Submitted',
+          type: 'donutWithoutLabelBottom',
+          title: appealsSubmittedTitle,
           MetricID: this.MetricidService.MetricIDs.ClaimsAppealsSubmitted,
           status: 404,
           data: null,
@@ -982,7 +1073,10 @@ export class AppealsSharedService {
             gdata: ['card-inner', 'claimsAppealOverturned'],
             sdata: null
           },
-          timeperiod: this.timeFrame
+          timeperiod:
+            this.common.dateFormat(appealsData[0].StartDate) +
+            '&ndash;' +
+            this.common.dateFormat(appealsData[0].EndDate)
         };
       } else {
         appealsOverturned = {
@@ -998,8 +1092,8 @@ export class AppealsSharedService {
     } else {
       appealsSubmitted = {
         category: 'app-card',
-        type: 'donutWithLabelBottom',
-        title: 'Claims Appeals Submitted',
+        type: 'donutWithoutLabelBottom',
+        title: appealsSubmittedTitle,
         MetricID: this.MetricidService.MetricIDs.ClaimsAppealsSubmitted,
         status: 404,
         data: null,

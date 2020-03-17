@@ -11,7 +11,6 @@ import { CURRENT_PAGE } from '../../../store/filter/actions';
 import { IAppState } from '../../../store/store';
 import { CreatePayloadService } from '../../../shared/uhci-filters/create-payload.service';
 import { REMOVE_FILTER } from '../../../store/filter/actions';
-
 @Component({
   selector: 'app-calls',
   templateUrl: './calls.component.html',
@@ -41,7 +40,7 @@ export class CallsComponent implements OnInit {
     private createPayloadService: CreatePayloadService
   ) {
     const filData = this.session.getFilChangeEmitter().subscribe(() => this.common.urlResuseStrategy());
-    this.pageSubTitle = 'Issue Resolution - Calls';
+    this.pageSubTitle = 'Calls';
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => {
       this.createPayloadService.resetTinNumber('callsPage');
       this.ngRedux.dispatch({ type: REMOVE_FILTER, filterData: { taxId: true } });
@@ -62,6 +61,7 @@ export class CallsComponent implements OnInit {
 
   ngOnInit() {
     if (this.printStyle) {
+      this.pageSubTitle = 'Service Interaction - Calls';
       this.pageTitle = this.session.getHealthCareOrgName();
     }
     this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'callsPage' });

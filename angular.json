@@ -28,7 +28,7 @@
               },
               "src/theme.scss"
             ],
-            "scripts": ["src/modernizr.js"]
+            "scripts": ["src/modernizr.js", "src/assets/js/user-review.js"]
           },
           "configurations": {
             "prod": {
@@ -140,7 +140,7 @@
                   "with": "src/environments/environment.devtwo.ts"
                 }
               ],
-              "optimization": true,
+              "optimization": false,
               "outputHashing": "all",
               "sourceMap": false,
               "extractCss": true,

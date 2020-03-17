@@ -1,5 +1,3 @@
-<app-feedback></app-feedback>
-
 <div class="overview-body" color="primary" id="print-overview">
   <div
     class="overview-content"
@@ -8,7 +6,8 @@
   >
     <div class="cards cust-width-title">
       <div class="page-title">{{ pageTitle }}</div>
-      <div class="page-subtitle">{{ pagesubTitle }}</div>
+      <div *ngIf="!printStyle" class="page-subtitle">{{ pagesubTitle }}</div>
+      <div *ngIf="printStyle" [ngClass]="{ 'print-page-subtitle': printStyle === true }">{{ pagesubTitle }}</div>
     </div>
     <div class="cards cust-width-blank">
       <app-print> </app-print>
@@ -45,15 +44,9 @@
     <app-small-card class="cards" [skeleton]="loading" *ngIf="loading"> </app-small-card>
     <app-error-card *ngIf="errorloadselfServiceAdoptionCard" class="cards" [data]="item"></app-error-card>
 
-    <div *ngIf="displayClaimsYield">
-      <app-small-card
-        class="cards"
-        *ngIf="loadClaimsYieldCard && !claimsLoading"
-        class="cards"
-        [data]="claimsYieldBlock"
-      >
-      </app-small-card>
-    </div>
+    <app-small-card class="cards" *ngIf="loadClaimsYieldCard && !claimsLoading" class="cards" [data]="claimsYieldBlock">
+    </app-small-card>
+
     <app-small-card class="cards" [skeleton]="claimsLoading" *ngIf="claimsLoading"> </app-small-card>
     <app-error-card *ngIf="errorloadClaimsYieldCard" class="cards" [data]="item"></app-error-card>
 

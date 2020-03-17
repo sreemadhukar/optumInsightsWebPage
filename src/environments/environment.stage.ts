@@ -35,19 +35,27 @@ export const environment: any = {
     Calls: 'issue-resolutions/',
     PaymentIntegrity: 'pi-metrics/',
     NonPayment: 'claim-metrics/',
+    NonPaymentTopClaims: 'non-payment-claims/',
+    NonPaymentDop: 'dop-claim-metrics/',
+    NonPaymentDopTrend: 'dop-denial-trend/',
     CallsTrend: 'provider-calls/',
     TrendingMetrics: 'trending-metrics/',
     PCORQualityMeasure: 'pcor-metrics/',
     NPSSummary: 'kop-metrics/',
-    KOPPriorAuthSummary: 'kop-priorauth-request/',
+    NPSQuarterlySummary: 'kop-quarterly-metrics',
+    KOPPriorAuthSummary: 'kop-priorauth-metrics/',
     KOPPriorAuthTATSummary: 'kop-priorauth-tat/',
+    KOPReimbursementClaims: 'kop-reimbursement-metrics/',
     AppealsTrend: 'appeals-trend/',
     AdminSummaryTrends: 'admintrends/',
     AppealsFHIR: 'appeals/v2.0/',
     AppealsOverturn: 'appeal-overturn-reasons/',
     AdminSummaryTrendsCount: 'admintrendscount/',
     RefreshToken: 'getRefreshToken/',
-    HealthSystemDetails: 'providerInfo/'
+    HealthSystemDetails: 'providerInfo/',
+    KOPBusinessGlossary: 'business-glossaries-kop/',
+    CallsTrendLine: 'calls-trend/',
+    PaymentsBySubmission: 'claim-submissions/'
   },
   headerKeys: {
     selectedCompany: '',
@@ -69,7 +77,6 @@ export const environment: any = {
   errorMessage: 'empty',
   clickStreamUrl: '//assets.adobedtm.com/launch-ENacdc6d1acf734bcd95703e446bd1de1d-development.min.js',
   internalAccess: true,
-  claimsYieldAccess: true,
   toggleTrendingSummary: false,
   sentryKey: 'https://c0d9c99fbff94d57a8401686f8de809b@sentry-ped-internal.ocp-ctc-core.optum.com/4'
 };

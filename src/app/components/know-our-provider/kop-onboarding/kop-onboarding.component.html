@@ -1,0 +1,81 @@
+<div class="overview-body" color="primary" id="print-overview">
+  <div class="overview-content">
+    <div class="breadcrumb">
+      <a class="breadcrumb-main">Overview </a>
+      <span class="breadcrumb-arrow">></span>
+      <a class="breadcrumb-page">Onboarding</a>
+    </div>
+    <div class="overview-header">
+      Onboarding Summary
+    </div>
+
+    <div class="height1Separator"></div>
+
+    <div class="breadcrumb-top-padding filter-div">
+      <div class="time--period ">
+        <div class="filterchips">
+          <div class="horizontal-align">
+            <button class="btn btn-rounded" disabled>
+              <span>Time Period: </span><span class="text-semibold pl-4">(Quarter over Quarter) </span>
+            </button>
+          </div>
+        </div>
+        <div class="filter_bg" (click)="openFilter()">
+          <mat-icon matPrefix class="nav-menu-icons filter_icon" svgIcon="filter"></mat-icon>
+          <div class="filter_title">Filters</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="overview-section">
+      <nav mat-tab-nav-bar>
+        <a
+          mat-tab-link
+          class="rm-padding height-10vh"
+          *ngFor="let link of navLinks; let i = index"
+          [routerLink]="link.path"
+          (click)="setActiveIndex(i)"
+          routerLinkActive
+          #rla="routerLinkActive"
+          [ngClass]="{ 'active-class-border': link.isActive }"
+        >
+          <div class="nav-label" [ngClass]="{ 'active-class-background': link.isActive }">
+            <p
+              class="margin-top-15"
+              [ngClass]="{
+                'margin-top-27':
+                  (link.label === 'Summary' && !link.isActive) || (link.label === 'Verbatims' && link.isActive)
+              }"
+            >
+              {{ link.label }}
+            </p>
+            <p
+              class="margin-top-15 nav-sub-label"
+              [hidden]="
+                !(
+                  (link.label === 'Summary' && !link.isActive) ||
+                  (link.label === 'Verbatims' && link.isActive) ||
+                  link.label === 'Credentailing' ||
+                  link.label === 'Contracting'
+                )
+              "
+            >
+              {{ link.subLabel }}
+            </p>
+            <p
+              class="margin-top-15 nav-sub-label"
+              [hidden]="
+                (link.label === 'Summary' && !link.isActive) ||
+                (link.label === 'Verbatims' && link.isActive) ||
+                link.label === 'Credentailing' ||
+                link.label === 'Contracting'
+              "
+            ></p>
+          </div>
+        </a>
+      </nav>
+
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>

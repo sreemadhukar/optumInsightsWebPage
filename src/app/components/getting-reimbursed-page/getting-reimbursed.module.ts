@@ -1,6 +1,8 @@
+import { TopClaimsSharedService } from 'src/app/shared/getting-reimbursed/non-payments/top-claims-shared.service';
+
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { GettingReimbursedRoutingModule } from './getting-reimbursed-routing.module';
 import { GettingReimbursedComponent } from './getting-reimbursed/getting-reimbursed.component';
@@ -14,18 +16,35 @@ import { GettingReimbursedService } from '../../rest/getting-reimbursed/getting-
 import { AppealsComponent } from './appeals/appeals.component';
 import { AppealsSharedService } from '../../shared/getting-reimbursed/appeals/appeals-shared.service';
 import { PaymentIntegrityComponent } from './payment-integrity/payment-integrity.component';
+import { ViewTopClaimsComponent } from './non-payments/view-top-claims/view-top-claims.component';
 import { NonPaymentsComponent } from './non-payments/non-payments.component';
 import { PaymentsComponent } from './payments/payments.component';
 import { SmartEditsComponent } from './payment-integrity/smart-edits/smart-edits.component';
+import { PipesModule } from '../../pipes/pipes.module';
 @NgModule({
-  imports: [CommonModule, GettingReimbursedRoutingModule, CommonUtilsModule, HeadMaterialModule, FormsModule],
-  providers: [GettingReimbursedService, NonPaymentSharedService, AppealsSharedService, PaymentsSharedService],
+  imports: [
+    CommonModule,
+    GettingReimbursedRoutingModule,
+    CommonUtilsModule,
+    HeadMaterialModule,
+    FormsModule,
+    ReactiveFormsModule,
+    PipesModule
+  ],
+  providers: [
+    GettingReimbursedService,
+    NonPaymentSharedService,
+    TopClaimsSharedService,
+    AppealsSharedService,
+    PaymentsSharedService
+  ],
 
   declarations: [
     GettingReimbursedComponent,
     AppealsComponent,
     PaymentIntegrityComponent,
     NonPaymentsComponent,
+    ViewTopClaimsComponent,
     PaymentsComponent,
     SmartEditsComponent
   ],
@@ -33,12 +52,11 @@ import { SmartEditsComponent } from './payment-integrity/smart-edits/smart-edits
     GettingReimbursedComponent,
     PaymentsComponent,
     NonPaymentsComponent,
+    ViewTopClaimsComponent,
     AppealsComponent,
     PaymentIntegrityComponent
   ]
 })
 export class GettingReimbursedModule {
-  constructor() {
-    console.log('GettingReimbursed Loaded');
-  }
+  constructor() {}
 }

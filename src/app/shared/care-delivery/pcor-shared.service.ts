@@ -18,38 +18,38 @@ export class PcorSharedService {
   ) {}
 
   /** The following service method is fetching data for
-   * 1. Medicare & Retirement Average Star Rating
-   * 2. Medicare & Retirement Annual Care Visits Completion Rate
+   * 1. Medicare Average Star Rating
+   * 2. Medicare Annual Care Visits Completion Rate
    * 3. Quality Star top level information i.e. star count only
+   *  *  i.e. the inside level information for the quality star i.e. subCategories
    */
 
-  public getMRData() {
+  public getQualityMeasureData() {
     return new Promise(resolve => {
-      const parametersExecutive = [this.session.providerKeyData(), true];
-      this.pcorService.getExecutiveData(...parametersExecutive).subscribe(
+      this.pcorService.getPCORQualityMeasureData([this.session.providerKeyData()]).subscribe(
         data => {
-          if ((data || {}).PatientCareOpportunity) {
-            const PCORData = data.PatientCareOpportunity;
-            // Reporting Date will be used for all three cards
+          if ((data || {}).QualityMsrCodeName && typeof data !== 'string') {
+            const category: Array<Object> = [];
+            const subCategory: Array<Object> = [];
+            const PCORData = data;
             const PCORMRdate = PCORData.ReportingPeriod;
-            const PCORMRmonth = this.common.ReturnMonthlyString(PCORMRdate.substr(0, 2));
-            const PCORMRday = parseInt(PCORMRdate.substr(3, 2));
-            const PCORMRyear = PCORMRdate.substr(6, 4);
+            const PCORMRmonth = this.common.ReturnMonthlyString(PCORMRdate.substr(5, 2));
+            const PCORMRday = parseInt(PCORMRdate.substr(8, 2));
+            const PCORMRyear = PCORMRdate.substr(0, 4);
             const PCORRMReportingDate = PCORMRmonth + ' ' + PCORMRday + ', ' + PCORMRyear;
-            const PCORMandRData = PCORData.LineOfBusiness.MedicareAndRetirement;
 
-            const totalAllCompletionRate = PCORMandRData.TotalACVs / PCORMandRData.TotalPatientCount;
-            const totalDiabeticCompletionRate = PCORMandRData.TotalDiabeticACVs / PCORMandRData.TotalDiabeticPatients;
+            const totalAllCompletionRate = PCORData.TotalACVs / PCORData.TotalPatientCount;
+            const totalDiabeticCompletionRate = PCORData.TotalDiabeticACVs / PCORData.TotalDiabeticPatients;
 
             const MandRAvgStarRatingCard = [
               {
                 category: 'app-card',
                 type: 'star',
-                title: 'Medicare & Retirement Average Star Rating',
+                title: 'Medicare Average Star Rating',
                 MetricID: this.MetricidService.MetricIDs.MedicareStarRating,
                 data: {
-                  graphValues: [PCORMandRData.AverageStarRating],
-                  centerNumber: PCORMandRData.AverageStarRating,
+                  graphValues: [PCORData.AverageStarRating],
+                  centerNumber: PCORData.AverageStarRating,
                   color: ['#00A8F7', '#D7DCE1', '#FFFFFF'],
                   gdata: ['card-inner', 'pcorCardD3Star']
                 },
@@ -61,7 +61,7 @@ export class PcorSharedService {
               {
                 category: 'app-card',
                 type: 'donutWithLabelandTab',
-                title: 'Medicare & Retirement Annual Care Visits Completion Rate',
+                title: 'Medicare Annual Care Visits Completion Rate',
                 MetricID: this.MetricidService.MetricIDs.MedicareRetirementAnnualCareVisitsCompletionRateDiabetic,
                 data: {
                   All: {
@@ -86,11 +86,11 @@ export class PcorSharedService {
                     verticalData: [
                       { title: '' },
                       {
-                        values: PCORMandRData.TotalPatientCount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','),
+                        values: PCORData.TotalPatientCount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','),
                         labels: 'Total Patients'
                       },
                       {
-                        values: PCORMandRData.TotalACVs.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','),
+                        values: PCORData.TotalACVs.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','),
                         labels: 'Completed'
                       }
                     ]
@@ -99,11 +99,11 @@ export class PcorSharedService {
                     verticalData: [
                       { title: '' },
                       {
-                        values: PCORMandRData.TotalDiabeticPatients.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','),
+                        values: PCORData.TotalDiabeticPatients.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','),
                         labels: 'Total Patients'
                       },
                       {
-                        values: PCORMandRData.TotalDiabeticACVs.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','),
+                        values: PCORData.TotalDiabeticACVs.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','),
                         labels: 'Completed'
                       }
                     ]
@@ -112,141 +112,98 @@ export class PcorSharedService {
                 timeperiod: 'Data represents claims processed as of ' + PCORRMReportingDate
               }
             ];
+            let preparedData: Array<any> = [];
+            if (PCORData) {
+              // Captilize the first alphabet of the string
+              const capitalize = s => {
+                if (typeof s !== 'string') {
+                  return '';
+                }
+                return s.charAt(0).toUpperCase() + s.slice(1);
+              };
 
-            const PCORRatings = [
-              PCORMandRData['5StarMeasureCount'],
-              PCORMandRData['4StarMeasureCount'],
-              PCORMandRData['3StarMeasureCount'],
-              PCORMandRData['2StarMeasureCount'],
-              PCORMandRData['1StarMeasureCount']
-            ];
+              const template = ['0', '1', '2', '3', '4', '5'];
+              const accorTitle = ['Zero', 'One', 'Two', 'Three', 'Four', 'Five'];
+              const barCountArray = [];
+              const completeData = JSON.parse(JSON.stringify(PCORData));
 
-            const barScaleMax = Math.max(...PCORRatings);
+              const escapeSpecialChars = function(string) {
+                return string.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+              };
+              const asteriskCharacter = escapeSpecialChars('**');
 
-            const MandRStarRatingCard = [];
-
-            for (let i = 0; i < PCORRatings.length; i++) {
-              MandRStarRatingCard.push({
-                type: 'singleBarChart',
-                title: 'Quality Star Ratings',
-                MetricID: this.MetricidService.MetricIDs.QualityStarRatings,
-                data: {
-                  barHeight: 48,
-                  barData: PCORRatings[i],
-                  barSummation: barScaleMax,
-                  barText: PCORRatings[i],
-                  color: [{ color1: '#3381FF' }],
-                  gdata: ['card-inner-large', 'PCORreasonBar' + i],
-                  starObject: true,
-                  starCount: 5 - i
-                },
-                timeperiod: 'Data represents claims processed as of ' + PCORRMReportingDate
-              });
-            }
-
-            const PCORCards = [MandRAvgStarRatingCard, MandRACVCard, MandRStarRatingCard];
-            resolve(PCORCards);
-          } else {
-            resolve(null);
-          }
-        },
-        err => {
-          console.log('PCOR Error', err);
-        }
-      );
-    });
-  }
-
-  /** The following service method is fetching data for
-   * 3. Data corresponding to the Quality Star
-   *  i.e. the inside level information for the quality star i.e. subCategories
-   */
-
-  public getQualityMeasureData() {
-    return new Promise(resolve => {
-      this.pcorService.getPCORQualityMeasureData([this.session.providerKeyData()]).subscribe(
-        data => {
-          // console.log('Original Data', data);
-          let preparedData: Array<any> = [];
-          if (data) {
-            // Captilize the first alphabet of the string
-            const capitalize = s => {
-              if (typeof s !== 'string') {
-                return '';
-              }
-              return s.charAt(0).toUpperCase() + s.slice(1);
-            };
-
-            const category: Array<Object> = [];
-            const subCategory: Array<Object> = [];
-            const template = ['zero', 'one', 'two', 'three', 'four', 'five'];
-            const barCountArray = [];
-            const completeData = JSON.parse(JSON.stringify(data));
-            const escapeSpecialChars = function(string) {
-              return string.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
-            };
-            const asteriskCharacter = escapeSpecialChars('**');
-
-            // ++ output of asterisk character is /*/*
-            for (let i = 5; i > 0; i--) {
-              const metricName = template[i] + 'StarMeasureCount';
-              if (data.hasOwnProperty(metricName) && completeData[metricName] !== null) {
-                const m = {
-                  star: i,
-                  label: capitalize(template[i]) + ' Star Quality Measure',
-                  count: completeData[metricName].Count,
-                  insideData: completeData[metricName].Data.map(v => {
-                    return v.Name.match(new RegExp(asteriskCharacter, 'g'))
-                      ? { ...v, message: true }
-                      : { ...v, message: false };
-                  })
-                };
-                barCountArray.push(m.count);
-                subCategory.push(m);
-                // end if structure
-              } else {
-                const m = {
-                  star: i,
-                  label: capitalize(template[i]) + ' Star Quality Measure',
-                  count: 0,
-                  insideData: null
-                };
-                barCountArray.push(m.count);
-                subCategory.push(m);
-              }
-            } // end for loop for sub-category
-            /*
+              // ++ output of asterisk character is /*/*
+              for (let i = 5; i > 0; i--) {
+                const metricName = template[i] + 'StarRating';
+                const labelName = accorTitle[i] + ' Star Quality Measure';
+                if (
+                  data.QualityMsrCodeName.hasOwnProperty(metricName) &&
+                  completeData.QualityMsrCodeName[metricName] !== null
+                ) {
+                  const countValue = completeData.QualityMsrCodeName[metricName].length;
+                  const m = {
+                    star: i,
+                    label: labelName,
+                    count: countValue,
+                    insideData: completeData.QualityMsrCodeName[metricName].map(v => {
+                      return v.QualityMeasurecodeandname.match(new RegExp(asteriskCharacter, 'g'))
+                        ? { ...v, message: true }
+                        : { ...v, message: false };
+                    })
+                  };
+                  barCountArray.push(m.count);
+                  subCategory.push(m);
+                  // end if structure
+                } else {
+                  const m = {
+                    star: i,
+                    label: labelName,
+                    count: 0,
+                    insideData: null
+                  };
+                  barCountArray.push(m.count);
+                  subCategory.push(m);
+                }
+              } // end for loop for sub-category
+              /*
              We can also fetch the Top Level Categry i.e star count info via this code
              but the loading of 'Quality Star' card is slow , because then it will load
              data at once. So right now we can fetch 'Star Count' from executive api onlt
              In future we can use this code if found useful
+ */
+              const barScaleMax = Math.max(...barCountArray);
 
-             const barScaleMax = Math.max(...barCountArray);
-             for (let i = subCategory.length; i > 0; i--) {
-             category.push({
-             type: 'singleBarChart',
-             star: i,
-             title: 'Quality Star Ratings',
-             data: {
-             barHeight: 48,
-             barData: completeData.filter(item => item.QualityRating === i).length,
-             barSummation: barScaleMax,
-             barText: completeData.filter(item => item.QualityRating === i).length,
-             color: [{ color1: '#3381FF' }],
-             gdata: ['card-inner-large', 'PCORreasonBar' + i],
-             starObject: true,
-             starCount: i
-             },
-             timeperiod: 'Data represents claims processed as of '
-             });
-             }
-             */
-            preparedData.push(subCategory);
+              for (let i = subCategory.length; i > 0; i--) {
+                const metricName = template[i] + 'StarRating';
+                category.push({
+                  type: 'singleBarChart',
+                  star: i,
+                  title: 'Quality Star Ratings',
+                  MetricID: this.MetricidService.MetricIDs.QualityStarRatings,
+                  data: {
+                    barHeight: 48,
+                    barData: completeData.QualityMsrCodeName[metricName].length,
+                    barSummation: barScaleMax,
+                    barText: completeData.QualityMsrCodeName[metricName].length,
+                    color: [{ color1: '#3381FF' }],
+                    gdata: ['card-inner-large', 'PCORreasonBar' + i],
+                    starObject: true,
+                    starCount: i
+                  },
+                  timeperiod: 'Data represents claims processed as of ' + PCORRMReportingDate
+                });
+              }
+
+              preparedData.push(MandRAvgStarRatingCard, MandRACVCard, subCategory, category);
+            } else {
+              preparedData = null;
+            }
+
+            resolve(preparedData);
           } else {
-            preparedData = null;
+            const temp = null;
+            resolve(temp);
           }
-          console.log('PCOR Shared Prepared Data', preparedData);
-          resolve(preparedData);
         },
         err => {
           console.log('PCOR Quality Star Error', err);

@@ -4,11 +4,15 @@ export class Reimbursement {
   public data = {
     title: 'Reimbursement',
     chartData: [],
+    type: 'cards',
+    MetricID: '47',
     quarters: []
   };
   private section = 'reimbursement';
-  constructor({ records }) {
+  private sectionKey: string;
+  constructor({ records, key }) {
     this.records = records;
+    this.sectionKey = key;
     this.singleCard = records.length === 1 ? true : false;
     this.createSchema();
     this.createCard();
@@ -16,7 +20,11 @@ export class Reimbursement {
 
   public createCard() {
     this.records.forEach((record, index) => {
-      const { Reimbursement: Reimbursement_Data = {} } = record;
+      const Reimbursement_Data = record[this.sectionKey] || {};
+
+      // For Claims Processing Accuracy %
+      // const { Reimbursement: Reimbursement_Data = {} } = record;
+
       this.data.chartData.forEach((chartDataElement: any) => {
         const key = chartDataElement.key;
         const subKey = chartDataElement.subKey;
@@ -30,16 +38,17 @@ export class Reimbursement {
             section: this.section
           });
         } else {
-          const value = Reimbursement_Data[key][subKey] ? Math.round(Reimbursement_Data[key][subKey]) : null;
+          const value = Reimbursement_Data[key][subKey] !== null ? Math.round(Reimbursement_Data[key][subKey]) : null;
           if (this.singleCard && value !== null) {
-            chartDataElement.quarters.push({ title: value + '' + chartDataElement.units });
+            chartDataElement.quarters.push({ title: this.nFormatter(value) + '' + chartDataElement.units });
           } else {
             chartDataElement.report = false;
             chartDataElement.quarters.push({
               title: value,
               currentQuarter: true,
               id: index,
-              section: this.section
+              section: this.section,
+              units: chartDataElement.units
             });
           }
         }
@@ -52,9 +61,9 @@ export class Reimbursement {
       {
         quarters: [],
         cardType: 'horizontalBar',
-        key: 'PriorAuthTurnTime',
-        subKey: 'PriorAuthTurnTimeValue',
-        units: 'hours',
+        key: 'ClaimsTAT',
+        subKey: 'ClaimsTATValue',
+        units: ' days',
         caption: 'Avg. turnaround time',
         singleCard: this.singleCard,
         report: false,
@@ -62,36 +71,39 @@ export class Reimbursement {
         sdata: {
           sign: 'up',
           data: 'Positive Trending'
-        }
+        },
+        metricType: 'reimbursementClaims'
       },
       {
         quarters: [],
         cardType: 'verticalBar',
-        key: 'PriorAuthRequested',
-        subKey: 'PriorAuthRequestedValue',
-        units: 'K',
+        key: 'ClaimsSubmitted',
+        subKey: 'ClaimsSubmittedValue',
+        units: '',
         singleCard: this.singleCard,
-        caption: 'Prior auths requested',
+        caption: 'Total Claims Submitted',
         report: false,
         color: ['#3381FF', '#80B0FF'],
         sdata: {
           sign: 'up',
           data: 'Positive Trending'
-        }
+        },
+        metricType: 'reimbursementClaims'
       },
       {
         quarters: [],
-        cardType: 'hollowbox',
-        key: 'LinkPriorAuthNPS',
-        subKey: 'LinkPriorAuthNPSValue',
+        cardType: 'verticalBar',
+        key: 'ClaimsPaid',
+        subKey: 'ClaimsPaidValue',
         singleCard: this.singleCard,
         units: '',
         report: true,
-        caption: 'Link Prior Auth NPS',
+        caption: 'Total Paid',
         sdata: {
           sign: 'up',
           data: 'Positive Trending'
-        }
+        },
+        metricType: 'reimbursementClaims'
       },
       {
         quarters: [],
@@ -107,7 +119,8 @@ export class Reimbursement {
         sdata: {
           sign: 'up',
           data: 'Positive Trending'
-        }
+        },
+        metricType: 'kop'
       }
     ];
     this.data.chartData = chartData;
@@ -115,5 +128,23 @@ export class Reimbursement {
 
   public getData() {
     return this.data;
+  }
+
+  public nFormatter(fnumber) {
+    if (fnumber >= 1000000000) {
+      return (fnumber / 1000000000).toFixed(1).replace(/\.0$/, '') + 'B';
+    }
+    if (fnumber >= 1000000) {
+      return (fnumber / 1000000).toFixed(1).replace(/\.0$/, '') + 'M';
+    }
+    if (fnumber >= 1000) {
+      return (fnumber / 1000).toFixed(1).replace(/\.0$/, '') + 'K';
+    }
+    if (fnumber < 1000) {
+      return parseFloat(fnumber)
+        .toFixed(1)
+        .replace(/\.0$/, '');
+    }
+    return fnumber;
   }
 }

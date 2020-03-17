@@ -1,62 +1,6 @@
 @import '~src/scss/variables.scss';
 @import '~src/scss/mixins';
 @import '~src/scss/my-custom-theme';
-.breadcrumb-top-padding {
-  @include margin(12px, 0, 12px, 0);
-  box-sizing: border-box;
-  .filter-div {
-    overflow: auto;
-    line-height: 0;
-  }
-  .filter_bg {
-    height: 40px;
-    width: 100px;
-    box-sizing: border-box;
-    border: 1px solid $blue;
-    border-radius: 2px;
-    float: right;
-    cursor: pointer;
-    margin-right: 1px;
-    .filter_title {
-      color: $blue;
-      font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
-      font-size: 16px;
-      letter-spacing: 0.2px;
-      line-height: 22px;
-      text-align: center;
-      margin: 9px 0;
-      float: left;
-    }
-    .filter_icon {
-      color: $blue;
-      margin: 7px 10px;
-      float: left;
-    }
-  }
-  .filter_bg:hover,
-  .filter_bg:focus {
-    background-color: #196ecf;
-    color: #ffffff;
-    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
-    .filter_title {
-      color: #ffffff;
-    }
-    .filter_icon {
-      color: #ffffff;
-    }
-  }
-  .filter_bg:active {
-    background-color: #003da1;
-    color: #ffffff;
-    .filter_title {
-      color: #ffffff;
-    }
-    .filter_icon {
-      color: #ffffff;
-    }
-  }
-}
-
 .content-wrapper {
   background-color: $alice-blue;
   overflow: hidden;
@@ -81,7 +25,7 @@
       width: 1200px;
     }
     .pi-medical-record-coding-review-block {
-      width: 961px;
+      width: 952px;
       border-radius: 2px;
       background-color: $white;
       box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
@@ -169,8 +113,8 @@
       color: $black-rock;
       font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
       font-size: 20px;
-      line-height: 22px;
-      margin-top: 43px;
+      line-height: 30px;
+      margin-top: 35px;
       /*float: left;*/
     }
     .mr-returned-bar-block {
@@ -207,7 +151,6 @@
     }
     .mr-not-returned-bar-text-block {
       float: left;
-      margin-top: 8px;
     }
     .medical-records-not-returned-bar {
       height: 48px;
@@ -252,7 +195,7 @@
       text-align: right;
     }
     .mr-not-returned-number {
-      margin-top: 80px;
+      margin-top: 65px;
     }
     .pull-left {
       float: left;
@@ -364,6 +307,22 @@
           line-height: 22px;
           padding-top: 8px;
         }
+      }
+      .print-page-title {
+        padding-top: 30px;
+        font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+        line-height: 30px;
+      }
+      .print-page-subtitle {
+        font-family: 'UHCSans-Regular', Helvetica, Arial, sans-serif;
+        line-height: 40px;
+        flex-basis: 100%;
+        font-size: 28px;
+        display: flex;
+        flex-direction: row;
+        position: relative;
+        justify-content: space-between;
+        width: 98.5%;
       }
       .page-subtitle {
         flex-basis: 100%;
@@ -517,4 +476,19 @@
   line-height: 18px;
   padding-left: 16px;
   padding-bottom: 14px;
+}
+
+.nav-tabs {
+  display: flex;
+  border-radius: 2px;
+  list-style-type: none;
+  font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+  color: #2d2d39;
+}
+
+.nav-values {
+  color: #757588;
+  font-size: 14px;
+  font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+  line-height: 18px;
 }

@@ -1,3 +1,5 @@
+import { Trends } from './common/kop.class.trends';
+
 export class NPSSummary {
   public singleCard = false;
   public records: any;
@@ -9,6 +11,9 @@ export class NPSSummary {
     this.records = records;
     this.singleCard = records.length === 1 ? true : false;
     this.createCards();
+    if (!this.singleCard) {
+      this.createTrend();
+    }
   }
 
   public createCards() {
@@ -22,6 +27,15 @@ export class NPSSummary {
       });
       npsCard.cards = npsInnerCards;
       this.npsSummary.data.push(npsCard);
+    });
+  }
+
+  public createTrend() {
+    this.npsSummary.data.forEach((dataItem: any) => {
+      const { cards } = dataItem;
+      const [{ highlightedValue: value1 }, { highlightedValue: value2 }] = cards;
+      const trendsData = new Trends({ value1, value2 });
+      dataItem.sdata = trendsData.getData();
     });
   }
 
@@ -75,12 +89,16 @@ export class NPSSummary {
     const { survey } = params;
 
     let title = '';
+    let MetricID = '';
     if (survey === 'all') {
       title = 'Combined Total NPS';
+      MetricID = '35';
     } else if (survey === 'pm') {
       title = 'Practice Manager NPS';
+      MetricID = '36';
     } else if (survey === 'md') {
       title = 'Physician NPS';
+      MetricID = '37';
     }
 
     return {
@@ -89,10 +107,7 @@ export class NPSSummary {
       quarter: true,
       singleCard: this.singleCard,
       title,
-      sdata: {
-        sign: 'up',
-        data: 'Positive Trending'
-      },
+      MetricID,
       cards: []
     };
   }

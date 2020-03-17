@@ -63,6 +63,19 @@
           font-size: 28px;
           line-height: 50px;
         }
+
+        .print-page-subtitle {
+          font-family: 'UHCSans-Regular', Helvetica, Arial, sans-serif;
+          line-height: 40px;
+          flex-basis: 100%;
+          font-size: 28px;
+          display: flex;
+          flex-direction: row;
+          position: relative;
+          justify-content: space-between;
+          width: 98.5%;
+        }
+
         .page-question {
           flex-basis: 100%;
           font-size: 22px;

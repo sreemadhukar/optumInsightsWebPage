@@ -41,6 +41,10 @@ import { SessionService } from '../../shared/session.service';
 import { AcoEventEmitterService } from '../../shared/ACO/aco-event-emitter.service';
 import { FilterCloseService } from './../../shared/filters/filter-close.service';
 import { PcorService } from '../../rest/care-delivery/pcor.service';
+import { RESET_KOP_FILTER } from 'src/app/store/kopFilter/actions';
+import { NgRedux } from '@angular-redux/store';
+// import { HealthSystemDetailsSharedService } from '../../shared/advocate/health-system-details-shared.service';
+
 @Component({
   selector: 'app-hamburger-menu',
   templateUrl: './hamburger-menu.component.html',
@@ -48,11 +52,14 @@ import { PcorService } from '../../rest/care-delivery/pcor.service';
   encapsulation: ViewEncapsulation.None
 })
 export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy, AfterViewChecked {
+  currentYear = new Date().getFullYear();
   _allExpandState = false;
   loading = false;
   isDarkTheme: Observable<boolean>;
   @ViewChildren(MatExpansionPanel) viewPanels: QueryList<MatExpansionPanel>;
   @ViewChild('srnav') srnav: MatSidenav;
+  GroupPremiumDesignation: any;
+  healthSystemData: any;
   public makeAbsolute: boolean;
   public bgWhite: boolean;
   public showPrintHeader: boolean;
@@ -79,7 +86,17 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
   printStyle: boolean;
 
   /*** Array of Navigation Category List ***/
-  public navCategories = [
+  public navCategories = [];
+  public navCategoriesTotal = [
+    { icon: 'home', name: 'Overview', path: '/NationalExecutive', disabled: false, kop: true },
+    { icon: 'summary', name: 'NPS Summary', path: '/NationalExecutive/NpsDetail', disabled: false, kop: true },
+    // {
+    //   icon: 'person',
+    //   name: 'Onboarding',
+    //   children: [{ name: 'Summary', path: '/NationalExecutive/Onboarding/Summary', kop: true }],
+    //   disabled: false,
+    //   kop: true
+    // },
     { icon: 'home', name: 'Overview', path: '/OverviewPage', disabled: false },
     {
       icon: 'getting-reimburse',
@@ -131,9 +148,11 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
   filterData: any[] = [];
   customFilter = false;
   fromKOP = false;
+  advocateView = false;
 
   /** CONSTRUCTOR **/
   constructor(
+    // private healthSystemService: HealthSystemDetailsSharedService,
     private breakpointObserver: BreakpointObserver,
     private cdRef: ChangeDetectorRef,
     private elementRef: ElementRef,
@@ -154,6 +173,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     private eventEmitter: EventEmitterService,
     private acoEventEmitter: AcoEventEmitterService,
     private viewPortScroller: ViewportScroller,
+    private ngRedux: NgRedux<any>,
     @Inject(DOCUMENT) private document: any
   ) {
     this.glossaryFlag = false;
@@ -161,16 +181,46 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     this.bgWhite = false;
     this.showPrintHeader = false;
     this.fromKOP = false;
+    this.advocateView = false;
     this.checkAdv = this.sessionService.checkAdvocateRole();
     this.checkPro = this.sessionService.checkProjectRole();
     this.checkExecutive = this.sessionService.checkExecutiveRole();
+    // this.healthSystemService
+    //   .getHealthSystemData()
+    //   .then(healthSystemData => {
+    //     this.healthSystemData = JSON.parse(JSON.stringify(healthSystemData));
+    //     if (this.healthSystemData.GroupPremiumDesignation) {
+    //       this.GroupPremiumDesignation = this.healthSystemData.GroupPremiumDesignation;
+    //     } else {
+    //       this.GroupPremiumDesignation = false;
+    //     }
+    //   })
+    //   .catch(reason => {
+    //     this.GroupPremiumDesignation = false;
+    //     console.log('Health System Details are not available', reason);
+    //   });
     if (this.checkAdv.value) {
-      this.navCategories = this.navCategories.filter(item => item.name !== 'Summary Trends');
+      this.navCategories = this.navCategoriesTotal.filter(item => item.name !== 'Summary Trends');
+      sessionStorage.setItem('advocateView', 'true');
     }
     // to disable the header/footer/body when not authenticated
     router.events.subscribe(event => {
       if (event instanceof NavigationStart) {
         this.healthSystemName = this.sessionService.getHealthCareOrgName();
+        // this.healthSystemService
+        //   .getHealthSystemData()
+        //   .then(healthSystemData => {
+        //     this.healthSystemData = JSON.parse(JSON.stringify(healthSystemData));
+        //     if (this.healthSystemData.GroupPremiumDesignation) {
+        //       this.GroupPremiumDesignation = this.healthSystemData.GroupPremiumDesignation;
+        //     } else {
+        //       this.GroupPremiumDesignation = false;
+        //     }
+        //   })
+        //   .catch(reason => {
+        //     this.GroupPremiumDesignation = false;
+        //     console.log('Health System Details are not available', reason);
+        //   });
         this.makeAbsolute = !(
           authService.isLoggedIn() &&
           !(
@@ -182,7 +232,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
           )
         );
         /*
-        for login, providerSearch screen , filters has no role to play, so for them Filters should be close,
+         for login, providerSearch screen , filters has no role to play, so for them Filters should be close,
          we are calling it explicity because suppose user clicks on Filter and filter drawer opens up, now logout
          occures, user will land to the login screen with filter drawer opened, so that is the issue,
          To tackle that we have service which we imported at app.component so when user's timesout it will publish the
@@ -213,13 +263,24 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
         if (
           (sessionStorage.getItem('fromKOP') === 'YES' &&
             !this.makeAbsolute &&
-            event.url !== '/NationalExecutive' &&
+            !event.url.includes('NationalExecutive') &&
             this.checkPro.value) ||
           this.checkExecutive.value
         ) {
           this.fromKOP = true;
         } else {
           this.fromKOP = false;
+        }
+        if (
+          sessionStorage.getItem('advocateView') === 'true' &&
+          !this.makeAbsolute &&
+          event.url !== '/OverviewPageAdvocate' &&
+          event.url !== '/OverviewPageAdvocate/HealthSystemDetails' &&
+          this.checkAdv.value
+        ) {
+          this.advocateView = true;
+        } else {
+          this.advocateView = false;
         }
       }
       // PLEASE DON'T MODIFY THIS
@@ -229,6 +290,10 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     iconRegistry.addSvgIcon(
       'home',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/round-home-24px.svg')
+    );
+    iconRegistry.addSvgIcon(
+      'summary',
+      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/bar_chart-24px.svg')
     );
     iconRegistry.addSvgIcon(
       'getting-reimburse',
@@ -264,7 +329,10 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     );
     iconRegistry.addSvgIcon('prior-auth', sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/PA-idle.svg'));
     iconRegistry.addSvgIcon('pcor', sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/PCOR.svg'));
-
+    iconRegistry.addSvgIcon(
+      'person',
+      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Content/round-person-24px.svg')
+    );
     router.events.subscribe(event => {
       if (event instanceof NavigationStart) {
         this.printStyle = event.url.includes('print-');
@@ -273,6 +341,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
   }
 
   ngOnInit() {
+    this.GroupPremiumDesignation = false;
     this.AcoFlag = false;
     this.isKop = false;
     this.loading = false;
@@ -280,8 +349,11 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     this.acoEventEmitter.getEvent().subscribe(value => {
       this.AcoFlag = value.value;
     });
+    this.navCategories = this.navCategoriesTotal.filter(item => !item.kop);
+
     this.eventEmitter.getEvent().subscribe(val => {
       this.isKop = val.value;
+      this.navCategories = this.navCategoriesTotal.filter(item => item.kop);
       this.cdRef.detectChanges();
     });
     this.checkStorage.getEvent().subscribe(value => {
@@ -291,17 +363,14 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
       // Check whether we have PCOR Data or not, if yes then include the PCOR option in navigation bar
       this.checkPcorData();
     });
-    const currentUser: any = JSON.parse(sessionStorage.getItem('currentUser'))[0];
-    if (currentUser.hasOwnProperty('Providers')) {
-      this.externalProvidersCount = currentUser.Providers.length > 1 ? true : false;
-    }
+
     /*
-        for login page filters has no role to play, so for them Filters should be close,
-         we are calling it explicity because suppose user clicks on Filter and filter drawer opens up, now logout
-         occures, user will land to the login screen with filter drawer opened, so that is the issue,
-         To tackle that we have service which we imported at app.component so when user's timesout it will publish the
-         the value, which we subscribed using Subject 'filterClose'.
-    */
+     for login page filters has no role to play, so for them Filters should be close,
+     we are calling it explicity because suppose user clicks on Filter and filter drawer opens up, now logout
+     occures, user will land to the login screen with filter drawer opened, so that is the issue,
+     To tackle that we have service which we imported at app.component so when user's timesout it will publish the
+     the value, which we subscribed using Subject 'filterClose'.
+     */
     this.filterClose = this.filterCloseService.filterClose.subscribe(
       boolData => {
         this.closeGlossary();
@@ -320,6 +389,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
         setTimeout(() => {
           this.viewPortScroller.scrollToPosition([0, 0]);
         }, 500);
+        this.stopBodyScroll(true);
       },
       err => {
         console.log('Error, clickHelpIcon , inside Hamburger', err);
@@ -334,6 +404,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
         setTimeout(() => {
           this.viewPortScroller.scrollToPosition([0, 0]);
         }, 500);
+        this.stopBodyScroll(true);
       },
       err => {
         console.log('Error, clickHelpIcon , inside Hamburger', err);
@@ -347,6 +418,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
           this.filterData = filterData;
           this.customFilter = customFilter;
           this.filterurl = url;
+          this.stopBodyScroll(true);
         }
       },
       err => {
@@ -356,6 +428,11 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     setTimeout(() => {
       this.healthSystemName = this.sessionService.getHealthCareOrgName();
     }, 1);
+
+    const currentUser: any = JSON.parse(sessionStorage.getItem('currentUser'))[0];
+    if (currentUser.hasOwnProperty('Providers')) {
+      this.externalProvidersCount = currentUser.Providers.length > 1 ? true : false;
+    }
   }
 
   advocateRole() {
@@ -364,8 +441,8 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
   }
 
   /* To check whether we have data for the PCOR or not, if we don't have data for PCOR then in the navigation
-  bar PCOR will be hidden
-  */
+   bar PCOR will be hidden
+   */
   insertPCORnav() {
     // if (!this.navCategories[2].children.some(i => i.name === 'Patient Care Opportunity')) {
     //   this.navCategories[2].children.push({
@@ -422,7 +499,6 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     this.pcorService.getExecutiveData(...parametersExecutive).subscribe(
       data => {
         const PCORData = data.PatientCareOpportunity;
-        console.log('PCOR---' + PCORData);
         if (PCORData === null || PCORData === undefined) {
           try {
             this.removePCORnav();
@@ -463,6 +539,8 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     this.clickFilterIconCustom.unsubscribe();
     sessionStorage.removeItem('fromKOP');
     this.fromKOP = false;
+    sessionStorage.removeItem('advocateView');
+    this.advocateView = false;
   }
   /*** used to apply the CSS for dynamically generated elements ***/
   public ngAfterViewInit(): void {
@@ -509,9 +587,9 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     this.themeService.setDarkTheme(isDarkTheme);
   }
   /** FUNCTIONS TO COLLAPSE LEFT MENU **/
-  collapseExpansionPanels(id) {
+  collapseExpansionPanels(path) {
     window.scrollTo(300, 0);
-    // this.allExpandState(false, id - 1);
+    this.allExpandState(false, path);
   }
 
   openDialog(): void {
@@ -520,20 +598,29 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
       height: '212px',
       disableClose: true
     });
+    sessionStorage.setItem('advocateView', 'true');
   }
 
   closeGlossary() {
     this.glossaryFlag = false;
     this.glossaryTitle = null;
+    this.stopBodyScroll(false);
   }
   filterFlagChange(flag) {
     this.filterFlag = flag;
     this.filterurl = null;
+    this.stopBodyScroll(false);
   }
   closeFilter() {
     this.filterFlag = false;
     this.filterurl = null;
+    this.stopBodyScroll(false);
   }
+
+  stopBodyScroll(flag: boolean) {
+    document.body.style.overflow = flag ? 'hidden' : 'auto';
+  }
+
   signOut() {
     this.authService.logout();
     if (!environment.internalAccess) {
@@ -547,6 +634,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     if (this.glossaryFlag) {
       this.glossaryFlag = false;
     }
+    this.stopBodyScroll(false);
   }
 
   /**
@@ -556,6 +644,8 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
   closeButterBar() {
     this.fromKOP = false;
     sessionStorage.removeItem('fromKOP');
+    this.advocateView = false;
+    sessionStorage.removeItem('advocateView');
   }
 
   /**
@@ -563,16 +653,25 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
    * Clean fromKOP storage
    */
   navigateToKOP() {
-    // TODO: It is a quick fix
-    // settimeout and locaion routing
-    // Need to be remove after ng-redux
-    // filter implementenation in KOP
+    sessionStorage.removeItem('fromKOP');
+    this.fromKOP = false;
+    this.router.navigate(['/NationalExecutive']);
+  }
+
+  taxSummaryLink() {
+    if (this.sessionService.checkRole('UHCI_Advocate')) {
+      this.router.navigateByUrl('/OverviewPageAdvocate/HealthSystemDetails');
+    } else {
+      this.router.navigateByUrl('/TinList');
+    }
+  }
+
+  navigateToPPD() {
     setTimeout(() => {
-      sessionStorage.removeItem('fromKOP');
-      this.fromKOP = false;
+      sessionStorage.removeItem('advocateView');
+      this.advocateView = false;
     }, 500);
-    location.href = '/NationalExecutive';
-    // this.router.navigate(['/NationalExecutive']);
+    location.href = '/OverviewPageAdvocate';
   }
 
   /**
@@ -587,6 +686,9 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
       valueSelected: () => {
         // Setting Value redirect, remind flag to local storage
         sessionStorage.setItem('fromKOP', 'YES');
+        sessionStorage.setItem('advocateView', 'true');
+        // RESET KOP FILTER BEFORE MOVING
+        this.ngRedux.dispatch({ type: RESET_KOP_FILTER });
         // Reloading targeted route, for resetting the css
         window.location.href = '/OverviewPage';
       },
@@ -602,22 +704,41 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     this.dialog.open(ProviderSearchComponent, dialogConfig);
   }
 
-  private allExpandState(value: boolean, id) {
-    this._allExpandState = value;
-    this.togglePanels(value, id);
+  private allExpandState(value: boolean, path) {
+    // this._allExpandState = value;
+    this.togglePanels(value, path);
   }
 
-  private togglePanels(value: boolean, id) {
+  private togglePanels(value: boolean, path) {
     // this.viewPanels.forEach(p => value ? p.open() : p.close());
 
     /** USED TO COLLAPSE REMAINING ACCORDIANS OTHER THAN CLICKED ONE **/
     this.viewPanels.forEach(element => {
-      if (element.id !== 'cdk-accordion-child-' + id) {
-        if (value) {
+      if (
+        path === '/GettingReimbursed' ||
+        path === '/GettingReimbursed/Payments' ||
+        path === '/GettingReimbursed/NonPayments' ||
+        path === '/GettingReimbursed/Appeals'
+      ) {
+        if (element.id === 'cdk-accordion-child-0') {
           element.open();
         } else {
           element.close();
         }
+      } else if (path === '/GettingReimbursed/PaymentIntegrity') {
+        if (element.id === 'cdk-accordion-child-0' || element.id === 'cdk-accordion-child-1') {
+          element.open();
+        } else {
+          element.close();
+        }
+      } else if (path === '/ServiceInteraction/SelfService' || path === '/ServiceInteraction/Calls') {
+        if (element.id === 'cdk-accordion-child-2') {
+          element.open();
+        } else {
+          element.close();
+        }
+      } else {
+        element.close();
       }
     });
   }
