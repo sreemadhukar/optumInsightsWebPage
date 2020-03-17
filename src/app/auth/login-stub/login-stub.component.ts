@@ -125,6 +125,9 @@ export class LoginStubComponent implements OnInit {
     } else {
       if (this.route.queryParams) {
         this.route.queryParams.subscribe(params => {
+          if (params.emulatedUuid) {
+            sessionStorage.setItem('emulatedUuid', JSON.stringify(params.emulatedUuid));
+          }
           if (params.code && !this.authService.isLoggedIn()) {
             this.external
               .CheckExternal(params.code, this.token)
