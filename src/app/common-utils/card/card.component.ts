@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { GlossaryExpandService } from '../../shared/glossary-expand.service';
 import { Router } from '@angular/router';
 
@@ -11,6 +11,9 @@ export class CardComponent implements OnInit {
   @Input() chartData;
   @Input() skeleton;
   @Input() tabData;
+  @Input() selectedTab;
+  @Input() handleCaseForOverviewTile = false;
+  @Output() tabSelectEvent = new EventEmitter();
   printStyle: boolean; // this variable is used for print-page style
   heightDonut: Number = 234;
   widthDonut: Number = 234;
@@ -66,6 +69,9 @@ export class CardComponent implements OnInit {
         }
       ];
     }
+
+    this.selectedItemId = i;
+    this.tabSelectEvent.next(i);
   }
 
   constructor(private glossaryExpandService: GlossaryExpandService, private router: Router) {
@@ -91,8 +97,13 @@ export class CardComponent implements OnInit {
             values: this.chartData.besideData.All.verticalData[2].values
           }
         ];
-        this.medicareData = this.chartData.data.All;
-        this.selectedItemId = 0;
+        // this.medicareData = this.chartData.data.All;
+        this.selectedItemId = this.selectedTab ? parseInt(this.selectedTab) : 0;
+        if (this.selectedItemId === 0) {
+          this.medicareData = this.chartData.data.All;
+        } else {
+          this.medicareData = this.chartData.data.Diabetic;
+        }
       }
     }
   }

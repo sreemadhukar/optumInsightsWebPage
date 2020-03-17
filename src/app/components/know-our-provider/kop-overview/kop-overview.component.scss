@@ -17,17 +17,16 @@
     -webkit-flex-flow: row wrap;
     justify-content: left;
     flex-wrap: wrap;
-    padding-left: 30px;
-    padding-right: 30px;
-    max-width: 1000px;
+    max-width: 972px;
     width: 100%;
+    padding: 0;
     margin: auto;
 
     font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
 
     .breadcrumb-top-padding {
-      @include margin(0, 0, 0, 0);
       box-sizing: border-box;
+      width: 100%;
 
       .filter_bg {
         height: 40px;
@@ -37,7 +36,6 @@
         border-radius: 2px;
         float: right;
         cursor: pointer;
-        margin-right: 7px;
 
         .filter_title {
           color: $blue;
@@ -79,7 +77,6 @@
       }
       .time--period {
         .filterchips {
-          width: 815px;
           float: left;
           .horizontal-align {
             display: inline-block;
@@ -116,9 +113,12 @@
     .overview-section {
       display: flex;
       flex-wrap: wrap;
+      width: 100%;
+      .section-header div {
+        display: inline-block;
+      }
       .section-header {
-        display: flex;
-        padding-top: 30px;
+        width: 100%;
         color: $black-rock;
         .section-header-part {
           .title {
@@ -134,6 +134,7 @@
         .section-header-part2 {
           padding: 10px 10px;
           margin-left: 20px;
+          vertical-align: middle;
           .quarterslist {
             .circle {
               height: 14px;
@@ -158,11 +159,32 @@
             }
           }
         }
+        .section-header-part3 {
+          float: right;
+          button {
+            height: 40px;
+            width: 138px;
+            background: $blue;
+            color: $white;
+            border: none;
+            font-family: 'UHCSans-SemiBold', 'Arial';
+            font-size: 16px;
+            letter-spacing: 0.2px;
+            line-height: 22px;
+            text-align: center;
+            cursor: pointer;
+          }
+        }
       }
     }
+    .nps-section {
+      width: 100%;
+      display: flex;
+      margin-left: -15px;
+    }
 
-    .height1Separator {
-      height: 0;
+    .height-30 {
+      height: 30px;
       width: 100%;
     }
     & > .cards {

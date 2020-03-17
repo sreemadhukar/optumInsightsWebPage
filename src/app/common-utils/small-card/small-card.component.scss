@@ -3,9 +3,9 @@
   position: relative;
   .card-inner {
     background-color: #ffffff;
-    width: 304px;
+    width: 292px;
     height: 237px;
-    margin: 10px;
+    margin: 10px 15px;
     line-height: 75px;
     font-size: 30px;
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
@@ -100,11 +100,12 @@
   }
   .card-inner.nps {
     height: 249px;
+    width: 304px;
   }
   .print-card-inner {
     box-shadow: none;
     border: 1px solid #e9e9e9;
-    width: 350px;
+    width: 335px;
     height: 240px;
   }
   .full-display-block {
@@ -190,9 +191,9 @@
   //   }
   // }
 }
-.small-card-structure.nps {
-  margin-left: -10px;
-}
+// .small-card-structure.nps {
+//   margin-left: -10px;
+// }
 .small-card-footer {
   .common-footer {
     /*position: absolute;

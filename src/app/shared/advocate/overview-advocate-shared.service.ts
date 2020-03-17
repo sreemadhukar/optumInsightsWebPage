@@ -15,6 +15,13 @@ export class OverviewAdvocateSharedService {
   public tin;
   public lob;
   public providerKey;
+  public collectiveBeData;
+  public collectiveClaimsData;
+  public collectivePaData;
+  public collectiveOtherData;
+  public monthName;
+  public sendData: {};
+
   constructor(
     private MetricidService: GlossaryMetricidService,
     private common: CommonUtilsService,
@@ -199,6 +206,169 @@ export class OverviewAdvocateSharedService {
         },
         err => {
           console.log('Advocate Page , Error for calls card', err);
+        }
+      );
+    });
+  }
+
+  public getTotalCallsTrendLineShared(param) {
+    this.timeFrame = this.common.getTimePeriodFilterValue(param.timePeriod);
+    return new Promise(resolve => {
+      const parameters = this.getParameterCategories(param);
+      this.overviewAdvocateService.callsTrendLineData(...parameters).subscribe(
+        callsTrendData => {
+          const beData = [];
+          const claimsData = [];
+          const paData = [];
+          const other = [];
+
+          if (callsTrendData[0]) {
+            callsTrendData[0].forEach(element => {
+              if (element.CallVolByQuesType.BenefitsEligibility) {
+                this.collectiveBeData = element.CallVolByQuesType.BenefitsEligibility;
+              }
+              if (element.CallVolByQuesType.Claims) {
+                this.collectiveClaimsData = element.CallVolByQuesType.Claims;
+              }
+              if (element.CallVolByQuesType.PriorAuth) {
+                this.collectivePaData = element.CallVolByQuesType.PriorAuth;
+              }
+              if (element.CallVolByQuesType.Others) {
+                this.collectiveOtherData = element.CallVolByQuesType.Others;
+              }
+
+              const trendTimePeriod = element.Calldate;
+              if (param.timePeriod === 'Last3Months' || param.timePeriod === 'Last30Days') {
+                this.monthName = this.common
+                  .dateFormat(trendTimePeriod)
+                  .substr(0, 6)
+                  .replace('T', '');
+              } else {
+                this.monthName = this.common.dateFormat(trendTimePeriod).substr(0, 3);
+              }
+              beData.push({
+                name: this.monthName,
+                value: this.collectiveBeData,
+                month: trendTimePeriod
+              });
+              claimsData.push({
+                name: this.monthName,
+                value: this.collectiveClaimsData,
+                month: trendTimePeriod
+              });
+              paData.push({
+                name: this.monthName,
+                value: this.collectivePaData,
+                month: trendTimePeriod
+              });
+              other.push({
+                name: this.monthName,
+                value: this.collectiveOtherData,
+                month: trendTimePeriod
+              });
+            });
+          }
+
+          beData.sort(function(a, b) {
+            let dateA: any;
+            dateA = new Date(a.month);
+            let dateB: any;
+            dateB = new Date(b.month);
+            return dateA - dateB; // sort by date ascending
+          });
+
+          claimsData.sort(function(a, b) {
+            let dateA: any;
+            dateA = new Date(a.month);
+            let dateB: any;
+            dateB = new Date(b.month);
+            return dateA - dateB; // sort by date ascending
+          });
+
+          paData.sort(function(a, b) {
+            let dateA: any;
+            dateA = new Date(a.month);
+            let dateB: any;
+            dateB = new Date(b.month);
+            return dateA - dateB; // sort by date ascending
+          });
+
+          other.sort(function(a, b) {
+            let dateA: any;
+            dateA = new Date(a.month);
+            let dateB: any;
+            dateB = new Date(b.month);
+            return dateA - dateB; // sort by date ascending
+          });
+          const callsTrendFormattedData = {};
+          if (beData) {
+            callsTrendFormattedData['B&E'] = beData;
+          }
+          if (claimsData) {
+            callsTrendFormattedData['CLAIMS'] = claimsData;
+          }
+          if (paData) {
+            callsTrendFormattedData['P&A'] = paData;
+          }
+          if (other) {
+            callsTrendFormattedData['Other'] = other;
+          }
+          resolve(callsTrendFormattedData);
+        },
+        err => {
+          console.log('Advocate Page , Error for calls card', err);
+        }
+      );
+    });
+  }
+
+  public paymentsBySubmission(param) {
+    this.timeFrame = this.common.getTimePeriodFilterValue(param.timePeriod);
+    return new Promise((resolve, reject) => {
+      const parameters = this.getParameterCategories(param);
+      this.overviewAdvocateService.paymentsBySubmission(...parameters).subscribe(
+        pbsData => {
+          const getData = JSON.parse(JSON.stringify(pbsData[0]));
+          if (getData == null) {
+            //  return reject(null);
+            this.sendData = {
+              category: 'app-card',
+              type: 'donutWithLabel',
+              status: 404,
+              title: 'Payments by Submission',
+              data: null,
+              timeperiod: null
+            };
+          } else {
+            this.sendData = {
+              id: 'paymentSubmission',
+              category: 'app-card',
+              type: 'stackBarChart',
+              title: 'Payments by Submission',
+              data: {
+                graphValues: [
+                  {
+                    name: '',
+                    electronic: getData.EDISubmissions.All.ClaimsLobSummary[0].AmountPaid,
+                    paper: getData.PaperSubmissions.All.ClaimsLobSummary[0].AmountPaid
+                  }
+                ],
+                color: ['#3381FF', '#00B8CC'],
+                gdata: ['card-inner', 'paymentBySubmission'],
+                sdata: null
+              },
+              status: null,
+              timeperiod:
+                this.common.dateFormat(getData.PaperSubmissions.Startdate) +
+                '&ndash;' +
+                this.common.dateFormat(getData.PaperSubmissions.Enddate)
+            };
+          }
+          resolve(this.sendData);
+        },
+        err => {
+          console.log('Advocate Page , Error for calls card', err);
+          // reject();
         }
       );
     });

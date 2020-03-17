@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
@@ -10,7 +10,8 @@ import { select } from '@angular-redux/store';
   styleUrls: ['./print.component.scss']
 })
 export class PrintComponent implements OnInit {
-  @select() currentPage;
+  @select(['uhc', 'currentPage']) currentPage;
+  @Input() queryParams: any = {};
   selectedPage;
   overviewBool: boolean;
   printDisable: boolean;
@@ -34,6 +35,6 @@ export class PrintComponent implements OnInit {
   }
   printIconClick() {
     // window.open(this.router.url + '/print-page', '_blank');
-    this.router.navigate(['print-page']);
+    this.router.navigate(['print-page'], { queryParams: this.queryParams });
   }
 }

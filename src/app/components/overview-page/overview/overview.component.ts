@@ -61,7 +61,6 @@ export class OverviewComponent implements OnInit {
   errorloadTotalCallsCard = false;
   isHeac = false;
 
-  displayClaimsYield: boolean = environment.claimsYieldAccess;
   /***************** DONT CHANGE THESE *************/
   trendsData: any;
 

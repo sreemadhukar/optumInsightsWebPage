@@ -1,5 +1,6 @@
 import { CURRENT_PAGE, APPLY_FILTER, RESET_FILTER, REMOVE_FILTER } from './actions';
 import { IAppState } from '../store';
+import { loadState } from './localStorage';
 
 export const INITIAL_STATE: IAppState = {
   currentPage: 'overviewPage',
@@ -7,14 +8,16 @@ export const INITIAL_STATE: IAppState = {
   taxId: [{ Tin: 'All', Tinname: 'All' }],
   lineOfBusiness: 'All',
   serviceSetting: 'All',
-  serviceCategory: '',
+  serviceCategory: 'All',
   priorAuthType: 'All',
   trendMetric: 'GettingReimbursed',
   trendDate: new Date(),
-  claimsFilter: 'All'
+  claimsFilter: 'All',
+  appealsFilter: 'Received Date',
+  viewClaimsByFilter: 'DOS'
 };
 
-export function FilterReducer(state, action) {
+export function FilterReducer(state = loadState(), action) {
   console.log(action);
   switch (action.type) {
     case CURRENT_PAGE:
@@ -34,7 +37,9 @@ export function FilterReducer(state, action) {
         priorAuthType: action.filterData.priorAuthType,
         trendMetric: action.filterData.trendMetric,
         trendDate: action.filterData.trendDate,
-        claimsFilter: action.filterData.claimsFilter
+        claimsFilter: action.filterData.claimsFilter,
+        appealsFilter: action.filterData.appealsFilter,
+        viewClaimsByFilter: action.filterData.viewClaimsByFilter
       };
     case REMOVE_FILTER:
       return {
@@ -44,7 +49,11 @@ export function FilterReducer(state, action) {
         serviceCategory: action.filterData.serviceCategory ? INITIAL_STATE.serviceCategory : state.serviceCategory,
         priorAuthType: action.filterData.priorAuthType ? INITIAL_STATE.priorAuthType : state.priorAuthType,
         taxId: action.filterData.taxId ? INITIAL_STATE.taxId : state.taxId,
-        claimsFilter: action.filterData.claimsFilter ? INITIAL_STATE.claimsFilter : state.claimsFilter
+        claimsFilter: action.filterData.claimsFilter ? INITIAL_STATE.claimsFilter : state.claimsFilter,
+        appealsFilter: action.filterData.appealsFilter ? INITIAL_STATE.appealsFilter : state.appealsFilter,
+        viewClaimsByFilter: action.filterData.viewClaimsByFilter
+          ? INITIAL_STATE.viewClaimsByFilter
+          : state.viewClaimsByFilter
       };
     case RESET_FILTER:
       return {
@@ -57,7 +66,9 @@ export function FilterReducer(state, action) {
         priorAuthType: INITIAL_STATE.priorAuthType,
         trendMetric: INITIAL_STATE.trendMetric,
         trendDate: INITIAL_STATE.trendDate,
-        claimsFilter: INITIAL_STATE.claimsFilter
+        claimsFilter: INITIAL_STATE.claimsFilter,
+        appealsFilter: INITIAL_STATE.appealsFilter,
+        viewClaimsByFilter: INITIAL_STATE.viewClaimsByFilter
       };
     default:
       return state;
@@ -70,7 +81,7 @@ function switchTimePeriodValues(timePeriod, currentPageAction) {
     currentPageAction === 'nonPaymentsPage' ||
     currentPageAction === 'gettingReimbursedSummary'
   ) {
-    if (timePeriod === 'Last12Months' || timePeriod === '2018' || timePeriod === '2017') {
+    if (timePeriod === '2018') {
       timePeriod = 'Last6Months';
     }
   } else {

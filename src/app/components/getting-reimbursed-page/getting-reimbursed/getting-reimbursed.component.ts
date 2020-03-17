@@ -41,7 +41,8 @@ export class GettingReimbursedComponent implements OnInit {
   buttonName: any;
   detailClickUrl = '/GettingReimbursed';
   buttonNumber: any;
-  @select() currentPage;
+  reloadFlag = true;
+  @select(['uhc', 'currentPage']) currentPage;
   public filterFlag = false;
   constructor(
     private gettingReimbursedSharedService: GettingReimbursedSharedService,
@@ -134,7 +135,11 @@ export class GettingReimbursedComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.gettingReimbursedSharedService.gettingReimbursedTabName = 'gettingReimbursedSummary';
+    this.loading = true;
+    if (this.reloadFlag) {
+      this.gettingReimbursedSharedService.gettingReimbursedTabName = 'gettingReimbursedSummary';
+      this.reloadFlag = false;
+    }
     this.pageTitle = 'Getting Reimbursed';
 
     if (this.printStyle) {
@@ -144,8 +149,7 @@ export class GettingReimbursedComponent implements OnInit {
 
     this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'gettingReimbursedSummary' });
     this.timePeriod = this.common.getTimePeriodFilterValue(this.createPayloadService.payload.timePeriod);
-    this.loading = true;
-    this.mockCards = [{}];
+    this.mockCards = [{}, {}];
     this.gettingReimbursedSharedService
       .getGettingReimbursedData(this.createPayloadService.payload)
       .then(completeData => {
@@ -162,7 +166,11 @@ export class GettingReimbursedComponent implements OnInit {
 
         for (let i = 0; i < 4; i++) {
           let temp;
-          if (this.summaryItems[i].data[0] != null && this.summaryItems[i].data[0].data != null) {
+          if (
+            this.summaryItems[i].data[0] != null &&
+            this.summaryItems[i].data[0].data != null &&
+            this.summaryItems[i].data[0].data !== 'Claims Not Paid'
+          ) {
             temp = {
               id: i,
               title: this.getTabOptionsTitle(i),

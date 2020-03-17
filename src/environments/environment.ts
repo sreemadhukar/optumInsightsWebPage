@@ -14,12 +14,14 @@ export const environment: any = {
   QA1 pointing to INT environment to interact with INT API
   apiProxyUrl: 'https://gateway-stage-core.optum.com/api/int/pdr/uhci/v1/',
   originUrl: 'https://pedintui-pedstg.ocp-ctc-dmz-stg.optum.com/',
+  apiProxyUrl: 'https://pedintapi-pedtst.ocp-ctc-core-nonprod.optum.com/',
   */
   // *In Local use dev3
   // apiProxyUrl: 'https://nginx-pedtst.ocp-ctc-core-nonprod.optum.com/',
   // originUrl: 'https://pedintui-pedstg.ocp-ctc-dmz-stg.optum.com/',
-  apiProxyUrl: 'https://gateway-stage-core.optum.com/api/devthree/pdr/uhci/v1/',
+  apiProxyUrl: 'https://pedapiuhc-pedstgapp.origin-ctc-core.optum.com/',
   originUrl: 'https://pedui3-peddev.ocp-ctc-core-nonprod.optum.com/',
+
   apiUrls: {
     ExecutiveSummaryPath: 'providersystems/',
     ProviderSystemClaimsAgg: 'agg-claims/search/v2.0/',
@@ -49,18 +51,27 @@ export const environment: any = {
     Calls: 'issue-resolutions/',
     PaymentIntegrity: 'pi-metrics/',
     NonPayment: 'claim-metrics/',
+    NonPaymentDop: 'dop-claim-metrics/',
+    NonPaymentDopTrend: 'dop-denial-trend/',
+    NonPaymentTopClaims: 'non-payment-claims/',
     CallsTrend: 'provider-calls/',
     TrendingMetrics: 'trending-metrics/',
     PCORQualityMeasure: 'pcor-metrics/',
     NPSSummary: 'kop-metrics/',
-    KOPPriorAuthSummary: 'kop-priorauth-request/',
+    NPSQuarterlySummary: 'kop-quarterly-metrics',
+    KOPPriorAuthSummary: 'kop-priorauth-metrics/',
     KOPPriorAuthTATSummary: 'kop-priorauth-tat/',
+    KOPReimbursementClaims: 'kop-reimbursement-metrics/',
     AppealsTrend: 'appeals-trend/',
     AdminSummaryTrends: 'admintrends/',
     AppealsFHIR: 'appeals/v2.0/',
     AppealsOverturn: 'appeal-overturn-reasons/',
     AdminSummaryTrendsCount: 'admintrendscount/',
-    HealthSystemDetails: 'providerInfo/'
+    RefreshToken: 'getRefreshToken/',
+    HealthSystemDetails: 'providerInfo/',
+    KOPBusinessGlossary: 'business-glossaries-kop/',
+    CallsTrendLine: 'calls-trend/',
+    PaymentsBySubmission: 'claim-submissions/'
   },
   headerKeys: {
     selectedCompany: '',
@@ -82,7 +93,6 @@ export const environment: any = {
   errorMessage: 'empty',
   clickStreamUrl: '//assets.adobedtm.com/launch-ENacdc6d1acf734bcd95703e446bd1de1d-development.min.js',
   internalAccess: true,
-  claimsYieldAccess: false,
   toggleTrendingSummary: false,
   sentryKey: 'https://238b4f0a54d44e6186fb9eeab3bb0f20@sentry-ped-internal.ocp-ctc-core.optum.com/2'
 };

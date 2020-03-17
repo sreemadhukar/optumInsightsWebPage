@@ -1,3 +1,4 @@
+import { TopClaimsSharedService } from 'src/app/shared/getting-reimbursed/non-payments/top-claims-shared.service';
 import {
   Component,
   OnInit,
@@ -28,7 +29,7 @@ import { CURRENT_PAGE } from '../../../store/filter/actions';
 import { IAppState } from '../../../store/store';
 import { CreatePayloadService } from '../../../shared/uhci-filters/create-payload.service';
 import { REMOVE_FILTER } from '../../../store/filter/actions';
-
+import { TopReasonsEmitterService } from '../../../shared/getting-reimbursed/non-payments/top-reasons-emitter.service';
 @Component({
   selector: 'app-non-payments',
   templateUrl: './non-payments.component.html',
@@ -45,10 +46,14 @@ import { REMOVE_FILTER } from '../../../store/filter/actions';
   ]
 })
 export class NonPaymentsComponent implements OnInit, AfterViewChecked {
-  title = ' Top Reasons for Claims Non-Payment';
+  hideAllObjects: boolean;
+  viewClaimsByFilter: string;
+  title = 'Top Reasons for Claims Non-Payment';
   trendTitle = 'Claims Non-Payment Trend';
   section: any = [];
   timePeriod: string;
+  timePeriodTopReaons: string;
+  timePeriodLineGraph: string;
   // lob: string;
   // taxID: Array<string>;
   @Input() printStyle;
@@ -57,11 +62,13 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
   subscription: any;
   pageTitle: String = '';
   pageSubTitle: String = '';
+  printpageSubTitle: String = '';
+  subtitle: any;
   nonPaymentData1: Array<Object> = [{}];
   currentTabTitle: String = '';
   monthlyLineGraph: any = [{}];
   loadingTopReasons: boolean;
-
+  reasonWithData: any;
   topReasonsCategoryDisplay = false;
   trendMonthDisplay = false;
   type: any;
@@ -70,146 +77,9 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
   loadingTwo: boolean;
   mockCardTwo: any;
   barChartsArray: any;
-
-  /*
-  barChartsArray = [
-    {
-      title: 'Need More Information',
-      value: '$2.6M',
-      numeric: 2600000,
-      top5: [
-        {
-          text: 'Requested Information Not Submitted/Not Submitted on Time',
-          value: '$1.6M'
-        },
-        {
-          text: 'Requested Information Not Submitted/Not Submitted on Time',
-          value: '$1.6M'
-        },
-        {
-          text: 'Requested Information Not Submitted/Not Submitted on Time',
-          value: '$1.6M'
-        },
-        {
-          text: 'Requested Information Not Submitted/Not Submitted on Time',
-          value: '$1.6M'
-        },
-        {
-          text: 'Requested Information Not Submitted/Not Submitted on Time',
-          value: '$1.6M'
-        }
-      ]
-    },
-    {
-      title: 'No Auth Notice Ref',
-      value: '$999.9K',
-      numeric: 999900,
-      top5: [
-        {
-          text: 'Requested Information Not Submitted/Not Submitted on Time',
-          value: '$1.6M'
-        },
-        {
-          text: 'Requested Information Not Submitted/Not Submitted on Time',
-          value: '$1.6M'
-        },
-        {
-          text: 'Requested Information Not Submitted/Not Submitted on Time',
-          value: '$1.6M'
-        },
-        {
-          text: 'Requested Information Not Submitted/Not Submitted on Time',
-          value: '$1.6M'
-        },
-        {
-          text: 'Requested Information Not Submitted/Not Submitted on Time',
-          value: '$1.6M'
-        }
-      ]
-    },
-    {
-      title: 'Claims Payment Policy',
-      value: '$754.8K',
-      numeric: 754800,
-      top5: [
-        {
-          text: 'Requested Information Not Submitted/Not Submitted on Time',
-          value: '$1.6M'
-        },
-        {
-          text: 'Requested Information Not Submitted/Not Submitted on Time',
-          value: '$1.6M'
-        },
-        {
-          text: 'Requested Information Not Submitted/Not Submitted on Time',
-          value: '$1.6M'
-        },
-        {
-          text: 'Requested Information Not Submitted/Not Submitted on Time',
-          value: '$1.6M'
-        },
-        {
-          text: 'Requested Information Not Submitted/Not Submitted on Time',
-          value: '$1.6M'
-        }
-      ]
-    },
-    {
-      title: 'No Benefit Coverage',
-      value: '$354.2K',
-      numeric: 354200,
-      top5: [
-        {
-          text: 'Requested Information Not Submitted/Not Submitted on Time',
-          value: '$1.6M'
-        },
-        {
-          text: 'Requested Information Not Submitted/Not Submitted on Time',
-          value: '$1.6M'
-        },
-        {
-          text: 'Requested Information Not Submitted/Not Submitted on Time',
-          value: '$1.6M'
-        },
-        {
-          text: 'Requested Information Not Submitted/Not Submitted on Time',
-          value: '$1.6M'
-        },
-        {
-          text: 'Requested Information Not Submitted/Not Submitted on Time',
-          value: '$1.6M'
-        }
-      ]
-    },
-    {
-      title: 'Not Categorized',
-      value: '$232.2K',
-      numeric: 232200,
-      top5: [
-        {
-          text: 'Requested Information Not Submitted/Not Submitted on Time',
-          value: '$1.6M'
-        },
-        {
-          text: 'Requested Information Not Submitted/Not Submitted on Time',
-          value: '$1.6M'
-        },
-        {
-          text: 'Requested Information Not Submitted/Not Submitted on Time',
-          value: '$1.6M'
-        },
-        {
-          text: 'Requested Information Not Submitted/Not Submitted on Time',
-          value: '$1.6M'
-        },
-        {
-          text: 'Requested Information Not Submitted/Not Submitted on Time',
-          value: '$1.6M'
-        }
-      ]
-    }
-  ];
-  */
+  mockCards: any;
+  loading: boolean;
+  @Input() data;
   constructor(
     public MetricidService: GlossaryMetricidService,
     private checkStorage: StorageService,
@@ -226,7 +96,9 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
     private nonPaymentService: NonPaymentSharedService,
     private ngRedux: NgRedux<IAppState>,
     private createPayloadService: CreatePayloadService,
-    private common: CommonUtilsService
+    private common: CommonUtilsService,
+    private reasonsEmitter: TopReasonsEmitterService,
+    private topClaimsSharedService: TopClaimsSharedService
   ) {
     const filData = this.session.getFilChangeEmitter().subscribe(() => this.common.urlResuseStrategy());
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => {
@@ -265,8 +137,9 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/keyboard_arrow_down-24px.svg')
     );
     this.printRoute = '/GettingReimbursed/NonPayments/print-nonpayments';
-    this.pageTitle = 'Claims Non-Payments*';
-    this.pageSubTitle = 'Getting Reimbursed - Non-Payments';
+    this.pageTitle = 'Claims Non-Payments';
+    this.printpageSubTitle = 'Getting Reimbursed - Claims Non-Payments';
+    this.pageSubTitle = 'Note: Claims non-payment metrics are calculated based on billed charges.';
     this.createPayloadService.getEvent().subscribe(value => {
       this.ngOnInit();
     });
@@ -274,14 +147,17 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
 
   ngOnInit() {
     if (this.router.url.includes('print-')) {
+      this.subtitle = true;
       this.printStyle = true;
       this.pageTitle = this.session.getHealthCareOrgName();
     }
-
+    this.mockCards = [{}];
+    this.loading = true;
     this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'nonPaymentsPage' });
     this.nonPaymentData1 = [];
     this.loadingTopReasons = true;
     this.timePeriod = this.common.getTimePeriodFilterValue(this.createPayloadService.payload.timePeriod);
+    this.viewClaimsByFilter = this.createPayloadService.payload['viewClaimsByFilter'];
     this.gettingReimbursedSharedService.getTins().then(tins => {});
     this.loadingOne = false;
     this.mockCardOne = [{}];
@@ -291,6 +167,7 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
     /** code for two donuts  Claims Not Paid and Claims Non-payment Rate */
     this.nonPaymentService.getNonPayment(this.createPayloadService.payload).then(
       nonPayment => {
+        this.loading = false;
         this.nonPaymentData1 = JSON.parse(JSON.stringify(nonPayment));
       },
       err => {
@@ -304,8 +181,6 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
     this.nonPaymentService.getNonPaymentCategories(this.createPayloadService.payload).then(
       topCategories => {
         this.loadingTopReasons = false;
-        this.topReasonsCategoryDisplay = true;
-        this.barChartsArray = topCategories;
         if (topCategories === null) {
           this.topReasonsCategoryDisplay = false;
           this.barChartsArray = {
@@ -317,6 +192,13 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
             data: null,
             timeperiod: null
           };
+        } else {
+          this.topReasonsCategoryDisplay = true;
+          this.barChartsArray = topCategories;
+          this.reasonsWithSubReasons(topCategories);
+          // to initialize the data required in view-top-claims data
+          this.reasonWithData = this.reasonsWithSubReasons(topCategories);
+          this.timePeriodTopReaons = this.barChartsArray[0].timePeriod;
         }
       },
       error => {
@@ -327,26 +209,27 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
       }
     );
     /** End code for Top Categories */
-
     this.monthlyLineGraph.chartId = 'non-payment-trend-block';
     this.monthlyLineGraph.titleData = [{}];
     this.monthlyLineGraph.generalData = [
       {
-        width: 500,
+        width: 961,
         backgroundColor: 'null',
         barGraphNumberSize: 18,
         barColor: '#196ECF',
         parentDiv: 'non-payment-trend-block',
         tooltipBoolean: true,
-        hideYAxis: false
+        hideYAxis: false,
+        yAxisUnits: '$'
       }
     ];
 
     this.monthlyLineGraph.chartData = [];
     this.trendMonthDisplay = false;
     // This is for line graph
-    this.nonPaymentService.sharedTrendByMonth(this.createPayloadService.payload).then(trendData => {
-      if (trendData === null) {
+    this.nonPaymentService.sharedTrendByMonth(this.createPayloadService.payload).then(data => {
+      const trendData = JSON.parse(JSON.stringify(data));
+      if (trendData == null) {
         this.trendMonthDisplay = false;
         this.monthlyLineGraph = {
           category: 'large-card',
@@ -358,7 +241,8 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
           timeperiod: null
         };
       } else {
-        this.monthlyLineGraph.chartData = trendData;
+        this.timePeriodLineGraph = trendData.timePeriod;
+        this.monthlyLineGraph.chartData = trendData.data;
         this.trendMonthDisplay = true;
       }
     });
@@ -396,6 +280,31 @@ export class NonPaymentsComponent implements OnInit, AfterViewChecked {
       this.renderer.setStyle(listItem, 'color', '#757588');
     });
     this.type = event.direction;
+  }
+  subReasonClicked(value: string, index: number) {
+    const routetoThis = '/GettingReimbursed/ViewTopClaims';
+    const subReasonSelected = this.reasonWithData
+      .filter(item => item.mainReason === value)
+      .map(item => item.subReason[index]);
+    const temp = {
+      fullData: this.reasonWithData,
+      reasonSelected: value,
+      subReason: subReasonSelected[0]
+    };
+    this.reasonsEmitter.sendData = temp;
+    this.router.navigateByUrl('/GettingReimbursed/ViewTopClaims');
+  }
+  public reasonsWithSubReasons(data) {
+    const reasonWithSubData: any = [];
+    for (let i = 0; i < data.length; i++) {
+      const temp = {
+        mainReason: data[i].title,
+        subReason: data[i].top5.map(item => item.text)
+      };
+      reasonWithSubData.push(temp);
+    }
+    console.log('inside non-paymnet component reasonWithSubData', reasonWithSubData);
+    return reasonWithSubData;
   }
 
   ngAfterViewChecked() {

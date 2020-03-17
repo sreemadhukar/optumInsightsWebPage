@@ -1,15 +1,15 @@
 <div class="content-wrapper">
   <div class="main-content">
     <div class="cards cust-width-title">
-      <app-breadcrumbs></app-breadcrumbs>
-      <div class="page-title">
-        North Region Health System
-      </div>
+      <!--app-breadcrumbs></app-breadcrumbs-->
+      <div class="page-title">Health System Details</div>
+      <div class="healthcare-org-name">{{ healthSystemData.HealthCareOrganizationName }}</div>
     </div>
     <div class="health-system-details-block" *ngIf="healthSystemData">
       <div class="health-system-details" *ngIf="healthSystemData.All">
         <div class="health-system-tins">
-          TINs:
+          <!-- TINs: -->
+          Active Tax IDs:
         </div>
         <div class="health-system-tins-value">
           {{ healthSystemData.All.length }}
@@ -31,14 +31,12 @@
           {{ healthSystemData.MajorMarketName | countryFormatter }}
         </div>
       </div>
-      <div class="health-system-details" *ngIf="healthSystemData.TinTypes">
-        <div class="health-system-tin-types">
-          TIN types:
+      <div class="health-system-details" *ngIf="healthSystemData.BicId">
+        <div class="health-system-bic">
+          BIC System ID:
         </div>
-        <div class="health-system-tin-types-value">
-          <span *ngFor="let tin of healthSystemData.TinTypes; let isLast = last"
-            >{{ tin | sliceString }}{{ isLast ? '' : ', ' }}</span
-          >
+        <div class="health-system-bic-value">
+          {{ healthSystemData.BicId }}
         </div>
       </div>
       <div class="viewIBttn">
