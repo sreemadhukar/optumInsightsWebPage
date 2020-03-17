@@ -1,6 +1,3 @@
-import { StorageService } from 'src/app/shared/storage-service.service';
-import { CommonUtilsService } from 'src/app/shared/common-utils.service';
-import { SessionService } from 'src/app/shared/session.service';
 import { Component, OnInit } from '@angular/core';
 import { NgRedux } from '@angular-redux/store';
 import { IAppState } from '../../../store/store';
@@ -9,6 +6,8 @@ import { PerformanceService } from '../../../shared/performance/performance.serv
 import { RlpSharedService } from '../../../shared/performance/rlp-shared.service';
 import { SummarySharedService } from '../../../shared/performance/summary-shared.service';
 import { rlpPageConf, staticTableData, ItableType, rlpPageName, rlpCardType } from '../../../modals/rlp-data';
+import { StorageService } from '../../../shared/storage-service.service';
+import { CommonUtilsService } from 'src/app/shared/common-utils.service';
 
 @Component({
   selector: 'app-labs',
@@ -21,25 +20,21 @@ export class LabsComponent implements OnInit {
   public labsItems;
   loading: boolean;
   loadingTable: boolean;
-  subscription: any;
   public tableData: ItableType = {
     thead: [],
     tbody: []
   };
+  public subscription: any;
 
   constructor(
     private ngRedux: NgRedux<IAppState>,
     private perfShared: PerformanceService,
     private tableTinShared: RlpSharedService,
     private summarySharedService: SummarySharedService,
-    private session: SessionService,
-    private common: CommonUtilsService,
-    private checkStorage: StorageService
+    private checkStorage: StorageService,
+    private filtermatch: CommonUtilsService
   ) {
-    const filData = this.session.getFilChangeEmitter().subscribe(() => this.common.urlResuseStrategy());
-    this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => {
-      this.common.urlResuseStrategy();
-    });
+    this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.filtermatch.urlResuseStrategy());
   }
 
   ngOnInit() {
