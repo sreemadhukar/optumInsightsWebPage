@@ -1,3 +1,6 @@
+import { StorageService } from 'src/app/shared/storage-service.service';
+import { CommonUtilsService } from 'src/app/shared/common-utils.service';
+import { SessionService } from 'src/app/shared/session.service';
 import { Component, OnInit } from '@angular/core';
 import { NgRedux } from '@angular-redux/store';
 import { IAppState } from '../../../store/store';
@@ -16,6 +19,9 @@ export class LabsComponent implements OnInit {
   public title: string;
   public subTitle: string;
   public labsItems;
+  loading: boolean;
+  loadingTable: boolean;
+  subscription: any;
   public tableData: ItableType = {
     thead: [],
     tbody: []
@@ -25,21 +31,33 @@ export class LabsComponent implements OnInit {
     private ngRedux: NgRedux<IAppState>,
     private perfShared: PerformanceService,
     private tableTinShared: RlpSharedService,
-    private summarySharedService: SummarySharedService
-  ) {}
+    private summarySharedService: SummarySharedService,
+    private session: SessionService,
+    private common: CommonUtilsService,
+    private checkStorage: StorageService
+  ) {
+    const filData = this.session.getFilChangeEmitter().subscribe(() => this.common.urlResuseStrategy());
+    this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => {
+      this.common.urlResuseStrategy();
+    });
+  }
 
   ngOnInit() {
     this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'labsPage' });
     this.title = rlpPageConf.Labs.title;
     this.subTitle = rlpPageConf.Labs.subTitle;
+    this.loading = true;
+    this.loadingTable = true;
     this.summarySharedService
       .getHCOdata(rlpPageName.Labs, rlpCardType.longCard)
       .then(response => {
         this.labsItems = response;
         console.log('Component', rlpPageName.Labs, rlpCardType.longCard, this.labsItems);
+        this.loading = false;
       })
       .catch(reason => {
         console.log('Error', rlpPageName.Labs, rlpCardType.longCard, this.labsItems);
+        this.loading = false;
       });
 
     this.tableTinShared
@@ -47,10 +65,12 @@ export class LabsComponent implements OnInit {
       .then(data => {
         this.tableData.thead = staticTableData.Labs;
         this.tableData.tbody = JSON.parse(JSON.stringify(data));
+        this.loadingTable = false;
         console.log('Labs', data);
       })
       .catch(reason => {
         console.log('Error Labs page table data', reason);
+        this.loadingTable = false;
       });
   }
 }

@@ -16,3 +16,20 @@
 .footer-container {
   margin-top: 100px;
 }
+
+.card-skeleton-long:empty {
+  margin: auto;
+  width: 960px;
+  height: 219px;
+
+  background-image: radial-gradient(circle 50px at 50px 50px, lightgray 0, transparent 0),
+    linear-gradient(100deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.5) 50%, rgba(255, 255, 255, 0) 80%),
+    linear-gradient(lightgray 20px, transparent 0), linear-gradient(lightgray 20px, transparent 0);
+  // linear-gradient(lightgray 20px, transparent 0), linear-gradient(lightgray 20px, transparent 0)
+
+  background-repeat: no-repeat;
+  background-size: 50px 200px, /* circle */ 50px 219px, /* highlight */ 700px 200px, 700px 200px, 700px 200px,
+    700px 200px;
+  background-position: 10px 100px, /* circle */ 0 0, /* highlight */ 20px 50px, 20px 100px, 20px 150px, 20px 200px;
+  animation: shine-large 1s infinite;
+}

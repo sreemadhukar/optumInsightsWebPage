@@ -1,3 +1,6 @@
+import { StorageService } from 'src/app/shared/storage-service.service';
+import { CommonUtilsService } from 'src/app/shared/common-utils.service';
+import { SessionService } from 'src/app/shared/session.service';
 import { Component, OnInit } from '@angular/core';
 import { NgRedux } from '@angular-redux/store';
 import { IAppState } from '../../../store/store';
@@ -15,7 +18,10 @@ import { rlpPageConf, staticTableData, ItableType, rlpPageName, rlpCardType } fr
 export class PrescriptionsComponent implements OnInit {
   public title: string;
   public subTitle: string;
+  loading: boolean;
+  loadingTable: boolean;
   public prescriptionsItems;
+  subscription: any;
   public tableData: ItableType = {
     thead: [],
     tbody: []
@@ -25,21 +31,33 @@ export class PrescriptionsComponent implements OnInit {
     private ngRedux: NgRedux<IAppState>,
     private perfShared: PerformanceService,
     private tableTinShared: RlpSharedService,
-    private summarySharedService: SummarySharedService
-  ) {}
+    private summarySharedService: SummarySharedService,
+    private session: SessionService,
+    private common: CommonUtilsService,
+    private checkStorage: StorageService
+  ) {
+    const filData = this.session.getFilChangeEmitter().subscribe(() => this.common.urlResuseStrategy());
+    this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => {
+      this.common.urlResuseStrategy();
+    });
+  }
 
   ngOnInit() {
     this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'prescriptionsPage' });
     this.title = rlpPageConf.Perscription.title;
     this.subTitle = rlpPageConf.Perscription.subTitle;
+    this.loading = true;
+    this.loadingTable = true;
     this.summarySharedService
       .getHCOdata(rlpPageName.Perscription, rlpCardType.longCard)
       .then(response => {
         this.prescriptionsItems = response;
         console.log('Component', rlpPageName.Perscription, rlpCardType.longCard, this.prescriptionsItems);
+        this.loading = false;
       })
       .catch(reason => {
         console.log('Error', rlpPageName.Perscription, rlpCardType.longCard, this.prescriptionsItems);
+        this.loading = false;
       });
     this.tableTinShared
       .getTableShared(rlpPageName.Perscription)
@@ -48,9 +66,11 @@ export class PrescriptionsComponent implements OnInit {
         this.tableData.tbody = JSON.parse(JSON.stringify(data));
         console.log('prescriptionData', data);
         console.log('Tble header', this.tableData);
+        this.loadingTable = false;
       })
       .catch(reason => {
         console.log('Error Prescription page table data', reason);
+        this.loadingTable = false;
       });
   }
 }

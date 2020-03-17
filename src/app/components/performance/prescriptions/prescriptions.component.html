@@ -17,11 +17,16 @@
     </div>
     <div class="container-body">
       <!-- Large Card content-->
-      <div *ngFor="let item of prescriptionsItems; let i = index">
-        <app-rlp-long-card *ngIf="item.data != null" [config]="item"></app-rlp-long-card>
-      </div>
+
+      <app-rlp-long-card *ngIf="prescriptionsItems.data != null" [config]="prescriptionsItems"></app-rlp-long-card>
+      <!--loader-->
+      <app-rlp-long-card [skeletonLong]="loading" *ngIf="loading && !printStyle"></app-rlp-long-card>
+      <!--loader-->
       <!-- Large Card content ends-->
       <app-rlp-table [data]="tableData"></app-rlp-table>
+      <!-- table loader-->
+      <!-- <app-large-card [skeletonLarge]="loadingTable" *ngIf="loadingTable"></app-large-card> -->
+      <!-- table loader-->
     </div>
   </div>
   <!--container content ends-->
