@@ -6,6 +6,8 @@ import { PerformanceService } from '../../../shared/performance/performance.serv
 import { SummarySharedService } from '../../../shared/performance/summary-shared.service';
 import { RlpSharedService } from '../../../shared/performance/rlp-shared.service';
 import { rlpPageConf, staticTableData, ItableType, rlpPageName, rlpCardType } from '../../../modals/rlp-data';
+import { StorageService } from '../../../shared/storage-service.service';
+import { CommonUtilsService } from 'src/app/shared/common-utils.service';
 
 @Component({
   selector: 'app-referrals',
@@ -20,12 +22,17 @@ export class ReferralsComponent implements OnInit {
     thead: [],
     tbody: []
   };
+  public subscription: any;
   constructor(
     private ngRedux: NgRedux<IAppState>,
     private perfShared: PerformanceService,
     private tableTinShared: RlpSharedService,
-    private summarySharedService: SummarySharedService
-  ) {}
+    private summarySharedService: SummarySharedService,
+    private checkStorage: StorageService,
+    private filtermatch: CommonUtilsService
+  ) {
+    this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.filtermatch.urlResuseStrategy());
+  }
 
   ngOnInit() {
     this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'referralsPage' });
@@ -34,7 +41,7 @@ export class ReferralsComponent implements OnInit {
     this.summarySharedService
       .getHCOdata(rlpPageName.Referral, rlpCardType.longCard)
       .then(response => {
-        this.referralsItems = response[0];
+        this.referralsItems = response;
         console.log('Component', rlpPageName.Referral, rlpCardType.longCard, this.referralsItems);
       })
       .catch(reason => {

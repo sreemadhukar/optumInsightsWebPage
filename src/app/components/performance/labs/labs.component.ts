@@ -6,6 +6,8 @@ import { PerformanceService } from '../../../shared/performance/performance.serv
 import { RlpSharedService } from '../../../shared/performance/rlp-shared.service';
 import { SummarySharedService } from '../../../shared/performance/summary-shared.service';
 import { rlpPageConf, staticTableData, ItableType, rlpPageName, rlpCardType } from '../../../modals/rlp-data';
+import { StorageService } from '../../../shared/storage-service.service';
+import { CommonUtilsService } from 'src/app/shared/common-utils.service';
 
 @Component({
   selector: 'app-labs',
@@ -20,13 +22,18 @@ export class LabsComponent implements OnInit {
     thead: [],
     tbody: []
   };
+  public subscription: any;
 
   constructor(
     private ngRedux: NgRedux<IAppState>,
     private perfShared: PerformanceService,
     private tableTinShared: RlpSharedService,
-    private summarySharedService: SummarySharedService
-  ) {}
+    private summarySharedService: SummarySharedService,
+    private checkStorage: StorageService,
+    private filtermatch: CommonUtilsService
+  ) {
+    this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.filtermatch.urlResuseStrategy());
+  }
 
   ngOnInit() {
     this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'labsPage' });

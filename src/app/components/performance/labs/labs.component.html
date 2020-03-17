@@ -17,9 +17,7 @@
     </div>
     <div class="container-body">
       <!-- Large Card content-->
-      <div *ngFor="let item of labsItems; let i = index">
-        <app-rlp-long-card [config]="item" *ngIf="item.data != null"></app-rlp-long-card>
-      </div>
+      <app-rlp-long-card [config]="labsItems" *ngIf="labsItems.data != null"></app-rlp-long-card>
       <!-- Large Card content ends-->
       <app-rlp-table [data]="tableData"></app-rlp-table>
     </div>

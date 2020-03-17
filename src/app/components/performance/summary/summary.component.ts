@@ -5,6 +5,8 @@ import { CURRENT_PAGE } from '../../../store/filter/actions';
 import { PerformanceService } from '../../../shared/performance/performance.service';
 import { SummarySharedService } from '../../../shared/performance/summary-shared.service';
 import { rlpPageName, rlpPageConf, rlpCardType } from '../../../modals/rlp-data';
+import { StorageService } from '../../../shared/storage-service.service';
+import { CommonUtilsService } from 'src/app/shared/common-utils.service';
 
 @Component({
   selector: 'app-summary',
@@ -16,16 +18,24 @@ export class SummaryComponent implements OnInit {
   public subTitleForSummary;
   public summaryItems: any;
   public referralsLoading;
+  public labsLoading;
+  public prescriptionLoading;
   public referralMockCards;
+  public labsMockCards;
+  public prescriptionMockCards;
   public referralCard;
   public prescriptionCard;
   public labsCard;
+  public subscription: any;
   timeFilterValueResolved: string;
   constructor(
     private ngRedux: NgRedux<IAppState>,
     private perfShared: PerformanceService,
-    private summarySharedService: SummarySharedService
+    private summarySharedService: SummarySharedService,
+    private checkStorage: StorageService,
+    private filtermatch: CommonUtilsService
   ) {
+    this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.filtermatch.urlResuseStrategy());
     this.perfShared.getPerformanceData().subscribe((response: any) => {
       this.summaryItems = response[0];
       console.log('SUmmary cards', this.summaryItems);
@@ -61,8 +71,8 @@ export class SummaryComponent implements OnInit {
   }
 
   labsData() {
-    this.referralsLoading = true;
-    this.referralMockCards = [{}];
+    this.labsLoading = true;
+    this.labsMockCards = [{}];
     this.labsCard = [];
     this.summarySharedService
       .getHCOdata(rlpPageName.Labs, rlpCardType.appCard)
@@ -71,17 +81,17 @@ export class SummaryComponent implements OnInit {
         console.log('Component', rlpPageName.Labs, rlpCardType.appCard, this.labsCard);
         // this.referralCard['timeperiod'] = `${this.timeFilterValueResolved} (${this.referralCard['timeperiod']})`;
         // this.referralCard['timeperiod'] = 'YTD';
-        this.referralsLoading = false;
+        this.labsLoading = false;
       })
       .catch(reason => {
-        this.referralsLoading = false;
+        this.labsLoading = false;
         console.log('Error Payment Submission Adovate Overview page Payment', reason);
       });
   }
 
   prescriptionData() {
-    this.referralsLoading = true;
-    this.referralMockCards = [{}];
+    this.prescriptionLoading = true;
+    this.prescriptionMockCards = [{}];
     this.prescriptionCard = [];
     this.summarySharedService
       .getHCOdata(rlpPageName.Perscription, rlpCardType.appCard)
@@ -90,10 +100,10 @@ export class SummaryComponent implements OnInit {
         console.log('Component', rlpPageName.Perscription, rlpCardType.appCard, data);
         // this.referralCard['timeperiod'] = `${this.timeFilterValueResolved} (${this.referralCard['timeperiod']})`;
         // this.referralCard['timeperiod'] = 'YTD';
-        this.referralsLoading = false;
+        this.prescriptionLoading = false;
       })
       .catch(reason => {
-        this.referralsLoading = false;
+        this.prescriptionLoading = false;
         console.log('Error Payment Submission Adovate Overview page Payment', reason);
       });
   }
