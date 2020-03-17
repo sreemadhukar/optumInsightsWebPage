@@ -25,7 +25,7 @@ export const environment: any = {
   // stage
   // apiProxyUrl: 'https://pedapiuhc-pedstgapp.origin-ctc-core.optum.com/',
   apiProxyUrl: 'https://pedapi5-peddev.ocp-ctc-core-nonprod.optum.com/',
-  originUrl: 'https://pedui3-peddev.ocp-ctc-core-nonprod.optum.com/',
+  originUrl: 'https://pedui5-peddev.ocp-ctc-core-nonprod.optum.com/',
 
   apiUrls: {
     ExecutiveSummaryPath: 'providersystems/',
@@ -65,7 +65,7 @@ export const environment: any = {
     NPSQuarterlySummary: 'kop-quarterly-metrics',
     KOPPriorAuthSummary: 'kop-priorauth-metrics/',
     KOPPriorAuthTATSummary: 'kop-priorauth-tat/',
-    KOPReimbursementClaims: 'kop-reimbursement-metrics/',
+    KOPReimbursementClaims: 'kop-reimbursement-metricsByPost/',
     AppealsTrend: 'appeals-trend/',
     AdminSummaryTrends: 'admintrends/',
     AppealsFHIR: 'appeals/v2.0/',
