@@ -1,8 +1,3 @@
-/**
- * Author: Ranjith kumar Ankam
- * Created Date: 03-Apr-2019
- *  **/
-
 import {
   Component,
   AfterViewInit,
@@ -16,7 +11,6 @@ import {
   QueryList,
   OnDestroy,
   AfterViewChecked,
-  Input,
   Inject,
   ChangeDetectorRef
 } from '@angular/core';
@@ -41,6 +35,7 @@ import { SessionService } from '../../shared/session.service';
 import { AcoEventEmitterService } from '../../shared/ACO/aco-event-emitter.service';
 import { FilterCloseService } from './../../shared/filters/filter-close.service';
 import { PcorService } from '../../rest/care-delivery/pcor.service';
+import { CheckHcoRlpService } from '../../shared/performance/check-hco-rlp.service';
 // import { HealthSystemDetailsSharedService } from '../../shared/advocate/health-system-details-shared.service';
 
 @Component({
@@ -182,6 +177,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     private eventEmitter: EventEmitterService,
     private acoEventEmitter: AcoEventEmitterService,
     private viewPortScroller: ViewportScroller,
+    private checkRlpService: CheckHcoRlpService,
     @Inject(DOCUMENT) private document: any
   ) {
     this.glossaryFlag = false;
@@ -375,6 +371,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
       }
       // Check whether we have PCOR Data or not, if yes then include the PCOR option in navigation bar
       this.checkPcorData();
+      this.checkRlpData();
     });
 
     /*
@@ -506,6 +503,23 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
   }
   checkToggle(bool: boolean) {
     return bool ? this.sessionService.checkTrendAccess() && environment.internalAccess : !bool;
+  }
+  checkRlpData() {
+    this.checkRlpService.checkRlpHCO(this.sessionService.providerKeyData()).then(response => {
+      console.log('hamburger response of HCO', response);
+      if (!(response[0] || response[1] || response[2])) {
+        this.navCategories[3].disabled = true;
+        console.log('No data for all the performance');
+      } else if (!response[0]) {
+        console.log('No data for Referral data');
+      } else if (!response[1]) {
+        console.log('No data for Referral data');
+      } else if (!response[2]) {
+        console.log('No data for Referral data');
+      } else {
+        console.log('All Data');
+      }
+    });
   }
   checkPcorData() {
     const parametersExecutive = [this.sessionService.providerKeyData(), true];

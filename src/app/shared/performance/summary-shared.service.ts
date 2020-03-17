@@ -35,7 +35,7 @@ export const pageMapApiEndpoint = [
   providedIn: PerformanceModule
 })
 export class SummarySharedService {
-  public requestBody;
+  public requestBody: Object;
   constructor(
     private MetricidService: GlossaryMetricidService,
     private session: SessionService,
