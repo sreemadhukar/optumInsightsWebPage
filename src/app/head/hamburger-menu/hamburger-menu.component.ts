@@ -190,14 +190,14 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
       sessionStorage.setItem('advocateView', 'true');
     }
     this.groupPremiumDesignationService.groupPremiumDesignationData().subscribe(response => {
-      this.GroupPremiumDesignation = response.GroupPremiumDesignation;
+      this.GroupPremiumDesignation = response.HppIndicator;
     });
     // to disable the header/footer/body when not authenticated
     router.events.subscribe(event => {
       if (event instanceof NavigationStart) {
         this.healthSystemName = this.sessionService.getHealthCareOrgName();
         this.groupPremiumDesignationService.groupPremiumDesignationData().subscribe(response => {
-          this.GroupPremiumDesignation = response.GroupPremiumDesignation;
+          this.GroupPremiumDesignation = response.HppIndicator;
         });
         this.makeAbsolute = !(
           authService.isLoggedIn() &&
