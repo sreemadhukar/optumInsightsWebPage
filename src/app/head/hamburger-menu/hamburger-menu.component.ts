@@ -482,20 +482,26 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
       console.log('hamburger response of HCO', response);
       const getIndex: number = this.navCategories.findIndex(item => item.name === 'Performance');
       if (getIndex !== -1) {
-        if (!(response[0] || response[1] || response[2])) {
-          this.navCategories[getIndex].disabled = true;
-          console.log('No data for all the performance');
-        } else if (!response[0]) {
-          this.navCategories[getIndex].children[1].disabled = true;
-          console.log('No data for Referral data');
-        } else if (!response[1]) {
-          this.navCategories[getIndex].children[2].disabled = true;
-          console.log('No data for Labs data');
-        } else if (!response[2]) {
-          this.navCategories[getIndex].children[3].disabled = true;
-          console.log('No data for Perscription data');
+        if (response[0] && response[1] && response[2]) {
+          console.log('We have data for all RLP');
         } else {
-          console.log('All Data');
+          if (!(response[0] || response[1] || response[2])) {
+            this.navCategories[getIndex].disabled = true;
+            console.log('No data for all the performance');
+          } else {
+            if (!response[0]) {
+              this.navCategories[getIndex].children[1].disabled = true;
+              console.log('No data for Referral data');
+            }
+            if (!response[1]) {
+              this.navCategories[getIndex].children[2].disabled = true;
+              console.log('No data for Labs data');
+            }
+            if (!response[2]) {
+              this.navCategories[getIndex].children[3].disabled = true;
+              console.log('No data for Perscription data');
+            }
+          }
         }
       }
     });

@@ -15,7 +15,7 @@ export class CheckHcoRlpService {
     return new Promise(resolve => {
       this.performanceRestService
         // .getNetworkLeversData(this.session.providerKeyData(), getStaticData.apiPoint, this.requestBody)
-        .getAllHcoRlp(providerSyskey, this.requestBody)
+        .getAllHcoRlp(958, this.requestBody)
         .subscribe(
           response => {
             console.log('All HCO Response Data', response);

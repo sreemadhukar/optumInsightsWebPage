@@ -44,15 +44,15 @@ export class RlpTableComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.pageSizeValues = [...pageSizeConf];
     this.selectPageSize = this.pageSizeValues[0];
-    this.tableData = [...rlpData.data];
+    // this.tableData = [...rlpData.data];
+    this.tableData = [...this.data.tbody];
     this.afterQuery = [...this.tableData];
     this.totalPages = Math.ceil(this.tableData.length / +this.selectPageSize);
     this.sortTableData();
     this.setPagination();
     this.isAscending = true;
-    console.log('Data', this.tableData);
+    console.log('Inside tabe component Data', this.tableData);
   }
-
   /**
    * setPagination function handle the current state of pagination
    * @param currentPageNumber  Current page if not provided INITIAL_STATE i.e. 1
