@@ -1,13 +1,20 @@
 /** Created By  - Ranjith kumar Ankam - 06-June-2019 **/
 
 import { Injectable, EventEmitter } from '@angular/core';
-import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import {
+  HttpInterceptor,
+  HttpRequest,
+  HttpHandler,
+  HttpEvent,
+  HttpClient,
+  HttpErrorResponse
+} from '@angular/common/http';
+import { Observable, throwError } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import * as jwt_decode from 'jwt-decode';
 import { RefreshTokenService } from './refresh-token.service';
 import { StorageService } from 'src/app/shared/storage-service.service';
-import { retry } from 'rxjs/operators';
+import { retry, catchError } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -37,10 +44,10 @@ export class HttpInterceptorService implements HttpInterceptor {
         return this.getRequestWithAuthentication(request, next);
       } else if (tokenExpiry.date && !this.refreshtoken) {
         this.emitter.emit(true);
-        console.log('API token expired');
 
         // API call to get new refresh token & save in session
         this.refreshtokenservice.getRefreshToken(tokenExpiry.sub).subscribe((resp: any) => {
+          console.log('API token expired');
           const providerData = JSON.parse(sessionStorage.getItem('currentUser'));
           const provider = providerData[0];
           if (providerData[0].hasOwnProperty('ProviderKey')) {
@@ -69,11 +76,11 @@ export class HttpInterceptorService implements HttpInterceptor {
           });
         }
       }
-      // if (environment.internalAccess) {
-      //   request = request.clone({
-      //     headers: request.headers.set('applicationType', 'Internal')
-      //   });
-      // }
+      if (environment.internalAccess) {
+        request = request.clone({
+          headers: request.headers.set('applicationType', 'Internal')
+        });
+      }
     }
     if (request.url.indexOf('myinsightOptumIdHandshake') !== -1 || request.url.indexOf('ldapauth') !== -1) {
       request = request.clone({ headers: request.headers.set('Content-Type', 'application/x-www-form-urlencoded') });
@@ -81,7 +88,12 @@ export class HttpInterceptorService implements HttpInterceptor {
       request = request.clone({ headers: request.headers.set('Content-Type', 'application/json') });
     }
     request = request.clone({ headers: request.headers.set('Accept', '*/*') });
-    return next.handle(request).pipe(retry(1));
+    return next.handle(request).pipe(
+      retry(1),
+      catchError((error: HttpErrorResponse) => {
+        return throwError(error);
+      })
+    );
   }
 
   private isTokenExpired(request: HttpRequest<any>) {

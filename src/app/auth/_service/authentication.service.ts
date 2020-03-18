@@ -7,6 +7,8 @@ import { environment } from '../../../environments/environment';
 import { User } from '../_models/user';
 import { Router } from '@angular/router';
 import { DOCUMENT } from '@angular/common';
+import { RESET_KOP_FILTER } from 'src/app/store/kopFilter/actions';
+import { NgRedux } from '@angular-redux/store';
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +21,12 @@ export class AuthenticationService {
   private currentUserSubject: BehaviorSubject<User>;
   private currentUser: Observable<User>;
 
-  constructor(public http: HttpClient, private router: Router, @Inject(DOCUMENT) private document: any) {
+  constructor(
+    public http: HttpClient,
+    private router: Router,
+    @Inject(DOCUMENT) private document: any,
+    private ngRedux: NgRedux<any>
+  ) {
     this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(sessionStorage.getItem('currentUser')));
     this.currentUser = this.currentUserSubject.asObservable();
   }
@@ -63,12 +70,14 @@ export class AuthenticationService {
   }
 
   public logout(expired = 0) {
-    sessionStorage.removeItem('currentUser');
-    sessionStorage.removeItem('loggedUser');
-    sessionStorage.removeItem('heac');
-    sessionStorage.removeItem('pcor');
-    sessionStorage.removeItem('state');
+    // sessionStorage.removeItem('currentUser');
+    // sessionStorage.removeItem('loggedUser');
+    // sessionStorage.removeItem('heac');
+    // sessionStorage.removeItem('pcor');
+    // sessionStorage.removeItem('state');
+    sessionStorage.clear();
     sessionStorage.setItem('cache', JSON.stringify(false));
+    this.ngRedux.dispatch({ type: RESET_KOP_FILTER });
     if (environment.internalAccess) {
       if (expired) {
         this.router.navigate([''], { queryParams: { sessionExpired: true } });
