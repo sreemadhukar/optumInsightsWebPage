@@ -3,7 +3,7 @@ import { PerformanceRestService } from '../../rest/performance/performance-rest.
 import { PerformanceModule } from '../../components/performance/performance.module';
 
 export interface ItableData {
-  tin: number;
+  tin: string;
   groupName: string;
   graphData: any;
 }
@@ -30,7 +30,7 @@ export class RlpSharedService {
           console.log('response--->', response);
           const newData = response.map(item => {
             const temp: ItableData = {
-              tin: item.Tin,
+              tin: item.Tin.toFixed(0),
               groupName: item.TinName,
               graphData: {
                 category: 'app-table-card',

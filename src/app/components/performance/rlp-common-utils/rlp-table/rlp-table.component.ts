@@ -64,7 +64,7 @@ export class RlpTableComponent implements OnInit, OnDestroy, OnChanges, DoCheck 
     this.setPagination();
     this.isAscending = true;
     this.tableHeader = this.data.thead;
-    console.log('Inside tabe component Data', this, this.tableHeader, this.tableData);
+    console.log('Inside tabe component Data', this.tableHeader, this.tableData);
     this.showTableBody = true;
     this.showTableHeader = true;
   }
@@ -156,6 +156,7 @@ export class RlpTableComponent implements OnInit, OnDestroy, OnChanges, DoCheck 
   enterQuery() {
     this.setPagination(1, 0, +this.selectPageSize);
     if (this.qGroupNameSearch === undefined && this.qTinSearch === undefined) {
+      console.log('Inputs are empty');
     }
     this.afterQuery = this.tableData.filter(el => {
       if (el.tin.indexOf([this.qTinSearch]) !== -1 && this.qGroupNameSearch === undefined) {
@@ -173,6 +174,7 @@ export class RlpTableComponent implements OnInit, OnDestroy, OnChanges, DoCheck 
       }
     });
     this.totalPages = Math.ceil(this.afterQuery.length / +this.selectPageSize);
+    console.log('After query', this.afterQuery);
   }
 
   /**
