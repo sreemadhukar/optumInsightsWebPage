@@ -26,7 +26,7 @@
       <app-rlp-long-card [config]="referralsItems" *ngIf="referralsItems.data != null"></app-rlp-long-card>
 
       <!-- Large Card content ends-->
-      <app-rlp-table [data]="tableData"></app-rlp-table>
+      <app-rlp-table [data]="tableData" *ngIf="referralsItems.data != null && isTable"></app-rlp-table>
       <!-- table loader-->
       <!-- <app-large-card [skeletonLarge]="loadingTable" *ngIf="loadingTable"></app-large-card> -->
       <!-- table loader-->

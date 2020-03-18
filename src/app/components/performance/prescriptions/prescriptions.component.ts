@@ -22,6 +22,7 @@ export class PrescriptionsComponent implements OnInit {
   // public loadingTable;
   public perfMockCards;
   public prescriptionsItems;
+  public isTable: boolean;
   public tableData: ItableType = {
     thead: [],
     tbody: []
@@ -40,6 +41,7 @@ export class PrescriptionsComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.isTable = false;
     this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'prescriptionsPage' });
     this.title = rlpPageConf.Perscription.title;
     this.subTitle = rlpPageConf.Perscription.subTitle;
@@ -71,8 +73,22 @@ export class PrescriptionsComponent implements OnInit {
         this.loading = false;
       })
       .catch(reason => {
-        console.log('Error', rlpPageName.Perscription, rlpCardType.longCard, this.prescriptionsItems);
+        console.log('Error', rlpPageName.Perscription, rlpCardType.longCard, reason);
         this.loading = false;
+      });
+    this.tableTinShared
+      .getTableShared(rlpPageName.Perscription)
+      .then(data => {
+        this.isTable = true;
+        this.tableData.thead = staticTableData.Perscription;
+        this.tableData.tbody = JSON.parse(JSON.stringify(data));
+        console.log('prescriptionData', data);
+        console.log('Tble header', this.tableData);
+        this.loadingTable = false;
+      })
+      .catch(reason => {
+        console.log('Error Prescription page table data', reason);
+        this.loadingTable = false;
       });
   }
 }
