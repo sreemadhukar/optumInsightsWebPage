@@ -17,12 +17,13 @@
     </div>
     <div class="container-body">
       <!-- Large Card content-->
-
+      <!--loader-->
+      <div *ngFor="let data of perfMockCards; let i = index">
+        <!-- <app-card class="cards" [skeleton]="loading" *ngIf="loading"> </app-card> -->
+        <app-rlp-long-card [skeletonLong]="loading" *ngIf="loading && !printStyle"></app-rlp-long-card>
+      </div>
+      <!--loader-->
       <app-rlp-long-card [config]="labsItems" *ngIf="labsItems.data != null"></app-rlp-long-card>
-
-      <!--loader-->
-      <app-rlp-long-card [skeletonLong]="loading" *ngIf="loading && !printStyle"></app-rlp-long-card>
-      <!--loader-->
       <!-- Large Card content ends-->
 
       <app-rlp-table *ngIf="isTable && labsItems.data != null" [data]="tableData"></app-rlp-table>

@@ -19,6 +19,8 @@ export class ReferralsComponent implements OnInit {
   public title: string;
   public subTitle: string;
   public referralsItems;
+  // public loadingTable;
+  public perfMockCards;
   loading: boolean;
   loadingTable: boolean;
   public isTable: boolean;
@@ -42,7 +44,24 @@ export class ReferralsComponent implements OnInit {
     this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'referralsPage' });
     this.title = rlpPageConf.Referral.title;
     this.subTitle = rlpPageConf.Referral.subTitle;
+    this.referralLongCardData();
+    this.tableTinShared
+      .getTableShared(rlpPageName.Referral)
+      .then(data => {
+        this.tableData.thead = staticTableData.Referral;
+        this.tableData.tbody = JSON.parse(JSON.stringify(data));
+        console.log('Referral data', data);
+        // this.loadingTable = false;
+      })
+      .catch(reason => {
+        console.log('Error Referral page table data', reason);
+        // this.loadingTable = false;
+      });
+  }
+  referralLongCardData() {
     this.loading = true;
+    this.perfMockCards = [{}];
+    this.referralsItems = [];
     this.loadingTable = true;
     this.isTable = false;
     this.summarySharedService
