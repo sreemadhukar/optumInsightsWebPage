@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnChanges, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 
 interface IListItem {
   tin: string;
@@ -9,13 +9,9 @@ interface IListItem {
   selector: 'app-rlp-table-item',
   templateUrl: './rlp-table-item.component.html',
   styleUrls: ['./rlp-table-item.component.scss'],
-  changeDetection: ChangeDetectionStrategy.Default
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class RlpTableItemComponent implements OnInit, OnChanges {
+export class RlpTableItemComponent {
   @Input() tableItem: IListItem;
-  constructor(private cd: ChangeDetectorRef) {}
-  ngOnInit() {}
-  ngOnChanges() {
-    this.cd.markForCheck();
-  }
+  constructor() {}
 }

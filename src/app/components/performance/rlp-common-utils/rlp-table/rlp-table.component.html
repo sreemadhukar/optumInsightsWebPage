@@ -1,4 +1,4 @@
-<div class="table-container" *ngIf="true">
+<div class="table-container" *ngIf="!skeletonTable">
   <div class="table-header-labels" *ngIf="showTableHeader">
     <div class="rlp-table-tin">
       <div class="table-head-text">{{ tableHeader[0] }}</div>
@@ -37,8 +37,10 @@
   <div class="zebra-stripe"></div>
   <div *ngIf="showTableBody">
     <div
-      class="table-items | rlpSearch: [qTinSearch, qGroupNameSearch | lowercase] | slice: startIndex:endIndex"
-      *ngFor="let item of tableData"
+      class="table-items"
+      *ngFor="
+        let item of tableData | rlpSearch: [qTinSearch, qGroupNameSearch | lowercase] | slice: startIndex:endIndex
+      "
     >
       <app-rlp-table-item [tableItem]="item"></app-rlp-table-item>
     </div>

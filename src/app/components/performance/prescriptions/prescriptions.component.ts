@@ -3,7 +3,6 @@ import { Component, OnInit } from '@angular/core';
 import { NgRedux } from '@angular-redux/store';
 import { IAppState } from '../../../store/store';
 import { CURRENT_PAGE } from '../../../store/filter/actions';
-import { PerformanceService } from '../../../shared/performance/performance.service';
 import { SummarySharedService } from '../../../shared/performance/summary-shared.service';
 import { RlpSharedService } from '../../../shared/performance/rlp-shared.service';
 import { rlpPageConf, staticTableData, ItableType, rlpPageName, rlpCardType } from '../../../modals/rlp-data';
@@ -31,7 +30,6 @@ export class PrescriptionsComponent implements OnInit {
 
   constructor(
     private ngRedux: NgRedux<IAppState>,
-    private perfShared: PerformanceService,
     private tableTinShared: RlpSharedService,
     private summarySharedService: SummarySharedService,
     private checkStorage: StorageService,
@@ -50,6 +48,7 @@ export class PrescriptionsComponent implements OnInit {
     this.tableTinShared
       .getTableShared(rlpPageName.Perscription)
       .then(data => {
+        this.isTable = true;
         this.tableData.thead = staticTableData.Perscription;
         this.tableData.tbody = JSON.parse(JSON.stringify(data));
         console.log('prescriptionData', data);
@@ -75,20 +74,6 @@ export class PrescriptionsComponent implements OnInit {
       .catch(reason => {
         console.log('Error', rlpPageName.Perscription, rlpCardType.longCard, reason);
         this.loading = false;
-      });
-    this.tableTinShared
-      .getTableShared(rlpPageName.Perscription)
-      .then(data => {
-        this.isTable = true;
-        this.tableData.thead = staticTableData.Perscription;
-        this.tableData.tbody = JSON.parse(JSON.stringify(data));
-        console.log('prescriptionData', data);
-        console.log('Tble header', this.tableData);
-        this.loadingTable = false;
-      })
-      .catch(reason => {
-        console.log('Error Prescription page table data', reason);
-        this.loadingTable = false;
       });
   }
 }
