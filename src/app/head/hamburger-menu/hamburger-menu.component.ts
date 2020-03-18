@@ -43,7 +43,7 @@ import { FilterCloseService } from './../../shared/filters/filter-close.service'
 import { PcorService } from '../../rest/care-delivery/pcor.service';
 import { RESET_KOP_FILTER } from 'src/app/store/kopFilter/actions';
 import { NgRedux } from '@angular-redux/store';
-// import { HealthSystemDetailsSharedService } from '../../shared/advocate/health-system-details-shared.service';
+import { GroupPremiumDesignationService } from '../../rest/group-premium-designation/group-premium-designation.service';
 
 @Component({
   selector: 'app-hamburger-menu',
@@ -152,7 +152,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
 
   /** CONSTRUCTOR **/
   constructor(
-    // private healthSystemService: HealthSystemDetailsSharedService,
+    public groupPremiumDesignationService: GroupPremiumDesignationService,
     private breakpointObserver: BreakpointObserver,
     private cdRef: ChangeDetectorRef,
     private elementRef: ElementRef,
@@ -185,42 +185,24 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     this.checkAdv = this.sessionService.checkAdvocateRole();
     this.checkPro = this.sessionService.checkProjectRole();
     this.checkExecutive = this.sessionService.checkExecutiveRole();
-    // this.healthSystemService
-    //   .getHealthSystemData()
-    //   .then(healthSystemData => {
-    //     this.healthSystemData = JSON.parse(JSON.stringify(healthSystemData));
-    //     if (this.healthSystemData.GroupPremiumDesignation) {
-    //       this.GroupPremiumDesignation = this.healthSystemData.GroupPremiumDesignation;
-    //     } else {
-    //       this.GroupPremiumDesignation = false;
-    //     }
-    //   })
-    //   .catch(reason => {
-    //     this.GroupPremiumDesignation = false;
-    //     console.log('Health System Details are not available', reason);
-    //   });
     if (this.checkAdv.value) {
       this.navCategories = this.navCategoriesTotal.filter(item => item.name !== 'Summary Trends');
       sessionStorage.setItem('advocateView', 'true');
+    }
+    if (this.groupPremiumDesignationService.groupPremiumDesignationData()) {
+      this.groupPremiumDesignationService.groupPremiumDesignationData().subscribe(response => {
+        this.GroupPremiumDesignation = response.HppIndicator;
+      });
     }
     // to disable the header/footer/body when not authenticated
     router.events.subscribe(event => {
       if (event instanceof NavigationStart) {
         this.healthSystemName = this.sessionService.getHealthCareOrgName();
-        // this.healthSystemService
-        //   .getHealthSystemData()
-        //   .then(healthSystemData => {
-        //     this.healthSystemData = JSON.parse(JSON.stringify(healthSystemData));
-        //     if (this.healthSystemData.GroupPremiumDesignation) {
-        //       this.GroupPremiumDesignation = this.healthSystemData.GroupPremiumDesignation;
-        //     } else {
-        //       this.GroupPremiumDesignation = false;
-        //     }
-        //   })
-        //   .catch(reason => {
-        //     this.GroupPremiumDesignation = false;
-        //     console.log('Health System Details are not available', reason);
-        //   });
+        if (this.groupPremiumDesignationService.groupPremiumDesignationData()) {
+          this.groupPremiumDesignationService.groupPremiumDesignationData().subscribe(response => {
+            this.GroupPremiumDesignation = response.HppIndicator;
+          });
+        }
         this.makeAbsolute = !(
           authService.isLoggedIn() &&
           !(
@@ -341,7 +323,6 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
   }
 
   ngOnInit() {
-    this.GroupPremiumDesignation = false;
     this.AcoFlag = false;
     this.isKop = false;
     this.loading = false;
