@@ -11,21 +11,21 @@
         *ngIf="selectedPage !== 'callsPage' && selectedTaxIds[0].Tin !== 'All' && selectedTaxIds.length < 4"
       >
         <div class="horizontal-align" *ngFor="let taxId of selectedTaxIds">
-          <button class="btn btn-rounded" disabled *ngIf="taxId.Tin !== 'All'">
+          <div class="filter-chips-button-design" *ngIf="taxId.Tin !== 'All'">
             <span>Tax ID: </span><span class="text-semibold pl-4"> {{ taxId.Tin }} </span>
             <div class="close-btn">
               <mat-icon class="icon-display" (click)="removeAppliedFilter('taxId', taxId)" svgIcon="close"></mat-icon>
             </div>
-          </button>
+          </div>
         </div>
       </ng-container>
       <div class="horizontal-align" *ngIf="selectedPage !== 'callsPage' && selectedTaxIds.length >= 4">
-        <button class="btn btn-rounded" disabled>
+        <div class="filter-chips-button-design">
           <span>Tax ID: </span><span class="text-semibold pl-4"> {{ selectedTaxIds.length }} Selected </span>
           <div class="close-btn">
             <mat-icon class="icon-display" (click)="removeAppliedFilter('taxId')" svgIcon="close"></mat-icon>
           </div>
-        </button>
+        </div>
       </div>
       <div class="horizontal-align" *ngIf="selectedPage !== 'callsPage' && selectedLob.value !== 'All'">
         <button class="btn btn-rounded" disabled>

@@ -19,11 +19,12 @@
     <div class="user-div" (click)="advocateUserClicked()" *ngIf="!printStyle">
       <!-- <mat-slide-toggle [checked]="isDarkTheme | async" labelPosition="before" (change)="toggleDarkTheme($event.checked)"></mat-slide-toggle> -->
       <div class="user-icon">
-        <mat-icon class="nav-menu-icons" svgIcon="person"></mat-icon>
+        <mat-icon class="nav-menu-icons no-margin-icons" svgIcon="person"></mat-icon>
       </div>
       <div class="user-name">{{ username }}</div>
-      <div class="user-expand-more" *ngIf="isAdvocate">
-        <mat-icon class="nav-menu-icons" svgIcon="expand-more"></mat-icon>
+      <div class="user-expand-more">
+        <!-- *ngIf="isAdvocate"-->
+        <mat-icon class="nav-menu-icons no-margin-icons" svgIcon="expand-more"></mat-icon>
       </div>
     </div>
     <div>
@@ -36,8 +37,8 @@
         >
           <mat-icon class="nav-menu-icons lb-padd" svgIcon="done"></mat-icon>
           <span class="wrap">My View</span>
-          <div class="tiny-provider">{{ fullname }}</div></a
-        >
+          <div class="tiny-provider">{{ fullname }}</div>
+        </a>
 
         <a
           class="act per-item icon curser"
@@ -46,12 +47,27 @@
         >
           <mat-icon class="nav-menu-icons lb-padd" svgIcon="done"></mat-icon>
           <span class="wrap">{{ healthSystemName }}</span>
-          <div class="tiny-provider">See what the provider sees</div></a
-        >
+          <div class="tiny-provider">See what the provider sees</div>
+        </a>
 
         <a class="act signout-label provider-height signout-lh" (click)="signOut()">
-          <mat-icon class="nav-menu-icons" svgIcon="sign-out"></mat-icon>Sign Out</a
-        >
+          <mat-icon class="nav-menu-icons" svgIcon="sign-out"></mat-icon>Sign Out
+        </a>
+      </div>
+
+      <div *ngIf="!advDropdownBool && openDropdownBool" class="user-info-block">
+        <div class="profile-details-block">
+          <p class="profile-name">{{ fullname }}</p>
+          <p class="profile-mail">{{ EmailId }}</p>
+          <p class="profile-id" *ngIf="!isInternal">Optum ID: {{ OptumId }}</p>
+          <p class="profile-id" *ngIf="isInternal">MSID: {{ MsId }}</p>
+        </div>
+        <div class="sign-out-block">
+          <div (click)="signOut()" class="signout-icon-text">
+            <mat-icon class="nav-menu-icons no-margin-icons" svgIcon="sign-out"></mat-icon
+            ><span class="signout-text">Sign Out</span>
+          </div>
+        </div>
       </div>
     </div>
   </div>

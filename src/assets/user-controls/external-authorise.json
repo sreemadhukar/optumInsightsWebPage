@@ -35,7 +35,7 @@
   "Getting Reimbursed": {
     "Summary": {
       "navLink": true,
-      "Claims Submissions": {
+      "Claims Processed": {
         "tile": true,
         "Total Claims Submitted": true,
         "Claims Average Turnaround Time to Payment": true

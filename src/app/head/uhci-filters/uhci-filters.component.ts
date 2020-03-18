@@ -23,7 +23,7 @@ import { SessionService } from '../../shared/session.service';
 import { TaxId } from './filter-settings/filter-options';
 import { CreatePayloadService } from '../../shared/uhci-filters/create-payload.service';
 import { GettingReimbursedSharedService } from '../../shared/getting-reimbursed/getting-reimbursed-shared.service';
-
+import { CommonUtilsService } from 'src/app/shared/common-utils.service';
 @Component({
   selector: 'app-uhci-filter',
   templateUrl: './uhci-filters.component.html',
@@ -80,7 +80,8 @@ export class UhciFiltersComponent implements OnInit {
     private location: Location,
     private session: SessionService,
     private createPayloadService: CreatePayloadService,
-    private gettingReimbursedservice: GettingReimbursedSharedService
+    private gettingReimbursedservice: GettingReimbursedSharedService,
+    private common: CommonUtilsService
   ) {
     iconRegistry.addSvgIcon(
       'arrowdn',
@@ -195,6 +196,7 @@ export class UhciFiltersComponent implements OnInit {
     });
     this.createPayloadService.emitFilterEvent(this.selectedPage);
     this.filterFlag.emit(false);
+    this.common.urlResuseStrategy();
   }
 
   resetFilters() {
