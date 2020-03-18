@@ -21,6 +21,7 @@ export class ReferralsComponent implements OnInit {
   public referralsItems;
   loading: boolean;
   loadingTable: boolean;
+  public isTable: boolean;
   public tableData: ItableType = {
     thead: [],
     tbody: []
@@ -43,6 +44,7 @@ export class ReferralsComponent implements OnInit {
     this.subTitle = rlpPageConf.Referral.subTitle;
     this.loading = true;
     this.loadingTable = true;
+    this.isTable = false;
     this.summarySharedService
       .getHCOdata(rlpPageName.Referral, rlpCardType.longCard)
       .then(response => {
@@ -58,6 +60,7 @@ export class ReferralsComponent implements OnInit {
     this.tableTinShared
       .getTableShared(rlpPageName.Referral)
       .then(data => {
+        this.isTable = true;
         this.tableData.thead = staticTableData.Referral;
         this.tableData.tbody = JSON.parse(JSON.stringify(data));
         console.log('Referral data', data);

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, ChangeDetectionStrategy } from '@angular/core';
 
 interface IListItem {
   tin: string;
@@ -10,12 +10,13 @@ interface IListItem {
   templateUrl: './rlp-table-item.component.html',
   styleUrls: ['./rlp-table-item.component.scss']
 })
-export class RlpTableItemComponent implements OnInit {
+export class RlpTableItemComponent implements OnInit, OnChanges {
   @Input() tableItem: IListItem;
   tableBar: any;
   constructor() {}
 
   ngOnInit() {
+    console.log('Tabel item', this.tableItem);
     this.tableBar = {
       category: 'app-table-card',
       type: 'rlp-table-bar',
@@ -29,5 +30,9 @@ export class RlpTableItemComponent implements OnInit {
       },
       timeperiod: 'YTD (Jan 1, 2020—Mar 31, 2020)'
     };
+  }
+
+  ngOnChanges() {
+    console.log('Tabel item', this.tableItem);
   }
 }
