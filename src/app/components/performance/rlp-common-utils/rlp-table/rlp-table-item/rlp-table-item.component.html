@@ -3,7 +3,7 @@
     {{ tableItem.tin }}
   </div>
   <div class="rlp-table-label rlp-table-group">
-    {{ tableItem.groupName }}
+    {{ tableItem.groupName | sliceString }}
   </div>
   <div class="rlp-table-label rlp-table-bar">
     <app-rlp-common-bar [data]="tableItem.graphData"></app-rlp-common-bar>
