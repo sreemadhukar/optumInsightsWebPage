@@ -1,13 +1,23 @@
 import { DomSanitizer } from '@angular/platform-browser';
 import { MatIconRegistry } from '@angular/material';
-import { Component, OnInit, OnDestroy, Input } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  OnChanges,
+  OnDestroy,
+  DoCheck,
+  Input,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef
+} from '@angular/core';
 import { rlpData, INITIAL_PAGINATION, pageSizeConf } from '../../../../modals/rlp-data';
 @Component({
   selector: 'app-rlp-table',
   templateUrl: './rlp-table.component.html',
-  styleUrls: ['./rlp-table.component.scss']
+  styleUrls: ['./rlp-table.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Default
 })
-export class RlpTableComponent implements OnInit, OnDestroy {
+export class RlpTableComponent implements OnInit, OnDestroy, OnChanges, DoCheck {
   @Input() data;
   @Input() skeletonTable;
   public qTinSearch: string; // Input ngModel of Tin Search
@@ -22,7 +32,9 @@ export class RlpTableComponent implements OnInit, OnDestroy {
   public totalPages: number; // total Number of pages i.e. Number of available records/ PageSize
   public pageSizeValues: Array<string>; // Dropdown option values
   public isAscending: boolean; // used to check sorting of the table
-  constructor(private iconRegistry: MatIconRegistry, sanitizer: DomSanitizer) {
+  public showTableBody: boolean;
+  public showTableHeader: boolean;
+  constructor(private iconRegistry: MatIconRegistry, sanitizer: DomSanitizer, private cd: ChangeDetectorRef) {
     iconRegistry.addSvgIcon(
       'arrow',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-keyboard_arrow_down-24px.svg')
@@ -51,8 +63,13 @@ export class RlpTableComponent implements OnInit, OnDestroy {
     this.sortTableData();
     this.setPagination();
     this.isAscending = true;
-    console.log('Inside tabe component Data', this.tableData);
+    this.tableHeader = this.data.thead;
+    console.log('Inside tabe component Data', this, this.tableHeader, this.tableData);
+    this.showTableBody = true;
+    this.showTableHeader = true;
   }
+  ngOnChanges() {}
+  ngDoCheck() {}
   /**
    * setPagination function handle the current state of pagination
    * @param currentPageNumber  Current page if not provided INITIAL_STATE i.e. 1

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnChanges, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 
 interface IListItem {
   tin: string;
@@ -8,31 +8,14 @@ interface IListItem {
 @Component({
   selector: 'app-rlp-table-item',
   templateUrl: './rlp-table-item.component.html',
-  styleUrls: ['./rlp-table-item.component.scss']
+  styleUrls: ['./rlp-table-item.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Default
 })
 export class RlpTableItemComponent implements OnInit, OnChanges {
   @Input() tableItem: IListItem;
-  tableBar: any;
-  constructor() {}
-
-  ngOnInit() {
-    console.log('Tabel item', this.tableItem);
-    this.tableBar = {
-      category: 'app-table-card',
-      type: 'rlp-table-bar',
-      status: 404,
-      title: 'Preferred Specialist Referral Rate',
-      data: {
-        gdata: {
-          count: '88/152',
-          percentage: this.tableItem.graphData.total
-        }
-      },
-      timeperiod: 'YTD (Jan 1, 2020—Mar 31, 2020)'
-    };
-  }
-
+  constructor(private cd: ChangeDetectorRef) {}
+  ngOnInit() {}
   ngOnChanges() {
-    console.log('Tabel item', this.tableItem);
+    this.cd.markForCheck();
   }
 }
