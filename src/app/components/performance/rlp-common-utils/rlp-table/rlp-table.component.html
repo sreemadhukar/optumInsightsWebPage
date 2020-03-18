@@ -1,7 +1,7 @@
-<div class="table-container" *ngIf="!skeletonTable">
-  <div class="table-header-labels">
+<div class="table-container" *ngIf="true">
+  <div class="table-header-labels" *ngIf="showTableHeader">
     <div class="rlp-table-tin">
-      <div class="table-head-text">{{ data.thead[0] }}</div>
+      <div class="table-head-text">{{ tableHeader[0] }}</div>
       <input
         type="text"
         class="table-input-query tin-input-width"
@@ -12,7 +12,7 @@
       />
     </div>
     <div class="rlp-table-group">
-      <div class="table-head-text">{{ data.thead[1] }}</div>
+      <div class="table-head-text">{{ tableHeader[1] }}</div>
       <input
         type="text"
         class="table-input-query tinname-input-width"
@@ -24,7 +24,7 @@
     </div>
     <div class="rlp-table-bar" (click)="sortIconRate()">
       <div class="table-head-text">
-        {{ data.thead[2] }}
+        {{ tableHeader[2] }}
       </div>
       <mat-icon class="nav-menu-icons nav-menu-icons-down-arrow" *ngIf="!isAscending" svgIcon="downarrow"></mat-icon>
       <mat-icon
@@ -35,16 +35,15 @@
     </div>
   </div>
   <div class="zebra-stripe"></div>
-  <ng-container *ngIf="tableData.length > 0">
+  <div *ngIf="showTableBody">
     <div
-      class="table-items"
-      *ngFor="
-        let item of tableData | rlpSearch: [qTinSearch, qGroupNameSearch | lowercase] | slice: startIndex:endIndex
-      "
+      class="table-items | rlpSearch: [qTinSearch, qGroupNameSearch | lowercase] | slice: startIndex:endIndex"
+      *ngFor="let item of tableData"
     >
       <app-rlp-table-item [tableItem]="item"></app-rlp-table-item>
     </div>
-  </ng-container>
+  </div>
+
   <div class="zebra-stripe"></div>
   <div *ngIf="afterQuery.length > pageSizeValues[0]" class="rlp-table-footer">
     <div class="rlp-left-section">
