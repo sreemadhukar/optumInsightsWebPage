@@ -1,23 +1,13 @@
 import { DomSanitizer } from '@angular/platform-browser';
 import { MatIconRegistry } from '@angular/material';
-import {
-  Component,
-  OnInit,
-  OnChanges,
-  OnDestroy,
-  DoCheck,
-  Input,
-  ChangeDetectionStrategy,
-  ChangeDetectorRef
-} from '@angular/core';
+import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { rlpData, INITIAL_PAGINATION, pageSizeConf } from '../../../../modals/rlp-data';
 @Component({
   selector: 'app-rlp-table',
   templateUrl: './rlp-table.component.html',
-  styleUrls: ['./rlp-table.component.scss'],
-  changeDetection: ChangeDetectionStrategy.Default
+  styleUrls: ['./rlp-table.component.scss']
 })
-export class RlpTableComponent implements OnInit, OnDestroy, OnChanges, DoCheck {
+export class RlpTableComponent implements OnInit, OnDestroy {
   @Input() data;
   @Input() skeletonTable;
   public qTinSearch: string; // Input ngModel of Tin Search
@@ -34,7 +24,7 @@ export class RlpTableComponent implements OnInit, OnDestroy, OnChanges, DoCheck 
   public isAscending: boolean; // used to check sorting of the table
   public showTableBody: boolean;
   public showTableHeader: boolean;
-  constructor(private iconRegistry: MatIconRegistry, sanitizer: DomSanitizer, private cd: ChangeDetectorRef) {
+  constructor(private iconRegistry: MatIconRegistry, sanitizer: DomSanitizer) {
     iconRegistry.addSvgIcon(
       'arrow',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-keyboard_arrow_down-24px.svg')
@@ -64,12 +54,10 @@ export class RlpTableComponent implements OnInit, OnDestroy, OnChanges, DoCheck 
     this.setPagination();
     this.isAscending = true;
     this.tableHeader = this.data.thead;
-    console.log('Inside tabe component Data', this, this.tableHeader, this.tableData);
+    console.log('Inside tabe component Data', this.tableHeader, this.tableData);
     this.showTableBody = true;
     this.showTableHeader = true;
   }
-  ngOnChanges() {}
-  ngDoCheck() {}
   /**
    * setPagination function handle the current state of pagination
    * @param currentPageNumber  Current page if not provided INITIAL_STATE i.e. 1
@@ -146,7 +134,7 @@ export class RlpTableComponent implements OnInit, OnDestroy, OnChanges, DoCheck 
    */
   sortIconRate() {
     this.isAscending = !this.isAscending;
-    this.tableData = this.sortTableData(this.isAscending);
+    this.tableData = [...this.sortTableData(this.isAscending)];
   }
 
   /**
@@ -156,6 +144,7 @@ export class RlpTableComponent implements OnInit, OnDestroy, OnChanges, DoCheck 
   enterQuery() {
     this.setPagination(1, 0, +this.selectPageSize);
     if (this.qGroupNameSearch === undefined && this.qTinSearch === undefined) {
+      console.log('Inputs are empty');
     }
     this.afterQuery = this.tableData.filter(el => {
       if (el.tin.indexOf([this.qTinSearch]) !== -1 && this.qGroupNameSearch === undefined) {
