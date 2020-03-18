@@ -151,7 +151,7 @@ export class GettingReimbursedSharedService {
               category: 'app-card',
               type: 'donutWithLabel',
               status: 404,
-              title: 'Total Number of Claims Submitted',
+              title: 'Total Number of Claims Processed',
               MetricID: this.MetricidService.MetricIDs.TotalNumberofClaimsSubmitted,
               data: null,
               besideData: null,
@@ -161,7 +161,7 @@ export class GettingReimbursedSharedService {
               category: 'app-card',
               type: 'rotateWithLabel',
               status: 404,
-              title: 'Average Claims Processing Days',
+              title: 'Average Claim Processing Days',
               MetricID: this.MetricidService.MetricIDs.ClaimsAverageTurnaroundTimetoPayment,
               data: null,
               besideData: null,
@@ -222,7 +222,7 @@ export class GettingReimbursedSharedService {
               claimsSubmitted = {
                 category: 'app-card',
                 type: 'donutWithLabel',
-                title: 'Total Number of Claims Submitted*',
+                title: 'Total Number of Claims Processed*',
                 MetricID: this.MetricidService.MetricIDs.TotalNumberofClaimsSubmitted,
                 data: {
                   graphValues: [
@@ -251,7 +251,7 @@ export class GettingReimbursedSharedService {
               claimsSubmitted = {
                 category: 'app-card',
                 type: 'donutWithLabel',
-                title: 'Total Number of Claims Submitted',
+                title: 'Total Number of Claims Processed',
                 MetricID: this.MetricidService.MetricIDs.TotalNumberofClaimsSubmitted,
                 data: null,
                 status: 404,
@@ -271,7 +271,7 @@ export class GettingReimbursedSharedService {
               claimsTAT = {
                 category: 'app-card',
                 type: 'rotateWithLabel',
-                title: 'Average Claims Processing Days',
+                title: 'Average Claim Processing Days',
                 MetricID: this.MetricidService.MetricIDs.ClaimsAverageTurnaroundTimetoPayment,
                 toggle: true,
                 data: {
@@ -301,7 +301,7 @@ export class GettingReimbursedSharedService {
               claimsTAT = {
                 category: 'app-card',
                 type: 'rotateWithLabel',
-                title: 'Average Claims Processing Days',
+                title: 'Average Claim Processing Days',
                 MetricID: this.MetricidService.MetricIDs.ClaimsAverageTurnaroundTimetoPayment,
                 data: null,
                 status: null,
@@ -1018,7 +1018,7 @@ export class GettingReimbursedSharedService {
             category: 'app-card',
             type: 'rotateWithLabel',
             status: 404,
-            title: 'Average Claims Processing Days',
+            title: 'Average Claim Processing Days',
             MetricID: this.MetricidService.MetricIDs.ClaimsAverageTurnaroundTimetoPayment,
             data: null,
             besideData: null,
@@ -1041,7 +1041,7 @@ export class GettingReimbursedSharedService {
             claimsTAT = {
               category: 'app-card',
               type: 'rotateWithLabel',
-              title: 'Average Claims Processing Days',
+              title: 'Average Claim Processing Days',
               MetricID: this.MetricidService.MetricIDs.ClaimsAverageTurnaroundTimetoPayment,
               // toggle: true,
               data: {
@@ -1072,7 +1072,7 @@ export class GettingReimbursedSharedService {
               category: 'app-card',
               type: 'rotateWithLabel',
               status: 404,
-              title: 'Average Claims Processing Days',
+              title: 'Average Claim Processing Days',
               MetricID: this.MetricidService.MetricIDs.ClaimsAverageTurnaroundTimetoPayment,
               data: null,
               besideData: null,
@@ -1089,7 +1089,7 @@ export class GettingReimbursedSharedService {
               category: 'app-card',
               type: 'rotateWithLabel',
               status: 404,
-              title: 'Average Claims Processing Days',
+              title: 'Average Claim Processing Days',
               MetricID: this.MetricidService.MetricIDs.ClaimsAverageTurnaroundTimetoPayment,
               data: null,
               besideData: null,
@@ -1112,7 +1112,7 @@ export class GettingReimbursedSharedService {
               claimsTAT = {
                 category: 'app-card',
                 type: 'rotateWithLabel',
-                title: 'Average Claims Processing Days',
+                title: 'Average Claim Processing Days',
                 MetricID: this.MetricidService.MetricIDs.ClaimsAverageTurnaroundTimetoPayment,
                 // toggle: true,
                 data: {
@@ -1143,7 +1143,7 @@ export class GettingReimbursedSharedService {
                 category: 'app-card',
                 type: 'rotateWithLabel',
                 status: 404,
-                title: 'Average Claims Processing Days',
+                title: 'Average Claim Processing Days',
                 MetricID: this.MetricidService.MetricIDs.ClaimsAverageTurnaroundTimetoPayment,
                 data: null,
                 besideData: null,
@@ -1155,7 +1155,7 @@ export class GettingReimbursedSharedService {
               category: 'app-card',
               type: 'rotateWithLabel',
               status: 404,
-              title: 'Average Claims Processing Days',
+              title: 'Average Claim Processing Days',
               MetricID: this.MetricidService.MetricIDs.ClaimsAverageTurnaroundTimetoPayment,
               data: null,
               besideData: null,
@@ -1194,7 +1194,7 @@ export class GettingReimbursedSharedService {
             claimsSubmitted = {
               category: 'app-card',
               type: 'donutWithLabel',
-              title: 'Total Number of Claims Submitted',
+              title: 'Total Number of Claims Processed',
               MetricID: this.MetricidService.MetricIDs.TotalNumberofClaimsSubmitted,
               data: {
                 graphValues: [
@@ -1232,7 +1232,7 @@ export class GettingReimbursedSharedService {
             claimsSubmitted = {
               category: 'app-card',
               type: 'donutWithLabel',
-              title: 'Total Number of Claims Submitted',
+              title: 'Total Number of Claims Processed',
               MetricID: this.MetricidService.MetricIDs.TotalNumberofClaimsSubmitted,
               data: null,
               status: 404,
@@ -1246,7 +1246,7 @@ export class GettingReimbursedSharedService {
           claimsSubmitted = {
             category: 'app-card',
             type: 'donutWithLabel',
-            title: 'Total Number of Claims Submitted',
+            title: 'Total Number of Claims Processed',
             MetricID: this.MetricidService.MetricIDs.TotalNumberofClaimsSubmitted,
             data: null,
             status: 404,
@@ -1267,7 +1267,7 @@ export class GettingReimbursedSharedService {
             category: 'app-card',
             type: 'donutWithLabel',
             status: 404,
-            title: 'Total Number of Claims Submitted',
+            title: 'Total Number of Claims Processed',
             MetricID: this.MetricidService.MetricIDs.TotalNumberofClaimsSubmitted,
             data: null,
             besideData: null,
@@ -1289,10 +1289,10 @@ export class GettingReimbursedSharedService {
             claimsSubmitted = {
               category: 'app-card',
               type: 'donutWithLabel',
-              title: 'Total Number of Claims Submitted',
+              title: 'Total Number of Claims Processed',
               MetricID: this.MetricidService.MetricIDs.TotalNumberofClaimsSubmitted,
               toggle: this.toggle.setToggles(
-                'Total Number of Claims Submitted',
+                'Total Number of Claims Processed',
                 'Claims Processed',
                 'Getting Reimbursed',
                 true
@@ -1332,7 +1332,7 @@ export class GettingReimbursedSharedService {
             claimsSubmitted = {
               category: 'app-card',
               type: 'donutWithLabel',
-              title: 'Total Number of Claims Submitted',
+              title: 'Total Number of Claims Processed',
               MetricID: this.MetricidService.MetricIDs.TotalNumberofClaimsSubmitted,
               data: null,
               status: 404,
@@ -1346,7 +1346,7 @@ export class GettingReimbursedSharedService {
           claimsSubmitted = {
             category: 'app-card',
             type: 'donutWithLabel',
-            title: 'Total Number of Claims Submitted',
+            title: 'Total Number of Claims Processed',
             MetricID: this.MetricidService.MetricIDs.TotalNumberofClaimsSubmitted,
             data: null,
             status: 404,
