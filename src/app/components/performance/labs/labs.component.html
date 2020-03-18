@@ -25,7 +25,7 @@
       <!--loader-->
       <!-- Large Card content ends-->
 
-      <app-rlp-table [data]="tableData"></app-rlp-table>
+      <app-rlp-table *ngIf="isTable && labsItems.data != null" [data]="tableData"></app-rlp-table>
       <!-- table loader-->
       <!-- <app-large-card [skeletonLarge]="loadingTable" *ngIf="loadingTable"></app-large-card> -->
       <!-- table loader-->

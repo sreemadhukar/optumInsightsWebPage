@@ -20,10 +20,12 @@ export class LabsComponent implements OnInit {
   public labsItems;
   loading: boolean;
   loadingTable: boolean;
+  isTable: boolean;
   public tableData: ItableType = {
     thead: [],
     tbody: []
   };
+
   public subscription: any;
 
   constructor(
@@ -38,6 +40,7 @@ export class LabsComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.isTable = false;
     this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'labsPage' });
     this.title = rlpPageConf.Labs.title;
     this.subTitle = rlpPageConf.Labs.subTitle;
@@ -51,7 +54,7 @@ export class LabsComponent implements OnInit {
         this.loading = false;
       })
       .catch(reason => {
-        console.log('Error', rlpPageName.Labs, rlpCardType.longCard, this.labsItems);
+        console.log('Error', rlpPageName.Labs, rlpCardType.longCard, reason);
         this.loading = false;
       });
 
@@ -61,6 +64,7 @@ export class LabsComponent implements OnInit {
         this.tableData.thead = staticTableData.Labs;
         this.tableData.tbody = JSON.parse(JSON.stringify(data));
         this.loadingTable = false;
+        this.isTable = true;
         console.log('Labs', data);
       })
       .catch(reason => {
