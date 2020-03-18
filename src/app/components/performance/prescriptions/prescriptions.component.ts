@@ -18,8 +18,9 @@ import { CommonUtilsService } from 'src/app/shared/common-utils.service';
 export class PrescriptionsComponent implements OnInit {
   public title: string;
   public subTitle: string;
-  loading: boolean;
-  loadingTable: boolean;
+  public loading;
+  // public loadingTable;
+  public perfMockCards;
   public prescriptionsItems;
   public isTable: boolean;
   public tableData: ItableType = {
@@ -44,8 +45,26 @@ export class PrescriptionsComponent implements OnInit {
     this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'prescriptionsPage' });
     this.title = rlpPageConf.Perscription.title;
     this.subTitle = rlpPageConf.Perscription.subTitle;
+    this.prescriptionLongCardData();
+
+    this.tableTinShared
+      .getTableShared(rlpPageName.Perscription)
+      .then(data => {
+        this.tableData.thead = staticTableData.Perscription;
+        this.tableData.tbody = JSON.parse(JSON.stringify(data));
+        console.log('prescriptionData', data);
+        console.log('Tble header', this.tableData);
+        // this.loadingTable = false;
+      })
+      .catch(reason => {
+        console.log('Error Prescription page table data', reason);
+        // this.loadingTable = false;
+      });
+  }
+  prescriptionLongCardData() {
     this.loading = true;
-    this.loadingTable = true;
+    this.perfMockCards = [{}];
+    this.prescriptionsItems = [];
     this.summarySharedService
       .getHCOdata(rlpPageName.Perscription, rlpCardType.longCard)
       .then(response => {
