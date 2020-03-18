@@ -53,4 +53,11 @@ export class PerformanceRestService {
       catchError(err => of(err))
     );
   }
+
+  public getAllHcoRlp(providerSyskey, requestBody): Observable<any> {
+    const rlpUrl = this.APP_URL + this.NETWORK_LEVER_PATH + providerSyskey + '?requestType=';
+    const getAllEndPoints = mapReqTypeWithAPI.hco.map(item => this.http.post(rlpUrl + item.apiEndPoint, requestBody));
+    console.log(getAllEndPoints);
+    return combineLatest(getAllEndPoints);
+  }
 }
