@@ -135,10 +135,10 @@ export class RlpTableComponent implements OnInit, OnDestroy, OnChanges, DoCheck 
    * @param asc  boolean value by default ascending = true
    * @param param  param value defined by which table needs to be sorted
    */
-  sortTableData(asc: boolean = true, param: string = 'total') {
+  sortTableData(asc: boolean = true) {
     return asc
-      ? this.tableData.sort((a, b) => a.graphData[param] - b.graphData[param])
-      : this.tableData.sort((b, a) => a.graphData[param] - b.graphData[param]);
+      ? this.tableData.sort((a, b) => a.graphData.data.gdata.percentage - b.graphData.data.gdata.percentage)
+      : this.tableData.sort((b, a) => a.graphData.data.gdata.percentage - b.graphData.data.gdata.percentage);
   }
 
   /**
