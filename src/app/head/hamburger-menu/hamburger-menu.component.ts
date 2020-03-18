@@ -140,10 +140,10 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
       icon: 'performance',
       name: 'Performance',
       children: [
-        { name: 'Summary', path: '/Performance' },
-        { name: 'Referrals', path: '/Performance/Referrals' },
-        { name: 'Labs', path: '/Performance/Labs' },
-        { name: 'Prescriptions', path: '/Performance/Prescriptions' }
+        { name: 'Summary', path: '/Performance', disabled: false },
+        { name: 'Referrals', path: '/Performance/Referrals', disabled: false },
+        { name: 'Labs', path: '/Performance/Labs', disabled: false },
+        { name: 'Prescriptions', path: '/Performance/Prescriptions', disabled: false }
       ],
       disabled: false
     }
@@ -454,70 +454,49 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
    bar PCOR will be hidden
    */
   insertPCORnav() {
-    // if (!this.navCategories[2].children.some(i => i.name === 'Patient Care Opportunity')) {
-    //   this.navCategories[2].children.push({
-    //     name: 'Patient Care Opportunity',
-    //     path: '/CareDelivery/PatientCareOpportunity'
-    //   });
-    // }
     if (!this.navCategories.some(i => i.name === 'Patient Care Opportunity')) {
       this.navCategories[3].disabled = false;
-      // this.navCategories[3] = {
-      //   icon: 'pcor',
-      //   name: 'Patient Care Opportunity ',
-      //   path: '/CareDelivery/PatientCareOpportunity',
-      //   disabled: false
-      // };
-      // this.navCategories[4] = {
-      //   icon: 'service-interaction',
-      //   name: 'Service Interaction',
-      //   children: [
-      //     { name: 'Self Service', path: '/ServiceInteraction/SelfService' },
-      //     { name: 'Calls', path: '/ServiceInteraction/Calls' }
-      //   ]
-      // };
-      // this.navCategories[5] = {
-      //   icon: 'timeline',
-      //   name: 'Summary Trends',
-      //   path: '/AdminSummaryTrends',
-      //   disabled: true
-      // };
     }
   }
   removePCORnav() {
     this.navCategories[3].disabled = true;
-    // this.navCategories[3] = {
-    //   icon: 'service-interaction',
-    //   name: 'Service Interaction',
-    //   children: [
-    //     { name: 'Self Service', path: '/ServiceInteraction/SelfService' },
-    //     { name: 'Calls', path: '/ServiceInteraction/Calls' }
-    //   ]
-    // };
-    // this.navCategories[4] = {
-    //   icon: 'timeline',
-    //   name: 'Summary Trends',
-    //   path: '/AdminSummaryTrends',
-    //   disabled: true
-    // };
   }
   checkToggle(bool: boolean) {
     return bool ? this.sessionService.checkTrendAccess() && environment.internalAccess : !bool;
   }
+
+  insertRlpnav() {
+    const getIndex: number = this.navCategories.findIndex(item => item.name === 'Performance');
+    if (getIndex !== -1) {
+      this.navCategories[getIndex].disabled = false;
+    }
+  }
+  removeRlpnav() {
+    const getIndex: number = this.navCategories.findIndex(item => item.name === 'Performance');
+    if (getIndex !== -1) {
+      this.navCategories[getIndex].disabled = true;
+    }
+  }
   checkRlpData() {
     this.checkRlpService.checkRlpHCO(this.sessionService.providerKeyData()).then(response => {
       console.log('hamburger response of HCO', response);
-      if (!(response[0] || response[1] || response[2])) {
-        this.navCategories[3].disabled = true;
-        console.log('No data for all the performance');
-      } else if (!response[0]) {
-        console.log('No data for Referral data');
-      } else if (!response[1]) {
-        console.log('No data for Referral data');
-      } else if (!response[2]) {
-        console.log('No data for Referral data');
-      } else {
-        console.log('All Data');
+      const getIndex: number = this.navCategories.findIndex(item => item.name === 'Performance');
+      if (getIndex !== -1) {
+        if (!(response[0] || response[1] || response[2])) {
+          this.navCategories[getIndex].disabled = true;
+          console.log('No data for all the performance');
+        } else if (!response[0]) {
+          this.navCategories[getIndex].children[1].disabled = true;
+          console.log('No data for Referral data');
+        } else if (!response[1]) {
+          this.navCategories[getIndex].children[2].disabled = true;
+          console.log('No data for Labs data');
+        } else if (!response[2]) {
+          this.navCategories[getIndex].children[3].disabled = true;
+          console.log('No data for Perscription data');
+        } else {
+          console.log('All Data');
+        }
       }
     });
   }
