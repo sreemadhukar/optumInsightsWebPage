@@ -19,11 +19,11 @@ export class ReferralsComponent implements OnInit {
   public title: string;
   public subTitle: string;
   public referralsItems;
-  // public loadingTable;
   public perfMockCards;
   loading: boolean;
   loadingTable: boolean;
-  public isTable: boolean;
+  isTable: boolean;
+  public perfMockTable;
   public tableData: ItableType = {
     thead: [],
     tbody: []
@@ -45,25 +45,12 @@ export class ReferralsComponent implements OnInit {
     this.title = rlpPageConf.Referral.title;
     this.subTitle = rlpPageConf.Referral.subTitle;
     this.referralLongCardData();
-    this.tableTinShared
-      .getTableShared(rlpPageName.Referral)
-      .then(data => {
-        this.tableData.thead = staticTableData.Referral;
-        this.tableData.tbody = JSON.parse(JSON.stringify(data));
-        console.log('Referral data', data);
-        // this.loadingTable = false;
-      })
-      .catch(reason => {
-        console.log('Error Referral page table data', reason);
-        // this.loadingTable = false;
-      });
+    this.referralTableData();
   }
   referralLongCardData() {
     this.loading = true;
     this.perfMockCards = [{}];
     this.referralsItems = [];
-    this.loadingTable = true;
-    this.isTable = false;
     this.summarySharedService
       .getHCOdata(rlpPageName.Referral, rlpCardType.longCard)
       .then(response => {
@@ -75,13 +62,17 @@ export class ReferralsComponent implements OnInit {
         console.log('Error', rlpPageName.Referral, rlpCardType.longCard, this.referralsItems);
         this.loading = false;
       });
-
+  }
+  referralTableData() {
+    this.loadingTable = true;
+    this.perfMockTable = [{}];
+    this.isTable = false;
     this.tableTinShared
       .getTableShared(rlpPageName.Referral)
       .then(data => {
-        this.isTable = true;
         this.tableData.thead = staticTableData.Referral;
         this.tableData.tbody = JSON.parse(JSON.stringify(data));
+        this.isTable = true;
         console.log('Referral data', data);
         this.loadingTable = false;
       })

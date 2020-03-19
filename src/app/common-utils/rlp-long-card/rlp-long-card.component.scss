@@ -33,3 +33,9 @@
   background-position: 10px 100px, /* circle */ 0 0, /* highlight */ 100px 50px, 100px 120px, 100px 150px, 100px 200px;
   animation: shine-large 1s infinite;
 }
+@keyframes shine-large {
+  to {
+    background-position: 10px 125px, 100% 0, /* move highlight to right */ 100px 50px, 100px 120px, 100px 150px,
+      100px 200px;
+  }
+}

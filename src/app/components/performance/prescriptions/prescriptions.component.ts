@@ -17,11 +17,12 @@ import { CommonUtilsService } from 'src/app/shared/common-utils.service';
 export class PrescriptionsComponent implements OnInit {
   public title: string;
   public subTitle: string;
-  public loading;
-  // public loadingTable;
   public perfMockCards;
+  public perfMockTable;
+  loading: boolean;
+  loadingTable: boolean;
+  isTable: boolean;
   public prescriptionsItems;
-  public isTable: boolean;
   public tableData: ItableType = {
     thead: [],
     tbody: []
@@ -39,26 +40,11 @@ export class PrescriptionsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.isTable = false;
     this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'prescriptionsPage' });
     this.title = rlpPageConf.Perscription.title;
     this.subTitle = rlpPageConf.Perscription.subTitle;
     this.prescriptionLongCardData();
-
-    this.tableTinShared
-      .getTableShared(rlpPageName.Perscription)
-      .then(data => {
-        this.isTable = true;
-        this.tableData.thead = staticTableData.Perscription;
-        this.tableData.tbody = JSON.parse(JSON.stringify(data));
-        console.log('prescriptionData', data);
-        console.log('Tble header', this.tableData);
-        // this.loadingTable = false;
-      })
-      .catch(reason => {
-        console.log('Error Prescription page table data', reason);
-        // this.loadingTable = false;
-      });
+    this.prescriptionTableData();
   }
   prescriptionLongCardData() {
     this.loading = true;
@@ -74,6 +60,25 @@ export class PrescriptionsComponent implements OnInit {
       .catch(reason => {
         console.log('Error', rlpPageName.Perscription, rlpCardType.longCard, reason);
         this.loading = false;
+      });
+  }
+  prescriptionTableData() {
+    this.loadingTable = true;
+    this.perfMockTable = [{}];
+    this.isTable = false;
+    this.tableTinShared
+      .getTableShared(rlpPageName.Perscription)
+      .then(data => {
+        this.tableData.thead = staticTableData.Perscription;
+        this.tableData.tbody = JSON.parse(JSON.stringify(data));
+        this.isTable = true;
+        console.log('prescriptionData', data);
+        console.log('Tble header', this.tableData);
+        this.loadingTable = false;
+      })
+      .catch(reason => {
+        console.log('Error Prescription page table data', reason);
+        this.loadingTable = false;
       });
   }
 }

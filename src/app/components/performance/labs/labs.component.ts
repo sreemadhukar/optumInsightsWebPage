@@ -18,8 +18,8 @@ export class LabsComponent implements OnInit {
   public title: string;
   public subTitle: string;
   public labsItems;
-  // public loadingTable;
   public perfMockCards;
+  public perfMockTable;
   loading: boolean;
   loadingTable: boolean;
   isTable: boolean;
@@ -42,25 +42,11 @@ export class LabsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.isTable = false;
     this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'labsPage' });
     this.title = rlpPageConf.Labs.title;
     this.subTitle = rlpPageConf.Labs.subTitle;
-
     this.longLabData();
-
-    this.tableTinShared
-      .getTableShared(rlpPageName.Labs)
-      .then(data => {
-        this.tableData.thead = staticTableData.Labs;
-        this.tableData.tbody = JSON.parse(JSON.stringify(data));
-        // this.loadingTable = false;
-        console.log('Labs', data);
-      })
-      .catch(reason => {
-        console.log('Error Labs page table data', reason);
-        // this.loadingTable = false;
-      });
+    this.labTableData();
   }
   longLabData() {
     this.loading = true;
@@ -77,15 +63,20 @@ export class LabsComponent implements OnInit {
         console.log('Error', rlpPageName.Labs, rlpCardType.longCard, reason);
         this.loading = false;
       });
+  }
 
+  labTableData() {
+    this.loadingTable = true;
+    this.perfMockTable = [{}];
+    this.isTable = false;
     this.tableTinShared
       .getTableShared(rlpPageName.Labs)
       .then(data => {
         this.tableData.thead = staticTableData.Labs;
         this.tableData.tbody = JSON.parse(JSON.stringify(data));
-        this.loadingTable = false;
         this.isTable = true;
         console.log('Labs', data);
+        this.loadingTable = false;
       })
       .catch(reason => {
         console.log('Error Labs page table data', reason);
