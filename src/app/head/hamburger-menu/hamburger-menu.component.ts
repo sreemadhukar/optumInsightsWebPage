@@ -484,8 +484,11 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
         if (response[0] && response[1] && response[2]) {
           isRlp.All = false;
         } else {
-          if (!(response[0] || response[1] || response[2])) {
+          if (!response[0] && !response[1] && !response[2]) {
             isRlp.All = true;
+            isRlp.Referral = true;
+            isRlp.Labs = true;
+            isRlp.Perscription = true;
           } else {
             if (!response[0]) {
               isRlp.Referral = true;
