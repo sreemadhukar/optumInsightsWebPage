@@ -25,11 +25,12 @@
       <!--loader-->
       <app-rlp-long-card [config]="labsItems" *ngIf="labsItems.data != null"></app-rlp-long-card>
       <!-- Large Card content ends-->
-
+      <!-- table loader-->
+      <div *ngFor="let data of perfMockTable; let i = index">
+        <app-large-card [skeletonLarge]="loadingTable" *ngIf="loadingTable"></app-large-card>
+      </div>
+      <!-- table loader-->
       <app-rlp-table *ngIf="isTable && labsItems.data != null" [data]="tableData"></app-rlp-table>
-      <!-- table loader-->
-      <!-- <app-large-card [skeletonLarge]="loadingTable" *ngIf="loadingTable"></app-large-card> -->
-      <!-- table loader-->
     </div>
   </div>
   <!--container content ends-->
