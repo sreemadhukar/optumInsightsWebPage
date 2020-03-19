@@ -451,6 +451,7 @@ app-header {
 .filter-div-scroll {
   overflow-y: auto;
   max-height: 100%;
+  overflow-x: hidden;
   width: 418px;
 }
 
