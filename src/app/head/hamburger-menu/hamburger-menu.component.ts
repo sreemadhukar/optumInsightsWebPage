@@ -501,6 +501,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
         }
       }
       this.navCategories[getIndex].disabled = isRlp.All;
+      this.navCategories[getIndex].children[0].disabled = isRlp.All;
       this.navCategories[getIndex].children[1].disabled = isRlp.Referral;
       this.navCategories[getIndex].children[2].disabled = isRlp.Labs;
       this.navCategories[getIndex].children[3].disabled = isRlp.Perscription;
