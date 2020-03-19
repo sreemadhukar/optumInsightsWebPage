@@ -6,7 +6,7 @@ import { Router, NavigationStart } from '@angular/router';
   styleUrls: ['./footer-common.component.scss']
 })
 export class FooterCommonComponent implements OnInit {
-  z;
+  currentYear = new Date().getFullYear();
   constructor(private router: Router) {}
 
   ngOnInit() {}

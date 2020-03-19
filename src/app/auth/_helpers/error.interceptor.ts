@@ -28,8 +28,8 @@ export class ErrorInterceptor implements HttpInterceptor {
             this.router.navigate(['/AccessDenied']);
           }
         }
-        const error = err.error.message || err.statusText;
-        return throwError(error);
+        // const error = err.error.message || err.statusText;
+        return throwError(err);
       })
     );
   }

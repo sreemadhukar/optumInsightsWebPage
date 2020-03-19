@@ -23,37 +23,44 @@ export class KOPSharedService {
       const paramsArray = filters.map((param: string) => {
         return { filter: param };
       });
-      this.kopService.getNpsDetailSummary({ params: {} }).subscribe((response: any) => {
-        if (!response || response.length === 0) {
+      this.kopService.getNpsDetailSummary({ params: {} }).subscribe(
+        (response: any) => {
+          if (!response || response.length === 0) {
+            return resolve(null);
+          }
+
+          const timePeriod = {
+            title: 'Quarter over Quarter,',
+            timeFrame: {
+              quarters: ['4', '4'],
+              type: 'summary',
+              format: 'Quarter vs Quarter',
+              years: []
+            }
+          };
+
+          const npsDetailInstance = new NPSDetail({ records: response, small: false, id: 'npsCombined' });
+          const npsData = npsDetailInstance.getData();
+
+          timePeriod.timeFrame.years = npsData.quarters.map((quarter: any) => quarter.year);
+
+          // const npsDetailInstancePM = new NPSDetail({ records: response, small: true, id: 'npsPM' });
+          // const npsDataPM = npsDetailInstancePM.getData();
+
+          // const npsDetailInstanceMD = new NPSDetail({ records: response, small: true, id: 'npsMd' });
+          // const npsDataMD = npsDetailInstanceMD.getData();
+
+          return resolve({
+            npsData,
+            // npsDataMD,
+            // npsDataPM,
+            timePeriod
+          });
+        },
+        (error: any) => {
           return resolve(null);
         }
-
-        const timePeriod = {
-          title: 'Quarter over Quarter,',
-          timeFrame: {
-            quarters: ['4', '4'],
-            type: 'summary',
-            format: 'Quarter vs Quarter',
-            years: ['2020', '2019', '2018']
-          }
-        };
-
-        const npsDetailInstance = new NPSDetail({ records: response, small: false, id: 'npsCombined' });
-        const npsData = npsDetailInstance.getData();
-
-        const npsDetailInstancePM = new NPSDetail({ records: response, small: true, id: 'npsPM' });
-        const npsDataPM = npsDetailInstancePM.getData();
-
-        const npsDetailInstanceMD = new NPSDetail({ records: response, small: true, id: 'npsMd' });
-        const npsDataMD = npsDetailInstanceMD.getData();
-
-        return resolve({
-          npsData,
-          npsDataMD,
-          npsDataPM,
-          timePeriod
-        });
-      });
+      );
     });
   }
 
@@ -129,30 +136,6 @@ export class KOPSharedService {
     });
   }
 
-  public getPriorAuthSummary(params: any) {
-    return new Promise(resolve => {
-      const { filter: selectedFilter } = params;
-      const { priorAuthFilters } = selectedFilter;
-
-      const paramsArray = priorAuthFilters.map((param: string) => {
-        return { filter: param };
-      });
-
-      this.getKopData('priorauth', paramsArray).then((response: any) => {
-        if (!response || response.length === 0) {
-          return resolve(null);
-        }
-
-        const careDeliveryInstance = new CareDelivery({ records: response });
-        const careDelivery = careDeliveryInstance.getData();
-
-        return resolve({
-          careDelivery
-        });
-      });
-    });
-  }
-
   public getClaimsData(params: any) {
     return new Promise(resolve => {
       const { filter: selectedFilter } = params;
@@ -179,11 +162,6 @@ export class KOPSharedService {
       switch (metricKey) {
         case 'kop':
           this.kopService.getSummary({ params }).subscribe((response: any) => resolve(response), () => reject());
-          break;
-        case 'priorauth':
-          this.kopService
-            .getPriorAuthSummary({ params })
-            .subscribe((response: any) => resolve(response), () => reject());
           break;
         case 'priorauthtat':
           this.kopService

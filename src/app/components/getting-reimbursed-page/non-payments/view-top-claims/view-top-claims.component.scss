@@ -1,6 +1,162 @@
 @import '~src/scss/variables.scss';
 @import '~src/scss/mixins';
-@import '../non-payments.component.scss';
+.gettingReimburse-body {
+  background-color: $alice-blue;
+  font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+  overflow: hidden;
+  @include padding(16px, 0, 104px, 0);
+  .nonPayment-content {
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-flow: row wrap;
+    justify-content: left;
+    width: 1000px;
+    margin: auto;
+    flex-wrap: wrap;
+
+    & > .cards {
+      text-align: left;
+    }
+
+    .nonPayment-content-cust {
+      font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+      color: $black-rock;
+      margin-left: 10px;
+      width: 961px;
+      .page-title {
+        flex-basis: 100%;
+        font-size: 36px;
+        @include padding(16px, 0, 10px, 0);
+        line-height: 40px;
+      }
+    }
+
+    .height-separator1-print {
+      height: 20px;
+      width: 100px;
+    }
+
+    .height-separator2-print {
+      // height: 120px;
+      height: 270px;
+      width: 100px;
+    }
+
+    .top-reasons-for-claims-non-payment-block {
+      width: 954px;
+
+      // box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
+      margin: 12px;
+      float: left;
+    }
+
+    .full-display {
+      float: left;
+      width: 100%;
+    }
+
+    .print-page-title {
+      padding-top: 30px;
+      font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+      line-height: 30px;
+      font-size: 36px;
+    }
+    .print-page-subtitle {
+      font-family: 'UHCSans-Regular', Helvetica, Arial, sans-serif;
+      line-height: 40px;
+      flex-basis: 100%;
+      font-size: 28px;
+      display: flex;
+      flex-direction: row;
+      position: relative;
+      justify-content: space-between;
+      width: 98.5%;
+    }
+
+    .time--period {
+      .filterchips {
+        width: 830px;
+        float: left;
+        .horizontal-align {
+          display: inline-block;
+          margin: 5px 17px 5px 0;
+          .btn-rounded {
+            height: 34px;
+            padding: 0.355rem 0.78125rem;
+          }
+        }
+        button {
+          span:first-child {
+            font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+          }
+          span.text-semibold {
+            font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+          }
+        }
+        .close-btn {
+          display: inherit;
+          position: relative;
+          cursor: pointer;
+          height: 24px;
+          display: inline-block;
+          vertical-align: middle;
+          padding: 0 0 0 8px;
+          margin-top: -1px;
+          .icon-display {
+            color: #757588;
+          }
+        }
+      }
+    }
+    .bottom-shadow {
+      height: 1px;
+      background: $alice-blue;
+      box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
+      width: 940px;
+      margin-left: 4px;
+    }
+    .bottom-shadow::before {
+      position: absolute;
+      width: 16px;
+      height: 16px;
+      left: 16px;
+      content: '';
+      margin-top: -6px;
+      transform: rotate(225deg);
+      background: $white;
+      margin-left: 24px;
+      box-shadow: -2px -2px 4px 0 rgba(0, 0, 0, 0.15) inset;
+    }
+
+    .timeperiod-block {
+      border-top: 1px solid #efefef;
+      position: absolute;
+      margin-top: 35px;
+      width: 961px;
+      z-index: 99999;
+    }
+    .timeperiod-text {
+      position: inherit;
+      padding: 9px 20px 9px 16px;
+      color: $strom-grey;
+      font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+      font-size: 14px;
+      letter-spacing: 0.2px;
+      line-height: 17px;
+      height: 30px;
+      // margin-top: 5px;
+    }
+    .time-period-trend {
+      float: left;
+    }
+  }
+  @media only screen and (max-width: 1024px) {
+    @include padding(16px, 0, 16px, 0);
+  }
+}
 .claims-content {
   margin: auto;
   display: flex;
@@ -28,16 +184,16 @@
   border: solid 2px #196ecf;
 }
 
-.nav-menu-icons-back-button :hover {
-  background-color: #196ecf;
-  color: #ffffff;
-}
+// .nav-menu-icons-back-button :hover {
+//   background-color: red;
+//   color: #ffffff;
+// }
 
-.nav-menu-icons-back-button :active {
-  background-color: $blue-base;
-  border: solid 2px $blue-base;
-  color: #ffffff;
-}
+// .nav-menu-icons-back-button :active {
+//   background-color: $blue-base;
+//   border: solid 2px $blue-base;
+//   color: #ffffff;
+// }
 
 .nav-menu-icons-info {
   height: 16px;
@@ -59,82 +215,6 @@
   width: 16px;
 }
 
-.claims-content-head {
-  display: flex;
-  flex-wrap: wrap;
-  padding-top: 16px;
-  color: #2d2d39;
-  font-family: 'UHCSans-Regular';
-  font-size: 36px;
-  line-height: 40px;
-}
-
-.note-sub-head {
-  padding-top: 13px;
-  padding-bottom: 20px;
-}
-
-.claims-list-sub-head-provider-name {
-  color: #2d2d39;
-  font-family: 'UHCSans-SemiBold';
-  font-size: 22px;
-  line-height: 28px;
-}
-
-.note-sub-head-div {
-  display: flex;
-  color: $strom-grey;
-  font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
-  font-size: 16px;
-  line-height: 22px;
-  .claims-note-div {
-    color: $blue;
-    padding-left: 3px;
-    cursor: pointer;
-  }
-  padding-top: 5px;
-}
-.reasons-content {
-  margin: 12px 0 24px 10px;
-}
-
-.reason-div {
-  float: left;
-  width: 200px;
-  margin-right: 24px;
-}
-.sub-reason-div {
-  float: left;
-  width: 400px;
-}
-.reason-head {
-  color: #2d2d39;
-  font-family: 'UHCSans-Medium';
-  font-size: 14px;
-  line-height: 18px;
-  margin-bottom: 4px;
-}
-.reason-text {
-  color: #2d2d39;
-  font-family: 'UHCSans-SemiBold';
-  font-size: 16px;
-  line-height: 22px;
-}
-.reason-dropdown {
-  color: #2d2d39;
-  font-size: 16px;
-  font-family: 'UHCSans-SemiBold';
-  line-height: 22px;
-  width: 400px;
-  padding: 8px 0 8px 12px;
-  font-size: 16px;
-  border: 1px solid #e0e0e0;
-  height: 40px;
-  background: url(http://cdn1.iconfinder.com/data/icons/cc_mono_icon_set/blacks/16x16/br_down.png) no-repeat right #fff;
-  -webkit-appearance: none;
-  background-position-x: 360px;
-  margin-top: 8px;
-}
 .tooltip-info {
   .tooltip-info-head {
     color: #2d2d39;
@@ -229,6 +309,140 @@
     }
   }
 }
+.claims-content-head {
+  display: flex;
+  flex-wrap: wrap;
+  padding-top: 16px;
+  color: #2d2d39;
+  font-family: 'UHCSans-Regular';
+  font-size: 36px;
+  line-height: 40px;
+}
+
+.note-sub-head {
+  padding-top: 13px;
+  padding-bottom: 20px;
+}
+
+.claims-list-sub-head-provider-name {
+  color: #2d2d39;
+  font-family: 'UHCSans-SemiBold';
+  font-size: 22px;
+  line-height: 28px;
+}
+
+.note-sub-head-div {
+  display: flex;
+  color: $strom-grey;
+  font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  line-height: 22px;
+  .claims-note-div {
+    color: $blue;
+    padding-left: 3px;
+    cursor: pointer;
+  }
+  padding-top: 5px;
+}
+.reasons-content {
+  margin: 12px 0 24px 10px;
+}
+
+.reason-div {
+  float: left;
+  width: 385px;
+  margin-right: 24px;
+  position: relative;
+}
+.sub-reason-div {
+  float: left;
+  width: 385px;
+  position: relative;
+}
+.reason-head {
+  color: #2d2d39;
+  font-family: 'UHCSans-Medium';
+  font-size: 14px;
+  line-height: 18px;
+
+  width: 385px;
+}
+.reason-text {
+  color: #2d2d39;
+  font-family: 'UHCSans-SemiBold';
+  font-size: 16px;
+  line-height: 22px;
+}
+.reason-dropdown {
+  color: #2d2d39;
+  font-size: 16px;
+  font-family: 'UHCSans-SemiBold';
+  line-height: 22px;
+  width: 385px;
+  padding: 8px 0 8px 12px;
+  font-size: 16px;
+  border: 1px solid #e0e0e0;
+  height: 42px;
+
+  -webkit-appearance: none;
+  background-position-x: 360px;
+  margin-top: 2px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+.reason-option {
+  line-height: 40px;
+  padding: 15px 0 15px 12px;
+  height: 40px;
+  color: $black-rock;
+  font-family: 'UHCSans-Medium';
+  font-size: 16px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+.reason-option:hover {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  padding: 15px 0 15px 12px;
+  line-height: 40px;
+  height: 40px;
+  color: $blue !important;
+  background-color: #e3f0fd !important;
+  font-family: 'UHCSans-SemiBold';
+  font-size: 16px;
+  font-weight: 600;
+}
+:host ::ng-deep .search-box {
+  margin-top: 15px;
+  position: relative;
+  input {
+    padding-right: 30px;
+    padding-left: 10px;
+  }
+  input:hover {
+    border-radius: 2px;
+    border: 1px solid $black-rock;
+  }
+  input:focus {
+    border-radius: 2px;
+    border: 1px solid $dodger-blue;
+    color: $black-rock;
+  }
+  .mat-icon {
+    position: absolute;
+    color: $strom-grey;
+    right: 20px;
+    top: 20px;
+  }
+  :not(:valid) ~ .close {
+    display: none;
+  }
+}
+
 :host ::ng-deep .mat-header-cell {
   font-family: 'UHCSans-SemiBold';
   font-size: 16px;
@@ -251,9 +465,14 @@
 :host ::ng-deep .mat-sort-header-button {
   display: inline;
   text-align: left;
+  max-width: 60px;
+}
+:host ::ng-deep .custom_non_payment .mat-sort-header-button {
+  max-width: 100px;
 }
 :host ::ng-deep .mat-sort-header-arrow {
   color: #2d2d39;
+  margin: 0;
 }
 table {
   width: 100%;
@@ -404,6 +623,7 @@ table {
   }
   &-body {
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
+    margin-top: 15px;
   }
   &-title {
     font-size: 22px;
@@ -413,10 +633,11 @@ table {
   &-count {
     font-size: 14px;
     color: $strom-grey;
+    margin: 0 8px 15px 10px;
   }
   &-input,
   &-name-input {
-    font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+    font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
     font-size: 16px;
     width: 180px;
     margin-top: 10px;
@@ -431,7 +652,7 @@ table {
 
   &-provider-input {
     width: 160px;
-    font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+    font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
     font-size: 16px;
     margin-top: 10px;
     padding: 0 3px;
@@ -444,7 +665,7 @@ table {
   }
   &-claims-input {
     width: 99px;
-    font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+    font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
     font-size: 16px;
     margin-top: 10px;
     padding: 0 3px;
@@ -456,9 +677,9 @@ table {
     background-color: $white;
   }
   &-arrow-icon {
-    position: relative;
-    top: 8px;
-    right: 30px;
+    position: absolute;
+    top: 28px;
+    right: 8px;
     pointer-events: none;
     color: $strom-grey;
   }
@@ -495,12 +716,25 @@ table {
       opacity: 1 !important;
       transform: translateY(0) !important;
     }
+    .mat-sort-header-pointer-left,
+    .mat-sort-header-pointer-right {
+      height: 1.5px;
+    }
+    .mat-sort-header-pointer-middle {
+      display: none;
+    }
   }
 }
 ::ng-deep .mat-row td.mat-cell {
   font-size: 14px;
   font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
   padding: 8px 12px;
+}
+::ng-deep tr.mat-row {
+  cursor: pointer;
+}
+::ng-deep tr.mat-row:hover {
+  background-color: #e3f0fd;
 }
 
 :host ::ng-deep.mat-paginator .mat-paginator-container {
@@ -654,4 +888,18 @@ table {
 
 .italic {
   font-style: italic;
+}
+@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+  .tax-summary {
+    &-content {
+      width: auto;
+      font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+      table {
+        width: 100%;
+      }
+    }
+  }
+  select::-ms-expand {
+    display: none;
+  }
 }
