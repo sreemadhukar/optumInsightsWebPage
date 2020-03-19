@@ -2,13 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { NgRedux } from '@angular-redux/store';
 import { IAppState } from '../../../store/store';
 import { CURRENT_PAGE } from '../../../store/filter/actions';
-import { PerformanceService } from '../../../shared/performance/performance.service';
 import { RlpSharedService } from '../../../shared/performance/rlp-shared.service';
 import { SummarySharedService } from '../../../shared/performance/summary-shared.service';
 import { rlpPageConf, staticTableData, ItableType, rlpPageName, rlpCardType } from '../../../modals/rlp-data';
 import { StorageService } from '../../../shared/storage-service.service';
 import { CommonUtilsService } from 'src/app/shared/common-utils.service';
-
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-labs',
   templateUrl: './labs.component.html',
@@ -18,7 +17,6 @@ export class LabsComponent implements OnInit {
   public title: string;
   public subTitle: string;
   public labsItems;
-  // public loadingTable;
   public perfMockCards;
   loading: boolean;
   loadingTable: boolean;
@@ -32,11 +30,11 @@ export class LabsComponent implements OnInit {
 
   constructor(
     private ngRedux: NgRedux<IAppState>,
-    private perfShared: PerformanceService,
     private tableTinShared: RlpSharedService,
     private summarySharedService: SummarySharedService,
     private checkStorage: StorageService,
-    private filtermatch: CommonUtilsService
+    private filtermatch: CommonUtilsService,
+    private route: Router
   ) {
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.filtermatch.urlResuseStrategy());
   }
@@ -47,8 +45,11 @@ export class LabsComponent implements OnInit {
     this.title = rlpPageConf.Labs.title;
     this.subTitle = rlpPageConf.Labs.subTitle;
 
-    this.longLabData();
+    this.getHCO();
+    this.tableDataTin();
+  }
 
+  tableDataTin() {
     this.tableTinShared
       .getTableShared(rlpPageName.Labs)
       .then(data => {
@@ -62,15 +63,18 @@ export class LabsComponent implements OnInit {
         // this.loadingTable = false;
       });
   }
-  longLabData() {
+  getHCO() {
     this.loading = true;
     this.perfMockCards = [{}];
     this.labsItems = [];
     this.summarySharedService
       .getHCOdata(rlpPageName.Labs, rlpCardType.longCard)
       .then(response => {
-        this.labsItems = response;
-        console.log('Component', rlpPageName.Labs, rlpCardType.longCard, this.labsItems);
+        if (response) {
+          this.labsItems = response;
+        } else {
+          this.route.navigate(['/']);
+        }
         this.loading = false;
       })
       .catch(reason => {
@@ -85,7 +89,6 @@ export class LabsComponent implements OnInit {
         this.tableData.tbody = JSON.parse(JSON.stringify(data));
         this.loadingTable = false;
         this.isTable = true;
-        console.log('Labs', data);
       })
       .catch(reason => {
         console.log('Error Labs page table data', reason);

@@ -11,11 +11,9 @@ export class CheckHcoRlpService {
     this.requestBody = { timeFilter: 'YTD' };
   }
   public checkRlpHCO(providerSyskey) {
-    console.log('Shared HCO ALL check', providerSyskey);
     return new Promise(resolve => {
       this.performanceRestService.getAllHcoRlp(providerSyskey, this.requestBody).subscribe(
         response => {
-          console.log('All HCO Response Data', response);
           resolve(response);
         },
         err => {

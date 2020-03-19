@@ -87,8 +87,6 @@ export class SummarySharedService {
                   ')'
               };
             }
-            console.log('Shared Response HCO Data', pageName, response);
-            console.log('Shared New Data HCO Data', pageName, newData);
             resolve(newData);
           },
           err => {

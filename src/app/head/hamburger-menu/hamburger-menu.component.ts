@@ -2,7 +2,6 @@ import {
   Component,
   AfterViewInit,
   OnInit,
-  HostListener,
   ElementRef,
   Renderer2,
   ViewEncapsulation,
@@ -10,7 +9,6 @@ import {
   ViewChild,
   QueryList,
   OnDestroy,
-  AfterViewChecked,
   Inject,
   ChangeDetectorRef
 } from '@angular/core';
@@ -44,7 +42,7 @@ import { CheckHcoRlpService } from '../../shared/performance/check-hco-rlp.servi
   styleUrls: ['./hamburger-menu.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy, AfterViewChecked {
+export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy {
   currentYear = new Date().getFullYear();
   _allExpandState = false;
   loading = false;
@@ -263,9 +261,6 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
         if (this.sessionService.isPCORData()) {
           this.insertPCORnav();
         }
-        if (this.sessionService.isRlpData()) {
-          this.insertRlpnav();
-        }
         // Check condtion for rendering butter bar
         if (
           (sessionStorage.getItem('fromKOP') === 'YES' &&
@@ -468,16 +463,9 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     return bool ? this.sessionService.checkTrendAccess() && environment.internalAccess : !bool;
   }
 
-  insertRlpnav() {
-    const getIndex: number = this.navCategories.findIndex(item => item.name === 'Performance');
-    if (getIndex !== -1) {
-      this.navCategories[getIndex].disabled = false;
-    }
-  }
-  removeRlpnav(page: string) {
-    const getIndex: number = this.navCategories.findIndex(item => item.name === 'Performance');
-    if (getIndex !== -1) {
-      this.navCategories[getIndex].disabled = true;
+  checkRlpRoute() {
+    if (this.router.url.includes('Performance')) {
+      this.router.navigate(['/']);
     }
   }
   checkRlpData() {
@@ -507,6 +495,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
               isRlp.Perscription = true;
             }
           }
+          this.checkRlpRoute();
         }
       }
       this.navCategories[getIndex].disabled = isRlp.All;
@@ -588,18 +577,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
       this.renderer.setStyle(listItem, 'padding', '0px');
     });
   }
-  ngAfterViewChecked() {
-    // // console.log(this.elementRef.nativeElement.querySelectorAll('*[href="/CareDelivery/PatientCareOpportunity"]'));
-    // try {
-    //   const PCORNavMenu = this.elementRef.nativeElement.querySelectorAll(
-    //     '*[href="/CareDelivery/PatientCareOpportunity"]'
-    //   )[0];
-    //   PCORNavMenu.style.height = 'auto';
-    //   PCORNavMenu.style.padding = '8px 5px 8px 0';
-    //   PCORNavMenu.style.width = 'auto';
-    //   PCORNavMenu.style.marginLeft = '26px';
-    // } catch (error) {}
-  }
+
   hamburgerDisplay(input: boolean) {
     this.sideNavFlag = input;
     // alert(this.sideNavFlag);

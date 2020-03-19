@@ -1,4 +1,3 @@
-import { SessionService } from 'src/app/shared/session.service';
 import { Component, OnInit } from '@angular/core';
 import { NgRedux } from '@angular-redux/store';
 import { IAppState } from '../../../store/store';
@@ -8,7 +7,7 @@ import { RlpSharedService } from '../../../shared/performance/rlp-shared.service
 import { rlpPageConf, staticTableData, ItableType, rlpPageName, rlpCardType } from '../../../modals/rlp-data';
 import { StorageService } from '../../../shared/storage-service.service';
 import { CommonUtilsService } from 'src/app/shared/common-utils.service';
-
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-prescriptions',
   templateUrl: './prescriptions.component.html',
@@ -33,7 +32,8 @@ export class PrescriptionsComponent implements OnInit {
     private tableTinShared: RlpSharedService,
     private summarySharedService: SummarySharedService,
     private checkStorage: StorageService,
-    private filtermatch: CommonUtilsService
+    private filtermatch: CommonUtilsService,
+    private route: Router
   ) {
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.filtermatch.urlResuseStrategy());
   }
@@ -43,16 +43,17 @@ export class PrescriptionsComponent implements OnInit {
     this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'prescriptionsPage' });
     this.title = rlpPageConf.Perscription.title;
     this.subTitle = rlpPageConf.Perscription.subTitle;
-    this.prescriptionLongCardData();
 
+    this.getHCO();
+    this.tableDataTin();
+  }
+  tableDataTin() {
     this.tableTinShared
       .getTableShared(rlpPageName.Perscription)
       .then(data => {
         this.isTable = true;
         this.tableData.thead = staticTableData.Perscription;
         this.tableData.tbody = JSON.parse(JSON.stringify(data));
-        console.log('prescriptionData', data);
-        console.log('Tble header', this.tableData);
         // this.loadingTable = false;
       })
       .catch(reason => {
@@ -60,16 +61,19 @@ export class PrescriptionsComponent implements OnInit {
         // this.loadingTable = false;
       });
   }
-  prescriptionLongCardData() {
+  getHCO() {
     this.loading = true;
     this.perfMockCards = [{}];
     this.prescriptionsItems = [];
     this.summarySharedService
       .getHCOdata(rlpPageName.Perscription, rlpCardType.longCard)
       .then(response => {
-        this.prescriptionsItems = response;
-        console.log('Component', rlpPageName.Perscription, rlpCardType.longCard, this.prescriptionsItems);
         this.loading = false;
+        if (response) {
+          this.prescriptionsItems = response;
+        } else {
+          this.route.navigate(['/']);
+        }
       })
       .catch(reason => {
         console.log('Error', rlpPageName.Perscription, rlpCardType.longCard, reason);

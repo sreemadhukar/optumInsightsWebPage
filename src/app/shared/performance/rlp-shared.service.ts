@@ -29,7 +29,6 @@ export class RlpSharedService {
         .getNetworkLeversData(this.session.providerKeyData(), pageName, 'tin', this.requestBody)
         .subscribe(
           response => {
-            console.log('response--->', response);
             const newData = response.map(item => {
               const temp: ItableData = {
                 tin: item.Tin.toFixed(0),
@@ -47,8 +46,6 @@ export class RlpSharedService {
               };
               return temp;
             });
-            console.log('Response Table', pageName, response);
-            console.log('New Table', pageName, newData);
             resolve(newData);
           },
           err => {
