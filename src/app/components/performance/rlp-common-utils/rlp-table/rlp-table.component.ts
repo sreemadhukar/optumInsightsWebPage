@@ -54,7 +54,6 @@ export class RlpTableComponent implements OnInit, OnDestroy {
     this.setPagination();
     this.isAscending = true;
     this.tableHeader = this.data.thead;
-    console.log('Inside tabe component Data', this.tableHeader, this.tableData);
     this.showTableBody = true;
     this.showTableHeader = true;
   }
