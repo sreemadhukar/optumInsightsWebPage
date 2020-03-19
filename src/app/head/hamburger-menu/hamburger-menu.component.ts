@@ -34,6 +34,8 @@ import { AcoEventEmitterService } from '../../shared/ACO/aco-event-emitter.servi
 import { FilterCloseService } from './../../shared/filters/filter-close.service';
 import { PcorService } from '../../rest/care-delivery/pcor.service';
 import { CheckHcoRlpService } from '../../shared/performance/check-hco-rlp.service';
+import { RESET_KOP_FILTER } from 'src/app/store/kopFilter/actions';
+import { NgRedux } from '@angular-redux/store';
 // import { HealthSystemDetailsSharedService } from '../../shared/advocate/health-system-details-shared.service';
 
 @Component({
@@ -176,6 +178,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
     private acoEventEmitter: AcoEventEmitterService,
     private viewPortScroller: ViewportScroller,
     private checkRlpService: CheckHcoRlpService,
+    private ngRedux: NgRedux<any>,
     @Inject(DOCUMENT) private document: any
   ) {
     this.glossaryFlag = false;
@@ -686,6 +689,8 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
         // Setting Value redirect, remind flag to local storage
         sessionStorage.setItem('fromKOP', 'YES');
         sessionStorage.setItem('advocateView', 'true');
+        // RESET KOP FILTER BEFORE MOVING
+        this.ngRedux.dispatch({ type: RESET_KOP_FILTER });
         // Reloading targeted route, for resetting the css
         window.location.href = '/OverviewPage';
       },
