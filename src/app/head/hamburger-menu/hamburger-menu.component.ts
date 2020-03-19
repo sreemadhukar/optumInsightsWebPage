@@ -263,6 +263,9 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
         if (this.sessionService.isPCORData()) {
           this.insertPCORnav();
         }
+        if (this.sessionService.isRlpData()) {
+          this.insertRlpnav();
+        }
         // Check condtion for rendering butter bar
         if (
           (sessionStorage.getItem('fromKOP') === 'YES' &&
@@ -471,7 +474,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
       this.navCategories[getIndex].disabled = false;
     }
   }
-  removeRlpnav() {
+  removeRlpnav(page: string) {
     const getIndex: number = this.navCategories.findIndex(item => item.name === 'Performance');
     if (getIndex !== -1) {
       this.navCategories[getIndex].disabled = true;
@@ -480,30 +483,37 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
   checkRlpData() {
     this.checkRlpService.checkRlpHCO(this.sessionService.providerKeyData()).then(response => {
       console.log('hamburger response of HCO', response);
+      const isRlp = {
+        All: false,
+        Referral: false,
+        Labs: false,
+        Perscription: false
+      };
       const getIndex: number = this.navCategories.findIndex(item => item.name === 'Performance');
       if (getIndex !== -1) {
         if (response[0] && response[1] && response[2]) {
-          console.log('We have data for all RLP');
+          isRlp.All = false;
         } else {
           if (!(response[0] || response[1] || response[2])) {
-            this.navCategories[getIndex].disabled = true;
-            console.log('No data for all the performance');
+            isRlp.All = true;
           } else {
             if (!response[0]) {
-              this.navCategories[getIndex].children[1].disabled = true;
-              console.log('No data for Referral data');
+              isRlp.Referral = true;
             }
             if (!response[1]) {
-              this.navCategories[getIndex].children[2].disabled = true;
-              console.log('No data for Labs data');
+              isRlp.Labs = true;
             }
             if (!response[2]) {
-              this.navCategories[getIndex].children[3].disabled = true;
-              console.log('No data for Perscription data');
+              isRlp.Perscription = true;
             }
           }
         }
       }
+      this.navCategories[getIndex].disabled = isRlp.All;
+      this.navCategories[getIndex].children[1].disabled = isRlp.Referral;
+      this.navCategories[getIndex].children[2].disabled = isRlp.Labs;
+      this.navCategories[getIndex].children[3].disabled = isRlp.Perscription;
+      console.log('We have data for all RLP', this.navCategories[getIndex]);
     });
   }
   checkPcorData() {

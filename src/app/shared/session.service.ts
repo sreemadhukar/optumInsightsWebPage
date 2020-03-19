@@ -170,6 +170,17 @@ export class SessionService {
       return pcorBoolean;
     }
   }
+  public isRlpData(): Object {
+    let rlpSessionData: Object = null;
+    try {
+      if (JSON.parse(sessionStorage.getItem('rlp'))) {
+        rlpSessionData = JSON.parse(sessionStorage.getItem('rlp'));
+      }
+      return rlpSessionData;
+    } catch (err) {
+      return rlpSessionData;
+    }
+  }
   public sessionStorage(value: string, item: string) {
     if (sessionStorage.getItem(value)) {
       return JSON.parse(sessionStorage.getItem(value))[item];

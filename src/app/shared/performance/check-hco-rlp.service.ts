@@ -13,18 +13,15 @@ export class CheckHcoRlpService {
   public checkRlpHCO(providerSyskey) {
     console.log('Shared HCO ALL check', providerSyskey);
     return new Promise(resolve => {
-      this.performanceRestService
-        // .getNetworkLeversData(this.session.providerKeyData(), getStaticData.apiPoint, this.requestBody)
-        .getAllHcoRlp(958, this.requestBody)
-        .subscribe(
-          response => {
-            console.log('All HCO Response Data', response);
-            resolve(response);
-          },
-          err => {
-            console.log('Check All RLP HCO Data Error', err);
-          }
-        );
+      this.performanceRestService.getAllHcoRlp(providerSyskey, this.requestBody).subscribe(
+        response => {
+          console.log('All HCO Response Data', response);
+          resolve(response);
+        },
+        err => {
+          console.log('Check All RLP HCO Data Error', err);
+        }
+      );
     });
   }
 }
