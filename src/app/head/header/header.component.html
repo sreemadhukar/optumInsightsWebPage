@@ -19,7 +19,7 @@
     <div class="user-div" (click)="advocateUserClicked()" *ngIf="!printStyle">
       <!-- <mat-slide-toggle [checked]="isDarkTheme | async" labelPosition="before" (change)="toggleDarkTheme($event.checked)"></mat-slide-toggle> -->
       <div class="user-icon">
-        <mat-icon class="nav-menu-icons" svgIcon="person"></mat-icon>
+        <mat-icon svgIcon="person"></mat-icon>
       </div>
       <div class="user-name">{{ username }}</div>
       <div class="user-expand-more" *ngIf="isAdvocate">
