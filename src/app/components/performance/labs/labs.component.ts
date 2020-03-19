@@ -16,8 +16,9 @@ import { Router } from '@angular/router';
 export class LabsComponent implements OnInit {
   public title: string;
   public subTitle: string;
-  public labsItems;
+  public hcoData;
   public perfMockCards;
+  public perfMockTable;
   loading: boolean;
   loadingTable: boolean;
   isTable: boolean;
@@ -40,7 +41,6 @@ export class LabsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.isTable = false;
     this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'labsPage' });
     this.title = rlpPageConf.Labs.title;
     this.subTitle = rlpPageConf.Labs.subTitle;
@@ -50,49 +50,37 @@ export class LabsComponent implements OnInit {
   }
 
   tableDataTin() {
+    this.loadingTable = true;
+    this.perfMockTable = [{}];
+    this.isTable = false;
     this.tableTinShared
       .getTableShared(rlpPageName.Labs)
       .then(data => {
+        this.isTable = true;
+        this.loadingTable = false;
         this.tableData.thead = staticTableData.Labs;
         this.tableData.tbody = JSON.parse(JSON.stringify(data));
-        // this.loadingTable = false;
-        console.log('Labs', data);
       })
       .catch(reason => {
         console.log('Error Labs page table data', reason);
-        // this.loadingTable = false;
       });
   }
   getHCO() {
     this.loading = true;
     this.perfMockCards = [{}];
-    this.labsItems = [];
+    this.hcoData = [];
     this.summarySharedService
       .getHCOdata(rlpPageName.Labs, rlpCardType.longCard)
       .then(response => {
         if (response) {
-          this.labsItems = response;
+          this.hcoData = response;
         } else {
-          this.route.navigate(['/']);
+          this.route.navigate(['/OverviewPage']);
         }
         this.loading = false;
       })
       .catch(reason => {
         console.log('Error', rlpPageName.Labs, rlpCardType.longCard, reason);
-        this.loading = false;
-      });
-
-    this.tableTinShared
-      .getTableShared(rlpPageName.Labs)
-      .then(data => {
-        this.tableData.thead = staticTableData.Labs;
-        this.tableData.tbody = JSON.parse(JSON.stringify(data));
-        this.loadingTable = false;
-        this.isTable = true;
-      })
-      .catch(reason => {
-        console.log('Error Labs page table data', reason);
-        this.loadingTable = false;
       });
   }
 }

@@ -465,12 +465,11 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
 
   checkRlpRoute() {
     if (this.router.url.includes('Performance')) {
-      this.router.navigate(['/']);
+      this.router.navigate(['/OverviewPage']);
     }
   }
   checkRlpData() {
     this.checkRlpService.checkRlpHCO(this.sessionService.providerKeyData()).then(response => {
-      console.log('hamburger response of HCO', response);
       const isRlp = {
         All: false,
         Referral: false,

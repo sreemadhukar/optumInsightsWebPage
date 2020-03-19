@@ -16,11 +16,12 @@ import { Router } from '@angular/router';
 export class PrescriptionsComponent implements OnInit {
   public title: string;
   public subTitle: string;
-  public loading;
-  // public loadingTable;
   public perfMockCards;
-  public prescriptionsItems;
-  public isTable: boolean;
+  public perfMockTable;
+  loading: boolean;
+  loadingTable: boolean;
+  isTable: boolean;
+  public hcoData;
   public tableData: ItableType = {
     thead: [],
     tbody: []
@@ -39,7 +40,6 @@ export class PrescriptionsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.isTable = false;
     this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'prescriptionsPage' });
     this.title = rlpPageConf.Perscription.title;
     this.subTitle = rlpPageConf.Perscription.subTitle;
@@ -48,36 +48,38 @@ export class PrescriptionsComponent implements OnInit {
     this.tableDataTin();
   }
   tableDataTin() {
+    this.loadingTable = true;
+    this.perfMockTable = [{}];
+    this.isTable = false;
+
     this.tableTinShared
       .getTableShared(rlpPageName.Perscription)
       .then(data => {
+        this.loadingTable = false;
         this.isTable = true;
         this.tableData.thead = staticTableData.Perscription;
         this.tableData.tbody = JSON.parse(JSON.stringify(data));
-        // this.loadingTable = false;
       })
       .catch(reason => {
         console.log('Error Prescription page table data', reason);
-        // this.loadingTable = false;
       });
   }
   getHCO() {
     this.loading = true;
     this.perfMockCards = [{}];
-    this.prescriptionsItems = [];
+    this.hcoData = [];
     this.summarySharedService
       .getHCOdata(rlpPageName.Perscription, rlpCardType.longCard)
       .then(response => {
         this.loading = false;
         if (response) {
-          this.prescriptionsItems = response;
+          this.hcoData = response;
         } else {
-          this.route.navigate(['/']);
+          this.route.navigate(['/OverviewPage']);
         }
       })
       .catch(reason => {
         console.log('Error', rlpPageName.Perscription, rlpCardType.longCard, reason);
-        this.loading = false;
       });
   }
 }

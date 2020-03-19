@@ -16,12 +16,12 @@ import { Router } from '@angular/router';
 export class ReferralsComponent implements OnInit {
   public title: string;
   public subTitle: string;
-  public referralsItems;
-  // public loadingTable;
+  public hcoData;
   public perfMockCards;
   loading: boolean;
   loadingTable: boolean;
-  public isTable: boolean;
+  isTable: boolean;
+  public perfMockTable;
   public tableData: ItableType = {
     thead: [],
     tbody: []
@@ -46,39 +46,38 @@ export class ReferralsComponent implements OnInit {
     this.tableDataTin();
   }
   tableDataTin() {
+    this.loadingTable = true;
+    this.perfMockTable = [{}];
+    this.isTable = false;
     this.tableTinShared
       .getTableShared(rlpPageName.Referral)
       .then(data => {
+        this.loadingTable = false;
         this.isTable = true;
         this.tableData.thead = staticTableData.Referral;
         this.tableData.tbody = JSON.parse(JSON.stringify(data));
         console.log('Referral data', data);
-        this.loadingTable = false;
       })
       .catch(reason => {
         console.log('Error Referral page table data', reason);
-        this.loadingTable = false;
       });
   }
   getHCO() {
     this.loading = true;
     this.perfMockCards = [{}];
-    this.referralsItems = [];
-    this.loadingTable = true;
-    this.isTable = false;
+    this.hcoData = [];
     this.summarySharedService
       .getHCOdata(rlpPageName.Referral, rlpCardType.longCard)
       .then(response => {
+        this.loading = false;
         if (response) {
-          this.referralsItems = response;
-          this.loading = false;
+          this.hcoData = response;
         } else {
-          this.route.navigate(['/']);
+          this.route.navigate(['/OverviewPage']);
         }
       })
       .catch(reason => {
         console.log('Error', rlpPageName.Referral, rlpCardType.longCard, reason);
-        this.loading = false;
       });
   }
 }
