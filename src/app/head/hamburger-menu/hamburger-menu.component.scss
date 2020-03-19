@@ -494,6 +494,8 @@ app-header {
   overflow: unset !important;
   /*height: 125vh !important;*/
   overflow-x: hidden !important;
+  // total height - (header height(74) + butter bar height(40))
+  max-height: calc(100vh - 114px);
 }
 
 .kop-landing {
