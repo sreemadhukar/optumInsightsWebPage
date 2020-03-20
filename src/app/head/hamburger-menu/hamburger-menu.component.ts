@@ -484,8 +484,11 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
         if (response[0] && response[1] && response[2]) {
           isRlp.All = false;
         } else {
-          if (!(response[0] || response[1] || response[2])) {
+          if (!response[0] && !response[1] && !response[2]) {
             isRlp.All = true;
+            isRlp.Referral = true;
+            isRlp.Labs = true;
+            isRlp.Perscription = true;
           } else {
             if (!response[0]) {
               isRlp.Referral = true;
@@ -501,6 +504,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
         }
       }
       this.navCategories[getIndex].disabled = isRlp.All;
+      this.navCategories[getIndex].children[0].disabled = isRlp.All;
       this.navCategories[getIndex].children[1].disabled = isRlp.Referral;
       this.navCategories[getIndex].children[2].disabled = isRlp.Labs;
       this.navCategories[getIndex].children[3].disabled = isRlp.Perscription;
