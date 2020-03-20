@@ -52,7 +52,8 @@ export const environment: any = {
     KOPBusinessGlossary: 'business-glossaries-kop/',
     CallsTrendLine: 'calls-trend/',
     PaymentsBySubmission: 'claim-submissions/',
-    GroupPremiumDesignation: 'group-premium-designation/'
+    GroupPremiumDesignation: 'group-premium-designation/',
+    NetworkLever: 'network-lever/'
   },
   headerKeys: {
     selectedCompany: '',

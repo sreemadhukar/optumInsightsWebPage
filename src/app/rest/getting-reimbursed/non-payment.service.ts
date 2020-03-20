@@ -75,16 +75,14 @@ export class NonPaymentService {
       Accept: '*/*'
     });
     let nonPaymentURL;
-    // console.log('Parameters', parameters);
+    // console.log('Parameters', parameters);es
     if (parameters[0][1]['ClaimsBy'] === 'DOP') {
       nonPaymentURL = this.APP_URL + this.NON_PAYMENT_DOP + parameters[0][0] + '?requestType=TOP_SUB_DENIAL_REASONS';
       const apiCall = parameters.map(param => this.http.post(nonPaymentURL, param[1], { headers: myHeader }));
-      console.log(apiCall);
       return combineLatest(apiCall);
     } else {
       nonPaymentURL = this.APP_URL + this.NON_PAYMENT + parameters[0][0] + '?requestType=NONPAYMENT_TOPSUBCATEGORIES';
       const apiCall = parameters.map(param => this.http.post(nonPaymentURL, param[1], { headers: myHeader }));
-      console.log(apiCall);
       return combineLatest(apiCall);
     }
     // return combineLatest(

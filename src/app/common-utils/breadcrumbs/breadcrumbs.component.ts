@@ -20,6 +20,7 @@ export class BreadcrumbsComponent implements OnInit {
   public breadcrumbLength: number;
   public checkAdvocate: any;
   public printStyle;
+  public hyperLinkFlag = false;
   constructor(
     private activatedRoute: ActivatedRoute,
     private router: Router,
@@ -32,6 +33,9 @@ export class BreadcrumbsComponent implements OnInit {
     this.router.events.pipe(filter(event => event instanceof NavigationEnd)).subscribe(event => {
       const root: ActivatedRoute = this.activatedRoute.root;
       this.breadcrumbs = this.getBreadcrumbs(root);
+      if (this.breadcrumbs[0].label === 'Performance Management Summary') {
+        this.hyperLinkFlag = true;
+      }
       this.breadcrumbLength = this.breadcrumbs.length;
       //  this.checkAdvocate = this.sessionService.checkAdvocateRole().value;
       iconRegistry.addSvgIcon(
@@ -77,8 +81,10 @@ export class BreadcrumbsComponent implements OnInit {
         params: child.snapshot.params,
         url: url
       };
-      breadcrumbs.push(breadcrumb);
-      return this.getBreadcrumbs(child, url, breadcrumbs);
+      if (breadcrumb.label !== null) {
+        breadcrumbs.push(breadcrumb);
+        return this.getBreadcrumbs(child, url, breadcrumbs);
+      }
     }
     return breadcrumbs;
   }
