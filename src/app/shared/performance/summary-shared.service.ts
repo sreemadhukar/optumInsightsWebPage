@@ -57,8 +57,7 @@ export class SummarySharedService {
     const getCandType = getCategoryAndType.find(item => item.category === chartType);
     return new Promise(resolve => {
       this.performanceRestService
-        // .getNetworkLeversData(this.session.providerKeyData(), getStaticData.apiPoint, this.requestBody)
-        .getNetworkLeversData(958, pageName, 'hco', this.requestBody)
+        .getNetworkLeversData(this.session.providerKeyData(), pageName, 'hco', this.requestBody)
         .subscribe(
           response => {
             let newData = null;
@@ -88,8 +87,6 @@ export class SummarySharedService {
                   ')'
               };
             }
-            console.log('Shared Response HCO Data', pageName, response);
-            console.log('Shared New Data HCO Data', pageName, newData);
             resolve(newData);
           },
           err => {

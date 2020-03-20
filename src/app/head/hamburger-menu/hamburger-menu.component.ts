@@ -2,7 +2,6 @@ import {
   Component,
   AfterViewInit,
   OnInit,
-  HostListener,
   ElementRef,
   Renderer2,
   ViewEncapsulation,
@@ -10,7 +9,6 @@ import {
   ViewChild,
   QueryList,
   OnDestroy,
-  AfterViewChecked,
   Inject,
   ChangeDetectorRef
 } from '@angular/core';
@@ -36,6 +34,8 @@ import { AcoEventEmitterService } from '../../shared/ACO/aco-event-emitter.servi
 import { FilterCloseService } from './../../shared/filters/filter-close.service';
 import { PcorService } from '../../rest/care-delivery/pcor.service';
 import { CheckHcoRlpService } from '../../shared/performance/check-hco-rlp.service';
+import { RESET_KOP_FILTER } from 'src/app/store/kopFilter/actions';
+import { NgRedux } from '@angular-redux/store';
 // import { HealthSystemDetailsSharedService } from '../../shared/advocate/health-system-details-shared.service';
 
 @Component({
@@ -44,7 +44,7 @@ import { CheckHcoRlpService } from '../../shared/performance/check-hco-rlp.servi
   styleUrls: ['./hamburger-menu.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy, AfterViewChecked {
+export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy {
   currentYear = new Date().getFullYear();
   _allExpandState = false;
   loading = false;
@@ -178,6 +178,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     private acoEventEmitter: AcoEventEmitterService,
     private viewPortScroller: ViewportScroller,
     private checkRlpService: CheckHcoRlpService,
+    private ngRedux: NgRedux<any>,
     @Inject(DOCUMENT) private document: any
   ) {
     this.glossaryFlag = false;
@@ -465,45 +466,45 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
     return bool ? this.sessionService.checkTrendAccess() && environment.internalAccess : !bool;
   }
 
-  insertRlpnav() {
-    const getIndex: number = this.navCategories.findIndex(item => item.name === 'Performance');
-    if (getIndex !== -1) {
-      this.navCategories[getIndex].disabled = false;
-    }
-  }
-  removeRlpnav() {
-    const getIndex: number = this.navCategories.findIndex(item => item.name === 'Performance');
-    if (getIndex !== -1) {
-      this.navCategories[getIndex].disabled = true;
+  checkRlpRoute() {
+    if (this.router.url.includes('Performance')) {
+      this.router.navigate(['/OverviewPage']);
     }
   }
   checkRlpData() {
     this.checkRlpService.checkRlpHCO(this.sessionService.providerKeyData()).then(response => {
-      console.log('hamburger response of HCO', response);
+      const isRlp = {
+        All: false,
+        Referral: false,
+        Labs: false,
+        Perscription: false
+      };
       const getIndex: number = this.navCategories.findIndex(item => item.name === 'Performance');
       if (getIndex !== -1) {
         if (response[0] && response[1] && response[2]) {
-          console.log('We have data for all RLP');
+          isRlp.All = false;
         } else {
           if (!(response[0] || response[1] || response[2])) {
-            this.navCategories[getIndex].disabled = true;
-            console.log('No data for all the performance');
+            isRlp.All = true;
           } else {
             if (!response[0]) {
-              this.navCategories[getIndex].children[1].disabled = true;
-              console.log('No data for Referral data');
+              isRlp.Referral = true;
             }
             if (!response[1]) {
-              this.navCategories[getIndex].children[2].disabled = true;
-              console.log('No data for Labs data');
+              isRlp.Labs = true;
             }
             if (!response[2]) {
-              this.navCategories[getIndex].children[3].disabled = true;
-              console.log('No data for Perscription data');
+              isRlp.Perscription = true;
             }
           }
+          this.checkRlpRoute();
         }
       }
+      this.navCategories[getIndex].disabled = isRlp.All;
+      this.navCategories[getIndex].children[1].disabled = isRlp.Referral;
+      this.navCategories[getIndex].children[2].disabled = isRlp.Labs;
+      this.navCategories[getIndex].children[3].disabled = isRlp.Perscription;
+      console.log('We have data for all RLP', this.navCategories[getIndex]);
     });
   }
   checkPcorData() {
@@ -578,18 +579,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
       this.renderer.setStyle(listItem, 'padding', '0px');
     });
   }
-  ngAfterViewChecked() {
-    // // console.log(this.elementRef.nativeElement.querySelectorAll('*[href="/CareDelivery/PatientCareOpportunity"]'));
-    // try {
-    //   const PCORNavMenu = this.elementRef.nativeElement.querySelectorAll(
-    //     '*[href="/CareDelivery/PatientCareOpportunity"]'
-    //   )[0];
-    //   PCORNavMenu.style.height = 'auto';
-    //   PCORNavMenu.style.padding = '8px 5px 8px 0';
-    //   PCORNavMenu.style.width = 'auto';
-    //   PCORNavMenu.style.marginLeft = '26px';
-    // } catch (error) {}
-  }
+
   hamburgerDisplay(input: boolean) {
     this.sideNavFlag = input;
     // alert(this.sideNavFlag);
@@ -699,6 +689,8 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy,
         // Setting Value redirect, remind flag to local storage
         sessionStorage.setItem('fromKOP', 'YES');
         sessionStorage.setItem('advocateView', 'true');
+        // RESET KOP FILTER BEFORE MOVING
+        this.ngRedux.dispatch({ type: RESET_KOP_FILTER });
         // Reloading targeted route, for resetting the css
         window.location.href = '/OverviewPage';
       },

@@ -23,12 +23,14 @@
         <app-rlp-long-card [skeletonLong]="loading" *ngIf="loading && !printStyle"></app-rlp-long-card>
       </div>
       <!--loader-->
-      <app-rlp-long-card *ngIf="prescriptionsItems.data != null" [config]="prescriptionsItems"></app-rlp-long-card>
+      <app-rlp-long-card *ngIf="hcoData.data != null" [config]="hcoData"></app-rlp-long-card>
       <!-- Large Card content ends-->
-      <app-rlp-table *ngIf="prescriptionsItems.data != null && isTable" [data]="tableData"></app-rlp-table>
       <!-- table loader-->
-      <!-- <app-large-card [skeletonLarge]="loadingTable" *ngIf="loadingTable"></app-large-card> -->
+      <div *ngFor="let data of perfMockTable; let i = index">
+        <app-large-card [skeletonLarge]="loadingTable" *ngIf="loadingTable"></app-large-card>
+      </div>
       <!-- table loader-->
+      <app-rlp-table *ngIf="hcoData.data != null && isTable" [data]="tableData"></app-rlp-table>
     </div>
   </div>
   <!--container content ends-->
