@@ -49,9 +49,10 @@
   }
   .table-bar {
     background-color: white;
-    width: 429px;
+    // width: 429px;
     height: 22px;
     display: flex;
+    justify-content: flex-end;
     .table-bar-head {
       font-size: 16px;
       font-family: 'UHCSans-Regular', Helvetica, Arial, sans-serif;
@@ -66,7 +67,8 @@
       font-family: 'UHCSans-Regular', Helvetica, Arial, sans-serif;
       line-height: 22px;
       letter-spacing: 0.2px;
-      flex-grow: 1;
+      // flex-grow: 1;
+      width: 50px;
       text-align: right;
     }
   }
