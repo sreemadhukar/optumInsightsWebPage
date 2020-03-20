@@ -74,9 +74,9 @@ export class SummarySharedService {
                 data: {
                   gdata: {
                     count:
-                      response[0].Numerator.toFixed(0) +
+                      this.numberFormatting(response[0].Numerator.toFixed(0)) +
                       '/' +
-                      response[0].Denominator.toFixed(0) +
+                      this.numberFormatting(response[0].Denominator.toFixed(0)) +
                       ' ' +
                       getStaticData.suffix,
                     percentage: response[0].RateWithPercentage
@@ -97,5 +97,16 @@ export class SummarySharedService {
           }
         );
     });
+  }
+  numberFormatting(nStr) {
+    nStr += '';
+    const x = nStr.split('.');
+    let x1 = x[0];
+    const x2 = x.length > 1 ? '.' + x[1] : '';
+    const rgx = /(\d+)(\d{3})/;
+    while (rgx.test(x1)) {
+      x1 = x1.replace(rgx, '$1' + ',' + '$2');
+    }
+    return x1 + x2;
   }
 }

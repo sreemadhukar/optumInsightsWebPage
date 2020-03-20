@@ -38,7 +38,10 @@ export class RlpSharedService {
                   type: 'rlp-table-bar',
                   data: {
                     gdata: {
-                      count: item.Numerator.toFixed(0) + '/' + item.Denominator.toFixed(0),
+                      count:
+                        this.numberFormatting(item.Numerator.toFixed(0)) +
+                        '/' +
+                        this.numberFormatting(item.Denominator.toFixed(0)),
                       percentage: item.RateWithPercentage
                     }
                   }
@@ -53,5 +56,16 @@ export class RlpSharedService {
           }
         );
     });
+  }
+  numberFormatting(nStr) {
+    nStr += '';
+    const x = nStr.split('.');
+    let x1 = x[0];
+    const x2 = x.length > 1 ? '.' + x[1] : '';
+    const rgx = /(\d+)(\d{3})/;
+    while (rgx.test(x1)) {
+      x1 = x1.replace(rgx, '$1' + ',' + '$2');
+    }
+    return x1 + x2;
   }
 }
