@@ -1,0 +1,16 @@
+<div class="larg-card-conatiner" *ngIf="!skeletonLong && config">
+  <app-common-header [title]="config?.title"></app-common-header>
+  <div class="bar-container">
+    <app-rlp-common-bar [data]="config"> </app-rlp-common-bar>
+  </div>
+  <div class="footer-container">
+    <app-common-footer [timePeriod]="config?.timeperiod"></app-common-footer>
+  </div>
+</div>
+<div *ngIf="skeletonLong">
+  <div class="larg-card-conatiner">
+    <div class="bar-container">
+      <div class="card-skeleton-long"></div>
+    </div>
+  </div>
+</div>
