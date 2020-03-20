@@ -59,7 +59,7 @@ export class GettingReimbursedComponent implements OnInit {
     const filData = this.session.getFilChangeEmitter().subscribe(() => this.common.urlResuseStrategy());
     this.pageTitle = 'Getting Reimbursed';
     this.currentTabTitle = '';
-    this.tabOptionsTitle = ['Submission', 'Payments', 'Non-Payments', 'Appeals'];
+    this.tabOptionsTitle = ['Processed', 'Payments', 'Non-Payments', 'Appeals'];
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => {
       this.createPayloadService.resetTinNumber('gettingReimbursedSummary');
       this.ngRedux.dispatch({ type: REMOVE_FILTER, filterData: { taxId: true } });
