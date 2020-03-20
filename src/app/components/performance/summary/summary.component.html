@@ -1,13 +1,7 @@
-<!-- Main container-->
 <div class="container">
-  <!-- container content-->
   <div class="container-content">
-    <!-- container header ends-->
     <div class="container-header">
-      <!-- Breadcrumbs-->
       <app-breadcrumbs></app-breadcrumbs>
-      <!-- Breadcrumbs ends-->
-      <!-- Header Title-->
       <app-rlp-header
         [rlpTitle]="titleForSummary"
         [rlpSubTitle]="subTitleForSummary"
@@ -40,7 +34,6 @@
         [chartData]="prescriptionCard"
       ></app-card>
     </div>
-    <!-- <app-error-card *ngIf="item.data == null && item.status != null" class="cards" [data]="item"></app-error-card>-->
   </div>
   <!--container content ends-->
 </div>

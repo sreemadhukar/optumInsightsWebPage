@@ -1,36 +1,20 @@
-<!-- Main container-->
-<div *ngIf="hcoData.toggle" class="container">
-  <!-- container content-->
+<div class="container">
   <div class="container-content">
-    <!-- container header titile ends-->
     <div class="container-header">
-      <!-- Breadcrumbs-->
       <app-breadcrumbs></app-breadcrumbs>
-      <!-- Breadcrumbs ends-->
-      <!-- Header Title-->
       <app-rlp-header
         [rlpTitle]="title"
         [rlpSubTitle]="subTitle"
         class="full-display bottom-margin-block"
       ></app-rlp-header>
-      <!-- Header Title ends-->
     </div>
     <div class="container-body">
-      <!-- Large Card content-->
-      <!--loader-->
-      <div *ngFor="let data of perfMockCards; let i = index">
-        <!-- <app-card class="cards" [skeleton]="loading" *ngIf="loading"> </app-card> -->
-        <app-rlp-long-card [skeletonLong]="loading" *ngIf="loading && !printStyle"></app-rlp-long-card>
-      </div>
-      <!--loader-->
-      <app-rlp-long-card [config]="hcoData" *ngIf="hcoData.data != null"></app-rlp-long-card>
-      <!-- Large Card content ends-->
-      <!-- table loader-->
-      <div *ngFor="let data of perfMockTable; let i = index">
-        <app-large-card [skeletonLarge]="loadingTable" *ngIf="loadingTable"></app-large-card>
-      </div>
-      <!-- table loader-->
+      <app-rlp-long-card [skeletonLong]="loading" *ngIf="loading"></app-rlp-long-card>
+      <app-rlp-long-card [config]="hcoData" *ngIf="hcoData.toggle && hcoData.data != null"></app-rlp-long-card>
+      <!-- table -->
+      <app-large-card [skeletonLarge]="loadingTable" *ngIf="loadingTable"></app-large-card>
       <app-rlp-table *ngIf="isTable && hcoData.data != null" [data]="tableData"></app-rlp-table>
+      <!-- table ends here-->
     </div>
   </div>
   <!--container content ends-->

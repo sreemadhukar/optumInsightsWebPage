@@ -70,7 +70,7 @@ export class SummarySharedService {
                 type: getCandType.type,
                 title: getStaticData.title,
                 toggle: this.toggle.setToggles(getStaticData.title, pageName, 'Performance', false),
-                MetricID: getStaticData.MetricID,
+                MetricID: this.MetricidService[getStaticData.title.replace(/ /g, '')],
                 data: {
                   gdata: {
                     count:
