@@ -56,12 +56,18 @@ export class LabsComponent implements OnInit {
     this.tableTinShared
       .getTableShared(rlpPageName.Labs)
       .then(data => {
-        this.isTable = true;
         this.loadingTable = false;
-        this.tableData.thead = staticTableData.Labs;
-        this.tableData.tbody = JSON.parse(JSON.stringify(data));
+        if (data) {
+          this.isTable = true;
+          this.tableData.thead = staticTableData.Labs;
+          this.tableData.tbody = JSON.parse(JSON.stringify(data));
+        } else {
+          this.isTable = false;
+        }
       })
       .catch(reason => {
+        this.loadingTable = false;
+        this.isTable = false;
         console.log('Error Labs page table data', reason);
       });
   }
