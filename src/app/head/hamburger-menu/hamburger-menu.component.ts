@@ -464,12 +464,14 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
       if (getIndex !== -1) {
         if (response[0] && response[1] && response[2]) {
           isRlp.All = false;
+          console.log('We have data for all RLP');
         } else {
           if (!response[0] && !response[1] && !response[2]) {
             isRlp.All = true;
             isRlp.Referral = true;
             isRlp.Labs = true;
             isRlp.Perscription = true;
+            console.log('None RLP');
           } else {
             if (!response[0]) {
               isRlp.Referral = true;
@@ -481,6 +483,11 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
               isRlp.Perscription = true;
             }
           }
+          this.navCategories[getIndex].disabled = isRlp.All;
+          this.navCategories[getIndex].children[0].disabled = isRlp.All;
+          this.navCategories[getIndex].children[1].disabled = isRlp.Referral;
+          this.navCategories[getIndex].children[2].disabled = isRlp.Labs;
+          this.navCategories[getIndex].children[3].disabled = isRlp.Perscription;
           this.checkRlpRoute();
         }
       }
@@ -489,7 +496,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
       this.navCategories[getIndex].children[1].disabled = isRlp.Referral;
       this.navCategories[getIndex].children[2].disabled = isRlp.Labs;
       this.navCategories[getIndex].children[3].disabled = isRlp.Perscription;
-      console.log('We have data for all RLP', this.navCategories[getIndex]);
+      console.log('Final Data', this.navCategories[getIndex]);
     });
   }
   checkPcorData() {

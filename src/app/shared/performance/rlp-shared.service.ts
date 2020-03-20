@@ -31,7 +31,7 @@ export class RlpSharedService {
           response => {
             const newData = response.map(item => {
               const temp: ItableData = {
-                tin: item.Tin.toFixed(0),
+                tin: item.FormattedTin,
                 groupName: item.TinName,
                 graphData: {
                   category: 'app-table-card',
