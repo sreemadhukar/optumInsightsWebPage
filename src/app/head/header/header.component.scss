@@ -298,6 +298,10 @@
   }
   .signout-icon-text:hover {
     background: $pattens-blue;
+    color: #2d2d39 !important;
+    .signout-text {
+      color: #2d2d39 !important;
+    }
   }
   .signout-text {
     color: $strom-grey;
