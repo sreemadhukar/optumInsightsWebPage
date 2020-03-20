@@ -204,6 +204,7 @@ export class UhciFiltersComponent implements OnInit {
     this.selectedService = '';
     //   this.createPayloadService.resetToInitialState();
     this.createPayloadService.emitFilterEvent(this.selectedPage);
+    this.common.urlResuseStrategy();
     this.filterFlag.emit(false);
   }
 

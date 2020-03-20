@@ -175,7 +175,7 @@ export class FiltersAppliedComponent implements OnInit {
         this.ngRedux.dispatch({ type: REMOVE_FILTER, filterData: { priorAuthType: true } });
         break;
     }
-    // this.createPayloadService.emitFilterEvent(this.selectedPage);
+    this.createPayloadService.emitFilterEvent(this.selectedPage);
     this.common.urlResuseStrategy();
   }
 }
