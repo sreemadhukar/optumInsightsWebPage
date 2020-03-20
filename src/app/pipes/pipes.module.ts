@@ -7,6 +7,8 @@ import { QuarterPipe } from './quartercard.pipe';
 import { CountryFormatterPipe } from './country-formatter.pipe';
 import { SliceStringPipe } from './slice-string.pipe';
 import { ZeroValueFormatterPipe } from './zero-value-formatter.pipe';
+import { RlpSearchPipe } from './rlp-search.pipe';
+
 @NgModule({
   imports: [CommonModule],
   declarations: [
@@ -16,7 +18,8 @@ import { ZeroValueFormatterPipe } from './zero-value-formatter.pipe';
     TemporaryTextFormatterPipe,
     CountryFormatterPipe,
     SliceStringPipe,
-    ZeroValueFormatterPipe
+    ZeroValueFormatterPipe,
+    RlpSearchPipe
   ],
   exports: [
     CurrencyFormatterPipe,
@@ -25,7 +28,8 @@ import { ZeroValueFormatterPipe } from './zero-value-formatter.pipe';
     TemporaryTextFormatterPipe,
     CountryFormatterPipe,
     SliceStringPipe,
-    ZeroValueFormatterPipe
+    ZeroValueFormatterPipe,
+    RlpSearchPipe
   ]
 })
 export class PipesModule {}

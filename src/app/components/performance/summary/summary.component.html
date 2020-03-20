@@ -14,13 +14,40 @@
         class="full-display bottom-margin-block"
       ></app-rlp-header>
     </div>
-    <div class="cards cust-width-blank"></div>
-    <div class="height1Separator"></div>
-    <div *ngFor="let item of summaryItems; let i = index">
-      <app-card *ngIf="item.data != null && item.category == 'app-card'" class="cards" [chartData]="item"></app-card>
-      <app-error-card *ngIf="item.data == null && item.status != null" class="cards" [data]="item"></app-error-card>
+    <div>
+      <div *ngFor="let data of referralMockCards; let i = index">
+        <app-card class="cards" [skeleton]="referralsLoading" *ngIf="referralsLoading"> </app-card>
+      </div>
+      <app-card
+        *ngIf="referralCard.data != null && referralCard.category == 'app-card'"
+        class="cards"
+        [chartData]="referralCard"
+      ></app-card>
     </div>
-    <!-- container header ends-->
+
+    <div>
+      <div *ngFor="let data of labsMockCards; let i = index">
+        <app-card class="cards" [skeleton]="labsLoading" *ngIf="labsLoading"> </app-card>
+      </div>
+      <app-card
+        *ngIf="labsCard.data != null && labsCard.category == 'app-card'"
+        class="cards"
+        [chartData]="labsCard"
+      ></app-card>
+    </div>
+
+    <div>
+      <div *ngFor="let data of prescriptionMockCards; let i = index">
+        <app-card class="cards" [skeleton]="prescriptionLoading" *ngIf="prescriptionLoading"> </app-card>
+      </div>
+      <app-card
+        *ngIf="prescriptionCard.data != null && prescriptionCard.category == 'app-card'"
+        class="cards"
+        [chartData]="prescriptionCard"
+      ></app-card>
+    </div>
+    <!-- <app-error-card *ngIf="item.data == null && item.status != null" class="cards" [data]="item"></app-error-card>
+      <app-rlp-common-bar *ngIf="item.data != null && item.category != 'app-card'" [data]="item"></app-rlp-common-bar>-->
   </div>
   <!--container content ends-->
 </div>

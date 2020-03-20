@@ -21,7 +21,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { KOPSharedService } from '../shared/kop/kop.service';
 import { KopService } from '../rest/kop/kop.service';
 import { ContactusComponent } from './contactus/contactus.component';
-
+import { CheckHcoRlpService } from '../shared/performance/check-hco-rlp.service';
 @NgModule({
   imports: [
     CommonModule,
@@ -49,7 +49,8 @@ import { ContactusComponent } from './contactus/contactus.component';
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     CustomPreloadingStrategy,
     KopService,
-    KOPSharedService
+    KOPSharedService,
+    CheckHcoRlpService
   ]
 })
 export class HeadModule {}
