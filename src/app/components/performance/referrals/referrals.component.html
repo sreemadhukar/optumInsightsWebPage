@@ -16,7 +16,7 @@
       <!-- Header Title ends-->
     </div>
     <div class="container-body">
-      <app-rlp-long-card [skeletonLong]="loading" *ngIf="loading && !printStyle"></app-rlp-long-card>
+      <app-rlp-long-card [skeletonLong]="loading" *ngIf="loading"></app-rlp-long-card>
       <app-rlp-long-card [config]="hcoData" *ngIf="hcoData.toggle && hcoData.data != null"></app-rlp-long-card>
       <!-- table -->
       <app-large-card [skeletonLarge]="loadingTable" *ngIf="loadingTable"></app-large-card>
