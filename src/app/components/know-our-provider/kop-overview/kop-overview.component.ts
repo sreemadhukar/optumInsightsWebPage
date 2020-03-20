@@ -110,26 +110,11 @@ export class KopOverviewComponent implements OnInit, OnDestroy {
 
   loadOtherMetrics() {
     try {
-      this.getPriorAuthSummary();
       this.getPriorAuthTATSummary();
       this.getReimbursementClaimsData();
     } catch (error) {
-      console.log('Error in Prior Auth | Prior Auth TAT | Reiumbursement');
+      console.log('Error in Prior Auth | Prior Auth TAT | Reimbursement');
     }
-  }
-  getPriorAuthSummary() {
-    this.kopSharedService.getPriorAuthSummary({ filter: this.currentFilter }).then((data: any) => {
-      if (data) {
-        const {
-          careDelivery: { chartData }
-        } = data;
-        this.kopInsightsData.careDelivery.chartData.forEach((chartItem: any, index: number) => {
-          if (chartItem.metricType === 'priorauth') {
-            Object.assign(chartItem, { ...chartData[index] });
-          }
-        });
-      }
-    });
   }
 
   getPriorAuthTATSummary() {

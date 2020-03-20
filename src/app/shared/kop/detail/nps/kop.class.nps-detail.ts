@@ -9,26 +9,89 @@ export class NPSDetail {
     npsGraph: {},
     quarters: []
   };
+  public keys;
+
   constructor({ records, small, id }) {
     this.npsObj.chartId = id;
     this.records = records;
     this.npsObj.small = small;
+    this.keys = {
+      npsSummaryKey: 'ProviderNpsSummary',
+      npsCombined: {
+        currentKey: 'TotalNPSSummary',
+        currentValueKey: 'TotalNPSValue',
+        currentTargetKey: 'TargetNPSSummary',
+        currentTargetValueKey: 'CombinedTargetNPSValue'
+      }
+    };
     this.createGraph();
+  }
+
+  public sortRecords(key: string) {
+    return (a: any, b: any) => {
+      return b[key] - a[key];
+    };
   }
 
   public getRandomInteger(max: number, min: number) {
     return Math.floor((max - min) * Math.random()) + min;
   }
 
-  public createGraph() {
-    this.npsObj.quarters = [
-      { highlighted: true, value: 42, year: 2020 },
-      { highlighted: false, value: 36, year: 2019 },
-      { highlighted: false, value: 36, year: 2018 }
-    ];
+  public getNpsValue(data: any, type: string) {
+    try {
+      if (type === 'totalCurrentValue') {
+        return (
+          data[this.keys.npsSummaryKey][this.keys[this.npsObj.chartId].currentKey][
+            this.keys[this.npsObj.chartId].currentValueKey
+          ] || 0
+        );
+      }
 
-    const years = [2018, 2019, 2020];
-    const quarters = ['Q1', 'Q2', 'Q3', 'Q4'];
+      if (type === 'targetValue') {
+        return (
+          data[this.keys.npsSummaryKey][this.keys[this.npsObj.chartId].currentTargetKey][
+            this.keys[this.npsObj.chartId].currentTargetValueKey
+          ] || 0
+        );
+      }
+
+      if (type === 'currentValue') {
+        return (
+          data[this.keys.npsSummaryKey][this.keys[this.npsObj.chartId].currentKey][
+            this.keys[this.npsObj.chartId].currentValueKey
+          ] || 0
+        );
+      }
+    } catch (err) {
+      return 0;
+    }
+  }
+
+  public createGraph() {
+    const yearLevelRecords = this.records.filter((record: any) => {
+      return record.Quarter === '1,2,3,4';
+    });
+
+    yearLevelRecords.forEach((yearLevelRecord: any, index: any) => {
+      const highlighted = yearLevelRecords.length === index + 1 ? true : false;
+      this.npsObj.quarters.push({
+        year: parseInt(yearLevelRecord.Year),
+        highlighted,
+        value: Math.round(this.getNpsValue(yearLevelRecord, 'totalCurrentValue'))
+      });
+    });
+
+    this.npsObj.quarters = this.npsObj.quarters.sort(this.sortRecords('year'));
+
+    const years = this.npsObj.quarters.map((quarter: any) => quarter.year);
+
+    const quarterLevelRecords = this.records
+      .filter((record: any) => {
+        const year = parseInt(record.Year);
+        return record.Quarter !== '1,2,3,4' && years.includes(year);
+      })
+      .sort(this.sortRecords('year'));
+
     const chartData = [];
     const dupDelimiter = 'dupDelm';
 
@@ -44,52 +107,30 @@ export class NPSDetail {
       title = 'Combined NPS';
       MetricID = '35';
       trendLine = true;
-      let target = 5;
-      years.forEach((year: any) => {
-        quarters.forEach((quarter: any) => {
-          let name = quarter;
-          if (name === 'Q1') {
-            name += '_' + year;
-          }
-          chartData.push({
-            name: name + year.toString().slice(2) + dupDelimiter,
-            year,
-            target,
-            value: this.getRandomInteger(60, 30)
-          });
+
+      quarterLevelRecords.forEach((quarterLevelRecord: any) => {
+        const yearString = quarterLevelRecord.Year;
+        const year = parseInt(quarterLevelRecord.Year);
+        let name = 'Q' + quarterLevelRecord.Quarter;
+        if (name === 'Q1') {
+          name += '_' + yearString;
+        }
+        chartData.push({
+          name: name + yearString.slice(2) + dupDelimiter,
+          year,
+          quarter: 'Q' + quarterLevelRecord.Quarter,
+          target: Math.round(this.getNpsValue(quarterLevelRecord, 'targetValue')),
+          value: Math.round(this.getNpsValue(quarterLevelRecord, 'currentValue'))
         });
-        target += 10;
       });
     } else if (this.npsObj.chartId === 'npsPM') {
       title = 'Practice Manager NPS';
       MetricID = '36';
       trendLine = false;
-      let target = 5;
-
-      years.forEach((year: any) => {
-        chartData.push({
-          name: year,
-          target,
-          year,
-          value: this.getRandomInteger(60, 30)
-        });
-        target += 10;
-      });
     } else if (this.npsObj.chartId === 'npsMd') {
       title = 'Physician NPS';
       MetricID = '37';
       trendLine = false;
-      let target = 5;
-
-      years.forEach((year: any) => {
-        chartData.push({
-          name: year,
-          target,
-          year,
-          value: this.getRandomInteger(60, 30)
-        });
-        target += 10;
-      });
     }
 
     this.npsObj.title = title;

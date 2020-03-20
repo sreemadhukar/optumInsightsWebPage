@@ -37,7 +37,12 @@ app.all('/uhci/prd/*', function(req, res) {
   });
 });
 
-// app.use(cors(corsOptions));
+//app.use(cors(corsOptions));
+app.all('*', function(req, res, next) {
+  res.header('Access-Control-Allow-Origin', 'http://localhost:4200');
+  res.header('Access-Control-Allow-Headers', 'X-Requested-With');
+  next();
+});
 
 app.use((error, req, res, next) => {
   handleExceptions(error, res);

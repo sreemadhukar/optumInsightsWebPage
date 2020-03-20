@@ -38,11 +38,8 @@
         [data]="barChartsArray"
       ></app-error-card>
       <div class="top-reasons-for-claims-non-payment-block" *ngIf="topReasonsCategoryDisplay && !loadingTopReasons">
-        <app-common-header
-          [title]="title"
-          class="full-display white-bg"
-          (helpIconClicked)="helpIconClick($event)"
-        ></app-common-header>
+        <app-common-header [title]="title" class="full-display white-bg" (helpIconClicked)="helpIconClick($event)">
+        </app-common-header>
         <div class="bar-graphs-block">
           <div
             class="bar-graphs"
@@ -50,7 +47,6 @@
             [class.extra-margin-bottom-40]="i + 1 == barChartsArray.length && !section[i]"
           >
             <div
-              [class.extra-margin-top-31]="i != 0"
               [class.extra-margin-bottom-16]="section[i]"
               class="bar-graphs-content"
               (click)="section[i] = !section[i]; reasonsCollapose(i)"
@@ -138,27 +134,24 @@
     </div>
 
     <div *ngIf="printStyle" class="height-separator2-print"></div>
-
-    <div *ngIf="viewClaimsByFilter !== 'DOP'">
-      <app-error-card
-        *ngIf="!trendMonthDisplay && monthlyLineGraph != null && monthlyLineGraph.status != null"
-        class="cards"
-        [data]="monthlyLineGraph"
-      ></app-error-card>
-      <div class="non-payment-trend-block" *ngIf="trendMonthDisplay">
-        <app-common-header
-          [title]="trendTitle"
-          class="full-display bottom-margin-block"
-          (helpIconClicked)="helpIconClick($event)"
-        ></app-common-header>
-        <div class="full-display">
-          <app-line-graph [chartOptions]="monthlyLineGraph"></app-line-graph>
-          <!--div class="timeperiod-block">
+    <app-error-card
+      *ngIf="!trendMonthDisplay && monthlyLineGraph != null && monthlyLineGraph.status != null"
+      class="cards"
+      [data]="monthlyLineGraph"
+    ></app-error-card>
+    <div class="non-payment-trend-block" *ngIf="trendMonthDisplay">
+      <app-common-header
+        [title]="trendTitle"
+        class="full-display bottom-margin-block"
+        (helpIconClicked)="helpIconClick($event)"
+      ></app-common-header>
+      <div class="full-display">
+        <app-line-graph [chartOptions]="monthlyLineGraph"></app-line-graph>
+        <!--div class="timeperiod-block">
          <p class="timeperiod-text">{{ timePeriod }}</p>
        </div-->
-        </div>
-        <app-common-footer [timePeriod]="timePeriodLineGraph" class="width-100 time-period-trend"></app-common-footer>
       </div>
+      <app-common-footer [timePeriod]="timePeriodLineGraph" class="width-100 time-period-trend"></app-common-footer>
     </div>
 
     <!-- Claims Non - Payment Trend Ends Here -->

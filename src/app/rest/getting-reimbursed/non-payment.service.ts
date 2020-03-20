@@ -15,7 +15,7 @@ export class NonPaymentService {
   private APP_URL: string = environment.apiProxyUrl;
   private NON_PAYMENT: string = environment.apiUrls.NonPayment;
   private NON_PAYMENT_DOP: string = environment.apiUrls.NonPaymentDop;
-
+  private NON_PAYMENT_TREND_DOP: string = environment.apiUrls.NonPaymentDopTrend;
   constructor(private http: HttpClient) {}
   public getNonPaymentData(...parameters) {
     let nonPaymentURL;
@@ -119,12 +119,22 @@ export class NonPaymentService {
       'Content-Type': 'application/json',
       Accept: '*/*'
     });
-    const nonPaymentURL = this.APP_URL + this.NON_PAYMENT + parameters[0][0] + '?requestType=NONPAYMENT_BYMONTH';
-    return combineLatest(
-      this.http.post(nonPaymentURL, parameters[0][1], { headers: myHeader }).pipe(
-        map(res => JSON.parse(JSON.stringify(res[0]))),
-        catchError(err => of(JSON.parse(JSON.stringify(err))))
-      )
-    );
+    if (parameters[0][1].ClaimsBy === 'DOP') {
+      const nonPaymentURL = this.APP_URL + this.NON_PAYMENT_TREND_DOP + parameters[0][0];
+      return combineLatest(
+        this.http.post(nonPaymentURL, parameters[0][1], { headers: myHeader }).pipe(
+          map(res => res),
+          catchError(err => of(JSON.parse(JSON.stringify(err))))
+        )
+      );
+    } else {
+      const nonPaymentURL = this.APP_URL + this.NON_PAYMENT + parameters[0][0] + '?requestType=NONPAYMENT_BYMONTH';
+      return combineLatest(
+        this.http.post(nonPaymentURL, parameters[0][1], { headers: myHeader }).pipe(
+          map(res => JSON.parse(JSON.stringify(res[0]))),
+          catchError(err => of(JSON.parse(JSON.stringify(err))))
+        )
+      );
+    }
   }
 }
