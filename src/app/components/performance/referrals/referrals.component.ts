@@ -17,11 +17,9 @@ export class ReferralsComponent implements OnInit {
   public title: string;
   public subTitle: string;
   public hcoData;
-  public perfMockCards;
-  loading: boolean;
-  loadingTable: boolean;
-  isTable: boolean;
-  public perfMockTable;
+  public loading: boolean;
+  public loadingTable: boolean;
+  public isTable: boolean;
   public tableData: ItableType = {
     thead: [],
     tbody: []
@@ -47,7 +45,6 @@ export class ReferralsComponent implements OnInit {
   }
   tableDataTin() {
     this.loadingTable = true;
-    this.perfMockTable = [{}];
     this.isTable = false;
     this.tableTinShared
       .getTableShared(rlpPageName.Referral)
@@ -64,7 +61,6 @@ export class ReferralsComponent implements OnInit {
   }
   getHCO() {
     this.loading = true;
-    this.perfMockCards = [{}];
     this.hcoData = [];
     this.summarySharedService
       .getHCOdata(rlpPageName.Referral, rlpCardType.longCard)

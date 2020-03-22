@@ -17,8 +17,6 @@ export class LabsComponent implements OnInit {
   public title: string;
   public subTitle: string;
   public hcoData;
-  public perfMockCards;
-  public perfMockTable;
   loading: boolean;
   loadingTable: boolean;
   isTable: boolean;
@@ -51,7 +49,6 @@ export class LabsComponent implements OnInit {
 
   tableDataTin() {
     this.loadingTable = true;
-    this.perfMockTable = [{}];
     this.isTable = false;
     this.tableTinShared
       .getTableShared(rlpPageName.Labs)
@@ -73,7 +70,6 @@ export class LabsComponent implements OnInit {
   }
   getHCO() {
     this.loading = true;
-    this.perfMockCards = [{}];
     this.hcoData = [];
     this.summarySharedService
       .getHCOdata(rlpPageName.Labs, rlpCardType.longCard)
