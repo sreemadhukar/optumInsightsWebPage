@@ -8,7 +8,7 @@
         class="full-display bottom-margin-block"
       ></app-rlp-header>
     </div>
-    <div *ngIf="hcoData.toggle" class="container-body">
+    <div class="container-body">
       <app-rlp-long-card [skeletonLong]="loading" *ngIf="loading"></app-rlp-long-card>
       <app-rlp-long-card [config]="hcoData" *ngIf="hcoData.toggle && hcoData.data != null"></app-rlp-long-card>
       <!-- table -->
