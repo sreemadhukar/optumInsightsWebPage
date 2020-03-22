@@ -77,7 +77,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
   public checkPro;
   public checkExecutive;
   printStyle: boolean;
-
+  public isPerformance: boolean;
   /*** Array of Navigation Category List ***/
   public navCategories = [];
   public navCategoriesTotal = [
@@ -108,7 +108,8 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
             // { name: 'Smart Edits', path: '/GettingReimbursed/SmartEdits' }
           ]
         }
-      ]
+      ],
+      disabled: false
     },
     // {
     //   icon: 'care-delivery',
@@ -128,7 +129,8 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
       children: [
         { name: 'Self Service', path: '/ServiceInteraction/SelfService' },
         { name: 'Calls', path: '/ServiceInteraction/Calls' }
-      ]
+      ],
+      disabled: false
     },
     {
       icon: 'timeline',
@@ -447,8 +449,15 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
     return bool ? this.sessionService.checkTrendAccess() && environment.internalAccess : !bool;
   }
 
-  checkRlpRoute() {
-    if (this.router.url.includes('Performance')) {
+  checkRlpRoute(getIndex: number, isRlp, page: string) {
+    this.navCategories[getIndex].disabled = isRlp.All;
+    this.navCategories[getIndex].children[0].disabled = isRlp.All;
+    this.navCategories[getIndex].children[1].disabled = isRlp.Referral;
+    this.navCategories[getIndex].children[2].disabled = isRlp.Labs;
+    this.navCategories[getIndex].children[3].disabled = isRlp.Perscription;
+
+    this.isPerformance = isRlp.All ? true : false;
+    if (this.router.url.includes(page)) {
       this.router.navigate(['/OverviewPage']);
     }
   }
@@ -464,6 +473,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
       if (getIndex !== -1) {
         if (response[0] && response[1] && response[2]) {
           isRlp.All = false;
+          this.checkRlpRoute(getIndex, isRlp, 'AllWell');
           console.log('We have data for all RLP');
         } else {
           if (!response[0] && !response[1] && !response[2]) {
@@ -472,31 +482,24 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
             isRlp.Labs = true;
             isRlp.Perscription = true;
             console.log('None RLP');
+            this.checkRlpRoute(getIndex, isRlp, 'Performance');
           } else {
             if (!response[0]) {
               isRlp.Referral = true;
+              this.checkRlpRoute(getIndex, isRlp, 'Referral');
             }
             if (!response[1]) {
               isRlp.Labs = true;
+              this.checkRlpRoute(getIndex, isRlp, 'Labs');
             }
             if (!response[2]) {
               isRlp.Perscription = true;
+              this.checkRlpRoute(getIndex, isRlp, 'Perscription');
             }
-          }
-          this.navCategories[getIndex].disabled = isRlp.All;
-          this.navCategories[getIndex].children[0].disabled = isRlp.All;
-          this.navCategories[getIndex].children[1].disabled = isRlp.Referral;
-          this.navCategories[getIndex].children[2].disabled = isRlp.Labs;
-          this.navCategories[getIndex].children[3].disabled = isRlp.Perscription;
-          this.checkRlpRoute();
-        }
-      }
-      this.navCategories[getIndex].disabled = isRlp.All;
-      this.navCategories[getIndex].children[0].disabled = isRlp.All;
-      this.navCategories[getIndex].children[1].disabled = isRlp.Referral;
-      this.navCategories[getIndex].children[2].disabled = isRlp.Labs;
-      this.navCategories[getIndex].children[3].disabled = isRlp.Perscription;
-      console.log('Final Data', this.navCategories[getIndex]);
+          } // end if else of negative cases
+        } // end if of Positive vs negative cases
+      } // end if of getIndex -1
+      console.log('Final Data', this.navCategories);
     });
   }
   checkPcorData() {
