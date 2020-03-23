@@ -40,7 +40,7 @@
 
   <div class="zebra-stripe"></div>
   <!--Table body starts-->
-  <div *ngIf="showTableBody">
+  <div *ngIf="showTableBody && tableData.length > 0">
     <div
       class="table-items"
       *ngFor="
