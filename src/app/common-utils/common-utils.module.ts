@@ -51,6 +51,7 @@ import { ColorGreyMiniBarChartComponent } from './d3-objects/color-grey-mini-bar
 import { BarSimplePiComponent } from './d3-objects/bar-simple-pi/bar-simple-pi.component';
 import { StackedBarChartComponent } from './d3-objects/stacked-bar-chart/stacked-bar-chart.component';
 import { UhcKopFilterComponent } from './uhc-kop-filter/uhc-kop-filter.component';
+import { ClickElsewhereDirective } from './directives/ClickElsewhereDirective';
 
 @NgModule({
   imports: [
@@ -100,7 +101,8 @@ import { UhcKopFilterComponent } from './uhc-kop-filter/uhc-kop-filter.component
     ColorGreyMiniBarChartComponent,
     BarSimplePiComponent,
     UhcKopFilterComponent,
-    StackedBarChartComponent
+    StackedBarChartComponent,
+    ClickElsewhereDirective
   ],
   declarations: [
     MiniTileComponent,
@@ -148,7 +150,8 @@ import { UhcKopFilterComponent } from './uhc-kop-filter/uhc-kop-filter.component
     ColorGreyMiniBarChartComponent,
     BarSimplePiComponent,
     StackedBarChartComponent,
-    UhcKopFilterComponent
+    UhcKopFilterComponent,
+    ClickElsewhereDirective
   ],
   entryComponents: [ProviderSearchComponent]
 })
