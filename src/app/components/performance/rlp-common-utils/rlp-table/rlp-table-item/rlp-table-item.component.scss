@@ -1,9 +1,8 @@
 @import '~src/scss/variables.scss';
-
 .rlp-table-container {
   display: inline-flex;
-  width: 960px;
-
+  // width: 960px;
+  width: 100%;
   .rlp-table-label {
     color: $black-rock;
     font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
@@ -12,15 +11,12 @@
     flex-wrap: wrap;
     align-self: flex-start;
   }
-
   .rlp-table-tin {
     flex: 0.62;
   }
-
   .rlp-table-group {
     flex: 0.97;
   }
-
   .rlp-table-bar {
     flex: 1.8;
   }

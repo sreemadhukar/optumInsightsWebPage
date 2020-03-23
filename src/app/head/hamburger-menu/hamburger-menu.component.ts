@@ -36,7 +36,7 @@ import { PcorService } from '../../rest/care-delivery/pcor.service';
 import { CheckHcoRlpService } from '../../shared/performance/check-hco-rlp.service';
 import { RESET_KOP_FILTER } from 'src/app/store/kopFilter/actions';
 import { NgRedux } from '@angular-redux/store';
-// import { HealthSystemDetailsSharedService } from '../../shared/advocate/health-system-details-shared.service';
+import { GroupPremiumDesignationService } from '../../rest/group-premium-designation/group-premium-designation.service';
 
 @Component({
   selector: 'app-hamburger-menu',
@@ -77,7 +77,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
   public checkPro;
   public checkExecutive;
   printStyle: boolean;
-
+  public isPerformance: boolean;
   /*** Array of Navigation Category List ***/
   public navCategories = [];
   public navCategoriesTotal = [
@@ -108,7 +108,8 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
             // { name: 'Smart Edits', path: '/GettingReimbursed/SmartEdits' }
           ]
         }
-      ]
+      ],
+      disabled: false
     },
     // {
     //   icon: 'care-delivery',
@@ -128,7 +129,8 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
       children: [
         { name: 'Self Service', path: '/ServiceInteraction/SelfService' },
         { name: 'Calls', path: '/ServiceInteraction/Calls' }
-      ]
+      ],
+      disabled: false
     },
     {
       icon: 'timeline',
@@ -156,7 +158,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
 
   /** CONSTRUCTOR **/
   constructor(
-    // private healthSystemService: HealthSystemDetailsSharedService,
+    public groupPremiumDesignationService: GroupPremiumDesignationService,
     private breakpointObserver: BreakpointObserver,
     private cdRef: ChangeDetectorRef,
     private elementRef: ElementRef,
@@ -190,42 +192,24 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
     this.checkAdv = this.sessionService.checkAdvocateRole();
     this.checkPro = this.sessionService.checkProjectRole();
     this.checkExecutive = this.sessionService.checkExecutiveRole();
-    // this.healthSystemService
-    //   .getHealthSystemData()
-    //   .then(healthSystemData => {
-    //     this.healthSystemData = JSON.parse(JSON.stringify(healthSystemData));
-    //     if (this.healthSystemData.GroupPremiumDesignation) {
-    //       this.GroupPremiumDesignation = this.healthSystemData.GroupPremiumDesignation;
-    //     } else {
-    //       this.GroupPremiumDesignation = false;
-    //     }
-    //   })
-    //   .catch(reason => {
-    //     this.GroupPremiumDesignation = false;
-    //     console.log('Health System Details are not available', reason);
-    //   });
     if (this.checkAdv.value) {
       this.navCategories = this.navCategoriesTotal.filter(item => item.name !== 'Summary Trends');
       sessionStorage.setItem('advocateView', 'true');
+    }
+    if (this.groupPremiumDesignationService.groupPremiumDesignationData()) {
+      this.groupPremiumDesignationService.groupPremiumDesignationData().subscribe(response => {
+        this.GroupPremiumDesignation = response.HppIndicator;
+      });
     }
     // to disable the header/footer/body when not authenticated
     router.events.subscribe(event => {
       if (event instanceof NavigationStart) {
         this.healthSystemName = this.sessionService.getHealthCareOrgName();
-        // this.healthSystemService
-        //   .getHealthSystemData()
-        //   .then(healthSystemData => {
-        //     this.healthSystemData = JSON.parse(JSON.stringify(healthSystemData));
-        //     if (this.healthSystemData.GroupPremiumDesignation) {
-        //       this.GroupPremiumDesignation = this.healthSystemData.GroupPremiumDesignation;
-        //     } else {
-        //       this.GroupPremiumDesignation = false;
-        //     }
-        //   })
-        //   .catch(reason => {
-        //     this.GroupPremiumDesignation = false;
-        //     console.log('Health System Details are not available', reason);
-        //   });
+        if (this.groupPremiumDesignationService.groupPremiumDesignationData()) {
+          this.groupPremiumDesignationService.groupPremiumDesignationData().subscribe(response => {
+            this.GroupPremiumDesignation = response.HppIndicator;
+          });
+        }
         this.makeAbsolute = !(
           authService.isLoggedIn() &&
           !(
@@ -351,7 +335,6 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
   }
 
   ngOnInit() {
-    this.GroupPremiumDesignation = false;
     this.AcoFlag = false;
     this.isKop = false;
     this.loading = false;
@@ -466,8 +449,15 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
     return bool ? this.sessionService.checkTrendAccess() && environment.internalAccess : !bool;
   }
 
-  checkRlpRoute() {
-    if (this.router.url.includes('Performance')) {
+  checkRlpRoute(getIndex: number, isRlp, page: string) {
+    this.navCategories[getIndex].disabled = isRlp.All;
+    this.navCategories[getIndex].children[0].disabled = isRlp.All;
+    this.navCategories[getIndex].children[1].disabled = isRlp.Referral;
+    this.navCategories[getIndex].children[2].disabled = isRlp.Labs;
+    this.navCategories[getIndex].children[3].disabled = isRlp.Perscription;
+
+    this.isPerformance = isRlp.All ? true : false;
+    if (this.router.url.includes(page)) {
       this.router.navigate(['/OverviewPage']);
     }
   }
@@ -483,28 +473,33 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
       if (getIndex !== -1) {
         if (response[0] && response[1] && response[2]) {
           isRlp.All = false;
+          this.checkRlpRoute(getIndex, isRlp, 'AllWell');
+          console.log('We have data for all RLP');
         } else {
-          if (!(response[0] || response[1] || response[2])) {
+          if (!response[0] && !response[1] && !response[2]) {
             isRlp.All = true;
+            isRlp.Referral = true;
+            isRlp.Labs = true;
+            isRlp.Perscription = true;
+            console.log('None RLP');
+            this.checkRlpRoute(getIndex, isRlp, 'Performance');
           } else {
             if (!response[0]) {
               isRlp.Referral = true;
+              this.checkRlpRoute(getIndex, isRlp, 'Referral');
             }
             if (!response[1]) {
               isRlp.Labs = true;
+              this.checkRlpRoute(getIndex, isRlp, 'Labs');
             }
             if (!response[2]) {
               isRlp.Perscription = true;
+              this.checkRlpRoute(getIndex, isRlp, 'Perscription');
             }
-          }
-          this.checkRlpRoute();
-        }
-      }
-      this.navCategories[getIndex].disabled = isRlp.All;
-      this.navCategories[getIndex].children[1].disabled = isRlp.Referral;
-      this.navCategories[getIndex].children[2].disabled = isRlp.Labs;
-      this.navCategories[getIndex].children[3].disabled = isRlp.Perscription;
-      console.log('We have data for all RLP', this.navCategories[getIndex]);
+          } // end if else of negative cases
+        } // end if of Positive vs negative cases
+      } // end if of getIndex -1
+      console.log('Final Data', this.navCategories);
     });
   }
   checkPcorData() {

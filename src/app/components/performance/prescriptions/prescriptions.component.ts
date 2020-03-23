@@ -16,11 +16,9 @@ import { Router } from '@angular/router';
 export class PrescriptionsComponent implements OnInit {
   public title: string;
   public subTitle: string;
-  public perfMockCards;
-  public perfMockTable;
-  loading: boolean;
-  loadingTable: boolean;
-  isTable: boolean;
+  public loading: boolean;
+  public loadingTable: boolean;
+  public isTable: boolean;
   public hcoData;
   public tableData: ItableType = {
     thead: [],
@@ -49,7 +47,6 @@ export class PrescriptionsComponent implements OnInit {
   }
   tableDataTin() {
     this.loadingTable = true;
-    this.perfMockTable = [{}];
     this.isTable = false;
 
     this.tableTinShared
@@ -66,7 +63,6 @@ export class PrescriptionsComponent implements OnInit {
   }
   getHCO() {
     this.loading = true;
-    this.perfMockCards = [{}];
     this.hcoData = [];
     this.summarySharedService
       .getHCOdata(rlpPageName.Perscription, rlpCardType.longCard)
