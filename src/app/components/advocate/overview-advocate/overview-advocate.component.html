@@ -126,7 +126,7 @@
 
     <!--Calls Trend Starts Here-->
     <app-error-card *ngIf="callsData == null" class="cards" [data]="callsLineGraphData"></app-error-card>
-    <app-large-card [skeletonLarge]="callsLoading" *ngIf="callsData == null"></app-large-card>
+    <app-large-card [skeletonLarge]="callsLoading" *ngIf="callsLoading"></app-large-card>
     <div class="calls-trend-block" *ngIf="!callsLoading && callsData !== null">
       <app-common-header
         [title]="trendTitleForCalls"
