@@ -223,6 +223,7 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
     this.overviewAdvocateSharedService
       .getTotalCallsShared(this.createPayloadService.payload)
       .then(totalCallsData => {
+        console.log('HIIIIIIIIIII', totalCallsData[0]);
         if (totalCallsData[0] == null) {
           this.callsLoading = false;
           this.callsData = null;
@@ -253,13 +254,19 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
   }
 
   totalCallsTrendLineData() {
-    this.callsLineGraphLoading = true;
+    // this.callsLineGraphLoading = true;
     this.overviewAdvocateSharedService
       .getTotalCallsTrendLineShared(this.createPayloadService.payload)
       .then(totalCallsTrendData => {
-        console.log('totalCallsTrendData', totalCallsTrendData);
-        if (totalCallsTrendData == null) {
-          this.callsLineGraphLoading = false;
+        console.log('HOOOOOOOOOOOO', totalCallsTrendData);
+        if (
+          totalCallsTrendData == null ||
+          (totalCallsTrendData['B&E'].length === 0 &&
+            totalCallsTrendData['P&A'].length === 0 &&
+            totalCallsTrendData['CLAIMS'].length === 0 &&
+            totalCallsTrendData['Other'].length === 0)
+        ) {
+          // this.callsLineGraphLoading = false;
           this.callsData = null;
           this.callsLineGraphData = {
             category: 'large-card',
@@ -271,7 +278,7 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
             timeperiod: null
           };
         } else {
-          this.callsLineGraphLoading = false;
+          // this.callsLineGraphLoading = false;
           let callsTrendData;
           callsTrendData = totalCallsTrendData;
           this.callsTrendLineGraph = new CallsTrendData(callsTrendData, CallsGeneralData, 'calls-trend-block');
@@ -309,7 +316,7 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
         }
       })
       .catch(err => {
-        this.callsLineGraphLoading = false;
+        //   this.callsLineGraphLoading = false;
       });
   }
 
