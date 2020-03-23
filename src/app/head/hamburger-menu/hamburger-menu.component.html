@@ -123,6 +123,7 @@
                 class="nav-menu-category"
                 [collapsedHeight]="'25px'"
                 [expandedHeight]="'25px'"
+                [ngStyle]="{ background: isPerformance === true ? '#fff' : '' }"
               >
                 <mat-panel-title>
                   <ng-container *ngIf="!category.disabled">
