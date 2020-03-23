@@ -14,12 +14,7 @@
     </div>
     <div class="height1Separator"></div>
 
-    <app-small-card
-      class="cards"
-      *ngIf="loadClaimsPaidCard && !claimsLoading && !printStyle"
-      class="cards"
-      [data]="claimsPaidBlock"
-    >
+    <app-small-card class="cards" *ngIf="loadClaimsPaidCard && !claimsLoading && !printStyle" [data]="claimsPaidBlock">
     </app-small-card>
     <app-heac-small-card
       *ngIf="loadClaimsPaidCard && !claimsLoading && printStyle"
