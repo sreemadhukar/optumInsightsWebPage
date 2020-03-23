@@ -57,7 +57,7 @@ export class PaymentsComponent implements OnInit {
   ) {
     const filData = this.session.getFilChangeEmitter().subscribe(() => this.common.urlResuseStrategy());
     this.pageTitle = 'Claims Payments';
-    this.pagesubTitle = 'Getting Reimbursed - Payments';
+    this.pagesubTitle = 'Getting Reimbursed - Claims Payments';
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => {
       this.createPayloadService.resetTinNumber('paymentsPage');
       this.ngRedux.dispatch({ type: REMOVE_FILTER, filterData: { taxId: true } });
@@ -71,9 +71,9 @@ export class PaymentsComponent implements OnInit {
       'close',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-close-24px.svg')
     );
-    this.createPayloadService.getEvent().subscribe(value => {
+    /* this.createPayloadService.getEvent().subscribe(value => {
       this.ngOnInit();
-    });
+    }); */
   }
 
   ngOnInit() {

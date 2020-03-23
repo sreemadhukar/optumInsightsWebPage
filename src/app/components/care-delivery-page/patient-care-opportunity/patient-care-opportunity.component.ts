@@ -6,11 +6,13 @@ import { NgRedux } from '@angular-redux/store';
 import { CURRENT_PAGE } from '../../../store/filter/actions';
 import { IAppState } from '../../../store/store';
 import { ActivatedRoute } from '@angular/router';
-import { MatIconRegistry } from '@angular/material';
+import { MatIconRegistry, MatDialog, MatDialogRef } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { SessionService } from 'src/app/shared/session.service';
+declare const externalRatingIntercept: any;
+import { PcorModalComponent } from '../pcor-modal/pcor-modal.component';
 
 @Component({
   selector: 'app-patient-care-opportunity',
@@ -60,7 +62,8 @@ export class PatientCareOpportunityComponent implements OnInit {
     private iconRegistry: MatIconRegistry,
     private sanitizer: DomSanitizer,
     private router: Router,
-    private sessionService: SessionService
+    private sessionService: SessionService,
+    private dialog: MatDialog
   ) {
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.filtermatch.urlResuseStrategy());
     iconRegistry.addSvgIcon(
@@ -68,6 +71,7 @@ export class PatientCareOpportunityComponent implements OnInit {
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Navigation/open_in_new-24px.svg')
     );
   }
+
   public ratingComponentClick(clickObj: any): void {
     this.pcorService.getQualityMeasureData().then(data => {
       this.pcorData = JSON.parse(JSON.stringify(data));
@@ -92,6 +96,7 @@ export class PatientCareOpportunityComponent implements OnInit {
       return a;
     }
   }
+
   public customFormattingMeasureDescription(customLabelGrid, data) {
     for (let i = 0; i < data.length; i++) {
       if (data[i].insideData) {
@@ -145,7 +150,11 @@ export class PatientCareOpportunityComponent implements OnInit {
       }
     }
   }
+
   ngOnInit() {
+    if (!this.isInternal) {
+      externalRatingIntercept();
+    }
     this.route.queryParams.subscribe((queryParams: any) => {
       if (queryParams && queryParams.selectedItemId) {
         this.selectedItemId = queryParams.selectedItemId;
@@ -241,10 +250,18 @@ export class PatientCareOpportunityComponent implements OnInit {
     this.reportLink = 'View the Patient Care Opportunity Report';
   }
   PCORreport() {
-    if (this.isInternal) {
-      window.open('https://webep1428/PCORMRPROD/');
+    const showPopUp = sessionStorage.getItem('dontShowPCORpopup');
+    if (JSON.parse(showPopUp)) {
+      if (this.isInternal) {
+        window.open('https://webep1428/PCORMRPROD/');
+      } else {
+        window.open('https://www.uhcprovider.com/en/reports-quality-programs/physician-perf-based-comp.html');
+      }
     } else {
-      window.open('https://www.uhcprovider.com/en/reports-quality-programs/physician-perf-based-comp.html');
+      this.dialog.open(PcorModalComponent, {
+        width: '550px',
+        disableClose: true
+      });
     }
   }
 }

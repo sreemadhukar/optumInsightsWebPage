@@ -20,6 +20,7 @@ import { DOCUMENT } from '@angular/common';
   styleUrls: ['./login-stub.component.scss']
 })
 export class LoginStubComponent implements OnInit {
+  currentYear = new Date().getFullYear();
   isInternal: boolean = environment.internalAccess;
   loginForm: FormGroup;
   loading = false;
@@ -124,6 +125,11 @@ export class LoginStubComponent implements OnInit {
     } else {
       if (this.route.queryParams) {
         this.route.queryParams.subscribe(params => {
+          if (params.emulatedUuid) {
+            sessionStorage.clear();
+            sessionStorage.setItem('cache', JSON.stringify(false));
+            sessionStorage.setItem('emulatedUuid', JSON.stringify(params.emulatedUuid));
+          }
           if (params.code && !this.authService.isLoggedIn()) {
             this.external
               .CheckExternal(params.code, this.token)

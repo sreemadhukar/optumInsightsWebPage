@@ -11,30 +11,30 @@
         *ngIf="selectedPage !== 'callsPage' && selectedTaxIds[0].Tin !== 'All' && selectedTaxIds.length < 4"
       >
         <div class="horizontal-align" *ngFor="let taxId of selectedTaxIds">
-          <button class="btn btn-rounded" disabled *ngIf="taxId.Tin !== 'All'">
+          <div class="filter-chips-button-design" *ngIf="taxId.Tin !== 'All'">
             <span>Tax ID: </span><span class="text-semibold pl-4"> {{ taxId.Tin }} </span>
             <div class="close-btn">
               <mat-icon class="icon-display" (click)="removeAppliedFilter('taxId', taxId)" svgIcon="close"></mat-icon>
             </div>
-          </button>
+          </div>
         </div>
       </ng-container>
       <div class="horizontal-align" *ngIf="selectedPage !== 'callsPage' && selectedTaxIds.length >= 4">
-        <button class="btn btn-rounded" disabled>
+        <div class="filter-chips-button-design">
           <span>Tax ID: </span><span class="text-semibold pl-4"> {{ selectedTaxIds.length }} Selected </span>
           <div class="close-btn">
             <mat-icon class="icon-display" (click)="removeAppliedFilter('taxId')" svgIcon="close"></mat-icon>
           </div>
-        </button>
+        </div>
       </div>
       <div class="horizontal-align" *ngIf="selectedPage !== 'callsPage' && selectedLob.value !== 'All'">
-        <button class="btn btn-rounded" disabled>
+        <div class="filter-chips-button-design">
           <span>Line of Business: </span
           ><span class="text-semibold pl-4"> {{ selectedLob.value | temporaryTextFormatter }} </span>
           <div class="close-btn">
             <mat-icon class="icon-display" (click)="removeAppliedFilter('lob')" svgIcon="close"></mat-icon>
           </div>
-        </button>
+        </div>
       </div>
       <div
         class="horizontal-align"
@@ -67,13 +67,13 @@
           !flag
         "
       >
-        <button class="btn btn-rounded" disabled>
+        <div class="filter-chips-button-design">
           <span>Claim Type: </span
           ><span class="text-semibold pl-4"> {{ selectedClaims.value | temporaryTextFormatter }} </span>
           <div class="close-btn">
             <mat-icon class="icon-display" (click)="removeAppliedFilter('claims')" svgIcon="close"></mat-icon>
           </div>
-        </button>
+        </div>
       </div>
       <!--**********Claims Filters Applied Ends here************-->
 
@@ -91,12 +91,12 @@
       <!--**** Prior Auth Sercice setting filters applied *****-->
 
       <div class="horizontal-align" *ngIf="selectedPage === 'priorAuthPage' && selectedServiceSetting.value !== 'All'">
-        <button class="btn btn-rounded" disabled>
+        <div class="filter-chips-button-design">
           <span>Service Setting: </span><span class="text-semibold pl-4"> {{ selectedServiceSetting.value }} </span>
           <div class="close-btn">
             <mat-icon class="icon-display" (click)="removeAppliedFilter('serviceSetting')" svgIcon="close"></mat-icon>
           </div>
-        </button>
+        </div>
       </div>
 
       <!--<div class="horizontal-align" *ngIf="selectedPage === 'priorAuthPage' && selectedPriorAuthType.value !== 'All'">-->
@@ -111,12 +111,12 @@
         class="horizontal-align"
         *ngIf="selectedPage === 'priorAuthPage' && selectedServiceCategory && selectedServiceCategory.value !== 'All'"
       >
-        <button class="btn btn-rounded" disabled>
+        <div class="filter-chips-button-design">
           <span>Service Category: </span><span class="text-semibold pl-4"> {{ selectedServiceCategory.value }} </span>
           <div class="close-btn">
             <mat-icon class="icon-display" (click)="removeAppliedFilter('serviceCategory')" svgIcon="close"></mat-icon>
           </div>
-        </button>
+        </div>
         <!-- <button class="btn btn-rounded" disabled *ngIf="selectedPriorAuthType && selectedPriorAuthType.value !== 'All'">
       <span>Service Category: </span><span class="text-semibold pl-4"> {{ selectedPriorAuthType.value }} </span>
       <div class="close-btn">

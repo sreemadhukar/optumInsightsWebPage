@@ -42,7 +42,7 @@ export class OverviewSharedService {
         parameters = [this.providerKey, true];
       }
 
-      this.overviewService.getOverviewData(...parameters).subscribe(([providerSystems, claims]) => {
+      this.overviewService.getOverviewData(...parameters).subscribe(([providerSystems, claims, EDI, PAPER]) => {
         // console.log('providerSystem', providerSystems);
 
         /* code changed by Ranjith kumar Ankam - 04-Jul-2019*/
@@ -92,7 +92,7 @@ export class OverviewSharedService {
             return this.saveYourStaffsTimeMiniTile(providerSystems, reduceoppurtunities);
           })
           .then(savestaffoppurtunities => {
-            return this.reduceClaimsProcessingTimeMiniTile(providerSystems, savestaffoppurtunities);
+            return this.reduceClaimsProcessingTimeMiniTile(EDI, PAPER, savestaffoppurtunities);
           })
           .then(reduceclaimsoppurtunities => {
             return this.reduceReconsiderationProcessMiniTile(providerSystems, reduceclaimsoppurtunities);
@@ -100,6 +100,9 @@ export class OverviewSharedService {
           .then(totaloppurtunities => {
             this.overviewPageData.push(tempArray, totaloppurtunities);
             resolve(this.overviewPageData);
+          })
+          .catch(err => {
+            console.log(err);
           });
       }); // end subscribing to REST call
     }); // ends Promise
@@ -459,7 +462,7 @@ export class OverviewSharedService {
   }
 
   /* function to create Reduce Claims Processing Time OPPORTUNITIES Tile in Overview Page -  Ranjith kumar Ankam - 04-Jul-2019*/
-  reduceClaimsProcessingTimeMiniTile(providerSystems, oppurtunities) {
+  /* reduceClaimsProcessingTimeMiniTile(providerSystems, oppurtunities) {
     return new Promise((resolve, reject) => {
       if (
         providerSystems.hasOwnProperty('SelfServiceInquiries') &&
@@ -475,7 +478,7 @@ export class OverviewSharedService {
       ) {
         const selfService = providerSystems.SelfServiceInquiries.ALL.SelfService;
         const checkProcessingTime =
-          +selfService.AveragePaperClaimProcessingTime.toFixed(0) - +selfService.AverageClaimProcessingTime.toFixed(0);
+          selfService.AveragePaperClaimProcessingTime.toFixed(0) - selfService.AverageClaimProcessingTime.toFixed(0);
         oppurtunities.push({
           category: 'mini-tile',
           title: 'Reduce Claim Processing Time by:',
@@ -507,6 +510,65 @@ export class OverviewSharedService {
           title: 'Reduce Claim Processing Time by:',
           MetricID: this.MetricidService.MetricIDs.ReduceClaimProcessingTimeBy,
           status: null,
+          data: null,
+          fdata: null
+        });
+      }
+      resolve(oppurtunities);
+    });
+  } */
+
+  reduceClaimsProcessingTimeMiniTile(EDI, PAPER, oppurtunities) {
+    return new Promise((resolve, reject) => {
+      if (
+        EDI.hasOwnProperty('All') &&
+        EDI.All != null &&
+        EDI.All.hasOwnProperty('ClaimsLobSummary') &&
+        EDI.All.ClaimsLobSummary.length &&
+        EDI.All.ClaimsLobSummary[0].hasOwnProperty('ClaimsAvgTat') &&
+        EDI.All.ClaimsLobSummary[0].ClaimsAvgTat != null &&
+        PAPER.hasOwnProperty('All') &&
+        PAPER.All != null &&
+        PAPER.All.hasOwnProperty('ClaimsLobSummary') &&
+        PAPER.All.ClaimsLobSummary.length &&
+        PAPER.All.ClaimsLobSummary[0].hasOwnProperty('ClaimsAvgTat') &&
+        PAPER.All.ClaimsLobSummary[0].ClaimsAvgTat != null
+      ) {
+        const ediClaimsLobSummary = EDI.All.ClaimsLobSummary[0];
+        const paperClaimsLobSummary = PAPER.All.ClaimsLobSummary[0];
+        const checkProcessingTime =
+          paperClaimsLobSummary.ClaimsAvgTat.toFixed(0) - ediClaimsLobSummary.ClaimsAvgTat.toFixed(0);
+        oppurtunities.push({
+          category: 'mini-tile',
+          title: 'Reduce Claim Processing Time by:',
+          MetricID: this.MetricidService.MetricIDs.ReduceClaimProcessingTimeBy,
+          toggle:
+            this.common.checkZeroNegative(checkProcessingTime) &&
+            this.toggle.setToggles('Reduce Claim Processing Time by:', 'Self Service', 'Service Interaction', false) &&
+            this.common.checkZeroNegative(checkProcessingTime),
+          data: {
+            centerNumber:
+              (checkProcessingTime < 1 ? '< 1' : this.common.nondecimalFormatter(checkProcessingTime)) +
+              (checkProcessingTime < 1 ? ' Day' : ' Days'),
+            gdata: []
+          },
+          fdata: {
+            type: 'bar chart',
+            graphValues: [ediClaimsLobSummary.ClaimsAvgTat, paperClaimsLobSummary.ClaimsAvgTat],
+            concatString: 'Days',
+            color: ['#3381FF', '#FFFFFF', '#80B0FF'],
+            graphValuesTitle: 'Avg. Processing Times',
+            graphData1: 'for Self Service',
+            graphData2: 'for Mail',
+            gdata: ['card-structure', 'reduceClaimProcessingTime']
+          }
+        });
+      } else {
+        oppurtunities.push({
+          category: 'mini-tile',
+          title: 'Reduce Claim Processing Time by:',
+          MetricID: this.MetricidService.MetricIDs.ReduceClaimProcessingTimeBy,
+          status: 404,
           data: null,
           fdata: null
         });
@@ -769,7 +831,7 @@ export class OverviewSharedService {
           claimsTAT = {
             category: 'small-card',
             type: 'tatRotateArrow',
-            title: 'Avg. Claims Processing Days',
+            title: 'Avg. Claim Processing Days',
             MetricID: this.MetricidService.MetricIDs.ClaimsAverageTurnaroundTimetoPayment,
             data: {
               centerNumber: claims.All.ClaimsLobSummary[0].ClaimsAvgTat + ' days'
@@ -780,7 +842,7 @@ export class OverviewSharedService {
           claimsTAT = {
             category: 'small-card',
             type: 'tatRotateArrow',
-            title: 'Avg. Claims Processing Days',
+            title: 'Avg. Claim Processing Days',
             data: null,
             sdata: null,
             timeperiod: null

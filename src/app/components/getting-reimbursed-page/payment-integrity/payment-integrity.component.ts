@@ -317,8 +317,8 @@ export class PaymentIntegrityComponent implements OnInit {
     return this.tabOptionsTitle[i];
   }
 
-  helpIconClick(title) {
-    this.glossaryExpandService.setMessage(title, this.MetricID);
+  helpIconClick(title, MetricID) {
+    this.glossaryExpandService.setMessage(title, MetricID);
   }
   openFilter() {
     this.filterExpandService.setURL(this.router.url);

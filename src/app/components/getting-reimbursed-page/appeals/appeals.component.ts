@@ -52,7 +52,7 @@ export class AppealsComponent implements OnInit {
     private ngRedux: NgRedux<IAppState>,
     private createPayloadService: CreatePayloadService
   ) {
-    this.pagesubTitle = 'Getting Reimbursed - Appeals';
+    this.pagesubTitle = 'Getting Reimbursed - Claims Appeals';
     // const filData = this.session.getFilChangeEmitter().subscribe(() => this.ngOnInit());
     const filData = this.session.getFilChangeEmitter().subscribe(() => this.common.urlResuseStrategy());
     this.pageTitle = 'Claims Appeals';
@@ -70,9 +70,9 @@ export class AppealsComponent implements OnInit {
       'close',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-close-24px.svg')
     );
-    this.createPayloadService.getEvent().subscribe(value => {
+    /* this.createPayloadService.getEvent().subscribe(value => {
       this.ngOnInit();
-    });
+    }); */
   }
 
   ngOnInit() {

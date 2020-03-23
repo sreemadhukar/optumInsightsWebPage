@@ -19,7 +19,7 @@ export class TaxSummaryComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
   taxSummaryData: any;
   numberOfTins: any;
-  taxSummaryColumns: string[] = ['Tin', 'TinName', 'TaxIdType', 'MajorMarketName'];
+  taxSummaryColumns: string[] = ['Tin', 'TinName', 'TaxIdType', 'TaxIdOwnership'];
   pageSize = 25;
   filterObj = {};
 
