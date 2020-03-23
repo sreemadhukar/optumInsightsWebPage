@@ -11,9 +11,10 @@ export class GroupPremiumDesignationService {
   public currentUser: any;
   public APP_URL: string = environment.apiProxyUrl;
   private SERVICE_PATH: string = environment.apiUrls.GroupPremiumDesignation;
+  private internalUser: boolean = environment.internalAccess;
   constructor(private http: HttpClient) {}
   public groupPremiumDesignationData() {
-    if (environment.apiUrls.GroupPremiumDesignation) {
+    if (environment.apiUrls.GroupPremiumDesignation && this.internalUser) {
       if (JSON.parse(sessionStorage.getItem('currentUser'))) {
         this.currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
         const providerKey = this.currentUser[0].ProviderKey;
