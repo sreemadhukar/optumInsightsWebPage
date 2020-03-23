@@ -8,10 +8,12 @@
       <div class="page-title" [ngClass]="{ 'print-page-title': printStyle === true }">{{ pageTitle }}</div>
       <div class="page-subtitle" [ngClass]="{ 'print-page-subtitle': printStyle === true }">{{ pagesubTitle }}</div>
       <div class="breadcrumb-top-padding">
-        <app-filters-applied
-          [tabName]="gettingReimbursedSharedService.gettingReimbursedTabName"
-          *ngIf="!printStyle"
-        ></app-filters-applied>
+        <div class="filter-padd">
+          <app-filters-applied
+            [tabName]="gettingReimbursedSharedService.gettingReimbursedTabName"
+            *ngIf="!printStyle"
+          ></app-filters-applied>
+        </div>
         <div class="container--tabs" *ngIf="!printStyle">
           <section class="row">
             <ul class="nav nav-tabs">

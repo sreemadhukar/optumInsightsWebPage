@@ -35,12 +35,14 @@ export class KOPSharedService {
               quarters: ['4', '4'],
               type: 'summary',
               format: 'Quarter vs Quarter',
-              years: ['2020', '2019', '2018']
+              years: []
             }
           };
 
           const npsDetailInstance = new NPSDetail({ records: response, small: false, id: 'npsCombined' });
           const npsData = npsDetailInstance.getData();
+
+          timePeriod.timeFrame.years = npsData.quarters.map((quarter: any) => quarter.year);
 
           // const npsDetailInstancePM = new NPSDetail({ records: response, small: true, id: 'npsPM' });
           // const npsDataPM = npsDetailInstancePM.getData();
@@ -159,15 +161,22 @@ export class KOPSharedService {
     return new Promise((resolve, reject) => {
       switch (metricKey) {
         case 'kop':
-          this.kopService.getSummary({ params }).subscribe((response: any) => resolve(response), () => reject());
+          this.kopService.getSummary({ params }).subscribe(
+            (response: any) => resolve(response),
+            () => reject()
+          );
           break;
         case 'priorauthtat':
-          this.kopService
-            .getPriorAuthTATSummary({ params })
-            .subscribe((response: any) => resolve(response), () => reject());
+          this.kopService.getPriorAuthTATSummary({ params }).subscribe(
+            (response: any) => resolve(response),
+            () => reject()
+          );
           break;
         case 'reimbursementClaims':
-          this.kopService.getClaimsData({ params }).subscribe((response: any) => resolve(response), () => reject());
+          this.kopService.getClaimsData({ params }).subscribe(
+            (response: any) => resolve(response),
+            () => reject()
+          );
           break;
       }
     });

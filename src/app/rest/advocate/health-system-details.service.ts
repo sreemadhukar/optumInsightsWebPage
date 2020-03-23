@@ -8,7 +8,6 @@ import { environment } from '../../../environments/environment';
   providedIn: 'root'
 })
 export class HealthSystemDetailsService {
-  private authBearer: any;
   private APP_URL: string = environment.apiProxyUrl;
   private HEALTH_SYSTEM_PATH: string = environment.apiUrls.HealthSystemDetails;
 

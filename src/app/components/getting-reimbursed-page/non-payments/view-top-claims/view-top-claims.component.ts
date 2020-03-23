@@ -43,11 +43,12 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
   ];
 
   pageSize = 25;
+  filterObj = {};
   subscription: any;
   ProviderSysKey: any;
   viewClaimsValue: any;
   providerName: string;
-  loading: boolean;
+  isLoading = true;
   lengthOffilteredData: any;
   dataNotavaiable: Boolean = false;
   viewsClaimsFullData: any;
@@ -63,7 +64,7 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
   showTableBool: Boolean = true;
   viewClaimsFilterDOP: boolean;
   viewClaimsFilterDOS: boolean;
-  isLoading: boolean;
+  loading: boolean;
   public finaldata: any[] = [];
   public temp;
   public subreasonvalues = [];
@@ -236,11 +237,10 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
     this.subReason = this.selectedSubreasonArray;
     this.selectedReasonItem = value;
     this.selectedSubreason = this.selectedSubreasonArray[0];
-    this.dataNotavaiable = true;
+
     if (this.selectedReasonItem === this.selectedSubreason) {
       this.selectedSubreason = 'UNKNOWN';
     }
-
     this.loadTable(this.selectedReasonItem, this.selectedSubreason);
     this.loading = true;
   }
@@ -248,7 +248,7 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
   selectsubReason(filterVal) {
     if (filterVal) {
       this.dataNotavaiable = true;
-
+      this.isLoading = false;
       this.subReasonselected = filterVal;
       if (this.selectedReasonItem === this.subReasonselected) {
         this.subReasonselected = 'UNKNOWN';
@@ -270,6 +270,7 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
 
   // load table data
   loadTable(reasonSelected, subReason) {
+    this.isLoading = false;
     this.topClaimsSharedService
       .getClaimsData(this.createPayloadService.initialState, reasonSelected, subReason)
       .then(claimsDetailsData => {
