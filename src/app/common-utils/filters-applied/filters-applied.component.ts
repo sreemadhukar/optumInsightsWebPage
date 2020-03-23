@@ -18,6 +18,7 @@ import { FilterExpandService } from '../../shared/filter-expand.service';
 import { TaxId } from '../../head/uhci-filters/filter-settings/filter-options';
 import { APPLY_FILTER, REMOVE_FILTER } from '../../store/filter/actions';
 import { CreatePayloadService } from '../../shared/uhci-filters/create-payload.service';
+import { CommonUtilsService } from 'src/app/shared/common-utils.service';
 
 @Component({
   selector: 'app-filters-applied',
@@ -66,7 +67,8 @@ export class FiltersAppliedComponent implements OnInit {
     private filterExpandService: FilterExpandService,
     private createPayloadService: CreatePayloadService,
     private ngRedux: NgRedux<IAppState>,
-    private route: Router
+    private route: Router,
+    private common: CommonUtilsService
   ) {
     // To disable open of Filter at Print page
     // this.route.events.subscribe(event => {
@@ -174,5 +176,6 @@ export class FiltersAppliedComponent implements OnInit {
         break;
     }
     this.createPayloadService.emitFilterEvent(this.selectedPage);
+    this.common.urlResuseStrategy();
   }
 }

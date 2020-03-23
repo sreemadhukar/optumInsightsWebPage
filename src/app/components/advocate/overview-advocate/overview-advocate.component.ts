@@ -120,9 +120,9 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
       'warning-icon',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/warning-icon.svg')
     );
-    this.createPayloadService.getEvent().subscribe(value => {
+    /* this.createPayloadService.getEvent().subscribe(value => {
       this.ngOnInit();
-    });
+    }); */
   }
 
   paymentData() {

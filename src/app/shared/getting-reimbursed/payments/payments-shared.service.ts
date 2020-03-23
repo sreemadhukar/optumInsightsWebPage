@@ -8,6 +8,7 @@ import { GettingReimbursedPayload } from '../payload.class';
 import * as _ from 'lodash';
 import { AuthorizationService } from 'src/app/auth/_service/authorization.service';
 import { lobName } from '../../../modals/lob-name';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -19,6 +20,7 @@ export class PaymentsSharedService {
   private timeFrame: string;
   private providerKey: number;
   private nonPaymentBy: string;
+  private isInternalInt: boolean = environment.internalIntAccess;
   constructor(
     private gettingReimbursedService: GettingReimbursedService,
     private common: CommonUtilsService,
@@ -790,8 +792,11 @@ export class PaymentsSharedService {
           // };
           //  const payments = { id: 1, title: 'Claims Payments', data: [claimsPaid, claimsPaidRate] };
           /*, claimsPaidRate] }; commented to supress claims yield card*/
-          // summaryData = [[claimsPaid, claimsPaidRate], claimsData];
-          summaryData = [[claimsPaid], claimsData];
+          if (this.isInternalInt) {
+            summaryData = [[claimsPaid, claimsPaidRate], claimsData];
+          } else {
+            summaryData = [[claimsPaid], claimsData];
+          }
 
           if (summaryData.length) {
             resolve(summaryData);
