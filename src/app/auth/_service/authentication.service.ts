@@ -47,6 +47,12 @@ export class AuthenticationService {
         Accept: '*/*'
       });
     }
+    if (!environment.internalAccess) {
+      const emulatedUuid = JSON.parse(sessionStorage.getItem('emulatedUuid'));
+      if (emulatedUuid) {
+        myHeader = myHeader.set('emulatedUuid', emulatedUuid);
+      }
+    }
     let params = new HttpParams();
     params = params.append('code', codeId);
     const url = this.APP_URL + this.SERVICE_PATH;
