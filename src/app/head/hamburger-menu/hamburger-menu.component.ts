@@ -685,7 +685,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
         // Setting Value redirect, remind flag to local storage
         sessionStorage.setItem('fromKOP', 'YES');
         sessionStorage.setItem('advocateView', 'true');
-        // RESET KOP FILTER BEFORE MOVING
+        sessionStorage.removeItem('kopFilterState');
         this.ngRedux.dispatch({ type: RESET_KOP_FILTER });
         // Reloading targeted route, for resetting the css
         window.location.href = '/OverviewPage';
