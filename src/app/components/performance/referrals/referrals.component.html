@@ -13,7 +13,7 @@
       <app-rlp-long-card [config]="hcoData" *ngIf="hcoData.toggle && hcoData.data != null"></app-rlp-long-card>
       <!-- table -->
       <app-large-card [skeletonLarge]="loadingTable" *ngIf="loadingTable"></app-large-card>
-      <app-rlp-table [data]="tableData" *ngIf="hcoData.toggle && hcoData.data != null && isTable"></app-rlp-table>
+      <app-rlp-table [data]="tableData" *ngIf="isTable"></app-rlp-table>
       <!-- table ends here-->
     </div>
   </div>
