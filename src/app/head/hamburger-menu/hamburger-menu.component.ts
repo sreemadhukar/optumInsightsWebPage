@@ -72,6 +72,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
   public healthSystemName: string;
   public isKop: boolean;
   disableChangeProvider: boolean = environment.internalAccess;
+  internalUser: boolean = environment.internalAccess;
   externalProvidersCount = false;
   public checkAdv;
   public checkPro;
