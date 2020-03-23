@@ -7,6 +7,7 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./no-access-error-page.component.scss']
 })
 export class NoAccessErrorPageComponent implements OnInit {
+  currentYear = new Date().getFullYear();
   isInternal = false;
   linkLoginPage = environment.apiUrls.linkLoginPage;
 
