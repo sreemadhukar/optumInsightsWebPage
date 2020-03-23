@@ -1,0 +1,75 @@
+.bar-types {
+  .small-bar {
+    background-color: white;
+    width: 375px;
+    height: 78px;
+    .small-bar-head {
+      font-size: 16px;
+      font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+      line-height: 22px;
+      letter-spacing: 0.2px;
+      margin-bottom: 8px;
+      color: #2d2d39;
+    }
+    .small-bar-body {
+      display: flex;
+      .small-card-percentage {
+        font-size: 16px;
+        font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+        line-height: 22px;
+        margin-top: 13px;
+        margin-left: 16px;
+        letter-spacing: 0.2px;
+        color: #2d2d39;
+      }
+    }
+  }
+  .large-bar {
+    background-color: white;
+    width: 865px;
+    height: 78px;
+    .large-bar-head {
+      font-size: 16px;
+      font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
+      line-height: 22px;
+      letter-spacing: 0.2px;
+      margin-bottom: 9px;
+    }
+    .large-bar-body {
+      display: flex;
+      .large-card-percentage {
+        font-size: 16px;
+        font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
+        line-height: 22px;
+        margin-top: 13px;
+        margin-left: 8px;
+        letter-spacing: 0.2px;
+      }
+    }
+  }
+  .table-bar {
+    background-color: white;
+    // width: 429px;
+    height: 22px;
+    display: flex;
+    justify-content: flex-end;
+    .table-bar-head {
+      font-size: 16px;
+      font-family: 'UHCSans-Regular', Helvetica, Arial, sans-serif;
+      line-height: 22px;
+      letter-spacing: 0.2px;
+      margin-right: 16px;
+    }
+    .table-bar-body {
+    }
+    .table-bar-percentage {
+      font-size: 16px;
+      font-family: 'UHCSans-Regular', Helvetica, Arial, sans-serif;
+      line-height: 22px;
+      letter-spacing: 0.2px;
+      // flex-grow: 1;
+      width: 50px;
+      text-align: right;
+    }
+  }
+}

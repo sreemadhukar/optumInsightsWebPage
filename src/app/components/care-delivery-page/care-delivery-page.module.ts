@@ -7,12 +7,15 @@ import { PatientCareOpportunityComponent } from './patient-care-opportunity/pati
 import { PcorSharedService } from '../../shared/care-delivery/pcor-shared.service';
 import { PriorAuthSharedService } from '../../shared/care-delivery/prior-auth-shared.service';
 import { HeadMaterialModule } from 'src/app/head/head.material.module';
+import { PcorModalComponent } from './pcor-modal/pcor-modal.component';
+import { MatDialogModule } from '@angular/material';
 
 @NgModule({
-  imports: [CommonModule, CareDeliveryPageRoutingModule, HeadMaterialModule, CommonUtilsModule],
+  imports: [CommonModule, CareDeliveryPageRoutingModule, HeadMaterialModule, CommonUtilsModule, MatDialogModule],
   providers: [PriorAuthSharedService, PcorSharedService],
-  declarations: [PriorAuthComponent, PatientCareOpportunityComponent],
-  exports: [PriorAuthComponent, PatientCareOpportunityComponent]
+  declarations: [PriorAuthComponent, PatientCareOpportunityComponent, PcorModalComponent],
+  exports: [PriorAuthComponent, PatientCareOpportunityComponent],
+  entryComponents: [PcorModalComponent]
 })
 export class CareDeliveryPageModule {
   constructor() {}

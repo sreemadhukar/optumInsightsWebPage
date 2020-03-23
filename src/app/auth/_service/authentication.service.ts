@@ -47,6 +47,12 @@ export class AuthenticationService {
         Accept: '*/*'
       });
     }
+    if (!environment.internalAccess) {
+      const emulatedUuid = JSON.parse(sessionStorage.getItem('emulatedUuid'));
+      if (emulatedUuid) {
+        myHeader = myHeader.set('emulatedUuid', emulatedUuid);
+      }
+    }
     let params = new HttpParams();
     params = params.append('code', codeId);
     const url = this.APP_URL + this.SERVICE_PATH;
@@ -70,12 +76,12 @@ export class AuthenticationService {
   }
 
   public logout(expired = 0) {
-    sessionStorage.removeItem('currentUser');
-    sessionStorage.removeItem('loggedUser');
-    sessionStorage.removeItem('heac');
-    sessionStorage.removeItem('pcor');
-    sessionStorage.removeItem('state');
-    sessionStorage.removeItem('kopFilterState');
+    // sessionStorage.removeItem('currentUser');
+    // sessionStorage.removeItem('loggedUser');
+    // sessionStorage.removeItem('heac');
+    // sessionStorage.removeItem('pcor');
+    // sessionStorage.removeItem('state');
+    sessionStorage.clear();
     this.ngRedux.dispatch({ type: RESET_KOP_FILTER });
     sessionStorage.setItem('cache', JSON.stringify(false));
     if (environment.internalAccess) {
