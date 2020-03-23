@@ -242,6 +242,10 @@
   }
   .signout-icon-text:hover {
     background: $pattens-blue;
+    color: $black-rock !important;
+    .signout-text {
+      color: $black-rock !important;
+    }
   }
   .signout-text {
     color: $strom-grey;
@@ -256,4 +260,7 @@
 }
 .no-margin-icons {
   margin: 0;
+}
+.margin-left-auto {
+  margin-left: auto;
 }

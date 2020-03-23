@@ -336,4 +336,7 @@ export class SelectProviderComponent implements OnInit {
       this.document.location.href = environment.apiUrls.SsoLogoutUrl;
     }
   }
+  closeDropdown() {
+    this.openDropdownBool = false;
+  }
 }

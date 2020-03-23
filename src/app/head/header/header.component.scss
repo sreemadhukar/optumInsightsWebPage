@@ -231,10 +231,11 @@
 .vertical-menu {
   width: 284px;
   height: 202px;
-  margin-right: 25px;
-  margin-top: 60px;
+  /*margin-right: 25px;
+  margin-top: 60px;*/
+  right: 40px;
+  top: 51px;
   position: absolute;
-  right: 0;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.15);
 }
 
@@ -313,4 +314,7 @@
   p {
     margin: 0;
   }
+}
+.margin-left-auto {
+  margin-left: auto;
 }
