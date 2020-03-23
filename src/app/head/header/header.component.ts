@@ -354,6 +354,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
     }
   }
 
+  closeDropdown() {
+    this.openDropdownBool = false;
+  }
+
   ngOnDestroy() {
     this.subscription.unsubscribe();
   }

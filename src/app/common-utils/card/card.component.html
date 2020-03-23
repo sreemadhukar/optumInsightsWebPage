@@ -410,12 +410,22 @@
         <img src="src/assets/images/icons/Content/round-insert_chart-24px - Copy.svg" />
         <div class="in-progress-caption">Metric in development</div>
       </div>
+
+      <!--Network lever-->
+      <div
+        *ngIf="chartData.type == 'rlp-large-bar' || chartData.type == 'rlp-small-bar'"
+        class="full-width-block rlp-cards"
+      >
+        <app-rlp-common-bar [data]="chartData"></app-rlp-common-bar>
+      </div>
     </div>
     <div *ngIf="chartData.timeperiod" class="full-width-block">
       <app-common-footer
         [timePeriod]="chartData.timeperiod"
         [handleCaseForOverviewTile]="handleCaseForOverviewTile"
         [title]="chartData.title"
+        [linkName]="chartData.type == 'rlp-large-bar' || chartData.type == 'rlp-small-bar' ? 'View Details' : ''"
+        (click)="linkFunction(chartData.title)"
       ></app-common-footer>
     </div>
   </div>

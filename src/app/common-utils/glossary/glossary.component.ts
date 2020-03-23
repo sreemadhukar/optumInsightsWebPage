@@ -43,9 +43,9 @@ export class GlossaryComponent implements OnInit {
     if (this.router.url.includes('NationalExecutive')) {
       this.isKop = true;
     }
-    // if (this.MetricID) {
-    //   this.isKop ? this.getKOPGlossaryMetricID() : this.glossaryByMetricId();
-    // }
+    if (this.MetricID) {
+      this.isKop ? this.getKOPGlossaryMetricID() : this.glossaryByMetricId();
+    }
     this.isKop ? this.getKOPGlossaryData() : this.getGlossaryData();
     this.options = [];
   }

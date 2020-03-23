@@ -87,7 +87,7 @@
       <app-common-header
         [title]="title"
         class="full-display"
-        (helpIconClicked)="helpIconClick($event)"
+        (helpIconClicked)="helpIconClick($event, '116')"
       ></app-common-header>
       <div class="donut-chart-block">
         <app-donut-chart [chartOptions]="cardData.piDonutData.donutData" donutType="app-card"></app-donut-chart>
