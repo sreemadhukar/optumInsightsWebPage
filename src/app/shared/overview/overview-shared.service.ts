@@ -831,7 +831,7 @@ export class OverviewSharedService {
           claimsTAT = {
             category: 'small-card',
             type: 'tatRotateArrow',
-            title: 'Avg. Claims Processing Days',
+            title: 'Avg. Claim Processing Days',
             MetricID: this.MetricidService.MetricIDs.ClaimsAverageTurnaroundTimetoPayment,
             data: {
               centerNumber: claims.All.ClaimsLobSummary[0].ClaimsAvgTat + ' days'
@@ -842,7 +842,7 @@ export class OverviewSharedService {
           claimsTAT = {
             category: 'small-card',
             type: 'tatRotateArrow',
-            title: 'Avg. Claims Processing Days',
+            title: 'Avg. Claim Processing Days',
             data: null,
             sdata: null,
             timeperiod: null

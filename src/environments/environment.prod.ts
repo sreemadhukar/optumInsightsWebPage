@@ -79,5 +79,6 @@ export const environment: any = {
   clickStreamUrl: '//assets.adobedtm.com/launch-ENacdc6d1acf734bcd95703e446bd1de1d-development.min.js',
   internalAccess: true,
   toggleTrendingSummary: false,
+  internalIntAccess: false,
   sentryKey: 'https://2f1705a86c9343c98b6df3981f59e995@sentry-ped-internal.ocp-ctc-core.optum.com/5'
 };

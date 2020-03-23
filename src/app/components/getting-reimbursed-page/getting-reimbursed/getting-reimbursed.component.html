@@ -49,7 +49,7 @@
               <span class="non-payment-link"> Looking for Non-Payments? </span>
             </a>
           </div>
-          <div *ngIf="currentTabTitle != '' && currentTabTitle != 'Claims Submissions'">
+          <div *ngIf="currentTabTitle != '' && currentTabTitle != 'Claims Processed'">
             <button *ngIf="!printStyle" (click)="onDetailsButtonClick(buttonNumber, $event)" class="details-button">
               {{ buttonName }}
             </button>
