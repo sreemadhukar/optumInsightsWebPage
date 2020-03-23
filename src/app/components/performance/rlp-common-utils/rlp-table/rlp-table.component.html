@@ -1,4 +1,6 @@
+<!-- table container-->
 <div class="table-container" *ngIf="!skeletonTable">
+  <!--Table header starts-->
   <div class="table-header-labels" *ngIf="showTableHeader">
     <div class="rlp-table-tin">
       <div class="table-head-text">{{ tableHeader[0] }}</div>
@@ -34,7 +36,10 @@
       ></mat-icon>
     </div>
   </div>
+  <!--Table header ends-->
+
   <div class="zebra-stripe"></div>
+  <!--Table body starts-->
   <div *ngIf="showTableBody">
     <div
       class="table-items"
@@ -45,9 +50,12 @@
       <app-rlp-table-item [tableItem]="item"></app-rlp-table-item>
     </div>
   </div>
+  <!--Table body ends-->
 
   <div class="zebra-stripe"></div>
+  <!-- Table footer-->
   <div *ngIf="afterQuery.length > pageSizeValues[0]" class="rlp-table-footer">
+    <!--pagination left section-->
     <div class="rlp-left-section">
       <div class="rlp-footer-label">Display</div>
 
@@ -59,7 +67,8 @@
       <div class="rlp-footer-label ml-8">per page</div>
       <mat-icon class="rlp-left-section-arrow-icon" svgIcon="arrow"></mat-icon>
     </div>
-
+    <!--pagination left section ends-->
+    <!-- pagination right section-->
     <div class="rlp-right-section">
       <div>
         <form (submit)="enterPageNumber()">
@@ -86,6 +95,16 @@
           </button>
         </div>
       </div>
+    </div>
+    <!-- pagination right section ends-->
+  </div>
+  <!-- Table footer ends-->
+</div>
+<!-- table container ends-->
+<div *ngIf="skeletonTable">
+  <div class="table-conatiner">
+    <div class="table-conatiner-inner">
+      <div class="table-skeleton-long"></div>
     </div>
   </div>
 </div>
