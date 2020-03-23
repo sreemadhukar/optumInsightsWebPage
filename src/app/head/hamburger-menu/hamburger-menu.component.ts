@@ -248,6 +248,13 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
         if (this.sessionService.isPCORData()) {
           this.insertPCORnav();
         }
+        if (this.sessionService.isRlpData()) {
+          this.insertRlpNav(this.sessionService.isRlpData());
+          console.log('Constructor Rlp Data', this.sessionService.isRlpData());
+        } else {
+          console.log('No Data');
+        }
+
         // Check condtion for rendering butter bar
         if (
           (sessionStorage.getItem('fromKOP') === 'YES' &&
@@ -449,13 +456,18 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
     return bool ? this.sessionService.checkTrendAccess() && environment.internalAccess : !bool;
   }
 
-  checkRlpRoute(getIndex: number, isRlp, page: string) {
+  insertRlpNav(isRlp) {
+    const getIndex: number = this.navCategories.findIndex(item => item.name === 'Performance');
     this.navCategories[getIndex].disabled = isRlp.All;
     this.navCategories[getIndex].children[0].disabled = isRlp.All;
     this.navCategories[getIndex].children[1].disabled = isRlp.Referral;
     this.navCategories[getIndex].children[2].disabled = isRlp.Labs;
     this.navCategories[getIndex].children[3].disabled = isRlp.Perscription;
-
+  }
+  checkRlpRoute(getIndex: number, isRlp, page: string) {
+    sessionStorage.removeItem('rlp');
+    this.insertRlpNav(isRlp);
+    sessionStorage.setItem('rlp', JSON.stringify(isRlp));
     this.isPerformance = isRlp.All ? true : false;
     if (this.router.url.includes(page)) {
       this.router.navigate(['/OverviewPage']);
