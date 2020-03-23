@@ -303,15 +303,23 @@ export class OverviewAdvocateSharedService {
           const callsTrendFormattedData = {};
           if (beData) {
             callsTrendFormattedData['B&E'] = beData;
+          } else {
+            callsTrendFormattedData['B&E'] = null;
           }
           if (claimsData) {
             callsTrendFormattedData['CLAIMS'] = claimsData;
+          } else {
+            callsTrendFormattedData['CLAIMS'] = null;
           }
           if (paData) {
             callsTrendFormattedData['P&A'] = paData;
+          } else {
+            callsTrendFormattedData['P&A'] = null;
           }
           if (other) {
             callsTrendFormattedData['Other'] = other;
+          } else {
+            callsTrendFormattedData['Other'] = null;
           }
           resolve(callsTrendFormattedData);
         },
