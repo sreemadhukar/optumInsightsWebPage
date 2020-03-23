@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { FormBuilder, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Observable, Subscription } from 'rxjs';
@@ -10,6 +10,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { StorageService } from './../../../shared/storage-service.service';
 import { SessionService } from '../../../shared/session.service';
 import { NgRedux, select } from '@angular-redux/store';
+import { DOCUMENT, Location } from '@angular/common';
 
 import {
   AfterViewInit,
@@ -26,6 +27,7 @@ import {
   OnDestroy
 } from '@angular/core';
 import { environment } from 'src/environments/environment';
+import { AuthenticationService } from 'src/app/auth/_service/authentication.service';
 
 @Component({
   selector: 'app-select-provider',
@@ -57,6 +59,14 @@ export class SelectProviderComponent implements OnInit {
   noProviders = false;
   noExtProviders = false;
   isInternal: boolean = environment.internalAccess;
+  public advDropdownBool = false;
+  public openDropdownBool = false;
+  public myView;
+  public userView;
+  public fullname = '';
+  public MsId = '';
+  public OptumId = '';
+  public EmailId = '';
 
   constructor(
     private fb: FormBuilder,
@@ -65,7 +75,9 @@ export class SelectProviderComponent implements OnInit {
     private storage: StorageService,
     private router: Router,
     private sessionService: SessionService,
-    sanitizer: DomSanitizer
+    sanitizer: DomSanitizer,
+    private authService: AuthenticationService,
+    @Inject(DOCUMENT) private document: any
   ) {
     this.checkAdv = this.sessionService.checkAdvocateRole();
     this.checkPro = this.sessionService.checkProjectRole();
@@ -111,10 +123,16 @@ export class SelectProviderComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log('hello');
+    this.advDropdownBool = false;
     this.providerData = JSON.parse(sessionStorage.getItem('currentUser'));
-    const userInfo = JSON.parse(sessionStorage.getItem('loggedUser'));
-    this.username = userInfo.FirstName;
+    if (JSON.parse(sessionStorage.getItem('loggedUser'))) {
+      const userInfo = JSON.parse(sessionStorage.getItem('loggedUser'));
+      this.username = userInfo.FirstName;
+      this.fullname = userInfo.FirstName + ' ' + userInfo.LastName;
+      this.MsId = userInfo.MsId;
+      this.OptumId = userInfo.OptumId;
+      this.EmailId = userInfo.EmailId;
+    }
 
     this.obs = this.emitter.pipe(debounceTime(250)).subscribe(text => this.getProviders(text));
 
@@ -272,5 +290,53 @@ export class SelectProviderComponent implements OnInit {
       this.noExtProviders = false;
       (<HTMLElement>document.querySelector('.mat-form-field-outline-thick')).style.color = '#196ECF';
     }
+  }
+
+  advocateUserClicked() {
+    console.log('this.checkAdv()', this.checkAdv.value);
+    if (this.sessionService.checkRole('UHCI_Advocate')) {
+      this.advDropdownBool = true;
+    } else {
+      this.advDropdownBool = false;
+    }
+    this.toggler();
+  }
+
+  toggler() {
+    this.openDropdownBool = !this.openDropdownBool;
+  }
+
+  advViewClicked(value: string) {
+    if (value === 'myView') {
+      // this.sessionService.checkedClicked.myView = true;
+      // this.checkedClicked.myView = this.sessionService.checkedClicked.myView;
+
+      // this.sessionService.checkedClicked.provider = false;
+      // this.checkedClicked.provider = this.sessionService.checkedClicked.provider;
+      this.myView = true;
+      this.userView = false;
+      this.router.navigate(['/OverviewPageAdvocate']);
+    } else if (value === 'userView') {
+      // this.sessionService.checkedClicked.myView = false;
+      // this.checkedClicked.myView = this.sessionService.checkedClicked.myView;
+
+      // this.sessionService.checkedClicked.provider = true;
+      // this.checkedClicked.provider = this.sessionService.checkedClicked.provider;
+      this.userView = true;
+      this.myView = false;
+      this.router.navigate(['/OverviewPage']);
+    }
+    this.openDropdownBool = false;
+  }
+
+  signOut() {
+    this.openDropdownBool = false;
+    this.authService.logout();
+    if (!environment.internalAccess) {
+      this.document.location.href = environment.apiUrls.SsoLogoutUrl;
+    }
+  }
+  closeDropdown() {
+    this.openDropdownBool = false;
   }
 }
