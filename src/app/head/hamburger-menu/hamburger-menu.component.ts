@@ -461,6 +461,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
         Perscription: false
       };
       const getIndex: number = this.navCategories.findIndex(item => item.name === 'Performance');
+      console.log('getIndex-->', getIndex);
       if (getIndex !== -1) {
         if (response[0] && response[1] && response[2]) {
           isRlp.All = false;
