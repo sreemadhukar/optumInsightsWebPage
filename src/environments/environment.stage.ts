@@ -56,7 +56,8 @@ export const environment: any = {
     KOPBusinessGlossary: 'business-glossaries-kop/',
     CallsTrendLine: 'calls-trend/',
     PaymentsBySubmission: 'claim-submissions/',
-    GroupPremiumDesignation: 'group-premium-designation/',
+    // un-comment when the api is ready for the  GPP in the stage env.
+    // GroupPremiumDesignation: 'group-premium-designation/',
     NetworkLever: 'network-lever/'
   },
   headerKeys: {
