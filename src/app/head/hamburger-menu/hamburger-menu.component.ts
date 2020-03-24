@@ -72,6 +72,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
   public healthSystemName: string;
   public isKop: boolean;
   disableChangeProvider: boolean = environment.internalAccess;
+  internalUser: boolean = environment.internalAccess;
   externalProvidersCount = false;
   public checkAdv;
   public checkPro;
@@ -196,7 +197,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
       this.navCategories = this.navCategoriesTotal.filter(item => item.name !== 'Summary Trends');
       sessionStorage.setItem('advocateView', 'true');
     }
-    if (this.groupPremiumDesignationService.groupPremiumDesignationData()) {
+    if (this.groupPremiumDesignationService.groupPremiumDesignationData() && this.internalUser) {
       this.groupPremiumDesignationService.groupPremiumDesignationData().subscribe(response => {
         this.GroupPremiumDesignation = response.HppIndicator;
       });
@@ -205,7 +206,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
     router.events.subscribe(event => {
       if (event instanceof NavigationStart) {
         this.healthSystemName = this.sessionService.getHealthCareOrgName();
-        if (this.groupPremiumDesignationService.groupPremiumDesignationData()) {
+        if (this.groupPremiumDesignationService.groupPremiumDesignationData() && this.internalUser) {
           this.groupPremiumDesignationService.groupPremiumDesignationData().subscribe(response => {
             this.GroupPremiumDesignation = response.HppIndicator;
           });
@@ -482,6 +483,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
         Perscription: false
       };
       const getIndex: number = this.navCategories.findIndex(item => item.name === 'Performance');
+
       if (getIndex !== -1) {
         if (response[0] && response[1] && response[2]) {
           isRlp.All = false;
@@ -696,7 +698,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
         // Setting Value redirect, remind flag to local storage
         sessionStorage.setItem('fromKOP', 'YES');
         sessionStorage.setItem('advocateView', 'true');
-        // RESET KOP FILTER BEFORE MOVING
+        sessionStorage.removeItem('kopFilterState');
         this.ngRedux.dispatch({ type: RESET_KOP_FILTER });
         // Reloading targeted route, for resetting the css
         window.location.href = '/OverviewPage';
