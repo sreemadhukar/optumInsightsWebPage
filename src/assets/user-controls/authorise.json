@@ -115,7 +115,7 @@
   },
   "Performance": {
     "Summary": {
-      "navLink": true,
+      "navLink": false,
       "Preferred Specialist Referral Rate": true,
       "Preferred Lab Network Use Rate": true,
       "Preferred Tier Prescribing Rate": true

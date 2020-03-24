@@ -19,6 +19,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { Router, NavigationStart } from '@angular/router';
 import { ViewportScroller } from '@angular/common';
 import { AuthenticationService } from '../../auth/_service/authentication.service';
+import { AuthorizationService } from '../../auth/_service/authorization.service';
 import { ThemeService } from '../../shared/theme.service';
 import { Observable } from 'rxjs';
 import { ProviderSearchComponent } from '../../common-utils/provider-search/provider-search.component';
@@ -181,6 +182,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
     private acoEventEmitter: AcoEventEmitterService,
     private viewPortScroller: ViewportScroller,
     private checkRlpService: CheckHcoRlpService,
+    private toggle: AuthorizationService,
     private ngRedux: NgRedux<any>,
     @Inject(DOCUMENT) private document: any
   ) {
@@ -251,12 +253,22 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
         if (this.sessionService.isPCORData()) {
           this.insertPCORnav();
         }
-        // Check Rlp Data from session storage, This is written to tackle the page refresh thing.
-        // As after page refresh application is losing the state whether Performance exist on left nav or not
-        // So to keep track of that we stored value in the session storage.
-        if (this.sessionService.isRlpData()) {
+
+        /*
+         * Check Rlp Data from session storage, This is written to tackle the page refresh thing.
+         * As after page refresh application is losing the state whether Performance exist on left nav or not
+         * So to keep track of that we stored value in the session storage.
+         */
+        if (this.sessionService.isRlpData() && this.internalUser) {
           this.insertRlpNav(this.sessionService.isRlpData());
-          console.log('Constructor Rlp Data', this.sessionService.isRlpData());
+        } else if (!this.internalUser) {
+          const isRlpDisable = {
+            All: true,
+            Referral: true,
+            Labs: true,
+            Perscription: true
+          };
+          this.insertRlpNav(isRlpDisable);
         } else {
           console.log('No Data at Session Storage for Rlp');
         }
@@ -273,6 +285,8 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
         } else {
           this.fromKOP = false;
         }
+
+        // Check the advocate page
         if (
           sessionStorage.getItem('advocateView') === 'true' &&
           !this.makeAbsolute &&
@@ -368,8 +382,19 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
       }
       // Check whether we have PCOR Data or not, if yes then include the PCOR option in navigation bar
       this.checkPcorData();
+
       // Check whether we have Rlp Data or not, if yes then include the Rlp option in navigation bar
-      this.checkRlpData();
+      if (this.internalUser) {
+        this.checkRlpData();
+      } else {
+        const isRlpDisable = {
+          All: true,
+          Referral: true,
+          Labs: true,
+          Perscription: true
+        };
+        this.insertRlpNav(isRlpDisable);
+      }
     });
 
     /*
@@ -463,28 +488,26 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
     return bool ? this.sessionService.checkTrendAccess() && environment.internalAccess : !bool;
   }
 
-  insertRlpNav(isRlp) {
-    console.log('insertNav', isRlp);
+  insertRlpNav(isRlpDisable) {
     const getIndex: number = this.navCategories.findIndex(item => item.name === 'Performance');
-    this.navCategories[getIndex].children[0].disabled = isRlp.All;
-    this.navCategories[getIndex].children[1].disabled = isRlp.Referral;
-    this.navCategories[getIndex].children[2].disabled = isRlp.Labs;
-    this.navCategories[getIndex].children[3].disabled = isRlp.Perscription;
-    this.navCategories[getIndex].disabled = isRlp.All;
-    console.log('insertNav', this.navCategories);
+    this.navCategories[getIndex].children[0].disabled = isRlpDisable.All;
+    this.navCategories[getIndex].children[1].disabled = isRlpDisable.Referral;
+    this.navCategories[getIndex].children[2].disabled = isRlpDisable.Labs;
+    this.navCategories[getIndex].children[3].disabled = isRlpDisable.Perscription;
+    this.navCategories[getIndex].disabled = isRlpDisable.All;
   }
-  checkRlpRoute(isRlp, page: string) {
+  checkRlpRoute(isRlpDisable, page: string) {
     sessionStorage.removeItem('rlp');
-    this.insertRlpNav(isRlp);
-    sessionStorage.setItem('rlp', JSON.stringify(isRlp));
-    this.isPerformance = isRlp.All ? true : false;
+    this.insertRlpNav(isRlpDisable);
+    sessionStorage.setItem('rlp', JSON.stringify(isRlpDisable));
+    this.isPerformance = isRlpDisable.All ? true : false;
     if (this.router.url.includes(page)) {
       this.router.navigate(['/OverviewPage']);
     }
   }
   checkRlpData() {
     this.checkRlpService.checkRlpHCO(this.sessionService.providerKeyData()).then(response => {
-      const isRlp = {
+      const isRlpDisable = {
         All: false,
         Referral: false,
         Labs: false,
@@ -494,37 +517,34 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
 
       if (getIndex !== -1) {
         if (response[0] && response[1] && response[2]) {
-          isRlp.All = false;
-          isRlp.Referral = false;
-          isRlp.Labs = false;
-          isRlp.Perscription = false;
-          this.checkRlpRoute(isRlp, 'AllWell');
-          console.log('We have data for all RLP');
+          isRlpDisable.All = false;
+          isRlpDisable.Referral = false;
+          isRlpDisable.Labs = false;
+          isRlpDisable.Perscription = false;
+          this.checkRlpRoute(isRlpDisable, 'AllWell');
         } else {
           if (!response[0] && !response[1] && !response[2]) {
-            isRlp.All = true;
-            isRlp.Referral = true;
-            isRlp.Labs = true;
-            isRlp.Perscription = true;
-            console.log('None RLP');
-            this.checkRlpRoute(isRlp, 'Performance');
+            isRlpDisable.All = true;
+            isRlpDisable.Referral = true;
+            isRlpDisable.Labs = true;
+            isRlpDisable.Perscription = true;
+            this.checkRlpRoute(isRlpDisable, 'Performance');
           } else {
             if (!response[0]) {
-              isRlp.Referral = true;
-              this.checkRlpRoute(isRlp, 'Referral');
+              isRlpDisable.Referral = true;
+              this.checkRlpRoute(isRlpDisable, 'Referral');
             }
             if (!response[1]) {
-              isRlp.Labs = true;
-              this.checkRlpRoute(isRlp, 'Labs');
+              isRlpDisable.Labs = true;
+              this.checkRlpRoute(isRlpDisable, 'Labs');
             }
             if (!response[2]) {
-              isRlp.Perscription = true;
-              this.checkRlpRoute(isRlp, 'Perscription');
+              isRlpDisable.Perscription = true;
+              this.checkRlpRoute(isRlpDisable, 'Perscription');
             }
           } // end if else of negative cases
         } // end if of Positive vs negative cases
       } // end if of getIndex -1
-      console.log('Final Data', this.navCategories);
     });
   }
   checkPcorData() {
