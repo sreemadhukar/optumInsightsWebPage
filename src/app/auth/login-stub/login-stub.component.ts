@@ -13,6 +13,7 @@ import { ProviderSearchComponent } from '../../common-utils/provider-search/prov
 import { DomSanitizer } from '@angular/platform-browser';
 import { AuthorizationService } from '../_service/authorization.service';
 import { DOCUMENT } from '@angular/common';
+declare var window: any;
 
 @Component({
   selector: 'app-login-stub',
@@ -183,6 +184,7 @@ export class LoginStubComponent implements OnInit {
         user => {
           this.blankScreen = true;
           this.loading = false;
+          sessionStorage.setItem('MsId', 'test');
           this.authorise.getToggles('authorise').subscribe(value => {
             console.log(value);
           });
