@@ -174,11 +174,11 @@ export class SessionService {
     let rlpBoolean = false;
     try {
       if (JSON.parse(sessionStorage.getItem('rlp'))) {
-        rlpBoolean = JSON.parse(sessionStorage.getItem('rlp')).isRlp;
+        rlpBoolean = JSON.parse(sessionStorage.getItem('rlp'));
       }
       return rlpBoolean;
     } catch (err) {
-      console.log('');
+      console.log('Error at RLp session storage', err);
       return rlpBoolean;
     }
   }
