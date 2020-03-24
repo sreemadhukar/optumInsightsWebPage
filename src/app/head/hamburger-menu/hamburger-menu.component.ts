@@ -197,11 +197,13 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
       this.navCategories = this.navCategoriesTotal.filter(item => item.name !== 'Summary Trends');
       sessionStorage.setItem('advocateView', 'true');
     }
+    // Group Premium Designation
     if (this.groupPremiumDesignationService.groupPremiumDesignationData() && this.internalUser) {
       this.groupPremiumDesignationService.groupPremiumDesignationData().subscribe(response => {
         this.GroupPremiumDesignation = response.HppIndicator;
       });
     }
+
     // to disable the header/footer/body when not authenticated
     router.events.subscribe(event => {
       if (event instanceof NavigationStart) {
@@ -249,6 +251,16 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
         if (this.sessionService.isPCORData()) {
           this.insertPCORnav();
         }
+        // Check Rlp Data from session storage, This is written to tackle the page refresh thing.
+        // As after page refresh application is losing the state whether Performance exist on left nav or not
+        // So to keep track of that we stored value in the session storage.
+        if (this.sessionService.isRlpData()) {
+          this.insertRlpNav(this.sessionService.isRlpData());
+          console.log('Constructor Rlp Data', this.sessionService.isRlpData());
+        } else {
+          console.log('No Data at Session Storage for Rlp');
+        }
+
         // Check condtion for rendering butter bar
         if (
           (sessionStorage.getItem('fromKOP') === 'YES' &&
@@ -356,6 +368,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
       }
       // Check whether we have PCOR Data or not, if yes then include the PCOR option in navigation bar
       this.checkPcorData();
+      // Check whether we have Rlp Data or not, if yes then include the Rlp option in navigation bar
       this.checkRlpData();
     });
 
@@ -450,13 +463,20 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
     return bool ? this.sessionService.checkTrendAccess() && environment.internalAccess : !bool;
   }
 
-  checkRlpRoute(getIndex: number, isRlp, page: string) {
-    this.navCategories[getIndex].disabled = isRlp.All;
+  insertRlpNav(isRlp) {
+    console.log('insertNav', isRlp);
+    const getIndex: number = this.navCategories.findIndex(item => item.name === 'Performance');
     this.navCategories[getIndex].children[0].disabled = isRlp.All;
     this.navCategories[getIndex].children[1].disabled = isRlp.Referral;
     this.navCategories[getIndex].children[2].disabled = isRlp.Labs;
     this.navCategories[getIndex].children[3].disabled = isRlp.Perscription;
-
+    this.navCategories[getIndex].disabled = isRlp.All;
+    console.log('insertNav', this.navCategories);
+  }
+  checkRlpRoute(isRlp, page: string) {
+    sessionStorage.removeItem('rlp');
+    this.insertRlpNav(isRlp);
+    sessionStorage.setItem('rlp', JSON.stringify(isRlp));
     this.isPerformance = isRlp.All ? true : false;
     if (this.router.url.includes(page)) {
       this.router.navigate(['/OverviewPage']);
@@ -475,7 +495,10 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
       if (getIndex !== -1) {
         if (response[0] && response[1] && response[2]) {
           isRlp.All = false;
-          this.checkRlpRoute(getIndex, isRlp, 'AllWell');
+          isRlp.Referral = false;
+          isRlp.Labs = false;
+          isRlp.Perscription = false;
+          this.checkRlpRoute(isRlp, 'AllWell');
           console.log('We have data for all RLP');
         } else {
           if (!response[0] && !response[1] && !response[2]) {
@@ -484,19 +507,19 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
             isRlp.Labs = true;
             isRlp.Perscription = true;
             console.log('None RLP');
-            this.checkRlpRoute(getIndex, isRlp, 'Performance');
+            this.checkRlpRoute(isRlp, 'Performance');
           } else {
             if (!response[0]) {
               isRlp.Referral = true;
-              this.checkRlpRoute(getIndex, isRlp, 'Referral');
+              this.checkRlpRoute(isRlp, 'Referral');
             }
             if (!response[1]) {
               isRlp.Labs = true;
-              this.checkRlpRoute(getIndex, isRlp, 'Labs');
+              this.checkRlpRoute(isRlp, 'Labs');
             }
             if (!response[2]) {
               isRlp.Perscription = true;
-              this.checkRlpRoute(getIndex, isRlp, 'Perscription');
+              this.checkRlpRoute(isRlp, 'Perscription');
             }
           } // end if else of negative cases
         } // end if of Positive vs negative cases
@@ -547,6 +570,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
     this.filterurl = null;
     this.clickFilterIcon.unsubscribe();
     this.clickFilterIconCustom.unsubscribe();
+    this.checkRlpService.uncheckRlpHCO();
     sessionStorage.removeItem('fromKOP');
     this.fromKOP = false;
     sessionStorage.removeItem('advocateView');
