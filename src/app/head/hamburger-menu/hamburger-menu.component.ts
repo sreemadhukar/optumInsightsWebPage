@@ -19,7 +19,6 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { Router, NavigationStart } from '@angular/router';
 import { ViewportScroller } from '@angular/common';
 import { AuthenticationService } from '../../auth/_service/authentication.service';
-import { AuthorizationService } from '../../auth/_service/authorization.service';
 import { ThemeService } from '../../shared/theme.service';
 import { Observable } from 'rxjs';
 import { ProviderSearchComponent } from '../../common-utils/provider-search/provider-search.component';
@@ -182,7 +181,6 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
     private acoEventEmitter: AcoEventEmitterService,
     private viewPortScroller: ViewportScroller,
     private checkRlpService: CheckHcoRlpService,
-    private toggle: AuthorizationService,
     private ngRedux: NgRedux<any>,
     @Inject(DOCUMENT) private document: any
   ) {
