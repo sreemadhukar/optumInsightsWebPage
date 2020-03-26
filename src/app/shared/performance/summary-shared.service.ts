@@ -16,7 +16,7 @@ export const pageMapApiEndpoint = [
   {
     name: rlpPageName.Referral,
     title: 'Preferred Specialist Referral Rate',
-    suffix: 'Referral',
+    suffix: 'Referrals',
     MetricID: '401'
     // MetricID:  MetricidService.PreferredSpecialistReferralRate
   },
