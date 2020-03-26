@@ -51,10 +51,12 @@
 //table column widths
 .rlp-table {
   &-tin {
-    flex: 0.62;
+    flex: 0.48;
+    padding-right: 16px;
   }
   &-group {
     flex: 0.97;
+    padding-right: 83px;
   }
   &-bar {
     flex: 1.8;
@@ -72,7 +74,7 @@
   border: 1px solid #e0e0e0;
 }
 .table-items {
-  padding: 0 24px 32px 30px;
+  padding: 0 16px 32px 16px;
 }
 
 //Footer css
@@ -247,6 +249,7 @@
     margin-top: -1px;
     height: 16px;
     width: 16px;
+    color: $strom-grey;
   }
 
   &-down-arrow-reverse {
@@ -254,6 +257,7 @@
     margin-top: -1px;
     height: 16px;
     width: 16px;
+    color: $strom-grey;
   }
 }
 
