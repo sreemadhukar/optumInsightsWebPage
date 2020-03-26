@@ -1,15 +1,13 @@
 /* @author gmounika */
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
-import { HttpHeaders, HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { OverviewPageModule } from '../../components/overview-page/overview-page.module';
 import { map, catchError } from 'rxjs/operators';
 import { combineLatest, of } from 'rxjs';
 @Injectable({ providedIn: OverviewPageModule })
 export class OverviewService {
-  public currentUser: any;
   public combined: any;
-  private authBearer: any;
   private APP_URL: string = environment.apiProxyUrl;
   private CLAIMS_SERVICE_PATH: string = environment.apiUrls.ProviderSystemClaimsSummary;
   private EXECUTIVE_SERVICE_PATH: string = environment.apiUrls.ExecutiveSummaryPath;

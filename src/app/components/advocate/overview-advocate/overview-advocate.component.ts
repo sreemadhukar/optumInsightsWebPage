@@ -85,6 +85,7 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
     chartData: ''
   };
   timeFilterValueResolved: string;
+  nonpaymentLoading: any;
 
   constructor(
     private checkStorage: StorageService,
@@ -321,10 +322,9 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
     let total = 0;
     for (const i in arr) {
       if (arr.hasOwnProperty(i)) {
-        /*if (arr[i].value === NaN) {
+        if (arr[i].value === undefined) {
           arr[i].value = 0;
         }
-        console.log('arr[i].value', arr[i].value);*/
         total += arr[i].value;
       }
     }
@@ -393,11 +393,14 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
 
     this.monthlyLineGraph.chartData = [];
     this.trendMonthDisplay = false;
+    this.nonpaymentLoading = true;
     // This is for line graph
     this.nonPaymentService.sharedTrendByMonth(this.createPayloadService.payload).then((data: any) => {
       const trendData = data;
+      this.nonpaymentLoading = false;
       if (!trendData || !trendData.data) {
         this.trendMonthDisplay = false;
+        this.nonpaymentLoading = false;
         this.monthlyLineGraph = {
           category: 'large-card',
           type: 'donut',
@@ -409,6 +412,7 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
         };
       } else {
         // this.timePeriodLineGraph = trendData.timePeriod;
+        this.nonpaymentLoading = false;
         this.monthlyLineGraph.chartData = trendData.data;
         this.timePeriodNonPayment = `${this.timeFilterValueResolved} (${trendData.timePeriod})`;
         this.trendMonthDisplay = true;
@@ -437,8 +441,8 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
       .paymentsBySubmission(this.createPayloadService.payload)
       .then(data => {
         this.pbsCard = data;
-        this.pbsCard['timeperiod'] = `${this.timeFilterValueResolved} (${this.pbsCard['timeperiod']})`;
         this.pbsLoading = false;
+        this.pbsCard['timeperiod'] = `${this.timeFilterValueResolved} (${this.pbsCard['timeperiod']})`;
       })
       .catch(reason => {
         this.pbsLoading = false;
