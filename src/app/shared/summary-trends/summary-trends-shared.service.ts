@@ -25,7 +25,6 @@ export class SummaryTrendsSharedService {
         SortDirection: direction
       };
       this.summarytrends.summaryTrendsData(params).subscribe(data => {
-        console.log(data);
         const result: any = { dataSource: [], displayedColumns: [], totalRecordsCount: 0 };
         if (data && data.ResultSet) {
           if (this.metric === 'GettingReimbursed') {

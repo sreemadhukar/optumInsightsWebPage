@@ -47,9 +47,7 @@ export class StorageService implements OnDestroy {
 
   // private storageEventListener(event: StorageEvent) {
   //   alert(1);
-  //   console.log(event);
   //   if (event.storageArea === sessionStorage) {
-  //     console.log(event.newValue[0]);
   //     if (event.newValue) {
   //       alert('emitted');
   //       this.emitChangeEvent();

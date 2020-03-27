@@ -34,6 +34,5 @@ export class PrintPageComponent implements OnInit {
       (window as any).print();
     }, 7000);
     // }, this.data.flatMap(i => (i.page === this.selectedPage ? i.load : 0)));
-    // console.log('load Time for Print', this.data.flatMap(i => (i.page === this.selectedPage ? i.load : 0)));
   }
 }

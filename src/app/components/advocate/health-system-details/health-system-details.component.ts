@@ -33,7 +33,7 @@ export class HealthSystemDetailsComponent implements OnInit {
       .getHealthSystemData()
       .then(healthSystemData => {
         this.dataLoading = false;
-        this.healthSystemData = JSON.parse(JSON.stringify(healthSystemData));
+        this.healthSystemData = healthSystemData;
       })
       .catch(reason => {
         this.dataLoading = false;

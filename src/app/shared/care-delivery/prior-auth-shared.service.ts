@@ -231,7 +231,6 @@ export class PriorAuthSharedService {
               serviceSetting === 'Outpatient Facility'
             ) {
               data = providerSystems.PriorAuthorizations.LineOfBusiness.All;
-              console.log('OPF', data);
             }
             // LOB with Service Setting
             if (lobString !== 'allLob') {

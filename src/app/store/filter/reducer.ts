@@ -18,7 +18,6 @@ export const INITIAL_STATE: IAppState = {
 };
 
 export function FilterReducer(state = loadState(), action) {
-  console.log(action);
   switch (action.type) {
     case CURRENT_PAGE:
       return {
