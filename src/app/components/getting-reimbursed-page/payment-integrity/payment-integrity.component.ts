@@ -214,9 +214,9 @@ export class PaymentIntegrityComponent implements OnInit {
     this.loading = true;
     this.gettingReimbursedSharedService
       .getPaymentIntegrityData()
-      .then(r => {
+      .then((r: any) => {
         this.loading = false;
-        const temp1 = JSON.parse(JSON.stringify(r));
+        const temp1 = r;
         if (temp1 && temp1.hasOwnProperty('status') && temp1.status) {
           this.cardData = temp1;
         } else {

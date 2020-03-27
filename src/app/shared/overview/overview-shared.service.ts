@@ -43,8 +43,6 @@ export class OverviewSharedService {
       }
 
       this.overviewService.getOverviewData(...parameters).subscribe(([providerSystems, claims, EDI, PAPER]) => {
-        // console.log('providerSystem', providerSystems);
-
         /* code changed by Ranjith kumar Ankam - 04-Jul-2019*/
         /*this.createPriorAuthObject(providerSystems)
          .then(cPriorAuth => {

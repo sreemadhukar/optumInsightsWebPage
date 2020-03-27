@@ -1,3 +1,4 @@
+@import '~src/scss/variables.scss';
 .bar-types {
   .small-bar {
     background-color: white;
@@ -55,21 +56,22 @@
     justify-content: flex-end;
     .table-bar-head {
       font-size: 16px;
-      font-family: 'UHCSans-Regular', Helvetica, Arial, sans-serif;
+      font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
       line-height: 22px;
       letter-spacing: 0.2px;
       margin-right: 16px;
+      color: $strom-grey;
     }
-    .table-bar-body {
-    }
+
     .table-bar-percentage {
       font-size: 16px;
-      font-family: 'UHCSans-Regular', Helvetica, Arial, sans-serif;
+      font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
       line-height: 22px;
       letter-spacing: 0.2px;
       // flex-grow: 1;
       width: 50px;
       text-align: right;
+      color: $black-rock;
     }
   }
 }

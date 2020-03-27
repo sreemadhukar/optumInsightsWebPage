@@ -29,6 +29,7 @@
       class="cards"
       [data]="monthlyLineGraph"
     ></app-error-card>
+    <app-large-card [skeletonLarge]="nonpaymentLoading" *ngIf="nonpaymentLoading"></app-large-card>
     <div class="non-payment-trend-block" *ngIf="trendMonthDisplay">
       <app-common-header
         [title]="trendTitle"
@@ -179,11 +180,9 @@
     <!-- Calls Trend Ends Here -->
 
     <div class="height1Separator"></div>
-    <div *ngFor="let data of downRowMockCards; let i = index">
-      <app-card class="cards" [skeleton]="pbsLoading" *ngIf="pbsLoading"> </app-card>
-    </div>
+    <app-card class="cards" [skeleton]="pbsLoading" *ngIf="pbsLoading"> </app-card>
     <div>
-      <app-card *ngIf="pbsCard.data != null" class="cards" [chartData]="pbsCard"> </app-card>
+      <app-card *ngIf="pbsCard.data != null && !pbsLoading" class="cards" [chartData]="pbsCard"> </app-card>
       <app-error-card
         *ngIf="pbsCard.data == null && pbsCard.status != null"
         class="cards"

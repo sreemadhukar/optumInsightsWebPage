@@ -102,7 +102,7 @@ export class GlossaryComponent implements OnInit {
 
   public getGlossaryData() {
     this.glossaryService.getBusinessGlossaryData().subscribe(response => {
-      this.glossaryList = JSON.parse(JSON.stringify(response));
+      this.glossaryList = response;
       for (let i = 0; i < this.glossaryList.length; i++) {
         this.readmoreFlag[i] = true;
         // if (this.glossaryList[i].BusinessGlossary.ProviderDashboardName.MetricID === 305) {
@@ -215,7 +215,7 @@ export class GlossaryComponent implements OnInit {
 
   public getKOPGlossaryData() {
     this.glossaryService.getKOPBusinessGlossaryData().subscribe(response => {
-      this.glossaryList = JSON.parse(JSON.stringify(response));
+      this.glossaryList = response;
 
       if (!(this.glossaryList instanceof Array) || this.glossaryList.length === 0) {
         return;

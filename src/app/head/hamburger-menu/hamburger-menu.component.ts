@@ -19,7 +19,6 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { Router, NavigationStart } from '@angular/router';
 import { ViewportScroller } from '@angular/common';
 import { AuthenticationService } from '../../auth/_service/authentication.service';
-import { AuthorizationService } from '../../auth/_service/authorization.service';
 import { ThemeService } from '../../shared/theme.service';
 import { Observable } from 'rxjs';
 import { ProviderSearchComponent } from '../../common-utils/provider-search/provider-search.component';
@@ -182,7 +181,6 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
     private acoEventEmitter: AcoEventEmitterService,
     private viewPortScroller: ViewportScroller,
     private checkRlpService: CheckHcoRlpService,
-    private toggle: AuthorizationService,
     private ngRedux: NgRedux<any>,
     @Inject(DOCUMENT) private document: any
   ) {
@@ -261,7 +259,12 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
          */
         if (this.sessionService.isRlpData() && this.internalUser) {
           this.insertRlpNav(this.sessionService.isRlpData());
-        } else if (!this.internalUser) {
+        } else {
+          console.log('No Data at Session Storage for Rlp');
+        }
+
+        // If the environment is not Internal then disable the Rlp
+        if (!this.internalUser) {
           const isRlpDisable = {
             All: true,
             Referral: true,
@@ -269,8 +272,9 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
             Perscription: true
           };
           this.insertRlpNav(isRlpDisable);
-        } else {
-          console.log('No Data at Session Storage for Rlp');
+          if (event.url.includes('Performance')) {
+            this.router.navigate(['/OverviewPage']);
+          }
         }
 
         // Check condtion for rendering butter bar
@@ -383,7 +387,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
       // Check whether we have PCOR Data or not, if yes then include the PCOR option in navigation bar
       this.checkPcorData();
 
-      // Check whether we have Rlp Data or not, if yes then include the Rlp option in navigation bar
+      // If the environment is internal then checkRlp Data otherwise disable it from left navigation
       if (this.internalUser) {
         this.checkRlpData();
       } else {
