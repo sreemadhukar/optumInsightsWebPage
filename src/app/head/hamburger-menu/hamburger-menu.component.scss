@@ -388,7 +388,6 @@ app-header {
 }
 
 .h-3-title-filter {
-  width: 346px;
   color: $black-rock;
   font-family: 'UHCSans-SemiBold', Helvetica, Arial, sans-serif;
   font-size: 22px;
@@ -403,7 +402,7 @@ app-header {
 
 .filter-text {
   text-align: center;
-  width: 300px;
+  width: 314px;
   vertical-align: middle;
   line-height: 40px;
 }
@@ -431,8 +430,6 @@ app-header {
 }
 
 .mat-details {
-  position: relative;
-  display: flex;
   margin-top: 20px;
   margin-left: 10px;
 }
