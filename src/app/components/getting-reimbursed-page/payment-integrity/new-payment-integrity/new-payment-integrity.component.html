@@ -1,0 +1,63 @@
+<!-- start of new pi page -->
+<div *ngIf="!printStyle" class="container--tabs">
+  <section class="row">
+    <ul class="nav nav-tabs">
+      <li
+        *ngFor="let item of tabOptions; let i = index"
+        (click)="matOptionClicked(i, $event)"
+        [ngClass]="{ active: previousSelectedTab === i }"
+        attr.id="{{ item.title }}"
+      >
+        <span>
+          {{ item.title }}
+          <div class="nav-values">
+            {{ item.value1 }}
+            <!--<span
+      *ngIf="item.sdata != null"
+      class="metrics"
+      [ngClass]="item.sdata.sign === 'up' ? 'upgreen' : 'downred'"
+      >
+        {{ item.sdata.value }}
+      </span>-->
+          </div>
+        </span>
+      </li>
+    </ul>
+  </section>
+</div>
+<div *ngIf="printStyle" class="nav nav-tabs">
+  <span>
+    {{ printDateTitle }}
+    <div class="nav-values" style="padding-top:5px;">
+      {{ printDateSubTitle }}
+    </div>
+  </span>
+</div>
+<!--<app-mock-data-warning-message class="warning-block"></app-mock-data-warning-message>-->
+
+<div class="height1Separator"></div>
+<div *ngIf="currentSummary != null" class="pi-cards">
+  <app-card [chartData]="currentSummary[0]" class="cards"></app-card>
+  <div *ngIf="currentSummary[1] != null" class="app-card-structure">
+    <app-common-header
+      [title]="currentSummary[1].title"
+      class="full-display"
+      (helpIconClicked)="helpIconClick($event)"
+    ></app-common-header>
+    <div class="pi-bar-chart">
+      <app-med-bar-chart [chartOptions]="currentSummary[1].data"></app-med-bar-chart>
+    </div>
+  </div>
+  <div *ngIf="currentSummary[2] != null" class="pi-medical-record-coding-review-block card-inner">
+    <app-common-header
+      [title]="currentSummary[2].title"
+      class="full-display"
+      (helpIconClicked)="helpIconClick($event)"
+    ></app-common-header>
+    <div class="pi-bar-chart">
+      <app-med-bar-chart [chartOptions]="currentSummary[2].data"></app-med-bar-chart>
+      <div class="pi-bar-chart-trend-comparison">*Positive/negative trend comparison is Jun 2019 vs. Jul 2019</div>
+    </div>
+  </div>
+</div>
+<!-- end of the new pi page including tabs -->
