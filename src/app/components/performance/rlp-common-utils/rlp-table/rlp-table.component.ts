@@ -31,7 +31,7 @@ export class RlpTableComponent implements OnInit, OnDestroy {
     );
     iconRegistry.addSvgIcon(
       'downarrow',
-      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/arrow_downward-black-18px.svg')
+      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/arrow_downward-24px.svg')
     );
     iconRegistry.addSvgIcon(
       'rightarrow',
