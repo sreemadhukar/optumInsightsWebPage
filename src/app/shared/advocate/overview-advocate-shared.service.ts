@@ -336,7 +336,7 @@ export class OverviewAdvocateSharedService {
       const parameters = this.getParameterCategories(param);
       this.overviewAdvocateService.paymentsBySubmission(...parameters).subscribe(
         pbsData => {
-          const getData = JSON.parse(JSON.stringify(pbsData[0]));
+          const getData = pbsData[0];
           if (getData == null) {
             //  return reject(null);
             this.sendData = {

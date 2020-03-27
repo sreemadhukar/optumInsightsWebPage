@@ -189,7 +189,6 @@ export class ClaimsPaidBarGraphComponent implements OnInit, AfterViewInit, OnCha
     }
   }
   formatAbbreviationGtoB(x) {
-    console.log(Math.round(x).toString().length);
     let formatSi;
     if (Math.round(x).toString().length % 3 === 0) {
       formatSi = d3.format('$.2s');
