@@ -8,10 +8,12 @@
       <div class="page-title" [ngClass]="{ 'print-page-title': printStyle === true }">{{ pageTitle }}</div>
       <div class="page-subtitle" [ngClass]="{ 'print-page-subtitle': printStyle === true }">{{ pagesubTitle }}</div>
       <div class="breadcrumb-top-padding">
-        <app-filters-applied
-          [tabName]="gettingReimbursedSharedService.gettingReimbursedTabName"
-          *ngIf="!printStyle"
-        ></app-filters-applied>
+        <div class="filter-padd">
+          <app-filters-applied
+            [tabName]="gettingReimbursedSharedService.gettingReimbursedTabName"
+            *ngIf="!printStyle"
+          ></app-filters-applied>
+        </div>
         <div class="container--tabs" *ngIf="!printStyle">
           <section class="row">
             <ul class="nav nav-tabs">
@@ -47,7 +49,7 @@
               <span class="non-payment-link"> Looking for Non-Payments? </span>
             </a>
           </div>
-          <div *ngIf="currentTabTitle != '' && currentTabTitle != 'Claims Submissions'">
+          <div *ngIf="currentTabTitle != '' && currentTabTitle != 'Claims Processed'">
             <button *ngIf="!printStyle" (click)="onDetailsButtonClick(buttonNumber, $event)" class="details-button">
               {{ buttonName }}
             </button>

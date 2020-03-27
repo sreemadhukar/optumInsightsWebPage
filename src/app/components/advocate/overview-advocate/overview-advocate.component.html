@@ -29,6 +29,7 @@
       class="cards"
       [data]="monthlyLineGraph"
     ></app-error-card>
+    <app-large-card [skeletonLarge]="nonpaymentLoading" *ngIf="nonpaymentLoading"></app-large-card>
     <div class="non-payment-trend-block" *ngIf="trendMonthDisplay">
       <app-common-header
         [title]="trendTitle"
@@ -126,13 +127,13 @@
 
     <!--Calls Trend Starts Here-->
     <app-error-card *ngIf="callsData == null" class="cards" [data]="callsLineGraphData"></app-error-card>
-    <app-large-card [skeletonLarge]="callsLineGraphLoading" *ngIf="callsData == null"></app-large-card>
-    <div class="calls-trend-block" *ngIf="!callsLineGraphLoading && callsData !== null">
+    <app-large-card [skeletonLarge]="callsLoading" *ngIf="callsLoading"></app-large-card>
+    <div class="calls-trend-block" *ngIf="!callsLoading && callsData !== null">
       <app-common-header
         [title]="trendTitleForCalls"
-        [addIcon]="!callsLineGraphLoading && callsData !== null"
+        [addIcon]="!callsLoading && callsData !== null"
         class="full-display bottom-margin-block"
-        [addIcon]="!callsLineGraphLoading && callsData !== null"
+        [addIcon]="!callsLoading && callsData !== null"
         (helpIconClicked)="helpIconClick($event)"
       ></app-common-header>
       <div class="calls-section">
@@ -144,8 +145,7 @@
         </div>
         <div class="line-graph-padding">
           <!--<app-large-card-advocate *ngIf="!callsLineGraphLoading" [appealsLineGraph]="callsTrendLineGraph"></app-large-card-advocate>-->
-          <app-multi-line-graph *ngIf="!callsLineGraphLoading" [chartOptions]="callsTrendLineGraph">
-          </app-multi-line-graph>
+          <app-multi-line-graph *ngIf="!callsLoading" [chartOptions]="callsTrendLineGraph"> </app-multi-line-graph>
         </div>
       </div>
 
@@ -172,7 +172,7 @@
         class="width-100 time-period-trend"
       ></app-common-footer>
     </div>
-    <div class="warning-container" *ngIf="!callsLineGraphLoading && callsData !== null">
+    <div class="warning-container" *ngIf="!callsLoading && callsData !== null">
       <mat-icon class="warning-icon-class" svgIcon="warning-icon"></mat-icon>
       <span class="warning-text">Calls data supports Time Period filters only at this time</span>
     </div>
@@ -180,11 +180,9 @@
     <!-- Calls Trend Ends Here -->
 
     <div class="height1Separator"></div>
-    <div *ngFor="let data of downRowMockCards; let i = index">
-      <app-card class="cards" [skeleton]="pbsLoading" *ngIf="pbsLoading"> </app-card>
-    </div>
+    <app-card class="cards" [skeleton]="pbsLoading" *ngIf="pbsLoading"> </app-card>
     <div>
-      <app-card *ngIf="pbsCard.data != null" class="cards" [chartData]="pbsCard"> </app-card>
+      <app-card *ngIf="pbsCard.data != null && !pbsLoading" class="cards" [chartData]="pbsCard"> </app-card>
       <app-error-card
         *ngIf="pbsCard.data == null && pbsCard.status != null"
         class="cards"

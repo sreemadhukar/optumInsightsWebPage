@@ -76,7 +76,7 @@
         <div class="health-system-representation-block" *ngIf="!isKop">
           <p class="representing-label">You are representing</p>
           <p class="health-system-name">{{ healthSystemName }}</p>
-          <p class="Group-premium-designation" *ngIf="GroupPremiumDesignation">HPP</p>
+          <p class="Group-premium-designation" *ngIf="GroupPremiumDesignation && internalUser">HPP</p>
           <p
             class="change-provider"
             *ngIf="(disableChangeProvider || externalProvidersCount) && !AcoFlag"
@@ -197,14 +197,14 @@
         <!-- END OF MENU CATEGORIES BLOCK -->
 
         <!-- SIGNOUT BLOCK -->
-        <div class="signout-block">
+        <!-- <div class="signout-block">
           <p class="signout-label" (click)="signOut()">
             <a>
               <mat-icon class="nav-menu-icons" svgIcon="sign-out"></mat-icon
               ><span class="sign-out-text">Sign Out </span>
             </a>
           </p>
-        </div>
+        </div>-->
         <!-- END OF SIGNOUT BLOCK -->
       </mat-sidenav>
       <!-- END OF SIDE NAVIGATION BAR-->

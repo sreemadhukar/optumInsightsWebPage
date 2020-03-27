@@ -1,13 +1,7 @@
-<!-- Main container-->
 <div class="container">
-  <!-- container content-->
   <div class="container-content">
-    <!-- container header ends-->
     <div class="container-header">
-      <!-- Breadcrumbs-->
       <app-breadcrumbs></app-breadcrumbs>
-      <!-- Breadcrumbs ends-->
-      <!-- Header Title-->
       <app-rlp-header
         [rlpTitle]="titleForSummary"
         [rlpSubTitle]="subTitleForSummary"
@@ -15,39 +9,31 @@
       ></app-rlp-header>
     </div>
     <div>
-      <div *ngFor="let data of referralMockCards; let i = index">
-        <app-card class="cards" [skeleton]="referralsLoading" *ngIf="referralsLoading"> </app-card>
-      </div>
+      <app-card class="cards" [skeleton]="referralsLoading" *ngIf="referralsLoading"> </app-card>
       <app-card
-        *ngIf="referralCard.data != null && referralCard.category == 'app-card'"
+        *ngIf="referralCard.toggle && referralCard.data != null && referralCard.category == 'app-card'"
         class="cards"
         [chartData]="referralCard"
       ></app-card>
     </div>
 
     <div>
-      <div *ngFor="let data of labsMockCards; let i = index">
-        <app-card class="cards" [skeleton]="labsLoading" *ngIf="labsLoading"> </app-card>
-      </div>
+      <app-card class="cards" [skeleton]="labsLoading" *ngIf="labsLoading"> </app-card>
       <app-card
-        *ngIf="labsCard.data != null && labsCard.category == 'app-card'"
+        *ngIf="labsCard.toggle && labsCard.data != null && labsCard.category == 'app-card'"
         class="cards"
         [chartData]="labsCard"
       ></app-card>
     </div>
 
     <div>
-      <div *ngFor="let data of prescriptionMockCards; let i = index">
-        <app-card class="cards" [skeleton]="prescriptionLoading" *ngIf="prescriptionLoading"> </app-card>
-      </div>
+      <app-card class="cards" [skeleton]="prescriptionLoading" *ngIf="prescriptionLoading"> </app-card>
       <app-card
-        *ngIf="prescriptionCard.data != null && prescriptionCard.category == 'app-card'"
+        *ngIf="prescriptionCard.toggle && prescriptionCard.data != null && prescriptionCard.category == 'app-card'"
         class="cards"
         [chartData]="prescriptionCard"
       ></app-card>
     </div>
-    <!-- <app-error-card *ngIf="item.data == null && item.status != null" class="cards" [data]="item"></app-error-card>
-      <app-rlp-common-bar *ngIf="item.data != null && item.category != 'app-card'" [data]="item"></app-rlp-common-bar>-->
   </div>
   <!--container content ends-->
 </div>

@@ -18,15 +18,19 @@ export class VerticalBarChartsComponent implements OnInit {
   ngOnInit() {
     const divisionValue = 85;
     const [{ title: value1 }, { title: value2 }] = this.data;
-    if (value1 < value2) {
+    if (value1 === 0 && value2 === 0) {
+      this.heights[1] = '1%';
+      this.heights[0] = '1%';
+      this.marginTops[0] = '100%';
+      this.marginTops[1] = '100%';
+    } else if (value1 < value2) {
       this.heights[1] = divisionValue + '%';
       this.marginTops[1] = '0%';
-      this.heights[0] = (value1 / value2) * divisionValue + '%';
-      this.marginTops[0] = 85 - parseInt(this.heights[0].replace('%', '')) + '%';
+      this.heights[0] = (value1 / value2) * divisionValue === 0 ? '1%' : (value1 / value2) * divisionValue + '%';
+      this.marginTops[0] = 85 - parseInt(this.heights[0] === '1%' ? '0' : this.heights[0].replace('%', '')) + '%';
     } else {
-      this.heights[1] = (value2 / value1) * divisionValue + '%';
-      this.marginTops[1] = 85 - parseInt(this.heights[1].replace('%', '')) + '%';
-
+      this.heights[1] = (value2 / value1) * divisionValue === 0 ? '1%' : (value2 / value1) * divisionValue + '%';
+      this.marginTops[1] = 85 - parseInt(this.heights[1] === '1%' ? '0' : this.heights[1].replace('%', '')) + '%';
       this.heights[0] = divisionValue + '%';
       this.marginTops[0] = '0%';
     }

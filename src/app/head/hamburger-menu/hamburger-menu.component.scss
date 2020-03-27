@@ -162,6 +162,7 @@ app-header {
 
 .signout-block {
   padding: 16px 0 0 40px;
+  border-top: 1px solid $gainsboro;
   // padding: 16px 0 0 33px; before PI sub menu uncomment when smart edits is toggled off
 }
 
@@ -234,7 +235,6 @@ app-header {
 
 .nav-mat-list-items {
   padding-bottom: 46px !important;
-  border-bottom: 1px solid $gainsboro;
 }
 
 .nav-menu-icons {
