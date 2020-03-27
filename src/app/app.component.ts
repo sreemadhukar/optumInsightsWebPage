@@ -66,13 +66,10 @@ export class AppComponent {
       data: { timeOut: this.timeout }
     });
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-      console.log(this.router.url);
       this.userIdle.stopWatching();
       if (!sessionStorage.getItem('currentUser')) {
         this.onStartWatching(false);
       } else {
-        console.log('watching started');
         this.onStartWatching(true);
       }
     });
@@ -83,7 +80,6 @@ export class AppComponent {
       this.idle = this.userIdle.getConfigValue().idle;
       this.timeout = this.userIdle.getConfigValue().timeout;
       // this.ping = this.userIdle.getConfigValue().ping;
-      console.log(this.idle, this.timeout);
       this.isWatching = true;
       this.timeIsUp = false;
       this.timerCount = this.timeout;
@@ -101,7 +97,6 @@ export class AppComponent {
         .pipe(
           tap(() => {
             this.isTimer = true;
-            console.log('is time up' + this.timeIsUp);
             if (this.timerCount === this.timeout && !this.timeIsUp) {
               this.openDialog();
             }

@@ -90,9 +90,9 @@ export class PaymentsComponent implements OnInit {
     this.mockCards = [{}];
     this.paymentsSharedService
       .sharedPaymentsData(this.createPayloadService.payload)
-      .then(completeData => {
+      .then((completeData: any) => {
         this.loading = false;
-        this.paymentsItems = JSON.parse(JSON.stringify(completeData));
+        this.paymentsItems = completeData;
         this.payments = this.paymentsItems[0].data;
       })
       .catch(reason => {
@@ -108,9 +108,9 @@ export class PaymentsComponent implements OnInit {
     // this.claimsPaidBreakBool = false;
     if (this.viewClaimsByFilter === 'DOP') {
       this.paymentsSharedService.getclaimsPaidData(this.createPayloadService.payload).then(
-        data => {
+        (data: any) => {
           this.loadingClaimsBreakdown = false;
-          const payData = JSON.parse(JSON.stringify(data));
+          const payData = data;
           try {
             if (payData) {
               this.paymentArray = payData.data;
@@ -142,9 +142,9 @@ export class PaymentsComponent implements OnInit {
       );
     } else {
       this.paymentsSharedService.getclaimsPaidData(this.createPayloadService.payload).then(
-        data => {
+        (data: any) => {
           this.loadingClaimsBreakdown = false;
-          const payData = JSON.parse(JSON.stringify(data));
+          const payData = data;
           try {
             if (payData) {
               this.paymentArray = payData.data;

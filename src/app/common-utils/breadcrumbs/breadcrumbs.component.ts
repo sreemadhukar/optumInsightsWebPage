@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, NavigationEnd, Params, PRIMARY_OUTLET, NavigationStart } from '@angular/router';
 import { filter } from 'rxjs/operators';
-import { MatDialog, MatIconRegistry } from '@angular/material';
+import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
-import { SessionService } from '../../shared/session.service';
 
 interface IBreadcrumb {
   label: string;
@@ -25,19 +24,17 @@ export class BreadcrumbsComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private iconRegistry: MatIconRegistry,
-    private sanitizer: DomSanitizer,
-    private sessionService: SessionService
+    private sanitizer: DomSanitizer
   ) {
     this.breadcrumbs = [];
     const ROUTE_DATA_BREADCRUMB = 'breadcrumb';
     this.router.events.pipe(filter(event => event instanceof NavigationEnd)).subscribe(event => {
       const root: ActivatedRoute = this.activatedRoute.root;
       this.breadcrumbs = this.getBreadcrumbs(root);
-      if (this.breadcrumbs[0].label === 'Performance Management Summary') {
+      if (this.breadcrumbs[0] && this.breadcrumbs[0].label === 'Performance Management Summary') {
         this.hyperLinkFlag = true;
       }
       this.breadcrumbLength = this.breadcrumbs.length;
-      //  this.checkAdvocate = this.sessionService.checkAdvocateRole().value;
       iconRegistry.addSvgIcon(
         'chevron_right',
         sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Navigation/baseline-chevron_right-24px.svg')
