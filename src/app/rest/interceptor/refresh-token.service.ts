@@ -25,10 +25,6 @@ export class RefreshTokenService {
     return this.http.post(url, '', { headers: myHeader });
     // .pipe(map(ssoTokenData => {
     //   // return ssoTokenData;
-    //   console.log('REFRESH TOKEN DATA');
-    //   console.log('a-----' + ssoTokenData.headers.get('Authorization'));
-    //   console.log('R-----' + ssoTokenData.headers.get('RefreshToken'));
-    //   console.log('//REFRESH TOKEN DATA//');
     //   return ssoTokenData.headers;
     // }));
   }

@@ -191,6 +191,15 @@
     .user-expand-more {
       line-height: 28px;
     }
+    &:hover {
+      background: $pattens-blue;
+      color: $black-rock;
+      cursor: pointer;
+    }
+    &:active {
+      background: #c8cfd6;
+      color: $black-rock;
+    }
   }
 }
 

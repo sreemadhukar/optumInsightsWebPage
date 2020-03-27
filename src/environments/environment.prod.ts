@@ -54,7 +54,10 @@ export const environment: any = {
     HealthSystemDetails: 'providerInfo/',
     KOPBusinessGlossary: 'business-glossaries-kop/',
     CallsTrendLine: 'calls-trend/',
-    PaymentsBySubmission: 'claim-submissions/'
+    PaymentsBySubmission: 'claim-submissions/',
+    // un-comment when the api is ready for the  GPP in the prod env.
+    // GroupPremiumDesignation: 'group-premium-designation/',
+    NetworkLever: 'network-lever/'
   },
   headerKeys: {
     selectedCompany: '',

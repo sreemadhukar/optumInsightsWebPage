@@ -53,6 +53,8 @@ import { StackedBarChartComponent } from './d3-objects/stacked-bar-chart/stacked
 import { UhcKopFilterComponent } from './uhc-kop-filter/uhc-kop-filter.component';
 import { ClickElsewhereDirective } from './directives/ClickElsewhereDirective';
 
+import { RlpCommonUtilsModule } from '../components/performance/rlp-common-utils/rlp-common-utils.module';
+import { RlpLongCardComponent } from './rlp-long-card/rlp-long-card.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -61,7 +63,8 @@ import { ClickElsewhereDirective } from './directives/ClickElsewhereDirective';
     HeadMaterialModule,
     RouterModule,
     MatIconModule,
-    PipesModule
+    PipesModule,
+    RlpCommonUtilsModule
   ],
   exports: [
     MiniTileComponent,
@@ -102,7 +105,8 @@ import { ClickElsewhereDirective } from './directives/ClickElsewhereDirective';
     BarSimplePiComponent,
     UhcKopFilterComponent,
     StackedBarChartComponent,
-    ClickElsewhereDirective
+    ClickElsewhereDirective,
+    RlpLongCardComponent
   ],
   declarations: [
     MiniTileComponent,
@@ -151,7 +155,8 @@ import { ClickElsewhereDirective } from './directives/ClickElsewhereDirective';
     BarSimplePiComponent,
     StackedBarChartComponent,
     UhcKopFilterComponent,
-    ClickElsewhereDirective
+    ClickElsewhereDirective,
+    RlpLongCardComponent
   ],
   entryComponents: [ProviderSearchComponent]
 })
