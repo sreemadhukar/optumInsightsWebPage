@@ -5,7 +5,7 @@ import { HealthSystemDetailsComponent } from './health-system-details/health-sys
 import { AdvocateHomeComponent } from './advocate-home/advocate-home.component';
 
 const routes: Routes = [
-  { path: '', component: AdvocateHomeComponent },
+  { path: '', component: OverviewAdvocateComponent },
   {
     path: 'HealthSystemDetails',
     component: HealthSystemDetailsComponent,
@@ -14,11 +14,8 @@ const routes: Routes = [
     }
   },
   {
-    path: 'OverviewPageAdvocate',
-    component: OverviewAdvocateComponent,
-    data: {
-      breadcrumb: 'Overview'
-    }
+    path: 'Home',
+    component: AdvocateHomeComponent
   }
 ];
 

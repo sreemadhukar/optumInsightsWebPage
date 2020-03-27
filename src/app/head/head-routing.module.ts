@@ -27,7 +27,7 @@ const routes: Routes = [
     }
   },
   {
-    path: 'PPD',
+    path: 'OverviewPageAdvocate',
     loadChildren: '../components/advocate/advocate.module#AdvocateModule',
     data: {
       preload: false,
