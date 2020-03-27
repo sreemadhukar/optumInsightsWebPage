@@ -295,7 +295,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
           sessionStorage.getItem('advocateView') === 'true' &&
           !this.makeAbsolute &&
           event.url !== '/OverviewPageAdvocate' &&
-          event.url !== '/OverviewPageAdvocate/HealthSystemDetails' &&
+          event.url !== '/PPD' &&
           this.checkAdv.value
         ) {
           this.advocateView = true;
@@ -707,7 +707,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
 
   taxSummaryLink() {
     if (this.sessionService.checkRole('UHCI_Advocate')) {
-      this.router.navigateByUrl('/OverviewPageAdvocate/HealthSystemDetails');
+      this.router.navigateByUrl('/PPD');
     } else {
       this.router.navigateByUrl('/TinList');
     }
