@@ -360,7 +360,8 @@ export class PriorAuthSharedService {
                   },
                   besideData: {
                     labels: this.common.sideLabelWords(priorAuthorizationCounts, priorAuthorizationLabels),
-                    color: this.common.sideLabelColor(priorAuthorizationCounts)
+                    color: this.common.sideLabelColor(priorAuthorizationCounts),
+                    value: this.common.sideLabelValues(priorAuthorizationCounts)
                   },
                   timeperiod:
                     this.common.dateFormat(providerSystems.StartDate) +
