@@ -12,8 +12,13 @@ export class CommonFooterComponent {
   @Input() timePeriod: String;
   @Input() title: String;
   @Input() linkName: String;
+  @Input() routePath: String;
   @Input() handleCaseForOverviewTile = false;
   routhTo: string;
+  public get timePeriodFooter() {
+    this.timePeriod = this.timePeriod.replace(' - ', '&ndash;');
+    return this.timePeriod;
+  }
   constructor(private router: Router, private iconRegistry: MatIconRegistry, private sanitizer: DomSanitizer) {
     iconRegistry.addSvgIcon(
       'chevron_right',
@@ -24,11 +29,11 @@ export class CommonFooterComponent {
   linkFunction() {
     if (this.linkName === 'Calls Overview') {
       this.routhTo = '/ServiceInteraction/Calls';
-    } else if (this.linkName === 'Calls Overview') {
+    } else if (this.linkName === 'Non-Payment Details') {
       this.routhTo = '/GettingReimbursed/NonPayments';
     } else if (this.linkName === 'View Details') {
       if (this.title === 'Preferred Specialist Referral Rate') {
-        this.routhTo = '/Performance/Referrals';
+        this.routhTo = '/Performance/Labs';
       } else if (this.title === 'Preferred Lab Network Use Rate') {
         this.routhTo = '/Performance/Labs';
       } else if (this.title === 'Preferred Tier Prescribing Rate') {
