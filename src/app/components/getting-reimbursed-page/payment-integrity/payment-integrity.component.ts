@@ -93,19 +93,26 @@ export class PaymentIntegrityComponent implements OnInit {
 
   ngOnInit() {
     this.loading = true;
+    this.hppData();
+    setTimeout(function() {
+      this.hppData();
+    }, 3000);
+    this.printDetails();
+    this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'paymentIntegrityPage' });
+    // this.smartEdit();
+  }
+  hppData() {
     this.groupPremiumDesignationService.gppObservable.subscribe(value => {
       this.loading = false;
       let data = <any>{};
       data = value;
-      this.GroupPremiumDesignation = data.HppIndicator;
-      if (!this.GroupPremiumDesignation) {
-        this.oldPaymentIntergrity();
+      if (this.GroupPremiumDesignation !== data.HppIndicator) {
+        this.GroupPremiumDesignation = data.HppIndicator;
+        if (!this.GroupPremiumDesignation) {
+          this.oldPaymentIntergrity();
+        }
       }
     });
-    this.printDetails();
-    this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'paymentIntegrityPage' });
-    // this.oldPaymentIntergrity();
-    // this.smartEdit();
   }
   printDetails() {
     if (this.printStyle) {
@@ -113,6 +120,7 @@ export class PaymentIntegrityComponent implements OnInit {
     }
   }
   helpIconClick(title, MetricID) {
+    console.log(MetricID + title);
     this.glossaryExpandService.setMessage(title, MetricID);
   }
   openFilter() {

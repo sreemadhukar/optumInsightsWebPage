@@ -9,9 +9,9 @@
         attr.id="{{ item.title }}"
       >
         <span>
-          {{ item.title }}
+          <span [innerHTML]="item.title"></span>
           <div class="nav-values">
-            {{ item.value1 }}
+            <span [innerHTML]="item.value1"></span>
             <!--<span
       *ngIf="item.sdata != null"
       class="metrics"
@@ -36,8 +36,8 @@
 <!--<app-mock-data-warning-message class="warning-block"></app-mock-data-warning-message>-->
 
 <div class="height1Separator"></div>
-<div *ngIf="currentSummary != null" class="pi-cards">
-  <app-card [chartData]="currentSummary[0]" class="cards"></app-card>
+<div *ngIf="currentSummary" class="pi-cards">
+  <app-card *ngIf="currentSummary[0]" [chartData]="currentSummary[0]" class="cards"></app-card>
   <div *ngIf="currentSummary[1] != null" class="app-card-structure">
     <app-common-header
       [title]="currentSummary[1].title"

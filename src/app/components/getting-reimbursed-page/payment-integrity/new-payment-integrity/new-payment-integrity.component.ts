@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { SessionService } from 'src/app/shared/session.service';
 import { GlossaryMetricidService } from '../../../../shared/glossary-metricid.service';
+import { PaymentIntegrityTabInfoService } from '../../../../rest/new-payment-integrity/payment-integrity-tab-info.service';
 
 @Component({
   selector: 'app-new-payment-integrity',
@@ -16,24 +17,43 @@ export class NewPaymentIntegrityComponent implements OnInit {
   summaryItems: any;
   previousSelectedTab: any = 1;
   pageSubTitle: string;
+  printDateTitle: String = '';
+  printDateSubTitle: String = '';
   development = true;
-  constructor(public MetricidService: GlossaryMetricidService, private session: SessionService) {
-    this.tabOptionsTitle = ['Jul 1, 2018–Jun 30, 2019', 'Jul 1, 2019–Oct 31, 2019'];
+  constructor(
+    public paymentIntegrityTabInfoService: PaymentIntegrityTabInfoService,
+    public MetricidService: GlossaryMetricidService,
+    private session: SessionService
+  ) {
+    // this.tabOptionsTitle = ['Jul 1, 2018–Jun 30, 2019', 'Jul 1, 2019–Oct 31, 2019'];
     this.tabOptionsSubTitle = ['Date through Oct 4, 2018', 'Date through Oct 4, 2019'];
   }
 
   ngOnInit() {
-    // this.printDateTitle = this.tabOptionsTitle[1];
-    // this.printDateSubTitle = this.tabOptionsSubTitle[1];
-    this.newPaymentIntergrity();
+    this.currentSummary = null;
+    this.tabInfo();
+  }
+  tabInfo() {
+    if (this.paymentIntegrityTabInfoService.tabInfo()) {
+      this.paymentIntegrityTabInfoService.tabInfo().subscribe(response => {
+        for (let i = 0; i < response.length; i++) {
+          const startDate = this.dateFormating(response[i].PeriodStart);
+          const endDate = this.dateFormating(response[i].PeriodEnd);
+          this.tabOptionsTitle[response[i].TabOrder - 1] = startDate + '&ndash;' + endDate;
+        }
+        this.printDateTitle = this.tabOptionsTitle[1];
+        this.printDateSubTitle = this.tabOptionsSubTitle[1];
+        this.newPaymentIntergrity();
+      });
+    }
   }
 
   getTabOptionsTitle(i: number) {
     return this.tabOptionsTitle[i];
   }
   matOptionClicked(i: number, event: any) {
-    // this.printDateTitle = this.tabOptionsTitle[i];
-    // this.printDateSubTitle = this.tabOptionsSubTitle[i];
+    this.printDateTitle = this.tabOptionsTitle[i];
+    this.printDateSubTitle = this.tabOptionsSubTitle[i];
     this.currentSummary = [];
     this.currentSummary = this.summaryItems;
     const myTabs = document.querySelectorAll('ul.nav-tabs > li');
@@ -42,6 +62,11 @@ export class NewPaymentIntegrityComponent implements OnInit {
     }
     myTabs[i].classList.add('active');
     this.previousSelectedTab = i;
+  }
+  dateFormating(value: any) {
+    const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    const split = value.split('-');
+    return monthNames[parseInt(split[1]) - 1] + ' ' + split[2] + ', ' + split[0];
   }
   newPaymentIntergrity() {
     this.tabOptions = [];
@@ -56,7 +81,7 @@ export class NewPaymentIntegrityComponent implements OnInit {
       {
         id: 1,
         title: this.getTabOptionsTitle(1),
-        value1: 'Date through Oct 4, 2019', // 'Claims Processed through Oct 31, 2020',
+        value1: 'Claims Processed through Oct 4, 2019', // 'Claims Processed through Oct 31, 2020',
         sdata: null
       }
     ];
