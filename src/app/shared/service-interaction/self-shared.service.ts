@@ -1,12 +1,11 @@
 import { Injectable } from '@angular/core';
 import { SelfServiceService } from '../../rest/service-interaction/self-service.service';
-import { ServiceInteractionModule } from '../../components/service-interaction/service-interaction.module';
 import { CommonUtilsService } from '../common-utils.service';
 import { SessionService } from '../session.service';
 import { AuthorizationService } from '../../auth/_service/authorization.service';
 import { GlossaryMetricidService } from '../glossary-metricid.service';
 
-@Injectable({ providedIn: ServiceInteractionModule })
+@Injectable({ providedIn: 'root' })
 export class SelfSharedService {
   private selfServiceData = [];
   private timeFrame: string;

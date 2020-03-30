@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { CallsService } from '../../rest/service-interaction/calls.service';
-import { ServiceInteractionModule } from '../../components/service-interaction/service-interaction.module';
 import { SessionService } from '../session.service';
 import { CommonUtilsService } from '../common-utils.service';
 import { TrendingMetricsService } from '../../rest/trending/trending-metrics.service';
@@ -8,7 +7,7 @@ import { AuthorizationService } from '../../auth/_service/authorization.service'
 import { GettingReimbursedPayload } from '../getting-reimbursed/payload.class';
 import { ICallsShared } from '../../modals/i-calls-shared';
 
-@Injectable({ providedIn: ServiceInteractionModule })
+@Injectable({ providedIn: 'root' })
 export class CallsSharedService {
   public sdataQuestionType: object;
   public sdataTalkTime: object;
