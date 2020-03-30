@@ -12,11 +12,6 @@ export const KOP_INITIAL_STATE = {
   ...defaultKOPFilter
 };
 
-export const loadState = () => {
-  const serializedState = sessionStorage.getItem('state');
-  return serializedState ? JSON.parse(serializedState) : INITIAL_STATE;
-};
-
 // Load KOP state Either from default or session storage
 export const loadKOPState = () => {
   const kopFilterState = sessionStorage.getItem('kopFilterState');

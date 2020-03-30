@@ -1,12 +1,11 @@
 import { Injectable } from '@angular/core';
 import { PriorAuthService } from '../../rest/care-delivery/prior-auth.service';
-import { CareDeliveryPageModule } from '../../components/care-delivery-page/care-delivery-page.module';
 import { CommonUtilsService } from '../common-utils.service';
 import { SessionService } from '../session.service';
 import { GlossaryMetricidService } from '../glossary-metricid.service';
 import { AuthorizationService } from '../../auth/_service/authorization.service';
 @Injectable({
-  providedIn: CareDeliveryPageModule
+  providedIn: 'root'
 })
 export class PriorAuthSharedService {
   private providerKey: number;
