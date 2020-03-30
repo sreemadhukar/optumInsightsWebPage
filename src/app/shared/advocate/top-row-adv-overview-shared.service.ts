@@ -51,9 +51,6 @@ export class TopRowAdvOverviewSharedService {
       this.topRowService.getPaymentsData(parameters).subscribe(
         paymentData => {
           const paymentDataResolve = [];
-          console.log('Param', param);
-          console.log('parameters', parameters);
-          console.log('paymentData', paymentData);
           this.a = {};
           this.b = {};
 
@@ -64,7 +61,6 @@ export class TopRowAdvOverviewSharedService {
             })
             .then(payment => {
               this.b = payment;
-              console.log(' this.b--------->', this.b);
               paymentDataResolve.push(
                 this.a,
                 this.b,
