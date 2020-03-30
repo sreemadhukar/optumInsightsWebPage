@@ -24,7 +24,6 @@ export class TopRowAdvOverviewService {
       'Content-Type': 'application/json',
       Accept: '*/*'
     });
-    // console.log('parameters at the rest1', parameters);
     const nonPaymentURL = this.APP_URL + this.CLAIMS_SERVICE_PATH + parameters[0] + '?requestType=PAYMENT_METRICS';
     return this.http.post(nonPaymentURL, parameters[1], { headers: myHeader }).pipe(
       map(res => JSON.parse(JSON.stringify(res[0]))),
@@ -33,7 +32,6 @@ export class TopRowAdvOverviewService {
   }
 
   public getPaymentsData(parameters) {
-    console.log('parameters at the rest', parameters);
     let claimsURL;
     if (parameters[1]['ClaimsBy'] === 'DOP') {
       claimsURL = this.APP_URL + this.CLAIMS_SERVICE_PATH_DOP + parameters[0] + '?requestType=CLAIMS';
