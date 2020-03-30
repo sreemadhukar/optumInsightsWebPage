@@ -59,7 +59,7 @@ export class PrescriptionsComponent implements OnInit, OnDestroy {
         this.loadingTable = false;
         this.isTable = true;
         this.tableData.thead = staticTableData.Perscription;
-        this.tableData.tbody = JSON.parse(JSON.stringify(data));
+        this.tableData.tbody = data;
       })
       .catch(reason => {
         console.log('Error Prescription page table data', reason);

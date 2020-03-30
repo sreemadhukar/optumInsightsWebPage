@@ -54,7 +54,6 @@ export class SessionService {
 
   public providerKeyData() {
     if (sessionStorage.getItem('currentUser') && environment.internalAccess) {
-      console.log(JSON.parse(sessionStorage.getItem('currentUser'))[0]['ProviderKey']);
       return JSON.parse(sessionStorage.getItem('currentUser'))[0]['ProviderKey'];
     } else if (sessionStorage.getItem('currentUser') && !environment.internalAccess) {
       return JSON.parse(sessionStorage.getItem('currentUser'))[0]['Providersyskey'];
@@ -166,7 +165,6 @@ export class SessionService {
       }
       return pcorBoolean;
     } catch (err) {
-      console.log('');
       return pcorBoolean;
     }
   }

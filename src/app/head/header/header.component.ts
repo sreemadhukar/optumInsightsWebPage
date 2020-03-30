@@ -178,7 +178,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   advocateUserClicked() {
-    console.log('this.checkAdv()', this.checkAdv.value);
     if (this.sessionService.checkRole('UHCI_Advocate')) {
       this.advDropdownBool = true;
     } else {

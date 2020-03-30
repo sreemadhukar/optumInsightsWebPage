@@ -19,10 +19,9 @@ import { CacheInterceptor } from './rest/interceptor/cache.interceptor';
 import { UserIdleModule } from 'angular-user-idle';
 import { IdleTimeoutDialogComponent } from './auth/idle-timeout-dialog/idle-timeout-dialog.component';
 import { NgReduxModule, NgRedux } from '@angular-redux/store';
-import { FilterReducer, INITIAL_STATE } from './store/filter/reducer';
-import { IAppState } from './store/store';
+import { FilterReducer } from './store/filter/reducer';
 import { RavenErrorHandler } from './components/error-handler/error-handler';
-import { loadState, saveState } from './store/filter/localStorage';
+import { saveState } from './store/filter/localStorage';
 import { combineReducers, createStore, Store, applyMiddleware } from 'redux';
 import { KopFilterReducer } from './store/kopFilter/reducer';
 

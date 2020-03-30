@@ -1,12 +1,11 @@
 import { Injectable } from '@angular/core';
 import { PcorService } from '../../rest/care-delivery/pcor.service';
-import { CareDeliveryPageModule } from '../../components/care-delivery-page/care-delivery-page.module';
 import { SessionService } from '../session.service';
 import { CommonUtilsService } from '../common-utils.service';
 import { GlossaryMetricidService } from '../glossary-metricid.service';
 import { AuthorizationService } from '../../auth/_service/authorization.service';
 @Injectable({
-  providedIn: CareDeliveryPageModule
+  providedIn: 'root'
 })
 export class PcorSharedService {
   constructor(

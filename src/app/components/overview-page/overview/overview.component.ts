@@ -196,7 +196,7 @@ export class OverviewComponent implements OnInit {
           this.errorloadMedicareStarRatingCard = false;
 
           this.loading = false;
-          this.overviewItems = JSON.parse(JSON.stringify(data));
+          this.overviewItems = data;
           this.mainCards = this.overviewItems[0];
 
           this.selfServiceAdoptionBlock = this.mainCards[0];

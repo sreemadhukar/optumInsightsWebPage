@@ -155,7 +155,7 @@ export class GettingReimbursedComponent implements OnInit {
       .then(completeData => {
         this.loading = false;
         this.tabOptions = [];
-        this.summaryItems = JSON.parse(JSON.stringify(completeData));
+        this.summaryItems = completeData;
         if (this.previousSelectedTab) {
           this.currentSummary = this.summaryItems[this.previousSelectedTab].data;
           this.currentTabTitle = this.summaryItems[this.previousSelectedTab].title;
