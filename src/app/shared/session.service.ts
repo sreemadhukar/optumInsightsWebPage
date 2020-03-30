@@ -170,6 +170,19 @@ export class SessionService {
       return pcorBoolean;
     }
   }
+  public isRlpData() {
+    let rlpBoolean = false;
+    try {
+      if (JSON.parse(sessionStorage.getItem('rlp'))) {
+        rlpBoolean = JSON.parse(sessionStorage.getItem('rlp'));
+      }
+      return rlpBoolean;
+    } catch (err) {
+      console.log('Error at RLp session storage', err);
+      return rlpBoolean;
+    }
+  }
+
   public sessionStorage(value: string, item: string) {
     if (sessionStorage.getItem(value)) {
       return JSON.parse(sessionStorage.getItem(value))[item];

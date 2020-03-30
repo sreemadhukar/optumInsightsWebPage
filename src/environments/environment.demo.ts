@@ -58,7 +58,9 @@ export const environment: any = {
     HealthSystemDetails: 'providerInfo/',
     KOPBusinessGlossary: 'business-glossaries-kop/',
     CallsTrendLine: 'calls-trend/',
-    PaymentsBySubmission: 'claim-submissions/'
+    PaymentsBySubmission: 'claim-submissions/',
+    GroupPremiumDesignation: 'group-premium-designation/',
+    NetworkLever: 'network-lever/'
   },
   headerKeys: {
     selectedCompany: '',
@@ -81,5 +83,6 @@ export const environment: any = {
   clickStreamUrl: '//assets.adobedtm.com/launch-ENacdc6d1acf734bcd95703e446bd1de1d-development.min.js',
   internalAccess: false,
   toggleTrendingSummary: false,
+  internalIntAccess: false,
   sentryKey: 'https://2e6628201e8043c89e8fac56d77c46aa@sentry-ped-internal.ocp-ctc-core.optum.com/1'
 };
