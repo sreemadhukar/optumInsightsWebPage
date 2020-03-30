@@ -109,15 +109,4 @@ export class CardComponent implements OnInit {
       }
     }
   }
-
-  linkFunction(title: string) {
-    if (title === 'Preferred Specialist Referral Rate') {
-      this.routhPath = '/Performance/Referrals';
-    } else if (title === 'Preferred Lab Network Use Rate') {
-      this.routhPath = '/Performance/Labs';
-    } else if (title === 'Preferred Tier Prescribing Rate') {
-      this.routhPath = '/Performance/Prescriptions';
-    }
-    this.router.navigate([this.routhPath]);
-  }
 }
