@@ -40,9 +40,12 @@ export class NewPaymentIntegrityComponent implements OnInit {
           const startDate = this.dateFormating(response[i].PeriodStart);
           const endDate = this.dateFormating(response[i].PeriodEnd);
           this.tabOptionsTitle[response[i].TabOrder - 1] = startDate + '&ndash;' + endDate;
+          if (response[i].Active === 'Y') {
+            this.printDateTitle = this.tabOptionsTitle[response[i].TabOrder - 1];
+            this.printDateSubTitle = this.tabOptionsSubTitle[i];
+            this.previousSelectedTab = i;
+          }
         }
-        this.printDateTitle = this.tabOptionsTitle[1];
-        this.printDateSubTitle = this.tabOptionsSubTitle[1];
         this.newPaymentIntergrity();
       });
     }

@@ -144,6 +144,7 @@ export class PaymentIntegrityComponent implements OnInit {
     }
   }
   oldPaymentIntergrity() {
+    this.loading = true;
     this.timePeriod = this.session.filterObjValue.timeFrame;
     if (this.session.filterObjValue.lob !== 'All') {
       this.lob = this.filtermatch.matchLobWithLobData(this.session.filterObjValue.lob);
