@@ -183,13 +183,13 @@
     }
     .user-name {
       /*line-height: 31px;*/
-      line-height: 28px;
+      line-height: 24px;
       font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
       margin-left: 4px;
       margin-right: 4px;
     }
     .user-expand-more {
-      line-height: 28px;
+      line-height: 24px;
     }
     &:hover {
       background: $pattens-blue;
@@ -271,8 +271,8 @@
 
 .user-info-block {
   position: absolute;
-  right: 40px;
-  top: 51px;
+  right: 24px;
+  top: 60px;
   min-width: 225px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.15);
   border-radius: 3px 3px 0 0;
