@@ -117,8 +117,6 @@ export class CardComponent implements OnInit {
       this.routhPath = '/Performance/Labs';
     } else if (title === 'Preferred Tier Prescribing Rate') {
       this.routhPath = '/Performance/Prescriptions';
-    } else {
-      this.routhPath = '/Performance';
     }
     this.router.navigate([this.routhPath]);
   }
