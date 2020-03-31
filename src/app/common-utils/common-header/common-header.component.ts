@@ -84,8 +84,6 @@ export class CommonHeaderComponent implements OnInit {
       this.routhPath = '/ServiceInteraction/Calls';
     } else if (title === 'Patient Care Opportunity–Medicare') {
       this.routhPath = '/CareDelivery/PatientCareOpportunity';
-    } else {
-      this.routhPath = '/OverviewPage';
     }
     this.router.navigate([this.routhPath]);
   }

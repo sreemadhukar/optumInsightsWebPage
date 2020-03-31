@@ -120,9 +120,9 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
       'warning-icon',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/warning-icon.svg')
     );
-    this.createPayloadService.getEvent().subscribe(value => {
+    /* this.createPayloadService.getEvent().subscribe(value => {
       this.ngOnInit();
-    });
+    }); */
   }
 
   paymentData() {
@@ -253,13 +253,18 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
   }
 
   totalCallsTrendLineData() {
-    this.callsLineGraphLoading = true;
+    // this.callsLineGraphLoading = true;
     this.overviewAdvocateSharedService
       .getTotalCallsTrendLineShared(this.createPayloadService.payload)
       .then(totalCallsTrendData => {
-        console.log('totalCallsTrendData', totalCallsTrendData);
-        if (totalCallsTrendData == null) {
-          this.callsLineGraphLoading = false;
+        if (
+          totalCallsTrendData == null ||
+          (totalCallsTrendData['B&E'].length === 0 &&
+            totalCallsTrendData['P&A'].length === 0 &&
+            totalCallsTrendData['CLAIMS'].length === 0 &&
+            totalCallsTrendData['Other'].length === 0)
+        ) {
+          // this.callsLineGraphLoading = false;
           this.callsData = null;
           this.callsLineGraphData = {
             category: 'large-card',
@@ -271,7 +276,7 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
             timeperiod: null
           };
         } else {
-          this.callsLineGraphLoading = false;
+          // this.callsLineGraphLoading = false;
           let callsTrendData;
           callsTrendData = totalCallsTrendData;
           this.callsTrendLineGraph = new CallsTrendData(callsTrendData, CallsGeneralData, 'calls-trend-block');
@@ -309,7 +314,7 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
         }
       })
       .catch(err => {
-        this.callsLineGraphLoading = false;
+        //   this.callsLineGraphLoading = false;
       });
   }
 
@@ -432,9 +437,7 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
     this.overviewAdvocateSharedService
       .paymentsBySubmission(this.createPayloadService.payload)
       .then(data => {
-        console.log('psbData', data);
         this.pbsCard = JSON.parse(JSON.stringify(data));
-        console.log('this.pbsCard---------->', this.pbsCard);
         this.pbsCard['timeperiod'] = `${this.timeFilterValueResolved} (${this.pbsCard['timeperiod']})`;
         this.pbsLoading = false;
       })

@@ -35,7 +35,7 @@
   "Getting Reimbursed": {
     "Summary": {
       "navLink": true,
-      "Claims Submissions": {
+      "Claims Processed": {
         "tile": true,
         "Total Claims Submitted": true,
         "Claims Average Turnaround Time to Payment": true
@@ -43,7 +43,7 @@
       "Claims Payments": {
         "tile": true,
         "Claims Paid": true,
-        "Claims Yield": false
+        "Claims Yield": true
       },
       "Claims Non-Payments": {
         "tile": true,
@@ -59,7 +59,7 @@
     "Claims Payments": {
       "navLink": true,
       "Claims Paid": true,
-      "Claims Yield": false,
+      "Claims Yield": true,
       "Claims Paid Breakdown": true
     },
     "Claims Non-Payments": {
@@ -111,6 +111,26 @@
       "navLink": true,
       "Calls by Call Type": true,
       "Talk Time By Call Type": true
+    }
+  },
+  "Performance": {
+    "Summary": {
+      "navLink": true,
+      "Preferred Specialist Referral Rate": true,
+      "Preferred Lab Network Use Rate": true,
+      "Preferred Tier Prescribing Rate": true
+    },
+    "Referral": {
+      "navLink": true,
+      "Preferred Specialist Referral Rate": true
+    },
+    "Labs": {
+      "navLink": true,
+      "Preferred Lab Network Use Rate": true
+    },
+    "Perscription": {
+      "navLink": true,
+      "Preferred Tier Prescribing Rate": true
     }
   }
 }
