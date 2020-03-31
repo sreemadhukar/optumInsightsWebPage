@@ -20,6 +20,7 @@ export class EncryptMsidService {
       b = b ? b : 0;
       c = c ? c : 0;
 
+      /* tslint:disable:no-bitwise */
       const b1 = (a >> 2) & 0x3f;
       const b2 = ((a & 0x3) << 4) | ((b >> 4) & 0xf);
       let b3 = ((b & 0xf) << 2) | ((c >> 6) & 0x3);

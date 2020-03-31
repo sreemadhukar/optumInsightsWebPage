@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { ServiceInteractionModule } from '../../components/service-interaction/service-interaction.module';
 import { map, catchError, retry } from 'rxjs/operators';
 import { combineLatest, of, Observable } from 'rxjs';
-@Injectable({ providedIn: ServiceInteractionModule })
+@Injectable({ providedIn: 'root' })
 export class SelfServiceService {
   public combined: any;
   private APP_URL: string = environment.apiProxyUrl;
