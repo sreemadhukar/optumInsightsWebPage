@@ -9,13 +9,18 @@ import { SessionService } from 'src/app/shared/session.service';
 export class RoleGuard implements CanActivate {
   constructor(private router: Router, private sessionService: SessionService) {}
   canActivate(
-    next: ActivatedRouteSnapshot,
+    route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<boolean> | Promise<boolean> | boolean {
     const checkAdv: any = this.sessionService.checkAdvocateRole();
-    if (sessionStorage.getItem('currentUser') && checkAdv.value) {
-      // logged in so return true
-      return true;
+    if (sessionStorage.getItem('currentUser')) {
+      const expectedRole = route.data.expectedRole;
+      if (expectedRole === 'UHCI_Advocate') {
+        if (checkAdv.value) {
+          // logged in so return true
+          return true;
+        }
+      }
     }
 
     // not logged in so redirect to login page with the return url
