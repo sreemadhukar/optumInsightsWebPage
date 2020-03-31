@@ -8,6 +8,7 @@ import { TinListPageComponent } from './tin-list-page/tin-list-page.component';
 import { CustomPreloadingStrategy } from './custom-preloading';
 import { NoAccessErrorPageComponent } from '../common-utils/no-access-error-page/no-access-error-page.component';
 import { ContactusComponent } from './contactus/contactus.component';
+import { RoleGuard } from '../auth/_guards/role.guard';
 
 const routes: Routes = [
   {
@@ -31,9 +32,10 @@ const routes: Routes = [
     loadChildren: '../components/advocate/advocate.module#AdvocateModule',
     data: {
       preload: false,
-      delay: false
+      delay: false,
+      expectedRole: 'UHCI_Advocate'
     },
-    canActivate: [AuthGuard]
+    canActivate: [RoleGuard]
   },
   {
     path: 'OverviewPage',
