@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { PerformanceRestService } from '../../rest/performance/performance-rest.service';
-import { PerformanceModule } from '../../components/performance/performance.module';
 import { SessionService } from '../session.service';
 import { Subscription } from 'rxjs';
 
@@ -11,7 +10,7 @@ export interface ItableData {
 }
 
 @Injectable({
-  providedIn: PerformanceModule
+  providedIn: 'root'
 })
 export class RlpSharedService {
   public requestBody;

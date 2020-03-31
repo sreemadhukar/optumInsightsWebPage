@@ -13,6 +13,7 @@ import { ProviderSearchComponent } from '../../common-utils/provider-search/prov
 import { DomSanitizer } from '@angular/platform-browser';
 import { AuthorizationService } from '../_service/authorization.service';
 import { DOCUMENT } from '@angular/common';
+import { EncryptMsidService } from '../_service/encrypt-msid.service';
 
 @Component({
   selector: 'app-login-stub',
@@ -54,6 +55,7 @@ export class LoginStubComponent implements OnInit {
     private cookieService: CookieService,
     private route: ActivatedRoute,
     private sessionService: SessionService,
+    private encryptMsidService: EncryptMsidService,
     @Inject(DOCUMENT) private document: any
   ) {
     this.checkAdv = this.sessionService.checkAdvocateRole();
@@ -183,6 +185,7 @@ export class LoginStubComponent implements OnInit {
         user => {
           this.blankScreen = true;
           this.loading = false;
+          sessionStorage.setItem('MsId', this.encryptMsidService.encryptMsId(this.f.username.value));
           this.authorise.getToggles('authorise').subscribe(value => {
             console.log(value);
           });
