@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { SessionService } from 'src/app/shared/session.service';
 import { GlossaryMetricidService } from '../../../../shared/glossary-metricid.service';
-import { PaymentIntegrityTabInfoService } from '../../../../rest/new-payment-integrity/payment-integrity-tab-info.service';
+import { NewPaymentIntegrityService } from '../../../../shared/new-payment-integrity/new-payment-integrity.service';
 
 @Component({
   selector: 'app-new-payment-integrity',
@@ -21,7 +21,7 @@ export class NewPaymentIntegrityComponent implements OnInit {
   printDateSubTitle: String = '';
   development = true;
   constructor(
-    public paymentIntegrityTabInfoService: PaymentIntegrityTabInfoService,
+    public newPaymentIntegrityService: NewPaymentIntegrityService,
     public MetricidService: GlossaryMetricidService,
     private session: SessionService
   ) {
@@ -34,12 +34,10 @@ export class NewPaymentIntegrityComponent implements OnInit {
     this.tabInfo();
   }
   tabInfo() {
-    if (this.paymentIntegrityTabInfoService.tabInfo()) {
-      this.paymentIntegrityTabInfoService.tabInfo().subscribe(response => {
+    if (this.newPaymentIntegrityService.tabInfo()) {
+      this.newPaymentIntegrityService.tabInfo().then((response: any) => {
         for (let i = 0; i < response.length; i++) {
-          const startDate = this.dateFormating(response[i].PeriodStart);
-          const endDate = this.dateFormating(response[i].PeriodEnd);
-          this.tabOptionsTitle[response[i].TabOrder - 1] = startDate + '&ndash;' + endDate;
+          this.tabOptionsTitle[response[i].TabOrder - 1] = response[i].date;
           if (response[i].Active === 'Y') {
             this.printDateTitle = this.tabOptionsTitle[response[i].TabOrder - 1];
             this.printDateSubTitle = this.tabOptionsSubTitle[i];
@@ -65,11 +63,6 @@ export class NewPaymentIntegrityComponent implements OnInit {
     }
     myTabs[i].classList.add('active');
     this.previousSelectedTab = i;
-  }
-  dateFormating(value: any) {
-    const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-    const split = value.split('-');
-    return monthNames[parseInt(split[1]) - 1] + ' ' + split[2] + ', ' + split[0];
   }
   newPaymentIntergrity() {
     this.tabOptions = [];
