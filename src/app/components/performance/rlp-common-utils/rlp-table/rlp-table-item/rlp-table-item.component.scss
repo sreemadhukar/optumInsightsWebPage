@@ -1,9 +1,12 @@
 @import '~src/scss/variables.scss';
-.rlp-table-container {
-  display: inline-flex;
-  // width: 960px;
-  width: 100%;
-  .rlp-table-label {
+
+.rlp-table {
+  &-container {
+    display: inline-flex;
+    // width: 960px;
+    width: 100%;
+  }
+  &-label {
     color: $black-rock;
     font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
     font-size: 16px;
@@ -11,13 +14,17 @@
     flex-wrap: wrap;
     align-self: flex-start;
   }
-  .rlp-table-tin {
-    flex: 0.62;
+  //1st column width
+  &-tin {
+    flex: 0.4;
+    padding-right: 16px;
   }
-  .rlp-table-group {
+  //2nd column width
+  &-group {
     flex: 0.97;
   }
-  .rlp-table-bar {
+  //3rd column width
+  &-bar {
     flex: 1.8;
   }
 }

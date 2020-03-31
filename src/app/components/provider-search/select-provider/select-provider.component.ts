@@ -96,14 +96,6 @@ export class SelectProviderComponent implements OnInit {
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Alert/round-error_outline-24px.svg')
     );
 
-    // if (!this.states) {
-    //   this.providerSharedService.providersList().subscribe(value => (this.states = value));
-    // }
-
-    // this.filteredStates = this.stateCtrl.valueChanges.pipe(
-    //   startWith(''),
-    //   map(state => (state ? this._filterStates(state) : null))
-    // );
     iconRegistry.addSvgIcon(
       'person',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Content/round-person-24px.svg')
@@ -158,7 +150,6 @@ export class SelectProviderComponent implements OnInit {
   }
 
   getProviders(text) {
-    console.log(text);
     this.providerSharedService.providersList(text).subscribe(value => this.checkCondition(value));
   }
 

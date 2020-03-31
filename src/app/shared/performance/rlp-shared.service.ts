@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { PerformanceRestService } from '../../rest/performance/performance-rest.service';
-import { PerformanceModule } from '../../components/performance/performance.module';
 import { SessionService } from '../session.service';
+import { Subscription } from 'rxjs';
+
 export interface ItableData {
   tin: string;
   groupName: string;
@@ -9,10 +10,11 @@ export interface ItableData {
 }
 
 @Injectable({
-  providedIn: PerformanceModule
+  providedIn: 'root'
 })
 export class RlpSharedService {
   public requestBody;
+  unGetTableData$: Subscription;
   constructor(private performanceRestService: PerformanceRestService, private session: SessionService) {
     this.requestBody = { timeFilter: 'YTD' };
   }
@@ -25,14 +27,14 @@ export class RlpSharedService {
   public getTableShared(pageName) {
     return new Promise(resolve => {
       // this.performanceRestService.getNetworkLeversData(this.session.providerKeyData(), getEndpoint, this.requestBody).subscribe(
-      this.performanceRestService
+      this.unGetTableData$ = this.performanceRestService
         .getNetworkLeversData(this.session.providerKeyData(), pageName, 'tin', this.requestBody)
         .subscribe(
           response => {
             const newData = response.map(item => {
               const temp: ItableData = {
                 tin: item.FormattedTin,
-                groupName: item.TinName,
+                groupName: item.TinName ? item.TinName : '',
                 graphData: {
                   category: 'app-table-card',
                   type: 'rlp-table-bar',
@@ -67,5 +69,9 @@ export class RlpSharedService {
       x1 = x1.replace(rgx, '$1' + ',' + '$2');
     }
     return x1 + x2;
+  }
+
+  unGetTable() {
+    this.unGetTableData$.unsubscribe();
   }
 }

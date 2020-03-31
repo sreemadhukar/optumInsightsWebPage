@@ -31,7 +31,7 @@ export class RlpTableComponent implements OnInit, OnDestroy {
     );
     iconRegistry.addSvgIcon(
       'downarrow',
-      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/arrow_downward-24px.svg')
+      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/arrow_downward.svg')
     );
     iconRegistry.addSvgIcon(
       'rightarrow',
@@ -46,7 +46,6 @@ export class RlpTableComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.pageSizeValues = [...pageSizeConf];
     this.selectPageSize = this.pageSizeValues[0];
-    // this.tableData = [...rlpData.data];
     this.tableData = [...this.data.tbody];
     this.afterQuery = [...this.tableData];
     this.totalPages = Math.ceil(this.tableData.length / +this.selectPageSize);

@@ -1,19 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { NgRedux } from '@angular-redux/store';
 import { IAppState } from '../../../store/store';
 import { CURRENT_PAGE } from '../../../store/filter/actions';
-import { PerformanceService } from '../../../shared/performance/performance.service';
 import { SummarySharedService } from '../../../shared/performance/summary-shared.service';
 import { rlpPageName, rlpPageConf, rlpCardType } from '../../../modals/rlp-data';
 import { StorageService } from '../../../shared/storage-service.service';
-import { CommonUtilsService } from 'src/app/shared/common-utils.service';
+import { CommonUtilsService } from '../../../shared/common-utils.service';
 import { Router } from '@angular/router';
 @Component({
   selector: 'app-summary',
   templateUrl: './summary.component.html',
   styleUrls: ['./summary.component.scss']
 })
-export class SummaryComponent implements OnInit {
+export class SummaryComponent implements OnInit, OnDestroy {
   public titleForSummary;
   public subTitleForSummary;
   public summaryItems: any;
@@ -31,17 +30,12 @@ export class SummaryComponent implements OnInit {
   timeFilterValueResolved: string;
   constructor(
     private ngRedux: NgRedux<IAppState>,
-    private perfShared: PerformanceService,
     private summarySharedService: SummarySharedService,
     private checkStorage: StorageService,
     private filtermatch: CommonUtilsService,
     private route: Router
   ) {
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.filtermatch.urlResuseStrategy());
-    this.perfShared.getPerformanceData().subscribe((response: any) => {
-      this.summaryItems = response[0];
-      console.log('SUmmary cards', this.summaryItems);
-    });
   }
 
   ngOnInit() {
@@ -52,6 +46,9 @@ export class SummaryComponent implements OnInit {
     this.referralsData();
     this.labsData();
     this.prescriptionData();
+  }
+  ngOnDestroy() {
+    this.summarySharedService.unGetHCOdata();
   }
   incrementHCOnull() {
     this.countHCOnull++;
@@ -68,7 +65,7 @@ export class SummaryComponent implements OnInit {
       .then(data => {
         this.referralsLoading = false;
         if (data) {
-          this.referralCard = JSON.parse(JSON.stringify(data));
+          this.referralCard = data;
         } else {
           this.incrementHCOnull();
         }
@@ -88,7 +85,7 @@ export class SummaryComponent implements OnInit {
       .then(data => {
         this.labsLoading = false;
         if (data) {
-          this.labsCard = JSON.parse(JSON.stringify(data));
+          this.labsCard = data;
         } else {
           this.incrementHCOnull();
         }
@@ -108,7 +105,7 @@ export class SummaryComponent implements OnInit {
       .then(data => {
         this.prescriptionLoading = false;
         if (data) {
-          this.prescriptionCard = JSON.parse(JSON.stringify(data));
+          this.prescriptionCard = data;
         } else {
           this.incrementHCOnull();
         }

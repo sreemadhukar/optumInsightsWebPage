@@ -85,6 +85,7 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
     chartData: ''
   };
   timeFilterValueResolved: string;
+  nonpaymentLoading: any;
 
   constructor(
     private checkStorage: StorageService,
@@ -130,9 +131,8 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
     this.topRowMockCards = [{}, {}, {}];
     this.topRowService
       .getPaymentShared(this.createPayloadService.payload)
-      .then(paymentData => {
-        this.paymentCards = JSON.parse(JSON.stringify(paymentData));
-        console.log('this.paymentCards', this.paymentCards);
+      .then((paymentData: any) => {
+        this.paymentCards = paymentData;
         this.paymentCards = this.paymentCards.map(item => {
           item['timeperiod'] = `${this.timeFilterValueResolved} (${item['timeperiod']})`;
           return item;
@@ -253,13 +253,18 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
   }
 
   totalCallsTrendLineData() {
-    this.callsLineGraphLoading = true;
+    // this.callsLineGraphLoading = true;
     this.overviewAdvocateSharedService
       .getTotalCallsTrendLineShared(this.createPayloadService.payload)
       .then(totalCallsTrendData => {
-        console.log('totalCallsTrendData', totalCallsTrendData);
-        if (totalCallsTrendData == null) {
-          this.callsLineGraphLoading = false;
+        if (
+          totalCallsTrendData == null ||
+          (totalCallsTrendData['B&E'].length === 0 &&
+            totalCallsTrendData['P&A'].length === 0 &&
+            totalCallsTrendData['CLAIMS'].length === 0 &&
+            totalCallsTrendData['Other'].length === 0)
+        ) {
+          // this.callsLineGraphLoading = false;
           this.callsData = null;
           this.callsLineGraphData = {
             category: 'large-card',
@@ -271,7 +276,7 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
             timeperiod: null
           };
         } else {
-          this.callsLineGraphLoading = false;
+          // this.callsLineGraphLoading = false;
           let callsTrendData;
           callsTrendData = totalCallsTrendData;
           this.callsTrendLineGraph = new CallsTrendData(callsTrendData, CallsGeneralData, 'calls-trend-block');
@@ -309,7 +314,7 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
         }
       })
       .catch(err => {
-        this.callsLineGraphLoading = false;
+        //   this.callsLineGraphLoading = false;
       });
   }
 
@@ -317,10 +322,9 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
     let total = 0;
     for (const i in arr) {
       if (arr.hasOwnProperty(i)) {
-        /*if (arr[i].value === NaN) {
+        if (arr[i].value === undefined) {
           arr[i].value = 0;
         }
-        console.log('arr[i].value', arr[i].value);*/
         total += arr[i].value;
       }
     }
@@ -334,7 +338,7 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
     this.topRowService
       .getClaimsYieldShared(this.createPayloadService.payload)
       .then(claimsYieldData => {
-        this.claimsYieldCard.push(JSON.parse(JSON.stringify(claimsYieldData)));
+        this.claimsYieldCard.push(claimsYieldData);
         this.claimsYieldCard = this.claimsYieldCard.map(val => {
           val['timeperiod'] = `${this.timeFilterValueResolved} (${val['timeperiod']})`;
           return val;
@@ -389,11 +393,14 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
 
     this.monthlyLineGraph.chartData = [];
     this.trendMonthDisplay = false;
+    this.nonpaymentLoading = true;
     // This is for line graph
-    this.nonPaymentService.sharedTrendByMonth(this.createPayloadService.payload).then(data => {
-      const trendData = JSON.parse(JSON.stringify(data));
+    this.nonPaymentService.sharedTrendByMonth(this.createPayloadService.payload).then((data: any) => {
+      const trendData = data;
+      this.nonpaymentLoading = false;
       if (!trendData || !trendData.data) {
         this.trendMonthDisplay = false;
+        this.nonpaymentLoading = false;
         this.monthlyLineGraph = {
           category: 'large-card',
           type: 'donut',
@@ -405,6 +412,7 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
         };
       } else {
         // this.timePeriodLineGraph = trendData.timePeriod;
+        this.nonpaymentLoading = false;
         this.monthlyLineGraph.chartData = trendData.data;
         this.timePeriodNonPayment = `${this.timeFilterValueResolved} (${trendData.timePeriod})`;
         this.trendMonthDisplay = true;
@@ -432,11 +440,9 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
     this.overviewAdvocateSharedService
       .paymentsBySubmission(this.createPayloadService.payload)
       .then(data => {
-        console.log('psbData', data);
-        this.pbsCard = JSON.parse(JSON.stringify(data));
-        console.log('this.pbsCard---------->', this.pbsCard);
-        this.pbsCard['timeperiod'] = `${this.timeFilterValueResolved} (${this.pbsCard['timeperiod']})`;
+        this.pbsCard = data;
         this.pbsLoading = false;
+        this.pbsCard['timeperiod'] = `${this.timeFilterValueResolved} (${this.pbsCard['timeperiod']})`;
       })
       .catch(reason => {
         this.pbsLoading = false;
