@@ -71,6 +71,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
   public mobileQuery: boolean;
   public healthSystemName: string;
   public isKop: boolean;
+  public isAdvocateHome: boolean;
   disableChangeProvider: boolean = environment.internalAccess;
   internalUser: boolean = environment.internalAccess;
   externalProvidersCount = false;
@@ -360,6 +361,10 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
 
     router.events.subscribe(event => {
       if (event instanceof NavigationStart) {
+        if (event.url.includes('/Home')) {
+          this.isAdvocateHome = true;
+          this.sideNavFlag = false;
+        }
         this.printStyle = event.url.includes('print-');
       }
     });
@@ -368,13 +373,13 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
   ngOnInit() {
     this.AcoFlag = false;
     this.isKop = false;
+    this.isAdvocateHome = false;
     this.loading = false;
     this.isDarkTheme = this.themeService.isDarkTheme;
     this.acoEventEmitter.getEvent().subscribe(value => {
       this.AcoFlag = value.value;
     });
     this.navCategories = this.navCategoriesTotal.filter(item => !item.kop);
-
     this.eventEmitter.getEvent().subscribe(val => {
       this.isKop = val.value;
       this.navCategories = this.navCategoriesTotal.filter(item => item.kop);

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { SessionService } from '../../../shared/session.service';
 
 @Component({
   selector: 'app-advocate-home',
@@ -6,7 +7,14 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./advocate-home.component.scss']
 })
 export class AdvocateHomeComponent implements OnInit {
-  constructor() {}
+  pageTitle: String;
+  pagesubTitle: String;
+  userName;
+  constructor(private session: SessionService) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.userName = this.session.sessionStorage('loggedUser', 'FirstName');
+    this.pageTitle = `Hi, ${this.userName}.`;
+    this.pagesubTitle = 'Welcome to UHC Insights';
+  }
 }
