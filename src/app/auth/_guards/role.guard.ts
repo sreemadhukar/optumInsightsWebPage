@@ -18,14 +18,12 @@ export class RoleGuard implements CanActivate {
     if (sessionStorage.getItem('currentUser')) {
       const expectedRole = route.data.expectedRole;
       if (expectedRole === 'UHCI_Advocate') {
-        alert(expectedRole);
         this.checkAdv = this.sessionService.checkAdvocateRole();
         if (this.checkAdv.value) {
           // logged in and advocate role, so return true
           return true;
         }
       } else if (expectedRole === 'UHCI_Project') {
-        alert(expectedRole);
         this.checkPro = this.sessionService.checkProjectRole();
         this.checkExecutive = this.sessionService.checkExecutiveRole();
         if (this.checkPro.value || this.checkExecutive.value) {
