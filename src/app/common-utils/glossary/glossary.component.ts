@@ -68,6 +68,12 @@ export class GlossaryComponent implements OnInit {
       response => {
         this.glossarySelected = [];
         if ((response || {}).BusinessGlossary) {
+          if (
+            response.BusinessGlossary.ProviderDashboardName.MetricID >= 401 &&
+            response.BusinessGlossary.ProviderDashboardName.MetricID <= 403
+          ) {
+            this.networkLeverUlTag();
+          }
           this.glossarySelected.push(response);
           this.hyperlink = '';
           // if (this.glossarySelected[0].BusinessGlossary.ProviderDashboardName.MetricID === 305) {
@@ -103,6 +109,7 @@ export class GlossaryComponent implements OnInit {
   public getGlossaryData() {
     this.glossaryService.getBusinessGlossaryData().subscribe(response => {
       this.glossaryList = response;
+      this.networkLeverUlTag();
       for (let i = 0; i < this.glossaryList.length; i++) {
         this.readmoreFlag[i] = true;
         // if (this.glossaryList[i].BusinessGlossary.ProviderDashboardName.MetricID === 305) {
@@ -198,6 +205,18 @@ export class GlossaryComponent implements OnInit {
     });
   }
 
+  public networkLeverUlTag() {
+    console.log('Hi');
+    setTimeout(function() {
+      const a = document.querySelectorAll('.network-lever-ul') as HTMLCollectionOf<HTMLElement>;
+      a[0].style.paddingLeft = '30px';
+      const x = Array.from(a[0].children as HTMLCollectionOf<HTMLElement>);
+      x.forEach(element => {
+        element.style.listStyle = 'disc';
+      });
+      console.log('Check', a[0].children, x);
+    }, 1);
+  }
   public getKOPGlossaryMetricID() {
     this.glossaryService.getKOPGlossaryMetricID(this.MetricID).subscribe(
       response => {
