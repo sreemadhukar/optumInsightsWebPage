@@ -25,10 +25,10 @@ export class HealthSystemDetailsComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.hppIndicator();
     this.healthSystemData = null;
     this.checkStorage.emitEvent('HealthSystemDetails');
     this.getHealthSystemDetails();
-    this.hppIndicator();
   }
 
   getHealthSystemDetails() {
@@ -50,7 +50,7 @@ export class HealthSystemDetailsComponent implements OnInit {
   }
 
   hppIndicator() {
-    this.groupPremiumDesignationService.gppObservable.subscribe(value => {
+    this.groupPremiumDesignationService.groupPremiumDesignationData().subscribe(value => {
       let data = <any>{};
       data = value;
       if (this.GroupPremiumDesignation !== data.HppIndicator) {
