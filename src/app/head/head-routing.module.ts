@@ -42,9 +42,10 @@ const routes: Routes = [
     loadChildren: '../components/overview-page/overview-page.module#OverviewPageModule',
     data: {
       preload: false,
-      delay: false
+      delay: false,
+      expectedRole: 'UHCI_Project'
     },
-    canActivate: [AuthGuard]
+    canActivate: [RoleGuard]
   },
   {
     path: 'print-page',
@@ -179,7 +180,7 @@ const routes: Routes = [
     path: 'AccessDenied',
     component: NoAccessErrorPageComponent
   },
-  { path: '**', redirectTo: '' }
+  { path: '**', redirectTo: '/login' }
 ];
 
 @NgModule({

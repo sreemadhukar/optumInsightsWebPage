@@ -52,6 +52,10 @@ export class SessionService {
     return this.filterChange;
   }
 
+  public sessionCleared() {
+    return this.filterChange;
+  }
+
   public providerKeyData() {
     if (sessionStorage.getItem('currentUser') && environment.internalAccess) {
       return JSON.parse(sessionStorage.getItem('currentUser'))[0]['ProviderKey'];
