@@ -361,11 +361,10 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
 
     router.events.subscribe(event => {
       if (event instanceof NavigationStart) {
+        this.printStyle = event.url.includes('print-');
         if (event.url.includes('/Home')) {
           this.isAdvocateHome = true;
-          this.sideNavFlag = false;
         }
-        this.printStyle = event.url.includes('print-');
       }
     });
   }
