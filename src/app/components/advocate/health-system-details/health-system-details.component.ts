@@ -55,7 +55,7 @@ export class HealthSystemDetailsComponent implements OnInit {
       data = value;
       if (this.GroupPremiumDesignation !== data.HppIndicator) {
         this.GroupPremiumDesignation = data.HppIndicator;
-        console.log(' this.GroupPremiumDesignation', this.GroupPremiumDesignation);
+        console.log('this.GroupPremiumDesignation', this.GroupPremiumDesignation);
       }
     });
   }
