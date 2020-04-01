@@ -13,6 +13,7 @@ import { LargeCardAdvocateComponent } from './large-card-advocate/large-card-adv
 import { HealthSystemDetailsComponent } from './health-system-details/health-system-details.component';
 import { PipesModule } from '../../pipes/pipes.module';
 import { TaxSummaryComponent } from './tax-summary/tax-summary.component';
+import { AdvocateHomeComponent } from './advocate-home/advocate-home.component';
 
 @NgModule({
   imports: [CommonModule, AdvocateRoutingModule, CommonUtilsModule, HeadMaterialModule, PipesModule],
@@ -22,7 +23,8 @@ import { TaxSummaryComponent } from './tax-summary/tax-summary.component';
     FilterAdvocateComponent,
     LargeCardAdvocateComponent,
     HealthSystemDetailsComponent,
-    TaxSummaryComponent
+    TaxSummaryComponent,
+    AdvocateHomeComponent
   ],
   providers: [TopRowAdvOverviewSharedService, NonPaymentSharedService, OverviewAdvocateSharedService]
 })

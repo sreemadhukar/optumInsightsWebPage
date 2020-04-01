@@ -106,7 +106,7 @@ export class LoginStubComponent implements OnInit {
         if (JSON.parse(sessionStorage.getItem('currentUser'))[0]['ProviderKey']) {
           if (this.checkAdv.value) {
             // window.location.href = '/OverviewPageAdvocate';
-            window.location.href = '/OverviewPageAdvocate/HealthSystemDetails';
+            window.location.href = '/OverviewPageAdvocate/Home';
           } else if (this.checkPro.value || this.checkExecutive.value) {
             window.location.href = '/NationalExecutive';
           }
@@ -195,6 +195,8 @@ export class LoginStubComponent implements OnInit {
             this.router.navigate(['/NationalExecutive']);
           } else if (user && user['UserPersonas'].some(item => item.UserRole.includes('UHCI_Project'))) {
             this.router.navigate(['/NationalExecutive']);
+          } else if (user && user['UserPersonas'].some(item => item.UserRole.includes('UHCI_Advocate'))) {
+            this.router.navigate(['/OverviewPageAdvocate/Home']);
           } else {
             this.router.navigate(['/ProviderSearch']);
           }
