@@ -417,5 +417,6 @@ export class GlossaryComponent implements OnInit {
         this.optionND = true;
       }
     }
+    this.networkLeverUlTag();
   }
 } // end export class
