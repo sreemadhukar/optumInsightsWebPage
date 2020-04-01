@@ -122,12 +122,14 @@ export class LoginStubComponent implements OnInit {
       // }
       sessionStorage.clear();
       sessionStorage.setItem('cache', JSON.stringify(false));
+      this.sessionService.emitChangeEvent();
       // } else {
-      this.internalService.getPublicKey();
+
       this.authService.getJwt().subscribe(data => {
         sessionStorage.setItem('token', JSON.stringify(data['token']));
+        this.internalService.getPublicKey();
       });
-      this.sessionService.emitChangeEvent();
+
       // }
     } else {
       if (this.route.queryParams) {
