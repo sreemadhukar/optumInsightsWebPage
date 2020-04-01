@@ -11,11 +11,16 @@ import { Subject } from 'rxjs';
 })
 export class GroupPremiumDesignationService {
   public gppObservable = new Subject();
+  public data;
   public currentUser: any;
   public APP_URL: string = environment.apiProxyUrl;
   private SERVICE_PATH: string = environment.apiUrls.GroupPremiumDesignation;
   private internalUser: boolean = environment.internalAccess;
   constructor(private http: HttpClient) {}
+
+  public getgroupPremiumDesignationData() {
+    return this.data;
+  }
   public groupPremiumDesignationData() {
     if (environment.apiUrls.GroupPremiumDesignation && this.internalUser) {
       if (JSON.parse(sessionStorage.getItem('currentUser'))) {
@@ -25,6 +30,7 @@ export class GroupPremiumDesignationService {
         const url = this.APP_URL + this.SERVICE_PATH + providerKey;
         return this.http.get(url, { params }).pipe(
           map(res => {
+            this.data = JSON.parse(JSON.stringify(res));
             this.gppObservable.next(JSON.parse(JSON.stringify(res)));
             return JSON.parse(JSON.stringify(res));
           }),

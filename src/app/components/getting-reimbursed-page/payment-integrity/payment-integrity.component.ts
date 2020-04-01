@@ -87,7 +87,7 @@ export class PaymentIntegrityComponent implements OnInit {
     this.pageSubTitle = 'Reimbursements - Payment Integrity - ' + 'Medical Records Coding Review';
     this.subTitle = `Note: Claims Metrics are calculated using date medical record requested.
        Dashboard information/measurements are representing physician claims only.
-       These measurements do not take into account facility claims.`;
+         These measurements do not take into account facility claims.`;
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.filtermatch.urlResuseStrategy());
   }
 
@@ -96,7 +96,7 @@ export class PaymentIntegrityComponent implements OnInit {
     this.hppData();
     setTimeout(function() {
       this.hppData();
-    }, 3000);
+    }, 3000); // testing please remove if not used
     this.printDetails();
     this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'paymentIntegrityPage' });
     // this.smartEdit();

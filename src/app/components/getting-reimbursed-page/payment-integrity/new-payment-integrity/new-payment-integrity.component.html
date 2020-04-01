@@ -25,11 +25,11 @@
     </ul>
   </section>
 </div>
-<div *ngIf="printStyle" class="nav nav-tabs">
-  <span>
-    {{ printDateTitle }}
+<div *ngIf="printStyle" class="nav nav-tabs printDateStyle">
+  <span
+    ><span [innerHTML]="printDateTitle"></span>
     <div class="nav-values" style="padding-top:5px;">
-      {{ printDateSubTitle }}
+      <span [innerHTML]="printDateSubTitle"></span>
     </div>
   </span>
 </div>
@@ -42,7 +42,7 @@
     <app-common-header
       [title]="currentSummary[1].title"
       class="full-display"
-      (helpIconClicked)="helpIconClick($event)"
+      (helpIconClicked)="helpIconClick($event, currentSummary[1].MetricID)"
     ></app-common-header>
     <div class="pi-bar-chart">
       <app-med-bar-chart [chartOptions]="currentSummary[1].data"></app-med-bar-chart>
@@ -52,12 +52,17 @@
     <app-common-header
       [title]="currentSummary[2].title"
       class="full-display"
-      (helpIconClicked)="helpIconClick($event)"
+      (helpIconClicked)="helpIconClick($event, currentSummary[2].MetricID)"
     ></app-common-header>
     <div class="pi-bar-chart">
       <app-med-bar-chart [chartOptions]="currentSummary[2].data"></app-med-bar-chart>
-      <div class="pi-bar-chart-trend-comparison">*Positive/negative trend comparison is Jun 2019 vs. Jul 2019</div>
+      <div class="pi-bar-chart-trend-comparison">{{ currentSummary[2].data.trendComparisionLable }}</div>
     </div>
   </div>
+</div>
+<div *ngIf="!currentSummary" class="pi-cards">
+  <app-card class="cards" [skeleton]="loading" *ngIf="loading"> </app-card>
+  <app-card class="cards" [skeleton]="loading" *ngIf="loading"> </app-card>
+  <app-large-card [skeletonLarge]="loading" *ngIf="loading"></app-large-card>
 </div>
 <!-- end of the new pi page including tabs -->
