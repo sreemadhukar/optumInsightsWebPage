@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HealthSystemDetailsSharedService } from '../../../shared/advocate/health-system-details-shared.service';
 import { StorageService } from '../../../shared/storage-service.service';
 import { Router } from '@angular/router';
+import { GroupPremiumDesignationService } from './../../../rest/group-premium-designation/group-premium-designation.service';
 
 @Component({
   selector: 'app-health-system-details',
@@ -12,9 +13,11 @@ export class HealthSystemDetailsComponent implements OnInit {
   dataLoading: boolean;
   healthSystemData: any;
   subscription: any;
+  GroupPremiumDesignation: any;
 
   constructor(
     private healthSystemService: HealthSystemDetailsSharedService,
+    private groupPremiumDesignationService: GroupPremiumDesignationService,
     private checkStorage: StorageService,
     private router: Router
   ) {
@@ -22,6 +25,7 @@ export class HealthSystemDetailsComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.hppIndicator();
     this.healthSystemData = null;
     this.checkStorage.emitEvent('HealthSystemDetails');
     this.getHealthSystemDetails();
@@ -33,7 +37,7 @@ export class HealthSystemDetailsComponent implements OnInit {
       .getHealthSystemData()
       .then(healthSystemData => {
         this.dataLoading = false;
-        this.healthSystemData = JSON.parse(JSON.stringify(healthSystemData));
+        this.healthSystemData = healthSystemData;
       })
       .catch(reason => {
         this.dataLoading = false;
@@ -43,5 +47,16 @@ export class HealthSystemDetailsComponent implements OnInit {
 
   viewInsights() {
     this.router.navigate(['/OverviewPageAdvocate']);
+  }
+
+  hppIndicator() {
+    this.groupPremiumDesignationService.groupPremiumDesignationData().subscribe(value => {
+      let data = <any>{};
+      data = value;
+      if (this.GroupPremiumDesignation !== data.HppIndicator) {
+        this.GroupPremiumDesignation = data.HppIndicator;
+        console.log('this.GroupPremiumDesignation', this.GroupPremiumDesignation);
+      }
+    });
   }
 }

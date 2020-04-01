@@ -133,18 +133,24 @@ export class KopOverviewComponent implements OnInit, OnDestroy {
   }
 
   getReimbursementClaimsData() {
-    this.kopSharedService.getClaimsData({ filter: this.currentFilter }).then((data: any) => {
-      if (data) {
-        const {
-          reimbursement: { chartData }
-        } = data;
-        this.kopInsightsData.reimbursement.chartData.forEach((chartItem: any, index: number) => {
-          if (chartItem.metricType === 'reimbursementClaims') {
-            Object.assign(chartItem, { ...chartData[index] });
-          }
-        });
-      }
-    });
+    this.kopSharedService
+      .getClaimsData({
+        filter: this.currentFilter,
+        region: 'LEASED MARKETS',
+        markets: ['MINNEAPOLIS, MN', 'CHICAGO, IL']
+      })
+      .then((data: any) => {
+        if (data) {
+          const {
+            reimbursement: { chartData }
+          } = data;
+          this.kopInsightsData.reimbursement.chartData.forEach((chartItem: any, index: number) => {
+            if (chartItem.metricType === 'reimbursementClaims') {
+              Object.assign(chartItem, { ...chartData[index] });
+            }
+          });
+        }
+      });
   }
 
   showMetricDevelopment(kopInsightsData) {

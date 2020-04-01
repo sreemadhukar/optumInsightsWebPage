@@ -303,15 +303,23 @@ export class OverviewAdvocateSharedService {
           const callsTrendFormattedData = {};
           if (beData) {
             callsTrendFormattedData['B&E'] = beData;
+          } else {
+            callsTrendFormattedData['B&E'] = null;
           }
           if (claimsData) {
             callsTrendFormattedData['CLAIMS'] = claimsData;
+          } else {
+            callsTrendFormattedData['CLAIMS'] = null;
           }
           if (paData) {
             callsTrendFormattedData['P&A'] = paData;
+          } else {
+            callsTrendFormattedData['P&A'] = null;
           }
           if (other) {
             callsTrendFormattedData['Other'] = other;
+          } else {
+            callsTrendFormattedData['Other'] = null;
           }
           resolve(callsTrendFormattedData);
         },
@@ -328,7 +336,7 @@ export class OverviewAdvocateSharedService {
       const parameters = this.getParameterCategories(param);
       this.overviewAdvocateService.paymentsBySubmission(...parameters).subscribe(
         pbsData => {
-          const getData = JSON.parse(JSON.stringify(pbsData[0]));
+          const getData = pbsData[0];
           if (getData == null) {
             //  return reject(null);
             this.sendData = {

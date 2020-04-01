@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { NgRedux } from '@angular-redux/store';
 import { IAppState } from '../../../store/store';
 import { CURRENT_PAGE } from '../../../store/filter/actions';
@@ -6,14 +6,14 @@ import { RlpSharedService } from '../../../shared/performance/rlp-shared.service
 import { SummarySharedService } from '../../../shared/performance/summary-shared.service';
 import { rlpPageConf, staticTableData, ItableType, rlpPageName, rlpCardType } from '../../../modals/rlp-data';
 import { StorageService } from '../../../shared/storage-service.service';
-import { CommonUtilsService } from 'src/app/shared/common-utils.service';
+import { CommonUtilsService } from '../../../shared/common-utils.service';
 import { Router } from '@angular/router';
 @Component({
   selector: 'app-labs',
   templateUrl: './labs.component.html',
   styleUrls: ['./labs.component.scss']
 })
-export class LabsComponent implements OnInit {
+export class LabsComponent implements OnInit, OnDestroy {
   public title: string;
   public subTitle: string;
   public hcoData;
@@ -46,7 +46,9 @@ export class LabsComponent implements OnInit {
     this.getHCO();
     this.tableDataTin();
   }
-
+  ngOnDestroy() {
+    this.tableTinShared.unGetTable();
+  }
   tableDataTin() {
     this.loadingTable = true;
     this.isTable = false;
@@ -57,7 +59,7 @@ export class LabsComponent implements OnInit {
         if (data) {
           this.isTable = true;
           this.tableData.thead = staticTableData.Labs;
-          this.tableData.tbody = JSON.parse(JSON.stringify(data));
+          this.tableData.tbody = data;
         } else {
           this.isTable = false;
         }

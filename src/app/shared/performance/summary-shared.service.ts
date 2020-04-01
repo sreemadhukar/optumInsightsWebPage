@@ -3,9 +3,9 @@ import { SessionService } from '../session.service';
 import { AuthorizationService } from '../../auth/_service/authorization.service';
 import { GlossaryMetricidService } from '../glossary-metricid.service';
 import { PerformanceRestService } from '../../rest/performance/performance-rest.service';
-import { PerformanceModule } from '../../components/performance/performance.module';
 import { rlpPageName, rlpCardType, rlpBarType } from '../../modals/rlp-data';
 import { CommonUtilsService } from '../common-utils.service';
+import { Subscription } from 'rxjs';
 
 export const getCategoryAndType = [
   { category: rlpCardType.longCard, type: rlpBarType.longCard },
@@ -15,7 +15,7 @@ export const pageMapApiEndpoint = [
   {
     name: rlpPageName.Referral,
     title: 'Preferred Specialist Referral Rate',
-    suffix: 'Referral',
+    suffix: 'Referrals',
     MetricID: '401'
     // MetricID:  MetricidService.PreferredSpecialistReferralRate
   },
@@ -35,10 +35,11 @@ export const pageMapApiEndpoint = [
   }
 ];
 @Injectable({
-  providedIn: PerformanceModule
+  providedIn: 'root'
 })
 export class SummarySharedService {
   public requestBody: Object;
+  public hcoData$: Subscription;
   constructor(
     public MetricidService: GlossaryMetricidService,
     private session: SessionService,
@@ -59,7 +60,7 @@ export class SummarySharedService {
     const getStaticData = pageMapApiEndpoint.find(item => item.name === pageName);
     const getCandType = getCategoryAndType.find(item => item.category === chartType);
     return new Promise(resolve => {
-      this.performanceRestService
+      this.hcoData$ = this.performanceRestService
         .getNetworkLeversData(this.session.providerKeyData(), pageName, 'hco', this.requestBody)
         .subscribe(
           response => {
@@ -97,6 +98,10 @@ export class SummarySharedService {
           }
         );
     });
+  }
+
+  public unGetHCOdata() {
+    this.hcoData$.unsubscribe();
   }
   numberFormatting(nStr) {
     nStr += '';

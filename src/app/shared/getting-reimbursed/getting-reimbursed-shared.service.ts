@@ -82,7 +82,7 @@ export class GettingReimbursedSharedService {
           if (typeof nonPayment === null || typeof nonPayment === undefined) {
             tempNonPaymentData = null;
           } else {
-            tempNonPaymentData = JSON.parse(JSON.stringify(nonPayment));
+            tempNonPaymentData = nonPayment;
           }
           resolve(tempNonPaymentData);
         })
@@ -103,7 +103,6 @@ export class GettingReimbursedSharedService {
           if (typeof payment === null || typeof payment === undefined) {
             tempPaymentData = null;
           } else {
-            // tempNonPaymentData = JSON.parse(JSON.stringify(nonPayment));
             tempPaymentData = payment;
           }
           resolve(tempPaymentData);
@@ -997,7 +996,6 @@ export class GettingReimbursedSharedService {
       // */
       //       .then(data => {
       //         gettingReimbursedData = data;
-      //         // console.log(gettingReimbursedData);
       //         return this.calculateSummaryTrends(parameters, gettingReimbursedData);
       //       })
       //       .then(data => {
@@ -1496,7 +1494,7 @@ export class GettingReimbursedSharedService {
       this.gettingReimbursedService.getPaymentIntegrityData(parameters).subscribe(
         r => {
           if ((r !== null && typeof r !== 'string') || r !== 'OK') {
-            const paymentIntegrityData = JSON.parse(JSON.stringify(r));
+            const paymentIntegrityData = r;
             const result: any = r;
             const output: any = {};
             let returnedWidth = 4;

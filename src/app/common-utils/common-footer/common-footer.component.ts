@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { MatDialog, MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -8,90 +8,16 @@ import { DomSanitizer } from '@angular/platform-browser';
   templateUrl: './common-footer.component.html',
   styleUrls: ['./common-footer.component.scss']
 })
-export class CommonFooterComponent implements OnInit {
+export class CommonFooterComponent {
   @Input() timePeriod: String;
   @Input() title: String;
   @Input() linkName: String;
   @Input() routePath: String;
   @Input() handleCaseForOverviewTile = false;
+  routhTo: string;
   public get timePeriodFooter() {
-    if (this.timePeriod === 'Last 6 Months') {
-      const today = new Date();
-      let yyyy = today.getFullYear();
-      const month = [
-        { monthNames: 'Jan', monthlastdate: this.getDaysInMonth(1, yyyy) },
-        { monthNames: 'Feb', monthlastdate: this.getDaysInMonth(2, yyyy) },
-        { monthNames: 'Mar', monthlastdate: this.getDaysInMonth(3, yyyy) },
-        { monthNames: 'Apr', monthlastdate: this.getDaysInMonth(4, yyyy) },
-        { monthNames: 'May', monthlastdate: this.getDaysInMonth(5, yyyy) },
-        { monthNames: 'Jun', monthlastdate: this.getDaysInMonth(6, yyyy) },
-        { monthNames: 'Jul', monthlastdate: this.getDaysInMonth(7, yyyy) },
-        { monthNames: 'Aug', monthlastdate: this.getDaysInMonth(8, yyyy) },
-        { monthNames: 'Sep', monthlastdate: this.getDaysInMonth(9, yyyy) },
-        { monthNames: 'Oct', monthlastdate: this.getDaysInMonth(10, yyyy) },
-        { monthNames: 'Nov', monthlastdate: this.getDaysInMonth(11, yyyy) },
-        { monthNames: 'Dec', monthlastdate: this.getDaysInMonth(12, yyyy) }
-      ];
-      let mm = String(today.getMonth()).padStart(2, '0'); // January is 0!
-      if (parseInt(mm) === 0) {
-        mm = '12';
-        yyyy = today.getFullYear() - 1;
-      }
-      let mmlast6 = String(today.getMonth() - 5).padStart(2, '0'); // January is 0!
-      let yyyylast6 = today.getFullYear();
-      if (yyyylast6 % 4 === 0) {
-        month[1].monthlastdate = 29;
-      }
-      if (parseInt(mm) < 6 || parseInt(mm) === 12) {
-        mmlast6 = String(today.getMonth() + 12 - 5).padStart(2, '0'); // January is 0!
-        yyyylast6 = today.getFullYear() - 1;
-      }
-      let dd = String(month[parseInt(mm) - 1].monthlastdate);
-      //   let dd = String(today.getDate()).padStart(2, '0');
-      // let ddlast6 = String(today.getDate()).padStart(2, '0');
-      let ddlast6 = String('01');
-      if (this.title) {
-        if (this.title.includes('Prior')) {
-          mm = String(today.getMonth() + 1).padStart(2, '0');
-          mmlast6 = String(today.getMonth() - 5).padStart(2, '0');
-          yyyylast6 = today.getFullYear();
-          yyyy = today.getFullYear();
-          if (parseInt(mm) < 7) {
-            mmlast6 = String(today.getMonth() + 12 - 5).padStart(2, '0');
-            yyyylast6 = today.getFullYear() - 1;
-          }
-          dd = String(today.getDate() - 1).padStart(2, '0');
-          ddlast6 = String(today.getDate() - 1).padStart(2, '0');
-          if (parseInt(dd) > month[parseInt(mmlast6) - 1].monthlastdate) {
-            ddlast6 = String(month[parseInt(mmlast6) - 1].monthlastdate);
-          }
-        }
-      }
-
-      const timePeriodFooter =
-        month[parseInt(mmlast6) - 1].monthNames +
-        ' ' +
-        ddlast6 +
-        ',' +
-        ' ' +
-        yyyylast6 +
-        '&ndash;' +
-        month[parseInt(mm) - 1].monthNames +
-        ' ' +
-        dd +
-        ',' +
-        ' ' +
-        yyyy;
-
-      if (this.handleCaseForOverviewTile) {
-        return `${this.timePeriod} (${timePeriodFooter})`;
-      }
-
-      return timePeriodFooter;
-    } else {
-      this.timePeriod = this.timePeriod.replace(' - ', '&ndash;');
-      return this.timePeriod;
-    }
+    this.timePeriod = this.timePeriod.replace(' - ', '&ndash;');
+    return this.timePeriod;
   }
   constructor(private router: Router, private iconRegistry: MatIconRegistry, private sanitizer: DomSanitizer) {
     iconRegistry.addSvgIcon(
@@ -100,17 +26,20 @@ export class CommonFooterComponent implements OnInit {
     );
   }
 
-  ngOnInit() {
-    // this.last6Months();
-  }
   linkFunction() {
-    this.router.navigate([this.routePath]);
-  }
-  getDaysInMonth(month, year) {
-    // Here January is 1 based
-    // Day 0 is the last day in the previous month
-    return new Date(year, month, 0).getDate();
-    // Here January is 0 based
-    // return new Date(year, month+1, 0).getDate();
+    if (this.linkName === 'Calls Overview') {
+      this.routhTo = '/ServiceInteraction/Calls';
+    } else if (this.linkName === 'Non-Payment Details') {
+      this.routhTo = '/GettingReimbursed/NonPayments';
+    } else if (this.linkName === 'View Details') {
+      if (this.title === 'Preferred Specialist Referral Rate') {
+        this.routhTo = '/Performance/Referrals';
+      } else if (this.title === 'Preferred Lab Network Use Rate') {
+        this.routhTo = '/Performance/Labs';
+      } else if (this.title === 'Preferred Tier Prescribing Rate') {
+        this.routhTo = '/Performance/Prescriptions';
+      }
+    }
+    this.router.navigate([this.routhTo]);
   }
 }

@@ -82,8 +82,8 @@ export class AuthenticationService {
     // sessionStorage.removeItem('pcor');
     // sessionStorage.removeItem('state');
     sessionStorage.clear();
-    sessionStorage.setItem('cache', JSON.stringify(false));
     this.ngRedux.dispatch({ type: RESET_KOP_FILTER });
+    sessionStorage.setItem('cache', JSON.stringify(false));
     if (environment.internalAccess) {
       if (expired) {
         this.router.navigate([''], { queryParams: { sessionExpired: true } });

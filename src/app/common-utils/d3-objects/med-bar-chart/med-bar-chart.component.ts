@@ -449,9 +449,9 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
       if (chartOptions.type === 'large bar chart') {
         chart
           .append('line')
-          .attr('x1', '85%')
+          .attr('x1', chartOptions.target + '%')
           .attr('y1', -16)
-          .attr('x2', '85%')
+          .attr('x2', chartOptions.target + '%')
           .attr('y2', 80)
           .style('stroke-dasharray', '6,6')
           .style('stroke', 'black')
@@ -484,7 +484,7 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
             .text('Accounts Receivable Opportunity')
             .append('div')
             .style('text-align', 'right')
-            .text('$45K')
+            .text(chartOptions.AccountsReceivableOpportunity)
             .style('line-height', '22px')
             .style('font-size', '20px')
             .style('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
@@ -530,7 +530,7 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
             .text('Accounts Receivable Opportunity')
             .append('div')
             .style('text-align', 'right')
-            .text('$45K')
+            .text(chartOptions.AccountsReceivableOpportunity)
             .style('line-height', '22px')
             .style('font-size', '20px')
             .style('font-family', "'UHCSans-SemiBold','Helvetica', 'Arial', 'sans-serif'")
@@ -566,7 +566,7 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
         }
         d3.select(this.renderChart)
           .append('div')
-          .text('Target 85%')
+          .text('Target ' + chartOptions.target + '%')
           .style('position', 'absolute')
           .style('top', '195px')
           .style('right', '200px')
@@ -612,13 +612,13 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
           .append('line')
           .attr('x1', function() {
             if (typeof chartOptions.graphValues[0] !== 'undefined') {
-              return xScale(chartOptions.graphValues[0]) + 4;
+              return xScale(chartOptions.target) + 8;
             }
           })
           .attr('y1', -29)
           .attr('x2', function() {
             if (typeof chartOptions.graphValues[0] !== 'undefined') {
-              return xScale(chartOptions.graphValues[0]) + 4;
+              return xScale(chartOptions.target) + 8;
             }
           })
           .attr('y2', 33)

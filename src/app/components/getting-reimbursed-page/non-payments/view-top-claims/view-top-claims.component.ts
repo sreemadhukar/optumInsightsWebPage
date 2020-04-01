@@ -273,11 +273,11 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
     this.isLoading = false;
     this.topClaimsSharedService
       .getClaimsData(this.createPayloadService.initialState, reasonSelected, subReason)
-      .then(claimsDetailsData => {
+      .then((claimsDetailsData: any) => {
         this.isLoading = true;
         this.loading = false;
         this.selectedclaims = [];
-        this.claimsData = JSON.parse(JSON.stringify(claimsDetailsData));
+        this.claimsData = claimsDetailsData;
 
         if (this.claimsData && this.claimsData.length > 0) {
           this.claimsData = this.claimsData.map((claimsRecord: any) => {
