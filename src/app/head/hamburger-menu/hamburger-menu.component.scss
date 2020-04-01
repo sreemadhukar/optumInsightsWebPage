@@ -305,6 +305,10 @@ app-header {
   background: $alice-blue !important;
 }
 
+.mat-expansion-panel-header[aria-disabled='true'] {
+  display: none;
+}
+
 .sub-menu-sub-header {
   .sub-menu-expansion-header {
     color: $strom-grey !important;
