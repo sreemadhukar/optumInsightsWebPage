@@ -15,6 +15,6 @@ export class AdvocateHomeComponent implements OnInit {
   ngOnInit() {
     this.userName = this.session.sessionStorage('loggedUser', 'FirstName');
     this.pageTitle = `Hi, ${this.userName}.`;
-    this.pagesubTitle = 'Welcome to UHC Insights';
+    this.pagesubTitle = 'Welcome to UHC Insights.';
   }
 }
