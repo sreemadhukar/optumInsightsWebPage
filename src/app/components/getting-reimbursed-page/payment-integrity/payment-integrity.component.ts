@@ -10,6 +10,7 @@ import { CommonUtilsService } from '../../../shared/common-utils.service';
 import { SessionService } from 'src/app/shared/session.service';
 import { GlossaryMetricidService } from '../../../shared/glossary-metricid.service';
 import { GroupPremiumDesignationService } from '../../../rest/group-premium-designation/group-premium-designation.service';
+import { environment } from '../../../../environments/environment';
 import { NgRedux } from '@angular-redux/store';
 import { CURRENT_PAGE } from '../../../store/filter/actions';
 import { IAppState } from '../../../store/store';
@@ -21,6 +22,7 @@ import { IAppState } from '../../../store/store';
 })
 export class PaymentIntegrityComponent implements OnInit {
   @Input() printStyle;
+  internalUser: boolean = environment.internalAccess;
   medicalRecordsReturned: any;
   medicalRecordsOutstanding: any;
   pageTitle: String = '';
@@ -93,10 +95,14 @@ export class PaymentIntegrityComponent implements OnInit {
 
   ngOnInit() {
     this.loading = true;
-    this.hppData();
-    setTimeout(function() {
+    if (this.internalUser) {
       this.hppData();
-    }, 3000); // testing please remove if not used
+      setTimeout(function() {
+        this.hppData();
+      }, 3000); // testing please remove if not used
+    } else {
+      this.oldPaymentIntergrity();
+    }
     this.printDetails();
     this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'paymentIntegrityPage' });
     // this.smartEdit();
