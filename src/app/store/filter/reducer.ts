@@ -1,6 +1,5 @@
 import { CURRENT_PAGE, APPLY_FILTER, RESET_FILTER, REMOVE_FILTER } from './actions';
 import { IAppState } from '../store';
-import { loadState } from './localStorage';
 
 export const INITIAL_STATE: IAppState = {
   currentPage: 'overviewPage',
@@ -15,6 +14,11 @@ export const INITIAL_STATE: IAppState = {
   claimsFilter: 'All',
   appealsFilter: 'Received Date',
   viewClaimsByFilter: 'DOS'
+};
+
+export const loadState = () => {
+  const serializedState = sessionStorage.getItem('state');
+  return serializedState ? JSON.parse(serializedState) : INITIAL_STATE;
 };
 
 export function FilterReducer(state = loadState(), action) {

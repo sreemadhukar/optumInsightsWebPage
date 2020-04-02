@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import { PerformanceRestService } from '../../rest/performance/performance-rest.service';
-import { HeadModule } from '../../head/head.module';
 import { Subscription } from 'rxjs';
 @Injectable({
-  providedIn: HeadModule
+  providedIn: 'root'
 })
 export class CheckHcoRlpService {
   public requestBody: Object;
