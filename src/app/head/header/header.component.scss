@@ -154,9 +154,11 @@
     display: flex;
     width: 100%;
     justify-content: center;
-    margin: 25px 0;
+    //margin: 25px 0;
+    align-items: center;
   }
   .user-div {
+    height: 100%;
     margin-left: auto;
     display: flex;
     /*height: 25px;*/
@@ -164,8 +166,6 @@
     font-size: 16px;
     font-family: 'UHCSans-SemiBold', 'Helvetica', 'Arial', 'sans-serif';
     letter-spacing: 0.2px;
-    line-height: 22px;
-    text-align: right;
     /*padding: 25px 32px 20px 0;
     width: 100px;
     margin-right: 25px;
@@ -174,10 +174,12 @@
     padding-right: 20px;
     padding-bottom: 15px;
     border-radius: 2px;*/
-    margin-top: 16px;
-    margin-right: 24px;
-    margin-bottom: 16px;
-    padding: 7px 10px;
+    padding: 0px 10px;
+    align-items: center;
+    justify-content: center;
+    .user-icon {
+      display: inline-flex;
+    }
     .no-margin-icons {
       margin: 0;
     }
@@ -325,4 +327,6 @@
 }
 .margin-left-auto {
   margin-left: auto;
+  padding: 15px 24px;
+  height: calc(100% - 30px);
 }
