@@ -109,9 +109,9 @@
             [class.smart-edits-claims-labels]="chartData.title == 'Smart Edits Claims Returned'"
           >
             <li *ngFor="let c of chartData.besideData.labels; let i = index">
-              {{ chartData.data.labels[i] | temporaryTextFormatter }} ({{
+              {{ chartData.besideData.labels[i] | temporaryTextFormatter }} ({{
                 chartData.title === 'Claims Paid' || chartData.title === 'Claims Not Paid' ? '$' : ''
-              }}{{ chartData.data.graphValues[i] | currencyFormatter }})
+              }}{{ chartData.besideData.value[i] | currencyFormatter }})
             </li>
           </ul>
         </div>
