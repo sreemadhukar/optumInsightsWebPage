@@ -18,10 +18,8 @@ export class GroupPremiumDesignationService {
   private internalUser: boolean = environment.internalAccess;
   constructor(private http: HttpClient) {}
 
-  public getgroupPremiumDesignationData() {
-    return this.data;
-  }
   public groupPremiumDesignationData() {
+    this.data = null;
     if (environment.apiUrls.GroupPremiumDesignation && this.internalUser) {
       if (JSON.parse(sessionStorage.getItem('currentUser'))) {
         this.currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
