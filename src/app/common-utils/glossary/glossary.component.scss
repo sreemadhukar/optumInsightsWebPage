@@ -6,6 +6,7 @@
 
 ::ng-deep .mat-form-field-appearance-outline .mat-form-field-infix {
   padding: 8px 0 16px 0;
+  border-top: 1em solid transparent;
 }
 
 ::ng-deep .mat-autocomplete-panel:not([class*='mat-elevation-z']) {
