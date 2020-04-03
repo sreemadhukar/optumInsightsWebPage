@@ -51,7 +51,6 @@ export class GlossaryComponent implements OnInit, DoCheck {
   }
 
   ngDoCheck() {
-    console.log('HiInder');
     this.networkLeverUlTag();
   }
   // this function will fetch all the matched glossary items only corresponding to the characters entered by user
@@ -209,7 +208,6 @@ export class GlossaryComponent implements OnInit, DoCheck {
   }
 
   public networkLeverUlTag() {
-    console.log('Hi');
     setTimeout(function() {
       const a = document.querySelectorAll('.network-lever-ul') as HTMLCollectionOf<HTMLElement>;
       a[0].style.paddingLeft = '30px';
@@ -217,7 +215,6 @@ export class GlossaryComponent implements OnInit, DoCheck {
       x.forEach(element => {
         element.style.listStyle = 'disc';
       });
-      console.log('Check', a[0].children, x);
     }, 1);
   }
   public getKOPGlossaryMetricID() {
