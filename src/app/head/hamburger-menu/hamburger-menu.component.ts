@@ -208,7 +208,6 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
     router.events.subscribe(event => {
       if (event instanceof NavigationStart) {
         this.healthSystemName = this.sessionService.getHealthCareOrgName();
-        this.GroupPremiumDesignation = false;
         if (this.groupPremiumDesignationService.groupPremiumDesignationData() && this.internalUser) {
           this.groupPremiumDesignationService.groupPremiumDesignationData().subscribe(response => {
             this.GroupPremiumDesignation = response.HppIndicator;
