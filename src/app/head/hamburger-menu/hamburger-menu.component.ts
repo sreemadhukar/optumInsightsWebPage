@@ -197,8 +197,17 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
       this.navCategories = this.navCategoriesTotal.filter(item => item.name !== 'Summary Trends');
       sessionStorage.setItem('advocateView', 'true');
     }
+    let currentUser: any;
+    currentUser = { ProviderKey: false };
+    if (!(sessionStorage.getItem('currentUser') === null)) {
+      currentUser = JSON.parse(sessionStorage.getItem('currentUser'))[0];
+    }
     // Group Premium Designation
-    if (this.groupPremiumDesignationService.groupPremiumDesignationData() && this.internalUser) {
+    if (
+      this.groupPremiumDesignationService.groupPremiumDesignationData() &&
+      this.internalUser &&
+      currentUser.ProviderKey
+    ) {
       this.groupPremiumDesignationService.groupPremiumDesignationData().subscribe(response => {
         this.GroupPremiumDesignation = response.HppIndicator;
       });
@@ -208,7 +217,11 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
     router.events.subscribe(event => {
       if (event instanceof NavigationStart) {
         this.healthSystemName = this.sessionService.getHealthCareOrgName();
-        if (this.groupPremiumDesignationService.groupPremiumDesignationData() && this.internalUser) {
+        if (
+          this.groupPremiumDesignationService.groupPremiumDesignationData() &&
+          this.internalUser &&
+          currentUser.ProviderKey
+        ) {
           this.groupPremiumDesignationService.groupPremiumDesignationData().subscribe(response => {
             this.GroupPremiumDesignation = response.HppIndicator;
           });

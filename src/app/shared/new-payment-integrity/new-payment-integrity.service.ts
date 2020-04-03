@@ -38,9 +38,9 @@ export class NewPaymentIntegrityService {
   }
   // new payment intrgrity tab info data end
   // new payment integrity page data start
-  public paymentIntergrity() {
+  public paymentIntergrity(apiDates: any) {
     return new Promise(resolve => {
-      this.newPaymentIntegrityService.getNewPaymentIntegrityData().subscribe(
+      this.newPaymentIntegrityService.getNewPaymentIntegrityData(apiDates).subscribe(
         response => {
           resolve(this.piDataFormating(response));
           // resolve(response);
@@ -62,7 +62,7 @@ export class NewPaymentIntegrityService {
   // payment integrity data formating
   piDataFormating(value: any) {
     const trendLable =
-      this.trendDateFormatting(value.VarianceStartDate) + ' vs. ' + this.trendDateFormatting(value.VarianceEndDate);
+      this.trendDateFormatting(value.VarianceStart) + ' vs. ' + this.trendDateFormatting(value.VarianceEnd);
     const codingReviewResultsTarget = 90; // change target here if needed
     const mRRASTarget = 85; // change target here if needed
     let codingReviewResultsTargetValue: any;
@@ -93,7 +93,6 @@ export class NewPaymentIntegrityService {
     } else {
       AccountReceivableOpportunityTrendValue = '+' + value.AccountReceivableOpportunityTrend.toFixed(1) + '%';
     }
-
     const summaryItems = [
       {
         category: 'app-card',
@@ -167,9 +166,6 @@ export class NewPaymentIntegrityService {
           trendComparisionLable: '*Positive/negative trend comparison is ' + trendLable
         },
         timeperiod: this.session.filterObjValue.timeFrame
-      },
-      {
-        ClaimsProcessedDate: value.ClaimsProcessedDate
       }
     ];
     return summaryItems;

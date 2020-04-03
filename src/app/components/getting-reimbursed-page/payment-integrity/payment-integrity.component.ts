@@ -91,32 +91,41 @@ export class PaymentIntegrityComponent implements OnInit {
        Dashboard information/measurements are representing physician claims only.
          These measurements do not take into account facility claims.`;
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.filtermatch.urlResuseStrategy());
-  }
-
-  ngOnInit() {
     this.loading = true;
     if (this.internalUser) {
       this.hppData();
-      setTimeout(function() {
-        this.hppData();
-      }, 3000); // testing please remove if not used
     } else {
       this.oldPaymentIntergrity();
     }
+  }
+
+  ngOnInit() {
     this.printDetails();
     this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'paymentIntegrityPage' });
     // this.smartEdit();
   }
   hppData() {
+    this.GroupPremiumDesignation = false;
+    const currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
+    if (
+      this.groupPremiumDesignationService.data !== null &&
+      typeof this.groupPremiumDesignationService.data !== 'undefined'
+    ) {
+      if (currentUser[0].ProviderKey === this.groupPremiumDesignationService.data.ProviderKey) {
+        this.loading = false;
+        this.GroupPremiumDesignation = this.groupPremiumDesignationService.data.HppIndicator;
+        if (!this.GroupPremiumDesignation) {
+          this.oldPaymentIntergrity();
+        }
+      }
+    }
     this.groupPremiumDesignationService.gppObservable.subscribe(value => {
       this.loading = false;
       let data = <any>{};
       data = value;
-      if (this.GroupPremiumDesignation !== data.HppIndicator) {
-        this.GroupPremiumDesignation = data.HppIndicator;
-        if (!this.GroupPremiumDesignation) {
-          this.oldPaymentIntergrity();
-        }
+      this.GroupPremiumDesignation = data.HppIndicator;
+      if (!this.GroupPremiumDesignation) {
+        this.oldPaymentIntergrity();
       }
     });
   }
@@ -126,7 +135,6 @@ export class PaymentIntegrityComponent implements OnInit {
     }
   }
   helpIconClick(title, MetricID) {
-    console.log(MetricID + title);
     this.glossaryExpandService.setMessage(title, MetricID);
   }
   openFilter() {

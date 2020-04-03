@@ -8,8 +8,23 @@ import { of } from 'rxjs';
   providedIn: 'root'
 })
 export class NewPaymentIntegrityServiceRest {
+  public APP_URL: string = environment.apiProxyUrl;
+  public currentUser: any;
+  // private SERVICE_PATH: string = environment.apiUrls.PaymentIntegrityTabsInfo;
+  private SERVICE_PATH = 'payment-integrity/';
+  private internalUser: boolean = environment.internalAccess;
   constructor(private http: HttpClient) {}
-  public getNewPaymentIntegrityData() {
-    return this.http.get('./src/assets/mock-data/new-payment-integrity.json');
+  public getNewPaymentIntegrityData(date: any) {
+    this.currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
+    const providerKey = this.currentUser[0].ProviderKey;
+    const params = new HttpParams();
+    const urlDates = '?periodStart=' + date.StartDate + '&' + 'periodEnd=' + date.EndDate;
+    const url = this.APP_URL + this.SERVICE_PATH + providerKey + urlDates;
+    return this.http.get(url, { params }).pipe(
+      map(res => {
+        return JSON.parse(JSON.stringify(res))[0];
+      }),
+      catchError(err => of(err))
+    );
   }
 }
