@@ -27,34 +27,32 @@
     <div class="reasons-content">
       <div class="reason-div">
         <div class="reason-head">Reason</div>
-        <div>
-          <select class="reason-dropdown" (change)="selectTopReason($event.target.value)">
-            <option
-              class="reason-option"
-              [value]="maintopreasons.mainReason"
-              *ngFor="let maintopreasons of fullData"
-              [selected]="selectedReasonItem === maintopreasons.mainReason"
-            >
-              {{ maintopreasons.mainReason }}
-            </option>
-          </select>
-          <mat-icon matPrefix class="tax-summary-arrow-icon" svgIcon="arrow"></mat-icon>
+        <div class="reason-dropdown">
+          <mat-select
+            [(value)]="selectedReasonItem"
+            name="Top Reason"
+            disableOptionCentering
+            (selectionChange)="selectTopReason($event)"
+          >
+            <mat-option class="reason-option" *ngFor="let reason of fullData" [value]="reason.mainReason">
+              {{ reason.mainReason }}
+            </mat-option>
+          </mat-select>
         </div>
       </div>
-      <div class="sub-reason-div">
+      <div class="reason-div">
         <div class="reason-head">Sub-reason</div>
-        <div>
-          <select class="reason-dropdown" (change)="selectsubReason($event.target.value)">
-            <option
-              class="reason-option"
-              [value]="subReason"
-              *ngFor="let subReason of selectedSubreasonArray"
-              [selected]="selectedSubreason === subReason"
-            >
+        <div class="reason-dropdown">
+          <mat-select
+            [(ngModel)]="selectedSubreason"
+            name="Top Sub Reason"
+            disableOptionCentering
+            (selectionChange)="selectsubReason($event)"
+          >
+            <mat-option class="reason-option" *ngFor="let subReason of selectedSubreasonArray" [value]="subReason">
               {{ subReason }}
-            </option>
-          </select>
-          <mat-icon matPrefix class="tax-summary-arrow-icon" svgIcon="arrow"></mat-icon>
+            </mat-option>
+          </mat-select>
         </div>
       </div>
     </div>

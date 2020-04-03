@@ -13,6 +13,7 @@ import { ProviderSearchComponent } from '../../common-utils/provider-search/prov
 import { DomSanitizer } from '@angular/platform-browser';
 import { AuthorizationService } from '../_service/authorization.service';
 import { DOCUMENT } from '@angular/common';
+import { EncryptMsidService } from '../_service/encrypt-msid.service';
 
 @Component({
   selector: 'app-login-stub',
@@ -54,6 +55,7 @@ export class LoginStubComponent implements OnInit {
     private cookieService: CookieService,
     private route: ActivatedRoute,
     private sessionService: SessionService,
+    private encryptMsidService: EncryptMsidService,
     @Inject(DOCUMENT) private document: any
   ) {
     this.checkAdv = this.sessionService.checkAdvocateRole();
@@ -125,6 +127,11 @@ export class LoginStubComponent implements OnInit {
     } else {
       if (this.route.queryParams) {
         this.route.queryParams.subscribe(params => {
+          if (params.emulatedUuid) {
+            sessionStorage.clear();
+            sessionStorage.setItem('cache', JSON.stringify(false));
+            sessionStorage.setItem('emulatedUuid', JSON.stringify(params.emulatedUuid));
+          }
           if (params.code && !this.authService.isLoggedIn()) {
             this.external
               .CheckExternal(params.code, this.token)
@@ -178,6 +185,8 @@ export class LoginStubComponent implements OnInit {
         user => {
           this.blankScreen = true;
           this.loading = false;
+          const msidValue = this.f.username.value.toLowerCase();
+          sessionStorage.setItem('MsId', this.encryptMsidService.encryptMsId(msidValue));
           this.authorise.getToggles('authorise').subscribe(value => {
             console.log(value);
           });

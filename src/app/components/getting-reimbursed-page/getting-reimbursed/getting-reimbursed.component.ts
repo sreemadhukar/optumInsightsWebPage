@@ -59,7 +59,7 @@ export class GettingReimbursedComponent implements OnInit {
     const filData = this.session.getFilChangeEmitter().subscribe(() => this.common.urlResuseStrategy());
     this.pageTitle = 'Getting Reimbursed';
     this.currentTabTitle = '';
-    this.tabOptionsTitle = ['Submission', 'Payments', 'Non-Payments', 'Appeals'];
+    this.tabOptionsTitle = ['Processed', 'Payments', 'Non-Payments', 'Appeals'];
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => {
       this.createPayloadService.resetTinNumber('gettingReimbursedSummary');
       this.ngRedux.dispatch({ type: REMOVE_FILTER, filterData: { taxId: true } });
@@ -73,9 +73,9 @@ export class GettingReimbursedComponent implements OnInit {
       'close',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-close-24px.svg')
     );
-    this.createPayloadService.getEvent().subscribe(value => {
+    /*  this.createPayloadService.getEvent().subscribe(value => {
       this.ngOnInit();
-    });
+    }); */
   }
   onDetailsButtonClick(i: number, event: any) {
     if (i === 0) {
@@ -155,7 +155,7 @@ export class GettingReimbursedComponent implements OnInit {
       .then(completeData => {
         this.loading = false;
         this.tabOptions = [];
-        this.summaryItems = JSON.parse(JSON.stringify(completeData));
+        this.summaryItems = completeData;
         if (this.previousSelectedTab) {
           this.currentSummary = this.summaryItems[this.previousSelectedTab].data;
           this.currentTabTitle = this.summaryItems[this.previousSelectedTab].title;

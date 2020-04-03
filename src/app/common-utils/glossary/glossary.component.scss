@@ -140,7 +140,7 @@
 .metrics-div {
   min-height: 92%;
   word-break: break-all;
-  padding-bottom: 21px;
+  padding-bottom: 60px;
 }
 
 .view-all-metrics-title {
@@ -231,4 +231,12 @@
   letter-spacing: 0.2px;
   line-height: 22px;
   text-align: center;
+}
+
+.network-lever-ul {
+  padding-left: 30px;
+
+  li {
+    list-style-type: disc;
+  }
 }

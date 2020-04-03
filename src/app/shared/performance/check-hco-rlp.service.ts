@@ -1,18 +1,18 @@
 import { Injectable } from '@angular/core';
 import { PerformanceRestService } from '../../rest/performance/performance-rest.service';
-import { HeadModule } from '../../head/head.module';
-
+import { Subscription } from 'rxjs';
 @Injectable({
-  providedIn: HeadModule
+  providedIn: 'root'
 })
 export class CheckHcoRlpService {
   public requestBody: Object;
+  rlpAllHco$: Subscription;
   constructor(private performanceRestService: PerformanceRestService) {
     this.requestBody = { timeFilter: 'YTD' };
   }
   public checkRlpHCO(providerSyskey) {
     return new Promise(resolve => {
-      this.performanceRestService.getAllHcoRlp(providerSyskey, this.requestBody).subscribe(
+      this.rlpAllHco$ = this.performanceRestService.getAllHcoRlp(providerSyskey, this.requestBody).subscribe(
         response => {
           resolve(response);
         },
@@ -21,5 +21,9 @@ export class CheckHcoRlpService {
         }
       );
     });
+  }
+
+  public uncheckRlpHCO() {
+    this.rlpAllHco$.unsubscribe();
   }
 }

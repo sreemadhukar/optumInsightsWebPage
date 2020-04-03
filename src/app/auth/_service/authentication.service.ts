@@ -47,6 +47,12 @@ export class AuthenticationService {
         Accept: '*/*'
       });
     }
+    if (!environment.internalAccess) {
+      const emulatedUuid = JSON.parse(sessionStorage.getItem('emulatedUuid'));
+      if (emulatedUuid) {
+        myHeader = myHeader.set('emulatedUuid', emulatedUuid);
+      }
+    }
     let params = new HttpParams();
     params = params.append('code', codeId);
     const url = this.APP_URL + this.SERVICE_PATH;
@@ -76,8 +82,8 @@ export class AuthenticationService {
     // sessionStorage.removeItem('pcor');
     // sessionStorage.removeItem('state');
     sessionStorage.clear();
-    sessionStorage.setItem('cache', JSON.stringify(false));
     this.ngRedux.dispatch({ type: RESET_KOP_FILTER });
+    sessionStorage.setItem('cache', JSON.stringify(false));
     if (environment.internalAccess) {
       if (expired) {
         this.router.navigate([''], { queryParams: { sessionExpired: true } });

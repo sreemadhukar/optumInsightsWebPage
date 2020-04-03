@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { PerformanceRestService } from '../../rest/performance/performance-rest.service';
-import { PerformanceModule } from '../../components/performance/performance.module';
 import { SessionService } from '../session.service';
+import { Subscription } from 'rxjs';
+
 export interface ItableData {
   tin: string;
   groupName: string;
@@ -9,10 +10,11 @@ export interface ItableData {
 }
 
 @Injectable({
-  providedIn: PerformanceModule
+  providedIn: 'root'
 })
 export class RlpSharedService {
   public requestBody;
+  unGetTableData$: Subscription;
   constructor(private performanceRestService: PerformanceRestService, private session: SessionService) {
     this.requestBody = { timeFilter: 'YTD' };
   }
@@ -25,20 +27,23 @@ export class RlpSharedService {
   public getTableShared(pageName) {
     return new Promise(resolve => {
       // this.performanceRestService.getNetworkLeversData(this.session.providerKeyData(), getEndpoint, this.requestBody).subscribe(
-      this.performanceRestService
+      this.unGetTableData$ = this.performanceRestService
         .getNetworkLeversData(this.session.providerKeyData(), pageName, 'tin', this.requestBody)
         .subscribe(
           response => {
             const newData = response.map(item => {
               const temp: ItableData = {
-                tin: item.Tin.toFixed(0),
-                groupName: item.TinName,
+                tin: item.FormattedTin,
+                groupName: item.TinName ? item.TinName : '',
                 graphData: {
                   category: 'app-table-card',
                   type: 'rlp-table-bar',
                   data: {
                     gdata: {
-                      count: item.Numerator.toFixed(0) + '/' + item.Denominator.toFixed(0),
+                      count:
+                        this.numberFormatting(item.Numerator.toFixed(0)) +
+                        '/' +
+                        this.numberFormatting(item.Denominator.toFixed(0)),
                       percentage: item.RateWithPercentage
                     }
                   }
@@ -53,5 +58,20 @@ export class RlpSharedService {
           }
         );
     });
+  }
+  numberFormatting(nStr) {
+    nStr += '';
+    const x = nStr.split('.');
+    let x1 = x[0];
+    const x2 = x.length > 1 ? '.' + x[1] : '';
+    const rgx = /(\d+)(\d{3})/;
+    while (rgx.test(x1)) {
+      x1 = x1.replace(rgx, '$1' + ',' + '$2');
+    }
+    return x1 + x2;
+  }
+
+  unGetTable() {
+    this.unGetTableData$.unsubscribe();
   }
 }

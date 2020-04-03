@@ -1,7 +1,6 @@
 /* @author gmounika */
 import { Injectable } from '@angular/core';
 import { OverviewService } from '../../rest/overview/overview.service';
-import { OverviewPageModule } from '../../components/overview-page/overview-page.module';
 import { CommonUtilsService } from '../common-utils.service';
 import { SessionService } from '../session.service';
 import { AuthorizationService } from '../../auth/_service/authorization.service';
@@ -10,7 +9,7 @@ import { GlossaryMetricidService } from '../glossary-metricid.service';
 import { lobName } from '../../modals/lob-name';
 
 @Injectable({
-  providedIn: OverviewPageModule
+  providedIn: 'root'
 })
 export class OverviewSharedService {
   private overviewPageData: Array<object> = [];
@@ -43,8 +42,6 @@ export class OverviewSharedService {
       }
 
       this.overviewService.getOverviewData(...parameters).subscribe(([providerSystems, claims, EDI, PAPER]) => {
-        // console.log('providerSystem', providerSystems);
-
         /* code changed by Ranjith kumar Ankam - 04-Jul-2019*/
         /*this.createPriorAuthObject(providerSystems)
          .then(cPriorAuth => {
@@ -831,7 +828,7 @@ export class OverviewSharedService {
           claimsTAT = {
             category: 'small-card',
             type: 'tatRotateArrow',
-            title: 'Avg. Claims Processing Days',
+            title: 'Avg. Claim Processing Days',
             MetricID: this.MetricidService.MetricIDs.ClaimsAverageTurnaroundTimetoPayment,
             data: {
               centerNumber: claims.All.ClaimsLobSummary[0].ClaimsAvgTat + ' days'
@@ -842,7 +839,7 @@ export class OverviewSharedService {
           claimsTAT = {
             category: 'small-card',
             type: 'tatRotateArrow',
-            title: 'Avg. Claims Processing Days',
+            title: 'Avg. Claim Processing Days',
             data: null,
             sdata: null,
             timeperiod: null

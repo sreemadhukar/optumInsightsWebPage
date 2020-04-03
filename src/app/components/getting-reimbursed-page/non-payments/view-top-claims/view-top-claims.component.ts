@@ -140,10 +140,6 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
       'downarrow',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/arrow_downward-24px.svg')
     );
-    iconRegistry.addSvgIcon(
-      'arrow',
-      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-keyboard_arrow_down-24px.svg')
-    );
   }
 
   ngOnInit() {
@@ -230,7 +226,7 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
     this.selectedclaims.filterPredicate = this.customFilterPredicate();
   }
   // Reason selection from dropdown
-  selectTopReason(value) {
+  selectTopReason({ value }) {
     this.selectedSubreasonArray = this.fullData
       .filter(item => item.mainReason === value)
       .map(item => item.subReason)[0];
@@ -245,11 +241,11 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
     this.loading = true;
   }
   // sub reasons selection from dropdown
-  selectsubReason(filterVal) {
-    if (filterVal) {
+  selectsubReason({ value }) {
+    if (value) {
       this.dataNotavaiable = true;
       this.isLoading = false;
-      this.subReasonselected = filterVal;
+      this.subReasonselected = value;
       if (this.selectedReasonItem === this.subReasonselected) {
         this.subReasonselected = 'UNKNOWN';
       }
@@ -273,11 +269,11 @@ export class ViewTopClaimsComponent implements OnInit, AfterViewInit {
     this.isLoading = false;
     this.topClaimsSharedService
       .getClaimsData(this.createPayloadService.initialState, reasonSelected, subReason)
-      .then(claimsDetailsData => {
+      .then((claimsDetailsData: any) => {
         this.isLoading = true;
         this.loading = false;
         this.selectedclaims = [];
-        this.claimsData = JSON.parse(JSON.stringify(claimsDetailsData));
+        this.claimsData = claimsDetailsData;
 
         if (this.claimsData && this.claimsData.length > 0) {
           this.claimsData = this.claimsData.map((claimsRecord: any) => {

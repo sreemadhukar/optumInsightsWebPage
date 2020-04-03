@@ -87,6 +87,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
   today = new Date();
   todaysDataTime = '';
   public fullname = '';
+  public MsId = '';
+  public OptumId = '';
+  public EmailId = '';
   public openDropdownBool = false;
   public checkedClicked: IClicked;
   public myView;
@@ -121,6 +124,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
           const userInfo = JSON.parse(sessionStorage.getItem('loggedUser'));
           this.username = userInfo.FirstName;
           this.fullname = userInfo.FirstName + ' ' + userInfo.LastName;
+          this.MsId = userInfo.MsId;
+          this.OptumId = userInfo.OptumId;
+          this.EmailId = userInfo.EmailId;
         }
         this.mobileQuery = this.breakpointObserver.isMatched('(max-width: 1279px)');
         // alert(this.mobileQuery);
@@ -172,7 +178,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   advocateUserClicked() {
-    console.log('this.checkAdv()', this.checkAdv.value);
     if (this.sessionService.checkRole('UHCI_Advocate')) {
       this.advDropdownBool = true;
     } else {
@@ -257,6 +262,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
         const userInfo = JSON.parse(sessionStorage.getItem('loggedUser'));
         this.username = userInfo.FirstName;
         this.fullname = userInfo.FirstName + ' ' + userInfo.LastName;
+        this.MsId = userInfo.MsId;
+        this.OptumId = userInfo.OptumId;
+        this.EmailId = userInfo.EmailId;
       }
     });
 
@@ -266,6 +274,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
           const userInfo = JSON.parse(sessionStorage.getItem('loggedUser'));
           this.username = userInfo.FirstName;
           this.fullname = userInfo.FirstName + ' ' + userInfo.LastName;
+          this.MsId = userInfo.MsId;
+          this.OptumId = userInfo.OptumId;
+          this.EmailId = userInfo.EmailId;
         }
       }
     });
@@ -335,10 +346,15 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   signOut() {
+    this.openDropdownBool = false;
     this.authService.logout();
     if (!environment.internalAccess) {
       this.document.location.href = environment.apiUrls.SsoLogoutUrl;
     }
+  }
+
+  closeDropdown() {
+    this.openDropdownBool = false;
   }
 
   ngOnDestroy() {

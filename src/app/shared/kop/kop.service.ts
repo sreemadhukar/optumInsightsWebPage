@@ -173,6 +173,7 @@ export class KOPSharedService {
           );
           break;
         case 'reimbursementClaims':
+          Object.assign(params, { region: 'LEASED MARKETS', markets: ['MINNEAPOLIS, MN', 'CHICAGO, IL'] });
           this.kopService.getClaimsData({ params }).subscribe(
             (response: any) => resolve(response),
             () => reject()

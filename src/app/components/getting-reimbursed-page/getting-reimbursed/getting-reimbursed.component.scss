@@ -136,10 +136,14 @@
           line-height: 30px;
         }
 
+        .filter-padd {
+          padding-right: 24px;
+        }
+
         /* tabs css starts here*/
         .container--tabs {
           clear: left;
-          width: 98.5%;
+          width: 97%;
           line-height: 25px;
           /*margin-bottom: 24px;*/
           margin-bottom: 20px;
@@ -211,7 +215,7 @@
 
         .cust-width-blank {
           width: 487px;
-          margin-left: 480px;
+          margin-left: 460px;
           line-height: 5px;
         }
         @media (max-width: 1300px) {
