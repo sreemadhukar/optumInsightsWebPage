@@ -54,10 +54,8 @@ export class NewPaymentIntegrityComponent implements OnInit {
         }
         if (response[i].Active === 'Y') {
           this.tabOptions = temp;
-          // this.printDateTitle = this.tabOptions[response[i].TabOrder - 1].title;
-          // this.printDateSubTitle = this.tabOptions[response[i].TabOrder - 1].value1;
           this.previousSelectedTab = response[i].TabOrder - 1;
-          this.newPaymentIntergrity(temp[i].api, response[i].TabOrder - 1);
+          this.newPaymentIntergrity(temp[response[i].TabOrder - 1].api, response[i].TabOrder - 1);
         }
       }
       this.tabOptions = temp;
