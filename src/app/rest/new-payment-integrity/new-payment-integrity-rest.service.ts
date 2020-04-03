@@ -10,8 +10,7 @@ import { of } from 'rxjs';
 export class NewPaymentIntegrityServiceRest {
   public APP_URL: string = environment.apiProxyUrl;
   public currentUser: any;
-  // private SERVICE_PATH: string = environment.apiUrls.PaymentIntegrityTabsInfo;
-  private SERVICE_PATH = 'payment-integrity/';
+  private SERVICE_PATH: string = environment.apiUrls.NewPaymentIntegrity;
   private internalUser: boolean = environment.internalAccess;
   constructor(private http: HttpClient) {}
   public getNewPaymentIntegrityData(date: any) {

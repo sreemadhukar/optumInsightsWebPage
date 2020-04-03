@@ -12,7 +12,6 @@ import { NewPaymentIntegrityService } from '../../../../shared/new-payment-integ
 export class NewPaymentIntegrityComponent implements OnInit {
   @Input() printStyle;
   tabOptions: Array<any> = [];
-  tabOptionsTitle: Array<String> = [];
   tabOptionsSubTitle: Array<String> = [];
   currentSummary: Array<Object> = [{}];
   summaryItems: Array<any> = [];
@@ -39,10 +38,9 @@ export class NewPaymentIntegrityComponent implements OnInit {
       const temp = [];
       this.tabOptions = [];
       for (let i = 0; i < response.length; i++) {
-        this.tabOptionsTitle[response[i].TabOrder - 1] = response[i].date;
         temp[response[i].TabOrder - 1] = {
           id: response[i].TabOrder - 1,
-          title: this.getTabOptionsTitle(i),
+          title: response[i].date,
           value1: response[i].LastRefresh,
           sdata: null,
           dataFlag: false,
@@ -56,19 +54,14 @@ export class NewPaymentIntegrityComponent implements OnInit {
         }
         if (response[i].Active === 'Y') {
           this.tabOptions = temp;
-          // this.printDateTitle = this.tabOptions[response[i].TabOrder - 1].title;
-          // this.printDateSubTitle = this.tabOptions[response[i].TabOrder - 1].value1;
           this.previousSelectedTab = response[i].TabOrder - 1;
-          this.newPaymentIntergrity(temp[i].api, response[i].TabOrder - 1);
+          this.newPaymentIntergrity(temp[response[i].TabOrder - 1].api, response[i].TabOrder - 1);
         }
       }
       this.tabOptions = temp;
     });
   }
 
-  getTabOptionsTitle(i: number) {
-    return this.tabOptionsTitle[i];
-  }
   matOptionClicked(i: number, event: any) {
     this.loading = true;
     this.currentSummary = null;
