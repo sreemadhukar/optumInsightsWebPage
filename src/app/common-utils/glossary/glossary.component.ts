@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, HostListener, ViewChild } from '@angular/core';
+import { Component, OnInit, Input, HostListener, ViewChild, DoCheck } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map, startWith, debounceTime } from 'rxjs/operators';
@@ -13,7 +13,7 @@ import { Router } from '@angular/router';
   templateUrl: './glossary.component.html',
   styleUrls: ['./glossary.component.scss']
 })
-export class GlossaryComponent implements OnInit {
+export class GlossaryComponent implements OnInit, DoCheck {
   glossaryList: any;
   glossarySelected = [];
   glossaryData: any[];
@@ -50,6 +50,10 @@ export class GlossaryComponent implements OnInit {
     this.options = [];
   }
 
+  ngDoCheck() {
+    console.log('HiInder');
+    this.networkLeverUlTag();
+  }
   // this function will fetch all the matched glossary items only corresponding to the characters entered by user
   public getBusinessGlossary(text) {
     // this.glossaryService.getGlossaryByMetricName(text).subscribe(
@@ -109,7 +113,6 @@ export class GlossaryComponent implements OnInit {
   public getGlossaryData() {
     this.glossaryService.getBusinessGlossaryData().subscribe(response => {
       this.glossaryList = response;
-      this.networkLeverUlTag();
       for (let i = 0; i < this.glossaryList.length; i++) {
         this.readmoreFlag[i] = true;
         // if (this.glossaryList[i].BusinessGlossary.ProviderDashboardName.MetricID === 305) {
@@ -417,6 +420,5 @@ export class GlossaryComponent implements OnInit {
         this.optionND = true;
       }
     }
-    this.networkLeverUlTag();
   }
 } // end export class
