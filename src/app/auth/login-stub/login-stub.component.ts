@@ -185,7 +185,8 @@ export class LoginStubComponent implements OnInit {
         user => {
           this.blankScreen = true;
           this.loading = false;
-          sessionStorage.setItem('MsId', this.encryptMsidService.encryptMsId(this.f.username.value));
+          const msidValue = this.f.username.value.toLowerCase();
+          sessionStorage.setItem('MsId', this.encryptMsidService.encryptMsId(msidValue));
           this.authorise.getToggles('authorise').subscribe(value => {
             console.log(value);
           });
