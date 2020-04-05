@@ -16,7 +16,11 @@
         <!-- <app-filters-applied></app-filters-applied> -->
       </div>
     </div>
-    <app-new-payment-integrity *ngIf="GroupPremiumDesignation" [printStyle]="printStyle"></app-new-payment-integrity>
+    <app-new-payment-integrity
+      *ngIf="GroupPremiumDesignation"
+      class="new-payment-integrity"
+      [printStyle]="printStyle"
+    ></app-new-payment-integrity>
     <!-- old pi card start -->
     <app-large-card [skeletonLarge]="loading" *ngIf="loading"></app-large-card>
     <app-error-card
