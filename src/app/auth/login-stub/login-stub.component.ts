@@ -15,6 +15,8 @@ import { AuthorizationService } from '../_service/authorization.service';
 import { DOCUMENT } from '@angular/common';
 import { EncryptMsidService } from '../_service/encrypt-msid.service';
 
+declare var window: any;
+
 @Component({
   selector: 'app-login-stub',
   templateUrl: './login-stub.component.html',
@@ -104,26 +106,32 @@ export class LoginStubComponent implements OnInit {
 
     this.returnUrl = '/ProviderSearch';
     if (this.isInternal) {
-      if (this.authService.isLoggedIn()) {
-        if (JSON.parse(sessionStorage.getItem('currentUser'))[0]['ProviderKey']) {
-          if (this.checkAdv.value) {
-            // window.location.href = '/OverviewPageAdvocate';
-            window.location.href = '/OverviewPageAdvocate/HealthSystemDetails';
-          } else if (this.checkPro.value || this.checkExecutive.value) {
-            window.location.href = '/NationalExecutive';
-          }
-          // else if (this.checkPro.value) {
-          //   window.location.href = '/OverviewPage';
-          // }
-        } else {
-          this.router.navigate([this.returnUrl]);
-        }
-      } else {
+      // if (this.authService.isLoggedIn()) {
+      // if (JSON.parse(sessionStorage.getItem('currentUser'))[0]['ProviderKey']) {
+      //   if (this.checkAdv.value) {
+      //     // window.location.href = '/OverviewPageAdvocate';
+      //     window.location.href = '/OverviewPageAdvocate/HealthSystemDetails';
+      //   } else if (this.checkPro.value || this.checkExecutive.value) {
+      //     window.location.href = '/NationalExecutive';
+      //   }
+      //   // else if (this.checkPro.value) {
+      //   //   window.location.href = '/OverviewPage';
+      //   // }
+      // } else {
+      //   this.router.navigate([this.returnUrl]);
+      // }
+      this.blankScreen = false;
+      sessionStorage.clear();
+      sessionStorage.setItem('cache', JSON.stringify(false));
+      this.sessionService.emitChangeEvent();
+      // } else {
+
+      this.authService.getJwt().subscribe(data => {
+        sessionStorage.setItem('token', JSON.stringify(data['token']));
         this.internalService.getPublicKey();
-        this.authService.getJwt().subscribe(data => {
-          sessionStorage.setItem('token', JSON.stringify(data['token']));
-        });
-      }
+      });
+
+      // }
     } else {
       if (this.route.queryParams) {
         this.route.queryParams.subscribe(params => {

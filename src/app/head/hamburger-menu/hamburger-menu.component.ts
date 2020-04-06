@@ -216,6 +216,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
         this.makeAbsolute = !(
           authService.isLoggedIn() &&
           !(
+            event.url === '/' ||
             event.url === '' ||
             event.url === '/ProviderSearch' ||
             event.url.includes('print-') ||
@@ -223,6 +224,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
             event.url === '/AccessDenied'
           )
         );
+
         /*
          for login, providerSearch screen , filters has no role to play, so for them Filters should be close,
          we are calling it explicity because suppose user clicks on Filter and filter drawer opens up, now logout
@@ -305,7 +307,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
       }
       // PLEASE DON'T MODIFY THIS
     });
-
+    this.sessionService.sessionCleared().subscribe(() => (this.makeAbsolute = true));
     /** INITIALIZING SVG ICONS TO USE IN DESIGN - ANGULAR MATERIAL */
     iconRegistry.addSvgIcon(
       'home',

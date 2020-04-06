@@ -23,16 +23,22 @@ export class TopRowAdvOverviewService {
   }
 
   public getPaymentsData(parameters) {
+    const par: any = JSON.parse(JSON.stringify(parameters[1]));
+    /*REMOVING LOB BECAUSE TO SHOW GREY IN DONUT CHARTS*/
+    if (par.Lob) {
+      delete par.Lob;
+    }
+    /*SEE ABOVE*/
     let claimsURL;
     if (parameters[1]['ClaimsBy'] === 'DOP') {
       claimsURL = this.APP_URL + this.CLAIMS_SERVICE_PATH_DOP + parameters[0] + '?requestType=CLAIMS';
-      return this.http.post(claimsURL, parameters[1]).pipe(
+      return this.http.post(claimsURL, par).pipe(
         map(res => JSON.parse(JSON.stringify(res))),
         catchError(err => of(JSON.parse(JSON.stringify(err))))
       );
     } else {
       claimsURL = this.APP_URL + this.CLAIMS_SERVICE_PATH + parameters[0] + '?requestType=PAYMENT_METRICS';
-      return this.http.post(claimsURL, parameters[1]).pipe(
+      return this.http.post(claimsURL, par).pipe(
         map(res => JSON.parse(JSON.stringify(res[0]))),
         catchError(err => of(JSON.parse(JSON.stringify(err))))
       );
