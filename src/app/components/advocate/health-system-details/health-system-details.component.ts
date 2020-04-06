@@ -78,7 +78,6 @@ export class HealthSystemDetailsComponent implements OnInit {
       }
     }
     this.groupPremiumDesignationService.gppObservable.subscribe(value => {
-      this.loading = false;
       let data = <any>{};
       data = value;
       this.GroupPremiumDesignation = data.HppIndicator;
