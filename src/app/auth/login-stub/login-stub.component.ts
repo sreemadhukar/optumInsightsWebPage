@@ -120,6 +120,7 @@ export class LoginStubComponent implements OnInit {
       // } else {
       //   this.router.navigate([this.returnUrl]);
       // }
+      this.blankScreen = false;
       sessionStorage.clear();
       sessionStorage.setItem('cache', JSON.stringify(false));
       this.sessionService.emitChangeEvent();
