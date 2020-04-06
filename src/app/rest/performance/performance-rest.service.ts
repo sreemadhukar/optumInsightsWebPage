@@ -47,7 +47,6 @@ export class PerformanceRestService {
     const type = requestType;
     const endPoint = mapReqTypeWithAPI[type].find(item => item.name === pageName).apiEndPoint;
     const URL = this.APP_URL + this.NETWORK_LEVER_PATH + providerSyskey + '?requestType=' + endPoint;
-    console.log('URL-------------->', URL);
     return this.http.post(URL, requestBody).pipe(
       map(res => res),
       catchError(err => of(err))
