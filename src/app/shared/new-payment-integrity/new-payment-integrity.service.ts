@@ -98,7 +98,7 @@ export class NewPaymentIntegrityService {
         category: 'app-card',
         type: 'donutWithSideBottomLabel',
         title: 'Medical Records Requested by UHC',
-        MetricID: this.MetricidService.MetricIDs.PaymentIntegrityRecordsRequested,
+        MetricID: this.MetricidService.MetricIDs.PaymentIntegrityRecordsRequestedbyUHC,
         data: {
           graphValues: [value.MedicalRecordsRequested, value.ClaimSubmitted],
           centerNumber: Math.round(value.MedicalRecordsRequestedRate * 100) + '%',
