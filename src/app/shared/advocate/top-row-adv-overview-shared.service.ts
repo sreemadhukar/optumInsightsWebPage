@@ -571,7 +571,6 @@ export class TopRowAdvOverviewSharedService {
             if (typeof payment === null || typeof payment === undefined) {
               tempPaymentData = null;
             } else {
-              // tempNonPaymentData = JSON.parse(JSON.stringify(nonPayment));
               tempPaymentData = payment;
             }
             resolve(tempPaymentData);

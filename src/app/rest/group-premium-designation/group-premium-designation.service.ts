@@ -1,13 +1,16 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
-import { HttpHeaders, HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { map, catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
+import { Observable } from 'rxjs';
+import { Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class GroupPremiumDesignationService {
+  public gppObservable = new Subject();
   public currentUser: any;
   public APP_URL: string = environment.apiProxyUrl;
   private SERVICE_PATH: string = environment.apiUrls.GroupPremiumDesignation;
@@ -21,7 +24,10 @@ export class GroupPremiumDesignationService {
         const params = new HttpParams();
         const url = this.APP_URL + this.SERVICE_PATH + providerKey;
         return this.http.get(url, { params }).pipe(
-          map(res => JSON.parse(JSON.stringify(res))),
+          map(res => {
+            this.gppObservable.next(JSON.parse(JSON.stringify(res)));
+            return JSON.parse(JSON.stringify(res));
+          }),
           catchError(err => of(err))
         );
       }

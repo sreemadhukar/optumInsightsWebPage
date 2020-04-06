@@ -36,7 +36,6 @@ export class IdleTimeoutDialogComponent implements OnDestroy {
         this.onLogoutClick(1);
       }
     });
-    console.log(this.router.url);
   }
 
   onNoClick(): void {

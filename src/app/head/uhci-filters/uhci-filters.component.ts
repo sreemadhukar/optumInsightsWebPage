@@ -217,7 +217,6 @@ export class UhciFiltersComponent implements OnInit {
       const filterValue = selectedServiceCategory.toLowerCase();
       return this.serviceCategories.filter(val => val.value.toLowerCase().startsWith(filterValue));
     }
-    console.log('service category', this.serviceCategories);
     return this.serviceCategories;
   }
 
