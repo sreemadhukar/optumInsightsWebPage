@@ -211,6 +211,7 @@ export class ProviderSearchComponent implements OnInit, AfterViewInit {
       this.nomatchFlag = false;
       this.noProviders = true;
       (<HTMLElement>document.querySelector('.mat-form-field-outline-thick')).style.color = '#B10C00';
+      (<HTMLElement>document.querySelector('.mat-form-field-outline-thick')).style.opacity = '1';
     } else {
       this.nomatchFlag = true;
       this.noProviders = false;
