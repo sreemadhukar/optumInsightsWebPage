@@ -92,7 +92,7 @@ export class NewPaymentIntegrityComponent implements OnInit {
           this.loading = false;
           this.currentSummary = this.summaryItems[index];
         }.bind(this),
-        500
+        600
       );
       this.printDateTitle = this.tabOptions[index].title;
       this.printDateSubTitle = this.tabOptions[index].value1;
