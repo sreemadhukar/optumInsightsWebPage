@@ -15,8 +15,6 @@ import { AuthorizationService } from '../_service/authorization.service';
 import { DOCUMENT } from '@angular/common';
 import { EncryptMsidService } from '../_service/encrypt-msid.service';
 
-declare var window: any;
-
 @Component({
   selector: 'app-login-stub',
   templateUrl: './login-stub.component.html',
