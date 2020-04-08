@@ -11,10 +11,7 @@ export class RoleGuard implements CanActivate {
   checkPro: any;
   checkExecutive: any;
   constructor(private router: Router, private sessionService: SessionService) {}
-  canActivate(
-    route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot
-  ): Observable<boolean> | Promise<boolean> | boolean {
+  canActivate(route: ActivatedRouteSnapshot): Observable<boolean> | Promise<boolean> | boolean {
     if (sessionStorage.getItem('currentUser')) {
       const expectedRole = route.data.expectedRole;
       if (expectedRole === 'UHCI_Advocate') {

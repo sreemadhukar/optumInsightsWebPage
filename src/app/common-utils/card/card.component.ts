@@ -32,7 +32,7 @@ export class CardComponent implements OnInit {
   routhPath: string;
 
   medicareBesideData = [{}];
-  matOptionClicked(i: number, event: any) {
+  matOptionClicked(i: number) {
     this.medicareData = {};
 
     this.previousSelected = i;
