@@ -379,7 +379,7 @@ export class TopRowAdvOverviewSharedService {
   claimSubmissionsData(parameters, claimsData) {
     let claimsSubmitted: object;
     let timePeriodData: String;
-    return new Promise((resolve, reject) => {
+    return new Promise(resolve => {
       const lobFullData = parameters[1].Lob ? this.common.getFullLobData(parameters[1].Lob) : 'ALL';
       const lobData = parameters[1].Lob ? _.startCase(parameters[1].Lob.toLowerCase()) : 'All';
 
@@ -582,7 +582,7 @@ export class TopRowAdvOverviewSharedService {
   }
 
   public getPaymentsData(parameters, toggleData) {
-    return new Promise((resolve, reject) => {
+    return new Promise(resolve => {
       let claimsPaid: object;
       this.topRowService.getPaymentsData(parameters).subscribe(
         claimsData => {

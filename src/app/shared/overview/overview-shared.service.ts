@@ -107,7 +107,7 @@ export class OverviewSharedService {
 
   /* function to create Selef Service Tile in Overview Page -  Ranjith kumar Ankam - 04-Jul-2019*/
   createSelfServiceObject(providerSystems) {
-    return new Promise((resolve, reject) => {
+    return new Promise(resolve => {
       let cSelfService: object;
       let timeSelfService: string;
       if (
@@ -212,7 +212,7 @@ export class OverviewSharedService {
   /* function to create PCOR Tile in Overview Page -  Ranjith kumar Ankam - 04-Jul-2019*/
   createPCORObject(providerSystems) {
     let cPcor: Object;
-    return new Promise((resolve, reject) => {
+    return new Promise(resolve => {
       if (
         providerSystems &&
         providerSystems.PatientCareOpportunity != null &&
@@ -262,7 +262,7 @@ export class OverviewSharedService {
   createTotalCallsTrend() {
     // let trendIR: Object;
     const trendIR = null;
-    return new Promise((resolve, reject) => {
+    return new Promise(resolve => {
       // this.callsTrendService
       //   .getCallsTrendData()
       //   .then(data => {
@@ -278,7 +278,7 @@ export class OverviewSharedService {
   /* function to create Total Calls Tile in Overview Page -  Ranjith kumar Ankam - 04-Jul-2019*/
   createTotalCallsObject(providerSystems) {
     let cIR: Object;
-    return new Promise((resolve, reject) => {
+    return new Promise(resolve => {
       if (
         providerSystems.hasOwnProperty('ResolvingIssues') &&
         providerSystems.ResolvingIssues != null &&
@@ -331,7 +331,7 @@ export class OverviewSharedService {
 
   /* function to create Calls and Operating Costs OPPORTUNITIES Tile in Overview Page -  Ranjith kumar Ankam - 04-Jul-2019*/
   reduceCallsandOperatingCostsMiniTile(providerSystems, oppurtunities) {
-    return new Promise((resolve, reject) => {
+    return new Promise(resolve => {
       if (
         providerSystems.hasOwnProperty('SelfServiceInquiries') &&
         providerSystems.SelfServiceInquiries != null &&
@@ -397,7 +397,7 @@ export class OverviewSharedService {
 
   /* function to create Save Your Staff's Time OPPORTUNITIES Tile in Overview Page -  Ranjith kumar Ankam - 04-Jul-2019*/
   saveYourStaffsTimeMiniTile(providerSystems, oppurtunities) {
-    return new Promise((resolve, reject) => {
+    return new Promise(resolve => {
       if (
         providerSystems.hasOwnProperty('SelfServiceInquiries') &&
         providerSystems.SelfServiceInquiries != null &&
@@ -460,7 +460,7 @@ export class OverviewSharedService {
 
   /* function to create Reduce Claims Processing Time OPPORTUNITIES Tile in Overview Page -  Ranjith kumar Ankam - 04-Jul-2019*/
   /* reduceClaimsProcessingTimeMiniTile(providerSystems, oppurtunities) {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       if (
         providerSystems.hasOwnProperty('SelfServiceInquiries') &&
         providerSystems.SelfServiceInquiries != null &&
@@ -516,7 +516,7 @@ export class OverviewSharedService {
   } */
 
   reduceClaimsProcessingTimeMiniTile(EDI, PAPER, oppurtunities) {
-    return new Promise((resolve, reject) => {
+    return new Promise(resolve => {
       if (
         EDI.hasOwnProperty('All') &&
         EDI.All != null &&
@@ -576,7 +576,7 @@ export class OverviewSharedService {
 
   /* function to create Reduce Reconsideration Process OPPORTUNITIES Tile in Overview Page -  Ranjith kumar Ankam - 04-Jul-2019*/
   reduceReconsiderationProcessMiniTile(providerSystems, oppurtunities) {
-    return new Promise((resolve, reject) => {
+    return new Promise(resolve => {
       if (
         providerSystems.hasOwnProperty('SelfServiceInquiries') &&
         providerSystems.SelfServiceInquiries != null &&
@@ -641,7 +641,7 @@ export class OverviewSharedService {
   /* function to create Claims Paid in Overview Page -  Ranjith kumar Ankam - 04-Jul-2019*/
   createClaimsPaidObject(claims) {
     let claimsPaid: Object;
-    return new Promise((resolve, reject) => {
+    return new Promise(resolve => {
       if (
         claims != null &&
         claims.hasOwnProperty('All') &&
@@ -761,7 +761,7 @@ export class OverviewSharedService {
   /* function to create Claims Yield Tile in Overview Page -  Ranjith kumar Ankam - 04-Jul-2019*/
   createClaimsYieldObject(claims) {
     let claimsYield: Object;
-    return new Promise((resolve, reject) => {
+    return new Promise(resolve => {
       if (
         claims != null &&
         claims.hasOwnProperty('All') &&
@@ -817,7 +817,7 @@ export class OverviewSharedService {
   /* Function to create claims TAT tile starts here */
   createClaimsTAT(claims) {
     let claimsTAT: Object;
-    return new Promise((resolve, reject) => {
+    return new Promise(resolve => {
       if (
         claims != null &&
         claims.hasOwnProperty('All') &&
@@ -861,7 +861,7 @@ export class OverviewSharedService {
   /* Function to create claims TAT tile ends here */
   /* function to calculate Claims Paid & Claims YIeld Rate TRENDS -  Ranjith kumar Ankam - 04-Jul-2019*/
   // getClaimsTrends(baseTimePeriod, previousTimePeriod) {
-  //   return new Promise((resolve, reject) => {
+  //   return new Promise((resolve) => {
   //     /************************TRENDS********* */
   //     let parameters = {
   //       providerkey: this.providerKey,
@@ -1000,7 +1000,7 @@ export class OverviewSharedService {
 
   /* function to calculate Claims Paid & Claims YIeld Rate TRENDS -  Ranjith kumar Ankam - 21-Oct-2019*/
   getClaimsTrends(claimsPaidObj, claimsYieldObj) {
-    return new Promise((resolve, reject) => {
+    return new Promise(resolve => {
       const tempArray: Array<object> = [];
       const parameters = {
         providerkey: this.providerKey,
@@ -1047,7 +1047,7 @@ export class OverviewSharedService {
   getCurrentClaimsTrend(parameters) {
     let latestClaimsPaid;
     let latestClaimsYieldRate;
-    return new Promise((resolve, reject) => {
+    return new Promise(resolve => {
       this.overviewService.getOverviewClaimsTrend(parameters).subscribe(claimsTrendLatestData => {
         if (
           claimsTrendLatestData != null &&
@@ -1074,7 +1074,7 @@ export class OverviewSharedService {
   getPreviousClaimsTrend(parameters) {
     let previousClaimsPaid;
     let previousClaimsYieldRate;
-    return new Promise((resolve, reject) => {
+    return new Promise(resolve => {
       this.overviewService.getOverviewClaimsTrend(parameters).subscribe(claimsTrendPreviousData => {
         if (
           claimsTrendPreviousData != null &&
@@ -1146,7 +1146,7 @@ export class OverviewSharedService {
 
   /* function to get PRIOR AUTH CARD seperately i overview page - RANJITH KUMAR ANKAM - 17th JULY 2019 */
   getPriorAuthCardData(trends) {
-    return new Promise((resolve, reject) => {
+    return new Promise(resolve => {
       const parameters = {
         providerKey: this.providerKey,
         allProviderTins: true
@@ -1262,7 +1262,7 @@ export class OverviewSharedService {
 
   /* function to get TOTAL CALLS CARD seperately i overview page - RANJITH KUMAR ANKAM - 17th JULY 2019 */
   getTotalCallsCardData(trends) {
-    return new Promise((resolve, reject) => {
+    return new Promise(resolve => {
       const parameters = {
         providerkey: this.providerKey,
         timeFilter: 'Last6Months'

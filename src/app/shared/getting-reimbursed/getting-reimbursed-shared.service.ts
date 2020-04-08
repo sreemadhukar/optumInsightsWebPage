@@ -1007,7 +1007,7 @@ export class GettingReimbursedSharedService {
 
   claimsTATData(parameters, claimsData) {
     let claimsTAT: object;
-    return new Promise((resolve, reject) => {
+    return new Promise(resolve => {
       const lobFullData = parameters[1].Lob ? this.common.getFullLobData(parameters[1].Lob) : 'ALL';
       const lobData = parameters[1].Lob ? _.startCase(parameters[1].Lob.toLowerCase()) : 'All';
       if (parameters[1]['ClaimsBy'] === 'DOS') {
@@ -1169,7 +1169,7 @@ export class GettingReimbursedSharedService {
   claimSubmissionsData(parameters, claimsData) {
     let claimsSubmitted: object;
     let timePeriodData: String;
-    return new Promise((resolve, reject) => {
+    return new Promise(resolve => {
       const lobFullData = parameters[1].Lob ? this.common.getFullLobData(parameters[1].Lob) : 'ALL';
       const lobData = parameters[1].Lob ? _.startCase(parameters[1].Lob.toLowerCase()) : 'All';
 
@@ -1357,7 +1357,7 @@ export class GettingReimbursedSharedService {
     });
   }
   calculateSummaryTrends(parameters, gettingReimbursedData) {
-    return new Promise((resolve, reject) => {
+    return new Promise(resolve => {
       let baseTimePeriod: any;
       if (this.timeFrame === 'Last 12 Months') {
         baseTimePeriod = 'PreviousLast12Months';
@@ -1463,7 +1463,7 @@ export class GettingReimbursedSharedService {
     });
   }
   public getTins() {
-    return new Promise((resolve, reject) => {
+    return new Promise(resolve => {
       this.providerKey = this.session.providerKeyData();
       this.gettingReimbursedService.getTins(this.providerKey).subscribe(tins => {
         const providerTins = tins;
@@ -1474,7 +1474,7 @@ export class GettingReimbursedSharedService {
 
   /* function to get Payment Integrity Card Data - Ranjith kumar Ankam */
   public getPaymentIntegrityData() {
-    return new Promise((resolve, reject) => {
+    return new Promise(resolve => {
       // this.timeFrame = this.common.getTimePeriodFilterValue(param.timePeriod);
       this.timeFrame = 'Last 6 Months';
 
