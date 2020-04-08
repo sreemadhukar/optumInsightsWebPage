@@ -41,7 +41,7 @@ export class OverviewSharedService {
         parameters = [this.providerKey, true];
       }
 
-      this.overviewService.getOverviewData(...parameters).subscribe(([providerSystems, claims, EDI, PAPER]) => {
+      this.overviewService.getOverviewData(...parameters).subscribe(([providerSystems, {}, EDI, PAPER]) => {
         /* code changed by Ranjith kumar Ankam - 04-Jul-2019*/
         /*this.createPriorAuthObject(providerSystems)
          .then(cPriorAuth => {
@@ -1145,7 +1145,7 @@ export class OverviewSharedService {
   }
 
   /* function to get PRIOR AUTH CARD seperately i overview page - RANJITH KUMAR ANKAM - 17th JULY 2019 */
-  getPriorAuthCardData(trends) {
+  getPriorAuthCardData() {
     return new Promise(resolve => {
       const parameters = {
         providerKey: this.providerKey,

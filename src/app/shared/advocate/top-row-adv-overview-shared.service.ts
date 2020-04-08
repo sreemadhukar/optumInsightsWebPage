@@ -566,7 +566,7 @@ export class TopRowAdvOverviewSharedService {
     return new Promise(resolve => {
       // const toggleData = { isSummary: true, page: 'Claims Payments', menu: 'Getting Reimbursed' };
       this.toggle.setToggles('Claims Paid', 'TopRow', 'OverviewAdvocate', false),
-        this.getPaymentsData(param, this.toggle)
+        this.getPaymentsData(param)
           .then(payment => {
             if (typeof payment === null || typeof payment === undefined) {
               tempPaymentData = null;
@@ -581,7 +581,7 @@ export class TopRowAdvOverviewSharedService {
     });
   }
 
-  public getPaymentsData(parameters, toggleData) {
+  public getPaymentsData(parameters) {
     return new Promise(resolve => {
       let claimsPaid: object;
       this.topRowService.getPaymentsData(parameters).subscribe(

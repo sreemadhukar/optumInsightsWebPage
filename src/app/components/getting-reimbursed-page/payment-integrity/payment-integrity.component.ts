@@ -94,7 +94,7 @@ export class PaymentIntegrityComponent implements OnInit {
        These measurements do not take into account facility claims.`;
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.filtermatch.urlResuseStrategy());
   }
-  matOptionClicked(i: number, event: any) {
+  matOptionClicked(i: number) {
     this.printDateTitle = this.tabOptionsTitle[i];
     this.printDateSubTitle = this.tabOptionsSubTitle[i];
     this.currentSummary = [];
@@ -242,7 +242,7 @@ export class PaymentIntegrityComponent implements OnInit {
           }
         }
       })
-      .catch(error => {
+      .catch(() => {
         this.loading = false;
         this.piDataloaded = false;
       });

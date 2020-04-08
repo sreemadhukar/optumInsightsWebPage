@@ -97,7 +97,7 @@ export class KopNpsComponent implements OnInit, OnDestroy {
           this.isError = true;
         }
       })
-      .catch(err => {
+      .catch(() => {
         this.npsLoaded = true;
         this.isError = true;
       });

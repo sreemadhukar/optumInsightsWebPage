@@ -758,7 +758,7 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
     this.togglePanels(value, path);
   }
 
-  private togglePanels(value: boolean, path) {
+  private togglePanels(_value: boolean, path) {
     // this.viewPanels.forEach(p => value ? p.open() : p.close());
 
     /** USED TO COLLAPSE REMAINING ACCORDIANS OTHER THAN CLICKED ONE **/

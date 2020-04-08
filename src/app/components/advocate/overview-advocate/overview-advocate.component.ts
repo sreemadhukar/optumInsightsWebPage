@@ -213,7 +213,7 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
           this.appealsLineGraph = new AppealsData(appealsTrendData, GeneralData, 'appeals-trend-block');
         }
       })
-      .catch(err => {
+      .catch(() => {
         this.appealsLineGraphloading = false;
       });
   }
@@ -247,7 +247,7 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
           this.callsLoading = false;
         }
       })
-      .catch(err => {
+      .catch(() => {
         this.callsLoading = false;
       });
   }
@@ -313,7 +313,7 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
           }
         }
       })
-      .catch(err => {
+      .catch(() => {
         //   this.callsLineGraphLoading = false;
       });
   }

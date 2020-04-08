@@ -896,7 +896,7 @@ export class GettingReimbursedSharedService {
     }
     return new Promise(resolve => {
       this.gettingReimbursedService.getGettingReimbursedData(...parameters).subscribe(
-        ([claimsData, appealsData]) => {
+        ([{}, appealsData]) => {
           const lobFullData = parameters[1].Lob ? this.common.getFullLobData(parameters[1].Lob) : 'ALL';
 
           const appealsSubmitted = this.createAppealsDonuts(appealsData, lobFullData, appealsFilterSelected)
@@ -1375,7 +1375,7 @@ export class GettingReimbursedSharedService {
         baseTimePeriod = 'PreviousYTD';
       }
       parameters[1].TimeFilter = baseTimePeriod;
-      this.gettingReimbursedService.getGettingReimbursedData(...parameters).subscribe(([claimsData, appealsData]) => {
+      this.gettingReimbursedService.getGettingReimbursedData(...parameters).subscribe(([claimsData]) => {
         const lobFullData = parameters[1].Lob ? this.common.getFullLobData(parameters[1].Lob) : 'ALL';
         const lobData = parameters[1].Lob ? _.startCase(parameters[1].Lob.toLowerCase()) : 'All';
         if (claimsData != null && !claimsData.hasOwnProperty('status')) {
