@@ -68,15 +68,24 @@ export class NewPaymentIntegrityService {
     let codingReviewResultsTargetValue: any;
     let mRRASTargetValue: any;
 
+    value.CodingReviewResultRate = codingReviewResultsTarget / 100; // remove the code once testing is done
+    value.MedicalRecordsReceivedRate = mRRASTarget / 100; // remove the code once testing is done
+    value.RequestRateTrend = 0; // remove the code once testing is done
+    value.AccountReceivableOpportunityTrend = 0; // remove the code once testing is done
+
     if (Math.round(value.CodingReviewResultRate * 100) < codingReviewResultsTarget) {
       codingReviewResultsTargetValue =
         codingReviewResultsTarget - Math.round(value.CodingReviewResultRate * 100) + '% below target';
+    } else if (Math.round(value.CodingReviewResultRate * 100) === codingReviewResultsTarget) {
+      codingReviewResultsTargetValue = 'Meets target';
     } else {
       codingReviewResultsTargetValue =
         Math.round(value.CodingReviewResultRate * 100) - codingReviewResultsTarget + '% above target';
     }
     if (Math.round(value.MedicalRecordsReceivedRate * 100) < mRRASTarget) {
       mRRASTargetValue = mRRASTarget - Math.round(value.MedicalRecordsReceivedRate * 100) + '% below target';
+    } else if (Math.round(value.MedicalRecordsReceivedRate * 100) === mRRASTarget) {
+      mRRASTargetValue = 'Meets target';
     } else {
       mRRASTargetValue = Math.round(value.MedicalRecordsReceivedRate * 100) - mRRASTarget + '% above target';
     }
@@ -84,14 +93,18 @@ export class NewPaymentIntegrityService {
     let medicalRecordsRequestedbyUHCTrendSign: any;
     if (value.RequestRateTrend.toFixed(1) < 0) {
       medicalRecordsRequestedbyUHCTrendSign = 'down-green';
-    } else {
+    } else if (value.RequestRateTrend.toFixed(1) > 0) {
       medicalRecordsRequestedbyUHCTrendSign = 'up-red';
+    } else {
+      medicalRecordsRequestedbyUHCTrendSign = 'pi-trend-neutral';
     }
     let AccountReceivableOpportunityTrendValue: any;
     if (value.AccountReceivableOpportunityTrend.toFixed(1) < 0) {
       AccountReceivableOpportunityTrendValue = value.AccountReceivableOpportunityTrend.toFixed(1) + '%';
-    } else {
+    } else if (value.AccountReceivableOpportunityTrend.toFixed(1) > 0) {
       AccountReceivableOpportunityTrendValue = '+' + value.AccountReceivableOpportunityTrend.toFixed(1) + '%';
+    } else {
+      AccountReceivableOpportunityTrendValue = AccountReceivableOpportunityTrendValue = '0%*';
     }
     const summaryItems = [
       {
