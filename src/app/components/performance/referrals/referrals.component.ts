@@ -55,8 +55,7 @@ export class ReferralsComponent implements OnInit, OnDestroy {
         this.loadingTable = false;
         this.isTable = true;
         this.tableData.thead = staticTableData.Referral;
-        this.tableData.tbody = JSON.parse(JSON.stringify(data));
-        console.log('Referral data', data);
+        this.tableData.tbody = data;
       })
       .catch(reason => {
         console.log('Error Referral page table data', reason);

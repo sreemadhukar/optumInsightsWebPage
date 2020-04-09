@@ -256,7 +256,6 @@ export class NonPaymentSharedService {
             let claimsNotPaid;
             let claimsNotPaidRate;
             // const lobValue = lobValueParam;
-            console.log(nonPaymentData1);
             const lobValue = param.lineOfBusiness ? _.startCase(param.lineOfBusiness.toLowerCase()) : 'All';
             if (
               (nonPaymentData1 || {}).All &&
@@ -491,8 +490,6 @@ export class NonPaymentSharedService {
     return new Promise(resolve => {
       this.nonPaymentService.getNonPaymentSubCategories(paramtersSubCategory).subscribe(
         data => {
-          console.log('data');
-          console.log(data);
           // array
           let mappedData;
           if (paramtersSubCategory[0][1].ClaimsBy === 'DOP') {
@@ -565,8 +562,6 @@ export class NonPaymentSharedService {
               const topReasons: Array<object> = [];
               let tempArray: any = [];
               tempArray = JSON.parse(JSON.stringify(topCategories[0].DenialCategory)); // deep copy
-              // console.log('tempArray ');
-              // console.log(tempArray);
               tempArray = tempArray.filter(
                 x =>
                   x.Claimdenialcategorylevel1shortname !== 'UNKNOWN' &&
@@ -694,7 +689,7 @@ export class NonPaymentSharedService {
       this.nonPaymentService.getNonPaymentTrendByMonth(parameters).subscribe(data => {
         try {
           // const lobData = this.lob;
-          const nonPaymentsTrendData = JSON.parse(JSON.stringify(data));
+          const nonPaymentsTrendData = data;
 
           // Tempory check for data
           if (

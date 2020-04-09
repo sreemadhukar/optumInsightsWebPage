@@ -154,9 +154,11 @@
     display: flex;
     width: 100%;
     justify-content: center;
-    margin: 25px 0;
+    //margin: 25px 0;
+    align-items: center;
   }
   .user-div {
+    height: 100%;
     margin-left: auto;
     display: flex;
     /*height: 25px;*/
@@ -164,8 +166,6 @@
     font-size: 16px;
     font-family: 'UHCSans-SemiBold', 'Helvetica', 'Arial', 'sans-serif';
     letter-spacing: 0.2px;
-    line-height: 22px;
-    text-align: right;
     /*padding: 25px 32px 20px 0;
     width: 100px;
     margin-right: 25px;
@@ -174,22 +174,23 @@
     padding-right: 20px;
     padding-bottom: 15px;
     border-radius: 2px;*/
-    margin-top: 16px;
-    margin-right: 24px;
-    margin-bottom: 16px;
-    padding: 7px 10px;
+    padding: 0px 10px;
+    align-items: center;
+    justify-content: center;
+    .user-icon {
+      display: inline-flex;
+    }
     .no-margin-icons {
       margin: 0;
     }
     .user-name {
-      /*line-height: 31px;*/
-      line-height: 28px;
+      /*line-height: 28px;*/
       font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
       margin-left: 4px;
       margin-right: 4px;
     }
     .user-expand-more {
-      line-height: 28px;
+      /*line-height: 28px;*/
     }
     &:hover {
       background: $pattens-blue;
@@ -271,8 +272,8 @@
 
 .user-info-block {
   position: absolute;
-  right: 40px;
-  top: 51px;
+  right: 24px;
+  top: 60px;
   min-width: 225px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.15);
   border-radius: 3px 3px 0 0;
@@ -326,4 +327,6 @@
 }
 .margin-left-auto {
   margin-left: auto;
+  padding: 15px 24px;
+  height: calc(100% - 30px);
 }

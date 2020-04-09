@@ -25,7 +25,5 @@ import { OnboardingVerbatimsComponent } from './onboarding-verbatims/onboarding-
   ]
 })
 export class KnowOurProviderModule {
-  constructor() {
-    console.log('KOP Loaded');
-  }
+  constructor() {}
 }

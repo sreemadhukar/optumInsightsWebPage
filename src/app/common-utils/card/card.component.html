@@ -105,7 +105,18 @@
           </ul>
           <ul
             class="app-card-list-labels"
-            *ngIf="printStyle"
+            *ngIf="printStyle && chartData.title == 'Prior Authorization Requested'"
+            [class.smart-edits-claims-labels]="chartData.title == 'Smart Edits Claims Returned'"
+          >
+            <li *ngFor="let c of chartData.besideData.labels; let i = index">
+              {{ chartData.besideData.labels[i] | temporaryTextFormatter }} ({{
+                chartData.title === 'Claims Paid' || chartData.title === 'Claims Not Paid' ? '$' : ''
+              }}{{ chartData.besideData.value[i] | currencyFormatter }})
+            </li>
+          </ul>
+          <ul
+            class="app-card-list-labels"
+            *ngIf="printStyle && chartData.title !== 'Prior Authorization Requested'"
             [class.smart-edits-claims-labels]="chartData.title == 'Smart Edits Claims Returned'"
           >
             <li *ngFor="let c of chartData.besideData.labels; let i = index">

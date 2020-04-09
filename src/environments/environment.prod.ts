@@ -54,9 +54,12 @@ export const environment: any = {
     HealthSystemDetails: 'providerInfo/',
     KOPBusinessGlossary: 'business-glossaries-kop/',
     CallsTrendLine: 'calls-trend/',
-    PaymentsBySubmission: 'claim-submissions/',
+    // PaymentsBySubmission: 'claim-submissions/',
+    PaymentsBySubmission: 'claim-submissions/v2.0/',
     GroupPremiumDesignation: 'group-premium-designation/',
-    NetworkLever: 'network-lever/'
+    NetworkLever: 'network-lever/',
+    PaymentIntegrityTabsInfo: 'pi-tab-info/'
+    // NewPaymentIntegrity: 'payment-integrity/' // please uncomment this when new-PI i allowed in prod
   },
   headerKeys: {
     selectedCompany: '',

@@ -15,7 +15,5 @@ import { CommonUtilsModule } from './../../common-utils/common-utils.module';
   exports: [OverviewComponent]
 })
 export class OverviewPageModule {
-  constructor() {
-    console.log('Overview Loaded');
-  }
+  constructor() {}
 }
