@@ -41,6 +41,14 @@ export class RlpTableComponent implements OnInit, OnDestroy {
       'leftarrow',
       sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/chevron_left-24px.svg')
     );
+    iconRegistry.addSvgIcon(
+      'search',
+      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/round-search-24px.svg')
+    );
+    iconRegistry.addSvgIcon(
+      'close',
+      sanitizer.bypassSecurityTrustResourceUrl('/src/assets/images/icons/Action/baseline-close-24px.svg')
+    );
   }
 
   ngOnInit() {
@@ -175,6 +183,15 @@ export class RlpTableComponent implements OnInit, OnDestroy {
       );
     } else {
       return false;
+    }
+  }
+
+  clearValue(value) {
+    if (value === 'qTinSearch') {
+      this.qTinSearch = '';
+    }
+    if (value === 'qGroupNameSearch') {
+      this.qGroupNameSearch = '';
     }
   }
 
