@@ -68,10 +68,10 @@ export class NewPaymentIntegrityService {
     let codingReviewResultsTargetValue: any;
     let mRRASTargetValue: any;
 
-    value.CodingReviewResultRate = codingReviewResultsTarget / 100; // remove the code once testing is done
-    value.MedicalRecordsReceivedRate = mRRASTarget / 100; // remove the code once testing is done
-    value.RequestRateTrend = 0; // remove the code once testing is done
-    value.AccountReceivableOpportunityTrend = 0; // remove the code once testing is done
+    // value.CodingReviewResultRate = codingReviewResultsTarget / 100; // remove the code once testing is done
+    // value.MedicalRecordsReceivedRate = mRRASTarget / 100; // remove the code once testing is done
+    // value.RequestRateTrend = 0; // remove the code once testing is done
+    // value.AccountReceivableOpportunityTrend = 0; // remove the code once testing is done
 
     if (Math.round(value.CodingReviewResultRate * 100) < codingReviewResultsTarget) {
       codingReviewResultsTargetValue =
