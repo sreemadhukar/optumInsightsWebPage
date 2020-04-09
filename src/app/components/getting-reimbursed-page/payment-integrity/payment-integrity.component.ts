@@ -9,6 +9,8 @@ import { FilterExpandService } from '../../../shared/filter-expand.service';
 import { CommonUtilsService } from '../../../shared/common-utils.service';
 import { SessionService } from 'src/app/shared/session.service';
 import { GlossaryMetricidService } from '../../../shared/glossary-metricid.service';
+import { GroupPremiumDesignationService } from '../../../rest/group-premium-designation/group-premium-designation.service';
+import { environment } from '../../../../environments/environment';
 import { NgRedux } from '@angular-redux/store';
 import { CURRENT_PAGE } from '../../../store/filter/actions';
 import { IAppState } from '../../../store/store';
@@ -20,6 +22,7 @@ import { IAppState } from '../../../store/store';
 })
 export class PaymentIntegrityComponent implements OnInit {
   @Input() printStyle;
+  internalUser: boolean = environment.internalAccess;
   medicalRecordsReturned: any;
   medicalRecordsOutstanding: any;
   pageTitle: String = '';
@@ -27,7 +30,7 @@ export class PaymentIntegrityComponent implements OnInit {
   printDateSubTitle: String = '';
   subTitle: String = '';
   currentTabTitle: String = '';
-  development = false;
+  development = true;
   timePeriod: string;
   lob: string;
   taxID: Array<string>;
@@ -47,14 +50,11 @@ export class PaymentIntegrityComponent implements OnInit {
   smartEditsInformationalTitle = 'Smart Edits Top Informational Reasons';
   showSmartEditsRepairedandResubmitted = false;
   showSmartEditsTopInfoReason = false;
-  tabOptions: Array<Object> = [];
-  tabOptionsTitle: Array<String> = [];
-  tabOptionsSubTitle: Array<String> = [];
-  currentSummary: Array<Object> = [{}];
-  summaryItems: any;
   previousSelectedTab: any = 1;
   pageSubTitle: string;
+  GroupPremiumDesignation: boolean;
   constructor(
+    public groupPremiumDesignationService: GroupPremiumDesignationService,
     private glossaryExpandService: GlossaryExpandService,
     public MetricidService: GlossaryMetricidService,
     private checkStorage: StorageService,
@@ -87,115 +87,79 @@ export class PaymentIntegrityComponent implements OnInit {
     );
     this.pageTitle = 'Medical Records Coding Review';
     this.pageSubTitle = 'Reimbursements - Payment Integrity - ' + 'Medical Records Coding Review';
-    this.tabOptionsTitle = ['Jul 1, 2018–Jun 30, 2019', 'Jul 1, 2019–Oct 31, 2019'];
-    this.tabOptionsSubTitle = ['Date through Oct 4, 2018', 'Date through Oct 4, 2019'];
     this.subTitle = `Note: Claims Metrics are calculated using date medical record requested.
        Dashboard information/measurements are representing physician claims only.
-       These measurements do not take into account facility claims.`;
+         These measurements do not take into account facility claims.`;
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.filtermatch.urlResuseStrategy());
-  }
-  matOptionClicked(i: number, event: any) {
-    this.printDateTitle = this.tabOptionsTitle[i];
-    this.printDateSubTitle = this.tabOptionsSubTitle[i];
-    this.currentSummary = [];
-    this.currentSummary = this.summaryItems;
-    const myTabs = document.querySelectorAll('ul.nav-tabs > li');
-    for (let j = 0; j < myTabs.length; j++) {
-      myTabs[j].classList.remove('active');
+    this.loading = true;
+    console.log(environment.apiUrls.NewPaymentIntegrity);
+    if (this.internalUser && environment.apiUrls.NewPaymentIntegrity) {
+      this.hppData();
+    } else {
+      this.oldPaymentIntergrity();
     }
-    myTabs[i].classList.add('active');
-    this.previousSelectedTab = i;
   }
+
   ngOnInit() {
-    this.printDateTitle = this.tabOptionsTitle[1];
-    this.printDateSubTitle = this.tabOptionsSubTitle[1];
+    this.printDetails();
+    this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'paymentIntegrityPage' });
+    // this.smartEdit();
+  }
+  hppData() {
+    this.GroupPremiumDesignation = false;
+    const currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
+    if (
+      this.groupPremiumDesignationService.data !== null &&
+      typeof this.groupPremiumDesignationService.data !== 'undefined'
+    ) {
+      if (currentUser[0].ProviderKey === this.groupPremiumDesignationService.data.ProviderKey) {
+        this.loading = false;
+        this.GroupPremiumDesignation = this.groupPremiumDesignationService.data.HppIndicator;
+        if (!this.GroupPremiumDesignation) {
+          this.oldPaymentIntergrity();
+        }
+      }
+    }
+    this.groupPremiumDesignationService.gppObservable.subscribe(value => {
+      this.loading = false;
+      let data = <any>{};
+      data = value;
+      this.GroupPremiumDesignation = data.HppIndicator;
+      if (!this.GroupPremiumDesignation) {
+        this.oldPaymentIntergrity();
+      }
+    });
+  }
+  printDetails() {
     if (this.printStyle) {
       this.pageTitle = this.session.getHealthCareOrgName();
     }
-    this.tabOptions = [];
-    let temp;
-    temp = [
-      {
-        id: 0,
-        title: this.getTabOptionsTitle(0),
-        value1: '',
-        sdata: null
-      },
-      {
-        id: 1,
-        title: this.getTabOptionsTitle(1),
-        value1: 'Date through Oct 4, 2019', // 'Claims Processed through Oct 31, 2020',
-        sdata: null
+  }
+  helpIconClick(title, MetricID) {
+    this.glossaryExpandService.setMessage(title, MetricID);
+  }
+  openFilter() {
+    this.filterExpandService.setURL(this.router.url);
+  }
+  removeFilter(type, value) {
+    if (type === 'lob') {
+      this.lob = '';
+      this.session.store({ timeFrame: this.timePeriod, lob: 'All', tax: this.session.filterObjValue.tax });
+    } else if (type === 'tax' && !value.includes('Selected')) {
+      this.taxID = this.session.filterObjValue.tax.filter(id => id !== value);
+      if (this.taxID.length > 0) {
+        this.session.store({ timeFrame: this.timePeriod, lob: this.session.filterObjValue.lob, tax: this.taxID });
+      } else {
+        this.session.store({ timeFrame: this.timePeriod, lob: this.session.filterObjValue.lob, tax: ['All'] });
+        this.taxID = [];
       }
-    ];
-    this.tabOptions = temp;
-    this.summaryItems = [
-      {
-        category: 'app-card',
-        type: 'donutWithSideBottomLabel',
-        title: 'Medical Records Requested by UHC',
-        MetricID: this.MetricidService.MetricIDs.PaymentIntegrityRecordsRequested,
-        data: {
-          graphValues: [1100, 22000],
-          centerNumber: '5%',
-          centerData: 'of Claims Submitted',
-          color: ['#3381FF', '#D7DCE1'],
-          gdata: ['card-inner', 'totalClaimsSubmitted'],
-          sdata: {
-            sign: 'down-green',
-            data: '-1.2%*'
-          },
-          labels: ['Records Requested', 'Claims Submitted'],
-          hover: true
-        },
-        besideData: {
-          labels: ['Medical Records Requested', 'Claims Submitted'],
-          color: ['#3381FF', '#D7DCE1']
-        },
-        bottomData: {
-          horizontalData: [
-            {
-              labels: '*Positive/negative trend comparision is Jun 2019 vs. Jul 2019'
-            }
-          ]
-        }
-      },
-      {
-        title: 'Coding Review Results',
-        MetricID: this.MetricidService.MetricIDs.PaymentIntegrityCodeReviewResults,
-        data: {
-          type: 'bar chart',
-          cdata: 'paymentintegrity',
-          graphValues: [92, 8],
-          barText: 'Accurate Codes',
-          hoverData: '699/760 Reviewed',
-          barValue: '92%',
-          color: ['#00B8CC', '#FFFFFF', '#E0E0E0'],
-          gdata: ['app-card-structure', 'pi-bar-chart'],
-          hover: true,
-          targetValue: '2% above target'
-        }
-      },
-      {
-        title: 'Medical Records Received vs. Awaiting Submission',
-        MetricID: this.MetricidService.MetricIDs.PaymentIntegrityCodeReviewResults,
-        data: {
-          type: 'large bar chart',
-          cdata: 'paymentintegrity',
-          graphValues: [69, 31],
-          barText: 'Records Received',
-          hoverData: '699/760 Requested',
-          color: ['#00B8CC', '#FFFFFF', '#E91B18'],
-          gdata: ['app-card-structure', 'pi-large-bar-chart'],
-          hover: true,
-          targetValue: '16% below target',
-          trendValue: '+1.2%'
-        },
-        timeperiod: this.session.filterObjValue.timeFrame
-      }
-    ];
-    this.currentSummary = this.summaryItems;
-    this.ngRedux.dispatch({ type: CURRENT_PAGE, currentPage: 'paymentIntegrityPage' });
+    } else if (type === 'tax' && value.includes('Selected')) {
+      this.session.store({ timeFrame: this.timePeriod, lob: this.session.filterObjValue.lob, tax: ['All'] });
+      this.taxID = [];
+    }
+  }
+  oldPaymentIntergrity() {
+    this.loading = true;
     this.timePeriod = this.session.filterObjValue.timeFrame;
     if (this.session.filterObjValue.lob !== 'All') {
       this.lob = this.filtermatch.matchLobWithLobData(this.session.filterObjValue.lob);
@@ -246,7 +210,8 @@ export class PaymentIntegrityComponent implements OnInit {
         this.loading = false;
         this.piDataloaded = false;
       });
-
+  }
+  smartEdit() {
     this.smartEditClaimsReturned = {
       category: 'app-card',
       data: {
@@ -311,33 +276,5 @@ export class PaymentIntegrityComponent implements OnInit {
       });
     }
     // **** Smart Edits Top Informational Reasons starts here****//
-  }
-
-  getTabOptionsTitle(i: number) {
-    return this.tabOptionsTitle[i];
-  }
-
-  helpIconClick(title, MetricID) {
-    this.glossaryExpandService.setMessage(title, MetricID);
-  }
-  openFilter() {
-    this.filterExpandService.setURL(this.router.url);
-  }
-  removeFilter(type, value) {
-    if (type === 'lob') {
-      this.lob = '';
-      this.session.store({ timeFrame: this.timePeriod, lob: 'All', tax: this.session.filterObjValue.tax });
-    } else if (type === 'tax' && !value.includes('Selected')) {
-      this.taxID = this.session.filterObjValue.tax.filter(id => id !== value);
-      if (this.taxID.length > 0) {
-        this.session.store({ timeFrame: this.timePeriod, lob: this.session.filterObjValue.lob, tax: this.taxID });
-      } else {
-        this.session.store({ timeFrame: this.timePeriod, lob: this.session.filterObjValue.lob, tax: ['All'] });
-        this.taxID = [];
-      }
-    } else if (type === 'tax' && value.includes('Selected')) {
-      this.session.store({ timeFrame: this.timePeriod, lob: this.session.filterObjValue.lob, tax: ['All'] });
-      this.taxID = [];
-    }
   }
 }
