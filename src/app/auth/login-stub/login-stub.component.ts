@@ -128,9 +128,6 @@ export class LoginStubComponent implements OnInit {
         sessionStorage.setItem('token', JSON.stringify(data['token']));
         this.internalService.getPublicKey();
       });
-      if (!sessionStorage.getItem('publicKey')) {
-        this.internalService.getPublicKey();
-      }
       // }
     } else {
       if (this.route.queryParams) {
