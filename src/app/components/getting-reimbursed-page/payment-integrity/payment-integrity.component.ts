@@ -92,7 +92,8 @@ export class PaymentIntegrityComponent implements OnInit {
          These measurements do not take into account facility claims.`;
     this.subscription = this.checkStorage.getNavChangeEmitter().subscribe(() => this.filtermatch.urlResuseStrategy());
     this.loading = true;
-    if (this.internalUser) {
+    console.log(environment.apiUrls.NewPaymentIntegrity);
+    if (this.internalUser && environment.apiUrls.NewPaymentIntegrity) {
       this.hppData();
     } else {
       this.oldPaymentIntergrity();
