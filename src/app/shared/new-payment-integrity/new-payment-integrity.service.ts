@@ -64,7 +64,7 @@ export class NewPaymentIntegrityService {
     const trendLable =
       this.trendDateFormatting(value.VarianceStart) + ' vs. ' + this.trendDateFormatting(value.VarianceEnd);
     const codingReviewResultsTarget = 90; // change target here if needed
-    const mRRASTarget = 85; // change target here if needed
+    const mRRASTarget = 90; // change target here if needed
     let codingReviewResultsTargetValue: any;
     let mRRASTargetValue: any;
 
