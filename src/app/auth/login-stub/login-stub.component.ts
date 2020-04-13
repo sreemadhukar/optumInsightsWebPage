@@ -126,7 +126,6 @@ export class LoginStubComponent implements OnInit {
 
       this.authService.getJwt().subscribe(data => {
         sessionStorage.setItem('token', JSON.stringify(data['token']));
-        this.internalService.getPublicKey();
       });
       // }
     } else {
