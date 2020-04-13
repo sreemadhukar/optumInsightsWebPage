@@ -38,10 +38,10 @@ export class HealthSystemDetailsComponent implements OnInit {
       this.createPayloadService.resetTinNumber('HealthSystemDetails');
       this.ngRedux.dispatch({ type: REMOVE_FILTER, filterData: { taxId: true } });
     });
+    this.hppIndicator();
   }
 
   ngOnInit() {
-    this.hppIndicator();
     this.healthSystemData = null;
     this.checkStorage.emitEvent('HealthSystemDetails');
     this.getHealthSystemDetails();
@@ -66,7 +66,18 @@ export class HealthSystemDetailsComponent implements OnInit {
   }
 
   hppIndicator() {
-    this.groupPremiumDesignationService.groupPremiumDesignationData().subscribe(value => {
+    this.GroupPremiumDesignation = false;
+    const currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
+    if (
+      this.groupPremiumDesignationService.data !== null &&
+      typeof this.groupPremiumDesignationService.data !== 'undefined'
+    ) {
+      if (currentUser[0].ProviderKey === this.groupPremiumDesignationService.data.ProviderKey) {
+        this.GroupPremiumDesignation = this.groupPremiumDesignationService.data.HppIndicator;
+        console.log(' this.GroupPremiumDesignation', this.GroupPremiumDesignation);
+      }
+    }
+    this.groupPremiumDesignationService.gppObservable.subscribe(value => {
       let data = <any>{};
       data = value;
       this.GroupPremiumDesignation = data.HppIndicator;

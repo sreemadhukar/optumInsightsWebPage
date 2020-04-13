@@ -532,6 +532,67 @@ export class DonutChartComponent implements OnInit, AfterViewInit {
             .style('text-anchor', 'start')
             .text(chartOptions.sdata.data);
         }
+      } else if (chartOptions.sdata.sign === 'pi-trend-neutral') {
+        if (this.chartOptions.centerData) {
+          chart
+            .append('circle')
+            .attr('cx', -24)
+            .attr('cy', 40)
+            .attr('r', 16)
+            .attr('fill', '#e0e0e0');
+
+          chart
+            .append('svg:image')
+            .attr('x', -34)
+            .attr('y', 30)
+            .attr('width', '20px')
+            .attr('height', '20px')
+            .attr('xlink:href', 'src/assets/images/flat-no-change.svg');
+          chart
+            .append('text')
+            .attr('x', 0)
+            .attr('y', 45)
+            .style('font-size', '14px')
+            .style('fill', '#757588')
+            .style('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
+            .style('text-anchor', 'start')
+            .text(chartOptions.sdata.data);
+        } else {
+          chart
+            .append('circle')
+            .attr('cx', -24)
+            .attr('cy', 29)
+            .attr('r', 16)
+            .attr('fill', '#e0e0e0');
+
+          if (chartOptions.hasOwnProperty('graphScreen') && chartOptions.graphScreen === 'PI') {
+            chart
+              .append('svg:image')
+              .attr('x', -36)
+              .attr('y', 19)
+              .attr('width', '20px')
+              .attr('height', '20px')
+              .attr('xlink:href', 'src/assets/images/up-negative-no-circle.svg');
+          } else {
+            chart
+              .append('svg:image')
+              .attr('x', -34)
+              .attr('y', 19)
+              .attr('width', '20px')
+              .attr('height', '20px')
+              .attr('xlink:href', 'src/assets/images/flat-no-change.svg');
+          }
+
+          chart
+            .append('text')
+            .attr('x', 0)
+            .attr('y', 32)
+            .style('font-size', '14px')
+            .style('fill', '#2d2d39')
+            .style('font-family', "'UHCSans-Medium','Helvetica', 'Arial', 'sans-serif'")
+            .style('text-anchor', 'start')
+            .text(chartOptions.sdata.data);
+        }
       }
     } else {
       if (this.donutType === 'app-card') {

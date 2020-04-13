@@ -2,7 +2,7 @@
   <div class="main-content">
     <div class="cards cust-width-title">
       <app-breadcrumbs></app-breadcrumbs>
-      <app-print></app-print>
+      <app-print *ngIf="!GroupPremiumDesignation"></app-print>
       <div class="page-title" [ngClass]="{ 'print-page-title': printStyle === true }">
         {{ pageTitle }}
         <div *ngIf="printStyle" [ngClass]="{ 'print-page-subtitle': printStyle === true }">
@@ -14,76 +14,21 @@
       </div>
       <div class="breadcrumb-top-padding">
         <!-- <app-filters-applied></app-filters-applied> -->
-        <div *ngIf="development && !printStyle" class="container--tabs">
-          <section class="row">
-            <ul class="nav nav-tabs">
-              <li
-                *ngFor="let item of tabOptions; let i = index"
-                (click)="matOptionClicked(i)"
-                [ngClass]="{ active: previousSelectedTab === i }"
-                attr.id="{{ item.title }}"
-              >
-                <span>
-                  {{ item.title }}
-                  <div class="nav-values">
-                    {{ item.value1 }}
-                    <!--<span
-                    *ngIf="item.sdata != null"
-                    class="metrics"
-                    [ngClass]="item.sdata.sign === 'up' ? 'upgreen' : 'downred'"
-                    >
-                      {{ item.sdata.value }}
-                    </span>-->
-                  </div>
-                </span>
-              </li>
-            </ul>
-          </section>
-        </div>
-        <div *ngIf="printStyle && development" class="nav nav-tabs">
-          <span>
-            {{ printDateTitle }}
-            <div class="nav-values" style="padding-top:5px;">
-              {{ printDateSubTitle }}
-            </div>
-          </span>
-        </div>
       </div>
     </div>
-    <!--<app-mock-data-warning-message class="warning-block"></app-mock-data-warning-message>-->
-
-    <div class="height1Separator"></div>
-    <div *ngIf="currentSummary != null && development" class="pi-cards">
-      <app-card [chartData]="currentSummary[0]" class="cards"></app-card>
-      <div *ngIf="currentSummary[1] != null" class="app-card-structure">
-        <app-common-header
-          [title]="currentSummary[1].title"
-          class="full-display"
-          (helpIconClicked)="helpIconClick($event)"
-        ></app-common-header>
-        <div class="pi-bar-chart">
-          <app-med-bar-chart [chartOptions]="currentSummary[1].data"></app-med-bar-chart>
-        </div>
-      </div>
-      <div *ngIf="currentSummary[2] != null" class="pi-medical-record-coding-review-block card-inner">
-        <app-common-header
-          [title]="currentSummary[2].title"
-          class="full-display"
-          (helpIconClicked)="helpIconClick($event)"
-        ></app-common-header>
-        <div class="pi-bar-chart">
-          <app-med-bar-chart [chartOptions]="currentSummary[2].data"></app-med-bar-chart>
-          <div class="pi-bar-chart-trend-comparison">*Positive/negative trend comparison is Jun 2019 vs. Jul 2019</div>
-        </div>
-      </div>
-    </div>
+    <app-new-payment-integrity
+      *ngIf="GroupPremiumDesignation"
+      class="new-payment-integrity"
+      [printStyle]="printStyle"
+    ></app-new-payment-integrity>
+    <!-- old pi card start -->
     <app-large-card [skeletonLarge]="loading" *ngIf="loading"></app-large-card>
     <app-error-card
       *ngIf="!loading && !piDataloaded && cardData != null && cardData.status != null"
       class="cards"
       [data]="cardData"
     ></app-error-card>
-    <div class="pi-medical-record-coding-review-block card-inner" *ngIf="piDataloaded">
+    <div class="pi-medical-record-coding-review-block card-inner" *ngIf="piDataloaded && !GroupPremiumDesignation">
       <app-common-header
         [title]="title"
         class="full-display"
@@ -153,6 +98,7 @@
         <app-common-footer [timePeriod]="cardData.timeperiod" class="width-100"></app-common-footer>
       </div>
     </div>
+    <!-- old pi card end -->
 
     <!-- Smart Edits Claims Returned Card Starts here -->
     <div *ngIf="showSmartEditsClaimsReturned">

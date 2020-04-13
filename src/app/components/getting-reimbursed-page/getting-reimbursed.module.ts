@@ -20,6 +20,7 @@ import { NonPaymentsComponent } from './non-payments/non-payments.component';
 import { PaymentsComponent } from './payments/payments.component';
 import { SmartEditsComponent } from './payment-integrity/smart-edits/smart-edits.component';
 import { PipesModule } from '../../pipes/pipes.module';
+import { NewPaymentIntegrityComponent } from './payment-integrity/new-payment-integrity/new-payment-integrity.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -45,7 +46,8 @@ import { PipesModule } from '../../pipes/pipes.module';
     NonPaymentsComponent,
     ViewTopClaimsComponent,
     PaymentsComponent,
-    SmartEditsComponent
+    SmartEditsComponent,
+    NewPaymentIntegrityComponent
   ],
   exports: [
     GettingReimbursedComponent,
