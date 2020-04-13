@@ -472,10 +472,11 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
     setTimeout(() => {
       this.healthSystemName = this.sessionService.getHealthCareOrgName();
     }, 1);
-
-    const currentUser: any = JSON.parse(sessionStorage.getItem('currentUser'))[0];
-    if (currentUser.hasOwnProperty('Providers')) {
-      this.externalProvidersCount = currentUser.Providers.length > 1 ? true : false;
+    if (sessionStorage.getItem('currentUser')) {
+      const currentUser: any = JSON.parse(sessionStorage.getItem('currentUser'))[0];
+      if (currentUser.hasOwnProperty('Providers')) {
+        this.externalProvidersCount = currentUser.Providers.length > 1 ? true : false;
+      }
     }
   }
 
