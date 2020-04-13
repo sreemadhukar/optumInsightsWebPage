@@ -19,7 +19,7 @@
             <ul class="nav nav-tabs">
               <li
                 *ngFor="let item of tabOptions; let i = index"
-                (click)="matOptionClicked(i, $event)"
+                (click)="matOptionClicked(i)"
                 [ngClass]="{ active: previousSelectedTab === i }"
                 attr.id="{{ item.title }}"
               >
@@ -50,7 +50,7 @@
             </a>
           </div>
           <div *ngIf="currentTabTitle != '' && currentTabTitle != 'Claims Processed'">
-            <button *ngIf="!printStyle" (click)="onDetailsButtonClick(buttonNumber, $event)" class="details-button">
+            <button *ngIf="!printStyle" (click)="onDetailsButtonClick(buttonNumber)" class="details-button">
               {{ buttonName }}
             </button>
           </div>

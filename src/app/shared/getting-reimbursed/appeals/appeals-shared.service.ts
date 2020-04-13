@@ -288,7 +288,7 @@ export class AppealsSharedService {
     this.timeFrame = this.common.getTimePeriodFilterValue(param.timePeriod);
     this.providerKey = this.session.providerKeyData();
     const reasonArray: Array<Object> = []; // change to let later
-    return new Promise((resolve, reject) => {
+    return new Promise(resolve => {
       let parameters;
       parameters = [this.providerKey, new GettingReimbursedPayload(param)];
       const reason = [];
@@ -374,7 +374,7 @@ export class AppealsSharedService {
       appealsFilterSelected = 'DOC';
     }
 
-    return new Promise((resolve, reject) => {
+    return new Promise(resolve => {
       let parameters;
       parameters = [this.providerKey, new GettingReimbursedPayload(param)];
       let appealsOverturnedRate: Object;
@@ -1114,7 +1114,7 @@ export class AppealsSharedService {
   }
 
   public getappealsTatandDevidedOverturnData() {
-    return new Promise((resolve, reject) => {
+    return new Promise(resolve => {
       this.providerKey = this.session.providerKeyData();
       let parameters;
       parameters = [this.providerKey, { TimeFilter: 'Last6Months' }];
