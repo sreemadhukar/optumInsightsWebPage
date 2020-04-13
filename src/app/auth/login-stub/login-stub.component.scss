@@ -69,7 +69,9 @@
         }
 
         .system-error {
-          padding: 15px;
+          // padding: 15px;
+          padding-top: 13px;
+          padding-bottom: 13px;
           border: 1px solid #e91b18;
           border-radius: 2px;
           background-color: #ffe6f0;
@@ -81,11 +83,12 @@
             font-family: 'UHCSans-Medium', Helvetica, Arial, sans-serif;
             font-size: 14px;
             letter-spacing: 0.2px;
-            line-height: 18px;
+            // line-height: 18px;
             margin: 5px 10px;
           }
           mat-icon {
             color: $red-dark;
+            padding-left: 15px;
           }
         }
 
@@ -192,7 +195,7 @@
 
         .right-body {
           width: 400px;
-          margin-top: -1.2%;
+          margin-top: -1.5%;
           .message {
             color: #333333;
             font-size: 1rem;
