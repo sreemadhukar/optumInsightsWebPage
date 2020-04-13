@@ -210,7 +210,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   @HostListener('document:click', ['$event.target'])
-  advocateUserClick(targetElement) {
+  advocateUserClick() {
     /*const HeaderElement = document.querySelector('.header-div');
     const ButtonElement = document.querySelector('.user-div');
     const dropdownElement1 = document.querySelector('.vertical-menu');

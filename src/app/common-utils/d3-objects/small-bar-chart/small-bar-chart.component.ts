@@ -14,7 +14,7 @@ export class SmallBarChartComponent implements OnInit, AfterViewInit, OnChanges 
   renderChart;
   constructor() {}
   @HostListener('window:resize', ['$event'])
-  onResize(event) {
+  onResize(_event) {
     this.doSmallBarChart(this.chartOptions);
   }
 
@@ -111,7 +111,7 @@ export class SmallBarChartComponent implements OnInit, AfterViewInit, OnChanges 
         return yScale(d.labelsRight);
       })
       .attr('height', yScale.bandwidth() - 28)
-      .attr('fill', function(d, i) {
+      .attr('fill', function(_d, i) {
         return colorFunction(i);
       })
       .attr('transform', 'translate(' + 0 + ',' + 10 + ')');
