@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpHeaders, HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { map, tap, catchError } from 'rxjs/operators';
-import { User, IUserResponse } from '../../components/advocate/advocate-home/user.class';
+import { UserHCO, UserTin, UserTinname, IUserResponse } from '../../components/advocate/advocate-home/user.class';
 import { environment } from '../../../environments/environment';
 @Injectable({
   providedIn: 'root'
@@ -13,7 +13,9 @@ export class HomeService {
   private currentUser: any;
   constructor(private http: HttpClient) {}
 
-  search(filter: { name: string } = { name: '' }, page = 1): Observable<any> {
+  search(
+    filter: { searchValue: string; searchType: string } = { searchValue: '', searchType: 'hco' }
+  ): Observable<any> {
     this.currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
     this.authBearer = this.currentUser[0].PedAccessToken;
     const myHeader = new HttpHeaders({
@@ -21,12 +23,20 @@ export class HomeService {
       'Content-Type': 'application/json',
       Accept: '*/*'
     });
-    const searchURL = this.APP_URL + 'provider-search?search-type=hco&search-value=' + filter.name;
+    const searchURL =
+      this.APP_URL + 'provider-search?search-type=' + filter.searchType + '&search-value=' + filter.searchValue;
     console.log('search', searchURL);
     return this.http.get(searchURL, { headers: myHeader }).pipe(
       tap(response => {
         console.log('Respnse get', response);
-        response = response.map(user => new User(user.BicId, user.Tin, user.TinName));
+        if (filter.searchType === 'hco') {
+          response = response.map(user => new UserHCO(user.ProviderSystem, user.Tin, user.TinName));
+        } else if (filter.searchType === 'tin') {
+          response = response.map(user => new UserTin(user.BicId, user.Tin, user.TinName));
+        } else {
+          response = response.map(user => new UserTinname(user.BicId, user.Tin, user.TinName));
+        }
+
         // Not filtering in the server since in-memory-web-api has somewhat restricted api
         console.log('Search service', response);
         return response;

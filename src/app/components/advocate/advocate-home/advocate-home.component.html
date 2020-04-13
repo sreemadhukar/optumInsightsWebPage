@@ -3,7 +3,8 @@
     <div class="cards cust-width-title ">
       <div class="page-title">{{ pageTitle }}</div>
       <div class="page-subtitle">{{ pagesubTitle }}</div>
-      <app-dropdown></app-dropdown>
+      <app-dropdown [dropdownList]="dropDownArray" (valueChange)="valueDropdown($event)"></app-dropdown>
+      <!-- Search code starts here -->
       <form class="example-form" [formGroup]="usersForm">
         <mat-form-field class="example-full-width" appearance="outline" [style.width.px]="400">
           <input matInput placeholder="{{ currentPlaceholder }}" [matAutocomplete]="auto" formControlName="userInput" />
@@ -14,12 +15,14 @@
           <mat-option *ngIf="isLoading" class="is-loading"><mat-spinner diameter="40"></mat-spinner></mat-option>
           <ng-container *ngIf="!isLoading">
             <mat-option *ngFor="let user of filteredUsers" [value]="user">
-              <span>{{ user.TinName }}</span>
+              <span>{{ user.ProviderSystem }}</span>
+              <small> | ID: {{ user.ActiveTaxIds }}</small>
               <small> | ID: {{ user.BicId }}</small>
             </mat-option>
           </ng-container>
         </mat-autocomplete>
       </form>
+      <!-- Search code ends here -->
     </div>
   </div>
 </div>
