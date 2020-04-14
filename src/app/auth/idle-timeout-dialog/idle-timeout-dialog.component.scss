@@ -38,11 +38,30 @@
   color: $blue;
   background: #fff;
 }
+.log-me-out-btn:hover,
+.log-me-out-btn:focus {
+  color: #fff;
+  background-color: $blue;
+}
+.log-me-out-btn:active {
+  background-color: $blue-base;
+  color: #fff;
+}
 .keep-me-signed-btn {
   background-color: $blue;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
   color: #ffffff;
   margin-left: 13px !important;
+}
+
+.keep-me-signed-btn:hover,
+.keep-me-signed-btn:focus {
+  color: #fff;
+  background-color: $blue-base;
+}
+.keep-me-signed-btn:active {
+  background-color: transparent;
+  color: $blue;
 }
 
 .session-warning-buttons {
@@ -56,10 +75,5 @@
   width: 184.09px;
   border: 1px solid $blue !important;
   border-radius: 2px !important;
-}
-
-.session-warning-buttons:hover {
   cursor: pointer;
-  background-color: $blue-base;
-  color: #fff;
 }

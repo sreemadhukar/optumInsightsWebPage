@@ -1,3 +1,9 @@
+<!-- Show tablecount-->
+<div class="table-show-count" *ngIf="tableData.length > 0">
+  <span class="table-show-text">
+    Showing {{ tableData.length > 25 ? selectPageSize : tableData.length }} of {{ tableData.length }}
+  </span>
+</div>
 <!-- table container-->
 <div class="table-container" *ngIf="!skeletonTable">
   <!--Table header starts-->
