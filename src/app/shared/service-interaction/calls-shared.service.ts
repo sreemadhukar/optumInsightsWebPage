@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { CallsService } from '../../rest/service-interaction/calls.service';
-import { ServiceInteractionModule } from '../../components/service-interaction/service-interaction.module';
 import { SessionService } from '../session.service';
 import { CommonUtilsService } from '../common-utils.service';
 import { TrendingMetricsService } from '../../rest/trending/trending-metrics.service';
@@ -8,7 +7,7 @@ import { AuthorizationService } from '../../auth/_service/authorization.service'
 import { GettingReimbursedPayload } from '../getting-reimbursed/payload.class';
 import { ICallsShared } from '../../modals/i-calls-shared';
 
-@Injectable({ providedIn: ServiceInteractionModule })
+@Injectable({ providedIn: 'root' })
 export class CallsSharedService {
   public sdataQuestionType: object;
   public sdataTalkTime: object;
@@ -58,7 +57,7 @@ export class CallsSharedService {
     return new Promise(resolve => {
       const params = this.getParameters(param);
       this.sharedCallsData(params).then(data => {
-        this.callsData = JSON.parse(JSON.stringify(data));
+        this.callsData = data;
         resolve(this.callsData);
         /*
           if (this.callsData.some(i => i.data === null)) {
@@ -67,7 +66,7 @@ export class CallsSharedService {
           return this.sharedCallsTrend();
           .then(data => {
           if (data) {
-            const trendsData = JSON.parse(JSON.stringify(data));
+            const trendsData = data;
             if (trendsData[0][0] === 'QuestionType') {
               this.callsData[0].data['sdata'] = trendsData[0][1];
             }

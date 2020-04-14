@@ -25,6 +25,7 @@ export class GlossaryMetricidService {
       PaymentIntegrityRecordsRequested: '115',
       PaymentIntegrityCodeReviewResults: '116',
       PaymentIntegrityRecordsReceivedvsAwaiting: '117',
+      PaymentIntegrityRecordsRequestedbyUHC: '118',
       MedicareStarRating: '200',
       PriorAuthorizationRequested: '201',
       TopReasonsforPriorAuthorizationsNotApproved: '202',

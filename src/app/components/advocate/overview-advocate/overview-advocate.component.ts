@@ -131,9 +131,8 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
     this.topRowMockCards = [{}, {}, {}];
     this.topRowService
       .getPaymentShared(this.createPayloadService.payload)
-      .then(paymentData => {
-        this.paymentCards = JSON.parse(JSON.stringify(paymentData));
-        console.log('this.paymentCards', this.paymentCards);
+      .then((paymentData: any) => {
+        this.paymentCards = paymentData;
         this.paymentCards = this.paymentCards.map(item => {
           item['timeperiod'] = `${this.timeFilterValueResolved} (${item['timeperiod']})`;
           return item;
@@ -339,7 +338,7 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
     this.topRowService
       .getClaimsYieldShared(this.createPayloadService.payload)
       .then(claimsYieldData => {
-        this.claimsYieldCard.push(JSON.parse(JSON.stringify(claimsYieldData)));
+        this.claimsYieldCard.push(claimsYieldData);
         this.claimsYieldCard = this.claimsYieldCard.map(val => {
           val['timeperiod'] = `${this.timeFilterValueResolved} (${val['timeperiod']})`;
           return val;
@@ -396,8 +395,8 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
     this.trendMonthDisplay = false;
     this.nonpaymentLoading = true;
     // This is for line graph
-    this.nonPaymentService.sharedTrendByMonth(this.createPayloadService.payload).then(data => {
-      const trendData = JSON.parse(JSON.stringify(data));
+    this.nonPaymentService.sharedTrendByMonth(this.createPayloadService.payload).then((data: any) => {
+      const trendData = data;
       this.nonpaymentLoading = false;
       if (!trendData || !trendData.data) {
         this.trendMonthDisplay = false;
@@ -441,7 +440,7 @@ export class OverviewAdvocateComponent implements OnInit, DoCheck {
     this.overviewAdvocateSharedService
       .paymentsBySubmission(this.createPayloadService.payload)
       .then(data => {
-        this.pbsCard = JSON.parse(JSON.stringify(data));
+        this.pbsCard = data;
         this.pbsLoading = false;
         this.pbsCard['timeperiod'] = `${this.timeFilterValueResolved} (${this.pbsCard['timeperiod']})`;
       })

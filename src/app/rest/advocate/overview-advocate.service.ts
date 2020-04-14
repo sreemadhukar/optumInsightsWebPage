@@ -1,8 +1,7 @@
 /* @author gmounika */
 import { Injectable } from '@angular/core';
-import { AdvocateModule } from '../../components/advocate/advocate.module';
 import { environment } from '../../../environments/environment';
-import { HttpHeaders, HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { map, catchError } from 'rxjs/operators';
 import { combineLatest, of } from 'rxjs';
 
@@ -10,9 +9,7 @@ import { combineLatest, of } from 'rxjs';
   providedIn: 'root'
 })
 export class OverviewAdvocateService {
-  public currentUser: any;
   public combined: any;
-  private authBearer: any;
   private APP_URL: string = environment.apiProxyUrl;
   private APPEALS_SERVICE_PATH: string = environment.apiUrls.Appeals;
   private APPEALS_TREND_SERVICE_PATH: string = environment.apiUrls.AppealsTrend;
@@ -114,17 +111,10 @@ export class OverviewAdvocateService {
     );
   }*/
 
-    this.currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
-    this.authBearer = this.currentUser[0].PedAccessToken;
-    const myHeader = new HttpHeaders({
-      Authorization: 'Bearer ' + this.authBearer,
-      'Content-Type': 'application/json',
-      Accept: '*/*'
-    });
     const nonPaymentURL =
       this.APP_URL + this.PAYMENTS_BY_SUBMISSION_SERVICE_PATH + parameters[0] + '?requestType=PAYMENT_METRICS';
     return combineLatest(
-      this.http.post(nonPaymentURL, parameters[1], { headers: myHeader }).pipe(
+      this.http.post(nonPaymentURL, parameters[1]).pipe(
         map(res => JSON.parse(JSON.stringify(res))),
         catchError(err => of(JSON.parse(JSON.stringify(err))))
       )

@@ -18,16 +18,12 @@ export class HomeService {
   ): Observable<IUserResponse[]> {
     this.currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
     this.authBearer = this.currentUser[0].PedAccessToken;
-    const myHeader = new HttpHeaders({
-      Authorization: 'Bearer ' + this.authBearer,
-      'Content-Type': 'application/json',
-      Accept: '*/*'
-    });
+    const params = new HttpParams();
     const searchURL =
       this.APP_URL + 'provider-search?search-type=' + filter.searchType + '&search-value=' + filter.searchValue;
     console.log('search', searchURL);
     return this.http
-      .get<IUserResponse[]>(searchURL, { headers: myHeader })
+      .get<IUserResponse[]>(searchURL, { params })
       .pipe(map((response: IUserResponse) => response));
   }
 }
