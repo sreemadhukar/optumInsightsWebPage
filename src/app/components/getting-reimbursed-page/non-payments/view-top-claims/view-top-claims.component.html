@@ -31,7 +31,6 @@
           <mat-select
             [(value)]="selectedReasonItem"
             name="Top Reason"
-            class="my-select-panel-class"
             disableOptionCentering
             (selectionChange)="selectTopReason($event)"
           >
@@ -48,7 +47,6 @@
             [(ngModel)]="selectedSubreason"
             name="Top Sub Reason"
             disableOptionCentering
-            class="my-select-panel-class"
             (selectionChange)="selectsubReason($event)"
           >
             <mat-option class="reason-option" *ngFor="let subReason of selectedSubreasonArray" [value]="subReason">
