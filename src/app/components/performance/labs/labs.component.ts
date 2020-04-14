@@ -59,7 +59,7 @@ export class LabsComponent implements OnInit, OnDestroy {
         if (data) {
           this.isTable = true;
           this.tableData.thead = staticTableData.Labs;
-          this.tableData.tbody = JSON.parse(JSON.stringify(data));
+          this.tableData.tbody = data;
         } else {
           this.isTable = false;
         }

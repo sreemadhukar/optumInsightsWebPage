@@ -825,10 +825,10 @@ export class PaymentsSharedService {
     if (param.viewClaimsByFilter === 'DOP') {
       return new Promise((resolve, reject) => {
         let paidBreakdown = [];
-        this.gettingReimbursedService.getPaymentData(...parameters).subscribe(paymentDatafetch => {
+        this.gettingReimbursedService.getPaymentData(...parameters).subscribe((paymentDatafetch: any) => {
           try {
-            const providerData = JSON.parse(JSON.stringify(paymentDatafetch[0]));
-            const paymentData = JSON.parse(JSON.stringify(paymentDatafetch[1]));
+            const providerData = paymentDatafetch[0];
+            const paymentData = paymentDatafetch[1];
             let lobData = param.lineOfBusiness ? _.startCase(param.lineOfBusiness.toLowerCase()) : 'ALL';
             if (lobData === 'Mr') {
               lobData = 'MedicareAndRetirement';
@@ -894,7 +894,6 @@ export class PaymentsSharedService {
         let paidBreakdown = [];
         this.gettingReimbursedService.getPaymentData(...parameters).subscribe(paymentDatafetch => {
           try {
-            // const paymentData = JSON.parse(JSON.stringify(paymentDatafetch));
             const paymentData = paymentDatafetch;
             const lobData = param.lineOfBusiness ? _.startCase(param.lineOfBusiness.toLowerCase()) : 'All';
             if (

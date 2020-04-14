@@ -635,6 +635,24 @@ export class CommonUtilsService {
     }
     return sideLabels;
   }
+
+  public sideLabelValues(data) {
+    const sideLabelValues = [];
+    if (data[0] > 0) {
+      sideLabelValues.push(data[0]);
+    }
+    if (data[1] > 0) {
+      sideLabelValues.push(data[1]);
+    }
+    if (data[2] > 0) {
+      sideLabelValues.push(data[2]);
+    }
+    if (data[3] > 0) {
+      sideLabelValues.push(data[3]);
+    }
+    return sideLabelValues;
+  }
+
   public sideLabelColor(data) {
     const sideLabelColors = [];
     if (data[0] > 0) {

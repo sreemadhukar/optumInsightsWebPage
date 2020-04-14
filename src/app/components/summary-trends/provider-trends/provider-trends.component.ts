@@ -101,7 +101,6 @@ export class ProviderTrendsComponent implements OnInit, AfterViewChecked {
     this.sortDirection = 'ASC';
     this.summaryTrends.sharedSummaryTrends(1, 10, this.sortColumn, this.sortDirection).then(r => {
       const result: any = r;
-      console.log(result);
       if (result) {
         this.data = result.dataSource;
         this.displayedColumns = result.displayedColumns;
