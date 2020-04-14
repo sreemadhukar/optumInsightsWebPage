@@ -195,7 +195,6 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
     this.checkExecutive = this.sessionService.checkExecutiveRole();
     if (this.checkAdv.value) {
       this.navCategories = this.navCategoriesTotal.filter(item => item.name !== 'Summary Trends');
-      sessionStorage.setItem('advocateView', 'true');
     }
     let currentUser: any;
     currentUser = { ProviderKey: false };
@@ -653,7 +652,6 @@ export class HamburgerMenuComponent implements AfterViewInit, OnInit, OnDestroy 
       height: '212px',
       disableClose: true
     });
-    sessionStorage.setItem('advocateView', 'true');
   }
 
   closeGlossary() {
