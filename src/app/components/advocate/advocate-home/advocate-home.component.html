@@ -9,7 +9,7 @@
         <mat-form-field class="example-full-width" appearance="outline" [style.width.px]="400">
           <input matInput placeholder="{{ currentPlaceholder }}" [matAutocomplete]="auto" formControlName="userInput" />
         </mat-form-field>
-        <span>Your choice is: {{ usersForm.get('userInput').value | json }}</span>
+        <!-- <span>{{ usersForm.get('userInput').value | json }}</span> -->
 
         <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" [panelWidth]="400">
           <mat-option *ngIf="isLoading" class="is-loading"><mat-spinner diameter="40"></mat-spinner></mat-option>

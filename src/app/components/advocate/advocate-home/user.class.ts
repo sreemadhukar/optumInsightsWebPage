@@ -1,12 +1,8 @@
-export class UserHCO {
-  constructor(public ProviderSystem: string, public ActiveTaxIds: number, public BicId: number) {}
-}
-export class UserTin {
-  constructor(public Tin: string, public Tinname: string, public ProviderSystem: string) {}
-}
-export class UserTinname {
-  constructor(public Tinname: string, public Tin: string, public ProviderSystem: string) {}
-}
+export const dropdownOptions = [
+  { value: 'hco', viewValue: 'Health System Name', currentPlaceholder: 'Search By Health System Name' },
+  { value: 'tin', viewValue: 'Tax Id Number', currentPlaceholder: 'Search By Tax Id Number' },
+  { value: 'TinName', viewValue: 'Tax Id Name', currentPlaceholder: 'Search By Tax Id Name' }
+];
 export interface IUserResponse {
   BicId: number;
   Tin: string;
