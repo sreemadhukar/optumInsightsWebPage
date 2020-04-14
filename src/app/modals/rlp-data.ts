@@ -69,18 +69,18 @@ export const rlpPageConf: IrlpPages = {
   },
   Referral: {
     title: 'Preferred Specialist Referral Rate',
-    subTitle: `This measure’s objective is to evaluate referrals by primary care physicians (PCPs)
-    to preferred specialists who have demonstrated a high-quality and lower total cost of care performance.`
+    subTitle: `This measure's objective is to evaluate referrals by primary care physicians (PCPs)
+    to high performing specialists who have demonstrated a high-quality and lower total cost of care performance.`
   },
   Labs: {
     title: 'Preferred Lab Network Use Rate',
-    subTitle: `This measure’s objective is to evaluate use of the Preferred Lab Network which is
-    comprised of independent labs that have demonstrated high standards for quality, service and affordability.`
+    subTitle: `This measure's objective is to evaluate use of the Preferred Lab Network which is
+    comprised of independent labs that have demonstrated high standards for quality, services and affordability.`
   },
   Perscription: {
     title: 'Preferred Tier Prescribing Rate',
-    subTitle: `This measure’s objective is to evaluate rate of prescribing to the Pharmacy Preferred
-    Tiers 1 and 2 which typically have a lower cost than higher tier drugs.`
+    subTitle: `This measure's objective is to evaluate rate of prescribing of Preferred Tiers 1 and 2
+    which typically have a lower cost than higher tier drugs.`
   }
 };
 export const rlpData: any = {
