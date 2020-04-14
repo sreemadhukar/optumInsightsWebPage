@@ -614,7 +614,7 @@ export class MedBarChartComponent implements OnInit, AfterViewInit {
           .text('Target ' + chartOptions.target + '%')
           .style('position', 'absolute')
           .style('top', '195px')
-          .style('right', '200px')
+          .style('right', '160px')
           .attr('font-size', '16px')
           .style('font-family', "'UHCSans-Regular','Helvetica', 'Arial', 'sans-serif'");
         if (chartOptions.targetValue.includes('above target') || chartOptions.targetValue.includes('Meets target')) {
