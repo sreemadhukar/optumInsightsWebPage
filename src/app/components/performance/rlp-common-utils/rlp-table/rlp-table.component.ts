@@ -103,6 +103,9 @@ export class RlpTableComponent implements OnInit, OnDestroy {
         this.currentPageNumber * +this.selectPageSize
       );
     }
+    if (this.selectPageSize > this.tableData.length) {
+      this.selectPageSize = this.tableData.length;
+    }
   }
 
   prevClick() {
